@@ -41,7 +41,9 @@ void
 Resources::load_shared()
 {
   /* Load the mouse-cursor */
-  mouse_cursor = new MouseCursor("images/engine/menu/mousecursor.png");
+  mouse_cursor = new MouseCursor("images/engine/menu/mousecursor.png",
+                                 "images/engine/menu/mousecursor-click.png",
+                                 "images/engine/menu/mousecursor-link.png");
   MouseCursor::set_current(mouse_cursor);
 
   /* Load global images: */
@@ -106,7 +108,6 @@ Resources::unload_shared()
   /* Free mouse-cursor */
   if(mouse_cursor != NULL)
   {
-    mouse_cursor->cursor.reset();
     delete mouse_cursor;
   }
 }

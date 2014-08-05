@@ -25,65 +25,57 @@
 
 MouseCursor* MouseCursor::current_ = 0;
 
-MouseCursor::MouseCursor(std::string cursor_file) : 
-  mid_x(0), 
-  mid_y(0),
-  state_before_click(),
-  cur_state(),
-  cursor()
+MouseCursor::MouseCursor(const std::string& cursor_file,
+                         const std::string& cursor_click_file,
+                         const std::string& cursor_link_file) :
+  m_mid_x(0), 
+  m_mid_y(0),
+  m_state(MC_NORMAL),
+  m_cursor()
 {
-  cursor = Surface::create(cursor_file);
-
-  cur_state = MC_NORMAL;
+  m_cursor.push_back(Surface::create(cursor_file));
+  m_cursor.push_back(Surface::create(cursor_click_file));
+  m_cursor.push_back(Surface::create(cursor_link_file));
 }
 
 MouseCursor::~MouseCursor()
 {
 }
 
-int MouseCursor::state()
+void MouseCursor::set_state(MouseCursorState nstate)
 {
-  return cur_state;
-}
-
-void MouseCursor::set_state(int nstate)
-{
-  cur_state = nstate;
+  m_state = nstate;
 }
 
 void MouseCursor::set_mid(int x, int y)
 {
-  mid_x = x;
-  mid_y = y;
+  m_mid_x = x;
+  m_mid_y = y;
 }
 
 void MouseCursor::draw(DrawingContext& context)
 {
-  if(cur_state == MC_HIDE)
-    return;
+  if (m_state != MC_HIDE)
+  {
+    int x;
+    int y;
+    Uint8 ispressed = SDL_GetMouseState(&x, &y);
 
-  int x,y,w,h;
-  Uint8 ispressed = SDL_GetMouseState(&x,&y);
+    Vector mouse_pos = Renderer::instance()->to_logical(x, y);
 
-  Vector mouse_pos = Renderer::instance()->to_logical(x, y);
+    x = int(mouse_pos.x);
+    y = int(mouse_pos.y);
 
-  x = int(mouse_pos.x);
-  y = int(mouse_pos.y);
-
-  w = (int) cursor->get_width();
-  h = (int) (cursor->get_height() / MC_STATES_NB);
-  if(ispressed &SDL_BUTTON(1) || ispressed &SDL_BUTTON(2)) {
-    if(cur_state != MC_CLICK) {
-      state_before_click = cur_state;
-      cur_state = MC_CLICK;
+    int tmp_state = m_state;
+    if (ispressed & SDL_BUTTON(1) || ispressed & SDL_BUTTON(2))
+    {
+      tmp_state = MC_CLICK;
     }
-  } else {
-    if(cur_state == MC_CLICK)
-      cur_state = state_before_click;
-  }
 
-  context.draw_surface_part(cursor, Vector(0, h*cur_state),
-                            Vector(w, h), Vector(x-mid_x, y-mid_y), LAYER_GUI+100);
+    context.draw_surface(m_cursor[static_cast<int>(tmp_state)],
+                         Vector(x - m_mid_x, y - m_mid_y),
+                         LAYER_GUI + 100);
+  }
 }
 
 /* EOF */

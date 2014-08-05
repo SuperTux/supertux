@@ -23,7 +23,8 @@
 
 #define MC_STATES_NB 3
 
-enum {
+enum MouseCursorState
+{
   MC_NORMAL = 0,
   MC_CLICK,
   MC_LINK,
@@ -40,16 +41,15 @@ class DrawingContext;
 class MouseCursor
 {
 public:
-  /// Constructor of MouseCursor.
-  /** Expects an imagefile for the cursor and  the number of animation frames it contains. */
-  MouseCursor(std::string cursor_file);
+  MouseCursor(const std::string& cursor_file,
+              const std::string& cursor_click_file,
+              const std::string& cursor_link_file);
   ~MouseCursor();
-  /// Get MouseCursor state.
-  /** (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */
-  int state();
+
   /// Set MouseCursor state.
   /** (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */
-  void set_state(int nstate);
+  void set_state(MouseCursorState nstate);
+
   /// Define the middle of a MouseCursor.
   /** Useful for cross mouse cursor images in example. */
   void set_mid(int x, int y);
@@ -64,14 +64,11 @@ public:
   static void set_current(MouseCursor* pcursor)
   {        current_ = pcursor;      };
   
-  friend class Resources;
-
 private:
-  int mid_x;
-  int mid_y;
-  int state_before_click;
-  int cur_state;
-  SurfacePtr cursor;
+  int m_mid_x;
+  int m_mid_y;
+  MouseCursorState m_state;
+  std::vector<SurfacePtr> m_cursor;
 
 private:
   static MouseCursor* current_;
