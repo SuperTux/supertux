@@ -20,7 +20,6 @@
 #include "control/controller.hpp"
 
 #include <SDL.h>
-#include <SDL_keycode.h> // add by giby
 #include <map>
 #include <string>
 #include <vector>
@@ -33,9 +32,7 @@ class KeyboardMenu;
 class JoystickMenu;
 class Controller;
 
-    //SDL_JoystickID myID = SDL_JoystickInstanceID(myOpenedStick);
-
-class JoystickKeyboardController // http://wiki.libsdl.org/moin.fcg/SDL_Joystick for info 
+class JoystickKeyboardController
 {
 private:
   friend class KeyboardMenu;

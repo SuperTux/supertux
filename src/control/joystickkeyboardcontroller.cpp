@@ -28,7 +28,6 @@
 #include "supertux/menu/keyboard_menu.hpp"
 #include "util/gettext.hpp"
 #include "util/writer.hpp"
-//#include <SDL_keycode.h> // add by giby
 
 JoystickKeyboardController::JoystickKeyboardController() :
   controller(),

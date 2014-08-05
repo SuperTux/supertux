@@ -399,10 +399,6 @@ Main::init_sdl()
   // just to be sure
   atexit(SDL_Quit);
 
- // SDL_EnableUNICODE(1); //old code, mofif by giby 
- //   SDL_JoystickID myID = SDL_JoystickInstanceID(myOpenedStick);
-  
-
   // wait 100ms and clear SDL event queue because sometimes we have random
   // joystick events in the queue on startup...
   SDL_Delay(100);
