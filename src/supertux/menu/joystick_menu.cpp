@@ -22,7 +22,7 @@
 #include "control/joystick_manager.hpp"
 #include "util/gettext.hpp"
 
-JoystickMenu::JoystickMenu(JoystickKeyboardController* _controller) :
+JoystickMenu::JoystickMenu(InputManager* _controller) :
   controller(_controller),
   joysticks_available(false)
 {

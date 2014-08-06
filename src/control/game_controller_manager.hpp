@@ -21,17 +21,17 @@
 
 #include "SDL.h"
 
-class JoystickKeyboardController;
+class InputManager;
 
 class GameControllerManager
 {
 private:
-  JoystickKeyboardController* m_parent;
+  InputManager* m_parent;
   int m_deadzone;
   std::vector<SDL_GameController*> m_game_controllers;
 
 public:
-  GameControllerManager(JoystickKeyboardController* parent);
+  GameControllerManager(InputManager* parent);
   ~GameControllerManager();
 
   void process_button_event(const SDL_ControllerButtonEvent& ev);

@@ -18,13 +18,13 @@
 #ifndef HEADER_SUPERTUX_CONTROL_JOYSTICK_MENU_HPP
 #define HEADER_SUPERTUX_CONTROL_JOYSTICK_MENU_HPP
 
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "gui/menu_item.hpp"
 
 class JoystickMenu : public Menu
 {
 public:
-  JoystickMenu(JoystickKeyboardController* controller);
+  JoystickMenu(InputManager* controller);
   virtual ~JoystickMenu();
 
   void update();
@@ -37,7 +37,7 @@ private:
   void recreateMenu();
 
 private:
-  JoystickKeyboardController* controller;
+  InputManager* controller;
   bool joysticks_available;
 
 private:

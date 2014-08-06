@@ -34,7 +34,7 @@ extern "C" {
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "math/random_generator.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "physfs/physfs_sdl.hpp"
@@ -485,7 +485,7 @@ Main::run(int argc, char** argv)
     Console::instance = new Console();
 
     timelog("controller");
-    g_jk_controller = new JoystickKeyboardController();
+    g_input_manager = new InputManager();
 
     timelog("config");
     init_config();
@@ -579,8 +579,8 @@ Main::run(int argc, char** argv)
     g_config->save();
   delete g_config;
   g_config = NULL;
-  delete g_jk_controller;
-  g_jk_controller = NULL;
+  delete g_input_manager;
+  g_input_manager = NULL;
   delete Console::instance;
   Console::instance = NULL;
   scripting::exit_squirrel();

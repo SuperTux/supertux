@@ -17,7 +17,7 @@
 #include "supertux/globals.hpp"
 #include <tinygettext/tinygettext.hpp>
 
-JoystickKeyboardController* g_jk_controller = 0;
+InputManager* g_input_manager = 0;
 tinygettext::DictionaryManager* dictionary_manager = 0;
 
 int SCREEN_WIDTH;

@@ -46,7 +46,7 @@ MenuStorage::get_key_options_menu()
 {
   if (!key_options_menu)
   { // FIXME: this in never freed
-    key_options_menu = new KeyboardMenu(g_jk_controller);
+    key_options_menu = new KeyboardMenu(g_input_manager);
   }
 
   return key_options_menu;
@@ -57,7 +57,7 @@ MenuStorage::get_joystick_options_menu()
 {
   if (!joystick_options_menu)
   { // FIXME: this in never freed
-    joystick_options_menu = new JoystickMenu(g_jk_controller);
+    joystick_options_menu = new JoystickMenu(g_input_manager);
   }
 
   return joystick_options_menu;

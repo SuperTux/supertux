@@ -26,7 +26,7 @@
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
 
-class JoystickKeyboardController;
+class InputManager;
 
 class KeyboardManager final
 {
@@ -35,7 +35,7 @@ private:
   typedef std::map<SDL_Keycode, Controller::Control> KeyMap;
 
 public:
-  KeyboardManager(JoystickKeyboardController* parent);
+  KeyboardManager(InputManager* parent);
   ~KeyboardManager();
 
   void process_key_event(const SDL_KeyboardEvent& event);
@@ -50,7 +50,7 @@ public:
   void write(Writer& writer);
 
 private:
-  JoystickKeyboardController* m_parent;
+  InputManager* m_parent;
   KeyMap keymap;
   bool jump_with_up_kbd;
   int wait_for_key;

@@ -20,7 +20,7 @@
 typedef struct SDL_Surface SDL_Surface;
 namespace tinygettext { class DictionaryManager; }
 class Config;
-class JoystickKeyboardController;
+class InputManager;
 class PlayerStatus;
 class ScreenManager;
 class SoundManager;
@@ -40,7 +40,7 @@ extern int SCREEN_WIDTH;
 extern int SCREEN_HEIGHT;
 
 // global variables
-extern JoystickKeyboardController* g_jk_controller;
+extern InputManager* g_input_manager;
 
 extern ScreenManager* g_screen_manager;
 

@@ -18,19 +18,19 @@
 #ifndef HEADER_SUPERTUX_CONTROL_KEYBOARD_MENU_HPP
 #define HEADER_SUPERTUX_CONTROL_KEYBOARD_MENU_HPP
 
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "gui/menu_item.hpp"
 
 class KeyboardMenu : public Menu
 {
 public:
-  KeyboardMenu(JoystickKeyboardController* controller);
+  KeyboardMenu(InputManager* controller);
   ~KeyboardMenu();
 
   void update();
   std::string get_key_name(SDL_Keycode key);
   virtual void menu_action(MenuItem* item);
-  JoystickKeyboardController* controller;
+  InputManager* controller;
   void check_menu() {}
 private:
   KeyboardMenu(const KeyboardMenu&);

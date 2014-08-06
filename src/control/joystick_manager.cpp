@@ -19,7 +19,7 @@
 #include <iostream>
 #include <algorithm>
 
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "lisp/list_iterator.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -27,7 +27,7 @@
 #include "util/log.hpp"
 #include "util/writer.hpp"
 
-JoystickManager::JoystickManager(JoystickKeyboardController* parent) :
+JoystickManager::JoystickManager(InputManager* parent) :
   parent(parent),
   joy_button_map(),
   joy_axis_map(),

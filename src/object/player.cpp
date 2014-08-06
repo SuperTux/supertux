@@ -19,7 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
@@ -159,7 +159,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
   climbing(0)
 {
   this->name = name;
-  controller = g_jk_controller->get_controller();
+  controller = g_input_manager->get_controller();
   scripting_controller.reset(new CodeController());
   // if/when we have complete penny gfx, we can
   // load those instead of Tux's sprite in the

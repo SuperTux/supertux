@@ -29,7 +29,7 @@
 #include <vector>
 
 #include "audio/sound_manager.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -648,7 +648,7 @@ WorldMap::update(float delta)
     }
 
     // handle input
-    Controller *controller = g_jk_controller->get_controller();
+    Controller *controller = g_input_manager->get_controller();
     bool enter_level = false;
     if(controller->pressed(Controller::ACTION)
        || controller->pressed(Controller::JUMP)

@@ -16,7 +16,7 @@
 
 #include "supertux/levelintro.hpp"
 
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "math/random_generator.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/fadeout.hpp"
@@ -53,7 +53,7 @@ LevelIntro::setup()
 void
 LevelIntro::update(float elapsed_time)
 {
-  Controller *controller = g_jk_controller->get_controller();
+  Controller *controller = g_input_manager->get_controller();
 
   // Check if it's time to exit the screen
   if(controller->pressed(Controller::JUMP)

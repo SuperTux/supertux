@@ -15,7 +15,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 
 #include <iostream>
 
@@ -28,7 +28,7 @@
 #include "util/gettext.hpp"
 #include "util/writer.hpp"
 
-JoystickKeyboardController::JoystickKeyboardController() :
+InputManager::InputManager() :
   controller(new Controller),
   m_use_game_controller(true),
   keyboard_manager(new KeyboardManager(this)),
@@ -37,18 +37,18 @@ JoystickKeyboardController::JoystickKeyboardController() :
 {
 }
 
-JoystickKeyboardController::~JoystickKeyboardController()
+InputManager::~InputManager()
 {
 }
 
 Controller*
-JoystickKeyboardController::get_controller()
+InputManager::get_controller()
 {
   return controller.get();
 }
 
 void
-JoystickKeyboardController::read(const Reader& lisp)
+InputManager::read(const Reader& lisp)
 {
   const lisp::Lisp* keymap_lisp = lisp.get_lisp("keymap");
   if (keymap_lisp) 
@@ -64,7 +64,7 @@ JoystickKeyboardController::read(const Reader& lisp)
 }
 
 void
-JoystickKeyboardController::write(Writer& writer)
+InputManager::write(Writer& writer)
 {
   writer.start_list("keymap");
   keyboard_manager->write(writer);
@@ -76,19 +76,19 @@ JoystickKeyboardController::write(Writer& writer)
 }
 
 void
-JoystickKeyboardController::update()
+InputManager::update()
 {
   controller->update();
 }
 
 void
-JoystickKeyboardController::reset()
+InputManager::reset()
 {
   controller->reset();
 }
 
 void
-JoystickKeyboardController::process_event(const SDL_Event& event)
+InputManager::process_event(const SDL_Event& event)
 {
   switch(event.type) {
     case SDL_TEXTINPUT:

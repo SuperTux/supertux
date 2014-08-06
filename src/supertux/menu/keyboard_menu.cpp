@@ -22,7 +22,7 @@
 #include "supertux/globals.hpp"
 #include "util/gettext.hpp"
 
-KeyboardMenu::KeyboardMenu(JoystickKeyboardController* _controller) :
+KeyboardMenu::KeyboardMenu(InputManager* _controller) :
   controller(_controller)
 {
   add_label(_("Setup Keyboard"));

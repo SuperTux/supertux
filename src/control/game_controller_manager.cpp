@@ -18,10 +18,10 @@
 
 #include <algorithm>
 
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "util/log.hpp"
 
-GameControllerManager::GameControllerManager(JoystickKeyboardController* parent) :
+GameControllerManager::GameControllerManager(InputManager* parent) :
   m_parent(parent),
   m_deadzone(8000),
   m_game_controllers()

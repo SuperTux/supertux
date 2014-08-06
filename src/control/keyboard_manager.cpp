@@ -27,7 +27,7 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "util/writer.hpp"
 
-KeyboardManager::KeyboardManager(JoystickKeyboardController* parent) :
+KeyboardManager::KeyboardManager(InputManager* parent) :
   m_parent(parent),
   keymap(),
   jump_with_up_kbd(false),

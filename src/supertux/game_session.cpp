@@ -20,7 +20,7 @@
 #include <fstream>
 
 #include "audio/sound_manager.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/random_generator.hpp"
@@ -100,7 +100,7 @@ GameSession::restart_level()
   game_pause   = false;
   end_sequence = 0;
 
-  g_jk_controller->reset();
+  g_input_manager->reset();
 
   currentsector = 0;
 
@@ -349,7 +349,7 @@ GameSession::process_events()
 
   // save input for demo?
   if(capture_demo_stream != 0) {
-    Controller *controller = g_jk_controller->get_controller();
+    Controller *controller = g_input_manager->get_controller();
     capture_demo_stream ->put(controller->hold(Controller::LEFT));
     capture_demo_stream ->put(controller->hold(Controller::RIGHT));
     capture_demo_stream ->put(controller->hold(Controller::UP));
@@ -436,7 +436,7 @@ void
 GameSession::update(float elapsed_time)
 {
   // handle controller
-  if(g_jk_controller->get_controller()->pressed(Controller::PAUSE_MENU))
+  if(g_input_manager->get_controller()->pressed(Controller::PAUSE_MENU))
     on_escape_press();
 
   process_events();

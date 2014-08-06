@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_CONTROL_JOYSTICKKEYBOARDCONTROLLER_HPP
-#define HEADER_SUPERTUX_CONTROL_JOYSTICKKEYBOARDCONTROLLER_HPP
+#ifndef HEADER_SUPERTUX_CONTROL_INPUT_MANAGER_HPP
+#define HEADER_SUPERTUX_CONTROL_INPUT_MANAGER_HPP
 
 #include "control/controller.hpp"
 
@@ -36,7 +36,7 @@ class KeyboardManager;
 class KeyboardMenu;
 class Menu;
 
-class JoystickKeyboardController final
+class InputManager final
 {
 private:
   friend class KeyboardMenu;
@@ -45,8 +45,8 @@ private:
   typedef Controller::Control Control;
 
 public:
-  JoystickKeyboardController();
-  virtual ~JoystickKeyboardController();
+  InputManager();
+  virtual ~InputManager();
 
   void process_event(const SDL_Event& event);
 
@@ -67,8 +67,8 @@ public:
   std::unique_ptr<GameControllerManager> game_controller_manager;
 
 private:
-  JoystickKeyboardController(const JoystickKeyboardController&);
-  JoystickKeyboardController& operator=(const JoystickKeyboardController&);
+  InputManager(const InputManager&);
+  InputManager& operator=(const InputManager&);
 };
 
 #endif

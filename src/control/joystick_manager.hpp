@@ -27,7 +27,7 @@
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
 
-class JoystickKeyboardController;
+class InputManager;
 
 class JoystickManager final
 {
@@ -39,7 +39,7 @@ private:
   typedef std::map<std::pair<JoyId, int>, Controller::Control> HatMap;
 
 private:
-  JoystickKeyboardController* parent;
+  InputManager* parent;
 
   ButtonMap joy_button_map;
   AxisMap joy_axis_map;
@@ -68,7 +68,7 @@ public:
   std::vector<SDL_Joystick*> joysticks;
 
 public:
-  JoystickManager(JoystickKeyboardController* parent);
+  JoystickManager(InputManager* parent);
   ~JoystickManager();
 
   void process_hat_event(const SDL_JoyHatEvent& jhat);

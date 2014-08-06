@@ -17,7 +17,7 @@
 #include "supertux/textscroller.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "lisp/parser.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/info_box_line.hpp"
@@ -93,7 +93,7 @@ TextScroller::setup()
 void
 TextScroller::update(float elapsed_time)
 {
-  Controller *controller = g_jk_controller->get_controller();
+  Controller *controller = g_input_manager->get_controller();
   if(controller->hold(Controller::UP)) {
     speed = -defaultspeed*5;
   } else if(controller->hold(Controller::DOWN)) {

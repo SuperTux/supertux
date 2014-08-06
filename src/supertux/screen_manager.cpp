@@ -17,7 +17,7 @@
 #include "supertux/screen_manager.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -190,11 +190,11 @@ ScreenManager::update_gamelogic(float elapsed_time)
 void
 ScreenManager::process_events()
 {
-  g_jk_controller->update();
+  g_input_manager->update();
   SDL_Event event;
   while(SDL_PollEvent(&event)) 
   {
-    g_jk_controller->process_event(event);
+    g_input_manager->process_event(event);
 
     if(MenuManager::current() != NULL)
       MenuManager::current()->event(event);
