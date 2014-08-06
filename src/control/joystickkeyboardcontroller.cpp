@@ -20,6 +20,7 @@
 #include <iostream>
 
 #include "control/joystick_manager.hpp"
+#include "control/game_controller_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "lisp/list_iterator.hpp"
 #include "supertux/console.hpp"
@@ -32,9 +33,10 @@
 
 JoystickKeyboardController::JoystickKeyboardController() :
   controller(new Controller),
+  m_use_game_controller(true),
   joystick_manager(new JoystickManager(this)),
+  game_controller_manager(new GameControllerManager(this)),
   keymap(),
-  name(),
   jump_with_up_kbd(),
   wait_for_key(-1)
 {
@@ -155,42 +157,46 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
       break;
 
     case SDL_JOYAXISMOTION:
-      joystick_manager->process_axis_event(event.jaxis);
+      if (!m_use_game_controller) joystick_manager->process_axis_event(event.jaxis);
       break;
 
     case SDL_JOYHATMOTION:
-      joystick_manager->process_hat_event(event.jhat);
+      if (!m_use_game_controller) joystick_manager->process_hat_event(event.jhat);
       break;
 
     case SDL_JOYBUTTONDOWN:
     case SDL_JOYBUTTONUP:
-      joystick_manager->process_button_event(event.jbutton);
+      if (!m_use_game_controller) joystick_manager->process_button_event(event.jbutton);
       break;
 
     case SDL_JOYDEVICEADDED:
-      joystick_manager->on_joystick_added(event.jdevice.which);
+      if (!m_use_game_controller) joystick_manager->on_joystick_added(event.jdevice.which);
       break;
 
     case SDL_JOYDEVICEREMOVED:
-      joystick_manager->on_joystick_removed(event.jdevice.which);
+      if (!m_use_game_controller) joystick_manager->on_joystick_removed(event.jdevice.which);
+      break;
+
+    case SDL_CONTROLLERAXISMOTION:
+      if (m_use_game_controller) game_controller_manager->process_axis_event(event.caxis);
       break;
 
     case SDL_CONTROLLERBUTTONDOWN:
-      std::cout << "SDL_CONTROLLERBUTTONDOWN" << std::endl;
+      if (m_use_game_controller) game_controller_manager->process_button_event(event.cbutton);
       break;
 
     case SDL_CONTROLLERBUTTONUP:
-      std::cout << "SDL_CONTROLLERBUTTONUP" << std::endl;
+      if (m_use_game_controller) game_controller_manager->process_button_event(event.cbutton);
       break;
 
     case SDL_CONTROLLERDEVICEADDED:
-      // ignored, handled in SDL_JOYDEVICEADDED
       std::cout << "SDL_CONTROLLERDEVICEADDED" << std::endl;
+      if (m_use_game_controller) game_controller_manager->on_controller_added(event.cdevice.which);
       break;
 
     case SDL_CONTROLLERDEVICEREMOVED:
-      // ignored, handled in SDL_JOYDEVICEREMOVED
       std::cout << "SDL_CONTROLLERDEVICEREMOVED" << std::endl;
+      if (m_use_game_controller) game_controller_manager->on_controller_removed(event.cdevice.which);
       break;
 
     case SDL_CONTROLLERDEVICEREMAPPED:

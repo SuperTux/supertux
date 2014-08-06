@@ -40,7 +40,6 @@ private:
 
 private:
   JoystickKeyboardController* parent;
-  bool m_use_game_controller;
 
   ButtonMap joy_button_map;
   AxisMap joy_axis_map;
@@ -68,9 +67,6 @@ public:
 public:
   std::vector<SDL_Joystick*> joysticks;
 
-private:
-  std::vector<SDL_GameController*> game_controllers;
-
 public:
   JoystickManager(JoystickKeyboardController* parent);
   ~JoystickManager();
@@ -91,7 +87,7 @@ public:
   void bind_joyaxis(JoyId joy_id, int axis, Controller::Control c);
   void bind_joyhat(JoyId joy_id, int dir, Controller::Control c);
 
-  void set_joy_controls(Controller::Control id, bool value); 
+  void set_joy_controls(Controller::Control id, bool value);
 
   void on_joystick_added(int joystick_index);
   void on_joystick_removed(int instance_id);

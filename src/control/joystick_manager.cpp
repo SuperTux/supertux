@@ -29,7 +29,6 @@
 
 JoystickManager::JoystickManager(JoystickKeyboardController* parent) :
   parent(parent),
-  m_use_game_controller(true),
   joy_button_map(),
   joy_axis_map(),
   joy_hat_map(),
@@ -41,38 +40,34 @@ JoystickManager::JoystickManager(JoystickKeyboardController* parent) :
   hat_state(0),
   jump_with_up_joy(false),
   wait_for_joystick(-1),
-  joysticks(),
-  game_controllers()
+  joysticks()
 {
-  if (!m_use_game_controller)
-  {
-    // Default joystick button configuration
-    bind_joybutton(0, 0, Controller::JUMP);
-    bind_joybutton(0, 1, Controller::ACTION);
-    // 6 or more Buttons
-    if( min_joybuttons > 5 ){
-      bind_joybutton(0, 4, Controller::PEEK_LEFT);
-      bind_joybutton(0, 5, Controller::PEEK_RIGHT);
-      // 8 or more
-      if(min_joybuttons > 7)
-        bind_joybutton(0, min_joybuttons-1, Controller::PAUSE_MENU);
-    } else {
-      // map the last 2 buttons to menu and pause
-      if(min_joybuttons > 2)
-        bind_joybutton(0, min_joybuttons-1, Controller::PAUSE_MENU);
-      // map all remaining joystick buttons to MENU_SELECT
-      for(int i = 2; i < max_joybuttons; ++i) {
-        if(i != min_joybuttons-1)
-          bind_joybutton(0, i, Controller::MENU_SELECT);
-      }
+  // Default joystick button configuration
+  bind_joybutton(0, 0, Controller::JUMP);
+  bind_joybutton(0, 1, Controller::ACTION);
+  // 6 or more Buttons
+  if( min_joybuttons > 5 ){
+    bind_joybutton(0, 4, Controller::PEEK_LEFT);
+    bind_joybutton(0, 5, Controller::PEEK_RIGHT);
+    // 8 or more
+    if(min_joybuttons > 7)
+      bind_joybutton(0, min_joybuttons-1, Controller::PAUSE_MENU);
+  } else {
+    // map the last 2 buttons to menu and pause
+    if(min_joybuttons > 2)
+      bind_joybutton(0, min_joybuttons-1, Controller::PAUSE_MENU);
+    // map all remaining joystick buttons to MENU_SELECT
+    for(int i = 2; i < max_joybuttons; ++i) {
+      if(i != min_joybuttons-1)
+        bind_joybutton(0, i, Controller::MENU_SELECT);
     }
-
-    // Default joystick axis configuration
-    bind_joyaxis(0, -1, Controller::LEFT);
-    bind_joyaxis(0, 1, Controller::RIGHT);
-    bind_joyaxis(0, -2, Controller::UP);
-    bind_joyaxis(0, 2, Controller::DOWN);
   }
+
+  // Default joystick axis configuration
+  bind_joyaxis(0, -1, Controller::LEFT);
+  bind_joyaxis(0, 1, Controller::RIGHT);
+  bind_joyaxis(0, -2, Controller::UP);
+  bind_joyaxis(0, 2, Controller::DOWN);
 }
 
 JoystickManager::~JoystickManager()
@@ -81,99 +76,52 @@ JoystickManager::~JoystickManager()
   {
     SDL_JoystickClose(joy);
   }
-
-  for(auto con : game_controllers)
-  {
-    SDL_GameControllerClose(con);
-  }
 }
 
 void
 JoystickManager::on_joystick_added(int joystick_index)
 {
   std::cout << "joydeviceadded: " << joystick_index << std::endl;
-  if (m_use_game_controller)
+  SDL_Joystick* joystick = SDL_JoystickOpen(joystick_index);
+  if (!joystick)
   {
-    if (!SDL_IsGameController(joystick_index))
-    {
-      log_warning << "joystick is not a game controller, ignoring: " << joystick_index << std::endl;
-    }
-    else
-    {
-      SDL_GameController* game_controller = SDL_GameControllerOpen(joystick_index);
-      if (!game_controller)
-      {
-        log_warning << "failed to open game_controller: " << joystick_index 
-                    << ": " << SDL_GetError() << std::endl;
-      }
-      else
-      {
-        game_controllers.push_back(game_controller);
-      }
-    }
+    log_warning << "failed to open joystick: " << joystick_index
+                << ": " << SDL_GetError() << std::endl;
   }
   else
   {
-    SDL_Joystick* joystick = SDL_JoystickOpen(joystick_index);
-    if (!joystick)
-    {
-      log_warning << "failed to open joystick: " << joystick_index 
-                  << ": " << SDL_GetError() << std::endl;
-    }
-    else
-    {
-      joysticks.push_back(joystick);
-    }
-
-    if(min_joybuttons < 0 || SDL_JoystickNumButtons(joystick) < min_joybuttons)
-      min_joybuttons = SDL_JoystickNumButtons(joystick);
-
-    if(SDL_JoystickNumButtons(joystick) > max_joybuttons)
-      max_joybuttons = SDL_JoystickNumButtons(joystick);
-
-    if(SDL_JoystickNumAxes(joystick) > max_joyaxis)
-      max_joyaxis = SDL_JoystickNumAxes(joystick);
-
-    if(SDL_JoystickNumHats(joystick) > max_joyhats)
-      max_joyhats = SDL_JoystickNumHats(joystick);
+    joysticks.push_back(joystick);
   }
+
+  if(min_joybuttons < 0 || SDL_JoystickNumButtons(joystick) < min_joybuttons)
+    min_joybuttons = SDL_JoystickNumButtons(joystick);
+
+  if(SDL_JoystickNumButtons(joystick) > max_joybuttons)
+    max_joybuttons = SDL_JoystickNumButtons(joystick);
+
+  if(SDL_JoystickNumAxes(joystick) > max_joyaxis)
+    max_joyaxis = SDL_JoystickNumAxes(joystick);
+
+  if(SDL_JoystickNumHats(joystick) > max_joyhats)
+    max_joyhats = SDL_JoystickNumHats(joystick);
 }
 
 void
 JoystickManager::on_joystick_removed(int instance_id)
 {
-  if (m_use_game_controller)
+  std::cout << "joydeviceremoved: " << static_cast<int>(instance_id) << std::endl;
+  for(auto& joy : joysticks)
   {
-    for(auto& controller : game_controllers)
+    SDL_JoystickID id = SDL_JoystickInstanceID(joy);
+    if (id == instance_id)
     {
-      SDL_Joystick* joy = SDL_GameControllerGetJoystick(controller);
-      SDL_JoystickID id = SDL_JoystickInstanceID(joy);
-      if (id == instance_id)
-      {
-        SDL_GameControllerClose(controller);
-        controller = nullptr;
-      }
+      SDL_JoystickClose(joy);
+      joy = nullptr;
     }
-
-    game_controllers.erase(std::remove(game_controllers.begin(), game_controllers.end(), nullptr),
-                           game_controllers.end());
   }
-  else
-  {
-    std::cout << "joydeviceremoved: " << static_cast<int>(instance_id) << std::endl;
-    for(auto& joy : joysticks)
-    {
-      SDL_JoystickID id = SDL_JoystickInstanceID(joy);
-      if (id == instance_id)
-      {
-        SDL_JoystickClose(joy);
-        joy = nullptr;
-      }
-    }
 
-    joysticks.erase(std::remove(joysticks.begin(), joysticks.end(), nullptr),
-                    joysticks.end());
-  }
+  joysticks.erase(std::remove(joysticks.begin(), joysticks.end(), nullptr),
+                  joysticks.end());
 }
 
 void
@@ -279,7 +227,7 @@ JoystickManager::process_axis_event(const SDL_JoyAxisEvent& jaxis)
 void
 JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
 {
-  if(wait_for_joystick >= 0) 
+  if(wait_for_joystick >= 0)
   {
     if(jbutton.state == SDL_PRESSED)
     {
@@ -288,8 +236,8 @@ JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
       parent->reset();
       wait_for_joystick = -1;
     }
-  } 
-  else 
+  }
+  else
   {
     ButtonMap::iterator i = joy_button_map.find(std::make_pair(jbutton.which, jbutton.button));
     if(i == joy_button_map.end()) {

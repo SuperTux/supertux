@@ -28,11 +28,12 @@
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
 
-class Menu;
-class KeyboardMenu;
-class JoystickMenu;
 class Controller;
+class GameControllerManager;
 class JoystickManager;
+class JoystickMenu;
+class KeyboardMenu;
+class Menu;
 
 class JoystickKeyboardController
 {
@@ -73,12 +74,12 @@ private:
 private:
   std::unique_ptr<Controller> controller;
 public:
+  bool m_use_game_controller;
   std::unique_ptr<JoystickManager> joystick_manager;
+  std::unique_ptr<GameControllerManager> game_controller_manager;
 
 private:
   KeyMap keymap;
-
-  std::string name;
 
   bool jump_with_up_kbd; // Keyboard up jumps
 
