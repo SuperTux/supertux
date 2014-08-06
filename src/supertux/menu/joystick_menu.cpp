@@ -19,14 +19,12 @@
 
 #include <sstream>
 
+#include "control/joystick_manager.hpp"
 #include "util/gettext.hpp"
 
-namespace{
-  const int SCAN_JOYSTICKS = Controller::CONTROLCOUNT + 1;
-}
-
 JoystickMenu::JoystickMenu(JoystickKeyboardController* _controller) :
-  controller(_controller)
+  controller(_controller),
+  joysticks_available(false)
 {
   recreateMenu();
 }
@@ -40,7 +38,9 @@ JoystickMenu::recreateMenu()
   clear();
   add_label(_("Setup Joystick"));
   add_hl();
-  if(controller->joysticks.size() > 0) {
+  if(controller->joystick_manager->joysticks.size() > 0) {
+    joysticks_available = true;
+
     add_controlfield(Controller::UP,          _("Up"));
     add_controlfield(Controller::DOWN,        _("Down"));
     add_controlfield(Controller::LEFT,        _("Left"));
@@ -53,22 +53,10 @@ JoystickMenu::recreateMenu()
     add_controlfield(Controller::PEEK_UP,     _("Peek Up"));
     add_controlfield(Controller::PEEK_DOWN,   _("Peek Down"));
 
-    add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up_joy);
+    add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->joystick_manager->jump_with_up_joy);
   } else {
     add_inactive(-1, _("No Joysticks found"));
-  }
-  add_inactive(-1,"");
-  add_entry(SCAN_JOYSTICKS, _("Scan for Joysticks"));
-  //Show Joysticks currently activated: //edit by giby
-  SDL_Joystick *joy;
-  if (SDL_NumJoysticks() > 0) {
-    joy = SDL_JoystickOpen(0);
-  }
-
-  for(std::vector<SDL_Joystick*>::iterator i = controller->joysticks.begin();
-      i != controller->joysticks.end(); ++i) {
-    if(*i != 0)
-      add_inactive(-1, SDL_JoystickName(joy) );
+    joysticks_available = false;
   }
 
   add_hl();
@@ -92,21 +80,18 @@ JoystickMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0 && item->id < Controller::CONTROLCOUNT) {
     item->change_input(_("Press Button"));
-    controller->wait_for_joystick = item->id;
+    controller->joystick_manager->wait_for_joystick = item->id;
   } else if (item->id == Controller::CONTROLCOUNT) {
-    controller->jump_with_up_joy = item->toggled;
-  } else if( item->id == SCAN_JOYSTICKS) {
-    controller->updateAvailableJoysticks();
-    recreateMenu();
+    controller->joystick_manager->jump_with_up_joy = item->toggled;
   }
 }
 
 void
 JoystickMenu::update_menu_item(Controller::Control id)
 {
-  int button  = controller->reversemap_joybutton(id);
-  int axis    = controller->reversemap_joyaxis(id);
-  int hat_dir = controller->reversemap_joyhat(id);
+  int button  = controller->joystick_manager->reversemap_joybutton(id);
+  int axis    = controller->joystick_manager->reversemap_joyaxis(id);
+  int hat_dir = controller->joystick_manager->reversemap_joyhat(id);
 
   if (button != -1) {
     get_item_by_id((int)id).change_input(get_button_name(button));
@@ -167,23 +152,34 @@ JoystickMenu::update_menu_item(Controller::Control id)
 void
 JoystickMenu::update()
 {
-  if(controller->joysticks.size() == 0)
-    return;
+  log_info << controller->joystick_manager->joysticks.size() << std::endl;
 
-  update_menu_item(Controller::UP);
-  update_menu_item(Controller::DOWN);
-  update_menu_item(Controller::LEFT);
-  update_menu_item(Controller::RIGHT);
+  if(true) //controller->joysticks.size() == 0)
+  {
+    // do nothing
+  }
+  else
+  {
+    if (!joysticks_available)
+    {
+      recreateMenu();
+    }
 
-  update_menu_item(Controller::JUMP);
-  update_menu_item(Controller::ACTION);
-  update_menu_item(Controller::PAUSE_MENU);
-  update_menu_item(Controller::PEEK_LEFT);
-  update_menu_item(Controller::PEEK_RIGHT);
-  update_menu_item(Controller::PEEK_UP);
-  update_menu_item(Controller::PEEK_DOWN);
+    update_menu_item(Controller::UP);
+    update_menu_item(Controller::DOWN);
+    update_menu_item(Controller::LEFT);
+    update_menu_item(Controller::RIGHT);
 
-  get_item_by_id(Controller::CONTROLCOUNT).toggled = controller->jump_with_up_joy;
+    update_menu_item(Controller::JUMP);
+    update_menu_item(Controller::ACTION);
+    update_menu_item(Controller::PAUSE_MENU);
+    update_menu_item(Controller::PEEK_LEFT);
+    update_menu_item(Controller::PEEK_RIGHT);
+    update_menu_item(Controller::PEEK_UP);
+    update_menu_item(Controller::PEEK_DOWN);
+
+    //get_item_by_id(Controller::CONTROLCOUNT).toggled = controller->jump_with_up_joy;
+  }
 }
 
 /* EOF */

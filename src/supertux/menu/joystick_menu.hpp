@@ -31,11 +31,14 @@ public:
   std::string get_button_name(int button);
   void update_menu_item(Controller::Control id);
   virtual void menu_action(MenuItem* item);
-  JoystickKeyboardController* controller;
   void check_menu() {}
 
 private:
   void recreateMenu();
+
+private:
+  JoystickKeyboardController* controller;
+  bool joysticks_available;
 
 private:
   JoystickMenu(const JoystickMenu&);
