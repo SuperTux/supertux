@@ -30,11 +30,14 @@ SDLLightmap::SDLLightmap() :
 {
   LIGHTMAP_DIV = 8;
 
+  width = SCREEN_WIDTH;
+  height = SCREEN_HEIGHT;
+
   SDL_Renderer* renderer = static_cast<SDLRenderer*>(Renderer::instance())->get_sdl_renderer();
   texture = SDL_CreateTexture(renderer,
                               SDL_PIXELFORMAT_RGB888,
                               SDL_TEXTUREACCESS_TARGET,
-                              SCREEN_WIDTH, SCREEN_HEIGHT);
+                              width, height);
   if (!texture)
   {
     std::stringstream msg;
