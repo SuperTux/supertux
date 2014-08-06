@@ -648,7 +648,7 @@ WorldMap::update(float delta)
     }
 
     // handle input
-    Controller *controller = g_jk_controller->get_main_controller();
+    Controller *controller = g_jk_controller->get_controller();
     bool enter_level = false;
     if(controller->pressed(Controller::ACTION)
        || controller->pressed(Controller::JUMP)

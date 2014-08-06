@@ -29,7 +29,7 @@
 
 class JoystickKeyboardController;
 
-class JoystickManager
+class JoystickManager final
 {
 private:
   typedef Uint8 JoyId;

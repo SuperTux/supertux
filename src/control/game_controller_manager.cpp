@@ -40,7 +40,7 @@ void
 GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
 {
   //log_info << "button event: " << static_cast<int>(ev.button) << " " << static_cast<int>(ev.state) << std::endl;
-  auto controller = m_parent->get_main_controller();
+  auto controller = m_parent->get_controller();
   switch(ev.button)
   {
     case SDL_CONTROLLER_BUTTON_A:
@@ -112,7 +112,7 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
   // to OR the values together
 
   //log_info << "axis event: " << static_cast<int>(ev.axis) << " " << ev.value << std::endl;
-  auto controller = m_parent->get_main_controller();
+  auto controller = m_parent->get_controller();
   auto axis2button = [this, &controller](int value,
                                          Controller::Control control_left, Controller::Control control_right)
     {

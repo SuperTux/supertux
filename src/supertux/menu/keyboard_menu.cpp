@@ -17,9 +17,10 @@
 
 #include "supertux/menu/keyboard_menu.hpp"
 
-#include "util/gettext.hpp"
+#include "control/keyboard_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "util/gettext.hpp"
 
 KeyboardMenu::KeyboardMenu(JoystickKeyboardController* _controller) :
   controller(_controller)
@@ -39,7 +40,7 @@ KeyboardMenu::KeyboardMenu(JoystickKeyboardController* _controller) :
   if (g_config->console_enabled) {
     add_controlfield(Controller::CONSOLE, _("Console"));
   }
-  add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up_kbd);
+  add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->keyboard_manager->jump_with_up_kbd);
   add_hl();
   add_back(_("Back"));
   update();
@@ -88,9 +89,9 @@ KeyboardMenu::menu_action(MenuItem* item)
 {
   if(item->id >= 0 && item->id < Controller::CONTROLCOUNT){
     item->change_input(_("Press Key"));
-    controller->wait_for_key = item->id;
+    controller->keyboard_manager->wait_for_key = item->id;
   } else if( item->id == Controller::CONTROLCOUNT) {
-    controller->jump_with_up_kbd = item->toggled;
+    controller->keyboard_manager->jump_with_up_kbd = item->toggled;
   } 
 }
 
@@ -98,31 +99,34 @@ void
 KeyboardMenu::update()
 {
   // update menu
+
+  auto& kbd_mgr = controller->keyboard_manager;
+
   get_item_by_id((int) Controller::UP).change_input(get_key_name(
-                                                      controller->reversemap_key(Controller::UP)));
+                                                      kbd_mgr->reversemap_key(Controller::UP)));
   get_item_by_id((int) Controller::DOWN).change_input(get_key_name(
-                                                        controller->reversemap_key(Controller::DOWN)));
+                                                        kbd_mgr->reversemap_key(Controller::DOWN)));
   get_item_by_id((int) Controller::LEFT).change_input(get_key_name(
-                                                        controller->reversemap_key(Controller::LEFT)));
+                                                        kbd_mgr->reversemap_key(Controller::LEFT)));
   get_item_by_id((int) Controller::RIGHT).change_input(get_key_name(
-                                                         controller->reversemap_key(Controller::RIGHT)));
+                                                         kbd_mgr->reversemap_key(Controller::RIGHT)));
   get_item_by_id((int) Controller::JUMP).change_input(get_key_name(
-                                                        controller->reversemap_key(Controller::JUMP)));
+                                                        kbd_mgr->reversemap_key(Controller::JUMP)));
   get_item_by_id((int) Controller::ACTION).change_input(get_key_name(
-                                                          controller->reversemap_key(Controller::ACTION)));
+                                                          kbd_mgr->reversemap_key(Controller::ACTION)));
   get_item_by_id((int) Controller::PEEK_LEFT).change_input(get_key_name(
-                                                             controller->reversemap_key(Controller::PEEK_LEFT)));
+                                                             kbd_mgr->reversemap_key(Controller::PEEK_LEFT)));
   get_item_by_id((int) Controller::PEEK_RIGHT).change_input(get_key_name(
-                                                              controller->reversemap_key(Controller::PEEK_RIGHT)));
+                                                              kbd_mgr->reversemap_key(Controller::PEEK_RIGHT)));
   get_item_by_id((int) Controller::PEEK_UP).change_input(get_key_name(
-                                                           controller->reversemap_key(Controller::PEEK_UP)));
+                                                           kbd_mgr->reversemap_key(Controller::PEEK_UP)));
   get_item_by_id((int) Controller::PEEK_DOWN).change_input(get_key_name(
-                                                             controller->reversemap_key(Controller::PEEK_DOWN)));
+                                                             kbd_mgr->reversemap_key(Controller::PEEK_DOWN)));
   if (g_config->console_enabled) {
     get_item_by_id((int) Controller::CONSOLE).change_input(get_key_name(
-                                                             controller->reversemap_key(Controller::CONSOLE)));
+                                                             kbd_mgr->reversemap_key(Controller::CONSOLE)));
   }
-  get_item_by_id(Controller::CONTROLCOUNT).toggled = controller->jump_with_up_kbd;
+  get_item_by_id(Controller::CONTROLCOUNT).toggled = kbd_mgr->jump_with_up_kbd;
 }
 
 /* EOF */

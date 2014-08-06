@@ -452,10 +452,10 @@ JoystickManager::set_joy_controls(Controller::Control id, bool value)
 {
   if (jump_with_up_joy && id == Controller::UP)
   {
-    parent->get_main_controller()->set_control(Controller::JUMP, value);
+    parent->get_controller()->set_control(Controller::JUMP, value);
   }
 
-  parent->get_main_controller()->set_control(id, value);
+  parent->get_controller()->set_control(id, value);
 }
 
 /* EOF */

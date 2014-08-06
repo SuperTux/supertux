@@ -53,7 +53,7 @@ LevelIntro::setup()
 void
 LevelIntro::update(float elapsed_time)
 {
-  Controller *controller = g_jk_controller->get_main_controller();
+  Controller *controller = g_jk_controller->get_controller();
 
   // Check if it's time to exit the screen
   if(controller->pressed(Controller::JUMP)

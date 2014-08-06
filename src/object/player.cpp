@@ -159,7 +159,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
   climbing(0)
 {
   this->name = name;
-  controller = g_jk_controller->get_main_controller();
+  controller = g_jk_controller->get_controller();
   scripting_controller.reset(new CodeController());
   // if/when we have complete penny gfx, we can
   // load those instead of Tux's sprite in the

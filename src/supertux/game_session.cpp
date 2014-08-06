@@ -349,7 +349,7 @@ GameSession::process_events()
 
   // save input for demo?
   if(capture_demo_stream != 0) {
-    Controller *controller = g_jk_controller->get_main_controller();
+    Controller *controller = g_jk_controller->get_controller();
     capture_demo_stream ->put(controller->hold(Controller::LEFT));
     capture_demo_stream ->put(controller->hold(Controller::RIGHT));
     capture_demo_stream ->put(controller->hold(Controller::UP));
@@ -436,7 +436,7 @@ void
 GameSession::update(float elapsed_time)
 {
   // handle controller
-  if(g_jk_controller->get_main_controller()->pressed(Controller::PAUSE_MENU))
+  if(g_jk_controller->get_controller()->pressed(Controller::PAUSE_MENU))
     on_escape_press();
 
   process_events();

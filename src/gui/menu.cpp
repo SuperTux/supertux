@@ -227,7 +227,7 @@ Menu::update()
     effect_progress = 0.0f;
   }
 
-  Controller *controller = g_jk_controller->get_main_controller();
+  Controller* controller = g_jk_controller->get_controller();
   /** check main input controller... */
   if(controller->pressed(Controller::UP)) {
     menuaction = MENU_ACTION_UP;

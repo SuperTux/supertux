@@ -32,10 +32,11 @@ class Controller;
 class GameControllerManager;
 class JoystickManager;
 class JoystickMenu;
+class KeyboardManager;
 class KeyboardMenu;
 class Menu;
 
-class JoystickKeyboardController
+class JoystickKeyboardController final
 {
 private:
   friend class KeyboardMenu;
@@ -43,14 +44,10 @@ private:
 
   typedef Controller::Control Control;
 
-  typedef std::map<SDL_Keycode, Control> KeyMap;
-
 public:
   JoystickKeyboardController();
   virtual ~JoystickKeyboardController();
 
-  /** Process an SDL Event and return true if the event has been used
-   */
   void process_event(const SDL_Event& event);
 
   void write(Writer& writer);
@@ -58,32 +55,16 @@ public:
   void update();
   void reset();
 
-  void updateAvailableJoysticks();
-
-  Controller *get_main_controller();
-
-private:
-  void process_text_input_event(const SDL_TextInputEvent& event);
-  void process_key_event(const SDL_KeyboardEvent& event);
-  void process_console_key_event(const SDL_KeyboardEvent& event);
-  void process_menu_key_event(const SDL_KeyboardEvent& event);
-
-  SDL_Keycode reversemap_key(Control c);
-  void bind_key(SDL_Keycode key, Control c);
+  Controller* get_controller();
 
 private:
   std::unique_ptr<Controller> controller;
+
 public:
   bool m_use_game_controller;
-  std::unique_ptr<JoystickManager> joystick_manager;
+  std::unique_ptr<KeyboardManager> keyboard_manager;
+  std::unique_ptr<JoystickManager> joystick_manager; 
   std::unique_ptr<GameControllerManager> game_controller_manager;
-
-private:
-  KeyMap keymap;
-
-  bool jump_with_up_kbd; // Keyboard up jumps
-
-  int wait_for_key;
 
 private:
   JoystickKeyboardController(const JoystickKeyboardController&);

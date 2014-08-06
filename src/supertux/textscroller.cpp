@@ -93,7 +93,7 @@ TextScroller::setup()
 void
 TextScroller::update(float elapsed_time)
 {
-  Controller *controller = g_jk_controller->get_main_controller();
+  Controller *controller = g_jk_controller->get_controller();
   if(controller->hold(Controller::UP)) {
     speed = -defaultspeed*5;
   } else if(controller->hold(Controller::DOWN)) {
