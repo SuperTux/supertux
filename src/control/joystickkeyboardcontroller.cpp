@@ -87,10 +87,6 @@ JoystickKeyboardController::read(const Reader& lisp)
         const lisp::Lisp* map = iter.lisp();
         map->get("key", key);
         map->get("control", control);
-//        if (key < SDLK_FIRST || key >= SDLK_LAST) {
-//          log_info << "Invalid key '" << key << "' in keymap" << std::endl;
-//          continue;
-//        }
 
         int i = 0;
         for(i = 0; Controller::controlNames[i] != 0; ++i) {
