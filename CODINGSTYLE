@@ -9,7 +9,7 @@ SuperTux Coding Standards
 
 * external libraries are not allowed in src/, they go to external/
 
-* do not use raw pointer and new/delete, use auto_ptr<> instead
+* do not use raw pointer and new/delete, use std::unique_ptr<> instead
 
 * properly separate data members and member functions, don't mix them
   in the same public/private/protected section
