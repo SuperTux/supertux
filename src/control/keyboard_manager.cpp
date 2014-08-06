@@ -258,27 +258,36 @@ KeyboardManager::reversemap_key(Controller::Control c)
 void
 KeyboardManager::read(const lisp::Lisp* keymap_lisp)
 {
-  keymap.clear();
-  keymap_lisp->get("jump-with-up", jump_with_up_kbd);
-  lisp::ListIterator iter(keymap_lisp);
-  while(iter.next()) {
-    if (iter.item() == "map") {
-      int key = -1;
-      std::string control;
-      const lisp::Lisp* map = iter.lisp();
-      map->get("key", key);
-      map->get("control", control);
+  // keycode values changed between SDL1 and SDL2, so we skip old SDL1
+  // based values and use the defaults instead on the first read of
+  // the config file
+  bool config_is_sdl2 = false;
+  keymap_lisp->get("sdl2", config_is_sdl2);
+  if (config_is_sdl2)
+  {
+    keymap.clear();
+    keymap_lisp->get("jump-with-up", jump_with_up_kbd);
+    lisp::ListIterator iter(keymap_lisp);
+    while(iter.next()) {
+      if (iter.item() == "map") {
+        int key = -1;
+        std::string control;
+        const lisp::Lisp* map = iter.lisp();
+        map->get("key", key);
 
-      int i = 0;
-      for(i = 0; Controller::controlNames[i] != 0; ++i) {
-        if (control == Controller::controlNames[i])
-          break;
+        map->get("control", control);
+
+        int i = 0;
+        for(i = 0; Controller::controlNames[i] != 0; ++i) {
+          if (control == Controller::controlNames[i])
+            break;
+        }
+        if (Controller::controlNames[i] == 0) {
+          log_info << "Invalid control '" << control << "' in keymap" << std::endl;
+          continue;
+        }
+        keymap[static_cast<SDL_Keycode>(key)] = static_cast<Controller::Control>(i);
       }
-      if (Controller::controlNames[i] == 0) {
-        log_info << "Invalid control '" << control << "' in keymap" << std::endl;
-        continue;
-      }
-      keymap[static_cast<SDL_Keycode>(key)] = static_cast<Controller::Control>(i);
     }
   }
 }
@@ -286,6 +295,7 @@ KeyboardManager::read(const lisp::Lisp* keymap_lisp)
 void
 KeyboardManager::write(Writer& writer)
 {
+  writer.write("sdl2", true);
   writer.write("jump-with-up", jump_with_up_kbd);
   for(KeyMap::iterator i = keymap.begin(); i != keymap.end(); ++i) {
     writer.start_list("map");
