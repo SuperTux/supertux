@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_GUI_MOUSECURSOR_HPP
 
 #include <string>
+#include <vector>
 
 #include "video/surface_ptr.hpp"
 
