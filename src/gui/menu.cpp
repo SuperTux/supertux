@@ -273,7 +273,8 @@ Menu::update()
      || controller->pressed(Controller::MENU_SELECT)) {
     menuaction = MENU_ACTION_HIT;
   }
-  if(controller->pressed(Controller::PAUSE_MENU)) {
+  if(controller->pressed(Controller::PAUSE_MENU)
+    || controller->pressed(Controller::MENU_BACK)) {
     menuaction = MENU_ACTION_BACK;
   }
 

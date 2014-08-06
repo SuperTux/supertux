@@ -49,6 +49,7 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
       break;
 
     case SDL_CONTROLLER_BUTTON_B:
+      controller->set_control(Controller::MENU_BACK, ev.state);
       break;
 
     case SDL_CONTROLLER_BUTTON_X:
