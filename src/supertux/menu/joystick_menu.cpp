@@ -19,56 +19,70 @@
 
 #include <sstream>
 
+#include "control/joystick_manager.hpp"
 #include "util/gettext.hpp"
 
-namespace{
-  const int SCAN_JOYSTICKS = Controller::CONTROLCOUNT + 1;
-}
+namespace {
 
-JoystickMenu::JoystickMenu(JoystickKeyboardController* _controller) :
-  controller(_controller)
+enum {
+  MNID_JUMP_WITH_UP = Controller::CONTROLCOUNT,
+  MNID_SCAN_JOYSTICKS,
+  MNID_AUTO_JOYSTICK_CFG
+};
+
+} // namespace
+
+JoystickMenu::JoystickMenu(InputManager* input_manager) :
+  m_input_manager(input_manager),
+  m_joysticks_available(false)
 {
-  recreateMenu();
+  recreate_menu();
 }
 
 JoystickMenu::~JoystickMenu()
 {}
 
 void
-JoystickMenu::recreateMenu()
+JoystickMenu::recreate_menu()
 {
   clear();
   add_label(_("Setup Joystick"));
   add_hl();
-  if(controller->joysticks.size() > 0) {
-    add_controlfield(Controller::UP,          _("Up"));
-    add_controlfield(Controller::DOWN,        _("Down"));
-    add_controlfield(Controller::LEFT,        _("Left"));
-    add_controlfield(Controller::RIGHT,       _("Right"));
-    add_controlfield(Controller::JUMP,        _("Jump"));
-    add_controlfield(Controller::ACTION,      _("Action"));
-    add_controlfield(Controller::PAUSE_MENU,  _("Pause/Menu"));
-    add_controlfield(Controller::PEEK_LEFT,   _("Peek Left"));
-    add_controlfield(Controller::PEEK_RIGHT,  _("Peek Right"));
-    add_controlfield(Controller::PEEK_UP,     _("Peek Up"));
-    add_controlfield(Controller::PEEK_DOWN,   _("Peek Down"));
 
-    add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->jump_with_up_joy);
-  } else {
-    add_inactive(-1, _("No Joysticks found"));
-  }
-  add_inactive(-1,"");
-  add_entry(SCAN_JOYSTICKS, _("Scan for Joysticks"));
-  //Show Joysticks currently activated: //edit by giby
-  SDL_Joystick *joy;
-  if (SDL_NumJoysticks() > 0) {
-    joy = SDL_JoystickOpen(0);
-  }
+  add_toggle(MNID_AUTO_JOYSTICK_CFG, _("Manual Joystick Configuration"),
+             !m_input_manager->use_game_controller());
 
-  for(std::vector<SDL_Joystick*>::iterator i = controller->joysticks.begin();
-      i != controller->joysticks.end(); ++i) {
-    if(*i != 0)
-      add_inactive(-1, SDL_JoystickName(joy) );
+  if (m_input_manager->use_game_controller())
+  {
+    m_joysticks_available = false;
+  }
+  else
+  {
+    if (m_input_manager->joystick_manager->joysticks.size() > 0)
+    {
+      m_joysticks_available = true;
+
+      add_controlfield(Controller::UP,          _("Up"));
+      add_controlfield(Controller::DOWN,        _("Down"));
+      add_controlfield(Controller::LEFT,        _("Left"));
+      add_controlfield(Controller::RIGHT,       _("Right"));
+      add_controlfield(Controller::JUMP,        _("Jump"));
+      add_controlfield(Controller::ACTION,      _("Action"));
+      add_controlfield(Controller::PAUSE_MENU,  _("Pause/Menu"));
+      add_controlfield(Controller::PEEK_LEFT,   _("Peek Left"));
+      add_controlfield(Controller::PEEK_RIGHT,  _("Peek Right"));
+      add_controlfield(Controller::PEEK_UP,     _("Peek Up"));
+      add_controlfield(Controller::PEEK_DOWN,   _("Peek Down"));
+
+      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), m_input_manager->joystick_manager->jump_with_up_joy);
+    }
+    else
+    {
+      m_joysticks_available = false;
+
+      add_inactive(-1, _("No Joysticks found"));
+      add_entry(MNID_SCAN_JOYSTICKS, _("Scan for Joysticks"));
+    }
   }
 
   add_hl();
@@ -80,37 +94,55 @@ std::string
 JoystickMenu::get_button_name(int button)
 {
   if(button < 0)
+  {
     return _("None");
-
-  std::ostringstream name;
-  name << "Button " << button;
-  return name.str();
+  }
+  else
+  {
+    std::ostringstream name;
+    name << "Button " << button;
+    return name.str();
+  }
 }
 
 void
 JoystickMenu::menu_action(MenuItem* item)
 {
-  if (item->id >= 0 && item->id < Controller::CONTROLCOUNT) {
+  if (0 <= item->id && item->id < Controller::CONTROLCOUNT)
+  {
     item->change_input(_("Press Button"));
-    controller->wait_for_joystick = item->id;
-  } else if (item->id == Controller::CONTROLCOUNT) {
-    controller->jump_with_up_joy = item->toggled;
-  } else if( item->id == SCAN_JOYSTICKS) {
-    controller->updateAvailableJoysticks();
-    recreateMenu();
+    m_input_manager->joystick_manager->wait_for_joystick = item->id;
+  }
+  else if (item->id == MNID_JUMP_WITH_UP)
+  {
+    m_input_manager->joystick_manager->jump_with_up_joy = item->toggled;
+  }
+  else if (item->id == MNID_AUTO_JOYSTICK_CFG)
+  {
+    m_input_manager->use_game_controller(!item->toggled);
+    m_input_manager->reset();
+    recreate_menu();
+  }
+  else if(item->id == MNID_SCAN_JOYSTICKS)
+  {
+    m_input_manager->reset();
+    recreate_menu();
   }
 }
 
 void
 JoystickMenu::update_menu_item(Controller::Control id)
 {
-  int button  = controller->reversemap_joybutton(id);
-  int axis    = controller->reversemap_joyaxis(id);
-  int hat_dir = controller->reversemap_joyhat(id);
+  int button  = m_input_manager->joystick_manager->reversemap_joybutton(id);
+  int axis    = m_input_manager->joystick_manager->reversemap_joyaxis(id);
+  int hat_dir = m_input_manager->joystick_manager->reversemap_joyhat(id);
 
-  if (button != -1) {
-    get_item_by_id((int)id).change_input(get_button_name(button));
-  } else if (axis != 0) {
+  if (button != -1)
+  {
+    get_item_by_id(static_cast<int>(id)).change_input(get_button_name(button));
+  }
+  else if (axis != 0)
+  {
     std::ostringstream name;
 
     name << "Axis ";
@@ -131,8 +163,10 @@ JoystickMenu::update_menu_item(Controller::Control id)
     else
       name << abs(axis);
 
-    get_item_by_id((int)id).change_input(name.str());
-  } else if (hat_dir != -1) {
+    get_item_by_id(static_cast<int>(id)).change_input(name.str());
+  }
+  else if (hat_dir != -1)
+  {
     std::string name;
 
     switch (hat_dir)
@@ -158,32 +192,32 @@ JoystickMenu::update_menu_item(Controller::Control id)
         break;
     }
 
-    get_item_by_id((int)id).change_input(name);
-  } else {
-    get_item_by_id((int)id).change_input("None");
+    get_item_by_id(static_cast<int>(id)).change_input(name);
+  }
+  else
+  {
+    get_item_by_id(static_cast<int>(id)).change_input("None");
   }
 }
 
 void
 JoystickMenu::update()
 {
-  if(controller->joysticks.size() == 0)
-    return;
+  if (m_joysticks_available)
+  {
+    update_menu_item(Controller::UP);
+    update_menu_item(Controller::DOWN);
+    update_menu_item(Controller::LEFT);
+    update_menu_item(Controller::RIGHT);
 
-  update_menu_item(Controller::UP);
-  update_menu_item(Controller::DOWN);
-  update_menu_item(Controller::LEFT);
-  update_menu_item(Controller::RIGHT);
-
-  update_menu_item(Controller::JUMP);
-  update_menu_item(Controller::ACTION);
-  update_menu_item(Controller::PAUSE_MENU);
-  update_menu_item(Controller::PEEK_LEFT);
-  update_menu_item(Controller::PEEK_RIGHT);
-  update_menu_item(Controller::PEEK_UP);
-  update_menu_item(Controller::PEEK_DOWN);
-
-  get_item_by_id(Controller::CONTROLCOUNT).toggled = controller->jump_with_up_joy;
+    update_menu_item(Controller::JUMP);
+    update_menu_item(Controller::ACTION);
+    update_menu_item(Controller::PAUSE_MENU);
+    update_menu_item(Controller::PEEK_LEFT);
+    update_menu_item(Controller::PEEK_RIGHT);
+    update_menu_item(Controller::PEEK_UP);
+    update_menu_item(Controller::PEEK_DOWN);
+  }
 }
 
 /* EOF */

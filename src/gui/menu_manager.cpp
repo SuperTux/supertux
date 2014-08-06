@@ -16,7 +16,7 @@
 
 #include "gui/menu_manager.hpp"
 
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "gui/menu.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/timer.hpp"
@@ -75,7 +75,7 @@ MenuManager::set_current(Menu* menu)
   }
 
   // just to be sure...
-  g_jk_controller->reset();
+  g_input_manager->reset();
 }
 
 void

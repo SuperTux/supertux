@@ -18,24 +18,27 @@
 #ifndef HEADER_SUPERTUX_CONTROL_JOYSTICK_MENU_HPP
 #define HEADER_SUPERTUX_CONTROL_JOYSTICK_MENU_HPP
 
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "gui/menu_item.hpp"
 
 class JoystickMenu : public Menu
 {
 public:
-  JoystickMenu(JoystickKeyboardController* controller);
+  JoystickMenu(InputManager* input_manager);
   virtual ~JoystickMenu();
 
   void update();
   std::string get_button_name(int button);
   void update_menu_item(Controller::Control id);
   virtual void menu_action(MenuItem* item);
-  JoystickKeyboardController* controller;
   void check_menu() {}
 
 private:
-  void recreateMenu();
+  void recreate_menu();
+
+private:
+  InputManager* m_input_manager;
+  bool m_joysticks_available;
 
 private:
   JoystickMenu(const JoystickMenu&);

@@ -19,13 +19,13 @@
 #include <math.h>
 #include <stdexcept>
 
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/screen_manager.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/timer.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
@@ -227,7 +227,7 @@ Menu::update()
     effect_progress = 0.0f;
   }
 
-  Controller *controller = g_jk_controller->get_main_controller();
+  Controller* controller = g_input_manager->get_controller();
   /** check main input controller... */
   if(controller->pressed(Controller::UP)) {
     menuaction = MENU_ACTION_UP;
@@ -273,7 +273,8 @@ Menu::update()
      || controller->pressed(Controller::MENU_SELECT)) {
     menuaction = MENU_ACTION_HIT;
   }
-  if(controller->pressed(Controller::PAUSE_MENU)) {
+  if(controller->pressed(Controller::PAUSE_MENU)
+    || controller->pressed(Controller::MENU_BACK)) {
     menuaction = MENU_ACTION_BACK;
   }
 

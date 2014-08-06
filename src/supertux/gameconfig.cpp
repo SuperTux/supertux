@@ -19,7 +19,7 @@
 #include <stdexcept>
 
 #include "addon/addon_manager.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "lisp/writer.hpp"
 #include "lisp/parser.hpp"
 #include "util/reader.hpp"
@@ -94,8 +94,8 @@ Config::load()
   }
 
   const lisp::Lisp* config_control_lisp = config_lisp->get_lisp("control");
-  if(config_control_lisp && g_jk_controller) {
-    g_jk_controller->read(*config_control_lisp);
+  if(config_control_lisp && g_input_manager) {
+    g_input_manager->read(*config_control_lisp);
   }
 
   const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
@@ -139,9 +139,9 @@ Config::save()
   writer.write("music_enabled", music_enabled);
   writer.end_list("audio");
 
-  if(g_jk_controller) {
+  if(g_input_manager) {
     writer.start_list("control");
-    g_jk_controller->write(writer);
+    g_input_manager->write(writer);
     writer.end_list("control");
   }
 

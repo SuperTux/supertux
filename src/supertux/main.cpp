@@ -34,7 +34,7 @@ extern "C" {
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "control/joystickkeyboardcontroller.hpp"
+#include "control/input_manager.hpp"
 #include "math/random_generator.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "physfs/physfs_sdl.hpp"
@@ -391,20 +391,13 @@ Main::parse_commandline(int argc, char** argv)
 void
 Main::init_sdl()
 {
-  if(SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0) {
+  if(SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0) {
     std::stringstream msg;
     msg << "Couldn't initialize SDL: " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
   // just to be sure
   atexit(SDL_Quit);
-
-  // wait 100ms and clear SDL event queue because sometimes we have random
-  // joystick events in the queue on startup...
-  SDL_Delay(100);
-  SDL_Event dummy;
-  while(SDL_PollEvent(&dummy))
-    ;
 }
 
 void
@@ -460,47 +453,6 @@ Main::quit_audio()
   }
 }
 
-void
-Main::wait_for_event(float min_delay, float max_delay)
-{
-  assert(min_delay <= max_delay);
-
-  Uint32 min = (Uint32) (min_delay * 1000);
-  Uint32 max = (Uint32) (max_delay * 1000);
-
-  Uint32 ticks = SDL_GetTicks();
-  while(SDL_GetTicks() - ticks < min) {
-    SDL_Delay(10);
-    sound_manager->update();
-  }
-
-  // clear event queue
-  SDL_Event event;
-  while (SDL_PollEvent(&event))
-  {}
-
-  /* Handle events: */
-  bool running = false;
-  ticks = SDL_GetTicks();
-  while(running) {
-    while(SDL_PollEvent(&event)) {
-      switch(event.type) {
-        case SDL_QUIT:
-          g_screen_manager->quit();
-          break;
-        case SDL_KEYDOWN:
-        case SDL_JOYBUTTONDOWN:
-        case SDL_MOUSEBUTTONDOWN:
-          running = false;
-      }
-    }
-    if(SDL_GetTicks() - ticks >= (max - min))
-      running = false;
-    sound_manager->update();
-    SDL_Delay(10);
-  }
-}
-
 static Uint32 last_timelog_ticks = 0;
 static const char* last_timelog_component = 0;
 
@@ -533,7 +485,7 @@ Main::run(int argc, char** argv)
     Console::instance = new Console();
 
     timelog("controller");
-    g_jk_controller = new JoystickKeyboardController();
+    g_input_manager = new InputManager();
 
     timelog("config");
     init_config();
@@ -627,8 +579,8 @@ Main::run(int argc, char** argv)
     g_config->save();
   delete g_config;
   g_config = NULL;
-  delete g_jk_controller;
-  g_jk_controller = NULL;
+  delete g_input_manager;
+  g_input_manager = NULL;
   delete Console::instance;
   Console::instance = NULL;
   scripting::exit_squirrel();
