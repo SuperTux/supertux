@@ -24,7 +24,7 @@
 class JoystickMenu : public Menu
 {
 public:
-  JoystickMenu(InputManager* controller);
+  JoystickMenu(InputManager* input_manager);
   virtual ~JoystickMenu();
 
   void update();
@@ -34,11 +34,11 @@ public:
   void check_menu() {}
 
 private:
-  void recreateMenu();
+  void recreate_menu();
 
 private:
-  InputManager* controller;
-  bool joysticks_available;
+  InputManager* m_input_manager;
+  bool m_joysticks_available;
 
 private:
   JoystickMenu(const JoystickMenu&);

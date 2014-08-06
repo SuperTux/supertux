@@ -55,6 +55,9 @@ public:
   void update();
   void reset();
 
+  void use_game_controller(bool v);
+  bool use_game_controller() const { return m_use_game_controller; }
+
   Controller* get_controller();
 
 private:

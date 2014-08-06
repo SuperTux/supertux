@@ -48,6 +48,12 @@ InputManager::get_controller()
 }
 
 void
+InputManager::use_game_controller(bool v)
+{
+  m_use_game_controller = v;
+}
+
+void
 InputManager::read(const Reader& lisp)
 {
   const lisp::Lisp* keymap_lisp = lisp.get_lisp("keymap");
@@ -114,11 +120,11 @@ InputManager::process_event(const SDL_Event& event)
       break;
 
     case SDL_JOYDEVICEADDED:
-      if (!m_use_game_controller) joystick_manager->on_joystick_added(event.jdevice.which);
+      joystick_manager->on_joystick_added(event.jdevice.which);
       break;
 
     case SDL_JOYDEVICEREMOVED:
-      if (!m_use_game_controller) joystick_manager->on_joystick_removed(event.jdevice.which);
+      joystick_manager->on_joystick_removed(event.jdevice.which);
       break;
 
     case SDL_CONTROLLERAXISMOTION:
@@ -135,12 +141,12 @@ InputManager::process_event(const SDL_Event& event)
 
     case SDL_CONTROLLERDEVICEADDED:
       std::cout << "SDL_CONTROLLERDEVICEADDED" << std::endl;
-      if (m_use_game_controller) game_controller_manager->on_controller_added(event.cdevice.which);
+      game_controller_manager->on_controller_added(event.cdevice.which);
       break;
 
     case SDL_CONTROLLERDEVICEREMOVED:
       std::cout << "SDL_CONTROLLERDEVICEREMOVED" << std::endl;
-      if (m_use_game_controller) game_controller_manager->on_controller_removed(event.cdevice.which);
+      game_controller_manager->on_controller_removed(event.cdevice.which);
       break;
 
     case SDL_CONTROLLERDEVICEREMAPPED:

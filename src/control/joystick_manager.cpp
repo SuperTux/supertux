@@ -32,7 +32,7 @@ JoystickManager::JoystickManager(InputManager* parent) :
   joy_button_map(),
   joy_axis_map(),
   joy_hat_map(),
-  dead_zone(4000),
+  dead_zone(8000),
   min_joybuttons(),
   max_joybuttons(),
   max_joyaxis(),
