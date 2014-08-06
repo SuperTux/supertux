@@ -425,11 +425,6 @@ GameSession::setup()
   }
   currentsector->play_music(LEVEL_MUSIC);
 
-  // Eat unneeded events
-  SDL_Event event;
-  while(SDL_PollEvent(&event))
-  {}
-
   int total_stats_to_be_collected = level->stats.total_coins + level->stats.total_badguys + level->stats.total_secrets;
   if ((!levelintro_shown) && (total_stats_to_be_collected > 0)) {
     levelintro_shown = true;

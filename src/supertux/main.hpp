@@ -31,7 +31,6 @@ private:
   void init_video();
   void print_usage(const char* argv0);
   void quit_audio();
-  void wait_for_event(float min_delay, float max_delay);
 
 public:
   /** We call it run() instead of main() as main collides with 
