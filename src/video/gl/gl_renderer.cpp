@@ -577,8 +577,7 @@ GLRenderer::apply_video_mode()
   }
   else
   {
-    int flags = SDL_WINDOW_OPENGL;
-
+    int flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
     Size size;
     if (g_config->use_fullscreen)
     {
@@ -596,7 +595,6 @@ GLRenderer::apply_video_mode()
     }
     else
     {
-      flags |= SDL_WINDOW_RESIZABLE;
       size = g_config->window_size;
     }
 
