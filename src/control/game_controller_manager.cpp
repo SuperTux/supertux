@@ -24,7 +24,9 @@
 GameControllerManager::GameControllerManager(InputManager* parent) :
   m_parent(parent),
   m_deadzone(8000),
-  m_game_controllers()
+  m_game_controllers(),
+  m_stick_state(),
+  m_button_state()
 {
 }
 
@@ -41,19 +43,24 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
 {
   //log_info << "button event: " << static_cast<int>(ev.button) << " " << static_cast<int>(ev.state) << std::endl;
   auto controller = m_parent->get_controller();
+  auto set_control = [this, &controller](Controller::Control control, bool value)
+  {
+    m_button_state[control] = value;
+    controller->set_control(control, m_button_state[control] || m_stick_state[control]);
+  };
   switch(ev.button)
   {
     case SDL_CONTROLLER_BUTTON_A:
-      controller->set_control(Controller::JUMP, ev.state);
-      controller->set_control(Controller::MENU_SELECT, ev.state);
+      set_control(Controller::JUMP, ev.state);
+      set_control(Controller::MENU_SELECT, ev.state);
       break;
 
     case SDL_CONTROLLER_BUTTON_B:
-      controller->set_control(Controller::MENU_BACK, ev.state);
+      set_control(Controller::MENU_BACK, ev.state);
       break;
 
     case SDL_CONTROLLER_BUTTON_X:
-      controller->set_control(Controller::ACTION, ev.state);
+      set_control(Controller::ACTION, ev.state);
       break;
 
     case SDL_CONTROLLER_BUTTON_Y:
@@ -63,11 +70,11 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
       break;
 
     case SDL_CONTROLLER_BUTTON_GUIDE:
-      controller->set_control(Controller::CONSOLE, ev.state);
+      set_control(Controller::CONSOLE, ev.state);
       break;
 
     case SDL_CONTROLLER_BUTTON_START:
-      controller->set_control(Controller::PAUSE_MENU, ev.state);
+      set_control(Controller::PAUSE_MENU, ev.state);
       break;
 
     case SDL_CONTROLLER_BUTTON_LEFTSTICK:
@@ -77,27 +84,27 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
       break;
 
     case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:
-      controller->set_control(Controller::PEEK_LEFT, ev.state);
+      set_control(Controller::PEEK_LEFT, ev.state);
       break;
 
     case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
-      controller->set_control(Controller::PEEK_RIGHT, ev.state);
+      set_control(Controller::PEEK_RIGHT, ev.state);
       break;
 
     case SDL_CONTROLLER_BUTTON_DPAD_UP:
-      controller->set_control(Controller::UP, ev.state);
+      set_control(Controller::UP, ev.state);
       break;
 
     case SDL_CONTROLLER_BUTTON_DPAD_DOWN:
-      controller->set_control(Controller::DOWN, ev.state);
+      set_control(Controller::DOWN, ev.state);
       break;
 
     case SDL_CONTROLLER_BUTTON_DPAD_LEFT:
-      controller->set_control(Controller::LEFT, ev.state);
+      set_control(Controller::LEFT, ev.state);
       break;
 
     case SDL_CONTROLLER_BUTTON_DPAD_RIGHT:
-      controller->set_control(Controller::RIGHT, ev.state);
+      set_control(Controller::RIGHT, ev.state);
       break;
 
     default:
@@ -113,23 +120,29 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
 
   //log_info << "axis event: " << static_cast<int>(ev.axis) << " " << ev.value << std::endl;
   auto controller = m_parent->get_controller();
-  auto axis2button = [this, &controller](int value,
+  auto set_control = [this, &controller](Controller::Control control, bool value)
+  {
+    m_stick_state[control] = value;
+    controller->set_control(control, m_button_state[control] || m_stick_state[control]);
+  };
+
+  auto axis2button = [this, &set_control](int value,
                                          Controller::Control control_left, Controller::Control control_right)
     {
       if (value < -m_deadzone)
       {
-        controller->set_control(control_left, true);
-        controller->set_control(control_right, false);
+        set_control(control_left, true);
+        set_control(control_right, false);
       }
       else if (value > m_deadzone)
       {
-        controller->set_control(control_left, false);
-        controller->set_control(control_right, true);
+        set_control(control_left, false);
+        set_control(control_right, true);
       }
       else
       {
-        controller->set_control(control_left, false);
-        controller->set_control(control_right, false);
+        set_control(control_left, false);
+        set_control(control_right, false);
       }
     };
 

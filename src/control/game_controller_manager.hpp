@@ -18,8 +18,11 @@
 #define HEADER_SUPERTUX_CONTROL_GAME_CONTROLLER_MANAGER_HPP
 
 #include <vector>
+#include <array>
 
 #include "SDL.h"
+
+#include "control/controller.hpp"
 
 class InputManager;
 
@@ -29,6 +32,8 @@ private:
   InputManager* m_parent;
   int m_deadzone;
   std::vector<SDL_GameController*> m_game_controllers;
+  std::array<bool, Controller::CONTROLCOUNT> m_stick_state;
+  std::array<bool, Controller::CONTROLCOUNT> m_button_state;
 
 public:
   GameControllerManager(InputManager* parent);
