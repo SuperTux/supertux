@@ -51,7 +51,7 @@ ContribMenu::ContribMenu() :
       if (!world->hide_from_contribs) 
       {
         add_entry(i++, world->get_title());
-        m_contrib_worlds.push_back(world.release());
+        m_contrib_worlds.push_back(std::move(world));
       }
     }
     catch(std::exception& e)
@@ -66,11 +66,6 @@ ContribMenu::ContribMenu() :
 
 ContribMenu::~ContribMenu()
 {
-  for(std::vector<World*>::iterator i = m_contrib_worlds.begin(); i != m_contrib_worlds.end(); ++i)
-  {
-    delete *i;
-  }
-  m_contrib_worlds.clear();
 }
 
 void
@@ -79,7 +74,7 @@ ContribMenu::check_menu()
   int index = check();
   if (index != -1)
   {
-    World* world = m_contrib_worlds[index];
+    World* world = m_contrib_worlds[index].get();
     
     if (!world->is_levelset) 
     {
