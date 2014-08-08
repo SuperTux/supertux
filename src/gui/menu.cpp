@@ -69,10 +69,10 @@ Menu::~Menu()
 {
   MenuManager::instance().m_all_menus.remove(this);
 
-  if (MenuManager::instance().current() == this)
+  if (MenuManager::instance().m_current == this)
     MenuManager::instance().m_current = nullptr;
 
-  if (MenuManager::instance().get_previous() == this)
+  if (MenuManager::instance().m_previous == this)
     MenuManager::instance().m_previous = nullptr;
 }
 
@@ -630,13 +630,13 @@ Menu::draw(DrawingContext& context)
   {
     if (close)
     {
-      menu_width  = (MenuManager::instance().current()->get_width()  * (1.0f - effect_progress));
-      menu_height = (MenuManager::instance().current()->get_height() * (1.0f - effect_progress));
+      menu_width *= 1.0f - effect_progress;
+      menu_height *= 1.0f - effect_progress;
     }
-    else if (MenuManager::instance().get_previous())
+    else if (MenuManager::instance().m_previous)
     {
-      menu_width  = (menu_width  * effect_progress) + (MenuManager::instance().get_previous()->get_width()  * (1.0f - effect_progress));
-      menu_height = (menu_height * effect_progress) + (MenuManager::instance().get_previous()->get_height() * (1.0f - effect_progress));
+      menu_width  = (menu_width  * effect_progress) + (MenuManager::instance().m_previous->get_width()  * (1.0f - effect_progress));
+      menu_height = (menu_height * effect_progress) + (MenuManager::instance().m_previous->get_height() * (1.0f - effect_progress));
       //std::cout << effect_progress << " " << this << " " << last_menus.back() << std::endl;
     }
     else

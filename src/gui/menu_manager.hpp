@@ -52,15 +52,15 @@ public:
 
   void recalc_pos();
 
-  Menu* get_previous()
-  {
-    return m_previous;
-  }
-
   /** Return the current active menu or NULL if none is active */
-  Menu* current()
+  Menu* current() const
   {
     return m_current;
+  }
+
+  bool is_active() const
+  {
+    return m_current != nullptr;
   }
 
 private:

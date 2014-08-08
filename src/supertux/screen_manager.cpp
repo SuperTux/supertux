@@ -139,8 +139,8 @@ ScreenManager::draw(DrawingContext& context)
   static int frame_count = 0;
 
   current_screen->draw(context);
-  if(MenuManager::instance().current() != NULL)
-    MenuManager::instance().current()->draw(context);
+  if(m_menu_manager->current() != NULL)
+    m_menu_manager->current()->draw(context);
   if(screen_fade.get() != NULL)
     screen_fade->draw(context);
   Console::instance->draw(context);
@@ -175,8 +175,8 @@ ScreenManager::update_gamelogic(float elapsed_time)
   scripting::update_debugger();
   scripting::TimeScheduler::instance->update(game_time);
   current_screen->update(elapsed_time);
-  if (MenuManager::instance().current() != NULL)
-    MenuManager::instance().current()->update();
+  if (m_menu_manager->current() != NULL)
+    m_menu_manager->current()->update();
   if(screen_fade.get() != NULL)
     screen_fade->update(elapsed_time);
   Console::instance->update(elapsed_time);
@@ -191,8 +191,8 @@ ScreenManager::process_events()
   {
     g_input_manager->process_event(event);
 
-    if(MenuManager::instance().current() != NULL)
-      MenuManager::instance().current()->event(event);
+    if(m_menu_manager->current() != NULL)
+      m_menu_manager->current()->event(event);
 
     switch(event.type)
     {
@@ -206,7 +206,7 @@ ScreenManager::process_events()
           case SDL_WINDOWEVENT_RESIZED:
             Renderer::instance()->resize(event.window.data1,
                                          event.window.data2);
-            MenuManager::instance().recalc_pos();
+            m_menu_manager->recalc_pos();
             break;
         }
         break;
@@ -220,7 +220,7 @@ ScreenManager::process_events()
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
           Renderer::instance()->apply_config();
-          MenuManager::instance().recalc_pos();
+          m_menu_manager->recalc_pos();
         }
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)

@@ -406,7 +406,7 @@ void
 WorldMap::on_escape_press()
 {
   // Show or hide the menu
-  if(!MenuManager::instance().current()) {
+  if(!MenuManager::instance().is_active()) {
     MenuManager::instance().set_current(worldmap_menu.get());
     tux->set_direction(D_NONE);  // stop tux movement when menu is called
   } else {

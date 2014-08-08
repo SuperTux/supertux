@@ -436,7 +436,7 @@ GameSession::update(float elapsed_time)
   }
 
   // Unpause the game if the menu has been closed
-  if (game_pause && !MenuManager::instance().current()) {
+  if (game_pause && !MenuManager::instance().is_active()) {
     g_screen_manager->set_speed(speed_before_pause);
     game_pause = false;
   }
