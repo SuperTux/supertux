@@ -62,26 +62,6 @@ public:
 
   bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */
 
-  template<typename T> static bool string_is(std::string s) {
-    std::istringstream iss(s);
-    T i;
-    if ((iss >> i) && iss.eof()) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  template<typename T> static T string_to(std::string s) {
-    std::istringstream iss(s);
-    T i;
-    if ((iss >> i) && iss.eof()) {
-      return i;
-    } else {
-      return T();
-    }
-  }
-
 private:
   std::list<std::string> history; /**< command history. New lines get added to back. */
   std::list<std::string>::iterator history_position; /**< item of command history that is currently displayed */
