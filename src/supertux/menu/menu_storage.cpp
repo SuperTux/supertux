@@ -47,7 +47,7 @@ MenuStorage::get_options_menu()
 {
   if (!m_options_menu)
   {
-    m_options_menu.reset(new OptionsMenu());
+    m_options_menu.reset(new OptionsMenu);
   }
 
   return m_options_menu.get();
@@ -58,7 +58,7 @@ MenuStorage::get_profile_menu()
 {
   if (!m_profile_menu)
   {
-    m_profile_menu.reset(new ProfileMenu());
+    m_profile_menu.reset(new ProfileMenu);
   }
 
   return m_profile_menu.get();

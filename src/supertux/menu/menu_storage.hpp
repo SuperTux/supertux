@@ -36,8 +36,8 @@ public:
   MenuStorage();
   ~MenuStorage();
 
-  OptionsMenu*  get_options_menu();
-  ProfileMenu*  get_profile_menu();
+  OptionsMenu* get_options_menu();
+  ProfileMenu* get_profile_menu();
   KeyboardMenu* get_key_options_menu();
   JoystickMenu* get_joystick_options_menu();
 
