@@ -28,18 +28,15 @@ static const float FLICK_CURSOR_TIME = 0.5f;
 MenuItem::MenuItem(MenuItemKind _kind, int _id) :
   kind(_kind),
   id(_id),
-  toggled(),
+  toggled(false),
   text(),
   input(),
   help(),
   list(),
-  selected(),
-  target_menu(),
+  selected(false),
+  target_menu(MenuStorage::NO_MENU),
   input_flickering()
 {
-  toggled = false;
-  selected = false;
-  target_menu = MenuStorage::NO_MENU;
 }
 
 void

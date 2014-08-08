@@ -52,7 +52,6 @@ public:
   /** returns player status */
   PlayerStatus* get_player_status() const { return player_status.get(); }
 
-
   void run();
 
 private:
@@ -69,6 +68,10 @@ private:
 public:
   bool hide_from_contribs;
   bool is_levelset;
+
+private:
+  World(const World&) = delete;
+  World& operator=(const World&) = delete;
 };
 
 #endif
