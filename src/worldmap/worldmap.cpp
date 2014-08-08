@@ -570,19 +570,9 @@ WorldMap::update(float delta)
 {
   if(!in_level) {
     Menu* menu = MenuManager::instance().current();
-    if(menu != NULL) {
-      if(menu == worldmap_menu.get()) {
-        switch (worldmap_menu->check())
-        {
-          case MNID_RETURNWORLDMAP: // Return to game
-            MenuManager::instance().set_current(0);
-            break;
-          case MNID_QUITWORLDMAP: // Quit Worldmap
-            g_screen_manager->exit_screen();
-            break;
-        }
-      }
-
+    if (menu && menu == worldmap_menu.get())
+    {
+      menu->check_menu();
       return;
     }
 

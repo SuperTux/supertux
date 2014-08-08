@@ -32,7 +32,7 @@ private:
 public:
   GameMenu(const Level& level);
 
-  void check_menu();
+  void check_menu() override;
 
 private:
   GameMenu(const GameMenu&);

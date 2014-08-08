@@ -16,6 +16,9 @@
 
 #include "supertux/menu/game_menu.hpp"
 
+#include "gui/menu_manager.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
@@ -34,6 +37,17 @@ GameMenu::GameMenu(const Level& level)
 void
 GameMenu::check_menu()
 {
+  switch (check())
+  {
+    case MNID_CONTINUE:
+      MenuManager::instance().set_current(0);
+      GameSession::current()->toggle_pause();
+      break;
+
+    case MNID_ABORTLEVEL:
+      GameSession::current()->abort_level();
+      break;
+  }
 }
 
 /* EOF */

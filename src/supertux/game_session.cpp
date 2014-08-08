@@ -256,6 +256,18 @@ GameSession::toggle_pause()
 }
 
 void
+GameSession::abort_level()
+{
+  MenuManager::instance().set_current(0);
+  g_screen_manager->exit_screen();
+  currentsector->player->set_bonus(bonus_at_start);
+  PlayerStatus *currentStatus = get_player_status();
+  currentStatus->coins = coins_at_start;
+  currentStatus->max_fire_bullets = max_fire_bullets_at_start;
+  currentStatus->max_ice_bullets = max_ice_bullets_at_start;
+}
+
+void
 GameSession::set_editmode(bool edit_mode)
 {
   if (this->edit_mode == edit_mode) return;
@@ -391,30 +403,6 @@ GameSession::draw_pause(DrawingContext& context)
 }
 
 void
-GameSession::process_menu()
-{
-  Menu* menu = MenuManager::instance().current();
-  if(menu) {
-    if(menu == game_menu.get()) {
-      switch (game_menu->check()) {
-        case MNID_CONTINUE:
-          MenuManager::instance().set_current(0);
-          toggle_pause();
-          break;
-        case MNID_ABORTLEVEL:
-          MenuManager::instance().set_current(0);
-          g_screen_manager->exit_screen();
-          currentsector->player->set_bonus(bonus_at_start);
-          PlayerStatus *currentStatus = get_player_status();
-          currentStatus->coins = coins_at_start;
-          currentStatus->max_fire_bullets = max_fire_bullets_at_start;
-          currentStatus->max_ice_bullets = max_ice_bullets_at_start;
-      }
-    }
-  }
-}
-
-void
 GameSession::setup()
 {
   if (currentsector == NULL)
@@ -440,7 +428,11 @@ GameSession::update(float elapsed_time)
     on_escape_press();
 
   process_events();
-  process_menu();
+  Menu* menu = MenuManager::instance().current();
+  if (menu && menu == game_menu.get())
+  {
+    menu->check_menu();
+  }
 
   // Unpause the game if the menu has been closed
   if (game_pause && !MenuManager::instance().current()) {

@@ -16,8 +16,10 @@
 
 #include "supertux/menu/worldmap_menu.hpp"
 
+#include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
+#include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
 
 WorldmapMenu::WorldmapMenu()
@@ -33,6 +35,16 @@ WorldmapMenu::WorldmapMenu()
 void
 WorldmapMenu::check_menu()
 {
+  switch (check())
+  {
+    case MNID_RETURNWORLDMAP: // Return to game
+      MenuManager::instance().set_current(0);
+      break;
+
+    case MNID_QUITWORLDMAP: // Quit Worldmap
+      g_screen_manager->exit_screen();
+      break;
+  }
 }
 
 /* EOF */
