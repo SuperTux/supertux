@@ -62,7 +62,7 @@ public:
   MenuItem* add_toggle(int id, const std::string& text, bool toggled = false);
   MenuItem* add_inactive(int id, const std::string& text);
   MenuItem* add_back(const std::string& text);
-  MenuItem* add_submenu(const std::string& text, int submenu, int id = -1);
+  MenuItem* add_submenu(const std::string& text, int submenu);
   MenuItem* add_controlfield(int id, const std::string& text,
                              const std::string& mapping = "");
   MenuItem* add_string_select(int id, const std::string& text);
