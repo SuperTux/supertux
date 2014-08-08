@@ -47,6 +47,15 @@ MenuManager::~MenuManager()
 }
 
 void
+MenuManager::draw(DrawingContext& context)
+{
+  if (m_current)
+  {
+    m_current->draw(context);
+  }
+}
+
+void
 MenuManager::push_current(Menu* menu)
 {
   m_previous = m_current;

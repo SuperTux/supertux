@@ -21,6 +21,7 @@
 #include <list>
 
 class Menu;
+class DrawingContext;
 
 class MenuManager
 {
@@ -43,6 +44,8 @@ public:
 public:
   MenuManager();
   ~MenuManager();
+
+  void draw(DrawingContext& context);
 
   /** Set the current menu, if pmenu is NULL, hide the current menu */
   void set_current(Menu* pmenu);

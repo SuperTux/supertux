@@ -139,8 +139,7 @@ ScreenManager::draw(DrawingContext& context)
   static int frame_count = 0;
 
   current_screen->draw(context);
-  if(m_menu_manager->current() != NULL)
-    m_menu_manager->current()->draw(context);
+  m_menu_manager->draw(context);
   if(screen_fade.get() != NULL)
     screen_fade->draw(context);
   Console::instance->draw(context);
