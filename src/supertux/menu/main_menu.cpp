@@ -40,7 +40,7 @@ MainMenu::MainMenu() :
   add_entry(MNID_STARTGAME, _("Start Game"));
   add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
   add_entry(MNID_ADDONS, _("Add-ons"));
-  add_submenu(_("Options"), MenuStorage::instance().get_options_menu());
+  add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
   add_entry(MNID_CREDITS, _("Credits"));
   add_entry(MNID_QUITMAINMENU, _("Quit"));
 }
@@ -62,17 +62,17 @@ MainMenu::check_menu()
     case MNID_LEVELS_CONTRIB:
       // Contrib Menu
       m_contrib_menu.reset(new ContribMenu());
-      MenuManager::instance().push_current(m_contrib_menu.get());
+      MenuManager::instance().push_current(MenuStorage::CONTRIB_MENU);
       break;
 
     case MNID_ADDONS:
       // Add-ons Menu
       m_addon_menu.reset(new AddonMenu());
-      MenuManager::instance().push_current(m_addon_menu.get());
+      MenuManager::instance().push_current(MenuStorage::ADDON_MENU);
       break;
 
     case MNID_CREDITS:
-      MenuManager::instance().set_current(NULL);
+      MenuManager::instance().set_current(MenuStorage::NO_MENU);
       g_screen_manager->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.txt")),
                                     std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
       break;

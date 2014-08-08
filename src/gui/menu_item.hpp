@@ -42,7 +42,7 @@ class MenuItem
 {
 public:
   static MenuItem* create(MenuItemKind kind, const std::string& text,
-                          int init_toggle, Menu* target_menu, int id, int key);
+                          int init_toggle, int target_menu, int id, int key);
 
 public:
   MenuItem(MenuItemKind kind, int id = -1);
@@ -65,7 +65,7 @@ public:
   std::vector<std::string> list; // list of values for a STRINGSELECT item
   size_t selected; // currently selected item
 
-  Menu* target_menu;
+  int target_menu;
 
 private:
   /// keyboard key or joystick button

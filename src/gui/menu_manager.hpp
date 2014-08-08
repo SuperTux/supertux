@@ -46,11 +46,14 @@ public:
   ~MenuManager();
 
   void draw(DrawingContext& context);
+  bool check_menu();
 
   /** Set the current menu, if pmenu is NULL, hide the current menu */
-  void set_current(Menu* pmenu);
+  void set_current_ptr(Menu* menu);
+  void set_current(int id);
 
-  void push_current(Menu* pmenu);
+  void push_current(int id);
+  void push_current_(Menu* menu);
   void pop_current();
 
   void recalc_pos();

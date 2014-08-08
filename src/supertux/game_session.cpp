@@ -34,7 +34,6 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/levelintro.hpp"
-#include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/player_status.hpp"
@@ -66,7 +65,6 @@ GameSession::GameSession(const std::string& levelfile_, PlayerStatus* player_sta
   capture_file(),
   playback_demo_stream(0), 
   demo_controller(0),
-  game_menu(),
   play_time(0), 
   edit_mode(false), 
   levelintro_shown(false)
@@ -80,8 +78,6 @@ GameSession::GameSession(const std::string& levelfile_, PlayerStatus* player_sta
 
   if (restart_level() != 0)
     throw std::runtime_error ("Initializing the level failed.");
-
-  game_menu.reset(new GameMenu(*level));
 }
 
 int
@@ -248,8 +244,7 @@ GameSession::toggle_pause()
   if(!game_pause) {
     speed_before_pause = g_screen_manager->get_speed();
     g_screen_manager->set_speed(0);
-    MenuManager::instance().set_current(game_menu.get());
-    game_menu->set_active_item(MNID_CONTINUE);
+    MenuManager::instance().set_current(MenuStorage::GAME_MENU);
     game_pause = true;
   }
 
@@ -259,7 +254,7 @@ GameSession::toggle_pause()
 void
 GameSession::abort_level()
 {
-  MenuManager::instance().set_current(0);
+  MenuManager::instance().set_current(MenuStorage::NO_MENU);
   g_screen_manager->exit_screen();
   currentsector->player->set_bonus(bonus_at_start);
   PlayerStatus *currentStatus = get_player_status();
@@ -429,11 +424,7 @@ GameSession::update(float elapsed_time)
     on_escape_press();
 
   process_events();
-  Menu* menu = MenuManager::instance().current();
-  if (menu && menu == game_menu.get())
-  {
-    menu->check_menu();
-  }
+  MenuManager::instance().check_menu();
 
   // Unpause the game if the menu has been closed
   if (game_pause && !MenuManager::instance().is_active()) {

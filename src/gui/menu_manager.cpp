@@ -21,6 +21,7 @@
 #include "control/input_manager.hpp"
 #include "gui/menu.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/timer.hpp"
 
 MenuManager* MenuManager::s_instance = 0;
@@ -55,8 +56,29 @@ MenuManager::draw(DrawingContext& context)
   }
 }
 
+bool
+MenuManager::check_menu()
+{
+  if (m_current)
+  {
+    m_current->check_menu();
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
 void
-MenuManager::push_current(Menu* menu)
+MenuManager::push_current(int id)
+{
+  Menu* menu = MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id));
+  push_current_(menu);
+}
+
+void
+MenuManager::push_current_(Menu* menu)
 {
   m_previous = m_current;
 
@@ -84,12 +106,19 @@ MenuManager::pop_current()
   }
   else
   {
-    set_current(nullptr);
+    set_current(MenuStorage::NO_MENU);
   }
 }
 
 void
-MenuManager::set_current(Menu* menu)
+MenuManager::set_current(int id)
+{
+  Menu* menu = MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id));
+  set_current_ptr(menu);
+}
+
+void
+MenuManager::set_current_ptr(Menu* menu)
 {
   if (m_current && m_current->close == true)
   {

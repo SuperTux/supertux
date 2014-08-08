@@ -16,12 +16,14 @@
 
 #include "gui/menu_item.hpp"
 
+#include <stdio.h>
+
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
 #include "video/font.hpp"
-#include <stdio.h>
 
-static const float FLICK_CURSOR_TIME   = 0.5f;
+static const float FLICK_CURSOR_TIME = 0.5f;
 
 MenuItem::MenuItem(MenuItemKind _kind, int _id) :
   kind(_kind),
@@ -37,7 +39,7 @@ MenuItem::MenuItem(MenuItemKind _kind, int _id) :
 {
   toggled = false;
   selected = false;
-  target_menu = 0;
+  target_menu = MenuStorage::NO_MENU;
 }
 
 void

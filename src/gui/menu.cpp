@@ -172,7 +172,7 @@ Menu::add_back(const std::string& text)
 }
 
 MenuItem*
-Menu::add_submenu(const std::string& text, Menu* submenu, int id)
+Menu::add_submenu(const std::string& text, int submenu, int id)
 {
   std::unique_ptr<MenuItem> item(new MenuItem(MN_GOTO, id));
   item->text = text;

@@ -24,12 +24,14 @@
 #include "supertux/menu/options_menu.hpp"
 #include "util/gettext.hpp"
 
-GameMenu::GameMenu(const Level& level)
+GameMenu::GameMenu()
 {
-  add_label(level.name);
+  Level* level = GameSession::current()->get_current_level();
+
+  add_label(level->name);
   add_hl();
   add_entry(MNID_CONTINUE, _("Continue"));
-  add_submenu(_("Options"), MenuStorage::instance().get_options_menu());
+  add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
   add_hl();
   add_entry(MNID_ABORTLEVEL, _("Abort Level"));
 }

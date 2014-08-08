@@ -82,7 +82,6 @@ WorldMap::WorldMap(const std::string& filename, PlayerStatus* player_status, con
   player_status(player_status),
   tileset(NULL),
   free_tileset(false),
-  worldmap_menu(),
   camera_offset(),
   name(),
   music(),
@@ -114,8 +113,6 @@ WorldMap::WorldMap(const std::string& filename, PlayerStatus* player_status, con
   music = "music/salcon.ogg";
 
   total_stats.reset();
-
-  worldmap_menu.reset(new WorldmapMenu());
 
   // create a new squirrel table for the worldmap
   using namespace scripting;
@@ -407,10 +404,10 @@ WorldMap::on_escape_press()
 {
   // Show or hide the menu
   if(!MenuManager::instance().is_active()) {
-    MenuManager::instance().set_current(worldmap_menu.get());
+    MenuManager::instance().set_current(MenuStorage::WORLDMAP_MENU);
     tux->set_direction(D_NONE);  // stop tux movement when menu is called
   } else {
-    MenuManager::instance().set_current(NULL);
+    MenuManager::instance().set_current(MenuStorage::NO_MENU);
   }
 }
 
@@ -569,10 +566,8 @@ void
 WorldMap::update(float delta)
 {
   if(!in_level) {
-    Menu* menu = MenuManager::instance().current();
-    if (menu && menu == worldmap_menu.get())
+    if (MenuManager::instance().check_menu())
     {
-      menu->check_menu();
       return;
     }
 
@@ -904,7 +899,7 @@ void
 WorldMap::setup()
 {
   sound_manager->play_music(music);
-  MenuManager::instance().set_current(NULL);
+  MenuManager::instance().set_current(MenuStorage::NO_MENU);
 
   current_ = this;
   load_state();

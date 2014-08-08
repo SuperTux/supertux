@@ -16,11 +16,18 @@
 
 #include "supertux/menu/menu_storage.hpp"
 
-#include "supertux/menu/options_menu.hpp"
-#include "supertux/menu/profile_menu.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/menu/addon_menu.hpp"
+#include "supertux/menu/contrib_menu.hpp"
+#include "supertux/menu/contrib_world_menu.hpp"
+#include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"
-#include "supertux/globals.hpp"
+#include "supertux/menu/language_menu.hpp"
+#include "supertux/menu/main_menu.hpp"
+#include "supertux/menu/options_menu.hpp"
+#include "supertux/menu/profile_menu.hpp"
+#include "supertux/menu/worldmap_menu.hpp"
 
 MenuStorage* MenuStorage::s_instance = 0;
 
@@ -42,48 +49,59 @@ MenuStorage::~MenuStorage()
   s_instance = nullptr;
 }
 
-OptionsMenu*
-MenuStorage::get_options_menu()
+Menu*
+MenuStorage::create(MenuId menu_id)
 {
-  if (!m_options_menu)
+  switch(menu_id)
   {
-    m_options_menu.reset(new OptionsMenu);
+    case MAIN_MENU:
+      return new MainMenu;
+
+    case LANGUAGE_MENU:
+      return new LanguageMenu;
+
+    case OPTIONS_MENU:
+      return new OptionsMenu;
+
+    case PROFILE_MENU:
+      return new ProfileMenu;
+
+    case KEYBOARD_MENU:
+      return new KeyboardMenu(g_input_manager);
+
+    case JOYSTICK_MENU:
+      return new JoystickMenu(g_input_manager);
+
+    case WORLDMAP_MENU:
+      return new WorldmapMenu;
+
+    case GAME_MENU:
+      return new GameMenu;
+
+    case CONTRIB_MENU:
+      return new ContribMenu;
+
+    case CONTRIB_WORLD_MENU:
+      return 0; //return new ContribWorldMenu();
+
+    case ADDON_MENU:
+      return new AddonMenu;
+
+    default:
+      assert(!"unknown MenuId provided");
   }
-
-  return m_options_menu.get();
-}
-
-ProfileMenu*
-MenuStorage::get_profile_menu()
-{
-  if (!m_profile_menu)
-  {
-    m_profile_menu.reset(new ProfileMenu);
-  }
-
-  return m_profile_menu.get();
 }
 
 KeyboardMenu*
 MenuStorage::get_key_options_menu()
 {
-  if (!m_key_options_menu)
-  {
-    m_key_options_menu.reset(new KeyboardMenu(g_input_manager));
-  }
-
-  return m_key_options_menu.get();
+  return new KeyboardMenu(g_input_manager);
 }
 
 JoystickMenu*
 MenuStorage::get_joystick_options_menu()
 {
-  if (!m_joystick_options_menu)
-  {
-    m_joystick_options_menu.reset(new JoystickMenu(g_input_manager));
-  }
-
-  return m_joystick_options_menu.get();
+  return new JoystickMenu(g_input_manager);
 }
 
 /* EOF */

@@ -28,7 +28,7 @@ WorldmapMenu::WorldmapMenu()
   add_label(_("Pause"));
   add_hl();
   add_entry(MNID_RETURNWORLDMAP, _("Continue"));
-  add_submenu(_("Options"), MenuStorage::instance().get_options_menu());
+  add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
   add_hl();
   add_entry(MNID_QUITWORLDMAP, _("Quit World"));
 }

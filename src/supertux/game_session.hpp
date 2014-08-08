@@ -141,8 +141,6 @@ private:
   std::istream* playback_demo_stream;
   CodeController* demo_controller;
 
-  std::unique_ptr<Menu> game_menu;
-
   float play_time; /**< total time in seconds that this session ran interactively */
 
   bool edit_mode; /**< true if GameSession runs in level editor mode */

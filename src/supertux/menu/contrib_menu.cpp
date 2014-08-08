@@ -19,13 +19,12 @@
 #include <physfs.h>
 
 #include "gui/menu_manager.hpp"
-#include "supertux/menu/contrib_world_menu.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 
 ContribMenu::ContribMenu() :
-  m_contrib_world_menu(),
   m_contrib_worlds()
 {
   /** Generating contrib levels list by making use of Level Subset  */
@@ -82,8 +81,10 @@ ContribMenu::check_menu()
     }
     else 
     {
+#ifdef GRUMBEL
       m_contrib_world_menu.reset(new ContribWorldMenu(*world));
-      MenuManager::instance().push_current(m_contrib_world_menu.get());
+      MenuManager::instance().push_current(MenuStorage::CONTRIB_WORLD_MENU);
+#endif
     }
   }
 }

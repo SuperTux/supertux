@@ -18,6 +18,7 @@
 #include "supertux/title_screen.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "lisp/parser.hpp"
 #include "object/camera.hpp"
@@ -25,12 +26,9 @@
 #include "supertux/fadeout.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/menu/addon_menu.hpp"
-#include "supertux/menu/contrib_world_menu.hpp"
-#include "supertux/menu/contrib_menu.hpp"
-#include "supertux/menu/main_menu.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/textscroller.hpp"
 #include "supertux/world.hpp"
@@ -43,7 +41,6 @@
 #include <version.h>
 
 TitleScreen::TitleScreen(PlayerStatus* player_status) :
-  main_menu(new MainMenu()),
   frame(),
   controller(),
   titlesession()
@@ -125,7 +122,7 @@ TitleScreen::setup()
     sector->activate(sector->player->get_pos());
   }
 
-  MenuManager::instance().set_current(main_menu.get());
+  MenuManager::instance().set_current(MenuStorage::MAIN_MENU);
 }
 
 void
@@ -133,7 +130,7 @@ TitleScreen::leave()
 {
   Sector* sector = titlesession->get_current_sector();
   sector->deactivate();
-  MenuManager::instance().set_current(nullptr);
+  MenuManager::instance().set_current(MenuStorage::NO_MENU);
 }
 
 void
@@ -169,14 +166,14 @@ TitleScreen::update(float elapsed_time)
   // accidently hit ESC)
   if(!MenuManager::instance().is_active() && g_screen_manager->has_no_pending_fadeout())
   {
-    MenuManager::instance().set_current(main_menu.get());
+    MenuManager::instance().set_current(MenuStorage::MAIN_MENU);
   }
 }
 
 void
 TitleScreen::start_game(World* world)
 {
-  MenuManager::instance().set_current(NULL);
+  MenuManager::instance().set_current(MenuStorage::NO_MENU);
 
   std::string basename = world->get_basedir();
   basename = basename.substr(0, basename.length()-1);

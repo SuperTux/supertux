@@ -18,10 +18,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
 
-
 #include "gui/menu.hpp"
-
-class LanguageMenu;
 
 class OptionsMenu : public Menu
 {
@@ -31,9 +28,6 @@ public:
 
   void menu_action(MenuItem* item);
   void check_menu();
-
-protected:
-  std::unique_ptr<LanguageMenu> language_menu; 
 };
 
 #endif
