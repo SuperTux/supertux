@@ -37,14 +37,15 @@ extern "C" {
 #include "control/input_manager.hpp"
 #include "math/random_generator.hpp"
 #include "physfs/ifile_stream.hpp"
-#include "physfs/physfs_sdl.hpp"
 #include "physfs/physfs_file_system.hpp"
+#include "physfs/physfs_sdl.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/player_status.hpp"
-#include "supertux/screen_manager.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/screen_fade.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/title_screen.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
@@ -540,8 +541,9 @@ Main::run(int argc, char** argv)
 
       if(g_config->start_level.size() > 4 &&
          g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0) {
-        g_screen_manager->push_screen(new worldmap::WorldMap(
-                                 FileSystem::basename(g_config->start_level), default_playerstatus.get()));
+        g_screen_manager->push_screen(std::unique_ptr<Screen>(
+                                        new worldmap::WorldMap(
+                                          FileSystem::basename(g_config->start_level), default_playerstatus.get())));
       } else {
         std::unique_ptr<GameSession> session (
           new GameSession(FileSystem::basename(g_config->start_level), default_playerstatus.get()));
@@ -554,10 +556,10 @@ Main::run(int argc, char** argv)
 
         if(g_config->record_demo != "")
           session->record_demo(g_config->record_demo);
-        g_screen_manager->push_screen(session.release());
+        g_screen_manager->push_screen(std::move(session));
       }
     } else {
-      g_screen_manager->push_screen(new TitleScreen(default_playerstatus.get()));
+      g_screen_manager->push_screen(std::unique_ptr<Screen>(new TitleScreen(default_playerstatus.get())));
     }
 
     g_screen_manager->run(context);

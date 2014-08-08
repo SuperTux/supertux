@@ -24,6 +24,7 @@
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
+#include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/textscroller.hpp"
 #include "supertux/title_screen.hpp"
@@ -72,12 +73,12 @@ MainMenu::check_menu()
 
     case MNID_CREDITS:
       MenuManager::instance().set_current(NULL);
-      g_screen_manager->push_screen(new TextScroller("credits.txt"),
-                                    new FadeOut(0.5));
+      g_screen_manager->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.txt")),
+                                    std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
       break;
 
     case MNID_QUITMAINMENU:
-      g_screen_manager->quit(new FadeOut(0.25));
+      g_screen_manager->quit(std::unique_ptr<ScreenFade>(new FadeOut(0.25)));
       sound_manager->stop_music(0.25);
       break;
   }

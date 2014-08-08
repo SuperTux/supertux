@@ -32,13 +32,14 @@
 #include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/levelintro.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/player_status.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/menu/menu_storage.hpp"
+#include "supertux/levelintro.hpp"
 #include "supertux/menu/game_menu.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/screen_fade.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
@@ -416,7 +417,7 @@ GameSession::setup()
   int total_stats_to_be_collected = level->stats.total_coins + level->stats.total_badguys + level->stats.total_secrets;
   if ((!levelintro_shown) && (total_stats_to_be_collected > 0)) {
     levelintro_shown = true;
-    g_screen_manager->push_screen(new LevelIntro(level.get(), best_level_statistics));
+    g_screen_manager->push_screen(std::unique_ptr<Screen>(new LevelIntro(level.get(), best_level_statistics)));
   }
 }
 

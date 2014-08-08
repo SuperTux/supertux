@@ -67,47 +67,39 @@ ScreenManager::~ScreenManager()
   using namespace scripting;
   delete TimeScheduler::instance;
   TimeScheduler::instance = NULL;
-
-  for(std::vector<Screen*>::iterator i = screen_stack.begin();
-      i != screen_stack.end(); ++i) {
-    delete *i;
-  }
 }
 
 void
-ScreenManager::push_screen(Screen* screen, ScreenFade* screen_fade)
+ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> screen_fade)
 {
-  this->next_screen.reset(screen);
-  this->screen_fade.reset(screen_fade);
+  assert(!this->next_screen);
+  this->next_screen = std::move(screen);
+  this->screen_fade = std::move(screen_fade);
   nextpush = !nextpop;
   nextpop = false;
   speed = 1.0f;
 }
 
 void
-ScreenManager::exit_screen(ScreenFade* screen_fade)
+ScreenManager::exit_screen(std::unique_ptr<ScreenFade> screen_fade)
 {
-  next_screen.reset(NULL);
-  this->screen_fade.reset(screen_fade);
+  next_screen.reset();
+  this->screen_fade = std::move(screen_fade);
   nextpop = true;
   nextpush = false;
 }
 
 void
-ScreenManager::set_screen_fade(ScreenFade* screen_fade)
+ScreenManager::set_screen_fade(std::unique_ptr<ScreenFade> screen_fade)
 {
-  this->screen_fade.reset(screen_fade);
+  this->screen_fade = std::move(screen_fade);
 }
 
 void
-ScreenManager::quit(ScreenFade* screen_fade)
+ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
 {
-  for(std::vector<Screen*>::iterator i = screen_stack.begin();
-      i != screen_stack.end(); ++i)
-    delete *i;
   screen_stack.clear();
-
-  exit_screen(screen_fade);
+  exit_screen(std::move(screen_fade));
 }
 
 void
@@ -250,9 +242,10 @@ ScreenManager::process_events()
 void
 ScreenManager::handle_screen_switch()
 {
-  while( (next_screen.get() != NULL || nextpop) &&
-         has_no_pending_fadeout()) {
-    if(current_screen.get() != NULL) {
+  while((next_screen || nextpop) &&
+        has_no_pending_fadeout())
+  {
+    if(current_screen) {
       current_screen->leave();
     }
 
@@ -261,22 +254,20 @@ ScreenManager::handle_screen_switch()
         running = false;
         break;
       }
-      next_screen.reset(screen_stack.back());
+      next_screen = std::move(screen_stack.back());
       screen_stack.pop_back();
     }
-    if(nextpush && current_screen.get() != NULL) {
-      screen_stack.push_back(current_screen.release());
+    if(nextpush && current_screen) {
+      screen_stack.push_back(std::move(current_screen));
     }
 
     nextpush = false;
     nextpop = false;
     speed = 1.0;
-    Screen* next_screen_ptr = next_screen.release();
-    next_screen.reset(0);
-    if(next_screen_ptr)
-      next_screen_ptr->setup();
-    current_screen.reset(next_screen_ptr);
-    screen_fade.reset(NULL);
+    current_screen = std::move(next_screen);
+    if(current_screen)
+      current_screen->setup();
+    screen_fade.reset();
 
     waiting_threads.wakeup();
   }
@@ -292,7 +283,7 @@ ScreenManager::run(DrawingContext &context)
   while(running) {
 
     handle_screen_switch();
-    if(!running || current_screen.get() == NULL)
+    if(!running || !current_screen)
       break;
 
     Uint32 ticks = SDL_GetTicks();

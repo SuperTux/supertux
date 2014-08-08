@@ -39,8 +39,8 @@ public:
   ~ScreenManager();
 
   void run(DrawingContext &context);
-  void exit_screen(ScreenFade* fade = NULL);
-  void quit(ScreenFade* fade = NULL);
+  void exit_screen(std::unique_ptr<ScreenFade> fade = {});
+  void quit(std::unique_ptr<ScreenFade> fade = {});
   void set_speed(float speed);
   float get_speed() const;
   bool has_no_pending_fadeout() const;
@@ -51,8 +51,8 @@ public:
   void take_screenshot();
 
   // push new screen on screen_stack
-  void push_screen(Screen* screen, ScreenFade* fade = NULL);
-  void set_screen_fade(ScreenFade* fade);
+  void push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> fade = {});
+  void set_screen_fade(std::unique_ptr<ScreenFade> fade);
 
   /// threads that wait for a screenswitch
   scripting::ThreadQueue waiting_threads;
@@ -77,7 +77,7 @@ private:
   std::unique_ptr<Screen> current_screen;
   std::unique_ptr<Console> console;
   std::unique_ptr<ScreenFade> screen_fade;
-  std::vector<Screen*> screen_stack;
+  std::vector<std::unique_ptr<Screen> > screen_stack;
   bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };
 

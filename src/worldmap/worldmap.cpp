@@ -240,7 +240,7 @@ void
 WorldMap::change(const std::string& filename, const std::string& force_spawnpoint)
 {
   g_screen_manager->exit_screen();
-  g_screen_manager->push_screen(new WorldMap(filename, player_status, force_spawnpoint));
+  g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, player_status, force_spawnpoint)));
 }
 
 void
@@ -697,8 +697,8 @@ WorldMap::update(float delta)
           // update state and savegame
           save_state();
 
-          g_screen_manager->push_screen(new GameSession(levelfile, player_status, &level->statistics),
-                                   new ShrinkFade(shrinkpos, 1.0f));
+          g_screen_manager->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, player_status, &level->statistics)),
+                                        std::unique_ptr<ScreenFade>(new ShrinkFade(shrinkpos, 1.0f)));
           in_level = true;
         } catch(std::exception& e) {
           log_fatal << "Couldn't load level: " << e.what() << std::endl;
