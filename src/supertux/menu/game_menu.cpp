@@ -26,7 +26,7 @@ GameMenu::GameMenu(const Level& level)
   add_label(level.name);
   add_hl();
   add_entry(MNID_CONTINUE, _("Continue"));
-  add_submenu(_("Options"), MenuStorage::get_options_menu());
+  add_submenu(_("Options"), MenuStorage::instance().get_options_menu());
   add_hl();
   add_entry(MNID_ABORTLEVEL, _("Abort Level"));
 }

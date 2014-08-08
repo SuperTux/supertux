@@ -22,15 +22,16 @@
 #include "gui/menu_manager.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
-#include "supertux/constants.hpp"
 #include "supertux/console.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/main.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/screen_fade.hpp"
 #include "supertux/screen.hpp"
+#include "supertux/screen_fade.hpp"
 #include "supertux/timer.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
@@ -43,6 +44,7 @@ static const int MAX_FRAME_SKIP = 2;
 
 ScreenManager::ScreenManager() :
   waiting_threads(),
+  m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager),
   running(),
   speed(1.0), 

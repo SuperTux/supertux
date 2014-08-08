@@ -168,7 +168,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
       bind_key(event.keysym.sym, static_cast<Controller::Control>(wait_for_key));
     }
     m_parent->reset();
-    MenuStorage::get_key_options_menu()->update();
+    MenuStorage::instance().get_key_options_menu()->update();
     wait_for_key = -1;
     return;
   }
@@ -178,7 +178,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     if (event.keysym.sym == SDLK_ESCAPE) 
     {
       m_parent->reset();
-      MenuStorage::get_joystick_options_menu()->update();
+      MenuStorage::instance().get_joystick_options_menu()->update();
       m_parent->joystick_manager->wait_for_joystick = -1;
     }
     return;

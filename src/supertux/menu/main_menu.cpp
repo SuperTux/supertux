@@ -39,7 +39,7 @@ MainMenu::MainMenu() :
   add_entry(MNID_STARTGAME, _("Start Game"));
   add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
   add_entry(MNID_ADDONS, _("Add-ons"));
-  add_submenu(_("Options"), MenuStorage::get_options_menu());
+  add_submenu(_("Options"), MenuStorage::instance().get_options_menu());
   add_entry(MNID_CREDITS, _("Credits"));
   add_entry(MNID_QUITMAINMENU, _("Quit"));
 }

@@ -143,7 +143,7 @@ JoystickManager::process_hat_event(const SDL_JoyHatEvent& jhat)
     if (changed & SDL_HAT_RIGHT && jhat.value & SDL_HAT_RIGHT)
       bind_joyhat(jhat.which, SDL_HAT_RIGHT, Controller::Control(wait_for_joystick));
 
-    MenuStorage::get_joystick_options_menu()->update();
+    MenuStorage::instance().get_joystick_options_menu()->update();
     wait_for_joystick = -1;
   }
   else
@@ -191,7 +191,7 @@ JoystickManager::process_axis_event(const SDL_JoyAxisEvent& jaxis)
       else
         bind_joyaxis(jaxis.which, jaxis.axis + 1, Controller::Control(wait_for_joystick));
 
-      MenuStorage::get_joystick_options_menu()->update();
+      MenuStorage::instance().get_joystick_options_menu()->update();
       wait_for_joystick = -1;
     }
   }
@@ -232,7 +232,7 @@ JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
     if(jbutton.state == SDL_PRESSED)
     {
       bind_joybutton(jbutton.which, jbutton.button, (Controller::Control)wait_for_joystick);
-      MenuStorage::get_joystick_options_menu()->update();
+      MenuStorage::instance().get_joystick_options_menu()->update();
       parent->reset();
       wait_for_joystick = -1;
     }

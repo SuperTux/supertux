@@ -55,7 +55,7 @@ OptionsMenu::OptionsMenu() :
   add_submenu(_("Select Language"), language_menu.get())
     ->set_help(_("Select a different language to display text in"));
 
-  add_submenu(_("Select Profile"), MenuStorage::get_profile_menu())
+  add_submenu(_("Select Profile"), MenuStorage::instance().get_profile_menu())
     ->set_help(_("Select a profile to play with"));
 
   add_toggle(MNID_PROFILES, _("Profile on Startup"), g_config->sound_enabled)
@@ -192,10 +192,10 @@ OptionsMenu::OptionsMenu() :
     add_inactive(MNID_MUSIC, _("Music (disabled)"));
   }
   
-  add_submenu(_("Setup Keyboard"), MenuStorage::get_key_options_menu())
+  add_submenu(_("Setup Keyboard"), MenuStorage::instance().get_key_options_menu())
     ->set_help(_("Configure key-action mappings"));
 
-  add_submenu(_("Setup Joystick"), MenuStorage::get_joystick_options_menu())
+  add_submenu(_("Setup Joystick"), MenuStorage::instance().get_joystick_options_menu())
     ->set_help(_("Configure joystick control-action mappings"));
   add_hl();
   add_back(_("Back"));

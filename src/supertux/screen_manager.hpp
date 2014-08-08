@@ -25,6 +25,7 @@
 class Console;
 class DrawingContext;
 class MenuManager;
+class MenuStorage;
 class Screen;
 class ScreenFade;
 
@@ -64,6 +65,7 @@ private:
   void handle_screen_switch();
 
 private:
+  std::unique_ptr<MenuStorage> m_menu_storage;
   std::unique_ptr<MenuManager> m_menu_manager;
   bool running;
   float speed;
