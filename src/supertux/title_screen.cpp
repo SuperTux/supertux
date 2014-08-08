@@ -125,7 +125,7 @@ TitleScreen::setup()
     sector->activate(sector->player->get_pos());
   }
 
-  MenuManager::set_current(main_menu.get());
+  MenuManager::instance().set_current(main_menu.get());
 }
 
 void
@@ -133,7 +133,7 @@ TitleScreen::leave()
 {
   Sector* sector = titlesession->get_current_sector();
   sector->deactivate();
-  MenuManager::set_current(NULL);
+  MenuManager::instance().set_current(nullptr);
 }
 
 void
@@ -160,23 +160,23 @@ TitleScreen::update(float elapsed_time)
 
   make_tux_jump();
 
-  if (Menu* menu = MenuManager::current())
+  if (Menu* menu = MenuManager::instance().current())
   {
     menu->check_menu();
   }
 
   // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)
-  if(MenuManager::current() == 0 && g_screen_manager->has_no_pending_fadeout()) 
+  if(MenuManager::instance().current() == 0 && g_screen_manager->has_no_pending_fadeout())
   {
-    MenuManager::set_current(main_menu.get());
+    MenuManager::instance().set_current(main_menu.get());
   }
 }
 
 void
 TitleScreen::start_game(World* world)
 {
-  MenuManager::set_current(NULL);
+  MenuManager::instance().set_current(NULL);
 
   std::string basename = world->get_basedir();
   basename = basename.substr(0, basename.length()-1);
@@ -185,12 +185,12 @@ TitleScreen::start_game(World* world)
   stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
   std::string slotfile = stream.str();
 
-  try 
+  try
   {
     world->set_savegame_filename(slotfile);
     world->run();
-  } 
-  catch(std::exception& e) 
+  }
+  catch(std::exception& e)
   {
     log_fatal << "Couldn't start world: " << e.what() << std::endl;
   }

@@ -22,10 +22,11 @@
 
 #include "scripting/thread_queue.hpp"
 
-class Screen;
 class Console;
-class ScreenFade;
 class DrawingContext;
+class MenuManager;
+class Screen;
+class ScreenFade;
 
 /**
  * Manages, updates and draws all Screens, Controllers, Menus and the Console.
@@ -63,6 +64,7 @@ private:
   void handle_screen_switch();
 
 private:
+  std::unique_ptr<MenuManager> m_menu_manager;
   bool running;
   float speed;
   bool nextpop;

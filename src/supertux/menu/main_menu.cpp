@@ -61,17 +61,17 @@ MainMenu::check_menu()
     case MNID_LEVELS_CONTRIB:
       // Contrib Menu
       m_contrib_menu.reset(new ContribMenu());
-      MenuManager::push_current(m_contrib_menu.get());
+      MenuManager::instance().push_current(m_contrib_menu.get());
       break;
 
     case MNID_ADDONS:
       // Add-ons Menu
       m_addon_menu.reset(new AddonMenu());
-      MenuManager::push_current(m_addon_menu.get());
+      MenuManager::instance().push_current(m_addon_menu.get());
       break;
 
     case MNID_CREDITS:
-      MenuManager::set_current(NULL);
+      MenuManager::instance().set_current(NULL);
       g_screen_manager->push_screen(new TextScroller("credits.txt"),
                                     new FadeOut(0.5));
       break;

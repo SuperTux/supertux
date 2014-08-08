@@ -76,7 +76,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     // if console is open: send key there
     process_console_key_event(event);
   }
-  else if (MenuManager::current()) 
+  else if (MenuManager::instance().current())
   {
     // if menu mode: send key there
     process_menu_key_event(event);

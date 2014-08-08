@@ -49,8 +49,6 @@ Menu::Menu() :
   arrange_left(),
   active_item()
 {
-  MenuManager::all_menus.push_back(this);
-
   hit_item = -1;
   menuaction = MENU_ACTION_NONE;
   delete_character = 0;
@@ -67,19 +65,6 @@ Menu::Menu() :
 
 Menu::~Menu()
 {
-  MenuManager::all_menus.remove(this);
-
-  for(std::vector<MenuItem*>::iterator i = items.begin();
-      i != items.end(); ++i) 
-  {
-    delete *i;
-  }
-
-  if (MenuManager::current_ == this)
-    MenuManager::current_ = NULL;
-
-  if (MenuManager::previous == this)
-    MenuManager::previous = NULL;
 }
 
 void
@@ -90,10 +75,11 @@ Menu::set_pos(float x, float y, float rw, float rh)
 }
 
 /* Add an item to a menu */
-void
-Menu::additem(MenuItem* item)
+MenuItem*
+Menu::add_item(std::unique_ptr<MenuItem> new_item)
 {
-  items.push_back(item);
+  items.push_back(std::move(new_item));
+  MenuItem* item = items.back().get();
 
   /* If a new menu is being built, the active item shouldn't be set to
    * something that isn't selectable. Set the active_item to the first
@@ -102,102 +88,92 @@ Menu::additem(MenuItem* item)
   if (active_item == -1
       && item->kind != MN_HL
       && item->kind != MN_LABEL
-      && item->kind != MN_INACTIVE) {
+      && item->kind != MN_INACTIVE)
+  {
     active_item = items.size() - 1;
   }
+
+  return item;
 }
 
 MenuItem*
 Menu::add_hl()
 {
-  MenuItem* item = new MenuItem(MN_HL);
-  additem(item);
-  return item;
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_HL));
+  return add_item(std::move(item));
 }
 
 MenuItem*
 Menu::add_label(const std::string& text)
 {
-  MenuItem* item = new MenuItem(MN_LABEL);
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_LABEL));
   item->text = text;
-  additem(item);
-  return item;
+  return add_item(std::move(item));
 }
 
 MenuItem*
 Menu::add_controlfield(int id, const std::string& text,
                        const std::string& mapping)
 {
-  MenuItem* item = new MenuItem(MN_CONTROLFIELD, id);
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_CONTROLFIELD, id));
   item->change_text(text);
   item->change_input(mapping);
-  additem(item);
-  return item;
+  return add_item(std::move(item));
 }
 
 MenuItem*
 Menu::add_entry(int id, const std::string& text)
 {
-  MenuItem* item = new MenuItem(MN_ACTION, id);
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_ACTION, id));
   item->text = text;
-  additem(item);
-  return item;
+  return add_item(std::move(item));
 }
 
 MenuItem*
 Menu::add_inactive(int id, const std::string& text)
 {
-  MenuItem* item = new MenuItem(MN_INACTIVE, id);
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_INACTIVE, id));
   item->text = text;
-  additem(item);
-  return item;
+  return add_item(std::move(item));
 }
 
 MenuItem*
 Menu::add_toggle(int id, const std::string& text, bool toogled)
 {
-  MenuItem* item = new MenuItem(MN_TOGGLE, id);
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_TOGGLE, id));
   item->text = text;
   item->toggled = toogled;
-  additem(item);
-  return item;
+  return add_item(std::move(item));
 }
 
 MenuItem*
 Menu::add_string_select(int id, const std::string& text)
 {
-  MenuItem* item = new MenuItem(MN_STRINGSELECT, id);
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_STRINGSELECT, id));
   item->text = text;
-  additem(item);
-  return item;
+  return add_item(std::move(item));
 }
 
 MenuItem*
 Menu::add_back(const std::string& text)
 {
-  MenuItem* item = new MenuItem(MN_BACK);
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_BACK));
   item->text = text;
-  additem(item);
-  return item;
+  return add_item(std::move(item));
 }
 
 MenuItem*
 Menu::add_submenu(const std::string& text, Menu* submenu, int id)
 {
-  MenuItem* item = new MenuItem(MN_GOTO, id);
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_GOTO, id));
   item->text = text;
   item->target_menu = submenu;
-  additem(item);
-  return item;
+  return add_item(std::move(item));
 }
 
 void
 Menu::clear()
 {
-  for(std::vector<MenuItem*>::iterator i = items.begin();
-      i != items.end(); ++i) {
-    delete *i;
-  }
   items.clear();
   active_item = -1;
 }
@@ -219,7 +195,7 @@ Menu::update()
     effect_progress = 1.0f;
 
     if (close) {
-      MenuManager::current_ = 0;
+      MenuManager::instance().current(0);
       close = false;
     }
   }
@@ -316,8 +292,8 @@ Menu::update()
           items[active_item]->selected--;
         else
           items[active_item]->selected = items[active_item]->list.size()-1;
-        
-        menu_action(items[active_item]);
+
+        menu_action(items[active_item].get());
       }
       break;
 
@@ -327,8 +303,8 @@ Menu::update()
           items[active_item]->selected++;
         else
           items[active_item]->selected = 0;
-        
-        menu_action(items[active_item]);
+
+        menu_action(items[active_item].get());
       }
       break;
 
@@ -337,20 +313,20 @@ Menu::update()
       switch (items[active_item]->kind) {
         case MN_GOTO:
           assert(items[active_item]->target_menu != 0);
-          MenuManager::push_current(items[active_item]->target_menu);
+          MenuManager::instance().push_current(items[active_item]->target_menu);
           break;
 
         case MN_TOGGLE:
           items[active_item]->toggled = !items[active_item]->toggled;
-          menu_action(items[active_item]);
+          menu_action(items[active_item].get());
           break;
 
         case MN_CONTROLFIELD:
-          menu_action(items[active_item]);
+          menu_action(items[active_item].get());
           break;
 
         case MN_ACTION:
-          menu_action(items[active_item]);
+          menu_action(items[active_item].get());
           break;
 
         case MN_STRINGSELECT:
@@ -359,7 +335,7 @@ Menu::update()
           else
             items[active_item]->selected = 0;
 
-          menu_action(items[active_item]);
+          menu_action(items[active_item].get());
           break;
 
         case MN_TEXTFIELD:
@@ -369,7 +345,7 @@ Menu::update()
           break;
 
         case MN_BACK:
-          MenuManager::pop_current();
+          MenuManager::instance().pop_current();
           break;
         default:
           break;
@@ -404,7 +380,7 @@ Menu::update()
       break;
 
     case MENU_ACTION_BACK:
-      MenuManager::pop_current();
+      MenuManager::instance().pop_current();
       break;
 
     case MENU_ACTION_NONE:
@@ -418,11 +394,11 @@ Menu::update()
 int
 Menu::check()
 {
-  if (hit_item != -1) 
+  if (hit_item != -1)
   {
     int id = items[hit_item]->id;
     // Clear event when checked out.. (we would end up in a loop when we try to leave "fake" submenu like Addons or Contrib)
-    hit_item = -1;                      
+    hit_item = -1;
     return id;
   }
   else
@@ -615,7 +591,7 @@ Menu::get_width() const
       w += 32;
     if (items[i]->kind == MN_STRINGSELECT)
       w += font->get_text_width(items[i]->list[items[i]->selected]) + 32;
-    
+
 
     if(w > menu_width)
       menu_width = w;
@@ -645,13 +621,13 @@ Menu::draw(DrawingContext& context)
   {
     if (close)
     {
-      menu_width  = (MenuManager::current_->get_width()  * (1.0f - effect_progress));
-      menu_height = (MenuManager::current_->get_height() * (1.0f - effect_progress));
+      menu_width  = (MenuManager::instance().current()->get_width()  * (1.0f - effect_progress));
+      menu_height = (MenuManager::instance().current()->get_height() * (1.0f - effect_progress));
     }
-    else if (MenuManager::previous)
+    else if (MenuManager::instance().get_previous())
     {
-      menu_width  = (menu_width  * effect_progress) + (MenuManager::previous->get_width()  * (1.0f - effect_progress));
-      menu_height = (menu_height * effect_progress) + (MenuManager::previous->get_height() * (1.0f - effect_progress));
+      menu_width  = (menu_width  * effect_progress) + (MenuManager::instance().get_previous()->get_width()  * (1.0f - effect_progress));
+      menu_height = (menu_height * effect_progress) + (MenuManager::instance().get_previous()->get_height() * (1.0f - effect_progress));
       //std::cout << effect_progress << " " << this << " " << last_menus.back() << std::endl;
     }
     else
@@ -664,13 +640,13 @@ Menu::draw(DrawingContext& context)
   /* Draw a transparent background */
   context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2-4, pos.y - menu_height/2 - 10-4),
                                  Vector(pos.x + menu_width/2+4, pos.y - menu_height/2 + 10 + menu_height+4)),
-                           Color(0.2f, 0.3f, 0.4f, 0.8f), 
+                           Color(0.2f, 0.3f, 0.4f, 0.8f),
                            20.0f,
                            LAYER_GUI-10);
 
   context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2, pos.y - menu_height/2 - 10),
                                  Vector(pos.x + menu_width/2, pos.y - menu_height/2 + 10 + menu_height)),
-                           Color(0.6f, 0.7f, 0.8f, 0.5f), 
+                           Color(0.6f, 0.7f, 0.8f, 0.5f),
                            16.0f,
                            LAYER_GUI-10);
 
@@ -678,20 +654,20 @@ Menu::draw(DrawingContext& context)
   {
     int text_width  = (int) Resources::normal_font->get_text_width(items[active_item]->help);
     int text_height = (int) Resources::normal_font->get_text_height(items[active_item]->help);
-      
-    Rectf text_rect(pos.x - text_width/2 - 8, 
+
+    Rectf text_rect(pos.x - text_width/2 - 8,
                    SCREEN_HEIGHT - 48 - text_height/2 - 4,
-                   pos.x + text_width/2 + 8, 
+                   pos.x + text_width/2 + 8,
                    SCREEN_HEIGHT - 48 + text_height/2 + 4);
-        
+
     context.draw_filled_rect(Rectf(text_rect.p1 - Vector(4,4),
                                    text_rect.p2 + Vector(4,4)),
-                             Color(0.2f, 0.3f, 0.4f, 0.8f), 
+                             Color(0.2f, 0.3f, 0.4f, 0.8f),
                              16.0f,
                              LAYER_GUI-10);
-      
+
     context.draw_filled_rect(text_rect,
-                             Color(0.6f, 0.7f, 0.8f, 0.5f), 
+                             Color(0.6f, 0.7f, 0.8f, 0.5f),
                              16.0f,
                              LAYER_GUI-10);
 
@@ -710,12 +686,12 @@ Menu::draw(DrawingContext& context)
 MenuItem&
 Menu::get_item_by_id(int id)
 {
-  for(std::vector<MenuItem*>::iterator i = items.begin();
-      i != items.end(); ++i) {
-    MenuItem& item = **i;
-
-    if(item.id == id)
-      return item;
+  for (const auto& item : items)
+  {
+    if (item->id == id)
+    {
+      return *item;
+    }
   }
 
   throw std::runtime_error("MenuItem not found");
@@ -724,12 +700,12 @@ Menu::get_item_by_id(int id)
 const MenuItem&
 Menu::get_item_by_id(int id) const
 {
-  for(std::vector<MenuItem*>::const_iterator i = items.begin();
-      i != items.end(); ++i) {
-    const MenuItem& item = **i;
-
-    if(item.id == id)
-      return item;
+  for (const auto& item : items)
+  {
+    if (item->id == id)
+    {
+      return *item;
+    }
   }
 
   throw std::runtime_error("MenuItem not found");
@@ -750,15 +726,6 @@ void
 Menu::set_toggled(int id, bool toggled)
 {
   get_item_by_id(id).toggled = toggled;
-}
-
-Menu*
-Menu::get_parent() const
-{
-  if (MenuManager::last_menus.empty())
-    return 0;
-  else
-    return MenuManager::last_menus.back();
 }
 
 /* Check for menu event */
@@ -826,8 +793,7 @@ void
 Menu::set_active_item(int id)
 {
   for(size_t i = 0; i < items.size(); ++i) {
-    MenuItem* item = items[i];
-    if(item->id == id) {
+    if(items[i]->id == id) {
       active_item = i;
       break;
     }

@@ -406,11 +406,11 @@ void
 WorldMap::on_escape_press()
 {
   // Show or hide the menu
-  if(!MenuManager::current()) {
-    MenuManager::set_current(worldmap_menu.get());
+  if(!MenuManager::instance().current()) {
+    MenuManager::instance().set_current(worldmap_menu.get());
     tux->set_direction(D_NONE);  // stop tux movement when menu is called
   } else {
-    MenuManager::set_current(NULL);
+    MenuManager::instance().set_current(NULL);
   }
 }
 
@@ -569,13 +569,13 @@ void
 WorldMap::update(float delta)
 {
   if(!in_level) {
-    Menu* menu = MenuManager::current();
+    Menu* menu = MenuManager::instance().current();
     if(menu != NULL) {
       if(menu == worldmap_menu.get()) {
         switch (worldmap_menu->check())
         {
           case MNID_RETURNWORLDMAP: // Return to game
-            MenuManager::set_current(0);
+            MenuManager::instance().set_current(0);
             break;
           case MNID_QUITWORLDMAP: // Quit Worldmap
             g_screen_manager->exit_screen();
@@ -914,7 +914,7 @@ void
 WorldMap::setup()
 {
   sound_manager->play_music(music);
-  MenuManager::set_current(NULL);
+  MenuManager::instance().set_current(NULL);
 
   current_ = this;
   load_state();

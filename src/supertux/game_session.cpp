@@ -247,7 +247,7 @@ GameSession::toggle_pause()
   if(!game_pause) {
     speed_before_pause = g_screen_manager->get_speed();
     g_screen_manager->set_speed(0);
-    MenuManager::set_current(game_menu.get());
+    MenuManager::instance().set_current(game_menu.get());
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
   }
@@ -393,16 +393,16 @@ GameSession::draw_pause(DrawingContext& context)
 void
 GameSession::process_menu()
 {
-  Menu* menu = MenuManager::current();
+  Menu* menu = MenuManager::instance().current();
   if(menu) {
     if(menu == game_menu.get()) {
       switch (game_menu->check()) {
         case MNID_CONTINUE:
-          MenuManager::set_current(0);
+          MenuManager::instance().set_current(0);
           toggle_pause();
           break;
         case MNID_ABORTLEVEL:
-          MenuManager::set_current(0);
+          MenuManager::instance().set_current(0);
           g_screen_manager->exit_screen();
           currentsector->player->set_bonus(bonus_at_start);
           PlayerStatus *currentStatus = get_player_status();
@@ -443,7 +443,7 @@ GameSession::update(float elapsed_time)
   process_menu();
 
   // Unpause the game if the menu has been closed
-  if (game_pause && !MenuManager::current()) {
+  if (game_pause && !MenuManager::instance().current()) {
     g_screen_manager->set_speed(speed_before_pause);
     game_pause = false;
   }

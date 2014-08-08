@@ -37,6 +37,7 @@ class Menu
   static Color inactive_color;
   static Color label_color;
   static Color field_color;
+
 private:
   /* Action done on the menu */
   enum MenuAction {
@@ -98,10 +99,8 @@ public:
   bool is_toggled(int id) const;
   void set_toggled(int id, bool toggled);
 
-  Menu* get_parent() const;
-
 protected:
-  void additem(MenuItem* pmenu_item);
+  MenuItem* add_item(std::unique_ptr<MenuItem> menu_item);
   float get_width() const;
   float get_height() const;
 
@@ -128,7 +127,7 @@ private:
 public:
   bool close;
 
-  std::vector<MenuItem*> items;
+  std::vector<std::unique_ptr<MenuItem> > items;
 
 public:
   float effect_progress;

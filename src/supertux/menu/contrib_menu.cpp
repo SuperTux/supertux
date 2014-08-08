@@ -88,7 +88,7 @@ ContribMenu::check_menu()
     else 
     {
       m_contrib_world_menu.reset(new ContribWorldMenu(*world));
-      MenuManager::push_current(m_contrib_world_menu.get());
+      MenuManager::instance().push_current(m_contrib_world_menu.get());
     }
   }
 }
