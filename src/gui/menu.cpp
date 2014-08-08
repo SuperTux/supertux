@@ -49,6 +49,8 @@ Menu::Menu() :
   arrange_left(),
   active_item()
 {
+  MenuManager::instance().m_all_menus.push_back(this);
+
   hit_item = -1;
   menuaction = MENU_ACTION_NONE;
   delete_character = 0;
@@ -65,6 +67,13 @@ Menu::Menu() :
 
 Menu::~Menu()
 {
+  MenuManager::instance().m_all_menus.remove(this);
+
+  if (MenuManager::instance().current() == this)
+    MenuManager::instance().m_current = nullptr;
+
+  if (MenuManager::instance().get_previous() == this)
+    MenuManager::instance().m_previous = nullptr;
 }
 
 void
@@ -195,7 +204,7 @@ Menu::update()
     effect_progress = 1.0f;
 
     if (close) {
-      MenuManager::instance().current(0);
+      MenuManager::instance().m_current = 0;
       close = false;
     }
   }

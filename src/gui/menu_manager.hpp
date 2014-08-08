@@ -31,10 +31,14 @@ public:
 
 public:
   std::vector<Menu*> m_last_menus;
-  std::vector<Menu*> m_all_menus;
+  std::list<Menu*> m_all_menus;
 
+  /** Used only for transition effects */
   Menu* m_previous;
+
   Menu* m_current;
+
+  friend class Menu;
 
 public:
   MenuManager();
@@ -57,13 +61,6 @@ public:
   Menu* current()
   {
     return m_current;
-  }
-
-
-  /** Return the current active menu or NULL if none is active */
-  void current(Menu* menu)
-  {
-    m_current = menu;
   }
 
 private:
