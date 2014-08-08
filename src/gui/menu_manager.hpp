@@ -24,28 +24,43 @@ class Menu;
 
 class MenuManager
 {
+private:
+  static MenuManager* s_instance;
 public:
-  static std::vector<Menu*> last_menus;
-  static Menu* previous;
-  static Menu* current_;
+  static MenuManager& instance();
 
 public:
-  /** Pointers to all currently available menus, used to handle repositioning on window resize */
-  static std::list<Menu*>   all_menus;
+  std::vector<Menu*> m_last_menus;
+  std::list<Menu*> m_all_menus;
+
+  /** Used only for transition effects */
+  Menu* m_previous;
+
+  Menu* m_current;
+
+  friend class Menu;
 
 public:
+  MenuManager();
+  ~MenuManager();
+
   /** Set the current menu, if pmenu is NULL, hide the current menu */
-  static void set_current(Menu* pmenu);
+  void set_current(Menu* pmenu);
 
-  static void push_current(Menu* pmenu);
-  static void pop_current();
+  void push_current(Menu* pmenu);
+  void pop_current();
 
-  static void recalc_pos();
+  void recalc_pos();
+
+  Menu* get_previous()
+  {
+    return m_previous;
+  }
 
   /** Return the current active menu or NULL if none is active */
-  static Menu* current()
+  Menu* current()
   {
-    return current_;
+    return m_current;
   }
 
 private:

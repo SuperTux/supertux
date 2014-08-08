@@ -30,7 +30,7 @@ private:
 public:
   WorldmapMenu();
 
-  void check_menu();
+  void check_menu() override;
 
 private:
   WorldmapMenu(const WorldmapMenu&);

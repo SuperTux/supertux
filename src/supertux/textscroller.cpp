@@ -107,7 +107,7 @@ TextScroller::update(float elapsed_time)
      )&& !(controller->pressed(Controller::UP))) // prevent skipping if jump with up is enabled
     scroll += SCROLL;
   if(controller->pressed(Controller::PAUSE_MENU)) {
-    g_screen_manager->exit_screen(new FadeOut(0.5));
+    g_screen_manager->exit_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
   }
 
   scroll += speed * elapsed_time;
@@ -134,7 +134,7 @@ TextScroller::draw(DrawingContext& context)
 
   if(y < 0 && !fading ) {
     fading = true;
-    g_screen_manager->exit_screen(new FadeOut(0.5));
+    g_screen_manager->exit_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
   }
 }
 

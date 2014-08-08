@@ -83,6 +83,7 @@ public:
   int restart_level();
 
   void toggle_pause();
+  void abort_level();
 
   /**
    * Enters or leaves level editor mode
@@ -104,7 +105,6 @@ private:
 
   HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
   void on_escape_press();
-  void process_menu();
 
   std::unique_ptr<Level> level;
   SurfacePtr statistics_backdrop;

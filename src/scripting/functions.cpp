@@ -74,17 +74,17 @@ void exit_screen()
 
 void fadeout_screen(float seconds)
 {
-  g_screen_manager->set_screen_fade(new FadeOut(seconds));
+  g_screen_manager->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeOut(seconds)));
 }
 
 void shrink_screen(float dest_x, float dest_y, float seconds)
 {
-  g_screen_manager->set_screen_fade(new ShrinkFade(Vector(dest_x, dest_y), seconds));
+  g_screen_manager->set_screen_fade(std::unique_ptr<ScreenFade>(new ShrinkFade(Vector(dest_x, dest_y), seconds)));
 }
 
 void abort_screenfade()
 {
-  g_screen_manager->set_screen_fade(NULL);
+  g_screen_manager->set_screen_fade(std::unique_ptr<ScreenFade>());
 }
 
 std::string translate(const std::string& text)
@@ -94,7 +94,7 @@ std::string translate(const std::string& text)
 
 void display_text_file(const std::string& filename)
 {
-  g_screen_manager->push_screen(new TextScroller(filename));
+  g_screen_manager->push_screen(std::unique_ptr<Screen>(new TextScroller(filename)));
 }
 
 void load_worldmap(const std::string& filename)
@@ -104,7 +104,7 @@ void load_worldmap(const std::string& filename)
   if(World::current() == NULL)
     throw std::runtime_error("Can't start WorldMap without active world.");
 
-  g_screen_manager->push_screen(new WorldMap(filename, World::current()->get_player_status()));
+  g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, World::current()->get_player_status())));
 }
 
 void load_level(const std::string& filename)
@@ -112,7 +112,7 @@ void load_level(const std::string& filename)
   if(GameSession::current() == NULL)
     throw std::runtime_error("Can't start level without active level.");
 
-  g_screen_manager->push_screen(new GameSession(filename, GameSession::current()->get_player_status()));
+  g_screen_manager->push_screen(std::unique_ptr<Screen>(new GameSession(filename, GameSession::current()->get_player_status())));
 }
 
 void import(HSQUIRRELVM vm, const std::string& filename)

@@ -22,45 +22,68 @@
 #include "supertux/menu/keyboard_menu.hpp"
 #include "supertux/globals.hpp"
 
-OptionsMenu*  MenuStorage::options_menu = 0;
-ProfileMenu*  MenuStorage::profile_menu = 0;
-KeyboardMenu* MenuStorage::key_options_menu = 0;
-JoystickMenu* MenuStorage::joystick_options_menu = 0;
+MenuStorage* MenuStorage::s_instance = 0;
+
+MenuStorage&
+MenuStorage::instance()
+{
+  assert(s_instance);
+  return *s_instance;
+}
+
+MenuStorage::MenuStorage()
+{
+  assert(!s_instance);
+  s_instance = this;
+}
+
+MenuStorage::~MenuStorage()
+{
+  s_instance = nullptr;
+}
 
 OptionsMenu*
 MenuStorage::get_options_menu()
 {
-  options_menu = new OptionsMenu();
-  return options_menu;
+  if (!m_options_menu)
+  {
+    m_options_menu.reset(new OptionsMenu);
+  }
+
+  return m_options_menu.get();
 }
 
 ProfileMenu*
 MenuStorage::get_profile_menu()
 {
-  profile_menu = new ProfileMenu();
-  return profile_menu;
+  if (!m_profile_menu)
+  {
+    m_profile_menu.reset(new ProfileMenu);
+  }
+
+  return m_profile_menu.get();
 }
 
 KeyboardMenu*
 MenuStorage::get_key_options_menu()
 {
-  if (!key_options_menu)
-  { // FIXME: this in never freed
-    key_options_menu = new KeyboardMenu(g_input_manager);
+  if (!m_key_options_menu)
+  {
+    m_key_options_menu.reset(new KeyboardMenu(g_input_manager));
   }
 
-  return key_options_menu;
+  return m_key_options_menu.get();
 }
 
 JoystickMenu*
 MenuStorage::get_joystick_options_menu()
 {
-  if (!joystick_options_menu)
-  { // FIXME: this in never freed
-    joystick_options_menu = new JoystickMenu(g_input_manager);
+  if (!m_joystick_options_menu)
+  {
+    m_joystick_options_menu.reset(new JoystickMenu(g_input_manager));
   }
 
-  return joystick_options_menu;
+  return m_joystick_options_menu.get();
 }
 
 /* EOF */

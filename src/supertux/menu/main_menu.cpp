@@ -24,6 +24,7 @@
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
+#include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/textscroller.hpp"
 #include "supertux/title_screen.hpp"
@@ -39,7 +40,7 @@ MainMenu::MainMenu() :
   add_entry(MNID_STARTGAME, _("Start Game"));
   add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
   add_entry(MNID_ADDONS, _("Add-ons"));
-  add_submenu(_("Options"), MenuStorage::get_options_menu());
+  add_submenu(_("Options"), MenuStorage::instance().get_options_menu());
   add_entry(MNID_CREDITS, _("Credits"));
   add_entry(MNID_QUITMAINMENU, _("Quit"));
 }
@@ -61,23 +62,23 @@ MainMenu::check_menu()
     case MNID_LEVELS_CONTRIB:
       // Contrib Menu
       m_contrib_menu.reset(new ContribMenu());
-      MenuManager::push_current(m_contrib_menu.get());
+      MenuManager::instance().push_current(m_contrib_menu.get());
       break;
 
     case MNID_ADDONS:
       // Add-ons Menu
       m_addon_menu.reset(new AddonMenu());
-      MenuManager::push_current(m_addon_menu.get());
+      MenuManager::instance().push_current(m_addon_menu.get());
       break;
 
     case MNID_CREDITS:
-      MenuManager::set_current(NULL);
-      g_screen_manager->push_screen(new TextScroller("credits.txt"),
-                                    new FadeOut(0.5));
+      MenuManager::instance().set_current(NULL);
+      g_screen_manager->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.txt")),
+                                    std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
       break;
 
     case MNID_QUITMAINMENU:
-      g_screen_manager->quit(new FadeOut(0.25));
+      g_screen_manager->quit(std::unique_ptr<ScreenFade>(new FadeOut(0.25)));
       sound_manager->stop_music(0.25);
       break;
   }

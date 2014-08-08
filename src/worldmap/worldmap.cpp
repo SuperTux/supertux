@@ -240,7 +240,7 @@ void
 WorldMap::change(const std::string& filename, const std::string& force_spawnpoint)
 {
   g_screen_manager->exit_screen();
-  g_screen_manager->push_screen(new WorldMap(filename, player_status, force_spawnpoint));
+  g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, player_status, force_spawnpoint)));
 }
 
 void
@@ -406,11 +406,11 @@ void
 WorldMap::on_escape_press()
 {
   // Show or hide the menu
-  if(!MenuManager::current()) {
-    MenuManager::set_current(worldmap_menu.get());
+  if(!MenuManager::instance().current()) {
+    MenuManager::instance().set_current(worldmap_menu.get());
     tux->set_direction(D_NONE);  // stop tux movement when menu is called
   } else {
-    MenuManager::set_current(NULL);
+    MenuManager::instance().set_current(NULL);
   }
 }
 
@@ -569,20 +569,10 @@ void
 WorldMap::update(float delta)
 {
   if(!in_level) {
-    Menu* menu = MenuManager::current();
-    if(menu != NULL) {
-      if(menu == worldmap_menu.get()) {
-        switch (worldmap_menu->check())
-        {
-          case MNID_RETURNWORLDMAP: // Return to game
-            MenuManager::set_current(0);
-            break;
-          case MNID_QUITWORLDMAP: // Quit Worldmap
-            g_screen_manager->exit_screen();
-            break;
-        }
-      }
-
+    Menu* menu = MenuManager::instance().current();
+    if (menu && menu == worldmap_menu.get())
+    {
+      menu->check_menu();
       return;
     }
 
@@ -707,8 +697,8 @@ WorldMap::update(float delta)
           // update state and savegame
           save_state();
 
-          g_screen_manager->push_screen(new GameSession(levelfile, player_status, &level->statistics),
-                                   new ShrinkFade(shrinkpos, 1.0f));
+          g_screen_manager->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, player_status, &level->statistics)),
+                                        std::unique_ptr<ScreenFade>(new ShrinkFade(shrinkpos, 1.0f)));
           in_level = true;
         } catch(std::exception& e) {
           log_fatal << "Couldn't load level: " << e.what() << std::endl;
@@ -914,7 +904,7 @@ void
 WorldMap::setup()
 {
   sound_manager->play_music(music);
-  MenuManager::set_current(NULL);
+  MenuManager::instance().set_current(NULL);
 
   current_ = this;
   load_state();

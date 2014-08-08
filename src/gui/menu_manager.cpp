@@ -16,75 +16,106 @@
 
 #include "gui/menu_manager.hpp"
 
+#include <assert.h>
+
 #include "control/input_manager.hpp"
 #include "gui/menu.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/timer.hpp"
 
-std::vector<Menu*> MenuManager::last_menus;
-std::list<Menu*> MenuManager::all_menus;
-Menu* MenuManager::current_ = 0;
-Menu* MenuManager::previous = 0;
+MenuManager* MenuManager::s_instance = 0;
+
+MenuManager&
+MenuManager::instance()
+{
+  assert(s_instance);
+  return *s_instance;
+}
+
+MenuManager::MenuManager() :
+  m_last_menus(),
+  m_all_menus(),
+  m_previous(),
+  m_current()
+{
+  s_instance = this;
+}
+
+MenuManager::~MenuManager()
+{
+  s_instance = nullptr;
+}
 
 void
-MenuManager::push_current(Menu* pmenu)
+MenuManager::push_current(Menu* menu)
 {
-  previous = current_;
+  m_previous = m_current;
 
-  if (current_)
-    last_menus.push_back(current_);
+  if (m_current)
+  {
+    m_last_menus.push_back(m_current);
+  }
 
-  current_ = pmenu;
-  current_->effect_start_time = real_time;
-  current_->effect_progress   = 0.0f;
+  m_current = menu;
+  m_current->effect_start_time = real_time;
+  m_current->effect_progress = 0.0f;
 }
 
 void
 MenuManager::pop_current()
 {
-  previous = current_;
+  m_previous = m_current;
 
-  if (last_menus.size() >= 1) {
-    current_ = last_menus.back();
-    current_->effect_start_time = real_time;
-    current_->effect_progress   = 0.0f;
-    last_menus.pop_back();
-  } else {
-    set_current(NULL);
+  if (m_last_menus.size() >= 1)
+  {
+    m_current = m_last_menus.back();
+    m_current->effect_start_time = real_time;
+    m_current->effect_progress   = 0.0f;
+    m_last_menus.pop_back();
+  }
+  else
+  {
+    set_current(nullptr);
   }
 }
 
 void
 MenuManager::set_current(Menu* menu)
 {
-  if (current_ && current_->close == true)
-    return;
-
-  previous = current_;
-
-  if (menu) {
-    menu->effect_start_time = real_time;
-    menu->effect_progress = 0.0f;
-    current_ = menu;
+  if (m_current && m_current->close == true)
+  {
+    // do nothing
   }
-  else if (current_) {
-    last_menus.clear();                         //NULL new menu pointer => close all menus
-    current_->effect_start_time = real_time;
-    current_->effect_progress = 0.0f;
-    current_->close = true;
-  }
+  else
+  {
+    m_previous = m_current;
 
-  // just to be sure...
-  g_input_manager->reset();
+    if (menu)
+    {
+      menu->effect_start_time = real_time;
+      menu->effect_progress = 0.0f;
+      m_current = menu;
+    }
+    else if (m_current)
+    {
+      m_last_menus.clear();                         //NULL new menu pointer => close all menus
+      m_current->effect_start_time = real_time;
+      m_current->effect_progress = 0.0f;
+      m_current->close = true;
+    }
+
+    // just to be sure...
+    g_input_manager->reset();
+  }
 }
 
 void
 MenuManager::recalc_pos()
 {
-  if (current_)
-    current_->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+  if (m_current)
+    m_current->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 
-  for(std::list<Menu*>::iterator i = all_menus.begin(); i != all_menus.end(); ++i)
+  for(auto i = m_all_menus.begin(); i != m_all_menus.end(); ++i)
   {
     // FIXME: This is of course not quite right, since it ignores any previous set_pos() calls
     (*i)->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);

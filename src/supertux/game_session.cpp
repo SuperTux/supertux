@@ -32,13 +32,14 @@
 #include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/levelintro.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/player_status.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/menu/menu_storage.hpp"
+#include "supertux/levelintro.hpp"
 #include "supertux/menu/game_menu.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/screen_fade.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
@@ -247,12 +248,24 @@ GameSession::toggle_pause()
   if(!game_pause) {
     speed_before_pause = g_screen_manager->get_speed();
     g_screen_manager->set_speed(0);
-    MenuManager::set_current(game_menu.get());
+    MenuManager::instance().set_current(game_menu.get());
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
   }
 
   // unpause is done in update() after the menu is processed
+}
+
+void
+GameSession::abort_level()
+{
+  MenuManager::instance().set_current(0);
+  g_screen_manager->exit_screen();
+  currentsector->player->set_bonus(bonus_at_start);
+  PlayerStatus *currentStatus = get_player_status();
+  currentStatus->coins = coins_at_start;
+  currentStatus->max_fire_bullets = max_fire_bullets_at_start;
+  currentStatus->max_ice_bullets = max_ice_bullets_at_start;
 }
 
 void
@@ -391,30 +404,6 @@ GameSession::draw_pause(DrawingContext& context)
 }
 
 void
-GameSession::process_menu()
-{
-  Menu* menu = MenuManager::current();
-  if(menu) {
-    if(menu == game_menu.get()) {
-      switch (game_menu->check()) {
-        case MNID_CONTINUE:
-          MenuManager::set_current(0);
-          toggle_pause();
-          break;
-        case MNID_ABORTLEVEL:
-          MenuManager::set_current(0);
-          g_screen_manager->exit_screen();
-          currentsector->player->set_bonus(bonus_at_start);
-          PlayerStatus *currentStatus = get_player_status();
-          currentStatus->coins = coins_at_start;
-          currentStatus->max_fire_bullets = max_fire_bullets_at_start;
-          currentStatus->max_ice_bullets = max_ice_bullets_at_start;
-      }
-    }
-  }
-}
-
-void
 GameSession::setup()
 {
   if (currentsector == NULL)
@@ -428,7 +417,7 @@ GameSession::setup()
   int total_stats_to_be_collected = level->stats.total_coins + level->stats.total_badguys + level->stats.total_secrets;
   if ((!levelintro_shown) && (total_stats_to_be_collected > 0)) {
     levelintro_shown = true;
-    g_screen_manager->push_screen(new LevelIntro(level.get(), best_level_statistics));
+    g_screen_manager->push_screen(std::unique_ptr<Screen>(new LevelIntro(level.get(), best_level_statistics)));
   }
 }
 
@@ -440,10 +429,14 @@ GameSession::update(float elapsed_time)
     on_escape_press();
 
   process_events();
-  process_menu();
+  Menu* menu = MenuManager::instance().current();
+  if (menu && menu == game_menu.get())
+  {
+    menu->check_menu();
+  }
 
   // Unpause the game if the menu has been closed
-  if (game_pause && !MenuManager::current()) {
+  if (game_pause && !MenuManager::instance().current()) {
     g_screen_manager->set_speed(speed_before_pause);
     game_pause = false;
   }

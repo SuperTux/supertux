@@ -22,6 +22,7 @@
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/world.hpp"
@@ -152,7 +153,7 @@ World::run()
   } catch(std::exception& ) {
     // fallback: try to load worldmap worldmap.stwm
     using namespace worldmap;
-    g_screen_manager->push_screen(new WorldMap(basedir + "worldmap.stwm", get_player_status()));
+    g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(basedir + "worldmap.stwm", get_player_status())));
   }
 }
 
