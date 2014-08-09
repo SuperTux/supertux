@@ -244,7 +244,7 @@ GameSession::toggle_pause()
   if(!game_pause) {
     speed_before_pause = g_screen_manager->get_speed();
     g_screen_manager->set_speed(0);
-    MenuManager::instance().set_current(MenuStorage::GAME_MENU);
+    MenuManager::instance().set_menu(MenuStorage::GAME_MENU);
     game_pause = true;
   }
 
@@ -254,7 +254,7 @@ GameSession::toggle_pause()
 void
 GameSession::abort_level()
 {
-  MenuManager::instance().set_current(MenuStorage::NO_MENU);
+  MenuManager::instance().clear_menu_stack();
   g_screen_manager->exit_screen();
   currentsector->player->set_bonus(bonus_at_start);
   PlayerStatus *currentStatus = get_player_status();

@@ -88,12 +88,16 @@ public:
   void set_active_item(int id);
 
   void draw(DrawingContext& context);
-  void set_pos(float x, float y, float rw = 0, float rh = 0);
+  Vector get_pos() const { return pos; }
+  void set_pos(float x, float y);
 
   void event(const SDL_Event& event);
 
   bool is_toggled(int id) const;
   void set_toggled(int id, bool toggled);
+
+  float get_width() const;
+  float get_height() const;
 
 protected:
   /** Return the index of the menu item that was 'hit' (ie. the user
@@ -101,8 +105,6 @@ protected:
   int check ();
 
   MenuItem* add_item(std::unique_ptr<MenuItem> menu_item);
-  float get_width() const;
-  float get_height() const;
 
 private:
   void check_controlfield_change_event(const SDL_Event& event);
@@ -125,13 +127,7 @@ private:
   float menu_repeat_time;
 
 public:
-  bool close;
-
   std::vector<std::unique_ptr<MenuItem> > items;
-
-public:
-  float effect_progress;
-  float effect_start_time;
 
 private:
   int arrange_left;

@@ -49,43 +49,46 @@ MenuStorage::~MenuStorage()
   s_instance = nullptr;
 }
 
-Menu*
+std::unique_ptr<Menu>
 MenuStorage::create(MenuId menu_id)
 {
   switch(menu_id)
   {
     case MAIN_MENU:
-      return new MainMenu;
+      return std::unique_ptr<Menu>(new MainMenu);
 
     case LANGUAGE_MENU:
-      return new LanguageMenu;
+      return std::unique_ptr<Menu>(new LanguageMenu);
 
     case OPTIONS_MENU:
-      return new OptionsMenu;
+      return std::unique_ptr<Menu>(new OptionsMenu);
 
     case PROFILE_MENU:
-      return new ProfileMenu;
+      return std::unique_ptr<Menu>(new ProfileMenu);
 
     case KEYBOARD_MENU:
-      return new KeyboardMenu(g_input_manager);
+      return std::unique_ptr<Menu>(new KeyboardMenu(g_input_manager));
 
     case JOYSTICK_MENU:
-      return new JoystickMenu(g_input_manager);
+      return std::unique_ptr<Menu>(new JoystickMenu(g_input_manager));
 
     case WORLDMAP_MENU:
-      return new WorldmapMenu;
+      return std::unique_ptr<Menu>(new WorldmapMenu);
 
     case GAME_MENU:
-      return new GameMenu;
+      return std::unique_ptr<Menu>(new GameMenu);
 
     case CONTRIB_MENU:
-      return new ContribMenu;
+      return std::unique_ptr<Menu>(new ContribMenu);
 
     case CONTRIB_WORLD_MENU:
       return 0; //return new ContribWorldMenu();
 
     case ADDON_MENU:
-      return new AddonMenu;
+      return std::unique_ptr<Menu>(new AddonMenu);
+
+    case NO_MENU:
+      return std::unique_ptr<Menu>();
 
     default:
       assert(!"unknown MenuId provided");

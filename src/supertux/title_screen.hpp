@@ -48,7 +48,7 @@ public:
   virtual void update(float elapsed_time);
 
 public:
-  static void start_game(World* world);
+  static void start_game(std::unique_ptr<World> world);
 
 private:
   void make_tux_jump();

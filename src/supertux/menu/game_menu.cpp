@@ -42,7 +42,7 @@ GameMenu::check_menu()
   switch (check())
   {
     case MNID_CONTINUE:
-      MenuManager::instance().set_current(0);
+      MenuManager::instance().clear_menu_stack();
       GameSession::current()->toggle_pause();
       break;
 

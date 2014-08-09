@@ -19,6 +19,7 @@
 #include <physfs.h>
 
 #include "gui/menu_manager.hpp"
+#include "supertux/menu/contrib_world_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
@@ -61,10 +62,13 @@ ContribMenu::ContribMenu() :
 
   add_hl();
   add_back(_("Back"));
+
+  std::cout << "ContribMenu" << std::endl;
 }
 
 ContribMenu::~ContribMenu()
 {
+  std::cout << "~ContribMenu" << std::endl;
 }
 
 void
@@ -81,10 +85,7 @@ ContribMenu::check_menu()
     }
     else 
     {
-#ifdef GRUMBEL
-      m_contrib_world_menu.reset(new ContribWorldMenu(*world));
-      MenuManager::instance().push_current(MenuStorage::CONTRIB_WORLD_MENU);
-#endif
+      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribWorldMenu(*world)));
     }
   }
 }

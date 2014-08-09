@@ -404,10 +404,10 @@ WorldMap::on_escape_press()
 {
   // Show or hide the menu
   if(!MenuManager::instance().is_active()) {
-    MenuManager::instance().set_current(MenuStorage::WORLDMAP_MENU);
+    MenuManager::instance().set_menu(MenuStorage::WORLDMAP_MENU);
     tux->set_direction(D_NONE);  // stop tux movement when menu is called
   } else {
-    MenuManager::instance().set_current(MenuStorage::NO_MENU);
+    MenuManager::instance().clear_menu_stack();
   }
 }
 
@@ -899,7 +899,7 @@ void
 WorldMap::setup()
 {
   sound_manager->play_music(music);
-  MenuManager::instance().set_current(MenuStorage::NO_MENU);
+  MenuManager::instance().clear_menu_stack();
 
   current_ = this;
   load_state();

@@ -38,11 +38,11 @@ WorldmapMenu::check_menu()
 {
   switch (check())
   {
-    case MNID_RETURNWORLDMAP: // Return to game
-      MenuManager::instance().set_current(0);
+    case MNID_RETURNWORLDMAP:
+      MenuManager::instance().clear_menu_stack();
       break;
 
-    case MNID_QUITWORLDMAP: // Quit Worldmap
+    case MNID_QUITWORLDMAP:
       g_screen_manager->exit_screen();
       break;
   }

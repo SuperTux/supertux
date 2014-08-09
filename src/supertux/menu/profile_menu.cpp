@@ -43,7 +43,7 @@ void
 ProfileMenu::menu_action(MenuItem* item) 
 {
   g_config->profile = item->id;
-  MenuManager::instance().set_current(0);
+  MenuManager::instance().clear_menu_stack();
 }
 
 /*

@@ -19,6 +19,7 @@
 
 #include <vector>
 #include <list>
+#include <memory>
 
 class Menu;
 class DrawingContext;
@@ -31,13 +32,11 @@ public:
   static MenuManager& instance();
 
 public:
-  std::vector<Menu*> m_last_menus;
-  std::list<Menu*> m_all_menus;
+  std::vector<std::unique_ptr<Menu> > m_menu_stack;
 
-  /** Used only for transition effects */
-  Menu* m_previous;
-
-  Menu* m_current;
+  bool close;
+  float effect_progress;
+  float effect_start_time;
 
   friend class Menu;
 
@@ -48,26 +47,36 @@ public:
   void draw(DrawingContext& context);
   bool check_menu();
 
-  /** Set the current menu, if pmenu is NULL, hide the current menu */
-  void set_current_ptr(Menu* menu);
-  void set_current(int id);
+  void set_menu(int id);
+  void clear_menu_stack();
 
-  void push_current(int id);
-  void push_current_(Menu* menu);
-  void pop_current();
+  void push_menu(std::unique_ptr<Menu> menu);
+  void push_menu(int id);
+  void pop_menu();
 
   void recalc_pos();
 
   /** Return the current active menu or NULL if none is active */
   Menu* current() const
   {
-    return m_current;
+    if (m_menu_stack.empty())
+    {
+      return nullptr;
+    }
+    else
+    {
+      return m_menu_stack.back().get();
+    }
   }
 
   bool is_active() const
   {
-    return m_current != nullptr;
+    return !m_menu_stack.empty();
   }
+
+private:
+  /** Set the current menu, if pmenu is NULL, hide the current menu */
+  void set_menu(std::unique_ptr<Menu> menu);
 
 private:
   MenuManager(const MenuManager&);

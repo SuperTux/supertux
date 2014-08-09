@@ -20,9 +20,11 @@
 
 #include "control/input_manager.hpp"
 #include "gui/menu.hpp"
+#include "gui/mousecursor.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/timer.hpp"
+#include "video/drawing_context.hpp"
 
 MenuManager* MenuManager::s_instance = 0;
 
@@ -34,10 +36,7 @@ MenuManager::instance()
 }
 
 MenuManager::MenuManager() :
-  m_last_menus(),
-  m_all_menus(),
-  m_previous(),
-  m_current()
+  m_menu_stack()
 {
   s_instance = this;
 }
@@ -50,18 +49,82 @@ MenuManager::~MenuManager()
 void
 MenuManager::draw(DrawingContext& context)
 {
-  if (m_current)
+  if (current())
   {
-    m_current->draw(context);
+    Vector pos = current()->get_pos();
+    float menu_width = current()->get_width();
+    float menu_height = current()->get_height();
+
+    // draw menu background rectangles
+    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2-4, pos.y - menu_height/2 - 10-4),
+                                   Vector(pos.x + menu_width/2+4, pos.y - menu_height/2 + 10 + menu_height+4)),
+                             Color(0.2f, 0.3f, 0.4f, 0.8f),
+                             20.0f,
+                             LAYER_GUI-10);
+
+    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2, pos.y - menu_height/2 - 10),
+                                   Vector(pos.x + menu_width/2, pos.y - menu_height/2 + 10 + menu_height)),
+                             Color(0.6f, 0.7f, 0.8f, 0.5f),
+                             16.0f,
+                             LAYER_GUI-10);
+
+    current()->draw(context);
+
+    if (MouseCursor::current())
+    {
+      MouseCursor::current()->draw(context);
+    }
   }
+
+#ifdef GRUMBEL
+  if (effect_progress != 1.0f)
+  {
+    if (close)
+    {
+      menu_width *= 1.0f - effect_progress;
+      menu_height *= 1.0f - effect_progress;
+    }
+    else if (MenuManager::instance().m_previous)
+    {
+      menu_width  = (menu_width  * effect_progress) + (MenuManager::instance().m_previous->get_width()  * (1.0f - effect_progress));
+      menu_height = (menu_height * effect_progress) + (MenuManager::instance().m_previous->get_height() * (1.0f - effect_progress));
+      //std::cout << effect_progress << " " << this << " " << last_menus.back() << std::endl;
+    }
+    else
+    {
+      menu_width  *= effect_progress;
+      menu_height *= effect_progress;
+    }
+  }
+
+  //update
+  effect_progress = (real_time - effect_start_time) * 6.0f;
+
+  if(effect_progress >= 1.0f) {
+    effect_progress = 1.0f;
+
+    if (close) {
+      MenuManager::instance().m_current = 0;
+      close = false;
+    }
+  }
+  else if (effect_progress <= 0.0f) {
+    effect_progress = 0.0f;
+  }
+
+  // only pass events in non-anim states
+  if(effect_progress != 1.0f)
+    return;
+
+#endif
 }
 
 bool
 MenuManager::check_menu()
 {
-  if (m_current)
+  if (current())
   {
-    m_current->check_menu();
+    current()->check_menu();
     return true;
   }
   else
@@ -71,89 +134,72 @@ MenuManager::check_menu()
 }
 
 void
-MenuManager::push_current(int id)
+MenuManager::push_menu(int id)
 {
-  Menu* menu = MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id));
-  push_current_(menu);
+  push_menu(MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id)));
 }
 
 void
-MenuManager::push_current_(Menu* menu)
+MenuManager::push_menu(std::unique_ptr<Menu> menu)
 {
-  m_previous = m_current;
+  m_menu_stack.push_back(std::move(menu));
 
-  if (m_current)
-  {
-    m_last_menus.push_back(m_current);
-  }
-
-  m_current = menu;
-  m_current->effect_start_time = real_time;
-  m_current->effect_progress = 0.0f;
+  //current()->effect_start_time = real_time;
+  //current()->effect_progress = 0.0f;
 }
 
 void
-MenuManager::pop_current()
+MenuManager::pop_menu()
 {
-  m_previous = m_current;
-
-  if (m_last_menus.size() >= 1)
+  if (!m_menu_stack.empty())
   {
-    m_current = m_last_menus.back();
-    m_current->effect_start_time = real_time;
-    m_current->effect_progress   = 0.0f;
-    m_last_menus.pop_back();
+    m_menu_stack.pop_back();
+    //current()->effect_start_time = real_time;
+    //current()->effect_progress   = 0.0f;
   }
   else
   {
-    set_current(MenuStorage::NO_MENU);
+    set_menu(MenuStorage::NO_MENU);
   }
 }
 
 void
-MenuManager::set_current(int id)
+MenuManager::clear_menu_stack()
 {
-  Menu* menu = MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id));
-  set_current_ptr(menu);
+  set_menu(MenuStorage::NO_MENU);
 }
 
 void
-MenuManager::set_current_ptr(Menu* menu)
+MenuManager::set_menu(int id)
 {
-  if (m_current && m_current->close == true)
+  set_menu(MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id)));
+}
+
+void
+MenuManager::set_menu(std::unique_ptr<Menu> menu)
+{
+  if (menu)
   {
-    // do nothing
+    m_menu_stack.push_back(std::move(menu));
+    //current()->effect_start_time = real_time;
+    //current()->effect_progress = 0.0f;
   }
   else
   {
-    m_previous = m_current;
-
-    if (menu)
-    {
-      menu->effect_start_time = real_time;
-      menu->effect_progress = 0.0f;
-      m_current = menu;
-    }
-    else if (m_current)
-    {
-      m_last_menus.clear();                         //NULL new menu pointer => close all menus
-      m_current->effect_start_time = real_time;
-      m_current->effect_progress = 0.0f;
-      m_current->close = true;
-    }
-
-    // just to be sure...
-    g_input_manager->reset();
+    m_menu_stack.clear();
+    //current()->effect_start_time = real_time;
+    //current()->effect_progress = 0.0f;
+    //current()->close = true;
   }
+
+  // just to be sure...
+  g_input_manager->reset();
 }
 
 void
 MenuManager::recalc_pos()
 {
-  if (m_current)
-    m_current->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-
-  for(auto i = m_all_menus.begin(); i != m_all_menus.end(); ++i)
+  for(auto i = m_menu_stack.begin(); i != m_menu_stack.end(); ++i)
   {
     // FIXME: This is of course not quite right, since it ignores any previous set_pos() calls
     (*i)->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);

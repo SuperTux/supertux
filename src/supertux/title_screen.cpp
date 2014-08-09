@@ -122,7 +122,7 @@ TitleScreen::setup()
     sector->activate(sector->player->get_pos());
   }
 
-  MenuManager::instance().set_current(MenuStorage::MAIN_MENU);
+  MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
 }
 
 void
@@ -130,7 +130,7 @@ TitleScreen::leave()
 {
   Sector* sector = titlesession->get_current_sector();
   sector->deactivate();
-  MenuManager::instance().set_current(MenuStorage::NO_MENU);
+  MenuManager::instance().clear_menu_stack();
 }
 
 void
@@ -166,14 +166,14 @@ TitleScreen::update(float elapsed_time)
   // accidently hit ESC)
   if(!MenuManager::instance().is_active() && g_screen_manager->has_no_pending_fadeout())
   {
-    MenuManager::instance().set_current(MenuStorage::MAIN_MENU);
+    MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
   }
 }
 
 void
-TitleScreen::start_game(World* world)
+TitleScreen::start_game(std::unique_ptr<World> world)
 {
-  MenuManager::instance().set_current(MenuStorage::NO_MENU);
+  MenuManager::instance().clear_menu_stack();
 
   std::string basename = world->get_basedir();
   basename = basename.substr(0, basename.length()-1);

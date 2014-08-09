@@ -32,8 +32,6 @@
 #include "util/gettext.hpp"
 
 MainMenu::MainMenu() :
-  m_addon_menu(),
-  m_contrib_menu(),
   m_main_world()
 {
   set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
@@ -51,28 +49,25 @@ MainMenu::check_menu()
   switch (check())
   {
     case MNID_STARTGAME:
-      if (m_main_world.get() == NULL)
       {
-        m_main_world.reset(new World());
-        m_main_world->load("levels/world1/info");
+        std::unique_ptr<World> world(new World);
+        world->load("levels/world1/info");
+        TitleScreen::start_game(std::move(world));
       }
-      TitleScreen::start_game(m_main_world.get());
       break;
 
     case MNID_LEVELS_CONTRIB:
       // Contrib Menu
-      m_contrib_menu.reset(new ContribMenu());
-      MenuManager::instance().push_current(MenuStorage::CONTRIB_MENU);
+      MenuManager::instance().push_menu(MenuStorage::CONTRIB_MENU);
       break;
 
     case MNID_ADDONS:
       // Add-ons Menu
-      m_addon_menu.reset(new AddonMenu());
-      MenuManager::instance().push_current(MenuStorage::ADDON_MENU);
+      MenuManager::instance().push_menu(MenuStorage::ADDON_MENU);
       break;
 
     case MNID_CREDITS:
-      MenuManager::instance().set_current(MenuStorage::NO_MENU);
+      MenuManager::instance().clear_menu_stack();
       g_screen_manager->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.txt")),
                                     std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
       break;

@@ -52,7 +52,7 @@ public:
   MenuStorage();
   ~MenuStorage();
   
-  Menu* create(MenuId menu_id);
+  std::unique_ptr<Menu> create(MenuId menu_id);
   
   // FIXME
   JoystickMenu* get_joystick_options_menu();
