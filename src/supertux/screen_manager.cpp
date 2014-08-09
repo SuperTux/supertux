@@ -174,8 +174,7 @@ ScreenManager::update_gamelogic(float elapsed_time)
   scripting::update_debugger();
   scripting::TimeScheduler::instance->update(game_time);
   current_screen->update(elapsed_time);
-  if (m_menu_manager->current() != NULL)
-    m_menu_manager->current()->update();
+  m_menu_manager->update();
   if(screen_fade.get() != NULL)
     screen_fade->update(elapsed_time);
   Console::instance->update(elapsed_time);
@@ -190,8 +189,7 @@ ScreenManager::process_events()
   {
     g_input_manager->process_event(event);
 
-    if(m_menu_manager->current() != NULL)
-      m_menu_manager->current()->event(event);
+    m_menu_manager->event(event);
 
     switch(event.type)
     {

@@ -157,10 +157,7 @@ TitleScreen::update(float elapsed_time)
 
   make_tux_jump();
 
-  if (Menu* menu = MenuManager::instance().current())
-  {
-    menu->check_menu();
-  }
+  MenuManager::instance().check_menu();
 
   // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)

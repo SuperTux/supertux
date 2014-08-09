@@ -21,8 +21,11 @@
 #include <list>
 #include <memory>
 
-class Menu;
+#include "SDL.h"
+
 class DrawingContext;
+class Menu;
+class MenuTransition;
 
 class MenuManager
 {
@@ -33,10 +36,7 @@ public:
 
 public:
   std::vector<std::unique_ptr<Menu> > m_menu_stack;
-
-  bool close;
-  float effect_progress;
-  float effect_start_time;
+  std::unique_ptr<MenuTransition> m_transition;
 
   friend class Menu;
 
@@ -44,39 +44,26 @@ public:
   MenuManager();
   ~MenuManager();
 
+  void event(const SDL_Event& event);
+  void update();
   void draw(DrawingContext& context);
   bool check_menu();
 
   void set_menu(int id);
+  void set_menu(std::unique_ptr<Menu> menu);
+  void push_menu(int id);
+  void push_menu(std::unique_ptr<Menu> menu);
+  void pop_menu();
   void clear_menu_stack();
 
-  void push_menu(std::unique_ptr<Menu> menu);
-  void push_menu(int id);
-  void pop_menu();
-
   void recalc_pos();
-
-  /** Return the current active menu or NULL if none is active */
-  Menu* current() const
-  {
-    if (m_menu_stack.empty())
-    {
-      return nullptr;
-    }
-    else
-    {
-      return m_menu_stack.back().get();
-    }
-  }
-
   bool is_active() const
   {
     return !m_menu_stack.empty();
   }
 
 private:
-  /** Set the current menu, if pmenu is NULL, hide the current menu */
-  void set_menu(std::unique_ptr<Menu> menu);
+  Menu* current() const;
 
 private:
   MenuManager(const MenuManager&);
