@@ -55,12 +55,6 @@ public:
   
   std::unique_ptr<Menu> create(MenuId menu_id);
   
-  // FIXME
-#ifdef GRUMBEL
-#endif
-  JoystickMenu* get_joystick_options_menu();
-  KeyboardMenu* get_key_options_menu();
-
 private:
   MenuStorage(const MenuStorage&);
   MenuStorage& operator=(const MenuStorage&);

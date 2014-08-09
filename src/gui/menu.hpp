@@ -71,6 +71,9 @@ public:
 
   void update();
 
+  /** Perform actions to bring the menu up to date with configuration changes */
+  virtual void refresh() {}
+
   /** Remove all entries from the menu */
   void clear();
 

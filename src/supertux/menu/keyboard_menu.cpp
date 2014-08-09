@@ -43,7 +43,7 @@ KeyboardMenu::KeyboardMenu(InputManager* _controller) :
   add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), controller->keyboard_manager->jump_with_up_kbd);
   add_hl();
   add_back(_("Back"));
-  update();
+  refresh();
 }
 
 KeyboardMenu::~KeyboardMenu()
@@ -96,10 +96,8 @@ KeyboardMenu::menu_action(MenuItem* item)
 }
 
 void
-KeyboardMenu::update()
+KeyboardMenu::refresh()
 {
-  // update menu
-
   auto& kbd_mgr = controller->keyboard_manager;
 
   get_item_by_id((int) Controller::UP).change_input(get_key_name(

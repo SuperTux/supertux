@@ -141,6 +141,15 @@ MenuManager::~MenuManager()
 }
 
 void
+MenuManager::refresh()
+{
+  for(auto i = m_menu_stack.begin(); i != m_menu_stack.end(); ++i)
+  {
+    (*i)->refresh();
+  }
+}
+
+void
 MenuManager::update()
 {
   if (current())

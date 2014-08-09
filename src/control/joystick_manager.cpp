@@ -19,10 +19,10 @@
 #include <iostream>
 #include <algorithm>
 
+#include "gui/menu_manager.hpp"
 #include "control/input_manager.hpp"
 #include "lisp/list_iterator.hpp"
 #include "supertux/menu/joystick_menu.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/writer.hpp"
@@ -143,7 +143,7 @@ JoystickManager::process_hat_event(const SDL_JoyHatEvent& jhat)
     if (changed & SDL_HAT_RIGHT && jhat.value & SDL_HAT_RIGHT)
       bind_joyhat(jhat.which, SDL_HAT_RIGHT, Controller::Control(wait_for_joystick));
 
-    MenuStorage::instance().get_joystick_options_menu()->update();
+    MenuManager::instance().refresh();
     wait_for_joystick = -1;
   }
   else
@@ -191,7 +191,7 @@ JoystickManager::process_axis_event(const SDL_JoyAxisEvent& jaxis)
       else
         bind_joyaxis(jaxis.which, jaxis.axis + 1, Controller::Control(wait_for_joystick));
 
-      MenuStorage::instance().get_joystick_options_menu()->update();
+      MenuManager::instance().refresh();
       wait_for_joystick = -1;
     }
   }
@@ -232,7 +232,7 @@ JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
     if(jbutton.state == SDL_PRESSED)
     {
       bind_joybutton(jbutton.which, jbutton.button, (Controller::Control)wait_for_joystick);
-      MenuStorage::instance().get_joystick_options_menu()->update();
+      MenuManager::instance().refresh();
       parent->reset();
       wait_for_joystick = -1;
     }

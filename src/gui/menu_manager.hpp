@@ -46,6 +46,8 @@ public:
 
   void event(const SDL_Event& event);
   void update();
+  void refresh();
+
   void draw(DrawingContext& context);
   bool check_menu();
 
