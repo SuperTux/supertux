@@ -37,6 +37,7 @@ public:
     NO_MENU,
     MAIN_MENU,
     OPTIONS_MENU,
+    INGAME_OPTIONS_MENU,
     PROFILE_MENU,
     CONTRIB_MENU,
     CONTRIB_WORLD_MENU,
@@ -55,6 +56,8 @@ public:
   std::unique_ptr<Menu> create(MenuId menu_id);
   
   // FIXME
+#ifdef GRUMBEL
+#endif
   JoystickMenu* get_joystick_options_menu();
   KeyboardMenu* get_key_options_menu();
 

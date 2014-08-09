@@ -42,22 +42,25 @@ enum OptionsMenuIDs {
   MNID_MUSIC
 };
 
-OptionsMenu::OptionsMenu()
+OptionsMenu::OptionsMenu(bool complete)
 {
   add_label(_("Options"));
   add_hl();
 
-  // Language change should only be possible in the main menu, since elsewhere it might not always work fully
-  // FIXME: Implement me: if (get_parent() == main_menu)
-  add_submenu(_("Select Language"), MenuStorage::LANGUAGE_MENU)
-    ->set_help(_("Select a different language to display text in"));
+  if (complete)
+  {
+    // Language and profile changes are only be possible in the
+    // main menu, since elsewhere it might not always work fully
+    add_submenu(_("Select Language"), MenuStorage::LANGUAGE_MENU)
+      ->set_help(_("Select a different language to display text in"));
 
-  add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
-    ->set_help(_("Select a profile to play with"));
+    add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
+      ->set_help(_("Select a profile to play with"));
+  }
 
   add_toggle(MNID_PROFILES, _("Profile on Startup"), g_config->sound_enabled)
     ->set_help(_("Select your profile immediately after start-up"));
-  
+
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), g_config->use_fullscreen)
     ->set_help(_("Fill the entire screen"));
 
@@ -93,7 +96,7 @@ OptionsMenu::OptionsMenu()
 	magn.clear();
 	break;
       }
-      
+
       ++count;
     }
     if (!magn.empty()) //magnification not in our list but accept anyway
@@ -102,7 +105,7 @@ OptionsMenu::OptionsMenu()
       magnification->list.push_back(magn);
     }
   }
-  
+
   int display_mode_count = SDL_GetNumDisplayModes(0);
   for(int i = 0; i < display_mode_count; ++i)
   {
@@ -129,7 +132,7 @@ OptionsMenu::OptionsMenu()
     fullscreen_size_str = out.str();
   }
   size_t cnt = 0;
-  for (std::vector<std::string>::iterator i = fullscreen_res->list.begin(); i != fullscreen_res->list.end(); ++i) 
+  for (std::vector<std::string>::iterator i = fullscreen_res->list.begin(); i != fullscreen_res->list.end(); ++i)
   {
     if (*i == fullscreen_size_str)
     {
@@ -147,7 +150,7 @@ OptionsMenu::OptionsMenu()
 
   MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"));
   aspect->set_help(_("Adjust the aspect ratio"));
-  
+
   aspect->list.push_back(_("auto"));
   aspect->list.push_back("5:4");
   aspect->list.push_back("4:3");
@@ -178,7 +181,7 @@ OptionsMenu::OptionsMenu()
       aspect->list.push_back(aspect_ratio);
     }
   }
-  
+
   if (sound_manager->is_audio_enabled()) {
     add_toggle(MNID_SOUND, _("Sound"), g_config->sound_enabled)
       ->set_help(_("Disable all sound effects"));
@@ -188,7 +191,7 @@ OptionsMenu::OptionsMenu()
     add_inactive(MNID_SOUND, _("Sound (disabled)"));
     add_inactive(MNID_MUSIC, _("Music (disabled)"));
   }
-  
+
   add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
     ->set_help(_("Configure key-action mappings"));
 
@@ -230,7 +233,7 @@ OptionsMenu::menu_action(MenuItem* item)
     case MNID_MAGNIFICATION:
       if (item->list[item->selected] == _("auto"))
       {
-        g_config->magnification = 0.0f; // Magic value 
+        g_config->magnification = 0.0f; // Magic value
       }
       else if(sscanf(item->list[item->selected].c_str(), "%f", &g_config->magnification) == 1)
       {
@@ -259,7 +262,7 @@ OptionsMenu::menu_action(MenuItem* item)
           g_config->fullscreen_size.height = height;
           g_config->fullscreen_refresh_rate = refresh_rate;
         }
-      }      
+      }
       break;
 
     case MNID_FULLSCREEN:

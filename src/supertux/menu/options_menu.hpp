@@ -23,7 +23,7 @@
 class OptionsMenu : public Menu
 {
 public:
-  OptionsMenu();
+  OptionsMenu(bool complete);
   virtual ~OptionsMenu();
 
   void menu_action(MenuItem* item);

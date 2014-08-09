@@ -61,7 +61,10 @@ MenuStorage::create(MenuId menu_id)
       return std::unique_ptr<Menu>(new LanguageMenu);
 
     case OPTIONS_MENU:
-      return std::unique_ptr<Menu>(new OptionsMenu);
+      return std::unique_ptr<Menu>(new OptionsMenu(true));
+
+    case INGAME_OPTIONS_MENU:
+      return std::unique_ptr<Menu>(new OptionsMenu(false));
 
     case PROFILE_MENU:
       return std::unique_ptr<Menu>(new ProfileMenu);
@@ -98,12 +101,14 @@ MenuStorage::create(MenuId menu_id)
 KeyboardMenu*
 MenuStorage::get_key_options_menu()
 {
+  assert(!"broken");
   return new KeyboardMenu(g_input_manager);
 }
 
 JoystickMenu*
 MenuStorage::get_joystick_options_menu()
 {
+  assert(!"broken");
   return new JoystickMenu(g_input_manager);
 }
 
