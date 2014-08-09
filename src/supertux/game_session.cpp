@@ -322,16 +322,6 @@ GameSession::run_script(std::istream& in, const std::string& sourcename)
 void
 GameSession::process_events()
 {
-  // end of pause mode?
-  // XXX this looks like a fail-safe to unpause the game if there's no menu
-  // XXX having it enabled causes some unexpected problems
-  // XXX hopefully disabling it won't...
-  /*
-    if(!Menu::current() && game_pause) {
-    game_pause = false;
-    }
-  */
-
   // playback a demo?
   if(playback_demo_stream != 0) {
     demo_controller->update();
