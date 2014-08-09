@@ -21,6 +21,7 @@
 #include "control/input_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
+#include "math/sizef.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/timer.hpp"
@@ -40,18 +41,10 @@ namespace {
 
 Rectf menu2rect(const Menu& menu)
 {
-  return Rectf(menu.get_pos().x,
-               menu.get_pos().y,
-               menu.get_pos().x + menu.get_width(),
-               menu.get_pos().y + menu.get_height());
-}
-
-Rectf pos2rect(const Menu& menu)
-{
-  return Rectf(menu.get_pos().x,
-               menu.get_pos().y,
-               menu.get_pos().x,
-               menu.get_pos().y);
+  return Rectf(menu.get_pos().x - menu.get_width() / 2,
+               menu.get_pos().y - menu.get_height() / 2,
+               menu.get_pos().x + menu.get_width() / 2,
+               menu.get_pos().y + menu.get_height() / 2);
 }
 
 } // namespace
@@ -62,19 +55,18 @@ private:
   Rectf m_from_rect;
   Rectf m_to_rect;
 
-  bool m_closing_animation;
   float m_effect_progress;
   float m_effect_start_time;
   bool m_is_active;
+
 public:
   MenuTransition() :
+    m_from_rect(),
+    m_to_rect(),
+    m_effect_progress(1.0f),
+    m_effect_start_time(),
     m_is_active(false)
   {
-  }
-
-  void start(const Rectf& to_rect)
-  {
-    m_to_rect = to_rect;
   }
 
   void start(const Rectf& from_rect,
@@ -91,64 +83,43 @@ public:
 
   void update()
   {
-    m_effect_progress = (real_time - m_effect_start_time) * 6.0f;
-
-    if (m_effect_progress >= 1.0f) {
-      m_effect_progress = 1.0f;
-
-      /*      if (close)
-      {
-        MenuManager::instance().m_current = 0;
-        close = false;
-        }*/
-    }
-    else if (m_effect_progress <= 0.0f)
+    if (m_is_active)
     {
-      m_effect_progress = 0.0f;
+      m_effect_progress = (real_time - m_effect_start_time) * 6.0f;
+
+      if (m_effect_progress > 1.0f)
+      {
+        m_effect_progress = 1.0f;
+        m_is_active = false;
+      }
     }
   }
 
   void draw(DrawingContext& context)
   {
-#ifdef GRUMBEL
-    Vector pos = current()->get_pos();
-    float menu_width = current()->get_width();
-    float menu_height = current()->get_height();
-
     float p = m_effect_progress;
-    if (p != 1.0f)
+
+    Rectf rect = m_to_rect;
+    if (m_is_active)
     {
-      if (close)
-      {
-        menu_width *= 1.0f - p;
-        menu_height *= 1.0f - p;
-      }
-      else if (MenuManager::instance().m_previous)
-      {
-        menu_width  = (menu_width  * p) + (MenuManager::instance().m_previous->get_width()  * (1.0f - p));
-        menu_height = (menu_height * p) + (MenuManager::instance().m_previous->get_height() * (1.0f - p));
-        //std::cout << p << " " << this << " " << last_menus.back() << std::endl;
-      }
-      else
-      {
-        menu_width  *= p;
-        menu_height *= p;
-      }
+      rect.p1.x = (m_to_rect.p1.x * p) + (m_from_rect.p1.x * (1.0f - p));
+      rect.p1.y = (m_to_rect.p1.y * p) + (m_from_rect.p1.y * (1.0f - p));
+      rect.p2.x = (m_to_rect.p2.x * p) + (m_from_rect.p2.x * (1.0f - p));
+      rect.p2.y = (m_to_rect.p2.y * p) + (m_from_rect.p2.y * (1.0f - p));
     }
 
     // draw menu background rectangles
-    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2-4, pos.y - menu_height/2 - 10-4),
-                                   Vector(pos.x + menu_width/2+4, pos.y - menu_height/2 + 10 + menu_height+4)),
+    context.draw_filled_rect(Rectf(rect.p1.x - 4, rect.p1.y - 10-4,
+                                   rect.p2.x + 4, rect.p2.y + 10 + 4),
                              Color(0.2f, 0.3f, 0.4f, 0.8f),
                              20.0f,
                              LAYER_GUI-10);
 
-    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2, pos.y - menu_height/2 - 10),
-                                   Vector(pos.x + menu_width/2, pos.y - menu_height/2 + 10 + menu_height)),
+    context.draw_filled_rect(Rectf(rect.p1.x, rect.p1.y - 10,
+                                   rect.p2.x, rect.p2.y + 10),
                              Color(0.6f, 0.7f, 0.8f, 0.5f),
                              16.0f,
                              LAYER_GUI-10);
-#endif
   }
 
   bool is_active()
@@ -175,14 +146,16 @@ MenuManager::update()
   if (current())
   {
     current()->update();
-  } 
+  }
 }
 
 void
 MenuManager::event(const SDL_Event& event)
 {
-  if (current())
+  if (current() && !m_transition->is_active())
   {
+    // only pass events when the menu is fully visible and not in a
+    // transition animation
     current()->event(event);
   }
 }
@@ -190,25 +163,23 @@ MenuManager::event(const SDL_Event& event)
 void
 MenuManager::draw(DrawingContext& context)
 {
-  if (!current())
+  if (m_transition->is_active() || current())
   {
-    return;
+    m_transition->update();
+    m_transition->draw(context);
   }
 
-  m_transition->update();
-  m_transition->draw(context);
-
-#ifdef GRUMBEL
-  // only pass events in non-anim states
-  if(m_effect_progress != 1.0f)
-    return;
-#endif
-
-  current()->draw(context);
-
-  if (MouseCursor::current())
+  if (current())
   {
-    MouseCursor::current()->draw(context);
+    if (!m_transition->is_active())
+    {
+      current()->draw(context);
+    }
+
+    if (MouseCursor::current())
+    {
+      MouseCursor::current()->draw(context);
+    }
   }
 }
 
@@ -233,9 +204,17 @@ MenuManager::push_menu(int id)
 }
 
 void
+MenuManager::set_menu(int id)
+{
+  set_menu(MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id)));
+}
+
+void
 MenuManager::push_menu(std::unique_ptr<Menu> menu)
 {
-  //start_transition_effect();
+  assert(menu);
+  transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
+             menu.get());
   m_menu_stack.push_back(std::move(menu));
 }
 
@@ -248,21 +227,13 @@ MenuManager::pop_menu()
   }
   else
   {
+    transition(m_menu_stack.back().get(),
+               (m_menu_stack.size() >= 2)
+               ? m_menu_stack[m_menu_stack.size() - 2].get()
+               : nullptr);
+
     m_menu_stack.pop_back();
-    //start_transition_effect();
   }
-}
-
-void
-MenuManager::clear_menu_stack()
-{
-  m_menu_stack.clear();
-}
-
-void
-MenuManager::set_menu(int id)
-{
-  set_menu(MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id)));
 }
 
 void
@@ -270,11 +241,14 @@ MenuManager::set_menu(std::unique_ptr<Menu> menu)
 {
   if (menu)
   {
-    m_transition->start(pos2rect(*menu), menu2rect(*menu));
+    transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
+               menu.get());
     m_menu_stack.push_back(std::move(menu));
   }
   else
   {
+    transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
+               nullptr);
     m_menu_stack.clear();
   }
 
@@ -283,11 +257,21 @@ MenuManager::set_menu(std::unique_ptr<Menu> menu)
 }
 
 void
+MenuManager::clear_menu_stack()
+{
+  transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
+             nullptr);
+  m_menu_stack.clear();
+}
+
+void
 MenuManager::recalc_pos()
 {
   for(auto i = m_menu_stack.begin(); i != m_menu_stack.end(); ++i)
   {
-    // FIXME: This is of course not quite right, since it ignores any previous set_pos() calls
+    // FIXME: This is of course not quite right, since it ignores any
+    // previous set_pos() calls, it also doesn't update the
+    // transition-effect/background rectangle
     (*i)->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
   }
 }
@@ -302,6 +286,39 @@ MenuManager::current() const
   else
   {
     return m_menu_stack.back().get();
+  }
+}
+
+void
+MenuManager::transition(Menu* from, Menu* to)
+{
+  if (!from && !to)
+  {
+    return;
+  }
+  else
+  {
+    Rectf from_rect;
+    if (from)
+    {
+      from_rect = menu2rect(*from);
+    }
+    else
+    {
+      from_rect = Rectf(to->get_pos(), Sizef(0, 0));
+    }
+
+    Rectf to_rect;
+    if (to)
+    {
+      to_rect = menu2rect(*to);
+    }
+    else
+    {
+      to_rect = Rectf(from->get_pos(), Sizef(0, 0));
+    }
+
+    m_transition->start(from_rect, to_rect);
   }
 }
 

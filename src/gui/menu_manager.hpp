@@ -64,6 +64,7 @@ public:
 
 private:
   Menu* current() const;
+  void transition(Menu* from, Menu* to);
 
 private:
   MenuManager(const MenuManager&);
