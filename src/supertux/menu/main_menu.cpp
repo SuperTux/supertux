@@ -19,11 +19,12 @@
 #include "audio/sound_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/fadeout.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/addon_menu.hpp"
-#include "supertux/menu/options_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
+#include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/options_menu.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/textscroller.hpp"
@@ -31,8 +32,7 @@
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 
-MainMenu::MainMenu() :
-  m_main_world()
+MainMenu::MainMenu()
 {
   set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
   add_entry(MNID_STARTGAME, _("Start Game"));
@@ -52,7 +52,7 @@ MainMenu::check_menu()
       {
         std::unique_ptr<World> world(new World);
         world->load("levels/world1/info");
-        TitleScreen::start_game(std::move(world));
+        GameManager::current()->start_game(std::move(world));
       }
       break;
 

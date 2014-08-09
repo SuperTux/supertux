@@ -170,27 +170,4 @@ TitleScreen::update(float elapsed_time)
   }
 }
 
-void
-TitleScreen::start_game(std::unique_ptr<World> world)
-{
-  MenuManager::instance().clear_menu_stack();
-
-  std::string basename = world->get_basedir();
-  basename = basename.substr(0, basename.length()-1);
-  std::string worlddirname = FileSystem::basename(basename);
-  std::ostringstream stream;
-  stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
-  std::string slotfile = stream.str();
-
-  try
-  {
-    world->set_savegame_filename(slotfile);
-    world->run();
-  }
-  catch(std::exception& e)
-  {
-    log_fatal << "Couldn't start world: " << e.what() << std::endl;
-  }
-}
-
 /* EOF */

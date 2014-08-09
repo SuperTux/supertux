@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmx.de>
+//  Copyright (C) 2013 Ingo Ruhnke <grumbel@gmx.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,26 +14,30 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_CONTRIB_WORLD_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_CONTRIB_WORLD_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
+#define HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
 
-#include "gui/menu.hpp"
+#include <memory>
+
+#include "util/currenton.hpp"
 
 class World;
 
-class ContribWorldMenu : public Menu
+class GameManager : public Currenton<GameManager>
 {
 private:
   std::unique_ptr<World> m_world;
 
 public:
-  ContribWorldMenu(std::unique_ptr<World> current_world);
+  GameManager();
+  ~GameManager();
 
-  void check_menu();
+  void start_game(std::unique_ptr<World> world);
+  void start_level(std::unique_ptr<World> world, int index);
 
 private:
-  ContribWorldMenu(const ContribWorldMenu&);
-  ContribWorldMenu& operator=(const ContribWorldMenu&);
+  GameManager(const GameManager&) = delete;
+  GameManager& operator=(const GameManager&) = delete;
 };
 
 #endif

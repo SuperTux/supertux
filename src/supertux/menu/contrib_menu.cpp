@@ -19,6 +19,7 @@
 #include <physfs.h>
 
 #include "gui/menu_manager.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/menu/contrib_world_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/title_screen.hpp"
@@ -62,13 +63,10 @@ ContribMenu::ContribMenu() :
 
   add_hl();
   add_back(_("Back"));
-
-  std::cout << "ContribMenu" << std::endl;
 }
 
 ContribMenu::~ContribMenu()
 {
-  std::cout << "~ContribMenu" << std::endl;
 }
 
 void
@@ -78,14 +76,16 @@ ContribMenu::check_menu()
   if (index != -1)
   {
     World* world = m_contrib_worlds[index].get();
-    
     if (!world->is_levelset) 
     {
-      TitleScreen::start_game(world);
+      // FIXME: not the most elegant of solutions to std::move() the
+      // World, but the ContribMenu should get destructed after this,
+      // so it might be ok
+      GameManager::current()->start_game(std::move(m_contrib_worlds[index]));
     }
     else 
     {
-      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribWorldMenu(*world)));
+      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribWorldMenu(std::move(m_contrib_worlds[index]))));
     }
   }
 }

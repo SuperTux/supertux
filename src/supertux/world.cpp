@@ -126,8 +126,6 @@ World::load(const std::string& filename)
 void
 World::run()
 {
-  using namespace scripting;
-
   current_ = this;
 
   // create new squirrel table for persistent game state
@@ -147,9 +145,9 @@ World::run()
     IFileStreambuf ins(filename);
     std::istream in(&ins);
 
-    sq_release(global_vm, &world_thread);
-    world_thread = create_thread(global_vm);
-    compile_and_run(object_to_vm(world_thread), in, filename);
+    sq_release(scripting::global_vm, &world_thread);
+    world_thread = scripting::create_thread(scripting::global_vm);
+    scripting::compile_and_run(scripting::object_to_vm(world_thread), in, filename);
   } catch(std::exception& ) {
     // fallback: try to load worldmap worldmap.stwm
     using namespace worldmap;
