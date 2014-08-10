@@ -54,7 +54,7 @@ ContribMenu::ContribMenu() :
 
       world->load(*it + "/info");
 
-      if (!world->hide_from_contribs) 
+      if (!world->hide_from_contribs())
       {
         { // FIXME: yuck, this should be easier
           std::ostringstream stream;
@@ -92,7 +92,7 @@ ContribMenu::check_menu()
   if (index != -1)
   {
     World* world = m_contrib_worlds[index].get();
-    if (!world->is_levelset) 
+    if (!world->is_levelset())
     {
       // FIXME: not the most elegant of solutions to std::move() the
       // World, but the ContribMenu should get destructed after this,

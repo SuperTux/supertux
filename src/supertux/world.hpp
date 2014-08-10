@@ -44,9 +44,12 @@ public:
   const std::string& get_basedir() const;
   const std::string& get_title() const;
 
-  PlayerStatus* get_player_status() const { return player_status.get(); }
+  PlayerStatus* get_player_status() const { return m_player_status.get(); }
 
   void run();
+
+  bool hide_from_contribs() const { return m_hide_from_contribs; }
+  bool is_levelset() const { return m_is_levelset; }
 
 private:
   std::string m_worldmap_filename;
@@ -57,17 +60,16 @@ private:
     std::string name;
   };
 
-  std::vector<Level> levels;
-  std::string basedir;
-  std::string savegame_filename;
-  HSQOBJECT world_thread;
-  std::string title;
-  std::string description;
-  std::unique_ptr<PlayerStatus> player_status;
+  std::vector<Level> m_levels;
+  std::string m_basedir;
+  std::string m_savegame_filename;
+  HSQOBJECT m_world_thread;
+  std::string m_title;
+  std::string m_description;
+  std::unique_ptr<PlayerStatus> m_player_status;
 
-public:
-  bool hide_from_contribs;
-  bool is_levelset;
+  bool m_hide_from_contribs;
+  bool m_is_levelset;
 
 private:
   World(const World&) = delete;

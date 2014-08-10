@@ -33,32 +33,28 @@
 
 World::World() :
   m_worldmap_filename(),
-  levels(),
-  basedir(),
-  savegame_filename(),
-  world_thread(),
-  title(),
-  description(),
-  player_status(),
-  hide_from_contribs(),
-  is_levelset()
+  m_levels(),
+  m_basedir(),
+  m_savegame_filename(),
+  m_world_thread(),
+  m_title(),
+  m_description(),
+  m_player_status(new PlayerStatus),
+  m_hide_from_contribs(false),
+  m_is_levelset(true)
 {
-  player_status.reset(new PlayerStatus());
-
-  is_levelset = true;
-  hide_from_contribs = false;
-  sq_resetobject(&world_thread);
+  sq_resetobject(&m_world_thread);
 }
 
 World::~World()
 {
-  sq_release(scripting::global_vm, &world_thread);
+  sq_release(scripting::global_vm, &m_world_thread);
 }
 
 void
 World::set_savegame_filename(const std::string& filename)
 {
-  this->savegame_filename = filename;
+  m_savegame_filename = filename;
   // make sure the savegame directory exists
   std::string dirname = FileSystem::dirname(filename);
   if(!PHYSFS_exists(dirname.c_str())) {
@@ -80,8 +76,8 @@ World::set_savegame_filename(const std::string& filename)
 void
 World::load(const std::string& filename)
 {
-  basedir = FileSystem::dirname(filename);
-  m_worldmap_filename = basedir + "worldmap.stwm";
+  m_basedir = FileSystem::dirname(filename);
+  m_worldmap_filename = m_basedir + "worldmap.stwm";
 
   lisp::Parser parser;
   const lisp::Lisp* root = parser.parse(filename);
@@ -92,18 +88,18 @@ World::load(const std::string& filename)
   if(info == NULL)
     throw std::runtime_error("File is not a world or levelsubset file");
 
-  hide_from_contribs = false;
-  is_levelset = true;
+  m_hide_from_contribs = false;
+  m_is_levelset = true;
 
-  info->get("title", title);
-  info->get("description", description);
-  info->get("levelset", is_levelset);
-  info->get("hide-from-contribs", hide_from_contribs);
+  info->get("title", m_title);
+  info->get("description", m_description);
+  info->get("levelset", m_is_levelset);
+  info->get("hide-from-contribs", m_hide_from_contribs);
 
   // Level info file doesn't define any levels, so read the
   // directory to see what we can find
 
-  std::string path = basedir;
+  std::string path = m_basedir;
   char** files = PHYSFS_enumerateFiles(path.c_str());
   if(!files) {
     log_warning << "Couldn't read subset dir '" << path << "'" << std::endl;
@@ -115,12 +111,12 @@ World::load(const std::string& filename)
       Level level;
       level.fullpath = path + *filename;
       level.name = *filename;
-      levels.push_back(level);
+      m_levels.push_back(level);
     }
   }
   PHYSFS_freeList(files);
 
-  std::sort(levels.begin(), levels.end(),
+  std::sort(m_levels.begin(), m_levels.end(),
             [](const Level& lhs, const Level& rhs)
             {
               return StringUtil::numeric_less(lhs.fullpath, rhs.fullpath);
@@ -142,18 +138,18 @@ World::run()
 
   load_state();
 
-  std::string filename = basedir + "/world.nut";
+  std::string filename = m_basedir + "/world.nut";
   try {
     IFileStreambuf ins(filename);
     std::istream in(&ins);
 
-    sq_release(scripting::global_vm, &world_thread);
-    world_thread = scripting::create_thread(scripting::global_vm);
-    scripting::compile_and_run(scripting::object_to_vm(world_thread), in, filename);
+    sq_release(scripting::global_vm, &m_world_thread);
+    m_world_thread = scripting::create_thread(scripting::global_vm);
+    scripting::compile_and_run(scripting::object_to_vm(m_world_thread), in, filename);
   } catch(std::exception& ) {
     // fallback: try to load worldmap worldmap.stwm
     using namespace worldmap;
-    g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(basedir + "worldmap.stwm", get_player_status())));
+    g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(m_basedir + "worldmap.stwm", get_player_status())));
   }
 }
 
@@ -162,7 +158,7 @@ World::save_state()
 {
   using namespace scripting;
 
-  lisp::Writer writer(savegame_filename);
+  lisp::Writer writer(m_savegame_filename);
 
   writer.start_list("supertux-savegame");
   writer.write("version", 1);
@@ -177,7 +173,7 @@ World::save_state()
   }
 
   writer.start_list("tux");
-  player_status->write(writer);
+  m_player_status->write(writer);
   writer.end_list("tux");
 
   writer.start_list("state");
@@ -199,15 +195,15 @@ World::load_state()
 {
   using namespace scripting;
 
-  if(!PHYSFS_exists(savegame_filename.c_str()))
+  if(!PHYSFS_exists(m_savegame_filename.c_str()))
   {
-    log_info << savegame_filename << ": doesn't exist, not loading state" << std::endl;
+    log_info << m_savegame_filename << ": doesn't exist, not loading state" << std::endl;
   }
   else
   {
     try {
       lisp::Parser parser;
-      const lisp::Lisp* root = parser.parse(savegame_filename);
+      const lisp::Lisp* root = parser.parse(m_savegame_filename);
 
       const lisp::Lisp* lisp = root->get_lisp("supertux-savegame");
       if(lisp == NULL)
@@ -221,7 +217,7 @@ World::load_state()
       const lisp::Lisp* tux = lisp->get_lisp("tux");
       if(tux == NULL)
         throw std::runtime_error("No tux section in savegame");
-      player_status->read(*tux);
+      m_player_status->read(*tux);
 
       const lisp::Lisp* state = lisp->get_lisp("state");
       if(state == NULL)
@@ -247,13 +243,13 @@ World::load_state()
 const std::string&
 World::get_level_filename(unsigned int i) const
 {
-  return levels[i].fullpath;
+  return m_levels[i].fullpath;
 }
 
 unsigned int
 World::get_num_levels() const
 {
-  return levels.size();
+  return m_levels.size();
 }
 
 int
@@ -293,7 +289,7 @@ World::get_num_solved_levels() const
         }
         else
         {
-          for(auto level : levels)
+          for(auto level : m_levels)
           {
             sq_pushstring(vm, level.name.c_str(), -1);
             if(SQ_FAILED(sq_get(vm, -2)))
@@ -324,13 +320,13 @@ World::get_num_solved_levels() const
 const std::string&
 World::get_basedir() const
 {
-  return basedir;
+  return m_basedir;
 }
 
 const std::string&
 World::get_title() const
 {
-  return title;
+  return m_title;
 }
 
 /* EOF */
