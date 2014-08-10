@@ -31,14 +31,11 @@
 #include "util/string_util.hpp"
 #include "worldmap/worldmap.hpp"
 
-World* World::current_ = NULL;
-
 World::World() :
-  worldname(),
+  m_worldmap_filename(),
   levels(),
   basedir(),
   savegame_filename(),
-  state_table(),
   world_thread(),
   title(),
   description(),
@@ -56,8 +53,6 @@ World::World() :
 World::~World()
 {
   sq_release(scripting::global_vm, &world_thread);
-  if(current_ == this)
-    current_ = NULL;
 }
 
 void
@@ -86,7 +81,7 @@ void
 World::load(const std::string& filename)
 {
   basedir = FileSystem::dirname(filename);
-  worldname = basedir + "worldmap.stwm";
+  m_worldmap_filename = basedir + "worldmap.stwm";
 
   lisp::Parser parser;
   const lisp::Lisp* root = parser.parse(filename);
@@ -135,8 +130,6 @@ World::load(const std::string& filename)
 void
 World::run()
 {
-  current_ = this;
-
   // create new squirrel table for persistent game state
   HSQUIRRELVM vm = scripting::global_vm;
 
@@ -286,17 +279,17 @@ World::get_num_solved_levels() const
     }
     else
     {
-      sq_pushstring(vm, worldname.c_str(), -1);
+      sq_pushstring(vm, m_worldmap_filename.c_str(), -1);
       if(SQ_FAILED(sq_get(vm, -2)))
       {
-        log_warning << "failed to get state.worlds['" << worldname << "']" << std::endl;
+        log_warning << "failed to get state.worlds['" << m_worldmap_filename << "']" << std::endl;
       }
       else
       {
         sq_pushstring(vm, "levels", -1);
         if(SQ_FAILED(sq_get(vm, -2)))
         {
-          log_warning << "failed to get state.worlds['" << worldname << "'].levels" << std::endl;
+          log_warning << "failed to get state.worlds['" << m_worldmap_filename << "'].levels" << std::endl;
         }
         else
         {
@@ -305,7 +298,7 @@ World::get_num_solved_levels() const
             sq_pushstring(vm, level.name.c_str(), -1);
             if(SQ_FAILED(sq_get(vm, -2)))
             {
-              log_warning << "failed to get state.worlds['" << worldname << "'].levels['"
+              log_warning << "failed to get state.worlds['" << m_worldmap_filename << "'].levels['"
                           << level.name << "']" << std::endl;
             }
             else

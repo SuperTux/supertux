@@ -21,19 +21,12 @@
 #include <string>
 #include <vector>
 
+#include "util/currenton.hpp"
+
 class PlayerStatus;
 
-class World
+class World : public Currenton<World>
 {
-public:
-  static World* current()
-  {
-    return current_;
-  }
-
-private:
-  static World* current_;
-
 public:
   World();
   ~World();
@@ -50,13 +43,13 @@ public:
   const std::string& get_level_filename(unsigned int i) const;
   const std::string& get_basedir() const;
   const std::string& get_title() const;
-  /** returns player status */
+
   PlayerStatus* get_player_status() const { return player_status.get(); }
 
   void run();
 
 private:
-  std::string worldname;
+  std::string m_worldmap_filename;
   struct Level
   {
     Level() : fullpath(), name() {}
@@ -67,8 +60,6 @@ private:
   std::vector<Level> levels;
   std::string basedir;
   std::string savegame_filename;
-  /// squirrel table that saves persistent state (about the world)
-  HSQOBJECT state_table;
   HSQOBJECT world_thread;
   std::string title;
   std::string description;
