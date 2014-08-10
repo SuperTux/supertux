@@ -215,13 +215,13 @@ OptionsMenu::menu_action(MenuItem* item)
         {
           g_config->aspect_size = Size(0, 0); // Magic values
           Renderer::instance()->apply_config();
-          MenuManager::instance().recalc_pos();
+          MenuManager::instance().on_window_resize();
         }
         else if (sscanf(item->list[item->selected].c_str(), "%d:%d",
                         &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
         {
           Renderer::instance()->apply_config();
-          MenuManager::instance().recalc_pos();
+          MenuManager::instance().on_window_resize();
         }
         else
         {
@@ -240,7 +240,7 @@ OptionsMenu::menu_action(MenuItem* item)
         g_config->magnification /= 100.0f;
       }
       Renderer::instance()->apply_config();
-      MenuManager::instance().recalc_pos();
+      MenuManager::instance().on_window_resize();
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:
@@ -269,7 +269,7 @@ OptionsMenu::menu_action(MenuItem* item)
       if(g_config->use_fullscreen != is_toggled(MNID_FULLSCREEN)) {
         g_config->use_fullscreen = !g_config->use_fullscreen;
         Renderer::instance()->apply_config();
-        MenuManager::instance().recalc_pos();
+        MenuManager::instance().on_window_resize();
         g_config->save();
       }
       break;

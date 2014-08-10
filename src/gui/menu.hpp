@@ -69,7 +69,7 @@ public:
 
   virtual void menu_action(MenuItem* item);
 
-  void update();
+  void process_input();
 
   /** Perform actions to bring the menu up to date with configuration changes */
   virtual void refresh() {}

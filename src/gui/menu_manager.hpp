@@ -45,7 +45,7 @@ public:
   ~MenuManager();
 
   void event(const SDL_Event& event);
-  void update();
+  void process_input();
   void refresh();
 
   void draw(DrawingContext& context);
@@ -58,7 +58,7 @@ public:
   void pop_menu();
   void clear_menu_stack();
 
-  void recalc_pos();
+  void on_window_resize();
   bool is_active() const
   {
     return !m_menu_stack.empty();

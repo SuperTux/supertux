@@ -150,11 +150,11 @@ MenuManager::refresh()
 }
 
 void
-MenuManager::update()
+MenuManager::process_input()
 {
   if (current())
   {
-    current()->update();
+    current()->process_input();
   }
 }
 
@@ -274,7 +274,7 @@ MenuManager::clear_menu_stack()
 }
 
 void
-MenuManager::recalc_pos()
+MenuManager::on_window_resize()
 {
   for(auto i = m_menu_stack.begin(); i != m_menu_stack.end(); ++i)
   {

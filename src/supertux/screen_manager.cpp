@@ -174,7 +174,7 @@ ScreenManager::update_gamelogic(float elapsed_time)
   scripting::update_debugger();
   scripting::TimeScheduler::instance->update(game_time);
   current_screen->update(elapsed_time);
-  m_menu_manager->update();
+  m_menu_manager->process_input();
   if(screen_fade.get() != NULL)
     screen_fade->update(elapsed_time);
   Console::instance->update(elapsed_time);
@@ -203,7 +203,7 @@ ScreenManager::process_events()
           case SDL_WINDOWEVENT_RESIZED:
             Renderer::instance()->resize(event.window.data1,
                                          event.window.data2);
-            m_menu_manager->recalc_pos();
+            m_menu_manager->on_window_resize();
             break;
         }
         break;
@@ -217,7 +217,7 @@ ScreenManager::process_events()
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
           Renderer::instance()->apply_config();
-          m_menu_manager->recalc_pos();
+          m_menu_manager->on_window_resize();
         }
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)

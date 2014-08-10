@@ -174,7 +174,7 @@ Menu::clear()
 
 /* Process actions done on the menu */
 void
-Menu::update()
+Menu::process_input()
 {
   int menu_height = (int) get_height();
   if (menu_height > SCREEN_HEIGHT)
@@ -321,7 +321,7 @@ Menu::update()
         case MN_TEXTFIELD:
         case MN_NUMFIELD:
           menuaction = MENU_ACTION_DOWN;
-          update();
+          process_input();
           break;
 
         case MN_BACK:
