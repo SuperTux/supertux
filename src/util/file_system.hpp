@@ -40,6 +40,11 @@ std::string strip_extension(const std::string& filename);
  */
 std::string normalize(const std::string& filename);
 
+/**
+ * join two filenames join("foo", "bar") -> "foo/bar"
+ */
+std::string join(const std::string& lhs, const std::string& rhs);
+
 } // namespace FileSystem
 
 #endif

@@ -103,6 +103,22 @@ std::string normalize(const std::string& filename)
   return result.str();
 }
 
+std::string join(const std::string& lhs, const std::string& rhs)
+{
+  if (lhs.empty())
+  {
+    return rhs;
+  }
+  else if (lhs.back() == '/')
+  {
+    return lhs + rhs;
+  }
+  else
+  {
+    return lhs + "/" + rhs;
+  }
+}
+
 } // namespace FileSystem
 
 /* EOF */
