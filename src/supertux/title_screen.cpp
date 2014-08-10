@@ -43,7 +43,8 @@
 TitleScreen::TitleScreen(PlayerStatus* player_status) :
   frame(),
   controller(),
-  titlesession()
+  titlesession(),
+  copyright_text()
 {
   controller.reset(new CodeController());
   titlesession.reset(new GameSession("levels/misc/menu.stl", player_status));

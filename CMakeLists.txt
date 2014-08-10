@@ -6,12 +6,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
@@ -255,9 +255,13 @@ IF(CMAKE_COMPILER_IS_GNUCC)
     REMOVE_DEFINITIONS(-Werror)
   ENDIF(WERROR)
   IF(WARNINGS)
-    ADD_DEFINITIONS(-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector -Wconversion -Wundef -Wsign-conversion -Wshadow -Winline -Wunsafe-loop-optimizations -Wfloat-equal -Wswitch-default -Wswitch-enum -Wcast-qual -Wsign-promo -Woverloaded-virtual -Wmissing-format-attribute -Wstrict-overflow=5 -Wformat=2-Weffc++ -Wabi -Wctor-dtor-privacy -Wstrict-null-sentinel -Wno-unused-parameter)
-    # -ansi fails in MinGW
-    # still left:  -Wold-style-cast -Wpadded
+    # temporarily disabled:
+    #   -Wsign-conversion -Wfloat-equal -Wconversion -Wundef -Wshadow -Wswitch-default
+    #   -Wswitch-enum -Wsign-promo -Wcast-qual -Woverloaded-virtual -Wmissing-format-attribute
+    #   -Wold-style-cast -Wpadded
+    # fails on MinGW:
+    #   -ansi
+    SET(SUPERTUX2_EXTRA_WARNING_FLAGS "-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector -Winline -Wunsafe-loop-optimizations  -Wstrict-overflow=5 -Wformat=2 -Weffc++ -Wabi -Wctor-dtor-privacy -Wstrict-null-sentinel -Wno-unused-parameter")
   ENDIF(WARNINGS)
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
@@ -307,7 +311,7 @@ IF(GENERATE_MESSAGESPOT)
     ENDFOREACH(SUPERTUX_LEVEL_DIR)
 
     ADD_CUSTOM_TARGET(
-      supertux2-messages ALL 
+      supertux2-messages ALL
       DEPENDS ${MESSAGES_POT_FILES}
     )
 
@@ -350,13 +354,15 @@ SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 ## Add target for supertux binary
 
-ADD_EXECUTABLE(supertux2 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_C} ${SUPERTUX_SOURCES_CXX} ${TINYGETTEXT_SOURCES_CXX})
+ADD_LIBRARY(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
+ADD_EXECUTABLE(supertux2 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${TINYGETTEXT_SOURCES_CXX} $<TARGET_OBJECTS:supertux2_c>)
 ADD_DEPENDENCIES(supertux2 gitversion)
+SET_TARGET_PROPERTIES(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
 ## Link supertux binary with squirrel and other libraries
 
-TARGET_INCLUDE_DIRECTORIES(supertux2 PUBLIC ${SDL2_INCLUDE_DIRS})
-TARGET_INCLUDE_DIRECTORIES(supertux2 PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
+TARGET_INCLUDE_DIRECTORIES(supertux2 SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
+TARGET_INCLUDE_DIRECTORIES(supertux2 SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
 TARGET_LINK_LIBRARIES(supertux2 ${SDL2_LIBRARIES})
 TARGET_LINK_LIBRARIES(supertux2 ${SDL2IMAGE_LIBRARIES})
 

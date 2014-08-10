@@ -327,6 +327,7 @@ Menu::process_input()
         case MN_BACK:
           MenuManager::instance().pop_menu();
           break;
+
         default:
           break;
       }

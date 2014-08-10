@@ -132,6 +132,10 @@ public:
   Vector to_logical(int physical_x, int physical_y);
   void set_gamma(float gamma);
   SDL_Window* get_window() const { return window; }
+
+private:
+  GLRenderer(const GLRenderer&) = delete;
+  GLRenderer& operator=(const GLRenderer&) = delete;
 };
 
 #endif

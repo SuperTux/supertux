@@ -24,6 +24,7 @@
 
 SDLLightmap::SDLLightmap() :
   renderer(static_cast<SDLRenderer*>(Renderer::instance())->get_sdl_renderer()),
+  texture(),
   width(),
   height(),
   LIGHTMAP_DIV()

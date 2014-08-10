@@ -31,7 +31,8 @@ GoldBomb::GoldBomb(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/gold_bomb/gold_bomb.sprite", "left", "right"),
   tstate(STATE_NORMAL),
   grabbed(false),
-  grabber(NULL)
+  grabber(NULL),
+  ticking()
 {
   walk_speed = 80;
   max_drop_height = 16;

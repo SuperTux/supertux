@@ -29,7 +29,9 @@
 #include <SDL.h>
 
 SDLTexture::SDLTexture(SDL_Surface* image) :
-  texture()
+  texture(),
+  width(),
+  height()
 {
   texture = SDL_CreateTextureFromSurface(static_cast<SDLRenderer*>(Renderer::instance())->get_sdl_renderer(),
                                          image);

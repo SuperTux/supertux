@@ -59,6 +59,7 @@ private:
   std::string worldname;
   struct Level
   {
+    Level() : fullpath(), name() {}
     std::string fullpath;
     std::string name;
   };

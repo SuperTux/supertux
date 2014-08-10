@@ -45,6 +45,8 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
   contents(),
   object(0),
   hit_counter(1),
+  sprite_name(),
+  script(),
   lightsprite()
 {
   bbox.set_pos(pos);
@@ -85,6 +87,8 @@ BonusBlock::BonusBlock(const Reader& lisp) :
   contents(),
   object(0),
   hit_counter(1),
+  sprite_name(),
+  script(),
   lightsprite()
 {
   Vector pos;

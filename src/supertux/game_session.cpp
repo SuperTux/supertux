@@ -46,14 +46,14 @@
 
 GameSession::GameSession(const std::string& levelfile_, PlayerStatus* player_status, Statistics* statistics) :
   level(),
-  statistics_backdrop(),
+  statistics_backdrop(Surface::create("images/engine/menu/score-backdrop.png")),
   scripts(),
-  currentsector(0),
+  currentsector(nullptr),
   levelnb(),
   pause_menu_frame(),
   end_sequence(0),
-  game_pause(),
-  speed_before_pause(),
+  game_pause(false),
+  speed_before_pause(g_screen_manager->get_speed()),
   levelfile(levelfile_), 
   reset_sector(),
   reset_pos(),
@@ -67,15 +67,12 @@ GameSession::GameSession(const std::string& levelfile_, PlayerStatus* player_sta
   demo_controller(0),
   play_time(0), 
   edit_mode(false), 
-  levelintro_shown(false)
+  levelintro_shown(false),
+  coins_at_start(),
+  bonus_at_start(),
+  max_fire_bullets_at_start(),
+  max_ice_bullets_at_start()
 {
-  currentsector = NULL;
-
-  game_pause = false;
-  speed_before_pause = g_screen_manager->get_speed();
-
-  statistics_backdrop = Surface::create("images/engine/menu/score-backdrop.png");
-
   if (restart_level() != 0)
     throw std::runtime_error ("Initializing the level failed.");
 }

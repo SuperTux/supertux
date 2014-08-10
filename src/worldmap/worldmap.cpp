@@ -104,7 +104,9 @@ WorldMap::WorldMap(const std::string& filename, PlayerStatus* player_status, con
   force_spawnpoint(force_spawnpoint),
   in_level(false),
   pan_pos(),
-  panning(false)
+  panning(false),
+  last_position(),
+  last_target_time()
 {
   tux = new Tux(this);
   add_object(tux);

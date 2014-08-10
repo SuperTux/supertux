@@ -117,6 +117,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
   duck(),
   dead(),
   dying(),
+  winning(),
   backflipping(),
   backflip_direction(),
   peekingX(),

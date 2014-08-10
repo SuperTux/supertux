@@ -34,7 +34,9 @@ Haywire::Haywire(const Reader& reader) :
   is_exploding(false),
   time_until_explosion(0.0f),
   is_stunned(false),
-  time_stunned(0.0f)
+  time_stunned(0.0f),
+  ticking(),
+  grunting()
 {
   walk_speed = 80;
   max_drop_height = 16;

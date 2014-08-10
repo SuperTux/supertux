@@ -37,6 +37,8 @@
 
 GLRenderer::GLRenderer() :
   window(),
+  glcontext(),
+  viewport(),
   desktop_size(0, 0),
   fullscreen_active(false),
   last_texture(static_cast<GLuint> (-1))

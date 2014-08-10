@@ -26,13 +26,13 @@
 LiveFire::LiveFire(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/livefire/livefire.sprite", "left", "right"),
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-medium.sprite")),
+  death_sound("sounds/fall.wav"),
   state(STATE_WALKING)  
 {
   walk_speed = 80;
   max_drop_height = 20;
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(1.0f, 0.9f, 0.8f));
-  death_sound = "sounds/fall.wav";
 }
 
 void

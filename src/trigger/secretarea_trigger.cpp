@@ -32,7 +32,8 @@ SecretAreaTrigger::SecretAreaTrigger(const Reader& reader) :
   message_timer(),
   message_displayed(),
   message(),
-  fade_tilemap()
+  fade_tilemap(),
+  script()
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
