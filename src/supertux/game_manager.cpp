@@ -43,7 +43,7 @@ GameManager::start_level(std::unique_ptr<World> world, int index)
 {
   m_world = std::move(world);
 
-  std::unique_ptr<Screen> screen(new GameSession(m_world->get_level_filename(index), 
+  std::unique_ptr<Screen> screen(new GameSession(m_world->get_level_filename(index),
                                                  m_world->get_player_status()));
   g_screen_manager->push_screen(std::move(screen));
 }
@@ -55,16 +55,8 @@ GameManager::start_game(std::unique_ptr<World> world)
 
   MenuManager::instance().clear_menu_stack();
 
-  std::string basename = m_world->get_basedir();
-  basename = basename.substr(0, basename.length()-1);
-  std::string worlddirname = FileSystem::basename(basename);
-  std::ostringstream stream;
-  stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
-  std::string slotfile = stream.str();
-
   try
   {
-    m_world->set_savegame_filename(slotfile);
     m_world->run();
   }
   catch(std::exception& e)

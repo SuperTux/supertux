@@ -34,12 +34,15 @@ private:
   void load_(const std::string& filename);
 
 public:
-  static std::unique_ptr<World> load(const std::string& filename);
+  /**
+      Load a World
+
+      @param directory  Directory containing the info file, e.g. "levels/world1"
+  */
+  static std::unique_ptr<World> load(const std::string& directory);
 
 public:
   ~World();
-
-  void set_savegame_filename(const std::string& filename);
 
   void save_state();
   void load_state();

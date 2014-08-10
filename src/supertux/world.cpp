@@ -21,10 +21,11 @@
 #include "physfs/ifile_streambuf.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/player_status.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/reader.hpp"
@@ -32,10 +33,20 @@
 #include "worldmap/worldmap.hpp"
 
 std::unique_ptr<World>
-World::load(const std::string& filename)
+World::load(const std::string& directory)
 {
   std::unique_ptr<World> world(new World);
-  world->load_(filename);
+
+  world->load_(directory + "/info");
+
+  { // generate savegame filename
+    std::string worlddirname = FileSystem::basename(directory);
+    std::ostringstream stream;
+    stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
+    std::string slotfile = stream.str();
+    world->m_savegame_filename = stream.str();
+  }
+
   return std::move(world);
 }
 
@@ -57,29 +68,6 @@ World::World() :
 World::~World()
 {
   sq_release(scripting::global_vm, &m_world_thread);
-}
-
-void
-World::set_savegame_filename(const std::string& filename)
-{
-  m_savegame_filename = filename;
-
-  // make sure the savegame directory exists
-  std::string dirname = FileSystem::dirname(filename);
-  if(!PHYSFS_exists(dirname.c_str())) {
-    if(!PHYSFS_mkdir(dirname.c_str())) {
-      std::ostringstream msg;
-      msg << "Couldn't create directory for savegames '"
-          << dirname << "': " <<PHYSFS_getLastError();
-      throw std::runtime_error(msg.str());
-    }
-  }
-
-  if(!PHYSFS_isDirectory(dirname.c_str())) {
-    std::ostringstream msg;
-    msg << "Savegame path '" << dirname << "' is not a directory";
-    throw std::runtime_error(msg.str());
-  }
 }
 
 void
@@ -177,6 +165,27 @@ World::run()
 void
 World::save_state()
 {
+  { // make sure the savegame directory exists
+    std::string dirname = FileSystem::dirname(m_savegame_filename);
+    if(!PHYSFS_exists(dirname.c_str()))
+    {
+      if(!PHYSFS_mkdir(dirname.c_str()))
+      {
+        std::ostringstream msg;
+        msg << "Couldn't create directory for savegames '"
+            << dirname << "': " <<PHYSFS_getLastError();
+        throw std::runtime_error(msg.str());
+      }
+    }
+
+    if(!PHYSFS_isDirectory(dirname.c_str()))
+    {
+      std::ostringstream msg;
+      msg << "Savegame path '" << dirname << "' is not a directory";
+      throw std::runtime_error(msg.str());
+    }
+  }
+
   HSQUIRRELVM vm = scripting::global_vm;
 
   lisp::Writer writer(m_savegame_filename);

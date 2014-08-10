@@ -50,18 +50,11 @@ ContribMenu::ContribMenu() :
   {
     try
     {
-      std::unique_ptr<World> world = World::load(*it + "/info");
+      std::unique_ptr<World> world = World::load(*it);
 
       if (!world->hide_from_contribs())
       {
-        { // FIXME: yuck, this should be easier
-          std::ostringstream stream;
-          std::string worlddirname = FileSystem::basename(*it);
-          stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
-          std::string slotfile = stream.str();
-          world->set_savegame_filename(stream.str());
-          world->load_state();
-        }
+        world->load_state();
 
         std::ostringstream title;
         title << world->get_title() << " (" << world->get_num_solved_levels() << "/" << world->get_num_levels() << ")";
@@ -97,7 +90,7 @@ ContribMenu::check_menu()
       // so it might be ok
       GameManager::current()->start_game(std::move(m_contrib_worlds[index]));
     }
-    else 
+    else
     {
       MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribWorldMenu(std::move(m_contrib_worlds[index]))));
     }
