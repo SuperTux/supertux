@@ -63,6 +63,7 @@ void
 World::set_savegame_filename(const std::string& filename)
 {
   m_savegame_filename = filename;
+
   // make sure the savegame directory exists
   std::string dirname = FileSystem::dirname(filename);
   if(!PHYSFS_exists(dirname.c_str())) {
@@ -109,13 +110,16 @@ World::load_(const std::string& filename)
 
   std::string path = m_basedir;
   char** files = PHYSFS_enumerateFiles(path.c_str());
-  if(!files) {
+  if(!files)
+  {
     log_warning << "Couldn't read subset dir '" << path << "'" << std::endl;
     return;
   }
 
-  for(const char* const* filename = files; *filename != 0; ++filename) {
-    if(StringUtil::has_suffix(*filename, ".stl")) {
+  for(const char* const* filename = files; *filename != 0; ++filename)
+  {
+    if(StringUtil::has_suffix(*filename, ".stl"))
+    {
       Level level;
       level.fullpath = path + *filename;
       level.name = *filename;
@@ -141,30 +145,39 @@ World::run()
   sq_pushstring(vm, "state", -1);
   sq_newtable(vm);
   if(SQ_FAILED(sq_createslot(vm, -3)))
+  {
     throw scripting::SquirrelError(vm, "Couldn't create state table");
-  sq_pop(vm, 1);
+  }
+  else
+  {
+    sq_pop(vm, 1);
 
-  load_state();
+    load_state();
 
-  std::string filename = m_basedir + "/world.nut";
-  try {
-    IFileStreambuf ins(filename);
-    std::istream in(&ins);
+    std::string filename = m_basedir + "/world.nut";
+    try
+    {
+      IFileStreambuf ins(filename);
+      std::istream in(&ins);
 
-    sq_release(scripting::global_vm, &m_world_thread);
-    m_world_thread = scripting::create_thread(scripting::global_vm);
-    scripting::compile_and_run(scripting::object_to_vm(m_world_thread), in, filename);
-  } catch(std::exception& ) {
-    // fallback: try to load worldmap worldmap.stwm
-    using namespace worldmap;
-    g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(m_basedir + "worldmap.stwm", get_player_status())));
+      sq_release(scripting::global_vm, &m_world_thread);
+      m_world_thread = scripting::create_thread(scripting::global_vm);
+      scripting::compile_and_run(scripting::object_to_vm(m_world_thread), in, filename);
+    }
+    catch(const std::exception& )
+    {
+      // fallback: try to load worldmap worldmap.stwm
+      g_screen_manager->push_screen(std::unique_ptr<Screen>(
+                                      new worldmap::WorldMap(m_basedir + "worldmap.stwm",
+                                                             get_player_status())));
+    }
   }
 }
 
 void
 World::save_state()
 {
-  using namespace scripting;
+  HSQUIRRELVM vm = scripting::global_vm;
 
   lisp::Writer writer(m_savegame_filename);
 
@@ -172,7 +185,8 @@ World::save_state()
   writer.write("version", 1);
 
   using namespace worldmap;
-  if(WorldMap::current() != NULL) {
+  if(WorldMap::current() != NULL)
+  {
     std::ostringstream title;
     title << WorldMap::current()->get_title();
     title << " (" << WorldMap::current()->solved_level_count()
@@ -186,13 +200,13 @@ World::save_state()
 
   writer.start_list("state");
 
-  sq_pushroottable(global_vm);
-  sq_pushstring(global_vm, "state", -1);
-  if(SQ_SUCCEEDED(sq_get(global_vm, -2))) {
-    scripting::save_squirrel_table(global_vm, -1, writer);
-    sq_pop(global_vm, 1);
+  sq_pushroottable(vm);
+  sq_pushstring(vm, "state", -1);
+  if(SQ_SUCCEEDED(sq_get(vm, -2))) {
+    scripting::save_squirrel_table(vm, -1, writer);
+    sq_pop(vm, 1);
   }
-  sq_pop(global_vm, 1);
+  sq_pop(vm, 1);
   writer.end_list("state");
 
   writer.end_list("supertux-savegame");
@@ -201,15 +215,16 @@ World::save_state()
 void
 World::load_state()
 {
-  using namespace scripting;
-
   if(!PHYSFS_exists(m_savegame_filename.c_str()))
   {
     log_info << m_savegame_filename << ": doesn't exist, not loading state" << std::endl;
   }
   else
   {
-    try {
+    try
+    {
+      HSQUIRRELVM vm = scripting::global_vm;
+
       lisp::Parser parser;
       const lisp::Lisp* root = parser.parse(m_savegame_filename);
 
@@ -231,18 +246,20 @@ World::load_state()
       if(state == NULL)
         throw std::runtime_error("No state section in savegame");
 
-      sq_pushroottable(global_vm);
-      sq_pushstring(global_vm, "state", -1);
-      if(SQ_FAILED(sq_deleteslot(global_vm, -2, SQFalse)))
-        sq_pop(global_vm, 1);
+      sq_pushroottable(vm);
+      sq_pushstring(vm, "state", -1);
+      if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
+        sq_pop(vm, 1);
 
-      sq_pushstring(global_vm, "state", -1);
-      sq_newtable(global_vm);
-      load_squirrel_table(global_vm, -1, *state);
-      if(SQ_FAILED(sq_createslot(global_vm, -3)))
+      sq_pushstring(vm, "state", -1);
+      sq_newtable(vm);
+      scripting::load_squirrel_table(vm, -1, *state);
+      if(SQ_FAILED(sq_createslot(vm, -3)))
         throw std::runtime_error("Couldn't create state table");
-      sq_pop(global_vm, 1);
-    } catch(std::exception& e) {
+      sq_pop(vm, 1);
+    }
+    catch(const std::exception& e)
+    {
       log_fatal << "Couldn't load savegame: " << e.what() << std::endl;
     }
   }
