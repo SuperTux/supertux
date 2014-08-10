@@ -1,6 +1,9 @@
 SuperTux Coding Standards
 =========================
 
+* start member variable name with "m_", global variables with "g_" and
+  static variables with "s_"
+
 * proper separation between generic engine code and game specific code
   should be done whenever feasible
 
