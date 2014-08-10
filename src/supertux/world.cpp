@@ -31,6 +31,14 @@
 #include "util/string_util.hpp"
 #include "worldmap/worldmap.hpp"
 
+std::unique_ptr<World>
+World::load(const std::string& filename)
+{
+  std::unique_ptr<World> world(new World);
+  world->load_(filename);
+  return std::move(world);
+}
+
 World::World() :
   m_worldmap_filename(),
   m_levels(),
@@ -74,7 +82,7 @@ World::set_savegame_filename(const std::string& filename)
 }
 
 void
-World::load(const std::string& filename)
+World::load_(const std::string& filename)
 {
   m_basedir = FileSystem::dirname(filename);
   m_worldmap_filename = m_basedir + "worldmap.stwm";

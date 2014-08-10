@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
 #define HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
 
+#include <memory>
 #include <squirrel.h>
 #include <string>
 #include <vector>
@@ -27,12 +28,18 @@ class PlayerStatus;
 
 class World : public Currenton<World>
 {
-public:
+private:
   World();
+
+  void load_(const std::string& filename);
+
+public:
+  static std::unique_ptr<World> load(const std::string& filename);
+
+public:
   ~World();
 
   void set_savegame_filename(const std::string& filename);
-  void load(const std::string& filename);
 
   void save_state();
   void load_state();
