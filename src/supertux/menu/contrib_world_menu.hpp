@@ -24,10 +24,10 @@ class World;
 class ContribWorldMenu : public Menu
 {
 private:
-  const World& m_current_world;
+  std::unique_ptr<World> m_world;
 
 public:
-  ContribWorldMenu(const World& current_world);
+  ContribWorldMenu(std::unique_ptr<World> current_world);
 
   void check_menu();
 

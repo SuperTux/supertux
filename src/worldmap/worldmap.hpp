@@ -38,7 +38,6 @@
 #include "worldmap/teleporter.hpp"
 
 class Sprite;
-class Menu;
 class GameObject;
 class TileMap;
 class PlayerStatus;
@@ -84,8 +83,6 @@ private:
   bool     free_tileset;
 
   static WorldMap* current_;
-
-  std::unique_ptr<Menu> worldmap_menu;
 
   Vector camera_offset;
 

@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/menu_item.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
@@ -25,16 +26,16 @@
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 
-ContribWorldMenu::ContribWorldMenu(const World& current_world) :
-  m_current_world(current_world)
+ContribWorldMenu::ContribWorldMenu(std::unique_ptr<World> world) :
+  m_world(std::move(world))
 {
-  add_label(m_current_world.get_title());
+  add_label(m_world->get_title());
   add_hl();
 
-  for (unsigned int i = 0; i < m_current_world.get_num_levels(); ++i)
+  for (unsigned int i = 0; i < m_world->get_num_levels(); ++i)
   {
     /** get level's title */
-    std::string filename = m_current_world.get_level_filename(i);
+    std::string filename = m_world->get_level_filename(i);
     std::string title = TitleScreen::get_level_name(filename);
     add_entry(i, title);
   }
@@ -51,9 +52,7 @@ ContribWorldMenu::check_menu()
     if (get_item_by_id(index).kind == MN_ACTION) 
     {
       sound_manager->stop_music();
-      g_screen_manager->push_screen(
-        std::unique_ptr<Screen>(
-          new GameSession(m_current_world.get_level_filename(index), m_current_world.get_player_status())));
+      GameManager::current()->start_level(std::move(m_world), index);
     }
   }
 }

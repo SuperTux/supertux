@@ -16,11 +16,18 @@
 
 #include "supertux/menu/menu_storage.hpp"
 
-#include "supertux/menu/options_menu.hpp"
-#include "supertux/menu/profile_menu.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/menu/addon_menu.hpp"
+#include "supertux/menu/contrib_menu.hpp"
+#include "supertux/menu/contrib_world_menu.hpp"
+#include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"
-#include "supertux/globals.hpp"
+#include "supertux/menu/language_menu.hpp"
+#include "supertux/menu/main_menu.hpp"
+#include "supertux/menu/options_menu.hpp"
+#include "supertux/menu/profile_menu.hpp"
+#include "supertux/menu/worldmap_menu.hpp"
 
 MenuStorage* MenuStorage::s_instance = 0;
 
@@ -42,48 +49,53 @@ MenuStorage::~MenuStorage()
   s_instance = nullptr;
 }
 
-OptionsMenu*
-MenuStorage::get_options_menu()
+std::unique_ptr<Menu>
+MenuStorage::create(MenuId menu_id)
 {
-  if (!m_options_menu)
+  switch(menu_id)
   {
-    m_options_menu.reset(new OptionsMenu);
+    case MAIN_MENU:
+      return std::unique_ptr<Menu>(new MainMenu);
+
+    case LANGUAGE_MENU:
+      return std::unique_ptr<Menu>(new LanguageMenu);
+
+    case OPTIONS_MENU:
+      return std::unique_ptr<Menu>(new OptionsMenu(true));
+
+    case INGAME_OPTIONS_MENU:
+      return std::unique_ptr<Menu>(new OptionsMenu(false));
+
+    case PROFILE_MENU:
+      return std::unique_ptr<Menu>(new ProfileMenu);
+
+    case KEYBOARD_MENU:
+      return std::unique_ptr<Menu>(new KeyboardMenu(g_input_manager));
+
+    case JOYSTICK_MENU:
+      return std::unique_ptr<Menu>(new JoystickMenu(g_input_manager));
+
+    case WORLDMAP_MENU:
+      return std::unique_ptr<Menu>(new WorldmapMenu);
+
+    case GAME_MENU:
+      return std::unique_ptr<Menu>(new GameMenu);
+
+    case CONTRIB_MENU:
+      return std::unique_ptr<Menu>(new ContribMenu);
+
+    case CONTRIB_WORLD_MENU:
+      return 0; //return new ContribWorldMenu();
+
+    case ADDON_MENU:
+      return std::unique_ptr<Menu>(new AddonMenu);
+
+    case NO_MENU:
+      return std::unique_ptr<Menu>();
+
+    default:
+      assert(!"unknown MenuId provided");
   }
-
-  return m_options_menu.get();
-}
-
-ProfileMenu*
-MenuStorage::get_profile_menu()
-{
-  if (!m_profile_menu)
-  {
-    m_profile_menu.reset(new ProfileMenu);
-  }
-
-  return m_profile_menu.get();
-}
-
-KeyboardMenu*
-MenuStorage::get_key_options_menu()
-{
-  if (!m_key_options_menu)
-  {
-    m_key_options_menu.reset(new KeyboardMenu(g_input_manager));
-  }
-
-  return m_key_options_menu.get();
-}
-
-JoystickMenu*
-MenuStorage::get_joystick_options_menu()
-{
-  if (!m_joystick_options_menu)
-  {
-    m_joystick_options_menu.reset(new JoystickMenu(g_input_manager));
-  }
-
-  return m_joystick_options_menu.get();
 }
 
 /* EOF */

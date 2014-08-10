@@ -18,6 +18,7 @@
 #include "supertux/title_screen.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "lisp/parser.hpp"
 #include "object/camera.hpp"
@@ -25,12 +26,9 @@
 #include "supertux/fadeout.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/menu/addon_menu.hpp"
-#include "supertux/menu/contrib_world_menu.hpp"
-#include "supertux/menu/contrib_menu.hpp"
-#include "supertux/menu/main_menu.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/textscroller.hpp"
 #include "supertux/world.hpp"
@@ -43,7 +41,6 @@
 #include <version.h>
 
 TitleScreen::TitleScreen(PlayerStatus* player_status) :
-  main_menu(new MainMenu()),
   frame(),
   controller(),
   titlesession()
@@ -125,7 +122,7 @@ TitleScreen::setup()
     sector->activate(sector->player->get_pos());
   }
 
-  MenuManager::instance().set_current(main_menu.get());
+  MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
 }
 
 void
@@ -133,7 +130,7 @@ TitleScreen::leave()
 {
   Sector* sector = titlesession->get_current_sector();
   sector->deactivate();
-  MenuManager::instance().set_current(nullptr);
+  MenuManager::instance().clear_menu_stack();
 }
 
 void
@@ -160,39 +157,13 @@ TitleScreen::update(float elapsed_time)
 
   make_tux_jump();
 
-  if (Menu* menu = MenuManager::instance().current())
-  {
-    menu->check_menu();
-  }
+  MenuManager::instance().check_menu();
 
   // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)
-  if(MenuManager::instance().current() == 0 && g_screen_manager->has_no_pending_fadeout())
+  if(!MenuManager::instance().is_active() && g_screen_manager->has_no_pending_fadeout())
   {
-    MenuManager::instance().set_current(main_menu.get());
-  }
-}
-
-void
-TitleScreen::start_game(World* world)
-{
-  MenuManager::instance().set_current(NULL);
-
-  std::string basename = world->get_basedir();
-  basename = basename.substr(0, basename.length()-1);
-  std::string worlddirname = FileSystem::basename(basename);
-  std::ostringstream stream;
-  stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
-  std::string slotfile = stream.str();
-
-  try
-  {
-    world->set_savegame_filename(slotfile);
-    world->run();
-  }
-  catch(std::exception& e)
-  {
-    log_fatal << "Couldn't start world: " << e.what() << std::endl;
+    MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
   }
 }
 

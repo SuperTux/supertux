@@ -27,9 +27,10 @@ public:
   JoystickMenu(InputManager* input_manager);
   virtual ~JoystickMenu();
 
-  void update();
+  void refresh();
+  void refresh_menu_item(Controller::Control id);
+
   std::string get_button_name(int button);
-  void update_menu_item(Controller::Control id);
   virtual void menu_action(MenuItem* item);
   void check_menu() {}
 

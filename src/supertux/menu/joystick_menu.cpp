@@ -87,7 +87,7 @@ JoystickMenu::recreate_menu()
 
   add_hl();
   add_back(_("Back"));
-  update();
+  refresh();
 }
 
 std::string
@@ -131,7 +131,7 @@ JoystickMenu::menu_action(MenuItem* item)
 }
 
 void
-JoystickMenu::update_menu_item(Controller::Control id)
+JoystickMenu::refresh_menu_item(Controller::Control id)
 {
   int button  = m_input_manager->joystick_manager->reversemap_joybutton(id);
   int axis    = m_input_manager->joystick_manager->reversemap_joyaxis(id);
@@ -201,22 +201,22 @@ JoystickMenu::update_menu_item(Controller::Control id)
 }
 
 void
-JoystickMenu::update()
+JoystickMenu::refresh()
 {
   if (m_joysticks_available)
   {
-    update_menu_item(Controller::UP);
-    update_menu_item(Controller::DOWN);
-    update_menu_item(Controller::LEFT);
-    update_menu_item(Controller::RIGHT);
+    refresh_menu_item(Controller::UP);
+    refresh_menu_item(Controller::DOWN);
+    refresh_menu_item(Controller::LEFT);
+    refresh_menu_item(Controller::RIGHT);
 
-    update_menu_item(Controller::JUMP);
-    update_menu_item(Controller::ACTION);
-    update_menu_item(Controller::PAUSE_MENU);
-    update_menu_item(Controller::PEEK_LEFT);
-    update_menu_item(Controller::PEEK_RIGHT);
-    update_menu_item(Controller::PEEK_UP);
-    update_menu_item(Controller::PEEK_DOWN);
+    refresh_menu_item(Controller::JUMP);
+    refresh_menu_item(Controller::ACTION);
+    refresh_menu_item(Controller::PAUSE_MENU);
+    refresh_menu_item(Controller::PEEK_LEFT);
+    refresh_menu_item(Controller::PEEK_RIGHT);
+    refresh_menu_item(Controller::PEEK_UP);
+    refresh_menu_item(Controller::PEEK_DOWN);
   }
 }
 

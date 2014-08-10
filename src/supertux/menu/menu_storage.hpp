@@ -33,20 +33,28 @@ public:
   static MenuStorage& instance();
 
 public:
+  enum MenuId {
+    NO_MENU,
+    MAIN_MENU,
+    OPTIONS_MENU,
+    INGAME_OPTIONS_MENU,
+    PROFILE_MENU,
+    CONTRIB_MENU,
+    CONTRIB_WORLD_MENU,
+    ADDON_MENU,
+    LANGUAGE_MENU,
+    KEYBOARD_MENU,
+    JOYSTICK_MENU,
+    WORLDMAP_MENU,
+    GAME_MENU
+  };
+
+public:
   MenuStorage();
   ~MenuStorage();
-
-  OptionsMenu* get_options_menu();
-  ProfileMenu* get_profile_menu();
-  KeyboardMenu* get_key_options_menu();
-  JoystickMenu* get_joystick_options_menu();
-
-private:
-  std::unique_ptr<OptionsMenu>  m_options_menu;
-  std::unique_ptr<ProfileMenu>  m_profile_menu;
-  std::unique_ptr<KeyboardMenu> m_key_options_menu;
-  std::unique_ptr<JoystickMenu> m_joystick_options_menu;
-
+  
+  std::unique_ptr<Menu> create(MenuId menu_id);
+  
 private:
   MenuStorage(const MenuStorage&);
   MenuStorage& operator=(const MenuStorage&);

@@ -76,7 +76,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     // if console is open: send key there
     process_console_key_event(event);
   }
-  else if (MenuManager::instance().current())
+  else if (MenuManager::instance().is_active())
   {
     // if menu mode: send key there
     process_menu_key_event(event);
@@ -168,7 +168,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
       bind_key(event.keysym.sym, static_cast<Controller::Control>(wait_for_key));
     }
     m_parent->reset();
-    MenuStorage::instance().get_key_options_menu()->update();
+    MenuManager::instance().refresh();
     wait_for_key = -1;
     return;
   }
@@ -178,7 +178,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     if (event.keysym.sym == SDLK_ESCAPE) 
     {
       m_parent->reset();
-      MenuStorage::instance().get_joystick_options_menu()->update();
+      MenuManager::instance().refresh();
       m_parent->joystick_manager->wait_for_joystick = -1;
     }
     return;

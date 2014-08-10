@@ -28,7 +28,7 @@ WorldmapMenu::WorldmapMenu()
   add_label(_("Pause"));
   add_hl();
   add_entry(MNID_RETURNWORLDMAP, _("Continue"));
-  add_submenu(_("Options"), MenuStorage::instance().get_options_menu());
+  add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
   add_hl();
   add_entry(MNID_QUITWORLDMAP, _("Quit World"));
 }
@@ -38,11 +38,12 @@ WorldmapMenu::check_menu()
 {
   switch (check())
   {
-    case MNID_RETURNWORLDMAP: // Return to game
-      MenuManager::instance().set_current(0);
+    case MNID_RETURNWORLDMAP:
+      MenuManager::instance().clear_menu_stack();
       break;
 
-    case MNID_QUITWORLDMAP: // Quit Worldmap
+    case MNID_QUITWORLDMAP:
+      MenuManager::instance().clear_menu_stack();
       g_screen_manager->exit_screen();
       break;
   }

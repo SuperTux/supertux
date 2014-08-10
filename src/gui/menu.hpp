@@ -62,14 +62,17 @@ public:
   MenuItem* add_toggle(int id, const std::string& text, bool toggled = false);
   MenuItem* add_inactive(int id, const std::string& text);
   MenuItem* add_back(const std::string& text);
-  MenuItem* add_submenu(const std::string& text, Menu* submenu, int id = -1);
+  MenuItem* add_submenu(const std::string& text, int submenu);
   MenuItem* add_controlfield(int id, const std::string& text,
                              const std::string& mapping = "");
   MenuItem* add_string_select(int id, const std::string& text);
 
   virtual void menu_action(MenuItem* item);
 
-  void update();
+  void process_input();
+
+  /** Perform actions to bring the menu up to date with configuration changes */
+  virtual void refresh() {}
 
   /** Remove all entries from the menu */
   void clear();
@@ -88,12 +91,18 @@ public:
   void set_active_item(int id);
 
   void draw(DrawingContext& context);
-  void set_pos(float x, float y, float rw = 0, float rh = 0);
+  Vector get_center_pos() const { return pos; }
+  void set_center_pos(float x, float y);
 
   void event(const SDL_Event& event);
 
   bool is_toggled(int id) const;
   void set_toggled(int id, bool toggled);
+
+  float get_width() const;
+  float get_height() const;
+
+  virtual void on_window_resize();
 
 protected:
   /** Return the index of the menu item that was 'hit' (ie. the user
@@ -101,8 +110,6 @@ protected:
   int check ();
 
   MenuItem* add_item(std::unique_ptr<MenuItem> menu_item);
-  float get_width() const;
-  float get_height() const;
 
 private:
   void check_controlfield_change_event(const SDL_Event& event);
@@ -125,13 +132,7 @@ private:
   float menu_repeat_time;
 
 public:
-  bool close;
-
   std::vector<std::unique_ptr<MenuItem> > items;
-
-public:
-  float effect_progress;
-  float effect_start_time;
 
 private:
   int arrange_left;

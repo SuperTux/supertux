@@ -19,11 +19,12 @@
 #include "audio/sound_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/fadeout.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/addon_menu.hpp"
-#include "supertux/menu/options_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
+#include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/options_menu.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/textscroller.hpp"
@@ -31,18 +32,22 @@
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 
-MainMenu::MainMenu() :
-  m_addon_menu(),
-  m_contrib_menu(),
-  m_main_world()
+MainMenu::MainMenu()
 {
-  set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
+  set_center_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
+
   add_entry(MNID_STARTGAME, _("Start Game"));
   add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
   add_entry(MNID_ADDONS, _("Add-ons"));
-  add_submenu(_("Options"), MenuStorage::instance().get_options_menu());
+  add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
   add_entry(MNID_CREDITS, _("Credits"));
   add_entry(MNID_QUITMAINMENU, _("Quit"));
+}
+
+void
+MainMenu::on_window_resize()
+{
+  set_center_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
 }
 
 void
@@ -51,28 +56,25 @@ MainMenu::check_menu()
   switch (check())
   {
     case MNID_STARTGAME:
-      if (m_main_world.get() == NULL)
       {
-        m_main_world.reset(new World());
-        m_main_world->load("levels/world1/info");
+        std::unique_ptr<World> world(new World);
+        world->load("levels/world1/info");
+        GameManager::current()->start_game(std::move(world));
       }
-      TitleScreen::start_game(m_main_world.get());
       break;
 
     case MNID_LEVELS_CONTRIB:
       // Contrib Menu
-      m_contrib_menu.reset(new ContribMenu());
-      MenuManager::instance().push_current(m_contrib_menu.get());
+      MenuManager::instance().push_menu(MenuStorage::CONTRIB_MENU);
       break;
 
     case MNID_ADDONS:
       // Add-ons Menu
-      m_addon_menu.reset(new AddonMenu());
-      MenuManager::instance().push_current(m_addon_menu.get());
+      MenuManager::instance().push_menu(MenuStorage::ADDON_MENU);
       break;
 
     case MNID_CREDITS:
-      MenuManager::instance().set_current(NULL);
+      MenuManager::instance().clear_menu_stack();
       g_screen_manager->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.txt")),
                                     std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
       break;

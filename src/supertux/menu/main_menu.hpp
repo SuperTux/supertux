@@ -35,14 +35,10 @@ enum MainMenuIDs {
 
 class MainMenu : public Menu
 {
-private:
-  std::unique_ptr<AddonMenu>   m_addon_menu;
-  std::unique_ptr<ContribMenu> m_contrib_menu;
-  std::unique_ptr<World>       m_main_world;
-
 public:
   MainMenu();
 
+  void on_window_resize() override;
   void check_menu();
 
 private:

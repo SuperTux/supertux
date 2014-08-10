@@ -27,7 +27,7 @@ public:
   KeyboardMenu(InputManager* controller);
   ~KeyboardMenu();
 
-  void update();
+  void refresh();
   std::string get_key_name(SDL_Keycode key);
   virtual void menu_action(MenuItem* item);
   InputManager* controller;

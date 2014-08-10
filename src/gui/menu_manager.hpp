@@ -19,8 +19,13 @@
 
 #include <vector>
 #include <list>
+#include <memory>
 
+#include "SDL.h"
+
+class DrawingContext;
 class Menu;
+class MenuTransition;
 
 class MenuManager
 {
@@ -30,13 +35,8 @@ public:
   static MenuManager& instance();
 
 public:
-  std::vector<Menu*> m_last_menus;
-  std::list<Menu*> m_all_menus;
-
-  /** Used only for transition effects */
-  Menu* m_previous;
-
-  Menu* m_current;
+  std::vector<std::unique_ptr<Menu> > m_menu_stack;
+  std::unique_ptr<MenuTransition> m_transition;
 
   friend class Menu;
 
@@ -44,24 +44,29 @@ public:
   MenuManager();
   ~MenuManager();
 
-  /** Set the current menu, if pmenu is NULL, hide the current menu */
-  void set_current(Menu* pmenu);
+  void event(const SDL_Event& event);
+  void process_input();
+  void refresh();
 
-  void push_current(Menu* pmenu);
-  void pop_current();
+  void draw(DrawingContext& context);
+  bool check_menu();
 
-  void recalc_pos();
+  void set_menu(int id);
+  void set_menu(std::unique_ptr<Menu> menu);
+  void push_menu(int id);
+  void push_menu(std::unique_ptr<Menu> menu);
+  void pop_menu();
+  void clear_menu_stack();
 
-  Menu* get_previous()
+  void on_window_resize();
+  bool is_active() const
   {
-    return m_previous;
+    return !m_menu_stack.empty();
   }
 
-  /** Return the current active menu or NULL if none is active */
-  Menu* current()
-  {
-    return m_current;
-  }
+private:
+  Menu* current() const;
+  void transition(Menu* from, Menu* to);
 
 private:
   MenuManager(const MenuManager&);

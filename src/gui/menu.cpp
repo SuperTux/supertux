@@ -42,15 +42,10 @@ Menu::Menu() :
   delete_character(),
   mn_input_char(),
   menu_repeat_time(),
-  close(false),
   items(),
-  effect_progress(),
-  effect_start_time(),
   arrange_left(),
   active_item()
 {
-  MenuManager::instance().m_all_menus.push_back(this);
-
   hit_item = -1;
   menuaction = MENU_ACTION_NONE;
   delete_character = 0;
@@ -60,27 +55,17 @@ Menu::Menu() :
   pos.y        = SCREEN_HEIGHT/2;
   arrange_left = 0;
   active_item  = -1;
-
-  effect_progress   = 0.0f;
-  effect_start_time = 0.0f;
 }
 
 Menu::~Menu()
 {
-  MenuManager::instance().m_all_menus.remove(this);
-
-  if (MenuManager::instance().current() == this)
-    MenuManager::instance().m_current = nullptr;
-
-  if (MenuManager::instance().get_previous() == this)
-    MenuManager::instance().m_previous = nullptr;
 }
 
 void
-Menu::set_pos(float x, float y, float rw, float rh)
+Menu::set_center_pos(float x, float y)
 {
-  pos.x = x + get_width()  * rw;
-  pos.y = y + get_height() * rh;
+  pos.x = x;
+  pos.y = y;
 }
 
 /* Add an item to a menu */
@@ -172,9 +157,9 @@ Menu::add_back(const std::string& text)
 }
 
 MenuItem*
-Menu::add_submenu(const std::string& text, Menu* submenu, int id)
+Menu::add_submenu(const std::string& text, int submenu)
 {
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_GOTO, id));
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_GOTO));
   item->text = text;
   item->target_menu = submenu;
   return add_item(std::move(item));
@@ -189,27 +174,13 @@ Menu::clear()
 
 /* Process actions done on the menu */
 void
-Menu::update()
+Menu::process_input()
 {
   int menu_height = (int) get_height();
   if (menu_height > SCREEN_HEIGHT)
   { // Scrolling
     int scroll_offset = (menu_height - SCREEN_HEIGHT) / 2 + 32;
     pos.y = SCREEN_HEIGHT/2 - scroll_offset * ((float(active_item) / (items.size()-1)) - 0.5f) * 2.0f;
-  }
-
-  effect_progress = (real_time - effect_start_time) * 6.0f;
-
-  if(effect_progress >= 1.0f) {
-    effect_progress = 1.0f;
-
-    if (close) {
-      MenuManager::instance().m_current = 0;
-      close = false;
-    }
-  }
-  else if (effect_progress <= 0.0f) {
-    effect_progress = 0.0f;
   }
 
   Controller* controller = g_input_manager->get_controller();
@@ -322,7 +293,7 @@ Menu::update()
       switch (items[active_item]->kind) {
         case MN_GOTO:
           assert(items[active_item]->target_menu != 0);
-          MenuManager::instance().push_current(items[active_item]->target_menu);
+          MenuManager::instance().push_menu(items[active_item]->target_menu);
           break;
 
         case MN_TOGGLE:
@@ -350,11 +321,11 @@ Menu::update()
         case MN_TEXTFIELD:
         case MN_NUMFIELD:
           menuaction = MENU_ACTION_DOWN;
-          update();
+          process_input();
           break;
 
         case MN_BACK:
-          MenuManager::instance().pop_current();
+          MenuManager::instance().pop_menu();
           break;
         default:
           break;
@@ -389,7 +360,7 @@ Menu::update()
       break;
 
     case MENU_ACTION_BACK:
-      MenuManager::instance().pop_current();
+      MenuManager::instance().pop_menu();
       break;
 
     case MENU_ACTION_NONE:
@@ -615,50 +586,16 @@ Menu::get_height() const
   return items.size() * 24;
 }
 
-/* Draw the current menu. */
+void
+Menu::on_window_resize()
+{
+  pos.x = SCREEN_WIDTH / 2;
+  pos.y = SCREEN_HEIGHT / 2;
+}
+
 void
 Menu::draw(DrawingContext& context)
 {
-  if(MouseCursor::current()) {
-    MouseCursor::current()->draw(context);
-  }
-
-  float menu_width  = get_width();
-  float menu_height = get_height();
-
-  if (effect_progress != 1.0f)
-  {
-    if (close)
-    {
-      menu_width  = (MenuManager::instance().current()->get_width()  * (1.0f - effect_progress));
-      menu_height = (MenuManager::instance().current()->get_height() * (1.0f - effect_progress));
-    }
-    else if (MenuManager::instance().get_previous())
-    {
-      menu_width  = (menu_width  * effect_progress) + (MenuManager::instance().get_previous()->get_width()  * (1.0f - effect_progress));
-      menu_height = (menu_height * effect_progress) + (MenuManager::instance().get_previous()->get_height() * (1.0f - effect_progress));
-      //std::cout << effect_progress << " " << this << " " << last_menus.back() << std::endl;
-    }
-    else
-    {
-      menu_width  *= effect_progress;
-      menu_height *= effect_progress;
-    }
-  }
-
-  /* Draw a transparent background */
-  context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2-4, pos.y - menu_height/2 - 10-4),
-                                 Vector(pos.x + menu_width/2+4, pos.y - menu_height/2 + 10 + menu_height+4)),
-                           Color(0.2f, 0.3f, 0.4f, 0.8f),
-                           20.0f,
-                           LAYER_GUI-10);
-
-  context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2, pos.y - menu_height/2 - 10),
-                                 Vector(pos.x + menu_width/2, pos.y - menu_height/2 + 10 + menu_height)),
-                           Color(0.6f, 0.7f, 0.8f, 0.5f),
-                           16.0f,
-                           LAYER_GUI-10);
-
   if (!items[active_item]->help.empty())
   {
     int text_width  = (int) Resources::normal_font->get_text_width(items[active_item]->help);
@@ -685,11 +622,10 @@ Menu::draw(DrawingContext& context)
                       ALIGN_CENTER, LAYER_GUI);
   }
 
-  if (effect_progress == 1.0f)
-    for(unsigned int i = 0; i < items.size(); ++i)
-    {
-      draw_item(context, i);
-    }
+  for(unsigned int i = 0; i < items.size(); ++i)
+  {
+    draw_item(context, i);
+  }
 }
 
 MenuItem&
@@ -741,9 +677,6 @@ Menu::set_toggled(int id, bool toggled)
 void
 Menu::event(const SDL_Event& event)
 {
-  if(effect_progress != 1.0f)
-    return;
-
   switch(event.type) {
     case SDL_MOUSEBUTTONDOWN:
     if(event.button.button == SDL_BUTTON_LEFT)

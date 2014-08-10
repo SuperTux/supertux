@@ -30,7 +30,7 @@ class GameMenu : public Menu
 {
 private:
 public:
-  GameMenu(const Level& level);
+  GameMenu();
 
   void check_menu() override;
 

@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "supertux/main.hpp"
+
 #include <config.h>
 #include <version.h>
 
@@ -28,10 +30,6 @@ extern "C" {
 #include <findlocale.h>
 }
 
-#include "video/renderer.hpp"
-#include "video/lightmap.hpp"
-#include "supertux/main.hpp"
-
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
@@ -40,6 +38,7 @@ extern "C" {
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/player_status.hpp"
@@ -50,6 +49,8 @@ extern "C" {
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
+#include "video/lightmap.hpp"
+#include "video/renderer.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace { DrawingContext *context_pointer; }
@@ -523,6 +524,7 @@ Main::run(int argc, char** argv)
 
     const std::unique_ptr<PlayerStatus> default_playerstatus(new PlayerStatus());
 
+    GameManager game_manager;
     g_screen_manager = new ScreenManager();
 
     init_rand();

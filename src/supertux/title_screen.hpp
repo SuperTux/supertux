@@ -24,7 +24,6 @@ class AddonMenu;
 class CodeController;
 class ContribMenu;
 class ContribWorldMenu;
-class MainMenu;
 class Menu;
 class PlayerStatus;
 class World;
@@ -48,15 +47,10 @@ public:
 
   virtual void update(float elapsed_time);
 
-public:
-  static void start_game(World* world);
-
 private:
   void make_tux_jump();
-  void generate_main_menu();
   
 private:
-  std::unique_ptr<MainMenu> main_menu;
   SurfacePtr frame;
   std::unique_ptr<CodeController> controller;
   std::unique_ptr<GameSession> titlesession;

@@ -61,6 +61,7 @@ Config::load()
   if(!config_lisp)
     throw std::runtime_error("File is not a supertux-config file");
 
+  config_lisp->get("profile", profile);
   config_lisp->get("show_fps", show_fps);
   config_lisp->get("console", console_enabled);
   config_lisp->get("locale", locale);
@@ -111,6 +112,7 @@ Config::save()
 
   writer.start_list("supertux-config");
 
+  writer.write("profile", profile);
   writer.write("show_fps", show_fps);
   writer.write("console", console_enabled);
   writer.write("locale", locale);
