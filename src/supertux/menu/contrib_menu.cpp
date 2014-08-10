@@ -17,13 +17,16 @@
 #include "supertux/menu/contrib_menu.hpp"
 
 #include <physfs.h>
+#include <sstream>
 
 #include "gui/menu_manager.hpp"
 #include "supertux/game_manager.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/menu/contrib_world_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
+#include "util/file_system.hpp"
 #include "util/gettext.hpp"
 
 ContribMenu::ContribMenu() :
@@ -47,11 +50,24 @@ ContribMenu::ContribMenu() :
   {
     try
     {
-      std::unique_ptr<World> world (new World());
+      std::unique_ptr<World> world (new World);
+
       world->load(*it + "/info");
+
       if (!world->hide_from_contribs) 
       {
-        add_entry(i++, world->get_title());
+        { // FIXME: yuck, this should be easier
+          std::ostringstream stream;
+          std::string worlddirname = FileSystem::basename(*it);
+          stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
+          std::string slotfile = stream.str();
+          world->set_savegame_filename(stream.str());
+          world->load_state();
+        }
+
+        std::ostringstream title;
+        title << world->get_title() << " (" << world->get_num_solved_levels() << "/" << world->get_num_levels() << ")";
+        add_entry(i++, title.str());
         m_contrib_worlds.push_back(std::move(world));
       }
     }

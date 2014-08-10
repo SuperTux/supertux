@@ -45,6 +45,7 @@ public:
   void load_state();
 
   unsigned int get_num_levels() const;
+  int get_num_solved_levels() const;
 
   const std::string& get_level_filename(unsigned int i) const;
   const std::string& get_basedir() const;
@@ -55,7 +56,14 @@ public:
   void run();
 
 private:
-  std::vector<std::string> levels;
+  std::string worldname;
+  struct Level
+  {
+    std::string fullpath;
+    std::string name;
+  };
+
+  std::vector<Level> levels;
   std::string basedir;
   std::string savegame_filename;
   /// squirrel table that saves persistent state (about the world)

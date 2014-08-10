@@ -34,6 +34,7 @@
 World* World::current_ = NULL;
 
 World::World() :
+  worldname(),
   levels(),
   basedir(),
   savegame_filename(),
@@ -85,6 +86,7 @@ void
 World::load(const std::string& filename)
 {
   basedir = FileSystem::dirname(filename);
+  worldname = basedir + "worldmap.stwm";
 
   lisp::Parser parser;
   const lisp::Lisp* root = parser.parse(filename);
@@ -115,12 +117,19 @@ World::load(const std::string& filename)
 
   for(const char* const* filename = files; *filename != 0; ++filename) {
     if(StringUtil::has_suffix(*filename, ".stl")) {
-      levels.push_back(path + *filename);
+      Level level;
+      level.fullpath = path + *filename;
+      level.name = *filename;
+      levels.push_back(level);
     }
   }
   PHYSFS_freeList(files);
 
-  std::sort(levels.begin(), levels.end(), StringUtil::numeric_less);
+  std::sort(levels.begin(), levels.end(),
+            [](const Level& lhs, const Level& rhs)
+            {
+              return StringUtil::numeric_less(lhs.fullpath, rhs.fullpath);
+            });
 }
 
 void
@@ -197,7 +206,12 @@ World::load_state()
 {
   using namespace scripting;
 
-  if(PHYSFS_exists(savegame_filename.c_str())) {
+  if(!PHYSFS_exists(savegame_filename.c_str()))
+  {
+    log_info << savegame_filename << ": doesn't exist, not loading state" << std::endl;
+  }
+  else
+  {
     try {
       lisp::Parser parser;
       const lisp::Lisp* root = parser.parse(savegame_filename);
@@ -240,13 +254,78 @@ World::load_state()
 const std::string&
 World::get_level_filename(unsigned int i) const
 {
-  return levels[i];
+  return levels[i].fullpath;
 }
 
 unsigned int
 World::get_num_levels() const
 {
   return levels.size();
+}
+
+int
+World::get_num_solved_levels() const
+{
+  int num_solved_levels = 0;
+
+  HSQUIRRELVM vm = scripting::global_vm;
+  int oldtop = sq_gettop(vm);
+
+  sq_pushroottable(vm);
+  sq_pushstring(vm, "state", -1);
+  if(SQ_FAILED(sq_get(vm, -2)))
+  {
+    log_warning << "failed to get 'state' table" << std::endl;
+  }
+  else
+  {
+    sq_pushstring(vm, "worlds", -1);
+    if(SQ_FAILED(sq_get(vm, -2)))
+    {
+      log_warning << "failed to get 'state.worlds' table" << std::endl;
+    }
+    else
+    {
+      sq_pushstring(vm, worldname.c_str(), -1);
+      if(SQ_FAILED(sq_get(vm, -2)))
+      {
+        log_warning << "failed to get state.worlds['" << worldname << "']" << std::endl;
+      }
+      else
+      {
+        sq_pushstring(vm, "levels", -1);
+        if(SQ_FAILED(sq_get(vm, -2)))
+        {
+          log_warning << "failed to get state.worlds['" << worldname << "'].levels" << std::endl;
+        }
+        else
+        {
+          for(auto level : levels)
+          {
+            sq_pushstring(vm, level.name.c_str(), -1);
+            if(SQ_FAILED(sq_get(vm, -2)))
+            {
+              log_warning << "failed to get state.worlds['" << worldname << "'].levels['"
+                          << level.name << "']" << std::endl;
+            }
+            else
+            {
+              bool solved = scripting::read_bool(vm, "solved");
+              if (solved)
+              {
+                num_solved_levels += 1;
+              }
+              sq_pop(vm, 1);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  sq_settop(vm, oldtop);
+
+  return num_solved_levels;
 }
 
 const std::string&
