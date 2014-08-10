@@ -96,11 +96,10 @@ World::load_(const std::string& directory)
   // Level info file doesn't define any levels, so read the
   // directory to see what we can find
 
-  std::string path = m_basedir;
-  char** files = PHYSFS_enumerateFiles(path.c_str());
+  char** files = PHYSFS_enumerateFiles(m_basedir.c_str());
   if(!files)
   {
-    log_warning << "Couldn't read subset dir '" << path << "'" << std::endl;
+    log_warning << "Couldn't read subset dir '" << m_basedir << "'" << std::endl;
     return;
   }
 
@@ -108,19 +107,12 @@ World::load_(const std::string& directory)
   {
     if(StringUtil::has_suffix(*filename, ".stl"))
     {
-      Level level;
-      level.fullpath = path + *filename;
-      level.name = *filename;
-      m_levels.push_back(level);
+      m_levels.push_back(*filename);
     }
   }
   PHYSFS_freeList(files);
 
-  std::sort(m_levels.begin(), m_levels.end(),
-            [](const Level& lhs, const Level& rhs)
-            {
-              return StringUtil::numeric_less(lhs.fullpath, rhs.fullpath);
-            });
+  std::sort(m_levels.begin(), m_levels.end(), StringUtil::numeric_less);
 }
 
 void
@@ -274,10 +266,10 @@ World::load_state()
   }
 }
 
-const std::string&
+std::string
 World::get_level_filename(unsigned int i) const
 {
-  return m_levels[i].fullpath;
+  return FileSystem::join(m_basedir, m_levels[i]);
 }
 
 unsigned int
@@ -325,11 +317,11 @@ World::get_num_solved_levels() const
         {
           for(auto level : m_levels)
           {
-            sq_pushstring(vm, level.name.c_str(), -1);
+            sq_pushstring(vm, level.c_str(), -1);
             if(SQ_FAILED(sq_get(vm, -2)))
             {
               log_warning << "failed to get state.worlds['" << m_worldmap_filename << "'].levels['"
-                          << level.name << "']" << std::endl;
+                          << level << "']" << std::endl;
             }
             else
             {
@@ -351,13 +343,13 @@ World::get_num_solved_levels() const
   return num_solved_levels;
 }
 
-const std::string&
+std::string
 World::get_basedir() const
 {
   return m_basedir;
 }
 
-const std::string&
+std::string
 World::get_title() const
 {
   return m_title;

@@ -50,9 +50,9 @@ public:
   unsigned int get_num_levels() const;
   int get_num_solved_levels() const;
 
-  const std::string& get_level_filename(unsigned int i) const;
-  const std::string& get_basedir() const;
-  const std::string& get_title() const;
+  std::string get_level_filename(unsigned int i) const;
+  std::string get_basedir() const;
+  std::string get_title() const;
 
   PlayerStatus* get_player_status() const { return m_player_status.get(); }
 
@@ -62,14 +62,7 @@ public:
   bool is_levelset() const { return m_is_levelset; }
 
 private:
-  struct Level
-  {
-    Level() : fullpath(), name() {}
-    std::string fullpath;
-    std::string name;
-  };
-
-  std::vector<Level> m_levels;
+  std::vector<std::string> m_levels;
   std::string m_basedir;
   std::string m_worldmap_filename;
   std::string m_savegame_filename;
