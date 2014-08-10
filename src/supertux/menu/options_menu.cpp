@@ -37,7 +37,6 @@ enum OptionsMenuIDs {
   MNID_FULLSCREEN_RESOLUTION,
   MNID_MAGNIFICATION,
   MNID_ASPECTRATIO,
-  MNID_PROFILES,
   MNID_SOUND,
   MNID_MUSIC
 };
@@ -57,9 +56,6 @@ OptionsMenu::OptionsMenu(bool complete)
     add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
       ->set_help(_("Select a profile to play with"));
   }
-
-  add_toggle(MNID_PROFILES, _("Profile on Startup"), g_config->sound_enabled)
-    ->set_help(_("Select your profile immediately after start-up"));
 
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), g_config->use_fullscreen)
     ->set_help(_("Fill the entire screen"));
