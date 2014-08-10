@@ -41,10 +41,10 @@ namespace {
 
 Rectf menu2rect(const Menu& menu)
 {
-  return Rectf(menu.get_pos().x - menu.get_width() / 2,
-               menu.get_pos().y - menu.get_height() / 2,
-               menu.get_pos().x + menu.get_width() / 2,
-               menu.get_pos().y + menu.get_height() / 2);
+  return Rectf(menu.get_center_pos().x - menu.get_width() / 2,
+               menu.get_center_pos().y - menu.get_height() / 2,
+               menu.get_center_pos().x + menu.get_width() / 2,
+               menu.get_center_pos().y + menu.get_height() / 2);
 }
 
 } // namespace
@@ -79,6 +79,11 @@ public:
     m_effect_progress = 0.0f;
 
     m_is_active = true;
+  }
+
+  void set(const Rectf& rect)
+  {
+    m_to_rect = m_from_rect = rect;
   }
 
   void update()
@@ -172,23 +177,27 @@ MenuManager::event(const SDL_Event& event)
 void
 MenuManager::draw(DrawingContext& context)
 {
-  if (m_transition->is_active() || current())
+  if (m_transition->is_active())
   {
     m_transition->update();
     m_transition->draw(context);
   }
-
-  if (current())
+  else 
   {
-    if (!m_transition->is_active())
+    if (current())
     {
+      // brute force the transition into the right shape in case the
+      // menu has changed sizes
+      m_transition->set(menu2rect(*current()));
+      m_transition->draw(context);
+
       current()->draw(context);
     }
+  }
 
-    if (MouseCursor::current())
-    {
-      MouseCursor::current()->draw(context);
-    }
+  if (current() && MouseCursor::current())
+  {
+    MouseCursor::current()->draw(context);
   }
 }
 
@@ -278,10 +287,7 @@ MenuManager::on_window_resize()
 {
   for(auto i = m_menu_stack.begin(); i != m_menu_stack.end(); ++i)
   {
-    // FIXME: This is of course not quite right, since it ignores any
-    // previous set_pos() calls, it also doesn't update the
-    // transition-effect/background rectangle
-    (*i)->set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+    (*i)->on_window_resize();
   }
 }
 
@@ -314,7 +320,7 @@ MenuManager::transition(Menu* from, Menu* to)
     }
     else
     {
-      from_rect = Rectf(to->get_pos(), Sizef(0, 0));
+      from_rect = Rectf(to->get_center_pos(), Sizef(0, 0));
     }
 
     Rectf to_rect;
@@ -324,7 +330,7 @@ MenuManager::transition(Menu* from, Menu* to)
     }
     else
     {
-      to_rect = Rectf(from->get_pos(), Sizef(0, 0));
+      to_rect = Rectf(from->get_center_pos(), Sizef(0, 0));
     }
 
     m_transition->start(from_rect, to_rect);

@@ -38,6 +38,7 @@ class MainMenu : public Menu
 public:
   MainMenu();
 
+  void on_window_resize() override;
   void check_menu();
 
 private:

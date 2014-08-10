@@ -34,13 +34,20 @@
 
 MainMenu::MainMenu()
 {
-  set_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
+  set_center_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
+
   add_entry(MNID_STARTGAME, _("Start Game"));
   add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
   add_entry(MNID_ADDONS, _("Add-ons"));
   add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
   add_entry(MNID_CREDITS, _("Credits"));
   add_entry(MNID_QUITMAINMENU, _("Quit"));
+}
+
+void
+MainMenu::on_window_resize()
+{
+  set_center_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
 }
 
 void

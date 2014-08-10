@@ -91,8 +91,8 @@ public:
   void set_active_item(int id);
 
   void draw(DrawingContext& context);
-  Vector get_pos() const { return pos; }
-  void set_pos(float x, float y);
+  Vector get_center_pos() const { return pos; }
+  void set_center_pos(float x, float y);
 
   void event(const SDL_Event& event);
 
@@ -101,6 +101,8 @@ public:
 
   float get_width() const;
   float get_height() const;
+
+  virtual void on_window_resize();
 
 protected:
   /** Return the index of the menu item that was 'hit' (ie. the user

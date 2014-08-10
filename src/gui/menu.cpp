@@ -62,7 +62,7 @@ Menu::~Menu()
 }
 
 void
-Menu::set_pos(float x, float y)
+Menu::set_center_pos(float x, float y)
 {
   pos.x = x;
   pos.y = y;
@@ -586,7 +586,13 @@ Menu::get_height() const
   return items.size() * 24;
 }
 
-/* Draw the current menu. */
+void
+Menu::on_window_resize()
+{
+  pos.x = SCREEN_WIDTH / 2;
+  pos.y = SCREEN_HEIGHT / 2;
+}
+
 void
 Menu::draw(DrawingContext& context)
 {
