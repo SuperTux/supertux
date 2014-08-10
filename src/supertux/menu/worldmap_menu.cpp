@@ -43,6 +43,7 @@ WorldmapMenu::check_menu()
       break;
 
     case MNID_QUITWORLDMAP:
+      MenuManager::instance().clear_menu_stack();
       g_screen_manager->exit_screen();
       break;
   }
