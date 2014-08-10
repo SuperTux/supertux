@@ -28,11 +28,18 @@ ProfileMenu::ProfileMenu()
 {
   add_label(_("Select Profile"));
   add_hl();
-  for(int i = 0; i < 5; ++i)
+  for(int i = 1; i <= 5; ++i)
   {
     std::ostringstream out;
-    out << "Profile " << i+1;
-    add_entry(i+1, out.str());
+    if (i == g_config->profile)
+    {
+      out << "[Profile " << i << "]";
+    }
+    else
+    {
+      out << "Profile " << i;
+    }
+    add_entry(i, out.str());
   }
 
   add_hl();
