@@ -37,7 +37,7 @@ World::load(const std::string& directory)
 {
   std::unique_ptr<World> world(new World);
 
-  world->load_(directory + "/info");
+  world->load_(directory);
 
   { // generate savegame filename
     std::string worlddirname = FileSystem::basename(directory);
@@ -51,9 +51,9 @@ World::load(const std::string& directory)
 }
 
 World::World() :
-  m_worldmap_filename(),
   m_levels(),
   m_basedir(),
+  m_worldmap_filename(),
   m_savegame_filename(),
   m_world_thread(),
   m_title(),
@@ -71,13 +71,13 @@ World::~World()
 }
 
 void
-World::load_(const std::string& filename)
+World::load_(const std::string& directory)
 {
-  m_basedir = FileSystem::dirname(filename);
-  m_worldmap_filename = m_basedir + "worldmap.stwm";
+  m_basedir = directory;
+  m_worldmap_filename = m_basedir + "/worldmap.stwm";
 
   lisp::Parser parser;
-  const lisp::Lisp* root = parser.parse(filename);
+  const lisp::Lisp* root = parser.parse(m_basedir + "/info");
 
   const lisp::Lisp* info = root->get_lisp("supertux-world");
   if(info == NULL)
@@ -156,7 +156,7 @@ World::run()
     {
       // fallback: try to load worldmap worldmap.stwm
       g_screen_manager->push_screen(std::unique_ptr<Screen>(
-                                      new worldmap::WorldMap(m_basedir + "worldmap.stwm",
+                                      new worldmap::WorldMap(m_worldmap_filename,
                                                              get_player_status())));
     }
   }

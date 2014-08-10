@@ -31,7 +31,7 @@ class World : public Currenton<World>
 private:
   World();
 
-  void load_(const std::string& filename);
+  void load_(const std::string& directory);
 
 public:
   /**
@@ -62,7 +62,6 @@ public:
   bool is_levelset() const { return m_is_levelset; }
 
 private:
-  std::string m_worldmap_filename;
   struct Level
   {
     Level() : fullpath(), name() {}
@@ -72,6 +71,7 @@ private:
 
   std::vector<Level> m_levels;
   std::string m_basedir;
+  std::string m_worldmap_filename;
   std::string m_savegame_filename;
   HSQOBJECT m_world_thread;
   std::string m_title;
