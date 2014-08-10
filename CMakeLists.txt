@@ -258,10 +258,10 @@ IF(CMAKE_COMPILER_IS_GNUCC)
     # temporarily disabled:
     #   -Wsign-conversion -Wfloat-equal -Wconversion -Wundef -Wshadow -Wswitch-default
     #   -Wswitch-enum -Wsign-promo -Wcast-qual -Woverloaded-virtual -Wmissing-format-attribute
-    #   -Wold-style-cast -Wpadded
+    #   -Wold-style-cast -Wpadded -Wabi
     # fails on MinGW:
     #   -ansi
-    SET(SUPERTUX2_EXTRA_WARNING_FLAGS "-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector -Winline -Wunsafe-loop-optimizations  -Wstrict-overflow=5 -Wformat=2 -Weffc++ -Wabi -Wctor-dtor-privacy -Wstrict-null-sentinel -Wno-unused-parameter")
+    SET(SUPERTUX2_EXTRA_WARNING_FLAGS "-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector -Winline -Wunsafe-loop-optimizations  -Wstrict-overflow=5 -Wformat=2 -Weffc++ -Wctor-dtor-privacy -Wstrict-null-sentinel -Wno-unused-parameter")
   ENDIF(WARNINGS)
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
