@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_TRIGGER_DOOR_HPP
 
 #include "sprite/sprite.hpp"
+#include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
 
 class Player;

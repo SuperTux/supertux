@@ -14,13 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "trigger/door.hpp"
+
+#include <sstream>
+
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "trigger/door.hpp"
 #include "util/reader.hpp"
 
 Door::Door(const Reader& reader) :
