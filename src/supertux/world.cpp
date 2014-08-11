@@ -27,6 +27,7 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/world.hpp"
+#include "supertux/world_state.hpp"
 #include "util/file_system.hpp"
 #include "util/reader.hpp"
 #include "util/string_util.hpp"
@@ -58,7 +59,7 @@ World::World() :
   m_world_thread(),
   m_title(),
   m_description(),
-  m_player_status(new PlayerStatus),
+  m_world_state(new WorldState),
   m_hide_from_contribs(false),
   m_is_levelset(true)
 {
@@ -157,113 +158,13 @@ World::run()
 void
 World::save_state()
 {
-  { // make sure the savegame directory exists
-    std::string dirname = FileSystem::dirname(m_savegame_filename);
-    if(!PHYSFS_exists(dirname.c_str()))
-    {
-      if(!PHYSFS_mkdir(dirname.c_str()))
-      {
-        std::ostringstream msg;
-        msg << "Couldn't create directory for savegames '"
-            << dirname << "': " <<PHYSFS_getLastError();
-        throw std::runtime_error(msg.str());
-      }
-    }
-
-    if(!PHYSFS_isDirectory(dirname.c_str()))
-    {
-      std::ostringstream msg;
-      msg << "Savegame path '" << dirname << "' is not a directory";
-      throw std::runtime_error(msg.str());
-    }
-  }
-
-  HSQUIRRELVM vm = scripting::global_vm;
-
-  lisp::Writer writer(m_savegame_filename);
-
-  writer.start_list("supertux-savegame");
-  writer.write("version", 1);
-
-  using namespace worldmap;
-  if(WorldMap::current() != NULL)
-  {
-    std::ostringstream title;
-    title << WorldMap::current()->get_title();
-    title << " (" << WorldMap::current()->solved_level_count()
-          << "/" << WorldMap::current()->level_count() << ")";
-    writer.write("title", title.str());
-  }
-
-  writer.start_list("tux");
-  m_player_status->write(writer);
-  writer.end_list("tux");
-
-  writer.start_list("state");
-
-  sq_pushroottable(vm);
-  sq_pushstring(vm, "state", -1);
-  if(SQ_SUCCEEDED(sq_get(vm, -2))) {
-    scripting::save_squirrel_table(vm, -1, writer);
-    sq_pop(vm, 1);
-  }
-  sq_pop(vm, 1);
-  writer.end_list("state");
-
-  writer.end_list("supertux-savegame");
+  m_world_state->save(m_savegame_filename);
 }
 
 void
 World::load_state()
 {
-  if(!PHYSFS_exists(m_savegame_filename.c_str()))
-  {
-    log_info << m_savegame_filename << ": doesn't exist, not loading state" << std::endl;
-  }
-  else
-  {
-    try
-    {
-      HSQUIRRELVM vm = scripting::global_vm;
-
-      lisp::Parser parser;
-      const lisp::Lisp* root = parser.parse(m_savegame_filename);
-
-      const lisp::Lisp* lisp = root->get_lisp("supertux-savegame");
-      if(lisp == NULL)
-        throw std::runtime_error("file is not a supertux-savegame file");
-
-      int version = 1;
-      lisp->get("version", version);
-      if(version != 1)
-        throw std::runtime_error("incompatible savegame version");
-
-      const lisp::Lisp* tux = lisp->get_lisp("tux");
-      if(tux == NULL)
-        throw std::runtime_error("No tux section in savegame");
-      m_player_status->read(*tux);
-
-      const lisp::Lisp* state = lisp->get_lisp("state");
-      if(state == NULL)
-        throw std::runtime_error("No state section in savegame");
-
-      sq_pushroottable(vm);
-      sq_pushstring(vm, "state", -1);
-      if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
-        sq_pop(vm, 1);
-
-      sq_pushstring(vm, "state", -1);
-      sq_newtable(vm);
-      scripting::load_squirrel_table(vm, -1, *state);
-      if(SQ_FAILED(sq_createslot(vm, -3)))
-        throw std::runtime_error("Couldn't create state table");
-      sq_pop(vm, 1);
-    }
-    catch(const std::exception& e)
-    {
-      log_fatal << "Couldn't load savegame: " << e.what() << std::endl;
-    }
-  }
+  m_world_state->load(m_savegame_filename);
 }
 
 std::string
@@ -272,10 +173,10 @@ World::get_level_filename(unsigned int i) const
   return FileSystem::join(m_basedir, m_levels[i]);
 }
 
-unsigned int
+int
 World::get_num_levels() const
 {
-  return m_levels.size();
+  return static_cast<int>(m_levels.size());
 }
 
 int

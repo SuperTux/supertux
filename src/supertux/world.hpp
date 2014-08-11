@@ -23,8 +23,7 @@
 #include <vector>
 
 #include "util/currenton.hpp"
-
-class PlayerStatus;
+#include "supertux/world_state.hpp"
 
 class World : public Currenton<World>
 {
@@ -47,14 +46,14 @@ public:
   void save_state();
   void load_state();
 
-  unsigned int get_num_levels() const;
+  int get_num_levels() const;
   int get_num_solved_levels() const;
 
   std::string get_level_filename(unsigned int i) const;
   std::string get_basedir() const;
   std::string get_title() const;
 
-  PlayerStatus* get_player_status() const { return m_player_status.get(); }
+  PlayerStatus* get_player_status() const { return m_world_state->get_player_status(); }
 
   void run();
 
@@ -69,7 +68,7 @@ private:
   HSQOBJECT m_world_thread;
   std::string m_title;
   std::string m_description;
-  std::unique_ptr<PlayerStatus> m_player_status;
+  std::unique_ptr<WorldState> m_world_state;
 
   bool m_hide_from_contribs;
   bool m_is_levelset;
