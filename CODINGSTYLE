@@ -50,6 +50,8 @@ SuperTux Coding Standards
 
   do not use /**< and other styles of comments
 
+* write regular comments with //, not with /* */
+
 * more info on good practices can be found at:
 
   http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml
