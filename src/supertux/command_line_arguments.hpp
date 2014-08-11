@@ -1,0 +1,91 @@
+//  SuperTux
+//  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef HEADER_SUPERTUX_SUPERTUX_OPTIONS_HPP
+#define HEADER_SUPERTUX_SUPERTUX_OPTIONS_HPP
+
+#include <boost/optional.hpp>
+
+#include "math/size.hpp"
+#include "util/log.hpp"
+#include "video/video_systems.hpp"
+
+class Config;
+
+/** Command line argument parsing */
+class CommandLineArguments
+{
+public:
+  enum Action
+  {
+    NO_ACTION,
+    PRINT_VERSION,
+    PRINT_HELP,
+    PRINT_DATADIR
+  };
+
+private:
+  Action m_action;
+  LogLevel m_log_level;
+
+public:
+  boost::optional<Size> fullscreen_size;
+  boost::optional<int> fullscreen_refresh_rate;
+  boost::optional<Size> window_size;
+  boost::optional<Size> aspect_size;
+
+  // boost::optional<float> magnification;
+
+  boost::optional<bool> use_fullscreen;
+   boost::optional<VideoSystem::Enum> video;
+  // boost::optional<bool> try_vsync;
+  boost::optional<bool> show_fps;
+  boost::optional<bool> sound_enabled;
+  boost::optional<bool> music_enabled;
+  boost::optional<bool> console_enabled;
+
+  // boost::optional<int> random_seed;
+
+  boost::optional<std::string> start_level;
+  boost::optional<bool> enable_script_debugger;
+  boost::optional<std::string> start_demo;
+  boost::optional<std::string> record_demo;
+
+  // boost::optional<std::string> locale;
+
+public:
+  CommandLineArguments();
+  ~CommandLineArguments();
+
+  Action get_action() const { return m_action; }
+  LogLevel get_log_level() const { return m_log_level; }
+
+  void parse_args(int argc, char** argv);
+
+  void print_help(const char* argv0);
+  void print_version();
+  void print_datadir();
+
+  void merge_into(Config& config);
+
+private:
+  CommandLineArguments(const CommandLineArguments&) = delete;
+  CommandLineArguments& operator=(const CommandLineArguments&) = delete;
+};
+
+#endif
+
+/* EOF */

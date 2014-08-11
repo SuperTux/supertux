@@ -41,6 +41,7 @@ extern "C" {
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/command_line_arguments.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_fade.hpp"
@@ -54,12 +55,6 @@ extern "C" {
 #include "worldmap/worldmap.hpp"
 
 namespace { DrawingContext *context_pointer; }
-
-#ifdef _WIN32
-# define WRITEDIR_NAME PACKAGE_NAME
-#else
-# define WRITEDIR_NAME "." PACKAGE_NAME
-#endif
 
 void 
 Main::init_config()
@@ -192,205 +187,6 @@ Main::init_physfs(const char* argv0)
 }
 
 void
-Main::print_usage(const char* argv0)
-{
-  std::string default_user_data_dir =
-      std::string(PHYSFS_getUserDir()) + WRITEDIR_NAME;
-
-  std::cerr << boost::format(_(
-                 "\n"
-                 "Usage: %s [OPTIONS] [LEVELFILE]\n\n"
-                 "Options:\n"
-                 "  -f, --fullscreen             Run in fullscreen mode\n"
-                 "  -w, --window                 Run in window mode\n"
-                 "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
-                 "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
-                 "  -d, --default                Reset video settings to default values\n"
-                 "  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
-                 "  --disable-sfx                Disable sound effects\n"
-                 "  --disable-music              Disable music\n"
-                 "  -h, --help                   Show this help message and quit\n"
-                 "  -v, --version                Show SuperTux version and quit\n"
-                 "  --console                    Enable ingame scripting console\n"
-                 "  --noconsole                  Disable ingame scripting console\n"
-                 "  --show-fps                   Display framerate in levels\n"
-                 "  --no-show-fps                Do not display framerate in levels\n"
-                 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
-                 "  --play-demo FILE LEVEL       Play a recorded demo\n"
-                 "  -s, --debug-scripts          Enable script debugger.\n"
-		 "  --print-datadir              Print supertux's primary data directory.\n"
-                 "\n"
-                 "Environment variables:\n"
-                 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
-                 "                               default %s\n"
-                 "\n"
-                 ))
-            % argv0 % default_user_data_dir
-            << std::flush;
-}
-
-/**
- * Options that should be evaluated prior to any initializations at all go here
- */
-bool
-Main::pre_parse_commandline(int argc, char** argv)
-{
-  for(int i = 1; i < argc; ++i) {
-    std::string arg = argv[i];
-
-    if(arg == "--version" || arg == "-v") {
-      std::cout << PACKAGE_NAME << " " << PACKAGE_VERSION << std::endl;
-      return true;
-    }
-    if(arg == "--help" || arg == "-h") {
-      print_usage(argv[0]);
-      return true;
-    }
-    if(arg == "--print-datadir") {
-      /*
-       * Print the datadir searchpath to stdout, one path per
-       * line. Then exit. Intended for use by the supertux-editor.
-       */
-      char **sp;
-      size_t sp_index;
-      sp = PHYSFS_getSearchPath();
-      if (sp)
-        for (sp_index = 0; sp[sp_index]; sp_index++)
-          std::cout << sp[sp_index] << std::endl;
-      PHYSFS_freeList(sp);
-      return true;
-    }
-  }
-
-  return false;
-}
-
-/**
- * Options that should be evaluated after config is read go here
- */
-bool
-Main::parse_commandline(int argc, char** argv)
-{
-  for(int i = 1; i < argc; ++i) {
-    std::string arg = argv[i];
-
-    if(arg == "--fullscreen" || arg == "-f") {
-      g_config->use_fullscreen = true;
-    } else if(arg == "--default" || arg == "-d") {
-      g_config->use_fullscreen = false;
-      
-      g_config->window_size     = Size(800, 600);
-      g_config->fullscreen_size = Size(800, 600);
-      g_config->fullscreen_refresh_rate = 0;
-      g_config->aspect_size     = Size(0, 0);  // auto detect
-      
-    } else if(arg == "--window" || arg == "-w") {
-      g_config->use_fullscreen = false;
-    } else if(arg == "--geometry" || arg == "-g") {
-      i += 1;
-      if(i >= argc) 
-      {
-        print_usage(argv[0]);
-        throw std::runtime_error("Need to specify a size (WIDTHxHEIGHT) for geometry argument");
-      } 
-      else 
-      {
-        int width, height;
-        if (sscanf(argv[i], "%dx%d", &width, &height) != 2)
-        {
-          print_usage(argv[0]);
-          throw std::runtime_error("Invalid geometry spec, should be WIDTHxHEIGHT");
-        }
-        else
-        {
-          g_config->window_size     = Size(width, height);
-          g_config->fullscreen_size = Size(width, height);
-          g_config->fullscreen_refresh_rate = 0;
-        }
-      }
-    } else if(arg == "--aspect" || arg == "-a") {
-      i += 1;
-      if(i >= argc) 
-      {
-        print_usage(argv[0]);
-        throw std::runtime_error("Need to specify a ratio (WIDTH:HEIGHT) for aspect ratio");
-      } 
-      else 
-      {
-        int aspect_width  = 0;
-        int aspect_height = 0;
-        if (strcmp(argv[i], "auto") == 0)
-        {
-          aspect_width  = 0;
-          aspect_height = 0;
-        }
-        else if (sscanf(argv[i], "%d:%d", &aspect_width, &aspect_height) != 2) 
-        {
-          print_usage(argv[0]);
-          throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT or auto");
-        }
-        else 
-        {
-          float aspect_ratio = static_cast<float>(aspect_width) / static_cast<float>(aspect_height);
-
-          // use aspect ratio to calculate logical resolution
-          if (aspect_ratio > 1) {
-            g_config->aspect_size = Size(static_cast<int>(600 * aspect_ratio + 0.5),
-                                         600);
-          } else {
-            g_config->aspect_size = Size(600, 
-                                         static_cast<int>(600 * 1/aspect_ratio + 0.5));
-          }
-        }
-      }
-    } else if(arg == "--renderer") {
-      i += 1;
-      if(i >= argc) 
-      {
-        print_usage(argv[0]);
-        throw std::runtime_error("Need to specify a renderer for renderer argument");
-      } 
-      else 
-      {
-        g_config->video = VideoSystem::get_video_system(argv[i]);
-      }
-    } else if(arg == "--show-fps") {
-      g_config->show_fps = true;
-    } else if(arg == "--no-show-fps") {
-      g_config->show_fps = false;
-    } else if(arg == "--console") {
-      g_config->console_enabled = true;
-    } else if(arg == "--noconsole") {
-      g_config->console_enabled = false;
-    } else if(arg == "--disable-sfx") {
-      g_config->sound_enabled = false;
-    } else if(arg == "--disable-music") {
-      g_config->music_enabled = false;
-    } else if(arg == "--play-demo") {
-      if(i+1 >= argc) {
-        print_usage(argv[0]);
-        throw std::runtime_error("Need to specify a demo filename");
-      }
-      g_config->start_demo = argv[++i];
-    } else if(arg == "--record-demo") {
-      if(i+1 >= argc) {
-        print_usage(argv[0]);
-        throw std::runtime_error("Need to specify a demo filename");
-      }
-      g_config->record_demo = argv[++i];
-    } else if(arg == "--debug-scripts" || arg == "-s") {
-      g_config->enable_script_debugger = true;
-    } else if(arg[0] != '-') {
-      g_config->start_level = arg;
-    } else {
-      log_warning << "Unknown option '" << arg << "'. Use --help to see a list of options" << std::endl;
-    }
-  }
-
-  return false;
-}
-
-void
 Main::init_sdl()
 {
   if(SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0) {
@@ -475,13 +271,43 @@ Main::run(int argc, char** argv)
 {
   int result = 0;
 
-  try {
-    /* Do this before pre_parse_commandline, because --help now shows the
-     * default user data dir. */
+  try 
+  {
+    CommandLineArguments args;
+    
+    // Do this before pre_parse_commandline, because --help now shows the
+    // default user data dir.
     init_physfs(argv[0]);
+    
+    try
+    {
+      args.parse_args(argc, argv);
+      g_log_level = args.get_log_level();
+    }
+    catch(const std::exception& err)
+    {
+      std::cout << "Error: " << err.what() << std::endl;
+      return EXIT_FAILURE;
+    }
 
-    if(pre_parse_commandline(argc, argv))
-      return 0;
+    switch (args.get_action())
+    {
+      case CommandLineArguments::PRINT_VERSION:
+        args.print_version();
+        return 0;
+
+      case CommandLineArguments::PRINT_HELP:
+        args.print_help(argv[0]);
+        return 0;
+
+      case CommandLineArguments::PRINT_DATADIR:
+        args.print_datadir();
+        return 0;
+
+      default:
+        // continue and start the game as usual
+        break;
+    }
 
     init_sdl();
     Console::instance = new Console();
@@ -492,9 +318,9 @@ Main::run(int argc, char** argv)
     timelog("config");
     init_config();
 
+    args.merge_into(*g_config);
+
     timelog("commandline");
-    if(parse_commandline(argc, argv))
-      return 0;
 
     timelog("video");
     std::unique_ptr<Renderer> renderer(VideoSystem::new_renderer());

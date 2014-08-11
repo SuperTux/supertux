@@ -43,7 +43,7 @@ Ispy::Ispy(const Reader& reader) :
   if( dir_str == "right" ) dir = RIGHT;
   reader.get("facing-down", facing_down);
   if (facing_down) dir = DOWN;
-  if (dir == AUTO) log_warning << "Setting an Ispy's direction to AUTO is no good idea" << std::endl;
+  if (dir == AUTO) { log_warning << "Setting an Ispy's direction to AUTO is no good idea" << std::endl; }
 
   // set initial sprite action
   sprite->set_action((dir == DOWN) ? "idle-down" : ((dir == LEFT) ? "idle-left" : "idle-right"));

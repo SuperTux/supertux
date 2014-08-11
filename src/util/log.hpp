@@ -20,17 +20,20 @@
 #include <config.h>
 #include <ostream>
 
+enum LogLevel { LOG_NONE, LOG_FATAL, LOG_WARNING, LOG_INFO, LOG_DEBUG };
+extern LogLevel g_log_level;
+
 std::ostream& log_debug_f(const char* file, int line);
-#define log_debug log_debug_f(__FILE__, __LINE__)
+#define log_debug if (g_log_level < LOG_DEBUG) {} else log_debug_f(__FILE__, __LINE__)
 
 std::ostream& log_info_f(const char* file, int line);
-#define log_info log_info_f(__FILE__, __LINE__)
+#define log_info if (g_log_level < LOG_INFO) {} else log_info_f(__FILE__, __LINE__)
 
 std::ostream& log_warning_f(const char* file, int line);
-#define log_warning log_warning_f(__FILE__, __LINE__)
+#define log_warning if (g_log_level < LOG_WARNING) {} else log_warning_f(__FILE__, __LINE__)
 
 std::ostream& log_fatal_f(const char* file, int line);
-#define log_fatal log_fatal_f(__FILE__, __LINE__)
+#define log_fatal if (g_log_level < LOG_FATAL) {} else log_fatal_f(__FILE__, __LINE__)
 
 class Vector;
 std::ostream& operator<< (std::ostream& str, const Vector& vector);

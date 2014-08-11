@@ -22,6 +22,8 @@
 #include "math/rectf.hpp"
 #include "supertux/console.hpp"
 
+LogLevel g_log_level = LOG_WARNING;
+
 static std::ostream& get_logging_instance (void)
 {
   if (Console::instance != NULL)
