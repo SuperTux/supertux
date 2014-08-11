@@ -61,27 +61,6 @@ TitleScreen::TitleScreen(PlayerStatus* player_status) :
    );
 }
 
-std::string
-TitleScreen::get_level_name(const std::string& filename)
-{
-  try {
-    lisp::Parser parser;
-    const lisp::Lisp* root = parser.parse(filename);
-
-    const lisp::Lisp* level = root->get_lisp("supertux-level");
-    if(!level)
-      return "";
-
-    std::string name;
-    level->get("name", name);
-    return name;
-  } catch(std::exception& e) {
-    log_warning << "Problem getting name of '" << filename << "': "
-                << e.what() << std::endl;
-    return "";
-  }
-}
-
 void
 TitleScreen::make_tux_jump()
 {

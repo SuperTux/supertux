@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2014 Ingo Ruhnke <grumbel@gmx.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,38 +15,31 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_FILE_SYSTEM_HPP
-#define HEADER_SUPERTUX_UTIL_FILE_SYSTEM_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_WORLD_STATE_HPP
+#define HEADER_SUPERTUX_SUPERTUX_WORLD_STATE_HPP
 
-namespace FileSystem {
+#include <string>
+#include <memory>
 
-/**
- * returns the path of the directory the file is in
- */
-std::string dirname(const std::string& filename);
+class PlayerStatus;
 
-/**
- * returns the name of the file
- */
-std::string basename(const std::string& filename);
+class WorldState
+{
+private:
+  std::unique_ptr<PlayerStatus> m_player_status;
 
-/**
- * remove everything starting from and including the last dot
- */
-std::string strip_extension(const std::string& filename);
+public:
+  WorldState();
 
-/**
- * normalize filename so that "blup/bla/blo/../../bar" will become
- * "blup/bar"
- */
-std::string normalize(const std::string& filename);
+  PlayerStatus* get_player_status() const { return m_player_status.get(); }
 
-/**
- * join two filenames join("foo", "bar") -> "foo/bar"
- */
-std::string join(const std::string& lhs, const std::string& rhs);
+  void save(const std::string& filename);
+  void load(const std::string& filename);
 
-} // namespace FileSystem
+private:
+  WorldState(const WorldState&) = delete;
+  WorldState& operator=(const WorldState&) = delete;
+};
 
 #endif
 

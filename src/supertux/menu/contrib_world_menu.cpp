@@ -32,11 +32,11 @@ ContribWorldMenu::ContribWorldMenu(std::unique_ptr<World> world) :
   add_label(m_world->get_title());
   add_hl();
 
-  for (unsigned int i = 0; i < m_world->get_num_levels(); ++i)
+  for (int i = 0; i < m_world->get_num_levels(); ++i)
   {
     /** get level's title */
     std::string filename = m_world->get_level_filename(i);
-    std::string title = TitleScreen::get_level_name(filename);
+    std::string title = GameManager::current()->get_level_name(filename);
     add_entry(i, title);
   }
 

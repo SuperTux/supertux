@@ -21,75 +21,64 @@
 #include "physfs/ifile_streambuf.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/player_status.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/world.hpp"
+#include "supertux/world_state.hpp"
 #include "util/file_system.hpp"
 #include "util/reader.hpp"
 #include "util/string_util.hpp"
 #include "worldmap/worldmap.hpp"
 
-World* World::current_ = NULL;
+std::unique_ptr<World>
+World::load(const std::string& directory)
+{
+  std::unique_ptr<World> world(new World);
+
+  world->load_(directory);
+
+  { // generate savegame filename
+    std::string worlddirname = FileSystem::basename(directory);
+    std::ostringstream stream;
+    stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
+    std::string slotfile = stream.str();
+    world->m_savegame_filename = stream.str();
+  }
+
+  return std::move(world);
+}
 
 World::World() :
-  worldname(),
-  levels(),
-  basedir(),
-  savegame_filename(),
-  state_table(),
-  world_thread(),
-  title(),
-  description(),
-  player_status(),
-  hide_from_contribs(),
-  is_levelset()
+  m_levels(),
+  m_basedir(),
+  m_worldmap_filename(),
+  m_savegame_filename(),
+  m_world_thread(),
+  m_title(),
+  m_description(),
+  m_world_state(new WorldState),
+  m_hide_from_contribs(false),
+  m_is_levelset(true)
 {
-  player_status.reset(new PlayerStatus());
-
-  is_levelset = true;
-  hide_from_contribs = false;
-  sq_resetobject(&world_thread);
+  sq_resetobject(&m_world_thread);
 }
 
 World::~World()
 {
-  sq_release(scripting::global_vm, &world_thread);
-  if(current_ == this)
-    current_ = NULL;
+  sq_release(scripting::global_vm, &m_world_thread);
 }
 
 void
-World::set_savegame_filename(const std::string& filename)
+World::load_(const std::string& directory)
 {
-  this->savegame_filename = filename;
-  // make sure the savegame directory exists
-  std::string dirname = FileSystem::dirname(filename);
-  if(!PHYSFS_exists(dirname.c_str())) {
-    if(!PHYSFS_mkdir(dirname.c_str())) {
-      std::ostringstream msg;
-      msg << "Couldn't create directory for savegames '"
-          << dirname << "': " <<PHYSFS_getLastError();
-      throw std::runtime_error(msg.str());
-    }
-  }
-
-  if(!PHYSFS_isDirectory(dirname.c_str())) {
-    std::ostringstream msg;
-    msg << "Savegame path '" << dirname << "' is not a directory";
-    throw std::runtime_error(msg.str());
-  }
-}
-
-void
-World::load(const std::string& filename)
-{
-  basedir = FileSystem::dirname(filename);
-  worldname = basedir + "worldmap.stwm";
+  m_basedir = directory;
+  m_worldmap_filename = m_basedir + "/worldmap.stwm";
 
   lisp::Parser parser;
-  const lisp::Lisp* root = parser.parse(filename);
+  const lisp::Lisp* root = parser.parse(m_basedir + "/info");
 
   const lisp::Lisp* info = root->get_lisp("supertux-world");
   if(info == NULL)
@@ -97,46 +86,39 @@ World::load(const std::string& filename)
   if(info == NULL)
     throw std::runtime_error("File is not a world or levelsubset file");
 
-  hide_from_contribs = false;
-  is_levelset = true;
+  m_hide_from_contribs = false;
+  m_is_levelset = true;
 
-  info->get("title", title);
-  info->get("description", description);
-  info->get("levelset", is_levelset);
-  info->get("hide-from-contribs", hide_from_contribs);
+  info->get("title", m_title);
+  info->get("description", m_description);
+  info->get("levelset", m_is_levelset);
+  info->get("hide-from-contribs", m_hide_from_contribs);
 
   // Level info file doesn't define any levels, so read the
   // directory to see what we can find
 
-  std::string path = basedir;
-  char** files = PHYSFS_enumerateFiles(path.c_str());
-  if(!files) {
-    log_warning << "Couldn't read subset dir '" << path << "'" << std::endl;
+  char** files = PHYSFS_enumerateFiles(m_basedir.c_str());
+  if(!files)
+  {
+    log_warning << "Couldn't read subset dir '" << m_basedir << "'" << std::endl;
     return;
   }
 
-  for(const char* const* filename = files; *filename != 0; ++filename) {
-    if(StringUtil::has_suffix(*filename, ".stl")) {
-      Level level;
-      level.fullpath = path + *filename;
-      level.name = *filename;
-      levels.push_back(level);
+  for(const char* const* filename = files; *filename != 0; ++filename)
+  {
+    if(StringUtil::has_suffix(*filename, ".stl"))
+    {
+      m_levels.push_back(*filename);
     }
   }
   PHYSFS_freeList(files);
 
-  std::sort(levels.begin(), levels.end(),
-            [](const Level& lhs, const Level& rhs)
-            {
-              return StringUtil::numeric_less(lhs.fullpath, rhs.fullpath);
-            });
+  std::sort(m_levels.begin(), m_levels.end(), StringUtil::numeric_less);
 }
 
 void
 World::run()
 {
-  current_ = this;
-
   // create new squirrel table for persistent game state
   HSQUIRRELVM vm = scripting::global_vm;
 
@@ -144,123 +126,57 @@ World::run()
   sq_pushstring(vm, "state", -1);
   sq_newtable(vm);
   if(SQ_FAILED(sq_createslot(vm, -3)))
+  {
     throw scripting::SquirrelError(vm, "Couldn't create state table");
-  sq_pop(vm, 1);
+  }
+  else
+  {
+    sq_pop(vm, 1);
 
-  load_state();
+    load_state();
 
-  std::string filename = basedir + "/world.nut";
-  try {
-    IFileStreambuf ins(filename);
-    std::istream in(&ins);
+    std::string filename = m_basedir + "/world.nut";
+    try
+    {
+      IFileStreambuf ins(filename);
+      std::istream in(&ins);
 
-    sq_release(scripting::global_vm, &world_thread);
-    world_thread = scripting::create_thread(scripting::global_vm);
-    scripting::compile_and_run(scripting::object_to_vm(world_thread), in, filename);
-  } catch(std::exception& ) {
-    // fallback: try to load worldmap worldmap.stwm
-    using namespace worldmap;
-    g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(basedir + "worldmap.stwm", get_player_status())));
+      sq_release(scripting::global_vm, &m_world_thread);
+      m_world_thread = scripting::create_thread(scripting::global_vm);
+      scripting::compile_and_run(scripting::object_to_vm(m_world_thread), in, filename);
+    }
+    catch(const std::exception& )
+    {
+      // fallback: try to load worldmap worldmap.stwm
+      g_screen_manager->push_screen(std::unique_ptr<Screen>(
+                                      new worldmap::WorldMap(m_worldmap_filename,
+                                                             get_player_status())));
+    }
   }
 }
 
 void
 World::save_state()
 {
-  using namespace scripting;
-
-  lisp::Writer writer(savegame_filename);
-
-  writer.start_list("supertux-savegame");
-  writer.write("version", 1);
-
-  using namespace worldmap;
-  if(WorldMap::current() != NULL) {
-    std::ostringstream title;
-    title << WorldMap::current()->get_title();
-    title << " (" << WorldMap::current()->solved_level_count()
-          << "/" << WorldMap::current()->level_count() << ")";
-    writer.write("title", title.str());
-  }
-
-  writer.start_list("tux");
-  player_status->write(writer);
-  writer.end_list("tux");
-
-  writer.start_list("state");
-
-  sq_pushroottable(global_vm);
-  sq_pushstring(global_vm, "state", -1);
-  if(SQ_SUCCEEDED(sq_get(global_vm, -2))) {
-    scripting::save_squirrel_table(global_vm, -1, writer);
-    sq_pop(global_vm, 1);
-  }
-  sq_pop(global_vm, 1);
-  writer.end_list("state");
-
-  writer.end_list("supertux-savegame");
+  m_world_state->save(m_savegame_filename);
 }
 
 void
 World::load_state()
 {
-  using namespace scripting;
-
-  if(!PHYSFS_exists(savegame_filename.c_str()))
-  {
-    log_info << savegame_filename << ": doesn't exist, not loading state" << std::endl;
-  }
-  else
-  {
-    try {
-      lisp::Parser parser;
-      const lisp::Lisp* root = parser.parse(savegame_filename);
-
-      const lisp::Lisp* lisp = root->get_lisp("supertux-savegame");
-      if(lisp == NULL)
-        throw std::runtime_error("file is not a supertux-savegame file");
-
-      int version = 1;
-      lisp->get("version", version);
-      if(version != 1)
-        throw std::runtime_error("incompatible savegame version");
-
-      const lisp::Lisp* tux = lisp->get_lisp("tux");
-      if(tux == NULL)
-        throw std::runtime_error("No tux section in savegame");
-      player_status->read(*tux);
-
-      const lisp::Lisp* state = lisp->get_lisp("state");
-      if(state == NULL)
-        throw std::runtime_error("No state section in savegame");
-
-      sq_pushroottable(global_vm);
-      sq_pushstring(global_vm, "state", -1);
-      if(SQ_FAILED(sq_deleteslot(global_vm, -2, SQFalse)))
-        sq_pop(global_vm, 1);
-
-      sq_pushstring(global_vm, "state", -1);
-      sq_newtable(global_vm);
-      load_squirrel_table(global_vm, -1, *state);
-      if(SQ_FAILED(sq_createslot(global_vm, -3)))
-        throw std::runtime_error("Couldn't create state table");
-      sq_pop(global_vm, 1);
-    } catch(std::exception& e) {
-      log_fatal << "Couldn't load savegame: " << e.what() << std::endl;
-    }
-  }
+  m_world_state->load(m_savegame_filename);
 }
 
-const std::string&
+std::string
 World::get_level_filename(unsigned int i) const
 {
-  return levels[i].fullpath;
+  return FileSystem::join(m_basedir, m_levels[i]);
 }
 
-unsigned int
+int
 World::get_num_levels() const
 {
-  return levels.size();
+  return static_cast<int>(m_levels.size());
 }
 
 int
@@ -286,27 +202,27 @@ World::get_num_solved_levels() const
     }
     else
     {
-      sq_pushstring(vm, worldname.c_str(), -1);
+      sq_pushstring(vm, m_worldmap_filename.c_str(), -1);
       if(SQ_FAILED(sq_get(vm, -2)))
       {
-        log_warning << "failed to get state.worlds['" << worldname << "']" << std::endl;
+        log_warning << "failed to get state.worlds['" << m_worldmap_filename << "']" << std::endl;
       }
       else
       {
         sq_pushstring(vm, "levels", -1);
         if(SQ_FAILED(sq_get(vm, -2)))
         {
-          log_warning << "failed to get state.worlds['" << worldname << "'].levels" << std::endl;
+          log_warning << "failed to get state.worlds['" << m_worldmap_filename << "'].levels" << std::endl;
         }
         else
         {
-          for(auto level : levels)
+          for(auto level : m_levels)
           {
-            sq_pushstring(vm, level.name.c_str(), -1);
+            sq_pushstring(vm, level.c_str(), -1);
             if(SQ_FAILED(sq_get(vm, -2)))
             {
-              log_warning << "failed to get state.worlds['" << worldname << "'].levels['"
-                          << level.name << "']" << std::endl;
+              log_warning << "failed to get state.worlds['" << m_worldmap_filename << "'].levels['"
+                          << level << "']" << std::endl;
             }
             else
             {
@@ -328,16 +244,16 @@ World::get_num_solved_levels() const
   return num_solved_levels;
 }
 
-const std::string&
+std::string
 World::get_basedir() const
 {
-  return basedir;
+  return m_basedir;
 }
 
-const std::string&
+std::string
 World::get_title() const
 {
-  return title;
+  return m_title;
 }
 
 /* EOF */

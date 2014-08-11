@@ -6,12 +6,12 @@
 **  it under the terms of the GNU General Public License as published by
 **  the Free Software Foundation, either version 3 of the License, or
 **  (at your option) any later version.
-**  
+**
 **  This program is distributed in the hope that it will be useful,
 **  but WITHOUT ANY WARRANTY; without even the implied warranty of
 **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 **  GNU General Public License for more details.
-**  
+**
 **  You should have received a copy of the GNU General Public License
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -21,7 +21,7 @@
 
 #include <assert.h>
 
-/** 
+/**
  *   A 'Currenton' allows access to the currently active instance of a
  *   class via the static current() function. It is kind of like a
  *   singleton, but without handling the object construction itself or
@@ -32,22 +32,25 @@ template<class C>
 class Currenton
 {
 private:
-  static C* s_current; 
+  static C* s_current;
 
 protected:
-  Currenton()  
-  { 
+  Currenton()
+  {
     // FIXME: temporarly disabled, as Sector() for the main menu,
     // doesn't get cleaned up before a real Sector() starts
-    // assert(!s_current); 
-    s_current = static_cast<C*>(this); 
+    // assert(!s_current);
+    s_current = static_cast<C*>(this);
   }
 
   virtual ~Currenton()
   {
-    s_current = 0; 
+    if (s_current == this)
+    {
+      s_current = 0;
+    }
   }
-  
+
 public:
   static C* current() { return s_current; }
 };

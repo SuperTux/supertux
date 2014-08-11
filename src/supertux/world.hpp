@@ -17,66 +17,61 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
 #define HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
 
+#include <memory>
 #include <squirrel.h>
 #include <string>
 #include <vector>
 
-class PlayerStatus;
+#include "util/currenton.hpp"
+#include "supertux/world_state.hpp"
 
-class World
+class World : public Currenton<World>
 {
-public:
-  static World* current()
-  {
-    return current_;
-  }
-
 private:
-  static World* current_;
+  World();
+
+  void load_(const std::string& directory);
 
 public:
-  World();
-  ~World();
+  /**
+      Load a World
 
-  void set_savegame_filename(const std::string& filename);
-  void load(const std::string& filename);
+      @param directory  Directory containing the info file, e.g. "levels/world1"
+  */
+  static std::unique_ptr<World> load(const std::string& directory);
+
+public:
+  ~World();
 
   void save_state();
   void load_state();
 
-  unsigned int get_num_levels() const;
+  int get_num_levels() const;
   int get_num_solved_levels() const;
 
-  const std::string& get_level_filename(unsigned int i) const;
-  const std::string& get_basedir() const;
-  const std::string& get_title() const;
-  /** returns player status */
-  PlayerStatus* get_player_status() const { return player_status.get(); }
+  std::string get_level_filename(unsigned int i) const;
+  std::string get_basedir() const;
+  std::string get_title() const;
+
+  PlayerStatus* get_player_status() const { return m_world_state->get_player_status(); }
 
   void run();
 
+  bool hide_from_contribs() const { return m_hide_from_contribs; }
+  bool is_levelset() const { return m_is_levelset; }
+
 private:
-  std::string worldname;
-  struct Level
-  {
-    Level() : fullpath(), name() {}
-    std::string fullpath;
-    std::string name;
-  };
+  std::vector<std::string> m_levels;
+  std::string m_basedir;
+  std::string m_worldmap_filename;
+  std::string m_savegame_filename;
+  HSQOBJECT m_world_thread;
+  std::string m_title;
+  std::string m_description;
+  std::unique_ptr<WorldState> m_world_state;
 
-  std::vector<Level> levels;
-  std::string basedir;
-  std::string savegame_filename;
-  /// squirrel table that saves persistent state (about the world)
-  HSQOBJECT state_table;
-  HSQOBJECT world_thread;
-  std::string title;
-  std::string description;
-  std::unique_ptr<PlayerStatus> player_status;
-
-public:
-  bool hide_from_contribs;
-  bool is_levelset;
+  bool m_hide_from_contribs;
+  bool m_is_levelset;
 
 private:
   World(const World&) = delete;
