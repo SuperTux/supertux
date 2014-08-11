@@ -23,11 +23,11 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
 #include "util/gettext.hpp"
-#include "util/log.hpp"
 #include "version.h"
 
 CommandLineArguments::CommandLineArguments() :
   m_action(NO_ACTION),
+  m_log_level(LOG_WARNING),
   fullscreen_size(),
   fullscreen_refresh_rate(),
   window_size(),
@@ -73,6 +73,8 @@ CommandLineArguments::print_help(const char* argv0)
                  "\n"
                  "Usage: %s [OPTIONS] [LEVELFILE]\n\n"
                  "CommandLineArguments:\n"
+                 "  --verbose                    Print verbose messages\n"
+                 "  --debug                      Print extra verbose messages\n"
                  "  -f, --fullscreen             Run in fullscreen mode\n"
                  "  -w, --window                 Run in window mode\n"
                  "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
@@ -126,6 +128,17 @@ CommandLineArguments::parse_args(int argc, char** argv)
     else if (arg == "--print-datadir")
     {
       m_action = PRINT_DATADIR;
+    }
+    else if (arg == "--debug")
+    {
+      m_log_level = LOG_DEBUG;
+    }
+    else if (arg == "--verbose")
+    {
+      if (m_log_level < LOG_INFO)
+      {
+        m_log_level = LOG_INFO;
+      }
     }
     else if (arg == "--fullscreen" || arg == "-f")
     {

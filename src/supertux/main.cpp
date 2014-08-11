@@ -282,6 +282,7 @@ Main::run(int argc, char** argv)
     try
     {
       args.parse_args(argc, argv);
+      g_log_level = args.get_log_level();
     }
     catch(const std::exception& err)
     {

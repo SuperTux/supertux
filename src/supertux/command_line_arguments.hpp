@@ -20,6 +20,7 @@
 #include <boost/optional.hpp>
 
 #include "math/size.hpp"
+#include "util/log.hpp"
 #include "video/video_systems.hpp"
 
 class Config;
@@ -38,6 +39,7 @@ public:
 
 private:
   Action m_action;
+  LogLevel m_log_level;
 
 public:
   boost::optional<Size> fullscreen_size;
@@ -69,6 +71,7 @@ public:
   ~CommandLineArguments();
 
   Action get_action() const { return m_action; }
+  LogLevel get_log_level() const { return m_log_level; }
 
   void parse_args(int argc, char** argv);
 
