@@ -57,12 +57,17 @@ Gradient::set_gradient(Color top, Color bottom)
   gradient_top = top;
   gradient_bottom = bottom;
 
-  if (gradient_top.red > 1.0 || gradient_top.green > 1.0
-      || gradient_top.blue > 1.0 || gradient_top.alpha > 1.0)
+  if (gradient_top.red > 1.0 || gradient_top.green > 1.0 ||
+      gradient_top.blue > 1.0 || gradient_top.alpha > 1.0)
+  {
     log_warning << "top gradient color has values above 1.0" << std::endl;
-  if (gradient_bottom.red > 1.0 || gradient_bottom.green > 1.0
-      || gradient_bottom.blue > 1.0 || gradient_bottom.alpha > 1.0)
+  }
+
+  if (gradient_bottom.red > 1.0 || gradient_bottom.green > 1.0 ||
+       gradient_bottom.blue > 1.0 || gradient_bottom.alpha > 1.0)
+  {
     log_warning << "bottom gradient color has values above 1.0" << std::endl;
+  }
 }
 
 void

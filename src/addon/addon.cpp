@@ -30,7 +30,7 @@ std::string
 Addon::get_md5() const
 {
   if (!installed) {
-    if (stored_md5 == "") log_warning << "Add-on not installed and no stored MD5 available" << std::endl;
+    if (stored_md5 == "") { log_warning << "Add-on not installed and no stored MD5 available" << std::endl; }
     return stored_md5;
   }
 

@@ -40,7 +40,7 @@ DartTrap::DartTrap(const Reader& reader) :
   reader.get("ammo", ammo);
   countMe = false;
   sound_manager->preload("sounds/dartfire.wav");
-  if (start_dir == AUTO) log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl;
+  if (start_dir == AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
   state = IDLE;
   set_colgroup_active(COLGROUP_DISABLED);
   if (initial_delay == 0) initial_delay = 0.1f;
