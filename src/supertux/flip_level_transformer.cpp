@@ -78,10 +78,10 @@ FlipLevelTransformer::transform_sector(Sector* sector)
 DrawingEffect
 FlipLevelTransformer::transform_drawing_effect(DrawingEffect effect)
 {
-  if(effect != 0) {
-    return NO_EFFECT;
+  if (effect & VERTICAL_FLIP) {
+    return effect & ~VERTICAL_FLIP;
   } else {
-    return VERTICAL_FLIP;
+    return effect | VERTICAL_FLIP;
   }
 }
 

@@ -1013,7 +1013,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         if(tile->is_slope ()) { // slope tile
           AATriangle triangle;
           int slope_data = tile->getData();
-          if (solids->get_drawing_effect() == VERTICAL_FLIP)
+          if (solids->get_drawing_effect() & VERTICAL_FLIP)
             slope_data = AATriangle::vertical_flip(slope_data);
           triangle = AATriangle(tile_bbox, slope_data);
 

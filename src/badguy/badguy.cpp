@@ -127,7 +127,7 @@ BadGuy::draw(DrawingContext& context)
     return;
   if(state == STATE_FALLING) {
     DrawingEffect old_effect = context.get_drawing_effect();
-    context.set_drawing_effect((DrawingEffect) (old_effect | VERTICAL_FLIP));
+    context.set_drawing_effect(old_effect | VERTICAL_FLIP);
     sprite->draw(context, get_pos(), layer);
     context.set_drawing_effect(old_effect);
   } else {

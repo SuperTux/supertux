@@ -26,15 +26,17 @@
 #include "video/texture_manager.hpp"
 
 /// bitset for drawing effects
-enum DrawingEffect {
+enum {
   /** Don't apply anything */
-  NO_EFFECT,
+  NO_EFFECT = 0,
   /** Draw the Surface upside down */
-  VERTICAL_FLIP,
+  VERTICAL_FLIP = (1<<1),
   /** Draw the Surface from left to down */
-  HORIZONTAL_FLIP,
+  HORIZONTAL_FLIP = (1<<2),
   NUM_EFFECTS
 };
+
+typedef unsigned int DrawingEffect;
 
 /**
  * This class is a wrapper around a texture handle. It stores the texture width

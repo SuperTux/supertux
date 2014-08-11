@@ -76,13 +76,14 @@ SDLPainter::draw_surface(SDL_Renderer* renderer, const DrawingRequest& request)
   SDL_SetTextureBlendMode(sdltexture->get_texture(), blend2sdl(request.blend));
 
   SDL_RendererFlip flip = SDL_FLIP_NONE;
-  if (surface->get_flipx() || request.drawing_effect == HORIZONTAL_FLIP)
+  if (surface->get_flipx() || request.drawing_effect & HORIZONTAL_FLIP)
   {
-    flip = SDL_FLIP_HORIZONTAL;
+    flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
   }
-  else if (request.drawing_effect == VERTICAL_FLIP)
+
+  if (request.drawing_effect & VERTICAL_FLIP)
   {
-    flip = SDL_FLIP_VERTICAL;
+    flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
   }
 
   SDL_RenderCopyEx(renderer, sdltexture->get_texture(), NULL, &dst_rect, request.angle, NULL, flip);
@@ -118,13 +119,14 @@ SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& requ
   SDL_SetTextureBlendMode(sdltexture->get_texture(), blend2sdl(request.blend));
 
   SDL_RendererFlip flip = SDL_FLIP_NONE;
-  if (surface->surface->get_flipx() || request.drawing_effect == HORIZONTAL_FLIP)
+  if (surface->surface->get_flipx() || request.drawing_effect & HORIZONTAL_FLIP)
   {
-    flip = SDL_FLIP_HORIZONTAL;
+    flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
   }
-  else if (request.drawing_effect == VERTICAL_FLIP)
+
+  if (request.drawing_effect & VERTICAL_FLIP)
   {
-    flip = SDL_FLIP_VERTICAL;
+    flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
   }
 
   SDL_RenderCopyEx(renderer, sdltexture->get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
@@ -133,7 +135,7 @@ SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& requ
 void
 SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
 {
-  const GradientRequest* gradientrequest 
+  const GradientRequest* gradientrequest
     = (GradientRequest*) request.request_data;
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
@@ -244,7 +246,7 @@ void
 SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& request)
 {
   const InverseEllipseRequest* ellipse = (InverseEllipseRequest*)request.request_data;
-  
+
   float x = request.pos.x;
   float w = ellipse->size.x;
   float h = ellipse->size.y;
@@ -256,7 +258,7 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
   int slices = std::min(static_cast<int>(ellipse->size.y), max_slices);
   for(int i = 0; i < slices; ++i)
   {
-    float p = ((static_cast<float>(i) + 0.5f) / static_cast<float>(slices)) * 2.0f - 1.0f; 
+    float p = ((static_cast<float>(i) + 0.5f) / static_cast<float>(slices)) * 2.0f - 1.0f;
     int xoff = static_cast<int>(sqrtf(1.0f - p*p) * w / 2);
 
     SDL_Rect& left  = rects[2*i+0];
