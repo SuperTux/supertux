@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmx.de>
+//  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmail.com>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
