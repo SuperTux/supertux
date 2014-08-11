@@ -17,11 +17,15 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 
+#ifdef _WIN32
+# define WRITEDIR_NAME PACKAGE_NAME
+#else
+# define WRITEDIR_NAME "." PACKAGE_NAME
+#endif
+
 class Main
 {
 private:
-  bool parse_commandline(int argc, char** argv);
-  bool pre_parse_commandline(int argc, char** argv);
   void init_audio();
   void init_config();
   void init_physfs(const char* argv0);
@@ -29,7 +33,6 @@ private:
   void init_sdl();
   void init_tinygettext();
   void init_video();
-  void print_usage(const char* argv0);
   void quit_audio();
 
 public:
