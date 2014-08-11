@@ -35,6 +35,8 @@ public:
   void start_game(std::unique_ptr<World> world);
   void start_level(std::unique_ptr<World> world, int index);
 
+  std::string get_level_name(const std::string& levelfile) const;
+
 private:
   GameManager(const GameManager&) = delete;
   GameManager& operator=(const GameManager&) = delete;

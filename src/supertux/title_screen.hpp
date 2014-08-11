@@ -34,9 +34,6 @@ class World;
 class TitleScreen : public Screen
 {
 public:
-  static std::string get_level_name(const std::string& levelfile);
-
-public:
   TitleScreen(PlayerStatus* player_status);
   virtual ~TitleScreen();
 

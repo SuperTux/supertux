@@ -19,6 +19,8 @@
 #include <sstream>
 
 #include "gui/menu_manager.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -62,6 +64,30 @@ GameManager::start_game(std::unique_ptr<World> world)
   catch(std::exception& e)
   {
     log_fatal << "Couldn't start world: " << e.what() << std::endl;
+  }
+}
+
+std::string
+GameManager::get_level_name(const std::string& filename) const
+{
+  try
+  {
+    lisp::Parser parser;
+    const lisp::Lisp* root = parser.parse(filename);
+
+    const lisp::Lisp* level = root->get_lisp("supertux-level");
+    if(!level)
+      return "";
+
+    std::string name;
+    level->get("name", name);
+    return name;
+  }
+  catch(const std::exception& e)
+  {
+    log_warning << "Problem getting name of '" << filename << "': "
+                << e.what() << std::endl;
+    return "";
   }
 }
 
