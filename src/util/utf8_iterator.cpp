@@ -24,7 +24,6 @@ namespace {
 
 bool     has_multibyte_mark(unsigned char c);
 uint32_t decode_utf8(const std::string& text, size_t& p);
-std::string encode_utf8(uint32_t code);
 
 /**
  * returns true if this byte matches a bitmask of 10xx.xxxx, i.e. it is the 2nd, 3rd or 4th byte of a multibyte utf8 string
