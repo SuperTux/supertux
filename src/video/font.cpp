@@ -32,6 +32,7 @@
 #include "util/log.hpp"
 #include "util/utf8_iterator.hpp"
 #include "video/drawing_context.hpp"
+#include "video/drawing_request.hpp"
 #include "video/font.hpp"
 #include "video/renderer.hpp"
 
@@ -81,7 +82,7 @@ Font::Font(GlyphWidth glyph_width_,
   PHYSFS_freeList(rc);
 }
 
-void 
+void
 Font::loadFontFile(const std::string &filename)
 {
   lisp::Parser parser;
@@ -100,7 +101,7 @@ Font::loadFontFile(const std::string &filename)
   if( !config_l->get("glyph-width",def_char_width) ) {
     log_warning << "Font:"<< filename << ": misses default glyph-width" << std::endl;
   }
-  
+
   if( !config_l->get("glyph-height",char_height) ) {
     std::ostringstream msg;
     msg << "Font:" << filename << ": misses glyph-height";
@@ -158,7 +159,7 @@ Font::loadFontFile(const std::string &filename)
   }
 }
 
-void 
+void
 Font::loadFontSurface(
   const std::string &glyphimage,
   const std::string &shadowimage,
@@ -176,9 +177,9 @@ Font::loadFontSurface(
 
   int row=0, col=0;
   int wrap = glyph_surface->get_width() / char_width;
- 
+
   SDL_Surface *surface = NULL;
-  
+
   if( glyph_width == VARIABLE ) {
     //this does not work:
     // surface = ((SDL::Texture *)glyph_surface.get_texture())->get_texture();
@@ -197,17 +198,17 @@ Font::loadFontSurface(
       int x = col * (char_width + 2*border) + border;
       if( ++col == wrap ) { col=0; row++; }
       if( *chr == 0x0020 && glyphs[0x20].surface_idx != -1) continue;
-        
+
       Glyph glyph;
       glyph.surface_idx   = surface_idx;
-      
-      if( glyph_width == FIXED ) 
+
+      if( glyph_width == FIXED )
       {
         glyph.rect    = Rectf(x, y, x + char_width, y + char_height);
         glyph.offset  = Vector(0, 0);
         glyph.advance = char_width;
       }
-      else 
+      else
       {
         if (y + char_height > surface->h)
         {
@@ -221,13 +222,13 @@ Font::loadFontSurface(
         int right = x + char_width - 1;
         while (right > left && vline_empty(surface, right, y, y + char_height, 64))
           right -= 1;
-          
-        if (left <= right) 
+
+        if (left <= right)
         {
           glyph.offset  = Vector(x-left, 0);
           glyph.advance = right - left + 1 + 1; // FIXME: might be useful to make spacing configurable
-        } 
-        else 
+        }
+        else
         { // glyph is completly transparent
           glyph.offset  = Vector(0, 0);
           glyph.advance = char_width + 1; // FIXME: might be useful to make spacing configurable
@@ -238,7 +239,7 @@ Font::loadFontSurface(
 
       glyphs[*chr] = glyph;
     }
-    if( col>0 && col <= wrap ) { 
+    if( col>0 && col <= wrap ) {
       col = 0;
       row++;
     }
@@ -272,7 +273,7 @@ Font::get_text_width(const std::string& text) const
     {
       if( glyphs.at(*it).surface_idx != -1 )
         curr_width += glyphs[*it].advance;
-      else 
+      else
         curr_width += glyphs[0x20].advance;
     }
   }
@@ -344,7 +345,7 @@ Font::wrap_to_width(const std::string& s_, float width, std::string* overflow)
       return s.substr(0, i);
     }
   }
-  
+
   // FIXME: hard-wrap at width, taking care of multibyte characters
   if (overflow) *overflow = "";
   return s;
@@ -393,7 +394,7 @@ Font::draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
                 DrawingEffect drawing_effect, Color color, float alpha) const
 {
   if(shadowsize > 0)
-    draw_chars(renderer, false, text, 
+    draw_chars(renderer, false, text,
                pos + Vector(shadowsize, shadowsize), drawing_effect, Color(1,1,1), alpha);
 
   draw_chars(renderer, true, text, pos, drawing_effect, color, alpha);
@@ -422,7 +423,7 @@ Font::draw_chars(Renderer *renderer, bool notshadow, const std::string& text,
       Glyph glyph;
       if( glyphs.at(*it).surface_idx != -1 )
         glyph = glyphs[*it];
-      else 
+      else
         glyph = glyphs[0x20];
 
       DrawingRequest request;

@@ -70,7 +70,7 @@ private:
   TexturePtr create_image_texture_raw(const std::string& filename, const Rect& rect);
 
   TexturePtr create_dummy_texture();
-  
+
 #ifdef HAVE_OPENGL
   typedef std::set<GLTexture*> Textures;
   Textures textures;

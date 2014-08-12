@@ -111,7 +111,7 @@ GLRenderer::~GLRenderer()
 void
 GLRenderer::draw_surface(const DrawingRequest& request)
 {
-  const Surface* surface = (const Surface*) request.request_data;
+  const Surface* surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;
   if(surface == NULL)
   {
     return;

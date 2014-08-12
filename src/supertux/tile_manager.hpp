@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_TILE_MANAGER_HPP
 
 #include <map>
+#include <memory>
 #include <string>
 
 #include "util/reader_fwd.hpp"
@@ -26,9 +27,8 @@ class TileSet;
 
 class TileManager
 {
-  friend class Resources;
 private:
-  typedef std::map<std::string, TileSet*> TileSets;
+  typedef std::map<std::string, std::unique_ptr<TileSet> > TileSets;
   TileSets tilesets;
 
 public:
@@ -37,7 +37,7 @@ public:
 
   TileSet* get_tileset(const std::string &filename);
 
-  TileSet* parse_tileset_definition(const Reader& reader);
+  std::unique_ptr<TileSet> parse_tileset_definition(const Reader& reader);
 };
 
 #endif

@@ -58,7 +58,7 @@ SDL_BlendMode blend2sdl(const Blend& blend)
 void
 SDLPainter::draw_surface(SDL_Renderer* renderer, const DrawingRequest& request)
 {
-  const Surface* surface = (const Surface*) request.request_data;
+  const Surface* surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;
   boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
 
   SDL_Rect dst_rect;

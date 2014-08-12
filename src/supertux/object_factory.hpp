@@ -18,8 +18,9 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_OBJECT_FACTORY_HPP
 #define HEADER_SUPERTUX_SUPERTUX_OBJECT_FACTORY_HPP
 
-#include <map>
 #include <assert.h>
+#include <map>
+#include <memory>
 
 #include "supertux/direction.hpp"
 #include "util/reader_fwd.hpp"
@@ -58,7 +59,7 @@ public:
   static ObjectFactory& instance();
 
 private:
-  typedef std::map<std::string, AbstractObjectFactory*> Factories;
+  typedef std::map<std::string, std::unique_ptr<AbstractObjectFactory> > Factories;
   Factories factories;
 
 public:
@@ -73,7 +74,7 @@ private:
   void add_factory(const char* name)
   {
     assert(factories.find(name) == factories.end());
-    factories[name] = new ConcreteObjectFactory<C>();
+    factories[name] = std::unique_ptr<AbstractObjectFactory>(new ConcreteObjectFactory<C>());
   }
   void init_factories();
 };

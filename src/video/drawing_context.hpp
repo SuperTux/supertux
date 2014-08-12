@@ -26,24 +26,60 @@
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
-#include "video/drawing_request.hpp"
 #include "video/font.hpp"
 #include "video/font_ptr.hpp"
 #include "video/texture.hpp"
 
+class DrawingRequest;
+class Lightmap;
+class Renderer;
 class Surface;
 class Texture;
-class Renderer;
-class Lightmap;
 
-inline int next_po2(int val)
+// some constants for predefined layer values
+enum {
+  // Image/gradient backgrounds (should cover entire screen)
+  LAYER_BACKGROUND0 = -300,
+  // Particle backgrounds
+  LAYER_BACKGROUND1 = -200,
+  // Tilemap backgrounds
+  LAYER_BACKGROUNDTILES = -100,
+  // Solid tilemaps
+  LAYER_TILES = 0,
+  // Ordinary objects
+  LAYER_OBJECTS = 50,
+  // Objects that pass through walls
+  LAYER_FLOATINGOBJECTS = 150,
+  //
+  LAYER_FOREGROUNDTILES = 200,
+  //
+  LAYER_FOREGROUND0 = 300,
+  //
+  LAYER_FOREGROUND1 = 400,
+  // Hitpoints, time, coins, etc.
+  LAYER_HUD = 500,
+  // Menus, mouse, console etc.
+  LAYER_GUI         = 600
+};
+
+class Blend
 {
-  int result = 1;
-  while(result < val)
-    result *= 2;
+public:
+  GLenum sfactor;
+  GLenum dfactor;
 
-  return result;
-}
+  Blend()
+    : sfactor(GL_SRC_ALPHA), dfactor(GL_ONE_MINUS_SRC_ALPHA)
+  {}
+
+  Blend(GLenum s, GLenum d)
+    : sfactor(s), dfactor(d)
+  {}
+};
+
+enum Target {
+  NORMAL, LIGHTMAP
+};
 
 /**
  * This class provides functions for drawing things on screen. It also
@@ -141,7 +177,7 @@ private:
 
     Transform() :
       translation(),
-      drawing_effect(NO_EFFECT), 
+      drawing_effect(NO_EFFECT),
       alpha(1.0f)
     { }
 
@@ -150,6 +186,8 @@ private:
       return v - translation;
     }
   };
+
+  void clear_drawing_requests(DrawingRequests& requests);
 
 private:
   Renderer& renderer;

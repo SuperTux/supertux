@@ -90,15 +90,9 @@ Resources::unload_shared()
     big_font.reset();
   
   /* Free tilesets */
-  if(tile_manager != NULL)
-  {
-    for(TileManager::TileSets::iterator it = tile_manager->tilesets.begin();
-        it != tile_manager->tilesets.end(); ++it)
-    {
-      delete it->second;
-      it->second = NULL;
-    }
-  }
+  delete tile_manager;
+  tile_manager = 0;
+
   if(sprite_manager != NULL)
   {
     delete sprite_manager;

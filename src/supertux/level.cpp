@@ -77,7 +77,7 @@ Level::load(const std::string& filepath)
 
     const lisp::Lisp* tilesets_lisp = level->get_lisp("tilesets");
     if(tilesets_lisp != NULL) {
-      tileset      = tile_manager->parse_tileset_definition(*tilesets_lisp);
+      tileset      = tile_manager->parse_tileset_definition(*tilesets_lisp).release();
       free_tileset = true;
     }
     std::string tileset_name;
