@@ -326,7 +326,7 @@ Menu::process_input()
 
         case MN_BACK:
           MenuManager::instance().pop_menu();
-          break;
+          return;
 
         default:
           break;
@@ -362,15 +362,12 @@ Menu::process_input()
 
     case MENU_ACTION_BACK:
       MenuManager::instance().pop_menu();
-      break;
+      return;
 
     case MENU_ACTION_NONE:
       break;
   }
   menuaction = MENU_ACTION_NONE;
-
-  if( int(items.size() ) == 0)
-    return;
 
   assert(active_item < int(items.size()));
 }
