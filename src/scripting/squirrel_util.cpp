@@ -89,7 +89,7 @@ void init_squirrel(bool enable_debugger)
   sq_pop(global_vm, 1);
 
   // register print function
-  sq_setprintfunc(global_vm, printfunc);
+  sq_setprintfunc(global_vm, printfunc, printfunc);
   // register default error handlers
   sqstd_seterrorhandlers(global_vm);
 
