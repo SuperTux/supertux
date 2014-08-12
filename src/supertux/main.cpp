@@ -56,7 +56,7 @@ extern "C" {
 
 namespace { DrawingContext *context_pointer; }
 
-void 
+void
 Main::init_config()
 {
   g_config = new Config();
@@ -78,7 +78,7 @@ Main::init_tinygettext()
   dictionary_manager->set_charset("UTF-8");
 
   // Config setting "locale" overrides language detection
-  if (g_config->locale != "") 
+  if (g_config->locale != "")
   {
     dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
   } else {
@@ -271,14 +271,14 @@ Main::run(int argc, char** argv)
 {
   int result = 0;
 
-  try 
+  try
   {
     CommandLineArguments args;
-    
+
     // Do this before pre_parse_commandline, because --help now shows the
     // default user data dir.
     init_physfs(argv[0]);
-    
+
     try
     {
       args.parse_args(argc, argv);
@@ -286,9 +286,27 @@ Main::run(int argc, char** argv)
     }
     catch(const std::exception& err)
     {
+      try
+      {
+        init_config();
+        args.merge_into(*g_config);
+        init_tinygettext();
+      }
+      catch(const std::exception& err)
+      {
+        log_fatal << "failed to init config or tinygettext: " << err.what() << std::endl;
+      }
+
       std::cout << "Error: " << err.what() << std::endl;
       return EXIT_FAILURE;
     }
+
+    timelog("config");
+    init_config();
+    args.merge_into(*g_config);
+
+    timelog("tinygettext");
+    init_tinygettext();
 
     switch (args.get_action())
     {
@@ -315,11 +333,6 @@ Main::run(int argc, char** argv)
     timelog("controller");
     g_input_manager = new InputManager();
 
-    timelog("config");
-    init_config();
-
-    args.merge_into(*g_config);
-
     timelog("commandline");
 
     timelog("video");
@@ -328,12 +341,9 @@ Main::run(int argc, char** argv)
     DrawingContext context(*renderer, *lightmap);
     context_pointer = &context;
     init_video();
-    
+
     timelog("audio");
     init_audio();
-    
-    timelog("tinygettext");
-    init_tinygettext();
 
     Console::instance->init_graphics();
 
@@ -342,7 +352,7 @@ Main::run(int argc, char** argv)
 
     timelog("resources");
     Resources::load_shared();
-    
+
     timelog("addons");
     AddonManager::get_instance().load_addons();
 
@@ -362,7 +372,7 @@ Main::run(int argc, char** argv)
       std::string fileProtocol = "file://";
       std::string::size_type position = dir.find(fileProtocol);
       if(position != std::string::npos) {
-         dir = dir.replace(position, fileProtocol.length(), "");
+        dir = dir.replace(position, fileProtocol.length(), "");
       }
       log_debug << "Adding dir: " << dir << std::endl;
       PHYSFS_addToSearchPath(dir.c_str(), true);
