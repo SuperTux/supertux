@@ -369,6 +369,9 @@ Menu::process_input()
   }
   menuaction = MENU_ACTION_NONE;
 
+  if( int(items.size() ) == 0)
+    return;
+
   assert(active_item < int(items.size()));
 }
 
