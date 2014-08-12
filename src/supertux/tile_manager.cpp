@@ -31,21 +31,27 @@ TileManager::~TileManager()
 {
 }
 
-TileSet* TileManager::get_tileset(const std::string &filename)
+TileSet*
+TileManager::get_tileset(const std::string &filename)
 {
   TileSets::const_iterator i = tilesets.find(filename);
   if(i != tilesets.end())
-    return i->second;
-
-  std::unique_ptr<TileSet> tileset (new TileSet(filename));
-  tilesets.insert(std::make_pair(filename, tileset.get()));
-
-  return tileset.release();
+  {
+    return i->second.get();
+  }
+  else
+  {
+    std::unique_ptr<TileSet> tileset(new TileSet(filename));
+    TileSet* result = tileset.get();
+    tilesets.insert(std::make_pair(filename, std::move(tileset)));
+    return result;
+  }
 }
 
-TileSet* TileManager::parse_tileset_definition(const Reader& reader)
+std::unique_ptr<TileSet>
+TileManager::parse_tileset_definition(const Reader& reader)
 {
-  std::unique_ptr<TileSet> result(new TileSet());
+  std::unique_ptr<TileSet> result(new TileSet);
 
   lisp::ListIterator iter(&reader);
   while(iter.next()) {
@@ -74,7 +80,7 @@ TileSet* TileManager::parse_tileset_definition(const Reader& reader)
     result->merge(tileset, start, end, offset);
   }
 
-  return result.release();
+  return std::move(result);
 }
 
 /* EOF */
