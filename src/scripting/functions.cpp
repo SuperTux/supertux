@@ -69,7 +69,7 @@ void wait_for_screenswitch(HSQUIRRELVM vm)
 
 void exit_screen()
 {
-  g_screen_manager->exit_screen();
+  g_screen_manager->pop_screen();
 }
 
 void fadeout_screen(float seconds)

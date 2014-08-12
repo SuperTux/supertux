@@ -39,11 +39,10 @@ public:
   ~ScreenManager();
 
   void run(DrawingContext &context);
-  void exit_screen(std::unique_ptr<ScreenFade> fade = {});
   void quit(std::unique_ptr<ScreenFade> fade = {});
   void set_speed(float speed);
   float get_speed() const;
-  bool has_no_pending_fadeout() const;
+  bool has_pending_fadeout() const;
 
   /**
    * requests that a screenshot be taken after the next frame has been rendered
@@ -52,6 +51,7 @@ public:
 
   // push new screen on screen_stack
   void push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> fade = {});
+  void pop_screen(std::unique_ptr<ScreenFade> fade = {});
   void set_screen_fade(std::unique_ptr<ScreenFade> fade);
 
   /// threads that wait for a screenswitch
@@ -67,14 +67,13 @@ private:
 private:
   std::unique_ptr<MenuStorage> m_menu_storage;
   std::unique_ptr<MenuManager> m_menu_manager;
-  bool m_running;
+
   float m_speed;
-  bool m_nextpop;
-  bool m_nextpush;
+  enum Action { NO_ACTION, PUSH_ACTION, POP_ACTION, REPLACE_ACTION, QUIT_ACTION };
+  Action m_action;
   /// measured fps
   float m_fps;
   std::unique_ptr<Screen> m_next_screen;
-  std::unique_ptr<Screen> m_current_screen;
   std::unique_ptr<ScreenFade> m_screen_fade;
   std::vector<std::unique_ptr<Screen> > m_screen_stack;
   bool m_screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */

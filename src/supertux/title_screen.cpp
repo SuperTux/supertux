@@ -141,7 +141,7 @@ TitleScreen::update(float elapsed_time)
 
   // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)
-  if(!MenuManager::instance().is_active() && g_screen_manager->has_no_pending_fadeout())
+  if(!MenuManager::instance().is_active() && !g_screen_manager->has_pending_fadeout())
   {
     MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
   }
