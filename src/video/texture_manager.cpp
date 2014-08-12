@@ -54,6 +54,12 @@ TextureManager::~TextureManager()
     }
   }
   image_textures.clear();
+
+  for(auto& surface : surfaces)
+  {
+    SDL_FreeSurface(surface.second);
+  }
+  surfaces.clear();
 }
 
 TexturePtr
@@ -109,7 +115,7 @@ TextureManager::remove_texture(GLTexture* texture)
 TexturePtr
 TextureManager::create_image_texture(const std::string& filename, const Rect& rect)
 {
-  try 
+  try
   {
     return create_image_texture_raw(filename, rect);
   }
@@ -123,29 +129,29 @@ TextureManager::create_image_texture(const std::string& filename, const Rect& re
 TexturePtr
 TextureManager::create_image_texture_raw(const std::string& filename, const Rect& rect)
 {
-  SDL_Surface *image = NULL;
+  SDL_Surface *image = nullptr;
 
   Surfaces::iterator i = surfaces.find(filename);
   if (i != surfaces.end())
-    image = i->second;
-
-  if (!image) {
-    image = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
-  }
-
-  if (!image)
   {
-    std::ostringstream msg;
-    msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
-    throw std::runtime_error(msg.str());
+    image = i->second;
+  }
+  else
+  {
+    image = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
+    if (!image)
+    {
+      std::ostringstream msg;
+      msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
+      throw std::runtime_error(msg.str());
+    }
+
+    surfaces[filename] = image;
   }
 
-  surfaces[filename] = image;
-
-  SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(image->pixels) + 
-                                                  rect.top * image->pitch + 
-                                                  rect.left * image->format->BytesPerPixel, 
-
+  SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(image->pixels) +
+                                                  rect.top * image->pitch +
+                                                  rect.left * image->format->BytesPerPixel,
                                                   rect.get_width(), rect.get_height(),
                                                   image->format->BitsPerPixel,
                                                   image->pitch,
@@ -158,10 +164,12 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
     throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");
   }
 
- /* if (image->format->palette)
+#ifdef OLD_SDL
+  if (image->format->palette)
   { // copy the image palette to subimage if present
-    SDL_SetSurfacePalette(subimage.get(), image->format->palette->colors); //edited by giby 
-  } */
+    SDL_SetSurfacePalette(subimage.get(), image->format->palette->colors);
+  }
+#endif
 
   return VideoSystem::new_texture(subimage.get());
 }
@@ -169,7 +177,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
 TexturePtr
 TextureManager::create_image_texture(const std::string& filename)
 {
-  try 
+  try
   {
     return create_image_texture_raw(filename);
   }
@@ -184,7 +192,7 @@ TexturePtr
 TextureManager::create_image_texture_raw(const std::string& filename)
 {
   SDLSurfacePtr image(IMG_Load_RW(get_physfs_SDLRWops(filename), 1));
-  if (!image) 
+  if (!image)
   {
     std::ostringstream msg;
     msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
@@ -202,14 +210,14 @@ TexturePtr
 TextureManager::create_dummy_texture()
 {
   const std::string dummy_texture_fname = "images/engine/missing.png";
- 
+
   // on error, try loading placeholder file
-  try 
+  try
   {
     TexturePtr tex = create_image_texture_raw(dummy_texture_fname);
     return tex;
   }
-  catch (const std::exception& err) 
+  catch (const std::exception& err)
   {
     // on error (when loading placeholder), try using empty surface,
     // when that fails to, just give up
