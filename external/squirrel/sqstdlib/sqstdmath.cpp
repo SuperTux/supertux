@@ -80,6 +80,7 @@ static SQRegFunction mathlib_funcs[] = {
 	_DECL_FUNC(abs,2,_SC(".n")),
 	{0,0},
 };
+#undef _DECL_FUNC
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846)
@@ -93,14 +94,14 @@ SQRESULT sqstd_register_mathlib(HSQUIRRELVM v)
 		sq_newclosure(v,mathlib_funcs[i].f,0);
 		sq_setparamscheck(v,mathlib_funcs[i].nparamscheck,mathlib_funcs[i].typemask);
 		sq_setnativeclosurename(v,-1,mathlib_funcs[i].name);
-		sq_createslot(v,-3);
+		sq_newslot(v,-3,SQFalse);
 		i++;
 	}
 	sq_pushstring(v,_SC("RAND_MAX"),-1);
 	sq_pushinteger(v,RAND_MAX);
-	sq_createslot(v,-3);
+	sq_newslot(v,-3,SQFalse);
 	sq_pushstring(v,_SC("PI"),-1);
 	sq_pushfloat(v,(SQFloat)M_PI);
-	sq_createslot(v,-3);
+	sq_newslot(v,-3,SQFalse);
 	return SQ_OK;
 }

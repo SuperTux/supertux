@@ -61,6 +61,7 @@ public:
 	}
 #ifndef NO_GARBAGE_COLLECTOR 
 	void Mark(SQCollectable **chain);
+	SQObjectType GetType() {return OT_TABLE;}
 #endif
 	inline _HashNode *_Get(const SQObjectPtr &key,SQHash hash)
 	{

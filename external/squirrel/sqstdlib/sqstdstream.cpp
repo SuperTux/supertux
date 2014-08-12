@@ -13,7 +13,7 @@
 	SQStream *self = NULL; \
 	if(SQ_FAILED(sq_getinstanceup(v,1,(SQUserPointer*)&self,(SQUserPointer)SQSTD_STREAM_TYPE_TAG))) \
 		return sq_throwerror(v,_SC("invalid type tag")); \
-	if(!self->IsValid())  \
+	if(!self || !self->IsValid())  \
 		return sq_throwerror(v,_SC("the stream is invalid"));
 
 SQInteger _stream_readblob(HSQUIRRELVM v)
@@ -233,6 +233,11 @@ SQInteger _stream_eos(HSQUIRRELVM v)
 	return 1;
 }
 
+ SQInteger _stream__cloned(HSQUIRRELVM v)
+ {
+	 return sq_throwerror(v,_SC("this object cannot be cloned"));
+ }
+
 static SQRegFunction _stream_methods[] = {
 	_DECL_STREAM_FUNC(readblob,2,_SC("xn")),
 	_DECL_STREAM_FUNC(readn,2,_SC("xn")),
@@ -243,6 +248,7 @@ static SQRegFunction _stream_methods[] = {
 	_DECL_STREAM_FUNC(len,1,_SC("x")),
 	_DECL_STREAM_FUNC(eos,1,_SC("x")),
 	_DECL_STREAM_FUNC(flush,1,_SC("x")),
+	_DECL_STREAM_FUNC(_cloned,0,NULL),
 	{0,0}
 };
 
@@ -260,15 +266,15 @@ void init_streamclass(HSQUIRRELVM v)
 			sq_pushstring(v,f.name,-1);
 			sq_newclosure(v,f.f,0);
 			sq_setparamscheck(v,f.nparamscheck,f.typemask);
-			sq_createslot(v,-3);
+			sq_newslot(v,-3,SQFalse);
 			i++;
 		}
-		sq_createslot(v,-3);
+		sq_newslot(v,-3,SQFalse);
 		sq_pushroottable(v);
 		sq_pushstring(v,_SC("stream"),-1);
 		sq_pushstring(v,_SC("std_stream"),-1);
 		sq_get(v,-4);
-		sq_createslot(v,-3);
+		sq_newslot(v,-3,SQFalse);
 		sq_pop(v,1);
 	}
 	else {
@@ -297,10 +303,10 @@ SQRESULT declare_stream(HSQUIRRELVM v,const SQChar* name,SQUserPointer typetag,c
 			sq_newclosure(v,f.f,0);
 			sq_setparamscheck(v,f.nparamscheck,f.typemask);
 			sq_setnativeclosurename(v,-1,f.name);
-			sq_createslot(v,-3);
+			sq_newslot(v,-3,SQFalse);
 			i++;
 		}
-		sq_createslot(v,-3);
+		sq_newslot(v,-3,SQFalse);
 		sq_pop(v,1);
 		
 		i = 0;
@@ -311,7 +317,7 @@ SQRESULT declare_stream(HSQUIRRELVM v,const SQChar* name,SQUserPointer typetag,c
 			sq_newclosure(v,f.f,0);
 			sq_setparamscheck(v,f.nparamscheck,f.typemask);
 			sq_setnativeclosurename(v,-1,f.name);
-			sq_createslot(v,-3);
+			sq_newslot(v,-3,SQFalse);
 			i++;
 		}
 		//register the class in the target table
@@ -320,7 +326,7 @@ SQRESULT declare_stream(HSQUIRRELVM v,const SQChar* name,SQUserPointer typetag,c
 		sq_pushstring(v,reg_name,-1);
 		sq_get(v,-2);
 		sq_remove(v,-2);
-		sq_createslot(v,-3);
+		sq_newslot(v,-3,SQFalse);
 
 		sq_settop(v,top);
 		return SQ_OK;

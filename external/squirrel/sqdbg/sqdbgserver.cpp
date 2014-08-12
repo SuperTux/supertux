@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include <squirrel.h>
 #include <assert.h>
 #include <sqstdblob.h>
@@ -22,13 +19,20 @@ struct XMLEscape{
 #define SQDBG_ERROR_HANDLER _SC("_sqdbg_error_handler_")
 
 XMLEscape g_escapes[]={
-	{_SC('<'),_SC("&lt;")},{'>',_SC("&gt;")},{_SC('&'),_SC("&amp;")},{_SC('\''),_SC("&apos;")},{_SC('\"'),_SC("&quot;")},{_SC('\n'),_SC("&quot;n")},{_SC('\r'),_SC("&quot;r")},{0, NULL}
+	{_SC('<'),_SC("&lt;")},{'>',_SC("&gt;")},{_SC('&'),_SC("&amp;")},{_SC('\''),_SC("&apos;")},{_SC('\"'),_SC("&quot;")},{_SC('\n'),_SC("&quot;n")},{_SC('\r'),_SC("&quot;r")},{NULL,NULL}
 };
 
-const SQChar *IntToString(int n)
+const SQChar *IntToString(SQInteger n)
 {
 	static SQChar temp[256];
 	scsprintf(temp,_SC("%d"),n);
+	return temp;
+}
+
+const SQChar *PtrToString(void *p)
+{
+	static SQChar temp[256];
+	scsprintf(temp,_SC("%p"),p);
 	return temp;
 }
 
@@ -72,45 +76,30 @@ SQInteger attribute(HSQUIRRELVM v)
 	return 0;
 }
 
-const SQChar *EscapeXMLString(HSQUIRRELVM v,const SQChar *s)
-{
-
-	SQChar *temp=sq_getscratchpad(v,((int)scstrlen(s)*6) + sizeof(SQChar));
-	SQChar *dest=temp;
-	while(*s!=_SC('\0')){
-		int i=0;
-		bool escaped=false;
-		while(g_escapes[i].esc!=NULL){
-			if(*s==g_escapes[i].c){
-				scstrcpy(dest,g_escapes[i].esc);
-				dest+=scstrlen(g_escapes[i].esc);
-				escaped=true;
-				break;
-			}
-			i++;
-		}
-		if(!escaped){*dest=*s;*dest++;}
-		*s++;
-	}
-	*dest=_SC('\0');
-	return temp;
-}
-
 SQDbgServer::SQDbgServer(HSQUIRRELVM v)
 {
 	_ready = false;
-	_nestedcalls = 0;
+	//_nestedcalls = 0;
 	_autoupdate = false;
 	_v = v;
 	_state = eDBG_Running;
 	_accept = INVALID_SOCKET;
 	_endpoint = INVALID_SOCKET;
-	_maxrecursion = 10;
+	//_maxrecursion = 10;
 	sq_resetobject(&_debugroot);
 }
 
 SQDbgServer::~SQDbgServer()
 {
+	VMStateMap::iterator itr = _vmstate.begin();
+	while(itr != _vmstate.end()) {
+		VMState *vs = itr->second;
+		delete vs;
+		++itr;
+	}
+	_vmstate.clear();
+	sq_pushobject(_v,_debugroot);
+	sq_clear(_v,-1);
 	sq_release(_v,&_debugroot);
 	if(_accept != INVALID_SOCKET)
 		sqdbg_closesocket(_accept);
@@ -121,7 +110,7 @@ SQDbgServer::~SQDbgServer()
 bool SQDbgServer::Init()
 {
 	//creates  an environment table for the debugger
-
+	
 	sq_newtable(_v);
 	sq_getstackobj(_v,-1,&_debugroot);
 	sq_addref(_v,&_debugroot);
@@ -129,25 +118,25 @@ bool SQDbgServer::Init()
 	//creates a emptyslot to store the watches
 	sq_pushstring(_v,_SC("watches"),-1);
 	sq_pushnull(_v);
-	sq_createslot(_v,-3);
+	sq_newslot(_v,-3, SQFalse);
 
 	sq_pushstring(_v,_SC("beginelement"),-1);
 	sq_pushuserpointer(_v,this);
 	sq_newclosure(_v,beginelement,1);
 	sq_setparamscheck(_v,2,_SC(".s"));
-	sq_createslot(_v,-3);
+	sq_newslot(_v,-3, SQFalse);
 
 	sq_pushstring(_v,_SC("endelement"),-1);
 	sq_pushuserpointer(_v,this);
 	sq_newclosure(_v,endelement,1);
 	sq_setparamscheck(_v,2,_SC(".s"));
-	sq_createslot(_v,-3);
+	sq_newslot(_v,-3, SQFalse);
 
 	sq_pushstring(_v,_SC("attribute"),-1);
 	sq_pushuserpointer(_v,this);
 	sq_newclosure(_v,attribute,1);
 	sq_setparamscheck(_v,3,_SC(".ss"));
-	sq_createslot(_v,-3);
+	sq_newslot(_v,-3, SQFalse);
 
 	sq_pop(_v,1);
 
@@ -157,18 +146,18 @@ bool SQDbgServer::Init()
 	sq_pushstring(_v,SQDBG_DEBUG_HOOK,-1);
 	sq_pushuserpointer(_v,this);
 	sq_newclosure(_v,debug_hook,1);
-	sq_createslot(_v,-3);
-
+	sq_newslot(_v,-3, SQFalse);
+	
 	sq_pushstring(_v,SQDBG_ERROR_HANDLER,-1);
 	sq_pushuserpointer(_v,this);
 	sq_newclosure(_v,error_handler,1);
-	sq_createslot(_v,-3);
+	sq_newslot(_v,-3, SQFalse);
 
-
+	
 	sq_pop(_v,1);
 
 	//sets the error handlers
-	SetErrorHandlers();
+	SetErrorHandlers(_v);
 	return true;
 }
 
@@ -180,8 +169,10 @@ bool SQDbgServer::ReadMsg()
 void SQDbgServer::BusyWait()
 {
 	while( !ReadMsg() )
-		sleep(0);
+		Sleep(0);
 }
+
+
 
 void SQDbgServer::SendChunk(const SQChar *chunk)
 {
@@ -190,7 +181,8 @@ void SQDbgServer::SendChunk(const SQChar *chunk)
 #ifdef _UNICODE
 	buf_len=(int)scstrlen(chunk)+1;
 	buf=(char *)sq_getscratchpad(_v,(buf_len)*3);
-	wcstombs((char *)buf,chunk,buf_len);
+	//wcstombs((char *)buf,chunk,buf_len*3);
+	WideCharToMultiByte(CP_UTF8,0,chunk,-1,buf,buf_len*3,NULL,NULL);
 #else
 	buf_len=(int)scstrlen(chunk);
 	buf=(char *)chunk;
@@ -203,40 +195,56 @@ void SQDbgServer::Terminated()
 {
 	BeginElement(_SC("terminated"));
 	EndElement(_SC("terminated"));
-	::usleep(200);
+	::Sleep(200);
 }
 
-void SQDbgServer::Hook(int type,int line,const SQChar *src,const SQChar *func)
+VMState *SQDbgServer::GetVMState(HSQUIRRELVM v)
 {
+	VMState *ret = NULL;
+	VMStateMap::iterator itr = _vmstate.find(v);
+	if(itr == _vmstate.end()) {
+		ret = new VMState();
+		_vmstate.insert(VMStateMap::value_type(v,ret));
+	}
+	else {
+		ret = itr->second;
+	}
+	return ret;
+}
+
+void SQDbgServer::Hook(HSQUIRRELVM v,SQInteger type,SQInteger line,const SQChar *src,const SQChar *func)
+{
+	
+	VMState *vs = GetVMState(v);
 	switch(_state){
 	case eDBG_Running:
 		if(type==_SC('l') && _breakpoints.size()) {
 			BreakPointSetItor itr = _breakpoints.find(BreakPoint(line,src));
 			if(itr != _breakpoints.end()) {
-				Break(line,src,_SC("breakpoint"));
+				Break(v,line,src,_SC("breakpoint"));
 				BreakExecution();
 			}
 		}
 		break;
 	case eDBG_Suspended:
-		_nestedcalls=0;
+		vs->_nestedcalls=0;
 	case eDBG_StepOver:
 		switch(type){
 		case _SC('l'):
-			if(_nestedcalls==0) {
-				Break(line,src,_SC("step"));
+			if(vs->_nestedcalls==0) {
+				Break(v,line,src,_SC("step"));
 				BreakExecution();
 			}
 			break;
 		case _SC('c'):
-			_nestedcalls++;
+			vs->_nestedcalls++;
 			break;
 		case _SC('r'):
-			if(_nestedcalls==0){
-				_nestedcalls=0;
-
+			if(vs->_nestedcalls==0){
+				vs->_nestedcalls=0;
+				
 			}else{
-				_nestedcalls--;
+				vs->_nestedcalls--;
 			}
 			break;
 		}
@@ -244,11 +252,11 @@ void SQDbgServer::Hook(int type,int line,const SQChar *src,const SQChar *func)
 	case eDBG_StepInto:
 		switch(type){
 		case _SC('l'):
-			_nestedcalls=0;
-			Break(line,src,_SC("step"));
+			vs->_nestedcalls=0;
+			Break(v,line,src,_SC("step"));
 			BreakExecution();
 			break;
-
+		
 		}
 		break;
 	case eDBG_StepReturn:
@@ -256,16 +264,16 @@ void SQDbgServer::Hook(int type,int line,const SQChar *src,const SQChar *func)
 		case _SC('l'):
 			break;
 		case _SC('c'):
-			_nestedcalls++;
+			vs->_nestedcalls++;
 			break;
 		case _SC('r'):
-			if(_nestedcalls==0){
-				_nestedcalls=0;
+			if(vs->_nestedcalls==0){
+				vs->_nestedcalls=0;
 				_state=eDBG_StepOver;
 			}else{
-				_nestedcalls--;
+				vs->_nestedcalls--;
 			}
-
+			
 			break;
 		}
 		break;
@@ -281,7 +289,7 @@ void SQDbgServer::Hook(int type,int line,const SQChar *src,const SQChar *func)
 //sp Suspend
 void SQDbgServer::ParseMsg(const char *msg)
 {
-
+	
 	switch(*((unsigned short *)msg)){
 		case MSG_ID('a','b'): {
 			BreakPoint bp;
@@ -348,13 +356,16 @@ void SQDbgServer::ParseMsg(const char *msg)
 			{
 				AddWatch(w);
 				scprintf(_SC("added watch %d %s\n"),w._id,w._exp.c_str());
+				/*if(_state == eDBG_Suspended) {
+					Break(_line,_src.c_str(),_break_type.c_str());
+				}*/
 			}
 			else
 				scprintf(_SC("error parsing add watch"));
 								}
 			break;
 		case MSG_ID('r','w'): {
-			int id;
+			SQInteger id;
 			if(ParseRemoveWatch(msg+3,id))
 			{
 				RemoveWatch(id);
@@ -377,21 +388,19 @@ void SQDbgServer::ParseMsg(const char *msg)
 	}
 }
 
-/*
-	see copyright notice in sqrdbg.h
-*/
 bool SQDbgServer::ParseBreakpoint(const char *msg,BreakPoint &out)
 {
 	static char stemp[MAX_BP_PATH];
+	static SQChar desttemp[MAX_BP_PATH];
 	char *ep=NULL;
 	out._line=strtoul(msg,&ep,16);
 	if(ep==msg || (*ep)!=':')return false;
-
+	
 	char *dest=stemp;
 	ep++;
 	while((*ep)!='\n' && (*ep)!='\0')
 	{
-		*dest=*ep;
+		*dest=tolower(*ep);
 		*dest++;*ep++;
 	}
 	*dest='\0';
@@ -399,8 +408,8 @@ bool SQDbgServer::ParseBreakpoint(const char *msg,BreakPoint &out)
 	*dest='\0';
 #ifdef _UNICODE
 	int len=(int)strlen(stemp);
-	SQChar *p=sq_getscratchpad(_v,(SQInteger)(mbstowcs(NULL,stemp,len)+2)*sizeof(SQChar));
-	size_t destlen=mbstowcs(p,stemp,len);
+	SQChar *p = desttemp;
+	size_t destlen = mbstowcs(p,stemp,len);
 	p[destlen]=_SC('\0');
 	out._src=p;
 #else
@@ -425,7 +434,7 @@ bool SQDbgServer::ParseWatch(const char *msg,Watch &out)
 	return true;
 }
 
-bool SQDbgServer::ParseRemoveWatch(const char *msg,int &id)
+bool SQDbgServer::ParseRemoveWatch(const char *msg,SQInteger &id)
 {
 	char *ep=NULL;
 	id=strtoul(msg,&ep,16);
@@ -440,7 +449,7 @@ void SQDbgServer::BreakExecution()
 	while(_state==eDBG_Suspended){
 		if(SQ_FAILED(sq_rdbg_update(this)))
 			exit(0);
-		usleep(10);
+		Sleep(10);
 	}
 }
 
@@ -461,7 +470,7 @@ void SQDbgServer::AddWatch(Watch &w)
 	_watches.insert(w);
 }
 
-void SQDbgServer::RemoveWatch(int id)
+void SQDbgServer::RemoveWatch(SQInteger id)
 {
 	WatchSetItor itor=_watches.find(Watch(id,_SC("")));
 	if(itor==_watches.end()){
@@ -498,68 +507,78 @@ void SQDbgServer::RemoveBreakpoint(BreakPoint &bp)
 	}
 }
 
-void SQDbgServer::Break(int line,const SQChar *src,const SQChar *type,const SQChar *error)
+void SQDbgServer::Break(HSQUIRRELVM v,SQInteger line,const SQChar *src,const SQChar *type,const SQChar *error)
 {
+	_line = line;
+	_src = src;
+	_break_type = src;
 	if(!error){
 		BeginDocument();
 			BeginElement(_SC("break"));
+				Attribute(_SC("thread"),PtrToString(v));
 				Attribute(_SC("line"),IntToString(line));
 				Attribute(_SC("src"),src);
 				Attribute(_SC("type"),type);
-				SerializeState();
+				SerializeState(v);
 			EndElement(_SC("break"));
 		EndDocument();
 	}else{
 		BeginDocument();
 			BeginElement(_SC("break"));
+				Attribute(_SC("thread"),PtrToString(v));
 				Attribute(_SC("line"),IntToString(line));
 				Attribute(_SC("src"),src);
 				Attribute(_SC("type"),type);
 				Attribute(_SC("error"),error);
-				SerializeState();
+				SerializeState(v);
 			EndElement(_SC("break"));
 		EndDocument();
 	}
 }
 
-void SQDbgServer::SerializeState()
+void SQDbgServer::SerializeState(HSQUIRRELVM v)
 {
-	sq_pushnull(_v);
-	sq_setdebughook(_v);
-	sq_pushnull(_v);
-	sq_seterrorhandler(_v);
-	const SQChar *sz;
-	sq_pushobject(_v,_serializefunc);
-	sq_pushobject(_v,_debugroot);
-	sq_pushstring(_v,_SC("watches"),-1);
-	sq_newtable(_v);
+	sq_pushnull(v);
+	sq_setdebughook(v);
+	sq_pushnull(v);
+	sq_seterrorhandler(v);
+	sq_pushobject(v,_serializefunc);
+	sq_pushobject(v,_debugroot);
+	sq_pushstring(v,_SC("watches"),-1);
+	sq_newtable(v);
 	for(WatchSetItor i=_watches.begin(); i!=_watches.end(); ++i)
 	{
-		sq_pushinteger(_v,i->_id);
-		sq_pushstring(_v,i->_exp.c_str(),(int)i->_exp.length());
-		sq_createslot(_v,-3);
+		sq_pushinteger(v,i->_id);
+		sq_pushstring(v,i->_exp.c_str(),(SQInteger)i->_exp.length());
+		sq_createslot(v,-3);
 	}
-	sq_rawset(_v,-3);
-	if(SQ_SUCCEEDED(sq_call(_v,1,SQTrue,SQTrue))){
-		if(SQ_SUCCEEDED(sqstd_getblob(_v,-1,(SQUserPointer*)&sz)))
-			SendChunk(sz);
+	sq_rawset(v,-3);
+	if(SQ_SUCCEEDED(sq_call(v,1,SQTrue,SQFalse))){
+		//if(SQ_SUCCEEDED(sqstd_getblob(v,-1,(SQUserPointer*)&sz)))
+			//SendChunk(sz);
 	}
-	sq_pop(_v,2);
-
-	SetErrorHandlers();
+	sq_pop(v,2);
+	
+	SetErrorHandlers(v);
 }
 
 
-void SQDbgServer::SetErrorHandlers()
+void SQDbgServer::SetErrorHandlers(HSQUIRRELVM v)
 {
-	sq_pushregistrytable(_v);
-	sq_pushstring(_v,SQDBG_DEBUG_HOOK,-1);
-	sq_rawget(_v,-2);
-	sq_setdebughook(_v);
-	sq_pushstring(_v,SQDBG_ERROR_HANDLER,-1);
-	sq_rawget(_v,-2);
-	sq_seterrorhandler(_v);
-	sq_pop(_v,1);
+	sq_pushregistrytable(v);
+	sq_pushstring(v,SQDBG_DEBUG_HOOK,-1);
+	sq_rawget(v,-2);
+	sq_setdebughook(v);
+	sq_pushstring(v,SQDBG_ERROR_HANDLER,-1);
+	sq_rawget(v,-2);
+	sq_seterrorhandler(v);
+	sq_pop(v,1);
+}
+
+void SQDbgServer::BeginDocument()
+{ 
+	_xmlcurrentement = -1; 
+	SendChunk(_SC("<?xml version='1.0' encoding='utf-8'?>"));
 }
 
 void SQDbgServer::BeginElement(const SQChar *name)
@@ -585,7 +604,7 @@ void SQDbgServer::Attribute(const SQChar *name,const SQChar *value)
 	XMLElementState *self = &xmlstate[_xmlcurrentement];
 	assert(!self->haschildren); //cannot have attributes if already has children
 	const SQChar *escval = escape_xml(value);
-	_scratchstring.resize(5+scstrlen(name)+scstrlen(escval));
+	_scratchstring.resize(10+scstrlen(name)+scstrlen(escval));
 	scsprintf(&_scratchstring[0],_SC(" %s=\"%s\""),name,escval);
 	SendChunk(&_scratchstring[0]);
 }
@@ -595,10 +614,10 @@ void SQDbgServer::EndElement(const SQChar *name)
 	XMLElementState *self = &xmlstate[_xmlcurrentement];
 	assert(scstrcmp(self->name,name) == 0);
 	if(self->haschildren) {
-		_scratchstring.resize(4+scstrlen(name));
+		_scratchstring.resize(10+scstrlen(name));
 		scsprintf(&_scratchstring[0],_SC("</%s>"),name);
 		SendChunk(&_scratchstring[0]);
-
+		
 	}
 	else {
 		SendChunk(_SC("/>"));
@@ -614,24 +633,30 @@ void SQDbgServer::EndDocument()
 //this can be done much better/faster(do we need that?)
 const SQChar *SQDbgServer::escape_xml(const SQChar *s)
 {
-	SQChar *temp=sq_getscratchpad(_v,((int)scstrlen(s)*6) + sizeof(SQChar));
+	SQChar *temp=sq_getscratchpad(_v,((SQInteger)scstrlen(s)*6) + sizeof SQChar);
 	SQChar *dest=temp;
 	while(*s!=_SC('\0')){
-		int i=0;
-		bool escaped=false;
-		while(g_escapes[i].esc!=NULL){
-			if(*s==g_escapes[i].c){
-				scstrcpy(dest,g_escapes[i].esc);
-				dest+=scstrlen(g_escapes[i].esc);
-				escaped=true;
-				break;
-			}
-			i++;
+		
+		const SQChar *escape = NULL;
+		switch(*s) {
+			case _SC('<'): escape = _SC("&lt;"); break;
+			case _SC('>'): escape = _SC("&gt;"); break;
+			case _SC('&'): escape = _SC("&amp;"); break;
+			case _SC('\''): escape = _SC("&apos;"); break;
+			case _SC('\"'): escape = _SC("&quot;"); break;
+			case _SC('\n'): escape = _SC("\\n"); break;
+			case _SC('\r'): escape = _SC("\\r"); break;
 		}
-		if(!escaped){*dest=*s;*dest++;}
+		if(escape) {
+			scstrcpy(dest,escape);
+			dest += scstrlen(escape);
+		}
+		else {
+			*dest=*s;*dest++;
+		}
 		*s++;
 	}
 	*dest=_SC('\0');
 	return temp;
-
+	
 }

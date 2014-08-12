@@ -1,8 +1,6 @@
-/*
-	see copyright notice in sqrdbg.h
-*/
-#include <string.h>
-#include <stdio.h>
+#include <squirrel.h>
+#include <winsock.h>
+#include <squirrel.h>
 #include <squirrel.h>
 #include "sqrdbg.h"
 #include "sqdbgserver.h"
@@ -13,14 +11,13 @@ SQInteger error_handler(HSQUIRRELVM v);
 
 HSQREMOTEDBG sq_rdbg_init(HSQUIRRELVM v,unsigned short port,SQBool autoupdate)
 {
+	WSADATA wsadata;
 	sockaddr_in bindaddr;
 #ifdef _WIN32
-	WSADATA wsadata;
-	if (WSAStartup (MAKEWORD(1,1), &wsadata) != 0){
-		return NULL;
-	}
-#endif
-
+	if (WSAStartup (MAKEWORD(2,2), &wsadata) != 0){
+		return NULL;  
+	}	
+#endif 
 	SQDbgServer *rdbg = new SQDbgServer(v);
 	rdbg->_autoupdate = autoupdate?true:false;
 	rdbg->_accept = socket(AF_INET,SOCK_STREAM,0);
@@ -37,7 +34,7 @@ HSQREMOTEDBG sq_rdbg_init(HSQUIRRELVM v,unsigned short port,SQBool autoupdate)
 		sq_throwerror(v,_SC("failed to initialize the debugger"));
 		return NULL;
 	}
-
+	
     return rdbg;
 }
 
@@ -51,7 +48,7 @@ SQRESULT sq_rdbg_waitforconnections(HSQREMOTEDBG rdbg)
 	sq_pop(rdbg->_v,1);
 
 	sockaddr_in cliaddr;
-	socklen_t addrlen=sizeof(cliaddr);
+	int addrlen=sizeof(cliaddr);
 	if(listen(rdbg->_accept,0)==SOCKET_ERROR)
 		return sq_throwerror(rdbg->_v,_SC("error on listen(socket)"));
 	rdbg->_endpoint = accept(rdbg->_accept,(sockaddr*)&cliaddr,&addrlen);
@@ -75,33 +72,35 @@ SQRESULT sq_rdbg_update(HSQREMOTEDBG rdbg)
 	fd_set read_flags;
     FD_ZERO(&read_flags);
 	FD_SET(rdbg->_endpoint, &read_flags);
-	select(FD_SETSIZE, &read_flags, NULL, NULL, &time);
+	select(NULL/*ignored*/, &read_flags, NULL, NULL, &time);
 
 	if(FD_ISSET(rdbg->_endpoint,&read_flags)){
 		char temp[1024];
 		int size=0;
-		char c,prev=0;
+		char c,prev=NULL;
 		memset(&temp,0,sizeof(temp));
 		int res;
 		FD_CLR(rdbg->_endpoint, &read_flags);
 		while((res = recv(rdbg->_endpoint,&c,1,0))>0){
-
+			
 			if(c=='\n')break;
 			if(c!='\r'){
 				temp[size]=c;
 				prev=c;
 				size++;
 			}
+			if(size >= sizeof(temp)-2) break;
 		}
 		switch(res){
+
 		case 0:
 			return sq_throwerror(rdbg->_v,_SC("disconnected"));
 		case SOCKET_ERROR:
 			return sq_throwerror(rdbg->_v,_SC("socket error"));
         }
-
-		temp[size]=0;
-		temp[size+1]=0;
+		
+		temp[size]=NULL;
+		temp[size+1]=NULL;
 		rdbg->ParseMsg(temp);
 	}
 	return SQ_OK;
@@ -118,7 +117,7 @@ SQInteger debug_hook(HSQUIRRELVM v)
 	sq_getstring(v,5,&func);
 	sq_getuserpointer(v,-1,&up);
 	HSQREMOTEDBG rdbg = (HSQREMOTEDBG)up;
-	rdbg->Hook(event_type,line,src,func);
+	rdbg->Hook(v,event_type,line,src,func);
 	if(rdbg->_autoupdate) {
 		if(SQ_FAILED(sq_rdbg_update(rdbg)))
 			return sq_throwerror(v,_SC("socket failed"));
@@ -132,7 +131,7 @@ SQInteger error_handler(HSQUIRRELVM v)
 	const SQChar *sErr=NULL;
 	const SQChar *fn=_SC("unknown");
 	const SQChar *src=_SC("unknown");
-	int line=-1;
+	SQInteger line=-1;
 	SQStackInfos si;
 	sq_getuserpointer(v,-1,&up);
 	HSQREMOTEDBG rdbg=(HSQREMOTEDBG)up;
@@ -146,11 +145,11 @@ SQInteger error_handler(HSQUIRRELVM v)
 	if(sq_gettop(v)>=1){
 		if(SQ_SUCCEEDED(sq_getstring(v,2,&sErr)))	{
 			scprintf(_SC("\nAN ERROR HAS OCCURED [%s]\n"),sErr);
-			rdbg->Break(si.line,src,_SC("error"),sErr);
+			rdbg->Break(v,si.line,src,_SC("error"),sErr);
 		}
 		else{
 			scprintf(_SC("\nAN ERROR HAS OCCURED [unknown]\n"));
-			rdbg->Break(si.line,src,_SC("error"),_SC("unknown"));
+			rdbg->Break(v,si.line,src,_SC("error"),_SC("unknown"));
 		}
 	}
 	rdbg->BreakExecution();
