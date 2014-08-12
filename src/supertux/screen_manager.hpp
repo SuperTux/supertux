@@ -55,7 +55,7 @@ public:
   void set_screen_fade(std::unique_ptr<ScreenFade> fade);
 
   /// threads that wait for a screenswitch
-  scripting::ThreadQueue waiting_threads;
+  scripting::ThreadQueue m_waiting_threads;
 
 private:
   void draw_fps(DrawingContext& context, float fps);
@@ -67,18 +67,17 @@ private:
 private:
   std::unique_ptr<MenuStorage> m_menu_storage;
   std::unique_ptr<MenuManager> m_menu_manager;
-  bool running;
-  float speed;
-  bool nextpop;
-  bool nextpush;
+  bool m_running;
+  float m_speed;
+  bool m_nextpop;
+  bool m_nextpush;
   /// measured fps
-  float fps;
-  std::unique_ptr<Screen> next_screen;
-  std::unique_ptr<Screen> current_screen;
-  std::unique_ptr<Console> console;
-  std::unique_ptr<ScreenFade> screen_fade;
-  std::vector<std::unique_ptr<Screen> > screen_stack;
-  bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
+  float m_fps;
+  std::unique_ptr<Screen> m_next_screen;
+  std::unique_ptr<Screen> m_current_screen;
+  std::unique_ptr<ScreenFade> m_screen_fade;
+  std::vector<std::unique_ptr<Screen> > m_screen_stack;
+  bool m_screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };
 
 #endif
