@@ -22,9 +22,9 @@
 #include "supertux/sector.hpp"
 
 Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
-  BadGuy( pos, dir, custom_sprite ), 
+  BadGuy( pos, dir, custom_sprite ),
   state(),
-  grabbed(false), 
+  grabbed(false),
   grabber(NULL),
   ticking()
 {
@@ -83,7 +83,7 @@ Bomb::explode()
   // Bomb class.
   if (grabber != NULL) {
     Player* player = dynamic_cast<Player*>(grabber);
-    
+
     if (player)
       player->stop_grabbing();
   }

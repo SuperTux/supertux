@@ -42,8 +42,8 @@ public:
     speed_top(),
     speed_bottom()
   {
-    float infinity = (std::numeric_limits<float>::has_infinity ? 
-                      std::numeric_limits<float>::infinity() : 
+    float infinity = (std::numeric_limits<float>::has_infinity ?
+                      std::numeric_limits<float>::infinity() :
                       std::numeric_limits<float>::max());
     position_left = -infinity;
     position_right = infinity;
@@ -56,15 +56,15 @@ public:
     speed_bottom = infinity;
   }
 
-  bool has_constraints() const 
+  bool has_constraints() const
   {
     float infinity = (std::numeric_limits<float>::has_infinity ?
-                      std::numeric_limits<float>::infinity() : 
+                      std::numeric_limits<float>::infinity() :
                       std::numeric_limits<float>::max());
     return
-      position_left   > -infinity || 
-      position_right  <  infinity || 
-      position_top    > -infinity || 
+      position_left   > -infinity ||
+      position_right  <  infinity ||
+      position_top    > -infinity ||
       position_bottom <  infinity;
   }
 

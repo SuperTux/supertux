@@ -52,9 +52,9 @@ public:
 public:
   MenuStorage();
   ~MenuStorage();
-  
+
   std::unique_ptr<Menu> create(MenuId menu_id);
-  
+
 private:
   MenuStorage(const MenuStorage&);
   MenuStorage& operator=(const MenuStorage&);

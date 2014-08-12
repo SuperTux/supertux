@@ -36,7 +36,7 @@ private:
   void quit_audio();
 
 public:
-  /** We call it run() instead of main() as main collides with 
+  /** We call it run() instead of main() as main collides with
       #define main SDL_main from SDL.h */
   int run(int argc, char** argv);
 };

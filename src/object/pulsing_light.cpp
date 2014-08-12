@@ -22,8 +22,8 @@
 PulsingLight::PulsingLight(const Vector& center, float cycle_len, float min_alpha, float max_alpha, const Color& color) :
   Light(center, color),
   min_alpha(min_alpha),
-  max_alpha(max_alpha), 
-  cycle_len(cycle_len), 
+  max_alpha(max_alpha),
+  cycle_len(cycle_len),
   t(0)
 {
   assert(cycle_len > 0);

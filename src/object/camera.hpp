@@ -30,7 +30,7 @@ class Path;
 class PathWalker;
 class CameraConfig;
 
-class Camera : public GameObject, 
+class Camera : public GameObject,
                public ScriptInterface
 {
 public:
@@ -39,7 +39,7 @@ public:
 
   /// parse camera mode from lisp file
   void parse(const Reader& reader);
-    
+
   /// reset camera position
   void reset(const Vector& tuxpos);
 

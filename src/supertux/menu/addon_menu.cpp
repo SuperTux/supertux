@@ -48,7 +48,7 @@ AddonMenu::refresh()
 
   // refresh list of addons
   m_addons = adm.get_addons();
-  
+
   // sort list
   std::sort(m_addons.begin(), m_addons.end(), generate_addons_menu_sorter);
 
@@ -65,11 +65,11 @@ AddonMenu::refresh()
 
   //add_hl();
 
-  for (unsigned int i = 0; i < m_addons.size(); i++) 
+  for (unsigned int i = 0; i < m_addons.size(); i++)
   {
     const Addon& addon = *m_addons[i];
     std::string text = "";
-    
+
     if (!addon.kind.empty())
     {
       std::string kind = addon.kind;
@@ -124,18 +124,18 @@ AddonMenu::check_menu()
 {
   int index = check();
 
-  if (index == -1) 
+  if (index == -1)
   {
     // do nothing
   }
   else if (index == 0) // check if "Check Online" was chosen
   {
-    try 
+    try
     {
       AddonManager::get_instance().check_online();
       refresh();
       set_active_item(index);
-    } 
+    }
     catch (std::exception& e)
     {
       log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
@@ -144,40 +144,40 @@ AddonMenu::check_menu()
   else
   {
     // if one of the Addons listed was chosen, take appropriate action
-    if ((index >= ADDON_LIST_START_ID) && (index < ADDON_LIST_START_ID) + m_addons.size()) 
+    if ((index >= ADDON_LIST_START_ID) && (index < ADDON_LIST_START_ID) + m_addons.size())
     {
       Addon& addon = *m_addons[index - ADDON_LIST_START_ID];
-      if (!addon.installed) 
+      if (!addon.installed)
       {
-        try 
+        try
         {
           AddonManager::get_instance().install(&addon);
-        } 
-        catch (std::exception& e) 
+        }
+        catch (std::exception& e)
         {
           log_warning << "Installing Add-on failed: " << e.what() << std::endl;
         }
         set_toggled(index, addon.loaded);
-      } 
-      else if (!addon.loaded) 
+      }
+      else if (!addon.loaded)
       {
-        try 
+        try
         {
           AddonManager::get_instance().enable(&addon);
-        } 
-        catch (std::exception& e) 
+        }
+        catch (std::exception& e)
         {
           log_warning << "Enabling Add-on failed: " << e.what() << std::endl;
         }
         set_toggled(index, addon.loaded);
-      } 
-      else 
+      }
+      else
       {
-        try 
+        try
         {
           AddonManager::get_instance().disable(&addon);
-        } 
-        catch (std::exception& e) 
+        }
+        catch (std::exception& e)
         {
           log_warning << "Disabling Add-on failed: " << e.what() << std::endl;
         }

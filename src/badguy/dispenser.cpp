@@ -145,7 +145,7 @@ Dispenser::active_update(float )
 {
   if (dispense_timer.check()) {
     // auto always shoots in Tux's direction
-    if( autotarget ){ 
+    if( autotarget ){
       if( sprite->animation_done()) {
         sprite->set_action(dir == LEFT ? "working-left" : "working-right");
         swivel = false;
@@ -154,7 +154,7 @@ Dispenser::active_update(float )
       Player* player = this->get_nearest_player();
       if( player && !swivel ){
         Direction targetdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
-        if( dir != targetdir ){ // no target: swivel cannon 
+        if( dir != targetdir ){ // no target: swivel cannon
           swivel = true;
           dir = targetdir;
           sprite->set_action(dir == LEFT ? "swivel-left" : "swivel-right", 1);
@@ -178,8 +178,8 @@ Dispenser::launch_badguy()
       Player* player = this->get_nearest_player();
       if( player ){
         launchdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
-      } 
-    } 
+      }
+    }
 
     if (badguys.size() > 1) {
       if (random) {

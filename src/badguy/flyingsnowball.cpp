@@ -88,14 +88,14 @@ FlyingSnowBall::active_update(float elapsed_time)
 
   } else if (get_pos().y < start_position.y - 2*32) {
 
-    // Flying too high - decreased propeller speed 
+    // Flying too high - decreased propeller speed
     physic.set_acceleration_y(-grav*0.8);
 
     physic.set_velocity_y(physic.get_velocity_y() * 0.99f);
 
   } else {
 
-    // Flying at acceptable altitude - normal propeller speed 
+    // Flying at acceptable altitude - normal propeller speed
     physic.set_acceleration_y(-grav*normal_propeller_speed);
 
   }

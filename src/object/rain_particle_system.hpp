@@ -41,7 +41,7 @@ private:
   public:
     float speed;
 
-    RainParticle() : 
+    RainParticle() :
       speed()
     {}
   };

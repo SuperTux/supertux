@@ -32,7 +32,7 @@ public:
   void active_update(float);
   void kill_fall();
   void explode();
-  
+
   virtual void draw(DrawingContext& context);
 
 private:

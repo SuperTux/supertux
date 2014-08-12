@@ -135,10 +135,10 @@ AddonManager::check_online()
     if(!addons_lisp) throw std::runtime_error("Downloaded file is not an Add-on list");
 
     lisp::ListIterator iter(addons_lisp);
-    while(iter.next()) 
+    while(iter.next())
     {
       const std::string& token = iter.item();
-      if(token != "supertux-addoninfo") 
+      if(token != "supertux-addoninfo")
       {
         log_warning << "Unknown token '" << token << "' in Add-on list" << std::endl;
         continue;
@@ -148,20 +148,20 @@ AddonManager::check_online()
       addon->installed = false;
       addon->loaded = false;
 
-      // make sure the list of known Add-ons does not already contain this one 
+      // make sure the list of known Add-ons does not already contain this one
       bool exists = false;
       for (std::vector<Addon*>::const_iterator i = addons.begin(); i != addons.end(); i++) {
         if (**i == *addon) {
-          exists = true; 
-          break; 
+          exists = true;
+          break;
         }
       }
 
-      if (exists) 
+      if (exists)
       {
         // do nothing
       }
-      else if (addon->suggested_filename.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) 
+      else if (addon->suggested_filename.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos)
       {
         // make sure the Add-on's file name does not contain weird characters
         log_warning << "Add-on \"" << addon->title << "\" contains unsafe file name. Skipping." << std::endl;
@@ -244,7 +244,7 @@ AddonManager::install(Addon* addon)
   if (addon->get_md5() != addon->stored_md5) {
     addon->installed = false;
     PHYSFS_delete(fileName.c_str());
-    std::string why = "MD5 checksums differ"; 
+    std::string why = "MD5 checksums differ";
     throw std::runtime_error("Downloading Add-on failed: " + why);
   }
 
@@ -413,7 +413,7 @@ AddonManager::load_addons()
         addon->loaded = true;
         addons.push_back(addon);
 
-        // check if the Addon is disabled 
+        // check if the Addon is disabled
         if (std::find(ignored_addon_filenames.begin(), ignored_addon_filenames.end(), fileName) != ignored_addon_filenames.end()) {
           unload(addon);
         }
@@ -431,13 +431,13 @@ AddonManager::load_addons()
 void
 AddonManager::read(const Reader& lisp)
 {
-  lisp.get("disabled-addons", ignored_addon_filenames); 
+  lisp.get("disabled-addons", ignored_addon_filenames);
 }
 
 void
 AddonManager::write(lisp::Writer& writer)
 {
-  writer.write("disabled-addons", ignored_addon_filenames); 
+  writer.write("disabled-addons", ignored_addon_filenames);
 }
 
 /* EOF */

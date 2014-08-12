@@ -49,7 +49,7 @@ Trampoline::Trampoline(const Reader& lisp) :
   }
 }
 
-Trampoline::Trampoline(const Vector& pos, bool port) : 
+Trampoline::Trampoline(const Vector& pos, bool port) :
   Rock(pos, "images/objects/trampoline/trampoline.sprite"),
   portable(port)
 {

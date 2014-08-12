@@ -23,7 +23,7 @@
 
 class Sprite;
 
-class Rock : public MovingSprite, 
+class Rock : public MovingSprite,
              public Portable
 {
 public:

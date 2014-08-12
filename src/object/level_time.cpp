@@ -33,7 +33,7 @@ static const float TIME_WARNING = 20;
 
 LevelTime::LevelTime(const Reader& reader) :
   time_surface(),
-  running(true), 
+  running(true),
   time_left(0)
 {
   reader.get("name", name);
@@ -92,8 +92,8 @@ LevelTime::draw(DrawingContext& context)
     {
       float all_width = time_surface->get_width() + Resources::normal_font->get_text_width(time_text);
       context.draw_surface(time_surface, Vector((SCREEN_WIDTH - all_width)/2, BORDER_Y + 1), LAYER_FOREGROUND1);
-      context.draw_text(Resources::normal_font, time_text, 
-                        Vector((SCREEN_WIDTH - all_width)/2 + time_surface->get_width(), BORDER_Y), 
+      context.draw_text(Resources::normal_font, time_text,
+                        Vector((SCREEN_WIDTH - all_width)/2 + time_surface->get_width(), BORDER_Y),
                         ALIGN_LEFT, LAYER_FOREGROUND1, LevelTime::text_color);
     }
   }

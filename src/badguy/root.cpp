@@ -24,7 +24,7 @@ static const float HATCH_TIME = 0.75;
 
 Root::Root(const Vector& pos) :
   BadGuy(pos, "images/creatures/ghosttree/root.sprite", LAYER_TILES-1),
-  mystate(STATE_APPEARING), 
+  mystate(STATE_APPEARING),
   base_sprite(),
   offset_y(0),
   hatch_timer()
@@ -50,7 +50,7 @@ Root::deactivate()
 void
 Root::active_update(float elapsed_time)
 {
-  if (mystate == STATE_APPEARING) {  
+  if (mystate == STATE_APPEARING) {
     if (base_sprite->animation_done()) {
       hatch_timer.start(HATCH_TIME);
       mystate = STATE_HATCHING;
@@ -73,7 +73,7 @@ Root::active_update(float elapsed_time)
       offset_y = 0;
       mystate = STATE_VANISHING;
       base_sprite->set_action("vanishing", 2);
-      base_sprite->set_animation_loops(2); // TODO: doesn't seem to work for loops=1 
+      base_sprite->set_animation_loops(2); // TODO: doesn't seem to work for loops=1
     }
     set_pos(start_position + Vector(0, offset_y));
   }

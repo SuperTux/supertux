@@ -179,8 +179,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
     case TOP_ALIGNMENT:
       for(int x = start_x; x < end_x; ++x)
       {
-        Vector p(pos.x + x * image->get_width() - image->get_width() / 2.0f, 
-                 pos.y - parallax_image_size.height / 2.0f);       
+        Vector p(pos.x + x * image->get_width() - image->get_width() / 2.0f,
+                 pos.y - parallax_image_size.height / 2.0f);
         context.draw_surface(image, p, layer);
       }
       break;
@@ -188,8 +188,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
     case BOTTOM_ALIGNMENT:
       for(int x = start_x; x < end_x; ++x)
       {
-        Vector p(pos.x + x * image->get_width()  - image->get_width() / 2.0f, 
-                 pos.y - image->get_height() + parallax_image_size.height / 2.0f);       
+        Vector p(pos.x + x * image->get_width()  - image->get_width() / 2.0f,
+                 pos.y - image->get_height() + parallax_image_size.height / 2.0f);
         context.draw_surface(image, p, layer);
       }
       break;
@@ -198,7 +198,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
       for(int y = start_y; y < end_y; ++y)
         for(int x = start_x; x < end_x; ++x)
         {
-          Vector p(pos.x + x * image->get_width()  - image->get_width()/2, 
+          Vector p(pos.x + x * image->get_width()  - image->get_width()/2,
                    pos.y + y * image->get_height() - image->get_height()/2);
 
           if (image_top.get() != NULL && (y < 0))
@@ -228,7 +228,7 @@ Background::draw(DrawingContext& context)
                    Sector::current()->get_height());
   Sizef screen(SCREEN_WIDTH, SCREEN_HEIGHT);
   Sizef translation_range = level_size - screen;
-  Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f, 
+  Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
                        context.get_translation().y - translation_range.height / 2.0f);
 
   // FIXME: We are not handling 'pos'

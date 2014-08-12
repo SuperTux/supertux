@@ -20,9 +20,9 @@
 #include "supertux/sector.hpp"
 
 Physic::Physic() :
-  ax(0), ay(0), 
-  vx(0), vy(0), 
-  gravity_enabled_flag(true), 
+  ax(0), ay(0),
+  vx(0), vy(0),
+  gravity_enabled_flag(true),
   gravity_modifier(1.0f)
 {
 }

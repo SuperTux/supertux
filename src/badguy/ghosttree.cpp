@@ -37,18 +37,18 @@ static const Vector SUCK_TARGET_OFFSET = Vector(-16,-16);
 static const float SUCK_TARGET_SPREAD = 8;
 
 GhostTree::GhostTree(const Reader& lisp) :
-  BadGuy(lisp, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10), 
+  BadGuy(lisp, "images/creatures/ghosttree/ghosttree.sprite", LAYER_OBJECTS - 10),
   mystate(STATE_IDLE),
   willowisp_timer(),
   willo_spawn_y(0),
-  willo_radius(200), 
-  willo_speed(1.8f), 
+  willo_radius(200),
+  willo_speed(1.8f),
   willo_color(0),
   glow_sprite(),
   colorchange_timer(),
   suck_timer(),
   root_timer(),
-  treecolor(0), 
+  treecolor(0),
   suck_lantern_color(),
   suck_lantern(0),
   willowisps()
@@ -67,8 +67,8 @@ void
 GhostTree::die()
 {
   mystate = STATE_DYING;
-  sprite->set_action("dying", 1); 
-  glow_sprite->set_action("dying", 1); 
+  sprite->set_action("dying", 1);
+  glow_sprite->set_action("dying", 1);
 
   std::vector<TreeWillOWisp*>::iterator iter;
   for(iter = willowisps.begin(); iter != willowisps.end(); ++iter) {
@@ -126,7 +126,7 @@ GhostTree::active_update(float elapsed_time)
     if(willowisp_timer.check()) {
       if(willowisps.size() < WILLOWISP_COUNT) {
         Vector pos = Vector(bbox.get_width() / 2, bbox.get_height() / 2 + willo_spawn_y + WILLOWISP_TOP_OFFSET);
-        TreeWillOWisp *willowisp 
+        TreeWillOWisp *willowisp
           = new TreeWillOWisp(this, pos, 200 + willo_radius, willo_speed);
 
         Sector::current()->add_object(willowisp);
@@ -182,7 +182,7 @@ GhostTree::active_update(float elapsed_time)
         suck_lantern->ungrab(*this, RIGHT);
         suck_lantern->remove_me();
         suck_lantern = 0;
-        sprite->set_action("swallow", 1); 
+        sprite->set_action("swallow", 1);
       } else {
         pos += dir;
         suck_lantern->grab(*this, pos, RIGHT);
@@ -202,7 +202,7 @@ GhostTree::active_update(float elapsed_time)
   }
 }
 
-bool 
+bool
 GhostTree::is_color_deadly(Color color) const {
   if (color == Color(0,0,0)) return false;
   Color my_color = glow_sprite->get_color();

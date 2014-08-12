@@ -21,7 +21,7 @@
 #include "badguy/badguy.hpp"
 #include "object/portable.hpp"
 
-class Bomb : public BadGuy, 
+class Bomb : public BadGuy,
              public Portable
 {
 public:

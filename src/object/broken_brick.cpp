@@ -22,8 +22,8 @@
 BrokenBrick::BrokenBrick(SpritePtr sprite,
                          const Vector& pos, const Vector& nmovement) :
   timer(),
-  sprite(sprite), 
-  position(pos), 
+  sprite(sprite),
+  position(pos),
   movement(nmovement)
 {
   timer.start(.2f);

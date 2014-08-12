@@ -63,7 +63,7 @@ void
 Addon::parse(const Reader& lisp)
 {
   try {
-    lisp.get("kind", kind);  
+    lisp.get("kind", kind);
     lisp.get("title", title);
     lisp.get("author", author);
     lisp.get("license", license);
@@ -97,7 +97,7 @@ void
 Addon::write(lisp::Writer& writer) const
 {
   writer.start_list("supertux-addoninfo");
-  if (kind != "") writer.write("kind", kind);  
+  if (kind != "") writer.write("kind", kind);
   if (title != "") writer.write("title", title);
   if (author != "") writer.write("author", author);
   if (license != "") writer.write("license", license);
@@ -107,14 +107,14 @@ Addon::write(lisp::Writer& writer) const
   writer.end_list("supertux-addoninfo");
 }
 
-void 
+void
 Addon::write(std::string fname) const
 {
   lisp::Writer writer(fname);
   write(writer);
 }
 
-bool 
+bool
 Addon::operator==(Addon addon2) const
 {
   std::string s1 = this->get_md5();
@@ -125,7 +125,7 @@ Addon::operator==(Addon addon2) const
   if (this->title != addon2.title) return false;
   if (this->author != addon2.author) return false;
   if (this->kind != addon2.kind) return false;
-  return true; 
+  return true;
 }
 
 /* EOF */

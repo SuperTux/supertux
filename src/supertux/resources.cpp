@@ -88,7 +88,7 @@ Resources::unload_shared()
     small_font.reset();
   if(big_font != NULL)
     big_font.reset();
-  
+
   /* Free tilesets */
   delete tile_manager;
   tile_manager = 0;

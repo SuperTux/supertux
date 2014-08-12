@@ -29,10 +29,10 @@
 #include <boost/format.hpp>
 
 LevelIntro::LevelIntro(const Level* level, const Statistics* best_level_statistics) :
-  level(level), 
-  best_level_statistics(best_level_statistics), 
+  level(level),
+  best_level_statistics(best_level_statistics),
   player_sprite(),
-  player_sprite_py(0), 
+  player_sprite_py(0),
   player_sprite_vy(0),
   player_sprite_jump_timer()
 {
@@ -73,7 +73,7 @@ LevelIntro::update(float elapsed_time)
     player_sprite_vy = -300;
     player_sprite_jump_timer.start(graphicsRandom.randf(2,3));
   }
-  
+
 }
 
 void
@@ -123,7 +123,7 @@ LevelIntro::draw(DrawingContext& context)
     context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
     py += static_cast<int>(Resources::normal_font->get_height());
   }
-  
+
   {
     std::stringstream ss;
     ss << _("Secrets") << ": " << Statistics::secrets_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->secrets : 0, stats.total_secrets);

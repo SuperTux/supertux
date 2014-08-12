@@ -43,7 +43,7 @@ private:
   float time_until_explosion;
   bool is_stunned;
   float time_stunned;
-  
+
   std::unique_ptr<SoundSource> ticking;
   std::unique_ptr<SoundSource> grunting;
 };

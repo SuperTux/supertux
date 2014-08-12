@@ -26,7 +26,7 @@ class Player;
 /**
  * Defines an area that will gently push Players in one direction
  */
-class Wind : public MovingObject, 
+class Wind : public MovingObject,
              public ScriptInterface
 {
 public:

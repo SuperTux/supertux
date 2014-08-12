@@ -28,7 +28,7 @@
 #include "util/reader.hpp"
 
 Firefly::Firefly(const Reader& lisp) :
-   MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE), 
+   MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
    activated(false),
    initial_position()
 {

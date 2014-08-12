@@ -21,9 +21,9 @@
 
 #include <stdexcept>
 
-MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name, 
+MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name,
                            int layer, CollisionGroup collision_group) :
-  sprite_name(sprite_name), 
+  sprite_name(sprite_name),
   sprite(),
   layer(layer)
 {
@@ -34,7 +34,7 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name,
 }
 
 MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer, CollisionGroup collision_group) :
-  sprite_name(), 
+  sprite_name(),
   sprite(),
   layer(layer)
 {
@@ -48,7 +48,7 @@ MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer, C
 }
 
 MovingSprite::MovingSprite(const Reader& reader, const std::string& sprite_name, int layer, CollisionGroup collision_group) :
-  sprite_name(sprite_name), 
+  sprite_name(sprite_name),
   sprite(),
   layer(layer)
 {
@@ -77,7 +77,7 @@ MovingSprite::MovingSprite(const Reader& reader, int layer, CollisionGroup colli
 }
 
 MovingSprite::MovingSprite(const MovingSprite& other) :
-  MovingObject(other), 
+  MovingObject(other),
   sprite_name(),
   sprite(),
   layer(other.layer)

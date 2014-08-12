@@ -41,7 +41,7 @@ const float PAUSE_TIME_LARGE  = 1.0;
 
 IceCrusher::IceCrusher(const Reader& reader) :
   MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
-  state(IDLE), 
+  state(IDLE),
   start_position(),
   physic(),
   cooldown_timer(0.0),
@@ -56,7 +56,7 @@ IceCrusher::IceCrusher(const Reader& reader) :
 
   start_position = get_bbox().p1;
   set_state(state, true);
-  
+
   float sprite_width = sprite->get_width ();
   if (sprite_width >= 128.0)
     ic_size = LARGE;
@@ -71,15 +71,15 @@ IceCrusher::IceCrusher(const Reader& reader) :
 
 /*
   IceCrusher::IceCrusher(const IceCrusher& other)
-  : MovingSprite(other), 
-  state(other.state), speed(other.speed) 
+  : MovingSprite(other),
+  state(other.state), speed(other.speed)
   {
   start_position = get_bbox().p1;
   set_state(state, true);
   }
 */
-void 
-IceCrusher::set_state(IceCrusherState state, bool force) 
+void
+IceCrusher::set_state(IceCrusherState state, bool force)
 {
   if ((this->state == state) && (!force)) return;
   switch(state) {
@@ -131,8 +131,8 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
   }
   return FORCE_MOVE;
 }
-    
-void 
+
+void
 IceCrusher::collision_solid(const CollisionHit& hit)
 {
   switch(state) {

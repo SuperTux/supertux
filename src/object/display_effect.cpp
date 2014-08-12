@@ -23,13 +23,13 @@
 static const float BORDER_SIZE = 75;
 
 DisplayEffect::DisplayEffect(std::string name) :
-  screen_fade(NO_FADE), 
-  screen_fadetime(0), 
+  screen_fade(NO_FADE),
+  screen_fadetime(0),
   screen_fading(0),
-  border_fade(NO_FADE), 
-  border_fadetime(0), 
+  border_fade(NO_FADE),
+  border_fadetime(0),
   border_fading(),
-  border_size(0), 
+  border_size(0),
   black(false),
   borders(false)
 {

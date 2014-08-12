@@ -66,7 +66,7 @@ private:
 public:
   bool m_use_game_controller;
   std::unique_ptr<KeyboardManager> keyboard_manager;
-  std::unique_ptr<JoystickManager> joystick_manager; 
+  std::unique_ptr<JoystickManager> joystick_manager;
   std::unique_ptr<GameControllerManager> game_controller_manager;
 
 private:

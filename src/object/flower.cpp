@@ -29,7 +29,7 @@ Flower::Flower(BonusType _type) :
 {
   bbox.set_size(32, 32);
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-  
+
   if(type == FIRE_BONUS) {
     sprite = sprite_manager->create("images/powerups/fireflower/fireflower.sprite");
     sound_manager->preload("sounds/fire-flower.wav");

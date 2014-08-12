@@ -42,7 +42,7 @@ public:
     if(object)
       object->unref();
   }
-  
+
   Ref<T>& operator= (const Ref<T>& other)
   {
     *this = other.get();

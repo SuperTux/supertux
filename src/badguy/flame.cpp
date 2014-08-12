@@ -30,9 +30,9 @@
 static const std::string FLAME_SOUND = "sounds/flame.wav";
 
 Flame::Flame(const Reader& reader) :
-  BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS), 
-  angle(0), 
-  radius(100), 
+  BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS),
+  angle(0),
+  radius(100),
   speed(2),
   light(0.0f,0.0f,0.0f),
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
@@ -46,7 +46,7 @@ Flame::Flame(const Reader& reader) :
   sound_manager->preload(FLAME_SOUND);
 
   set_colgroup_active(COLGROUP_TOUCHABLE);
-  
+
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.21f, 0.13f, 0.08f));
 }
@@ -112,7 +112,7 @@ Flame::freeze()
   sprite->set_action("fade", 1);
   Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", bbox.get_middle(), ANCHOR_MIDDLE, Vector(0, -150), Vector(0,0), LAYER_BACKGROUNDTILES+2));
   set_group(COLGROUP_DISABLED);
-  
+
   // start dead-script
   run_dead_script();
 }

@@ -29,7 +29,7 @@ public:
   virtual ~CloudParticleSystem();
 
   void parse(const Reader& lisp);
-  
+
   virtual void update(float elapsed_time);
 
   std::string type() const

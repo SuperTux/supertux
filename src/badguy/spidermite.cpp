@@ -32,7 +32,7 @@ SpiderMite::SpiderMite(const Reader& reader) :
 }
 
 SpiderMite::SpiderMite(const Vector& pos) :
-  BadGuy(pos, "images/creatures/spidermite/spidermite.sprite"), 
+  BadGuy(pos, "images/creatures/spidermite/spidermite.sprite"),
   mode(),
   timer()
 {

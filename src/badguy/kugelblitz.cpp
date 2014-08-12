@@ -33,7 +33,7 @@
 #define  RAND_SPEED 150
 
 Kugelblitz::Kugelblitz(const Reader& reader) :
-  BadGuy(reader, "images/creatures/kugelblitz/kugelblitz.sprite"), 
+  BadGuy(reader, "images/creatures/kugelblitz/kugelblitz.sprite"),
   pos_groundhit(),
   groundhit_pos_set(false),
   dying(),
@@ -48,9 +48,9 @@ Kugelblitz::Kugelblitz(const Reader& reader) :
   sprite->set_action("falling");
   physic.enable_gravity(false);
   countMe = false;
-  
+
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-  lightsprite->set_color(Color(0.2f, 0.1f, 0.0f));  
+  lightsprite->set_color(Color(0.2f, 0.1f, 0.0f));
 }
 
 void
@@ -159,7 +159,7 @@ void
 Kugelblitz::draw(DrawingContext& context)
 {
   sprite->draw(context, get_pos(), layer);
-  
+
   //Only draw light in dark areas
   context.get_light( get_bbox().get_middle(), &light );
   if (light.red + light.green < 2.0){

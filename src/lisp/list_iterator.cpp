@@ -21,7 +21,7 @@ namespace lisp {
 
 ListIterator::ListIterator(const lisp::Lisp* newlisp) :
   current_item(),
-  current_lisp(0), 
+  current_lisp(0),
   cur(newlisp)
 {
 }

@@ -30,20 +30,20 @@ Tile::Tile() :
   images(),
   editor_imagespecs(),
   editor_images(),
-  attributes(0), 
-  data(0), 
+  attributes(0),
+  data(0),
   fps(1)
 {
 }
 
-Tile::Tile(const std::vector<ImageSpec>& imagespecs_, const std::vector<ImageSpec>& editor_imagespecs_, 
+Tile::Tile(const std::vector<ImageSpec>& imagespecs_, const std::vector<ImageSpec>& editor_imagespecs_,
            uint32_t attributes, uint32_t data, float fps) :
   imagespecs(imagespecs_),
   images(),
   editor_imagespecs(editor_imagespecs_),
   editor_images(),
-  attributes(attributes), 
-  data(data), 
+  attributes(attributes),
+  data(data),
   fps(fps)
 {
   correct_attributes();
@@ -59,16 +59,16 @@ Tile::load_images()
   if(images.size() == 0 && imagespecs.size() != 0)
   {
     assert(images.size() == 0);
-    for(std::vector<ImageSpec>::iterator i = imagespecs.begin(); i != imagespecs.end(); ++i) 
+    for(std::vector<ImageSpec>::iterator i = imagespecs.begin(); i != imagespecs.end(); ++i)
     {
       const ImageSpec& spec = *i;
 
       SurfacePtr surface;
-      if(spec.rect.get_width() <= 0) 
+      if(spec.rect.get_width() <= 0)
       {
         surface = Surface::create(spec.file);
       }
-      else 
+      else
       {
         surface = Surface::create(spec.file,
                                   Rect((int) spec.rect.p1.x,
@@ -83,16 +83,16 @@ Tile::load_images()
   if(editor_images.size() == 0 && editor_imagespecs.size() != 0)
   {
     assert(editor_images.size() == 0);
-    for(std::vector<ImageSpec>::iterator i = editor_imagespecs.begin(); i != editor_imagespecs.end(); ++i) 
+    for(std::vector<ImageSpec>::iterator i = editor_imagespecs.begin(); i != editor_imagespecs.end(); ++i)
     {
       const ImageSpec& spec = *i;
 
       SurfacePtr surface;
-      if(spec.rect.get_width() <= 0) 
+      if(spec.rect.get_width() <= 0)
       {
         surface = Surface::create(spec.file);
       }
-      else 
+      else
       {
         surface = Surface::create(spec.file,
                                   Rect((int) spec.rect.p1.x,
@@ -142,9 +142,9 @@ void
 Tile::print_debug(int id) const
 {
   log_debug << " Tile: id " << id << ", data " << getData() << ", attributes " << getAttributes() << ":" << std::endl;
-  for(std::vector<Tile::ImageSpec>::const_iterator im = editor_imagespecs.begin(); im != editor_imagespecs.end(); ++im) 
+  for(std::vector<Tile::ImageSpec>::const_iterator im = editor_imagespecs.begin(); im != editor_imagespecs.end(); ++im)
     log_debug << "  Editor Imagespec: file " << im->file << "; rect " << im->rect << std::endl;
-  for(std::vector<Tile::ImageSpec>::const_iterator im = imagespecs.begin(); im != imagespecs.end(); ++im) 
+  for(std::vector<Tile::ImageSpec>::const_iterator im = imagespecs.begin(); im != imagespecs.end(); ++im)
     log_debug << "  Imagespec:        file " << im->file << "; rect " << im->rect << std::endl;
 }
 

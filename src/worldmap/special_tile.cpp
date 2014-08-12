@@ -28,12 +28,12 @@ SpecialTile::SpecialTile(const Reader& lisp) :
   pos(),
   sprite(),
   map_message(),
-  passive_message(false), 
+  passive_message(false),
   script(),
   invisible(false),
-  apply_action_north(true), 
+  apply_action_north(true),
   apply_action_east(true),
-  apply_action_south(true), 
+  apply_action_south(true),
   apply_action_west(true)
 {
   lisp.get("x", pos.x);

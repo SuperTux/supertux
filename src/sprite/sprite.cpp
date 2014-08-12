@@ -38,7 +38,7 @@ Sprite::Sprite(SpriteData& newdata) :
 }
 
 Sprite::Sprite(const Sprite& other) :
-  data(other.data), 
+  data(other.data),
   frame(other.frame),
   frameidx(other.frameidx),
   animation_loops(other.animation_loops),

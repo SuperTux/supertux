@@ -34,17 +34,17 @@ private:
   TileSet&    m_tileset;
   std::string m_filename;
   std::string m_tiles_path;
-  
+
 public:
   TileSetParser(TileSet& tileset, const std::string& filename);
-  
+
   void parse();
 
 private:
   void parse_tile(const Reader& reader);
   void parse_tiles(const Reader& reader);
   std::vector<Tile::ImageSpec> parse_tile_images(const Reader& cur);
-  
+
 private:
   TileSetParser(const TileSetParser&);
   TileSetParser& operator=(const TileSetParser&);

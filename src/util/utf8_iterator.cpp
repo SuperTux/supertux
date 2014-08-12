@@ -99,13 +99,13 @@ UTF8Iterator::UTF8Iterator(const std::string& text_) :
   }
 }
 
-  bool 
+  bool
 UTF8Iterator::done() const
   {
     return pos > text.size();
   }
 
-  UTF8Iterator& 
+  UTF8Iterator&
 UTF8Iterator::operator++() {
     try {
       chr = decode_utf8(text, pos);

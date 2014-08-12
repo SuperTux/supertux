@@ -29,7 +29,7 @@ TileSetParser::TileSetParser(TileSet& tileset, const std::string& filename) :
   m_tileset(tileset),
   m_filename(filename),
   m_tiles_path()
-{  
+{
 }
 
 void
@@ -48,21 +48,21 @@ TileSetParser::parse()
     throw std::runtime_error("file is not a supertux tiles file.");
 
   lisp::ListIterator iter(tiles_lisp);
-  while(iter.next()) 
+  while(iter.next())
   {
-    if (iter.item() == "tile") 
+    if (iter.item() == "tile")
     {
       parse_tile(*iter.lisp());
-    } 
-    else if (iter.item() == "tilegroup") 
+    }
+    else if (iter.item() == "tilegroup")
     {
       /* tilegroups are only interesting for the editor */
-    } 
-    else if (iter.item() == "tiles") 
+    }
+    else if (iter.item() == "tiles")
     {
       parse_tiles(*iter.lisp());
     }
-    else 
+    else
     {
       log_warning << "Unknown symbol '" << iter.item() << "' in tileset file" << std::endl;
     }
@@ -73,7 +73,7 @@ void
 TileSetParser::parse_tile(const Reader& reader)
 {
   uint32_t id;
-  if (!reader.get("id", id)) 
+  if (!reader.get("id", id))
   {
     throw std::runtime_error("Missing tile-id.");
   }
@@ -120,7 +120,7 @@ TileSetParser::parse_tile(const Reader& reader)
   float fps = 10;
   reader.get("fps", fps);
 
-  if(reader.get("slope-type", data)) 
+  if(reader.get("slope-type", data))
   {
     attributes |= Tile::SOLID | Tile::SLOPE;
   }
@@ -142,11 +142,11 @@ TileSetParser::parse_tile(const Reader& reader)
   if (id >= m_tileset.tiles.size())
     m_tileset.tiles.resize(id+1, 0);
 
-  if (m_tileset.tiles[id] != 0) 
+  if (m_tileset.tiles[id] != 0)
   {
     log_warning << "Tile with ID " << id << " redefined" << std::endl;
-  } 
-  else 
+  }
+  else
   {
     m_tileset.tiles[id] = tile.release();
   }
@@ -158,11 +158,11 @@ TileSetParser::parse_tile_images(const Reader& images_lisp)
   std::vector<Tile::ImageSpec> imagespecs;
 
   const lisp::Lisp* list = &images_lisp;
-  while(list) 
+  while(list)
   {
     const lisp::Lisp* cur = list->get_car();
 
-    if(cur->get_type() == lisp::Lisp::TYPE_STRING) 
+    if(cur->get_type() == lisp::Lisp::TYPE_STRING)
     {
       std::string file;
       cur->get(file);
@@ -170,7 +170,7 @@ TileSetParser::parse_tile_images(const Reader& images_lisp)
     }
     else if(cur->get_type() == lisp::Lisp::TYPE_CONS &&
             cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL &&
-            cur->get_car()->get_symbol() == "region") 
+            cur->get_car()->get_symbol() == "region")
     {
       const lisp::Lisp* ptr = cur->get_cdr();
 
@@ -185,8 +185,8 @@ TileSetParser::parse_tile_images(const Reader& images_lisp)
       ptr->get_car()->get(w); ptr = ptr->get_cdr();
       ptr->get_car()->get(h);
       imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(x, y, x+w, y+h)));
-    } 
-    else 
+    }
+    else
     {
       log_warning << "Expected string or list in images tag" << std::endl;
     }
@@ -249,11 +249,11 @@ TileSetParser::parse_tiles(const Reader& reader)
   {
     throw std::runtime_error("Height is zero.");
   }
-  else if (fps < 0) 
+  else if (fps < 0)
   {
     throw std::runtime_error("Negative fps.");
   }
-  else if (ids.size() != width*height) 
+  else if (ids.size() != width*height)
   {
     std::ostringstream err;
     err << "Number of ids (" << ids.size() <<  ") and "
@@ -268,8 +268,8 @@ TileSetParser::parse_tiles(const Reader& reader)
         << ") mismatch for image '" << image_name << "', but must be equal";
     throw std::runtime_error(err.str());
   }
-  else if (has_datas && ids.size() != datas.size()) 
-  {        
+  else if (has_datas && ids.size() != datas.size())
+  {
     std::ostringstream err;
     err << "Number of ids (" << ids.size() <<  ") and datas (" << datas.size()
         << ") mismatch for image '" << image_name << "', but must be equal";
@@ -277,7 +277,7 @@ TileSetParser::parse_tiles(const Reader& reader)
   }
   else
   {
-    for(std::vector<uint32_t>::size_type i = 0; i < ids.size() && i < width*height; ++i) 
+    for(std::vector<uint32_t>::size_type i = 0; i < ids.size() && i < width*height; ++i)
     {
       if (ids[i] != 0)
       {
@@ -288,13 +288,13 @@ TileSetParser::parse_tiles(const Reader& reader)
         int y = 32*(i / width);
 
         std::vector<Tile::ImageSpec> imagespecs;
-        for(std::vector<std::string>::const_iterator j = images.begin(); j != images.end(); ++j) 
+        for(std::vector<std::string>::const_iterator j = images.begin(); j != images.end(); ++j)
         {
           imagespecs.push_back(Tile::ImageSpec(m_tiles_path + *j, Rectf(x, y, x + 32, y + 32)));
         }
 
         std::vector<Tile::ImageSpec> editor_imagespecs;
-        for(std::vector<std::string>::const_iterator j = editor_images.begin(); j != editor_images.end(); ++j) 
+        for(std::vector<std::string>::const_iterator j = editor_images.begin(); j != editor_images.end(); ++j)
         {
           editor_imagespecs.push_back(Tile::ImageSpec(m_tiles_path + *j, Rectf(x, y, x + 32, y + 32)));
         }
@@ -308,7 +308,7 @@ TileSetParser::parse_tiles(const Reader& reader)
         }
       }
     }
-  }  
+  }
 }
 
 /* EOF */

@@ -25,7 +25,7 @@
 #include "video/font_ptr.hpp"
 
 /** A text object intended for scripts that want to tell a story */
-class TextObject : public GameObject, 
+class TextObject : public GameObject,
                    public scripting::Text,
                    public ScriptInterface
 {
@@ -53,13 +53,13 @@ public:
   }
 
   void set_pos(const Vector& pos) {
-    this->pos = pos; 
-  } 
+    this->pos = pos;
+  }
   void set_pos(float x, float y) {
     set_pos(Vector(x, y));
   }
   const Vector& get_pos() const {
-    return pos; 
+    return pos;
   }
   float get_pos_x() {
     return pos.x;

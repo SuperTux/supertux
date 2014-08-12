@@ -27,9 +27,9 @@
 #include "video/drawing_context.hpp"
 
 Wind::Wind(const Reader& reader) :
-  blowing(true), 
+  blowing(true),
   speed(),
-  acceleration(100), 
+  acceleration(100),
   elapsed_time(0)
 {
   reader.get("name", name);

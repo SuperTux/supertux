@@ -57,7 +57,7 @@ Climbable::~Climbable()
   }
 }
 
-void 
+void
 Climbable::update(float /*elapsed_time*/)
 {
   if (!climbed_by) return;
@@ -106,7 +106,7 @@ Climbable::event(Player& player, EventType type)
 }
 
 bool
-Climbable::may_climb(Player& player) 
+Climbable::may_climb(Player& player)
 {
   if (player.get_bbox().p1.x < get_bbox().p1.x - GRACE_DX) return false;
   if (player.get_bbox().p2.x > get_bbox().p2.x + GRACE_DX) return false;

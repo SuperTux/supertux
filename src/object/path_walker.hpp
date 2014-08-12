@@ -51,7 +51,7 @@ public:
   bool is_moving() {
     return running;
   }
-  
+
   const Path* path;
 
 private:

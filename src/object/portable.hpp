@@ -45,7 +45,7 @@ public:
   {
     return true;
   }
-  
+
   /**
    * Is the object so heavy/bulky/fragile that Tux can't run while
    * carrying it?

@@ -26,7 +26,7 @@ SpawnPoint::SpawnPoint() :
 {}
 
 SpawnPoint::SpawnPoint(const SpawnPoint& other) :
-  name(other.name), 
+  name(other.name),
   pos(other.pos)
 {}
 

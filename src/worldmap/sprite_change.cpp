@@ -25,7 +25,7 @@ namespace worldmap {
 
 SpriteChange::SpriteChange(const Reader& lisp) :
   pos(),
-  change_on_touch(false), 
+  change_on_touch(false),
   sprite(),
   stay_action(),
   stay_group(),

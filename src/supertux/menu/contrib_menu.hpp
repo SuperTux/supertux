@@ -30,7 +30,7 @@ private:
 public:
   ContribMenu();
   ~ContribMenu();
-  
+
   void check_menu();
 
 private:

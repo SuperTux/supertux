@@ -28,7 +28,7 @@ MouseCursor* MouseCursor::current_ = 0;
 MouseCursor::MouseCursor(const std::string& cursor_file,
                          const std::string& cursor_click_file,
                          const std::string& cursor_link_file) :
-  m_mid_x(0), 
+  m_mid_x(0),
   m_mid_y(0),
   m_state(MC_NORMAL),
   m_cursor()

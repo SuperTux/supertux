@@ -26,7 +26,7 @@ static const float LIFE_TIME = .5f;
 
 BouncyCoin::BouncyCoin(const Vector& pos, bool emerge) :
   sprite(),
-  position(pos), 
+  position(pos),
   timer(),
   emerge_distance(0)
 {

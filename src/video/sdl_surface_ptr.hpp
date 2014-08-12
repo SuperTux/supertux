@@ -35,7 +35,7 @@ public:
     m_surface(surface)
   {}
 
-  ~SDLSurfacePtr() 
+  ~SDLSurfacePtr()
   {
     SDL_FreeSurface(m_surface);
   }

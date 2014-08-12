@@ -45,8 +45,8 @@ static const float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip r
 class Camera;
 class PlayerStatus;
 
-class Player : public MovingObject, 
-               public scripting::Player, 
+class Player : public MovingObject,
+               public scripting::Player,
                public ScriptInterface
 {
 public:
@@ -169,7 +169,7 @@ public:
    * Adds velocity to the player until given end speed is reached
    */
   void add_velocity(const Vector& velocity, const Vector& end_speed);
-  
+
   /**
    * Returns the current velocity of the player
    */
@@ -222,7 +222,7 @@ public:
    * Orders the current GameSession to start a sequence
    */
   void trigger_sequence(std::string sequence_name);
-  
+
   /**
    * Requests that the player start climbing the given Climbable
    */

@@ -38,8 +38,8 @@ private:
   struct Particle {
     Vector pos, vel;
 
-    Particle() : 
-      pos(), 
+    Particle() :
+      pos(),
       vel()
     {}
     //     float angle;

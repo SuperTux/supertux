@@ -19,8 +19,8 @@
 #include "supertux/timer.hpp"
 
 Timer::Timer() :
-  period(0), 
-cycle_start(0), 
+  period(0),
+cycle_start(0),
   cyclic(false)
 {
 }

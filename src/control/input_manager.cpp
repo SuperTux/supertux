@@ -58,13 +58,13 @@ void
 InputManager::read(const Reader& lisp)
 {
   const lisp::Lisp* keymap_lisp = lisp.get_lisp("keymap");
-  if (keymap_lisp) 
+  if (keymap_lisp)
   {
     keyboard_manager->read(keymap_lisp);
   }
 
   const lisp::Lisp* joystick_lisp = lisp.get_lisp(_("joystick"));
-  if (joystick_lisp) 
+  if (joystick_lisp)
   {
     joystick_manager->read(joystick_lisp);
   }

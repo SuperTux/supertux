@@ -68,7 +68,7 @@ public:
   bool completed(const Statistics& stats, const float target_time); /* Check if stats match total stats */
 
   void declare_invalid(); /**< marks statistics as invalid for their entire lifetime (e.g. after cheating). Invalid statistics will not be merged or drawn. */
-  
+
   static std::string coins_to_string(int coins, int total_coins);
   static std::string frags_to_string(int badguys, int total_badguys);
   static std::string time_to_string(float time);

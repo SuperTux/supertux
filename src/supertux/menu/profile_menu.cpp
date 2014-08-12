@@ -24,7 +24,7 @@
 #include "supertux/globals.hpp"
 #include "util/gettext.hpp"
 
-ProfileMenu::ProfileMenu() 
+ProfileMenu::ProfileMenu()
 {
   add_label(_("Select Profile"));
   add_hl();
@@ -47,7 +47,7 @@ ProfileMenu::ProfileMenu()
 }
 
 void
-ProfileMenu::menu_action(MenuItem* item) 
+ProfileMenu::menu_action(MenuItem* item)
 {
   g_config->profile = item->id;
   MenuManager::instance().clear_menu_stack();

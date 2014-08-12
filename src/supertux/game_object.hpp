@@ -27,7 +27,7 @@ class ObjectRemoveListener;
 /**
  * Base class for all the things that make up Levels' Sectors.
  *
- * Each sector of a level will hold a list of active GameObject while the 
+ * Each sector of a level will hold a list of active GameObject while the
  * game is played.
  *
  * This class is responsible for:
@@ -71,8 +71,8 @@ public:
    * gets removed/destroyed
    */
   void add_remove_listener(ObjectRemoveListener* listener);
-  
-  /** 
+
+  /**
    * unregisters a remove listener, so it will no longer be called if the object
    * gets removed/destroyed
    */

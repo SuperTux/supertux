@@ -27,7 +27,7 @@ LiveFire::LiveFire(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/livefire/livefire.sprite", "left", "right"),
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-medium.sprite")),
   death_sound("sounds/fall.wav"),
-  state(STATE_WALKING)  
+  state(STATE_WALKING)
 {
   walk_speed = 80;
   max_drop_height = 20;

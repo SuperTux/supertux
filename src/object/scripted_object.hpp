@@ -22,8 +22,8 @@
 #include "supertux/physic.hpp"
 #include "supertux/script_interface.hpp"
 
-class ScriptedObject : public MovingSprite, 
-                       public scripting::ScriptedObject, 
+class ScriptedObject : public MovingSprite,
+                       public scripting::ScriptedObject,
                        public ScriptInterface
 {
 public:

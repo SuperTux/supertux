@@ -21,8 +21,8 @@
 #include "util/log.hpp"
 
 StreamSoundSource::StreamSoundSource() :
-  file(0), 
-  fade_state(NoFading), 
+  file(0),
+  fade_state(NoFading),
   fade_start_time(),
   fade_time(),
   looping(false)

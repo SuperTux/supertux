@@ -182,7 +182,7 @@ MenuManager::draw(DrawingContext& context)
     m_transition->update();
     m_transition->draw(context);
   }
-  else 
+  else
   {
     if (current())
     {

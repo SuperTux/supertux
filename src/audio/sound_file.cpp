@@ -47,7 +47,7 @@ SoundFile* load_music_file(const std::string& filename)
   music->get("file", raw_music_file);
   music->get("loop-begin", loop_begin);
   music->get("loop-at", loop_at);
-  
+
   if(loop_begin < 0) {
     throw SoundError("can't loop from negative value");
   }

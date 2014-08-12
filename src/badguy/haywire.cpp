@@ -83,7 +83,7 @@ Haywire::collision_squished(GameObject& object)
       player->bounce (*this);
     return true;
   }
-  
+
   if(WalkingBadguy::is_frozen()) {
     WalkingBadguy::unfreeze();
   }
@@ -105,7 +105,7 @@ Haywire::collision_squished(GameObject& object)
     grunting->set_position(get_pos());
     grunting->set_looping(true);
     grunting->set_reference_distance(32);
-    grunting->play();    
+    grunting->play();
   }
 
   time_stunned = TIME_STUNNED;

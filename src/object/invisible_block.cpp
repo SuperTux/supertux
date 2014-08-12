@@ -22,7 +22,7 @@
 #include "supertux/constants.hpp"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos) :
-   Block(sprite_manager->create("images/objects/bonus_block/invisibleblock.sprite")), 
+   Block(sprite_manager->create("images/objects/bonus_block/invisibleblock.sprite")),
    visible(false)
 {
   bbox.set_pos(pos);
@@ -44,7 +44,7 @@ InvisibleBlock::collides(GameObject& other, const CollisionHit& )
 
   // if we're not visible, only register a collision if this will make us visible
   Player* player = dynamic_cast<Player*> (&other);
-  if ((player) 
+  if ((player)
       && (player->get_movement().y <= 0)
       && (player->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA)) {
     return true;

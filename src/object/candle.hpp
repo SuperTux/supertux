@@ -23,7 +23,7 @@
 /**
  * A burning candle: Simple, scriptable level decoration.
  */
-class Candle : public MovingSprite, 
+class Candle : public MovingSprite,
                public ScriptInterface
 {
 public:

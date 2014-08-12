@@ -63,7 +63,7 @@ static const std::string IDLE_STAGES[] =
 /** acceleration in horizontal direction when walking
  * (all accelerations are in  pixel/s^2) */
 static const float WALK_ACCELERATION_X = 300;
-/** acceleration in horizontal direction when running */ 
+/** acceleration in horizontal direction when running */
 static const float RUN_ACCELERATION_X = 400;
 /** acceleration when skidding */
 static const float SKID_XM = 200;
@@ -113,7 +113,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
   deactivated(),
   controller(),
   scripting_controller(),
-  player_status(_player_status), 
+  player_status(_player_status),
   duck(),
   dead(),
   dying(),
@@ -135,7 +135,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
   on_ground_flag(),
   jumping(),
   can_jump(),
-  jump_button_timer(), 
+  jump_button_timer(),
   wants_buttjump(),
   does_buttjump(),
   invincible_timer(),
@@ -148,12 +148,12 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
   backflip_timer(),
   physic(),
   visible(),
-  grabbed_object(NULL), 
+  grabbed_object(NULL),
   sprite(),
   airarrow(),
   floor_normal(),
-  ghost_mode(false), 
-  edit_mode(false), 
+  ghost_mode(false),
+  edit_mode(false),
   unduck_hurt_timer(),
   idle_timer(),
   idle_stage(0),
@@ -274,7 +274,7 @@ Player::set_winning()
   }
 }
 
-void 
+void
 Player::use_scripting_controller(bool use_or_release)
 {
   if ((use_or_release == true) && (controller != scripting_controller.get())) {
@@ -287,7 +287,7 @@ Player::use_scripting_controller(bool use_or_release)
   }
 }
 
-void 
+void
 Player::do_scripting_controller(std::string control, bool pressed)
 {
   for(int i = 0; Controller::controlNames[i] != 0; ++i) {
@@ -430,7 +430,7 @@ Player::update(float elapsed_time)
       Vector ppos = Vector(px, py);
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
-      Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite", 
+      Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite",
                                                        // draw bright sparkle when there is lots of time left, dark sparkle when invincibility is about to end
                                                        (invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) ?
                                                        // make every other a longer sparkle to make trail a bit fuzzy
@@ -668,7 +668,7 @@ Player::do_jump(float yspeed) {
 }
 
 void
-Player::early_jump_apex() 
+Player::early_jump_apex()
 {
   if (!jump_early_apex)
   {
@@ -696,13 +696,13 @@ Player::handle_vertical_input()
     jump_button_timer.stop();
     if (duck) {
       // when running, only jump a little bit; else do a backflip
-      if ((physic.get_velocity_x() != 0) || 
-          (controller->hold(Controller::LEFT)) || 
-          (controller->hold(Controller::RIGHT))) 
+      if ((physic.get_velocity_x() != 0) ||
+          (controller->hold(Controller::LEFT)) ||
+          (controller->hold(Controller::RIGHT)))
       {
         do_jump(-300);
       }
-      else 
+      else
       {
         do_backflip();
       }
@@ -1206,7 +1206,7 @@ Player::collision_solid(const CollisionHit& hit)
     on_ground_flag = true;
     floor_normal = hit.slope_normal;
 
-    // Butt Jump landed    
+    // Butt Jump landed
     if (does_buttjump) {
       does_buttjump = false;
       physic.set_velocity_y(-300);
@@ -1427,7 +1427,7 @@ Player::add_velocity(const Vector& velocity, const Vector& end_speed)
     physic.set_velocity_y(std::max(physic.get_velocity_y() + velocity.y, end_speed.y));
 }
 
-Vector 
+Vector
 Player::get_velocity()
 {
   return physic.get_velocity();
@@ -1502,7 +1502,7 @@ Player::set_edit_mode(bool enable)
   edit_mode = enable;
 }
 
-void 
+void
 Player::start_climbing(Climbable& climbable)
 {
   if (climbing || !&climbable) return;
@@ -1518,14 +1518,14 @@ Player::start_climbing(Climbable& climbable)
   }
 }
 
-void 
+void
 Player::stop_climbing(Climbable& /*climbable*/)
 {
   if (!climbing) return;
 
   climbing = 0;
 
-  if (grabbed_object) {    
+  if (grabbed_object) {
     grabbed_object->ungrab(*this, dir);
     grabbed_object = NULL;
   }
@@ -1569,7 +1569,7 @@ Player::handle_input_climbing()
     if (can_jump) {
       stop_climbing(*climbing);
       return;
-    }  
+    }
   } else {
     can_jump = true;
   }

@@ -87,17 +87,17 @@ InfoBoxLine::LineType get_linetype_by_format_char(char format_char) {
 
 } // namespace
 
-InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) : 
+InfoBoxLine::InfoBoxLine(char format_char, const std::string& text) :
   lineType(NORMAL),
-  font(Resources::normal_font), 
+  font(Resources::normal_font),
   color(),
-  text(text), 
+  text(text),
   image()
 {
   font = get_font_by_format_char(format_char);
   lineType = get_linetype_by_format_char(format_char);
   color = get_color_by_format_char(format_char);
-  if (lineType == IMAGE) 
+  if (lineType == IMAGE)
   {
     image = Surface::create(text);
   }

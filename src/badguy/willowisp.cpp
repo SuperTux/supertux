@@ -35,9 +35,9 @@ static const float VANISH_RANGE = 512; /**< at what distance to stop tracking an
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
 
 WillOWisp::WillOWisp(const Reader& reader) :
-  BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS), 
-  mystate(STATE_IDLE), 
-  target_sector("main"), 
+  BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS),
+  mystate(STATE_IDLE),
+  target_sector("main"),
   target_spawnpoint("main"),
   hit_script(),
   sound_source(),
@@ -287,7 +287,7 @@ WillOWisp::expose(HSQUIRRELVM vm, SQInteger table_idx)
   scripting::WillOWisp* _this = static_cast<scripting::WillOWisp*> (this);
   expose_object(vm, table_idx, _this, name);
 }
-  
+
 void
 WillOWisp::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {

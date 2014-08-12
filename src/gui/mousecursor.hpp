@@ -64,7 +64,7 @@ public:
   /// Set current cursor.
   static void set_current(MouseCursor* pcursor)
   {        current_ = pcursor;      };
-  
+
 private:
   int m_mid_x;
   int m_mid_y;

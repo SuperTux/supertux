@@ -63,15 +63,15 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
   KeyMap::iterator key_mapping = keymap.find(event.keysym.sym);
 
   // if console key was pressed: toggle console
-  if (key_mapping != keymap.end() && 
+  if (key_mapping != keymap.end() &&
       key_mapping->second == Controller::CONSOLE)
   {
     if (event.type == SDL_KEYDOWN)
     {
       Console::instance->toggle();
     }
-  } 
-  else if (Console::instance->hasFocus()) 
+  }
+  else if (Console::instance->hasFocus())
   {
     // if console is open: send key there
     process_console_key_event(event);
@@ -81,12 +81,12 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     // if menu mode: send key there
     process_menu_key_event(event);
   }
-  else if (key_mapping == keymap.end()) 
+  else if (key_mapping == keymap.end())
   {
     // default action: update controls
     //log_debug << "Key " << event.key.SDL_Keycode.sym << " is unbound" << std::endl;
   }
-  else 
+  else
   {
     auto control = key_mapping->second;
     bool value = (event.type == SDL_KEYDOWN);
@@ -157,13 +157,13 @@ void
 KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
 {
   // wait for key mode?
-  if (wait_for_key >= 0) 
+  if (wait_for_key >= 0)
   {
     if (event.type == SDL_KEYUP)
       return;
 
-    if (event.keysym.sym != SDLK_ESCAPE && 
-        event.keysym.sym != SDLK_PAUSE) 
+    if (event.keysym.sym != SDLK_ESCAPE &&
+        event.keysym.sym != SDLK_PAUSE)
     {
       bind_key(event.keysym.sym, static_cast<Controller::Control>(wait_for_key));
     }
@@ -172,10 +172,10 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     wait_for_key = -1;
     return;
   }
-  
-  if (m_parent->joystick_manager->wait_for_joystick >= 0) 
+
+  if (m_parent->joystick_manager->wait_for_joystick >= 0)
   {
-    if (event.keysym.sym == SDLK_ESCAPE) 
+    if (event.keysym.sym == SDLK_ESCAPE)
     {
       m_parent->reset();
       MenuManager::instance().refresh();
@@ -244,7 +244,7 @@ KeyboardManager::bind_key(SDL_Keycode key, Controller::Control control)
 SDL_Keycode
 KeyboardManager::reversemap_key(Controller::Control c)
 {
-  for(KeyMap::iterator i = keymap.begin(); i != keymap.end(); ++i) 
+  for(KeyMap::iterator i = keymap.begin(); i != keymap.end(); ++i)
   {
     if (i->second == c)
     {

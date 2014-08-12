@@ -69,7 +69,7 @@ public:
   void write(std::string fname) const;
 
   /**
-   * Checks if Add-on is the same as given one. 
+   * Checks if Add-on is the same as given one.
    * If available, checks MD5 sum, else relies on kind, author and title alone.
    */
   bool operator==(Addon addon2) const;
@@ -85,8 +85,8 @@ protected:
     author(),
     license(),
     http_url(),
-    suggested_filename(), 
-    installed_physfs_filename(), 
+    suggested_filename(),
+    installed_physfs_filename(),
     installed_absolute_filename(),
     stored_md5(),
     installed(),

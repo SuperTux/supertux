@@ -29,7 +29,7 @@ const float RANGE_OF_VISION = 256; /**< range in px at which we can see bullets 
 } // namespace
 
 Igel::Igel(const Reader& reader) :
-  WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "walking-left", "walking-right"), 
+  WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "walking-left", "walking-right"),
   turn_recover_timer()
 {
   walk_speed = IGEL_SPEED;

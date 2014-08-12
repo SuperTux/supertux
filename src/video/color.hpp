@@ -26,16 +26,16 @@ class Color
 {
 public:
   Color() :
-    red(0), 
-    green(0), 
-    blue(0), 
+    red(0),
+    green(0),
+    blue(0),
     alpha(1.0f)
   {}
 
   Color(float red_, float green_, float blue_, float alpha_ = 1.0) :
     red(red_),
-    green(green_), 
-    blue(blue_), 
+    green(green_),
+    blue(blue_),
     alpha(alpha_)
   {
     assert(0 <= red   && red <= 1.0);

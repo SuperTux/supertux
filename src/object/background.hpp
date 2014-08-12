@@ -43,7 +43,7 @@ public:
   void draw_image(DrawingContext& context, const Vector& pos);
 
 private:
-  enum Alignment { 
+  enum Alignment {
     NO_ALIGNMENT,
     LEFT_ALIGNMENT,
     RIGHT_ALIGNMENT,

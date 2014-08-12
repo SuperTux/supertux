@@ -92,7 +92,7 @@ KeyboardMenu::menu_action(MenuItem* item)
     controller->keyboard_manager->wait_for_key = item->id;
   } else if( item->id == Controller::CONTROLCOUNT) {
     controller->keyboard_manager->jump_with_up_kbd = item->toggled;
-  } 
+  }
 }
 
 void

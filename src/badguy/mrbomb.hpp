@@ -19,7 +19,7 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class MrBomb : public WalkingBadguy, 
+class MrBomb : public WalkingBadguy,
                public Portable
 {
 public:

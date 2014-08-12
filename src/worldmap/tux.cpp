@@ -164,7 +164,7 @@ Tux::tryStartWalking()
 bool
 Tux::canWalk(int tile_data, Direction dir)
 {
-  return ghost_mode || 
+  return ghost_mode ||
     ((tile_data & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
      (tile_data & Tile::WORLDMAP_SOUTH && dir == D_SOUTH) ||
      (tile_data & Tile::WORLDMAP_EAST  && dir == D_EAST) ||

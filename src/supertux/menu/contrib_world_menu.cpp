@@ -49,7 +49,7 @@ ContribWorldMenu::check_menu()
 {
   int index = check();
   if (index != -1) {
-    if (get_item_by_id(index).kind == MN_ACTION) 
+    if (get_item_by_id(index).kind == MN_ACTION)
     {
       sound_manager->stop_music();
       GameManager::current()->start_level(std::move(m_world), index);

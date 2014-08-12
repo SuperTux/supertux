@@ -24,8 +24,8 @@
 namespace lisp {
 
 Lexer::Lexer(std::istream& newstream) :
-  stream(newstream), 
-  eof(false), 
+  stream(newstream),
+  eof(false),
   linenumber(0),
   bufend(),
   bufpos(),

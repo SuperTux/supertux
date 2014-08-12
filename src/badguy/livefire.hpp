@@ -61,7 +61,7 @@ class LiveFireDormant : public LiveFire
 {
 public:
   LiveFireDormant(const Reader& reader);
-  
+
   void initialize();
 };
 

@@ -123,7 +123,7 @@ WeakBlock::update(float )
           } else
             lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
         }
-      
+
         if (sprite->animation_done()) {
           state = STATE_DISINTEGRATING;
           sprite->set_action("disintegrating", 1);
@@ -162,7 +162,7 @@ WeakBlock::draw(DrawingContext& context)
     }
   }
 }
-                                 
+
 void
 WeakBlock::startBurning()
 {

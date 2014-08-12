@@ -76,7 +76,7 @@ private:
 
   /** horizontal and vertical velocity */
   float vx, vy;
-  
+
   /** should we respect gravity in our calculations? */
   bool gravity_enabled_flag;
 

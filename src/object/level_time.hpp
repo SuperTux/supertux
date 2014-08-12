@@ -25,7 +25,7 @@
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
-class LevelTime : public GameObject, 
+class LevelTime : public GameObject,
                   public ScriptInterface
 {
   static Color text_color;

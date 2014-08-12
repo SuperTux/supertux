@@ -20,9 +20,9 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-/* 
+/*
  * Kamikaze Snowball will fly in one direction until he hits something.
- * On impact he is destroyed, trying to kill what he hit or hit him. 
+ * On impact he is destroyed, trying to kill what he hit or hit him.
  */
 namespace{
   static const float KAMIKAZE_SPEED = 200;

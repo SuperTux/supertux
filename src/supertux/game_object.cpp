@@ -18,7 +18,7 @@
 #include "supertux/object_remove_listener.hpp"
 
 GameObject::GameObject() :
-  wants_to_die(false), 
+  wants_to_die(false),
   remove_listeners(NULL),
   name()
 {
@@ -29,7 +29,7 @@ GameObject::GameObject(const GameObject& rhs) :
   wants_to_die(rhs.wants_to_die),
   remove_listeners(NULL),
   name(rhs.name)
-{  
+{
 }
 
 GameObject::~GameObject()
@@ -43,8 +43,8 @@ GameObject::~GameObject()
     entry = next;
   }
 }
- 
-void 
+
+void
 GameObject::add_remove_listener(ObjectRemoveListener* listener)
 {
   RemoveListenerListEntry* entry = new RemoveListenerListEntry();

@@ -22,11 +22,11 @@
 #include "supertux/sector.hpp"
 
 PneumaticPlatform::PneumaticPlatform(const Reader& reader) :
-  MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
-  master(0), 
-  slave(0), 
+  MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC),
+  master(0),
+  slave(0),
   start_y(0),
-  offset_y(0), 
+  offset_y(0),
   speed_y(0),
   contacts()
 {
@@ -34,11 +34,11 @@ PneumaticPlatform::PneumaticPlatform(const Reader& reader) :
 }
 
 PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master) :
-  MovingSprite(*master), 
-  master(master), 
-  slave(this), 
+  MovingSprite(*master),
+  master(master),
+  slave(this),
   start_y(master->start_y),
-  offset_y(-master->offset_y), 
+  offset_y(-master->offset_y),
   speed_y(0),
   contacts()
 {
@@ -47,7 +47,7 @@ PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master) :
   master->slave = this;
 }
 
-PneumaticPlatform::~PneumaticPlatform() 
+PneumaticPlatform::~PneumaticPlatform()
 {
   if ((this == master) && (master)) {
     slave->master = 0;
@@ -105,8 +105,8 @@ PneumaticPlatform::update(float elapsed_time)
     speed_y -= (offset_y * elapsed_time * 0.5f);
     speed_y *= 1 - elapsed_time;
     offset_y += speed_y * elapsed_time;
-    if (offset_y < -256) { offset_y = -256; speed_y = 0; } 
-    if (offset_y > 256) { offset_y = 256; speed_y = -0; } 
+    if (offset_y < -256) { offset_y = -256; speed_y = 0; }
+    if (offset_y > 256) { offset_y = 256; speed_y = -0; }
     movement = Vector(0, (start_y + offset_y) - get_pos().y);
   }
 }

@@ -20,7 +20,7 @@
 class DrawingContext;
 
 /**
- * Screen to be displayed simultaneously with another Screen. 
+ * Screen to be displayed simultaneously with another Screen.
  *
  * This is used for Screen transition effects like a fade-out or a shrink-fade
  */

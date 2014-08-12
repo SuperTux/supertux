@@ -18,8 +18,8 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
-Light::Light(const Vector& center, const Color& color) : 
-  position(center), 
+Light::Light(const Vector& center, const Color& color) :
+  position(center),
   color(color),
   sprite()
 {

@@ -44,7 +44,7 @@ template<class C>
 class ConcreteObjectFactory : public AbstractObjectFactory
 {
 public:
-  ConcreteObjectFactory() {}  
+  ConcreteObjectFactory() {}
   ~ConcreteObjectFactory() {}
 
   GameObject* create(const Reader& reader)

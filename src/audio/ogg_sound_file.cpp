@@ -23,7 +23,7 @@ OggSoundFile::OggSoundFile(PHYSFS_file* file, double loop_begin, double loop_at)
   vorbis_file(),
   loop_begin(),
   loop_at(),
-  normal_buffer_loop() 
+  normal_buffer_loop()
 {
   this->file = file;
 

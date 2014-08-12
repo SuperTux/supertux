@@ -24,7 +24,7 @@
 /**
  * This class is the base class for platforms that tux can stand on
  */
-class Platform : public MovingSprite, 
+class Platform : public MovingSprite,
                  public ScriptInterface
 {
 public:

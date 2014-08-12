@@ -34,7 +34,7 @@ public:
   void initialize();
   void activate();
   void deactivate();
-  
+
   void active_update(float elapsed_time);
 
   void collision_solid(const CollisionHit& hit);

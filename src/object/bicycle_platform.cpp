@@ -24,13 +24,13 @@
 #include "supertux/sector.hpp"
 
 BicyclePlatform::BicyclePlatform(const Reader& reader) :
-  MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC), 
+  MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC),
   master(0),
-  slave(0), 
+  slave(0),
   center(),
-  radius(128), 
-  angle(0), 
-  angular_speed(0), 
+  radius(128),
+  angle(0),
+  angular_speed(0),
   contacts(),
   momentum(0)
 {
@@ -38,13 +38,13 @@ BicyclePlatform::BicyclePlatform(const Reader& reader) :
 }
 
 BicyclePlatform::BicyclePlatform(BicyclePlatform* master) :
-  MovingSprite(*master), 
-  master(master), 
-  slave(this), 
-  center(master->center), 
-  radius(master->radius), 
-  angle(master->angle + M_PI), 
-  angular_speed(0), 
+  MovingSprite(*master),
+  master(master),
+  slave(this),
+  center(master->center),
+  radius(master->radius),
+  angle(master->angle + M_PI),
+  angular_speed(0),
   contacts(),
   momentum(0)
 {
@@ -53,7 +53,7 @@ BicyclePlatform::BicyclePlatform(BicyclePlatform* master) :
   master->slave = this;
 }
 
-BicyclePlatform::~BicyclePlatform() 
+BicyclePlatform::~BicyclePlatform()
 {
   if ((this == master) && (master)) {
     slave->master = 0;
@@ -100,8 +100,8 @@ BicyclePlatform::update(float elapsed_time)
   }
   if (this == slave) {
     angle = master->angle + M_PI;
-    while (angle < 0) { angle += 2*M_PI; } 
-    while (angle > 2*M_PI) { angle -= 2*M_PI; } 
+    while (angle < 0) { angle += 2*M_PI; }
+    while (angle > 2*M_PI) { angle -= 2*M_PI; }
     Vector dest = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size() * 0.5);
     movement = dest - get_pos();
   }
@@ -115,8 +115,8 @@ BicyclePlatform::update(float elapsed_time)
     angular_speed += (angular_momentum * elapsed_time) * M_PI;
     angular_speed *= 1 - elapsed_time * 0.2;
     angle += angular_speed * elapsed_time;
-    while (angle < 0) { angle += 2*M_PI; } 
-    while (angle > 2*M_PI) { angle -= 2*M_PI; } 
+    while (angle < 0) { angle += 2*M_PI; }
+    while (angle > 2*M_PI) { angle -= 2*M_PI; }
     angular_speed = std::min(std::max(angular_speed, static_cast<float>(-128*M_PI*elapsed_time)), static_cast<float>(128*M_PI*elapsed_time));
     Vector dest = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size() * 0.5);
     movement = dest - get_pos();

@@ -31,7 +31,7 @@ enum {
   MNID_LANGUAGE_NEXT        = 10
 };
 
-LanguageMenu::LanguageMenu() 
+LanguageMenu::LanguageMenu()
 {
   add_label(_("Language"));
   add_hl();
@@ -40,7 +40,7 @@ LanguageMenu::LanguageMenu()
 
   int mnid = MNID_LANGUAGE_NEXT;
   std::set<tinygettext::Language> languages = dictionary_manager->get_languages();
-  for (std::set<tinygettext::Language>::iterator i = languages.begin(); i != languages.end(); i++) 
+  for (std::set<tinygettext::Language>::iterator i = languages.begin(); i != languages.end(); i++)
   {
     add_entry(mnid++, i->get_name());
   }
@@ -50,7 +50,7 @@ LanguageMenu::LanguageMenu()
 }
 
 void
-LanguageMenu::menu_action(MenuItem* item) 
+LanguageMenu::menu_action(MenuItem* item)
 {
   if (item->id == MNID_LANGUAGE_AUTO_DETECT) // auto detect
   {
@@ -76,9 +76,9 @@ LanguageMenu::menu_action(MenuItem* item)
     int mnid = MNID_LANGUAGE_NEXT;
     std::set<tinygettext::Language> languages = dictionary_manager->get_languages();
 
-    for (std::set<tinygettext::Language>::iterator i = languages.begin(); i != languages.end(); i++) 
+    for (std::set<tinygettext::Language>::iterator i = languages.begin(); i != languages.end(); i++)
     {
-      if (item->id == mnid++) 
+      if (item->id == mnid++)
       {
         g_config->locale = i->str();
         dictionary_manager->set_language(*i);

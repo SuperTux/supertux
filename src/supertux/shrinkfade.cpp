@@ -19,8 +19,8 @@
 #include "video/drawing_context.hpp"
 
 ShrinkFade::ShrinkFade(const Vector& dest, float fade_time) :
-  dest(dest), 
-  fade_time(fade_time), 
+  dest(dest),
+  fade_time(fade_time),
   accum_time(0),
   speedleft(),
   speedright(),
@@ -50,7 +50,7 @@ ShrinkFade::draw(DrawingContext& context)
 {
   float progress = accum_time / fade_time;
   context.draw_inverse_ellipse(dest,
-                               Vector(2*SCREEN_WIDTH  * (1.0f - progress), 
+                               Vector(2*SCREEN_WIDTH  * (1.0f - progress),
                                       2*SCREEN_HEIGHT * (1.0f - progress)),
                                Color(0, 0, 0), LAYER_GUI+1);
 }

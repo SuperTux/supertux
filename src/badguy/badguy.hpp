@@ -53,7 +53,7 @@ public:
   /** Set the badguy to kill/falling state, which makes him falling of
       the screen (his sprite is turned upside-down) */
   virtual void kill_fall();
-  
+
   /** Call this, if you use custom kill_fall() or kill_squashed(GameObject& object) */
   virtual void run_dead_script();
 
@@ -131,7 +131,7 @@ protected:
 
   /** called immediately before the first call to initialize */
   virtual void initialize();
-  
+
   /** called when the badguy has been activated. (As a side effect the
       dir variable might have been changed so that it faces towards
       the player. */
@@ -185,7 +185,7 @@ protected:
   bool is_active();
 
   /** changes colgroup_active. Also calls set_group when badguy is in STATE_ACTIVE */
-  void set_colgroup_active(CollisionGroup group); 
+  void set_colgroup_active(CollisionGroup group);
 
 private:
   void try_activate();
@@ -193,14 +193,14 @@ private:
 protected:
   Physic physic;
 
-public:  
+public:
   /** Count this badguy to the statistics? This value should not be
       changed during runtime. */
   bool countMe;
 
 protected:
   /** true if initialize() has already been called */
-  bool is_initialized; 
+  bool is_initialized;
 
   Vector start_position;
 
@@ -220,18 +220,18 @@ private:
 
   /** true if state was STATE_ACTIVE at the beginning of the last call
       to update() */
-  bool is_active_flag; 
+  bool is_active_flag;
 
   Timer state_timer;
 
   /** true if we touched something solid from above and
       update_on_ground_flag was called last frame */
-  bool on_ground_flag; 
+  bool on_ground_flag;
 
   /** floor normal stored the last time when update_on_ground_flag was
       called and we touched something solid from above */
-  Vector floor_normal; 
-  
+  Vector floor_normal;
+
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup colgroup_active;
 

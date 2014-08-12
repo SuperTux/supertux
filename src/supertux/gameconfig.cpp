@@ -84,7 +84,7 @@ Config::load()
 
     config_video_lisp->get("aspect_width",  aspect_size.width);
     config_video_lisp->get("aspect_height", aspect_size.height);
-    
+
     config_video_lisp->get("magnification", magnification);
   }
 
@@ -131,7 +131,7 @@ Config::save()
 
   writer.write("aspect_width",  aspect_size.width);
   writer.write("aspect_height", aspect_size.height);
-  
+
   writer.write("magnification", magnification);
 
   writer.end_list("video");

@@ -31,9 +31,9 @@ static const float       SUCKSPEED = 25;
 TreeWillOWisp::TreeWillOWisp(GhostTree* tree, const Vector& pos,
                              float radius, float speed) :
   BadGuy(tree->get_pos() + pos, "images/creatures/willowisp/willowisp.sprite",
-         LAYER_OBJECTS - 20), 
-  was_sucked(false), 
-  mystate(STATE_DEFAULT), 
+         LAYER_OBJECTS - 20),
+  was_sucked(false),
+  mystate(STATE_DEFAULT),
   color(),
   angle(),
   radius(),
@@ -96,7 +96,7 @@ TreeWillOWisp::collides(GameObject& other, const CollisionHit& ) {
     return true;
   if (dynamic_cast<Player*>(&other))
     return true;
-  
+
   return false;
 }
 

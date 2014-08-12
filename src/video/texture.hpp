@@ -53,7 +53,7 @@ private:
 
 public:
   Texture() : cache_filename() {}
-  virtual ~Texture() 
+  virtual ~Texture()
   {
     if (texture_manager && cache_filename != "")
       /* The cache entry is now useless: its weak pointer to us has been

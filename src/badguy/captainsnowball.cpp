@@ -21,7 +21,7 @@
 #include "supertux/sector.hpp"
 
 namespace{
-  static const float CAPTAIN_WALK_SPEED = 100; 
+  static const float CAPTAIN_WALK_SPEED = 100;
   static const float BOARDING_SPEED = 200;
 }
 
@@ -61,7 +61,7 @@ CaptainSnowball::might_climb(int width, int height)
     x1 = bbox.p2.x + 1;
     x2 = bbox.p2.x + width;
   }
-  return ((!Sector::current()->is_free_of_statics(Rectf(x1, y1a, x2, y2a))) && 
+  return ((!Sector::current()->is_free_of_statics(Rectf(x1, y1a, x2, y2a))) &&
           (Sector::current()->is_free_of_statics(Rectf(x1, y1b, x2, y2b))));
 }
 

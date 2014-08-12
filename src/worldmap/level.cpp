@@ -32,14 +32,14 @@ namespace worldmap {
 LevelTile::LevelTile(const std::string& basedir, const Reader& lisp) :
   pos(),
   title(),
-  solved(false), 
+  solved(false),
   perfect(false),
-  auto_play(false), 
+  auto_play(false),
   sprite(),
   statistics(),
   target_time(),
   extro_script(),
-  basedir(basedir), 
+  basedir(basedir),
   picture_cached(false),
   picture(0)
 {

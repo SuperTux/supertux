@@ -47,8 +47,8 @@ protected:
   class Particle
   {
   public:
-    Particle() : 
-      pos(), 
+    Particle() :
+      pos(),
       texture()
     {}
 

@@ -42,7 +42,7 @@ public:
 
   /** the aspect ratio */
   Size aspect_size;
-  
+
   float magnification;
 
   bool use_fullscreen;

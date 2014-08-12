@@ -47,8 +47,8 @@
 class Player;
 class SoundSource;
 
-class AmbientSound : public GameObject, 
-                     public ScriptInterface, 
+class AmbientSound : public GameObject,
+                     public ScriptInterface,
                      public scripting::AmbientSound
 {
 public:

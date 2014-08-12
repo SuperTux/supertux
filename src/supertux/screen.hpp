@@ -22,7 +22,7 @@ class DrawingContext;
 /**
  * Abstract base class for code the MainLoop runs exclusively and full-screen.
  *
- * Examples of Screens are: The TitleScreen, a WorldMap, a level's 
+ * Examples of Screens are: The TitleScreen, a WorldMap, a level's
  * GameSession, a TextScroller, ...
  */
 class Screen

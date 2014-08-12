@@ -31,11 +31,11 @@ static const float EPSILON = .0001f;
 static const float BUMP_ROTATION_ANGLE = 10;
 
 Block::Block(SpritePtr newsprite) :
-  sprite(newsprite), 
-  bouncing(false), 
-  breaking(false), 
-  bounce_dir(0), 
-  bounce_offset(0), 
+  sprite(newsprite),
+  bouncing(false),
+  breaking(false),
+  bounce_dir(0),
+  bounce_offset(0),
   original_y(-1)
 {
   bbox.set_size(32, 32.1f);
@@ -79,7 +79,7 @@ Block::collision(GameObject& other, const CollisionHit& )
     if(coin) {
       coin->collect();
     }
-    
+
     //Eggs get jumped
     GrowUp* growup = dynamic_cast<GrowUp*> (&other);
     if(growup) {

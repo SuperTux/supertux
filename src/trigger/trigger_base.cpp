@@ -21,7 +21,7 @@
 
 TriggerBase::TriggerBase() :
   sprite(),
-  lasthit(false), 
+  lasthit(false),
   hit(false),
   losetouch_listeners()
 {
@@ -77,8 +77,8 @@ TriggerBase::collision(GameObject& other, const CollisionHit& )
 
   return ABORT_MOVE;
 }
-  
-void 
+
+void
 TriggerBase::object_removed(GameObject* object)
 {
   for (std::list<Player*>::iterator i = losetouch_listeners.begin(); i != losetouch_listeners.end(); i++) {

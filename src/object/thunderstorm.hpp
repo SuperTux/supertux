@@ -27,7 +27,7 @@
 /**
  * Thunderstorm scriptable GameObject; plays thunder, lightning and electrifies water at regular interval
  */
-class Thunderstorm : public GameObject, 
+class Thunderstorm : public GameObject,
                      public ScriptInterface
 {
 public:

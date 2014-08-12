@@ -31,8 +31,8 @@ const float NOKICK_TIME = 0.1f;
 }
 
 MrIceBlock::MrIceBlock(const Reader& reader) :
-  WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), 
-  ice_state(ICESTATE_NORMAL), 
+  WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"),
+  ice_state(ICESTATE_NORMAL),
   nokick_timer(),
   flat_timer(),
   squishcount(0)
@@ -45,8 +45,8 @@ MrIceBlock::MrIceBlock(const Reader& reader) :
 }
 
 MrIceBlock::MrIceBlock(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"), 
-  ice_state(ICESTATE_NORMAL), 
+  WalkingBadguy(pos, d, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"),
+  ice_state(ICESTATE_NORMAL),
   nokick_timer(),
   flat_timer(),
   squishcount(0)

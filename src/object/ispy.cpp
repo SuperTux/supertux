@@ -27,8 +27,8 @@
 #include <sstream>
 
 Ispy::Ispy(const Reader& reader) :
-  MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED), 
-  state(ISPYSTATE_IDLE), 
+  MovingSprite(reader, "images/objects/ispy/ispy.sprite", LAYER_TILES+5, COLGROUP_DISABLED),
+  state(ISPYSTATE_IDLE),
   script(),
   dir(AUTO)
 {
@@ -67,20 +67,20 @@ Ispy::line_intersects_line(Vector line1_start, Vector line1_end, Vector line2_st
   float den2 = (d2-b2)*(a1-a2) + (a2-c2)*(b1-b2);
 
   // normalize to positive numerator
-  if (num < 0) { 
-    num = -num; 
-    den1 = -den1; 
-    den2 = -den2; 
+  if (num < 0) {
+    num = -num;
+    den1 = -den1;
+    den2 = -den2;
   }
 
   // numerator is zero -> Check for parallel or coinciding lines
   if (num == 0) {
     if ((b1-b2)*(c1-a2) != (a1-a2)*(d1-b2)) return false;
-    if (a1 == a2) { 
-      std::swap(a1, b1); 
-      std::swap(a2, b2); 
-      std::swap(c1, d1); 
-      std::swap(c2, d2); 
+    if (a1 == a2) {
+      std::swap(a1, b1);
+      std::swap(a2, b2);
+      std::swap(c1, d1);
+      std::swap(c2, d2);
     }
     if (a1 > a2) std::swap(a1, a2);
     if (c1 > c2) std::swap(c1, c2);
@@ -146,7 +146,7 @@ Ispy::free_line_of_sight(Vector line_start, Vector line_end, const MovingObject*
   return true;
 }
 
-void 
+void
 Ispy::update(float )
 {
 

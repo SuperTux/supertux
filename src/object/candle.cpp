@@ -24,8 +24,8 @@
 #include "util/reader.hpp"
 
 Candle::Candle(const Reader& lisp)
-  : MovingSprite(lisp, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED), 
-    burning(true), 
+  : MovingSprite(lisp, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED),
+    burning(true),
     flicker(true),
     lightcolor(1.0f, 1.0f, 1.0f),
     candle_light_1(sprite_manager->create("images/objects/candle/candle-light-1.sprite")),
@@ -48,7 +48,7 @@ Candle::Candle(const Reader& lisp)
     candle_light_1->set_action("white");
     candle_light_2->set_action("white");
   }
-    
+
   if (burning) {
     sprite->set_action("on");
   } else {

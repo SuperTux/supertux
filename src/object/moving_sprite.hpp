@@ -29,20 +29,20 @@
 class MovingSprite : public MovingObject
 {
 public:
-  MovingSprite(const Vector& pos, 
-               const std::string& sprite_name, 
-               int layer = LAYER_OBJECTS, 
+  MovingSprite(const Vector& pos,
+               const std::string& sprite_name,
+               int layer = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const Reader& reader, 
-               const Vector& pos, 
-               int layer = LAYER_OBJECTS, 
+  MovingSprite(const Reader& reader,
+               const Vector& pos,
+               int layer = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const Reader& reader, 
-               const std::string& sprite_name, 
-               int layer = LAYER_OBJECTS, 
+  MovingSprite(const Reader& reader,
+               const std::string& sprite_name,
+               int layer = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const Reader& reader, 
-               int layer = LAYER_OBJECTS, 
+  MovingSprite(const Reader& reader,
+               int layer = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
   MovingSprite(const MovingSprite& moving_sprite);
   //MovingSprite& operator=(const MovingSprite& moving_sprite);

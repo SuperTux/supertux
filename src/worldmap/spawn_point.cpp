@@ -23,7 +23,7 @@
 
 namespace worldmap {
 
-SpawnPoint::SpawnPoint(const Reader& slisp) : 
+SpawnPoint::SpawnPoint(const Reader& slisp) :
   name(),
   pos(),
   auto_dir(D_NONE)

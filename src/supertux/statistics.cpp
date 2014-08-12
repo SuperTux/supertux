@@ -39,15 +39,15 @@ float WMAP_INFO_RIGHT_X;
 float WMAP_INFO_TOP_Y1;
 float WMAP_INFO_TOP_Y2;
 
-Statistics::Statistics() : 
-  coins(nv_coins), 
-  total_coins(nv_coins), 
-  badguys(nv_badguys), 
-  total_badguys(nv_badguys), 
-  time(nv_time), 
-  secrets(nv_secrets), 
-  total_secrets(nv_secrets), 
-  valid(true) 
+Statistics::Statistics() :
+  coins(nv_coins),
+  total_coins(nv_coins),
+  badguys(nv_badguys),
+  total_badguys(nv_badguys),
+  time(nv_time),
+  secrets(nv_secrets),
+  total_secrets(nv_secrets),
+  valid(true)
 {
   WMAP_INFO_LEFT_X = SCREEN_WIDTH - 32 - 256;
   WMAP_INFO_RIGHT_X = WMAP_INFO_LEFT_X + 256;
@@ -113,9 +113,9 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
     WMAP_INFO_TOP_Y1 = SCREEN_HEIGHT - 100;
     WMAP_INFO_TOP_Y2 = WMAP_INFO_TOP_Y1 + 16;
   }
-  
-  context.draw_text(Resources::small_font, std::string("- ") + _("Best Level Statistics") + " -", 
-                    Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1), 
+
+  context.draw_text(Resources::small_font, std::string("- ") + _("Best Level Statistics") + " -",
+                    Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1),
                     ALIGN_CENTER, LAYER_HUD,Statistics::header_color);
 
   std::string caption_buf;
@@ -284,8 +284,8 @@ Statistics::operator+=(const Statistics& s2)
 bool
 Statistics::completed(const Statistics& stats, const float target_time)
 {
-  return (stats.coins == stats.total_coins && 
-      stats.badguys == stats.total_badguys && 
+  return (stats.coins == stats.total_coins &&
+      stats.badguys == stats.total_badguys &&
       stats.secrets == stats.total_secrets &&
       ((!target_time) || (stats.time <= target_time)));
 }
@@ -310,7 +310,7 @@ Statistics::frags_to_string(int badguys, int total_badguys) {
   return os.str();
 }
 
-std::string 
+std::string
 Statistics::time_to_string(float time) {
   int time_csecs = std::min(static_cast<int>(time * 100), 99 * 6000 + 9999);
   int mins = (time_csecs / 6000);

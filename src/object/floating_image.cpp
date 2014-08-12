@@ -21,11 +21,11 @@
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
   sprite(sprite_manager->create(spritefile)),
-  layer(LAYER_FOREGROUND1 + 1), 
-  visible(false), 
-  anchor(ANCHOR_MIDDLE), 
+  layer(LAYER_FOREGROUND1 + 1),
+  visible(false),
+  anchor(ANCHOR_MIDDLE),
   pos(),
-  fading(0), 
+  fading(0),
   fadetime(0)
 {
 }

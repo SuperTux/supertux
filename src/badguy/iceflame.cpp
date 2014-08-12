@@ -28,9 +28,9 @@
 #include "util/reader.hpp"
 
 Iceflame::Iceflame(const Reader& reader) :
-  BadGuy(reader, "images/creatures/flame/iceflame.sprite", LAYER_FLOATINGOBJECTS), 
-  angle(0), 
-  radius(100), 
+  BadGuy(reader, "images/creatures/flame/iceflame.sprite", LAYER_FLOATINGOBJECTS),
+  angle(0),
+  radius(100),
   speed(2),
   light(0.0f,0.0f,0.0f),
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
@@ -41,12 +41,12 @@ Iceflame::Iceflame(const Reader& reader) :
                       start_position.y + sin(angle) * radius));
   countMe = false;
   sound_manager->preload("sounds/sizzle.ogg");
-  
+
   set_colgroup_active(COLGROUP_TOUCHABLE);
-  
+
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.00f, 0.13f, 0.18f));
-  
+
 }
 
 void
@@ -56,7 +56,7 @@ Iceflame::active_update(float elapsed_time)
   Vector newpos(start_position.x + cos(angle) * radius,
                 start_position.y + sin(angle) * radius);
   movement = newpos - get_pos();
-  
+
   if (sprite->get_action() == "fade" && sprite->animation_done()) remove_me();
 }
 

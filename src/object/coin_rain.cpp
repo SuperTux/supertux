@@ -26,7 +26,7 @@ static const float DROP_TIME = .1f; // time duration between "drops" of coin rai
 
 CoinRain::CoinRain(const Vector& pos, bool emerge) :
   sprite(),
-  position(pos), 
+  position(pos),
   emerge_distance(0),
   timer(),
   counter(0),

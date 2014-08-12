@@ -46,7 +46,7 @@ public:
 
 private:
   void make_tux_jump();
-  
+
 private:
   SurfacePtr frame;
   std::unique_ptr<CodeController> controller;

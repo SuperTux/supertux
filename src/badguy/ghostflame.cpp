@@ -28,9 +28,9 @@
 #include "util/reader.hpp"
 
 Ghostflame::Ghostflame(const Reader& reader) :
-  BadGuy(reader, "images/creatures/flame/ghostflame.sprite", LAYER_FLOATINGOBJECTS), 
-  angle(0), 
-  radius(100), 
+  BadGuy(reader, "images/creatures/flame/ghostflame.sprite", LAYER_FLOATINGOBJECTS),
+  angle(0),
+  radius(100),
   speed(2),
   light(0.0f,0.0f,0.0f),
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
@@ -42,12 +42,12 @@ Ghostflame::Ghostflame(const Reader& reader) :
   countMe = false;
   //TODO: get unique death sound
   sound_manager->preload("sounds/fizz.wav");
-  
+
   set_colgroup_active(COLGROUP_TOUCHABLE);
-  
+
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.21f, 0.00f, 0.21f));
-  
+
 }
 
 void
@@ -57,7 +57,7 @@ Ghostflame::active_update(float elapsed_time)
   Vector newpos(start_position.x + cos(angle) * radius,
                 start_position.y + sin(angle) * radius);
   movement = newpos - get_pos();
-  
+
 }
 
 void

@@ -65,7 +65,7 @@ bool Sector::show_collrects = false;
 bool Sector::draw_solids_only = false;
 
 Sector::Sector(Level* parent) :
-  level(parent), 
+  level(parent),
   name(),
   bullets(),
   init_script(),
@@ -73,16 +73,16 @@ Sector::Sector(Level* parent) :
   currentmusic(LEVEL_MUSIC),
   sector_table(),
   scripts(),
-  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ), 
+  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
   gameobjects(),
   moving_objects(),
   spawnpoints(),
   portables(),
   music(),
-  gravity(10.0), 
-  player(0), 
+  gravity(10.0),
+  player(0),
   solid_tilemaps(),
-  camera(0), 
+  camera(0),
   effect(0)
 {
   add_object(new Player(GameSession::current()->get_player_status(), "Tux"));
@@ -607,7 +607,7 @@ Sector::activate(const Vector& player_pos)
   camera->update(1);
   player->move(player->get_pos()+(Vector(32, 0)));
   camera->update(1);
-  
+
   update_game_objects();
 
   //Run default.nut just before init script

@@ -32,8 +32,8 @@
 using namespace std;
 
 Level::Level() :
-  name("noname"), 
-  author("Mr. X"), 
+  name("noname"),
+  author("Mr. X"),
   contact(),
   license(),
   filename(),
@@ -41,7 +41,7 @@ Level::Level() :
   sectors(),
   stats(),
   target_time(),
-  tileset(NULL), 
+  tileset(NULL),
   free_tileset(false)
 {
 }

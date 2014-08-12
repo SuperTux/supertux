@@ -114,7 +114,7 @@ public:
 Camera::Camera(Sector* newsector, std::string name) :
   mode(NORMAL),
   translation(),
-  sector(newsector), 
+  sector(newsector),
   lookahead_mode(LOOKAHEAD_NONE),
   changetime(),
   lookahead_pos(),

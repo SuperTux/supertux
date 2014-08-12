@@ -30,20 +30,20 @@ static const float FADE_SPEED = 1;
 
 Console::Console() :
   history(),
-  history_position(history.end()), 
+  history_position(history.end()),
   lines(),
   background(),
   background2(),
-  vm(NULL), 
+  vm(NULL),
   vm_object(),
   backgroundOffset(0),
   height(0),
-  alpha(1.0), 
-  offset(0), 
-  focused(false), 
+  alpha(1.0),
+  offset(0),
+  focused(false),
   font(),
   fontheight(),
-  stayOpen(0) 
+  stayOpen(0)
 {
   fontheight = 8;
 }
@@ -143,7 +143,7 @@ Console::execute_script(const std::string& command)
   }
 }
 
-void 
+void
 Console::input(char c)
 {
   inputBuffer.insert(inputBufferPosition, 1, c);
@@ -203,7 +203,7 @@ Console::show_history(int offset)
   }
 }
 
-void 
+void
 Console::move_cursor(int offset)
 {
   if (offset == -65535) inputBufferPosition = 0;

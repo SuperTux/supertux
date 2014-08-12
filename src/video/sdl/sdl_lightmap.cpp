@@ -56,7 +56,7 @@ void
 SDLLightmap::start_draw(const Color &ambient_color)
 {
   SDL_SetRenderTarget(renderer, texture);
- 
+
   Uint8 r = static_cast<Uint8>(ambient_color.red * 255);
   Uint8 g = static_cast<Uint8>(ambient_color.green * 255);
   Uint8 b = static_cast<Uint8>(ambient_color.blue * 255);
@@ -112,7 +112,7 @@ SDLLightmap::draw_filled_rect(const DrawingRequest& request)
 void
 SDLLightmap::get_light(const DrawingRequest& request) const
 {
-  const GetLightRequest* getlightrequest 
+  const GetLightRequest* getlightrequest
     = (GetLightRequest*) request.request_data;
 
   SDL_Rect rect;

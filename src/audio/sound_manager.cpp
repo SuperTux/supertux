@@ -28,9 +28,9 @@
 #include "util/log.hpp"
 
 SoundManager::SoundManager() :
-  device(0), 
-  context(0), 
-  sound_enabled(false), 
+  device(0),
+  context(0),
+  sound_enabled(false),
   buffers(),
   sources(),
   update_list(),
@@ -56,7 +56,7 @@ SoundManager::SoundManager() :
   } catch(std::exception& e) {
     if(context != NULL) {
       alcDestroyContext(context);
-      context = NULL; 
+      context = NULL;
     }
     if(device != NULL) {
       alcCloseDevice(device);

@@ -31,9 +31,9 @@
 namespace lisp {
 
 Parser::Parser(bool translate) :
-  lexer(0), 
+  lexer(0),
   filename(),
-  dictionary_manager(0), 
+  dictionary_manager(0),
   dictionary(0),
   token(),
   searchpath(),
@@ -42,7 +42,7 @@ Parser::Parser(bool translate) :
   if(translate) {
     dictionary_manager = new tinygettext::DictionaryManager();
     dictionary_manager->set_charset("UTF-8");
-    if (g_config && (g_config->locale != "")) 
+    if (g_config && (g_config->locale != ""))
       dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
   }
 

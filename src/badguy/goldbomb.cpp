@@ -153,7 +153,7 @@ GoldBomb::kill_fall()
   // GoldBomb class.
   if (grabber != NULL) {
     Player* player = dynamic_cast<Player*>(grabber);
-    
+
     if (player)
       player->stop_grabbing();
   }

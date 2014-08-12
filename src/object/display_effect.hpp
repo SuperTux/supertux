@@ -21,7 +21,7 @@
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
 
-class DisplayEffect : public GameObject, 
+class DisplayEffect : public GameObject,
                       public scripting::DisplayEffect,
                       public ScriptInterface
 {

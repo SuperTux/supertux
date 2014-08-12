@@ -58,7 +58,7 @@ protected:
       angle(),
       texture()
     {}
-   
+
     virtual ~Particle()
     {}
 

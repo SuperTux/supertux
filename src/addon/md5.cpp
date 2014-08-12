@@ -12,8 +12,8 @@
 // implied warranty of any kind.
 //
 // The translators/modifiers do not claim:
-// (1) that MD5 will do what you think it does; 
-// (2) that this translation/ modification is accurate; or 
+// (1) that MD5 will do what you think it does;
+// (2) that this translation/ modification is accurate; or
 // (3) that this software is "merchantible."
 //
 // based on:
@@ -26,20 +26,20 @@
 // is identified as the "RSA Data Security, Inc. MD5 Message-Digest
 // Algorithm" in all material mentioning or referencing this software
 // or this function.
-// 
+//
 // License is also granted to make and use derivative works provided
 // that such works are identified as "derived from the RSA Data
 // Security, Inc. MD5 Message-Digest Algorithm" in all material
 // mentioning or referencing the derived work.
-// 
+//
 // RSA Data Security, Inc. makes no representations concerning either
 // the merchantability of this software or the suitability of this
 // software for any particular purpose. It is provided "as is"
 // without express or implied warranty of any kind.
-// 
+//
 // These notices must be retained in any copies of any part of this
 // documentation and/or software.
-// 
+//
 
 #include "addon/md5.hpp"
 
@@ -127,7 +127,7 @@ MD5::MD5(FILE *file) :
   finalize ();
 }
 
-MD5::MD5(std::istream& stream) : 
+MD5::MD5(std::istream& stream) :
   finalized()
 {
   init(); // must called by all constructors

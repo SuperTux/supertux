@@ -21,7 +21,7 @@
 #include "supertux/sector.hpp"
 
 CoinExplode::CoinExplode(const Vector& pos) :
-  position(pos) 
+  position(pos)
 {
 }
 

@@ -142,7 +142,7 @@ AmbientSound::hit(Player& )
 }
 
 void
-AmbientSound::stop_playing() 
+AmbientSound::stop_playing()
 {
   delete sound_source;
   sound_source = 0;

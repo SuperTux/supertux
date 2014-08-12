@@ -29,9 +29,9 @@ const float MUZZLE_Y = 25; /**< [px] muzzle y-offset from top */
 
 DartTrap::DartTrap(const Reader& reader) :
   BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", LAYER_TILES-1),
-  initial_delay(0), 
-  fire_delay(2), 
-  ammo(-1), 
+  initial_delay(0),
+  fire_delay(2),
+  ammo(-1),
   state(IDLE),
   fire_timer()
 {

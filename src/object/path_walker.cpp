@@ -20,11 +20,11 @@
 #include <assert.h>
 
 PathWalker::PathWalker(const Path* path, bool running) :
-  path(path), 
-  running(running), 
-  current_node_nr(0), 
-  next_node_nr(0), 
-  stop_at_node_nr(running?-1:0), 
+  path(path),
+  running(running),
+  current_node_nr(0),
+  next_node_nr(0),
+  stop_at_node_nr(running?-1:0),
   node_time(0),
   node_mult(),
   walking_speed(1.0)

@@ -123,8 +123,8 @@ Lantern::ungrab(MovingObject& object, Direction dir)
 
   Rock::ungrab(object, dir);
 }
-  
-bool 
+
+bool
 Lantern::is_open()
 {
   return ((grabbed) && lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0);

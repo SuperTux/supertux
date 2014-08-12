@@ -62,7 +62,7 @@ TileManager::parse_tileset_definition(const Reader& reader)
     }
     const lisp::Lisp* tileset_reader = iter.lisp();
 
-    std::string file; 
+    std::string file;
     if (!tileset_reader->get("file", file)) {
       log_warning << "Skipping tileset import without file name" << std::endl;
       continue;

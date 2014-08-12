@@ -29,7 +29,7 @@ class Player;
 /** This class is the base class for all objects you can interact with in some
  * way. There are several interaction types defined like touch and activate
  */
-class TriggerBase : public MovingObject, 
+class TriggerBase : public MovingObject,
                     public ObjectRemoveListener
 {
 public:
@@ -50,7 +50,7 @@ public:
    * Receive trigger events
    */
   virtual void event(Player& player, EventType type) = 0;
-  
+
   /**
    * Called by GameObject destructor of an object in losetouch_listeners
    */

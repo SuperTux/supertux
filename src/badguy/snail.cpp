@@ -30,8 +30,8 @@ const float SNAIL_KICK_SPEED_Y = -500; /**< y-velocity gained when kicked */
 }
 
 Snail::Snail(const Reader& reader) :
-  WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"), 
-  state(STATE_NORMAL), 
+  WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"),
+  state(STATE_NORMAL),
   kicked_delay_timer(),
   squishcount(0)
 {
@@ -43,8 +43,8 @@ Snail::Snail(const Reader& reader) :
 }
 
 Snail::Snail(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/snail/snail.sprite", "left", "right"), 
-  state(STATE_NORMAL), 
+  WalkingBadguy(pos, d, "images/creatures/snail/snail.sprite", "left", "right"),
+  state(STATE_NORMAL),
   kicked_delay_timer(),
   squishcount(0)
 {

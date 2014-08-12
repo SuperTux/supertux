@@ -26,19 +26,19 @@
 #include "util/reader.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
-  tileset(new_tileset), 
+  tileset(new_tileset),
   tiles(),
   real_solid(false),
   effective_solid(false),
-  speed_x(1), 
-  speed_y(1), 
+  speed_x(1),
+  speed_y(1),
   width(0),
-  height(0), 
-  z_pos(0), 
+  height(0),
+  z_pos(0),
   offset(Vector(0,0)),
   movement(0,0),
   drawing_effect(NO_EFFECT),
-  alpha(1.0), 
+  alpha(1.0),
   current_alpha(1.0),
   remaining_fade_time(0),
   path(),
@@ -52,16 +52,16 @@ TileMap::TileMap(const Reader& reader) :
   tiles(),
   real_solid(false),
   effective_solid(false),
-  speed_x(1), 
-  speed_y(1), 
+  speed_x(1),
+  speed_y(1),
   width(-1),
-  height(-1), 
-  z_pos(0), 
+  height(-1),
+  z_pos(0),
   offset(Vector(0,0)),
-  movement(Vector(0,0)), 
+  movement(Vector(0,0)),
   drawing_effect(NO_EFFECT),
-  alpha(1.0), 
-  current_alpha(1.0), 
+  alpha(1.0),
+  current_alpha(1.0),
   remaining_fade_time(0),
   path(),
   walker(),
@@ -76,7 +76,7 @@ TileMap::TileMap(const Reader& reader) :
   reader.get("speed-y", speed_y);
 
   z_pos = reader_get_layer (reader, /* default = */ 0);
-  
+
   if(real_solid && ((speed_x != 1) || (speed_y != 1))) {
     log_warning << "Speed of solid tilemap is not 1. fixing" << std::endl;
     speed_x = 1;
@@ -136,21 +136,21 @@ TileMap::TileMap(const Reader& reader) :
 
 TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
                  bool solid, size_t width, size_t height) :
-  tileset(new_tileset), 
+  tileset(new_tileset),
   tiles(),
   real_solid(solid),
   effective_solid(solid),
-  speed_x(1), 
-  speed_y(1), 
+  speed_x(1),
+  speed_y(1),
   width(0),
-  height(0), 
-  z_pos(z_pos), 
+  height(0),
+  z_pos(z_pos),
   offset(Vector(0,0)),
   movement(Vector(0,0)),
-  drawing_effect(NO_EFFECT), 
-  alpha(1.0), 
+  drawing_effect(NO_EFFECT),
+  alpha(1.0),
   current_alpha(1.0),
-  remaining_fade_time(0), 
+  remaining_fade_time(0),
   path(),
   walker(),
   draw_target(DrawingContext::NORMAL)
@@ -422,7 +422,7 @@ TileMap::fade(float alpha, float seconds)
   this->remaining_fade_time = seconds;
 }
 
-void 
+void
 TileMap::set_alpha(float alpha)
 {
   this->alpha = alpha;
@@ -431,12 +431,12 @@ TileMap::set_alpha(float alpha)
   update_effective_solid ();
 }
 
-float 
+float
 TileMap::get_alpha()
 {
   return this->current_alpha;
 }
- 
+
 /*
  * Private methods
  */

@@ -57,7 +57,7 @@ public:
   virtual SDL_Window* get_window() const = 0;
 
   static Renderer* instance() { assert(instance_); return instance_; }
-  
+
 protected:
   static Renderer* instance_;
 };

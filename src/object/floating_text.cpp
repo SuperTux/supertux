@@ -22,7 +22,7 @@
 #include "video/drawing_context.hpp"
 
 FloatingText::FloatingText(const Vector& pos, const std::string& text_) :
-  position(pos), 
+  position(pos),
   text(text_),
   timer()
 {
