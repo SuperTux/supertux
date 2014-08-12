@@ -16,9 +16,10 @@
 
 #include "supertux/command_line_arguments.hpp"
 
-#include <stdexcept>
-#include <physfs.h>
 #include <boost/format.hpp>
+#include <iostream>
+#include <physfs.h>
+#include <stdexcept>
 
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
