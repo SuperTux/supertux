@@ -429,6 +429,9 @@ Main::run(int argc, char** argv)
   SDL_Quit();
   PHYSFS_deinit();
 
+  delete dictionary_manager;
+  dictionary_manager = nullptr;
+
   return result;
 }
 
