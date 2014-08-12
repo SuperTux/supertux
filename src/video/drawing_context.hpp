@@ -141,7 +141,7 @@ private:
 
     Transform() :
       translation(),
-      drawing_effect(NO_EFFECT), 
+      drawing_effect(NO_EFFECT),
       alpha(1.0f)
     { }
 
@@ -150,6 +150,8 @@ private:
       return v - translation;
     }
   };
+
+  void clear_drawing_requests(DrawingRequests& requests);
 
 private:
   Renderer& renderer;

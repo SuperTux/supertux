@@ -44,11 +44,11 @@ enum {
   LAYER_OBJECTS = 50,
   // Objects that pass through walls
   LAYER_FLOATINGOBJECTS = 150,
-  // 
+  //
   LAYER_FOREGROUNDTILES = 200,
-  // 
+  //
   LAYER_FOREGROUND0 = 300,
-  // 
+  //
   LAYER_FOREGROUND1 = 400,
   // Hitpoints, time, coins, etc.
   LAYER_HUD = 500,
@@ -80,7 +80,26 @@ enum RequestType
   SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, INVERSEELLIPSE, DRAW_LIGHTMAP, GETLIGHT
 };
 
-struct SurfacePartRequest
+struct DrawingRequestData
+{
+  virtual ~DrawingRequestData()
+  {}
+};
+
+struct SurfaceRequest : public DrawingRequestData
+{
+  SurfaceRequest() :
+    surface()
+  {}
+
+  const Surface* surface;
+
+private:
+  SurfaceRequest(const SurfaceRequest&) = delete;
+  SurfaceRequest& operator=(const SurfaceRequest&) = delete;
+};
+
+struct SurfacePartRequest : public DrawingRequestData
 {
   SurfacePartRequest() :
     surface(),
@@ -91,9 +110,13 @@ struct SurfacePartRequest
   const Surface* surface;
   Vector source;
   Vector size;
+
+private:
+  SurfacePartRequest(const SurfacePartRequest&) = delete;
+  SurfacePartRequest& operator=(const SurfacePartRequest&) = delete;
 };
 
-struct TextRequest
+struct TextRequest : public DrawingRequestData
 {
   TextRequest() :
     font(),
@@ -110,7 +133,7 @@ private:
   TextRequest& operator=(const TextRequest&);
 };
 
-struct GradientRequest
+struct GradientRequest : public DrawingRequestData
 {
   GradientRequest()  :
     top(),
@@ -123,7 +146,7 @@ struct GradientRequest
   Vector size;
 };
 
-struct FillRectRequest
+struct FillRectRequest : public DrawingRequestData
 {
   FillRectRequest() :
     color(),
@@ -136,7 +159,7 @@ struct FillRectRequest
   float  radius;
 };
 
-struct InverseEllipseRequest
+struct InverseEllipseRequest : public DrawingRequestData
 {
   InverseEllipseRequest() :
     color(),
@@ -160,7 +183,7 @@ struct DrawingRequest
   float angle;
   Color color;
 
-  void* request_data;
+  DrawingRequestData* request_data;
 
   DrawingRequest() :
     target(),
@@ -181,9 +204,15 @@ struct DrawingRequest
   }
 };
 
-struct GetLightRequest
+struct GetLightRequest : public DrawingRequestData
 {
+  GetLightRequest() : color_ptr() {}
+
   Color* color_ptr;
+
+private:
+  GetLightRequest(const GetLightRequest&) = delete;
+  GetLightRequest& operator=(const GetLightRequest&) = delete;
 };
 
 #endif

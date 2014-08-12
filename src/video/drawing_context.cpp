@@ -53,7 +53,24 @@ DrawingContext::DrawingContext(Renderer& renderer, Lightmap& lightmap) :
 
 DrawingContext::~DrawingContext()
 {
+  clear_drawing_requests(lightmap_requests);
+  clear_drawing_requests(drawing_requests);
+
   obstack_free(&obst, NULL);
+}
+
+void
+DrawingContext::clear_drawing_requests(DrawingRequests& requests)
+{
+  for(auto& request : requests)
+  {
+    if (request->request_data)
+    {
+      request->request_data->~DrawingRequestData();
+    }
+    request->~DrawingRequest();
+  }
+  requests.clear();
 }
 
 void
@@ -81,7 +98,9 @@ DrawingContext::draw_surface(SurfacePtr surface, const Vector& position,
   request->color = color;
   request->blend = blend;
 
-  request->request_data = surface.get();
+  SurfaceRequest* surfacerequest = new(obst) SurfaceRequest();
+  surfacerequest->surface = surface.get();
+  request->request_data = surfacerequest;
 
   requests->push_back(request);
 }
@@ -236,7 +255,7 @@ DrawingContext::draw_filled_rect(const Rectf& rect, const Color& color, float ra
   fillrectrequest->radius = radius;
   request->request_data = fillrectrequest;
 
-  requests->push_back(request); 
+  requests->push_back(request);
 }
 
 void
@@ -253,20 +272,20 @@ DrawingContext::draw_inverse_ellipse(const Vector& pos, const Vector& size, cons
   request->alpha = transform.alpha;
 
   InverseEllipseRequest* ellipse = new(obst)InverseEllipseRequest;
-  
+
   ellipse->color        = color;
   ellipse->color.alpha  = color.alpha * transform.alpha;
   ellipse->size         = size;
   request->request_data = ellipse;
 
-  requests->push_back(request);     
+  requests->push_back(request);
 }
 
 Rectf
 DrawingContext::get_cliprect() const
 {
   return Rectf(get_translation().x, get_translation().y,
-               get_translation().x + SCREEN_WIDTH, 
+               get_translation().x + SCREEN_WIDTH,
                get_translation().y + SCREEN_HEIGHT);
 }
 
@@ -322,10 +341,12 @@ DrawingContext::do_drawing()
     request->layer = LAYER_HUD - 1;
     drawing_requests.push_back(request);
   }
-  lightmap_requests.clear();
+
+  clear_drawing_requests(lightmap_requests);
 
   handle_drawing_requests(drawing_requests);
-  drawing_requests.clear();
+  clear_drawing_requests(drawing_requests);
+
   obstack_free(&obst, NULL);
   obstack_init(&obst);
 
@@ -495,7 +516,7 @@ DrawingContext::set_ambient_color( Color new_color )
   ambient_color = new_color;
 }
 
-void 
+void
 DrawingContext::take_screenshot()
 {
   screenshot_requested = true;
