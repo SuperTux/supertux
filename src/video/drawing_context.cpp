@@ -326,8 +326,9 @@ DrawingContext::do_drawing()
   target_stack.clear();
 
   //Use Lightmap if ambient color is not white.
-  bool use_lightmap = ( ambient_color.red != 1.0f   || ambient_color.green != 1.0f ||
-                        ambient_color.blue  != 1.0f );
+  bool use_lightmap = ( ambient_color.red != 1.0f ||
+                        ambient_color.green != 1.0f ||
+                        ambient_color.blue != 1.0f );
 
   // PART1: create lightmap
   if(use_lightmap) {
@@ -341,10 +342,9 @@ DrawingContext::do_drawing()
     request->layer = LAYER_HUD - 1;
     drawing_requests.push_back(request);
   }
+  handle_drawing_requests(drawing_requests);
 
   clear_drawing_requests(lightmap_requests);
-
-  handle_drawing_requests(drawing_requests);
   clear_drawing_requests(drawing_requests);
 
   obstack_free(&obst, NULL);

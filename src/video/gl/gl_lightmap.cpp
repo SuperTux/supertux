@@ -41,6 +41,15 @@
 #include "video/surface.hpp"
 #include "video/texture_manager.hpp"
 
+inline int next_po2(int val)
+{
+  int result = 1;
+  while(result < val)
+    result *= 2;
+
+  return result;
+}
+
 GLLightmap::GLLightmap() :
   lightmap(),
   lightmap_width(),
@@ -67,7 +76,7 @@ GLLightmap::~GLLightmap()
 void
 GLLightmap::start_draw(const Color &ambient_color)
 {
-  
+
   glGetFloatv(GL_VIEWPORT, old_viewport); //save viewport
   glViewport(old_viewport[0], old_viewport[3] - lightmap_height + old_viewport[1], lightmap_width, lightmap_height);
   glMatrixMode(GL_PROJECTION);
@@ -90,7 +99,7 @@ GLLightmap::end_draw()
   glDisable(GL_BLEND);
   glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
   glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, old_viewport[0], old_viewport[3]  - lightmap_height + old_viewport[1], lightmap_width, lightmap_height);
-  
+
   glViewport(old_viewport[0], old_viewport[1], old_viewport[2], old_viewport[3]);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -193,7 +202,7 @@ GLLightmap::draw_surface_part(const DrawingRequest& request)
 void
 GLLightmap::draw_gradient(const DrawingRequest& request)
 {
-  const GradientRequest* gradientrequest 
+  const GradientRequest* gradientrequest
     = (GradientRequest*) request.request_data;
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
@@ -261,7 +270,7 @@ GLLightmap::draw_filled_rect(const DrawingRequest& request)
 void
 GLLightmap::get_light(const DrawingRequest& request) const
 {
-  const GetLightRequest* getlightrequest 
+  const GetLightRequest* getlightrequest
     = (GetLightRequest*) request.request_data;
 
   float pixels[3];

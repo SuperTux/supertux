@@ -25,55 +25,11 @@
 
 #include "math/vector.hpp"
 #include "video/color.hpp"
+#include "video/drawing_context.hpp"
 #include "video/font.hpp"
 #include "video/glutil.hpp"
 
 class Surface;
-
-// some constants for predefined layer values
-enum {
-  // Image/gradient backgrounds (should cover entire screen)
-  LAYER_BACKGROUND0 = -300,
-  // Particle backgrounds
-  LAYER_BACKGROUND1 = -200,
-  // Tilemap backgrounds
-  LAYER_BACKGROUNDTILES = -100,
-  // Solid tilemaps
-  LAYER_TILES = 0,
-  // Ordinary objects
-  LAYER_OBJECTS = 50,
-  // Objects that pass through walls
-  LAYER_FLOATINGOBJECTS = 150,
-  //
-  LAYER_FOREGROUNDTILES = 200,
-  //
-  LAYER_FOREGROUND0 = 300,
-  //
-  LAYER_FOREGROUND1 = 400,
-  // Hitpoints, time, coins, etc.
-  LAYER_HUD = 500,
-  // Menus, mouse, console etc.
-  LAYER_GUI         = 600
-};
-
-class Blend
-{
-public:
-  GLenum sfactor;
-  GLenum dfactor;
-
-  Blend()
-    : sfactor(GL_SRC_ALPHA), dfactor(GL_ONE_MINUS_SRC_ALPHA)
-  {}
-
-  Blend(GLenum s, GLenum d)
-    : sfactor(s), dfactor(d)
-  {}
-};
-
-enum Target {
-  NORMAL, LIGHTMAP
-};
 
 enum RequestType
 {
