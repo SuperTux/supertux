@@ -30,7 +30,7 @@
 #include "util/log.hpp"
 
 #ifdef ENABLE_SQDBG
-
+#  include "../../external/squirrel/sqdbg/sqrdbg.h"
 static HSQREMOTEDBG debugger = NULL;
 #endif
 

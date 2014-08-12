@@ -1,6 +1,8 @@
 /*
 	see copyright notice in sqrdbg.h
 */
+#include <string.h>
+#include <stdio.h>
 #include <squirrel.h>
 #include "sqrdbg.h"
 #include "sqdbgserver.h"
