@@ -123,7 +123,7 @@ GameSession::restart_level()
     }
   } catch(std::exception& e) {
     log_fatal << "Couldn't start level: " << e.what() << std::endl;
-    g_screen_manager->exit_screen();
+    g_screen_manager->pop_screen();
     return (-1);
   }
 
@@ -252,7 +252,7 @@ void
 GameSession::abort_level()
 {
   MenuManager::instance().clear_menu_stack();
-  g_screen_manager->exit_screen();
+  g_screen_manager->pop_screen();
   currentsector->player->set_bonus(bonus_at_start);
   PlayerStatus *currentStatus = get_player_status();
   currentStatus->coins = coins_at_start;
@@ -488,7 +488,7 @@ GameSession::finish(bool win)
       WorldMap::current()->finished_level(level.get());
   }
 
-  g_screen_manager->exit_screen();
+  g_screen_manager->pop_screen();
 }
 
 void

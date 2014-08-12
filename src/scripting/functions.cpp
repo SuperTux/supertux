@@ -64,12 +64,12 @@ void wait(HSQUIRRELVM vm, float seconds)
 
 void wait_for_screenswitch(HSQUIRRELVM vm)
 {
-  g_screen_manager->waiting_threads.add(vm);
+  g_screen_manager->m_waiting_threads.add(vm);
 }
 
 void exit_screen()
 {
-  g_screen_manager->exit_screen();
+  g_screen_manager->pop_screen();
 }
 
 void fadeout_screen(float seconds)

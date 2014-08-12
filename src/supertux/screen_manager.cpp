@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -43,20 +44,15 @@ static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);
 static const int MAX_FRAME_SKIP = 2;
 
 ScreenManager::ScreenManager() :
-  waiting_threads(),
+  m_waiting_threads(),
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager),
-  running(),
-  speed(1.0), 
-  nextpop(false), 
-  nextpush(false), 
-  fps(0), 
-  next_screen(),
-  current_screen(),
-  console(),
-  screen_fade(),
-  screen_stack(),
-  screenshot_requested(false)
+  m_speed(1.0),
+  m_actions(),
+  m_fps(0),
+  m_screen_fade(),
+  m_screen_stack(),
+  m_screenshot_requested(false)
 {
   using namespace scripting;
   TimeScheduler::instance = new TimeScheduler();
@@ -72,52 +68,45 @@ ScreenManager::~ScreenManager()
 void
 ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> screen_fade)
 {
-  assert(!this->next_screen);
-  this->next_screen = std::move(screen);
-  this->screen_fade = std::move(screen_fade);
-  nextpush = !nextpop;
-  nextpop = false;
-  speed = 1.0f;
+  log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
+  assert(screen);
+
+  m_screen_fade = std::move(screen_fade);
+  m_actions.push_back(Action(Action::PUSH_ACTION, std::move(screen)));
 }
 
 void
-ScreenManager::exit_screen(std::unique_ptr<ScreenFade> screen_fade)
+ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
 {
-  next_screen.reset();
-  this->screen_fade = std::move(screen_fade);
-  nextpop = true;
-  nextpush = false;
+  log_debug << "ScreenManager::pop_screen(): stack_size: " << m_screen_stack.size() << std::endl;
+
+  m_screen_fade = std::move(screen_fade);
+  m_actions.push_back(Action(Action::POP_ACTION));
 }
 
 void
 ScreenManager::set_screen_fade(std::unique_ptr<ScreenFade> screen_fade)
 {
-  this->screen_fade = std::move(screen_fade);
+  m_screen_fade = std::move(screen_fade);
 }
 
 void
 ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
 {
-  screen_stack.clear();
-  exit_screen(std::move(screen_fade));
+  m_screen_fade = std::move(screen_fade);
+  m_actions.push_back(Action(Action::QUIT_ACTION));
 }
 
 void
 ScreenManager::set_speed(float speed)
 {
-  this->speed = speed;
+  m_speed = speed;
 }
 
 float
 ScreenManager::get_speed() const
 {
-  return speed;
-}
-
-bool
-ScreenManager::has_no_pending_fadeout() const
-{
-  return screen_fade.get() == NULL || screen_fade->done();
+  return m_speed;
 }
 
 void
@@ -126,8 +115,8 @@ ScreenManager::draw_fps(DrawingContext& context, float fps_fps)
   char str[60];
   snprintf(str, sizeof(str), "%3.1f", fps_fps);
   const char* fpstext = "FPS";
-  context.draw_text(Resources::small_font, fpstext, 
-                    Vector(SCREEN_WIDTH - Resources::small_font->get_text_width(fpstext) - Resources::small_font->get_text_width(" 99999") - BORDER_X, 
+  context.draw_text(Resources::small_font, fpstext,
+                    Vector(SCREEN_WIDTH - Resources::small_font->get_text_width(fpstext) - Resources::small_font->get_text_width(" 99999") - BORDER_X,
                            BORDER_Y + 20), ALIGN_LEFT, LAYER_HUD);
   context.draw_text(Resources::small_font, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y + 20), ALIGN_RIGHT, LAYER_HUD);
 }
@@ -135,33 +124,42 @@ ScreenManager::draw_fps(DrawingContext& context, float fps_fps)
 void
 ScreenManager::draw(DrawingContext& context)
 {
+  assert(!m_screen_stack.empty());
+
   static Uint32 fps_ticks = SDL_GetTicks();
   static int frame_count = 0;
 
-  current_screen->draw(context);
+  m_screen_stack.back()->draw(context);
   m_menu_manager->draw(context);
-  if(screen_fade.get() != NULL)
-    screen_fade->draw(context);
+
+  if (m_screen_fade)
+  {
+    m_screen_fade->draw(context);
+  }
+
   Console::instance->draw(context);
 
-  if(g_config->show_fps)
-    draw_fps(context, fps);
+  if (g_config->show_fps)
+  {
+    draw_fps(context, m_fps);
+  }
 
   // if a screenshot was requested, pass request on to drawing_context
-  if (screenshot_requested) {
+  if (m_screenshot_requested)
+  {
     context.take_screenshot();
-    screenshot_requested = false;
+    m_screenshot_requested = false;
   }
   context.do_drawing();
 
   /* Calculate frames per second */
-  if(g_config->show_fps)
+  if (g_config->show_fps)
   {
     ++frame_count;
 
-    if(SDL_GetTicks() - fps_ticks >= 500)
+    if (SDL_GetTicks() - fps_ticks >= 500)
     {
-      fps = (float) frame_count / .5;
+      m_fps = (float) frame_count / .5;
       frame_count = 0;
       fps_ticks = SDL_GetTicks();
     }
@@ -173,10 +171,19 @@ ScreenManager::update_gamelogic(float elapsed_time)
 {
   scripting::update_debugger();
   scripting::TimeScheduler::instance->update(game_time);
-  current_screen->update(elapsed_time);
+
+  if (!m_screen_stack.empty())
+  {
+    m_screen_stack.back()->update(elapsed_time);
+  }
+
   m_menu_manager->process_input();
-  if(screen_fade.get() != NULL)
-    screen_fade->update(elapsed_time);
+
+  if (m_screen_fade)
+  {
+    m_screen_fade->update(elapsed_time);
+  }
+
   Console::instance->update(elapsed_time);
 }
 
@@ -185,7 +192,7 @@ ScreenManager::process_events()
 {
   g_input_manager->update();
   SDL_Event event;
-  while(SDL_PollEvent(&event)) 
+  while (SDL_PollEvent(&event))
   {
     g_input_manager->process_event(event);
 
@@ -196,7 +203,7 @@ ScreenManager::process_events()
       case SDL_QUIT:
         quit();
         break;
-              
+
       case SDL_WINDOWEVENT:
         switch(event.window.event)
         {
@@ -207,13 +214,13 @@ ScreenManager::process_events()
             break;
         }
         break;
-            
+
       case SDL_KEYDOWN:
         if (event.key.keysym.sym == SDLK_F10)
         {
           g_config->show_fps = !g_config->show_fps;
         }
-        if (event.key.keysym.sym == SDLK_F11) 
+        else if (event.key.keysym.sym == SDLK_F11)
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
           Renderer::instance()->apply_config();
@@ -236,37 +243,73 @@ ScreenManager::process_events()
   }
 }
 
+bool
+ScreenManager::has_pending_fadeout() const
+{
+  return m_screen_fade && !m_screen_fade->done();
+}
+
 void
 ScreenManager::handle_screen_switch()
 {
-  while((next_screen || nextpop) &&
-        has_no_pending_fadeout())
+  if (has_pending_fadeout())
   {
-    if(current_screen) {
-      current_screen->leave();
-    }
+    // wait till the fadeout is completed before switching screens
+  }
+  else
+  {
+    m_screen_fade.reset();
 
-    if(nextpop) {
-      if(screen_stack.empty()) {
-        running = false;
-        break;
+    // keep track of the current screen, as only that needs a call to Screen::leave()
+    Screen* current_screen = m_screen_stack.empty() ? nullptr : m_screen_stack.back().get();
+
+    // Screen::setup() might push more screens, so loop till everything is done
+    while (!m_actions.empty())
+    {
+      // move actions to a new vector since setup() might modify it
+      auto actions = std::move(m_actions);
+
+      for(auto it = actions.begin(); it != actions.end(); ++it)
+      {
+        auto& action = *it;
+
+        switch (action.type)
+        {
+          case Action::POP_ACTION:
+            assert(!m_screen_stack.empty());
+            if (current_screen == m_screen_stack.back().get())
+            {
+              m_screen_stack.back()->leave();
+            }
+            m_screen_stack.pop_back();
+            break;
+
+          case Action::PUSH_ACTION:
+            assert(action.screen);
+
+            if (!m_screen_stack.empty())
+            {
+              if (current_screen == m_screen_stack.back().get())
+              {
+                m_screen_stack.back()->leave();
+              }
+            }
+            m_screen_stack.push_back(std::move(action.screen));
+            break;
+
+          case Action::QUIT_ACTION:
+            m_screen_stack.clear();
+            break;
+        }
       }
-      next_screen = std::move(screen_stack.back());
-      screen_stack.pop_back();
-    }
-    if(nextpush && current_screen) {
-      screen_stack.push_back(std::move(current_screen));
-    }
 
-    nextpush = false;
-    nextpop = false;
-    speed = 1.0;
-    current_screen = std::move(next_screen);
-    if(current_screen)
-      current_screen->setup();
-    screen_fade.reset();
-
-    waiting_threads.wakeup();
+      if (!m_screen_stack.empty())
+      {
+        m_screen_stack.back()->setup();
+        m_speed = 1.0;
+        m_waiting_threads.wakeup();
+      }
+    }
   }
 }
 
@@ -276,27 +319,25 @@ ScreenManager::run(DrawingContext &context)
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
 
-  running = true;
-  while(running) {
+  handle_screen_switch();
 
-    handle_screen_switch();
-    if(!running || !current_screen)
-      break;
-
+  while (!m_screen_stack.empty())
+  {
     Uint32 ticks = SDL_GetTicks();
     elapsed_ticks += ticks - last_ticks;
     last_ticks = ticks;
 
     Uint32 ticks_per_frame = (Uint32) (TICKS_PER_FRAME * g_game_speed);
 
-    if (elapsed_ticks > ticks_per_frame*4) {
+    if (elapsed_ticks > ticks_per_frame*4)
+    {
       // when the game loads up or levels are switched the
       // elapsed_ticks grows extremely large, so we just ignore those
       // large time jumps
       elapsed_ticks = 0;
     }
 
-    if(elapsed_ticks < ticks_per_frame)
+    if (elapsed_ticks < ticks_per_frame)
     {
       Uint32 delay_ticks = ticks_per_frame - elapsed_ticks;
       SDL_Delay(delay_ticks);
@@ -306,12 +347,12 @@ ScreenManager::run(DrawingContext &context)
 
     int frames = 0;
 
-    while(elapsed_ticks >= ticks_per_frame && frames < MAX_FRAME_SKIP) 
+    while (elapsed_ticks >= ticks_per_frame && frames < MAX_FRAME_SKIP)
     {
       elapsed_ticks -= ticks_per_frame;
       float timestep = 1.0 / LOGICAL_FPS;
       real_time += timestep;
-      timestep *= speed;
+      timestep *= m_speed;
       game_time += timestep;
 
       process_events();
@@ -319,16 +360,21 @@ ScreenManager::run(DrawingContext &context)
       frames += 1;
     }
 
-    draw(context);
+    if (!m_screen_stack.empty())
+    {
+      draw(context);
+    }
 
     sound_manager->update();
+
+    handle_screen_switch();
   }
 }
 
-void 
+void
 ScreenManager::take_screenshot()
 {
-  screenshot_requested = true;
+  m_screenshot_requested = true;
 }
 
 /* EOF */

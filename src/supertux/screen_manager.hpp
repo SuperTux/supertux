@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,6 +22,7 @@
 #include <cstddef>
 
 #include "scripting/thread_queue.hpp"
+#include "supertux/screen.hpp"
 
 class Console;
 class DrawingContext;
@@ -39,11 +41,10 @@ public:
   ~ScreenManager();
 
   void run(DrawingContext &context);
-  void exit_screen(std::unique_ptr<ScreenFade> fade = {});
   void quit(std::unique_ptr<ScreenFade> fade = {});
   void set_speed(float speed);
   float get_speed() const;
-  bool has_no_pending_fadeout() const;
+  bool has_pending_fadeout() const;
 
   /**
    * requests that a screenshot be taken after the next frame has been rendered
@@ -52,10 +53,11 @@ public:
 
   // push new screen on screen_stack
   void push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> fade = {});
+  void pop_screen(std::unique_ptr<ScreenFade> fade = {});
   void set_screen_fade(std::unique_ptr<ScreenFade> fade);
 
   /// threads that wait for a screenswitch
-  scripting::ThreadQueue waiting_threads;
+  scripting::ThreadQueue m_waiting_threads;
 
 private:
   void draw_fps(DrawingContext& context, float fps);
@@ -67,18 +69,28 @@ private:
 private:
   std::unique_ptr<MenuStorage> m_menu_storage;
   std::unique_ptr<MenuManager> m_menu_manager;
-  bool running;
-  float speed;
-  bool nextpop;
-  bool nextpush;
+
+  float m_speed;
+  struct Action
+  {
+    enum Type { PUSH_ACTION, POP_ACTION, QUIT_ACTION };
+    Type type;
+    std::unique_ptr<Screen> screen;
+
+    Action(Type type_,
+           std::unique_ptr<Screen> screen_ = {}) :
+      type(type_),
+      screen(std::move(screen_))
+    {}
+  };
+
+  std::vector<Action> m_actions;
+
   /// measured fps
-  float fps;
-  std::unique_ptr<Screen> next_screen;
-  std::unique_ptr<Screen> current_screen;
-  std::unique_ptr<Console> console;
-  std::unique_ptr<ScreenFade> screen_fade;
-  std::vector<std::unique_ptr<Screen> > screen_stack;
-  bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
+  float m_fps;
+  std::unique_ptr<ScreenFade> m_screen_fade;
+  std::vector<std::unique_ptr<Screen> > m_screen_stack;
+  bool m_screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };
 
 #endif
