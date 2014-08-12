@@ -1,6 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>,
-//                2007 Ingo Ruhnke <grumbel@gmail.com>
+//           2007,2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,13 +19,14 @@
 
 #include <iostream>
 
-#include "control/keyboard_manager.hpp"
-#include "control/joystick_manager.hpp"
 #include "control/game_controller_manager.hpp"
+#include "control/joystick_manager.hpp"
+#include "control/keyboard_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "lisp/list_iterator.hpp"
 #include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "util/writer.hpp"
 
 InputManager::InputManager() :
@@ -140,17 +141,17 @@ InputManager::process_event(const SDL_Event& event)
       break;
 
     case SDL_CONTROLLERDEVICEADDED:
-      std::cout << "SDL_CONTROLLERDEVICEADDED" << std::endl;
+      log_debug << "SDL_CONTROLLERDEVICEADDED" << std::endl;
       game_controller_manager->on_controller_added(event.cdevice.which);
       break;
 
     case SDL_CONTROLLERDEVICEREMOVED:
-      std::cout << "SDL_CONTROLLERDEVICEREMOVED" << std::endl;
+      log_debug << "SDL_CONTROLLERDEVICEREMOVED" << std::endl;
       game_controller_manager->on_controller_removed(event.cdevice.which);
       break;
 
     case SDL_CONTROLLERDEVICEREMAPPED:
-      std::cout << "SDL_CONTROLLERDEVICEREMAPPED" << std::endl;
+      log_debug << "SDL_CONTROLLERDEVICEREMAPPED" << std::endl;
       break;
 
     default:

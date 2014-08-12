@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2013 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -81,7 +81,7 @@ JoystickManager::~JoystickManager()
 void
 JoystickManager::on_joystick_added(int joystick_index)
 {
-  std::cout << "joydeviceadded: " << joystick_index << std::endl;
+  log_debug << "on_joystick_added(): " << joystick_index << std::endl;
   SDL_Joystick* joystick = SDL_JoystickOpen(joystick_index);
   if (!joystick)
   {
@@ -109,7 +109,7 @@ JoystickManager::on_joystick_added(int joystick_index)
 void
 JoystickManager::on_joystick_removed(int instance_id)
 {
-  std::cout << "joydeviceremoved: " << static_cast<int>(instance_id) << std::endl;
+  log_debug << "on_joystick_removed: " << static_cast<int>(instance_id) << std::endl;
   for(auto& joy : joysticks)
   {
     SDL_JoystickID id = SDL_JoystickInstanceID(joy);

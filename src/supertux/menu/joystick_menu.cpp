@@ -1,6 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>,
-//                2007 Ingo Ruhnke <grumbel@gmail.com>
+//           2007,2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -49,8 +49,9 @@ JoystickMenu::recreate_menu()
   add_label(_("Setup Joystick"));
   add_hl();
 
-  add_toggle(MNID_AUTO_JOYSTICK_CFG, _("Manual Joystick Configuration"),
-             !m_input_manager->use_game_controller());
+  add_toggle(MNID_AUTO_JOYSTICK_CFG, _("Manual Configuration"),
+             !m_input_manager->use_game_controller())
+    ->set_help(_("Use manual configuration instead of SDL2's automatic GameController support"));
 
   if (m_input_manager->use_game_controller())
   {
