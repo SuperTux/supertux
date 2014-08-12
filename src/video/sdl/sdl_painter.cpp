@@ -145,6 +145,7 @@ SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
                                              fabsf(top.green - bottom.green)),
                                     std::max(fabsf(top.blue - bottom.blue),
                                              fabsf(top.alpha - bottom.alpha))) * 255);
+  n = std::max(n, 1);
   for(int i = 0; i < n; ++i)
   {
     SDL_Rect rect;
