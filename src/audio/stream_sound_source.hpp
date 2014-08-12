@@ -27,7 +27,7 @@ public:
   StreamSoundSource();
   virtual ~StreamSoundSource();
 
-  void set_sound_file(SoundFile* file);
+  void set_sound_file(std::unique_ptr<SoundFile> newfile);
 
   enum FadeState { NoFading, FadingOn, FadingOff };
 
@@ -54,7 +54,7 @@ private:
   = STREAMBUFFERSIZE / STREAMFRAGMENTS;
 
   bool fillBufferAndQueue(ALuint buffer);
-  SoundFile* file;
+  std::unique_ptr<SoundFile> file;
   ALuint buffers[STREAMFRAGMENTS];
 
   FadeState fade_state;

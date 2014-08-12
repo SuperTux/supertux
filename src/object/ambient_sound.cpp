@@ -88,7 +88,7 @@ AmbientSound::AmbientSound(const Reader& lisp) :
 
   lisp.get("silence_distance",silence_distance);
 
-  sound_source = 0; // not playing at the beginning
+  sound_source.reset(); // not playing at the beginning
   sound_manager->preload(sample);
   latency=0;
 }
@@ -144,8 +144,7 @@ AmbientSound::hit(Player& )
 void
 AmbientSound::stop_playing()
 {
-  delete sound_source;
-  sound_source = 0;
+  sound_source.reset();
 }
 
 void
@@ -162,8 +161,7 @@ AmbientSound::start_playing()
     sound_source->play();
   } catch(std::exception& e) {
     log_warning << "Couldn't play '" << sample << "': " << e.what() << "" << std::endl;
-    delete sound_source;
-    sound_source = 0;
+    sound_source.reset();
     remove_me();
   }
 }

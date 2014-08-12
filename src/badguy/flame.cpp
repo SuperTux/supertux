@@ -85,7 +85,7 @@ Flame::draw(DrawingContext& context)
 void
 Flame::activate()
 {
-  sound_source.reset(sound_manager->create_sound_source(FLAME_SOUND));
+  sound_source = sound_manager->create_sound_source(FLAME_SOUND);
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
   sound_source->set_gain(2.0);

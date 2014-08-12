@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_AUDIO_SOUND_FILE_HPP
 
 #include <iostream>
+#include <memory>
 
 class SoundFile
 {
@@ -40,9 +41,13 @@ public:
   int bits_per_sample;
   /// size in bytes
   size_t size;
+
+private:
+  SoundFile(const SoundFile&) = delete;
+  SoundFile& operator=(const SoundFile&) = delete;
 };
 
-SoundFile* load_sound_file(const std::string& filename);
+std::unique_ptr<SoundFile> load_sound_file(const std::string& filename);
 
 #endif
 

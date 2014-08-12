@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_AUDIO_SOUND_MANAGER_HPP
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -44,7 +45,7 @@ public:
    * sound).
    * This function never throws exceptions, but might return a DummySoundSource
    */
-  SoundSource* create_sound_source(const std::string& filename);
+  std::unique_ptr<SoundSource> create_sound_source(const std::string& filename);
   /**
    * Convenience function to simply play a sound at a given position.
    */
@@ -53,7 +54,7 @@ public:
    * Adds the source to the list of managed sources (= the source gets deleted
    * when it finished playing)
    */
-  void manage_source(SoundSource* source);
+  void manage_source(std::unique_ptr<SoundSource> source);
   /// preloads a sound, so that you don't get a lag later when playing it
   void preload(const std::string& name);
 
@@ -87,9 +88,9 @@ private:
   friend class StreamSoundSource;
 
   /** creates a new sound source, might throw exceptions, never returns NULL */
-  OpenALSoundSource* intern_create_sound_source(const std::string& filename);
-  static ALuint load_file_into_buffer(SoundFile* file);
-  static ALenum get_sample_format(SoundFile* file);
+  std::unique_ptr<OpenALSoundSource> intern_create_sound_source(const std::string& filename);
+  static ALuint load_file_into_buffer(SoundFile& file);
+  static ALenum get_sample_format(const SoundFile& file);
 
   void print_openal_version();
   void check_alc_error(const char* message);
@@ -101,13 +102,13 @@ private:
 
   typedef std::map<std::string, ALuint> SoundBuffers;
   SoundBuffers buffers;
-  typedef std::vector<OpenALSoundSource*> SoundSources;
+  typedef std::vector<std::unique_ptr<OpenALSoundSource> > SoundSources;
   SoundSources sources;
 
   typedef std::vector<StreamSoundSource*> StreamSoundSources;
   StreamSoundSources update_list;
 
-  StreamSoundSource* music_source;
+  std::unique_ptr<StreamSoundSource> music_source;
 
   bool music_enabled;
   std::string current_music;

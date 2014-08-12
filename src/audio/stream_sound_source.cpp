@@ -21,7 +21,7 @@
 #include "util/log.hpp"
 
 StreamSoundSource::StreamSoundSource() :
-  file(0),
+  file(),
   fade_state(NoFading),
   fade_start_time(),
   fade_time(),
@@ -37,17 +37,16 @@ StreamSoundSource::~StreamSoundSource()
 {
   //don't update me any longer
   sound_manager->remove_from_update( this );
-  delete file;
+  file.reset();
   stop();
   alDeleteBuffers(STREAMFRAGMENTS, buffers);
   SoundManager::check_al_error("Couldn't delete audio buffers: ");
 }
 
 void
-StreamSoundSource::set_sound_file(SoundFile* newfile)
+StreamSoundSource::set_sound_file(std::unique_ptr<SoundFile> newfile)
 {
-  delete file;
-  file = newfile;
+  file = std::move(newfile);
 
   ALint queued;
   alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
@@ -111,10 +110,10 @@ bool
 StreamSoundSource::fillBufferAndQueue(ALuint buffer)
 {
   // fill buffer
-  char* bufferdata = new char[STREAMFRAGMENTSIZE];
+  std::unique_ptr<char[]> bufferdata(new char[STREAMFRAGMENTSIZE]);
   size_t bytesread = 0;
   do {
-    bytesread += file->read(bufferdata + bytesread,
+    bytesread += file->read(bufferdata.get() + bytesread,
                             STREAMFRAGMENTSIZE - bytesread);
     // end of sound file
     if(bytesread < STREAMFRAGMENTSIZE) {
@@ -126,14 +125,13 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
   } while(bytesread < STREAMFRAGMENTSIZE);
 
   if(bytesread > 0) {
-    ALenum format = SoundManager::get_sample_format(file);
-    alBufferData(buffer, format, bufferdata, bytesread, file->rate);
+    ALenum format = SoundManager::get_sample_format(*file);
+    alBufferData(buffer, format, bufferdata.get(), bytesread, file->rate);
     SoundManager::check_al_error("Couldn't refill audio buffer: ");
 
     alSourceQueueBuffers(source, 1, &buffer);
     SoundManager::check_al_error("Couldn't queue audio buffer: ");
   }
-  delete[] bufferdata;
 
   // return false if there aren't more buffers to fill
   return bytesread >= STREAMFRAGMENTSIZE;

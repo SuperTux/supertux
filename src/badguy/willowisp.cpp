@@ -159,7 +159,7 @@ WillOWisp::active_update(float elapsed_time)
 void
 WillOWisp::activate()
 {
-  sound_source.reset(sound_manager->create_sound_source(SOUNDFILE));
+  sound_source = sound_manager->create_sound_source(SOUNDFILE);
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
   sound_source->set_gain(2.0);

@@ -32,7 +32,7 @@
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 
-SoundFile* load_music_file(const std::string& filename)
+std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
 {
   lisp::Parser parser(false);
   const lisp::Lisp* root = parser.parse(filename);
@@ -62,10 +62,10 @@ SoundFile* load_music_file(const std::string& filename)
     throw SoundError(msg.str());
   }
 
-  return new OggSoundFile(file, loop_begin, loop_at);
+  return std::unique_ptr<SoundFile>(new OggSoundFile(file, loop_begin, loop_at));
 }
 
-SoundFile* load_sound_file(const std::string& filename)
+std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
 {
   if(filename.length() > 6
      && filename.compare(filename.length()-6, 6, ".music") == 0) {
@@ -85,9 +85,9 @@ SoundFile* load_sound_file(const std::string& filename)
       throw SoundError("Couldn't read magic, file too short");
     PHYSFS_seek(file, 0);
     if(strncmp(magic, "RIFF", 4) == 0)
-      return new WavSoundFile(file);
+      return std::unique_ptr<SoundFile>(new WavSoundFile(file));
     else if(strncmp(magic, "OggS", 4) == 0)
-      return new OggSoundFile(file, 0, -1);
+      return std::unique_ptr<SoundFile>(new OggSoundFile(file, 0, -1));
     else
       throw SoundError("Unknown file format");
   } catch(std::exception& e) {

@@ -14,6 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "audio/dummy_sound_source.hpp"
+
+#include <memory>
+
 #include "audio/sound_source.hpp"
 
 class DummySoundSource : public SoundSource
@@ -70,11 +74,15 @@ public:
 
 private:
   bool is_playing;
+
+private:
+  DummySoundSource(const DummySoundSource&) = delete;
+  DummySoundSource& operator=(const DummySoundSource&) = delete;
 };
 
-SoundSource* create_dummy_sound_source()
+std::unique_ptr<SoundSource> create_dummy_sound_source()
 {
-  return new DummySoundSource();
+  return std::unique_ptr<SoundSource>(new DummySoundSource);
 }
 
 /* EOF */

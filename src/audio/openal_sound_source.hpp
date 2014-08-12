@@ -45,6 +45,10 @@ protected:
   friend class SoundManager;
 
   ALuint source;
+
+private:
+  OpenALSoundSource(const OpenALSoundSource&) = delete;
+  OpenALSoundSource& operator=(const OpenALSoundSource&) = delete;
 };
 
 #endif

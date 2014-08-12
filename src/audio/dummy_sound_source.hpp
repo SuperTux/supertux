@@ -17,9 +17,11 @@
 #ifndef HEADER_SUPERTUX_AUDIO_DUMMY_SOUND_SOURCE_HPP
 #define HEADER_SUPERTUX_AUDIO_DUMMY_SOUND_SOURCE_HPP
 
+#include <memory>
+
 class SoundSource;
 
-SoundSource* create_dummy_sound_source();
+std::unique_ptr<SoundSource> create_dummy_sound_source();
 
 #endif
 

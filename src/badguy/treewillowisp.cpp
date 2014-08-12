@@ -58,7 +58,7 @@ TreeWillOWisp::~TreeWillOWisp()
 void
 TreeWillOWisp::activate()
 {
-  sound_source.reset(sound_manager->create_sound_source(TREEWILLOSOUND));
+  sound_source = sound_manager->create_sound_source(TREEWILLOSOUND);
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
   sound_source->set_gain(2.0);

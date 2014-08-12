@@ -32,7 +32,7 @@ Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "imag
   set_action(dir == LEFT ? "ticking-left" : "ticking-right", 1);
   countMe = false;
 
-  ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));
+  ticking = sound_manager->create_sound_source("sounds/fizz.wav");
   ticking->set_position(get_pos());
   ticking->set_looping(true);
   ticking->set_gain(2.0);

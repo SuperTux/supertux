@@ -91,7 +91,7 @@ private:
   Vector dimension;
 
   std::string sample;
-  SoundSource* sound_source;
+  std::unique_ptr<SoundSource> sound_source;
   int latency;
 
   float distance_factor;  /// distance scaling

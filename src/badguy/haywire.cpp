@@ -96,12 +96,12 @@ Haywire::collision_squished(GameObject& object)
     time_until_explosion = TIME_EXPLOSION;
     is_exploding = true;
 
-    ticking.reset(sound_manager->create_sound_source("sounds/fizz.wav"));
+    ticking = sound_manager->create_sound_source("sounds/fizz.wav");
     ticking->set_position(get_pos());
     ticking->set_looping(true);
     ticking->set_reference_distance(32);
     ticking->play();
-    grunting.reset(sound_manager->create_sound_source("sounds/grunts.ogg"));
+    grunting = sound_manager->create_sound_source("sounds/grunts.ogg");
     grunting->set_position(get_pos());
     grunting->set_looping(true);
     grunting->set_reference_distance(32);
