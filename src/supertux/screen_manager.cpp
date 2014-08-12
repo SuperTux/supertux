@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -47,9 +48,8 @@ ScreenManager::ScreenManager() :
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager),
   m_speed(1.0),
-  m_action(NO_ACTION),
+  m_actions(),
   m_fps(0),
-  m_next_screen(),
   m_screen_fade(),
   m_screen_stack(),
   m_screenshot_requested(false)
@@ -71,41 +71,17 @@ ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<Scree
   log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
   assert(screen);
 
-  if (m_action == PUSH_ACTION)
-  {
-    assert(m_next_screen);
-    // this happens for example when a Screen::setup() calls
-    // push_screen() itself, i.e. GameSessions/LevelIntro, in that
-    // case just commit the last action directly to the stack
-    m_screen_stack.push_back(std::move(m_next_screen));
-    m_action = NO_ACTION;
-  }
-
-  assert(m_action == NO_ACTION || m_action == POP_ACTION);
-
-  m_next_screen = std::move(screen);
   m_screen_fade = std::move(screen_fade);
-
-  if (m_action == POP_ACTION)
-  {
-    m_action = REPLACE_ACTION;
-  }
-  else
-  {
-    m_action = PUSH_ACTION;
-  }
-  m_speed = 1.0f;
+  m_actions.push_back(Action(Action::PUSH_ACTION, std::move(screen)));
 }
 
 void
 ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
 {
   log_debug << "ScreenManager::pop_screen(): stack_size: " << m_screen_stack.size() << std::endl;
-  assert(m_action == NO_ACTION);
 
-  m_next_screen.reset();
   m_screen_fade = std::move(screen_fade);
-  m_action = POP_ACTION;
+  m_actions.push_back(Action(Action::POP_ACTION));
 }
 
 void
@@ -118,7 +94,7 @@ void
 ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
 {
   m_screen_fade = std::move(screen_fade);
-  m_action = QUIT_ACTION;
+  m_actions.push_back(Action(Action::QUIT_ACTION));
 }
 
 void
@@ -276,56 +252,64 @@ ScreenManager::has_pending_fadeout() const
 void
 ScreenManager::handle_screen_switch()
 {
-  if (m_action != NO_ACTION && !has_pending_fadeout())
+  if (has_pending_fadeout())
   {
-    if (m_action == POP_ACTION)
-    {
-      assert(!m_screen_stack.empty());
-      m_action = NO_ACTION;
+    // wait till the fadeout is completed before switching screens
+  }
+  else
+  {
+    m_screen_fade.reset();
 
-      m_screen_stack.back()->leave();
-      m_screen_stack.pop_back();
+    // keep track of the current screen, as only that needs a call to Screen::leave()
+    Screen* current_screen = m_screen_stack.empty() ? nullptr : m_screen_stack.back().get();
+
+    // Screen::setup() might push more screens, so loop till everything is done
+    while (!m_actions.empty())
+    {
+      // move actions to a new vector since setup() might modify it
+      auto actions = std::move(m_actions);
+
+      for(auto it = actions.begin(); it != actions.end(); ++it)
+      {
+        auto& action = *it;
+
+        switch (action.type)
+        {
+          case Action::POP_ACTION:
+            assert(!m_screen_stack.empty());
+            if (current_screen == m_screen_stack.back().get())
+            {
+              m_screen_stack.back()->leave();
+            }
+            m_screen_stack.pop_back();
+            break;
+
+          case Action::PUSH_ACTION:
+            assert(action.screen);
+
+            if (!m_screen_stack.empty())
+            {
+              if (current_screen == m_screen_stack.back().get())
+              {
+                m_screen_stack.back()->leave();
+              }
+            }
+            m_screen_stack.push_back(std::move(action.screen));
+            break;
+
+          case Action::QUIT_ACTION:
+            m_screen_stack.clear();
+            break;
+        }
+      }
 
       if (!m_screen_stack.empty())
       {
         m_screen_stack.back()->setup();
+        m_speed = 1.0;
+        m_waiting_threads.wakeup();
       }
     }
-    else if (m_action == PUSH_ACTION)
-    {
-      assert(m_next_screen);
-      m_action = NO_ACTION;
-
-      if (!m_screen_stack.empty())
-      {
-        m_screen_stack.back()->leave();
-      }
-
-      m_screen_stack.push_back(std::move(m_next_screen));
-      m_screen_stack.back()->setup();
-    }
-    else if (m_action == REPLACE_ACTION)
-    {
-      assert(!m_screen_stack.empty());
-      assert(!m_next_screen);
-      m_action = NO_ACTION;
-
-      m_screen_stack.back()->leave();
-      m_screen_stack.pop_back();
-
-      m_screen_stack.push_back(std::move(m_next_screen));
-      m_screen_stack.back()->setup();
-    }
-    else if (m_action == QUIT_ACTION)
-    {
-      m_screen_stack.clear();
-    }
-
-    m_speed = 1.0;
-
-    m_screen_fade.reset();
-
-    m_waiting_threads.wakeup();
   }
 }
 
@@ -335,9 +319,7 @@ ScreenManager::run(DrawingContext &context)
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
 
-  assert(m_action == PUSH_ACTION);
-  m_screen_stack.push_back(std::move(m_next_screen));
-  m_action = NO_ACTION;
+  handle_screen_switch();
 
   while (!m_screen_stack.empty())
   {

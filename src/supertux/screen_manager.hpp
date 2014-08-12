@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,6 +22,7 @@
 #include <cstddef>
 
 #include "scripting/thread_queue.hpp"
+#include "supertux/screen.hpp"
 
 class Console;
 class DrawingContext;
@@ -69,11 +71,23 @@ private:
   std::unique_ptr<MenuManager> m_menu_manager;
 
   float m_speed;
-  enum Action { NO_ACTION, PUSH_ACTION, POP_ACTION, REPLACE_ACTION, QUIT_ACTION };
-  Action m_action;
+  struct Action
+  {
+    enum Type { PUSH_ACTION, POP_ACTION, QUIT_ACTION };
+    Type type;
+    std::unique_ptr<Screen> screen;
+
+    Action(Type type_,
+           std::unique_ptr<Screen> screen_ = {}) :
+      type(type_),
+      screen(std::move(screen_))
+    {}
+  };
+
+  std::vector<Action> m_actions;
+
   /// measured fps
   float m_fps;
-  std::unique_ptr<Screen> m_next_screen;
   std::unique_ptr<ScreenFade> m_screen_fade;
   std::vector<std::unique_ptr<Screen> > m_screen_stack;
   bool m_screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
