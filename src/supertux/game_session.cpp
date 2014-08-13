@@ -184,6 +184,8 @@ GameSession::get_demo_random_seed(const std::string& filename)
     else
       log_info << "Demo file contains no random number" << std::endl;
   }
+  delete test_stream;
+  test_stream = nullptr;
   return 0;
 }
 
