@@ -26,13 +26,11 @@ function play()
 
 function worldmapfinish()
 {
-	save_state();
 	foreach(world in state.worlds) {
 		foreach(levelname, level in world.levels) {
 			level.solved = true;
 		}
 	}
-	update_worldmap();
 }
 
 function grow()
