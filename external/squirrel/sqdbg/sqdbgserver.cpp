@@ -1,9 +1,17 @@
 #include <squirrel.h>
 #include <assert.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <sqstdblob.h>
 #include "sqrdbg.h"
 #include "sqdbgserver.h"
 
+#ifndef _WIN32
+#  define Sleep sleep
+#  include <sys/types.h>
+#  include <sys/socket.h>
+#endif
 
 #ifndef _UNICODE
 #define scstrcpy strcpy
@@ -633,7 +641,7 @@ void SQDbgServer::EndDocument()
 //this can be done much better/faster(do we need that?)
 const SQChar *SQDbgServer::escape_xml(const SQChar *s)
 {
-	SQChar *temp=sq_getscratchpad(_v,((SQInteger)scstrlen(s)*6) + sizeof SQChar);
+	SQChar *temp=sq_getscratchpad(_v,((SQInteger)scstrlen(s)*6) + sizeof(SQChar));
 	SQChar *dest=temp;
 	while(*s!=_SC('\0')){
 		

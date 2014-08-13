@@ -1,5 +1,16 @@
 #include <squirrel.h>
-#include <winsock.h>
+#ifdef _WIN32
+#  include <winsock.h>
+#else
+#  include <sys/types.h>
+#  include <sys/socket.h>
+#  include <arpa/inet.h>
+#  include <sys/time.h>
+#  define SOCKET_ERROR (-1)
+#  define TIMEVAL struct timeval
+#endif
+#include <stdio.h>
+#include <string.h>
 #include <squirrel.h>
 #include <squirrel.h>
 #include "sqrdbg.h"
@@ -11,9 +22,9 @@ SQInteger error_handler(HSQUIRRELVM v);
 
 HSQREMOTEDBG sq_rdbg_init(HSQUIRRELVM v,unsigned short port,SQBool autoupdate)
 {
-	WSADATA wsadata;
-	sockaddr_in bindaddr;
+	struct sockaddr_in bindaddr;
 #ifdef _WIN32
+	WSADATA wsadata;
 	if (WSAStartup (MAKEWORD(2,2), &wsadata) != 0){
 		return NULL;  
 	}	
@@ -48,7 +59,7 @@ SQRESULT sq_rdbg_waitforconnections(HSQREMOTEDBG rdbg)
 	sq_pop(rdbg->_v,1);
 
 	sockaddr_in cliaddr;
-	int addrlen=sizeof(cliaddr);
+	socklen_t addrlen=sizeof(cliaddr);
 	if(listen(rdbg->_accept,0)==SOCKET_ERROR)
 		return sq_throwerror(rdbg->_v,_SC("error on listen(socket)"));
 	rdbg->_endpoint = accept(rdbg->_accept,(sockaddr*)&cliaddr,&addrlen);

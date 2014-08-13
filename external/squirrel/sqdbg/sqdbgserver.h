@@ -8,7 +8,13 @@
 #include <map>
 #include <string>
 #include <vector>
-#include <winsock.h>
+#ifdef _WIN32
+#  include <winsock.h>
+#else
+#  include <unistd.h>
+#  define SOCKET int
+#  define INVALID_SOCKET (-1)
+#endif
 
 typedef std::basic_string<SQChar> SQDBGString;
 
