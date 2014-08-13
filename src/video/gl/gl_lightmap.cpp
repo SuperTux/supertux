@@ -148,7 +148,7 @@ GLLightmap::do_draw()
 void
 GLLightmap::draw_surface(const DrawingRequest& request)
 {
-  const Surface* surface = (const Surface*) request.request_data;
+  const Surface* surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;
   boost::shared_ptr<GLTexture> gltexture = boost::dynamic_pointer_cast<GLTexture>(surface->get_texture());
   GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
 
