@@ -195,14 +195,8 @@ Savegame::load()
           {
             sq_pushroottable(vm);
             get_table_entry(vm, "state");
-
             scripting::load_squirrel_table(vm, -1, *state);
-            if(SQ_FAILED(sq_createslot(vm, -3)))
-            {
-              sq_pop(vm, 1);
-              throw std::runtime_error("Couldn't create state table");
-            }
-            sq_pop(vm, 1);
+            sq_pop(vm, 2);
           }
         }
       }
