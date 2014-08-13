@@ -19,7 +19,7 @@
 
 #include <memory>
 
-#include "supertux/world_state.hpp"
+#include "supertux/savegame.hpp"
 #include "util/currenton.hpp"
 
 class World;
@@ -28,7 +28,7 @@ class GameManager : public Currenton<GameManager>
 {
 private:
   std::unique_ptr<World> m_world;
-  std::unique_ptr<WorldState> m_world_state;
+  std::unique_ptr<Savegame> m_savegame;
 
 public:
   GameManager();

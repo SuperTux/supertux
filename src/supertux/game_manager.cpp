@@ -28,14 +28,14 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/world.hpp"
-#include "supertux/world_state.hpp"
+#include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "worldmap/worldmap.hpp"
 
 GameManager::GameManager() :
   m_world(),
-  m_world_state()
+  m_savegame()
 {
 }
 
@@ -46,15 +46,15 @@ GameManager::~GameManager()
 void
 GameManager::start_level(const std::string& level_filename)
 {
-  /*
+#ifdef GRUMBEL
   m_world = std::move(world);
-  m_world_state.reset(new WorldState);
-  m_world_state->load(m_world->get_savegame_filename());
+  m_savegame.reset(new Savegame);
+  m_savegame->load(m_world->get_savegame_filename());
 
   std::unique_ptr<Screen> screen(new GameSession(level_filename,
-                                                 &m_world_state));
+                                                 &m_savegame));
   g_screen_manager->push_screen(std::move(screen));
-  */
+#endif
 }
 
 void
@@ -63,13 +63,12 @@ GameManager::start_game(std::unique_ptr<World> world)
   try
   {
     m_world = std::move(world);
-    m_world_state.reset(new WorldState);
-
-    m_world_state->load(m_world->get_savegame_filename());
+    m_savegame.reset(new Savegame(m_world->get_savegame_filename()));
+    m_savegame->load();
 
     g_screen_manager->push_screen(std::unique_ptr<Screen>(
                                     new worldmap::WorldMap(m_world->get_worldmap_filename(),
-                                                           *m_world_state)));
+                                                           *m_savegame)));
   }
   catch(std::exception& e)
   {

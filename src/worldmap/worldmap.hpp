@@ -41,7 +41,7 @@ class GameObject;
 class PlayerStatus;
 class Sprite;
 class TileMap;
-class WorldState;
+class Savegame;
 
 namespace worldmap {
 
@@ -78,7 +78,7 @@ private:
 
   Tux* tux;
 
-  WorldState& m_world_state;
+  Savegame& m_savegame;
 
   TileSet *tileset;
   bool     free_tileset;
@@ -124,7 +124,7 @@ private:
   bool panning;
 
 public:
-  WorldMap(const std::string& filename, WorldState& world_state, const std::string& force_spawnpoint = "");
+  WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint = "");
   ~WorldMap();
 
   void add_object(GameObject* object);
@@ -169,7 +169,7 @@ public:
   /** returns current Tux incarnation */
   Tux* get_tux() { return tux; }
 
-  WorldState& get_world_state() { return m_world_state; }
+  Savegame& get_savegame() { return m_savegame; }
 
   LevelTile* at_level();
   SpecialTile* at_special_tile();

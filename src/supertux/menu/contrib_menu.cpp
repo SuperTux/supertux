@@ -54,14 +54,69 @@ ContribMenu::ContribMenu() :
 
       if (!world->hide_from_contribs())
       {
-#ifdef GRUMBEL
-        world->load_state();
-#endif
+        Savegame savegame(world->get_savegame_filename());
+        savegame.load();
 
-        std::ostringstream title;
-        title << world->get_title(); // << " (" << world->get_num_solved_levels() << "/" << world->get_num_levels() << ")";
-        add_entry(i++, title.str());
-        m_contrib_worlds.push_back(std::move(world));
+        if (world->is_levelset())
+        {
+          int level_count = 0;
+          int solved_count = 0;
+
+          const auto& state = savegame.get_levelset_state(world->get_basedir());
+          for(const auto& level_state : state.level_states)
+          {
+            if (level_state.solved)
+            {
+              solved_count += 1;
+            }
+            level_count += 1;
+          }
+          
+          std::ostringstream title;
+          title << "[" << world->get_title() << "]";
+          if (level_count == 0)
+          {
+            title << " *NEW*";
+          }
+          else
+          {
+            title << " (" << solved_count << "/" << level_count << ")";
+          }
+          add_entry(i++, title.str());
+          m_contrib_worlds.push_back(std::move(world));
+        }
+        else if (world->is_worldmap())
+        {
+          int level_count = 0;
+          int solved_count = 0;
+
+          const auto& state = savegame.get_worldmap_state(world->get_worldmap_filename());
+          for(const auto& level_state : state.level_states)
+          {
+            if (level_state.solved)
+            {
+              solved_count += 1;
+            }
+            level_count += 1;
+          }
+          
+          std::ostringstream title;
+          title << world->get_title();
+          if (level_count == 0)
+          {
+            title << " *NEW*";
+          }
+          else
+          {
+            title << " (" << solved_count << "/" << level_count << ")";
+          }
+          add_entry(i++, title.str());
+          m_contrib_worlds.push_back(std::move(world));
+        }
+        else
+        {
+          log_warning << "unknown World type" << std::endl;
+        }
       }
     }
     catch(std::exception& e)
@@ -84,17 +139,16 @@ ContribMenu::check_menu()
   int index = check();
   if (index != -1)
   {
-    World* world = m_contrib_worlds[index].get();
+    // reload the World so that we have something that we can safely
+    // std::move() around without wreaking the ContribMenu
+    std::unique_ptr<World> world = World::load(m_contrib_worlds[index]->get_basedir());
     if (!world->is_levelset())
     {
-      // FIXME: not the most elegant of solutions to std::move() the
-      // World, but the ContribMenu should get destructed after this,
-      // so it might be ok
-      GameManager::current()->start_game(std::move(m_contrib_worlds[index]));
+      GameManager::current()->start_game(std::move(world));
     }
     else
     {
-      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribWorldMenu(std::move(m_contrib_worlds[index]))));
+      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribWorldMenu(std::move(world))));
     }
   }
 }

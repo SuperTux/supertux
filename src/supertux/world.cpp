@@ -27,7 +27,7 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/world.hpp"
-#include "supertux/world_state.hpp"
+#include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
 #include "util/reader.hpp"
 #include "util/string_util.hpp"
@@ -60,12 +60,10 @@ World::World() :
   m_hide_from_contribs(false),
   m_is_levelset(true)
 {
-  std::cout << this << " World()" << std::endl;
 }
 
 World::~World()
 {
-  std::cout << this << " ~World()" << std::endl;
 }
 
 void

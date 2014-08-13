@@ -34,7 +34,7 @@ class Menu;
 class PlayerStatus;
 class Sector;
 class Statistics;
-class WorldState;
+class Savegame;
 
 /**
  * Screen that runs a Level, where Players run and jump through Sectors.
@@ -43,7 +43,7 @@ class GameSession : public Screen,
                     public Currenton<GameSession>
 {
 public:
-  GameSession(const std::string& levelfile, WorldState& world_state, Statistics* statistics = NULL);
+  GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = NULL);
   ~GameSession();
 
   void record_demo(const std::string& filename);
@@ -93,7 +93,7 @@ public:
    */
   void force_ghost_mode();
 
-  WorldState& get_world_state() { return m_world_state; }
+  Savegame& get_savegame() { return m_savegame; }
 
 private:
   void check_end_conditions();
@@ -134,7 +134,7 @@ private:
   std::string newspawnpoint;
 
   Statistics* best_level_statistics;
-  WorldState& m_world_state;
+  Savegame& m_savegame;
 
   std::ostream* capture_demo_stream;
   std::string capture_file;

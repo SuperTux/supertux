@@ -27,7 +27,7 @@ class ContribWorldMenu;
 class Menu;
 class PlayerStatus;
 class World;
-class WorldState;
+class Savegame;
 
 /**
  * Screen that displays the SuperTux logo, lets players start a new game, etc.
@@ -35,7 +35,7 @@ class WorldState;
 class TitleScreen : public Screen
 {
 public:
-  TitleScreen(WorldState& world_state);
+  TitleScreen(Savegame& savegame);
   virtual ~TitleScreen();
 
   virtual void setup();

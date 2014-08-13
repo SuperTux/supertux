@@ -21,7 +21,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/player_status.hpp"
-#include "supertux/world_state.hpp"
+#include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
 #include "worldmap/level.hpp"
 #include "worldmap/tux.hpp"
@@ -60,7 +60,7 @@ Tux::~Tux()
 void
 Tux::draw(DrawingContext& context)
 {
-  switch (worldmap->get_world_state().get_player_status()->bonus) {
+  switch (worldmap->get_savegame().get_player_status()->bonus) {
     case GROWUP_BONUS:
       sprite->set_action(moving ? "large-walking" : "large-stop");
       break;

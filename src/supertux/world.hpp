@@ -22,10 +22,9 @@
 #include <string>
 #include <vector>
 
-#include "util/currenton.hpp"
-#include "supertux/world_state.hpp"
+#include "supertux/savegame.hpp"
 
-class World : public Currenton<World>
+class World
 {
 private:
   World();

@@ -59,7 +59,7 @@
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
 #include "supertux/world.hpp"
-#include "supertux/world_state.hpp"
+#include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -78,9 +78,9 @@ namespace worldmap {
 
 WorldMap* WorldMap::current_ = NULL;
 
-WorldMap::WorldMap(const std::string& filename, WorldState& world_state, const std::string& force_spawnpoint) :
+WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint) :
   tux(),
-  m_world_state(world_state),
+  m_savegame(savegame),
   tileset(NULL),
   free_tileset(false),
   camera_offset(),
@@ -240,7 +240,7 @@ void
 WorldMap::change(const std::string& filename, const std::string& force_spawnpoint)
 {
   g_screen_manager->pop_screen();
-  g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, m_world_state, force_spawnpoint)));
+  g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, m_savegame, force_spawnpoint)));
 }
 
 void
@@ -695,7 +695,7 @@ WorldMap::update(float delta)
           // update state and savegame
           save_state();
 
-          g_screen_manager->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_world_state, &level->statistics)),
+          g_screen_manager->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_savegame, &level->statistics)),
                                         std::unique_ptr<ScreenFade>(new ShrinkFade(shrinkpos, 1.0f)));
           in_level = true;
         } catch(std::exception& e) {
@@ -830,7 +830,7 @@ WorldMap::draw_status(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  m_world_state.get_player_status()->draw(context);
+  m_savegame.get_player_status()->draw(context);
 
   if (!tux->is_moving()) {
     for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
@@ -1032,16 +1032,7 @@ WorldMap::save_state()
 
   sq_settop(vm, oldtop);
 
-  if (!World::current())
-  {
-    log_fatal << "no World::current(), so can't savegame" << std::endl;
-  }
-  else
-  {
-#ifdef GRUMBEL
-    m_world_state->save_state();
-#endif
-  }
+  m_savegame.save();
 }
 
 void
