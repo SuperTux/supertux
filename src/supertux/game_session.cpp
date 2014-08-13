@@ -407,6 +407,12 @@ GameSession::setup()
 }
 
 void
+GameSession::leave()
+{
+  m_savegame.save();
+}
+
+void
 GameSession::update(float elapsed_time)
 {
   // handle controller

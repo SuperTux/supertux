@@ -22,7 +22,7 @@
 #include "gui/menu_manager.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/menu/contrib_world_menu.hpp"
+#include "supertux/menu/contrib_levelset_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
@@ -71,7 +71,7 @@ ContribMenu::ContribMenu() :
             }
             level_count += 1;
           }
-          
+
           std::ostringstream title;
           title << "[" << world->get_title() << "]";
           if (level_count == 0)
@@ -99,7 +99,7 @@ ContribMenu::ContribMenu() :
             }
             level_count += 1;
           }
-          
+
           std::ostringstream title;
           title << world->get_title();
           if (level_count == 0)
@@ -148,7 +148,7 @@ ContribMenu::check_menu()
     }
     else
     {
-      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribWorldMenu(std::move(world))));
+      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribLevelsetMenu(std::move(world))));
     }
   }
 }

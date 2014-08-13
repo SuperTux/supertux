@@ -52,7 +52,8 @@ public:
 
   void draw(DrawingContext& context);
   void update(float frame_ratio);
-  void setup();
+  void setup() override;
+  void leave() override;
 
   /// ends the current level
   void finish(bool win = true);

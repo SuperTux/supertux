@@ -41,7 +41,7 @@ void get_table_entry(HSQUIRRELVM vm, const std::string& name)
   else
   {
     // successfully placed result on stack
-  } 
+  }
 }
 
 std::vector<std::string> get_table_keys(HSQUIRRELVM vm)
@@ -53,7 +53,7 @@ std::vector<std::string> get_table_keys(HSQUIRRELVM vm)
   {
     //here -1 is the value and -2 is the key
     const char* result;
-    if(SQ_FAILED(sq_getstring(vm, -2, &result))) 
+    if(SQ_FAILED(sq_getstring(vm, -2, &result)))
     {
       std::ostringstream msg;
       msg << "Couldn't get string value for key";
@@ -80,7 +80,7 @@ std::vector<LevelState> get_level_states(HSQUIRRELVM vm)
   {
     //here -1 is the value and -2 is the key
     const char* result;
-    if(SQ_FAILED(sq_getstring(vm, -2, &result))) 
+    if(SQ_FAILED(sq_getstring(vm, -2, &result)))
     {
       std::ostringstream msg;
       msg << "Couldn't get string value";
@@ -105,6 +105,27 @@ std::vector<LevelState> get_level_states(HSQUIRRELVM vm)
 
 } // namespace
 
+LevelState
+LevelsetState::get_level_state(const std::string& filename)
+{
+  auto it = std::find_if(level_states.begin(), level_states.end(),
+                         [filename](const LevelState& state)
+                         {
+                           return state.filename == filename;
+                         });
+  if (it != level_states.end())
+  {
+    return *it;
+  }
+  else
+  {
+    log_warning << "failed to retrieve level state for " << filename << std::endl;
+    LevelState state;
+    state.filename = filename;
+    return state;
+  }
+}
+
 Savegame::Savegame(const std::string& filename) :
   m_filename(filename),
   m_player_status(new PlayerStatus)
@@ -123,6 +144,8 @@ Savegame::load()
     log_debug << "no filename set for savegame, skipping load" << std::endl;
     return;
   }
+
+  clear_state_table();
 
   if(!PHYSFS_exists(m_filename.c_str()))
   {
@@ -170,18 +193,15 @@ Savegame::load()
           }
           else
           {
-            // delete existing state table, if it exists
             sq_pushroottable(vm);
-            sq_pushstring(vm, "state", -1);
-            if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
-              sq_pop(vm, 1);
+            get_table_entry(vm, "state");
 
-            // create a new empty state table
-            sq_pushstring(vm, "state", -1);
-            sq_newtable(vm);
             scripting::load_squirrel_table(vm, -1, *state);
             if(SQ_FAILED(sq_createslot(vm, -3)))
+            {
+              sq_pop(vm, 1);
               throw std::runtime_error("Couldn't create state table");
+            }
             sq_pop(vm, 1);
           }
         }
@@ -192,6 +212,31 @@ Savegame::load()
       log_fatal << "Couldn't load savegame: " << e.what() << std::endl;
     }
   }
+}
+
+void
+Savegame::clear_state_table()
+{
+  HSQUIRRELVM vm = scripting::global_vm;
+
+  // delete existing state table, if it exists
+  sq_pushroottable(vm);
+  {
+    /*sq_pushstring(vm, "state", -1);
+    if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
+    {
+      sq_pop(vm, 1);
+      }*/
+
+    // create a new empty state table
+    sq_pushstring(vm, "state", -1);
+    sq_newtable(vm);
+    if(SQ_FAILED(sq_newslot(vm, -3, SQFalse)))
+    {
+      throw std::runtime_error("Couldn't create state table");
+    }
+  }
+  sq_pop(vm, 1);
 }
 
 void

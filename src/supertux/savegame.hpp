@@ -47,6 +47,8 @@ public:
   {}
   std::string directory;
   std::vector<LevelState> level_states;
+
+  LevelState get_level_state(const std::string& filename);
 };
 
 struct WorldmapState
@@ -114,6 +116,9 @@ public:
 
   void save();
   void load();
+
+private:
+  void clear_state_table();
 
 private:
   Savegame(const Savegame&) = delete;

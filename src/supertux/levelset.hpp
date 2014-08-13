@@ -30,6 +30,7 @@ public:
   Levelset(const std::string& basedir);
 
   int get_num_levels() const;
+  std::string get_level_filename(int i) const;
 
 private:
   Levelset(const Levelset&) = delete;

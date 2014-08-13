@@ -44,17 +44,15 @@ GameManager::~GameManager()
 }
 
 void
-GameManager::start_level(const std::string& level_filename)
+GameManager::start_level(std::unique_ptr<World> world, const std::string& level_filename)
 {
-#ifdef GRUMBEL
   m_world = std::move(world);
-  m_savegame.reset(new Savegame);
-  m_savegame->load(m_world->get_savegame_filename());
+  m_savegame.reset(new Savegame(m_world->get_savegame_filename()));
+  m_savegame->load();
 
-  std::unique_ptr<Screen> screen(new GameSession(level_filename,
-                                                 &m_savegame));
+  std::unique_ptr<Screen> screen(new GameSession(FileSystem::join(m_world->get_basedir(), level_filename),
+                                                 *m_savegame));
   g_screen_manager->push_screen(std::move(screen));
-#endif
 }
 
 void

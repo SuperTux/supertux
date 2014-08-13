@@ -19,21 +19,23 @@
 
 #include "gui/menu.hpp"
 
+class Levelset;
 class World;
 
-class ContribWorldMenu : public Menu
+class ContribLevelsetMenu : public Menu
 {
 private:
   std::unique_ptr<World> m_world;
+  std::unique_ptr<Levelset> m_levelset;
 
 public:
-  ContribWorldMenu(std::unique_ptr<World> current_world);
+  ContribLevelsetMenu(std::unique_ptr<World> current_world);
 
   void check_menu();
 
 private:
-  ContribWorldMenu(const ContribWorldMenu&);
-  ContribWorldMenu& operator=(const ContribWorldMenu&);
+  ContribLevelsetMenu(const ContribLevelsetMenu&);
+  ContribLevelsetMenu& operator=(const ContribLevelsetMenu&);
 };
 
 #endif
