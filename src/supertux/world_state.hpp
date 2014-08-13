@@ -33,6 +33,9 @@ public:
 
   PlayerStatus* get_player_status() const { return m_player_status.get(); }
 
+  int get_num_levels() const;
+  int get_num_solved_levels() const;
+
   void save(const std::string& filename);
   void load(const std::string& filename);
 

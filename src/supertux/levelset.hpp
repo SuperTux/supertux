@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2013 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,34 +14,26 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
-#define HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_LEVELSET_HPP
+#define HEADER_SUPERTUX_SUPERTUX_LEVELSET_HPP
 
-#include <memory>
+#include <string>
+#include <vector>
 
-#include "supertux/world_state.hpp"
-#include "util/currenton.hpp"
-
-class World;
-
-class GameManager : public Currenton<GameManager>
+class Levelset
 {
 private:
-  std::unique_ptr<World> m_world;
-  std::unique_ptr<WorldState> m_world_state;
+  std::string m_basedir;
+  std::vector<std::string> m_levels;
 
 public:
-  GameManager();
-  ~GameManager();
+  Levelset(const std::string& basedir);
 
-  void start_game(std::unique_ptr<World> world);
-  void start_level(const std::string& level_filename);
-
-  std::string get_level_name(const std::string& levelfile) const;
+  int get_num_levels() const;
 
 private:
-  GameManager(const GameManager&) = delete;
-  GameManager& operator=(const GameManager&) = delete;
+  Levelset(const Levelset&) = delete;
+  Levelset& operator=(const Levelset&) = delete;
 };
 
 #endif

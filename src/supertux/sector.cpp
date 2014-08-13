@@ -54,6 +54,7 @@
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/world_state.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
 #include "trigger/sequence_trigger.hpp"
@@ -85,7 +86,7 @@ Sector::Sector(Level* parent) :
   camera(0),
   effect(0)
 {
-  add_object(new Player(GameSession::current()->get_player_status(), "Tux"));
+  add_object(new Player(GameSession::current()->get_world_state().get_player_status(), "Tux"));
   add_object(new DisplayEffect("Effect"));
   add_object(new TextObject("Text"));
 

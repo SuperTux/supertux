@@ -54,10 +54,12 @@ ContribMenu::ContribMenu() :
 
       if (!world->hide_from_contribs())
       {
+#ifdef GRUMBEL
         world->load_state();
+#endif
 
         std::ostringstream title;
-        title << world->get_title() << " (" << world->get_num_solved_levels() << "/" << world->get_num_levels() << ")";
+        title << world->get_title(); // << " (" << world->get_num_solved_levels() << "/" << world->get_num_levels() << ")";
         add_entry(i++, title.str());
         m_contrib_worlds.push_back(std::move(world));
       }

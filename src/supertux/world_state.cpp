@@ -80,11 +80,13 @@ WorldState::load(const std::string& filename)
           }
           else
           {
+            // delete existing state table, if it exists
             sq_pushroottable(vm);
             sq_pushstring(vm, "state", -1);
             if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
               sq_pop(vm, 1);
 
+            // create a new empty state table
             sq_pushstring(vm, "state", -1);
             sq_newtable(vm);
             scripting::load_squirrel_table(vm, -1, *state);
@@ -160,6 +162,82 @@ WorldState::save(const std::string& filename)
   writer.end_list("state");
 
   writer.end_list("supertux-savegame");
+}
+
+int
+WorldState::get_num_levels() const
+{
+#ifdef GRUMBEL
+#endif
+  return 5;
+}
+
+int
+WorldState::get_num_solved_levels() const
+{
+  return 3;
+#ifdef GRUMBEL
+  int num_solved_levels = 0;
+
+  HSQUIRRELVM vm = scripting::global_vm;
+  int oldtop = sq_gettop(vm);
+
+  sq_pushroottable(vm);
+  sq_pushstring(vm, "state", -1);
+  if(SQ_FAILED(sq_get(vm, -2)))
+  {
+    log_warning << "failed to get 'state' table" << std::endl;
+  }
+  else
+  {
+    sq_pushstring(vm, "worlds", -1);
+    if(SQ_FAILED(sq_get(vm, -2)))
+    {
+      log_warning << "failed to get 'state.worlds' table" << std::endl;
+    }
+    else
+    {
+      sq_pushstring(vm, m_worldmap_filename.c_str(), -1);
+      if(SQ_FAILED(sq_get(vm, -2)))
+      {
+        log_warning << "failed to get state.worlds['" << m_worldmap_filename << "']" << std::endl;
+      }
+      else
+      {
+        sq_pushstring(vm, "levels", -1);
+        if(SQ_FAILED(sq_get(vm, -2)))
+        {
+          log_warning << "failed to get state.worlds['" << m_worldmap_filename << "'].levels" << std::endl;
+        }
+        else
+        {
+          for(auto level : m_levels)
+          {
+            sq_pushstring(vm, level.c_str(), -1);
+            if(SQ_FAILED(sq_get(vm, -2)))
+            {
+              log_warning << "failed to get state.worlds['" << m_worldmap_filename << "'].levels['"
+                          << level << "']" << std::endl;
+            }
+            else
+            {
+              bool solved = scripting::read_bool(vm, "solved");
+              if (solved)
+              {
+                num_solved_levels += 1;
+              }
+              sq_pop(vm, 1);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  sq_settop(vm, oldtop);
+
+  return num_solved_levels;
+#endif
 }
 
 /* EOF */

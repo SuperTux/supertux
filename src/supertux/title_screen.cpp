@@ -40,14 +40,14 @@
 #include <sstream>
 #include <version.h>
 
-TitleScreen::TitleScreen(PlayerStatus* player_status) :
+TitleScreen::TitleScreen(WorldState& world_state) :
   frame(),
   controller(),
   titlesession(),
   copyright_text()
 {
   controller.reset(new CodeController());
-  titlesession.reset(new GameSession("levels/misc/menu.stl", player_status));
+  titlesession.reset(new GameSession("levels/misc/menu.stl", world_state));
 
   Player* player = titlesession->get_current_sector()->player;
   player->set_controller(controller.get());

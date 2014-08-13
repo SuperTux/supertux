@@ -358,7 +358,7 @@ Main::run(int argc, char** argv)
 
     timelog(0);
 
-    const std::unique_ptr<PlayerStatus> default_playerstatus(new PlayerStatus());
+    const std::unique_ptr<WorldState> default_world_state(new WorldState);
 
     GameManager game_manager;
     g_screen_manager = new ScreenManager();
@@ -381,10 +381,10 @@ Main::run(int argc, char** argv)
          g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0) {
         g_screen_manager->push_screen(std::unique_ptr<Screen>(
                                         new worldmap::WorldMap(
-                                          FileSystem::basename(g_config->start_level), default_playerstatus.get())));
+                                          FileSystem::basename(g_config->start_level), *default_world_state)));
       } else {
         std::unique_ptr<GameSession> session (
-          new GameSession(FileSystem::basename(g_config->start_level), default_playerstatus.get()));
+          new GameSession(FileSystem::basename(g_config->start_level), *default_world_state));
 
         g_config->random_seed =session->get_demo_random_seed(g_config->start_demo);
         init_rand();//initialise generator with seed from session
@@ -397,7 +397,7 @@ Main::run(int argc, char** argv)
         g_screen_manager->push_screen(std::move(session));
       }
     } else {
-      g_screen_manager->push_screen(std::unique_ptr<Screen>(new TitleScreen(default_playerstatus.get())));
+      g_screen_manager->push_screen(std::unique_ptr<Screen>(new TitleScreen(*default_world_state)));
     }
 
     g_screen_manager->run(context);

@@ -32,6 +32,7 @@ ContribWorldMenu::ContribWorldMenu(std::unique_ptr<World> world) :
   add_label(m_world->get_title());
   add_hl();
 
+#ifdef GRUMBEL
   for (int i = 0; i < m_world->get_num_levels(); ++i)
   {
     /** get level's title */
@@ -39,6 +40,7 @@ ContribWorldMenu::ContribWorldMenu(std::unique_ptr<World> world) :
     std::string title = GameManager::current()->get_level_name(filename);
     add_entry(i, title);
   }
+#endif
 
   add_hl();
   add_back(_("Back"));
@@ -52,7 +54,9 @@ ContribWorldMenu::check_menu()
     if (get_item_by_id(index).kind == MN_ACTION)
     {
       sound_manager->stop_music();
+#ifdef GRUMBEL
       GameManager::current()->start_level(std::move(m_world), index);
+#endif
     }
   }
 }

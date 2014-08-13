@@ -40,11 +40,12 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/world_state.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "worldmap/worldmap.hpp"
 
-GameSession::GameSession(const std::string& levelfile_, PlayerStatus* player_status, Statistics* statistics) :
+GameSession::GameSession(const std::string& levelfile_, WorldState& world_state, Statistics* statistics) :
   level(),
   statistics_backdrop(Surface::create("images/engine/menu/score-backdrop.png")),
   scripts(),
@@ -60,7 +61,7 @@ GameSession::GameSession(const std::string& levelfile_, PlayerStatus* player_sta
   newsector(),
   newspawnpoint(),
   best_level_statistics(statistics),
-  player_status(player_status),
+  m_world_state(world_state),
   capture_demo_stream(0),
   capture_file(),
   playback_demo_stream(0),
@@ -80,7 +81,7 @@ GameSession::GameSession(const std::string& levelfile_, PlayerStatus* player_sta
 int
 GameSession::restart_level()
 {
-    PlayerStatus* currentStatus = get_player_status();
+    PlayerStatus* currentStatus = m_world_state.get_player_status();
     coins_at_start = currentStatus->coins;
     bonus_at_start = currentStatus->bonus;
     max_fire_bullets_at_start = currentStatus->max_fire_bullets;
@@ -256,7 +257,7 @@ GameSession::abort_level()
   MenuManager::instance().clear_menu_stack();
   g_screen_manager->pop_screen();
   currentsector->player->set_bonus(bonus_at_start);
-  PlayerStatus *currentStatus = get_player_status();
+  PlayerStatus *currentStatus = m_world_state.get_player_status();
   currentStatus->coins = coins_at_start;
   currentStatus->max_fire_bullets = max_fire_bullets_at_start;
   currentStatus->max_ice_bullets = max_ice_bullets_at_start;
@@ -574,7 +575,7 @@ GameSession::start_sequence(const std::string& sequencename)
 void
 GameSession::drawstatus(DrawingContext& context)
 {
-  player_status->draw(context);
+  m_world_state.get_player_status()->draw(context);
 
   // draw level stats while end_sequence is running
   if (end_sequence) {
