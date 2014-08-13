@@ -56,7 +56,7 @@ GameManager::start_level(std::unique_ptr<World> world, const std::string& level_
 }
 
 void
-GameManager::start_game(std::unique_ptr<World> world)
+GameManager::start_worldmap(std::unique_ptr<World> world)
 {
   try
   {

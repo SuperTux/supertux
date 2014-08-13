@@ -34,7 +34,7 @@ public:
   GameManager();
   ~GameManager();
 
-  void start_game(std::unique_ptr<World> world);
+  void start_worldmap(std::unique_ptr<World> world);
   void start_level(std::unique_ptr<World> world, const std::string& level_filename);
 
   std::string get_level_name(const std::string& levelfile) const;

@@ -144,7 +144,7 @@ ContribMenu::check_menu()
     std::unique_ptr<World> world = World::load(m_contrib_worlds[index]->get_basedir());
     if (!world->is_levelset())
     {
-      GameManager::current()->start_game(std::move(world));
+      GameManager::current()->start_worldmap(std::move(world));
     }
     else
     {
