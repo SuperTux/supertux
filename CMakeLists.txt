@@ -37,7 +37,7 @@
 PROJECT(SUPERTUX)
 
 ## Version, for display in title bar.
-## Will add r<revision number> to the end if svnversion is available.
+## Will add 'commit <hash>' to the end if git is available.
 SET(SUPERTUX_VERSION "0.3.4-GIT")
 
 ### CMake configuration
