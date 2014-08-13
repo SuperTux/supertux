@@ -103,6 +103,7 @@ OptionsMenu::OptionsMenu(bool complete)
   }
 
   int display_mode_count = SDL_GetNumDisplayModes(0);
+  std::string last_display_mode;
   for(int i = 0; i < display_mode_count; ++i)
   {
     SDL_DisplayMode mode;
@@ -115,6 +116,9 @@ OptionsMenu::OptionsMenu(bool complete)
     {
       std::ostringstream out;
       out << mode.w << "x" << mode.h << "@" << mode.refresh_rate;
+      if(last_display_mode == out.str())
+        continue;
+      last_display_mode = out.str();
       fullscreen_res->list.push_back(out.str());
     }
   }
