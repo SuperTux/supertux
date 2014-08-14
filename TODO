@@ -130,8 +130,6 @@ drivers = oss
 
 * peaking left/right should make Tux look into that direction (up/down to, needs new sprites)
 
-* keep possible future SDL1.3 upgrade in mind (what has changed?)
-
 * cleanup scripting interface
 
 * replace cloud tiles with decals
