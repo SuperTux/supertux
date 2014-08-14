@@ -34,6 +34,7 @@
 #include "util/gettext.hpp"
 #include "video/renderer.hpp"
 #include "worldmap/tux.hpp"
+#include "worldmap/worldmap.hpp"
 
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
@@ -97,6 +98,32 @@ void display_text_file(const std::string& filename)
   g_screen_manager->push_screen(std::unique_ptr<Screen>(new TextScroller(filename)));
 }
 
+void load_worldmap(const std::string& filename)
+{
+  using namespace worldmap;
+
+  if (!WorldMap::current())
+  {
+    throw std::runtime_error("Can't start Worldmap without active WorldMap");
+  }
+  else
+  {
+    g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, WorldMap::current()->get_savegame())));
+  }
+}
+
+void load_level(const std::string& filename)
+{
+  if (!GameSession::current())
+  {
+    throw std::runtime_error("Can't start level without active level.");
+  }
+  else
+  {
+    g_screen_manager->push_screen(std::unique_ptr<Screen>(new GameSession(filename, GameSession::current()->get_savegame())));
+  }
+}
+
 void import(HSQUIRRELVM vm, const std::string& filename)
 {
   IFileStream in(filename);
@@ -141,6 +168,20 @@ void debug_worldmap_ghost(bool enable)
     throw std::runtime_error("Can't change ghost mode without active WorldMap");
 
   WorldMap::current()->get_tux()->set_ghost_mode(enable);
+}
+
+void save_state()
+{
+  using worldmap::WorldMap;
+
+  if (!WorldMap::current())
+  {
+    throw std::runtime_error("Can't save state without active Worldmap");
+  }
+  else
+  {
+    WorldMap::current()->save_state();
+  }
 }
 
 // not added to header, function to only be used by others
