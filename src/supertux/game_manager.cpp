@@ -24,15 +24,19 @@
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/levelset_screen.hpp"
+#include "supertux/savegame.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "worldmap/worldmap.hpp"
 
 GameManager::GameManager() :
-  m_world()
+  m_world(),
+  m_savegame()
 {
 }
 
@@ -41,25 +45,30 @@ GameManager::~GameManager()
 }
 
 void
-GameManager::start_level(std::unique_ptr<World> world, int index)
+GameManager::start_level(std::unique_ptr<World> world, const std::string& level_filename)
 {
   m_world = std::move(world);
+  m_savegame.reset(new Savegame(m_world->get_savegame_filename()));
+  m_savegame->load();
 
-  std::unique_ptr<Screen> screen(new GameSession(m_world->get_level_filename(index),
-                                                 m_world->get_player_status()));
+  std::unique_ptr<Screen> screen(new LevelsetScreen(m_world->get_basedir(),
+                                                    level_filename,
+                                                    *m_savegame));
   g_screen_manager->push_screen(std::move(screen));
 }
 
 void
-GameManager::start_game(std::unique_ptr<World> world)
+GameManager::start_worldmap(std::unique_ptr<World> world)
 {
-  m_world = std::move(world);
-
-  MenuManager::instance().clear_menu_stack();
-
   try
   {
-    m_world->run();
+    m_world = std::move(world);
+    m_savegame.reset(new Savegame(m_world->get_savegame_filename()));
+    m_savegame->load();
+
+    g_screen_manager->push_screen(std::unique_ptr<Screen>(
+                                    new worldmap::WorldMap(m_world->get_worldmap_filename(),
+                                                           *m_savegame)));
   }
   catch(std::exception& e)
   {

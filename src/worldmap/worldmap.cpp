@@ -59,6 +59,7 @@
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
 #include "supertux/world.hpp"
+#include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -77,9 +78,9 @@ namespace worldmap {
 
 WorldMap* WorldMap::current_ = NULL;
 
-WorldMap::WorldMap(const std::string& filename, PlayerStatus* player_status, const std::string& force_spawnpoint) :
-  tux(0),
-  player_status(player_status),
+WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint) :
+  tux(),
+  m_savegame(savegame),
   tileset(NULL),
   free_tileset(false),
   camera_offset(),
@@ -239,7 +240,7 @@ void
 WorldMap::change(const std::string& filename, const std::string& force_spawnpoint)
 {
   g_screen_manager->pop_screen();
-  g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, player_status, force_spawnpoint)));
+  g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, m_savegame, force_spawnpoint)));
 }
 
 void
@@ -694,7 +695,7 @@ WorldMap::update(float delta)
           // update state and savegame
           save_state();
 
-          g_screen_manager->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, player_status, &level->statistics)),
+          g_screen_manager->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_savegame, &level->statistics)),
                                         std::unique_ptr<ScreenFade>(new ShrinkFade(shrinkpos, 1.0f)));
           in_level = true;
         } catch(std::exception& e) {
@@ -829,7 +830,7 @@ WorldMap::draw_status(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  player_status->draw(context);
+  m_savegame.get_player_status()->draw(context);
 
   if (!tux->is_moving()) {
     for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
@@ -920,7 +921,7 @@ WorldMap::setup()
   sq_pushroottable(global_vm);
   sq_pushstring(global_vm, "worldmap", -1);
   sq_pushobject(global_vm, worldmap_table);
-  if(SQ_FAILED(sq_createslot(global_vm, -3)))
+  if(SQ_FAILED(sq_newslot(global_vm, -3, SQFalse)))
     throw SquirrelError(global_vm, "Couldn't set worldmap in roottable");
   sq_pop(global_vm, 1);
 
@@ -975,7 +976,7 @@ WorldMap::save_state()
     if(SQ_FAILED(sq_get(vm, -2))) {
       sq_pushstring(vm, "worlds", -1);
       sq_newtable(vm);
-      if(SQ_FAILED(sq_createslot(vm, -3)))
+      if(SQ_FAILED(sq_newslot(vm, -3, SQFalse)))
         throw scripting::SquirrelError(vm, "Couldn't create state.worlds");
 
       sq_pushstring(vm, "worlds", -1);
@@ -985,7 +986,8 @@ WorldMap::save_state()
 
     sq_pushstring(vm, map_filename.c_str(), map_filename.length());
     if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
-      sq_pop(vm, 1);
+    {
+    }
 
     // construct new table for this worldmap
     sq_pushstring(vm, map_filename.c_str(), map_filename.length());
@@ -999,7 +1001,7 @@ WorldMap::save_state()
     store_float(vm, "y", tux->get_tile_pos().y);
     store_string(vm, "back", direction_to_string(tux->back_direction));
 
-    sq_createslot(vm, -3);
+    sq_newslot(vm, -3, SQFalse);
 
     // levels...
     sq_pushstring(vm, "levels", -1);
@@ -1015,24 +1017,23 @@ WorldMap::save_state()
       store_bool(vm, "perfect", level->perfect);
       level->statistics.serialize_to_squirrel(vm);
 
-      sq_createslot(vm, -3);
+      sq_newslot(vm, -3, SQFalse);
     }
 
-    sq_createslot(vm, -3);
+    sq_newslot(vm, -3, SQFalse);
 
     // overall statistics...
     total_stats.serialize_to_squirrel(vm);
 
     // push world into worlds table
-    sq_createslot(vm, -3);
+    sq_newslot(vm, -3, SQFalse);
   } catch(std::exception& ) {
     sq_settop(vm, oldtop);
   }
 
   sq_settop(vm, oldtop);
 
-  if(World::current() != NULL)
-    World::current()->save_state();
+  m_savegame.save();
 }
 
 void

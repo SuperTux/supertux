@@ -48,16 +48,6 @@ SQInteger get_current_thread(HSQUIRRELVM vm) __custom("t");
 void display_text_file(const std::string& filename);
 
 /**
- * Load and display a worldmap (on next screenswitch)
- */
-void load_worldmap(const std::string& filename);
-
-/**
- * Load and display a level (on next screenswitch)
- */
-void load_level(const std::string& filename);
-
-/**
  * Suspend the script execution for the specified number of seconds
  */
 void wait(HSQUIRRELVM vm, float seconds) __suspend;
@@ -101,16 +91,6 @@ std::string translate(const std::string& text);
  * functions from external files.
  */
 void import(HSQUIRRELVM v, const std::string& filename);
-
-/**
- * Save world state to savegame
- */
-void save_state();
-
-/**
- * Update worldmap from worldmap state (state.world variable)
- */
-void update_worldmap();
 
 /**
  * enable/disable drawing of collision rectangles

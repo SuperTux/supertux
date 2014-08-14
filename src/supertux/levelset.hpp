@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
-//                2014 Ingo Ruhnke <grumbel@gmx.de>
+//  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,30 +14,27 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_WORLD_STATE_HPP
-#define HEADER_SUPERTUX_SUPERTUX_WORLD_STATE_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_LEVELSET_HPP
+#define HEADER_SUPERTUX_SUPERTUX_LEVELSET_HPP
 
 #include <string>
-#include <memory>
+#include <vector>
 
-class PlayerStatus;
-
-class WorldState
+class Levelset
 {
 private:
-  std::unique_ptr<PlayerStatus> m_player_status;
+  std::string m_basedir;
+  std::vector<std::string> m_levels;
 
 public:
-  WorldState();
+  Levelset(const std::string& basedir);
 
-  PlayerStatus* get_player_status() const { return m_player_status.get(); }
-
-  void save(const std::string& filename);
-  void load(const std::string& filename);
+  int get_num_levels() const;
+  std::string get_level_filename(int i) const;
 
 private:
-  WorldState(const WorldState&) = delete;
-  WorldState& operator=(const WorldState&) = delete;
+  Levelset(const Levelset&) = delete;
+  Levelset& operator=(const Levelset&) = delete;
 };
 
 #endif

@@ -37,10 +37,11 @@
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/teleporter.hpp"
 
-class Sprite;
 class GameObject;
-class TileMap;
 class PlayerStatus;
+class Sprite;
+class TileMap;
+class Savegame;
 
 namespace worldmap {
 
@@ -77,7 +78,7 @@ private:
 
   Tux* tux;
 
-  PlayerStatus* player_status;
+  Savegame& m_savegame;
 
   TileSet *tileset;
   bool     free_tileset;
@@ -123,7 +124,7 @@ private:
   bool panning;
 
 public:
-  WorldMap(const std::string& filename, PlayerStatus* player_status, const std::string& force_spawnpoint = "");
+  WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint = "");
   ~WorldMap();
 
   void add_object(GameObject* object);
@@ -168,8 +169,7 @@ public:
   /** returns current Tux incarnation */
   Tux* get_tux() { return tux; }
 
-  /** returns player status */
-  PlayerStatus* get_player_status() { return player_status; }
+  Savegame& get_savegame() { return m_savegame; }
 
   LevelTile* at_level();
   SpecialTile* at_special_tile();

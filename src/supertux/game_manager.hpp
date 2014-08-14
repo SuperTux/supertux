@@ -19,6 +19,7 @@
 
 #include <memory>
 
+#include "supertux/savegame.hpp"
 #include "util/currenton.hpp"
 
 class World;
@@ -27,13 +28,14 @@ class GameManager : public Currenton<GameManager>
 {
 private:
   std::unique_ptr<World> m_world;
+  std::unique_ptr<Savegame> m_savegame;
 
 public:
   GameManager();
   ~GameManager();
 
-  void start_game(std::unique_ptr<World> world);
-  void start_level(std::unique_ptr<World> world, int index);
+  void start_worldmap(std::unique_ptr<World> world);
+  void start_level(std::unique_ptr<World> world, const std::string& level_filename);
 
   std::string get_level_name(const std::string& levelfile) const;
 

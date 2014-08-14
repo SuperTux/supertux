@@ -97,24 +97,6 @@ void display_text_file(const std::string& filename)
   g_screen_manager->push_screen(std::unique_ptr<Screen>(new TextScroller(filename)));
 }
 
-void load_worldmap(const std::string& filename)
-{
-  using namespace worldmap;
-
-  if(World::current() == NULL)
-    throw std::runtime_error("Can't start WorldMap without active world.");
-
-  g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, World::current()->get_player_status())));
-}
-
-void load_level(const std::string& filename)
-{
-  if(GameSession::current() == NULL)
-    throw std::runtime_error("Can't start level without active level.");
-
-  g_screen_manager->push_screen(std::unique_ptr<Screen>(new GameSession(filename, GameSession::current()->get_player_status())));
-}
-
 void import(HSQUIRRELVM vm, const std::string& filename)
 {
   IFileStream in(filename);
@@ -159,27 +141,6 @@ void debug_worldmap_ghost(bool enable)
     throw std::runtime_error("Can't change ghost mode without active WorldMap");
 
   WorldMap::current()->get_tux()->set_ghost_mode(enable);
-}
-
-void save_state()
-{
-  using namespace worldmap;
-
-  if(World::current() == NULL || WorldMap::current() == NULL)
-    throw std::runtime_error("Can't save state without active World");
-
-  WorldMap::current()->save_state();
-  World::current()->save_state();
-}
-
-void update_worldmap()
-{
-  using namespace worldmap;
-
-  if(WorldMap::current() == NULL)
-    throw std::runtime_error("Can't update Worldmap: none active");
-
-  WorldMap::current()->load_state();
 }
 
 // not added to header, function to only be used by others

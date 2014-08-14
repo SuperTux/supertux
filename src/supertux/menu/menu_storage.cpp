@@ -19,7 +19,6 @@
 #include "supertux/globals.hpp"
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
-#include "supertux/menu/contrib_world_menu.hpp"
 #include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"

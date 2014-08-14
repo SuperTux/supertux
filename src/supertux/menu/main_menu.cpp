@@ -58,7 +58,7 @@ MainMenu::check_menu()
     case MNID_STARTGAME:
       {
         std::unique_ptr<World> world = World::load("levels/world1");
-        GameManager::current()->start_game(std::move(world));
+        GameManager::current()->start_worldmap(std::move(world));
       }
       break;
 

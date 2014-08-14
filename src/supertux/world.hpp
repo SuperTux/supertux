@@ -22,10 +22,9 @@
 #include <string>
 #include <vector>
 
-#include "util/currenton.hpp"
-#include "supertux/world_state.hpp"
+#include "supertux/savegame.hpp"
 
-class World : public Currenton<World>
+class World
 {
 private:
   World();
@@ -43,33 +42,24 @@ public:
 public:
   ~World();
 
-  void save_state();
-  void load_state();
-
-  int get_num_levels() const;
-  int get_num_solved_levels() const;
-
-  std::string get_level_filename(unsigned int i) const;
   std::string get_basedir() const;
   std::string get_title() const;
 
-  PlayerStatus* get_player_status() const { return m_world_state->get_player_status(); }
-
-  void run();
-
   bool hide_from_contribs() const { return m_hide_from_contribs; }
+
   bool is_levelset() const { return m_is_levelset; }
+  bool is_worldmap() const { return !m_is_levelset; }
+
+  std::string get_worldmap_filename() const { return m_worldmap_filename; }
+  std::string get_savegame_filename() const { return m_savegame_filename; }
 
 private:
-  std::vector<std::string> m_levels;
   std::string m_basedir;
   std::string m_worldmap_filename;
   std::string m_savegame_filename;
-  HSQOBJECT m_world_thread;
+
   std::string m_title;
   std::string m_description;
-  std::unique_ptr<WorldState> m_world_state;
-
   bool m_hide_from_contribs;
   bool m_is_levelset;
 

@@ -27,13 +27,14 @@
 #include "util/currenton.hpp"
 #include "video/surface.hpp"
 
+class CodeController;
+class DrawingContext;
 class Level;
+class Menu;
+class PlayerStatus;
 class Sector;
 class Statistics;
-class PlayerStatus;
-class DrawingContext;
-class CodeController;
-class Menu;
+class Savegame;
 
 /**
  * Screen that runs a Level, where Players run and jump through Sectors.
@@ -42,7 +43,7 @@ class GameSession : public Screen,
                     public Currenton<GameSession>
 {
 public:
-  GameSession(const std::string& levelfile, PlayerStatus* player_status, Statistics* statistics = NULL);
+  GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = NULL);
   ~GameSession();
 
   void record_demo(const std::string& filename);
@@ -51,7 +52,8 @@ public:
 
   void draw(DrawingContext& context);
   void update(float frame_ratio);
-  void setup();
+  void setup() override;
+  void leave() override;
 
   /// ends the current level
   void finish(bool win = true);
@@ -68,9 +70,6 @@ public:
 
   Level* get_current_level()
   { return level.get(); }
-
-  PlayerStatus* get_player_status()
-  { return player_status; }
 
   void start_sequence(const std::string& sequencename);
 
@@ -94,6 +93,8 @@ public:
    * Forces all Players to enter ghost mode
    */
   void force_ghost_mode();
+
+  Savegame& get_savegame() { return m_savegame; }
 
 private:
   void check_end_conditions();
@@ -134,7 +135,7 @@ private:
   std::string newspawnpoint;
 
   Statistics* best_level_statistics;
-  PlayerStatus* player_status;
+  Savegame& m_savegame;
 
   std::ostream* capture_demo_stream;
   std::string capture_file;
