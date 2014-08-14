@@ -921,7 +921,7 @@ WorldMap::setup()
   sq_pushroottable(global_vm);
   sq_pushstring(global_vm, "worldmap", -1);
   sq_pushobject(global_vm, worldmap_table);
-  if(SQ_FAILED(sq_createslot(global_vm, -3)))
+  if(SQ_FAILED(sq_newslot(global_vm, -3, SQFalse)))
     throw SquirrelError(global_vm, "Couldn't set worldmap in roottable");
   sq_pop(global_vm, 1);
 
@@ -976,7 +976,7 @@ WorldMap::save_state()
     if(SQ_FAILED(sq_get(vm, -2))) {
       sq_pushstring(vm, "worlds", -1);
       sq_newtable(vm);
-      if(SQ_FAILED(sq_createslot(vm, -3)))
+      if(SQ_FAILED(sq_newslot(vm, -3, SQFalse)))
         throw scripting::SquirrelError(vm, "Couldn't create state.worlds");
 
       sq_pushstring(vm, "worlds", -1);
@@ -1000,7 +1000,7 @@ WorldMap::save_state()
     store_float(vm, "y", tux->get_tile_pos().y);
     store_string(vm, "back", direction_to_string(tux->back_direction));
 
-    sq_createslot(vm, -3);
+    sq_newslot(vm, -3, SQFalse);
 
     // levels...
     sq_pushstring(vm, "levels", -1);
@@ -1016,16 +1016,16 @@ WorldMap::save_state()
       store_bool(vm, "perfect", level->perfect);
       level->statistics.serialize_to_squirrel(vm);
 
-      sq_createslot(vm, -3);
+      sq_newslot(vm, -3, SQFalse);
     }
 
-    sq_createslot(vm, -3);
+    sq_newslot(vm, -3, SQFalse);
 
     // overall statistics...
     total_stats.serialize_to_squirrel(vm);
 
     // push world into worlds table
-    sq_createslot(vm, -3);
+    sq_newslot(vm, -3, SQFalse);
   } catch(std::exception& ) {
     sq_settop(vm, oldtop);
   }
