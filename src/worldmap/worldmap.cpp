@@ -986,7 +986,8 @@ WorldMap::save_state()
 
     sq_pushstring(vm, map_filename.c_str(), map_filename.length());
     if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
-      sq_pop(vm, 1);
+    {
+    }
 
     // construct new table for this worldmap
     sq_pushstring(vm, map_filename.c_str(), map_filename.length());
