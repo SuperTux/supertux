@@ -80,7 +80,7 @@ public:
 		_lineinfo = lineinfo;_raiseerror = raiseerror;
 		_scope.outers = 0;
 		_scope.stacksize = 0;
-		_compilererror[0] = NULL;
+		_compilererror[0] = '\0';
 	}
 	static void ThrowError(void *ud, const SQChar *s) {
 		SQCompiler *c = (SQCompiler *)ud;
