@@ -18,6 +18,7 @@
 
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/levelset.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
@@ -31,6 +32,13 @@ LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& le
   m_level_started(false),
   m_solved(false)
 {
+  Levelset levelset(basedir);
+  for(int i = 0; i < levelset.get_num_levels(); ++i)
+  {
+    std::string lev = levelset.get_level_filename(i);
+    m_savegame.set_levelset_state(m_basedir, lev, false);
+  }
+
   LevelsetState state = m_savegame.get_levelset_state(basedir);
   LevelState level_state = state.get_level_state(level_filename);
   m_solved = level_state.solved;

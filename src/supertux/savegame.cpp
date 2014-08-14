@@ -466,7 +466,9 @@ Savegame::set_levelset_state(const std::string& basedir,
     get_or_create_table_entry(vm, "levels");
     get_or_create_table_entry(vm, level_filename);
 
-    scripting::store_bool(vm, "solved", solved);
+    bool old_solved = false;
+    scripting::get_bool(vm, "solved", old_solved);
+    scripting::store_bool(vm, "solved", solved || old_solved);
   }
   catch(const std::exception& err)
   {
