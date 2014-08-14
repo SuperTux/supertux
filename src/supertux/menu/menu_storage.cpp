@@ -94,6 +94,7 @@ MenuStorage::create(MenuId menu_id)
 
     default:
       assert(!"unknown MenuId provided");
+      return std::unique_ptr<Menu>();
   }
 }
 
