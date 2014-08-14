@@ -63,37 +63,6 @@ public:
   std::vector<LevelState> level_states;
 };
 
-/**
-(supertux-savegame
-  (version 1)
-  (title "Bonus Island II (0/28)")
-  (tux
-    (bonus "none")
-    (fireflowers 0)
-    (iceflowers 0)
-    (coins 110)
-  )
-  (state
-    ("levelsets"
-      ("levels/test/"
-        ("levels"
-          ("level10.stl"
-            (perfect #f)
-            (solved #f)
-          )
-    ("worlds"
-      ("levels/bonus2/worldmap.stwm"
-        ("tux" ....)
-        ("levels"
-          ("level10.stl"
-            (perfect #f)
-            (solved #f)
-          )
-          ("level28.stl"
-            (perfect #f)
-            (solved #f)
-          )
- */
 class Savegame
 {
 private:
