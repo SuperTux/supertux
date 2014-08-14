@@ -4,17 +4,18 @@
 # 
 # Translators:
 # Anonymouse <anonymouse2048@gmail.com>, 2013
-# sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2013
-# emukis, 2014
+# Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2013
+# Marcel Haring, 2014
 #  <matze@braunis.de>, 2004
-# Ondřej Hošek <ondra.hosek@gmail.com>, 2013
+# RavuAlHemio <ondra.hosek@gmail.com>, 2013
+# Tobias Markus <tobbi@mozilla-uk.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-03-03 21:36+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2014-04-12 15:32+0000\n"
+"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg-0.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Eier\n!images/powerups/egg/egg-0.png\n#Ein Ei lässt Tux wachsen. Tux kann dann Holzblöcke mit dem Kopf zertrümmern."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""

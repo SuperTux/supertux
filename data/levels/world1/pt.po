@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
-# zezinho <jjorge@free.fr>, 2013
+# zecas <jjorge@free.fr>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Angela <angelapellegrino@hotmail.it>, 2014
 # Iknos <ze4lot@email.it>, 2004
-# noizer, 2013
+# Marcello Bolognesi, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2013-11-20 10:07+0000\n"
-"Last-Translator: noizer\n"
+"PO-Revision-Date: 2014-07-12 10:39+0000\n"
+"Last-Translator: Angela <angelapellegrino@hotmail.it>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr "con il contributo di  %s"
 
 #: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:117
 msgid "Best Level Statistics"
-msgstr "Statistiche dei migliori livelli"
+msgstr "Statistiche dei migliori risultati dei livelli"
 
 #: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:205
 msgid "Coins"
@@ -34,7 +35,7 @@ msgstr "Monete"
 
 #: src/supertux/levelintro.cpp:122
 msgid "Badguys killed"
-msgstr "Cattivi uccisi"
+msgstr "Cattivoni uccisi"
 
 #: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:221
 msgid "Secrets"
@@ -78,7 +79,7 @@ msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
 "                               default %s\n"
 "\n"
-msgstr "\nUtilizzo: %s [OPZIONI] [LIVELLO]\n\nOpzioni:\n  -f, --fullscreen             Avvia a schermo intero\n  -w, --window                 Avvia in una finestra\n  -g, --geometry LARGHxALTEZZA Avvia ad una data risoluzione\n  -a, --aspect LARGH:ALTEZZA   Avvia ad un dato rapporto larghezza/altezza\n  -d, --default                Resetta le impostazioni video ai valori di default\n  --renderer RENDERER          Usa sdl, opengl, o auto per la visualizzazione\n  --disable-sfx                Disattiva gli effetti sonori\n  --disable-music              Disattiva la musica\n  -h, --help                   Mostra questo messaggio d'aiuto ed esce\n  -v, --version                Mostra la versione di SuperTux ed esce\n  --console                    Abilita la console di scripting\n  --noconsole                  Disabilita la console di scripting\n  --show-fps                   Mostra framerate durante il gioco\n  --no-show-fps                Nascondi framerate durante il gioco\n  --record-demo FILE LIVELLO   Registra un demo e lo salva in FILE\n  --play-demo FILE LIVELLO     Esegui il demo FILE\n  -s, --debug-scripts          Abilita il debugger script\n  --print-datadir              Mostra la cartella dati principale di SuperTux\n\nVariabili d'ambiente:\n  SUPERTUX2_USER_DIR           Cartella per i dati utente(salvataggi, ecc.);\n                               default %s\n\n"
+msgstr "\nUtilizzo: %s [OPTIONS] [LEVELFILE]\n\nOpzioni:\n-f, --fullscreen             Avvia a schermo intero\n-w, --window                 Avvia in una finestra\n-g, --geometry LARGHxALTEZZA Avvia ad una data risoluzione\n-a, --aspect LARGH:ALTEZZA   Avvia ad un dato rapporto larghezza/altezza\n-d, --default                Resetta le impostazioni video ai valori di default\n--renderer RENDERER          Usa sdl, opengl, o auto per la visualizzazione\n--disable-sfx                Disattiva gli effetti sonori\n--disable-music              Disattiva la musica\n-h, --help                   Mostra questo messaggio d'aiuto ed esce\n-v, --version                Mostra la versione di SuperTux ed esce\n--console                    Abilita la console di scripting\n--noconsole                  Disabilita la console di scripting\n--show-fps                   Mostra il framerate durante il gioco\n--no-show-fps                Nascondi il framerate durante il gioco\n--record-demo FILE LIVELLO   Registra un demo e lo salva in FILE\n--play-demo FILE LIVELLO     Esegui il demo FILE\n-s, --debug-scripts          Abilita lo script debugger\n--print-datadir              Mostra la cartella dati principale di SuperTux\n\nVariabili d'ambiente:\n SUPERTUX2_USER_DIR           Cartella per i dati utente(salvataggi, ecc.);\ndefault %s\n\n"
 
 #: src/supertux/menu/addon_menu.cpp:56 src/supertux/menu/main_menu.cpp:41
 msgid "Add-ons"
@@ -111,12 +112,12 @@ msgstr "Livello"
 #: src/supertux/menu/addon_menu.cpp:92
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" da \"%s\""
+msgstr "%s \"%s\" di \"%s\""
 
 #: src/supertux/menu/addon_menu.cpp:106
 #, c-format
 msgid "\"%s\" by \"%s\""
-msgstr "\"%s\" da \"%s\""
+msgstr "\"%s\" di \"%s\""
 
 #: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/contrib_menu.cpp:64
 #: src/supertux/menu/contrib_world_menu.cpp:42
@@ -144,7 +145,7 @@ msgstr "Opzioni"
 
 #: src/supertux/menu/game_menu.cpp:31
 msgid "Abort Level"
-msgstr "Esci dal livello"
+msgstr "Abbandona il livello"
 
 #: src/supertux/menu/joystick_menu.cpp:41
 #: src/supertux/menu/options_menu.cpp:210
@@ -159,7 +160,7 @@ msgstr "Su"
 #: src/supertux/menu/joystick_menu.cpp:45
 #: src/supertux/menu/keyboard_menu.cpp:30
 msgid "Down"
-msgstr "Giù/Abbassarsi"
+msgstr "Giù/Abbassati"
 
 #: src/supertux/menu/joystick_menu.cpp:46
 #: src/supertux/menu/keyboard_menu.cpp:31
@@ -188,22 +189,22 @@ msgstr "Pausa/Menu"
 #: src/supertux/menu/joystick_menu.cpp:51
 #: src/supertux/menu/keyboard_menu.cpp:35
 msgid "Peek Left"
-msgstr "Guardare a sinistra"
+msgstr "Guarda a sinistra"
 
 #: src/supertux/menu/joystick_menu.cpp:52
 #: src/supertux/menu/keyboard_menu.cpp:36
 msgid "Peek Right"
-msgstr "Guardare a destra"
+msgstr "Guarda a destra"
 
 #: src/supertux/menu/joystick_menu.cpp:53
 #: src/supertux/menu/keyboard_menu.cpp:37
 msgid "Peek Up"
-msgstr "Guardare su"
+msgstr "Guarda su"
 
 #: src/supertux/menu/joystick_menu.cpp:54
 #: src/supertux/menu/keyboard_menu.cpp:38
 msgid "Peek Down"
-msgstr "Guardare giù"
+msgstr "Guarda giù"
 
 #: src/supertux/menu/joystick_menu.cpp:56
 #: src/supertux/menu/keyboard_menu.cpp:42
@@ -314,7 +315,7 @@ msgstr "Seleziona la lingua"
 
 #: src/supertux/menu/options_menu.cpp:55
 msgid "Select a different language to display text in"
-msgstr "Seleziona la lingua in cui mostrare il testo"
+msgstr "Seleziona una lingua diversa in cui mostrare il testo"
 
 #: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
 msgid "Select Profile"
@@ -348,7 +349,7 @@ msgstr "Risoluzione"
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
-msgstr "Imposta la risoluzione usata a schermo intero (devi selezionare Schermo Intero per completare le modifiche)"
+msgstr "Determina la risoluzione usata a schermo intero (devi selezionare Schermo Intero per completare le modifiche)"
 
 #: src/supertux/menu/options_menu.cpp:69
 msgid "Magnification"
@@ -379,7 +380,7 @@ msgstr "Suono"
 
 #: src/supertux/menu/options_menu.cpp:199
 msgid "Disable all sound effects"
-msgstr "Attiva/disattiva gli effetti sonori"
+msgstr "Disattiva tutti gli effetti sonori"
 
 #: src/supertux/menu/options_menu.cpp:200
 msgid "Music"
@@ -387,7 +388,7 @@ msgstr "Musica"
 
 #: src/supertux/menu/options_menu.cpp:201
 msgid "Disable all music"
-msgstr "Attiva/disattiva la musica"
+msgstr "Disattiva la musica"
 
 #: src/supertux/menu/options_menu.cpp:203
 msgid "Sound (disabled)"
@@ -415,15 +416,15 @@ msgstr "Esci dal mondo"
 
 #: src/supertux/statistics.cpp:128
 msgid "Max coins collected:"
-msgstr "Monete max:"
+msgstr "N. massimo di monete raccolte:"
 
 #: src/supertux/statistics.cpp:132
 msgid "Max fragging:"
-msgstr "Vittime max:"
+msgstr "N. massimo di uccisioni:"
 
 #: src/supertux/statistics.cpp:136
 msgid "Max secrets found:"
-msgstr "Segreti trovati max:"
+msgstr "N. massimo di segreti trovati:"
 
 #: src/supertux/statistics.cpp:140
 msgid "Best time completed:"
@@ -461,7 +462,7 @@ msgstr "Il gioco viene fornito SENZA NESSUNA GARANZIA. Questo è software libero
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."
-msgstr "Si va su..."
+msgstr "E si va..."
 
 #: src/trigger/secretarea_trigger.cpp:46 src/trigger/secretarea_trigger.cpp:56
 msgid "You found a secret area!"

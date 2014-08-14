@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# sencerbulo <mekjotradukoj@outlook.com>, 2013
+# Rubén Leal Coba <mekjotradukoj@outlook.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
 "PO-Revision-Date: 2013-09-23 08:17+0000\n"
-"Last-Translator: sencerbulo <mekjotradukoj@outlook.com>\n"
+"Last-Translator: Rubén Leal Coba <mekjotradukoj@outlook.com>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/supertux/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

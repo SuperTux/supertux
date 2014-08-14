@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
-# sencerbulo <mekjotradukoj@outlook.com>, 2013
+# Rubén Leal Coba <mekjotradukoj@outlook.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

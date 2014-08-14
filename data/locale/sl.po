@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Marko Burjek <email4marko@gmail.com>, 2005-2007
-# Nwolfy, 2014
+# Nwolfy <nikopavlinek@ymail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-03 21:33+0000\n"
 "PO-Revision-Date: 2014-04-06 15:43+0000\n"
-"Last-Translator: Nwolfy\n"
+"Last-Translator: Nwolfy <nikopavlinek@ymail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/supertux/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

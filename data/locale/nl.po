@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Frank van der Loo <frank_l@linuxmail.org>, 2004
-# pdedecker <pdedecker@gmail.com>, 2007,2013
+# Pieter De Decker <pdedecker@gmail.com>, 2007,2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

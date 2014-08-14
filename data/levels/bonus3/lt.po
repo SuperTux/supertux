@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:36+0200\n"
-"PO-Revision-Date: 2013-08-11 00:28+0000\n"
+"POT-Creation-Date: 2014-03-16 16:36+0000\n"
+"PO-Revision-Date: 2014-03-16 16:38+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/projects/p/supertux/language/lt/)\n"
 "MIME-Version: 1.0\n"
@@ -17,263 +17,203 @@ msgstr ""
 "Language: lt\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: data/levels/pre_git_bugtracker_worldmap/-89-2_degrees.stl:3
+#: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "-89,2 degrees"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/Angry Stone vs. YOU.stl:3
-msgid "Angry Stone vs. YOU"
+#: data/levels/bonus3/Global_Warming.stl:3
+msgid "Global Warming"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/Angry Stone vs. YOU.stl:325
-msgid ""
-"#Du aktivierst Schalter mit dieser Taste:\n"
-"\n"
-"\n"
-"#You activate switches with this button:\n"
-"!images/tiles/signs/up.png\n"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/Castle #1.stl:3
-msgid "Castle #1"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/Missingno.stl:3
-msgid "Missingno"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/Missingno.stl:586
-msgid ""
-"#Sei geduldig!\r\n"
-" \r\n"
-"#Be patient! \r\n"
-"\r\n"
-"\r\n"
-"\r\n"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/Missingno.stl:597
-msgid ""
-"#Nicht bewegen beim Flug!  \r\n"
-"#Gib Acht bei der Landung! \r\n"
-"\r\n"
-"#Dont move while flying! \r\n"
-"#Pay attention at landing! "
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/NewIcelevel1.stl:3
-msgid "Blue iced hills"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/NewIcelevel2.stl:3
-msgid "Bads mountains"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/NewIcelevel3.stl:3
-msgid "level tsrif ehT <---"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/NewIcelevel4.stl:3
-msgid "Ice sea"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/NewIcelevel5.stl:3
-msgid "Electric-Wood factory"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/One Night in the Sky.stl:3
+#: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/SP33DRUN.stl:3
-msgid "SP33DRUN"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/abandoned_castle.stl:3
+#: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/another_cold_day.stl:3
+#: data/levels/bonus3/another_cold_day.stl:3
 msgid "Another cold day"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/antarctic_rain.stl:3
+#: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Antarctic rain"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/but_no_one_can_stop_it.stl:3
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/but_no_one_can_stop_it.stl:296
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:307
 msgid ""
-"-Sorry, this flying platform is lazy.\r\n"
+"-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/cant_climb_higher_clouds.stl:3
+#: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/castle_light+darkness-v3.stl:3
+#: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/crystal sunset.stl:3
+#: data/levels/bonus3/cave_run.stl:3
+msgid "Cave Run"
+msgstr ""
+
+#: data/levels/bonus3/cavern_v2.stl:3
+msgid "Cold Cavern"
+msgstr ""
+
+#: data/levels/bonus3/cavern_v2.stl:50
+msgid ""
+"#Good job! You kept the red lantern! You didn't need to though, but just "
+"because you did, have 100 coins!"
+msgstr ""
+
+#: data/levels/bonus3/coconut_fortress.stl:3
+msgid "Coconut Fortress"
+msgstr ""
+
+#: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/crystal.stl:3
+#: data/levels/bonus3/crystal.stl:3
 msgid "Crystal Skies"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/crystalfields.stl:3
+#: data/levels/bonus3/crystal_beauty.stl:3
+msgid "Crystal Beauty"
+msgstr ""
+
+#: data/levels/bonus3/crystal_cataclysm.stl:3
+msgid "Crystal Cataclysm"
+msgstr ""
+
+#: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/dark_castle-v2.stl:3
-#: data/levels/pre_git_bugtracker_worldmap/dark_castle.stl:3
+#: data/levels/bonus3/dark_castle-v2.stl:3
+#: data/levels/bonus3/dark_castle.stl:3
 msgid "The dark castle"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/deep_deeper.stl:3
+#: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/deepest.stl:3
+#: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/entering_castle.stl:3
+#: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/fall_kugelblitz.stl:3
-msgid "Kugelblitzstorm"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/flowers.stl:3
+#: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/hanging roof.stl:3
+#: data/levels/bonus3/glaciers.stl:3
+msgid "After the Glaciers"
+msgstr ""
+
+#: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/hilly_landscape.stl:3
+#: data/levels/bonus3/hilly_landscape.stl:3
 msgid "A hilly landscape"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/hungry_tux.stl:3
-msgid "Tux is hungry!"
+#: data/levels/bonus3/in_the_spring.stl:3
+msgid "In the Spring"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/ice_mountain.stl:3
-msgid "Crystal Mountain"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/in_the_mountain.stl:3
-msgid "In the mountain"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/its_getting_unfinishable.stl:3
+#: data/levels/bonus3/its_getting_unfinishable.stl:3
 msgid "It's getting unfinishable"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/light_in_the_darkness.stl:3
+#: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/long.stl:3
-msgid "A long adventure"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/long.stl:1488
-msgid ""
-"#Until this moment you have luck.\r\n"
-"#You get hardly here.\r\n"
-"#You still have a lot way to go.\r\n"
-"#It certainly know well.\r\n"
-"#Even now you must not fail it.\r\n"
-"#Now go down into the shaft.\r\n"
-"#I think you are understand it.\r\n"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/long.stl:3889
-msgid ""
-"-Congratulations!\r\n"
-"#You are in half the level! "
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/long.stl:4351
-msgid "-You are going wrong!"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/mountanin_climbing.stl:3
-msgid "Mountain climbing"
-msgstr ""
-
-#: data/levels/pre_git_bugtracker_worldmap/niv-1.1.stl:3
+#: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/niv-2.1.stl:3
+#: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/niv-3.stl:3
+#: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/niv-3.stl:28
+#: data/levels/bonus3/niv-3.stl:29
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/niv-3.stl:232
+#: data/levels/bonus3/niv-3.stl:239
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/red_alert_forest.stl:3
+#: data/levels/bonus3/over_the_ocean.stl:3
+msgid "My Penny is over the ocean"
+msgstr ""
+
+#: data/levels/bonus3/pinksnow.stl:3
+msgid "Pink Snow"
+msgstr ""
+
+#: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/sever_escape.stl:3
+#: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/shakespeare-rain.stl:3
+#: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/shakespeare-rain_antarctic.stl:3
+#: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/three_frosty_icebergs.stl:3
+#: data/levels/bonus3/snowy_hill.stl:3
+msgid "A snowy hill"
+msgstr ""
+
+#: data/levels/bonus3/three_frosty_icebergs.stl:3
 msgid "Three Frosty Icebergs"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/under ice.stl:3
+#: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/worldmap.stwm:3
-msgid "Pre-Git Bugtracker World"
+#: data/levels/bonus3/worldmap.stwm:3
+msgid "Bonus Island III"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/worldmap.stwm:108
+#: data/levels/bonus3/worldmap.stwm:12
 msgid "You found a secret place!"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/worldmap.stwm:111
+#: data/levels/bonus3/worldmap.stwm:20
 msgid "Congratulations... you found the secret pathway!"
 msgstr ""
 
-#: data/levels/pre_git_bugtracker_worldmap/worldmap.stwm:142
-#: data/levels/pre_git_bugtracker_worldmap/worldmap.stwm:145
+#: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
 msgid "Go Home"
 msgstr ""

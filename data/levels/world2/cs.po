@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Narre <nrrstttpt@gmail.com>, 2013
-# fri <pavelfric@seznam.cz>, 2013
-# Hume <teratux.mail@gmail.com>, 2013-2014
+# Jirka Paleček <nrrstttpt@gmail.com>, 2013
+# fri, 2013
+# TeraTux devel Team <teratux.mail@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
 "PO-Revision-Date: 2014-02-28 17:37+0000\n"
-"Last-Translator: Hume <teratux.mail@gmail.com>\n"
+"Last-Translator: TeraTux devel Team <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

@@ -4,14 +4,14 @@
 # 
 # Translators:
 # DusXMT <merkur32@gmail.com>, 2014
-# Svistwarrior273 <romanbeno273@gmail.com>, 2014
+# Roman 'Kaktuxista' Benji <romanbeno273@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-03 21:33+0000\n"
 "PO-Revision-Date: 2014-04-05 06:58+0000\n"
-"Last-Translator: Svistwarrior273 <romanbeno273@gmail.com>\n"
+"Last-Translator: Roman 'Kaktuxista' Benji <romanbeno273@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

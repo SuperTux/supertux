@@ -4,17 +4,17 @@
 # 
 # Translators:
 # Anonymouse <anonymouse2048@gmail.com>, 2013
-# sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2006,2013
-# emukis, 2013-2014
+# Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2006,2013
+# Marcel Haring, 2013-2014
 # Matthias Braun <matze@braunis.de>, 2004
-# tobbi <tobbi@mozilla-uk.org>, 2013
+# Tobias Markus <tobbi@mozilla-uk.org>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-01-08 20:37+0000\n"
-"Last-Translator: emukis\n"
+"PO-Revision-Date: 2014-05-03 09:42+0000\n"
+"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,7 +49,7 @@ msgstr "Rekord"
 
 #: src/supertux/levelintro.cpp:143
 msgid "Level target time"
-msgstr "Zielzeit:"
+msgstr "Zielzeit"
 
 #: src/supertux/main.cpp:237
 #, c-format

@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# angi3 <angelapellegrino@hotmail.it>, 2014
-# noizer, 2013
+# Angela <angelapellegrino@hotmail.it>, 2014
+# Marcello Bolognesi, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-04-04 11:29+0000\n"
-"Last-Translator: angi3 <angelapellegrino@hotmail.it>\n"
+"PO-Revision-Date: 2014-06-08 18:54+0000\n"
+"Last-Translator: Angela <angelapellegrino@hotmail.it>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Blocchi Bonus\n!images/objects/bonus_block/full-0.png\n#I blocchi bonus possono contenere monete, potenziamenti o oggetti speciali per aiutarti nella tua missione.\n#\n#Colpiscili dal basso per prendere il loro contenuto."
+msgstr "-Blocchi Bonus\n!images/objects/bonus_block/full-0.png\n#I blocchi bonus possono contenere monete, potenziamenti o oggetti speciali per aiutarti nella missione.\n#\n#Colpiscili dal basso per prendere il loro contenuto."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
@@ -83,11 +83,11 @@ msgstr "Via Nostalgica"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
-msgstr "Tobgle Road"
+msgstr "La Strada per Tobgle"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "Il Bagno Piccino"
+msgstr "Il Bagno Aquanto Piccino"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
@@ -131,7 +131,7 @@ msgstr "Sotto il ghiaccio"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "Vivendo in un frigorifero"
+msgstr "Vivere in un frigorifero"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
@@ -151,7 +151,7 @@ msgstr "La fine del Tunnel"
 
 #: data/levels/world1/21 - A Path in the Clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "Una Strada fra le Nuvole"
+msgstr "Un Sentiero fra le Nuvole"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
@@ -163,7 +163,7 @@ msgstr "La Fuga"
 
 #: data/levels/world1/24 - The Shattered Bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "Il Ponte a Pezzi"
+msgstr "Il Ponte Distrutto"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
@@ -175,11 +175,11 @@ msgstr "Il Castello di Nolok"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "Nessun Altro Signor Ghiacciolo"
+msgstr "Non Più Signor Ghiacciolo"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
-msgstr "Un Bivio nella Strada"
+msgstr "Un Bivio per la Strada"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
@@ -188,21 +188,21 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "-Interruttori\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Gli interruttori possono essere usati per fare ogni tipo di cosa. Spingi Su per usare l'interruttore. Questo attiva l'ascensore alla tua destra."
+msgstr "-Interruttori\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Gli interruttori possono essere usati per fare ogni tipo di cosa. Usa la Freccia Su per usare l'interruttore. Questo attiva l'ascensore alla tua destra."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
 "-Spring Boards\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr "-Molle\n!images/objects/trampoline/trampoline2-0.png\n#Le molle permettono a Tux di saltare verso nuovi orizzonti. Tieni premuto il pulsante di salto mentre rimbalzi su una molla per saltare più in alto."
+msgstr "-Pedane elastiche\n!images/objects/trampoline/trampoline2-0.png\n#Le pedane elastiche permettono a Tux di saltare verso nuovi orizzonti. Tieni premuto il pulsante di salto mentre rimbalzi su una pedansa per saltare più in alto."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 #: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Scalare\n# Tux può scalare! Spingi SU per iniziare a scalare. Spingi il pulsante di AZIONE o salto per smettere."
+msgstr "- Scalare\n# Tux può scalare! Usa la Freccia Su per iniziare a scalare. Spingi il pulsante di AZIONE o salto per smettere."
 
 #: data/levels/world1/Mtn_Pass.stl:3
 msgid "The Mountain Pass"
@@ -218,8 +218,8 @@ msgstr "Picnic Con Penny"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr "Ghiaccisola"
+msgstr "Freddisola"
 
 #: data/levels/world1/worldmap.stwm:37
 msgid "You Found a Secret Area!"
-msgstr "Hai Trovato un'Area Segreta"
+msgstr "Hai Trovato un'Area Segreta!"

@@ -7,8 +7,8 @@
 # mkkot <marcin2006@gmail.com>, 2013-2014
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Paweł Talar <ptalar15@gmail.com>, 2013
-# supertux_pl_sv <kornowski.simon@gmail.com>, 2013
-# supertux_pl_sv <kornowski.simon@gmail.com>, 2013
+# Simon Kornowski <kornowski.simon@gmail.com>, 2013
+# Simon Kornowski <kornowski.simon@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

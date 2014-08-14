@@ -5,17 +5,18 @@
 # Translators:
 # chris020891 <chris020891@gmail.com>, 2014
 # D. J. S. <djsossz@freemail.hu>, 2012
-# norbix9 <buzitetu@indamail.hu>, 2013
-# gyeben <gyonkibendeguz@gmail.com>, 2014
+# Norbert Molnár <buzitetu@indamail.hu>, 2013
+# Gyönki Bendegúz <gyonkibendeguz@gmail.com>, 2014
 #  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
-# norbix9 <buzitetu@indamail.hu>, 2014
+# Kristóf Kófiás <kristof.kofias@gmail.com>, 2014
+# Norbert Molnár <buzitetu@indamail.hu>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2014-02-13 18:24+0000\n"
-"Last-Translator: chris020891 <chris020891@gmail.com>\n"
+"PO-Revision-Date: 2014-08-07 06:43+0000\n"
+"Last-Translator: Kristóf Kófiás <kristof.kofias@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,7 +80,7 @@ msgstr ""
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr ""
+msgstr "Kis-Velence"
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
@@ -99,11 +100,11 @@ msgstr ""
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr ""
+msgstr "Csillagok terme"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr ""
+msgstr "A Néma Falak"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
@@ -135,7 +136,7 @@ msgstr ""
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr ""
+msgstr "Egy kísérteties hely"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
@@ -202,7 +203,7 @@ msgstr ""
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr ""
+msgstr "Zöldellő dombok"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
@@ -238,4 +239,4 @@ msgstr ""
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr ""
+msgstr "Erdő Világ"

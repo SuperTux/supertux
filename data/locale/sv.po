@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Arvid Norlander <anmaster@berlios.de>, 2006-2010
-# supertux_pl_sv <kornowski.simon@gmail.com>, 2013
+# Simon Kornowski <kornowski.simon@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

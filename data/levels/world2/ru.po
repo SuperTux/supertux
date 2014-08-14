@@ -7,7 +7,7 @@
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
 # Dmitry <linuxsquirrel.dev@gmail.com>, 2013
 # Dmitry <linuxsquirrel.dev@gmail.com>, 2013
-# starwars32 <starwars32@yandex.ru>, 2013
+# Дмитрий <starwars32@yandex.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

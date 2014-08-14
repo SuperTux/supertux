@@ -6,7 +6,7 @@
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
 # Filipe Oliveira <contato@fmoliveira.com.br>, 2013
 # Herval Ribeiro <heraze@gmail.com>, 2006
-# joel_gil <joel@gil.com>, 2013
+# Joel Gil Leon <joel@gil.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

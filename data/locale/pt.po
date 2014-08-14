@@ -7,14 +7,14 @@
 # Jose Jorge <jjorge@free.fr>, 2008
 # Ricardo Cruz <rick2@aeiou.pt>, 2004
 # Sérgio Lopes <knitter.is@gmail.com>, 2012
-# zezinho <jjorge@free.fr>, 2013
+# zecas <jjorge@free.fr>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-03 21:33+0000\n"
 "PO-Revision-Date: 2013-11-20 10:07+0000\n"
-"Last-Translator: zezinho <jjorge@free.fr>\n"
+"Last-Translator: zecas <jjorge@free.fr>\n"
 "Language-Team: Portuguese (http://www.transifex.com/projects/p/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

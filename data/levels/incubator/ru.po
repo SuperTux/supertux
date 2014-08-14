@@ -4,7 +4,7 @@
 # 
 # Translators:
 # melikamp <melikamp@melikamp.com>, 2014
-# starwars32 <starwars32@yandex.ru>, 2013
+# Дмитрий <starwars32@yandex.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

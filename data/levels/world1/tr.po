@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# alkimkacmaz <alkimkacmaz@gmail.com>, 2013
+# Alkım Kaçmaz <alkimkacmaz@gmail.com>, 2013
 # yakup <mutouk@yandex.ru>, 2013
-# yozsoy <yusufozsoy96@gmail.com>, 2013
+# Yusuf Özsoy <yusufozsoy96@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

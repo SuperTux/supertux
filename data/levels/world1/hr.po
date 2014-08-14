@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# ilija.culap14 <ilija.culap14@gmail.com>, 2013
+# Ilija Ćulap <ilija.culap14@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

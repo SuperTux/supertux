@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Fernando Carmona <ferkiwi@gmail.com>, 2006
-# goliveira <germanaoliveirab@gmail.com>, 2013
+# Germana <germanaoliveirab@gmail.com>, 2013
 # Javier Beaumont <demonight@users.sourceforge.net>, 2004
 msgid ""
 msgstr ""
@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-03 21:33+0000\n"
 "PO-Revision-Date: 2013-11-20 10:07+0000\n"
-"Last-Translator: goliveira <germanaoliveirab@gmail.com>\n"
+"Last-Translator: Germana <germanaoliveirab@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

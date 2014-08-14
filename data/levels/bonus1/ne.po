@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# bansaj <bansajpradhan@gmail.com>, 2013
-# bansaj <bansajpradhan@gmail.com>, 2013
+# Bansaj Pradhan <bansajpradhan@gmail.com>, 2013
+# Bansaj Pradhan <bansajpradhan@gmail.com>, 2013
 # starryprabin <mr.prabin@gmail.com>, 2014
 msgid ""
 msgstr ""

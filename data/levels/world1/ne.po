@@ -3,10 +3,10 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# bansaj <bansajpradhan@gmail.com>, 2013
-# bansaj <bansajpradhan@gmail.com>, 2013
-# manishdangol <dangol.manish@yahoo.com>, 2013
-# ma OpenThito <PRABINGAUTAM@gmail.com>, 2013
+# Bansaj Pradhan <bansajpradhan@gmail.com>, 2013
+# Bansaj Pradhan <bansajpradhan@gmail.com>, 2013
+# manish dangol <dangol.manish@yahoo.com>, 2013
+# Prabin Gautam <PRABINGAUTAM@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"

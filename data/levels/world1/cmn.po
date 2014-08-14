@@ -3,8 +3,8 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Franklin <franklin@goodhorse.idv.tw>, 2013
-# Wei-Lun Chao <bluebat@member.fsf.org>, 2013
+# Franklin Weng <franklin@goodhorse.idv.tw>, 2013
+# 趙惟倫 <bluebat@member.fsf.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
