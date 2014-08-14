@@ -256,12 +256,6 @@ Savegame::clear_state_table()
   // delete existing state table, if it exists
   sq_pushroottable(vm);
   {
-    /*sq_pushstring(vm, "state", -1);
-    if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
-    {
-      sq_pop(vm, 1);
-      }*/
-
     // create a new empty state table
     sq_pushstring(vm, "state", -1);
     sq_newtable(vm);
