@@ -34,13 +34,14 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/levelintro.hpp"
+#include "supertux/levelset_screen.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/player_status.hpp"
+#include "supertux/savegame.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "worldmap/worldmap.hpp"
@@ -409,7 +410,6 @@ GameSession::setup()
 void
 GameSession::leave()
 {
-  m_savegame.save();
 }
 
 void
@@ -494,7 +494,14 @@ GameSession::finish(bool win)
 
   if(win) {
     if(WorldMap::current())
+    {
       WorldMap::current()->finished_level(level.get());
+    }
+
+    if (LevelsetScreen::current())
+    {
+      LevelsetScreen::current()->finished_level(win);
+    }
   }
 
   g_screen_manager->pop_screen();

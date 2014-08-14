@@ -47,8 +47,9 @@ ContribLevelsetMenu::ContribLevelsetMenu(std::unique_ptr<World> world) :
 
   for (int i = 0; i < m_levelset->get_num_levels(); ++i)
   {
-    std::string filename = FileSystem::join(m_world->get_basedir(), m_levelset->get_level_filename(i));
-    std::string title = GameManager::current()->get_level_name(filename);
+    std::string filename = m_levelset->get_level_filename(i);
+    std::string full_filename = FileSystem::join(m_world->get_basedir(), filename);
+    std::string title = GameManager::current()->get_level_name(full_filename);
     LevelState level_state = state.get_level_state(filename);
 
     std::ostringstream out;

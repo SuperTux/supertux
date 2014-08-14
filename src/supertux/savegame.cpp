@@ -44,6 +44,28 @@ void get_table_entry(HSQUIRRELVM vm, const std::string& name)
   }
 }
 
+void get_or_create_table_entry(HSQUIRRELVM vm, const std::string& name)
+{
+  sq_pushstring(vm, name.c_str(), -1);
+  if(SQ_FAILED(sq_get(vm, -2)))
+  {
+    sq_pushstring(vm, name.c_str(), -1);
+    sq_newtable(vm);
+    if(SQ_FAILED(sq_newslot(vm, -3, SQFalse)))
+    {
+      throw std::runtime_error("failed to create '" + name + "' table entry");
+    }
+    else
+    {
+      get_table_entry(vm, name);
+    }
+  }
+  else
+  {
+    // successfully placed result on stack
+  }
+}
+
 std::vector<std::string> get_table_keys(HSQUIRRELVM vm)
 {
   std::vector<std::string> worlds;
@@ -104,6 +126,24 @@ std::vector<LevelState> get_level_states(HSQUIRRELVM vm)
 }
 
 } // namespace
+
+void
+LevelsetState::store_level_state(const LevelState& in_state)
+{
+  auto it = std::find_if(level_states.begin(), level_states.end(),
+                         [&in_state](const LevelState& state)
+                         {
+                           return state.filename == in_state.filename;
+                         });
+  if (it != level_states.end())
+  {
+    *it = in_state;
+  }
+  else
+  {
+    level_states.push_back(in_state);
+  }
+}
 
 LevelState
 LevelsetState::get_level_state(const std::string& filename)
@@ -380,7 +420,7 @@ Savegame::get_levelsets()
 }
 
 LevelsetState
-Savegame::get_levelset_state(const std::string& name)
+Savegame::get_levelset_state(const std::string& basedir)
 {
   LevelsetState result;
 
@@ -392,7 +432,7 @@ Savegame::get_levelset_state(const std::string& name)
     sq_pushroottable(vm);
     get_table_entry(vm, "state");
     get_table_entry(vm, "levelsets");
-    get_table_entry(vm, name);
+    get_table_entry(vm, basedir);
     get_table_entry(vm, "levels");
 
     result.level_states = get_level_states(vm);
@@ -405,6 +445,35 @@ Savegame::get_levelset_state(const std::string& name)
   sq_settop(vm, oldtop);
 
   return result;
+}
+
+void
+Savegame::set_levelset_state(const std::string& basedir,
+                             const std::string& level_filename,
+                             bool solved)
+{
+  LevelsetState state = get_levelset_state(basedir);
+
+  HSQUIRRELVM vm = scripting::global_vm;
+  int oldtop = sq_gettop(vm);
+
+  try
+  {
+    sq_pushroottable(vm);
+    get_table_entry(vm, "state");
+    get_or_create_table_entry(vm, "levelsets");
+    get_or_create_table_entry(vm, basedir);
+    get_or_create_table_entry(vm, "levels");
+    get_or_create_table_entry(vm, level_filename);
+
+    scripting::store_bool(vm, "solved", solved);
+  }
+  catch(const std::exception& err)
+  {
+    log_warning << err.what() << std::endl;
+  }
+
+  sq_settop(vm, oldtop);
 }
 
 /* EOF */

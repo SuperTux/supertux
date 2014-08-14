@@ -24,11 +24,12 @@
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/levelset_screen.hpp"
+#include "supertux/savegame.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/world.hpp"
-#include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "worldmap/worldmap.hpp"
@@ -50,8 +51,9 @@ GameManager::start_level(std::unique_ptr<World> world, const std::string& level_
   m_savegame.reset(new Savegame(m_world->get_savegame_filename()));
   m_savegame->load();
 
-  std::unique_ptr<Screen> screen(new GameSession(FileSystem::join(m_world->get_basedir(), level_filename),
-                                                 *m_savegame));
+  std::unique_ptr<Screen> screen(new LevelsetScreen(m_world->get_basedir(),
+                                                    level_filename,
+                                                    *m_savegame));
   g_screen_manager->push_screen(std::move(screen));
 }
 
