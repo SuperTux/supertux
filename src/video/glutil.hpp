@@ -24,6 +24,14 @@
 #include <sstream>
 #include <stdexcept>
 
+
+#ifdef USE_GLBINDING
+
+#include <glbinding/gl/gl.h>
+using namespace gl;
+
+#else
+
 #ifndef GL_VERSION_ES_CM_1_0
 #  include <GL/glew.h>
 #endif
@@ -37,6 +45,8 @@
 #else
 #  include <GL/gl.h>
 #  include <GL/glext.h>
+#endif
+
 #endif
 
 static inline void check_gl_error(const char* message)

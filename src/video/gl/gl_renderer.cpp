@@ -29,6 +29,12 @@
 #include "video/gl/gl_texture.hpp"
 #include "video/util.hpp"
 
+#ifdef USE_GLBINDING
+#  include <glbinding/ContextInfo.h>
+#  include <glbinding/gl/extension.h>
+#  include <glbinding/callbacks.h>
+#endif
+
 #define LIGHTMAP_DIV 5
 
 #ifdef GL_VERSION_ES_CM_1_0
@@ -44,6 +50,40 @@ GLRenderer::GLRenderer() :
   last_texture(static_cast<GLuint> (-1))
 {
   Renderer::instance_ = this;
+
+#ifdef USE_GLBINDING
+
+  glbinding::Binding::initialize();
+
+#ifdef USE_GLBINDING_DEBUG_OUTPUT
+  glbinding::setCallbackMask(glbinding::CallbackMask::After | glbinding::CallbackMask::ParametersAndReturnValue);
+
+  glbinding::setAfterCallback([](const glbinding::FunctionCall & call) {
+    std::cout << call.function.name() << "(";
+
+    for (unsigned i = 0; i < call.parameters.size(); ++i)
+    {
+      std::cout << call.parameters[i]->asString();
+      if (i < call.parameters.size() - 1)
+        std::cout << ", ";
+    }
+
+      std::cout << ")";
+
+    if (call.returnValue)
+    {
+      std::cout << " -> " << call.returnValue->asString();
+    }
+
+    std::cout << std::endl;
+  });
+#endif
+
+  static auto extensions = glbinding::ContextInfo::extensions();
+  log_info << "Using glbinding 1.0.0 " << std::endl;
+  log_info << "ARB_texture_non_power_of_two: " << static_cast<int>(extensions.find(GLextension::GL_ARB_texture_non_power_of_two) != extensions.end()) << std::endl;
+
+#endif
 
   SDL_DisplayMode mode;
   SDL_GetCurrentDisplayMode(0, &mode);
@@ -90,6 +130,7 @@ GLRenderer::GLRenderer() :
     texture_manager->reload_textures();
 
 #ifndef GL_VERSION_ES_CM_1_0
+  #ifndef USE_GLBINDING
   GLenum err = glewInit();
   if (GLEW_OK != err)
   {
@@ -99,6 +140,7 @@ GLRenderer::GLRenderer() :
   }
   log_info << "Using GLEW " << glewGetString(GLEW_VERSION) << std::endl;
   log_info << "GLEW_ARB_texture_non_power_of_two: " << static_cast<int>(GLEW_ARB_texture_non_power_of_two) << std::endl;
+#  endif
 #endif
 }
 
