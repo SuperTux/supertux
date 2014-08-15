@@ -28,8 +28,6 @@
 class DrawingContext;
 class MenuItem;
 
-bool confirm_dialog(Surface* background, std::string text);
-
 class Menu
 {
   static Color default_color;
@@ -106,15 +104,13 @@ protected:
   MenuItem* add_item(std::unique_ptr<MenuItem> menu_item);
 
 private:
+  void process_action(MenuAction menuaction);
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index);
 
 private:
   // position of the menu (ie. center of the menu, not top/left)
   Vector pos;
-
-  /** input event for the menu (up, down, left, right, etc.) */
-  MenuAction menuaction;
 
   /* input implementation variables */
   int   delete_character;

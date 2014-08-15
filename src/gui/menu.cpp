@@ -37,7 +37,6 @@ static const float MENU_REPEAT_RATE    = 0.1f;
 
 Menu::Menu() :
   pos(),
-  menuaction(),
   delete_character(),
   mn_input_char(),
   menu_repeat_time(),
@@ -45,7 +44,6 @@ Menu::Menu() :
   arrange_left(),
   active_item()
 {
-  menuaction = MENU_ACTION_NONE;
   delete_character = 0;
   mn_input_char = '\0';
 
@@ -170,7 +168,6 @@ Menu::clear()
   active_item = -1;
 }
 
-/* Process actions done on the menu */
 void
 Menu::process_input()
 {
@@ -181,6 +178,7 @@ Menu::process_input()
     pos.y = SCREEN_HEIGHT/2 - scroll_offset * ((float(active_item) / (items.size()-1)) - 0.5f) * 2.0f;
   }
 
+  MenuAction menuaction = MENU_ACTION_NONE;
   Controller* controller = g_input_manager->get_controller();
   /** check main input controller... */
   if(controller->pressed(Controller::UP)) {
@@ -235,6 +233,15 @@ Menu::process_input()
   if(items.size() == 0)
     return;
 
+  // The menu_action() call can pop() the menu from the stack and thus
+  // delete it, so it's important that no further member variables are
+  // accessed after this call
+  process_action(menuaction);
+}
+
+void
+Menu::process_action(MenuAction menuaction)
+{
   int last_active_item = active_item;
   switch(menuaction) {
     case MENU_ACTION_UP:
@@ -363,14 +370,7 @@ Menu::process_input()
     case MENU_ACTION_NONE:
       break;
   }
-  menuaction = MENU_ACTION_NONE;
-
-  assert(active_item < int(items.size()));
 }
-
-void
-Menu::menu_action(MenuItem* )
-{}
 
 void
 Menu::draw_item(DrawingContext& context, int index)
@@ -656,7 +656,6 @@ Menu::set_toggled(int id, bool toggled)
   get_item_by_id(id).toggled = toggled;
 }
 
-/* Check for menu event */
 void
 Menu::event(const SDL_Event& event)
 {
@@ -673,7 +672,7 @@ Menu::event(const SDL_Event& event)
          y > pos.y - get_height()/2 &&
          y < pos.y + get_height()/2)
       {
-        menuaction = MENU_ACTION_HIT;
+        process_action(MENU_ACTION_HIT);
       }
     }
     break;
