@@ -36,7 +36,6 @@ static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;
 
 Menu::Menu() :
-  hit_item(),
   pos(),
   menuaction(),
   delete_character(),
@@ -46,7 +45,6 @@ Menu::Menu() :
   arrange_left(),
   active_item()
 {
-  hit_item = -1;
   menuaction = MENU_ACTION_NONE;
   delete_character = 0;
   mn_input_char = '\0';
@@ -234,7 +232,6 @@ Menu::process_input()
     menuaction = MENU_ACTION_BACK;
   }
 
-  hit_item = -1;
   if(items.size() == 0)
     return;
 
@@ -289,7 +286,6 @@ Menu::process_input()
       break;
 
     case MENU_ACTION_HIT: {
-      hit_item = active_item;
       switch (items[active_item]->kind) {
         case MN_GOTO:
           assert(items[active_item]->target_menu != 0);
@@ -370,20 +366,6 @@ Menu::process_input()
   menuaction = MENU_ACTION_NONE;
 
   assert(active_item < int(items.size()));
-}
-
-int
-Menu::check()
-{
-  if (hit_item != -1)
-  {
-    int id = items[hit_item]->id;
-    // Clear event when checked out.. (we would end up in a loop when we try to leave "fake" submenu like Addons or Contrib)
-    hit_item = -1;
-    return id;
-  }
-  else
-    return -1;
 }
 
 void

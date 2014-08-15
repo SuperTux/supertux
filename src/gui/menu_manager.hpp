@@ -49,7 +49,6 @@ public:
   void refresh();
 
   void draw(DrawingContext& context);
-  bool check_menu();
 
   void set_menu(int id);
   void set_menu(std::unique_ptr<Menu> menu);

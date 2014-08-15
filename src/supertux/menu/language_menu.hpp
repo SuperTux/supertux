@@ -26,8 +26,7 @@ class LanguageMenu : public Menu
 public:
   LanguageMenu();
 
-  void menu_action(MenuItem* item);
-  void check_menu() {}
+  void menu_action(MenuItem* item) override;
 };
 
 #endif

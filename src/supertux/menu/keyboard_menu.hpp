@@ -29,9 +29,9 @@ public:
 
   void refresh();
   std::string get_key_name(SDL_Keycode key);
-  virtual void menu_action(MenuItem* item);
+  void menu_action(MenuItem* item) override;
   InputManager* controller;
-  void check_menu() {}
+
 private:
   KeyboardMenu(const KeyboardMenu&);
   KeyboardMenu& operator=(const KeyboardMenu&);

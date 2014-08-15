@@ -17,6 +17,7 @@
 #include "supertux/menu/main_menu.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/game_manager.hpp"
@@ -51,9 +52,9 @@ MainMenu::on_window_resize()
 }
 
 void
-MainMenu::check_menu()
+MainMenu::menu_action(MenuItem* item)
 {
-  switch (check())
+  switch (item->id)
   {
     case MNID_STARTGAME:
       {

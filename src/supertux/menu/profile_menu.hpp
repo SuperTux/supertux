@@ -24,7 +24,7 @@ class ProfileMenu : public Menu
 public:
   ProfileMenu();
 
-  void menu_action(MenuItem* item);
+  void menu_action(MenuItem* item) override;
 
   void check_menu() {}
 };

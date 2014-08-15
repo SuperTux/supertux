@@ -428,7 +428,6 @@ GameSession::update(float elapsed_time)
   }
 
   process_events();
-  MenuManager::instance().check_menu();
 
   // Unpause the game if the menu has been closed
   if (game_pause && !MenuManager::instance().is_active()) {

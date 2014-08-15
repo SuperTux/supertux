@@ -26,7 +26,7 @@ public:
   OptionsMenu(bool complete);
   virtual ~OptionsMenu();
 
-  void menu_action(MenuItem* item);
+  void menu_action(MenuItem* item) override;
   void check_menu();
 };
 

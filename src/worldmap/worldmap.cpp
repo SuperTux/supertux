@@ -568,12 +568,8 @@ WorldMap::clamp_camera_position(Vector& c) {
 void
 WorldMap::update(float delta)
 {
-  if(!in_level) {
-    if (MenuManager::instance().check_menu())
-    {
-      return;
-    }
-
+  if (!in_level && !MenuManager::instance().is_active())
+  {
     // update GameObjects
     for(size_t i = 0; i < game_objects.size(); ++i) {
       GameObject* object = game_objects[i];

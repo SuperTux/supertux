@@ -67,7 +67,7 @@ public:
                              const std::string& mapping = "");
   MenuItem* add_string_select(int id, const std::string& text);
 
-  virtual void menu_action(MenuItem* item);
+  virtual void menu_action(MenuItem* item) = 0;
 
   void process_input();
 
@@ -76,8 +76,6 @@ public:
 
   /** Remove all entries from the menu */
   void clear();
-
-  virtual void check_menu() =0;
 
   MenuItem& get_item(int index)
   {
@@ -105,10 +103,6 @@ public:
   virtual void on_window_resize();
 
 protected:
-  /** Return the index of the menu item that was 'hit' (ie. the user
-      clicked on it) in the last event() call */
-  int check ();
-
   MenuItem* add_item(std::unique_ptr<MenuItem> menu_item);
 
 private:
@@ -116,10 +110,6 @@ private:
   void draw_item(DrawingContext& context, int index);
 
 private:
-  /** Number of the item that got 'hit' (ie. pressed) in the last
-      event()/update() call, -1 if none */
-  int hit_item;
-
   // position of the menu (ie. center of the menu, not top/left)
   Vector pos;
 

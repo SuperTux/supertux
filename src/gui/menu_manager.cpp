@@ -201,20 +201,6 @@ MenuManager::draw(DrawingContext& context)
   }
 }
 
-bool
-MenuManager::check_menu()
-{
-  if (current())
-  {
-    current()->check_menu();
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-
 void
 MenuManager::push_menu(int id)
 {

@@ -39,7 +39,7 @@ public:
   MainMenu();
 
   void on_window_resize() override;
-  void check_menu();
+  void menu_action(MenuItem* item) override;
 
 private:
   MainMenu(const MainMenu&);
