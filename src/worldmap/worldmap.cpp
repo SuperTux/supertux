@@ -642,7 +642,14 @@ WorldMap::update(float delta)
         enter_level = true;
     }
     if(controller->pressed(Controller::PAUSE_MENU))
+    {
       on_escape_press();
+    }
+
+    if(controller->pressed(Controller::CHEAT_MENU))
+    {
+      MenuManager::instance().set_menu(MenuStorage::WORLDMAP_CHEAT_MENU);
+    }
 
     // check for teleporters
     Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
@@ -950,6 +957,16 @@ WorldMap::leave()
   if(SQ_FAILED(sq_deleteslot(global_vm, -2, SQFalse)))
     throw SquirrelError(global_vm, "Couldn't unset worldmap in roottable");
   sq_pop(global_vm, 1);
+}
+
+void
+WorldMap::set_levels_solved(bool solved, bool perfect)
+{
+  for(auto& level : levels)
+  {
+    level->set_solved(solved);
+    level->set_perfect(perfect);
+  }
 }
 
 void

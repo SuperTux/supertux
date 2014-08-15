@@ -28,6 +28,7 @@
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/menu/profile_menu.hpp"
 #include "supertux/menu/worldmap_menu.hpp"
+#include "supertux/menu/worldmap_cheat_menu.hpp"
 
 MenuStorage* MenuStorage::s_instance = 0;
 
@@ -77,6 +78,9 @@ MenuStorage::create(MenuId menu_id)
 
     case WORLDMAP_MENU:
       return std::unique_ptr<Menu>(new WorldmapMenu);
+
+    case WORLDMAP_CHEAT_MENU:
+      return std::unique_ptr<Menu>(new WorldmapCheatMenu);
 
     case GAME_MENU:
       return std::unique_ptr<Menu>(new GameMenu);
