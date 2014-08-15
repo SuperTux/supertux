@@ -26,6 +26,7 @@ const char* Controller::controlNames[] = {
   "pause-menu",
   "menu-select",
   "menu-back",
+  "cheat-menu",
   "console",
   "peek-left",
   "peek-right",

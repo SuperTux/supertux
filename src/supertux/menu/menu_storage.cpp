@@ -18,6 +18,7 @@
 
 #include "supertux/globals.hpp"
 #include "supertux/menu/addon_menu.hpp"
+#include "supertux/menu/cheat_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
 #include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
@@ -79,6 +80,9 @@ MenuStorage::create(MenuId menu_id)
 
     case GAME_MENU:
       return std::unique_ptr<Menu>(new GameMenu);
+
+    case CHEAT_MENU:
+      return std::unique_ptr<Menu>(new CheatMenu);
 
     case CONTRIB_MENU:
       return std::unique_ptr<Menu>(new ContribMenu);

@@ -417,7 +417,15 @@ GameSession::update(float elapsed_time)
 {
   // handle controller
   if(g_input_manager->get_controller()->pressed(Controller::PAUSE_MENU))
+  {
     on_escape_press();
+  }
+
+  if(g_input_manager->get_controller()->pressed(Controller::CHEAT_MENU))
+  {
+    game_pause = true;
+    MenuManager::instance().set_menu(MenuStorage::CHEAT_MENU);
+  }
 
   process_events();
   MenuManager::instance().check_menu();

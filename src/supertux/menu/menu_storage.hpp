@@ -46,7 +46,8 @@ public:
     KEYBOARD_MENU,
     JOYSTICK_MENU,
     WORLDMAP_MENU,
-    GAME_MENU
+    GAME_MENU,
+    CHEAT_MENU
   };
 
 public:

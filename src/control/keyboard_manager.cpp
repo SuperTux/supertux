@@ -51,6 +51,7 @@ KeyboardManager::KeyboardManager(InputManager* parent) :
   keymap[SDLK_PAGEDOWN] = Controller::PEEK_RIGHT;
   keymap[SDLK_HOME]     = Controller::PEEK_UP;
   keymap[SDLK_END]      = Controller::PEEK_DOWN;
+  keymap[SDLK_TAB]      = Controller::CHEAT_MENU;
 }
 
 KeyboardManager::~KeyboardManager()
