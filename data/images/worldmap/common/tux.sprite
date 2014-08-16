@@ -28,7 +28,7 @@
  )
  (action
   (name "large-walking")
-  (hitbox 0 10 0 0)
+  (hitbox 5 20 0 0)
   (images "smalltux.png"
           "smalltux1.png"
           "smalltux2.png"
@@ -49,12 +49,12 @@
  )
  (action
   (name "large-stop")
-  (hitbox 0 10 0 0)
+  (hitbox 5 20 0 0)
   (images "smalltux.png")
  )
  (action
   (name "fire-walking")
-  (hitbox 0 10 0 0)
+  (hitbox 5 20 0 0)
   (images "smalltux_fire.png"
           "smalltux2_fire.png"
           "smalltux3_fire.png"
@@ -73,12 +73,12 @@
  )
  (action
   (name "fire-stop")
-  (hitbox 0 10 0 0)
+  (hitbox 5 20 0 0)
   (images "smalltux_fire.png")
  )
   (action
   (name "ice-walking")
-  (hitbox 0 10 0 0)
+  (hitbox 5 20 0 0)
   (images "smalltux_ice.png"
           "smalltux2_ice.png"
           "smalltux3_ice.png"
@@ -97,7 +97,7 @@
  )
  (action
   (name "ice-stop")
-  (hitbox 0 10 0 0)
+  (hitbox 5 20 0 0)
   (images "smalltux_ice.png")
  )
 )
