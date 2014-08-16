@@ -119,8 +119,10 @@ TitleScreen::draw(DrawingContext& context)
   Sector* sector  = titlesession->get_current_sector();
   sector->draw(context);
 
-  // FIXME: Add something to scale the frame to the resolution of the screen
-  //context.draw_surface(frame, Vector(0,0),LAYER_FOREGROUND1);
+  context.draw_surface_part(frame,
+                            Rectf(0, 0, frame->get_width(), frame->get_height()),
+                            Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
+                            LAYER_FOREGROUND1);
 
   context.draw_text(Resources::small_font,
                     copyright_text,
