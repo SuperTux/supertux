@@ -25,6 +25,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
+#include "video/gl/gl_painter.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/util.hpp"
@@ -40,8 +41,7 @@ GLRenderer::GLRenderer() :
   glcontext(),
   viewport(),
   desktop_size(0, 0),
-  fullscreen_active(false),
-  last_texture(static_cast<GLuint> (-1))
+  fullscreen_active(false)
 {
   Renderer::instance_ = this;
 
@@ -106,277 +106,6 @@ GLRenderer::~GLRenderer()
 {
   SDL_GL_DeleteContext(glcontext);
   SDL_DestroyWindow(window);
-}
-
-void
-GLRenderer::draw_surface(const DrawingRequest& request)
-{
-  const Surface* surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;
-  if(surface == NULL)
-  {
-    return;
-  }
-  GLTexture* gltexture = static_cast<GLTexture*>(surface->get_texture().get());
-  if(gltexture == NULL)
-  {
-    return;
-  }
-  GLSurfaceData *surface_data = static_cast<GLSurfaceData*>(surface->get_surface_data());
-  if(surface_data == NULL)
-  {
-    return;
-  }
-
-  GLuint th = gltexture->get_handle();
-  if (th != last_texture) {
-    last_texture = th;
-    glBindTexture(GL_TEXTURE_2D, th);
-  }
-  intern_draw(request.pos.x, request.pos.y,
-              request.pos.x + surface->get_width(),
-              request.pos.y + surface->get_height(),
-              surface_data->get_uv_left(),
-              surface_data->get_uv_top(),
-              surface_data->get_uv_right(),
-              surface_data->get_uv_bottom(),
-              request.angle,
-              request.alpha,
-              request.color,
-              request.blend,
-              request.drawing_effect);
-}
-
-void
-GLRenderer::draw_surface_part(const DrawingRequest& request)
-{
-  const SurfacePartRequest* surfacepartrequest
-    = (SurfacePartRequest*) request.request_data;
-  const Surface* surface = surfacepartrequest->surface;
-  boost::shared_ptr<GLTexture> gltexture = boost::dynamic_pointer_cast<GLTexture>(surface->get_texture());
-  GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
-
-  float uv_width = surface_data->get_uv_right() - surface_data->get_uv_left();
-  float uv_height = surface_data->get_uv_bottom() - surface_data->get_uv_top();
-
-  float uv_left = surface_data->get_uv_left() + (uv_width * surfacepartrequest->srcrect.p1.x) / surface->get_width();
-  float uv_top = surface_data->get_uv_top() + (uv_height * surfacepartrequest->srcrect.p1.y) / surface->get_height();
-  float uv_right = surface_data->get_uv_left() + (uv_width * surfacepartrequest->srcrect.p2.x) / surface->get_width();
-  float uv_bottom = surface_data->get_uv_top() + (uv_height * surfacepartrequest->srcrect.p2.y) / surface->get_height();
-
-  GLuint th = gltexture->get_handle();
-  if (th != last_texture) {
-    last_texture = th;
-    glBindTexture(GL_TEXTURE_2D, th);
-  }
-  intern_draw(request.pos.x, request.pos.y,
-              request.pos.x + surfacepartrequest->dstsize.width,
-              request.pos.y + surfacepartrequest->dstsize.height,
-              uv_left,
-              uv_top,
-              uv_right,
-              uv_bottom,
-              0.0,
-              request.alpha,
-              request.color,
-              Blend(),
-              request.drawing_effect);
-}
-
-void
-GLRenderer::draw_gradient(const DrawingRequest& request)
-{
-  const GradientRequest* gradientrequest
-    = (GradientRequest*) request.request_data;
-  const Color& top = gradientrequest->top;
-  const Color& bottom = gradientrequest->bottom;
-
-  glDisable(GL_TEXTURE_2D);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnableClientState(GL_COLOR_ARRAY);
-
-  float vertices[] = {
-    0, 0,
-    float(SCREEN_WIDTH), 0,
-    float(SCREEN_WIDTH), float(SCREEN_HEIGHT),
-    0, float(SCREEN_HEIGHT)
-  };
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
-
-  float colors[] = {
-    top.red, top.green, top.blue, top.alpha,
-    top.red, top.green, top.blue, top.alpha,
-    bottom.red, bottom.green, bottom.blue, bottom.alpha,
-    bottom.red, bottom.green, bottom.blue, bottom.alpha,
-  };
-  glColorPointer(4, GL_FLOAT, 0, colors);
-
-  glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
-  glDisableClientState(GL_COLOR_ARRAY);
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
-}
-
-void
-GLRenderer::draw_filled_rect(const DrawingRequest& request)
-{
-  const FillRectRequest* fillrectrequest
-    = (FillRectRequest*) request.request_data;
-
-  glDisable(GL_TEXTURE_2D);
-  glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
-            fillrectrequest->color.blue, fillrectrequest->color.alpha);
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-  if (fillrectrequest->radius != 0.0f)
-  {
-    // draw round rect
-    // Keep radius in the limits, so that we get a circle instead of
-    // just graphic junk
-    float radius = std::min(fillrectrequest->radius,
-                            std::min(fillrectrequest->size.x/2,
-                                     fillrectrequest->size.y/2));
-
-    // inner rectangle
-    Rectf irect(request.pos.x    + radius,
-                request.pos.y    + radius,
-                request.pos.x + fillrectrequest->size.x - radius,
-                request.pos.y + fillrectrequest->size.y - radius);
-
-    int n = 8;
-    int p = 0;
-    std::vector<float> vertices((n+1) * 4 * 2);
-
-    for(int i = 0; i <= n; ++i)
-    {
-      float x = sinf(i * (M_PI/2) / n) * radius;
-      float y = cosf(i * (M_PI/2) / n) * radius;
-
-      vertices[p++] = irect.get_left() - x;
-      vertices[p++] = irect.get_top()  - y;
-
-      vertices[p++] = irect.get_right() + x;
-      vertices[p++] = irect.get_top()   - y;
-    }
-
-    for(int i = 0; i <= n; ++i)
-    {
-      float x = cosf(i * (M_PI/2) / n) * radius;
-      float y = sinf(i * (M_PI/2) / n) * radius;
-
-      vertices[p++] = irect.get_left()   - x;
-      vertices[p++] = irect.get_bottom() + y;
-
-      vertices[p++] = irect.get_right()  + x;
-      vertices[p++] = irect.get_bottom() + y;
-    }
-
-    glVertexPointer(2, GL_FLOAT, 0, &*vertices.begin());
-    glDrawArrays(GL_TRIANGLE_STRIP, 0,  vertices.size()/2);
-  }
-  else
-  {
-    float x = request.pos.x;
-    float y = request.pos.y;
-    float w = fillrectrequest->size.x;
-    float h = fillrectrequest->size.y;
-
-    float vertices[] = {
-      x,   y,
-      x+w, y,
-      x+w, y+h,
-      x,   y+h
-    };
-    glVertexPointer(2, GL_FLOAT, 0, vertices);
-
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-  }
-
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
-}
-
-void
-GLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
-{
-  const InverseEllipseRequest* ellipse = (InverseEllipseRequest*)request.request_data;
-
-  glDisable(GL_TEXTURE_2D);
-  glColor4f(ellipse->color.red,  ellipse->color.green,
-            ellipse->color.blue, ellipse->color.alpha);
-
-  float x = request.pos.x;
-  float y = request.pos.y;
-  float w = ellipse->size.x/2.0f;
-  float h = ellipse->size.y/2.0f;
-
-  static const int slices = 16;
-  static const int points = (slices+1) * 12;
-
-  float vertices[points * 2];
-  int   p = 0;
-
-  // Bottom
-  vertices[p++] = SCREEN_WIDTH; vertices[p++] = SCREEN_HEIGHT;
-  vertices[p++] = 0;            vertices[p++] = SCREEN_HEIGHT;
-  vertices[p++] = x;            vertices[p++] = y+h;
-
-  // Top
-  vertices[p++] = SCREEN_WIDTH; vertices[p++] = 0;
-  vertices[p++] = 0;            vertices[p++] = 0;
-  vertices[p++] = x;            vertices[p++] = y-h;
-
-  // Left
-  vertices[p++] = SCREEN_WIDTH; vertices[p++] = 0;
-  vertices[p++] = SCREEN_WIDTH; vertices[p++] = SCREEN_HEIGHT;
-  vertices[p++] = x+w;          vertices[p++] = y;
-
-  // Right
-  vertices[p++] = 0;            vertices[p++] = 0;
-  vertices[p++] = 0;            vertices[p++] = SCREEN_HEIGHT;
-  vertices[p++] = x-w;          vertices[p++] = y;
-
-  for(int i = 0; i < slices; ++i)
-  {
-    float ex1 = sinf(M_PI/2 / slices * i) * w;
-    float ey1 = cosf(M_PI/2 / slices * i) * h;
-
-    float ex2 = sinf(M_PI/2 / slices * (i+1)) * w;
-    float ey2 = cosf(M_PI/2 / slices * (i+1)) * h;
-
-    // Bottom/Right
-    vertices[p++] = SCREEN_WIDTH; vertices[p++] = SCREEN_HEIGHT;
-    vertices[p++] = x + ex1;      vertices[p++] = y + ey1;
-    vertices[p++] = x + ex2;      vertices[p++] = y + ey2;
-
-    // Top/Left
-    vertices[p++] = 0;            vertices[p++] = 0;
-    vertices[p++] = x - ex1;      vertices[p++] = y - ey1;
-    vertices[p++] = x - ex2;      vertices[p++] = y - ey2;
-
-    // Top/Right
-    vertices[p++] = SCREEN_WIDTH; vertices[p++] = 0;
-    vertices[p++] = x + ex1;      vertices[p++] = y - ey1;
-    vertices[p++] = x + ex2;      vertices[p++] = y - ey2;
-
-    // Bottom/Left
-    vertices[p++] = 0;            vertices[p++] = SCREEN_HEIGHT;
-    vertices[p++] = x - ex1;      vertices[p++] = y + ey1;
-    vertices[p++] = x - ex2;      vertices[p++] = y + ey2;
-  }
-
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  glVertexPointer(2, GL_FLOAT, 0, vertices);
-
-  glDrawArrays(GL_TRIANGLES, 0, points);
-
-  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-  glEnable(GL_TEXTURE_2D);
-  glColor4f(1, 1, 1, 1);
 }
 
 void
@@ -620,6 +349,36 @@ GLRenderer::apply_video_mode()
       fullscreen_active = g_config->use_fullscreen;
     }
   }
+}
+
+void
+GLRenderer::draw_surface(const DrawingRequest& request)
+{
+  GLPainter::draw_surface(request);
+}
+
+void
+GLRenderer::draw_surface_part(const DrawingRequest& request)
+{
+  GLPainter::draw_surface_part(request);
+}
+
+void
+GLRenderer::draw_gradient(const DrawingRequest& request)
+{
+  GLPainter::draw_gradient(request);
+}
+
+void
+GLRenderer::draw_filled_rect(const DrawingRequest& request)
+{
+  GLPainter::draw_filled_rect(request);
+}
+
+void
+GLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
+{
+  GLPainter::draw_inverse_ellipse(request);
 }
 
 Vector

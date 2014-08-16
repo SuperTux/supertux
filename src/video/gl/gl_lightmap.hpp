@@ -36,6 +36,7 @@ public:
   void draw_surface_part(const DrawingRequest& request);
   void draw_gradient(const DrawingRequest& request);
   void draw_filled_rect(const DrawingRequest& request);
+  void draw_inverse_ellipse(const DrawingRequest& request);
   void get_light(const DrawingRequest& request) const;
 
 private:
