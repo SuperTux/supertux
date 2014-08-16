@@ -242,7 +242,8 @@ void
 GameSession::toggle_pause()
 {
   // pause
-  if(!game_pause) {
+  if (!game_pause && !MenuManager::instance().is_active())
+  {
     speed_before_pause = g_screen_manager->get_speed();
     g_screen_manager->set_speed(0);
     MenuManager::instance().set_menu(MenuStorage::GAME_MENU);
@@ -423,8 +424,11 @@ GameSession::update(float elapsed_time)
 
   if(g_input_manager->get_controller()->pressed(Controller::CHEAT_MENU))
   {
-    game_pause = true;
-    MenuManager::instance().set_menu(MenuStorage::CHEAT_MENU);
+    if (!MenuManager::instance().is_active())
+    {
+      game_pause = true;
+      MenuManager::instance().set_menu(MenuStorage::CHEAT_MENU);
+    }
   }
 
   process_events();
