@@ -113,8 +113,9 @@ DrawingContext::draw_surface(SurfacePtr surface, const Vector& position,
 }
 
 void
-DrawingContext::draw_surface_part(SurfacePtr surface, const Vector& source,
-                                  const Vector& size, const Vector& dest, int layer)
+DrawingContext::draw_surface_part(SurfacePtr surface,
+                                  const Rectf& srcrect, const Rectf& dstrect,
+                                  int layer)
 {
   assert(surface != 0);
 
@@ -122,31 +123,16 @@ DrawingContext::draw_surface_part(SurfacePtr surface, const Vector& source,
 
   request->target = target;
   request->type = SURFACE_PART;
-  request->pos = transform.apply(dest);
+  request->pos = transform.apply(dstrect.p1);
   request->layer = layer;
   request->drawing_effect = transform.drawing_effect;
   request->alpha = transform.alpha;
 
   SurfacePartRequest* surfacepartrequest = new(obst) SurfacePartRequest();
-  surfacepartrequest->size = size;
-  surfacepartrequest->source = source;
+  surfacepartrequest->srcrect = srcrect;
+  surfacepartrequest->dstsize = dstrect.get_size();
   surfacepartrequest->surface = surface.get();
 
-  // clip on screen borders
-  if(request->pos.x < 0) {
-    surfacepartrequest->size.x += request->pos.x;
-    if(surfacepartrequest->size.x <= 0)
-      return;
-    surfacepartrequest->source.x -= request->pos.x;
-    request->pos.x = 0;
-  }
-  if(request->pos.y < 0) {
-    surfacepartrequest->size.y += request->pos.y;
-    if(surfacepartrequest->size.y <= 0)
-      return;
-    surfacepartrequest->source.y -= request->pos.y;
-    request->pos.y = 0;
-  }
   request->request_data = surfacepartrequest;
 
   requests->push_back(request);
