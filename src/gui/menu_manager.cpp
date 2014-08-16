@@ -201,20 +201,6 @@ MenuManager::draw(DrawingContext& context)
   }
 }
 
-bool
-MenuManager::check_menu()
-{
-  if (current())
-  {
-    current()->check_menu();
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-
 void
 MenuManager::push_menu(int id)
 {
@@ -261,6 +247,7 @@ MenuManager::set_menu(std::unique_ptr<Menu> menu)
   {
     transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
                menu.get());
+    m_menu_stack.clear();
     m_menu_stack.push_back(std::move(menu));
   }
   else

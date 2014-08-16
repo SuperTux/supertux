@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2008 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,19 +14,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_PROFILE_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_PROFILE_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_CHEAT_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_CHEAT_MENU_HPP
 
 #include "gui/menu.hpp"
 
-class ProfileMenu : public Menu
+class CheatMenu : public Menu
 {
+private:
+  enum MenuIDs {
+    MNID_GROW,
+    MNID_FIRE,
+    MNID_ICE,
+    MNID_STAR,
+    MNID_SHRINK,
+    MNID_KILL,
+    MNID_FINISH
+  };
+
 public:
-  ProfileMenu();
+  CheatMenu();
 
   void menu_action(MenuItem* item) override;
 
-  void check_menu() {}
+private:
+  CheatMenu(const CheatMenu&) = delete;
+  CheatMenu& operator=(const CheatMenu&) = delete;
 };
 
 #endif

@@ -31,7 +31,7 @@ private:
 public:
   ContribLevelsetMenu(std::unique_ptr<World> current_world);
 
-  void check_menu();
+  void menu_action(MenuItem* item) override;
 
 private:
   ContribLevelsetMenu(const ContribLevelsetMenu&);

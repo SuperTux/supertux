@@ -16,6 +16,7 @@
 
 #include "supertux/menu/worldmap_menu.hpp"
 
+#include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
@@ -34,9 +35,9 @@ WorldmapMenu::WorldmapMenu()
 }
 
 void
-WorldmapMenu::check_menu()
+WorldmapMenu::menu_action(MenuItem* item)
 {
-  switch (check())
+  switch (item->id)
   {
     case MNID_RETURNWORLDMAP:
       MenuManager::instance().clear_menu_stack();

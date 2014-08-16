@@ -22,6 +22,8 @@
 
 #include "addon/addon.hpp"
 #include "addon/addon_manager.hpp"
+#include "gui/menu.hpp"
+#include "gui/menu_item.hpp"
 #include "util/gettext.hpp"
 
 namespace {
@@ -120,9 +122,9 @@ AddonMenu::refresh()
 }
 
 void
-AddonMenu::check_menu()
+AddonMenu::menu_action(MenuItem* item)
 {
-  int index = check();
+  int index = item->id;
 
   if (index == -1)
   {

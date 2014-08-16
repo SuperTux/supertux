@@ -31,7 +31,7 @@ public:
   ContribMenu();
   ~ContribMenu();
 
-  void check_menu();
+  void menu_action(MenuItem* item) override;
 
 private:
   ContribMenu(const ContribMenu&);

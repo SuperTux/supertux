@@ -78,6 +78,37 @@ LevelTile::update(float )
 {
 }
 
+void
+LevelTile::update_sprite_action()
+{
+  if (perfect)
+  {
+    sprite->set_action("perfect");
+  }
+  else if (solved)
+  {
+    sprite->set_action("perfect");
+  }
+  else
+  {
+    sprite->set_action("default");
+  }
+}
+
+void
+LevelTile::set_solved(bool v)
+{
+  solved = v;
+  update_sprite_action();
+}
+
+void
+LevelTile::set_perfect(bool v)
+{
+  perfect = v;
+  update_sprite_action();
+}
+
 } // namespace worldmap
 
 /* EOF */

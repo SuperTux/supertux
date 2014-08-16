@@ -35,6 +35,7 @@ public:
     MENU_SELECT,
     MENU_BACK,
 
+    CHEAT_MENU,
     CONSOLE,
 
     PEEK_LEFT,

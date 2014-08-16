@@ -32,7 +32,7 @@ private:
 public:
   GameMenu();
 
-  void check_menu() override;
+  void menu_action(MenuItem* item) override;
 
 private:
   GameMenu(const GameMenu&);

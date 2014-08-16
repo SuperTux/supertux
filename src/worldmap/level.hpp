@@ -22,6 +22,7 @@
 #include <string>
 
 #include "math/vector.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/statistics.hpp"
 #include "video/surface.hpp"
@@ -38,6 +39,12 @@ public:
 
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);
+
+  void set_solved(bool v);
+  void set_perfect(bool v);
+
+private:
+  void update_sprite_action();
 
 public:
   Vector pos;

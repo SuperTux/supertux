@@ -34,7 +34,7 @@ public:
   AddonMenu();
 
   void refresh();
-  void check_menu();
+  void menu_action(MenuItem* item) override;
 
 private:
   AddonMenu(const AddonMenu&);

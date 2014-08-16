@@ -16,12 +16,14 @@
 
 #include "supertux/menu/game_menu.hpp"
 
+#include "gui/menu.hpp"
+#include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/screen_manager.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
+#include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
 
 GameMenu::GameMenu()
@@ -37,9 +39,9 @@ GameMenu::GameMenu()
 }
 
 void
-GameMenu::check_menu()
+GameMenu::menu_action(MenuItem* item)
 {
-  switch (check())
+  switch (item->id)
   {
     case MNID_CONTINUE:
       MenuManager::instance().clear_menu_stack();

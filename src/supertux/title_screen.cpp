@@ -137,8 +137,6 @@ TitleScreen::update(float elapsed_time)
 
   make_tux_jump();
 
-  MenuManager::instance().check_menu();
-
   // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)
   if(!MenuManager::instance().is_active() && !g_screen_manager->has_pending_fadeout())

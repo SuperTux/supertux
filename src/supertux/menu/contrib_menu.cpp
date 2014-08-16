@@ -19,6 +19,7 @@
 #include <physfs.h>
 #include <sstream>
 
+#include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
@@ -134,9 +135,9 @@ ContribMenu::~ContribMenu()
 }
 
 void
-ContribMenu::check_menu()
+ContribMenu::menu_action(MenuItem* item)
 {
-  int index = check();
+  int index = item->id;
   if (index != -1)
   {
     // reload the World so that we have something that we can safely

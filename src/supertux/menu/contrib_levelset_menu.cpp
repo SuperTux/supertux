@@ -69,20 +69,16 @@ ContribLevelsetMenu::ContribLevelsetMenu(std::unique_ptr<World> world) :
 }
 
 void
-ContribLevelsetMenu::check_menu()
+ContribLevelsetMenu::menu_action(MenuItem* item)
 {
-  int index = check();
-  if (index != -1)
+  if (item->kind == MN_ACTION)
   {
-    if (get_item_by_id(index).kind == MN_ACTION)
-    {
-      sound_manager->stop_music();
+    sound_manager->stop_music();
 
-      // reload the World so that we have something that we can safely
-      // std::move() around without wreaking the ContribMenu
-      std::unique_ptr<World> world = World::load(m_world->get_basedir());
-      GameManager::current()->start_level(std::move(world), m_levelset->get_level_filename(index));
-    }
+    // reload the World so that we have something that we can safely
+    // std::move() around without wreaking the ContribMenu
+    std::unique_ptr<World> world = World::load(m_world->get_basedir());
+    GameManager::current()->start_level(std::move(world), m_levelset->get_level_filename(item->id));
   }
 }
 
