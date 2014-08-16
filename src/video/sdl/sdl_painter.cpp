@@ -99,16 +99,16 @@ SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& requ
   boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->surface->get_texture());
 
   SDL_Rect src_rect;
-  src_rect.x = surfacepartrequest->source.x;
-  src_rect.y = surfacepartrequest->source.y;
-  src_rect.w = surfacepartrequest->size.x;
-  src_rect.h = surfacepartrequest->size.y;
+  src_rect.x = surfacepartrequest->srcrect.p1.x;
+  src_rect.y = surfacepartrequest->srcrect.p1.y;
+  src_rect.w = surfacepartrequest->srcrect.get_width();
+  src_rect.h = surfacepartrequest->srcrect.get_height();
 
   SDL_Rect dst_rect;
   dst_rect.x = request.pos.x;
   dst_rect.y = request.pos.y;
-  dst_rect.w = surfacepartrequest->size.x;
-  dst_rect.h = surfacepartrequest->size.y;
+  dst_rect.w = surfacepartrequest->dstsize.width;
+  dst_rect.h = surfacepartrequest->dstsize.height;
 
   Uint8 r = static_cast<Uint8>(request.color.red * 255);
   Uint8 g = static_cast<Uint8>(request.color.green * 255);

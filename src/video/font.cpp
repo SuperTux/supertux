@@ -434,8 +434,8 @@ Font::draw_chars(Renderer *renderer, bool notshadow, const std::string& text,
       request.alpha = alpha;
 
       SurfacePartRequest surfacepartrequest;
-      surfacepartrequest.size = glyph.rect.p2 - glyph.rect.p1;
-      surfacepartrequest.source = glyph.rect.p1;
+      surfacepartrequest.srcrect = glyph.rect;
+      surfacepartrequest.dstsize = glyph.rect.get_size();
       surfacepartrequest.surface = notshadow ? glyph_surfaces[glyph.surface_idx].get() : shadow_surfaces[glyph.surface_idx].get();
 
       request.request_data = &surfacepartrequest;

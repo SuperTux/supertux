@@ -179,15 +179,15 @@ GLLightmap::draw_surface_part(const DrawingRequest& request)
   float uv_width = surface_data->get_uv_right() - surface_data->get_uv_left();
   float uv_height = surface_data->get_uv_bottom() - surface_data->get_uv_top();
 
-  float uv_left = surface_data->get_uv_left() + (uv_width * surfacepartrequest->source.x) / surface->get_width();
-  float uv_top = surface_data->get_uv_top() + (uv_height * surfacepartrequest->source.y) / surface->get_height();
-  float uv_right = surface_data->get_uv_left() + (uv_width * (surfacepartrequest->source.x + surfacepartrequest->size.x)) / surface->get_width();
-  float uv_bottom = surface_data->get_uv_top() + (uv_height * (surfacepartrequest->source.y + surfacepartrequest->size.y)) / surface->get_height();
+  float uv_left = surface_data->get_uv_left() + (uv_width * surfacepartrequest->srcrect.p1.x) / surface->get_width();
+  float uv_top = surface_data->get_uv_top() + (uv_height * surfacepartrequest->srcrect.p1.y) / surface->get_height();
+  float uv_right = surface_data->get_uv_left() + (uv_width * surfacepartrequest->srcrect.p2.x) / surface->get_width();
+  float uv_bottom = surface_data->get_uv_top() + (uv_height * surfacepartrequest->srcrect.p2.y) / surface->get_height();
 
   glBindTexture(GL_TEXTURE_2D, gltexture->get_handle());
   intern_draw(request.pos.x, request.pos.y,
-              request.pos.x + surfacepartrequest->size.x,
-              request.pos.y + surfacepartrequest->size.y,
+              request.pos.x + surfacepartrequest->dstsize.width,
+              request.pos.y + surfacepartrequest->dstsize.height,
               uv_left,
               uv_top,
               uv_right,
