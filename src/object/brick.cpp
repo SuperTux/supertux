@@ -48,7 +48,7 @@ Brick::hit(Player& player)
 }
 
 HitResponse
-Brick::collision(GameObject& other, const CollisionHit& hit){
+Brick::collision(GameObject& other, const CollisionHit& hit_){
 
   Player* player = dynamic_cast<Player*> (&other);
   if (player) {
@@ -75,7 +75,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit){
   if(explosion && explosion->hurts()) {
     try_break(player);
   }
-  return Block::collision(other, hit);
+  return Block::collision(other, hit_);
 }
 
 void

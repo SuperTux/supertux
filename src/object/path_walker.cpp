@@ -19,9 +19,9 @@
 #include <math.h>
 #include <assert.h>
 
-PathWalker::PathWalker(const Path* path, bool running) :
+PathWalker::PathWalker(const Path* path, bool running_) :
   path(path),
-  running(running),
+  running(running_),
   current_node_nr(0),
   next_node_nr(0),
   stop_at_node_nr(running?-1:0),

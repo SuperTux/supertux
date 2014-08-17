@@ -224,12 +224,12 @@ MrIceBlock::collision_squished(GameObject& object)
 }
 
 void
-MrIceBlock::set_state(IceState state, bool up)
+MrIceBlock::set_state(IceState state_, bool up)
 {
-  if(ice_state == state)
+  if(ice_state == state_)
     return;
 
-  switch(state) {
+  switch(state_) {
     case ICESTATE_NORMAL:
       this->set_action(dir == LEFT ? "left" : "right", /* loops = */ -1);
       WalkingBadguy::initialize();
@@ -259,26 +259,26 @@ MrIceBlock::set_state(IceState state, bool up)
     default:
       assert(false);
   }
-  ice_state = state;
+  ice_state = state_;
 }
 
 void
-MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir)
+MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   movement = pos - get_pos();
-  this->dir = dir;
-  this->set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+  this->dir = dir_;
+  this->set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
   set_state(ICESTATE_GRABBED);
   set_colgroup_active(COLGROUP_DISABLED);
 }
 
 void
-MrIceBlock::ungrab(MovingObject& , Direction dir)
+MrIceBlock::ungrab(MovingObject& , Direction dir_)
 {
-  if(dir == UP) {
+  if(dir_ == UP) {
     set_state(ICESTATE_FLAT, true);
   } else {
-    this->dir = dir;
+    this->dir = dir_;
     set_state(ICESTATE_KICKED);
   }
   set_colgroup_active(COLGROUP_MOVING);

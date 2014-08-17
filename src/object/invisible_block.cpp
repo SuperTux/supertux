@@ -54,9 +54,9 @@ InvisibleBlock::collides(GameObject& other, const CollisionHit& )
 }
 
 HitResponse
-InvisibleBlock::collision(GameObject& other, const CollisionHit& hit)
+InvisibleBlock::collision(GameObject& other, const CollisionHit& hit_)
 {
-  return Block::collision(other, hit);
+  return Block::collision(other, hit_);
 }
 
 void

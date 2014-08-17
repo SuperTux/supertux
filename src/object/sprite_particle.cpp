@@ -26,12 +26,12 @@
 
 SpriteParticle::SpriteParticle(std::string sprite_name, std::string action,
                                Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration,
-                               int drawing_layer) :
+                               int drawing_layer_) :
   sprite(),
   position(position),
   velocity(velocity),
   acceleration(acceleration),
-  drawing_layer(drawing_layer),
+  drawing_layer(drawing_layer_),
   light(0.0f,0.0f,0.0f),
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
   glow(false)

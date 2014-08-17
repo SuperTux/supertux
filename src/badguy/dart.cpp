@@ -39,9 +39,9 @@ Dart::Dart(const Reader& reader) :
   sound_manager->preload("sounds/stomp.wav");
 }
 
-Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent = 0) :
+Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = 0) :
   BadGuy(pos, d, "images/creatures/dart/dart.sprite"),
-  parent(parent),
+  parent(parent_),
   sound_source()
 {
   physic.enable_gravity(false);

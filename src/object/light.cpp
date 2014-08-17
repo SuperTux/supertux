@@ -18,9 +18,9 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
-Light::Light(const Vector& center, const Color& color) :
+Light::Light(const Vector& center, const Color& color_) :
   position(center),
-  color(color),
+  color(color_),
   sprite()
 {
   sprite = sprite_manager->create("images/objects/lightmap_light/lightmap_light.sprite");

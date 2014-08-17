@@ -31,9 +31,9 @@
 #include "video/texture_manager.hpp"
 #include "video/video_systems.hpp"
 
-DrawingContext::DrawingContext(Renderer& renderer, Lightmap& lightmap) :
-  renderer(renderer),
-  lightmap(lightmap),
+DrawingContext::DrawingContext(Renderer& renderer_, Lightmap& lightmap_) :
+  renderer(renderer_),
+  lightmap(lightmap_),
   transformstack(),
   transform(),
   blend_stack(),

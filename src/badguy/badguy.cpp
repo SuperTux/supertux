@@ -33,8 +33,8 @@ static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 static const int LAYER_FALLING = 500;
 
-BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer) :
-  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
+BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_) :
+  MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
   physic(),
   countMe(true),
   is_initialized(false),
@@ -59,8 +59,8 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer) :
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
 
-BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer) :
-  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
+BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name_, int layer_) :
+  MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
   physic(),
   countMe(true),
   is_initialized(false),
@@ -85,8 +85,8 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
 
-BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name, int layer) :
-  MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
+BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name_, int layer_) :
+  MovingSprite(reader, sprite_name_, layer_, COLGROUP_DISABLED),
   physic(),
   countMe(true),
   is_initialized(false),
@@ -490,8 +490,8 @@ BadGuy::try_activate()
 
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
       if (start_dir == AUTO) {
-        Player* player = get_nearest_player();
-        if (player && (player->get_bbox().p1.x > get_bbox().p2.x)) {
+        Player* player_ = get_nearest_player();
+        if (player_ && (player_->get_bbox().p1.x > get_bbox().p2.x)) {
           dir = RIGHT;
         } else {
           dir = LEFT;
@@ -624,10 +624,10 @@ BadGuy::is_ignited() const
 }
 
 void
-BadGuy::set_colgroup_active(CollisionGroup group)
+BadGuy::set_colgroup_active(CollisionGroup group_)
 {
-  this->colgroup_active = group;
-  if (state == STATE_ACTIVE) set_group(group);
+  this->colgroup_active = group_;
+  if (state == STATE_ACTIVE) set_group(group_);
 }
 
 /* EOF */
