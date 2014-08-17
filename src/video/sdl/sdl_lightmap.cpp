@@ -38,7 +38,8 @@ SDLLightmap::SDLLightmap() :
   texture = SDL_CreateTexture(renderer,
                               SDL_PIXELFORMAT_RGB888,
                               SDL_TEXTUREACCESS_TARGET,
-                              width, height);
+                              width / LIGHTMAP_DIV,
+                              height / LIGHTMAP_DIV);
   if (!texture)
   {
     std::stringstream msg;
@@ -63,11 +64,13 @@ SDLLightmap::start_draw(const Color &ambient_color)
 
   SDL_SetRenderDrawColor(renderer, r, g, b, 255);
   SDL_RenderClear(renderer);
+  SDL_RenderSetScale(renderer, 1.0f / LIGHTMAP_DIV, 1.0f / LIGHTMAP_DIV);
 }
 
 void
 SDLLightmap::end_draw()
 {
+  SDL_RenderSetScale(renderer, 1.0f, 1.0f);
   SDL_SetRenderTarget(renderer, NULL);
 }
 
