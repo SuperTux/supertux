@@ -36,9 +36,9 @@ Mole::Mole(const Reader& reader) :
   throw_timer()
 {
   physic.enable_gravity(false);
-  sound_manager->preload("sounds/fall.wav");
-  sound_manager->preload("sounds/squish.wav");
-  sound_manager->preload("sounds/dartfire.wav");
+  SoundManager::current()->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/squish.wav");
+  SoundManager::current()->preload("sounds/dartfire.wav");
 }
 
 Mole::Mole(const Vector& pos) :
@@ -48,9 +48,9 @@ Mole::Mole(const Vector& pos) :
   throw_timer()
 {
   physic.enable_gravity(false);
-  sound_manager->preload("sounds/fall.wav");
-  sound_manager->preload("sounds/squish.wav");
-  sound_manager->preload("sounds/dartfire.wav");
+  SoundManager::current()->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/squish.wav");
+  SoundManager::current()->preload("sounds/dartfire.wav");
 }
 
 void
@@ -63,7 +63,7 @@ void
 Mole::kill_fall()
 {
   set_state(DEAD);
-  sound_manager->play("sounds/fall.wav", get_pos());
+  SoundManager::current()->play("sounds/fall.wav", get_pos());
   run_dead_script();
 }
 
@@ -80,7 +80,7 @@ Mole::collision_squished(GameObject& )
     return true;
 
   set_state(DEAD);
-  sound_manager->play("sounds/squish.wav", get_pos());
+  SoundManager::current()->play("sounds/squish.wav", get_pos());
   run_dead_script();
   return true;
 }
@@ -95,7 +95,7 @@ Mole::throw_rock()
   float vx = cos(angle) * THROW_VELOCITY;
   float vy = -sin(angle) * THROW_VELOCITY;
 
-  sound_manager->play("sounds/dartfire.wav", get_pos());
+  SoundManager::current()->play("sounds/dartfire.wav", get_pos());
   Sector::current()->add_object(new MoleRock(Vector(px, py), Vector(vx, vy), this));
 }
 

@@ -34,7 +34,7 @@ MrBomb::MrBomb(const Reader& reader) :
   grabbed = false;
 
   //Prevent stutter when Tux jumps on Mr Bomb
-  sound_manager->preload("sounds/explosion.wav");
+  SoundManager::current()->preload("sounds/explosion.wav");
 
   //Check if we need another sprite
   if( !reader.get( "sprite", sprite_name ) ){
@@ -45,7 +45,7 @@ MrBomb::MrBomb(const Reader& reader) :
     return;
   }
   //Replace sprite
-  sprite = sprite_manager->create( sprite_name );
+  sprite = SpriteManager::current()->create( sprite_name );
 }
 
 /* MrBomb created by a dispenser always gets default sprite atm.*/
@@ -56,7 +56,7 @@ MrBomb::MrBomb(const Vector& pos, Direction d) :
   walk_speed = 80;
   max_drop_height = 16;
   grabbed = false;
-  sound_manager->preload("sounds/explosion.wav");
+  SoundManager::current()->preload("sounds/explosion.wav");
 }
 
 HitResponse

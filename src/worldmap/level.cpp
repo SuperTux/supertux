@@ -50,7 +50,7 @@ LevelTile::LevelTile(const std::string& basedir_, const Reader& lisp) :
 
   std::string spritefile = "images/worldmap/common/leveldot.sprite";
   lisp.get("sprite", spritefile);
-  sprite = sprite_manager->create(spritefile);
+  sprite = SpriteManager::current()->create(spritefile);
 
   lisp.get("extro-script", extro_script);
 

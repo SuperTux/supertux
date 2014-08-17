@@ -73,7 +73,7 @@ LevelsetScreen::setup()
     // this gets called when the GameSession is done and we return back to the
     m_savegame.set_levelset_state(m_basedir, m_level_filename, m_solved);
     m_savegame.save();
-    g_screen_manager->pop_screen();
+    ScreenManager::current()->pop_screen();
   }
   else
   {
@@ -81,7 +81,7 @@ LevelsetScreen::setup()
 
     std::unique_ptr<Screen> screen(new GameSession(FileSystem::join(m_basedir, m_level_filename),
                                                    m_savegame));
-    g_screen_manager->push_screen(std::move(screen));
+    ScreenManager::current()->push_screen(std::move(screen));
   }
 }
 

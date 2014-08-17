@@ -43,16 +43,16 @@ Firefly::Firefly(const Reader& lisp) :
     return;
   }
   //Replace sprite
-  sprite = sprite_manager->create( sprite_name );
+  sprite = SpriteManager::current()->create( sprite_name );
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   reactivate();
 
   //Load sound
     if( sprite_name.find("vbell", 0) == std::string::npos ) {
-      sound_manager->preload("sounds/savebell_low.wav");
+      SoundManager::current()->preload("sounds/savebell_low.wav");
     }
     else {
-      sound_manager->preload("sounds/savebell2.wav");
+      SoundManager::current()->preload("sounds/savebell2.wav");
     }
 }
 
@@ -93,10 +93,10 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     }
 
     if( sprite_name.find("vbell", 0) == std::string::npos ) {
-      sound_manager->play("sounds/savebell2.wav");
+      SoundManager::current()->play("sounds/savebell2.wav");
     }
     else {
-      sound_manager->play("sounds/savebell_low.wav");
+      SoundManager::current()->play("sounds/savebell_low.wav");
     }
 
     sprite->set_action("ringing");

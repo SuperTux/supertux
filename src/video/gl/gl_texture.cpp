@@ -56,8 +56,8 @@ GLTexture::GLTexture(unsigned int width, unsigned int height) :
   try {
     glBindTexture(GL_TEXTURE_2D, m_handle);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 
-                 m_texture_width, m_texture_height, 
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+                 m_texture_width, m_texture_height,
                  0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
     set_texture_params();
@@ -139,7 +139,7 @@ GLTexture::GLTexture(SDL_Surface* image) :
       SDL_LockSurface(convert);
     }
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
                  m_texture_width, m_texture_height, 0, sdl_format,
                  GL_UNSIGNED_BYTE, convert->pixels);
 

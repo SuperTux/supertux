@@ -25,19 +25,19 @@ Flower::Flower(BonusType _type) :
   sprite(),
   drawing_effect(NO_EFFECT),
   light(1.0f,1.0f,1.0f),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   bbox.set_size(32, 32);
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
 
   if(type == FIRE_BONUS) {
-    sprite = sprite_manager->create("images/powerups/fireflower/fireflower.sprite");
-    sound_manager->preload("sounds/fire-flower.wav");
+    sprite = SpriteManager::current()->create("images/powerups/fireflower/fireflower.sprite");
+    SoundManager::current()->preload("sounds/fire-flower.wav");
     lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
   }
   else if(type == ICE_BONUS) {
-    sprite = sprite_manager->create("images/powerups/iceflower/iceflower.sprite");
-    sound_manager->preload("sounds/fire-flower.wav");
+    sprite = SpriteManager::current()->create("images/powerups/iceflower/iceflower.sprite");
+    SoundManager::current()->preload("sounds/fire-flower.wav");
     lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
   } else {
     assert(false);
@@ -80,7 +80,7 @@ Flower::collision(GameObject& other, const CollisionHit& )
   if(!player->add_bonus(type, true))
     return FORCE_MOVE;
 
-  sound_manager->play("sounds/fire-flower.wav");
+  SoundManager::current()->play("sounds/fire-flower.wav");
   remove_me();
   return ABORT_MOVE;
 }

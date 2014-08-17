@@ -16,6 +16,7 @@
 
 #include <algorithm>
 
+#include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
 #include "util/log.hpp"

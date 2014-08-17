@@ -39,8 +39,6 @@ SDLRenderer::SDLRenderer() :
   m_desktop_size(0, 0),
   m_scale(1.0f, 1.0f)
 {
-  Renderer::instance_ = this;
-
   SDL_DisplayMode mode;
   if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
   {
@@ -113,9 +111,6 @@ SDLRenderer::SDLRenderer() :
     log_info << "Max Texture Width: " << info.max_texture_width << std::endl;
     log_info << "Max Texture Height: " << info.max_texture_height << std::endl;
   }
-
-  if(texture_manager == 0)
-    texture_manager = new TextureManager();
 
   g_config->window_size = Size(width, height);
   apply_config();

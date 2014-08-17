@@ -27,6 +27,7 @@
 #include <vector>
 #include <boost/weak_ptr.hpp>
 
+#include "util/currenton.hpp"
 #include "video/glutil.hpp"
 #include "video/texture_ptr.hpp"
 
@@ -34,7 +35,7 @@ class Texture;
 class GLTexture;
 class Rect;
 
-class TextureManager
+class TextureManager : public Currenton<TextureManager>
 {
 public:
   TextureManager();

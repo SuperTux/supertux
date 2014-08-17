@@ -185,7 +185,7 @@ OptionsMenu::OptionsMenu(bool complete)
     }
   }
 
-  if (sound_manager->is_audio_enabled()) {
+  if (SoundManager::current()->is_audio_enabled()) {
     add_toggle(MNID_SOUND, _("Sound"), g_config->sound_enabled)
       ->set_help(_("Disable all sound effects"));
     add_toggle(MNID_MUSIC, _("Music"), g_config->music_enabled)
@@ -217,13 +217,13 @@ OptionsMenu::menu_action(MenuItem* item)
         if (item->list[item->selected] == _("auto"))
         {
           g_config->aspect_size = Size(0, 0); // Magic values
-          Renderer::instance()->apply_config();
+          VideoSystem::current()->get_renderer().apply_config();
           MenuManager::instance().on_window_resize();
         }
         else if (sscanf(item->list[item->selected].c_str(), "%d:%d",
                         &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
         {
-          Renderer::instance()->apply_config();
+          VideoSystem::current()->get_renderer().apply_config();
           MenuManager::instance().on_window_resize();
         }
         else
@@ -242,7 +242,7 @@ OptionsMenu::menu_action(MenuItem* item)
       {
         g_config->magnification /= 100.0f;
       }
-      Renderer::instance()->apply_config();
+      VideoSystem::current()->get_renderer().apply_config();
       MenuManager::instance().on_window_resize();
       break;
 
@@ -271,7 +271,7 @@ OptionsMenu::menu_action(MenuItem* item)
     case MNID_FULLSCREEN:
       if(g_config->use_fullscreen != is_toggled(MNID_FULLSCREEN)) {
         g_config->use_fullscreen = !g_config->use_fullscreen;
-        Renderer::instance()->apply_config();
+        VideoSystem::current()->get_renderer().apply_config();
         MenuManager::instance().on_window_resize();
         g_config->save();
       }
@@ -280,7 +280,7 @@ OptionsMenu::menu_action(MenuItem* item)
     case MNID_SOUND:
       if(g_config->sound_enabled != is_toggled(MNID_SOUND)) {
         g_config->sound_enabled = !g_config->sound_enabled;
-        sound_manager->enable_sound(g_config->sound_enabled);
+        SoundManager::current()->enable_sound(g_config->sound_enabled);
         g_config->save();
       }
       break;
@@ -288,7 +288,7 @@ OptionsMenu::menu_action(MenuItem* item)
     case MNID_MUSIC:
       if(g_config->music_enabled != is_toggled(MNID_MUSIC)) {
         g_config->music_enabled = !g_config->music_enabled;
-        sound_manager->enable_music(g_config->music_enabled);
+        SoundManager::current()->enable_music(g_config->music_enabled);
         g_config->save();
       }
       break;

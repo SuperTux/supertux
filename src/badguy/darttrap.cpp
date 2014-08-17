@@ -39,7 +39,7 @@ DartTrap::DartTrap(const Reader& reader) :
   reader.get("fire-delay", fire_delay);
   reader.get("ammo", ammo);
   countMe = false;
-  sound_manager->preload("sounds/dartfire.wav");
+  SoundManager::current()->preload("sounds/dartfire.wav");
   if (start_dir == AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
   state = IDLE;
   set_colgroup_active(COLGROUP_DISABLED);
@@ -96,7 +96,7 @@ DartTrap::fire()
   float py = get_pos().y;
   py += MUZZLE_Y;
 
-  sound_manager->play("sounds/dartfire.wav", get_pos());
+  SoundManager::current()->play("sounds/dartfire.wav", get_pos());
   Sector::current()->add_object(new Dart(Vector(px, py), dir, this));
   state = IDLE;
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");

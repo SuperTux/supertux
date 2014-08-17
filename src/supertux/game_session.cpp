@@ -30,6 +30,8 @@
 #include "object/endsequence_walkright.hpp"
 #include "object/level_time.hpp"
 #include "object/player.hpp"
+#include "scripting/scripting.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -55,7 +57,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   pause_menu_frame(),
   end_sequence(0),
   game_pause(false),
-  speed_before_pause(g_screen_manager->get_speed()),
+  speed_before_pause(ScreenManager::current()->get_speed()),
   levelfile(levelfile_),
   reset_sector(),
   reset_pos(),
@@ -96,7 +98,7 @@ GameSession::restart_level()
   game_pause   = false;
   end_sequence = 0;
 
-  g_input_manager->reset();
+  InputManager::current()->reset();
 
   currentsector = 0;
 
@@ -125,11 +127,11 @@ GameSession::restart_level()
     }
   } catch(std::exception& e) {
     log_fatal << "Couldn't start level: " << e.what() << std::endl;
-    g_screen_manager->pop_screen();
+    ScreenManager::current()->pop_screen();
     return (-1);
   }
 
-  sound_manager->stop_music();
+  SoundManager::current()->stop_music();
   currentsector->play_music(LEVEL_MUSIC);
 
   if(capture_file != "") {
@@ -244,8 +246,8 @@ GameSession::toggle_pause()
   // pause
   if (!game_pause && !MenuManager::instance().is_active())
   {
-    speed_before_pause = g_screen_manager->get_speed();
-    g_screen_manager->set_speed(0);
+    speed_before_pause = ScreenManager::current()->get_speed();
+    ScreenManager::current()->set_speed(0);
     MenuManager::instance().set_menu(MenuStorage::GAME_MENU);
     game_pause = true;
   }
@@ -257,7 +259,7 @@ void
 GameSession::abort_level()
 {
   MenuManager::instance().clear_menu_stack();
-  g_screen_manager->pop_screen();
+  ScreenManager::current()->pop_screen();
   currentsector->player->set_bonus(bonus_at_start);
   PlayerStatus *currentStatus = m_savegame.get_player_status();
   currentStatus->coins = coins_at_start;
@@ -349,7 +351,7 @@ GameSession::process_events()
 
   // save input for demo?
   if(capture_demo_stream != 0) {
-    Controller *controller = g_input_manager->get_controller();
+    Controller *controller = InputManager::current()->get_controller();
     capture_demo_stream ->put(controller->hold(Controller::LEFT));
     capture_demo_stream ->put(controller->hold(Controller::RIGHT));
     capture_demo_stream ->put(controller->hold(Controller::UP));
@@ -404,7 +406,7 @@ GameSession::setup()
   int total_stats_to_be_collected = level->stats.total_coins + level->stats.total_badguys + level->stats.total_secrets;
   if ((!levelintro_shown) && (total_stats_to_be_collected > 0)) {
     levelintro_shown = true;
-    g_screen_manager->push_screen(std::unique_ptr<Screen>(new LevelIntro(level.get(), best_level_statistics)));
+    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new LevelIntro(level.get(), best_level_statistics)));
   }
 }
 
@@ -417,12 +419,12 @@ void
 GameSession::update(float elapsed_time)
 {
   // handle controller
-  if(g_input_manager->get_controller()->pressed(Controller::PAUSE_MENU))
+  if(InputManager::current()->get_controller()->pressed(Controller::PAUSE_MENU))
   {
     on_escape_press();
   }
 
-  if(g_input_manager->get_controller()->pressed(Controller::CHEAT_MENU))
+  if(InputManager::current()->get_controller()->pressed(Controller::CHEAT_MENU))
   {
     if (!MenuManager::instance().is_active())
     {
@@ -435,7 +437,7 @@ GameSession::update(float elapsed_time)
 
   // Unpause the game if the menu has been closed
   if (game_pause && !MenuManager::instance().is_active()) {
-    g_screen_manager->set_speed(speed_before_pause);
+    ScreenManager::current()->set_speed(speed_before_pause);
     game_pause = false;
   }
 
@@ -475,7 +477,7 @@ GameSession::update(float elapsed_time)
   }
 
   // update sounds
-  if (currentsector && currentsector->camera) sound_manager->set_listener_position(currentsector->camera->get_center());
+  if (currentsector && currentsector->camera) SoundManager::current()->set_listener_position(currentsector->camera->get_center());
 
   /* Handle music: */
   if (end_sequence)
@@ -515,7 +517,7 @@ GameSession::finish(bool win)
     }
   }
 
-  g_screen_manager->pop_screen();
+  ScreenManager::current()->pop_screen();
 }
 
 void
@@ -575,12 +577,12 @@ GameSession::start_sequence(const std::string& sequencename)
   }
 
   /* slow down the game for end-sequence */
-  g_screen_manager->set_speed(0.5f);
+  ScreenManager::current()->set_speed(0.5f);
 
   currentsector->add_object(end_sequence);
   end_sequence->start();
 
-  sound_manager->play_music("music/leveldone.ogg", false);
+  SoundManager::current()->play_music("music/leveldone.ogg", false);
   currentsector->player->set_winning();
 
   // Stop all clocks.

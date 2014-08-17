@@ -23,7 +23,7 @@
 #include "video/sdl/sdl_painter.hpp"
 
 SDLLightmap::SDLLightmap() :
-  m_renderer(static_cast<SDLRenderer*>(Renderer::instance())->get_sdl_renderer()),
+  m_renderer(static_cast<SDLRenderer&>(VideoSystem::current()->get_renderer()).get_sdl_renderer()),
   m_texture(),
   m_width(),
   m_height(),

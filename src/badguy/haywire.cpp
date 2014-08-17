@@ -42,7 +42,7 @@ Haywire::Haywire(const Reader& reader) :
   max_drop_height = 16;
 
   //Prevent stutter when Tux jumps on Mr Bomb
-  sound_manager->preload("sounds/explosion.wav");
+  SoundManager::current()->preload("sounds/explosion.wav");
 
   //Check if we need another sprite
   if( !reader.get( "sprite", sprite_name ) ){
@@ -53,7 +53,7 @@ Haywire::Haywire(const Reader& reader) :
     return;
   }
   //Replace sprite
-  sprite = sprite_manager->create( sprite_name );
+  sprite = SpriteManager::current()->create( sprite_name );
 }
 
 HitResponse
@@ -96,12 +96,12 @@ Haywire::collision_squished(GameObject& object)
     time_until_explosion = TIME_EXPLOSION;
     is_exploding = true;
 
-    ticking = sound_manager->create_sound_source("sounds/fizz.wav");
+    ticking = SoundManager::current()->create_sound_source("sounds/fizz.wav");
     ticking->set_position(get_pos());
     ticking->set_looping(true);
     ticking->set_reference_distance(32);
     ticking->play();
-    grunting = sound_manager->create_sound_source("sounds/grunts.ogg");
+    grunting = SoundManager::current()->create_sound_source("sounds/grunts.ogg");
     grunting->set_position(get_pos());
     grunting->set_looping(true);
     grunting->set_reference_distance(32);

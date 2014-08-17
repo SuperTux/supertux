@@ -19,8 +19,11 @@
 
 #include <tinygettext/tinygettext.hpp>
 #include <assert.h>
+#include <memory>
 
 #include "supertux/globals.hpp"
+
+extern std::unique_ptr<tinygettext::DictionaryManager> g_dictionary_manager;
 
 /*
  * If you need to do a nontrivial substitution of values into a pattern, use
@@ -43,9 +46,9 @@
 
 static inline std::string _(const std::string& message)
 {
-  if (dictionary_manager)
+  if (g_dictionary_manager)
   {
-    return dictionary_manager->get_dictionary().translate(message);
+    return g_dictionary_manager->get_dictionary().translate(message);
   }
   else
   {

@@ -28,7 +28,7 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
   layer(layer_)
 {
   bbox.set_pos(pos);
-  sprite = sprite_manager->create(sprite_name);
+  sprite = SpriteManager::current()->create(sprite_name);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_group(collision_group);
 }
@@ -42,7 +42,7 @@ MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer_, 
   if (!reader.get("sprite", sprite_name))
     throw std::runtime_error("no sprite name set");
 
-  sprite = sprite_manager->create(sprite_name);
+  sprite = SpriteManager::current()->create(sprite_name);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_group(collision_group);
 }
@@ -56,7 +56,7 @@ MovingSprite::MovingSprite(const Reader& reader, const std::string& sprite_name_
   reader.get("y", bbox.p1.y);
   reader.get("sprite", this->sprite_name);
 
-  sprite = sprite_manager->create(this->sprite_name);
+  sprite = SpriteManager::current()->create(this->sprite_name);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_group(collision_group);
 }
@@ -71,7 +71,7 @@ MovingSprite::MovingSprite(const Reader& reader, int layer_, CollisionGroup coll
   if (!reader.get("sprite", sprite_name))
     throw std::runtime_error("no sprite name set");
 
-  sprite = sprite_manager->create(sprite_name);
+  sprite = SpriteManager::current()->create(sprite_name);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_group(collision_group);
 }

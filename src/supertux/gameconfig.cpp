@@ -95,8 +95,8 @@ Config::load()
   }
 
   const lisp::Lisp* config_control_lisp = config_lisp->get_lisp("control");
-  if(config_control_lisp && g_input_manager) {
-    g_input_manager->read(*config_control_lisp);
+  if(config_control_lisp && InputManager::current()) {
+    InputManager::current()->read(*config_control_lisp);
   }
 
   const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
@@ -141,9 +141,9 @@ Config::save()
   writer.write("music_enabled", music_enabled);
   writer.end_list("audio");
 
-  if(g_input_manager) {
+  if(InputManager::current()) {
     writer.start_list("control");
-    g_input_manager->write(writer);
+    InputManager::current()->write(writer);
     writer.end_list("control");
   }
 

@@ -25,7 +25,7 @@
 
 LiveFire::LiveFire(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/livefire/livefire.sprite", "left", "right"),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-medium.sprite")),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-medium.sprite")),
   death_sound("sounds/fall.wav"),
   state(STATE_WALKING)
 {
@@ -131,7 +131,7 @@ LiveFire::is_flammable() const
 void
 LiveFire::kill_fall()
 {
-  sound_manager->play(death_sound, get_pos());
+  SoundManager::current()->play(death_sound, get_pos());
   // throw a puff of smoke
   Vector ppos = bbox.get_middle();
   Vector pspeed = Vector(0, -150);

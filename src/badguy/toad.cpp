@@ -33,7 +33,7 @@ Toad::Toad(const Reader& reader) :
   recover_timer(),
   state()
 {
-  sound_manager->preload(HOP_SOUND);
+  SoundManager::current()->preload(HOP_SOUND);
 }
 
 Toad::Toad(const Vector& pos, Direction d) :
@@ -41,7 +41,7 @@ Toad::Toad(const Vector& pos, Direction d) :
   recover_timer(),
   state()
 {
-  sound_manager->preload(HOP_SOUND);
+  SoundManager::current()->preload(HOP_SOUND);
 }
 
 void
@@ -68,7 +68,7 @@ Toad::set_state(ToadState newState)
       sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
       physic.set_velocity_x(dir == LEFT ? -HORIZONTAL_SPEED : HORIZONTAL_SPEED);
       physic.set_velocity_y(VERTICAL_SPEED);
-      sound_manager->play( HOP_SOUND, get_pos());
+      SoundManager::current()->play( HOP_SOUND, get_pos());
     } else
       if (newState == FALLING) {
         Player* player = get_nearest_player();

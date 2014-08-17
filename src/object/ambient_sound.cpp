@@ -89,7 +89,7 @@ AmbientSound::AmbientSound(const Reader& lisp) :
   lisp.get("silence_distance",silence_distance);
 
   sound_source.reset(); // not playing at the beginning
-  sound_manager->preload(sample);
+  SoundManager::current()->preload(sample);
   latency=0;
 }
 
@@ -127,7 +127,7 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
     silence_distance = 1/distance_factor;
 
   sound_source = 0; // not playing at the beginning
-  sound_manager->preload(sample);
+  SoundManager::current()->preload(sample);
   latency=0;
 }
 
@@ -151,7 +151,7 @@ void
 AmbientSound::start_playing()
 {
   try {
-    sound_source = sound_manager->create_sound_source(sample);
+    sound_source = SoundManager::current()->create_sound_source(sample);
     if(!sound_source)
       throw std::runtime_error("file not found");
 

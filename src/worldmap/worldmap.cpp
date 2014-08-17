@@ -40,18 +40,20 @@
 #include "object/decal.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "scripting/scripting.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/screen_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/menu/worldmap_menu.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/savegame.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/shrinkfade.hpp"
 #include "supertux/spawn_point.hpp"
@@ -59,7 +61,6 @@
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
 #include "supertux/world.hpp"
-#include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -71,6 +72,7 @@
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
+
 
 static const float CAMERA_PAN_SPEED = 5.0;
 
@@ -133,7 +135,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   sq_addref(global_vm, &worldmap_table);
   sq_pop(global_vm, 1);
 
-  sound_manager->preload("sounds/warp.wav");
+  SoundManager::current()->preload("sounds/warp.wav");
 
   // load worldmap objects
   load(filename);
@@ -239,8 +241,8 @@ WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
 void
 WorldMap::change(const std::string& filename, const std::string& force_spawnpoint_)
 {
-  g_screen_manager->pop_screen();
-  g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, m_savegame, force_spawnpoint_)));
+  ScreenManager::current()->pop_screen();
+  ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, m_savegame, force_spawnpoint_)));
 }
 
 void
@@ -265,7 +267,7 @@ WorldMap::load(const std::string& filename)
 
     const lisp::Lisp* tilesets_lisp = level_->get_lisp("tilesets");
     if(tilesets_lisp != NULL) {
-      tileset      = tile_manager->parse_tileset_definition(*tilesets_lisp).release();
+      tileset      = TileManager::current()->parse_tileset_definition(*tilesets_lisp).release();
       free_tileset = true;
     }
     std::string tileset_name;
@@ -273,12 +275,12 @@ WorldMap::load(const std::string& filename)
       if(tileset != NULL) {
         log_warning << "multiple tilesets specified in level_" << std::endl;
       } else {
-        tileset = tile_manager->get_tileset(tileset_name);
+        tileset = TileManager::current()->get_tileset(tileset_name);
       }
     }
     /* load default tileset */
     if(tileset == NULL) {
-      tileset = tile_manager->get_tileset("images/worldmap.strf");
+      tileset = TileManager::current()->get_tileset("images/worldmap.strf");
     }
     current_tileset = tileset;
 
@@ -632,7 +634,7 @@ WorldMap::update(float delta)
     }
 
     // handle input
-    Controller *controller = g_input_manager->get_controller();
+    Controller *controller = InputManager::current()->get_controller();
     bool enter_level = false;
     if(controller->pressed(Controller::ACTION)
        || controller->pressed(Controller::JUMP)
@@ -659,7 +661,7 @@ WorldMap::update(float delta)
         change(teleporter->worldmap, teleporter->spawnpoint);
       } else {
         // TODO: an animation, camera scrolling or a fading would be a nice touch
-        sound_manager->play("sounds/warp.wav");
+        SoundManager::current()->play("sounds/warp.wav");
         tux->back_direction = D_NONE;
         move_to_spawnpoint(teleporter->spawnpoint, true);
       }
@@ -698,7 +700,7 @@ WorldMap::update(float delta)
           // update state and savegame
           save_state();
 
-          g_screen_manager->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_savegame, &level_->statistics)),
+          ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_savegame, &level_->statistics)),
                                         std::unique_ptr<ScreenFade>(new ShrinkFade(shrinkpos, 1.0f)));
           in_level = true;
         } catch(std::exception& e) {
@@ -904,7 +906,7 @@ WorldMap::draw_status(DrawingContext& context)
 void
 WorldMap::setup()
 {
-  sound_manager->play_music(music);
+  SoundManager::current()->play_music(music);
   MenuManager::instance().clear_menu_stack();
 
   current_ = this;

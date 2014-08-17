@@ -25,6 +25,7 @@
 #include <vector>
 #include <memory>
 
+#include "util/currenton.hpp"
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
 
@@ -36,7 +37,7 @@ class KeyboardManager;
 class KeyboardMenu;
 class Menu;
 
-class InputManager final
+class InputManager final : public Currenton<InputManager>
 {
 private:
   friend class KeyboardMenu;

@@ -26,12 +26,12 @@ GrowUp::GrowUp(Direction direction) :
   MovingSprite(Vector(0,0), "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   light(0.0f,0.0f,0.0f),
-  shadesprite(sprite_manager->create("images/powerups/egg/egg.sprite")),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  shadesprite(SpriteManager::current()->create("images/powerups/egg/egg.sprite")),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   physic.enable_gravity(true);
   physic.set_velocity_x((direction == LEFT)?-100:100);
-  sound_manager->preload("sounds/grow.ogg");
+  SoundManager::current()->preload("sounds/grow.ogg");
   //shadow to remain in place as egg rolls
   shadesprite->set_action("shadow");
   //set light for glow effect
@@ -89,7 +89,7 @@ GrowUp::collision(GameObject& other, const CollisionHit& hit )
       return ABORT_MOVE;
     }
 
-    sound_manager->play("sounds/grow.ogg");
+    SoundManager::current()->play("sounds/grow.ogg");
     remove_me();
 
     return ABORT_MOVE;

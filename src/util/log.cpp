@@ -26,8 +26,8 @@ LogLevel g_log_level = LOG_WARNING;
 
 static std::ostream& get_logging_instance (void)
 {
-  if (Console::instance != NULL)
-    return (Console::output);
+  if (ConsoleBuffer::current())
+    return (ConsoleBuffer::output);
   else
     return (std::cerr);
 }

@@ -69,10 +69,10 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
   {
     if (event.type == SDL_KEYDOWN)
     {
-      Console::instance->toggle();
+      Console::current()->toggle();
     }
   }
-  else if (Console::instance->hasFocus())
+  else if (Console::current()->hasFocus())
   {
     // if console is open: send key there
     process_console_key_event(event);
@@ -102,10 +102,10 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 void
 KeyboardManager::process_text_input_event(const SDL_TextInputEvent& event)
 {
-  if (Console::instance->hasFocus()) {
+  if (Console::current()->hasFocus()) {
     for(int i = 0; event.text[i] != '\0'; ++i)
     {
-      Console::instance->input(event.text[i]);
+      Console::current()->input(event.text[i]);
     }
   }
 }
@@ -117,37 +117,37 @@ KeyboardManager::process_console_key_event(const SDL_KeyboardEvent& event)
 
   switch (event.keysym.sym) {
     case SDLK_RETURN:
-      Console::instance->enter();
+      Console::current()->enter();
       break;
     case SDLK_BACKSPACE:
-      Console::instance->backspace();
+      Console::current()->backspace();
       break;
     case SDLK_TAB:
-      Console::instance->autocomplete();
+      Console::current()->autocomplete();
       break;
     case SDLK_PAGEUP:
-      Console::instance->scroll(-1);
+      Console::current()->scroll(-1);
       break;
     case SDLK_PAGEDOWN:
-      Console::instance->scroll(+1);
+      Console::current()->scroll(+1);
       break;
     case SDLK_HOME:
-      Console::instance->move_cursor(-65535);
+      Console::current()->move_cursor(-65535);
       break;
     case SDLK_END:
-      Console::instance->move_cursor(+65535);
+      Console::current()->move_cursor(+65535);
       break;
     case SDLK_UP:
-      Console::instance->show_history(-1);
+      Console::current()->show_history(-1);
       break;
     case SDLK_DOWN:
-      Console::instance->show_history(+1);
+      Console::current()->show_history(+1);
       break;
     case SDLK_LEFT:
-      Console::instance->move_cursor(-1);
+      Console::current()->move_cursor(-1);
       break;
     case SDLK_RIGHT:
-      Console::instance->move_cursor(+1);
+      Console::current()->move_cursor(+1);
       break;
     default:
       break;

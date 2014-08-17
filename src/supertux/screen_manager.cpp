@@ -21,6 +21,7 @@
 #include "control/input_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
+#include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
 #include "supertux/console.hpp"
@@ -137,7 +138,7 @@ ScreenManager::draw(DrawingContext& context)
     m_screen_fade->draw(context);
   }
 
-  Console::instance->draw(context);
+  Console::current()->draw(context);
 
   if (g_config->show_fps)
   {
@@ -169,7 +170,7 @@ ScreenManager::draw(DrawingContext& context)
 void
 ScreenManager::update_gamelogic(float elapsed_time)
 {
-  scripting::update_debugger();
+  scripting::Scripting::current()->update_debugger();
   scripting::TimeScheduler::instance->update(game_time);
 
   if (!m_screen_stack.empty())
@@ -184,17 +185,17 @@ ScreenManager::update_gamelogic(float elapsed_time)
     m_screen_fade->update(elapsed_time);
   }
 
-  Console::instance->update(elapsed_time);
+  Console::current()->update(elapsed_time);
 }
 
 void
 ScreenManager::process_events()
 {
-  g_input_manager->update();
+  InputManager::current()->update();
   SDL_Event event;
   while (SDL_PollEvent(&event))
   {
-    g_input_manager->process_event(event);
+    InputManager::current()->process_event(event);
 
     m_menu_manager->event(event);
 
@@ -208,8 +209,8 @@ ScreenManager::process_events()
         switch(event.window.event)
         {
           case SDL_WINDOWEVENT_RESIZED:
-            Renderer::instance()->resize(event.window.data1,
-                                         event.window.data2);
+            VideoSystem::current()->get_renderer().resize(event.window.data1,
+                                                          event.window.data2);
             m_menu_manager->on_window_resize();
             break;
         }
@@ -223,7 +224,7 @@ ScreenManager::process_events()
         else if (event.key.keysym.sym == SDLK_F11)
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
-          Renderer::instance()->apply_config();
+          VideoSystem::current()->get_renderer().apply_config();
           m_menu_manager->on_window_resize();
         }
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
@@ -234,7 +235,7 @@ ScreenManager::process_events()
         else if (event.key.keysym.sym == SDLK_F1 &&
                  event.key.keysym.mod & KMOD_CTRL)
         {
-          Console::instance->toggle();
+          Console::current()->toggle();
           g_config->console_enabled = true;
           g_config->save();
         }
@@ -365,7 +366,7 @@ ScreenManager::run(DrawingContext &context)
       draw(context);
     }
 
-    sound_manager->update();
+    SoundManager::current()->update();
 
     handle_screen_switch();
   }

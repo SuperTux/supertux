@@ -43,14 +43,9 @@ GLRenderer::GLRenderer() :
   m_desktop_size(0, 0),
   m_fullscreen_active(false)
 {
-  Renderer::instance_ = this;
-
   SDL_DisplayMode mode;
   SDL_GetCurrentDisplayMode(0, &mode);
   m_desktop_size = Size(mode.w, mode.h);
-
-  if(texture_manager != 0)
-    texture_manager->save_textures();
 
   if(g_config->try_vsync) {
     /* we want vsync for smooth scrolling */
@@ -83,11 +78,6 @@ GLRenderer::GLRenderer() :
 
   // Init the projection matrix, viewport and stuff
   apply_config();
-
-  if(texture_manager == 0)
-    texture_manager = new TextureManager();
-  else
-    texture_manager->reload_textures();
 
 #ifndef GL_VERSION_ES_CM_1_0
   GLenum err = glewInit();

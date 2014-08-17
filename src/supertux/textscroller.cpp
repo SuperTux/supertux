@@ -87,13 +87,13 @@ TextScroller::~TextScroller()
 void
 TextScroller::setup()
 {
-  sound_manager->play_music(music);
+  SoundManager::current()->play_music(music);
 }
 
 void
 TextScroller::update(float elapsed_time)
 {
-  Controller *controller = g_input_manager->get_controller();
+  Controller* controller = InputManager::current()->get_controller();
   if(controller->hold(Controller::UP)) {
     speed = -defaultspeed*5;
   } else if(controller->hold(Controller::DOWN)) {
@@ -107,7 +107,7 @@ TextScroller::update(float elapsed_time)
      )&& !(controller->pressed(Controller::UP))) // prevent skipping if jump with up is enabled
     scroll += SCROLL;
   if(controller->pressed(Controller::PAUSE_MENU)) {
-    g_screen_manager->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
   }
 
   scroll += speed * elapsed_time;
@@ -136,7 +136,7 @@ TextScroller::draw(DrawingContext& context)
 
   if(y < 0 && !fading ) {
     fading = true;
-    g_screen_manager->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
   }
 }
 

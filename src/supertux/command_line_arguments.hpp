@@ -21,7 +21,7 @@
 
 #include "math/size.hpp"
 #include "util/log.hpp"
-#include "video/video_systems.hpp"
+#include "video/video_system.hpp"
 
 class Config;
 

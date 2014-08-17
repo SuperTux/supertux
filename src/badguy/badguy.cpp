@@ -53,8 +53,8 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_) :
 {
   start_position = bbox.p1;
 
-  sound_manager->preload("sounds/squish.wav");
-  sound_manager->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/squish.wav");
+  SoundManager::current()->preload("sounds/fall.wav");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
@@ -79,8 +79,8 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 {
   start_position = bbox.p1;
 
-  sound_manager->preload("sounds/squish.wav");
-  sound_manager->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/squish.wav");
+  SoundManager::current()->preload("sounds/fall.wav");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
@@ -112,8 +112,8 @@ BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name_, int layer_
 
   reader.get("dead-script", dead_script);
 
-  sound_manager->preload("sounds/squish.wav");
-  sound_manager->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/squish.wav");
+  SoundManager::current()->preload("sounds/fall.wav");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
@@ -386,7 +386,7 @@ BadGuy::kill_squished(GameObject& object)
 {
   if (!is_active()) return;
 
-  sound_manager->play("sounds/squish.wav", get_pos());
+  SoundManager::current()->play("sounds/squish.wav", get_pos());
   physic.enable_gravity(true);
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
@@ -406,7 +406,7 @@ BadGuy::kill_fall()
 {
   if (!is_active()) return;
 
-  sound_manager->play("sounds/fall.wav", get_pos());
+  SoundManager::current()->play("sounds/fall.wav", get_pos());
   physic.set_velocity_y(0);
   physic.set_acceleration_y(0);
   physic.enable_gravity(true);

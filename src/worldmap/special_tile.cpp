@@ -43,7 +43,7 @@ SpecialTile::SpecialTile(const Reader& lisp) :
   if(!invisible) {
     std::string spritefile = "";
     lisp.get("sprite", spritefile);
-    sprite = sprite_manager->create(spritefile);
+    sprite = SpriteManager::current()->create(spritefile);
   }
 
   lisp.get("map-message", map_message);

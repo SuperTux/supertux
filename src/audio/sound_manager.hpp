@@ -26,13 +26,14 @@
 #include <alc.h>
 
 #include "math/vector.hpp"
+#include "util/currenton.hpp"
 
 class SoundFile;
 class SoundSource;
 class StreamSoundSource;
 class OpenALSoundSource;
 
-class SoundManager
+class SoundManager : public Currenton<SoundManager>
 {
 public:
   SoundManager();

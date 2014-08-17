@@ -46,7 +46,7 @@ WillOWisp::WillOWisp(const Reader& reader) :
   flyspeed(),
   track_range(),
   vanish_range(),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   bool running = false;
   flyspeed     = FLYSPEED;
@@ -72,8 +72,8 @@ WillOWisp::WillOWisp(const Reader& reader) :
   }
 
   countMe = false;
-  sound_manager->preload(SOUNDFILE);
-  sound_manager->preload("sounds/warp.wav");
+  SoundManager::current()->preload(SOUNDFILE);
+  SoundManager::current()->preload("sounds/warp.wav");
 
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.0f, 0.2f, 0.0f));
@@ -159,7 +159,7 @@ WillOWisp::active_update(float elapsed_time)
 void
 WillOWisp::activate()
 {
-  sound_source = sound_manager->create_sound_source(SOUNDFILE);
+  sound_source = SoundManager::current()->create_sound_source(SOUNDFILE);
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
   sound_source->set_gain(2.0);
@@ -226,7 +226,7 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
   } else {
     GameSession::current()->respawn(target_sector, target_spawnpoint);
   }
-  sound_manager->play("sounds/warp.wav");
+  SoundManager::current()->play("sounds/warp.wav");
 
   return CONTINUE;
 }

@@ -33,7 +33,7 @@ Ghostflame::Ghostflame(const Reader& reader) :
   radius(100),
   speed(2),
   light(0.0f,0.0f,0.0f),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   reader.get("radius", radius);
   reader.get("speed", speed);
@@ -41,7 +41,7 @@ Ghostflame::Ghostflame(const Reader& reader) :
                       start_position.y + sin(angle) * radius));
   countMe = false;
   //TODO: get unique death sound
-  sound_manager->preload("sounds/fizz.wav");
+  SoundManager::current()->preload("sounds/fizz.wav");
 
   set_colgroup_active(COLGROUP_TOUCHABLE);
 

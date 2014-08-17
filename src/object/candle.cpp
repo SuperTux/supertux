@@ -28,8 +28,8 @@ Candle::Candle(const Reader& lisp)
     burning(true),
     flicker(true),
     lightcolor(1.0f, 1.0f, 1.0f),
-    candle_light_1(sprite_manager->create("images/objects/candle/candle-light-1.sprite")),
-    candle_light_2(sprite_manager->create("images/objects/candle/candle-light-2.sprite"))
+    candle_light_1(SpriteManager::current()->create("images/objects/candle/candle-light-1.sprite")),
+    candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
 {
   lisp.get("name", name);
   lisp.get("burning", burning);

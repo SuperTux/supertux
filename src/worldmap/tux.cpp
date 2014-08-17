@@ -43,7 +43,7 @@ Tux::Tux(WorldMap* worldmap_) :
   moving(),
   ghost_mode()
 {
-  sprite = sprite_manager->create("images/worldmap/common/tux.sprite");
+  sprite = SpriteManager::current()->create("images/worldmap/common/tux.sprite");
 
   offset = 0;
   moving = false;
@@ -291,7 +291,7 @@ Tux::tryContinueWalking(float elapsed_time)
 void
 Tux::updateInputDirection()
 {
-  Controller* controller_ = g_input_manager->get_controller();
+  Controller* controller_ = InputManager::current()->get_controller();
   if(controller_->hold(Controller::UP))
     input_direction = D_NORTH;
   else if(controller_->hold(Controller::DOWN))

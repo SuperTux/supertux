@@ -33,14 +33,14 @@ WeakBlock::WeakBlock(const Reader& lisp)
 : MovingSprite(lisp, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
   linked(true),
   light(0.0f,0.0f,0.0f),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   sprite->set_action("normal");
   //Check if this weakblock destroys adjacent weakblocks
   if(lisp.get("linked", linked)){
     if(! linked){
       sprite_name = "images/objects/weak_block/meltbox.sprite";
-      sprite = sprite_manager->create(sprite_name);
+      sprite = SpriteManager::current()->create(sprite_name);
       sprite->set_action("normal");
     }
   }
@@ -48,7 +48,7 @@ WeakBlock::WeakBlock(const Reader& lisp)
     lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
     lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
   } else if(sprite_name == "images/objects/weak_block/meltbox.sprite")
-    sound_manager->preload("sounds/sizzle.ogg");
+    SoundManager::current()->preload("sounds/sizzle.ogg");
 }
 
 HitResponse
@@ -129,7 +129,7 @@ WeakBlock::update(float )
           sprite->set_action("disintegrating", 1);
           spreadHit();
           set_group(COLGROUP_DISABLED);
-          lightsprite = sprite_manager->create("images/objects/lightmap_light/lightmap_light-tiny.sprite");
+          lightsprite = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite");
           lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
           lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
         }
@@ -170,7 +170,7 @@ WeakBlock::startBurning()
   state = STATE_BURNING;
   sprite->set_action("burning", 1);
   if(sprite_name == "images/objects/weak_block/meltbox.sprite")
-    sound_manager->play("sounds/sizzle.ogg");
+    SoundManager::current()->play("sounds/sizzle.ogg");
 }
 
 void

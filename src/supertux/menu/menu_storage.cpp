@@ -71,10 +71,10 @@ MenuStorage::create(MenuId menu_id)
       return std::unique_ptr<Menu>(new ProfileMenu);
 
     case KEYBOARD_MENU:
-      return std::unique_ptr<Menu>(new KeyboardMenu(g_input_manager));
+      return std::unique_ptr<Menu>(new KeyboardMenu(*InputManager::current()));
 
     case JOYSTICK_MENU:
-      return std::unique_ptr<Menu>(new JoystickMenu(g_input_manager));
+      return std::unique_ptr<Menu>(new JoystickMenu(*InputManager::current()));
 
     case WORLDMAP_MENU:
       return std::unique_ptr<Menu>(new WorldmapMenu);

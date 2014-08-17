@@ -37,9 +37,9 @@ Snail::Snail(const Reader& reader) :
 {
   walk_speed = 80;
   max_drop_height = 600;
-  sound_manager->preload("sounds/iceblock_bump.wav");
-  sound_manager->preload("sounds/stomp.wav");
-  sound_manager->preload("sounds/kick.wav");
+  SoundManager::current()->preload("sounds/iceblock_bump.wav");
+  SoundManager::current()->preload("sounds/stomp.wav");
+  SoundManager::current()->preload("sounds/kick.wav");
 }
 
 Snail::Snail(const Vector& pos, Direction d) :
@@ -50,9 +50,9 @@ Snail::Snail(const Vector& pos, Direction d) :
 {
   walk_speed = 80;
   max_drop_height = 600;
-  sound_manager->preload("sounds/iceblock_bump.wav");
-  sound_manager->preload("sounds/stomp.wav");
-  sound_manager->preload("sounds/kick.wav");
+  SoundManager::current()->preload("sounds/iceblock_bump.wav");
+  SoundManager::current()->preload("sounds/stomp.wav");
+  SoundManager::current()->preload("sounds/kick.wav");
 }
 
 void
@@ -159,7 +159,7 @@ Snail::collision_solid(const CollisionHit& hit)
       return;
     case STATE_KICKED:
       if(hit.left || hit.right) {
-        sound_manager->play("sounds/iceblock_bump.wav", get_pos());
+        SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
 
         if( ( dir == LEFT && hit.left ) || ( dir == RIGHT && hit.right) ){
           dir = (dir == LEFT) ? RIGHT : LEFT;
@@ -251,12 +251,12 @@ Snail::collision_squished(GameObject& object)
         kill_fall();
         return true;
       }
-      sound_manager->play("sounds/stomp.wav", get_pos());
+      SoundManager::current()->play("sounds/stomp.wav", get_pos());
       be_flat();
       break;
 
     case STATE_FLAT:
-      sound_manager->play("sounds/kick.wav", get_pos());
+      SoundManager::current()->play("sounds/kick.wav", get_pos());
       {
         MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
         if (movingobject && (movingobject->get_pos().x < get_pos().x)) {

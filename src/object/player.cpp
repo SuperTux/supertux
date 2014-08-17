@@ -160,23 +160,23 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   climbing(0)
 {
   this->name = name_;
-  controller = g_input_manager->get_controller();
+  controller = InputManager::current()->get_controller();
   scripting_controller.reset(new CodeController());
   // if/when we have complete penny gfx, we can
   // load those instead of Tux's sprite in the
   // constructor
-  sprite = sprite_manager->create("images/creatures/tux/tux.sprite");
+  sprite = SpriteManager::current()->create("images/creatures/tux/tux.sprite");
   airarrow = Surface::create("images/engine/hud/airarrow.png");
   idle_timer.start(IDLE_TIME[0]/1000.0f);
 
-  sound_manager->preload("sounds/bigjump.wav");
-  sound_manager->preload("sounds/jump.wav");
-  sound_manager->preload("sounds/hurt.wav");
-  sound_manager->preload("sounds/kill.wav");
-  sound_manager->preload("sounds/skid.wav");
-  sound_manager->preload("sounds/flip.wav");
-  sound_manager->preload("sounds/invincible_start.ogg");
-  sound_manager->preload("sounds/splash.ogg");
+  SoundManager::current()->preload("sounds/bigjump.wav");
+  SoundManager::current()->preload("sounds/jump.wav");
+  SoundManager::current()->preload("sounds/hurt.wav");
+  SoundManager::current()->preload("sounds/kill.wav");
+  SoundManager::current()->preload("sounds/skid.wav");
+  SoundManager::current()->preload("sounds/flip.wav");
+  SoundManager::current()->preload("sounds/invincible_start.ogg");
+  SoundManager::current()->preload("sounds/splash.ogg");
 
   init();
 }
@@ -550,7 +550,7 @@ Player::handle_horizontal_input()
     // let's skid!
     if(fabs(vx)>SKID_XM && !skidding_timer.started()) {
       skidding_timer.start(SKID_TIME);
-      sound_manager->play("sounds/skid.wav");
+      SoundManager::current()->play("sounds/skid.wav");
       // dust some particles
       Sector::current()->add_object(
         new Particles(
@@ -644,7 +644,7 @@ Player::do_backflip() {
   backflip_direction = (dir == LEFT)?(+1):(-1);
   backflipping = true;
   do_jump(-580);
-  sound_manager->play("sounds/flip.wav");
+  SoundManager::current()->play("sounds/flip.wav");
   backflip_timer.start(TUX_BACKFLIP_TIME);
 }
 
@@ -661,9 +661,9 @@ Player::do_jump(float yspeed) {
 
   // play sound
   if (is_big()) {
-    sound_manager->play("sounds/bigjump.wav");
+    SoundManager::current()->play("sounds/bigjump.wav");
   } else {
-    sound_manager->play("sounds/jump.wav");
+    SoundManager::current()->play("sounds/jump.wav");
   }
 }
 
@@ -1185,7 +1185,7 @@ Player::collision_tile(uint32_t tile_attributes)
     if( tile_attributes & Tile::WATER ){
       swimming = true;
       no_water = false;
-      sound_manager->play( "sounds/splash.ogg" );
+      SoundManager::current()->play( "sounds/splash.ogg" );
     }
   }
 #endif
@@ -1285,7 +1285,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 void
 Player::make_invincible()
 {
-  sound_manager->play("sounds/invincible_start.ogg");
+  SoundManager::current()->play("sounds/invincible_start.ogg");
   invincible_timer.start(TUX_INVINCIBLE_TIME);
   Sector::current()->play_music(HERRING_MUSIC);
 }
@@ -1307,7 +1307,7 @@ Player::kill(bool completely)
   physic.set_velocity_x(0);
 
   if(!completely && is_big()) {
-    sound_manager->play("sounds/hurt.wav");
+    SoundManager::current()->play("sounds/hurt.wav");
 
     if(player_status->bonus == FIRE_BONUS
        || player_status->bonus == ICE_BONUS) {
@@ -1326,7 +1326,7 @@ Player::kill(bool completely)
       duck = false;
     }
   } else {
-    sound_manager->play("sounds/kill.wav");
+    SoundManager::current()->play("sounds/kill.wav");
 
     // do not die when in edit mode
     if (edit_mode) {
@@ -1362,7 +1362,7 @@ Player::kill(bool completely)
 
     // TODO: need nice way to handle players dying in co-op mode
     Sector::current()->effect->fade_out(3.0);
-    sound_manager->stop_music(3.0);
+    SoundManager::current()->stop_music(3.0);
   }
 }
 

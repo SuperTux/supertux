@@ -36,7 +36,7 @@ LevelIntro::LevelIntro(const Level* level_, const Statistics* best_level_statist
   player_sprite_vy(0),
   player_sprite_jump_timer()
 {
-  player_sprite = sprite_manager->create("images/creatures/tux/tux.sprite");
+  player_sprite = SpriteManager::current()->create("images/creatures/tux/tux.sprite");
   player_sprite->set_action("small-walk-right");
   player_sprite_jump_timer.start(graphicsRandom.randf(5,10));
 }
@@ -53,14 +53,14 @@ LevelIntro::setup()
 void
 LevelIntro::update(float elapsed_time)
 {
-  Controller *controller = g_input_manager->get_controller();
+  Controller *controller = InputManager::current()->get_controller();
 
   // Check if it's time to exit the screen
   if(controller->pressed(Controller::JUMP)
      || controller->pressed(Controller::ACTION)
      || controller->pressed(Controller::MENU_SELECT)
      || controller->pressed(Controller::PAUSE_MENU)) {
-    g_screen_manager->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.1)));
+    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.1)));
   }
 
   player_sprite_py += player_sprite_vy * elapsed_time;

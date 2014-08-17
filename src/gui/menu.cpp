@@ -31,6 +31,7 @@
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
 #include "video/renderer.hpp"
+#include "video/video_system.hpp"
 
 static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;
@@ -179,7 +180,7 @@ Menu::process_input()
   }
 
   MenuAction menuaction = MENU_ACTION_NONE;
-  Controller* controller = g_input_manager->get_controller();
+  Controller* controller = InputManager::current()->get_controller();
   /** check main input controller... */
   if(controller->pressed(Controller::UP)) {
     menuaction = MENU_ACTION_UP;
@@ -663,7 +664,7 @@ Menu::event(const SDL_Event& ev)
     case SDL_MOUSEBUTTONDOWN:
     if(ev.button.button == SDL_BUTTON_LEFT)
     {
-      Vector mouse_pos = Renderer::instance()->to_logical(ev.motion.x, ev.motion.y);
+      Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
       int x = int(mouse_pos.x);
       int y = int(mouse_pos.y);
 
@@ -679,7 +680,7 @@ Menu::event(const SDL_Event& ev)
 
     case SDL_MOUSEMOTION:
     {
-      Vector mouse_pos = Renderer::instance()->to_logical(ev.motion.x, ev.motion.y);
+      Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
       float x = mouse_pos.x;
       float y = mouse_pos.y;
 

@@ -23,7 +23,7 @@ Light::Light(const Vector& center, const Color& color_) :
   color(color_),
   sprite()
 {
-  sprite = sprite_manager->create("images/objects/lightmap_light/lightmap_light.sprite");
+  sprite = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite");
 }
 
 Light::~Light()

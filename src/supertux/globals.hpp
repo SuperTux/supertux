@@ -17,16 +17,11 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GLOBALS_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GLOBALS_HPP
 
+#include <memory>
+
 typedef struct SDL_Surface SDL_Surface;
 namespace tinygettext { class DictionaryManager; }
 class Config;
-class InputManager;
-class PlayerStatus;
-class ScreenManager;
-class SoundManager;
-class SpriteManager;
-class TextureManager;
-class TileManager;
 class TileSet;
 
 /** The width of the display (this is a logical value, not the
@@ -39,28 +34,13 @@ extern int SCREEN_WIDTH;
     shrink or scale things) */
 extern int SCREEN_HEIGHT;
 
-// global variables
-extern InputManager* g_input_manager;
-
-extern ScreenManager* g_screen_manager;
-
-extern TextureManager* texture_manager;
-
-extern SoundManager* sound_manager;
-
-extern Config* g_config;
-
-extern tinygettext::DictionaryManager* dictionary_manager;
+extern std::unique_ptr<Config> g_config;
 
 extern float game_time;
 extern float real_time;
 
-extern TileManager *tile_manager;
-
 /** this is only set while loading a map */
-extern TileSet     *current_tileset;
-
-extern SpriteManager* sprite_manager;
+extern TileSet* current_tileset;
 
 extern float g_game_speed;
 
