@@ -352,6 +352,16 @@ GLRenderer::apply_video_mode()
 }
 
 void
+GLRenderer::start_draw()
+{
+}
+
+void
+GLRenderer::end_draw()
+{
+}
+
+void
 GLRenderer::draw_surface(const DrawingRequest& request)
 {
   GLPainter::draw_surface(request);

@@ -328,7 +328,9 @@ DrawingContext::do_drawing()
     request->layer = LAYER_HUD - 1;
     drawing_requests.push_back(request);
   }
+  renderer.start_draw();
   handle_drawing_requests(drawing_requests);
+  renderer.end_draw();
 
   clear_drawing_requests(lightmap_requests);
   clear_drawing_requests(drawing_requests);

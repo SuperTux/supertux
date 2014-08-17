@@ -26,17 +26,20 @@ public:
   SDLRenderer();
   ~SDLRenderer();
 
-  void draw_surface(const DrawingRequest& request);
-  void draw_surface_part(const DrawingRequest& request);
-  void draw_gradient(const DrawingRequest& request);
-  void draw_filled_rect(const DrawingRequest& request);
-  void draw_inverse_ellipse(const DrawingRequest& request);
-  void do_take_screenshot();
-  void flip();
-  void resize(int w, int h);
-  void apply_config();
-  Vector to_logical(int physical_x, int physical_y);
-  void set_gamma(float gamma);
+  void start_draw() override;
+  void end_draw() override;
+  void draw_surface(const DrawingRequest& request) override;
+  void draw_surface_part(const DrawingRequest& request) override;
+  void draw_gradient(const DrawingRequest& request) override;
+  void draw_filled_rect(const DrawingRequest& request) override;
+  void draw_inverse_ellipse(const DrawingRequest& request) override;
+  void do_take_screenshot() override;
+  void flip() override;
+  void resize(int w, int h) override;
+  void apply_config() override;
+  Vector to_logical(int physical_x, int physical_y) override;
+  void set_gamma(float gamma) override;
+
   SDL_Window* get_window() const { return window; }
   SDL_Renderer* get_sdl_renderer() const { return renderer; };
 
@@ -49,6 +52,7 @@ private:
   SDL_Renderer* renderer;
   SDL_Rect viewport;
   Size desktop_size;
+  Vector m_scale;
 
 private:
   SDLRenderer(const SDLRenderer&);

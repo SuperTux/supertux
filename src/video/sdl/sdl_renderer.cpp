@@ -36,7 +36,8 @@ SDLRenderer::SDLRenderer() :
   window(),
   renderer(),
   viewport(),
-  desktop_size(0, 0)
+  desktop_size(0, 0),
+  m_scale(1.0f, 1.0f)
 {
   Renderer::instance_ = this;
 
@@ -124,6 +125,17 @@ SDLRenderer::~SDLRenderer()
 {
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
+}
+
+void
+SDLRenderer::start_draw()
+{
+  SDL_RenderSetScale(renderer, m_scale.x, m_scale.y);
+}
+
+void
+SDLRenderer::end_draw()
+{
 }
 
 void
@@ -314,13 +326,12 @@ SDLRenderer::apply_viewport()
   Size max_size(1280, 800);
   Size min_size(640, 480);
 
-  Vector scale;
   Size logical_size;
   calculate_viewport(min_size, max_size,
                      target_size,
                      pixel_aspect_ratio,
                      g_config->magnification,
-                     scale, logical_size, viewport);
+                     m_scale, logical_size, viewport);
 
   SCREEN_WIDTH = logical_size.width;
   SCREEN_HEIGHT = logical_size.height;
@@ -336,9 +347,11 @@ SDLRenderer::apply_viewport()
     SDL_RenderClear(renderer);
   }
 
+  // SetViewport() works in scaled screen coordinates, so we have to
+  // reset it to 1.0, 1.0 to get meaningful results
   SDL_RenderSetScale(renderer, 1.0f, 1.0f);
   SDL_RenderSetViewport(renderer, &viewport);
-  SDL_RenderSetScale(renderer, scale.x, scale.y);
+  SDL_RenderSetScale(renderer, m_scale.x, m_scale.y);
 }
 
 void

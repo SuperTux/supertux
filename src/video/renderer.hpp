@@ -43,6 +43,8 @@ public:
   Renderer();
   virtual ~Renderer();
 
+  virtual void start_draw() = 0;
+  virtual void end_draw() = 0;
   virtual void draw_surface(const DrawingRequest& request) = 0;
   virtual void draw_surface_part(const DrawingRequest& request) = 0;
   virtual void draw_gradient(const DrawingRequest& request) = 0;
