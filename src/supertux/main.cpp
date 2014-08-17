@@ -38,6 +38,7 @@ extern "C" {
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "scripting/scripting.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/command_line_arguments.hpp"
 #include "supertux/game_manager.hpp"
@@ -55,22 +56,36 @@ extern "C" {
 #include "video/renderer.hpp"
 #include "worldmap/worldmap.hpp"
 
-void
-Main::init_config()
+class ConfigSubsystem
 {
-  g_config.reset(new Config);
-  try {
-    g_config->load();
-  } catch(const std::exception& e) {
-    log_info << "Couldn't load config file: " << e.what() << ", using default settings" << std::endl;
+public:
+  ConfigSubsystem()
+  {
+    g_config.reset(new Config);
+    try {
+      g_config->load();
+    } 
+    catch(const std::exception& e) 
+    {
+      log_info << "Couldn't load config file: " << e.what() << ", using default settings" << std::endl;
+    }
+
+    // init random number stuff
+    g_config->random_seed = gameRandom.srand(g_config->random_seed);
+    graphicsRandom.srand(0);
+    //const char *how = config->random_seed? ", user fixed.": ", from time().";
+    //log_info << "Using random seed " << config->random_seed << how << std::endl;
   }
 
-  // init random number stuff
-  g_config->random_seed = gameRandom.srand(g_config->random_seed);
-  graphicsRandom.srand(0);
-  //const char *how = config->random_seed? ", user fixed.": ", from time().";
-  //log_info << "Using random seed " << config->random_seed << how << std::endl;
-}
+  ~ConfigSubsystem()
+  {
+    if (g_config)
+    {
+      g_config->save();
+    }
+    g_config.reset();  
+  }
+};
 
 void
 Main::init_tinygettext()
@@ -286,7 +301,7 @@ Main::launch_game()
   Console console(console_buffer);
 
   timelog("scripting");
-  scripting::init_squirrel(g_config->enable_script_debugger);
+  scripting::Scripting scripting(g_config->enable_script_debugger);
 
   timelog("resources");
   TileManager tile_manager;
@@ -325,8 +340,9 @@ Main::launch_game()
       std::unique_ptr<GameSession> session (
         new GameSession(FileSystem::basename(g_config->start_level), *default_savegame));
 
-      g_config->random_seed =session->get_demo_random_seed(g_config->start_demo);
-      init_rand();//initialise generator with seed from session
+      g_config->random_seed = session->get_demo_random_seed(g_config->start_demo);
+      g_config->random_seed = gameRandom.srand(g_config->random_seed);
+      graphicsRandom.srand(0);
 
       if(g_config->start_demo != "")
         session->play_demo(g_config->start_demo);
@@ -362,23 +378,12 @@ Main::run(int argc, char** argv)
     }
     catch(const std::exception& err)
     {
-      try
-      {
-        init_config();
-        args.merge_into(*g_config);
-        init_tinygettext();
-      }
-      catch(const std::exception& err_)
-      {
-        log_fatal << "failed to init config or tinygettext: " << err_.what() << std::endl;
-      }
-
       std::cout << "Error: " << err.what() << std::endl;
       return EXIT_FAILURE;
     }
 
     timelog("config");
-    init_config();
+    ConfigSubsystem config_subsystem;
     args.merge_into(*g_config);
 
     timelog("tinygettext");
@@ -413,12 +418,6 @@ Main::run(int argc, char** argv)
     log_fatal << "Unexpected exception" << std::endl;
     result = 1;
   }
-
-  if(g_config)
-    g_config->save();
-  g_config.reset();
-
-  scripting::exit_squirrel();
 
   g_dictionary_manager.reset();
 

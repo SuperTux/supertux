@@ -30,6 +30,8 @@
 #include "object/endsequence_walkright.hpp"
 #include "object/level_time.hpp"
 #include "object/player.hpp"
+#include "scripting/scripting.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"

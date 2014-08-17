@@ -16,6 +16,7 @@
 
 #include "scripting/thread_queue.hpp"
 
+#include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "util/log.hpp"
 

@@ -46,6 +46,7 @@
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"

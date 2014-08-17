@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,28 +14,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
+#ifndef HEADER_SUPERTUX_SCRIPTING_SCRIPTING_HPP
+#define HEADER_SUPERTUX_SCRIPTING_SCRIPTING_HPP
 
-#ifdef _WIN32
-# define WRITEDIR_NAME PACKAGE_NAME
-#else
-# define WRITEDIR_NAME "." PACKAGE_NAME
-#endif
+#include <squirrel.h>
 
-class Main
+#include "util/currenton.hpp"
+
+namespace scripting {
+
+extern HSQUIRRELVM global_vm;
+
+class Scripting : public Currenton<Scripting>
 {
 private:
-  void init_tinygettext();
-  void init_video();
-
-  void launch_game();
-
 public:
-  /** We call it run() instead of main() as main collides with
-      #define main SDL_main from SDL.h */
-  int run(int argc, char** argv);
+  Scripting(bool enable_debugger);
+  ~Scripting();
+  
+  void update_debugger();
+
+private:
+  Scripting(const Scripting&) = delete;
+  Scripting& operator=(const Scripting&) = delete;
 };
+
+} // namespace scripting
 
 #endif
 

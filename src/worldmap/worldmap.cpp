@@ -40,18 +40,20 @@
 #include "object/decal.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "scripting/scripting.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/screen_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/menu/worldmap_menu.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/savegame.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/shrinkfade.hpp"
 #include "supertux/spawn_point.hpp"
@@ -59,7 +61,6 @@
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
 #include "supertux/world.hpp"
-#include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -71,6 +72,7 @@
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
+
 
 static const float CAMERA_PAN_SPEED = 5.0;
 

@@ -21,6 +21,7 @@
 #include "control/input_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
+#include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
 #include "supertux/console.hpp"
@@ -169,7 +170,7 @@ ScreenManager::draw(DrawingContext& context)
 void
 ScreenManager::update_gamelogic(float elapsed_time)
 {
-  scripting::update_debugger();
+  scripting::Scripting::current()->update_debugger();
   scripting::TimeScheduler::instance->update(game_time);
 
   if (!m_screen_stack.empty())
