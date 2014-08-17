@@ -121,7 +121,9 @@ TextScroller::draw(DrawingContext& context)
 {
   context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
-  context.draw_surface(background, Vector(SCREEN_WIDTH/2 - background->get_width()/2 , SCREEN_HEIGHT/2 - background->get_height()/2), 0);
+  context.draw_surface_part(background, Rectf(0, 0, background->get_width(), background->get_height()),
+                            Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), 0);
+
 
   float y = SCREEN_HEIGHT - scroll;
   for(size_t i = 0; i < lines.size(); i++) {
