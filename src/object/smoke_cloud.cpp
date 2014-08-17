@@ -25,7 +25,7 @@ SmokeCloud::SmokeCloud(const Vector& pos) :
   position(pos)
 {
   timer.start(.3f);
-  sprite = sprite_manager->create("images/objects/particles/stomp.sprite");
+  sprite = SpriteManager::current()->create("images/objects/particles/stomp.sprite");
 }
 
 SmokeCloud::~SmokeCloud()

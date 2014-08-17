@@ -21,11 +21,12 @@
 #include <memory>
 #include <string>
 
+#include "util/currenton.hpp"
 #include "util/reader_fwd.hpp"
 
 class TileSet;
 
-class TileManager
+class TileManager : public Currenton<TileManager>
 {
 private:
   typedef std::map<std::string, std::unique_ptr<TileSet> > TileSets;

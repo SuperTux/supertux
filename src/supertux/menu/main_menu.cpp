@@ -75,13 +75,13 @@ MainMenu::menu_action(MenuItem* item)
 
     case MNID_CREDITS:
       MenuManager::instance().clear_menu_stack();
-      g_screen_manager->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.txt")),
+      ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.txt")),
                                     std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
       break;
 
     case MNID_QUITMAINMENU:
-      g_screen_manager->quit(std::unique_ptr<ScreenFade>(new FadeOut(0.25)));
-      sound_manager->stop_music(0.25);
+      ScreenManager::current()->quit(std::unique_ptr<ScreenFade>(new FadeOut(0.25)));
+      SoundManager::current()->stop_music(0.25);
       break;
   }
 }

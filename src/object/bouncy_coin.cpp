@@ -31,7 +31,7 @@ BouncyCoin::BouncyCoin(const Vector& pos, bool emerge) :
   emerge_distance(0)
 {
   timer.start(LIFE_TIME);
-  sprite = sprite_manager->create("images/objects/coin/coin.sprite");
+  sprite = SpriteManager::current()->create("images/objects/coin/coin.sprite");
 
   if(emerge) {
     emerge_distance = sprite->get_height();

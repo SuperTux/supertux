@@ -46,8 +46,8 @@ Thunderstorm::Thunderstorm(const Reader& reader) :
   }
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUNDTILES-1);
 
-  sound_manager->preload("sounds/thunder.wav");
-  sound_manager->preload("sounds/lightning.wav");
+  SoundManager::current()->preload("sounds/thunder.wav");
+  SoundManager::current()->preload("sounds/lightning.wav");
 
   if (running) {
     running = false; // else start() is ignored
@@ -118,7 +118,7 @@ Thunderstorm::stop()
 void
 Thunderstorm::thunder()
 {
-  sound_manager->play("sounds/thunder.wav");
+  SoundManager::current()->play("sounds/thunder.wav");
 }
 
 void
@@ -131,7 +131,7 @@ Thunderstorm::lightning()
 void
 Thunderstorm::flash()
 {
-  sound_manager->play("sounds/lightning.wav");
+  SoundManager::current()->play("sounds/lightning.wav");
   flash_display_timer.start(FLASH_DISPLAY_TIME);
 }
 

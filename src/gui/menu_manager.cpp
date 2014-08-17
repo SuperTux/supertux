@@ -258,7 +258,7 @@ MenuManager::set_menu(std::unique_ptr<Menu> menu)
   }
 
   // just to be sure...
-  g_input_manager->reset();
+  InputManager::current()->reset();
 }
 
 void

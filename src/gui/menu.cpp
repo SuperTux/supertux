@@ -180,7 +180,7 @@ Menu::process_input()
   }
 
   MenuAction menuaction = MENU_ACTION_NONE;
-  Controller* controller = g_input_manager->get_controller();
+  Controller* controller = InputManager::current()->get_controller();
   /** check main input controller... */
   if(controller->pressed(Controller::UP)) {
     menuaction = MENU_ACTION_UP;

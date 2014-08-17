@@ -39,7 +39,7 @@ Dispenser::Dispenser(const Reader& reader) :
   type()
 {
   set_colgroup_active(COLGROUP_MOVING_STATIC);
-  sound_manager->preload("sounds/squish.wav");
+  SoundManager::current()->preload("sounds/squish.wav");
   reader.get("cycle", cycle);
   reader.get("badguy", badguys);
   random = false; // default
@@ -111,7 +111,7 @@ Dispenser::collision_squished(GameObject& object)
   if (player){
     player->bounce(*this);
   }
-  sound_manager->play("sounds/squish.wav", get_pos());
+  SoundManager::current()->play("sounds/squish.wav", get_pos());
   broken = true;
   return true;
 }

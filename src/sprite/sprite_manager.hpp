@@ -22,10 +22,11 @@
 #include <string>
 
 #include "sprite/sprite_ptr.hpp"
+#include "util/currenton.hpp"
 
 class SpriteData;
 
-class SpriteManager
+class SpriteManager : public Currenton<SpriteManager>
 {
 private:
   typedef std::map<std::string, SpriteData*> Sprites;

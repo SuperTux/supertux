@@ -44,7 +44,7 @@ ShortFuse::ShortFuse(const Reader& reader) :
     return;
   }
   //Replace sprite
-  sprite = sprite_manager->create( sprite_name );
+  sprite = SpriteManager::current()->create( sprite_name );
 }
 
 void

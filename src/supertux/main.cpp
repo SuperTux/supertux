@@ -38,10 +38,11 @@ extern "C" {
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/command_line_arguments.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/command_line_arguments.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_fade.hpp"
@@ -54,15 +55,13 @@ extern "C" {
 #include "video/renderer.hpp"
 #include "worldmap/worldmap.hpp"
 
-namespace { DrawingContext *context_pointer; }
-
 void
 Main::init_config()
 {
-  g_config = new Config();
+  g_config.reset(new Config);
   try {
     g_config->load();
-  } catch(std::exception& e) {
+  } catch(const std::exception& e) {
     log_info << "Couldn't load config file: " << e.what() << ", using default settings" << std::endl;
   }
 }
@@ -70,23 +69,23 @@ Main::init_config()
 void
 Main::init_tinygettext()
 {
-  dictionary_manager = new tinygettext::DictionaryManager();
+  g_dictionary_manager.reset(new tinygettext::DictionaryManager);
   tinygettext::Log::set_log_info_callback(0);
-  dictionary_manager->set_filesystem(std::unique_ptr<tinygettext::FileSystem>(new PhysFSFileSystem));
+  g_dictionary_manager->set_filesystem(std::unique_ptr<tinygettext::FileSystem>(new PhysFSFileSystem));
 
-  dictionary_manager->add_directory("locale");
-  dictionary_manager->set_charset("UTF-8");
+  g_dictionary_manager->add_directory("locale");
+  g_dictionary_manager->set_charset("UTF-8");
 
   // Config setting "locale" overrides language detection
   if (g_config->locale != "")
   {
-    dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
+    g_dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
   } else {
     FL_Locale *locale;
     FL_FindLocale(&locale);
     tinygettext::Language language = tinygettext::Language::from_spec( locale->lang?locale->lang:"", locale->country?locale->country:"", locale->variant?locale->variant:"");
     FL_FreeLocale(&locale);
-    dictionary_manager->set_language(language);
+    g_dictionary_manager->set_language(language);
   }
 }
 
@@ -233,24 +232,6 @@ Main::init_video()
            << " Area: "       << g_config->aspect_size << std::endl;
 }
 
-void
-Main::init_audio()
-{
-  sound_manager = new SoundManager();
-
-  sound_manager->enable_sound(g_config->sound_enabled);
-  sound_manager->enable_music(g_config->music_enabled);
-}
-
-void
-Main::quit_audio()
-{
-  if(sound_manager != NULL) {
-    delete sound_manager;
-    sound_manager = NULL;
-  }
-}
-
 static Uint32 last_timelog_ticks = 0;
 static const char* last_timelog_component = 0;
 
@@ -331,7 +312,7 @@ Main::run(int argc, char** argv)
     Console console;
 
     timelog("controller");
-    g_input_manager = new InputManager();
+    InputManager input_manager;
 
     timelog("commandline");
 
@@ -339,11 +320,12 @@ Main::run(int argc, char** argv)
     std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
     DrawingContext context(video_system->get_renderer(),
                            video_system->get_lightmap());
-    context_pointer = &context;
     init_video();
 
     timelog("audio");
-    init_audio();
+    SoundManager sound_manager;
+    sound_manager.enable_sound(g_config->sound_enabled);
+    sound_manager.enable_music(g_config->music_enabled);
 
     Console::current()->init_graphics();
 
@@ -351,7 +333,9 @@ Main::run(int argc, char** argv)
     scripting::init_squirrel(g_config->enable_script_debugger);
 
     timelog("resources");
-    Resources::load_shared();
+    TileManager tile_manager;
+    SpriteManager sprite_manager;
+    Resources resources;
 
     timelog("addons");
     AddonManager::get_instance().load_addons();
@@ -361,7 +345,7 @@ Main::run(int argc, char** argv)
     const std::unique_ptr<Savegame> default_savegame(new Savegame(std::string()));
 
     GameManager game_manager;
-    g_screen_manager = new ScreenManager();
+    ScreenManager screen_manager;
 
     init_rand();
 
@@ -379,7 +363,7 @@ Main::run(int argc, char** argv)
 
       if(g_config->start_level.size() > 4 &&
          g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0) {
-        g_screen_manager->push_screen(std::unique_ptr<Screen>(
+        ScreenManager::current()->push_screen(std::unique_ptr<Screen>(
                                         new worldmap::WorldMap(
                                           FileSystem::basename(g_config->start_level), *default_savegame)));
       } else {
@@ -394,13 +378,13 @@ Main::run(int argc, char** argv)
 
         if(g_config->record_demo != "")
           session->record_demo(g_config->record_demo);
-        g_screen_manager->push_screen(std::move(session));
+        ScreenManager::current()->push_screen(std::move(session));
       }
     } else {
-      g_screen_manager->push_screen(std::unique_ptr<Screen>(new TitleScreen(*default_savegame)));
+      ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TitleScreen(*default_savegame)));
     }
 
-    g_screen_manager->run(context);
+    ScreenManager::current()->run(context);
   } catch(std::exception& e) {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
     result = 1;
@@ -409,26 +393,16 @@ Main::run(int argc, char** argv)
     result = 1;
   }
 
-  delete g_screen_manager;
-  g_screen_manager = NULL;
-
-  Resources::unload_shared();
-  quit_audio();
-
   if(g_config)
     g_config->save();
-  delete g_config;
-  g_config = NULL;
-  delete g_input_manager;
-  g_input_manager = NULL;
+  g_config.reset();
+
   scripting::exit_squirrel();
-  delete texture_manager;
-  texture_manager = NULL;
+
   SDL_Quit();
   PHYSFS_deinit();
 
-  delete dictionary_manager;
-  dictionary_manager = nullptr;
+  g_dictionary_manager.reset();
 
   return result;
 }

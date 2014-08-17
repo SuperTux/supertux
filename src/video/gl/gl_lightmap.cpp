@@ -67,7 +67,7 @@ GLLightmap::GLLightmap() :
 
   m_lightmap_uv_right = static_cast<float>(m_lightmap_width) / static_cast<float>(width);
   m_lightmap_uv_bottom = static_cast<float>(m_lightmap_height) / static_cast<float>(height);
-  texture_manager->register_texture(m_lightmap.get());
+  TextureManager::current()->register_texture(m_lightmap.get());
 }
 
 GLLightmap::~GLLightmap()

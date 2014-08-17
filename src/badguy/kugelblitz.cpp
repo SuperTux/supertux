@@ -42,7 +42,7 @@ Kugelblitz::Kugelblitz(const Reader& reader) :
   direction(),
   state(),
   light(0.0f,0.0f,0.0f),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light.sprite"))
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
   reader.get("x", start_position.x);
   sprite->set_action("falling");

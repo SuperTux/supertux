@@ -112,9 +112,6 @@ SDLRenderer::SDLRenderer() :
     log_info << "Max Texture Height: " << info.max_texture_height << std::endl;
   }
 
-  if(texture_manager == 0)
-    texture_manager = new TextureManager();
-
   g_config->window_size = Size(width, height);
   apply_config();
 }

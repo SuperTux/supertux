@@ -30,13 +30,13 @@ StreamSoundSource::StreamSoundSource() :
   alGenBuffers(STREAMFRAGMENTS, buffers);
   SoundManager::check_al_error("Couldn't allocate audio buffers: ");
   //add me to update list
-  sound_manager->register_for_update( this );
+  SoundManager::current()->register_for_update( this );
 }
 
 StreamSoundSource::~StreamSoundSource()
 {
   //don't update me any longer
-  sound_manager->remove_from_update( this );
+  SoundManager::current()->remove_from_update( this );
   file.reset();
   stop();
   alDeleteBuffers(STREAMFRAGMENTS, buffers);

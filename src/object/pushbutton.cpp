@@ -35,7 +35,7 @@ PushButton::PushButton(const Reader& lisp) :
   script(),
   state(OFF)
 {
-  sound_manager->preload(BUTTON_SOUND);
+  SoundManager::current()->preload(BUTTON_SOUND);
   set_action("off", -1);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
@@ -69,7 +69,7 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   set_pos(get_pos() + Vector(0, old_bbox_height - new_bbox_height));
 
   // play sound
-  sound_manager->play(BUTTON_SOUND);
+  SoundManager::current()->play(BUTTON_SOUND);
 
   // run script
   std::istringstream stream(script);

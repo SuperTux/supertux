@@ -55,10 +55,10 @@ public:
   Texture() : cache_filename() {}
   virtual ~Texture()
   {
-    if (texture_manager && cache_filename != "")
+    if (TextureManager::current() && cache_filename != "")
       /* The cache entry is now useless: its weak pointer to us has been
        * cleared.  Remove the entry altogether to save memory. */
-      texture_manager->reap_cache_entry(cache_filename);
+      TextureManager::current()->reap_cache_entry(cache_filename);
   }
 
   virtual unsigned int get_texture_width() const = 0;

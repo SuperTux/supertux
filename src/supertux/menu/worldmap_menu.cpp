@@ -45,7 +45,7 @@ WorldmapMenu::menu_action(MenuItem* item)
 
     case MNID_QUITWORLDMAP:
       MenuManager::instance().clear_menu_stack();
-      g_screen_manager->pop_screen();
+      ScreenManager::current()->pop_screen();
       break;
   }
 }

@@ -32,23 +32,23 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type_) :
   life_count(3),
   sprite(),
   light(0.0f,0.0f,0.0f),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
   type(type_)
 {
   float speed = dir == RIGHT ? BULLET_XM : -BULLET_XM;
   physic.set_velocity_x(speed + xm);
 
   if(type == FIRE_BONUS) {
-    sprite = sprite_manager->create("images/objects/bullets/firebullet.sprite");
+    sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
     lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
     lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
  } else if(type == ICE_BONUS) {
     life_count = 10;
-    sprite = sprite_manager->create("images/objects/bullets/icebullet.sprite");
+    sprite = SpriteManager::current()->create("images/objects/bullets/icebullet.sprite");
   } else {
     log_warning << "Bullet::Bullet called with unknown BonusType" << std::endl;
     life_count = 10;
-    sprite = sprite_manager->create("images/objects/bullets/firebullet.sprite");
+    sprite = SpriteManager::current()->create("images/objects/bullets/firebullet.sprite");
   }
 
   bbox.set_pos(pos);

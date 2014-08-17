@@ -42,8 +42,8 @@ Block::Block(SpritePtr newsprite) :
 {
   bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
-  sound_manager->preload("sounds/upgrade.wav");
-  sound_manager->preload("sounds/brick.wav");
+  SoundManager::current()->preload("sounds/upgrade.wav");
+  SoundManager::current()->preload("sounds/brick.wav");
 }
 
 Block::~Block()

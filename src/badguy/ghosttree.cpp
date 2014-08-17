@@ -53,10 +53,10 @@ GhostTree::GhostTree(const Reader& lisp) :
   suck_lantern(0),
   willowisps()
 {
-  glow_sprite = sprite_manager->create("images/creatures/ghosttree/ghosttree-glow.sprite");
+  glow_sprite = SpriteManager::current()->create("images/creatures/ghosttree/ghosttree-glow.sprite");
   set_colgroup_active(COLGROUP_TOUCHABLE);
-  sound_manager->preload("sounds/tree_howling.ogg");
-  sound_manager->preload("sounds/tree_suck.ogg");
+  SoundManager::current()->preload("sounds/tree_howling.ogg");
+  SoundManager::current()->preload("sounds/tree_suck.ogg");
 }
 
 GhostTree::~GhostTree()
@@ -93,7 +93,7 @@ GhostTree::active_update(float elapsed_time)
 
   if (mystate == STATE_IDLE) {
     if(colorchange_timer.check()) {
-      sound_manager->play("sounds/tree_howling.ogg", get_pos());
+      SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());
       suck_timer.start(3);
       treecolor = (treecolor + 1) % 3;
 
@@ -112,7 +112,7 @@ GhostTree::active_update(float elapsed_time)
 
     if(suck_timer.check()) {
       Color col = glow_sprite->get_color();
-      sound_manager->play("sounds/tree_suck.ogg", get_pos());
+      SoundManager::current()->play("sounds/tree_suck.ogg", get_pos());
       std::vector<TreeWillOWisp*>::iterator iter;
       for(iter = willowisps.begin(); iter != willowisps.end(); ++iter) {
         TreeWillOWisp *willo = *iter;

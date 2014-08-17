@@ -29,7 +29,7 @@ Root::Root(const Vector& pos) :
   offset_y(0),
   hatch_timer()
 {
-  base_sprite = sprite_manager->create("images/creatures/ghosttree/root-base.sprite");
+  base_sprite = SpriteManager::current()->create("images/creatures/ghosttree/root-base.sprite");
   base_sprite->set_action("appearing", 1);
   base_sprite->set_animation_loops(1); // TODO: necessary because set_action ignores loops for default action
   physic.enable_gravity(false);

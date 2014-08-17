@@ -36,7 +36,7 @@ Surface::create(const std::string& file, const Rect& rect)
 }
 
 Surface::Surface(const std::string& file) :
-  texture(texture_manager->get(file)),
+  texture(TextureManager::current()->get(file)),
   surface_data(),
   rect(0, 0,
       Size(texture->get_image_width(),
@@ -47,7 +47,7 @@ Surface::Surface(const std::string& file) :
 }
 
 Surface::Surface(const std::string& file, const Rect& rect_) :
-  texture(texture_manager->get(file, rect_)),
+  texture(TextureManager::current()->get(file, rect_)),
   surface_data(),
   rect(0, 0, Size(rect_.get_width(), rect_.get_height())),
   flipx(false)

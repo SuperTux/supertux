@@ -190,11 +190,11 @@ ScreenManager::update_gamelogic(float elapsed_time)
 void
 ScreenManager::process_events()
 {
-  g_input_manager->update();
+  InputManager::current()->update();
   SDL_Event event;
   while (SDL_PollEvent(&event))
   {
-    g_input_manager->process_event(event);
+    InputManager::current()->process_event(event);
 
     m_menu_manager->event(event);
 
@@ -365,7 +365,7 @@ ScreenManager::run(DrawingContext &context)
       draw(context);
     }
 
-    sound_manager->update();
+    SoundManager::current()->update();
 
     handle_screen_switch();
   }

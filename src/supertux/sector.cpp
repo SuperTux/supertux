@@ -90,7 +90,7 @@ Sector::Sector(Level* parent) :
   add_object(new DisplayEffect("Effect"));
   add_object(new TextObject("Text"));
 
-  sound_manager->preload("sounds/shoot.wav");
+  SoundManager::current()->preload("sounds/shoot.wav");
 
   // create a new squirrel table for the sector
   using namespace scripting;
@@ -1468,7 +1468,7 @@ Sector::add_bullet(const Vector& pos, const PlayerStatus* player_status, float x
   new_bullet = new Bullet(pos, xm, dir, player_status->bonus);
   add_object(new_bullet);
 
-  sound_manager->play("sounds/shoot.wav");
+  SoundManager::current()->play("sounds/shoot.wav");
 
   return true;
 }
@@ -1486,16 +1486,16 @@ Sector::play_music(MusicType type)
   currentmusic = type;
   switch(currentmusic) {
     case LEVEL_MUSIC:
-      sound_manager->play_music(music);
+      SoundManager::current()->play_music(music);
       break;
     case HERRING_MUSIC:
-      sound_manager->play_music("music/invincible.ogg");
+      SoundManager::current()->play_music("music/invincible.ogg");
       break;
     case HERRING_WARNING_MUSIC:
-      sound_manager->stop_music(TUX_INVINCIBLE_TIME_WARNING);
+      SoundManager::current()->stop_music(TUX_INVINCIBLE_TIME_WARNING);
       break;
     default:
-      sound_manager->play_music("");
+      SoundManager::current()->play_music("");
       break;
   }
 }

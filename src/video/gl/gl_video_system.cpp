@@ -20,10 +20,12 @@
 #include "video/gl/gl_renderer.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/texture_manager.hpp"
 
 GLVideoSystem::GLVideoSystem() :
   m_renderer(new GLRenderer),
-  m_lightmap(new GLLightmap)
+  m_lightmap(new GLLightmap),
+  m_texture_manager(new TextureManager)
 {
 }
 

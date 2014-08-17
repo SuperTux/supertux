@@ -30,7 +30,7 @@ Jumpy::Jumpy(const Reader& reader) :
   groundhit_pos_set(false)
 {
   // TODO create a nice sound for this...
-  //sound_manager->preload("sounds/skid.wav");
+  //SoundManager::current()->preload("sounds/skid.wav");
 }
 
 void
@@ -57,7 +57,7 @@ Jumpy::hit(const CollisionHit& chit)
 
     physic.set_velocity_y((frozen || get_state() == STATE_FALLING) ? 0 : JUMPYSPEED);
     // TODO create a nice sound for this...
-    //sound_manager->play("sounds/skid.wav");
+    //SoundManager::current()->play("sounds/skid.wav");
   } else if(chit.top) {
     physic.set_velocity_y(0);
   }

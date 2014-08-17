@@ -28,7 +28,8 @@
 
 SDLVideoSystem::SDLVideoSystem() :
   m_renderer(new SDLRenderer),
-  m_lightmap(new SDLLightmap)
+  m_lightmap(new SDLLightmap),
+  m_texture_manager(new TextureManager)
 {
 }
 

@@ -185,7 +185,7 @@ OptionsMenu::OptionsMenu(bool complete)
     }
   }
 
-  if (sound_manager->is_audio_enabled()) {
+  if (SoundManager::current()->is_audio_enabled()) {
     add_toggle(MNID_SOUND, _("Sound"), g_config->sound_enabled)
       ->set_help(_("Disable all sound effects"));
     add_toggle(MNID_MUSIC, _("Music"), g_config->music_enabled)
@@ -280,7 +280,7 @@ OptionsMenu::menu_action(MenuItem* item)
     case MNID_SOUND:
       if(g_config->sound_enabled != is_toggled(MNID_SOUND)) {
         g_config->sound_enabled = !g_config->sound_enabled;
-        sound_manager->enable_sound(g_config->sound_enabled);
+        SoundManager::current()->enable_sound(g_config->sound_enabled);
         g_config->save();
       }
       break;
@@ -288,7 +288,7 @@ OptionsMenu::menu_action(MenuItem* item)
     case MNID_MUSIC:
       if(g_config->music_enabled != is_toggled(MNID_MUSIC)) {
         g_config->music_enabled = !g_config->music_enabled;
-        sound_manager->enable_music(g_config->music_enabled);
+        SoundManager::current()->enable_music(g_config->music_enabled);
         g_config->save();
       }
       break;

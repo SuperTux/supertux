@@ -62,8 +62,8 @@ Yeti::Yeti(const Reader& reader) :
 {
   hit_points = INITIAL_HITPOINTS;
   countMe = false;
-  sound_manager->preload("sounds/yeti_gna.wav");
-  sound_manager->preload("sounds/yeti_roar.wav");
+  SoundManager::current()->preload("sounds/yeti_gna.wav");
+  SoundManager::current()->preload("sounds/yeti_roar.wav");
   hud_head = Surface::create("images/creatures/yeti/hudlife.png");
 }
 
@@ -126,7 +126,7 @@ Yeti::active_update(float elapsed_time)
       break;
     case BE_ANGRY:
       if(state_timer.check()) {
-        sound_manager->play("sounds/yeti_gna.wav");
+        SoundManager::current()->play("sounds/yeti_gna.wav");
         physic.set_velocity_y(STOMP_VY);
         sprite->set_action((dir==RIGHT)?"stomp-right":"stomp-left");
       }
@@ -205,7 +205,7 @@ void Yeti::take_hit(Player& )
   if(safe_timer.started())
     return;
 
-  sound_manager->play("sounds/yeti_roar.wav");
+  SoundManager::current()->play("sounds/yeti_roar.wav");
   hit_points--;
 
   if(hit_points <= 0) {

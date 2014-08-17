@@ -39,9 +39,9 @@ MrIceBlock::MrIceBlock(const Reader& reader) :
 {
   walk_speed = 80;
   max_drop_height = 600;
-  sound_manager->preload("sounds/iceblock_bump.wav");
-  sound_manager->preload("sounds/stomp.wav");
-  sound_manager->preload("sounds/kick.wav");
+  SoundManager::current()->preload("sounds/iceblock_bump.wav");
+  SoundManager::current()->preload("sounds/stomp.wav");
+  SoundManager::current()->preload("sounds/kick.wav");
 }
 
 MrIceBlock::MrIceBlock(const Vector& pos, Direction d) :
@@ -53,9 +53,9 @@ MrIceBlock::MrIceBlock(const Vector& pos, Direction d) :
 {
   walk_speed = 80;
   max_drop_height = 600;
-  sound_manager->preload("sounds/iceblock_bump.wav");
-  sound_manager->preload("sounds/stomp.wav");
-  sound_manager->preload("sounds/kick.wav");
+  SoundManager::current()->preload("sounds/iceblock_bump.wav");
+  SoundManager::current()->preload("sounds/stomp.wav");
+  SoundManager::current()->preload("sounds/kick.wav");
 }
 
 void
@@ -106,7 +106,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
     case ICESTATE_KICKED: {
       if((hit.right && dir == RIGHT) || (hit.left && dir == LEFT)) {
         dir = (dir == LEFT) ? RIGHT : LEFT;
-        sound_manager->play("sounds/iceblock_bump.wav", get_pos());
+        SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
         physic.set_velocity_x(-physic.get_velocity_x()*.975);
       }
       this->set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
@@ -238,7 +238,7 @@ MrIceBlock::set_state(IceState state_, bool up)
       if(up) {
         physic.set_velocity_y(-KICKSPEED);
       } else {
-        sound_manager->play("sounds/stomp.wav", get_pos());
+        SoundManager::current()->play("sounds/stomp.wav", get_pos());
         physic.set_velocity_x(0);
         physic.set_velocity_y(0);
       }
@@ -246,7 +246,7 @@ MrIceBlock::set_state(IceState state_, bool up)
       flat_timer.start(4);
       break;
     case ICESTATE_KICKED:
-      sound_manager->play("sounds/kick.wav", get_pos());
+      SoundManager::current()->play("sounds/kick.wav", get_pos());
 
       physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
       this->set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
@@ -294,7 +294,7 @@ SmartBlock::SmartBlock(const Reader& reader) :
   MrIceBlock(reader)
 {
   max_drop_height = 16;
-  sprite = sprite_manager->create("images/creatures/mr_iceblock/smart_block/smart_block.sprite");
+  sprite = SpriteManager::current()->create("images/creatures/mr_iceblock/smart_block/smart_block.sprite");
 }
 
 /* EOF */

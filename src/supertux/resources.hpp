@@ -41,8 +41,8 @@ public:
   static SurfacePtr arrow_right;
 
 public:
-  static void load_shared();
-  static void unload_shared();
+  Resources();
+  ~Resources();
 };
 
 #endif

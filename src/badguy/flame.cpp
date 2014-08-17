@@ -35,7 +35,7 @@ Flame::Flame(const Reader& reader) :
   radius(100),
   speed(2),
   light(0.0f,0.0f,0.0f),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
   sound_source()
 {
   reader.get("radius", radius);
@@ -43,7 +43,7 @@ Flame::Flame(const Reader& reader) :
   bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
                       start_position.y + sin(angle) * radius));
   countMe = false;
-  sound_manager->preload(FLAME_SOUND);
+  SoundManager::current()->preload(FLAME_SOUND);
 
   set_colgroup_active(COLGROUP_TOUCHABLE);
 
@@ -85,7 +85,7 @@ Flame::draw(DrawingContext& context)
 void
 Flame::activate()
 {
-  sound_source = sound_manager->create_sound_source(FLAME_SOUND);
+  sound_source = SoundManager::current()->create_sound_source(FLAME_SOUND);
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
   sound_source->set_gain(2.0);
@@ -108,7 +108,7 @@ Flame::kill_fall()
 void
 Flame::freeze()
 {
-  sound_manager->play("sounds/sizzle.ogg", get_pos());
+  SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
   sprite->set_action("fade", 1);
   Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", bbox.get_middle(), ANCHOR_MIDDLE, Vector(0, -150), Vector(0,0), LAYER_BACKGROUNDTILES+2));
   set_group(COLGROUP_DISABLED);

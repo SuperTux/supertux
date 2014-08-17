@@ -37,7 +37,7 @@ RustyTrampoline::RustyTrampoline(const Reader& lisp) :
   Rock(lisp, "images/objects/rusty-trampoline/rusty-trampoline.sprite"),
   portable(true), counter(3)
 {
-  sound_manager->preload(BOUNCE_SOUND);
+  SoundManager::current()->preload(BOUNCE_SOUND);
 
   lisp.get("counter", counter);
   lisp.get("portable", portable); //do we really need this?
@@ -76,7 +76,7 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
           vy = VY_BOUNCE;
         }
         player->get_physic().set_velocity_y(vy);
-        sound_manager->play(BOUNCE_SOUND);
+        SoundManager::current()->play(BOUNCE_SOUND);
         counter--;
         if (counter > 0) {
           sprite->set_action("swinging", 1);
@@ -95,7 +95,7 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
       if(hit.top && vy >= 0) {
         vy = VY_BOUNCE;
         walking_badguy->set_velocity_y(vy);
-        sound_manager->play(BOUNCE_SOUND);
+        SoundManager::current()->play(BOUNCE_SOUND);
         counter--;
         if (counter > 0) {
           sprite->set_action("swinging", 1);

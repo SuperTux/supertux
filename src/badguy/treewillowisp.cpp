@@ -42,7 +42,7 @@ TreeWillOWisp::TreeWillOWisp(GhostTree* tree_, const Vector& pos,
   tree(tree_),
   suck_target()
 {
-  sound_manager->preload(TREEWILLOSOUND);
+  SoundManager::current()->preload(TREEWILLOSOUND);
 
   this->radius = radius_;
   this->angle  = 0;
@@ -58,7 +58,7 @@ TreeWillOWisp::~TreeWillOWisp()
 void
 TreeWillOWisp::activate()
 {
-  sound_source = sound_manager->create_sound_source(TREEWILLOSOUND);
+  sound_source = SoundManager::current()->create_sound_source(TREEWILLOSOUND);
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
   sound_source->set_gain(2.0);
