@@ -52,22 +52,22 @@ inline int next_po2(int val)
 }
 
 GLLightmap::GLLightmap() :
-  lightmap(),
-  lightmap_width(),
-  lightmap_height(),
-  lightmap_uv_right(),
-  lightmap_uv_bottom()
+  m_lightmap(),
+  m_lightmap_width(),
+  m_lightmap_height(),
+  m_lightmap_uv_right(),
+  m_lightmap_uv_bottom()
 {
-  lightmap_width = SCREEN_WIDTH / LIGHTMAP_DIV;
-  lightmap_height = SCREEN_HEIGHT / LIGHTMAP_DIV;
-  unsigned int width = next_po2(lightmap_width);
-  unsigned int height = next_po2(lightmap_height);
+  m_lightmap_width = SCREEN_WIDTH / s_LIGHTMAP_DIV;
+  m_lightmap_height = SCREEN_HEIGHT / s_LIGHTMAP_DIV;
+  unsigned int width = next_po2(m_lightmap_width);
+  unsigned int height = next_po2(m_lightmap_height);
 
-  lightmap.reset(new GLTexture(width, height));
+  m_lightmap.reset(new GLTexture(width, height));
 
-  lightmap_uv_right = static_cast<float>(lightmap_width) / static_cast<float>(width);
-  lightmap_uv_bottom = static_cast<float>(lightmap_height) / static_cast<float>(height);
-  texture_manager->register_texture(lightmap.get());
+  m_lightmap_uv_right = static_cast<float>(m_lightmap_width) / static_cast<float>(width);
+  m_lightmap_uv_bottom = static_cast<float>(m_lightmap_height) / static_cast<float>(height);
+  texture_manager->register_texture(m_lightmap.get());
 }
 
 GLLightmap::~GLLightmap()
@@ -78,8 +78,8 @@ void
 GLLightmap::start_draw(const Color &ambient_color)
 {
 
-  glGetFloatv(GL_VIEWPORT, old_viewport); //save viewport
-  glViewport(old_viewport[0], old_viewport[3] - lightmap_height + old_viewport[1], lightmap_width, lightmap_height);
+  glGetFloatv(GL_VIEWPORT, m_old_viewport); //save viewport
+  glViewport(m_old_viewport[0], m_old_viewport[3] - m_lightmap_height + m_old_viewport[1], m_lightmap_width, m_lightmap_height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 #ifdef GL_VERSION_ES_CM_1_0
@@ -98,10 +98,10 @@ void
 GLLightmap::end_draw()
 {
   glDisable(GL_BLEND);
-  glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
-  glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, old_viewport[0], old_viewport[3]  - lightmap_height + old_viewport[1], lightmap_width, lightmap_height);
+  glBindTexture(GL_TEXTURE_2D, m_lightmap->get_handle());
+  glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_old_viewport[0], m_old_viewport[3] - m_lightmap_height + m_old_viewport[1], m_lightmap_width, m_lightmap_height);
 
-  glViewport(old_viewport[0], old_viewport[1], old_viewport[2], old_viewport[3]);
+  glViewport(m_old_viewport[0], m_old_viewport[1], m_old_viewport[2], m_old_viewport[3]);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 #ifdef GL_VERSION_ES_CM_1_0
@@ -123,7 +123,7 @@ GLLightmap::do_draw()
   // multiple the lightmap with the framebuffer
   glBlendFunc(GL_DST_COLOR, GL_ZERO);
 
-  glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
+  glBindTexture(GL_TEXTURE_2D, m_lightmap->get_handle());
 
   float vertices[] = {
     0, 0,
@@ -134,9 +134,9 @@ GLLightmap::do_draw()
   glVertexPointer(2, GL_FLOAT, 0, vertices);
 
   float uvs[] = {
-    0,                 lightmap_uv_bottom,
-    lightmap_uv_right, lightmap_uv_bottom,
-    lightmap_uv_right, 0,
+    0,                 m_lightmap_uv_bottom,
+    m_lightmap_uv_right, m_lightmap_uv_bottom,
+    m_lightmap_uv_right, 0,
     0, 0
   };
   glTexCoordPointer(2, GL_FLOAT, 0, uvs);
@@ -186,8 +186,8 @@ GLLightmap::get_light(const DrawingRequest& request) const
   for( int i = 0; i<3; i++)
     pixels[i] = 0.0f; //set to black
 
-  float posX = request.pos.x * lightmap_width / SCREEN_WIDTH + old_viewport[0];
-  float posY = old_viewport[3] + old_viewport[1] - request.pos.y * lightmap_height / SCREEN_HEIGHT;
+  float posX = request.pos.x * m_lightmap_width / SCREEN_WIDTH + m_old_viewport[0];
+  float posY = m_old_viewport[3] + m_old_viewport[1] - request.pos.y * m_lightmap_height / SCREEN_HEIGHT;
   glReadPixels((GLint) posX, (GLint) posY , 1, 1, GL_RGB, GL_FLOAT, pixels);
   *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
 }

@@ -25,7 +25,7 @@ class DrawingRequest;
 class GLPainter
 {
 private:
-  static GLuint last_texture;
+  static GLuint s_last_texture;
 
 public:
   GLPainter();

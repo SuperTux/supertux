@@ -20,7 +20,7 @@
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
 
-GLuint GLPainter::last_texture = static_cast<GLuint>(-1);
+GLuint GLPainter::s_last_texture = static_cast<GLuint>(-1);
 
 namespace {
 
@@ -120,8 +120,8 @@ GLPainter::draw_surface(const DrawingRequest& request)
   }
 
   GLuint th = gltexture->get_handle();
-  if (th != last_texture) {
-    last_texture = th;
+  if (th != s_last_texture) {
+    s_last_texture = th;
     glBindTexture(GL_TEXTURE_2D, th);
   }
   intern_draw(request.pos.x, request.pos.y,
@@ -156,8 +156,8 @@ GLPainter::draw_surface_part(const DrawingRequest& request)
   float uv_bottom = surface_data->get_uv_top() + (uv_height * surfacepartrequest->srcrect.p2.y) / surface->get_height();
 
   GLuint th = gltexture->get_handle();
-  if (th != last_texture) {
-    last_texture = th;
+  if (th != s_last_texture) {
+    s_last_texture = th;
     glBindTexture(GL_TEXTURE_2D, th);
   }
   intern_draw(request.pos.x, request.pos.y,
