@@ -33,7 +33,7 @@ SDLTexture::SDLTexture(SDL_Surface* image) :
   m_width(),
   m_height()
 {
-  m_texture = SDL_CreateTextureFromSurface(static_cast<SDLRenderer*>(Renderer::instance())->get_sdl_renderer(),
+  m_texture = SDL_CreateTextureFromSurface(static_cast<SDLRenderer&>(VideoSystem::current()->get_renderer()).get_sdl_renderer(),
                                            image);
   if (!m_texture)
   {

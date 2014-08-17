@@ -28,7 +28,7 @@
 #include "util/log.hpp"
 #include "video/sdl_surface_ptr.hpp"
 #include "video/texture.hpp"
-#include "video/video_systems.hpp"
+#include "video/video_system.hpp"
 
 #ifdef HAVE_OPENGL
 #include "video/gl/gl_texture.hpp"
@@ -171,7 +171,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
   }
 #endif
 
-  return VideoSystem::new_texture(subimage.get());
+  return VideoSystem::current()->new_texture(subimage.get());
 }
 
 TexturePtr
@@ -200,7 +200,7 @@ TextureManager::create_image_texture_raw(const std::string& filename)
   }
   else
   {
-    TexturePtr texture = VideoSystem::new_texture(image.get());
+    TexturePtr texture = VideoSystem::current()->new_texture(image.get());
     image.reset(NULL);
     return texture;
   }
@@ -229,7 +229,7 @@ TextureManager::create_dummy_texture()
     else
     {
       log_warning << "Couldn't load texture '" << dummy_texture_fname << "' (now using empty one): " << err.what() << std::endl;
-      TexturePtr texture = VideoSystem::new_texture(image.get());
+      TexturePtr texture = VideoSystem::current()->new_texture(image.get());
       image.reset(NULL);
       return texture;
     }

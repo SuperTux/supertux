@@ -33,6 +33,7 @@
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 #include "video/renderer.hpp"
+#include "video/video_system.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
 
@@ -276,7 +277,7 @@ void camera()
 
 void set_gamma(float gamma)
 {
-  Renderer::instance()->set_gamma(gamma);
+  VideoSystem::current()->get_renderer().set_gamma(gamma);
 }
 
 void quit()

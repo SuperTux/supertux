@@ -21,7 +21,7 @@
 #include <SDL.h>
 
 #include "video/texture.hpp"
-#include "video/video_systems.hpp"
+#include "video/video_system.hpp"
 
 SurfacePtr
 Surface::create(const std::string& file)
@@ -43,7 +43,7 @@ Surface::Surface(const std::string& file) :
            texture->get_image_height())),
   flipx(false)
 {
-  surface_data = VideoSystem::new_surface_data(*this);
+  surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
 Surface::Surface(const std::string& file, const Rect& rect_) :
@@ -52,7 +52,7 @@ Surface::Surface(const std::string& file, const Rect& rect_) :
   rect(0, 0, Size(rect_.get_width(), rect_.get_height())),
   flipx(false)
 {
-  surface_data = VideoSystem::new_surface_data(*this);
+  surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
 Surface::Surface(const Surface& rhs) :
@@ -61,12 +61,12 @@ Surface::Surface(const Surface& rhs) :
   rect(rhs.rect),
   flipx(false)
 {
-  surface_data = VideoSystem::new_surface_data(*this);
+  surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
 Surface::~Surface()
 {
-  VideoSystem::free_surface_data(surface_data);
+  VideoSystem::current()->free_surface_data(surface_data);
 }
 
 SurfacePtr

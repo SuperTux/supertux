@@ -43,8 +43,6 @@ GLRenderer::GLRenderer() :
   m_desktop_size(0, 0),
   m_fullscreen_active(false)
 {
-  Renderer::instance_ = this;
-
   SDL_DisplayMode mode;
   SDL_GetCurrentDisplayMode(0, &mode);
   m_desktop_size = Size(mode.w, mode.h);

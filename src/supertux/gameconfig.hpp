@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
 
-#include "video/video_systems.hpp"
+#include "video/video_system.hpp"
 #include "math/size.hpp"
 
 class Config

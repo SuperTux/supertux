@@ -212,7 +212,7 @@ Main::init_rand()
 void
 Main::init_video()
 {
-  SDL_SetWindowTitle(Renderer::instance()->get_window(), PACKAGE_NAME " " PACKAGE_VERSION);
+  SDL_SetWindowTitle(VideoSystem::current()->get_renderer().get_window(), PACKAGE_NAME " " PACKAGE_VERSION);
 
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
   SDL_Surface* icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
@@ -222,7 +222,7 @@ Main::init_video()
   }
   else
   {
-    SDL_SetWindowIcon(Renderer::instance()->get_window(), icon);
+    SDL_SetWindowIcon(VideoSystem::current()->get_renderer().get_window(), icon);
     SDL_FreeSurface(icon);
   }
   SDL_ShowCursor(0);
@@ -336,9 +336,9 @@ Main::run(int argc, char** argv)
     timelog("commandline");
 
     timelog("video");
-    std::unique_ptr<Renderer> renderer(VideoSystem::new_renderer());
-    std::unique_ptr<Lightmap> lightmap(VideoSystem::new_lightmap());
-    DrawingContext context(*renderer, *lightmap);
+    std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
+    DrawingContext context(video_system->get_renderer(),
+                           video_system->get_lightmap());
     context_pointer = &context;
     init_video();
 

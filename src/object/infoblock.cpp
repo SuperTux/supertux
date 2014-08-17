@@ -98,7 +98,7 @@ HitResponse
 InfoBlock::collision(GameObject& other, const CollisionHit& hit_)
 {
   Player* player = dynamic_cast<Player*> (&other);
-  if (player) 
+  if (player)
   {
     if (player->does_buttjump)
       InfoBlock::hit(*player);

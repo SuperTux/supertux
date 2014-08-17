@@ -29,7 +29,7 @@
 #include "video/surface.hpp"
 #include "video/texture.hpp"
 #include "video/texture_manager.hpp"
-#include "video/video_systems.hpp"
+#include "video/video_system.hpp"
 
 DrawingContext::DrawingContext(Renderer& renderer_, Lightmap& lightmap_) :
   renderer(renderer_),

@@ -39,8 +39,6 @@ SDLRenderer::SDLRenderer() :
   m_desktop_size(0, 0),
   m_scale(1.0f, 1.0f)
 {
-  Renderer::instance_ = this;
-
   SDL_DisplayMode mode;
   if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
   {
