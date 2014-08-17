@@ -43,8 +43,8 @@ static void printfunc(HSQUIRRELVM, const char* str, ...)
   char buf[4096];
   va_list arglist;
   va_start(arglist, str);
-  vsprintf(buf, str, arglist);
-  Console::output << (const char*) buf << std::flush;
+  vsnprintf(buf, sizeof(buf), str, arglist);
+  ConsoleBuffer::output << (const char*) buf << std::flush;
   va_end(arglist);
 }
 

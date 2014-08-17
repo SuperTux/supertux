@@ -28,10 +28,75 @@
 /// speed (pixels/s) the console closes
 static const float FADE_SPEED = 1;
 
-Console::Console() :
+ConsoleBuffer::ConsoleBuffer() :
+  m_lines()
+{
+}
+
+void
+ConsoleBuffer::addLines(const std::string& s)
+{
+  std::istringstream iss(s);
+  std::string line;
+  while (std::getline(iss, line, '\n'))
+  {
+    addLine(line);
+  }
+}
+
+void
+ConsoleBuffer::addLine(const std::string& s_)
+{
+  std::string s = s_;
+
+  // output line to stderr
+  std::cerr << s << std::endl;
+
+  // wrap long lines
+  std::string overflow;
+  int line_count = 0;
+  do {
+    m_lines.push_front(Font::wrap_to_chars(s, 99, &overflow));
+    line_count += 1;
+    s = overflow;
+  } while (s.length() > 0);
+
+  // trim scrollback buffer
+  while (m_lines.size() >= 1000)
+  {
+    m_lines.pop_back();
+  }
+
+  if (Console::current())
+  {
+    Console::current()->on_buffer_change(line_count);
+  }
+}
+
+void
+ConsoleBuffer::flush(ConsoleStreamBuffer& buffer)
+{
+  if (&buffer == &s_outputBuffer)
+  {
+    std::string s = s_outputBuffer.str();
+    if ((s.length() > 0) && ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r')))
+    {
+      while ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r'))
+      {
+        s.erase(s.length()-1);
+      }
+      addLines(s);
+      s_outputBuffer.str(std::string());
+    }
+  }
+}
+
+Console::Console(ConsoleBuffer& buffer) :
+  m_buffer(buffer),
+  m_inputBuffer(),
+  m_inputBufferPosition(0),
   m_history(),
   m_history_position(m_history.end()),
-  m_lines(),
   m_background(Surface::create("images/engine/console.png")),
   m_background2(Surface::create("images/engine/console2.png")),
   m_vm(NULL),
@@ -55,16 +120,20 @@ Console::~Console()
 }
 
 void
-Console::flush(ConsoleStreamBuffer* buffer)
+Console::on_buffer_change(int line_count)
 {
-  if (buffer == &outputBuffer) {
-    std::string s = outputBuffer.str();
-    if ((s.length() > 0) && ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r'))) {
-      while ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r')) s.erase(s.length()-1);
-      addLines(s);
-      outputBuffer.str(std::string());
+  // increase console height if necessary
+  if (m_stayOpen > 0 && m_height < 64)
+  {
+    if(m_height < 4)
+    {
+      m_height = 4;
     }
+    m_height += m_font->get_height() * line_count;
   }
+
+  // reset console to full opacity
+  m_alpha = 1.0;
 }
 
 void
@@ -121,9 +190,9 @@ Console::execute_script(const std::string& command)
       throw SquirrelError(m_vm, "Problem while executing command");
 
     if(sq_gettype(m_vm, -1) != OT_NULL)
-      addLines(squirrel2string(m_vm, -1));
+      m_buffer.addLines(squirrel2string(m_vm, -1));
   } catch(std::exception& e) {
-    addLines(e.what());
+    m_buffer.addLines(e.what());
   }
   SQInteger newtop = sq_gettop(m_vm);
   if(newtop < oldtop) {
@@ -136,34 +205,34 @@ Console::execute_script(const std::string& command)
 void
 Console::input(char c)
 {
-  inputBuffer.insert(inputBufferPosition, 1, c);
-  inputBufferPosition++;
+  m_inputBuffer.insert(m_inputBufferPosition, 1, c);
+  m_inputBufferPosition++;
 }
 
 void
 Console::backspace()
 {
-  if ((inputBufferPosition > 0) && (inputBuffer.length() > 0)) {
-    inputBuffer.erase(inputBufferPosition-1, 1);
-    inputBufferPosition--;
+  if ((m_inputBufferPosition > 0) && (m_inputBuffer.length() > 0)) {
+    m_inputBuffer.erase(m_inputBufferPosition-1, 1);
+    m_inputBufferPosition--;
   }
 }
 
 void
 Console::eraseChar()
 {
-  if (inputBufferPosition < (int)inputBuffer.length()) {
-    inputBuffer.erase(inputBufferPosition, 1);
+  if (m_inputBufferPosition < (int)m_inputBuffer.length()) {
+    m_inputBuffer.erase(m_inputBufferPosition, 1);
   }
 }
 
 void
 Console::enter()
 {
-  addLines("> "+inputBuffer);
-  parse(inputBuffer);
-  inputBuffer = "";
-  inputBufferPosition = 0;
+  m_buffer.addLines("> " + m_inputBuffer);
+  parse(m_inputBuffer);
+  m_inputBuffer = "";
+  m_inputBufferPosition = 0;
 }
 
 void
@@ -185,22 +254,22 @@ Console::show_history(int offset_)
     offset_++;
   }
   if (m_history_position == m_history.end()) {
-    inputBuffer = "";
-    inputBufferPosition = 0;
+    m_inputBuffer = "";
+    m_inputBufferPosition = 0;
   } else {
-    inputBuffer = *m_history_position;
-    inputBufferPosition = inputBuffer.length();
+    m_inputBuffer = *m_history_position;
+    m_inputBufferPosition = m_inputBuffer.length();
   }
 }
 
 void
 Console::move_cursor(int offset_)
 {
-  if (offset_ == -65535) inputBufferPosition = 0;
-  if (offset_ == +65535) inputBufferPosition = inputBuffer.length();
-  inputBufferPosition+=offset_;
-  if (inputBufferPosition < 0) inputBufferPosition = 0;
-  if (inputBufferPosition > (int)inputBuffer.length()) inputBufferPosition = inputBuffer.length();
+  if (offset_ == -65535) m_inputBufferPosition = 0;
+  if (offset_ == +65535) m_inputBufferPosition = m_inputBuffer.length();
+  m_inputBufferPosition+=offset_;
+  if (m_inputBufferPosition < 0) m_inputBufferPosition = 0;
+  if (m_inputBufferPosition > (int)m_inputBuffer.length()) m_inputBufferPosition = m_inputBuffer.length();
 }
 
 // Helper functions for Console::autocomplete
@@ -271,15 +340,15 @@ sq_insert_commands(std::list<std::string>& cmds, HSQUIRRELVM vm, std::string tab
 void
 Console::autocomplete()
 {
-  //int autocompleteFrom = inputBuffer.find_last_of(" ();+", inputBufferPosition);
-  int autocompleteFrom = inputBuffer.find_last_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_->.", inputBufferPosition);
+  //int autocompleteFrom = m_inputBuffer.find_last_of(" ();+", m_inputBufferPosition);
+  int autocompleteFrom = m_inputBuffer.find_last_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_->.", m_inputBufferPosition);
   if (autocompleteFrom != (int)std::string::npos) {
     autocompleteFrom += 1;
   } else {
     autocompleteFrom = 0;
   }
-  std::string prefix = inputBuffer.substr(autocompleteFrom, inputBufferPosition - autocompleteFrom);
-  addLines("> "+prefix);
+  std::string prefix = m_inputBuffer.substr(autocompleteFrom, m_inputBufferPosition - autocompleteFrom);
+  m_buffer.addLines("> " + prefix);
 
   std::list<std::string> cmds;
 
@@ -301,66 +370,35 @@ Console::autocomplete()
   sq_pop(m_vm, 1); // remove table
 
   // depending on number of hits, show matches or autocomplete
-  if (cmds.empty()) addLines("No known command starts with \""+prefix+"\"");
-  if (cmds.size() == 1) {
+  if (cmds.empty())
+  {
+    m_buffer.addLines("No known command starts with \"" + prefix + "\"");
+  }
+
+  if (cmds.size() == 1)
+  {
     // one match: just replace input buffer with full command
     std::string replaceWith = cmds.front();
-    inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
-    inputBufferPosition += (replaceWith.length() - prefix.length());
+    m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
+    m_inputBufferPosition += (replaceWith.length() - prefix.length());
   }
-  if (cmds.size() > 1) {
+
+  if (cmds.size() > 1)
+  {
     // multiple matches: show all matches and set input buffer to longest common prefix
     std::string commonPrefix = cmds.front();
     while (cmds.begin() != cmds.end()) {
       std::string cmd = cmds.front();
       cmds.pop_front();
-      addLines(cmd);
+      m_buffer.addLines(cmd);
       for (int n = commonPrefix.length(); n >= 1; n--) {
         if (cmd.compare(0, n, commonPrefix) != 0) commonPrefix.resize(n-1); else break;
       }
     }
     std::string replaceWith = commonPrefix;
-    inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
-    inputBufferPosition += (replaceWith.length() - prefix.length());
+    m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
+    m_inputBufferPosition += (replaceWith.length() - prefix.length());
   }
-}
-
-void
-Console::addLines(std::string s)
-{
-  std::istringstream iss(s);
-  std::string line;
-  while (std::getline(iss, line, '\n')) addLine(line);
-}
-
-void
-Console::addLine(std::string s)
-{
-  // output line to stderr
-  std::cerr << s << std::endl;
-
-  // wrap long lines
-  std::string overflow;
-  unsigned int line_count = 0;
-  do {
-    m_lines.push_front(Font::wrap_to_chars(s, 99, &overflow));
-    line_count++;
-    s = overflow;
-  } while (s.length() > 0);
-
-  // trim scrollback buffer
-  while (m_lines.size() >= 1000)
-    m_lines.pop_back();
-
-  // increase console height if necessary
-  if ((m_stayOpen > 0) && (m_height < 64)) {
-    if(m_height < 4)
-      m_height = 4;
-    m_height += m_font->get_height() * line_count;
-  }
-
-  // reset console to full opacity
-  m_alpha = 1.0;
 }
 
 void
@@ -395,9 +433,8 @@ Console::parse(std::string s)
   try {
     execute_script(s);
   } catch(std::exception& e) {
-    addLines(e.what());
+    m_buffer.addLines(e.what());
   }
-
 }
 
 bool
@@ -439,8 +476,8 @@ Console::hide()
   m_stayOpen = 0;
 
   // clear input buffer
-  inputBuffer = "";
-  inputBufferPosition = 0;
+  m_inputBuffer = "";
+  m_inputBufferPosition = 0;
  // SDL_EnableKeyRepeat(0, SDL_DEFAULT_REPEAT_INTERVAL);
 }
 
@@ -481,18 +518,18 @@ Console::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_alpha(m_alpha);
-  context.draw_surface(m_background2, 
-                       Vector(SCREEN_WIDTH/2 - m_background->get_width()/2 - m_background->get_width() + m_backgroundOffset, 
-                              m_height - m_background->get_height()), 
+  context.draw_surface(m_background2,
+                       Vector(SCREEN_WIDTH/2 - m_background->get_width()/2 - m_background->get_width() + m_backgroundOffset,
+                              m_height - m_background->get_height()),
                        layer);
-  context.draw_surface(m_background2, 
+  context.draw_surface(m_background2,
                        Vector(SCREEN_WIDTH/2 - m_background->get_width()/2 + m_backgroundOffset,
-                              m_height - m_background->get_height()), 
+                              m_height - m_background->get_height()),
                        layer);
-  for (int x = (SCREEN_WIDTH/2 - m_background->get_width()/2 
+  for (int x = (SCREEN_WIDTH/2 - m_background->get_width()/2
                 - (static_cast<int>(ceilf((float)SCREEN_WIDTH /
-                                          (float)m_background->get_width()) - 1) * m_background->get_width())); 
-       x < SCREEN_WIDTH; 
+                                          (float)m_background->get_width()) - 1) * m_background->get_width()));
+       x < SCREEN_WIDTH;
        x += m_background->get_width())
   {
     context.draw_surface(m_background, Vector(x, m_height - m_background->get_height()), layer);
@@ -505,15 +542,16 @@ Console::draw(DrawingContext& context)
   if (m_focused) {
     lineNo++;
     float py = m_height-4-1 * m_font->get_height();
-    context.draw_text(m_font, "> "+inputBuffer, Vector(4, py), ALIGN_LEFT, layer);
+    context.draw_text(m_font, "> "+m_inputBuffer, Vector(4, py), ALIGN_LEFT, layer);
     if (SDL_GetTicks() % 1000 < 750) {
-      int cursor_px = 2 + inputBufferPosition;
+      int cursor_px = 2 + m_inputBufferPosition;
       context.draw_text(m_font, "_", Vector(4 + (cursor_px * m_font->get_text_width("X")), py), ALIGN_LEFT, layer);
     }
   }
 
   int skipLines = -m_offset;
-  for (std::list<std::string>::iterator i = m_lines.begin(); i != m_lines.end(); i++) {
+  for (std::list<std::string>::iterator i = m_buffer.m_lines.begin(); i != m_buffer.m_lines.end(); i++)
+  {
     if (skipLines-- > 0) continue;
     lineNo++;
     float py = m_height - 4 - lineNo * m_font->get_height();
@@ -523,9 +561,7 @@ Console::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-int Console::inputBufferPosition = 0;
-std::string Console::inputBuffer;
-ConsoleStreamBuffer Console::outputBuffer;
-std::ostream Console::output(&Console::outputBuffer);
+ConsoleStreamBuffer ConsoleBuffer::s_outputBuffer;
+std::ostream ConsoleBuffer::output(&ConsoleBuffer::s_outputBuffer);
 
 /* EOF */

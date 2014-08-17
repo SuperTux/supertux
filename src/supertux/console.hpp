@@ -32,13 +32,35 @@ class ConsoleStreamBuffer;
 class ConsoleCommandReceiver;
 class DrawingContext;
 
+class ConsoleBuffer : public Currenton<ConsoleBuffer>
+{
+public:
+  static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
+  static ConsoleStreamBuffer s_outputBuffer; /**< stream buffer used by output stream */
+
+public:
+  std::list<std::string> m_lines; /**< backbuffer of lines sent to the console. New lines get added to front. */
+
+public:
+  ConsoleBuffer();
+
+  void addLines(const std::string& s); /**< display a string of (potentially) multiple lines in the console */
+  void addLine(const std::string& s); /**< display a line in the console */
+
+  void flush(ConsoleStreamBuffer& buffer); /**< act upon changes in a ConsoleStreamBuffer */
+
+private:
+  ConsoleBuffer(const ConsoleBuffer&) = delete;
+  ConsoleBuffer& operator=(const ConsoleBuffer&) = delete;
+};
+
 class Console : public Currenton<Console>
 {
 public:
-  Console();
+  Console(ConsoleBuffer& buffer);
   ~Console();
 
-  static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
+  void on_buffer_change(int line_count);
 
   void input(char c); /**< add character to inputBuffer */
   void backspace(); /**< delete character left of inputBufferPosition */
@@ -60,9 +82,13 @@ public:
   bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */
 
 private:
+  ConsoleBuffer& m_buffer;
+
+  std::string m_inputBuffer; /**< string used for keyboard input */
+  int m_inputBufferPosition; /**< position in inputBuffer before which to append new characters */
+
   std::list<std::string> m_history; /**< command history. New lines get added to back. */
   std::list<std::string>::iterator m_history_position; /**< item of command history that is currently displayed */
-  std::list<std::string> m_lines; /**< backbuffer of lines sent to the console. New lines get added to front. */
 
   SurfacePtr m_background; /**< console background image */
   SurfacePtr m_background2; /**< second, moving console background image */
@@ -79,12 +105,6 @@ private:
 
   float m_stayOpen;
 
-  static int inputBufferPosition; /**< position in inputBuffer before which to append new characters */
-  static std::string inputBuffer; /**< string used for keyboard input */
-  static ConsoleStreamBuffer outputBuffer; /**< stream buffer used by output stream */
-
-  void addLines(std::string s); /**< display a string of (potentially) multiple lines in the console */
-  void addLine(std::string s); /**< display a line in the console */
   void parse(std::string s); /**< react to a given command */
 
   /** ready a virtual machine instance, creating a new thread and loading default .nut files if needed */
@@ -94,9 +114,6 @@ private:
   void execute_script(const std::string& s);
 
   bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< process internal command; return false if command was unknown, true otherwise */
-
-  friend class ConsoleStreamBuffer;
-  void flush(ConsoleStreamBuffer* buffer); /**< act upon changes in a ConsoleStreamBuffer */
 
 private:
   Console(const Console&);
@@ -109,8 +126,8 @@ public:
   int sync()
   {
     int result = std::stringbuf::sync();
-    if(Console::current())
-      Console::current()->flush(this);
+    if(ConsoleBuffer::current())
+      ConsoleBuffer::current()->flush(*this);
     return result;
   }
 };

@@ -44,7 +44,7 @@ namespace scripting {
 
 SQInteger display(HSQUIRRELVM vm)
 {
-  Console::output << squirrel2string(vm, -1) << std::endl;
+  ConsoleBuffer::output << squirrel2string(vm, -1) << std::endl;
   return 0;
 }
 
