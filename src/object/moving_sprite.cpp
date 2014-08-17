@@ -127,7 +127,7 @@ MovingSprite::set_action_centered(const std::string& action, int loops)
   Vector old_size = bbox.get_size().as_vector();
   sprite->set_action(action, loops);
   set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-  set_pos(get_pos() - (Vector(bbox.get_size().as_vector()) - old_size) / 2);
+  set_pos(get_pos() - (bbox.get_size().as_vector() - old_size) / 2);
 }
 
 void
