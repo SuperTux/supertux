@@ -40,18 +40,18 @@ public:
   Vector to_logical(int physical_x, int physical_y) override;
   void set_gamma(float gamma) override;
 
-  SDL_Window* get_window() const { return window; }
-  SDL_Renderer* get_sdl_renderer() const { return renderer; };
+  SDL_Window* get_window() const { return m_window; }
+  SDL_Renderer* get_sdl_renderer() const { return m_renderer; };
 
 private:
   void apply_video_mode();
   void apply_viewport();
 
 private:
-  SDL_Window* window;
-  SDL_Renderer* renderer;
-  SDL_Rect viewport;
-  Size desktop_size;
+  SDL_Window* m_window;
+  SDL_Renderer* m_renderer;
+  SDL_Rect m_viewport;
+  Size m_desktop_size;
   Vector m_scale;
 
 private:
