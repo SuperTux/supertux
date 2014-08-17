@@ -155,7 +155,7 @@ Sprite::draw_part(DrawingContext& context, const Vector& source,
   context.draw_surface_part(action->surfaces[frameidx],
                             Rectf(source, Sizef(size)),
                             Rectf(pos - Vector(action->x_offset, action->y_offset),
-                                  action->surfaces[frameidx]->get_size()),
+                                  Sizef(size)),
                             layer + action->z_order);
 }
 
