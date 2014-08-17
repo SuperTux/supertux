@@ -309,7 +309,7 @@ Main::run(int argc, char** argv)
     }
 
     init_sdl();
-    Console console;
+    //ConsoleBuffer console_buffer;
 
     timelog("controller");
     InputManager input_manager;
@@ -327,7 +327,7 @@ Main::run(int argc, char** argv)
     sound_manager.enable_sound(g_config->sound_enabled);
     sound_manager.enable_music(g_config->music_enabled);
 
-    Console::current()->init_graphics();
+    Console console;
 
     timelog("scripting");
     scripting::init_squirrel(g_config->enable_script_debugger);

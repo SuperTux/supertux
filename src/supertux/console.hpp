@@ -40,8 +40,6 @@ public:
 
   static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
 
-  void init_graphics();
-
   void input(char c); /**< add character to inputBuffer */
   void backspace(); /**< delete character left of inputBufferPosition */
   void eraseChar(); /**< delete character at inputBufferPosition */
@@ -62,25 +60,24 @@ public:
   bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */
 
 private:
-  std::list<std::string> history; /**< command history. New lines get added to back. */
-  std::list<std::string>::iterator history_position; /**< item of command history that is currently displayed */
-  std::list<std::string> lines; /**< backbuffer of lines sent to the console. New lines get added to front. */
+  std::list<std::string> m_history; /**< command history. New lines get added to back. */
+  std::list<std::string>::iterator m_history_position; /**< item of command history that is currently displayed */
+  std::list<std::string> m_lines; /**< backbuffer of lines sent to the console. New lines get added to front. */
 
-  SurfacePtr background; /**< console background image */
-  SurfacePtr background2; /**< second, moving console background image */
+  SurfacePtr m_background; /**< console background image */
+  SurfacePtr m_background2; /**< second, moving console background image */
 
-  HSQUIRRELVM vm; /**< squirrel thread for the console (with custom roottable) */
-  HSQOBJECT vm_object;
+  HSQUIRRELVM m_vm; /**< squirrel thread for the console (with custom roottable) */
+  HSQOBJECT m_vm_object;
 
-  int backgroundOffset; /**< current offset of scrolling background image */
-  float height; /**< height of the console in px */
-  float alpha;
-  int offset; /**< decrease to scroll text up */
-  bool focused; /**< true if console has input focus */
-  FontPtr font;
-  float fontheight; /**< height of the font (this is a separate var, because the font could not be initialized yet but is needed in the addLine message */
+  int m_backgroundOffset; /**< current offset of scrolling background image */
+  float m_height; /**< height of the console in px */
+  float m_alpha;
+  int m_offset; /**< decrease to scroll text up */
+  bool m_focused; /**< true if console has input focus */
+  FontPtr m_font;
 
-  float stayOpen;
+  float m_stayOpen;
 
   static int inputBufferPosition; /**< position in inputBuffer before which to append new characters */
   static std::string inputBuffer; /**< string used for keyboard input */
