@@ -21,11 +21,11 @@
 
 #include <stdexcept>
 
-MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name,
-                           int layer, CollisionGroup collision_group) :
-  sprite_name(sprite_name),
+MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
+                           int layer_, CollisionGroup collision_group) :
+  sprite_name(sprite_name_),
   sprite(),
-  layer(layer)
+  layer(layer_)
 {
   bbox.set_pos(pos);
   sprite = sprite_manager->create(sprite_name);
@@ -33,10 +33,10 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name,
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer, CollisionGroup collision_group) :
+MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer_, CollisionGroup collision_group) :
   sprite_name(),
   sprite(),
-  layer(layer)
+  layer(layer_)
 {
   bbox.set_pos(pos);
   if (!reader.get("sprite", sprite_name))
@@ -47,10 +47,10 @@ MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer, C
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const Reader& reader, const std::string& sprite_name, int layer, CollisionGroup collision_group) :
-  sprite_name(sprite_name),
+MovingSprite::MovingSprite(const Reader& reader, const std::string& sprite_name_, int layer_, CollisionGroup collision_group) :
+  sprite_name(sprite_name_),
   sprite(),
-  layer(layer)
+  layer(layer_)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -61,10 +61,10 @@ MovingSprite::MovingSprite(const Reader& reader, const std::string& sprite_name,
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const Reader& reader, int layer, CollisionGroup collision_group) :
+MovingSprite::MovingSprite(const Reader& reader, int layer_, CollisionGroup collision_group) :
   sprite_name(),
   sprite(),
-  layer(layer)
+  layer(layer_)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);

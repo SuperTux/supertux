@@ -38,9 +38,9 @@ public:
   }
   void update();
 
-  void set_looping(bool looping)
+  void set_looping(bool looping_)
   {
-    this->looping = looping;
+    this->looping = looping_;
   }
   bool get_looping() const
   {

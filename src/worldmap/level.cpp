@@ -29,7 +29,7 @@
 
 namespace worldmap {
 
-LevelTile::LevelTile(const std::string& basedir, const Reader& lisp) :
+LevelTile::LevelTile(const std::string& basedir_, const Reader& lisp) :
   pos(),
   title(),
   solved(false),
@@ -39,7 +39,7 @@ LevelTile::LevelTile(const std::string& basedir, const Reader& lisp) :
   statistics(),
   target_time(),
   extro_script(),
-  basedir(basedir),
+  basedir(basedir_),
   picture_cached(false),
   picture(0)
 {
@@ -54,7 +54,7 @@ LevelTile::LevelTile(const std::string& basedir, const Reader& lisp) :
 
   lisp.get("extro-script", extro_script);
 
-  if (!PHYSFS_exists((basedir + name).c_str()))
+  if (!PHYSFS_exists((basedir_ + name).c_str()))
   {
     log_warning << "level file '" << name
                 << "' does not exist and will not be added to the worldmap" << std::endl;

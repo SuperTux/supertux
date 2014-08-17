@@ -18,9 +18,9 @@
 #include "supertux/shrinkfade.hpp"
 #include "video/drawing_context.hpp"
 
-ShrinkFade::ShrinkFade(const Vector& dest, float fade_time) :
-  dest(dest),
-  fade_time(fade_time),
+ShrinkFade::ShrinkFade(const Vector& dest_, float fade_time_) :
+  dest(dest_),
+  fade_time(fade_time_),
   accum_time(0),
   speedleft(),
   speedright(),

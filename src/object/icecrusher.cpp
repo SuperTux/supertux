@@ -79,10 +79,10 @@ IceCrusher::IceCrusher(const Reader& reader) :
   }
 */
 void
-IceCrusher::set_state(IceCrusherState state, bool force)
+IceCrusher::set_state(IceCrusherState state_, bool force)
 {
-  if ((this->state == state) && (!force)) return;
-  switch(state) {
+  if ((this->state == state_) && (!force)) return;
+  switch(state_) {
     case IDLE:
       set_group(COLGROUP_STATIC);
       physic.enable_gravity (false);
@@ -103,7 +103,7 @@ IceCrusher::set_state(IceCrusherState state, bool force)
       log_debug << "IceCrusher in invalid state" << std::endl;
       break;
   }
-  this->state = state;
+  this->state = state_;
 }
 
 HitResponse

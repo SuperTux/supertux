@@ -124,13 +124,16 @@ OptionsMenu::OptionsMenu(bool complete)
   }
   fullscreen_res->list.push_back("Desktop");
 
-  std::ostringstream out;
   std::string fullscreen_size_str = "Desktop";
-  if (g_config->fullscreen_size != Size(0, 0))
   {
-    out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height << "@" << g_config->fullscreen_refresh_rate;
-    fullscreen_size_str = out.str();
+    std::ostringstream out;
+    if (g_config->fullscreen_size != Size(0, 0))
+    {
+      out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height << "@" << g_config->fullscreen_refresh_rate;
+      fullscreen_size_str = out.str();
+    }
   }
+
   size_t cnt = 0;
   for (std::vector<std::string>::iterator i = fullscreen_res->list.begin(); i != fullscreen_res->list.end(); ++i)
   {
@@ -163,16 +166,16 @@ OptionsMenu::OptionsMenu(bool complete)
     std::ostringstream out;
     out << g_config->aspect_size.width << ":" << g_config->aspect_size.height;
     std::string aspect_ratio = out.str();
-    size_t cnt = 0;
+    size_t cnt_ = 0;
     for(std::vector<std::string>::iterator i = aspect->list.begin(); i != aspect->list.end(); ++i)
     {
       if(*i == aspect_ratio)
       {
         aspect_ratio.clear();
-	aspect->selected = cnt;
+	aspect->selected = cnt_;
         break;
       }
-      ++cnt;
+      ++cnt_;
     }
 
     if (!aspect_ratio.empty())

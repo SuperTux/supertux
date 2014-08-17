@@ -176,15 +176,15 @@ GhostTree::active_update(float elapsed_time)
       assert (suck_lantern);
       Vector pos = suck_lantern->get_pos();
       Vector delta = get_bbox().get_middle() + SUCK_TARGET_OFFSET - pos;
-      Vector dir = delta.unit();
+      Vector dir_ = delta.unit();
       if (delta.norm() < 1) {
-        dir = delta;
+        dir_ = delta;
         suck_lantern->ungrab(*this, RIGHT);
         suck_lantern->remove_me();
         suck_lantern = 0;
         sprite->set_action("swallow", 1);
       } else {
-        pos += dir;
+        pos += dir_;
         suck_lantern->grab(*this, pos, RIGHT);
       }
     } else {

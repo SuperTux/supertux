@@ -74,9 +74,9 @@ Font::Font(GlyphWidth glyph_width_,
   // scan for prefix-filename in addons search path
   char **rc = PHYSFS_enumerateFiles(fontdir.c_str());
   for (char **i = rc; *i != NULL; i++) {
-    std::string filename(*i);
-    if( filename.rfind(fontname) != std::string::npos ) {
-      loadFontFile(fontdir + filename);
+    std::string filename_(*i);
+    if( filename_.rfind(fontname) != std::string::npos ) {
+      loadFontFile(fontdir + filename_);
     }
   }
   PHYSFS_freeList(rc);
@@ -164,7 +164,7 @@ Font::loadFontSurface(
   const std::string &glyphimage,
   const std::string &shadowimage,
   const std::vector<std::string> &chars,
-  GlyphWidth glyph_width,
+  GlyphWidth glyph_width_,
   int char_width
   )
 {
@@ -180,7 +180,7 @@ Font::loadFontSurface(
 
   SDL_Surface *surface = NULL;
 
-  if( glyph_width == VARIABLE ) {
+  if( glyph_width_ == VARIABLE ) {
     //this does not work:
     // surface = ((SDL::Texture *)glyph_surface.get_texture())->get_texture();
     surface = IMG_Load_RW(get_physfs_SDLRWops("images/engine/fonts/"+glyphimage), 1);
@@ -202,7 +202,7 @@ Font::loadFontSurface(
       Glyph glyph;
       glyph.surface_idx   = surface_idx;
 
-      if( glyph_width == FIXED )
+      if( glyph_width_ == FIXED )
       {
         glyph.rect    = Rectf(x, y, x + char_width, y + char_height);
         glyph.offset  = Vector(0, 0);

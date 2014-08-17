@@ -169,7 +169,7 @@ BonusBlock::hit(Player & player)
 }
 
 HitResponse
-BonusBlock::collision(GameObject& other, const CollisionHit& hit){
+BonusBlock::collision(GameObject& other, const CollisionHit& hit_){
 
   Player* player = dynamic_cast<Player*> (&other);
   if (player) {
@@ -193,7 +193,7 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit){
       try_open(player);
     }
   }
-  return Block::collision(other, hit);
+  return Block::collision(other, hit_);
 }
 
 void
@@ -337,12 +337,12 @@ BonusBlock::try_drop(Player *player)
   assert(sector);
 
   // First what's below the bonus block, if solid send it up anyway (excepting doll)
-  Rectf dest;
-  dest.p1.x = bbox.get_left() + 1;
-  dest.p1.y = bbox.get_bottom() + 1;
-  dest.p2.x = bbox.get_right() - 1;
-  dest.p2.y = dest.p1.y + 30;
-  if (!Sector::current()->is_free_of_statics(dest, this, true) && !(contents == CONTENT_1UP)) {
+  Rectf dest_;
+  dest_.p1.x = bbox.get_left() + 1;
+  dest_.p1.y = bbox.get_bottom() + 1;
+  dest_.p2.x = bbox.get_right() - 1;
+  dest_.p2.y = dest_.p1.y + 30;
+  if (!Sector::current()->is_free_of_statics(dest_, this, true) && !(contents == CONTENT_1UP)) {
     try_open(player);
     return;
   }

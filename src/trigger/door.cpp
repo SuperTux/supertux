@@ -130,7 +130,7 @@ Door::event(Player& , EventType type)
 }
 
 HitResponse
-Door::collision(GameObject& other, const CollisionHit& hit)
+Door::collision(GameObject& other, const CollisionHit& hit_)
 {
   switch (state) {
     case CLOSED:
@@ -159,7 +159,7 @@ Door::collision(GameObject& other, const CollisionHit& hit)
       break;
   }
 
-  return TriggerBase::collision(other, hit);
+  return TriggerBase::collision(other, hit_);
 }
 
 /* EOF */

@@ -33,12 +33,12 @@ PneumaticPlatform::PneumaticPlatform(const Reader& reader) :
   start_y = get_pos().y;
 }
 
-PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master) :
-  MovingSprite(*master),
-  master(master),
+PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master_) :
+  MovingSprite(*master_),
+  master(master_),
   slave(this),
-  start_y(master->start_y),
-  offset_y(-master->offset_y),
+  start_y(master_->start_y),
+  offset_y(-master_->offset_y),
   speed_y(0),
   contacts()
 {

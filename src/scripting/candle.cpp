@@ -19,8 +19,8 @@
 
 namespace scripting {
 
-Candle::Candle(::Candle* candle)
-  : candle(candle)
+Candle::Candle(::Candle* candle_)
+  : candle(candle_)
 { }
 
 Candle::~Candle()

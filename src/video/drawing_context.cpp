@@ -60,9 +60,9 @@ DrawingContext::~DrawingContext()
 }
 
 void
-DrawingContext::clear_drawing_requests(DrawingRequests& requests)
+DrawingContext::clear_drawing_requests(DrawingRequests& requests_)
 {
-  for(auto& request : requests)
+  for(auto& request : requests_)
   {
     if (request->request_data)
     {
@@ -70,7 +70,7 @@ DrawingContext::clear_drawing_requests(DrawingRequests& requests)
     }
     request->~DrawingRequest();
   }
-  requests.clear();
+  requests_.clear();
 }
 
 void
@@ -357,12 +357,12 @@ public:
 };
 
 void
-DrawingContext::handle_drawing_requests(DrawingRequests& requests)
+DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
 {
-  std::stable_sort(requests.begin(), requests.end(), RequestPtrCompare());
+  std::stable_sort(requests_.begin(), requests_.end(), RequestPtrCompare());
 
   DrawingRequests::const_iterator i;
-  for(i = requests.begin(); i != requests.end(); ++i) {
+  for(i = requests_.begin(); i != requests_.end(); ++i) {
     const DrawingRequest& request = **i;
 
     switch(request.target) {
@@ -487,13 +487,13 @@ DrawingContext::pop_target()
 }
 
 void
-DrawingContext::set_target(Target target)
+DrawingContext::set_target(Target target_)
 {
-  this->target = target;
-  if(target == LIGHTMAP) {
+  this->target = target_;
+  if(target_ == LIGHTMAP) {
     requests = &lightmap_requests;
   } else {
-    assert(target == NORMAL);
+    assert(target_ == NORMAL);
     requests = &drawing_requests;
   }
 }

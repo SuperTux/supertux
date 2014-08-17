@@ -37,9 +37,9 @@ BicyclePlatform::BicyclePlatform(const Reader& reader) :
   center = get_pos();
 }
 
-BicyclePlatform::BicyclePlatform(BicyclePlatform* master) :
+BicyclePlatform::BicyclePlatform(BicyclePlatform* master_) :
   MovingSprite(*master),
-  master(master),
+  master(master_),
   slave(this),
   center(master->center),
   radius(master->radius),
@@ -102,8 +102,8 @@ BicyclePlatform::update(float elapsed_time)
     angle = master->angle + M_PI;
     while (angle < 0) { angle += 2*M_PI; }
     while (angle > 2*M_PI) { angle -= 2*M_PI; }
-    Vector dest = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size().as_vector() * 0.5);
-    movement = dest - get_pos();
+    Vector dest_ = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size().as_vector() * 0.5);
+    movement = dest_ - get_pos();
   }
   if (this == master) {
     float momentum_diff = momentum - slave->momentum;
@@ -118,8 +118,8 @@ BicyclePlatform::update(float elapsed_time)
     while (angle < 0) { angle += 2*M_PI; }
     while (angle > 2*M_PI) { angle -= 2*M_PI; }
     angular_speed = std::min(std::max(angular_speed, static_cast<float>(-128*M_PI*elapsed_time)), static_cast<float>(128*M_PI*elapsed_time));
-    Vector dest = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size().as_vector() * 0.5);
-    movement = dest - get_pos();
+    Vector dest_ = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size().as_vector() * 0.5);
+    movement = dest_ - get_pos();
 
     center += Vector(angular_speed, 0) * elapsed_time * 32;
     slave->center += Vector(angular_speed, 0) * elapsed_time * 32;

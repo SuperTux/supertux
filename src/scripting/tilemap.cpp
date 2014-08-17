@@ -21,8 +21,8 @@
 
 namespace scripting {
 
-TileMap::TileMap(::TileMap* tilemap)
-  : tilemap(tilemap)
+TileMap::TileMap(::TileMap* tilemap_)
+  : tilemap(tilemap_)
 { }
 
 TileMap::~TileMap()

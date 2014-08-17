@@ -379,10 +379,10 @@ AddonManager::load_addons()
     // Search for infoFiles
     std::string infoFileName = "";
     char** rc2 = PHYSFS_enumerateFiles("/");
-    for(char** i = rc2; *i != 0; ++i) {
+    for(char** j = rc2; *j != 0; ++j) {
 
       // get filename of potential infoFile
-      std::string potentialInfoFileName = *i;
+      std::string potentialInfoFileName = *j;
 
       // make sure it looks like an infoFile
       static const std::string infoExt = ".nfo";

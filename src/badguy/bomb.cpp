@@ -21,15 +21,15 @@
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
-Bomb::Bomb(const Vector& pos, Direction dir, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
-  BadGuy( pos, dir, custom_sprite ),
+Bomb::Bomb(const Vector& pos, Direction dir_, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
+  BadGuy( pos, dir_, custom_sprite ),
   state(),
   grabbed(false),
   grabber(NULL),
   ticking()
 {
   state = STATE_TICKING;
-  set_action(dir == LEFT ? "ticking-left" : "ticking-right", 1);
+  set_action(dir_ == LEFT ? "ticking-left" : "ticking-right", 1);
   countMe = false;
 
   ticking = sound_manager->create_sound_source("sounds/fizz.wav");
@@ -104,10 +104,10 @@ Bomb::kill_fall()
 }
 
 void
-Bomb::grab(MovingObject& object, const Vector& pos, Direction dir)
+Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   movement = pos - get_pos();
-  this->dir = dir;
+  this->dir = dir_;
 
   // We actually face the opposite direction of Tux here to make the fuse more
   // visible instead of hiding it behind Tux
@@ -118,13 +118,13 @@ Bomb::grab(MovingObject& object, const Vector& pos, Direction dir)
 }
 
 void
-Bomb::ungrab(MovingObject& object, Direction dir)
+Bomb::ungrab(MovingObject& object, Direction dir_)
 {
-  this->dir = dir;
+  this->dir = dir_;
   // portable objects are usually pushed away from Tux when dropped, but we
   // don't want that, so we set the position
   //FIXME: why don't we want that? shouldn't behavior be consistent?
-  set_pos(object.get_pos() + Vector(dir == LEFT ? -16 : 16, get_bbox().get_height()*0.66666 - 32));
+  set_pos(object.get_pos() + Vector(dir_ == LEFT ? -16 : 16, get_bbox().get_height()*0.66666 - 32));
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;
 }

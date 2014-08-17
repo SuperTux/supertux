@@ -109,7 +109,7 @@ static const float DUCKED_TUX_HEIGHT = 31.8f;
 bool no_water = true;
 }
 
-Player::Player(PlayerStatus* _player_status, const std::string& name) :
+Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   deactivated(),
   controller(),
   scripting_controller(),
@@ -159,7 +159,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name) :
   idle_stage(0),
   climbing(0)
 {
-  this->name = name;
+  this->name = name_;
   controller = g_input_manager->get_controller();
   scripting_controller.reset(new CodeController());
   // if/when we have complete penny gfx, we can
@@ -260,9 +260,9 @@ Player::set_speedlimit(float newlimit)
 }
 
 void
-Player::set_controller(Controller* controller)
+Player::set_controller(Controller* controller_)
 {
-  this->controller = controller;
+  this->controller = controller_;
 }
 
 void
@@ -815,18 +815,18 @@ Player::handle_input()
     if(moving_object) {
       // move the grabbed object a bit away from tux
       Rectf grabbed_bbox = moving_object->get_bbox();
-      Rectf dest;
-      dest.p2.y = bbox.get_top() + bbox.get_height()*0.66666;
-      dest.p1.y = dest.p2.y - grabbed_bbox.get_height();
+      Rectf dest_;
+      dest_.p2.y = bbox.get_top() + bbox.get_height()*0.66666;
+      dest_.p1.y = dest_.p2.y - grabbed_bbox.get_height();
       if(dir == LEFT) {
-        dest.p2.x = bbox.get_left() - 1;
-        dest.p1.x = dest.p2.x - grabbed_bbox.get_width();
+        dest_.p2.x = bbox.get_left() - 1;
+        dest_.p1.x = dest_.p2.x - grabbed_bbox.get_width();
       } else {
-        dest.p1.x = bbox.get_right() + 1;
-        dest.p2.x = dest.p1.x + grabbed_bbox.get_width();
+        dest_.p1.x = bbox.get_right() + 1;
+        dest_.p2.x = dest_.p1.x + grabbed_bbox.get_width();
       }
-      if(Sector::current()->is_free_of_tiles(dest, true)) {
-        moving_object->set_pos(dest.p1);
+      if(Sector::current()->is_free_of_tiles(dest_, true)) {
+        moving_object->set_pos(dest_.p1);
         if(controller->hold(Controller::UP)) {
           grabbed_object->ungrab(*this, UP);
         } else {
@@ -1034,10 +1034,10 @@ Player::set_bonus(BonusType type, bool animate)
 }
 
 void
-Player::set_visible(bool visible)
+Player::set_visible(bool visible_)
 {
-  this->visible = visible;
-  if( visible )
+  this->visible = visible_;
+  if( visible_ )
     set_group(COLGROUP_MOVING);
   else
     set_group(COLGROUP_DISABLED);

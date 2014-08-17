@@ -26,7 +26,7 @@ class DisplayEffect : public GameObject,
                       public ScriptInterface
 {
 public:
-  DisplayEffect(std::string name = "");
+  DisplayEffect(const std::string& name = std::string());
   virtual ~DisplayEffect();
 
   void expose(HSQUIRRELVM vm, SQInteger table_idx);

@@ -266,14 +266,14 @@ GameSession::abort_level()
 }
 
 void
-GameSession::set_editmode(bool edit_mode)
+GameSession::set_editmode(bool edit_mode_)
 {
-  if (this->edit_mode == edit_mode) return;
-  this->edit_mode = edit_mode;
+  if (this->edit_mode == edit_mode_) return;
+  this->edit_mode = edit_mode_;
 
-  currentsector->get_players()[0]->set_edit_mode(edit_mode);
+  currentsector->get_players()[0]->set_edit_mode(edit_mode_);
 
-  if (edit_mode) {
+  if (edit_mode_) {
 
     // entering edit mode
 

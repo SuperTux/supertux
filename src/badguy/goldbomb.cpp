@@ -168,11 +168,11 @@ GoldBomb::kill_fall()
 }
 
 void
-GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir)
+GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   if(tstate == STATE_TICKING){
     movement = pos - get_pos();
-    this->dir = dir;
+    this->dir = dir_;
 
     // We actually face the opposite direction of Tux here to make the fuse more
     // visible instead of hiding it behind Tux
@@ -183,8 +183,8 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir)
   }
   else if(frozen){
     movement = pos - get_pos();
-    this->dir = dir;
-    sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
+    this->dir = dir_;
+    sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
     set_colgroup_active(COLGROUP_DISABLED);
     grabbed = true;
   }

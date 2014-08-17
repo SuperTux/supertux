@@ -21,8 +21,8 @@
 
 namespace scripting {
 
-LevelTime::LevelTime(::LevelTime* level_time)
-  : level_time(level_time)
+LevelTime::LevelTime(::LevelTime* level_time_)
+  : level_time(level_time_)
 { }
 
 LevelTime::~LevelTime()

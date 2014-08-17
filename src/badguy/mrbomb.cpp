@@ -113,20 +113,20 @@ MrBomb::kill_fall()
 }
 
 void
-MrBomb::grab(MovingObject&, const Vector& pos, Direction dir)
+MrBomb::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   assert(frozen);
   movement = pos - get_pos();
-  this->dir = dir;
-  sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
+  this->dir = dir_;
+  sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
   set_colgroup_active(COLGROUP_DISABLED);
   grabbed = true;
 }
 
 void
-MrBomb::ungrab(MovingObject& , Direction dir)
+MrBomb::ungrab(MovingObject& , Direction dir_)
 {
-  this->dir = dir;
+  this->dir = dir_;
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;
 }

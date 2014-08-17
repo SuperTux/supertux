@@ -53,8 +53,8 @@ OFileStreambuf::overflow(int c)
     return traits_type::eof();
 
   if(c != traits_type::eof()) {
-    PHYSFS_sint64 res = PHYSFS_write(file, &c2, 1, 1);
-    if(res <= 0)
+    PHYSFS_sint64 res_ = PHYSFS_write(file, &c2, 1, 1);
+    if(res_ <= 0)
       return traits_type::eof();
   }
 

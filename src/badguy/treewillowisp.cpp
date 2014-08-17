@@ -28,9 +28,9 @@
 static const std::string TREEWILLOSOUND = "sounds/willowisp.wav";
 static const float       SUCKSPEED = 25;
 
-TreeWillOWisp::TreeWillOWisp(GhostTree* tree, const Vector& pos,
-                             float radius, float speed) :
-  BadGuy(tree->get_pos() + pos, "images/creatures/willowisp/willowisp.sprite",
+TreeWillOWisp::TreeWillOWisp(GhostTree* tree_, const Vector& pos,
+                             float radius_, float speed_) :
+  BadGuy(tree_->get_pos() + pos, "images/creatures/willowisp/willowisp.sprite",
          LAYER_OBJECTS - 20),
   was_sucked(false),
   mystate(STATE_DEFAULT),
@@ -39,14 +39,14 @@ TreeWillOWisp::TreeWillOWisp(GhostTree* tree, const Vector& pos,
   radius(),
   speed(),
   sound_source(),
-  tree(tree),
+  tree(tree_),
   suck_target()
 {
   sound_manager->preload(TREEWILLOSOUND);
 
-  this->radius = radius;
+  this->radius = radius_;
   this->angle  = 0;
-  this->speed  = speed;
+  this->speed  = speed_;
 
   set_colgroup_active(COLGROUP_MOVING);
 }
@@ -75,10 +75,10 @@ TreeWillOWisp::vanish()
 }
 
 void
-TreeWillOWisp::start_sucking(Vector suck_target)
+TreeWillOWisp::start_sucking(Vector suck_target_)
 {
   mystate = STATE_SUCKED;
-  this->suck_target = suck_target;
+  this->suck_target = suck_target_;
   was_sucked = true;
 }
 
@@ -126,12 +126,12 @@ TreeWillOWisp::active_update(float elapsed_time)
   }
 
   if (mystate == STATE_SUCKED) {
-    Vector dir = suck_target - get_pos();
-    if(dir.norm() < 5) {
+    Vector dir_ = suck_target - get_pos();
+    if(dir_.norm() < 5) {
       vanish();
       return;
     }
-    Vector newpos = get_pos() + dir * elapsed_time;
+    Vector newpos = get_pos() + dir_ * elapsed_time;
     movement = newpos - get_pos();
     return;
   }
@@ -152,10 +152,10 @@ TreeWillOWisp::active_update(float elapsed_time)
 }
 
 void
-TreeWillOWisp::set_color(const Color& color)
+TreeWillOWisp::set_color(const Color& color_)
 {
-  this->color = color;
-  sprite->set_color(color);
+  this->color = color_;
+  sprite->set_color(color_);
 }
 
 Color

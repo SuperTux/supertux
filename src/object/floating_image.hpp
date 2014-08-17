@@ -29,30 +29,30 @@ public:
   FloatingImage(const std::string& sprite);
   virtual ~FloatingImage();
 
-  void set_layer(int layer) {
-    this->layer = layer;
+  void set_layer(int layer_) {
+    this->layer = layer_;
   }
 
   int get_layer() const {
     return layer;
   }
 
-  void set_pos(const Vector& pos) {
-    this->pos = pos;
+  void set_pos(const Vector& pos_) {
+    this->pos = pos_;
   }
   const Vector& get_pos() const {
     return pos;
   }
 
-  void set_anchor_point(AnchorPoint anchor) {
-    this->anchor = anchor;
+  void set_anchor_point(AnchorPoint anchor_) {
+    this->anchor = anchor_;
   }
   AnchorPoint get_anchor_point() const {
     return anchor;
   }
 
-  void set_visible(bool visible) {
-    this->visible = visible;
+  void set_visible(bool visible_) {
+    this->visible = visible_;
   }
   bool get_visible() const {
     return visible;

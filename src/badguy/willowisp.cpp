@@ -118,8 +118,8 @@ WillOWisp::active_update(float elapsed_time)
       if (dist.norm() > vanish_range) {
         vanish();
       } else if (dist.norm() >= 1) {
-        Vector dir = dist.unit();
-        movement = dir * elapsed_time * flyspeed;
+        Vector dir_ = dist.unit();
+        movement = dir_ * elapsed_time * flyspeed;
       } else {
         /* We somehow landed right on top of the player without colliding.
          * Sit tight and avoid a division by zero. */
@@ -133,8 +133,8 @@ WillOWisp::active_update(float elapsed_time)
       }
 
     case STATE_VANISHING: {
-      Vector dir = dist.unit();
-      movement = dir * elapsed_time * flyspeed;
+      Vector dir_ = dist.unit();
+      movement = dir_ * elapsed_time * flyspeed;
       if(sprite->animation_done()) {
         remove_me();
       }

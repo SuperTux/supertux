@@ -27,13 +27,13 @@ const float BULLET_XM = 600;
 const float BULLET_STARTING_YM = 0;
 }
 
-Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type) :
+Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type_) :
   physic(),
   life_count(3),
   sprite(),
   light(0.0f,0.0f,0.0f),
   lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
-  type(type)
+  type(type_)
 {
   float speed = dir == RIGHT ? BULLET_XM : -BULLET_XM;
   physic.set_velocity_x(speed + xm);

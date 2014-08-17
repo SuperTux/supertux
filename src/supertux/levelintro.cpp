@@ -28,9 +28,9 @@
 #include <sstream>
 #include <boost/format.hpp>
 
-LevelIntro::LevelIntro(const Level* level, const Statistics* best_level_statistics) :
-  level(level),
-  best_level_statistics(best_level_statistics),
+LevelIntro::LevelIntro(const Level* level_, const Statistics* best_level_statistics_) :
+  level(level_),
+  best_level_statistics(best_level_statistics_),
   player_sprite(),
   player_sprite_py(0),
   player_sprite_vy(0),

@@ -99,10 +99,10 @@ Kugelblitz::collision_badguy(BadGuy& other , const CollisionHit& chit)
 }
 
 HitResponse
-Kugelblitz::hit(const CollisionHit& hit)
+Kugelblitz::hit(const CollisionHit& hit_)
 {
   // hit floor?
-  if(hit.bottom) {
+  if(hit_.bottom) {
     if (!groundhit_pos_set)
     {
       pos_groundhit = get_pos();
@@ -117,7 +117,7 @@ Kugelblitz::hit(const CollisionHit& hit)
     movement_timer.start(MOVETIME);
     lifetime.start(LIFETIME);
 
-  } else if(hit.top) { // bumped on roof
+  } else if(hit_.top) { // bumped on roof
     physic.set_velocity_y(0);
   }
 
@@ -194,17 +194,17 @@ Kugelblitz::try_activate()
   float X_OFFSCREEN_DISTANCE = 400;
   float Y_OFFSCREEN_DISTANCE = 600;
 
-  Player* player = get_nearest_player();
-  if (!player) return;
-  Vector dist = player->get_bbox().get_middle() - get_bbox().get_middle();
+  Player* player_ = get_nearest_player();
+  if (!player_) return;
+  Vector dist = player_->get_bbox().get_middle() - get_bbox().get_middle();
   if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
     set_state(STATE_ACTIVE);
     if (!is_initialized) {
 
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
       if (start_dir == AUTO) {
-        Player* player = get_nearest_player();
-        if (player && (player->get_bbox().p1.x > get_bbox().p2.x)) {
+        Player* player__ = get_nearest_player();
+        if (player__ && (player__->get_bbox().p1.x > get_bbox().p2.x)) {
           dir = RIGHT;
         } else {
           dir = LEFT;

@@ -433,14 +433,14 @@ BadGuy::run_dead_script()
 }
 
 void
-BadGuy::set_state(State state)
+BadGuy::set_state(State state_)
 {
-  if(this->state == state)
+  if(this->state == state_)
     return;
 
   State laststate = this->state;
-  this->state = state;
-  switch(state) {
+  this->state = state_;
+  switch(state_) {
     case STATE_SQUISHED:
       state_timer.start(SQUISH_TIME);
       break;

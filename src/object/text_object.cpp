@@ -21,7 +21,7 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-TextObject::TextObject(std::string name) :
+TextObject::TextObject(std::string name_) :
   font(),
   text(),
   fading(0),
@@ -31,7 +31,7 @@ TextObject::TextObject(std::string name) :
   anchor(ANCHOR_MIDDLE),
   pos(0, 0)
 {
-  this->name = name;
+  this->name = name_;
   font = Resources::normal_font;
   centered = false;
 }
@@ -59,51 +59,51 @@ TextObject::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 }
 
 void
-TextObject::set_font(const std::string& name)
+TextObject::set_font(const std::string& name_)
 {
-  if(name == "normal") {
+  if(name_ == "normal") {
     font = Resources::normal_font;
-  } else if(name == "big") {
+  } else if(name_ == "big") {
     font = Resources::big_font;
-  } else if(name == "small") {
+  } else if(name_ == "small") {
     font = Resources::small_font;
   } else {
-    log_warning << "Unknown font '" << name << "'." << std::endl;
+    log_warning << "Unknown font '" << name_ << "'." << std::endl;
     font = Resources::normal_font;
   }
 }
 
 void
-TextObject::set_text(const std::string& text)
+TextObject::set_text(const std::string& text_)
 {
-  this->text = text;
+  this->text = text_;
 }
 
 void
-TextObject::fade_in(float fadetime)
+TextObject::fade_in(float fadetime_)
 {
-  this->fadetime = fadetime;
-  fading = fadetime;
+  this->fadetime = fadetime_;
+  fading = fadetime_;
 }
 
 void
-TextObject::fade_out(float fadetime)
+TextObject::fade_out(float fadetime_)
 {
-  this->fadetime = fadetime;
-  fading = -fadetime;
+  this->fadetime = fadetime_;
+  fading = -fadetime_;
 }
 
 void
-TextObject::set_visible(bool visible)
+TextObject::set_visible(bool visible_)
 {
-  this->visible = visible;
+  this->visible = visible_;
   fading = 0;
 }
 
 void
-TextObject::set_centered(bool centered)
+TextObject::set_centered(bool centered_)
 {
-  this->centered = centered;
+  this->centered = centered_;
 }
 
 void

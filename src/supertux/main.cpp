@@ -292,9 +292,9 @@ Main::run(int argc, char** argv)
         args.merge_into(*g_config);
         init_tinygettext();
       }
-      catch(const std::exception& err)
+      catch(const std::exception& err_)
       {
-        log_fatal << "failed to init config or tinygettext: " << err.what() << std::endl;
+        log_fatal << "failed to init config or tinygettext: " << err_.what() << std::endl;
       }
 
       std::cout << "Error: " << err.what() << std::endl;

@@ -184,15 +184,15 @@ Console::scroll(int numLines)
 }
 
 void
-Console::show_history(int offset)
+Console::show_history(int offset_)
 {
-  while ((offset > 0) && (history_position != history.end())) {
+  while ((offset_ > 0) && (history_position != history.end())) {
     history_position++;
-    offset--;
+    offset_--;
   }
-  while ((offset < 0) && (history_position != history.begin())) {
+  while ((offset_ < 0) && (history_position != history.begin())) {
     history_position--;
-    offset++;
+    offset_++;
   }
   if (history_position == history.end()) {
     inputBuffer = "";
@@ -204,11 +204,11 @@ Console::show_history(int offset)
 }
 
 void
-Console::move_cursor(int offset)
+Console::move_cursor(int offset_)
 {
-  if (offset == -65535) inputBufferPosition = 0;
-  if (offset == +65535) inputBufferPosition = inputBuffer.length();
-  inputBufferPosition+=offset;
+  if (offset_ == -65535) inputBufferPosition = 0;
+  if (offset_ == +65535) inputBufferPosition = inputBuffer.length();
+  inputBufferPosition+=offset_;
   if (inputBufferPosition < 0) inputBufferPosition = 0;
   if (inputBufferPosition > (int)inputBuffer.length()) inputBufferPosition = inputBuffer.length();
 }

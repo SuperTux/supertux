@@ -18,8 +18,8 @@
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
-FadeOut::FadeOut(float fade_time, Color color)
-  : color(color), fade_time(fade_time), accum_time(0)
+FadeOut::FadeOut(float fade_time_, Color color_)
+  : color(color_), fade_time(fade_time_), accum_time(0)
 {
 }
 

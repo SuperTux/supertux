@@ -117,11 +117,11 @@ Candle::get_burning()
 }
 
 void
-Candle::set_burning(bool burning)
+Candle::set_burning(bool burning_)
 {
-  if (this->burning == burning) return;
-  this->burning = burning;
-  if (burning) {
+  if (this->burning == burning_) return;
+  this->burning = burning_;
+  if (burning_) {
     sprite->set_action("on");
   } else {
     sprite->set_action("off");

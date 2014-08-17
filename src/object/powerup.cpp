@@ -57,8 +57,8 @@ PowerUp::PowerUp(const Reader& lisp) :
 
 }
 
-PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name) :
-  MovingSprite(pos, sprite_name, LAYER_OBJECTS, COLGROUP_MOVING),
+PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
+  MovingSprite(pos, sprite_name_, LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   script(),
   no_physics(false),

@@ -27,8 +27,8 @@
 #include "util/log.hpp"
 #include "util/writer.hpp"
 
-JoystickManager::JoystickManager(InputManager* parent) :
-  parent(parent),
+JoystickManager::JoystickManager(InputManager* parent_) :
+  parent(parent_),
   joy_button_map(),
   joy_axis_map(),
   joy_hat_map(),

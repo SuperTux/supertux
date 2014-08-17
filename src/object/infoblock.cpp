@@ -95,14 +95,15 @@ InfoBlock::hit(Player& player)
 }
 
 HitResponse
-InfoBlock::collision(GameObject& other, const CollisionHit& hit){
-
-	Player* player = dynamic_cast<Player*> (&other);
-	if (player) {
-		if (player->does_buttjump)
-			InfoBlock::hit(*player);
-	}
-	return Block::collision(other, hit);
+InfoBlock::collision(GameObject& other, const CollisionHit& hit_)
+{
+  Player* player = dynamic_cast<Player*> (&other);
+  if (player) 
+  {
+    if (player->does_buttjump)
+      InfoBlock::hit(*player);
+  }
+  return Block::collision(other, hit_);
 }
 
 Player*
