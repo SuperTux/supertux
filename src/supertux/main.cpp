@@ -328,7 +328,7 @@ Main::run(int argc, char** argv)
     }
 
     init_sdl();
-    Console::instance = new Console();
+    Console console;
 
     timelog("controller");
     g_input_manager = new InputManager();
@@ -345,7 +345,7 @@ Main::run(int argc, char** argv)
     timelog("audio");
     init_audio();
 
-    Console::instance->init_graphics();
+    Console::current()->init_graphics();
 
     timelog("scripting");
     scripting::init_squirrel(g_config->enable_script_debugger);
@@ -421,8 +421,6 @@ Main::run(int argc, char** argv)
   g_config = NULL;
   delete g_input_manager;
   g_input_manager = NULL;
-  delete Console::instance;
-  Console::instance = NULL;
   scripting::exit_squirrel();
   delete texture_manager;
   texture_manager = NULL;

@@ -522,7 +522,6 @@ Console::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-Console* Console::instance = NULL;
 int Console::inputBufferPosition = 0;
 std::string Console::inputBuffer;
 ConsoleStreamBuffer Console::outputBuffer;

@@ -23,6 +23,7 @@
 #include <sstream>
 #include <vector>
 
+#include "util/currenton.hpp"
 #include "video/font_ptr.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -31,13 +32,11 @@ class ConsoleStreamBuffer;
 class ConsoleCommandReceiver;
 class DrawingContext;
 
-class Console
+class Console : public Currenton<Console>
 {
 public:
   Console();
   ~Console();
-
-  static Console* instance;
 
   static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
 
@@ -113,8 +112,8 @@ public:
   int sync()
   {
     int result = std::stringbuf::sync();
-    if(Console::instance != NULL)
-      Console::instance->flush(this);
+    if(Console::current())
+      Console::current()->flush(this);
     return result;
   }
 };

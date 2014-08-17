@@ -137,7 +137,7 @@ ScreenManager::draw(DrawingContext& context)
     m_screen_fade->draw(context);
   }
 
-  Console::instance->draw(context);
+  Console::current()->draw(context);
 
   if (g_config->show_fps)
   {
@@ -184,7 +184,7 @@ ScreenManager::update_gamelogic(float elapsed_time)
     m_screen_fade->update(elapsed_time);
   }
 
-  Console::instance->update(elapsed_time);
+  Console::current()->update(elapsed_time);
 }
 
 void
@@ -234,7 +234,7 @@ ScreenManager::process_events()
         else if (event.key.keysym.sym == SDLK_F1 &&
                  event.key.keysym.mod & KMOD_CTRL)
         {
-          Console::instance->toggle();
+          Console::current()->toggle();
           g_config->console_enabled = true;
           g_config->save();
         }
