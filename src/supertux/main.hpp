@@ -27,11 +27,10 @@ class Main
 {
 private:
   void init_config();
-  void init_physfs(const char* argv0);
-  void init_rand();
-  void init_sdl();
   void init_tinygettext();
   void init_video();
+
+  void launch_game();
 
 public:
   /** We call it run() instead of main() as main collides with

@@ -64,6 +64,12 @@ Main::init_config()
   } catch(const std::exception& e) {
     log_info << "Couldn't load config file: " << e.what() << ", using default settings" << std::endl;
   }
+
+  // init random number stuff
+  g_config->random_seed = gameRandom.srand(g_config->random_seed);
+  graphicsRandom.srand(0);
+  //const char *how = config->random_seed? ", user fixed.": ", from time().";
+  //log_info << "Using random seed " << config->random_seed << how << std::endl;
 }
 
 void
@@ -80,7 +86,9 @@ Main::init_tinygettext()
   if (g_config->locale != "")
   {
     g_dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
-  } else {
+  }
+  else
+  {
     FL_Locale *locale;
     FL_FindLocale(&locale);
     tinygettext::Language language = tinygettext::Language::from_spec( locale->lang?locale->lang:"", locale->country?locale->country:"", locale->variant?locale->variant:"");
@@ -89,124 +97,130 @@ Main::init_tinygettext()
   }
 }
 
-void
-Main::init_physfs(const char* argv0)
+class PhysfsSubsystem
 {
-  if(!PHYSFS_init(argv0)) {
-    std::stringstream msg;
-    msg << "Couldn't initialize physfs: " << PHYSFS_getLastError();
-    throw std::runtime_error(msg.str());
-  }
-
-  // allow symbolic links
-  PHYSFS_permitSymbolicLinks(1);
-
-  // Initialize physfs (this is a slightly modified version of
-  // PHYSFS_setSaneConfig)
-  const char *env_writedir;
-  std::string writedir;
-
-  if ((env_writedir = getenv("SUPERTUX2_USER_DIR")) != NULL) {
-    writedir = env_writedir;
-    if(!PHYSFS_setWriteDir(writedir.c_str())) {
-      std::ostringstream msg;
-      msg << "Failed to use configuration directory '"
-          <<  writedir << "': " << PHYSFS_getLastError();
+public:
+  PhysfsSubsystem(const char* argv0)
+  {
+    if(!PHYSFS_init(argv0)) {
+      std::stringstream msg;
+      msg << "Couldn't initialize physfs: " << PHYSFS_getLastError();
       throw std::runtime_error(msg.str());
     }
 
-  } else {
-    std::string userdir = PHYSFS_getUserDir();
+    // allow symbolic links
+    PHYSFS_permitSymbolicLinks(1);
 
-    // Set configuration directory
-    writedir = userdir + WRITEDIR_NAME;
-    if(!PHYSFS_setWriteDir(writedir.c_str())) {
-      // try to create the directory
-      if(!PHYSFS_setWriteDir(userdir.c_str()) || !PHYSFS_mkdir(WRITEDIR_NAME)) {
-        std::ostringstream msg;
-        msg << "Failed creating configuration directory '"
-            << writedir << "': " << PHYSFS_getLastError();
-        throw std::runtime_error(msg.str());
-      }
+    // Initialize physfs (this is a slightly modified version of
+    // PHYSFS_setSaneConfig)
+    const char *env_writedir;
+    std::string writedir;
 
+    if ((env_writedir = getenv("SUPERTUX2_USER_DIR")) != NULL) {
+      writedir = env_writedir;
       if(!PHYSFS_setWriteDir(writedir.c_str())) {
         std::ostringstream msg;
         msg << "Failed to use configuration directory '"
             <<  writedir << "': " << PHYSFS_getLastError();
         throw std::runtime_error(msg.str());
       }
-    }
-  }
-  PHYSFS_addToSearchPath(writedir.c_str(), 0);
 
-  // when started from source dir...
-  char* base_path = SDL_GetBasePath();
-  std::string dir = base_path;
-  SDL_free(base_path);
-
-  if (dir[dir.length() - 1] != '/')
-    dir += "/";
-  dir += "data";
-  std::string testfname = dir;
-  testfname += "/credits.txt";
-  bool sourcedir = false;
-  FILE* f = fopen(testfname.c_str(), "r");
-  if(f) {
-    fclose(f);
-    if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
-      log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
     } else {
-      sourcedir = true;
-    }
-  }
+      std::string userdir = PHYSFS_getUserDir();
 
-  if(!sourcedir) {
-    std::string datadir = PHYSFS_getBaseDir();
-    datadir = datadir.substr(0, datadir.rfind(INSTALL_SUBDIR_BIN));
-    datadir += "/" INSTALL_SUBDIR_SHARE;
+      // Set configuration directory
+      writedir = userdir + WRITEDIR_NAME;
+      if(!PHYSFS_setWriteDir(writedir.c_str())) {
+        // try to create the directory
+        if(!PHYSFS_setWriteDir(userdir.c_str()) || !PHYSFS_mkdir(WRITEDIR_NAME)) {
+          std::ostringstream msg;
+          msg << "Failed creating configuration directory '"
+              << writedir << "': " << PHYSFS_getLastError();
+          throw std::runtime_error(msg.str());
+        }
+
+        if(!PHYSFS_setWriteDir(writedir.c_str())) {
+          std::ostringstream msg;
+          msg << "Failed to use configuration directory '"
+              <<  writedir << "': " << PHYSFS_getLastError();
+          throw std::runtime_error(msg.str());
+        }
+      }
+    }
+    PHYSFS_addToSearchPath(writedir.c_str(), 0);
+
+    // when started from source dir...
+    char* base_path = SDL_GetBasePath();
+    std::string dir = base_path;
+    SDL_free(base_path);
+
+    if (dir[dir.length() - 1] != '/')
+      dir += "/";
+    dir += "data";
+    std::string testfname = dir;
+    testfname += "/credits.txt";
+    bool sourcedir = false;
+    FILE* f = fopen(testfname.c_str(), "r");
+    if(f) {
+      fclose(f);
+      if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
+        log_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
+      } else {
+        sourcedir = true;
+      }
+    }
+
+    if(!sourcedir) {
+      std::string datadir = PHYSFS_getBaseDir();
+      datadir = datadir.substr(0, datadir.rfind(INSTALL_SUBDIR_BIN));
+      datadir += "/" INSTALL_SUBDIR_SHARE;
 #ifdef ENABLE_BINRELOC
 
-    char* dir;
-    br_init (NULL);
-    dir = br_find_data_dir(datadir.c_str());
-    datadir = dir;
-    free(dir);
+      char* dir;
+      br_init (NULL);
+      dir = br_find_data_dir(datadir.c_str());
+      datadir = dir;
+      free(dir);
 
 #endif
-    if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
-      log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
+      if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
+        log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
+      }
     }
+
+    //show search Path
+    char** searchpath = PHYSFS_getSearchPath();
+    for(char** i = searchpath; *i != NULL; i++)
+      log_info << "[" << *i << "] is in the search path" << std::endl;
+    PHYSFS_freeList(searchpath);
   }
 
-  //show search Path
-  char** searchpath = PHYSFS_getSearchPath();
-  for(char** i = searchpath; *i != NULL; i++)
-    log_info << "[" << *i << "] is in the search path" << std::endl;
-  PHYSFS_freeList(searchpath);
-}
-
-void
-Main::init_sdl()
-{
-  if(SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0) {
-    std::stringstream msg;
-    msg << "Couldn't initialize SDL: " << SDL_GetError();
-    throw std::runtime_error(msg.str());
+  ~PhysfsSubsystem()
+  {
+    PHYSFS_deinit();
   }
-  // just to be sure
-  atexit(SDL_Quit);
-}
+};
 
-void
-Main::init_rand()
+class SDLSubsystem
 {
-  g_config->random_seed = gameRandom.srand(g_config->random_seed);
+public:
+  SDLSubsystem()
+  {
+    if(SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) < 0)
+    {
+      std::stringstream msg;
+      msg << "Couldn't initialize SDL: " << SDL_GetError();
+      throw std::runtime_error(msg.str());
+    }
+    // just to be sure
+    atexit(SDL_Quit);
+  }
 
-  graphicsRandom.srand(0);
-
-  //const char *how = config->random_seed? ", user fixed.": ", from time().";
-  //log_info << "Using random seed " << config->random_seed << how << std::endl;
-}
+  ~SDLSubsystem()
+  {
+    SDL_Quit();
+  }
+};
 
 void
 Main::init_video()
@@ -247,6 +261,87 @@ static inline void timelog(const char* component)
   last_timelog_component = component;
 }
 
+void
+Main::launch_game()
+{
+  SDLSubsystem sdl_subsystem;
+  ConsoleBuffer console_buffer;
+
+  timelog("controller");
+  InputManager input_manager;
+
+  timelog("commandline");
+
+  timelog("video");
+  std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
+  DrawingContext context(video_system->get_renderer(),
+                         video_system->get_lightmap());
+  init_video();
+
+  timelog("audio");
+  SoundManager sound_manager;
+  sound_manager.enable_sound(g_config->sound_enabled);
+  sound_manager.enable_music(g_config->music_enabled);
+
+  Console console(console_buffer);
+
+  timelog("scripting");
+  scripting::init_squirrel(g_config->enable_script_debugger);
+
+  timelog("resources");
+  TileManager tile_manager;
+  SpriteManager sprite_manager;
+  Resources resources;
+
+  timelog("addons");
+  AddonManager::get_instance().load_addons();
+
+  timelog(0);
+
+  const std::unique_ptr<Savegame> default_savegame(new Savegame(std::string()));
+
+  GameManager game_manager;
+  ScreenManager screen_manager;
+
+  if(g_config->start_level != "") {
+    // we have a normal path specified at commandline, not a physfs path.
+    // So we simply mount that path here...
+    std::string dir = FileSystem::dirname(g_config->start_level);
+    std::string fileProtocol = "file://";
+    std::string::size_type position = dir.find(fileProtocol);
+    if(position != std::string::npos) {
+      dir = dir.replace(position, fileProtocol.length(), "");
+    }
+    log_debug << "Adding dir: " << dir << std::endl;
+    PHYSFS_addToSearchPath(dir.c_str(), true);
+
+    if(g_config->start_level.size() > 4 &&
+       g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0)
+    {
+      screen_manager.push_screen(std::unique_ptr<Screen>(
+                                              new worldmap::WorldMap(
+                                                FileSystem::basename(g_config->start_level), *default_savegame)));
+    } else {
+      std::unique_ptr<GameSession> session (
+        new GameSession(FileSystem::basename(g_config->start_level), *default_savegame));
+
+      g_config->random_seed =session->get_demo_random_seed(g_config->start_demo);
+      init_rand();//initialise generator with seed from session
+
+      if(g_config->start_demo != "")
+        session->play_demo(g_config->start_demo);
+
+      if(g_config->record_demo != "")
+        session->record_demo(g_config->record_demo);
+      screen_manager.push_screen(std::move(session));
+    }
+  } else {
+    screen_manager.push_screen(std::unique_ptr<Screen>(new TitleScreen(*default_savegame)));
+  }
+
+  screen_manager.run(context);
+}
+
 int
 Main::run(int argc, char** argv)
 {
@@ -258,7 +353,7 @@ Main::run(int argc, char** argv)
 
     // Do this before pre_parse_commandline, because --help now shows the
     // default user data dir.
-    init_physfs(argv[0]);
+    PhysfsSubsystem physfs_subsystem(argv[0]);
 
     try
     {
@@ -304,91 +399,17 @@ Main::run(int argc, char** argv)
         return 0;
 
       default:
-        // continue and start the game as usual
+        launch_game();
         break;
     }
-
-    init_sdl();
-    ConsoleBuffer console_buffer;
-
-    timelog("controller");
-    InputManager input_manager;
-
-    timelog("commandline");
-
-    timelog("video");
-    std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
-    DrawingContext context(video_system->get_renderer(),
-                           video_system->get_lightmap());
-    init_video();
-
-    timelog("audio");
-    SoundManager sound_manager;
-    sound_manager.enable_sound(g_config->sound_enabled);
-    sound_manager.enable_music(g_config->music_enabled);
-
-    Console console(console_buffer);
-
-    timelog("scripting");
-    scripting::init_squirrel(g_config->enable_script_debugger);
-
-    timelog("resources");
-    TileManager tile_manager;
-    SpriteManager sprite_manager;
-    Resources resources;
-
-    timelog("addons");
-    AddonManager::get_instance().load_addons();
-
-    timelog(0);
-
-    const std::unique_ptr<Savegame> default_savegame(new Savegame(std::string()));
-
-    GameManager game_manager;
-    ScreenManager screen_manager;
-
-    init_rand();
-
-    if(g_config->start_level != "") {
-      // we have a normal path specified at commandline, not a physfs path.
-      // So we simply mount that path here...
-      std::string dir = FileSystem::dirname(g_config->start_level);
-      std::string fileProtocol = "file://";
-      std::string::size_type position = dir.find(fileProtocol);
-      if(position != std::string::npos) {
-        dir = dir.replace(position, fileProtocol.length(), "");
-      }
-      log_debug << "Adding dir: " << dir << std::endl;
-      PHYSFS_addToSearchPath(dir.c_str(), true);
-
-      if(g_config->start_level.size() > 4 &&
-         g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0) {
-        ScreenManager::current()->push_screen(std::unique_ptr<Screen>(
-                                        new worldmap::WorldMap(
-                                          FileSystem::basename(g_config->start_level), *default_savegame)));
-      } else {
-        std::unique_ptr<GameSession> session (
-          new GameSession(FileSystem::basename(g_config->start_level), *default_savegame));
-
-        g_config->random_seed =session->get_demo_random_seed(g_config->start_demo);
-        init_rand();//initialise generator with seed from session
-
-        if(g_config->start_demo != "")
-          session->play_demo(g_config->start_demo);
-
-        if(g_config->record_demo != "")
-          session->record_demo(g_config->record_demo);
-        ScreenManager::current()->push_screen(std::move(session));
-      }
-    } else {
-      ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TitleScreen(*default_savegame)));
-    }
-
-    ScreenManager::current()->run(context);
-  } catch(std::exception& e) {
+  }
+  catch(const std::exception& e)
+  {
     log_fatal << "Unexpected exception: " << e.what() << std::endl;
     result = 1;
-  } catch(...) {
+  }
+  catch(...)
+  {
     log_fatal << "Unexpected exception" << std::endl;
     result = 1;
   }
@@ -398,9 +419,6 @@ Main::run(int argc, char** argv)
   g_config.reset();
 
   scripting::exit_squirrel();
-
-  SDL_Quit();
-  PHYSFS_deinit();
 
   g_dictionary_manager.reset();
 
