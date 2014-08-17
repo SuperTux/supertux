@@ -19,7 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "lisp/list_iterator.hpp"
-#include "object/broken_brick.hpp"
 #include "object/flower.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/coin_explode.hpp"
@@ -448,24 +447,6 @@ BonusBlock::try_drop(Player *player)
       hit_counter--;
     }
   }
-}
-
-void
-Block::break_me()
-{
-  Sector* sector = Sector::current();
-  sector->add_object(
-    new BrokenBrick(sprite->clone(), get_pos(), Vector(-100, -400)));
-  sector->add_object(
-    new BrokenBrick(sprite->clone(), get_pos() + Vector(0, 16),
-                    Vector(-150, -300)));
-  sector->add_object(
-    new BrokenBrick(sprite->clone(), get_pos() + Vector(16, 0),
-                    Vector(100, -400)));
-  sector->add_object(
-    new BrokenBrick(sprite->clone(), get_pos() + Vector(16, 16),
-                    Vector(150, -300)));
-  remove_me();
 }
 
 void
