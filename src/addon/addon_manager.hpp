@@ -20,6 +20,7 @@
 #include <string>
 #include <vector>
 
+#include "util/currenton.hpp"
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
 
@@ -28,9 +29,12 @@ class Addon;
 /**
  * Checks for, installs and removes Add-ons
  */
-class AddonManager
+class AddonManager : public Currenton<AddonManager>
 {
 public:
+  AddonManager();
+  ~AddonManager();
+
   /**
    * returns a list of installed Add-ons
    */
@@ -77,11 +81,6 @@ public:
   void load_addons();
 
   /**
-   * Returns the shared AddonManager instance
-   */
-  static AddonManager& get_instance();
-
-  /**
    * Write AddonManager configuration to Lisp
    */
   void write(Writer& writer);
@@ -91,12 +90,9 @@ public:
    */
   void read(const Reader& lisp);
 
-protected:
+private:
   std::vector<Addon*> addons;
   std::vector<std::string> ignored_addon_filenames;
-
-  AddonManager();
-  ~AddonManager();
 };
 
 #endif

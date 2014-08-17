@@ -39,7 +39,7 @@ Config::Config() :
   sound_enabled(true),
   music_enabled(true),
   console_enabled(false),
-  random_seed(0),          // set by time(), by default (unless in config)
+  random_seed(0), // set by time(), by default (unless in config)
   start_level(),
   enable_script_debugger(false),
   start_demo(),
@@ -59,7 +59,9 @@ Config::load()
 
   const lisp::Lisp* config_lisp = root->get_lisp("supertux-config");
   if(!config_lisp)
+  {
     throw std::runtime_error("File is not a supertux-config file");
+  }
 
   config_lisp->get("profile", profile);
   config_lisp->get("show_fps", show_fps);
@@ -68,7 +70,8 @@ Config::load()
   config_lisp->get("random_seed", random_seed);
 
   const lisp::Lisp* config_video_lisp = config_lisp->get_lisp("video");
-  if(config_video_lisp) {
+  if(config_video_lisp)
+  {
     config_video_lisp->get("fullscreen", use_fullscreen);
     std::string video_string;
     config_video_lisp->get("video", video_string);
@@ -95,13 +98,15 @@ Config::load()
   }
 
   const lisp::Lisp* config_control_lisp = config_lisp->get_lisp("control");
-  if(config_control_lisp && InputManager::current()) {
+  if(config_control_lisp && InputManager::current())
+  {
     InputManager::current()->read(*config_control_lisp);
   }
 
   const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
-  if(config_addons_lisp) {
-    AddonManager::get_instance().read(*config_addons_lisp);
+  if(config_addons_lisp && AddonManager::current())
+  {
+    AddonManager::current()->read(*config_addons_lisp);
   }
 }
 
@@ -141,15 +146,19 @@ Config::save()
   writer.write("music_enabled", music_enabled);
   writer.end_list("audio");
 
-  if(InputManager::current()) {
+  if (InputManager::current())
+  {
     writer.start_list("control");
     InputManager::current()->write(writer);
     writer.end_list("control");
   }
 
-  writer.start_list("addons");
-  AddonManager::get_instance().write(writer);
-  writer.end_list("addons");
+  if (AddonManager::current())
+  {
+    writer.start_list("addons");
+    AddonManager::current()->write(writer);
+    writer.end_list("addons");
+  }
 
   writer.end_list("supertux-config");
 }

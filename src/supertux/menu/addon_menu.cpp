@@ -46,7 +46,7 @@ AddonMenu::refresh()
 {
   clear();
 
-  AddonManager& adm = AddonManager::get_instance();
+  AddonManager& adm = *AddonManager::current();
 
   // refresh list of addons
   m_addons = adm.get_addons();
@@ -134,7 +134,7 @@ AddonMenu::menu_action(MenuItem* item)
   {
     try
     {
-      AddonManager::get_instance().check_online();
+      AddonManager::current()->check_online();
       refresh();
       set_active_item(index);
     }
@@ -153,7 +153,7 @@ AddonMenu::menu_action(MenuItem* item)
       {
         try
         {
-          AddonManager::get_instance().install(&addon);
+          AddonManager::current()->install(&addon);
         }
         catch (std::exception& e)
         {
@@ -165,7 +165,7 @@ AddonMenu::menu_action(MenuItem* item)
       {
         try
         {
-          AddonManager::get_instance().enable(&addon);
+          AddonManager::current()->enable(&addon);
         }
         catch (std::exception& e)
         {
@@ -177,7 +177,7 @@ AddonMenu::menu_action(MenuItem* item)
       {
         try
         {
-          AddonManager::get_instance().disable(&addon);
+          AddonManager::current()->disable(&addon);
         }
         catch (std::exception& e)
         {

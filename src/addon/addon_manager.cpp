@@ -61,13 +61,6 @@ size_t my_curl_physfs_write(void *ptr, size_t size, size_t nmemb, void *f_p)
 }
 #endif
 
-AddonManager&
-AddonManager::get_instance()
-{
-  static AddonManager instance;
-  return instance;
-}
-
 AddonManager::AddonManager() :
   addons(),
   ignored_addon_filenames()

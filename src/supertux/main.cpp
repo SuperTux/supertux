@@ -309,7 +309,8 @@ Main::launch_game()
   Resources resources;
 
   timelog("addons");
-  AddonManager::get_instance().load_addons();
+  AddonManager addon_manager;
+  addon_manager.load_addons();
 
   timelog(0);
 

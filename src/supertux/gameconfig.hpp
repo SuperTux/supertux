@@ -31,10 +31,10 @@ public:
 
   int profile;
 
-  // the width/height to be used to display the game in fullscreen
+  /** the width/height to be used to display the game in fullscreen */
   Size fullscreen_size;
 
-  // refresh rate for use in fullscreen, 0 for auto
+  /** refresh rate for use in fullscreen, 0 for auto */
   int fullscreen_refresh_rate;
 
   /** the width/height of the window managers window */
@@ -53,7 +53,8 @@ public:
   bool music_enabled;
   bool console_enabled;
 
-  int random_seed;            // initial random seed.  0 ==> set from time()
+  /** initial random seed.  0 ==> set from time() */
+  int random_seed;
 
   /** this variable is set if supertux should start in a specific level */
   std::string start_level;
@@ -61,7 +62,10 @@ public:
   std::string start_demo;
   std::string record_demo;
 
-  std::string locale; /**< force SuperTux language to this locale, e.g. "de". A file "data/locale/xx.po" must exist for this to work. An empty string means autodetect. */
+  /** force SuperTux language to this locale, e.g. "de". A file
+      "data/locale/xx.po" must exist for this to work. An empty string
+      means autodetect. */
+  std::string locale; 
 };
 
 #endif
