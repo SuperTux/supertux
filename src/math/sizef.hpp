@@ -31,7 +31,7 @@ public:
     height(0.0f)
   {}
 
-  Sizef(const Vector& v) :
+  explicit Sizef(const Vector& v) :
     width(v.x),
     height(v.y)
   {}
