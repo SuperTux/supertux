@@ -51,7 +51,6 @@ ENDIF(COMMAND cmake_policy)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
 
 ## For autopackage
-OPTION(ENABLE_BINRELOC "Enable autopackage's BINRELOC features" OFF)
 SET(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 
 ## Check endianess
@@ -162,7 +161,6 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/include/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/include/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/findlocale/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/binreloc/)
 
 ## MSVC Compatibility headers and definitions
 
@@ -341,12 +339,6 @@ IF(WIN32)
   ENDIF(MINGW)
 ENDIF(WIN32)
 
-## Add binreloc.c if enabled
-IF(ENABLE_BINRELOC)
-  SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_SOURCE_DIR}/external/binreloc/binreloc.c)
-ENDIF(ENABLE_BINRELOC)
-
-
 ## Generate supertux executable in the right place
 
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
@@ -486,7 +478,6 @@ MARK_AS_ADVANCED(
 )
 
 MARK_AS_ADVANCED(
-	ENABLE_BINRELOC
 	APPDATADIR
 )
 

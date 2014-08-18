@@ -189,15 +189,6 @@ public:
       std::string datadir = PHYSFS_getBaseDir();
       datadir = datadir.substr(0, datadir.rfind(INSTALL_SUBDIR_BIN));
       datadir += "/" INSTALL_SUBDIR_SHARE;
-#ifdef ENABLE_BINRELOC
-
-      char* dir;
-      br_init (NULL);
-      dir = br_find_data_dir(datadir.c_str());
-      datadir = dir;
-      free(dir);
-
-#endif
       if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
         log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
       }
