@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 #define HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -26,63 +27,55 @@
 
 class Addon;
 
-/**
- * Checks for, installs and removes Add-ons
- */
+typedef int AddonId;
+
+/** Checks for, installs and removes Add-ons */
 class AddonManager : public Currenton<AddonManager>
 {
 public:
   AddonManager(std::vector<std::string>& ignored_addon_filenames_);
   ~AddonManager();
 
-  /**
-   * returns a list of installed Add-ons
-   */
-  std::vector<Addon*> get_addons();
+  /** returns a list of installed Add-ons */
+  const std::vector<std::unique_ptr<Addon> >& get_addons() const;
 
-  /**
-   * downloads list of available Add-ons
-   */
+  /** Returns true if online support is available */
+  bool has_online_support() const;
+
+  /** downloads list of available Add-ons */
   void check_online();
 
-  /**
-   * Download and install Add-on
-   */
-  void install(Addon* addon);
+  /** Download and install Add-on */
+  void install(Addon& addon);
 
-  /**
-   * Physically delete Add-on
-   */
-  void remove(Addon* addon);
+  /** Physically delete Add-on */
+  void remove(Addon& addon);
 
-  /**
-   * Unload Add-on and mark as not to be loaded automatically
-   */
-  void disable(Addon* addon);
+  /** Unload Add-on and mark as not to be loaded automatically */
+  void disable(Addon& addon);
 
-  /**
-   * Load Add-on and mark as to be loaded automatically
-   */
-  void enable(Addon* addon);
+  /** Load Add-on and mark as to be loaded automatically */
+  void enable(Addon& addon);
 
-  /**
-   * Remove Add-on from search path
-   */
-  void unload(Addon* addon);
+  /** Remove Add-on from search path */
+  void unload(Addon& addon);
 
-  /**
-   * Add Add-on to search path
-   */
-  void load(Addon* addon);
+  /** Add Add-on to search path */
+  void load(Addon& addon);
 
-  /**
-   * Loads all enabled Add-ons, i.e. adds them to the search path
-   */
+  /** Loads all enabled Add-ons, i.e. adds them to the search path */
   void load_addons();
 
+  Addon& get_addon(int id);
+  int get_num_addons() const { return static_cast<int>(m_addons.size()); }
+
 private:
-  std::vector<Addon*> addons;
-  std::vector<std::string>& ignored_addon_filenames;
+  std::vector<std::unique_ptr<Addon> > m_addons;
+  std::vector<std::string>& m_ignored_addon_filenames;
+
+private:
+  AddonManager(const AddonManager&) = delete;
+  AddonManager& operator=(const AddonManager&) = delete;
 };
 
 #endif

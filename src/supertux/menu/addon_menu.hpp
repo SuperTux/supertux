@@ -19,16 +19,19 @@
 
 #include "gui/menu.hpp"
 
-enum {
-  ADDON_LIST_START_ID = 10
-};
-
 class Addon;
+class AddonManager;
 
 class AddonMenu : public Menu
 {
 private:
-  std::vector<Addon*> m_addons;
+  enum {
+    MNID_CHECK_ONLINE,
+    MNID_ADDON_LIST_START = 10
+  };
+
+private:
+  AddonManager& m_addon_manager;
 
 public:
   AddonMenu();

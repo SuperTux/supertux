@@ -29,40 +29,51 @@
 std::string
 Addon::get_md5() const
 {
-  if (!installed) {
-    if (stored_md5 == "") { log_warning << "Add-on not installed and no stored MD5 available" << std::endl; }
+  if (!installed)
+  {
+    if (stored_md5.empty())
+    {
+      log_warning << "Add-on not installed and no stored MD5 available" << std::endl;
+    }
     return stored_md5;
   }
-
-  if (calculated_md5 != "") return calculated_md5;
-
-  if (installed_physfs_filename == "") throw std::runtime_error("Tried to calculate MD5 of Add-on with unknown filename");
-
-  // TODO: this does not work as expected for some files -- IFileStream seems to not always behave like an ifstream.
-  //IFileStream ifs(installed_physfs_filename);
-  //std::string md5 = MD5(ifs).hex_digest();
-
-  MD5 md5;
-  PHYSFS_file* file;
-  file = PHYSFS_openRead(installed_physfs_filename.c_str());
-  unsigned char buffer[1024];
-  while (true) {
-    PHYSFS_sint64 len = PHYSFS_read(file, buffer, 1, sizeof(buffer));
-    if (len <= 0) break;
-    md5.update(buffer, len);
+  else if (!calculated_md5.empty())
+  {
+    return calculated_md5;
   }
-  PHYSFS_close(file);
+  else if (installed_physfs_filename.empty())
+  {
+    throw std::runtime_error("Tried to calculate MD5 of Add-on with unknown filename");
+  }
+  else
+  {
+    // TODO: this does not work as expected for some files -- IFileStream seems to not always behave like an ifstream.
+    //IFileStream ifs(installed_physfs_filename);
+    //std::string md5 = MD5(ifs).hex_digest();
 
-  calculated_md5 = md5.hex_digest();
-  log_debug << "MD5 of " << title << ": " << calculated_md5 << std::endl;
+    MD5 md5;
+    PHYSFS_file* file;
+    file = PHYSFS_openRead(installed_physfs_filename.c_str());
+    unsigned char buffer[1024];
+    while (true) {
+      PHYSFS_sint64 len = PHYSFS_read(file, buffer, 1, sizeof(buffer));
+      if (len <= 0) break;
+      md5.update(buffer, len);
+    }
+    PHYSFS_close(file);
 
-  return calculated_md5;
+    calculated_md5 = md5.hex_digest();
+    log_debug << "MD5 of " << title << ": " << calculated_md5 << std::endl;
+
+    return calculated_md5;
+  }
 }
 
 void
 Addon::parse(const Reader& lisp)
 {
-  try {
+  try
+  {
     lisp.get("kind", kind);
     lisp.get("title", title);
     lisp.get("author", author);
@@ -70,52 +81,36 @@ Addon::parse(const Reader& lisp)
     lisp.get("http-url", http_url);
     lisp.get("file", suggested_filename);
     lisp.get("md5", stored_md5);
-  } catch(std::exception& e) {
+  }
+  catch(const std::exception& err)
+  {
     std::stringstream msg;
-    msg << "Problem when parsing addoninfo: " << e.what();
+    msg << "Problem when parsing addoninfo: " << err.what();
     throw std::runtime_error(msg.str());
   }
 }
 
 void
-Addon::parse(std::string fname)
+Addon::parse(const std::string& fname)
 {
-  try {
+  try
+  {
     lisp::Parser parser;
     const lisp::Lisp* root = parser.parse(fname);
     const lisp::Lisp* addon = root->get_lisp("supertux-addoninfo");
     if(!addon) throw std::runtime_error("file is not a supertux-addoninfo file.");
     parse(*addon);
-  } catch(std::exception& e) {
+  }
+  catch(const std::exception& err)
+  {
     std::stringstream msg;
-    msg << "Problem when reading addoninfo '" << fname << "': " << e.what();
+    msg << "Problem when reading addoninfo '" << fname << "': " << err.what();
     throw std::runtime_error(msg.str());
   }
 }
 
-void
-Addon::write(lisp::Writer& writer) const
-{
-  writer.start_list("supertux-addoninfo");
-  if (kind != "") writer.write("kind", kind);
-  if (title != "") writer.write("title", title);
-  if (author != "") writer.write("author", author);
-  if (license != "") writer.write("license", license);
-  if (http_url != "") writer.write("http-url", http_url);
-  if (suggested_filename != "") writer.write("file", suggested_filename);
-  if (stored_md5 != "") writer.write("md5", stored_md5);
-  writer.end_list("supertux-addoninfo");
-}
-
-void
-Addon::write(std::string fname) const
-{
-  lisp::Writer writer(fname);
-  write(writer);
-}
-
 bool
-Addon::operator==(Addon addon2) const
+Addon::operator==(const Addon& addon2) const
 {
   std::string s1 = this->get_md5();
   std::string s2 = addon2.get_md5();

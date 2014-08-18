@@ -61,9 +61,9 @@ size_t my_curl_physfs_write(void *ptr, size_t size, size_t nmemb, void *f_p)
 }
 #endif
 
-AddonManager::AddonManager(std::vector<std::string>& ignored_addon_filenames_) :
-  addons(),
-  ignored_addon_filenames(ignored_addon_filenames_)
+AddonManager::AddonManager(std::vector<std::string>& ignored_addon_filenames) :
+  m_addons(),
+  m_ignored_addon_filenames(ignored_addon_filenames)
 {
 #ifdef HAVE_LIBCURL
   curl_global_init(CURL_GLOBAL_ALL);
@@ -75,12 +75,23 @@ AddonManager::~AddonManager()
 #ifdef HAVE_LIBCURL
   curl_global_cleanup();
 #endif
-
-  for (std::vector<Addon*>::iterator i = addons.begin(); i != addons.end(); i++) delete *i;
 }
 
-std::vector<Addon*>
-AddonManager::get_addons()
+Addon&
+AddonManager::get_addon(int id)
+{
+  if (0 <= id && id < static_cast<int>(m_addons.size()))
+  {
+    return *m_addons[id];
+  }
+  else
+  {
+    throw std::runtime_error("AddonManager::get_addon(): id out of range: " + std::to_string(id));
+  }
+}
+
+const std::vector<std::unique_ptr<Addon> >&
+AddonManager::get_addons() const
 {
   /*
     for (std::vector<Addon>::iterator it = installed_addons.begin(); it != installed_addons.end(); ++it) {
@@ -88,7 +99,17 @@ AddonManager::get_addons()
     if (addon.md5 == "") addon.md5 = calculate_md5(addon);
     }
   */
-  return addons;
+  return m_addons;
+}
+
+bool
+AddonManager::has_online_support() const
+{
+#ifdef HAVE_LIBCURL
+  return true;
+#else
+  return false;
+#endif
 }
 
 void
@@ -136,14 +157,14 @@ AddonManager::check_online()
         log_warning << "Unknown token '" << token << "' in Add-on list" << std::endl;
         continue;
       }
-      std::unique_ptr<Addon> addon(new Addon());
+      std::unique_ptr<Addon> addon(new Addon(m_addons.size()));
       addon->parse(*(iter.lisp()));
       addon->installed = false;
       addon->loaded = false;
 
       // make sure the list of known Add-ons does not already contain this one
       bool exists = false;
-      for (std::vector<Addon*>::const_iterator i = addons.begin(); i != addons.end(); i++) {
+      for (auto i = m_addons.begin(); i != m_addons.end(); ++i) {
         if (**i == *addon) {
           exists = true;
           break;
@@ -161,7 +182,7 @@ AddonManager::check_online()
       }
       else
       {
-        addons.push_back(addon.release());
+        m_addons.push_back(std::move(addon));
       }
     }
   } catch(std::exception& e) {
@@ -174,31 +195,31 @@ AddonManager::check_online()
 }
 
 void
-AddonManager::install(Addon* addon)
+AddonManager::install(Addon& addon)
 {
 #ifdef HAVE_LIBCURL
 
-  if (addon->installed) throw std::runtime_error("Tried installing installed Add-on");
+  if (addon.installed) throw std::runtime_error("Tried installing installed Add-on");
 
   // make sure the Add-on's file name does not contain weird characters
-  if (addon->suggested_filename.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) {
-    throw std::runtime_error("Add-on has unsafe file name (\""+addon->suggested_filename+"\")");
+  if (addon.suggested_filename.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) {
+    throw std::runtime_error("Add-on has unsafe file name (\""+addon.suggested_filename+"\")");
   }
 
-  std::string fileName = addon->suggested_filename;
+  std::string fileName = addon.suggested_filename;
 
   // make sure its file doesn't already exist
   if (PHYSFS_exists(fileName.c_str())) {
-    fileName = addon->stored_md5 + "_" + addon->suggested_filename;
+    fileName = addon.stored_md5 + "_" + addon.suggested_filename;
     if (PHYSFS_exists(fileName.c_str())) {
-      throw std::runtime_error("Add-on of suggested filename already exists (\""+addon->suggested_filename+"\", \""+fileName+"\")");
+      throw std::runtime_error("Add-on of suggested filename already exists (\""+addon.suggested_filename+"\", \""+fileName+"\")");
     }
   }
 
   char error_buffer[CURL_ERROR_SIZE+1];
 
-  char* url = (char*)malloc(addon->http_url.length() + 1);
-  strncpy(url, addon->http_url.c_str(), addon->http_url.length() + 1);
+  char* url = (char*)malloc(addon.http_url.length() + 1);
+  strncpy(url, addon.http_url.c_str(), addon.http_url.length() + 1);
 
   PHYSFS_file* f = PHYSFS_openWrite(fileName.c_str());
 
@@ -227,21 +248,21 @@ AddonManager::install(Addon* addon)
     throw std::runtime_error("Downloading Add-on failed: " + why);
   }
 
-  addon->installed = true;
-  addon->installed_physfs_filename = fileName;
+  addon.installed = true;
+  addon.installed_physfs_filename = fileName;
   static const std::string writeDir = PHYSFS_getWriteDir();
   static const std::string dirSep = PHYSFS_getDirSeparator();
-  addon->installed_absolute_filename = writeDir + dirSep + fileName;
-  addon->loaded = false;
+  addon.installed_absolute_filename = writeDir + dirSep + fileName;
+  addon.loaded = false;
 
-  if (addon->get_md5() != addon->stored_md5) {
-    addon->installed = false;
+  if (addon.get_md5() != addon.stored_md5) {
+    addon.installed = false;
     PHYSFS_delete(fileName.c_str());
     std::string why = "MD5 checksums differ";
     throw std::runtime_error("Downloading Add-on failed: " + why);
   }
 
-  log_debug << "Finished downloading \"" << addon->installed_absolute_filename << "\". Enabling Add-on." << std::endl;
+  log_debug << "Finished downloading \"" << addon.installed_absolute_filename << "\". Enabling Add-on." << std::endl;
 
   enable(addon);
 
@@ -252,88 +273,91 @@ AddonManager::install(Addon* addon)
 }
 
 void
-AddonManager::remove(Addon* addon)
+AddonManager::remove(Addon& addon)
 {
-  if (!addon->installed) throw std::runtime_error("Tried removing non-installed Add-on");
+  if (!addon.installed) throw std::runtime_error("Tried removing non-installed Add-on");
 
   //FIXME: more checks
 
   // make sure the Add-on's file name does not contain weird characters
-  if (addon->installed_physfs_filename.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) {
-    throw std::runtime_error("Add-on has unsafe file name (\""+addon->installed_physfs_filename+"\")");
+  if (addon.installed_physfs_filename.find_first_not_of("match.quiz-proxy_gwenblvdjfks0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") != std::string::npos) {
+    throw std::runtime_error("Add-on has unsafe file name (\""+addon.installed_physfs_filename+"\")");
   }
 
   unload(addon);
 
-  log_debug << "deleting file \"" << addon->installed_absolute_filename << "\"" << std::endl;
-  PHYSFS_delete(addon->installed_absolute_filename.c_str());
-  addon->installed = false;
+  log_debug << "deleting file \"" << addon.installed_absolute_filename << "\"" << std::endl;
+  PHYSFS_delete(addon.installed_absolute_filename.c_str());
+  addon.installed = false;
 
   // FIXME: As we don't know anything more about it (e.g. where to get it), remove it from list of known Add-ons
 }
 
 void
-AddonManager::disable(Addon* addon)
+AddonManager::disable(Addon& addon)
 {
   unload(addon);
 
-  std::string fileName = addon->installed_physfs_filename;
-  if (std::find(ignored_addon_filenames.begin(), ignored_addon_filenames.end(), fileName) == ignored_addon_filenames.end()) {
-    ignored_addon_filenames.push_back(fileName);
+  std::string fileName = addon.installed_physfs_filename;
+  if (std::find(m_ignored_addon_filenames.begin(), m_ignored_addon_filenames.end(), fileName) == m_ignored_addon_filenames.end()) {
+    m_ignored_addon_filenames.push_back(fileName);
   }
 }
 
 void
-AddonManager::enable(Addon* addon)
+AddonManager::enable(Addon& addon)
 {
   load(addon);
 
-  std::string fileName = addon->installed_physfs_filename;
-  std::vector<std::string>::iterator i = std::find(ignored_addon_filenames.begin(), ignored_addon_filenames.end(), fileName);
-  if (i != ignored_addon_filenames.end()) {
-    ignored_addon_filenames.erase(i);
+  std::string fileName = addon.installed_physfs_filename;
+  std::vector<std::string>::iterator i = std::find(m_ignored_addon_filenames.begin(), m_ignored_addon_filenames.end(), fileName);
+  if (i != m_ignored_addon_filenames.end()) {
+    m_ignored_addon_filenames.erase(i);
   }
 }
 
 void
-AddonManager::unload(Addon* addon)
+AddonManager::unload(Addon& addon)
 {
-  if (!addon->installed) throw std::runtime_error("Tried unloading non-installed Add-on");
-  if (!addon->loaded) return;
+  if (!addon.installed) throw std::runtime_error("Tried unloading non-installed Add-on");
+  if (!addon.loaded) return;
 
-  log_debug << "Removing archive \"" << addon->installed_absolute_filename << "\" from search path" << std::endl;
-  if (PHYSFS_removeFromSearchPath(addon->installed_absolute_filename.c_str()) == 0) {
-    log_warning << "Could not remove " << addon->installed_absolute_filename << " from search path. Ignoring." << std::endl;
+  log_debug << "Removing archive \"" << addon.installed_absolute_filename << "\" from search path" << std::endl;
+  if (PHYSFS_removeFromSearchPath(addon.installed_absolute_filename.c_str()) == 0) {
+    log_warning << "Could not remove " << addon.installed_absolute_filename << " from search path. Ignoring." << std::endl;
     return;
   }
 
-  addon->loaded = false;
+  addon.loaded = false;
 }
 
 void
-AddonManager::load(Addon* addon)
+AddonManager::load(Addon& addon)
 {
-  if (!addon->installed) throw std::runtime_error("Tried loading non-installed Add-on");
-  if (addon->loaded) return;
+  if (!addon.installed) throw std::runtime_error("Tried loading non-installed Add-on");
+  if (addon.loaded) return;
 
-  log_debug << "Adding archive \"" << addon->installed_absolute_filename << "\" to search path" << std::endl;
-  if (PHYSFS_addToSearchPath(addon->installed_absolute_filename.c_str(), 0) == 0) {
-    log_warning << "Could not add " << addon->installed_absolute_filename << " to search path. Ignoring." << std::endl;
+  log_debug << "Adding archive \"" << addon.installed_absolute_filename << "\" to search path" << std::endl;
+  if (PHYSFS_addToSearchPath(addon.installed_absolute_filename.c_str(), 0) == 0) {
+    log_warning << "Could not add " << addon.installed_absolute_filename << " to search path. Ignoring." << std::endl;
     return;
   }
 
-  addon->loaded = true;
+  addon.loaded = true;
 }
 
 void
 AddonManager::load_addons()
 {
   // unload all Addons and forget about them
-  for (std::vector<Addon*>::iterator i = addons.begin(); i != addons.end(); i++) {
-    if ((*i)->installed && (*i)->loaded) unload(*i);
-    delete *i;
+  for (auto i = m_addons.begin(); i != m_addons.end(); ++i)
+  {
+    if ((*i)->installed && (*i)->loaded)
+    {
+      unload(**i);
+    }
   }
-  addons.clear();
+  m_addons.clear();
 
   // Search for archives and add them to the search path
   char** rc = PHYSFS_enumerateFiles("/");
@@ -396,27 +420,30 @@ AddonManager::load_addons()
     PHYSFS_freeList(rc2);
 
     // if we have an infoFile, it's an Addon
-    if (infoFileName != "") {
-      try {
-        Addon* addon = new Addon();
+    if (infoFileName != "")
+    {
+      try
+      {
+        std::unique_ptr<Addon> addon(new Addon(m_addons.size()));
         addon->parse(infoFileName);
         addon->installed = true;
         addon->installed_physfs_filename = fileName;
         addon->installed_absolute_filename = fullFilename;
         addon->loaded = true;
-        addons.push_back(addon);
 
         // check if the Addon is disabled
-        if (std::find(ignored_addon_filenames.begin(), ignored_addon_filenames.end(), fileName) != ignored_addon_filenames.end())
+        if (std::find(m_ignored_addon_filenames.begin(), m_ignored_addon_filenames.end(), fileName) != m_ignored_addon_filenames.end())
         {
-          unload(addon);
+          unload(*addon);
         }
 
-      } catch (const std::runtime_error& e) {
+        m_addons.push_back(std::move(addon));
+      }
+      catch (const std::runtime_error& e)
+      {
         log_warning << "Could not load add-on info for " << fullFilename << ", loading as unmanaged:" << e.what() << std::endl;
       }
     }
-
   }
 
   PHYSFS_freeList(rc);

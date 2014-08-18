@@ -20,66 +20,51 @@
 #include <string>
 
 #include "util/reader_fwd.hpp"
-#include "util/writer_fwd.hpp"
 
-/**
- * Represents an (available or installed) Add-on, e.g. a level set
- */
+/** Represents an (available or installed) Add-on, e.g. a level set */
 class Addon
 {
 public:
+  int id;
   std::string kind;
   std::string title;
   std::string author;
   std::string license;
   std::string http_url;
+
   /** filename suggested by addon author, e.g. "pak0.zip" */
   std::string suggested_filename;
+
   /** PhysFS filename on disk, e.g. "pak0.zip" */
   std::string installed_physfs_filename;
+
   /** complete path and filename on disk, e.g. "/home/sommer/.supertux2/pak0.zip" */
   std::string installed_absolute_filename;
+
   std::string stored_md5;
   bool installed;
   bool loaded;
 
-  /**
-   * Get MD5, based either on installed file's contents or stored value
-   */
+  /** Get MD5, based either on installed file's contents or stored value */
   std::string get_md5() const;
 
-  /**
-   * Read additional information from given contents of a (supertux-addoninfo ...) block
-   */
+  /** Read additional information from given contents of a (supertux-addoninfo ...) block */
   void parse(const Reader& lisp);
 
-  /**
-   * Read additional information from given file
-   */
-  void parse(std::string fname);
+  /** Read additional information from given file */
+  void parse(const std::string& fname);
 
-  /**
-   * Writes out Add-on metainformation to a Lisp Writer
-   */
-  void write(Writer& writer) const;
-
-  /**
-   * Writes out Add-on metainformation to a file
-   */
-  void write(std::string fname) const;
-
-  /**
-   * Checks if Add-on is the same as given one.
-   * If available, checks MD5 sum, else relies on kind, author and title alone.
-   */
-  bool operator==(Addon addon2) const;
+  /** Checks if Add-on is the same as given one. If available, checks
+      MD5 sum, else relies on kind, author and title alone. */
+  bool operator==(const Addon& addon2) const;
 
 protected:
   friend class AddonManager;
 
   mutable std::string calculated_md5;
 
-  Addon() :
+  Addon(int id_) :
+    id(id_),
     kind(),
     title(),
     author(),
@@ -93,6 +78,10 @@ protected:
     loaded(),
     calculated_md5()
   {};
+
+private:
+  Addon(const Addon&) = delete;
+  Addon& operator=(const Addon&) = delete;
 };
 
 #endif

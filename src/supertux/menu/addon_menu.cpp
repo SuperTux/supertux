@@ -26,17 +26,8 @@
 #include "gui/menu_item.hpp"
 #include "util/gettext.hpp"
 
-namespace {
-
-bool generate_addons_menu_sorter(const Addon* a1, const Addon* a2)
-{
-  return a1->title < a2->title;
-}
-
-} // namespace
-
 AddonMenu::AddonMenu() :
-  m_addons()
+  m_addon_manager(*AddonManager::current())
 {
   refresh();
 }
@@ -46,29 +37,38 @@ AddonMenu::refresh()
 {
   clear();
 
-  AddonManager& adm = *AddonManager::current();
-
   // refresh list of addons
-  m_addons = adm.get_addons();
+  const auto& addons_ref = m_addon_manager.get_addons();
+  std::vector<std::reference_wrapper<Addon> > addons;
+  std::transform(addons_ref.begin(), addons_ref.end(), std::back_inserter(addons),
+                 [](const std::unique_ptr<Addon>& addon) -> Addon& {
+                   return *addon.get();
+                 });
 
   // sort list
-  std::sort(m_addons.begin(), m_addons.end(), generate_addons_menu_sorter);
+  std::sort(addons.begin(), addons.end(),
+            [](const Addon& lhs, const Addon& rhs)
+            {
+              return lhs.title < lhs.title;
+            });
 
   add_label(_("Add-ons"));
   add_hl();
 
-  // FIXME: don't use macro, use AddonManager::online_available() or so
-#ifdef HAVE_LIBCURL
-  add_entry(0, std::string(_("Check Online")));
-#else
-  add_inactive(0, std::string(_("Check Online (disabled)")));
-#endif
+  if (!m_addon_manager.has_online_support())
+  {
+    add_inactive(MNID_CHECK_ONLINE, std::string(_("Check Online (disabled)")));
+  }
+  else
+  {
+    add_entry(MNID_CHECK_ONLINE, std::string(_("Check Online")));
+  }
 
   //add_hl();
 
-  for (unsigned int i = 0; i < m_addons.size(); i++)
+  for (auto& addon_ : addons)
   {
-    const Addon& addon = *m_addons[i];
+    Addon& addon = addon_.get();
     std::string text = "";
 
     if (!addon.kind.empty())
@@ -112,7 +112,7 @@ AddonMenu::refresh()
                    % addon.title);
       }
     }
-    add_toggle(ADDON_LIST_START_ID + i, text, addon.loaded);
+    add_toggle(MNID_ADDON_LIST_START + addon.id, text, addon.loaded);
   }
 
   add_hl();
@@ -122,67 +122,58 @@ AddonMenu::refresh()
 void
 AddonMenu::menu_action(MenuItem* item)
 {
-  int index = item->id;
-
-  if (index == -1)
-  {
-    // do nothing
-  }
-  else if (index == 0) // check if "Check Online" was chosen
+  if (item->id == MNID_CHECK_ONLINE) // check if "Check Online" was chosen
   {
     try
     {
-      AddonManager::current()->check_online();
+      m_addon_manager.check_online();
       refresh();
-      set_active_item(index);
+      set_active_item(item->id);
     }
     catch (std::exception& e)
     {
       log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
     }
   }
-  else
+  else if ((MNID_ADDON_LIST_START <= item->id) && (item->id < MNID_ADDON_LIST_START + m_addon_manager.get_num_addons()))
   {
-    // if one of the Addons listed was chosen, take appropriate action
-    if ((index >= ADDON_LIST_START_ID) && (index < ADDON_LIST_START_ID) + m_addons.size())
+    int addon_id = item->id - MNID_ADDON_LIST_START;
+    Addon& addon = m_addon_manager.get_addon(addon_id);
+    if (!addon.installed)
     {
-      Addon& addon = *m_addons[index - ADDON_LIST_START_ID];
-      if (!addon.installed)
+      try
       {
-        try
-        {
-          AddonManager::current()->install(&addon);
-        }
-        catch (std::exception& e)
-        {
-          log_warning << "Installing Add-on failed: " << e.what() << std::endl;
-        }
-        set_toggled(index, addon.loaded);
+        m_addon_manager.install(addon);
       }
-      else if (!addon.loaded)
+      catch (std::exception& e)
       {
-        try
-        {
-          AddonManager::current()->enable(&addon);
-        }
-        catch (std::exception& e)
-        {
-          log_warning << "Enabling Add-on failed: " << e.what() << std::endl;
-        }
-        set_toggled(index, addon.loaded);
+        log_warning << "Installing Add-on failed: " << e.what() << std::endl;
       }
-      else
+      set_toggled(item->id, addon.loaded);
+    }
+    else if (!addon.loaded)
+    {
+      try
       {
-        try
-        {
-          AddonManager::current()->disable(&addon);
-        }
-        catch (std::exception& e)
-        {
-          log_warning << "Disabling Add-on failed: " << e.what() << std::endl;
-        }
-        set_toggled(index, addon.loaded);
+        m_addon_manager.enable(addon);
       }
+      catch (std::exception& e)
+      {
+        log_warning << "Enabling Add-on failed: " << e.what() << std::endl;
+      }
+      set_toggled(item->id, addon.loaded);
+    }
+    else
+    {
+      try
+      {
+        m_addon_manager.disable(addon);
+      }
+      catch (std::exception& e)
+      {
+        log_warning << "Disabling Add-on failed: " << e.what() << std::endl;
+      }
+      set_toggled(item->id, addon.loaded);
     }
   }
 }
