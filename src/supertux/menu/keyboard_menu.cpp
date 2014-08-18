@@ -79,6 +79,10 @@ KeyboardMenu::get_key_name(SDL_Keycode key)
       return _("Right Alt");
     case SDLK_LALT:
       return _("Left Alt");
+    case SDLK_RGUI:
+      return _("Right Command");
+    case SDLK_LGUI:
+      return _("Left Command");
     default:
       return SDL_GetKeyName((SDL_Keycode) key);
   }
