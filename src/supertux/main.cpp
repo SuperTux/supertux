@@ -20,11 +20,12 @@
 #include <version.h>
 
 #include <SDL_image.h>
-#include <physfs.h>
-#include <iostream>
-#include <tinygettext/log.hpp>
 #include <boost/format.hpp>
+#include <boost/optional.hpp>
+#include <iostream>
+#include <physfs.h>
 #include <stdio.h>
+#include <tinygettext/log.hpp>
 extern "C" {
 #include <findlocale.h>
 }
@@ -113,8 +114,16 @@ Main::init_tinygettext()
 
 class PhysfsSubsystem
 {
+private:
+  boost::optional<std::string> m_forced_datadir;
+  boost::optional<std::string> m_forced_userdir;
+
 public:
-  PhysfsSubsystem(const char* argv0)
+  PhysfsSubsystem(const char* argv0,
+                  boost::optional<std::string> forced_datadir,
+                  boost::optional<std::string> forced_userdir) :
+    m_forced_datadir(forced_datadir),
+    m_forced_userdir(forced_userdir)
   {
     if (!PHYSFS_init(argv0))
     {
@@ -134,19 +143,31 @@ public:
 
   void find_datadir()
   {
-    // check if we run from source dir
-    char* basepath_c = SDL_GetBasePath();
-    std::string basepath = basepath_c;
-    SDL_free(basepath_c);
-
-    std::string datadir = FileSystem::join(basepath, "data");
-    std::string testfname = FileSystem::join(datadir, "credits.txt");
-    if (!FileSystem::exists(testfname))
+    std::string datadir;
+    if (m_forced_datadir)
     {
-      // if the game is not run from the source directory, try to find
-      // the global install location
-      datadir = datadir.substr(0, datadir.rfind(INSTALL_SUBDIR_BIN));
-      datadir = FileSystem::join(datadir, INSTALL_SUBDIR_SHARE);
+      datadir = *m_forced_datadir;
+    }
+    else if (const char* env_datadir = getenv("SUPERTUX2_DATA_DIR"))
+    {
+      datadir = env_datadir;
+    }
+    else
+    {
+      // check if we run from source dir
+      char* basepath_c = SDL_GetBasePath();
+      std::string basepath = basepath_c;
+      SDL_free(basepath_c);
+
+      datadir = FileSystem::join(basepath, "data");
+      std::string testfname = FileSystem::join(datadir, "credits.txt");
+      if (!FileSystem::exists(testfname))
+      {
+        // if the game is not run from the source directory, try to find
+        // the global install location
+        datadir = datadir.substr(0, datadir.rfind(INSTALL_SUBDIR_BIN));
+        datadir = FileSystem::join(datadir, INSTALL_SUBDIR_SHARE);
+      }
     }
 
     if (!PHYSFS_addToSearchPath(datadir.c_str(), 1))
@@ -157,48 +178,50 @@ public:
 
   void find_userdir()
   {
-#ifdef _WIN32
-# define WRITEDIR_NAME PACKAGE_NAME
-#else
-# define WRITEDIR_NAME "." PACKAGE_NAME
-#endif
-
-    std::string writedir;
-
-    const char* env_writedir = getenv("SUPERTUX2_USER_DIR");
-    if (env_writedir)
+    std::string userdir;
+    if (m_forced_userdir)
     {
-      writedir = env_writedir;
+      userdir = *m_forced_userdir;
+    }
+    else if (const char* env_userdir = getenv("SUPERTUX2_USER_DIR"))
+    {
+      userdir = env_userdir;
     }
     else
     {
-      std::string userdir = PHYSFS_getUserDir();
-      writedir = FileSystem::join(userdir, WRITEDIR_NAME);
+      std::string physfs_userdir = PHYSFS_getUserDir();
+#ifdef _WIN32
+      userdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
+#else
+      userdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
+#endif
     }
 
-    if (!FileSystem::is_directory(writedir))
+    if (!FileSystem::is_directory(userdir))
     {
-      FileSystem::mkdir(writedir);
-      log_info << "Created SuperTux userdir: " << writedir << std::endl;
+      FileSystem::mkdir(userdir);
+      log_info << "Created SuperTux userdir: " << userdir << std::endl;
     }
 
-    if (!PHYSFS_setWriteDir(writedir.c_str()))
+    if (!PHYSFS_setWriteDir(userdir.c_str()))
     {
       std::ostringstream msg;
-      msg << "Failed to use configuration directory '"
-          <<  writedir << "': " << PHYSFS_getLastError();
+      msg << "Failed to use userdir directory '"
+          <<  userdir << "': " << PHYSFS_getLastError();
       throw std::runtime_error(msg.str());
     }
 
-    PHYSFS_addToSearchPath(writedir.c_str(), 0);
+    PHYSFS_addToSearchPath(userdir.c_str(), 0);
   }
 
   void print_search_path()
   {
+    const char* writedir = PHYSFS_getWriteDir();
+    log_info << "PhysfsWritedDir: " << (writedir || "<null>") << std::endl;
     char** searchpath = PHYSFS_getSearchPath();
     for(char** i = searchpath; *i != NULL; ++i)
     {
-      log_info << "[" << *i << "] is in the search path" << std::endl;
+      log_info << "PhysfsSearchPath: " << *i << std::endl;
     }
     PHYSFS_freeList(searchpath);
   }
@@ -372,7 +395,7 @@ Main::run(int argc, char** argv)
       return EXIT_FAILURE;
     }
 
-    PhysfsSubsystem physfs_subsystem(argv[0]);
+    PhysfsSubsystem physfs_subsystem(argv[0], args.datadir, args.userdir);
     physfs_subsystem.print_search_path();
 
     timelog("config");
