@@ -17,9 +17,64 @@
 #include "util/log.hpp"
 
 #include <sstream>
+#include <stdexcept>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <vector>
 
+#ifdef _WIN32
+#  include <shlwapi.h>
+#else
+#  include <unistd.h>
+#endif
+
 namespace FileSystem {
+
+bool exists(const std::string& path)
+{
+#ifdef _WIN32
+  DWORD dwAttrib = GetFileAttributes(path.c_str());
+
+  return (dwAttrib != INVALID_FILE_ATTRIBUTES &&
+          !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+#else
+  return !access(path.c_str(), F_OK);
+#endif
+}
+
+bool is_directory(const std::string& path)
+{
+  struct stat info;
+
+  if (stat(path.c_str(), &info ) != 0)
+  {
+    // access error
+    return false;
+  }
+  else if (info.st_mode & S_IFDIR)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+void mkdir(const std::string& directory)
+{
+#ifdef _WIN32
+  if (!CreateDirectory(directory.c_str()))
+  {
+    throw std::runtime_error("failed to create directory: "  + directory);
+  }
+#else
+  if (::mkdir(directory.c_str(), 0777) != 0)
+  {
+    throw std::runtime_error("failed to create directory: "  + directory);
+  }
+#endif
+}
 
 std::string dirname(const std::string& filename)
 {

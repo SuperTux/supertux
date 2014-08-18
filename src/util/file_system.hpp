@@ -19,6 +19,17 @@
 
 namespace FileSystem {
 
+/** Returns true if the given path is a directory */
+bool is_directory(const std::string& path);
+
+/** Return true if the given file exists */
+bool exists(const std::string& path);
+
+/**
+ *  Create the given directory
+ */
+void mkdir(const std::string& directory);
+
 /**
  * returns the path of the directory the file is in
  */
