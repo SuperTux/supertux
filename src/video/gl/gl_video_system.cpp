@@ -23,9 +23,9 @@
 #include "video/texture_manager.hpp"
 
 GLVideoSystem::GLVideoSystem() :
+  m_texture_manager(new TextureManager),
   m_renderer(new GLRenderer),
-  m_lightmap(new GLLightmap),
-  m_texture_manager(new TextureManager)
+  m_lightmap(new GLLightmap)
 {
 }
 

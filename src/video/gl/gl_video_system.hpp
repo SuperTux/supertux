@@ -27,9 +27,9 @@ class TextureManager;
 class GLVideoSystem : public VideoSystem
 {
 private:
+  std::unique_ptr<TextureManager> m_texture_manager;
   std::unique_ptr<Renderer> m_renderer;
   std::unique_ptr<Lightmap> m_lightmap;
-  std::unique_ptr<TextureManager> m_texture_manager;
 
 public:
   GLVideoSystem();
