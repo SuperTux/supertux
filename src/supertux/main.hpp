@@ -17,12 +17,6 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 
-#ifdef _WIN32
-# define WRITEDIR_NAME PACKAGE_NAME
-#else
-# define WRITEDIR_NAME "." PACKAGE_NAME
-#endif
-
 class Main
 {
 private:
