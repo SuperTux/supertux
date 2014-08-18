@@ -32,7 +32,7 @@ class Addon;
 class AddonManager : public Currenton<AddonManager>
 {
 public:
-  AddonManager();
+  AddonManager(std::vector<std::string>& ignored_addon_filenames_);
   ~AddonManager();
 
   /**
@@ -80,19 +80,9 @@ public:
    */
   void load_addons();
 
-  /**
-   * Write AddonManager configuration to Lisp
-   */
-  void write(Writer& writer);
-
-  /**
-   * Read AddonManager configuration from Lisp
-   */
-  void read(const Reader& lisp);
-
 private:
   std::vector<Addon*> addons;
-  std::vector<std::string> ignored_addon_filenames;
+  std::vector<std::string>& ignored_addon_filenames;
 };
 
 #endif

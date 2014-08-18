@@ -309,7 +309,7 @@ Main::launch_game()
   Resources resources;
 
   timelog("addons");
-  AddonManager addon_manager;
+  AddonManager addon_manager(g_config->disabled_addon_filenames);
   addon_manager.load_addons();
 
   timelog(0);

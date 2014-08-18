@@ -71,6 +71,8 @@ public:
 
   KeyboardConfig keyboard_config;
   JoystickConfig joystick_config;
+
+  std::vector<std::string> disabled_addon_filenames;
 };
 
 #endif

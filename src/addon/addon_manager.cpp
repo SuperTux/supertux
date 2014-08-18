@@ -61,9 +61,9 @@ size_t my_curl_physfs_write(void *ptr, size_t size, size_t nmemb, void *f_p)
 }
 #endif
 
-AddonManager::AddonManager() :
+AddonManager::AddonManager(std::vector<std::string>& ignored_addon_filenames_) :
   addons(),
-  ignored_addon_filenames()
+  ignored_addon_filenames(ignored_addon_filenames_)
 {
 #ifdef HAVE_LIBCURL
   curl_global_init(CURL_GLOBAL_ALL);
@@ -407,7 +407,8 @@ AddonManager::load_addons()
         addons.push_back(addon);
 
         // check if the Addon is disabled
-        if (std::find(ignored_addon_filenames.begin(), ignored_addon_filenames.end(), fileName) != ignored_addon_filenames.end()) {
+        if (std::find(ignored_addon_filenames.begin(), ignored_addon_filenames.end(), fileName) != ignored_addon_filenames.end())
+        {
           unload(addon);
         }
 
@@ -419,18 +420,6 @@ AddonManager::load_addons()
   }
 
   PHYSFS_freeList(rc);
-}
-
-void
-AddonManager::read(const Reader& lisp)
-{
-  lisp.get("disabled-addons", ignored_addon_filenames);
-}
-
-void
-AddonManager::write(lisp::Writer& writer)
-{
-  writer.write("disabled-addons", ignored_addon_filenames);
 }
 
 /* EOF */

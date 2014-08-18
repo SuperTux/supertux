@@ -54,7 +54,6 @@ AddonMenu::refresh()
   // sort list
   std::sort(m_addons.begin(), m_addons.end(), generate_addons_menu_sorter);
 
-
   add_label(_("Add-ons"));
   add_hl();
 
@@ -87,7 +86,6 @@ AddonMenu::refresh()
       else if(addon.kind == "Level") {
         kind = _("Level");
       }
-
 
       if(!addon.author.empty())
       {

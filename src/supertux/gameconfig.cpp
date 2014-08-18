@@ -46,7 +46,8 @@ Config::Config() :
   record_demo(),
   locale(),
   keyboard_config(),
-  joystick_config()
+  joystick_config(),
+  disabled_addon_filenames()
 {
 }
 
@@ -116,9 +117,9 @@ Config::load()
   }
 
   const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
-  if (config_addons_lisp && AddonManager::current())
+  if (config_addons_lisp)
   {
-    AddonManager::current()->read(*config_addons_lisp);
+    config_addons_lisp->get("disabled-addons", disabled_addon_filenames);
   }
 }
 
@@ -170,12 +171,9 @@ Config::save()
   }
   writer.end_list("control");
 
-  if (AddonManager::current())
-  {
-    writer.start_list("addons");
-    AddonManager::current()->write(writer);
-    writer.end_list("addons");
-  }
+  writer.start_list("addons");
+  writer.write("disabled-addons", disabled_addon_filenames);
+  writer.end_list("addons");
 
   writer.end_list("supertux-config");
 }
