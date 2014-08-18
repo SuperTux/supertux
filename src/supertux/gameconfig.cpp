@@ -47,7 +47,8 @@ Config::Config() :
   locale(),
   keyboard_config(),
   joystick_config(),
-  disabled_addon_filenames()
+  disabled_addon_filenames(),
+  developer_mode(false)
 {
 }
 
@@ -69,6 +70,7 @@ Config::load()
   config_lisp->get("profile", profile);
   config_lisp->get("show_fps", show_fps);
   config_lisp->get("console", console_enabled);
+  config_lisp->get("developer", developer_mode);
   config_lisp->get("locale", locale);
   config_lisp->get("random_seed", random_seed);
 
@@ -133,6 +135,7 @@ Config::save()
   writer.write("profile", profile);
   writer.write("show_fps", show_fps);
   writer.write("console", console_enabled);
+  writer.write("developer", developer_mode);
   writer.write("locale", locale);
 
   writer.start_list("video");

@@ -424,7 +424,8 @@ GameSession::update(float elapsed_time)
     on_escape_press();
   }
 
-  if(InputManager::current()->get_controller()->pressed(Controller::CHEAT_MENU))
+  if(InputManager::current()->get_controller()->pressed(Controller::CHEAT_MENU) &&
+     g_config->developer_mode)
   {
     if (!MenuManager::instance().is_active())
     {
