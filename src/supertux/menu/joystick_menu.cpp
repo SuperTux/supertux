@@ -75,7 +75,12 @@ JoystickMenu::recreate_menu()
       add_controlfield(Controller::PEEK_RIGHT,  _("Peek Right"));
       add_controlfield(Controller::PEEK_UP,     _("Peek Up"));
       add_controlfield(Controller::PEEK_DOWN,   _("Peek Down"));
-
+      if (g_config->developer_mode || g_config->console_enabled) {
+        add_controlfield(Controller::CONSOLE, _("Console"));
+      }
+      if (g_config->developer_mode) {
+        add_controlfield(Controller::CHEAT_MENU, _("Cheat Menu"));
+      }
       add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), g_config->joystick_config.jump_with_up_joy);
     }
     else
@@ -219,6 +224,7 @@ JoystickMenu::refresh()
     refresh_menu_item(Controller::PEEK_RIGHT);
     refresh_menu_item(Controller::PEEK_UP);
     refresh_menu_item(Controller::PEEK_DOWN);
+    refresh_menu_item(Controller::CHEAT_MENU);
   }
 }
 

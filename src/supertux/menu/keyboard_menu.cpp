@@ -37,8 +37,11 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager) :
   add_controlfield(Controller::PEEK_RIGHT, _("Peek Right"));
   add_controlfield(Controller::PEEK_UP,    _("Peek Up"));
   add_controlfield(Controller::PEEK_DOWN,  _("Peek Down"));
-  if (g_config->console_enabled) {
+  if (g_config->developer_mode || g_config->console_enabled) {
     add_controlfield(Controller::CONSOLE, _("Console"));
+  }
+  if (g_config->developer_mode) {
+    add_controlfield(Controller::CHEAT_MENU, _("Cheat Menu"));
   }
   add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), g_config->keyboard_config.jump_with_up_kbd);
   add_hl();
@@ -84,7 +87,7 @@ KeyboardMenu::get_key_name(SDL_Keycode key)
     case SDLK_LGUI:
       return _("Left Command");
     default:
-      return SDL_GetKeyName((SDL_Keycode) key);
+      return SDL_GetKeyName(static_cast<SDL_Keycode>(key));
   }
 }
 
@@ -124,6 +127,8 @@ KeyboardMenu::refresh()
     .change_input(get_key_name(kbd_cfg.reversemap_key(Controller::PEEK_UP)));
   get_item_by_id((int) Controller::PEEK_DOWN)
     .change_input(get_key_name(kbd_cfg.reversemap_key(Controller::PEEK_DOWN)));
+  get_item_by_id((int) Controller::CHEAT_MENU)
+    .change_input(get_key_name(kbd_cfg.reversemap_key(Controller::CHEAT_MENU)));
 
   if (g_config->console_enabled)
   {
