@@ -42,6 +42,9 @@ private:
   LogLevel m_log_level;
 
 public:
+  boost::optional<std::string> datadir;
+  boost::optional<std::string> userdir;
+
   boost::optional<Size> fullscreen_size;
   boost::optional<int> fullscreen_refresh_rate;
   boost::optional<Size> window_size;

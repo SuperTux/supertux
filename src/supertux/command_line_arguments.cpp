@@ -29,6 +29,8 @@
 CommandLineArguments::CommandLineArguments() :
   m_action(NO_ACTION),
   m_log_level(LOG_WARNING),
+  datadir(),
+  userdir(),
   fullscreen_size(),
   fullscreen_refresh_rate(),
   window_size(),
@@ -68,32 +70,45 @@ void
 CommandLineArguments::print_help(const char* arg0)
 {
   std::cerr << boost::format(_(
+                 "Usage: %s [OPTIONS] [LEVELFILE]\n"
                  "\n"
-                 "Usage: %s [OPTIONS] [LEVELFILE]\n\n"
-                 "CommandLineArguments:\n"
+                 "General Options:\n"
+                 "  -h, --help                   Show this help message and quit\n"
+                 "  -v, --version                Show SuperTux version and quit\n"
                  "  --verbose                    Print verbose messages\n"
                  "  --debug                      Print extra verbose messages\n"
+		 "  --print-datadir              Print supertux's primary data directory.\n"
+                 "\n"
+                 "Video Options:\n"
                  "  -f, --fullscreen             Run in fullscreen mode\n"
                  "  -w, --window                 Run in window mode\n"
                  "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
                  "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
                  "  -d, --default                Reset video settings to default values\n"
                  "  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
+                 "\n"
+                 "Audio Options:\n"
                  "  --disable-sound              Disable sound effects\n"
                  "  --disable-music              Disable music\n"
-                 "  -h, --help                   Show this help message and quit\n"
-                 "  -v, --version                Show SuperTux version and quit\n"
+                 "\n"
+                 "Game Options:\n"
                  "  --console                    Enable ingame scripting console\n"
                  "  --noconsole                  Disable ingame scripting console\n"
                  "  --show-fps                   Display framerate in levels\n"
                  "  --no-show-fps                Do not display framerate in levels\n"
+                 "  -s, --debug-scripts          Enable script debugger.\n"
+                 "\n"
+                 "Demo Recording Options:\n"
                  "  --record-demo FILE LEVEL     Record a demo to FILE\n"
                  "  --play-demo FILE LEVEL       Play a recorded demo\n"
-                 "  -s, --debug-scripts          Enable script debugger.\n"
-		 "  --print-datadir              Print supertux's primary data directory.\n"
+                 "\n"
+                 "Directory Options:\n"
+                 "  --datadir DIR                Set the directory for the games datafiles\n"
+                 "  --userdir DIR                Set the directory for user data (savegames, etc.)\n"
                  "\n"
                  "Environment variables:\n"
-                 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
+                 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)\n"
+                 "  SUPERTUX2_DATA_DIR           Directory for the games datafiles\n"
                  "\n"
                  ))
             % arg0
@@ -135,6 +150,28 @@ CommandLineArguments::parse_args(int argc, char** argv)
       if (m_log_level < LOG_INFO)
       {
         m_log_level = LOG_INFO;
+      }
+    }
+    else if (arg == "--datadir")
+    {
+      if (i+1 >= argc)
+      {
+        throw std::runtime_error("Need to specify a directory for --datadir");
+      }
+      else
+      {
+        datadir = argv[++i];
+      }
+    }
+    else if (arg == "--userdir")
+    {
+      if (i+1 >= argc)
+      {
+        throw std::runtime_error("Need to specify a directory for --userdir");
+      }
+      else
+      {
+        userdir = argv[++i];
       }
     }
     else if (arg == "--fullscreen" || arg == "-f")
