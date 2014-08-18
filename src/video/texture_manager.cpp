@@ -35,47 +35,47 @@
 #endif
 
 TextureManager::TextureManager() :
-  image_textures()
-  ,surfaces()
+  m_image_textures()
+  ,m_surfaces()
 #ifdef HAVE_OPENGL
-  ,textures(),
-  saved_textures()
+  ,m_textures(),
+  m_saved_textures()
 #endif
 {
 }
 
 TextureManager::~TextureManager()
 {
-  for(ImageTextures::iterator i = image_textures.begin(); i != image_textures.end(); ++i)
+  for(ImageTextures::iterator i = m_image_textures.begin(); i != m_image_textures.end(); ++i)
   {
     if(!i->second.expired())
     {
       log_warning << "Texture '" << i->first << "' not freed" << std::endl;
     }
   }
-  image_textures.clear();
+  m_image_textures.clear();
 
-  for(auto& surface : surfaces)
+  for(auto& surface : m_surfaces)
   {
     SDL_FreeSurface(surface.second);
   }
-  surfaces.clear();
+  m_surfaces.clear();
 }
 
 TexturePtr
 TextureManager::get(const std::string& _filename)
 {
   std::string filename = FileSystem::normalize(_filename);
-  ImageTextures::iterator i = image_textures.find(filename);
+  ImageTextures::iterator i = m_image_textures.find(filename);
 
   TexturePtr texture;
-  if(i != image_textures.end())
+  if(i != m_image_textures.end())
     texture = i->second.lock();
 
   if(!texture) {
     texture = create_image_texture(filename);
     texture->cache_filename = filename;
-    image_textures[filename] = texture;
+    m_image_textures[filename] = texture;
   }
 
   return texture;
@@ -92,23 +92,23 @@ TextureManager::get(const std::string& _filename, const Rect& rect)
 void
 TextureManager::reap_cache_entry(const std::string& filename)
 {
-  ImageTextures::iterator i = image_textures.find(filename);
-  assert(i != image_textures.end());
+  ImageTextures::iterator i = m_image_textures.find(filename);
+  assert(i != m_image_textures.end());
   assert(i->second.expired());
-  image_textures.erase(i);
+  m_image_textures.erase(i);
 }
 
 #ifdef HAVE_OPENGL
 void
 TextureManager::register_texture(GLTexture* texture)
 {
-  textures.insert(texture);
+  m_textures.insert(texture);
 }
 
 void
 TextureManager::remove_texture(GLTexture* texture)
 {
-  textures.erase(texture);
+  m_textures.erase(texture);
 }
 #endif
 
@@ -131,8 +131,8 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
 {
   SDL_Surface *image = nullptr;
 
-  Surfaces::iterator i = surfaces.find(filename);
-  if (i != surfaces.end())
+  Surfaces::iterator i = m_surfaces.find(filename);
+  if (i != m_surfaces.end())
   {
     image = i->second;
   }
@@ -146,7 +146,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
       throw std::runtime_error(msg.str());
     }
 
-    surfaces[filename] = image;
+    m_surfaces[filename] = image;
   }
 
   SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(image->pixels) +
@@ -250,11 +250,15 @@ TextureManager::save_textures()
 #endif
 
   glPixelStorei(GL_PACK_ALIGNMENT, 1);
-  for(Textures::iterator i = textures.begin(); i != textures.end(); ++i) {
+
+  for(Textures::iterator i = m_textures.begin(); i != m_textures.end(); ++i)
+  {
     save_texture(*i);
   }
-  for(ImageTextures::iterator i = image_textures.begin();
-      i != image_textures.end(); ++i) {
+
+  for(ImageTextures::iterator i = m_image_textures.begin();
+      i != m_image_textures.end(); ++i)
+  {
     save_texture(dynamic_cast<GLTexture*>(i->second.lock().get()));
   }
 }
@@ -290,7 +294,7 @@ TextureManager::save_texture(GLTexture* texture)
                 saved_texture.pixels);
 #endif
 
-  saved_textures.push_back(saved_texture);
+  m_saved_textures.push_back(saved_texture);
 
   glDeleteTextures(1, &(texture->get_handle()));
   texture->set_handle(0);
@@ -311,8 +315,8 @@ TextureManager::reload_textures()
 #endif
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-  for(std::vector<SavedTexture>::iterator i = saved_textures.begin();
-      i != saved_textures.end(); ++i) {
+  for(std::vector<SavedTexture>::iterator i = m_saved_textures.begin();
+      i != m_saved_textures.end(); ++i) {
     SavedTexture& saved_texture = *i;
 
     GLuint handle;
@@ -340,7 +344,7 @@ TextureManager::reload_textures()
     saved_texture.texture->set_handle(handle);
   }
 
-  saved_textures.clear();
+  m_saved_textures.clear();
 }
 #endif
 
