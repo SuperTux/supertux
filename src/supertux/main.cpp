@@ -283,7 +283,7 @@ Main::launch_game()
   ConsoleBuffer console_buffer;
 
   timelog("controller");
-  InputManager input_manager(g_config->keyboard_config);
+  InputManager input_manager(g_config->keyboard_config, g_config->joystick_config);
 
   timelog("commandline");
 

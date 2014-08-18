@@ -20,6 +20,7 @@
 #include <sstream>
 
 #include "control/joystick_manager.hpp"
+#include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
 
 namespace {
@@ -75,7 +76,7 @@ JoystickMenu::recreate_menu()
       add_controlfield(Controller::PEEK_UP,     _("Peek Up"));
       add_controlfield(Controller::PEEK_DOWN,   _("Peek Down"));
 
-      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), m_input_manager.joystick_manager->jump_with_up_joy);
+      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), g_config->joystick_config.jump_with_up_joy);
     }
     else
     {
@@ -116,7 +117,7 @@ JoystickMenu::menu_action(MenuItem* item)
   }
   else if (item->id == MNID_JUMP_WITH_UP)
   {
-    m_input_manager.joystick_manager->jump_with_up_joy = item->toggled;
+    g_config->joystick_config.jump_with_up_joy = item->toggled;
   }
   else if (item->id == MNID_AUTO_JOYSTICK_CFG)
   {
@@ -134,9 +135,9 @@ JoystickMenu::menu_action(MenuItem* item)
 void
 JoystickMenu::refresh_menu_item(Controller::Control id)
 {
-  int button  = m_input_manager.joystick_manager->reversemap_joybutton(id);
-  int axis    = m_input_manager.joystick_manager->reversemap_joyaxis(id);
-  int hat_dir = m_input_manager.joystick_manager->reversemap_joyhat(id);
+  int button  = g_config->joystick_config.reversemap_joybutton(id);
+  int axis    = g_config->joystick_config.reversemap_joyaxis(id);
+  int hat_dir = g_config->joystick_config.reversemap_joyhat(id);
 
   if (button != -1)
   {

@@ -45,7 +45,8 @@ Config::Config() :
   start_demo(),
   record_demo(),
   locale(),
-  keyboard_config()
+  keyboard_config(),
+  joystick_config()
 {
 }
 
@@ -101,7 +102,17 @@ Config::load()
   const lisp::Lisp* config_control_lisp = config_lisp->get_lisp("control");
   if (config_control_lisp)
   {
-    keyboard_config.read(*config_control_lisp);
+    const lisp::Lisp* keymap_lisp = config_control_lisp->get_lisp("keymap");
+    if (keymap_lisp)
+    {
+      keyboard_config.read(*config_control_lisp);
+    }
+
+    const lisp::Lisp* joystick_lisp = config_control_lisp->get_lisp("joystick");
+    if (joystick_lisp)
+    {
+      joystick_config.read(joystick_lisp);
+    }
   }
 
   const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
@@ -148,7 +159,15 @@ Config::save()
   writer.end_list("audio");
 
   writer.start_list("control");
-  keyboard_config.write(writer);
+  {
+    writer.start_list("keymap");
+    keyboard_config.write(writer);
+    writer.end_list("keymap");
+
+    writer.start_list("joystick");
+    joystick_config.write(writer);
+    writer.end_list("joystick");
+  }
   writer.end_list("control");
 
   if (AddonManager::current())

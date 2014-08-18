@@ -17,9 +17,10 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
 
-#include "video/video_system.hpp"
+#include "control/joystick_config.hpp"
 #include "control/keyboard_config.hpp"
 #include "math/size.hpp"
+#include "video/video_system.hpp"
 
 class Config
 {
@@ -69,6 +70,7 @@ public:
   std::string locale;
 
   KeyboardConfig keyboard_config;
+  JoystickConfig joystick_config;
 };
 
 #endif

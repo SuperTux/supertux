@@ -28,24 +28,13 @@
 #include "util/writer_fwd.hpp"
 
 class InputManager;
+class JoystickConfig;
 
 class JoystickManager final
 {
 private:
-  typedef Uint8 JoyId;
-
-  typedef std::map<std::pair<JoyId, int>, Controller::Control> ButtonMap;
-  typedef std::map<std::pair<JoyId, int>, Controller::Control> AxisMap;
-  typedef std::map<std::pair<JoyId, int>, Controller::Control> HatMap;
-
-private:
   InputManager* parent;
-
-  ButtonMap joy_button_map;
-  AxisMap joy_axis_map;
-  HatMap joy_hat_map;
-
-  int dead_zone;
+  JoystickConfig& m_joystick_config;
 
   /// the number of buttons all joysticks have
   int min_joybuttons;
@@ -59,41 +48,23 @@ private:
   Uint8 hat_state;
 
 public:
-  bool jump_with_up_joy;
-
-public:
   int wait_for_joystick;
 
 public:
   std::vector<SDL_Joystick*> joysticks;
 
 public:
-  JoystickManager(InputManager* parent);
+  JoystickManager(InputManager* parent, JoystickConfig& joystick_config);
   ~JoystickManager();
 
   void process_hat_event(const SDL_JoyHatEvent& jhat);
   void process_axis_event(const SDL_JoyAxisEvent& jaxis);
   void process_button_event(const SDL_JoyButtonEvent& jbutton);
 
-  void print_joystick_mappings();
-
-  int reversemap_joybutton(Controller::Control c);
-  int reversemap_joyaxis(Controller::Control c);
-  int reversemap_joyhat(Controller::Control c);
-
-  void unbind_joystick_control(Controller::Control c);
-
-  void bind_joybutton(JoyId joy_id, int button, Controller::Control c);
-  void bind_joyaxis(JoyId joy_id, int axis, Controller::Control c);
-  void bind_joyhat(JoyId joy_id, int dir, Controller::Control c);
-
   void set_joy_controls(Controller::Control id, bool value);
 
   void on_joystick_added(int joystick_index);
   void on_joystick_removed(int instance_id);
-
-  void read(const lisp::Lisp* joystick_lisp);
-  void write(Writer& writer);
 
 private:
   JoystickManager(const JoystickManager&) = delete;
