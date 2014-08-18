@@ -67,9 +67,6 @@ CommandLineArguments::print_datadir()
 void
 CommandLineArguments::print_help(const char* arg0)
 {
-  std::string default_user_data_dir =
-      std::string(PHYSFS_getUserDir()) + WRITEDIR_NAME;
-
   std::cerr << boost::format(_(
                  "\n"
                  "Usage: %s [OPTIONS] [LEVELFILE]\n\n"
