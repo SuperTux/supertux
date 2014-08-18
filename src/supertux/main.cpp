@@ -64,8 +64,8 @@ public:
     g_config.reset(new Config);
     try {
       g_config->load();
-    } 
-    catch(const std::exception& e) 
+    }
+    catch(const std::exception& e)
     {
       log_info << "Couldn't load config file: " << e.what() << ", using default settings" << std::endl;
     }
@@ -83,7 +83,7 @@ public:
     {
       g_config->save();
     }
-    g_config.reset();  
+    g_config.reset();
   }
 };
 
@@ -283,7 +283,7 @@ Main::launch_game()
   ConsoleBuffer console_buffer;
 
   timelog("controller");
-  InputManager input_manager;
+  InputManager input_manager(g_config->keyboard_config);
 
   timelog("commandline");
 

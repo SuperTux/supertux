@@ -36,6 +36,7 @@ class JoystickMenu;
 class KeyboardManager;
 class KeyboardMenu;
 class Menu;
+class KeyboardConfig;
 
 class InputManager final : public Currenton<InputManager>
 {
@@ -46,7 +47,7 @@ private:
   typedef Controller::Control Control;
 
 public:
-  InputManager();
+  InputManager(KeyboardConfig& keyboard_config);
   virtual ~InputManager();
 
   void process_event(const SDL_Event& event);

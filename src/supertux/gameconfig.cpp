@@ -44,7 +44,8 @@ Config::Config() :
   enable_script_debugger(false),
   start_demo(),
   record_demo(),
-  locale()
+  locale(),
+  keyboard_config()
 {
 }
 
@@ -98,13 +99,13 @@ Config::load()
   }
 
   const lisp::Lisp* config_control_lisp = config_lisp->get_lisp("control");
-  if(config_control_lisp && InputManager::current())
+  if (config_control_lisp)
   {
-    InputManager::current()->read(*config_control_lisp);
+    keyboard_config.read(*config_control_lisp);
   }
 
   const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
-  if(config_addons_lisp && AddonManager::current())
+  if (config_addons_lisp && AddonManager::current())
   {
     AddonManager::current()->read(*config_addons_lisp);
   }
@@ -146,12 +147,9 @@ Config::save()
   writer.write("music_enabled", music_enabled);
   writer.end_list("audio");
 
-  if (InputManager::current())
-  {
-    writer.start_list("control");
-    InputManager::current()->write(writer);
-    writer.end_list("control");
-  }
+  writer.start_list("control");
+  keyboard_config.write(writer);
+  writer.end_list("control");
 
   if (AddonManager::current())
   {

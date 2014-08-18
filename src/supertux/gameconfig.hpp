@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_GAMECONFIG_HPP
 
 #include "video/video_system.hpp"
+#include "control/keyboard_config.hpp"
 #include "math/size.hpp"
 
 class Config
@@ -65,7 +66,9 @@ public:
   /** force SuperTux language to this locale, e.g. "de". A file
       "data/locale/xx.po" must exist for this to work. An empty string
       means autodetect. */
-  std::string locale; 
+  std::string locale;
+
+  KeyboardConfig keyboard_config;
 };
 
 #endif

@@ -27,33 +27,25 @@
 #include "util/writer_fwd.hpp"
 
 class InputManager;
+class KeyboardConfig;
 
 class KeyboardManager final
 {
 private:
-  friend class KeyboardMenu;
-  typedef std::map<SDL_Keycode, Controller::Control> KeyMap;
+  InputManager* m_parent;
+  KeyboardConfig& m_keyboard_config;
 
 public:
-  KeyboardManager(InputManager* parent);
+  int wait_for_key;
+
+public:
+  KeyboardManager(InputManager* parent, KeyboardConfig& keyboard_config);
   ~KeyboardManager();
 
   void process_key_event(const SDL_KeyboardEvent& event);
   void process_text_input_event(const SDL_TextInputEvent& event);
   void process_console_key_event(const SDL_KeyboardEvent& event);
   void process_menu_key_event(const SDL_KeyboardEvent& event);
-
-  SDL_Keycode reversemap_key(Controller::Control c);
-  void bind_key(SDL_Keycode key, Controller::Control c);
-
-  void read(const lisp::Lisp* keymap_lisp);
-  void write(Writer& writer);
-
-private:
-  InputManager* m_parent;
-  KeyMap keymap;
-  bool jump_with_up_kbd;
-  int wait_for_key;
 
 private:
   KeyboardManager(const KeyboardManager&) = delete;

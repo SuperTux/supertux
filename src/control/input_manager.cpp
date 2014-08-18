@@ -29,10 +29,10 @@
 #include "util/log.hpp"
 #include "util/writer.hpp"
 
-InputManager::InputManager() :
+InputManager::InputManager(KeyboardConfig& keyboard_config) :
   controller(new Controller),
   m_use_game_controller(true),
-  keyboard_manager(new KeyboardManager(this)),
+  keyboard_manager(new KeyboardManager(this, keyboard_config)),
   joystick_manager(new JoystickManager(this)),
   game_controller_manager(new GameControllerManager(this))
 {
@@ -57,6 +57,7 @@ InputManager::use_game_controller(bool v)
 void
 InputManager::read(const Reader& lisp)
 {
+#ifdef GRUMBEL
   const lisp::Lisp* keymap_lisp = lisp.get_lisp("keymap");
   if (keymap_lisp)
   {
@@ -68,11 +69,13 @@ InputManager::read(const Reader& lisp)
   {
     joystick_manager->read(joystick_lisp);
   }
+#endif
 }
 
 void
 InputManager::write(Writer& writer)
 {
+#ifdef GRUMBEL
   writer.start_list("keymap");
   keyboard_manager->write(writer);
   writer.end_list("keymap");
@@ -80,6 +83,7 @@ InputManager::write(Writer& writer)
   writer.start_list("joystick");
   joystick_manager->write(writer);
   writer.end_list("joystick");
+#endif
 }
 
 void
