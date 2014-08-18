@@ -290,7 +290,6 @@ IF(GENERATE_MESSAGESPOT)
     LIST(APPEND MESSAGES_POT_FILES ${MESSAGES_POT_FILE})
 
     FILE(GLOB SUPERTUX_LEVEL_DIRS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} data/levels/*)
-    LIST(REMOVE_ITEM SUPERTUX_LEVEL_DIRS "data/levels/.svn")
     FOREACH(SUPERTUX_LEVEL_DIR ${SUPERTUX_LEVEL_DIRS})
       FILE(GLOB SUPERTUX_LEVELS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SUPERTUX_LEVEL_DIR}/*.stl ${SUPERTUX_LEVEL_DIR}/*.stwm ${SUPERTUX_LEVEL_DIR}/*.txt)
 
@@ -430,7 +429,7 @@ INSTALL(DIRECTORY data/images
                   data/speech
                   data/sounds
                   data/locale
-                               DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn" EXCLUDE)
+                  DESTINATION ${INSTALL_SUBDIR_SHARE})
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 
