@@ -33,13 +33,12 @@
 #include "video/util.hpp"
 
 SDLRenderer::SDLRenderer() :
-  window(),
-  renderer(),
-  viewport(),
-  desktop_size(0, 0)
+  m_window(),
+  m_renderer(),
+  m_viewport(),
+  m_desktop_size(0, 0),
+  m_scale(1.0f, 1.0f)
 {
-  Renderer::instance_ = this;
-
   SDL_DisplayMode mode;
   if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
   {
@@ -47,7 +46,7 @@ SDLRenderer::SDLRenderer() :
   }
   else
   {
-    desktop_size = Size(mode.w, mode.h);
+    m_desktop_size = Size(mode.w, mode.h);
   }
 
   log_info << "creating SDLRenderer" << std::endl;
@@ -74,15 +73,15 @@ SDLRenderer::SDLRenderer() :
   SCREEN_WIDTH = width;
   SCREEN_HEIGHT = height;
 
-  viewport.x = 0;
-  viewport.y = 0;
-  viewport.w = width;
-  viewport.h = height;
+  m_viewport.x = 0;
+  m_viewport.y = 0;
+  m_viewport.w = width;
+  m_viewport.h = height;
 
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
   int ret = SDL_CreateWindowAndRenderer(width, height, flags,
-                                        &window, &renderer);
+                                        &m_window, &m_renderer);
 
   if(ret != 0) {
     std::stringstream msg;
@@ -92,7 +91,7 @@ SDLRenderer::SDLRenderer() :
   }
 
   SDL_RendererInfo info;
-  if (SDL_GetRendererInfo(renderer, &info) != 0)
+  if (SDL_GetRendererInfo(m_renderer, &info) != 0)
   {
     log_warning << "Couldn't get RendererInfo: " << SDL_GetError() << std::endl;
   }
@@ -113,47 +112,55 @@ SDLRenderer::SDLRenderer() :
     log_info << "Max Texture Height: " << info.max_texture_height << std::endl;
   }
 
-  if(texture_manager == 0)
-    texture_manager = new TextureManager();
-
   g_config->window_size = Size(width, height);
   apply_config();
 }
 
 SDLRenderer::~SDLRenderer()
 {
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
+  SDL_DestroyRenderer(m_renderer);
+  SDL_DestroyWindow(m_window);
+}
+
+void
+SDLRenderer::start_draw()
+{
+  SDL_RenderSetScale(m_renderer, m_scale.x, m_scale.y);
+}
+
+void
+SDLRenderer::end_draw()
+{
 }
 
 void
 SDLRenderer::draw_surface(const DrawingRequest& request)
 {
-  SDLPainter::draw_surface(renderer, request);
+  SDLPainter::draw_surface(m_renderer, request);
 }
 
 void
 SDLRenderer::draw_surface_part(const DrawingRequest& request)
 {
-  SDLPainter::draw_surface_part(renderer, request);
+  SDLPainter::draw_surface_part(m_renderer, request);
 }
 
 void
 SDLRenderer::draw_gradient(const DrawingRequest& request)
 {
-  SDLPainter::draw_gradient(renderer, request);
+  SDLPainter::draw_gradient(m_renderer, request);
 }
 
 void
 SDLRenderer::draw_filled_rect(const DrawingRequest& request)
 {
-  SDLPainter::draw_filled_rect(renderer, request);
+  SDLPainter::draw_filled_rect(m_renderer, request);
 }
 
 void
 SDLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
 {
-  SDLPainter::draw_inverse_ellipse(renderer, request);
+  SDLPainter::draw_inverse_ellipse(m_renderer, request);
 }
 
 void
@@ -162,7 +169,7 @@ SDLRenderer::do_take_screenshot()
   // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
   int width;
   int height;
-  if (SDL_GetRendererOutputSize(renderer, &width, &height) != 0)
+  if (SDL_GetRendererOutputSize(m_renderer, &width, &height) != 0)
   {
     log_warning << "SDL_GetRenderOutputSize failed: " << SDL_GetError() << std::endl;
   }
@@ -187,7 +194,7 @@ SDLRenderer::do_take_screenshot()
     }
     else
     {
-      int ret = SDL_RenderReadPixels(renderer, NULL,
+      int ret = SDL_RenderReadPixels(m_renderer, NULL,
                                      SDL_PIXELFORMAT_ABGR8888,
                                      surface->pixels,
                                      surface->pitch);
@@ -225,7 +232,7 @@ SDLRenderer::do_take_screenshot()
 void
 SDLRenderer::flip()
 {
-  SDL_RenderPresent(renderer);
+  SDL_RenderPresent(m_renderer);
 }
 
 void
@@ -241,14 +248,14 @@ SDLRenderer::apply_video_mode()
 {
   if (!g_config->use_fullscreen)
   {
-    SDL_SetWindowFullscreen(window, 0);
+    SDL_SetWindowFullscreen(m_window, 0);
   }
   else
   {
     if (g_config->fullscreen_size.width == 0 &&
         g_config->fullscreen_size.height == 0)
     {
-        if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
+        if (SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
         {
           log_warning << "failed to switch to desktop fullscreen mode: "
                       << SDL_GetError() << std::endl;
@@ -267,7 +274,7 @@ SDLRenderer::apply_video_mode()
       mode.refresh_rate = g_config->fullscreen_refresh_rate;
       mode.driverdata = 0;
 
-      if (SDL_SetWindowDisplayMode(window, &mode) != 0)
+      if (SDL_SetWindowDisplayMode(m_window, &mode) != 0)
       {
         log_warning << "failed to set display mode: "
                     << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
@@ -275,7 +282,7 @@ SDLRenderer::apply_video_mode()
       }
       else
       {
-        if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN) != 0)
+        if (SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN) != 0)
         {
           log_warning << "failed to switch to fullscreen mode: "
                       << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
@@ -301,12 +308,12 @@ SDLRenderer::apply_viewport()
   float pixel_aspect_ratio = 1.0f;
   if (g_config->aspect_size != Size(0, 0))
   {
-    pixel_aspect_ratio = calculate_pixel_aspect_ratio(desktop_size,
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(m_desktop_size,
                                                       g_config->aspect_size);
   }
   else if (g_config->use_fullscreen)
   {
-    pixel_aspect_ratio = calculate_pixel_aspect_ratio(desktop_size,
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(m_desktop_size,
                                                       target_size);
   }
 
@@ -314,31 +321,32 @@ SDLRenderer::apply_viewport()
   Size max_size(1280, 800);
   Size min_size(640, 480);
 
-  Vector scale;
   Size logical_size;
   calculate_viewport(min_size, max_size,
                      target_size,
                      pixel_aspect_ratio,
                      g_config->magnification,
-                     scale, logical_size, viewport);
+                     m_scale, logical_size, m_viewport);
 
   SCREEN_WIDTH = logical_size.width;
   SCREEN_HEIGHT = logical_size.height;
 
-  if (viewport.x != 0 || viewport.y != 0)
+  if (m_viewport.x != 0 || m_viewport.y != 0)
   {
     // Clear the screen to avoid garbage in unreachable areas after we
     // reset the coordinate system
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
-    SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_NONE);
+    SDL_RenderClear(m_renderer);
+    SDL_RenderPresent(m_renderer);
+    SDL_RenderClear(m_renderer);
   }
 
-  SDL_RenderSetScale(renderer, 1.0f, 1.0f);
-  SDL_RenderSetViewport(renderer, &viewport);
-  SDL_RenderSetScale(renderer, scale.x, scale.y);
+  // SetViewport() works in scaled screen coordinates, so we have to
+  // reset it to 1.0, 1.0 to get meaningful results
+  SDL_RenderSetScale(m_renderer, 1.0f, 1.0f);
+  SDL_RenderSetViewport(m_renderer, &m_viewport);
+  SDL_RenderSetScale(m_renderer, m_scale.x, m_scale.y);
 }
 
 void
@@ -351,8 +359,8 @@ SDLRenderer::apply_config()
 Vector
 SDLRenderer::to_logical(int physical_x, int physical_y)
 {
-  return Vector(static_cast<float>(physical_x - viewport.x) * SCREEN_WIDTH / viewport.w,
-                static_cast<float>(physical_y - viewport.y) * SCREEN_HEIGHT / viewport.h);
+  return Vector(static_cast<float>(physical_x - m_viewport.x) * SCREEN_WIDTH / m_viewport.w,
+                static_cast<float>(physical_y - m_viewport.y) * SCREEN_HEIGHT / m_viewport.h);
 }
 
 void
@@ -360,7 +368,7 @@ SDLRenderer::set_gamma(float gamma)
 {
   Uint16 ramp[256];
   SDL_CalculateGammaRamp(gamma, ramp);
-  SDL_SetWindowGammaRamp(window, ramp, ramp, ramp);
+  SDL_SetWindowGammaRamp(m_window, ramp, ramp, ramp);
 }
 
 /* EOF */

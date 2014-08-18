@@ -19,7 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "lisp/list_iterator.hpp"
-#include "object/broken_brick.hpp"
 #include "object/flower.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/coin_explode.hpp"
@@ -41,7 +40,7 @@
 #include <stdexcept>
 
 BonusBlock::BonusBlock(const Vector& pos, int data) :
-  Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")),
+  Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
   contents(),
   object(0),
   hit_counter(1),
@@ -58,7 +57,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
     case 4: contents = CONTENT_1UP; break;
     case 5: contents = CONTENT_ICEGROW; break;
     case 6: contents = CONTENT_LIGHT;
-      sound_manager->preload("sounds/switch.ogg");
+      SoundManager::current()->preload("sounds/switch.ogg");
       lightsprite=Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
       break;
     case 7: contents = CONTENT_TRAMPOLINE;
@@ -83,7 +82,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
 }
 
 BonusBlock::BonusBlock(const Reader& lisp) :
-  Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")),
+  Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
   contents(),
   object(0),
   hit_counter(1),
@@ -103,7 +102,7 @@ BonusBlock::BonusBlock(const Reader& lisp) :
       iter.value()->get(pos.y);
     } else if(token == "sprite") {
       iter.value()->get(sprite_name);
-      sprite = sprite_manager->create(sprite_name);
+      sprite = SpriteManager::current()->create(sprite_name);
     } else if(token == "count") {
       iter.value()->get(hit_counter);
     } else if(token == "script") {
@@ -127,7 +126,7 @@ BonusBlock::BonusBlock(const Reader& lisp) :
         contents = CONTENT_SCRIPT;
       } else if(contentstring == "light") {
         contents = CONTENT_LIGHT;
-        sound_manager->preload("sounds/switch.ogg");
+        SoundManager::current()->preload("sounds/switch.ogg");
       } else if(contentstring == "trampoline") {
         contents = CONTENT_TRAMPOLINE;
       } else if(contentstring == "rain") {
@@ -170,7 +169,7 @@ BonusBlock::hit(Player & player)
 }
 
 HitResponse
-BonusBlock::collision(GameObject& other, const CollisionHit& hit){
+BonusBlock::collision(GameObject& other, const CollisionHit& hit_){
 
   Player* player = dynamic_cast<Player*> (&other);
   if (player) {
@@ -194,14 +193,14 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit){
       try_open(player);
     }
   }
-  return Block::collision(other, hit);
+  return Block::collision(other, hit_);
 }
 
 void
 BonusBlock::try_open(Player *player)
 {
   if(sprite->get_action() == "empty") {
-    sound_manager->play("sounds/brick.wav");
+    SoundManager::current()->play("sounds/brick.wav");
     return;
   }
 
@@ -236,7 +235,7 @@ BonusBlock::try_open(Player *player)
           get_pos(), new Flower(FIRE_BONUS));
         sector->add_object(riser);
       }
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
@@ -250,21 +249,21 @@ BonusBlock::try_open(Player *player)
           get_pos(), new Flower(ICE_BONUS));
         sector->add_object(riser);
       }
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
     case CONTENT_STAR:
     {
       sector->add_object(new Star(get_pos() + Vector(0, -32), direction));
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
     case CONTENT_1UP:
     {
       sector->add_object(new OneUp(get_pos(), direction));
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
@@ -273,7 +272,7 @@ BonusBlock::try_open(Player *player)
       SpecialRiser* riser = new SpecialRiser(get_pos(), object);
       object = 0;
       sector->add_object(riser);
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
@@ -286,28 +285,28 @@ BonusBlock::try_open(Player *player)
         sprite->set_action("off");
       else
         sprite->set_action("on");
-      sound_manager->play("sounds/switch.ogg");
+      SoundManager::current()->play("sounds/switch.ogg");
       break;
     }
     case CONTENT_TRAMPOLINE:
     {
       SpecialRiser* riser = new SpecialRiser(get_pos(), new Trampoline(get_pos(), false));
       sector->add_object(riser);
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
     case CONTENT_RAIN:
     {
       hit_counter = 1; // multiple hits of coin rain is not allowed
       Sector::current()->add_object(new CoinRain(get_pos(), true));
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
     case CONTENT_EXPLODE:
     {
       hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::current()->add_object(new CoinExplode(get_pos() + Vector (0, -40)));
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
   }
@@ -330,7 +329,7 @@ void
 BonusBlock::try_drop(Player *player)
 {
   if(sprite->get_action() == "empty") {
-    sound_manager->play("sounds/brick.wav");
+    SoundManager::current()->play("sounds/brick.wav");
     return;
   }
 
@@ -338,12 +337,12 @@ BonusBlock::try_drop(Player *player)
   assert(sector);
 
   // First what's below the bonus block, if solid send it up anyway (excepting doll)
-  Rectf dest;
-  dest.p1.x = bbox.get_left() + 1;
-  dest.p1.y = bbox.get_bottom() + 1;
-  dest.p2.x = bbox.get_right() - 1;
-  dest.p2.y = dest.p1.y + 30;
-  if (!Sector::current()->is_free_of_statics(dest, this, true) && !(contents == CONTENT_1UP)) {
+  Rectf dest_;
+  dest_.p1.x = bbox.get_left() + 1;
+  dest_.p1.y = bbox.get_bottom() + 1;
+  dest_.p2.x = bbox.get_right() - 1;
+  dest_.p2.y = dest_.p1.y + 30;
+  if (!Sector::current()->is_free_of_statics(dest_, this, true) && !(contents == CONTENT_1UP)) {
     try_open(player);
     return;
   }
@@ -368,7 +367,7 @@ BonusBlock::try_drop(Player *player)
     case CONTENT_FIREGROW:
     {
       sector->add_object(new PowerUp(get_pos() + Vector(0, 32), "images/powerups/fireflower/fireflower.sprite"));
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
     }
@@ -376,7 +375,7 @@ BonusBlock::try_drop(Player *player)
     case CONTENT_ICEGROW:
     {
       sector->add_object(new PowerUp(get_pos() + Vector(0, 32), "images/powerups/iceflower/iceflower.sprite"));
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
     }
@@ -384,7 +383,7 @@ BonusBlock::try_drop(Player *player)
     case CONTENT_STAR:
     {
       sector->add_object(new Star(get_pos() + Vector(0, 32), direction));
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
     }
@@ -392,7 +391,7 @@ BonusBlock::try_drop(Player *player)
     case CONTENT_1UP:
     {
       sector->add_object(new OneUp(get_pos(), DOWN));
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
     }
@@ -403,7 +402,7 @@ BonusBlock::try_drop(Player *player)
       object->set_pos(get_pos() +  Vector(0, 32));
       sector->add_object(object);
       object = 0;
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
     }
@@ -430,7 +429,7 @@ BonusBlock::try_drop(Player *player)
     {
       hit_counter = 1; // multiple hits of coin explode is not allowed
       Sector::current()->add_object(new CoinExplode(get_pos() + Vector (0, 40)));
-      sound_manager->play("sounds/upgrade.wav");
+      SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
     }
@@ -451,30 +450,12 @@ BonusBlock::try_drop(Player *player)
 }
 
 void
-Block::break_me()
-{
-  Sector* sector = Sector::current();
-  sector->add_object(
-    new BrokenBrick(sprite->clone(), get_pos(), Vector(-100, -400)));
-  sector->add_object(
-    new BrokenBrick(sprite->clone(), get_pos() + Vector(0, 16),
-                    Vector(-150, -300)));
-  sector->add_object(
-    new BrokenBrick(sprite->clone(), get_pos() + Vector(16, 0),
-                    Vector(100, -400)));
-  sector->add_object(
-    new BrokenBrick(sprite->clone(), get_pos() + Vector(16, 16),
-                    Vector(150, -300)));
-  remove_me();
-}
-
-void
 BonusBlock::draw(DrawingContext& context){
   // do the regular drawing first
   Block::draw(context);
   // then Draw the light if on.
   if(sprite->get_action() == "on") {
-    Vector pos = get_pos() + (bbox.get_size() - lightsprite->get_size()) / 2;
+    Vector pos = get_pos() + (bbox.get_size().as_vector() - lightsprite->get_size()) / 2;
     context.push_target();
     context.set_target(DrawingContext::LIGHTMAP);
     context.draw_surface(lightsprite, pos, 10);

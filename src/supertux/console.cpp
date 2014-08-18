@@ -20,6 +20,7 @@
 #include <iostream>
 
 #include "physfs/ifile_stream.hpp"
+#include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -28,70 +29,129 @@
 /// speed (pixels/s) the console closes
 static const float FADE_SPEED = 1;
 
-Console::Console() :
-  history(),
-  history_position(history.end()),
-  lines(),
-  background(),
-  background2(),
-  vm(NULL),
-  vm_object(),
-  backgroundOffset(0),
-  height(0),
-  alpha(1.0),
-  offset(0),
-  focused(false),
-  font(),
-  fontheight(),
-  stayOpen(0)
+ConsoleBuffer::ConsoleBuffer() :
+  m_lines()
 {
-  fontheight = 8;
+}
+
+void
+ConsoleBuffer::addLines(const std::string& s)
+{
+  std::istringstream iss(s);
+  std::string line;
+  while (std::getline(iss, line, '\n'))
+  {
+    addLine(line);
+  }
+}
+
+void
+ConsoleBuffer::addLine(const std::string& s_)
+{
+  std::string s = s_;
+
+  // output line to stderr
+  std::cerr << s << std::endl;
+
+  // wrap long lines
+  std::string overflow;
+  int line_count = 0;
+  do {
+    m_lines.push_front(Font::wrap_to_chars(s, 99, &overflow));
+    line_count += 1;
+    s = overflow;
+  } while (s.length() > 0);
+
+  // trim scrollback buffer
+  while (m_lines.size() >= 1000)
+  {
+    m_lines.pop_back();
+  }
+
+  if (Console::current())
+  {
+    Console::current()->on_buffer_change(line_count);
+  }
+}
+
+void
+ConsoleBuffer::flush(ConsoleStreamBuffer& buffer)
+{
+  if (&buffer == &s_outputBuffer)
+  {
+    std::string s = s_outputBuffer.str();
+    if ((s.length() > 0) && ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r')))
+    {
+      while ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r'))
+      {
+        s.erase(s.length()-1);
+      }
+      addLines(s);
+      s_outputBuffer.str(std::string());
+    }
+  }
+}
+
+Console::Console(ConsoleBuffer& buffer) :
+  m_buffer(buffer),
+  m_inputBuffer(),
+  m_inputBufferPosition(0),
+  m_history(),
+  m_history_position(m_history.end()),
+  m_background(Surface::create("images/engine/console.png")),
+  m_background2(Surface::create("images/engine/console2.png")),
+  m_vm(NULL),
+  m_vm_object(),
+  m_backgroundOffset(0),
+  m_height(0),
+  m_alpha(1.0),
+  m_offset(0),
+  m_focused(false),
+  m_font(new Font(Font::FIXED, "fonts/andale12.stf", 1)),
+  m_stayOpen(0)
+{
 }
 
 Console::~Console()
 {
-  if(vm != NULL) {
-    sq_release(scripting::global_vm, &vm_object);
+  if (m_vm != NULL)
+  {
+    sq_release(scripting::global_vm, &m_vm_object);
   }
 }
 
 void
-Console::init_graphics()
+Console::on_buffer_change(int line_count)
 {
-  font.reset(new Font(Font::FIXED,"fonts/andale12.stf",1));
-  fontheight = font->get_height();
-  background = Surface::create("images/engine/console.png");
-  background2 = Surface::create("images/engine/console2.png");
-}
-
-void
-Console::flush(ConsoleStreamBuffer* buffer)
-{
-  if (buffer == &outputBuffer) {
-    std::string s = outputBuffer.str();
-    if ((s.length() > 0) && ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r'))) {
-      while ((s[s.length()-1] == '\n') || (s[s.length()-1] == '\r')) s.erase(s.length()-1);
-      addLines(s);
-      outputBuffer.str(std::string());
+  // increase console height if necessary
+  if (m_stayOpen > 0 && m_height < 64)
+  {
+    if(m_height < 4)
+    {
+      m_height = 4;
     }
+    m_height += m_font->get_height() * line_count;
   }
+
+  // reset console to full opacity
+  m_alpha = 1.0;
 }
 
 void
 Console::ready_vm()
 {
-  if(vm == NULL) {
-    vm = scripting::global_vm;
-    HSQUIRRELVM new_vm = sq_newthread(vm, 16);
+  if(m_vm == NULL) {
+    m_vm = scripting::global_vm;
+    HSQUIRRELVM new_vm = sq_newthread(m_vm, 16);
     if(new_vm == NULL)
-      throw scripting::SquirrelError(vm, "Couldn't create new VM thread for console");
+      throw scripting::SquirrelError(m_vm, "Couldn't create new VM thread for console");
 
     // store reference to thread
-    sq_resetobject(&vm_object);
-    if(SQ_FAILED(sq_getstackobj(vm, -1, &vm_object)))
-      throw scripting::SquirrelError(vm, "Couldn't get vm object for console");
-    sq_addref(vm, &vm_object);
-    sq_pop(vm, 1);
+    sq_resetobject(&m_vm_object);
+    if(SQ_FAILED(sq_getstackobj(m_vm, -1, &m_vm_object)))
+      throw scripting::SquirrelError(m_vm, "Couldn't get vm object for console");
+    sq_addref(m_vm, &m_vm_object);
+    sq_pop(m_vm, 1);
 
     // create new roottable for thread
     sq_newtable(new_vm);
@@ -101,12 +161,12 @@ Console::ready_vm()
 
     sq_setroottable(new_vm);
 
-    vm = new_vm;
+    m_vm = new_vm;
 
     try {
       std::string filename = "scripts/console.nut";
       IFileStream stream(filename);
-      scripting::compile_and_run(vm, stream, filename);
+      scripting::compile_and_run(m_vm, stream, filename);
     } catch(std::exception& e) {
       log_warning << "Couldn't load console.nut: " << e.what() << std::endl;
     }
@@ -120,97 +180,97 @@ Console::execute_script(const std::string& command)
 
   ready_vm();
 
-  SQInteger oldtop = sq_gettop(vm);
+  SQInteger oldtop = sq_gettop(m_vm);
   try {
-    if(SQ_FAILED(sq_compilebuffer(vm, command.c_str(), command.length(),
+    if(SQ_FAILED(sq_compilebuffer(m_vm, command.c_str(), command.length(),
                                   "", SQTrue)))
-      throw SquirrelError(vm, "Couldn't compile command");
+      throw SquirrelError(m_vm, "Couldn't compile command");
 
-    sq_pushroottable(vm);
-    if(SQ_FAILED(sq_call(vm, 1, SQTrue, SQTrue)))
-      throw SquirrelError(vm, "Problem while executing command");
+    sq_pushroottable(m_vm);
+    if(SQ_FAILED(sq_call(m_vm, 1, SQTrue, SQTrue)))
+      throw SquirrelError(m_vm, "Problem while executing command");
 
-    if(sq_gettype(vm, -1) != OT_NULL)
-      addLines(squirrel2string(vm, -1));
+    if(sq_gettype(m_vm, -1) != OT_NULL)
+      m_buffer.addLines(squirrel2string(m_vm, -1));
   } catch(std::exception& e) {
-    addLines(e.what());
+    m_buffer.addLines(e.what());
   }
-  SQInteger newtop = sq_gettop(vm);
+  SQInteger newtop = sq_gettop(m_vm);
   if(newtop < oldtop) {
     log_fatal << "Script destroyed squirrel stack..." << std::endl;
   } else {
-    sq_settop(vm, oldtop);
+    sq_settop(m_vm, oldtop);
   }
 }
 
 void
 Console::input(char c)
 {
-  inputBuffer.insert(inputBufferPosition, 1, c);
-  inputBufferPosition++;
+  m_inputBuffer.insert(m_inputBufferPosition, 1, c);
+  m_inputBufferPosition++;
 }
 
 void
 Console::backspace()
 {
-  if ((inputBufferPosition > 0) && (inputBuffer.length() > 0)) {
-    inputBuffer.erase(inputBufferPosition-1, 1);
-    inputBufferPosition--;
+  if ((m_inputBufferPosition > 0) && (m_inputBuffer.length() > 0)) {
+    m_inputBuffer.erase(m_inputBufferPosition-1, 1);
+    m_inputBufferPosition--;
   }
 }
 
 void
 Console::eraseChar()
 {
-  if (inputBufferPosition < (int)inputBuffer.length()) {
-    inputBuffer.erase(inputBufferPosition, 1);
+  if (m_inputBufferPosition < (int)m_inputBuffer.length()) {
+    m_inputBuffer.erase(m_inputBufferPosition, 1);
   }
 }
 
 void
 Console::enter()
 {
-  addLines("> "+inputBuffer);
-  parse(inputBuffer);
-  inputBuffer = "";
-  inputBufferPosition = 0;
+  m_buffer.addLines("> " + m_inputBuffer);
+  parse(m_inputBuffer);
+  m_inputBuffer = "";
+  m_inputBufferPosition = 0;
 }
 
 void
 Console::scroll(int numLines)
 {
-  offset += numLines;
-  if (offset > 0) offset = 0;
+  m_offset += numLines;
+  if (m_offset > 0) m_offset = 0;
 }
 
 void
-Console::show_history(int offset)
+Console::show_history(int offset_)
 {
-  while ((offset > 0) && (history_position != history.end())) {
-    history_position++;
-    offset--;
+  while ((offset_ > 0) && (m_history_position != m_history.end())) {
+    m_history_position++;
+    offset_--;
   }
-  while ((offset < 0) && (history_position != history.begin())) {
-    history_position--;
-    offset++;
+  while ((offset_ < 0) && (m_history_position != m_history.begin())) {
+    m_history_position--;
+    offset_++;
   }
-  if (history_position == history.end()) {
-    inputBuffer = "";
-    inputBufferPosition = 0;
+  if (m_history_position == m_history.end()) {
+    m_inputBuffer = "";
+    m_inputBufferPosition = 0;
   } else {
-    inputBuffer = *history_position;
-    inputBufferPosition = inputBuffer.length();
+    m_inputBuffer = *m_history_position;
+    m_inputBufferPosition = m_inputBuffer.length();
   }
 }
 
 void
-Console::move_cursor(int offset)
+Console::move_cursor(int offset_)
 {
-  if (offset == -65535) inputBufferPosition = 0;
-  if (offset == +65535) inputBufferPosition = inputBuffer.length();
-  inputBufferPosition+=offset;
-  if (inputBufferPosition < 0) inputBufferPosition = 0;
-  if (inputBufferPosition > (int)inputBuffer.length()) inputBufferPosition = inputBuffer.length();
+  if (offset_ == -65535) m_inputBufferPosition = 0;
+  if (offset_ == +65535) m_inputBufferPosition = m_inputBuffer.length();
+  m_inputBufferPosition+=offset_;
+  if (m_inputBufferPosition < 0) m_inputBufferPosition = 0;
+  if (m_inputBufferPosition > (int)m_inputBuffer.length()) m_inputBufferPosition = m_inputBuffer.length();
 }
 
 // Helper functions for Console::autocomplete
@@ -281,96 +341,65 @@ sq_insert_commands(std::list<std::string>& cmds, HSQUIRRELVM vm, std::string tab
 void
 Console::autocomplete()
 {
-  //int autocompleteFrom = inputBuffer.find_last_of(" ();+", inputBufferPosition);
-  int autocompleteFrom = inputBuffer.find_last_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_->.", inputBufferPosition);
+  //int autocompleteFrom = m_inputBuffer.find_last_of(" ();+", m_inputBufferPosition);
+  int autocompleteFrom = m_inputBuffer.find_last_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_->.", m_inputBufferPosition);
   if (autocompleteFrom != (int)std::string::npos) {
     autocompleteFrom += 1;
   } else {
     autocompleteFrom = 0;
   }
-  std::string prefix = inputBuffer.substr(autocompleteFrom, inputBufferPosition - autocompleteFrom);
-  addLines("> "+prefix);
+  std::string prefix = m_inputBuffer.substr(autocompleteFrom, m_inputBufferPosition - autocompleteFrom);
+  m_buffer.addLines("> " + prefix);
 
   std::list<std::string> cmds;
 
   ready_vm();
 
   // append all keys of the current root table to list
-  sq_pushroottable(vm); // push root table
+  sq_pushroottable(m_vm); // push root table
   while(true) {
     // check all keys (and their children) for matches
-    sq_insert_commands(cmds, vm, "", prefix);
+    sq_insert_commands(cmds, m_vm, "", prefix);
 
     // cycle through parent(delegate) table
-    SQInteger oldtop = sq_gettop(vm);
-    if(SQ_FAILED(sq_getdelegate(vm, -1)) || oldtop == sq_gettop(vm)) {
+    SQInteger oldtop = sq_gettop(m_vm);
+    if(SQ_FAILED(sq_getdelegate(m_vm, -1)) || oldtop == sq_gettop(m_vm)) {
       break;
     }
-    sq_remove(vm, -2); // remove old table
+    sq_remove(m_vm, -2); // remove old table
   }
-  sq_pop(vm, 1); // remove table
+  sq_pop(m_vm, 1); // remove table
 
   // depending on number of hits, show matches or autocomplete
-  if (cmds.empty()) addLines("No known command starts with \""+prefix+"\"");
-  if (cmds.size() == 1) {
+  if (cmds.empty())
+  {
+    m_buffer.addLines("No known command starts with \"" + prefix + "\"");
+  }
+
+  if (cmds.size() == 1)
+  {
     // one match: just replace input buffer with full command
     std::string replaceWith = cmds.front();
-    inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
-    inputBufferPosition += (replaceWith.length() - prefix.length());
+    m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
+    m_inputBufferPosition += (replaceWith.length() - prefix.length());
   }
-  if (cmds.size() > 1) {
+
+  if (cmds.size() > 1)
+  {
     // multiple matches: show all matches and set input buffer to longest common prefix
     std::string commonPrefix = cmds.front();
     while (cmds.begin() != cmds.end()) {
       std::string cmd = cmds.front();
       cmds.pop_front();
-      addLines(cmd);
+      m_buffer.addLines(cmd);
       for (int n = commonPrefix.length(); n >= 1; n--) {
         if (cmd.compare(0, n, commonPrefix) != 0) commonPrefix.resize(n-1); else break;
       }
     }
     std::string replaceWith = commonPrefix;
-    inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
-    inputBufferPosition += (replaceWith.length() - prefix.length());
+    m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
+    m_inputBufferPosition += (replaceWith.length() - prefix.length());
   }
-}
-
-void
-Console::addLines(std::string s)
-{
-  std::istringstream iss(s);
-  std::string line;
-  while (std::getline(iss, line, '\n')) addLine(line);
-}
-
-void
-Console::addLine(std::string s)
-{
-  // output line to stderr
-  std::cerr << s << std::endl;
-
-  // wrap long lines
-  std::string overflow;
-  unsigned int line_count = 0;
-  do {
-    lines.push_front(Font::wrap_to_chars(s, 99, &overflow));
-    line_count++;
-    s = overflow;
-  } while (s.length() > 0);
-
-  // trim scrollback buffer
-  while (lines.size() >= 1000)
-    lines.pop_back();
-
-  // increase console height if necessary
-  if ((stayOpen > 0) && (height < 64)) {
-    if(height < 4)
-      height = 4;
-    height += fontheight * line_count;
-  }
-
-  // reset console to full opacity
-  alpha = 1.0;
 }
 
 void
@@ -380,8 +409,8 @@ Console::parse(std::string s)
   if (s.length() == 0) return;
 
   // add line to history
-  history.push_back(s);
-  history_position = history.end();
+  m_history.push_back(s);
+  m_history_position = m_history.end();
 
   // split line into list of args
   std::vector<std::string> args;
@@ -405,9 +434,8 @@ Console::parse(std::string s)
   try {
     execute_script(s);
   } catch(std::exception& e) {
-    addLines(e.what());
+    m_buffer.addLines(e.what());
   }
-
 }
 
 bool
@@ -419,7 +447,7 @@ Console::consoleCommand(std::string /*command*/, std::vector<std::string> /*argu
 bool
 Console::hasFocus()
 {
-  return focused;
+  return m_focused;
 }
 
 void
@@ -428,29 +456,29 @@ Console::show()
   if(!g_config->console_enabled)
     return;
 
-  focused = true;
-  height = 256;
-  alpha = 1.0;
+  m_focused = true;
+  m_height = 256;
+  m_alpha = 1.0;
 //  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL); // Useless in SDL2 :  if you want to disable repeat, then you need to check if the key was repeated and ignore it.
 }
 
 void
 Console::open()
 {
-  if(stayOpen < 2)
-    stayOpen += 1.5;
+  if(m_stayOpen < 2)
+    m_stayOpen += 1.5;
 }
 
 void
 Console::hide()
 {
-  focused = false;
-  height = 0;
-  stayOpen = 0;
+  m_focused = false;
+  m_height = 0;
+  m_stayOpen = 0;
 
   // clear input buffer
-  inputBuffer = "";
-  inputBufferPosition = 0;
+  m_inputBuffer = "";
+  m_inputBufferPosition = 0;
  // SDL_EnableKeyRepeat(0, SDL_DEFAULT_REPEAT_INTERVAL);
 }
 
@@ -468,15 +496,15 @@ Console::toggle()
 void
 Console::update(float elapsed_time)
 {
-  if(stayOpen > 0) {
-    stayOpen -= elapsed_time;
-    if(stayOpen < 0)
-      stayOpen = 0;
-  } else if(!focused && height > 0) {
-    alpha -= elapsed_time * FADE_SPEED;
-    if(alpha < 0) {
-      alpha = 0;
-      height = 0;
+  if(m_stayOpen > 0) {
+    m_stayOpen -= elapsed_time;
+    if(m_stayOpen < 0)
+      m_stayOpen = 0;
+  } else if(!m_focused && m_height > 0) {
+    m_alpha -= elapsed_time * FADE_SPEED;
+    if(m_alpha < 0) {
+      m_alpha = 0;
+      m_height = 0;
     }
   }
 }
@@ -484,48 +512,57 @@ Console::update(float elapsed_time)
 void
 Console::draw(DrawingContext& context)
 {
-  if (height == 0)
+  if (m_height == 0)
     return;
 
   int layer = LAYER_GUI + 1;
 
   context.push_transform();
-  context.set_alpha(alpha);
-  context.draw_surface(background2, Vector(SCREEN_WIDTH/2 - background->get_width()/2 - background->get_width() + backgroundOffset, height - background->get_height()), layer);
-  context.draw_surface(background2, Vector(SCREEN_WIDTH/2 - background->get_width()/2 + backgroundOffset, height - background->get_height()), layer);
-  for (int x = (SCREEN_WIDTH/2 - background->get_width()/2 - (static_cast<int>(ceilf((float)SCREEN_WIDTH / (float)background->get_width()) - 1) * background->get_width())); x < SCREEN_WIDTH; x+=background->get_width()) {
-    context.draw_surface(background, Vector(x, height - background->get_height()), layer);
+  context.set_alpha(m_alpha);
+  context.draw_surface(m_background2,
+                       Vector(SCREEN_WIDTH/2 - m_background->get_width()/2 - m_background->get_width() + m_backgroundOffset,
+                              m_height - m_background->get_height()),
+                       layer);
+  context.draw_surface(m_background2,
+                       Vector(SCREEN_WIDTH/2 - m_background->get_width()/2 + m_backgroundOffset,
+                              m_height - m_background->get_height()),
+                       layer);
+  for (int x = (SCREEN_WIDTH/2 - m_background->get_width()/2
+                - (static_cast<int>(ceilf((float)SCREEN_WIDTH /
+                                          (float)m_background->get_width()) - 1) * m_background->get_width()));
+       x < SCREEN_WIDTH;
+       x += m_background->get_width())
+  {
+    context.draw_surface(m_background, Vector(x, m_height - m_background->get_height()), layer);
   }
-  backgroundOffset+=10;
-  if (backgroundOffset > (int)background->get_width()) backgroundOffset -= (int)background->get_width();
+  m_backgroundOffset+=10;
+  if (m_backgroundOffset > (int)m_background->get_width()) m_backgroundOffset -= (int)m_background->get_width();
 
   int lineNo = 0;
 
-  if (focused) {
+  if (m_focused) {
     lineNo++;
-    float py = height-4-1 * font->get_height();
-    context.draw_text(font, "> "+inputBuffer, Vector(4, py), ALIGN_LEFT, layer);
+    float py = m_height-4-1 * m_font->get_height();
+    context.draw_text(m_font, "> "+m_inputBuffer, Vector(4, py), ALIGN_LEFT, layer);
     if (SDL_GetTicks() % 1000 < 750) {
-      int cursor_px = 2 + inputBufferPosition;
-      context.draw_text(font, "_", Vector(4 + (cursor_px * font->get_text_width("X")), py), ALIGN_LEFT, layer);
+      int cursor_px = 2 + m_inputBufferPosition;
+      context.draw_text(m_font, "_", Vector(4 + (cursor_px * m_font->get_text_width("X")), py), ALIGN_LEFT, layer);
     }
   }
 
-  int skipLines = -offset;
-  for (std::list<std::string>::iterator i = lines.begin(); i != lines.end(); i++) {
+  int skipLines = -m_offset;
+  for (std::list<std::string>::iterator i = m_buffer.m_lines.begin(); i != m_buffer.m_lines.end(); i++)
+  {
     if (skipLines-- > 0) continue;
     lineNo++;
-    float py = height - 4 - lineNo*font->get_height();
-    if (py < -font->get_height()) break;
-    context.draw_text(font, *i, Vector(4, py), ALIGN_LEFT, layer);
+    float py = m_height - 4 - lineNo * m_font->get_height();
+    if (py < -m_font->get_height()) break;
+    context.draw_text(m_font, *i, Vector(4, py), ALIGN_LEFT, layer);
   }
   context.pop_transform();
 }
 
-Console* Console::instance = NULL;
-int Console::inputBufferPosition = 0;
-std::string Console::inputBuffer;
-ConsoleStreamBuffer Console::outputBuffer;
-std::ostream Console::output(&Console::outputBuffer);
+ConsoleStreamBuffer ConsoleBuffer::s_outputBuffer;
+std::ostream ConsoleBuffer::output(&ConsoleBuffer::s_outputBuffer);
 
 /* EOF */

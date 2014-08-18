@@ -29,27 +29,26 @@
 #include <SDL.h>
 
 SDLTexture::SDLTexture(SDL_Surface* image) :
-  texture(),
-  width(),
-  height()
+  m_texture(),
+  m_width(),
+  m_height()
 {
-  texture = SDL_CreateTextureFromSurface(static_cast<SDLRenderer*>(Renderer::instance())->get_sdl_renderer(),
-                                         image);
-  if (!texture)
+  m_texture = SDL_CreateTextureFromSurface(static_cast<SDLRenderer&>(VideoSystem::current()->get_renderer()).get_sdl_renderer(),
+                                           image);
+  if (!m_texture)
   {
     std::ostringstream msg;
     msg << "couldn't create texture: " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
 
-  width = image->w;
-  height = image->h;
+  m_width = image->w;
+  m_height = image->h;
 }
 
 SDLTexture::~SDLTexture()
 {
-  SDL_DestroyTexture(texture);
+  SDL_DestroyTexture(m_texture);
 }
 
-/* vim: set sw=2 sts=2 et : */
 /* EOF */

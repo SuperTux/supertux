@@ -29,7 +29,7 @@
 
 namespace worldmap {
 
-LevelTile::LevelTile(const std::string& basedir, const Reader& lisp) :
+LevelTile::LevelTile(const std::string& basedir_, const Reader& lisp) :
   pos(),
   title(),
   solved(false),
@@ -39,7 +39,7 @@ LevelTile::LevelTile(const std::string& basedir, const Reader& lisp) :
   statistics(),
   target_time(),
   extro_script(),
-  basedir(basedir),
+  basedir(basedir_),
   picture_cached(false),
   picture(0)
 {
@@ -50,11 +50,11 @@ LevelTile::LevelTile(const std::string& basedir, const Reader& lisp) :
 
   std::string spritefile = "images/worldmap/common/leveldot.sprite";
   lisp.get("sprite", spritefile);
-  sprite = sprite_manager->create(spritefile);
+  sprite = SpriteManager::current()->create(spritefile);
 
   lisp.get("extro-script", extro_script);
 
-  if (!PHYSFS_exists((basedir + name).c_str()))
+  if (!PHYSFS_exists((basedir_ + name).c_str()))
   {
     log_warning << "level file '" << name
                 << "' does not exist and will not be added to the worldmap" << std::endl;
@@ -76,6 +76,37 @@ LevelTile::draw(DrawingContext& context)
 void
 LevelTile::update(float )
 {
+}
+
+void
+LevelTile::update_sprite_action()
+{
+  if (perfect)
+  {
+    sprite->set_action("perfect");
+  }
+  else if (solved)
+  {
+    sprite->set_action("perfect");
+  }
+  else
+  {
+    sprite->set_action("default");
+  }
+}
+
+void
+LevelTile::set_solved(bool v)
+{
+  solved = v;
+  update_sprite_action();
+}
+
+void
+LevelTile::set_perfect(bool v)
+{
+  perfect = v;
+  update_sprite_action();
 }
 
 } // namespace worldmap

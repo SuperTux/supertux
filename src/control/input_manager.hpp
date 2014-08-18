@@ -25,6 +25,7 @@
 #include <vector>
 #include <memory>
 
+#include "util/currenton.hpp"
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
 
@@ -35,8 +36,10 @@ class JoystickMenu;
 class KeyboardManager;
 class KeyboardMenu;
 class Menu;
+class KeyboardConfig;
+class JoystickConfig;
 
-class InputManager final
+class InputManager final : public Currenton<InputManager>
 {
 private:
   friend class KeyboardMenu;
@@ -45,13 +48,12 @@ private:
   typedef Controller::Control Control;
 
 public:
-  InputManager();
+  InputManager(KeyboardConfig& keyboard_config,
+               JoystickConfig& joystick_config);
   virtual ~InputManager();
 
   void process_event(const SDL_Event& event);
 
-  void write(Writer& writer);
-  void read(const Reader& lisp);
   void update();
   void reset();
 

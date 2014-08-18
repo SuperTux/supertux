@@ -22,11 +22,11 @@
 #include "supertux/constants.hpp"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos) :
-   Block(sprite_manager->create("images/objects/bonus_block/invisibleblock.sprite")),
+   Block(SpriteManager::current()->create("images/objects/bonus_block/invisibleblock.sprite")),
    visible(false)
 {
   bbox.set_pos(pos);
-  sound_manager->preload("sounds/brick.wav");
+  SoundManager::current()->preload("sounds/brick.wav");
 }
 
 void
@@ -54,15 +54,15 @@ InvisibleBlock::collides(GameObject& other, const CollisionHit& )
 }
 
 HitResponse
-InvisibleBlock::collision(GameObject& other, const CollisionHit& hit)
+InvisibleBlock::collision(GameObject& other, const CollisionHit& hit_)
 {
-  return Block::collision(other, hit);
+  return Block::collision(other, hit_);
 }
 
 void
 InvisibleBlock::hit(Player& player)
 {
-  sound_manager->play("sounds/brick.wav");
+  SoundManager::current()->play("sounds/brick.wav");
 
   if(visible)
     return;

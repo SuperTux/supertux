@@ -30,10 +30,10 @@ Timer::~Timer()
 }
 
 void
-Timer::start(float period, bool cyclic)
+Timer::start(float period_, bool cyclic_)
 {
-  this->period = period;
-  this->cyclic = cyclic;
+  this->period = period_;
+  this->cyclic = cyclic_;
   cycle_start = game_time;
 }
 

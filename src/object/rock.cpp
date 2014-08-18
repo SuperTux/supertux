@@ -30,7 +30,7 @@ Rock::Rock(const Vector& pos, std::string spritename) :
   grabbed(),
   last_movement()
 {
-  sound_manager->preload(ROCK_SOUND);
+  SoundManager::current()->preload(ROCK_SOUND);
   on_ground = false;
   grabbed = false;
   set_group(COLGROUP_MOVING_STATIC);
@@ -43,7 +43,7 @@ Rock::Rock(const Reader& reader) :
   grabbed(),
   last_movement()
 {
-  sound_manager->preload(ROCK_SOUND);
+  SoundManager::current()->preload(ROCK_SOUND);
   on_ground = false;
   grabbed = false;
   set_group(COLGROUP_MOVING_STATIC);
@@ -56,7 +56,7 @@ Rock::Rock(const Reader& reader, std::string spritename) :
   grabbed(),
   last_movement()
 {
-  sound_manager->preload(ROCK_SOUND);
+  SoundManager::current()->preload(ROCK_SOUND);
   on_ground = false;
   grabbed = false;
   set_group(COLGROUP_MOVING_STATIC);
@@ -87,7 +87,7 @@ Rock::collision_solid(const CollisionHit& hit)
     physic.set_velocity(0, 0);
 
   if(hit.bottom  && !on_ground && !grabbed) {
-    sound_manager->play(ROCK_SOUND, get_pos());
+    SoundManager::current()->play(ROCK_SOUND, get_pos());
     on_ground = true;
   }
 }

@@ -70,14 +70,14 @@ Level::load(const std::string& filepath)
     level->get("version", version);
     if(version == 1) {
       log_info << "[" <<  filepath << "] level uses old format: version 1" << std::endl;
-      tileset = tile_manager->get_tileset("images/tiles.strf");
+      tileset = TileManager::current()->get_tileset("images/tiles.strf");
       load_old_format(*level);
       return;
     }
 
     const lisp::Lisp* tilesets_lisp = level->get_lisp("tilesets");
     if(tilesets_lisp != NULL) {
-      tileset      = tile_manager->parse_tileset_definition(*tilesets_lisp).release();
+      tileset      = TileManager::current()->parse_tileset_definition(*tilesets_lisp).release();
       free_tileset = true;
     }
     std::string tileset_name;
@@ -85,12 +85,12 @@ Level::load(const std::string& filepath)
       if(tileset != NULL) {
         log_warning << "[" <<  filepath << "] multiple tilesets specified in level" << std::endl;
       } else {
-        tileset = tile_manager->get_tileset(tileset_name);
+        tileset = TileManager::current()->get_tileset(tileset_name);
       }
     }
     /* load default tileset */
     if(tileset == NULL) {
-      tileset = tile_manager->get_tileset("images/tiles.strf");
+      tileset = TileManager::current()->get_tileset("images/tiles.strf");
     }
     current_tileset = tileset;
 
@@ -162,11 +162,11 @@ Level::add_sector(Sector* sector)
 }
 
 Sector*
-Level::get_sector(const std::string& name)
+Level::get_sector(const std::string& name_)
 {
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
     Sector* sector = *i;
-    if(sector->get_name() == name)
+    if(sector->get_name() == name_)
       return sector;
   }
 

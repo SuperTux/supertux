@@ -51,7 +51,6 @@ ENDIF(COMMAND cmake_policy)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
 
 ## For autopackage
-OPTION(ENABLE_BINRELOC "Enable autopackage's BINRELOC features" OFF)
 SET(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 
 ## Check endianess
@@ -175,7 +174,6 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/include/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/include/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/findlocale/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/binreloc/)
 
 ## MSVC Compatibility headers and definitions
 
@@ -269,12 +267,12 @@ IF(CMAKE_COMPILER_IS_GNUCC)
   ENDIF(WERROR)
   IF(WARNINGS)
     # temporarily disabled:
-    #   -Wsign-conversion -Wfloat-equal -Wconversion -Wundef -Wshadow -Wswitch-default
+    #   -Wsign-conversion -Wfloat-equal -Wconversion -Wundef -Wswitch-default
     #   -Wswitch-enum -Wsign-promo -Wcast-qual -Woverloaded-virtual -Wmissing-format-attribute
     #   -Wold-style-cast -Wpadded -Wabi -Winline -Wunsafe-loop-optimizations -Wstrict-overflow=5
     # fails on MinGW:
     #   -ansi
-    SET(SUPERTUX2_EXTRA_WARNING_FLAGS "-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector -Wformat=2 -Weffc++ -Wctor-dtor-privacy -Wstrict-null-sentinel -Wno-unused-parameter")
+    SET(SUPERTUX2_EXTRA_WARNING_FLAGS "-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wlogical-op -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector -Wformat=2 -Weffc++ -Wctor-dtor-privacy -Wstrict-null-sentinel -Wno-unused-parameter -Wshadow")
   ENDIF(WARNINGS)
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
@@ -303,7 +301,6 @@ IF(GENERATE_MESSAGESPOT)
     LIST(APPEND MESSAGES_POT_FILES ${MESSAGES_POT_FILE})
 
     FILE(GLOB SUPERTUX_LEVEL_DIRS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} data/levels/*)
-    LIST(REMOVE_ITEM SUPERTUX_LEVEL_DIRS "data/levels/.svn")
     FOREACH(SUPERTUX_LEVEL_DIR ${SUPERTUX_LEVEL_DIRS})
       FILE(GLOB SUPERTUX_LEVELS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${SUPERTUX_LEVEL_DIR}/*.stl ${SUPERTUX_LEVEL_DIR}/*.stwm ${SUPERTUX_LEVEL_DIR}/*.txt)
 
@@ -354,12 +351,6 @@ IF(WIN32)
     SET(SUPERTUX_EXE_SRCS ${SUPERTUX_EXE_SRCS} supertux.rc)
   ENDIF(MINGW)
 ENDIF(WIN32)
-
-## Add binreloc.c if enabled
-IF(ENABLE_BINRELOC)
-  SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_SOURCE_DIR}/external/binreloc/binreloc.c)
-ENDIF(ENABLE_BINRELOC)
-
 
 ## Generate supertux executable in the right place
 
@@ -447,7 +438,7 @@ INSTALL(DIRECTORY data/images
                   data/speech
                   data/sounds
                   data/locale
-                               DESTINATION ${INSTALL_SUBDIR_SHARE} PATTERN ".svn" EXCLUDE)
+                  DESTINATION ${INSTALL_SUBDIR_SHARE})
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 
@@ -504,7 +495,6 @@ MARK_AS_ADVANCED(
 )
 
 MARK_AS_ADVANCED(
-	ENABLE_BINRELOC
 	APPDATADIR
 )
 

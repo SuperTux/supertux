@@ -41,7 +41,7 @@ EndSequenceWalkRight::starting()
 {
   EndSequence::starting();
   last_x_pos = -1;
-  endsequence_timer.start(7.3f * g_screen_manager->get_speed());
+  endsequence_timer.start(7.3f * ScreenManager::current()->get_speed());
 }
 
 void

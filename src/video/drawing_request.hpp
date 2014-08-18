@@ -23,6 +23,8 @@
 
 #include <stdint.h>
 
+#include "math/rectf.hpp"
+#include "math/sizef.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
@@ -59,13 +61,13 @@ struct SurfacePartRequest : public DrawingRequestData
 {
   SurfacePartRequest() :
     surface(),
-    source(),
-    size()
+    srcrect(),
+    dstsize()
   {}
 
   const Surface* surface;
-  Vector source;
-  Vector size;
+  Rectf srcrect;
+  Sizef dstsize;
 
 private:
   SurfacePartRequest(const SurfacePartRequest&) = delete;

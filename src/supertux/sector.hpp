@@ -95,8 +95,8 @@ public:
   /// adds a gameobject
   void add_object(GameObject* object);
 
-  void set_name(const std::string& name)
-  { this->name = name; }
+  void set_name(const std::string& name_)
+  { this->name = name_; }
   const std::string& get_name() const
   { return name; }
 

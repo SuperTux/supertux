@@ -19,6 +19,7 @@
 
 #include "control/controller.hpp"
 #include "control/joystick_manager.hpp"
+#include "control/keyboard_config.hpp"
 #include "gui/menu_manager.hpp"
 #include "lisp/list_iterator.hpp"
 #include "supertux/console.hpp"
@@ -27,31 +28,12 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "util/writer.hpp"
 
-KeyboardManager::KeyboardManager(InputManager* parent) :
+KeyboardManager::KeyboardManager(InputManager* parent,
+                                 KeyboardConfig& keyboard_config) :
   m_parent(parent),
-  keymap(),
-  jump_with_up_kbd(false),
+  m_keyboard_config(keyboard_config),
   wait_for_key(-1)
 {
-  // initialize default keyboard map
-  keymap[SDLK_LEFT]     = Controller::LEFT;
-  keymap[SDLK_RIGHT]    = Controller::RIGHT;
-  keymap[SDLK_UP]       = Controller::UP;
-  keymap[SDLK_DOWN]     = Controller::DOWN;
-  keymap[SDLK_SPACE]    = Controller::JUMP;
-  keymap[SDLK_LCTRL]    = Controller::ACTION;
-  keymap[SDLK_LALT]     = Controller::ACTION;
-  keymap[SDLK_ESCAPE]   = Controller::PAUSE_MENU;
-  keymap[SDLK_p]        = Controller::PAUSE_MENU;
-  keymap[SDLK_PAUSE]    = Controller::PAUSE_MENU;
-  keymap[SDLK_RETURN]   = Controller::MENU_SELECT;
-  keymap[SDLK_KP_ENTER] = Controller::MENU_SELECT;
-  keymap[SDLK_CARET]    = Controller::CONSOLE;
-  keymap[SDLK_DELETE]   = Controller::PEEK_LEFT;
-  keymap[SDLK_PAGEDOWN] = Controller::PEEK_RIGHT;
-  keymap[SDLK_HOME]     = Controller::PEEK_UP;
-  keymap[SDLK_END]      = Controller::PEEK_DOWN;
-  keymap[SDLK_TAB]      = Controller::CHEAT_MENU;
 }
 
 KeyboardManager::~KeyboardManager()
@@ -61,18 +43,18 @@ KeyboardManager::~KeyboardManager()
 void
 KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 {
-  KeyMap::iterator key_mapping = keymap.find(event.keysym.sym);
+  KeyboardConfig::KeyMap::iterator key_mapping = m_keyboard_config.keymap.find(event.keysym.sym);
 
   // if console key was pressed: toggle console
-  if (key_mapping != keymap.end() &&
+  if (key_mapping != m_keyboard_config.keymap.end() &&
       key_mapping->second == Controller::CONSOLE)
   {
     if (event.type == SDL_KEYDOWN)
     {
-      Console::instance->toggle();
+      Console::current()->toggle();
     }
   }
-  else if (Console::instance->hasFocus())
+  else if (Console::current()->hasFocus())
   {
     // if console is open: send key there
     process_console_key_event(event);
@@ -82,7 +64,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     // if menu mode: send key there
     process_menu_key_event(event);
   }
-  else if (key_mapping == keymap.end())
+  else if (key_mapping == m_keyboard_config.keymap.end())
   {
     // default action: update controls
     //log_debug << "Key " << event.key.SDL_Keycode.sym << " is unbound" << std::endl;
@@ -92,7 +74,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
     auto control = key_mapping->second;
     bool value = (event.type == SDL_KEYDOWN);
     m_parent->get_controller()->set_control(control, value);
-    if (jump_with_up_kbd && control == Controller::UP)
+    if (m_keyboard_config.jump_with_up_kbd && control == Controller::UP)
     {
       m_parent->get_controller()->set_control(Controller::JUMP, value);
     }
@@ -102,10 +84,10 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 void
 KeyboardManager::process_text_input_event(const SDL_TextInputEvent& event)
 {
-  if (Console::instance->hasFocus()) {
+  if (Console::current()->hasFocus()) {
     for(int i = 0; event.text[i] != '\0'; ++i)
     {
-      Console::instance->input(event.text[i]);
+      Console::current()->input(event.text[i]);
     }
   }
 }
@@ -117,37 +99,37 @@ KeyboardManager::process_console_key_event(const SDL_KeyboardEvent& event)
 
   switch (event.keysym.sym) {
     case SDLK_RETURN:
-      Console::instance->enter();
+      Console::current()->enter();
       break;
     case SDLK_BACKSPACE:
-      Console::instance->backspace();
+      Console::current()->backspace();
       break;
     case SDLK_TAB:
-      Console::instance->autocomplete();
+      Console::current()->autocomplete();
       break;
     case SDLK_PAGEUP:
-      Console::instance->scroll(-1);
+      Console::current()->scroll(-1);
       break;
     case SDLK_PAGEDOWN:
-      Console::instance->scroll(+1);
+      Console::current()->scroll(+1);
       break;
     case SDLK_HOME:
-      Console::instance->move_cursor(-65535);
+      Console::current()->move_cursor(-65535);
       break;
     case SDLK_END:
-      Console::instance->move_cursor(+65535);
+      Console::current()->move_cursor(+65535);
       break;
     case SDLK_UP:
-      Console::instance->show_history(-1);
+      Console::current()->show_history(-1);
       break;
     case SDLK_DOWN:
-      Console::instance->show_history(+1);
+      Console::current()->show_history(+1);
       break;
     case SDLK_LEFT:
-      Console::instance->move_cursor(-1);
+      Console::current()->move_cursor(-1);
       break;
     case SDLK_RIGHT:
-      Console::instance->move_cursor(+1);
+      Console::current()->move_cursor(+1);
       break;
     default:
       break;
@@ -166,7 +148,7 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     if (event.keysym.sym != SDLK_ESCAPE &&
         event.keysym.sym != SDLK_PAUSE)
     {
-      bind_key(event.keysym.sym, static_cast<Controller::Control>(wait_for_key));
+      m_keyboard_config.bind_key(event.keysym.sym, static_cast<Controller::Control>(wait_for_key));
     }
     m_parent->reset();
     MenuManager::instance().refresh();
@@ -217,93 +199,6 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
   }
 
   m_parent->get_controller()->set_control(control, (event.type == SDL_KEYDOWN));
-}
-
-void
-KeyboardManager::bind_key(SDL_Keycode key, Controller::Control control)
-{
-  // remove all previous mappings for that control and for that key
-  for(KeyMap::iterator i = keymap.begin();
-      i != keymap.end(); /* no ++i */) {
-    if (i->second == control) {
-      KeyMap::iterator e = i;
-      ++i;
-      keymap.erase(e);
-    } else {
-      ++i;
-    }
-  }
-
-  KeyMap::iterator i = keymap.find(key);
-  if (i != keymap.end())
-    keymap.erase(i);
-
-  // add new mapping
-  keymap[key] = control;
-}
-
-SDL_Keycode
-KeyboardManager::reversemap_key(Controller::Control c)
-{
-  for(KeyMap::iterator i = keymap.begin(); i != keymap.end(); ++i)
-  {
-    if (i->second == c)
-    {
-      return i->first;
-    }
-  }
-
-  return SDLK_UNKNOWN;
-}
-
-void
-KeyboardManager::read(const lisp::Lisp* keymap_lisp)
-{
-  // keycode values changed between SDL1 and SDL2, so we skip old SDL1
-  // based values and use the defaults instead on the first read of
-  // the config file
-  bool config_is_sdl2 = false;
-  keymap_lisp->get("sdl2", config_is_sdl2);
-  if (config_is_sdl2)
-  {
-    keymap.clear();
-    keymap_lisp->get("jump-with-up", jump_with_up_kbd);
-    lisp::ListIterator iter(keymap_lisp);
-    while(iter.next()) {
-      if (iter.item() == "map") {
-        int key = -1;
-        std::string control;
-        const lisp::Lisp* map = iter.lisp();
-        map->get("key", key);
-
-        map->get("control", control);
-
-        int i = 0;
-        for(i = 0; Controller::controlNames[i] != 0; ++i) {
-          if (control == Controller::controlNames[i])
-            break;
-        }
-        if (Controller::controlNames[i] == 0) {
-          log_info << "Invalid control '" << control << "' in keymap" << std::endl;
-          continue;
-        }
-        keymap[static_cast<SDL_Keycode>(key)] = static_cast<Controller::Control>(i);
-      }
-    }
-  }
-}
-
-void
-KeyboardManager::write(Writer& writer)
-{
-  writer.write("sdl2", true);
-  writer.write("jump-with-up", jump_with_up_kbd);
-  for(KeyMap::iterator i = keymap.begin(); i != keymap.end(); ++i) {
-    writer.start_list("map");
-    writer.write("key", (int) i->first);
-    writer.write("control", Controller::controlNames[i->second]);
-    writer.end_list("map");
-  }
 }
 
 /* EOF */

@@ -24,12 +24,6 @@
 
 namespace scripting {
 
-extern HSQUIRRELVM global_vm;
-
-void init_squirrel(bool enable_debugger);
-void exit_squirrel();
-void update_debugger();
-
 std::string squirrel2string(HSQUIRRELVM vm, SQInteger i);
 void print_squirrel_stack(HSQUIRRELVM vm);
 

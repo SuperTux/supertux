@@ -19,6 +19,8 @@
 
 #include <iosfwd>
 
+#include "math/vector.hpp"
+
 class Size;
 
 class Sizef
@@ -27,6 +29,11 @@ public:
   Sizef() :
     width(0.0f),
     height(0.0f)
+  {}
+
+  explicit Sizef(const Vector& v) :
+    width(v.x),
+    height(v.y)
   {}
 
   Sizef(float width_, float height_) :
@@ -67,6 +74,11 @@ public:
     width  -= rhs.width;
     height -= rhs.height;
     return *this;
+  }
+
+  Vector as_vector() const
+  {
+    return Vector(width, height);
   }
 
 public:

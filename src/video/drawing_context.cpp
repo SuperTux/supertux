@@ -29,11 +29,11 @@
 #include "video/surface.hpp"
 #include "video/texture.hpp"
 #include "video/texture_manager.hpp"
-#include "video/video_systems.hpp"
+#include "video/video_system.hpp"
 
-DrawingContext::DrawingContext(Renderer& renderer, Lightmap& lightmap) :
-  renderer(renderer),
-  lightmap(lightmap),
+DrawingContext::DrawingContext(Renderer& renderer_, Lightmap& lightmap_) :
+  renderer(renderer_),
+  lightmap(lightmap_),
   transformstack(),
   transform(),
   blend_stack(),
@@ -60,9 +60,9 @@ DrawingContext::~DrawingContext()
 }
 
 void
-DrawingContext::clear_drawing_requests(DrawingRequests& requests)
+DrawingContext::clear_drawing_requests(DrawingRequests& requests_)
 {
-  for(auto& request : requests)
+  for(auto& request : requests_)
   {
     if (request->request_data)
     {
@@ -70,7 +70,7 @@ DrawingContext::clear_drawing_requests(DrawingRequests& requests)
     }
     request->~DrawingRequest();
   }
-  requests.clear();
+  requests_.clear();
 }
 
 void
@@ -113,8 +113,9 @@ DrawingContext::draw_surface(SurfacePtr surface, const Vector& position,
 }
 
 void
-DrawingContext::draw_surface_part(SurfacePtr surface, const Vector& source,
-                                  const Vector& size, const Vector& dest, int layer)
+DrawingContext::draw_surface_part(SurfacePtr surface,
+                                  const Rectf& srcrect, const Rectf& dstrect,
+                                  int layer)
 {
   assert(surface != 0);
 
@@ -122,31 +123,16 @@ DrawingContext::draw_surface_part(SurfacePtr surface, const Vector& source,
 
   request->target = target;
   request->type = SURFACE_PART;
-  request->pos = transform.apply(dest);
+  request->pos = transform.apply(dstrect.p1);
   request->layer = layer;
   request->drawing_effect = transform.drawing_effect;
   request->alpha = transform.alpha;
 
   SurfacePartRequest* surfacepartrequest = new(obst) SurfacePartRequest();
-  surfacepartrequest->size = size;
-  surfacepartrequest->source = source;
+  surfacepartrequest->srcrect = srcrect;
+  surfacepartrequest->dstsize = dstrect.get_size();
   surfacepartrequest->surface = surface.get();
 
-  // clip on screen borders
-  if(request->pos.x < 0) {
-    surfacepartrequest->size.x += request->pos.x;
-    if(surfacepartrequest->size.x <= 0)
-      return;
-    surfacepartrequest->source.x -= request->pos.x;
-    request->pos.x = 0;
-  }
-  if(request->pos.y < 0) {
-    surfacepartrequest->size.y += request->pos.y;
-    if(surfacepartrequest->size.y <= 0)
-      return;
-    surfacepartrequest->source.y -= request->pos.y;
-    request->pos.y = 0;
-  }
   request->request_data = surfacepartrequest;
 
   requests->push_back(request);
@@ -342,7 +328,9 @@ DrawingContext::do_drawing()
     request->layer = LAYER_HUD - 1;
     drawing_requests.push_back(request);
   }
+  renderer.start_draw();
   handle_drawing_requests(drawing_requests);
+  renderer.end_draw();
 
   clear_drawing_requests(lightmap_requests);
   clear_drawing_requests(drawing_requests);
@@ -369,12 +357,12 @@ public:
 };
 
 void
-DrawingContext::handle_drawing_requests(DrawingRequests& requests)
+DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
 {
-  std::stable_sort(requests.begin(), requests.end(), RequestPtrCompare());
+  std::stable_sort(requests_.begin(), requests_.end(), RequestPtrCompare());
 
   DrawingRequests::const_iterator i;
-  for(i = requests.begin(); i != requests.end(); ++i) {
+  for(i = requests_.begin(); i != requests_.end(); ++i) {
     const DrawingRequest& request = **i;
 
     switch(request.target) {
@@ -499,13 +487,13 @@ DrawingContext::pop_target()
 }
 
 void
-DrawingContext::set_target(Target target)
+DrawingContext::set_target(Target target_)
 {
-  this->target = target;
-  if(target == LIGHTMAP) {
+  this->target = target_;
+  if(target_ == LIGHTMAP) {
     requests = &lightmap_requests;
   } else {
-    assert(target == NORMAL);
+    assert(target_ == NORMAL);
     requests = &drawing_requests;
   }
 }

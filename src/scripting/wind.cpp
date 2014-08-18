@@ -21,8 +21,8 @@
 
 namespace scripting {
 
-Wind::Wind(::Wind* wind)
-  : wind(wind)
+Wind::Wind(::Wind* wind_)
+  : wind(wind_)
 { }
 
 Wind::~Wind()

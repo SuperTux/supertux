@@ -20,8 +20,8 @@
 #include "util/log.hpp"
 
 namespace scripting {
-Camera::Camera(::Camera* camera)
-  : camera(camera)
+Camera::Camera(::Camera* camera_)
+  : camera(camera_)
 { }
 
 Camera::~Camera()

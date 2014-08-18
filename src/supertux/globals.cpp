@@ -15,29 +15,20 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/globals.hpp"
+
 #include <tinygettext/tinygettext.hpp>
 
-InputManager* g_input_manager = 0;
-tinygettext::DictionaryManager* dictionary_manager = 0;
+#include "supertux/gameconfig.hpp"
 
 int SCREEN_WIDTH;
 int SCREEN_HEIGHT;
 
-ScreenManager* g_screen_manager = 0;
-
-TextureManager* texture_manager = 0;
-
-SoundManager* sound_manager = 0;
-
-Config* g_config = 0;
+std::unique_ptr<Config> g_config;
 
 float game_time = 0;
 float real_time = 0;
 
-TileManager* tile_manager    = NULL;
-TileSet*     current_tileset = NULL;
-
-SpriteManager* sprite_manager = NULL;
+TileSet* current_tileset = NULL;
 
 float g_game_speed = 1.0f;
 

@@ -67,9 +67,9 @@ Fish::draw(DrawingContext& context)
 }
 
 HitResponse
-Fish::hit(const CollisionHit& hit)
+Fish::hit(const CollisionHit& hit_)
 {
-  if(hit.top) {
+  if(hit_.top) {
     physic.set_velocity_y(0);
   }
 

@@ -115,9 +115,9 @@ ScriptedObject::get_velocity_y()
 }
 
 void
-ScriptedObject::set_visible(bool visible)
+ScriptedObject::set_visible(bool visible_)
 {
-  this->visible = visible;
+  this->visible = visible_;
 }
 
 bool
@@ -127,9 +127,9 @@ ScriptedObject::is_visible()
 }
 
 void
-ScriptedObject::set_solid(bool solid)
+ScriptedObject::set_solid(bool solid_)
 {
-  this->solid = solid;
+  this->solid = solid_;
   if( solid ){
     set_group( COLGROUP_MOVING_STATIC );
   } else {

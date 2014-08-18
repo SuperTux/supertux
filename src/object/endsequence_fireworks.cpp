@@ -40,7 +40,7 @@ void
 EndSequenceFireworks::starting()
 {
   EndSequence::starting();
-  endsequence_timer.start(7.3f * g_screen_manager->get_speed());
+  endsequence_timer.start(7.3f * ScreenManager::current()->get_speed());
   Sector::current()->add_object(new Fireworks());
 }
 

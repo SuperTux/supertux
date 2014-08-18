@@ -23,14 +23,16 @@
 
 class KeyboardMenu : public Menu
 {
+private:
+  InputManager& m_input_manager;
+
 public:
-  KeyboardMenu(InputManager* controller);
+  KeyboardMenu(InputManager& input_manager);
   ~KeyboardMenu();
 
   void refresh();
   std::string get_key_name(SDL_Keycode key);
   void menu_action(MenuItem* item) override;
-  InputManager* controller;
 
 private:
   KeyboardMenu(const KeyboardMenu&);

@@ -28,7 +28,7 @@
 #include "supertux/sector.hpp"
 
 Brick::Brick(const Vector& pos, int data, const std::string& spriteName)
-  : Block(sprite_manager->create(spriteName)), breakable(false),
+  : Block(SpriteManager::current()->create(spriteName)), breakable(false),
     coin_counter(0)
 {
   bbox.set_pos(pos);
@@ -48,7 +48,7 @@ Brick::hit(Player& player)
 }
 
 HitResponse
-Brick::collision(GameObject& other, const CollisionHit& hit){
+Brick::collision(GameObject& other, const CollisionHit& hit_){
 
   Player* player = dynamic_cast<Player*> (&other);
   if (player) {
@@ -75,7 +75,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit){
   if(explosion && explosion->hurts()) {
     try_break(player);
   }
-  return Block::collision(other, hit);
+  return Block::collision(other, hit_);
 }
 
 void
@@ -84,7 +84,7 @@ Brick::try_break(Player* player)
   if(sprite->get_action() == "empty")
     return;
 
-  sound_manager->play("sounds/brick.wav");
+  SoundManager::current()->play("sounds/brick.wav");
   Sector* sector = Sector::current();
   Player& player_one = *(sector->player);
   if(coin_counter > 0) {

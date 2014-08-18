@@ -138,7 +138,7 @@ if __name__ == "__main__":
         generator.font_family = args.font
 
     if args.letters is not None:
-        generator.letters = args.letters
+        generator.letters = args.letters.decode('utf8')
 
     if args.columns is not None:
         generator.columns = args.columns

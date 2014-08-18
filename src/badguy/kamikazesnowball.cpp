@@ -32,14 +32,14 @@ namespace{
 KamikazeSnowball::KamikazeSnowball(const Reader& reader) :
   BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
 {
-  sound_manager->preload(SPLAT_SOUND);
+  SoundManager::current()->preload(SPLAT_SOUND);
   set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
 }
 
 KamikazeSnowball::KamikazeSnowball(const Vector& pos, Direction d)
   : BadGuy(pos, d, "images/creatures/snowball/kamikaze-snowball.sprite")
 {
-  sound_manager->preload(SPLAT_SOUND);
+  SoundManager::current()->preload(SPLAT_SOUND);
   set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
 }
 
@@ -74,7 +74,7 @@ void
 KamikazeSnowball::kill_collision()
 {
   sprite->set_action(dir == LEFT ? "collision-left" : "collision-right");
-  sound_manager->play(SPLAT_SOUND, get_pos());
+  SoundManager::current()->play(SPLAT_SOUND, get_pos());
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
   physic.enable_gravity(true);

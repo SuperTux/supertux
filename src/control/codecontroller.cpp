@@ -23,9 +23,9 @@ CodeController::~CodeController()
 {}
 
 void
-CodeController::press(Control c, bool pressed)
+CodeController::press(Control c, bool pressed_)
 {
-  controls[c] = pressed;
+  controls[c] = pressed_;
 }
 
 void

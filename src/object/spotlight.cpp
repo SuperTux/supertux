@@ -40,11 +40,11 @@ Spotlight::Spotlight(const Reader& lisp) :
     color = Color( vColor );
   }
 
-  center    = sprite_manager->create("images/objects/spotlight/spotlight_center.sprite");
-  base      = sprite_manager->create("images/objects/spotlight/spotlight_base.sprite");
-  lights    = sprite_manager->create("images/objects/spotlight/spotlight_lights.sprite");
-  lightcone = sprite_manager->create("images/objects/spotlight/lightcone.sprite");
-  light     = sprite_manager->create("images/objects/spotlight/light.sprite");
+  center    = SpriteManager::current()->create("images/objects/spotlight/spotlight_center.sprite");
+  base      = SpriteManager::current()->create("images/objects/spotlight/spotlight_base.sprite");
+  lights    = SpriteManager::current()->create("images/objects/spotlight/spotlight_lights.sprite");
+  lightcone = SpriteManager::current()->create("images/objects/spotlight/lightcone.sprite");
+  light     = SpriteManager::current()->create("images/objects/spotlight/light.sprite");
 
 }
 

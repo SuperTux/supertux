@@ -16,8 +16,6 @@
 
 #include "video/renderer.hpp"
 
-Renderer* Renderer::instance_ = 0;
-
 Renderer::Renderer()
 {
 }

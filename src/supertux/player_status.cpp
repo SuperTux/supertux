@@ -47,8 +47,8 @@ PlayerStatus::PlayerStatus() :
   reset();
 
   coin_surface = Surface::create("images/engine/hud/coins-0.png");
-  sound_manager->preload("sounds/coin.wav");
-  sound_manager->preload("sounds/lifeup.wav");
+  SoundManager::current()->preload("sounds/coin.wav");
+  SoundManager::current()->preload("sounds/lifeup.wav");
 }
 
 PlayerStatus::~PlayerStatus()
@@ -69,9 +69,9 @@ PlayerStatus::add_coins(int count, bool play_sound)
   coins = std::min(coins + count, MAX_COINS);
   if(play_sound) {
     if(count >= 100)
-      sound_manager->play("sounds/lifeup.wav");
+      SoundManager::current()->play("sounds/lifeup.wav");
     else if (real_time > sound_played_time + 0.010) {
-      sound_manager->play("sounds/coin.wav");
+      SoundManager::current()->play("sounds/coin.wav");
       sound_played_time = real_time;
     }
   }

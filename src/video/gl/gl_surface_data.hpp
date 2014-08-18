@@ -30,8 +30,8 @@ private:
   float uv_bottom;
 
 public:
-  GLSurfaceData(const Surface &surface) :
-    surface(surface),
+  GLSurfaceData(const Surface& surface_) :
+    surface(surface_),
     uv_left((float) surface.get_x() / surface.get_texture()->get_texture_width()),
     uv_top((float) surface.get_y() / surface.get_texture()->get_texture_height()),
     uv_right((float) (surface.get_x() + surface.get_width()) / surface.get_texture()->get_texture_width()),

@@ -58,10 +58,10 @@ SkyDive::collision_badguy(BadGuy&, const CollisionHit& hit)
 } /* HitResponse collision_badguy */
 
 void
-SkyDive::grab (MovingObject&, const Vector& pos, Direction dir)
+SkyDive::grab (MovingObject&, const Vector& pos, Direction dir_)
 {
   movement = pos - get_pos();
-  this->dir = dir;
+  this->dir = dir_;
 
   is_grabbed = true;
 

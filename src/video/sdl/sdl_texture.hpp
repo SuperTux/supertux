@@ -28,9 +28,9 @@
 class SDLTexture : public Texture
 {
 protected:
-  SDL_Texture* texture;
-  int width;
-  int height;
+  SDL_Texture* m_texture;
+  int m_width;
+  int m_height;
 
 public:
   SDLTexture(SDL_Surface* sdlsurface);
@@ -38,27 +38,27 @@ public:
 
   SDL_Texture *get_texture() const
   {
-    return texture;
+    return m_texture;
   }
 
   unsigned int get_texture_width() const
   {
-    return width;
+    return m_width;
   }
 
   unsigned int get_texture_height() const
   {
-    return height;
+    return m_height;
   }
 
   unsigned int get_image_width() const
   {
-    return width;
+    return m_width;
   }
 
   unsigned int get_image_height() const
   {
-    return height;
+    return m_height;
   }
 
 private:

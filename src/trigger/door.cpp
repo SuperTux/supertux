@@ -41,11 +41,11 @@ Door::Door(const Reader& reader) :
 
   reader.get("script", script);
 
-  sprite = sprite_manager->create("images/objects/door/door.sprite");
+  sprite = SpriteManager::current()->create("images/objects/door/door.sprite");
   sprite->set_action("closed");
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
-  sound_manager->preload("sounds/door.wav");
+  SoundManager::current()->preload("sounds/door.wav");
 }
 
 Door::Door(int x, int y, std::string sector, std::string spawnpoint) :
@@ -60,11 +60,11 @@ Door::Door(int x, int y, std::string sector, std::string spawnpoint) :
   target_sector = sector;
   target_spawnpoint = spawnpoint;
 
-  sprite = sprite_manager->create("images/objects/door/door.sprite");
+  sprite = SpriteManager::current()->create("images/objects/door/door.sprite");
   sprite->set_action("closed");
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
-  sound_manager->preload("sounds/door.wav");
+  SoundManager::current()->preload("sounds/door.wav");
 }
 
 Door::~Door()
@@ -116,7 +116,7 @@ Door::event(Player& , EventType type)
       // if door was activated, start opening it
       if (type == EVENT_ACTIVATE) {
         state = OPENING;
-        sound_manager->play("sounds/door.wav");
+        SoundManager::current()->play("sounds/door.wav");
         sprite->set_action("opening", 1);
       }
       break;
@@ -130,7 +130,7 @@ Door::event(Player& , EventType type)
 }
 
 HitResponse
-Door::collision(GameObject& other, const CollisionHit& hit)
+Door::collision(GameObject& other, const CollisionHit& hit_)
 {
   switch (state) {
     case CLOSED:
@@ -159,7 +159,7 @@ Door::collision(GameObject& other, const CollisionHit& hit)
       break;
   }
 
-  return TriggerBase::collision(other, hit);
+  return TriggerBase::collision(other, hit_);
 }
 
 /* EOF */

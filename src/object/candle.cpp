@@ -28,8 +28,8 @@ Candle::Candle(const Reader& lisp)
     burning(true),
     flicker(true),
     lightcolor(1.0f, 1.0f, 1.0f),
-    candle_light_1(sprite_manager->create("images/objects/candle/candle-light-1.sprite")),
-    candle_light_2(sprite_manager->create("images/objects/candle/candle-light-2.sprite"))
+    candle_light_1(SpriteManager::current()->create("images/objects/candle/candle-light-1.sprite")),
+    candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
 {
   lisp.get("name", name);
   lisp.get("burning", burning);
@@ -117,11 +117,11 @@ Candle::get_burning()
 }
 
 void
-Candle::set_burning(bool burning)
+Candle::set_burning(bool burning_)
 {
-  if (this->burning == burning) return;
-  this->burning = burning;
-  if (burning) {
+  if (this->burning == burning_) return;
+  this->burning = burning_;
+  if (burning_) {
     sprite->set_action("on");
   } else {
     sprite->set_action("off");

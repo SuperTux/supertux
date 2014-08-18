@@ -34,14 +34,14 @@ PowerUp::PowerUp(const Reader& lisp) :
   script(),
   no_physics(),
   light(0.0f,0.0f,0.0f),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   lisp.get("script", script);
   no_physics = false;
   lisp.get("disable-physics", no_physics);
   physic.enable_gravity(true);
-  sound_manager->preload("sounds/grow.ogg");
-  sound_manager->preload("sounds/fire-flower.wav");
+  SoundManager::current()->preload("sounds/grow.ogg");
+  SoundManager::current()->preload("sounds/fire-flower.wav");
   //set default light for glow effect for standard sprites
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
@@ -57,17 +57,17 @@ PowerUp::PowerUp(const Reader& lisp) :
 
 }
 
-PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name) :
-  MovingSprite(pos, sprite_name, LAYER_OBJECTS, COLGROUP_MOVING),
+PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
+  MovingSprite(pos, sprite_name_, LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   script(),
   no_physics(false),
   light(0.0f,0.0f,0.0f),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   physic.enable_gravity(true);
-  sound_manager->preload("sounds/grow.ogg");
-  sound_manager->preload("sounds/fire-flower.wav");
+  SoundManager::current()->preload("sounds/grow.ogg");
+  SoundManager::current()->preload("sounds/fire-flower.wav");
   //set default light for glow effect for standard sprites
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
@@ -111,15 +111,15 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
   if (sprite_name == "images/powerups/egg/egg.sprite") {
     if(!player->add_bonus(GROWUP_BONUS, true))
       return FORCE_MOVE;
-    sound_manager->play("sounds/grow.ogg");
+    SoundManager::current()->play("sounds/grow.ogg");
   } else if (sprite_name == "images/powerups/fireflower/fireflower.sprite") {
     if(!player->add_bonus(FIRE_BONUS, true))
       return FORCE_MOVE;
-    sound_manager->play("sounds/fire-flower.wav");
+    SoundManager::current()->play("sounds/fire-flower.wav");
   } else if (sprite_name == "images/powerups/iceflower/iceflower.sprite") {
     if(!player->add_bonus(ICE_BONUS, true))
       return FORCE_MOVE;
-    sound_manager->play("sounds/fire-flower.wav");
+    SoundManager::current()->play("sounds/fire-flower.wav");
   } else if (sprite_name == "images/powerups/star/star.sprite") {
     player->make_invincible();
   } else if (sprite_name == "images/powerups/1up/1up.sprite") {

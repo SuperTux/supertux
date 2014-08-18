@@ -119,8 +119,10 @@ TitleScreen::draw(DrawingContext& context)
   Sector* sector  = titlesession->get_current_sector();
   sector->draw(context);
 
-  // FIXME: Add something to scale the frame to the resolution of the screen
-  //context.draw_surface(frame, Vector(0,0),LAYER_FOREGROUND1);
+  context.draw_surface_part(frame,
+                            Rectf(0, 0, frame->get_width(), frame->get_height()),
+                            Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
+                            LAYER_FOREGROUND1);
 
   context.draw_text(Resources::small_font,
                     copyright_text,
@@ -131,7 +133,7 @@ TitleScreen::draw(DrawingContext& context)
 void
 TitleScreen::update(float elapsed_time)
 {
-  g_screen_manager->set_speed(0.6f);
+  ScreenManager::current()->set_speed(0.6f);
   Sector* sector  = titlesession->get_current_sector();
   sector->update(elapsed_time);
 
@@ -139,7 +141,7 @@ TitleScreen::update(float elapsed_time)
 
   // reopen menu if user closed it (so that the app doesn't close when user
   // accidently hit ESC)
-  if(!MenuManager::instance().is_active() && !g_screen_manager->has_pending_fadeout())
+  if(!MenuManager::instance().is_active() && !ScreenManager::current()->has_pending_fadeout())
   {
     MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
   }

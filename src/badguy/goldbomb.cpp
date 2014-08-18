@@ -38,7 +38,7 @@ GoldBomb::GoldBomb(const Reader& reader) :
   max_drop_height = 16;
 
   //Prevent stutter when Tux jumps on Gold Bomb
-  sound_manager->preload("sounds/explosion.wav");
+  SoundManager::current()->preload("sounds/explosion.wav");
 
   //Check if we need another sprite
   if( !reader.get( "sprite", sprite_name ) ){
@@ -49,7 +49,7 @@ GoldBomb::GoldBomb(const Reader& reader) :
     return;
   }
   //Replace sprite
-  sprite = sprite_manager->create( sprite_name );
+  sprite = SpriteManager::current()->create( sprite_name );
 }
 
 void
@@ -114,7 +114,7 @@ GoldBomb::collision_squished(GameObject& object)
     if (player)
       player->bounce(*this);
 
-    ticking = sound_manager->create_sound_source("sounds/fizz.wav");
+    ticking = SoundManager::current()->create_sound_source("sounds/fizz.wav");
     ticking->set_position(get_pos());
     ticking->set_looping(true);
     ticking->set_gain(2.0);
@@ -168,11 +168,11 @@ GoldBomb::kill_fall()
 }
 
 void
-GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir)
+GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   if(tstate == STATE_TICKING){
     movement = pos - get_pos();
-    this->dir = dir;
+    this->dir = dir_;
 
     // We actually face the opposite direction of Tux here to make the fuse more
     // visible instead of hiding it behind Tux
@@ -183,35 +183,35 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir)
   }
   else if(frozen){
     movement = pos - get_pos();
-    this->dir = dir;
-    sprite->set_action(dir == LEFT ? "iced-left" : "iced-right");
+    this->dir = dir_;
+    sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
     set_colgroup_active(COLGROUP_DISABLED);
     grabbed = true;
   }
 }
 
 void
-GoldBomb::ungrab(MovingObject& object, Direction dir)
+GoldBomb::ungrab(MovingObject& object, Direction dir_)
 {
   int toss_velocity_x = 0;
   int toss_velocity_y = 0;
   Player* player = dynamic_cast<Player*> (&object);
 
   // toss upwards
-  if(dir == UP)
+  if(dir_ == UP)
     toss_velocity_y += -500;
 
   // toss to the side when moving sideways
-  if(player && player->physic.get_velocity_x()*(dir == LEFT ? -1 : 1) > 1) {
-    toss_velocity_x += (dir == LEFT) ? -200 : 200;
+  if(player && player->physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 1) {
+    toss_velocity_x += (dir_ == LEFT) ? -200 : 200;
     toss_velocity_y = (toss_velocity_y < -200) ? toss_velocity_y : -200;
     // toss farther when running
-    if(player && player->physic.get_velocity_x()*(dir == LEFT ? -1 : 1) > 200)
-      toss_velocity_x += player->physic.get_velocity_x()-(190*(dir == LEFT ? -1 : 1));
+    if(player && player->physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
+      toss_velocity_x += player->physic.get_velocity_x()-(190*(dir_ == LEFT ? -1 : 1));
   }
   log_warning << toss_velocity_x << toss_velocity_y << std::endl;////
 
-  //set_pos(object.get_pos() + Vector((dir == LEFT ? -33 : 33), get_bbox().get_height()*0.66666 - 32));
+  //set_pos(object.get_pos() + Vector((dir_ == LEFT ? -33 : 33), get_bbox().get_height()*0.66666 - 32));
   physic.set_velocity(toss_velocity_x, toss_velocity_y);
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;

@@ -39,11 +39,11 @@ Switch::Switch(const Reader& reader) :
   if (!reader.get("x", bbox.p1.x)) throw std::runtime_error("no x position set");
   if (!reader.get("y", bbox.p1.y)) throw std::runtime_error("no y position set");
   if (!reader.get("sprite", sprite_name)) throw std::runtime_error("no sprite name set");
-  sprite = sprite_manager->create(sprite_name);
+  sprite = SpriteManager::current()->create(sprite_name);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   if (!reader.get("script", script)) throw std::runtime_error("no script set");
-  sound_manager->preload( SWITCH_SOUND );
+  SoundManager::current()->preload( SWITCH_SOUND );
 }
 
 Switch::~Switch()
@@ -96,7 +96,7 @@ Switch::event(Player& , EventType type)
   switch (state) {
     case OFF:
       sprite->set_action("turnon", 1);
-      sound_manager->play( SWITCH_SOUND );
+      SoundManager::current()->play( SWITCH_SOUND );
       state = TURN_ON;
       break;
     case TURN_ON:

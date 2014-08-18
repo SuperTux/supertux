@@ -36,14 +36,14 @@ Trampoline::Trampoline(const Reader& lisp) :
   Rock(lisp, "images/objects/trampoline/trampoline.sprite"),
   portable(true)
 {
-  sound_manager->preload(TRAMPOLINE_SOUND);
+  SoundManager::current()->preload(TRAMPOLINE_SOUND);
 
   //Check if this trampoline is not portable
   if(lisp.get("portable", portable)) {
     if(!portable) {
       //we need another sprite
       sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
-      sprite = sprite_manager->create(sprite_name);
+      sprite = SpriteManager::current()->create(sprite_name);
       sprite->set_action("normal");
     }
   }
@@ -53,10 +53,10 @@ Trampoline::Trampoline(const Vector& pos, bool port) :
   Rock(pos, "images/objects/trampoline/trampoline.sprite"),
   portable(port)
 {
-  sound_manager->preload(TRAMPOLINE_SOUND);
+  SoundManager::current()->preload(TRAMPOLINE_SOUND);
   if(!port) {
     sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
-    sprite = sprite_manager->create(sprite_name);
+    sprite = SpriteManager::current()->create(sprite_name);
     sprite->set_action("normal");
   }
 }
@@ -89,7 +89,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
           vy = VY_INITIAL;
         }
         player->get_physic().set_velocity_y(vy);
-        sound_manager->play(TRAMPOLINE_SOUND);
+        SoundManager::current()->play(TRAMPOLINE_SOUND);
         sprite->set_action("swinging", 1);
         return FORCE_MOVE;
       }
@@ -102,7 +102,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
       if(hit.top && vy >= 0) {
         vy = VY_INITIAL;
         walking_badguy->set_velocity_y(vy);
-        sound_manager->play(TRAMPOLINE_SOUND);
+        SoundManager::current()->play(TRAMPOLINE_SOUND);
         sprite->set_action("swinging", 1);
         return FORCE_MOVE;
       }

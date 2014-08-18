@@ -53,9 +53,9 @@ Wind::Wind(const Reader& reader) :
 }
 
 void
-Wind::update(float elapsed_time)
+Wind::update(float elapsed_time_)
 {
-  this->elapsed_time = elapsed_time;
+  this->elapsed_time = elapsed_time_;
 
   if (!blowing) return;
 

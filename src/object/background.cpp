@@ -135,34 +135,34 @@ Background::update(float delta)
 }
 
 void
-Background::set_image(const std::string& name, float speed)
+Background::set_image(const std::string& name_, float speed_)
 {
-  this->imagefile = name;
-  this->speed = speed;
+  this->imagefile = name_;
+  this->speed = speed_;
 
-  image = Surface::create(name);
+  image = Surface::create(name_);
 }
 
 void
-Background::draw_image(DrawingContext& context, const Vector& pos)
+Background::draw_image(DrawingContext& context, const Vector& pos_)
 {
   Sizef level(Sector::current()->get_width(), Sector::current()->get_height());
   Sizef screen(SCREEN_WIDTH, SCREEN_HEIGHT);
   Sizef parallax_image_size = (1.0f - speed) * screen + level * speed;
   Rectf cliprect = context.get_cliprect();
 
-  int start_x = static_cast<int>(floorf((cliprect.get_left()  - (pos.x - image->get_width() /2.0f)) / image->get_width()));
-  int end_x   = static_cast<int>(ceilf((cliprect.get_right()  - (pos.x + image->get_width() /2.0f)) / image->get_width()))+1;
-  int start_y = static_cast<int>(floorf((cliprect.get_top()   - (pos.y - image->get_height()/2.0f)) / image->get_height()));
-  int end_y   = static_cast<int>(ceilf((cliprect.get_bottom() - (pos.y + image->get_height()/2.0f)) / image->get_height()))+1;
+  int start_x = static_cast<int>(floorf((cliprect.get_left()  - (pos_.x - image->get_width() /2.0f)) / image->get_width()));
+  int end_x   = static_cast<int>(ceilf((cliprect.get_right()  - (pos_.x + image->get_width() /2.0f)) / image->get_width()))+1;
+  int start_y = static_cast<int>(floorf((cliprect.get_top()   - (pos_.y - image->get_height()/2.0f)) / image->get_height()));
+  int end_y   = static_cast<int>(ceilf((cliprect.get_bottom() - (pos_.y + image->get_height()/2.0f)) / image->get_height()))+1;
 
   switch(alignment)
   {
     case LEFT_ALIGNMENT:
       for(int y = start_y; y < end_y; ++y)
       {
-        Vector p(pos.x - parallax_image_size.width / 2.0f,
-                 pos.y + y * image->get_height()  - image->get_height() / 2.0f);
+        Vector p(pos_.x - parallax_image_size.width / 2.0f,
+                 pos_.y + y * image->get_height()  - image->get_height() / 2.0f);
         context.draw_surface(image, p, layer);
       }
       break;
@@ -170,8 +170,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
     case RIGHT_ALIGNMENT:
       for(int y = start_y; y < end_y; ++y)
       {
-        Vector p(pos.x + parallax_image_size.width / 2.0f - image->get_width(),
-                 pos.y + y * image->get_height() - image->get_height() / 2.0f);
+        Vector p(pos_.x + parallax_image_size.width / 2.0f - image->get_width(),
+                 pos_.y + y * image->get_height() - image->get_height() / 2.0f);
         context.draw_surface(image, p, layer);
       }
       break;
@@ -179,8 +179,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
     case TOP_ALIGNMENT:
       for(int x = start_x; x < end_x; ++x)
       {
-        Vector p(pos.x + x * image->get_width() - image->get_width() / 2.0f,
-                 pos.y - parallax_image_size.height / 2.0f);
+        Vector p(pos_.x + x * image->get_width() - image->get_width() / 2.0f,
+                 pos_.y - parallax_image_size.height / 2.0f);
         context.draw_surface(image, p, layer);
       }
       break;
@@ -188,8 +188,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
     case BOTTOM_ALIGNMENT:
       for(int x = start_x; x < end_x; ++x)
       {
-        Vector p(pos.x + x * image->get_width()  - image->get_width() / 2.0f,
-                 pos.y - image->get_height() + parallax_image_size.height / 2.0f);
+        Vector p(pos_.x + x * image->get_width()  - image->get_width() / 2.0f,
+                 pos_.y - image->get_height() + parallax_image_size.height / 2.0f);
         context.draw_surface(image, p, layer);
       }
       break;
@@ -198,8 +198,8 @@ Background::draw_image(DrawingContext& context, const Vector& pos)
       for(int y = start_y; y < end_y; ++y)
         for(int x = start_x; x < end_x; ++x)
         {
-          Vector p(pos.x + x * image->get_width()  - image->get_width()/2,
-                   pos.y + y * image->get_height() - image->get_height()/2);
+          Vector p(pos_.x + x * image->get_width()  - image->get_width()/2,
+                   pos_.y + y * image->get_height() - image->get_height()/2);
 
           if (image_top.get() != NULL && (y < 0))
           {

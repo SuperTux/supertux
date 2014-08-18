@@ -134,8 +134,8 @@ TileMap::TileMap(const Reader& reader) :
   }
 }
 
-TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
-                 bool solid, size_t width, size_t height) :
+TileMap::TileMap(const TileSet *new_tileset, std::string name_, int z_pos_,
+                 bool solid, size_t width_, size_t height_) :
   tileset(new_tileset),
   tiles(),
   real_solid(solid),
@@ -144,7 +144,7 @@ TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
   speed_y(1),
   width(0),
   height(0),
-  z_pos(z_pos),
+  z_pos(z_pos_),
   offset(Vector(0,0)),
   movement(Vector(0,0)),
   drawing_effect(NO_EFFECT),
@@ -155,12 +155,12 @@ TileMap::TileMap(const TileSet *new_tileset, std::string name, int z_pos,
   walker(),
   draw_target(DrawingContext::NORMAL)
 {
-  this->name = name;
+  this->name = name_;
 
   if (this->z_pos > (LAYER_GUI - 100))
     this->z_pos = LAYER_GUI - 100;
 
-  resize(width, height);
+  resize(width_, height_);
 }
 
 TileMap::~TileMap()
@@ -416,16 +416,16 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
 }
 
 void
-TileMap::fade(float alpha, float seconds)
+TileMap::fade(float alpha_, float seconds)
 {
-  this->alpha = alpha;
+  this->alpha = alpha_;
   this->remaining_fade_time = seconds;
 }
 
 void
-TileMap::set_alpha(float alpha)
+TileMap::set_alpha(float alpha_)
 {
-  this->alpha = alpha;
+  this->alpha = alpha_;
   this->current_alpha = alpha;
   this->remaining_fade_time = 0;
   update_effective_solid ();

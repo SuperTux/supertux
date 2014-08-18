@@ -38,7 +38,7 @@ MrTree::MrTree(const Reader& reader)
 {
   walk_speed = TREE_SPEED;
   max_drop_height = 16;
-  sound_manager->preload("sounds/mr_tree.ogg");
+  SoundManager::current()->preload("sounds/mr_tree.ogg");
 }
 
 bool
@@ -59,7 +59,7 @@ MrTree::collision_squished(GameObject& object)
   Sector::current()->add_object(stumpy);
 
   // give Feedback
-  sound_manager->play("sounds/mr_tree.ogg", get_pos());
+  SoundManager::current()->play("sounds/mr_tree.ogg", get_pos());
   Player* player = dynamic_cast<Player*>(&object);
   if (player) player->bounce(*this);
 

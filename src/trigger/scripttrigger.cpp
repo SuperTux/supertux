@@ -47,13 +47,13 @@ ScriptTrigger::ScriptTrigger(const Reader& reader) :
     triggerevent = EVENT_TOUCH;
 }
 
-ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script) :
+ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script_) :
   triggerevent(),
   script()
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);
-  this->script = script;
+  this->script = script_;
   triggerevent = EVENT_TOUCH;
 }
 

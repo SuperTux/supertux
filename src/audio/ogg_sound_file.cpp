@@ -18,14 +18,14 @@
 
 #include <assert.h>
 
-OggSoundFile::OggSoundFile(PHYSFS_file* file, double loop_begin, double loop_at) :
+OggSoundFile::OggSoundFile(PHYSFS_file* file_, double loop_begin_, double loop_at_) :
   file(),
   vorbis_file(),
   loop_begin(),
   loop_at(),
   normal_buffer_loop()
 {
-  this->file = file;
+  this->file = file_;
 
   ov_callbacks callbacks = { cb_read, cb_seek, cb_close, cb_tell };
   ov_open_callbacks(file, &vorbis_file, 0, 0, callbacks);
@@ -37,11 +37,11 @@ OggSoundFile::OggSoundFile(PHYSFS_file* file, double loop_begin, double loop_at)
   bits_per_sample = 16;
   size            = static_cast<size_t> (ov_pcm_total(&vorbis_file, -1) * 2);
 
-  double samples_begin = loop_begin * rate;
-  double sample_loop   = loop_at * rate;
+  double samples_begin = loop_begin_ * rate;
+  double sample_loop   = loop_at_ * rate;
 
   this->loop_begin     = (ogg_int64_t) samples_begin;
-  if(loop_begin < 0) {
+  if(loop_begin_ < 0) {
     this->loop_at = (ogg_int64_t) -1;
   } else {
     this->loop_at = (ogg_int64_t) sample_loop;

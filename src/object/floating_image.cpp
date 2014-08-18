@@ -20,7 +20,7 @@
 #include "supertux/globals.hpp"
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
-  sprite(sprite_manager->create(spritefile)),
+  sprite(SpriteManager::current()->create(spritefile)),
   layer(LAYER_FOREGROUND1 + 1),
   visible(false),
   anchor(ANCHOR_MIDDLE),
@@ -67,17 +67,17 @@ FloatingImage::get_action()
 }
 
 void
-FloatingImage::fade_in(float fadetime)
+FloatingImage::fade_in(float fadetime_)
 {
-  this->fadetime = fadetime;
-  fading = fadetime;
+  this->fadetime = fadetime_;
+  fading = fadetime_;
 }
 
 void
-FloatingImage::fade_out(float fadetime)
+FloatingImage::fade_out(float fadetime_)
 {
-  this->fadetime = fadetime;
-  fading = -fadetime;
+  this->fadetime = fadetime_;
+  fading = -fadetime_;
 }
 
 void

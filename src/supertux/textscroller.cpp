@@ -87,13 +87,13 @@ TextScroller::~TextScroller()
 void
 TextScroller::setup()
 {
-  sound_manager->play_music(music);
+  SoundManager::current()->play_music(music);
 }
 
 void
 TextScroller::update(float elapsed_time)
 {
-  Controller *controller = g_input_manager->get_controller();
+  Controller* controller = InputManager::current()->get_controller();
   if(controller->hold(Controller::UP)) {
     speed = -defaultspeed*5;
   } else if(controller->hold(Controller::DOWN)) {
@@ -107,7 +107,7 @@ TextScroller::update(float elapsed_time)
      )&& !(controller->pressed(Controller::UP))) // prevent skipping if jump with up is enabled
     scroll += SCROLL;
   if(controller->pressed(Controller::PAUSE_MENU)) {
-    g_screen_manager->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
   }
 
   scroll += speed * elapsed_time;
@@ -121,7 +121,9 @@ TextScroller::draw(DrawingContext& context)
 {
   context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
-  context.draw_surface(background, Vector(SCREEN_WIDTH/2 - background->get_width()/2 , SCREEN_HEIGHT/2 - background->get_height()/2), 0);
+  context.draw_surface_part(background, Rectf(0, 0, background->get_width(), background->get_height()),
+                            Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), 0);
+
 
   float y = SCREEN_HEIGHT - scroll;
   for(size_t i = 0; i < lines.size(); i++) {
@@ -134,7 +136,7 @@ TextScroller::draw(DrawingContext& context)
 
   if(y < 0 && !fading ) {
     fading = true;
-    g_screen_manager->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
   }
 }
 

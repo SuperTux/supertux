@@ -27,6 +27,7 @@
 #include <vector>
 #include <boost/weak_ptr.hpp>
 
+#include "util/currenton.hpp"
 #include "video/glutil.hpp"
 #include "video/texture_ptr.hpp"
 
@@ -34,7 +35,7 @@ class Texture;
 class GLTexture;
 class Rect;
 
-class TextureManager
+class TextureManager : public Currenton<TextureManager>
 {
 public:
   TextureManager();
@@ -53,12 +54,15 @@ public:
 
 private:
   friend class Texture;
-  void reap_cache_entry(const std::string& filename);
 
   typedef std::map<std::string, boost::weak_ptr<Texture> > ImageTextures;
-  ImageTextures image_textures;
+  ImageTextures m_image_textures;
+
   typedef std::map<std::string, SDL_Surface*> Surfaces;
-  Surfaces surfaces;
+  Surfaces m_surfaces;
+
+private:
+  void reap_cache_entry(const std::string& filename);
 
   TexturePtr create_image_texture(const std::string& filename, const Rect& rect);
 
@@ -72,8 +76,9 @@ private:
   TexturePtr create_dummy_texture();
 
 #ifdef HAVE_OPENGL
+private:
   typedef std::set<GLTexture*> Textures;
-  Textures textures;
+  Textures m_textures;
 
   struct SavedTexture
   {
@@ -88,8 +93,9 @@ private:
     GLint wrap_s;
     GLint wrap_t;
   };
-  std::vector<SavedTexture> saved_textures;
+  std::vector<SavedTexture> m_saved_textures;
 
+private:
   void save_texture(GLTexture* texture);
 #endif
 };

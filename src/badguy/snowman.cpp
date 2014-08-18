@@ -26,7 +26,7 @@ Snowman::Snowman(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/snowman/snowman.sprite", "walk-left", "walk-right")
 {
   walk_speed = 40;
-  sound_manager->preload("sounds/pop.ogg");
+  SoundManager::current()->preload("sounds/pop.ogg");
 }
 
 void
@@ -58,7 +58,7 @@ Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
     // fire bullets destroy snowman's body
     loose_head();
 
-    sound_manager->play("sounds/pop.ogg", get_pos()); // this could be a different sound
+    SoundManager::current()->play("sounds/pop.ogg", get_pos()); // this could be a different sound
     bullet.remove_me();
 
     return ABORT_MOVE;
@@ -78,7 +78,7 @@ Snowman::collision_squished(GameObject& object)
   if (player)
     player->bounce(*this);
 
-  sound_manager->play("sounds/pop.ogg", get_pos());
+  SoundManager::current()->play("sounds/pop.ogg", get_pos());
 
   loose_head();
 

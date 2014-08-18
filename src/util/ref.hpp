@@ -25,8 +25,8 @@ template<typename T>
 class Ref
 {
 public:
-  Ref(T* object = 0)
-    : object(object)
+  Ref(T* object_ = 0)
+    : object(object_)
   {
     if(object)
       object->ref();
@@ -49,13 +49,13 @@ public:
     return *this;
   }
 
-  Ref<T>& operator= (T* object)
+  Ref<T>& operator= (T* object_)
   {
-    if(object)
-      object->ref();
+    if(object_)
+      object_->ref();
     if(this->object)
       this->object->unref();
-    this->object = object;
+    this->object = object_;
 
     return *this;
   }

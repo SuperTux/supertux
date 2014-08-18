@@ -22,8 +22,8 @@
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
-ParticleSystem::ParticleSystem(float max_particle_size) :
-  max_particle_size(max_particle_size),
+ParticleSystem::ParticleSystem(float max_particle_size_) :
+  max_particle_size(max_particle_size_),
   z_pos(),
   particles(),
   virtual_width(),

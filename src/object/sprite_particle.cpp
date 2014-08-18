@@ -25,18 +25,18 @@
 #include <stdexcept>
 
 SpriteParticle::SpriteParticle(std::string sprite_name, std::string action,
-                               Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration,
-                               int drawing_layer) :
+                               Vector position_, AnchorPoint anchor, Vector velocity_, Vector acceleration_,
+                               int drawing_layer_) :
   sprite(),
-  position(position),
-  velocity(velocity),
-  acceleration(acceleration),
-  drawing_layer(drawing_layer),
+  position(position_),
+  velocity(velocity_),
+  acceleration(acceleration_),
+  drawing_layer(drawing_layer_),
   light(0.0f,0.0f,0.0f),
-  lightsprite(sprite_manager->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
   glow(false)
 {
-  sprite = sprite_manager->create(sprite_name);
+  sprite = SpriteManager::current()->create(sprite_name);
   if (!sprite.get()) throw std::runtime_error("Could not load sprite "+sprite_name);
   sprite->set_action(action, 1);
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action

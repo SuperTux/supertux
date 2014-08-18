@@ -36,17 +36,18 @@ public:
   void draw_surface_part(const DrawingRequest& request);
   void draw_gradient(const DrawingRequest& request);
   void draw_filled_rect(const DrawingRequest& request);
+  void draw_inverse_ellipse(const DrawingRequest& request);
   void get_light(const DrawingRequest& request) const;
 
 private:
-  static const int LIGHTMAP_DIV = 5;
+  static const int s_LIGHTMAP_DIV = 5;
 
-  boost::shared_ptr<GLTexture> lightmap;
-  int lightmap_width;
-  int lightmap_height;
-  float lightmap_uv_right;
-  float lightmap_uv_bottom;
-  GLfloat old_viewport[4]; //holds vieport before redefining in start_draw - returned from glGet
+  boost::shared_ptr<GLTexture> m_lightmap;
+  int m_lightmap_width;
+  int m_lightmap_height;
+  float m_lightmap_uv_right;
+  float m_lightmap_uv_bottom;
+  GLfloat m_old_viewport[4]; //holds vieport before redefining in start_draw - returned from glGet
 
 private:
   GLLightmap(const GLLightmap&);

@@ -14,14 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEMS_HPP
-#define HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEMS_HPP
-
-#include <config.h>
+#ifndef HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEM_HPP
+#define HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEM_HPP
 
 #include <SDL.h>
 #include <string>
 
+#include "util/currenton.hpp"
 #include "video/texture_ptr.hpp"
 
 class Renderer;
@@ -29,7 +28,7 @@ class Lightmap;
 class Surface;
 class SurfaceData;
 
-class VideoSystem
+class VideoSystem : public Currenton<VideoSystem>
 {
 public:
   enum Enum {
@@ -39,20 +38,24 @@ public:
     NUM_SYSTEMS
   };
 
-public:
-  static std::unique_ptr<Renderer> new_renderer();
-  static std::unique_ptr<Lightmap> new_lightmap();
-  static TexturePtr   new_texture(SDL_Surface *image);
-  static SurfaceData* new_surface_data(const Surface &surface);
-  static void      free_surface_data(SurfaceData* surface_data);
+  static std::unique_ptr<VideoSystem> create(VideoSystem::Enum video_system);
 
   static Enum get_video_system(const std::string &video);
   static std::string get_video_string(Enum video);
 
+public:
+  VideoSystem() {}
+  virtual ~VideoSystem() {}
+
+  virtual Renderer& get_renderer() = 0;
+  virtual Lightmap& get_lightmap() = 0;
+  virtual TexturePtr new_texture(SDL_Surface *image) = 0;
+  virtual SurfaceData* new_surface_data(const Surface &surface) = 0;
+  virtual void free_surface_data(SurfaceData* surface_data) = 0;
+
 private:
-  VideoSystem();
-  VideoSystem(const VideoSystem&);
-  VideoSystem& operator=(const VideoSystem&);
+  VideoSystem(const VideoSystem&) = delete;
+  VideoSystem& operator=(const VideoSystem&) = delete;
 };
 
 #endif

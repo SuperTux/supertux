@@ -19,10 +19,10 @@
 #include "math/random_generator.hpp"
 #include "sprite/sprite.hpp"
 
-BrokenBrick::BrokenBrick(SpritePtr sprite,
+BrokenBrick::BrokenBrick(SpritePtr sprite_,
                          const Vector& pos, const Vector& nmovement) :
   timer(),
-  sprite(sprite),
+  sprite(sprite_),
   position(pos),
   movement(nmovement)
 {

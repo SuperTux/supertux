@@ -21,8 +21,8 @@
 
 namespace scripting {
 
-Platform::Platform(::Platform* platform)
-  : platform(platform)
+Platform::Platform(::Platform* platform_)
+  : platform(platform_)
 { }
 
 Platform::~Platform()

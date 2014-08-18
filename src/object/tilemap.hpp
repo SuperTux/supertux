@@ -96,8 +96,8 @@ public:
   boost::shared_ptr<PathWalker> get_walker()
   { return walker; }
 
-  void set_offset(const Vector &offset)
-  { this->offset = offset; }
+  void set_offset(const Vector &offset_)
+  { this->offset = offset_; }
 
   /* Returns the position of the upper-left corner of
    * tile (x, y) in the sector. */

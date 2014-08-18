@@ -39,12 +39,15 @@ Config::Config() :
   sound_enabled(true),
   music_enabled(true),
   console_enabled(false),
-  random_seed(0),          // set by time(), by default (unless in config)
+  random_seed(0), // set by time(), by default (unless in config)
   start_level(),
   enable_script_debugger(false),
   start_demo(),
   record_demo(),
-  locale()
+  locale(),
+  keyboard_config(),
+  joystick_config(),
+  disabled_addon_filenames()
 {
 }
 
@@ -59,7 +62,9 @@ Config::load()
 
   const lisp::Lisp* config_lisp = root->get_lisp("supertux-config");
   if(!config_lisp)
+  {
     throw std::runtime_error("File is not a supertux-config file");
+  }
 
   config_lisp->get("profile", profile);
   config_lisp->get("show_fps", show_fps);
@@ -68,7 +73,8 @@ Config::load()
   config_lisp->get("random_seed", random_seed);
 
   const lisp::Lisp* config_video_lisp = config_lisp->get_lisp("video");
-  if(config_video_lisp) {
+  if(config_video_lisp)
+  {
     config_video_lisp->get("fullscreen", use_fullscreen);
     std::string video_string;
     config_video_lisp->get("video", video_string);
@@ -95,13 +101,25 @@ Config::load()
   }
 
   const lisp::Lisp* config_control_lisp = config_lisp->get_lisp("control");
-  if(config_control_lisp && g_input_manager) {
-    g_input_manager->read(*config_control_lisp);
+  if (config_control_lisp)
+  {
+    const lisp::Lisp* keymap_lisp = config_control_lisp->get_lisp("keymap");
+    if (keymap_lisp)
+    {
+      keyboard_config.read(*config_control_lisp);
+    }
+
+    const lisp::Lisp* joystick_lisp = config_control_lisp->get_lisp("joystick");
+    if (joystick_lisp)
+    {
+      joystick_config.read(joystick_lisp);
+    }
   }
 
   const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
-  if(config_addons_lisp) {
-    AddonManager::get_instance().read(*config_addons_lisp);
+  if (config_addons_lisp)
+  {
+    config_addons_lisp->get("disabled-addons", disabled_addon_filenames);
   }
 }
 
@@ -141,14 +159,20 @@ Config::save()
   writer.write("music_enabled", music_enabled);
   writer.end_list("audio");
 
-  if(g_input_manager) {
-    writer.start_list("control");
-    g_input_manager->write(writer);
-    writer.end_list("control");
+  writer.start_list("control");
+  {
+    writer.start_list("keymap");
+    keyboard_config.write(writer);
+    writer.end_list("keymap");
+
+    writer.start_list("joystick");
+    joystick_config.write(writer);
+    writer.end_list("joystick");
   }
+  writer.end_list("control");
 
   writer.start_list("addons");
-  AddonManager::get_instance().write(writer);
+  writer.write("disabled-addons", disabled_addon_filenames);
   writer.end_list("addons");
 
   writer.end_list("supertux-config");

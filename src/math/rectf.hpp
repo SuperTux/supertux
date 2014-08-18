@@ -19,6 +19,7 @@
 
 #include <assert.h>
 
+#include "math/sizef.hpp"
 #include "math/vector.hpp"
 #include "object/anchor_point.hpp"
 
@@ -89,9 +90,9 @@ public:
     set_width(width);
     set_height(height);
   }
-  Vector get_size()
+  Sizef get_size() const
   {
-    return Vector(get_width(), get_height());
+    return Sizef(get_width(), get_height());
   }
 
   void move(const Vector& v)

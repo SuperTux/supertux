@@ -157,9 +157,9 @@ protected:
   friend class CollisionGrid;
   friend class Platform;
 
-  void set_group(CollisionGroup group)
+  void set_group(CollisionGroup group_)
   {
-    this->group = group;
+    this->group = group_;
   }
 
   /** The bounding box of the object (as used for collision detection,

@@ -65,11 +65,8 @@ CommandLineArguments::print_datadir()
 }
 
 void
-CommandLineArguments::print_help(const char* argv0)
+CommandLineArguments::print_help(const char* arg0)
 {
-  std::string default_user_data_dir =
-      std::string(PHYSFS_getUserDir()) + WRITEDIR_NAME;
-
   std::cerr << boost::format(_(
                  "\n"
                  "Usage: %s [OPTIONS] [LEVELFILE]\n\n"
@@ -97,10 +94,9 @@ CommandLineArguments::print_help(const char* argv0)
                  "\n"
                  "Environment variables:\n"
                  "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
-                 "                               default %s\n"
                  "\n"
                  ))
-            % argv0 % default_user_data_dir
+            % arg0
             << std::flush;
 }
 

@@ -20,6 +20,7 @@
 #include <sstream>
 
 #include "control/joystick_manager.hpp"
+#include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
 
 namespace {
@@ -32,7 +33,7 @@ enum {
 
 } // namespace
 
-JoystickMenu::JoystickMenu(InputManager* input_manager) :
+JoystickMenu::JoystickMenu(InputManager& input_manager) :
   m_input_manager(input_manager),
   m_joysticks_available(false)
 {
@@ -50,16 +51,16 @@ JoystickMenu::recreate_menu()
   add_hl();
 
   add_toggle(MNID_AUTO_JOYSTICK_CFG, _("Manual Configuration"),
-             !m_input_manager->use_game_controller())
+             !m_input_manager.use_game_controller())
     ->set_help(_("Use manual configuration instead of SDL2's automatic GameController support"));
 
-  if (m_input_manager->use_game_controller())
+  if (m_input_manager.use_game_controller())
   {
     m_joysticks_available = false;
   }
   else
   {
-    if (m_input_manager->joystick_manager->joysticks.size() > 0)
+    if (m_input_manager.joystick_manager->joysticks.size() > 0)
     {
       m_joysticks_available = true;
 
@@ -75,7 +76,7 @@ JoystickMenu::recreate_menu()
       add_controlfield(Controller::PEEK_UP,     _("Peek Up"));
       add_controlfield(Controller::PEEK_DOWN,   _("Peek Down"));
 
-      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), m_input_manager->joystick_manager->jump_with_up_joy);
+      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), g_config->joystick_config.jump_with_up_joy);
     }
     else
     {
@@ -112,21 +113,21 @@ JoystickMenu::menu_action(MenuItem* item)
   if (0 <= item->id && item->id < Controller::CONTROLCOUNT)
   {
     item->change_input(_("Press Button"));
-    m_input_manager->joystick_manager->wait_for_joystick = item->id;
+    m_input_manager.joystick_manager->wait_for_joystick = item->id;
   }
   else if (item->id == MNID_JUMP_WITH_UP)
   {
-    m_input_manager->joystick_manager->jump_with_up_joy = item->toggled;
+    g_config->joystick_config.jump_with_up_joy = item->toggled;
   }
   else if (item->id == MNID_AUTO_JOYSTICK_CFG)
   {
-    m_input_manager->use_game_controller(!item->toggled);
-    m_input_manager->reset();
+    m_input_manager.use_game_controller(!item->toggled);
+    m_input_manager.reset();
     recreate_menu();
   }
   else if(item->id == MNID_SCAN_JOYSTICKS)
   {
-    m_input_manager->reset();
+    m_input_manager.reset();
     recreate_menu();
   }
 }
@@ -134,9 +135,9 @@ JoystickMenu::menu_action(MenuItem* item)
 void
 JoystickMenu::refresh_menu_item(Controller::Control id)
 {
-  int button  = m_input_manager->joystick_manager->reversemap_joybutton(id);
-  int axis    = m_input_manager->joystick_manager->reversemap_joyaxis(id);
-  int hat_dir = m_input_manager->joystick_manager->reversemap_joyhat(id);
+  int button  = g_config->joystick_config.reversemap_joybutton(id);
+  int axis    = g_config->joystick_config.reversemap_joyaxis(id);
+  int hat_dir = g_config->joystick_config.reversemap_joyhat(id);
 
   if (button != -1)
   {

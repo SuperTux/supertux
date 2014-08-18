@@ -21,13 +21,13 @@
 #include "sprite/sprite.hpp"
 
 WalkingBadguy::WalkingBadguy(const Vector& pos,
-                             const std::string& sprite_name,
-                             const std::string& walk_left_action,
-                             const std::string& walk_right_action,
-                             int layer) :
-  BadGuy(pos, sprite_name, layer),
-  walk_left_action(walk_left_action),
-  walk_right_action(walk_right_action),
+                             const std::string& sprite_name_,
+                             const std::string& walk_left_action_,
+                             const std::string& walk_right_action_,
+                             int layer_) :
+  BadGuy(pos, sprite_name_, layer_),
+  walk_left_action(walk_left_action_),
+  walk_right_action(walk_right_action_),
   walk_speed(80),
   max_drop_height(-1),
   turn_around_timer(),
@@ -37,13 +37,13 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
 
 WalkingBadguy::WalkingBadguy(const Vector& pos,
                              Direction direction,
-                             const std::string& sprite_name,
-                             const std::string& walk_left_action,
-                             const std::string& walk_right_action,
-                             int layer) :
-  BadGuy(pos, direction, sprite_name, layer),
-  walk_left_action(walk_left_action),
-  walk_right_action(walk_right_action),
+                             const std::string& sprite_name_,
+                             const std::string& walk_left_action_,
+                             const std::string& walk_right_action_,
+                             int layer_) :
+  BadGuy(pos, direction, sprite_name_, layer_),
+  walk_left_action(walk_left_action_),
+  walk_right_action(walk_right_action_),
   walk_speed(80),
   max_drop_height(-1),
   turn_around_timer(),
@@ -52,13 +52,13 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
 }
 
 WalkingBadguy::WalkingBadguy(const Reader& reader,
-                             const std::string& sprite_name,
-                             const std::string& walk_left_action,
-                             const std::string& walk_right_action,
-                             int layer) :
-  BadGuy(reader, sprite_name, layer),
-  walk_left_action(walk_left_action),
-  walk_right_action(walk_right_action),
+                             const std::string& sprite_name_,
+                             const std::string& walk_left_action_,
+                             const std::string& walk_right_action_,
+                             int layer_) :
+  BadGuy(reader, sprite_name_, layer_),
+  walk_left_action(walk_left_action_),
+  walk_right_action(walk_right_action_),
   walk_speed(80),
   max_drop_height(-1),
   turn_around_timer(),

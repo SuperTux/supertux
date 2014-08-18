@@ -40,18 +40,20 @@
 #include "object/decal.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "scripting/scripting.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/screen_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/menu/worldmap_menu.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/savegame.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/shrinkfade.hpp"
 #include "supertux/spawn_point.hpp"
@@ -59,7 +61,6 @@
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
 #include "supertux/world.hpp"
-#include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -72,13 +73,14 @@
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
 
+
 static const float CAMERA_PAN_SPEED = 5.0;
 
 namespace worldmap {
 
 WorldMap* WorldMap::current_ = NULL;
 
-WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint) :
+WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint_) :
   tux(),
   m_savegame(savegame),
   tileset(NULL),
@@ -102,7 +104,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   worldmap_table(),
   scripts(),
   ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
-  force_spawnpoint(force_spawnpoint),
+  force_spawnpoint(force_spawnpoint_),
   in_level(false),
   pan_pos(),
   panning(false),
@@ -133,7 +135,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   sq_addref(global_vm, &worldmap_table);
   sq_pop(global_vm, 1);
 
-  sound_manager->preload("sounds/warp.wav");
+  SoundManager::current()->preload("sounds/warp.wav");
 
   // load worldmap objects
   load(filename);
@@ -237,10 +239,10 @@ WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
 }
 
 void
-WorldMap::change(const std::string& filename, const std::string& force_spawnpoint)
+WorldMap::change(const std::string& filename, const std::string& force_spawnpoint_)
 {
-  g_screen_manager->pop_screen();
-  g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, m_savegame, force_spawnpoint)));
+  ScreenManager::current()->pop_screen();
+  ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, m_savegame, force_spawnpoint_)));
 }
 
 void
@@ -253,32 +255,32 @@ WorldMap::load(const std::string& filename)
     lisp::Parser parser;
     const lisp::Lisp* root = parser.parse(map_filename);
 
-    const lisp::Lisp* level = root->get_lisp("supertux-level");
-    if(level == NULL)
+    const lisp::Lisp* level_ = root->get_lisp("supertux-level");
+    if(level_ == NULL)
       throw std::runtime_error("file isn't a supertux-level file.");
 
-    level->get("name", name);
+    level_->get("name", name);
 
-    const lisp::Lisp* sector = level->get_lisp("sector");
+    const lisp::Lisp* sector = level_->get_lisp("sector");
     if(!sector)
       throw std::runtime_error("No sector specified in worldmap file.");
 
-    const lisp::Lisp* tilesets_lisp = level->get_lisp("tilesets");
+    const lisp::Lisp* tilesets_lisp = level_->get_lisp("tilesets");
     if(tilesets_lisp != NULL) {
-      tileset      = tile_manager->parse_tileset_definition(*tilesets_lisp).release();
+      tileset      = TileManager::current()->parse_tileset_definition(*tilesets_lisp).release();
       free_tileset = true;
     }
     std::string tileset_name;
-    if(level->get("tileset", tileset_name)) {
+    if(level_->get("tileset", tileset_name)) {
       if(tileset != NULL) {
-        log_warning << "multiple tilesets specified in level" << std::endl;
+        log_warning << "multiple tilesets specified in level_" << std::endl;
       } else {
-        tileset = tile_manager->get_tileset(tileset_name);
+        tileset = TileManager::current()->get_tileset(tileset_name);
       }
     }
     /* load default tileset */
     if(tileset == NULL) {
-      tileset = tile_manager->get_tileset("images/worldmap.strf");
+      tileset = TileManager::current()->get_tileset("images/worldmap.strf");
     }
     current_tileset = tileset;
 
@@ -540,11 +542,11 @@ WorldMap::finished_level(Level* gamelevel)
 
 Vector
 WorldMap::get_camera_pos_for_tux() {
-  Vector camera_offset;
+  Vector camera_offset_;
   Vector tux_pos = tux->get_pos();
-  camera_offset.x = tux_pos.x - SCREEN_WIDTH/2;
-  camera_offset.y = tux_pos.y - SCREEN_HEIGHT/2;
-  return camera_offset;
+  camera_offset_.x = tux_pos.x - SCREEN_WIDTH/2;
+  camera_offset_.y = tux_pos.y - SCREEN_HEIGHT/2;
+  return camera_offset_;
 }
 
 void
@@ -608,12 +610,12 @@ WorldMap::update(float delta)
     if(!panning) {
       camera_offset = get_camera_pos_for_tux();
     } else {
-      Vector delta = pan_pos - camera_offset;
-      float mag = delta.norm();
+      Vector delta__ = pan_pos - camera_offset;
+      float mag = delta__.norm();
       if(mag > CAMERA_PAN_SPEED) {
-        delta *= CAMERA_PAN_SPEED/mag;
+        delta__ *= CAMERA_PAN_SPEED/mag;
       }
-      camera_offset += delta;
+      camera_offset += delta__;
       if(camera_offset == pan_pos) {
         panning = false;
       }
@@ -632,7 +634,7 @@ WorldMap::update(float delta)
     }
 
     // handle input
-    Controller *controller = g_input_manager->get_controller();
+    Controller *controller = InputManager::current()->get_controller();
     bool enter_level = false;
     if(controller->pressed(Controller::ACTION)
        || controller->pressed(Controller::JUMP)
@@ -642,7 +644,14 @@ WorldMap::update(float delta)
         enter_level = true;
     }
     if(controller->pressed(Controller::PAUSE_MENU))
+    {
       on_escape_press();
+    }
+
+    if(controller->pressed(Controller::CHEAT_MENU))
+    {
+      MenuManager::instance().set_menu(MenuStorage::WORLDMAP_CHEAT_MENU);
+    }
 
     // check for teleporters
     Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
@@ -652,7 +661,7 @@ WorldMap::update(float delta)
         change(teleporter->worldmap, teleporter->spawnpoint);
       } else {
         // TODO: an animation, camera scrolling or a fading would be a nice touch
-        sound_manager->play("sounds/warp.wav");
+        SoundManager::current()->play("sounds/warp.wav");
         tux->back_direction = D_NONE;
         move_to_spawnpoint(teleporter->spawnpoint, true);
       }
@@ -669,8 +678,8 @@ WorldMap::update(float delta)
     if (enter_level && !tux->is_moving())
     {
       /* Check level action */
-      LevelTile* level = at_level();
-      if (!level) {
+      LevelTile* level_ = at_level();
+      if (!level_) {
         //Respawn if player on a tile with no level and nowhere to go.
         int tile_data = tile_data_at(tux->get_tile_pos());
         if(!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))){
@@ -682,16 +691,16 @@ WorldMap::update(float delta)
         return;
       }
 
-      if (level->pos == tux->get_tile_pos()) {
+      if (level_->pos == tux->get_tile_pos()) {
         try {
-          Vector shrinkpos = Vector(level->pos.x*32 + 16 - camera_offset.x,
-                                    level->pos.y*32 +  8 - camera_offset.y);
-          std::string levelfile = levels_path + level->get_name();
+          Vector shrinkpos = Vector(level_->pos.x*32 + 16 - camera_offset.x,
+                                    level_->pos.y*32 +  8 - camera_offset.y);
+          std::string levelfile = levels_path + level_->get_name();
 
           // update state and savegame
           save_state();
 
-          g_screen_manager->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_savegame, &level->statistics)),
+          ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_savegame, &level_->statistics)),
                                         std::unique_ptr<ScreenFade>(new ShrinkFade(shrinkpos, 1.0f)));
           in_level = true;
         } catch(std::exception& e) {
@@ -897,7 +906,7 @@ WorldMap::draw_status(DrawingContext& context)
 void
 WorldMap::setup()
 {
-  sound_manager->play_music(music);
+  SoundManager::current()->play_music(music);
   MenuManager::instance().clear_menu_stack();
 
   current_ = this;
@@ -950,6 +959,16 @@ WorldMap::leave()
   if(SQ_FAILED(sq_deleteslot(global_vm, -2, SQFalse)))
     throw SquirrelError(global_vm, "Couldn't unset worldmap in roottable");
   sq_pop(global_vm, 1);
+}
+
+void
+WorldMap::set_levels_solved(bool solved, bool perfect)
+{
+  for(auto& level : levels)
+  {
+    level->set_solved(solved);
+    level->set_perfect(perfect);
+  }
 }
 
 void

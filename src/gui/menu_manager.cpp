@@ -164,13 +164,13 @@ MenuManager::process_input()
 }
 
 void
-MenuManager::event(const SDL_Event& event)
+MenuManager::event(const SDL_Event& event_)
 {
   if (current() && !m_transition->is_active())
   {
     // only pass events when the menu is fully visible and not in a
     // transition animation
-    current()->event(event);
+    current()->event(event_);
   }
 }
 
@@ -258,7 +258,7 @@ MenuManager::set_menu(std::unique_ptr<Menu> menu)
   }
 
   // just to be sure...
-  g_input_manager->reset();
+  InputManager::current()->reset();
 }
 
 void

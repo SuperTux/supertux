@@ -22,7 +22,7 @@
 
 static const float BORDER_SIZE = 75;
 
-DisplayEffect::DisplayEffect(std::string name) :
+DisplayEffect::DisplayEffect(const std::string& name_) :
   screen_fade(NO_FADE),
   screen_fadetime(0),
   screen_fading(0),
@@ -33,7 +33,7 @@ DisplayEffect::DisplayEffect(std::string name) :
   black(false),
   borders(false)
 {
-  this->name = name;
+  this->name = name_;
 }
 
 DisplayEffect::~DisplayEffect()

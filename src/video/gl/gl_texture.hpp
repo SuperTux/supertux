@@ -27,11 +27,11 @@
 class GLTexture : public Texture
 {
 protected:
-  GLuint handle;
-  unsigned int texture_width;
-  unsigned int texture_height;
-  unsigned int image_width;
-  unsigned int image_height;
+  GLuint m_handle;
+  unsigned int m_texture_width;
+  unsigned int m_texture_height;
+  unsigned int m_image_width;
+  unsigned int m_image_height;
 
 public:
   GLTexture(unsigned int width, unsigned int height);
@@ -39,41 +39,41 @@ public:
   ~GLTexture();
 
   const GLuint &get_handle() const {
-    return handle;
+    return m_handle;
   }
 
   void set_handle(GLuint handle) {
-    this->handle = handle;
+    m_handle = handle;
   }
 
   unsigned int get_texture_width() const
   {
-    return texture_width;
+    return m_texture_width;
   }
 
   unsigned int get_texture_height() const
   {
-    return texture_height;
+    return m_texture_height;
   }
 
   unsigned int get_image_width() const
   {
-    return image_width;
+    return m_image_width;
   }
 
   unsigned int get_image_height() const
   {
-    return image_height;
+    return m_image_height;
   }
 
   void set_image_width(unsigned int width)
   {
-    image_width = width;
+    m_image_width = width;
   }
 
   void set_image_height(unsigned int height)
   {
-    image_height = height;
+    m_image_height = height;
   }
 
 private:

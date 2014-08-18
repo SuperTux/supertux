@@ -220,6 +220,11 @@ public:
    */
   float get_height() const;
 
+  /**
+   * Mark all levels as solved or unsolved
+   */
+  void set_levels_solved(bool solved, bool perfect);
+
 private:
   void get_level_title(LevelTile& level);
   void get_level_target_time(LevelTile& level);

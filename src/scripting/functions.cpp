@@ -33,6 +33,7 @@
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 #include "video/renderer.hpp"
+#include "video/video_system.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
 
@@ -43,7 +44,7 @@ namespace scripting {
 
 SQInteger display(HSQUIRRELVM vm)
 {
-  Console::output << squirrel2string(vm, -1) << std::endl;
+  ConsoleBuffer::output << squirrel2string(vm, -1) << std::endl;
   return 0;
 }
 
@@ -65,37 +66,37 @@ void wait(HSQUIRRELVM vm, float seconds)
 
 void wait_for_screenswitch(HSQUIRRELVM vm)
 {
-  g_screen_manager->m_waiting_threads.add(vm);
+  ScreenManager::current()->m_waiting_threads.add(vm);
 }
 
 void exit_screen()
 {
-  g_screen_manager->pop_screen();
+  ScreenManager::current()->pop_screen();
 }
 
 void fadeout_screen(float seconds)
 {
-  g_screen_manager->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeOut(seconds)));
+  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeOut(seconds)));
 }
 
 void shrink_screen(float dest_x, float dest_y, float seconds)
 {
-  g_screen_manager->set_screen_fade(std::unique_ptr<ScreenFade>(new ShrinkFade(Vector(dest_x, dest_y), seconds)));
+  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new ShrinkFade(Vector(dest_x, dest_y), seconds)));
 }
 
 void abort_screenfade()
 {
-  g_screen_manager->set_screen_fade(std::unique_ptr<ScreenFade>());
+  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>());
 }
 
 std::string translate(const std::string& text)
 {
-  return dictionary_manager->get_dictionary().translate(text);
+  return g_dictionary_manager->get_dictionary().translate(text);
 }
 
 void display_text_file(const std::string& filename)
 {
-  g_screen_manager->push_screen(std::unique_ptr<Screen>(new TextScroller(filename)));
+  ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScroller(filename)));
 }
 
 void load_worldmap(const std::string& filename)
@@ -108,7 +109,7 @@ void load_worldmap(const std::string& filename)
   }
   else
   {
-    g_screen_manager->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, WorldMap::current()->get_savegame())));
+    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, WorldMap::current()->get_savegame())));
   }
 }
 
@@ -120,7 +121,7 @@ void load_level(const std::string& filename)
   }
   else
   {
-    g_screen_manager->push_screen(std::unique_ptr<Screen>(new GameSession(filename, GameSession::current()->get_savegame())));
+    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new GameSession(filename, GameSession::current()->get_savegame())));
   }
 }
 
@@ -204,12 +205,12 @@ bool validate_sector_player()
 
 void play_music(const std::string& filename)
 {
-  sound_manager->play_music(filename);
+  SoundManager::current()->play_music(filename);
 }
 
 void play_sound(const std::string& filename)
 {
-  sound_manager->play(filename);
+  SoundManager::current()->play(filename);
 }
 
 void grease()
@@ -276,12 +277,12 @@ void camera()
 
 void set_gamma(float gamma)
 {
-  Renderer::instance()->set_gamma(gamma);
+  VideoSystem::current()->get_renderer().set_gamma(gamma);
 }
 
 void quit()
 {
-  g_screen_manager->quit();
+  ScreenManager::current()->quit();
 }
 
 int rand()

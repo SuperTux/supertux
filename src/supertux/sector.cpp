@@ -46,6 +46,7 @@
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
@@ -90,7 +91,7 @@ Sector::Sector(Level* parent) :
   add_object(new DisplayEffect("Effect"));
   add_object(new TextObject("Text"));
 
-  sound_manager->preload("sounds/shoot.wav");
+  SoundManager::current()->preload("sounds/shoot.wav");
 
   // create a new squirrel table for the sector
   using namespace scripting;
@@ -145,37 +146,37 @@ Sector::get_level()
 }
 
 GameObject*
-Sector::parse_object(const std::string& name, const Reader& reader)
+Sector::parse_object(const std::string& name_, const Reader& reader)
 {
-  if(name == "camera") {
-    Camera* camera = new Camera(this, "Camera");
-    camera->parse(reader);
-    return camera;
-  } else if(name == "particles-snow") {
+  if(name_ == "camera") {
+    Camera* camera_ = new Camera(this, "Camera");
+    camera_->parse(reader);
+    return camera_;
+  } else if(name_ == "particles-snow") {
     SnowParticleSystem* partsys = new SnowParticleSystem();
     partsys->parse(reader);
     return partsys;
-  } else if(name == "particles-rain") {
+  } else if(name_ == "particles-rain") {
     RainParticleSystem* partsys = new RainParticleSystem();
     partsys->parse(reader);
     return partsys;
-  } else if(name == "particles-comets") {
+  } else if(name_ == "particles-comets") {
     CometParticleSystem* partsys = new CometParticleSystem();
     partsys->parse(reader);
     return partsys;
-  } else if(name == "particles-ghosts") {
+  } else if(name_ == "particles-ghosts") {
     GhostParticleSystem* partsys = new GhostParticleSystem();
     partsys->parse(reader);
     return partsys;
-  } else if(name == "particles-clouds") {
+  } else if(name_ == "particles-clouds") {
     CloudParticleSystem* partsys = new CloudParticleSystem();
     partsys->parse(reader);
     return partsys;
-  } else if(name == "money") { // for compatibility with old maps
+  } else if(name_ == "money") { // for compatibility with old maps
     return new Jumpy(reader);
   } else {
     try {
-      return ObjectFactory::instance().create(name, reader);
+      return ObjectFactory::instance().create(name_, reader);
     } catch(std::exception& e) {
       log_warning << e.what() << "" << std::endl;
       return 0;
@@ -390,8 +391,8 @@ Sector::parse_old_format(const Reader& reader)
   }
 
   // add a camera
-  Camera* camera = new Camera(this, "Camera");
-  add_object(camera);
+  Camera* camera_ = new Camera(this, "Camera");
+  add_object(camera_);
 
   update_game_objects();
 
@@ -751,31 +752,31 @@ Sector::before_object_add(GameObject* object)
     solid_tilemaps.push_back(tilemap);
   }
 
-  Camera* camera = dynamic_cast<Camera*> (object);
-  if(camera != NULL) {
+  Camera* camera_ = dynamic_cast<Camera*> (object);
+  if(camera_ != NULL) {
     if(this->camera != 0) {
       log_warning << "Multiple cameras added. Ignoring" << std::endl;
       return false;
     }
-    this->camera = camera;
+    this->camera = camera_;
   }
 
-  Player* player = dynamic_cast<Player*> (object);
-  if(player != NULL) {
+  Player* player_ = dynamic_cast<Player*> (object);
+  if(player_ != NULL) {
     if(this->player != 0) {
       log_warning << "Multiple players added. Ignoring" << std::endl;
       return false;
     }
-    this->player = player;
+    this->player = player_;
   }
 
-  DisplayEffect* effect = dynamic_cast<DisplayEffect*> (object);
-  if(effect != NULL) {
+  DisplayEffect* effect_ = dynamic_cast<DisplayEffect*> (object);
+  if(effect_ != NULL) {
     if(this->effect != 0) {
       log_warning << "Multiple DisplayEffects added. Ignoring" << std::endl;
       return false;
     }
-    this->effect = effect;
+    this->effect = effect_;
   }
 
   if(_current == this) {
@@ -1468,7 +1469,7 @@ Sector::add_bullet(const Vector& pos, const PlayerStatus* player_status, float x
   new_bullet = new Bullet(pos, xm, dir, player_status->bonus);
   add_object(new_bullet);
 
-  sound_manager->play("sounds/shoot.wav");
+  SoundManager::current()->play("sounds/shoot.wav");
 
   return true;
 }
@@ -1486,16 +1487,16 @@ Sector::play_music(MusicType type)
   currentmusic = type;
   switch(currentmusic) {
     case LEVEL_MUSIC:
-      sound_manager->play_music(music);
+      SoundManager::current()->play_music(music);
       break;
     case HERRING_MUSIC:
-      sound_manager->play_music("music/invincible.ogg");
+      SoundManager::current()->play_music("music/invincible.ogg");
       break;
     case HERRING_WARNING_MUSIC:
-      sound_manager->stop_music(TUX_INVINCIBLE_TIME_WARNING);
+      SoundManager::current()->stop_music(TUX_INVINCIBLE_TIME_WARNING);
       break;
     default:
-      sound_manager->play_music("");
+      SoundManager::current()->play_music("");
       break;
   }
 }
@@ -1597,10 +1598,10 @@ Sector::get_ambient_blue()
 }
 
 void
-Sector::set_gravity(float gravity)
+Sector::set_gravity(float gravity_)
 {
   log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects" << std::endl;
-  this->gravity = gravity;
+  this->gravity = gravity_;
 }
 
 float

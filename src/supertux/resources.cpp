@@ -20,7 +20,6 @@
 #include "gui/mousecursor.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/player_status.hpp"
-#include "supertux/tile_manager.hpp"
 #include "video/font.hpp"
 
 MouseCursor* Resources::mouse_cursor = NULL;
@@ -36,17 +35,15 @@ SurfacePtr Resources::back;
 SurfacePtr Resources::arrow_left;
 SurfacePtr Resources::arrow_right;
 
-/* Load graphics/sounds shared between all levels: */
-void
-Resources::load_shared()
+Resources::Resources()
 {
-  /* Load the mouse-cursor */
+  // Load the mouse-cursor
   mouse_cursor = new MouseCursor("images/engine/menu/mousecursor.png",
                                  "images/engine/menu/mousecursor-click.png",
                                  "images/engine/menu/mousecursor-link.png");
   MouseCursor::set_current(mouse_cursor);
 
-  /* Load global images: */
+  // Load global images:
   fixed_font.reset(new Font(Font::FIXED, "fonts/white.stf"));
   normal_font.reset(new Font(Font::VARIABLE, "fonts/white.stf"));
   small_font.reset(new Font(Font::VARIABLE, "fonts/white-small.stf", 1));
@@ -58,46 +55,22 @@ Resources::load_shared()
   back = Surface::create("images/engine/menu/arrow-back.png");
   arrow_left = Surface::create("images/engine/menu/arrow-left.png");
   arrow_right = Surface::create("images/engine/menu/arrow-right.png");
-
-  tile_manager   = new TileManager();
-  sprite_manager = new SpriteManager();
 }
 
-/* Free shared data: */
-void
-Resources::unload_shared()
+Resources::~Resources()
 {
-  /* Free menu images */
-  if(checkbox != NULL)
-    checkbox.reset();
-  if(checkbox_checked != NULL)
-    checkbox_checked.reset();
-  if(back != NULL)
-    back.reset();
-  if(arrow_left != NULL)
-    arrow_left.reset();
-  if(arrow_right != NULL)
-    arrow_right.reset();
+  // Free menu images
+  checkbox.reset();
+  checkbox_checked.reset();
+  back.reset();
+  arrow_left.reset();
+  arrow_right.reset();
 
-  /* Free global images: */
-  if(fixed_font != NULL)
-    fixed_font.reset();
-  if(normal_font != NULL)
-    normal_font.reset();
-  if(small_font != NULL)
-    small_font.reset();
-  if(big_font != NULL)
-    big_font.reset();
-
-  /* Free tilesets */
-  delete tile_manager;
-  tile_manager = 0;
-
-  if(sprite_manager != NULL)
-  {
-    delete sprite_manager;
-    sprite_manager = NULL;
-  }
+  // Free global images:
+  fixed_font.reset();
+  normal_font.reset();
+  small_font.reset();
+  big_font.reset();
 
   /* Free mouse-cursor */
   if(mouse_cursor != NULL)

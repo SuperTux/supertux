@@ -23,6 +23,7 @@
 
 #include "scripting/thread_queue.hpp"
 #include "supertux/screen.hpp"
+#include "util/currenton.hpp"
 
 class Console;
 class DrawingContext;
@@ -34,7 +35,7 @@ class ScreenFade;
 /**
  * Manages, updates and draws all Screens, Controllers, Menus and the Console.
  */
-class ScreenManager
+class ScreenManager : public Currenton<ScreenManager>
 {
 public:
   ScreenManager();

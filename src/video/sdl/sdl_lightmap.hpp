@@ -42,11 +42,11 @@ public:
   void get_light(const DrawingRequest& request) const;
 
 private:
-  SDL_Renderer* renderer;
-  SDL_Texture* texture;
-  int width;
-  int height;
-  int LIGHTMAP_DIV;
+  SDL_Renderer* m_renderer;
+  SDL_Texture* m_texture;
+  int m_width;
+  int m_height;
+  int m_LIGHTMAP_DIV;
 
 private:
   SDLLightmap(const SDLLightmap&);

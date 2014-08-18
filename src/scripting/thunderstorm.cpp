@@ -20,8 +20,8 @@
 
 namespace scripting {
 
-Thunderstorm::Thunderstorm(::Thunderstorm* thunderstorm)
-  : thunderstorm(thunderstorm)
+Thunderstorm::Thunderstorm(::Thunderstorm* thunderstorm_)
+  : thunderstorm(thunderstorm_)
 {
 }
 

@@ -52,7 +52,7 @@ IceCrusher::IceCrusher(const Reader& reader) :
 {
   // TODO: icecrusher hitting deserves its own sounds-
   // one for hitting the ground, one for hitting Tux
-  sound_manager->preload("sounds/brick.wav");
+  SoundManager::current()->preload("sounds/brick.wav");
 
   start_position = get_bbox().p1;
   set_state(state, true);
@@ -61,11 +61,11 @@ IceCrusher::IceCrusher(const Reader& reader) :
   if (sprite_width >= 128.0)
     ic_size = LARGE;
 
-  lefteye = sprite_manager->create(sprite_name);
+  lefteye = SpriteManager::current()->create(sprite_name);
   lefteye->set_action("lefteye");
-  righteye = sprite_manager->create(sprite_name);
+  righteye = SpriteManager::current()->create(sprite_name);
   righteye->set_action("righteye");
-  whites = sprite_manager->create(sprite_name);
+  whites = SpriteManager::current()->create(sprite_name);
   whites->set_action("whites");
 }
 
@@ -79,10 +79,10 @@ IceCrusher::IceCrusher(const Reader& reader) :
   }
 */
 void
-IceCrusher::set_state(IceCrusherState state, bool force)
+IceCrusher::set_state(IceCrusherState state_, bool force)
 {
-  if ((this->state == state) && (!force)) return;
-  switch(state) {
+  if ((this->state == state_) && (!force)) return;
+  switch(state_) {
     case IDLE:
       set_group(COLGROUP_STATIC);
       physic.enable_gravity (false);
@@ -103,7 +103,7 @@ IceCrusher::set_state(IceCrusherState state, bool force)
       log_debug << "IceCrusher in invalid state" << std::endl;
       break;
   }
-  this->state = state;
+  this->state = state_;
 }
 
 HitResponse
@@ -114,7 +114,7 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
   /* If the other object is the player, and the collision is at the bottom of
    * the ice crusher, hurt the player. */
   if (player && hit.bottom) {
-    sound_manager->play("sounds/brick.wav");
+    SoundManager::current()->play("sounds/brick.wav");
     if(player->is_invincible()) {
       if (state == CRUSHING)
         set_state(RECOVERING);
@@ -143,7 +143,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
         if (ic_size == LARGE) {
           cooldown_timer = PAUSE_TIME_LARGE;
           Sector::current()->camera->shake (/* frequency = */ .125f, /* x = */ 0.0, /* y = */ 16.0);
-          sound_manager->play("sounds/brick.wav");
+          SoundManager::current()->play("sounds/brick.wav");
           // throw some particles, bigger and more for large icecrusher
           for(int j = 0; j < 9; j++)
           {
@@ -160,7 +160,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
         else {
           cooldown_timer = PAUSE_TIME_NORMAL;
           Sector::current()->camera->shake (/* frequency = */ .1f, /* x = */ 0.0, /* y = */ 8.0);
-          sound_manager->play("sounds/brick.wav");
+          SoundManager::current()->play("sounds/brick.wav");
           // throw some particles
           for(int j = 0; j < 5; j++)
           {

@@ -18,7 +18,7 @@
 #include "video/gl/gl_texture.hpp"
 
 #ifdef USE_GLBINDING
-#  include <glbinding/ContextInfo.h>
+  #include <glbinding/ContextInfo.h>
 #endif
 
 namespace {
@@ -39,79 +39,79 @@ inline int next_power_of_two(int val)
 } // namespace
 
 GLTexture::GLTexture(unsigned int width, unsigned int height) :
-  handle(),
-  texture_width(),
-  texture_height(),
-  image_width(),
-  image_height()
+  m_handle(),
+  m_texture_width(),
+  m_texture_height(),
+  m_image_width(),
+  m_image_height()
 {
 #ifdef GL_VERSION_ES_CM_1_0
   assert(is_power_of_2(width));
   assert(is_power_of_2(height));
 #endif
-  texture_width  = width;
-  texture_height = height;
-  image_width  = width;
-  image_height = height;
+  m_texture_width  = width;
+  m_texture_height = height;
+  m_image_width  = width;
+  m_image_height = height;
 
   assert_gl("before creating texture");
-  glGenTextures(1, &handle);
+  glGenTextures(1, &m_handle);
 
   try {
-    glBindTexture(GL_TEXTURE_2D, handle);
+    glBindTexture(GL_TEXTURE_2D, m_handle);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA), texture_width,
-                 texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA), m_texture_width,
+				 m_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
     set_texture_params();
   } catch(...) {
-    glDeleteTextures(1, &handle);
+    glDeleteTextures(1, &m_handle);
     throw;
   }
 }
 
 GLTexture::GLTexture(SDL_Surface* image) :
-  handle(),
-  texture_width(),
-  texture_height(),
-  image_width(),
-  image_height()
+  m_handle(),
+  m_texture_width(),
+  m_texture_height(),
+  m_image_width(),
+  m_image_height()
 {
 #ifdef GL_VERSION_ES_CM_1_0
-  texture_width = next_power_of_two(image->w);
-  texture_height = next_power_of_two(image->h);
+  m_texture_width = next_power_of_two(image->w);
+  m_texture_height = next_power_of_two(image->h);
 #else
 #  ifdef USE_GLBINDING
   static auto extensions = glbinding::ContextInfo::extensions();
   if (extensions.find(GLextension::GL_ARB_texture_non_power_of_two) != extensions.end())
   {
-    texture_width  = image->w;
-    texture_height = image->h;
+    m_texture_width  = image->w;
+    m_texture_height = image->h;
   }
 #  else
   if (GLEW_ARB_texture_non_power_of_two)
   {
-    texture_width  = image->w;
-    texture_height = image->h;
+    m_texture_width  = image->w;
+    m_texture_height = image->h;
   }
 #  endif
   else
   {
-    texture_width = next_power_of_two(image->w);
-    texture_height = next_power_of_two(image->h);
+    m_texture_width = next_power_of_two(image->w);
+    m_texture_height = next_power_of_two(image->h);
   }
 #endif
 
-  image_width  = image->w;
-  image_height = image->h;
+  m_image_width  = image->w;
+  m_image_height = image->h;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
   SDL_Surface* convert = SDL_CreateRGBSurface(0,
-                                              texture_width, texture_height, 32,
+                                              m_texture_width, m_texture_height, 32,
                                               0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
 #else
   SDL_Surface* convert = SDL_CreateRGBSurface(0,
-                                              texture_width, texture_height, 32,
+                                              m_texture_width, m_texture_height, 32,
                                               0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 #endif
 
@@ -123,7 +123,7 @@ GLTexture::GLTexture(SDL_Surface* image) :
   SDL_BlitSurface(image, 0, convert, 0);
 
   assert_gl("before creating texture");
-  glGenTextures(1, &handle);
+  glGenTextures(1, &m_handle);
 
   try {
     GLenum sdl_format;
@@ -136,14 +136,14 @@ GLTexture::GLTexture(SDL_Surface* image) :
       assert(false);
     }
 
-    glBindTexture(GL_TEXTURE_2D, handle);
+    glBindTexture(GL_TEXTURE_2D, m_handle);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 #if defined(GL_UNPACK_ROW_LENGTH) || defined(USE_GLBINDING)
     glPixelStorei(GL_UNPACK_ROW_LENGTH, convert->pitch/convert->format->BytesPerPixel);
 #else
     /* OpenGL ES doesn't support UNPACK_ROW_LENGTH, let's hope SDL didn't add
      * padding bytes, otherwise we need some extra code here... */
-    assert(convert->pitch == texture_width * convert->format->BytesPerPixel);
+    assert(convert->pitch == m_texture_width * convert->format->BytesPerPixel);
 #endif
 
     if(SDL_MUSTLOCK(convert))
@@ -151,8 +151,8 @@ GLTexture::GLTexture(SDL_Surface* image) :
       SDL_LockSurface(convert);
     }
 
-    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA), texture_width,
-                 texture_height, 0, sdl_format,
+    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA),
+                 m_texture_width, m_texture_height, 0, sdl_format,
                  GL_UNSIGNED_BYTE, convert->pixels);
 
     // no not use mipmaps
@@ -170,7 +170,7 @@ GLTexture::GLTexture(SDL_Surface* image) :
 
     set_texture_params();
   } catch(...) {
-    glDeleteTextures(1, &handle);
+    glDeleteTextures(1, &m_handle);
     SDL_FreeSurface(convert);
     throw;
   }
@@ -179,7 +179,7 @@ GLTexture::GLTexture(SDL_Surface* image) :
 
 GLTexture::~GLTexture()
 {
-  glDeleteTextures(1, &handle);
+  glDeleteTextures(1, &m_handle);
 }
 
 void

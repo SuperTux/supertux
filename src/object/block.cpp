@@ -18,12 +18,14 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "object/broken_brick.hpp"
 #include "object/coin.hpp"
 #include "object/flower.hpp"
 #include "object/growup.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/sector.hpp"
 
 static const float BOUNCY_BRICK_MAX_OFFSET = 8;
 static const float BOUNCY_BRICK_SPEED = 90;
@@ -40,8 +42,8 @@ Block::Block(SpritePtr newsprite) :
 {
   bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
-  sound_manager->preload("sounds/upgrade.wav");
-  sound_manager->preload("sounds/brick.wav");
+  SoundManager::current()->preload("sounds/upgrade.wav");
+  SoundManager::current()->preload("sounds/brick.wav");
 }
 
 Block::~Block()
@@ -143,6 +145,24 @@ Block::start_break(GameObject* hitter)
 {
   start_bounce(hitter);
   breaking = true;
+}
+
+void
+Block::break_me()
+{
+  Sector* sector = Sector::current();
+  sector->add_object(
+    new BrokenBrick(sprite->clone(), get_pos(), Vector(-100, -400)));
+  sector->add_object(
+    new BrokenBrick(sprite->clone(), get_pos() + Vector(0, 16),
+                    Vector(-150, -300)));
+  sector->add_object(
+    new BrokenBrick(sprite->clone(), get_pos() + Vector(16, 0),
+                    Vector(100, -400)));
+  sector->add_object(
+    new BrokenBrick(sprite->clone(), get_pos() + Vector(16, 16),
+                    Vector(150, -300)));
+  remove_me();
 }
 
 /* EOF */

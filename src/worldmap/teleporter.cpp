@@ -36,7 +36,7 @@ Teleporter::Teleporter(const Reader& lisp) :
 
   std::string spritefile = "";
   if (lisp.get("sprite", spritefile)) {
-    sprite = sprite_manager->create(spritefile);
+    sprite = SpriteManager::current()->create(spritefile);
   }
 
   lisp.get("worldmap", worldmap);

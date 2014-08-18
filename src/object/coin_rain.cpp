@@ -32,7 +32,7 @@ CoinRain::CoinRain(const Vector& pos, bool emerge) :
   counter(0),
   drop(0)
 {
-  sprite = sprite_manager->create("images/objects/coin/coin.sprite");
+  sprite = SpriteManager::current()->create("images/objects/coin/coin.sprite");
 
   if(emerge) {
     emerge_distance = sprite->get_height();

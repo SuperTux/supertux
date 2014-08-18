@@ -17,23 +17,13 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MAIN_HPP
 
-#ifdef _WIN32
-# define WRITEDIR_NAME PACKAGE_NAME
-#else
-# define WRITEDIR_NAME "." PACKAGE_NAME
-#endif
-
 class Main
 {
 private:
-  void init_audio();
-  void init_config();
-  void init_physfs(const char* argv0);
-  void init_rand();
-  void init_sdl();
   void init_tinygettext();
   void init_video();
-  void quit_audio();
+
+  void launch_game();
 
 public:
   /** We call it run() instead of main() as main collides with

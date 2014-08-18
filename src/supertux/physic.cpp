@@ -130,9 +130,9 @@ Physic::get_acceleration() const
 }
 
 void
-Physic::enable_gravity(bool enable_gravity)
+Physic::enable_gravity(bool enable_gravity_)
 {
-  gravity_enabled_flag = enable_gravity;
+  gravity_enabled_flag = enable_gravity_;
 }
 
 bool
@@ -142,9 +142,9 @@ Physic::gravity_enabled() const
 }
 
 void
-Physic::set_gravity_modifier(float gravity_modifier)
+Physic::set_gravity_modifier(float gravity_modifier_)
 {
-  this->gravity_modifier = gravity_modifier;
+  this->gravity_modifier = gravity_modifier_;
 }
 
 Vector

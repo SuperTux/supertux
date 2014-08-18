@@ -73,7 +73,7 @@ ContribLevelsetMenu::menu_action(MenuItem* item)
 {
   if (item->kind == MN_ACTION)
   {
-    sound_manager->stop_music();
+    SoundManager::current()->stop_music();
 
     // reload the World so that we have something that we can safely
     // std::move() around without wreaking the ContribMenu

@@ -33,8 +33,8 @@ static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
 static const int LAYER_FALLING = 500;
 
-BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer) :
-  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
+BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_) :
+  MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
   physic(),
   countMe(true),
   is_initialized(false),
@@ -53,14 +53,14 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name, int layer) :
 {
   start_position = bbox.p1;
 
-  sound_manager->preload("sounds/squish.wav");
-  sound_manager->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/squish.wav");
+  SoundManager::current()->preload("sounds/fall.wav");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
 
-BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer) :
-  MovingSprite(pos, sprite_name, layer, COLGROUP_DISABLED),
+BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name_, int layer_) :
+  MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
   physic(),
   countMe(true),
   is_initialized(false),
@@ -79,14 +79,14 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 {
   start_position = bbox.p1;
 
-  sound_manager->preload("sounds/squish.wav");
-  sound_manager->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/squish.wav");
+  SoundManager::current()->preload("sounds/fall.wav");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
 
-BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name, int layer) :
-  MovingSprite(reader, sprite_name, layer, COLGROUP_DISABLED),
+BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name_, int layer_) :
+  MovingSprite(reader, sprite_name_, layer_, COLGROUP_DISABLED),
   physic(),
   countMe(true),
   is_initialized(false),
@@ -112,8 +112,8 @@ BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name, int layer) 
 
   reader.get("dead-script", dead_script);
 
-  sound_manager->preload("sounds/squish.wav");
-  sound_manager->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/squish.wav");
+  SoundManager::current()->preload("sounds/fall.wav");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
@@ -386,7 +386,7 @@ BadGuy::kill_squished(GameObject& object)
 {
   if (!is_active()) return;
 
-  sound_manager->play("sounds/squish.wav", get_pos());
+  SoundManager::current()->play("sounds/squish.wav", get_pos());
   physic.enable_gravity(true);
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
@@ -406,7 +406,7 @@ BadGuy::kill_fall()
 {
   if (!is_active()) return;
 
-  sound_manager->play("sounds/fall.wav", get_pos());
+  SoundManager::current()->play("sounds/fall.wav", get_pos());
   physic.set_velocity_y(0);
   physic.set_acceleration_y(0);
   physic.enable_gravity(true);
@@ -433,14 +433,14 @@ BadGuy::run_dead_script()
 }
 
 void
-BadGuy::set_state(State state)
+BadGuy::set_state(State state_)
 {
-  if(this->state == state)
+  if(this->state == state_)
     return;
 
   State laststate = this->state;
-  this->state = state;
-  switch(state) {
+  this->state = state_;
+  switch(state_) {
     case STATE_SQUISHED:
       state_timer.start(SQUISH_TIME);
       break;
@@ -490,8 +490,8 @@ BadGuy::try_activate()
 
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
       if (start_dir == AUTO) {
-        Player* player = get_nearest_player();
-        if (player && (player->get_bbox().p1.x > get_bbox().p2.x)) {
+        Player* player_ = get_nearest_player();
+        if (player_ && (player_->get_bbox().p1.x > get_bbox().p2.x)) {
           dir = RIGHT;
         } else {
           dir = LEFT;
@@ -624,10 +624,10 @@ BadGuy::is_ignited() const
 }
 
 void
-BadGuy::set_colgroup_active(CollisionGroup group)
+BadGuy::set_colgroup_active(CollisionGroup group_)
 {
-  this->colgroup_active = group;
-  if (state == STATE_ACTIVE) set_group(group);
+  this->colgroup_active = group_;
+  if (state == STATE_ACTIVE) set_group(group_);
 }
 
 /* EOF */

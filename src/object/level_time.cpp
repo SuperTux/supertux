@@ -120,9 +120,9 @@ LevelTime::get_time()
 }
 
 void
-LevelTime::set_time(float time_left)
+LevelTime::set_time(float time_left_)
 {
-  this->time_left = std::min(std::max(time_left, 0.0f), 999.0f);
+  this->time_left = std::min(std::max(time_left_, 0.0f), 999.0f);
 }
 
 /* EOF */

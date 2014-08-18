@@ -33,7 +33,7 @@ const float HEIGHT = 200;
 }
 
 InfoBlock::InfoBlock(const Reader& lisp) :
-  Block(sprite_manager->create("images/objects/bonus_block/infoblock.sprite")),
+  Block(SpriteManager::current()->create("images/objects/bonus_block/infoblock.sprite")),
   message(),
   shown_pct(0),
   dest_pct(0),
@@ -95,14 +95,15 @@ InfoBlock::hit(Player& player)
 }
 
 HitResponse
-InfoBlock::collision(GameObject& other, const CollisionHit& hit){
-
-	Player* player = dynamic_cast<Player*> (&other);
-	if (player) {
-		if (player->does_buttjump)
-			InfoBlock::hit(*player);
-	}
-	return Block::collision(other, hit);
+InfoBlock::collision(GameObject& other, const CollisionHit& hit_)
+{
+  Player* player = dynamic_cast<Player*> (&other);
+  if (player)
+  {
+    if (player->does_buttjump)
+      InfoBlock::hit(*player);
+  }
+  return Block::collision(other, hit_);
 }
 
 Player*

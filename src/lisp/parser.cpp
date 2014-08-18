@@ -68,19 +68,19 @@ static std::string dirname(const std::string& filename)
 }
 
 const Lisp*
-Parser::parse(const std::string& filename)
+Parser::parse(const std::string& filename_)
 {
-  IFileStreambuf ins(filename);
+  IFileStreambuf ins(filename_);
   std::istream in(&ins);
 
   if(!in.good()) {
     std::stringstream msg;
-    msg << "Parser problem: Couldn't open file '" << filename << "'.";
+    msg << "Parser problem: Couldn't open file '" << filename_ << "'.";
     throw std::runtime_error(msg.str());
   }
 
   if(dictionary_manager) {
-    std::string rel_dir = dirname (filename);
+    std::string rel_dir = dirname (filename_);
     for(char** i = searchpath; *i != NULL; i++)
     {
       std::string abs_dir = std::string (*i) + PHYSFS_getDirSeparator () + rel_dir;
@@ -89,7 +89,7 @@ Parser::parse(const std::string& filename)
     dictionary = & (dictionary_manager->get_dictionary());
   }
 
-  return parse(in, filename);
+  return parse(in, filename_);
 }
 
 const Lisp*
