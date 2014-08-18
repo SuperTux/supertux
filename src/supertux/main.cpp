@@ -368,10 +368,6 @@ Main::run(int argc, char** argv)
   {
     CommandLineArguments args;
 
-    // Do this before pre_parse_commandline, because --help now shows the
-    // default user data dir.
-    PhysfsSubsystem physfs_subsystem(argv[0]);
-
     try
     {
       args.parse_args(argc, argv);
@@ -382,6 +378,8 @@ Main::run(int argc, char** argv)
       std::cout << "Error: " << err.what() << std::endl;
       return EXIT_FAILURE;
     }
+
+    PhysfsSubsystem physfs_subsystem(argv[0]);
 
     timelog("config");
     ConfigSubsystem config_subsystem;
