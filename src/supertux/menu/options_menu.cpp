@@ -310,9 +310,4 @@ OptionsMenu::menu_action(MenuItem* item)
   }
 }
 
-void
-OptionsMenu::check_menu()
-{
-}
-
 /* EOF */
