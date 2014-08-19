@@ -13,15 +13,157 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-01-04 14:11+0000\n"
-"Last-Translator: mkkot <marcin2006@gmail.com>\n"
+"POT-Creation-Date: 2014-08-19 13:06+0000\n"
+"PO-Revision-Date: 2014-08-19 13:03+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: src/control/joystick_config.cpp:83
+msgid "Joystick Mappings"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:74
+#, c-format
+msgid "Usage: %s [OPTIONS] [LEVELFILE]"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:75
+msgid "General Options:"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:76
+msgid "  -h, --help                   Show this help message and quit"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:77
+msgid "  -v, --version                Show SuperTux version and quit"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:78
+msgid "  --verbose                    Print verbose messages"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:79
+msgid "  --debug                      Print extra verbose messages"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:80
+msgid ""
+"  --print-datadir              Print supertux's primary data directory."
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:81
+msgid "Video Options:"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:82
+msgid "  -f, --fullscreen             Run in fullscreen mode"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:83
+msgid "  -w, --window                 Run in window mode"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:84
+msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:85
+msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:86
+msgid "  -d, --default                Reset video settings to default values"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:87
+msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:88
+msgid "Audio Options:"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:89
+msgid "  --disable-sound              Disable sound effects"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:90
+msgid "  --disable-music              Disable music"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:91
+msgid "Game Options:"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:92
+msgid "  --console                    Enable ingame scripting console"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:93
+msgid "  --noconsole                  Disable ingame scripting console"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:94
+msgid "  --show-fps                   Display framerate in levels"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:95
+msgid "  --no-show-fps                Do not display framerate in levels"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:96
+msgid "  --developer                  Switch on developer feature"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:97
+msgid "  -s, --debug-scripts          Enable script debugger."
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:98
+msgid "Demo Recording Options:"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:99
+msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:100
+msgid "  --play-demo FILE LEVEL       Play a recorded demo"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:101
+msgid "Directory Options:"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:102
+msgid ""
+"  --datadir DIR                Set the directory for the games datafiles"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:103
+msgid ""
+"  --userdir DIR                Set the directory for user data (savegames, "
+"etc.)"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:104
+msgid "Environment variables:"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:105
+msgid ""
+"  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:106
+msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
+msgstr ""
 
 #: src/supertux/levelintro.cpp:94
 #, c-format
@@ -52,63 +194,31 @@ msgstr "Najlepszy czas"
 msgid "Level target time"
 msgstr "Wymagany czas przejścia poziomu"
 
-#: src/supertux/main.cpp:237
-#, c-format
-msgid ""
-"\n"
-"Usage: %s [OPTIONS] [LEVELFILE]\n"
-"\n"
-"Options:\n"
-"  -f, --fullscreen             Run in fullscreen mode\n"
-"  -w, --window                 Run in window mode\n"
-"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
-"  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
-"  -d, --default                Reset video settings to default values\n"
-"  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
-"  --disable-sfx                Disable sound effects\n"
-"  --disable-music              Disable music\n"
-"  -h, --help                   Show this help message and quit\n"
-"  -v, --version                Show SuperTux version and quit\n"
-"  --console                    Enable ingame scripting console\n"
-"  --noconsole                  Disable ingame scripting console\n"
-"  --show-fps                   Display framerate in levels\n"
-"  --no-show-fps                Do not display framerate in levels\n"
-"  --record-demo FILE LEVEL     Record a demo to FILE\n"
-"  --play-demo FILE LEVEL       Play a recorded demo\n"
-"  -s, --debug-scripts          Enable script debugger.\n"
-"  --print-datadir              Print supertux's primary data directory.\n"
-"\n"
-"Environment variables:\n"
-"  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.);\n"
-"                               default %s\n"
-"\n"
-msgstr "\nSkładnia: %s [OPCJE] [PLIK_POZIOMU]\n\nOpcje:\n  -f, --fullscreen             Uruchamia w trybie pełnoekranowym\n  -w, --window                 Uruchamia w oknie\n  -g, --geometry WYSOKOŚĆxSZEROKOŚĆ Uruchom SuperTuksa w podanej rozdzielczości\n  -a, --aspect  WYSOKOŚĆxSZEROKOŚĆ    Uruchamia SuperTuksa z podanymi proporcjami obrazu\n  -d, --default                Przywraca domyślne ustawienia wideo\n  --renderer RENDERER          Używa sdl, opengl lub auto jako silnika renderującego\n  --disable-sfx                Wyłącza efekty dźwiękowe\n  --disable-music             Wyłącza muzykę\n  -h, --help                   Wyświetla tę pomoc i kończy pracę\n  -v, --version                Wyświetla wersję SuperTuksa i kończy pracę\n  --console                    Włącza wbudowaną konsolę skryptów\n  --noconsole                  Wyłącza wbudowaną konsolę skryptów\n  --show-fps                   Wyświetla liczbę klatek na sekundę podczas gry\n  --no-show-fps                Nie wyświetla liczby klatek na sekundę podczas gry\n  --record-demo PLIK POZIOM     Nagrywa przebieg gry do PLIKU\n  --play-demo FILE LEVEL       Odtwarza nagrany poziom\n  -s, --debug-scripts          Włącza debuger skryptów.\n  --print-datadir              Wypisuje główny katalog danych SuperTuksa.\n\nZmienne środowiskowe:\n  SUPERTUX2_USER_DIR           Katalog użytkownika gry (zapis przejścia poziomów itd.);\n                               default %s\n\n"
-
-#: src/supertux/menu/addon_menu.cpp:56 src/supertux/menu/main_menu.cpp:41
+#: src/supertux/menu/addon_menu.cpp:57 src/supertux/menu/main_menu.cpp:42
 msgid "Add-ons"
 msgstr "Ściągnij dodatkowe plansze"
 
-#: src/supertux/menu/addon_menu.cpp:61
+#: src/supertux/menu/addon_menu.cpp:62
 msgid "Check Online"
 msgstr "Sprawdź w Internecie"
 
-#: src/supertux/menu/addon_menu.cpp:63
+#: src/supertux/menu/addon_menu.cpp:64
 msgid "Check Online (disabled)"
 msgstr "Sprawdź w Internecie (wyłączone)"
 
-#: src/supertux/menu/addon_menu.cpp:77
+#: src/supertux/menu/addon_menu.cpp:78
 msgid "Levelset"
 msgstr "Zestaw poziomów"
 
-#: src/supertux/menu/addon_menu.cpp:80
+#: src/supertux/menu/addon_menu.cpp:81
 msgid "Worldmap"
 msgstr "Mapa świata"
 
-#: src/supertux/menu/addon_menu.cpp:83
+#: src/supertux/menu/addon_menu.cpp:84
 msgid "World"
 msgstr "Świat"
 
-#: src/supertux/menu/addon_menu.cpp:86
+#: src/supertux/menu/addon_menu.cpp:87
 msgid "Level"
 msgstr "Poziom"
 
@@ -122,173 +232,235 @@ msgstr "%s \"%s\" przez \"%s\""
 msgid "\"%s\" by \"%s\""
 msgstr "\"%s\" przez \"%s\""
 
-#: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/contrib_menu.cpp:64
-#: src/supertux/menu/contrib_world_menu.cpp:42
-#: src/supertux/menu/joystick_menu.cpp:71
-#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/contrib_levelset_menu.cpp:68
+#: src/supertux/menu/contrib_menu.cpp:130
+#: src/supertux/menu/joystick_menu.cpp:96
+#: src/supertux/menu/keyboard_menu.cpp:48
 #: src/supertux/menu/language_menu.cpp:49
-#: src/supertux/menu/options_menu.cpp:213
-#: src/supertux/menu/profile_menu.cpp:39
+#: src/supertux/menu/options_menu.cpp:211
+#: src/supertux/menu/profile_menu.cpp:46
+#: src/supertux/menu/worldmap_cheat_menu.cpp:42
 msgid "Back"
 msgstr "Wróć"
 
-#: src/supertux/menu/contrib_menu.cpp:41 src/supertux/menu/main_menu.cpp:40
+#: src/supertux/menu/cheat_menu.cpp:29
+#: src/supertux/menu/worldmap_cheat_menu.cpp:29
+msgid "Cheats"
+msgstr ""
+
+#: src/supertux/menu/cheat_menu.cpp:31
+#: src/supertux/menu/worldmap_cheat_menu.cpp:31
+msgid "Bonus: Grow"
+msgstr ""
+
+#: src/supertux/menu/cheat_menu.cpp:32
+#: src/supertux/menu/worldmap_cheat_menu.cpp:32
+msgid "Bonus: Fire"
+msgstr ""
+
+#: src/supertux/menu/cheat_menu.cpp:33
+#: src/supertux/menu/worldmap_cheat_menu.cpp:33
+msgid "Bonus: Ice"
+msgstr ""
+
+#: src/supertux/menu/cheat_menu.cpp:34
+msgid "Bonus: Star"
+msgstr ""
+
+#: src/supertux/menu/cheat_menu.cpp:35
+msgid "Shrink Tux"
+msgstr ""
+
+#: src/supertux/menu/cheat_menu.cpp:36
+msgid "Kill Tux"
+msgstr ""
+
+#: src/supertux/menu/cheat_menu.cpp:37
+#: src/supertux/menu/worldmap_cheat_menu.cpp:36
+msgid "Finish Level"
+msgstr ""
+
+#: src/supertux/menu/contrib_menu.cpp:46 src/supertux/menu/main_menu.cpp:41
 msgid "Contrib Levels"
 msgstr "Dodatkowe plansze"
 
-#: src/supertux/menu/game_menu.cpp:28 src/supertux/menu/worldmap_menu.cpp:27
+#: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Continue"
 msgstr "Kontynuuj"
 
-#: src/supertux/menu/game_menu.cpp:29 src/supertux/menu/main_menu.cpp:42
-#: src/supertux/menu/options_menu.cpp:49
-#: src/supertux/menu/worldmap_menu.cpp:28
+#: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:43
+#: src/supertux/menu/options_menu.cpp:47
+#: src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
 msgstr "Opcje"
 
-#: src/supertux/menu/game_menu.cpp:31
+#: src/supertux/menu/game_menu.cpp:38
 msgid "Abort Level"
 msgstr "Anuluj grę"
 
-#: src/supertux/menu/joystick_menu.cpp:41
-#: src/supertux/menu/options_menu.cpp:210
+#: src/supertux/menu/joystick_menu.cpp:50
+#: src/supertux/menu/options_menu.cpp:202
 msgid "Setup Joystick"
 msgstr "Ustaw dżojstik"
 
-#: src/supertux/menu/joystick_menu.cpp:44
-#: src/supertux/menu/keyboard_menu.cpp:29
+#: src/supertux/menu/joystick_menu.cpp:53
+msgid "Manual Configuration"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:55
+msgid ""
+"Use manual configuration instead of SDL2's automatic GameController support"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:67
+#: src/supertux/menu/keyboard_menu.cpp:30
 msgid "Up"
 msgstr "W górę"
 
-#: src/supertux/menu/joystick_menu.cpp:45
-#: src/supertux/menu/keyboard_menu.cpp:30
+#: src/supertux/menu/joystick_menu.cpp:68
+#: src/supertux/menu/keyboard_menu.cpp:31
 msgid "Down"
 msgstr "W dół"
 
-#: src/supertux/menu/joystick_menu.cpp:46
-#: src/supertux/menu/keyboard_menu.cpp:31
+#: src/supertux/menu/joystick_menu.cpp:69
+#: src/supertux/menu/keyboard_menu.cpp:32
 msgid "Left"
 msgstr "W lewo"
 
-#: src/supertux/menu/joystick_menu.cpp:47
-#: src/supertux/menu/keyboard_menu.cpp:32
+#: src/supertux/menu/joystick_menu.cpp:70
+#: src/supertux/menu/keyboard_menu.cpp:33
 msgid "Right"
 msgstr "W prawo"
 
-#: src/supertux/menu/joystick_menu.cpp:48
-#: src/supertux/menu/keyboard_menu.cpp:33
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/keyboard_menu.cpp:34
 msgid "Jump"
 msgstr "Skok"
 
-#: src/supertux/menu/joystick_menu.cpp:49
-#: src/supertux/menu/keyboard_menu.cpp:34
+#: src/supertux/menu/joystick_menu.cpp:72
+#: src/supertux/menu/keyboard_menu.cpp:35
 msgid "Action"
 msgstr "Akcja"
 
-#: src/supertux/menu/joystick_menu.cpp:50
+#: src/supertux/menu/joystick_menu.cpp:73
 msgid "Pause/Menu"
 msgstr "Pauza/Menu"
 
-#: src/supertux/menu/joystick_menu.cpp:51
-#: src/supertux/menu/keyboard_menu.cpp:35
+#: src/supertux/menu/joystick_menu.cpp:74
+#: src/supertux/menu/keyboard_menu.cpp:36
 msgid "Peek Left"
 msgstr "Przesuń w lewo"
 
-#: src/supertux/menu/joystick_menu.cpp:52
-#: src/supertux/menu/keyboard_menu.cpp:36
+#: src/supertux/menu/joystick_menu.cpp:75
+#: src/supertux/menu/keyboard_menu.cpp:37
 msgid "Peek Right"
 msgstr "Przesuń w prawo"
 
-#: src/supertux/menu/joystick_menu.cpp:53
-#: src/supertux/menu/keyboard_menu.cpp:37
+#: src/supertux/menu/joystick_menu.cpp:76
+#: src/supertux/menu/keyboard_menu.cpp:38
 msgid "Peek Up"
 msgstr "Przesuń w górę"
 
-#: src/supertux/menu/joystick_menu.cpp:54
-#: src/supertux/menu/keyboard_menu.cpp:38
+#: src/supertux/menu/joystick_menu.cpp:77
+#: src/supertux/menu/keyboard_menu.cpp:39
 msgid "Peek Down"
 msgstr "Przesuń w dół"
 
-#: src/supertux/menu/joystick_menu.cpp:56
-#: src/supertux/menu/keyboard_menu.cpp:42
-msgid "Jump with Up"
-msgstr "Skok = W górę"
-
-#: src/supertux/menu/joystick_menu.cpp:58
-msgid "No Joysticks found"
-msgstr "Nie znaleziono dżojstika"
-
-#: src/supertux/menu/joystick_menu.cpp:61
-msgid "Scan for Joysticks"
-msgstr "Szukaj dżojstików"
-
 #: src/supertux/menu/joystick_menu.cpp:79
-#: src/supertux/menu/keyboard_menu.cpp:56
-msgid "None"
-msgstr "Brak"
-
-#: src/supertux/menu/joystick_menu.cpp:90
-msgid "Press Button"
-msgstr "Naciśnij przycisk"
-
-#: src/supertux/menu/keyboard_menu.cpp:27
-#: src/supertux/menu/options_menu.cpp:207
-msgid "Setup Keyboard"
-msgstr "Ustawienia klawiatury"
-
-#: src/supertux/menu/keyboard_menu.cpp:40
+#: src/supertux/menu/keyboard_menu.cpp:41
 msgid "Console"
 msgstr "Konsola"
 
-#: src/supertux/menu/keyboard_menu.cpp:58
+#: src/supertux/menu/joystick_menu.cpp:82
+#: src/supertux/menu/keyboard_menu.cpp:44
+msgid "Cheat Menu"
+msgstr ""
+
+#: src/supertux/menu/joystick_menu.cpp:84
+#: src/supertux/menu/keyboard_menu.cpp:46
+msgid "Jump with Up"
+msgstr "Skok = W górę"
+
+#: src/supertux/menu/joystick_menu.cpp:90
+msgid "No Joysticks found"
+msgstr "Nie znaleziono dżojstika"
+
+#: src/supertux/menu/joystick_menu.cpp:91
+msgid "Scan for Joysticks"
+msgstr "Szukaj dżojstików"
+
+#: src/supertux/menu/joystick_menu.cpp:105
+#: src/supertux/menu/keyboard_menu.cpp:60
+msgid "None"
+msgstr "Brak"
+
+#: src/supertux/menu/joystick_menu.cpp:120
+msgid "Press Button"
+msgstr "Naciśnij przycisk"
+
+#: src/supertux/menu/keyboard_menu.cpp:28
+#: src/supertux/menu/options_menu.cpp:199
+msgid "Setup Keyboard"
+msgstr "Ustawienia klawiatury"
+
+#: src/supertux/menu/keyboard_menu.cpp:62
 msgid "Up cursor"
 msgstr "Strzałka w górę"
 
-#: src/supertux/menu/keyboard_menu.cpp:60
+#: src/supertux/menu/keyboard_menu.cpp:64
 msgid "Down cursor"
 msgstr "Strzałka w dół"
 
-#: src/supertux/menu/keyboard_menu.cpp:62
+#: src/supertux/menu/keyboard_menu.cpp:66
 msgid "Left cursor"
 msgstr "Lewa strzałka"
 
-#: src/supertux/menu/keyboard_menu.cpp:64
+#: src/supertux/menu/keyboard_menu.cpp:68
 msgid "Right cursor"
 msgstr "Prawa strzałka"
 
-#: src/supertux/menu/keyboard_menu.cpp:66
+#: src/supertux/menu/keyboard_menu.cpp:70
 msgid "Return"
 msgstr "Enter"
 
-#: src/supertux/menu/keyboard_menu.cpp:68
+#: src/supertux/menu/keyboard_menu.cpp:72
 msgid "Space"
 msgstr "Spacja"
 
-#: src/supertux/menu/keyboard_menu.cpp:70
+#: src/supertux/menu/keyboard_menu.cpp:74
 msgid "Right Shift"
 msgstr "Prawy shift"
 
-#: src/supertux/menu/keyboard_menu.cpp:72
+#: src/supertux/menu/keyboard_menu.cpp:76
 msgid "Left Shift"
 msgstr "Lewy shift"
 
-#: src/supertux/menu/keyboard_menu.cpp:74
+#: src/supertux/menu/keyboard_menu.cpp:78
 msgid "Right Control"
 msgstr "Prawy control"
 
-#: src/supertux/menu/keyboard_menu.cpp:76
+#: src/supertux/menu/keyboard_menu.cpp:80
 msgid "Left Control"
 msgstr "Lewy control"
 
-#: src/supertux/menu/keyboard_menu.cpp:78
+#: src/supertux/menu/keyboard_menu.cpp:82
 msgid "Right Alt"
 msgstr "Prawy alt"
 
-#: src/supertux/menu/keyboard_menu.cpp:80
+#: src/supertux/menu/keyboard_menu.cpp:84
 msgid "Left Alt"
 msgstr "Lewy alt"
 
-#: src/supertux/menu/keyboard_menu.cpp:90
+#: src/supertux/menu/keyboard_menu.cpp:86
+msgid "Right Command"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:88
+msgid "Left Command"
+msgstr ""
+
+#: src/supertux/menu/keyboard_menu.cpp:98
 msgid "Press Key"
 msgstr "Naciśnij klawisz"
 
@@ -300,15 +472,15 @@ msgstr "Język"
 msgid "<auto-detect>"
 msgstr "Wykryj automatycznie"
 
-#: src/supertux/menu/main_menu.cpp:39
+#: src/supertux/menu/main_menu.cpp:40
 msgid "Start Game"
 msgstr "Start Gry"
 
-#: src/supertux/menu/main_menu.cpp:43
+#: src/supertux/menu/main_menu.cpp:44
 msgid "Credits"
 msgstr "Twórcy"
 
-#: src/supertux/menu/main_menu.cpp:44
+#: src/supertux/menu/main_menu.cpp:45
 msgid "Quit"
 msgstr "Wyjdź"
 
@@ -328,92 +500,104 @@ msgstr "Wybierz profil"
 msgid "Select a profile to play with"
 msgstr "Wybierz profil gracza"
 
-#: src/supertux/menu/options_menu.cpp:60
-msgid "Profile on Startup"
-msgstr "Profil przy starcie gry"
-
 #: src/supertux/menu/options_menu.cpp:61
-msgid "Select your profile immediately after start-up"
-msgstr "Wybierz swój profil natychmiast po starcie"
-
-#: src/supertux/menu/options_menu.cpp:63
 msgid "Fullscreen"
 msgstr "Pelny ekran"
 
-#: src/supertux/menu/options_menu.cpp:64
+#: src/supertux/menu/options_menu.cpp:62
 msgid "Fill the entire screen"
 msgstr "Wypełnij cały ekran"
 
-#: src/supertux/menu/options_menu.cpp:66
+#: src/supertux/menu/options_menu.cpp:64
 msgid "Resolution"
 msgstr "Rozdzielczość"
 
-#: src/supertux/menu/options_menu.cpp:67
+#: src/supertux/menu/options_menu.cpp:65
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "Określa rozdzielczość używaną w trybie pełnoekranowym (musisz włączyć tryb pełnoekranowy, aby wprowadzić zmianę)"
 
-#: src/supertux/menu/options_menu.cpp:69
+#: src/supertux/menu/options_menu.cpp:67
 msgid "Magnification"
 msgstr "Powiększenie"
 
-#: src/supertux/menu/options_menu.cpp:70
+#: src/supertux/menu/options_menu.cpp:68
 msgid "Change the magnification of the game area"
 msgstr "Zmień zbliżenie ekranu gry"
 
-#: src/supertux/menu/options_menu.cpp:74
-#: src/supertux/menu/options_menu.cpp:166
-#: src/supertux/menu/options_menu.cpp:226
-#: src/supertux/menu/options_menu.cpp:246
+#: src/supertux/menu/options_menu.cpp:72
+#: src/supertux/menu/options_menu.cpp:158
+#: src/supertux/menu/options_menu.cpp:224
+#: src/supertux/menu/options_menu.cpp:244
 msgid "auto"
 msgstr "automatycznie"
 
-#: src/supertux/menu/options_menu.cpp:163
+#: src/supertux/menu/options_menu.cpp:155
 msgid "Aspect Ratio"
 msgstr "Proporcje obrazu"
 
-#: src/supertux/menu/options_menu.cpp:164
+#: src/supertux/menu/options_menu.cpp:156
 msgid "Adjust the aspect ratio"
 msgstr "Ustawia proporcje ekranu"
 
-#: src/supertux/menu/options_menu.cpp:198
+#: src/supertux/menu/options_menu.cpp:190
 msgid "Sound"
 msgstr "Dźwięk"
 
-#: src/supertux/menu/options_menu.cpp:199
+#: src/supertux/menu/options_menu.cpp:191
 msgid "Disable all sound effects"
 msgstr "Wyłącz wszystkie efekty dźwiękowe"
 
-#: src/supertux/menu/options_menu.cpp:200
+#: src/supertux/menu/options_menu.cpp:192
 msgid "Music"
 msgstr "Muzyka"
 
-#: src/supertux/menu/options_menu.cpp:201
+#: src/supertux/menu/options_menu.cpp:193
 msgid "Disable all music"
 msgstr "Wyłącz muzykę"
 
-#: src/supertux/menu/options_menu.cpp:203
+#: src/supertux/menu/options_menu.cpp:195
 msgid "Sound (disabled)"
 msgstr "Dźwięk (wyłączony)"
 
-#: src/supertux/menu/options_menu.cpp:204
+#: src/supertux/menu/options_menu.cpp:196
 msgid "Music (disabled)"
 msgstr "Muzyka (wyłączona)"
 
-#: src/supertux/menu/options_menu.cpp:208
+#: src/supertux/menu/options_menu.cpp:200
 msgid "Configure key-action mappings"
 msgstr "Zmień przypisanie klawiszy"
 
-#: src/supertux/menu/options_menu.cpp:211
+#: src/supertux/menu/options_menu.cpp:203
 msgid "Configure joystick control-action mappings"
 msgstr "Ustaw dżojstik"
 
-#: src/supertux/menu/worldmap_menu.cpp:25
+#: src/supertux/menu/options_menu.cpp:207
+msgid "Developer Mode"
+msgstr ""
+
+#: src/supertux/menu/worldmap_cheat_menu.cpp:34
+msgid "Bonus: None"
+msgstr ""
+
+#: src/supertux/menu/worldmap_cheat_menu.cpp:37
+msgid "Reset Level"
+msgstr ""
+
+#: src/supertux/menu/worldmap_cheat_menu.cpp:39
+msgid "Finish WorldMap"
+msgstr ""
+
+#: src/supertux/menu/worldmap_cheat_menu.cpp:40
+msgid "Reset WorldMap"
+msgstr ""
+
+#: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
 msgstr "Pauza"
 
-#: src/supertux/menu/worldmap_menu.cpp:30
+#: src/supertux/menu/worldmap_menu.cpp:34
 msgid "Quit World"
 msgstr "Wyjdź z tego swiata"
 
@@ -453,11 +637,11 @@ msgstr "Wrogowie"
 msgid "Time"
 msgstr "Czas"
 
-#: src/supertux/title_screen.cpp:60
+#: src/supertux/title_screen.cpp:58
 msgid "Copyright"
 msgstr "Prawa autorskie"
 
-#: src/supertux/title_screen.cpp:61
+#: src/supertux/title_screen.cpp:59
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
@@ -467,6 +651,6 @@ msgstr "Ta gra dostarczana jest BEZ JAKICHKOLWIEK GWARANCJI. Jest to otwarte opr
 msgid "Up we go..."
 msgstr "Idziemy w górę..."
 
-#: src/trigger/secretarea_trigger.cpp:46 src/trigger/secretarea_trigger.cpp:56
+#: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"
 msgstr "Znalazles sekretne miejsce!"
