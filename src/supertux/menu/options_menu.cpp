@@ -38,7 +38,8 @@ enum OptionsMenuIDs {
   MNID_MAGNIFICATION,
   MNID_ASPECTRATIO,
   MNID_SOUND,
-  MNID_MUSIC
+  MNID_MUSIC,
+  MNID_DEVELOPER_MODE
 };
 
 OptionsMenu::OptionsMenu(bool complete)
@@ -200,6 +201,12 @@ OptionsMenu::OptionsMenu(bool complete)
 
   add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
     ->set_help(_("Configure joystick control-action mappings"));
+
+  if (g_config->developer_mode)
+  {
+    add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), g_config->developer_mode);
+  }
+
   add_hl();
   add_back(_("Back"));
 }
@@ -293,14 +300,14 @@ OptionsMenu::menu_action(MenuItem* item)
       }
       break;
 
+    case MNID_DEVELOPER_MODE:
+      g_config->developer_mode = is_toggled(MNID_DEVELOPER_MODE);
+      log_info << "developer mode: " << g_config->developer_mode << std::endl;
+      break;
+
     default:
       break;
   }
-}
-
-void
-OptionsMenu::check_menu()
-{
 }
 
 /* EOF */

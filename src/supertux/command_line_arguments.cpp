@@ -44,7 +44,8 @@ CommandLineArguments::CommandLineArguments() :
   start_level(),
   enable_script_debugger(),
   start_demo(),
-  record_demo()
+  record_demo(),
+  developer_mode()
 {
 }
 
@@ -96,6 +97,7 @@ CommandLineArguments::print_help(const char* arg0)
                  "  --noconsole                  Disable ingame scripting console\n"
                  "  --show-fps                   Display framerate in levels\n"
                  "  --no-show-fps                Do not display framerate in levels\n"
+                 "  --developer                  Switch on developer feature\n"
                  "  -s, --debug-scripts          Enable script debugger.\n"
                  "\n"
                  "Demo Recording Options:\n"
@@ -268,6 +270,10 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       show_fps = false;
     }
+    else if (arg == "--developer")
+    {
+      developer_mode = true;
+    }
     else if (arg == "--console")
     {
       console_enabled = true;
@@ -340,6 +346,7 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(enable_script_debugger);
   merge_option(start_demo);
   merge_option(record_demo);
+  merge_option(developer_mode);
 
 #undef merge_option
 }

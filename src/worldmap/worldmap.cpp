@@ -46,6 +46,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
@@ -72,7 +73,6 @@
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
-
 
 static const float CAMERA_PAN_SPEED = 5.0;
 
@@ -648,7 +648,8 @@ WorldMap::update(float delta)
       on_escape_press();
     }
 
-    if(controller->pressed(Controller::CHEAT_MENU))
+    if(controller->pressed(Controller::CHEAT_MENU) &&
+       g_config->developer_mode)
     {
       MenuManager::instance().set_menu(MenuStorage::WORLDMAP_CHEAT_MENU);
     }

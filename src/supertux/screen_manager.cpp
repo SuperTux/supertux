@@ -239,6 +239,12 @@ ScreenManager::process_events()
           g_config->console_enabled = true;
           g_config->save();
         }
+        else if (event.key.keysym.sym == SDLK_F2 &&
+                 event.key.keysym.mod & KMOD_CTRL)
+        {
+          g_config->developer_mode = !g_config->developer_mode;
+          log_info << "developer mode: " << g_config->developer_mode << std::endl;
+        }
         break;
     }
   }
