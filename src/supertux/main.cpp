@@ -191,9 +191,9 @@ public:
     {
       std::string physfs_userdir = PHYSFS_getUserDir();
 #ifdef _WIN32
-      userdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
-#else
       userdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
+#else
+      userdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
 #endif
     }
 
