@@ -240,7 +240,7 @@ TextureManager::create_dummy_texture()
 void
 TextureManager::save_textures()
 {
-#ifdef GL_PACK_ROW_LENGTH
+#if defined(GL_PACK_ROW_LENGTH) || defined(USE_GLBINDING)
   /* all this stuff is not support by OpenGL ES */
   glPixelStorei(GL_PACK_ROW_LENGTH, 0);
   glPixelStorei(GL_PACK_IMAGE_HEIGHT, 0);
@@ -305,7 +305,7 @@ TextureManager::save_texture(GLTexture* texture)
 void
 TextureManager::reload_textures()
 {
-#ifdef GL_UNPACK_ROW_LENGTH
+#if defined(GL_UNPACK_ROW_LENGTH) || defined(USE_GLBINDING)
   /* OpenGL ES doesn't support these */
   glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
   glPixelStorei(GL_UNPACK_IMAGE_HEIGHT, 0);
@@ -324,7 +324,7 @@ TextureManager::reload_textures()
     assert_gl("creating texture handle");
 
     glBindTexture(GL_TEXTURE_2D, handle);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA),
                  saved_texture.width, saved_texture.height,
                  saved_texture.border, GL_RGBA,
                  GL_UNSIGNED_BYTE, saved_texture.pixels);

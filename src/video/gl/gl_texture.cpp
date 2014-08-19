@@ -17,6 +17,10 @@
 #include "supertux/gameconfig.hpp"
 #include "video/gl/gl_texture.hpp"
 
+#ifdef USE_GLBINDING
+  #include <glbinding/ContextInfo.h>
+#endif
+
 namespace {
 
 inline bool is_power_of_2(int v)
@@ -56,9 +60,8 @@ GLTexture::GLTexture(unsigned int width, unsigned int height) :
   try {
     glBindTexture(GL_TEXTURE_2D, m_handle);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-                 m_texture_width, m_texture_height,
-                 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA), m_texture_width,
+				 m_texture_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
     set_texture_params();
   } catch(...) {
@@ -78,11 +81,20 @@ GLTexture::GLTexture(SDL_Surface* image) :
   m_texture_width = next_power_of_two(image->w);
   m_texture_height = next_power_of_two(image->h);
 #else
+#  ifdef USE_GLBINDING
+  static auto extensions = glbinding::ContextInfo::extensions();
+  if (extensions.find(GLextension::GL_ARB_texture_non_power_of_two) != extensions.end())
+  {
+    m_texture_width  = image->w;
+    m_texture_height = image->h;
+  }
+#  else
   if (GLEW_ARB_texture_non_power_of_two)
   {
     m_texture_width  = image->w;
     m_texture_height = image->h;
   }
+#  endif
   else
   {
     m_texture_width = next_power_of_two(image->w);
@@ -126,12 +138,12 @@ GLTexture::GLTexture(SDL_Surface* image) :
 
     glBindTexture(GL_TEXTURE_2D, m_handle);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-#ifdef GL_UNPACK_ROW_LENGTH
+#if defined(GL_UNPACK_ROW_LENGTH) || defined(USE_GLBINDING)
     glPixelStorei(GL_UNPACK_ROW_LENGTH, convert->pitch/convert->format->BytesPerPixel);
 #else
     /* OpenGL ES doesn't support UNPACK_ROW_LENGTH, let's hope SDL didn't add
      * padding bytes, otherwise we need some extra code here... */
-    assert(convert->pitch == texture_width * convert->format->BytesPerPixel);
+    assert(convert->pitch == m_texture_width * convert->format->BytesPerPixel);
 #endif
 
     if(SDL_MUSTLOCK(convert))
@@ -139,7 +151,7 @@ GLTexture::GLTexture(SDL_Surface* image) :
       SDL_LockSurface(convert);
     }
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+    glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA),
                  m_texture_width, m_texture_height, 0, sdl_format,
                  GL_UNSIGNED_BYTE, convert->pixels);
 
@@ -173,11 +185,11 @@ GLTexture::~GLTexture()
 void
 GLTexture::set_texture_params()
 {
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, static_cast<GLint>(GL_LINEAR));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, static_cast<GLint>(GL_LINEAR));
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, static_cast<GLint>(GL_CLAMP_TO_EDGE));
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, static_cast<GLint>(GL_CLAMP_TO_EDGE));
 
   assert_gl("set texture params");
 }

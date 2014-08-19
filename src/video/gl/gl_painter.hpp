@@ -17,8 +17,14 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_GL_PAINTER_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_GL_PAINTER_HPP
 
+#ifdef USE_GLBINDING
+#include <glbinding/gl/gl.h>
+using namespace gl;
+#else
 #include <GL/glew.h>
+
 #include "SDL_opengl.h"
+#endif
 
 class DrawingRequest;
 
