@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 
+#include "addon/downloader.hpp"
 #include "util/currenton.hpp"
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
@@ -33,7 +34,8 @@ typedef int AddonId;
 class AddonManager : public Currenton<AddonManager>
 {
 public:
-  AddonManager(std::vector<std::string>& ignored_addon_filenames_);
+  AddonManager(const std::string& addon_directory,
+               std::vector<std::string>& ignored_addon_filenames_);
   ~AddonManager();
 
   /** returns a list of installed Add-ons */
@@ -47,29 +49,29 @@ public:
 
   /** Download and install Add-on */
   void install(Addon& addon);
-
   /** Physically delete Add-on */
   void remove(Addon& addon);
 
-  /** Unload Add-on and mark as not to be loaded automatically */
-  void disable(Addon& addon);
-
   /** Load Add-on and mark as to be loaded automatically */
   void enable(Addon& addon);
-
-  /** Remove Add-on from search path */
-  void unload(Addon& addon);
-
-  /** Add Add-on to search path */
-  void load(Addon& addon);
-
-  /** Loads all enabled Add-ons, i.e. adds them to the search path */
-  void load_addons();
+  /** Unload Add-on and mark as not to be loaded automatically */
+  void disable(Addon& addon);
 
   Addon& get_addon(int id);
   int get_num_addons() const { return static_cast<int>(m_addons.size()); }
 
+  /** Loads all enabled Add-ons, i.e. adds them to the search path */
+  void load_addons();
+
 private:
+  /** Add Add-on to search path */
+  void load(Addon& addon);
+  /** Remove Add-on from search path */
+  void unload(Addon& addon);
+
+private:
+  Downloader m_downloader;
+  std::string m_addon_directory;
   std::vector<std::unique_ptr<Addon> > m_addons;
   std::vector<std::string>& m_ignored_addon_filenames;
 

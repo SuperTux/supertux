@@ -21,19 +21,32 @@
 
 #include "util/reader_fwd.hpp"
 
-/** Represents an (available or installed) Add-on, e.g. a level set */
-class Addon
+class AddonDescription
 {
 public:
-  int id;
   std::string kind;
   std::string title;
   std::string author;
   std::string license;
   std::string http_url;
-
   /** filename suggested by addon author, e.g. "pak0.zip" */
   std::string suggested_filename;
+
+  AddonDescription() :
+    kind(),
+    title(),
+    author(),
+    license(),
+    http_url(),
+    suggested_filename()
+  {}
+};
+
+/** Represents an (available or installed) Add-on, e.g. a level set */
+class Addon : public AddonDescription
+{
+public:
+  int id;
 
   /** PhysFS filename on disk, e.g. "pak0.zip" */
   std::string installed_physfs_filename;
@@ -58,19 +71,13 @@ public:
       MD5 sum, else relies on kind, author and title alone. */
   bool operator==(const Addon& addon2) const;
 
-protected:
+public:
   friend class AddonManager;
 
   mutable std::string calculated_md5;
 
   Addon(int id_) :
     id(id_),
-    kind(),
-    title(),
-    author(),
-    license(),
-    http_url(),
-    suggested_filename(),
     installed_physfs_filename(),
     installed_absolute_filename(),
     stored_md5(),
