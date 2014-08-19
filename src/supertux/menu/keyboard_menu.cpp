@@ -127,11 +127,13 @@ KeyboardMenu::refresh()
     .change_input(get_key_name(kbd_cfg.reversemap_key(Controller::PEEK_UP)));
   get_item_by_id((int) Controller::PEEK_DOWN)
     .change_input(get_key_name(kbd_cfg.reversemap_key(Controller::PEEK_DOWN)));
-  get_item_by_id((int) Controller::CHEAT_MENU)
-    .change_input(get_key_name(kbd_cfg.reversemap_key(Controller::CHEAT_MENU)));
 
-  if (g_config->console_enabled)
-  {
+  if (g_config->developer_mode) {
+    get_item_by_id((int) Controller::CHEAT_MENU)
+      .change_input(get_key_name(kbd_cfg.reversemap_key(Controller::CHEAT_MENU)));
+  }
+
+  if (g_config->developer_mode || g_config->console_enabled) {
     get_item_by_id((int) Controller::CONSOLE).change_input(get_key_name(
                                                              kbd_cfg.reversemap_key(Controller::CONSOLE)));
   }
