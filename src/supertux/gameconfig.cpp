@@ -108,13 +108,13 @@ Config::load()
     const lisp::Lisp* keymap_lisp = config_control_lisp->get_lisp("keymap");
     if (keymap_lisp)
     {
-      keyboard_config.read(*config_control_lisp);
+      keyboard_config.read(*keymap_lisp);
     }
 
     const lisp::Lisp* joystick_lisp = config_control_lisp->get_lisp("joystick");
     if (joystick_lisp)
     {
-      joystick_config.read(joystick_lisp);
+      joystick_config.read(*joystick_lisp);
     }
   }
 
