@@ -122,12 +122,4 @@ The End
 
 Thanks for trying out SuperTux.
 
-If you like SuperTux, please rate and review it at the Linux Game Tome:
-
-<http://www.happypenguin.org/>
-
-Search for "SuperTux"!
-
-Thanks!
-
 The SuperTux development team
