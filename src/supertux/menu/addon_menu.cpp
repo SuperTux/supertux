@@ -26,8 +26,61 @@
 #include "gui/menu_item.hpp"
 #include "util/gettext.hpp"
 
+namespace {
+
+#define IS_REPOSITORY_MENU_ID(idx) ((idx - MNID_ADDON_LIST_START) % 2 == 0)
+#define IS_INSTALLED_MENU_ID(idx) ((idx - MNID_ADDON_LIST_START) % 2 == 1)
+
+#define MAKE_REPOSITORY_MENU_ID(idx) (MNID_ADDON_LIST_START + 2*idx+0)
+#define MAKE_INSTALLED_MENU_ID(idx) (MNID_ADDON_LIST_START + 2*idx+1)
+
+#define UNPACK_REPOSITORY_MENU_ID(idx) (((idx - MNID_ADDON_LIST_START) - 0) / 2)
+#define UNPACK_INSTALLED_MENU_ID(idx) (((idx - MNID_ADDON_LIST_START) - 1) / 2)
+
+std::string addon_type_to_translated_string(Addon::Type type)
+{
+  switch (type)
+  {
+    case Addon::LEVELSET:
+      return _("Levelset");
+
+    case Addon::WORLDMAP:
+      return _("Worldmap");
+
+    case Addon::WORLD:
+      return _("World");
+
+    default:
+      return _("Unknown");
+  }
+}
+
+std::string generate_menu_item_text(const Addon& addon)
+{
+  std::string text;
+  std::string type = addon_type_to_translated_string(addon.get_type());
+
+  if(!addon.get_author().empty())
+  {
+    text = str(boost::format(_("%s \"%s\" by \"%s\""))
+               % type % addon.get_title() % addon.get_author());
+  }
+  else
+  {
+    // Only addon type and name, no need for translation.
+    text = str(boost::format("%s \"%s\"")
+               % type % addon.get_title());
+  }
+
+  return text;
+}
+
+} // namespace
+
 AddonMenu::AddonMenu() :
-  m_addon_manager(*AddonManager::current())
+  m_addon_manager(*AddonManager::current()),
+  m_installed_addons(),
+  m_repository_addons()
 {
   refresh();
 }
@@ -35,25 +88,41 @@ AddonMenu::AddonMenu() :
 void
 AddonMenu::refresh()
 {
-  clear();
+  m_installed_addons = m_addon_manager.get_installed_addons();
+  m_repository_addons = m_addon_manager.get_repository_addons();
 
-  // refresh list of addons
-  const auto& addons_ref = m_addon_manager.get_addons();
-  std::vector<std::reference_wrapper<Addon> > addons;
-  std::transform(addons_ref.begin(), addons_ref.end(), std::back_inserter(addons),
-                 [](const std::unique_ptr<Addon>& addon) -> Addon& {
-                   return *addon.get();
-                 });
-
-  // sort list
-  std::sort(addons.begin(), addons.end(),
+#ifdef GRUMBEL
+  std::sort(m_addons.begin(), m_addons.end(),
             [](const Addon& lhs, const Addon& rhs)
             {
               return lhs.title < lhs.title;
             });
+#endif
 
+  rebuild_menu();
+}
+
+void
+AddonMenu::rebuild_menu()
+{
+  clear();
   add_label(_("Add-ons"));
   add_hl();
+
+  
+  if (!m_installed_addons.empty())
+  {
+    int idx = 0;
+    for (const auto& addon_id : m_installed_addons)
+    {
+      const Addon& addon = m_addon_manager.get_installed_addon(addon_id);
+      std::string text = generate_menu_item_text(addon);
+      add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, addon.is_enabled());   
+      idx += 1;
+    }
+
+    add_hl();
+  }
 
   if (!m_addon_manager.has_online_support())
   {
@@ -64,55 +133,15 @@ AddonMenu::refresh()
     add_entry(MNID_CHECK_ONLINE, std::string(_("Check Online")));
   }
 
-  //add_hl();
-
-  for (auto& addon_ : addons)
   {
-    Addon& addon = addon_.get();
-    std::string text = "";
-
-    if (!addon.kind.empty())
+    int idx = 0;
+    for (const auto& addon_id : m_repository_addons)
     {
-      std::string kind = addon.kind;
-      if(addon.kind == "Levelset") {
-        kind = _("Levelset");
-      }
-      else if(addon.kind == "Worldmap") {
-        kind = _("Worldmap");
-      }
-      else if(addon.kind == "World") {
-        kind = _("World");
-      }
-      else if(addon.kind == "Level") {
-        kind = _("Level");
-      }
-
-      if(!addon.author.empty())
-      {
-        text = str(boost::format(_("%s \"%s\" by \"%s\""))
-                   % kind % addon.title % addon.author);
-      }
-      else
-      {
-        // Only addon type and name, no need for translation.
-        text = str(boost::format("%s \"%s\"")
-                   % kind % addon.title);
-      }
+      const Addon& addon = m_addon_manager.get_repository_addon(addon_id);
+      std::string text = generate_menu_item_text(addon);
+      add_entry(MAKE_REPOSITORY_MENU_ID(idx), "Install " + text);
+      idx += 1;
     }
-    else
-    {
-      if (!addon.author.empty())
-      {
-        text = str(boost::format(_("\"%s\" by \"%s\""))
-                   % addon.title % addon.author);
-      }
-      else {
-        // Only addon name, no need for translation.
-        text = str(boost::format("\"%s\"")
-                   % addon.title);
-      }
-    }
-    add_toggle(MNID_ADDON_LIST_START + addon.id, text, addon.loaded);
   }
 
   add_hl();
@@ -128,53 +157,54 @@ AddonMenu::menu_action(MenuItem* item)
     {
       m_addon_manager.check_online();
       refresh();
-      set_active_item(item->id);
     }
     catch (std::exception& e)
     {
       log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
     }
   }
-  else if ((MNID_ADDON_LIST_START <= item->id) && (item->id < MNID_ADDON_LIST_START + m_addon_manager.get_num_addons()))
+  else if (MNID_ADDON_LIST_START <= item->id)
   {
-    int addon_id = item->id - MNID_ADDON_LIST_START;
-    Addon& addon = m_addon_manager.get_addon(addon_id);
-    if (!addon.installed)
+    if (IS_INSTALLED_MENU_ID(item->id))
     {
-      try
+      int idx = UNPACK_INSTALLED_MENU_ID(item->id);
+      if (0 <= idx && idx < static_cast<int>(m_installed_addons.size()))
       {
-        m_addon_manager.install(addon);
+        const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[idx]);
+        if(addon.is_enabled())
+        {
+          m_addon_manager.enable_addon(addon.get_id());
+          set_toggled(item->id, addon.is_enabled());
+        }
+        else
+        {
+          m_addon_manager.enable_addon(addon.get_id());
+          set_toggled(item->id, addon.is_enabled());
+        }
       }
-      catch (std::exception& e)
-      {
-        log_warning << "Installing Add-on failed: " << e.what() << std::endl;
-      }
-      set_toggled(item->id, addon.loaded);
     }
-    else if (!addon.loaded)
+    else if (IS_REPOSITORY_MENU_ID(item->id))
     {
-      try
+      int idx = UNPACK_REPOSITORY_MENU_ID(item->id);
+      if (0 <= idx && idx < static_cast<int>(m_repository_addons.size()))
       {
-        m_addon_manager.enable(addon);
+        const Addon& addon = m_addon_manager.get_repository_addon(m_repository_addons[idx]);
+        try
+        {
+          m_addon_manager.install_addon(addon.get_id());
+          m_addon_manager.enable_addon(addon.get_id());
+        }
+        catch(const std::exception& err)
+        {
+          log_warning << "Enabling addon failed: " << err.what() << std::endl;
+        }
+        refresh();
       }
-      catch (std::exception& e)
-      {
-        log_warning << "Enabling Add-on failed: " << e.what() << std::endl;
-      }
-      set_toggled(item->id, addon.loaded);
     }
-    else
-    {
-      try
-      {
-        m_addon_manager.disable(addon);
-      }
-      catch (std::exception& e)
-      {
-        log_warning << "Disabling Add-on failed: " << e.what() << std::endl;
-      }
-      set_toggled(item->id, addon.loaded);
-    }
+  }
+  else
+  {
+       log_warning << "Unknown menu item clicked: " << item->id << std::endl;
   }
 }
 

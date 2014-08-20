@@ -43,6 +43,9 @@ World::load(const std::string& directory)
   { // generate savegame filename
     std::string worlddirname = FileSystem::basename(directory);
     std::ostringstream stream;
+#ifdef GRUMBEL
+    // sanitize this!
+#endif
     stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
     std::string slotfile = stream.str();
     world->m_savegame_filename = stream.str();

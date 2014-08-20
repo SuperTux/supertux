@@ -33,15 +33,20 @@
 ContribMenu::ContribMenu() :
   m_contrib_worlds()
 {
-  /** Generating contrib levels list by making use of Level Subset  */
+  // Generating contrib levels list by making use of Level Subset
   std::vector<std::string> level_worlds;
-  char** files = PHYSFS_enumerateFiles("levels/");
-  for(const char* const* filename = files; *filename != 0; ++filename) {
-    std::string filepath = std::string("levels/") + *filename;
+
+  std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
+    files(PHYSFS_enumerateFiles("levels"),
+          PHYSFS_freeList);
+  for(const char* const* filename = files.get(); *filename != 0; ++filename)
+  {
+    std::string filepath = FileSystem::join("levels", *filename);
     if(PHYSFS_isDirectory(filepath.c_str()))
+    {
       level_worlds.push_back(filepath);
+    }
   }
-  PHYSFS_freeList(files);
 
   add_label(_("Contrib Levels"));
   add_hl();

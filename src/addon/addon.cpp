@@ -20,67 +20,72 @@
 #include <stdexcept>
 #include <sstream>
 
-#include "addon/md5.hpp"
 #include "lisp/parser.hpp"
 #include "util/reader.hpp"
 #include "util/writer.hpp"
 #include "util/log.hpp"
 
-std::string
-Addon::get_md5() const
+namespace {
+
+static const char* s_allowed_characters = "-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+Addon::Type addon_type_from_string(const std::string& type)
 {
-  if (!installed)
+  if (type == "world")
   {
-    if (stored_md5.empty())
-    {
-      log_warning << "Add-on not installed and no stored MD5 available" << std::endl;
-    }
-    return stored_md5;
+    return Addon::WORLD;
   }
-  else if (!calculated_md5.empty())
+  else if (type == "worldmap")
   {
-    return calculated_md5;
+    return Addon::WORLDMAP;
   }
-  else if (installed_physfs_filename.empty())
+  else if (type == "levelset")
   {
-    throw std::runtime_error("Tried to calculate MD5 of Add-on with unknown filename");
+    return Addon::LEVELSET;
   }
   else
   {
-    // TODO: this does not work as expected for some files -- IFileStream seems to not always behave like an ifstream.
-    //IFileStream ifs(installed_physfs_filename);
-    //std::string md5 = MD5(ifs).hex_digest();
-
-    MD5 md5;
-    PHYSFS_file* file;
-    file = PHYSFS_openRead(installed_physfs_filename.c_str());
-    unsigned char buffer[1024];
-    while (true) {
-      PHYSFS_sint64 len = PHYSFS_read(file, buffer, 1, sizeof(buffer));
-      if (len <= 0) break;
-      md5.update(buffer, len);
-    }
-    PHYSFS_close(file);
-
-    calculated_md5 = md5.hex_digest();
-    log_debug << "MD5 of " << title << ": " << calculated_md5 << std::endl;
-
-    return calculated_md5;
+    throw std::runtime_error("not a valid Addon::Type: " + type);
   }
 }
 
-void
+} // namespace
+
+std::unique_ptr<Addon>
 Addon::parse(const Reader& lisp)
 {
+  std::unique_ptr<Addon> addon(new Addon);
+
   try
   {
-    lisp.get("kind", kind);
-    lisp.get("title", title);
-    lisp.get("author", author);
-    lisp.get("license", license);
-    lisp.get("http-url", http_url);
-    lisp.get("file", suggested_filename);
-    lisp.get("md5", stored_md5);
+    if (!lisp.get("id", addon->m_id))
+    {
+      throw std::runtime_error("(id ...) field missing from addon description");
+    }
+
+    if (addon->m_id.empty())
+    {
+      throw std::runtime_error("addon id is empty");
+    }
+
+    if (addon->m_id.find_first_not_of(s_allowed_characters) != std::string::npos)
+    {
+      throw std::runtime_error("addon id contains illegal characters: " + addon->m_id);
+    }
+
+    lisp.get("version", addon->m_version);
+
+    std::string type;
+    lisp.get("type", type);
+    addon->m_type = addon_type_from_string(type);
+
+    lisp.get("title", addon->m_title);
+    lisp.get("author", addon->m_author);
+    lisp.get("license", addon->m_license);
+    lisp.get("http-url", addon->m_http_url);
+    lisp.get("md5", addon->m_md5);
+
+    return addon;
   }
   catch(const std::exception& err)
   {
@@ -90,7 +95,7 @@ Addon::parse(const Reader& lisp)
   }
 }
 
-void
+std::unique_ptr<Addon>
 Addon::parse(const std::string& fname)
 {
   try
@@ -98,8 +103,14 @@ Addon::parse(const std::string& fname)
     lisp::Parser parser;
     const lisp::Lisp* root = parser.parse(fname);
     const lisp::Lisp* addon = root->get_lisp("supertux-addoninfo");
-    if(!addon) throw std::runtime_error("file is not a supertux-addoninfo file.");
-    parse(*addon);
+    if(!addon)
+    {
+      throw std::runtime_error("file is not a supertux-addoninfo file.");
+    }
+    else
+    {
+      return parse(*addon);
+    }
   }
   catch(const std::exception& err)
   {
@@ -109,18 +120,54 @@ Addon::parse(const std::string& fname)
   }
 }
 
-bool
-Addon::operator==(const Addon& addon2) const
+Addon::Addon() :
+  m_id(),
+  m_version(0),
+  m_type(),
+  m_title(),
+  m_author(),
+  m_license(),
+  m_http_url(),
+  m_md5(),
+  m_install_filename(),
+  m_enabled(false)
+{}
+
+std::string
+Addon::get_filename() const
 {
-  std::string s1 = this->get_md5();
-  std::string s2 = addon2.get_md5();
-
-  if ((s1 != "") && (s2 != "")) return (s1 == s2);
-
-  if (this->title != addon2.title) return false;
-  if (this->author != addon2.author) return false;
-  if (this->kind != addon2.kind) return false;
-  return true;
+  return get_id() + ".zip";
 }
+
+std::string
+Addon::get_install_filename() const
+{
+  return m_install_filename;
+}
+
+bool
+Addon::is_installed() const
+{
+  return !m_install_filename.empty();
+}
+
+bool
+Addon::is_enabled() const
+{
+  return m_enabled;
+}
+
+void
+Addon::set_install_filename(const std::string& absolute_filename)
+{
+  m_install_filename = absolute_filename;
+}
+
+void
+Addon::set_enabled(bool v)
+{
+  m_enabled = v;
+}
+
 
 /* EOF */

@@ -1,5 +1,6 @@
 //  SuperTux - Add-on Manager
 //  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
+//                2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -27,53 +28,56 @@
 #include "util/writer_fwd.hpp"
 
 class Addon;
+class AddonRepository;
 
-typedef int AddonId;
+typedef std::string AddonId;
 
 /** Checks for, installs and removes Add-ons */
 class AddonManager : public Currenton<AddonManager>
 {
-public:
-  AddonManager(const std::string& addon_directory,
-               std::vector<std::string>& ignored_addon_filenames_);
-  ~AddonManager();
-
-  /** returns a list of installed Add-ons */
-  const std::vector<std::unique_ptr<Addon> >& get_addons() const;
-
-  /** Returns true if online support is available */
-  bool has_online_support() const;
-
-  /** downloads list of available Add-ons */
-  void check_online();
-
-  /** Download and install Add-on */
-  void install(Addon& addon);
-  /** Physically delete Add-on */
-  void remove(Addon& addon);
-
-  /** Load Add-on and mark as to be loaded automatically */
-  void enable(Addon& addon);
-  /** Unload Add-on and mark as not to be loaded automatically */
-  void disable(Addon& addon);
-
-  Addon& get_addon(int id);
-  int get_num_addons() const { return static_cast<int>(m_addons.size()); }
-
-  /** Loads all enabled Add-ons, i.e. adds them to the search path */
-  void load_addons();
-
 private:
-  /** Add Add-on to search path */
-  void load(Addon& addon);
-  /** Remove Add-on from search path */
-  void unload(Addon& addon);
+  typedef std::vector<std::unique_ptr<Addon> > AddonList;
 
-private:
   Downloader m_downloader;
   std::string m_addon_directory;
-  std::vector<std::unique_ptr<Addon> > m_addons;
-  std::vector<std::string>& m_ignored_addon_filenames;
+  std::string m_repository_url;
+  std::vector<std::string>& m_ignored_addon_ids;
+
+  AddonList m_installed_addons;
+  AddonList m_repository_addons;
+
+public:
+  AddonManager(const std::string& addon_directory,
+               std::vector<std::string>& enabled_addons_);
+  ~AddonManager();
+
+  bool has_online_support() const;
+  void check_online();
+
+  std::vector<AddonId> get_repository_addons() const;
+  std::vector<AddonId> get_installed_addons() const;
+
+  Addon& get_repository_addon(const AddonId& addon);
+  Addon& get_installed_addon(const AddonId& addon);
+
+  void install_addon(const AddonId& addon_id);
+  void uninstall_addon(const AddonId& addon_id);
+
+  void enable_addon(const AddonId& addon_id);
+  void disable_addon(const AddonId& addon_id);
+
+private:
+  std::vector<std::string> scan_for_archives() const;
+  void add_installed_addons();
+  AddonList parse_addon_infos(const std::string& addoninfos) const;
+
+  /** add \a archive, given as physfs path, to the list of installed
+      archives */
+  void add_installed_archive(const std::string& archive);
+
+  /** search for an .nfo file in the top level directory that
+      originates from \a archive, \a archive is a OS path */
+  std::string scan_for_info(const std::string& archive) const;
 
 private:
   AddonManager(const AddonManager&) = delete;

@@ -17,74 +17,59 @@
 #ifndef HEADER_SUPERTUX_ADDON_ADDON_HPP
 #define HEADER_SUPERTUX_ADDON_ADDON_HPP
 
+#include <assert.h>
+#include <memory>
 #include <string>
 
 #include "util/reader_fwd.hpp"
 
-class AddonDescription
+class Addon
 {
 public:
-  std::string kind;
-  std::string title;
-  std::string author;
-  std::string license;
-  std::string http_url;
-  /** filename suggested by addon author, e.g. "pak0.zip" */
-  std::string suggested_filename;
+  static std::unique_ptr<Addon> parse(const Reader& lisp);
+  static std::unique_ptr<Addon> parse(const std::string& fname);
 
-  AddonDescription() :
-    kind(),
-    title(),
-    author(),
-    license(),
-    http_url(),
-    suggested_filename()
-  {}
-};
+  enum Type { WORLD, WORLDMAP, LEVELSET };
 
-/** Represents an (available or installed) Add-on, e.g. a level set */
-class Addon : public AddonDescription
-{
-public:
-  int id;
+private:
+  // fields provided by the addon.zip itself
+  std::string m_id;
+  int m_version;
+  Type m_type;
+  std::string m_title;
+  std::string m_author;
+  std::string m_license;
 
-  /** PhysFS filename on disk, e.g. "pak0.zip" */
-  std::string installed_physfs_filename;
+  // additional fields provided for addons from an addon repository
+  std::string m_http_url;
+  std::string m_md5;
 
-  /** complete path and filename on disk, e.g. "/home/sommer/.supertux2/pak0.zip" */
-  std::string installed_absolute_filename;
+  // fields filled by the AddonManager
+  std::string m_install_filename;
+  bool m_enabled;
 
-  std::string stored_md5;
-  bool installed;
-  bool loaded;
-
-  /** Get MD5, based either on installed file's contents or stored value */
-  std::string get_md5() const;
-
-  /** Read additional information from given contents of a (supertux-addoninfo ...) block */
-  void parse(const Reader& lisp);
-
-  /** Read additional information from given file */
-  void parse(const std::string& fname);
-
-  /** Checks if Add-on is the same as given one. If available, checks
-      MD5 sum, else relies on kind, author and title alone. */
-  bool operator==(const Addon& addon2) const;
+private:
+  Addon();
 
 public:
-  friend class AddonManager;
+  std::string get_id() const { return m_id; }
 
-  mutable std::string calculated_md5;
+  Type get_type() const { return m_type; }
+  std::string get_title() const { return m_title; }
+  std::string get_author() const { return m_author; }
+  std::string get_license() const { return m_license; }
 
-  Addon(int id_) :
-    id(id_),
-    installed_physfs_filename(),
-    installed_absolute_filename(),
-    stored_md5(),
-    installed(),
-    loaded(),
-    calculated_md5()
-  {};
+  std::string get_http_url() const { return m_http_url; }
+  std::string get_md5() const { return m_md5; }
+
+  std::string get_filename() const;
+  std::string get_install_filename() const;
+
+  bool is_installed() const;
+  bool is_enabled() const;
+
+  void set_install_filename(const std::string& absolute_filename);
+  void set_enabled(bool v);
 
 private:
   Addon(const Addon&) = delete;

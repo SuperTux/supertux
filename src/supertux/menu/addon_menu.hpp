@@ -32,12 +32,17 @@ private:
 
 private:
   AddonManager& m_addon_manager;
+  std::vector<std::string> m_installed_addons;
+  std::vector<std::string> m_repository_addons;
 
 public:
   AddonMenu();
 
   void refresh();
   void menu_action(MenuItem* item) override;
+
+private:
+  void rebuild_menu();
 
 private:
   AddonMenu(const AddonMenu&);

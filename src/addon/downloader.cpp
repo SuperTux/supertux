@@ -61,6 +61,8 @@ Downloader::download(const std::string& url,
                      size_t (*write_func)(void* ptr, size_t size, size_t nmemb, void* userdata),
                      void* userdata)
 {
+  log_info << "Downloading " << url << std::endl;
+
   char error_buffer[CURL_ERROR_SIZE+1];
 
   CURL* curl_handle = curl_easy_init();
