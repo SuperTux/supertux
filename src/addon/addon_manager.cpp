@@ -27,11 +27,6 @@
 #include <stdexcept>
 #include <sys/stat.h>
 
-#ifdef HAVE_LIBCURL
-#  include <curl/curl.h>
-#  include <curl/easy.h>
-#endif
-
 #include "addon/addon.hpp"
 #include "addon/addon_list.hpp"
 #include "lisp/list_iterator.hpp"
