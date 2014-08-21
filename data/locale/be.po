@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-19 13:06+0000\n"
-"PO-Revision-Date: 2014-08-19 13:16+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2014-08-20 08:03+0000\n"
+"Last-Translator: Mihail Varantsou <meequz@gmail.com>\n"
 "Language-Team: Belarusian (http://www.transifex.com/projects/p/supertux/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,12 +20,12 @@ msgstr ""
 
 #: src/control/joystick_config.cpp:83
 msgid "Joystick Mappings"
-msgstr ""
+msgstr "Канфігурацыя джойстыка"
 
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr ""
+msgstr "Выкарыстанне: %s [ПАРАМЕТРЫ] [ФАЙЛ УЗРОЎНЯ]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
@@ -33,19 +33,19 @@ msgstr "Параметры:"
 
 #: src/supertux/command_line_arguments.cpp:76
 msgid "  -h, --help                   Show this help message and quit"
-msgstr ""
+msgstr "  -h, --help                   Паказаць гэтую даведку і выйсці"
 
 #: src/supertux/command_line_arguments.cpp:77
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr ""
+msgstr "  -v, --version                Паказаць версію SuperTux і выйсці"
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --verbose                    Print verbose messages"
-msgstr ""
+msgstr "  --verbose                    Выводзіць падрабязныя паведамленні"
 
 #: src/supertux/command_line_arguments.cpp:79
 msgid "  --debug                      Print extra verbose messages"
-msgstr ""
+msgstr "  --debug                      Выводзіць занадта падрабязныя паведамленні"
 
 #: src/supertux/command_line_arguments.cpp:80
 msgid ""
@@ -54,15 +54,15 @@ msgstr "--print-datadir              Паказаць галоўны катал�
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
-msgstr ""
+msgstr "Відэа-параметры:"
 
 #: src/supertux/command_line_arguments.cpp:82
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr " -f, --fullscreen             Run in fullscreen mode"
+msgstr " -f, --fullscreen             Запусціць на ўвесь экран"
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  -w, --window                 Run in window mode"
-msgstr "-w, --window                 У акне"
+msgstr "-w, --window                 У вакне"
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
@@ -78,15 +78,15 @@ msgstr "  -d, --default                Прадвызначаныя настаў
 
 #: src/supertux/command_line_arguments.cpp:87
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr " --renderer RENDERER          Карыстаць sdl, opengl ці auto для малявання"
+msgstr " --renderer RENDERER          Выкарыстоўваць sdl, opengl ці auto для малявання"
 
 #: src/supertux/command_line_arguments.cpp:88
 msgid "Audio Options:"
-msgstr ""
+msgstr "Аўдыё-параметры:"
 
 #: src/supertux/command_line_arguments.cpp:89
 msgid "  --disable-sound              Disable sound effects"
-msgstr ""
+msgstr "  --disable-sound              Адключыць гукавыя эфекты"
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  --disable-music              Disable music"
@@ -94,7 +94,7 @@ msgstr "--disable-music              Адключыць музыку"
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "Game Options:"
-msgstr ""
+msgstr "Параметры гульні:"
 
 #: src/supertux/command_line_arguments.cpp:92
 msgid "  --console                    Enable ingame scripting console"
@@ -106,15 +106,15 @@ msgstr "  --noconsole                  Адключыць унутраную к�
 
 #: src/supertux/command_line_arguments.cpp:94
 msgid "  --show-fps                   Display framerate in levels"
-msgstr "  --show-fps                   Паказваць частату кадраў на ўзроўнях"
+msgstr "  --show-fps                   Паказваць чашчыню кадраў на ўзроўнях"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr "  --no-show-fps                Не паказваць частату кадраў на ўзроўнях"
+msgstr "  --no-show-fps                Не паказваць чашчыню кадраў на ўзроўнях"
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --developer                  Switch on developer feature"
-msgstr ""
+msgstr "  --developer                  Уключыць магчымасці распрацоўніка"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  -s, --debug-scripts          Enable script debugger."
@@ -122,7 +122,7 @@ msgstr " -s, --debug-scripts          Уключыць адладнік сцэн
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "Demo Recording Options:"
-msgstr ""
+msgstr "Параметры запісвання гульні:"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
@@ -134,22 +134,22 @@ msgstr "--play-demo FILE LEVEL       Прайграць запіс гульні"
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid "Directory Options:"
-msgstr ""
+msgstr "Параметры каталогу:"
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr ""
+msgstr "  --datadir DIR                Задаць каталог для захавання гульнявых звестак"
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr ""
+msgstr "  --userdir DIR                Задаць каталог для звестак карыстальніка (захаванні і г.д..)"
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid "Environment variables:"
-msgstr ""
+msgstr "Зменныя асяроддзя:"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid ""
@@ -158,7 +158,7 @@ msgstr "SUPERTUX2_USER_DIR           Каталог для звестак кар
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr ""
+msgstr "  SUPERTUX2_DATA_DIR            Каталог для захавання гульнявых звестак"
 
 #: src/supertux/levelintro.cpp:94
 #, c-format
@@ -242,39 +242,39 @@ msgstr "Назад"
 #: src/supertux/menu/cheat_menu.cpp:29
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
 msgid "Cheats"
-msgstr ""
+msgstr "Чыты"
 
 #: src/supertux/menu/cheat_menu.cpp:31
 #: src/supertux/menu/worldmap_cheat_menu.cpp:31
 msgid "Bonus: Grow"
-msgstr ""
+msgstr "Бонус: рост"
 
 #: src/supertux/menu/cheat_menu.cpp:32
 #: src/supertux/menu/worldmap_cheat_menu.cpp:32
 msgid "Bonus: Fire"
-msgstr ""
+msgstr "Бонус: агонь"
 
 #: src/supertux/menu/cheat_menu.cpp:33
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 msgid "Bonus: Ice"
-msgstr ""
+msgstr "Бонус: лёд"
 
 #: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Star"
-msgstr ""
+msgstr "Бонус: зорка"
 
 #: src/supertux/menu/cheat_menu.cpp:35
 msgid "Shrink Tux"
-msgstr ""
+msgstr "Сціснуць Тукса"
 
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Kill Tux"
-msgstr ""
+msgstr "Забіць Тукса"
 
 #: src/supertux/menu/cheat_menu.cpp:37
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Finish Level"
-msgstr ""
+msgstr "Скончыць узровень"
 
 #: src/supertux/menu/contrib_menu.cpp:46 src/supertux/menu/main_menu.cpp:41
 msgid "Contrib Levels"
@@ -301,12 +301,12 @@ msgstr "Настаўленні джойстыка"
 
 #: src/supertux/menu/joystick_menu.cpp:53
 msgid "Manual Configuration"
-msgstr ""
+msgstr "Свая канфігурацыя"
 
 #: src/supertux/menu/joystick_menu.cpp:55
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr ""
+msgstr "Задаць сваю канфігурацыю замест аўтаматычнай падтрымкі кантролераў SDL2"
 
 #: src/supertux/menu/joystick_menu.cpp:67
 #: src/supertux/menu/keyboard_menu.cpp:30
@@ -370,7 +370,7 @@ msgstr "Кансоль"
 #: src/supertux/menu/joystick_menu.cpp:82
 #: src/supertux/menu/keyboard_menu.cpp:44
 msgid "Cheat Menu"
-msgstr ""
+msgstr "Меню чытаў"
 
 #: src/supertux/menu/joystick_menu.cpp:84
 #: src/supertux/menu/keyboard_menu.cpp:46
@@ -449,11 +449,11 @@ msgstr "Левы Alt"
 
 #: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Right Command"
-msgstr ""
+msgstr "Загад Направа"
 
 #: src/supertux/menu/keyboard_menu.cpp:88
 msgid "Left Command"
-msgstr ""
+msgstr "Загад Налева"
 
 #: src/supertux/menu/keyboard_menu.cpp:98
 msgid "Press Key"
@@ -570,23 +570,23 @@ msgstr "Наставіць дзеянні джойстыка"
 
 #: src/supertux/menu/options_menu.cpp:207
 msgid "Developer Mode"
-msgstr ""
+msgstr "Рэжым распрацоўніка"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 msgid "Bonus: None"
-msgstr ""
+msgstr "Бонус: нічога"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:37
 msgid "Reset Level"
-msgstr ""
+msgstr "Скінуць узровень"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
 msgid "Finish WorldMap"
-msgstr ""
+msgstr "Скончыць мапу свету"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:40
 msgid "Reset WorldMap"
-msgstr ""
+msgstr "Скінуць мапу свету"
 
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"

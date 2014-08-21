@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-19 13:06+0000\n"
-"PO-Revision-Date: 2014-08-19 13:03+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2014-08-20 18:32+0000\n"
+"Last-Translator: Jonatas L. Nogueira <cpntb1@ymail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,19 +29,19 @@ msgstr "Mapeamentos de Joystick"
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr ""
+msgstr "Uso: %s [OPÇÕES] [ARQUIVOdeNÍVEL]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
-msgstr ""
+msgstr "Opções Gerais:"
 
 #: src/supertux/command_line_arguments.cpp:76
 msgid "  -h, --help                   Show this help message and quit"
-msgstr ""
+msgstr "-h, --help Mostra essa mensagem e sai"
 
 #: src/supertux/command_line_arguments.cpp:77
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr ""
+msgstr "-v, --version Mostra a versão do SuperTux e sai"
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --verbose                    Print verbose messages"
@@ -58,71 +58,71 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
-msgstr ""
+msgstr "Opções de Vídeo:"
 
 #: src/supertux/command_line_arguments.cpp:82
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr ""
+msgstr "-f, --fullscreen Roda em modo de tela cheia"
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  -w, --window                 Run in window mode"
-msgstr ""
+msgstr "-w, --window Roda em modo de janela"
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr ""
+msgstr "-g, --geometry LARGURAxALTURA Roda o SuperTux em uma dada resolução"
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr ""
+msgstr "-a, --aspect LARGURA:ALTURA Roda o Supertux com uma dada razão de aspecto como 4:3"
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "  -d, --default                Reset video settings to default values"
-msgstr ""
+msgstr "-d, --default Reseta opções de vídeo para o padrão"
 
 #: src/supertux/command_line_arguments.cpp:87
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr ""
+msgstr "--renderer RENDERIZADOR Use sdl, opengl ou auto como renderizador."
 
 #: src/supertux/command_line_arguments.cpp:88
 msgid "Audio Options:"
-msgstr ""
+msgstr "Opções de Áudio:"
 
 #: src/supertux/command_line_arguments.cpp:89
 msgid "  --disable-sound              Disable sound effects"
-msgstr ""
+msgstr "--disable-sound Desabilita efeitos sonoros"
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  --disable-music              Disable music"
-msgstr ""
+msgstr "--disable-music Desabilita música"
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "Game Options:"
-msgstr ""
+msgstr "Opções de Jogo:"
 
 #: src/supertux/command_line_arguments.cpp:92
 msgid "  --console                    Enable ingame scripting console"
-msgstr ""
+msgstr "--console Permite o console de programação dentro do jogo"
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "  --noconsole                  Disable ingame scripting console"
-msgstr ""
+msgstr "--noconsole Desabilita o console de programação"
 
 #: src/supertux/command_line_arguments.cpp:94
 msgid "  --show-fps                   Display framerate in levels"
-msgstr ""
+msgstr "--show-fps Mostra a taxa de quadros nos níveis"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr ""
+msgstr "--no-show-fps Não exibe taxa de quadros nos níveis"
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --developer                  Switch on developer feature"
-msgstr ""
+msgstr "--developer Habilita modo de desenvolvedor"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr ""
+msgstr "-s, --debug-scripts Habilita o depurador de scripts."
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "Demo Recording Options:"
@@ -138,18 +138,18 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid "Directory Options:"
-msgstr ""
+msgstr "Opções de Diretórios:"
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr ""
+msgstr "--datadir DIR Define o diretório para os arquivos de dados do jogo"
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr ""
+msgstr "--userdir DIR Define o diretório de dados do usuário (jogos salvos, etc.)"
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid "Environment variables:"
@@ -374,7 +374,7 @@ msgstr "Consola"
 #: src/supertux/menu/joystick_menu.cpp:82
 #: src/supertux/menu/keyboard_menu.cpp:44
 msgid "Cheat Menu"
-msgstr ""
+msgstr "Menu de Trapaças"
 
 #: src/supertux/menu/joystick_menu.cpp:84
 #: src/supertux/menu/keyboard_menu.cpp:46
@@ -574,7 +574,7 @@ msgstr "Configurar os controles do joystick "
 
 #: src/supertux/menu/options_menu.cpp:207
 msgid "Developer Mode"
-msgstr ""
+msgstr "Modo Desenvolvedor"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 msgid "Bonus: None"
