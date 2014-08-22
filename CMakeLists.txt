@@ -72,7 +72,7 @@ SET(HAVE_SDL TRUE)
 
 OPTION(ENABLE_OPENGL "Enable OpenGL support" ON)
 OPTION(GLBINDING_ENABLED "Use glbinding instead of GLEW" OFF)
-OPTION(GLBINDING_DEBUG_OUTPUT "Enable glbinding debug output for each called OpenGL function" ON)
+OPTION(GLBINDING_DEBUG_OUTPUT "Enable glbinding debug output for each called OpenGL function" OFF)
 IF(ENABLE_OPENGL)
   FIND_PACKAGE(OpenGL)
   IF(OPENGL_FOUND)
