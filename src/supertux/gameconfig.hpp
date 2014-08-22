@@ -73,6 +73,8 @@ public:
   JoystickConfig joystick_config;
 
   std::vector<std::string> disabled_addon_filenames;
+
+  bool developer_mode;
 };
 
 #endif

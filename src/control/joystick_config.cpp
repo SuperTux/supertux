@@ -155,12 +155,12 @@ JoystickConfig::bind_joybutton(JoyId joy_id, int button, Controller::Control con
 }
 
 void
-JoystickConfig::read(const lisp::Lisp* joystick_lisp)
+JoystickConfig::read(const lisp::Lisp& joystick_lisp)
 {
-  joystick_lisp->get("dead-zone", dead_zone);
-  joystick_lisp->get("jump-with-up", jump_with_up_joy);
+  joystick_lisp.get("dead-zone", dead_zone);
+  joystick_lisp.get("jump-with-up", jump_with_up_joy);
 
-  lisp::ListIterator iter(joystick_lisp);
+  lisp::ListIterator iter(&joystick_lisp);
   while(iter.next())
   {
     if (iter.item() == "map")

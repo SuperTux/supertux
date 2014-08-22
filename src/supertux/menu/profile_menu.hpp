@@ -25,8 +25,6 @@ public:
   ProfileMenu();
 
   void menu_action(MenuItem* item) override;
-
-  void check_menu() {}
 };
 
 #endif

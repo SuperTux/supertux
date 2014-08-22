@@ -44,7 +44,8 @@ CommandLineArguments::CommandLineArguments() :
   start_level(),
   enable_script_debugger(),
   start_demo(),
-  record_demo()
+  record_demo(),
+  developer_mode()
 {
 }
 
@@ -69,49 +70,43 @@ CommandLineArguments::print_datadir()
 void
 CommandLineArguments::print_help(const char* arg0)
 {
-  std::cerr << boost::format(_(
-                 "Usage: %s [OPTIONS] [LEVELFILE]\n"
-                 "\n"
-                 "General Options:\n"
-                 "  -h, --help                   Show this help message and quit\n"
-                 "  -v, --version                Show SuperTux version and quit\n"
-                 "  --verbose                    Print verbose messages\n"
-                 "  --debug                      Print extra verbose messages\n"
-		 "  --print-datadir              Print supertux's primary data directory.\n"
-                 "\n"
-                 "Video Options:\n"
-                 "  -f, --fullscreen             Run in fullscreen mode\n"
-                 "  -w, --window                 Run in window mode\n"
-                 "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
-                 "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio\n"
-                 "  -d, --default                Reset video settings to default values\n"
-                 "  --renderer RENDERER          Use sdl, opengl, or auto to render\n"
-                 "\n"
-                 "Audio Options:\n"
-                 "  --disable-sound              Disable sound effects\n"
-                 "  --disable-music              Disable music\n"
-                 "\n"
-                 "Game Options:\n"
-                 "  --console                    Enable ingame scripting console\n"
-                 "  --noconsole                  Disable ingame scripting console\n"
-                 "  --show-fps                   Display framerate in levels\n"
-                 "  --no-show-fps                Do not display framerate in levels\n"
-                 "  -s, --debug-scripts          Enable script debugger.\n"
-                 "\n"
-                 "Demo Recording Options:\n"
-                 "  --record-demo FILE LEVEL     Record a demo to FILE\n"
-                 "  --play-demo FILE LEVEL       Play a recorded demo\n"
-                 "\n"
-                 "Directory Options:\n"
-                 "  --datadir DIR                Set the directory for the games datafiles\n"
-                 "  --userdir DIR                Set the directory for user data (savegames, etc.)\n"
-                 "\n"
-                 "Environment variables:\n"
-                 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)\n"
-                 "  SUPERTUX2_DATA_DIR           Directory for the games datafiles\n"
-                 "\n"
-                 ))
-            % arg0
+  std::cerr
+            << boost::format(_(     "Usage: %s [OPTIONS] [LEVELFILE]")) % arg0 << "\n" << "\n"
+            << _(     "General Options:" ) << "\n"
+            << _(     "  -h, --help                   Show this help message and quit") << "\n"
+            << _(     "  -v, --version                Show SuperTux version and quit") << "\n"
+            << _(     "  --verbose                    Print verbose messages") << "\n"
+            << _(     "  --debug                      Print extra verbose messages") << "\n"
+            << _( "  --print-datadir              Print supertux's primary data directory.") << "\n" << "\n"
+            << _(     "Video Options:") << "\n"
+            << _(     "  -f, --fullscreen             Run in fullscreen mode") << "\n"
+            << _(     "  -w, --window                 Run in window mode") << "\n"
+            << _(     "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution") << "\n"
+            << _(     "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio") << "\n"
+            << _(     "  -d, --default                Reset video settings to default values") << "\n"
+            << _(     "  --renderer RENDERER          Use sdl, opengl, or auto to render") << "\n" << "\n"
+            << _(     "Audio Options:") << "\n"
+            << _(     "  --disable-sound              Disable sound effects") << "\n"
+            << _(     "  --disable-music              Disable music") << "\n" << "\n"
+            << _(     "Game Options:") << "\n"
+            << _(     "  --console                    Enable ingame scripting console") << "\n"
+            << _(     "  --noconsole                  Disable ingame scripting console") << "\n"
+            << _(     "  --show-fps                   Display framerate in levels") << "\n"
+            << _(     "  --no-show-fps                Do not display framerate in levels") << "\n"
+            << _(     "  --developer                  Switch on developer feature") << "\n"
+            << _(     "  -s, --debug-scripts          Enable script debugger.") << "\n" << "\n"
+            << _(     "Demo Recording Options:") << "\n"
+            << _(     "  --record-demo FILE LEVEL     Record a demo to FILE") << "\n"
+            << _(     "  --play-demo FILE LEVEL       Play a recorded demo") << "\n" << "\n"
+            << _(     "Directory Options:") << "\n"
+            << _(     "  --datadir DIR                Set the directory for the games datafiles") << "\n"
+            << _(     "  --userdir DIR                Set the directory for user data (savegames, etc.)") << "\n" << "\n"
+            << _(     "Environment variables:") << "\n"
+            << _(     "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)" ) << "\n"
+            << _(     "  SUPERTUX2_DATA_DIR           Directory for the games datafiles" ) << "\n"<< "\n"
+    
+                 
+    
             << std::flush;
 }
 
@@ -268,6 +263,10 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       show_fps = false;
     }
+    else if (arg == "--developer")
+    {
+      developer_mode = true;
+    }
     else if (arg == "--console")
     {
       console_enabled = true;
@@ -340,6 +339,7 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(enable_script_debugger);
   merge_option(start_demo);
   merge_option(record_demo);
+  merge_option(developer_mode);
 
 #undef merge_option
 }
