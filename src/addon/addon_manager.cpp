@@ -181,7 +181,27 @@ AddonManager::check_online()
 void
 AddonManager::install_addon(const AddonId& addon_id)
 {
-  log_debug << "installing addon " << addon_id << std::endl;
+  { // remove addon if it already exists
+    auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
+                           [&addon_id](const std::unique_ptr<Addon>& addon)
+                           {
+                             return addon->get_id() == addon_id;
+                           });
+    if (it != m_installed_addons.end())
+    {
+      log_debug << "reinstalling addon " << addon_id << std::endl;
+      if ((*it)->is_enabled())
+      {
+        disable_addon((*it)->get_id());
+      }
+      m_installed_addons.erase(it);
+    }
+    else
+    {
+      log_debug << "installing addon " << addon_id << std::endl;
+    }
+  }
+
   Addon& repository_addon = get_repository_addon(addon_id);
 
   std::string install_filename = FileSystem::join(m_addon_directory, repository_addon.get_filename());
