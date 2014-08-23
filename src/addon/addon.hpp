@@ -70,7 +70,7 @@ public:
   bool is_installed() const;
   bool is_enabled() const;
 
-  void set_install_filename(const std::string& absolute_filename);
+  void set_install_filename(const std::string& absolute_filename, const std::string& md5);
   void set_enabled(bool v);
 
 private:

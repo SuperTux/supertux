@@ -227,7 +227,7 @@ AddonManager::install_addon(const AddonId& addon_id)
     }
     else
     {
-      add_installed_archive(install_filename);
+      add_installed_archive(install_filename, md5.hex_digest());
     }
   }
 }
@@ -358,7 +358,7 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
 }
 
 void
-AddonManager::add_installed_archive(const std::string& archive)
+AddonManager::add_installed_archive(const std::string& archive, const std::string& md5)
 {
   const char* realdir = PHYSFS_getRealDir(archive.c_str());
   if (!realdir)
@@ -383,7 +383,7 @@ AddonManager::add_installed_archive(const std::string& archive)
       try
       {
         std::unique_ptr<Addon> addon = Addon::parse(nfo_filename);
-        addon->set_install_filename(os_path);
+        addon->set_install_filename(os_path, md5);
         m_installed_addons.push_back(std::move(addon));
       }
       catch (const std::runtime_error& e)
@@ -403,7 +403,8 @@ AddonManager::add_installed_addons()
 
   for(auto archive : archives)
   {
-    add_installed_archive(archive);
+    MD5 md5 = md5_from_file(archive);
+    add_installed_archive(archive, md5.hex_digest());
   }
 }
 

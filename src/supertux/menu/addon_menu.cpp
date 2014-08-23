@@ -109,7 +109,7 @@ AddonMenu::rebuild_menu()
   add_label(_("Add-ons"));
   add_hl();
 
-  
+
   if (!m_installed_addons.empty())
   {
     int idx = 0;
@@ -117,7 +117,7 @@ AddonMenu::rebuild_menu()
     {
       const Addon& addon = m_addon_manager.get_installed_addon(addon_id);
       std::string text = generate_menu_item_text(addon);
-      add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, addon.is_enabled());   
+      add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, addon.is_enabled());
       idx += 1;
     }
 
@@ -145,12 +145,16 @@ AddonMenu::rebuild_menu()
         if (installed_addon.get_md5() == addon.get_md5() ||
             installed_addon.get_version() > addon.get_version())
         {
-          // addon alredy present, ignore it
+          log_debug << "ignoring already installed addon " << installed_addon.get_id() << std::endl;
         }
         else
         {
+          log_debug << installed_addon.get_id() << " is installed, but updated: '"
+                    << installed_addon.get_md5() << "' vs '" << addon.get_md5() << "'  '"
+                    << installed_addon.get_version() << "' vs '" << addon.get_version() << "'"
+                    << std::endl;
           std::string text = generate_menu_item_text(addon);
-          add_entry(MAKE_REPOSITORY_MENU_ID(idx), "Install " + text + "*NEW*");
+          add_entry(MAKE_REPOSITORY_MENU_ID(idx), "Install " + text + " *NEW*");
           idx += 1;
         }
       }
@@ -193,7 +197,7 @@ AddonMenu::menu_action(MenuItem* item)
         const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[idx]);
         if(addon.is_enabled())
         {
-          m_addon_manager.enable_addon(addon.get_id());
+          m_addon_manager.disable_addon(addon.get_id());
           set_toggled(item->id, addon.is_enabled());
         }
         else

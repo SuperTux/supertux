@@ -159,9 +159,10 @@ Addon::is_enabled() const
 }
 
 void
-Addon::set_install_filename(const std::string& absolute_filename)
+Addon::set_install_filename(const std::string& absolute_filename, const std::string& md5)
 {
   m_install_filename = absolute_filename;
+  m_md5 = md5;
 }
 
 void

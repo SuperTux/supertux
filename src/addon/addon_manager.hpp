@@ -73,7 +73,7 @@ private:
 
   /** add \a archive, given as physfs path, to the list of installed
       archives */
-  void add_installed_archive(const std::string& archive);
+  void add_installed_archive(const std::string& archive, const std::string& md5);
 
   /** search for an .nfo file in the top level directory that
       originates from \a archive, \a archive is a OS path */
