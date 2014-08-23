@@ -138,9 +138,29 @@ AddonMenu::rebuild_menu()
     for (const auto& addon_id : m_repository_addons)
     {
       const Addon& addon = m_addon_manager.get_repository_addon(addon_id);
-      std::string text = generate_menu_item_text(addon);
-      add_entry(MAKE_REPOSITORY_MENU_ID(idx), "Install " + text);
-      idx += 1;
+      try
+      {
+        // addon is already installed, so check if they are the same
+        Addon& installed_addon = m_addon_manager.get_installed_addon(addon_id);
+        if (installed_addon.get_md5() == addon.get_md5() ||
+            installed_addon.get_version() > addon.get_version())
+        {
+          // addon alredy present, ignore it
+        }
+        else
+        {
+          std::string text = generate_menu_item_text(addon);
+          add_entry(MAKE_REPOSITORY_MENU_ID(idx), "Install " + text + "*NEW*");
+          idx += 1;
+        }
+      }
+      catch(const std::exception& err)
+      {
+        // addon is not installed
+        std::string text = generate_menu_item_text(addon);
+        add_entry(MAKE_REPOSITORY_MENU_ID(idx), "Install " + text);
+        idx += 1;
+      }
     }
   }
 

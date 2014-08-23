@@ -54,6 +54,7 @@ private:
 
 public:
   std::string get_id() const { return m_id; }
+  int get_version() const { return m_version; }
 
   Type get_type() const { return m_type; }
   std::string get_title() const { return m_title; }
