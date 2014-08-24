@@ -340,7 +340,6 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
         PHYSFS_freeList);
   for(char** j = rc2.get(); *j != 0; ++j)
   {
-    log_debug << "enumerating: " << std::string(*j) << std::endl;
     if (has_suffix(*j, ".nfo"))
     {
       std::string nfo_filename = FileSystem::join("/", *j);
@@ -353,7 +352,6 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
       }
       else
       {
-        log_debug << "compare: " << realdir << " " << archive_os_path << std::endl;
         if (realdir == archive_os_path)
         {
           return nfo_filename;
