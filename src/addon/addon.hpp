@@ -42,7 +42,7 @@ private:
   std::string m_license;
 
   // additional fields provided for addons from an addon repository
-  std::string m_http_url;
+  std::string m_url;
   std::string m_md5;
 
   // fields filled by the AddonManager
@@ -61,7 +61,7 @@ public:
   std::string get_author() const { return m_author; }
   std::string get_license() const { return m_license; }
 
-  std::string get_http_url() const { return m_http_url; }
+  std::string get_url() const { return m_url; }
   std::string get_md5() const { return m_md5; }
 
   std::string get_filename() const;

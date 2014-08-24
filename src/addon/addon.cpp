@@ -83,7 +83,7 @@ Addon::parse(const Reader& lisp)
     lisp.get("title", addon->m_title);
     lisp.get("author", addon->m_author);
     lisp.get("license", addon->m_license);
-    lisp.get("http-url", addon->m_http_url);
+    lisp.get("url", addon->m_url);
     lisp.get("md5", addon->m_md5);
 
     return addon;
@@ -128,7 +128,7 @@ Addon::Addon() :
   m_title(),
   m_author(),
   m_license(),
-  m_http_url(),
+  m_url(),
   m_md5(),
   m_install_filename(),
   m_enabled(false)
