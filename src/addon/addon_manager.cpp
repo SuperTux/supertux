@@ -72,12 +72,12 @@ bool has_suffix(const std::string& str, const std::string& suffix)
 } // namespace
 
 AddonManager::AddonManager(const std::string& addon_directory,
-                           std::vector<std::string>& ignored_addon_ids) :
+                           std::vector<Config::Addon>& addon_config) :
   m_downloader(),
   m_addon_directory(addon_directory),
   //m_repository_url("http://addons.supertux.googlecode.com/git/index-0_3_5.nfo"),
   m_repository_url("http://localhost:8000/index-0_4_0.nfo"),
-  m_ignored_addon_ids(ignored_addon_ids),
+  m_addon_config(addon_config),
   m_installed_addons(),
   m_repository_addons(),
   m_has_been_updated(false)
@@ -85,18 +85,25 @@ AddonManager::AddonManager(const std::string& addon_directory,
   PHYSFS_mkdir(m_addon_directory.c_str());
 
   add_installed_addons();
-  for(auto& addon : m_installed_addons)
+
+  // FIXME: We should also restore the order here
+  for(auto& addon : m_addon_config)
   {
-    if (std::find(m_ignored_addon_ids.begin(), m_ignored_addon_ids.end(),
-                  addon->get_id()) != m_ignored_addon_ids.end())
+    if (addon.enabled)
     {
-      enable_addon(addon->get_id());
+      enable_addon(addon.id);
     }
   }
 }
 
 AddonManager::~AddonManager()
 {
+  // sync enabled/disabled addons into the config for saving
+  m_addon_config.clear();
+  for(auto& addon : m_installed_addons)
+  {
+    m_addon_config.push_back({addon->get_id(), addon->is_enabled()});
+  }
 }
 
 Addon&

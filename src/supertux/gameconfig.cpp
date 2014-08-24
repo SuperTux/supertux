@@ -21,8 +21,10 @@
 #include "addon/addon_manager.hpp"
 #include "control/input_manager.hpp"
 #include "lisp/writer.hpp"
+#include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "util/reader.hpp"
+#include "util/log.hpp"
 #include "supertux/globals.hpp"
 
 Config::Config() :
@@ -47,7 +49,7 @@ Config::Config() :
   locale(),
   keyboard_config(),
   joystick_config(),
-  disabled_addon_filenames(),
+  addons(),
   developer_mode(false)
 {
 }
@@ -121,7 +123,25 @@ Config::load()
   const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
   if (config_addons_lisp)
   {
-    config_addons_lisp->get("disabled-addons", disabled_addon_filenames);
+    lisp::ListIterator iter(config_addons_lisp);
+    while(iter.next())
+    {
+      const std::string& token = iter.item();
+      if (token == "addon")
+      {
+        std::string id;
+        bool enabled = false;
+        if (iter.lisp()->get("id", id) &&
+            iter.lisp()->get("enabled", enabled))
+        {
+          addons.push_back({id, enabled});
+        }
+      }
+      else
+      {
+        log_warning << "Unknown token in config file: " << token << std::endl;
+      }
+    }
   }
 }
 
@@ -175,7 +195,13 @@ Config::save()
   writer.end_list("control");
 
   writer.start_list("addons");
-  writer.write("disabled-addons", disabled_addon_filenames);
+  for(auto addon : addons)
+  {
+    writer.start_list("addon");
+    writer.write("id", addon.id);
+    writer.write("enabled", addon.enabled);
+    writer.end_list("addon");
+  }
   writer.end_list("addons");
 
   writer.end_list("supertux-config");

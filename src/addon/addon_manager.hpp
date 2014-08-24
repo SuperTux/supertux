@@ -23,6 +23,7 @@
 #include <vector>
 
 #include "addon/downloader.hpp"
+#include "supertux/gameconfig.hpp"
 #include "util/currenton.hpp"
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
@@ -41,7 +42,7 @@ private:
   Downloader m_downloader;
   std::string m_addon_directory;
   std::string m_repository_url;
-  std::vector<std::string>& m_ignored_addon_ids;
+  std::vector<Config::Addon>& m_addon_config;
 
   AddonList m_installed_addons;
   AddonList m_repository_addons;
@@ -50,7 +51,7 @@ private:
 
 public:
   AddonManager(const std::string& addon_directory,
-               std::vector<std::string>& enabled_addons_);
+               std::vector<Config::Addon>& addon_config);
   ~AddonManager();
 
   bool has_online_support() const;

@@ -326,7 +326,7 @@ Main::launch_game()
   Resources resources;
 
   timelog("addons");
-  AddonManager addon_manager("addons", g_config->disabled_addon_filenames);
+  AddonManager addon_manager("addons", g_config->addons);
 
   timelog(0);
 
