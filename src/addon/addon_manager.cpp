@@ -91,7 +91,14 @@ AddonManager::AddonManager(const std::string& addon_directory,
   {
     if (addon.enabled)
     {
-      enable_addon(addon.id);
+      try
+      {
+        enable_addon(addon.id);
+      }
+      catch(const std::exception& err)
+      {
+        log_warning << "failed to enable addon from config: " << err.what() << std::endl;
+      }
     }
   }
 }
@@ -221,7 +228,7 @@ AddonManager::install_addon(const AddonId& addon_id)
 
   std::string install_filename = FileSystem::join(m_addon_directory, repository_addon.get_filename());
 
-  m_downloader.download(repository_addon.get_http_url(), install_filename);
+  m_downloader.download(repository_addon.get_url(), install_filename);
 
   MD5 md5 = md5_from_file(install_filename);
   if (repository_addon.get_md5() != md5.hex_digest())
