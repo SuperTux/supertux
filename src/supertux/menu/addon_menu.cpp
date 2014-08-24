@@ -155,7 +155,6 @@ AddonMenu::rebuild_menu()
                     << std::endl;
           std::string text = generate_menu_item_text(addon);
           add_entry(MAKE_REPOSITORY_MENU_ID(idx), "Install " + text + " *NEW*");
-          idx += 1;
         }
       }
       catch(const std::exception& err)
@@ -163,8 +162,8 @@ AddonMenu::rebuild_menu()
         // addon is not installed
         std::string text = generate_menu_item_text(addon);
         add_entry(MAKE_REPOSITORY_MENU_ID(idx), "Install " + text);
-        idx += 1;
       }
+      idx += 1;
     }
   }
 
