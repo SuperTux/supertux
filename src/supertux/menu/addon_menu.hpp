@@ -27,6 +27,7 @@ class AddonMenu : public Menu
 private:
   enum {
     MNID_CHECK_ONLINE,
+    MNID_NOTHING_NEW,
     MNID_ADDON_LIST_START = 10
   };
 

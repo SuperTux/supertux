@@ -79,7 +79,8 @@ AddonManager::AddonManager(const std::string& addon_directory,
   m_repository_url("http://localhost:8000/index-0_4_0.nfo"),
   m_ignored_addon_ids(ignored_addon_ids),
   m_installed_addons(),
-  m_repository_addons()
+  m_repository_addons(),
+  m_has_been_updated(false)
 {
   PHYSFS_mkdir(m_addon_directory.c_str());
 
@@ -171,11 +172,18 @@ AddonManager::has_online_support() const
   return true;
 }
 
+bool
+AddonManager::has_been_updated() const
+{
+  return m_has_been_updated;
+}
+
 void
 AddonManager::check_online()
 {
   std::string addoninfos = m_downloader.download(m_repository_url);
   m_repository_addons = parse_addon_infos(addoninfos);
+  m_has_been_updated = true;
 }
 
 void

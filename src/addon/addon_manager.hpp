@@ -46,12 +46,15 @@ private:
   AddonList m_installed_addons;
   AddonList m_repository_addons;
 
+  bool m_has_been_updated;
+
 public:
   AddonManager(const std::string& addon_directory,
                std::vector<std::string>& enabled_addons_);
   ~AddonManager();
 
   bool has_online_support() const;
+  bool has_been_updated() const;
   void check_online();
 
   std::vector<AddonId> get_repository_addons() const;

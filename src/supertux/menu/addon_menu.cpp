@@ -110,7 +110,11 @@ AddonMenu::rebuild_menu()
   add_hl();
 
 
-  if (!m_installed_addons.empty())
+  if (m_installed_addons.empty())
+  {
+    add_inactive(MNID_NOTHING_NEW, _("No Addons installed"));
+  }
+  else
   {
     int idx = 0;
     for (const auto& addon_id : m_installed_addons)
@@ -120,20 +124,12 @@ AddonMenu::rebuild_menu()
       add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, addon.is_enabled());
       idx += 1;
     }
-
-    add_hl();
   }
 
-  if (!m_addon_manager.has_online_support())
-  {
-    add_inactive(MNID_CHECK_ONLINE, std::string(_("Check Online (disabled)")));
-  }
-  else
-  {
-    add_entry(MNID_CHECK_ONLINE, std::string(_("Check Online")));
-  }
+  add_hl();
 
   {
+    bool have_new_stuff = false;
     int idx = 0;
     for (const auto& addon_id : m_repository_addons)
     {
@@ -155,6 +151,7 @@ AddonMenu::rebuild_menu()
                     << std::endl;
           std::string text = generate_menu_item_text(addon);
           add_entry(MAKE_REPOSITORY_MENU_ID(idx), "Install " + text + " *NEW*");
+          have_new_stuff = true;
         }
       }
       catch(const std::exception& err)
@@ -162,9 +159,24 @@ AddonMenu::rebuild_menu()
         // addon is not installed
         std::string text = generate_menu_item_text(addon);
         add_entry(MAKE_REPOSITORY_MENU_ID(idx), "Install " + text);
+        have_new_stuff = true;
       }
       idx += 1;
     }
+
+    if (!have_new_stuff && m_addon_manager.has_been_updated())
+    {
+      add_inactive(MNID_NOTHING_NEW, _("No new Addons found"));
+    }
+  }
+
+  if (!m_addon_manager.has_online_support())
+  {
+    add_inactive(MNID_CHECK_ONLINE, std::string(_("Check Online (disabled)")));
+  }
+  else
+  {
+    add_entry(MNID_CHECK_ONLINE, std::string(_("Check Online")));
   }
 
   add_hl();
