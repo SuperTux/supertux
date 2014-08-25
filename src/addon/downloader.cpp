@@ -46,30 +46,26 @@ size_t my_curl_physfs_write(void* ptr, size_t size, size_t nmemb, void* userdata
 
 } // namespace
 
-class cURLTransfer : public Transfer
+class Transfer
 {
 private:
   Downloader& m_downloader;
+  TransferId m_id;
 
   std::string m_url;
   CURL* m_handle;
   std::array<char, CURL_ERROR_SIZE> m_error_buffer;
 
-  curl_off_t m_dltotal;
-  curl_off_t m_dlnow;
-  curl_off_t m_ultotal;
-  curl_off_t m_ulnow;
+  TransferStatusPtr m_status;
 
 public:
-  cURLTransfer(Downloader& downloader, const std::string& url) :
+  Transfer(Downloader& downloader, TransferId id, const std::string& url) :
     m_downloader(downloader),
+    m_id(id),
     m_url(url),
     m_handle(curl_easy_init()),
     m_error_buffer(),
-    m_dltotal(0),
-    m_dlnow(0),
-    m_ultotal(0),
-    m_ulnow(0)
+    m_status(new TransferStatus(id))
   {
     if (!m_handle)
     {
@@ -84,7 +80,7 @@ public:
       curl_easy_setopt(m_handle, CURLOPT_WRITEFUNCTION,
                        [](void* ptr, size_t size, size_t nmemb, void* userdata) -> size_t
                        {
-                         return static_cast<cURLTransfer*>(userdata)
+                         return static_cast<Transfer*>(userdata)
                            ->on_data(ptr, size, nmemb);
                        });
 
@@ -100,16 +96,26 @@ public:
                           curl_off_t dltotal, curl_off_t dlnow,
                           curl_off_t ultotal, curl_off_t ulnow)
                        {
-                         return static_cast<cURLTransfer*>(userdata)
+                         return static_cast<Transfer*>(userdata)
                            ->on_progress(dltotal, dlnow,
                                          ultotal, ulnow);
                        });
     }
   }
 
-  ~cURLTransfer()
+  ~Transfer()
   {
     curl_easy_cleanup(m_handle);
+  }
+
+  TransferStatusPtr get_status() const
+  {
+    return m_status;
+  }
+
+  TransferId get_id() const
+  {
+    return m_id;
   }
 
   CURL* get_curl_handle() const
@@ -130,26 +136,22 @@ public:
   void on_progress(curl_off_t dltotal, curl_off_t dlnow,
                    curl_off_t ultotal, curl_off_t ulnow)
   {
-    m_dltotal = dltotal;
-    m_dlnow = dlnow;
+    m_status->dltotal = dltotal;
+    m_status->dlnow = dlnow;
 
-    m_ultotal = ultotal;
-    m_ulnow = ulnow;
-  }
-
-  void abort()
-  {
-    m_downloader.abort(*this);
+    m_status->ultotal = ultotal;
+    m_status->ulnow = ulnow;
   }
 
 private:
-  cURLTransfer(const cURLTransfer&) = delete;
-  cURLTransfer& operator=(const cURLTransfer&) = delete;
+  Transfer(const Transfer&) = delete;
+  Transfer& operator=(const Transfer&) = delete;
 };
 
 Downloader::Downloader() :
   m_multi_handle(),
-  m_transfers()
+  m_transfers(),
+  m_next_transfer_id(1)
 {
   curl_global_init(CURL_GLOBAL_ALL);
   m_multi_handle = curl_multi_init();
@@ -217,16 +219,16 @@ Downloader::download(const std::string& url, const std::string& filename)
 }
 
 void
-Downloader::abort(const cURLTransfer& transfer)
+Downloader::abort(TransferId id)
 {
   auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
-                         [&transfer](const std::unique_ptr<cURLTransfer>& rhs)
+                         [&id](const std::unique_ptr<Transfer>& rhs)
                          {
-                           return transfer.get_curl_handle() == rhs->get_curl_handle();
+                           return id == rhs->get_id();
                          });
   if (it == m_transfers.end())
   {
-    log_warning << "transfer not found: " << transfer.get_url() << std::endl;
+    log_warning << "transfer not found: " << id << std::endl;
   }
   else
   {
@@ -263,13 +265,13 @@ Downloader::update()
   }
 }
 
-TransferHandle
+TransferStatusPtr
 Downloader::request_download(const std::string& url, const std::string& filename)
 {
-  std::unique_ptr<cURLTransfer> transfer(new cURLTransfer(*this, url));
+  std::unique_ptr<Transfer> transfer(new Transfer(*this, m_next_transfer_id++, url));
   curl_multi_add_handle(m_multi_handle, transfer->get_curl_handle());
   m_transfers.push_back(std::move(transfer));
-  return m_transfers.back().get();
+  return m_transfers.back()->get_status();
 }
 
 /* EOF */

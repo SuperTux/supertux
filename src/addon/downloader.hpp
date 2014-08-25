@@ -25,22 +25,38 @@
 #include <string>
 #include <vector>
 
-class Transfer
+typedef int TransferId;
+
+class TransferStatus
 {
 public:
-  virtual ~Transfer() {}
-  virtual void abort() = 0;
+  TransferId id;
+  int dltotal;
+  int dlnow;
+  int ultotal;
+  int ulnow;
+
+  TransferStatus(TransferId id_) :
+    id(id_),
+    dltotal(0),
+    dlnow(0),
+    ultotal(0),
+    ulnow(0)
+  {}
 };
 
-typedef Transfer* TransferHandle;
+typedef std::shared_ptr<TransferStatus> TransferStatusPtr;
 
-class cURLTransfer;
+class Transfer;
 
 class Downloader
 {
+public:
+
 private:
   CURLM* m_multi_handle;
-  std::vector<std::unique_ptr<cURLTransfer> > m_transfers;
+  std::vector<std::unique_ptr<Transfer> > m_transfers;
+  int m_next_transfer_id;
 
 public:
   Downloader();
@@ -57,9 +73,9 @@ public:
                 void* userdata);
 
   void update();
-  TransferHandle request_download(const std::string& url, const std::string& filename);
 
-  void abort(const cURLTransfer& transfer);
+  TransferStatusPtr request_download(const std::string& url, const std::string& filename);
+  void abort(TransferId id);
 
 private:
   Downloader(const Downloader&) = delete;
