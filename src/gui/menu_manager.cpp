@@ -170,13 +170,20 @@ MenuManager::process_input()
 }
 
 void
-MenuManager::event(const SDL_Event& event_)
+MenuManager::event(const SDL_Event& ev)
 {
-  if (current_menu() && !m_transition->is_active())
+  if (!m_transition->is_active())
   {
-    // only pass events when the menu is fully visible and not in a
-    // transition animation
-    current_menu()->event(event_);
+    if (m_dialog)
+    {
+      m_dialog->event(ev);
+    }
+    else if (current_menu())
+    {
+      // only pass events when the menu is fully visible and not in a
+      // transition animation
+      current_menu()->event(ev);
+    }
   }
 }
 

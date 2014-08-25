@@ -18,8 +18,11 @@
 
 #include "control/controller.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/mousecursor.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
+#include "video/renderer.hpp"
+#include "video/video_system.hpp"
 
 Dialog::Dialog() :
   m_text(),
@@ -51,6 +54,74 @@ Dialog::add_button(const std::string& text, const std::function<void ()>& callba
   if (focus)
   {
     m_selected_button = m_buttons.size() - 1;
+  }
+}
+
+int
+Dialog::get_button_at(const Vector& mouse_pos) const
+{
+  Rectf bg_rect(Vector(SCREEN_WIDTH/2 - m_text_size.width/2,
+                       SCREEN_HEIGHT/2 - m_text_size.height/2),
+                Sizef(m_text_size.width,
+                      m_text_size.height + 44));
+
+  for(int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
+  {
+    float segment_width = bg_rect.get_width() / m_buttons.size();
+    float button_width = segment_width;
+    float button_height = 24.0f;
+    Vector pos(bg_rect.p1.x + segment_width/2.0f + i * segment_width,
+               bg_rect.p2.y - 12);
+    Rectf button_rect(Vector(pos.x - button_width/2, pos.y - button_height/2),
+                      Vector(pos.x + button_width/2, pos.y + button_height/2));
+    if (button_rect.contains(mouse_pos))
+    {
+      return i;
+    }
+  }
+  return -1;
+}
+
+void
+Dialog::event(const SDL_Event& ev)
+{
+  switch(ev.type) {
+    case SDL_MOUSEBUTTONDOWN:
+    if(ev.button.button == SDL_BUTTON_LEFT)
+    {
+      Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
+      int new_button = get_button_at(mouse_pos);
+      if (new_button != -1)
+      {
+        m_selected_button = new_button;
+        on_button_click(m_selected_button);
+
+        // warning: this will "delete this"
+        MenuManager::instance().set_dialog({});
+      }
+    }
+    break;
+
+    case SDL_MOUSEMOTION:
+    {
+      Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
+      int new_button = get_button_at(mouse_pos);
+      if (new_button != -1)
+      {
+        m_selected_button = new_button;
+        if(MouseCursor::current())
+          MouseCursor::current()->set_state(MC_LINK);
+      }
+      else
+      {
+        if(MouseCursor::current())
+          MouseCursor::current()->set_state(MC_NORMAL);
+      }
+    }
+    break;
+
+    default:
+      break;
   }
 }
 
@@ -143,7 +214,7 @@ Dialog::draw(DrawingContext& ctx)
 }
 
 void
-Dialog::on_button_click(int button)
+Dialog::on_button_click(int button) const
 {
   if (m_buttons[button].callback)
   {

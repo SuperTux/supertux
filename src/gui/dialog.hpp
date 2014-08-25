@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_GUI_DIALOG_HPP
 #define HEADER_SUPERTUX_GUI_DIALOG_HPP
 
+#include <SDL.h>
 #include <functional>
 #include <string>
 #include <vector>
@@ -49,11 +50,13 @@ public:
   void add_button(const std::string& text, const std::function<void ()>& callback = {},
                   bool focus = false);
 
+  void event(const SDL_Event& event);
   void process_input(const Controller& controller);
   void draw(DrawingContext& context);
 
 private:
-  void on_button_click(int button);
+  void on_button_click(int button) const;
+  int get_button_at(const Vector& pos) const;
 
 private:
   Dialog(const Dialog&) = delete;
