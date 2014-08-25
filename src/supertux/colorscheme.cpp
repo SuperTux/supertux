@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "supertux/colorscheme.hpp"
+
 #include "gui/menu.hpp"
 #include "object/floating_text.hpp"
 #include "object/level_time.hpp"
@@ -35,11 +37,11 @@ Color LevelIntro::stat_color(1.0,1.0,1.0);
 Color Statistics::header_color(1.0,1.0,1.0);
 Color Statistics::text_color(1.0,1.0,0.6);
 
-Color Menu::default_color(1.0,1.0,1.0);
-Color Menu::active_color(0.2,0.5,1.0);
-Color Menu::inactive_color(0.5,0.5,0.5);
-Color Menu::label_color(0.0,1.0,1.0);
-Color Menu::field_color(1.0,1.0,0.6);
+Color ColorScheme::Menu::default_color(1.0,1.0,1.0);
+Color ColorScheme::Menu::active_color(0.2,0.5,1.0);
+Color ColorScheme::Menu::inactive_color(0.5,0.5,0.5);
+Color ColorScheme::Menu::label_color(0.0,1.0,1.0);
+Color ColorScheme::Menu::field_color(1.0,1.0,0.6);
 
 Color PlayerStatus::text_color(1.0,1.0,0.6);
 

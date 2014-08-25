@@ -23,6 +23,7 @@
 
 #include "SDL.h"
 
+class Dialog;
 class DrawingContext;
 class Menu;
 class MenuTransition;
@@ -34,11 +35,10 @@ private:
 public:
   static MenuManager& instance();
 
-public:
+private:
+  std::unique_ptr<Dialog> m_dialog;
   std::vector<std::unique_ptr<Menu> > m_menu_stack;
   std::unique_ptr<MenuTransition> m_transition;
-
-  friend class Menu;
 
 public:
   MenuManager();
@@ -49,6 +49,8 @@ public:
   void refresh();
 
   void draw(DrawingContext& context);
+
+  void set_dialog(std::unique_ptr<Dialog> dialog);
 
   void set_menu(int id);
   void set_menu(std::unique_ptr<Menu> menu);
@@ -64,7 +66,7 @@ public:
   }
 
 private:
-  Menu* current() const;
+  Menu* current_menu() const;
   void transition(Menu* from, Menu* to);
 
 private:

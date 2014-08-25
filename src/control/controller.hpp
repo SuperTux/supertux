@@ -51,11 +51,11 @@ public:
 
   void set_control(Control control, bool value);
   /** returns true if the control is pressed down */
-  bool hold(Control control);
+  bool hold(Control control) const;
   /** returns true if the control has just been pressed down this frame */
-  bool pressed(Control control);
+  bool pressed(Control control) const;
   /** returns true if the control has just been released this frame */
-  bool released(Control control);
+  bool released(Control control) const;
 
   virtual void reset();
   virtual void update();

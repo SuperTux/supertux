@@ -19,6 +19,7 @@
 #include <assert.h>
 
 #include "control/input_manager.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
 #include "math/sizef.hpp"
@@ -134,6 +135,7 @@ public:
 };
 
 MenuManager::MenuManager() :
+  m_dialog(),
   m_menu_stack(),
   m_transition(new MenuTransition)
 {
@@ -157,20 +159,31 @@ MenuManager::refresh()
 void
 MenuManager::process_input()
 {
-  if (current())
+  if (m_dialog)
   {
-    current()->process_input();
+    m_dialog->process_input(*InputManager::current()->get_controller());
+  }
+  else if (current_menu())
+  {
+    current_menu()->process_input();
   }
 }
 
 void
-MenuManager::event(const SDL_Event& event_)
+MenuManager::event(const SDL_Event& ev)
 {
-  if (current() && !m_transition->is_active())
+  if (!m_transition->is_active())
   {
-    // only pass events when the menu is fully visible and not in a
-    // transition animation
-    current()->event(event_);
+    if (m_dialog)
+    {
+      m_dialog->event(ev);
+    }
+    else if (current_menu())
+    {
+      // only pass events when the menu is fully visible and not in a
+      // transition animation
+      current_menu()->event(ev);
+    }
   }
 }
 
@@ -184,21 +197,31 @@ MenuManager::draw(DrawingContext& context)
   }
   else
   {
-    if (current())
+    if (m_dialog)
+    {
+      m_dialog->draw(context);
+    }
+    else if (current_menu())
     {
       // brute force the transition into the right shape in case the
       // menu has changed sizes
-      m_transition->set(menu2rect(*current()));
+      m_transition->set(menu2rect(*current_menu()));
       m_transition->draw(context);
 
-      current()->draw(context);
+      current_menu()->draw(context);
     }
   }
 
-  if (current() && MouseCursor::current())
+  if (current_menu() && MouseCursor::current())
   {
     MouseCursor::current()->draw(context);
   }
+}
+
+void
+MenuManager::set_dialog(std::unique_ptr<Dialog> dialog)
+{
+  m_dialog = std::move(dialog);
 }
 
 void
@@ -279,7 +302,7 @@ MenuManager::on_window_resize()
 }
 
 Menu*
-MenuManager::current() const
+MenuManager::current_menu() const
 {
   if (m_menu_stack.empty())
   {

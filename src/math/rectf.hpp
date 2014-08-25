@@ -129,6 +129,12 @@ public:
     return ((v1 - v2).norm ());
   }
 
+  Rectf grown(float border) const
+  {
+    return Rectf(p1.x - border, p1.y - border,
+                 p2.x + border, p2.y + border);
+  }
+
   // leave these two public to save the headaches of set/get functions for such
   // simple things :)
 

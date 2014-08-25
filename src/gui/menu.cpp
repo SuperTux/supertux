@@ -23,6 +23,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
+#include "supertux/colorscheme.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_manager.hpp"
@@ -381,7 +382,7 @@ Menu::draw_item(DrawingContext& context, int index)
 
   MenuItem& pitem = *(items[index]);
 
-  Color text_color = default_color;
+  Color text_color = ColorScheme::Menu::default_color;
   float x_pos       = pos.x;
   float y_pos       = pos.y + 24*index - menu_height/2 + 12;
   int text_width  = int(Resources::normal_font->get_text_width(pitem.text));
@@ -400,7 +401,7 @@ Menu::draw_item(DrawingContext& context, int index)
 
   if(index == active_item)
   {
-    text_color = active_color;
+    text_color = ColorScheme::Menu::active_color;
   }
 
   if(active_item == index)
@@ -424,7 +425,7 @@ Menu::draw_item(DrawingContext& context, int index)
     {
       context.draw_text(Resources::normal_font, pitem.text,
                         Vector(pos.x, y_pos - int(Resources::normal_font->get_height()/2)),
-                        ALIGN_CENTER, LAYER_GUI, inactive_color);
+                        ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::inactive_color);
       break;
     }
 
@@ -446,7 +447,7 @@ Menu::draw_item(DrawingContext& context, int index)
     {
       context.draw_text(Resources::big_font, pitem.text,
                         Vector(pos.x, y_pos - int(Resources::big_font->get_height()/2)),
-                        ALIGN_CENTER, LAYER_GUI, label_color);
+                        ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::label_color);
       break;
     }
     case MN_TEXTFIELD:
@@ -459,17 +460,17 @@ Menu::draw_item(DrawingContext& context, int index)
           context.draw_text(Resources::normal_font,
                             pitem.get_input_with_symbol(true),
                             Vector(right, y_pos - int(Resources::normal_font->get_height()/2)),
-                            ALIGN_RIGHT, LAYER_GUI, field_color);
+                            ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
         else
           context.draw_text(Resources::normal_font,
                             pitem.get_input_with_symbol(false),
                             Vector(right, y_pos - int(Resources::normal_font->get_height()/2)),
-                            ALIGN_RIGHT, LAYER_GUI, field_color);
+                            ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
       }
       else
         context.draw_text(Resources::normal_font, pitem.input,
                           Vector(right, y_pos - int(Resources::normal_font->get_height()/2)),
-                          ALIGN_RIGHT, LAYER_GUI, field_color);
+                          ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
 
       context.draw_text(Resources::normal_font, pitem.text,
                         Vector(left, y_pos - int(Resources::normal_font->get_height()/2)),
