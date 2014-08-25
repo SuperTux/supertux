@@ -49,6 +49,7 @@ distributions.
   work. <http://www.openal.org>
 * GLEW <http://glew.sourceforge.net/>
 * Boost's smart_ptr and format headers <http://www.boost.org/>
+* cURL <http://curl.haxx.se/libcurl/>
 
 Note: We tried to write our code clean, portable and platform neutral,
 so it should be possible to compile it on a wide range of platforms
