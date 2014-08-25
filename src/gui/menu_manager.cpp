@@ -19,6 +19,7 @@
 #include <assert.h>
 
 #include "control/input_manager.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
 #include "math/sizef.hpp"
@@ -134,6 +135,7 @@ public:
 };
 
 MenuManager::MenuManager() :
+  m_dialog(),
   m_menu_stack(),
   m_transition(new MenuTransition)
 {
@@ -157,7 +159,11 @@ MenuManager::refresh()
 void
 MenuManager::process_input()
 {
-  if (current())
+  if (m_dialog)
+  {
+    m_dialog->process_input(*InputManager::current()->get_controller());
+  }
+  else if (current())
   {
     current()->process_input();
   }
@@ -184,7 +190,11 @@ MenuManager::draw(DrawingContext& context)
   }
   else
   {
-    if (current())
+    if (m_dialog)
+    {
+      m_dialog->draw(context);
+    }
+    else if (current())
     {
       // brute force the transition into the right shape in case the
       // menu has changed sizes
@@ -199,6 +209,12 @@ MenuManager::draw(DrawingContext& context)
   {
     MouseCursor::current()->draw(context);
   }
+}
+
+void
+MenuManager::set_dialog(std::unique_ptr<Dialog> dialog)
+{
+  m_dialog = std::move(dialog);
 }
 
 void
