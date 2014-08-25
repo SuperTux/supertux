@@ -59,19 +59,19 @@ Controller::set_control(Control control, bool value)
 }
 
 bool
-Controller::hold(Control control)
+Controller::hold(Control control) const
 {
   return controls[control];
 }
 
 bool
-Controller::pressed(Control control)
+Controller::pressed(Control control) const
 {
   return !oldControls[control] && controls[control];
 }
 
 bool
-Controller::released(Control control)
+Controller::released(Control control) const
 {
   return oldControls[control] && !controls[control];
 }
