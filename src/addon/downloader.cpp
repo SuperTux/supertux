@@ -17,10 +17,9 @@
 
 #include "addon/downloader.hpp"
 
-#include <curl/curl.h>
-#include <curl/easy.h>
-#include <physfs.h>
+#include <algorithm>
 #include <memory>
+#include <physfs.h>
 #include <stdexcept>
 
 #include "util/log.hpp"
@@ -47,13 +46,128 @@ size_t my_curl_physfs_write(void* ptr, size_t size, size_t nmemb, void* userdata
 
 } // namespace
 
-Downloader::Downloader()
+class cURLTransfer : public Transfer
+{
+private:
+  Downloader& m_downloader;
+
+  std::string m_url;
+  CURL* m_handle;
+  std::array<char, CURL_ERROR_SIZE> m_error_buffer;
+
+  curl_off_t m_dltotal;
+  curl_off_t m_dlnow;
+  curl_off_t m_ultotal;
+  curl_off_t m_ulnow;
+
+public:
+  cURLTransfer(Downloader& downloader, const std::string& url) :
+    m_downloader(downloader),
+    m_url(url),
+    m_handle(curl_easy_init()),
+    m_error_buffer(),
+    m_dltotal(0),
+    m_dlnow(0),
+    m_ultotal(0),
+    m_ulnow(0)
+  {
+    if (!m_handle)
+    {
+      throw std::runtime_error("curl_easy_init() failed");
+    }
+    else
+    {
+      curl_easy_setopt(m_handle, CURLOPT_URL, url.c_str());
+      curl_easy_setopt(m_handle, CURLOPT_USERAGENT, "SuperTux/" PACKAGE_VERSION " libcURL");
+
+      curl_easy_setopt(m_handle, CURLOPT_WRITEDATA, this);
+      curl_easy_setopt(m_handle, CURLOPT_WRITEFUNCTION,
+                       [](void* ptr, size_t size, size_t nmemb, void* userdata) -> size_t
+                       {
+                         return static_cast<cURLTransfer*>(userdata)
+                           ->on_data(ptr, size, nmemb);
+                       });
+
+      curl_easy_setopt(m_handle, CURLOPT_ERRORBUFFER, m_error_buffer.data());
+      curl_easy_setopt(m_handle, CURLOPT_NOSIGNAL, 1);
+      curl_easy_setopt(m_handle, CURLOPT_FAILONERROR, 1);
+      curl_easy_setopt(m_handle, CURLOPT_FOLLOWLOCATION, 1);
+
+      curl_easy_setopt(m_handle, CURLOPT_NOPROGRESS, 0);
+      curl_easy_setopt(m_handle, CURLOPT_XFERINFODATA, this);
+      curl_easy_setopt(m_handle, CURLOPT_XFERINFOFUNCTION,
+                       [](void* userdata,
+                          curl_off_t dltotal, curl_off_t dlnow,
+                          curl_off_t ultotal, curl_off_t ulnow)
+                       {
+                         return static_cast<cURLTransfer*>(userdata)
+                           ->on_progress(dltotal, dlnow,
+                                         ultotal, ulnow);
+                       });
+    }
+  }
+
+  ~cURLTransfer()
+  {
+    curl_easy_cleanup(m_handle);
+  }
+
+  CURL* get_curl_handle() const
+  {
+    return m_handle;
+  }
+
+  std::string get_url() const
+  {
+    return m_url;
+  }
+
+  size_t on_data(void* ptr, size_t size, size_t nmemb)
+  {
+    return 0;
+  }
+
+  void on_progress(curl_off_t dltotal, curl_off_t dlnow,
+                   curl_off_t ultotal, curl_off_t ulnow)
+  {
+    m_dltotal = dltotal;
+    m_dlnow = dlnow;
+
+    m_ultotal = ultotal;
+    m_ulnow = ulnow;
+  }
+
+  void abort()
+  {
+    m_downloader.abort(*this);
+  }
+
+private:
+  cURLTransfer(const cURLTransfer&) = delete;
+  cURLTransfer& operator=(const cURLTransfer&) = delete;
+};
+
+Downloader::Downloader() :
+  m_multi_handle(),
+  m_transfers()
 {
   curl_global_init(CURL_GLOBAL_ALL);
+  m_multi_handle = curl_multi_init();
+  if (!m_multi_handle)
+  {
+    throw std::runtime_error("curl_multi_init() failed");
+  }
 }
 
 Downloader::~Downloader()
 {
+  for(auto& transfer : m_transfers)
+  {
+    curl_multi_remove_handle(m_multi_handle, transfer->get_curl_handle());
+  }
+  m_transfers.clear();
+
+  curl_multi_cleanup(m_multi_handle);
   curl_global_cleanup();
 }
 
@@ -100,6 +214,62 @@ Downloader::download(const std::string& url, const std::string& filename)
   std::unique_ptr<PHYSFS_file, int(*)(PHYSFS_File*)> fout(PHYSFS_openWrite(filename.c_str()),
                                                           PHYSFS_close);
   download(url, my_curl_physfs_write, fout.get());
+}
+
+void
+Downloader::abort(const cURLTransfer& transfer)
+{
+  auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
+                         [&transfer](const std::unique_ptr<cURLTransfer>& rhs)
+                         {
+                           return transfer.get_curl_handle() == rhs->get_curl_handle();
+                         });
+  if (it == m_transfers.end())
+  {
+    log_warning << "transfer not found: " << transfer.get_url() << std::endl;
+  }
+  else
+  {
+    curl_multi_remove_handle(m_multi_handle, (*it)->get_curl_handle());
+    m_transfers.erase(it);
+  }
+}
+
+void
+Downloader::update()
+{
+  // read data from the network
+  CURLMcode ret;
+  int running_handles;
+  while((ret = curl_multi_perform(m_multi_handle, &running_handles)) == CURLM_CALL_MULTI_PERFORM)
+  {}
+
+  // check if any downloads got finished
+  int msgs_in_queue;
+  CURLMsg* msg;
+  while ((msg = curl_multi_info_read(m_multi_handle, &msgs_in_queue)))
+  {
+    switch(msg->msg)
+    {
+      case CURLMSG_DONE:
+        curl_multi_remove_handle(m_multi_handle, msg->easy_handle);
+        //FIXME: finish_transfer(msg->easy_handle);
+        break;
+
+      default:
+        log_warning << "unhandled cURL message: " << msg->msg << std::endl;
+        break;
+    }
+  }
+}
+
+TransferHandle
+Downloader::request_download(const std::string& url, const std::string& filename)
+{
+  std::unique_ptr<cURLTransfer> transfer(new cURLTransfer(*this, url));
+  curl_multi_add_handle(m_multi_handle, transfer->get_curl_handle());
+  m_transfers.push_back(std::move(transfer));
+  return m_transfers.back().get();
 }
 
 /* EOF */

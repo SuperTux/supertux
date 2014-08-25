@@ -18,11 +18,30 @@
 #ifndef HEADER_SUPERTUX_ADDON_DOWNLOADER_HPP
 #define HEADER_SUPERTUX_ADDON_DOWNLOADER_HPP
 
+#include <curl/curl.h>
+#include <curl/easy.h>
+#include <functional>
+#include <memory>
 #include <string>
+#include <vector>
+
+class Transfer
+{
+public:
+  virtual ~Transfer() {}
+  virtual void abort() = 0;
+};
+
+typedef Transfer* TransferHandle;
+
+class cURLTransfer;
 
 class Downloader
 {
 private:
+  CURLM* m_multi_handle;
+  std::vector<std::unique_ptr<cURLTransfer> > m_transfers;
+
 public:
   Downloader();
   ~Downloader();
@@ -36,6 +55,11 @@ public:
   void download(const std::string& url,
                 size_t (*write_func)(void* ptr, size_t size, size_t nmemb, void* userdata),
                 void* userdata);
+
+  void update();
+  TransferHandle request_download(const std::string& url, const std::string& filename);
+
+  void abort(const cURLTransfer& transfer);
 
 private:
   Downloader(const Downloader&) = delete;
