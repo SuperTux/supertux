@@ -18,8 +18,10 @@
 
 #include "control/controller.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/colorscheme.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
@@ -209,7 +211,8 @@ Dialog::draw(DrawingContext& ctx)
 
     ctx.draw_text(Resources::normal_font, m_buttons[i].text,
                   Vector(pos.x, pos.y - int(Resources::normal_font->get_height()/2)),
-                  ALIGN_CENTER, LAYER_GUI);
+                  ALIGN_CENTER, LAYER_GUI,
+                  i == m_selected_button ? ColorScheme::Menu::active_color : ColorScheme::Menu::default_color);
   }
 }
 

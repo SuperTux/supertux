@@ -30,12 +30,6 @@ class MenuItem;
 
 class Menu
 {
-  static Color default_color;
-  static Color active_color;
-  static Color inactive_color;
-  static Color label_color;
-  static Color field_color;
-
 private:
   /* Action done on the menu */
   enum MenuAction {
