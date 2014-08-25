@@ -48,6 +48,8 @@ distributions.
   implementations on other systems like Mac OS X or windows should
   work. <http://www.openal.org>
 * GLEW <http://glew.sourceforge.net/>
+OR
+* glbinding <https://github.com/hpicgs/glbinding>
 * Boost's smart_ptr and format headers <http://www.boost.org/>
 * cURL <http://curl.haxx.se/libcurl/>
 
@@ -57,6 +59,12 @@ and also with other compilers than gcc. However we have no resources
 to test other setups and it is likely that you hit small problems.
 Reports and binary compiled packages are of course always welcome.
 Send them to supertux-devel@lists.lethargik.org
+
+Note about glbinding: To use glbinding instead of GLEW, open 
+CMakeLists.txt and change this line from
+OPTION(GLBINDING_ENABLED "Use glbinding instead of GLEW" OFF)
+to
+OPTION(GLBINDING_ENABLED "Use glbinding instead of GLEW" ON)
 
 
 Installing under Linux/UNIX using CMake
