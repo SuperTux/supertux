@@ -32,11 +32,15 @@ private:
 
 public:
   Dialog();
+  virtual ~Dialog();
 
+  void set_text(const std::string& text);
   void add_button(const std::string& text);
 
   void process_input(const Controller& controller);
   void draw(DrawingContext& context);
+
+  virtual void on_select(int id);
 
 private:
   Dialog(const Dialog&) = delete;
