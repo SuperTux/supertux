@@ -24,7 +24,8 @@
 Dialog::Dialog() :
   m_text(),
   m_buttons(),
-  m_selected_button()
+  m_selected_button(),
+  m_text_size()
 {
 }
 
@@ -36,12 +37,21 @@ void
 Dialog::set_text(const std::string& text)
 {
   m_text = text;
+
+  m_text_size = Sizef(Resources::normal_font->get_text_width(m_text),
+                      Resources::normal_font->get_text_height(m_text));
+
 }
 
 void
-Dialog::add_button(const std::string& text)
+Dialog::add_button(const std::string& text, const std::function<void ()>& callback, bool focus)
 {
-  m_buttons.push_back(text);
+  m_buttons.push_back({text, callback});
+
+  if (focus)
+  {
+    m_selected_button = m_buttons.size() - 1;
+  }
 }
 
 void
@@ -62,7 +72,7 @@ Dialog::process_input(const Controller& controller)
   if (controller.pressed(Controller::ACTION) ||
       controller.pressed(Controller::MENU_SELECT))
   {
-    on_select(m_selected_button);
+    on_button_click(m_selected_button);
 
     // warning: this will "delete this"
     MenuManager::instance().set_dialog({});
@@ -72,17 +82,10 @@ Dialog::process_input(const Controller& controller)
 void
 Dialog::draw(DrawingContext& ctx)
 {
-  Vector center(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-
-  Sizef text_size(Resources::normal_font->get_text_width(m_text),
-                  Resources::normal_font->get_text_height(m_text));
-
-  Rectf text_rect(Vector(center.x - text_size.width/2,
-                         center.y - text_size.height/2),
-                  text_size);
-
-  Rectf bg_rect = text_rect;
-  bg_rect.p2.y += 44;
+  Rectf bg_rect(Vector(SCREEN_WIDTH/2 - m_text_size.width/2,
+                       SCREEN_HEIGHT/2 - m_text_size.height/2),
+                Sizef(m_text_size.width,
+                      m_text_size.height + 44));
 
   // draw background rect
   ctx.draw_filled_rect(bg_rect.grown(12.0f),
@@ -103,17 +106,17 @@ Dialog::draw(DrawingContext& ctx)
 
   // draw HL line
   ctx.draw_filled_rect(Vector(bg_rect.p1.x, bg_rect.p2.y - 35),
-                           Vector(bg_rect.get_width(), 4),
-                           Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
+                       Vector(bg_rect.get_width(), 4),
+                       Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
   ctx.draw_filled_rect(Vector(bg_rect.p1.x, bg_rect.p2.y - 35),
-                           Vector(bg_rect.get_width(), 2),
-                           Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
+                       Vector(bg_rect.get_width(), 2),
+                       Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
 
   // draw buttons
   for(int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
   {
     float segment_width = bg_rect.get_width() / m_buttons.size();
-    float button_width = segment_width * 0.95;
+    float button_width = segment_width;
     float button_height = 24.0f;
     Vector pos(bg_rect.p1.x + segment_width/2.0f + i * segment_width,
                bg_rect.p2.y - 12);
@@ -133,15 +136,19 @@ Dialog::draw(DrawingContext& ctx)
                            LAYER_GUI-10);
     }
 
-    ctx.draw_text(Resources::normal_font, m_buttons[i],
+    ctx.draw_text(Resources::normal_font, m_buttons[i].text,
                   Vector(pos.x, pos.y - int(Resources::normal_font->get_height()/2)),
                   ALIGN_CENTER, LAYER_GUI);
   }
 }
 
 void
-Dialog::on_select(int id)
+Dialog::on_button_click(int button)
 {
+  if (m_buttons[button].callback)
+  {
+    m_buttons[button].callback();
+  }
 }
 
 /* EOF */

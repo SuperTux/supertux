@@ -17,8 +17,11 @@
 #ifndef HEADER_SUPERTUX_GUI_DIALOG_HPP
 #define HEADER_SUPERTUX_GUI_DIALOG_HPP
 
+#include <functional>
 #include <string>
 #include <vector>
+
+#include "math/sizef.hpp"
 
 class Controller;
 class DrawingContext;
@@ -26,21 +29,31 @@ class DrawingContext;
 class Dialog
 {
 private:
+  struct Button
+  {
+    std::string text;
+    std::function<void ()> callback;
+  };
+
   std::string m_text;
-  std::vector<std::string> m_buttons;
+  std::vector<Button> m_buttons;
   int m_selected_button;
+
+  Sizef m_text_size;
 
 public:
   Dialog();
   virtual ~Dialog();
 
   void set_text(const std::string& text);
-  void add_button(const std::string& text);
+  void add_button(const std::string& text, const std::function<void ()>& callback = {},
+                  bool focus = false);
 
   void process_input(const Controller& controller);
   void draw(DrawingContext& context);
 
-  virtual void on_select(int id);
+private:
+  void on_button_click(int button);
 
 private:
   Dialog(const Dialog&) = delete;
