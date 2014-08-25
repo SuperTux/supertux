@@ -72,7 +72,12 @@ public:
   KeyboardConfig keyboard_config;
   JoystickConfig joystick_config;
 
-  std::vector<std::string> disabled_addon_filenames;
+  struct Addon
+  {
+    std::string id;
+    bool enabled;
+  };
+  std::vector<Addon> addons;
 
   bool developer_mode;
 };
