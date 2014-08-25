@@ -163,20 +163,20 @@ MenuManager::process_input()
   {
     m_dialog->process_input(*InputManager::current()->get_controller());
   }
-  else if (current())
+  else if (current_menu())
   {
-    current()->process_input();
+    current_menu()->process_input();
   }
 }
 
 void
 MenuManager::event(const SDL_Event& event_)
 {
-  if (current() && !m_transition->is_active())
+  if (current_menu() && !m_transition->is_active())
   {
     // only pass events when the menu is fully visible and not in a
     // transition animation
-    current()->event(event_);
+    current_menu()->event(event_);
   }
 }
 
@@ -194,18 +194,18 @@ MenuManager::draw(DrawingContext& context)
     {
       m_dialog->draw(context);
     }
-    else if (current())
+    else if (current_menu())
     {
       // brute force the transition into the right shape in case the
       // menu has changed sizes
-      m_transition->set(menu2rect(*current()));
+      m_transition->set(menu2rect(*current_menu()));
       m_transition->draw(context);
 
-      current()->draw(context);
+      current_menu()->draw(context);
     }
   }
 
-  if (current() && MouseCursor::current())
+  if (current_menu() && MouseCursor::current())
   {
     MouseCursor::current()->draw(context);
   }
@@ -295,7 +295,7 @@ MenuManager::on_window_resize()
 }
 
 Menu*
-MenuManager::current() const
+MenuManager::current_menu() const
 {
   if (m_menu_stack.empty())
   {

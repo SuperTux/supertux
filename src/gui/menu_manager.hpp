@@ -66,7 +66,7 @@ public:
   }
 
 private:
-  Menu* current() const;
+  Menu* current_menu() const;
   void transition(Menu* from, Menu* to);
 
 private:
