@@ -34,11 +34,9 @@ private:
 public:
   static MenuManager& instance();
 
-public:
+private:
   std::vector<std::unique_ptr<Menu> > m_menu_stack;
   std::unique_ptr<MenuTransition> m_transition;
-
-  friend class Menu;
 
 public:
   MenuManager();
