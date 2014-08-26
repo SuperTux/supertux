@@ -185,8 +185,13 @@ AddonMenu::menu_action(MenuItem* item)
     try
     {
       TransferStatusPtr status = m_addon_manager.request_check_online();
-      status->then([this]{
-          refresh();
+      status->then(
+        [this](bool success)
+        {
+          if (success)
+          {
+            refresh();
+          }
         });
       std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
       dialog->set_title("Downloading Add-On Repository Index");
@@ -226,16 +231,21 @@ AddonMenu::menu_action(MenuItem* item)
         auto addon_id = addon.get_id();
         TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
 
-        status->then([this, addon_id]{
-            try
+        status->then(
+          [this, addon_id](bool success)
+          {
+            if (success)
             {
-              m_addon_manager.enable_addon(addon_id);
+              try
+              {
+                m_addon_manager.enable_addon(addon_id);
+              }
+              catch(const std::exception& err)
+              {
+                log_warning << "Enabling addon failed: " << err.what() << std::endl;
+              }
+              refresh();
             }
-            catch(const std::exception& err)
-            {
-              log_warning << "Enabling addon failed: " << err.what() << std::endl;
-            }
-            refresh();
           });
 
         std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));

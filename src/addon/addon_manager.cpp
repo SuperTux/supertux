@@ -221,11 +221,16 @@ AddonManager::request_check_online()
   {
     m_transfer_status = m_downloader.request_download(m_repository_url, "/addons/repository.nfo");
 
-    m_transfer_status->then([this]{
-        m_repository_addons = parse_addon_infos("/addons/repository.nfo");
-        m_has_been_updated = true;
-
+    m_transfer_status->then(
+      [this](bool success)
+      {
         m_transfer_status = {};
+
+        if (success)
+        {
+          m_repository_addons = parse_addon_infos("/addons/repository.nfo");
+          m_has_been_updated = true;
+        }
       });
 
     return m_transfer_status;
@@ -277,35 +282,38 @@ AddonManager::request_install_addon(const AddonId& addon_id)
     m_transfer_status = m_downloader.request_download(addon.get_url(), install_filename);
 
     m_transfer_status->then(
-      [this, install_filename, addon_id]
+      [this, install_filename, addon_id](bool success)
       {
-        // complete the addon install
-        Addon& repository_addon = get_repository_addon(addon_id);
+        m_transfer_status = {};
 
-        MD5 md5 = md5_from_file(install_filename);
-        if (repository_addon.get_md5() != md5.hex_digest())
+        if (success)
         {
-          if (PHYSFS_delete(install_filename.c_str()) == 0)
-          {
-            log_warning << "PHYSFS_delete failed: " << PHYSFS_getLastError() << std::endl;
-          }
+          // complete the addon install
+          Addon& repository_addon = get_repository_addon(addon_id);
 
-          throw std::runtime_error("Downloading Add-on failed: MD5 checksums differ");
-        }
-        else
-        {
-          const char* realdir = PHYSFS_getRealDir(install_filename.c_str());
-          if (!realdir)
+          MD5 md5 = md5_from_file(install_filename);
+          if (repository_addon.get_md5() != md5.hex_digest())
           {
-            throw std::runtime_error("PHYSFS_getRealDir failed: " + install_filename);
+            if (PHYSFS_delete(install_filename.c_str()) == 0)
+            {
+              log_warning << "PHYSFS_delete failed: " << PHYSFS_getLastError() << std::endl;
+            }
+
+            throw std::runtime_error("Downloading Add-on failed: MD5 checksums differ");
           }
           else
           {
-            add_installed_archive(install_filename, md5.hex_digest());
+            const char* realdir = PHYSFS_getRealDir(install_filename.c_str());
+            if (!realdir)
+            {
+              throw std::runtime_error("PHYSFS_getRealDir failed: " + install_filename);
+            }
+            else
+            {
+              add_installed_archive(install_filename, md5.hex_digest());
+            }
           }
         }
-
-        m_transfer_status = {};
       });
 
     return m_transfer_status;

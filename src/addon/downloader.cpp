@@ -48,6 +48,12 @@ size_t my_curl_physfs_write(void* ptr, size_t size, size_t nmemb, void* userdata
 
 } // namespace
 
+void
+TransferStatus::update()
+{
+  m_downloader.update();
+}
+
 class Transfer
 {
 private:
@@ -69,8 +75,8 @@ public:
     m_id(id),
     m_url(url),
     m_handle(),
-    m_error_buffer(),
-    m_status(new TransferStatus(id)),
+    m_error_buffer({'\0'}),
+    m_status(new TransferStatus(downloader, id)),
     m_fout(PHYSFS_openWrite(outfile.c_str()), PHYSFS_close)
   {
     if (!m_fout)
@@ -112,6 +118,11 @@ public:
   TransferStatusPtr get_status() const
   {
     return m_status;
+  }
+
+  const char* get_error_buffer() const
+  {
+    return m_error_buffer.data();
   }
 
   TransferId get_id() const
@@ -272,19 +283,49 @@ Downloader::update()
     {
       case CURLMSG_DONE:
         {
-          log_info << "Download completed" << std::endl;
+          log_info << "Download completed with " << msg->data.result << std::endl;
           curl_multi_remove_handle(m_multi_handle, msg->easy_handle);
+
           auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
                                  [&msg](const std::unique_ptr<Transfer>& rhs) {
                                    return rhs->get_curl_handle() == msg->easy_handle;
                                  });
           assert(it != m_transfers.end());
           TransferStatusPtr status = (*it)->get_status();
+          status->error_msg = (*it)->get_error_buffer();
           m_transfers.erase(it);
 
-          for(auto& callback : status->callbacks)
+          if (msg->data.result == CURLE_OK)
           {
-            callback();
+            bool success = true;
+            for(auto& callback : status->callbacks)
+            {
+              try
+              {
+                callback(success);
+              }
+              catch(const std::exception& err)
+              {
+                success = false;
+                log_warning << "Exception in Downloader: " << err.what() << std::endl;
+                status->error_msg = err.what();
+              }
+            }
+          }
+          else
+          {
+            log_warning << "Error: " << curl_easy_strerror(msg->data.result) << std::endl;
+            for(auto& callback : status->callbacks)
+            {
+              try
+              {
+                callback(false);
+              }
+              catch(const std::exception& err)
+              {
+                log_warning << "Illegal exception in Downloader: " << err.what() << std::endl;
+              }
+            }
           }
         }
         break;

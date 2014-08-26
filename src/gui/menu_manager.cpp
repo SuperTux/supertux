@@ -208,17 +208,7 @@ MenuManager::draw(DrawingContext& context)
   {
     if (m_dialog)
     {
-      try
-      {
-        m_dialog->update();
-      }
-      catch(const std::exception& err)
-      {
-        m_dialog = std::unique_ptr<Dialog>(new Dialog);
-        m_dialog->set_text(_("Error:\n") + err.what());
-        m_dialog->add_button(_("Ok"));
-      }
-
+      m_dialog->update();
       m_dialog->draw(context);
     }
     else if (current_menu())

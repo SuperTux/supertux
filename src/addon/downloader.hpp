@@ -26,31 +26,36 @@
 #include <vector>
 
 typedef int TransferId;
+class Downloader;
 
 class TransferStatus
 {
 public:
-  enum Status { RUNNING, COMPLETED, ABORT, ERROR };
-
-public:
+  Downloader& m_downloader;
   TransferId id;
-  std::vector<std::function<void ()> > callbacks;
+  std::vector<std::function<void (bool)> > callbacks;
 
   int dltotal;
   int dlnow;
   int ultotal;
   int ulnow;
 
-  TransferStatus(TransferId id_) :
+  std::string error_msg;
+
+  TransferStatus(Downloader& downloader, TransferId id_) :
+    m_downloader(downloader),
     id(id_),
     callbacks(),
     dltotal(0),
     dlnow(0),
     ultotal(0),
-    ulnow(0)
+    ulnow(0),
+    error_msg()
   {}
 
-  void then(const std::function<void ()>& callback)
+  void update();
+
+  void then(const std::function<void (bool)>& callback)
   {
     callbacks.push_back(callback);
   }

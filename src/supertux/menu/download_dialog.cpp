@@ -31,15 +31,28 @@ DownloadDialog::DownloadDialog(TransferStatusPtr status) :
 
   update_text();
 
-  status->then([this]{
-      on_download_complete();
+  status->then(
+    [this](bool success)
+    {
+      if (success)
+      {
+        on_download_complete();
+      }
+      else
+      {
+        std::unique_ptr<Dialog> dialog(new Dialog);
+        dialog->set_text(_("Error:\n") + m_status->error_msg);
+        dialog->add_button(_("Ok"));
+        MenuManager::instance().set_dialog(std::move(dialog));
+      }
     });
 }
 
 void
 DownloadDialog::update()
 {
-  AddonManager::current()->update();
+  m_status->update();
+
   update_text();
 }
 
