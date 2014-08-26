@@ -202,7 +202,7 @@ Font::loadFontSurface(
       Glyph glyph;
       glyph.surface_idx   = surface_idx;
 
-      if( glyph_width_ == FIXED )
+      if( glyph_width_ == FIXED || isdigit(*chr) )
       {
         glyph.rect    = Rectf(x, y, x + char_width, y + char_height);
         glyph.offset  = Vector(0, 0);
