@@ -110,6 +110,15 @@ AddonManager::AddonManager(const std::string& addon_directory,
       }
     }
   }
+
+  try
+  {
+    m_repository_addons = parse_addon_infos("/addons/repository.nfo");
+  }
+  catch(const std::exception& err)
+  {
+    log_warning << "parsing repository.nfo failed: " << err.what() << std::endl;
+  }
 }
 
 AddonManager::~AddonManager()
