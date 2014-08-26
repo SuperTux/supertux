@@ -63,10 +63,11 @@ public:
     m_downloader(downloader),
     m_id(id),
     m_url(url),
-    m_handle(curl_easy_init()),
+    m_handle(),
     m_error_buffer(),
     m_status(new TransferStatus(id))
   {
+    m_handle = curl_easy_init();
     if (!m_handle)
     {
       throw std::runtime_error("curl_easy_init() failed");
@@ -77,12 +78,7 @@ public:
       curl_easy_setopt(m_handle, CURLOPT_USERAGENT, "SuperTux/" PACKAGE_VERSION " libcURL");
 
       curl_easy_setopt(m_handle, CURLOPT_WRITEDATA, this);
-      curl_easy_setopt(m_handle, CURLOPT_WRITEFUNCTION,
-                       [](void* ptr, size_t size, size_t nmemb, void* userdata) -> size_t
-                       {
-                         return static_cast<Transfer*>(userdata)
-                           ->on_data(ptr, size, nmemb);
-                       });
+      curl_easy_setopt(m_handle, CURLOPT_WRITEFUNCTION, &Transfer::on_data_wrap);
 
       curl_easy_setopt(m_handle, CURLOPT_ERRORBUFFER, m_error_buffer.data());
       curl_easy_setopt(m_handle, CURLOPT_NOSIGNAL, 1);
@@ -91,15 +87,7 @@ public:
 
       curl_easy_setopt(m_handle, CURLOPT_NOPROGRESS, 0);
       curl_easy_setopt(m_handle, CURLOPT_XFERINFODATA, this);
-      curl_easy_setopt(m_handle, CURLOPT_XFERINFOFUNCTION,
-                       [](void* userdata,
-                          curl_off_t dltotal, curl_off_t dlnow,
-                          curl_off_t ultotal, curl_off_t ulnow)
-                       {
-                         return static_cast<Transfer*>(userdata)
-                           ->on_progress(dltotal, dlnow,
-                                         ultotal, ulnow);
-                       });
+      curl_easy_setopt(m_handle, CURLOPT_XFERINFOFUNCTION, &Transfer::on_progress_wrap);
     }
   }
 
@@ -130,7 +118,7 @@ public:
 
   size_t on_data(void* ptr, size_t size, size_t nmemb)
   {
-    return size * nmemb;;
+    return size * nmemb;
   }
 
   void on_progress(curl_off_t dltotal, curl_off_t dlnow,
@@ -141,6 +129,19 @@ public:
 
     m_status->ultotal = ultotal;
     m_status->ulnow = ulnow;
+  }
+
+private:
+  static size_t on_data_wrap(char* ptr, size_t size, size_t nmemb, void* userdata)
+  {
+    return static_cast<Transfer*>(userdata)->on_data(ptr, size, nmemb);
+  }
+
+  static void on_progress_wrap(void* userdata,
+                               curl_off_t dltotal, curl_off_t dlnow,
+                               curl_off_t ultotal, curl_off_t ulnow)
+  {
+    return static_cast<Transfer*>(userdata)->on_progress(dltotal, dlnow, ultotal, ulnow);
   }
 
 private:
