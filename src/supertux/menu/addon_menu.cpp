@@ -25,7 +25,7 @@
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/menu/addon_dialog.hpp"
+#include "supertux/menu/download_dialog.hpp"
 #include "util/gettext.hpp"
 
 namespace {
@@ -189,7 +189,7 @@ AddonMenu::menu_action(MenuItem* item)
           MenuManager::instance().set_dialog({});
           refresh();
         });
-      std::unique_ptr<AddonDialog> dialog(new AddonDialog(status));
+      std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
       dialog->set_title("Downloading Add-On Repository Index");
       MenuManager::instance().set_dialog(std::move(dialog));
     }
@@ -240,7 +240,7 @@ AddonMenu::menu_action(MenuItem* item)
             refresh();
           });
 
-        std::unique_ptr<AddonDialog> dialog(new AddonDialog(status));
+        std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
         dialog->set_title("Downloading " + generate_menu_item_text(addon));
         MenuManager::instance().set_dialog(std::move(dialog));
       }

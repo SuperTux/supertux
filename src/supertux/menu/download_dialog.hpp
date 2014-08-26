@@ -14,8 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_DIALOG_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_DIALOG_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_DOWNLOAD_DIALOG_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_DOWNLOAD_DIALOG_HPP
 
 #include "addon/addon_manager.hpp"
 #include "addon/addon_manager.hpp"
@@ -24,14 +24,14 @@
 class TransferStatus;
 using TransferStatusPtr = std::shared_ptr<TransferStatus>;
 
-class AddonDialog : public Dialog
+class DownloadDialog : public Dialog
 {
 private:
   TransferStatusPtr m_status;
   std::string m_title;
 
 public:
-  AddonDialog(TransferStatusPtr status);
+  DownloadDialog(TransferStatusPtr status);
 
   void set_title(const std::string& title);
   void update() override;
@@ -42,8 +42,8 @@ private:
   void update_text();
 
 private:
-  AddonDialog(const AddonDialog&) = delete;
-  AddonDialog& operator=(const AddonDialog&) = delete;
+  DownloadDialog(const DownloadDialog&) = delete;
+  DownloadDialog& operator=(const DownloadDialog&) = delete;
 };
 
 #endif

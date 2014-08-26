@@ -14,14 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/menu/addon_dialog.hpp"
+#include "supertux/menu/download_dialog.hpp"
 
 #include <sstream>
 
 #include "gui/menu_manager.hpp"
 #include "util/gettext.hpp"
 
-AddonDialog::AddonDialog(TransferStatusPtr status) :
+DownloadDialog::DownloadDialog(TransferStatusPtr status) :
   m_status(status),
   m_title()
 {
@@ -33,20 +33,20 @@ AddonDialog::AddonDialog(TransferStatusPtr status) :
 }
 
 void
-AddonDialog::update()
+DownloadDialog::update()
 {
   AddonManager::current()->update();
   update_text();
 }
 
 void
-AddonDialog::set_title(const std::string& title)
+DownloadDialog::set_title(const std::string& title)
 {
   m_title = title;
 }
 
 void
-AddonDialog::update_text()
+DownloadDialog::update_text()
 {
   std::ostringstream out;
   out << m_title << "\n";
@@ -65,7 +65,7 @@ AddonDialog::update_text()
 }
 
 void
-AddonDialog::on_abort()
+DownloadDialog::on_abort()
 {
   AddonManager::current()->abort_install();
 }
