@@ -282,7 +282,6 @@ Downloader::update()
           TransferStatusPtr status = (*it)->get_status();
           m_transfers.erase(it);
 
-          status->status = TransferStatus::COMPLETED;
           for(auto& callback : status->callbacks)
           {
             callback();

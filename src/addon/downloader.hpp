@@ -34,21 +34,20 @@ public:
 
 public:
   TransferId id;
-  Status status;
+  std::vector<std::function<void ()> > callbacks;
+
   int dltotal;
   int dlnow;
   int ultotal;
   int ulnow;
-  std::vector<std::function<void ()> > callbacks;
 
   TransferStatus(TransferId id_) :
     id(id_),
-    status(RUNNING),
+    callbacks(),
     dltotal(0),
     dlnow(0),
     ultotal(0),
-    ulnow(0),
-    callbacks()
+    ulnow(0)
   {}
 
   void then(const std::function<void ()>& callback)

@@ -26,6 +26,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/timer.hpp"
+#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
@@ -207,7 +208,17 @@ MenuManager::draw(DrawingContext& context)
   {
     if (m_dialog)
     {
-      m_dialog->update();
+      try
+      {
+        m_dialog->update();
+      }
+      catch(const std::exception& err)
+      {
+        m_dialog = std::unique_ptr<Dialog>(new Dialog);
+        m_dialog->set_text(_("Error:\n") + err.what());
+        m_dialog->add_button(_("Ok"));
+      }
+
       m_dialog->draw(context);
     }
     else if (current_menu())
