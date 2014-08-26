@@ -124,6 +124,7 @@ public:
   void on_progress(curl_off_t dltotal, curl_off_t dlnow,
                    curl_off_t ultotal, curl_off_t ulnow)
   {
+    log_info << "progress: " << dlnow << "/" << dltotal << std::endl;
     m_status->dltotal = dltotal;
     m_status->dlnow = dlnow;
 
@@ -258,6 +259,7 @@ Downloader::update()
     {
       case CURLMSG_DONE:
         curl_multi_remove_handle(m_multi_handle, msg->easy_handle);
+        log_info << "DOWNLOAD DONE" << std::endl;
         //FIXME: finish_transfer(msg->easy_handle);
         break;
 

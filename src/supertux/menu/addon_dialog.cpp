@@ -36,6 +36,8 @@ AddonDialog::update()
 {
   AddonManager::current()->update();
 
+  update_text();
+
   if (m_status->done)
   {
     MenuManager::instance().set_dialog({});
