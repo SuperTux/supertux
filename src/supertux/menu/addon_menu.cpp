@@ -184,8 +184,14 @@ AddonMenu::menu_action(MenuItem* item)
   {
     try
     {
-      m_addon_manager.check_online();
-      refresh();
+      AddonManager::InstallStatusPtr status = m_addon_manager.request_check_online();
+      status->then([this]{
+          MenuManager::instance().set_dialog({});
+          refresh();
+        });
+      std::unique_ptr<AddonDialog> dialog(new AddonDialog(status));
+      dialog->set_title("Downloading Add-On Repository Index");
+      MenuManager::instance().set_dialog(std::move(dialog));
     }
     catch (std::exception& e)
     {

@@ -97,6 +97,7 @@ public:
   bool has_online_support() const;
   bool has_been_updated() const;
   void check_online();
+  InstallStatusPtr request_check_online();
 
   std::vector<AddonId> get_repository_addons() const;
   std::vector<AddonId> get_installed_addons() const;
@@ -117,7 +118,7 @@ public:
 private:
   std::vector<std::string> scan_for_archives() const;
   void add_installed_addons();
-  AddonList parse_addon_infos(const std::string& addoninfos) const;
+  AddonList parse_addon_infos(const std::string& filename) const;
 
   /** add \a archive, given as physfs path, to the list of installed
       archives */

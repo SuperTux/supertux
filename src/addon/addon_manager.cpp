@@ -203,11 +203,40 @@ AddonManager::has_been_updated() const
   return m_has_been_updated;
 }
 
+AddonManager::InstallStatusPtr
+AddonManager::request_check_online()
+{
+  if (m_install_status)
+  {
+    throw std::runtime_error("only one addon install request allowed at a time");
+  }
+  else
+  {
+    m_transfer_status = m_downloader.request_download(m_repository_url, "/addons/repository.nfo");
+
+    m_transfer_status->then([this]{
+        m_repository_addons = parse_addon_infos("/addons/repository.nfo");
+        m_has_been_updated = true;
+
+        if (m_install_status->callback)
+        {
+          m_install_status->callback();
+        }
+
+        m_install_status = {};
+        m_transfer_status = {};
+      });
+
+    m_install_status = std::make_shared<InstallStatus>();
+    return m_install_status;
+  }
+}
+
 void
 AddonManager::check_online()
 {
-  std::string addoninfos = m_downloader.download(m_repository_url);
-  m_repository_addons = parse_addon_infos(addoninfos);
+  m_downloader.download(m_repository_url, "/addons/repository.nfo");
+  m_repository_addons = parse_addon_infos("/addons/repository.nfo");
   m_has_been_updated = true;
 }
 
@@ -527,15 +556,14 @@ AddonManager::add_installed_addons()
 }
 
 AddonManager::AddonList
-AddonManager::parse_addon_infos(const std::string& addoninfos) const
+AddonManager::parse_addon_infos(const std::string& filename) const
 {
   AddonList m_addons;
 
   try
   {
     lisp::Parser parser;
-    std::stringstream addoninfos_stream(addoninfos);
-    const lisp::Lisp* root = parser.parse(addoninfos_stream, "supertux-addons");
+    const lisp::Lisp* root = parser.parse(filename);
     const lisp::Lisp* addons_lisp = root->get_lisp("supertux-addons");
     if(!addons_lisp)
     {
