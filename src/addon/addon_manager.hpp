@@ -18,6 +18,7 @@
 #ifndef HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 #define HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -42,12 +43,19 @@ public:
     InstallStatus() :
       now(0),
       total(0),
-      done(false)
+      done(false),
+      callback()
     {}
 
     int now;
     int total;
     bool done;
+    std::function<void ()> callback;
+
+    void then(const std::function<void ()>& callback_)
+    {
+      callback = callback_;
+    }
   };
 
   struct InstallRequest
