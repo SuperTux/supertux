@@ -97,6 +97,7 @@ public:
   Addon& get_installed_addon(const AddonId& addon);
 
   InstallStatusPtr request_install_addon(const AddonId& addon_id);
+  void abort_install();
   void install_addon(const AddonId& addon_id);
   void uninstall_addon(const AddonId& addon_id);
 

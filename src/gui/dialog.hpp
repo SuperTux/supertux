@@ -53,6 +53,7 @@ public:
   void event(const SDL_Event& event);
   void process_input(const Controller& controller);
   void draw(DrawingContext& context);
+  virtual void update() {}
 
 private:
   void on_button_click(int button) const;

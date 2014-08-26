@@ -130,7 +130,7 @@ public:
 
   size_t on_data(void* ptr, size_t size, size_t nmemb)
   {
-    return 0;
+    return size * nmemb;;
   }
 
   void on_progress(curl_off_t dltotal, curl_off_t dlnow,
@@ -244,7 +244,9 @@ Downloader::update()
   CURLMcode ret;
   int running_handles;
   while((ret = curl_multi_perform(m_multi_handle, &running_handles)) == CURLM_CALL_MULTI_PERFORM)
-  {}
+  {
+    log_debug << "updating" << std::endl;
+  }
 
   // check if any downloads got finished
   int msgs_in_queue;

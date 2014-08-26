@@ -24,6 +24,8 @@
 #include "addon/addon_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
+#include "gui/menu_manager.hpp"
+#include "supertux/menu/addon_dialog.hpp"
 #include "util/gettext.hpp"
 
 namespace {
@@ -224,6 +226,12 @@ AddonMenu::menu_action(MenuItem* item)
       if (0 <= idx && idx < static_cast<int>(m_repository_addons.size()))
       {
         const Addon& addon = m_addon_manager.get_repository_addon(m_repository_addons[idx]);
+
+        AddonManager::InstallStatusPtr status = m_addon_manager.request_install_addon(addon.get_id());
+
+        std::unique_ptr<AddonDialog> dialog(new AddonDialog(status));
+        MenuManager::instance().set_dialog(std::move(dialog));
+#ifdef GRUMBEL
         try
         {
           m_addon_manager.install_addon(addon.get_id());
@@ -234,6 +242,7 @@ AddonMenu::menu_action(MenuItem* item)
           log_warning << "Enabling addon failed: " << err.what() << std::endl;
         }
         refresh();
+#endif
       }
     }
   }

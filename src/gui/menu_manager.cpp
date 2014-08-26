@@ -199,6 +199,7 @@ MenuManager::draw(DrawingContext& context)
   {
     if (m_dialog)
     {
+      m_dialog->update();
       m_dialog->draw(context);
     }
     else if (current_menu())
