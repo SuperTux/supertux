@@ -79,7 +79,10 @@ AddonManager::AddonManager(const std::string& addon_directory,
   m_addon_config(addon_config),
   m_installed_addons(),
   m_repository_addons(),
-  m_has_been_updated(false)
+  m_has_been_updated(false),
+  m_install_request(),
+  m_install_status(),
+  m_transfer_status()
 {
   PHYSFS_mkdir(m_addon_directory.c_str());
 
@@ -197,6 +200,51 @@ AddonManager::check_online()
   std::string addoninfos = m_downloader.download(m_repository_url);
   m_repository_addons = parse_addon_infos(addoninfos);
   m_has_been_updated = true;
+}
+
+AddonManager::InstallStatusPtr
+AddonManager::request_install_addon(const AddonId& addon_id)
+{
+  if (m_install_status)
+  {
+    throw std::runtime_error("only one addon install request allowed at a time");
+  }
+  else
+  {
+    { // remove addon if it already exists
+      auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
+                             [&addon_id](const std::unique_ptr<Addon>& addon)
+                             {
+                               return addon->get_id() == addon_id;
+                             });
+      if (it != m_installed_addons.end())
+      {
+        log_debug << "reinstalling addon " << addon_id << std::endl;
+        if ((*it)->is_enabled())
+        {
+          disable_addon((*it)->get_id());
+        }
+        m_installed_addons.erase(it);
+      }
+      else
+      {
+        log_debug << "installing addon " << addon_id << std::endl;
+      }
+    }
+
+    Addon& repository_addon = get_repository_addon(addon_id);
+
+    m_install_request = std::make_shared<InstallRequest>();
+    m_install_request->install_filename = FileSystem::join(m_addon_directory, repository_addon.get_filename());
+    m_install_request->addon_id = addon_id;
+
+    m_transfer_status = m_downloader.request_download(repository_addon.get_url(),
+                                                      m_install_request->install_filename);
+
+    m_install_status = std::make_shared<InstallStatus>();
+
+    return m_install_status;
+  }
 }
 
 void
@@ -470,6 +518,57 @@ AddonManager::parse_addon_infos(const std::string& addoninfos) const
   }
 
   return m_addons;
+}
+
+void
+AddonManager::update()
+{
+  m_downloader.update();
+
+  if (m_install_status)
+  {
+    m_install_status->now = m_transfer_status->dlnow;
+    m_install_status->total = m_transfer_status->dltotal;
+
+    if (m_transfer_status->status != TransferStatus::RUNNING)
+    {
+      if (m_transfer_status->status != TransferStatus::COMPLETED)
+      {
+        log_warning << "Some error" << std::endl;
+      }
+      else
+      {
+        Addon& repository_addon = get_repository_addon(m_install_request->addon_id);
+
+        MD5 md5 = md5_from_file(m_install_request->install_filename);
+        if (repository_addon.get_md5() != md5.hex_digest())
+        {
+          if (PHYSFS_delete(m_install_request->install_filename.c_str()) == 0)
+          {
+            log_warning << "PHYSFS_delete failed: " << PHYSFS_getLastError() << std::endl;
+          }
+
+          throw std::runtime_error("Downloading Add-on failed: MD5 checksums differ");
+        }
+        else
+        {
+          const char* realdir = PHYSFS_getRealDir(m_install_request->install_filename.c_str());
+          if (!realdir)
+          {
+            throw std::runtime_error("PHYSFS_getRealDir failed: " + m_install_request->install_filename);
+          }
+          else
+          {
+            add_installed_archive(m_install_request->install_filename, md5.hex_digest());
+          }
+        }
+      }
+
+      m_install_request = {};
+      m_install_status = {};
+      m_transfer_status = {};
+    }
+  }
 }
 
 /* EOF */

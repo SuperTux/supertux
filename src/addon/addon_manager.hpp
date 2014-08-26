@@ -36,8 +36,36 @@ typedef std::string AddonId;
 /** Checks for, installs and removes Add-ons */
 class AddonManager : public Currenton<AddonManager>
 {
+public:
+  struct InstallStatus
+  {
+    InstallStatus() :
+      now(0),
+      total(0),
+      done(false)
+    {}
+
+    int now;
+    int total;
+    bool done;
+  };
+
+  struct InstallRequest
+  {
+    InstallRequest() :
+      addon_id(),
+      install_filename()
+    {}
+
+    std::string addon_id;
+    std::string install_filename;
+  };
+
+  using InstallStatusPtr = std::shared_ptr<InstallStatus>;
+  using InstallRequestPtr = std::shared_ptr<InstallRequest>;
+
 private:
-  typedef std::vector<std::unique_ptr<Addon> > AddonList;
+  using AddonList = std::vector<std::unique_ptr<Addon> >;
 
   Downloader m_downloader;
   std::string m_addon_directory;
@@ -48,6 +76,10 @@ private:
   AddonList m_repository_addons;
 
   bool m_has_been_updated;
+
+  InstallRequestPtr m_install_request;
+  InstallStatusPtr m_install_status;
+  TransferStatusPtr m_transfer_status;
 
 public:
   AddonManager(const std::string& addon_directory,
@@ -64,11 +96,14 @@ public:
   Addon& get_repository_addon(const AddonId& addon);
   Addon& get_installed_addon(const AddonId& addon);
 
+  InstallStatusPtr request_install_addon(const AddonId& addon_id);
   void install_addon(const AddonId& addon_id);
   void uninstall_addon(const AddonId& addon_id);
 
   void enable_addon(const AddonId& addon_id);
   void disable_addon(const AddonId& addon_id);
+
+  void update();
 
 private:
   std::vector<std::string> scan_for_archives() const;

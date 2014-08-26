@@ -30,7 +30,11 @@ typedef int TransferId;
 class TransferStatus
 {
 public:
+  enum Status { RUNNING, COMPLETED, ABORT, ERROR };
+
+public:
   TransferId id;
+  Status status;
   int dltotal;
   int dlnow;
   int ultotal;
@@ -38,6 +42,7 @@ public:
 
   TransferStatus(TransferId id_) :
     id(id_),
+    status(RUNNING),
     dltotal(0),
     dlnow(0),
     ultotal(0),
@@ -51,8 +56,6 @@ class Transfer;
 
 class Downloader
 {
-public:
-
 private:
   CURLM* m_multi_handle;
   std::vector<std::unique_ptr<Transfer> > m_transfers;
