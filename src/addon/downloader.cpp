@@ -49,6 +49,12 @@ size_t my_curl_physfs_write(void* ptr, size_t size, size_t nmemb, void* userdata
 } // namespace
 
 void
+TransferStatus::abort()
+{
+  m_downloader.abort(id);
+}
+
+void
 TransferStatus::update()
 {
   m_downloader.update();
@@ -258,8 +264,22 @@ Downloader::abort(TransferId id)
   }
   else
   {
+    TransferStatusPtr status = (*it)->get_status();
+
     curl_multi_remove_handle(m_multi_handle, (*it)->get_curl_handle());
     m_transfers.erase(it);
+
+    for(auto& callback : status->callbacks)
+    {
+      try
+      {
+        callback(false);
+      }
+      catch(const std::exception& err)
+      {
+        log_warning << "Illegal exception in Downloader: " << err.what() << std::endl;
+      }
+    }
   }
 }
 

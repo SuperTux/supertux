@@ -84,7 +84,7 @@ DownloadDialog::update_text()
 void
 DownloadDialog::on_abort()
 {
-  AddonManager::current()->abort_install();
+  m_status->abort();
 }
 
 void

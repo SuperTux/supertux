@@ -53,6 +53,7 @@ public:
     error_msg()
   {}
 
+  void abort();
   void update();
 
   void then(const std::function<void (bool)>& callback)

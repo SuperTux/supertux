@@ -598,14 +598,4 @@ AddonManager::update()
   m_downloader.update();
 }
 
-void
-AddonManager::abort_install()
-{
-  log_info << "addon install aborted" << std::endl;
-
-  m_downloader.abort(m_transfer_status->id);
-
-  m_transfer_status = {};
-}
-
 /* EOF */
