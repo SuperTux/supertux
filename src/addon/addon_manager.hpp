@@ -39,20 +39,6 @@ typedef std::string AddonId;
 /** Checks for, installs and removes Add-ons */
 class AddonManager : public Currenton<AddonManager>
 {
-public:
-  struct InstallRequest
-  {
-    InstallRequest() :
-      addon_id(),
-      install_filename()
-    {}
-
-    std::string addon_id;
-    std::string install_filename;
-  };
-
-  using InstallRequestPtr = std::shared_ptr<InstallRequest>;
-
 private:
   using AddonList = std::vector<std::unique_ptr<Addon> >;
 
@@ -66,7 +52,6 @@ private:
 
   bool m_has_been_updated;
 
-  InstallRequestPtr m_install_request;
   TransferStatusPtr m_transfer_status;
 
 public:

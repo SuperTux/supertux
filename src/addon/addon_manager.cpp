@@ -89,7 +89,6 @@ AddonManager::AddonManager(const std::string& addon_directory,
   m_installed_addons(),
   m_repository_addons(),
   m_has_been_updated(false),
-  m_install_request(),
   m_transfer_status()
 {
   PHYSFS_mkdir(m_addon_directory.c_str());
@@ -262,27 +261,22 @@ AddonManager::request_install_addon(const AddonId& addon_id)
       }
     }
 
-    {
-      Addon& repository_addon = get_repository_addon(addon_id);
+    Addon& addon = get_repository_addon(addon_id);
 
-      m_install_request = std::make_shared<InstallRequest>();
-      m_install_request->install_filename = FileSystem::join(m_addon_directory, repository_addon.get_filename());
-      m_install_request->addon_id = addon_id;
+    std::string install_filename = FileSystem::join(m_addon_directory, addon.get_filename());
 
-      m_transfer_status = m_downloader.request_download(repository_addon.get_url(),
-                                                        m_install_request->install_filename);
-    }
+    m_transfer_status = m_downloader.request_download(addon.get_url(), install_filename);
 
     m_transfer_status->then(
-      [this]
+      [this, install_filename, addon_id]
       {
         // complete the addon install
-        Addon& repository_addon = get_repository_addon(m_install_request->addon_id);
+        Addon& repository_addon = get_repository_addon(addon_id);
 
-        MD5 md5 = md5_from_file(m_install_request->install_filename);
+        MD5 md5 = md5_from_file(install_filename);
         if (repository_addon.get_md5() != md5.hex_digest())
         {
-          if (PHYSFS_delete(m_install_request->install_filename.c_str()) == 0)
+          if (PHYSFS_delete(install_filename.c_str()) == 0)
           {
             log_warning << "PHYSFS_delete failed: " << PHYSFS_getLastError() << std::endl;
           }
@@ -291,18 +285,17 @@ AddonManager::request_install_addon(const AddonId& addon_id)
         }
         else
         {
-          const char* realdir = PHYSFS_getRealDir(m_install_request->install_filename.c_str());
+          const char* realdir = PHYSFS_getRealDir(install_filename.c_str());
           if (!realdir)
           {
-            throw std::runtime_error("PHYSFS_getRealDir failed: " + m_install_request->install_filename);
+            throw std::runtime_error("PHYSFS_getRealDir failed: " + install_filename);
           }
           else
           {
-            add_installed_archive(m_install_request->install_filename, md5.hex_digest());
+            add_installed_archive(install_filename, md5.hex_digest());
           }
         }
 
-        m_install_request = {};
         m_transfer_status = {};
       });
 
@@ -595,7 +588,6 @@ AddonManager::abort_install()
 
   m_downloader.abort(m_transfer_status->id);
 
-  m_install_request = {};
   m_transfer_status = {};
 }
 
