@@ -50,15 +50,24 @@ MD5 md5_from_file(const std::string& filename)
 
   unsigned char buffer[1024];
   PHYSFS_file* file = PHYSFS_openRead(filename.c_str());
-  while (true)
+  if (!file)
   {
-    PHYSFS_sint64 len = PHYSFS_read(file, buffer, 1, sizeof(buffer));
-    if (len <= 0) break;
-    md5.update(buffer, len);
+    std::ostringstream out;
+    out << "PHYSFS_openRead() failed: " << PHYSFS_getLastError();
+    throw std::runtime_error(out.str());
   }
-  PHYSFS_close(file);
+  else
+  {
+    while (true)
+    {
+      PHYSFS_sint64 len = PHYSFS_read(file, buffer, 1, sizeof(buffer));
+      if (len <= 0) break;
+      md5.update(buffer, len);
+    }
+    PHYSFS_close(file);
 
-  return md5;
+    return md5;
+  }
 }
 
 bool has_suffix(const std::string& str, const std::string& suffix)
@@ -79,7 +88,8 @@ AddonManager::AddonManager(const std::string& addon_directory,
   m_addon_config(addon_config),
   m_installed_addons(),
   m_repository_addons(),
-  m_has_been_updated(false)
+  m_has_been_updated(false),
+  m_transfer_status()
 {
   PHYSFS_mkdir(m_addon_directory.c_str());
 
@@ -99,6 +109,15 @@ AddonManager::AddonManager(const std::string& addon_directory,
         log_warning << "failed to enable addon from config: " << err.what() << std::endl;
       }
     }
+  }
+
+  try
+  {
+    m_repository_addons = parse_addon_infos("/addons/repository.nfo");
+  }
+  catch(const std::exception& err)
+  {
+    log_warning << "parsing repository.nfo failed: " << err.what() << std::endl;
   }
 }
 
@@ -191,12 +210,114 @@ AddonManager::has_been_updated() const
   return m_has_been_updated;
 }
 
+TransferStatusPtr
+AddonManager::request_check_online()
+{
+  if (m_transfer_status)
+  {
+    throw std::runtime_error("only async request can be made to AddonManager at a time");
+  }
+  else
+  {
+    m_transfer_status = m_downloader.request_download(m_repository_url, "/addons/repository.nfo");
+
+    m_transfer_status->then(
+      [this](bool success)
+      {
+        m_transfer_status = {};
+
+        if (success)
+        {
+          m_repository_addons = parse_addon_infos("/addons/repository.nfo");
+          m_has_been_updated = true;
+        }
+      });
+
+    return m_transfer_status;
+  }
+}
+
 void
 AddonManager::check_online()
 {
-  std::string addoninfos = m_downloader.download(m_repository_url);
-  m_repository_addons = parse_addon_infos(addoninfos);
+  m_downloader.download(m_repository_url, "/addons/repository.nfo");
+  m_repository_addons = parse_addon_infos("/addons/repository.nfo");
   m_has_been_updated = true;
+}
+
+TransferStatusPtr
+AddonManager::request_install_addon(const AddonId& addon_id)
+{
+  if (m_transfer_status)
+  {
+    throw std::runtime_error("only one addon install request allowed at a time");
+  }
+  else
+  {
+    { // remove addon if it already exists
+      auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
+                             [&addon_id](const std::unique_ptr<Addon>& addon)
+                             {
+                               return addon->get_id() == addon_id;
+                             });
+      if (it != m_installed_addons.end())
+      {
+        log_debug << "reinstalling addon " << addon_id << std::endl;
+        if ((*it)->is_enabled())
+        {
+          disable_addon((*it)->get_id());
+        }
+        m_installed_addons.erase(it);
+      }
+      else
+      {
+        log_debug << "installing addon " << addon_id << std::endl;
+      }
+    }
+
+    Addon& addon = get_repository_addon(addon_id);
+
+    std::string install_filename = FileSystem::join(m_addon_directory, addon.get_filename());
+
+    m_transfer_status = m_downloader.request_download(addon.get_url(), install_filename);
+
+    m_transfer_status->then(
+      [this, install_filename, addon_id](bool success)
+      {
+        m_transfer_status = {};
+
+        if (success)
+        {
+          // complete the addon install
+          Addon& repository_addon = get_repository_addon(addon_id);
+
+          MD5 md5 = md5_from_file(install_filename);
+          if (repository_addon.get_md5() != md5.hex_digest())
+          {
+            if (PHYSFS_delete(install_filename.c_str()) == 0)
+            {
+              log_warning << "PHYSFS_delete failed: " << PHYSFS_getLastError() << std::endl;
+            }
+
+            throw std::runtime_error("Downloading Add-on failed: MD5 checksums differ");
+          }
+          else
+          {
+            const char* realdir = PHYSFS_getRealDir(install_filename.c_str());
+            if (!realdir)
+            {
+              throw std::runtime_error("PHYSFS_getRealDir failed: " + install_filename);
+            }
+            else
+            {
+              add_installed_archive(install_filename, md5.hex_digest());
+            }
+          }
+        }
+      });
+
+    return m_transfer_status;
+  }
 }
 
 void
@@ -428,15 +549,14 @@ AddonManager::add_installed_addons()
 }
 
 AddonManager::AddonList
-AddonManager::parse_addon_infos(const std::string& addoninfos) const
+AddonManager::parse_addon_infos(const std::string& filename) const
 {
   AddonList m_addons;
 
   try
   {
     lisp::Parser parser;
-    std::stringstream addoninfos_stream(addoninfos);
-    const lisp::Lisp* root = parser.parse(addoninfos_stream, "supertux-addons");
+    const lisp::Lisp* root = parser.parse(filename);
     const lisp::Lisp* addons_lisp = root->get_lisp("supertux-addons");
     if(!addons_lisp)
     {
@@ -470,6 +590,12 @@ AddonManager::parse_addon_infos(const std::string& addoninfos) const
   }
 
   return m_addons;
+}
+
+void
+AddonManager::update()
+{
+  m_downloader.update();
 }
 
 /* EOF */

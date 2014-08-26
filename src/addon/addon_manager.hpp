@@ -18,6 +18,7 @@
 #ifndef HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 #define HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -30,6 +31,8 @@
 
 class Addon;
 class AddonRepository;
+class TransferStatus;
+using TransferStatusPtr = std::shared_ptr<TransferStatus>;
 
 typedef std::string AddonId;
 
@@ -37,7 +40,7 @@ typedef std::string AddonId;
 class AddonManager : public Currenton<AddonManager>
 {
 private:
-  typedef std::vector<std::unique_ptr<Addon> > AddonList;
+  using AddonList = std::vector<std::unique_ptr<Addon> >;
 
   Downloader m_downloader;
   std::string m_addon_directory;
@@ -49,6 +52,8 @@ private:
 
   bool m_has_been_updated;
 
+  TransferStatusPtr m_transfer_status;
+
 public:
   AddonManager(const std::string& addon_directory,
                std::vector<Config::Addon>& addon_config);
@@ -57,6 +62,7 @@ public:
   bool has_online_support() const;
   bool has_been_updated() const;
   void check_online();
+  TransferStatusPtr request_check_online();
 
   std::vector<AddonId> get_repository_addons() const;
   std::vector<AddonId> get_installed_addons() const;
@@ -64,16 +70,19 @@ public:
   Addon& get_repository_addon(const AddonId& addon);
   Addon& get_installed_addon(const AddonId& addon);
 
+  TransferStatusPtr request_install_addon(const AddonId& addon_id);
   void install_addon(const AddonId& addon_id);
   void uninstall_addon(const AddonId& addon_id);
 
   void enable_addon(const AddonId& addon_id);
   void disable_addon(const AddonId& addon_id);
 
+  void update();
+
 private:
   std::vector<std::string> scan_for_archives() const;
   void add_installed_addons();
-  AddonList parse_addon_infos(const std::string& addoninfos) const;
+  AddonList parse_addon_infos(const std::string& filename) const;
 
   /** add \a archive, given as physfs path, to the list of installed
       archives */

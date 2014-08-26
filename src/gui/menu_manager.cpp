@@ -26,6 +26,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/timer.hpp"
+#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
@@ -136,6 +137,8 @@ public:
 
 MenuManager::MenuManager() :
   m_dialog(),
+  m_has_next_dialog(false),
+  m_next_dialog(),
   m_menu_stack(),
   m_transition(new MenuTransition)
 {
@@ -190,6 +193,12 @@ MenuManager::event(const SDL_Event& ev)
 void
 MenuManager::draw(DrawingContext& context)
 {
+  if (m_has_next_dialog)
+  {
+    m_dialog = std::move(m_next_dialog);
+    m_has_next_dialog = false;
+  }
+
   if (m_transition->is_active())
   {
     m_transition->update();
@@ -199,6 +208,7 @@ MenuManager::draw(DrawingContext& context)
   {
     if (m_dialog)
     {
+      m_dialog->update();
       m_dialog->draw(context);
     }
     else if (current_menu())
@@ -221,7 +231,10 @@ MenuManager::draw(DrawingContext& context)
 void
 MenuManager::set_dialog(std::unique_ptr<Dialog> dialog)
 {
-  m_dialog = std::move(dialog);
+  // delay reseting m_dialog to a later point, as otherwise the Dialog
+  // can't unset itself without ending up with "delete this" problems
+  m_next_dialog = std::move(dialog);
+  m_has_next_dialog = true;
 }
 
 void

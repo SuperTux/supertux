@@ -17,10 +17,11 @@
 
 #include "addon/downloader.hpp"
 
-#include <curl/curl.h>
-#include <curl/easy.h>
-#include <physfs.h>
+#include <algorithm>
+#include <assert.h>
 #include <memory>
+#include <physfs.h>
+#include <sstream>
 #include <stdexcept>
 
 #include "util/log.hpp"
@@ -47,13 +48,160 @@ size_t my_curl_physfs_write(void* ptr, size_t size, size_t nmemb, void* userdata
 
 } // namespace
 
-Downloader::Downloader()
+void
+TransferStatus::abort()
+{
+  m_downloader.abort(id);
+}
+
+void
+TransferStatus::update()
+{
+  m_downloader.update();
+}
+
+class Transfer
+{
+private:
+  Downloader& m_downloader;
+  TransferId m_id;
+
+  std::string m_url;
+  CURL* m_handle;
+  std::array<char, CURL_ERROR_SIZE> m_error_buffer;
+
+  TransferStatusPtr m_status;
+  std::unique_ptr<PHYSFS_file, int(*)(PHYSFS_File*)> m_fout;
+
+public:
+  Transfer(Downloader& downloader, TransferId id,
+           const std::string& url,
+           const std::string& outfile) :
+    m_downloader(downloader),
+    m_id(id),
+    m_url(url),
+    m_handle(),
+    m_error_buffer({'\0'}),
+    m_status(new TransferStatus(downloader, id)),
+    m_fout(PHYSFS_openWrite(outfile.c_str()), PHYSFS_close)
+  {
+    if (!m_fout)
+    {
+      std::ostringstream out;
+      out << "PHYSFS_openRead() failed: " << PHYSFS_getLastError();
+      throw std::runtime_error(out.str());
+    }
+
+    m_handle = curl_easy_init();
+    if (!m_handle)
+    {
+      throw std::runtime_error("curl_easy_init() failed");
+    }
+    else
+    {
+      curl_easy_setopt(m_handle, CURLOPT_URL, url.c_str());
+      curl_easy_setopt(m_handle, CURLOPT_USERAGENT, "SuperTux/" PACKAGE_VERSION " libcURL");
+
+      curl_easy_setopt(m_handle, CURLOPT_WRITEDATA, this);
+      curl_easy_setopt(m_handle, CURLOPT_WRITEFUNCTION, &Transfer::on_data_wrap);
+
+      curl_easy_setopt(m_handle, CURLOPT_ERRORBUFFER, m_error_buffer.data());
+      curl_easy_setopt(m_handle, CURLOPT_NOSIGNAL, 1);
+      curl_easy_setopt(m_handle, CURLOPT_FAILONERROR, 1);
+      curl_easy_setopt(m_handle, CURLOPT_FOLLOWLOCATION, 1);
+
+      curl_easy_setopt(m_handle, CURLOPT_NOPROGRESS, 0);
+      curl_easy_setopt(m_handle, CURLOPT_XFERINFODATA, this);
+      curl_easy_setopt(m_handle, CURLOPT_XFERINFOFUNCTION, &Transfer::on_progress_wrap);
+    }
+  }
+
+  ~Transfer()
+  {
+    curl_easy_cleanup(m_handle);
+  }
+
+  TransferStatusPtr get_status() const
+  {
+    return m_status;
+  }
+
+  const char* get_error_buffer() const
+  {
+    return m_error_buffer.data();
+  }
+
+  TransferId get_id() const
+  {
+    return m_id;
+  }
+
+  CURL* get_curl_handle() const
+  {
+    return m_handle;
+  }
+
+  std::string get_url() const
+  {
+    return m_url;
+  }
+
+  size_t on_data(void* ptr, size_t size, size_t nmemb)
+  {
+    PHYSFS_write(m_fout.get(), ptr, size, nmemb);
+    return size * nmemb;
+  }
+
+  void on_progress(curl_off_t dltotal, curl_off_t dlnow,
+                   curl_off_t ultotal, curl_off_t ulnow)
+  {
+    m_status->dltotal = dltotal;
+    m_status->dlnow = dlnow;
+
+    m_status->ultotal = ultotal;
+    m_status->ulnow = ulnow;
+  }
+
+private:
+  static size_t on_data_wrap(char* ptr, size_t size, size_t nmemb, void* userdata)
+  {
+    return static_cast<Transfer*>(userdata)->on_data(ptr, size, nmemb);
+  }
+
+  static void on_progress_wrap(void* userdata,
+                               curl_off_t dltotal, curl_off_t dlnow,
+                               curl_off_t ultotal, curl_off_t ulnow)
+  {
+    return static_cast<Transfer*>(userdata)->on_progress(dltotal, dlnow, ultotal, ulnow);
+  }
+
+private:
+  Transfer(const Transfer&) = delete;
+  Transfer& operator=(const Transfer&) = delete;
+};
+
+Downloader::Downloader() :
+  m_multi_handle(),
+  m_transfers(),
+  m_next_transfer_id(1)
 {
   curl_global_init(CURL_GLOBAL_ALL);
+  m_multi_handle = curl_multi_init();
+  if (!m_multi_handle)
+  {
+    throw std::runtime_error("curl_multi_init() failed");
+  }
 }
 
 Downloader::~Downloader()
 {
+  for(auto& transfer : m_transfers)
+  {
+    curl_multi_remove_handle(m_multi_handle, transfer->get_curl_handle());
+  }
+  m_transfers.clear();
+
+  curl_multi_cleanup(m_multi_handle);
   curl_global_cleanup();
 }
 
@@ -100,6 +248,122 @@ Downloader::download(const std::string& url, const std::string& filename)
   std::unique_ptr<PHYSFS_file, int(*)(PHYSFS_File*)> fout(PHYSFS_openWrite(filename.c_str()),
                                                           PHYSFS_close);
   download(url, my_curl_physfs_write, fout.get());
+}
+
+void
+Downloader::abort(TransferId id)
+{
+  auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
+                         [&id](const std::unique_ptr<Transfer>& rhs)
+                         {
+                           return id == rhs->get_id();
+                         });
+  if (it == m_transfers.end())
+  {
+    log_warning << "transfer not found: " << id << std::endl;
+  }
+  else
+  {
+    TransferStatusPtr status = (*it)->get_status();
+
+    curl_multi_remove_handle(m_multi_handle, (*it)->get_curl_handle());
+    m_transfers.erase(it);
+
+    for(auto& callback : status->callbacks)
+    {
+      try
+      {
+        callback(false);
+      }
+      catch(const std::exception& err)
+      {
+        log_warning << "Illegal exception in Downloader: " << err.what() << std::endl;
+      }
+    }
+  }
+}
+
+void
+Downloader::update()
+{
+  // read data from the network
+  CURLMcode ret;
+  int running_handles;
+  while((ret = curl_multi_perform(m_multi_handle, &running_handles)) == CURLM_CALL_MULTI_PERFORM)
+  {
+    log_debug << "updating" << std::endl;
+  }
+
+  // check if any downloads got finished
+  int msgs_in_queue;
+  CURLMsg* msg;
+  while ((msg = curl_multi_info_read(m_multi_handle, &msgs_in_queue)))
+  {
+    switch(msg->msg)
+    {
+      case CURLMSG_DONE:
+        {
+          log_info << "Download completed with " << msg->data.result << std::endl;
+          curl_multi_remove_handle(m_multi_handle, msg->easy_handle);
+
+          auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
+                                 [&msg](const std::unique_ptr<Transfer>& rhs) {
+                                   return rhs->get_curl_handle() == msg->easy_handle;
+                                 });
+          assert(it != m_transfers.end());
+          TransferStatusPtr status = (*it)->get_status();
+          status->error_msg = (*it)->get_error_buffer();
+          m_transfers.erase(it);
+
+          if (msg->data.result == CURLE_OK)
+          {
+            bool success = true;
+            for(auto& callback : status->callbacks)
+            {
+              try
+              {
+                callback(success);
+              }
+              catch(const std::exception& err)
+              {
+                success = false;
+                log_warning << "Exception in Downloader: " << err.what() << std::endl;
+                status->error_msg = err.what();
+              }
+            }
+          }
+          else
+          {
+            log_warning << "Error: " << curl_easy_strerror(msg->data.result) << std::endl;
+            for(auto& callback : status->callbacks)
+            {
+              try
+              {
+                callback(false);
+              }
+              catch(const std::exception& err)
+              {
+                log_warning << "Illegal exception in Downloader: " << err.what() << std::endl;
+              }
+            }
+          }
+        }
+        break;
+
+      default:
+        log_warning << "unhandled cURL message: " << msg->msg << std::endl;
+        break;
+    }
+  }
+}
+
+TransferStatusPtr
+Downloader::request_download(const std::string& url, const std::string& outfile)
+{
+  std::unique_ptr<Transfer> transfer(new Transfer(*this, m_next_transfer_id++, url, outfile));
+  curl_multi_add_handle(m_multi_handle, transfer->get_curl_handle());
+  m_transfers.push_back(std::move(transfer));
+  return m_transfers.back()->get_status();
 }
 
 /* EOF */

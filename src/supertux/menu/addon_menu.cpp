@@ -24,6 +24,8 @@
 #include "addon/addon_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
+#include "gui/menu_manager.hpp"
+#include "supertux/menu/download_dialog.hpp"
 #include "util/gettext.hpp"
 
 namespace {
@@ -90,14 +92,6 @@ AddonMenu::refresh()
 {
   m_installed_addons = m_addon_manager.get_installed_addons();
   m_repository_addons = m_addon_manager.get_repository_addons();
-
-#ifdef GRUMBEL
-  std::sort(m_addons.begin(), m_addons.end(),
-            [](const Addon& lhs, const Addon& rhs)
-            {
-              return lhs.title < lhs.title;
-            });
-#endif
 
   rebuild_menu();
 }
@@ -190,8 +184,18 @@ AddonMenu::menu_action(MenuItem* item)
   {
     try
     {
-      m_addon_manager.check_online();
-      refresh();
+      TransferStatusPtr status = m_addon_manager.request_check_online();
+      status->then(
+        [this](bool success)
+        {
+          if (success)
+          {
+            refresh();
+          }
+        });
+      std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
+      dialog->set_title("Downloading Add-On Repository Index");
+      MenuManager::instance().set_dialog(std::move(dialog));
     }
     catch (std::exception& e)
     {
@@ -224,22 +228,35 @@ AddonMenu::menu_action(MenuItem* item)
       if (0 <= idx && idx < static_cast<int>(m_repository_addons.size()))
       {
         const Addon& addon = m_addon_manager.get_repository_addon(m_repository_addons[idx]);
-        try
-        {
-          m_addon_manager.install_addon(addon.get_id());
-          m_addon_manager.enable_addon(addon.get_id());
-        }
-        catch(const std::exception& err)
-        {
-          log_warning << "Enabling addon failed: " << err.what() << std::endl;
-        }
-        refresh();
+        auto addon_id = addon.get_id();
+        TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
+
+        status->then(
+          [this, addon_id](bool success)
+          {
+            if (success)
+            {
+              try
+              {
+                m_addon_manager.enable_addon(addon_id);
+              }
+              catch(const std::exception& err)
+              {
+                log_warning << "Enabling addon failed: " << err.what() << std::endl;
+              }
+              refresh();
+            }
+          });
+
+        std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
+        dialog->set_title("Downloading " + generate_menu_item_text(addon));
+        MenuManager::instance().set_dialog(std::move(dialog));
       }
     }
   }
   else
   {
-       log_warning << "Unknown menu item clicked: " << item->id << std::endl;
+    log_warning << "Unknown menu item clicked: " << item->id << std::endl;
   }
 }
 

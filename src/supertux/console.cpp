@@ -123,6 +123,16 @@ Console::~Console()
 void
 Console::on_buffer_change(int line_count)
 {
+  if (!m_font)
+  {
+    // FIXME: This is an ugly workaround for a crash at startup.
+    // Console::current() becomes valid before the Console constructor
+    // is finished and loading Surfaces and Fonts wants to write text
+    // to the Console, with Fonts that aren't yet loaded, thus
+    // crashing
+    return;
+  }
+
   // increase console height if necessary
   if (m_stayOpen > 0 && m_height < 64)
   {
