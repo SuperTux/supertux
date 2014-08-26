@@ -39,7 +39,7 @@ public:
   int dlnow;
   int ultotal;
   int ulnow;
-  std::function<void ()> callback;
+  std::vector<std::function<void ()> > callbacks;
 
   TransferStatus(TransferId id_) :
     id(id_),
@@ -48,16 +48,16 @@ public:
     dlnow(0),
     ultotal(0),
     ulnow(0),
-    callback()
+    callbacks()
   {}
 
-  void then(const std::function<void ()>& callback_)
+  void then(const std::function<void ()>& callback)
   {
-    callback = callback_;
+    callbacks.push_back(callback);
   }
 };
 
-typedef std::shared_ptr<TransferStatus> TransferStatusPtr;
+using TransferStatusPtr = std::shared_ptr<TransferStatus>;
 
 class Transfer;
 

@@ -21,7 +21,7 @@
 #include "gui/menu_manager.hpp"
 #include "util/gettext.hpp"
 
-AddonDialog::AddonDialog(AddonManager::InstallStatusPtr status) :
+AddonDialog::AddonDialog(TransferStatusPtr status) :
   m_status(status),
   m_title()
 {
@@ -51,14 +51,14 @@ AddonDialog::update_text()
   std::ostringstream out;
   out << m_title << "\n";
 
-  if (m_status->total == 0)
+  if (m_status->dltotal == 0)
   {
     out << "---\n---";
   }
   else
   {
-    int percent = 100 * m_status->now / m_status->total;
-    out << m_status->now/1000 << "/" << m_status->total/1000 << " kB\n" << percent << "%";
+    int percent = 100 * m_status->dlnow / m_status->dltotal;
+    out << m_status->dlnow/1000 << "/" << m_status->dltotal/1000 << " kB\n" << percent << "%";
   }
 
   set_text(out.str());

@@ -90,7 +90,6 @@ AddonManager::AddonManager(const std::string& addon_directory,
   m_repository_addons(),
   m_has_been_updated(false),
   m_install_request(),
-  m_install_status(),
   m_transfer_status()
 {
   PHYSFS_mkdir(m_addon_directory.c_str());
@@ -203,12 +202,12 @@ AddonManager::has_been_updated() const
   return m_has_been_updated;
 }
 
-AddonManager::InstallStatusPtr
+TransferStatusPtr
 AddonManager::request_check_online()
 {
-  if (m_install_status)
+  if (m_transfer_status)
   {
-    throw std::runtime_error("only one addon install request allowed at a time");
+    throw std::runtime_error("only async request can be made to AddonManager at a time");
   }
   else
   {
@@ -218,17 +217,10 @@ AddonManager::request_check_online()
         m_repository_addons = parse_addon_infos("/addons/repository.nfo");
         m_has_been_updated = true;
 
-        if (m_install_status->callback)
-        {
-          m_install_status->callback();
-        }
-
-        m_install_status = {};
         m_transfer_status = {};
       });
 
-    m_install_status = std::make_shared<InstallStatus>();
-    return m_install_status;
+    return m_transfer_status;
   }
 }
 
@@ -240,10 +232,10 @@ AddonManager::check_online()
   m_has_been_updated = true;
 }
 
-AddonManager::InstallStatusPtr
+TransferStatusPtr
 AddonManager::request_install_addon(const AddonId& addon_id)
 {
-  if (m_install_status)
+  if (m_transfer_status)
   {
     throw std::runtime_error("only one addon install request allowed at a time");
   }
@@ -310,20 +302,11 @@ AddonManager::request_install_addon(const AddonId& addon_id)
           }
         }
 
-        // signal that the request is done and cleanup
-        if (m_install_status->callback)
-        {
-          m_install_status->callback();
-        }
-
         m_install_request = {};
-        m_install_status = {};
         m_transfer_status = {};
       });
 
-    m_install_status = std::make_shared<InstallStatus>();
-
-    return m_install_status;
+    return m_transfer_status;
   }
 }
 
@@ -603,12 +586,6 @@ void
 AddonManager::update()
 {
   m_downloader.update();
-
-  if (m_install_status)
-  {
-    m_install_status->now = m_transfer_status->dlnow;
-    m_install_status->total = m_transfer_status->dltotal;
-  }
 }
 
 void
@@ -619,7 +596,6 @@ AddonManager::abort_install()
   m_downloader.abort(m_transfer_status->id);
 
   m_install_request = {};
-  m_install_status = {};
   m_transfer_status = {};
 }
 

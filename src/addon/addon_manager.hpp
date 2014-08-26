@@ -31,6 +31,8 @@
 
 class Addon;
 class AddonRepository;
+class TransferStatus;
+using TransferStatusPtr = std::shared_ptr<TransferStatus>;
 
 typedef std::string AddonId;
 
@@ -38,26 +40,6 @@ typedef std::string AddonId;
 class AddonManager : public Currenton<AddonManager>
 {
 public:
-  struct InstallStatus
-  {
-    InstallStatus() :
-      now(0),
-      total(0),
-      done(false),
-      callback()
-    {}
-
-    int now;
-    int total;
-    bool done;
-    std::function<void ()> callback;
-
-    void then(const std::function<void ()>& callback_)
-    {
-      callback = callback_;
-    }
-  };
-
   struct InstallRequest
   {
     InstallRequest() :
@@ -69,7 +51,6 @@ public:
     std::string install_filename;
   };
 
-  using InstallStatusPtr = std::shared_ptr<InstallStatus>;
   using InstallRequestPtr = std::shared_ptr<InstallRequest>;
 
 private:
@@ -86,7 +67,6 @@ private:
   bool m_has_been_updated;
 
   InstallRequestPtr m_install_request;
-  InstallStatusPtr m_install_status;
   TransferStatusPtr m_transfer_status;
 
 public:
@@ -97,7 +77,7 @@ public:
   bool has_online_support() const;
   bool has_been_updated() const;
   void check_online();
-  InstallStatusPtr request_check_online();
+  TransferStatusPtr request_check_online();
 
   std::vector<AddonId> get_repository_addons() const;
   std::vector<AddonId> get_installed_addons() const;
@@ -105,7 +85,7 @@ public:
   Addon& get_repository_addon(const AddonId& addon);
   Addon& get_installed_addon(const AddonId& addon);
 
-  InstallStatusPtr request_install_addon(const AddonId& addon_id);
+  TransferStatusPtr request_install_addon(const AddonId& addon_id);
   void abort_install();
   void install_addon(const AddonId& addon_id);
   void uninstall_addon(const AddonId& addon_id);

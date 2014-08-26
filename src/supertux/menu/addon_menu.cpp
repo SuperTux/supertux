@@ -184,7 +184,7 @@ AddonMenu::menu_action(MenuItem* item)
   {
     try
     {
-      AddonManager::InstallStatusPtr status = m_addon_manager.request_check_online();
+      TransferStatusPtr status = m_addon_manager.request_check_online();
       status->then([this]{
           MenuManager::instance().set_dialog({});
           refresh();
@@ -225,7 +225,7 @@ AddonMenu::menu_action(MenuItem* item)
       {
         const Addon& addon = m_addon_manager.get_repository_addon(m_repository_addons[idx]);
         auto addon_id = addon.get_id();
-        AddonManager::InstallStatusPtr status = m_addon_manager.request_install_addon(addon_id);
+        TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
 
         status->then([this, addon_id]{
             try

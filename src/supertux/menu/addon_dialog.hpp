@@ -18,16 +18,20 @@
 #define HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_DIALOG_HPP
 
 #include "addon/addon_manager.hpp"
+#include "addon/addon_manager.hpp"
 #include "gui/dialog.hpp"
+
+class TransferStatus;
+using TransferStatusPtr = std::shared_ptr<TransferStatus>;
 
 class AddonDialog : public Dialog
 {
 private:
-  AddonManager::InstallStatusPtr m_status;
+  TransferStatusPtr m_status;
   std::string m_title;
 
 public:
-  AddonDialog(AddonManager::InstallStatusPtr status);
+  AddonDialog(TransferStatusPtr status);
 
   void set_title(const std::string& title);
   void update() override;

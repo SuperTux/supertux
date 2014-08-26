@@ -283,9 +283,9 @@ Downloader::update()
           m_transfers.erase(it);
 
           status->status = TransferStatus::COMPLETED;
-          if (status->callback)
+          for(auto& callback : status->callbacks)
           {
-            status->callback();
+            callback();
           }
         }
         break;
