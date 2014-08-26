@@ -38,6 +38,7 @@ public:
 
 private:
   void on_abort();
+  void on_download_complete();
 
   void update_text();
 

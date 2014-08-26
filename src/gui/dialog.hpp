@@ -47,6 +47,7 @@ public:
   virtual ~Dialog();
 
   void set_text(const std::string& text);
+  void clear_buttons();
   void add_button(const std::string& text, const std::function<void ()>& callback = {},
                   bool focus = false);
 

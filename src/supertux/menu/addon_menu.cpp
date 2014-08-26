@@ -186,7 +186,6 @@ AddonMenu::menu_action(MenuItem* item)
     {
       TransferStatusPtr status = m_addon_manager.request_check_online();
       status->then([this]{
-          MenuManager::instance().set_dialog({});
           refresh();
         });
       std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
@@ -236,7 +235,6 @@ AddonMenu::menu_action(MenuItem* item)
             {
               log_warning << "Enabling addon failed: " << err.what() << std::endl;
             }
-            MenuManager::instance().set_dialog({});
             refresh();
           });
 

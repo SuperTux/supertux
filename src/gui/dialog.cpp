@@ -49,6 +49,13 @@ Dialog::set_text(const std::string& text)
 }
 
 void
+Dialog::clear_buttons()
+{
+  m_buttons.clear();
+  m_selected_button = 0;
+}
+
+void
 Dialog::add_button(const std::string& text, const std::function<void ()>& callback, bool focus)
 {
   m_buttons.push_back({text, callback});

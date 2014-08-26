@@ -30,6 +30,10 @@ DownloadDialog::DownloadDialog(TransferStatusPtr status) :
     });
 
   update_text();
+
+  status->then([this]{
+      on_download_complete();
+    });
 }
 
 void
@@ -68,6 +72,15 @@ void
 DownloadDialog::on_abort()
 {
   AddonManager::current()->abort_install();
+}
+
+void
+DownloadDialog::on_download_complete()
+{
+  clear_buttons();
+  add_button(_("Close"), [this]{
+      MenuManager::instance().set_dialog({});
+    });
 }
 
 /* EOF */
