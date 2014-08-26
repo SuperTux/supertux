@@ -22,7 +22,8 @@
 #include "util/gettext.hpp"
 
 AddonDialog::AddonDialog(AddonManager::InstallStatusPtr status) :
-  m_status(status)
+  m_status(status),
+  m_title()
 {
   add_button(_("Abort Download"), [this]{
       on_abort();
@@ -35,21 +36,31 @@ void
 AddonDialog::update()
 {
   AddonManager::current()->update();
-
   update_text();
+}
 
-  if (m_status->done)
-  {
-    MenuManager::instance().set_dialog({});
-  }
+void
+AddonDialog::set_title(const std::string& title)
+{
+  m_title = title;
 }
 
 void
 AddonDialog::update_text()
 {
   std::ostringstream out;
-  out << "Downloading in Progress:\n"
-      << m_status->now << "/" << m_status->total;
+  out << m_title << "\n";
+
+  if (m_status->total == 0)
+  {
+    out << "---\n---";
+  }
+  else
+  {
+    int percent = 100 * m_status->now / m_status->total;
+    out << m_status->now/1000 << "/" << m_status->total/1000 << " kB\n" << percent << "%";
+  }
+
   set_text(out.str());
 }
 

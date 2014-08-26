@@ -218,29 +218,31 @@ AddonMenu::menu_action(MenuItem* item)
       if (0 <= idx && idx < static_cast<int>(m_repository_addons.size()))
       {
         const Addon& addon = m_addon_manager.get_repository_addon(m_repository_addons[idx]);
+        auto addon_id = addon.get_id();
+        AddonManager::InstallStatusPtr status = m_addon_manager.request_install_addon(addon_id);
 
-        AddonManager::InstallStatusPtr status = m_addon_manager.request_install_addon(addon.get_id());
+        status->then([this, addon_id]{
+            try
+            {
+              m_addon_manager.enable_addon(addon_id);
+            }
+            catch(const std::exception& err)
+            {
+              log_warning << "Enabling addon failed: " << err.what() << std::endl;
+            }
+            MenuManager::instance().set_dialog({});
+            refresh();
+          });
 
         std::unique_ptr<AddonDialog> dialog(new AddonDialog(status));
+        dialog->set_title("Downloading " + generate_menu_item_text(addon));
         MenuManager::instance().set_dialog(std::move(dialog));
-#ifdef GRUMBEL
-        try
-        {
-          m_addon_manager.install_addon(addon.get_id());
-          m_addon_manager.enable_addon(addon.get_id());
-        }
-        catch(const std::exception& err)
-        {
-          log_warning << "Enabling addon failed: " << err.what() << std::endl;
-        }
-        refresh();
-#endif
       }
     }
   }
   else
   {
-       log_warning << "Unknown menu item clicked: " << item->id << std::endl;
+    log_warning << "Unknown menu item clicked: " << item->id << std::endl;
   }
 }
 

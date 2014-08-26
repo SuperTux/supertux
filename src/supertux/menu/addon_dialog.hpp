@@ -24,14 +24,17 @@ class AddonDialog : public Dialog
 {
 private:
   AddonManager::InstallStatusPtr m_status;
+  std::string m_title;
 
 public:
   AddonDialog(AddonManager::InstallStatusPtr status);
 
+  void set_title(const std::string& title);
   void update() override;
 
 private:
   void on_abort();
+
   void update_text();
 
 private:
