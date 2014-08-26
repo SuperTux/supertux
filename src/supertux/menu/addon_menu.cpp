@@ -93,14 +93,6 @@ AddonMenu::refresh()
   m_installed_addons = m_addon_manager.get_installed_addons();
   m_repository_addons = m_addon_manager.get_repository_addons();
 
-#ifdef GRUMBEL
-  std::sort(m_addons.begin(), m_addons.end(),
-            [](const Addon& lhs, const Addon& rhs)
-            {
-              return lhs.title < lhs.title;
-            });
-#endif
-
   rebuild_menu();
 }
 
