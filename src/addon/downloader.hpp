@@ -39,6 +39,7 @@ public:
   int dlnow;
   int ultotal;
   int ulnow;
+  std::function<void ()> callback;
 
   TransferStatus(TransferId id_) :
     id(id_),
@@ -46,8 +47,14 @@ public:
     dltotal(0),
     dlnow(0),
     ultotal(0),
-    ulnow(0)
+    ulnow(0),
+    callback()
   {}
+
+  void then(const std::function<void ()>& callback_)
+  {
+    callback = callback_;
+  }
 };
 
 typedef std::shared_ptr<TransferStatus> TransferStatusPtr;

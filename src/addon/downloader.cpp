@@ -18,8 +18,10 @@
 #include "addon/downloader.hpp"
 
 #include <algorithm>
+#include <assert.h>
 #include <memory>
 #include <physfs.h>
+#include <sstream>
 #include <stdexcept>
 
 #include "util/log.hpp"
@@ -57,16 +59,27 @@ private:
   std::array<char, CURL_ERROR_SIZE> m_error_buffer;
 
   TransferStatusPtr m_status;
+  std::unique_ptr<PHYSFS_file, int(*)(PHYSFS_File*)> m_fout;
 
 public:
-  Transfer(Downloader& downloader, TransferId id, const std::string& url) :
+  Transfer(Downloader& downloader, TransferId id,
+           const std::string& url,
+           const std::string& outfile) :
     m_downloader(downloader),
     m_id(id),
     m_url(url),
     m_handle(),
     m_error_buffer(),
-    m_status(new TransferStatus(id))
+    m_status(new TransferStatus(id)),
+    m_fout(PHYSFS_openWrite(outfile.c_str()), PHYSFS_close)
   {
+    if (!m_fout)
+    {
+      std::ostringstream out;
+      out << "PHYSFS_openRead() failed: " << PHYSFS_getLastError();
+      throw std::runtime_error(out.str());
+    }
+
     m_handle = curl_easy_init();
     if (!m_handle)
     {
@@ -118,13 +131,13 @@ public:
 
   size_t on_data(void* ptr, size_t size, size_t nmemb)
   {
+    PHYSFS_write(m_fout.get(), ptr, size, nmemb);
     return size * nmemb;
   }
 
   void on_progress(curl_off_t dltotal, curl_off_t dlnow,
                    curl_off_t ultotal, curl_off_t ulnow)
   {
-    log_info << "progress: " << dlnow << "/" << dltotal << std::endl;
     m_status->dltotal = dltotal;
     m_status->dlnow = dlnow;
 
@@ -258,9 +271,23 @@ Downloader::update()
     switch(msg->msg)
     {
       case CURLMSG_DONE:
-        curl_multi_remove_handle(m_multi_handle, msg->easy_handle);
-        log_info << "DOWNLOAD DONE" << std::endl;
-        //FIXME: finish_transfer(msg->easy_handle);
+        {
+          log_info << "Download completed" << std::endl;
+          curl_multi_remove_handle(m_multi_handle, msg->easy_handle);
+          auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
+                                 [&msg](const std::unique_ptr<Transfer>& rhs) {
+                                   return rhs->get_curl_handle() == msg->easy_handle;
+                                 });
+          assert(it != m_transfers.end());
+          TransferStatusPtr status = (*it)->get_status();
+          m_transfers.erase(it);
+
+          status->status = TransferStatus::COMPLETED;
+          if (status->callback)
+          {
+            status->callback();
+          }
+        }
         break;
 
       default:
@@ -271,9 +298,9 @@ Downloader::update()
 }
 
 TransferStatusPtr
-Downloader::request_download(const std::string& url, const std::string& filename)
+Downloader::request_download(const std::string& url, const std::string& outfile)
 {
-  std::unique_ptr<Transfer> transfer(new Transfer(*this, m_next_transfer_id++, url));
+  std::unique_ptr<Transfer> transfer(new Transfer(*this, m_next_transfer_id++, url, outfile));
   curl_multi_add_handle(m_multi_handle, transfer->get_curl_handle());
   m_transfers.push_back(std::move(transfer));
   return m_transfers.back()->get_status();
