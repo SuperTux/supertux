@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_GUI_MENU_MANAGER_HPP
 #define HEADER_SUPERTUX_GUI_MENU_MANAGER_HPP
 
-#include <vector>
 #include <list>
 #include <memory>
+#include <vector>
 
 #include "SDL.h"
 
@@ -37,6 +37,9 @@ public:
 
 private:
   std::unique_ptr<Dialog> m_dialog;
+  bool m_has_next_dialog;
+  std::unique_ptr<Dialog> m_next_dialog;
+
   std::vector<std::unique_ptr<Menu> > m_menu_stack;
   std::unique_ptr<MenuTransition> m_transition;
 
