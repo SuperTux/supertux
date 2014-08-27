@@ -13,20 +13,6 @@ enhanchment, actually enhanchmes anything at all.
 Coding Standard Stuff
 =====================
 
-* make code clean: "-O2", "-g3",
-                     "-ansi",
-                     "-pedantic",
-                     "-Wall",
-                     "-Wextra",
-                     "-Wnon-virtual-dtor",
-                     "-Weffc++",
-                     "-Wconversion",
-                     "-Werror",
-                     "-Wshadow",
-                     "-Wcast-qual",
-                     "-Winit-self", # only works with >= -O1
-                     "-Wno-unused-parameter",
-
 * remove overuse of multi-inheritance 
 
 * remove overuse of friend'ship
@@ -41,7 +27,7 @@ Coding Standard Stuff
 
 * use Vector in Physics for 'a' and 'v'
 
-* replace random generator with mersenne twister and/or move to external/ (maybe use boost's random stuff)
+* replace random generator with C++11 stuff
 
 * md5.hpp and random_generator.hpp could go to external/
 
@@ -53,6 +39,8 @@ Coding Standard Stuff
 
   - include guards proper and of the form HEADER_SUPERTUX_${PATH_TO_FILE}_HPP
 
+  - remove trailing whitespace
+
 TODO
 ====
 
@@ -63,13 +51,9 @@ TODO
 * GameObject::RemoveListenerListEntry: Ughs, somebody trying to
   implement a list class within in the GameObject?!
 
-* add --datadir DIR (data/) and --userdir DIR (~/.supertux/), allow multiple --datadir's
-
 * make gravity constant
 
 * rename Vector -> Vector2f
-
-* get rid of global SDL_Screen* screen variable
 
 * get rid of SCREEN_WIDTH/SCREEN_HEIGHT overuse, give them a proper name at least
 
@@ -81,8 +65,6 @@ TODO
 
 * file naming is inconsistent: some times we use '_' to separate
   words, sometimes we don't
-
-* collect all manager classes into globals.hpp
 
 * more moving directories around?
 
@@ -110,21 +92,12 @@ supertux/
 
 * having hitbox in Sprite is fugly
 
-* write decal object that doesn't have hitbox
-
-* implement surface and/or sprite scaling (MipMaps?)
-
 * add code that compares the last Log line with the current, if they
   are the same reject them and just output something like:
 
   * last line has been repeated X times
 
 * implement: http://standards.freedesktop.org/basedir-spec/basedir-spec-0.6.html
-
-* workaround for Ubuntu pulseaudio/OpenAL brokeness:
-
-$ cat ~/.alsoftrc
-drivers = oss
 
 * peaking up/down doesn't work properly
 
@@ -134,16 +107,9 @@ drivers = oss
 
 * replace cloud tiles with decals
 
-* option menu has text overlap in "aspect ratio"
-
-* jumping up from an enemy doesn't make a sound?
-
 * add support for automatic scrolling backgrounds
 
 * add direct reading of Vector2f to Reader/lisp
-
-* replace bell with 'reset block', that starts to glow once bumped
-  into (or something different)
 
 * refactor Camera code, break ugly long functions into pieces and such
 
@@ -160,24 +126,7 @@ drivers = oss
 * fix alpha blending in the SDL renderer, currently all sprites (Tux,
   etc.) appear transparent
 
-* position of statistics text on the worldmap doesn't scale properly with resolution it seems
-
-* gluBuild2DMipmaps leads to blurriness, maybe lack of magic offset
-  (0.375f, 0.375f, 0.0f) or something else
-
-* font system has blending artifacts at non-1x magnifications, need to
-  have an transparent pixel between letters
-
-* add a (border #t) flag to fonts, that allows to use fonts which have
-  a 1px transparent border around glyphs, which is needed to get rid
-  of blending artifacts in OpenGL
-
-* mouse cursor has blend artifact on high magnification
-
 * shadow font glyphs bleed into other glyphs
-
-* in DrawingRequest "void* request_data;" is only free'ed, but the
-  destructor never gets called
 
 * sprite/sprite.cpp: frame should never get out of range:
 
