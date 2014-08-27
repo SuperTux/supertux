@@ -70,7 +70,7 @@ public:
 
   float greyscale() const
   {
-    return red * 0.30 + green * 0.59 + blue * 0.11;
+    return red * 0.30f + green * 0.59f + blue * 0.11f;
   }
 
   bool operator < (const Color& other) const
