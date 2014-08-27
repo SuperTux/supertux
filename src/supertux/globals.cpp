@@ -16,8 +16,6 @@
 
 #include "supertux/globals.hpp"
 
-#include <tinygettext/tinygettext.hpp>
-
 #include "supertux/gameconfig.hpp"
 
 int SCREEN_WIDTH;

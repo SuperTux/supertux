@@ -19,8 +19,6 @@
 
 #include <memory>
 
-typedef struct SDL_Surface SDL_Surface;
-namespace tinygettext { class DictionaryManager; }
 class Config;
 class TileSet;
 
