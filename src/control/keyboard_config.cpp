@@ -31,9 +31,9 @@ KeyboardConfig::KeyboardConfig() :
   keymap[SDLK_SPACE]    = Controller::JUMP;
   keymap[SDLK_LCTRL]    = Controller::ACTION;
   keymap[SDLK_LALT]     = Controller::ACTION;
-  keymap[SDLK_ESCAPE]   = Controller::PAUSE_MENU;
-  keymap[SDLK_p]        = Controller::PAUSE_MENU;
-  keymap[SDLK_PAUSE]    = Controller::PAUSE_MENU;
+  keymap[SDLK_ESCAPE]   = Controller::ESCAPE;
+  keymap[SDLK_p]        = Controller::START;
+  keymap[SDLK_PAUSE]    = Controller::START;
   keymap[SDLK_RETURN]   = Controller::MENU_SELECT;
   keymap[SDLK_KP_ENTER] = Controller::MENU_SELECT;
   keymap[SDLK_CARET]    = Controller::CONSOLE;

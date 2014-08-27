@@ -59,7 +59,8 @@ LevelIntro::update(float elapsed_time)
   if(controller->pressed(Controller::JUMP)
      || controller->pressed(Controller::ACTION)
      || controller->pressed(Controller::MENU_SELECT)
-     || controller->pressed(Controller::PAUSE_MENU)) {
+     || controller->pressed(Controller::START)
+     || controller->pressed(Controller::ESCAPE)) {
     ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.1)));
   }
 

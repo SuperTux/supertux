@@ -419,7 +419,8 @@ void
 GameSession::update(float elapsed_time)
 {
   // handle controller
-  if(InputManager::current()->get_controller()->pressed(Controller::PAUSE_MENU))
+  if(InputManager::current()->get_controller()->pressed(Controller::ESCAPE) ||
+     InputManager::current()->get_controller()->pressed(Controller::START))
   {
     on_escape_press();
   }

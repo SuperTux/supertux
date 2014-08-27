@@ -70,7 +70,7 @@ JoystickMenu::recreate_menu()
       add_controlfield(Controller::RIGHT,       _("Right"));
       add_controlfield(Controller::JUMP,        _("Jump"));
       add_controlfield(Controller::ACTION,      _("Action"));
-      add_controlfield(Controller::PAUSE_MENU,  _("Pause/Menu"));
+      add_controlfield(Controller::START,       _("Pause/Menu"));
       add_controlfield(Controller::PEEK_LEFT,   _("Peek Left"));
       add_controlfield(Controller::PEEK_RIGHT,  _("Peek Right"));
       add_controlfield(Controller::PEEK_UP,     _("Peek Up"));
@@ -219,7 +219,7 @@ JoystickMenu::refresh()
 
     refresh_menu_item(Controller::JUMP);
     refresh_menu_item(Controller::ACTION);
-    refresh_menu_item(Controller::PAUSE_MENU);
+    refresh_menu_item(Controller::START);
     refresh_menu_item(Controller::PEEK_LEFT);
     refresh_menu_item(Controller::PEEK_RIGHT);
     refresh_menu_item(Controller::PEEK_UP);

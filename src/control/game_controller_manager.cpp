@@ -75,7 +75,7 @@ GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
       break;
 
     case SDL_CONTROLLER_BUTTON_START:
-      set_control(Controller::PAUSE_MENU, ev.state);
+      set_control(Controller::START, ev.state);
       break;
 
     case SDL_CONTROLLER_BUTTON_LEFTSTICK:

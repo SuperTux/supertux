@@ -106,7 +106,8 @@ TextScroller::update(float elapsed_time)
      || controller->pressed(Controller::MENU_SELECT)
      )&& !(controller->pressed(Controller::UP))) // prevent skipping if jump with up is enabled
     scroll += SCROLL;
-  if(controller->pressed(Controller::PAUSE_MENU)) {
+  if(controller->pressed(Controller::START) ||
+     controller->pressed(Controller::ESCAPE)) {
     ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
   }
 

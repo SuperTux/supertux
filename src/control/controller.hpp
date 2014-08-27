@@ -31,7 +31,8 @@ public:
     JUMP,
     ACTION,
 
-    PAUSE_MENU,
+    START,
+    ESCAPE,
     MENU_SELECT,
     MENU_BACK,
 

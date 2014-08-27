@@ -164,7 +164,8 @@ Dialog::process_input(const Controller& controller)
   }
 
   if (m_cancel_button != -1 &&
-      controller.pressed(Controller::MENU_BACK))
+      (controller.pressed(Controller::ESCAPE) ||
+       controller.pressed(Controller::MENU_BACK)))
   {
     on_button_click(m_cancel_button);
   }

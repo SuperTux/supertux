@@ -227,8 +227,9 @@ Menu::process_input()
      || controller->pressed(Controller::MENU_SELECT)) {
     menuaction = MENU_ACTION_HIT;
   }
-  if(controller->pressed(Controller::PAUSE_MENU)
-    || controller->pressed(Controller::MENU_BACK)) {
+  if(controller->pressed(Controller::ESCAPE) ||
+     controller->pressed(Controller::START) ||
+     controller->pressed(Controller::MENU_BACK)) {
     menuaction = MENU_ACTION_BACK;
   }
 

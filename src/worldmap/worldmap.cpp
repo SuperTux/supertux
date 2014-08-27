@@ -643,7 +643,8 @@ WorldMap::update(float delta)
       if(!controller->pressed(Controller::UP))
         enter_level = true;
     }
-    if(controller->pressed(Controller::PAUSE_MENU))
+    if(controller->pressed(Controller::START) ||
+       controller->pressed(Controller::ESCAPE))
     {
       on_escape_press();
     }

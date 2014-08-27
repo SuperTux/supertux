@@ -190,8 +190,10 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
       control = Controller::MENU_SELECT;
       break;
     case SDLK_ESCAPE:
+      control = Controller::ESCAPE;
+      break;
     case SDLK_PAUSE:
-      control = Controller::PAUSE_MENU;
+      control = Controller::START;
       break;
     default:
       return;
