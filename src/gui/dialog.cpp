@@ -30,6 +30,7 @@ Dialog::Dialog() :
   m_text(),
   m_buttons(),
   m_selected_button(),
+  m_cancel_button(-1),
   m_text_size()
 {
 }
@@ -53,17 +54,27 @@ Dialog::clear_buttons()
 {
   m_buttons.clear();
   m_selected_button = 0;
+  m_cancel_button = -1;
 }
 
 void
-Dialog::add_button(const std::string& text, const std::function<void ()>& callback, bool focus)
+Dialog::add_default_button(const std::string& text, const std::function<void ()>& callback)
+{
+  add_button(text, callback);
+  m_selected_button = m_buttons.size() - 1;
+}
+
+void
+Dialog::add_cancel_button(const std::string& text, const std::function<void ()>& callback)
+{
+  add_button(text, callback);
+  m_cancel_button = m_buttons.size() - 1;
+}
+
+void
+Dialog::add_button(const std::string& text, const std::function<void ()>& callback)
 {
   m_buttons.push_back({text, callback});
-
-  if (focus)
-  {
-    m_selected_button = m_buttons.size() - 1;
-  }
 }
 
 int
@@ -104,9 +115,6 @@ Dialog::event(const SDL_Event& ev)
       {
         m_selected_button = new_button;
         on_button_click(m_selected_button);
-
-        // warning: this will "delete this"
-        MenuManager::instance().set_dialog({});
       }
     }
     break;
@@ -153,9 +161,12 @@ Dialog::process_input(const Controller& controller)
       controller.pressed(Controller::MENU_SELECT))
   {
     on_button_click(m_selected_button);
+  }
 
-    // warning: this will "delete this"
-    MenuManager::instance().set_dialog({});
+  if (m_cancel_button != -1 &&
+      controller.pressed(Controller::MENU_BACK))
+  {
+    on_button_click(m_cancel_button);
   }
 }
 
@@ -230,6 +241,7 @@ Dialog::on_button_click(int button) const
   {
     m_buttons[button].callback();
   }
+  MenuManager::instance().set_dialog({});
 }
 
 /* EOF */

@@ -25,7 +25,7 @@ DownloadDialog::DownloadDialog(TransferStatusPtr status) :
   m_status(status),
   m_title()
 {
-  add_button(_("Abort Download"), [this]{
+  add_default_button(_("Abort Download"), [this]{
       on_abort();
     });
 

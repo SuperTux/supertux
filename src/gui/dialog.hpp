@@ -39,6 +39,7 @@ private:
   std::string m_text;
   std::vector<Button> m_buttons;
   int m_selected_button;
+  int m_cancel_button;
 
   Sizef m_text_size;
 
@@ -47,9 +48,17 @@ public:
   virtual ~Dialog();
 
   void set_text(const std::string& text);
+
+  void add_button(const std::string& text, const std::function<void ()>& callback = {});
+
+  /** The default gets focused when the dialog is first shown */
+  void add_default_button(const std::string& text, const std::function<void ()>& callback = {});
+
+  /** The cancel button can not only be activated by selecting it, but
+      via the MENU_BACK button */
+  void add_cancel_button(const std::string& text, const std::function<void ()>& callback = {});
+
   void clear_buttons();
-  void add_button(const std::string& text, const std::function<void ()>& callback = {},
-                  bool focus = false);
 
   void event(const SDL_Event& event);
   void process_input(const Controller& controller);
