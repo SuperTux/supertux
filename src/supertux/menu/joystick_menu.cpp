@@ -224,7 +224,13 @@ JoystickMenu::refresh()
     refresh_menu_item(Controller::PEEK_RIGHT);
     refresh_menu_item(Controller::PEEK_UP);
     refresh_menu_item(Controller::PEEK_DOWN);
-    refresh_menu_item(Controller::CHEAT_MENU);
+
+    if (g_config->developer_mode || g_config->console_enabled) {
+      refresh_menu_item(Controller::CONSOLE);
+    }
+    if (g_config->developer_mode) {
+      refresh_menu_item(Controller::CHEAT_MENU);
+    }
   }
 }
 
