@@ -625,7 +625,7 @@ Menu::get_item_by_id(int id)
     }
   }
 
-  throw std::runtime_error("MenuItem not found");
+  throw std::runtime_error("MenuItem not found: " + std::to_string(id));
 }
 
 const MenuItem&
