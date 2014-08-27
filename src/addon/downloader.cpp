@@ -111,8 +111,8 @@ public:
       curl_easy_setopt(m_handle, CURLOPT_FOLLOWLOCATION, 1);
 
       curl_easy_setopt(m_handle, CURLOPT_NOPROGRESS, 0);
-      curl_easy_setopt(m_handle, CURLOPT_XFERINFODATA, this);
-      curl_easy_setopt(m_handle, CURLOPT_XFERINFOFUNCTION, &Transfer::on_progress_wrap);
+      curl_easy_setopt(m_handle, CURLOPT_PROGRESSDATA, this);
+      curl_easy_setopt(m_handle, CURLOPT_PROGRESSFUNCTION, &Transfer::on_progress_wrap);
     }
   }
 
@@ -152,14 +152,14 @@ public:
     return size * nmemb;
   }
 
-  void on_progress(curl_off_t dltotal, curl_off_t dlnow,
-                   curl_off_t ultotal, curl_off_t ulnow)
+  void on_progress(double dltotal, double dlnow,
+                   double ultotal, double ulnow)
   {
-    m_status->dltotal = dltotal;
-    m_status->dlnow = dlnow;
+    m_status->dltotal = static_cast<int>(dltotal);
+    m_status->dlnow = static_cast<int>(dlnow);
 
-    m_status->ultotal = ultotal;
-    m_status->ulnow = ulnow;
+    m_status->ultotal = static_cast<int>(ultotal);
+    m_status->ulnow = static_cast<int>(ulnow);
   }
 
 private:
@@ -169,8 +169,8 @@ private:
   }
 
   static void on_progress_wrap(void* userdata,
-                               curl_off_t dltotal, curl_off_t dlnow,
-                               curl_off_t ultotal, curl_off_t ulnow)
+                               double dltotal, double dlnow,
+                               double ultotal, double ulnow)
   {
     return static_cast<Transfer*>(userdata)->on_progress(dltotal, dlnow, ultotal, ulnow);
   }
