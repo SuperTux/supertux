@@ -47,11 +47,11 @@ private:
 
   Uint8 hat_state;
 
-public:
   int wait_for_joystick;
 
-public:
   std::vector<SDL_Joystick*> joysticks;
+
+  friend class KeyboardManager;
 
 public:
   JoystickManager(InputManager* parent, JoystickConfig& joystick_config);
@@ -61,10 +61,14 @@ public:
   void process_axis_event(const SDL_JoyAxisEvent& jaxis);
   void process_button_event(const SDL_JoyButtonEvent& jbutton);
 
+  void bind_next_event_to(Controller::Control id);
+
   void set_joy_controls(Controller::Control id, bool value);
 
   void on_joystick_added(int joystick_index);
   void on_joystick_removed(int instance_id);
+
+  int get_num_joysticks() const { return static_cast<int>(joysticks.size()); }
 
 private:
   JoystickManager(const JoystickManager&) = delete;

@@ -60,7 +60,7 @@ JoystickMenu::recreate_menu()
   }
   else
   {
-    if (m_input_manager.joystick_manager->joysticks.size() > 0)
+    if (m_input_manager.joystick_manager->get_num_joysticks() > 0)
     {
       m_joysticks_available = true;
 
@@ -118,7 +118,7 @@ JoystickMenu::menu_action(MenuItem* item)
   if (0 <= item->id && item->id < Controller::CONTROLCOUNT)
   {
     item->change_input(_("Press Button"));
-    m_input_manager.joystick_manager->wait_for_joystick = item->id;
+    m_input_manager.joystick_manager->bind_next_event_to(static_cast<Controller::Control>(item->id));
   }
   else if (item->id == MNID_JUMP_WITH_UP)
   {

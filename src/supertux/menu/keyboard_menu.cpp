@@ -96,7 +96,7 @@ KeyboardMenu::menu_action(MenuItem* item)
 {
   if(item->id >= 0 && item->id < Controller::CONTROLCOUNT){
     item->change_input(_("Press Key"));
-    m_input_manager.keyboard_manager->wait_for_key = item->id;
+    m_input_manager.keyboard_manager->bind_next_event_to(static_cast<Controller::Control>(item->id));
   } else if( item->id == Controller::CONTROLCOUNT) {
     g_config->keyboard_config.jump_with_up_kbd = item->toggled;
   }

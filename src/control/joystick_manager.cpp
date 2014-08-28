@@ -221,6 +221,12 @@ JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
 }
 
 void
+JoystickManager::bind_next_event_to(Controller::Control id)
+{
+  wait_for_joystick = id;
+}
+
+void
 JoystickManager::set_joy_controls(Controller::Control id, bool value)
 {
   if (m_joystick_config.jump_with_up_joy && 

@@ -203,4 +203,10 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
   m_parent->get_controller()->set_control(control, (event.type == SDL_KEYDOWN));
 }
 
+void
+KeyboardManager::bind_next_event_to(Controller::Control id)
+{
+  wait_for_key = id;
+}
+
 /* EOF */

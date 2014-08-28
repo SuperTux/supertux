@@ -34,8 +34,6 @@ class KeyboardManager final
 private:
   InputManager* m_parent;
   KeyboardConfig& m_keyboard_config;
-
-public:
   int wait_for_key;
 
 public:
@@ -46,6 +44,8 @@ public:
   void process_text_input_event(const SDL_TextInputEvent& event);
   void process_console_key_event(const SDL_KeyboardEvent& event);
   void process_menu_key_event(const SDL_KeyboardEvent& event);
+
+  void bind_next_event_to(Controller::Control id);
 
 private:
   KeyboardManager(const KeyboardManager&) = delete;
