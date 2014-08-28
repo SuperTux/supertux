@@ -18,6 +18,7 @@
 #include "addon/downloader.hpp"
 
 #include <algorithm>
+#include <array>
 #include <assert.h>
 #include <memory>
 #include <physfs.h>
