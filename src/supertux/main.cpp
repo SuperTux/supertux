@@ -306,8 +306,7 @@ Main::launch_game()
 
   timelog("video");
   std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
-  DrawingContext context(video_system->get_renderer(),
-                         video_system->get_lightmap());
+  DrawingContext context(*video_system);
   init_video();
 
   timelog("audio");

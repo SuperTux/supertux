@@ -31,10 +31,9 @@
 #include "video/texture.hpp"
 
 class DrawingRequest;
-class Lightmap;
-class Renderer;
 class Surface;
 class Texture;
+class VideoSystem;
 
 // some constants for predefined layer values
 enum {
@@ -88,7 +87,7 @@ enum Target {
 class DrawingContext
 {
 public:
-  DrawingContext(Renderer& renderer, Lightmap& lightmap);
+  DrawingContext(VideoSystem& video_system);
   ~DrawingContext();
 
   /// Adds a drawing request for a surface into the request list.
@@ -191,8 +190,7 @@ private:
   void clear_drawing_requests(DrawingRequests& requests);
 
 private:
-  Renderer& renderer;
-  Lightmap& lightmap;
+  VideoSystem& video_system;
 
   /// the transform stack
   std::vector<Transform> transformstack;

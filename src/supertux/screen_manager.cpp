@@ -209,8 +209,8 @@ ScreenManager::process_events()
         switch(event.window.event)
         {
           case SDL_WINDOWEVENT_RESIZED:
-            VideoSystem::current()->get_renderer().resize(event.window.data1,
-                                                          event.window.data2);
+            VideoSystem::current()->resize(event.window.data1,
+                                           event.window.data2);
             m_menu_manager->on_window_resize();
             break;
         }
@@ -224,7 +224,7 @@ ScreenManager::process_events()
         else if (event.key.keysym.sym == SDLK_F11)
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
-          VideoSystem::current()->get_renderer().apply_config();
+          VideoSystem::current()->apply_config();
           m_menu_manager->on_window_resize();
         }
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||

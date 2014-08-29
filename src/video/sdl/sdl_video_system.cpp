@@ -63,4 +63,17 @@ SDLVideoSystem::free_surface_data(SurfaceData* surface_data)
   delete surface_data;
 }
 
+void
+SDLVideoSystem::apply_config()
+{
+  m_renderer->apply_config();
+}
+
+void
+SDLVideoSystem::resize(int w, int h)
+{
+  m_renderer->resize(w, h);
+  m_lightmap.reset(new SDLLightmap);
+}
+
 /* EOF */

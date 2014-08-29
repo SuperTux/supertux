@@ -30,16 +30,15 @@ public:
   SDLLightmap();
   ~SDLLightmap();
 
-  void start_draw(const Color &ambient_color);
-  void end_draw();
-  void do_draw();
-
-  void draw_surface(const DrawingRequest& request);
-  void draw_surface_part(const DrawingRequest& request);
-  void draw_gradient(const DrawingRequest& request);
-  void draw_filled_rect(const DrawingRequest& request);
-
-  void get_light(const DrawingRequest& request) const;
+  void start_draw(const Color &ambient_color) override;
+  void end_draw() override;
+  void do_draw() override;
+  void draw_surface(const DrawingRequest& request) override;
+  void draw_surface_part(const DrawingRequest& request) override;
+  void draw_gradient(const DrawingRequest& request) override;
+  void draw_filled_rect(const DrawingRequest& request) override;
+  void draw_inverse_ellipse(const DrawingRequest& request) override;
+  void get_light(const DrawingRequest& request) const override;
 
 private:
   SDL_Renderer* m_renderer;

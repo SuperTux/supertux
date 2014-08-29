@@ -112,6 +112,12 @@ SDLLightmap::draw_filled_rect(const DrawingRequest& request)
 }
 
 void
+SDLLightmap::draw_inverse_ellipse(const DrawingRequest& request)
+{
+  SDLPainter::draw_inverse_ellipse(m_renderer, request);
+}
+
+void
 SDLLightmap::get_light(const DrawingRequest& request) const
 {
   const GetLightRequest* getlightrequest

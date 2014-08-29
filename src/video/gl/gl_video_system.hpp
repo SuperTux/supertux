@@ -40,6 +40,9 @@ public:
   SurfaceData* new_surface_data(const Surface& surface) override;
   void free_surface_data(SurfaceData* surface_data) override;
 
+  void apply_config() override;
+  void resize(int w, int h) override;
+
 private:
   GLVideoSystem(const GLVideoSystem&) = delete;
   GLVideoSystem& operator=(const GLVideoSystem&) = delete;

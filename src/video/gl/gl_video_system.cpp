@@ -59,4 +59,17 @@ GLVideoSystem::free_surface_data(SurfaceData* surface_data)
   delete surface_data;
 }
 
+void
+GLVideoSystem::apply_config()
+{
+  m_renderer->apply_config();
+}
+
+void
+GLVideoSystem::resize(int w, int h)
+{
+  m_renderer->resize(w, h);
+  m_lightmap.reset(new GLLightmap);
+}
+
 /* EOF */

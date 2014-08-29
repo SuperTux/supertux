@@ -31,9 +31,8 @@
 #include "video/texture_manager.hpp"
 #include "video/video_system.hpp"
 
-DrawingContext::DrawingContext(Renderer& renderer_, Lightmap& lightmap_) :
-  renderer(renderer_),
-  lightmap(lightmap_),
+DrawingContext::DrawingContext(VideoSystem& video_system_) :
+  video_system(video_system_),
   transformstack(),
   transform(),
   blend_stack(),
@@ -318,6 +317,8 @@ DrawingContext::do_drawing()
 
   // PART1: create lightmap
   if(use_lightmap) {
+    Lightmap& lightmap = video_system.get_lightmap();
+
     lightmap.start_draw(ambient_color);
     handle_drawing_requests(lightmap_requests);
     lightmap.end_draw();
@@ -328,6 +329,8 @@ DrawingContext::do_drawing()
     request->layer = LAYER_HUD - 1;
     drawing_requests.push_back(request);
   }
+
+  Renderer& renderer = video_system.get_renderer();
   renderer.start_draw();
   handle_drawing_requests(drawing_requests);
   renderer.end_draw();
@@ -360,6 +363,9 @@ void
 DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
 {
   std::stable_sort(requests_.begin(), requests_.end(), RequestPtrCompare());
+
+  Renderer& renderer = video_system.get_renderer();
+  Lightmap& lightmap = video_system.get_lightmap();
 
   DrawingRequests::const_iterator i;
   for(i = requests_.begin(); i != requests_.end(); ++i) {

@@ -53,6 +53,9 @@ public:
   virtual SurfaceData* new_surface_data(const Surface &surface) = 0;
   virtual void free_surface_data(SurfaceData* surface_data) = 0;
 
+  virtual void apply_config() = 0;
+  virtual void resize(int w, int h) = 0;
+
 private:
   VideoSystem(const VideoSystem&) = delete;
   VideoSystem& operator=(const VideoSystem&) = delete;

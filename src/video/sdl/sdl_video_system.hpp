@@ -40,6 +40,9 @@ public:
   SurfaceData* new_surface_data(const Surface& surface) override;
   void free_surface_data(SurfaceData* surface_data) override;
 
+  void apply_config() override;
+  void resize(int w, int h) override;
+
 private:
   SDLVideoSystem(const SDLVideoSystem&) = delete;
   SDLVideoSystem& operator=(const SDLVideoSystem&) = delete;
