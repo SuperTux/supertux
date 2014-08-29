@@ -29,7 +29,7 @@ SDLLightmap::SDLLightmap() :
   m_height(),
   m_LIGHTMAP_DIV()
 {
-  m_LIGHTMAP_DIV = 8;
+  m_LIGHTMAP_DIV = 5;
 
   m_width = SCREEN_WIDTH;
   m_height = SCREEN_HEIGHT;
@@ -118,8 +118,8 @@ SDLLightmap::get_light(const DrawingRequest& request) const
     = static_cast<GetLightRequest*>(request.request_data);
 
   SDL_Rect rect;
-  rect.x = static_cast<int>(request.pos.x * m_width / SCREEN_WIDTH);
-  rect.y = static_cast<int>(request.pos.y * m_height / SCREEN_HEIGHT);
+  rect.x = static_cast<int>(request.pos.x / m_LIGHTMAP_DIV);
+  rect.y = static_cast<int>((m_height - request.pos.y) / m_LIGHTMAP_DIV);
   rect.w = 1;
   rect.h = 1;
 
