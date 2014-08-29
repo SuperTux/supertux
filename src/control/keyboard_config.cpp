@@ -54,7 +54,6 @@ KeyboardConfig::read(const lisp::Lisp& keymap_lisp)
   keymap_lisp.get("sdl2", config_is_sdl2);
   if (config_is_sdl2)
   {
-    keymap.clear();
     keymap_lisp.get("jump-with-up", jump_with_up_kbd);
     lisp::ListIterator iter(&keymap_lisp);
     while(iter.next())
