@@ -177,8 +177,8 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       use_fullscreen = false;
 
-      window_size = Size(800, 600);
-      fullscreen_size = Size(800, 600);
+      window_size = Size(1280, 800);
+      fullscreen_size = Size(1280, 800);
       fullscreen_refresh_rate = 0;
       aspect_size = Size(0, 0);  // auto detect
     }

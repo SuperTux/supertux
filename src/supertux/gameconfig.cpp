@@ -31,7 +31,7 @@ Config::Config() :
   profile(1),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
-  window_size(800, 600),
+  window_size(1280, 800),
   aspect_size(0, 0), // auto detect
   magnification(0.0f),
   use_fullscreen(false),
