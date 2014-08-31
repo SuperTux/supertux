@@ -24,7 +24,6 @@
 
 namespace {
 const float BULLET_XM = 600;
-const float BULLET_STARTING_YM = 0;
 }
 
 Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type_) :

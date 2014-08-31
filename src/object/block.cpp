@@ -29,7 +29,6 @@
 
 static const float BOUNCY_BRICK_MAX_OFFSET = 8;
 static const float BOUNCY_BRICK_SPEED = 90;
-static const float EPSILON = .0001f;
 static const float BUMP_ROTATION_ANGLE = 10;
 
 Block::Block(SpritePtr newsprite) :

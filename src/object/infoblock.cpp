@@ -25,13 +25,6 @@
 #include "video/drawing_context.hpp"
 #include "sprite/sprite.hpp"
 
-namespace {
-const float SCROLL_DELAY = 0.5;
-const float SCROLL_DISTANCE = 16;
-const float WIDTH = 400;
-const float HEIGHT = 200;
-}
-
 InfoBlock::InfoBlock(const Reader& lisp) :
   Block(SpriteManager::current()->create("images/objects/bonus_block/infoblock.sprite")),
   message(),

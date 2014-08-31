@@ -17,6 +17,8 @@
 
 #include "supertux/savegame.hpp"
 
+#include <algorithm>
+
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/writer.hpp"

@@ -26,7 +26,7 @@ using namespace gl;
 #include "SDL_opengl.h"
 #endif
 
-class DrawingRequest;
+struct DrawingRequest;
 
 class GLPainter
 {

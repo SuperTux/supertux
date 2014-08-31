@@ -82,8 +82,8 @@ public:
     m_id(id),
     m_url(url),
     m_handle(),
-    m_error_buffer({'\0'}),
-    m_status(new TransferStatus(downloader, id)),
+    m_error_buffer({{'\0'}}),
+    m_status(new TransferStatus(m_downloader, id)),
     m_fout(PHYSFS_openWrite(outfile.c_str()), PHYSFS_close)
   {
     if (!m_fout)

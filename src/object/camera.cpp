@@ -230,7 +230,6 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
 }
 
 static const float CAMERA_EPSILON = .00001f;
-static const float MAX_SPEED_Y = 140;
 
 void
 Camera::update(float elapsed_time)

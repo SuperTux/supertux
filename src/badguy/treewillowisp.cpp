@@ -26,7 +26,6 @@
 #include <math.h>
 
 static const std::string TREEWILLOSOUND = "sounds/willowisp.wav";
-static const float       SUCKSPEED = 25;
 
 TreeWillOWisp::TreeWillOWisp(GhostTree* tree_, const Vector& pos,
                              float radius_, float speed_) :

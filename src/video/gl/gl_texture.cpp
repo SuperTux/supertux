@@ -23,10 +23,12 @@
 
 namespace {
 
+#ifdef GL_VERSION_ES_CM_1_0
 inline bool is_power_of_2(int v)
 {
   return (v & (v-1)) == 0;
 }
+#endif
 
 inline int next_power_of_two(int val)
 {

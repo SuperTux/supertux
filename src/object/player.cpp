@@ -40,7 +40,6 @@
 //#define SWIMMING
 
 namespace {
-static const int TILES_FOR_BUTTJUMP = 3;
 static const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
 static const float SHOOTING_TIME = .150f;
 
@@ -88,8 +87,6 @@ static const float ICE_ACCELERATION_MULTIPLIER = 0.25f;
 
 /** time of the kick (kicking mriceblock) animation */
 static const float KICK_TIME = .3f;
-/** time of tux cheering (currently unused) */
-static const float CHEER_TIME = 1.0f;
 
 /** if Tux cannot unduck for this long, he will get hurt */
 static const float UNDUCK_HURT_TIME = 0.25f;

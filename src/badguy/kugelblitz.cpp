@@ -40,7 +40,6 @@ Kugelblitz::Kugelblitz(const Reader& reader) :
   movement_timer(),
   lifetime(),
   direction(),
-  state(),
   light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {

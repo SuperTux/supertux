@@ -30,7 +30,7 @@
 #include "video/font_ptr.hpp"
 #include "video/texture.hpp"
 
-class DrawingRequest;
+struct DrawingRequest;
 class Surface;
 class Texture;
 class VideoSystem;
