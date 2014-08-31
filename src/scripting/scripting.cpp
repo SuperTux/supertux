@@ -39,12 +39,15 @@ HSQREMOTEDBG debugger = NULL;
 
 namespace {
 
-void printfunc(HSQUIRRELVM, const char* str, ...)
+#ifdef __clang__
+__attribute__((__format__ (__printf__, 2, 0)))
+#endif
+void printfunc(HSQUIRRELVM, const char* fmt, ...)
 {
   char buf[4096];
   va_list arglist;
-  va_start(arglist, str);
-  vsnprintf(buf, sizeof(buf), str, arglist);
+  va_start(arglist, fmt);
+  vsnprintf(buf, sizeof(buf), fmt, arglist);
   ConsoleBuffer::output << (const char*) buf << std::flush;
   va_end(arglist);
 }
