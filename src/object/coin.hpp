@@ -37,8 +37,8 @@ public:
   virtual void update(float elapsed_time);
 
 private:
-  boost::shared_ptr<Path> path;
-  boost::shared_ptr<PathWalker> walker;
+  std::shared_ptr<Path> path;
+  std::shared_ptr<PathWalker> walker;
   Vector offset;
   bool from_tilemap;
   Physic physic;

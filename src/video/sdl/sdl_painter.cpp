@@ -59,7 +59,7 @@ void
 SDLPainter::draw_surface(SDL_Renderer* renderer, const DrawingRequest& request)
 {
   const Surface* surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;
-  boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
+  std::shared_ptr<SDLTexture> sdltexture = std::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
 
   SDL_Rect dst_rect;
   dst_rect.x = request.pos.x;
@@ -96,7 +96,7 @@ SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& requ
   const SurfacePartRequest* surface = (const SurfacePartRequest*) request.request_data;
   const SurfacePartRequest* surfacepartrequest = (SurfacePartRequest*) request.request_data;
 
-  boost::shared_ptr<SDLTexture> sdltexture = boost::dynamic_pointer_cast<SDLTexture>(surface->surface->get_texture());
+  std::shared_ptr<SDLTexture> sdltexture = std::dynamic_pointer_cast<SDLTexture>(surface->surface->get_texture());
 
   SDL_Rect src_rect;
   src_rect.x = surfacepartrequest->srcrect.p1.x;

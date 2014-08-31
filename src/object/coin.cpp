@@ -38,8 +38,8 @@ Coin::Coin(const Vector& pos)
 
 Coin::Coin(const Vector& pos, TileMap* tilemap)
   : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
-    path(boost::shared_ptr<Path>(tilemap->get_path())),
-    walker(boost::shared_ptr<PathWalker>(tilemap->get_walker())),
+    path(std::shared_ptr<Path>(tilemap->get_path())),
+    walker(std::shared_ptr<PathWalker>(tilemap->get_walker())),
     offset(),
     from_tilemap(true),
     physic()

@@ -42,7 +42,7 @@ public:
 private:
   static const int s_LIGHTMAP_DIV = 5;
 
-  boost::shared_ptr<GLTexture> m_lightmap;
+  std::shared_ptr<GLTexture> m_lightmap;
   int m_lightmap_width;
   int m_lightmap_height;
   float m_lightmap_uv_right;

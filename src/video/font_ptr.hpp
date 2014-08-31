@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_VIDEO_FONT_PTR_HPP
 #define HEADER_SUPERTUX_VIDEO_FONT_PTR_HPP
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 class Font;
-typedef boost::shared_ptr<Font> FontPtr;
+typedef std::shared_ptr<Font> FontPtr;
 
 #endif
 

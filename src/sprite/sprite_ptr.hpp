@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_SPRITE_SPRITE_PTR_HPP
 #define HEADER_SUPERTUX_SPRITE_SPRITE_PTR_HPP
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 class Sprite;
 
-typedef boost::shared_ptr<Sprite> SpritePtr;
+typedef std::shared_ptr<Sprite> SpritePtr;
 
 #endif
 

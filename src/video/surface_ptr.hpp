@@ -17,10 +17,10 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SURFACE_PTR_HPP
 #define HEADER_SUPERTUX_VIDEO_SURFACE_PTR_HPP
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 class Surface;
-typedef boost::shared_ptr<Surface> SurfacePtr;
+typedef std::shared_ptr<Surface> SurfacePtr;
 
 #endif
 

@@ -144,7 +144,7 @@ GLPainter::draw_surface_part(const DrawingRequest& request)
   const SurfacePartRequest* surfacepartrequest
     = (SurfacePartRequest*) request.request_data;
   const Surface* surface = surfacepartrequest->surface;
-  boost::shared_ptr<GLTexture> gltexture = boost::dynamic_pointer_cast<GLTexture>(surface->get_texture());
+  std::shared_ptr<GLTexture> gltexture = std::dynamic_pointer_cast<GLTexture>(surface->get_texture());
   GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
 
   float uv_width = surface_data->get_uv_right() - surface_data->get_uv_left();

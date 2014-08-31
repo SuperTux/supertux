@@ -22,10 +22,10 @@
 #include <config.h>
 
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <vector>
-#include <boost/weak_ptr.hpp>
 
 #include "util/currenton.hpp"
 #include "video/glutil.hpp"
@@ -55,7 +55,7 @@ public:
 private:
   friend class Texture;
 
-  typedef std::map<std::string, boost::weak_ptr<Texture> > ImageTextures;
+  typedef std::map<std::string, std::weak_ptr<Texture> > ImageTextures;
   ImageTextures m_image_textures;
 
   typedef std::map<std::string, SDL_Surface*> Surfaces;
