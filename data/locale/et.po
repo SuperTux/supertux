@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-19 13:06+0000\n"
-"PO-Revision-Date: 2014-08-19 13:03+0000\n"
+"POT-Creation-Date: 2014-08-31 07:40+0000\n"
+"PO-Revision-Date: 2014-08-31 07:46+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Estonian (http://www.transifex.com/projects/p/supertux/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -161,76 +161,79 @@ msgstr ""
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr ""
 
-#: src/supertux/levelintro.cpp:94
+#: src/supertux/levelintro.cpp:95
 #, c-format
 msgid "contributed by %s"
 msgstr "loodud %s poolt"
 
-#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:117
+#: src/supertux/levelintro.cpp:110 src/supertux/statistics.cpp:117
 msgid "Best Level Statistics"
 msgstr "Tasandi parim tulemus"
 
-#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:205
+#: src/supertux/levelintro.cpp:116 src/supertux/statistics.cpp:205
 msgid "Coins"
 msgstr "Münte"
 
-#: src/supertux/levelintro.cpp:122
+#: src/supertux/levelintro.cpp:123
 msgid "Badguys killed"
 msgstr "Kolle tapetud"
 
-#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:221
+#: src/supertux/levelintro.cpp:130 src/supertux/statistics.cpp:221
 msgid "Secrets"
 msgstr "Salakohti"
 
-#: src/supertux/levelintro.cpp:136
+#: src/supertux/levelintro.cpp:137
 msgid "Best time"
 msgstr "Kiireim aeg"
 
-#: src/supertux/levelintro.cpp:143
+#: src/supertux/levelintro.cpp:144
 msgid "Level target time"
 msgstr "Arvestatava aja limiit"
 
-#: src/supertux/menu/addon_menu.cpp:57 src/supertux/menu/main_menu.cpp:42
-msgid "Add-ons"
-msgstr "Lisad"
-
-#: src/supertux/menu/addon_menu.cpp:62
-msgid "Check Online"
-msgstr "Lae Internetist"
-
-#: src/supertux/menu/addon_menu.cpp:64
-msgid "Check Online (disabled)"
-msgstr "Lae Internetist (mitteaktiivne)"
-
-#: src/supertux/menu/addon_menu.cpp:78
+#: src/supertux/menu/addon_menu.cpp:47
 msgid "Levelset"
 msgstr "Tasandite komplekt"
 
-#: src/supertux/menu/addon_menu.cpp:81
+#: src/supertux/menu/addon_menu.cpp:50
 msgid "Worldmap"
 msgstr "Maailmakaart"
 
-#: src/supertux/menu/addon_menu.cpp:84
+#: src/supertux/menu/addon_menu.cpp:53
 msgid "World"
 msgstr "Maailm"
 
-#: src/supertux/menu/addon_menu.cpp:87
-msgid "Level"
-msgstr "Tasand"
+#: src/supertux/menu/addon_menu.cpp:56
+msgid "Unknown"
+msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:92
+#: src/supertux/menu/addon_menu.cpp:67
 #, c-format
 msgid "%s \"%s\" by \"%s\""
 msgstr "%s \"%s\", loodud \"%s\" poolt"
 
-#: src/supertux/menu/addon_menu.cpp:106
-#, c-format
-msgid "\"%s\" by \"%s\""
-msgstr "\"%s\", loodud \"%s\" poolt"
+#: src/supertux/menu/addon_menu.cpp:103 src/supertux/menu/main_menu.cpp:43
+msgid "Add-ons"
+msgstr "Lisad"
 
-#: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/addon_menu.cpp:109
+msgid "No Addons installed"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:163
+msgid "No new Addons found"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:169
+msgid "Check Online (disabled)"
+msgstr "Lae Internetist (mitteaktiivne)"
+
+#: src/supertux/menu/addon_menu.cpp:173
+msgid "Check Online"
+msgstr "Lae Internetist"
+
+#: src/supertux/menu/addon_menu.cpp:177 src/supertux/menu/cheat_menu.cpp:39
 #: src/supertux/menu/contrib_levelset_menu.cpp:68
-#: src/supertux/menu/contrib_menu.cpp:130
+#: src/supertux/menu/contrib_menu.cpp:135
 #: src/supertux/menu/joystick_menu.cpp:96
 #: src/supertux/menu/keyboard_menu.cpp:48
 #: src/supertux/menu/language_menu.cpp:49
@@ -277,15 +280,31 @@ msgstr ""
 msgid "Finish Level"
 msgstr ""
 
-#: src/supertux/menu/contrib_menu.cpp:46 src/supertux/menu/main_menu.cpp:41
+#: src/supertux/menu/contrib_menu.cpp:51 src/supertux/menu/main_menu.cpp:42
 msgid "Contrib Levels"
 msgstr "Kaasloodud tasandid"
+
+#: src/supertux/menu/download_dialog.cpp:28
+msgid "Abort Download"
+msgstr ""
+
+#: src/supertux/menu/download_dialog.cpp:44
+msgid "Error:\n"
+msgstr ""
+
+#: src/supertux/menu/download_dialog.cpp:45
+msgid "Ok"
+msgstr ""
+
+#: src/supertux/menu/download_dialog.cpp:94
+msgid "Close"
+msgstr ""
 
 #: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Continue"
 msgstr "Jätka"
 
-#: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:43
+#: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:44
 #: src/supertux/menu/options_menu.cpp:47
 #: src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
@@ -468,17 +487,29 @@ msgstr "Keel"
 msgid "<auto-detect>"
 msgstr "<automaattuvastus>"
 
-#: src/supertux/menu/main_menu.cpp:40
+#: src/supertux/menu/main_menu.cpp:41
 msgid "Start Game"
 msgstr "Alusta mängu"
 
-#: src/supertux/menu/main_menu.cpp:44
+#: src/supertux/menu/main_menu.cpp:45
 msgid "Credits"
 msgstr "Tänuavaldused"
 
-#: src/supertux/menu/main_menu.cpp:45
+#: src/supertux/menu/main_menu.cpp:46
 msgid "Quit"
 msgstr "Välju"
+
+#: src/supertux/menu/main_menu.cpp:85
+msgid "Do you really want to quit SuperTux?"
+msgstr ""
+
+#: src/supertux/menu/main_menu.cpp:86
+msgid "Cancel"
+msgstr ""
+
+#: src/supertux/menu/main_menu.cpp:87
+msgid "Quit SuperTux"
+msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:54
 msgid "Select Language"

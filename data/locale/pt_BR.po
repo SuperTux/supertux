@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-19 13:06+0000\n"
-"PO-Revision-Date: 2014-08-20 18:32+0000\n"
-"Last-Translator: Jonatas L. Nogueira <cpntb1@ymail.com>\n"
+"POT-Creation-Date: 2014-08-31 07:40+0000\n"
+"PO-Revision-Date: 2014-08-31 07:46+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,16 +45,16 @@ msgstr "-v, --version Mostra a versão do SuperTux e sai"
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --verbose                    Print verbose messages"
-msgstr ""
+msgstr "--verbose Imprime mensagens detalhadas"
 
 #: src/supertux/command_line_arguments.cpp:79
 msgid "  --debug                      Print extra verbose messages"
-msgstr ""
+msgstr "--debug Imprime mensagens super detalhadas"
 
 #: src/supertux/command_line_arguments.cpp:80
 msgid ""
 "  --print-datadir              Print supertux's primary data directory."
-msgstr ""
+msgstr "--print-datadir Imprime o diretório de dados principal do supertux."
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
@@ -126,15 +126,15 @@ msgstr "-s, --debug-scripts Habilita o depurador de scripts."
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "Demo Recording Options:"
-msgstr ""
+msgstr "Opções de Gravação Demo:"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr ""
+msgstr "--record-demo ARQUIVO NIVEL Grava um demo para ARQUIVO"
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr ""
+msgstr "--play-demo ARQUIVO NIVEL Roda um demo gravado"
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid "Directory Options:"
@@ -153,87 +153,90 @@ msgstr "--userdir DIR Define o diretório de dados do usuário (jogos salvos, et
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid "Environment variables:"
-msgstr ""
+msgstr "Variáveis de Ambiente:"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr ""
+msgstr "SUPERTUX2_USER_DIR Diretório para informação do usuário (jogos salvos, etc.)"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr ""
+msgstr "SUPERTUX2_DATA_DIR Diretório para os arquivos do jogo"
 
-#: src/supertux/levelintro.cpp:94
+#: src/supertux/levelintro.cpp:95
 #, c-format
 msgid "contributed by %s"
 msgstr "contribuído por %s"
 
-#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:117
+#: src/supertux/levelintro.cpp:110 src/supertux/statistics.cpp:117
 msgid "Best Level Statistics"
 msgstr "Melhores Estatísticas dessa Fase"
 
-#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:205
+#: src/supertux/levelintro.cpp:116 src/supertux/statistics.cpp:205
 msgid "Coins"
 msgstr "Moedas"
 
-#: src/supertux/levelintro.cpp:122
+#: src/supertux/levelintro.cpp:123
 msgid "Badguys killed"
 msgstr "Inimigos Vencidos"
 
-#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:221
+#: src/supertux/levelintro.cpp:130 src/supertux/statistics.cpp:221
 msgid "Secrets"
 msgstr "Segredos"
 
-#: src/supertux/levelintro.cpp:136
+#: src/supertux/levelintro.cpp:137
 msgid "Best time"
 msgstr "Melhor tempo"
 
-#: src/supertux/levelintro.cpp:143
+#: src/supertux/levelintro.cpp:144
 msgid "Level target time"
 msgstr "Objetivo de tempo da fase"
 
-#: src/supertux/menu/addon_menu.cpp:57 src/supertux/menu/main_menu.cpp:42
-msgid "Add-ons"
-msgstr "Extensões"
-
-#: src/supertux/menu/addon_menu.cpp:62
-msgid "Check Online"
-msgstr "Verificar Online"
-
-#: src/supertux/menu/addon_menu.cpp:64
-msgid "Check Online (disabled)"
-msgstr "Verificar Online (desabilitado)"
-
-#: src/supertux/menu/addon_menu.cpp:78
+#: src/supertux/menu/addon_menu.cpp:47
 msgid "Levelset"
 msgstr "Conjunto de fases"
 
-#: src/supertux/menu/addon_menu.cpp:81
+#: src/supertux/menu/addon_menu.cpp:50
 msgid "Worldmap"
 msgstr "Mapa mundi"
 
-#: src/supertux/menu/addon_menu.cpp:84
+#: src/supertux/menu/addon_menu.cpp:53
 msgid "World"
 msgstr "Mundo"
 
-#: src/supertux/menu/addon_menu.cpp:87
-msgid "Level"
-msgstr "Fase"
+#: src/supertux/menu/addon_menu.cpp:56
+msgid "Unknown"
+msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:92
+#: src/supertux/menu/addon_menu.cpp:67
 #, c-format
 msgid "%s \"%s\" by \"%s\""
 msgstr "%s \"%s\" por \"%s\""
 
-#: src/supertux/menu/addon_menu.cpp:106
-#, c-format
-msgid "\"%s\" by \"%s\""
-msgstr "\"%s\" por \"%s\""
+#: src/supertux/menu/addon_menu.cpp:103 src/supertux/menu/main_menu.cpp:43
+msgid "Add-ons"
+msgstr "Extensões"
 
-#: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/addon_menu.cpp:109
+msgid "No Addons installed"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:163
+msgid "No new Addons found"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:169
+msgid "Check Online (disabled)"
+msgstr "Verificar Online (desabilitado)"
+
+#: src/supertux/menu/addon_menu.cpp:173
+msgid "Check Online"
+msgstr "Verificar Online"
+
+#: src/supertux/menu/addon_menu.cpp:177 src/supertux/menu/cheat_menu.cpp:39
 #: src/supertux/menu/contrib_levelset_menu.cpp:68
-#: src/supertux/menu/contrib_menu.cpp:130
+#: src/supertux/menu/contrib_menu.cpp:135
 #: src/supertux/menu/joystick_menu.cpp:96
 #: src/supertux/menu/keyboard_menu.cpp:48
 #: src/supertux/menu/language_menu.cpp:49
@@ -280,15 +283,31 @@ msgstr "Matar Tux"
 msgid "Finish Level"
 msgstr "Terminar Nível"
 
-#: src/supertux/menu/contrib_menu.cpp:46 src/supertux/menu/main_menu.cpp:41
+#: src/supertux/menu/contrib_menu.cpp:51 src/supertux/menu/main_menu.cpp:42
 msgid "Contrib Levels"
 msgstr "Fases Extras"
+
+#: src/supertux/menu/download_dialog.cpp:28
+msgid "Abort Download"
+msgstr ""
+
+#: src/supertux/menu/download_dialog.cpp:44
+msgid "Error:\n"
+msgstr ""
+
+#: src/supertux/menu/download_dialog.cpp:45
+msgid "Ok"
+msgstr ""
+
+#: src/supertux/menu/download_dialog.cpp:94
+msgid "Close"
+msgstr ""
 
 #: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:43
+#: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:44
 #: src/supertux/menu/options_menu.cpp:47
 #: src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
@@ -471,17 +490,29 @@ msgstr "Idioma"
 msgid "<auto-detect>"
 msgstr "<detetar automaticamente>"
 
-#: src/supertux/menu/main_menu.cpp:40
+#: src/supertux/menu/main_menu.cpp:41
 msgid "Start Game"
 msgstr "Começar Jogo"
 
-#: src/supertux/menu/main_menu.cpp:44
+#: src/supertux/menu/main_menu.cpp:45
 msgid "Credits"
 msgstr "Créditos"
 
-#: src/supertux/menu/main_menu.cpp:45
+#: src/supertux/menu/main_menu.cpp:46
 msgid "Quit"
 msgstr "Sair"
+
+#: src/supertux/menu/main_menu.cpp:85
+msgid "Do you really want to quit SuperTux?"
+msgstr ""
+
+#: src/supertux/menu/main_menu.cpp:86
+msgid "Cancel"
+msgstr ""
+
+#: src/supertux/menu/main_menu.cpp:87
+msgid "Quit SuperTux"
+msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:54
 msgid "Select Language"

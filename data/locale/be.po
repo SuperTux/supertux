@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-19 13:06+0000\n"
-"PO-Revision-Date: 2014-08-20 08:03+0000\n"
-"Last-Translator: Mihail Varantsou <meequz@gmail.com>\n"
+"POT-Creation-Date: 2014-08-31 07:40+0000\n"
+"PO-Revision-Date: 2014-08-31 07:46+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Belarusian (http://www.transifex.com/projects/p/supertux/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +50,7 @@ msgstr "  --debug                      Выводзіць занадта пад�
 #: src/supertux/command_line_arguments.cpp:80
 msgid ""
 "  --print-datadir              Print supertux's primary data directory."
-msgstr "--print-datadir              Паказаць галоўны каталог звестак supertux"
+msgstr "  --print-datadir              Паказаць галоўны каталог звестак supertux"
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
@@ -62,7 +62,7 @@ msgstr " -f, --fullscreen             Запусціць на ўвесь экр�
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  -w, --window                 Run in window mode"
-msgstr "-w, --window                 У вакне"
+msgstr "  -w, --window                 У вакне"
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
@@ -70,7 +70,7 @@ msgstr " -g, --geometry WIDTHxHEIGHT  Сваё разрозненне"
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr "-a, --aspect WIDTH:HEIGHT    Свой стасунак бакоў"
+msgstr "  -a, --aspect WIDTH:HEIGHT    Свой стасунак бакоў"
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "  -d, --default                Reset video settings to default values"
@@ -90,7 +90,7 @@ msgstr "  --disable-sound              Адключыць гукавыя эфе�
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  --disable-music              Disable music"
-msgstr "--disable-music              Адключыць музыку"
+msgstr "  --disable-music              Адключыць музыку"
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "Game Options:"
@@ -130,7 +130,7 @@ msgstr " --record-demo FILE LEVEL     Зрабіць запіс гульні ў 
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr "--play-demo FILE LEVEL       Прайграць запіс гульні"
+msgstr "  --play-demo FILE LEVEL       Прайграць запіс гульні"
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid "Directory Options:"
@@ -154,82 +154,85 @@ msgstr "Зменныя асяроддзя:"
 #: src/supertux/command_line_arguments.cpp:105
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr "SUPERTUX2_USER_DIR           Каталог для звестак карыстальніка (захаванні і г.д..)"
+msgstr "  SUPERTUX2_USER_DIR           Каталог для звестак карыстальніка (захаванні і г.д..)"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "  SUPERTUX2_DATA_DIR            Каталог для захавання гульнявых звестак"
 
-#: src/supertux/levelintro.cpp:94
+#: src/supertux/levelintro.cpp:95
 #, c-format
 msgid "contributed by %s"
 msgstr "зрабілі ўнёсак: %s"
 
-#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:117
+#: src/supertux/levelintro.cpp:110 src/supertux/statistics.cpp:117
 msgid "Best Level Statistics"
 msgstr "Дасягненні ўзроўню"
 
-#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:205
+#: src/supertux/levelintro.cpp:116 src/supertux/statistics.cpp:205
 msgid "Coins"
 msgstr "Манеты"
 
-#: src/supertux/levelintro.cpp:122
+#: src/supertux/levelintro.cpp:123
 msgid "Badguys killed"
 msgstr "Забіта нягоднікаў"
 
-#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:221
+#: src/supertux/levelintro.cpp:130 src/supertux/statistics.cpp:221
 msgid "Secrets"
 msgstr "Схованкі"
 
-#: src/supertux/levelintro.cpp:136
+#: src/supertux/levelintro.cpp:137
 msgid "Best time"
 msgstr "Найлепшы час"
 
-#: src/supertux/levelintro.cpp:143
+#: src/supertux/levelintro.cpp:144
 msgid "Level target time"
 msgstr "Патрэбны час узроўню"
 
-#: src/supertux/menu/addon_menu.cpp:57 src/supertux/menu/main_menu.cpp:42
-msgid "Add-ons"
-msgstr "Дадаткі"
-
-#: src/supertux/menu/addon_menu.cpp:62
-msgid "Check Online"
-msgstr "Паглядзець у інтэрнеце"
-
-#: src/supertux/menu/addon_menu.cpp:64
-msgid "Check Online (disabled)"
-msgstr "Паглядзець у інтэрнеце (адключана)"
-
-#: src/supertux/menu/addon_menu.cpp:78
+#: src/supertux/menu/addon_menu.cpp:47
 msgid "Levelset"
 msgstr "Узроўні"
 
-#: src/supertux/menu/addon_menu.cpp:81
+#: src/supertux/menu/addon_menu.cpp:50
 msgid "Worldmap"
 msgstr "Мапа свету"
 
-#: src/supertux/menu/addon_menu.cpp:84
+#: src/supertux/menu/addon_menu.cpp:53
 msgid "World"
 msgstr "Свет"
 
-#: src/supertux/menu/addon_menu.cpp:87
-msgid "Level"
-msgstr "Узровень"
+#: src/supertux/menu/addon_menu.cpp:56
+msgid "Unknown"
+msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:92
+#: src/supertux/menu/addon_menu.cpp:67
 #, c-format
 msgid "%s \"%s\" by \"%s\""
 msgstr "%s \"%s\" ад \"%s\""
 
-#: src/supertux/menu/addon_menu.cpp:106
-#, c-format
-msgid "\"%s\" by \"%s\""
-msgstr "\"%s\" ад \"%s\""
+#: src/supertux/menu/addon_menu.cpp:103 src/supertux/menu/main_menu.cpp:43
+msgid "Add-ons"
+msgstr "Дадаткі"
 
-#: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/addon_menu.cpp:109
+msgid "No Addons installed"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:163
+msgid "No new Addons found"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:169
+msgid "Check Online (disabled)"
+msgstr "Паглядзець у інтэрнеце (адключана)"
+
+#: src/supertux/menu/addon_menu.cpp:173
+msgid "Check Online"
+msgstr "Паглядзець у інтэрнеце"
+
+#: src/supertux/menu/addon_menu.cpp:177 src/supertux/menu/cheat_menu.cpp:39
 #: src/supertux/menu/contrib_levelset_menu.cpp:68
-#: src/supertux/menu/contrib_menu.cpp:130
+#: src/supertux/menu/contrib_menu.cpp:135
 #: src/supertux/menu/joystick_menu.cpp:96
 #: src/supertux/menu/keyboard_menu.cpp:48
 #: src/supertux/menu/language_menu.cpp:49
@@ -276,15 +279,31 @@ msgstr "Забіць Тукса"
 msgid "Finish Level"
 msgstr "Скончыць узровень"
 
-#: src/supertux/menu/contrib_menu.cpp:46 src/supertux/menu/main_menu.cpp:41
+#: src/supertux/menu/contrib_menu.cpp:51 src/supertux/menu/main_menu.cpp:42
 msgid "Contrib Levels"
 msgstr "Дадатковыя ўзроўні"
+
+#: src/supertux/menu/download_dialog.cpp:28
+msgid "Abort Download"
+msgstr ""
+
+#: src/supertux/menu/download_dialog.cpp:44
+msgid "Error:\n"
+msgstr ""
+
+#: src/supertux/menu/download_dialog.cpp:45
+msgid "Ok"
+msgstr ""
+
+#: src/supertux/menu/download_dialog.cpp:94
+msgid "Close"
+msgstr ""
 
 #: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Continue"
 msgstr "Працягваць"
 
-#: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:43
+#: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:44
 #: src/supertux/menu/options_menu.cpp:47
 #: src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
@@ -467,17 +486,29 @@ msgstr "Мова"
 msgid "<auto-detect>"
 msgstr "<аўтавызначэнне>"
 
-#: src/supertux/menu/main_menu.cpp:40
+#: src/supertux/menu/main_menu.cpp:41
 msgid "Start Game"
 msgstr "Гуляць"
 
-#: src/supertux/menu/main_menu.cpp:44
+#: src/supertux/menu/main_menu.cpp:45
 msgid "Credits"
 msgstr "Тытры"
 
-#: src/supertux/menu/main_menu.cpp:45
+#: src/supertux/menu/main_menu.cpp:46
 msgid "Quit"
 msgstr "Выйсці"
+
+#: src/supertux/menu/main_menu.cpp:85
+msgid "Do you really want to quit SuperTux?"
+msgstr ""
+
+#: src/supertux/menu/main_menu.cpp:86
+msgid "Cancel"
+msgstr ""
+
+#: src/supertux/menu/main_menu.cpp:87
+msgid "Quit SuperTux"
+msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:54
 msgid "Select Language"
@@ -485,7 +516,7 @@ msgstr "Мова"
 
 #: src/supertux/menu/options_menu.cpp:55
 msgid "Select a different language to display text in"
-msgstr "Пазначыць іншую мову для тэксту"
+msgstr "Задаць іншую мову для тэксту"
 
 #: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
 msgid "Select Profile"
@@ -493,7 +524,7 @@ msgstr "Профіль"
 
 #: src/supertux/menu/options_menu.cpp:58
 msgid "Select a profile to play with"
-msgstr "Пазначыць профіль для гульні"
+msgstr "Задаць профіль для гульні"
 
 #: src/supertux/menu/options_menu.cpp:61
 msgid "Fullscreen"

@@ -5,14 +5,14 @@
 # Translators:
 # Alkım Kaçmaz <alkimkacmaz@gmail.com>, 2013
 # root <penguen@linux.erciyes.edu.tr>, 2009
-# yakup <mutouk@yandex.ru>, 2013
+# yakup <mutouk@yandex.ru>, 2013-2014
 # Yusuf Özsoy <yusufozsoy96@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-19 13:06+0000\n"
-"PO-Revision-Date: 2014-08-19 13:03+0000\n"
+"POT-Creation-Date: 2014-08-31 07:40+0000\n"
+"PO-Revision-Date: 2014-08-31 07:46+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/supertux/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -23,216 +23,219 @@ msgstr ""
 
 #: src/control/joystick_config.cpp:83
 msgid "Joystick Mappings"
-msgstr ""
+msgstr "Oyun çubuğu Haritası"
 
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr ""
+msgstr "Kullanım: %s [SEÇENEKLER] [BÖLÜMDOSYASI]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
-msgstr ""
+msgstr "Genel Seçenekler:"
 
 #: src/supertux/command_line_arguments.cpp:76
 msgid "  -h, --help                   Show this help message and quit"
-msgstr ""
+msgstr "  -h, --help                   Yardım mesajını göster ve kapat"
 
 #: src/supertux/command_line_arguments.cpp:77
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr ""
+msgstr "  -v, --version                SuperTux sürüm numarasını göster ve kapat"
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --verbose                    Print verbose messages"
-msgstr ""
+msgstr "  --verbose                    Ayrıntılı mesajları yazdır"
 
 #: src/supertux/command_line_arguments.cpp:79
 msgid "  --debug                      Print extra verbose messages"
-msgstr ""
+msgstr "  --debug                      Ek mesajları yazdır"
 
 #: src/supertux/command_line_arguments.cpp:80
 msgid ""
 "  --print-datadir              Print supertux's primary data directory."
-msgstr ""
+msgstr "  --print-datadir              Supertux'un birincil veri klasörünü yazdır."
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
-msgstr ""
+msgstr "Video Seçenekleri:"
 
 #: src/supertux/command_line_arguments.cpp:82
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr ""
+msgstr "  -f, --fullscreen             Tam ekran modunda çalışacak"
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  -w, --window                 Run in window mode"
-msgstr ""
+msgstr "  -w, --window                 Pencere modunda çalışacak"
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr ""
+msgstr "  -g, --geometry GENİŞLİKxYÜKSEKLİK  SuperTux u verilen çözünürlükte çalıştır"
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr ""
+msgstr "  -a, --aspect GENİŞLİK:YÜKSEKLİK    SuperTux u verilen en boy oranında çalıştır"
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "  -d, --default                Reset video settings to default values"
-msgstr ""
+msgstr "  -d, --default                Video ayarlarını varsayılan ayarlara çevir"
 
 #: src/supertux/command_line_arguments.cpp:87
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr ""
+msgstr "  --renderer RENDERER          sdl, opengl, veya otomatik bir işleyici kullan"
 
 #: src/supertux/command_line_arguments.cpp:88
 msgid "Audio Options:"
-msgstr ""
+msgstr "Ses Seçenekleri:"
 
 #: src/supertux/command_line_arguments.cpp:89
 msgid "  --disable-sound              Disable sound effects"
-msgstr ""
+msgstr "  --disable-sound              Ses efektlerini devre dışı bırak"
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  --disable-music              Disable music"
-msgstr ""
+msgstr "  --disable-music              Müziği devre dışı bırak"
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "Game Options:"
-msgstr ""
+msgstr "Oyun Seçenekleri:"
 
 #: src/supertux/command_line_arguments.cpp:92
 msgid "  --console                    Enable ingame scripting console"
-msgstr ""
+msgstr "  --console                    Oyunda script konsolu aktif et"
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "  --noconsole                  Disable ingame scripting console"
-msgstr ""
+msgstr "  --noconsole                  Oyunda script konsolunu devre dışı bırak"
 
 #: src/supertux/command_line_arguments.cpp:94
 msgid "  --show-fps                   Display framerate in levels"
-msgstr ""
+msgstr "  --show-fps                   Bölümlerde ekran tazeleme hızını göster"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr ""
+msgstr "  --no-show-fps                Bölümlerde ekran tazeleme hızını gösterme"
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --developer                  Switch on developer feature"
-msgstr ""
+msgstr "  --developer                  Geliştirici seçeneklerini aç"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr ""
+msgstr "  -s, --debug-scripts          Hata ayıklama scripti etkinleştir."
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "Demo Recording Options:"
-msgstr ""
+msgstr "Demo Kayıt Seçenekleri:"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr ""
+msgstr "  --record-demo DOSYA BÖLÜM     Demoyu DOSYA ya kaydet"
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr ""
+msgstr "  --play-demo DOSYA BÖLÜM       Kaydedilen demoyu oyna"
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid "Directory Options:"
-msgstr ""
+msgstr "Dizin Seçenekleri:"
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr ""
+msgstr "  --datadir DIR                Oyun veri dosyaları klasörünü ayarla"
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr ""
+msgstr "  --userdir DIR               Kullanıcı veri klasörünü ayarla (oyun kayıtları, vs.)"
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid "Environment variables:"
-msgstr ""
+msgstr "Çevre Değişkenleri:"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr ""
+msgstr "  SUPERTUX2_USER_DIR           Kullanıcı veri klasörü (oyun kayıtları, vs.)"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr ""
+msgstr "  SUPERTUX2_DATA_DIR           Oyun veri dosyaları klasörü"
 
-#: src/supertux/levelintro.cpp:94
+#: src/supertux/levelintro.cpp:95
 #, c-format
 msgid "contributed by %s"
 msgstr "%s tarafından katkıda bulunuldu"
 
-#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:117
+#: src/supertux/levelintro.cpp:110 src/supertux/statistics.cpp:117
 msgid "Best Level Statistics"
 msgstr "En İyi Bölüm İstatistikleri"
 
-#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:205
+#: src/supertux/levelintro.cpp:116 src/supertux/statistics.cpp:205
 msgid "Coins"
 msgstr "Altın"
 
-#: src/supertux/levelintro.cpp:122
+#: src/supertux/levelintro.cpp:123
 msgid "Badguys killed"
 msgstr "Öldürülen kötü adamlar"
 
-#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:221
+#: src/supertux/levelintro.cpp:130 src/supertux/statistics.cpp:221
 msgid "Secrets"
 msgstr "Gizli yerler"
 
-#: src/supertux/levelintro.cpp:136
+#: src/supertux/levelintro.cpp:137
 msgid "Best time"
 msgstr "En iyi zaman"
 
-#: src/supertux/levelintro.cpp:143
+#: src/supertux/levelintro.cpp:144
 msgid "Level target time"
-msgstr "Seviye hedef zamanı"
+msgstr "Bölüm hedef zamanı"
 
-#: src/supertux/menu/addon_menu.cpp:57 src/supertux/menu/main_menu.cpp:42
-msgid "Add-ons"
-msgstr "Eklentiler"
-
-#: src/supertux/menu/addon_menu.cpp:62
-msgid "Check Online"
-msgstr "Çevrimiçi Kontrol Et"
-
-#: src/supertux/menu/addon_menu.cpp:64
-msgid "Check Online (disabled)"
-msgstr "Çevrimdışı Konrol Et (kapalı)"
-
-#: src/supertux/menu/addon_menu.cpp:78
+#: src/supertux/menu/addon_menu.cpp:47
 msgid "Levelset"
-msgstr "Seviye ayarı"
+msgstr "Bölüm ayarı"
 
-#: src/supertux/menu/addon_menu.cpp:81
+#: src/supertux/menu/addon_menu.cpp:50
 msgid "Worldmap"
 msgstr "Dünya haritası"
 
-#: src/supertux/menu/addon_menu.cpp:84
+#: src/supertux/menu/addon_menu.cpp:53
 msgid "World"
 msgstr "Dünya"
 
-#: src/supertux/menu/addon_menu.cpp:87
-msgid "Level"
-msgstr "Bölüm"
+#: src/supertux/menu/addon_menu.cpp:56
+msgid "Unknown"
+msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:92
+#: src/supertux/menu/addon_menu.cpp:67
 #, c-format
 msgid "%s \"%s\" by \"%s\""
 msgstr "%s \"%s\" kadar \"%s\""
 
-#: src/supertux/menu/addon_menu.cpp:106
-#, c-format
-msgid "\"%s\" by \"%s\""
-msgstr "\"%s\" kadar \"%s\""
+#: src/supertux/menu/addon_menu.cpp:103 src/supertux/menu/main_menu.cpp:43
+msgid "Add-ons"
+msgstr "Eklentiler"
 
-#: src/supertux/menu/addon_menu.cpp:119 src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/addon_menu.cpp:109
+msgid "No Addons installed"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:163
+msgid "No new Addons found"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:169
+msgid "Check Online (disabled)"
+msgstr "Çevrimdışı Konrol Et (kapalı)"
+
+#: src/supertux/menu/addon_menu.cpp:173
+msgid "Check Online"
+msgstr "Çevrimiçi Kontrol Et"
+
+#: src/supertux/menu/addon_menu.cpp:177 src/supertux/menu/cheat_menu.cpp:39
 #: src/supertux/menu/contrib_levelset_menu.cpp:68
-#: src/supertux/menu/contrib_menu.cpp:130
+#: src/supertux/menu/contrib_menu.cpp:135
 #: src/supertux/menu/joystick_menu.cpp:96
 #: src/supertux/menu/keyboard_menu.cpp:48
 #: src/supertux/menu/language_menu.cpp:49
@@ -245,49 +248,65 @@ msgstr "Geri"
 #: src/supertux/menu/cheat_menu.cpp:29
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
 msgid "Cheats"
-msgstr ""
+msgstr "Hileler"
 
 #: src/supertux/menu/cheat_menu.cpp:31
 #: src/supertux/menu/worldmap_cheat_menu.cpp:31
 msgid "Bonus: Grow"
-msgstr ""
+msgstr "Bonus: Büyüme"
 
 #: src/supertux/menu/cheat_menu.cpp:32
 #: src/supertux/menu/worldmap_cheat_menu.cpp:32
 msgid "Bonus: Fire"
-msgstr ""
+msgstr "Bonus: Ateş"
 
 #: src/supertux/menu/cheat_menu.cpp:33
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 msgid "Bonus: Ice"
-msgstr ""
+msgstr "Bonus: Buz"
 
 #: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Star"
-msgstr ""
+msgstr "Bonus: Yıldız"
 
 #: src/supertux/menu/cheat_menu.cpp:35
 msgid "Shrink Tux"
-msgstr ""
+msgstr "Tux'u Küçült"
 
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Kill Tux"
-msgstr ""
+msgstr "Tux'u Bitir"
 
 #: src/supertux/menu/cheat_menu.cpp:37
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Finish Level"
-msgstr ""
+msgstr "Bitiş Bölümü"
 
-#: src/supertux/menu/contrib_menu.cpp:46 src/supertux/menu/main_menu.cpp:41
+#: src/supertux/menu/contrib_menu.cpp:51 src/supertux/menu/main_menu.cpp:42
 msgid "Contrib Levels"
 msgstr "Ek Bölümler"
+
+#: src/supertux/menu/download_dialog.cpp:28
+msgid "Abort Download"
+msgstr ""
+
+#: src/supertux/menu/download_dialog.cpp:44
+msgid "Error:\n"
+msgstr ""
+
+#: src/supertux/menu/download_dialog.cpp:45
+msgid "Ok"
+msgstr ""
+
+#: src/supertux/menu/download_dialog.cpp:94
+msgid "Close"
+msgstr ""
 
 #: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Continue"
 msgstr "Devam et"
 
-#: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:43
+#: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:44
 #: src/supertux/menu/options_menu.cpp:47
 #: src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
@@ -304,12 +323,12 @@ msgstr "Joystik Ayarla"
 
 #: src/supertux/menu/joystick_menu.cpp:53
 msgid "Manual Configuration"
-msgstr ""
+msgstr "Yapılandırma Klavuzu"
 
 #: src/supertux/menu/joystick_menu.cpp:55
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr ""
+msgstr "SDL2'yi otomatik olarak oyun kontrol desteğini elle yapılandırın"
 
 #: src/supertux/menu/joystick_menu.cpp:67
 #: src/supertux/menu/keyboard_menu.cpp:30
@@ -373,7 +392,7 @@ msgstr "Konsol"
 #: src/supertux/menu/joystick_menu.cpp:82
 #: src/supertux/menu/keyboard_menu.cpp:44
 msgid "Cheat Menu"
-msgstr ""
+msgstr "Hile Menüsü"
 
 #: src/supertux/menu/joystick_menu.cpp:84
 #: src/supertux/menu/keyboard_menu.cpp:46
@@ -452,11 +471,11 @@ msgstr "Sol Alt"
 
 #: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Right Command"
-msgstr ""
+msgstr "Sağ Komut"
 
 #: src/supertux/menu/keyboard_menu.cpp:88
 msgid "Left Command"
-msgstr ""
+msgstr "Sol Komut"
 
 #: src/supertux/menu/keyboard_menu.cpp:98
 msgid "Press Key"
@@ -470,17 +489,29 @@ msgstr "Dil"
 msgid "<auto-detect>"
 msgstr "<otomatikman bul>"
 
-#: src/supertux/menu/main_menu.cpp:40
+#: src/supertux/menu/main_menu.cpp:41
 msgid "Start Game"
 msgstr "Oyunu Başlat"
 
-#: src/supertux/menu/main_menu.cpp:44
+#: src/supertux/menu/main_menu.cpp:45
 msgid "Credits"
 msgstr "Emeği Geçenler"
 
-#: src/supertux/menu/main_menu.cpp:45
+#: src/supertux/menu/main_menu.cpp:46
 msgid "Quit"
 msgstr "Çıkış"
+
+#: src/supertux/menu/main_menu.cpp:85
+msgid "Do you really want to quit SuperTux?"
+msgstr ""
+
+#: src/supertux/menu/main_menu.cpp:86
+msgid "Cancel"
+msgstr ""
+
+#: src/supertux/menu/main_menu.cpp:87
+msgid "Quit SuperTux"
+msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:54
 msgid "Select Language"
@@ -573,23 +604,23 @@ msgstr "Joystick kontrol-eylem ayarla"
 
 #: src/supertux/menu/options_menu.cpp:207
 msgid "Developer Mode"
-msgstr ""
+msgstr "Geliştirici Modu"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 msgid "Bonus: None"
-msgstr ""
+msgstr "Bonus: Yok"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:37
 msgid "Reset Level"
-msgstr ""
+msgstr "Bölümü Sıfırla"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
 msgid "Finish WorldMap"
-msgstr ""
+msgstr "Dünya Haritası Bitiş"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:40
 msgid "Reset WorldMap"
-msgstr ""
+msgstr "Dünya Haritasını Sıfırla"
 
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
@@ -617,7 +648,7 @@ msgstr "En iyi tamamlama zamanı:"
 
 #: src/supertux/statistics.cpp:145
 msgid "Level target time:"
-msgstr "Seviye hedef zamanı:"
+msgstr "Bölüm hedef zamanı:"
 
 #: src/supertux/statistics.cpp:201
 msgid "You"

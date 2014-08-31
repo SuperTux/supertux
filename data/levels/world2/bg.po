@@ -3,32 +3,31 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Vangelis Nomikos <nvangelis@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2014-08-29 10:49+0000\n"
-"Last-Translator: Vangelis Nomikos <nvangelis@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.com/projects/p/supertux/language/el/)\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Bulgarian (http://www.transifex.com/projects/p/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: el\n"
+"Language: bg\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr "Καταρρέουσα Διαδρομή"
+msgstr ""
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr "Θησυαρός στον ουρανό"
+msgstr ""
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr "Tux ο Οικοδόμος"
+msgstr ""
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -37,132 +36,132 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr "-Φορητοί Βράχοι:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+msgstr ""
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr "Παγόβουνο Φρούριο"
+msgstr ""
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr "ΝΟΛΟΚ"
+msgstr ""
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
-msgstr "Ανώμαλα Πηνία"
+msgstr ""
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr "Δέντρο Φρούριο"
+msgstr ""
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Ένα Μουχλιασμένο Σπήλαιο"
+msgstr ""
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
-msgstr "Σύντομη Επίσκεψη στο El Castillo"
+msgstr ""
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
-msgstr "Καλως ήρθες στο Δάσος"
+msgstr ""
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
-msgstr "Αντίθετο Ρεύμα"
+msgstr ""
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr "Μικρή Βενετία"
+msgstr ""
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
-msgstr "Δυο Μικροσκοπικοί Πύργοι"
+msgstr ""
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr "Τρία φύλλα στον άνεμο"
+msgstr ""
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
-msgstr "Γονάτισε στο βάθος"
+msgstr ""
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
-msgstr "Αγωγός Πίθηκος"
+msgstr ""
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr "Αίθουσα των Αστεριών"
+msgstr ""
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr "Οι Σιωπηλοί Τοίχοι"
+msgstr ""
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr "Dan Morial"
+msgstr ""
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr "Παράκαμψη"
+msgstr ""
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Συντήρηση Σκοτεινού Δάσους - Ο Κακός Θάλαμος"
+msgstr ""
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "Συντήρηση Σκοτεινού Δάσους - Τα Μάτια του Νόλοκ"
+msgstr ""
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr "Συντήρηση Σκοτεινού Δάσους - Ο Μαύρος Πύργος"
+msgstr ""
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Βρες το Μεγαλύτερο Ψάρι!"
+msgstr ""
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr "Επίπεδο Δάσους 1"
+msgstr ""
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr "Ένας Κόσμος Φαντασμάτων"
+msgstr ""
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr "πλήκτρο 1 νερό - τοποθέτηση πίσω από τον καταρράκτη"
+msgstr ""
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr "πλήκτρο 2 γη - τοποθέτηση υπόγεια"
+msgstr ""
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr "πλήκτρο 3 - τοποθέτηση σε ένα μεγάλο δέντρο"
+msgstr ""
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr "πλήκτρο 4 - τοποθέτηση σε ένα μικρό κάστρο"
+msgstr ""
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr "πλήκτρο 5 αέρας - τοποθέτηση σε σύννεφα"
+msgstr ""
 
 #: data/levels/world2/keystodoor.stl:3
 msgid "Entrance to the Castle"
-msgstr "Είσοδος στο Κάστρο"
+msgstr ""
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Φύλλα με Πόδια"
+msgstr ""
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr "Ρίζες, Ξυλώδεις Ρίζες"
+msgstr ""
 
 #: data/levels/world2/level1.stl:146
 msgid ""
@@ -172,11 +171,11 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-Συμβουλή:\n#Εάν δεν φαίνεται να υπάρχει\n#κανένας τρόπος να φτάσεις μια πόρτα,\n#να θυμάσαι ότι ίσως\n#να έπρεπε να βγεις\n#από αυτή την πόρτα..."
+msgstr ""
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "Κάτω από την Τρύπα του Κουνελιού"
+msgstr ""
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -185,52 +184,52 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-Ωχ όχι!\n#Η διαδρομή είναι αποκλεισμένη!\n#Φαίνεται ότι ο μόνος δρόμος\n#οδηγεί μέσα από αυτή τη σκοτεινή\n#τρύπα στο έδαφος..."
+msgstr ""
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr "Χάθηκες?"
+msgstr ""
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr "Πηγαίνοντας Υπόγεια"
+msgstr ""
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr "Πράσινοι Λόφοι"
+msgstr ""
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr "Χωρίς Όνομα"
+msgstr ""
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr "Φως και Μαγεία"
+msgstr ""
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "Η Εκδίκηση των Κουκουβάγιων"
+msgstr ""
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr "Συγκλονιστικό"
+msgstr ""
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "Οι Πιγκουίνοι δε μεγαλώνουν στα Δέντρα"
+msgstr ""
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr "Υπό Κατασκευή"
+msgstr ""
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr "Πάνω και Κάτω"
+msgstr ""
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr "Ένα Χωριό στο Δάσος"
+msgstr ""
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr "Κόσμος του Δάσους"
+msgstr ""

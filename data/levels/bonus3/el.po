@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Vangelis Nomikos <nvangelis@gmail.com>, 2013
+# Vangelis Nomikos <nvangelis@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-16 16:36+0000\n"
-"PO-Revision-Date: 2014-03-16 16:38+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2014-08-29 12:36+0000\n"
+"Last-Translator: Vangelis Nomikos <nvangelis@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/supertux/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +20,11 @@ msgstr ""
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "-89,2 degrees"
-msgstr ""
+msgstr "-89,2 βαθμοί"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
-msgstr ""
+msgstr "Υπερθέρμανση του Πλανήτη"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
@@ -88,11 +88,11 @@ msgstr "Κρυστάλλινοι Ουρανοί"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr ""
+msgstr "Κρυστάλλινη Ομορφιά"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr ""
+msgstr "Κρυστάλλινος Κατακλυσμός"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
@@ -109,7 +109,7 @@ msgstr "Βαθιά, πιο βαθιά..."
 
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
-msgstr ""
+msgstr "....βαθύτερη!"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
@@ -117,11 +117,11 @@ msgstr "Μπαίνοντας στο κάστρο"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
-msgstr ""
+msgstr "Λουλούδι Μπόνους"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
-msgstr ""
+msgstr "Μετά τους Παγετώνες"
 
 #: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
@@ -129,19 +129,19 @@ msgstr ""
 
 #: data/levels/bonus3/hilly_landscape.stl:3
 msgid "A hilly landscape"
-msgstr ""
+msgstr "Ένα ορεινό τοπίο"
 
 #: data/levels/bonus3/in_the_spring.stl:3
 msgid "In the Spring"
-msgstr ""
+msgstr "Στην Άνοιξη"
 
 #: data/levels/bonus3/its_getting_unfinishable.stl:3
 msgid "It's getting unfinishable"
-msgstr ""
+msgstr "Γίνεται ατελείωτο"
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
-msgstr ""
+msgstr "Κάποιο φως στο σκοτάδι θα ήταν μια χαρά, ευχαριστώ!"
 
 #: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
@@ -149,11 +149,11 @@ msgstr "Συναγερμός Χιονόπτωσης"
 
 #: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
-msgstr ""
+msgstr "Τρύπες, μια Μέρα στον Πάγο"
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
-msgstr ""
+msgstr "Η Ζώνη Τουαλέτας"
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
@@ -173,7 +173,7 @@ msgstr ""
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"
-msgstr ""
+msgstr "Ροζ Θέαμα"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
@@ -181,7 +181,7 @@ msgstr "Κόκκινος συναγερμός! Το δάσος καίγεται!
 
 #: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
-msgstr ""
+msgstr "Υπόνομος διαφυγής"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
@@ -193,11 +193,11 @@ msgstr "Να βρέξει ή να μη βρέξει - Αυτό είναι το �
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
-msgstr ""
+msgstr "Ένας χιονισμένος λόφος"
 
 #: data/levels/bonus3/three_frosty_icebergs.stl:3
 msgid "Three Frosty Icebergs"
-msgstr ""
+msgstr "Τρία Ψυχρά Παγόβουνα"
 
 #: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
@@ -205,7 +205,7 @@ msgstr "Κάτω από τον πάγο"
 
 #: data/levels/bonus3/worldmap.stwm:3
 msgid "Bonus Island III"
-msgstr ""
+msgstr "Μπόνους Νησί ΙΙΙ"
 
 #: data/levels/bonus3/worldmap.stwm:12
 msgid "You found a secret place!"
