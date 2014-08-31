@@ -1,5 +1,6 @@
 # Build Files
-build/*
+build/
+build.*/
 supertux2
 
 # Additional Repos/Translations
