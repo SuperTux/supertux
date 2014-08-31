@@ -38,7 +38,7 @@ BicyclePlatform::BicyclePlatform(const Reader& reader) :
 }
 
 BicyclePlatform::BicyclePlatform(BicyclePlatform* master_) :
-  MovingSprite(*master),
+  MovingSprite(*master_),
   master(master_),
   slave(this),
   center(master->center),

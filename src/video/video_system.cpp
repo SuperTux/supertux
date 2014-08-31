@@ -60,7 +60,7 @@ VideoSystem::create(VideoSystem::Enum video_system)
 
     default:
       assert(!"invalid video system in config");
-      break;
+      return {};
   }
 }
 
