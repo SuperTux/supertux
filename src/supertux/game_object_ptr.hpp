@@ -14,32 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SCRIPTING_SCRIPTING_HPP
-#define HEADER_SUPERTUX_SCRIPTING_SCRIPTING_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_PTR_HPP
+#define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_PTR_HPP
 
-#include <squirrel.h>
+#include <memory>
 
-#include "util/currenton.hpp"
+class GameObject;
 
-namespace scripting {
-
-extern HSQUIRRELVM global_vm;
-
-class Scripting : public Currenton<Scripting>
-{
-private:
-public:
-  Scripting(bool enable_debugger);
-  ~Scripting();
-
-  void update_debugger();
-
-private:
-  Scripting(const Scripting&) = delete;
-  Scripting& operator=(const Scripting&) = delete;
-};
-
-} // namespace scripting
+using GameObjectPtr = std::shared_ptr<GameObject>;
 
 #endif
 

@@ -343,11 +343,11 @@ Player::update(float elapsed_time)
   if(!dying && !deactivated)
     handle_input();
 
-/*
+  /*
   // handle_input() calls apply_friction() when Tux is not walking, so we'll have to do this ourselves
   if (deactivated)
-    apply_friction();
-*/
+  apply_friction();
+  */
 
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
@@ -427,13 +427,15 @@ Player::update(float elapsed_time)
       Vector ppos = Vector(px, py);
       Vector pspeed = Vector(0, 0);
       Vector paccel = Vector(0, 0);
-      Sector::current()->add_object(new SpriteParticle("images/objects/particles/sparkle.sprite",
-                                                       // draw bright sparkle when there is lots of time left, dark sparkle when invincibility is about to end
-                                                       (invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) ?
-                                                       // make every other a longer sparkle to make trail a bit fuzzy
-                                                       (size_t(game_time*20)%2) ? "small" : "medium"
-                                                       :
-                                                       "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
+      Sector::current()->add_object(std::make_shared<SpriteParticle>(
+                                      "images/objects/particles/sparkle.sprite",
+                                      // draw bright sparkle when there is lots of time left,
+                                      // dark sparkle when invincibility is about to end
+                                      (invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING) ?
+                                      // make every other a longer sparkle to make trail a bit fuzzy
+                                      (size_t(game_time*20)%2) ? "small" : "medium"
+                                      :
+                                      "dark", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
     }
   }
 
@@ -550,7 +552,7 @@ Player::handle_horizontal_input()
       SoundManager::current()->play("sounds/skid.wav");
       // dust some particles
       Sector::current()->add_object(
-        new Particles(
+        std::make_shared<Particles>(
           Vector(dir == RIGHT ? get_bbox().p2.x : get_bbox().p1.x, get_bbox().p2.y),
           dir == RIGHT ? 270+20 : 90-40, dir == RIGHT ? 270+40 : 90-20,
           Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
@@ -1008,7 +1010,7 @@ Player::set_bonus(BonusType type, bool animate)
       Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
       Vector paccel = Vector(0, 1000);
       std::string action = (dir==LEFT)?"left":"right";
-      Sector::current()->add_object(new SpriteParticle("images/objects/particles/firetux-helmet.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
+      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/firetux-helmet.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
       if (climbing) stop_climbing(*climbing);
     }
     if ((player_status->bonus == ICE_BONUS) && (animate)) {
@@ -1017,7 +1019,7 @@ Player::set_bonus(BonusType type, bool animate)
       Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
       Vector paccel = Vector(0, 1000);
       std::string action = (dir==LEFT)?"left":"right";
-      Sector::current()->add_object(new SpriteParticle("images/objects/particles/icetux-cap.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
+      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/icetux-cap.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
       if (climbing) stop_climbing(*climbing);
     }
     player_status->max_fire_bullets = 0;
@@ -1208,12 +1210,12 @@ Player::collision_solid(const CollisionHit& hit)
       does_buttjump = false;
       physic.set_velocity_y(-300);
       on_ground_flag = false;
-      Sector::current()->add_object(new Particles(
+      Sector::current()->add_object(std::make_shared<Particles>(
                                       Vector(get_bbox().p2.x, get_bbox().p2.y),
                                       270+20, 270+40,
                                       Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
                                       LAYER_OBJECTS+1));
-      Sector::current()->add_object(new Particles(
+      Sector::current()->add_object(std::make_shared<Particles>(
                                       Vector(get_bbox().p1.x, get_bbox().p2.y),
                                       90-40, 90-20,
                                       Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
@@ -1338,7 +1340,7 @@ Player::kill(bool completely)
       for (int i = 0; i < 5; i++)
       {
         // the numbers: starting x, starting y, velocity y
-        Sector::current()->add_object(new FallingCoin(get_pos() +
+        Sector::current()->add_object(std::make_shared<FallingCoin>(get_pos() +
                                                       Vector(graphicsRandom.rand(5), graphicsRandom.rand(-32,18)),
                                                       graphicsRandom.rand(-100,100)));
       }

@@ -113,7 +113,10 @@ FlyingSnowBall::active_update(float elapsed_time)
     Vector ppos = bbox.get_middle();
     Vector pspeed = Vector(gameRandom.randf(-10, 10), 150);
     Vector paccel = Vector(0,0);
-    Sector::current()->add_object(new SpriteParticle("images/objects/particles/smoke.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+    Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/smoke.sprite",
+                                                                   "default",
+                                                                   ppos, ANCHOR_MIDDLE, pspeed, paccel,
+                                                                   LAYER_OBJECTS-1));
     puff_timer.start(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
 
     normal_propeller_speed = gameRandom.randf(0.95, 1.05);

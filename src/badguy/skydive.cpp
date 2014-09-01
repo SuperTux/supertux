@@ -117,14 +117,14 @@ SkyDive::active_update (float elapsed_time)
 void
 SkyDive::explode (void)
 {
-  if (!is_valid ())
+  if (!is_valid())
     return;
 
-  Explosion *explosion = new Explosion (get_anchor_pos (bbox, ANCHOR_BOTTOM));
+  auto explosion = std::make_shared<Explosion>(get_anchor_pos (bbox, ANCHOR_BOTTOM));
 
-  explosion->hurts (true);
-  explosion->pushes (false);
-  Sector::current()->add_object (explosion);
+  explosion->hurts(true);
+  explosion->pushes(false);
+  Sector::current()->add_object(explosion);
 
   remove_me ();
 } /* void explode */

@@ -25,7 +25,6 @@ GameObject::GameObject() :
 }
 
 GameObject::GameObject(const GameObject& rhs) :
-  RefCounter(),
   wants_to_die(rhs.wants_to_die),
   remove_listeners(NULL),
   name(rhs.name)

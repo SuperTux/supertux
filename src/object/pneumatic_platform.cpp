@@ -86,7 +86,7 @@ void
 PneumaticPlatform::update(float elapsed_time)
 {
   if (!slave) {
-    Sector::current()->add_object(new PneumaticPlatform(this));
+    Sector::current()->add_object(std::make_shared<PneumaticPlatform>(this));
     return;
   }
   if (!master) {

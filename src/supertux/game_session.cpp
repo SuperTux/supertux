@@ -567,12 +567,12 @@ GameSession::start_sequence(const std::string& sequencename)
 
   if (sequencename == "endsequence") {
     if (currentsector->get_players()[0]->get_physic().get_velocity_x() < 0) {
-      end_sequence = new EndSequenceWalkLeft();
+      end_sequence = std::make_shared<EndSequenceWalkLeft>();
     } else {
-      end_sequence = new EndSequenceWalkRight();
+      end_sequence = std::make_shared<EndSequenceWalkRight>();
     }
   } else if (sequencename == "fireworks") {
-    end_sequence = new EndSequenceFireworks();
+    end_sequence = std::make_shared<EndSequenceFireworks>();
   } else {
     log_warning << "Unknown sequence '" << sequencename << "'. Ignoring." << std::endl;
     return;
@@ -588,12 +588,12 @@ GameSession::start_sequence(const std::string& sequencename)
   currentsector->player->set_winning();
 
   // Stop all clocks.
-  for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin();
+  for(auto i = currentsector->gameobjects.begin();
       i != currentsector->gameobjects.end(); ++i)
   {
-    GameObject* obj = *i;
+    GameObjectPtr obj = *i;
 
-    LevelTime* lt = dynamic_cast<LevelTime*> (obj);
+    auto lt = std::dynamic_pointer_cast<LevelTime>(obj);
     if(lt)
       lt->stop();
   }

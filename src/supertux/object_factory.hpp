@@ -23,6 +23,7 @@
 #include <memory>
 
 #include "supertux/direction.hpp"
+#include "supertux/game_object_ptr.hpp"
 #include "util/reader_fwd.hpp"
 
 class Vector;
@@ -37,7 +38,7 @@ public:
   /** Creates a new gameobject from a lisp node.
    * Remember to delete the objects later
    */
-  virtual GameObject* create(const Reader& reader) = 0;
+  virtual GameObjectPtr create(const Reader& reader) = 0;
 };
 
 template<class C>
@@ -47,9 +48,9 @@ public:
   ConcreteObjectFactory() {}
   ~ConcreteObjectFactory() {}
 
-  GameObject* create(const Reader& reader)
+  GameObjectPtr create(const Reader& reader)
   {
-    return new C(reader);
+    return std::make_shared<C>(reader);
   }
 };
 
@@ -66,8 +67,8 @@ public:
   ObjectFactory();
   ~ObjectFactory();
 
-  GameObject* create(const std::string& name, const Reader& reader);
-  GameObject* create(const std::string& name, const Vector& pos, const Direction dir = AUTO);
+  GameObjectPtr create(const std::string& name, const Reader& reader);
+  GameObjectPtr create(const std::string& name, const Vector& pos, const Direction dir = AUTO);
 
 private:
   template<class C>

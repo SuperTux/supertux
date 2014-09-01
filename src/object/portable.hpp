@@ -19,7 +19,6 @@
 
 #include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
-#include "util/refcounter.hpp"
 
 /**
  * An object that inherits from this object is considered "portable" and can

@@ -104,9 +104,9 @@ CommandLineArguments::print_help(const char* arg0)
             << _(     "Environment variables:") << "\n"
             << _(     "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)" ) << "\n"
             << _(     "  SUPERTUX2_DATA_DIR           Directory for the games datafiles" ) << "\n"<< "\n"
-    
-                 
-    
+
+
+
             << std::flush;
 }
 

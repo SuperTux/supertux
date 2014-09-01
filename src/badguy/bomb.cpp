@@ -90,7 +90,7 @@ Bomb::explode()
 
   if(is_valid()) {
     remove_me();
-    Explosion* explosion = new Explosion(get_bbox().get_middle());
+    auto explosion = std::make_shared<Explosion>(get_bbox().get_middle());
     Sector::current()->add_object(explosion);
   }
 

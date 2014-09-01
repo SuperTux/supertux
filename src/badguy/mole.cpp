@@ -96,7 +96,7 @@ Mole::throw_rock()
   float vy = -sin(angle) * THROW_VELOCITY;
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Sector::current()->add_object(new MoleRock(Vector(px, py), Vector(vx, vy), this));
+  Sector::current()->add_object(std::make_shared<MoleRock>(Vector(px, py), Vector(vx, vy), this));
 }
 
 void

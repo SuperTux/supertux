@@ -191,15 +191,14 @@ Level::get_total_coins()
   int total_coins = 0;
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
     Sector* sector = *i;
-    for(Sector::GameObjects::iterator o = sector->gameobjects.begin();
-        o != sector->gameobjects.end(); ++o) {
-      Coin* coin = dynamic_cast<Coin*> (*o);
+    for(auto o = sector->gameobjects.begin(); o != sector->gameobjects.end(); ++o) {
+      Coin* coin = dynamic_cast<Coin*>(o->get());
       if(coin)
       {
         total_coins++;
         continue;
       }
-      BonusBlock *block = dynamic_cast<BonusBlock*> (*o);
+      BonusBlock *block = dynamic_cast<BonusBlock*>(o->get());
       if(block)
       {
         if (block->contents == BonusBlock::CONTENT_COIN)
@@ -214,7 +213,7 @@ Level::get_total_coins()
           continue;
         }
       }
-      GoldBomb *goldbomb = dynamic_cast<GoldBomb*> (*o);
+      GoldBomb *goldbomb = dynamic_cast<GoldBomb*>(o->get());
       if(goldbomb)
         total_coins += 10;
     }
@@ -235,7 +234,7 @@ int
 Level::get_total_secrets()
 {
   int total_secrets = 0;
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
+  for(auto i = sectors.begin(); i != sectors.end(); ++i)
     total_secrets += (*i)->get_total_count<SecretAreaTrigger>();
   return total_secrets;
 }

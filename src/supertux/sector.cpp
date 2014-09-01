@@ -87,9 +87,9 @@ Sector::Sector(Level* parent) :
   camera(0),
   effect(0)
 {
-  add_object(new Player(GameSession::current()->get_savegame().get_player_status(), "Tux"));
-  add_object(new DisplayEffect("Effect"));
-  add_object(new TextObject("Text"));
+  add_object(std::make_shared<Player>(GameSession::current()->get_savegame().get_player_status(), "Tux"));
+  add_object(std::make_shared<DisplayEffect>("Effect"));
+  add_object(std::make_shared<TextObject>("Text"));
 
   SoundManager::current()->preload("sounds/shoot.wav");
 
@@ -129,14 +129,9 @@ Sector::~Sector()
 
   for(GameObjects::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i) {
-    GameObject* object = *i;
+    GameObjectPtr object = *i;
     before_object_remove(object);
-    object->unref();
   }
-
-  for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
-      ++i)
-    delete *i;
 }
 
 Level*
@@ -145,41 +140,41 @@ Sector::get_level()
   return level;
 }
 
-GameObject*
+GameObjectPtr
 Sector::parse_object(const std::string& name_, const Reader& reader)
 {
   if(name_ == "camera") {
-    Camera* camera_ = new Camera(this, "Camera");
+    auto camera_ = std::make_shared<Camera>(this, "Camera");
     camera_->parse(reader);
     return camera_;
   } else if(name_ == "particles-snow") {
-    SnowParticleSystem* partsys = new SnowParticleSystem();
+    auto partsys = std::make_shared<SnowParticleSystem>();
     partsys->parse(reader);
     return partsys;
   } else if(name_ == "particles-rain") {
-    RainParticleSystem* partsys = new RainParticleSystem();
+    auto partsys = std::make_shared<RainParticleSystem>();
     partsys->parse(reader);
     return partsys;
   } else if(name_ == "particles-comets") {
-    CometParticleSystem* partsys = new CometParticleSystem();
+    auto partsys = std::make_shared<CometParticleSystem>();
     partsys->parse(reader);
     return partsys;
   } else if(name_ == "particles-ghosts") {
-    GhostParticleSystem* partsys = new GhostParticleSystem();
+    auto partsys = std::make_shared<GhostParticleSystem>();
     partsys->parse(reader);
     return partsys;
   } else if(name_ == "particles-clouds") {
-    CloudParticleSystem* partsys = new CloudParticleSystem();
+    auto partsys = std::make_shared<CloudParticleSystem>();
     partsys->parse(reader);
     return partsys;
   } else if(name_ == "money") { // for compatibility with old maps
-    return new Jumpy(reader);
+    return std::make_shared<Jumpy>(reader);
   } else {
     try {
       return ObjectFactory::instance().create(name_, reader);
     } catch(std::exception& e) {
       log_warning << e.what() << "" << std::endl;
-      return 0;
+      return {};
     }
   }
 }
@@ -198,7 +193,7 @@ Sector::parse(const Reader& sector)
     } else if(token == "music") {
       iter.value()->get(music);
     } else if(token == "spawnpoint") {
-      SpawnPoint* sp = new SpawnPoint(*iter.lisp());
+      auto sp = std::make_shared<SpawnPoint>(*iter.lisp());
       spawnpoints.push_back(sp);
     } else if(token == "init-script") {
       iter.value()->get(init_script);
@@ -211,11 +206,11 @@ Sector::parse(const Reader& sector)
         ambient_light = Color( vColor );
       }
     } else {
-      GameObject* object = parse_object(token, *(iter.lisp()));
+      GameObjectPtr object = parse_object(token, *(iter.lisp()));
       if(object) {
-        if(dynamic_cast<Background *>(object)) {
+        if(std::dynamic_pointer_cast<Background>(object)) {
           has_background = true;
-        } else if(dynamic_cast<Gradient *>(object)) {
+        } else if(std::dynamic_pointer_cast<Gradient>(object)) {
           has_background = true;
         }
         add_object(object);
@@ -224,7 +219,7 @@ Sector::parse(const Reader& sector)
   }
 
   if(!has_background) {
-    Gradient* gradient = new Gradient();
+    auto gradient = std::make_shared<Gradient>();
     gradient->set_gradient(Color(0.3, 0.4, 0.75), Color(1, 1, 1));
     add_object(gradient);
   }
@@ -237,7 +232,7 @@ Sector::parse(const Reader& sector)
   if(!camera) {
     log_warning << "sector '" << name << "' does not contain a camera." << std::endl;
     update_game_objects();
-    add_object(new Camera(this, "Camera"));
+    add_object(std::make_shared<Camera>(this, "Camera"));
   }
 
   update_game_objects();
@@ -282,11 +277,11 @@ Sector::parse_old_format(const Reader& reader)
   bkgd_bottom.blue = static_cast<float> (b) / 255.0f;
 
   if(backgroundimage != "") {
-    Background* background = new Background();
+    auto background = std::make_shared<Background>();
     background->set_image(backgroundimage, bgspeed);
     add_object(background);
   } else {
-    Gradient* gradient = new Gradient();
+    auto gradient = std::make_shared<Gradient>();
     gradient->set_gradient(bkgd_top, bkgd_bottom);
     add_object(gradient);
   }
@@ -294,17 +289,17 @@ Sector::parse_old_format(const Reader& reader)
   std::string particlesystem;
   reader.get("particle_system", particlesystem);
   if(particlesystem == "clouds")
-    add_object(new CloudParticleSystem());
+    add_object(std::make_shared<CloudParticleSystem>());
   else if(particlesystem == "snow")
-    add_object(new SnowParticleSystem());
+    add_object(std::make_shared<SnowParticleSystem>());
   else if(particlesystem == "rain")
-    add_object(new RainParticleSystem());
+    add_object(std::make_shared<RainParticleSystem>());
 
   Vector startpos(100, 170);
   reader.get("start_pos_x", startpos.x);
   reader.get("start_pos_y", startpos.y);
 
-  SpawnPoint* spawn = new SpawnPoint;
+  auto spawn = std::make_shared<SpawnPoint>();
   spawn->pos = startpos;
   spawn->name = "main";
   spawnpoints.push_back(spawn);
@@ -323,7 +318,7 @@ Sector::parse_old_format(const Reader& reader)
   std::vector<unsigned int> tiles;
   if(reader.get("interactive-tm", tiles)
      || reader.get("tilemap", tiles)) {
-    TileMap* tilemap = new TileMap(level->get_tileset());
+    auto tilemap = std::make_shared<TileMap>(level->get_tileset());
     tilemap->set(width, height, tiles, LAYER_TILES, true);
 
     // replace tile id 112 (old invisible tile) with 1311 (new invisible tile)
@@ -340,14 +335,14 @@ Sector::parse_old_format(const Reader& reader)
   }
 
   if(reader.get("background-tm", tiles)) {
-    TileMap* tilemap = new TileMap(level->get_tileset());
+    auto tilemap = std::make_shared<TileMap>(level->get_tileset());
     tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
     if (height < 19) tilemap->resize(width, 19);
     add_object(tilemap);
   }
 
   if(reader.get("foreground-tm", tiles)) {
-    TileMap* tilemap = new TileMap(level->get_tileset());
+    auto tilemap = std::make_shared<TileMap>(level->get_tileset());
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
 
     // fill additional space in foreground with tiles of ID 2035 (lightmap/black)
@@ -365,7 +360,7 @@ Sector::parse_old_format(const Reader& reader)
         Vector sp_pos;
         if(reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))
         {
-          SpawnPoint* sp = new SpawnPoint;
+          auto sp = std::make_shared<SpawnPoint>();
           sp->name = "main";
           sp->pos = sp_pos;
           spawnpoints.push_back(sp);
@@ -381,7 +376,7 @@ Sector::parse_old_format(const Reader& reader)
   if(objects) {
     lisp::ListIterator iter(objects);
     while(iter.next()) {
-      GameObject* object = parse_object(iter.item(), *(iter.lisp()));
+      auto object = parse_object(iter.item(), *(iter.lisp()));
       if(object) {
         add_object(object);
       } else {
@@ -391,7 +386,7 @@ Sector::parse_old_format(const Reader& reader)
   }
 
   // add a camera
-  Camera* camera_ = new Camera(this, "Camera");
+  auto camera_ = std::make_shared<Camera>(this, "Camera");
   add_object(camera_);
 
   update_game_objects();
@@ -414,27 +409,27 @@ Sector::fix_old_tiles()
         Vector pos = solids->get_tile_position(x, y);
 
         if(id == 112) {
-          add_object(new InvisibleBlock(pos));
+          add_object(std::make_shared<InvisibleBlock>(pos));
           solids->change(x, y, 0);
         } else if(tile->getAttributes() & Tile::COIN) {
-          add_object(new Coin(pos, solids));
+          add_object(std::make_shared<Coin>(pos, solids));
           solids->change(x, y, 0);
         } else if(tile->getAttributes() & Tile::FULLBOX) {
-          add_object(new BonusBlock(pos, tile->getData()));
+          add_object(std::make_shared<BonusBlock>(pos, tile->getData()));
           solids->change(x, y, 0);
         } else if(tile->getAttributes() & Tile::BRICK) {
           if( ( id == 78 ) || ( id == 105 ) ){
-            add_object( new Brick(pos, tile->getData(), "images/objects/bonus_block/brickIce.sprite") );
+            add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brickIce.sprite") );
           } else if( ( id == 77 ) || ( id == 104 ) ){
-            add_object( new Brick(pos, tile->getData(), "images/objects/bonus_block/brick.sprite") );
+            add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brick.sprite") );
           } else {
             log_warning << "attribute 'brick #t' is not supported for tile-id " << id << std::endl;
-            add_object( new Brick(pos, tile->getData(), "images/objects/bonus_block/brick.sprite") );
+            add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brick.sprite") );
           }
           solids->change(x, y, 0);
         } else if(tile->getAttributes() & Tile::GOAL) {
           std::string sequence = tile->getData() == 0 ? "endsequence" : "stoptux";
-          add_object(new SequenceTrigger(pos, sequence));
+          add_object(std::make_shared<SequenceTrigger>(pos, sequence));
           solids->change(x, y, 0);
         }
       }
@@ -443,7 +438,7 @@ Sector::fix_old_tiles()
 
   // add lights for special tiles
   for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end(); i++) {
-    TileMap* tm = dynamic_cast<TileMap*>(*i);
+    TileMap* tm = dynamic_cast<TileMap*>(i->get());
     if (!tm) continue;
     for(size_t x=0; x < tm->get_width(); ++x) {
       for(size_t y=0; y < tm->get_height(); ++y) {
@@ -454,7 +449,7 @@ Sector::fix_old_tiles()
         // torch
         if (id == 1517) {
           float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-          add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
+          add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
         }
         // lava or lavaflow
         if ((id == 173) || (id == 1700) || (id == 1705) || (id == 1706)) {
@@ -463,7 +458,7 @@ Sector::fix_old_tiles()
                && (tm->get_tile_id(x, y-1) != tm->get_tile_id(x,y)))
               || ((x % 3 == 0) && (y % 3 == 0))) {
             float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-            add_object(new PulsingLight(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
+            add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
           }
         }
 
@@ -512,7 +507,7 @@ Sector::run_script(std::istream& in, const std::string& sourcename)
 }
 
 void
-Sector::add_object(GameObject* object)
+Sector::add_object(GameObjectPtr object)
 {
   // make sure the object isn't already in the list
 #ifndef NDEBUG
@@ -526,14 +521,13 @@ Sector::add_object(GameObject* object)
   }
 #endif
 
-  object->ref();
   gameobjects_new.push_back(object);
 }
 
 void
 Sector::activate(const std::string& spawnpoint)
 {
-  SpawnPoint* sp = 0;
+  std::shared_ptr<SpawnPoint> sp;
   for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
       ++i) {
     if((*i)->name == spawnpoint) {
@@ -570,9 +564,8 @@ Sector::activate(const Vector& player_pos)
       throw scripting::SquirrelError(vm, "Couldn't set sector in roottable");
     sq_pop(vm, 1);
 
-    for(GameObjects::iterator i = gameobjects.begin();
-        i != gameobjects.end(); ++i) {
-      GameObject* object = *i;
+    for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+      GameObjectPtr object = *i;
 
       try_expose(object);
     }
@@ -582,9 +575,8 @@ Sector::activate(const Vector& player_pos)
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
-  for(GameObjects::iterator i = gameobjects.begin();
-      i != gameobjects.end(); ++i) {
-    Player* p = dynamic_cast<Player*>(*i);
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    Player* p = dynamic_cast<Player*>(i->get());
     if (!p) continue;
 
     // spawn smalltux below spawnpoint
@@ -646,9 +638,8 @@ Sector::deactivate()
     throw scripting::SquirrelError(vm, "Couldn't unset sector in roottable");
   sq_pop(vm, 1);
 
-  for(GameObjects::iterator i = gameobjects.begin();
-      i != gameobjects.end(); ++i) {
-    GameObject* object = *i;
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    GameObjectPtr object = *i;
 
     try_unexpose(object);
   }
@@ -671,9 +662,8 @@ Sector::update(float elapsed_time)
   player->check_bounds();
 
   /* update objects */
-  for(GameObjects::iterator i = gameobjects.begin();
-      i != gameobjects.end(); ++i) {
-    GameObject* object = *i;
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    GameObjectPtr& object = *i;
     if(!object->is_valid())
       continue;
 
@@ -689,9 +679,9 @@ void
 Sector::update_game_objects()
 {
   /** cleanup marked objects */
-  for(std::vector<GameObject*>::iterator i = gameobjects.begin();
+  for(auto i = gameobjects.begin();
       i != gameobjects.end(); /* nothing */) {
-    GameObject* object = *i;
+    GameObjectPtr& object = *i;
 
     if(object->is_valid()) {
       ++i;
@@ -700,15 +690,14 @@ Sector::update_game_objects()
 
     before_object_remove(object);
 
-    object->unref();
     i = gameobjects.erase(i);
   }
 
   /* add newly created objects */
-  for(std::vector<GameObject*>::iterator i = gameobjects_new.begin();
+  for(auto i = gameobjects_new.begin();
       i != gameobjects_new.end(); ++i)
   {
-    GameObject* object = *i;
+    GameObjectPtr object = *i;
 
     before_object_add(object);
 
@@ -719,10 +708,9 @@ Sector::update_game_objects()
   /* update solid_tilemaps list */
   //FIXME: this could be more efficient
   solid_tilemaps.clear();
-  for(std::vector<GameObject*>::iterator i = gameobjects.begin();
-      i != gameobjects.end(); ++i)
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i)
   {
-    TileMap* tm = dynamic_cast<TileMap*>(*i);
+    TileMap* tm = dynamic_cast<TileMap*>(i->get());
     if (!tm) continue;
     if (tm->is_solid()) solid_tilemaps.push_back(tm);
   }
@@ -730,30 +718,33 @@ Sector::update_game_objects()
 }
 
 bool
-Sector::before_object_add(GameObject* object)
+Sector::before_object_add(GameObjectPtr object)
 {
-  Bullet* bullet = dynamic_cast<Bullet*> (object);
-  if(bullet != NULL) {
+  auto bullet = dynamic_cast<Bullet*>(object.get());
+  if (bullet)
+  {
     bullets.push_back(bullet);
   }
 
-  MovingObject* movingobject = dynamic_cast<MovingObject*> (object);
-  if(movingobject != NULL) {
+  auto movingobject = dynamic_cast<MovingObject*>(object.get());
+  if (movingobject)
+  {
     moving_objects.push_back(movingobject);
   }
 
-  Portable* portable = dynamic_cast<Portable*> (object);
-  if(portable != NULL) {
+  auto portable = dynamic_cast<Portable*>(object.get());
+  if(portable)
+  {
     portables.push_back(portable);
   }
 
-  TileMap* tilemap = dynamic_cast<TileMap*> (object);
-  if(tilemap != NULL && tilemap->is_solid()) {
+  auto tilemap = dynamic_cast<TileMap*>(object.get());
+  if(tilemap && tilemap->is_solid()) {
     solid_tilemaps.push_back(tilemap);
   }
 
-  Camera* camera_ = dynamic_cast<Camera*> (object);
-  if(camera_ != NULL) {
+  auto camera_ = dynamic_cast<Camera*>(object.get());
+  if(camera_) {
     if(this->camera != 0) {
       log_warning << "Multiple cameras added. Ignoring" << std::endl;
       return false;
@@ -761,8 +752,8 @@ Sector::before_object_add(GameObject* object)
     this->camera = camera_;
   }
 
-  Player* player_ = dynamic_cast<Player*> (object);
-  if(player_ != NULL) {
+  auto player_ = dynamic_cast<Player*>(object.get());
+  if(player_) {
     if(this->player != 0) {
       log_warning << "Multiple players added. Ignoring" << std::endl;
       return false;
@@ -770,8 +761,8 @@ Sector::before_object_add(GameObject* object)
     this->player = player_;
   }
 
-  DisplayEffect* effect_ = dynamic_cast<DisplayEffect*> (object);
-  if(effect_ != NULL) {
+  auto effect_ = dynamic_cast<DisplayEffect*>(object.get());
+  if(effect_) {
     if(this->effect != 0) {
       log_warning << "Multiple DisplayEffects added. Ignoring" << std::endl;
       return false;
@@ -787,9 +778,9 @@ Sector::before_object_add(GameObject* object)
 }
 
 void
-Sector::try_expose(GameObject* object)
+Sector::try_expose(GameObjectPtr object)
 {
-  ScriptInterface* object_ = dynamic_cast<ScriptInterface*> (object);
+  ScriptInterface* object_ = dynamic_cast<ScriptInterface*>(object.get());
   if(object_ != NULL) {
     HSQUIRRELVM vm = scripting::global_vm;
     sq_pushobject(vm, sector_table);
@@ -803,24 +794,24 @@ Sector::try_expose_me()
 {
   HSQUIRRELVM vm = scripting::global_vm;
   sq_pushobject(vm, sector_table);
-  scripting::SSector* this_ = static_cast<scripting::SSector*> (this);
+  scripting::SSector* this_ = static_cast<scripting::SSector*>(this);
   expose_object(vm, -1, this_, "settings", false);
   sq_pop(vm, 1);
 }
 
 void
-Sector::before_object_remove(GameObject* object)
+Sector::before_object_remove(GameObjectPtr object)
 {
-  Portable* portable = dynamic_cast<Portable*> (object);
-  if(portable != NULL) {
+  Portable* portable = dynamic_cast<Portable*>(object.get());
+  if (portable) {
     portables.erase(std::find(portables.begin(), portables.end(), portable));
   }
-  Bullet* bullet = dynamic_cast<Bullet*> (object);
-  if(bullet != NULL) {
+  Bullet* bullet = dynamic_cast<Bullet*>(object.get());
+  if (bullet) {
     bullets.erase(std::find(bullets.begin(), bullets.end(), bullet));
   }
-  MovingObject* moving_object = dynamic_cast<MovingObject*> (object);
-  if(moving_object != NULL) {
+  MovingObject* moving_object = dynamic_cast<MovingObject*>(object.get());
+  if (moving_object) {
     moving_objects.erase(
       std::find(moving_objects.begin(), moving_objects.end(), moving_object));
   }
@@ -830,9 +821,9 @@ Sector::before_object_remove(GameObject* object)
 }
 
 void
-Sector::try_unexpose(GameObject* object)
+Sector::try_unexpose(GameObjectPtr object)
 {
-  ScriptInterface* object_ = dynamic_cast<ScriptInterface*> (object);
+  ScriptInterface* object_ = dynamic_cast<ScriptInterface*>(object.get());
   if(object_ != NULL) {
     HSQUIRRELVM vm = scripting::global_vm;
     SQInteger oldtop = sq_gettop(vm);
@@ -866,15 +857,14 @@ Sector::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(camera->get_translation());
 
-  for(GameObjects::iterator i = gameobjects.begin();
-      i != gameobjects.end(); ++i) {
-    GameObject* object = *i;
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    GameObjectPtr& object = *i;
     if(!object->is_valid())
       continue;
 
     if (draw_solids_only)
     {
-      TileMap* tm = dynamic_cast<TileMap*>(object);
+      TileMap* tm = dynamic_cast<TileMap*>(object.get());
       if (tm && !tm->is_solid())
         continue;
     }
@@ -1459,14 +1449,12 @@ bool
 Sector::add_bullet(const Vector& pos, const PlayerStatus* player_status, float xm, Direction dir)
 {
   // TODO remove this function and move these checks elsewhere...
-
-  Bullet* new_bullet = 0;
   if((player_status->bonus == FIRE_BONUS &&
       (int)bullets.size() >= player_status->max_fire_bullets) ||
      (player_status->bonus == ICE_BONUS &&
       (int)bullets.size() >= player_status->max_ice_bullets))
     return false;
-  new_bullet = new Bullet(pos, xm, dir, player_status->bonus);
+  auto new_bullet = std::make_shared<Bullet>(pos, xm, dir, player_status->bonus);
   add_object(new_bullet);
 
   SoundManager::current()->play("sounds/shoot.wav");
@@ -1477,7 +1465,7 @@ Sector::add_bullet(const Vector& pos, const PlayerStatus* player_status, float x
 bool
 Sector::add_smoke_cloud(const Vector& pos)
 {
-  add_object(new SmokeCloud(pos));
+  add_object(std::make_shared<SmokeCloud>(pos));
   return true;
 }
 
@@ -1511,9 +1499,8 @@ int
 Sector::get_total_badguys()
 {
   int total_badguys = 0;
-  for(GameObjects::iterator i = gameobjects.begin();
-      i != gameobjects.end(); ++i) {
-    BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    BadGuy* badguy = dynamic_cast<BadGuy*>(i->get());
     if (badguy && badguy->countMe)
       total_badguys++;
   }

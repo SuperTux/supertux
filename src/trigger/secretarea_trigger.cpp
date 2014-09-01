@@ -94,7 +94,7 @@ SecretAreaTrigger::event(Player& , EventType type)
         // fade away tilemaps
         Sector& sector = *Sector::current();
         for(Sector::GameObjects::iterator i = sector.gameobjects.begin(); i != sector.gameobjects.end(); ++i) {
-          TileMap* tm = dynamic_cast<TileMap*>(*i);
+          TileMap* tm = dynamic_cast<TileMap*>(i->get());
           if (!tm) continue;
           if (tm->get_name() != fade_tilemap) continue;
           tm->fade(0.0, 1.0);

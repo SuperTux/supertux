@@ -28,11 +28,11 @@ FloatingImage::FloatingImage(const std::string& spritefile) :
 {
   using namespace worldmap;
 
-  floating_image = new _FloatingImage(spritefile);
+  floating_image = std::make_shared<_FloatingImage>(spritefile);
   if(Sector::current() != NULL) {
-    Sector::current()->add_object(floating_image.get());
+    Sector::current()->add_object(floating_image);
   } else if(WorldMap::current() != NULL) {
-    WorldMap::current()->add_object(floating_image.get());
+    WorldMap::current()->add_object(floating_image);
   } else {
     throw new std::runtime_error("Neither sector nor worldmap active");
   }

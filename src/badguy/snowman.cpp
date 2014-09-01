@@ -47,7 +47,7 @@ Snowman::loose_head()
   set_state (STATE_FALLING);
 
   /* Create a new snowball where the snowman's head was */
-  SnowBall* snowball = new SnowBall(snowball_pos, dir, dead_script);
+  auto snowball = std::make_shared<SnowBall>(snowball_pos, dir, dead_script);
   Sector::current()->add_object(snowball);
 }
 

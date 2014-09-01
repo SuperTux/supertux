@@ -92,7 +92,7 @@ void
 BicyclePlatform::update(float elapsed_time)
 {
   if (!slave) {
-    Sector::current()->add_object(new BicyclePlatform(this));
+    Sector::current()->add_object(std::make_shared<BicyclePlatform>(this));
     return;
   }
   if (!master) {

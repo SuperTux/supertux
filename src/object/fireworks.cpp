@@ -49,9 +49,9 @@ Fireworks::update(float )
     //float green = 0.9;
     (void) red;
     (void) green;
-    sector->add_object(new Particles(pos, 0, 360, Vector(140, 140),
-                                     Vector(0, 0), 45, Color(red, green, 0), 3, 1.3f,
-                                     LAYER_FOREGROUND1+1));
+    sector->add_object(std::make_shared<Particles>(pos, 0, 360, Vector(140, 140),
+                                                   Vector(0, 0), 45, Color(red, green, 0), 3, 1.3f,
+                                                   LAYER_FOREGROUND1+1));
     SoundManager::current()->play("sounds/fireworks.wav");
     timer.start(graphicsRandom.randf(1.0, 1.5));
   }

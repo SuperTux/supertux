@@ -22,15 +22,16 @@
 #include <vector>
 
 #include "control/controller.hpp"
-#include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
 #include "supertux/console.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/game_object_ptr.hpp"
 #include "supertux/level.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/statistics.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/timer.hpp"
+#include "util/reader_fwd.hpp"
 #include "worldmap/direction.hpp"
 #include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
@@ -73,10 +74,10 @@ private:
   typedef std::vector<SpriteChange*> SpriteChanges;
   typedef std::vector<SpawnPoint*> SpawnPoints;
   typedef std::vector<LevelTile*> LevelTiles;
-  typedef std::vector<GameObject*> GameObjects;
+  typedef std::vector<GameObjectPtr> GameObjects;
   typedef std::vector<HSQOBJECT> ScriptList;
 
-  Tux* tux;
+  std::shared_ptr<Tux> tux;
 
   Savegame& m_savegame;
 
@@ -127,10 +128,10 @@ public:
   WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint = "");
   ~WorldMap();
 
-  void add_object(GameObject* object);
+  void add_object(GameObjectPtr object);
 
-  void try_expose(GameObject* object);
-  void try_unexpose(GameObject* object);
+  void try_expose(const GameObjectPtr& object);
+  void try_unexpose(const GameObjectPtr& object);
 
   static WorldMap* current()
   { return current_; }
@@ -167,7 +168,7 @@ public:
   void finished_level(Level* level);
 
   /** returns current Tux incarnation */
-  Tux* get_tux() { return tux; }
+  Tux* get_tux() { return tux.get(); }
 
   Savegame& get_savegame() { return m_savegame; }
 

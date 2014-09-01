@@ -42,7 +42,7 @@
 BonusBlock::BonusBlock(const Vector& pos, int data) :
   Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
   contents(),
-  object(0),
+  object(),
   hit_counter(1),
   sprite_name(),
   script(),
@@ -64,15 +64,15 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
       //object = new Trampoline(get_pos(), false); //needed if this is to be moved to custom
       break;
     case 8: contents = CONTENT_CUSTOM;
-      object = new Trampoline(get_pos(), true);
+      object = std::make_shared<Trampoline>(get_pos(), true);
       break;
     case 9: contents = CONTENT_CUSTOM;
-      object = new Rock(get_pos(), "images/objects/rock/rock.sprite");
+      object = std::make_shared<Rock>(get_pos(), "images/objects/rock/rock.sprite");
       break;
     case 10: contents = CONTENT_RAIN; break;
     case 11: contents = CONTENT_EXPLODE; break;
     case 12: contents = CONTENT_CUSTOM;
-      object = new PowerUp(get_pos(), "images/powerups/potions/red-potion.sprite");
+      object = std::make_shared<PowerUp>(get_pos(), "images/powerups/potions/red-potion.sprite");
       break;
     default:
       log_warning << "Invalid box contents" << std::endl;
@@ -138,8 +138,8 @@ BonusBlock::BonusBlock(const Reader& lisp) :
       }
     } else {
       if(contents == CONTENT_CUSTOM) {
-        GameObject* game_object = ObjectFactory::instance().create(token, *(iter.lisp()));
-        object = dynamic_cast<MovingObject*> (game_object);
+        GameObjectPtr game_object = ObjectFactory::instance().create(token, *(iter.lisp()));
+        object = std::dynamic_pointer_cast<MovingObject>(game_object);
         if(object == 0)
           throw std::runtime_error(
             "Only MovingObjects are allowed inside BonusBlocks");
@@ -159,7 +159,6 @@ BonusBlock::BonusBlock(const Reader& lisp) :
 
 BonusBlock::~BonusBlock()
 {
-  delete object;
 }
 
 void
@@ -218,7 +217,7 @@ BonusBlock::try_open(Player *player)
   switch(contents) {
     case CONTENT_COIN:
     {
-      Sector::current()->add_object(new BouncyCoin(get_pos(), true));
+      Sector::current()->add_object(std::make_shared<BouncyCoin>(get_pos(), true));
       player->get_status()->add_coins(1);
       if (hit_counter != 0)
         Sector::current()->get_level()->stats.coins++;
@@ -228,11 +227,11 @@ BonusBlock::try_open(Player *player)
     case CONTENT_FIREGROW:
     {
       if(player->get_status()->bonus == NO_BONUS) {
-        SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
+        auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<GrowUp>(direction));
         sector->add_object(riser);
       } else {
-        SpecialRiser* riser = new SpecialRiser(
-          get_pos(), new Flower(FIRE_BONUS));
+        auto riser = std::make_shared<SpecialRiser>(
+          get_pos(), std::make_shared<Flower>(FIRE_BONUS));
         sector->add_object(riser);
       }
       SoundManager::current()->play("sounds/upgrade.wav");
@@ -242,11 +241,11 @@ BonusBlock::try_open(Player *player)
     case CONTENT_ICEGROW:
     {
       if(player->get_status()->bonus == NO_BONUS) {
-        SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp(direction));
+        auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<GrowUp>(direction));
         sector->add_object(riser);
       } else {
-        SpecialRiser* riser = new SpecialRiser(
-          get_pos(), new Flower(ICE_BONUS));
+        auto riser = std::make_shared<SpecialRiser>(
+          get_pos(), std::make_shared<Flower>(ICE_BONUS));
         sector->add_object(riser);
       }
       SoundManager::current()->play("sounds/upgrade.wav");
@@ -255,21 +254,21 @@ BonusBlock::try_open(Player *player)
 
     case CONTENT_STAR:
     {
-      sector->add_object(new Star(get_pos() + Vector(0, -32), direction));
+      sector->add_object(std::make_shared<Star>(get_pos() + Vector(0, -32), direction));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
     case CONTENT_1UP:
     {
-      sector->add_object(new OneUp(get_pos(), direction));
+      sector->add_object(std::make_shared<OneUp>(get_pos(), direction));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
 
     case CONTENT_CUSTOM:
     {
-      SpecialRiser* riser = new SpecialRiser(get_pos(), object);
+      auto riser = std::make_shared<SpecialRiser>(get_pos(), object);
       object = 0;
       sector->add_object(riser);
       SoundManager::current()->play("sounds/upgrade.wav");
@@ -290,7 +289,7 @@ BonusBlock::try_open(Player *player)
     }
     case CONTENT_TRAMPOLINE:
     {
-      SpecialRiser* riser = new SpecialRiser(get_pos(), new Trampoline(get_pos(), false));
+      auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<Trampoline>(get_pos(), false));
       sector->add_object(riser);
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
@@ -298,14 +297,14 @@ BonusBlock::try_open(Player *player)
     case CONTENT_RAIN:
     {
       hit_counter = 1; // multiple hits of coin rain is not allowed
-      Sector::current()->add_object(new CoinRain(get_pos(), true));
+      Sector::current()->add_object(std::make_shared<CoinRain>(get_pos(), true));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
     case CONTENT_EXPLODE:
     {
       hit_counter = 1; // multiple hits of coin explode is not allowed
-      Sector::current()->add_object(new CoinExplode(get_pos() + Vector (0, -40)));
+      Sector::current()->add_object(std::make_shared<CoinExplode>(get_pos() + Vector (0, -40)));
       SoundManager::current()->play("sounds/upgrade.wav");
       break;
     }
@@ -366,7 +365,7 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_FIREGROW:
     {
-      sector->add_object(new PowerUp(get_pos() + Vector(0, 32), "images/powerups/fireflower/fireflower.sprite"));
+      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/fireflower/fireflower.sprite"));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -374,7 +373,7 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_ICEGROW:
     {
-      sector->add_object(new PowerUp(get_pos() + Vector(0, 32), "images/powerups/iceflower/iceflower.sprite"));
+      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/iceflower/iceflower.sprite"));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -382,7 +381,7 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_STAR:
     {
-      sector->add_object(new Star(get_pos() + Vector(0, 32), direction));
+      sector->add_object(std::make_shared<Star>(get_pos() + Vector(0, 32), direction));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -390,7 +389,7 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_1UP:
     {
-      sector->add_object(new OneUp(get_pos(), DOWN));
+      sector->add_object(std::make_shared<OneUp>(get_pos(), DOWN));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -428,7 +427,7 @@ BonusBlock::try_drop(Player *player)
     case CONTENT_EXPLODE:
     {
       hit_counter = 1; // multiple hits of coin explode is not allowed
-      Sector::current()->add_object(new CoinExplode(get_pos() + Vector (0, 40)));
+      Sector::current()->add_object(std::make_shared<CoinExplode>(get_pos() + Vector (0, 40)));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;

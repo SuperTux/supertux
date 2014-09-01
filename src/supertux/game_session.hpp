@@ -119,7 +119,7 @@ private:
   int levelnb;
   int pause_menu_frame;
 
-  EndSequence* end_sequence;
+  std::shared_ptr<EndSequence> end_sequence;
 
   bool  game_pause;
   float speed_before_pause;
