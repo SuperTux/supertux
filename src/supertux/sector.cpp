@@ -116,8 +116,7 @@ Sector::~Sector()
 
   deactivate();
 
-  for(ScriptList::iterator i = scripts.begin();
-      i != scripts.end(); ++i) {
+  for(auto i = scripts.begin(); i != scripts.end(); ++i) {
     HSQOBJECT& object = *i;
     sq_release(global_vm, &object);
   }
@@ -127,8 +126,7 @@ Sector::~Sector()
   update_game_objects();
   assert(gameobjects_new.size() == 0);
 
-  for(GameObjects::iterator i = gameobjects.begin();
-      i != gameobjects.end(); ++i) {
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
     GameObjectPtr object = *i;
     before_object_remove(object);
   }
@@ -400,7 +398,7 @@ Sector::parse_old_format(const Reader& reader)
 void
 Sector::fix_old_tiles()
 {
-  for(std::list<TileMap*>::iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+  for(auto i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
     for(size_t x=0; x < solids->get_width(); ++x) {
       for(size_t y=0; y < solids->get_height(); ++y) {
@@ -437,7 +435,7 @@ Sector::fix_old_tiles()
   }
 
   // add lights for special tiles
-  for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end(); i++) {
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); i++) {
     TileMap* tm = dynamic_cast<TileMap*>(i->get());
     if (!tm) continue;
     for(size_t x=0; x < tm->get_width(); ++x) {
@@ -474,8 +472,7 @@ Sector::run_script(std::istream& in, const std::string& sourcename)
   using namespace scripting;
 
   // garbage collect thread list
-  for(ScriptList::iterator i = scripts.begin();
-      i != scripts.end(); ) {
+  for(auto i = scripts.begin(); i != scripts.end(); ) {
     HSQOBJECT& object = *i;
     HSQUIRRELVM vm = object_to_vm(object);
 
@@ -511,12 +508,10 @@ Sector::add_object(GameObjectPtr object)
 {
   // make sure the object isn't already in the list
 #ifndef NDEBUG
-  for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end();
-      ++i) {
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
     assert(*i != object);
   }
-  for(GameObjects::iterator i = gameobjects_new.begin();
-      i != gameobjects_new.end(); ++i) {
+  for(auto i = gameobjects_new.begin(); i != gameobjects_new.end(); ++i) {
     assert(*i != object);
   }
 #endif
@@ -528,8 +523,7 @@ void
 Sector::activate(const std::string& spawnpoint)
 {
   std::shared_ptr<SpawnPoint> sp;
-  for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
-      ++i) {
+  for(auto i = spawnpoints.begin(); i != spawnpoints.end(); ++i) {
     if((*i)->name == spawnpoint) {
       sp = *i;
       break;
@@ -874,8 +868,7 @@ Sector::draw(DrawingContext& context)
 
   if(show_collrects) {
     Color color(1.0f, 0.0f, 0.0f, 0.75f);
-    for(MovingObjects::iterator i = moving_objects.begin();
-        i != moving_objects.end(); ++i) {
+    for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
       MovingObject* object = *i;
       const Rectf& rect = object->get_bbox();
 
@@ -974,7 +967,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
   float y1 = dest.get_top();
   float y2 = dest.get_bottom();
 
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+  for(auto i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
 
     // test with all tiles in this rectangle
@@ -1029,7 +1022,7 @@ Sector::collision_tile_attributes(const Rectf& dest) const
   float y2 = dest.p2.y;
 
   uint32_t result = 0;
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+  for(auto i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
 
     // test with all tiles in this rectangle
@@ -1135,8 +1128,7 @@ Sector::collision_static(collision::Constraints* constraints,
   collision_tilemap(constraints, movement, dest, object);
 
   // collision with other (static) objects
-  for(MovingObjects::iterator i = moving_objects.begin();
-      i != moving_objects.end(); ++i) {
+  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     if(moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
@@ -1259,8 +1251,7 @@ Sector::handle_collisions()
   using namespace collision;
 
   // calculate destination positions of the objects
-  for(MovingObjects::iterator i = moving_objects.begin();
-      i != moving_objects.end(); ++i) {
+  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     Vector mov = moving_object->get_movement();
 
@@ -1275,8 +1266,7 @@ Sector::handle_collisions()
   }
 
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
-  for(MovingObjects::iterator i = moving_objects.begin();
-      i != moving_objects.end(); ++i) {
+  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     if((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
@@ -1288,8 +1278,7 @@ Sector::handle_collisions()
   }
 
   // part2: COLGROUP_MOVING vs tile attributes
-  for(MovingObjects::iterator i = moving_objects.begin();
-      i != moving_objects.end(); ++i) {
+  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     if((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
@@ -1304,16 +1293,14 @@ Sector::handle_collisions()
   }
 
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
-  for(MovingObjects::iterator i = moving_objects.begin();
-      i != moving_objects.end(); ++i) {
+  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     if((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC)
        || !moving_object->is_valid())
       continue;
 
-    for(MovingObjects::iterator i2 = moving_objects.begin();
-        i2 != moving_objects.end(); ++i2) {
+    for(auto i2 = moving_objects.begin(); i2 != moving_objects.end(); ++i2) {
       MovingObject* moving_object_2 = *i2;
       if(moving_object_2->get_group() != COLGROUP_TOUCHABLE
          || !moving_object_2->is_valid())
@@ -1336,8 +1323,7 @@ Sector::handle_collisions()
   }
 
   // part3: COLGROUP_MOVING vs COLGROUP_MOVING
-  for(MovingObjects::iterator i = moving_objects.begin();
-      i != moving_objects.end(); ++i) {
+  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
 
     if((moving_object->get_group() != COLGROUP_MOVING
@@ -1345,8 +1331,7 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
 
-    for(MovingObjects::iterator i2 = i+1;
-        i2 != moving_objects.end(); ++i2) {
+    for(auto i2 = i+1; i2 != moving_objects.end(); ++i2) {
       MovingObject* moving_object_2 = *i2;
       if((moving_object_2->get_group() != COLGROUP_MOVING
           && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
@@ -1358,8 +1343,7 @@ Sector::handle_collisions()
   }
 
   // apply object movement
-  for(MovingObjects::iterator i = moving_objects.begin();
-      i != moving_objects.end(); ++i) {
+  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
 
     moving_object->bbox = moving_object->dest;
@@ -1372,7 +1356,7 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+  for(auto i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
 
     // test with all tiles in this rectangle
@@ -1410,8 +1394,7 @@ Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object,
 
   if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
 
-  for(MovingObjects::const_iterator i = moving_objects.begin();
-      i != moving_objects.end(); ++i) {
+  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     const MovingObject* moving_object = *i;
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
@@ -1430,8 +1413,7 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 
   if (!is_free_of_tiles(rect)) return false;
 
-  for(MovingObjects::const_iterator i = moving_objects.begin();
-      i != moving_objects.end(); ++i) {
+  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     const MovingObject* moving_object = *i;
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
@@ -1511,7 +1493,7 @@ Sector::get_total_badguys()
 bool
 Sector::inside(const Rectf& rect) const
 {
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+  for(auto i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
 
     Rectf bbox = solids->get_bbox();
@@ -1527,8 +1509,7 @@ float
 Sector::get_width() const
 {
   float width = 0;
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin();
-      i != solid_tilemaps.end(); i++) {
+  for(auto i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
     width = std::max(width, solids->get_bbox().get_right());
   }
@@ -1540,7 +1521,7 @@ float
 Sector::get_height() const
 {
   float height = 0;
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin();
+  for(auto i = solid_tilemaps.begin();
       i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
     height = std::max(height, solids->get_bbox().get_bottom());
@@ -1552,7 +1533,7 @@ Sector::get_height() const
 void
 Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 {
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+  for(auto i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
     TileMap* solids = *i;
     solids->change_all(old_tile_id, new_tile_id);
   }
@@ -1604,9 +1585,7 @@ Sector::get_nearest_player (const Vector& pos)
   float nearest_dist = std::numeric_limits<float>::max();
 
   std::vector<Player*> players = Sector::current()->get_players();
-  for (std::vector<Player*>::iterator playerIter = players.begin();
-      playerIter != players.end();
-      ++playerIter)
+  for (auto playerIter = players.begin(); playerIter != players.end(); ++playerIter)
   {
     Player *this_player = *playerIter;
     if (this_player->is_dying() || this_player->is_dead())
