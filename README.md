@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/SuperTuxTeam/supertux.svg?branch=master)](https://travis-ci.org/SuperTuxTeam/supertux)
 SuperTux - <http://supertux.lethargik.org/>
 ===========================================
 Last update: February 26, 2010
