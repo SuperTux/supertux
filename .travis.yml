@@ -1,0 +1,67 @@
+# Travis-CI configuration file for SuperTuxKart
+#
+# Configuration manual:
+# http://docs.travis-ci.com/user/build-configuration/
+#
+# Heavily borrowed from SuperTuxKart's travis.yml.
+#
+# SuperTuxKart's travis.yml file can be found here:
+# https://github.com/supertuxkart/stk-code/blob/master/.travis.yml
+# License: https://github.com/supertuxkart/stk-code/blob/master/COPYING
+#
+
+branches:
+ only:
+ - feature/travis
+
+language: cpp
+
+compiler:
+ - gcc
+ - clang
+ 
+before_install:
+ - sudo apt-get update -qq
+ - sudo apt-get install build-essential libogg-dev libvorbis-dev libphysfs-dev libglew-dev libopenal-dev libboost-all-dev
+
+ # Current gcc that supports C++ 11 features
+ - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+ - sudo apt-get update -qq
+ - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+ - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+
+ # CMake
+ - wget http://www.cmake.org/files/v3.0/cmake-3.0.1.tar.gz -O - | tar xz
+ - (cd cmake-3.0.1 && cmake . && make && sudo make install)
+
+ # SDL dependencies
+ - wget http://libsdl.org/release/SDL2-2.0.3.tar.gz -O - | tar xz
+ - (cd SDL2-2.0.3 && ./configure --prefix=/usr && make -j5 && sudo make install)
+ - wget http://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.0.tar.gz -O - | tar xz
+ - (cd SDL2_image-2.0.0 && ./configure --prefix=/usr && make -j5 && sudo make install)
+
+script:
+ # First a debug build:
+- mkdir build-debug
+- cd build-debug
+- cmake .. -DCMAKE_BUILD_TYPE=Debug -DCHECK_ASSETS=off
+- make VERBOSE=1 -j 4
+# Then a release build:
+- cd ..
+- mkdir build-release
+- cd build-release
+- cmake .. -DCMAKE_BUILD_TYPE=Release -DCHECK_ASSETS=off
+- make VERBOSE=1 -j 4 
+
+notifications:
+irc:
+channels:
+- "irc.freenode.org#supertux"
+skip_join: false
+use_notice: true
+template:
+#- "[%{commit}: %{author}] %{message}"
+#- "%{build_url}"
+- "[%{repository}#%{branch} @%{commit}] %{author}): %{message}"
+- "Diff: %{compare_url}"
+- "Build: %{build_url}"
