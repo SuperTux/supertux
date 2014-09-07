@@ -10,10 +10,6 @@
 # License: https://github.com/supertuxkart/stk-code/blob/master/COPYING
 #
 
-branches:
- only:
- - feature/travis
-
 language: cpp
 
 compiler:
