@@ -50,14 +50,14 @@ script:
 - make VERBOSE=1 -j 4 
 
 notifications:
-irc:
-channels:
-- "irc.freenode.org#supertux"
-skip_join: false
-use_notice: true
-template:
-#- "[%{commit}: %{author}] %{message}"
-#- "%{build_url}"
-- "[%{repository}#%{branch} @%{commit}] %{author}): %{message}"
-- "Diff: %{compare_url}"
-- "Build: %{build_url}"
+  irc:
+    channels:
+    - "irc.freenode.org#supertux"
+    skip_join: false
+    use_notice: true
+    template:
+    #- "[%{commit}: %{author}] %{message}"
+    #- "%{build_url}"
+    - "[%{repository}#%{branch} @%{commit}] %{author}): %{message}"
+    - "Diff: %{compare_url}"
+    - "Build: %{build_url}"
