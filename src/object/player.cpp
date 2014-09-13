@@ -1303,6 +1303,8 @@ Player::kill(bool completely)
 
   physic.set_velocity_x(0);
 
+  sprite->set_angle(0.0f);
+
   if(!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav");
 
