@@ -15,6 +15,11 @@ language: cpp
 compiler:
  - gcc
  - clang
+
+env:
+ - CMAKE_VERSION=3.0.1
+ - SDL2_VERSION=2.0.3
+ - SDL2IMAGE_VERSION=2.0.0
  
 before_install:
  - sudo apt-get update -qq
@@ -27,14 +32,14 @@ before_install:
  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
 
  # CMake
- - wget http://www.cmake.org/files/v3.0/cmake-3.0.1.tar.gz -O - | tar xz
- - (cd cmake-3.0.1 && cmake . && make -j5 && sudo make install)
+ - wget http://www.cmake.org/files/v3.0/cmake-$CMAKE_VERSION.tar.gz -O - | tar xz
+ - (cd cmake-$CMAKE_VERSION && cmake . && make -j5 && sudo make install)
 
  # SDL dependencies
- - wget http://libsdl.org/release/SDL2-2.0.3.tar.gz -O - | tar xz
- - (cd SDL2-2.0.3 && ./configure --prefix=/usr && make -j5 && sudo make install)
- - wget http://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.0.tar.gz -O - | tar xz
- - (cd SDL2_image-2.0.0 && ./configure --prefix=/usr && make -j5 && sudo make install)
+ - wget http://libsdl.org/release/SDL2-$SDL2_VERSION.tar.gz -O - | tar xz
+ - (cd SDL2-$SDL2_VERSION && ./configure --prefix=/usr && make -j5 && sudo make install)
+ - wget http://www.libsdl.org/projects/SDL_image/release/SDL2_image-$SDL2IMAGE_VERSION.tar.gz -O - | tar xz
+ - (cd SDL2_image-$SDL2IMAGE_VERSION && ./configure --prefix=/usr && make -j5 && sudo make install)
 
 script:
  # First a debug build:
@@ -47,7 +52,7 @@ script:
 - mkdir build-release
 - cd build-release
 - cmake .. -DCMAKE_BUILD_TYPE=Release -DCHECK_ASSETS=off
-- make VERBOSE=1 -j5 
+- make VERBOSE=1 -j5
 
 notifications:
   email:
