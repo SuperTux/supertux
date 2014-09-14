@@ -17,9 +17,7 @@ compiler:
  - clang
 
 env:
- - CMAKE_VERSION=3.0.1
- - SDL2_VERSION=2.0.3
- - SDL2IMAGE_VERSION=2.0.0
+ - CMAKE_VERSION=3.0.1 SDL2_VERSION=2.0.3 SDL2IMAGE_VERSION=2.0.0
  
 before_install:
  - sudo apt-get update -qq
