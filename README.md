@@ -25,7 +25,7 @@ When Tux wakes up, he finds that Penny is missing. Where she lay
 before now lies a letter. "Tux, my arch enemy!" says the letter. "I
 have captured your beautiful Penny and have taken her to my fortress.
 The path to my fortress is littered with my minions. Give up on the
-thought of trying to reclaim her, you haven't a chance! -Nolok"
+thought of trying to reclaim her, you haven't got a chance! -Nolok"
 
 Tux looks and sees Nolok's fortress in the distance. Determined to
 save his beloved Penny, he begins his journey.
