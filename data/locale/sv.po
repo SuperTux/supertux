@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Arvid Norlander <anmaster@berlios.de>, 2006-2010
+# Kristoffer Grundström <kristoffer.grundstrom1983@gmail.com>, 2014
 # Simon Kornowski <kornowski.simon@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-31 07:40+0000\n"
-"PO-Revision-Date: 2014-08-31 07:46+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2014-09-09 03:42+0000\n"
+"Last-Translator: Kristoffer Grundström <kristoffer.grundstrom1983@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,44 +27,44 @@ msgstr ""
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr ""
+msgstr "Användningsområde: %s [VAL] [NIVÅ-FIL]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
-msgstr ""
+msgstr "Generella val:"
 
 #: src/supertux/command_line_arguments.cpp:76
 msgid "  -h, --help                   Show this help message and quit"
-msgstr ""
+msgstr "-h, --help Visa det här hjälpmeddelandet och avsluta"
 
 #: src/supertux/command_line_arguments.cpp:77
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr ""
+msgstr "-v, --version Visa SuperTux-version och avsluta"
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --verbose                    Print verbose messages"
-msgstr ""
+msgstr "--verbose Skriv ut detaljerade meddelanden"
 
 #: src/supertux/command_line_arguments.cpp:79
 msgid "  --debug                      Print extra verbose messages"
-msgstr ""
+msgstr "--debug Skriv ut extra detaljerade meddelanden"
 
 #: src/supertux/command_line_arguments.cpp:80
 msgid ""
 "  --print-datadir              Print supertux's primary data directory."
-msgstr ""
+msgstr " --print-datadir Skriv ut SuperTux's primära data-mapp."
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
-msgstr ""
+msgstr "Video-val:"
 
 #: src/supertux/command_line_arguments.cpp:82
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr ""
+msgstr " -f, --fullscreen Kör i helskärmsläge"
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  -w, --window                 Run in window mode"
-msgstr ""
+msgstr " -w, --window Kör i fönsterläge"
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
@@ -75,27 +76,27 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "  -d, --default                Reset video settings to default values"
-msgstr ""
+msgstr " -d, --default Återställ video-inställningar till standardvärden"
 
 #: src/supertux/command_line_arguments.cpp:87
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr ""
+msgstr " --renderer RENDERER Använd sdl, opengl, eller auto att rendera med"
 
 #: src/supertux/command_line_arguments.cpp:88
 msgid "Audio Options:"
-msgstr ""
+msgstr "Ljud-val:"
 
 #: src/supertux/command_line_arguments.cpp:89
 msgid "  --disable-sound              Disable sound effects"
-msgstr ""
+msgstr " --disable-sound Stäng av ljudeffekter"
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  --disable-music              Disable music"
-msgstr ""
+msgstr " --disable-music Stäng av musik"
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "Game Options:"
-msgstr ""
+msgstr "Spel-val:"
 
 #: src/supertux/command_line_arguments.cpp:92
 msgid "  --console                    Enable ingame scripting console"
@@ -115,7 +116,7 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --developer                  Switch on developer feature"
-msgstr ""
+msgstr " --developer Slå PÅ utvecklar-funktion"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  -s, --debug-scripts          Enable script debugger."
@@ -127,15 +128,15 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr ""
+msgstr " --record-demo FIL NIVÅ Spela in en demonstration till FIL"
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr ""
+msgstr " --play-demo FIL NIVÅ Spela upp en inspelad demonstration"
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid "Directory Options:"
-msgstr ""
+msgstr "Mapp-val:"
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid ""
@@ -150,7 +151,7 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid "Environment variables:"
-msgstr ""
+msgstr "Miljövariabler:"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid ""
@@ -184,11 +185,11 @@ msgstr "Hemligheter"
 
 #: src/supertux/levelintro.cpp:137
 msgid "Best time"
-msgstr ""
+msgstr "Bästa tid"
 
 #: src/supertux/levelintro.cpp:144
 msgid "Level target time"
-msgstr ""
+msgstr "Mål-tid för nivå"
 
 #: src/supertux/menu/addon_menu.cpp:47
 msgid "Levelset"
@@ -196,20 +197,20 @@ msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:50
 msgid "Worldmap"
-msgstr ""
+msgstr "Världskarta"
 
 #: src/supertux/menu/addon_menu.cpp:53
 msgid "World"
-msgstr ""
+msgstr "Värld"
 
 #: src/supertux/menu/addon_menu.cpp:56
 msgid "Unknown"
-msgstr ""
+msgstr "Okänd"
 
 #: src/supertux/menu/addon_menu.cpp:67
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr ""
+msgstr "%s \"%s\" av \"%s\""
 
 #: src/supertux/menu/addon_menu.cpp:103 src/supertux/menu/main_menu.cpp:43
 msgid "Add-ons"
@@ -217,11 +218,11 @@ msgstr "Tillägg"
 
 #: src/supertux/menu/addon_menu.cpp:109
 msgid "No Addons installed"
-msgstr ""
+msgstr "Inga tillägg är installerade"
 
 #: src/supertux/menu/addon_menu.cpp:163
 msgid "No new Addons found"
-msgstr ""
+msgstr "Inga nya tillägg hittades"
 
 #: src/supertux/menu/addon_menu.cpp:169
 msgid "Check Online (disabled)"
@@ -246,39 +247,39 @@ msgstr "Tillbaka"
 #: src/supertux/menu/cheat_menu.cpp:29
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
 msgid "Cheats"
-msgstr ""
+msgstr "Fusk"
 
 #: src/supertux/menu/cheat_menu.cpp:31
 #: src/supertux/menu/worldmap_cheat_menu.cpp:31
 msgid "Bonus: Grow"
-msgstr ""
+msgstr "Bonus: Väx"
 
 #: src/supertux/menu/cheat_menu.cpp:32
 #: src/supertux/menu/worldmap_cheat_menu.cpp:32
 msgid "Bonus: Fire"
-msgstr ""
+msgstr "Bonus: Eld"
 
 #: src/supertux/menu/cheat_menu.cpp:33
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 msgid "Bonus: Ice"
-msgstr ""
+msgstr "Bonus: Is"
 
 #: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Star"
-msgstr ""
+msgstr "Bonus: Stjärna"
 
 #: src/supertux/menu/cheat_menu.cpp:35
 msgid "Shrink Tux"
-msgstr ""
+msgstr "Krymp Tux"
 
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Kill Tux"
-msgstr ""
+msgstr "Döda Tux"
 
 #: src/supertux/menu/cheat_menu.cpp:37
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Finish Level"
-msgstr ""
+msgstr "Slutför nivå"
 
 #: src/supertux/menu/contrib_menu.cpp:51 src/supertux/menu/main_menu.cpp:42
 msgid "Contrib Levels"
@@ -286,19 +287,19 @@ msgstr "Bidragna nivåer"
 
 #: src/supertux/menu/download_dialog.cpp:28
 msgid "Abort Download"
-msgstr ""
+msgstr "Avbryt nerladdning"
 
 #: src/supertux/menu/download_dialog.cpp:44
 msgid "Error:\n"
-msgstr ""
+msgstr "Fel:\n"
 
 #: src/supertux/menu/download_dialog.cpp:45
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 #: src/supertux/menu/download_dialog.cpp:94
 msgid "Close"
-msgstr ""
+msgstr "Stäng"
 
 #: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Continue"
@@ -321,7 +322,7 @@ msgstr "Ställ in styrspak"
 
 #: src/supertux/menu/joystick_menu.cpp:53
 msgid "Manual Configuration"
-msgstr ""
+msgstr "Manuell konfiguration"
 
 #: src/supertux/menu/joystick_menu.cpp:55
 msgid ""
@@ -390,7 +391,7 @@ msgstr "Konsol"
 #: src/supertux/menu/joystick_menu.cpp:82
 #: src/supertux/menu/keyboard_menu.cpp:44
 msgid "Cheat Menu"
-msgstr ""
+msgstr "Fusk-meny"
 
 #: src/supertux/menu/joystick_menu.cpp:84
 #: src/supertux/menu/keyboard_menu.cpp:46
@@ -469,11 +470,11 @@ msgstr "Vänster Alt"
 
 #: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Right Command"
-msgstr ""
+msgstr "Höger kommando"
 
 #: src/supertux/menu/keyboard_menu.cpp:88
 msgid "Left Command"
-msgstr ""
+msgstr "Vänster kommando"
 
 #: src/supertux/menu/keyboard_menu.cpp:98
 msgid "Press Key"
@@ -501,15 +502,15 @@ msgstr "Avsluta"
 
 #: src/supertux/menu/main_menu.cpp:85
 msgid "Do you really want to quit SuperTux?"
-msgstr ""
+msgstr "Vill du verkligen avsluta SuperTux?"
 
 #: src/supertux/menu/main_menu.cpp:86
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: src/supertux/menu/main_menu.cpp:87
 msgid "Quit SuperTux"
-msgstr ""
+msgstr "Avsluta SuperTux"
 
 #: src/supertux/menu/options_menu.cpp:54
 msgid "Select Language"
@@ -602,23 +603,23 @@ msgstr "Ställ in funktioner för styrspakskontrollerna"
 
 #: src/supertux/menu/options_menu.cpp:207
 msgid "Developer Mode"
-msgstr ""
+msgstr "Utvecklarläge"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 msgid "Bonus: None"
-msgstr ""
+msgstr "Bonus: Ingen"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:37
 msgid "Reset Level"
-msgstr ""
+msgstr "Återställ nivå"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
 msgid "Finish WorldMap"
-msgstr ""
+msgstr "Slutför världskartan"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:40
 msgid "Reset WorldMap"
-msgstr ""
+msgstr "Återställ världskartan"
 
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
@@ -666,13 +667,13 @@ msgstr "Tid"
 
 #: src/supertux/title_screen.cpp:58
 msgid "Copyright"
-msgstr ""
+msgstr "Kopieringsskydd"
 
 #: src/supertux/title_screen.cpp:59
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr ""
+msgstr "Det här spelet kommer med ABSOLUT INGEN GARANTI. Det här är fri mjukvara och du är välkommen att\nåterdistribuera det under särskilda villkor; läs filen COPYING för mer detaljer.\n"
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Angela <angelapellegrino@hotmail.it>, 2014
 # Andrius Štikonas <andrius@stikonas.eu>, 2006
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2014-07-12 10:40+0000\n"
+"PO-Revision-Date: 2014-09-02 18:18+0000\n"
 "Last-Translator: Angela <angelapellegrino@hotmail.it>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +45,7 @@ msgstr "Cancello del Castello"
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
-msgstr "La Casa È Molto Lontana"
+msgstr "La Lunga Strada Verso Casa"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
@@ -99,7 +100,7 @@ msgstr "Sono già stato qui prima?"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
-msgstr "I nemici puzzano!"
+msgstr "I cattivi puzzano!"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -143,7 +144,7 @@ msgstr "Hai trovato un luogo segreto!"
 
 #: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."
-msgstr "Suggerimento: Usa gli igloo per ritornare qui."
+msgstr "Suggerimento: Usa gli igloo per tornare qui."
 
 #: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"

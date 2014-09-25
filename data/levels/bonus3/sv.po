@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-16 16:36+0000\n"
-"PO-Revision-Date: 2014-03-29 03:17+0000\n"
+"PO-Revision-Date: 2014-09-09 01:24+0000\n"
 "Last-Translator: Kristoffer Grundström <kristoffer.grundstrom1983@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr "-89,2 grader"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
-msgstr ""
+msgstr "Global uppvärmning"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
@@ -50,7 +50,7 @@ msgstr "..., men ingen kan stoppa det..."
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr ""
+msgstr "-Jag är hemskt ledsen, men den här flygplattformen är lat.\n-Kom tillbaka någon annan gång."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
@@ -62,21 +62,21 @@ msgstr "Slott av mörker och ljus"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr ""
+msgstr "Grottspringning"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
-msgstr ""
+msgstr "Kallt hålrum"
 
 #: data/levels/bonus3/cavern_v2.stl:50
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr ""
+msgstr "#Bra jobbat! Du behöll den röda lyktan! Du behövde inte göra det egentligen, men eftersom att du ändå gjorde det så får du 100 mynt!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr ""
+msgstr "Kokosnötsfästningen"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
@@ -88,11 +88,11 @@ msgstr "Kristallskyarna"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr ""
+msgstr "Kristallskönhet"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr ""
+msgstr "Kristallsyndafloden"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
@@ -121,7 +121,7 @@ msgstr "Blom-bonus"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
-msgstr ""
+msgstr "Efter glaciärerna"
 
 #: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
@@ -133,88 +133,88 @@ msgstr "Ett bergigt landskap"
 
 #: data/levels/bonus3/in_the_spring.stl:3
 msgid "In the Spring"
-msgstr ""
+msgstr "På våren"
 
 #: data/levels/bonus3/its_getting_unfinishable.stl:3
 msgid "It's getting unfinishable"
-msgstr ""
+msgstr "Det börjar bli omöjligt att slutföra"
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
-msgstr ""
+msgstr "Lite ljus i mörkret vore toppen, tack!"
 
 #: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
-msgstr ""
+msgstr "Varning för snöfall"
 
 #: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
-msgstr ""
+msgstr "Hål, en dag på isen"
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
-msgstr ""
+msgstr "Toalettzonen"
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr ""
+msgstr "- Spola: \n#Tryck på uppåt-knappen för att spola!"
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr ""
+msgstr "- En väg ut?\n#Låt oss hoppa!"
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
-msgstr ""
+msgstr "Min Penny är över havet"
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"
-msgstr ""
+msgstr "Gul snö"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
-msgstr ""
+msgstr "Röd varning! Skogen brinner!"
 
 #: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
-msgstr ""
+msgstr "Rymmning från kloaken"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
-msgstr ""
+msgstr "Att regna eller att inte regna - Det är frågan"
 
 #: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
-msgstr ""
+msgstr "Att regna eller att inte regna - Det är frågan (Antarktisk)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
-msgstr ""
+msgstr "En snöig kulle"
 
 #: data/levels/bonus3/three_frosty_icebergs.stl:3
 msgid "Three Frosty Icebergs"
-msgstr ""
+msgstr "Tre frostiga isberg"
 
 #: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
-msgstr ""
+msgstr "Under isen"
 
 #: data/levels/bonus3/worldmap.stwm:3
 msgid "Bonus Island III"
-msgstr ""
+msgstr "Bonus-ö III"
 
 #: data/levels/bonus3/worldmap.stwm:12
 msgid "You found a secret place!"
-msgstr ""
+msgstr "Du har hittat ett hemligt ställe!"
 
 #: data/levels/bonus3/worldmap.stwm:20
 msgid "Congratulations... you found the secret pathway!"
-msgstr ""
+msgstr "Grattis.... du har hittat den hemliga gångstigen!"
 
 #: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
 msgid "Go Home"
-msgstr ""
+msgstr "Gå hem"
