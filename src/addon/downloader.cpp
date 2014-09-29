@@ -153,7 +153,7 @@ public:
     return size * nmemb;
   }
 
-  void on_progress(double dltotal, double dlnow,
+  int on_progress(double dltotal, double dlnow,
                    double ultotal, double ulnow)
   {
     m_status->dltotal = static_cast<int>(dltotal);
@@ -161,6 +161,8 @@ public:
 
     m_status->ultotal = static_cast<int>(ultotal);
     m_status->ulnow = static_cast<int>(ulnow);
+
+    return 0;
   }
 
 private:
@@ -169,9 +171,9 @@ private:
     return static_cast<Transfer*>(userdata)->on_data(ptr, size, nmemb);
   }
 
-  static void on_progress_wrap(void* userdata,
-                               double dltotal, double dlnow,
-                               double ultotal, double ulnow)
+  static int on_progress_wrap(void* userdata,
+                              double dltotal, double dlnow,
+                              double ultotal, double ulnow)
   {
     return static_cast<Transfer*>(userdata)->on_progress(dltotal, dlnow, ultotal, ulnow);
   }
