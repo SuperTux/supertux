@@ -4057,5 +4057,41 @@
     (image "tiles/background/rope.png")
   )
 
-;; next-id: 3068
+
+  (tiles
+    (width 4)(height 5)
+    (ids
+      3068 3069 3070 3071
+      3072 3073 3074 3075
+      3076 3077 3078 3079
+      3080 3081 3082 3083
+      3084 3085 3086 3087
+    )
+    (attributes
+      0 0 0 0
+      0 1 1 0
+      0 1 1 0
+      0 1 1 0
+      0 0 0 0
+    )
+    (image "tiles/halloween/base.png")
+  )
+
+
+  (tiles
+    (width 2)(height 3)
+    (ids
+      3088 3089
+      3090 3091
+      3092 3093
+    )
+    (attributes
+      0 0
+      0 0
+      1 1
+    )
+    (image "tiles/halloween/inner.png")
+  )
+
+;; next-id: 3094
 )
