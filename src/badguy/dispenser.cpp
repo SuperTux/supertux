@@ -205,8 +205,7 @@ Dispenser::launch_badguy()
     }
 
     try {
-      GameObject *game_object;
-      BadGuy *bad_guy;
+      GameObjectPtr game_object;
       Vector spawnpoint;
       Rectf object_bbox;
 
@@ -215,33 +214,33 @@ Dispenser::launch_badguy()
       if (game_object == NULL)
         throw std::runtime_error("Creating " + badguy + " object failed.");
 
-      bad_guy = dynamic_cast<BadGuy *> (game_object);
-      if (bad_guy == NULL)
-        throw std::runtime_error(badguy + " is not a badguy.");
+      BadGuy& bad_guy = dynamic_cast<BadGuy&>(*game_object);
 
-      object_bbox = bad_guy->get_bbox ();
+      object_bbox = bad_guy.get_bbox();
 
-      if (type == "dropper") {
-        spawnpoint = get_anchor_pos (get_bbox (), ANCHOR_BOTTOM);
-        spawnpoint.x -= 0.5 * object_bbox.get_width ();
+      if (type == "dropper")
+      {
+        spawnpoint = get_anchor_pos (get_bbox(), ANCHOR_BOTTOM);
+        spawnpoint.x -= 0.5 * object_bbox.get_width();
       }
-      else if ((type == "cannon") || (type == "rocketlauncher")) {
-        spawnpoint = get_pos (); /* top-left corner of the cannon */
+      else if ((type == "cannon") || (type == "rocketlauncher"))
+      {
+        spawnpoint = get_pos(); /* top-left corner of the cannon */
         if (launchdir == LEFT)
-          spawnpoint.x -= object_bbox.get_width () + 1;
+          spawnpoint.x -= object_bbox.get_width() + 1;
         else
-          spawnpoint.x += get_bbox ().get_width () + 1;
+          spawnpoint.x += get_bbox().get_width() + 1;
       }
 
       /* Now we set the real spawn position */
-      bad_guy->set_pos (spawnpoint);
+      bad_guy.set_pos(spawnpoint);
 
       /* We don't want to count dispensed badguys in level stats */
-      if(bad_guy->countMe)
-        bad_guy->countMe = false;
+      if(bad_guy.countMe)
+        bad_guy.countMe = false;
 
-      Sector::current()->add_object(bad_guy);
-    } catch(std::exception& e) {
+      Sector::current()->add_object(game_object);
+    } catch(const std::exception& e) {
       log_warning << "Error dispensing badguy: " << e.what() << std::endl;
       return;
     }

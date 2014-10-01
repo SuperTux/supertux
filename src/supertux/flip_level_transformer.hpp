@@ -38,11 +38,11 @@ public:
 private:
   DrawingEffect transform_drawing_effect(DrawingEffect effect);
   void transform_path(float height, float obj_height, Path& path);
-  void transform_tilemap(float height, TileMap* tilemap);
-  void transform_moving_object(float height, MovingObject* object);
-  void transform_badguy(float height, BadGuy* badguy);
-  void transform_spawnpoint(float height, SpawnPoint* spawnpoint);
-  void transform_flower(Flower *flower);
+  void transform_tilemap(float height, TileMap& tilemap);
+  void transform_moving_object(float height, MovingObject& object);
+  void transform_badguy(float height, BadGuy& badguy);
+  void transform_spawnpoint(float height, SpawnPoint& spawnpoint);
+  void transform_flower(Flower& flower);
   void transform_platform(float height, Platform& platform);
   void transform_block(float height, Block& block);
 };

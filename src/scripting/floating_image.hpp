@@ -18,9 +18,9 @@
 #define HEADER_SUPERTUX_SCRIPTING_FLOATING_IMAGE_HPP
 
 #ifndef SCRIPTING_API
-#define HEADER_SUPERTUX_SCRIPTING_FLOATING_IMAGE_HPP
+#include <memory>
 
-#include "util/ref.hpp"
+#define HEADER_SUPERTUX_SCRIPTING_FLOATING_IMAGE_HPP
 
 class FloatingImage;
 typedef FloatingImage _FloatingImage;
@@ -50,7 +50,7 @@ public:
 
 #ifndef SCRIPTING_API
 private:
-  Ref<_FloatingImage> floating_image;
+  std::shared_ptr<_FloatingImage> floating_image;
 #endif
 };
 

@@ -184,7 +184,7 @@ WeakBlock::spreadHit()
       return;
     }
     for(Sector::GameObjects::iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); ++i) {
-      WeakBlock* wb = dynamic_cast<WeakBlock*>(*i);
+      WeakBlock* wb = dynamic_cast<WeakBlock*>(i->get());
       if (!wb) continue;
       if (wb == this) continue;
       if (wb->state != STATE_NORMAL) continue;

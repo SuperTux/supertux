@@ -89,7 +89,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
       float vy = -cos(angle)*velocity;
       Vector pspeed = Vector(vx, vy);
       Vector paccel = Vector(0, 1000);
-      Sector::current()->add_object(new SpriteParticle("images/objects/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
+      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
     }
 
     if( sprite_name.find("vbell", 0) == std::string::npos ) {

@@ -278,7 +278,7 @@ ObjectFactory::init_factories()
   add_factory<Switch>("switch");
 }
 
-GameObject*
+GameObjectPtr
 ObjectFactory::create(const std::string& name, const Reader& reader)
 {
   Factories::iterator i = factories.find(name);
@@ -295,7 +295,7 @@ ObjectFactory::create(const std::string& name, const Reader& reader)
   }
 }
 
-GameObject*
+GameObjectPtr
 ObjectFactory::create(const std::string& name, const Vector& pos, const Direction dir)
 {
   std::stringstream lisptext;
@@ -307,8 +307,7 @@ ObjectFactory::create(const std::string& name, const Vector& pos, const Directio
   lisp::Parser parser;
   const lisp::Lisp* lisp = parser.parse(lisptext, "create_object");
 
-  GameObject* object = create(name, *(lisp->get_car()));
-  return object;
+  return create(name, *(lisp->get_car()));
 }
 
 /* EOF */

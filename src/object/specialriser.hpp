@@ -26,7 +26,7 @@
 class SpecialRiser : public GameObject
 {
 public:
-  SpecialRiser(Vector pos, MovingObject* child);
+  SpecialRiser(Vector pos, std::shared_ptr<MovingObject> child);
   ~SpecialRiser();
 
   virtual void update(float elapsed_time);
@@ -34,7 +34,7 @@ public:
 
 private:
   float offset;
-  MovingObject* child;
+  std::shared_ptr<MovingObject> child;
 
 private:
   SpecialRiser(const SpecialRiser&);

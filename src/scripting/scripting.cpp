@@ -127,7 +127,7 @@ Scripting::~Scripting()
 
   global_vm = NULL;
 }
-  
+
 void
 Scripting::update_debugger()
 {

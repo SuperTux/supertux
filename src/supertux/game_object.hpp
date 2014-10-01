@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
 
+#include <memory>
 #include <string>
 
-#include "util/refcounter.hpp"
-
 class DrawingContext;
+class GameObject;
 class ObjectRemoveListener;
 
 /**
@@ -36,7 +36,7 @@ class ObjectRemoveListener;
  *  - Providing a safe way to remove the object by calling the remove_me
  *    functions.
  */
-class GameObject : public RefCounter
+class GameObject
 {
 public:
   GameObject();

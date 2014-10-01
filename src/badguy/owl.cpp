@@ -50,27 +50,28 @@ Owl::Owl(const Vector& pos, Direction d) :
 void
 Owl::initialize()
 {
-  GameObject *game_object;
-
   physic.set_velocity_x(dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
   physic.enable_gravity(false);
   sprite->set_action(dir == LEFT ? "left" : "right");
 
-  game_object = ObjectFactory::instance().create(carried_obj_name, get_pos(), dir);
-  if (game_object == NULL) {
+  auto game_object = ObjectFactory::instance().create(carried_obj_name, get_pos(), dir);
+  if (game_object == NULL)
+  {
     log_fatal << "Creating \"" << carried_obj_name << "\" object failed." << std::endl;
-    return;
   }
-
-  carried_object = dynamic_cast<Portable *> (game_object);
-  if (carried_object == NULL) {
-    log_warning << "Object is not portable: " << carried_obj_name << std::endl;
-    delete game_object;
-    return;
+  else
+  {
+    carried_object = dynamic_cast<Portable*>(game_object.get());
+    if (carried_object == NULL)
+    {
+      log_warning << "Object is not portable: " << carried_obj_name << std::endl;
+    }
+    else
+    {
+      Sector::current()->add_object(game_object);
+    }
   }
-
-  Sector::current ()->add_object (game_object);
-} /* void initialize */
+}
 
 bool
 Owl::is_above_player (void)

@@ -74,7 +74,7 @@ InfoBlock::hit(Player& player)
     Sector* parent = Sector::current();
     if (!parent) return;
     for (Sector::GameObjects::iterator i = parent->gameobjects.begin(); i != parent->gameobjects.end(); i++) {
-      InfoBlock* block = dynamic_cast<InfoBlock*>(*i);
+      InfoBlock* block = dynamic_cast<InfoBlock*>(i->get());
       if (!block) continue;
       if (block != this) block->hide_message();
     }

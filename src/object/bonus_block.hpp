@@ -50,7 +50,7 @@ protected:
 
 public:
   Contents contents;
-  MovingObject* object;
+  std::shared_ptr<MovingObject> object;
   int hit_counter;
   void draw(DrawingContext& context);
 

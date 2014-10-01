@@ -111,7 +111,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   last_position(),
   last_target_time()
 {
-  tux = new Tux(this);
+  tux = std::make_shared<Tux>(this);
   add_object(tux);
 
   name = "<no title>";
@@ -150,9 +150,8 @@ WorldMap::~WorldMap()
 
   for(GameObjects::iterator i = game_objects.begin();
       i != game_objects.end(); ++i) {
-    GameObject* object = *i;
+    GameObjectPtr& object = *i;
     try_unexpose(object);
-    object->unref();
   }
 
   for(SpawnPoints::iterator i = spawn_points.begin();
@@ -174,22 +173,21 @@ WorldMap::~WorldMap()
 }
 
 void
-WorldMap::add_object(GameObject* object)
+WorldMap::add_object(GameObjectPtr object)
 {
-  TileMap* tilemap = dynamic_cast<TileMap*> (object);
+  TileMap* tilemap = dynamic_cast<TileMap*>(object.get());
   if(tilemap != 0 && tilemap->is_solid()) {
     solid_tilemaps.push_back(tilemap);
   }
 
-  object->ref();
   try_expose(object);
   game_objects.push_back(object);
 }
 
 void
-WorldMap::try_expose(GameObject* object)
+WorldMap::try_expose(const GameObjectPtr& object)
 {
-  ScriptInterface* object_ = dynamic_cast<ScriptInterface*> (object);
+  ScriptInterface* object_ = dynamic_cast<ScriptInterface*>(object.get());
   if(object_ != NULL) {
     HSQUIRRELVM vm = scripting::global_vm;
     sq_pushobject(vm, worldmap_table);
@@ -199,9 +197,9 @@ WorldMap::try_expose(GameObject* object)
 }
 
 void
-WorldMap::try_unexpose(GameObject* object)
+WorldMap::try_unexpose(const GameObjectPtr& object)
 {
-  ScriptInterface* object_ = dynamic_cast<ScriptInterface*> (object);
+  ScriptInterface* object_ = dynamic_cast<ScriptInterface*>(object.get());
   if(object_ != NULL) {
     HSQUIRRELVM vm = scripting::global_vm;
     SQInteger oldtop = sq_gettop(vm);
@@ -287,9 +285,9 @@ WorldMap::load(const std::string& filename)
     lisp::ListIterator iter(sector);
     while(iter.next()) {
       if(iter.item() == "tilemap") {
-        add_object(new TileMap(*(iter.lisp())));
+        add_object(std::make_shared<TileMap>(*(iter.lisp())));
       } else if(iter.item() == "background") {
-        add_object(new Background(*(iter.lisp())));
+        add_object(std::make_shared<Background>(*(iter.lisp())));
       } else if(iter.item() == "music") {
         iter.value()->get(music);
       } else if(iter.item() == "init-script") {
@@ -298,23 +296,23 @@ WorldMap::load(const std::string& filename)
         SpawnPoint* sp = new SpawnPoint(*iter.lisp());
         spawn_points.push_back(sp);
       } else if(iter.item() == "level") {
-        LevelTile* level = new LevelTile(levels_path, *iter.lisp());
-        levels.push_back(level);
+        auto level = std::make_shared<LevelTile>(levels_path, *iter.lisp());
+        levels.push_back(level.get());
         add_object(level);
       } else if(iter.item() == "special-tile") {
-        SpecialTile* special_tile = new SpecialTile(*iter.lisp());
-        special_tiles.push_back(special_tile);
+        auto special_tile = std::make_shared<SpecialTile>(*iter.lisp());
+        special_tiles.push_back(special_tile.get());
         add_object(special_tile);
       } else if(iter.item() == "sprite-change") {
-        SpriteChange* sprite_change = new SpriteChange(*iter.lisp());
-        sprite_changes.push_back(sprite_change);
+        auto sprite_change = std::make_shared<SpriteChange>(*iter.lisp());
+        sprite_changes.push_back(sprite_change.get());
         add_object(sprite_change);
       } else if(iter.item() == "teleporter") {
-        Teleporter* teleporter = new Teleporter(*iter.lisp());
-        teleporters.push_back(teleporter);
+        auto teleporter = std::make_shared<Teleporter>(*iter.lisp());
+        teleporters.push_back(teleporter.get());
         add_object(teleporter);
       } else if(iter.item() == "decal") {
-        Decal* decal = new Decal(*iter.lisp());
+        auto decal = std::make_shared<Decal>(*iter.lisp());
         add_object(decal);
       } else if(iter.item() == "ambient-light") {
         std::vector<float> vColor;
@@ -574,7 +572,7 @@ WorldMap::update(float delta)
   {
     // update GameObjects
     for(size_t i = 0; i < game_objects.size(); ++i) {
-      GameObject* object = game_objects[i];
+      GameObjectPtr& object = game_objects[i];
       if(!panning || object != tux) {
         object->update(delta);
       }
@@ -583,10 +581,9 @@ WorldMap::update(float delta)
     // remove old GameObjects
     for(GameObjects::iterator i = game_objects.begin();
         i != game_objects.end(); ) {
-      GameObject* object = *i;
+      GameObjectPtr& object = *i;
       if(!object->is_valid()) {
         try_unexpose(object);
-        object->unref();
         i = game_objects.erase(i);
       } else {
         ++i;
@@ -596,10 +593,9 @@ WorldMap::update(float delta)
     /* update solid_tilemaps list */
     //FIXME: this could be more efficient
     solid_tilemaps.clear();
-    for(std::vector<GameObject*>::iterator i = game_objects.begin();
-        i != game_objects.end(); ++i)
+    for(auto i = game_objects.begin(); i != game_objects.end(); ++i)
     {
-      TileMap* tm = dynamic_cast<TileMap*>(*i);
+      TileMap* tm = dynamic_cast<TileMap*>(i->get());
       if (!tm) continue;
       if (tm->is_solid()) solid_tilemaps.push_back(tm);
     }
@@ -798,9 +794,9 @@ WorldMap::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(camera_offset);
 
-  for(GameObjects::iterator i = game_objects.begin();
-      i != game_objects.end(); ++i) {
-    GameObject* object = *i;
+  for(auto i = game_objects.begin(); i != game_objects.end(); ++i)
+  {
+    GameObjectPtr& object = *i;
     if(!panning || object != tux) {
       object->draw(context);
     }

@@ -23,6 +23,7 @@
 
 #include "scripting/ssector.hpp"
 #include "supertux/direction.hpp"
+#include "supertux/game_object_ptr.hpp"
 #include "util/reader_fwd.hpp"
 #include "util/writer_fwd.hpp"
 #include "util/currenton.hpp"
@@ -93,7 +94,7 @@ public:
   HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
 
   /// adds a gameobject
-  void add_object(GameObject* object);
+  void add_object(GameObjectPtr object);
 
   void set_name(const std::string& name_)
   { this->name = name_; }
@@ -124,7 +125,7 @@ public:
   {
     int total = 0;
     for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end(); ++i) {
-      if (dynamic_cast<T*>(*i)) total++;
+      if (dynamic_cast<T*>(i->get())) total++;
     }
     return total;
   }
@@ -184,9 +185,9 @@ public:
    */
   void change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id);
 
-  typedef std::vector<GameObject*> GameObjects;
+  typedef std::vector<GameObjectPtr> GameObjects;
   typedef std::vector<MovingObject*> MovingObjects;
-  typedef std::vector<SpawnPoint*> SpawnPoints;
+  typedef std::vector<std::shared_ptr<SpawnPoint> > SpawnPoints;
   typedef std::vector<Portable*> Portables;
 
   // --- scripting ---
@@ -207,11 +208,11 @@ public:
 private:
   uint32_t collision_tile_attributes(const Rectf& dest) const;
 
-  void before_object_remove(GameObject* object);
-  bool before_object_add(GameObject* object);
+  void before_object_remove(GameObjectPtr object);
+  bool before_object_add(GameObjectPtr object);
 
-  void try_expose(GameObject* object);
-  void try_unexpose(GameObject* object);
+  void try_expose(GameObjectPtr object);
+  void try_unexpose(GameObjectPtr object);
   void try_expose_me();
   void try_unexpose_me();
 
@@ -240,7 +241,7 @@ private:
 
   void collision_static_constrains(MovingObject& object);
 
-  GameObject* parse_object(const std::string& name, const Reader& lisp);
+  GameObjectPtr parse_object(const std::string& name, const Reader& lisp);
 
   void fix_old_tiles();
 

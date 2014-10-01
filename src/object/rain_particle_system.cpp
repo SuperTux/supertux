@@ -75,7 +75,7 @@ void RainParticleSystem::update(float elapsed_time)
         if (!vertical) { //check if collision happened from above
           splash_x = int(particle->pos.x);
           splash_y = int(particle->pos.y) - (int(particle->pos.y) % 32) + 32;
-          Sector::current()->add_object(new RainSplash(Vector(splash_x, splash_y),vertical));
+          Sector::current()->add_object(std::make_shared<RainSplash>(Vector(splash_x, splash_y),vertical));
         }
         // Uncomment the following to display vertical splashes, too
         /* else {

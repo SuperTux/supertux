@@ -86,7 +86,7 @@ MrBomb::collision_squished(GameObject& object)
   }
   if(is_valid()) {
     remove_me();
-    Sector::current()->add_object(new Bomb(get_pos(), dir, sprite_name ));
+    Sector::current()->add_object(std::make_shared<Bomb>(get_pos(), dir, sprite_name));
   }
   kill_squished(object);
   return true;
@@ -105,7 +105,7 @@ MrBomb::kill_fall()
 {
   if(is_valid()) {
     remove_me();
-    Explosion* explosion = new Explosion(get_bbox().get_middle());
+    auto explosion = std::make_shared<Explosion>(get_bbox().get_middle());
     Sector::current()->add_object(explosion);
   }
 

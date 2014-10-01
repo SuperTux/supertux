@@ -88,7 +88,7 @@ Brick::try_break(Player* player)
   Sector* sector = Sector::current();
   Player& player_one = *(sector->player);
   if(coin_counter > 0) {
-    sector->add_object(new BouncyCoin(get_pos(),true));
+    sector->add_object(std::make_shared<BouncyCoin>(get_pos(), true));
     coin_counter--;
     player_one.get_status()->add_coins(1);
     if(coin_counter == 0)

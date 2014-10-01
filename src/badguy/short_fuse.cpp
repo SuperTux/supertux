@@ -48,19 +48,19 @@ ShortFuse::ShortFuse(const Reader& reader) :
 }
 
 void
-ShortFuse::explode (void)
+ShortFuse::explode()
 {
-  if (!is_valid ())
+  if (!is_valid())
     return;
 
-  Explosion *explosion = new Explosion (get_bbox ().get_middle ());
+  auto explosion = std::make_shared<Explosion>(get_bbox ().get_middle());
 
-  explosion->hurts (false);
-  explosion->pushes (true);
-  Sector::current()->add_object (explosion);
+  explosion->hurts(false);
+  explosion->pushes(true);
+  Sector::current()->add_object(explosion);
 
-  run_dead_script ();
-  remove_me ();
+  run_dead_script();
+  remove_me();
 }
 
 bool
