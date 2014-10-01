@@ -16,6 +16,9 @@ compiler:
  - gcc
  - clang
 
+matrix:
+ fast_finish: true
+
 env:
  - CMAKE_VERSION=3.0.2 SDL2_VERSION=2.0.3 SDL2IMAGE_VERSION=2.0.0
  
@@ -44,13 +47,13 @@ script:
 - mkdir build-debug
 - cd build-debug
 - cmake .. -DCMAKE_BUILD_TYPE=Debug -DCHECK_ASSETS=off
-- make VERBOSE=1 -j5
+- make VERBOSE=1 -j $(nproc)
 # Then a release build:
 - cd ..
 - mkdir build-release
 - cd build-release
 - cmake .. -DCMAKE_BUILD_TYPE=Release -DCHECK_ASSETS=off
-- make VERBOSE=1 -j5
+- make VERBOSE=1 -j $(nproc)
 
 notifications:
   email:
