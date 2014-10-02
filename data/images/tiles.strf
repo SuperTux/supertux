@@ -4093,5 +4093,18 @@
     (image "tiles/halloween/inner.png")
   )
 
-;; next-id: 3094
+  (tiles
+    (width 2)(height 2)
+    (ids
+      3094 3095
+      3096 3097
+    )
+    (attributes
+      1 1
+      1 1
+    )
+    (image "tiles/halloween/variation.png")
+  )
+
+;; next-id: 3098
 )
