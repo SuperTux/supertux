@@ -35,7 +35,7 @@ Kirby::Kirby(const Vector& pos, Direction d, std::string script)
 bool
 Kirby::collision_squished(GameObject& object)
 {
-  //sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
 }

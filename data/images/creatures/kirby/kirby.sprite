@@ -1,5 +1,4 @@
 (supertux-sprite
- 
   (action
     (name "left")
     (fps 20)
@@ -19,5 +18,16 @@
     (fps 20)
     (hitbox 8 12 38 38)
     (mirror-action "left")
+  )
+
+  (action
+    (name "squished-left")
+    (hitbox 8 -5 38 38)
+    (images "squished-left.png")
+  )
+  (action
+    (name "squished-right")
+    (hitbox 8 -5 38 38)
+    (mirror-action "squished-left")
   )
 )
