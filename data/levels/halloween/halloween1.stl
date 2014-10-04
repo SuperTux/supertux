@@ -208,6 +208,26 @@
       (layer -50)
       (sprite "images/decal/halloween/tree.png")
     )
+    (kirby
+      (x 1256)
+      (y 396)
+    )
+    (kirby
+      (x 1096)
+      (y 172)
+    )
+    (kirby
+      (x 1960)
+      (y 524)
+    )
+    (kirby
+      (x 2984)
+      (y 588)
+    )
+    (kirby
+      (x 2920)
+      (y 588)
+    )
     (spawnpoint
       (name "main")
       (x 768)
