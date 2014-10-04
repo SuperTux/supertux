@@ -205,6 +205,33 @@
      2901 2902 2903 2904))
 
   (tilegroup
+    (name "Halloween")
+    (tiles
+      3068 3069 3070 3071
+      3072 3073 3074 3075
+      3076 3077 3078 3079
+      3080 3081 3082 3083
+      3084 3085 3086 3087
+
+      3088 3089 3094 3095
+      3090 3091 3096 3097
+      3092 3093 0 0
+
+      3098 3099 3102 3103
+      3100 3101 3104 3105
+
+      3114 3115 3116 3117
+      3121 3106 3107 3123
+      3122 3108 3109 3127
+      3131 3132 3133 3134
+
+      3118 3119 0 0
+      3124 3125 0 0
+      3128 3129 0 0
+      3135 3136 0 0
+      ))
+
+  (tilegroup
     (name "Test")
     (tiles
      2203 2204 2205 0
@@ -4106,5 +4133,61 @@
     (image "tiles/halloween/variation.png")
   )
 
-;; next-id: 3098
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      3098 3099
+      3100 3101
+    )
+    (attributes
+      1 1
+      1 1
+    )
+    (image "tiles/halloween/outerdarkness.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      3102 3103
+      3104 3105
+     )
+    (attributes
+      0 0
+      0 0
+    )
+    (image "tiles/halloween/innerdarkness.png")
+  )
+
+  (tiles
+    (width 6)(height 4)
+    (ids
+      3114 3115 3116 3117 3118 3119
+      3121 3106 3107 3123 3124 3125
+      3122 3108 3109 3127 3128 3129
+      3131 3132 3133 3134 3135 3136
+    )
+    (attributes
+      0 0 0 0 0 0
+      0 0 0 0 0 0
+      0 0 0 0 0 0
+      0 0 0 0 0 0
+    )
+    (image "tiles/halloween/darkness.png")
+  )
+
+  (tiles
+    (width 2)(height 2)
+    (ids
+      3110 3111
+      3112 3113
+    )
+    (attributes
+      1 1
+      1 1
+    )
+    (image "tiles/halloween/black.png")
+  )
+;; next-id: 3137
 )
