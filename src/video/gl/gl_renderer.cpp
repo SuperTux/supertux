@@ -200,7 +200,7 @@ GLRenderer::do_take_screenshot()
     fullFilename = writeDir + dirSep + fileName;
     if (!PHYSFS_exists(fileName.c_str())) {
       SDL_SaveBMP(shot_surf, fullFilename.c_str());
-      log_debug << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
+      log_info << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
       SDL_FreeSurface(shot_surf);
       return;
     }

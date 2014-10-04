@@ -219,7 +219,7 @@ SDLRenderer::do_take_screenshot()
           fullFilename = writeDir + dirSep + fileName;
           if (!PHYSFS_exists(fileName.c_str())) {
             SDL_SaveBMP(surface, fullFilename.c_str());
-            log_debug << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
+            log_info << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
             return;
           }
         }
