@@ -33,6 +33,16 @@
       (image "images/background/halloween_vignette.png")
       (layer 1000)
     )
+    (bouncingsnowball
+      (sprite "images/creatures/fatbat/fatbat.sprite")
+      (x 2689)
+      (y 608)
+    )
+    (bouncingsnowball
+      (sprite "images/creatures/fatbat/fatbat.sprite")
+      (x 2817)
+      (y 576)
+    )
     (camera
       (mode "normal")
     )
