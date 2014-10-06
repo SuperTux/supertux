@@ -31,7 +31,6 @@ static const float SQUISH_TIME = 2;
 
 static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
-static const int LAYER_FALLING = 500;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_) :
   MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
@@ -411,7 +410,10 @@ BadGuy::kill_fall()
   physic.set_acceleration_y(0);
   physic.enable_gravity(true);
   set_state(STATE_FALLING);
-  layer = LAYER_FALLING;
+
+  // Set the badguy layer to be the foremost, so that
+  // this does not reveal secret tilemaps:
+  layer = Sector::current()->get_foremost_layer() + 1;
 
   // start dead-script
   run_dead_script();

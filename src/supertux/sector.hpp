@@ -170,6 +170,8 @@ public:
 
   Rectf get_active_region();
 
+  int get_foremost_layer();
+
   /**
    * returns the width (in px) of a sector)
    */
@@ -245,6 +247,8 @@ private:
 
   void fix_old_tiles();
 
+  int calculate_foremost_layer();
+
 private:
   static Sector* _current;
 
@@ -267,6 +271,8 @@ private:
   ScriptList scripts;
 
   Color ambient_light;
+
+  int foremost_layer;
 
 public: // TODO make this private again
   /// show collision rectangles of moving objects (for debugging)

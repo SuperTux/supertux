@@ -108,6 +108,8 @@ Sector::Sector(Level* parent) :
     throw scripting::SquirrelError(global_vm, "Couldn't get sector table");
   sq_addref(global_vm, &sector_table);
   sq_pop(global_vm, 1);
+
+  foremost_layer = calculate_foremost_layer();
 }
 
 Sector::~Sector()
@@ -648,6 +650,28 @@ Sector::get_active_region()
   return Rectf(
     camera->get_translation() - Vector(1600, 1200),
     camera->get_translation() + Vector(1600, 1200) + Vector(SCREEN_WIDTH,SCREEN_HEIGHT));
+}
+
+int
+Sector::calculate_foremost_layer()
+{
+  int layer = 0;
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i)
+  {
+    TileMap* tm = dynamic_cast<TileMap*>(i->get());
+    if (!tm) continue;
+    if(tm->get_layer() > foremost_layer)
+    {
+      foremost_layer = tm->get_layer();
+    }
+  }
+  return layer;
+}
+
+int
+Sector::get_foremost_layer()
+{
+  return foremost_layer;
 }
 
 void
