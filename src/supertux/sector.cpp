@@ -662,7 +662,7 @@ Sector::calculate_foremost_layer()
     if (!tm) continue;
     if(tm->get_layer() > foremost_layer)
     {
-      foremost_layer = tm->get_layer();
+      layer = tm->get_layer();
     }
   }
   return layer;
