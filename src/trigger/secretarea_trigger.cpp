@@ -66,6 +66,12 @@ SecretAreaTrigger::~SecretAreaTrigger()
 {
 }
 
+std::string
+SecretAreaTrigger::get_fade_tilemap_name()
+{
+  return fade_tilemap;
+}
+
 void
 SecretAreaTrigger::draw(DrawingContext& context)
 {

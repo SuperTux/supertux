@@ -58,6 +58,7 @@
 #include "supertux/savegame.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
+#include "trigger/secretarea_trigger.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "util/file_system.hpp"
 
@@ -656,13 +657,25 @@ int
 Sector::calculate_foremost_layer()
 {
   int layer = 0;
+  std::vector<std::string> secret_area_layers;
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i)
+  {
+    SecretAreaTrigger* trigger = dynamic_cast<SecretAreaTrigger*>(i->get());
+    if (!trigger) continue;
+    secret_area_layers.push_back(trigger->get_fade_tilemap_name());
+  }
+
   for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i)
   {
     TileMap* tm = dynamic_cast<TileMap*>(i->get());
     if (!tm) continue;
     if(tm->get_layer() > foremost_layer)
     {
-      layer = tm->get_layer();
+      if (std::find(secret_area_layers.begin(), secret_area_layers.end(), tm->get_name())
+            != secret_area_layers.end() || tm->is_solid())
+      {
+        layer = tm->get_layer();
+      }
     }
   }
   return layer;
