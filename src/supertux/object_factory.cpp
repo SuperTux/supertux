@@ -44,7 +44,6 @@
 #include "badguy/igel.hpp"
 #include "badguy/jumpy.hpp"
 #include "badguy/kamikazesnowball.hpp"
-#include "badguy/kirby.hpp"
 #include "badguy/kugelblitz.hpp"
 #include "badguy/livefire.hpp"
 #include "badguy/mole.hpp"
@@ -201,7 +200,6 @@ ObjectFactory::init_factories()
   add_factory<Igel>("igel");
   add_factory<Jumpy>("jumpy");
   add_factory<KamikazeSnowball>("kamikazesnowball");
-  add_factory<Kirby>("kirby");
   add_factory<Kugelblitz>("kugelblitz");
   add_factory<LiveFire>("livefire");
   add_factory<LiveFireAsleep>("livefire_asleep");
