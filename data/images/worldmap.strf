@@ -801,4 +801,23 @@
    1989 1990 1991 1992 1993)
   (image "worldmap/halloween/darkness.png")
 )
+
+
+(tiles
+  (width 4)
+  (height 4)
+  (ids
+   1994 1995 1996 1997
+   1998 1999 2000 2001
+   2002 2003 2004 2005
+   2006 2007 2008 2009
+ )
+  (datas
+    6  10 23 30
+    5  9  29 27
+    18 20 3  31
+    17 24 12 0
+  )
+  (image "worldmap/halloween/roads.png")
+)
 )
