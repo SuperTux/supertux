@@ -1,4 +1,25 @@
 (supertux-tiles
+(tile
+	(id 1)
+	(images "worldmap/shared/water_01.png"
+		"worldmap/shared/water_02.png"
+		"worldmap/shared/water_03.png"
+		"worldmap/shared/water_04.png"
+		"worldmap/shared/water_05.png"
+		"worldmap/shared/water_06.png"
+		"worldmap/shared/water_07.png"
+		"worldmap/shared/water_08.png"
+		"worldmap/shared/water_09.png"
+		"worldmap/shared/water_10.png"
+		"worldmap/shared/water_11.png"
+		"worldmap/shared/water_12.png"
+		"worldmap/shared/water_13.png"
+		"worldmap/shared/water_14.png"
+		"worldmap/shared/water_15.png"
+		"worldmap/shared/water_16.png"
+	)
+)
+
 (tilegroup
   (name "Darker Forest")
   (tiles
@@ -725,13 +746,13 @@
 )
 
 (tiles
-  (width 9)
+  (width 6)
   (height 4)
   (ids
-   1954 1927 1928 1929 1930 1931 1932 1955 1959
-   1933 1934 1935 1936 1937 1938 1939 1956 1960
-   1940 1941 1942 1943 1944 1945 1946 1957 1961
-   1947 1948 1949 1950 1951 1952 1953 1958 1962
+   1954 1927 1928 1929 1930 1931
+   1933 1934 1935 1936 1937 1938
+   1940 1941 1942 1943 1944 1945
+   1947 1948 1949 1950 1951 1952
   )
   (image "worldmap/halloween/tiles.png")
 )
