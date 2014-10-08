@@ -266,7 +266,8 @@
     (decal
       (x 5792)
       (y 416)
-      (sprite "images/decal/halloween/exit.png")
+      (layer 100)
+      (sprite "images/decal/halloween/exitfg.png")
     )
     (decal
       (x 3648)
@@ -285,6 +286,11 @@
       (y 352)
       (layer -50)
       (sprite "images/decal/halloween/tree.png")
+    )
+    (decal
+      (x 5792)
+      (y 416)
+      (sprite "images/decal/halloween/exit.png")
     )
     (jumpy
       (sprite "images/creatures/jumpy/jumpy.sprite")
