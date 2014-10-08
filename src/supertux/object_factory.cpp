@@ -88,6 +88,7 @@
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/candle.hpp"
+#include "object/torch.hpp"
 #include "object/cloud_particle_system.hpp"
 #include "object/coin.hpp"
 #include "object/coin_explode.hpp"
@@ -263,6 +264,7 @@ ObjectFactory::init_factories()
   add_factory<Spotlight>("spotlight");
   add_factory<Thunderstorm>("thunderstorm");
   add_factory<TileMap>("tilemap");
+  add_factory<Torch>("torch");
   add_factory<Trampoline>("trampoline");
   add_factory<RustyTrampoline>("rustytrampoline");
   add_factory<UnstableTile>("unstable_tile");
