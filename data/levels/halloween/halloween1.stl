@@ -5,7 +5,7 @@
   (target-time 0)
   (sector
     (name "main")
-    (ambient-light 0.25 0.25 0.25)
+    (ambient-light 0.25 0.3 0.35)
     (background
       (alignment "bottom")
       (speed 0.125)
@@ -26,7 +26,7 @@
       (alignment "bottom")
       (speed 0.25)
       (image "images/background/halloween/fog.png")
-      (layer -25)
+      (layer -55)
     )
     (background
       (speed 0)
@@ -48,63 +48,13 @@
     )
     (candle
       (color 1 1 1)
-      (x 1376)
-      (y 416)
-    )
-    (candle
-      (color 1 1 1)
-      (x 1088)
-      (y 192)
-    )
-    (candle
-      (color 1 1 1)
-      (x 1152)
-      (y 416)
-    )
-    (candle
-      (color 1 1 1)
-      (x 896)
-      (y 416)
-    )
-    (candle
-      (color 1 1 1)
-      (x 960)
-      (y 192)
-    )
-    (candle
-      (color 1 1 1)
-      (x 1024)
-      (y 192)
-    )
-    (candle
-      (color 1 1 1)
-      (x 1088)
-      (y 416)
-    )
-    (candle
-      (color 1 1 1)
-      (x 1152)
+      (x 1408)
       (y 416)
     )
     (candle
       (color 1 1 1)
       (x 1472)
       (y 192)
-    )
-    (candle
-      (color 1 1 1)
-      (x 896)
-      (y 192)
-    )
-    (candle
-      (color 1 1 1)
-      (x 960)
-      (y 416)
-    )
-    (candle
-      (color 1 1 1)
-      (x 1024)
-      (y 416)
     )
     (candle
       (color 1 1 1)
@@ -118,33 +68,8 @@
     )
     (candle
       (color 1 1 1)
-      (x 1728)
-      (y 352)
-    )
-    (candle
-      (color 1 1 1)
       (x 1856)
       (y 192)
-    )
-    (candle
-      (color 1 1 1)
-      (x 704)
-      (y 192)
-    )
-    (candle
-      (color 1 1 1)
-      (x 576)
-      (y 96)
-    )
-    (candle
-      (color 1 1 1)
-      (x 416)
-      (y 96)
-    )
-    (candle
-      (color 1 1 1)
-      (x 800)
-      (y 288)
     )
     (candle
       (color 1 1 1)
@@ -158,48 +83,8 @@
     )
     (candle
       (color 1 1 1)
-      (x 1696)
-      (y 352)
-    )
-    (candle
-      (color 1 1 1)
-      (x 1728)
-      (y 480)
-    )
-    (candle
-      (color 1 1 1)
-      (x 1824)
-      (y 448)
-    )
-    (candle
-      (color 1 1 1)
-      (x 2016)
-      (y 416)
-    )
-    (candle
-      (color 1 1 1)
-      (x 2432)
-      (y 384)
-    )
-    (candle
-      (color 1 1 1)
-      (x 2560)
-      (y 384)
-    )
-    (candle
-      (color 1 1 1)
-      (x 2624)
-      (y 512)
-    )
-    (candle
-      (color 1 1 1)
       (x 2496)
-      (y 512)
-    )
-    (candle
-      (color 1 1 1)
-      (x 2368)
-      (y 512)
+      (y 384)
     )
     (candle
       (color 1 1 1)
@@ -428,6 +313,41 @@
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
       )
+    )
+    (torch
+      (sprite "images/objects/torch/torch1.sprite")
+      (x 2224)
+      (y 708)
+    )
+    (torch
+      (sprite "images/objects/torch/torch3.sprite")
+      (x 1232)
+      (y 452)
+    )
+    (torch
+      (sprite "images/objects/torch/torch1.sprite")
+      (x 912)
+      (y 452)
+    )
+    (torch
+      (sprite "images/objects/torch/torch2.sprite")
+      (x 2768)
+      (y 708)
+    )
+    (torch
+      (sprite "images/objects/torch/torch1.sprite")
+      (x 1744)
+      (y 388)
+    )
+    (torch
+      (sprite "images/objects/torch/torch1.sprite")
+      (x 6224)
+      (y 676)
+    )
+    (torch
+      (sprite "images/objects/torch/torch2.sprite")
+      (x 5744)
+      (y 676)
     )
   )
 )
