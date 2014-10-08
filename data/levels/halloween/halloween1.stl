@@ -9,28 +9,28 @@
     (background
       (alignment "bottom")
       (speed 0.125)
-      (image "images/background/halloween_mountain.png")
+      (image "images/background/halloween/mountain.png")
       (layer -100)
     )
     (background
       (speed 0)
-      (image "images/background/halloween_moon.png")
+      (image "images/background/halloween/sky.png")
     )
     (background
       (alignment "bottom")
       (speed 1.5)
-      (image "images/background/halloween_fog.png")
+      (image "images/background/halloween/fog.png")
       (layer 100)
     )
     (background
       (alignment "bottom")
       (speed 0.25)
-      (image "images/background/halloween_fog.png")
+      (image "images/background/halloween/fog.png")
       (layer -25)
     )
     (background
       (speed 0)
-      (image "images/background/halloween_vignette.png")
+      (image "images/background/halloween/vignette.png")
       (layer 1000)
     )
     (bouncingsnowball
