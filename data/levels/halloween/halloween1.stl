@@ -177,6 +177,18 @@
       (y 736)
       (sprite "images/decal/halloween/exit.png")
     )
+    (decal
+      (x 1568)
+      (y 992)
+      (layer -55)
+      (sprite "images/decal/halloween/gravestone1.png")
+    )
+    (decal
+      (x 2112)
+      (y 992)
+      (layer -55)
+      (sprite "images/decal/halloween/gravestone2.png")
+    )
     (jumpy
       (sprite "images/creatures/jumpy/jumpy.sprite")
       (x 2023)
