@@ -48,7 +48,7 @@ void printfunc(HSQUIRRELVM, const char* fmt, ...)
   va_list arglist;
   va_start(arglist, fmt);
   vsnprintf(buf, sizeof(buf), fmt, arglist);
-  ConsoleBuffer::output << (const char*) buf << std::flush;
+  ConsoleBuffer::output << "[SQUIRREL] " << (const char*) buf << std::flush;
   va_end(arglist);
 }
 
