@@ -5,7 +5,8 @@
   (target-time 0)
   (sector
     (name "main")
-    (ambient-light 1 1 1)
+    (ambient-light 0.5 0.5 0.5)
+    (music "music/ghostforest.ogg")
     (camera
       (mode "normal")
     )
@@ -102,7 +103,7 @@
       (sprite "images/worldmap/halloween/tree1.png")
     )
     (decal
-      (sprite "images/background/halloween_vignette.png")
+      (sprite "images/background/halloween/vignette.png")
     )
     (tilemap
       (solid #f)
@@ -246,17 +247,17 @@
       (y 13)
     )
     (level
-      (name "halloween1.stl")
+      (name "halloween2.stl")
       (x 22)
       (y 12)
     )
     (level
-      (name "halloween1.stl")
+      (name "halloween3.stl")
       (x 20)
       (y 15)
     )
     (level
-      (name "halloween1.stl")
+      (name "halloween2.stl")
       (x 14)
       (y 9)
     )

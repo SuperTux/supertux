@@ -1,10 +1,11 @@
 (supertux-level
   (version 2)
-  (name (_ "Unnamed"))
+  (name (_ "Halloween 2"))
   (author "ingo")
   (target-time 0)
   (sector
     (name "main")
+    (music "music/ghostforest2.ogg")
     (ambient-light 0.55 0.6 0.7)
     (background
       (speed 0)
