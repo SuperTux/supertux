@@ -215,7 +215,7 @@
 
       3088 3089 3094 3095
       3090 3091 3096 3097
-      3092 3093 0 0
+      3092 3093 3137 3138
 
       3098 3099 3102 3103
       3100 3101 3104 3105
@@ -4106,16 +4106,18 @@
 
 
   (tiles
-    (width 2)(height 3)
+    (width 2)(height 4)
     (ids
       3088 3089
       3090 3091
       3092 3093
+      3137 3138
     )
     (attributes
       0 0
       0 0
       1 1
+      0 0
     )
     (image "tiles/halloween/inner.png")
   )
@@ -4189,5 +4191,5 @@
     )
     (image "tiles/halloween/black.png")
   )
-;; next-id: 3137
+;; next-id: 3139
 )
