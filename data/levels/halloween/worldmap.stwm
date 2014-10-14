@@ -5,8 +5,8 @@
   (target-time 0)
   (sector
     (name "main")
-    (ambient-light 0.5 0.5 0.5)
     (music "music/ghostforest.ogg")
+    (ambient-light 0.5 0.5 0.5)
     (camera
       (mode "normal")
     )
@@ -247,7 +247,7 @@
       (y 13)
     )
     (level
-      (name "halloween2.stl")
+      (name "pools.stl")
       (x 22)
       (y 12)
     )
