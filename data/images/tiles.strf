@@ -225,8 +225,8 @@
       3122 3108 3109 3127
       3131 3132 3133 3134
 
-      3118 3119 0 0
-      3124 3125 0 0
+      3118 3119 0 3159
+      3124 3125 0 3160
       3128 3129 0 0
       3135 3136 0 0
       ))
@@ -667,7 +667,7 @@
   )
   (tilegroup
     (name "Block")
-    (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 44 83 2947 2948 84 102 140 103 104 105 112 128 3037 2943 2944 2945 2946 1311 2153)
+    (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 3159 44 83 2947 2948 84 102 140 103 104 105 3160 112 128 3037 2943 2944 2945 2946 1311 2153)
   )
   (tilegroup
     (name "Background")
@@ -1329,6 +1329,14 @@
     (solid #t)
     (brick #t)
   )
+  (tile
+    (id 3159)
+    (images
+      "tiles/blocks/brick2.png"
+    )
+    (solid #t)
+    (brick #t)
+  )
   (tiles
     (width 1)
     (height 5)
@@ -1465,6 +1473,17 @@
       "tiles/blocks/brick1.png"
     )
     (editor-images "tiles/blocks/brick1_full.png")
+    (solid #t)
+    (brick #t)
+    (data 1)
+    (next-tile 84)
+  )
+  (tile
+    (id 3160)
+    (images
+      "tiles/blocks/brick2.png"
+    )
+    (editor-images "tiles/blocks/brick2_full.png")
     (solid #t)
     (brick #t)
     (data 1)
@@ -4218,5 +4237,5 @@
     )
     (image "tiles/halloween/black.png")
   )
-;; next-id: 3159
+;; next-id: 3161
 )

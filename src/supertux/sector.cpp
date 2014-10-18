@@ -420,7 +420,9 @@ Sector::fix_old_tiles()
           add_object(std::make_shared<BonusBlock>(pos, tile->getData()));
           solids->change(x, y, 0);
         } else if(tile->getAttributes() & Tile::BRICK) {
-          if( ( id == 78 ) || ( id == 105 ) ){
+          if( ( id == 3159 ) || ( id == 3160 ) ){
+            add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brickWeb.sprite") );
+          } else if( ( id == 78 ) || ( id == 105 ) ){
             add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brickIce.sprite") );
           } else if( ( id == 77 ) || ( id == 104 ) ){
             add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brick.sprite") );
