@@ -1,0 +1,7 @@
+(supertux-text			
+  (background	"../../levels/halloween/images/intro.jpg")
+  (music	"music/voc-dark.music")
+  (text "	Welcome to 
+-Halloween 2014
+")
+ )
