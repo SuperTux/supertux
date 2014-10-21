@@ -1,17 +1,17 @@
 (supertux-level
   (version 2)
-  (name (_ "Unnamed"))
-  (author "ingo")
+  (name (_ "Halloween 2014"))
+  (author "Ingo Ruhnke <grumbel@gmail.com>")
   (target-time 0)
   (sector
     (name "main")
-    (music "music/ghostforest.ogg")
+    (music "music/voc-dark.music")
     (ambient-light 0.5 0.5 0.5)
     (camera
       (mode "normal")
     )
     (decal
-      (x 256)
+      (x 272)
       (y 288)
       (layer 1)
       (sprite "images/worldmap/halloween/home.png")
@@ -27,7 +27,7 @@
       (sprite "images/worldmap/halloween/scarecrow.png")
     )
     (decal
-      (x 992)
+      (x 1008)
       (y 320)
       (layer 1)
       (sprite "images/worldmap/halloween/home.png")

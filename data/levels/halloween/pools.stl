@@ -7,7 +7,7 @@
   (target-time 90)
   (sector
     (name "main")
-    (music "music/ghostforest.ogg")
+    (music "music/wisphunt.music")
     (ambient-light 0.2509804 0.2980392 0.3490196)
     (background
       (speed 0)
