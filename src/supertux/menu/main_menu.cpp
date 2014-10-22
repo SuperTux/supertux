@@ -77,19 +77,30 @@ MainMenu::menu_action(MenuItem* item)
     case MNID_CREDITS:
       MenuManager::instance().clear_menu_stack();
       ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.txt")),
-                                    std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+                                            std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
       break;
 
     case MNID_QUITMAINMENU:
-      std::unique_ptr<Dialog> dialog(new Dialog);
-      dialog->set_text(_("Do you really want to quit SuperTux?"));
-      dialog->add_cancel_button(_("Cancel"));
-      dialog->add_default_button(_("Quit SuperTux"), [] {
-          MenuManager::instance().clear_menu_stack();
-          ScreenManager::current()->quit(std::unique_ptr<ScreenFade>(new FadeOut(0.25)));
-          SoundManager::current()->stop_music(0.25);
-        });
-      MenuManager::instance().set_dialog(std::move(dialog));
+      if (true)
+      {
+        // instantly exit the game
+        MenuManager::instance().clear_menu_stack();
+        ScreenManager::current()->quit(std::unique_ptr<ScreenFade>(new FadeOut(0.25)));
+        SoundManager::current()->stop_music(0.25);
+      }
+      else
+      {
+        // confirmation dialog
+        std::unique_ptr<Dialog> dialog(new Dialog);
+        dialog->set_text(_("Do you really want to quit SuperTux?"));
+        dialog->add_cancel_button(_("Cancel"));
+        dialog->add_default_button(_("Quit SuperTux"), [] {
+            MenuManager::instance().clear_menu_stack();
+            ScreenManager::current()->quit(std::unique_ptr<ScreenFade>(new FadeOut(0.25)));
+            SoundManager::current()->stop_music(0.25);
+          });
+        MenuManager::instance().set_dialog(std::move(dialog));
+      }
       break;
   }
 }
