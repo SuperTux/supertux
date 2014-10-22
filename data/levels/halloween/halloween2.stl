@@ -241,6 +241,22 @@
       (layer -50)
       (sprite "images/decal/halloween/gravestone2.png")
     )
+    (secretarea
+      (script "")
+      (message "")
+      (width 476)
+      (height 220)
+      (x 13056)
+      (y 224)
+    )
+    (secretarea
+      (script "")
+      (message "")
+      (width 136)
+      (height 156)
+      (x 5332)
+      (y 640)
+    )
     (skullyhop
       (x 16896)
       (y 544)
