@@ -1,14 +1,23 @@
 (supertux-text			
   (background	"../../levels/halloween/images/outro.jpg")
   (music	"music/chipdisko.ogg")
-  (text "-Arriving at the Halloween Party
+  (text "-Time to Party!
 
-	After a laborious journey through the island Tux finally
-	arrives at the house. Penny is already awaiting him.
+	After a laborious journey through the
+	Halloween island Tux can finally spot the
+	house in the distance. The lights are on
+	and he can hear some music. This time it
+	seems to be the correct house.
 
-        Time to party!
+	Penny is already awaiting him in the door
+	and wondering what took him so long. The
+	little embarassed about his earlier
+	mistake fades and he jumps for joy.
 
--Happy Halloween!
+	Time to party!
+
+
 -The End
+ For now...
 ")
  )
