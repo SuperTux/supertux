@@ -184,7 +184,7 @@
     (decal
       (x 21792)
       (y 864)
-      (layer -110)
+      (layer -101)
       (sprite "images/decal/halloween/exit.png")
     )
     (decal

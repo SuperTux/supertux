@@ -28,7 +28,7 @@
       (alignment "bottom")
       (speed 0.25)
       (image "images/background/halloween/fog.png")
-      (layer -55)
+      (layer -105)
     )
     (background
       (speed 0)
