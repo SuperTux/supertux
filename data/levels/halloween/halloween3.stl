@@ -147,10 +147,6 @@
     )
     (decal
       (x 1568)
-      (y 672)
-    )
-    (decal
-      (x 1568)
       (y 544)
       (layer -5)
       (sprite "images/decal/halloween/tree.png")
