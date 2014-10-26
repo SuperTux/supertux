@@ -1,7 +1,14 @@
 (supertux-text			
   (background	"../../levels/halloween/images/outro.jpg")
-  (music	"music/voc-dark.music")
-  (text "-Halloween 2014
+  (music	"music/chipdisko.ogg")
+  (text "-Arriving at the Halloween Party
+
+	After a laborious journey through the island Tux finally
+	arrives at the house. Penny is already awaiting him.
+
+        Time to party!
+
+-Happy Halloween!
 -The End
 ")
  )

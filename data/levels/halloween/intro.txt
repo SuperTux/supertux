@@ -1,7 +1,12 @@
 (supertux-text			
   (background	"../../levels/halloween/images/intro.jpg")
   (music	"music/voc-dark.music")
-  (text "	Welcome to 
--Halloween 2014
-")
- )
+  (text "-Halloween 2014
+
+	In celebration of Halloween Penny had prepared a little party
+	for Tux. After receiving the invitation he arrived at the
+	Halloween island, but he finds the house empty. Soon he
+	remembers that there is another house in this forsake island.
+
+	Thus Tux turned around and made it's way across the island...
+") )
