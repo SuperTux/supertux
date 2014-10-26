@@ -1,8 +1,7 @@
 (supertux-level
   (version 2)
-  (name (_ "Outro"))
-  (author "LMH")
-  (contact "lmh.0013@gmail.com")
+  (name (_ "Time to Party!"))
+  (author "SuperTux Team")
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
