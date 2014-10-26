@@ -1,7 +1,8 @@
 (supertux-level
   (version 2)
-  (name (_ "Halloween 1"))
-  (author "Ingo Ruhnke <grumbel@gmail.com>")
+  (name (_ "Darkness Prevails"))
+  (author "Ingo Ruhnke")
+  (contact "grumbel@gmail.com")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 0)
   (sector
