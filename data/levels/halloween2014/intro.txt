@@ -1,5 +1,5 @@
 (supertux-text			
-  (background	"../../levels/halloween/images/intro.jpg")
+  (background	"../../levels/halloween2014/images/intro.jpg")
   (music	"music/voc-dark.music")
   (text "-Halloween Party!
  Or maybe not?

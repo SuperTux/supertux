@@ -1,5 +1,5 @@
 (supertux-text			
-  (background	"../../levels/halloween/images/outro.jpg")
+  (background	"../../levels/halloween2014/images/outro.jpg")
   (music	"music/chipdisko.ogg")
   (text "-Time to Party!
 
