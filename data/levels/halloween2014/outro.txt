@@ -1,7 +1,7 @@
 (supertux-text			
   (background	"halloween/outro.jpg")
   (music	"music/chipdisko.ogg")
-  (text "-Time to Party!
+  (text "-Halloween Party!
 
 	After a laborious journey through the
 	Halloween island Tux can finally spot the
@@ -12,9 +12,19 @@
 	Penny is already awaiting him at the door
 	and wondering what took him so long. The
 	embarrassment about his earlier mistake
-	fades and he jumps for joy.
+	fades quickly and he jumps for joy.
 
 	Time to party!
+
+
+
+
+
+
+
+
+
+
 
 
 -The End
