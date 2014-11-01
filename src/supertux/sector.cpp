@@ -660,12 +660,12 @@ int
 Sector::calculate_foremost_layer()
 {
   int layer = 0;
-  std::vector<std::string> secret_area_layers;
+  std::vector<std::string> secret_area_tilemaps;
   for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i)
   {
     SecretAreaTrigger* trigger = dynamic_cast<SecretAreaTrigger*>(i->get());
     if (!trigger) continue;
-    secret_area_layers.push_back(trigger->get_fade_tilemap_name());
+    secret_area_tilemaps.push_back(trigger->get_fade_tilemap_name());
   }
 
   for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i)
@@ -674,8 +674,8 @@ Sector::calculate_foremost_layer()
     if (!tm) continue;
     if(tm->get_layer() > foremost_layer)
     {
-      if (std::find(secret_area_layers.begin(), secret_area_layers.end(), tm->get_name())
-            != secret_area_layers.end() || tm->is_solid())
+      if (std::find(secret_area_tilemaps.begin(), secret_area_tilemaps.end(), tm->get_name())
+            != secret_area_tilemaps.end() || tm->is_solid())
       {
         layer = tm->get_layer();
       }
