@@ -72,6 +72,8 @@ static const float SKID_TIME = .3f;
 static const float MAX_WALK_XM = 230;
 /** maximum run velocity (pixel/s) */
 static const float MAX_RUN_XM = 320;
+/** bonus run velocity addition (pixel/s) */
+static const float BONUS_RUN_XM = 80;
 /** maximum horizontal climb velocity */
 static const float MAX_CLIMB_XM = 96;
 /** maximum vertical climb velocity */
@@ -524,11 +526,11 @@ Player::handle_horizontal_input()
       ax = dirsign * RUN_ACCELERATION_X;
     }
     // limit speed
-    if(vx >= MAX_RUN_XM && dirsign > 0) {
-      vx = MAX_RUN_XM;
+    if(vx >= MAX_RUN_XM + BONUS_RUN_XM *((player_status->bonus == AIR_BONUS) ? 1 : 0) && dirsign > 0) {
+      vx = MAX_RUN_XM + BONUS_RUN_XM *((player_status->bonus == AIR_BONUS) ? 1 : 0);
       ax = 0;
-    } else if(vx <= -MAX_RUN_XM && dirsign < 0) {
-      vx = -MAX_RUN_XM;
+    } else if(vx <= -MAX_RUN_XM - BONUS_RUN_XM *((player_status->bonus == AIR_BONUS) ? 1 : 0) && dirsign < 0) {
+      vx = -MAX_RUN_XM - BONUS_RUN_XM *((player_status->bonus == AIR_BONUS) ? 1 : 0);
       ax = 0;
     }
   }
@@ -642,7 +644,7 @@ Player::do_backflip() {
 
   backflip_direction = (dir == LEFT)?(+1):(-1);
   backflipping = true;
-  do_jump(-580);
+  do_jump((player_status->bonus == AIR_BONUS) ? -720 : -580);
   SoundManager::current()->play("sounds/flip.wav");
   backflip_timer.start(TUX_BACKFLIP_TIME);
 }
@@ -706,8 +708,12 @@ Player::handle_vertical_input()
         do_backflip();
       }
     } else {
+      // airflower allows for higher jumps-
       // jump a bit higher if we are running; else do a normal jump
-      if (fabs(physic.get_velocity_x()) > MAX_WALK_XM) do_jump(-580); else do_jump(-520);
+      if(player_status->bonus == AIR_BONUS)
+        do_jump((fabs(physic.get_velocity_x()) > MAX_WALK_XM) ? -620 : -580);
+      else
+        do_jump((fabs(physic.get_velocity_x()) > MAX_WALK_XM) ? -580 : -520);
     }
   }
   // Let go of jump key
