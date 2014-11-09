@@ -31,6 +31,8 @@ CheatMenu::CheatMenu()
   add_entry(MNID_GROW, _("Bonus: Grow"));
   add_entry(MNID_FIRE, _("Bonus: Fire"));
   add_entry(MNID_ICE, _("Bonus: Ice"));
+  add_entry(MNID_AIR, _("Bonus: Air"));
+  add_entry(MNID_EARTH, _("Bonus: Earth"));
   add_entry(MNID_STAR, _("Bonus: Star"));
   add_entry(MNID_SHRINK, _("Shrink Tux"));
   add_entry(MNID_KILL, _("Kill Tux"));
@@ -67,6 +69,20 @@ CheatMenu::menu_action(MenuItem* item)
         if (player)
         {
           player->set_bonus(ICE_BONUS);
+        }
+        break;
+
+      case MNID_AIR:
+        if (player)
+        {
+          player->set_bonus(AIR_BONUS);
+        }
+        break;
+
+      case MNID_EARTH:
+        if (player)
+        {
+          player->set_bonus(EARTH_BONUS);
         }
         break;
 

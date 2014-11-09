@@ -26,6 +26,8 @@ private:
     MNID_GROW,
     MNID_FIRE,
     MNID_ICE,
+    MNID_AIR,
+    MNID_EARTH,
     MNID_STAR,
     MNID_SHRINK,
     MNID_KILL,
