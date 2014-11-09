@@ -127,6 +127,8 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   jump_early_apex(),
   on_ice(),
   ice_this_frame(),
+  light(1.0f,1.0f,1.0f),
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
   dir(),
   old_dir(),
   last_ground_y(),
@@ -219,6 +221,7 @@ Player::init()
   on_ice = false;
   ice_this_frame = false;
   speedlimit = 0; //no special limit
+  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
 
   on_ground_flag = false;
   grabbed_object = NULL;
@@ -1195,6 +1198,14 @@ Player::draw(DrawingContext& context)
     ;  // don't draw Tux
   else {
     sprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+    // illuminate Tux in dark areas with earthflower bonus
+    context.get_light( get_bbox().get_middle(), &light );
+    if (light.red + light.green + light.blue < 3.0 && player_status->bonus == EARTH_BONUS){
+      context.push_target();
+      context.set_target(DrawingContext::LIGHTMAP);
+      lightsprite->draw(context, get_pos() + Vector(dir==LEFT ? 0 : 32, 0), 0);
+      context.pop_target();
+    }
   }
 
 }
