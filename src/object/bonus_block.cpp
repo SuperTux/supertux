@@ -74,6 +74,8 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
     case 12: contents = CONTENT_CUSTOM;
       object = std::make_shared<PowerUp>(get_pos(), "images/powerups/potions/red-potion.sprite");
       break;
+    case 13: contents = CONTENT_AIRGROW; break;
+    case 14: contents = CONTENT_EARTHGROW; break;
     default:
       log_warning << "Invalid box contents" << std::endl;
       contents = CONTENT_COIN;
@@ -116,6 +118,10 @@ BonusBlock::BonusBlock(const Reader& lisp) :
         contents = CONTENT_FIREGROW;
       } else if(contentstring == "icegrow") {
         contents = CONTENT_ICEGROW;
+      } else if(contentstring == "airgrow") {
+        contents = CONTENT_AIRGROW;
+      } else if(contentstring == "earthgrow") {
+        contents = CONTENT_EARTHGROW;
       } else if(contentstring == "star") {
         contents = CONTENT_STAR;
       } else if(contentstring == "1up") {
@@ -252,6 +258,34 @@ BonusBlock::try_open(Player *player)
       break;
     }
 
+    case CONTENT_AIRGROW:
+    {
+      if(player->get_status()->bonus == NO_BONUS) {
+        auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<GrowUp>(direction));
+        sector->add_object(riser);
+      } else {
+        auto riser = std::make_shared<SpecialRiser>(
+          get_pos(), std::make_shared<Flower>(AIR_BONUS));
+        sector->add_object(riser);
+      }
+      SoundManager::current()->play("sounds/upgrade.wav");
+      break;
+    }
+
+    case CONTENT_EARTHGROW:
+    {
+      if(player->get_status()->bonus == NO_BONUS) {
+        auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<GrowUp>(direction));
+        sector->add_object(riser);
+      } else {
+        auto riser = std::make_shared<SpecialRiser>(
+          get_pos(), std::make_shared<Flower>(EARTH_BONUS));
+        sector->add_object(riser);
+      }
+      SoundManager::current()->play("sounds/upgrade.wav");
+      break;
+    }
+
     case CONTENT_STAR:
     {
       sector->add_object(std::make_shared<Star>(get_pos() + Vector(0, -32), direction));
@@ -374,6 +408,22 @@ BonusBlock::try_drop(Player *player)
     case CONTENT_ICEGROW:
     {
       sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/iceflower/iceflower.sprite"));
+      SoundManager::current()->play("sounds/upgrade.wav");
+      countdown = true;
+      break;
+    }
+
+    case CONTENT_AIRGROW:
+    {
+      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/iceflower/iceflower.sprite"));
+      SoundManager::current()->play("sounds/upgrade.wav");
+      countdown = true;
+      break;
+    }
+
+    case CONTENT_EARTHGROW:
+    {
+      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/fireflower/fireflower.sprite"));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;

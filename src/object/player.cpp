@@ -952,6 +952,10 @@ Player::add_bonus(const std::string& bonustype)
     type = FIRE_BONUS;
   } else if(bonustype == "iceflower") {
     type = ICE_BONUS;
+  } else if(bonustype == "airflower") {
+    type = AIR_BONUS;
+  } else if(bonustype == "earthflower") {
+    type = EARTH_BONUS;
   } else if(bonustype == "none") {
     type = NO_BONUS;
   } else {
@@ -973,11 +977,7 @@ Player::add_bonus(BonusType type, bool animate)
 
   // ignore GROWUP_BONUS if we're already big
   if (type == GROWUP_BONUS) {
-    if (player_status->bonus == GROWUP_BONUS)
-      return true;
-    if (player_status->bonus == FIRE_BONUS)
-      return true;
-    if (player_status->bonus == ICE_BONUS)
+    if (!player_status->bonus == NO_BONUS)
       return true;
   }
 
@@ -1022,11 +1022,33 @@ Player::set_bonus(BonusType type, bool animate)
       Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/icetux-cap.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
       if (climbing) stop_climbing(*climbing);
     }
+    if ((player_status->bonus == AIR_BONUS) && (animate)) {
+      // visually lose hat
+      Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
+      Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
+      Vector paccel = Vector(0, 1000);
+      std::string action = (dir==LEFT)?"left":"right";
+      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/icetux-cap.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
+      if (climbing) stop_climbing(*climbing);
+    }
+    if ((player_status->bonus == EARTH_BONUS) && (animate)) {
+      // visually lose hard-hat
+      Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
+      Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
+      Vector paccel = Vector(0, 1000);
+      std::string action = (dir==LEFT)?"left":"right";
+      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/firetux-helmet.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
+      if (climbing) stop_climbing(*climbing);
+    }
     player_status->max_fire_bullets = 0;
     player_status->max_ice_bullets = 0;
+    player_status->max_air_time = 0;
+    player_status->max_earth_time = 0;
   }
   if (type == FIRE_BONUS) player_status->max_fire_bullets++;
   if (type == ICE_BONUS) player_status->max_ice_bullets++;
+  if (type == AIR_BONUS) player_status->max_air_time++;
+  if (type == EARTH_BONUS) player_status->max_earth_time++;
 
   player_status->bonus = type;
   return true;
@@ -1077,6 +1099,10 @@ Player::draw(DrawingContext& context)
     sa_prefix = "fire";
   else if (player_status->bonus == ICE_BONUS)
     sa_prefix = "ice";
+  else if (player_status->bonus == AIR_BONUS)
+    sa_prefix = "ice";
+  else if (player_status->bonus == EARTH_BONUS)
+    sa_prefix = "fire";
   else
     sa_prefix = "small";
 
@@ -1311,7 +1337,9 @@ Player::kill(bool completely)
     SoundManager::current()->play("sounds/hurt.wav");
 
     if(player_status->bonus == FIRE_BONUS
-       || player_status->bonus == ICE_BONUS) {
+      || player_status->bonus == ICE_BONUS
+      || player_status->bonus == AIR_BONUS
+      || player_status->bonus == EARTH_BONUS) {
       safe_timer.start(TUX_SAFE_TIME);
       set_bonus(GROWUP_BONUS, true);
     } else if(player_status->bonus == GROWUP_BONUS) {

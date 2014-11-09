@@ -10,23 +10,27 @@ icy island levels tweaked
 new sounds
 massive improvements to localization
 efficiency tweaks
+move to SDL2
+menus reworked
+addon manager improved
+new tilemap- halloween
 
 Supertux Release 0.3.4 (2013-07)
 --------------------------------
 
-It's been more than three years since the last development snapshot for 
-Milestone 2 of SuperTux, making this a bit overdue.  Once again it is hard to 
-say what the most notable changes are, but one thing players should notice is 
+It's been more than three years since the last development snapshot for
+Milestone 2 of SuperTux, making this a bit overdue.  Once again it is hard to
+say what the most notable changes are, but one thing players should notice is
 a greater wealth of levels to play through an expanded avalibility of add-ons.
 
 Additionally, SuperTux development has moved to Google Code.  Check it out at:
 
   http://code.google.com/p/supertux/
 
-If you are intersted in contribuiting to SuperTux, please do so.  The more 
-people working on the project, the faster development can continue.  The hope 
-is that this release will generate more interest which will lead to more 
-frequent releases.  You can refer to the wiki page on "Contributing" to get 
+If you are intersted in contribuiting to SuperTux, please do so.  The more
+people working on the project, the faster development can continue.  The hope
+is that this release will generate more interest which will lead to more
+frequent releases.  You can refer to the wiki page on "Contributing" to get
 started:
 
   http://supertux.lethargik.org/wiki/Contributing
@@ -73,12 +77,12 @@ SuperTux 0.3.2-SVN features:
     * final boss for Icy Island
     * brand new Forest World with new badguys and new game objects
     * new and improved soundtrack, immersive sound effects
-    * much more... 
+    * much more...
 
 The changes in more detail: The SuperTux 0.1 engine was nearly
 completely rewritten. The game is translatable now, a new camera
 algorithm allows scrolling in all four directions. Collision
-detection supports slopes and moving objects now. We have scripting 
+detection supports slopes and moving objects now. We have scripting
 support for dynamic level events and animations. New game objects
 include trampolines, switches, portable stones, upside-down
 levels, wind, moving platforms and particle effects. The sound

@@ -39,6 +39,16 @@ Flower::Flower(BonusType _type) :
     sprite = SpriteManager::current()->create("images/powerups/iceflower/iceflower.sprite");
     SoundManager::current()->preload("sounds/fire-flower.wav");
     lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
+  }
+  else if(type == AIR_BONUS) {
+    sprite = SpriteManager::current()->create("images/powerups/iceflower/iceflower.sprite");
+    SoundManager::current()->preload("sounds/fire-flower.wav");
+    lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
+  }
+  else if(type == EARTH_BONUS) {
+    sprite = SpriteManager::current()->create("images/powerups/fireflower/fireflower.sprite");
+    SoundManager::current()->preload("sounds/fire-flower.wav");
+    lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
   } else {
     assert(false);
   }

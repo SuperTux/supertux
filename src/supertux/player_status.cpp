@@ -93,12 +93,20 @@ PlayerStatus::write(lisp::Writer& writer)
     case ICE_BONUS:
       writer.write("bonus", "iceflower");
       break;
+    case AIR_BONUS:
+      writer.write("bonus", "airflower");
+      break;
+    case EARTH_BONUS:
+      writer.write("bonus", "earthflower");
+      break;
     default:
       log_warning << "Unknown bonus type." << std::endl;
       writer.write("bonus", "none");
   }
   writer.write("fireflowers", max_fire_bullets);
   writer.write("iceflowers", max_ice_bullets);
+  writer.write("airflowers", max_air_time);
+  writer.write("earthflowers", max_earth_time);
 
   writer.write("coins", coins);
 }
@@ -118,6 +126,10 @@ PlayerStatus::read(const Reader& lisp)
       bonus = FIRE_BONUS;
     } else if(bonusname == "iceflower") {
       bonus = ICE_BONUS;
+    } else if(bonusname == "airflower") {
+      bonus = AIR_BONUS;
+    } else if(bonusname == "earthflower") {
+      bonus = EARTH_BONUS;
     } else {
       log_warning << "Unknown bonus '" << bonusname << "' in savefile" << std::endl;
       bonus = NO_BONUS;
@@ -125,6 +137,8 @@ PlayerStatus::read(const Reader& lisp)
   }
   lisp.get("fireflowers", max_fire_bullets);
   lisp.get("iceflowers", max_ice_bullets);
+  lisp.get("airflowers", max_air_time);
+  lisp.get("earthflowers", max_earth_time);
 
   lisp.get("coins", coins);
 }

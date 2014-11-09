@@ -29,7 +29,7 @@ static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
 
 enum BonusType {
-  NO_BONUS, GROWUP_BONUS, FIRE_BONUS, ICE_BONUS
+  NO_BONUS, GROWUP_BONUS, FIRE_BONUS, ICE_BONUS, AIR_BONUS, EARTH_BONUS
 };
 class DrawingContext;
 
@@ -56,6 +56,8 @@ public:
   BonusType bonus;
   int max_fire_bullets; /**< maximum number of fire bullets in play */
   int max_ice_bullets; /**< maximum number of ice bullets in play */
+  int max_air_time; /**< maximum number of seconds player can float in air */
+  int max_earth_time; /**< maximum number of seconds player can turn to stone */
 
 private:
   int displayed_coins;
