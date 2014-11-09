@@ -415,7 +415,7 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_AIRGROW:
     {
-      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/iceflower/iceflower.sprite"));
+      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/airflower/airflower.sprite"));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;
@@ -423,7 +423,7 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_EARTHGROW:
     {
-      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/fireflower/fireflower.sprite"));
+      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/earthflower/earthflower.sprite"));
       SoundManager::current()->play("sounds/upgrade.wav");
       countdown = true;
       break;

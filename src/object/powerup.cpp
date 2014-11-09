@@ -51,6 +51,10 @@ PowerUp::PowerUp(const Reader& lisp) :
     lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
   } else if (sprite_name == "images/powerups/iceflower/iceflower.sprite") {
     lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
+  } else if (sprite_name == "images/powerups/airflower/airflower.sprite") {
+    lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
+  } else if (sprite_name == "images/powerups/earthflower/earthflower.sprite") {
+    lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
   } else if (sprite_name == "images/powerups/star/star.sprite") {
     lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
   }
@@ -77,6 +81,10 @@ PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
     lightsprite->set_color(Color(0.3f, 0.0f, 0.0f));
   } else if (sprite_name == "images/powerups/iceflower/iceflower.sprite") {
     lightsprite->set_color(Color(0.0f, 0.1f, 0.2f));
+  } else if (sprite_name == "images/powerups/airflower/airflower.sprite") {
+    lightsprite->set_color(Color(0.15f, 0.0f, 0.15f));
+  } else if (sprite_name == "images/powerups/earthflower/earthflower.sprite") {
+    lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
   } else if (sprite_name == "images/powerups/star/star.sprite") {
     lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
   }
@@ -118,6 +126,14 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
     SoundManager::current()->play("sounds/fire-flower.wav");
   } else if (sprite_name == "images/powerups/iceflower/iceflower.sprite") {
     if(!player->add_bonus(ICE_BONUS, true))
+      return FORCE_MOVE;
+    SoundManager::current()->play("sounds/fire-flower.wav");
+  } else if (sprite_name == "images/powerups/airflower/airflower.sprite") {
+    if(!player->add_bonus(AIR_BONUS, true))
+      return FORCE_MOVE;
+    SoundManager::current()->play("sounds/fire-flower.wav");
+  } else if (sprite_name == "images/powerups/earthflower/earthflower.sprite") {
+    if(!player->add_bonus(EARTH_BONUS, true))
       return FORCE_MOVE;
     SoundManager::current()->play("sounds/fire-flower.wav");
   } else if (sprite_name == "images/powerups/star/star.sprite") {
