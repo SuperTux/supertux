@@ -31,6 +31,8 @@ WorldmapCheatMenu::WorldmapCheatMenu()
   add_entry(MNID_GROW, _("Bonus: Grow"));
   add_entry(MNID_FIRE, _("Bonus: Fire"));
   add_entry(MNID_ICE, _("Bonus: Ice"));
+  add_entry(MNID_AIR, _("Bonus: Air"));
+  add_entry(MNID_EARTH, _("Bonus: Earth"));
   add_entry(MNID_SHRINK, _("Bonus: None"));
   add_hl();
   add_entry(MNID_FINISH_LEVEL, _("Finish Level"));
@@ -66,6 +68,14 @@ WorldmapCheatMenu::menu_action(MenuItem* item)
 
       case MNID_ICE:
         status->bonus = ICE_BONUS;
+        break;
+
+      case MNID_AIR:
+        status->bonus = AIR_BONUS;
+        break;
+
+      case MNID_EARTH:
+        status->bonus = EARTH_BONUS;
         break;
 
       case MNID_SHRINK:

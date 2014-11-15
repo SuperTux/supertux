@@ -27,6 +27,8 @@ private:
     MNID_GROW,
     MNID_FIRE,
     MNID_ICE,
+    MNID_AIR,
+    MNID_EARTH,
     MNID_SHRINK,
     MNID_FINISH_LEVEL,
     MNID_RESET_LEVEL,

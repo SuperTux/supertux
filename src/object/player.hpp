@@ -282,7 +282,6 @@ private:
   bool jump_early_apex;
   bool on_ice;
   bool ice_this_frame;
-  Color light;
   SpritePtr lightsprite;
 
 public:
