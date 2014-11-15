@@ -238,14 +238,14 @@ IceCrusher::draw(DrawingContext& context)
 {
   context.push_target();
   context.set_target(DrawingContext::NORMAL);
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context, get_pos(), layer+2);
   if(!(state == CRUSHING) && sprite->has_action("whites"))
   {
     // draw icecrusher's eyes slightly behind
-    lefteye->draw(context, get_pos()+eye_position(false), layer-1);
-    righteye->draw(context, get_pos()+eye_position(true), layer-1);
+    lefteye->draw(context, get_pos()+eye_position(false), layer+1);
+    righteye->draw(context, get_pos()+eye_position(true), layer+1);
     // draw the whites of icecrusher's eyes even further behind
-    whites->draw(context, get_pos(), layer-2);
+    whites->draw(context, get_pos(), layer);
   }
   context.pop_target();
 }
