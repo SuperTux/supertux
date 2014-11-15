@@ -15,6 +15,52 @@
 ;;    src/tile.cpp, unisolid is 3 not 2
 (supertux-tiles
   (tile
+    (id 3162)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (fullbox #t)
+    (next-tile 84)
+    (editor-images "objects/bonus_block/bonus-earth_flower.png")
+    (data 14)
+    (fps 15)
+  )
+
+  (tile
+    (id 3161)
+    (images
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-4.png"
+      "objects/bonus_block/full-3.png"
+      "objects/bonus_block/full-2.png"
+      "objects/bonus_block/full-1.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+      "objects/bonus_block/full-0.png"
+    )
+    (solid #t)
+    (fullbox #t)
+    (next-tile 84)
+    (editor-images "objects/bonus_block/bonus-air_flower.png")
+    (data 13)
+    (fps 15)
+  )
+
+  (tile
     (id 3037)
     (images
       "objects/bonus_block/full-0.png"
@@ -667,7 +713,7 @@
   )
   (tilegroup
     (name "Block")
-    (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 3159 44 83 2947 2948 84 102 140 103 104 105 3160 112 128 3037 2943 2944 2945 2946 1311 2153)
+    (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 3159 44 83 2947 2948 84 103 128 102 140 3161 3162 104 105 3160 112 3037 2943 2944 2945 2946 1311 2153)
   )
   (tilegroup
     (name "Background")
@@ -4237,5 +4283,5 @@
     )
     (image "tiles/halloween/black.png")
   )
-;; next-id: 3161
+;; next-id: 3163
 )

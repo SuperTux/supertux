@@ -274,6 +274,8 @@ private:
   int  backflip_direction;
   Direction peekingX;
   Direction peekingY;
+  float glide_time;
+  bool stone;
   bool swimming;
   float speedlimit;
   Controller* scripting_controller_old; /**< Saves the old controller while the scripting_controller is used */
@@ -302,6 +304,8 @@ public:
   Timer safe_timer;
   Timer kick_timer;
   Timer shooting_timer;   // used to show the arm when Tux is shooting
+  Timer ability_timer;  // maximum lengh of time that special abilities can last
+  Timer cooldown_timer; // minimum time period between successive uses of a special ability
   Timer dying_timer;
   bool growing;
   Timer backflip_timer;

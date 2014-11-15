@@ -42,6 +42,7 @@
 namespace {
 static const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
 static const float SHOOTING_TIME = .150f;
+static const float GLIDE_TIME_PER_FLOWER = 0.5f;
 
 /** number of idle stages, including standing */
 static const unsigned int IDLE_STAGE_COUNT = 5;
@@ -78,6 +79,8 @@ static const float BONUS_RUN_XM = 80;
 static const float MAX_CLIMB_XM = 96;
 /** maximum vertical climb velocity */
 static const float MAX_CLIMB_YM = 128;
+/** maximum vertical glide velocity */
+static const float MAX_GLIDE_YM = 128;
 /** instant velocity when tux starts to walk */
 static const float WALK_SPEED = 100;
 
@@ -121,6 +124,8 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   backflip_direction(),
   peekingX(),
   peekingY(),
+  glide_time(),
+  stone(),
   swimming(),
   speedlimit(),
   scripting_controller_old(0),
@@ -144,6 +149,8 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   safe_timer(),
   kick_timer(),
   shooting_timer(),
+  ability_timer(),
+  cooldown_timer(),
   dying_timer(),
   growing(),
   backflip_timer(),
@@ -217,6 +224,8 @@ Player::init()
   backflip_direction = 0;
   sprite->set_angle(0.0f);
   visible = true;
+  glide_time = 0;
+  stone = false;
   swimming = false;
   on_ice = false;
   ice_this_frame = false;
@@ -403,6 +412,8 @@ Player::update(float elapsed_time)
       if (deactivated)
         do_standup();
     }
+    if (player_status->bonus == AIR_BONUS)
+      glide_time = player_status->max_air_time * GLIDE_TIME_PER_FLOWER;
   }
 
   // calculate movement for this frame
@@ -718,12 +729,32 @@ Player::handle_vertical_input()
       else
         do_jump((fabs(physic.get_velocity_x()) > MAX_WALK_XM) ? -580 : -520);
     }
-  }
+    // airflower glide only when holding jump key
+  } else  if (controller->hold(Controller::JUMP) && player_status->bonus == AIR_BONUS && physic.get_velocity_y() > MAX_GLIDE_YM) {
+      if (glide_time > 0 && !ability_timer.started())
+        ability_timer.start(glide_time);
+      else if (ability_timer.started()) {
+        log_debug << ability_timer.get_timeleft() << std::endl;
+        if (ability_timer.get_timeleft() <= 0.05f) {
+          glide_time = 0;
+          ability_timer.stop();
+        } else {
+          physic.set_velocity_y(MAX_GLIDE_YM);
+          physic.set_acceleration_y(0);
+        }
+      }
+    }
+      /*ability_timer.started() ? gliding = true : ability_timer.start(player_status->max_air_time);*/
+  //}
   // Let go of jump key
   else if(!controller->hold(Controller::JUMP)) {
     if (!backflipping && jumping && physic.get_velocity_y() < 0) {
       jumping = false;
       early_jump_apex();
+    }
+    if (player_status->bonus == AIR_BONUS && ability_timer.started()){
+      glide_time = ability_timer.get_timeleft();
+      ability_timer.stop();
     }
   }
 

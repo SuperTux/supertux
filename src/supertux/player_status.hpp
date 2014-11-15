@@ -56,8 +56,8 @@ public:
   BonusType bonus;
   int max_fire_bullets; /**< maximum number of fire bullets in play */
   int max_ice_bullets; /**< maximum number of ice bullets in play */
-  int max_air_time; /**< maximum number of seconds player can float in air */
-  int max_earth_time; /**< maximum number of seconds player can turn to stone */
+  int max_air_time; /**<determines maximum number of seconds player can float in air */
+  int max_earth_time; /**< determines maximum number of seconds player can turn to stone */
 
 private:
   int displayed_coins;
