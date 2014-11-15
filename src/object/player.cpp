@@ -734,7 +734,8 @@ Player::handle_vertical_input()
         ability_timer.start(glide_time);
       else if (ability_timer.started()) {
         log_debug << ability_timer.get_timeleft() << std::endl;
-        if (ability_timer.get_timeleft() <= 0.05f) {
+        // glide stops after some duration or if buttjump is initiated
+        if ((ability_timer.get_timeleft() <= 0.05f) || controller->hold(Controller::DOWN)) {
           glide_time = 0;
           ability_timer.stop();
         } else {
