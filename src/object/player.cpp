@@ -1511,10 +1511,12 @@ Player::get_velocity()
 void
 Player::bounce(BadGuy& )
 {
-  if(controller->hold(Controller::JUMP))
-    physic.set_velocity_y(-520);
-  else
-    physic.set_velocity_y(-300);
+  if(!(player_status->bonus == AIR_BONUS))
+    physic.set_velocity_y(controller->hold(Controller::JUMP) ? -520 : -300);
+  else {
+    physic.set_velocity_y(controller->hold(Controller::JUMP) ? -580 : -340);
+    glide_time = player_status->max_air_time * GLIDE_TIME_PER_FLOWER;
+  }
 }
 
 //scripting Functions Below
