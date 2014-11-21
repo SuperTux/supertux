@@ -27,10 +27,10 @@
 #include "util/reader.hpp"
 
 AmbientSound::AmbientSound(const Reader& lisp) :
-  name(""),
+  name(),
   position(),
   dimension(),
-  sample(""),
+  sample(),
   sound_source(),
   latency(),
   distance_factor(),
