@@ -44,7 +44,7 @@ GhostTree::GhostTree(const Reader& lisp) :
   willo_radius(200),
   willo_speed(1.8f),
   willo_color(0),
-  glow_sprite(),
+  glow_sprite(SpriteManager::current()->create("images/creatures/ghosttree/ghosttree-glow.sprite")),
   colorchange_timer(),
   suck_timer(),
   root_timer(),
@@ -53,7 +53,6 @@ GhostTree::GhostTree(const Reader& lisp) :
   suck_lantern(0),
   willowisps()
 {
-  glow_sprite = SpriteManager::current()->create("images/creatures/ghosttree/ghosttree-glow.sprite");
   set_colgroup_active(COLGROUP_TOUCHABLE);
   SoundManager::current()->preload("sounds/tree_howling.ogg");
   SoundManager::current()->preload("sounds/tree_suck.ogg");

@@ -21,11 +21,9 @@
 
 FallingCoin::FallingCoin(const Vector& start_position, const int vel_x) :
   physic(),
-  pos(),
-  sprite()
+  pos(start_position),
+  sprite(SpriteManager::current()->create("images/objects/coin/coin.sprite"))
 {
-  pos = start_position;
-  sprite = SpriteManager::current()->create("images/objects/coin/coin.sprite");
   physic.set_velocity_y(-800);
   physic.set_velocity_x(vel_x);
 }

@@ -53,7 +53,7 @@ InfoBlock::InfoBlock(const Reader& lisp) :
 
 InfoBlock::~InfoBlock()
 {
-  for(std::vector<InfoBoxLine*>::iterator i = lines.begin(); i != lines.end(); i++) {
+  for(std::vector<InfoBoxLine*>::iterator i = lines.begin(); i != lines.end(); ++i) {
     delete *i;
   }
 }
@@ -73,7 +73,7 @@ InfoBlock::hit(Player& player)
     // first hide all other InfoBlocks' messages in same sector
     Sector* parent = Sector::current();
     if (!parent) return;
-    for (Sector::GameObjects::iterator i = parent->gameobjects.begin(); i != parent->gameobjects.end(); i++) {
+    for (Sector::GameObjects::iterator i = parent->gameobjects.begin(); i != parent->gameobjects.end(); ++i) {
       InfoBlock* block = dynamic_cast<InfoBlock*>(i->get());
       if (!block) continue;
       if (block != this) block->hide_message();

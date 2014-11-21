@@ -24,14 +24,12 @@
 
 InfoBox::InfoBox(const std::string& text) :
   firstline(0),
-  lines(),
+  // Split text string lines into a vector
+  lines(InfoBoxLine::split(text, 400)),
   images(),
   arrow_scrollup(),
   arrow_scrolldown()
 {
-  // Split text string lines into a vector
-  lines = InfoBoxLine::split(text, 400);
-
   try
   {
     // get the arrow sprites
@@ -49,7 +47,7 @@ InfoBox::InfoBox(const std::string& text) :
 InfoBox::~InfoBox()
 {
   for(std::vector<InfoBoxLine*>::iterator i = lines.begin();
-      i != lines.end(); i++)
+      i != lines.end(); ++i)
     delete *i;
 }
 

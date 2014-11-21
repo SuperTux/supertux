@@ -87,7 +87,7 @@ FlipLevelTransformer::transform_drawing_effect(DrawingEffect effect)
 void
 FlipLevelTransformer::transform_path(float height, float obj_height, Path& path)
 {
-  for (std::vector<Path::Node>::iterator i = path.nodes.begin(); i != path.nodes.end(); i++) {
+  for (std::vector<Path::Node>::iterator i = path.nodes.begin(); i != path.nodes.end(); ++i) {
     Vector& pos = i->position;
     pos.y = height - pos.y - obj_height;
   }

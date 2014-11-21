@@ -31,7 +31,7 @@ TriggerBase::TriggerBase() :
 TriggerBase::~TriggerBase()
 {
   // unregister remove_listener hooks, so nobody will try to call us after we've been destroyed
-  for (std::list<Player*>::iterator i = losetouch_listeners.begin(); i != losetouch_listeners.end(); i++) {
+  for (std::list<Player*>::iterator i = losetouch_listeners.begin(); i != losetouch_listeners.end(); ++i) {
     Player* p = *i;
     p->del_remove_listener(this);
   }
@@ -42,7 +42,7 @@ void
 TriggerBase::update(float )
 {
   if (lasthit && !hit) {
-    for (std::list<Player*>::iterator i = losetouch_listeners.begin(); i != losetouch_listeners.end(); i++) {
+    for (std::list<Player*>::iterator i = losetouch_listeners.begin(); i != losetouch_listeners.end(); ++i) {
       Player* p = *i;
       event(*p, EVENT_LOSETOUCH);
       p->del_remove_listener(this);
@@ -81,7 +81,7 @@ TriggerBase::collision(GameObject& other, const CollisionHit& )
 void
 TriggerBase::object_removed(GameObject* object)
 {
-  for (std::list<Player*>::iterator i = losetouch_listeners.begin(); i != losetouch_listeners.end(); i++) {
+  for (std::list<Player*>::iterator i = losetouch_listeners.begin(); i != losetouch_listeners.end(); ++i) {
     Player* p = *i;
     if (p == object) {
       losetouch_listeners.erase(i);

@@ -25,11 +25,10 @@ static const float HATCH_TIME = 0.75;
 Root::Root(const Vector& pos) :
   BadGuy(pos, "images/creatures/ghosttree/root.sprite", LAYER_TILES-1),
   mystate(STATE_APPEARING),
-  base_sprite(),
+  base_sprite(SpriteManager::current()->create("images/creatures/ghosttree/root-base.sprite")),
   offset_y(0),
   hatch_timer()
 {
-  base_sprite = SpriteManager::current()->create("images/creatures/ghosttree/root-base.sprite");
   base_sprite->set_action("appearing", 1);
   base_sprite->set_animation_loops(1); // TODO: necessary because set_action ignores loops for default action
   physic.enable_gravity(false);

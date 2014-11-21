@@ -42,9 +42,8 @@ Lantern::Lantern(const Reader& reader) :
 Lantern::Lantern(const Vector& pos) :
   Rock(pos, "images/objects/lantern/lantern.sprite"),
   lightcolor(0.0f, 0.0f, 0.0f),
-  lightsprite()
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
-  lightsprite = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite");
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   updateColor();
   SoundManager::current()->preload("sounds/willocatch.wav");

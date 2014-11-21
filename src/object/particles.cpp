@@ -65,7 +65,7 @@ Particles::~Particles()
 {
   // free particles
   for(std::vector<Particle*>::iterator i = particles.begin();
-      i < particles.end(); i++)
+      i < particles.end(); ++i)
     delete (*i);
 }
 
@@ -101,7 +101,7 @@ Particles::draw(DrawingContext& context)
 {
   // draw particles
   for(std::vector<Particle*>::iterator i = particles.begin();
-      i != particles.end(); i++) {
+      i != particles.end(); ++i) {
     context.draw_filled_rect((*i)->pos, Vector(size,size), color,drawing_layer);
   }
 }

@@ -330,7 +330,7 @@ WorldMap::load(const std::string& filename)
     }
     current_tileset = NULL;
 
-    if(solid_tilemaps.size() == 0)
+    if(solid_tilemaps.empty())
       throw std::runtime_error("No solid tilemap specified");
 
     move_to_spawnpoint("main");
@@ -718,7 +718,7 @@ WorldMap::tile_data_at(Vector p)
 {
   int dirs = 0;
 
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); ++i) {
     TileMap* tilemap = *i;
     const Tile* tile = tilemap->get_tile((int)p.x, (int)p.y);
     int dirdata = tile->getData();
@@ -1180,7 +1180,7 @@ float
 WorldMap::get_width() const
 {
   float width = 0;
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); ++i) {
     TileMap* solids = *i;
     if (solids->get_width() > width) width = solids->get_width();
   }
@@ -1191,7 +1191,7 @@ float
 WorldMap::get_height() const
 {
   float height = 0;
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); ++i) {
     TileMap* solids = *i;
     if (solids->get_height() > height) height = solids->get_height();
   }

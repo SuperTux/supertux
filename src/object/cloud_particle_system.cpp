@@ -24,10 +24,8 @@
 
 CloudParticleSystem::CloudParticleSystem() :
   ParticleSystem(128),
-  cloudimage()
+  cloudimage(Surface::create("images/objects/particles/cloud.png"))
 {
-  cloudimage = Surface::create("images/objects/particles/cloud.png");
-
   virtual_width = 2000.0;
 
   // create some random clouds

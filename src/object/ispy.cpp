@@ -118,7 +118,7 @@ Ispy::free_line_of_sight(Vector line_start, Vector line_end, const MovingObject*
   std::list<TileMap*> solid_tilemaps = Sector::current()->solid_tilemaps;
   for (float test_x = lsx; test_x <= lex; test_x += 16) {
     for (float test_y = lsy; test_y <= ley; test_y += 16) {
-      for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); i++) {
+      for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); ++i) {
         TileMap* solids = *i;
         const Tile* tile = solids->get_tile_at(Vector(test_x, test_y));
         if(!tile) continue;

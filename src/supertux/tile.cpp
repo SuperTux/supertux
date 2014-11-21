@@ -154,7 +154,7 @@ Tile::print_debug(int id) const
  * in quotation marks because because the slope's gradient is taken.
  * Also, this uses the movement relative to the tilemaps own movement
  * (if any).  --octo */
-bool Tile::check_movement_unisolid (const Vector movement) const
+bool Tile::check_movement_unisolid (const Vector& movement) const
 {
   int slope_info;
   double mv_x;

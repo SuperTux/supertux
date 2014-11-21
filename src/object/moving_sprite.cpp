@@ -79,10 +79,9 @@ MovingSprite::MovingSprite(const Reader& reader, int layer_, CollisionGroup coll
 MovingSprite::MovingSprite(const MovingSprite& other) :
   MovingObject(other),
   sprite_name(),
-  sprite(),
+  sprite(other.sprite->clone()),
   layer(other.layer)
 {
-  sprite = other.sprite->clone();
 }
 /*
   MovingSprite&

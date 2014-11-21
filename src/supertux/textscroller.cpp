@@ -81,7 +81,7 @@ TextScroller::TextScroller(const std::string& filename) :
 
 TextScroller::~TextScroller()
 {
-  for(std::vector<InfoBoxLine*>::iterator i = lines.begin(); i != lines.end(); i++) delete *i;
+  for(std::vector<InfoBoxLine*>::iterator i = lines.begin(); i != lines.end(); ++i) delete *i;
 }
 
 void

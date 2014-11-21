@@ -25,15 +25,13 @@
 static const float DROP_TIME = .1f; // time duration between "drops" of coin rain
 
 CoinRain::CoinRain(const Vector& pos, bool emerge) :
-  sprite(),
+  sprite(SpriteManager::current()->create("images/objects/coin/coin.sprite")),
   position(pos),
   emerge_distance(0),
   timer(),
   counter(0),
   drop(0)
 {
-  sprite = SpriteManager::current()->create("images/objects/coin/coin.sprite");
-
   if(emerge) {
     emerge_distance = sprite->get_height();
   }

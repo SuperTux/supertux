@@ -225,7 +225,7 @@ SoundManager::remove_from_update(StreamSoundSource* sss)
       if( *i == sss ){
         i = update_list.erase(i);
       } else {
-        i++;
+        ++i;
       }
     }
   }
@@ -356,7 +356,7 @@ SoundManager::update()
   StreamSoundSources::iterator s = update_list.begin();
   while( s != update_list.end() ){
     (*s)->update();
-    s++;
+    ++s;
   }
 }
 

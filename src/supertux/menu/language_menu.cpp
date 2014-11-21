@@ -40,7 +40,7 @@ LanguageMenu::LanguageMenu()
 
   int mnid = MNID_LANGUAGE_NEXT;
   std::set<tinygettext::Language> languages = g_dictionary_manager->get_languages();
-  for (std::set<tinygettext::Language>::iterator i = languages.begin(); i != languages.end(); i++)
+  for (std::set<tinygettext::Language>::iterator i = languages.begin(); i != languages.end(); ++i)
   {
     add_entry(mnid++, i->get_name());
   }
@@ -76,7 +76,7 @@ LanguageMenu::menu_action(MenuItem* item)
     int mnid = MNID_LANGUAGE_NEXT;
     std::set<tinygettext::Language> languages = g_dictionary_manager->get_languages();
 
-    for (std::set<tinygettext::Language>::iterator i = languages.begin(); i != languages.end(); i++)
+    for (std::set<tinygettext::Language>::iterator i = languages.begin(); i != languages.end(); ++i)
     {
       if (item->id == mnid++)
       {

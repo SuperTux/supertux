@@ -89,12 +89,11 @@ InfoBoxLine::LineType get_linetype_by_format_char(char format_char) {
 
 InfoBoxLine::InfoBoxLine(char format_char, const std::string& text_) :
   lineType(NORMAL),
-  font(Resources::normal_font),
+  font(get_font_by_format_char(format_char)),
   color(),
   text(text_),
   image()
 {
-  font = get_font_by_format_char(format_char);
   lineType = get_linetype_by_format_char(format_char);
   color = get_color_by_format_char(format_char);
   if (lineType == IMAGE)

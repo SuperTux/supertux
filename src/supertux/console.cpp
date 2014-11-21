@@ -257,11 +257,11 @@ void
 Console::show_history(int offset_)
 {
   while ((offset_ > 0) && (m_history_position != m_history.end())) {
-    m_history_position++;
+    ++m_history_position;
     offset_--;
   }
   while ((offset_ < 0) && (m_history_position != m_history.begin())) {
-    m_history_position--;
+    --m_history_position;
     offset_++;
   }
   if (m_history_position == m_history.end()) {
@@ -561,7 +561,7 @@ Console::draw(DrawingContext& context)
   }
 
   int skipLines = -m_offset;
-  for (std::list<std::string>::iterator i = m_buffer.m_lines.begin(); i != m_buffer.m_lines.end(); i++)
+  for (std::list<std::string>::iterator i = m_buffer.m_lines.begin(); i != m_buffer.m_lines.end(); ++i)
   {
     if (skipLines-- > 0) continue;
     lineNo++;

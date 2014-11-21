@@ -27,10 +27,10 @@
 #include "util/reader.hpp"
 
 AmbientSound::AmbientSound(const Reader& lisp) :
-  name(),
+  name(""),
   position(),
   dimension(),
-  sample(),
+  sample(""),
   sound_source(),
   latency(),
   distance_factor(),
@@ -41,7 +41,6 @@ AmbientSound::AmbientSound(const Reader& lisp) :
   currentvolume(),
   volume_ptr()
 {
-  name="";
   position.x = 0;
   position.y = 0;
 
@@ -51,7 +50,6 @@ AmbientSound::AmbientSound(const Reader& lisp) :
   distance_factor = 0;
   distance_bias = 0;
   maximumvolume = 1;
-  sample = "";
   currentvolume = 0;
 
   if (!(lisp.get("x", position.x)&&lisp.get("y", position.y))) {
@@ -97,7 +95,7 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
   name(),
   position(),
   dimension(),
-  sample(),
+  sample(file),
   sound_source(),
   latency(),
   distance_factor(),
@@ -117,7 +115,6 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
   distance_factor=factor*factor;
   distance_bias=bias*bias;
   maximumvolume=vol;
-  sample=file;
 
   // set default silence_distance
 

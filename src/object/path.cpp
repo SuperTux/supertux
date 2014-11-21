@@ -99,7 +99,7 @@ Path::get_nearest_node_no(Vector reference_point) const
   int nearest_node_id = -1;
   float nearest_node_dist = 0;
   int id = 0;
-  for (std::vector<Node>::const_iterator i = nodes.begin(); i != nodes.end(); i++, id++) {
+  for (std::vector<Node>::const_iterator i = nodes.begin(); i != nodes.end(); ++i, ++id) {
     float dist = (i->position - reference_point).norm();
     if ((nearest_node_id == -1) || (dist < nearest_node_dist)) {
       nearest_node_id = id;
@@ -115,7 +115,7 @@ Path::get_farthest_node_no(Vector reference_point) const
   int farthest_node_id = -1;
   float farthest_node_dist = 0;
   int id = 0;
-  for (std::vector<Node>::const_iterator i = nodes.begin(); i != nodes.end(); i++, id++) {
+  for (std::vector<Node>::const_iterator i = nodes.begin(); i != nodes.end(); ++i, ++id) {
     float dist = (i->position - reference_point).norm();
     if ((farthest_node_id == -1) || (dist > farthest_node_dist)) {
       farthest_node_id = id;

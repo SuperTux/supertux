@@ -170,7 +170,7 @@ private:
 
   /** Returns zero if a unisolid tile is non-solid due to the movement
    * direction, non-zero if the tile is solid due to direction. */
-  bool check_movement_unisolid (const Vector movement) const;
+  bool check_movement_unisolid (const Vector& movement) const;
 
   /** Returns zero if a unisolid tile is non-solid due to the position of the
    * tile and the object, non-zero if the tile is solid. */
