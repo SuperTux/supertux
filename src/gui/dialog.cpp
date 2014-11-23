@@ -209,12 +209,12 @@ Dialog::draw(DrawingContext& ctx)
   {
     float segment_width = bg_rect.get_width() / m_buttons.size();
     float button_width = segment_width;
-    float button_height = 24.0f;
     Vector pos(bg_rect.p1.x + segment_width/2.0f + i * segment_width,
                bg_rect.p2.y - 12);
 
     if (i == m_selected_button)
     {
+      float button_height = 24.0f;
       float blink = (sinf(real_time * M_PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
       ctx.draw_filled_rect(Rectf(Vector(pos.x - button_width/2, pos.y - button_height/2),
                                  Vector(pos.x + button_width/2, pos.y + button_height/2)).grown(2.0f),

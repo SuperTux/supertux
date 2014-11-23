@@ -27,7 +27,6 @@
 #include "util/reader.hpp"
 
 AmbientSound::AmbientSound(const Reader& lisp) :
-  name(),
   position(),
   dimension(),
   sample(),
@@ -92,7 +91,6 @@ AmbientSound::AmbientSound(const Reader& lisp) :
 }
 
 AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std::string file) :
-  name(),
   position(),
   dimension(),
   sample(file),

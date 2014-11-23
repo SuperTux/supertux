@@ -385,7 +385,7 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
             break;
           case TEXT:
           {
-            const TextRequest* textrequest = (TextRequest*) request.request_data;
+            const TextRequest* textrequest = static_cast<TextRequest*>(request.request_data);
             textrequest->font->draw(&renderer, textrequest->text, request.pos,
                                     textrequest->alignment, request.drawing_effect, request.color, request.alpha);
           }
@@ -417,7 +417,7 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
             break;
           case TEXT:
           {
-            const TextRequest* textrequest = (TextRequest*) request.request_data;
+            const TextRequest* textrequest = static_cast<TextRequest*>(request.request_data);
             textrequest->font->draw(&renderer, textrequest->text, request.pos,
                                     textrequest->alignment, request.drawing_effect, request.color, request.alpha);
           }

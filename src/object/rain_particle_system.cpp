@@ -71,8 +71,9 @@ void RainParticleSystem::update(float elapsed_time)
       //Create rainsplash
       if ((particle->pos.y <= SCREEN_HEIGHT + abs_y) && (col >= 1)){
         bool vertical = (col == 2);
-        int splash_x, splash_y;
         if (!vertical) { //check if collision happened from above
+          int splash_x, splash_y; // move outside if statement when
+                                  // uncommenting the else statement below.
           splash_x = int(particle->pos.x);
           splash_y = int(particle->pos.y) - (int(particle->pos.y) % 32) + 32;
           Sector::current()->add_object(std::make_shared<RainSplash>(Vector(splash_x, splash_y),vertical));

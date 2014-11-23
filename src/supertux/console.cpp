@@ -424,10 +424,9 @@ Console::parse(std::string s)
 
   // split line into list of args
   std::vector<std::string> args;
-  size_t start = 0;
   size_t end = 0;
   while (1) {
-    start = s.find_first_not_of(" ,", end);
+    size_t start = s.find_first_not_of(" ,", end);
     end = s.find_first_of(" ,", start);
     if (start == s.npos) break;
     args.push_back(s.substr(start, end-start));

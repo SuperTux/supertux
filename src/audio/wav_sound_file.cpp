@@ -151,16 +151,14 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
     return readsize;
   char *tmp = (char*)buffer;
 
-  size_t i;
-  char c;
-  for (i = 0; i < readsize / 2; i++)
+  for (size_t i = 0; i < readsize / 2; i++)
   {
-    c          = tmp[2*i];
+    char c     = tmp[2*i];
     tmp[2*i]   = tmp[2*i+1];
     tmp[2*i+1] = c;
   }
 
-  buffer = tmp;
+  *buffer = tmp;
 #endif
 
   return readsize;

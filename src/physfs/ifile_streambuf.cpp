@@ -22,6 +22,7 @@
 #include <assert.h>
 
 IFileStreambuf::IFileStreambuf(const std::string& filename) :
+  buf(),
   file()
 {
   // check this as PHYSFS seems to be buggy and still returns a

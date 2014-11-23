@@ -142,7 +142,7 @@ void
 GLPainter::draw_surface_part(const DrawingRequest& request)
 {
   const SurfacePartRequest* surfacepartrequest
-    = (SurfacePartRequest*) request.request_data;
+    = static_cast<SurfacePartRequest*>(request.request_data);
   const Surface* surface = surfacepartrequest->surface;
   std::shared_ptr<GLTexture> gltexture = std::dynamic_pointer_cast<GLTexture>(surface->get_texture());
   GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
@@ -178,7 +178,7 @@ void
 GLPainter::draw_gradient(const DrawingRequest& request)
 {
   const GradientRequest* gradientrequest
-    = (GradientRequest*) request.request_data;
+    = static_cast<GradientRequest*>(request.request_data);
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
 
@@ -215,7 +215,7 @@ void
 GLPainter::draw_filled_rect(const DrawingRequest& request)
 {
   const FillRectRequest* fillrectrequest
-    = (FillRectRequest*) request.request_data;
+    = static_cast<FillRectRequest*>(request.request_data);
 
   glDisable(GL_TEXTURE_2D);
   glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
@@ -294,7 +294,7 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 void
 GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
-  const InverseEllipseRequest* ellipse = (InverseEllipseRequest*)request.request_data;
+  const InverseEllipseRequest* ellipse = static_cast<InverseEllipseRequest*> (request.request_data);
 
   glDisable(GL_TEXTURE_2D);
   glColor4f(ellipse->color.red,  ellipse->color.green,

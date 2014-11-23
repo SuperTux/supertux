@@ -93,8 +93,8 @@ void
 SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& request)
 {
   //FIXME: support parameters request.blend
-  const SurfacePartRequest* surface = (const SurfacePartRequest*) request.request_data;
-  const SurfacePartRequest* surfacepartrequest = (SurfacePartRequest*) request.request_data;
+  const SurfacePartRequest* surface = static_cast<const SurfacePartRequest*>(request.request_data);
+  const SurfacePartRequest* surfacepartrequest = static_cast<SurfacePartRequest*>(request.request_data);
 
   std::shared_ptr<SDLTexture> sdltexture = std::dynamic_pointer_cast<SDLTexture>(surface->surface->get_texture());
 
@@ -136,7 +136,7 @@ void
 SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
 {
   const GradientRequest* gradientrequest
-    = (GradientRequest*) request.request_data;
+    = static_cast<GradientRequest*>(request.request_data);
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
 
@@ -170,7 +170,7 @@ void
 SDLPainter::draw_filled_rect(SDL_Renderer* renderer, const DrawingRequest& request)
 {
   const FillRectRequest* fillrectrequest
-    = (FillRectRequest*) request.request_data;
+    = static_cast<FillRectRequest*>(request.request_data);
 
   SDL_Rect rect;
   rect.x = request.pos.x;
@@ -246,7 +246,7 @@ SDLPainter::draw_filled_rect(SDL_Renderer* renderer, const DrawingRequest& reque
 void
 SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& request)
 {
-  const InverseEllipseRequest* ellipse = (InverseEllipseRequest*)request.request_data;
+  const InverseEllipseRequest* ellipse = static_cast<InverseEllipseRequest*>(request.request_data);
 
   float x = request.pos.x;
   float w = ellipse->size.x;

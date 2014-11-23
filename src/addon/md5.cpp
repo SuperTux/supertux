@@ -47,6 +47,8 @@
 #include <stdexcept>
 
 MD5::MD5() :
+  buffer(),
+  digest(),
   finalized()
 {
   init();
@@ -99,22 +101,20 @@ void MD5::update(FILE *file) {
 
 void MD5::update(std::istream& stream) {
   uint8_t buffer_[1024];
-  int len;
 
   while (stream.good()) {
     stream.read((char*)buffer_, 1024); // note that return value of read is unusable.
-    len=stream.gcount();
+    int len = stream.gcount();
     update(buffer_, len);
   }
 }
 
 void MD5::update(std::ifstream& stream) {
   uint8_t buffer_[1024];
-  int len;
 
   while (stream.good()) {
     stream.read((char*)buffer_, 1024); // note that return value of read is unusable.
-    len=stream.gcount();
+    int len = stream.gcount();
     update(buffer_, len);
   }
 }

@@ -93,14 +93,12 @@ Yeti::draw(DrawingContext& context)
 void
 Yeti::draw_hit_points(DrawingContext& context)
 {
-  int i;
-
   if (hud_head)
   {
     context.push_transform();
     context.set_translation(Vector(0, 0));
 
-    for (i = 0; i < hit_points; ++i)
+    for (int i = 0; i < hit_points; ++i)
     {
       context.draw_surface(hud_head, Vector(BORDER_X + (i * hud_head->get_width()), BORDER_Y + 1), LAYER_FOREGROUND1);
     }
@@ -246,10 +244,9 @@ Yeti::drop_stalactite()
       i != sector->gameobjects.end(); ++i) {
     YetiStalactite* stalactite = dynamic_cast<YetiStalactite*>(i->get());
     if(stalactite && stalactite->is_hanging()) {
-      float distancex;
       if (hit_points >= 3) {
         // drop stalactites within 3 of player, going out with each jump
-        distancex = fabsf(stalactite->get_bbox().get_middle().x - player->get_bbox().get_middle().x);
+        float distancex = fabsf(stalactite->get_bbox().get_middle().x - player->get_bbox().get_middle().x);
         if(distancex < stomp_count*32) {
           stalactite->start_shaking();
         }

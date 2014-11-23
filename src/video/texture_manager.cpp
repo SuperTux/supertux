@@ -224,7 +224,7 @@ TextureManager::create_dummy_texture()
     SDLSurfacePtr image(SDL_CreateRGBSurface(0, 1024, 1024, 8, 0, 0, 0, 0));
     if (!image)
     {
-      throw err;
+      throw;
     }
     else
     {

@@ -30,6 +30,7 @@ Lexer::Lexer(std::istream& newstream) :
   bufend(),
   bufpos(),
   c(),
+  token_string(),
   token_length()
 {
   // trigger a refill of the buffer

@@ -128,7 +128,6 @@ ScreenManager::draw(DrawingContext& context)
   assert(!m_screen_stack.empty());
 
   static Uint32 fps_ticks = SDL_GetTicks();
-  static int frame_count = 0;
 
   m_screen_stack.back()->draw(context);
   m_menu_manager->draw(context);
@@ -156,6 +155,7 @@ ScreenManager::draw(DrawingContext& context)
   /* Calculate frames per second */
   if (g_config->show_fps)
   {
+    static int frame_count = 0;
     ++frame_count;
 
     if (SDL_GetTicks() - fps_ticks >= 500)

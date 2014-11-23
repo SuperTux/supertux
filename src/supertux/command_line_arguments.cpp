@@ -59,10 +59,9 @@ CommandLineArguments::print_datadir()
   // Print the datadir searchpath to stdout, one path per
   // line. Then exit. Intended for use by the supertux-editor.
   char **sp;
-  size_t sp_index;
   sp = PHYSFS_getSearchPath();
   if (sp)
-    for (sp_index = 0; sp[sp_index]; sp_index++)
+    for (size_t sp_index = 0; sp[sp_index]; sp_index++)
       std::cout << sp[sp_index] << std::endl;
   PHYSFS_freeList(sp);
 }

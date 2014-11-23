@@ -24,7 +24,6 @@
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
-namespace lisp { class Writer; }
 namespace lisp { class Lisp; }
 class DrawingContext;
 

@@ -142,7 +142,6 @@ LevelIntro::draw(DrawingContext& context)
     std::stringstream ss;
     ss << _("Level target time") << ": " << Statistics::time_to_string(level->target_time);
     context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
-    py += static_cast<int>(Resources::normal_font->get_height());
   }
 
 }

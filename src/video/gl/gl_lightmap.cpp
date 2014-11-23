@@ -180,7 +180,7 @@ void
 GLLightmap::get_light(const DrawingRequest& request) const
 {
   const GetLightRequest* getlightrequest
-    = (GetLightRequest*) request.request_data;
+    = static_cast<GetLightRequest*>(request.request_data);
 
   float pixels[3];
   for( int i = 0; i<3; i++)
