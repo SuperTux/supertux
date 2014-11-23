@@ -44,7 +44,6 @@ World::load(const std::string& directory)
     std::string worlddirname = FileSystem::basename(directory);
     std::ostringstream stream;
     stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
-    std::string slotfile = stream.str();
     world->m_savegame_filename = stream.str();
   }
 
