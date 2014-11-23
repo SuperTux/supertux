@@ -24,11 +24,10 @@
 namespace scripting {
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
-  floating_image()
+  floating_image(std::make_shared<_FloatingImage>(spritefile))
 {
   using namespace worldmap;
 
-  floating_image = std::make_shared<_FloatingImage>(spritefile);
   if(Sector::current() != NULL) {
     Sector::current()->add_object(floating_image);
   } else if(WorldMap::current() != NULL) {

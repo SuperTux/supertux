@@ -34,7 +34,7 @@ static const float map_message_TIME = 2.8f;
 Tux::Tux(WorldMap* worldmap_) :
   back_direction(),
   worldmap(worldmap_),
-  sprite(),
+  sprite(SpriteManager::current()->create("images/worldmap/common/tux.sprite")),
   controller(),
   input_direction(),
   direction(),
@@ -43,8 +43,6 @@ Tux::Tux(WorldMap* worldmap_) :
   moving(),
   ghost_mode()
 {
-  sprite = SpriteManager::current()->create("images/worldmap/common/tux.sprite");
-
   offset = 0;
   moving = false;
   direction = D_NONE;
