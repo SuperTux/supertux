@@ -180,6 +180,8 @@ public:
   bool is_dead() const
   { return dead; }
   bool is_big();
+  bool is_stone()
+  { return stone; }
 
   void set_visible(bool visible);
   bool get_visible();

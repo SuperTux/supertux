@@ -743,8 +743,8 @@ Player::handle_vertical_input()
         }
       }
     }
-      /*ability_timer.started() ? gliding = true : ability_timer.start(player_status->max_air_time);*/
-  //}
+
+
   // Let go of jump key
   else if(!controller->hold(Controller::JUMP)) {
     if (!backflipping && jumping && physic.get_velocity_y() < 0) {
@@ -819,14 +819,14 @@ Player::handle_input()
   }
 
   /* Handle horizontal movement: */
-  if (!backflipping) handle_horizontal_input();
+  if (!backflipping && !stone) handle_horizontal_input();
 
   /* Jump/jumping? */
   if (on_ground())
     can_jump = true;
 
   /* Handle vertical movement: */
-  handle_vertical_input();
+  if (!stone) handle_vertical_input();
 
   /* Shoot! */
   if (controller->pressed(Controller::ACTION) && (player_status->bonus == FIRE_BONUS || player_status->bonus == ICE_BONUS)) {
@@ -844,8 +844,23 @@ Player::handle_input()
     }
   }
 
+  /* Turn to Stone */
+  if (controller->pressed(Controller::DOWN) && player_status->bonus == EARTH_BONUS) {
+    if (controller->hold(Controller::ACTION)) {
+      jump_early_apex = false;
+      stone = true;
+    }
+  }
+
+  if (stone)
+    apply_friction();
+
+  /* Revert from Stone */
+  if (stone && !controller->hold(Controller::ACTION))
+    stone = false;
+
   /* Duck or Standup! */
-  if (controller->hold(Controller::DOWN)) {
+  if (controller->hold(Controller::DOWN) && !stone) {
     do_duck();
   } else {
     do_standup();
@@ -1352,6 +1367,8 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   if(badguy != NULL) {
     if(safe_timer.started() || invincible_timer.started())
       return FORCE_MOVE;
+    if(stone)
+      return ABORT_MOVE;
 
     return CONTINUE;
   }
@@ -1374,7 +1391,7 @@ Player::kill(bool completely)
   if(dying || deactivated || is_winning() )
     return;
 
-  if(!completely && (safe_timer.started() || invincible_timer.started()))
+  if(!completely && (safe_timer.started() || invincible_timer.started() || stone))
     return;
 
   growing = false;

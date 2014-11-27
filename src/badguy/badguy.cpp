@@ -272,9 +272,18 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
 
     // hit from above?
     if (player->get_bbox().p2.y < (bbox.p1.y + 16)) {
+      if(player->is_stone()) {
+        kill_fall();
+        return FORCE_MOVE;
+      }
       if(collision_squished(*player)) {
         return FORCE_MOVE;
       }
+    }
+
+    if(player->is_stone()) {
+      collision_solid(hit);
+      return FORCE_MOVE;
     }
 
     return collision_player(*player, hit);
