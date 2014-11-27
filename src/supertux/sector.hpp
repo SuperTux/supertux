@@ -110,7 +110,8 @@ public:
   void play_music(MusicType musictype);
   MusicType get_music_type();
 
-  bool add_bullet(const Vector& pos, const PlayerStatus* player_status, float xm, Direction dir);
+  int get_active_bullets()
+  { return (int)bullets.size(); }
   bool add_smoke_cloud(const Vector& pos);
 
   /** get currently activated sector. */

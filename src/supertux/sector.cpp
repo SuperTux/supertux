@@ -1468,23 +1468,6 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 }
 
 bool
-Sector::add_bullet(const Vector& pos, const PlayerStatus* player_status, float xm, Direction dir)
-{
-  // TODO remove this function and move these checks elsewhere...
-  if((player_status->bonus == FIRE_BONUS &&
-      (int)bullets.size() >= player_status->max_fire_bullets) ||
-     (player_status->bonus == ICE_BONUS &&
-      (int)bullets.size() >= player_status->max_ice_bullets))
-    return false;
-  auto new_bullet = std::make_shared<Bullet>(pos, xm, dir, player_status->bonus);
-  add_object(new_bullet);
-
-  SoundManager::current()->play("sounds/shoot.wav");
-
-  return true;
-}
-
-bool
 Sector::add_smoke_cloud(const Vector& pos)
 {
   add_object(std::make_shared<SmokeCloud>(pos));

@@ -830,12 +830,18 @@ Player::handle_input()
 
   /* Shoot! */
   if (controller->pressed(Controller::ACTION) && (player_status->bonus == FIRE_BONUS || player_status->bonus == ICE_BONUS)) {
-    if(Sector::current()->add_bullet(
-         get_pos() + ((dir == LEFT)? Vector(0, bbox.get_height()/2)
-                      : Vector(32, bbox.get_height()/2)),
-         player_status,
-         physic.get_velocity_x(), dir))
+    if((player_status->bonus == FIRE_BONUS &&
+      Sector::current()->get_active_bullets() < player_status->max_fire_bullets) ||
+      (player_status->bonus == ICE_BONUS &&
+      Sector::current()->get_active_bullets() < player_status->max_ice_bullets))
+    {
+      Vector pos = get_pos() + ((dir == LEFT)? Vector(0, bbox.get_height()/2) : Vector(32, bbox.get_height()/2));
+      auto new_bullet = std::make_shared<Bullet>(pos, physic.get_velocity_x(), dir, player_status->bonus);
+      Sector::current()->add_object(new_bullet);
+
+      SoundManager::current()->play("sounds/shoot.wav");
       shooting_timer.start(SHOOTING_TIME);
+    }
   }
 
   /* Duck or Standup! */
