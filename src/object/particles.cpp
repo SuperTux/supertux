@@ -24,6 +24,7 @@
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 
+//TODO: remove this function in favor of the one below
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
                      const Vector& initial_velocity, const Vector& acceleration, int number,
                      Color color_, int size_, float life_time, int drawing_layer_) :
@@ -56,6 +57,41 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
     particle->vel.y = /*fabs*/(cos(angle)) * initial_velocity.y;
     //    if(angle >= M_PI_2 && angle < 3*M_PI_2)
     //      particle->vel.y *= -1;
+
+    particles.push_back(particle);
+  }
+}
+
+Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
+                     const float min_initial_velocity, const float max_initial_velocity,
+                     const Vector& acceleration, int number, Color color_,
+                     int size_, float life_time, int drawing_layer_) :
+
+  accel(acceleration),
+  timer(),
+  live_forever(),
+  color(color_),
+  size(size_),
+  drawing_layer(drawing_layer_),
+  particles()
+{
+  if(life_time == 0) {
+    live_forever = true;
+  } else {
+    live_forever = false;
+    timer.start(life_time);
+  }
+
+  // create particles
+  for(int p = 0; p < number; p++)
+  {
+    Particle* particle = new Particle;
+    particle->pos = epicenter;
+
+    float velocity = graphicsRandom.rand(min_initial_velocity, max_initial_velocity);
+    float angle = graphicsRandom.rand(min_angle, max_angle) * (M_PI / 180);  // convert to radians
+    particle->vel.x = (cos(angle)) * velocity;
+    particle->vel.y = (sin(angle)) * velocity;
 
     particles.push_back(particle);
   }

@@ -29,6 +29,10 @@ public:
             const Vector& initial_velocity, const Vector& acceleration,
             int number, Color color, int size, float life_time,
             int drawing_layer);
+  Particles(const Vector& epicenter, int min_angle, int max_angle,
+            const float min_initial_velocity, const float max_initial_velocity,
+            const Vector& acceleration, int number, Color color,
+            int size, float life_time, int drawing_layer);
   ~Particles();
 
   virtual void update(float elapsed_time);
