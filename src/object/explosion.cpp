@@ -20,6 +20,7 @@
 #include "badguy/badguy.hpp"
 #include "badguy/walking_badguy.hpp"
 #include "math/random_generator.hpp"
+#include "object/particles.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
@@ -70,20 +71,10 @@ Explosion::explode()
   sprite->set_angle(graphicsRandom.randf(0, 360)); // a random rotation on the sprite to make explosions appear more random
   SoundManager::current()->play(hurt ? "sounds/explosion.wav" : "sounds/firecracker.ogg", get_pos());
 
-#if 0
   // spawn some particles
-  // TODO: provide convenience function in MovingSprite or MovingObject?
-  for (int i = 0; i < 100; i++) {
-    Vector ppos = bbox.get_middle();
-    float angle = graphicsRandom.randf(-M_PI_2, M_PI_2);
-    float velocity = graphicsRandom.randf(450, 900);
-    float vx = sin(angle)*velocity;
-    float vy = -cos(angle)*velocity;
-    Vector pspeed = Vector(vx, vy);
-    Vector paccel = Vector(0, 1000);
-    Sector::current()->add_object(new SpriteParticle("images/objects/particles/explosion.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
-  }
-#endif
+  int pnumber = push ? 8 : 100;
+  Sector::current()->add_object(std::make_shared<Particles>(
+    bbox.get_middle(), -360, 360, 450, 900, Vector(0, 1000), pnumber, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS-1));
 
   if (push) {
     Vector center = get_bbox ().get_middle ();

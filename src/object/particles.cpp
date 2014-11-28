@@ -91,7 +91,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
     float velocity = graphicsRandom.rand(min_initial_velocity, max_initial_velocity);
     float angle = graphicsRandom.rand(min_angle, max_angle) * (M_PI / 180);  // convert to radians
     particle->vel.x = (cos(angle)) * velocity;
-    particle->vel.y = (sin(angle)) * velocity;
+    particle->vel.y = (-sin(angle)) * velocity;
 
     particles.push_back(particle);
   }
