@@ -53,6 +53,7 @@ Brick::collision(GameObject& other, const CollisionHit& hit_){
   Player* player = dynamic_cast<Player*> (&other);
   if (player) {
     if (player->does_buttjump) try_break(player);
+    if (player->is_stone() && player->get_velocity().y >= 280) try_break(player); // stoneform breaks through bricks
   }
 
   BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
@@ -87,7 +88,7 @@ Brick::try_break(Player* player)
   SoundManager::current()->play("sounds/brick.wav");
   Sector* sector = Sector::current();
   Player& player_one = *(sector->player);
-  if(coin_counter > 0) {
+  if(coin_counter > 0 && !player->is_stone()) {
     sector->add_object(std::make_shared<BouncyCoin>(get_pos(), true));
     coin_counter--;
     player_one.get_status()->add_coins(1);
