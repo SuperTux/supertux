@@ -570,10 +570,9 @@ Player::handle_horizontal_input()
       // dust some particles
       Sector::current()->add_object(
         std::make_shared<Particles>(
-          Vector(dir == RIGHT ? get_bbox().p2.x : get_bbox().p1.x, get_bbox().p2.y),
-          dir == RIGHT ? 270+20 : 90-40, dir == RIGHT ? 270+40 : 90-20,
-          Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
-          LAYER_OBJECTS+1));
+          Vector(dir == LEFT ? get_bbox().p2.x : get_bbox().p1.x, get_bbox().p2.y),
+          dir == LEFT ? 50 : -70, dir == LEFT ? 70 : -50, 260, 280,
+          Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
 
       ax *= 2.5;
     } else {
@@ -1342,14 +1341,12 @@ Player::collision_solid(const CollisionHit& hit)
       on_ground_flag = false;
       Sector::current()->add_object(std::make_shared<Particles>(
                                       Vector(get_bbox().p2.x, get_bbox().p2.y),
-                                      270+20, 270+40,
-                                      Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
-                                      LAYER_OBJECTS+1));
+                                      50, 70, 260, 280, Vector(0, 300), 3,
+                                      Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
       Sector::current()->add_object(std::make_shared<Particles>(
                                       Vector(get_bbox().p1.x, get_bbox().p2.y),
-                                      90-40, 90-20,
-                                      Vector(280, -260), Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f,
-                                      LAYER_OBJECTS+1));
+                                      -70, -50, 260, 280, Vector(0, 300), 3,
+                                      Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
       Sector::current()->camera->shake(.1f, 0, 5);
     }
 
