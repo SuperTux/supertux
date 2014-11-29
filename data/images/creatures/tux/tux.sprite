@@ -485,4 +485,236 @@
          (hitbox 16 14 32 64)
          (mirror-action "ice-buttjump-right"))
 
+; Earth Tux
+
+       (action
+         (name "earth-walk-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/walk-0.png"
+                 "big/walk-1.png"
+                 "big/walk-2.png"
+                 "big/walk-3.png"
+                 "big/walk-4.png"
+                 "big/walk-5.png"))
+
+       (action
+         (name "earth-walk-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-walk-right"))
+
+       (action
+         (name "earth-stand-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/stand-0.png"))
+
+       (action
+         (name "earth-stand-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-stand-right"))
+
+       (action
+         (name "earth-jump-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/jump-0.png"))
+
+       (action
+         (name "earth-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-jump-right"))
+
+       (action
+         (name "earth-skid-right")
+         (hitbox 16 14 32 64)
+         (images "big/skid-0.png"))
+
+       (action
+         (name "earth-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-skid-right"))
+
+       (action
+         (name "earth-kick-right")
+         (hitbox 16 14 32 64)
+         (images "big/kick-0.png"))
+
+       (action
+         (name "earth-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-kick-right"))
+
+       (action
+         (name "earth-idle-right")
+         (fps 5.0)
+         (hitbox 16 14 32 64)
+         (images "big/idle-0.png"
+                 "big/idle-1.png"
+                 "big/idle-0.png"))
+
+       (action
+         (name "earth-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-idle-right"))
+
+       (action
+         (name "earth-climbing-right")
+         (hitbox 16 14 32 64)
+         (images "big/ladder-0.png"
+                 "big/ladder-1.png"
+                 "big/ladder-2.png"
+                 "big/ladder-3.png"
+                 "big/ladder-2.png"
+                 "big/ladder-1.png"))
+
+       (action
+         (name "earth-climbing-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-climbing-right"))
+
+       (action
+         (name "earth-duck-right")
+         (hitbox 16 45 32 32)
+         (images "big/duck-0.png"))
+
+       (action
+         (name "earth-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "earth-duck-right"))
+
+       (action
+         (name "earth-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "big/backflip.png"))
+
+       (action
+         (name "earth-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 18.0)
+         (mirror-action "earth-backflip-right"))
+
+       (action
+         (name "earth-buttjump-right")
+         (hitbox 16 14 32 64)
+         (images "big/buttjump-0.png"))
+
+       (action
+         (name "earth-buttjump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-buttjump-right"))
+
+; Stone Tux
+
+       (action
+         (name "earth-walk-right-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "earth/stand.png"))
+
+       (action
+         (name "earth-walk-left-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-walk-right-stone"))
+
+       (action
+         (name "earth-stand-right-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "earth/stand.png"))
+
+       (action
+         (name "earth-stand-left-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-stand-right-stone"))
+
+       (action
+         (name "earth-jump-right-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "earth/stand.png"))
+
+       (action
+         (name "earth-jump-left-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-jump-right-stone"))
+
+       (action
+         (name "earth-skid-right-stone")
+         (hitbox 16 14 32 64)
+         (images "earth/stand.png"))
+
+       (action
+         (name "earth-skid-left-stone")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-skid-right-stone"))
+
+       (action
+         (name "earth-kick-right-stone")
+         (hitbox 16 14 32 64)
+         (images "earth/stand.png"))
+
+       (action
+         (name "earth-kick-left-stone")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-kick-right-stone"))
+
+       (action
+         (name "earth-idle-right-stone")
+         (fps 5.0)
+         (hitbox 16 14 32 64)
+         (images "earth/stand.png"))
+
+       (action
+         (name "earth-idle-left-stone")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-idle-right-stone"))
+
+       (action
+         (name "earth-climbing-right-stone")
+         (hitbox 16 14 32 64)
+         (images "earth/stand.png"))
+
+       (action
+         (name "earth-climbing-left-stone")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-climbing-right-stone"))
+
+       (action
+         (name "earth-duck-right-stone")
+         (hitbox 16 45 32 32)
+         (images "earth/stand.png"))
+
+       (action
+         (name "earth-duck-left-stone")
+         (hitbox 16 45 32 32)
+         (mirror-action "earth-duck-right-stone"))
+
+       (action
+         (name "earth-backflip-right-stone")
+         (hitbox 16 37 32 32)
+         (images "earth/stand.png"))
+
+       (action
+         (name "earth-backflip-left-stone")
+         (hitbox 16 37 32 32)
+         (fps 18.0)
+         (mirror-action "earth-backflip-right-stone"))
+
+       (action
+         (name "earth-buttjump-right-stone")
+         (hitbox 16 14 32 64)
+         (images "earth/stand.png"))
+
+       (action
+         (name "earth-buttjump-left-stone")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-buttjump-right-stone"))
+
 )

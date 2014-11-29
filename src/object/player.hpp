@@ -276,7 +276,7 @@ private:
   int  backflip_direction;
   Direction peekingX;
   Direction peekingY;
-  float glide_time;
+  float ability_time;
   bool stone;
   bool swimming;
   float speedlimit;
@@ -285,6 +285,7 @@ private:
   bool on_ice;
   bool ice_this_frame;
   SpritePtr lightsprite;
+  SpritePtr powersprite;
 
 public:
   Direction dir;
