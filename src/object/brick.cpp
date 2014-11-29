@@ -21,6 +21,7 @@
 #include "object/bouncy_coin.hpp"
 #include "object/explosion.hpp"
 #include "object/flower.hpp"
+#include "object/icecrusher.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -76,6 +77,9 @@ Brick::collision(GameObject& other, const CollisionHit& hit_){
   if(explosion && explosion->hurts()) {
     try_break(player);
   }
+  IceCrusher* icecrusher = dynamic_cast<IceCrusher*> (&other);
+  if(icecrusher && coin_counter == 0)
+    try_break(player);
   return Block::collision(other, hit_);
 }
 
