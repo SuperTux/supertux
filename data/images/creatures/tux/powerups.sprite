@@ -4,11 +4,18 @@
 
        (action
          (name "earth-walk-right")
+         (fps 15)
          (hitbox 16 14 32 64)
-         (images "earth/hardhat/stand.png"))
+         (images "earth/hardhat/walk-0.png"
+                 "earth/hardhat/walk-1.png"
+                 "earth/hardhat/walk-2.png"
+                 "earth/hardhat/walk-1.png"
+                 "earth/hardhat/walk-4.png"
+                 "earth/hardhat/walk-2.png"))
 
        (action
          (name "earth-walk-left")
+         (fps 15)
          (hitbox 16 14 32 64)
          (mirror-action "earth-walk-right"))
 
