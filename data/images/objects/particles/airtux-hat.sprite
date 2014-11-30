@@ -2,8 +2,8 @@
  (action
   (name "right")
   (fps 1)
-  (images 
-    "icetux-cap.png"
+  (images
+    "airtux-hat.png"
   )
  )
  (action

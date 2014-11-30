@@ -1174,7 +1174,7 @@ Player::draw(DrawingContext& context)
   else if (player_status->bonus == ICE_BONUS)
     sa_prefix = "ice";
   else if (player_status->bonus == AIR_BONUS)
-    sa_prefix = "ice";
+    sa_prefix = "air";
   else if (player_status->bonus == EARTH_BONUS)
     sa_prefix = "earth";
   else
@@ -1255,7 +1255,8 @@ Player::draw(DrawingContext& context)
   if (player_status->bonus == EARTH_BONUS) {
     powersprite->set_action(sprite->get_action());
     lightsprite->set_action(sprite->get_action());
-  }
+  } else if (player_status->bonus == AIR_BONUS)
+    powersprite->set_action(sprite->get_action());
 
   /*
   // Tux is holding something
@@ -1291,8 +1292,11 @@ Player::draw(DrawingContext& context)
         ppos, ANCHOR_MIDDLE, Vector(0, 0), Vector(0, 0), LAYER_OBJECTS+1+5));
     }
   }
-  else
+  else {
     sprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+    if (player_status->bonus == AIR_BONUS)
+      powersprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+  }
 
 }
 

@@ -485,6 +485,128 @@
          (hitbox 16 14 32 64)
          (mirror-action "ice-buttjump-right"))
 
+; Air Tux
+
+       (action
+         (name "air-walk-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/walk-0.png"
+                 "big/walk-1.png"
+                 "big/walk-2.png"
+                 "big/walk-3.png"
+                 "big/walk-4.png"
+                 "big/walk-5.png"))
+
+       (action
+         (name "air-walk-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "air-walk-right"))
+
+       (action
+         (name "air-stand-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/stand-0.png"))
+
+       (action
+         (name "air-stand-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "air-stand-right"))
+
+       (action
+         (name "air-jump-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/jump-0.png"))
+
+       (action
+         (name "air-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "air-jump-right"))
+
+       (action
+         (name "air-skid-right")
+         (hitbox 16 14 32 64)
+         (images "big/skid-0.png"))
+
+       (action
+         (name "air-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "air-skid-right"))
+
+       (action
+         (name "air-kick-right")
+         (hitbox 16 14 32 64)
+         (images "big/kick-0.png"))
+
+       (action
+         (name "air-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "air-kick-right"))
+
+       (action
+         (name "air-idle-right")
+         (fps 5.0)
+         (hitbox 16 14 32 64)
+         (images "big/idle-0.png"
+                 "big/idle-1.png"
+                 "big/idle-0.png"))
+
+       (action
+         (name "air-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "air-idle-right"))
+
+       (action
+         (name "air-climbing-right")
+         (hitbox 16 14 32 64)
+         (images "big/ladder-0.png"
+                 "big/ladder-1.png"
+                 "big/ladder-2.png"
+                 "big/ladder-3.png"
+                 "big/ladder-2.png"
+                 "big/ladder-1.png"))
+
+       (action
+         (name "air-climbing-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "air-climbing-right"))
+
+       (action
+         (name "air-duck-right")
+         (hitbox 16 45 32 32)
+         (images "big/duck-0.png"))
+
+       (action
+         (name "air-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "air-duck-right"))
+
+       (action
+         (name "air-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "big/backflip.png"))
+
+       (action
+         (name "air-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 18.0)
+         (mirror-action "air-backflip-right"))
+
+       (action
+         (name "air-buttjump-right")
+         (hitbox 16 14 32 64)
+         (images "big/buttjump-0.png"))
+
+       (action
+         (name "air-buttjump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "air-buttjump-right"))
+
 ; Earth Tux
 
        (action
