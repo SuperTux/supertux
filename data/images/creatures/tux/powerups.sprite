@@ -1,5 +1,9 @@
 (supertux-sprite
 
+       (action
+         (name "AUTO")
+         (images "../../objects/bonus_block/invisible.png"))
+
 ; Earth Tux
 
        (action
