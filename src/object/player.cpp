@@ -1276,11 +1276,11 @@ Player::draw(DrawingContext& context)
     Vector shake_delta = (stone && ability_timer.get_timeleft() < 1.0f) ? Vector(graphicsRandom.rand(-3,3), 0) : Vector(0,0);
     sprite->draw(context, get_pos() + shake_delta, LAYER_OBJECTS + 1);
     // draw hardhat
-    powersprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+    powersprite->draw(context, get_pos() + shake_delta, LAYER_OBJECTS + 1);
     // light
     context.push_target();
     context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, get_pos()/* + Vector(dir==LEFT ? 0 : 32, 0)*/, 0);
+    lightsprite->draw(context, get_pos(), 0);
     context.pop_target();
     // give an indicator that stone form cannot be used for a while
     if (cooldown_timer.started() && graphicsRandom.rand(0, 4) == 0) {
