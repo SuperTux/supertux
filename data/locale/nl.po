@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Frank van der Loo <frank_l@linuxmail.org>, 2004
+# Frank van der Loo <f.vanderloo@gmail.com>, 2014
 # Pieter De Decker <pdedecker@gmail.com>, 2007,2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-31 07:40+0000\n"
-"PO-Revision-Date: 2014-08-31 07:46+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2014-11-14 00:33+0000\n"
+"Last-Translator: Frank van der Loo <f.vanderloo@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/supertux/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,19 +27,19 @@ msgstr ""
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr ""
+msgstr "Gebruik: %s [OPTIES][LEVELBESTAND]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
-msgstr ""
+msgstr "Algemene Opties:"
 
 #: src/supertux/command_line_arguments.cpp:76
 msgid "  -h, --help                   Show this help message and quit"
-msgstr ""
+msgstr "-h, --help Toon deze helptekst en sluit af"
 
 #: src/supertux/command_line_arguments.cpp:77
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr ""
+msgstr "-v, --version Toon de versie van SuperTux en sluit af"
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --verbose                    Print verbose messages"
@@ -55,7 +56,7 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
-msgstr ""
+msgstr "Video-opties:"
 
 #: src/supertux/command_line_arguments.cpp:82
 msgid "  -f, --fullscreen             Run in fullscreen mode"
@@ -67,7 +68,7 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr ""
+msgstr "-g, --geometry BREEDTExHOOGTE Speel SuperTux in de opgegeven resolutie"
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
@@ -75,7 +76,7 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "  -d, --default                Reset video settings to default values"
-msgstr ""
+msgstr "-d, --default Stel video-opties in op de standaardwaardes"
 
 #: src/supertux/command_line_arguments.cpp:87
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
@@ -83,19 +84,19 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:88
 msgid "Audio Options:"
-msgstr ""
+msgstr "Audio-opties:"
 
 #: src/supertux/command_line_arguments.cpp:89
 msgid "  --disable-sound              Disable sound effects"
-msgstr ""
+msgstr "--disable-sound Zet geluidseffecten uit"
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  --disable-music              Disable music"
-msgstr ""
+msgstr "--disable-music Zet muziek uit"
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "Game Options:"
-msgstr ""
+msgstr "Spelopties:"
 
 #: src/supertux/command_line_arguments.cpp:92
 msgid "  --console                    Enable ingame scripting console"
@@ -150,16 +151,16 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid "Environment variables:"
-msgstr ""
+msgstr "Omgevingsvariabelen:"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr ""
+msgstr "SUPERTUX2_USER_DIR Directory voor gebruikersgegevens (bewaarde spellen, etc.)"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr ""
+msgstr "SUPERTUX2_DATA_DIR Directory voor de databestanden van het spel"
 
 #: src/supertux/levelintro.cpp:95
 #, c-format
@@ -184,7 +185,7 @@ msgstr "Geheimen"
 
 #: src/supertux/levelintro.cpp:137
 msgid "Best time"
-msgstr ""
+msgstr "Snelste tijd"
 
 #: src/supertux/levelintro.cpp:144
 msgid "Level target time"
@@ -196,20 +197,20 @@ msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:50
 msgid "Worldmap"
-msgstr ""
+msgstr "Wereldkaart"
 
 #: src/supertux/menu/addon_menu.cpp:53
 msgid "World"
-msgstr ""
+msgstr "Wereld"
 
 #: src/supertux/menu/addon_menu.cpp:56
 msgid "Unknown"
-msgstr ""
+msgstr "Onbekend"
 
 #: src/supertux/menu/addon_menu.cpp:67
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr ""
+msgstr "%s \"%s\" door \"%s\""
 
 #: src/supertux/menu/addon_menu.cpp:103 src/supertux/menu/main_menu.cpp:43
 msgid "Add-ons"
@@ -246,39 +247,39 @@ msgstr "Terug"
 #: src/supertux/menu/cheat_menu.cpp:29
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
 msgid "Cheats"
-msgstr ""
+msgstr "Cheats"
 
 #: src/supertux/menu/cheat_menu.cpp:31
 #: src/supertux/menu/worldmap_cheat_menu.cpp:31
 msgid "Bonus: Grow"
-msgstr ""
+msgstr "Bonus: Groeien"
 
 #: src/supertux/menu/cheat_menu.cpp:32
 #: src/supertux/menu/worldmap_cheat_menu.cpp:32
 msgid "Bonus: Fire"
-msgstr ""
+msgstr "Bonus: Vuur"
 
 #: src/supertux/menu/cheat_menu.cpp:33
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 msgid "Bonus: Ice"
-msgstr ""
+msgstr "Bonus: IJs"
 
 #: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Star"
-msgstr ""
+msgstr "Bonus: Ster"
 
 #: src/supertux/menu/cheat_menu.cpp:35
 msgid "Shrink Tux"
-msgstr ""
+msgstr "Krimp Tux"
 
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Kill Tux"
-msgstr ""
+msgstr "Dood Tux"
 
 #: src/supertux/menu/cheat_menu.cpp:37
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Finish Level"
-msgstr ""
+msgstr "Level Halen"
 
 #: src/supertux/menu/contrib_menu.cpp:51 src/supertux/menu/main_menu.cpp:42
 msgid "Contrib Levels"
@@ -286,7 +287,7 @@ msgstr "Extra levels"
 
 #: src/supertux/menu/download_dialog.cpp:28
 msgid "Abort Download"
-msgstr ""
+msgstr "Download Afbreken"
 
 #: src/supertux/menu/download_dialog.cpp:44
 msgid "Error:\n"
@@ -294,11 +295,11 @@ msgstr ""
 
 #: src/supertux/menu/download_dialog.cpp:45
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: src/supertux/menu/download_dialog.cpp:94
 msgid "Close"
-msgstr ""
+msgstr "Sluiten"
 
 #: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Continue"
@@ -375,12 +376,12 @@ msgstr "Naar rechts kijken"
 #: src/supertux/menu/joystick_menu.cpp:76
 #: src/supertux/menu/keyboard_menu.cpp:38
 msgid "Peek Up"
-msgstr ""
+msgstr "Omhoog kijken"
 
 #: src/supertux/menu/joystick_menu.cpp:77
 #: src/supertux/menu/keyboard_menu.cpp:39
 msgid "Peek Down"
-msgstr ""
+msgstr "Omlaag kijken"
 
 #: src/supertux/menu/joystick_menu.cpp:79
 #: src/supertux/menu/keyboard_menu.cpp:41
@@ -395,7 +396,7 @@ msgstr ""
 #: src/supertux/menu/joystick_menu.cpp:84
 #: src/supertux/menu/keyboard_menu.cpp:46
 msgid "Jump with Up"
-msgstr ""
+msgstr "Spring met Omhoog"
 
 #: src/supertux/menu/joystick_menu.cpp:90
 msgid "No Joysticks found"
@@ -403,7 +404,7 @@ msgstr "Geen joystick aangetroffen"
 
 #: src/supertux/menu/joystick_menu.cpp:91
 msgid "Scan for Joysticks"
-msgstr ""
+msgstr "Naar joysticks zoeken"
 
 #: src/supertux/menu/joystick_menu.cpp:105
 #: src/supertux/menu/keyboard_menu.cpp:60
@@ -453,19 +454,19 @@ msgstr "Shift (links)"
 
 #: src/supertux/menu/keyboard_menu.cpp:78
 msgid "Right Control"
-msgstr "CTRL (rechts)"
+msgstr "Ctrl (rechts)"
 
 #: src/supertux/menu/keyboard_menu.cpp:80
 msgid "Left Control"
-msgstr "CTRL (links)"
+msgstr "Ctrl (links)"
 
 #: src/supertux/menu/keyboard_menu.cpp:82
 msgid "Right Alt"
-msgstr "ALT (rechts)"
+msgstr "Alt (rechts)"
 
 #: src/supertux/menu/keyboard_menu.cpp:84
 msgid "Left Alt"
-msgstr "ALT (links)"
+msgstr "Alt (links)"
 
 #: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Right Command"
@@ -481,11 +482,11 @@ msgstr "Druk op een toets"
 
 #: src/supertux/menu/language_menu.cpp:36
 msgid "Language"
-msgstr ""
+msgstr "Taal"
 
 #: src/supertux/menu/language_menu.cpp:38
 msgid "<auto-detect>"
-msgstr ""
+msgstr "<auto-detect>"
 
 #: src/supertux/menu/main_menu.cpp:41
 msgid "Start Game"
@@ -501,31 +502,31 @@ msgstr "Afsluiten"
 
 #: src/supertux/menu/main_menu.cpp:85
 msgid "Do you really want to quit SuperTux?"
-msgstr ""
+msgstr "Wil je echt SuperTux afsluiten?"
 
 #: src/supertux/menu/main_menu.cpp:86
 msgid "Cancel"
-msgstr ""
+msgstr "Annuleren"
 
 #: src/supertux/menu/main_menu.cpp:87
 msgid "Quit SuperTux"
-msgstr ""
+msgstr "SuperTux afsluiten"
 
 #: src/supertux/menu/options_menu.cpp:54
 msgid "Select Language"
-msgstr ""
+msgstr "Taal Selecteren"
 
 #: src/supertux/menu/options_menu.cpp:55
 msgid "Select a different language to display text in"
-msgstr ""
+msgstr "Kies een taal voor de teksten"
 
 #: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
 msgid "Select Profile"
-msgstr ""
+msgstr "Selecteer Profiel"
 
 #: src/supertux/menu/options_menu.cpp:58
 msgid "Select a profile to play with"
-msgstr ""
+msgstr "Kies een profiel om mee te spelen"
 
 #: src/supertux/menu/options_menu.cpp:61
 msgid "Fullscreen"
@@ -533,11 +534,11 @@ msgstr "Volledig scherm"
 
 #: src/supertux/menu/options_menu.cpp:62
 msgid "Fill the entire screen"
-msgstr ""
+msgstr "Vul het volledige scherm"
 
 #: src/supertux/menu/options_menu.cpp:64
 msgid "Resolution"
-msgstr ""
+msgstr "Resolutie"
 
 #: src/supertux/menu/options_menu.cpp:65
 msgid ""
@@ -558,7 +559,7 @@ msgstr ""
 #: src/supertux/menu/options_menu.cpp:224
 #: src/supertux/menu/options_menu.cpp:244
 msgid "auto"
-msgstr ""
+msgstr "auto"
 
 #: src/supertux/menu/options_menu.cpp:155
 msgid "Aspect Ratio"
@@ -574,7 +575,7 @@ msgstr "Geluid"
 
 #: src/supertux/menu/options_menu.cpp:191
 msgid "Disable all sound effects"
-msgstr ""
+msgstr "Schakel alle geluidseffecten uit"
 
 #: src/supertux/menu/options_menu.cpp:192
 msgid "Music"
@@ -582,7 +583,7 @@ msgstr "Muziek"
 
 #: src/supertux/menu/options_menu.cpp:193
 msgid "Disable all music"
-msgstr ""
+msgstr "Schakel alle muziek uit"
 
 #: src/supertux/menu/options_menu.cpp:195
 msgid "Sound (disabled)"
@@ -602,11 +603,11 @@ msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:207
 msgid "Developer Mode"
-msgstr ""
+msgstr "Ontwikkelaarsmodus"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 msgid "Bonus: None"
-msgstr ""
+msgstr "Bonus: Geen"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:37
 msgid "Reset Level"
@@ -642,7 +643,7 @@ msgstr "Meeste geheimen:"
 
 #: src/supertux/statistics.cpp:140
 msgid "Best time completed:"
-msgstr ""
+msgstr "Snelste tijd:"
 
 #: src/supertux/statistics.cpp:145
 msgid "Level target time:"
@@ -650,7 +651,7 @@ msgstr ""
 
 #: src/supertux/statistics.cpp:201
 msgid "You"
-msgstr "U"
+msgstr "Jij"
 
 #: src/supertux/statistics.cpp:203
 msgid "Best"
@@ -666,7 +667,7 @@ msgstr "Tijd"
 
 #: src/supertux/title_screen.cpp:58
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: src/supertux/title_screen.cpp:59
 msgid ""
@@ -680,4 +681,4 @@ msgstr ""
 
 #: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"
-msgstr "U heeft een geheime plek gevonden!"
+msgstr "Je hebt een geheime plek gevonden!"

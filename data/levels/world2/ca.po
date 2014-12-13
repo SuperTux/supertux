@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Prisma Traduccions <maceleiro@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-11-20 13:10+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2014-10-25 18:46+0000\n"
+"Last-Translator: Prisma Traduccions <maceleiro@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/supertux/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,15 +20,15 @@ msgstr ""
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr ""
+msgstr "Camí inestable"
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr ""
+msgstr "Un tresor al cel"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr ""
+msgstr "Tux el constructor"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -36,52 +37,52 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr ""
+msgstr "-Roques transportables:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr ""
+msgstr "Fortalesa de l'iceberg"
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr ""
+msgstr "NOLOK"
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
-msgstr ""
+msgstr "Bobines saltarines"
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr ""
+msgstr "Fortalesa de l'arbre"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr ""
+msgstr "Cova foradada"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
-msgstr ""
+msgstr "Curta visita a El Castillo"
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
-msgstr ""
+msgstr "Benvingut al bosc"
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
-msgstr ""
+msgstr "Contracorrent"
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr ""
+msgstr "Petita Venècia"
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
-msgstr ""
+msgstr "Dues petites torres"
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr ""
+msgstr "Tres fulles al vent"
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
@@ -93,7 +94,7 @@ msgstr ""
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr ""
+msgstr "Habitació de les estrelles"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
@@ -121,15 +122,15 @@ msgstr ""
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr ""
+msgstr "Troba el peix més gran!"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr ""
+msgstr "Nivell 1 del bosc"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr ""
+msgstr "Món forestal"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
@@ -157,7 +158,7 @@ msgstr ""
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr ""
+msgstr "Fulles errants"
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
@@ -175,7 +176,7 @@ msgstr ""
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr ""
+msgstr "Sota el forat del conill"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -184,31 +185,31 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr ""
+msgstr "-Oh no!\n#El camí està bloquejat!\n#Sembla que la única sortida\n#es a través d'aquest fosc\n#forat a la terra..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr ""
+msgstr "-T'has perdut?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr ""
+msgstr "Sota terra"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr ""
+msgstr "Turons verds"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr ""
+msgstr "Sense nom"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr ""
+msgstr "Llum i màgia"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr ""
+msgstr "La venjança del Mussol"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
@@ -216,20 +217,20 @@ msgstr ""
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr ""
+msgstr "Els pingüins no creixen en els arbres"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr ""
+msgstr "Sota la construcció"
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr ""
+msgstr "Amunt i avall"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr ""
+msgstr "Una vila al bosc"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr ""
+msgstr "Món forestal"

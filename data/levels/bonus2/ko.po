@@ -3,20 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Prisma Traduccions <maceleiro@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2014-10-25 18:24+0000\n"
-"Last-Translator: Prisma Traduccions <maceleiro@gmail.com>\n"
-"Language-Team: Catalan (http://www.transifex.com/projects/p/supertux/language/ca/)\n"
+"PO-Revision-Date: 2013-08-10 23:07+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
@@ -47,132 +46,132 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-Felicitats!\n\n#Has acabat amb éxit els nivells de la\n#Illa de bonficació II\n\n\n\tnivells oferits aportats per\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Una vegada més, ens agradaria agrair\n#a tota la gent que ha contribuït en aquesta\n#versió. Esperem que t'hagi agradat,\n#i que la espera de la\n#Milestone 2 hagi estat una mica més fàcil. :-)\n\n\n El final de l'edat de gel està ben a prop..."
+msgstr ""
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Suposadament el Mario pot amb això..."
+msgstr ""
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
-msgstr "fjerd"
+msgstr ""
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr "La llarga cova"
+msgstr ""
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "Cec davant el món"
+msgstr ""
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
-msgstr "snarf"
+msgstr ""
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr "De nou en camí"
+msgstr ""
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr "Túnel gelat"
+msgstr ""
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr "Luft Airship"
+msgstr ""
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...allà on tot és possible"
+msgstr ""
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr "Posar títol original aquí"
+msgstr ""
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
-msgstr "Final de l'Edad de Gel"
+msgstr ""
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr "Pensa ràpid, o mor"
+msgstr ""
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
-msgstr "Fortalesa ventiladora"
+msgstr ""
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
-msgstr "Guàrdia festiva de Nolok"
+msgstr ""
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
-msgstr "Camins d'aigua"
+msgstr ""
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "No és or tot el que llueix"
+msgstr ""
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr "Un dia fred"
+msgstr ""
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr "Alta gravetat"
+msgstr ""
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
-msgstr "Tempesta de foc"
+msgstr ""
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
-msgstr "Un llarc viatge"
+msgstr ""
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
-msgstr "Auxilis"
+msgstr ""
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr "Salt de precipicis"
+msgstr ""
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr "A les coves"
+msgstr ""
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
-msgstr "Tens 1 minut"
+msgstr ""
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr "Un camí entre els núvols"
+msgstr ""
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr "A la glacera de Flanders"
+msgstr ""
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr "Castell en el cel"
+msgstr ""
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
-msgstr "Tradició"
+msgstr ""
 
 #: data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr "Bonificació Island II"
+msgstr ""
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr "Has trobat un lloc secret!"
+msgstr ""
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
-msgstr "Em pregunto on portarà aquest camí..."
+msgstr ""
 
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
-msgstr "Transport a casa..."
+msgstr ""

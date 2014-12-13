@@ -3,237 +3,232 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Anonymouse <anonymouse2048@gmail.com>, 2013-2014
-# Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2006,2013
-# Ettore Atalan <atalanttore@googlemail.com>, 2014
-# Marcel Haring, 2013-2014
-# Matthias Braun <matze@braunis.de>, 2004
-# Tobias Markus <tobbi@mozilla-uk.org>, 2013-2014
+# Roland Kim <dyn4micwork@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-31 07:40+0000\n"
-"PO-Revision-Date: 2014-10-04 21:59+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/supertux/language/de/)\n"
+"PO-Revision-Date: 2014-10-26 11:47+0000\n"
+"Last-Translator: Roland Kim <dyn4micwork@gmail.com>\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/control/joystick_config.cpp:83
 msgid "Joystick Mappings"
-msgstr "Joystickkonfiguration"
+msgstr "조이스틱 조합 설정"
 
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr "Aufruf: %s [OPTIONEN] [LEVEL-DATEI]"
+msgstr "사용법: %s [옵션] [레벨파일]"
 
 #: src/supertux/command_line_arguments.cpp:75
 msgid "General Options:"
-msgstr "Allgemeine Einstellungen:"
+msgstr "기본 옵션:"
 
 #: src/supertux/command_line_arguments.cpp:76
 msgid "  -h, --help                   Show this help message and quit"
-msgstr "-h, --help Diese Hilfenachricht anzeigen"
+msgstr "-h, --help 이 도움말을 출력하고 종료합니다."
 
 #: src/supertux/command_line_arguments.cpp:77
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr "-v, --version Die SuperTux-Version anzeigen"
+msgstr "-v, --version SuperTux의 버전을 보여주고 종료합니다."
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --verbose                    Print verbose messages"
-msgstr "--verbose Mehr Informationen ausgeben"
+msgstr "--verbose 자세한 메시지 내용을 보여줍니다."
 
 #: src/supertux/command_line_arguments.cpp:79
 msgid "  --debug                      Print extra verbose messages"
-msgstr "--debug Noch mehr Informationen ausgeben"
+msgstr "--debug 더 자세한 메시지 내용을 보여줍니다."
 
 #: src/supertux/command_line_arguments.cpp:80
 msgid ""
 "  --print-datadir              Print supertux's primary data directory."
-msgstr "--print-datadir Das Hauptdatenverzeichnis anzeigen"
+msgstr "--print-datadir SuperTux의 기본 데이터 경로를 출력합니다."
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
-msgstr "Videoeinstellungen:"
+msgstr "비디오 옵션:"
 
 #: src/supertux/command_line_arguments.cpp:82
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr "-f, --fullscreen Im Vollbildmodus laufen"
+msgstr "-f, --fullscreen 전체 화면 모드로 실행합니다."
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  -w, --window                 Run in window mode"
-msgstr "-w, --window In einem Fenster laufen"
+msgstr "-w, --window 창 모드로 실행합니다."
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr "-g, --geometry BREITExHÖHE In der gegebenen Auflösung laufen"
+msgstr "-g, --geometry WIDTHxHEIGHT SuperTux를 지정된 해상도로 실행합니다."
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr "-a, --aspect BREITE:HÖHE Im gegebenen Seitenverhältnis laufen"
+msgstr "-a, --aspect WIDTH:HEIGHT SuperTux를 지정된 화면 비율로 실행합니다."
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "  -d, --default                Reset video settings to default values"
-msgstr "-d, --default Die Videoeinstellungen zurücksetzen"
+msgstr "-d, --default 비디오 설정을 기본 설정으로 재설정합니다."
 
 #: src/supertux/command_line_arguments.cpp:87
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr "--renderer RENDERER SDL, OpenGL oder automatische Rendererwahl"
+msgstr "--renderer RENDERER 사용할 그래픽 엔진을 sdl, opengl, 또는 auto로 설정합니다."
 
 #: src/supertux/command_line_arguments.cpp:88
 msgid "Audio Options:"
-msgstr "Audioeinstellungen:"
+msgstr "소리 옵션:"
 
 #: src/supertux/command_line_arguments.cpp:89
 msgid "  --disable-sound              Disable sound effects"
-msgstr "--disable-sound Soundeffekte abstellen"
+msgstr "--disable-sound 효과음을 비활성화합니다."
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  --disable-music              Disable music"
-msgstr "--disable-music Musik abstellen"
+msgstr "--disable-music 배경음악을 비활성화합니다."
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "Game Options:"
-msgstr "Spieleinstellungen:"
+msgstr "게임 옵션:"
 
 #: src/supertux/command_line_arguments.cpp:92
 msgid "  --console                    Enable ingame scripting console"
-msgstr "--console Die Skriptkonsole aktivieren"
+msgstr "--console 게임 중 스크립팅 콘솔을 활성화합니다."
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "  --noconsole                  Disable ingame scripting console"
-msgstr "--noconsole Die Skriptkonsole deaktivieren"
+msgstr "--noconsole 게임 중 스크립팅 콘솔을 비활성화합니다."
 
 #: src/supertux/command_line_arguments.cpp:94
 msgid "  --show-fps                   Display framerate in levels"
-msgstr "--show-fps Die Framerate anzeigen"
+msgstr "--show-fps 초당 프레임 수(FPS)를 보여줍니다."
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr "--no-show-fps Die Framerate nicht anzeigen"
+msgstr "--no-show-fps 초당 프레임 수(FPS)를 숨깁니다."
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --developer                  Switch on developer feature"
-msgstr "--developer Entwicklungsfeatures aktivieren"
+msgstr "--developer 개발자 모드를 활성화합니다."
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr "-s, --debug-scripts Den Skriptdebugger aktivieren"
+msgstr "-s --debug-scripts 스크립트 디버거를 활성화합니다."
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "Demo Recording Options:"
-msgstr "Demoaufnahmeeinstellungen:"
+msgstr "리플레이 녹화 옵션:"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr "--record-demo DATEI LEVEL Ein Demo in DATEI aufnehmen"
+msgstr "--record-demo FILE LEVEL 리플레이를 지정한 파일명으로 녹화합니다."
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr "--play-demo DATEI LEVEL Eine aufgenommene Demo abspielen"
+msgstr "--play-demo FILE LEVEL 저장된 리플레이를 봅니다."
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid "Directory Options:"
-msgstr "Verzeichniseinstellungen:"
+msgstr "경로 옵션:"
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr "--datadir VERZEICHNIS Das Verzeichnis für Spieldaten einstellen"
+msgstr "--datatdir DIR 게임 데이터를 저장할 경로를 설정합니다."
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "--userdir VERZEICHNIS Das Verzeichnis für Benutzerdaten einstellen (gespeicherte Spiele usw.)"
+msgstr "--userdir DIR 사용자 데이터(진행 상황 등)를 저장할 경로를 설정합니다."
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid "Environment variables:"
-msgstr "Umgebungsvariablen:"
+msgstr "환경 변수:"
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr "SUPERTUX2_USER_DIR Verzeichnis für Benutzerdaten (gespeicherte Spiele usw.)"
+msgstr "SUPERTUX2_USER_DIR 사용자 데이터(진행 상황 등) 경로"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr "SUPERTUX2_DATA_DIR Verzeichnis für Spieldaten"
+msgstr "SUPERTUX2_DATA_DIR 게임 데이터 경로"
 
 #: src/supertux/levelintro.cpp:95
 #, c-format
 msgid "contributed by %s"
-msgstr "beigesteuert von %s"
+msgstr "제작자: %s"
 
 #: src/supertux/levelintro.cpp:110 src/supertux/statistics.cpp:117
 msgid "Best Level Statistics"
-msgstr "Level-Rekorde"
+msgstr "최고 기록"
 
 #: src/supertux/levelintro.cpp:116 src/supertux/statistics.cpp:205
 msgid "Coins"
-msgstr "Münzen"
+msgstr "포인트"
 
 #: src/supertux/levelintro.cpp:123
 msgid "Badguys killed"
-msgstr "Gegner besiegt"
+msgstr "퇴치한 몹"
 
 #: src/supertux/levelintro.cpp:130 src/supertux/statistics.cpp:221
 msgid "Secrets"
-msgstr "Verstecke"
+msgstr "발견한 숨겨진 구역 수"
 
 #: src/supertux/levelintro.cpp:137
 msgid "Best time"
-msgstr "Rekord"
+msgstr "최고 시간 기록"
 
 #: src/supertux/levelintro.cpp:144
 msgid "Level target time"
-msgstr "Zielzeit"
+msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:47
 msgid "Levelset"
-msgstr "Leveleinstellungen"
+msgstr ""
 
 #: src/supertux/menu/addon_menu.cpp:50
 msgid "Worldmap"
-msgstr "Weltkarte"
+msgstr "월드맵"
 
 #: src/supertux/menu/addon_menu.cpp:53
 msgid "World"
-msgstr "Welt"
+msgstr "월드"
 
 #: src/supertux/menu/addon_menu.cpp:56
 msgid "Unknown"
-msgstr "Unbekannt"
+msgstr "알 수 없음"
 
 #: src/supertux/menu/addon_menu.cpp:67
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\" von \"%s\""
+msgstr "%s \"%s\" 제작자: \"%s\""
 
 #: src/supertux/menu/addon_menu.cpp:103 src/supertux/menu/main_menu.cpp:43
 msgid "Add-ons"
-msgstr "Erweiterungen"
+msgstr "부가 기능"
 
 #: src/supertux/menu/addon_menu.cpp:109
 msgid "No Addons installed"
-msgstr "Keine Addons installiert"
+msgstr "설치된 부가 기능이 없습니다"
 
 #: src/supertux/menu/addon_menu.cpp:163
 msgid "No new Addons found"
-msgstr "Keine Addons gefunden"
+msgstr "새로운 부가 기능이 없습니다"
 
 #: src/supertux/menu/addon_menu.cpp:169
 msgid "Check Online (disabled)"
-msgstr "Liste herunterladen (deaktiviert)"
+msgstr "부가 기능 가져오기 (비활성화됨)"
 
 #: src/supertux/menu/addon_menu.cpp:173
 msgid "Check Online"
-msgstr "Liste herunterladen"
+msgstr "부가 기능 가져오기"
 
 #: src/supertux/menu/addon_menu.cpp:177 src/supertux/menu/cheat_menu.cpp:39
 #: src/supertux/menu/contrib_levelset_menu.cpp:68
@@ -245,443 +240,443 @@ msgstr "Liste herunterladen"
 #: src/supertux/menu/profile_menu.cpp:46
 #: src/supertux/menu/worldmap_cheat_menu.cpp:42
 msgid "Back"
-msgstr "Zurück"
+msgstr "뒤로"
 
 #: src/supertux/menu/cheat_menu.cpp:29
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
 msgid "Cheats"
-msgstr "Cheats"
+msgstr "치트"
 
 #: src/supertux/menu/cheat_menu.cpp:31
 #: src/supertux/menu/worldmap_cheat_menu.cpp:31
 msgid "Bonus: Grow"
-msgstr "Bonus: Groß"
+msgstr "보너스: 새알"
 
 #: src/supertux/menu/cheat_menu.cpp:32
 #: src/supertux/menu/worldmap_cheat_menu.cpp:32
 msgid "Bonus: Fire"
-msgstr "Bonus: Feuer"
+msgstr "보너스: 불"
 
 #: src/supertux/menu/cheat_menu.cpp:33
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 msgid "Bonus: Ice"
-msgstr "Bonus: Eis"
+msgstr "보너스: 얼음"
 
 #: src/supertux/menu/cheat_menu.cpp:34
 msgid "Bonus: Star"
-msgstr "Bonus: Stern"
+msgstr "보너스: 별"
 
 #: src/supertux/menu/cheat_menu.cpp:35
 msgid "Shrink Tux"
-msgstr "Tux kleinmachen"
+msgstr ""
 
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Kill Tux"
-msgstr "Tux töten"
+msgstr ""
 
 #: src/supertux/menu/cheat_menu.cpp:37
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Finish Level"
-msgstr "Level fertigstellen"
+msgstr "맵 완료"
 
 #: src/supertux/menu/contrib_menu.cpp:51 src/supertux/menu/main_menu.cpp:42
 msgid "Contrib Levels"
-msgstr "Zusatzlevel"
+msgstr "추가 맵"
 
 #: src/supertux/menu/download_dialog.cpp:28
 msgid "Abort Download"
-msgstr "Herunterladen abbrechen"
+msgstr "다운로드 취소"
 
 #: src/supertux/menu/download_dialog.cpp:44
 msgid "Error:\n"
-msgstr "Fehler:\n"
+msgstr "오류:\n"
 
 #: src/supertux/menu/download_dialog.cpp:45
 msgid "Ok"
-msgstr "OK"
+msgstr "확인"
 
 #: src/supertux/menu/download_dialog.cpp:94
 msgid "Close"
-msgstr "Schließen"
+msgstr "닫기"
 
 #: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Continue"
-msgstr "Weiterspielen"
+msgstr "계속"
 
 #: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:44
 #: src/supertux/menu/options_menu.cpp:47
 #: src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
-msgstr "Einstellungen"
+msgstr "설정"
 
 #: src/supertux/menu/game_menu.cpp:38
 msgid "Abort Level"
-msgstr "Level Abbrechen"
+msgstr "게임 포기"
 
 #: src/supertux/menu/joystick_menu.cpp:50
 #: src/supertux/menu/options_menu.cpp:202
 msgid "Setup Joystick"
-msgstr "Joystickbelegung"
+msgstr "조이스틱 설정"
 
 #: src/supertux/menu/joystick_menu.cpp:53
 msgid "Manual Configuration"
-msgstr "Manuelle Konfiguration"
+msgstr "수동 설정"
 
 #: src/supertux/menu/joystick_menu.cpp:55
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "Controller manuell konfigurieren, statt SDL2s automatische Konfiguration zu benutzen"
+msgstr "SDL2의 자동 게임 컨트롤러 설정 대신 수동 설정을 사용합니다"
 
 #: src/supertux/menu/joystick_menu.cpp:67
 #: src/supertux/menu/keyboard_menu.cpp:30
 msgid "Up"
-msgstr "Oben"
+msgstr "위"
 
 #: src/supertux/menu/joystick_menu.cpp:68
 #: src/supertux/menu/keyboard_menu.cpp:31
 msgid "Down"
-msgstr "Unten"
+msgstr "아래"
 
 #: src/supertux/menu/joystick_menu.cpp:69
 #: src/supertux/menu/keyboard_menu.cpp:32
 msgid "Left"
-msgstr "Links"
+msgstr "왼쪽"
 
 #: src/supertux/menu/joystick_menu.cpp:70
 #: src/supertux/menu/keyboard_menu.cpp:33
 msgid "Right"
-msgstr "Rechts"
+msgstr "오른쪽"
 
 #: src/supertux/menu/joystick_menu.cpp:71
 #: src/supertux/menu/keyboard_menu.cpp:34
 msgid "Jump"
-msgstr "Springen"
+msgstr "점프"
 
 #: src/supertux/menu/joystick_menu.cpp:72
 #: src/supertux/menu/keyboard_menu.cpp:35
 msgid "Action"
-msgstr "Aktion"
+msgstr "동작"
 
 #: src/supertux/menu/joystick_menu.cpp:73
 msgid "Pause/Menu"
-msgstr "Pause/Menü"
+msgstr "일시정지/메뉴"
 
 #: src/supertux/menu/joystick_menu.cpp:74
 #: src/supertux/menu/keyboard_menu.cpp:36
 msgid "Peek Left"
-msgstr "Links umsehen"
+msgstr "왼쪽으로 화면 이동"
 
 #: src/supertux/menu/joystick_menu.cpp:75
 #: src/supertux/menu/keyboard_menu.cpp:37
 msgid "Peek Right"
-msgstr "Rechts umsehen"
+msgstr "오른쪽으로 화면 이동"
 
 #: src/supertux/menu/joystick_menu.cpp:76
 #: src/supertux/menu/keyboard_menu.cpp:38
 msgid "Peek Up"
-msgstr "Oben umsehen"
+msgstr "위쪽으로 화면 이동"
 
 #: src/supertux/menu/joystick_menu.cpp:77
 #: src/supertux/menu/keyboard_menu.cpp:39
 msgid "Peek Down"
-msgstr "Unten umsehen"
+msgstr "아래쪽으로 화면 이동"
 
 #: src/supertux/menu/joystick_menu.cpp:79
 #: src/supertux/menu/keyboard_menu.cpp:41
 msgid "Console"
-msgstr "Konsole"
+msgstr "콘솔솔"
 
 #: src/supertux/menu/joystick_menu.cpp:82
 #: src/supertux/menu/keyboard_menu.cpp:44
 msgid "Cheat Menu"
-msgstr "Cheatmenü"
+msgstr "치트 메뉴"
 
 #: src/supertux/menu/joystick_menu.cpp:84
 #: src/supertux/menu/keyboard_menu.cpp:46
 msgid "Jump with Up"
-msgstr "Mit \"Hoch\" springen"
+msgstr "위쪽 키로 점프"
 
 #: src/supertux/menu/joystick_menu.cpp:90
 msgid "No Joysticks found"
-msgstr "Keine Joysticks gefunden"
+msgstr "사용 가능한 조이스틱이 없습니다"
 
 #: src/supertux/menu/joystick_menu.cpp:91
 msgid "Scan for Joysticks"
-msgstr "Nach Joysticks suchen"
+msgstr "조이스틱 검색"
 
 #: src/supertux/menu/joystick_menu.cpp:105
 #: src/supertux/menu/keyboard_menu.cpp:60
 msgid "None"
-msgstr "Keine"
+msgstr "없음"
 
 #: src/supertux/menu/joystick_menu.cpp:120
 msgid "Press Button"
-msgstr "Knopf drücken"
+msgstr "새 버튼 누르기"
 
 #: src/supertux/menu/keyboard_menu.cpp:28
 #: src/supertux/menu/options_menu.cpp:199
 msgid "Setup Keyboard"
-msgstr "Tastenbelegung"
+msgstr "키보드 설정"
 
 #: src/supertux/menu/keyboard_menu.cpp:62
 msgid "Up cursor"
-msgstr "Oben"
+msgstr "위쪽 방향키"
 
 #: src/supertux/menu/keyboard_menu.cpp:64
 msgid "Down cursor"
-msgstr "Unten"
+msgstr "아래쪽 방향키"
 
 #: src/supertux/menu/keyboard_menu.cpp:66
 msgid "Left cursor"
-msgstr "Links"
+msgstr "왼쪽 방향키"
 
 #: src/supertux/menu/keyboard_menu.cpp:68
 msgid "Right cursor"
-msgstr "Rechts"
+msgstr "오른쪽 방향키"
 
 #: src/supertux/menu/keyboard_menu.cpp:70
 msgid "Return"
-msgstr "Eingabetaste"
+msgstr "Enter"
 
 #: src/supertux/menu/keyboard_menu.cpp:72
 msgid "Space"
-msgstr "Leertaste"
+msgstr "스페이스바"
 
 #: src/supertux/menu/keyboard_menu.cpp:74
 msgid "Right Shift"
-msgstr "Umschalt (rechts)"
+msgstr "오른쪽 Shift"
 
 #: src/supertux/menu/keyboard_menu.cpp:76
 msgid "Left Shift"
-msgstr "Umschalt (links)"
+msgstr "왼쪽 Shift"
 
 #: src/supertux/menu/keyboard_menu.cpp:78
 msgid "Right Control"
-msgstr "Strg (rechts)"
+msgstr "오른쪽 Ctrl"
 
 #: src/supertux/menu/keyboard_menu.cpp:80
 msgid "Left Control"
-msgstr "Strg (links)"
+msgstr "왼쪽 Ctrl"
 
 #: src/supertux/menu/keyboard_menu.cpp:82
 msgid "Right Alt"
-msgstr "Alt (rechts)"
+msgstr "오른쪽 Alt"
 
 #: src/supertux/menu/keyboard_menu.cpp:84
 msgid "Left Alt"
-msgstr "Alt (links)"
+msgstr "왼쪽 Alt"
 
 #: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Right Command"
-msgstr "Rechts"
+msgstr "오른쪽 Command"
 
 #: src/supertux/menu/keyboard_menu.cpp:88
 msgid "Left Command"
-msgstr "Links"
+msgstr "왼쪽 Command"
 
 #: src/supertux/menu/keyboard_menu.cpp:98
 msgid "Press Key"
-msgstr "Taste drücken"
+msgstr "새 키 누르기"
 
 #: src/supertux/menu/language_menu.cpp:36
 msgid "Language"
-msgstr "Sprache"
+msgstr "언어"
 
 #: src/supertux/menu/language_menu.cpp:38
 msgid "<auto-detect>"
-msgstr "<automatisch erkennen>"
+msgstr "<자동 선택>"
 
 #: src/supertux/menu/main_menu.cpp:41
 msgid "Start Game"
-msgstr "Spiel starten"
+msgstr "게임 시작"
 
 #: src/supertux/menu/main_menu.cpp:45
 msgid "Credits"
-msgstr "Abspann"
+msgstr "제작자"
 
 #: src/supertux/menu/main_menu.cpp:46
 msgid "Quit"
-msgstr "Beenden"
+msgstr "끝"
 
 #: src/supertux/menu/main_menu.cpp:85
 msgid "Do you really want to quit SuperTux?"
-msgstr "Möchten Sie SuperTux wirklich beenden?"
+msgstr "SuperTux를 종료하시겠습니까?"
 
 #: src/supertux/menu/main_menu.cpp:86
 msgid "Cancel"
-msgstr "Abbrechen"
+msgstr "취소"
 
 #: src/supertux/menu/main_menu.cpp:87
 msgid "Quit SuperTux"
-msgstr "SuperTux beenden"
+msgstr "SuperTux 끝내기"
 
 #: src/supertux/menu/options_menu.cpp:54
 msgid "Select Language"
-msgstr "Sprache auswählen"
+msgstr "언어 선택"
 
 #: src/supertux/menu/options_menu.cpp:55
 msgid "Select a different language to display text in"
-msgstr "Wähle eine andere Sprache aus"
+msgstr "표시 언어를 변경합니다"
 
 #: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
 msgid "Select Profile"
-msgstr "Profil auswählen"
+msgstr "프로필 선택"
 
 #: src/supertux/menu/options_menu.cpp:58
 msgid "Select a profile to play with"
-msgstr "Wähle ein Profil aus"
+msgstr "플레이할 프로필을 선택합니다"
 
 #: src/supertux/menu/options_menu.cpp:61
 msgid "Fullscreen"
-msgstr "Vollbild"
+msgstr "전체화면"
 
 #: src/supertux/menu/options_menu.cpp:62
 msgid "Fill the entire screen"
-msgstr "Im Vollbildmodus spielen"
+msgstr "전체 화면 모드로 전환합니다"
 
 #: src/supertux/menu/options_menu.cpp:64
 msgid "Resolution"
-msgstr "Auflösung"
+msgstr "해상도"
 
 #: src/supertux/menu/options_menu.cpp:65
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
-msgstr "Auflösung, die im Vollbildmodus verwendet wird. Änderung wird beim Wechsel in den Vollbildmodus wirksam"
+msgstr "전체화면 모드에서 사용할 해상도 선택합니다 (설정하기 위해 전체화면 모드로 전환해야 합니다)"
 
 #: src/supertux/menu/options_menu.cpp:67
 msgid "Magnification"
-msgstr "Skalierung"
+msgstr "배율"
 
 #: src/supertux/menu/options_menu.cpp:68
 msgid "Change the magnification of the game area"
-msgstr "Wählt die Skalierung des Spielbereichs aus"
+msgstr "화면 배율을 조정합니다"
 
 #: src/supertux/menu/options_menu.cpp:72
 #: src/supertux/menu/options_menu.cpp:158
 #: src/supertux/menu/options_menu.cpp:224
 #: src/supertux/menu/options_menu.cpp:244
 msgid "auto"
-msgstr "auto"
+msgstr "자동"
 
 #: src/supertux/menu/options_menu.cpp:155
 msgid "Aspect Ratio"
-msgstr "Seitenverhältnis"
+msgstr "화면 비율"
 
 #: src/supertux/menu/options_menu.cpp:156
 msgid "Adjust the aspect ratio"
-msgstr "Seitenverhältnis anpassen"
+msgstr "화면 비율 조정"
 
 #: src/supertux/menu/options_menu.cpp:190
 msgid "Sound"
-msgstr "Sound"
+msgstr "소리"
 
 #: src/supertux/menu/options_menu.cpp:191
 msgid "Disable all sound effects"
-msgstr "Alle Sound-Effekte deaktivieren"
+msgstr "모든 효과음 음소거"
 
 #: src/supertux/menu/options_menu.cpp:192
 msgid "Music"
-msgstr "Musik"
+msgstr "음악"
 
 #: src/supertux/menu/options_menu.cpp:193
 msgid "Disable all music"
-msgstr "Musik deaktivieren"
+msgstr "모든 음악 음소거"
 
 #: src/supertux/menu/options_menu.cpp:195
 msgid "Sound (disabled)"
-msgstr "Sound (deaktiviert)"
+msgstr "소리 (음소거)"
 
 #: src/supertux/menu/options_menu.cpp:196
 msgid "Music (disabled)"
-msgstr "Musik (deaktiviert)"
+msgstr "음악 (음소거)"
 
 #: src/supertux/menu/options_menu.cpp:200
 msgid "Configure key-action mappings"
-msgstr "Tastenbelegung der Tastatur konfigurieren"
+msgstr "키 배치 조합을 설정합니다"
 
 #: src/supertux/menu/options_menu.cpp:203
 msgid "Configure joystick control-action mappings"
-msgstr "Tastenbeledung des Joysticks konfigurieren"
+msgstr "조이스틱 배치 조합을 설정합니다 "
 
 #: src/supertux/menu/options_menu.cpp:207
 msgid "Developer Mode"
-msgstr "Entwicklermodus"
+msgstr "개발자 모드"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 msgid "Bonus: None"
-msgstr "Kein Bonus"
+msgstr "보너스: 없음"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:37
 msgid "Reset Level"
-msgstr "Level neu starten"
+msgstr "맵 초기화"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
 msgid "Finish WorldMap"
-msgstr "Weltkarte fertigstellen"
+msgstr "월드맵 완료"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:40
 msgid "Reset WorldMap"
-msgstr "Weltkarte zurücksetzen"
+msgstr "월드맵 초기화"
 
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
-msgstr "Pause"
+msgstr "일시정지"
 
 #: src/supertux/menu/worldmap_menu.cpp:34
 msgid "Quit World"
-msgstr "Welt verlassen"
+msgstr "월드 나가기"
 
 #: src/supertux/statistics.cpp:128
 msgid "Max coins collected:"
-msgstr "Münzen gesammelt:"
+msgstr "최대 포인트 수:"
 
 #: src/supertux/statistics.cpp:132
 msgid "Max fragging:"
-msgstr "Gegner besiegt:"
+msgstr "최대 퇴치한 몹 수:"
 
 #: src/supertux/statistics.cpp:136
 msgid "Max secrets found:"
-msgstr "Verstecke gefunden:"
+msgstr "최대 숨겨진 구역 발견 횟수:"
 
 #: src/supertux/statistics.cpp:140
 msgid "Best time completed:"
-msgstr "Rekord"
+msgstr "최단 기록:"
 
 #: src/supertux/statistics.cpp:145
 msgid "Level target time:"
-msgstr "Zielzeit:"
+msgstr ""
 
 #: src/supertux/statistics.cpp:201
 msgid "You"
-msgstr "Aktuell"
+msgstr "플레이어"
 
 #: src/supertux/statistics.cpp:203
 msgid "Best"
-msgstr "Rekord"
+msgstr "최고 기록"
 
 #: src/supertux/statistics.cpp:213
 msgid "Badguys"
-msgstr "Monster"
+msgstr "몹"
 
 #: src/supertux/statistics.cpp:229
 msgid "Time"
-msgstr "Zeit"
+msgstr "시간"
 
 #: src/supertux/title_screen.cpp:58
 msgid "Copyright"
-msgstr "Copyright"
+msgstr "저작권"
 
 #: src/supertux/title_screen.cpp:59
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr "Dieses Spiel ist freie Software, die OHNE JEDE HAFTUNG angeboten wird, jedoch unter den\nin der Datei COPYING hinterlegten Regeln frei weitergegeben werden darf.\n"
+msgstr "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\nredistribute it under certain conditions; see the file COPYING for details.\n"
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."
-msgstr "Hoch geht's..."
+msgstr ""
 
 #: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"
-msgstr "Neues Versteck gefunden!"
+msgstr "숨겨진 구역을 찾았습니다!"

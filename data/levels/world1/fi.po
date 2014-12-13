@@ -5,13 +5,14 @@
 # Translators:
 #  <lapamiko@luukku.com>, 2004
 # tingberg <tom.ingberg@iki.fi>, 2013-2014
+# xet7 <x@xet7.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-08-27 19:41+0000\n"
-"Last-Translator: tingberg <tom.ingberg@iki.fi>\n"
+"PO-Revision-Date: 2014-12-13 21:28+0000\n"
+"Last-Translator: xet7 <x@xet7.org>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,7 +45,7 @@ msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
-msgstr ""
+msgstr "-Tallennuspisteet\n!images/objects/resetpoints/bell-m.png\n#Aktivoi tallennuspiste. Jos kuolet, voit yrittää uudelleen tasoa tästä. Joka kerta kun yrität uudelleen tallennuspisteestä, menetät ainakin 25 kolikkoa."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
@@ -179,7 +180,7 @@ msgstr "Riittää, senkin lumiukko"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
-msgstr ""
+msgstr "Tienhaara"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
@@ -188,25 +189,25 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr ""
+msgstr "-Kytkimet\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Kytkimiä voidaan käyttää kaikenlaisiin asioihin. Paina YLÖS näppäintä käyttääksesi kytkimiä. Tämä aktivoi hissin oikealla."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
 "-Spring Boards\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr ""
+msgstr "-Ponnahduslaudat\n!images/objects/trampoline/trampoline2-0.png\n#Ponnahduslaudat mahdollistavat Tuxin hypyt uusiin korkeuksiin. Pidä painettuna hyppy näppäintä pomppiessasi ponnahduslaudalla singahtaaksesi vielä korkeammalle."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 #: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
+msgstr "- Kiipeäminen\n# Tux osaa kiivetä! Paina YLÖS näppäintä aloittaaksesi kiipeämisen. Paina TOIMINTA näppäintä tai hyppää päästäksesi irti."
 
 #: data/levels/world1/Mtn_Pass.stl:3
 msgid "The Mountain Pass"
-msgstr ""
+msgstr "Vuoristosola"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
