@@ -1,8 +1,12 @@
 (supertux-sprite
 
        (action
-         (name "AUTO")
+         (name "grow-right")
          (images "../../objects/bonus_block/invisible.png"))
+
+       (action
+         (name "grow-left")
+         (mirror-action "grow-right"))
 
 ; Air Tux
 
