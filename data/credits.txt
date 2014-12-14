@@ -157,6 +157,7 @@
  	meczup (Turkish)
  	Arvid Norlander (Swedish)
  	Krishnamurti Lelis Lima Vieira Nunes (Brazilian Portuguese)
+ 	Lauri \"xet7\" Ojansivu (Finnish)
  	Karl Ove Hufthammer (Norwegian)
  	Léo Poughon (French)
  	Bansaj Pradhan (Nepali) 
