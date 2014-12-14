@@ -86,12 +86,12 @@
 
        (action
          (name "air-climbing-right")
-         (hitbox 16 14 32 64)
+         (hitbox 22 21 32 64)
          (images "air/hat/stand.png"))
 
        (action
          (name "air-climbing-left")
-         (hitbox 16 14 32 64)
+         (hitbox 22 21 32 64)
          (mirror-action "air-climbing-right"))
 
        (action
@@ -106,12 +106,12 @@
 
        (action
          (name "air-backflip-right")
-         (hitbox 16 14 32 64)
-         (images "air/hat/stand.png"))
+         (hitbox 16 37 32 32)
+         (images "air/hat/backflip.png"))
 
        (action
          (name "air-backflip-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 37 32 32)
          (mirror-action "air-backflip-right"))
 
        (action
@@ -195,12 +195,12 @@
 
        (action
          (name "earth-climbing-right")
-         (hitbox 16 14 32 64)
+         (hitbox 22 21 32 64)
          (images "earth/hardhat/stand.png"))
 
        (action
          (name "earth-climbing-left")
-         (hitbox 16 14 32 64)
+         (hitbox 22 21 32 64)
          (mirror-action "earth-climbing-right"))
 
        (action
@@ -215,12 +215,12 @@
 
        (action
          (name "earth-backflip-right")
-         (hitbox 16 14 32 64)
-         (images "earth/hardhat/stand.png"))
+         (hitbox 16 37 32 32)
+         (images "earth/hardhat/backflip.png"))
 
        (action
          (name "earth-backflip-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 37 32 32)
          (mirror-action "earth-backflip-right"))
 
        (action

@@ -224,6 +224,8 @@ Player::init()
   backflipping = false;
   backflip_direction = 0;
   sprite->set_angle(0.0f);
+  powersprite->set_angle(0.0f);
+  lightsprite->set_angle(0.0f);
   visible = true;
   ability_time = 0;
   stone = false;
@@ -338,6 +340,8 @@ Player::trigger_sequence(std::string sequence_name)
   backflipping = false;
   backflip_direction = 0;
   sprite->set_angle(0.0f);
+  powersprite->set_angle(0.0f);
+  lightsprite->set_angle(0.0f);
   GameSession::current()->start_sequence(sequence_name);
 }
 
@@ -388,6 +392,11 @@ Player::update(float elapsed_time)
     if (backflip_timer.started()) physic.set_velocity_x(100 * backflip_direction);
     //rotate sprite during flip
     sprite->set_angle(sprite->get_angle() + (dir==LEFT?1:-1) * elapsed_time * (360.0f / 0.5f));
+    if (player_status->bonus == EARTH_BONUS || player_status->bonus == AIR_BONUS) {
+      powersprite->set_angle(sprite->get_angle());
+      if (player_status->bonus == EARTH_BONUS)
+        lightsprite->set_angle(sprite->get_angle());
+    }
   }
 
   // set fall mode...
@@ -408,6 +417,8 @@ Player::update(float elapsed_time)
       backflipping = false;
       backflip_direction = 0;
       sprite->set_angle(0.0f);
+      powersprite->set_angle(0.0f);
+      lightsprite->set_angle(0.0f);
 
       // if controls are currently deactivated, we take care of standing up ourselves
       if (deactivated)
@@ -917,6 +928,8 @@ Player::handle_input()
     backflipping = false;
     backflip_direction = 0;
     sprite->set_angle(0.0f);
+    powersprite->set_angle(0.0f);
+    lightsprite->set_angle(0.0f);
   }
 }
 
@@ -1439,6 +1452,8 @@ Player::kill(bool completely)
   physic.set_velocity_x(0);
 
   sprite->set_angle(0.0f);
+  powersprite->set_angle(0.0f);
+  lightsprite->set_angle(0.0f);
 
   if(!completely && is_big()) {
     SoundManager::current()->play("sounds/hurt.wav");
@@ -1455,6 +1470,8 @@ Player::kill(bool completely)
       duck = false;
       backflipping = false;
       sprite->set_angle(0.0f);
+      powersprite->set_angle(0.0f);
+      lightsprite->set_angle(0.0f);
       set_bonus(NO_BONUS, true);
     } else if(player_status->bonus == NO_BONUS) {
       safe_timer.start(TUX_SAFE_TIME);
@@ -1515,6 +1532,8 @@ Player::move(const Vector& vector)
   duck = false;
   backflipping = false;
   sprite->set_angle(0.0f);
+  powersprite->set_angle(0.0f);
+  lightsprite->set_angle(0.0f);
   last_ground_y = vector.y;
   if (climbing) stop_climbing(*climbing);
 
@@ -1653,6 +1672,8 @@ Player::start_climbing(Climbable& climbable)
     backflipping = false;
     backflip_direction = 0;
     sprite->set_angle(0.0f);
+    powersprite->set_angle(0.0f);
+    lightsprite->set_angle(0.0f);
   }
 }
 
