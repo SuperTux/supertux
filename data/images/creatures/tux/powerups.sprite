@@ -4,23 +4,23 @@
          (name "AUTO")
          (images "../../objects/bonus_block/invisible.png"))
 
-; Earth Tux
+; Air Tux
 
        (action
          (name "air-walk-right")
          (fps 15)
-         (hitbox 16 14 32 64)
+         (hitbox 15 14 32 64)
          (images "air/hat/walk-0.png"
                  "air/hat/walk-1.png"
-                 "air/hat/walk-2.png"
+                 "air/hat/stand.png"
                  "air/hat/walk-0.png"
                  "air/hat/walk-1.png"
-                 "air/hat/walk-2.png"))
+                 "air/hat/stand.png"))
 
        (action
          (name "air-walk-left")
          (fps 15)
-         (hitbox 16 14 32 64)
+         (hitbox 17 14 32 64)
          (mirror-action "air-walk-right"))
 
        (action
@@ -125,18 +125,18 @@
        (action
          (name "earth-walk-right")
          (fps 15)
-         (hitbox 16 14 32 64)
+         (hitbox 15 14 32 64)
          (images "earth/hardhat/walk-0.png"
                  "earth/hardhat/walk-1.png"
-                 "earth/hardhat/walk-2.png"
+                 "earth/hardhat/stand.png"
                  "earth/hardhat/walk-0.png"
                  "earth/hardhat/walk-1.png"
-                 "earth/hardhat/walk-2.png"))
+                 "earth/hardhat/stand.png"))
 
        (action
          (name "earth-walk-left")
          (fps 15)
-         (hitbox 16 14 32 64)
+         (hitbox 17 14 32 64)
          (mirror-action "earth-walk-right"))
 
        (action
