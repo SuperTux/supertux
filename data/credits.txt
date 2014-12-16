@@ -65,6 +65,9 @@
 	Richard Smith
  Contrib Programming
 
+	Tobias \"Tobbi\" Markus
+ Contrib Programming
+
 	Arvid Norlander
  Level Design
 
