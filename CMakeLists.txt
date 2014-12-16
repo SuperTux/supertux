@@ -37,7 +37,7 @@
 PROJECT(SUPERTUX)
 
 ## Version, for display in title bar.
-## Will add 'commit <hash>' to the end if git is available.
+## Will add 'commit <hash>' to the end if git is available and this is a git repository.
 SET(SUPERTUX_VERSION "0.3.4-GIT")
 
 ### CMake configuration
@@ -120,7 +120,10 @@ ENDIF(CURL_FOUND)
 MARK_AS_ADVANCED(GIT_EXECUTABLE)
 FIND_PROGRAM(GIT_EXECUTABLE git)
 
-IF(GIT_EXECUTABLE)
+# The .git directory inside the base directory
+SET(GIT_CFG_DIR "${CMAKE_BINARY_DIR}/.git/")
+
+IF(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
   ADD_CUSTOM_TARGET(gitversion ALL
                     ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
@@ -133,7 +136,7 @@ IF(GIT_EXECUTABLE)
                     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
                     COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
                     VERBATIM)
-ELSE(GIT_EXECUTABLE)
+ELSE(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
   ADD_CUSTOM_TARGET(gitversion ALL
                     ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
@@ -144,7 +147,7 @@ ELSE(GIT_EXECUTABLE)
                     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
                     COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
                     VERBATIM)
-ENDIF(GIT_EXECUTABLE)
+ENDIF(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
 
 SET_SOURCE_FILES_PROPERTIES(${CMAKE_BINARY_DIR}/version.h
                             PROPERTIES GENERATED true)
