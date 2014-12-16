@@ -1064,7 +1064,7 @@ Player::add_bonus(BonusType type, bool animate)
 
   // ignore GROWUP_BONUS if we're already big
   if (type == GROWUP_BONUS) {
-    if (!player_status->bonus == NO_BONUS)
+    if (player_status->bonus != NO_BONUS)
       return true;
   }
 
