@@ -166,7 +166,7 @@
        (action
          (name "earth-skid-right")
          (hitbox 16 14 32 64)
-         (images "earth/hardhat/stand.png"))
+         (images "earth/hardhat/skid.png"))
 
        (action
          (name "earth-skid-left")
