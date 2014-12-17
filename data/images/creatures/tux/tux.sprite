@@ -735,7 +735,7 @@
          (name "earth-walk-right-stone")
          (fps 15.0)
          (hitbox 16 14 32 64)
-         (images "earth/stand.png"))
+         (images "earth/walk.png"))
 
        (action
          (name "earth-walk-left-stone")
@@ -759,7 +759,7 @@
          (name "earth-jump-right-stone")
          (fps 15.0)
          (hitbox 16 14 32 64)
-         (images "earth/stand.png"))
+         (images "earth/jump.png"))
 
        (action
          (name "earth-jump-left-stone")
@@ -770,7 +770,7 @@
        (action
          (name "earth-skid-right-stone")
          (hitbox 16 14 32 64)
-         (images "earth/stand.png"))
+         (images "earth/skid.png"))
 
        (action
          (name "earth-skid-left-stone")
@@ -780,7 +780,7 @@
        (action
          (name "earth-kick-right-stone")
          (hitbox 16 14 32 64)
-         (images "earth/stand.png"))
+         (images "earth/kick.png"))
 
        (action
          (name "earth-kick-left-stone")
@@ -791,7 +791,7 @@
          (name "earth-idle-right-stone")
          (fps 5.0)
          (hitbox 16 14 32 64)
-         (images "earth/stand.png"))
+         (images "earth/head.png"))
 
        (action
          (name "earth-idle-left-stone")
@@ -801,7 +801,7 @@
        (action
          (name "earth-climbing-right-stone")
          (hitbox 16 14 32 64)
-         (images "earth/stand.png"))
+         (images "earth/ladder.png"))
 
        (action
          (name "earth-climbing-left-stone")
@@ -811,7 +811,7 @@
        (action
          (name "earth-duck-right-stone")
          (hitbox 16 45 32 32)
-         (images "earth/stand.png"))
+         (images "earth/duck.png"))
 
        (action
          (name "earth-duck-left-stone")
@@ -821,7 +821,7 @@
        (action
          (name "earth-backflip-right-stone")
          (hitbox 16 37 32 32)
-         (images "earth/stand.png"))
+         (images "earth/backflip.png"))
 
        (action
          (name "earth-backflip-left-stone")
@@ -832,7 +832,7 @@
        (action
          (name "earth-buttjump-right-stone")
          (hitbox 16 14 32 64)
-         (images "earth/stand.png"))
+         (images "earth/buttjump.png"))
 
        (action
          (name "earth-buttjump-left-stone")

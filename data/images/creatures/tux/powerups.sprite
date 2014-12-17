@@ -205,12 +205,12 @@
 
        (action
          (name "earth-duck-right")
-         (hitbox 16 14 32 64)
-         (images "earth/hardhat/stand.png"))
+         (hitbox 16 45 32 32)
+         (images "earth/hardhat/duck.png"))
 
        (action
          (name "earth-duck-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 45 32 32)
          (mirror-action "earth-duck-right"))
 
        (action

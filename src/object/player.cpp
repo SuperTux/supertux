@@ -416,9 +416,11 @@ Player::update(float elapsed_time)
     if (backflipping && (backflip_timer.get_timegone() > 0.15f)) {
       backflipping = false;
       backflip_direction = 0;
-      sprite->set_angle(0.0f);
-      powersprite->set_angle(0.0f);
-      lightsprite->set_angle(0.0f);
+      if (!stone) {
+        sprite->set_angle(0.0f);
+        powersprite->set_angle(0.0f);
+        lightsprite->set_angle(0.0f);
+      }
 
       // if controls are currently deactivated, we take care of standing up ourselves
       if (deactivated)
@@ -644,6 +646,8 @@ Player::do_standup() {
     return;
   if (backflipping)
     return;
+  if (stone)
+    return;
 
   if (adjust_height(BIG_TUX_HEIGHT)) {
     duck = false;
@@ -860,6 +864,7 @@ Player::handle_input()
   if (controller->pressed(Controller::DOWN) && player_status->bonus == EARTH_BONUS && !cooldown_timer.started()) {
     if (controller->hold(Controller::ACTION) && !ability_timer.started()) {
       ability_timer.start(player_status->max_earth_time * STONE_TIME_PER_FLOWER);
+      powersprite->stop_animation();
       stone = true;
       physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
     }
@@ -872,6 +877,9 @@ Player::handle_input()
   if (stone && (!controller->hold(Controller::ACTION) || ability_timer.get_timeleft() <= 0.5f)) {
     cooldown_timer.start(ability_timer.get_timegone()/2.0f); //The longer stone form is used, the longer until it can be used again
     ability_timer.stop();
+    sprite->set_angle(0.0f);
+    powersprite->set_angle(0.0f);
+    lightsprite->set_angle(0.0f);
     stone = false;
     for (int i = 0; i < 8; i++)
     {
