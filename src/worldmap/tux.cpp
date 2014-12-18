@@ -69,10 +69,10 @@ Tux::draw(DrawingContext& context)
       sprite->set_action(moving ? "ice-walking" : "ice-stop");
       break;
     case AIR_BONUS:
-      sprite->set_action(moving ? "ice-walking" : "ice-stop");
+      sprite->set_action(moving ? "air-walking" : "air-stop");
       break;
     case EARTH_BONUS:
-      sprite->set_action(moving ? "fire-walking" : "fire-stop");
+      sprite->set_action(moving ? "earth-walking" : "earth-stop");
       break;
     case NO_BONUS:
       sprite->set_action(moving ? "small-walking" : "small-stop");

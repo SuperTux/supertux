@@ -56,6 +56,7 @@
   (name "fire-walking")
   (hitbox 5 20 0 0)
   (images "smalltux_fire.png"
+          "smalltux1_fire.png"
           "smalltux2_fire.png"
           "smalltux3_fire.png"
           "smalltux4_fire.png"
@@ -80,6 +81,7 @@
   (name "ice-walking")
   (hitbox 5 20 0 0)
   (images "smalltux_ice.png"
+          "smalltux1_ice.png"
           "smalltux2_ice.png"
           "smalltux3_ice.png"
           "smalltux4_ice.png"
@@ -99,6 +101,56 @@
   (name "ice-stop")
   (hitbox 5 20 0 0)
   (images "smalltux_ice.png")
+ )
+  (action
+  (name "air-walking")
+  (hitbox 5 20 0 0)
+  (images "smalltux_air.png"
+          "smalltux1_air.png"
+          "smalltux2_air.png"
+          "smalltux3_air.png"
+          "smalltux4_air.png"
+          "smalltux5_air.png"
+          "smalltux6_air.png"
+          "smalltux7_air.png"
+          "smalltux8_air.png"
+          "smalltux6_air.png"
+          "smalltux5_air.png"
+          "smalltux4_air.png"
+          "smalltux3_air.png"
+          "smalltux2_air.png"
+          "smalltux1_air.png"
+          "smalltux_air.png")
+ )
+ (action
+  (name "air-stop")
+  (hitbox 5 20 0 0)
+  (images "smalltux_air.png")
+ )
+  (action
+  (name "earth-walking")
+  (hitbox 5 20 0 0)
+  (images "smalltux_earth.png"
+          "smalltux1_earth.png"
+          "smalltux2_earth.png"
+          "smalltux3_earth.png"
+          "smalltux4_earth.png"
+          "smalltux5_earth.png"
+          "smalltux6_earth.png"
+          "smalltux7_earth.png"
+          "smalltux8_earth.png"
+          "smalltux6_earth.png"
+          "smalltux5_earth.png"
+          "smalltux4_earth.png"
+          "smalltux3_earth.png"
+          "smalltux2_earth.png"
+          "smalltux1_earth.png"
+          "smalltux_earth.png")
+ )
+ (action
+  (name "earth-stop")
+  (hitbox 5 20 0 0)
+  (images "smalltux_earth.png")
  )
 )
 
