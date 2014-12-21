@@ -54,7 +54,7 @@
        (action
          (name "air-skid-right")
          (hitbox 16 14 32 64)
-         (images "air/hat/stand.png"))
+         (images "air/hat/skid.png"))
 
        (action
          (name "air-skid-left")
@@ -96,12 +96,12 @@
 
        (action
          (name "air-duck-right")
-         (hitbox 16 14 32 64)
-         (images "air/hat/stand.png"))
+         (hitbox 16 45 32 32)
+         (images "air/hat/duck.png"))
 
        (action
          (name "air-duck-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 45 32 32)
          (mirror-action "air-duck-right"))
 
        (action
