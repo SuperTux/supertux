@@ -167,6 +167,7 @@
  	Herval Ribeiro (Brazilian Portuguese)
  	Frederic Rodrigo (French)
  	D. J. S. (Hungarian)
+	Slobodan Simić (Serbian)
  	Liu Sizhuang (Simplified Chinese)
  	Jan Solanti (Finnish)
  	Christoph Sommer (German)
