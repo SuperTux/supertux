@@ -20,7 +20,7 @@ matrix:
  fast_finish: true
 
 env:
- - CMAKE_VERSION=3.0.2 SDL2_VERSION=2.0.3 SDL2IMAGE_VERSION=2.0.0
+ - CMAKE_VERSION=3.1.0 SDL2_VERSION=2.0.3 SDL2IMAGE_VERSION=2.0.0
  
 before_install:
  - sudo apt-get update -qq
@@ -33,7 +33,7 @@ before_install:
  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
 
  # CMake
- - wget http://www.cmake.org/files/v3.0/cmake-$CMAKE_VERSION.tar.gz -O - | tar xz
+ - wget http://www.cmake.org/files/v3.1/cmake-$CMAKE_VERSION.tar.gz -O - | tar xz
  - (cd cmake-$CMAKE_VERSION && cmake . && make -j5 && sudo make install)
 
  # SDL dependencies
