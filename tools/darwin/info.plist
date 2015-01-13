@@ -25,6 +25,6 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright 2002-2014 The SuperTux Team and contributors</string>
+	<string>Copyright 2002-2015 The SuperTux Team and contributors</string>
 </dict>
 </plist>
