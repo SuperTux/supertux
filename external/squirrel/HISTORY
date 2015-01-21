@@ -1,3 +1,11 @@
+***version 3.0.7 stable***
+-newthread and sq_newthread() no longer resets the base lib function in the root table(thx Lucas Cardellini)
+-exceptions in the _inherited metamethod are propagated(thx Lucas Cardellini)
+-'in' operator performance improvement(thx unagipai and mingodad)
+-fixed bug in print()(thx Lucas Cardellini)
+-fixed some documentation bug
+
+***2014-04-02		   ***
 ***version 3.0.6 stable***
 -fixed compiler bug that can cause memory corruption, the bug was introduced in 3.0.5(thx Alex95)
 

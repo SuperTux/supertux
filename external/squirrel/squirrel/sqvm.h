@@ -9,6 +9,7 @@
 
 #define SQ_SUSPEND_FLAG -666
 #define DONT_FALL_BACK 666
+#define EXISTS_FALL_BACK -1
 //base lib
 void sq_base_register(HSQUIRRELVM v);
 

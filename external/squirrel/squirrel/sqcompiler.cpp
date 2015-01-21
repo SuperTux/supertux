@@ -80,7 +80,7 @@ public:
 		_lineinfo = lineinfo;_raiseerror = raiseerror;
 		_scope.outers = 0;
 		_scope.stacksize = 0;
-		_compilererror[0] = '\0';
+		_compilererror[0] = _SC('\0');
 	}
 	static void ThrowError(void *ud, const SQChar *s) {
 		SQCompiler *c = (SQCompiler *)ud;
@@ -90,7 +90,7 @@ public:
 	{
 		va_list vl;
 		va_start(vl, s);
-		scvsprintf(_compilererror, s, vl);
+		scvsprintf(_compilererror, MAX_COMPILER_ERROR_LEN, s, vl);
 		va_end(vl);
 		longjmp(_errorjmp,1);
 	}
