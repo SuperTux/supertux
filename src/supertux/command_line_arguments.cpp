@@ -195,7 +195,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
       else
       {
         int width, height;
-        if (sscanf(argv[i], "%dx%d", &width, &height) != 2)
+        if (sscanf(argv[i], "%9dx%9d", &width, &height) != 2)
         {
           throw std::runtime_error("Invalid geometry spec, should be WIDTHxHEIGHT");
         }
@@ -223,7 +223,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
           aspect_width  = 0;
           aspect_height = 0;
         }
-        else if (sscanf(argv[i], "%d:%d", &aspect_width, &aspect_height) != 2)
+        else if (sscanf(argv[i], "%9d:%9d", &aspect_width, &aspect_height) != 2)
         {
           throw std::runtime_error("Invalid aspect spec, should be WIDTH:HEIGHT or auto");
         }
