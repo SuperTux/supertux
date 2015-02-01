@@ -830,7 +830,8 @@
       1727 1728 1731 1732
       1729 1730 1733 1734
       1822 1823 2400 2401
-      1824 1825 2402 2403)
+      1824 1825 2402 2403
+      3163 3164 3165 3166)
   )
   (tilegroup
     (name "Jungle")
@@ -4283,5 +4284,15 @@
     )
     (image "tiles/halloween/black.png")
   )
-;; next-id: 3163
-)
+
+  (tiles
+     (width 2)
+     (height 2)
+     (ids
+       3163 3164
+       3165 3166
+     )
+     (image "tiles/signs/icehold.png")
+    )
+  ;; next-id: 3167
+  )
