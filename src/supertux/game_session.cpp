@@ -249,6 +249,7 @@ GameSession::toggle_pause()
     speed_before_pause = ScreenManager::current()->get_speed();
     ScreenManager::current()->set_speed(0);
     MenuManager::instance().set_menu(MenuStorage::GAME_MENU);
+    SoundManager::current()->pause_music();
     game_pause = true;
   }
 
@@ -440,6 +441,7 @@ GameSession::update(float elapsed_time)
   // Unpause the game if the menu has been closed
   if (game_pause && !MenuManager::instance().is_active()) {
     ScreenManager::current()->set_speed(speed_before_pause);
+    SoundManager::current()->resume_music();
     game_pause = false;
   }
 

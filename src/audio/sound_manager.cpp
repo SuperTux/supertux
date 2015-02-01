@@ -301,6 +301,24 @@ SoundManager::play_music(const std::string& filename, bool fade)
 }
 
 void
+SoundManager::pause_music()
+{
+  if(music_source)
+  {
+    music_source->pause();
+  }
+}
+
+void
+SoundManager::resume_music()
+{
+  if(music_source)
+  {
+    music_source->resume();
+  }
+}
+
+void
 SoundManager::set_listener_position(const Vector& pos)
 {
   static Uint32 lastticks = SDL_GetTicks();

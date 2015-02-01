@@ -56,6 +56,32 @@ OpenALSoundSource::playing()
 }
 
 void
+OpenALSoundSource::pause()
+{
+  alSourcePause(source);
+  SoundManager::check_al_error("Couldn't pause audio source: ");
+}
+
+void
+OpenALSoundSource::resume()
+{
+  if( !this->paused() )
+  {
+    return;
+  }
+
+  this->play();
+}
+
+bool
+OpenALSoundSource::paused()
+{
+    ALint state = AL_PAUSED;
+    alGetSourcei(source, AL_SOURCE_STATE, &state);
+    return state == AL_PAUSED;
+}
+
+void
 OpenALSoundSource::update()
 {
 }

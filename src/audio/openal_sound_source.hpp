@@ -29,7 +29,10 @@ public:
 
   virtual void play();
   virtual void stop();
+  virtual void pause();
+  virtual void resume();
   virtual bool playing();
+  virtual bool paused();
 
   virtual void update();
 
