@@ -144,7 +144,7 @@ AddonMenu::rebuild_menu()
                     << installed_addon.get_version() << "' vs '" << addon.get_version() << "'"
                     << std::endl;
           std::string text = generate_menu_item_text(addon);
-          add_entry(MAKE_REPOSITORY_MENU_ID(idx), "Install " + text + " *NEW*");
+          add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s *NEW*") ) % text));
           have_new_stuff = true;
         }
       }
@@ -152,7 +152,7 @@ AddonMenu::rebuild_menu()
       {
         // addon is not installed
         std::string text = generate_menu_item_text(addon);
-        add_entry(MAKE_REPOSITORY_MENU_ID(idx), "Install " + text);
+        add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s") ) % text));
         have_new_stuff = true;
       }
       idx += 1;
