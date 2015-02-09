@@ -523,6 +523,8 @@
       2983 2987 2991 2994
       2984 2988 2992 2995
       2985 2989 2993 2996
+      3249 3250 3251 3252
+      3253 3254 3255 3256
     )
   )
   (tilegroup
@@ -4343,5 +4345,18 @@
     )
     (image "tiles/blocks/industrial.png")
   )
-  ;; next-id: 3249
+  (tiles
+    (width 4)
+    (height 2)
+    (ids
+      3249 3250 3251 3252
+      3253 3254 3255 3256
+    )
+    (attributes
+      1 1 1 1
+      1 1 1 1
+    )
+    (image "tiles/snow/snowmerge.png")
+  )
+  ;; next-id: 3257
   )
