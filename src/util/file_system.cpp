@@ -64,7 +64,7 @@ bool is_directory(const std::string& path)
 void mkdir(const std::string& directory)
 {
 #ifdef _WIN32
-  if (!CreateDirectory(directory.c_str()))
+  if (!CreateDirectory(directory.c_str(), NULL))
   {
     throw std::runtime_error("failed to create directory: "  + directory);
   }
