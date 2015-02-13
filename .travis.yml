@@ -21,6 +21,7 @@ matrix:
 
 env:
  - CMAKE_VERSION=3.1.2 SDL2_VERSION=2.0.3 SDL2IMAGE_VERSION=2.0.0
+ - secure: "E3/UuL338/FVeKbWVBH8RWznD3ntT8BZxX9TDTCwoZFTPluI53Bk0G3MdDBFihFYLeTMfNxxrT2n+EnQtf9a6SrUIo1xFYWV3yKNHwFiS0LKn0IvhofPoRsg+Y190Hgq8djFSEU1Gk4pYATSfRYnAAbVxuL51CumGVBgBkplB0A="
  
 before_install:
  - sudo apt-get update -qq
@@ -54,6 +55,16 @@ script:
 - cd build-release
 - cmake .. -DCMAKE_BUILD_TYPE=Release
 - make VERBOSE=1 -j $(nproc)
+
+addons:
+  coverity_scan:
+    project:
+      name: "SuperTuxTeam/supertux"
+      description: "Build submitted via Travis CI"
+    notification_email: supertux-commit@lists.lethargik.org
+    build_command_prepend: "cmake . && make clean"
+    build_command:   "make -j 4"
+    branch_pattern: master
 
 notifications:
   email:
