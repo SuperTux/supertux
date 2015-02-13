@@ -40,6 +40,8 @@ PlayerStatus::PlayerStatus() :
   bonus(NO_BONUS),
   max_fire_bullets(0),
   max_ice_bullets(0),
+  max_air_time(0),
+  max_earth_time(0),
   displayed_coins(DISPLAYED_COINS_UNSET),
   displayed_coins_frame(0),
   coin_surface()
