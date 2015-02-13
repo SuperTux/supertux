@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/SuperTuxTeam/supertux.svg?branch=master)](https://travis-ci.org/SuperTuxTeam/supertux)
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/4025/badge.svg)](https://scan.coverity.com/projects/4025)
 SuperTux - <http://supertux.lethargik.org/>
 ===========================================
 Last update: February 26, 2010
