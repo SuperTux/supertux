@@ -259,7 +259,11 @@ TextureManager::save_textures()
   for(ImageTextures::iterator i = m_image_textures.begin();
       i != m_image_textures.end(); ++i)
   {
-    save_texture(dynamic_cast<GLTexture*>(i->second.lock().get()));
+    GLTexture* texture = dynamic_cast<GLTexture*>(i->second.lock().get());
+    if(texture == NULL)
+      continue;
+
+    save_texture(texture);
   }
 }
 
