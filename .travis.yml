@@ -47,6 +47,8 @@ before_install:
  - (cd SDL2_image-$SDL2IMAGE_VERSION && ./configure --prefix=/usr && make -j5 && sudo make install)
 
 script:
+ # Clean from previous Travis build
+- git clean -f
  # First a debug build:
 - mkdir build-debug
 - cd build-debug
