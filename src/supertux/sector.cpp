@@ -110,8 +110,6 @@ Sector::Sector(Level* parent) :
     throw scripting::SquirrelError(global_vm, "Couldn't get sector table");
   sq_addref(global_vm, &sector_table);
   sq_pop(global_vm, 1);
-
-  foremost_layer = calculate_foremost_layer();
 }
 
 Sector::~Sector()
@@ -238,6 +236,7 @@ Sector::parse(const Reader& sector)
   }
 
   update_game_objects();
+  foremost_layer = calculate_foremost_layer();
 }
 
 void
@@ -659,28 +658,24 @@ Sector::get_active_region()
 int
 Sector::calculate_foremost_layer()
 {
-  int layer = 0;
-  std::vector<std::string> secret_area_tilemaps;
-  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i)
-  {
-    SecretAreaTrigger* trigger = dynamic_cast<SecretAreaTrigger*>(i->get());
-    if (!trigger) continue;
-    secret_area_tilemaps.push_back(trigger->get_fade_tilemap_name());
-  }
-
+  int layer = LAYER_BACKGROUND0;
   for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i)
   {
     TileMap* tm = dynamic_cast<TileMap*>(i->get());
     if (!tm) continue;
-    if(tm->get_layer() > foremost_layer)
+    if(tm->get_layer() > layer)
     {
-      if (std::find(secret_area_tilemaps.begin(), secret_area_tilemaps.end(), tm->get_name())
-            != secret_area_tilemaps.end() || tm->is_solid())
+      if( (tm->get_alpha() < 1.0) )
       {
-        layer = tm->get_layer();
+        layer = tm->get_layer() - 1;
+      }
+      else
+      {
+        layer = tm->get_layer() + 1;
       }
     }
   }
+  log_debug << "Calculated baduy falling layer was: " << layer << std::endl;
   return layer;
 }
 
