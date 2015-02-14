@@ -162,7 +162,11 @@ std::string MD5::hex_digest() {
 
   s[32]='\0';
 
-  return s;
+  // Create string from 's'
+  std::string s_str = std::string(s);
+  delete[] s;
+
+  return s_str;
 }
 
 std::ostream& operator<<(std::ostream &stream, MD5 context) {
