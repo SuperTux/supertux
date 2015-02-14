@@ -481,6 +481,10 @@ WorldMap::finished_level(Level* gamelevel)
   // TODO use Level* parameter here?
   LevelTile* level = at_level();
 
+  if(level == NULL) {
+    return;
+  }
+
   bool old_level_state = level->solved;
   level->solved = true;
   level->sprite->set_action("solved");
