@@ -87,11 +87,10 @@ int RandomGenerator::rand() {
 }
 
 int RandomGenerator::rand(int v) {
-  assert(v >= 0 && v <= RandomGenerator::rand_max); // illegal arg
+  assert(v >= 0); // illegal arg
 
   // remove biases, esp. when v is large (e.g. v == (rand_max/4)*3;)
   int rv, maxV =(RandomGenerator::rand_max / v) * v;
-  assert(maxV <= RandomGenerator::rand_max);
   while ((rv = RandomGenerator::random()) >= maxV)
     ;
   return rv % v;                          // mod it down to 0..(maxV-1)
