@@ -103,11 +103,16 @@ Player*
 InfoBlock::get_nearest_player()
 {
   // FIXME: does not really return nearest player
+  //  for (std::vector<Player*>::iterator playerIter = players.begin(); playerIter != players.end(); ++playerIter) {
+  //    Player* player = *playerIter;
+  //    return player;
+  //  }
 
   std::vector<Player*> players = Sector::current()->get_players();
-  for (std::vector<Player*>::iterator playerIter = players.begin(); playerIter != players.end(); ++playerIter) {
-    Player* player = *playerIter;
-    return player;
+  if(players.size() > 0)
+  {
+    // Return first player
+    return players[0];
   }
 
   return 0;
