@@ -480,8 +480,11 @@ GameSession::update(float elapsed_time)
     }
   }
 
+  if(currentsector == NULL)
+    return;
+  
   // update sounds
-  if (currentsector && currentsector->camera) SoundManager::current()->set_listener_position(currentsector->camera->get_center());
+  if (currentsector->camera) SoundManager::current()->set_listener_position(currentsector->camera->get_center());
 
   /* Handle music: */
   if (end_sequence)
