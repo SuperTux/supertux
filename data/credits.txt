@@ -59,13 +59,13 @@
 	Bastiaan \"basti_\" Zapf
  Programming
 
+	Tobias \"Tobbi\" Markus
+ Programming
+
 	Duong-Khang \"neoneurone\" NGUYEN
  Contrib Programming
 
 	Richard Smith
- Contrib Programming
-
-	Tobias \"Tobbi\" Markus
  Contrib Programming
 
 	Arvid Norlander
@@ -167,7 +167,7 @@
  	Herval Ribeiro (Brazilian Portuguese)
  	Frederic Rodrigo (French)
  	D. J. S. (Hungarian)
-	Slobodan Simić (Serbian)
+ 	Slobodan Simić (Serbian)
  	Liu Sizhuang (Simplified Chinese)
  	Jan Solanti (Finnish)
  	Christoph Sommer (German)
