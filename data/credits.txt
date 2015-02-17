@@ -71,6 +71,9 @@
 	Arvid Norlander
  Level Design
 
+	Sydney Dykstra
+ Graphics
+
 
 -Additional Music
 
