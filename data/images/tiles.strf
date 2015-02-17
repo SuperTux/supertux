@@ -814,7 +814,10 @@
       1770 1771 0    0
       1772 1773 0    0
       337  338  339  0
-      340  341  342)
+      340  341  342  0
+      3257 3258 0    0
+      3259 3260 0    0
+     )
   )
   (tilegroup
     (name "Signs")
@@ -4311,7 +4314,19 @@
      )
      (image "tiles/signs/icehold.png")
   )
-
+  
+  (tiles
+    (width 2)
+    (height 2)
+    (ids
+      3257 3258 3259 3260 
+    )
+    (attributes
+      0 0
+      0 0 
+    )
+    (image "tiles/castle/hearttile.png")
+  )
   (tiles
     (width 6)
     (height 12)
@@ -4358,5 +4373,5 @@
     )
     (image "tiles/snow/snowmerge.png")
   )
-  ;; next-id: 3257
+  ;; next-id: 3261
   )
