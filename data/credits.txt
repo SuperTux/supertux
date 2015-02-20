@@ -71,6 +71,9 @@
 	Arvid Norlander
  Level Design
 
+	165your4
+ Graphics
+
 	Sydney Dykstra
  Graphics
 
