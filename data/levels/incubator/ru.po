@@ -4,14 +4,14 @@
 # 
 # Translators:
 # melikamp <melikamp@melikamp.com>, 2014
-# Дмитрий <starwars32@yandex.ru>, 2013
+# Дмитрий <starwars32@yandex.ru>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-18 16:34+0100\n"
-"PO-Revision-Date: 2014-02-05 15:38+0000\n"
-"Last-Translator: melikamp <melikamp@melikamp.com>\n"
+"PO-Revision-Date: 2015-01-08 11:39+0000\n"
+"Last-Translator: Дмитрий <starwars32@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
-msgstr ""
+msgstr "Пещерный Забег"
 
 #: data/levels/incubator/cherry_frosting.stl:3
 msgid "The Cherry Frosting"
@@ -29,11 +29,11 @@ msgstr "Вишнёвая Глазурь"
 
 #: data/levels/incubator/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr ""
+msgstr "Кристальная Красота"
 
 #: data/levels/incubator/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr ""
+msgstr "Кристальный Катаклизм"
 
 #: data/levels/incubator/cube_garden.stl:3
 msgid "Mad Ysonn Cube Garden"
@@ -41,15 +41,15 @@ msgstr ""
 
 #: data/levels/incubator/jagged_path.stl:3
 msgid "The Jagged Path"
-msgstr ""
+msgstr "Неровный Путь"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
-msgstr ""
+msgstr "Не такой уж и длинный путь"
 
 #: data/levels/incubator/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
-msgstr ""
+msgstr "Моя милая находится за океаном"
 
 #: data/levels/incubator/pinksnow.stl:3
 msgid "Pink Snow"

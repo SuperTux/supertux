@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Slobodan Simic (Слободан Симић) <slsimic@gmail.com>, 2014
+# Slobodan Simić (Слободан Симић) <slsimic@gmail.com>, 2014
+# Slobodan Simić (Слободан Симић) <slsimic@gmail.com>, 2014
+# Slobodan Simić (Слободан Симић) <slsimic@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-31 07:40+0000\n"
-"PO-Revision-Date: 2014-12-27 22:43+0000\n"
-"Last-Translator: Slobodan Simic (Слободан Симић) <slsimic@gmail.com>\n"
+"PO-Revision-Date: 2015-01-08 13:09+0000\n"
+"Last-Translator: Slobodan Simić (Слободан Симић) <slsimic@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/supertux/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,24 +35,24 @@ msgstr "Опште опције:"
 
 #: src/supertux/command_line_arguments.cpp:76
 msgid "  -h, --help                   Show this help message and quit"
-msgstr "  -h, --help                   Приказује ову поруку помоћи и излази"
+msgstr "-h, --help Приказује ову поруку помоћи и излази"
 
 #: src/supertux/command_line_arguments.cpp:77
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr "  -v, --version                Приказује верзију СуперТакса и излази"
+msgstr "-v, --version Приказује верзију СуперТакса и излази"
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --verbose                    Print verbose messages"
-msgstr "  --verbose                    Приказује опширне поруке"
+msgstr "--verbose Приказује опширне поруке"
 
 #: src/supertux/command_line_arguments.cpp:79
 msgid "  --debug                      Print extra verbose messages"
-msgstr "  --debug                      Приказује опширније поруке"
+msgstr "--debug Приказује опширније поруке"
 
 #: src/supertux/command_line_arguments.cpp:80
 msgid ""
 "  --print-datadir              Print supertux's primary data directory."
-msgstr "  --print-datadir              Приказује основни директоријум СуперТакса"
+msgstr "--print-datadir Приказује основни директоријум СуперТакса"
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
@@ -58,27 +60,27 @@ msgstr "Видео опције:"
 
 #: src/supertux/command_line_arguments.cpp:82
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr "  -f, --fullscreen             Рад у режиму пуног екрана"
+msgstr "-f, --fullscreen Рад у режиму пуног екрана"
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  -w, --window                 Run in window mode"
-msgstr "  -w, --window                 Рад у режиму прозора"
+msgstr "-w, --window Рад у режиму прозора"
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr "  -g, --geometry ШИРИНАxВИСИНА  Покреће СуперТакс у задатој резолуцији"
+msgstr "-g, --geometry ШИРxВИС Покреће СуперТакс у задатој резолуцији"
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr "  -a, --aspect ШИРИНА:ВИСИНА    Покреће СуперТакс у задатом односу размере"
+msgstr "-a, --aspect ШИР:ВИС Покреће СуперТакс у задатом односу размере"
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "  -d, --default                Reset video settings to default values"
-msgstr "  -d, --default                Ресетује видео поставке на подразумеване вредности"
+msgstr "-d, --default Ресетује видео поставке на подразумеване вредности"
 
 #: src/supertux/command_line_arguments.cpp:87
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr "  --renderer ИСЦРТАВАЧ          Користи sdl, opengl, или auto за исцртавање"
+msgstr "--renderer ИСЦРТАВАЧ Користи sdl, opengl, или auto за исцртавање"
 
 #: src/supertux/command_line_arguments.cpp:88
 msgid "Audio Options:"
@@ -86,11 +88,11 @@ msgstr "Аудио опције:"
 
 #: src/supertux/command_line_arguments.cpp:89
 msgid "  --disable-sound              Disable sound effects"
-msgstr "  --disable-sound              Искључује звучне ефекте"
+msgstr "--disable-sound Искључује звучне ефекте"
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  --disable-music              Disable music"
-msgstr "  --disable-music              Искључује музику"
+msgstr "--disable-music Искључује музику"
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "Game Options:"
@@ -98,27 +100,27 @@ msgstr "Опције игре:"
 
 #: src/supertux/command_line_arguments.cpp:92
 msgid "  --console                    Enable ingame scripting console"
-msgstr "  --console                    Укључује скриптну конзолу у игри"
+msgstr "--console Укључује скриптну конзолу у игри"
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "  --noconsole                  Disable ingame scripting console"
-msgstr "  --noconsole                  Искључује скриптну конзолу у игри"
+msgstr "--noconsole Искључује скриптну конзолу у игри"
 
 #: src/supertux/command_line_arguments.cpp:94
 msgid "  --show-fps                   Display framerate in levels"
-msgstr "  --show-fps                   Приказ броја кадрова"
+msgstr "--show-fps Приказ броја кадрова"
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr "  --no-show-fps                Не приказуј број кадрова"
+msgstr "--no-show-fps Не приказуј број кадрова"
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --developer                  Switch on developer feature"
-msgstr "  --developer                  Укључује програмерске могућности"
+msgstr "--developer Укључује програмерске могућности"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr "  -s, --debug-scripts          Укључује скрипте за исправљање грешака"
+msgstr "-s, --debug-scripts Укључује скрипте за исправљање грешака"
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "Demo Recording Options:"
@@ -126,11 +128,11 @@ msgstr "Опције за снимање примера:"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr "  --record-demo ФАЈЛ НИВО     Снима ток игре у фајл"
+msgstr "--record-demo ФАЈЛ НИВО Снима ток игре у фајл"
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr "  --play-demo ФАЈЛ НИВО       Пушта снимљени ток игре"
+msgstr "--play-demo ФАЈЛ НИВО Пушта снимљени ток игре"
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid "Directory Options:"
@@ -139,13 +141,13 @@ msgstr "Опције директоријума:"
 #: src/supertux/command_line_arguments.cpp:102
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr "  --datadir ДИР                Поставља директоријум где се налазе подаци игрице"
+msgstr "--datadir ДИР Поставља директоријум где се налазе подаци игрице"
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "  --userdir ДИР                Поставља директоријум за корисничке податке (снимање позиције, итд.)"
+msgstr "--userdir ДИР Поставља директоријум за корисничке податке (снимање позиције, итд.)"
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid "Environment variables:"
@@ -154,20 +156,20 @@ msgstr "Променљиве окружења:"
 #: src/supertux/command_line_arguments.cpp:105
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr "  SUPERTUX2_USER_DIR           Директоријум за корисничке податке (снимање позиције, итд.)"
+msgstr "SUPERTUX2_USER_DIR Директоријум за корисничке податке (снимање позиције, итд.)"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr "  SUPERTUX2_DATA_DIR           Директоријум где се налазе подаци игрице"
+msgstr "SUPERTUX2_DATA_DIR Директоријум где се налазе подаци игрице"
 
 #: src/supertux/levelintro.cpp:95
 #, c-format
 msgid "contributed by %s"
-msgstr "допринели су %s"
+msgstr "направио %s"
 
 #: src/supertux/levelintro.cpp:110 src/supertux/statistics.cpp:117
 msgid "Best Level Statistics"
-msgstr "Најбоља статистика нивоа"
+msgstr "Најбољи резултати нивоа"
 
 #: src/supertux/levelintro.cpp:116 src/supertux/statistics.cpp:205
 msgid "Coins"
@@ -679,4 +681,4 @@ msgstr "Идемо горе..."
 
 #: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"
-msgstr "Пронашли сте тајни пролаз!"
+msgstr "Пронашао си тајну област!"

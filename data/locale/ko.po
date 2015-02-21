@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Roland Kim <dyn4micwork@gmail.com>, 2014
+# Roland Kim <dyn4micwork@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-31 07:40+0000\n"
-"PO-Revision-Date: 2014-10-26 11:47+0000\n"
+"PO-Revision-Date: 2015-02-18 16:03+0000\n"
 "Last-Translator: Roland Kim <dyn4micwork@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -187,11 +187,11 @@ msgstr "최고 시간 기록"
 
 #: src/supertux/levelintro.cpp:144
 msgid "Level target time"
-msgstr ""
+msgstr "목표 시간"
 
 #: src/supertux/menu/addon_menu.cpp:47
 msgid "Levelset"
-msgstr ""
+msgstr "레벨셋"
 
 #: src/supertux/menu/addon_menu.cpp:50
 msgid "Worldmap"
@@ -268,11 +268,11 @@ msgstr "보너스: 별"
 
 #: src/supertux/menu/cheat_menu.cpp:35
 msgid "Shrink Tux"
-msgstr ""
+msgstr "턱스를 축소시킵니다."
 
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Kill Tux"
-msgstr ""
+msgstr "턱스를 죽입니다."
 
 #: src/supertux/menu/cheat_menu.cpp:37
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
@@ -645,7 +645,7 @@ msgstr "최단 기록:"
 
 #: src/supertux/statistics.cpp:145
 msgid "Level target time:"
-msgstr ""
+msgstr "목표 시간:"
 
 #: src/supertux/statistics.cpp:201
 msgid "You"
@@ -675,7 +675,7 @@ msgstr "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and 
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."
-msgstr ""
+msgstr "Up we go..."
 
 #: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"

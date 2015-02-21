@@ -10,13 +10,14 @@
 #  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
 # Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>, 2013
 # Kristóf Kófiás <kristof.kofias@gmail.com>, 2014
+# Tibor Buzási, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-08-07 06:51+0000\n"
-"Last-Translator: Kristóf Kófiás <kristof.kofias@gmail.com>\n"
+"PO-Revision-Date: 2015-01-05 18:34+0000\n"
+"Last-Translator: Tibor Buzási\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,15 +89,15 @@ msgstr "Via Nostalgica"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
-msgstr "Tobgle utca"
+msgstr "Tobgle út"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "Egy valamivel kisebb fürdő"
+msgstr "A valamivel kisebb fürdő"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
-msgstr "Megfagyott mezők"
+msgstr "A megfagyott mezők"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
@@ -168,7 +169,7 @@ msgstr "A szökés"
 
 #: data/levels/world1/24 - The Shattered Bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "A szétroncsolt híd"
+msgstr "A roskatag híd"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
@@ -180,7 +181,7 @@ msgstr "Nolok vára"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "Nincs több több Jég úr"
+msgstr "Nincs több Jég úr"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
@@ -193,25 +194,25 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "-Kapcsolók\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#A kapcsolók arra használhatóak, hogy egyéb módszereket aktiválhassanak a dolgok során. Nyomjad le a FEL gombot az aktiváláshoz.  Ez például aktiválja a liftet melletted."
+msgstr "-Kapcsolók\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#A kapcsolók sokféle dologra használhatóak. Nyomd meg a FEL gombot az aktiváláshoz. Ez például aktiválja a tőled jobbra lévő liftet."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
 "-Spring Boards\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr "-Tavaszi Deszkák\n!images/objects/trampoline/trampoline2-0.png\n#A tavaszi deszkák lehetővé teszik, hogy minnél magasabbra ugorhass. Tartsad lenyomva az UGRÁS gombot miközben ugrálsz a deszkán, hogy még magasabb helyre juthass."
+msgstr "-Ugródeszkák\n!images/objects/trampoline/trampoline2-0.png\n#Az ugródeszkák lehetővé teszik, hogy Tux magasabbra ugorhasson. Tartsd lenyomva az UGRÁS gombot miközben ugrálsz a deszkán, hogy még magasabbra juss."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 #: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Mászás \n# Tux tud mászni! Nyomd meg a felfelé gombot a mászás elkezdéséhez. Nyomd meg az akció gombot vagy ugorj az abbahagyásához."
+msgstr "- Mászás\n# Tux tud mászni! Nyomd meg a FEL gombot a mászás elkezdéséhez. Nyomd meg az AKCIÓ gombot vagy ugorj az abbahagyásához."
 
 #: data/levels/world1/Mtn_Pass.stl:3
 msgid "The Mountain Pass"
-msgstr "A Hegyszoros"
+msgstr "A hegyszoros"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

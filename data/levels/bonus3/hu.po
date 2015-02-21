@@ -6,13 +6,14 @@
 # Norbert Molnár <buzitetu@indamail.hu>, 2013
 # Gyönki Bendegúz <gyonkibendeguz@gmail.com>, 2013
 # Kristóf Kófiás <kristof.kofias@gmail.com>, 2014
+# Tibor Buzási, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-16 16:36+0000\n"
-"PO-Revision-Date: 2014-08-07 06:58+0000\n"
-"Last-Translator: Kristóf Kófiás <kristof.kofias@gmail.com>\n"
+"PO-Revision-Date: 2015-01-05 19:16+0000\n"
+"Last-Translator: Tibor Buzási\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr "-89,2 fok"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
-msgstr "Globális Felmelegedés"
+msgstr "Globális felmelegedés"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
@@ -46,7 +47,7 @@ msgstr "Antarktiszi zápor"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
-msgstr "...De senki sem tudja megállítani..."
+msgstr "...de senki sem tudja megállítani..."
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:307
 msgid ""
@@ -56,7 +57,7 @@ msgstr "-Bocsi, de a repülő platform éppen lustul.\n-Gyere vissza később!"
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr "Nem tudsz a felhőnél magasabbra mászni..."
+msgstr "Nem tudsz a felhőknél magasabbra mászni..."
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
@@ -64,7 +65,7 @@ msgstr "A fény és sötétség vára"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr "Barlang Futás"
+msgstr "Barlang futás"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
@@ -74,15 +75,15 @@ msgstr "Hideg Barlang"
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr ""
+msgstr "#Szép munka! Megtartottad a piros lámpást! Nem volt rá szükséged, de mert megtetted, kapsz 100 érmét!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr "Kókuszdió Erőd"
+msgstr "Kókuszdió erőd"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
-msgstr "Kristályos Napnyugta"
+msgstr "Kristályos napnyugta"
 
 #: data/levels/bonus3/crystal.stl:3
 msgid "Crystal Skies"
@@ -94,7 +95,7 @@ msgstr "Kristály szépség"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr "Kristály Felfordulás"
+msgstr "Kristály felfordulás"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
@@ -123,7 +124,7 @@ msgstr "Virág bónusz"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
-msgstr "A Gleccserek Után"
+msgstr "A gleccserek után"
 
 #: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
@@ -139,7 +140,7 @@ msgstr "A Tavasz"
 
 #: data/levels/bonus3/its_getting_unfinishable.stl:3
 msgid "It's getting unfinishable"
-msgstr "Egyre befejezhetetlen"
+msgstr "Egyre befejezhetetlenebb"
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
@@ -175,7 +176,7 @@ msgstr "Az én Penny-m az óceán fölött van."
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"
-msgstr "Rózsaszín Hó"
+msgstr "Rózsaszín hó"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
@@ -195,11 +196,11 @@ msgstr "Esni vagy nem esni - Ez a kérdés (Anktarktisz)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
-msgstr "A havas hegy"
+msgstr "Egy havas hegy"
 
 #: data/levels/bonus3/three_frosty_icebergs.stl:3
 msgid "Three Frosty Icebergs"
-msgstr "A fagyok jéghegyek"
+msgstr "Három fagyos jéghegy"
 
 #: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
