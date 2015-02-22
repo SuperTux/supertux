@@ -981,8 +981,6 @@ Player::try_grab()
       // make sure the Portable is a MovingObject
       MovingObject* moving_object = dynamic_cast<MovingObject*> (portable);
       assert(moving_object);
-      if(moving_object == NULL)
-        continue;
 
       // make sure the Portable isn't currently non-solid
       if(moving_object->get_group() == COLGROUP_DISABLED) continue;
