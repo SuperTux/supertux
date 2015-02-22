@@ -34,8 +34,8 @@ Lexer::Lexer(std::istream& newstream) :
   token_length()
 {
   // trigger a refill of the buffer
-  bufpos = NULL;
-  bufend = NULL;
+  bufpos = '\0';
+  bufend = '\0';
   nextChar();
 }
 
