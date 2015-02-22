@@ -43,12 +43,13 @@ SpriteParticle::SpriteParticle(std::string sprite_name, std::string action,
 
   this->position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
 
-  if(sprite_name=="images/objects/particles/sparkle.sprite")
+  if(sprite_name=="images/objects/particles/sparkle.sprite") {
     glow = true;
     if(action=="dark") {
       lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
       lightsprite->set_color(Color(0.1f, 0.1f, 0.1f));
     }
+  }
 }
 
 SpriteParticle::~SpriteParticle()
