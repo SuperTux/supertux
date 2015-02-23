@@ -212,7 +212,7 @@ void print_squirrel_stack(HSQUIRRELVM v)
 SQInteger squirrel_read_char(SQUserPointer file)
 {
   std::istream* in = reinterpret_cast<std::istream*> (file);
-  char c = in->get();
+  int c = in->get();
   if(in->eof())
     return 0;
   return c;
