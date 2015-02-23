@@ -136,8 +136,10 @@ _obstack_begin (struct obstack *h,
   h->use_extra_arg = 0;
 
   chunk = h->chunk = CALL_CHUNKFUN (h, h -> chunk_size);
-  if (!chunk)
+  if (!chunk) {
     (*obstack_alloc_failed_handler) ();
+    return 0;
+  }
   h->next_free = h->object_base = __PTR_ALIGN ((char *) chunk, chunk->contents,
 					       alignment - 1);
   h->chunk_limit = chunk->limit
