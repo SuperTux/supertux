@@ -99,8 +99,8 @@ void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)
       }
       case OT_BOOL: {
         SQBool val;
-        sq_getbool(vm, -1, &val);
-        writer.write(key, val == SQTrue);
+        if(SQ_SUCCEEDED(sq_getbool(vm, -1, &val)))
+          writer.write(key, val == SQTrue);
         break;
       }
       case OT_STRING: {

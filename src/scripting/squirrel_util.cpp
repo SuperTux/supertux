@@ -37,11 +37,12 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
       break;
     case OT_BOOL: {
       SQBool p;
-      sq_getbool(v, i, &p);
-      if (p)
-        os << "true";
-      else
-        os << "false";
+      if SQ_SUCCEEDED(sq_getbool(v, i, &p)) {
+        if (p)
+          os << "true";
+        else
+          os << "false";
+      }
       break;
     }
     case OT_INTEGER: {
