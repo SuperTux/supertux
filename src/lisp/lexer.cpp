@@ -66,6 +66,10 @@ Lexer::nextChar()
       ++bufend;
     }
   }
+
+  if(bufpos == NULL)
+    return;
+
   c = *bufpos++;
   if(c == '\n')
     ++linenumber;
