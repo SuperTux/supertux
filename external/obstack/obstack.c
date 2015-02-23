@@ -223,8 +223,10 @@ _obstack_newchunk (struct obstack *h, int length)
 
   /* Allocate and initialize the new chunk.  */
   new_chunk = CALL_CHUNKFUN (h, new_size);
-  if (!new_chunk)
+  if (!new_chunk) {
     (*obstack_alloc_failed_handler) ();
+    return;
+  }
   h->chunk = new_chunk;
   new_chunk->prev = old_chunk;
   new_chunk->limit = h->chunk_limit = (char *) new_chunk + new_size;
