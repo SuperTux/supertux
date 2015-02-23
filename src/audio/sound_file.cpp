@@ -83,7 +83,12 @@ std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
     char magic[4];
     if(PHYSFS_read(file, magic, sizeof(magic), 1) != 1)
       throw SoundError("Couldn't read magic, file too short");
-    PHYSFS_seek(file, 0);
+    if (PHYSFS_seek(file, 0) == 0) {
+      std::stringstream msg;
+      msg << "Couldn't seek through sound file: " << PHYSFS_getLastError();
+      throw SoundError(msg.str());
+    }
+
     if(strncmp(magic, "RIFF", 4) == 0)
       return std::unique_ptr<SoundFile>(new WavSoundFile(file));
     else if(strncmp(magic, "OggS", 4) == 0)
