@@ -8,13 +8,7 @@
     (name "main")
     (music "music/chipdisko.ogg")
     (ambient-light 1 1 1)
-    (bonusblock
-      (script "")
-      (contents "1up")
-      (sprite "images/objects/bonus_block/hiddenbonus.sprite")
-      (x 3200)
-      (y 416)
-    )
+    
     (bouncingsnowball
       (x 5367)
       (y 349)
