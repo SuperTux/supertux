@@ -74,7 +74,8 @@ Statistics::serialize_to_squirrel(HSQUIRRELVM vm)
   if (time != nv_time) scripting::store_float(vm, "time-needed", time);
   if (secrets != nv_secrets) scripting::store_int(vm, "secrets-found", secrets);
   if (total_secrets != nv_secrets) scripting::store_int(vm, "secrets-found-total", total_secrets);
-  sq_createslot(vm, -3);
+  if(SQ_FAILED(sq_createslot(vm, -3)))
+    throw scripting::SquirrelError(vm, "Couldn't create statistics table");
 }
 
 void
