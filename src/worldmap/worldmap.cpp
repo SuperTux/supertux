@@ -1034,16 +1034,25 @@ WorldMap::save_state()
       store_bool(vm, "perfect", level->perfect);
       level->statistics.serialize_to_squirrel(vm);
 
-      sq_newslot(vm, -3, SQFalse);
+      if(SQ_FAILED(sq_newslot(vm, -3, SQFalse)))
+      {
+        throw std::runtime_error("failed to create '" + name + "' table entry");
+      }
     }
 
-    sq_newslot(vm, -3, SQFalse);
+    if(SQ_FAILED(sq_newslot(vm, -3, SQFalse)))
+    {
+      throw std::runtime_error("failed to create '" + name + "' table entry");
+    }
 
     // overall statistics...
     total_stats.serialize_to_squirrel(vm);
 
     // push world into worlds table
-    sq_newslot(vm, -3, SQFalse);
+    if(SQ_FAILED(sq_newslot(vm, -3, SQFalse)))
+    {
+      throw std::runtime_error("failed to create '" + name + "' table entry");
+    }
   } catch(std::exception& ) {
     sq_settop(vm, oldtop);
   }
