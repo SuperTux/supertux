@@ -19,14 +19,14 @@
 
 #include <ostream>
 #include <physfs.h>
+#include "physfs/ofile_streambuf.hpp"
 
 class OFileStream : public std::ostream
 {
 public:
-  OFileStream(const std::string& filename);
+  OFileStream(OFileStreambuf* buf);
   ~OFileStream();
 };
-
 #endif
 
 /* EOF */

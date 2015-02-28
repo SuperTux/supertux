@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2015 Tobias Markus <tobbi@mozilla-uk.org>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,19 +14,28 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_PHYSFS_OFILE_STREAM_CPP
-#define HEADER_SUPERTUX_PHYSFS_OFILE_STREAM_CPP
+#ifndef HEADER_SUPERTUX_PHYSFS_BUFFERED_OFILE_STREAM_CPP
+#define HEADER_SUPERTUX_PHYSFS_BUFFERED_OFILE_STREAM_CPP
 
-#include "physfs/ofile_stream.hpp"
+#include "physfs/buffered_ofile_stream.hpp"
 
-OFileStream::OFileStream(OFileStreambuf* buf) :
-  std::ostream(buf)
+BufferedOFileStream::BufferedOFileStream(const std::string& filename)
 {
+  buffer = new OFileStreambuf(filename);
+  stream = new OFileStream(buffer);
 }
 
-OFileStream::~OFileStream()
+BufferedOFileStream::~BufferedOFileStream()
 {
-  delete rdbuf();
+  delete buffer;
+  delete stream;
+  buffer = NULL;
+  stream = NULL;
+}
+
+OFileStream* BufferedOFileStream::get_stream()
+{
+  return stream;
 }
 
 #endif
