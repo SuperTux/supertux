@@ -53,7 +53,7 @@ void get_or_create_table_entry(HSQUIRRELVM vm, const std::string& name)
   {
     sq_pushstring(vm, name.c_str(), -1);
     sq_newtable(vm);
-    if(SQ_FAILED(sq_newslot(vm, -3, SQFalse)))
+    if(SQ_FAILED(sq_createslot(vm, -3)))
     {
       throw std::runtime_error("failed to create '" + name + "' table entry");
     }
@@ -261,7 +261,7 @@ Savegame::clear_state_table()
     // create a new empty state table
     sq_pushstring(vm, "state", -1);
     sq_newtable(vm);
-    if(SQ_FAILED(sq_newslot(vm, -3, SQFalse)))
+    if(SQ_FAILED(sq_createslot(vm, -3)))
     {
       throw std::runtime_error("Couldn't create state table");
     }
