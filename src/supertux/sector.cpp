@@ -115,8 +115,15 @@ Sector::Sector(Level* parent) :
 Sector::~Sector()
 {
   using namespace scripting;
+  try
+  {
+    deactivate();
+  }
+  catch(const std::exception& err)
+  {
+    log_warning << err.what() << std::endl;
+  }
 
-  deactivate();
 
   for(auto i = scripts.begin(); i != scripts.end(); ++i) {
     HSQOBJECT& object = *i;
