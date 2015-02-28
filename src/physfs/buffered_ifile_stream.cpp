@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2015 Tobias Markus <tobbi@mozilla-uk.org>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,34 +14,30 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "physfs/physfs_file_system.hpp"
+#ifndef HEADER_SUPERTUX_PHYSFS_BUFFERED_IFILE_STREAM_CPP
+#define HEADER_SUPERTUX_PHYSFS_BUFFERED_IFILE_STREAM_CPP
 
 #include "physfs/buffered_ifile_stream.hpp"
 
-PhysFSFileSystem::PhysFSFileSystem()
+BufferedIFileStream::BufferedIFileStream(const std::string& filename)
 {
+  buffer = new IFileStreambuf(filename);
+  stream = new IFileStream(buffer);
 }
 
-std::vector<std::string>
-PhysFSFileSystem::open_directory(const std::string& pathname)
+BufferedIFileStream::~BufferedIFileStream()
 {
-  std::vector<std::string> files;
-
-  char** directory = PHYSFS_enumerateFiles(pathname.c_str());
-  for(char** i = directory; *i != 0; ++i)
-  {
-    files.push_back(*i);
-  }
-  PHYSFS_freeList(directory);
-
-  return files;
+  delete buffer;
+  delete stream;
+  buffer = NULL;
+  stream = NULL;
 }
 
-std::unique_ptr<std::istream>
-PhysFSFileSystem::open_file(const std::string& filename)
+IFileStream* BufferedIFileStream::get_stream()
 {
-  BufferedIFileStream* stream = new BufferedIFileStream(filename);
-  return std::unique_ptr<std::istream>(stream->get_stream());
+  return stream;
 }
+
+#endif
 
 /* EOF */

@@ -23,7 +23,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#include "physfs/ifile_stream.hpp"
+#include "physfs/buffered_ifile_stream.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 #include "squirrel_util.hpp"
@@ -106,8 +106,9 @@ Scripting::Scripting(bool enable_debugger)
   // try to load default script
   try {
     std::string filename = "scripts/default.nut";
-    IFileStream stream(filename);
-    scripting::compile_and_run(global_vm, stream, filename);
+    BufferedIFileStream* buffered_stream = new BufferedIFileStream(filename);
+    IFileStream* stream = buffered_stream->get_stream();
+    scripting::compile_and_run(global_vm, *stream, filename);
   } catch(std::exception& e) {
     log_warning << "Couldn't load default.nut: " << e.what() << std::endl;
   }

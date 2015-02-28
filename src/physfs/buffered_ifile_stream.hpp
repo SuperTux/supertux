@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2015 Tobias Markus <tobbi@mozilla-uk.org>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,21 +14,26 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_PHYSFS_IFILE_STREAM_HPP
-#define HEADER_SUPERTUX_PHYSFS_IFILE_STREAM_HPP
+#ifndef HEADER_SUPERTUX_PHYSFS_BUFFERED_IFILE_STREAM_HPP
+#define HEADER_SUPERTUX_PHYSFS_BUFFERED_IFILE_STREAM_HPP
 
-#include <istream>
+#include <ostream>
 #include <physfs.h>
-
+#include "physfs/ifile_stream.hpp"
 #include "physfs/ifile_streambuf.hpp"
 
-class IFileStream : public std::istream
-{
-public:
-  IFileStream(IFileStreambuf* buf);
-  ~IFileStream();
-};
+class BufferedIFileStream {
 
+private:
+  IFileStream* stream;
+  IFileStreambuf* buffer;
+
+public:
+  BufferedIFileStream(const std::string& filename);
+  ~BufferedIFileStream();
+  
+  IFileStream* get_stream();
+};
 #endif
 
 /* EOF */
