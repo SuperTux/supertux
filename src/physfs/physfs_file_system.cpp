@@ -16,7 +16,7 @@
 
 #include "physfs/physfs_file_system.hpp"
 
-#include "physfs/buffered_ifile_stream.hpp"
+#include "physfs/ifile_stream.hpp"
 
 PhysFSFileSystem::PhysFSFileSystem()
 {
@@ -40,8 +40,7 @@ PhysFSFileSystem::open_directory(const std::string& pathname)
 std::unique_ptr<std::istream>
 PhysFSFileSystem::open_file(const std::string& filename)
 {
-  BufferedIFileStream* stream = new BufferedIFileStream(filename);
-  return std::unique_ptr<std::istream>(stream->get_stream());
+  return std::unique_ptr<std::istream>(new IFileStream(filename));
 }
 
 /* EOF */

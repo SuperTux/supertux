@@ -20,12 +20,10 @@
 #include <istream>
 #include <physfs.h>
 
-#include "physfs/ifile_streambuf.hpp"
-
 class IFileStream : public std::istream
 {
 public:
-  IFileStream(IFileStreambuf* buf);
+  IFileStream(const std::string& filename);
   ~IFileStream();
 };
 

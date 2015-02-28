@@ -19,7 +19,7 @@
 #include <math.h>
 #include <iostream>
 
-#include "physfs/buffered_ifile_stream.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
@@ -175,9 +175,8 @@ Console::ready_vm()
 
     try {
       std::string filename = "scripts/console.nut";
-      BufferedIFileStream* buffered_stream = new BufferedIFileStream(filename);
-      IFileStream* stream = buffered_stream->get_stream();
-      scripting::compile_and_run(m_vm, *stream, filename);
+      IFileStream stream(filename);
+      scripting::compile_and_run(m_vm, stream, filename);
     } catch(std::exception& e) {
       log_warning << "Couldn't load console.nut: " << e.what() << std::endl;
     }

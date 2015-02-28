@@ -16,8 +16,10 @@
 
 #include "physfs/ifile_stream.hpp"
 
-IFileStream::IFileStream(IFileStreambuf* buf) :
-  std::istream(buf)
+#include "physfs/ifile_streambuf.hpp"
+
+IFileStream::IFileStream(const std::string& filename) :
+  std::istream(new IFileStreambuf(filename))
 {
 }
 

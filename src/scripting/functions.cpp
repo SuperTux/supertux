@@ -20,7 +20,7 @@
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
-#include "physfs/buffered_ifile_stream.hpp"
+#include "physfs/ifile_stream.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
@@ -127,8 +127,7 @@ void load_level(const std::string& filename)
 
 void import(HSQUIRRELVM vm, const std::string& filename)
 {
-  BufferedIFileStream* stream = new BufferedIFileStream(filename);
-  IFileStream* in = stream->get_stream();
+  IFileStream in(filename);
 
   if(SQ_FAILED(sq_compile(vm, squirrel_read_char, &in,
                           filename.c_str(), SQTrue)))
