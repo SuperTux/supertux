@@ -163,9 +163,9 @@ JoystickMenu::refresh_menu_item(Controller::Control id)
       name << "X";
     else if (abs(axis) == 2)
       name << "Y";
-    else if (abs(axis) == 2)
-      name << "X2";
     else if (abs(axis) == 3)
+      name << "X2";
+    else if (abs(axis) == 4)
       name << "Y2";
     else
       name << abs(axis);
