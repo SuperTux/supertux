@@ -242,7 +242,6 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
     return (mv_tan >= slope_tan);
   }
 
-  assert (1 != 1);
   return false;
 } /* int check_movement_unisolid */
 
