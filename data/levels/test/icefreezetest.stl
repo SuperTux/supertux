@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Ice Freeze Test"))
+  (name (_ "Ice Freeze test"))
   (author "sydney")
   (target-time 0)
   (sector
