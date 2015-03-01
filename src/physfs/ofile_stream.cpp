@@ -19,8 +19,10 @@
 
 #include "physfs/ofile_stream.hpp"
 
-OFileStream::OFileStream(OFileStreambuf* buf) :
-  std::ostream(buf)
+#include "physfs/ofile_streambuf.hpp"
+
+OFileStream::OFileStream(const std::string& filename) :
+  std::ostream(new OFileStreambuf(filename))
 {
 }
 

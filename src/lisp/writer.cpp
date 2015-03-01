@@ -16,7 +16,7 @@
 
 #include "lisp/writer.hpp"
 
-#include "physfs/buffered_ofile_stream.hpp"
+#include "physfs/ofile_stream.hpp"
 #include "util/log.hpp"
 
 namespace lisp {
@@ -27,8 +27,7 @@ Writer::Writer(const std::string& filename) :
   indent_depth(),
   lists()
 {
-  BufferedOFileStream* filestream = new BufferedOFileStream(filename);
-  out = filestream->get_stream();
+  out = new OFileStream(filename);
   out_owned = true;
   indent_depth = 0;
   out->precision(10);
