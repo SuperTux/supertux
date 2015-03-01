@@ -21,6 +21,7 @@
 
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
+#include "util/gettext.hpp"
 #include "util/obstackpp.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "physfs/ifile_streambuf.hpp"
@@ -42,8 +43,15 @@ Parser::Parser(bool translate) :
   if(translate) {
     dictionary_manager = new tinygettext::DictionaryManager();
     dictionary_manager->set_charset("UTF-8");
-    if (g_config && (g_config->locale != ""))
-      dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
+    if (g_config) {
+      if (g_config->locale != "") {
+        dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
+      }
+      else if(g_dictionary_manager && g_dictionary_manager->get_language()) {
+        // Language set to auto-detect?
+        dictionary_manager->set_language(g_dictionary_manager->get_language());
+      }
+    }
   }
 
   obstack_init(&obst);
