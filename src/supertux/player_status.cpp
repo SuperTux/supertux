@@ -67,15 +67,17 @@ void PlayerStatus::reset()
 void
 PlayerStatus::add_coins(int count, bool play_sound)
 {
-  static float sound_played_time = 0;
   coins = std::min(coins + count, MAX_COINS);
-  if(play_sound) {
-    if(count >= 100)
-      SoundManager::current()->play("sounds/lifeup.wav");
-    else if (real_time > sound_played_time + 0.010) {
-      SoundManager::current()->play("sounds/coin.wav");
-      sound_played_time = real_time;
-    }
+
+  if(!play_sound)
+    return;
+
+  static float sound_played_time = 0;
+  if(count >= 100)
+    SoundManager::current()->play("sounds/lifeup.wav");
+  else if (real_time > sound_played_time + 0.010) {
+    SoundManager::current()->play("sounds/coin.wav");
+    sound_played_time = real_time;
   }
 }
 
