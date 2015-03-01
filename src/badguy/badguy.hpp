@@ -96,6 +96,8 @@ public:
 
   bool is_frozen() const;
 
+  bool is_in_water() const;
+
 protected:
   enum State {
     STATE_INIT,
@@ -212,6 +214,7 @@ protected:
 
   bool frozen;
   bool ignited; /**< true if this badguy is currently on fire */
+  bool in_water; /** < true if the badguy is currently in water */
 
   std::string dead_script; /**< script to execute when badguy is killed */
 

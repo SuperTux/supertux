@@ -42,6 +42,7 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_) :
   start_dir(AUTO),
   frozen(false),
   ignited(false),
+  in_water(false),
   dead_script(),
   state(STATE_INIT),
   is_active_flag(),
@@ -54,6 +55,7 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_) :
 
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/splash.ogg");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
@@ -80,6 +82,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/splash.ogg");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
@@ -113,6 +116,7 @@ BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name_, int layer_
 
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
+  SoundManager::current()->preload("sounds/splash.ogg");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
@@ -232,6 +236,16 @@ BadGuy::collision_tile(uint32_t tile_attributes)
 {
   // Don't kill badguys that have already been killed
   if (!is_active()) return;
+
+  if(tile_attributes & Tile::WATER && !is_in_water())
+  {
+    in_water = true;
+    SoundManager::current()->play("sounds/splash.ogg", get_pos());
+  }
+  if(!(tile_attributes & Tile::WATER) && is_in_water())
+  {
+    in_water = false;
+  }
 
   if(tile_attributes & Tile::HURTS) {
     if (tile_attributes & Tile::FIRE) {
@@ -609,6 +623,12 @@ bool
 BadGuy::is_frozen() const
 {
   return frozen;
+}
+
+bool
+BadGuy::is_in_water() const
+{
+  return in_water;
 }
 
 void
