@@ -525,6 +525,8 @@
       2985 2989 2993 2996
       3249 3250 3251 3252
       3253 3254 3255 3256
+      3261 3262 3263 3264
+      3265 3266 3267 3268
     )
   )
   (tilegroup
@@ -4373,5 +4375,18 @@
     )
     (image "tiles/snow/snowmerge.png")
   )
-  ;; next-id: 3261
+  (tiles
+    (width 4)
+    (height 2)
+    (ids
+      3261 3262 3263 3264
+      3265 3266 3267 3268
+    )
+    (attributes
+      1 1 1 1
+      0 0 0 0
+    )
+    (image "tiles/snow/custom.png")
+  )
+  ;; next-id: 3269
   )
