@@ -819,6 +819,10 @@
       340  341  342  0
       3257 3258 0    0
       3259 3260 0    0
+      3269 3270 0    0
+      3271 3272 0    0
+      3273 3274 0    0
+      3275 3276 0    0
      )
   )
   (tilegroup
@@ -4388,5 +4392,29 @@
     )
     (image "tiles/snow/custom.png")
   )
-  ;; next-id: 3269
+(tiles
+    (width 2)
+    (height 2)
+    (ids
+      3269 3270 3271 3272 
+    )
+    (attributes
+      0 0
+      0 0 
+    )
+    (image "tiles/castle/pennyhere.png")
+  )
+  (tiles
+    (width 2)
+    (height 2)
+    (ids
+      3273 3274 3275 3276
+    )
+    (attributes
+      0 0
+      0 0 
+    )
+    (image "tiles/castle/swall.png")
+  )
+  ;; next-id: 3277
   )
