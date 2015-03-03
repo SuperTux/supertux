@@ -17,6 +17,16 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
+## Apply patch that fixes some Coverity errors
+
+## Apply coverity patch to Squirrel?
+SET(APPLY_COVERITY_PATCH TRUE)
+
+FIND_PROGRAM(PATCH_EXECUTABLE patch)
+IF(PATCH_EXECUTABLE AND APPLY_COVERITY_PATCH)
+  EXECUTE_PROCESS(COMMAND patch -p1 --forward -i squirrel_coverity.patch)
+ENDIF(PATCH_EXECUTABLE AND APPLY_COVERITY_PATCH)
+
 ## Add include/ to include directories
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/)
