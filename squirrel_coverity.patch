@@ -70,3 +70,15 @@ index de0927f..e941231 100644
  			case _OP_CALL: {
  					SQObjectPtr clo = STK(arg1);
  					switch (type(clo)) {
+diff --git a/external/squirrel/squirrel/sqlexer.cpp b/external/squirrel/squirrel/sqlexer.cpp
+index 547835b..178401d 100644
+--- a/external/squirrel/squirrel/sqlexer.cpp
++++ b/external/squirrel/squirrel/sqlexer.cpp
+@@ -203,6 +203,7 @@ SQInteger SQLexer::Lex()
+ 			}
+ 			Error(_SC("error parsing the string"));
+ 					   }
++            break;
+ 		case _SC('"'):
+ 		case _SC('\''): {
+ 			SQInteger stype;
