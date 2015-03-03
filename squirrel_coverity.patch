@@ -23,10 +23,36 @@ index aff80e5..1667815 100644
  		case _OP_NEWSLOT:
  			if(i._arg0 == i._arg3) {
 diff --git a/external/squirrel/squirrel/sqlexer.cpp b/external/squirrel/squirrel/sqlexer.cpp
-index 547835b..9df5f1f 100644
+index 547835b..f4d4d04 100644
 --- a/external/squirrel/squirrel/sqlexer.cpp
 +++ b/external/squirrel/squirrel/sqlexer.cpp
-@@ -192,6 +192,7 @@ SQInteger SQLexer::Lex()
+@@ -18,7 +18,24 @@
+ #define TERMINATE_BUFFER() {_longstr.push_back(_SC('\0'));}
+ #define ADD_KEYWORD(key,id) _keywords->NewSlot( SQString::Create(ss, _SC(#key)) ,SQInteger(id))
+ 
+-SQLexer::SQLexer(){}
++SQLexer::SQLexer() :
++  _curtoken(0),
++  _keywords(NULL),
++  _reached_eof(false),
++  _prevtoken(0),
++  _currentline(0),
++  _lasttokenline(0),
++  _currentcolumn(0),
++  _svalue(NULL),
++  _nvalue(0),
++  _fvalue(0.0),
++  _readf(NULL),
++  _up(NULL),
++  _currdata('\0'),
++  _sharedstate(NULL),
++  _errfunc(NULL),
++  _errtarget(NULL)
++{}
+ SQLexer::~SQLexer()
+ {
+ 	_keywords->Release();
+@@ -192,6 +209,7 @@ SQInteger SQLexer::Lex()
  			NEXT();
  			if (CUR_CHAR != _SC('=')){ RETURN_TOKEN('!')}
  			else { NEXT(); RETURN_TOKEN(TK_NE); }
@@ -34,7 +60,15 @@ index 547835b..9df5f1f 100644
  		case _SC('@'): {
  			SQInteger stype;
  			NEXT();
-@@ -211,6 +212,7 @@ SQInteger SQLexer::Lex()
+@@ -203,6 +221,7 @@ SQInteger SQLexer::Lex()
+ 			}
+ 			Error(_SC("error parsing the string"));
+ 					   }
++            break;
+ 		case _SC('"'):
+ 		case _SC('\''): {
+ 			SQInteger stype;
+@@ -211,6 +230,7 @@ SQInteger SQLexer::Lex()
  			}
  			Error(_SC("error parsing the string"));
  			}
@@ -70,15 +104,3 @@ index de0927f..e941231 100644
  			case _OP_CALL: {
  					SQObjectPtr clo = STK(arg1);
  					switch (type(clo)) {
-diff --git a/external/squirrel/squirrel/sqlexer.cpp b/external/squirrel/squirrel/sqlexer.cpp
-index 547835b..178401d 100644
---- a/external/squirrel/squirrel/sqlexer.cpp
-+++ b/external/squirrel/squirrel/sqlexer.cpp
-@@ -203,6 +203,7 @@ SQInteger SQLexer::Lex()
- 			}
- 			Error(_SC("error parsing the string"));
- 					   }
-+            break;
- 		case _SC('"'):
- 		case _SC('\''): {
- 			SQInteger stype;
