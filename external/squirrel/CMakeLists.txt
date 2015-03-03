@@ -21,10 +21,10 @@
 
 ## Apply coverity patch to Squirrel?
 SET(APPLY_COVERITY_PATCH TRUE)
-
+SET(PATCH_COMMAND patch -p1 --forward -i)
 FIND_PROGRAM(PATCH_EXECUTABLE patch)
 IF(PATCH_EXECUTABLE AND APPLY_COVERITY_PATCH)
-  EXECUTE_PROCESS(COMMAND patch -p1 --forward -i squirrel_coverity.patch)
+  EXECUTE_PROCESS(COMMAND ${PATCH_COMMAND} squirrel_coverity.patch)
 ENDIF(PATCH_EXECUTABLE AND APPLY_COVERITY_PATCH)
 
 ## Add include/ to include directories
