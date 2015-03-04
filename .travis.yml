@@ -69,7 +69,7 @@ addons:
     notification_email: supertux-commit@lists.lethargik.org
     build_command_prepend: "cmake . && make clean"
     build_command:   "make -j 4"
-    branch_pattern: master
+    branch_pattern: coverity_scan
 
 notifications:
   email:
