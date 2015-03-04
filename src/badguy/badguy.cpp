@@ -55,7 +55,7 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_) :
 
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
-  SoundManager::current()->preload("sounds/splash.ogg");
+  SoundManager::current()->preload("sounds/splash.wav");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
@@ -83,7 +83,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
 
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
-  SoundManager::current()->preload("sounds/splash.ogg");
+  SoundManager::current()->preload("sounds/splash.wav");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
@@ -118,7 +118,7 @@ BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name_, int layer_
 
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
-  SoundManager::current()->preload("sounds/splash.ogg");
+  SoundManager::current()->preload("sounds/splash.wav");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
 }
@@ -242,7 +242,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
   if(tile_attributes & Tile::WATER && !is_in_water())
   {
     in_water = true;
-    SoundManager::current()->play("sounds/splash.ogg", get_pos());
+    SoundManager::current()->play("sounds/splash.wav", get_pos());
   }
   if(!(tile_attributes & Tile::WATER) && is_in_water())
   {

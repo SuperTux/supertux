@@ -185,7 +185,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   SoundManager::current()->preload("sounds/skid.wav");
   SoundManager::current()->preload("sounds/flip.wav");
   SoundManager::current()->preload("sounds/invincible_start.ogg");
-  SoundManager::current()->preload("sounds/splash.ogg");
+  SoundManager::current()->preload("sounds/splash.wav");
 
   init();
 }
@@ -1336,7 +1336,7 @@ Player::collision_tile(uint32_t tile_attributes)
     if( tile_attributes & Tile::WATER ){
       swimming = true;
       no_water = false;
-      SoundManager::current()->play( "sounds/splash.ogg" );
+      SoundManager::current()->play( "sounds/splash.wav" );
     }
   }
 #endif
