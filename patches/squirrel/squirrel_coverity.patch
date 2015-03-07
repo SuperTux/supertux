@@ -1,0 +1,106 @@
+diff --git a/external/squirrel/sqstdlib/sqstdstring.cpp b/external/squirrel/sqstdlib/sqstdstring.cpp
+index 33316fa..a213135 100644
+--- a/external/squirrel/sqstdlib/sqstdstring.cpp
++++ b/external/squirrel/sqstdlib/sqstdstring.cpp
+@@ -116,6 +116,7 @@ SQRESULT sqstd_format(HSQUIRRELVM v,SQInteger nformatstringidx,SQInteger *outlen
+ 				fmt[fpos++] = _SC('\0');
+ 				}
+ #endif
++                break;
+ 			case 'c':
+ 				if(SQ_FAILED(sq_getinteger(v,nparam,&ti))) 
+ 					return sq_throwerror(v,_SC("integer expected for the specified format"));
+diff --git a/external/squirrel/squirrel/sqfuncstate.cpp b/external/squirrel/squirrel/sqfuncstate.cpp
+index aff80e5..1667815 100644
+--- a/external/squirrel/squirrel/sqfuncstate.cpp
++++ b/external/squirrel/squirrel/sqfuncstate.cpp
+@@ -460,6 +460,7 @@ void SQFuncState::AddInstruction(SQInstruction &i)
+ 				pi._arg1 = i._arg1;
+ 				return;
+ 			}
++            break;
+ 		case _OP_SET:
+ 		case _OP_NEWSLOT:
+ 			if(i._arg0 == i._arg3) {
+diff --git a/external/squirrel/squirrel/sqlexer.cpp b/external/squirrel/squirrel/sqlexer.cpp
+index 547835b..f4d4d04 100644
+--- a/external/squirrel/squirrel/sqlexer.cpp
++++ b/external/squirrel/squirrel/sqlexer.cpp
+@@ -18,7 +18,24 @@
+ #define TERMINATE_BUFFER() {_longstr.push_back(_SC('\0'));}
+ #define ADD_KEYWORD(key,id) _keywords->NewSlot( SQString::Create(ss, _SC(#key)) ,SQInteger(id))
+ 
+-SQLexer::SQLexer(){}
++SQLexer::SQLexer() :
++  _curtoken(0),
++  _keywords(NULL),
++  _reached_eof(false),
++  _prevtoken(0),
++  _currentline(0),
++  _lasttokenline(0),
++  _currentcolumn(0),
++  _svalue(NULL),
++  _nvalue(0),
++  _fvalue(0.0),
++  _readf(NULL),
++  _up(NULL),
++  _currdata('\0'),
++  _sharedstate(NULL),
++  _errfunc(NULL),
++  _errtarget(NULL)
++{}
+ SQLexer::~SQLexer()
+ {
+ 	_keywords->Release();
+@@ -192,6 +209,7 @@ SQInteger SQLexer::Lex()
+ 			NEXT();
+ 			if (CUR_CHAR != _SC('=')){ RETURN_TOKEN('!')}
+ 			else { NEXT(); RETURN_TOKEN(TK_NE); }
++            break;
+ 		case _SC('@'): {
+ 			SQInteger stype;
+ 			NEXT();
+@@ -203,6 +221,7 @@ SQInteger SQLexer::Lex()
+ 			}
+ 			Error(_SC("error parsing the string"));
+ 					   }
++            break;
+ 		case _SC('"'):
+ 		case _SC('\''): {
+ 			SQInteger stype;
+@@ -211,6 +230,7 @@ SQInteger SQLexer::Lex()
+ 			}
+ 			Error(_SC("error parsing the string"));
+ 			}
++            break;
+ 		case _SC('{'): case _SC('}'): case _SC('('): case _SC(')'): case _SC('['): case _SC(']'):
+ 		case _SC(';'): case _SC(','): case _SC('?'): case _SC('^'): case _SC('~'):
+ 			{SQInteger ret = CUR_CHAR;
+diff --git a/external/squirrel/squirrel/sqvm.cpp b/external/squirrel/squirrel/sqvm.cpp
+index de0927f..e941231 100644
+--- a/external/squirrel/squirrel/sqvm.cpp
++++ b/external/squirrel/squirrel/sqvm.cpp
+@@ -306,6 +306,7 @@ bool SQVM::ToString(const SQObjectPtr &o,SQObjectPtr &res)
+ 				}
+ 			}
+ 		}
++        break;
+ 	default:
+ 		scsprintf(_sp(rsl(sizeof(void*)+20)),_SC("(%s : 0x%p)"),GetTypeName(o),(void*)_rawval(o));
+ 	}
+@@ -561,6 +562,7 @@ bool SQVM::FOREACH_OP(SQObjectPtr &o1,SQObjectPtr &o2,SQObjectPtr
+ 			_generator(o1)->Resume(this, o3);
+ 			_FINISH(0);
+ 		}
++        break;
+ 	default: 
+ 		Raise_Error(_SC("cannot iterate %s"), GetTypeName(o1));
+ 	}
+@@ -724,6 +726,7 @@ exception_restore:
+ 					continue;
+ 				}
+ 							  }
++                break;
+ 			case _OP_CALL: {
+ 					SQObjectPtr clo = STK(arg1);
+ 					switch (type(clo)) {
