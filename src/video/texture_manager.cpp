@@ -151,7 +151,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
 
   SDL_PixelFormat* format = image->format;
   if(format->Rmask == 0 && format->Gmask == 0 && format->Bmask == 0 && format->Amask == 0) {
-    log_warning << "Wrong surface format for image " << filename << ". Compensating." << std::endl;
+    log_debug << "Wrong surface format for image " << filename << ". Compensating." << std::endl;
     image = SDL_ConvertSurfaceFormat(image, SDL_PIXELFORMAT_RGBA8888, 0);
   }
 
