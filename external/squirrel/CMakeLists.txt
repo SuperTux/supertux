@@ -32,7 +32,7 @@ IF(PATCH_EXECUTABLE AND APPLY_COVERITY_PATCH)
 
   # Execute patch files
   FOREACH(file ${PATCH_FILES})
-    MESSAGE(STATUS "Found ${file}")
+    MESSAGE(STATUS "Found patch file ${file}.")
     EXECUTE_PROCESS(COMMAND ${PATCH_COMMAND} ${CMAKE_CURRENT_SOURCE_DIR}/${file})
   ENDFOREACH(file)
 
