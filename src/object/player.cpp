@@ -1312,7 +1312,11 @@ Player::draw(DrawingContext& context)
     }
   }
   else {
-    sprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+    if(dying)
+      sprite->draw(context, get_pos(), Sector::current()->get_foremost_layer() + 1);
+    else
+      sprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+
     if (player_status->bonus == AIR_BONUS)
       powersprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
   }

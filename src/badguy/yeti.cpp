@@ -212,6 +212,9 @@ void Yeti::take_hit(Player& )
     physic.set_velocity_x(0);
     physic.set_velocity_y(0);
 
+    // Set the badguy layer to be above the foremost, so that
+    // this does not reveal secret tilemaps:
+    layer = Sector::current()->get_foremost_layer() + 1;
     state = SQUISHED;
     state_timer.start(YETI_SQUISH_TIME);
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
