@@ -416,6 +416,7 @@ Player::update(float elapsed_time)
     if (backflipping && (backflip_timer.get_timegone() > 0.15f)) {
       backflipping = false;
       backflip_direction = 0;
+      physic.set_velocity_x(0);
       if (!stone) {
         sprite->set_angle(0.0f);
         powersprite->set_angle(0.0f);
