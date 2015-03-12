@@ -13,6 +13,9 @@ addonname-foo.stf to be added to font foo.stf
   ; default width of glyph on images and width of fixed-font
   (glyph-width $w)   
 
+  ; text in this font is written from right-to-left (optional)
+  (rtl #t)
+
   ; one or more surfaces, containing glyph images
   (surface              
  
