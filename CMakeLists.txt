@@ -181,9 +181,12 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
 ## MSVC Compatibility headers and definitions
 
 IF(MSVC)
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc)
-  ADD_DEFINITIONS(-D_USE_MATH_DEFINES -DNOMINMAX)
+  include_directories (${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc)
 ENDIF(MSVC)
+
+IF(WIN32)
+  ADD_DEFINITIONS(-D_USE_MATH_DEFINES -DNOMINMAX)
+ENDIF(WIN32)
 
 ## Build list of sources for supertux binary
 
@@ -257,6 +260,7 @@ endif(COMPILER_SUPPORTS_CXX11)
 
 
 IF(CMAKE_COMPILER_IS_GNUCC)
+  ADD_DEFINITIONS(-D_USE_MATH_DEFINES -DNOMINMAX)
   SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
   SET(CMAKE_C_FLAGS_DEBUG "-O0 -g" CACHE STRING "Debug flags")
   SET(CMAKE_CXX_FLAGS_PROFILE "-pg" CACHE STRING "Profile flags")
