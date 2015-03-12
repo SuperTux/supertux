@@ -138,6 +138,7 @@ private:
   int char_height;
   int shadowsize;
   int border;
+  bool rtl;
 
   /** 65536 of glyphs */
   std::vector<Glyph> glyphs;

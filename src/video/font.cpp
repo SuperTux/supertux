@@ -64,6 +64,7 @@ Font::Font(GlyphWidth glyph_width_,
   char_height(),
   shadowsize(shadowsize_),
   border(0),
+  rtl(false),
   glyphs(65536)
 {
   for(unsigned int i=0; i<65536;i++) glyphs[i].surface_idx = -1;
@@ -109,6 +110,7 @@ Font::loadFontFile(const std::string &filename)
   }
 
   config_l->get("glyph-border", border);
+  config_l->get("rtl", rtl);
 
   lisp::ListIterator iter(config_l);
   while(iter.next()) {
@@ -394,10 +396,10 @@ Font::draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
                 DrawingEffect drawing_effect, Color color, float alpha) const
 {
   if(shadowsize > 0)
-    draw_chars(renderer, false, text,
+    draw_chars(renderer, false, rtl ? std::string(text.rbegin(), text.rend()) : text,
                pos + Vector(shadowsize, shadowsize), drawing_effect, Color(1,1,1), alpha);
 
-  draw_chars(renderer, true, text, pos, drawing_effect, color, alpha);
+  draw_chars(renderer, true, rtl ? std::string(text.rbegin(), text.rend()) : text, pos, drawing_effect, color, alpha);
 }
 
 void
