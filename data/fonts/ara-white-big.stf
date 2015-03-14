@@ -1,4 +1,5 @@
 (supertux-font
+  (rtl #t)
   (glyph-height 22)
   (glyph-width 22)
   (glyph-border 1)

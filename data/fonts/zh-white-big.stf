@@ -2,6 +2,7 @@
   (glyph-height 22)
   (glyph-width 22)
   (glyph-border 1)
+  (rtl #f)
   (surface
     (glyphs "zh/white-big.png")
     (shadows "zh/shadow-big.png")

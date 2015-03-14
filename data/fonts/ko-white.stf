@@ -2,6 +2,7 @@
   (glyph-height 18)
   (glyph-width 18)
   (glyph-border 1)
+  (rtl #f)
   (surface
     (glyphs "ko/white.png")
     (shadows "ko/shadow.png")
