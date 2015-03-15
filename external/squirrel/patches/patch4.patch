@@ -1,0 +1,29 @@
+diff --git a/external/squirrel/squirrel/sqfuncproto.h b/external/squirrel/squirrel/sqfuncproto.h
+index cd48aa6..d2c99ad 100644
+--- a/external/squirrel/squirrel/sqfuncproto.h
++++ b/external/squirrel/squirrel/sqfuncproto.h
+@@ -12,7 +12,7 @@ enum SQOuterType {
+ struct SQOuterVar
+ {
+ 	
+-	SQOuterVar(){}
++	SQOuterVar() : _type(otLOCAL) {}
+ 	SQOuterVar(const SQObjectPtr &name,const SQObjectPtr &src,SQOuterType t)
+ 	{
+ 		_name = name;
+diff --git a/external/squirrel/squirrel/sqvm.cpp b/external/squirrel/squirrel/sqvm.cpp
+index de0927f..d814d85 100644
+--- a/external/squirrel/squirrel/sqvm.cpp
++++ b/external/squirrel/squirrel/sqvm.cpp
+@@ -119,6 +119,11 @@ SQVM::SQVM(SQSharedState *ss)
+ 	_debughook_native = NULL;
+ 	_debughook_closure.Null();
+ 	_openouters = NULL;
++	_top = 0;
++	_stackbase = 0;
++	_callsstack = NULL;
++	_callsstacksize = 0;
++	_alloccallsstacksize = 0;
+ 	ci = NULL;
+ 	INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this);
+ }
