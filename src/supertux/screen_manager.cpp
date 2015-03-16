@@ -27,6 +27,7 @@
 #include "supertux/console.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/main.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -212,6 +213,12 @@ ScreenManager::process_events()
             VideoSystem::current()->resize(event.window.data1,
                                            event.window.data2);
             m_menu_manager->on_window_resize();
+            break;
+
+          case SDL_WINDOWEVENT_FOCUS_LOST:
+            if(GameSession::current() != NULL) {
+              GameSession::current()->toggle_pause();
+            }
             break;
         }
         break;
