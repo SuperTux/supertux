@@ -79,7 +79,7 @@ StreamSoundSource::update()
     play();
   }
 
-  if(fade_state == FadingOn) {
+  if(fade_state == FadingOn || fade_state == FadingResume) {
     float time = real_time - fade_start_time;
     if(time >= fade_time) {
       set_gain(1.0);
@@ -87,10 +87,13 @@ StreamSoundSource::update()
     } else {
       set_gain(time / fade_time);
     }
-  } else if(fade_state == FadingOff) {
+  } else if(fade_state == FadingOff || fade_state == FadingPause) {
     float time = real_time - fade_start_time;
     if(time >= fade_time) {
-      stop();
+      if(fade_state == FadingOff)
+        stop();
+      else
+        pause();
       fade_state = NoFading;
     } else {
       set_gain( (fade_time-time) / fade_time);

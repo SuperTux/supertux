@@ -301,19 +301,25 @@ SoundManager::play_music(const std::string& filename, bool fade)
 }
 
 void
-SoundManager::pause_music()
+SoundManager::pause_music(float fadetime)
 {
-  if(music_source)
-  {
+  if(fadetime > 0) {
+    if(music_source
+       && music_source->get_fade_state() != StreamSoundSource::FadingPause)
+      music_source->set_fading(StreamSoundSource::FadingPause, fadetime);
+  } else {
     music_source->pause();
   }
 }
 
 void
-SoundManager::resume_music()
+SoundManager::resume_music(float fadetime)
 {
-  if(music_source)
-  {
+  if(fadetime > 0) {
+    if(music_source
+       && music_source->get_fade_state() != StreamSoundSource::FadingResume)
+      music_source->set_fading(StreamSoundSource::FadingResume, fadetime);
+  } else {
     music_source->resume();
   }
 }

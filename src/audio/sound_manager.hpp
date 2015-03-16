@@ -64,8 +64,8 @@ public:
 
   void enable_music(bool music_enabled);
   void play_music(const std::string& filename, bool fade = false);
-  void pause_music();
-  void resume_music();
+  void pause_music(float fadetime = 0);
+  void resume_music(float fadetime = 0);
   void stop_music(float fadetime = 0);
 
   bool is_music_enabled() { return music_enabled; }

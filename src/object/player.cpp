@@ -1526,7 +1526,7 @@ Player::kill(bool completely)
 
     // TODO: need nice way to handle players dying in co-op mode
     Sector::current()->effect->fade_out(3.0);
-    SoundManager::current()->stop_music(3.0);
+    SoundManager::current()->pause_music(3.0);
   }
 }
 

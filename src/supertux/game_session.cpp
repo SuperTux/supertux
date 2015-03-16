@@ -82,7 +82,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
 }
 
 int
-GameSession::restart_level()
+GameSession::restart_level(bool after_death)
 {
     PlayerStatus* currentStatus = m_savegame.get_player_status();
     coins_at_start = currentStatus->coins;
@@ -130,9 +130,13 @@ GameSession::restart_level()
     ScreenManager::current()->pop_screen();
     return (-1);
   }
-
-  SoundManager::current()->stop_music();
-  currentsector->play_music(LEVEL_MUSIC);
+  if(after_death == true) {
+    currentsector->resume_music();
+  }
+  else {
+    SoundManager::current()->stop_music();
+    currentsector->play_music(LEVEL_MUSIC);
+  }
 
   if(capture_file != "") {
     int newSeed=0;               // next run uses a new seed
@@ -371,7 +375,7 @@ GameSession::check_end_conditions()
   if(end_sequence && end_sequence->is_done()) {
     finish(true);
   } else if (!end_sequence && tux->is_dead()) {
-    restart_level();
+    restart_level(true);
   }
 }
 

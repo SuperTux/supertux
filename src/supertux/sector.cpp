@@ -1497,6 +1497,12 @@ Sector::play_music(MusicType type)
   }
 }
 
+void
+Sector::resume_music()
+{
+  SoundManager::current()->resume_music(1.5f);
+}
+
 MusicType
 Sector::get_music_type()
 {

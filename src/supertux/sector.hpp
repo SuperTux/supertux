@@ -108,6 +108,7 @@ public:
   bool inside(const Rectf& rectangle) const;
 
   void play_music(MusicType musictype);
+  void resume_music();
   MusicType get_music_type();
 
   int get_active_bullets()

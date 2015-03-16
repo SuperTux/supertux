@@ -29,7 +29,7 @@ public:
 
   void set_sound_file(std::unique_ptr<SoundFile> newfile);
 
-  enum FadeState { NoFading, FadingOn, FadingOff };
+  enum FadeState { NoFading, FadingOn, FadingOff, FadingPause, FadingResume };
 
   void set_fading(FadeState state, float fadetime);
   FadeState get_fade_state() const
