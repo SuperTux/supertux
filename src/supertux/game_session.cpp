@@ -75,7 +75,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   coins_at_start(),
   bonus_at_start(),
   max_fire_bullets_at_start(),
-  max_ice_bullets_at_start()
+  max_ice_bullets_at_start(),
+  active(false)
 {
   if (restart_level() != 0)
     throw std::runtime_error ("Initializing the level failed.");
@@ -272,6 +273,12 @@ GameSession::abort_level()
   currentStatus->max_ice_bullets = max_ice_bullets_at_start;
 }
 
+bool
+GameSession::is_active() const
+{
+  return !game_pause && active;
+}
+
 void
 GameSession::set_editmode(bool edit_mode_)
 {
@@ -411,6 +418,7 @@ GameSession::setup()
   int total_stats_to_be_collected = level->stats.total_coins + level->stats.total_badguys + level->stats.total_secrets;
   if ((!levelintro_shown) && (total_stats_to_be_collected > 0)) {
     levelintro_shown = true;
+    active = false;
     ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new LevelIntro(level.get(), best_level_statistics)));
   }
 }
@@ -423,6 +431,11 @@ GameSession::leave()
 void
 GameSession::update(float elapsed_time)
 {
+  // Set active flag
+  if(!active)
+  {
+    active = true;
+  }
   // handle controller
   if(InputManager::current()->get_controller()->pressed(Controller::ESCAPE) ||
      InputManager::current()->get_controller()->pressed(Controller::START))

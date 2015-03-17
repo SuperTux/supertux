@@ -83,6 +83,7 @@ public:
 
   void toggle_pause();
   void abort_level();
+  bool is_active() const;
 
   /**
    * Enters or leaves level editor mode
@@ -151,6 +152,8 @@ private:
   BonusType bonus_at_start; /** What bonuses does the player have at the start */
   int max_fire_bullets_at_start; /** How many fire bullets does the player have */
   int max_ice_bullets_at_start; /** How many ice bullets does the player have */
+    
+  bool active; /** Game active? **/
 
 private:
   GameSession(const GameSession&);
