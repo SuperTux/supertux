@@ -24,7 +24,7 @@ env:
     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
     # via the "travis encrypt" command using the project repo's public key
     - secure: "E3/UuL338/FVeKbWVBH8RWznD3ntT8BZxX9TDTCwoZFTPluI53Bk0G3MdDBFihFYLeTMfNxxrT2n+EnQtf9a6SrUIo1xFYWV3yKNHwFiS0LKn0IvhofPoRsg+Y190Hgq8djFSEU1Gk4pYATSfRYnAAbVxuL51CumGVBgBkplB0A="
-    - CMAKE_VERSION=3.1.3 SDL2_VERSION=2.0.3 SDL2IMAGE_VERSION=2.0.0
+    - CMAKE_VERSION=3.2.1 SDL2_VERSION=2.0.3 SDL2IMAGE_VERSION=2.0.0
   matrix:
     - BUILD_TYPE="Debug"
     - BUILD_TYPE="Release"
