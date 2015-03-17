@@ -34,21 +34,21 @@ Candle::Candle(const Reader& lisp)
 
   if(!lisp.get("name", name))
   {
-    log_warning << "Couldn't get \"name\" property for candle." << std::endl;
+    log_debug << "Couldn't get \"name\" property for candle." << std::endl;
   }
   if(!lisp.get("burning", burning))
   {
-    log_warning << "Couldn't get \"burning\" property for candle." << std::endl;
+    log_debug << "Couldn't get \"burning\" property for candle." << std::endl;
   }
   if(!lisp.get("flicker", flicker))
   {
-    log_warning << "Couldn't get \"flicker\" property for candle." << std::endl;
+    log_debug << "Couldn't get \"flicker\" property for candle." << std::endl;
   }
   //get color from lisp
   std::vector<float> vColor;
   if(lisp.get("color", vColor))
   {
-    log_warning << "Couldn't get \"color\" property for candle." << std::endl;
+    log_debug << "Couldn't get \"color\" property for candle." << std::endl;
   }
 
   //change the light color if defined
