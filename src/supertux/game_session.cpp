@@ -276,7 +276,7 @@ GameSession::abort_level()
 bool
 GameSession::is_active() const
 {
-  return !game_pause && active;
+  return !game_pause && active && !end_sequence;
 }
 
 void
