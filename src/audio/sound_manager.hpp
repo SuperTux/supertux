@@ -74,7 +74,9 @@ public:
   bool is_audio_enabled() {
     return device != 0 && context != 0;
   }
-
+  std::string get_current_music() const {
+    return current_music;
+  }
   void update();
 
   /*

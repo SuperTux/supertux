@@ -1500,7 +1500,14 @@ Sector::play_music(MusicType type)
 void
 Sector::resume_music()
 {
-  SoundManager::current()->resume_music(1.5f);
+  if(SoundManager::current()->get_current_music() == music)
+  {
+    SoundManager::current()->resume_music(1.5f);
+  }
+  else
+  {
+    SoundManager::current()->play_music(music, true);
+  }
 }
 
 MusicType
