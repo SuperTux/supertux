@@ -68,10 +68,10 @@ public:
   void resume_music(float fadetime = 0);
   void stop_music(float fadetime = 0);
 
-  bool is_music_enabled() { return music_enabled; }
-  bool is_sound_enabled() { return sound_enabled; }
+  bool is_music_enabled() const { return music_enabled; }
+  bool is_sound_enabled() const { return sound_enabled; }
 
-  bool is_audio_enabled() {
+  bool is_audio_enabled() const {
     return device != 0 && context != 0;
   }
   std::string get_current_music() const {
