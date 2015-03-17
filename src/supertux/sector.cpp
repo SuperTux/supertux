@@ -1506,6 +1506,7 @@ Sector::resume_music()
   }
   else
   {
+    SoundManager::current()->stop_music();
     SoundManager::current()->play_music(music, true);
   }
 }
