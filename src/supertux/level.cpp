@@ -174,13 +174,13 @@ Level::get_sector(const std::string& name_)
 }
 
 size_t
-Level::get_sector_count()
+Level::get_sector_count() const
 {
   return sectors.size();
 }
 
 Sector*
-Level::get_sector(size_t num)
+Level::get_sector(size_t num) const
 {
   return sectors.at(num);
 }

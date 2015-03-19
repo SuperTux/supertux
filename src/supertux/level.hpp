@@ -62,8 +62,8 @@ public:
 
   Sector* get_sector(const std::string& name);
 
-  size_t get_sector_count();
-  Sector* get_sector(size_t num);
+  size_t get_sector_count() const;
+  Sector* get_sector(size_t num) const;
 
   const TileSet *get_tileset() const
   { return tileset; }
