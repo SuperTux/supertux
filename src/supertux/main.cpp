@@ -299,11 +299,6 @@ Main::launch_game()
   SDLSubsystem sdl_subsystem;
   ConsoleBuffer console_buffer;
 
-  timelog("audio");
-  SoundManager sound_manager;
-  sound_manager.enable_sound(g_config->sound_enabled);
-  sound_manager.enable_music(g_config->music_enabled);
-
   timelog("controller");
   InputManager input_manager(g_config->keyboard_config, g_config->joystick_config);
 
@@ -313,6 +308,11 @@ Main::launch_game()
   std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
   DrawingContext context(*video_system);
   init_video();
+
+  timelog("audio");
+  SoundManager sound_manager;
+  sound_manager.enable_sound(g_config->sound_enabled);
+  sound_manager.enable_music(g_config->music_enabled);
 
   Console console(console_buffer);
 
