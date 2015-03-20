@@ -303,7 +303,7 @@ SoundManager::play_music(const std::string& filename, bool fade)
 void
 SoundManager::pause_music(float fadetime)
 {
-  if(music_source == NULL || !music_source->playing())
+  if(music_source == NULL)
     return;
 
   if(fadetime > 0) {
@@ -318,7 +318,7 @@ SoundManager::pause_music(float fadetime)
 void
 SoundManager::resume_music(float fadetime)
 {
-  if(music_source == NULL || !music_source->paused())
+  if(music_source == NULL)
     return;
 
   if(fadetime > 0) {
