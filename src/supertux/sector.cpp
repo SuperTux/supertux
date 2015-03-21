@@ -1502,7 +1502,7 @@ Sector::resume_music()
 {
   if(SoundManager::current()->get_current_music() == music)
   {
-    SoundManager::current()->resume_music(1.5f);
+    SoundManager::current()->resume_music(3.2f);
   }
   else
   {
