@@ -45,7 +45,8 @@ CommandLineArguments::CommandLineArguments() :
   enable_script_debugger(),
   start_demo(),
   record_demo(),
-  developer_mode()
+  developer_mode(),
+  christmas_mode()
 {
 }
 
@@ -266,6 +267,10 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       developer_mode = true;
     }
+    else if (arg == "--christmas")
+    {
+      christmas_mode = true;
+    }
     else if (arg == "--console")
     {
       console_enabled = true;
@@ -339,6 +344,7 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(start_demo);
   merge_option(record_demo);
   merge_option(developer_mode);
+  merge_option(christmas_mode);
 
 #undef merge_option
 }

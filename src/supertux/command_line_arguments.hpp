@@ -68,6 +68,8 @@ public:
   boost::optional<std::string> record_demo;
 
   boost::optional<bool> developer_mode;
+  
+  boost::optional<bool> christmas_mode;
 
   // boost::optional<std::string> locale;
 

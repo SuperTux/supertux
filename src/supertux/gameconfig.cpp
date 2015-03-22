@@ -50,7 +50,8 @@ Config::Config() :
   keyboard_config(),
   joystick_config(),
   addons(),
-  developer_mode(false)
+  developer_mode(false),
+  christmas_mode(false)
 {
 }
 
@@ -73,6 +74,12 @@ Config::load()
   config_lisp->get("show_fps", show_fps);
   config_lisp->get("console", console_enabled);
   config_lisp->get("developer", developer_mode);
+  if(is_christmas()) {
+    if(!config_lisp->get("christmas", christmas_mode))
+    {
+      christmas_mode = true;
+    }
+  }
   config_lisp->get("locale", locale);
   config_lisp->get("random_seed", random_seed);
 
@@ -156,6 +163,9 @@ Config::save()
   writer.write("show_fps", show_fps);
   writer.write("console", console_enabled);
   writer.write("developer", developer_mode);
+  if(is_christmas()) {
+    writer.write("christmas", christmas_mode);
+  }
   writer.write("locale", locale);
 
   writer.start_list("video");

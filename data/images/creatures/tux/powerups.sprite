@@ -232,5 +232,114 @@
          (name "earth-buttjump-left")
          (hitbox 16 14 32 64)
          (mirror-action "earth-buttjump-right"))
+         
+         
+; Santa Tux
+       (action
+         (name "santa-walk-right")
+         (fps 15)
+         (hitbox 15 14 32 64)
+         (images "fire/santa_cap/walk-0.png"
+                 "fire/santa_cap/walk-1.png"
+                 "fire/santa_cap/stand.png"
+                 "fire/santa_cap/walk-0.png"
+                 "fire/santa_cap/walk-1.png"
+                 "fire/santa_cap/stand.png"))
+
+       (action
+         (name "santa-walk-left")
+         (fps 15)
+         (hitbox 17 14 32 64)
+         (mirror-action "santa-walk-right"))
+
+       (action
+         (name "santa-stand-right")
+         (hitbox 16 14 32 64)
+         (images "fire/santa_cap/stand.png"))
+
+       (action
+         (name "santa-stand-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-stand-right"))
+
+       (action
+         (name "santa-jump-right")
+         (hitbox 16 14 32 64)
+         (images "fire/santa_cap/stand.png"))
+
+       (action
+         (name "santa-jump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-jump-right"))
+
+       (action
+         (name "santa-skid-right")
+         (hitbox 16 14 32 64)
+         (images "fire/santa_cap/skid.png"))
+
+       (action
+         (name "santa-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-skid-right"))
+
+       (action
+         (name "santa-kick-right")
+         (hitbox 16 14 32 64)
+         (images "fire/santa_cap/stand.png"))
+
+       (action
+         (name "santa-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-kick-right"))
+
+       (action
+         (name "santa-idle-right")
+         (hitbox 16 14 32 64)
+         (images "fire/santa_cap/stand.png"))
+
+       (action
+         (name "santa-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-idle-right"))
+
+       (action
+         (name "santa-climbing-right")
+         (hitbox 22 21 32 64)
+         (images "fire/santa_cap/stand.png"))
+
+       (action
+         (name "santa-climbing-left")
+         (hitbox 22 21 32 64)
+         (mirror-action "santa-climbing-right"))
+
+       (action
+         (name "santa-duck-right")
+         (hitbox 16 45 32 32)
+         (images "fire/santa_cap/duck.png"))
+
+       (action
+         (name "santa-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "santa-duck-right"))
+
+       (action
+         (name "santa-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "fire/santa_cap/backflip.png"))
+
+       (action
+         (name "santa-backflip-left")
+         (hitbox 16 37 32 32)
+         (mirror-action "santa-backflip-right"))
+
+       (action
+         (name "santa-buttjump-right")
+         (hitbox 16 14 32 64)
+         (images "fire/santa_cap/stand.png"))
+
+       (action
+         (name "santa-buttjump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-buttjump-right"))
 
 )

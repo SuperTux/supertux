@@ -838,5 +838,126 @@
          (name "earth-buttjump-left-stone")
          (hitbox 16 14 32 64)
          (mirror-action "earth-buttjump-right-stone"))
+         
+; Santa Tux
+       (action
+         (name "santa-walk-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/walk-0.png"
+                 "big/walk-1.png"
+                 "big/walk-2.png"
+                 "big/walk-3.png"
+                 "big/walk-4.png"
+                 "big/walk-5.png"))
+
+       (action
+         (name "santa-walk-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-walk-right"))
+
+       (action
+         (name "santa-stand-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/stand-0.png"))
+
+       (action
+         (name "santa-stand-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-stand-right"))
+
+       (action
+         (name "santa-jump-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/jump-0.png"))
+
+       (action
+         (name "santa-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-jump-right"))
+
+       (action
+         (name "santa-skid-right")
+         (hitbox 16 14 32 64)
+         (images "big/skid-0.png"))
+
+       (action
+         (name "santa-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-skid-right"))
+
+       (action
+         (name "santa-kick-right")
+         (hitbox 16 14 32 64)
+         (images "big/kick-0.png"))
+
+       (action
+         (name "santa-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-kick-right"))
+
+       (action
+         (name "santa-idle-right")
+         (fps 5.0)
+         (hitbox 16 14 32 64)
+         (images "big/idle-0.png"
+                 "big/idle-1.png"
+                 "big/idle-0.png"))
+
+       (action
+         (name "santa-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-idle-right"))
+
+       (action
+         (name "santa-climbing-right")
+         (hitbox 16 14 32 64)
+         (images "big/ladder-0.png"
+                 "big/ladder-1.png"
+                 "big/ladder-2.png"
+                 "big/ladder-3.png"
+                 "big/ladder-2.png"
+                 "big/ladder-1.png"))
+
+       (action
+         (name "santa-climbing-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-climbing-right"))
+
+       (action
+         (name "santa-duck-right")
+         (hitbox 16 45 32 32)
+         (images "big/duck-0.png"))
+
+       (action
+         (name "santa-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "santa-duck-right"))
+
+       (action
+         (name "santa-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "big/backflip.png"))
+
+       (action
+         (name "santa-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 18.0)
+         (mirror-action "santa-backflip-right"))
+
+       (action
+         (name "santa-buttjump-right")
+         (hitbox 16 14 32 64)
+         (images "big/buttjump-0.png"))
+
+       (action
+         (name "santa-buttjump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-buttjump-right"))
 
 )

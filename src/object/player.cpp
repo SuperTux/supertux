@@ -30,7 +30,7 @@
 #include "object/sprite_particle.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/globals.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "trigger/climbable.hpp"
@@ -392,7 +392,8 @@ Player::update(float elapsed_time)
     if (backflip_timer.started()) physic.set_velocity_x(100 * backflip_direction);
     //rotate sprite during flip
     sprite->set_angle(sprite->get_angle() + (dir==LEFT?1:-1) * elapsed_time * (360.0f / 0.5f));
-    if (player_status->bonus == EARTH_BONUS || player_status->bonus == AIR_BONUS) {
+    if (player_status->bonus == EARTH_BONUS || player_status->bonus == AIR_BONUS ||
+        (player_status->bonus == FIRE_BONUS && g_config->christmas_mode)) {
       powersprite->set_angle(sprite->get_angle());
       if (player_status->bonus == EARTH_BONUS)
         lightsprite->set_angle(sprite->get_angle());
@@ -1104,7 +1105,12 @@ Player::set_bonus(BonusType type, bool animate)
       Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
       Vector paccel = Vector(0, 1000);
       std::string action = (dir==LEFT)?"left":"right";
-      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/firetux-helmet.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
+      if (g_config->christmas_mode) {
+        Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/santatux-hat.sprite", action, ppos,ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1)); 
+      }
+      else {
+        Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/firetux-helmet.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
+      }
       if (climbing) stop_climbing(*climbing);
     }
     if ((player_status->bonus == ICE_BONUS) && (animate)) {
@@ -1190,7 +1196,10 @@ Player::draw(DrawingContext& context)
   if (player_status->bonus == GROWUP_BONUS)
     sa_prefix = "big";
   else if (player_status->bonus == FIRE_BONUS)
-    sa_prefix = "fire";
+    if(g_config->christmas_mode)
+      sa_prefix = "santa";
+    else
+      sa_prefix = "fire";
   else if (player_status->bonus == ICE_BONUS)
     sa_prefix = "ice";
   else if (player_status->bonus == AIR_BONUS)
@@ -1275,8 +1284,11 @@ Player::draw(DrawingContext& context)
   if (player_status->bonus == EARTH_BONUS) {
     powersprite->set_action(sprite->get_action());
     lightsprite->set_action(sprite->get_action());
-  } else if (player_status->bonus == AIR_BONUS)
+  } else if (player_status->bonus == AIR_BONUS) {
     powersprite->set_action(sprite->get_action());
+  } else if (player_status->bonus == FIRE_BONUS && g_config->christmas_mode) {
+    powersprite->set_action(sprite->get_action());
+  }
 
   /*
   // Tux is holding something
@@ -1320,6 +1332,9 @@ Player::draw(DrawingContext& context)
 
     if (player_status->bonus == AIR_BONUS)
       powersprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+    else if(player_status->bonus == FIRE_BONUS && g_config->christmas_mode) {
+      powersprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+    }
   }
 
 }

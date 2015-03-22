@@ -22,6 +22,9 @@
 #include "math/size.hpp"
 #include "video/video_system.hpp"
 
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+
 class Config
 {
 public:
@@ -80,6 +83,14 @@ public:
   std::vector<Addon> addons;
 
   bool developer_mode;
+  bool christmas_mode;
+
+  bool is_christmas() {
+    using namespace boost::gregorian;
+    using namespace boost::posix_time;
+    date today = second_clock::local_time().date();
+    return today.day_of_year() >= 354;
+  }
 };
 
 #endif

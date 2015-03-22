@@ -39,7 +39,8 @@ enum OptionsMenuIDs {
   MNID_ASPECTRATIO,
   MNID_SOUND,
   MNID_MUSIC,
-  MNID_DEVELOPER_MODE
+  MNID_DEVELOPER_MODE,
+  MNID_CHRISTMAS_MODE
 };
 
 OptionsMenu::OptionsMenu(bool complete)
@@ -207,6 +208,11 @@ OptionsMenu::OptionsMenu(bool complete)
     add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), g_config->developer_mode);
   }
 
+  if (g_config->is_christmas() || g_config->christmas_mode)
+  {
+    add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), g_config->christmas_mode);
+  }
+
   add_hl();
   add_back(_("Back"));
 }
@@ -303,6 +309,11 @@ OptionsMenu::menu_action(MenuItem* item)
     case MNID_DEVELOPER_MODE:
       g_config->developer_mode = is_toggled(MNID_DEVELOPER_MODE);
       log_info << "developer mode: " << g_config->developer_mode << std::endl;
+      break;
+
+    case MNID_CHRISTMAS_MODE:
+      g_config->christmas_mode = is_toggled(MNID_CHRISTMAS_MODE);
+      log_info << "christmas mode: " << g_config->christmas_mode << std::endl;
       break;
 
     default:
