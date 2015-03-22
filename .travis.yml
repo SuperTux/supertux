@@ -41,13 +41,13 @@ before_install:
 
   # CMake
   - wget http://www.cmake.org/files/v3.2/cmake-$CMAKE_VERSION.tar.gz -O - | tar xz
-  - (cd cmake-$CMAKE_VERSION && cmake . && make -j5 && sudo make install)
+  - (cd cmake-$CMAKE_VERSION && cmake . && make -j3 && sudo make install)
 
   # SDL dependencies
   - wget http://libsdl.org/release/SDL2-$SDL2_VERSION.tar.gz -O - | tar xz
-  - (cd SDL2-$SDL2_VERSION && ./configure --prefix=/usr && make -j5 && sudo make install)
+  - (cd SDL2-$SDL2_VERSION && ./configure --prefix=/usr && make -j3 && sudo make install)
   - wget http://www.libsdl.org/projects/SDL_image/release/SDL2_image-$SDL2IMAGE_VERSION.tar.gz -O - | tar xz
-  - (cd SDL2_image-$SDL2IMAGE_VERSION && ./configure --prefix=/usr && make -j5 && sudo make install)
+  - (cd SDL2_image-$SDL2IMAGE_VERSION && ./configure --prefix=/usr && make -j3 && sudo make install)
 
 script:
   # Clean from previous Travis build
@@ -56,7 +56,7 @@ script:
   - mkdir "build-$BUILD_TYPE"
   - cd "build-$BUILD_TYPE"
   - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-  - make VERBOSE=1 -j $(nproc)
+  - make VERBOSE=1 -j3
 
 addons:
   coverity_scan:
@@ -65,7 +65,7 @@ addons:
       description: "Build submitted via Travis CI"
     notification_email: supertux-commit@lists.lethargik.org
     build_command_prepend: "cmake . && make clean"
-    build_command:   "make -j 4"
+    build_command:   "make -j 3"
     branch_pattern: coverity_scan
 
 notifications:
