@@ -24,17 +24,15 @@ Milestone 2 of SuperTux, making this a bit overdue.  Once again it is hard to
 say what the most notable changes are, but one thing players should notice is
 a greater wealth of levels to play through an expanded avalibility of add-ons.
 
-Additionally, SuperTux development has moved to Google Code.  Check it out at:
+Additionally, SuperTux development has moved to GitHub.  Check it out at:
 
-  http://code.google.com/p/supertux/
+  https://github.com/SuperTuxTeam/supertux/
 
 If you are intersted in contribuiting to SuperTux, please do so.  The more
 people working on the project, the faster development can continue.  The hope
 is that this release will generate more interest which will lead to more
-frequent releases.  You can refer to the wiki page on "Contributing" to get
-started:
-
-  http://supertux.lethargik.org/wiki/Contributing
+frequent releases.  You can refer to the GitHub wiki page on "Contributing" to get
+started.
 
 And of course, enjoy the game and have fun!
 
@@ -51,12 +49,6 @@ Unfortunatly, after such a long time it's hard to say what the most notable
 changes are. We hope that the game engine is more stable (or at least more
 advanced ;) and that the game is more fun to play overall.
 
-If you want to help improve SuperTux, please don't hesitate to join us. We're
-always looking for interested people to design levels, graphics, test the
-current development version and / or contribute code. To get in touch with us,
-please refer to the "Contact" wiki page in the SuperTux wiki,
-
-  http://supertux.lethargik.org/wiki/Contact
 
 We hope you enjoy SuperTux. Now off you go, rescue Penny! ;)
 
