@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014 William Moreno Reyes <williamjmorenor@fedoraproject.org> -->
 
-<!-- HOUSEKEEPING, REMOVE THIS COMMENT WHEN THIS GOES UPSTREAM
-EmailAddress: supertux-devel@lists.lethargik.org
-SentUpstream: 2014-09-25
--->
-
 <application>
   <id type="desktop">supertux2.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
