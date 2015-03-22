@@ -46,7 +46,7 @@ Please see them:
 `WHATSNEW.txt`
 : Changes since the previous versions of SuperTux.
 
-`COPYING`
+`LICENSE`
 : The GNU General Public License, under whose terms SuperTux is
 licensed. (Most of the data subdirectory is also licensed under
 CC-by-SA)
