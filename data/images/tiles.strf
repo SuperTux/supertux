@@ -1014,6 +1014,8 @@
       2232 2233 2234 2235
       2244 2245 2246 2247
       2256 2257 2258 2259
+      3277 3278 3279 3280
+      3281 3282 3283 3284
     )
   )
 
@@ -4416,5 +4418,29 @@
     )
     (image "tiles/castle/swall.png")
   )
-  ;; next-id: 3277
+  (tiles
+    (width 2)
+    (height 2)
+    (ids
+      3277 3278 3279 3280
+    )
+    (attributes
+      0 0
+      0 0 
+    )
+    (image "tiles/castle/grey8.png")
+  )
+(tiles
+    (width 2)
+    (height 2)
+    (ids
+      3281 3282 3283 3284
+    )
+    (attributes
+      0 0
+      0 0 
+    )
+    (image "tiles/castle/grey7.png")
+  )
+  ;; next-id: 3285
   )
