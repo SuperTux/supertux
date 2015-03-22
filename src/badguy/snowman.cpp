@@ -45,6 +45,7 @@ Snowman::loose_head()
   physic.set_acceleration_y(0);
   physic.enable_gravity(true);
   set_state (STATE_FALLING);
+  countMe = false;
 
   /* Create a new snowball where the snowman's head was */
   auto snowball = std::make_shared<SnowBall>(snowball_pos, dir, dead_script);
