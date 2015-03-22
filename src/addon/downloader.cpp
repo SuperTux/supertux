@@ -248,6 +248,7 @@ Downloader::download(const std::string& url)
 void
 Downloader::download(const std::string& url, const std::string& filename)
 {
+  log_info << "download: " << url << " to " << filename << std::endl;
   std::unique_ptr<PHYSFS_file, int(*)(PHYSFS_File*)> fout(PHYSFS_openWrite(filename.c_str()),
                                                           PHYSFS_close);
   download(url, my_curl_physfs_write, fout.get());
@@ -363,6 +364,7 @@ Downloader::update()
 TransferStatusPtr
 Downloader::request_download(const std::string& url, const std::string& outfile)
 {
+  log_info << "request_download: " << url << std::endl;
   std::unique_ptr<Transfer> transfer(new Transfer(*this, m_next_transfer_id++, url, outfile));
   curl_multi_add_handle(m_multi_handle, transfer->get_curl_handle());
   m_transfers.push_back(std::move(transfer));
