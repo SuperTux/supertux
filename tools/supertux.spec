@@ -53,7 +53,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc COPYING README ChangeLog TODO 
+%doc LICENSE README.md ChangeLog TODO
 #%doc doc/*
 /etc/X11/applnk/*
 %{_bindir}/*

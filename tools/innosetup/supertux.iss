@@ -37,8 +37,8 @@ VersionInfoVersion=0.3
 VersionInfoTextVersion={#MyAppVerName}
 AppVersion={#MyAppVer}
 UninstallDisplayName={#MyAppVerName}
-LicenseFile={#BuildDir}\usr\local\share\doc\supertux-{#MyAppVer}\COPYING
-InfoAfterFile={#BuildDir}\usr\local\share\doc\supertux-{#MyAppVer}\README
+LicenseFile={#BuildDir}\usr\local\share\doc\supertux-{#MyAppVer}\LICENSE
+InfoAfterFile={#BuildDir}\usr\local\share\doc\supertux-{#MyAppVer}\README.md
 SetupIconFile={#BuildDir}\usr\local\share\supertux\images\engine\icons\supertux.ico
 
 [Languages]
