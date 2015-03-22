@@ -72,10 +72,10 @@ makes it possible to click in the executable in your filemanager (i.e.
 Konqueror or Nautilus) as opposed to many other Linux games.
 
 Options can be reached from the menu, so you don't need to specify
-arguments, but if you want, type 'supertux2 --help' to check the ones
+arguments, but if you want, type `supertux2 --help` to check the ones
 that are available. Also, notice that SuperTux saves the options, so
 it's often enough to specify them once. For example, fullscreen mode
-causes problems on some setups, so just run 'supertux2 --window' and
+causes problems on some setups, so just run `supertux2 --window` and
 you should be set.
 
 The game uses OpenGL to render the graphics. You will either need a
