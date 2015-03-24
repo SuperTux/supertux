@@ -84,7 +84,7 @@ AddonManager::AddonManager(const std::string& addon_directory,
                            std::vector<Config::Addon>& addon_config) :
   m_downloader(),
   m_addon_directory(addon_directory),
-  m_repository_url("https://raw.githubusercontent.com/SuperTuxTeam/addons/master/index-0_4_0.nfo"),
+  m_repository_url("https://raw.githubusercontent.com/SuperTux/addons/master/index-0_4_0.nfo"),
   m_addon_config(addon_config),
   m_installed_addons(),
   m_repository_addons(),
