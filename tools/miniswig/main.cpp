@@ -90,7 +90,7 @@ int main(int argc, char** argv)
     try {
         input = new std::ifstream(inputfile.c_str());
         if(!input->good()) {
-            std::cerr << "Couldn't open file '" << input << "' for reading.\n";
+            std::cerr << "Couldn't open file '" << inputfile << "' for reading.\n";
             return 1;
         }
         current_file = inputfile;
