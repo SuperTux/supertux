@@ -642,7 +642,7 @@ Menu::get_item_by_id(int id) const
   throw std::runtime_error("MenuItem not found");
 }
 
-int Menu::get_active_item_id()
+int Menu::get_active_item_id() const
 {
   return items[active_item]->id;
 }

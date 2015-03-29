@@ -44,7 +44,7 @@ InputManager::~InputManager()
 }
 
 Controller*
-InputManager::get_controller()
+InputManager::get_controller() const
 {
   return controller.get();
 }

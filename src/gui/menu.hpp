@@ -77,7 +77,7 @@ public:
   MenuItem& get_item_by_id(int id);
   const MenuItem& get_item_by_id(int id) const;
 
-  int get_active_item_id();
+  int get_active_item_id() const;
   void set_active_item(int id);
 
   void draw(DrawingContext& context);
