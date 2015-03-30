@@ -38,6 +38,9 @@ public:
   Color get_gradient_bottom() const
   { return gradient_bottom; }
 
+  GradientDirection get_gradient_direction() const
+  { return gradient_direction; }
+
   virtual void update(float elapsed_time);
 
   virtual void draw(DrawingContext& context);
@@ -46,6 +49,7 @@ private:
   int layer;
   Color gradient_top;
   Color gradient_bottom;
+  GradientDirection gradient_direction;
 };
 
 #endif /*SUPERTUX_BACKGROUND_H*/

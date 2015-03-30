@@ -139,6 +139,7 @@ SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
     = static_cast<GradientRequest*>(request.request_data);
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
+  const GradientDirection& direction = gradientrequest->direction;
 
   // calculate the maximum number of steps needed for the gradient
   int n = static_cast<int>(std::max(std::max(fabsf(top.red - bottom.red),
@@ -149,10 +150,20 @@ SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
   for(int i = 0; i < n; ++i)
   {
     SDL_Rect rect;
-    rect.x = 0;
-    rect.y = SCREEN_HEIGHT * i / n;
-    rect.w = SCREEN_WIDTH;
-    rect.h = (SCREEN_HEIGHT * (i+1) / n) - rect.y;
+    if(direction == VERTICAL)
+    {
+      rect.x = 0;
+      rect.y = SCREEN_HEIGHT * i / n;
+      rect.w = SCREEN_WIDTH;
+      rect.h = (SCREEN_HEIGHT * (i+1) / n) - rect.y;
+    }
+    else
+    {
+      rect.x = SCREEN_WIDTH * i / n;
+      rect.y = 0;
+      rect.w = (SCREEN_WIDTH * (i+1) / n) - rect.x;
+      rect.h = SCREEN_HEIGHT;
+    }
 
     float p = static_cast<float>(i+1) / static_cast<float>(n);
     Uint8 r = static_cast<Uint8>(((1.0f - p) * top.red + p * bottom.red)  * 255);

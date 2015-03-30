@@ -169,7 +169,8 @@ DrawingContext::draw_center_text(FontPtr font, const std::string& text,
 }
 
 void
-DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer)
+DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer,
+                              const GradientDirection& direction)
 {
   DrawingRequest* request = new(obst) DrawingRequest();
 
@@ -184,6 +185,7 @@ DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer)
   GradientRequest* gradientrequest = new(obst) GradientRequest();
   gradientrequest->top = top;
   gradientrequest->bottom = bottom;
+  gradientrequest->direction = direction;
   request->request_data = gradientrequest;
 
   requests->push_back(request);

@@ -96,12 +96,14 @@ struct GradientRequest : public DrawingRequestData
   GradientRequest()  :
     top(),
     bottom(),
-    size()
+    size(),
+    direction()
   {}
 
   Color top;
   Color bottom;
   Vector size;
+  GradientDirection direction;
 };
 
 struct FillRectRequest : public DrawingRequestData

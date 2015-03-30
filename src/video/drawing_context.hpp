@@ -61,6 +61,8 @@ enum {
   LAYER_GUI         = 600
 };
 
+enum GradientDirection { VERTICAL, HORIZONTAL };
+
 class Blend
 {
 public:
@@ -111,7 +113,7 @@ public:
   void draw_center_text(FontPtr font, const std::string& text,
                         const Vector& position, int layer, Color color = Color(1.0,1.0,1.0));
   /// Draws a color gradient onto the whole screen */
-  void draw_gradient(const Color& from, const Color& to, int layer);
+  void draw_gradient(const Color& from, const Color& to, int layer, const GradientDirection& direction);
   /// Fills a rectangle.
   void draw_filled_rect(const Vector& topleft, const Vector& size,
                         const Color& color, int layer);

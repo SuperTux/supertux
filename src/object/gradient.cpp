@@ -34,6 +34,28 @@ Gradient::Gradient(const Reader& reader) :
 {
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
+  std::string direction;
+  if(reader.get("direction", direction) && direction == "horizontal")
+  {
+    gradient_direction = HORIZONTAL;
+  }
+  else
+  {
+    gradient_direction = VERTICAL;
+  }
+
+  if(gradient_direction == HORIZONTAL &&
+    (!reader.get("left_color", bkgd_top_color) ||
+     !reader.get("right_color", bkgd_bottom_color)))
+  {
+    log_warning << "Horizontal gradients should use left_color and right_color, respectively. Trying to parse top and bottom color instead" << std::endl;
+  }
+  else
+  {
+    gradient_top = Color(bkgd_top_color);
+    gradient_bottom = Color(bkgd_bottom_color);
+    return;
+  }
   if(!reader.get("top_color", bkgd_top_color) ||
      !reader.get("bottom_color", bkgd_bottom_color))
     throw std::runtime_error("Must specify top_color and bottom_color in gradient");
@@ -75,7 +97,7 @@ Gradient::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.draw_gradient(gradient_top, gradient_bottom, layer);
+  context.draw_gradient(gradient_top, gradient_bottom, layer, gradient_direction);
   context.pop_transform();
 }
 
