@@ -20,13 +20,13 @@
 ## Apply patch that fixes some Coverity errors
 
 ## Apply coverity patch to Squirrel?
-SET(APPLY_COVERITY_PATCH FALSE)
+SET(APPLY_COVERITY_PATCH TRUE)
 SET(WORKING_DIR WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 IF(APPLY_COVERITY_PATCH)
   FIND_PROGRAM(PATCH_EXECUTABLE patch)
   IF(PATCH_EXECUTABLE)
-    SET(PATCH_COMMAND patch -p1 --forward -i)
+    SET(PATCH_COMMAND git apply --whitespace=fix --inaccurate-eof)
     # Find patch files
     FILE(GLOB_RECURSE PATCH_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
          ${CMAKE_CURRENT_SOURCE_DIR}/patches/*.patch
