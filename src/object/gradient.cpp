@@ -43,19 +43,21 @@ Gradient::Gradient(const Reader& reader) :
   {
     gradient_direction = VERTICAL;
   }
+  if(gradient_direction == HORIZONTAL)
+  {
+    if(!reader.get("left_color", bkgd_top_color) ||
+       !reader.get("right_color", bkgd_bottom_color))
+    {
+      log_warning << "Horizontal gradients should use left_color and right_color, respectively. Trying to parse top and bottom color instead" << std::endl;
+    }
+    else
+    {
+      gradient_top = Color(bkgd_top_color);
+      gradient_bottom = Color(bkgd_bottom_color);
+      return;
+    }
+  }
 
-  if(gradient_direction == HORIZONTAL &&
-    (!reader.get("left_color", bkgd_top_color) ||
-     !reader.get("right_color", bkgd_bottom_color)))
-  {
-    log_warning << "Horizontal gradients should use left_color and right_color, respectively. Trying to parse top and bottom color instead" << std::endl;
-  }
-  else
-  {
-    gradient_top = Color(bkgd_top_color);
-    gradient_bottom = Color(bkgd_bottom_color);
-    return;
-  }
   if(!reader.get("top_color", bkgd_top_color) ||
      !reader.get("bottom_color", bkgd_bottom_color))
     throw std::runtime_error("Must specify top_color and bottom_color in gradient");
