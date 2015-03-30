@@ -61,7 +61,7 @@ script:
 addons:
   coverity_scan:
     project:
-      name: "SuperTux/supertux"
+      name: "SuperTuxTeam/supertux"
       description: "Build submitted via Travis CI"
     notification_email: supertux-commit@lists.lethargik.org
     build_command_prepend: "cmake . && make clean"
