@@ -116,8 +116,9 @@ SQRESULT sqstd_format(HSQUIRRELVM v,SQInteger nformatstringidx,SQInteger *outlen
 				fmt[fpos++] = _SC('\0');
 				}
 #endif
+                break;
 			case 'c':
-				if(SQ_FAILED(sq_getinteger(v,nparam,&ti))) 
+				if(SQ_FAILED(sq_getinteger(v,nparam,&ti)))
 					return sq_throwerror(v,_SC("integer expected for the specified format"));
 				addlen = (ADDITIONAL_FORMAT_SPACE)+((w+1)*sizeof(SQChar));
 				valtype = 'i';

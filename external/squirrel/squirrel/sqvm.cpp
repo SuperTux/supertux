@@ -119,6 +119,11 @@ SQVM::SQVM(SQSharedState *ss)
 	_debughook_native = NULL;
 	_debughook_closure.Null();
 	_openouters = NULL;
+	_top = 0;
+	_stackbase = 0;
+	_callsstack = NULL;
+	_callsstacksize = 0;
+	_alloccallsstacksize = 0;
 	ci = NULL;
 	INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this);
 }
@@ -306,6 +311,7 @@ bool SQVM::ToString(const SQObjectPtr &o,SQObjectPtr &res)
 				}
 			}
 		}
+        break;
 	default:
 		scsprintf(_sp(rsl(sizeof(void*)+20)),_SC("(%s : 0x%p)"),GetTypeName(o),(void*)_rawval(o));
 	}
@@ -561,7 +567,8 @@ bool SQVM::FOREACH_OP(SQObjectPtr &o1,SQObjectPtr &o2,SQObjectPtr
 			_generator(o1)->Resume(this, o3);
 			_FINISH(0);
 		}
-	default: 
+        break;
+	default:
 		Raise_Error(_SC("cannot iterate %s"), GetTypeName(o1));
 	}
 	return false; //cannot be hit(just to avoid warnings)
@@ -724,6 +731,7 @@ exception_restore:
 					continue;
 				}
 							  }
+                break;
 			case _OP_CALL: {
 					SQObjectPtr clo = STK(arg1);
 					switch (type(clo)) {

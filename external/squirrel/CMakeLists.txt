@@ -20,7 +20,7 @@
 ## Apply patch that fixes some Coverity errors
 
 ## Apply coverity patch to Squirrel?
-SET(APPLY_COVERITY_PATCH TRUE)
+SET(APPLY_COVERITY_PATCH FALSE)
 SET(WORKING_DIR WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 IF(APPLY_COVERITY_PATCH)

@@ -18,7 +18,24 @@
 #define TERMINATE_BUFFER() {_longstr.push_back(_SC('\0'));}
 #define ADD_KEYWORD(key,id) _keywords->NewSlot( SQString::Create(ss, _SC(#key)) ,SQInteger(id))
 
-SQLexer::SQLexer(){}
+SQLexer::SQLexer() :
+  _curtoken(0),
+  _keywords(NULL),
+  _reached_eof(false),
+  _prevtoken(0),
+  _currentline(0),
+  _lasttokenline(0),
+  _currentcolumn(0),
+  _svalue(NULL),
+  _nvalue(0),
+  _fvalue(0.0),
+  _readf(NULL),
+  _up(NULL),
+  _currdata('\0'),
+  _sharedstate(NULL),
+  _errfunc(NULL),
+  _errtarget(NULL)
+{}
 SQLexer::~SQLexer()
 {
 	_keywords->Release();
@@ -148,11 +165,11 @@ SQInteger SQLexer::Lex()
 			case _SC('='):
 				NEXT();
 				RETURN_TOKEN(TK_DIVEQ);
-				continue;
+				break;
 			case _SC('>'):
 				NEXT();
 				RETURN_TOKEN(TK_ATTR_CLOSE);
-				continue;
+				break;
 			default:
 				RETURN_TOKEN('/');
 			}
@@ -192,6 +209,7 @@ SQInteger SQLexer::Lex()
 			NEXT();
 			if (CUR_CHAR != _SC('=')){ RETURN_TOKEN('!')}
 			else { NEXT(); RETURN_TOKEN(TK_NE); }
+            break;
 		case _SC('@'): {
 			SQInteger stype;
 			NEXT();
@@ -203,6 +221,7 @@ SQInteger SQLexer::Lex()
 			}
 			Error(_SC("error parsing the string"));
 					   }
+            break;
 		case _SC('"'):
 		case _SC('\''): {
 			SQInteger stype;
@@ -211,6 +230,7 @@ SQInteger SQLexer::Lex()
 			}
 			Error(_SC("error parsing the string"));
 			}
+            break;
 		case _SC('{'): case _SC('}'): case _SC('('): case _SC(')'): case _SC('['): case _SC(']'):
 		case _SC(';'): case _SC(','): case _SC('?'): case _SC('^'): case _SC('~'):
 			{SQInteger ret = CUR_CHAR;

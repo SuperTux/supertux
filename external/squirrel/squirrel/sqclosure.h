@@ -10,7 +10,7 @@ struct SQClass;
 struct SQClosure : public CHAINABLE_OBJ
 {
 private:
-	SQClosure(SQSharedState *ss,SQFunctionProto *func){_function = func; __ObjAddRef(_function); _base = NULL; INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this); _env = NULL;}
+    SQClosure(SQSharedState *ss,SQFunctionProto *func): _outervalues(NULL), _defaultparams(NULL) {_function = func; __ObjAddRef(_function); _base = NULL; INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this); _env = NULL;}
 public:
 	static SQClosure *Create(SQSharedState *ss,SQFunctionProto *func){
 		SQInteger size = _CALC_CLOSURE_SIZE(func);
@@ -139,7 +139,7 @@ public:
 struct SQNativeClosure : public CHAINABLE_OBJ
 {
 private:
-	SQNativeClosure(SQSharedState *ss,SQFUNCTION func){_function=func;INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this); _env = NULL;}
+	SQNativeClosure(SQSharedState *ss,SQFUNCTION func): _nparamscheck(0), _outervalues(NULL), _noutervalues(0){_function=func;INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this); _env = NULL;}
 public:
 	static SQNativeClosure *Create(SQSharedState *ss,SQFUNCTION func,SQInteger nouters)
 	{
