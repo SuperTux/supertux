@@ -902,11 +902,12 @@
     (name "LavaFlow")
     (tiles
       2136 2137 2138 2139
+      3286 3287 3288 3289
       1711 1707 1701 1714
       1709 1710 1712 1715
       1708 0    1716 1704
       1705 1700 1703 1702
-      1706 0    1713)
+      1706 0    1713 0   )
   )
   (tilegroup
     (name "Exits")
@@ -4442,5 +4443,34 @@
     )
     (image "tiles/castle/grey7.png")
   )
-  ;; next-id: 3285
+  (tiles
+    (width 4)
+    (height 1)
+    (ids
+      3286 3287 3288 3289
+    )
+    (attributes
+      1024 1024 1024 1024
+    )
+    (image
+      "tiles/lava/lava-9.png"
+      "tiles/lava/lava-10.png"
+      "tiles/lava/lava-11.png"
+      "tiles/lava/lava-12.png"
+      "tiles/lava/lava-13.png"
+      "tiles/lava/lava-14.png"
+      "tiles/lava/lava-15.png"
+      "tiles/lava/lava-16.png"
+      "tiles/lava/lava-17.png"
+      "tiles/lava/lava-18.png"
+      "tiles/lava/lava-19.png"
+      "tiles/lava/lava-20.png"
+      "tiles/lava/lava-21.png"
+      "tiles/lava/lava-22.png"
+      "tiles/lava/lava-23.png"
+      "tiles/lava/lava-24.png"
+    )
+    (fps 16)
+  )
+  ;; next-id: 3290
   )
