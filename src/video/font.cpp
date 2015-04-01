@@ -17,6 +17,7 @@
 
 #include <config.h>
 
+#include <iostream>
 #include <sstream>
 #include <stdlib.h>
 #include <string.h>
@@ -87,7 +88,8 @@ void
 Font::loadFontFile(const std::string &filename)
 {
   lisp::Parser parser;
-  log_debug << "Loading font: " << filename << std::endl;
+  // FIXME: Workaround for a crash on MSYS2 when starting with --debug
+  std::cout << "[DEBUG] " << "Loading font: " << filename << std::endl;
   const lisp::Lisp* root = parser.parse(filename);
   const lisp::Lisp* config_l = root->get_lisp("supertux-font");
 
