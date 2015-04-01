@@ -16,6 +16,9 @@ addon manager improved
 new tilemap- halloween
 new powerups: air- and earth-flower
 
+support for horizontal gradients in levels (add 
+(direction "vertical|horizontal") to your level)
+
 Supertux Release 0.3.4 (2013-07)
 --------------------------------
 
