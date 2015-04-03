@@ -24,23 +24,23 @@
 
 LogLevel g_log_level = LOG_WARNING;
 
-static std::ostream& get_logging_instance (void)
+static std::ostream& get_logging_instance (bool use_console_buffer = true)
 {
-  if (ConsoleBuffer::current())
+  if (ConsoleBuffer::current() && use_console_buffer)
     return (ConsoleBuffer::output);
   else
     return (std::cerr);
 }
 
-static std::ostream& log_generic_f (const char *prefix, const char* file, int line)
+static std::ostream& log_generic_f (const char *prefix, const char* file, int line, bool use_console_buffer = true)
 {
-  get_logging_instance () << prefix << " " << file << ":" << line << " ";
-  return (get_logging_instance ());
+  get_logging_instance (use_console_buffer) << prefix << " " << file << ":" << line << " ";
+  return (get_logging_instance (use_console_buffer));
 }
 
-std::ostream& log_debug_f(const char* file, int line)
+std::ostream& log_debug_f(const char* file, int line, bool use_console_buffer = true)
 {
-  return (log_generic_f ("[DEBUG]", file, line));
+  return (log_generic_f ("[DEBUG]", file, line, use_console_buffer));
 }
 
 std::ostream& log_info_f(const char* file, int line)

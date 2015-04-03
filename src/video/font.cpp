@@ -89,7 +89,7 @@ Font::loadFontFile(const std::string &filename)
 {
   lisp::Parser parser;
   // FIXME: Workaround for a crash on MSYS2 when starting with --debug
-  std::cout << "[DEBUG] " << "Loading font: " << filename << std::endl;
+  log_debug_ << "Loading font: " << filename << std::endl;
   const lisp::Lisp* root = parser.parse(filename);
   const lisp::Lisp* config_l = root->get_lisp("supertux-font");
 

@@ -23,8 +23,9 @@
 enum LogLevel { LOG_NONE, LOG_FATAL, LOG_WARNING, LOG_INFO, LOG_DEBUG };
 extern LogLevel g_log_level;
 
-std::ostream& log_debug_f(const char* file, int line);
-#define log_debug if (g_log_level < LOG_DEBUG) {} else log_debug_f(__FILE__, __LINE__)
+std::ostream& log_debug_f(const char* file, int line, bool use_console_buffer);
+#define log_debug if (g_log_level < LOG_DEBUG) {} else log_debug_f(__FILE__, __LINE__, true)
+#define log_debug_ if (g_log_level < LOG_DEBUG) {} else log_debug_f(__FILE__, __LINE__, false)
 
 std::ostream& log_info_f(const char* file, int line);
 #define log_info if (g_log_level < LOG_INFO) {} else log_info_f(__FILE__, __LINE__)
