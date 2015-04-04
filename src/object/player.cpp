@@ -403,6 +403,7 @@ Player::update(float elapsed_time)
   // set fall mode...
   if(on_ground()) {
     fall_mode = ON_GROUND;
+    last_ground_x = get_pos().x;
     last_ground_y = get_pos().y;
   } else {
     if(get_pos().y > last_ground_y)
@@ -488,7 +489,9 @@ Player::update(float elapsed_time)
 bool
 Player::on_ground()
 {
-  return on_ground_flag;
+  return on_ground_flag ||
+           (fabsf(get_pos().y - last_ground_y) < 0.5 &&
+           fabsf(get_pos().x - last_ground_x) < 0.5);
 }
 
 bool
@@ -1245,10 +1248,8 @@ Player::draw(DrawingContext& context)
   else if ((wants_buttjump || does_buttjump) && is_big()) {
     sprite->set_action(sa_prefix+"-buttjump"+sa_postfix);
   }
-  else if (!on_ground() || fall_mode != ON_GROUND) {
-    if(physic.get_velocity_x() != 0 || fall_mode != ON_GROUND) {
-        sprite->set_action(sa_prefix+"-jump"+sa_postfix);
-    }
+  else if (!on_ground()) {
+    sprite->set_action(sa_prefix+"-jump"+sa_postfix);
   }
   else {
     if (fabsf(physic.get_velocity_x()) < 1.0f) {

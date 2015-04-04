@@ -291,7 +291,7 @@ public:
   Direction dir;
   Direction old_dir;
 
-  float last_ground_y;
+  float last_ground_x, last_ground_y;
   FallMode fall_mode;
 
   bool on_ground_flag;
