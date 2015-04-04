@@ -491,7 +491,8 @@ Player::on_ground()
 {
   return on_ground_flag ||
            (fabsf(get_pos().y - last_ground_y) < 0.5 &&
-           fabsf(get_pos().x == last_ground_x));
+           fabsf(get_pos().x == last_ground_x) &&
+           floor_normal.y != 0);
 }
 
 bool
