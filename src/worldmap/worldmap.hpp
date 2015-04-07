@@ -227,8 +227,7 @@ public:
   void set_levels_solved(bool solved, bool perfect);
 
 private:
-  void get_level_title(LevelTile& level);
-  void get_level_target_time(LevelTile& level);
+  void load_level_information(LevelTile& level);
   void draw_status(DrawingContext& context);
   void calculate_total_stats();
 
@@ -239,6 +238,7 @@ private:
   void clamp_camera_position(Vector& c);
   Vector last_position;
   float last_target_time;
+  std::string last_title;
 
 private:
   WorldMap(const WorldMap&);

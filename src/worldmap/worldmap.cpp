@@ -344,10 +344,17 @@ WorldMap::load(const std::string& filename)
 }
 
 void
-WorldMap::get_level_title(LevelTile& level)
+WorldMap::load_level_information(LevelTile& level)
 {
+  if(last_position == tux->get_tile_pos())
+  {
+    return;
+  }
+
+  last_position = tux->get_tile_pos();
   /** get special_tile's title */
   level.title = "<no title>";
+  level.target_time = 0.0f;
 
   try {
     lisp::Parser parser;
@@ -358,36 +365,10 @@ WorldMap::get_level_title(LevelTile& level)
       return;
 
     level_lisp->get("name", level.title);
-  } catch(std::exception& e) {
-    log_warning << "Problem when reading leveltitle: " << e.what() << std::endl;
-    return;
-  }
-}
-
-void
-WorldMap::get_level_target_time(LevelTile& level)
-{
-  if(last_position == tux->get_tile_pos()) {
-    level.target_time = last_target_time;
-    return;
-  }
-
-  last_position = level.pos;
-
-  try {
-    lisp::Parser parser;
-    const lisp::Lisp* root = parser.parse(levels_path + level.get_name());
-
-    const lisp::Lisp* level_lisp = root->get_lisp("supertux-level");
-    if(!level_lisp)
-      return;
-
     level_lisp->get("target-time", level.target_time);
 
-    last_target_time = level.target_time;
-
   } catch(std::exception& e) {
-    log_warning << "Problem when reading level target time: " << e.what() << std::endl;
+    log_warning << "Problem when reading level information: " << e.what() << std::endl;
     return;
   }
 }
@@ -493,7 +474,9 @@ WorldMap::finished_level(Level* gamelevel)
   // deal with statistics
   level->statistics.merge(gamelevel->stats);
   calculate_total_stats();
-  get_level_target_time(*level);
+  if (level->target_time == 0.0f)
+    load_level_information(*level);
+
   if(level->statistics.completed(level->statistics, level->target_time)) {
     level->perfect = true;
     if(level->sprite->has_action("perfect"))
@@ -846,7 +829,7 @@ WorldMap::draw_status(DrawingContext& context)
 
       if (level->pos == tux->get_tile_pos()) {
         if(level->title == "")
-          get_level_title(*level);
+          load_level_information(*level);
 
         context.draw_text(Resources::normal_font, level->title,
                           Vector(SCREEN_WIDTH/2,
@@ -867,7 +850,7 @@ WorldMap::draw_status(DrawingContext& context)
         */
 
         if (level->target_time == 0.0f)
-          get_level_target_time(*level);
+          load_level_information(*level);
         level->statistics.draw_worldmap_info(context, level->target_time);
         break;
       }
