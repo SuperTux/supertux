@@ -372,6 +372,8 @@ WorldMap::get_level_target_time(LevelTile& level)
     return;
   }
 
+  last_position = level.pos;
+
   try {
     lisp::Parser parser;
     const lisp::Lisp* root = parser.parse(levels_path + level.get_name());
@@ -382,7 +384,6 @@ WorldMap::get_level_target_time(LevelTile& level)
 
     level_lisp->get("target-time", level.target_time);
 
-    last_position = level.pos;
     last_target_time = level.target_time;
 
   } catch(std::exception& e) {
