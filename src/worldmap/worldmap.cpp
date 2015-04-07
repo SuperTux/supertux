@@ -1119,7 +1119,7 @@ WorldMap::load_state()
 }
 
 size_t
-WorldMap::level_count()
+WorldMap::level_count() const
 {
   return levels.size();
 }

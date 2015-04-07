@@ -158,7 +158,7 @@ public:
    */
   int tile_data_at(Vector pos);
 
-  size_t level_count();
+  size_t level_count() const;
   size_t solved_level_count();
 
   /**
@@ -170,7 +170,7 @@ public:
   /** returns current Tux incarnation */
   Tux* get_tux() { return tux.get(); }
 
-  Savegame& get_savegame() { return m_savegame; }
+  Savegame& get_savegame() const { return m_savegame; }
 
   LevelTile* at_level();
   SpecialTile* at_special_tile();
