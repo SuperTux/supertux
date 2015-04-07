@@ -196,7 +196,11 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
       control = Controller::START;
       break;
     default:
-      return;
+      if(m_keyboard_config.keymap.count(event.keysym.sym) == 0)
+      {
+        return;
+      }
+      control = m_keyboard_config.keymap[event.keysym.sym];
       break;
   }
 
