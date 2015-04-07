@@ -108,8 +108,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   in_level(false),
   pan_pos(),
   panning(false),
-  last_position(),
-  last_target_time()
+  last_position()
 {
   tux = std::make_shared<Tux>(this);
   add_object(tux);
