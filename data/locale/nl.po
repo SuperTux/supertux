@@ -6,13 +6,14 @@
 # Frank van der Loo <frank_l@linuxmail.org>, 2004
 # Frank van der Loo <f.vanderloo@gmail.com>, 2014
 # Pieter De Decker <pdedecker@gmail.com>, 2007,2013
+# Toon van Gerwen <papillon@vgerwen.nl>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-31 07:40+0000\n"
-"PO-Revision-Date: 2014-11-14 00:33+0000\n"
-"Last-Translator: Frank van der Loo <f.vanderloo@gmail.com>\n"
+"PO-Revision-Date: 2015-03-10 19:11+0000\n"
+"Last-Translator: Toon van Gerwen <papillon@vgerwen.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/supertux/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 
 #: src/control/joystick_config.cpp:83
 msgid "Joystick Mappings"
-msgstr ""
+msgstr "Bedieningshendel bewegingen"
 
 #: src/supertux/command_line_arguments.cpp:74
 #, c-format
@@ -43,16 +44,16 @@ msgstr "-v, --version Toon de versie van SuperTux en sluit af"
 
 #: src/supertux/command_line_arguments.cpp:78
 msgid "  --verbose                    Print verbose messages"
-msgstr ""
+msgstr "--Brede weergave van uitgebreide berichten"
 
 #: src/supertux/command_line_arguments.cpp:79
 msgid "  --debug                      Print extra verbose messages"
-msgstr ""
+msgstr "--debug Print extra uitgebreide berichten"
 
 #: src/supertux/command_line_arguments.cpp:80
 msgid ""
 "  --print-datadir              Print supertux's primary data directory."
-msgstr ""
+msgstr "  --print-datadir              Print supertux's primare data map."
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "Video Options:"
@@ -60,11 +61,11 @@ msgstr "Video-opties:"
 
 #: src/supertux/command_line_arguments.cpp:82
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr ""
+msgstr "  -f, --fullscreen             Speel in de volledige scherm weergave"
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  -w, --window                 Run in window mode"
-msgstr ""
+msgstr "  -w, --window                 Speel in window weergave"
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
@@ -116,7 +117,7 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "  --developer                  Switch on developer feature"
-msgstr ""
+msgstr "  --ontwikkelaar                  Schakel ontwikkelaars functionaliteit aan"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  -s, --debug-scripts          Enable script debugger."
@@ -124,7 +125,7 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "Demo Recording Options:"
-msgstr ""
+msgstr "Demo opname opties:"
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
@@ -136,7 +137,7 @@ msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid "Directory Options:"
-msgstr ""
+msgstr "Map opties:"
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid ""
@@ -169,7 +170,7 @@ msgstr "bijgedragen door %s"
 
 #: src/supertux/levelintro.cpp:110 src/supertux/statistics.cpp:117
 msgid "Best Level Statistics"
-msgstr "Levelrecords"
+msgstr "Beste level statistieken"
 
 #: src/supertux/levelintro.cpp:116 src/supertux/statistics.cpp:205
 msgid "Coins"
@@ -189,11 +190,11 @@ msgstr "Snelste tijd"
 
 #: src/supertux/levelintro.cpp:144
 msgid "Level target time"
-msgstr ""
+msgstr "Level doeltijd"
 
 #: src/supertux/menu/addon_menu.cpp:47
 msgid "Levelset"
-msgstr ""
+msgstr "Niveau instelling"
 
 #: src/supertux/menu/addon_menu.cpp:50
 msgid "Worldmap"
@@ -214,23 +215,23 @@ msgstr "%s \"%s\" door \"%s\""
 
 #: src/supertux/menu/addon_menu.cpp:103 src/supertux/menu/main_menu.cpp:43
 msgid "Add-ons"
-msgstr ""
+msgstr "Add-ons"
 
 #: src/supertux/menu/addon_menu.cpp:109
 msgid "No Addons installed"
-msgstr ""
+msgstr "Geen Add-ons geïnstalleerd"
 
 #: src/supertux/menu/addon_menu.cpp:163
 msgid "No new Addons found"
-msgstr ""
+msgstr "Geen nieuwe Add-ons gevonden"
 
 #: src/supertux/menu/addon_menu.cpp:169
 msgid "Check Online (disabled)"
-msgstr ""
+msgstr "Online controle (uitgeschakeld)"
 
 #: src/supertux/menu/addon_menu.cpp:173
 msgid "Check Online"
-msgstr ""
+msgstr "Online controleren"
 
 #: src/supertux/menu/addon_menu.cpp:177 src/supertux/menu/cheat_menu.cpp:39
 #: src/supertux/menu/contrib_levelset_menu.cpp:68
@@ -291,7 +292,7 @@ msgstr "Download Afbreken"
 
 #: src/supertux/menu/download_dialog.cpp:44
 msgid "Error:\n"
-msgstr ""
+msgstr "Error:\n"
 
 #: src/supertux/menu/download_dialog.cpp:45
 msgid "Ok"
@@ -322,7 +323,7 @@ msgstr "Joystick configureren"
 
 #: src/supertux/menu/joystick_menu.cpp:53
 msgid "Manual Configuration"
-msgstr ""
+msgstr "Handmatige configuratie"
 
 #: src/supertux/menu/joystick_menu.cpp:55
 msgid ""
@@ -391,7 +392,7 @@ msgstr "Console"
 #: src/supertux/menu/joystick_menu.cpp:82
 #: src/supertux/menu/keyboard_menu.cpp:44
 msgid "Cheat Menu"
-msgstr ""
+msgstr "Vals speel menu"
 
 #: src/supertux/menu/joystick_menu.cpp:84
 #: src/supertux/menu/keyboard_menu.cpp:46
@@ -470,11 +471,11 @@ msgstr "Alt (links)"
 
 #: src/supertux/menu/keyboard_menu.cpp:86
 msgid "Right Command"
-msgstr ""
+msgstr "Rechter commando"
 
 #: src/supertux/menu/keyboard_menu.cpp:88
 msgid "Left Command"
-msgstr ""
+msgstr "Linker commando"
 
 #: src/supertux/menu/keyboard_menu.cpp:98
 msgid "Press Key"
@@ -544,15 +545,15 @@ msgstr "Resolutie"
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
-msgstr ""
+msgstr "Bepaal de resolutie voor het volledige scherm (schakel het volledige scherm om de verandering vast te stellen)"
 
 #: src/supertux/menu/options_menu.cpp:67
 msgid "Magnification"
-msgstr ""
+msgstr "Vergrotingsfactor"
 
 #: src/supertux/menu/options_menu.cpp:68
 msgid "Change the magnification of the game area"
-msgstr ""
+msgstr "Verander de vergrotingsfactor van het spel gebied"
 
 #: src/supertux/menu/options_menu.cpp:72
 #: src/supertux/menu/options_menu.cpp:158
@@ -563,11 +564,11 @@ msgstr "auto"
 
 #: src/supertux/menu/options_menu.cpp:155
 msgid "Aspect Ratio"
-msgstr ""
+msgstr "Verhouding accepteren"
 
 #: src/supertux/menu/options_menu.cpp:156
 msgid "Adjust the aspect ratio"
-msgstr ""
+msgstr "De geaccepteerde verhouding bewerken"
 
 #: src/supertux/menu/options_menu.cpp:190
 msgid "Sound"
@@ -595,11 +596,11 @@ msgstr "Muziek (uitgeschakeld)"
 
 #: src/supertux/menu/options_menu.cpp:200
 msgid "Configure key-action mappings"
-msgstr ""
+msgstr "Cursor actie bewegingen configureren"
 
 #: src/supertux/menu/options_menu.cpp:203
 msgid "Configure joystick control-action mappings"
-msgstr ""
+msgstr "Bedieningshendel bewegingen configureren"
 
 #: src/supertux/menu/options_menu.cpp:207
 msgid "Developer Mode"
@@ -611,15 +612,15 @@ msgstr "Bonus: Geen"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:37
 msgid "Reset Level"
-msgstr ""
+msgstr "Level afbreken"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
 msgid "Finish WorldMap"
-msgstr ""
+msgstr "Beeindig wereldkaart"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:40
 msgid "Reset WorldMap"
-msgstr ""
+msgstr "Reset wereldkaart"
 
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
@@ -635,7 +636,7 @@ msgstr "Meeste muntjes:"
 
 #: src/supertux/statistics.cpp:132
 msgid "Max fragging:"
-msgstr ""
+msgstr "Meest gedode monsters:"
 
 #: src/supertux/statistics.cpp:136
 msgid "Max secrets found:"
@@ -647,7 +648,7 @@ msgstr "Snelste tijd:"
 
 #: src/supertux/statistics.cpp:145
 msgid "Level target time:"
-msgstr ""
+msgstr "Level doeltijd:"
 
 #: src/supertux/statistics.cpp:201
 msgid "You"
@@ -659,7 +660,7 @@ msgstr "Record"
 
 #: src/supertux/statistics.cpp:213
 msgid "Badguys"
-msgstr ""
+msgstr "Vijanden"
 
 #: src/supertux/statistics.cpp:229
 msgid "Time"
@@ -677,7 +678,7 @@ msgstr ""
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."
-msgstr ""
+msgstr "Vooruit met de geit"
 
 #: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"

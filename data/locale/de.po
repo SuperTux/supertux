@@ -8,13 +8,13 @@
 # Ettore Atalan <atalanttore@googlemail.com>, 2014
 # Marcel Haring, 2013-2014
 # Matthias Braun <matze@braunis.de>, 2004
-# Tobias Markus <tobbi@mozilla-uk.org>, 2013-2014
+# Tobias Markus <tobbi@mozilla-uk.org>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-31 07:40+0000\n"
-"PO-Revision-Date: 2014-10-04 21:59+0000\n"
+"PO-Revision-Date: 2015-03-21 15:17+0000\n"
 "Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -662,7 +662,7 @@ msgstr "Rekord"
 
 #: src/supertux/statistics.cpp:213
 msgid "Badguys"
-msgstr "Monster"
+msgstr "Gegner"
 
 #: src/supertux/statistics.cpp:229
 msgid "Time"
