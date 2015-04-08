@@ -44,5 +44,16 @@ sparkle-3.png
 sparkle-4.png
 sparkle-5.png
 ))
-)
+ (action
+  (name "iced-left")
+  (hitbox 3 26 36 40)
+  (images "juicebox-freeze.png"))
+ 
+ (action
+  (name "iced-right")
+  (hitbox 3 26 36 40)
+  (mirror-action "iced-left")
+))
+
+
 
