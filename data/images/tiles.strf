@@ -751,6 +751,9 @@
       1990 1991 3061 3065
       1992 1993 3062 3066
       1994 1995 3063 3067
+      3285 3286 0    0
+      3287 3288 0    0
+      3289 3290 0    0
     )
   )
   (tilegroup
@@ -4442,5 +4445,15 @@
     )
     (image "tiles/castle/grey7.png")
   )
-  ;; next-id: 3285
+(tiles
+    (width 2)
+    (height 3)
+    (ids
+     3285 3286 
+     3287 3288
+     3289 3290
+    )
+    (image "tiles/doodads/tux-statue.png")
+  )
+  ;; next-id: 3290
   )
