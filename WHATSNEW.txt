@@ -1,7 +1,21 @@
-Supertux Release 0.3.5 (TBA)
+Supertux Release 0.3.5 (2015-04-11)
 --------------------------------
 
-Tracking major changes in-situ:
+
+In celebration of SuperTux’s 15 year anniversary, we are releasing SuperTux 0.3.5.
+
+This release includes the switch to SDL2 for graphics rendering, a few performance
+improvements, tons of bugfixes, new tiles and badguys amongst other things.
+
+NOTE: Due to the planned shutdown of Google Code, the SuperTux source code has moved to
+GitHub. You can find all the repositories here: https://github.com/SuperTux/supertux
+
+A changelog for this release is available at
+http://supertux.lethargik.org/wiki/Changelog_0.3.5
+
+Major changes in this release:
+
+move to SDL2 for graphics rendering
 glow effects
 new badguys: iceflame, ghostflame, livefire, goldbomb, smartblock
 new bonuses: coinrain, coinexplode
@@ -10,12 +24,10 @@ icy island levels tweaked
 new sounds
 massive improvements to localization
 efficiency tweaks
-move to SDL2
 menus reworked
 addon manager improved
-new tilemap- halloween
+new tilemap: halloween
 new powerups: air- and earth-flower
-
 support for horizontal gradients in levels (add 
 (direction "vertical|horizontal") to your level)
 

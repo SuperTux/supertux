@@ -38,7 +38,7 @@ PROJECT(SUPERTUX)
 
 ## Version, for display in title bar.
 ## Will add 'commit <hash>' to the end if git is available and this is a git repository.
-SET(SUPERTUX_VERSION "0.3.4-GIT")
+SET(SUPERTUX_VERSION "0.3.5")
 
 ### CMake configuration
 
