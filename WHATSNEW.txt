@@ -2,7 +2,7 @@ Supertux Release 0.3.5 (2015-04-11)
 --------------------------------
 
 
-In celebration of SuperTux’s 15 year anniversary, we are releasing SuperTux 0.3.5.
+In celebration of SuperTux's 15 year anniversary, we are releasing SuperTux 0.3.5.
 
 This release includes the switch to SDL2 for graphics rendering, a few performance
 improvements, tons of bugfixes, new tiles and badguys amongst other things.
