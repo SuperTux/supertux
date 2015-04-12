@@ -83,6 +83,25 @@ private:
       type(type_),
       screen(std::move(screen_))
     {}
+    Action(Action &a) :
+      type(a.type),
+      screen(std::move(a.screen))
+    {}
+    Action(Action &&a) :
+      type(a.type),
+      screen(std::move(a.screen))
+    {}
+
+    Action& operator=(Action &a)
+    {
+      type = a.type;
+      screen = std::move(a.screen);
+    }
+    Action& operator=(Action &&a)
+    {
+      type = a.type;
+      screen = std::move(a.screen);
+    }
   };
 
   std::vector<Action> m_actions;

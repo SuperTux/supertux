@@ -18,9 +18,14 @@
 
 include (CheckLibraryExists)
 find_path(VORBIS_INCLUDE_DIR vorbis/vorbisfile.h)
+find_path(VORBIS_INCLUDE_DIR NAMES vorbis/vorbisfile.h PATHS "${VORBIS_INCLUDE_DIR}" "${PROJECT_SOURCE_DIR}/dependencies/include")
 find_library(OGG_LIBRARY NAMES ogg)
 find_library(VORBIS_LIBRARY NAMES vorbis)
 find_library(VORBISFILE_LIBRARY NAMES vorbisfile)
+find_library(OGG_LIBRARY NAMES ogg Ogg libogg PATHS "${PROJECT_SOURCE_DIR}/dependencies/lib")
+find_library(VORBIS_LIBRARY NAMES vorbis Vorbis libvorbis PATHS "${PROJECT_SOURCE_DIR}/dependencies/lib")
+find_library(VORBISFILE_LIBRARY NAMES vorbisfile libvorbisfile PATHS "${PROJECT_SOURCE_DIR}/dependencies/lib")
+
 if (VORBIS_INCLUDE_DIR AND VORBIS_LIBRARY AND VORBISFILE_LIBRARY)
    set(OGGVORBIS_FOUND TRUE)
 #  [sommer] (for SuperTux) reversed order of libraries, so that cmake 2.4.5 for Windows generates an MSYS Makefile that will link correctly

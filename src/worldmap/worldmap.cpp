@@ -25,7 +25,6 @@
 #include <physfs.h>
 #include <sstream>
 #include <stdexcept>
-#include <unistd.h>
 #include <vector>
 
 #include "audio/sound_manager.hpp"

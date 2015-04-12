@@ -500,7 +500,7 @@ Menu::draw_item(DrawingContext& context, int index)
     }
     case MN_BACK:
     {
-      context.draw_text(Resources::Resources::normal_font, pitem.text,
+      context.draw_text(Resources::normal_font, pitem.text,
                         Vector(pos.x, y_pos - int(Resources::normal_font->get_height()/2)),
                         ALIGN_CENTER, LAYER_GUI, text_color);
       context.draw_surface(Resources::back,
@@ -547,7 +547,7 @@ Menu::get_width() const
   float menu_width = 0;
   for(unsigned int i = 0; i < items.size(); ++i)
   {
-    FontPtr font = Resources::Resources::normal_font;
+    FontPtr font = Resources::normal_font;
     if(items[i]->kind == MN_LABEL)
       font = Resources::big_font;
 

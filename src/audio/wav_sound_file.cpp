@@ -19,6 +19,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <assert.h>
+#include <algorithm>
 
 #include "audio/sound_error.hpp"
 #include "util/log.hpp"
