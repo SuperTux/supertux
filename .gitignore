@@ -2,6 +2,12 @@
 build/
 build.*/
 supertux2
+# Windows build files
+Debug/
+Release/
+
+# Windows build dependencies
+dependencies/
 
 # Additional Repos/Translations
 supertux.*
