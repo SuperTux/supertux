@@ -4413,18 +4413,6 @@
     (width 2)
     (height 2)
     (ids
-      3273 3274 3275 3276
-    )
-    (attributes
-      0 0
-      0 0 
-    )
-    (image "tiles/castle/swall.png")
-  )
-  (tiles
-    (width 2)
-    (height 2)
-    (ids
       3277 3278 3279 3280
     )
     (attributes
