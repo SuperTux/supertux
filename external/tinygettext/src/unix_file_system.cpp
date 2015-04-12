@@ -21,7 +21,6 @@
 #include <fstream>
 #include <dirent.h>
 #include <stdlib.h>
-#include <dirent.h>
 #include <string.h>
 
 namespace tinygettext {

@@ -17,6 +17,7 @@
 
 #include "object/icecrusher.hpp"
 
+#include <algorithm>
 #include <math.h>
 
 #include "audio/sound_manager.hpp"

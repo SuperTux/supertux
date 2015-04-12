@@ -16,6 +16,8 @@
 
 #include "gui/dialog.hpp"
 
+#include <algorithm>
+
 #include "control/controller.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/menu.hpp"

@@ -17,6 +17,7 @@
 
 #include "tinygettext/language.hpp"
 
+#include <algorithm>
 #include <assert.h>
 #include <unordered_map>
 #include <vector>

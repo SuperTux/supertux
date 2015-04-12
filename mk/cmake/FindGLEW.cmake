@@ -7,11 +7,11 @@
 #   
 
    FIND_PATH( GLEW_INCLUDE_DIR glew.h wglew.h
-              PATHS /usr/local /usr c:/glew "C:/Program Files/Microsoft Visual Studio 8/VC/PlatformSDK" "C:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK"
+              PATHS /usr/local /usr c:/glew "C:/Program Files/Microsoft Visual Studio 8/VC/PlatformSDK" "C:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK" "${PROJECT_SOURCE_DIR}/dependencies"
               PATH_SUFFIXES include include/gl include/GL Include Include/gl Include/GL )
    FIND_LIBRARY( GLEW_LIBRARY
                  NAMES glew32 glew GLEW
-                 PATHS /usr /usr/local c:/glew "C:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK"  "C:/Program Files/Microsoft Visual Studio 8/VC/PlatformSDK"
+                 PATHS /usr /usr/local c:/glew "C:/Program Files/Microsoft Visual Studio .NET 2003/Vc7/PlatformSDK"  "C:/Program Files/Microsoft Visual Studio 8/VC/PlatformSDK" "${PROJECT_SOURCE_DIR}/dependencies"
                  PATH_SUFFIXES lib Lib
                )
 

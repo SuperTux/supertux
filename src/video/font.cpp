@@ -17,6 +17,7 @@
 
 #include <config.h>
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <stdlib.h>
@@ -206,7 +207,7 @@ Font::loadFontSurface(
       Glyph glyph;
       glyph.surface_idx   = surface_idx;
 
-      if( glyph_width_ == FIXED || isdigit(*chr) )
+      if( glyph_width_ == FIXED || (*chr >= 0 && *chr <= 255 && isdigit(*chr)) )
       {
         glyph.rect    = Rectf(x, y, x + char_width, y + char_height);
         glyph.offset  = Vector(0, 0);

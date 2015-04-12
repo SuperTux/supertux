@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 #define HEADER_SUPERTUX_OBJECT_TILEMAP_HPP
 
+#include <algorithm>
+
 #include "object/path_walker.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"

@@ -48,6 +48,10 @@
 #include "util/gettext.hpp"
 #include "worldmap/worldmap.hpp"
 
+#ifdef WIN32
+#  define snprintf _snprintf
+#endif
+
 GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
   level(),
   statistics_backdrop(Surface::create("images/engine/menu/score-backdrop.png")),

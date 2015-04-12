@@ -348,7 +348,9 @@ _obstack_memory_used (struct obstack *h)
 }
 
 static void
+#ifndef WIN32
 __attribute__ ((noreturn))
+#endif
 print_and_abort (void)
 {
   /* Don't change any of these strings.  Yes, it would be possible to add

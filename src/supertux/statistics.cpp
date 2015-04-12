@@ -18,6 +18,7 @@
 
 #include "supertux/statistics.hpp"
 
+#include <algorithm>
 #include <iomanip>
 #include <limits>
 
