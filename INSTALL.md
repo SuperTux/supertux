@@ -25,45 +25,56 @@ from the websites. You can also check
 build instructions for a variety of different platforms and
 distributions.
 
-* Linux development tools (your distribution should come with these):
-  - gcc compiler suite version 3.2 or newer (you need the c++ compiler
-    g++) <http://gcc.gnu.org>
-  - gnu binutils <http://www.gnu.org/software/binutils>
-  - a shell and POSIX commandline tools
-* CMake 2.6 or later:
-  [Download](http://www.cmake.org/HTML/Download.html);
-  [Homepage](http://www.cmake.org/)
+* General development tools:
+  - C++ compiler (choose one of the two options below):
+    + [gcc compiler suite](http://gcc.gnu.org) version 3.2 or newer (including g++)
+    + [LLVM compiler](http://llvm.org/) (you probably want the clang frontend too)
+  - [GNU Binutils](http://www.gnu.org/software/binutils) (or the BSD/OS X equivalent)
+  - a shell and common POSIX command line tools
+  - **Note:** To get these tools, you can install `build-essential` on Debian-based distros,
+    `base-devel` on Arch-based distros and the Xcode Command Line tools on OS X.
+* [CMake](http://www.cmake.org/) 2.6 or later: most package managers ship this as `cmake`
 * OpenGL headers and libraries: OpenGL libraries and headers are
   specific to your graphics card. Make sure that you have hardware
   accelerated OpenGL drivers installed. Software renderers like Mesa
   will make SuperTux unplayable slow.
-* SDL2 2.0.0 or later <http://www.libsdl.org>
-* SDL2_image (2.0.0 or later)
-  <http://www.libsdl.org/projects/SDL_image>
-* PhysicsFS (1.0.x or 2.0.x) <http://www.icculus.org/physfs>
-* OpenAL: There are no official Linux releases of OpenAL yet, you
-  should grab the latest CVS snapshot (any snapshot from 2005 should
-  work, earlier snapshots tend to have bugs). OpenAL 1.0 or later
-  implementations on other systems like Mac OS X or windows should
-  work. <http://www.openal.org>
-* GLEW <http://glew.sourceforge.net/>
-OR
-* glbinding <https://github.com/hpicgs/glbinding>
-* Boost's smart_ptr and format headers <http://www.boost.org/>
-* cURL <http://curl.haxx.se/libcurl/>
+* [SDL2](http://www.libsdl.org) (2.0.0 or later)
+* [SDL2_image](http://www.libsdl.org/projects/SDL_image) (2.0.0 or later)
+* [PhysFS](http://www.icculus.org/physfs) (1.0.x or 2.0.x)
+* [OpenAL](http://www.openal.org): There are no official Linux releases
+  of OpenAL yet (however, many distributions have OpenAL in their package
+  archives), you should grab the latest CVS snapshot (any snapshot from 2005
+  should work, earlier snapshots tend to have bugs). OpenAL 1.0 or later
+  implementations on other systems like Mac OS X or windows should work.
+* C++ OpenGL library (choose one of the two options below):
+  - [GLEW](http://glew.sourceforge.net/) or
+  - [glbinding](https://github.com/hpicgs/glbinding)
+* [Boost's](http://www.boost.org) smart_ptr and format headers
+* [cURL](http://curl.haxx.se/libcurl/): for Add-on downloads
+* [libogg and libvorbis](https://www.xiph.org/)
 
-Note: We tried to write our code clean, portable and platform neutral,
-so it should be possible to compile it on a wide range of platforms
-and also with other compilers than gcc. However we have no resources
-to test other setups and it is likely that you hit small problems.
-Reports and binary compiled packages are of course always welcome.
-Send them to supertux-devel@lists.lethargik.org
+**Note I:** for any of the above listed libraries (OpenGL, SDL2, SDL2_image,
+PhysFS, OpenAL, GLEW/glbinding, Boost, cURL, libogg and libvorbis), you should
+also have development headers installed. Debian-based distributions have `-devel`
+packages containing the mentioned headers, on Arch Linux these should be included
+in the library package.
 
-Note about glbinding: To use glbinding instead of GLEW, open 
+**Note II:** We tried to write our code clean, portable and platform neutral,
+so it should be possible to compile it on a wide range of platforms and also
+with other compilers than gcc or clang. We use [Travis CI](https://travis-ci.org/)
+to test commits and pull requests in our repository, but unfortunately it's not
+always possible to test the code in very exotic setups. However, feel free to
+report issues to our bug tracker on GitHub or to supertux-devel@lists.lethargik.org.
+
+**Note III (regarding glbinding):** To use glbinding instead of GLEW, open
 CMakeLists.txt and change this line from
+```
 OPTION(GLBINDING_ENABLED "Use glbinding instead of GLEW" OFF)
+```
 to
+```
 OPTION(GLBINDING_ENABLED "Use glbinding instead of GLEW" ON)
+```
 
 
 Installing under Linux/UNIX using CMake
