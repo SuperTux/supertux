@@ -21,6 +21,10 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
+#ifdef WIN32
+#  define snprintf _snprintf
+#endif
+
 FloatingText::FloatingText(const Vector& pos, const std::string& text_) :
   position(pos),
   text(text_),

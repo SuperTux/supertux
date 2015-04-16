@@ -50,7 +50,11 @@ public:
   const Lisp* parse(std::istream& stream, const std::string& sourcename);
 
 private:
-  void parse_error(const char* msg) const __attribute__((__noreturn__));
+  void parse_error(const char* msg) const
+#ifndef WIN32
+    __attribute__((__noreturn__))
+#endif
+    ;
   const Lisp* read();
 
 

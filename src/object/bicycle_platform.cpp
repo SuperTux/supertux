@@ -16,6 +16,7 @@
 
 #include "object/bicycle_platform.hpp"
 
+#include <algorithm>
 #include <math.h>
 
 #include "object/player.hpp"

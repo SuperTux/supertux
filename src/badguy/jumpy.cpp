@@ -20,6 +20,8 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
+#include <algorithm>
+
 static const float JUMPYSPEED=-600;
 static const float JUMPY_MID_TOLERANCE=4;
 static const float JUMPY_LOW_TOLERANCE=2;

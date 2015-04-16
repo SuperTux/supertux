@@ -16,6 +16,8 @@
 
 #include "object/infoblock.hpp"
 
+#include <algorithm>
+
 #include "object/player.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
