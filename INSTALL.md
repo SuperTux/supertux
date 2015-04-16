@@ -84,23 +84,23 @@ SuperTux uses CMake to generate a set of Makefiles for the build
 process. To generate these Makefiles and build SuperTux, perform the
 following steps:
 
-1. `cd' to the directory where you unpacked the SuperTux source
-   archive, i.e. to the directory containing `src' and `data'.
+1. `cd` to the directory where you unpacked the SuperTux source
+   archive, i.e. to the directory containing `src` and `data`.
 
 2. Create and change to a new, empty build directory by running `mkdir
-   build', `cd build'.
+   build`, `cd build`.
 
-3. Run `cmake ..' to create the Makefiles needed to build SuperTux
+3. Run `cmake ..` to create the Makefiles needed to build SuperTux
    with standard options. If you are missing any libraries needed to
    build SuperTux, install those first, then try running CMake again.
    See below for instructions on how to change to standard options.
 
-4. Type `make' to start the build process.
+4. Type `make` to start the build process.
 
-5. Type `make install' to install the programs and any data files and
+5. Type `make install` to install the programs and any data files and
    documentation. (You should be a root user on Linux systems. You can
-   become a root user with the `su' command or by using `sudo make
-   install') Note that there is no uninstall target, so you might wish
+   become a root user with the `su` command or by using `sudo make
+   install`) Note that there is no uninstall target, so you might wish
    to create a package or other system-specific installation instead.
    
 6. The game should work now and you can remove the source directory.
@@ -114,7 +114,7 @@ apply your changes and bring up new options resulting from your newly
 set ones. When you are done, press the `g` key to generate a new set
 of Makefiles and exit.
 
-Alternatively, you can pass options to `cmake ..' via the command
+Alternatively, you can pass options to `cmake ..` via the command
 line. Some common command line switches are:
 
 `-DCMAKE_VERBOSE_MAKEFILE=ON`
@@ -133,6 +133,42 @@ developers.
 
 Note for GIT users: SuperTux does not need to be installed on the
 system, you can run it from its own directory.
+
+
+Installing under Windows using CMake and Visual Studio
+------------------------------------------------------
+To build SuperTux on Windows with Visual Studio you need to have CMake and a
+recent version of Visual Studio installed. Visual Studio 2013 Community Edition
+is known to work fine.
+
+Because it's difficult to build and download all the dependencies per hand on windows,
+SuperTux provides a [dependency package](https://github.com/SuperTux/downloads/raw/master/other/dependencies-0.3.5-win32.zip)
+that should contain all headers and libraries needed to build SuperTux on Windows.
+
+1. Unpack the SuperTux source pack or get the source with git (`git clone https://github.com/SuperTux/supertux.git`).
+
+2. Extract the [dependency package](https://github.com/SuperTux/downloads/raw/master/other/dependencies-0.3.5-win32.zip)
+into the source directory, so the `dependencies` folder is besides the `src` folder.
+
+3. Create a new, empty `build` folder.
+
+4. Open a console window and navigate to the `build` directory.
+
+5. Run `cmake ..` to create the VS solution that builds SuperTux with standard options.
+For more CMake options, look at end of the Linux/UNIX build section.
+
+5. Open the new Visual Studio solution `SUPERTUX.sln` in the `build` directory.
+
+6. Build the project.
+
+7. Depending on the configuration you chose to build SuperTux, there is a `Debug`, `Release` or
+similar folder in the source directory (not in the `build` directory). You have to add the `data`
+folder into that directory, otherwise SuperTux won't be able to detect it. This can be done by either
+copying the folder or creating a link. For creating the link, you have to open a console **with
+administrator rights** in the `Debug` or `Release` folder and run `mklink /D data ..\data`.
+
+8. Now you can run SuperTux by directly starting the executable or from within Visual Studio (make sure to set
+`supertux2` as StartUp project).
 
 
 Support
