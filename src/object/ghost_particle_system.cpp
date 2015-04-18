@@ -16,6 +16,7 @@
 
 #include "object/ghost_particle_system.hpp"
 
+#include <algorithm>
 #include <math.h>
 
 #include "math/random_generator.hpp"

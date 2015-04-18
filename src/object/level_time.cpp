@@ -16,6 +16,9 @@
 
 #include "object/level_time.hpp"
 
+#include <algorithm>
+#include <math.h>
+
 #include "object/player.hpp"
 #include "scripting/level_time.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -25,8 +28,6 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
-
-#include <math.h>
 
 /** When to alert player they're low on time! */
 static const float TIME_WARNING = 20;

@@ -23,6 +23,10 @@
 #include "supertux/timer.hpp"
 #include "video/font.hpp"
 
+#ifdef WIN32
+#  define snprintf _snprintf
+#endif
+
 static const float FLICK_CURSOR_TIME = 0.5f;
 
 MenuItem::MenuItem(MenuItemKind _kind, int _id) :
