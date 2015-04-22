@@ -5,9 +5,11 @@ supertux2
 # Windows build files
 Debug/
 Release/
+tools/innosetup/Output
 
 # Windows build dependencies
 dependencies/
+tools/innosetup/vcredist_x86.exe
 
 # Additional Repos/Translations
 supertux.*
