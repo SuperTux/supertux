@@ -153,11 +153,11 @@ MARK_AS_ADVANCED(GIT_EXECUTABLE)
 FIND_PROGRAM(GIT_EXECUTABLE git)
 
 # The .git directory inside the base directory
-SET(GIT_CFG_DIR "${CMAKE_BINARY_DIR}/.git/")
+SET(GIT_CFG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/.git/")
 
 IF(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
-  ADD_CUSTOM_TARGET(gitversion ALL
-                    ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
+  ADD_CUSTOM_COMMAND(OUTPUT "${CMAKE_BINARY_DIR}/version.h"
+                    COMMAND ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} >> "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo_append "#define PACKAGE_VERSION \"${SUPERTUX_VERSION} commit "
                     COMMAND ${GIT_EXECUTABLE} rev-parse --sq HEAD >> "${CMAKE_BINARY_DIR}/version.h.tmp"
@@ -169,8 +169,8 @@ IF(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
                     COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
                     VERBATIM)
 ELSE(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
-  ADD_CUSTOM_TARGET(gitversion ALL
-                    ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
+  ADD_CUSTOM_COMMAND(OUTPUT "${CMAKE_BINARY_DIR}/version.h"
+                    COMMAND ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} >> "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo "#define PACKAGE_VERSION \"${SUPERTUX_VERSION}\""
                     COMMAND ${CMAKE_COMMAND} -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
@@ -393,7 +393,6 @@ SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 ADD_LIBRARY(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
 ADD_EXECUTABLE(supertux2 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${TINYGETTEXT_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
-ADD_DEPENDENCIES(supertux2 gitversion)
 SET_TARGET_PROPERTIES(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
 IF(WIN32)
