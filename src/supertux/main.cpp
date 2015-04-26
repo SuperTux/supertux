@@ -159,9 +159,23 @@ public:
       std::string basepath = basepath_c;
       SDL_free(basepath_c);
 
-      datadir = FileSystem::join(basepath, "data");
-      std::string testfname = FileSystem::join(datadir, "credits.txt");
-      if (!FileSystem::exists(testfname))
+      // If we are on windows, the data directory is one directory above the binary
+#ifdef WIN32
+      const std::array<std::string, 2> subdirs = { "data", "../data" };
+#else
+      const std::array<std::string, 1> subdirs = { "data" };
+#endif
+      bool found = false;
+      for (const std::string &subdir : subdirs)
+      {
+        datadir = FileSystem::join(basepath, subdir);
+        if (FileSystem::exists(FileSystem::join(datadir, "credits.txt")))
+        {
+          found = true;
+          break;
+        }
+      }
+      if (!found)
       {
         // if the game is not run from the source directory, try to find
         // the global install location

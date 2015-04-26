@@ -403,13 +403,6 @@ IF(WIN32)
     COMMAND ${CMAKE_COMMAND} -E copy_directory
       "${PROJECT_SOURCE_DIR}/dependencies/dll"
       $<TARGET_FILE_DIR:supertux2>)
-
-  ## Link data directory - doesn't work because you would need admin rights...
-  ## Copying is really heavy, so finding the data in the parent directory would be nice
-  #ADD_CUSTOM_COMMAND(TARGET supertux2 POST_BUILD
-  #  COMMAND ${CMAKE_COMMAND} -E create_symlink
-  #    "${PROJECT_SOURCE_DIR}/data"
-  #    $<TARGET_FILE_DIR:supertux2>/data)
 ENDIF(WIN32)
 
 ## Link supertux binary with squirrel and other libraries

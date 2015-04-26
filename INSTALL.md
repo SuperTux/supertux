@@ -161,13 +161,7 @@ For more CMake options, look at end of the Linux/UNIX build section.
 
 6. Build the project.
 
-7. Depending on the configuration you chose to build SuperTux, there is a `Debug`, `Release` or
-similar folder in the source directory (not in the `build` directory). You have to add the `data`
-folder into that directory, otherwise SuperTux won't be able to detect it. This can be done by either
-copying the folder or creating a link. For creating the link, you have to open a console **with
-administrator rights** in the `Debug` or `Release` folder and run `mklink /D data ..\data`.
-
-8. Now you can run SuperTux by directly starting the executable or from within Visual Studio (make sure to set
+7. Now you can run SuperTux by directly starting the executable or from within Visual Studio (make sure to set
 `supertux2` as StartUp project).
 
 
