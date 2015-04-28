@@ -38,7 +38,7 @@ VersionInfoTextVersion={#MyAppVerName}
 AppVersion={#MyAppVer}
 UninstallDisplayName={#MyAppVerName}
 LicenseFile={#RootDir}\LICENSE
-SetupIconFile={#MyAppName}.ico
+SetupIconFile={#RootDir}\tools\innosetup\{#MyAppName}.ico
 Compression=lzma2
 
 [Tasks]
@@ -81,6 +81,7 @@ Source: {#RootDir}\INSTALL.md; DestDir: {app}; Flags: ignoreversion
 Source: {#RootDir}\WHATSNEW.txt; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildDir}\*.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#RootDir}\data\*; DestDir: {app}\data; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: {#RootDir}\dependencies\licenses\*; DestDir: {app}\licenses; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: {#MyAppName}.ico; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
