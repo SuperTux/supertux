@@ -403,6 +403,10 @@ IF(WIN32)
     COMMAND ${CMAKE_COMMAND} -E copy_directory
       "${PROJECT_SOURCE_DIR}/dependencies/dll"
       $<TARGET_FILE_DIR:supertux2>)
+  ADD_CUSTOM_COMMAND(TARGET supertux2 POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+      "${PROJECT_SOURCE_DIR}/dependencies/DigiCertHighAssuranceEVRootCA.pem"
+      $<TARGET_FILE_DIR:supertux2>)
 ENDIF(WIN32)
 
 ## Link supertux binary with squirrel and other libraries
