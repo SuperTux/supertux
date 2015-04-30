@@ -22,6 +22,7 @@
 #include <SDL_image.h>
 #include <boost/format.hpp>
 #include <boost/optional.hpp>
+#include <array>
 #include <iostream>
 #include <physfs.h>
 #include <stdio.h>
