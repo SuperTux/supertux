@@ -3,39 +3,31 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# chris020891 <chris020891@gmail.com>, 2014
-# D. J. S. <djsossz@freemail.hu>, 2012
-# Norbert Molnár <buzitetu@indamail.hu>, 2013
-# Bendegúz Gyönki <gyonkibendeguz@gmail.com>, 2014
-#  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
-# Kristóf Kófiás <kristof.kofias@gmail.com>, 2014
-# Norbert Molnár <buzitetu@indamail.hu>, 2014
-# Tibor Buzási, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2015-01-08 15:47+0000\n"
-"Last-Translator: Tibor Buzási\n"
-"Language-Team: Hungarian (http://www.transifex.com/projects/p/supertux/language/hu/)\n"
+"PO-Revision-Date: 2013-08-10 23:00+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Hebrew (http://www.transifex.com/projects/p/supertux/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hu\n"
+"Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr "Omladozó út"
+msgstr ""
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr "Kincs az egekben"
+msgstr ""
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr "Tux, az építő"
+msgstr ""
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -44,56 +36,56 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr "-Mozgatható kövek:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+msgstr ""
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr "Jéghegy erőd"
+msgstr ""
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr "NOLOK"
+msgstr ""
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
-msgstr "Ruganyos rugók"
+msgstr ""
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr "Rönkvár"
+msgstr ""
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Egy penészes barlang"
+msgstr ""
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
-msgstr "Rövid látogatás El Castillóban"
+msgstr ""
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
-msgstr "Üdv az erdőben"
+msgstr ""
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
-msgstr "Ellenáram"
+msgstr ""
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr "Kis-Velence"
+msgstr ""
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
-msgstr "Két kicsi tornyocska"
+msgstr ""
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr "Illuminált állapotban"
+msgstr ""
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
-msgstr "Ereszkedj a mélybe"
+msgstr ""
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
@@ -101,75 +93,75 @@ msgstr ""
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr "Csillagok terme"
+msgstr ""
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr "A Néma Falak"
+msgstr ""
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr "Dan Morial"
+msgstr ""
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr "Kerülőút"
+msgstr ""
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Sötét erdei vár - A gonosz kamra"
+msgstr ""
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "Sötét erdei vár - Nolok szemei"
+msgstr ""
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr "Sötét erdei vár - A fekete torony"
+msgstr ""
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Találd meg a nagyobb halat!"
+msgstr ""
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr "Erdei pálya 1."
+msgstr ""
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr "Egy kísérteties hely"
+msgstr ""
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr "1. kulcs: víz – vízesés mögé helyezni"
+msgstr ""
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr "2. kulcs: föld – föld alá helyezni"
+msgstr ""
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr "3. kulcs: fa – egy nagy fába helyezni"
+msgstr ""
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr "4. kulcs: tűz – egy kis várba helyezni"
+msgstr ""
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr "5. kulcs: levegő – felhőkbe helyezni"
+msgstr ""
 
 #: data/levels/world2/keystodoor.stl:3
 msgid "Entrance to the Castle"
-msgstr "Bejárat a várba"
+msgstr ""
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr "Sétáló levelek"
+msgstr ""
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr "Gyökerek, fás gyökerek"
+msgstr ""
 
 #: data/levels/world2/level1.stl:146
 msgid ""
@@ -179,11 +171,11 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-Tipp:\n#Ha úgy tűnik, egy ajtót\n#sehogy sem lehet elérni,\n#akkor lehet, hogy ott\n#kellene kijönnöd..."
+msgstr ""
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "Le a nyúlüregbe"
+msgstr ""
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -192,52 +184,52 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-Jaj ne!\n#Az utat eltorlaszolták!\n#Úgy néz ki, hogy csak\n#azon az sötét lyukon\n#keresztül lehet átjutni..."
+msgstr ""
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr "-Eltévedtél?"
+msgstr ""
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr "Úton a föld alá"
+msgstr ""
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr "Zöldellő dombok"
+msgstr ""
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr "Névtelen"
+msgstr ""
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr "Fény és varázslat"
+msgstr ""
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "A baglyok bosszúja"
+msgstr ""
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr "Sokkoló"
+msgstr ""
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr "Pingvinek nem nőnek a fákon"
+msgstr ""
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr "Fejlesztés alatt"
+msgstr ""
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr "Fel és le"
+msgstr ""
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr "Falu az erdőben"
+msgstr ""
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr "Erdő Világ"
+msgstr ""
