@@ -1,8 +1,23 @@
+Supertux Release 0.3.5a (2015-05-01)
+------------------------------------
+
+A bugfix release is sneaking in. 3 weeks after 0.3.5 was released it's time
+to fix some bugs. This affects mostly the windows installer where some libraries
+were missing and add-ons couldn't be downloaded. Luckily we managed to get all
+of these nasty bugs away.
+One more patch affects linux packagers: The AppData file from our repository is
+now contained in the source package.
+Thanks to the activity of some translators there are also new translations in
+this release.
+
+If you want to help us and improve SuperTux, join our IRC channel #supertux on
+freenode.net or write to the mailing list!
+
+
 Supertux Release 0.3.5 (2015-04-11)
---------------------------------
+-----------------------------------
 
-
-In celebration of SuperTux’s 15 year anniversary, we are releasing SuperTux 0.3.5.
+In celebration of SuperTux's 15 year anniversary, we are releasing SuperTux 0.3.5.
 
 This release includes the switch to SDL2 for graphics rendering, a few performance
 improvements, tons of bugfixes, new tiles and badguys amongst other things.
@@ -30,6 +45,7 @@ new tilemap: halloween
 new powerups: air- and earth-flower
 support for horizontal gradients in levels (add 
 (direction "vertical|horizontal") to your level)
+
 
 Supertux Release 0.3.4 (2013-07)
 --------------------------------
