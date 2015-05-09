@@ -61,7 +61,7 @@ Yeti::Yeti(const Reader& reader) :
   hud_head()
 {
   hit_points = INITIAL_HITPOINTS;
-  countMe = false;
+  countMe = true;
   SoundManager::current()->preload("sounds/yeti_gna.wav");
   SoundManager::current()->preload("sounds/yeti_roar.wav");
   hud_head = Surface::create("images/creatures/yeti/hudlife.png");
