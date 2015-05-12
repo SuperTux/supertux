@@ -23,8 +23,8 @@ env:
   global:
     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
     # via the "travis encrypt" command using the project repo's public key
-    - secure: "E3/UuL338/FVeKbWVBH8RWznD3ntT8BZxX9TDTCwoZFTPluI53Bk0G3MdDBFihFYLeTMfNxxrT2n+EnQtf9a6SrUIo1xFYWV3yKNHwFiS0LKn0IvhofPoRsg+Y190Hgq8djFSEU1Gk4pYATSfRYnAAbVxuL51CumGVBgBkplB0A="
-    - CMAKE_VERSION=3.2.1 SDL2_VERSION=2.0.3 SDL2IMAGE_VERSION=2.0.0
+    - secure: "eVEyzIVjDlB16EPkXmj74tyF9pgX34kpgvBUMXJJ+hduuPwaGC6vl8T164fNQUIua2Z2/PqxmTLJRR3n5Bbkdf859NdX+4JUzc3SoFEKlgcLMYnOQeuimUAiMKxe4vmC4sub5LZVFsp9ORzVYkXgiMBnxiD5GuYxvZPy1lCaH9E="
+    - CMAKE_VERSION=3.2.2 SDL2_VERSION=2.0.3 SDL2IMAGE_VERSION=2.0.0
   matrix:
     - BUILD_TYPE="Debug"
     - BUILD_TYPE="Release"
@@ -61,7 +61,7 @@ script:
 addons:
   coverity_scan:
     project:
-      name: "SuperTuxTeam/supertux"
+      name: "SuperTux/supertux"
       description: "Build submitted via Travis CI"
     notification_email: supertux-commit@lists.lethargik.org
     build_command_prepend: "cmake . && make clean"
