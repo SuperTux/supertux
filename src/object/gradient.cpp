@@ -23,14 +23,16 @@
 Gradient::Gradient() :
   layer(LAYER_BACKGROUND0),
   gradient_top(),
-  gradient_bottom()
+  gradient_bottom(),
+  gradient_direction()
 {
 }
 
 Gradient::Gradient(const Reader& reader) :
   layer(LAYER_BACKGROUND0),
   gradient_top(),
-  gradient_bottom()
+  gradient_bottom(),
+  gradient_direction()
 {
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
