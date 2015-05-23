@@ -62,11 +62,25 @@ SET(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 INCLUDE(TestBigEndian)
 TEST_BIG_ENDIAN(WORDS_BIGENDIAN)
 
-## These variables enable MSVC to find libraries located in "dependencies"
+## These variables enable MSVC to find libraries located in "dependencies{32|64}"
 IF(WIN32)
-  SET(ENV{PATH} "$ENV{PATH};${PROJECT_SOURCE_DIR}/dependencies/include")
-  SET(ENV{LIB} ${PROJECT_SOURCE_DIR}/dependencies/lib)
-  SET(ENV{OPENALDIR} ${PROJECT_SOURCE_DIR}/dependencies)
+  ## Store path of dependecy folder
+  SET(DEPENDENCY_FOLDER "${PROJECT_SOURCE_DIR}/dependencies")
+
+  ## To test if the host (not the build) is x64:
+  ## "$ENV{PROCESSOR_ARCHITEW6432}" STREQUAL "AMD64"
+  IF(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+    SET(WIN64 ON)
+    SET(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}64")
+  ELSE(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+    SET(WIN64 OFF)
+    SET(DEPENDENCY_FOLDER "${DEPENDENCY_FOLDER}32")
+  ENDIF(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+
+
+  SET(ENV{PATH} "$ENV{PATH};${DEPENDENCY_FOLDER}/include")
+  SET(ENV{LIB} "${DEPENDENCY_FOLDER}/lib")
+  SET(ENV{OPENALDIR} "${DEPENDENCY_FOLDER}")
 
   SET_PROPERTY(DIRECTORY PROPERTY COMPILE_DEFINITIONS_DEBUG DEBUG)
   ## Enable multi-processor compilation (faster)
@@ -77,22 +91,22 @@ IF(WIN32)
   CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/mk/msvc/icon_rc.template" "${PROJECT_BINARY_DIR}/tmp/icon.rc")
 
   ## Find all used libraries
-  FILE(GLOB DLLS "${PROJECT_SOURCE_DIR}/dependencies/dll/*")
+  FILE(GLOB DLLS "${DEPENDENCY_FOLDER}/dll/*")
 ENDIF(WIN32)
 
 ## Add lots of dependencies to compiler switches
 
 SET(Boost_ADDITIONAL_VERSIONS "1.41" "1.41.0")
-FIND_PATH(PHYSFS_INCLUDE_DIR NAMES physfs.h PATHS "${PROJECT_SOURCE_DIR}/dependencies/include/physfs")
+FIND_PATH(PHYSFS_INCLUDE_DIR NAMES physfs.h PATHS "${DEPENDENCY_FOLDER}/include/physfs")
 FIND_PACKAGE(Boost REQUIRED)
 INCLUDE_DIRECTORIES(SYSTEM ${Boost_INCLUDE_DIR})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
 IF(WIN32)
-  FIND_PATH(SDL2_INCLUDE_DIRS NAMES SDL.h PATHS "${PROJECT_SOURCE_DIR}/dependencies/include/SDL2")
-  FIND_PATH(SDL2IMAGE_INCLUDE_DIRS NAMES SDL_image.h PATHS "${PROJECT_SOURCE_DIR}/dependencies/include/SDL2_image")
-  FIND_LIBRARY(SDL2_LIBRARIES NAMES SDL2 PATHS "${PROJECT_SOURCE_DIR}/dependencies/lib")
-  FIND_LIBRARY(SDL2IMAGE_LIBRARIES NAMES SDL2_image PATHS "${PROJECT_SOURCE_DIR}/dependencies/lib")
+  FIND_PATH(SDL2_INCLUDE_DIRS NAMES SDL.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2")
+  FIND_PATH(SDL2IMAGE_INCLUDE_DIRS NAMES SDL_image.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2_image")
+  FIND_LIBRARY(SDL2_LIBRARIES NAMES SDL2 PATHS "${DEPENDENCY_FOLDER}/lib")
+  FIND_LIBRARY(SDL2IMAGE_LIBRARIES NAMES SDL2_image PATHS "${DEPENDENCY_FOLDER}/lib")
 ELSE(WIN32)
   INCLUDE(FindPkgConfig)
   PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2>=2.0.1)
@@ -138,13 +152,13 @@ INCLUDE_DIRECTORIES(${PHYSFS_INCLUDE_DIR})
 
 ## The curl headers are in the standard include path in dependencies
 ## so it's not required to add them here
-IF(NOT WIN32)
+IF(NOT WIN32 OR WIN64)
   FIND_PACKAGE(CURL REQUIRED)
   IF(CURL_FOUND)
     INCLUDE_DIRECTORIES(${CURL_INCLUDE_DIR})
     SET(HAVE_LIBCURL TRUE)
   ENDIF(CURL_FOUND)
-ENDIF(NOT WIN32)
+ENDIF(NOT WIN32 OR WIN64)
 
 #FIND_PACKAGE(ICONV REQUIRED)
 #INCLUDE_DIRECTORIES(${ICONV_INCLUDE_DIR})
@@ -401,11 +415,11 @@ IF(WIN32)
   ## Copy dlls on windows
   ADD_CUSTOM_COMMAND(TARGET supertux2 POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-      "${PROJECT_SOURCE_DIR}/dependencies/dll"
+      "${DEPENDENCY_FOLDER}/dll"
       $<TARGET_FILE_DIR:supertux2>)
   ADD_CUSTOM_COMMAND(TARGET supertux2 POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
-      "${PROJECT_SOURCE_DIR}/dependencies/DigiCertHighAssuranceEVRootCA.pem"
+      "${DEPENDENCY_FOLDER}/DigiCertHighAssuranceEVRootCA.pem"
       $<TARGET_FILE_DIR:supertux2>)
 ENDIF(WIN32)
 
@@ -433,8 +447,8 @@ IF(HAVE_LIBCURL)
 ENDIF(HAVE_LIBCURL)
 
 ## Link curl on windows
-IF(WIN32)
-    TARGET_LINK_LIBRARIES(supertux2 ${PROJECT_SOURCE_DIR}/dependencies/lib/libcurldll.a)
+IF(WIN32 AND NOT WIN64)
+    TARGET_LINK_LIBRARIES(supertux2 "${DEPENDENCY_FOLDER}/lib/libcurldll.a")
 ENDIF()
 
 ## Install stuff

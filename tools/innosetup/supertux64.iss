@@ -16,6 +16,7 @@
 #define MyAppURL "http://supertux.lethargik.org"
 #define MyAppExeName "supertux2.exe"
 #define RootDir "..\.."
+#define DependencyDir "..\..\dependencies64"
 #define BuildDir "..\..\Release"
 #define DllSourceDir "C:\msys\1.0\build\supertux"
 
@@ -30,7 +31,7 @@ DefaultDirName={pf}\{#MyAppVerName}
 DefaultGroupName={#MyAppVerName}
 ShowLanguageDialog=yes
 SolidCompression=true
-OutputBaseFilename=supertux-{#MyAppVer}-win32-setup
+OutputBaseFilename=supertux-{#MyAppVer}-win64-setup
 AllowNoIcons=true
 AppID={{4BEF4147-E17A-4848-BDC4-60A0AAC70F2A}
 VersionInfoVersion=0.3
@@ -73,7 +74,7 @@ Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
 Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 
 [Files]
-Source: vcredist_x86.exe; DestDir: {tmp}; Flags: deleteafterinstall
+Source: {#DependencyDir}\vcredist_x64.exe; DestDir: {tmp}; Flags: deleteafterinstall
 Source: {#BuildDir}\supertux2.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#RootDir}\LICENSE; DestDir: {app}; Flags: ignoreversion
 Source: {#RootDir}\README.md; DestDir: {app}; Flags: ignoreversion
@@ -82,7 +83,7 @@ Source: {#RootDir}\WHATSNEW.txt; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildDir}\*.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildDir}\*.pem; DestDir: {app}\data; Flags: ignoreversion
 Source: {#RootDir}\data\*; DestDir: {app}\data; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: {#RootDir}\dependencies\licenses\*; DestDir: {app}\licenses; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: {#DependencyDir}\licenses\*; DestDir: {app}\licenses; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: {#MyAppName}.ico; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
@@ -91,7 +92,7 @@ Name: {group}\{cm:UninstallProgram,{#MyAppName}}; Filename: {uninstallexe}
 Name: {userdesktop}\{#MyAppName}; Filename: {app}\{#MyAppExeName}; IconFilename: {app}\{#MyAppName}.ico; Tasks: desktopicon
 
 [Run]
-Filename: {tmp}\vcredist_x86.exe; Parameters: "/quiet /norestart"; StatusMsg: Installing Visual C++ runtime...; Check: VCRedistNeedsInstall
+Filename: {tmp}\vcredist_x64.exe; Parameters: "/quiet /norestart"; StatusMsg: Installing Visual C++ runtime...; Check: VCRedistNeedsInstall
 Filename: {app}\{#MyAppExeName}; Description: {cm:LaunchProgram,{#MyAppName}}; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]
@@ -169,5 +170,5 @@ begin
   // this statement, the following won't install your VC redist only when
   // the Visual C++ 2010 Redist (x86) and Visual C++ 2010 SP1 Redist(x86)
   // are installed for the current user
-  Result := not (VCVersionInstalled(VC_2013_REDIST_X86));
+  Result := not (VCVersionInstalled(VC_2013_REDIST_X64));
 end;

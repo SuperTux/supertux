@@ -8,8 +8,7 @@ Release/
 tools/innosetup/Output
 
 # Windows build dependencies
-dependencies/
-tools/innosetup/vcredist_x86.exe
+dependencies*/
 
 # Additional Repos/Translations
 supertux.*
