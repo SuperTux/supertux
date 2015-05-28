@@ -79,7 +79,7 @@ Source: {#BuildDir}\supertux2.exe; DestDir: {app}; Flags: ignoreversion
 Source: {#RootDir}\LICENSE; DestDir: {app}; Flags: ignoreversion
 Source: {#RootDir}\README.md; DestDir: {app}; Flags: ignoreversion
 Source: {#RootDir}\INSTALL.md; DestDir: {app}; Flags: ignoreversion
-Source: {#RootDir}\WHATSNEW.txt; DestDir: {app}; Flags: ignoreversion
+Source: {#RootDir}\NEWS.md; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildDir}\*.dll; DestDir: {app}; Flags: ignoreversion
 Source: {#BuildDir}\*.pem; DestDir: {app}\data; Flags: ignoreversion
 Source: {#RootDir}\data\*; DestDir: {app}\data; Flags: ignoreversion recursesubdirs createallsubdirs

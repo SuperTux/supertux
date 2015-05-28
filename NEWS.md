@@ -1,8 +1,11 @@
-Supertux Release 0.3.5a (2015-05-01)
-------------------------------------
+SuperTux Release and Development Notes
+======================================
 
-A bugfix release is sneaking in. 3 weeks after 0.3.5 was released it's time
-to fix some bugs. This affects mostly the windows installer where some libraries
+SuperTux 0.3.5a (2015-05-01)
+----------------------------
+
+A bugfix release is sneaking in. 3 weeks after 0.3.5 was released it's time to
+fix some bugs. This affects mostly the windows installer where some libraries
 were missing and add-ons couldn't be downloaded. Luckily we managed to get all
 of these nasty bugs away.
 One more patch affects linux packagers: The AppData file from our repository is
@@ -11,66 +14,66 @@ Thanks to the activity of some translators there are also new translations in
 this release.
 
 If you want to help us and improve SuperTux, join our IRC channel #supertux on
-freenode.net or write to the mailing list!
+chat.freenode.net or write to the mailing list!
 
 
-Supertux Release 0.3.5 (2015-04-11)
------------------------------------
+SuperTux 0.3.5 (2015-04-11)
+---------------------------
 
 In celebration of SuperTux's 15 year anniversary, we are releasing SuperTux 0.3.5.
 
 This release includes the switch to SDL2 for graphics rendering, a few performance
 improvements, tons of bugfixes, new tiles and badguys amongst other things.
 
-NOTE: Due to the planned shutdown of Google Code, the SuperTux source code has moved to
-GitHub. You can find all the repositories here: https://github.com/SuperTux/supertux
+NOTE: Due to the planned shutdown of Google Code, the SuperTux source code has
+moved to GitHub. You can find all the repositories here:
+https://github.com/SuperTux/supertux
 
-A changelog for this release is available at
+A more detailed changelog for this release is available at
 http://supertux.lethargik.org/wiki/Changelog_0.3.5
 
 Major changes in this release:
 
-move to SDL2 for graphics rendering
-glow effects
-new badguys: iceflame, ghostflame, livefire, goldbomb, smartblock
-new bonuses: coinrain, coinexplode
-statistics improved
-icy island levels tweaked
-new sounds
-massive improvements to localization
-efficiency tweaks
-menus reworked
-addon manager improved
-new tilemap: halloween
-new powerups: air- and earth-flower
-support for horizontal gradients in levels (add 
+* move to SDL2 for graphics rendering
+* glow effects
+* new badguys: iceflame, ghostflame, livefire, goldbomb, smartblock
+* new bonuses: coinrain, coinexplode
+* statistics improved
+* icy island levels tweaked
+* new sounds
+* massive improvements to localization
+* efficiency tweaks
+* menus reworked
+* addon manager improved
+* new tilemap: halloween
+* new powerups: air- and earth-flower
+* support for horizontal gradients in levels (add
 (direction "vertical|horizontal") to your level)
 
 
-Supertux Release 0.3.4 (2013-07)
---------------------------------
+SuperTux 0.3.4 (2013-07)
+------------------------
 
 It's been more than three years since the last development snapshot for
-Milestone 2 of SuperTux, making this a bit overdue.  Once again it is hard to
+Milestone 2 of SuperTux, making this a bit overdue. Once again it is hard to
 say what the most notable changes are, but one thing players should notice is
 a greater wealth of levels to play through an expanded avalibility of add-ons.
 
-Additionally, SuperTux development has moved to GitHub.  Check it out at:
+Additionally, SuperTux development has moved to GitHub. Check it out at:
 
-  https://github.com/SuperTuxTeam/supertux/
+  https://github.com/SuperTux/supertux/
 
-If you are intersted in contribuiting to SuperTux, please do so.  The more
-people working on the project, the faster development can continue.  The hope
+If you are intersted in contribuiting to SuperTux, please do so. The more
+people working on the project, the faster development can continue. The hope
 is that this release will generate more interest which will lead to more
-frequent releases.  You can refer to the GitHub wiki page on "Contributing" to get
+frequent releases. You can refer to the GitHub wiki page on "Contributing" to get
 started.
 
 And of course, enjoy the game and have fun!
 
 
-
-Supertux Release 0.3.3 (2010-02-26)
------------------------------------
+SuperTux 0.3.3 (2010-02-26)
+---------------------------
 
 After more than three years of development the SuperTux development team has
 agreed to package a development snapshot of Milestone 2 of our jump and run
@@ -84,9 +87,8 @@ advanced ;) and that the game is more fun to play overall.
 We hope you enjoy SuperTux. Now off you go, rescue Penny! ;)
 
 
-
-Supertux Release 0.3.2-SVN (2007-12-20)
----------------------------------------
+SuperTux 0.3.2-SVN (2007-12-20)
+-------------------------------
 
 Just in time for Christmas, we bring you SuperTux 0.3.2-SVN, a preview
 of SuperTux Milestone 2.
@@ -116,4 +118,3 @@ synthesizer.
 
 This is also a call for artists and coders: If you like the game in
 its current state, join us and help us finish Milestone 2!
-

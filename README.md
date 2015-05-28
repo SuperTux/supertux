@@ -43,7 +43,7 @@ Please see them:
 `README.md`
 : This file
 
-`WHATSNEW.txt`
+`NEWS.md`
 : Changes since the previous versions of SuperTux.
 
 `LICENSE`
