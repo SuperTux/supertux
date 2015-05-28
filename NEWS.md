@@ -60,8 +60,7 @@ say what the most notable changes are, but one thing players should notice is
 a greater wealth of levels to play through an expanded avalibility of add-ons.
 
 Additionally, SuperTux development has moved to GitHub. Check it out at:
-
-  https://github.com/SuperTux/supertux/
+https://github.com/SuperTux/supertux/
 
 If you are intersted in contribuiting to SuperTux, please do so. The more
 people working on the project, the faster development can continue. The hope
@@ -99,11 +98,11 @@ play.
 
 SuperTux 0.3.2-SVN features:
 
-    * new, OpenGL- and OpenAL-based engine
-    * final boss for Icy Island
-    * brand new Forest World with new badguys and new game objects
-    * new and improved soundtrack, immersive sound effects
-    * much more...
+* new, OpenGL- and OpenAL-based engine
+* final boss for Icy Island
+* brand new Forest World with new badguys and new game objects
+* new and improved soundtrack, immersive sound effects
+* much more...
 
 The changes in more detail: The SuperTux 0.1 engine was nearly
 completely rewritten. The game is translatable now, a new camera
