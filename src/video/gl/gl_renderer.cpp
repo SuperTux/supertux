@@ -31,6 +31,7 @@
 #include "video/util.hpp"
 
 #ifdef USE_GLBINDING
+#  include <glbinding/Binding.h>
 #  include <glbinding/ContextInfo.h>
 #  include <glbinding/gl/extension.h>
 #  include <glbinding/callbacks.h>
