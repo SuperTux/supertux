@@ -24,6 +24,7 @@
 #include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
