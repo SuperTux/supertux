@@ -258,6 +258,7 @@ GameSession::toggle_pause()
     speed_before_pause = ScreenManager::current()->get_speed();
     ScreenManager::current()->set_speed(0);
     MenuManager::instance().set_menu(MenuStorage::GAME_MENU);
+    SoundManager::current()->pause_sounds();
     SoundManager::current()->pause_music();
     game_pause = true;
   }
@@ -275,6 +276,7 @@ GameSession::abort_level()
   currentStatus->coins = coins_at_start;
   currentStatus->max_fire_bullets = max_fire_bullets_at_start;
   currentStatus->max_ice_bullets = max_ice_bullets_at_start;
+  SoundManager::current()->stop_sounds();
 }
 
 bool
@@ -463,6 +465,7 @@ GameSession::update(float elapsed_time)
   if (game_pause && !MenuManager::instance().is_active()) {
     ScreenManager::current()->set_speed(speed_before_pause);
     SoundManager::current()->resume_music();
+    SoundManager::current()->resume_sounds();
     game_pause = false;
   }
 

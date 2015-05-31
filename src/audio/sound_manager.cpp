@@ -316,6 +316,37 @@ SoundManager::pause_music(float fadetime)
 }
 
 void
+SoundManager::pause_sounds()
+{
+  for(SoundSources::iterator i = sources.begin(); i != sources.end(); ++i) {
+    auto& source = *i;
+    if(source->playing()) {
+      source->pause();
+    }
+  }
+}
+
+void
+SoundManager::resume_sounds()
+{
+  for(SoundSources::iterator i = sources.begin(); i != sources.end(); ++i) {
+    auto& source = *i;
+    if(source->paused()) {
+      source->resume();
+    }
+  }
+}
+
+void
+SoundManager::stop_sounds()
+{
+    for(SoundSources::iterator i = sources.begin(); i != sources.end(); ++i) {
+        auto& source = *i;
+        source->stop();
+    }
+}
+
+void
 SoundManager::resume_music(float fadetime)
 {
   if(music_source == NULL)

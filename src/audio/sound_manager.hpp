@@ -68,6 +68,10 @@ public:
   void resume_music(float fadetime = 0);
   void stop_music(float fadetime = 0);
 
+  void pause_sounds();
+  void resume_sounds();
+  void stop_sounds();
+
   bool is_music_enabled() const { return music_enabled; }
   bool is_sound_enabled() const { return sound_enabled; }
 
