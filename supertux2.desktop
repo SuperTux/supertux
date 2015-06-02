@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Version=1.0
-Encoding=UTF-8
 Name=SuperTux 2
 Name[en]=SuperTux 2
 GenericName=Platform Game
@@ -41,3 +40,4 @@ Exec=supertux2
 Terminal=false
 StartupNotify=false
 Categories=Game;ArcadeGame;
+Keywords=game;arcade;platform;
