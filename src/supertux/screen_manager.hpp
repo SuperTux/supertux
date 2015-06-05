@@ -96,11 +96,13 @@ private:
     {
       type = a.type;
       screen = std::move(a.screen);
+      return *this;
     }
     Action& operator=(Action &&a)
     {
       type = a.type;
       screen = std::move(a.screen);
+      return *this;
     }
   };
 
