@@ -50,6 +50,7 @@ private:
   Color gradient_top;
   Color gradient_bottom;
   GradientDirection gradient_direction;
+  Rectf gradient_region;
 };
 
 #endif /*SUPERTUX_BACKGROUND_H*/

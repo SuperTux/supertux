@@ -184,20 +184,21 @@ GLPainter::draw_gradient(const DrawingRequest& request)
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
   const GradientDirection& direction = gradientrequest->direction;
+  const Rectf& region = gradientrequest->region;
 
   glDisable(GL_TEXTURE_2D);
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   glEnableClientState(GL_COLOR_ARRAY);
 
   float vertices[] = {
-    0, 0,
-    float(SCREEN_WIDTH), 0,
-    float(SCREEN_WIDTH), float(SCREEN_HEIGHT),
-    0, float(SCREEN_HEIGHT)
+    region.p1.x, region.p1.y,
+    region.p2.x, region.p1.y,
+    region.p2.x, region.p2.y,
+    region.p1.x, region.p2.y
   };
   glVertexPointer(2, GL_FLOAT, 0, vertices);
 
-if(direction == VERTICAL)
+if(direction == VERTICAL || direction == VERTICAL_SECTOR)
 {
   float colors[] = {
     top.red, top.green, top.blue, top.alpha,

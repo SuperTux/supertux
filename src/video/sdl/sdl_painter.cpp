@@ -140,6 +140,7 @@ SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
   const GradientDirection& direction = gradientrequest->direction;
+  const Rectf& region = gradientrequest->region;
 
   // calculate the maximum number of steps needed for the gradient
   int n = static_cast<int>(std::max(std::max(fabsf(top.red - bottom.red),
@@ -150,26 +151,39 @@ SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
   for(int i = 0; i < n; ++i)
   {
     SDL_Rect rect;
-    if(direction == VERTICAL)
+    if(direction == VERTICAL || direction == VERTICAL_SECTOR)
     {
-      rect.x = 0;
-      rect.y = SCREEN_HEIGHT * i / n;
-      rect.w = SCREEN_WIDTH;
-      rect.h = (SCREEN_HEIGHT * (i+1) / n) - rect.y;
+      rect.x = region.p1.x;
+      rect.y = region.p2.y * i / n;
+      rect.w = region.p2.x;
+      rect.h = (region.p2.y * (i+1) / n) - rect.y;
     }
     else
     {
-      rect.x = SCREEN_WIDTH * i / n;
-      rect.y = 0;
-      rect.w = (SCREEN_WIDTH * (i+1) / n) - rect.x;
-      rect.h = SCREEN_HEIGHT;
+      rect.x = region.p2.x * i / n;
+      rect.y = region.p1.y;
+      rect.w = (region.p2.x * (i+1) / n) - rect.x;
+      rect.h = region.p2.y;
     }
 
     float p = static_cast<float>(i+1) / static_cast<float>(n);
-    Uint8 r = static_cast<Uint8>(((1.0f - p) * top.red + p * bottom.red)  * 255);
-    Uint8 g = static_cast<Uint8>(((1.0f - p) * top.green + p * bottom.green) * 255);
-    Uint8 b = static_cast<Uint8>(((1.0f - p) * top.blue + p * bottom.blue) * 255);
-    Uint8 a = static_cast<Uint8>(((1.0f - p) * top.alpha + p * bottom.alpha) * 255);
+    Uint8 r, g, b, a;
+
+    if( direction == HORIZONTAL_SECTOR || direction == VERTICAL_SECTOR)
+    {
+        float begin_percentage = region.p1.x * -1 / region.p2.x;
+        r = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.red + (p + begin_percentage) * bottom.red)  * 255);
+        g = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.green + (p + begin_percentage) * bottom.green) * 255);
+        b = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.blue + (p + begin_percentage) * bottom.blue) * 255);
+        a = static_cast<Uint8>(((1.0f - begin_percentage - p) * top.alpha + (p + begin_percentage) * bottom.alpha) * 255);
+    }
+    else
+    {
+        r = static_cast<Uint8>(((1.0f - p) * top.red + p * bottom.red)  * 255);
+        g = static_cast<Uint8>(((1.0f - p) * top.green + p * bottom.green) * 255);
+        b = static_cast<Uint8>(((1.0f - p) * top.blue + p * bottom.blue) * 255);
+        a = static_cast<Uint8>(((1.0f - p) * top.alpha + p * bottom.alpha) * 255);
+    }
 
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, r, g, b, a);

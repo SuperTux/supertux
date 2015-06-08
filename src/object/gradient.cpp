@@ -15,7 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/gradient.hpp"
+#include "object/camera.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
 #include <stdexcept>
@@ -37,15 +39,30 @@ Gradient::Gradient(const Reader& reader) :
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
   std::string direction;
-  if(reader.get("direction", direction) && direction == "horizontal")
+  if(reader.get("direction", direction))
   {
-    gradient_direction = HORIZONTAL;
+    if(direction == "horizontal")
+    {
+      gradient_direction = HORIZONTAL;
+    }
+    else if(direction == "horizontal_sector")
+    {
+        gradient_direction = HORIZONTAL_SECTOR;
+    }
+    else if(direction == "vertical_sector")
+    {
+        gradient_direction = VERTICAL_SECTOR;
+    }
+    else
+    {
+        gradient_direction = VERTICAL;
+    }
   }
   else
   {
     gradient_direction = VERTICAL;
   }
-  if(gradient_direction == HORIZONTAL)
+  if(gradient_direction == HORIZONTAL || gradient_direction == HORIZONTAL_SECTOR)
   {
     if(!reader.get("left_color", bkgd_top_color) ||
        !reader.get("right_color", bkgd_bottom_color))
@@ -66,6 +83,7 @@ Gradient::Gradient(const Reader& reader) :
 
   gradient_top = Color(bkgd_top_color);
   gradient_bottom = Color(bkgd_bottom_color);
+  gradient_region = Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 Gradient::~Gradient()
@@ -99,9 +117,18 @@ Gradient::set_gradient(Color top, Color bottom)
 void
 Gradient::draw(DrawingContext& context)
 {
+  if(gradient_direction != HORIZONTAL && gradient_direction != VERTICAL)
+  {
+      auto current_sector = Sector::current();
+      auto camera_translation = current_sector->camera->get_translation();
+      auto sector_width = current_sector->get_width();
+      auto sector_height = current_sector->get_height();
+      gradient_region = Rectf(-camera_translation.x, -camera_translation.y, sector_width, sector_height);
+  }
+
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.draw_gradient(gradient_top, gradient_bottom, layer, gradient_direction);
+  context.draw_gradient(gradient_top, gradient_bottom, layer, gradient_direction, gradient_region);
   context.pop_transform();
 }
 
