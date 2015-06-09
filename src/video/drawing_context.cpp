@@ -186,7 +186,14 @@ DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer,
   gradientrequest->top = top;
   gradientrequest->bottom = bottom;
   gradientrequest->direction = direction;
-  gradientrequest->region = region;
+  if(region.p1 == Vector(0,0) && region.p2 == Vector(0,0))
+  {
+    gradientrequest->region = Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+  }
+  else
+  {
+    gradientrequest->region = region;
+  }
   request->request_data = gradientrequest;
 
   requests->push_back(request);
