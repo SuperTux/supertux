@@ -1,6 +1,15 @@
 SuperTux Release and Development Notes
 ======================================
 
+SuperTux 0.4.0 (TBD)
+----------------------------
+
+Tracking changes of next release (0.4.0):
+* support for horizontal and vertical gradients
+that span the length / height of a sector. Add
+(direction "horizontal\_sector / vertical\_sector") to your gradient
+
+
 SuperTux 0.3.5a (2015-05-01)
 ----------------------------
 
