@@ -26,7 +26,8 @@ Gradient::Gradient() :
   layer(LAYER_BACKGROUND0),
   gradient_top(),
   gradient_bottom(),
-  gradient_direction()
+  gradient_direction(),
+  gradient_region(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 {
 }
 
@@ -34,7 +35,8 @@ Gradient::Gradient(const Reader& reader) :
   layer(LAYER_BACKGROUND0),
   gradient_top(),
   gradient_bottom(),
-  gradient_direction()
+  gradient_direction(),
+  gradient_region(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 {
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
@@ -83,7 +85,6 @@ Gradient::Gradient(const Reader& reader) :
 
   gradient_top = Color(bkgd_top_color);
   gradient_bottom = Color(bkgd_bottom_color);
-  gradient_region = Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 Gradient::~Gradient()
