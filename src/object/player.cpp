@@ -1688,7 +1688,7 @@ Player::set_edit_mode(bool enable)
 void
 Player::start_climbing(Climbable& climbable)
 {
-  if (climbing || !&climbable) return;
+  if (climbing) return;
 
   climbing = &climbable;
   physic.enable_gravity(false);

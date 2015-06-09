@@ -154,7 +154,7 @@ PlayerStatus::draw(DrawingContext& context)
   int player_id = 0;
 
   if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
-      (fabsf(displayed_coins - coins) > 100)) {
+      (std::abs(displayed_coins - coins) > 100)) {
     displayed_coins = coins;
     displayed_coins_frame = 0;
   }
