@@ -10,7 +10,7 @@ that span the length / height of a sector. Add
 (direction "horizontal\_sector / vertical\_sector") to your gradient
 
 
-SuperTux 0.3.5a (2015-05-01)
+SuperTux 0.3.6 (2015-05-01)
 ----------------------------
 
 A bugfix release is sneaking in. 3 weeks after 0.3.5 was released it's time to
