@@ -114,7 +114,7 @@ Console::Console(ConsoleBuffer& buffer) :
 
 Console::~Console()
 {
-  if (m_vm != NULL)
+  if (m_vm != NULL && scripting::global_vm != NULL)
   {
     sq_release(scripting::global_vm, &m_vm_object);
   }
