@@ -36,9 +36,9 @@ msgstr "-Bonuslaatikot\n!images/objects/bonus_block/full-0.png\n#Bonuslaatikot v
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
-"!images/powerups/egg/egg-0.png\n"
+"!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Munat\n!images/powerups/egg/egg-0.png\n#Muna kasvattaa Tuxia, jolloin hän voi rikkoa puulaatikoita päällään."
+msgstr "-Munat\n!images/powerups/egg/egg.png\n#Muna kasvattaa Tuxia, jolloin hän voi rikkoa puulaatikoita päällään."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
