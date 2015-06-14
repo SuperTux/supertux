@@ -39,9 +39,9 @@ msgstr "-Bonusowe Bloki\n!images/objects/bonus_block/full-0.png\n#Bonusowe bloki
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
-"!images/powerups/egg/egg-0.png\n"
+"!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Jajka\n!images/powerups/egg/egg-0.png\n#Jajka uczynią Tuksa większym. Tux może wtedy niszczyć drewniane bloki swoją głową."
+msgstr "-Jajka\n!images/powerups/egg/egg.png\n#Jajka uczynią Tuksa większym. Tux może wtedy niszczyć drewniane bloki swoją głową."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
