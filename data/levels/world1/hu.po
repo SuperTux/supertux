@@ -41,9 +41,9 @@ msgstr "-Bónuszdobozok\n!images/objects/bonus_block/full-0.png\n#A bónuszdoboz
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
-"!images/powerups/egg/egg-0.png\n"
+"!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Tojások\n!images/powerups/egg/egg-0.png\n#A tojás segítségével Tux nagyobbra nőhet. Tux szét tudja törni a fa dobozokat a fejével."
+msgstr "-Tojások\n!images/powerups/egg/egg.png\n#A tojás segítségével Tux nagyobbra nőhet. Tux szét tudja törni a fa dobozokat a fejével."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""

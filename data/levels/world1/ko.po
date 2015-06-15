@@ -34,9 +34,9 @@ msgstr "-물음표상자\n!images/objects/bonus_block/full-0.png\n#물음표상�
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
-"!images/powerups/egg/egg-0.png\n"
+"!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-새알\n!images/powerups/egg/egg-0.png\n#턱스의 크기를 한 단계 키워주며, 나무 블록을 깰 수 있게 해 줍니다."
+msgstr "-새알\n!images/powerups/egg/egg.png\n#턱스의 크기를 한 단계 키워주며, 나무 블록을 깰 수 있게 해 줍니다."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""

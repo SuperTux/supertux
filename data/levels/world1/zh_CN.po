@@ -34,7 +34,7 @@ msgstr "-奖励砖块\n!images/objects/bonus_block/full-0.png\n#奖励砖块可�
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
-"!images/powerups/egg/egg-0.png\n"
+"!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr ""
 

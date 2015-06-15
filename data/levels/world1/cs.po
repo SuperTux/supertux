@@ -36,9 +36,9 @@ msgstr "-Bonusové bloky\n!images/objects/bonus_block/full-0.png\n#Bonusové blo
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
-"!images/powerups/egg/egg-0.png\n"
+"!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Vejce\n!images/powerups/egg/egg-0.png\n#Vejce zvětší Tuxe. Potom může rozbíjet dřevěné bedny."
+msgstr "-Vejce\n!images/powerups/egg/egg.png\n#Vejce zvětší Tuxe. Potom může rozbíjet dřevěné bedny."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
