@@ -255,6 +255,8 @@ private:
   void do_jump_apex();
   void early_jump_apex();
 
+  bool slightly_above_ground();
+
   /**
    * slows Tux down a little, based on where he's standing
    */

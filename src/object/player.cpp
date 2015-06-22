@@ -486,9 +486,17 @@ Player::update(float elapsed_time)
 }
 
 bool
+Player::slightly_above_ground()
+{
+  float abs_vy = std::abs(physic.get_velocity_y());
+  float ground_y_delta = std::abs(last_ground_y - get_pos().y);
+  return (abs_vy == 15.625 || abs_vy == 31.25) && ground_y_delta < 0.85;
+}
+
+bool
 Player::on_ground()
 {
-  return on_ground_flag;
+  return on_ground_flag || slightly_above_ground();
 }
 
 bool
