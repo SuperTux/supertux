@@ -1406,7 +1406,7 @@ Player::collision_solid(const CollisionHit& hit)
       physic.set_velocity_y(.2f);
   }
 
-  if(hit.left || hit.right) {
+  if((hit.left || hit.right) && hit.slope_normal.x == 0) {
     physic.set_velocity_x(0);
   }
 
