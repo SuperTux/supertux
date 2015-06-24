@@ -106,8 +106,7 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   force_spawnpoint(force_spawnpoint_),
   in_level(false),
   pan_pos(),
-  panning(false),
-  last_position()
+  panning(false)
 {
   tux = std::make_shared<Tux>(this);
   add_object(tux);
@@ -295,6 +294,7 @@ WorldMap::load(const std::string& filename)
         spawn_points.push_back(sp);
       } else if(iter.item() == "level") {
         auto level = std::make_shared<LevelTile>(levels_path, *iter.lisp());
+        load_level_information(*level.get());
         levels.push_back(level.get());
         add_object(level);
       } else if(iter.item() == "special-tile") {
@@ -344,12 +344,6 @@ WorldMap::load(const std::string& filename)
 void
 WorldMap::load_level_information(LevelTile& level)
 {
-  if(last_position == tux->get_tile_pos())
-  {
-    return;
-  }
-
-  last_position = tux->get_tile_pos();
   /** get special_tile's title */
   level.title = "<no title>";
   level.target_time = 0.0f;
@@ -472,8 +466,6 @@ WorldMap::finished_level(Level* gamelevel)
   // deal with statistics
   level->statistics.merge(gamelevel->stats);
   calculate_total_stats();
-  if (level->target_time == 0.0f)
-    load_level_information(*level);
 
   if(level->statistics.completed(level->statistics, level->target_time)) {
     level->perfect = true;
@@ -826,9 +818,6 @@ WorldMap::draw_status(DrawingContext& context)
       LevelTile* level = *i;
 
       if (level->pos == tux->get_tile_pos()) {
-        if(level->title == "")
-          load_level_information(*level);
-
         context.draw_text(Resources::normal_font, level->title,
                           Vector(SCREEN_WIDTH/2,
                                  SCREEN_HEIGHT - Resources::normal_font->get_height() - 10),
@@ -846,9 +835,6 @@ WorldMap::draw_status(DrawingContext& context)
           }
           }
         */
-
-        if (level->target_time == 0.0f)
-          load_level_information(*level);
         level->statistics.draw_worldmap_info(context, level->target_time);
         break;
       }
