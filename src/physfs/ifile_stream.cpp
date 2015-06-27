@@ -23,8 +23,11 @@ namespace {
     {
         auto streambuf = new IFileStreambuf(filename);
         if(streambuf != NULL)
+        {
             return streambuf;
+        }
 
+        delete streambuf;
         return NULL;
     }
 }

@@ -26,8 +26,11 @@ namespace {
   {
       auto streambuf = new OFileStreambuf(filename);
       if(streambuf != NULL)
+      {
         return streambuf;
+      }
 
+      delete streambuf;
       return NULL;
   }
 }
