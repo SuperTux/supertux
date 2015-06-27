@@ -18,22 +18,8 @@
 
 #include "physfs/ifile_streambuf.hpp"
 
-namespace {
-    IFileStreambuf* create_in_buffer(const std::string& filename)
-    {
-        auto streambuf = new IFileStreambuf(filename);
-        if(streambuf != NULL)
-        {
-            return streambuf;
-        }
-
-        delete streambuf;
-        return NULL;
-    }
-}
-
 IFileStream::IFileStream(const std::string& filename) :
-  std::istream(create_in_buffer(filename))
+  std::istream(new IFileStreambuf(filename))
 {
 }
 

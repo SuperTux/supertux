@@ -21,22 +21,8 @@
 
 #include "physfs/ofile_streambuf.hpp"
 
-namespace {
-  OFileStreambuf* create_out_buffer(const std::string& filename)
-  {
-      auto streambuf = new OFileStreambuf(filename);
-      if(streambuf != NULL)
-      {
-        return streambuf;
-      }
-
-      delete streambuf;
-      return NULL;
-  }
-}
-
 OFileStream::OFileStream(const std::string& filename) :
-  std::ostream(create_out_buffer(filename))
+  std::ostream(new OFileStreambuf(filename))
 {
 }
 
