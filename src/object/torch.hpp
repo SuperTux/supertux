@@ -31,7 +31,7 @@ public:
   void draw(DrawingContext& context) override;
   void update(float) override;
 
-  HitResponse collision(GameObject& other, const CollisionHit& );
+  HitResponse collision(GameObject& other, const CollisionHit& ) override;
 
 private:
   SpritePtr m_torch;

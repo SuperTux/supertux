@@ -34,8 +34,8 @@ private:
 public:
   SDLVideoSystem();
 
-  Renderer& get_renderer();
-  Lightmap& get_lightmap();
+  Renderer& get_renderer() override;
+  Lightmap& get_lightmap() override;
   TexturePtr new_texture(SDL_Surface *image) override;
   SurfaceData* new_surface_data(const Surface& surface) override;
   void free_surface_data(SurfaceData* surface_data) override;

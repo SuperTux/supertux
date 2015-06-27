@@ -27,7 +27,7 @@ public:
   JoystickMenu(InputManager& input_manager);
   virtual ~JoystickMenu();
 
-  void refresh();
+  void refresh() override;
   void refresh_menu_item(Controller::Control id);
 
   std::string get_button_name(int button);
