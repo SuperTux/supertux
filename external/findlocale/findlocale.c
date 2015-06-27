@@ -130,16 +130,16 @@ canonise_fl(FL_Locale *l) {
   if (l->lang && 0 == strcmp(l->lang, "en")) {
     if (l->country && 0 == strcmp(l->country, "UK")) {
       free((void*)l->country);
-      l->country = malloc(strlen("GB") + 1);
-      strcpy(l->country, "GB");
+      l->country = (FL_Country)malloc(strlen("GB") + 1);
+      strcpy((char*)l->country, "GB");
     }
   }
   /* ja_JA -> ja_JP */
   if (l->lang && 0 == strcmp(l->lang, "ja")) {
     if (l->country && 0 == strcmp(l->country, "JA")) {
       free((void*)l->country);
-      l->country = malloc(strlen("JP") + 1);
-      strcpy(l->country, "JP");
+      l->country = (FL_Country)malloc(strlen("JP") + 1);
+      strcpy((char*)l->country, "JP");
     }
   }
 }
