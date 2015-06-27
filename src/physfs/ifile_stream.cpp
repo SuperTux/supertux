@@ -19,13 +19,14 @@
 #include "physfs/ifile_streambuf.hpp"
 
 IFileStream::IFileStream(const std::string& filename) :
-  std::istream(new IFileStreambuf(filename))
+  sb(new IFileStreambuf(filename))
 {
+  init(sb);
 }
 
 IFileStream::~IFileStream()
 {
-  delete rdbuf();
+  delete sb;
 }
 
 /* EOF */
