@@ -22,9 +22,6 @@
 
 class OFileStream : public std::ostream
 {
-protected:
-  std::streambuf *sb;
-
 public:
   OFileStream(const std::string& filename);
   ~OFileStream();

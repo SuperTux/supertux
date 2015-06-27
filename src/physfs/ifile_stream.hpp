@@ -22,9 +22,6 @@
 
 class IFileStream : public std::istream
 {
-protected:
-  std::streambuf *sb;
-
 public:
   IFileStream(const std::string& filename);
   ~IFileStream();

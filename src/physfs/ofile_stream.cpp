@@ -22,14 +22,13 @@
 #include "physfs/ofile_streambuf.hpp"
 
 OFileStream::OFileStream(const std::string& filename) :
-  sb(new OFileStreambuf(filename))
+  std::ostream(new OFileStreambuf(filename))
 {
-  init(sb);
 }
 
 OFileStream::~OFileStream()
 {
-  delete sb;
+  delete rdbuf();
 }
 
 #endif
