@@ -399,10 +399,10 @@ Font::draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
                 DrawingEffect drawing_effect, Color color, float alpha) const
 {
   if(shadowsize > 0)
-    draw_chars(renderer, false, rtl ? std::string(text.rbegin(), text.rend()) : text,
+    draw_chars(renderer, false, text,
                pos + Vector(shadowsize, shadowsize), drawing_effect, Color(1,1,1), alpha);
 
-  draw_chars(renderer, true, rtl ? std::string(text.rbegin(), text.rend()) : text, pos, drawing_effect, color, alpha);
+  draw_chars(renderer, true, text, pos, drawing_effect, color, alpha);
 }
 
 void
@@ -435,6 +435,10 @@ Font::draw_chars(Renderer *renderer, bool notshadow, const std::string& text,
 
       request.pos = p + glyph.offset;
       request.drawing_effect = drawing_effect;
+      if(rtl)
+      {
+        request.drawing_effect |= HORIZONTAL_FLIP;
+      }
       request.color = color;
       request.alpha = alpha;
 
