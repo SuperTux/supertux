@@ -22,7 +22,7 @@
 #include "physfs/ofile_streambuf.hpp"
 
 OFileStream::OFileStream(const std::string& filename) :
-  sb(new OFileStreambuf(filename)), std::ostream(nullptr)
+  std::ostream(nullptr), sb(new OFileStreambuf(filename))
 {
   init(sb);
 }
