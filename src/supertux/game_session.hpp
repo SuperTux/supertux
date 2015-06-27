@@ -50,8 +50,8 @@ public:
   int get_demo_random_seed(const std::string& filename);
   void play_demo(const std::string& filename);
 
-  void draw(DrawingContext& context);
-  void update(float frame_ratio);
+  void draw(DrawingContext& context) override;
+  void update(float frame_ratio) override;
   void setup() override;
   void leave() override;
 
@@ -152,7 +152,7 @@ private:
   BonusType bonus_at_start; /** What bonuses does the player have at the start */
   int max_fire_bullets_at_start; /** How many fire bullets does the player have */
   int max_ice_bullets_at_start; /** How many ice bullets does the player have */
-    
+
   bool active; /** Game active? **/
 
 private:

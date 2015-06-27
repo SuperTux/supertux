@@ -30,7 +30,7 @@ public:
   KeyboardMenu(InputManager& input_manager);
   ~KeyboardMenu();
 
-  void refresh();
+  void refresh() override;
   std::string get_key_name(SDL_Keycode key);
   void menu_action(MenuItem* item) override;
 

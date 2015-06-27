@@ -39,7 +39,7 @@ private:
 public:
   AddonMenu();
 
-  void refresh();
+  void refresh() override;
   void menu_action(MenuItem* item) override;
 
 private:
