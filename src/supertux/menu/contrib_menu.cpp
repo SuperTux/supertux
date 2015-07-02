@@ -71,6 +71,9 @@ ContribMenu::ContribMenu() :
           const auto& state = savegame.get_levelset_state(world->get_basedir());
           for(const auto& level_state : state.level_states)
           {
+            if(level_state.filename == "")
+              continue;
+
             if (level_state.solved)
             {
               solved_count += 1;
@@ -82,7 +85,7 @@ ContribMenu::ContribMenu() :
           title << "[" << world->get_title() << "]";
           if (level_count == 0)
           {
-            title << " *NEW*";
+            title << " " << _("*NEW*");
           }
           else
           {
@@ -99,6 +102,9 @@ ContribMenu::ContribMenu() :
           const auto& state = savegame.get_worldmap_state(world->get_worldmap_filename());
           for(const auto& level_state : state.level_states)
           {
+            if(level_state.filename == "")
+              continue;
+
             if (level_state.solved)
             {
               solved_count += 1;
@@ -110,7 +116,7 @@ ContribMenu::ContribMenu() :
           title << world->get_title();
           if (level_count == 0)
           {
-            title << " *NEW*";
+            title << " " << _("*NEW*");
           }
           else
           {
