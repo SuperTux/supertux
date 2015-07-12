@@ -3,22 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Artem Krosheninnikov <feeblehamster@gmail.com>, 2013
+# Artem Krosheninnikov <feeblehamster@gmail.com>, 2013,2015
 # Dmitry <linuxsquirrel.dev@gmail.com>, 2013
 # Дмитрий <starwars32@yandex.ru>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-31 07:40+0000\n"
-"PO-Revision-Date: 2014-12-26 19:06+0000\n"
-"Last-Translator: Дмитрий <starwars32@yandex.ru>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/supertux/language/ru/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Russian (http://www.transifex.com/p/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: src/control/joystick_config.cpp:83
 msgid "Joystick Mappings"
@@ -162,32 +162,32 @@ msgstr "SUPERTUX2_USER_DIR Директория для пользователь�
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "SUPERTUX2_DATA_DIR Директория для данных игры"
 
-#: src/supertux/levelintro.cpp:95
+#: src/supertux/levelintro.cpp:94
 #, c-format
 msgid "contributed by %s"
 msgstr "внесли вклад: %s"
 
-#: src/supertux/levelintro.cpp:110 src/supertux/statistics.cpp:117
+#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:119
 msgid "Best Level Statistics"
 msgstr "Лучшая статистика миссии"
 
-#: src/supertux/levelintro.cpp:116 src/supertux/statistics.cpp:205
+#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:207
 msgid "Coins"
 msgstr "Монеты"
 
-#: src/supertux/levelintro.cpp:123
+#: src/supertux/levelintro.cpp:122
 msgid "Badguys killed"
 msgstr "Убито врагов"
 
-#: src/supertux/levelintro.cpp:130 src/supertux/statistics.cpp:221
+#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:223
 msgid "Secrets"
 msgstr "Тайники"
 
-#: src/supertux/levelintro.cpp:137
+#: src/supertux/levelintro.cpp:136
 msgid "Best time"
 msgstr "Лучшее время"
 
-#: src/supertux/levelintro.cpp:144
+#: src/supertux/levelintro.cpp:143
 msgid "Level target time"
 msgstr "Требуемое время уровня"
 
@@ -220,6 +220,16 @@ msgstr "Дополнения"
 msgid "No Addons installed"
 msgstr "Дополнения не установлены"
 
+#: src/supertux/menu/addon_menu.cpp:147
+#, c-format
+msgid "Install %s *NEW*"
+msgstr "Установить %s *НОВИНКА*"
+
+#: src/supertux/menu/addon_menu.cpp:155
+#, c-format
+msgid "Install %s"
+msgstr "Установить %s"
+
 #: src/supertux/menu/addon_menu.cpp:163
 msgid "No new Addons found"
 msgstr "Новые дополнения не найдены"
@@ -232,15 +242,15 @@ msgstr "Посмотреть в интернете (отключено)"
 msgid "Check Online"
 msgstr "Посмотреть в интернете"
 
-#: src/supertux/menu/addon_menu.cpp:177 src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/addon_menu.cpp:177 src/supertux/menu/cheat_menu.cpp:41
 #: src/supertux/menu/contrib_levelset_menu.cpp:68
-#: src/supertux/menu/contrib_menu.cpp:135
+#: src/supertux/menu/contrib_menu.cpp:141
 #: src/supertux/menu/joystick_menu.cpp:96
 #: src/supertux/menu/keyboard_menu.cpp:48
 #: src/supertux/menu/language_menu.cpp:49
-#: src/supertux/menu/options_menu.cpp:211
+#: src/supertux/menu/options_menu.cpp:217
 #: src/supertux/menu/profile_menu.cpp:46
-#: src/supertux/menu/worldmap_cheat_menu.cpp:42
+#: src/supertux/menu/worldmap_cheat_menu.cpp:44
 msgid "Back"
 msgstr "Назад"
 
@@ -265,25 +275,40 @@ msgid "Bonus: Ice"
 msgstr "Бонус: Лёд"
 
 #: src/supertux/menu/cheat_menu.cpp:34
+#: src/supertux/menu/worldmap_cheat_menu.cpp:34
+msgid "Bonus: Air"
+msgstr "Бонус: Воздух"
+
+#: src/supertux/menu/cheat_menu.cpp:35
+#: src/supertux/menu/worldmap_cheat_menu.cpp:35
+msgid "Bonus: Earth"
+msgstr "Бонус: Земля"
+
+#: src/supertux/menu/cheat_menu.cpp:36
 msgid "Bonus: Star"
 msgstr "Бонус: Звезда"
 
-#: src/supertux/menu/cheat_menu.cpp:35
+#: src/supertux/menu/cheat_menu.cpp:37
 msgid "Shrink Tux"
 msgstr "Уменьшить Тукса"
 
-#: src/supertux/menu/cheat_menu.cpp:36
+#: src/supertux/menu/cheat_menu.cpp:38
 msgid "Kill Tux"
 msgstr "Убить Тукса"
 
-#: src/supertux/menu/cheat_menu.cpp:37
-#: src/supertux/menu/worldmap_cheat_menu.cpp:36
+#: src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/worldmap_cheat_menu.cpp:38
 msgid "Finish Level"
 msgstr "Завершить уровень"
 
 #: src/supertux/menu/contrib_menu.cpp:51 src/supertux/menu/main_menu.cpp:42
 msgid "Contrib Levels"
 msgstr "Дополнительные миссии"
+
+#: src/supertux/menu/contrib_menu.cpp:88
+#: src/supertux/menu/contrib_menu.cpp:119
+msgid "*NEW*"
+msgstr ""
 
 #: src/supertux/menu/download_dialog.cpp:28
 msgid "Abort Download"
@@ -306,7 +331,7 @@ msgid "Continue"
 msgstr "Продолжить"
 
 #: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:44
-#: src/supertux/menu/options_menu.cpp:47
+#: src/supertux/menu/options_menu.cpp:48
 #: src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
 msgstr "Настройки"
@@ -316,7 +341,7 @@ msgid "Abort Level"
 msgstr "Прервать миссию"
 
 #: src/supertux/menu/joystick_menu.cpp:50
-#: src/supertux/menu/options_menu.cpp:202
+#: src/supertux/menu/options_menu.cpp:203
 msgid "Setup Joystick"
 msgstr "Джойстик"
 
@@ -416,7 +441,7 @@ msgid "Press Button"
 msgstr "Нажмите кнопку"
 
 #: src/supertux/menu/keyboard_menu.cpp:28
-#: src/supertux/menu/options_menu.cpp:199
+#: src/supertux/menu/options_menu.cpp:200
 msgid "Setup Keyboard"
 msgstr "Клавиатура"
 
@@ -500,124 +525,128 @@ msgstr "Титры"
 msgid "Quit"
 msgstr "Выйти"
 
-#: src/supertux/menu/main_menu.cpp:85
+#: src/supertux/menu/main_menu.cpp:95
 msgid "Do you really want to quit SuperTux?"
 msgstr "Вы действительно хотите покинуть SuperTux?"
 
-#: src/supertux/menu/main_menu.cpp:86
+#: src/supertux/menu/main_menu.cpp:96
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/supertux/menu/main_menu.cpp:87
+#: src/supertux/menu/main_menu.cpp:97
 msgid "Quit SuperTux"
 msgstr "Выйти из SuperTux"
 
-#: src/supertux/menu/options_menu.cpp:54
+#: src/supertux/menu/options_menu.cpp:55
 msgid "Select Language"
 msgstr "Выберите язык"
 
-#: src/supertux/menu/options_menu.cpp:55
+#: src/supertux/menu/options_menu.cpp:56
 msgid "Select a different language to display text in"
 msgstr "Выбрать другой язык для отображения текста"
 
-#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
+#: src/supertux/menu/options_menu.cpp:58 src/supertux/menu/profile_menu.cpp:29
 msgid "Select Profile"
 msgstr "Выберать профиль"
 
-#: src/supertux/menu/options_menu.cpp:58
+#: src/supertux/menu/options_menu.cpp:59
 msgid "Select a profile to play with"
 msgstr "Выбрать профиль для игры"
 
-#: src/supertux/menu/options_menu.cpp:61
+#: src/supertux/menu/options_menu.cpp:62
 msgid "Fullscreen"
 msgstr "На весь экран"
 
-#: src/supertux/menu/options_menu.cpp:62
+#: src/supertux/menu/options_menu.cpp:63
 msgid "Fill the entire screen"
 msgstr "Занять весь экран"
 
-#: src/supertux/menu/options_menu.cpp:64
+#: src/supertux/menu/options_menu.cpp:65
 msgid "Resolution"
 msgstr "Разрешение"
 
-#: src/supertux/menu/options_menu.cpp:65
+#: src/supertux/menu/options_menu.cpp:66
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "Определить разрешение для полноэкранного режима (вы должны выбрать полноэкранный режим)"
 
-#: src/supertux/menu/options_menu.cpp:67
+#: src/supertux/menu/options_menu.cpp:68
 msgid "Magnification"
 msgstr "Масштаб"
 
-#: src/supertux/menu/options_menu.cpp:68
+#: src/supertux/menu/options_menu.cpp:69
 msgid "Change the magnification of the game area"
 msgstr "Изменить масштаб игрового пространства"
 
-#: src/supertux/menu/options_menu.cpp:72
-#: src/supertux/menu/options_menu.cpp:158
-#: src/supertux/menu/options_menu.cpp:224
-#: src/supertux/menu/options_menu.cpp:244
+#: src/supertux/menu/options_menu.cpp:73
+#: src/supertux/menu/options_menu.cpp:159
+#: src/supertux/menu/options_menu.cpp:230
+#: src/supertux/menu/options_menu.cpp:250
 msgid "auto"
 msgstr "автоматически"
 
-#: src/supertux/menu/options_menu.cpp:155
+#: src/supertux/menu/options_menu.cpp:156
 msgid "Aspect Ratio"
 msgstr "Формат экрана"
 
-#: src/supertux/menu/options_menu.cpp:156
+#: src/supertux/menu/options_menu.cpp:157
 msgid "Adjust the aspect ratio"
 msgstr "Подстроить соотношение сторон экрана"
 
-#: src/supertux/menu/options_menu.cpp:190
+#: src/supertux/menu/options_menu.cpp:191
 msgid "Sound"
 msgstr "Звуки"
 
-#: src/supertux/menu/options_menu.cpp:191
+#: src/supertux/menu/options_menu.cpp:192
 msgid "Disable all sound effects"
 msgstr "Выключить все эвуковые эффекты"
 
-#: src/supertux/menu/options_menu.cpp:192
+#: src/supertux/menu/options_menu.cpp:193
 msgid "Music"
 msgstr "Музыка"
 
-#: src/supertux/menu/options_menu.cpp:193
+#: src/supertux/menu/options_menu.cpp:194
 msgid "Disable all music"
 msgstr "Выключить музыку"
 
-#: src/supertux/menu/options_menu.cpp:195
+#: src/supertux/menu/options_menu.cpp:196
 msgid "Sound (disabled)"
 msgstr "Звуки (отключено)"
 
-#: src/supertux/menu/options_menu.cpp:196
+#: src/supertux/menu/options_menu.cpp:197
 msgid "Music (disabled)"
 msgstr "Музыка (отключено)"
 
-#: src/supertux/menu/options_menu.cpp:200
+#: src/supertux/menu/options_menu.cpp:201
 msgid "Configure key-action mappings"
 msgstr "Настроить функции клавиш"
 
-#: src/supertux/menu/options_menu.cpp:203
+#: src/supertux/menu/options_menu.cpp:204
 msgid "Configure joystick control-action mappings"
 msgstr "Настроить функции джойстика"
 
-#: src/supertux/menu/options_menu.cpp:207
+#: src/supertux/menu/options_menu.cpp:208
 msgid "Developer Mode"
 msgstr "Режим разработчика"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:34
+#: src/supertux/menu/options_menu.cpp:213
+msgid "Christmas Mode"
+msgstr "Рождественский режим"
+
+#: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Bonus: None"
 msgstr "Бонус: Нет"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:37
+#: src/supertux/menu/worldmap_cheat_menu.cpp:39
 msgid "Reset Level"
 msgstr "Сбросить уровень"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:39
+#: src/supertux/menu/worldmap_cheat_menu.cpp:41
 msgid "Finish WorldMap"
 msgstr "Завершить Карту"
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:40
+#: src/supertux/menu/worldmap_cheat_menu.cpp:42
 msgid "Reset WorldMap"
 msgstr "Сбросить Карту"
 
@@ -629,39 +658,39 @@ msgstr "Пауза"
 msgid "Quit World"
 msgstr "Покинуть мир"
 
-#: src/supertux/statistics.cpp:128
+#: src/supertux/statistics.cpp:130
 msgid "Max coins collected:"
 msgstr "Максимум собранных монет:"
 
-#: src/supertux/statistics.cpp:132
+#: src/supertux/statistics.cpp:134
 msgid "Max fragging:"
 msgstr "Максимум убитых:"
 
-#: src/supertux/statistics.cpp:136
+#: src/supertux/statistics.cpp:138
 msgid "Max secrets found:"
 msgstr "Максимум найденных тайников:"
 
-#: src/supertux/statistics.cpp:140
+#: src/supertux/statistics.cpp:142
 msgid "Best time completed:"
 msgstr "Лучшее время:"
 
-#: src/supertux/statistics.cpp:145
+#: src/supertux/statistics.cpp:147
 msgid "Level target time:"
 msgstr "Требуемое время уровня:"
 
-#: src/supertux/statistics.cpp:201
+#: src/supertux/statistics.cpp:203
 msgid "You"
 msgstr "Ваше"
 
-#: src/supertux/statistics.cpp:203
+#: src/supertux/statistics.cpp:205
 msgid "Best"
 msgstr "Лучшее"
 
-#: src/supertux/statistics.cpp:213
+#: src/supertux/statistics.cpp:215
 msgid "Badguys"
 msgstr "Враги"
 
-#: src/supertux/statistics.cpp:229
+#: src/supertux/statistics.cpp:231
 msgid "Time"
 msgstr "Время"
 
@@ -672,8 +701,8 @@ msgstr "Авторское право"
 #: src/supertux/title_screen.cpp:59
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr "Эта игра поставляется АБСОЛЮТНО БЕЗ ГАРАНТИИ. Это свободное программное обеспечение,\nи вы можете распространять его при определенных условиях, см. файл COPYING для деталей.\n"
+"redistribute it under certain conditions; see the file LICENSE for details.\n"
+msgstr "Эта игра поставляется АБСОЛЮТНО БЕЗ ГАРАНТИИ. Это свободное программное обеспечение,\nи вы можете распространять его при определенных условиях, см. файл LICENSE для деталей.\n"
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."

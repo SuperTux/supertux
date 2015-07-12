@@ -1,17 +1,15 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Karl Ove Hufthammer <karl@huftis.org>, 2006-2007,2013-2014
+# Karl Ove Hufthammer <karl@huftis.org>, 2006-2007,2013-2015
+# Karl Ove Hufthammer <karl@huftis.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2014-02-01 13:50+0000\n"
+"POT-Creation-Date: 2015-05-28 18:11+0000\n"
+"PO-Revision-Date: 2015-07-11 02:37+0000\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
-"Language-Team: Norwegian Nynorsk (http://www.transifex.com/projects/p/supertux/language/nn/)\n"
+"Language-Team: Norwegian Nynorsk (http://www.transifex.com/p/supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,6 +19,16 @@ msgstr ""
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
 msgstr "Vaklande veg"
+
+#: data/levels/world2/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr "Fjellpasset"
+
+#: data/levels/world2/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr "- Klatring\n# Tux kan klatra! Trykk «Pil opp» for å starta å klatra. Trykk handlings- eller hoppeknappen for å sleppa taket."
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
@@ -130,7 +138,7 @@ msgstr "Skogbrett 1"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr "Spøkelsesverda"
+msgstr "Spøkjelsesverda"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"

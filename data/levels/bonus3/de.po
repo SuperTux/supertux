@@ -3,18 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ettore Atalan <atalanttore@googlemail.com>, 2015
 # Marcel Haring, 2014
 # Nils Welzk, 2013
-# RavuAlHemio <ondra.hosek@gmail.com>, 2013-2014
+# Ondřej Hošek <ondra.hosek@gmail.com>, 2013-2014
 # Tobias Markus <tobbi@mozilla-uk.org>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-16 16:36+0000\n"
-"PO-Revision-Date: 2014-09-25 20:25+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/supertux/language/de/)\n"
+"POT-Creation-Date: 2015-05-28 18:10+0000\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"Language-Team: German (http://www.transifex.com/p/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -79,7 +80,7 @@ msgstr "#Gut gemacht! Du hast die rote Laterne mitgenommen! Das wäre nicht nöt
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr "Kokosnuss-Festung"
+msgstr "Kokosnussfestung"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
@@ -104,7 +105,7 @@ msgstr "Draußen auf den Kristallfeldern"
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
 msgid "The dark castle"
-msgstr "Die dunkle Festung"
+msgstr "Die dunkle Burg"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
@@ -113,6 +114,18 @@ msgstr "Tief, tiefer..."
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
 msgstr "... am tiefsten!"
+
+#: data/levels/bonus3/dungeon_island/dungeon1.stl:3
+msgid "Circles"
+msgstr "Kreise"
+
+#: data/levels/bonus3/dungeon_island/dungeon2.stl:3
+msgid "Don't miss your ride"
+msgstr "Verpasse nicht Deine Fahrt"
+
+#: data/levels/bonus3/dungeon_island/going_down.stl:3
+msgid "Going down"
+msgstr "Nach unten gehen"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"

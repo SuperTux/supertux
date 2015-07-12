@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-08-22 05:28+0000\n"
-"Last-Translator: yakup <mutouk@yandex.ru>\n"
-"Language-Team: Turkish (http://www.transifex.com/projects/p/supertux/language/tr/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Turkish (http://www.transifex.com/p/supertux/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,7 +38,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Yumurtalar\n!images/powerups/egg/egg.png\n#Bu yumurta Tux'un büyümesini sağlar. Böylece Tux başını tahta bloklara vurabilir."
+msgstr "-Yumurtalar\n!images/powerups/egg/egg.png\n#Yumurtalar Tux'un büyümesini sağlar. Tux bu sayede odun blokları kafasıyla kırabilir."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -78,7 +78,8 @@ msgstr "-Gizli bölgeler\n#Çoğu bölüm normal duvar gibi görünen şeylerin 
 msgid "The Journey Begins"
 msgstr "Yolculuk başlıyor"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostalgica"
 
@@ -199,15 +200,10 @@ msgid ""
 msgstr "-Zıplama tahtaları\n!images/objects/trampoline/trampoline2-0.png\n#Zıplama tahtaları Tux'un yeni yüksekliklere zıplamasını sağlar. Daha fazla zıplamak için tahtada zıplarken zıplama tuşuna basın."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Tırmanma\n# Tux tırmanabilir! Tırmanmak için Yukarı tuşuna bas. Gitmek için Hareket veya zıplama tuşuna bas."
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "Dağ Geçidi"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Max Lyashuk <m_lyashuk@ukr.net>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-08-11 00:54+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Ukrainian (http://www.transifex.com/projects/p/supertux/language/uk/)\n"
+"POT-Creation-Date: 2015-05-28 18:10+0000\n"
+"PO-Revision-Date: 2015-07-11 02:36+0000\n"
+"Last-Translator: Max Lyashuk <m_lyashuk@ukr.net>\n"
+"Language-Team: Ukrainian (http://www.transifex.com/p/supertux/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -58,7 +59,7 @@ msgstr ""
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr ""
+msgstr "Довга печера"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
@@ -70,31 +71,31 @@ msgstr ""
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr ""
+msgstr "Знову на дорозі"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr ""
+msgstr "Вкритий кригою тунель"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr ""
+msgstr "Дирижабль"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr ""
+msgstr "...Де все можливо"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr ""
+msgstr "Напишіть сюди свою оригінальну назву"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
-msgstr ""
+msgstr "Кінець Льодовикового періоду"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr ""
+msgstr "Думай швидко, або помри"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
@@ -106,7 +107,7 @@ msgstr ""
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
-msgstr ""
+msgstr "Водні шляхи"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
@@ -114,35 +115,35 @@ msgstr ""
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr ""
+msgstr "Холодний день"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr ""
+msgstr "Висока гравітація"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
-msgstr ""
+msgstr "Вогняна буря"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
-msgstr ""
+msgstr "Довга подорож"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
-msgstr ""
+msgstr "Життєзабезпечення"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr ""
+msgstr "Стрибки скелями"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr ""
+msgstr "У печеру"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
-msgstr ""
+msgstr "Маєш 1 хвилину"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
@@ -154,19 +155,19 @@ msgstr ""
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr ""
+msgstr "Замок у небі"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
-msgstr ""
+msgstr "Традиція"
 
 #: data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr ""
+msgstr "Бонусний острів II"
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr ""
+msgstr "Ви знайшли сховок!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."

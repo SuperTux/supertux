@@ -1,20 +1,18 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
+# Ettore Atalan <atalanttore@googlemail.com>, 2015
 # Marcel Haring, 2013-2014
 # Nils Welzk, 2013
-# RavuAlHemio <ondra.hosek@gmail.com>, 2013
+# Ondřej Hošek <ondra.hosek@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2014-01-08 20:43+0000\n"
-"Last-Translator: Marcel Haring\n"
-"Language-Team: German (http://www.transifex.com/projects/p/supertux/language/de/)\n"
+"POT-Creation-Date: 2015-05-28 18:11+0000\n"
+"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"Language-Team: German (http://www.transifex.com/p/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,9 +23,19 @@ msgstr ""
 msgid "Crumbling Path"
 msgstr "Instabiler Pfad"
 
+#: data/levels/world2/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr "Der Bergpass"
+
+#: data/levels/world2/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr "- Klettern\n# Tux kann klettern! Drücke die HOCH-Taste, um zu klettern. Springe oder drücke die AKTION-Taste, um loszulassen."
+
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr "Schatz in den Lüften"
+msgstr "Schatz im Himmel"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
@@ -44,24 +52,24 @@ msgstr "-Tragbare Felsen:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr "Eisberg-Festung"
+msgstr "Eisbergfestung"
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr "Nolok"
+msgstr "NOLOK"
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
-msgstr "Gut gefedert"
+msgstr "Federnde Spulen"
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr "Die Holzfestung"
+msgstr "Baumfestung"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr "Eine dunkle Höhle"
+msgstr "Eine dunkle Grotte"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
@@ -77,23 +85,23 @@ msgstr "Gegenstrom"
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr "Klein Venedig"
+msgstr "Klein-Venedig"
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
-msgstr "Zwei Winzige Türme"
+msgstr "Zwei winzige Türme"
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr "Durch den Wind"
+msgstr "Drei Blätter in den Wind"
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
-msgstr "Knie-tief in der Tiefe"
+msgstr "Knietief in der Tiefe"
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
-msgstr "Kanal der Imitation"
+msgstr "Röhrenaffe"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
@@ -109,15 +117,15 @@ msgstr "Dan Morial"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr "Ein Umweg"
+msgstr "Umweg"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Dunkelwald-Festung - Die böse Kammer"
+msgstr "Dunkelwaldfestung - Die böse Kammer"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "Dunkelwald-Festung - Die Augen Noloks"
+msgstr "Dunkelwaldfestung - Die Augen von Nolok"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
@@ -133,7 +141,7 @@ msgstr "Waldebene 1"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr "Geisterwelt"
+msgstr "Eine gespenstische Welt"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
@@ -175,11 +183,11 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-Tipp:\n#Wenn du keinen Weg zu einer Tür siehst, kommst du vielleicht später aus dieser Tür heraus..."
+msgstr "-Tipp:\n#Wenn du keinen Weg\n#zu einer Tür siehst,\n#kommst du vielleicht\n#später aus dieser\n#Tür heraus..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "Tux im Wunderland"
+msgstr "Tiefer in den Kaninchenbau"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -196,7 +204,7 @@ msgstr "-Verlaufen?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr "Abwärts"
+msgstr "Abwärts gehen"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
@@ -212,7 +220,7 @@ msgstr "Licht und Magie"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "Die Rückkehr der Eulen"
+msgstr "Rache der Eulen"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
@@ -224,7 +232,7 @@ msgstr "Pinguine wachsen nicht auf Bäumen"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr "Im Aufbau"
+msgstr "Im Bau"
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"

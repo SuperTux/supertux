@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-04-05 06:58+0000\n"
-"Last-Translator: Roman 'Kaktuxista' Benji <romanbeno273@gmail.com>\n"
-"Language-Team: Slovak (http://www.transifex.com/projects/p/supertux/language/sk/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Slovak (http://www.transifex.com/p/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,7 +37,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Vajcia\n!images/powerups/egg/egg.png\n#Ak dáte Tuxovi vajce, narastie. Keď je velký, môže s hlavou rozbíjať drevené bloky."
+msgstr "-Vajcia\n!images/powerups/egg/egg.png\n#Ak dáte Tuxovi vajce, narastie. Keď je veľký, môže s hlavou rozbíjať drevené bloky."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -77,7 +77,8 @@ msgstr "-Tajné miesta\n#Mnohé levely obsahujú tajné miesta skryté za čo by
 msgid "The Journey Begins"
 msgstr "Cesta sa začína"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Cez Nostalgiu"
 
@@ -198,15 +199,10 @@ msgid ""
 msgstr "-Strunové Dosky\n!images/objects/trampoline/trampoline2-0.png\n#Strunové dosky dovolujú Tuxovi skákať do nových výšok. Ako na takejto doske poskakujete, podržte klávesu na skákanie a pozorujte, do akých výšok letíte."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "-Štveranie sa\n#Tux sa vie štverať! Stlačte klávesu 'Nahor' pre začatie štverania. Stlačte klávesu 'Činnost', alebo skákaciu klávesu, aby sa pustil."
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "Horský priesmyk"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

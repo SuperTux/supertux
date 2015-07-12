@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2014-08-29 11:57+0000\n"
-"Last-Translator: Vangelis Nomikos <nvangelis@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.com/projects/p/supertux/language/el/)\n"
+"POT-Creation-Date: 2015-05-28 18:10+0000\n"
+"PO-Revision-Date: 2015-07-11 02:36+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Greek (http://www.transifex.com/p/supertux/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -167,7 +167,7 @@ msgstr "Μπόνους Νησί ΙΙ"
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr "Βρήκες ένα μυστικός μέρος!"
+msgstr "Βρήκες ένα μυστικό μέρος!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."

@@ -1,6 +1,3 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # Razvan <razvan.net@gmail.com>, 2007
@@ -8,10 +5,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-11-20 13:10+0000\n"
+"POT-Creation-Date: 2015-05-28 18:11+0000\n"
+"PO-Revision-Date: 2015-07-11 02:37+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Romanian (http://www.transifex.com/projects/p/supertux/language/ro/)\n"
+"Language-Team: Romanian (http://www.transifex.com/p/supertux/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,15 +17,25 @@ msgstr ""
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
+msgstr "Cale Perisabila"
+
+#: data/levels/world2/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr ""
+
+#: data/levels/world2/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr ""
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr ""
+msgstr "Comoara din ceruri"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr ""
+msgstr "Constructorul Tux"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -37,96 +44,96 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr ""
+msgstr "-Pietre Portabile:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr ""
+msgstr "Fortareata Ghetar"
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr ""
+msgstr "NOLOK"
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
-msgstr ""
+msgstr "Platform Salt"
 
 #: data/levels/world2/christoph2.stl:3
 msgid "Tree Fortress"
-msgstr ""
+msgstr "Fortareata Copac"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr ""
+msgstr "O Grota Statuta"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
-msgstr ""
+msgstr "Vizita Scurta la El Castillo"
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
-msgstr ""
+msgstr "Bun venit in Padure"
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
-msgstr ""
+msgstr "Contra Curent"
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr ""
+msgstr "Mica Venetie"
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
-msgstr ""
+msgstr "Doua Turnuri Mici"
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
-msgstr ""
+msgstr "Beat"
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
-msgstr ""
+msgstr "Bagat in Adancimi"
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
-msgstr ""
+msgstr " Labirintul din Canal"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr ""
+msgstr "Incaperea cu Stele"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr ""
+msgstr "Peretii Tacuti"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr ""
+msgstr "Dan Morial"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr ""
+msgstr "Ocolire"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr ""
+msgstr "Castelul Padurea Intunecata  - Camera Rea"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr ""
+msgstr "Castelul Padurea Intunecata - Ochii lui Nolok"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr ""
+msgstr "Castelul Padurea Intunecata - Turnul Negru"
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr ""
+msgstr "Gaseste Pestele Mai Mare!"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr ""
+msgstr "Nivel Padure 1"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
@@ -134,23 +141,23 @@ msgstr ""
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr ""
+msgstr "cheia 1 apa - a se pune in spatele cascadei"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr ""
+msgstr "cheia 2 pamant - a se pune subteran"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr ""
+msgstr "cheia 3 lemn - a se pune intr-un copac mare"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr ""
+msgstr "cheia 4 foc - a se pune intr-un mic castel"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr ""
+msgstr "cheia 5 aer - a se pune in nori"
 
 #: data/levels/world2/keystodoor.stl:3
 msgid "Entrance to the Castle"
@@ -158,11 +165,11 @@ msgstr ""
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr ""
+msgstr "Frunzele Mergatoare"
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr ""
+msgstr "Radacini, Radacini Lemnoase"
 
 #: data/levels/world2/level1.stl:146
 msgid ""
@@ -172,11 +179,11 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr ""
+msgstr "-Indiciu:\n#Daca se pare ca nu exista\n#nici un mod de a ajunge la o usa,\n#aminteste-ti ca poate ar\n#trebui sa iesi \n#prin acea usa..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr ""
+msgstr "Jos prin Gaura De Iepure"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
@@ -185,47 +192,47 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr ""
+msgstr "-Oh nu!\n#Calea este blocata! Se\n#pare ca singurul drum\n#trece prin gaura aia \n#neagra din pamant..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr ""
+msgstr "-Te-ai ratacit?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr ""
+msgstr "Pasind in Subteran"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr ""
+msgstr "Dealurile Verzi"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr ""
+msgstr "Nici un Nume"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr ""
+msgstr "Lumina si Magie"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr ""
+msgstr "Razbunarea Bufnitei"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr ""
+msgstr "Socant"
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr ""
+msgstr "Pinguinii nu cresc in Copaci"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr ""
+msgstr "In Lucru"
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr ""
+msgstr "Sus si Jos"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
@@ -233,4 +240,4 @@ msgstr ""
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr ""
+msgstr "Lumea Padurii"

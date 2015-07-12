@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-07-11 11:45+0000\n"
-"Last-Translator: TeraTux devel Team <teratux.mail@gmail.com>\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/supertux/language/cs/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Czech (http://www.transifex.com/p/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,7 +38,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Vejce\n!images/powerups/egg/egg.png\n#Vejce zvětší Tuxe. Potom může rozbíjet dřevěné bedny."
+msgstr "-Vejce\n!images/powerups/egg/egg.png\n#Vejce nechá Tuxe vyrůst. Tux pak může dřevěné kostky rozdrtit svou hlavou."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -78,7 +78,8 @@ msgstr "-Tajné oblasti\n#Mnohé úrovně obsahují za tím, co vypadá jako oby
 msgid "The Journey Begins"
 msgstr "Výprava začíná"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Přes Nostalgiku"
 
@@ -199,15 +200,10 @@ msgid ""
 msgstr "-Trampolíny\n!images/objects/trampoline/trampoline2-0.png\n#Trampolíny umožňují Tuxovi vyskočit do nových výšek. Při odrážení od odrazového prkna podržte skokovou klávesu, abyste se vymrštili zvlášť vysoko."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Šplhání\n# Tux umí šplhat!  Stiskněte klávesu NAHORU, aby začal šplhat.  Stiskněte klávesu AKCE nebo poskočte, aby pokračoval v chůzi."
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "Horský průsmyk"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

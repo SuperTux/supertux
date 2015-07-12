@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2015-04-14 21:54+0000\n"
+"POT-Creation-Date: 2015-05-28 18:10+0000\n"
+"PO-Revision-Date: 2015-07-11 02:36+0000\n"
 "Last-Translator: Indrit Bashkimi <indrit.bashkimi@gmail.com>\n"
-"Language-Team: Albanian (http://www.transifex.com/projects/p/supertux/language/sq/)\n"
+"Language-Team: Albanian (http://www.transifex.com/p/supertux/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
-msgstr ""
+msgstr "Prova e fluturimit"
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
@@ -36,7 +36,7 @@ msgstr "Treni niset pas një minuti"
 
 #: data/levels/bonus1/bonus-level1.stl:3
 msgid "Bonus Dias!"
-msgstr ""
+msgstr "Bonus Dias!"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
@@ -87,11 +87,11 @@ msgstr ""
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
-msgstr ""
+msgstr "Si erë peshku"
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
-msgstr ""
+msgstr "Zjarr në qiell"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
@@ -99,7 +99,7 @@ msgstr "A kam qenë këtu më parë?"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
-msgstr ""
+msgstr "Djemve të këqij i vjen era e keqe!"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -115,7 +115,7 @@ msgstr "Akoma tepër e thjeshtë"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
-msgstr ""
+msgstr "Gjysmë e ngrirë"
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
@@ -127,7 +127,7 @@ msgstr "Një labirint në Qiell"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr ""
+msgstr "Shembje e pashmangshme!"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
@@ -135,7 +135,7 @@ msgstr "Maja e Akullnajës"
 
 #: data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
-msgstr ""
+msgstr "Ishulli Bonus I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
@@ -163,15 +163,15 @@ msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
-msgstr ""
+msgstr "Lëri territoret e Torfit"
 
 #: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
-msgstr ""
+msgstr "Lëre zonën e Abednegos"
 
 #: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
-msgstr ""
+msgstr "Lëri pronat e Thompsonit"
 
 #: data/levels/bonus1/worldmap.stwm:77
 msgid "Back to Matr1x' Sector"

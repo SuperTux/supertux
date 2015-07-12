@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-08-28 16:54+0000\n"
-"Last-Translator: Vangelis Nomikos <nvangelis@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.com/projects/p/supertux/language/el/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Greek (http://www.transifex.com/p/supertux/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,7 +36,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Αυγά\n!images/powerups/egg/egg.png\n#Το αυγό κάνει τον Tux να μεγαλώνει. Ο Tux στη συνέχεια μπορεί να συνθλίψει ξύλινα μπλοκ με το κεφάλι του."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -76,7 +76,8 @@ msgstr "-Μυστικές Περιοχές\n#Πολλά επίπεδα περι�
 msgid "The Journey Begins"
 msgstr "Το Ταξίδι Ξεκινάει"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostalgica"
 
@@ -197,15 +198,10 @@ msgid ""
 msgstr "-Βατήρες\n!images/objects/trampoline/trampoline2-0.png\n#Οι βατήρες επιτρέπουν στον Tux να πηδάει σε νέα ύψη. Κράτα πατημένο το πλήκτρο άλματος ενώ αναπηδείς στο βατήρα για να αποκτήσεις επιπλέον ύψος."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Σκαρφάλωμα\n# Ο Tux μπορεί να σκαρφαλώσει! Πάτησε το πλήκτο ΠΑΝΩ για να ξεκινήσει το σκαρφάλωμα. Πάτησε το πλήκτρο ΔΡΑΣΗ ή πήδα ώστε να συνεχίσει."
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "Το Ορεινό Πέρασμα"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

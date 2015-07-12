@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-16 16:36+0000\n"
-"PO-Revision-Date: 2014-07-11 11:44+0000\n"
-"Last-Translator: TeraTux devel Team <teratux.mail@gmail.com>\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/supertux/language/cs/)\n"
+"POT-Creation-Date: 2015-05-28 18:10+0000\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Czech (http://www.transifex.com/p/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -112,6 +112,18 @@ msgstr "Hluboko, hlouběji..."
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
 msgstr "...nejhlouběji!"
+
+#: data/levels/bonus3/dungeon_island/dungeon1.stl:3
+msgid "Circles"
+msgstr ""
+
+#: data/levels/bonus3/dungeon_island/dungeon2.stl:3
+msgid "Don't miss your ride"
+msgstr ""
+
+#: data/levels/bonus3/dungeon_island/going_down.stl:3
+msgid "Going down"
+msgstr ""
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"

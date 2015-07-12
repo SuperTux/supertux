@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-12-13 21:28+0000\n"
-"Last-Translator: xet7 <x@xet7.org>\n"
-"Language-Team: Finnish (http://www.transifex.com/projects/p/supertux/language/fi/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Finnish (http://www.transifex.com/p/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,7 +38,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Munat\n!images/powerups/egg/egg.png\n#Muna kasvattaa Tuxia, jolloin hän voi rikkoa puulaatikoita päällään."
+msgstr "-Munat\n!images/powerups/egg/egg.png\n#Muna kasvattaa Tuxia. Täten hän voi rikkoa puulaatikoita päällään."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -78,7 +78,8 @@ msgstr "-Salaiset paikat\n#Monissa tasoissa on salaisia alueita näennäisten se
 msgid "The Journey Begins"
 msgstr "Matka alkaa"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostalgica"
 
@@ -199,15 +200,10 @@ msgid ""
 msgstr "-Ponnahduslaudat\n!images/objects/trampoline/trampoline2-0.png\n#Ponnahduslaudat mahdollistavat Tuxin hypyt uusiin korkeuksiin. Pidä painettuna hyppy näppäintä pomppiessasi ponnahduslaudalla singahtaaksesi vielä korkeammalle."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Kiipeäminen\n# Tux osaa kiivetä! Paina YLÖS näppäintä aloittaaksesi kiipeämisen. Paina TOIMINTA näppäintä tai hyppää päästäksesi irti."
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "Vuoristosola"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

@@ -3,20 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Wuzzy <almikes@aol.com>, 2015
 # Anonymouse <anonymouse2048@gmail.com>, 2013
 # Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2013
+# Ettore Atalan <atalanttore@googlemail.com>, 2015
 # Marcel Haring, 2014
 #  <matze@braunis.de>, 2004
-# RavuAlHemio <ondra.hosek@gmail.com>, 2013
-# Tobias Markus <tobbi@mozilla-uk.org>, 2014
+# Ondřej Hošek <ondra.hosek@gmail.com>, 2013
+# Tobias Markus <tobbi@mozilla-uk.org>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-04-12 15:32+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/supertux/language/de/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 03:58+0000\n"
+"Last-Translator: Wuzzy <almikes@aol.com>\n"
+"Language-Team: German (http://www.transifex.com/p/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,7 +36,7 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Bonus Blocks\n!images/objects/bonus_block/full-0.png\n#Bonus-Blöcke können nicht nur Münzen, Eier oder Feuerblumen enthalten, sondern auch besondere Gegenstände, die Tux auf seiner Reise unterstützen.\n#\n#Durch Anstoßen von unten geben sie ihren Inhalt frei."
+msgstr "-Bonusblöcke\n!images/objects/bonus_block/full-0.png\n#Bonus-Blöcke können nicht nur Münzen, Eier oder Feuerblumen enthalten, sondern auch besondere Gegenstände, die Tux auf seiner Reise unterstützen.\n#\n#Durch Anstoßen von unten geben sie ihren Inhalt frei."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
@@ -48,28 +50,28 @@ msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
-msgstr "-Kontrollpunkte\n!images/objects/resetpoints/bell-m.png\n#Aktiviere den Kontrollpunkt. Wenn du stirbst, kannst du die Ebene von hier\naus nochmal probieren. Immer wenn du hier neustartest, verlierst du mindestens 25 Münzen."
+msgstr "-Kontrollpunkte\n!images/objects/resetpoints/bell-m.png\n#Aktiviere den Kontrollpunkt. Wenn du stirbst, kannst du die Ebene von hier aus nochmal probieren. Immer, wenn du hier neustartest, verlierst du mindestens 25 Münzen."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Running\n!images/tiles/signs/run.png\n#Der Weg zum Ziel ist versperrt! Die Blöcke rechts von hier können nur rennend übersprungen werden."
+msgstr "-Rennen\n!images/tiles/signs/run.png\n#Der Weg zum Ziel ist versperrt! Die Blöcke rechts von hier können nur rennend übersprungen werden."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Fire Flower\n!images/powerups/fireflower/fire_flower-0.png\n#Die Feuerblume verleiht Tux die Möglichkeit, Feuerbälle zu werfen."
+msgstr "-Feuerblume\n!images/powerups/fireflower/fire_flower-0.png\n#Die Feuerblume verleiht Tux die Möglichkeit, Feuerbälle zu werfen."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-Tux Doll\n!images/powerups/1up/1up.png\n#Der Pinguin ist 100 Münzen auf einmal wert."
+msgstr "-Tux-Puppe\n!images/powerups/1up/1up.png\n#Die Tux-Puppe ist 100 Münzen auf einmal wert."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
@@ -81,7 +83,8 @@ msgstr "-Verstecke\n#In vielen Levels sind hinter scheinbar normalen Wänden Ver
 msgid "The Journey Begins"
 msgstr "Eine Reise beginnt"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostalgica"
 
@@ -123,7 +126,7 @@ msgstr "Auf zu den Sternen"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "Über den Wolken"
+msgstr "Über dem arktischen Himmel"
 
 #: data/levels/world1/14 - Entrance to the Cave.stl:3
 msgid "Entrance to the Cave"
@@ -202,15 +205,10 @@ msgid ""
 msgstr "-Sprungbretter\n!images/objects/trampoline/trampoline2-0.png\n#Sprungbretter erlauben es Tux, neue Höhen zu erreichen. Halte die Sprungtaste gedrückt, während du auf dem Brett stehst, um noch höher zu fliegen."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Klettern\n# Tux kann klettern! Drücke die Hoch-Taste um zu klettern. Springe oder drücke die AKTION-Taste um loszulassen."
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "Der Bergpass"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-31 07:40+0000\n"
-"PO-Revision-Date: 2014-08-31 07:46+0000\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:37+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Nepali (http://www.transifex.com/projects/p/supertux/language/ne/)\n"
+"Language-Team: Nepali (http://www.transifex.com/p/supertux/language/ne/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -162,32 +162,32 @@ msgstr ""
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr ""
 
-#: src/supertux/levelintro.cpp:95
+#: src/supertux/levelintro.cpp:94
 #, c-format
 msgid "contributed by %s"
 msgstr "%s ले योगदान गर्नुभएको"
 
-#: src/supertux/levelintro.cpp:110 src/supertux/statistics.cpp:117
+#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:119
 msgid "Best Level Statistics"
 msgstr "उत्कृष्ट स्तर तथ्याङ्क"
 
-#: src/supertux/levelintro.cpp:116 src/supertux/statistics.cpp:205
+#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:207
 msgid "Coins"
 msgstr "मुद्राहरु"
 
-#: src/supertux/levelintro.cpp:123
+#: src/supertux/levelintro.cpp:122
 msgid "Badguys killed"
 msgstr "खलपात्र मारियो"
 
-#: src/supertux/levelintro.cpp:130 src/supertux/statistics.cpp:221
+#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:223
 msgid "Secrets"
 msgstr "गोप्य वस्तुहरु"
 
-#: src/supertux/levelintro.cpp:137
+#: src/supertux/levelintro.cpp:136
 msgid "Best time"
 msgstr "उत्कृष्ट समय"
 
-#: src/supertux/levelintro.cpp:144
+#: src/supertux/levelintro.cpp:143
 msgid "Level target time"
 msgstr "स्तर लक्ष्य समय"
 
@@ -220,6 +220,16 @@ msgstr "लाभ विकल्प"
 msgid "No Addons installed"
 msgstr ""
 
+#: src/supertux/menu/addon_menu.cpp:147
+#, c-format
+msgid "Install %s *NEW*"
+msgstr ""
+
+#: src/supertux/menu/addon_menu.cpp:155
+#, c-format
+msgid "Install %s"
+msgstr ""
+
 #: src/supertux/menu/addon_menu.cpp:163
 msgid "No new Addons found"
 msgstr ""
@@ -232,15 +242,15 @@ msgstr "अनलाइन जाँच गर्नुहोस् (अक्�
 msgid "Check Online"
 msgstr "अनलाइन जाँच गर्नुहोस्"
 
-#: src/supertux/menu/addon_menu.cpp:177 src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/addon_menu.cpp:177 src/supertux/menu/cheat_menu.cpp:41
 #: src/supertux/menu/contrib_levelset_menu.cpp:68
-#: src/supertux/menu/contrib_menu.cpp:135
+#: src/supertux/menu/contrib_menu.cpp:141
 #: src/supertux/menu/joystick_menu.cpp:96
 #: src/supertux/menu/keyboard_menu.cpp:48
 #: src/supertux/menu/language_menu.cpp:49
-#: src/supertux/menu/options_menu.cpp:211
+#: src/supertux/menu/options_menu.cpp:217
 #: src/supertux/menu/profile_menu.cpp:46
-#: src/supertux/menu/worldmap_cheat_menu.cpp:42
+#: src/supertux/menu/worldmap_cheat_menu.cpp:44
 msgid "Back"
 msgstr "पछाडि"
 
@@ -265,25 +275,40 @@ msgid "Bonus: Ice"
 msgstr ""
 
 #: src/supertux/menu/cheat_menu.cpp:34
-msgid "Bonus: Star"
+#: src/supertux/menu/worldmap_cheat_menu.cpp:34
+msgid "Bonus: Air"
 msgstr ""
 
 #: src/supertux/menu/cheat_menu.cpp:35
-msgid "Shrink Tux"
+#: src/supertux/menu/worldmap_cheat_menu.cpp:35
+msgid "Bonus: Earth"
 msgstr ""
 
 #: src/supertux/menu/cheat_menu.cpp:36
-msgid "Kill Tux"
+msgid "Bonus: Star"
 msgstr ""
 
 #: src/supertux/menu/cheat_menu.cpp:37
-#: src/supertux/menu/worldmap_cheat_menu.cpp:36
+msgid "Shrink Tux"
+msgstr ""
+
+#: src/supertux/menu/cheat_menu.cpp:38
+msgid "Kill Tux"
+msgstr ""
+
+#: src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/worldmap_cheat_menu.cpp:38
 msgid "Finish Level"
 msgstr ""
 
 #: src/supertux/menu/contrib_menu.cpp:51 src/supertux/menu/main_menu.cpp:42
 msgid "Contrib Levels"
 msgstr "योगदान स्तरहरु"
+
+#: src/supertux/menu/contrib_menu.cpp:88
+#: src/supertux/menu/contrib_menu.cpp:119
+msgid "*NEW*"
+msgstr ""
 
 #: src/supertux/menu/download_dialog.cpp:28
 msgid "Abort Download"
@@ -306,7 +331,7 @@ msgid "Continue"
 msgstr "जारी राख्नुहोस्"
 
 #: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:44
-#: src/supertux/menu/options_menu.cpp:47
+#: src/supertux/menu/options_menu.cpp:48
 #: src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
 msgstr "विकल्पहरु"
@@ -316,7 +341,7 @@ msgid "Abort Level"
 msgstr "स्तर परित्याग गर्नुहोस्"
 
 #: src/supertux/menu/joystick_menu.cpp:50
-#: src/supertux/menu/options_menu.cpp:202
+#: src/supertux/menu/options_menu.cpp:203
 msgid "Setup Joystick"
 msgstr "जोयस्टिक सेटअप"
 
@@ -416,7 +441,7 @@ msgid "Press Button"
 msgstr "बटन थिचनुहोस्"
 
 #: src/supertux/menu/keyboard_menu.cpp:28
-#: src/supertux/menu/options_menu.cpp:199
+#: src/supertux/menu/options_menu.cpp:200
 msgid "Setup Keyboard"
 msgstr "कुञ्जीपाटी सेटअप"
 
@@ -500,124 +525,128 @@ msgstr "श्रेय"
 msgid "Quit"
 msgstr "बन्द गर्नुहोस"
 
-#: src/supertux/menu/main_menu.cpp:85
+#: src/supertux/menu/main_menu.cpp:95
 msgid "Do you really want to quit SuperTux?"
 msgstr ""
 
-#: src/supertux/menu/main_menu.cpp:86
+#: src/supertux/menu/main_menu.cpp:96
 msgid "Cancel"
 msgstr ""
 
-#: src/supertux/menu/main_menu.cpp:87
+#: src/supertux/menu/main_menu.cpp:97
 msgid "Quit SuperTux"
 msgstr ""
 
-#: src/supertux/menu/options_menu.cpp:54
+#: src/supertux/menu/options_menu.cpp:55
 msgid "Select Language"
 msgstr "भाषा चयन गर्नुहोस्"
 
-#: src/supertux/menu/options_menu.cpp:55
+#: src/supertux/menu/options_menu.cpp:56
 msgid "Select a different language to display text in"
 msgstr "पाठ प्रसारण गर्न कुनै अन्य भाषा चयन गर्नुहोस्"
 
-#: src/supertux/menu/options_menu.cpp:57 src/supertux/menu/profile_menu.cpp:29
+#: src/supertux/menu/options_menu.cpp:58 src/supertux/menu/profile_menu.cpp:29
 msgid "Select Profile"
 msgstr "प्रोफाइल चयन गर्नुहोस"
 
-#: src/supertux/menu/options_menu.cpp:58
+#: src/supertux/menu/options_menu.cpp:59
 msgid "Select a profile to play with"
 msgstr "खेल्नको लागि प्रोफाइल चयन गर्नुहोस"
 
-#: src/supertux/menu/options_menu.cpp:61
+#: src/supertux/menu/options_menu.cpp:62
 msgid "Fullscreen"
 msgstr "पुरा पर्दा"
 
-#: src/supertux/menu/options_menu.cpp:62
+#: src/supertux/menu/options_menu.cpp:63
 msgid "Fill the entire screen"
 msgstr "पुरा पर्दा भर्नुहोस"
 
-#: src/supertux/menu/options_menu.cpp:64
+#: src/supertux/menu/options_menu.cpp:65
 msgid "Resolution"
 msgstr "रिजोल्युसन"
 
-#: src/supertux/menu/options_menu.cpp:65
+#: src/supertux/menu/options_menu.cpp:66
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "पुरा पर्दामा प्रयोग भएको रिजोल्युसन निर्धारण गर्नुहोस (यो परिवर्तनलाई सम्पन्न गर्न पुरा पर्दा टगल गर्नुपर्छ)"
 
-#: src/supertux/menu/options_menu.cpp:67
+#: src/supertux/menu/options_menu.cpp:68
 msgid "Magnification"
 msgstr "बृहत्तरकरण"
 
-#: src/supertux/menu/options_menu.cpp:68
+#: src/supertux/menu/options_menu.cpp:69
 msgid "Change the magnification of the game area"
 msgstr "खेल क्षेत्रको बृहत्तरकरण परिवर्तन गर्नुहोस"
 
-#: src/supertux/menu/options_menu.cpp:72
-#: src/supertux/menu/options_menu.cpp:158
-#: src/supertux/menu/options_menu.cpp:224
-#: src/supertux/menu/options_menu.cpp:244
+#: src/supertux/menu/options_menu.cpp:73
+#: src/supertux/menu/options_menu.cpp:159
+#: src/supertux/menu/options_menu.cpp:230
+#: src/supertux/menu/options_menu.cpp:250
 msgid "auto"
 msgstr "स्वत:"
 
-#: src/supertux/menu/options_menu.cpp:155
+#: src/supertux/menu/options_menu.cpp:156
 msgid "Aspect Ratio"
 msgstr "आकार अनुपात "
 
-#: src/supertux/menu/options_menu.cpp:156
+#: src/supertux/menu/options_menu.cpp:157
 msgid "Adjust the aspect ratio"
 msgstr "आकार अनुपात समायोजन गर्नुहोस्"
 
-#: src/supertux/menu/options_menu.cpp:190
+#: src/supertux/menu/options_menu.cpp:191
 msgid "Sound"
 msgstr "ध्वनी"
 
-#: src/supertux/menu/options_menu.cpp:191
+#: src/supertux/menu/options_menu.cpp:192
 msgid "Disable all sound effects"
 msgstr "सबै ध्वनी प्रभावहरु निष्कृय गर्नुहोस्"
 
-#: src/supertux/menu/options_menu.cpp:192
+#: src/supertux/menu/options_menu.cpp:193
 msgid "Music"
 msgstr "संगीत"
 
-#: src/supertux/menu/options_menu.cpp:193
+#: src/supertux/menu/options_menu.cpp:194
 msgid "Disable all music"
 msgstr "सबै संगीत निष्कृय गर्नुहोस्"
 
-#: src/supertux/menu/options_menu.cpp:195
+#: src/supertux/menu/options_menu.cpp:196
 msgid "Sound (disabled)"
 msgstr "ध्वनि(अक्षम)"
 
-#: src/supertux/menu/options_menu.cpp:196
+#: src/supertux/menu/options_menu.cpp:197
 msgid "Music (disabled)"
 msgstr "संगीत (अक्षम)"
 
-#: src/supertux/menu/options_menu.cpp:200
+#: src/supertux/menu/options_menu.cpp:201
 msgid "Configure key-action mappings"
 msgstr "कुञ्जी-क्रिया मानचित्रहरु कन्फिगर गर्नुहोस्"
 
-#: src/supertux/menu/options_menu.cpp:203
+#: src/supertux/menu/options_menu.cpp:204
 msgid "Configure joystick control-action mappings"
 msgstr "जोयस्टिक नियन्त्रण-क्रिया मानचित्रहरु कन्फिगर गर्नुहोस्"
 
-#: src/supertux/menu/options_menu.cpp:207
+#: src/supertux/menu/options_menu.cpp:208
 msgid "Developer Mode"
 msgstr ""
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:34
+#: src/supertux/menu/options_menu.cpp:213
+msgid "Christmas Mode"
+msgstr ""
+
+#: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Bonus: None"
 msgstr ""
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:37
+#: src/supertux/menu/worldmap_cheat_menu.cpp:39
 msgid "Reset Level"
 msgstr ""
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:39
+#: src/supertux/menu/worldmap_cheat_menu.cpp:41
 msgid "Finish WorldMap"
 msgstr ""
 
-#: src/supertux/menu/worldmap_cheat_menu.cpp:40
+#: src/supertux/menu/worldmap_cheat_menu.cpp:42
 msgid "Reset WorldMap"
 msgstr ""
 
@@ -629,39 +658,39 @@ msgstr "पज"
 msgid "Quit World"
 msgstr "यस विश्ववाट बाहिरिनुहोस्"
 
-#: src/supertux/statistics.cpp:128
+#: src/supertux/statistics.cpp:130
 msgid "Max coins collected:"
 msgstr "अधिक मुद्रा संकलन:"
 
-#: src/supertux/statistics.cpp:132
+#: src/supertux/statistics.cpp:134
 msgid "Max fragging:"
 msgstr "अधिक सफलता:"
 
-#: src/supertux/statistics.cpp:136
+#: src/supertux/statistics.cpp:138
 msgid "Max secrets found:"
 msgstr "अधिक गोप्य वस्तु प्राप्त:"
 
-#: src/supertux/statistics.cpp:140
+#: src/supertux/statistics.cpp:142
 msgid "Best time completed:"
 msgstr "पूरा भएको उत्कृष्ट समय:"
 
-#: src/supertux/statistics.cpp:145
+#: src/supertux/statistics.cpp:147
 msgid "Level target time:"
 msgstr "स्तर लक्ष्य समय:"
 
-#: src/supertux/statistics.cpp:201
+#: src/supertux/statistics.cpp:203
 msgid "You"
 msgstr "तपाईँ"
 
-#: src/supertux/statistics.cpp:203
+#: src/supertux/statistics.cpp:205
 msgid "Best"
 msgstr "उत्कृष्ट"
 
-#: src/supertux/statistics.cpp:213
+#: src/supertux/statistics.cpp:215
 msgid "Badguys"
 msgstr "खलपात्रहरु"
 
-#: src/supertux/statistics.cpp:229
+#: src/supertux/statistics.cpp:231
 msgid "Time"
 msgstr "समय"
 
@@ -672,8 +701,8 @@ msgstr "प्रातिलिपि अधिकार"
 #: src/supertux/title_screen.cpp:59
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file COPYING for details.\n"
-msgstr "यो खेल कुनै पनि वारेन्टी बिना आउँछ। यो एउटा स्वतन्त्र सफ्टवेयर हो र केही सर्तहरुको पालना गर्दै तपाईँले यसको वितरण \nगर्नसक्नुहुनेछ; विस्तृत विवरणको लागि फाइल प्रतिलिपि गर्ने हेर्नुहोस्।\n"
+"redistribute it under certain conditions; see the file LICENSE for details.\n"
+msgstr ""
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."

@@ -15,10 +15,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2015-01-05 18:34+0000\n"
-"Last-Translator: Tibor Buzási\n"
-"Language-Team: Hungarian (http://www.transifex.com/projects/p/supertux/language/hu/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Hungarian (http://www.transifex.com/p/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -43,7 +43,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Tojások\n!images/powerups/egg/egg.png\n#A tojás segítségével Tux nagyobbra nőhet. Tux szét tudja törni a fa dobozokat a fejével."
+msgstr "-Tojás\n!images/powerups/egg/egg.png\n#A tojástól Tux nagyobbra nő, így már szét tudja törni a fejével a fadobozokat is."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -83,7 +83,8 @@ msgstr "-Titkos helyek\n#Sok pályán találhatsz titkos területeket a simának
 msgid "The Journey Begins"
 msgstr "Az utazás elkezdődik"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostalgica"
 
@@ -204,15 +205,10 @@ msgid ""
 msgstr "-Ugródeszkák\n!images/objects/trampoline/trampoline2-0.png\n#Az ugródeszkák lehetővé teszik, hogy Tux magasabbra ugorhasson. Tartsd lenyomva az UGRÁS gombot miközben ugrálsz a deszkán, hogy még magasabbra juss."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Mászás\n# Tux tud mászni! Nyomd meg a FEL gombot a mászás elkezdéséhez. Nyomd meg az AKCIÓ gombot vagy ugorj az abbahagyásához."
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "A hegyszoros"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

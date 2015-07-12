@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Karl Ove Hufthammer <karl@huftis.org>, 2007,2013
+# Karl Ove Hufthammer <karl@huftis.org>, 2007,2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-08-11 02:16+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/supertux/language/nb/)\n"
+"POT-Creation-Date: 2015-05-28 18:10+0000\n"
+"PO-Revision-Date: 2015-07-11 02:36+0000\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+"Language-Team: Norwegian Bokmål (http://www.transifex.com/p/supertux/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,7 +47,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-Gratulerer!\n\n#Du har klart å komme\n#gjennom Bonusøy II.\n\n\n\tBrettene på øya er laget av\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Nok en gang vil vi takke alle\n#som har bidratt til denne utgaven.\n#Vi håpar du har kost deg, og at\n#det gjorde det litt lettere å vente\n#på milepæl 2. :-)\n\n\n Istida er snart slutt ..."
+msgstr "-Gratulerer!\n\n#Du klarte hele\n#Bonusøy II\n\n\n\tBonusøya inneholder brett laget av\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Takk til alle som har bidratt\n#til denne utgaven. Vi håper\n#dere har kost dere med å spille,\n#og at det har gjort ventetiden\n#til Milepæl 2 litt lettere. :-)\n\n\n Istida er snart over …"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."

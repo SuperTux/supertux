@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-03-03 21:36+0000\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/supertux/language/zh_TW/)\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/p/supertux/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,7 +36,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-蛋\n!images/powerups/egg/egg.png\n#蛋可以讓企鵝變大。變大後的企鵝可以頂破木箱。"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -76,7 +76,8 @@ msgstr "-秘密區域\n#許多關卡裡都有秘密區域，藏在看不到的�
 msgid "The Journey Begins"
 msgstr "旅行開始"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "懷舊之徑"
 
@@ -197,15 +198,10 @@ msgid ""
 msgstr "-彈簧板\n!images/objects/trampoline/trampoline2-0.png\n#彈簧板讓 Tux 可以跳更高一點。彈簧彈跳時按住跳躍鍵還可以再跳更高。"
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "-攀爬\n# Tux 可以攀爬喔！按住上鍵開始爬。按下動作鍵或跳躍鍵離開。"
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "山中小徑"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

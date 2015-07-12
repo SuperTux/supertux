@@ -1,6 +1,3 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # Indrit Bashkimi <indrit.bashkimi@gmail.com>, 2015
@@ -8,10 +5,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2015-04-14 21:47+0000\n"
+"POT-Creation-Date: 2015-05-28 18:11+0000\n"
+"PO-Revision-Date: 2015-07-11 02:37+0000\n"
 "Last-Translator: Indrit Bashkimi <indrit.bashkimi@gmail.com>\n"
-"Language-Team: Albanian (http://www.transifex.com/projects/p/supertux/language/sq/)\n"
+"Language-Team: Albanian (http://www.transifex.com/p/supertux/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,13 +19,23 @@ msgstr ""
 msgid "Crumbling Path"
 msgstr ""
 
+#: data/levels/world2/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr "Shtegu i Malit"
+
+#: data/levels/world2/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr ""
+
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
 msgstr "Thesare në qiej"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr ""
+msgstr "Tux Mjeshtri"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -70,7 +77,7 @@ msgstr "Mirëserdhe në Pyllin"
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
-msgstr ""
+msgstr "Kundërrymë"
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
@@ -78,7 +85,7 @@ msgstr "Venecia e Vogël"
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
-msgstr "Dy Kulla të Vogla"
+msgstr "Dy Kulla të Vockla"
 
 #: data/levels/world2/christophA.stl:3
 msgid "Three sheets to the wind"
@@ -94,7 +101,7 @@ msgstr ""
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr "Dhomë me yje"
+msgstr "Dhoma me Yje"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
@@ -122,15 +129,15 @@ msgstr ""
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Gjej peshkun më të madh!"
+msgstr "Gjeje Peshkun më të Madh!"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr ""
+msgstr "Pylli Niveli 1"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr "Një Botë Fantazmash"
+msgstr "Një Botë Shpirtërore"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
@@ -162,7 +169,7 @@ msgstr ""
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr ""
+msgstr "Rrënjë, rrënjë druri"
 
 #: data/levels/world2/level1.stl:146
 msgid ""
@@ -193,11 +200,11 @@ msgstr "-A ke humbur?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr ""
+msgstr "Rruga për Nëntokë"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr "Kodrat e gjelbra"
+msgstr "Kodra të gjelbra"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
@@ -209,19 +216,19 @@ msgstr "Dritë dhe Magji"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr ""
+msgstr "Hakmarrja e Owl"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr ""
+msgstr "Tronditëse"
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr ""
+msgstr "Pinguinët nuk rriten nëpër Pemë"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr ""
+msgstr "Po ndërtohet"
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
@@ -229,8 +236,8 @@ msgstr "Lart dhe poshtë"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr ""
+msgstr "Një fshat në Pyll"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr ""
+msgstr "Bota e Pyllit"

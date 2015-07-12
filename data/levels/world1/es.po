@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Fran <franchulo021@gmail.com>, 2015
 # Germana <germanaoliveirab@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-03-03 21:36+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Spanish (http://www.transifex.com/projects/p/supertux/language/es/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 19:20+0000\n"
+"Last-Translator: Fran <franchulo021@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/p/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,7 +37,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Huevos\n!images/powerups/egg/egg.png\n#Los huevos hacen crecer a Tux. Luego Tux podrá destruir bloques de madera con su cabeza."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -76,7 +77,8 @@ msgstr "-Áreas Secretas\n#Muchos niveles contienen áreas secretas detrás de l
 msgid "The Journey Begins"
 msgstr "La Aventura Comienza"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostalgica"
 
@@ -178,7 +180,7 @@ msgstr "No más Sr. Cubo de Hielo"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
-msgstr ""
+msgstr "Un Tenedor en el Camino"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
@@ -197,15 +199,10 @@ msgid ""
 msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr ""
+msgstr "- Escalando\n# ¡Tux puede escalar! Presiona la tecla flecha hacia arriba para empezar a escalar. Presiona la tecla de acción o salta para soltar."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

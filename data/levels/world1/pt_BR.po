@@ -8,14 +8,15 @@
 # Filipe Oliveira <contato@fmoliveira.com.br>, 2013
 # Herval Ribeiro <heraze@gmail.com>, 2006
 # Joel Gil Leon <joel@gil.com>, 2013
+# Jonatas L. Nogueira <cpntb1@ymail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-03-06 01:33+0000\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
 "Last-Translator: Jonatas L. Nogueira <cpntb1@ymail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/supertux/language/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/p/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,7 +41,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Ovos\n!images/powerups/egg/egg.png\n#Os ovos fazem o Tux crescer. Tux, então, poderá quebrar os blocos de madeira com a cabeça."
+msgstr "-Ovos\n!images/powerups/egg/egg.png\n#Os ovos fazem o Tux crescer. Tux, então, pode quebrar os blocos de madeira com a cabeça."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -80,7 +81,8 @@ msgstr "-Áreas Secretas\n#Muitas fases contém áreas secretas atrás do que pa
 msgid "The Journey Begins"
 msgstr "A Jornada Começa"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostálgica"
 
@@ -201,15 +203,10 @@ msgid ""
 msgstr "-Trapolins\n!images/objects/trampoline/trampoline2-0.png\n#Trampolins permitem que o Tux salte a alturas incríveis. Segure a tecla de pulo ao saltar no trampolim para ir muito além."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Escalando\n# O Tux  pode escalar! Pressione a seta para CIMA para começar a escalar. Pressione a tecla de AÇÃO ou pule para se soltar."
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "A Passagem da Montanha"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

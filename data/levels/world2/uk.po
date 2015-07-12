@@ -1,16 +1,14 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Max Lyashuk <m_lyashuk@ukr.net>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2013-11-20 13:10+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Ukrainian (http://www.transifex.com/projects/p/supertux/language/uk/)\n"
+"POT-Creation-Date: 2015-05-28 18:11+0000\n"
+"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"Last-Translator: Max Lyashuk <m_lyashuk@ukr.net>\n"
+"Language-Team: Ukrainian (http://www.transifex.com/p/supertux/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,13 +19,23 @@ msgstr ""
 msgid "Crumbling Path"
 msgstr ""
 
+#: data/levels/world2/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr "Перевал"
+
+#: data/levels/world2/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr ""
+
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
 msgstr ""
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr ""
+msgstr "Тукс - будівельник"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -65,15 +73,15 @@ msgstr ""
 
 #: data/levels/world2/christoph6.stl:3
 msgid "Welcome to the Forest"
-msgstr ""
+msgstr "Вітаємо у Лісі"
 
 #: data/levels/world2/christoph7.stl:3
 msgid "Countercurrent"
-msgstr ""
+msgstr "Противоток"
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr ""
+msgstr "Маленька Венеція"
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
@@ -97,7 +105,7 @@ msgstr ""
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr ""
+msgstr "Мовчазні стіни"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
@@ -125,11 +133,11 @@ msgstr ""
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr ""
+msgstr "Ліс. Рівень 1"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr ""
+msgstr "Примарний світ"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
@@ -153,7 +161,7 @@ msgstr ""
 
 #: data/levels/world2/keystodoor.stl:3
 msgid "Entrance to the Castle"
-msgstr ""
+msgstr "Вхід до замку"
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
@@ -188,7 +196,7 @@ msgstr ""
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr ""
+msgstr "- Ти загубився?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
@@ -200,11 +208,11 @@ msgstr ""
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr ""
+msgstr "Без назви"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr ""
+msgstr "Світло та магія"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
@@ -224,11 +232,11 @@ msgstr ""
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr ""
+msgstr "Вгору та вниз"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr ""
+msgstr "Селище у лісі"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"

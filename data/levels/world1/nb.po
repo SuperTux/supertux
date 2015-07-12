@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Karl Ove Hufthammer <karl@huftis.org>, 2007,2013
+# Karl Ove Hufthammer <karl@huftis.org>, 2007,2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-03-03 21:36+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/supertux/language/nb/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+"Language-Team: Norwegian Bokmål (http://www.transifex.com/p/supertux/language/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,14 +36,14 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Egg\n!images/powerups/egg/egg.png\n#Egget får deg til å vokse deg større. Du kan da knuse treblokker med hodet."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
-msgstr ""
+msgstr "-Bjelle\n!images/objects/resetpoints/bell-m.png\n\"#Ring med bjella. Har du minst 25 mynter igjen, vil du da gjenoppstå på bjelleplassen når du dør."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
@@ -76,7 +76,8 @@ msgstr "-Hemmelige plasser\n#Mange brett inneholder hemmelige plasser bak det so
 msgid "The Journey Begins"
 msgstr "En vandring tar til"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Nostalgi"
 
@@ -178,7 +179,7 @@ msgstr "Uten isbiter, takk!"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
-msgstr ""
+msgstr "Veien deler seg"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
@@ -187,25 +188,20 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr ""
+msgstr "-Brytere\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Brytere kan brukes til ulike ting. Trykk «Pil opp» for å bruke bryteren. Denne starter heisen til høyre."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
 "-Spring Boards\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr ""
+msgstr "-Springbrett\n!images/objects/trampoline/trampoline2-0.png\n#Springbrett lar Tux nå nye høyder. Hold inne hoppeknappen når du treffer springbrettet for å hoppe ekstra høyt."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr ""
+msgstr "- Klatring\n# Tux kan klatre! Trykk «Pil opp» for å starte å klatre. Trykk handlings- eller hoppeknappen for å slippe taket."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

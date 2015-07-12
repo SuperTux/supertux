@@ -62,6 +62,9 @@
 	Tobias \"Tobbi\" Markus
  Programming
 
+	Benjamin \"GiBy\" Leduc
+ Translation Guru (and many details anyone else could have done)
+
 	Duong-Khang \"neoneurone\" NGUYEN
  Contrib Programming
 
@@ -139,6 +142,7 @@
  	Anders (Danish)
  	Phan Anh (Vietnamese)
  	Constantin Baranov (Russian)
+ 	Indrit Bashkimi (Albanese) 
  	Javier Beaumont (Castilian Spanish)
  	Martí Bosc (Catalan)
  	Matthias Braun (German)
@@ -182,6 +186,7 @@
  	Frank van der Loo (Dutch)
  	Mihas \"meequz\" Varantsou (Belarusian) 
  	Antoni Villalonga (Catalan)
+ 	Roman M. Yagodin (Russian)
  	Kővágó Zoltán (Hungarian)
 
 

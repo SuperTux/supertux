@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-18 16:34+0100\n"
-"PO-Revision-Date: 2013-12-17 11:40+0000\n"
-"Last-Translator: 趙惟倫 <bluebat@member.fsf.org>\n"
-"Language-Team: Chinese (Mandarin) (http://www.transifex.com/projects/p/supertux/language/cmn/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Chinese (Mandarin) (http://www.transifex.com/p/supertux/language/cmn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,17 +27,23 @@ msgstr "洞穴探險"
 msgid "The Cherry Frosting"
 msgstr "櫻桃的結霜"
 
-#: data/levels/incubator/crystal_beauty.stl:3
-msgid "Crystal Beauty"
-msgstr "水晶的美麗"
-
-#: data/levels/incubator/crystal_cataclysm.stl:3
-msgid "Crystal Cataclysm"
-msgstr "晶體的變動"
-
 #: data/levels/incubator/cube_garden.stl:3
 msgid "Mad Ysonn Cube Garden"
 msgstr "生氣 Ysonn 的立方花園"
+
+#: data/levels/incubator/into_dark.stl:3
+msgid "Into the Dark"
+msgstr ""
+
+#: data/levels/incubator/into_dark.stl:224
+msgid ""
+"-Hint:\n"
+"#Use the fireflower to melt a path through the ice."
+msgstr ""
+
+#: data/levels/incubator/into_dark.stl:230
+msgid "#Beware of fire!"
+msgstr ""
 
 #: data/levels/incubator/jagged_path.stl:3
 msgid "The Jagged Path"
@@ -47,21 +53,17 @@ msgstr "亂切的路徑"
 msgid "The not so long way"
 msgstr "不遠了"
 
-#: data/levels/incubator/over_the_ocean.stl:3
-msgid "My Penny is over the ocean"
-msgstr "我的佩妮在海的另一邊"
+#: data/levels/incubator/obstaclecourse.stl:3
+msgid "Obstacle Course"
+msgstr ""
 
-#: data/levels/incubator/pinksnow.stl:3
-msgid "Pink Snow"
-msgstr "粉紅雪白"
+#: data/levels/incubator/obstaclecourse.stl:48
+msgid "#If you get stuck, flip the switch to kill Tux."
+msgstr ""
 
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"
 msgstr "動作催生"
-
-#: data/levels/incubator/snowy_hill.stl:3
-msgid "A snowy hill"
-msgstr "一座雪山"
 
 #: data/levels/incubator/worldmap.stwm:3
 msgid "Incubator Island"

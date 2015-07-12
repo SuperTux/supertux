@@ -1,20 +1,18 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # Jonatas L. Nogueira <cpntb1@ymail.com>, 2014
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
 # Filipe Oliveira <contato@fmoliveira.com.br>, 2013
 # Herval Ribeiro <heraze@gmail.com>, 2006
+# Jonatas L. Nogueira <cpntb1@ymail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 14:11+0200\n"
-"PO-Revision-Date: 2014-02-25 23:56+0000\n"
+"POT-Creation-Date: 2015-05-28 18:11+0000\n"
+"PO-Revision-Date: 2015-07-11 02:37+0000\n"
 "Last-Translator: Jonatas L. Nogueira <cpntb1@ymail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/supertux/language/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/p/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,13 +23,23 @@ msgstr ""
 msgid "Crumbling Path"
 msgstr "Passagem Destruída"
 
+#: data/levels/world2/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr "A Passagem da Montanha"
+
+#: data/levels/world2/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr "- Escalando\n# O Tux  pode escalar! Pressione a seta para CIMA para começar a escalar. Pressione a tecla de AÇÃO ou pule para se soltar."
+
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
 msgstr "Tesouro nos céus"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
-msgstr "Tux o construtor"
+msgstr "Tux o Construtor"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
@@ -101,7 +109,7 @@ msgstr "Sala das Estrelas"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr "As Muralhas Silenciosas"
+msgstr "As Paredes Silenciosas"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
@@ -109,19 +117,19 @@ msgstr "Undom ed Orima"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr "Retorno"
+msgstr "Desvio"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Guardião da Floresta Negra - A Câmara do Mau"
+msgstr "Floresta Sombria - A Câmara Maligna"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "Guardião da Floresta Negra - Os Olhos de Nolok"
+msgstr "Floresta Sombria - Os Olhos De Nolok"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr "Guardião da Floresta Negra - A Torre Negra"
+msgstr "Floresta Sombria - A Torre Negra"
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
@@ -129,31 +137,31 @@ msgstr "Encontre o Maior Peixe!"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr "Fase 1 Floresta"
+msgstr "Floresta, Fase 1"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr "Mundo Fantasmagórico"
+msgstr "Um Mundo Fantasmagórico"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr "chave 1 água - para ser colocada atrás da cachoeira"
+msgstr "Chave Água 1 - Para ser colocada atrás da cascata"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr "chave 2 terra - para ser colocada no subterrâneo"
+msgstr "Chave Terra 2 - Para ser colocada no subsolo"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr "chave 3 madeira - para ser colocada na grande árvore"
+msgstr "Chave Madeira 3 - para ser colocada em uma grande árvore"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr "chave 4 fogo - para ser colocada no pequeno castelo"
+msgstr "Chave Fogo 4 - para ser colocada em um pequeno castelo"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr "chave 5 ar - para ser colocada nas nuvens"
+msgstr "Chave Ar 5 - para ser colocada nas nuvens"
 
 #: data/levels/world2/keystodoor.stl:3
 msgid "Entrance to the Castle"
@@ -196,11 +204,11 @@ msgstr "-Está perdido?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr "Indo ao subterrâneo"
+msgstr "Indo ao Subterrâneo"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr "Montes Verdes"
+msgstr "Colinas Verdes"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"

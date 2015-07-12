@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-16 16:36+0000\n"
-"PO-Revision-Date: 2014-03-16 16:38+0000\n"
+"POT-Creation-Date: 2015-05-28 18:10+0000\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Belarusian (http://www.transifex.com/projects/p/supertux/language/be/)\n"
+"Language-Team: Belarusian (http://www.transifex.com/p/supertux/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: be\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "-89,2 degrees"
@@ -61,7 +61,7 @@ msgstr "Палац Святла і Цемры"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr ""
+msgstr "Пячорны бег"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
@@ -87,11 +87,11 @@ msgstr "Крыштальныя нябёсы"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr ""
+msgstr "Крыштальная прыгажосць"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr ""
+msgstr "Крыштальны катаклізм"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
@@ -109,6 +109,18 @@ msgstr "Глыбока, глыбей..."
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
 msgstr "...як мага глыбей!"
+
+#: data/levels/bonus3/dungeon_island/dungeon1.stl:3
+msgid "Circles"
+msgstr ""
+
+#: data/levels/bonus3/dungeon_island/dungeon2.stl:3
+msgid "Don't miss your ride"
+msgstr ""
+
+#: data/levels/bonus3/dungeon_island/going_down.stl:3
+msgid "Going down"
+msgstr ""
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
@@ -168,11 +180,11 @@ msgstr ""
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
-msgstr ""
+msgstr "Мая Пені - за акіянам"
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"
-msgstr ""
+msgstr "Ружовы снег"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
@@ -192,7 +204,7 @@ msgstr "Ліць ці не ліць - вось у чым пытанне (Ант�
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
-msgstr ""
+msgstr "Снежны пагорак"
 
 #: data/levels/bonus3/three_frosty_icebergs.stl:3
 msgid "Three Frosty Icebergs"

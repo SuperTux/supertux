@@ -1,4 +1,4 @@
-﻿# SOME DESCRIPTIVE TITLE.
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # 
@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2015-05-01 22:52+0000\n"
-"Last-Translator: Günter Kits <gynter+transifex@kits.ee>\n"
-"Language-Team: Estonian (http://www.transifex.com/projects/p/supertux/language/et/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Estonian (http://www.transifex.com/p/supertux/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -35,7 +35,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Munad\n!images/powerups/egg/egg.png\n#Muna paneb Tux'i kasvama, siis saab Tux peaga lõhkuda puidust plokke."
+msgstr "-Munad\n!images/powerups/egg/egg.png\n#Muna kasvatab Tux'i pikemaks, siis saab ta peaga purustada puidust plokke."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -75,7 +75,8 @@ msgstr "-Salakohad\n#Mitmetel tasanditel on tavaliste seinade sisse peidetud sal
 msgid "The Journey Begins"
 msgstr "Seiklus algab"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostalgica"
 
@@ -196,15 +197,10 @@ msgid ""
 msgstr "-Hoolauad\n!images/objects/trampoline/trampoline2-0.png\n#Hoolauad aitavad Tux'il hüpata. Kõrgemale lendamiseks hoia hüppelaual põrgates all hüppamise klahvi."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "-Ronimine\n#Tux oskab ronida! Vajuta ÜLES nuppu, et alustada ronimist. Lahti laskmiseks vajuta tegevuse nuppu või hüppa."
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "Mäekuru"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

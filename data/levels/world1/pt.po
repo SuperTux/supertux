@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-03-03 21:36+0000\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Portuguese (http://www.transifex.com/projects/p/supertux/language/pt/)\n"
+"Language-Team: Portuguese (http://www.transifex.com/p/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,7 +37,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Ovos\n!images/powerups/egg/egg.png\n#Os ovos fazem o Tux crescer. O Tux pode, assim, quebrar os blocos de madeira com a cabeça."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -77,7 +77,8 @@ msgstr "-Áreas Secretas\n#Muitos níveis contêm áreas secretas onde parece ha
 msgid "The Journey Begins"
 msgstr "A Jornada Começa"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostálgica"
 
@@ -198,14 +199,9 @@ msgid ""
 msgstr "-Trampolins\n!images/objects/trampoline/trampoline2-0.png\n#Trampolins permitem ao Tux de aceder a novas alturas. Continue carreguando na tecla de salto quando estiver no trampolim para atingir mais alto."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
 msgstr ""
 
 #: data/levels/world1/bonus.stl:3

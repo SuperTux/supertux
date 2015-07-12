@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2015-04-29 23:09+0000\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
 "Last-Translator: Indrit Bashkimi <indrit.bashkimi@gmail.com>\n"
-"Language-Team: Albanian (http://www.transifex.com/projects/p/supertux/language/sq/)\n"
+"Language-Team: Albanian (http://www.transifex.com/p/supertux/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,7 +36,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Vezët\n!images/powerups/egg/egg.png\n#Veza bën që Tux të bëhet më i madh. Tux mundet pastaj të thyejë me kokë blloqet prej druri."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -76,7 +76,8 @@ msgstr "-Zonat sekrete\n#Shumë nivele përmbajnë zona sekrete prapa atyre që 
 msgid "The Journey Begins"
 msgstr "Le të ketë fillim udhëtimi"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Rruga Nostalgjia"
 
@@ -174,7 +175,7 @@ msgstr "Kështjella e Nolok"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr ""
+msgstr "Jo më Zoti Ice Guy"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
@@ -197,15 +198,10 @@ msgid ""
 msgstr "-Sustat\n!images/objects/trampoline/trampoline2-0.png\n#Sustat lejojnë Tux-in të hedhet në lartësi të reja. Mbaj të shtypur tastin e kërcimin ndërsa po kërcen mbi sustë për t'u hedhur shumë lart."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr ""
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "Shtegu në mal"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

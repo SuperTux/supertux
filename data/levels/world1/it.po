@@ -9,10 +9,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 21:33+0000\n"
-"PO-Revision-Date: 2014-06-08 18:54+0000\n"
-"Last-Translator: Angela <angelapellegrino@hotmail.it>\n"
-"Language-Team: Italian (http://www.transifex.com/projects/p/supertux/language/it/)\n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Italian (http://www.transifex.com/p/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,7 +37,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Uova\n!images/powerups/egg/egg.png\n#L'uovo fa crescere Tux. Così ora Tux può spaccare i blocchi di legno con la testa."
+msgstr "-Uova\n!images/powerups/egg/egg.png\n#Le uova fanno crescere Tux. Tux in questo modo può rompere i blocchi di legno con la sua testa."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -77,7 +77,8 @@ msgstr "-Aree Segrete\n#Molti livelli contengono aree segrete nascoste dietro a 
 msgid "The Journey Begins"
 msgstr "Il Viaggio Comincia"
 
-#: data/levels/world1/03 - Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostalgica"
 
@@ -198,15 +199,10 @@ msgid ""
 msgstr "-Pedane elastiche\n!images/objects/trampoline/trampoline2-0.png\n#Le pedane elastiche permettono a Tux di saltare verso nuovi orizzonti. Tieni premuto il pulsante di salto mentre rimbalzi su una pedansa per saltare più in alto."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
-#: data/levels/world1/Mtn_Pass.stl:493
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Scalare\n# Tux può scalare! Usa la Freccia Su per iniziare a scalare. Spingi il pulsante di AZIONE o salto per smettere."
-
-#: data/levels/world1/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "Il Valico di Montagna"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
