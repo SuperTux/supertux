@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Benjamin Leduc <giby_the_kid@yahoo.fr>, 2014
+# Benjamin Leduc <giby_the_kid@yahoo.fr>, 2014-2015
 # Franklin Weng <franklin@goodhorse.idv.tw>, 2013
 # 趙惟倫 <bluebat@member.fsf.org>, 2013
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"PO-Revision-Date: 2015-07-18 21:00+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Chinese (Mandarin) (http://www.transifex.com/p/supertux/language/cmn/)\n"
 "MIME-Version: 1.0\n"
@@ -702,7 +702,7 @@ msgstr "著作權宣告"
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file LICENSE for details.\n"
-msgstr ""
+msgstr "這個遊戲沒有任何保證服務。這是自由軟體，你可以在特定條件下重新散布。詳情請參考 LICENSE 檔。\n"
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."

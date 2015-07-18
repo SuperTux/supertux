@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 04:39+0000\n"
+"PO-Revision-Date: 2015-07-15 06:29+0000\n"
 "Last-Translator: Wuzzy <almikes@aol.com>\n"
 "Language-Team: Lojban (http://www.transifex.com/p/supertux/language/jbo/)\n"
 "MIME-Version: 1.0\n"
@@ -509,11 +509,11 @@ msgstr "lo bangu"
 
 #: src/supertux/menu/language_menu.cpp:38
 msgid "<auto-detect>"
-msgstr ""
+msgstr "le zmiku ganse bangu"
 
 #: src/supertux/menu/main_menu.cpp:41
 msgid "Start Game"
-msgstr ""
+msgstr "cfagau lo nu kelci"
 
 #: src/supertux/menu/main_menu.cpp:45
 msgid "Credits"
@@ -553,11 +553,11 @@ msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:62
 msgid "Fullscreen"
-msgstr ""
+msgstr "vidnyselclu"
 
 #: src/supertux/menu/options_menu.cpp:63
 msgid "Fill the entire screen"
-msgstr ""
+msgstr "vidnyselclu"
 
 #: src/supertux/menu/options_menu.cpp:65
 msgid "Resolution"
@@ -582,7 +582,7 @@ msgstr ""
 #: src/supertux/menu/options_menu.cpp:230
 #: src/supertux/menu/options_menu.cpp:250
 msgid "auto"
-msgstr ""
+msgstr "le zmiku"
 
 #: src/supertux/menu/options_menu.cpp:156
 msgid "Aspect Ratio"
@@ -594,11 +594,11 @@ msgstr ""
 
 #: src/supertux/menu/options_menu.cpp:191
 msgid "Sound"
-msgstr ""
+msgstr "le sance"
 
 #: src/supertux/menu/options_menu.cpp:192
 msgid "Disable all sound effects"
-msgstr ""
+msgstr "ca'arcadgau le piro sance"
 
 #: src/supertux/menu/options_menu.cpp:193
 msgid "Music"
@@ -606,7 +606,7 @@ msgstr "lo zgike"
 
 #: src/supertux/menu/options_menu.cpp:194
 msgid "Disable all music"
-msgstr ""
+msgstr "ca'arcadgau lo piro zkige"
 
 #: src/supertux/menu/options_menu.cpp:196
 msgid "Sound (disabled)"

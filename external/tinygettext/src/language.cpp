@@ -180,6 +180,7 @@ LanguageSpec languages[] = {
   { "lt", "LT", 0, "Lithuanian (Lithuania)"      },
   { "lv", 0,    0, "Latvian"                     },
   { "lv", "LV", 0, "Latvian (Latvia)"            },
+  { "jbo", 0,    0, "Lojban"                     },
   { "mg", 0,    0, "Malagasy"                    },
   { "mi", 0,    0, "Maori"                       },
   { "mk", 0,    0, "Macedonian"                  },

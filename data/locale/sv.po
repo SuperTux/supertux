@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Arvid Norlander <anmaster@berlios.de>, 2006-2010
+# Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # Kristoffer Grundström <kristoffer.grundstrom1983@gmail.com>, 2014
 # Simon Kornowski <kornowski.simon@gmail.com>, 2013
 msgid ""
@@ -11,7 +12,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"PO-Revision-Date: 2015-07-18 21:16+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Swedish (http://www.transifex.com/p/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -702,7 +703,7 @@ msgstr "Kopieringsskydd"
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file LICENSE for details.\n"
-msgstr ""
+msgstr "Det här spelet kommer med ABSOLUT INGEN GARANTI. Det här är fri mjukvara och du är välkommen att\nåterdistribuera det under särskilda villkor; läs filen LICENSE för mer detaljer.\n"
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."

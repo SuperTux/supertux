@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Bansaj Pradhan <bansajpradhan@gmail.com>, 2013
+# Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # Prabin Gautam <prabingautam@gmail.com>, 2008
 # Prabin Gautam <PRABINGAUTAM@gmail.com>, 2013
 msgid ""
@@ -11,7 +12,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"PO-Revision-Date: 2015-07-18 21:29+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Nepali (http://www.transifex.com/p/supertux/language/ne/)\n"
 "MIME-Version: 1.0\n"
@@ -702,7 +703,7 @@ msgstr "प्रातिलिपि अधिकार"
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file LICENSE for details.\n"
-msgstr ""
+msgstr "सुपरटक्स विकाश टोली \\n\nयो खेल कुनै प्रकारको वारेन्टी बिना नै अाउछ।यो स्वतन्त्र सफ्टवेयर हो\nर यो केहि सिमित अवास्थाहरू रहेर तपाईले  बाँड्न सक्नु हुन्छ; LICENSE  भन्ने फाइलमा यस बारेमा बृष्तित रुपमा हेर्न सक्नुहुन्छ।\n"
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."

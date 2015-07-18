@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Alkım Kaçmaz <alkimkacmaz@gmail.com>, 2013
+# Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # root <penguen@linux.erciyes.edu.tr>, 2009
 # yakup <mutouk@yandex.ru>, 2013-2014
 # Yusuf Özsoy <yusufozsoy96@gmail.com>, 2013
@@ -12,7 +13,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"PO-Revision-Date: 2015-07-18 21:14+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Turkish (http://www.transifex.com/p/supertux/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -703,7 +704,7 @@ msgstr "Telif hakkı"
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file LICENSE for details.\n"
-msgstr ""
+msgstr "Bu oyunla gelen KESİNLİKLE HİÇBİR GARANTİ YOKTUR. Bu ücretsiz bir yazılımdır. ve sen belirli\nkoşullar altında oyunu tekrar dağıtabilirsin;  detaylar için LICENSE dosyasına bak.\n"
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."
