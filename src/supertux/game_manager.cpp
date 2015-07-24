@@ -21,6 +21,7 @@
 #include "gui/menu_manager.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
+#include "supertux/fadeout.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -68,7 +69,7 @@ GameManager::start_worldmap(std::unique_ptr<World> world)
 
     ScreenManager::current()->push_screen(std::unique_ptr<Screen>(
                                     new worldmap::WorldMap(m_world->get_worldmap_filename(),
-                                                           *m_savegame)));
+                                                           *m_savegame)), std::unique_ptr<ScreenFade>(new FadeOut(.5)));
   }
   catch(std::exception& e)
   {

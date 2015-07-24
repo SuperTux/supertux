@@ -55,7 +55,7 @@
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/shrinkfade.hpp"
+#include "supertux/fadeout.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/textscroller.hpp"
 #include "supertux/tile_manager.hpp"
@@ -677,7 +677,7 @@ WorldMap::update(float delta)
           save_state();
 
           ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_savegame, &level_->statistics)),
-                                        std::unique_ptr<ScreenFade>(new ShrinkFade(shrinkpos, 1.0f)));
+                                        std::unique_ptr<ScreenFade>(new FadeOut(1)));
           in_level = true;
         } catch(std::exception& e) {
           log_fatal << "Couldn't load level: " << e.what() << std::endl;
