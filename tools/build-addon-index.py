@@ -56,7 +56,7 @@ class Addon:
 
             self.md5 = ""
             self.url = ""
-                    
+
     def write(self, fout):
         fout.write("  (supertux-addoninfo\n")
         fout.write("    (id %s)\n" % escape_str(self.id))
@@ -69,7 +69,7 @@ class Addon:
         fout.write("    (md5 %s)\n" % escape_str(self.md5))
         fout.write("   )\n")
 
-  
+
 def process_addon(fout, addon_dir, nfo, base_url, zipdir):
     # print addon_dir, nfo
     with open(nfo) as fin:
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     parser.add_argument('-z', '--zipdir', metavar="DIR", type=str, required=True,
                         help="generate zip files")
     parser.add_argument('-u', '--url', metavar='FILE', type=str,
-                        default="http://addons.supertux.googlecode.com/git/repository/",
+                        default="https://raw.githubusercontent.com/SuperTux/addons/master/repository/",
                         help="base url")
     args = parser.parse_args()
 
