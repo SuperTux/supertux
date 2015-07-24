@@ -33,6 +33,7 @@
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "supertux/fadein.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/levelintro.hpp"
@@ -427,6 +428,7 @@ GameSession::setup()
     active = false;
     ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new LevelIntro(level.get(), best_level_statistics)));
   }
+  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
 }
 
 void

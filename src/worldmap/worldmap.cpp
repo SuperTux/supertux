@@ -55,6 +55,7 @@
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/fadein.hpp"
 #include "supertux/shrinkfade.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/textscroller.hpp"
@@ -878,6 +879,7 @@ WorldMap::setup()
 {
   SoundManager::current()->play_music(music);
   MenuManager::instance().clear_menu_stack();
+  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
 
   current_ = this;
   load_state();
