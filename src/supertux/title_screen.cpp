@@ -23,6 +23,7 @@
 #include "lisp/parser.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
+#include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -103,6 +104,7 @@ TitleScreen::setup()
   }
 
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
+  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.25)));
 }
 
 void
