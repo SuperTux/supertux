@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "lisp/parser.hpp"
+#include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/info_box_line.hpp"
 #include "supertux/globals.hpp"
@@ -88,6 +89,7 @@ void
 TextScroller::setup()
 {
   SoundManager::current()->play_music(music);
+  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.5)));
 }
 
 void
