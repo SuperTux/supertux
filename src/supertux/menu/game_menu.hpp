@@ -23,7 +23,7 @@ class Level;
 
 enum GameMenuIDs {
   MNID_CONTINUE,
-	MNID_RESETLEVEL,
+  MNID_RESETLEVEL,
   MNID_ABORTLEVEL
 };
 

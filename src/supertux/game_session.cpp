@@ -81,8 +81,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   bonus_at_start(),
   max_fire_bullets_at_start(),
   max_ice_bullets_at_start(),
-	active(false),
-	reset_button(false)
+  active(false),
+  reset_button(false)
 {
   if (restart_level() != 0)
     throw std::runtime_error ("Initializing the level failed.");
@@ -254,7 +254,7 @@ GameSession::on_escape_press()
 void
 GameSession::toggle_pause()
 {
-	// pause
+  // pause
   if (!game_pause && !MenuManager::instance().is_active())
   {
     speed_before_pause = ScreenManager::current()->get_speed();
@@ -263,9 +263,9 @@ GameSession::toggle_pause()
     SoundManager::current()->pause_sounds();
     SoundManager::current()->pause_music();
     game_pause = true;
-	}
+  }
 
-	// unpause is done in update() after the menu is processed
+  // unpause is done in update() after the menu is processed
 }
 
 void
@@ -527,16 +527,16 @@ GameSession::update(float elapsed_time)
   } else if(currentsector->get_music_type() != LEVEL_MUSIC) {
     currentsector->play_music(LEVEL_MUSIC);
   }
-	if (reset_button){
-		reset_button = false;
-		currentsector->player->set_bonus(bonus_at_start);
-		PlayerStatus *currentStatus = m_savegame.get_player_status();
-		currentStatus->coins = coins_at_start;
-		currentStatus->max_fire_bullets = max_fire_bullets_at_start;
-		currentStatus->max_ice_bullets = max_ice_bullets_at_start;
-		reset_sector = "";
-		restart_level();
-	}
+  if (reset_button) {
+    reset_button = false;
+    currentsector->player->set_bonus(bonus_at_start);
+    PlayerStatus *currentStatus = m_savegame.get_player_status();
+    currentStatus->coins = coins_at_start;
+    currentStatus->max_fire_bullets = max_fire_bullets_at_start;
+    currentStatus->max_ice_bullets = max_ice_bullets_at_start;
+    reset_sector = "";
+    restart_level();
+  }
 }
 
 void
