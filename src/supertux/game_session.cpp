@@ -274,9 +274,9 @@ GameSession::toggle_pause()
     SoundManager::current()->pause_sounds();
     SoundManager::current()->pause_music();
     game_pause = true;
-	}
+  }
 
-	// unpause is done in update() after the menu is processed
+  // unpause is done in update() after the menu is processed
 }
 
 void
