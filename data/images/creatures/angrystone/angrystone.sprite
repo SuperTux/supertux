@@ -13,9 +13,5 @@
 	  (images "attacking-0.png"))
 	(action
 	  (hitbox 0 0 87.8 87.8)
-	  (name "iced-left")
-	  (images "frozen.png"))
-	(action
-	  (hitbox 0 0 87.8 87.8)
-	  (name "iced-right")
-	  (images "frozen-0.png")))
+	  (name "iced")
+	  (images "frozen.png")))
