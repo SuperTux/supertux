@@ -13,7 +13,17 @@
   )
   (action
     (hitbox 0 -2 84.8 84.8)
+    (name "iced-left")
+    (images "walk-frozen.png")
+  )
+  (action
+    (hitbox 0 -2 84.8 84.8)
     (name "right")
     (mirror-action "left")
+  )
+  (action
+    (hitbox 0 -2 84.8 84.8)
+    (name "iced-right")
+    (mirror-action "iced-left")
   )
 )
