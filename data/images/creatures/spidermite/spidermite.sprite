@@ -18,4 +18,12 @@
 	(action
 	  (name "squished-right")
 	  (hitbox 4 3 31.8 31.8)
-	  (mirror-action "squished-left")))
+	  (mirror-action "squished-left"))
+	(action
+	  (name "iced-left")
+	  (hitbox 4 3 31.8 31.8)
+	  (images "spidermite-frozen.png"))
+	(action
+	  (name "iced-right")
+	  (hitbox 4 3 31.8 31.8)
+	  (mirror-action "iced-left")))
