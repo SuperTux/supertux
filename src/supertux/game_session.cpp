@@ -265,7 +265,7 @@ GameSession::on_escape_press()
 void
 GameSession::toggle_pause()
 {
-  // pause
+	// pause
   if (!game_pause && !MenuManager::instance().is_active())
   {
     speed_before_pause = ScreenManager::current()->get_speed();
@@ -274,9 +274,9 @@ GameSession::toggle_pause()
     SoundManager::current()->pause_sounds();
     SoundManager::current()->pause_music();
     game_pause = true;
-  }
+	}
 
-  // unpause is done in update() after the menu is processed
+	// unpause is done in update() after the menu is processed
 }
 
 void

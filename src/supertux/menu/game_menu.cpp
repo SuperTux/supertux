@@ -35,6 +35,8 @@ GameMenu::GameMenu()
   add_entry(MNID_CONTINUE, _("Continue"));
   add_entry(MNID_RESETLEVEL, _("Restart level"));
   add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
+	add_entry(MNID_RESETLEVEL, _("Restart level"));
+	add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
   add_hl();
   add_entry(MNID_ABORTLEVEL, _("Abort Level"));
 }
