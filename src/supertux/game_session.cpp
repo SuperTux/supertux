@@ -88,6 +88,17 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
     throw std::runtime_error ("Initializing the level failed.");
 }
 
+void
+GameSession::reset_level()
+{
+  currentsector->player->set_bonus(bonus_at_start);
+  PlayerStatus *currentStatus = m_savegame.get_player_status();
+  currentStatus->coins = coins_at_start;
+  currentStatus->max_fire_bullets = max_fire_bullets_at_start;
+  currentStatus->max_ice_bullets = max_ice_bullets_at_start;
+  reset_sector = "";
+}
+
 int
 GameSession::restart_level(bool after_death)
 {
@@ -529,12 +540,7 @@ GameSession::update(float elapsed_time)
   }
   if (reset_button) {
     reset_button = false;
-    currentsector->player->set_bonus(bonus_at_start);
-    PlayerStatus *currentStatus = m_savegame.get_player_status();
-    currentStatus->coins = coins_at_start;
-    currentStatus->max_fire_bullets = max_fire_bullets_at_start;
-    currentStatus->max_ice_bullets = max_ice_bullets_at_start;
-    reset_sector = "";
+    reset_level();
     restart_level();
   }
 }

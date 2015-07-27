@@ -58,6 +58,7 @@ public:
   /// ends the current level
   void finish(bool win = true);
   void respawn(const std::string& sectorname, const std::string& spawnpointname);
+  void reset_level();
   void set_reset_point(const std::string& sectorname, const Vector& pos);
   std::string get_reset_point_sectorname()
   { return reset_sector; }
