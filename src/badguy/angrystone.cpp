@@ -80,6 +80,10 @@ void
 AngryStone::active_update(float elapsed_time) {
   BadGuy::active_update(elapsed_time);
 
+	if (frozen) {
+		return;
+	}
+
   if (state == IDLE) {
     MovingObject* player = this->get_nearest_player();
     if(player) {
@@ -161,6 +165,12 @@ AngryStone::active_update(float elapsed_time) {
     }
   }
 
+}
+
+bool
+AngryStone::is_freezable() const
+{
+	return state != ATTACKING;
 }
 
 /* EOF */
