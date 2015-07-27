@@ -593,12 +593,18 @@ BadGuy::freeze()
 
   if(sprite->has_action("iced-left"))
     sprite->set_action(dir == LEFT ? "iced-left" : "iced-right", 1);
-  // when no iced action exists, default to shading badguy blue
+	// when the sprite doesn't have separate actions for left and right, it tries to use an universal one.
   else
   {
-    sprite->set_color(Color(0.60, 0.72, 0.88f));
-    sprite->stop_animation();
-  }
+		if(sprite->has_action("iced"))
+			sprite->set_action("iced", 1);
+			// when no iced action exists, default to shading badguy blue
+		else
+		{
+			sprite->set_color(Color(0.60, 0.72, 0.88f));
+			sprite->stop_animation();
+		}
+	}
 }
 
 void
@@ -608,7 +614,7 @@ BadGuy::unfreeze()
   frozen = false;
 
   // restore original color if needed
-  if(!sprite->has_action("iced-left"))
+	if((!sprite->has_action("iced-left")) && (!sprite->has_action("iced")) )
   {
     sprite->set_color(Color(1.00, 1.00, 1.00f));
     sprite->set_animation_loops();
