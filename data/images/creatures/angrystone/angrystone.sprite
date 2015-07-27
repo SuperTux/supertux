@@ -10,4 +10,8 @@
 	(action
 	  (hitbox 0 0 87.8 87.8)
 	  (name "attacking")
-	  (images "attacking-0.png")))
+	  (images "attacking-0.png"))
+	(action
+	  (hitbox 0 0 87.8 87.8)
+	  (name "iced")
+	  (images "frozen.png")))

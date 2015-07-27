@@ -38,6 +38,10 @@ protected:
   void launch_badguy();
 
 private:
+
+  /** CollisionGroup the badguy should be in while active */
+  CollisionGroup colgroup_active;
+
   float cycle;
   std::vector<std::string> badguys;
   unsigned int next_badguy;
