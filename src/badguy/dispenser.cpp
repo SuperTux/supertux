@@ -252,7 +252,6 @@ Dispenser::freeze()
 {
   set_group(COLGROUP_MOVING_STATIC);
   frozen = true;
-
   if(type=="rocketlauncher" && sprite->has_action("iced-left"))
     // Only swivel dispensers can use their left/right iced actions.
     sprite->set_action(dir == LEFT ? "iced-left" : "iced-right", 1);
