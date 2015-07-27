@@ -265,7 +265,7 @@ GameSession::on_escape_press()
 void
 GameSession::toggle_pause()
 {
-	// pause
+  // pause
   if (!game_pause && !MenuManager::instance().is_active())
   {
     speed_before_pause = ScreenManager::current()->get_speed();
