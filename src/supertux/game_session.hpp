@@ -80,6 +80,7 @@ public:
    */
   std::string get_working_directory();
   int restart_level(bool after_death = false);
+	bool reset_button;
 
   void toggle_pause();
   void abort_level();

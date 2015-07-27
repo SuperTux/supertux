@@ -33,7 +33,8 @@ GameMenu::GameMenu()
   add_label(level->name);
   add_hl();
   add_entry(MNID_CONTINUE, _("Continue"));
-  add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
+	add_entry(MNID_RESETLEVEL, _("Restart level"));
+	add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
   add_hl();
   add_entry(MNID_ABORTLEVEL, _("Abort Level"));
 }
@@ -47,6 +48,12 @@ GameMenu::menu_action(MenuItem* item)
       MenuManager::instance().clear_menu_stack();
       GameSession::current()->toggle_pause();
       break;
+
+		case MNID_RESETLEVEL:
+			MenuManager::instance().clear_menu_stack();
+			GameSession::current()->toggle_pause();
+			GameSession::current()->reset_button = true;
+			break;
 
     case MNID_ABORTLEVEL:
       GameSession::current()->abort_level();
