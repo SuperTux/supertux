@@ -144,9 +144,11 @@ void
 BadGuy::update(float elapsed_time)
 {
   if(!Sector::current()->inside(bbox)) {
-    is_active_flag = false;
+		run_dead_script();
+		is_active_flag = false;
     remove_me();
-    if(countMe) {
+		// This was removed due to fixing a bug. If is it needed somewhere, then I'm sorry. --Hume2
+		/**if(countMe) {
       // get badguy name from sprite_name ignoring path and extension
       std::string badguy = sprite_name.substr(0, sprite_name.length() - 7);
       int path_chars = badguy.rfind("/",badguy.length());
@@ -154,7 +156,7 @@ BadGuy::update(float elapsed_time)
       // log warning since badguys_killed can no longer reach total_badguys
       std::string current_level = "[" + Sector::current()->get_level()->filename + "] ";
       log_warning << current_level << "Counted badguy " << badguy << " starting at " << start_position << " has left the sector" <<std::endl;;
-    }
+		}*/
     return;
   }
   if ((state != STATE_INACTIVE) && is_offscreen()) {
