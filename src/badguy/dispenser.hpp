@@ -39,8 +39,8 @@ protected:
 
 private:
 
-	/** CollisionGroup the badguy should be in while active */
-	CollisionGroup colgroup_active;
+  /** CollisionGroup the badguy should be in while active */
+  CollisionGroup colgroup_active;
 
   float cycle;
   std::vector<std::string> badguys;

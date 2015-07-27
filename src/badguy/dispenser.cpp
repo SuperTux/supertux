@@ -250,49 +250,49 @@ Dispenser::launch_badguy()
 void
 Dispenser::freeze()
 {
-	set_group(COLGROUP_MOVING_STATIC);
-	frozen = true;
+  set_group(COLGROUP_MOVING_STATIC);
+  frozen = true;
 
-	if(type=="rocketlauncher" && sprite->has_action("iced-left"))
-		// Only swivel dispensers can use their left/right iced actions.
-		sprite->set_action(dir == LEFT ? "iced-left" : "iced-right", 1);
-	// when the sprite doesn't have separate actions for left and right or isn't a rocketlauncher,
-	// it tries to use an universal one.
-	else
-	{
-		if(type=="cannon" && sprite->has_action("iced"))
-			sprite->set_action("iced", 1);
-			// When is the dispenser a cannon, it uses the "iced" action.
-		else
-		{
-			if(sprite->has_action("dropper-iced"))
-				sprite->set_action("dropper-iced", 1);
-				// When is the dispenser a dropper, it uses the "dropper-iced".
-			else
-			{
-				sprite->set_color(Color(0.60, 0.72, 0.88f));
-				sprite->stop_animation();
-				// When is the dispenser something else (unprobable), or has no matching iced sprite, it shades to blue.
-			}
-		}
-	}
+  if(type=="rocketlauncher" && sprite->has_action("iced-left"))
+    // Only swivel dispensers can use their left/right iced actions.
+    sprite->set_action(dir == LEFT ? "iced-left" : "iced-right", 1);
+  // when the sprite doesn't have separate actions for left and right or isn't a rocketlauncher,
+  // it tries to use an universal one.
+  else
+  {
+    if(type=="cannon" && sprite->has_action("iced"))
+      sprite->set_action("iced", 1);
+      // When is the dispenser a cannon, it uses the "iced" action.
+    else
+    {
+      if(sprite->has_action("dropper-iced"))
+        sprite->set_action("dropper-iced", 1);
+        // When is the dispenser a dropper, it uses the "dropper-iced".
+      else
+      {
+        sprite->set_color(Color(0.60, 0.72, 0.88f));
+        sprite->stop_animation();
+        // When is the dispenser something else (unprobable), or has no matching iced sprite, it shades to blue.
+      }
+    }
+  }
   dispense_timer.stop();
 }
 
 void
 Dispenser::unfreeze()
 {
-	set_group(colgroup_active);
-	frozen = false;
+  set_group(colgroup_active);
+  frozen = false;
 
-	// restore original color if needed
-	if(((!sprite->has_action("iced-left") && type=="rocketlauncher")
-			|| (!sprite->has_action("iced") && type=="cannon"))
-		 && (!sprite->has_action("dropper-iced")) )
-	{
-		sprite->set_color(Color(1.00, 1.00, 1.00f));
-		sprite->set_animation_loops();
-	}
+  // restore original color if needed
+  if(((!sprite->has_action("iced-left") && type=="rocketlauncher")
+      || (!sprite->has_action("iced") && type=="cannon"))
+     && (!sprite->has_action("dropper-iced")) )
+  {
+    sprite->set_color(Color(1.00, 1.00, 1.00f));
+    sprite->set_animation_loops();
+  }
   activate();
 }
 
