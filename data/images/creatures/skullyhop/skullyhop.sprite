@@ -8,6 +8,14 @@
 	  (hitbox 0 0 33.8 43.8)
 	  (mirror-action "standing-left"))
 	(action
+	  (name "iced-left")
+	  (hitbox 0 0 33.8 43.8)
+	  (images "frozen.png"))
+	(action
+	  (name "iced-right")
+	  (hitbox 0 0 33.8 43.8)
+	  (mirror-action "iced-left"))
+	(action
 	  (name "charging-left")
 	  (hitbox 0 0 33.8 43.8)
 	  (fps 10.0)
