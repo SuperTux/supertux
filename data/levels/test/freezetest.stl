@@ -49,6 +49,10 @@
       (x 1395)
       (y 448)
     )
+    (mrtree
+      (x 448)
+      (y 606)
+    )
     (spawnpoint
       (name "main")
       (x 96)
