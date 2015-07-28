@@ -1,0 +1,18 @@
+(supertux-sprite
+ (action
+  (name "default")
+  (fps 4.0)
+  (hitbox 0 0 32 32)
+  (images "water-drop.png")
+ )
+ (action
+  (name "splash")
+  (fps 10.0)
+  (hitbox 64 16 32 32)
+  (images "water-splash-0.png"
+          "water-splash-1.png"
+          "water-splash-2.png"
+          "water-splash-3.png"
+          "water-splash-4.png")
+ )
+)

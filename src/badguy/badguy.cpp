@@ -17,8 +17,11 @@
 #include "badguy/badguy.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "math/random_generator.hpp"
 #include "object/bullet.hpp"
+#include "object/sprite_particle.hpp"
 #include "object/player.hpp"
+#include "object/water_drop.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
@@ -28,6 +31,7 @@
 #include <sstream>
 
 static const float SQUISH_TIME = 2;
+static const float BURN_TIME = 1;
 
 static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
@@ -175,6 +179,17 @@ BadGuy::update(float elapsed_time)
       inactive_update(elapsed_time);
       try_activate();
       break;
+    case STATE_BURNING: {
+      // spawn fire particles
+      float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
+      float py = graphicsRandom.randf(bbox.p1.y, bbox.p2.y);
+      Vector ppos = Vector(px, py);
+      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/fire.sprite",
+                                                                     "default",
+                                                                     ppos, ANCHOR_MIDDLE,
+                                                                     Vector(0, -100), Vector(0, -200),
+                                                                     LAYER_OBJECTS+1));
+    }
     case STATE_SQUISHED:
       is_active_flag = false;
       if(state_timer.check()) {
@@ -470,6 +485,9 @@ BadGuy::set_state(State state_)
   State laststate = this->state;
   this->state = state_;
   switch(state_) {
+    case STATE_BURNING:
+      state_timer.start(BURN_TIME);
+      break;
     case STATE_SQUISHED:
       state_timer.start(SQUISH_TIME);
       break;
@@ -644,7 +662,25 @@ BadGuy::is_in_water() const
 void
 BadGuy::ignite()
 {
-  kill_fall();
+  if ( is_freezable() ) {
+
+    sprite->set_color(Color(0.40f, 0.40f, 0.40f));
+    sprite->stop_animation();
+    SoundManager::current()->play("sounds/flame.wav", get_pos());
+    physic.enable_gravity(true);
+    physic.set_velocity_x(0);
+    physic.set_velocity_y(0);
+    set_state(STATE_BURNING);
+    set_group(COLGROUP_MOVING_ONLY_STATIC);
+    run_dead_script();
+
+  } else {
+
+    run_dead_script();
+    SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
+    Sector::current()->add_object( std::make_shared<WaterDrop>(bbox.p1) );
+    remove_me();
+  }
 }
 
 void

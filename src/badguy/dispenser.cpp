@@ -303,4 +303,10 @@ Dispenser::is_freezable() const
   return true;
 }
 
+bool
+Dispenser::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

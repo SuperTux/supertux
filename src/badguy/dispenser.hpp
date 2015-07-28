@@ -31,6 +31,7 @@ public:
   void freeze();
   void unfreeze();
   bool is_freezable() const;
+  bool is_flammable() const;
 
 protected:
   bool collision_squished(GameObject& object);

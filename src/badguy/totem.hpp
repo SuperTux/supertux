@@ -35,6 +35,8 @@ public:
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
+  bool is_flammable() const;
+
 protected:
   bool collision_squished(GameObject& object);
   void kill_fall();

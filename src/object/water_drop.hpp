@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,38 +14,30 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_FLAME_HPP
-#define HEADER_SUPERTUX_BADGUY_FLAME_HPP
+#ifndef HEADER_SUPERTUX_OBJECT_STAR_HPP
+#define HEADER_SUPERTUX_OBJECT_STAR_HPP
 
-#include "badguy/badguy.hpp"
+#include "object/moving_sprite.hpp"
+#include "supertux/physic.hpp"
 
-#include "audio/sound_source.hpp"
-
-class Flame : public BadGuy
+class WaterDrop : public MovingSprite
 {
 public:
-  Flame(const Reader& reader);
-  Flame(const Flame& flame);
+  WaterDrop(const Vector& pos);
 
-  void activate();
-  void deactivate();
-
-  void active_update(float elapsed_time);
-  void draw(DrawingContext& context);
-  void kill_fall();
-
-  void freeze();
-  bool is_freezable() const;
-  bool is_flammable() const;
+  virtual void update(float elapsed_time);
+  virtual void collision_solid(const CollisionHit& hit);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& );
 
 private:
-  float angle;
-  float radius;
-  float speed;
-  Color light;
-  SpritePtr lightsprite;
+  Physic physic;
 
-  std::unique_ptr<SoundSource> sound_source;
+  typedef enum {
+    WDS_FALLING,
+    WDS_SPLASH
+  }WaterDropState;
+
+  WaterDropState wd_state;
 };
 
 #endif

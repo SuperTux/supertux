@@ -173,4 +173,10 @@ AngryStone::is_freezable() const
   return state != ATTACKING;
 }
 
+bool
+AngryStone::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

@@ -64,4 +64,10 @@ Crystallo::collision_squished(GameObject& object)
   return true;
 }
 
+bool
+Crystallo::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

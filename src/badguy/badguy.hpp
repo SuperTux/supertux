@@ -104,7 +104,8 @@ protected:
     STATE_INACTIVE,
     STATE_ACTIVE,
     STATE_SQUISHED,
-    STATE_FALLING
+    STATE_FALLING,
+    STATE_BURNING
   };
 
 protected:

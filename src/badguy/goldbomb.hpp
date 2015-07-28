@@ -43,6 +43,7 @@ public:
   bool is_freezable() const;
 
   void kill_fall();
+  void ignite();
 
 protected:
   bool collision_squished(GameObject& object);

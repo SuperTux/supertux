@@ -170,6 +170,12 @@ GoldBomb::kill_fall()
 }
 
 void
+GoldBomb::ignite()
+{
+  kill_fall();
+}
+
+void
 GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   if(tstate == STATE_TICKING){
