@@ -43,6 +43,12 @@ Crystallo::Crystallo(const Vector& pos, Direction d) :
 }
 
 void
+Crystallo::save(lisp::Writer& writer){
+  BadGuy::save(writer);
+  writer.write("radius",radius);
+}
+
+void
 Crystallo::active_update(float elapsed_time)
 {
   if(get_pos().x > (start_position.x + radius)){

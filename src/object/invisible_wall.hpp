@@ -25,11 +25,19 @@ class InvisibleWall : public MovingObject
 {
 public:
   InvisibleWall(const ReaderMapping& lisp);
+  virtual void save(lisp::Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual std::string get_class() {
+    return "invisible_wall";
+  }
+private:
+  Physic physic;
 
   void draw(DrawingContext& context);
   void update(float elapsed_time);
+
+  float width, height;
 };
 
 #endif

@@ -38,6 +38,10 @@ public:
   void stop_looping_sounds();
   void play_looping_sounds();
 
+  virtual std::string get_class() {
+    return "haywire";
+  }
+
 protected:
   bool collision_squished(GameObject& object);
 

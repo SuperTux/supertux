@@ -37,7 +37,9 @@ public:
   void grab(MovingObject&, const Vector& pos, Direction);
   void ungrab(MovingObject&, Direction);
   bool is_portable() const;
-
+  virtual std::string get_class() {
+    return "rustytrampoline";
+  }
 private:
   bool portable;
   int counter;

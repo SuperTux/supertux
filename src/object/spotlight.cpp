@@ -56,6 +56,14 @@ Spotlight::~Spotlight()
 }
 
 void
+Spotlight::save(lisp::Writer& writer) {
+  GameObject::save(writer);
+  writer.write("x", position.x);
+  writer.write("y", position.y);
+  writer.write("color", color.toVector(false));
+}
+
+void
 Spotlight::update(float delta)
 {
   angle += delta * 50.0f;

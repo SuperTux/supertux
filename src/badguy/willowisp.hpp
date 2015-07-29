@@ -30,6 +30,7 @@ class WillOWisp : public BadGuy,
 {
 public:
   WillOWisp(const ReaderMapping& reader);
+  virtual void save(lisp::Writer& writer);
 
   void activate();
   void deactivate();
@@ -55,6 +56,9 @@ public:
   virtual void stop_looping_sounds();
   virtual void play_looping_sounds();
 
+  virtual std::string get_class() {
+    return "willowisp";
+  }
 protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const;
   HitResponse collision_player(Player& player, const CollisionHit& hit);

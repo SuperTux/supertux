@@ -30,12 +30,16 @@ class Spotlight : public MovingObject
 public:
   Spotlight(const ReaderMapping& reader);
   virtual ~Spotlight();
+  virtual void save(lisp::Writer& writer);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit_);
 
+  virtual std::string get_class() {
+    return "spotlight";
+  }
 private:
   float   angle;
   SpritePtr center;

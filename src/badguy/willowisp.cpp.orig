@@ -22,7 +22,6 @@
 #include "object/path_walker.hpp"
 #include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "scripting/willowisp.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
@@ -80,6 +79,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
 }
 
 void
+<<<<<<< HEAD
+=======
 WillOWisp::save(lisp::Writer& writer) {
   BadGuy::save(writer);
   writer.write("sector", target_sector);
@@ -92,6 +93,21 @@ WillOWisp::save(lisp::Writer& writer) {
 }
 
 void
+WillOWisp::draw(DrawingContext& context)
+{
+  sprite->draw(context, get_pos(), layer);
+
+  context.push_target();
+  context.set_target(DrawingContext::LIGHTMAP);
+
+  sprite->draw(context, get_pos(), layer);
+  lightsprite->draw(context, bbox.get_middle(), 0);
+
+  context.pop_target();
+}
+
+void
+>>>>>>> Save level method
 WillOWisp::active_update(float elapsed_time)
 {
   Player* player = get_nearest_player();
@@ -277,8 +293,8 @@ WillOWisp::expose(HSQUIRRELVM vm, SQInteger table_idx)
     return;
 
   std::cout << "[DEBUG] Expose me '" << name << "'\n";
-  auto obj = new scripting::WillOWisp(this);
-  expose_object(vm, table_idx, obj, name, true);
+  scripting::WillOWisp* _this = static_cast<scripting::WillOWisp*> (this);
+  expose_object(vm, table_idx, _this, name);
 }
 
 void
@@ -289,20 +305,6 @@ WillOWisp::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 
   std::cout << "[DEBUG] UnExpose me '" << name << "'\n";
   scripting::unexpose_object(vm, table_idx, name);
-}
-
-void WillOWisp::stop_looping_sounds()
-{
-  if (sound_source) {
-    sound_source->stop();
-  }
-}
-
-void WillOWisp::play_looping_sounds()
-{
-  if (sound_source) {
-    sound_source->play();
-  }
 }
 
 /* EOF */

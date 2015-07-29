@@ -41,7 +41,9 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   void die();
-
+  virtual std::string get_class() {
+    return "ghosttree";
+  }
 private:
   enum MyState {
     STATE_IDLE, STATE_SUCKING, STATE_SWALLOWING, STATE_DYING

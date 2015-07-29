@@ -19,10 +19,10 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader_mapping.hpp"
 
-InvisibleWall::InvisibleWall(const ReaderMapping& lisp)
+InvisibleWall::InvisibleWall(const ReaderMapping& lisp):
+  width(),
+  height()
 {
-  float width, height;
-
   if (!lisp.get("name" , name)) name = "";
   if (!lisp.get("x", bbox.p1.x)) bbox.p1.x = 0;
   if (!lisp.get("y", bbox.p1.y)) bbox.p1.y = 0;
@@ -30,6 +30,13 @@ InvisibleWall::InvisibleWall(const ReaderMapping& lisp)
   if (!lisp.get("height", height)) height = 32;
 
   bbox.set_size(width, height);
+}
+
+void
+InvisibleWall::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  writer.write("width", width);
+  writer.write("height", height);
 }
 
 HitResponse

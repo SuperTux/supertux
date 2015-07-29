@@ -35,6 +35,9 @@ public:
 
   void collect();
   virtual void update(float elapsed_time);
+  virtual bool do_save() {
+    return false;
+  }
 
 private:
   std::shared_ptr<Path> path;

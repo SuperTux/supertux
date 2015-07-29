@@ -27,6 +27,9 @@ public:
 
   void try_break(Player* player);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual bool do_save() {
+    return false;
+  }
 
 protected:
   virtual void hit(Player& player);

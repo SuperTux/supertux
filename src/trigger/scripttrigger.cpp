@@ -63,6 +63,15 @@ ScriptTrigger::~ScriptTrigger()
 }
 
 void
+ScriptTrigger::save(lisp::Writer& writer) {
+  MovingObject::save(writer);
+  writer.write("width", bbox.get_width());
+  writer.write("height", bbox.get_height());
+  writer.write("script", script, false);
+  writer.write("button", triggerevent == EVENT_ACTIVATE);
+}
+
+void
 ScriptTrigger::event(Player& , EventType type)
 {
   if(type != triggerevent)

@@ -20,6 +20,7 @@
 #include <string>
 
 #include "math/vector.hpp"
+#include "lisp/writer.hpp"
 
 class ReaderMapping;
 
@@ -29,6 +30,8 @@ public:
   SpawnPoint();
   SpawnPoint(const SpawnPoint& other);
   SpawnPoint(const ReaderMapping& lisp);
+
+  void save(lisp::Writer& writer);
 
   std::string name;
   Vector pos;

@@ -31,6 +31,9 @@ public:
   void update(float elapsed_time);
 
   bool is_flammable() const;
+  virtual std::string get_class() {
+    return "yeti_stalactite";
+  }
 };
 
 #endif

@@ -32,6 +32,7 @@ class Thunderstorm : public GameObject,
 {
 public:
   Thunderstorm(const ReaderMapping& reader);
+  virtual void save(lisp::Writer& writer);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

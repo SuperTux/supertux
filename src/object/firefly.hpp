@@ -29,7 +29,9 @@ public:
   Firefly(const ReaderMapping& lisp);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-
+  virtual std::string get_class() {
+    return "firefly";
+  }
 private:
   bool activated;
   Vector initial_position; /**< position as in level file. This is where Tux will have to respawn, as the level is reset every time */

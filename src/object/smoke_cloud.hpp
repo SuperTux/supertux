@@ -30,6 +30,9 @@ public:
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
+  virtual bool do_save() {
+    return false;
+  }
 
 private:
   SpritePtr sprite;
