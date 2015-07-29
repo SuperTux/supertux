@@ -97,7 +97,8 @@ struct GradientRequest : public DrawingRequestData
     top(),
     bottom(),
     size(),
-    direction()
+    direction(),
+    region()
   {}
 
   Color top;

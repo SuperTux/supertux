@@ -28,6 +28,7 @@
 
 Dispenser::Dispenser(const Reader& reader) :
   BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),
+  colgroup_active(),
   cycle(),
   badguys(),
   next_badguy(),

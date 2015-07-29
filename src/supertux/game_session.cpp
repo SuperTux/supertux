@@ -54,6 +54,7 @@
 #endif
 
 GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
+  reset_button(false),
   level(),
   statistics_backdrop(Surface::create("images/engine/menu/score-backdrop.png")),
   scripts(),
@@ -81,8 +82,7 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   bonus_at_start(),
   max_fire_bullets_at_start(),
   max_ice_bullets_at_start(),
-  active(false),
-  reset_button(false)
+  active(false)
 {
   if (restart_level() != 0)
     throw std::runtime_error ("Initializing the level failed.");

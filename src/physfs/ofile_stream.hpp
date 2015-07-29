@@ -28,6 +28,10 @@ protected:
 public:
   OFileStream(const std::string& filename);
   ~OFileStream();
+
+private:
+  OFileStream(const OFileStream&) = delete;
+  OFileStream& operator=(const OFileStream&) = delete;
 };
 
 #endif
