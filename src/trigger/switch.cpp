@@ -55,6 +55,12 @@ Switch::~Switch()
 }
 
 void
+Switch::save(lisp::Writer& writer) {
+  MovingObject::save(writer);
+  writer.write("script", script, false);
+}
+
+void
 Switch::update(float )
 {
   switch (state) {

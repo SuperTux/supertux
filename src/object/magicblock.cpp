@@ -82,6 +82,12 @@ MagicBlock::MagicBlock(const ReaderMapping& lisp) :
 }
 
 void
+MagicBlock::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  writer.write("color", color.toVector(false));
+}
+
+void
 MagicBlock::update(float elapsed_time)
 {
   //Check if center of this block is on screen.

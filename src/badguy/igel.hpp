@@ -33,7 +33,9 @@ public:
   void active_update(float elapsed_time);
 
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "igel";
+  }
 protected:
 //  bool collision_squished(GameObject& object);
 // Enable this and the igel will no longer be butt-jumpable when frozen.

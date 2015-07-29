@@ -32,7 +32,9 @@ public:
   void update(float) override;
 
   HitResponse collision(GameObject& other, const CollisionHit& ) override;
-
+  virtual std::string get_class() {
+    return "torch";
+  }
 private:
   SpritePtr m_torch;
   SpritePtr m_flame;

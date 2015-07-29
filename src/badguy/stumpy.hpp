@@ -31,7 +31,9 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "stumpy";
+  }
 protected:
   enum MyState {
     STATE_INVINCIBLE, STATE_NORMAL

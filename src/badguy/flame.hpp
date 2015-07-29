@@ -36,6 +36,9 @@ public:
   void freeze();
   bool is_freezable() const;
   bool is_flammable() const;
+  virtual std::string get_class() {
+    return "flame";
+  }
 
   void stop_looping_sounds();
   void play_looping_sounds();

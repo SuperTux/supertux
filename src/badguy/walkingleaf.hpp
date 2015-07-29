@@ -29,7 +29,9 @@ public:
   WalkingLeaf(const Vector& pos, Direction d);
 
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "walkingleaf";
+  }
 protected:
   bool collision_squished(GameObject& object);
 

@@ -30,7 +30,9 @@ public:
 
   void ignite();
   bool is_flammable() const;
-
+  virtual std::string get_class() {
+    return "iceflame";
+  }
 private:
   float angle;
   float radius;

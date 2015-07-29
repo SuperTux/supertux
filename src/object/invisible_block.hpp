@@ -25,6 +25,9 @@ class InvisibleBlock : public Block
 public:
   InvisibleBlock(const Vector& pos);
   InvisibleBlock(const ReaderMapping& lisp);
+  virtual bool do_save() {
+    return false;
+  }
 
   virtual void draw(DrawingContext& context);
   virtual bool collides(GameObject& other, const CollisionHit& hit) const;

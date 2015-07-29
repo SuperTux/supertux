@@ -31,6 +31,7 @@ public:
   Background();
   Background(const ReaderMapping& reader);
   virtual ~Background();
+  virtual void save(lisp::Writer& writer);
 
   void set_image(const std::string& name);
   void set_image(const std::string& name, float bkgd_speed);
@@ -48,6 +49,10 @@ public:
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+
+  virtual std::string get_class() {
+    return "background";
+  }
 
 private:
   enum Alignment {

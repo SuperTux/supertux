@@ -61,6 +61,13 @@ Climbable::~Climbable()
 }
 
 void
+Climbable::save(lisp::Writer& writer) {
+  MovingObject::save(writer);
+  writer.write("width", bbox.get_width());
+  writer.write("height", bbox.get_height());
+}
+
+void
 Climbable::update(float /*elapsed_time*/)
 {
   if (!climbed_by) return;

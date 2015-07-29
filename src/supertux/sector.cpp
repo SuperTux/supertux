@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <math.h>
+#include <vector>
 
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -26,6 +27,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
+#include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
@@ -970,6 +972,12 @@ const float MAX_SPEED = 16.0f;
 void
 Sector::handle_collisions()
 {
+
+  if (EditorActive()) {
+    return;
+    //Oběcts in editor shouldn't collide.
+  }
+
   using namespace collision;
 
   // calculate destination positions of the objects
@@ -1412,6 +1420,42 @@ void Sector::play_looping_sounds()
     GameObjectPtr object = *i;
     object->play_looping_sounds();
   }
+}
+
+void
+Sector::save(Writer &writer)
+{
+  writer.start_list("sector", false);
+
+  writer.write("name", name, false);
+  writer.write("gravity", gravity);
+  writer.write("ambient-light", ambient_light.toVector(false));
+
+  if (init_script != "") {
+    writer.write("init-script", init_script,false);
+  }
+  if (music != "") {
+    writer.write("music", music, false);
+  }
+
+  // saving spawnpoints
+  /*for(auto i = spawnpoints.begin(); i != spawnpoints.end(); ++i) {
+    std::shared_ptr<SpawnPoint> spawny = *i;
+    spawny->save(writer);
+  }*/
+  // Do not save spawnpoints since we have spawnpoint markers.
+
+  // saving oběcts (not really)
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    GameObjectPtr& obj = *i;
+    if (obj->do_save()) {
+      writer.start_list(obj->get_class());
+      obj->save(writer);
+      writer.end_list(obj->get_class());
+    }
+  }
+
+  writer.end_list("sector");
 }
 
 /* vim: set sw=2 sts=2 et : */

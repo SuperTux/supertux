@@ -53,6 +53,15 @@ Platform::Platform(const ReaderMapping& reader) :
   }
 }
 
+void
+Platform::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  if (!automatic) {
+    writer.write("running", true);
+  }
+  path->save(writer);
+}
+
 /*
   Platform::Platform(const Platform& other) :
   MovingSprite(other),

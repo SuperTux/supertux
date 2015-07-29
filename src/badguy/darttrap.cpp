@@ -47,6 +47,14 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
 }
 
 void
+DartTrap::save(lisp::Writer& writer) {
+  BadGuy::save(writer);
+  writer.write("initial-delay", initial_delay);
+  writer.write("fire-delay", fire_delay);
+  writer.write("ammo", ammo);
+}
+
+void
 DartTrap::initialize()
 {
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");

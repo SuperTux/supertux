@@ -36,6 +36,7 @@ class Camera : public GameObject,
 public:
   Camera(Sector* sector, std::string name = "");
   virtual ~Camera();
+  virtual void save(lisp::Writer& writer);
 
   /// parse camera mode from lisp file
   void parse(const ReaderMapping& reader);
@@ -80,7 +81,9 @@ public:
    * get the coordinates of the point directly in the center of this camera
    */
   Vector get_center() const;
-
+  virtual std::string get_class() {
+    return "camera";
+  }
 private:
   void update_scroll_normal(float elapsed_time);
   void update_scroll_autoscroll(float elapsed_time);

@@ -32,8 +32,13 @@ public:
     return "images/objects/water_drop/pink_drop.sprite";
   }
 
+  virtual std::string get_class() {
+    return "smartball";
+  }
+
 protected:
   bool collision_squished(GameObject& object);
+
 };
 
 #endif

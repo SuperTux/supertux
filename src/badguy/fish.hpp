@@ -37,7 +37,9 @@ public:
   void unfreeze();
   void kill_fall();
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "fish";
+  }
 private:
   HitResponse hit(const CollisionHit& );
   void start_waiting();

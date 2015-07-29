@@ -36,7 +36,9 @@ public:
 
   void unfreeze();
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "toad";
+  }
 protected:
   enum ToadState {
     IDLE,

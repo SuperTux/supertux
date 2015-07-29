@@ -29,6 +29,7 @@ public:
   Lantern(const ReaderMapping& reader);
   void draw(DrawingContext& context);
   ~Lantern();
+  virtual void save(lisp::Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
@@ -49,6 +50,9 @@ public:
 
   void add_color(Color c);
 
+  virtual std::string get_class() {
+    return "lantern";
+  }
 private:
   Color lightcolor;
   SpritePtr lightsprite;

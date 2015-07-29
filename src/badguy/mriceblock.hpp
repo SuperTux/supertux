@@ -42,6 +42,11 @@ public:
   bool can_break() const;
 
   void ignite();
+  bool can_break();
+
+  virtual std::string get_class() {
+    return "mriceblock";
+  }
 
 protected:
   enum IceState {
