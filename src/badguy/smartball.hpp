@@ -27,7 +27,9 @@ class SmartBall : public WalkingBadguy
 public:
   SmartBall(const Reader& reader);
   SmartBall(const Vector& pos, Direction d);
-
+  virtual std::string get_class() {
+    return "smartball";
+  }
 protected:
   bool collision_squished(GameObject& object);
 

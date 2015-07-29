@@ -82,6 +82,18 @@ WillOWisp::WillOWisp(const Reader& reader) :
 }
 
 void
+WillOWisp::save(lisp::Writer& writer) {
+  BadGuy::save(writer);
+  writer.write("sector", target_sector);
+  writer.write("spawnpoint", target_spawnpoint);
+  writer.write("flyspeed", flyspeed);
+  writer.write("track-range", track_range);
+  writer.write("vanish-range", vanish_range);
+  writer.write("hit-script", hit_script);
+  writer.write("running", mystate == STATE_PATHMOVING_TRACK);
+}
+
+void
 WillOWisp::draw(DrawingContext& context)
 {
   sprite->draw(context, get_pos(), layer);

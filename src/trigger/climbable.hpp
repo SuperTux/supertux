@@ -32,6 +32,10 @@ public:
   Climbable(const Reader& reader);
   Climbable(const Rectf& area);
   ~Climbable();
+  virtual void save(lisp::Writer& writer);
+  virtual std::string get_class() {
+    return "climbable";
+  }
 
   void event(Player& player, EventType type);
   void update(float elapsed_time);

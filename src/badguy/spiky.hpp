@@ -25,7 +25,9 @@ public:
   Spiky(const Reader& reader);
 
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "spiky";
+  }
 private:
 };
 

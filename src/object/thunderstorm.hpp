@@ -32,6 +32,7 @@ class Thunderstorm : public GameObject,
 {
 public:
   Thunderstorm(const Reader& reader);
+  virtual void save(lisp::Writer& writer);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
@@ -77,7 +78,9 @@ public:
   /**
    * @}
    */
-
+  virtual std::string get_class() {
+    return "thunderstorm";
+  }
 private:
   bool running; /**< whether we currently automatically trigger lightnings */
   float interval; /**< time between two lightnings */

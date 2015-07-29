@@ -26,7 +26,9 @@ public:
   PoisonIvy(const Vector& pos, Direction d);
 
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "poisonivy";
+  }
 protected:
   bool collision_squished(GameObject& object);
 

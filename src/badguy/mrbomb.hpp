@@ -37,7 +37,9 @@ public:
   bool is_portable() const;
 
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "mrbomb";
+  }
 protected:
   bool collision_squished(GameObject& object);
 

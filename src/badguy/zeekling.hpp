@@ -33,7 +33,9 @@ public:
   void freeze();
   void unfreeze();
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "zeekling";
+  }
 private:
   bool collision_squished(GameObject& object);
   bool should_we_dive();

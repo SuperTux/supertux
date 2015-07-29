@@ -29,6 +29,7 @@ public:
   Background();
   Background(const Reader& reader);
   virtual ~Background();
+  virtual void save(lisp::Writer& writer);
 
   void set_image(const std::string& name, float bkgd_speed);
 
@@ -41,7 +42,9 @@ public:
 
   virtual void draw(DrawingContext& context);
   void draw_image(DrawingContext& context, const Vector& pos);
-
+  virtual std::string get_class() {
+    return "background";
+  }
 private:
   enum Alignment {
     NO_ALIGNMENT,

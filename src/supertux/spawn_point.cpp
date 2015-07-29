@@ -56,4 +56,15 @@ SpawnPoint::SpawnPoint(const Reader& slisp) :
     throw std::runtime_error("Invalid coordinates for spawnpoint");
 }
 
+void
+SpawnPoint::save(lisp::Writer& writer){
+  writer.start_list("spawnpoint");
+
+  writer.write("x",pos.x);
+  writer.write("y",pos.y);
+  writer.write("name",name,false);
+
+  writer.end_list("spawnpoint");
+}
+
 /* EOF */

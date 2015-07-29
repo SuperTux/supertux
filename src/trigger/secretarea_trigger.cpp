@@ -62,6 +62,20 @@ SecretAreaTrigger::SecretAreaTrigger(const Rectf& area, std::string fade_tilemap
   message_displayed = false;
 }
 
+void
+SecretAreaTrigger::save(lisp::Writer& writer) {
+  MovingObject::save(writer);
+  writer.write("width", bbox.get_width());
+  writer.write("height", bbox.get_height());
+  if (fade_tilemap != "") {
+    writer.write("fade-tilemap", fade_tilemap, false);
+  }
+  writer.write("message", message, false);
+  if (script != "") {
+    writer.write("script", script, false);
+  }
+}
+
 SecretAreaTrigger::~SecretAreaTrigger()
 {
 }

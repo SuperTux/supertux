@@ -140,4 +140,9 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
   set_pos(get_anchor_pos(old_bbox, w, h, anchorPoint));
 }
 
+void
+MovingSprite::save(lisp::Writer& writer) {
+  MovingObject::save(writer);
+  writer.write("sprite", sprite_name, false);
+}
 /* EOF */

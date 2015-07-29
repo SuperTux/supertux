@@ -31,7 +31,9 @@ public:
 
   void freeze();
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "jumpy";
+  }
 private:
   HitResponse hit(const CollisionHit& hit);
 

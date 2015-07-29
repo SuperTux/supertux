@@ -56,6 +56,16 @@ ScriptedObject::ScriptedObject(const Reader& lisp) :
 }
 
 void
+ScriptedObject::save(lisp::Writer& writer){
+  MovingSprite::save(writer);
+  writer.write("width",bbox.get_width());
+  writer.write("height",bbox.get_height());
+  writer.write("solid",solid);
+  writer.write("physic-enabled",physic_enabled);
+  writer.write("visible",visible);
+}
+
+void
 ScriptedObject::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;

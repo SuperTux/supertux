@@ -49,6 +49,19 @@ Ispy::Ispy(const Reader& reader) :
   sprite->set_action((dir == DOWN) ? "idle-down" : ((dir == LEFT) ? "idle-left" : "idle-right"));
 }
 
+void
+Ispy::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  switch (dir) {
+    case LEFT:  writer.write("direction", "left" , false); break;
+    case RIGHT: writer.write("direction", "right", false); break;
+    case DOWN:  writer.write("facing_down", true); break;
+    case AUTO: break;
+    case UP: break;
+  }
+  writer.write("script", script, false);
+}
+
 HitResponse
 Ispy::collision(GameObject& , const CollisionHit& )
 {

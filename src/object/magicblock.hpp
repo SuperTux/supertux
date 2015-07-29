@@ -30,12 +30,15 @@ class MagicBlock: public MovingSprite
 {
 public:
   MagicBlock(const Reader& reader);
+  virtual void save(lisp::Writer& writer);
 
   bool collides(GameObject& other, const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
   void draw(DrawingContext& context);
-
+  virtual std::string get_class() {
+    return "magicblock";
+  }
 private:
   bool is_solid;
   float trigger_red;

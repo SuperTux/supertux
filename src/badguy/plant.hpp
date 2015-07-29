@@ -28,7 +28,9 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void active_update(float elapsed_time);
-
+  virtual std::string get_class() {
+    return "plant";
+  }
 protected:
   enum PlantState {
     PLANT_SLEEPING,

@@ -33,7 +33,9 @@ public:
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
-
+  virtual std::string get_class() {
+    return "unstable_tile";
+  }
 private:
   enum State {
     STATE_NORMAL,   /**< default state */

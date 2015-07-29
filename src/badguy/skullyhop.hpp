@@ -36,7 +36,9 @@ public:
 
   void unfreeze();
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "skullyhop";
+  }
 private:
   enum SkullyHopState {
     STANDING,

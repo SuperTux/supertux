@@ -34,7 +34,9 @@ public:
   bool is_flammable() const;
 
   virtual void kill_fall();
-
+  virtual std::string get_class() {
+    return "livefire";
+  }
 private:
   SpritePtr lightsprite;
   std::string death_sound;

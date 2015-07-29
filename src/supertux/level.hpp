@@ -52,6 +52,9 @@ public:
   // loads a levelfile
   void load(const std::string& filename);
 
+  // saves to a levelfile
+  void save(const std::string& filename);
+
   const std::string& get_name() const
   { return name; }
 

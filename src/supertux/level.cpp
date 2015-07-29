@@ -19,6 +19,7 @@
 #include "badguy/goldbomb.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
+#include "lisp/writer.hpp"
 #include "object/bonus_block.hpp"
 #include "object/coin.hpp"
 #include "supertux/sector.hpp"
@@ -138,6 +139,45 @@ Level::load(const std::string& filepath)
   }
 
   current_tileset = NULL;
+}
+
+void
+Level::save(const std::string& filepath)
+{
+  try {
+    lisp::Writer writer(filepath);
+    writer.start_list("supertux-level");
+    // Starts writing to supertux level file. Keep this at the very beginning.
+
+    writer.write("version", 2);
+    writer.write("name", name, true);
+    writer.write("author", author, false);
+    if (contact != "") {
+      writer.write("contact", contact, false);
+    }
+    if (license != "") {
+      writer.write("license", license, false);
+    }
+    if (on_menukey_script != "") {
+      writer.write("on-menukey-script", on_menukey_script, false);
+    }
+    if (target_time){
+      writer.write("target-time", target_time);
+    }
+
+    for(auto i = sectors.begin(); i != sectors.end(); ++i) {
+      Sector* sec = *i;
+      sec->save(writer);
+    }
+
+    // Ends writing to supertux level file. Keep this at the very end.
+    writer.end_list("supertux-level");
+    log_warning << "Level saved as " << filepath << "." << std::endl;
+  } catch(std::exception& e) {
+    std::stringstream msg;
+    msg << "Problem when saving level '" << filepath << "': " << e.what();
+    throw std::runtime_error(msg.str());
+  }
 }
 
 void

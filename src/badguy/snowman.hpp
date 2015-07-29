@@ -27,7 +27,9 @@ class Snowman : public WalkingBadguy
 public:
   Snowman(const Reader& reader);
   Snowman(const Vector& pos, Direction d);
-
+  virtual std::string get_class() {
+    return "snowman";
+  }
 protected:
   void loose_head();
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);

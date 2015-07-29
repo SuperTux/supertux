@@ -31,6 +31,7 @@ class LevelTime : public GameObject,
   static Color text_color;
 public:
   LevelTime(const Reader& reader);
+  virtual void save(lisp::Writer& writer);
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
@@ -66,7 +67,9 @@ public:
   /**
    * @}
    */
-
+  virtual std::string get_class() {
+    return "leveltime";
+  }
 private:
   SurfacePtr time_surface;
   bool running;

@@ -51,6 +51,12 @@ WeakBlock::WeakBlock(const Reader& lisp)
     SoundManager::current()->preload("sounds/sizzle.ogg");
 }
 
+void
+WeakBlock::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  writer.write("linked", linked);
+}
+
 HitResponse
 WeakBlock::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {

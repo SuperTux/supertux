@@ -20,6 +20,8 @@
 #include <memory>
 #include <string>
 
+#include "lisp/writer.hpp"
+
 class DrawingContext;
 class GameObject;
 class ObjectRemoveListener;
@@ -54,6 +56,17 @@ public:
    * function is called.
    */
   virtual void draw(DrawingContext& context) = 0;
+
+  /** This function saves the object.
+   *  Editor will use that.
+   */
+  virtual void save(lisp::Writer& writer);
+  virtual std::string get_class() {
+    return "game-object";
+  }
+  virtual bool do_save() {
+    return true;
+  }
 
   /** returns true if the object is not scheduled to be removed yet */
   bool is_valid() const

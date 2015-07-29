@@ -45,6 +45,15 @@ Platform::Platform(const Reader& reader) :
   bbox.set_pos(path->get_base());
 }
 
+void
+Platform::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  if (!automatic) {
+    writer.write("running", true);
+  }
+  path->save(writer);
+}
+
 /*
   Platform::Platform(const Platform& other) :
   MovingSprite(other),

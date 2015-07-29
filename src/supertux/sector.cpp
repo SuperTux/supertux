@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <math.h>
+#include <vector>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
@@ -244,6 +245,41 @@ Sector::parse(const Reader& sector)
 
   update_game_objects();
   foremost_layer = calculate_foremost_layer();
+}
+
+void
+Sector::save(lisp::Writer &writer)
+{
+  writer.start_list("sector", false);
+
+  writer.write("name", name, false);
+  writer.write("gravity", gravity);
+  writer.write("ambient-light", ambient_light.toVector(false));
+
+  if (init_script != "") {
+    writer.write("init-script", init_script,false);
+  }
+  if (music != "") {
+    writer.write("music", music, false);
+  }
+
+  // saving spawnpoints
+  for(auto i = spawnpoints.begin(); i != spawnpoints.end(); ++i) {
+    std::shared_ptr<SpawnPoint> spawny = *i;
+    spawny->save(writer);
+  }
+
+  // saving oběcts (not really)
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    GameObjectPtr& obj = *i;
+    if (obj->do_save()) {
+      writer.start_list(obj->get_class());
+      obj->save(writer); //wip
+      writer.end_list(obj->get_class());
+    }
+  }
+
+  writer.end_list("sector");
 }
 
 void

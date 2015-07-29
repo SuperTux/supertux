@@ -27,10 +27,14 @@ public:
   BonusBlock(const Reader& lisp);
   virtual ~BonusBlock();
   HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual void save(lisp::Writer& writer);
 
   void try_open(Player *player);
   void try_drop(Player *player);
-
+  virtual std::string get_class() {
+    return "bonusblock";
+  }
+  virtual bool do_save();
   enum Contents {
     CONTENT_COIN,
     CONTENT_FIREGROW,
@@ -57,6 +61,7 @@ public:
   void draw(DrawingContext& context);
 
 private:
+  bool not_on_tilemap;
   BonusBlock(const BonusBlock&);
   BonusBlock& operator=(const BonusBlock&);
   std::string sprite_name;

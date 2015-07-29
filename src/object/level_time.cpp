@@ -44,6 +44,12 @@ LevelTime::LevelTime(const Reader& reader) :
 }
 
 void
+LevelTime::save(lisp::Writer& writer) {
+  GameObject::save(writer);
+  writer.write("time", time_left);
+}
+
+void
 LevelTime::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;

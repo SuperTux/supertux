@@ -61,6 +61,12 @@ InfoBlock::~InfoBlock()
 }
 
 void
+InfoBlock::save(lisp::Writer& writer) {
+  MovingObject::save(writer);
+  writer.write("message", message, true);
+}
+
+void
 InfoBlock::hit(Player& player)
 {
   start_bounce(&player);

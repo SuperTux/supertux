@@ -34,7 +34,9 @@ public:
   void explode();
 
   virtual void draw(DrawingContext& context);
-
+  virtual std::string get_class() {
+    return "kugelblitz";
+  }
 private:
   void try_activate();
   HitResponse hit(const CollisionHit& hit);

@@ -104,6 +104,14 @@ public:
     (void) tile_attributes;
   }
 
+  /** This function saves the object.
+   *  Editor will use that.
+   */
+  virtual void save(lisp::Writer& writer);
+  virtual std::string get_class() {
+    return "moving-object";
+  }
+
   const Vector& get_pos() const
   {
     return bbox.p1;

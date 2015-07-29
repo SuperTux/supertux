@@ -35,7 +35,9 @@ public:
   void deactivate();
 
   void squish();
-
+  virtual std::string get_class() {
+    return "stalactite";
+  }
 protected:
   enum StalactiteState {
     STALACTITE_HANGING,

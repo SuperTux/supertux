@@ -34,7 +34,9 @@ public:
   void active_update(float elapsed_time);
 
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "haywire";
+  }
 protected:
   bool collision_squished(GameObject& object);
 

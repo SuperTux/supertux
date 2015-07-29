@@ -72,6 +72,14 @@ Candle::Candle(const Reader& lisp)
 }
 
 void
+Candle::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  writer.write("burning", burning);
+  writer.write("flicker", flicker);
+  writer.write("color", lightcolor.toVector(false));
+}
+
+void
 Candle::draw(DrawingContext& context)
 {
   // draw regular sprite

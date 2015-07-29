@@ -30,11 +30,14 @@ class WeakBlock : public MovingSprite
 {
 public:
   WeakBlock(const Reader& lisp);
+  virtual void save(lisp::Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
   void draw(DrawingContext& context);
-	
+  virtual std::string get_class() {
+    return "weak_block";
+  }
 protected:
   /**
    * called by self when hit by a bullet

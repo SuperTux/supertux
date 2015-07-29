@@ -28,7 +28,9 @@ public:
   void active_update(float elapsed_time);
   void draw(DrawingContext& context);
   void kill_fall();
-
+  virtual std::string get_class() {
+    return "ghostflame";
+  }
 private:
   float angle;
   float radius;

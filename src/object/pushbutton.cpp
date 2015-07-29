@@ -43,6 +43,12 @@ PushButton::PushButton(const Reader& lisp) :
 }
 
 void
+PushButton::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  writer.write("script", script, false);
+}
+
+void
 PushButton::update(float /*elapsed_time*/)
 {
 }

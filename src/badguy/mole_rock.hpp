@@ -39,7 +39,9 @@ public:
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
-
+  virtual std::string get_class() {
+    return "mole_rock";
+  }
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   const Vector initial_velocity; /**< velocity at time of creation */

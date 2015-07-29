@@ -40,7 +40,9 @@ public:
   bool is_portable() const;
 
   bool can_break();
-
+  virtual std::string get_class() {
+    return "mriceblock";
+  }
 protected:
   enum IceState {
     ICESTATE_NORMAL,

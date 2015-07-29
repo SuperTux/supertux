@@ -49,6 +49,12 @@ Lantern::Lantern(const Vector& pos) :
   SoundManager::current()->preload("sounds/willocatch.wav");
 }
 
+void
+Lantern::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  writer.write("color", lightcolor.toVector(false));
+}
+
 Lantern::~Lantern()
 {
 }

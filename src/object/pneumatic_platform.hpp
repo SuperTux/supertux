@@ -31,7 +31,9 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void update(float elapsed_time);
-
+  virtual std::string get_class() {
+    return "pneumatic-platform";
+  }
 protected:
   PneumaticPlatform* master; /**< pointer to PneumaticPlatform that does movement calculation */
   PneumaticPlatform* slave; /**< pointer to PneumaticPlatform that reacts to master platform's movement calculation */

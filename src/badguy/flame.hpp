@@ -36,7 +36,9 @@ public:
 
   void freeze();
   bool is_freezable() const;
-
+  virtual std::string get_class() {
+    return "flame";
+  }
 private:
   float angle;
   float radius;

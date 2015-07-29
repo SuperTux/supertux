@@ -48,6 +48,12 @@ Owl::Owl(const Vector& pos, Direction d) :
 }
 
 void
+Owl::save(lisp::Writer& writer) {
+  BadGuy::save(writer);
+  writer.write("carry", carried_obj_name);
+}
+
+void
 Owl::initialize()
 {
   physic.set_velocity_x(dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
