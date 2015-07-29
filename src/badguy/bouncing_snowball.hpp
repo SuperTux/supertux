@@ -28,6 +28,9 @@ public:
   void initialize();
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+  virtual std::string get_class() {
+    return "bouncingsnowball";
+  }
 
 protected:
   bool collision_squished(GameObject& object);

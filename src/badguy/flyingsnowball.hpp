@@ -29,7 +29,9 @@ public:
   void activate();
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
-
+  virtual std::string get_class() {
+    return "flyingsnowball";
+  }
 protected:
   bool collision_squished(GameObject& object);
 private:

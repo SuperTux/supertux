@@ -32,6 +32,9 @@ public:
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
+  virtual bool do_save() {
+    return false;
+  }
 
   /**
    * @name Scriptable Methods

@@ -120,6 +120,17 @@ AmbientSound::~AmbientSound()
 }
 
 void
+AmbientSound::save(lisp::Writer& writer) {
+  GameObject::save(writer);
+  writer.write("width", dimension.x);
+  writer.write("height", dimension.y);
+  writer.write("diatance_factor", distance_factor);
+  writer.write("distance_bias", distance_bias);
+  writer.write("sample", sample, false);
+  writer.write("volume", maximumvolume);
+}
+
+void
 AmbientSound::hit(Player& )
 {
 }

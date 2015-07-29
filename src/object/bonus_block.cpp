@@ -45,10 +45,12 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
   contents(),
   object(),
   hit_counter(1),
+  not_on_tilemap(false),
   sprite_name(),
   script(),
   lightsprite()
 {
+  not_on_tilemap = false;
   bbox.set_pos(pos);
   sprite->set_action("normal");
   get_content_by_data(data);
@@ -59,10 +61,12 @@ BonusBlock::BonusBlock(const ReaderMapping& lisp) :
   contents(),
   object(0),
   hit_counter(1),
+  not_on_tilemap(true),
   sprite_name(),
   script(),
   lightsprite()
 {
+  not_on_tilemap = true;
   Vector pos;
 
   contents = CONTENT_COIN;
@@ -152,6 +156,37 @@ BonusBlock::get_content_by_data(int d)
 
 BonusBlock::~BonusBlock()
 {
+}
+
+void
+BonusBlock::save(lisp::Writer& writer) {
+  Block::save(writer);
+  switch (contents) {
+    case CONTENT_COIN:       writer.write("contents", "coin"      , false); break;
+    case CONTENT_FIREGROW:   writer.write("contents", "firegrow"  , false); break;
+    case CONTENT_ICEGROW:    writer.write("contents", "icegrow"   , false); break;
+    case CONTENT_AIRGROW:    writer.write("contents", "airgrow"   , false); break;
+    case CONTENT_EARTHGROW:  writer.write("contents", "earthgrow" , false); break;
+    case CONTENT_STAR:       writer.write("contents", "star"      , false); break;
+    case CONTENT_1UP:        writer.write("contents", "1up"       , false); break;
+    case CONTENT_CUSTOM:     writer.write("contents", "custom"    , false); break;
+    case CONTENT_SCRIPT:     writer.write("contents", "script"    , false); break;
+    case CONTENT_LIGHT:      writer.write("contents", "light"     , false); break;
+    case CONTENT_TRAMPOLINE: writer.write("contents", "trampoilne", false); break;
+    case CONTENT_RAIN:       writer.write("contents", "rain"      , false); break;
+    case CONTENT_EXPLODE:    writer.write("contents", "explode"   , false); break;
+  }
+  if (script != "") {
+    writer.write("script", script, false);
+  }
+  if (hit_counter > 1) {
+    writer.write("count", hit_counter);
+  }
+}
+
+bool
+BonusBlock::do_save() {
+  return not_on_tilemap;
 }
 
 void

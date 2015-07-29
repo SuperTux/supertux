@@ -162,6 +162,31 @@ void TileMap::float_channel(float target, float &current, float remaining_time, 
 }
 
 void
+TileMap::save(lisp::Writer& writer) {
+  GameObject::save(writer);
+  if (draw_target == LIGHTMAP) {
+    writer.write("draw-target", "lightmap", false);
+  }else{
+    writer.write("draw-target", "normal", false);
+  }
+  writer.write("width", width);
+  writer.write("height", height);
+  writer.write("speed", speed_x);
+  if(speed_y != speed_x) {
+    writer.write("speed", speed_y);
+  }
+  writer.write("solid", real_solid);
+  writer.write("z-pos", z_pos);
+  if(alpha != 1) {
+    writer.write("alpha", alpha);
+  }
+  if(path) {
+    path->save(writer);
+  }
+  writer.write("tiles", tiles);
+}
+
+void
 TileMap::update(float elapsed_time)
 {
   // handle tilemap fading

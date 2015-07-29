@@ -24,6 +24,9 @@ class SkullTile : public MovingSprite
 {
 public:
   SkullTile(const ReaderMapping& lisp);
+  virtual std::string get_class() {
+    return "skulltile";
+  }
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);

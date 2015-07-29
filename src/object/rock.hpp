@@ -35,7 +35,9 @@ public:
 
   void grab(MovingObject& object, const Vector& pos, Direction dir);
   void ungrab(MovingObject& object, Direction dir);
-
+  virtual std::string get_class() {
+    return "rock";
+  }
 protected:
   Physic physic;
   bool on_ground;

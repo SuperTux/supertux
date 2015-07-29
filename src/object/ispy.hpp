@@ -27,11 +27,14 @@ class Ispy : public MovingSprite
 {
 public:
   Ispy(const ReaderMapping& lisp);
+  virtual void save(lisp::Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   virtual void update(float elapsed_time);
-
+  virtual std::string get_class() {
+    return "ispy";
+  }
 private:
   enum IspyState {
     ISPYSTATE_IDLE,

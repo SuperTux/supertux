@@ -27,6 +27,10 @@ public:
   ScriptTrigger(const ReaderMapping& reader);
   ScriptTrigger(const Vector& pos, const std::string& script);
   ~ScriptTrigger();
+  virtual void save(lisp::Writer& writer);
+  virtual std::string get_class() {
+    return "scripttrigger";
+  }
 
   void write(Writer& writer);
   void event(Player& player, EventType type);

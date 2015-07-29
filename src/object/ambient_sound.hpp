@@ -55,6 +55,7 @@ public:
   AmbientSound(const ReaderMapping& lisp);
   AmbientSound(Vector pos, float factor, float bias, float vol, std::string file);
   ~AmbientSound();
+  virtual void save(lisp::Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit_);
 
@@ -62,7 +63,9 @@ public:
   {
     return bbox.p1;
   }
-
+  virtual std::string get_class() {
+    return "ambient_sound";
+  }
   /**
    * @name Scriptable Methods
    * @{

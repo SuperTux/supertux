@@ -23,6 +23,7 @@
 
 #include "supertux/direction.hpp"
 #include "supertux/game_object_ptr.hpp"
+#include "util/writer.hpp"
 #include "video/color.hpp"
 #include "object/anchor_point.hpp"
 
@@ -76,6 +77,8 @@ public:
   void update_game_objects();
 
   void draw(DrawingContext& context);
+
+  void save(Writer &writer);
 
   /// stops all looping sounds in whole sector.
   void stop_looping_sounds();

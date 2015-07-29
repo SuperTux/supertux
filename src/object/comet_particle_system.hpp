@@ -38,7 +38,9 @@ public:
 
   std::string type() const
   { return "CometParticleSystem"; }
-
+  virtual std::string get_class() {
+    return "particles-comets";
+  }
 private:
   class CometParticle : public Particle
   {

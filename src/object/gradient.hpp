@@ -30,6 +30,7 @@ public:
   Gradient();
   Gradient(const ReaderMapping& reader);
   virtual ~Gradient();
+  virtual void save(lisp::Writer& writer);
 
   void set_gradient(Color top, Color bottom);
 
@@ -50,6 +51,10 @@ public:
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+
+  virtual std::string get_class() {
+    return "gradient";
+  }
 
 private:
   int layer;

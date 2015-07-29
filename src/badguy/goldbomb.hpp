@@ -44,6 +44,9 @@ public:
 
   void kill_fall();
   void ignite();
+  virtual std::string get_class() {
+    return "goldbomb";
+  }
 
   void stop_looping_sounds();
   void play_looping_sounds();

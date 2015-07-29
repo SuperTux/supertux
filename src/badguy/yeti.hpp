@@ -37,6 +37,9 @@ public:
   void kill_fall();
 
   bool is_flammable() const;
+  virtual std::string get_class() {
+    return "yeti";
+  }
 
 private:
   void run();

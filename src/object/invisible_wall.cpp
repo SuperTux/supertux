@@ -30,6 +30,13 @@ InvisibleWall::InvisibleWall(const ReaderMapping& lisp) :
   bbox.set_size(width, height);
 }
 
+void
+InvisibleWall::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  writer.write("width", width);
+  writer.write("height", height);
+}
+
 HitResponse
 InvisibleWall::collision(GameObject& , const CollisionHit& )
 {

@@ -28,6 +28,9 @@ class SpecialRiser : public GameObject
 public:
   SpecialRiser(Vector pos, std::shared_ptr<MovingObject> child);
   ~SpecialRiser();
+  virtual bool do_save() {
+    return false;
+  }
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
