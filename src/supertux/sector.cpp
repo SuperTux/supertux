@@ -274,7 +274,7 @@ Sector::save(lisp::Writer &writer)
     GameObjectPtr& obj = *i;
     if (obj->do_save()) {
       writer.start_list(obj->get_class());
-      obj->save(writer); //wip
+      obj->save(writer);
       writer.end_list(obj->get_class());
     }
   }

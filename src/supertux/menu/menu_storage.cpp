@@ -20,6 +20,8 @@
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/cheat_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
+#include "supertux/menu/editor_level_select_menu.hpp"
+#include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"
@@ -96,6 +98,12 @@ MenuStorage::create(MenuId menu_id)
 
     case ADDON_MENU:
       return std::unique_ptr<Menu>(new AddonMenu);
+
+    case EDITOR_LEVELSET_SELECT_MENU:
+      return std::unique_ptr<Menu>(new EditorLevelsetSelectMenu);
+
+//    case EDITOR_LEVEL_SELECT_MENU:
+//      return std::unique_ptr<Menu>(new EditorLevelSelectMenu);
 
     case NO_MENU:
       return std::unique_ptr<Menu>();

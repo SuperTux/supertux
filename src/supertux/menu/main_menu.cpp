@@ -17,6 +17,7 @@
 #include "supertux/menu/main_menu.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
@@ -42,6 +43,7 @@ MainMenu::MainMenu()
   add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
   add_entry(MNID_ADDONS, _("Add-ons"));
   add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
+  add_entry(MNID_LEVELEDITOR, _("Level editor (WIP)"));
   add_entry(MNID_CREDITS, _("Credits"));
   add_entry(MNID_QUITMAINMENU, _("Quit"));
 }
@@ -78,6 +80,11 @@ MainMenu::menu_action(MenuItem* item)
       MenuManager::instance().clear_menu_stack();
       ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.txt")),
                                             std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+      break;
+
+    case MNID_LEVELEDITOR:
+      MenuManager::instance().clear_menu_stack();
+      Editor::current()->launch();
       break;
 
     case MNID_QUITMAINMENU:
