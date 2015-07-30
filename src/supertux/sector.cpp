@@ -53,6 +53,7 @@
 #include "util/file_system.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 Sector* Sector::_current = 0;
 
