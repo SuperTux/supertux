@@ -34,6 +34,7 @@ extern "C" {
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "physfs/ifile_stream.hpp"
@@ -351,6 +352,7 @@ Main::launch_game()
 
   GameManager game_manager;
   ScreenManager screen_manager;
+  Editor editor;
 
   if(!g_config->start_level.empty()) {
     // we have a normal path specified at commandline, not a physfs path.
