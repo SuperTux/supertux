@@ -27,6 +27,7 @@
 
 class Level;
 class Sector;
+class World;
 
 class Editor : public Screen,
                public Currenton<Editor>
@@ -42,18 +43,21 @@ class Editor : public Screen,
     virtual void leave() override;
 
     std::unique_ptr<Level> level;
+    std::unique_ptr<World> world;
 
-    std::string levelset;
     std::string levelfile;
 
     bool quit_request;
     bool newlevel_request;
     bool reload_request;
+    bool reactivate_request;
+    bool save_request;
 
     Sector* currentsector;
 
-  private:
     bool levelloaded;
+
+  private:
     bool enabled;
 
     void reload_level();

@@ -19,6 +19,7 @@
 #include "control/input_manager.hpp"
 #include "object/camera.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/level.hpp"
 #include "supertux/levelset_screen.hpp"
@@ -28,14 +29,16 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/world.hpp"
 
 Editor::Editor() :
   level(),
-  levelset(),
+  world(),
   levelfile(),
   quit_request(false),
   newlevel_request(false),
   reload_request(false),
+  reactivate_request(false),
   currentsector(),
   levelloaded(false),
   enabled(false)
@@ -68,8 +71,18 @@ void Editor::update(float elapsed_time)
     //Create new level
   }
 
+  if (reactivate_request) {
+    enabled = true;
+    reactivate_request = false;
+  }
+
+  if (save_request) {
+    level->save(world->get_basedir() + "/" + levelfile);
+  }
+
   if (InputManager::current()->get_controller()->pressed(Controller::ESCAPE)) {
-    quit_request = true;
+    enabled = false;
+    MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
   }
 
   update_keyboard();
@@ -102,11 +115,12 @@ void Editor::reload_level() {
   reload_request = false;
   enabled = true;
   // Re/load level
-  if (!levelloaded) {
-    level.reset(new Level);
-    levelloaded = true;
+  if (levelloaded) {
+    level = NULL;
   }
-  level->load(levelset + "/" + levelfile);
+  level.reset(new Level);
+  levelloaded = true;
+  level->load(world->get_basedir() + "/" + levelfile);
   currentsector = level->get_sector("main");
   if(!currentsector) {
     size_t i = 0;
@@ -118,7 +132,7 @@ void Editor::reload_level() {
 
 void Editor::quit_editor() {
   //Quit level editor
-  levelset = "";
+  world = NULL;
   levelfile = "";
   levelloaded = false;
   quit_request = false;
@@ -133,8 +147,6 @@ void Editor::leave()
 
 void
 Editor::setup() {
-  if (levelset == "") {
-    MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
-  }
+  MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
 //  GameSession::current() = this;
 }
