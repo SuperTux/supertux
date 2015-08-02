@@ -31,21 +31,21 @@
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 
-EditorLevelSelectMenu::EditorLevelSelectMenu(std::unique_ptr<World> world) :
-  m_world(std::move(world)),
-  m_levelset()
+EditorLevelSelectMenu::EditorLevelSelectMenu()
+/*  m_world(std::move(world)),
+  m_levelset()*/
 {
   //assert(m_world->is_levelset());
 
-  m_levelset = std::unique_ptr<Levelset>(new Levelset(m_world->get_basedir()));
+  m_levelset = std::unique_ptr<Levelset>(new Levelset(Editor::current()->world->get_basedir()));
 
-  add_label(m_world->get_title());
+  add_label(Editor::current()->world->get_title());
   add_hl();
 
   for (int i = 0; i < m_levelset->get_num_levels(); ++i)
   {
     std::string filename = m_levelset->get_level_filename(i);
-    std::string full_filename = FileSystem::join(m_world->get_basedir(), filename);
+    std::string full_filename = FileSystem::join(Editor::current()->world->get_basedir(), filename);
     std::string title = GameManager::current()->get_level_name(full_filename);
     add_entry(i, title);
   }
@@ -62,13 +62,11 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
   {
     Editor::current()->levelfile = m_levelset->get_level_filename(item->id);
     Editor::current()->reload_request = true;
-/*    SoundManager::current()->stop_music();
-
-    // reload the World so that we have something that we can safely
-    // std::move() around without wreaking the ContribMenu
-    std::unique_ptr<World> world = World::load(m_world->get_basedir());
-    GameManager::current()->start_level(std::move(world), m_levelset->get_level_filename(item->id));*/
     MenuManager::instance().clear_menu_stack();
+  }else{
+    if(!(Editor::current()->levelloaded)){
+      Editor::current()->quit_request = true;
+    }
   }
 }
 

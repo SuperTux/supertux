@@ -14,30 +14,34 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVEL_SELECT_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVEL_SELECT_MENU_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_MENU_HPP
+#define HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_MENU_HPP
 
 #include "gui/menu.hpp"
 
-class Levelset;
-class World;
+class Level;
 
-class EditorLevelSelectMenu : public Menu
+enum EditorMenuIDs {
+  MNID_RETURNTOEDITOR,
+  MNID_SAVELEVEL,
+  MNID_LEVELSEL,
+  MNID_LEVELSETSEL,
+  MNID_QUITEDITOR
+};
+
+class EditorMenu : public Menu
 {
 private:
-/*  std::unique_ptr<World> m_world;*/
-  std::unique_ptr<Levelset> m_levelset;
-
 public:
-  EditorLevelSelectMenu();
+  EditorMenu();
 
   void menu_action(MenuItem* item) override;
 
 private:
-  EditorLevelSelectMenu(const EditorLevelSelectMenu&);
-  EditorLevelSelectMenu& operator=(const EditorLevelSelectMenu&);
+  EditorMenu(const EditorMenu&);
+  EditorMenu& operator=(const EditorMenu&);
 };
 
-#endif // HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVEL_SELECT_MENU_HPP
+#endif //HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_MENU_HPP
 
 /* EOF */
