@@ -37,7 +37,8 @@ Editor::Editor() :
   newlevel_request(false),
   reload_request(false),
   currentsector(),
-  levelloaded(false)
+  levelloaded(false),
+  enabled(false)
 {
 }
 
@@ -71,15 +72,27 @@ void Editor::update(float elapsed_time)
     quit_request = true;
   }
 
+  update_keyboard();
+}
+
+
+void Editor::update_keyboard() {
+  if (!enabled){
+    return;
+  }
+
   if (InputManager::current()->get_controller()->hold(Controller::LEFT)) {
     currentsector->camera->move(-32,0);
   }
+
   if (InputManager::current()->get_controller()->hold(Controller::RIGHT)) {
     currentsector->camera->move(32,0);
   }
+
   if (InputManager::current()->get_controller()->hold(Controller::UP)) {
     currentsector->camera->move(0,-32);
   }
+
   if (InputManager::current()->get_controller()->hold(Controller::DOWN)) {
     currentsector->camera->move(0,32);
   }
@@ -87,6 +100,7 @@ void Editor::update(float elapsed_time)
 
 void Editor::reload_level() {
   reload_request = false;
+  enabled = true;
   // Re/load level
   if (!levelloaded) {
     level.reset(new Level);
@@ -108,6 +122,7 @@ void Editor::quit_editor() {
   levelfile = "";
   levelloaded = false;
   quit_request = false;
+  enabled = false;
   ScreenManager::current()->pop_screen();
 }
 

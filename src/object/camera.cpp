@@ -144,7 +144,8 @@ Camera::Camera(Sector* newsector, std::string name_) :
   scroll_goal(),
   scroll_to_pos(),
   scrollspeed(),
-  config()
+  config(),
+  defaultmode(NORMAL)
 {
   this->name = name_;
   config = new CameraConfig();

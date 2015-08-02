@@ -54,9 +54,11 @@ class Editor : public Screen,
 
   private:
     bool levelloaded;
+    bool enabled;
 
     void reload_level();
     void quit_editor();
+    void update_keyboard();
 
     Editor(const Editor&);
     Editor& operator=(const Editor&);
