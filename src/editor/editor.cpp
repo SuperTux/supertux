@@ -17,6 +17,7 @@
 #include "editor/editor.hpp"
 
 #include "control/input_manager.hpp"
+#include "gui/mousecursor.hpp"
 #include "object/camera.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_menu.hpp"
@@ -39,6 +40,7 @@ Editor::Editor() :
   newlevel_request(false),
   reload_request(false),
   reactivate_request(false),
+  save_request(false),
   currentsector(),
   levelloaded(false),
   enabled(false)
@@ -55,6 +57,7 @@ void Editor::draw(DrawingContext& context)
   if (levelloaded) {
     currentsector->draw(context);
   }
+  MouseCursor::current()->draw(context);
 }
 
 void Editor::update(float elapsed_time)

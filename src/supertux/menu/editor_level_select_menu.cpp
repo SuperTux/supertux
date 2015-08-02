@@ -31,9 +31,8 @@
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 
-EditorLevelSelectMenu::EditorLevelSelectMenu()
-/*  m_world(std::move(world)),
-  m_levelset()*/
+EditorLevelSelectMenu::EditorLevelSelectMenu() :
+  m_levelset()
 {
   //assert(m_world->is_levelset());
 
