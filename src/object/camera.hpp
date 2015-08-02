@@ -68,6 +68,7 @@ public:
    * to the position goal
    */
   void scroll_to(const Vector& goal, float scrolltime);
+  void move(const int dx, const int dy);
 
   void reload_config();
 
@@ -133,6 +134,9 @@ private:
 private:
   Camera(const Camera&);
   Camera& operator=(const Camera&);
+
+  CameraMode defaultmode;
+
 };
 
 #endif /*SUPERTUX_CAMERA_H*/

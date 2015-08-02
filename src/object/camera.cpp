@@ -114,7 +114,7 @@ public:
 void
 Camera::save(lisp::Writer& writer){
   GameObject::save(writer);
-  switch (mode) {
+  switch (defaultmode) {
     case NORMAL: writer.write("mode", "normal", false); break;
     case MANUAL: writer.write("mode", "manual", false); break;
     case AUTOSCROLL:
@@ -207,6 +207,7 @@ Camera::parse(const Reader& reader)
     str << "invalid camera mode '" << modename << "'found in worldfile.";
     throw std::runtime_error(str.str());
   }
+  defaultmode = mode;
 }
 
 void
@@ -644,6 +645,12 @@ Camera::update_scroll_to(float elapsed_time)
 Vector
 Camera::get_center() const {
   return translation + Vector(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+}
+
+void
+Camera::move(const int dx, const int dy) {
+  translation.x += dx;
+  translation.y += dy;
 }
 
 /* EOF */
