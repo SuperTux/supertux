@@ -21,21 +21,42 @@
 
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/game_session.hpp"
+//#include "supertux/game_session.hpp"
+#include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
-class Editor : public Currenton<Editor>
+class Level;
+class Sector;
+
+class Editor : public Screen,
+               public Currenton<Editor>
 {
   public:
     Editor();
-    void launch();
+    ~Editor();
+
+    virtual void draw(DrawingContext&) override;
+    virtual void update(float elapsed_time) override;
+
+    virtual void setup() override;
+    virtual void leave() override;
+
+    std::unique_ptr<Level> level;
+
     std::string levelset;
     std::string levelfile;
 
     bool quit_request;
     bool newlevel_request;
+    bool reload_request;
+
+    Sector* currentsector;
 
   private:
+    bool levelloaded;
+
+    void reload_level();
+    void quit_editor();
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_EDITOR_HPP
