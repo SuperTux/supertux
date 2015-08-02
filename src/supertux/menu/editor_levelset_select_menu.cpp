@@ -142,21 +142,12 @@ EditorLevelsetSelectMenu::menu_action(MenuItem* item)
   int index = item->id;
   if (index != -1)
   {
-    Editor::current()->levelset = m_contrib_worlds[index]->get_basedir();
-    std::unique_ptr<World> world = World::load(m_contrib_worlds[index]->get_basedir());
-    MenuManager::instance().push_menu(std::unique_ptr<Menu>(new EditorLevelSelectMenu(std::move(world))));
-/*    // reload the World so that we have something that we can safely
-    // std::move() around without wreaking the ContribMenu
-    std::unique_ptr<World> world = World::load(m_contrib_worlds[index]->get_basedir());
-    if (!world->is_levelset())
-    {
-      GameManager::current()->start_worldmap(std::move(world));
+    Editor::current()->world = move(m_contrib_worlds[index]);
+    MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
+  }else{
+    if(!(Editor::current()->levelloaded)){
+      Editor::current()->quit_request = true;
     }
-    else
-    {
-      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribLevelsetMenu(std::move(world))));
-    }*/
-//    MenuManager::instance().clear_menu_stack();
   }
 }
 
