@@ -156,6 +156,7 @@ EditorLevelsetSelectMenu::menu_action(MenuItem* item)
     {
       MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ContribLevelsetMenu(std::move(world))));
     }*/
+//    MenuManager::instance().clear_menu_stack();
   }
 }
 
