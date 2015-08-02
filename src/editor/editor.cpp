@@ -17,6 +17,7 @@
 #include "editor/editor.hpp"
 
 #include "control/input_manager.hpp"
+#include "object/camera.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/level.hpp"
@@ -69,6 +70,19 @@ void Editor::update(float elapsed_time)
   if (InputManager::current()->get_controller()->pressed(Controller::ESCAPE)) {
     quit_request = true;
   }
+
+  if (InputManager::current()->get_controller()->hold(Controller::LEFT)) {
+    currentsector->camera->move(-32,0);
+  }
+  if (InputManager::current()->get_controller()->hold(Controller::RIGHT)) {
+    currentsector->camera->move(32,0);
+  }
+  if (InputManager::current()->get_controller()->hold(Controller::UP)) {
+    currentsector->camera->move(0,-32);
+  }
+  if (InputManager::current()->get_controller()->hold(Controller::DOWN)) {
+    currentsector->camera->move(0,32);
+  }
 }
 
 void Editor::reload_level() {
@@ -80,9 +94,12 @@ void Editor::reload_level() {
   }
   level->load(levelset + "/" + levelfile);
   currentsector = level->get_sector("main");
-  if(!currentsector)
-    throw std::runtime_error("Couldn't find main sector");
+  if(!currentsector) {
+    size_t i = 0;
+    currentsector = level->get_sector(i);
+  }
   currentsector->activate("main");
+  currentsector->camera->mode = Camera::MANUAL;
 }
 
 void Editor::quit_editor() {

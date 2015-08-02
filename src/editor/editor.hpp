@@ -57,6 +57,9 @@ class Editor : public Screen,
 
     void reload_level();
     void quit_editor();
+
+    Editor(const Editor&);
+    Editor& operator=(const Editor&);
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_EDITOR_HPP
