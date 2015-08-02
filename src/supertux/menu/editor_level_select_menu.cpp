@@ -61,12 +61,14 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
   if (item->kind == MN_ACTION)
   {
     Editor::current()->levelfile = m_levelset->get_level_filename(item->id);
+    Editor::current()->reload_request = true;
 /*    SoundManager::current()->stop_music();
 
     // reload the World so that we have something that we can safely
     // std::move() around without wreaking the ContribMenu
     std::unique_ptr<World> world = World::load(m_world->get_basedir());
     GameManager::current()->start_level(std::move(world), m_levelset->get_level_filename(item->id));*/
+    MenuManager::instance().clear_menu_stack();
   }
 }
 
