@@ -41,6 +41,7 @@ EditorInputGui::EditorInputGui() :
   active_tilegroup(),
   hovered_item(HI_NONE),
   hovered_tile(-1),
+  tile_scrolling(TS_NONE),
   starting_tile(0),
   Xpos(512)
 {
@@ -138,24 +139,6 @@ EditorInputGui::event(SDL_Event& ev) {
         }
       }
     } break;
-
-/*    case SDL_MOUSEWHEEL: {
-      Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
-      float x = mouse_pos.x - Xpos;
-      //float y = mouse_pos.y - Ypos;
-      if (x > Xpos) {
-        if(ev.wheel.y > 0) {
-          if (starting_tile > 0) {
-            starting_tile -= 4;
-          }
-        }else if(ev.wheel.y < 0) {
-          //int size = active_tilegroup.size();
-          //if (starting_tile < size-5) {
-            starting_tile += 4;
-          //}
-        }
-      }
-    } break;*/
 
     case SDL_MOUSEMOTION:
     {
