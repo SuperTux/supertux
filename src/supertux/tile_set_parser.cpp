@@ -59,7 +59,7 @@ TileSetParser::parse()
     {
       /* tilegroups are only interesting for the editor */
       Reader reader = *iter.lisp();
-      TileSet::Tilegroup tilegroup;
+      Tilegroup tilegroup;
       reader.get("name", tilegroup.name);
       reader.get("tiles", tilegroup.tiles);
       m_tileset.tilegroups.push_back(tilegroup);

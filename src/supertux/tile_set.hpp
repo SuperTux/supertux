@@ -25,6 +25,11 @@
 
 class Tile;
 
+typedef struct {
+  std::string name;
+  std::vector<int> tiles;
+}Tilegroup;
+
 class TileSet
 {
 private:
@@ -34,11 +39,6 @@ public:
   TileSet(const std::string& filename);
   TileSet();
   ~TileSet();
-
-  typedef struct {
-    std::string name;
-    std::vector<int> tiles;
-  }Tilegroup;
 
   std::vector<Tilegroup> tilegroups;
 
