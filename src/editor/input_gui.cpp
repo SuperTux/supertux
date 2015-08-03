@@ -41,6 +41,7 @@ EditorInputGui::EditorInputGui() :
   active_tilegroup(),
   hovered_item(HI_NONE),
   hovered_tile(-1),
+  starting_tile(0),
   Xpos(512)
 {
 }
@@ -91,37 +92,70 @@ EditorInputGui::draw(DrawingContext& context) {
     int pos = -1;
     for(auto i = active_tilegroup.begin(); i != active_tilegroup.end(); ++i) {
       pos++;
+      if (pos < starting_tile) {
+        continue;
+      }
       int* tile_ID = &(*i);
       if ((*tile_ID) == 0) {
         continue;
       }
       const Tile* tg_tile = Editor::current()->level->tileset->get(*tile_ID);
-      tg_tile->draw(context, get_tile_coords(pos), LAYER_GUI-9);
+      tg_tile->draw(context, get_tile_coords(pos - starting_tile), LAYER_GUI-9);
     }
   }
 }
 
 void
 EditorInputGui::update(float elapsed_time) {
-
+  switch (tile_scrolling) {
+    case TS_UP: if (starting_tile > 0) {
+        starting_tile -= 4;
+      } break;
+    case TS_DOWN: {
+      int size = active_tilegroup.size();
+      if (starting_tile < size-5) {
+        starting_tile += 4;
+      }
+    }
+    default: break;
+  }
 }
 
 void
 EditorInputGui::event(SDL_Event& ev) {
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
-    if(ev.button.button == SDL_BUTTON_LEFT)
     {
-      switch (hovered_item) {
-        case HI_TILEGROUP:
-          Editor::current()->disable_keyboard();
-          MenuManager::instance().set_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
-          break;
-        default:
-          break;
+      if(ev.button.button == SDL_BUTTON_LEFT)
+      {
+        switch (hovered_item) {
+          case HI_TILEGROUP:
+            Editor::current()->disable_keyboard();
+            MenuManager::instance().set_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
+            break;
+          default:
+            break;
+        }
       }
-    }
-    break;
+    } break;
+
+/*    case SDL_MOUSEWHEEL: {
+      Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
+      float x = mouse_pos.x - Xpos;
+      //float y = mouse_pos.y - Ypos;
+      if (x > Xpos) {
+        if(ev.wheel.y > 0) {
+          if (starting_tile > 0) {
+            starting_tile -= 4;
+          }
+        }else if(ev.wheel.y < 0) {
+          //int size = active_tilegroup.size();
+          //if (starting_tile < size-5) {
+            starting_tile += 4;
+          //}
+        }
+      }
+    } break;*/
 
     case SDL_MOUSEMOTION:
     {
@@ -130,6 +164,7 @@ EditorInputGui::event(SDL_Event& ev) {
       float y = mouse_pos.y - Ypos;
       if (x < 0) {
         hovered_item = HI_NONE;
+        tile_scrolling = TS_NONE;
         break;
       }
       if (y < 0) {
@@ -138,9 +173,18 @@ EditorInputGui::event(SDL_Event& ev) {
         }else{
           hovered_item = HI_OBJECTS;
         }
+        tile_scrolling = TS_NONE;
+        break;
       }else{
         hovered_item = HI_TILE;
         hovered_tile = get_tile_pos(mouse_pos);
+      }
+      if (y < 16) {
+        tile_scrolling = TS_UP;
+      }else if (y > SCREEN_HEIGHT - 16 - Ypos) {
+        tile_scrolling = TS_DOWN;
+      }else{
+        tile_scrolling = TS_NONE;
       }
     }
     break;

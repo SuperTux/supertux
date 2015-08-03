@@ -40,7 +40,7 @@ EditorTilegroupMenu::EditorTilegroupMenu()
 
   int id = 0;
   for(auto i = Editor::current()->level->tileset->tilegroups.begin(); i != Editor::current()->level->tileset->tilegroups.end(); ++i) {
-    TileSet::Tilegroup* tg = &(*i);
+    Tilegroup* tg = &(*i);
     add_entry(id, tg->name);
     id++;
   }
