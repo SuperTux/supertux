@@ -23,6 +23,7 @@
 #include <sexp/util.hpp>
 #include <sexp/io.hpp>
 
+#include "editor/editor.hpp"
 #include "supertux/tile_set.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"

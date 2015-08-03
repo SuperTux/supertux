@@ -30,6 +30,7 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/tile.hpp"
 #include "supertux/world.hpp"
 
 Editor::Editor() :
@@ -144,6 +145,7 @@ void Editor::quit_editor() {
   levelloaded = false;
   quit_request = false;
   enabled = false;
+  Tile::draw_editor_images = false;
   ScreenManager::current()->pop_screen();
 }
 
@@ -154,6 +156,8 @@ void Editor::leave()
 
 void
 Editor::setup() {
+  Tile::draw_editor_images = true;
+  Sector::draw_solids_only = false;
   MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
   tileselect.setup();
 }
