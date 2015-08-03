@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/menu/editor_level_select_menu.hpp"
+#include "supertux/menu/editor_tilegroup_menu.hpp"
 
 #include <sstream>
 
@@ -23,47 +23,46 @@
 #include "gui/menu_item.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/levelset.hpp"
+#include "supertux/level.hpp"
+//#include "supertux/levelset.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
+#include "supertux/tile_set.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 
-EditorLevelSelectMenu::EditorLevelSelectMenu() :
-  m_levelset()
+EditorTilegroupMenu::EditorTilegroupMenu()
 {
-  m_levelset = std::unique_ptr<Levelset>(new Levelset(Editor::current()->world->get_basedir()));
-
-  add_label(Editor::current()->world->get_title());
+  add_label(_("Tilegroups"));
   add_hl();
 
-  for (int i = 0; i < m_levelset->get_num_levels(); ++i)
-  {
-    std::string filename = m_levelset->get_level_filename(i);
-    std::string full_filename = FileSystem::join(Editor::current()->world->get_basedir(), filename);
-    std::string title = GameManager::current()->get_level_name(full_filename);
-    add_entry(i, title);
+  int id = 0;
+  for(auto i = Editor::current()->level->tileset->tilegroups.begin(); i != Editor::current()->level->tileset->tilegroups.end(); ++i) {
+    TileSet::Tilegroup* tg = &(*i);
+    add_entry(id, tg->name);
+    id++;
   }
 
   add_hl();
-  add_entry(-1,_("Create Level"));
-  add_entry(-2,_("Back"));
+  add_entry(-1,_("Abort"));
 }
 
 void
-EditorLevelSelectMenu::menu_action(MenuItem* item)
+EditorTilegroupMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
   {
-    Editor::current()->levelfile = m_levelset->get_level_filename(item->id);
-    Editor::current()->reload_request = true;
+    //Editor::current()->tileselect.tilegroup_ID = item->id;
+    Editor::current()->tileselect.active_tilegroup = Editor::current()->level->tileset->tilegroups[item->id].tiles;
+    Editor::current()->reactivate_request = true;
+    //Editor::current()->reload_request = true;
+    Editor::current()->tileselect.input_type = EditorInputGui::IP_TILE;
     MenuManager::instance().clear_menu_stack();
   }else{
-    if(!(Editor::current()->levelloaded)){
-      Editor::current()->quit_request = true;
-    }
+    MenuManager::instance().clear_menu_stack();
+    Editor::current()->reactivate_request = true;
   }
 }
 

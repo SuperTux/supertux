@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "scripting/scripting.hpp"
@@ -204,6 +205,10 @@ ScreenManager::process_events()
     InputManager::current()->process_event(event);
 
     m_menu_manager->event(event);
+
+    if (Editor::current()) if (Editor::current()->levelloaded) {
+      Editor::current()->event(event);
+    }
 
     switch(event.type)
     {

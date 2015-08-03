@@ -57,6 +57,11 @@ TileSetParser::parse()
     else if (iter.item() == "tilegroup")
     {
       /* tilegroups are only interesting for the editor */
+      Reader reader = *iter.lisp();
+      TileSet::Tilegroup tilegroup;
+      reader.get("name", tilegroup.name);
+      reader.get("tiles", tilegroup.tiles);
+      m_tileset.tilegroups.push_back(tilegroup);
     }
     else if (iter.item() == "tiles")
     {

@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 
 #include <stdint.h>
+#include <string>
 
 #include "supertux/tile.hpp"
 #include "util/log.hpp"
@@ -41,6 +42,13 @@ private:
 public:
   TileSet();
   ~TileSet();
+
+  typedef struct {
+    std::string name;
+    std::vector<int> tiles;
+  }Tilegroup;
+
+  std::vector<Tilegroup> tilegroups;
 
   void merge(const TileSet *tileset, uint32_t start, uint32_t end,
              uint32_t offset);

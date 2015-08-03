@@ -27,8 +27,6 @@
 
 EditorMenu::EditorMenu()
 {
-//  Level* level = GameSession::current()->get_current_level();
-
   add_label(_("Level Editor"));
   add_hl();
   add_entry(MNID_RETURNTOEDITOR, _("Return to editor"));
@@ -55,12 +53,10 @@ EditorMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_LEVELSEL:
-      //MenuManager::instance().clear_menu_stack();
       MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
       break;
 
     case MNID_LEVELSETSEL:
-      //MenuManager::instance().clear_menu_stack();
       MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
       break;
 
