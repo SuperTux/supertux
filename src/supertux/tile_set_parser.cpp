@@ -20,6 +20,7 @@
 #include <stdexcept>
 #include <sstream>
 
+#include "editor/editor.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "supertux/tile_set.hpp"

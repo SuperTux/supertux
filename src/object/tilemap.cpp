@@ -16,6 +16,7 @@
 
 #include <math.h>
 
+#include "editor/editor.hpp"
 #include "object/tilemap.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/tilemap.hpp"

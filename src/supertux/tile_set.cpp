@@ -18,6 +18,17 @@
 
 #include "supertux/tile_set_parser.hpp"
 
+Tilegroup::Tilegroup() :
+  name(),
+  tiles()
+{
+  tiles.clear();
+}
+
+Tilegroup::~Tilegroup() {
+
+}
+
 TileSet::TileSet() :
   tiles(),
   tiles_loaded(false),
