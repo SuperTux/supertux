@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 
 #include <stdint.h>
+#include <string>
 
 #include "supertux/tile.hpp"
 #include "util/log.hpp"
@@ -33,6 +34,13 @@ public:
   TileSet(const std::string& filename);
   TileSet();
   ~TileSet();
+
+  typedef struct {
+    std::string name;
+    std::vector<int> tiles;
+  }Tilegroup;
+
+  std::vector<Tilegroup> tilegroups;
 
   void add_tile(int id, std::unique_ptr<Tile> tile);
 

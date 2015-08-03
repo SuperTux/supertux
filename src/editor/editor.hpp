@@ -18,7 +18,10 @@
 #define HEADER_SUPERTUX_EDITOR_EDITOR_HPP
 
 #include <string>
+#include <stdexcept>
 
+#include "control/input_manager.hpp"
+#include "editor/input_gui.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 //#include "supertux/game_session.hpp"
@@ -42,6 +45,8 @@ class Editor : public Screen,
     virtual void setup() override;
     virtual void leave() override;
 
+    void event(SDL_Event& ev);
+
     std::unique_ptr<Level> level;
     std::unique_ptr<World> world;
 
@@ -53,9 +58,15 @@ class Editor : public Screen,
     bool reactivate_request;
     bool save_request;
 
+    void disable_keyboard() {
+      enabled = false;
+    }
+
     Sector* currentsector;
 
     bool levelloaded;
+
+    EditorInputGui tileselect;
 
   private:
     bool enabled;
