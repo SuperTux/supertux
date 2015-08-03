@@ -23,6 +23,16 @@
 #include "supertux/tile.hpp"
 #include "util/log.hpp"
 
+class Tile;
+
+class Tilegroup{
+  public:
+    Tilegroup();
+    ~Tilegroup();
+    std::string name;
+    std::vector<int> tiles;
+};
+
 class TileSet
 {
 private:
@@ -32,11 +42,6 @@ public:
   TileSet(const std::string& filename);
   TileSet();
   ~TileSet();
-
-  typedef struct {
-    std::string name;
-    std::vector<int> tiles;
-  }Tilegroup;
 
   std::vector<Tilegroup> tilegroups;
 
