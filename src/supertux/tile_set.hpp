@@ -25,6 +25,11 @@
 
 class Tile;
 
+typedef struct {
+  std::string name;
+  std::vector<int> tiles;
+}Tilegroup;
+
 class TileSet
 {
 private:
@@ -42,11 +47,6 @@ private:
 public:
   TileSet();
   ~TileSet();
-
-  typedef struct {
-    std::string name;
-    std::vector<int> tiles;
-  }Tilegroup;
 
   std::vector<Tilegroup> tilegroups;
 

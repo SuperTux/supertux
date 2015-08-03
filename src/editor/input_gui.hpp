@@ -47,12 +47,19 @@ class EditorInputGui
     std::vector<int> active_tilegroup;
 
   private:
+
     typedef enum {
       HI_NONE, HI_TILEGROUP, HI_OBJECTS, HI_TILE
     }HoveredItem;
 
+    typedef enum {
+      TS_NONE, TS_UP, TS_DOWN
+    }TileScrolling;
+
     HoveredItem hovered_item;
     int hovered_tile;
+    TileScrolling tile_scrolling;
+    int starting_tile;
 
     int Xpos;
     const int Ypos = 44;
