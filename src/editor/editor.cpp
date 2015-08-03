@@ -43,6 +43,7 @@ Editor::Editor() :
   save_request(false),
   currentsector(),
   levelloaded(false),
+  tileselect(),
   enabled(false)
 {
 }
@@ -57,6 +58,7 @@ void Editor::draw(DrawingContext& context)
   if (levelloaded) {
     currentsector->draw(context);
   }
+  tileselect.draw(context);
   MouseCursor::current()->draw(context);
 }
 
@@ -81,6 +83,7 @@ void Editor::update(float elapsed_time)
 
   if (save_request) {
     level->save(world->get_basedir() + "/" + levelfile);
+    save_request = false;
   }
 
   if (InputManager::current()->get_controller()->pressed(Controller::ESCAPE)) {
@@ -89,6 +92,7 @@ void Editor::update(float elapsed_time)
   }
 
   update_keyboard();
+  tileselect.update(elapsed_time);
 }
 
 
@@ -151,5 +155,10 @@ void Editor::leave()
 void
 Editor::setup() {
   MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
-//  GameSession::current() = this;
+  tileselect.setup();
+}
+
+void
+Editor::event(SDL_Event& ev) {
+  tileselect.event(ev);
 }

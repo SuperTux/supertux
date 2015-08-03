@@ -128,8 +128,8 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
   }
 
   add_hl();
-  add_back(_("New level subset"));
-  add_back(_("Back"));
+  add_entry(-1,_("New level subset"));
+  add_entry(-2,_("Back"));
 }
 
 EditorLevelsetSelectMenu::~EditorLevelsetSelectMenu()
@@ -139,10 +139,9 @@ EditorLevelsetSelectMenu::~EditorLevelsetSelectMenu()
 void
 EditorLevelsetSelectMenu::menu_action(MenuItem* item)
 {
-  int index = item->id;
-  if (index != -1)
+  if (item->id >= 0)
   {
-    Editor::current()->world = move(m_contrib_worlds[index]);
+    Editor::current()->world = move(m_contrib_worlds[item->id]);
     MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
   }else{
     if(!(Editor::current()->levelloaded)){

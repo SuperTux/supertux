@@ -19,13 +19,16 @@
 #include "supertux/tile_set_parser.hpp"
 
 TileSet::TileSet() :
-  m_tiles(1)
+  m_tiles(1),
+  tilegroups()
 {
   m_tiles[0] = std::unique_ptr<Tile>(new Tile);
+  tilegroups.clear();
 }
 
 TileSet::TileSet(const std::string& filename) :
-  TileSet()
+  TileSet(),
+  tilegroups()
 {
   TileSetParser parser(*this, filename);
   parser.parse();
