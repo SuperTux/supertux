@@ -92,6 +92,10 @@ void Editor::update(float elapsed_time)
     MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
   }
 
+  if (levelloaded) {
+    currentsector->update(0);
+  }
+
   update_keyboard();
   tileselect.update(elapsed_time);
 }
