@@ -14,33 +14,31 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/menu/editor_tilegroup_menu.hpp"
+#include "supertux/menu/editor_objectgroup_menu.hpp"
 
 #include <sstream>
 
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
+#include "editor/object_group.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/tile_set.hpp"
-#include "supertux/title_screen.hpp"
-#include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 
-EditorTilegroupMenu::EditorTilegroupMenu()
+EditorObjectgroupMenu::EditorObjectgroupMenu()
 {
-  add_label(_("Tilegroups"));
+  add_label(_("Objects"));
   add_hl();
 
   int id = 0;
-  for(auto i = Editor::current()->level->tileset->tilegroups.begin(); i != Editor::current()->level->tileset->tilegroups.end(); ++i) {
-    Tilegroup* tg = &(*i);
-    add_entry(id, tg->name);
+  for(auto i = Editor::current()->tileselect.object_groups.begin(); i != Editor::current()->tileselect.object_groups.end(); ++i) {
+    ObjectGroup* og = &(*i);
+    add_entry(id, og->name);
     id++;
   }
 
@@ -49,13 +47,13 @@ EditorTilegroupMenu::EditorTilegroupMenu()
 }
 
 void
-EditorTilegroupMenu::menu_action(MenuItem* item)
+EditorObjectgroupMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
   {
-    Editor::current()->tileselect.active_tilegroup = Editor::current()->level->tileset->tilegroups[item->id].tiles;
+    Editor::current()->tileselect.active_objectgroup = item->id;
     Editor::current()->reactivate_request = true;
-    Editor::current()->tileselect.input_type = EditorInputGui::IP_TILE;
+    Editor::current()->tileselect.input_type = EditorInputGui::IP_OBJECT;
     MenuManager::instance().clear_menu_stack();
   }else{
     MenuManager::instance().clear_menu_stack();
