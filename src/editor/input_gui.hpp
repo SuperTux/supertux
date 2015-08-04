@@ -20,11 +20,14 @@
 #include <stdexcept>
 
 #include "control/input_manager.hpp"
+//#include "editor/object_icon.hpp"
 #include "supertux/screen.hpp"
 
 class SDL_event;
 class TileSet;
 class Vector;
+class ObjectGroup;
+//class ObjectIcon;
 
 class EditorInputGui
 {
@@ -38,6 +41,7 @@ class EditorInputGui
     void setup();
 
     int tile;
+    std::string object;
 
     typedef enum {
       IP_NONE, IP_TILE, IP_OBJECT
@@ -45,6 +49,8 @@ class EditorInputGui
     InputType input_type;
 
     std::vector<int> active_tilegroup;
+    int active_objectgroup;
+    std::vector<ObjectGroup> object_groups;
 
   private:
 
@@ -66,6 +72,9 @@ class EditorInputGui
 
     Vector get_tile_coords(const int pos);
     int get_tile_pos(const Vector coords);
+
+    void draw_tilegroup(DrawingContext&);
+    void draw_objectgroup(DrawingContext&);
 
     EditorInputGui(const EditorInputGui&);
     EditorInputGui& operator=(const EditorInputGui&);
