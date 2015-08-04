@@ -19,9 +19,11 @@
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/broken_brick.hpp"
+#include "editor/editor.hpp"
 #include "object/bullet.hpp"
 #include "object/particles.hpp"
 #include "object/sprite_particle.hpp"
+#include "object/camera.hpp"
 #include "object/player.hpp"
 #include "object/water_drop.hpp"
 #include "supertux/level.hpp"
@@ -199,6 +201,9 @@ BadGuy::update(float elapsed_time)
   switch(state) {
     case STATE_ACTIVE:
       is_active_flag = true;
+      if (Editor::current()) if (Editor::current()->levelloaded) {
+        break;
+      }
       active_update(elapsed_time);
       break;
     case STATE_INIT:
@@ -603,9 +608,17 @@ BadGuy::set_state(State state_)
 bool
 BadGuy::is_offscreen() const
 {
-  Player* player = get_nearest_player();
-  if (!player) return false;
-  Vector dist = player->get_bbox().get_middle() - bbox.get_middle();
+  Vector dist;
+  if (Editor::current()) {
+    if (Editor::current()->levelloaded) {
+      Camera *cam = Sector::current()->camera;
+      dist = cam->get_center() - get_bbox().get_middle();
+    }
+  }else{
+    Player* player = get_nearest_player();
+    if (!player) return false;
+    dist = player->get_bbox().get_middle() - bbox.get_middle();
+  }
   // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px
   // This doesn't work for wide-screen monitors which give us a virt. res. of approx. 1066px x 600px
   if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
