@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "editor/editor.hpp"
 #include "lisp/list_iterator.hpp"
 #include "object/flower.hpp"
 #include "object/bouncy_coin.hpp"
@@ -49,7 +50,6 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
   script(),
   lightsprite()
 {
-  not_on_tilemap = false;
   bbox.set_pos(pos);
   sprite->set_action("normal");
   switch(data) {
@@ -83,6 +83,24 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
       contents = CONTENT_COIN;
       break;
   }
+  if (Editor::current()) if (Editor::current()->levelloaded) switch (data) {
+    case 1: break;
+    case 2: sprite->set_action("editor-fireflower"); break;
+    case 3: sprite->set_action("editor-star"); break;
+    case 4: sprite->set_action("editor-1up"); break;
+    case 5: sprite->set_action("editor-iceflower"); break;
+    case 6: sprite->set_action("off"); break;
+    case 7: sprite->set_action("editor-tramp"); break;
+    case 8: sprite->set_action("editor-porttramp"); break;
+    case 9: sprite->set_action("editor-rock"); break;
+    case 10: sprite->set_action("editor-rain"); break;
+    case 11: sprite->set_action("editor-explode"); break;
+    case 12: sprite->set_action("editor-flip"); break;
+    case 13: sprite->set_action("editor-airflower"); break;
+    case 14: sprite->set_action("editor-earthflower"); break;
+    default:
+      break;
+  }
 }
 
 BonusBlock::BonusBlock(const Reader& lisp) :
@@ -95,7 +113,6 @@ BonusBlock::BonusBlock(const Reader& lisp) :
   script(),
   lightsprite()
 {
-  not_on_tilemap = true;
   Vector pos;
 
   contents = CONTENT_COIN;
