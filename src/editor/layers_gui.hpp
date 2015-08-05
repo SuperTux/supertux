@@ -22,6 +22,10 @@
 #include "control/input_manager.hpp"
 #include "supertux/screen.hpp"
 
+class LayerIcon;
+class GameObject;
+class Vector;
+
 class EditorLayersGui
 {
   public:
@@ -35,6 +39,9 @@ class EditorLayersGui
 
     void refresh_sector_text();
 
+    std::vector<std::unique_ptr<LayerIcon>> layers;
+    void add_layer(GameObject* layer, std::string pic);
+
   private:
     int Ypos;
     const int Xpos = 32;
@@ -43,11 +50,15 @@ class EditorLayersGui
     std::string sector_text;
     int sector_text_width;
 
+    Vector get_layer_coords(const int pos);
+    int get_layer_pos(const Vector coords);
+
     typedef enum {
       HI_NONE, HI_SPAWNPOINTS, HI_SECTOR, HI_LAYERS
     }HoveredItem;
 
     HoveredItem hovered_item;
+    int hovered_layer;
 
 };
 

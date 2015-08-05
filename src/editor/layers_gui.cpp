@@ -17,10 +17,13 @@
 #include "editor/layers_gui.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/layer_icon.hpp"
 #include "gui/menu_manager.hpp"
+#include "math/vector.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/resources.hpp"
@@ -32,11 +35,13 @@
 #include "video/video_system.hpp"
 
 EditorLayersGui::EditorLayersGui() :
+  layers(),
   Ypos(448),
   Width(512),
   sector_text(),
   sector_text_width(0),
-  hovered_item(HI_NONE)
+  hovered_item(HI_NONE),
+  hovered_layer(-1)
 {
 }
 
@@ -64,6 +69,13 @@ EditorLayersGui::draw(DrawingContext& context) {
                                0.0f,
                                LAYER_GUI-5);
       break;
+    case HI_LAYERS: {
+      Vector coords = get_layer_coords(hovered_layer);
+      context.draw_filled_rect(Rectf(coords, coords + Vector(32, 32)),
+                               Color(0.9f, 0.9f, 1.0f, 0.6f),
+                               0.0f,
+                               LAYER_GUI-5);
+    } break;
     default: break;
   }
 
@@ -72,8 +84,15 @@ EditorLayersGui::draw(DrawingContext& context) {
   }
 
   context.draw_text(Resources::normal_font, sector_text,
-                    Vector(32, Ypos+5),
+                    Vector(35, Ypos+5),
                     ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
+
+  int pos = -1;
+  for(auto i = layers.begin(); i != layers.end(); ++i) {
+    pos++;
+    LayerIcon* li = &(**i);
+    li->draw(context, get_layer_coords(pos));
+  }
 
 }
 
@@ -119,6 +138,7 @@ EditorLayersGui::event(SDL_Event& ev) {
           hovered_item = HI_SECTOR;
         }else{
           hovered_item = HI_LAYERS;
+          hovered_layer = get_layer_pos(mouse_pos);
         }
       }
     }
@@ -139,5 +159,31 @@ EditorLayersGui::setup() {
 void
 EditorLayersGui::refresh_sector_text() {
   sector_text = _("Sector:") + " " + Editor::current()->currentsector->get_name();
-  sector_text_width  = int(Resources::normal_font->get_text_width(sector_text));
+  sector_text_width  = int(Resources::normal_font->get_text_width(sector_text)) + 6;
+}
+
+void
+EditorLayersGui::add_layer(GameObject* layer, std::string pic) {
+  std::unique_ptr<LayerIcon> icon(new LayerIcon(pic, layer));
+  int z_pos = icon->get_zpos();
+
+  // The icon is inserted to the correct position.
+  for(auto i = layers.begin(); i != layers.end(); ++i) {
+    LayerIcon* li = &(**i);
+    if (li->get_zpos() < z_pos) {
+      layers.insert(i,move(icon));
+      return;
+    }
+  }
+  layers.push_back(move(icon));
+}
+
+Vector
+EditorLayersGui::get_layer_coords(const int pos){
+  return Vector( pos * 35 + Xpos + sector_text_width, Ypos);
+}
+
+int
+EditorLayersGui::get_layer_pos(const Vector coords){
+  return (coords.x - Xpos - sector_text_width) / 35;
 }

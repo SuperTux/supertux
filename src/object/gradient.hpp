@@ -48,6 +48,10 @@ public:
   virtual std::string get_class() {
     return "gradient";
   }
+
+  int get_layer() const
+  { return layer; }
+
 private:
   int layer;
   Color gradient_top;

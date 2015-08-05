@@ -45,6 +45,10 @@ public:
   virtual std::string get_class() {
     return "background";
   }
+
+  int get_layer() const
+  { return layer; }
+
 private:
   enum Alignment {
     NO_ALIGNMENT,
