@@ -53,9 +53,7 @@ EditorSectorsMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
   {
-    size_t id = item->id;
-    Editor::current()->currentsector = Editor::current()->level->get_sector(id);
-    Editor::current()->layerselect.refresh_sector_text();
+    Editor::current()->load_sector(item->id);
     Editor::current()->reactivate_request = true;
     MenuManager::instance().clear_menu_stack();
   }else{
