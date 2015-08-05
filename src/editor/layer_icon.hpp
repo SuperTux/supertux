@@ -14,22 +14,28 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
-#define HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
+#ifndef LAYER_ICON_HPP
+#define LAYER_ICON_HPP
 
-#include "video/surface.hpp"
-#include "video/drawing_context.hpp"
+#include "editor/object_icon.hpp"
 
-class ObjectIcon
+class GameObject;
+
+class LayerIcon : public ObjectIcon
 {
   public:
-    ObjectIcon(const std::string name, const std::string icon);
-    virtual ~ObjectIcon();
+    LayerIcon(const std::string icon, GameObject *layer_);
+    virtual ~LayerIcon();
 
-    std::string object_name;
-    SurfacePtr surface;
+    GameObject *layer;
 
     virtual void draw(DrawingContext& context, Vector pos);
+
+    int get_zpos();
+
+  private:
+    LayerIcon(const LayerIcon&);
+    LayerIcon& operator=(const LayerIcon&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
+#endif // LAYER_ICON_HPP

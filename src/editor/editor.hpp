@@ -70,10 +70,14 @@ class Editor : public Screen,
     EditorInputGui tileselect;
     EditorLayersGui layerselect;
 
+    void load_sector(std::string name);
+    void load_sector(int id);
+
   private:
     bool enabled;
 
     void reload_level();
+    void load_layers();
     void quit_editor();
     void update_keyboard();
 
