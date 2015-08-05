@@ -252,7 +252,7 @@ EditorInputGui::update(float elapsed_time) {
   }
 }
 
-void
+bool
 EditorInputGui::event(SDL_Event& ev) {
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
@@ -269,6 +269,7 @@ EditorInputGui::event(SDL_Event& ev) {
             MenuManager::instance().set_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
             break;
           default:
+            return false;
             break;
         }
       }
@@ -282,6 +283,7 @@ EditorInputGui::event(SDL_Event& ev) {
       if (x < 0) {
         hovered_item = HI_NONE;
         tile_scrolling = TS_NONE;
+        return false;
         break;
       }
       if (y < 0) {
@@ -306,8 +308,10 @@ EditorInputGui::event(SDL_Event& ev) {
     }
     break;
     default:
+      return false;
       break;
   }
+  return true;
 }
 
 void

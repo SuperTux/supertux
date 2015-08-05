@@ -22,6 +22,7 @@
 
 #include "control/input_manager.hpp"
 #include "editor/input_gui.hpp"
+#include "editor/layers_gui.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 //#include "supertux/game_session.hpp"
@@ -67,6 +68,7 @@ class Editor : public Screen,
     bool levelloaded;
 
     EditorInputGui tileselect;
+    EditorLayersGui layerselect;
 
   private:
     bool enabled;
