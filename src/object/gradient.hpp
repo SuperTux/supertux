@@ -56,6 +56,9 @@ public:
     return "gradient";
   }
 
+  int get_layer() const
+  { return layer; }
+
 private:
   int layer;
   Color gradient_top;

@@ -17,11 +17,13 @@
 #include "editor/editor.hpp"
 
 #include "control/input_manager.hpp"
+#include "editor/layer_icon.hpp"
 #include "gui/mousecursor.hpp"
 #include "object/camera.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/level.hpp"
 #include "supertux/levelset_screen.hpp"
 #include "supertux/savegame.hpp"
@@ -125,6 +127,70 @@ void Editor::update_keyboard() {
   }
 }
 
+void Editor::load_layers() {
+  layerselect.layers.clear();
+  for(auto i = currentsector->gameobjects.begin(); i != currentsector->gameobjects.end(); i++) {
+    GameObject* go = &(**i);
+    if (go->get_class() == "tilemap") {
+      layerselect.add_layer(go,"images/engine/editor/tilemap.png");
+      continue;
+    }
+    if (go->get_class() == "background") {
+      layerselect.add_layer(go,"images/engine/editor/background.png");
+      continue;
+    }
+    if (go->get_class() == "gradient") {
+      layerselect.add_layer(go,"images/engine/editor/gradient.png");
+      continue;
+    }
+    if (go->get_class() == "camera") {
+      layerselect.add_layer(go,"images/engine/editor/camera.png");
+      continue;
+    }
+    if (go->get_class() == "leveltime") {
+      layerselect.add_layer(go,"images/engine/editor/clock.png");
+      continue;
+    }
+    if (go->get_class() == "particle-clouds") {
+      layerselect.add_layer(go,"images/engine/editor/clouds.png");
+      continue;
+    }
+    if (go->get_class() == "particle-rain") {
+      layerselect.add_layer(go,"images/engine/editor/rain.png");
+      continue;
+    }
+    if (go->get_class() == "particle-ghosts") {
+      layerselect.add_layer(go,"images/engine/editor/ghostparticles.png");
+      continue;
+    }
+    if (go->get_class() == "particle-snow") {
+      layerselect.add_layer(go,"images/engine/editor/snow.png");
+      continue;
+    }
+    if (go->get_class() == "thunderstorm") {
+      layerselect.add_layer(go,"images/engine/editor/thunderstorm.png");
+      continue;
+    }
+
+  }
+  layerselect.refresh_sector_text();
+}
+
+void Editor::load_sector(std::string name) {
+  currentsector = level->get_sector(name);
+  if(!currentsector) {
+    size_t i = 0;
+    currentsector = level->get_sector(i);
+  }
+  load_layers();
+}
+
+void Editor::load_sector(int id) {
+  size_t i = id;
+  currentsector = level->get_sector(i);
+  load_layers();
+}
+
 void Editor::reload_level() {
   reload_request = false;
   enabled = true;
@@ -135,11 +201,7 @@ void Editor::reload_level() {
   level.reset(new Level);
   levelloaded = true;
   level->load(world->get_basedir() + "/" + levelfile);
-  currentsector = level->get_sector("main");
-  if(!currentsector) {
-    size_t i = 0;
-    currentsector = level->get_sector(i);
-  }
+  load_sector("main");
   currentsector->activate("main");
   currentsector->camera->mode = Camera::MANUAL;
   layerselect.refresh_sector_text();

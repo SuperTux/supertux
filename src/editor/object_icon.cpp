@@ -25,9 +25,7 @@
 
 ObjectIcon::ObjectIcon(std::string name, std::string icon) :
   object_name(name),
-  surface(),
-  color(1.0f, 1.0f, 1.0f, 1.0f),
-  blend()
+  surface()
 {
   surface = Surface::create(icon);
 }
