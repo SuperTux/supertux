@@ -45,6 +45,7 @@ Editor::Editor() :
   currentsector(),
   levelloaded(false),
   tileselect(),
+  layerselect(),
   enabled(false)
 {
 }
@@ -60,6 +61,7 @@ void Editor::draw(DrawingContext& context)
     currentsector->draw(context);
   }
   tileselect.draw(context);
+  layerselect.draw(context);
   MouseCursor::current()->draw(context);
 }
 
@@ -140,6 +142,7 @@ void Editor::reload_level() {
   }
   currentsector->activate("main");
   currentsector->camera->mode = Camera::MANUAL;
+  layerselect.refresh_sector_text();
 }
 
 void Editor::quit_editor() {
@@ -164,9 +167,17 @@ Editor::setup() {
   Sector::draw_solids_only = false;
   MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
   tileselect.setup();
+  layerselect.setup();
 }
 
 void
 Editor::event(SDL_Event& ev) {
-  tileselect.event(ev);
+  if ( tileselect.event(ev) ) {
+    return;
+  }
+
+  if ( layerselect.event(ev) ) {
+    return;
+  }
+
 }

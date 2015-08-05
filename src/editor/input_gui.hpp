@@ -20,7 +20,6 @@
 #include <stdexcept>
 
 #include "control/input_manager.hpp"
-//#include "editor/object_icon.hpp"
 #include "supertux/screen.hpp"
 
 class SDL_event;
@@ -37,7 +36,7 @@ class EditorInputGui
 
     void draw(DrawingContext&);
     void update(float elapsed_time);
-    void event(SDL_Event& ev);
+    bool event(SDL_Event& ev);
     void setup();
 
     int tile;
