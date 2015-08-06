@@ -73,6 +73,14 @@ Coin::Coin(const ReaderMapping& reader)
 }
 
 void
+Coin::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  if (path) {
+    path->save(writer);
+  }
+}
+
+void
 Coin::update(float elapsed_time)
 {
   // if we have a path to follow, follow it
