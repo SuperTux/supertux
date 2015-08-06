@@ -236,7 +236,9 @@ Sector::parse(const Reader& sector)
 
   if(solid_tilemaps.empty()) { log_warning << "sector '" << name << "' does not contain a solid tile layer." << std::endl; }
 
-  fix_old_tiles();
+  if (! Tile::draw_editor_images) {
+    fix_old_tiles();
+  }
   if(!camera) {
     log_warning << "sector '" << name << "' does not contain a camera." << std::endl;
     update_game_objects();
@@ -437,7 +439,9 @@ Sector::parse_old_format(const Reader& reader)
 
   if(solid_tilemaps.empty()) { log_warning << "sector '" << name << "' does not contain a solid tile layer." << std::endl; }
 
-  fix_old_tiles();
+  if (! Tile::draw_editor_images) {
+    fix_old_tiles();
+  }
   update_game_objects();
 }
 

@@ -45,7 +45,6 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
   contents(),
   object(),
   hit_counter(1),
-  not_on_tilemap(false),
   sprite_name(),
   script(),
   lightsprite()
@@ -83,24 +82,6 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
       contents = CONTENT_COIN;
       break;
   }
-  if (Editor::current()) if (Editor::current()->levelloaded) switch (data) {
-    case 1: break;
-    case 2: sprite->set_action("editor-fireflower"); break;
-    case 3: sprite->set_action("editor-star"); break;
-    case 4: sprite->set_action("editor-1up"); break;
-    case 5: sprite->set_action("editor-iceflower"); break;
-    case 6: sprite->set_action("off"); break;
-    case 7: sprite->set_action("editor-tramp"); break;
-    case 8: sprite->set_action("editor-porttramp"); break;
-    case 9: sprite->set_action("editor-rock"); break;
-    case 10: sprite->set_action("editor-rain"); break;
-    case 11: sprite->set_action("editor-explode"); break;
-    case 12: sprite->set_action("editor-flip"); break;
-    case 13: sprite->set_action("editor-airflower"); break;
-    case 14: sprite->set_action("editor-earthflower"); break;
-    default:
-      break;
-  }
 }
 
 BonusBlock::BonusBlock(const Reader& lisp) :
@@ -108,7 +89,6 @@ BonusBlock::BonusBlock(const Reader& lisp) :
   contents(),
   object(0),
   hit_counter(1),
-  not_on_tilemap(true),
   sprite_name(),
   script(),
   lightsprite()
@@ -212,11 +192,6 @@ BonusBlock::save(lisp::Writer& writer) {
   if (hit_counter > 1) {
     writer.write("count", hit_counter);
   }
-}
-
-bool
-BonusBlock::do_save() {
-  return not_on_tilemap;
 }
 
 void
