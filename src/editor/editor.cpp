@@ -233,6 +233,12 @@ Editor::setup() {
 }
 
 void
+Editor::resize() {
+  tileselect.resize();
+  layerselect.resize();
+}
+
+void
 Editor::event(SDL_Event& ev) {
   if ( tileselect.event(ev) ) {
     return;

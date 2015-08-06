@@ -47,6 +47,7 @@ class Editor : public Screen,
     virtual void leave() override;
 
     void event(SDL_Event& ev);
+    void resize();
 
     std::unique_ptr<Level> level;
     std::unique_ptr<World> world;
