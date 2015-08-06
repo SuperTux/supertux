@@ -61,9 +61,7 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
     Editor::current()->reload_request = true;
     MenuManager::instance().clear_menu_stack();
   }else{
-    if(!(Editor::current()->levelloaded)){
-      Editor::current()->quit_request = true;
-    }
+    MenuManager::instance().pop_menu();
   }
 }
 

@@ -1214,6 +1214,10 @@ Player::kick()
 void
 Player::draw(DrawingContext& context)
 {
+  if (Tile::draw_editor_images) {
+    return;
+  }
+
   if(!visible)
     return;
 
