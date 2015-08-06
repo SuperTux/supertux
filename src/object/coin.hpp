@@ -35,8 +35,9 @@ public:
 
   void collect();
   virtual void update(float elapsed_time);
-  virtual bool do_save() {
-    return false;
+  virtual void save(lisp::Writer& writer);
+  virtual std::string get_class() {
+    return "coin";
   }
 
 private:
@@ -55,6 +56,10 @@ public:
 
   virtual void update(float elapsed_time);
   virtual void collision_solid(const CollisionHit& hit);
+
+  virtual std::string get_class() {
+    return "heavycoin";
+  }
 
 private:
   Physic physic;
