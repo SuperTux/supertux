@@ -31,6 +31,9 @@ public:
   virtual bool do_save() {
     return false;
   }
+  virtual std::string get_class() {
+    return "brick";
+  }
 
 protected:
   virtual void hit(Player& player);

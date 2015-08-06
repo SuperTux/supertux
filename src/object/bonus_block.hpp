@@ -35,7 +35,6 @@ public:
   virtual std::string get_class() {
     return "bonusblock";
   }
-  virtual bool do_save();
   enum Contents {
     CONTENT_COIN,
     CONTENT_FIREGROW,
@@ -62,7 +61,6 @@ public:
   void draw(DrawingContext& context);
 
 private:
-  bool not_on_tilemap;
   BonusBlock(const BonusBlock&);
   BonusBlock& operator=(const BonusBlock&);
   std::string sprite_name;
