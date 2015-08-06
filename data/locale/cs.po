@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
-# Jirka Paleček <nrrstttpt@gmail.com>, 2013-2014
+# Jirka Paleček <nrrstttpt@gmail.com>, 2013-2015
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2014
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2006
 # fri, 2013
@@ -14,9 +14,9 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-18 21:13+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Czech (http://www.transifex.com/p/supertux/language/cs/)\n"
+"PO-Revision-Date: 2015-07-26 13:30+0000\n"
+"Last-Translator: TeraTux devel Team <teratux.mail@gmail.com>\n"
+"Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -226,12 +226,12 @@ msgstr "Nenainstalovány žádné doplňky"
 #: src/supertux/menu/addon_menu.cpp:147
 #, c-format
 msgid "Install %s *NEW*"
-msgstr ""
+msgstr "Instalovat %s *NOVÝ*"
 
 #: src/supertux/menu/addon_menu.cpp:155
 #, c-format
 msgid "Install %s"
-msgstr ""
+msgstr "Instalovat %s"
 
 #: src/supertux/menu/addon_menu.cpp:163
 msgid "No new Addons found"
@@ -280,12 +280,12 @@ msgstr "Bonus: led"
 #: src/supertux/menu/cheat_menu.cpp:34
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 msgid "Bonus: Air"
-msgstr ""
+msgstr "Bonus: Vzduch"
 
 #: src/supertux/menu/cheat_menu.cpp:35
 #: src/supertux/menu/worldmap_cheat_menu.cpp:35
 msgid "Bonus: Earth"
-msgstr ""
+msgstr "Bonus: Země"
 
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Bonus: Star"
@@ -311,7 +311,7 @@ msgstr "Přispěné úrovně"
 #: src/supertux/menu/contrib_menu.cpp:88
 #: src/supertux/menu/contrib_menu.cpp:119
 msgid "*NEW*"
-msgstr ""
+msgstr "*NOVÝ*"
 
 #: src/supertux/menu/download_dialog.cpp:28
 msgid "Abort Download"
@@ -635,7 +635,7 @@ msgstr "Vývojářský režim"
 
 #: src/supertux/menu/options_menu.cpp:213
 msgid "Christmas Mode"
-msgstr ""
+msgstr "Vánoční mód"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Bonus: None"

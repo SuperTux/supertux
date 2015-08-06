@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"PO-Revision-Date: 2015-08-06 21:52+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Danish (http://www.transifex.com/p/supertux/language/da/)\n"
+"Language-Team: Danish (http://www.transifex.com/arctic-games/supertux/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -699,7 +700,7 @@ msgstr ""
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file LICENSE for details.\n"
-msgstr ""
+msgstr "Dette spil kommer UDEN NOGET GARANTI. Det er fri software og du er velkommen til\\n\nat videredistribuere det under visse forhold. Se filen COPYING for mere information.\\n"
 
 #: src/trigger/climbable.cpp:78
 msgid "Up we go..."

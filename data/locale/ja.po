@@ -11,9 +11,9 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
-"Language-Team: Japanese (http://www.transifex.com/p/supertux/language/ja/)\n"
+"PO-Revision-Date: 2015-07-26 09:09+0000\n"
+"Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
+"Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,7 +47,7 @@ msgstr "--verbose 詳細メッセージを印刷します。"
 
 #: src/supertux/command_line_arguments.cpp:79
 msgid "  --debug                      Print extra verbose messages"
-msgstr "--debug 追加の詳細メッセージを印刷します"
+msgstr "--debug 追加の詳細メッセージを印刷します。"
 
 #: src/supertux/command_line_arguments.cpp:80
 msgid ""
@@ -236,11 +236,11 @@ msgstr "新しいアドオンが見つかりませんでした。"
 
 #: src/supertux/menu/addon_menu.cpp:169
 msgid "Check Online (disabled)"
-msgstr "しらべる(無効)"
+msgstr "調べる(無効)"
 
 #: src/supertux/menu/addon_menu.cpp:173
 msgid "Check Online"
-msgstr "しらべる"
+msgstr "調べる"
 
 #: src/supertux/menu/addon_menu.cpp:177 src/supertux/menu/cheat_menu.cpp:41
 #: src/supertux/menu/contrib_levelset_menu.cpp:68
@@ -252,7 +252,7 @@ msgstr "しらべる"
 #: src/supertux/menu/profile_menu.cpp:46
 #: src/supertux/menu/worldmap_cheat_menu.cpp:44
 msgid "Back"
-msgstr "もどる"
+msgstr "戻る"
 
 #: src/supertux/menu/cheat_menu.cpp:29
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
@@ -308,11 +308,11 @@ msgstr "その他のコース"
 #: src/supertux/menu/contrib_menu.cpp:88
 #: src/supertux/menu/contrib_menu.cpp:119
 msgid "*NEW*"
-msgstr ""
+msgstr "*NEW*"
 
 #: src/supertux/menu/download_dialog.cpp:28
 msgid "Abort Download"
-msgstr "ダウンロードを中止"
+msgstr "ダウンロードを中止する"
 
 #: src/supertux/menu/download_dialog.cpp:44
 msgid "Error:\n"
@@ -328,7 +328,7 @@ msgstr "とじる"
 
 #: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Continue"
-msgstr "コンテニュー"
+msgstr "続ける"
 
 #: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:44
 #: src/supertux/menu/options_menu.cpp:48
@@ -479,7 +479,7 @@ msgstr "左Shiftキー"
 
 #: src/supertux/menu/keyboard_menu.cpp:78
 msgid "Right Control"
-msgstr "ｍ"
+msgstr "右Controlキー"
 
 #: src/supertux/menu/keyboard_menu.cpp:80
 msgid "Left Control"
@@ -543,7 +543,7 @@ msgstr "言語選択"
 
 #: src/supertux/menu/options_menu.cpp:56
 msgid "Select a different language to display text in"
-msgstr "文章を表示するために別の言語を選択"
+msgstr "文章を表示するための言語を選択します。"
 
 #: src/supertux/menu/options_menu.cpp:58 src/supertux/menu/profile_menu.cpp:29
 msgid "Select Profile"
@@ -559,7 +559,7 @@ msgstr "フルスクリーン"
 
 #: src/supertux/menu/options_menu.cpp:63
 msgid "Fill the entire screen"
-msgstr "画面全体にゲームをうつします。"
+msgstr "画面全体にゲームを映します。"
 
 #: src/supertux/menu/options_menu.cpp:65
 msgid "Resolution"
@@ -592,7 +592,7 @@ msgstr "アスペクト比"
 
 #: src/supertux/menu/options_menu.cpp:157
 msgid "Adjust the aspect ratio"
-msgstr "アスペクト比調整"
+msgstr "アスペクト比調整をします。"
 
 #: src/supertux/menu/options_menu.cpp:191
 msgid "Sound"
@@ -600,7 +600,7 @@ msgstr "効果音"
 
 #: src/supertux/menu/options_menu.cpp:192
 msgid "Disable all sound effects"
-msgstr "すべての効果音を無効にする"
+msgstr "すべての効果音を無効にします。"
 
 #: src/supertux/menu/options_menu.cpp:193
 msgid "Music"
@@ -608,7 +608,7 @@ msgstr "音楽"
 
 #: src/supertux/menu/options_menu.cpp:194
 msgid "Disable all music"
-msgstr "すべての音楽を無効にする"
+msgstr "すべての音楽を無効にします。"
 
 #: src/supertux/menu/options_menu.cpp:196
 msgid "Sound (disabled)"
@@ -620,11 +620,11 @@ msgstr "音楽(無効)"
 
 #: src/supertux/menu/options_menu.cpp:201
 msgid "Configure key-action mappings"
-msgstr "キーアクションの使用するキーを設定する"
+msgstr "キーアクションの使用するキーを設定します。"
 
 #: src/supertux/menu/options_menu.cpp:204
 msgid "Configure joystick control-action mappings"
-msgstr "ジョイスティックコントロールアクションのボタン設定をする"
+msgstr "ジョイスティックコントロールアクションのボタン設定します。"
 
 #: src/supertux/menu/options_menu.cpp:208
 msgid "Developer Mode"
@@ -636,7 +636,7 @@ msgstr "クリスマスモード"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Bonus: None"
-msgstr "ボーナス:ふつう"
+msgstr "ボーナス:普通"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
 msgid "Reset Level"
@@ -652,7 +652,7 @@ msgstr "ワールドマップをリセットする"
 
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
-msgstr "中断（ちゅうだん）"
+msgstr "中断"
 
 #: src/supertux/menu/worldmap_menu.cpp:34
 msgid "Quit World"
@@ -660,15 +660,15 @@ msgstr "ワールドを出る"
 
 #: src/supertux/statistics.cpp:130
 msgid "Max coins collected:"
-msgstr "最も多く集めたコインの数"
+msgstr "最も多く集めたコインの数:"
 
 #: src/supertux/statistics.cpp:134
 msgid "Max fragging:"
-msgstr "最大のfragging"
+msgstr "最も多く敵を倒した数:"
 
 #: src/supertux/statistics.cpp:138
 msgid "Max secrets found:"
-msgstr "秘密の場所を最も多く見つけた回数"
+msgstr "秘密の場所を最も多く見つけた回数:"
 
 #: src/supertux/statistics.cpp:142
 msgid "Best time completed:"
@@ -676,7 +676,7 @@ msgstr "ゴールまでの最短記録:"
 
 #: src/supertux/statistics.cpp:147
 msgid "Level target time:"
-msgstr "コースの制限時間"
+msgstr "コースの目標時間:"
 
 #: src/supertux/statistics.cpp:203
 msgid "You"
@@ -688,7 +688,7 @@ msgstr "ベスト"
 
 #: src/supertux/statistics.cpp:215
 msgid "Badguys"
-msgstr "てき"
+msgstr "たおした敵の数"
 
 #: src/supertux/statistics.cpp:231
 msgid "Time"

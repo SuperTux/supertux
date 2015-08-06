@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
+# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:36+0000\n"
+"PO-Revision-Date: 2015-07-31 10:08+0000\n"
 "Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
-"Language-Team: Japanese (http://www.transifex.com/p/supertux/language/ja/)\n"
+"Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -55,19 +56,19 @@ msgstr "マリオは、これを対処することになり..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
-msgstr "fjerd"
+msgstr "フィヨルド"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr "長いどうくつ"
+msgstr "長い洞窟"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "世界にブラインド"
+msgstr "世界をブラインド"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
-msgstr "snarf"
+msgstr "持ち去る"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
@@ -119,7 +120,7 @@ msgstr "さむい一日"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr "　つよい重力"
+msgstr "つよい重力"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
