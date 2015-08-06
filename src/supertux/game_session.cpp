@@ -97,7 +97,6 @@ GameSession::reset_level()
   currentStatus->max_fire_bullets = max_fire_bullets_at_start;
   currentStatus->max_ice_bullets = max_ice_bullets_at_start;
   reset_sector = "";
-  level->save("test.stl"); //TESTING SAVE METHOD
 }
 
 int

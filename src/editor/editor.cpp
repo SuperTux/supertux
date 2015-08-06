@@ -98,10 +98,11 @@ void Editor::update(float elapsed_time)
 
   if (levelloaded) {
     currentsector->update(0);
+    tileselect.update(elapsed_time);
+    layerselect.update(elapsed_time);
   }
 
   update_keyboard();
-  tileselect.update(elapsed_time);
 }
 
 
@@ -111,19 +112,43 @@ void Editor::update_keyboard() {
   }
 
   if (InputManager::current()->get_controller()->hold(Controller::LEFT)) {
-    currentsector->camera->move(-32,0);
+    if (currentsector->camera->get_translation().x >= 32) {
+      currentsector->camera->move(-32, 0);
+    }else{
+      //When is the camera less than one tile after the left limit, it puts the camera to the limit.
+      currentsector->camera->move(-currentsector->camera->get_translation().x, 0);
+    }
   }
 
   if (InputManager::current()->get_controller()->hold(Controller::RIGHT)) {
-    currentsector->camera->move(32,0);
+    if (currentsector->camera->get_translation().x <= currentsector->get_width() - SCREEN_WIDTH + 96) {
+      currentsector->camera->move(32, 0);
+    }else{
+      //When is the camera less than one tile after the right limit, it puts the camera to the limit.
+      // The limit is shifted 128 pixels to the right due to the input gui.
+      currentsector->camera->move(
+            currentsector->get_width() - currentsector->camera->get_translation().x - SCREEN_WIDTH +128, 0);
+    }
   }
 
   if (InputManager::current()->get_controller()->hold(Controller::UP)) {
-    currentsector->camera->move(0,-32);
+    if (currentsector->camera->get_translation().y >= 32) {
+      currentsector->camera->move(0,-32);
+    }else{
+      //When is the camera less than one tile after the top limit, it puts the camera to the limit.
+      currentsector->camera->move(0, -currentsector->camera->get_translation().y);
+    }
   }
 
   if (InputManager::current()->get_controller()->hold(Controller::DOWN)) {
-    currentsector->camera->move(0,32);
+    if (currentsector->camera->get_translation().y <= currentsector->get_height() - SCREEN_HEIGHT) {
+      currentsector->camera->move(0, 32);
+    }else{
+      //When is the camera less than one tile after the bottom limit, it puts the camera to the limit.
+      // The limit is shifted 32 pixels to the bottom due to the layer toolbar.
+      currentsector->camera->move(0,
+            currentsector->get_height() - currentsector->camera->get_translation().y - SCREEN_HEIGHT +32);
+    }
   }
 }
 
@@ -195,9 +220,6 @@ void Editor::reload_level() {
   reload_request = false;
   enabled = true;
   // Re/load level
-  if (levelloaded) {
-    level = NULL;
-  }
   level.reset(new Level);
   levelloaded = true;
   level->load(world->get_basedir() + "/" + levelfile);
@@ -234,6 +256,7 @@ Editor::setup() {
 
 void
 Editor::resize() {
+  // Calls on window resize.
   tileselect.resize();
   layerselect.resize();
 }

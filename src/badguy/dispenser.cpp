@@ -17,6 +17,7 @@
 #include "badguy/dispenser.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/player.hpp"
@@ -182,7 +183,7 @@ void
 Dispenser::launch_badguy()
 {
   //FIXME: Does is_offscreen() work right here?
-  if (!is_offscreen()) {
+  if (!is_offscreen() && !Editor::current()) {
     Direction launchdir = dir;
     if( !autotarget && start_dir == AUTO ){
       Player* player = this->get_nearest_player();
