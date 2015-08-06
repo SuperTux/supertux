@@ -247,6 +247,9 @@ ScreenManager::process_events()
             VideoSystem::current()->resize(event.window.data1,
                                            event.window.data2);
             m_menu_manager->on_window_resize();
+            if (Editor::current()) if (Editor::current()->levelloaded) {
+              Editor::current()->resize();
+            }
             break;
 
           case SDL_WINDOWEVENT_FOCUS_LOST:

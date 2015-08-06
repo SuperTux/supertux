@@ -36,6 +36,7 @@ class EditorLayersGui
     void update(float elapsed_time);
     bool event(SDL_Event& ev);
     void setup();
+    void resize();
 
     void refresh_sector_text();
 

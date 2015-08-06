@@ -315,8 +315,13 @@ EditorInputGui::event(SDL_Event& ev) {
 }
 
 void
-EditorInputGui::setup() {
+EditorInputGui::resize() {
   Xpos = SCREEN_WIDTH - 128;
+}
+
+void
+EditorInputGui::setup() {
+  resize();
   tile = 0;
 }
 
