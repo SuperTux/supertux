@@ -151,9 +151,14 @@ EditorLayersGui::event(SDL_Event& ev) {
 }
 
 void
-EditorLayersGui::setup() {
+EditorLayersGui::resize() {
   Ypos = SCREEN_HEIGHT - 32;
   Width = SCREEN_WIDTH - 128;
+}
+
+void
+EditorLayersGui::setup() {
+  resize();
 }
 
 void

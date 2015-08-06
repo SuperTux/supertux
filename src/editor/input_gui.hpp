@@ -38,6 +38,7 @@ class EditorInputGui
     void update(float elapsed_time);
     bool event(SDL_Event& ev);
     void setup();
+    void resize();
 
     int tile;
     std::string object;
