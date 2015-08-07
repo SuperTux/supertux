@@ -58,6 +58,9 @@ public:
   void set_enabled(bool enabled_);
   bool get_enabled() const;
 
+  int get_layer() const
+  { return z_pos; }
+
 protected:
   class Particle
   {
