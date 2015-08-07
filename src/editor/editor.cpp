@@ -176,15 +176,15 @@ void Editor::load_layers() {
       layerselect.add_layer(go,"images/engine/editor/clock.png");
       continue;
     }
-    if (go->get_class() == "particle-clouds") {
+    if (go->get_class() == "particles-clouds") {
       layerselect.add_layer(go,"images/engine/editor/clouds.png");
       continue;
     }
-    if (go->get_class() == "particle-rain") {
+    if (go->get_class() == "particles-rain") {
       layerselect.add_layer(go,"images/engine/editor/rain.png");
       continue;
     }
-    if (go->get_class() == "particle-ghosts") {
+    if (go->get_class() == "particles-ghosts") {
       layerselect.add_layer(go,"images/engine/editor/ghostparticles.png");
       continue;
     }
