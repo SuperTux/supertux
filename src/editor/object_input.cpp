@@ -14,27 +14,33 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP
-#define HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP
+#include "editor/object_input.hpp"
+#include "lisp/list_iterator.hpp"
+#include "lisp/parser.hpp"
 
-#include <string>
-#include <vector>
-
-#include "editor/object_icon.hpp"
-
-#include "util/reader_fwd.hpp"
-
-class ObjectGroup
+ObjectInput::ObjectInput() :
+  groups()
 {
-  public:
-    ObjectGroup();
-    ObjectGroup(const Reader& reader);
-    ~ObjectGroup();
+  groups.clear();
 
-    std::string name;
-    std::vector<ObjectIcon> icons;
+  lisp::Parser parser;
+  const lisp::Lisp* root = parser.parse("images/engine/editor/objects.stoi");
 
-    void add_icon(std::string object, std::string icon_path);
-};
+  const lisp::Lisp* info = root->get_lisp("supertux-objectinfo");
+  if(!info) {
+    throw std::runtime_error("file images/engine/editor/objects.stoi is not a supertux-objectinfo file.");
+  } // Bomben fest und Idioten sicher :DDDDD
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP
+  lisp::ListIterator iter(info);
+  while(iter.next()) {
+    const std::string& token = iter.item();
+    if (token == "objectgroup") {
+      groups.push_back( ObjectGroup( *(iter.lisp()) ) );
+    }
+  }
+
+}
+
+ObjectInput::~ObjectInput() {
+
+}

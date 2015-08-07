@@ -17,6 +17,7 @@
 #include <string>
 
 #include "editor/object_icon.hpp"
+#include "lisp/list_iterator.hpp"
 #include "math/rect.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
@@ -27,6 +28,16 @@ ObjectIcon::ObjectIcon(std::string name, std::string icon) :
   object_name(name),
   surface()
 {
+  surface = Surface::create(icon);
+}
+
+ObjectIcon::ObjectIcon(const Reader& reader) :
+  object_name(),
+  surface()
+{
+  std::string icon = "images/engine/icons/supertux.png";
+  reader.get("class", object_name);
+  reader.get("icon", icon);
   surface = Surface::create(icon);
 }
 

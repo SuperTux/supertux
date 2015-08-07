@@ -25,7 +25,7 @@
 class SDL_event;
 class TileSet;
 class Vector;
-class ObjectGroup;
+class ObjectInput;
 //class ObjectIcon;
 
 class EditorInputGui
@@ -50,7 +50,7 @@ class EditorInputGui
 
     std::vector<int> active_tilegroup;
     int active_objectgroup;
-    std::vector<ObjectGroup> object_groups;
+    std::unique_ptr<ObjectInput> object_input;
 
   private:
 

@@ -14,27 +14,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP
-#define HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP
+#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_INPUT_HPP
+#define HEADER_SUPERTUX_EDITOR_OBJECT_INPUT_HPP
 
-#include <string>
-#include <vector>
+#include "editor/object_group.hpp"
 
-#include "editor/object_icon.hpp"
-
-#include "util/reader_fwd.hpp"
-
-class ObjectGroup
+class ObjectInput
 {
   public:
-    ObjectGroup();
-    ObjectGroup(const Reader& reader);
-    ~ObjectGroup();
+    ObjectInput();
+    ~ObjectInput();
 
-    std::string name;
-    std::vector<ObjectIcon> icons;
-
-    void add_icon(std::string object, std::string icon_path);
+    std::vector<ObjectGroup> groups;
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP
+#endif // HEADER_SUPERTUX_EDITOR_OBJECT_INPUT_HPP

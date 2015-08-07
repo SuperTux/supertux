@@ -21,6 +21,7 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/object_group.hpp"
+#include "editor/object_input.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
@@ -36,7 +37,8 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
   add_hl();
 
   int id = 0;
-  for(auto i = Editor::current()->tileselect.object_groups.begin(); i != Editor::current()->tileselect.object_groups.end(); ++i) {
+  for(auto i = Editor::current()->tileselect.object_input->groups.begin();
+      i != Editor::current()->tileselect.object_input->groups.end(); ++i) {
     ObjectGroup* og = &(*i);
     add_entry(id, og->name);
     id++;
