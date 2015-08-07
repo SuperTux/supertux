@@ -19,6 +19,7 @@
 #include "math/rect.hpp"
 #include "object/background.hpp"
 #include "object/gradient.hpp"
+#include "object/particlesystem.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
@@ -50,14 +51,18 @@ LayerIcon::draw(DrawingContext& context, Vector pos) {
 
 int
 LayerIcon::get_zpos() {
-  if (layer->get_class() == "tilemap") {
+  std::string cl = layer->get_class();
+  if (cl == "tilemap") {
     return ((TileMap*)layer)->get_layer();
   }
-  if (layer->get_class() == "background") {
+  if (cl == "background") {
     return ((Background*)layer)->get_layer();
   }
-  if (layer->get_class() == "gradient") {
+  if (cl == "gradient") {
     return ((Gradient*)layer)->get_layer();
+  }
+  if (cl == "particle-snow" || cl == "particles-rain" || cl == "particles-ghosts" || cl == "particles-clouds") {
+    return ((ParticleSystem*)layer)->get_layer();
   }
   return -9999;
 }

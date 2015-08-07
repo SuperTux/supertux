@@ -53,6 +53,9 @@ public:
 
   virtual void draw(DrawingContext& context);
 
+  int get_layer() const
+  { return z_pos; }
+
 protected:
   class Particle
   {
