@@ -16,9 +16,13 @@
 
 #include "editor/layer_icon.hpp"
 
+#include <limits>
+
 #include "math/rect.hpp"
 #include "object/background.hpp"
 #include "object/gradient.hpp"
+#include "object/particlesystem.hpp"
+#include "object/particlesystem_interactive.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
@@ -27,10 +31,17 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-LayerIcon::LayerIcon(std::string icon, GameObject *layer_) :
-  ObjectIcon("", icon),
-  layer(layer_)
+LayerIcon::LayerIcon(GameObject *layer_) :
+  ObjectIcon("", layer_->get_icon_path()),
+  layer(layer_),
+  is_tilemap(false),
+  selection()
 {
+  TileMap* tm = dynamic_cast<TileMap*>(layer_);
+  if (tm) {
+    is_tilemap = true;
+    selection = Surface::create("images/engine/editor/selection.png");
+  }
 }
 
 LayerIcon::~LayerIcon() {
@@ -41,23 +52,43 @@ void
 LayerIcon::draw(DrawingContext& context, Vector pos) {
   ObjectIcon::draw(context,pos);
   int l = get_zpos();
-  if (l != -9999) {
+  if (l != std::numeric_limits<int>::min()) {
     context.draw_text(Resources::small_font, std::to_string(l),
                       pos + Vector(16,16),
                       ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
+    if (is_tilemap) if (((TileMap*)layer)->editor_active) {
+      context.draw_surface(selection, pos, LAYER_GUI - 1);
+    }
   }
 }
 
 int
 LayerIcon::get_zpos() {
-  if (layer->get_class() == "tilemap") {
+  if (is_tilemap) { //When the layer is a tilemap, the class is obvious.
     return ((TileMap*)layer)->get_layer();
   }
-  if (layer->get_class() == "background") {
-    return ((Background*)layer)->get_layer();
+
+  Background* bkgrd = dynamic_cast<Background*>(layer);
+  if (bkgrd) {
+    return bkgrd->get_layer();
   }
-  if (layer->get_class() == "gradient") {
-    return ((Gradient*)layer)->get_layer();
+
+  Gradient* grd = dynamic_cast<Gradient*>(layer);
+  if (grd) {
+    return grd->get_layer();
   }
-  return -9999;
+
+  ParticleSystem* ps = dynamic_cast<ParticleSystem*>(layer);
+  if (ps) {
+    return ps->get_layer();
+  }
+
+  ParticleSystem_Interactive* psi = dynamic_cast<ParticleSystem_Interactive*>(layer);
+  if (psi) {
+    return psi->get_layer();
+  }
+
+  return std::numeric_limits<int>::min();
 }
+
+/* EOF */
