@@ -166,11 +166,11 @@ EditorInputGui::event(SDL_Event& ev) {
         switch (hovered_item) {
           case HI_TILEGROUP:
             Editor::current()->disable_keyboard();
-            MenuManager::instance().set_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
+            MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
             break;
           case HI_OBJECTS:
             Editor::current()->disable_keyboard();
-            MenuManager::instance().set_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
+            MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
             break;
           default:
             return false;
@@ -242,3 +242,5 @@ EditorInputGui::get_tile_pos(const Vector coords){
   int y = (coords.y - Ypos) / 32;
   return y*4 + x;
 }
+
+/* EOF */

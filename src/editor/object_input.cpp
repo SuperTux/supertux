@@ -29,7 +29,7 @@ ObjectInput::ObjectInput() :
   const lisp::Lisp* info = root->get_lisp("supertux-objectinfo");
   if(!info) {
     throw std::runtime_error("file images/engine/editor/objects.stoi is not a supertux-objectinfo file.");
-  } // Bomben fest und Idioten sicher :DDDDD
+  } // Bombenfest und Idioten sicher :DDDDD
 
   lisp::ListIterator iter(info);
   while(iter.next()) {
@@ -44,3 +44,5 @@ ObjectInput::ObjectInput() :
 ObjectInput::~ObjectInput() {
 
 }
+
+/* EOF */
