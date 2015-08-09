@@ -25,7 +25,6 @@
 #include "editor/layers_gui.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
-//#include "supertux/game_session.hpp"
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
@@ -87,3 +86,5 @@ class Editor : public Screen,
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_EDITOR_HPP
+
+/* EOF */

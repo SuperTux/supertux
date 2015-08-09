@@ -30,8 +30,10 @@
 
 LayerIcon::LayerIcon(std::string icon, GameObject *layer_) :
   ObjectIcon("", icon),
-  layer(layer_)
+  layer(layer_),
+  is_tilemap(false)
 {
+  is_tilemap = layer->get_class() == "tilemap";
 }
 
 LayerIcon::~LayerIcon() {
@@ -51,10 +53,11 @@ LayerIcon::draw(DrawingContext& context, Vector pos) {
 
 int
 LayerIcon::get_zpos() {
-  std::string cl = layer->get_class();
-  if (cl == "tilemap") {
+  if (is_tilemap) { //When the layer is a tilemap, the class is obvious.
     return ((TileMap*)layer)->get_layer();
   }
+
+  std::string cl = layer->get_class();
   if (cl == "background") {
     return ((Background*)layer)->get_layer();
   }
@@ -66,3 +69,5 @@ LayerIcon::get_zpos() {
   }
   return -9999;
 }
+
+/* EOF */
