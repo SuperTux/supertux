@@ -29,3 +29,5 @@ class ObjectInput
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_OBJECT_INPUT_HPP
+
+/* EOF */

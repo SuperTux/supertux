@@ -33,9 +33,13 @@ class LayerIcon : public ObjectIcon
 
     int get_zpos();
 
+    bool is_tilemap;
+
   private:
     LayerIcon(const LayerIcon&);
     LayerIcon& operator=(const LayerIcon&);
 };
 
 #endif // LAYER_ICON_HPP
+
+/* EOF */

@@ -35,3 +35,5 @@ class ObjectIcon
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
+
+/* EOF */
