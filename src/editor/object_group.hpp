@@ -38,3 +38,5 @@ class ObjectGroup
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP
+
+/* EOF */

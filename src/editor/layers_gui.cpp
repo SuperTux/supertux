@@ -192,3 +192,5 @@ int
 EditorLayersGui::get_layer_pos(const Vector coords){
   return (coords.x - Xpos - sector_text_width) / 35;
 }
+
+/* EOF */

@@ -64,3 +64,5 @@ class EditorLayersGui
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_LAYERS_GUI_HPP
+
+/* EOF */

@@ -50,3 +50,5 @@ ObjectIcon::draw(DrawingContext& context, Vector pos) {
   context.draw_surface_part(surface, Rectf(Vector(0,0), surface->get_size()),
                             Rectf(pos, pos + Vector(32,32)), LAYER_GUI - 9);
 }
+
+/* EOF */

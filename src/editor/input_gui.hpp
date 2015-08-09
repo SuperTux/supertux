@@ -26,7 +26,6 @@ class SDL_event;
 class TileSet;
 class Vector;
 class ObjectInput;
-//class ObjectIcon;
 
 class EditorInputGui
 {
@@ -81,3 +80,5 @@ class EditorInputGui
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_INPUT_GUI_HPP
+
+/* EOF */
