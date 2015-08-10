@@ -20,6 +20,7 @@
 #include "editor/layer_icon.hpp"
 #include "gui/mousecursor.hpp"
 #include "object/camera.hpp"
+#include "object/tilemap.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
@@ -158,6 +159,7 @@ void Editor::load_layers() {
     GameObject* go = &(**i);
     if (go->get_class() == "tilemap") {
       layerselect.add_layer(go,"images/engine/editor/tilemap.png");
+      ((TileMap*)go)->editor_active = false;
       continue;
     }
     if (go->get_class() == "background") {

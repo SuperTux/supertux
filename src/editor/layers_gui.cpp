@@ -20,6 +20,7 @@
 #include "editor/layer_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
+#include "object/tilemap.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/colorscheme.hpp"
@@ -36,6 +37,7 @@
 
 EditorLayersGui::EditorLayersGui() :
   layers(),
+  selected_tilemap(),
   Ypos(448),
   Width(512),
   sector_text(),
@@ -112,6 +114,15 @@ EditorLayersGui::event(SDL_Event& ev) {
           case HI_SECTOR:
             Editor::current()->disable_keyboard();
             MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
+            break;
+          case HI_LAYERS:
+            if ( layers[hovered_layer]->is_tilemap ) {
+              if (selected_tilemap) {
+                ((TileMap*)selected_tilemap)->editor_active = false;
+              }
+              selected_tilemap = layers[hovered_layer]->layer;
+              ((TileMap*)selected_tilemap)->editor_active = true;
+            }
             break;
           default:
             return false;
