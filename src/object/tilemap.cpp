@@ -27,6 +27,7 @@
 #include "util/reader.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
+  editor_active(true),
   tileset(new_tileset),
   tiles(),
   real_solid(false),
@@ -49,6 +50,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
 }
 
 TileMap::TileMap(const Reader& reader) :
+  editor_active(true),
   tileset(),
   tiles(),
   real_solid(false),
@@ -137,6 +139,7 @@ TileMap::TileMap(const Reader& reader) :
 
 TileMap::TileMap(const TileSet *new_tileset, std::string name_, int z_pos_,
                  bool solid, size_t width_, size_t height_) :
+  editor_active(true),
   tileset(new_tileset),
   tiles(),
   real_solid(solid),
@@ -231,7 +234,14 @@ TileMap::draw(DrawingContext& context)
   }
 
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
-  if(current_alpha != 1.0) context.set_alpha(current_alpha);
+
+  if (editor_active) {
+    if(current_alpha != 1.0) {
+      context.set_alpha(current_alpha);
+    }
+  } else {
+    context.set_alpha(current_alpha/2);
+  }
 
   /* Force the translation to be an integer so that the tiles appear sharper.
    * For consistency (i.e., to avoid 1-pixel gaps), this needs to be done even

@@ -31,9 +31,13 @@
 LayerIcon::LayerIcon(std::string icon, GameObject *layer_) :
   ObjectIcon("", icon),
   layer(layer_),
-  is_tilemap(false)
+  is_tilemap(false),
+  selection()
 {
   is_tilemap = layer->get_class() == "tilemap";
+  if (is_tilemap) {
+    selection = Surface::create("images/engine/editor/selection.png");
+  }
 }
 
 LayerIcon::~LayerIcon() {
@@ -44,10 +48,13 @@ void
 LayerIcon::draw(DrawingContext& context, Vector pos) {
   ObjectIcon::draw(context,pos);
   int l = get_zpos();
-  if (l != -9999) {
+  if (l != -2147483648) {
     context.draw_text(Resources::small_font, std::to_string(l),
                       pos + Vector(16,16),
                       ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
+    if (is_tilemap) if (((TileMap*)layer)->editor_active) {
+      context.draw_surface(selection, pos, LAYER_GUI - 1);
+    }
   }
 }
 
@@ -67,7 +74,7 @@ LayerIcon::get_zpos() {
   if (cl == "particle-snow" || cl == "particles-rain" || cl == "particles-ghosts" || cl == "particles-clouds") {
     return ((ParticleSystem*)layer)->get_layer();
   }
-  return -9999;
+  return -2147483648;
 }
 
 /* EOF */
