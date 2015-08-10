@@ -36,6 +36,9 @@ class LayerIcon : public ObjectIcon
     bool is_tilemap;
 
   private:
+
+    SurfacePtr selection;
+
     LayerIcon(const LayerIcon&);
     LayerIcon& operator=(const LayerIcon&);
 };

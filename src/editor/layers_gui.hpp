@@ -43,6 +43,8 @@ class EditorLayersGui
     std::vector<std::unique_ptr<LayerIcon>> layers;
     void add_layer(GameObject* layer, std::string pic);
 
+    GameObject *selected_tilemap;
+
   private:
     int Ypos;
     const int Xpos = 32;
@@ -61,6 +63,8 @@ class EditorLayersGui
     HoveredItem hovered_item;
     int hovered_layer;
 
+    EditorLayersGui(const EditorLayersGui&);
+    EditorLayersGui& operator=(const EditorLayersGui&);
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_LAYERS_GUI_HPP
