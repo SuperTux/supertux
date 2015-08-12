@@ -40,7 +40,7 @@ before_install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
 
   # CMake
-  - wget http://www.cmake.org/files/v3.2/cmake-$CMAKE_VERSION.tar.gz -O - | tar xz
+  - wget http://www.cmake.org/files/v3.3/cmake-$CMAKE_VERSION.tar.gz -O - | tar xz
   - (cd cmake-$CMAKE_VERSION && cmake . && make -j3 && sudo make install)
 
   # SDL dependencies
