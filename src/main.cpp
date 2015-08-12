@@ -16,7 +16,7 @@
 
 #include "SDL.h"
 
-// On windows SDL defines main, but we wan't to use this one
+// On windows SDL defines main, but we want to use this one
 #ifdef WIN32
 #  undef main
 #endif
