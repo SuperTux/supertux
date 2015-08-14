@@ -68,6 +68,7 @@ addons:
     - cmake
     - build-essential
     # Current gcc that supports C++ 11 features
+    - libstdc++-4.9-dev
     - g++4.9
     - gcc-4.9
     - libogg-dev
