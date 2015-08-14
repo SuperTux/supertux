@@ -32,14 +32,6 @@ env:
     - BUILD_TYPE="Release"
  
 before_install:
-  - apt-get update -qq
-  - apt-get install build-essential libogg-dev libvorbis-dev libphysfs-dev libglew-dev libopenal-dev libboost-all-dev
-
-  # Current gcc that supports C++ 11 features
-  - add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - apt-get update -qq
-  - if [ "$CXX" = "g++" ]; then apt-get install -qq g++-4.9; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
 
   # CMake
   - wget http://www.cmake.org/files/v3.3/cmake-$CMAKE_VERSION.tar.gz -O - | tar xz
@@ -69,6 +61,23 @@ addons:
     build_command_prepend: "cmake . && make clean"
     build_command:   "make -j 3"
     branch_pattern: coverity_scan
+  apt:
+    sources:
+    - deadsnakes
+    - ubuntu-toolchain-r-test
+    packages:
+    - cmake
+    - build-essential
+    # Current gcc that supports C++ 11 features
+    - g++4.9
+    - gcc-4.9
+    - libogg-dev
+    - libvorbis-dev
+    - libphysfs-dev
+    - libglew-dev
+    - libopenal-dev
+    - libboost-all-dev
+
 
 notifications:
   email:
