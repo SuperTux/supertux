@@ -974,7 +974,10 @@ WorldMap::save_state()
     store_float(vm, "y", tux->get_tile_pos().y);
     store_string(vm, "back", direction_to_string(tux->back_direction));
 
-    sq_createslot(vm, -3);
+    if(SQ_FAILED(sq_createslot(vm, -3)))
+    {
+      throw std::runtime_error("failed to create '" + name + "' table entry");
+    }
 
     // levels...
     sq_pushstring(vm, "levels", -1);
