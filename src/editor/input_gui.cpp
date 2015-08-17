@@ -172,6 +172,27 @@ EditorInputGui::event(SDL_Event& ev) {
             Editor::current()->disable_keyboard();
             MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
             break;
+          case HI_TILE:
+            switch (input_type) {
+              case IP_TILE: {
+                int size = active_tilegroup.size();
+                if (hovered_tile < size && hovered_tile >= 0) {
+                  tile = active_tilegroup[hovered_tile];
+                }else{
+                  tile = 0;
+                }
+              } break;
+              case IP_OBJECT: {
+                int size = object_input->groups[active_objectgroup].icons.size();
+                if (hovered_tile < size && hovered_tile >= 0) {
+                  object = object_input->groups[active_objectgroup].icons[hovered_tile].object_name;
+                }
+              } break;
+              default:
+                break;
+            }
+            return true;
+            break;
           default:
             return false;
             break;
