@@ -27,7 +27,6 @@ env:
     # via the "travis encrypt" command using the project repo's public key
     - secure: "eVEyzIVjDlB16EPkXmj74tyF9pgX34kpgvBUMXJJ+hduuPwaGC6vl8T164fNQUIua2Z2/PqxmTLJRR3n5Bbkdf859NdX+4JUzc3SoFEKlgcLMYnOQeuimUAiMKxe4vmC4sub5LZVFsp9ORzVYkXgiMBnxiD5GuYxvZPy1lCaH9E="
     - CMAKE_VERSION=3.3.1
-    - CMAKE_PREFIX_PATH=$HOME/lib
   matrix:
     - BUILD_TYPE="Debug"
     - BUILD_TYPE="Release"
@@ -72,8 +71,8 @@ addons:
     - libglew-dev
     - libopenal-dev
     - libboost-all-dev
+    - libsdl2-2.0-0
     - libsdl2-dev
-    - libsdl2image-dev
 
 
 notifications:
