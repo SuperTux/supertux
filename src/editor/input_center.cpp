@@ -34,7 +34,8 @@
 EditorInputCenter::EditorInputCenter() :
   hovered_tile(0, 0),
   sector_pos(0, 0),
-  mouse_pos(0, 0)
+  mouse_pos(0, 0),
+  dragging(false)
 {
 }
 
@@ -43,26 +44,31 @@ EditorInputCenter::~EditorInputCenter()
 }
 
 void
+EditorInputCenter::input_tile() {
+  if ( !Editor::current()->layerselect.selected_tilemap ) {
+    return;
+  }
+
+  if ( hovered_tile.x < 0 || hovered_tile.y < 0 ||
+       hovered_tile.x >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_width() ||
+       hovered_tile.y >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_height()) {
+    return;
+  }
+
+  ((TileMap *)Editor::current()->layerselect.selected_tilemap)->change(hovered_tile.x, hovered_tile.y,
+                                                                       Editor::current()->tileselect.tile);
+}
+
+void
 EditorInputCenter::event(SDL_Event& ev) {
   switch (ev.type) {
-    case SDL_MOUSEBUTTONDOWN:
+    case SDL_MOUSEBUTTONDOWN: if(ev.button.button == SDL_BUTTON_LEFT)
     {
+      dragging = true;
       switch (Editor::current()->tileselect.input_type) {
         case EditorInputGui::IP_TILE: {
           //add tile
-
-          if ( !Editor::current()->layerselect.selected_tilemap ) {
-            return;
-          }
-
-          if ( hovered_tile.x < 0 || hovered_tile.y < 0 ||
-               hovered_tile.x >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_width() ||
-               hovered_tile.y >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_height()) {
-            return;
-          }
-
-          ((TileMap *)Editor::current()->layerselect.selected_tilemap)->change(hovered_tile.x, hovered_tile.y,
-                                                                               Editor::current()->tileselect.tile);
+          input_tile();
         } break;
         case EditorInputGui::IP_OBJECT:
           if (Editor::current()->tileselect.object != "") {
@@ -90,10 +96,17 @@ EditorInputCenter::event(SDL_Event& ev) {
       }
     } break;
 
+    case SDL_MOUSEBUTTONUP: if(ev.button.button == SDL_BUTTON_LEFT) {
+      dragging = false;
+    } break;
+
     case SDL_MOUSEMOTION:
     {
       mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
       actualize_pos();
+      if (dragging && Editor::current()->tileselect.input_type == EditorInputGui::IP_TILE) {
+        input_tile();
+      }
 // update tip
     } break;
     default:
