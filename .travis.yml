@@ -27,6 +27,7 @@ env:
     # via the "travis encrypt" command using the project repo's public key
     - secure: "eVEyzIVjDlB16EPkXmj74tyF9pgX34kpgvBUMXJJ+hduuPwaGC6vl8T164fNQUIua2Z2/PqxmTLJRR3n5Bbkdf859NdX+4JUzc3SoFEKlgcLMYnOQeuimUAiMKxe4vmC4sub5LZVFsp9ORzVYkXgiMBnxiD5GuYxvZPy1lCaH9E="
     - CMAKE_VERSION=3.3.0 SDL2_VERSION=2.0.3 SDL2IMAGE_VERSION=2.0.0
+    - CMAKE_PREFIX_PATH=$HOME/lib
   matrix:
     - BUILD_TYPE="Debug"
     - BUILD_TYPE="Release"
@@ -39,9 +40,9 @@ before_install:
 
   # SDL dependencies
   - wget http://libsdl.org/release/SDL2-$SDL2_VERSION.tar.gz -O - | tar xz
-  - (cd SDL2-$SDL2_VERSION && ./configure --prefix=$HOME/lib && make -j3 && make install)
+  - (cd SDL2-$SDL2_VERSION && ./configure --prefix=$CMAKE_PREFIX_PATH && make -j3 && make install)
   - wget http://www.libsdl.org/projects/SDL_image/release/SDL2_image-$SDL2IMAGE_VERSION.tar.gz -O - | tar xz
-  - (cd SDL2_image-$SDL2IMAGE_VERSION && ./configure --prefix=$HOME/lib && make -j3 && make install)
+  - (cd SDL2_image-$SDL2IMAGE_VERSION && ./configure --prefix=$CMAKE_PREFIX_PATH && make -j3 && make install)
 
 script:
   # Clean from previous Travis build
