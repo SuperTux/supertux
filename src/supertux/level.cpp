@@ -22,10 +22,12 @@
 #include "lisp/writer.hpp"
 #include "object/bonus_block.hpp"
 #include "object/coin.hpp"
+#include "physfs/ifile_streambuf.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
 #include "trigger/secretarea_trigger.hpp"
+#include "util/file_system.hpp"
 
 #include <sstream>
 #include <stdexcept>
@@ -144,7 +146,31 @@ Level::load(const std::string& filepath)
 void
 Level::save(const std::string& filepath)
 {
+  //FIXME: It tests for directory in supertux/data, but saves into .supertux2.
+
   try {
+
+    { // make sure the level directory exists
+      std::string dirname = FileSystem::dirname(filepath);
+      if(!PHYSFS_exists(dirname.c_str()))
+      {
+        if(!PHYSFS_mkdir(dirname.c_str()))
+        {
+          std::ostringstream msg;
+          msg << "Couldn't create directory for level '"
+              << dirname << "': " <<PHYSFS_getLastError();
+          throw std::runtime_error(msg.str());
+        }
+      }
+
+      if(!PHYSFS_isDirectory(dirname.c_str()))
+      {
+        std::ostringstream msg;
+        msg << "Level path '" << dirname << "' is not a directory";
+        throw std::runtime_error(msg.str());
+      }
+    }
+
     lisp::Writer writer(filepath);
     writer.start_list("supertux-level");
     // Starts writing to supertux level file. Keep this at the very beginning.

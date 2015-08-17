@@ -20,7 +20,9 @@
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/game_object_ptr.hpp"
 #include "supertux/level.hpp"
+#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
@@ -45,13 +47,47 @@ EditorInputCenter::event(SDL_Event& ev) {
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     {
-      /*Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
-      float x = mouse_pos.x;
-      float y = mouse_pos.y;*/
-      // Process click
-      /*      if(ev.button.button == SDL_BUTTON_LEFT)
-      {
-      }*/
+      switch (Editor::current()->tileselect.input_type) {
+        case EditorInputGui::IP_TILE: {
+          //add tile
+
+          if ( !Editor::current()->layerselect.selected_tilemap ) {
+            return;
+          }
+
+          if ( hovered_tile.x < 0 || hovered_tile.y < 0 ||
+               hovered_tile.x >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_width() ||
+               hovered_tile.y >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_height()) {
+            return;
+          }
+
+          ((TileMap *)Editor::current()->layerselect.selected_tilemap)->change(hovered_tile.x, hovered_tile.y,
+                                                                               Editor::current()->tileselect.tile);
+        } break;
+        case EditorInputGui::IP_OBJECT:
+          if (Editor::current()->tileselect.object != "") {
+            //add object
+            GameObjectPtr game_object;
+            try {
+              game_object = ObjectFactory::instance().create(Editor::current()->tileselect.object, sector_pos, LEFT);
+            } catch(const std::exception& e) {
+              log_warning << "Error creating object " << Editor::current()->tileselect.object << ": " << e.what() << std::endl;
+              return;
+            }
+            if (game_object == NULL)
+              throw std::runtime_error("Creating " + Editor::current()->tileselect.object + " object failed.");
+
+            try {
+              Editor::current()->currentsector->add_object(game_object);
+            } catch(const std::exception& e) {
+              log_warning << "Error adding object " << Editor::current()->tileselect.object << ": " << e.what() << std::endl;
+              return;
+            }
+          }
+        break;
+        default:
+          break;
+      }
     } break;
 
     case SDL_MOUSEMOTION:
