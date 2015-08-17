@@ -159,7 +159,7 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
     tmp[2*i+1] = c;
   }
 
-  *buffer = tmp;
+  *(char *)buffer = *tmp;
 #endif
 
   return readsize;
