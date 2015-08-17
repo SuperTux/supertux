@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-26 09:09+0000\n"
+"POT-Creation-Date: 2015-08-16 17:53+0200\n"
+"PO-Revision-Date: 2015-08-16 23:53+0000\n"
 "Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -330,13 +330,17 @@ msgstr "とじる"
 msgid "Continue"
 msgstr "続ける"
 
-#: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:44
+#: src/supertux/menu/game_menu.cpp:36
+msgid "Restart level"
+msgstr "コースをリスタートする"
+
+#: src/supertux/menu/game_menu.cpp:37 src/supertux/menu/main_menu.cpp:44
 #: src/supertux/menu/options_menu.cpp:48
 #: src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
 msgstr "設定"
 
-#: src/supertux/menu/game_menu.cpp:38
+#: src/supertux/menu/game_menu.cpp:39
 msgid "Abort Level"
 msgstr "あきらめる"
 
@@ -694,11 +698,11 @@ msgstr "たおした敵の数"
 msgid "Time"
 msgstr "タイム"
 
-#: src/supertux/title_screen.cpp:58
+#: src/supertux/title_screen.cpp:59
 msgid "Copyright"
 msgstr "作成者"
 
-#: src/supertux/title_screen.cpp:59
+#: src/supertux/title_screen.cpp:60
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file LICENSE for details.\n"
