@@ -49,7 +49,7 @@ script:
   # Then build:
   - mkdir "build-$BUILD_TYPE"
   - cd "build-$BUILD_TYPE"
-  - INCLUDE="$HOME/lib" cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON
+  - INCLUDE="$HOME/lib" $HOME/cmake/cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON
   - make VERBOSE=1 -j3
 
 addons:
