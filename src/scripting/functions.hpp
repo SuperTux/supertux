@@ -103,9 +103,14 @@ std::string translate(const std::string& text);
 void import(HSQUIRRELVM v, const std::string& filename);
 
 /**
- * Save world state to savegame
+ * Save world state to scripting table
  */
 void save_state();
+
+/**
+ * Load world state from scripting table
+ */
+void load_state();
 
 /**
  * enable/disable drawing of collision rectangles

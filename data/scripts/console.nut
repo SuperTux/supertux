@@ -31,6 +31,7 @@ function worldmapfinish()
 			level.solved = true;
 		}
 	}
+	load_state();
 }
 
 function grow()

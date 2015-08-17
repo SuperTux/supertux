@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-26 09:08+0000\n"
+"PO-Revision-Date: 2015-08-16 23:51+0000\n"
 "Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-ボーナスブロック\n!images/objects/bonus_block/full-0.png\n#ボーナスブロックは、\n#あなたの冒険を助けるコイン、\n#パワーアップアイテムなどがはいっています。\n#\n#その中身を取るには、そのブロックをたたきます。"
+msgstr "-ボーナスブロック\n!images/objects/bonus_block/full-0.png\n#ボーナスブロックは、\n#あなたの冒険を助けるコイン、\n#パワーアップアイテムなどがはいっています。\n#その中身を取るには、そのブロックをたたきます。"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
@@ -71,7 +71,7 @@ msgstr "-Tuxの人形\n!images/powerups/1up/1up.png\n#これをとると、コ�
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-ひみつの場所\n#おおくのコースは、かべにみえるようで、\n#実は入ることができるひみつのばしょがあります。\n#手がかりをさがしてみてください。"
+msgstr "-ひみつの場所\n#多くのコースは、壁に見えるようで、\n#実は入ることができる秘密の場所があります。\n#手がかりをさがしてみてください。"
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"

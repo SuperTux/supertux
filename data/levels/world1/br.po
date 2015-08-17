@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-08-06 11:18+0000\n"
+"PO-Revision-Date: 2015-08-16 18:28+0000\n"
 "Last-Translator: Gwenn M <tornoz@laposte.net>\n"
 "Language-Team: Breton (http://www.transifex.com/arctic-games/supertux/language/br/)\n"
 "MIME-Version: 1.0\n"
@@ -103,11 +103,11 @@ msgstr "Yen sklas"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
-msgstr ""
+msgstr "Grumbel hag an erc'h"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
-msgstr ""
+msgstr "An 23vet rannarme"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
@@ -115,7 +115,7 @@ msgstr "Fresk an nozvezh"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
-msgstr "Steredenn en oabl"
+msgstr "Stered en oabl"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
@@ -135,7 +135,7 @@ msgstr "Bevañ er yenerez"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr ""
+msgstr "'...ijin a ran traoù ?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
@@ -159,7 +159,7 @@ msgstr "Un ti skorn kevrinus"
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
-msgstr ""
+msgstr "Mont kuit"
 
 #: data/levels/world1/24 - The Shattered Bridge.stl:3
 msgid "The Shattered Bridge"

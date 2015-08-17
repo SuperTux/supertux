@@ -954,22 +954,8 @@ WorldMap::save_state()
   try {
     // get state table
     sq_pushroottable(vm);
-    sq_pushstring(vm, "state", -1);
-    if(SQ_FAILED(sq_get(vm, -2)))
-      throw scripting::SquirrelError(vm, "Couldn't get state table");
-
-    // get or create worlds table
-    sq_pushstring(vm, "worlds", -1);
-    if(SQ_FAILED(sq_get(vm, -2))) {
-      sq_pushstring(vm, "worlds", -1);
-      sq_newtable(vm);
-      if(SQ_FAILED(sq_createslot(vm, -3)))
-        throw scripting::SquirrelError(vm, "Couldn't create state.worlds");
-
-      sq_pushstring(vm, "worlds", -1);
-      if(SQ_FAILED(sq_get(vm, -2)))
-        throw scripting::SquirrelError(vm, "Couldn't create.get state.worlds");
-    }
+    get_table_entry(vm, "state");
+    get_or_create_table_entry(vm, "worlds");
 
     sq_pushstring(vm, map_filename.c_str(), map_filename.length());
     if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
@@ -988,7 +974,10 @@ WorldMap::save_state()
     store_float(vm, "y", tux->get_tile_pos().y);
     store_string(vm, "back", direction_to_string(tux->back_direction));
 
-    sq_createslot(vm, -3);
+    if(SQ_FAILED(sq_createslot(vm, -3)))
+    {
+      throw std::runtime_error("failed to create '" + name + "' table entry");
+    }
 
     // levels...
     sq_pushstring(vm, "levels", -1);
@@ -1035,6 +1024,8 @@ WorldMap::save_state()
 void
 WorldMap::load_state()
 {
+  log_debug << "loading worldmap state" << std::endl;
+
   using namespace scripting;
 
   HSQUIRRELVM vm = global_vm;
@@ -1043,25 +1034,12 @@ WorldMap::load_state()
   try {
     // get state table
     sq_pushroottable(vm);
-    sq_pushstring(vm, "state", -1);
-    if(SQ_FAILED(sq_get(vm, -2)))
-      throw scripting::SquirrelError(vm, "Couldn't get state table");
-
-    // get worlds table
-    sq_pushstring(vm, "worlds", -1);
-    if(SQ_FAILED(sq_get(vm, -2)))
-      throw scripting::SquirrelError(vm, "Couldn't get state.worlds");
-
-    // get table for our world
-    sq_pushstring(vm, map_filename.c_str(), map_filename.length());
-    if(SQ_FAILED(sq_get(vm, -2)))
-      throw scripting::SquirrelError(vm, "Couldn't get state.worlds.mapfilename");
+    get_table_entry(vm, "state");
+    get_table_entry(vm, "worlds");
+    get_table_entry(vm, map_filename);
 
     // load tux
-    sq_pushstring(vm, "tux", -1);
-    if(SQ_FAILED(sq_get(vm, -2)))
-      throw scripting::SquirrelError(vm, "Couldn't get tux");
-
+    get_table_entry(vm, "tux");
     Vector p;
     p.x = read_float(vm, "x");
     p.y = read_float(vm, "y");
@@ -1078,26 +1056,20 @@ WorldMap::load_state()
     sq_pop(vm, 1);
 
     // load levels
-    sq_pushstring(vm, "levels", -1);
-    if(SQ_FAILED(sq_get(vm, -2)))
-      throw scripting::SquirrelError(vm, "Couldn't get levels");
-
+    get_table_entry(vm, "levels");
     for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
       LevelTile* level = *i;
       sq_pushstring(vm, level->get_name().c_str(), -1);
       if(SQ_SUCCEEDED(sq_get(vm, -2))) {
         level->solved = read_bool(vm, "solved");
         level->perfect = read_bool(vm, "perfect");
-        if(!level->solved)
-          level->sprite->set_action("default");
-        else
-          level->sprite->set_action((level->sprite->has_action("perfect") && level->perfect) ? "perfect" : "solved");
+        level->update_sprite_action();
         level->statistics.unserialize_from_squirrel(vm);
         sq_pop(vm, 1);
       }
     }
 
-    // leave state table
+    // leave levels table
     sq_pop(vm, 1);
 
     // load overall statistics
@@ -1105,6 +1077,7 @@ WorldMap::load_state()
 
   } catch(std::exception& e) {
     log_debug << "Not loading worldmap state: " << e.what() << std::endl;
+    save_state(); // make new initial save
   }
   sq_settop(vm, oldtop);
 

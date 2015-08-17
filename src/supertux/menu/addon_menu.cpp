@@ -106,7 +106,14 @@ AddonMenu::rebuild_menu()
 
   if (m_installed_addons.empty())
   {
-    add_inactive(MNID_NOTHING_NEW, _("No Addons installed"));
+    if (!m_repository_addons.empty())
+    {
+      add_inactive(MNID_NOTHING_NEW, _("No Addons installed"));
+    }
+    else
+    {
+      add_inactive(MNID_NOTHING_NEW, _("No Addons found"));
+    }
   }
   else
   {
