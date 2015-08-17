@@ -19,6 +19,8 @@ compiler:
 matrix:
   fast_finish: true
 
+sudo: false
+
 env:
   global:
     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
@@ -30,24 +32,16 @@ env:
     - BUILD_TYPE="Release"
  
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install build-essential libogg-dev libvorbis-dev libphysfs-dev libglew-dev libopenal-dev libboost-all-dev
-
-  # Current gcc that supports C++ 11 features
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update -qq
-  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.9; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
 
   # CMake
   - wget http://www.cmake.org/files/v3.3/cmake-$CMAKE_VERSION.tar.gz -O - | tar xz
-  - (cd cmake-$CMAKE_VERSION && cmake . && make -j3 && sudo make install)
+  - (cd cmake-$CMAKE_VERSION && cmake -DCMAKE_INSTALL_PREFIX:PATH=$HOME/cmake . && make -j3 && make install)
 
   # SDL dependencies
   - wget http://libsdl.org/release/SDL2-$SDL2_VERSION.tar.gz -O - | tar xz
-  - (cd SDL2-$SDL2_VERSION && ./configure --prefix=/usr && make -j3 && sudo make install)
+  - (cd SDL2-$SDL2_VERSION && ./configure --prefix=$HOME/lib && make -j3 && make install)
   - wget http://www.libsdl.org/projects/SDL_image/release/SDL2_image-$SDL2IMAGE_VERSION.tar.gz -O - | tar xz
-  - (cd SDL2_image-$SDL2IMAGE_VERSION && ./configure --prefix=/usr && make -j3 && sudo make install)
+  - (cd SDL2_image-$SDL2IMAGE_VERSION && ./configure --prefix=$HOME/lib && make -j3 && make install)
 
 script:
   # Clean from previous Travis build
@@ -67,6 +61,23 @@ addons:
     build_command_prepend: "cmake . && make clean"
     build_command:   "make -j 3"
     branch_pattern: coverity_scan
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - cmake
+    - build-essential
+    # Current gcc that supports C++ 11 features
+    - libstdc++-4.9-dev
+    - g++4.9
+    - gcc-4.9
+    - libogg-dev
+    - libvorbis-dev
+    - libphysfs-dev
+    - libglew-dev
+    - libopenal-dev
+    - libboost-all-dev
+
 
 notifications:
   email:
