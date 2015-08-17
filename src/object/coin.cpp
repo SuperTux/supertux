@@ -218,7 +218,7 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
       SoundManager::current()->play("sounds/coin2.ogg");
     if(physic.get_velocity_y() > 200) {// lets some coins bounce
       physic.set_velocity_y(-99);
-    }else{
+    } else {
       physic.set_velocity_y(0);
       physic.set_velocity_x(0);
     }

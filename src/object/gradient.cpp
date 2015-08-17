@@ -100,7 +100,7 @@ Gradient::save(lisp::Writer& writer) {
   if(gradient_direction == HORIZONTAL || gradient_direction == HORIZONTAL_SECTOR) {
     writer.write("left_color" , gradient_top.toVector(false));
     writer.write("right_color", gradient_bottom.toVector(false));
-  }else{
+  } else {
     writer.write("top_color"   , gradient_top.toVector(false));
     writer.write("bottom_color", gradient_bottom.toVector(false));
   }

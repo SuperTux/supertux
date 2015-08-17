@@ -145,7 +145,7 @@ EditorInputGui::update(float elapsed_time) {
       int size;
       if (input_type == IP_OBJECT){
         size = object_input->groups[active_objectgroup].icons.size();
-      }else{
+      } else {
         size = active_tilegroup.size();
       }
       if (starting_tile < size-5) {
@@ -178,7 +178,7 @@ EditorInputGui::event(SDL_Event& ev) {
                 int size = active_tilegroup.size();
                 if (hovered_tile < size && hovered_tile >= 0) {
                   tile = active_tilegroup[hovered_tile];
-                }else{
+                } else {
                   tile = 0;
                 }
               } break;
@@ -214,12 +214,12 @@ EditorInputGui::event(SDL_Event& ev) {
       if (y < 0) {
         if (y < -22) {
           hovered_item = HI_TILEGROUP;
-        }else{
+        } else {
           hovered_item = HI_OBJECTS;
         }
         tile_scrolling = TS_NONE;
         break;
-      }else{
+      } else {
         hovered_item = HI_TILE;
         hovered_tile = get_tile_pos(mouse_pos);
       }
@@ -227,7 +227,7 @@ EditorInputGui::event(SDL_Event& ev) {
         tile_scrolling = TS_UP;
       }else if (y > SCREEN_HEIGHT - 16 - Ypos) {
         tile_scrolling = TS_DOWN;
-      }else{
+      } else {
         tile_scrolling = TS_NONE;
       }
     }

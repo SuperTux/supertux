@@ -31,7 +31,8 @@
 
 EditorInputCenter::EditorInputCenter() :
   hovered_tile(0, 0),
-  sector_pos(0, 0)
+  sector_pos(0, 0),
+  mouse_pos(0, 0)
 {
 }
 
@@ -101,7 +102,7 @@ EditorInputCenter::tp_to_sp(Vector tp) {
     Vector sp = Vector( tp.x * 32, tp.y * 32 );
     // This line is cool :DDDDD
     return sp + ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_offset();
-  }else{
+  } else {
     return Vector(0, 0);
   }
 }
@@ -114,7 +115,7 @@ EditorInputCenter::sp_to_tp(Vector sp) {
     int x = sp.x / 32;
     int y = sp.y / 32;
     return Vector( x, y );
-  }else{
+  } else {
     return Vector(0, 0);
   }
 }

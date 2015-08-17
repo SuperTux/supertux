@@ -60,7 +60,7 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
     Editor::current()->levelfile = m_levelset->get_level_filename(item->id);
     Editor::current()->reload_request = true;
     MenuManager::instance().clear_menu_stack();
-  }else{
+  } else {
     MenuManager::instance().pop_menu();
   }
 }

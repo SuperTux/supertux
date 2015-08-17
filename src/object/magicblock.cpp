@@ -99,7 +99,7 @@ MagicBlock::update(float elapsed_time)
   if(black) {
     lighting_ok = (light.red >= trigger_red || light.green >= trigger_green
                    || light.blue >= trigger_blue);
-  }else{
+  } else {
     lighting_ok = (light.red >= trigger_red && light.green >= trigger_green
                    && light.blue >= trigger_blue);
   }
