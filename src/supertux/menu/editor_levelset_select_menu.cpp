@@ -143,7 +143,7 @@ EditorLevelsetSelectMenu::menu_action(MenuItem* item)
   {
     Editor::current()->world = move(m_contrib_worlds[item->id]);
     MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
-  }else{
+  } else {
     if(!(Editor::current()->levelloaded)){
       Editor::current()->quit_request = true;
     }

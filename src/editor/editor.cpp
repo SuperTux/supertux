@@ -117,7 +117,7 @@ void Editor::update_keyboard() {
   if (InputManager::current()->get_controller()->hold(Controller::LEFT)) {
     if (currentsector->camera->get_translation().x >= 32) {
       currentsector->camera->move(-32, 0);
-    }else{
+    } else {
       //When is the camera less than one tile after the left limit, it puts the camera to the limit.
       currentsector->camera->move(-currentsector->camera->get_translation().x, 0);
     }
@@ -127,7 +127,7 @@ void Editor::update_keyboard() {
   if (InputManager::current()->get_controller()->hold(Controller::RIGHT)) {
     if (currentsector->camera->get_translation().x <= currentsector->get_width() - SCREEN_WIDTH + 96) {
       currentsector->camera->move(32, 0);
-    }else{
+    } else {
       //When is the camera less than one tile after the right limit, it puts the camera to the limit.
       // The limit is shifted 128 pixels to the right due to the input gui.
       currentsector->camera->move(
@@ -139,7 +139,7 @@ void Editor::update_keyboard() {
   if (InputManager::current()->get_controller()->hold(Controller::UP)) {
     if (currentsector->camera->get_translation().y >= 32) {
       currentsector->camera->move(0,-32);
-    }else{
+    } else {
       //When is the camera less than one tile after the top limit, it puts the camera to the limit.
       currentsector->camera->move(0, -currentsector->camera->get_translation().y);
     }
@@ -149,7 +149,7 @@ void Editor::update_keyboard() {
   if (InputManager::current()->get_controller()->hold(Controller::DOWN)) {
     if (currentsector->camera->get_translation().y <= currentsector->get_height() - SCREEN_HEIGHT) {
       currentsector->camera->move(0, 32);
-    }else{
+    } else {
       //When is the camera less than one tile after the bottom limit, it puts the camera to the limit.
       // The limit is shifted 32 pixels to the bottom due to the layer toolbar.
       currentsector->camera->move(0,

@@ -57,7 +57,7 @@ EditorTilegroupMenu::menu_action(MenuItem* item)
     Editor::current()->reactivate_request = true;
     Editor::current()->tileselect.input_type = EditorInputGui::IP_TILE;
     MenuManager::instance().clear_menu_stack();
-  }else{
+  } else {
     MenuManager::instance().clear_menu_stack();
     Editor::current()->reactivate_request = true;
   }

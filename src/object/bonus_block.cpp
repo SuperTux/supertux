@@ -341,7 +341,7 @@ BonusBlock::try_open(Player *player)
   if(hit_counter <= 0 || contents == CONTENT_LIGHT){ //use 0 to allow infinite hits
   }else if(hit_counter == 1){
     sprite->set_action("empty");
-  }else{
+  } else {
     hit_counter--;
   }
 }
@@ -475,7 +475,7 @@ BonusBlock::try_drop(Player *player)
   if(countdown){ // only decrease hit counter if try_open was not called
     if(hit_counter == 1){
       sprite->set_action("empty");
-    }else{
+    } else {
       hit_counter--;
     }
   }
