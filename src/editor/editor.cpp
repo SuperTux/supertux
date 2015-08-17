@@ -47,6 +47,7 @@ Editor::Editor() :
   save_request(false),
   currentsector(),
   levelloaded(false),
+  inputcenter(),
   tileselect(),
   layerselect(),
   enabled(false)
@@ -63,6 +64,7 @@ void Editor::draw(DrawingContext& context)
   if (levelloaded) {
     currentsector->draw(context);
   }
+  inputcenter.draw(context);
   tileselect.draw(context);
   layerselect.draw(context);
   MouseCursor::current()->draw(context);
@@ -119,6 +121,7 @@ void Editor::update_keyboard() {
       //When is the camera less than one tile after the left limit, it puts the camera to the limit.
       currentsector->camera->move(-currentsector->camera->get_translation().x, 0);
     }
+    inputcenter.actualize_pos();
   }
 
   if (InputManager::current()->get_controller()->hold(Controller::RIGHT)) {
@@ -130,6 +133,7 @@ void Editor::update_keyboard() {
       currentsector->camera->move(
             currentsector->get_width() - currentsector->camera->get_translation().x - SCREEN_WIDTH +128, 0);
     }
+    inputcenter.actualize_pos();
   }
 
   if (InputManager::current()->get_controller()->hold(Controller::UP)) {
@@ -139,6 +143,7 @@ void Editor::update_keyboard() {
       //When is the camera less than one tile after the top limit, it puts the camera to the limit.
       currentsector->camera->move(0, -currentsector->camera->get_translation().y);
     }
+    inputcenter.actualize_pos();
   }
 
   if (InputManager::current()->get_controller()->hold(Controller::DOWN)) {
@@ -150,10 +155,12 @@ void Editor::update_keyboard() {
       currentsector->camera->move(0,
             currentsector->get_height() - currentsector->camera->get_translation().y - SCREEN_HEIGHT +32);
     }
+    inputcenter.actualize_pos();
   }
 }
 
 void Editor::load_layers() {
+  layerselect.selected_tilemap = NULL;
   layerselect.layers.clear();
   for(auto i = currentsector->gameobjects.begin(); i != currentsector->gameobjects.end(); i++) {
     GameObject* go = &(**i);
@@ -222,6 +229,7 @@ void Editor::reload_level() {
   reload_request = false;
   enabled = true;
   // Re/load level
+  level = NULL;
   level.reset(new Level);
   levelloaded = true;
   level->load(world->get_basedir() + "/" + levelfile);
@@ -261,6 +269,7 @@ Editor::resize() {
   // Calls on window resize.
   tileselect.resize();
   layerselect.resize();
+  inputcenter.actualize_pos();
 }
 
 void
@@ -272,6 +281,8 @@ Editor::event(SDL_Event& ev) {
   if ( layerselect.event(ev) ) {
     return;
   }
+
+  inputcenter.event(ev);
 
 }
 

@@ -21,6 +21,7 @@
 #include <stdexcept>
 
 #include "control/input_manager.hpp"
+#include "editor/input_center.hpp"
 #include "editor/input_gui.hpp"
 #include "editor/layers_gui.hpp"
 #include "gui/menu.hpp"
@@ -67,6 +68,7 @@ class Editor : public Screen,
 
     bool levelloaded;
 
+    EditorInputCenter inputcenter;
     EditorInputGui tileselect;
     EditorLayersGui layerselect;
 
