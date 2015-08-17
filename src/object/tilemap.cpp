@@ -168,7 +168,7 @@ TileMap::save(lisp::Writer& writer) {
   GameObject::save(writer);
   if (draw_target == LIGHTMAP) {
     writer.write("draw-target", "lightmap", false);
-  }else{
+  } else {
     writer.write("draw-target", "normal", false);
   }
   writer.write("width", width);

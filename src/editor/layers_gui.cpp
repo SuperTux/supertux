@@ -144,10 +144,10 @@ EditorLayersGui::event(SDL_Event& ev) {
       if (x < 0) {
         hovered_item = HI_SPAWNPOINTS;
         break;
-      }else{
+      } else {
         if (x <= sector_text_width) {
           hovered_item = HI_SECTOR;
-        }else{
+        } else {
           hovered_item = HI_LAYERS;
           hovered_layer = get_layer_pos(mouse_pos);
         }
