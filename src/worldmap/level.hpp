@@ -43,7 +43,6 @@ public:
   void set_solved(bool v);
   void set_perfect(bool v);
 
-private:
   void update_sprite_action();
 
 public:

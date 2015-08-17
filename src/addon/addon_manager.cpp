@@ -40,6 +40,8 @@
 
 namespace {
 
+static const char* ADDON_INFO_PATH = "/addons/repository.nfo";
+
 MD5 md5_from_file(const std::string& filename)
 {
   // TODO: this does not work as expected for some files -- IFileStream seems to not always behave like an ifstream.
@@ -111,13 +113,20 @@ AddonManager::AddonManager(const std::string& addon_directory,
     }
   }
 
-  try
+  if(PHYSFS_exists(ADDON_INFO_PATH))
   {
-    m_repository_addons = parse_addon_infos("/addons/repository.nfo");
+    try
+    {
+        m_repository_addons = parse_addon_infos(ADDON_INFO_PATH);
+    }
+    catch(const std::exception& err)
+    {
+        log_warning << "parsing repository.nfo failed: " << err.what() << std::endl;
+    }
   }
-  catch(const std::exception& err)
+  else
   {
-    log_warning << "parsing repository.nfo failed: " << err.what() << std::endl;
+    log_info << "repository.nfo doesn't exist, not loading" << std::endl;
   }
 }
 
@@ -219,7 +228,7 @@ AddonManager::request_check_online()
   }
   else
   {
-    m_transfer_status = m_downloader.request_download(m_repository_url, "/addons/repository.nfo");
+    m_transfer_status = m_downloader.request_download(m_repository_url, ADDON_INFO_PATH);
 
     m_transfer_status->then(
       [this](bool success)
@@ -228,7 +237,7 @@ AddonManager::request_check_online()
 
         if (success)
         {
-          m_repository_addons = parse_addon_infos("/addons/repository.nfo");
+          m_repository_addons = parse_addon_infos(ADDON_INFO_PATH);
           m_has_been_updated = true;
         }
       });
@@ -240,8 +249,8 @@ AddonManager::request_check_online()
 void
 AddonManager::check_online()
 {
-  m_downloader.download(m_repository_url, "/addons/repository.nfo");
-  m_repository_addons = parse_addon_infos("/addons/repository.nfo");
+  m_downloader.download(m_repository_url, ADDON_INFO_PATH);
+  m_repository_addons = parse_addon_infos(ADDON_INFO_PATH);
   m_has_been_updated = true;
 }
 

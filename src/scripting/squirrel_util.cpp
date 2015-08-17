@@ -445,6 +445,70 @@ bool get_bool(HSQUIRRELVM vm, const char* name, bool& val) {
 
 // end: serialization functions
 
+void get_table_entry(HSQUIRRELVM vm, const std::string& name)
+{
+  sq_pushstring(vm, name.c_str(), -1);
+  if(SQ_FAILED(sq_get(vm, -2)))
+  {
+    std::ostringstream msg;
+    msg << "failed to get '" << name << "' table entry";
+    throw scripting::SquirrelError(vm, msg.str());
+  }
+  else
+  {
+    // successfully placed result on stack
+  }
+}
+
+void get_or_create_table_entry(HSQUIRRELVM vm, const std::string& name)
+{
+  sq_pushstring(vm, name.c_str(), -1);
+  if(SQ_FAILED(sq_get(vm, -2)))
+  {
+    sq_pushstring(vm, name.c_str(), -1);
+    sq_newtable(vm);
+    if(SQ_FAILED(sq_createslot(vm, -3)))
+    {
+      std::ostringstream msg;
+      msg << "failed to create '" << name << "' table entry";
+      throw scripting::SquirrelError(vm, msg.str());
+    }
+    else
+    {
+      get_table_entry(vm, name);
+    }
+  }
+  else
+  {
+    // successfully placed result on stack
+  }
+}
+
+std::vector<std::string> get_table_keys(HSQUIRRELVM vm)
+{
+  std::vector<std::string> keys;
+
+  sq_pushnull(vm);
+  while(SQ_SUCCEEDED(sq_next(vm, -2)))
+  {
+    //here -1 is the value and -2 is the key
+    const char* result;
+    if(SQ_FAILED(sq_getstring(vm, -2, &result)))
+    {
+      throw scripting::SquirrelError(vm, "Couldn't get string value for key");
+    }
+    else
+    {
+      keys.push_back(result);
+    }
+
+    // pops key and val before the next iteration
+    sq_pop(vm, 2);
+  }
+
+  return keys;
+}
+
 }
 
 /* EOF */

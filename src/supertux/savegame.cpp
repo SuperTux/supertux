@@ -32,68 +32,9 @@
 #include "worldmap/worldmap.hpp"
 
 namespace {
-
-void get_table_entry(HSQUIRRELVM vm, const std::string& name)
-{
-  sq_pushstring(vm, name.c_str(), -1);
-  if(SQ_FAILED(sq_get(vm, -2)))
-  {
-    throw std::runtime_error("failed to get '" + name + "' table entry");
-  }
-  else
-  {
-    // successfully placed result on stack
-  }
-}
-
-void get_or_create_table_entry(HSQUIRRELVM vm, const std::string& name)
-{
-  sq_pushstring(vm, name.c_str(), -1);
-  if(SQ_FAILED(sq_get(vm, -2)))
-  {
-    sq_pushstring(vm, name.c_str(), -1);
-    sq_newtable(vm);
-    if(SQ_FAILED(sq_createslot(vm, -3)))
-    {
-      throw std::runtime_error("failed to create '" + name + "' table entry");
-    }
-    else
-    {
-      get_table_entry(vm, name);
-    }
-  }
-  else
-  {
-    // successfully placed result on stack
-  }
-}
-
-std::vector<std::string> get_table_keys(HSQUIRRELVM vm)
-{
-  std::vector<std::string> worlds;
-
-  sq_pushnull(vm);
-  while(SQ_SUCCEEDED(sq_next(vm, -2)))
-  {
-    //here -1 is the value and -2 is the key
-    const char* result;
-    if(SQ_FAILED(sq_getstring(vm, -2, &result)))
-    {
-      std::ostringstream msg;
-      msg << "Couldn't get string value for key";
-      throw scripting::SquirrelError(vm, msg.str());
-    }
-    else
-    {
-      worlds.push_back(result);
-    }
-
-    // pops key and val before the next iteration
-    sq_pop(vm, 2);
-  }
-
-  return worlds;
-}
+using scripting::get_table_entry;
+using scripting::get_or_create_table_entry;
+using scripting::get_table_keys;
 
 std::vector<LevelState> get_level_states(HSQUIRRELVM vm)
 {
@@ -161,7 +102,7 @@ LevelsetState::get_level_state(const std::string& filename)
   }
   else
   {
-    log_warning << "failed to retrieve level state for " << filename << std::endl;
+    log_info << "creating new level state for " << filename << std::endl;
     LevelState state;
     state.filename = filename;
     return state;
@@ -263,7 +204,7 @@ Savegame::clear_state_table()
     sq_newtable(vm);
     if(SQ_FAILED(sq_createslot(vm, -3)))
     {
-      throw std::runtime_error("Couldn't create state table");
+      throw scripting::SquirrelError(vm, "Couldn't create state table");
     }
   }
   sq_pop(vm, 1);
@@ -349,7 +290,7 @@ Savegame::get_worldmaps()
   {
     sq_pushroottable(vm);
     get_table_entry(vm, "state");
-    get_table_entry(vm, "worlds");
+    get_or_create_table_entry(vm, "worlds");
     worlds = get_table_keys(vm);
   }
   catch(const std::exception& err)
@@ -374,9 +315,9 @@ Savegame::get_worldmap_state(const std::string& name)
   {
     sq_pushroottable(vm);
     get_table_entry(vm, "state");
-    get_table_entry(vm, "worlds");
-    get_table_entry(vm, name);
-    get_table_entry(vm, "levels");
+    get_or_create_table_entry(vm, "worlds");
+    get_or_create_table_entry(vm, name);
+    get_or_create_table_entry(vm, "levels");
 
     result.level_states = get_level_states(vm);
   }
@@ -402,7 +343,7 @@ Savegame::get_levelsets()
   {
     sq_pushroottable(vm);
     get_table_entry(vm, "state");
-    get_table_entry(vm, "levelsets");
+    get_or_create_table_entry(vm, "levelsets");
     results = get_table_keys(vm);
   }
   catch(const std::exception& err)
@@ -427,9 +368,9 @@ Savegame::get_levelset_state(const std::string& basedir)
   {
     sq_pushroottable(vm);
     get_table_entry(vm, "state");
-    get_table_entry(vm, "levelsets");
-    get_table_entry(vm, basedir);
-    get_table_entry(vm, "levels");
+    get_or_create_table_entry(vm, "levelsets");
+    get_or_create_table_entry(vm, basedir);
+    get_or_create_table_entry(vm, "levels");
 
     result.level_states = get_level_states(vm);
   }

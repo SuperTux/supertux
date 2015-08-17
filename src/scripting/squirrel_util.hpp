@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SCRIPTING_SQUIRREL_UTIL_HPP
 
 #include <sstream>
+#include <vector>
 
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
@@ -93,6 +94,9 @@ std::string read_string(HSQUIRRELVM vm, const char* name);
 bool read_bool(HSQUIRRELVM vm, const char* name);
 // end serialization functions
 
+void get_table_entry(HSQUIRRELVM vm, const std::string& name);
+void get_or_create_table_entry(HSQUIRRELVM vm, const std::string& name);
+std::vector<std::string> get_table_keys(HSQUIRRELVM vm);
 }
 
 #endif

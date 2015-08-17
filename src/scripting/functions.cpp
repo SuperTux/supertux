@@ -185,6 +185,20 @@ void save_state()
   }
 }
 
+void load_state()
+{
+  using worldmap::WorldMap;
+
+  if (!WorldMap::current())
+  {
+    throw std::runtime_error("Can't save state without active Worldmap");
+  }
+  else
+  {
+    WorldMap::current()->load_state();
+  }
+}
+
 // not added to header, function to only be used by others
 // in this file
 bool validate_sector_player()

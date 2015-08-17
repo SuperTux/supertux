@@ -81,18 +81,10 @@ LevelTile::update(float )
 void
 LevelTile::update_sprite_action()
 {
-  if (perfect)
-  {
-    sprite->set_action("perfect");
-  }
-  else if (solved)
-  {
-    sprite->set_action("perfect");
-  }
-  else
-  {
+  if(!solved)
     sprite->set_action("default");
-  }
+  else
+    sprite->set_action((sprite->has_action("perfect") && perfect) ? "perfect" : "solved");
 }
 
 void
