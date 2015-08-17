@@ -8,13 +8,13 @@
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2014
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2006
 # fri, 2013
-# TeraTux devel Team <teratux.mail@gmail.com>, 2013-2014
+# TeraTux devel Team <teratux.mail@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-26 13:30+0000\n"
+"POT-Creation-Date: 2015-08-16 17:53+0200\n"
+"PO-Revision-Date: 2015-08-17 06:02+0000\n"
 "Last-Translator: TeraTux devel Team <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -333,13 +333,17 @@ msgstr "Zavřít"
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: src/supertux/menu/game_menu.cpp:36 src/supertux/menu/main_menu.cpp:44
+#: src/supertux/menu/game_menu.cpp:36
+msgid "Restart level"
+msgstr "Restartovat úroveň"
+
+#: src/supertux/menu/game_menu.cpp:37 src/supertux/menu/main_menu.cpp:44
 #: src/supertux/menu/options_menu.cpp:48
 #: src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
 msgstr "Nastavení"
 
-#: src/supertux/menu/game_menu.cpp:38
+#: src/supertux/menu/game_menu.cpp:39
 msgid "Abort Level"
 msgstr "Opustit úroveň"
 
@@ -697,11 +701,11 @@ msgstr "Zlejšci"
 msgid "Time"
 msgstr "Čas"
 
-#: src/supertux/title_screen.cpp:58
+#: src/supertux/title_screen.cpp:59
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/supertux/title_screen.cpp:59
+#: src/supertux/title_screen.cpp:60
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file LICENSE for details.\n"

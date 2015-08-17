@@ -168,6 +168,7 @@
  	Sérgio Lopes (European Portuguese)
  	Tobias Markus (German)
  	meczup (Turkish)
+ 	Gwenn Meynier (Breton)
  	Arvid Norlander (Swedish)
  	Krishnamurti Lelis Lima Vieira Nunes (Brazilian Portuguese)
  	Lauri \"xet7\" Ojansivu (Finnish)
