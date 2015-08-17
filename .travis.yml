@@ -58,6 +58,7 @@ addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
+    - ppa:zoogie/sdl2-snapshots
     packages:
     - cmake
     - build-essential
