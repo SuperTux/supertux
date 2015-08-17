@@ -29,14 +29,14 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
+msgstr "Блокі бонусні\n!images/objects/bonus_block/full-0.png\n#Блокі бонусні могут содержать деньгій, power-ups і особенні вещі помогающі."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "От яицє Тукс большій і буди ломать древяні блокі."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -83,7 +83,7 @@ msgstr "Ностальгія"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
-msgstr ""
+msgstr "шлях Тобгле"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
@@ -107,7 +107,7 @@ msgstr ""
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
-msgstr ""
+msgstr "23 хмари Тукса"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
@@ -139,7 +139,7 @@ msgstr ""
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
-msgstr ""
+msgstr "кріжа у дири"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
