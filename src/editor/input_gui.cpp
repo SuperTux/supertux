@@ -21,6 +21,7 @@
 #include "editor/editor.hpp"
 #include "editor/object_group.hpp"
 #include "editor/object_input.hpp"
+#include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
@@ -44,6 +45,10 @@ EditorInputGui::EditorInputGui() :
   active_tilegroup(),
   active_objectgroup(-1),
   object_input(),
+  rubber(       new ToolIcon("images/engine/editor/rubber.png")),
+  select_mode(  new ToolIcon("images/engine/editor/select-mode0.png")),
+  move_mode(    new ToolIcon("images/engine/editor/move-mode0.png")),
+  settings_mode(new ToolIcon("images/engine/editor/settings-mode0.png")),
   hovered_item(HI_NONE),
   hovered_tile(-1),
   tile_scrolling(TS_NONE),
@@ -52,6 +57,11 @@ EditorInputGui::EditorInputGui() :
 {
   std::unique_ptr<ObjectInput> oi( new ObjectInput() );
   object_input = move(oi);
+
+  select_mode->push_mode  ("images/engine/editor/select-mode1.png");
+  select_mode->push_mode  ("images/engine/editor/select-mode2.png");
+  move_mode->push_mode    ("images/engine/editor/move-mode1.png");
+  settings_mode->push_mode("images/engine/editor/settings-mode1.png");
 }
 
 EditorInputGui::~EditorInputGui() {
@@ -86,6 +96,13 @@ EditorInputGui::draw(DrawingContext& context) {
                                0.0f,
                                LAYER_GUI-5);
     } break;
+    case HI_TOOL: {
+      Vector coords = get_tool_coords(hovered_tile);
+      context.draw_filled_rect(Rectf(coords, coords + Vector(32, 16)),
+                               Color(0.9f, 0.9f, 1.0f, 0.6f),
+                               0.0f,
+                               LAYER_GUI-5);
+    } break;
     default: break;
   }
 
@@ -95,6 +112,11 @@ EditorInputGui::draw(DrawingContext& context) {
   context.draw_text(Resources::normal_font, _("Objects"),
                     Vector(SCREEN_WIDTH, 24),
                     ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
+
+  rubber->draw(context);
+  select_mode->draw(context);
+  move_mode->draw(context);
+  settings_mode->draw(context);
 
   draw_tilegroup(context);
   draw_objectgroup(context);
@@ -193,6 +215,26 @@ EditorInputGui::event(SDL_Event& ev) {
             }
             return true;
             break;
+          case HI_TOOL:
+            switch (hovered_tile) {
+              case 0:
+                tile = 0;
+                object = "";
+                break;
+              case 1:
+                select_mode->next_mode();
+                break;
+              case 2:
+                move_mode->next_mode();
+                break;
+              case 3:
+                settings_mode->next_mode();
+                break;
+              default:
+                break;
+            }
+            return true;
+            break;
           default:
             return false;
             break;
@@ -212,10 +254,13 @@ EditorInputGui::event(SDL_Event& ev) {
         break;
       }
       if (y < 0) {
-        if (y < -22) {
+        if (y < -38) {
           hovered_item = HI_TILEGROUP;
-        } else {
+        } else if (y < -16) {
           hovered_item = HI_OBJECTS;
+        } else {
+          hovered_item = HI_TOOL;
+          hovered_tile = get_tool_pos(mouse_pos);
         }
         tile_scrolling = TS_NONE;
         break;
@@ -242,6 +287,10 @@ EditorInputGui::event(SDL_Event& ev) {
 void
 EditorInputGui::resize() {
   Xpos = SCREEN_WIDTH - 128;
+  rubber->pos        = Vector(Xpos     , 44);
+  select_mode->pos   = Vector(Xpos + 32, 44);
+  move_mode->pos     = Vector(Xpos + 64, 44);
+  settings_mode->pos = Vector(Xpos + 96, 44);
 }
 
 void
@@ -261,6 +310,20 @@ int
 EditorInputGui::get_tile_pos(const Vector coords){
   int x = (coords.x - Xpos) / 32;
   int y = (coords.y - Ypos) / 32;
+  return y*4 + x;
+}
+
+Vector
+EditorInputGui::get_tool_coords(const int pos){
+  int x = pos%4;
+  int y = pos/4;
+  return Vector( x * 32 + Xpos, y * 16 + 44);
+}
+
+int
+EditorInputGui::get_tool_pos(const Vector coords){
+  int x = (coords.x - Xpos) / 32;
+  int y = (coords.y - 44)   / 16;
   return y*4 + x;
 }
 
