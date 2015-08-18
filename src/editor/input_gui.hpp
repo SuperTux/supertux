@@ -26,6 +26,7 @@ class SDL_event;
 class TileSet;
 class Vector;
 class ObjectInput;
+class ToolIcon;
 
 class EditorInputGui
 {
@@ -51,10 +52,15 @@ class EditorInputGui
     int active_objectgroup;
     std::unique_ptr<ObjectInput> object_input;
 
+    std::unique_ptr<ToolIcon> rubber;
+    std::unique_ptr<ToolIcon> select_mode;
+    std::unique_ptr<ToolIcon> move_mode;
+    std::unique_ptr<ToolIcon> settings_mode;
+
   private:
 
     typedef enum {
-      HI_NONE, HI_TILEGROUP, HI_OBJECTS, HI_TILE
+      HI_NONE, HI_TILEGROUP, HI_OBJECTS, HI_TILE, HI_TOOL
     }HoveredItem;
 
     typedef enum {
@@ -67,10 +73,12 @@ class EditorInputGui
     int starting_tile;
 
     int Xpos;
-    const int Ypos = 44;
+    const int Ypos = 60;
 
     Vector get_tile_coords(const int pos);
     int get_tile_pos(const Vector coords);
+    Vector get_tool_coords(const int pos);
+    int get_tool_pos(const Vector coords);
 
     void draw_tilegroup(DrawingContext&);
     void draw_objectgroup(DrawingContext&);
