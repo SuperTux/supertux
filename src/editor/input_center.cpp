@@ -39,7 +39,8 @@ EditorInputCenter::EditorInputCenter() :
   sector_pos(0, 0),
   mouse_pos(0, 0),
   dragging(false),
-  drag_start(0, 0)
+  drag_start(0, 0),
+  dragged_object(NULL)
 {
 }
 
@@ -189,6 +190,32 @@ EditorInputCenter::fill() {
 }
 
 void
+EditorInputCenter::grab_object() {
+  for (auto i = Editor::current()->currentsector->moving_objects.begin();
+      i != Editor::current()->currentsector->moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+    Rectf bbox = moving_object->get_bbox();
+    if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
+        sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
+      dragged_object = moving_object;
+      return;
+    }
+  }
+  dragged_object = NULL;
+}
+
+void
+EditorInputCenter::move_object() {
+  if (dragged_object) {
+    if (!dragged_object->is_valid()) {
+      dragged_object = NULL;
+      return;
+    }
+    dragged_object->set_pos(sector_pos);
+  }
+}
+
+void
 EditorInputCenter::rubber_object() {
   for (auto i = Editor::current()->currentsector->moving_objects.begin();
       i != Editor::current()->currentsector->moving_objects.end(); ++i) {
@@ -217,6 +244,26 @@ EditorInputCenter::rubber_rect() {
 }
 
 void
+EditorInputCenter::put_object() {
+  GameObjectPtr game_object;
+  try {
+    game_object = ObjectFactory::instance().create(Editor::current()->tileselect.object, sector_pos, LEFT);
+  } catch(const std::exception& e) {
+    log_warning << "Error creating object " << Editor::current()->tileselect.object << ": " << e.what() << std::endl;
+    return;
+  }
+  if (game_object == NULL)
+    throw std::runtime_error("Creating " + Editor::current()->tileselect.object + " object failed.");
+
+  try {
+    Editor::current()->currentsector->add_object(game_object);
+  } catch(const std::exception& e) {
+    log_warning << "Error adding object " << Editor::current()->tileselect.object << ": " << e.what() << std::endl;
+    return;
+  }
+}
+
+void
 EditorInputCenter::event(SDL_Event& ev) {
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN: if(ev.button.button == SDL_BUTTON_LEFT)
@@ -238,22 +285,9 @@ EditorInputCenter::event(SDL_Event& ev) {
         } break;
         case EditorInputGui::IP_OBJECT:
           if (Editor::current()->tileselect.object != "") {
-            //add object
-            GameObjectPtr game_object;
-            try {
-              game_object = ObjectFactory::instance().create(Editor::current()->tileselect.object, sector_pos, LEFT);
-            } catch(const std::exception& e) {
-              log_warning << "Error creating object " << Editor::current()->tileselect.object << ": " << e.what() << std::endl;
-              return;
-            }
-            if (game_object == NULL)
-              throw std::runtime_error("Creating " + Editor::current()->tileselect.object + " object failed.");
-
-            try {
-              Editor::current()->currentsector->add_object(game_object);
-            } catch(const std::exception& e) {
-              log_warning << "Error adding object " << Editor::current()->tileselect.object << ": " << e.what() << std::endl;
-              return;
+            grab_object();
+            if (!dragged_object) {
+              put_object();
             }
           } else {
             rubber_object();
@@ -267,7 +301,8 @@ EditorInputCenter::event(SDL_Event& ev) {
     case SDL_MOUSEBUTTONUP: if(ev.button.button == SDL_BUTTON_LEFT) {
       dragging = false;
       if (Editor::current()->tileselect.input_type == EditorInputGui::IP_OBJECT) {
-        if (Editor::current()->tileselect.select_mode->get_mode() == 1) {
+        if (Editor::current()->tileselect.select_mode->get_mode() == 1 &&
+            Editor::current()->tileselect.object == "" ) {
           rubber_rect();
         }
       }
@@ -294,6 +329,8 @@ EditorInputCenter::event(SDL_Event& ev) {
           case EditorInputGui::IP_OBJECT:
             if (Editor::current()->tileselect.object == "") {
               rubber_rect();
+            } else {
+              move_object();
             }
             break;
           default:
