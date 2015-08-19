@@ -217,15 +217,8 @@ EditorInputCenter::move_object() {
 
 void
 EditorInputCenter::rubber_object() {
-  for (auto i = Editor::current()->currentsector->moving_objects.begin();
-      i != Editor::current()->currentsector->moving_objects.end(); ++i) {
-    MovingObject* moving_object = *i;
-    Rectf bbox = moving_object->get_bbox();
-    if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
-        sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
-      moving_object->remove_me();
-      return;
-    }
+  if (dragged_object) {
+    dragged_object->remove_me();
   }
 }
 
@@ -284,8 +277,8 @@ EditorInputCenter::event(SDL_Event& ev) {
           }
         } break;
         case EditorInputGui::IP_OBJECT:
+          grab_object();
           if (Editor::current()->tileselect.object != "") {
-            grab_object();
             if (!dragged_object) {
               put_object();
             }
