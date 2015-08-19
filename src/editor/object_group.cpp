@@ -30,6 +30,7 @@ ObjectGroup::ObjectGroup(const Reader& reader) :
   icons()
 {
   icons.clear();
+  icons.push_back( ObjectIcon("#move", "images/engine/editor/arrow.png") );
 
   reader.get("name", name);
 
