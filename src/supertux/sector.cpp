@@ -1471,6 +1471,61 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 }
 
 bool
+Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object) const
+{
+  using namespace collision;
+
+  // check if no tile is in the way
+  float lsx = std::min(line_start.x, line_end.x);
+  float lex = std::max(line_start.x, line_end.x);
+  float lsy = std::min(line_start.y, line_end.y);
+  float ley = std::max(line_start.y, line_end.y);
+  for (float test_x = lsx; test_x <= lex; test_x += 16) {
+    for (float test_y = lsy; test_y <= ley; test_y += 16) {
+      for(auto i = solid_tilemaps.begin(); i != solid_tilemaps.end(); ++i) {
+        TileMap* solids = *i;
+        const Tile* tile = solids->get_tile_at(Vector(test_x, test_y));
+        if(!tile) continue;
+        // FIXME: check collision with slope tiles
+        if((tile->getAttributes() & Tile::SOLID)) return false;
+      }
+    }
+  }
+
+  // check if no object is in the way
+  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
+    const MovingObject* moving_object = *i;
+    if (moving_object == ignore_object) continue;
+    if (!moving_object->is_valid()) continue;
+    if ((moving_object->get_group() == COLGROUP_MOVING)
+        || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
+        || (moving_object->get_group() == COLGROUP_STATIC)) {
+      if(intersects_line(moving_object->get_bbox(), line_start, line_end)) return false;
+    }
+  }
+
+  return true;
+}
+
+bool
+Sector::can_see_player(const Vector& eye) const
+{
+    const std::vector<Player*> players = get_players();
+    for (auto playerIter = players.begin(); playerIter != players.end(); ++playerIter) {
+      Player* pl = *playerIter;
+
+      // test for free line of sight to any of all four corners and the middle of the player's bounding box
+      if (free_line_of_sight(eye, pl->get_bbox().p1, pl)) return true;
+      if (free_line_of_sight(eye, Vector(pl->get_bbox().p2.x, pl->get_bbox().p1.y), pl)) return true;
+      if (free_line_of_sight(eye, pl->get_bbox().p2, pl)) return true;
+      if (free_line_of_sight(eye, Vector(pl->get_bbox().p1.x, pl->get_bbox().p2.y), pl)) return true;
+      if (free_line_of_sight(eye, pl->get_bbox().get_middle(), pl)) return true;
+    }
+    return false;
+}
+
+
+bool
 Sector::add_smoke_cloud(const Vector& pos)
 {
   add_object(std::make_shared<SmokeCloud>(pos));
