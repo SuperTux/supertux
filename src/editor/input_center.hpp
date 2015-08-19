@@ -24,6 +24,7 @@
 #include "supertux/screen.hpp"
 
 class Rectf;
+class MovingObject;
 
 class EditorInputCenter
 {
@@ -43,14 +44,19 @@ class EditorInputCenter
 
     bool dragging;
     Vector drag_start;
+    MovingObject *dragged_object;
 
     void input_tile(Vector pos);
     void put_tile();
     void draw_rectangle();
     void fill();
+    void put_object();
 
     void rubber_object();
     void rubber_rect();
+
+    void grab_object();
+    void move_object();
 
     // sp is sector pos, tp is pos on tilemap.
     Vector tp_to_sp(Vector tp);
@@ -58,6 +64,9 @@ class EditorInputCenter
 
     // in sector position
     Rectf drag_rect();
+
+    EditorInputCenter(const EditorInputCenter&);
+    EditorInputCenter& operator=(const EditorInputCenter&);
 };
 
 #endif // INPUT_CENTER_HPP
