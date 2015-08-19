@@ -18,11 +18,13 @@
 
 #include "editor/editor.hpp"
 #include "editor/tool_icon.hpp"
+#include "math/rectf.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/game_object_ptr.hpp"
 #include "supertux/level.hpp"
+#include "supertux/moving_object.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
@@ -43,6 +45,29 @@ EditorInputCenter::EditorInputCenter() :
 
 EditorInputCenter::~EditorInputCenter()
 {
+}
+
+Rectf
+EditorInputCenter::drag_rect() {
+  int start_x, start_y, end_x, end_y;
+
+  if (drag_start.x < sector_pos.x) {
+    start_x = drag_start.x;
+    end_x = sector_pos.x;
+  } else {
+    start_x = sector_pos.x;
+    end_x = drag_start.x;
+  }
+
+  if (drag_start.y < sector_pos.y) {
+    start_y = drag_start.y;
+    end_y = sector_pos.y;
+  } else {
+    start_y = sector_pos.y;
+    end_y = drag_start.y;
+  }
+
+  return Rectf( Vector(start_x, start_y), Vector(end_x, end_y) );
 }
 
 void
@@ -68,27 +93,13 @@ EditorInputCenter::put_tile() {
 
 void
 EditorInputCenter::draw_rectangle() {
-  Vector start = sp_to_tp(drag_start);
-  int start_x, start_y, end_x, end_y;
 
-  if (start.x < hovered_tile.x) {
-    start_x = start.x;
-    end_x = hovered_tile.x;
-  } else {
-    start_x = hovered_tile.x;
-    end_x = start.x;
-  }
+  Rectf dr = drag_rect();
+  dr.p1 = sp_to_tp(dr.p1);
+  dr.p2 = sp_to_tp(dr.p2);
 
-  if (start.y < hovered_tile.y) {
-    start_y = start.y;
-    end_y = hovered_tile.y;
-  } else {
-    start_y = hovered_tile.y;
-    end_y = start.y;
-  }
-
-  for (int x = start_x; x <= end_x; x++) {
-    for (int y = start_y; y <= end_y; y++) {
+  for (int x = dr.p1.x; x <= dr.p2.x; x++) {
+    for (int y = dr.p1.y; y <= dr.p2.y; y++) {
       input_tile( Vector(x,y) );
     }
   }
@@ -178,6 +189,34 @@ EditorInputCenter::fill() {
 }
 
 void
+EditorInputCenter::rubber_object() {
+  for (auto i = Editor::current()->currentsector->moving_objects.begin();
+      i != Editor::current()->currentsector->moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+    Rectf bbox = moving_object->get_bbox();
+    if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
+        sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
+      moving_object->remove_me();
+      return;
+    }
+  }
+}
+
+void
+EditorInputCenter::rubber_rect() {
+  Rectf dr = drag_rect();
+  for (auto i = Editor::current()->currentsector->moving_objects.begin();
+      i != Editor::current()->currentsector->moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+    Rectf bbox = moving_object->get_bbox();
+    if (bbox.p2.x >= dr.p1.x && bbox.p1.x <= dr.p2.x &&
+        bbox.p2.y >= dr.p1.y && bbox.p1.y <= dr.p2.y ) {
+      moving_object->remove_me();
+    }
+  }
+}
+
+void
 EditorInputCenter::event(SDL_Event& ev) {
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN: if(ev.button.button == SDL_BUTTON_LEFT)
@@ -216,6 +255,8 @@ EditorInputCenter::event(SDL_Event& ev) {
               log_warning << "Error adding object " << Editor::current()->tileselect.object << ": " << e.what() << std::endl;
               return;
             }
+          } else {
+            rubber_object();
           }
         break;
         default:
@@ -225,19 +266,35 @@ EditorInputCenter::event(SDL_Event& ev) {
 
     case SDL_MOUSEBUTTONUP: if(ev.button.button == SDL_BUTTON_LEFT) {
       dragging = false;
+      if (Editor::current()->tileselect.input_type == EditorInputGui::IP_OBJECT) {
+        if (Editor::current()->tileselect.select_mode->get_mode() == 1) {
+          rubber_rect();
+        }
+      }
     } break;
 
     case SDL_MOUSEMOTION:
     {
       mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
       actualize_pos();
-      if (dragging && Editor::current()->tileselect.input_type == EditorInputGui::IP_TILE) {
-        switch (Editor::current()->tileselect.select_mode->get_mode()) {
-          case 0:
-            put_tile();
+      if (dragging) {
+        switch (Editor::current()->tileselect.input_type) {
+          case EditorInputGui::IP_TILE:
+            switch (Editor::current()->tileselect.select_mode->get_mode()) {
+              case 0:
+                put_tile();
+                break;
+              case 1:
+                draw_rectangle();
+                break;
+              default:
+                break;
+            }
             break;
-          case 1:
-            draw_rectangle();
+          case EditorInputGui::IP_OBJECT:
+            if (Editor::current()->tileselect.object == "") {
+              rubber_rect();
+            }
             break;
           default:
             break;
@@ -278,25 +335,25 @@ EditorInputCenter::draw(DrawingContext& context) {
                   LAYER_GUI-11);
 
     context.pop_transform();
+  }
 
-    if (dragging && Editor::current()->tileselect.select_mode->get_mode() == 1) {
-      // Draw selection rectangle...
-      Vector p0 = drag_start - Editor::current()->currentsector->camera->get_translation();
-      Vector p1 = Vector(drag_start.x, sector_pos.y) - Editor::current()->currentsector->camera->get_translation();
-      Vector p2 = Vector(sector_pos.x, drag_start.y) - Editor::current()->currentsector->camera->get_translation();
+  if (dragging && Editor::current()->tileselect.select_mode->get_mode() == 1) {
+    // Draw selection rectangle...
+    Vector p0 = drag_start - Editor::current()->currentsector->camera->get_translation();
+    Vector p1 = Vector(drag_start.x, sector_pos.y) - Editor::current()->currentsector->camera->get_translation();
+    Vector p2 = Vector(sector_pos.x, drag_start.y) - Editor::current()->currentsector->camera->get_translation();
 
-      context.draw_filled_rect(Rectf(p0, p1 + Vector(2, 2)),
-                               Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-      context.draw_filled_rect(Rectf(p2, mouse_pos + Vector(2, 2)),
-                               Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-      context.draw_filled_rect(Rectf(p0, p2 + Vector(2, 2)),
-                               Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-      context.draw_filled_rect(Rectf(p1, mouse_pos + Vector(2, 2)),
-                               Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
+    context.draw_filled_rect(Rectf(p0, p1 + Vector(2, 2)),
+                             Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
+    context.draw_filled_rect(Rectf(p2, mouse_pos + Vector(2, 2)),
+                             Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
+    context.draw_filled_rect(Rectf(p0, p2 + Vector(2, 2)),
+                             Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
+    context.draw_filled_rect(Rectf(p1, mouse_pos + Vector(2, 2)),
+                             Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
 
-      context.draw_filled_rect(Rectf(p0, mouse_pos),
-                               Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
-    }
+    context.draw_filled_rect(Rectf(p0, mouse_pos),
+                             Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
   }
 }
 
