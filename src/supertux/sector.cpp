@@ -936,9 +936,9 @@ void check_collisions(collision::Constraints* constraints,
 
   MovingObject *moving_object = dynamic_cast<MovingObject*> (object);
   CollisionHit dummy;
-  if(other != NULL && !other->collides(*object, dummy))
+  if(other != NULL && object != NULL && !other->collides(*object, dummy))
     return;
-  if(moving_object != NULL && !moving_object->collides(*other, dummy))
+  if(moving_object != NULL && other != NULL && !moving_object->collides(*other, dummy))
     return;
 
   // calculate intersection
@@ -967,7 +967,7 @@ void check_collisions(collision::Constraints* constraints,
   }
 
   constraints->ground_movement += other_movement;
-  if(other != NULL) {
+  if(other != NULL && object != NULL) {
     HitResponse response = other->collision(*object, dummy);
     if(response == ABORT_MOVE)
       return;
