@@ -23,6 +23,8 @@
 #include "math/vector.hpp"
 #include "supertux/screen.hpp"
 
+class Rectf;
+
 class EditorInputCenter
 {
   public:
@@ -47,9 +49,15 @@ class EditorInputCenter
     void draw_rectangle();
     void fill();
 
+    void rubber_object();
+    void rubber_rect();
+
     // sp is sector pos, tp is pos on tilemap.
     Vector tp_to_sp(Vector tp);
     Vector sp_to_tp(Vector sp);
+
+    // in sector position
+    Rectf drag_rect();
 };
 
 #endif // INPUT_CENTER_HPP
