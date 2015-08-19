@@ -40,7 +40,7 @@ class EditorInputGui
     void setup();
     void resize();
 
-    int tile;
+    Uint32 tile;
     std::string object;
 
     typedef enum {

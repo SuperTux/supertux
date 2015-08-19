@@ -40,8 +40,12 @@ class EditorInputCenter
     Vector mouse_pos;
 
     bool dragging;
+    Vector drag_start;
 
-    void input_tile();
+    void input_tile(Vector pos);
+    void put_tile();
+    void draw_rectangle();
+    void fill();
 
     // sp is sector pos, tp is pos on tilemap.
     Vector tp_to_sp(Vector tp);
