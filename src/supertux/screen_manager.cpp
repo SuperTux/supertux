@@ -281,12 +281,12 @@ ScreenManager::handle_screen_switch()
   {
     m_screen_fade.reset();
 
-    // keep track of the current screen, as only that needs a call to Screen::leave()
-    Screen* current_screen = m_screen_stack.empty() ? nullptr : m_screen_stack.back().get();
-
     // Screen::setup() might push more screens, so loop till everything is done
     while (!m_actions.empty())
     {
+      // keep track of the current screen, as only that needs a call to Screen::leave()
+      Screen* current_screen = m_screen_stack.empty() ? nullptr : m_screen_stack.back().get();
+
       // move actions to a new vector since setup() might modify it
       auto actions = std::move(m_actions);
 
@@ -301,34 +301,35 @@ ScreenManager::handle_screen_switch()
             if (current_screen == m_screen_stack.back().get())
             {
               m_screen_stack.back()->leave();
+              current_screen = nullptr;
             }
             m_screen_stack.pop_back();
             break;
 
           case Action::PUSH_ACTION:
             assert(action.screen);
-
-            if (!m_screen_stack.empty())
-            {
-              if (current_screen == m_screen_stack.back().get())
-              {
-                m_screen_stack.back()->leave();
-              }
-            }
             m_screen_stack.push_back(std::move(action.screen));
             break;
 
           case Action::QUIT_ACTION:
             m_screen_stack.clear();
+            current_screen = nullptr;
             break;
         }
       }
 
-      if (!m_screen_stack.empty())
+      if (current_screen != m_screen_stack.back().get())
       {
-        m_screen_stack.back()->setup();
-        m_speed = 1.0;
-        m_waiting_threads.wakeup();
+        if(current_screen != nullptr) {
+          current_screen->leave();
+        }
+
+        if (!m_screen_stack.empty())
+        {
+          m_screen_stack.back()->setup();
+          m_speed = 1.0;
+          m_waiting_threads.wakeup();
+        }
       }
     }
   }
