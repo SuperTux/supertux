@@ -282,7 +282,9 @@ Editor::event(SDL_Event& ev) {
     return;
   }
 
-  inputcenter.event(ev);
+  if (enabled) {
+    inputcenter.event(ev);
+  }
 
 }
 
