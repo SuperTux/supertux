@@ -17,6 +17,7 @@
 #include "editor/input_center.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/tool_icon.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/game_object.hpp"
@@ -35,7 +36,8 @@ EditorInputCenter::EditorInputCenter() :
   hovered_tile(0, 0),
   sector_pos(0, 0),
   mouse_pos(0, 0),
-  dragging(false)
+  dragging(false),
+  drag_start(0, 0)
 {
 }
 
@@ -44,19 +46,135 @@ EditorInputCenter::~EditorInputCenter()
 }
 
 void
-EditorInputCenter::input_tile() {
+EditorInputCenter::input_tile(Vector pos) {
   if ( !Editor::current()->layerselect.selected_tilemap ) {
     return;
   }
 
-  if ( hovered_tile.x < 0 || hovered_tile.y < 0 ||
-       hovered_tile.x >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_width() ||
-       hovered_tile.y >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_height()) {
+  if ( pos.x < 0 || pos.y < 0 ||
+       pos.x >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_width() ||
+       pos.y >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_height()) {
     return;
   }
 
-  ((TileMap *)Editor::current()->layerselect.selected_tilemap)->change(hovered_tile.x, hovered_tile.y,
+  ((TileMap *)Editor::current()->layerselect.selected_tilemap)->change(pos.x, pos.y,
                                                                        Editor::current()->tileselect.tile);
+}
+
+void
+EditorInputCenter::put_tile() {
+  input_tile(hovered_tile);
+}
+
+void
+EditorInputCenter::draw_rectangle() {
+  Vector start = sp_to_tp(drag_start);
+  int start_x, start_y, end_x, end_y;
+
+  if (start.x < hovered_tile.x) {
+    start_x = start.x;
+    end_x = hovered_tile.x;
+  } else {
+    start_x = hovered_tile.x;
+    end_x = start.x;
+  }
+
+  if (start.y < hovered_tile.y) {
+    start_y = start.y;
+    end_y = hovered_tile.y;
+  } else {
+    start_y = hovered_tile.y;
+    end_y = start.y;
+  }
+
+  for (int x = start_x; x <= end_x; x++) {
+    for (int y = start_y; y <= end_y; y++) {
+      input_tile( Vector(x,y) );
+    }
+  }
+}
+
+void
+EditorInputCenter::fill() {
+
+  if (! Editor::current()->layerselect.selected_tilemap) {
+    return;
+  }
+
+  // The tile that is going to be replaced:
+  Uint32 replace_tile =
+      ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_tile_id(hovered_tile.x, hovered_tile.y);
+
+  if (Editor::current()->tileselect.tile ==
+      ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_tile_id(hovered_tile.x, hovered_tile.y)) {
+    // Replacing by the same tiles shouldn't do anything.
+    return;
+  }
+
+  std::vector<Vector> pos_stack;
+  pos_stack.clear();
+  pos_stack.push_back(hovered_tile);
+
+  // Passing recursively trough all tiles to be replaced...
+  while (pos_stack.size()) {
+
+    if (pos_stack.size() > 1000000) {
+      log_warning << "More than 1'000'000 tiles in stack to fill, STOP" << std::endl;
+      return;
+    }
+
+    Vector pos = pos_stack[pos_stack.size() - 1];
+
+    // Tests for being inside tilemap:
+    if ( pos.x < 0 || pos.y < 0 ||
+         pos.x >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_width() ||
+         pos.y >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_height()) {
+      pos_stack.pop_back();
+      continue;
+    }
+
+    input_tile (pos);
+    Vector pos_;
+
+    // Going left...
+    pos_ = pos + Vector(-1, 0);
+    if (pos_.x >= 0) {
+      if (replace_tile == ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_tile_id(pos_.x, pos_.y)) {
+        pos_stack.push_back( pos_ );
+        continue;
+      }
+    }
+
+    // Going right...
+    pos_ = pos + Vector(1, 0);
+    if (pos_.x < ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_width()) {
+      if (replace_tile == ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_tile_id(pos_.x, pos_.y)) {
+        pos_stack.push_back( pos_ );
+        continue;
+      }
+    }
+
+    // Going up...
+    pos_ = pos + Vector(0, -1);
+    if (pos_.y >= 0) {
+      if (replace_tile == ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_tile_id(pos_.x, pos_.y)) {
+        pos_stack.push_back( pos_ );
+        continue;
+      }
+    }
+
+    // Going down...
+    pos_ = pos + Vector(0, 1);
+    if (pos_.y < ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_height()) {
+      if (replace_tile == ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_tile_id(pos_.x, pos_.y)) {
+        pos_stack.push_back( pos_ );
+        continue;
+      }
+    }
+
+    // When tiles on each side are already filled or occupied by another tiles, it ends.
+    pos_stack.pop_back();
+  }
 }
 
 void
@@ -65,10 +183,19 @@ EditorInputCenter::event(SDL_Event& ev) {
     case SDL_MOUSEBUTTONDOWN: if(ev.button.button == SDL_BUTTON_LEFT)
     {
       dragging = true;
+      drag_start = sector_pos;
       switch (Editor::current()->tileselect.input_type) {
         case EditorInputGui::IP_TILE: {
-          //add tile
-          input_tile();
+          switch (Editor::current()->tileselect.select_mode->get_mode()) {
+            case 0:
+              put_tile();
+              break;
+            case 2:
+              fill();
+              break;
+            default:
+              break;
+          }
         } break;
         case EditorInputGui::IP_OBJECT:
           if (Editor::current()->tileselect.object != "") {
@@ -105,7 +232,16 @@ EditorInputCenter::event(SDL_Event& ev) {
       mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
       actualize_pos();
       if (dragging && Editor::current()->tileselect.input_type == EditorInputGui::IP_TILE) {
-        input_tile();
+        switch (Editor::current()->tileselect.select_mode->get_mode()) {
+          case 0:
+            put_tile();
+            break;
+          case 1:
+            draw_rectangle();
+            break;
+          default:
+            break;
+        }
       }
 // update tip
     } break;
@@ -142,6 +278,25 @@ EditorInputCenter::draw(DrawingContext& context) {
                   LAYER_GUI-11);
 
     context.pop_transform();
+
+    if (dragging && Editor::current()->tileselect.select_mode->get_mode() == 1) {
+      // Draw selection rectangle...
+      Vector p0 = drag_start - Editor::current()->currentsector->camera->get_translation();
+      Vector p1 = Vector(drag_start.x, sector_pos.y) - Editor::current()->currentsector->camera->get_translation();
+      Vector p2 = Vector(sector_pos.x, drag_start.y) - Editor::current()->currentsector->camera->get_translation();
+
+      context.draw_filled_rect(Rectf(p0, p1 + Vector(2, 2)),
+                               Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
+      context.draw_filled_rect(Rectf(p2, mouse_pos + Vector(2, 2)),
+                               Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
+      context.draw_filled_rect(Rectf(p0, p2 + Vector(2, 2)),
+                               Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
+      context.draw_filled_rect(Rectf(p1, mouse_pos + Vector(2, 2)),
+                               Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
+
+      context.draw_filled_rect(Rectf(p0, mouse_pos),
+                               Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
+    }
   }
 }
 
