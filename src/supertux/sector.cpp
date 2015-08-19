@@ -22,6 +22,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
+#include "editor/editor.hpp"
 #include "lisp/list_iterator.hpp"
 #include "math/aatriangle.hpp"
 #include "object/background.hpp"
@@ -1331,6 +1332,12 @@ const float MAX_SPEED = 16.0f;
 void
 Sector::handle_collisions()
 {
+
+  if (Editor::current()) if(Editor::current()->levelloaded) {
+    return;
+    //Oběcts in editor shouldn't collide.
+  }
+
   using namespace collision;
 
   // calculate destination positions of the objects
