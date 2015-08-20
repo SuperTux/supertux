@@ -25,6 +25,7 @@
 
 class Rectf;
 class MovingObject;
+class Tip;
 
 class EditorInputCenter
 {
@@ -45,6 +46,7 @@ class EditorInputCenter
     bool dragging;
     Vector drag_start;
     MovingObject *dragged_object;
+    std::unique_ptr<Tip> object_tip;
 
     void input_tile(Vector pos);
     void put_tile();
@@ -57,6 +59,9 @@ class EditorInputCenter
 
     void grab_object();
     void move_object();
+    void hover_object();
+
+    void draw_tile_tip(DrawingContext&);
 
     // sp is sector pos, tp is pos on tilemap.
     Vector tp_to_sp(Vector tp);

@@ -114,6 +114,33 @@ Menu::add_controlfield(int id, const std::string& text,
 }
 
 MenuItem*
+Menu::add_textfield(int id, const std::string& text, std::string input)
+{
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_TEXTFIELD, id));
+  item->change_text(text);
+  item->change_input(input);
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_numfield(int id, const std::string& text, float input)
+{
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_NUMFIELD, id));
+  item->change_text(text);
+  item->change_input(std::to_string(input));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_intfield(int id, const std::string& text, int input)
+{
+  std::unique_ptr<MenuItem> item(new MenuItem(MN_NUMFIELD, id));
+  item->change_text(text);
+  item->change_input(std::to_string(input));
+  return add_item(std::move(item));
+}
+
+MenuItem*
 Menu::add_entry(int id, const std::string& text)
 {
   std::unique_ptr<MenuItem> item(new MenuItem(MN_ACTION, id));
@@ -223,8 +250,10 @@ Menu::process_input()
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
 
-  if(controller->pressed(Controller::ACTION)
-     || controller->pressed(Controller::MENU_SELECT)) {
+  if((controller->pressed(Controller::ACTION)
+     || controller->pressed(Controller::MENU_SELECT)) &&
+     !(items[active_item]->kind == MN_TEXTFIELD ||
+       items[active_item]->kind == MN_NUMFIELD)) {
     menuaction = MENU_ACTION_HIT;
   }
   if(controller->pressed(Controller::ESCAPE) ||
@@ -326,6 +355,7 @@ Menu::process_action(MenuAction menuaction)
 
         case MN_TEXTFIELD:
         case MN_NUMFIELD:
+        case MN_INTFIELD:
           menuaction = MENU_ACTION_DOWN;
           process_input();
           break;
@@ -342,7 +372,8 @@ Menu::process_action(MenuAction menuaction)
 
     case MENU_ACTION_REMOVE:
       if(items[active_item]->kind == MN_TEXTFIELD
-         || items[active_item]->kind == MN_NUMFIELD)
+         || items[active_item]->kind == MN_NUMFIELD
+         || items[active_item]->kind == MN_INTFIELD)
       {
         if(!items[active_item]->input.empty())
         {
@@ -360,6 +391,8 @@ Menu::process_action(MenuAction menuaction)
     case MENU_ACTION_INPUT:
       if(items[active_item]->kind == MN_TEXTFIELD
          || (items[active_item]->kind == MN_NUMFIELD
+             && mn_input_char >= '0' && mn_input_char <= '9')
+         || (items[active_item]->kind == MN_INTFIELD
              && mn_input_char >= '0' && mn_input_char <= '9'))
       {
         items[active_item]->input.push_back(mn_input_char);
@@ -453,6 +486,7 @@ Menu::draw_item(DrawingContext& context, int index)
     }
     case MN_TEXTFIELD:
     case MN_NUMFIELD:
+    case MN_INTFIELD:
     case MN_CONTROLFIELD:
     {
       if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
@@ -710,6 +744,14 @@ Menu::event(const SDL_Event& ev)
       }
     }
     break;
+
+    case SDL_TEXTINPUT:
+      if (items[active_item]->kind == MN_TEXTFIELD ||
+          items[active_item]->kind == MN_NUMFIELD ||
+          items[active_item]->kind == MN_INTFIELD){
+        items[active_item]->input = items[active_item]->input + ev.text.text;
+      }
+      break;
 
     default:
       break;

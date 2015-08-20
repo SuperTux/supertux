@@ -20,6 +20,7 @@
 #include <memory>
 #include <string>
 
+#include "editor/object_settings.hpp"
 #include "lisp/writer.hpp"
 
 class DrawingContext;
@@ -67,6 +68,9 @@ public:
   virtual bool do_save() {
     return true;
   }
+
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set() {}
 
   /** returns true if the object is not scheduled to be removed yet */
   bool is_valid() const
