@@ -64,6 +64,9 @@ EditorMenu::menu_action(MenuItem* item)
       MenuManager::instance().clear_menu_stack();
       Editor::current()->quit_request = true;
       break;
+
+    default:
+      break;
   }
 }
 
