@@ -18,6 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "editor/tool_icon.hpp"
+#include "editor/tip.hpp"
 #include "math/rectf.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
@@ -40,7 +41,8 @@ EditorInputCenter::EditorInputCenter() :
   mouse_pos(0, 0),
   dragging(false),
   drag_start(0, 0),
-  dragged_object(NULL)
+  dragged_object(NULL),
+  object_tip()
 {
 }
 
@@ -190,6 +192,22 @@ EditorInputCenter::fill() {
 }
 
 void
+EditorInputCenter::hover_object() {
+  for (auto i = Editor::current()->currentsector->moving_objects.begin();
+       i != Editor::current()->currentsector->moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+    Rectf bbox = moving_object->get_bbox();
+    if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
+        sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
+      std::unique_ptr<Tip> new_tip(new Tip(moving_object));
+      object_tip = move(new_tip);
+      return;
+    }
+  }
+  object_tip = NULL;
+}
+
+void
 EditorInputCenter::grab_object() {
   for (auto i = Editor::current()->currentsector->moving_objects.begin();
       i != Editor::current()->currentsector->moving_objects.end(); ++i) {
@@ -330,7 +348,8 @@ EditorInputCenter::event(SDL_Event& ev) {
             break;
         }
       }
-// update tip
+      // update tip
+      hover_object();
     } break;
     default:
       break;
@@ -344,7 +363,7 @@ EditorInputCenter::actualize_pos() {
 }
 
 void
-EditorInputCenter::draw(DrawingContext& context) {
+EditorInputCenter::draw_tile_tip(DrawingContext& context) {
   if ( Editor::current()->tileselect.input_type == EditorInputGui::IP_TILE ) {
 
     if ( !Editor::current()->layerselect.selected_tilemap ) {
@@ -365,6 +384,15 @@ EditorInputCenter::draw(DrawingContext& context) {
                   LAYER_GUI-11);
 
     context.pop_transform();
+  }
+}
+
+void
+EditorInputCenter::draw(DrawingContext& context) {
+  draw_tile_tip(context);
+
+  if (object_tip) {
+    object_tip->draw(context, mouse_pos);
   }
 
   if (dragging && Editor::current()->tileselect.select_mode->get_mode() == 1) {
