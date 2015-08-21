@@ -48,6 +48,8 @@ public:
     return "goldbomb";
   }
 
+  virtual ObjectSettings get_settings();
+
   void stop_looping_sounds();
   void play_looping_sounds();
 

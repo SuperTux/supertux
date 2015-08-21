@@ -18,6 +18,7 @@
 
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 
 #include <algorithm>
 
@@ -83,6 +84,16 @@ BouncingSnowball::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
   collision_solid(hit);
   return CONTINUE;
+}
+
+
+ObjectSettings
+BouncingSnowball::get_settings() {
+  ObjectSettings result(_("Bouncing snowball"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 /* EOF */

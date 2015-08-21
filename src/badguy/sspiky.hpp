@@ -36,6 +36,8 @@ public:
     return "sspiky";
   }
 
+  virtual ObjectSettings get_settings();
+
 protected:
   enum SSpikyState {
     SSPIKY_SLEEPING,

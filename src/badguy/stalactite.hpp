@@ -38,6 +38,9 @@ public:
   virtual std::string get_class() {
     return "stalactite";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   enum StalactiteState {
     STALACTITE_HANGING,

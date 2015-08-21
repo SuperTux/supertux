@@ -34,6 +34,8 @@ public:
     return "angrystone";
   }
 
+  virtual ObjectSettings get_settings();
+
 protected:
   enum AngryStoneState {
     IDLE,

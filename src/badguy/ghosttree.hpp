@@ -44,6 +44,9 @@ public:
   virtual std::string get_class() {
     return "ghosttree";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   enum MyState {
     STATE_IDLE, STATE_SUCKING, STATE_SWALLOWING, STATE_DYING
