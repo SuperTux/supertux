@@ -34,6 +34,9 @@ public:
   virtual std::string get_class() {
     return "yeti_stalactite";
   }
+
+  virtual ObjectSettings get_settings();
+
 };
 
 #endif

@@ -30,6 +30,9 @@ public:
   virtual std::string get_class() {
     return "snowman";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   void loose_head();
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);

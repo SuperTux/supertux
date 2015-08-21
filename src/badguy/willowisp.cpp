@@ -28,6 +28,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -289,6 +290,21 @@ WillOWisp::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 
   std::cout << "[DEBUG] UnExpose me '" << name << "'\n";
   scripting::unexpose_object(vm, table_idx, name);
+}
+
+ObjectSettings
+WillOWisp::get_settings() {
+  ObjectSettings result(_("Will 'o' wisp"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Sector"), &target_sector));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawnpoint"), &target_spawnpoint));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Hit script"), &hit_script));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Track range"), &track_range));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Vanish range"), &vanish_range));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Fly speed"), &flyspeed));
+  return result;
 }
 
 void WillOWisp::stop_looping_sounds()

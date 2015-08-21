@@ -19,6 +19,7 @@
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 
 #include <math.h>
 
@@ -62,6 +63,16 @@ PoisonIvy::collision_squished(GameObject& object)
   }
   kill_squished(object);
   return true;
+}
+
+
+ObjectSettings
+PoisonIvy::get_settings() {
+  ObjectSettings result(_("Poisonous ivy"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 /* EOF */

@@ -33,6 +33,8 @@ public:
     return "captainsnowball";
   }
 
+  virtual ObjectSettings get_settings();
+
 protected:
   bool collision_squished(GameObject& object);
 

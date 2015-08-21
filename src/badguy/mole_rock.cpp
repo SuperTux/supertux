@@ -19,6 +19,7 @@
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 
 MoleRock::MoleRock(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
@@ -107,6 +108,15 @@ bool
 MoleRock::is_flammable() const
 {
   return false;
+}
+
+ObjectSettings
+MoleRock::get_settings() {
+  ObjectSettings result(_("Mole's rock"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 /* EOF */

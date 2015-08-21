@@ -38,6 +38,8 @@ public:
     return "dispenser";
   }
 
+  virtual ObjectSettings get_settings();
+
 protected:
   bool collision_squished(GameObject& object);
   HitResponse collision(GameObject& other, const CollisionHit& hit);

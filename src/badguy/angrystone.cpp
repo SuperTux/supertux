@@ -19,6 +19,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 
 static const float CHARGE_SPEED = 240;
 
@@ -179,6 +180,14 @@ bool
 AngryStone::is_flammable() const
 {
   return false;
+
+ObjectSettings
+AngryStone::get_settings() {
+  ObjectSettings result(_("Angry stone"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 /* EOF */

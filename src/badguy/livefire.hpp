@@ -36,6 +36,9 @@ public:
   virtual std::string get_class() {
     return "livefire";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   std::string death_sound;
 
@@ -55,6 +58,7 @@ public:
   LiveFireAsleep(const ReaderMapping& reader);
 
   void initialize();
+  virtual ObjectSettings get_settings();
 };
 
 class LiveFireDormant : public LiveFire
@@ -63,6 +67,7 @@ public:
   LiveFireDormant(const ReaderMapping& reader);
 
   void initialize();
+  virtual ObjectSettings get_settings();
 };
 
 #endif

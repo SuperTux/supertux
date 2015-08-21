@@ -33,6 +33,9 @@ public:
   virtual std::string get_class() {
     return "iceflame";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   float angle;
   float radius;

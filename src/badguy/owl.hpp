@@ -40,6 +40,8 @@ public:
     return "owl";
   }
 
+  virtual ObjectSettings get_settings();
+
 protected:
   bool is_above_player() const;
   void active_update (float elapsed_time);

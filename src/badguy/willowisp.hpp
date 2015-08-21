@@ -59,6 +59,9 @@ public:
   virtual std::string get_class() {
     return "willowisp";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const;
   HitResponse collision_player(Player& player, const CollisionHit& hit);

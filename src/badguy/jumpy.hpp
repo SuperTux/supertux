@@ -36,6 +36,8 @@ public:
     return "jumpy";
   }
 
+  virtual ObjectSettings get_settings();
+
 private:
   HitResponse hit(const CollisionHit& hit);
 

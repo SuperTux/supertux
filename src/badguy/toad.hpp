@@ -39,6 +39,9 @@ public:
   virtual std::string get_class() {
     return "toad";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   enum ToadState {
     IDLE,

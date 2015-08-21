@@ -30,6 +30,8 @@ public:
     return "spiky";
   }
 
+  virtual ObjectSettings get_settings();
+
 private:
 };
 
