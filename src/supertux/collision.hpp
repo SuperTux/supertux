@@ -131,6 +131,9 @@ bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
 void set_rectangle_rectangle_constraints(Constraints* constraints,
                                          const Rectf& r1, const Rectf& r2, const Vector& addl_ground_movement = Vector(0,0));
 
+bool line_intersects_line(const Vector& line1_start, const Vector& line1_end, const Vector& line2_start, const Vector& line2_end);
+bool intersects_line(const Rectf& r, const Vector& line_start, const Vector& line_end);
+
 } // namespace collision
 
 #endif

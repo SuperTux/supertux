@@ -22,6 +22,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 static const int SHAKE_RANGE_X = 40;
 static const float SHAKE_TIME = .8f;
@@ -49,7 +50,8 @@ Stalactite::active_update(float elapsed_time)
       if(player->get_bbox().p2.x > bbox.p1.x - SHAKE_RANGE_X
          && player->get_bbox().p1.x < bbox.p2.x + SHAKE_RANGE_X
          && player->get_bbox().p2.y > bbox.p1.y
-         && player->get_bbox().p1.y < bbox.p2.y + SHAKE_RANGE_Y) {
+         && player->get_bbox().p1.y < bbox.p2.y + SHAKE_RANGE_Y
+         && Sector::current()->can_see_player(get_bbox().get_middle())) {
         timer.start(SHAKE_TIME);
         state = STALACTITE_SHAKING;
         SoundManager::current()->play("sounds/cracking.wav", get_pos());

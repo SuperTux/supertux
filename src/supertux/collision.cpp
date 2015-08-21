@@ -174,6 +174,56 @@ void set_rectangle_rectangle_constraints(Constraints* constraints,
   }
 }
 
+bool line_intersects_line(const Vector& line1_start, const Vector& line1_end, const Vector& line2_start, const Vector& line2_end)
+{
+  // Adapted from Striker, (C) 1999 Joris van der Hoeven, GPL
+
+  float a1 = line1_start.x, b1 = line1_start.y, a2 = line1_end.x, b2 = line1_end.y;
+  float c1 = line2_start.x, d1 = line2_start.y, c2 = line2_end.x, d2 = line2_end.y;
+
+  float num = (b2-b1)*(c2-c1) - (a2-a1)*(d2-d1);
+  float den1 = (d2-b2)*(c1-c2) + (a2-c2)*(d1-d2);
+  float den2 = (d2-b2)*(a1-a2) + (a2-c2)*(b1-b2);
+
+  // normalize to positive numerator
+  if (num < 0) {
+    num = -num;
+    den1 = -den1;
+    den2 = -den2;
+  }
+
+  // numerator is zero -> Check for parallel or coinciding lines
+  if (num == 0) {
+    if ((b1-b2)*(c1-a2) != (a1-a2)*(d1-b2)) return false;
+    if (a1 == a2) {
+      std::swap(a1, b1);
+      std::swap(a2, b2);
+      std::swap(c1, d1);
+      std::swap(c2, d2);
+    }
+    if (a1 > a2) std::swap(a1, a2);
+    if (c1 > c2) std::swap(c1, c2);
+    return ((a1 <= c2) && (a2 >= c1));
+  }
+
+  // Standard check
+  return (den1>=0) && (den1<=num) && (den2>=0) && (den2<=num);
+
+}
+
+bool intersects_line(const Rectf& r, const Vector& line_start, const Vector& line_end)
+{
+  Vector p1 = r.p1;
+  Vector p2 = Vector(r.p2.x, r.p1.y);
+  Vector p3 = r.p2;
+  Vector p4 = Vector(r.p1.x, r.p2.y);
+  if (line_intersects_line(p1, p2, line_start, line_end)) return true;
+  if (line_intersects_line(p2, p3, line_start, line_end)) return true;
+  if (line_intersects_line(p3, p4, line_start, line_end)) return true;
+  if (line_intersects_line(p4, p1, line_start, line_end)) return true;
+  return false;
+}
+
 }
 
 /* EOF */
