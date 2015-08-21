@@ -37,6 +37,9 @@ public:
   virtual std::string get_class() {
     return "livefire";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   SpritePtr lightsprite;
   std::string death_sound;
@@ -57,6 +60,7 @@ public:
   LiveFireAsleep(const Reader& reader);
 
   void initialize();
+  virtual ObjectSettings get_settings();
 };
 
 class LiveFireDormant : public LiveFire
@@ -65,6 +69,7 @@ public:
   LiveFireDormant(const Reader& reader);
 
   void initialize();
+  virtual ObjectSettings get_settings();
 };
 
 #endif

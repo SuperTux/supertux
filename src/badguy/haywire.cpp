@@ -24,6 +24,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 #define TIME_EXPLOSION 5.0
@@ -184,6 +185,16 @@ bool
 Haywire::is_freezable() const
 {
   return true;
+}
+
+
+ObjectSettings
+Haywire::get_settings() {
+  ObjectSettings result(_("Haywire"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 /* vim: set sw=2 sts=2 et : */

@@ -34,6 +34,8 @@ public:
     return "darttrap";
   }
 
+  virtual ObjectSettings get_settings();
+
 protected:
   enum State {
     IDLE, LOADING

@@ -39,6 +39,9 @@ public:
   virtual std::string get_class() {
     return "fish";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   HitResponse hit(const CollisionHit& );
   void start_waiting();

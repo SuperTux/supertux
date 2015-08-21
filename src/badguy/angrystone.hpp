@@ -32,6 +32,9 @@ public:
   virtual std::string get_class() {
     return "angrystone";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   enum AngryStoneState {
     IDLE,

@@ -27,6 +27,9 @@ public:
   virtual std::string get_class() {
     return "snowball";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   bool collision_squished(GameObject& object);
 

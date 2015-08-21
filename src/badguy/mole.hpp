@@ -36,6 +36,9 @@ public:
   virtual std::string get_class() {
     return "mole";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   enum MoleState {
     PRE_THROWING,

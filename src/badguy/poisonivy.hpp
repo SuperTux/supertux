@@ -29,6 +29,9 @@ public:
   virtual std::string get_class() {
     return "poisonivy";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   bool collision_squished(GameObject& object);
 

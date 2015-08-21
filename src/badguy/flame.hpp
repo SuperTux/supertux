@@ -39,6 +39,9 @@ public:
   virtual std::string get_class() {
     return "flame";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   float angle;
   float radius;

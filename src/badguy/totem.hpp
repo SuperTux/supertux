@@ -37,6 +37,9 @@ public:
   virtual std::string get_class() {
     return "totem";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   bool collision_squished(GameObject& object);
   void kill_fall();

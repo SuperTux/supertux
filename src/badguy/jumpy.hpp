@@ -34,6 +34,9 @@ public:
   virtual std::string get_class() {
     return "jumpy";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   HitResponse hit(const CollisionHit& hit);
 

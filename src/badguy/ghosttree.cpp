@@ -26,6 +26,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 
 #include <algorithm>
 #include <math.h>
@@ -268,6 +269,16 @@ void
 GhostTree::spawn_lantern() {
   auto lantern = std::make_shared<Lantern>(get_bbox().get_middle() + SUCK_TARGET_OFFSET);
   Sector::current()->add_object(lantern);
+}
+
+
+ObjectSettings
+GhostTree::get_settings() {
+  ObjectSettings result(_("Ghost tree"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 /* EOF */

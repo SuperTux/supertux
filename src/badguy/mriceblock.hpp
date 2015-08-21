@@ -43,6 +43,9 @@ public:
   virtual std::string get_class() {
     return "mriceblock";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   enum IceState {
     ICESTATE_NORMAL,
@@ -66,6 +69,7 @@ class SmartBlock : public MrIceBlock
 {
 public:
   SmartBlock(const Reader& reader);
+  virtual ObjectSettings get_settings();
 };
 
 #endif

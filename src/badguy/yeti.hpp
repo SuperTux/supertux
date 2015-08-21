@@ -38,6 +38,9 @@ public:
   virtual std::string get_class() {
     return "yeti";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   void run();
   void jump_up();

@@ -32,6 +32,8 @@ public:
     return "crystallo";
   }
 
+  virtual ObjectSettings get_settings();
+
   void active_update(float elapsed_time);
 
 protected:

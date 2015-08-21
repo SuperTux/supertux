@@ -31,6 +31,9 @@ public:
   virtual std::string get_class() {
     return "plant";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   enum PlantState {
     PLANT_SLEEPING,

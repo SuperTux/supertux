@@ -36,6 +36,9 @@ public:
   virtual std::string get_class() {
     return "zeekling";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   bool collision_squished(GameObject& object);
   bool should_we_dive();

@@ -34,6 +34,9 @@ public:
   virtual std::string get_class() {
     return "sspiky";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   enum SSpikyState {
     SSPIKY_SLEEPING,

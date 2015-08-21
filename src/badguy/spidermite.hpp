@@ -35,6 +35,9 @@ public:
   virtual std::string get_class() {
     return "spidermite";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   enum SpiderMiteMode {
     FLY_UP,

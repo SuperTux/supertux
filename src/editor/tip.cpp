@@ -28,7 +28,8 @@
 #include "video/video_system.hpp"
 
 Tip::Tip(GameObject* object) :
-  strings()
+  strings(),
+  header("")
 {
   strings.clear();
   if (!object) {
@@ -37,8 +38,8 @@ Tip::Tip(GameObject* object) :
   }
 
   ObjectSettings os = object->get_settings();
-  std::string text = os.name;
-  strings.push_back(text);
+  header = os.name;
+  std::string text;
 
   for(auto i = os.options.begin(); i != os.options.end(); ++i) {
     ObjectOption* oo = &(*i);
@@ -56,6 +57,9 @@ Tip::Tip(GameObject* object) :
       case MN_TOGGLE:
         text += (*((bool *)(oo->option))) ? _("true") : _("false");
         break;
+      case MN_STRINGSELECT:
+        text += oo->select[*((int *)(oo->option))];
+        break;
       default:
         text += _("Unknown");
         break;
@@ -70,12 +74,14 @@ Tip::~Tip() {
 
 void
 Tip::draw(DrawingContext& context, Vector pos) {
+  context.draw_text(Resources::normal_font, header, pos,
+                    ALIGN_RIGHT, LAYER_GUI-11, ColorScheme::Menu::label_color);
 
   for(auto i = strings.begin(); i != strings.end(); ++i) {
     std::string* str = &(*i);
-    context.draw_text(Resources::normal_font, *str, pos,
-                      ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
     pos.y += 22;
+    context.draw_text(Resources::normal_font, *str, pos,
+                      ALIGN_RIGHT, LAYER_GUI-11, ColorScheme::Menu::default_color);
   }
 }
 

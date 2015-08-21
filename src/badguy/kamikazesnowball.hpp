@@ -30,6 +30,9 @@ public:
   virtual std::string get_class() {
     return "kamikazesnowball";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   bool collision_squished(GameObject& object);
   HitResponse collision_player(Player& player, const CollisionHit& hit);

@@ -34,6 +34,9 @@ public:
   virtual std::string get_class() {
     return "stumpy";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   enum MyState {
     STATE_INVINCIBLE, STATE_NORMAL

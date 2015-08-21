@@ -38,6 +38,9 @@ class SkyDive : public BadGuy, public Portable
     virtual std::string get_class() {
       return "skydive";
     }
+
+    virtual ObjectSettings get_settings();
+
   protected:
     HitResponse collision_player(Player& player, const CollisionHit& hit);
     bool collision_squished (GameObject& obj);

@@ -28,6 +28,9 @@ public:
   virtual std::string get_class() {
     return "spiky";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
 };
 

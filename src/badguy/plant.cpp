@@ -19,6 +19,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 
 static const float PLANT_SPEED = 80;
 static const float WAKE_TIME = .5;
@@ -102,6 +103,16 @@ Plant::active_update(float elapsed_time) {
     }
   }
 
+}
+
+
+ObjectSettings
+Plant::get_settings() {
+  ObjectSettings result(_("Plant"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 /* EOF */

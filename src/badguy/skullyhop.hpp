@@ -39,6 +39,9 @@ public:
   virtual std::string get_class() {
     return "skullyhop";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   enum SkullyHopState {
     STANDING,
