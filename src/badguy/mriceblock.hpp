@@ -48,6 +48,8 @@ public:
     return "mriceblock";
   }
 
+  virtual ObjectSettings get_settings();
+
 protected:
   enum IceState {
     ICESTATE_NORMAL,
@@ -75,6 +77,7 @@ public:
   virtual std::string get_water_sprite() const {
     return "images/objects/water_drop/pink_drop.sprite";
   }
+  virtual ObjectSettings get_settings();
 };
 
 #endif

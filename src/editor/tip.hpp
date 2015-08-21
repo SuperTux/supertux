@@ -32,6 +32,7 @@ class Tip
 
   private:
     std::vector<std::string> strings;
+    std::string header;
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_TIP_HPP

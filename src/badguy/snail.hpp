@@ -40,6 +40,9 @@ public:
   virtual std::string get_class() {
     return "snail";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   bool collision_squished(GameObject& object);
   void be_normal(); /**< switch to state STATE_NORMAL */

@@ -23,8 +23,10 @@
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 Ghostflame::Ghostflame(const ReaderMapping& reader) :
@@ -38,6 +40,15 @@ bool
 Ghostflame::is_flammable() const
 {
   return false;
+}
+
+ObjectSettings
+Ghostflame::get_settings() {
+  ObjectSettings result(_("Ghost flame"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 /* EOF */

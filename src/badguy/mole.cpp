@@ -21,6 +21,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 
 #include <math.h>
 
@@ -192,6 +193,15 @@ Mole::ignite() {
   set_state(BURNING);
   run_dead_script();
   SoundManager::current()->play("sounds/fire.ogg", get_pos());
+}
+
+ObjectSettings
+Mole::get_settings() {
+  ObjectSettings result(_("Mole"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 /* EOF */

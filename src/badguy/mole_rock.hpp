@@ -45,6 +45,8 @@ public:
     return "mole_rock";
   }
 
+  virtual ObjectSettings get_settings();
+
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   const Vector initial_velocity; /**< velocity at time of creation */

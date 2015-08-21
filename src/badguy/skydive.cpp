@@ -21,6 +21,7 @@
 #include "object/anchor_point.hpp"
 #include "object/player.hpp"
 #include "object/explosion.hpp"
+#include "util/gettext.hpp"
 
 SkyDive::SkyDive(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/skydive/skydive.sprite"),
@@ -128,6 +129,16 @@ SkyDive::explode()
 
   remove_me ();
 } /* void explode */
+
+
+ObjectSettings
+SkyDive::get_settings() {
+  ObjectSettings result(_("Sky dive"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
+}
 
 /* vim: set sw=2 sts=2 et fdm=marker : */
 /* EOF */

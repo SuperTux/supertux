@@ -23,6 +23,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 
 static const int SHAKE_RANGE_X = 40;
 static const float SHAKE_TIME = .8f;
@@ -163,6 +164,16 @@ Stalactite::deactivate()
 {
   if(state != STALACTITE_HANGING)
     remove_me();
+}
+
+
+ObjectSettings
+Stalactite::get_settings() {
+  ObjectSettings result(_("Stalactite"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 /* EOF */

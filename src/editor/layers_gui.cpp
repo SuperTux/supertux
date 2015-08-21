@@ -174,7 +174,7 @@ EditorLayersGui::setup() {
 
 void
 EditorLayersGui::refresh_sector_text() {
-  sector_text = _("Sector:") + " " + Editor::current()->currentsector->get_name();
+  sector_text = _("Sector") + ": " + Editor::current()->currentsector->get_name();
   sector_text_width  = int(Resources::normal_font->get_text_width(sector_text)) + 6;
 }
 

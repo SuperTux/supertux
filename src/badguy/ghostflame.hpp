@@ -30,6 +30,7 @@ public:
     return "ghostflame";
   }
 
+  virtual ObjectSettings get_settings();
 };
 
 #endif

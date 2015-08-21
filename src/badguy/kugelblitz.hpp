@@ -39,6 +39,9 @@ public:
   virtual std::string get_class() {
     return "kugelblitz";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   void try_activate();
   HitResponse hit(const CollisionHit& hit);

@@ -26,6 +26,7 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/log.hpp"
+#include "util/gettext.hpp"
 
 #define FLYING_SPEED 120.0
 #define ACTIVATION_DISTANCE 128.0
@@ -218,6 +219,15 @@ Owl::ignite() {
     carried_object = NULL;
   }
   BadGuy::ignite();
+}
+
+ObjectSettings
+Owl::get_settings() {
+  ObjectSettings result(_("Owl"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 /* vim: set sw=2 sts=2 et fdm=marker : */

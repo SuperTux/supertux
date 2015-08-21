@@ -36,6 +36,9 @@ public:
   virtual std::string get_class() {
     return "igel";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
 //  bool collision_squished(GameObject& object);
 // Enable this and the igel will no longer be butt-jumpable when frozen.

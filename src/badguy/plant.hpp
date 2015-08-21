@@ -33,6 +33,8 @@ public:
     return "plant";
   }
 
+  virtual ObjectSettings get_settings();
+
 protected:
   enum PlantState {
     PLANT_SLEEPING,
