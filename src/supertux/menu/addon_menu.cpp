@@ -201,7 +201,7 @@ AddonMenu::menu_action(MenuItem* item)
           }
         });
       std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
-      dialog->set_title("Downloading Add-On Repository Index");
+      dialog->set_title(_("Downloading Add-On Repository Index"));
       MenuManager::instance().set_dialog(std::move(dialog));
     }
     catch (std::exception& e)
@@ -256,7 +256,7 @@ AddonMenu::menu_action(MenuItem* item)
           });
 
         std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
-        dialog->set_title("Downloading " + generate_menu_item_text(addon));
+        dialog->set_title(str(boost::format( _("Downloading %s") ) % generate_menu_item_text(addon)));
         MenuManager::instance().set_dialog(std::move(dialog));
       }
     }
