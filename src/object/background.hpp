@@ -55,6 +55,8 @@ public:
   int get_layer() const
   { return layer; }
 
+  virtual ObjectSettings get_settings();
+
 private:
   enum Alignment {
     NO_ALIGNMENT,

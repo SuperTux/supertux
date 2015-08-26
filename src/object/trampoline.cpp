@@ -24,6 +24,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 /* Trampoline will accelerate player to to VY_INITIAL, if
@@ -136,6 +137,15 @@ bool
 Trampoline::is_portable() const
 {
   return Rock::is_portable() && portable;
+}
+
+ObjectSettings
+Trampoline::get_settings() {
+  ObjectSettings result(_("Trampoline"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Portable"), &portable));
+
+  return result;
 }
 
 /* EOF */

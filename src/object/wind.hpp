@@ -60,6 +60,9 @@ public:
   virtual std::string get_class() {
     return "wind";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   bool blowing; /**< true if wind is currently switched on */
   Vector speed;

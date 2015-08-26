@@ -22,6 +22,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 #include <sstream>
@@ -63,6 +64,16 @@ Ispy::save(lisp::Writer& writer) {
     case UP: break;
   }
   writer.write("script", script, false);
+}
+
+ObjectSettings
+Ispy::get_settings() {
+  ObjectSettings result(_("Ispy"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Script"), &script));
+  result.options.push_back( dir_option(&dir) );
+
+  return result;
 }
 
 HitResponse

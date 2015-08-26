@@ -78,6 +78,11 @@ public:
   /**
    * @}
    */
+  virtual std::string get_class() {
+    return "thunderstorm";
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   bool running; /**< whether we currently automatically trigger lightnings */

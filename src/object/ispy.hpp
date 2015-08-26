@@ -35,6 +35,9 @@ public:
   virtual std::string get_class() {
     return "ispy";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   enum IspyState {
     ISPYSTATE_IDLE,

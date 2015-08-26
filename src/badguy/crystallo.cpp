@@ -77,6 +77,7 @@ bool
 Crystallo::is_flammable() const
 {
   return false;
+}
 
 ObjectSettings
 Crystallo::get_settings() {

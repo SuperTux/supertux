@@ -26,6 +26,7 @@
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 #include <math.h>
@@ -209,5 +210,13 @@ WeakBlock::spreadHit()
   }
 }
 
+ObjectSettings
+WeakBlock::get_settings() {
+  ObjectSettings result(_("Weak block"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Linked"), &linked));
+
+  return result;
+}
 
 /* EOF */

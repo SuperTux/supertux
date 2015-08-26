@@ -37,6 +37,9 @@ public:
   virtual std::string get_class() {
     return "particle-snow";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   class SnowParticle : public Particle
   {

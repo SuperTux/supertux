@@ -180,6 +180,7 @@ bool
 AngryStone::is_flammable() const
 {
   return false;
+}
 
 ObjectSettings
 AngryStone::get_settings() {
