@@ -36,6 +36,7 @@
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 #include <stdexcept>
@@ -180,6 +181,32 @@ BonusBlock::save(lisp::Writer& writer) {
   if (hit_counter > 1) {
     writer.write("count", hit_counter);
   }
+}
+
+ObjectSettings
+BonusBlock::get_settings() {
+  ObjectSettings result(_("Bonus block"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Script"), &script));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Count"), &hit_counter));
+
+  ObjectOption coo(MN_STRINGSELECT, _("Content"), &contents);
+  coo.select.push_back(_("coin"));
+  coo.select.push_back(_("egg or fire flower"));
+  coo.select.push_back(_("egg or ice flower"));
+  coo.select.push_back(_("egg or air flower"));
+  coo.select.push_back(_("egg or earth flower"));
+  coo.select.push_back(_("star"));
+  coo.select.push_back(_("tux doll"));
+  coo.select.push_back(_("custom"));
+  coo.select.push_back(_("script"));
+  coo.select.push_back(_("light"));
+  coo.select.push_back(_("trampoline"));
+  coo.select.push_back(_("coin rain"));
+  coo.select.push_back(_("coin explosion"));
+  result.options.push_back(coo);
+
+  return result;
 }
 
 bool

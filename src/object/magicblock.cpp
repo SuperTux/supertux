@@ -28,6 +28,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace {
@@ -85,6 +86,14 @@ void
 MagicBlock::save(lisp::Writer& writer) {
   MovingSprite::save(writer);
   writer.write("color", color.toVector(false));
+}
+
+ObjectSettings
+MagicBlock::get_settings() {
+  ObjectSettings result(_("Magic block"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  return result;
 }
 
 void

@@ -35,6 +35,9 @@ public:
   virtual std::string get_class() {
     return "particles-rain";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   class RainParticle : public Particle
   {

@@ -24,6 +24,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 Lantern::Lantern(const ReaderMapping& reader) :
@@ -58,6 +59,14 @@ void
 Lantern::save(lisp::Writer& writer) {
   MovingSprite::save(writer);
   writer.write("color", lightcolor.toVector(false));
+}
+
+ObjectSettings
+Lantern::get_settings() {
+  ObjectSettings result(_("Lantern"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  return result;
 }
 
 Lantern::~Lantern()

@@ -70,6 +70,9 @@ public:
   virtual std::string get_class() {
     return "leveltime";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   SurfacePtr time_surface;
   bool running;

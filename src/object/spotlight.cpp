@@ -19,6 +19,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 Spotlight::Spotlight(const ReaderMapping& lisp) :
@@ -61,6 +62,14 @@ Spotlight::save(lisp::Writer& writer) {
   writer.write("x", position.x);
   writer.write("y", position.y);
   writer.write("color", color.toVector(false));
+}
+
+ObjectSettings
+Spotlight::get_settings() {
+  ObjectSettings result(_("Spotlight"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  return result;
 }
 
 void

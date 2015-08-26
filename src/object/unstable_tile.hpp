@@ -36,6 +36,9 @@ public:
   virtual std::string get_class() {
     return "unstable_tile";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   enum State {
     STATE_NORMAL,   /**< default state */

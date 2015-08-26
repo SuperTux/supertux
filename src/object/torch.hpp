@@ -35,6 +35,9 @@ public:
   virtual std::string get_class() {
     return "torch";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   SpritePtr m_torch;
   SpritePtr m_flame;

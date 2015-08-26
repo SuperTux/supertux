@@ -22,6 +22,7 @@
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
+#include "util/gettext.hpp"
 
 CometParticleSystem::CometParticleSystem()
 {
@@ -76,6 +77,15 @@ void CometParticleSystem::update(float elapsed_time)
     }
   }
 #endif
+}
+
+ObjectSettings
+CometParticleSystem::get_settings() {
+  ObjectSettings result(_("Comet particles"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
+
+  return result;
 }
 
 /* EOF */

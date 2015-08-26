@@ -150,7 +150,6 @@ MrBomb::is_portable() const
   return frozen;
 }
 
-
 ObjectSettings
 MrBomb::get_settings() {
   ObjectSettings result(_("Mr. Bomb"));

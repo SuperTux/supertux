@@ -35,6 +35,7 @@
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "trigger/climbable.hpp"
+#include "util/gettext.hpp"
 
 #include <math.h>
 

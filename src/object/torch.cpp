@@ -19,6 +19,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 Torch::Torch(const ReaderMapping& reader) :
@@ -82,6 +83,14 @@ Torch::collision(GameObject& other, const CollisionHit& )
     m_burning = true;
   }
   return ABORT_MOVE;
+}
+
+ObjectSettings
+Torch::get_settings() {
+  ObjectSettings result(_("Torch"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  return result;
 }
 
 /* EOF */

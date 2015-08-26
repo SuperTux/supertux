@@ -37,6 +37,8 @@ public:
     return "decal";
   }
 
+  virtual ObjectSettings get_settings();
+
 private:
   std::string default_action;
 };

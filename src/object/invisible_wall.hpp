@@ -33,6 +33,9 @@ public:
   virtual std::string get_class() {
     return "invisible_wall";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   Physic physic;
   float width, height;

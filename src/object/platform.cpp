@@ -21,6 +21,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 Platform::Platform(const ReaderMapping& reader) :
@@ -60,6 +61,14 @@ Platform::save(lisp::Writer& writer) {
     writer.write("running", true);
   }
   path->save(writer);
+}
+
+ObjectSettings
+Platform::get_settings() {
+  ObjectSettings result(_("Platform"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  return result;
 }
 
 /*

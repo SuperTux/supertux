@@ -37,6 +37,9 @@ public:
   virtual std::string get_class() {
     return "infoblock";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   virtual void hit(Player& player);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
