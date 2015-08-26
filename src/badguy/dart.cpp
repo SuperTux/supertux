@@ -130,6 +130,7 @@ bool
 Dart::is_flammable() const
 {
   return false;
+}
 
 ObjectSettings
 Dart::get_settings() {

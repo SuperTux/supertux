@@ -23,6 +23,7 @@
 #include "scripting/wind.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
@@ -59,6 +60,18 @@ Wind::save(lisp::Writer& writer) {
   writer.write("speed-y", speed.y);
   writer.write("acceleration", acceleration);
   writer.write("blowing", blowing);
+}
+
+ObjectSettings
+Wind::get_settings() {
+  ObjectSettings result(_("Scripted object"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed X"), &speed.x));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed Y"), &speed.y));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Acceleration"), &acceleration));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Blowing"), &blowing));
+
+  return result;
 }
 
 void

@@ -41,6 +41,9 @@ public:
   virtual std::string get_class() {
     return "particles-comets";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   class CometParticle : public Particle
   {

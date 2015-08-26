@@ -31,6 +31,9 @@ public:
   virtual std::string get_class() {
     return "hurting_platform";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
 
 };

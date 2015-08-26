@@ -19,6 +19,7 @@
 #include "badguy/badguy.hpp"
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 
 HurtingPlatform::HurtingPlatform(const ReaderMapping& reader)
   : Platform(reader, "images/objects/sawblade/sawblade.sprite")
@@ -42,6 +43,15 @@ HurtingPlatform::collision(GameObject& other, const CollisionHit& )
   }
 
   return FORCE_MOVE;
+}
+
+
+ObjectSettings
+HurtingPlatform::get_settings() {
+  ObjectSettings result(_("Hurting Platform"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  return result;
 }
 
 /* EOF */

@@ -23,6 +23,7 @@
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 Coin::Coin(const Vector& pos)
@@ -78,6 +79,13 @@ Coin::save(lisp::Writer& writer) {
   if (path) {
     path->save(writer);
   }
+}
+
+ObjectSettings
+Coin::get_settings() {
+  ObjectSettings result(_("Coin"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  return result;
 }
 
 void
