@@ -40,6 +40,9 @@ public:
   virtual std::string get_class() {
     return "rock";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   Physic physic;
   bool on_ground;

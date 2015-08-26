@@ -34,6 +34,9 @@ public:
   virtual std::string get_class() {
     return "pneumatic-platform";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   PneumaticPlatform* master; /**< pointer to PneumaticPlatform that does movement calculation */
   PneumaticPlatform* slave; /**< pointer to PneumaticPlatform that reacts to master platform's movement calculation */

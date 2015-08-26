@@ -35,6 +35,9 @@ public:
   virtual std::string get_class() {
     return "ispy";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   bool line_intersects_line(Vector line1_start, Vector line1_end, Vector line2_start, Vector line2_end);
   bool intersects_line(Rectf r, Vector line_start, Vector line_end);

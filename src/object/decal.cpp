@@ -16,6 +16,7 @@
 
 #include "object/decal.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 Decal::Decal(const Reader& reader) :
@@ -37,6 +38,15 @@ Decal::save(lisp::Writer& writer) {
   MovingSprite::save(writer);
   writer.write("solid", group == COLGROUP_STATIC);
   writer.write("action", default_action);
+}
+
+ObjectSettings
+Decal::get_settings() {
+  ObjectSettings result(_("Decal"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Action"), &default_action));
+
+  return result;
 }
 
 Decal::~Decal()

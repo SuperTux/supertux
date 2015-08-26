@@ -79,6 +79,8 @@ public:
    * @}
    */
 
+  virtual ObjectSettings get_settings();
+
 protected:
   virtual void hit(Player& player);
   virtual void update(float time);

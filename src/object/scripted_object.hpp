@@ -62,6 +62,9 @@ public:
   virtual std::string get_class() {
     return "scriptedobject";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   Physic physic;
   std::string name;

@@ -33,6 +33,9 @@ public:
   virtual std::string get_class() {
     return "pushbutton";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   enum PushButtonState {
     OFF,

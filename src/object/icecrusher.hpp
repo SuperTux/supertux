@@ -38,6 +38,9 @@ public:
   virtual std::string get_class() {
     return "icecrusher";
   }
+
+  virtual ObjectSettings get_settings();
+
 #if 0
   const Vector& get_speed() const
   {

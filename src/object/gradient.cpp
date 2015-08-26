@@ -18,6 +18,7 @@
 #include "object/camera.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 #include <stdexcept>
@@ -104,6 +105,21 @@ Gradient::save(lisp::Writer& writer) {
     writer.write("top_color"   , gradient_top.toVector(false));
     writer.write("bottom_color", gradient_bottom.toVector(false));
   }
+}
+
+ObjectSettings
+Gradient::get_settings() {
+  ObjectSettings result(_("Gradient"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  ObjectOption doo(MN_STRINGSELECT, _("Direction"), &gradient_direction);
+  doo.select.push_back(_("vertical"));
+  doo.select.push_back(_("horizontal"));
+  doo.select.push_back(_("vertical sector"));
+  doo.select.push_back(_("horizontal sector"));
+  result.options.push_back(doo);
+
+  return result;
 }
 
 Gradient::~Gradient()

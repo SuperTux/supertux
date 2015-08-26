@@ -22,6 +22,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 namespace {
@@ -60,6 +61,16 @@ Thunderstorm::save(lisp::Writer& writer) {
   GameObject::save(writer);
   writer.write("running", running);
   writer.write("interval", interval);
+}
+
+ObjectSettings
+Thunderstorm::get_settings() {
+  ObjectSettings result(_("Thunderstorm"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Running"), &running));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Interval"), &interval));
+
+  return result;
 }
 
 void

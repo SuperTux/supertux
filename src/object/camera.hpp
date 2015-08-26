@@ -74,7 +74,7 @@ public:
 
   enum CameraMode
   {
-    NORMAL, AUTOSCROLL, SCROLLTO, MANUAL
+    NORMAL, AUTOSCROLL, MANUAL, SCROLLTO
   };
   CameraMode mode;
 
@@ -85,6 +85,9 @@ public:
   virtual std::string get_class() {
     return "camera";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   void update_scroll_normal(float elapsed_time);
   void update_scroll_autoscroll(float elapsed_time);

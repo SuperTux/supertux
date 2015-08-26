@@ -21,6 +21,7 @@
 
 #include "math/random_generator.hpp"
 #include "supertux/globals.hpp"
+#include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
 
 //FIXME: Sometimes both ghosts have the same image
@@ -67,6 +68,15 @@ void GhostParticleSystem::update(float elapsed_time)
       particle->pos.x = graphicsRandom.rand(static_cast<int>(virtual_width));
     }
   }
+}
+
+ObjectSettings
+GhostParticleSystem::get_settings() {
+  ObjectSettings result(_("Ghost particles"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
+
+  return result;
 }
 
 /* EOF */

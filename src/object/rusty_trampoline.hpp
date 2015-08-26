@@ -40,6 +40,9 @@ public:
   virtual std::string get_class() {
     return "rustytrampoline";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   bool portable;
   int counter;

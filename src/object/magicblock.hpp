@@ -39,6 +39,9 @@ public:
   virtual std::string get_class() {
     return "magicblock";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   bool is_solid;
   float trigger_red;

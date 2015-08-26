@@ -21,6 +21,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 Candle::Candle(const Reader& lisp)
@@ -77,6 +78,16 @@ Candle::save(lisp::Writer& writer) {
   writer.write("burning", burning);
   writer.write("flicker", flicker);
   writer.write("color", lightcolor.toVector(false));
+}
+
+ObjectSettings
+Candle::get_settings() {
+  ObjectSettings result(_("Candle"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Burning"), &burning));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Flicker"), &name));
+
+  return result;
 }
 
 void

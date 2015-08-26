@@ -40,6 +40,8 @@ public:
     return "coin";
   }
 
+  virtual ObjectSettings get_settings();
+
 private:
   std::shared_ptr<Path> path;
   std::shared_ptr<PathWalker> walker;

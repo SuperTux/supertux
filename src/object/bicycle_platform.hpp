@@ -34,6 +34,9 @@ public:
   virtual std::string get_class() {
     return "bicycle-platform";
   }
+
+  virtual ObjectSettings get_settings();
+
 protected:
   BicyclePlatform* master; /**< pointer to BicyclePlatform that does movement calculation */
   BicyclePlatform* slave; /**< pointer to BicyclePlatform that reacts to master platform's movement calculation */

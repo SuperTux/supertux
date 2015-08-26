@@ -37,6 +37,9 @@ public:
   virtual std::string get_class() {
     return "spotlight";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   Vector  position;
   float   angle;

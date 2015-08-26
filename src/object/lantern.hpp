@@ -50,6 +50,9 @@ public:
   virtual std::string get_class() {
     return "lantern";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   Color lightcolor;
   SpritePtr lightsprite;

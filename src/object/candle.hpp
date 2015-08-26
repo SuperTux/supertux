@@ -49,6 +49,9 @@ public:
   virtual std::string get_class() {
     return "candle";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   bool burning; /**< true if candle is currently lighted */
   bool flicker; /**< true if candle light is to flicker */

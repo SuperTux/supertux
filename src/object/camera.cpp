@@ -28,6 +28,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,
@@ -123,6 +124,20 @@ Camera::save(lisp::Writer& writer){
     case SCROLLTO: break;
     break;
   }
+}
+
+ObjectSettings
+Camera::get_settings() {
+  ObjectSettings result(_("Camera"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  ObjectOption moo(MN_STRINGSELECT, _("Mode"), &defaultmode);
+  moo.select.push_back(_("normal"));
+  moo.select.push_back(_("auto scrolling"));
+  moo.select.push_back(_("manual"));
+  result.options.push_back(moo);
+
+  return result;
 }
 
 Camera::Camera(Sector* newsector, std::string name_) :

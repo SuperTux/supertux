@@ -20,6 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 #include <sstream>
@@ -46,6 +47,15 @@ void
 PushButton::save(lisp::Writer& writer) {
   MovingSprite::save(writer);
   writer.write("script", script, false);
+}
+
+ObjectSettings
+PushButton::get_settings() {
+  ObjectSettings result(_("Button"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Script"), &script));
+
+  return result;
 }
 
 void

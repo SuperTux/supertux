@@ -24,6 +24,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 AmbientSound::AmbientSound(const Reader& lisp) :
@@ -140,6 +141,18 @@ AmbientSound::save(lisp::Writer& writer) {
   writer.write("distance_bias", distance_bias);
   writer.write("sample", sample, false);
   writer.write("volume", maximumvolume);
+}
+
+ObjectSettings
+AmbientSound::get_settings() {
+  ObjectSettings result(_("Ambient sound"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &dimension.x));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &dimension.y));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance factor"), &distance_factor));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance bias"), &distance_bias));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Volume"), &maximumvolume));
+  return result;
 }
 
 void

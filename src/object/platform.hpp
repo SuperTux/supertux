@@ -67,6 +67,9 @@ public:
   virtual std::string get_class() {
     return "platform";
   }
+
+  virtual ObjectSettings get_settings();
+
 private:
   std::unique_ptr<Path> path;
   std::unique_ptr<PathWalker> walker;
