@@ -20,12 +20,10 @@
 #include "gui/menu.hpp"
 
 class AddonMenu;
-class ContribMenu;
-class World;
+class WorldSetMenu;
 
 enum MainMenuIDs {
   MNID_STARTGAME,
-  MNID_LEVELS_CONTRIB,
   MNID_ADDONS,
   MNID_OPTIONMENU,
   MNID_LEVELEDITOR,
