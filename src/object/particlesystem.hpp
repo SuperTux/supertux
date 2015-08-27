@@ -49,7 +49,7 @@ public:
   ParticleSystem(float max_particle_size = 60);
   virtual ~ParticleSystem();
   virtual void save(lisp::Writer& writer);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "particle-system";
   }
 

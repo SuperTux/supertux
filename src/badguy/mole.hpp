@@ -36,7 +36,7 @@ public:
 
   virtual void ignite();
 
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "mole";
   }
 
@@ -48,8 +48,7 @@ private:
     THROWING,
     POST_THROWING,
     PEEKING,
-    DEAD,
-    BURNING
+    DEAD
   };
 
 private:

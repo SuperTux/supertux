@@ -35,7 +35,7 @@ class SkyDive : public BadGuy, public Portable
     /* Inherited from Portable */
     void grab(MovingObject& object, const Vector& pos, Direction dir);
     void ungrab(MovingObject& object, Direction dir);
-    virtual std::string get_class() {
+    virtual std::string get_class() const {
       return "skydive";
     }
 

@@ -30,7 +30,7 @@ public:
   Switch(const ReaderMapping& reader);
   virtual ~Switch();
   virtual void save(lisp::Writer& writer);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "switch";
   }
 

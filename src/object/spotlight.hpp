@@ -37,7 +37,7 @@ public:
 
   HitResponse collision(GameObject& other, const CollisionHit& hit_);
 
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "spotlight";
   }
 

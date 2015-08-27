@@ -37,7 +37,7 @@ public:
   void kill_fall();
 
   bool is_flammable() const;
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "yeti";
   }
 
@@ -70,13 +70,6 @@ private:
   int stomp_count;
   int hit_points;
   SurfacePtr hud_head;
-
-  float left_stand_x;
-  float right_stand_x;
-  float left_jump_x;
-  float right_jump_x;
-
-  void recalculate_pos();
 };
 
 #endif

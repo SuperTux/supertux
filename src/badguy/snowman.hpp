@@ -27,7 +27,7 @@ class Snowman : public WalkingBadguy
 public:
   Snowman(const ReaderMapping& reader);
   Snowman(const Vector& pos, Direction d);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "snowman";
   }
 

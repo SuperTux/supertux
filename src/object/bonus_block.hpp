@@ -32,7 +32,7 @@ public:
 
   void try_open(Player *player);
   void try_drop(Player *player);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "bonusblock";
   }
   enum Contents {
