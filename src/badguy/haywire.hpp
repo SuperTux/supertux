@@ -38,7 +38,7 @@ public:
   void stop_looping_sounds();
   void play_looping_sounds();
 
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "haywire";
   }
 

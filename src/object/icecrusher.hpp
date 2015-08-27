@@ -35,7 +35,7 @@ public:
   virtual void collision_solid(const CollisionHit& hit);
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "icecrusher";
   }
 

@@ -30,7 +30,7 @@ public:
   virtual bool do_save() {
     return false;
   }
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "brick";
   }
 

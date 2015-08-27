@@ -28,7 +28,7 @@ public:
   virtual void save(lisp::Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "invisible_wall";
   }
 

@@ -56,7 +56,7 @@ public:
   virtual void stop_looping_sounds();
   virtual void play_looping_sounds();
 
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "willowisp";
   }
 
