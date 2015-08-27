@@ -44,7 +44,7 @@ public:
   void ignite();
   bool can_break();
 
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "mriceblock";
   }
 

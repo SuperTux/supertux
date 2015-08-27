@@ -26,7 +26,7 @@ public:
   PoisonIvy(const Vector& pos, Direction d);
 
   bool is_freezable() const;
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "poisonivy";
   }
 

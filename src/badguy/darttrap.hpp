@@ -30,7 +30,7 @@ public:
   void activate();
   void active_update(float elapsed_time);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "darttrap";
   }
 

@@ -51,7 +51,7 @@ public:
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);
   virtual void save(lisp::Writer& writer);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "moving-sprite";
   }
 

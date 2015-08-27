@@ -41,7 +41,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   void die();
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "ghosttree";
   }
 
