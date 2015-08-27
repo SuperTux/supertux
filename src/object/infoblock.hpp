@@ -31,7 +31,7 @@ public:
 
   void show_message();
   void hide_message();
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "infoblock";
   }
 

@@ -36,7 +36,7 @@ public:
   void freeze();
   void unfreeze();
   bool is_freezable() const;
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "fish";
   }
 

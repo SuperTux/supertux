@@ -47,7 +47,7 @@ public:
   Color get_color() const {
     return lightcolor;
   }
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "lantern";
   }
 

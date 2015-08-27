@@ -27,7 +27,7 @@ public:
 
   void initialize();
   void collision_solid(const CollisionHit& hit);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "kamikazesnowball";
   }
 

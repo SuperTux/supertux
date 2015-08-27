@@ -33,7 +33,7 @@ public:
   void active_update(float elapsed_time);
 
   bool is_freezable() const;
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "igel";
   }
 

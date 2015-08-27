@@ -23,7 +23,7 @@ class InvisibleBlock : public Block
 {
 public:
   InvisibleBlock(const Vector& pos);
-  virtual bool do_save() {
+  virtual bool do_save() const {
     return false;
   }
 

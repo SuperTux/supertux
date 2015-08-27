@@ -34,7 +34,7 @@ public:
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "spotlight";
   }
 

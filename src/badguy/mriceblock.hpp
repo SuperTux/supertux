@@ -40,7 +40,7 @@ public:
   bool is_portable() const;
 
   bool can_break();
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "mriceblock";
   }
 

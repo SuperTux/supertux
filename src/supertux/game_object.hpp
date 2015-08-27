@@ -62,7 +62,7 @@ public:
    *  Editor will use that.
    */
   virtual void save(lisp::Writer& writer);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "game-object";
   }
   virtual bool do_save() {

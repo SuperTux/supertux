@@ -28,7 +28,7 @@ public:
   SequenceTrigger(const Vector& pos, const std::string& sequence);
   ~SequenceTrigger();
   virtual void save(lisp::Writer& writer);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "sequencetrigger";
   }
 

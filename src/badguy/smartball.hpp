@@ -27,7 +27,7 @@ class SmartBall : public WalkingBadguy
 public:
   SmartBall(const Reader& reader);
   SmartBall(const Vector& pos, Direction d);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "smartball";
   }
 

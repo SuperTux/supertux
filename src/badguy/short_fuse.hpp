@@ -24,7 +24,7 @@ class ShortFuse : public WalkingBadguy
 {
 public:
   ShortFuse(const Reader& reader);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "short_fuse";
   }
 

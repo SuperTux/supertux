@@ -59,7 +59,7 @@ public:
   bool gravity_enabled() const;
 
   std::string get_name();
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "scriptedobject";
   }
 

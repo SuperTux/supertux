@@ -42,7 +42,7 @@ public:
 
   virtual void draw(DrawingContext& context);
   void draw_image(DrawingContext& context, const Vector& pos);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "background";
   }
 

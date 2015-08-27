@@ -29,7 +29,7 @@ public:
   void start_shaking();
   bool is_hanging();
   void update(float elapsed_time);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "yeti_stalactite";
   }
 

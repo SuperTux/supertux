@@ -32,7 +32,7 @@ public:
 
   std::string type() const
   { return "SnowParticleSystem"; }
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "particle-snow";
   }
 

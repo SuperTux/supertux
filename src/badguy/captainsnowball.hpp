@@ -29,7 +29,7 @@ public:
   void collision_solid(const CollisionHit& hit);
 
   bool might_climb(int width, int height);
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "captainsnowball";
   }
 

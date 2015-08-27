@@ -64,7 +64,7 @@ public:
   Path& get_path() {
     return *path.get();
   }
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "platform";
   }
 

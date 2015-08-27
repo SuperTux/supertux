@@ -65,7 +65,7 @@ public:
   {
     return position;
   }
-  virtual std::string get_class() {
+  virtual std::string get_class() const {
     return "ambient_sound";
   }
   /**
