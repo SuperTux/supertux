@@ -7,7 +7,7 @@
  )
  (action
   (name "splash")
-  (fps 10.0)
+  (fps 15.0)
   (hitbox 64 16 32 32)
   (images "water-splash-0.png"
           "water-splash-1.png"
