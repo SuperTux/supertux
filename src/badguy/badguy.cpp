@@ -181,11 +181,12 @@ BadGuy::update(float elapsed_time)
       break;
     case STATE_BURNING: {
       // spawn fire particles
+      int pa = graphicsRandom.rand(0,4);
       float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
       float py = graphicsRandom.randf(bbox.p1.y, bbox.p2.y);
       Vector ppos = Vector(px, py);
       Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/fire.sprite",
-                                                                     "default",
+                                                                     "burning_" + std::to_string(pa),
                                                                      ppos, ANCHOR_MIDDLE,
                                                                      Vector(0, -100), Vector(0, -200),
                                                                      LAYER_OBJECTS+1));

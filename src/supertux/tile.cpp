@@ -131,11 +131,13 @@ void
 Tile::correct_attributes()
 {
   //Fix little oddities in attributes (not many, currently...)
-  if(!(attributes & SOLID) && (attributes & SLOPE || attributes & UNISOLID)) {
+  ///NONE :DDDDD Even better. --Hume2
+
+  /*  if(!(attributes & SOLID) && (attributes & SLOPE || attributes & UNISOLID)) {
     attributes |= SOLID;
     //But still be vocal about it
     log_warning << "Tile with image " << imagespecs[0].file << " needs solid attribute." << std::endl;
-  }
+  }*/
 }
 
 void
@@ -417,12 +419,17 @@ bool Tile::is_solid (const Rectf& tile_bbox, const Rectf& position, const Vector
   if (!(attributes & SOLID))
     return false;
 
+  return is_collisionful(tile_bbox, position, movement);
+} /* bool Tile::is_solid */
+
+bool Tile::is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const
+{
   if (!(attributes & UNISOLID))
     return true;
 
   return check_movement_unisolid (movement) &&
          check_position_unisolid (position, tile_bbox);
-} /* bool Tile::is_solid */
+} /* bool Tile::is_collisionful */
 
 /* vim: set sw=2 sts=2 et : */
 /* EOF */

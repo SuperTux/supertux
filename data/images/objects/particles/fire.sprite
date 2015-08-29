@@ -1,9 +1,32 @@
 (supertux-sprite
  (action
-  (name "default")
-(fps 4.0)
+  (name "burning_0")
   (images 
-    "fire.png"
+    "fire-0.png"
+  )
+ )
+ (action
+  (name "burning_1")
+  (images 
+    "fire-1.png"
+  )
+ )
+ (action
+  (name "burning_2")
+  (images 
+    "fire-2.png"
+  )
+ )
+ (action
+  (name "burning_3")
+  (images 
+    "fire-3.png"
+  )
+ )
+ (action
+  (name "burning_4")
+  (images 
+    "fire-4.png"
   )
  )
 )

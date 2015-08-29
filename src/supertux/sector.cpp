@@ -1057,7 +1057,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 }
 
 uint32_t
-Sector::collision_tile_attributes(const Rectf& dest) const
+Sector::collision_tile_attributes(const Rectf& dest, const Vector mov) const
 {
   float x1 = dest.p1.x;
   float y1 = dest.p1.y;
@@ -1079,13 +1079,17 @@ Sector::collision_tile_attributes(const Rectf& dest) const
         const Tile* tile = solids->get_tile(x, y);
         if(!tile)
           continue;
-        result |= tile->getAttributes();
+        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
+          result |= tile->getAttributes();
+        }
       }
       for(; y < test_tiles_ice.bottom; ++y) {
         const Tile* tile = solids->get_tile(x, y);
         if(!tile)
           continue;
-        result |= (tile->getAttributes() & Tile::ICE);
+        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
+          result |= (tile->getAttributes() & Tile::ICE);
+        }
       }
     }
   }
@@ -1329,7 +1333,7 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
 
-    uint32_t tile_attributes = collision_tile_attributes(moving_object->dest);
+    uint32_t tile_attributes = collision_tile_attributes(moving_object->dest, moving_object->get_movement());
     if(tile_attributes >= Tile::FIRST_INTERESTING_FLAG) {
       moving_object->collision_tile(tile_attributes);
     }
