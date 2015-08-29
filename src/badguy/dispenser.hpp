@@ -51,7 +51,12 @@ private:
   bool swivel;
   bool broken;
   bool random;
-  std::string type;
+
+  typedef enum {
+    DT_DROPPER, DT_ROCKETLAUNCHER, DT_CANNON
+  }DispenserType;
+
+  DispenserType type;
 };
 
 #endif
