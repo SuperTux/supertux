@@ -52,16 +52,6 @@ inline void intern_draw(float left, float top, float right, float bottom,
       left, bottom,
     };
     glVertexPointer(2, GL_FLOAT, 0, vertices);
-
-    float uvs[] = {
-      uv_left, uv_top,
-      uv_right, uv_top,
-      uv_right, uv_bottom,
-      uv_left, uv_bottom,
-    };
-    glTexCoordPointer(2, GL_FLOAT, 0, uvs);
-
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
   } else {
     // rotated blit
     float center_x = (left + right) / 2;
@@ -83,17 +73,17 @@ inline void intern_draw(float left, float top, float right, float bottom,
       left*ca - bottom*sa + center_x, left*sa + bottom*ca + center_y
     };
     glVertexPointer(2, GL_FLOAT, 0, vertices);
-
-    float uvs[] = {
-      uv_left, uv_top,
-      uv_right, uv_top,
-      uv_right, uv_bottom,
-      uv_left, uv_bottom,
-    };
-    glTexCoordPointer(2, GL_FLOAT, 0, uvs);
-
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
   }
+
+  float uvs[] = {
+    uv_left, uv_top,
+    uv_right, uv_top,
+    uv_right, uv_bottom,
+    uv_left, uv_bottom,
+  };
+  glTexCoordPointer(2, GL_FLOAT, 0, uvs);
+
+  glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
   // FIXME: find a better way to restore the blend mode
   glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
