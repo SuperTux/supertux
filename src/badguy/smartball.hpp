@@ -28,9 +28,10 @@ public:
   SmartBall(const Reader& reader);
   SmartBall(const Vector& pos, Direction d);
 
+  void ignite();
+
 protected:
   bool collision_squished(GameObject& object);
-
 };
 
 #endif

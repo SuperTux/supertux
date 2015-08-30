@@ -1683,7 +1683,7 @@ Sector::get_nearest_player (const Vector& pos) const
   Player *nearest_player = NULL;
   float nearest_dist = std::numeric_limits<float>::max();
 
-  std::vector<Player*> players = Sector::current()->get_players();
+  std::vector<Player*> players = get_players();
   for (auto playerIter = players.begin(); playerIter != players.end(); ++playerIter)
   {
     Player *this_player = *playerIter;

@@ -16,8 +16,11 @@
 
 #include "badguy/smartball.hpp"
 
+#include "audio/sound_manager.hpp"
+#include "object/water_drop.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 SmartBall::SmartBall(const Reader& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/smart-snowball.sprite", "left", "right")
@@ -39,6 +42,14 @@ SmartBall::collision_squished(GameObject& object)
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
+}
+
+void
+SmartBall::ignite() {
+  run_dead_script();
+  SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
+  Sector::current()->add_object( std::make_shared<WaterDrop>(bbox.p1, on_ground(), "images/objects/water_drop/pink_drop.sprite") );
+  remove_me();
 }
 
 /* EOF */

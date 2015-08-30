@@ -18,9 +18,11 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "object/water_drop.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 #include <math.h>
 
@@ -295,6 +297,14 @@ SmartBlock::SmartBlock(const Reader& reader) :
 {
   max_drop_height = 16;
   sprite = SpriteManager::current()->create("images/creatures/mr_iceblock/smart_block/smart_block.sprite");
+}
+
+void
+SmartBlock::ignite() {
+  run_dead_script();
+  SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
+  Sector::current()->add_object( std::make_shared<WaterDrop>(bbox.p1, on_ground(), "images/objects/water_drop/pink_drop.sprite") );
+  remove_me();
 }
 
 /* EOF */

@@ -19,11 +19,15 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
-WaterDrop::WaterDrop(const Vector& pos) :
-  MovingSprite(pos, "images/objects/particles/water_drop.sprite", LAYER_OBJECTS, COLGROUP_MOVING_ONLY_STATIC),
+WaterDrop::WaterDrop(const Vector& pos, bool on_ground, std::string sprite_path) :
+  MovingSprite(pos, sprite_path, LAYER_OBJECTS - 1, COLGROUP_MOVING_ONLY_STATIC),
   physic(),
   wd_state(WDS_FALLING)
 {
+  if (on_ground) {
+    wd_state = WDS_PUDDLE;
+    sprite->set_action("puddle", 1);
+  }
   physic.enable_gravity(true);
 }
 

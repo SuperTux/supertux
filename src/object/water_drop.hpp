@@ -20,10 +20,12 @@
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
 
+/** When a badguy melts, it creates this object. */
+
 class WaterDrop : public MovingSprite
 {
 public:
-  WaterDrop(const Vector& pos);
+  WaterDrop(const Vector& pos, bool on_ground, std::string sprite_path);
 
   virtual void update(float elapsed_time);
   virtual void collision_solid(const CollisionHit& hit);
@@ -34,7 +36,8 @@ private:
 
   typedef enum {
     WDS_FALLING,
-    WDS_SPLASH
+    WDS_SPLASH,
+    WDS_PUDDLE
   }WaterDropState;
 
   WaterDropState wd_state;

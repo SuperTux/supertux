@@ -64,6 +64,8 @@ class SmartBlock : public MrIceBlock
 {
 public:
   SmartBlock(const Reader& reader);
+
+  void ignite();
 };
 
 #endif

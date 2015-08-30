@@ -15,4 +15,10 @@
           "water-splash-3.png"
           "water-splash-4.png")
  )
+ (action
+  (name "puddle")
+  (fps 1.0)
+  (hitbox 16 -23 32 32)
+  (images "water-puddle.png")
+ )
 )

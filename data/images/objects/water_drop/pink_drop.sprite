@@ -1,0 +1,24 @@
+(supertux-sprite
+ (action
+  (name "default")
+  (fps 4.0)
+  (hitbox 0 0 32 32)
+  (images "pink-drop.png")
+ )
+ (action
+  (name "splash")
+  (fps 15.0)
+  (hitbox 64 16 32 32)
+  (images "pink-splash-0.png"
+          "pink-splash-1.png"
+          "pink-splash-2.png"
+          "pink-splash-3.png"
+          "pink-splash-4.png")
+ )
+ (action
+  (name "puddle")
+  (fps 1.0)
+  (hitbox 16 -23 32 32)
+  (images "pink-puddle.png")
+ )
+)

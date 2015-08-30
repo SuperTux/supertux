@@ -37,13 +37,6 @@ ScriptedObject::ScriptedObject(const Reader& lisp) :
   if(name == "")
     throw std::runtime_error("Scripted object must have a name specified");
 
-  // FIXME: do we need this? bbox is already set via .sprite file
-  float width = sprite->get_width();
-  float height = sprite->get_height();
-  lisp.get("width", width);
-  lisp.get("height", height);
-  bbox.set_size(width, height);
-
   lisp.get("solid", solid);
   lisp.get("physic-enabled", physic_enabled);
   lisp.get("visible", visible);

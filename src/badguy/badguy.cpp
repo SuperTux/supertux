@@ -576,7 +576,7 @@ BadGuy::might_fall(int height) const
 Player*
 BadGuy::get_nearest_player() const
 {
-  return Sector::current()->get_nearest_player (this->get_bbox ());
+  return Sector::current()->get_nearest_player(bbox);
 }
 
 void
@@ -679,7 +679,7 @@ BadGuy::ignite()
 
     run_dead_script();
     SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
-    Sector::current()->add_object( std::make_shared<WaterDrop>(bbox.p1) );
+    Sector::current()->add_object( std::make_shared<WaterDrop>(bbox.p1, on_ground(), "images/objects/water_drop/water_drop.sprite") );
     remove_me();
   }
 }
