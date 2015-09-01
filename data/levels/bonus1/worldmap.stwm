@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Bonus Island I"))
+  (name (_ "Bonus Island I"))  (license "GPL 2+ / CC-by-sa 3.0")
   (author "SuperTux Team")
   (contact "http://developer.berlios.de/projects/supertux/")
   (license "GPL 2 / CC-by-sa 3.0")
