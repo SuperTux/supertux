@@ -52,7 +52,18 @@
       (y 553)
     )
     (camera
-      (mode "normal")
+      (mode "autoscroll")
+      (path
+        (node
+          (x 0)
+          (y 352)
+          (time 250)
+        )
+        (node
+          (x 19072)
+          (y 352)
+        )
+      )
     )
     (particles-clouds
       (z-pos -120)
@@ -172,7 +183,7 @@
       (y -11042)
     )
     (gradient
-      (top_color 0 0 0 0)
+      (top_color 0 0 0)
       (bottom_color 0 0.03750668 0.1420157)
     )
     (jumpy
