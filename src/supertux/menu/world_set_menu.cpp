@@ -1,3 +1,19 @@
+//  SuperTux
+//  Copyright (C) 2015 Matthew <thebatmankiller3@gmail.com>
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #include "supertux/menu/world_set_menu.hpp"
 
 #include "audio/sound_manager.hpp"
@@ -22,39 +38,25 @@ WorldSetMenu::WorldSetMenu()
 {
    add_label(_("This is a menu."));
    add_hl();
-   add_entry(WORLDSET_CAMPAIGN1, _("Campaign: Antartica"));
-   add_entry(WORLDSET_CAMPAIGN2, _("Campaign: Ghost Forest"));
+   add_entry(WORLDSET_STORY, _("Story Mode"));
    add_entry(WORLDSET_CONTRIB, _("Contrib Levels"));
    add_hl();
    add_back(_("Back"));
- //add_entry(WORLDSET_ADDON, _("Addon Worlds"));
 }
 
 void WorldSetMenu::menu_action(MenuItem* item)
 {
   switch(item->id)
   {
-    case WORLDSET_CAMPAIGN1:
+    case WORLDSET_STORY:
     {
       std::unique_ptr<World> world = World::load("levels/world1");
       GameManager::current()->start_worldmap(std::move(world));
       break;
     }
-    case WORLDSET_CAMPAIGN2:
-    {
-      std::unique_ptr<World> world = World::load("levels/world2");
-      GameManager::current()->start_worldmap(std::move(world));
-      break;
-    } 
+    
     case WORLDSET_CONTRIB:
-	MenuManager::instance().push_menu(MenuStorage::CONTRIB_MENU);    
-	break;
-	
-    /*
-    case WORLDSET_ADDON:
-	// Add-ons Menu
-	MenuManager::instance().push_menu(MenuStorage::ADDON_MENU);
-	break;
-    */
+	    MenuManager::instance().push_menu(MenuStorage::CONTRIB_MENU);    
+	    break;
   }
 }
