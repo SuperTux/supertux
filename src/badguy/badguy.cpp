@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
+#include "object/broken_brick.hpp"
 #include "object/bullet.hpp"
 #include "object/sprite_particle.hpp"
 #include "object/player.hpp"
@@ -448,18 +449,35 @@ BadGuy::kill_fall()
 {
   if (!is_active()) return;
 
-  SoundManager::current()->play("sounds/fall.wav", get_pos());
-  physic.set_velocity_y(0);
-  physic.set_acceleration_y(0);
-  physic.enable_gravity(true);
-  set_state(STATE_FALLING);
+  if (frozen) {
+    SoundManager::current()->play("sounds/brick.wav");
+    Vector pr_pos;
+    float cx = bbox.get_width() / 2;
+    float cy = bbox.get_height() / 2;
+    for (pr_pos.x = 0; pr_pos.x < bbox.get_width(); pr_pos.x += 16) {
+      for (pr_pos.y = 0; pr_pos.y < bbox.get_height(); pr_pos.y += 16) {
+        Vector speed = Vector((pr_pos.x - cx) * 8, (pr_pos.y - cy) * 8 + 100);
+        Sector::current()->add_object(
+          std::make_shared<BrokenBrick>(sprite->clone(), bbox.p1 + pr_pos, speed));
+      }
+    }
+    // start dead-script
+    run_dead_script();
+    remove_me();
+  } else {
+    SoundManager::current()->play("sounds/fall.wav", get_pos());
+    physic.set_velocity_y(0);
+    physic.set_acceleration_y(0);
+    physic.enable_gravity(true);
+    set_state(STATE_FALLING);
 
-  // Set the badguy layer to be the foremost, so that
-  // this does not reveal secret tilemaps:
-  layer = Sector::current()->get_foremost_layer();
+    // Set the badguy layer to be the foremost, so that
+    // this does not reveal secret tilemaps:
+    layer = Sector::current()->get_foremost_layer() + 1;
+    // start dead-script
+    run_dead_script();
+  }
 
-  // start dead-script
-  run_dead_script();
 }
 
 void
