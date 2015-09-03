@@ -45,6 +45,10 @@ public:
   virtual void parse(const ReaderMapping& reader);
   virtual void draw(DrawingContext& context);
 
+  int get_layer() {
+    return z_pos;
+  }
+
 protected:
   class Particle
   {
