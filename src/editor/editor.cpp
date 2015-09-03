@@ -27,6 +27,7 @@
 #include "supertux/game_object.hpp"
 #include "supertux/level.hpp"
 #include "supertux/levelset_screen.hpp"
+#include "supertux/moving_object.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/screen.hpp"
@@ -162,51 +163,27 @@ void Editor::update_keyboard() {
 void Editor::load_layers() {
   layerselect.selected_tilemap = NULL;
   layerselect.layers.clear();
+  bool tsel = false;
   for(auto i = currentsector->gameobjects.begin(); i != currentsector->gameobjects.end(); i++) {
     GameObject* go = &(**i);
-    if (go->get_class() == "tilemap") {
-      layerselect.add_layer(go,"images/engine/editor/tilemap.png");
-      ((TileMap*)go)->editor_active = false;
-      continue;
-    }
-    if (go->get_class() == "background") {
-      layerselect.add_layer(go,"images/engine/editor/background.png");
-      continue;
-    }
-    if (go->get_class() == "gradient") {
-      layerselect.add_layer(go,"images/engine/editor/gradient.png");
-      continue;
-    }
-    if (go->get_class() == "camera") {
-      layerselect.add_layer(go,"images/engine/editor/camera.png");
-      continue;
-    }
-    if (go->get_class() == "leveltime") {
-      layerselect.add_layer(go,"images/engine/editor/clock.png");
-      continue;
-    }
-    if (go->get_class() == "particles-clouds") {
-      layerselect.add_layer(go,"images/engine/editor/clouds.png");
-      continue;
-    }
-    if (go->get_class() == "particles-rain") {
-      layerselect.add_layer(go,"images/engine/editor/rain.png");
-      continue;
-    }
-    if (go->get_class() == "particles-ghosts") {
-      layerselect.add_layer(go,"images/engine/editor/ghostparticles.png");
-      continue;
-    }
-    if (go->get_class() == "particle-snow") {
-      layerselect.add_layer(go,"images/engine/editor/snow.png");
-      continue;
-    }
-    if (go->get_class() == "thunderstorm") {
-      layerselect.add_layer(go,"images/engine/editor/thunderstorm.png");
-      continue;
-    }
+    MovingObject *mo = dynamic_cast<MovingObject*>(go);
+    if ( !mo && go->do_save() ) {
+      layerselect.add_layer(go);
 
+      TileMap *tm = dynamic_cast<TileMap*>(go);
+      if (tm) {
+        if ( !tm->is_solid() || tsel ) {
+          tm->editor_active = false;
+        } else {
+          layerselect.selected_tilemap = tm;
+          tm->editor_active = true;
+          tsel = true;
+        }
+      }
+
+    }
   }
+
   layerselect.refresh_sector_text();
 }
 

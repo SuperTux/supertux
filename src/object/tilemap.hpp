@@ -179,6 +179,10 @@ public:
 
   bool editor_active;
 
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/tilemap.png";
+  }
+
 private:
   const TileSet *tileset;
 

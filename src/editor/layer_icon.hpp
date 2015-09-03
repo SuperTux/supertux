@@ -24,7 +24,7 @@ class GameObject;
 class LayerIcon : public ObjectIcon
 {
   public:
-    LayerIcon(const std::string icon, GameObject *layer_);
+    LayerIcon(GameObject *layer_);
     virtual ~LayerIcon();
 
     GameObject *layer;

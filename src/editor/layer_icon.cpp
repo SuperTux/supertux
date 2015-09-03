@@ -20,6 +20,7 @@
 #include "object/background.hpp"
 #include "object/gradient.hpp"
 #include "object/particlesystem.hpp"
+#include "object/particlesystem_interactive.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
@@ -28,14 +29,15 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-LayerIcon::LayerIcon(std::string icon, GameObject *layer_) :
-  ObjectIcon("", icon),
+LayerIcon::LayerIcon(GameObject *layer_) :
+  ObjectIcon("", layer_->get_icon_path()),
   layer(layer_),
   is_tilemap(false),
   selection()
 {
-  is_tilemap = layer->get_class() == "tilemap";
-  if (is_tilemap) {
+  TileMap* tm = dynamic_cast<TileMap*>(layer_);
+  if (tm) {
+    is_tilemap = true;
     selection = Surface::create("images/engine/editor/selection.png");
   }
 }
@@ -64,16 +66,26 @@ LayerIcon::get_zpos() {
     return ((TileMap*)layer)->get_layer();
   }
 
-  std::string cl = layer->get_class();
-  if (cl == "background") {
-    return ((Background*)layer)->get_layer();
+  Background* bkgrd = dynamic_cast<Background*>(layer);
+  if (bkgrd) {
+    return bkgrd->get_layer();
   }
-  if (cl == "gradient") {
-    return ((Gradient*)layer)->get_layer();
+
+  Gradient* grd = dynamic_cast<Gradient*>(layer);
+  if (grd) {
+    return grd->get_layer();
   }
-  if (cl == "particle-snow" || cl == "particles-rain" || cl == "particles-ghosts" || cl == "particles-clouds") {
-    return ((ParticleSystem*)layer)->get_layer();
+
+  ParticleSystem* ps = dynamic_cast<ParticleSystem*>(layer);
+  if (ps) {
+    return ps->get_layer();
   }
+
+  ParticleSystem_Interactive* psi = dynamic_cast<ParticleSystem_Interactive*>(layer);
+  if (psi) {
+    return psi->get_layer();
+  }
+
   return -2147483648;
 }
 

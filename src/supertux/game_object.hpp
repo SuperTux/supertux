@@ -100,6 +100,10 @@ public:
     return name;
   }
 
+  virtual const std::string get_icon_path() const {
+    return "images/tiles/auxiliary/notile.png";
+  }
+
   /** stops all looping sounds */
   virtual void stop_looping_sounds() {}
 
