@@ -84,6 +84,10 @@ public:
 
   virtual ObjectSettings get_settings();
 
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/thunderstorm.png";
+  }
+
 private:
   bool running; /**< whether we currently automatically trigger lightnings */
   float interval; /**< time between two lightnings */

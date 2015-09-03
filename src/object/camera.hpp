@@ -88,6 +88,10 @@ public:
 
   virtual ObjectSettings get_settings();
 
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/camera.png";
+  }
+
 private:
   void update_scroll_normal(float elapsed_time);
   void update_scroll_autoscroll(float elapsed_time);

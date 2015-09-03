@@ -54,6 +54,10 @@ public:
 
   virtual ObjectSettings get_settings();
 
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/gradient.png";
+  }
+
 private:
   int layer;
   Color gradient_top;

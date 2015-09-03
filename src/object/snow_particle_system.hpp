@@ -38,6 +38,10 @@ public:
 
   virtual ObjectSettings get_settings();
 
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/snow.png";
+  }
+
 private:
   class SnowParticle : public Particle
   {

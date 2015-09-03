@@ -179,8 +179,8 @@ EditorLayersGui::refresh_sector_text() {
 }
 
 void
-EditorLayersGui::add_layer(GameObject* layer, std::string pic) {
-  std::unique_ptr<LayerIcon> icon(new LayerIcon(pic, layer));
+EditorLayersGui::add_layer(GameObject* layer) {
+  std::unique_ptr<LayerIcon> icon(new LayerIcon(layer));
   int z_pos = icon->get_zpos();
 
   // The icon is inserted to the correct position.

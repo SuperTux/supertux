@@ -100,6 +100,10 @@ public:
     return name;
   }
 
+  virtual const std::string get_icon_path() const {
+    return "images/tiles/auxiliary/notile.png";
+  }
+
 private:
   /** this flag indicates if the object should be removed at the end of the
    * frame
