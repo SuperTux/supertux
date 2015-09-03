@@ -157,6 +157,8 @@ private:
 
   bool active; /** Game active? **/
 
+  bool end_seq_started;
+
 private:
   GameSession(const GameSession&);
   GameSession& operator=(const GameSession&);

@@ -82,7 +82,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   bonus_at_start(),
   max_fire_bullets_at_start(),
   max_ice_bullets_at_start(),
-  active(false)
+  active(false),
+  end_seq_started(false)
 {
   if (restart_level() != 0)
     throw std::runtime_error ("Initializing the level failed.");
@@ -441,6 +442,7 @@ GameSession::setup()
     ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new LevelIntro(level.get(), best_level_statistics)));
   }
   ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
+  end_seq_started = false;
 }
 
 void
@@ -548,6 +550,10 @@ GameSession::update(float elapsed_time)
 void
 GameSession::finish(bool win)
 {
+  if(end_seq_started)
+    return;
+  end_seq_started = true;
+
   using namespace worldmap;
 
   if (edit_mode) {
