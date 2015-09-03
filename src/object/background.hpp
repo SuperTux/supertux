@@ -57,6 +57,10 @@ public:
 
   virtual ObjectSettings get_settings();
 
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/background.png";
+  }
+
 private:
   enum Alignment {
     NO_ALIGNMENT,

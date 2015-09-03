@@ -41,7 +41,7 @@ class EditorLayersGui
     void refresh_sector_text();
 
     std::vector<std::unique_ptr<LayerIcon>> layers;
-    void add_layer(GameObject* layer, std::string pic);
+    void add_layer(GameObject* layer);
 
     GameObject *selected_tilemap;
 
