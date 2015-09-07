@@ -23,20 +23,25 @@
 #include "supertux/globals.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/player_status.hpp"
 #include "util/gettext.hpp"
 
 #include <sstream>
 #include <boost/format.hpp>
 
-LevelIntro::LevelIntro(const Level* level_, const Statistics* best_level_statistics_) :
+class PlayerStatus;
+
+LevelIntro::LevelIntro(const Level* level_, const Statistics* best_level_statistics_, const PlayerStatus* player_status_) :
   level(level_),
   best_level_statistics(best_level_statistics_),
   player_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
   player_sprite_py(0),
   player_sprite_vy(0),
-  player_sprite_jump_timer()
+  player_sprite_jump_timer(),
+  player_status(player_status_)
 {
-  player_sprite->set_action("small-walk-right");
+  //Show appropriate tux animation for player status.
+  player_sprite->set_action(player_status->get_animation_prefix() + "-walk-right");
   player_sprite_jump_timer.start(graphicsRandom.randf(5,10));
 }
 
@@ -55,8 +60,7 @@ LevelIntro::update(float elapsed_time)
   Controller *controller = InputManager::current()->get_controller();
 
   // Check if it's time to exit the screen
-  if(controller->pressed(Controller::JUMP)
-     || controller->pressed(Controller::ACTION)
+  if(controller->pressed(Controller::ACTION)
      || controller->pressed(Controller::MENU_SELECT)
      || controller->pressed(Controller::START)
      || controller->pressed(Controller::ESCAPE)) {
@@ -66,10 +70,14 @@ LevelIntro::update(float elapsed_time)
   player_sprite_py += player_sprite_vy * elapsed_time;
   player_sprite_vy += 1000 * elapsed_time;
   if (player_sprite_py >= 0) {
+    player_sprite->set_action(player_status->get_animation_prefix() + "-walk-right");
     player_sprite_py = 0;
     player_sprite_vy = 0;
+  } else {
+    player_sprite->set_action(player_status->get_animation_prefix() + "-jump-right");
   }
-  if (player_sprite_jump_timer.check()) {
+  if (player_sprite_jump_timer.check()
+      || controller->pressed(Controller::JUMP) && player_sprite_py == 0) {
     player_sprite_vy = -300;
     player_sprite_jump_timer.start(graphicsRandom.randf(2,3));
   }
@@ -116,7 +124,7 @@ LevelIntro::draw(DrawingContext& context)
     context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::stat_color);
     py += static_cast<int>(Resources::normal_font->get_height());
   }
-	
+
   {
     std::stringstream ss;
     ss << _("Badguys killed") << ": " << Statistics::frags_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->badguys : 0, stats.total_badguys);

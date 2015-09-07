@@ -24,6 +24,7 @@
 
 class DrawingContext;
 class Surface;
+class PlayerStatus;
 
 /**
  * Screen that welcomes the player to a level
@@ -37,7 +38,7 @@ private:
   static Color stat_color;
 
 public:
-  LevelIntro(const Level* level, const Statistics* best_level_statistics);
+  LevelIntro(const Level* level, const Statistics* best_level_statistics, const PlayerStatus* player_status);
   virtual ~LevelIntro();
 
   void setup();
@@ -45,7 +46,8 @@ public:
   void update(float elapsed_time);
 
 private:
-  const Level* level; /**< The level of which this is the intro screen */
+  const PlayerStatus* player_status; /**< The player status from the GameSession that created this instance*/
+  const Level* level; /**< The level to which this is the intro screen */
   const Statistics* best_level_statistics; /**< Best level statistics of the level of which is the intro screen */
   SpritePtr player_sprite; /**< Sprite representing the player */
   float player_sprite_py; /**< Position (y axis) for the player sprite */
