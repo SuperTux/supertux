@@ -51,6 +51,8 @@ public:
 
   void draw(DrawingContext& context);
 
+  std::string get_bonus_prefix() const;/**Returns the prefix of the animations that should be displayed*/
+
 public:
   int  coins;
   BonusType bonus;

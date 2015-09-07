@@ -31,33 +31,17 @@
 
 class PlayerStatus;
 
-LevelIntro::LevelIntro(const Level* level_, const Statistics* best_level_statistics_, const PlayerStatus* player_status) :
+LevelIntro::LevelIntro(const Level* level_, const Statistics* best_level_statistics_, const PlayerStatus* player_status_) :
   level(level_),
   best_level_statistics(best_level_statistics_),
   player_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
   player_sprite_py(0),
   player_sprite_vy(0),
-  player_sprite_jump_timer()
+  player_sprite_jump_timer(),
+  player_status(player_status_)
 {
   //Show appropriate tux animation for player status.
-  switch (player_status->bonus) {
-  default:
-  case NO_BONUS:
-    player_sprite->set_action("small-walk-right");
-    break;
-  case GROWUP_BONUS:
-    player_sprite->set_action("big-walk-right");
-    break;
-  case FIRE_BONUS:
-    player_sprite->set_action("fire-walk-right");
-    break;
-  case ICE_BONUS:
-    player_sprite->set_action("ice-walk-right");
-    break;
-  case AIR_BONUS:
-    player_sprite->set_action("air-walk-right");
-    break;
-  }
+  player_sprite->set_action(player_status->get_bonus_prefix() + "-walk-right");
   player_sprite_jump_timer.start(graphicsRandom.randf(5,10));
 }
 
@@ -89,6 +73,10 @@ LevelIntro::update(float elapsed_time)
   if (player_sprite_py >= 0) {
     player_sprite_py = 0;
     player_sprite_vy = 0;
+    player_sprite->set_action(player_status->get_bonus_prefix() + "-walk-right");
+  } else {
+
+    player_sprite->set_action(player_status->get_bonus_prefix() + "-jump-right");
   }
   if (player_sprite_jump_timer.check()) {
     player_sprite_vy = -300;
