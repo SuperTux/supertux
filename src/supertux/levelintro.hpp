@@ -24,6 +24,7 @@
 
 class DrawingContext;
 class Surface;
+class PlayerStatus;
 
 /**
  * Screen that welcomes the player to a level
@@ -37,7 +38,7 @@ private:
   static Color stat_color;
 
 public:
-  LevelIntro(const Level* level, const Statistics* best_level_statistics);
+  LevelIntro(const Level* level, const Statistics* best_level_statistics, const PlayerStatus* player_status);
   virtual ~LevelIntro();
 
   void setup();
