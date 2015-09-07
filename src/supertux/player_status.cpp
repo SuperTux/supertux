@@ -190,4 +190,21 @@ PlayerStatus::draw(DrawingContext& context)
   context.pop_transform();
 }
 
+std::string PlayerStatus::get_bonus_prefix() const
+{
+  switch (this->bonus) {
+  default:
+  case NO_BONUS:
+    return std::string("small");
+  case GROWUP_BONUS:
+    return std::string("big");
+  case FIRE_BONUS:
+    return std::string("fire");
+  case ICE_BONUS:
+    return std::string("ice");
+  case AIR_BONUS:
+    return std::string("air");
+  }
+}
+
 /* EOF */
