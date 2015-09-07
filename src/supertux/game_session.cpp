@@ -439,7 +439,7 @@ GameSession::setup()
   if ((!levelintro_shown) && (total_stats_to_be_collected > 0)) {
     levelintro_shown = true;
     active = false;
-    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new LevelIntro(level.get(), best_level_statistics)));
+    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new LevelIntro(level.get(), best_level_statistics, m_savegame.get_player_status())));
   }
   ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
   end_seq_started = false;
@@ -522,7 +522,7 @@ GameSession::update(float elapsed_time)
 
   if(currentsector == NULL)
     return;
-  
+
   // update sounds
   if (currentsector->camera) SoundManager::current()->set_listener_position(currentsector->camera->get_center());
 
