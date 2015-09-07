@@ -46,7 +46,8 @@ public:
   void update(float elapsed_time);
 
 private:
-  const Level* level; /**< The level of which this is the intro screen */
+  const PlayerStatus* player_status; /**< The player status from the GameSession that created this instance*/
+  const Level* level; /**< The level to which this is the intro screen */
   const Statistics* best_level_statistics; /**< Best level statistics of the level of which is the intro screen */
   SpritePtr player_sprite; /**< Sprite representing the player */
   float player_sprite_py; /**< Position (y axis) for the player sprite */

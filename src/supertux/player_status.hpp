@@ -50,6 +50,8 @@ public:
   void read(const Reader& lisp);
 
   void draw(DrawingContext& context);
+  /**prefix for all the animations of this bonus. e.g. "fire" or "small"*/
+  std::string get_animation_prefix() const;
 
 public:
   int  coins;
