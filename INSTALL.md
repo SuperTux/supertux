@@ -87,7 +87,8 @@ following steps:
 1. `cd` to the directory where you unpacked the SuperTux source
    archive, i.e. to the directory containing `src` and `data`.
 
-2. Run 'git submodule update --init --recursive'.
+2. If you git cloned this Supertux repo from Github run 'git submodule update --init --recursive' to fetch/update tinygettext, but
+if you got this version of Supertux from a tarball (.tar) its unnecessary to do so, since tinygettext is already in the .tar.
 
 3. Create and change to a new, empty build directory by running `mkdir
    build`, `cd build`.
