@@ -20,10 +20,12 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
+static const float WALKSPEED = 80;
+
 SSpiky::SSpiky(const Reader& reader)
   : WalkingBadguy(reader, "images/creatures/spiky/sleepingspiky.sprite", "left", "right"), state(SSPIKY_SLEEPING)
 {
-  walk_speed = 80;
+  walk_speed = WALKSPEED;
   max_drop_height = 600;
 }
 
