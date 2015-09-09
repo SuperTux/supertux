@@ -79,8 +79,8 @@ causes problems on some setups, so just run `supertux2 --window` and
 you should be set.
 
 The game uses OpenGL to render the graphics. You will either need a
-fast CPU or an accelerated video card with the vendor's drivers. 
-(On Linux, the team recommends using cards from NVidia with
+CPU with about 10 GHz or an accelerated video card with the vendor's
+drivers. (On Linux, the team recommends using cards from NVidia with
 the proprietary drivers, but ATI or another vendor should do.)
 
 
