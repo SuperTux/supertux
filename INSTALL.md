@@ -84,26 +84,29 @@ SuperTux uses CMake to generate a set of Makefiles for the build
 process. To generate these Makefiles and build SuperTux, perform the
 following steps:
 
-1. `cd` to the directory where you unpacked the SuperTux source
-   archive, i.e. to the directory containing `src` and `data`.
+ 1. `cd` to the directory where you unpacked the SuperTux source
+    archive, i.e. to the directory containing `src` and `data`.
+ 
+2. If you git cloned this Supertux repo from Github run 'git submodule update --init --recursive' to fetch/update tinygettext, but
+if you got this version of Supertux from a tarball (.tar) its unnecessary to do so, since tinygettext is already in the .tar.
+ 
+ 3. Create and change to a new, empty build directory by running `mkdir
+    build`, `cd build`.
 
-2. Create and change to a new, empty build directory by running `mkdir
-   build`, `cd build`.
-
-3. Run `cmake ..` to create the Makefiles needed to build SuperTux
+4. Run `cmake ..` to create the Makefiles needed to build SuperTux
    with standard options. If you are missing any libraries needed to
    build SuperTux, install those first, then try running CMake again.
    See below for instructions on how to change to standard options.
 
-4. Type `make` to start the build process.
+5. Type `make` to start the build process.
 
-5. Type `make install` to install the programs and any data files and
+6. Type `make install` to install the programs and any data files and
    documentation. (You should be a root user on Linux systems. You can
    become a root user with the `su` command or by using `sudo make
    install`) Note that there is no uninstall target, so you might wish
    to create a package or other system-specific installation instead.
    
-6. The game should work now and you can remove the source directory.
+7. The game should work now and you can remove the source directory.
 
 You can customize the build process by setting additional options for
 CMake. The easiest way to do this is to use run `ccmake ..` instead of
