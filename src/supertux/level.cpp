@@ -186,10 +186,10 @@ Level::get_sector(size_t num) const
 }
 
 int
-Level::get_total_coins()
+Level::get_total_coins() const
 {
   int total_coins = 0;
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
+  for(Sectors::const_iterator i = sectors.begin(); i != sectors.end(); ++i) {
     Sector* sector = *i;
     for(auto o = sector->gameobjects.begin(); o != sector->gameobjects.end(); ++o) {
       Coin* coin = dynamic_cast<Coin*>(o->get());
@@ -222,16 +222,16 @@ Level::get_total_coins()
 }
 
 int
-Level::get_total_badguys()
+Level::get_total_badguys() const
 {
   int total_badguys = 0;
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
+  for(Sectors::const_iterator i = sectors.begin(); i != sectors.end(); ++i)
     total_badguys += (*i)->get_total_badguys();
   return total_badguys;
 }
 
 int
-Level::get_total_secrets()
+Level::get_total_secrets() const
 {
   int total_secrets = 0;
   for(auto i = sectors.begin(); i != sectors.end(); ++i)

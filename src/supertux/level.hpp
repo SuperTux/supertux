@@ -68,9 +68,9 @@ public:
   const TileSet *get_tileset() const
   { return tileset; }
 
-  int get_total_coins();
-  int get_total_badguys();
-  int get_total_secrets();
+  int get_total_coins() const;
+  int get_total_badguys() const;
+  int get_total_secrets() const;
 
 private:
   void load_old_format(const Reader& reader);
