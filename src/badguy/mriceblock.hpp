@@ -39,7 +39,7 @@ public:
   void ungrab(MovingObject& object, Direction dir);
   bool is_portable() const;
 
-  bool can_break();
+  bool can_break() const;
 
 protected:
   enum IceState {

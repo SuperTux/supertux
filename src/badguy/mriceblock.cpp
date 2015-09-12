@@ -85,7 +85,7 @@ MrIceBlock::active_update(float elapsed_time)
 }
 
 bool
-MrIceBlock::can_break(){
+MrIceBlock::can_break() const {
   return ice_state == ICESTATE_KICKED;
 }
 
