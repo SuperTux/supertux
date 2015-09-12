@@ -43,7 +43,7 @@ CaptainSnowball::CaptainSnowball(const Vector& pos, Direction d)
 }
 
 bool
-CaptainSnowball::might_climb(int width, int height)
+CaptainSnowball::might_climb(int width, int height) const
 {
   // make sure we check for at least a 1-pixel climb
   assert(height > 0);
