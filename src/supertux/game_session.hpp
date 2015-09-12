@@ -47,7 +47,7 @@ public:
   ~GameSession();
 
   void record_demo(const std::string& filename);
-  int get_demo_random_seed(const std::string& filename);
+  int get_demo_random_seed(const std::string& filename) const;
   void play_demo(const std::string& filename);
 
   void draw(DrawingContext& context) override;
@@ -60,16 +60,16 @@ public:
   void respawn(const std::string& sectorname, const std::string& spawnpointname);
   void reset_level();
   void set_reset_point(const std::string& sectorname, const Vector& pos);
-  std::string get_reset_point_sectorname()
+  std::string get_reset_point_sectorname() const
   { return reset_sector; }
 
-  Vector get_reset_point_pos()
+  Vector get_reset_point_pos() const
   { return reset_pos; }
 
-  Sector* get_current_sector()
+  Sector* get_current_sector() const
   { return currentsector; }
 
-  Level* get_current_level()
+  Level* get_current_level() const
   { return level.get(); }
 
   void start_sequence(const std::string& sequencename);
@@ -79,7 +79,7 @@ public:
    * currently played level resides. This is used when locating additional
    * resources for the current level/world
    */
-  std::string get_working_directory();
+  std::string get_working_directory() const;
   int restart_level(bool after_death = false);
   bool reset_button;
 
@@ -97,7 +97,7 @@ public:
    */
   void force_ghost_mode();
 
-  Savegame& get_savegame() { return m_savegame; }
+  Savegame& get_savegame() const { return m_savegame; }
 
 private:
   void check_end_conditions();
