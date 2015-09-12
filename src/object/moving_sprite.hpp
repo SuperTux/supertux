@@ -51,6 +51,8 @@ public:
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);
 
+  std::string get_sprite_name() const;
+
 protected:
   std::string sprite_name;
   SpritePtr sprite;
