@@ -28,7 +28,9 @@ public:
   SmartBall(const Reader& reader);
   SmartBall(const Vector& pos, Direction d);
 
-  void ignite();
+  virtual std::string get_mpsf() const {
+    return "images/objects/water_drop/pink_drop.sprite";
+  }
 
 protected:
   bool collision_squished(GameObject& object);

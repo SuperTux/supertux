@@ -25,7 +25,7 @@
 class WaterDrop : public MovingSprite
 {
 public:
-  WaterDrop(const Vector& pos, bool on_ground, std::string sprite_path);
+  WaterDrop(const Vector& pos, std::string sprite_path_, Vector velocity);
 
   virtual void update(float elapsed_time);
   virtual void collision_solid(const CollisionHit& hit);
@@ -41,6 +41,8 @@ private:
   }WaterDropState;
 
   WaterDropState wd_state;
+
+  std::string sprite_path;
 };
 
 #endif

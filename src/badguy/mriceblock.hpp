@@ -41,6 +41,8 @@ public:
 
   bool can_break() const;
 
+  void ignite();
+
 protected:
   enum IceState {
     ICESTATE_NORMAL,
@@ -65,7 +67,9 @@ class SmartBlock : public MrIceBlock
 public:
   SmartBlock(const Reader& reader);
 
-  void ignite();
+  virtual std::string get_mpsf() const {
+    return "images/objects/water_drop/pink_drop.sprite";
+  }
 };
 
 #endif
