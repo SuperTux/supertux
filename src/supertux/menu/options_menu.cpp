@@ -117,7 +117,9 @@ OptionsMenu::OptionsMenu(bool complete)
     else
     {
       std::ostringstream out;
-      out << mode.w << "x" << mode.h << "@" << mode.refresh_rate;
+      out << mode.w << "x" << mode.h;
+      if(mode.refresh_rate)
+        out << "@" << mode.refresh_rate;
       if(last_display_mode == out.str())
         continue;
       last_display_mode = out.str();
