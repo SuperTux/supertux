@@ -27,12 +27,12 @@ class ShrinkFade : public ScreenFade
 {
 public:
   ShrinkFade(const Vector& point, float fade_time);
-  virtual ~ShrinkFade();
+  ~ShrinkFade();
 
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
+  void update(float elapsed_time);
+  void draw(DrawingContext& context);
 
-  virtual bool done();
+  bool done() const;
 
 private:
   Vector dest;

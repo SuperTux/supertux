@@ -56,7 +56,7 @@ ShrinkFade::draw(DrawingContext& context)
 }
 
 bool
-ShrinkFade::done()
+ShrinkFade::done() const
 {
   return accum_time >= fade_time;
 }
