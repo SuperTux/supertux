@@ -60,7 +60,7 @@ public:
 
   void add_sector(Sector* sector);
 
-  Sector* get_sector(const std::string& name);
+  Sector* get_sector(const std::string& name) const;
 
   size_t get_sector_count() const;
   Sector* get_sector(size_t num) const;

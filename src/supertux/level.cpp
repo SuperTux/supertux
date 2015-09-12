@@ -162,9 +162,9 @@ Level::add_sector(Sector* sector)
 }
 
 Sector*
-Level::get_sector(const std::string& name_)
+Level::get_sector(const std::string& name_) const
 {
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
+  for(Sectors::const_iterator i = sectors.begin(); i != sectors.end(); ++i) {
     Sector* sector = *i;
     if(sector->get_name() == name_)
       return sector;
