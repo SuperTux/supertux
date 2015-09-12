@@ -440,7 +440,7 @@ BadGuy::kill_fall()
 
   // Set the badguy layer to be the foremost, so that
   // this does not reveal secret tilemaps:
-  layer = Sector::current()->get_foremost_layer() + 1;
+  layer = Sector::current()->get_foremost_layer();
 
   // start dead-script
   run_dead_script();
