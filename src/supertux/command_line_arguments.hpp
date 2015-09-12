@@ -82,9 +82,9 @@ public:
 
   void parse_args(int argc, char** argv);
 
-  void print_help(const char* arg0);
-  void print_version();
-  void print_datadir();
+  void print_help(const char* arg0) const;
+  void print_version() const;
+  void print_datadir() const;
 
   void merge_into(Config& config);
 
