@@ -30,7 +30,7 @@ class KeyboardConfig
 public:
   KeyboardConfig();
 
-  SDL_Keycode reversemap_key(Controller::Control c);
+  SDL_Keycode reversemap_key(Controller::Control c) const;
   void bind_key(SDL_Keycode key, Controller::Control c);
 
   void read(const lisp::Lisp& keymap_lisp);

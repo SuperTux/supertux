@@ -129,7 +129,7 @@ public:
                              LAYER_GUI-10);
   }
 
-  bool is_active()
+  bool is_active() const
   {
     return m_is_active;
   }
