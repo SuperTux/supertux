@@ -346,7 +346,7 @@ void
 WorldMap::load_level_information(LevelTile& level)
 {
   /** get special_tile's title */
-  level.title = "<no title>";
+  level.title = _("<no title>");
   level.target_time = 0.0f;
 
   try {
