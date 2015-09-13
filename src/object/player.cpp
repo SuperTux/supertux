@@ -486,7 +486,7 @@ Player::update(float elapsed_time)
 }
 
 bool
-Player::slightly_above_ground()
+Player::slightly_above_ground() const
 {
   float abs_vy = std::abs(physic.get_velocity_y());
   float ground_y_delta = std::abs(last_ground_y - get_pos().y);
@@ -494,7 +494,7 @@ Player::slightly_above_ground()
 }
 
 bool
-Player::on_ground()
+Player::on_ground() const
 {
   return on_ground_flag || slightly_above_ground();
 }
@@ -1173,7 +1173,7 @@ Player::set_visible(bool visible_)
 }
 
 bool
-Player::get_visible()
+Player::get_visible() const
 {
   return visible;
 }

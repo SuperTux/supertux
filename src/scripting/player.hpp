@@ -68,7 +68,7 @@ public:
    * returns true if the player is currently visible (that is he was not set
    * invisible by the set_visible method)
    */
-  virtual bool get_visible() = 0;
+  virtual bool get_visible() const = 0;
 
   /**
    * Hurts a player, if completely=true then the player will be killed even
@@ -85,7 +85,7 @@ public:
   /**
    * Returns whether ghost mode is currently enabled
    */
-  virtual bool get_ghost_mode() = 0;
+  virtual bool get_ghost_mode() const = 0;
 
   /**
    * start kick animation

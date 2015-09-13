@@ -184,9 +184,9 @@ public:
   { return stone; }
 
   void set_visible(bool visible);
-  bool get_visible();
+  bool get_visible() const;
 
-  bool on_ground();
+  bool on_ground() const;
 
   Portable* get_grabbed_object() const
   {
@@ -212,7 +212,7 @@ public:
   /**
    * Returns whether ghost mode is currently enabled
    */
-  bool get_ghost_mode() { return ghost_mode; }
+  bool get_ghost_mode() const { return ghost_mode; }
 
   /**
    * Changes height of bounding box.
@@ -255,7 +255,7 @@ private:
   void do_jump_apex();
   void early_jump_apex();
 
-  bool slightly_above_ground();
+  bool slightly_above_ground() const;
 
   /**
    * slows Tux down a little, based on where he's standing
