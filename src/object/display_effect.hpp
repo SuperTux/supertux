@@ -43,7 +43,7 @@ public:
   void fade_out(float fadetime);
   void fade_in(float fadetime);
   void set_black(bool enabled);
-  bool is_black();
+  bool is_black() const;
   void sixteen_to_nine(float fadetime);
   void four_to_three(float fadetime);
 

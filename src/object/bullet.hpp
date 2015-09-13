@@ -40,7 +40,7 @@ public:
    */
   void ricochet(GameObject& other, const CollisionHit& hit);
 
-  BonusType get_type()
+  BonusType get_type() const
   {
     return type;
   }

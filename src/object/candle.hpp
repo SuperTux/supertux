@@ -40,7 +40,7 @@ public:
    * @{
    */
   void puff_smoke(); /**< spawn a puff of smoke */
-  bool get_burning(); /**< returns true if candle is lighted */
+  bool get_burning() const; /**< returns true if candle is lighted */
   void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
   /**
    * @}

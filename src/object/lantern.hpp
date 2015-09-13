@@ -38,7 +38,7 @@ public:
   /**
    * returns true if lamp is currently open
    */
-  bool is_open();
+  bool is_open() const;
 
   /**
    * returns the lamp's color
