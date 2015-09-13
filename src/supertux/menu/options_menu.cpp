@@ -274,13 +274,6 @@ OptionsMenu::menu_action(MenuItem* item)
           g_config->fullscreen_size.height = 0;
           g_config->fullscreen_refresh_rate = 0;
         }
-        else if(sscanf(item->list[item->selected].c_str(), "%dx%d",
-                       &width, &height) == 2)
-        {
-          g_config->fullscreen_size.width = width;
-          g_config->fullscreen_size.height = height;
-          g_config->fullscreen_refresh_rate = 0;
-        }
         else if(sscanf(item->list[item->selected].c_str(), "%dx%d@%d",
                   &width, &height, &refresh_rate) == 3)
         {
@@ -288,6 +281,13 @@ OptionsMenu::menu_action(MenuItem* item)
           g_config->fullscreen_size.width = width;
           g_config->fullscreen_size.height = height;
           g_config->fullscreen_refresh_rate = refresh_rate;
+        }
+        else if(sscanf(item->list[item->selected].c_str(), "%dx%d",
+                       &width, &height) == 2)
+        {
+            g_config->fullscreen_size.width = width;
+            g_config->fullscreen_size.height = height;
+            g_config->fullscreen_refresh_rate = 0;
         }
       }
       break;
