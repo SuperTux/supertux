@@ -123,7 +123,7 @@ OptionsMenu::OptionsMenu(bool complete)
       if(last_display_mode == out.str())
         continue;
       last_display_mode = out.str();
-      fullscreen_res->list.push_back(out.str());
+      fullscreen_res->list.insert(fullscreen_res->list.begin(), out.str());
     }
   }
   fullscreen_res->list.push_back("Desktop");
