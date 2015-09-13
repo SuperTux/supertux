@@ -133,7 +133,9 @@ OptionsMenu::OptionsMenu(bool complete)
     std::ostringstream out;
     if (g_config->fullscreen_size != Size(0, 0))
     {
-      out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height << "@" << g_config->fullscreen_refresh_rate;
+      out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height;
+      if (g_config->fullscreen_refresh_rate)
+         out << "@" << g_config->fullscreen_refresh_rate;
       fullscreen_size_str = out.str();
     }
   }
@@ -270,6 +272,13 @@ OptionsMenu::menu_action(MenuItem* item)
         {
           g_config->fullscreen_size.width = 0;
           g_config->fullscreen_size.height = 0;
+          g_config->fullscreen_refresh_rate = 0;
+        }
+        else if(sscanf(item->list[item->selected].c_str(), "%dx%d",
+                       &width, &height) == 2)
+        {
+          g_config->fullscreen_size.width = width;
+          g_config->fullscreen_size.height = height;
           g_config->fullscreen_refresh_rate = 0;
         }
         else if(sscanf(item->list[item->selected].c_str(), "%dx%d@%d",
