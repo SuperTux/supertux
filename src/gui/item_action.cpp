@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2004 Tobas Glaesser <tobi.web@gmx.de>
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,29 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
+#include "gui/item_action.hpp"
 
-#include "gui/menu.hpp"
-
-class OptionsMenu : public Menu
+ItemAction::ItemAction(const std::string& text_, int _id) :
+  MenuItem(text_, _id)
 {
-  public:
-    OptionsMenu(bool complete);
-    virtual ~OptionsMenu();
-
-    void menu_action(MenuItem* item) override;
-
-  private:
-    size_t next_magnification;
-    size_t next_aspect_ratio;
-    size_t next_resolution;
-
-    std::vector<std::string> magnifications;
-    std::vector<std::string> aspect_ratios;
-    std::vector<std::string> resolutions;
-};
-
-#endif
+}
 
 /* EOF */

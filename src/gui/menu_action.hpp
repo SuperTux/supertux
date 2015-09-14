@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2004 Tobas Glaesser <tobi.web@gmx.de>
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,29 +14,37 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
+#ifndef HEADER_SUPERTUX_GUI_MENU_ACTION_HPP
+#define HEADER_SUPERTUX_GUI_MENU_ACTION_HPP
 
-#include "gui/menu.hpp"
-
-class OptionsMenu : public Menu
-{
-  public:
-    OptionsMenu(bool complete);
-    virtual ~OptionsMenu();
-
-    void menu_action(MenuItem* item) override;
-
-  private:
-    size_t next_magnification;
-    size_t next_aspect_ratio;
-    size_t next_resolution;
-
-    std::vector<std::string> magnifications;
-    std::vector<std::string> aspect_ratios;
-    std::vector<std::string> resolutions;
+/* Kinds of menu items */
+enum MenuItemKind {
+  MN_ACTION,
+  MN_GOTO,
+  MN_TOGGLE,
+  MN_BACK,
+  MN_INACTIVE,
+  MN_TEXTFIELD,
+  MN_NUMFIELD,
+  MN_CONTROLFIELD,
+  MN_STRINGSELECT,
+  MN_LABEL,
+  MN_HL /* horizontal line */
 };
 
-#endif
+/* Action done on the menu */
+enum MenuAction {
+  MENU_ACTION_NONE = -1,
+  MENU_ACTION_UP,
+  MENU_ACTION_DOWN,
+  MENU_ACTION_LEFT,
+  MENU_ACTION_RIGHT,
+  MENU_ACTION_HIT,
+  MENU_ACTION_INPUT,
+  MENU_ACTION_REMOVE,
+  MENU_ACTION_BACK
+};
+
+#endif // HEADER_SUPERTUX_GUI_MENU_ACTION_HPP
 
 /* EOF */
