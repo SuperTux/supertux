@@ -33,7 +33,6 @@
 
 static const float SQUISH_TIME = 2;
 static const float BURN_TIME = 1;
-//static const float MELT_TIME = 0.5;
 
 static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
@@ -194,7 +193,7 @@ BadGuy::update(float elapsed_time)
                                                                      "burning_" + std::to_string(pa),
                                                                      ppos, ANCHOR_MIDDLE,
                                                                      Vector(0, -10 * Sector::current()->get_gravity()), Vector(0, -20 * Sector::current()->get_gravity()),
-                                                                     LAYER_OBJECTS+1));
+                                                                     LAYER_OBJECTS));
     }
     case STATE_SQUISHED:
       is_active_flag = false;
@@ -207,28 +206,11 @@ BadGuy::update(float elapsed_time)
     case STATE_MELTING: {
       is_active_flag = false;
       movement = physic.get_movement(elapsed_time);
-//      melting_time += elapsed_time;
       if ( sprite->animation_done() || on_ground() ) {
         Sector::current()->add_object( std::make_shared<WaterDrop>(bbox.p1, get_mpsf(), physic.get_velocity()) );
         remove_me();
         break;
       }
-/*      Color tint = get_melting_tint();
-      float r = tint.red   * melting_time / MELT_TIME;
-      float g = tint.green * melting_time / MELT_TIME;
-      float b = tint.blue  * melting_time / MELT_TIME;
-      float a = tint.alpha * melting_time / MELT_TIME;
-      sprite->set_color(Color(1-r, 1-g, 1-b, 1-a));
-      // spawn water particles
-      int pa = graphicsRandom.rand(0,3);
-      float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
-      float py = graphicsRandom.randf(bbox.p1.y, bbox.p2.y);
-      Vector ppos = Vector(px, py);
-      Sector::current()->add_object(std::make_shared<SpriteParticle>(get_mpsf(), "particle_" + std::to_string(pa),
-                                                                     ppos, ANCHOR_MIDDLE,
-                                                                     Vector(0, 0), Vector(0, 100 * Sector::current()->get_gravity()),
-                                                                     LAYER_OBJECTS+1));*/
-
     } break;
     case STATE_GROUND_MELTING:
       is_active_flag = false;
@@ -723,9 +705,11 @@ BadGuy::ignite()
   physic.set_velocity_y(0);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   sprite->stop_animation();
+  layer = LAYER_OBJECTS - 1;
 
   if (sprite->has_action("melting-left")) {
 
+    // melt it!
     if (sprite->has_action("ground-melting-left") && on_ground()) {
       sprite->set_action(dir == LEFT ? "ground-melting-left" : "ground-melting-right", 1);
       SoundManager::current()->play("sounds/splash.ogg", get_pos());
@@ -737,23 +721,14 @@ BadGuy::ignite()
     }
 
     run_dead_script();
-    return;
-  }
 
-//  if ( is_freezable() ) {
-
+  } else {
+    // burn it!
     sprite->set_color(Color(0.40f, 0.40f, 0.40f));
     SoundManager::current()->play("sounds/flame.wav", get_pos());
     set_state(STATE_BURNING);
     run_dead_script();
-
-  /*} else {
-
-    run_dead_script();
-    SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
-    set_state(STATE_MELTING);
-
-  }*/
+  }
 }
 
 void
