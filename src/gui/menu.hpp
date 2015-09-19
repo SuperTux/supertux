@@ -28,22 +28,10 @@
 class DrawingContext;
 class MenuItem;
 
+#include "gui/menu_action.hpp"
+
 class Menu
 {
-private:
-  /* Action done on the menu */
-  enum MenuAction {
-    MENU_ACTION_NONE = -1,
-    MENU_ACTION_UP,
-    MENU_ACTION_DOWN,
-    MENU_ACTION_LEFT,
-    MENU_ACTION_RIGHT,
-    MENU_ACTION_HIT,
-    MENU_ACTION_INPUT,
-    MENU_ACTION_REMOVE,
-    MENU_ACTION_BACK
-  };
-
 public:
   Menu();
   virtual ~Menu();
@@ -51,13 +39,13 @@ public:
   MenuItem* add_hl();
   MenuItem* add_label(const std::string& text);
   MenuItem* add_entry(int id, const std::string& text);
-  MenuItem* add_toggle(int id, const std::string& text, bool toggled = false);
-  MenuItem* add_inactive(int id, const std::string& text);
-  MenuItem* add_back(const std::string& text);
-  MenuItem* add_submenu(const std::string& text, int submenu);
+  MenuItem* add_toggle(int id, const std::string& text, bool* toggled);
+  MenuItem* add_inactive(const std::string& text);
+  MenuItem* add_back(const std::string& text, int id = -1);
+  MenuItem* add_submenu(const std::string& text, int submenu, int id = -1);
   MenuItem* add_controlfield(int id, const std::string& text,
                              const std::string& mapping = "");
-  MenuItem* add_string_select(int id, const std::string& text);
+  MenuItem* add_string_select(int id, const std::string& text, size_t* selected, std::vector<std::string> strings);
 
   virtual void menu_action(MenuItem* item) = 0;
 
@@ -85,9 +73,6 @@ public:
   void set_center_pos(float x, float y);
 
   void event(const SDL_Event& event);
-
-  bool is_toggled(int id) const;
-  void set_toggled(int id, bool toggled);
 
   float get_width() const;
   float get_height() const;

@@ -39,6 +39,7 @@ private:
 private:
   InputManager& m_input_manager;
   bool m_joysticks_available;
+  bool m_auto_joystick_cfg;
 
 private:
   JoystickMenu(const JoystickMenu&);

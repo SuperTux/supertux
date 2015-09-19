@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2015 Hume2 <teratux.mail@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,59 +24,62 @@
 
 #include "gui/menu.hpp"
 
-/* Kinds of menu items */
-enum MenuItemKind {
-  MN_ACTION,
-  MN_GOTO,
-  MN_TOGGLE,
-  MN_BACK,
-  MN_INACTIVE,
-  MN_TEXTFIELD,
-  MN_NUMFIELD,
-  MN_CONTROLFIELD,
-  MN_STRINGSELECT,
-  MN_LABEL,
-  MN_HL /* horizontal line */
-};
+class Color;
 
 class MenuItem
 {
-public:
-  static MenuItem* create(MenuItemKind kind, const std::string& text,
-                          int init_toggle, int target_menu, int id, int key);
+  public:
+    MenuItem(const std::string& text_, int id = -1);
+    virtual ~MenuItem();
 
-public:
-  MenuItem(MenuItemKind kind, int id = -1);
+    virtual void set_help(const std::string& help_text);
+    virtual void change_text (const std::string& text);
 
-  void set_help(const std::string& help_text);
+    /** Draws the menu item. */
+    virtual void draw(DrawingContext&, Vector pos, int menu_width, bool active);
 
-  void change_text (const std::string& text);
-  void change_input(const std::string& text);
+    /** Returns true when the menu item has no action and therefore can be skipped.
+        Useful for labels and horizontal lines.*/
+    virtual bool skippable() const {
+      return false;
+    }
 
-  std::string get_input_with_symbol(bool active_item);   // returns the text with an input symbol
+    /** Returns the minimum width of the menu item. */
+    virtual int get_width() const;
 
-public:
-  MenuItemKind kind;
-  int id;   // item id
-  bool toggled;
-  std::string text;
-  std::string input;
-  std::string help;
+    /** Processes the menu action. */
+    virtual void process_action(MenuAction action) { }
 
-  std::vector<std::string> list; // list of values for a STRINGSELECT item
-  size_t selected; // currently selected item
+    /** Processes the given event. */
+    virtual void event(const SDL_Event& ev) { }
 
-  int target_menu;
+    virtual Color get_color() const;
 
-private:
-  /// keyboard key or joystick button
-  bool input_flickering;
+    /** Returns true when the memu manager shouldn't do anything else. */
+    virtual bool no_other_action() const {
+      return false;
+    }
 
-private:
-  MenuItem(const MenuItem&);
-  MenuItem& operator=(const MenuItem&);
+    int id; //item ID
+    std::string text;
+    std::string help;
+
+  private:
+    MenuItem(const MenuItem&);
+    MenuItem& operator=(const MenuItem&);
 };
 
 #endif
 
+#ifdef INCLUDE_MENU_ITEMS
+  #include "gui/item_action.hpp"
+  #include "gui/item_back.hpp"
+  #include "gui/item_controlfield.hpp"
+  #include "gui/item_goto.hpp"
+  #include "gui/item_hl.hpp"
+  #include "gui/item_inactive.hpp"
+  #include "gui/item_label.hpp"
+  #include "gui/item_stringselect.hpp"
+  #include "gui/item_toggle.hpp"
+#endif
 /* EOF */

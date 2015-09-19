@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2004 Tobas Glaesser <tobi.web@gmx.de>
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,29 +14,26 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
+#include "gui/item_goto.hpp"
+
+#include <stdio.h>
 
 #include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
+#include "supertux/menu/menu_storage.hpp"
 
-class OptionsMenu : public Menu
+ItemGoTo::ItemGoTo(const std::string& text_, int target_menu_, int _id) :
+  MenuItem(text_, _id),
+  target_menu(target_menu_)
 {
-  public:
-    OptionsMenu(bool complete);
-    virtual ~OptionsMenu();
+}
 
-    void menu_action(MenuItem* item) override;
-
-  private:
-    size_t next_magnification;
-    size_t next_aspect_ratio;
-    size_t next_resolution;
-
-    std::vector<std::string> magnifications;
-    std::vector<std::string> aspect_ratios;
-    std::vector<std::string> resolutions;
-};
-
-#endif
+void
+ItemGoTo::process_action(MenuAction action) {
+  if (action == MENU_ACTION_HIT) {
+    assert(target_menu != 0);
+    MenuManager::instance().push_menu(target_menu);
+  }
+}
 
 /* EOF */
