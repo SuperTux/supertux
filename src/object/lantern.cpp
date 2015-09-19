@@ -139,7 +139,7 @@ Lantern::ungrab(MovingObject& object, Direction dir)
 }
 
 bool
-Lantern::is_open()
+Lantern::is_open() const
 {
   return ((grabbed) && lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0);
 }

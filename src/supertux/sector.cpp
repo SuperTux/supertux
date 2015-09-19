@@ -144,7 +144,7 @@ Sector::~Sector()
 }
 
 Level*
-Sector::get_level()
+Sector::get_level() const
 {
   return level;
 }
@@ -697,7 +697,7 @@ Sector::deactivate()
 }
 
 Rectf
-Sector::get_active_region()
+Sector::get_active_region() const
 {
   return Rectf(
     camera->get_translation() - Vector(1600, 1200),
@@ -705,7 +705,7 @@ Sector::get_active_region()
 }
 
 int
-Sector::calculate_foremost_layer()
+Sector::calculate_foremost_layer() const
 {
   int layer = LAYER_BACKGROUND0;
   for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i)
@@ -729,7 +729,7 @@ Sector::calculate_foremost_layer()
 }
 
 int
-Sector::get_foremost_layer()
+Sector::get_foremost_layer() const
 {
   return foremost_layer;
 }
@@ -1614,13 +1614,13 @@ Sector::resume_music()
 }
 
 MusicType
-Sector::get_music_type()
+Sector::get_music_type() const
 {
   return currentmusic;
 }
 
 int
-Sector::get_total_badguys()
+Sector::get_total_badguys() const
 {
   int total_badguys = 0;
   for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
@@ -1721,7 +1721,7 @@ Sector::get_gravity() const
 }
 
 Player*
-Sector::get_nearest_player (const Vector& pos)
+Sector::get_nearest_player (const Vector& pos) const
 {
   Player *nearest_player = NULL;
   float nearest_dist = std::numeric_limits<float>::max();
@@ -1745,7 +1745,7 @@ Sector::get_nearest_player (const Vector& pos)
 } /* Player *get_nearest_player */
 
 std::vector<MovingObject*>
-Sector::get_nearby_objects (const Vector& center, float max_distance)
+Sector::get_nearby_objects (const Vector& center, float max_distance) const
 {
   std::vector<MovingObject*> ret;
   std::vector<Player*> players = Sector::current()->get_players();

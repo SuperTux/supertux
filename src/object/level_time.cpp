@@ -131,7 +131,7 @@ LevelTime::stop()
 }
 
 float
-LevelTime::get_time()
+LevelTime::get_time() const
 {
   return time_left;
 }

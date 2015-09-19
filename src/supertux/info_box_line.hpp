@@ -40,7 +40,7 @@ public:
   ~InfoBoxLine();
 
   void draw(DrawingContext& context, const Rectf& bbox, int layer);
-  float get_height();
+  float get_height() const;
 
   static const std::vector<InfoBoxLine*> split(const std::string& text, float width);
 

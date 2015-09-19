@@ -57,7 +57,7 @@ public:
   /**
    * Returns the number of seconds left on the clock
    */
-  float get_time();
+  float get_time() const;
 
   /**
    * Changes the number of seconds left on the clock

@@ -71,7 +71,7 @@ PathWalker::advance(float elapsed_time)
 }
 
 Vector
-PathWalker::get_pos()
+PathWalker::get_pos() const
 {
   const Path::Node* current_node = & (path->nodes[current_node_nr]);
   const Path::Node* next_node = & (path->nodes[next_node_nr]);

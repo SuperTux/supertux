@@ -34,6 +34,7 @@ public:
   }
 
   virtual ObjectSettings get_settings();
+  bool might_climb(int width, int height) const;
 
 protected:
   bool collision_squished(GameObject& object);

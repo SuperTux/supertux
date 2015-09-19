@@ -171,7 +171,7 @@ InfoBoxLine::draw(DrawingContext& context, const Rectf& bbox, int layer)
 }
 
 float
-InfoBoxLine::get_height()
+InfoBoxLine::get_height() const
 {
   switch (lineType) {
     case IMAGE:

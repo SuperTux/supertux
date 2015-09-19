@@ -22,15 +22,8 @@ ShrinkFade::ShrinkFade(const Vector& dest_, float fade_time_) :
   dest(dest_),
   fade_time(fade_time_),
   accum_time(0),
-  speedleft(),
-  speedright(),
-  speedtop(),
-  speedbottom()
+  initial_size(SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_HEIGHT : SCREEN_WIDTH)
 {
-  speedleft = dest.x / fade_time;
-  speedright = (SCREEN_WIDTH - dest.x) / fade_time;
-  speedtop = dest.y / fade_time;
-  speedbottom = (SCREEN_HEIGHT - dest.y) / fade_time;
 }
 
 ShrinkFade::~ShrinkFade()
@@ -49,14 +42,13 @@ void
 ShrinkFade::draw(DrawingContext& context)
 {
   float progress = accum_time / fade_time;
-  context.draw_inverse_ellipse(dest,
-                               Vector(2*SCREEN_WIDTH  * (1.0f - progress),
-                                      2*SCREEN_HEIGHT * (1.0f - progress)),
+  float diameter = 2 * initial_size * (1.0f - progress);
+  context.draw_inverse_ellipse(dest, Vector(1.1f * diameter, diameter),
                                Color(0, 0, 0), LAYER_GUI+1);
 }
 
 bool
-ShrinkFade::done()
+ShrinkFade::done() const
 {
   return accum_time >= fade_time;
 }

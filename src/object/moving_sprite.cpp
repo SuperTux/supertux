@@ -113,6 +113,12 @@ MovingSprite::update(float )
 {
 }
 
+std::string
+MovingSprite::get_sprite_name() const
+{
+  return sprite_name;
+}
+
 void
 MovingSprite::set_action(const std::string& action, int loops)
 {

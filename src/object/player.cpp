@@ -263,7 +263,7 @@ Player::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 }
 
 float
-Player::get_speedlimit()
+Player::get_speedlimit() const
 {
   return speedlimit;
 }
@@ -487,7 +487,7 @@ Player::update(float elapsed_time)
 }
 
 bool
-Player::slightly_above_ground()
+Player::slightly_above_ground() const
 {
   float abs_vy = std::abs(physic.get_velocity_y());
   float ground_y_delta = std::abs(last_ground_y - get_pos().y);
@@ -495,13 +495,13 @@ Player::slightly_above_ground()
 }
 
 bool
-Player::on_ground()
+Player::on_ground() const
 {
   return on_ground_flag || slightly_above_ground();
 }
 
 bool
-Player::is_big()
+Player::is_big() const
 {
   if(player_status->bonus == NO_BONUS)
     return false;
@@ -1174,7 +1174,7 @@ Player::set_visible(bool visible_)
 }
 
 bool
-Player::get_visible()
+Player::get_visible() const
 {
   return visible;
 }
@@ -1622,7 +1622,7 @@ Player::add_velocity(const Vector& velocity, const Vector& end_speed)
 }
 
 Vector
-Player::get_velocity()
+Player::get_velocity() const
 {
   return physic.get_velocity();
 }

@@ -89,7 +89,7 @@ LevelsetState::store_level_state(const LevelState& in_state)
 }
 
 LevelState
-LevelsetState::get_level_state(const std::string& filename)
+LevelsetState::get_level_state(const std::string& filename) const
 {
   auto it = std::find_if(level_states.begin(), level_states.end(),
                          [filename](const LevelState& state)

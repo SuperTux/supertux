@@ -63,7 +63,7 @@ public:
 
   void add_sector(Sector* sector);
 
-  Sector* get_sector(const std::string& name);
+  Sector* get_sector(const std::string& name) const;
 
   size_t get_sector_count() const;
   Sector* get_sector(size_t num) const;
@@ -71,9 +71,9 @@ public:
   const TileSet *get_tileset() const
   { return tileset; }
 
-  int get_total_coins();
-  int get_total_badguys();
-  int get_total_secrets();
+  int get_total_coins() const;
+  int get_total_badguys() const;
+  int get_total_secrets() const;
 
 private:
   void load_old_format(const Reader& reader);

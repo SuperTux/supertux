@@ -46,7 +46,7 @@ FadeIn::draw(DrawingContext& context)
 }
 
 bool
-FadeIn::done()
+FadeIn::done() const
 {
   return accum_time >= fade_time;
 }

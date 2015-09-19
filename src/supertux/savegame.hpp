@@ -48,7 +48,7 @@ public:
   std::string directory;
   std::vector<LevelState> level_states;
 
-  LevelState get_level_state(const std::string& filename);
+  LevelState get_level_state(const std::string& filename) const;
   void store_level_state(const LevelState& state);
 };
 

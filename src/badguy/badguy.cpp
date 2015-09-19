@@ -211,7 +211,7 @@ BadGuy::save(lisp::Writer& writer) {
 }
 
 Direction
-BadGuy::str2dir( std::string dir_str )
+BadGuy::str2dir( std::string dir_str ) const
 {
   if( dir_str == "auto" )
     return AUTO;
@@ -458,7 +458,7 @@ BadGuy::kill_fall()
 
   // Set the badguy layer to be the foremost, so that
   // this does not reveal secret tilemaps:
-  layer = Sector::current()->get_foremost_layer() + 1;
+  layer = Sector::current()->get_foremost_layer();
 
   // start dead-script
   run_dead_script();
@@ -511,7 +511,7 @@ BadGuy::set_state(State state_)
 }
 
 bool
-BadGuy::is_offscreen()
+BadGuy::is_offscreen() const
 {
   Vector dist;
   if (Editor::current()) {
@@ -561,7 +561,7 @@ BadGuy::try_activate()
 }
 
 bool
-BadGuy::might_fall(int height)
+BadGuy::might_fall(int height) const
 {
   // make sure we check for at least a 1-pixel fall
   assert(height > 0);
@@ -581,7 +581,7 @@ BadGuy::might_fall(int height)
 }
 
 Player*
-BadGuy::get_nearest_player()
+BadGuy::get_nearest_player() const
 {
   return Sector::current()->get_nearest_player (this->get_bbox ());
 }
@@ -596,19 +596,19 @@ BadGuy::update_on_ground_flag(const CollisionHit& hit)
 }
 
 bool
-BadGuy::on_ground()
+BadGuy::on_ground() const
 {
   return on_ground_flag;
 }
 
 bool
-BadGuy::is_active()
+BadGuy::is_active() const
 {
   return is_active_flag;
 }
 
 Vector
-BadGuy::get_floor_normal()
+BadGuy::get_floor_normal() const
 {
   return floor_normal;
 }

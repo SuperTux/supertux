@@ -53,7 +53,7 @@ KeyboardMenu::~KeyboardMenu()
 {}
 
 std::string
-KeyboardMenu::get_key_name(SDL_Keycode key)
+KeyboardMenu::get_key_name(SDL_Keycode key) const
 {
   switch(key) {
     case SDLK_UNKNOWN:

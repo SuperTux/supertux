@@ -281,9 +281,9 @@ ObjectFactory::init_factories()
 }
 
 GameObjectPtr
-ObjectFactory::create(const std::string& name, const Reader& reader)
+ObjectFactory::create(const std::string& name, const Reader& reader) const
 {
-  Factories::iterator i = factories.find(name);
+  Factories::const_iterator i = factories.find(name);
 
   if (i == factories.end())
   {
@@ -298,7 +298,7 @@ ObjectFactory::create(const std::string& name, const Reader& reader)
 }
 
 GameObjectPtr
-ObjectFactory::create(const std::string& name, const Vector& pos, const Direction dir)
+ObjectFactory::create(const std::string& name, const Vector& pos, const Direction dir) const
 {
   std::stringstream lisptext;
   lisptext << "((x " << pos.x << ")"

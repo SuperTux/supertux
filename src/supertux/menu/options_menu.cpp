@@ -117,11 +117,13 @@ OptionsMenu::OptionsMenu(bool complete)
     else
     {
       std::ostringstream out;
-      out << mode.w << "x" << mode.h << "@" << mode.refresh_rate;
+      out << mode.w << "x" << mode.h;
+      if(mode.refresh_rate)
+        out << "@" << mode.refresh_rate;
       if(last_display_mode == out.str())
         continue;
       last_display_mode = out.str();
-      fullscreen_res->list.push_back(out.str());
+      fullscreen_res->list.insert(fullscreen_res->list.begin(), out.str());
     }
   }
   fullscreen_res->list.push_back("Desktop");
@@ -131,7 +133,9 @@ OptionsMenu::OptionsMenu(bool complete)
     std::ostringstream out;
     if (g_config->fullscreen_size != Size(0, 0))
     {
-      out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height << "@" << g_config->fullscreen_refresh_rate;
+      out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height;
+      if (g_config->fullscreen_refresh_rate)
+         out << "@" << g_config->fullscreen_refresh_rate;
       fullscreen_size_str = out.str();
     }
   }
@@ -277,6 +281,13 @@ OptionsMenu::menu_action(MenuItem* item)
           g_config->fullscreen_size.width = width;
           g_config->fullscreen_size.height = height;
           g_config->fullscreen_refresh_rate = refresh_rate;
+        }
+        else if(sscanf(item->list[item->selected].c_str(), "%dx%d",
+                       &width, &height) == 2)
+        {
+            g_config->fullscreen_size.width = width;
+            g_config->fullscreen_size.height = height;
+            g_config->fullscreen_refresh_rate = 0;
         }
       }
       break;

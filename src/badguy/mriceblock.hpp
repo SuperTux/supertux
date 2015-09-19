@@ -45,6 +45,7 @@ public:
   }
 
   virtual ObjectSettings get_settings();
+  bool can_break() const;
 
 protected:
   enum IceState {

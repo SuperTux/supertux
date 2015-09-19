@@ -163,7 +163,7 @@ DisplayEffect::set_black(bool enabled)
 }
 
 bool
-DisplayEffect::is_black()
+DisplayEffect::is_black() const
 {
   return black;
 }

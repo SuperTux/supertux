@@ -64,7 +64,7 @@ public:
 
   /** True if this badguy can break bricks or open bonusblocks in his
       current form. */
-  virtual bool can_break()
+  virtual bool can_break() const
   {
     return false;
   }
@@ -158,18 +158,18 @@ protected:
   }
 
   /** returns a pointer to the nearest player or 0 if no player is available */
-  Player* get_nearest_player();
+  Player* get_nearest_player() const;
 
   /** initial position of the enemy. Also the position where enemy
       respawns when after being deactivated. */
-  bool is_offscreen();
+  bool is_offscreen() const;
 
   /** Returns true if we might soon fall at least @c height
       pixels. Minimum value for height is 1 pixel */
-  bool might_fall(int height = 1);
+  bool might_fall(int height = 1) const;
 
   /** Get Direction from String. */
-  Direction str2dir( std::string dir_str );
+  Direction str2dir( std::string dir_str ) const;
 
   /** Update on_ground_flag judging by solid collision @c hit. This
       gets called from the base implementation of collision_solid, so
@@ -180,16 +180,16 @@ protected:
   /** Returns true if we touched ground in the past frame This only
       works if update_on_ground_flag() gets called in
       collision_solid. */
-  bool on_ground();
+  bool on_ground() const;
 
   /** Returns floor normal stored the last time when
       update_on_ground_flag was called and we touched something solid
       from above. */
-  Vector get_floor_normal();
+  Vector get_floor_normal() const;
 
   /** Returns true if we were in STATE_ACTIVE at the beginning of the
       last call to update() */
-  bool is_active();
+  bool is_active() const;
 
   /** changes colgroup_active. Also calls set_group when badguy is in STATE_ACTIVE */
   void set_colgroup_active(CollisionGroup group);

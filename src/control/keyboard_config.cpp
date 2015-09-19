@@ -115,9 +115,9 @@ KeyboardConfig::bind_key(SDL_Keycode key, Controller::Control control)
 }
 
 SDL_Keycode
-KeyboardConfig::reversemap_key(Controller::Control c)
+KeyboardConfig::reversemap_key(Controller::Control c) const
 {
-  for(KeyMap::iterator i = keymap.begin(); i != keymap.end(); ++i)
+  for(KeyMap::const_iterator i = keymap.begin(); i != keymap.end(); ++i)
   {
     if (i->second == c)
     {

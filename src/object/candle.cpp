@@ -148,7 +148,7 @@ Candle::puff_smoke()
 }
 
 bool
-Candle::get_burning()
+Candle::get_burning() const
 {
   return burning;
 }

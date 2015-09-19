@@ -454,7 +454,7 @@ Console::consoleCommand(std::string /*command*/, std::vector<std::string> /*argu
 }
 
 bool
-Console::hasFocus()
+Console::hasFocus() const
 {
   return m_focused;
 }

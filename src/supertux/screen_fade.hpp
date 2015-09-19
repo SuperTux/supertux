@@ -31,7 +31,7 @@ public:
   {}
 
   /** returns true if the effect is completed */
-  virtual bool done() = 0;
+  virtual bool done() const = 0;
 
   /** gets called once per frame. The ScreenFade should draw itself in
       this function.  State changes should not be done in this

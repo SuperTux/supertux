@@ -55,6 +55,8 @@ public:
     return "moving-sprite";
   }
 
+  std::string get_sprite_name() const;
+
 protected:
   std::string sprite_name;
   SpritePtr sprite;

@@ -61,7 +61,7 @@ public:
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
-  Path& get_path() {
+  Path& get_path() const {
     return *path.get();
   }
   virtual std::string get_class() const {

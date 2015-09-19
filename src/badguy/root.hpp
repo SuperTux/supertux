@@ -29,10 +29,10 @@ public:
 
   void deactivate();
   void active_update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-  virtual bool is_flammable() const { return false; }
-  virtual bool is_freezable() const { return false; }
-  virtual void kill_fall() { }
+  void draw(DrawingContext& context);
+  bool is_flammable() const { return false; }
+  bool is_freezable() const { return false; }
+  void kill_fall() { }
 
 protected:
   enum MyState {
