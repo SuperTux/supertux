@@ -75,6 +75,11 @@ class Editor : public Screen,
     void load_sector(std::string name);
     void load_sector(int id);
 
+    void scroll_up();
+    void scroll_down();
+    void scroll_left();
+    void scroll_right();
+
   private:
     bool enabled;
 
@@ -82,6 +87,9 @@ class Editor : public Screen,
     void load_layers();
     void quit_editor();
     void update_keyboard();
+
+    bool can_scroll_horz();
+    bool can_scroll_vert();
 
     Editor(const Editor&);
     Editor& operator=(const Editor&);
