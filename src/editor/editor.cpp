@@ -104,18 +104,22 @@ void Editor::update(float elapsed_time)
     currentsector->update(0);
     tileselect.update(elapsed_time);
     layerselect.update(elapsed_time);
+    inputcenter.update(elapsed_time);
   }
 
   update_keyboard();
 }
 
+bool Editor::can_scroll_vert() {
+  return currentsector->get_height() + 32 > SCREEN_HEIGHT;
+}
 
-void Editor::update_keyboard() {
-  if (!enabled){
-    return;
-  }
+bool Editor::can_scroll_horz() {
+  return currentsector->get_width() + 128 > SCREEN_WIDTH;
+}
 
-  if (InputManager::current()->get_controller()->hold(Controller::LEFT)) {
+void Editor::scroll_left() {
+  if (can_scroll_horz()) {
     if (currentsector->camera->get_translation().x >= 32) {
       currentsector->camera->move(-32, 0);
     } else {
@@ -124,8 +128,10 @@ void Editor::update_keyboard() {
     }
     inputcenter.actualize_pos();
   }
+}
 
-  if (InputManager::current()->get_controller()->hold(Controller::RIGHT)) {
+void Editor::scroll_right() {
+  if (can_scroll_horz()) {
     if (currentsector->camera->get_translation().x <= currentsector->get_width() - SCREEN_WIDTH + 96) {
       currentsector->camera->move(32, 0);
     } else {
@@ -136,8 +142,10 @@ void Editor::update_keyboard() {
     }
     inputcenter.actualize_pos();
   }
+}
 
-  if (InputManager::current()->get_controller()->hold(Controller::UP)) {
+void Editor::scroll_up() {
+  if (can_scroll_vert()) {
     if (currentsector->camera->get_translation().y >= 32) {
       currentsector->camera->move(0,-32);
     } else {
@@ -146,8 +154,10 @@ void Editor::update_keyboard() {
     }
     inputcenter.actualize_pos();
   }
+}
 
-  if (InputManager::current()->get_controller()->hold(Controller::DOWN)) {
+void Editor::scroll_down() {
+  if (can_scroll_vert()) {
     if (currentsector->camera->get_translation().y <= currentsector->get_height() - SCREEN_HEIGHT) {
       currentsector->camera->move(0, 32);
     } else {
@@ -157,6 +167,28 @@ void Editor::update_keyboard() {
             currentsector->get_height() - currentsector->camera->get_translation().y - SCREEN_HEIGHT +32);
     }
     inputcenter.actualize_pos();
+  }
+}
+
+void Editor::update_keyboard() {
+  if (!enabled){
+    return;
+  }
+
+  if (InputManager::current()->get_controller()->hold(Controller::LEFT)) {
+    scroll_left();
+  }
+
+  if (InputManager::current()->get_controller()->hold(Controller::RIGHT)) {
+    scroll_right();
+  }
+
+  if (InputManager::current()->get_controller()->hold(Controller::UP)) {
+    scroll_up();
+  }
+
+  if (InputManager::current()->get_controller()->hold(Controller::DOWN)) {
+    scroll_down();
   }
 }
 
