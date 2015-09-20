@@ -112,29 +112,9 @@ Menu::add_controlfield(int id, const std::string& text,
 }
 
 MenuItem*
-Menu::add_textfield(int id, const std::string& text, std::string input)
+Menu::add_textfield(const std::string& text, std::string* input, int id)
 {
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_TEXTFIELD, id));
-  item->change_text(text);
-  item->change_input(input);
-  return add_item(std::move(item));
-}
-
-MenuItem*
-Menu::add_numfield(int id, const std::string& text, float input)
-{
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_NUMFIELD, id));
-  item->change_text(text);
-  item->change_input(std::to_string(input));
-  return add_item(std::move(item));
-}
-
-MenuItem*
-Menu::add_intfield(int id, const std::string& text, int input)
-{
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_NUMFIELD, id));
-  item->change_text(text);
-  item->change_input(std::to_string(input));
+  std::unique_ptr<ItemTextField> item(new ItemTextField(text, input, id));
   return add_item(std::move(item));
 }
 
@@ -250,6 +230,16 @@ Menu::process_input()
      controller->pressed(Controller::START) ||
      controller->pressed(Controller::MENU_BACK)) {
     menuaction = MENU_ACTION_BACK;
+  }
+
+  if(controller->pressed(Controller::REMOVE)) {
+    menuaction = MENU_ACTION_REMOVE;
+    menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
+  }
+  if(controller->hold(Controller::REMOVE) &&
+     menu_repeat_time != 0 && real_time > menu_repeat_time) {
+    menuaction = MENU_ACTION_REMOVE;
+    menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
 
   if(items.size() == 0)

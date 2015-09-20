@@ -46,6 +46,7 @@ public:
   MenuItem* add_controlfield(int id, const std::string& text,
                              const std::string& mapping = "");
   MenuItem* add_string_select(int id, const std::string& text, size_t* selected, std::vector<std::string> strings);
+  MenuItem* add_textfield(const std::string& text, std::string* input, int id = -1);
 
   virtual void menu_action(MenuItem* item) = 0;
 
