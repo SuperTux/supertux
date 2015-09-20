@@ -38,6 +38,7 @@ class EditorInputCenter
     void update(float elapsed_time);
 
     void actualize_pos();
+    void stop_scrolling();
 
   private:
     Vector hovered_tile;
@@ -48,6 +49,7 @@ class EditorInputCenter
     Vector drag_start;
     MovingObject *dragged_object;
     std::unique_ptr<Tip> object_tip;
+    Vector obj_mouse_desync;
 
     void input_tile(Vector pos);
     void put_tile();
