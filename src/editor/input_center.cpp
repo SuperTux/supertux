@@ -43,6 +43,7 @@ EditorInputCenter::EditorInputCenter() :
   drag_start(0, 0),
   dragged_object(NULL),
   object_tip(),
+  obj_mouse_desync(0, 0),
   mouse_hs(HS_NONE),
   mouse_vs(VS_NONE)
 {
@@ -223,6 +224,7 @@ EditorInputCenter::grab_object() {
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
       dragged_object = moving_object;
+      obj_mouse_desync = sector_pos - bbox.p1;
       return;
     }
   }
@@ -236,7 +238,7 @@ EditorInputCenter::move_object() {
       dragged_object = NULL;
       return;
     }
-    dragged_object->set_pos(sector_pos);
+    dragged_object->set_pos(sector_pos - obj_mouse_desync);
   }
 }
 
@@ -412,6 +414,12 @@ EditorInputCenter::update_scroll() {
     default:
       break;
   }
+}
+
+void
+EditorInputCenter::stop_scrolling() {
+  mouse_vs = VS_NONE;
+  mouse_hs = HS_NONE;
 }
 
 void
