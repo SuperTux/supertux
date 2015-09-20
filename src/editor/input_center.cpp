@@ -42,12 +42,19 @@ EditorInputCenter::EditorInputCenter() :
   dragging(false),
   drag_start(0, 0),
   dragged_object(NULL),
-  object_tip()
+  object_tip(),
+  mouse_hs(HS_NONE),
+  mouse_vs(VS_NONE)
 {
 }
 
 EditorInputCenter::~EditorInputCenter()
 {
+}
+
+void
+EditorInputCenter::update(float elapsed_time) {
+  update_scroll();
 }
 
 Rectf
@@ -323,6 +330,7 @@ EditorInputCenter::event(SDL_Event& ev) {
     {
       mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
       actualize_pos();
+      actualize_scrolling();
       if (dragging) {
         switch (Editor::current()->tileselect.input_type) {
           case EditorInputGui::IP_TILE:
@@ -348,8 +356,6 @@ EditorInputCenter::event(SDL_Event& ev) {
             break;
         }
       }
-      // update tip
-      hover_object();
     } break;
     default:
       break;
@@ -360,6 +366,52 @@ void
 EditorInputCenter::actualize_pos() {
   sector_pos = mouse_pos + Editor::current()->currentsector->camera->get_translation();
   hovered_tile = sp_to_tp(sector_pos);
+  // update tip
+  hover_object();
+}
+
+void
+EditorInputCenter::actualize_scrolling() {
+  int inv_x = SCREEN_WIDTH - mouse_pos.x;
+  int inv_y = SCREEN_HEIGHT - mouse_pos.y;
+  if (mouse_pos.x <= 16) {
+    mouse_hs = HS_LEFT;
+  } else if(inv_x > 128 && inv_x < 144) {
+    mouse_hs = HS_RIGHT;
+  } else {
+    mouse_hs = HS_NONE;
+  }
+  if (mouse_pos.y <= 16) {
+    mouse_vs = VS_UP;
+  } else if(inv_y > 32 && inv_y < 48) {
+    mouse_vs = VS_DOWN;
+  } else {
+    mouse_vs = VS_NONE;
+  }
+}
+
+void
+EditorInputCenter::update_scroll() {
+  switch (mouse_hs) {
+    case HS_LEFT:
+      Editor::current()->scroll_left();
+      break;
+    case HS_RIGHT:
+      Editor::current()->scroll_right();
+      break;
+    default:
+      break;
+  }
+  switch (mouse_vs) {
+    case VS_UP:
+      Editor::current()->scroll_up();
+      break;
+    case VS_DOWN:
+      Editor::current()->scroll_down();
+      break;
+    default:
+      break;
+  }
 }
 
 void

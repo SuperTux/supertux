@@ -35,6 +35,7 @@ class EditorInputCenter
 
     void event(SDL_Event& ev);
     void draw(DrawingContext&);
+    void update(float elapsed_time);
 
     void actualize_pos();
 
@@ -69,6 +70,21 @@ class EditorInputCenter
 
     // in sector position
     Rectf drag_rect();
+
+    // scrolling the level on update
+    enum HorizontalScrolling{
+      HS_NONE,HS_LEFT,HS_RIGHT
+    };
+
+    enum VerticalScrolling{
+      VS_NONE,VS_UP,VS_DOWN
+    };
+
+    HorizontalScrolling mouse_hs;
+    VerticalScrolling mouse_vs;
+
+    void actualize_scrolling();
+    void update_scroll();
 
     EditorInputCenter(const EditorInputCenter&);
     EditorInputCenter& operator=(const EditorInputCenter&);
