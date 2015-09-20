@@ -64,7 +64,7 @@ Wind::save(lisp::Writer& writer) {
 
 ObjectSettings
 Wind::get_settings() {
-  ObjectSettings result(_("Scripted object"));
+  ObjectSettings result(_("Wind"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed X"), &speed.x));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed Y"), &speed.y));
