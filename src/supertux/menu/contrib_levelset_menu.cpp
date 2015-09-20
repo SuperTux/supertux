@@ -20,6 +20,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "gui/menu_item.hpp"
+#include "gui/item_action.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/levelset.hpp"
@@ -71,7 +72,7 @@ ContribLevelsetMenu::ContribLevelsetMenu(std::unique_ptr<World> world) :
 void
 ContribLevelsetMenu::menu_action(MenuItem* item)
 {
-  if (item->kind == MN_ACTION)
+  if (dynamic_cast<ItemAction*>(item))
   {
     SoundManager::current()->stop_music();
 

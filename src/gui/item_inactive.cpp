@@ -1,6 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2004 Tobas Glaesser <tobi.web@gmx.de>
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,29 +14,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_OPTIONS_MENU_HPP
+#include "gui/item_inactive.hpp"
 
-#include "gui/menu.hpp"
+#include <stdio.h>
 
-class OptionsMenu : public Menu
+#include "supertux/colorscheme.hpp"
+#include "video/color.hpp"
+
+ItemInactive::ItemInactive(const std::string& text_) :
+  MenuItem(text_)
 {
-  public:
-    OptionsMenu(bool complete);
-    virtual ~OptionsMenu();
+}
 
-    void menu_action(MenuItem* item) override;
-
-  private:
-    size_t next_magnification;
-    size_t next_aspect_ratio;
-    size_t next_resolution;
-
-    std::vector<std::string> magnifications;
-    std::vector<std::string> aspect_ratios;
-    std::vector<std::string> resolutions;
-};
-
-#endif
+Color
+ItemInactive::get_color() const {
+  return ColorScheme::Menu::inactive_color;
+}
 
 /* EOF */

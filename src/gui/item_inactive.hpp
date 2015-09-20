@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,42 +14,35 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_MENU_HPP
-#define HEADER_SUPERTUX_SUPERTUX_MENU_ADDON_MENU_HPP
+#ifndef HEADER_SUPERTUX_GUI_ITEM_INACTIVE_HPP
+#define HEADER_SUPERTUX_GUI_ITEM_INACTIVE_HPP
+
+#include <list>
+#include <memory>
+#include <SDL.h>
+
+#include "gui/menu_item.hpp"
 
 #include "gui/menu.hpp"
 
-class Addon;
-class AddonManager;
+class Color;
 
-class AddonMenu : public Menu
+class ItemInactive : public MenuItem
 {
-private:
-  enum {
-    MNID_CHECK_ONLINE,
-    MNID_NOTHING_NEW,
-    MNID_ADDON_LIST_START = 10
-  };
+  public:
+    ItemInactive(const std::string& text_);
 
-private:
-  AddonManager& m_addon_manager;
-  std::vector<std::string> m_installed_addons;
-  std::vector<std::string> m_repository_addons;
-  bool* m_addons_enabled;
+    /** Returns true when the menu item has no action and therefore can be skipped.
+        Useful for labels and horizontal lines.*/
+    virtual bool skippable() const {
+      return true;
+    }
 
-public:
-  AddonMenu();
-  ~AddonMenu();
+    virtual Color get_color() const;
 
-  void refresh() override;
-  void menu_action(MenuItem* item) override;
-
-private:
-  void rebuild_menu();
-
-private:
-  AddonMenu(const AddonMenu&);
-  AddonMenu& operator=(const AddonMenu&);
+  private:
+    ItemInactive(const ItemInactive&);
+    ItemInactive& operator=(const ItemInactive&);
 };
 
 #endif
