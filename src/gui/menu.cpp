@@ -414,6 +414,7 @@ int Menu::get_active_item_id() const
 void
 Menu::event(const SDL_Event& ev)
 {
+  items[active_item]->event(ev);
   switch(ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     if(ev.button.button == SDL_BUTTON_LEFT)
@@ -464,7 +465,6 @@ Menu::event(const SDL_Event& ev)
     default:
       break;
   }
-  items[active_item]->event(ev);
 }
 
 void
