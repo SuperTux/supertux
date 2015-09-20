@@ -207,6 +207,9 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
     case SDLK_PAUSE:
       control = Controller::START;
       break;
+    case SDLK_BACKSPACE:
+      control = Controller::REMOVE;
+      break;
     default:
       if(m_keyboard_config.keymap.count(event.keysym.sym) == 0)
       {
