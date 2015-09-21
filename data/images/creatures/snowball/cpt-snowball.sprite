@@ -39,7 +39,8 @@
   (images "cpt-gmelting-0.png"
           "cpt-gmelting-1.png"
           "cpt-gmelting-2.png"
-          "cpt-gmelting-3.png"))
+          "cpt-gmelting-3.png"
+          "cpt-gmelting-4.png"))
  (action
   (name "ground-melting-right")
   (hitbox 18 5 31.8 31.8)

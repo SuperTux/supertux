@@ -188,6 +188,9 @@ Dispenser::active_update(float )
 void
 Dispenser::launch_badguy()
 {
+  if (frozen) {
+    return;
+  }
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen()) {
     Direction launchdir = dir;

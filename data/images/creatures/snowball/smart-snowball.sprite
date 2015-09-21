@@ -40,7 +40,8 @@
   (images "gmelting-0.png"
           "gmelting-1.png"
           "gmelting-2.png"
-          "gmelting-3.png"))
+          "gmelting-3.png"
+          "gmelting-4.png"))
  (action
   (name "ground-melting-right")
   (hitbox 19 6 32 32)

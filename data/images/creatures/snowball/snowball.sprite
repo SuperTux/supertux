@@ -39,7 +39,8 @@
   (images "sport-gmelting-0.png"
           "sport-gmelting-1.png"
           "sport-gmelting-2.png"
-          "sport-gmelting-3.png"))
+          "sport-gmelting-3.png"
+          "sport-gmelting-4.png"))
  (action
   (name "ground-melting-right")
   (hitbox 19 4 32 32)
