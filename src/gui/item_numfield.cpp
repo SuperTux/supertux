@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "gui/item_intfield.hpp"
+#include "gui/item_numfield.hpp"
 
 #include "gui/menu_action.hpp"
 #include "math/vector.hpp"
@@ -27,17 +27,31 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-ItemIntField::ItemIntField(const std::string& text_, int* input_, int id_) :
+ItemNumField::ItemNumField(const std::string& text_, float* input_, int id_) :
   MenuItem(text_, id_),
   number(input_),
   input(std::to_string(*input_)),
-  flickw(0)
+  flickw(0),
+  has_coma(true)
 {
   flickw = Resources::normal_font->get_text_width("_");
+
+  // removing all redundant zeros at the end
+  for (auto i = input.end() - 1; i != input.begin(); --i) {
+    char c = *i;
+    if (c == '.') {
+      input.resize(input.length() - 1);
+      has_coma = false;
+    }
+    if (c != '0') {
+      break;
+    }
+    input.resize(input.length() - 1);
+  }
 }
 
 void
-ItemIntField::draw(DrawingContext& context, Vector pos, int menu_width, bool active) {
+ItemNumField::draw(DrawingContext& context, Vector pos, int menu_width, bool active) {
   std::string r_input = input;
   bool fl = active && (int(real_time*2)%2);
   if ( fl ) {
@@ -52,12 +66,12 @@ ItemIntField::draw(DrawingContext& context, Vector pos, int menu_width, bool act
 }
 
 int
-ItemIntField::get_width() const {
+ItemNumField::get_width() const {
   return Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(input) + 16 + flickw;
 }
 
 void
-ItemIntField::event(const SDL_Event& ev) {
+ItemNumField::event(const SDL_Event& ev) {
   if (ev.type == SDL_TEXTINPUT) {
     std::string txt = ev.text.text;
     for (auto i = txt.begin(); i != txt.end(); ++i) {
@@ -67,14 +81,25 @@ ItemIntField::event(const SDL_Event& ev) {
 }
 
 void
-ItemIntField::add_char(char c) {
+ItemNumField::add_char(char c) {
   if (c == '-') {
     if (input.length() && input != "0") {
       *number *= -1;
-      input = std::to_string(*number);
+      if (*input.begin() == '-') {
+        input.erase(input.begin());
+      } else {
+        input.insert(input.begin(),'-');
+      }
     } else {
       input = "-";
     }
+  } else if (!has_coma && (c == '.' || c == ',')) {
+    if (!input.length()) {
+      input = "0.";
+    } else {
+      input.push_back('.');
+    }
+    has_coma = true;
   }
 
   if (c < '0' || c > '9') {
@@ -82,11 +107,11 @@ ItemIntField::add_char(char c) {
   }
 
   input.push_back(c);
-  *number = std::stoi(input);
+  *number = std::stof(input);
 }
 
 void
-ItemIntField::process_action(MenuAction action) {
+ItemNumField::process_action(MenuAction action) {
   if (action == MENU_ACTION_REMOVE && input.length()) {
     unsigned char last_char;
     do {
@@ -94,6 +119,9 @@ ItemIntField::process_action(MenuAction action) {
       input.resize(input.length() - 1);
       if (input.length() == 0) {
         break;
+      }
+      if (last_char == '.') {
+        has_coma = false;
       }
     } while ( (last_char & 128) && !(last_char & 64) );
     if (input.length() && input != "-") {

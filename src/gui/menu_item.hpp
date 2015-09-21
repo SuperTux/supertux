@@ -80,6 +80,7 @@ class MenuItem
   #include "gui/item_inactive.hpp"
   #include "gui/item_intfield.hpp"
   #include "gui/item_label.hpp"
+  #include "gui/item_numfield.hpp"
   #include "gui/item_stringselect.hpp"
   #include "gui/item_textfield.hpp"
   #include "gui/item_toggle.hpp"
