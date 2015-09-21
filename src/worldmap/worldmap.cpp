@@ -390,7 +390,7 @@ WorldMap::on_escape_press()
 }
 
 Vector
-WorldMap::get_next_tile(Vector pos, Direction direction)
+WorldMap::get_next_tile(Vector pos, Direction direction) const
 {
   switch(direction) {
     case D_WEST:
@@ -412,7 +412,7 @@ WorldMap::get_next_tile(Vector pos, Direction direction)
 }
 
 bool
-WorldMap::path_ok(Direction direction, const Vector& old_pos, Vector* new_pos)
+WorldMap::path_ok(Direction direction, const Vector& old_pos, Vector* new_pos) const
 {
   *new_pos = get_next_tile(old_pos, direction);
 
@@ -518,7 +518,7 @@ WorldMap::finished_level(Level* gamelevel)
 }
 
 Vector
-WorldMap::get_camera_pos_for_tux() {
+WorldMap::get_camera_pos_for_tux() const {
   Vector camera_offset_;
   Vector tux_pos = tux->get_pos();
   camera_offset_.x = tux_pos.x - SCREEN_WIDTH/2;
@@ -693,7 +693,7 @@ WorldMap::update(float delta)
 }
 
 int
-WorldMap::tile_data_at(Vector p)
+WorldMap::tile_data_at(Vector p) const
 {
   int dirs = 0;
 
@@ -708,15 +708,15 @@ WorldMap::tile_data_at(Vector p)
 }
 
 int
-WorldMap::available_directions_at(Vector p)
+WorldMap::available_directions_at(Vector p) const
 {
   return tile_data_at(p) & Tile::WORLDMAP_DIR_MASK;
 }
 
 LevelTile*
-WorldMap::at_level()
+WorldMap::at_level() const
 {
-  for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
+  for(LevelTiles::const_iterator i = levels.begin(); i != levels.end(); ++i) {
     LevelTile* level = *i;
     if (level->pos == tux->get_tile_pos())
       return level;
@@ -726,9 +726,9 @@ WorldMap::at_level()
 }
 
 SpecialTile*
-WorldMap::at_special_tile()
+WorldMap::at_special_tile() const
 {
-  for(SpecialTiles::iterator i = special_tiles.begin();
+  for(SpecialTiles::const_iterator i = special_tiles.begin();
       i != special_tiles.end(); ++i) {
     SpecialTile* special_tile = *i;
     if (special_tile->pos == tux->get_tile_pos())
@@ -739,9 +739,9 @@ WorldMap::at_special_tile()
 }
 
 SpriteChange*
-WorldMap::at_sprite_change(const Vector& pos)
+WorldMap::at_sprite_change(const Vector& pos) const
 {
-  for(SpriteChanges::iterator i = sprite_changes.begin();
+  for(SpriteChanges::const_iterator i = sprite_changes.begin();
       i != sprite_changes.end(); ++i) {
     SpriteChange* sprite_change = *i;
     if(sprite_change->pos == pos)
@@ -752,9 +752,9 @@ WorldMap::at_sprite_change(const Vector& pos)
 }
 
 Teleporter*
-WorldMap::at_teleporter(const Vector& pos)
+WorldMap::at_teleporter(const Vector& pos) const
 {
-  for(std::vector<Teleporter*>::iterator i = teleporters.begin(); i != teleporters.end(); ++i) {
+  for(std::vector<Teleporter*>::const_iterator i = teleporters.begin(); i != teleporters.end(); ++i) {
     Teleporter* teleporter = *i;
     if(teleporter->pos == pos) return teleporter;
   }
@@ -1091,10 +1091,10 @@ WorldMap::level_count() const
 }
 
 size_t
-WorldMap::solved_level_count()
+WorldMap::solved_level_count() const
 {
   size_t count = 0;
-  for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
+  for(LevelTiles::const_iterator i = levels.begin(); i != levels.end(); ++i) {
     LevelTile* level = *i;
 
     if(level->solved)
