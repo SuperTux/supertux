@@ -14,17 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_INTFIELD_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_INTFIELD_HPP
+#ifndef HEADER_SUPERTUX_GUI_ITEM_NUMFIELD_HPP
+#define HEADER_SUPERTUX_GUI_ITEM_NUMFIELD_HPP
 
 #include "gui/menu_item.hpp"
 
 #include "supertux/timer.hpp"
 
-class ItemIntField : public MenuItem
+class ItemNumField : public MenuItem
 {
   public:
-    ItemIntField(const std::string& text_, int* input_, int id_ = -1);
+    ItemNumField(const std::string& text_, float* input_, int id_ = -1);
 
     /** Draws the menu item. */
     virtual void draw(DrawingContext&, Vector pos, int menu_width, bool active);
@@ -35,7 +35,7 @@ class ItemIntField : public MenuItem
     /** Processes the menu action. */
     virtual void process_action(MenuAction action);
 
-    int* number;
+    float* number;
 
     void change_input(const std::string& input_) {
       input = input_;
@@ -48,13 +48,14 @@ class ItemIntField : public MenuItem
 
     std::string input;
     int flickw;
+    bool has_coma;
 
     void add_char(char c);
 
-    ItemIntField(const ItemIntField&);
-    ItemIntField& operator=(const ItemIntField&);
+    ItemNumField(const ItemNumField&);
+    ItemNumField& operator=(const ItemNumField&);
 };
 
-#endif // HEADER_SUPERTUX_GUI_ITEM_INTFIELD_HPP
+#endif // HEADER_SUPERTUX_GUI_ITEM_NUMFIELD_HPP
 
 /* EOF */

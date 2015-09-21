@@ -126,6 +126,13 @@ Menu::add_intfield(const std::string& text, int* input, int id)
 }
 
 MenuItem*
+Menu::add_numfield(const std::string& text, float* input, int id)
+{
+  std::unique_ptr<ItemNumField> item(new ItemNumField(text, input, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
 Menu::add_entry(int id, const std::string& text)
 {
   std::unique_ptr<ItemAction> item(new ItemAction(text, id));
