@@ -234,7 +234,6 @@ Menu::process_input()
     menuaction = MENU_ACTION_HIT;
   }
   if(controller->pressed(Controller::ESCAPE) ||
-     controller->pressed(Controller::START) ||
      controller->pressed(Controller::MENU_BACK)) {
     menuaction = MENU_ACTION_BACK;
   }
