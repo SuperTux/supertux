@@ -78,6 +78,7 @@ class MenuItem
   #include "gui/item_goto.hpp"
   #include "gui/item_hl.hpp"
   #include "gui/item_inactive.hpp"
+  #include "gui/item_intfield.hpp"
   #include "gui/item_label.hpp"
   #include "gui/item_stringselect.hpp"
   #include "gui/item_textfield.hpp"
