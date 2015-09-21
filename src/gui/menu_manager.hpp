@@ -68,8 +68,9 @@ public:
     return !m_menu_stack.empty();
   }
 
-private:
   Menu* current_menu() const;
+
+private:
   void transition(Menu* from, Menu* to);
 
 private:

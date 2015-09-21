@@ -286,12 +286,9 @@ Menu::process_action(MenuAction menuaction)
 
   items[active_item]->process_action(menuaction);
   switch(menuaction) {
-    case MENU_ACTION_LEFT:
-      menu_action(items[active_item].get());
-      break;
 
-    case MENU_ACTION_RIGHT:
-      menu_action(items[active_item].get());
+    case MENU_ACTION_BACK:
+      MenuManager::instance().pop_menu();
       break;
 
     case MENU_ACTION_HIT: {

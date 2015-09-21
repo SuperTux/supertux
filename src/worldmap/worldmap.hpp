@@ -144,22 +144,22 @@ public:
   /** Draw worldmap */
   virtual void draw(DrawingContext& context);
 
-  Vector get_next_tile(Vector pos, Direction direction);
+  Vector get_next_tile(Vector pos, Direction direction) const;
 
   /**
    * gets a bitfield of Tile::WORLDMAP_NORTH | Tile::WORLDMAP_WEST | ... values,
    * which indicates the directions Tux can move to when at the given position.
    */
-  int available_directions_at(Vector pos);
+  int available_directions_at(Vector pos) const;
 
   /**
    * returns a bitfield representing the union of all Tile::WORLDMAP_XXX values
    * of all solid tiles at the given position
    */
-  int tile_data_at(Vector pos);
+  int tile_data_at(Vector pos) const;
 
   size_t level_count() const;
-  size_t solved_level_count();
+  size_t solved_level_count() const;
 
   /**
    * gets called from the GameSession when a level has been successfully
@@ -168,18 +168,18 @@ public:
   void finished_level(Level* level);
 
   /** returns current Tux incarnation */
-  Tux* get_tux() { return tux.get(); }
+  Tux* get_tux() const { return tux.get(); }
 
   Savegame& get_savegame() const { return m_savegame; }
 
-  LevelTile* at_level();
-  SpecialTile* at_special_tile();
-  SpriteChange* at_sprite_change(const Vector& pos);
-  Teleporter* at_teleporter(const Vector& pos);
+  LevelTile* at_level() const;
+  SpecialTile* at_special_tile() const;
+  SpriteChange* at_sprite_change(const Vector& pos) const;
+  Teleporter* at_teleporter(const Vector& pos) const;
 
   /** Check if it is possible to walk from \a pos into \a direction,
       if possible, write the new position to \a new_pos */
-  bool path_ok(Direction direction, const Vector& pos, Vector* new_pos);
+  bool path_ok(Direction direction, const Vector& pos, Vector* new_pos) const;
 
   /**
    * Save worldmap state to squirrel state table
@@ -234,7 +234,7 @@ private:
   void load(const std::string& filename);
   void on_escape_press();
 
-  Vector get_camera_pos_for_tux();
+  Vector get_camera_pos_for_tux() const;
   void clamp_camera_position(Vector& c);
 
 private:

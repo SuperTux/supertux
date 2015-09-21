@@ -19,6 +19,7 @@
 #include <stdio.h>
 
 #include "gui/menu_action.hpp"
+#include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/resources.hpp"
@@ -70,6 +71,7 @@ ItemStringSelect::process_action(MenuAction action) {
       } else {
         (*selected) = list.size()-1;
       }
+      MenuManager::instance().current_menu()->menu_action(this);
       break;
     case MENU_ACTION_RIGHT:
       if( (*selected)+1 < list.size()) {
@@ -77,6 +79,7 @@ ItemStringSelect::process_action(MenuAction action) {
       } else {
         (*selected) = 0;
       }
+      MenuManager::instance().current_menu()->menu_action(this);
       break;
     default:
       break;
