@@ -87,7 +87,7 @@ Tux::draw(DrawingContext& context)
 }
 
 Vector
-Tux::get_pos()
+Tux::get_pos() const
 {
   float x = tile_pos.x * 32;
   float y = tile_pos.y * 32;
@@ -135,7 +135,7 @@ Tux::set_ghost_mode(bool enabled)
 }
 
 bool
-Tux::get_ghost_mode()
+Tux::get_ghost_mode() const
 {
   return ghost_mode;
 }
@@ -167,7 +167,7 @@ Tux::tryStartWalking()
 }
 
 bool
-Tux::canWalk(int tile_data, Direction dir)
+Tux::canWalk(int tile_data, Direction dir) const
 {
   return ghost_mode ||
     ((tile_data & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
