@@ -120,6 +120,9 @@ JoystickMenu::menu_action(MenuItem* item)
   if (0 <= item->id && item->id < Controller::CONTROLCOUNT)
   {
     ItemControlField* micf = dynamic_cast<ItemControlField*>(item);
+    if (!micf) {
+      return;
+    }
     micf->change_input(_("Press Button"));
     m_input_manager.joystick_manager->bind_next_event_to(static_cast<Controller::Control>(item->id));
   }
