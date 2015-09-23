@@ -498,13 +498,22 @@ INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.appdata.xml DESTINATION "sha
 
 INSTALL(DIRECTORY data/images
                   data/fonts
-                  data/levels
                   data/music
                   data/scripts
                   data/speech
                   data/sounds
                   data/locale
                   DESTINATION ${INSTALL_SUBDIR_SHARE})
+
+IF(CMAKE_BUILD_TYPE MATCHES Release)
+  INSTALL(DIRECTORY data/levels
+                    DESTINATION ${INSTALL_SUBDIR_SHARE}
+                    PATTERN "data/levels/test" EXCLUDE
+                    PATTERN "data/levels/test_old" EXCLUDE)
+ELSE()
+  INSTALL(DIRECTORY data/levels
+                    DESTINATION ${INSTALL_SUBDIR_SHARE})
+ENDIF()
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 
