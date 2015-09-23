@@ -116,14 +116,12 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
    * the ice crusher, hurt the player. */
   if (player && hit.bottom) {
     SoundManager::current()->play("sounds/brick.wav");
+    if (state == CRUSHING)
+      set_state(RECOVERING);
     if(player->is_invincible()) {
-      if (state == CRUSHING)
-        set_state(RECOVERING);
       return ABORT_MOVE;
     }
     player->kill(false);
-    if (state == CRUSHING)
-      set_state(RECOVERING);
     return FORCE_MOVE;
   }
   BadGuy* badguy = dynamic_cast<BadGuy*>(&other);

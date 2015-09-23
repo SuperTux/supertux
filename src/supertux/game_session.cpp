@@ -196,7 +196,7 @@ GameSession::record_demo(const std::string& filename)
 }
 
 int
-GameSession::get_demo_random_seed(const std::string& filename)
+GameSession::get_demo_random_seed(const std::string& filename) const
 {
   std::istream* test_stream = new std::ifstream(filename.c_str());
   if(test_stream->good()) {
@@ -591,7 +591,7 @@ GameSession::set_reset_point(const std::string& sector, const Vector& pos)
 }
 
 std::string
-GameSession::get_working_directory()
+GameSession::get_working_directory() const
 {
   return FileSystem::dirname(levelfile);
 }

@@ -45,9 +45,9 @@ JoystickConfig::JoystickConfig() :
 }
 
 int
-JoystickConfig::reversemap_joyaxis(Controller::Control c)
+JoystickConfig::reversemap_joyaxis(Controller::Control c) const
 {
-  for(AxisMap::iterator i = joy_axis_map.begin(); i != joy_axis_map.end(); ++i) {
+  for(AxisMap::const_iterator i = joy_axis_map.begin(); i != joy_axis_map.end(); ++i) {
     if (i->second == c)
       return i->first.second;
   }
@@ -56,9 +56,9 @@ JoystickConfig::reversemap_joyaxis(Controller::Control c)
 }
 
 int
-JoystickConfig::reversemap_joybutton(Controller::Control c)
+JoystickConfig::reversemap_joybutton(Controller::Control c) const
 {
-  for(ButtonMap::iterator i = joy_button_map.begin(); i != joy_button_map.end(); ++i) {
+  for(ButtonMap::const_iterator i = joy_button_map.begin(); i != joy_button_map.end(); ++i) {
     if (i->second == c)
       return i->first.second;
   }
@@ -67,9 +67,9 @@ JoystickConfig::reversemap_joybutton(Controller::Control c)
 }
 
 int
-JoystickConfig::reversemap_joyhat(Controller::Control c)
+JoystickConfig::reversemap_joyhat(Controller::Control c) const
 {
-  for(HatMap::iterator i = joy_hat_map.begin(); i != joy_hat_map.end(); ++i) {
+  for(HatMap::const_iterator i = joy_hat_map.begin(); i != joy_hat_map.end(); ++i) {
     if (i->second == c)
       return i->first.second;
   }
@@ -78,19 +78,19 @@ JoystickConfig::reversemap_joyhat(Controller::Control c)
 }
 
 void
-JoystickConfig::print_joystick_mappings()
+JoystickConfig::print_joystick_mappings() const
 {
   std::cout << _("Joystick Mappings") << std::endl;
   std::cout << "-----------------" << std::endl;
-  for(AxisMap::iterator i = joy_axis_map.begin(); i != joy_axis_map.end(); ++i) {
+  for(AxisMap::const_iterator i = joy_axis_map.begin(); i != joy_axis_map.end(); ++i) {
     std::cout << "Axis: " << i->first.second << " -> " << i->second << std::endl;
   }
 
-  for(ButtonMap::iterator i = joy_button_map.begin(); i != joy_button_map.end(); ++i) {
+  for(ButtonMap::const_iterator i = joy_button_map.begin(); i != joy_button_map.end(); ++i) {
     std::cout << "Button: " << i->first.second << " -> " << i->second << std::endl;
   }
 
-  for(HatMap::iterator i = joy_hat_map.begin(); i != joy_hat_map.end(); ++i) {
+  for(HatMap::const_iterator i = joy_hat_map.begin(); i != joy_hat_map.end(); ++i) {
     std::cout << "Hat: " << i->first.second << " -> " << i->second << std::endl;
   }
   std::cout << std::endl;

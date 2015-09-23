@@ -95,7 +95,7 @@ Snail::be_kicked()
 }
 
 bool
-Snail::can_break(){
+Snail::can_break() const {
   return state == STATE_KICKED;
 }
 

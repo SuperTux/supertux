@@ -35,9 +35,11 @@ private:
   AddonManager& m_addon_manager;
   std::vector<std::string> m_installed_addons;
   std::vector<std::string> m_repository_addons;
+  bool* m_addons_enabled;
 
 public:
   AddonMenu();
+  ~AddonMenu();
 
   void refresh() override;
   void menu_action(MenuItem* item) override;

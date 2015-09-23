@@ -83,21 +83,25 @@ private:
       type(type_),
       screen(std::move(screen_))
     {}
+#ifdef WIN32
     Action(Action &a) :
       type(a.type),
       screen(std::move(a.screen))
     {}
+#endif
     Action(Action &&a) :
       type(a.type),
       screen(std::move(a.screen))
     {}
 
+#ifdef WIN32
     Action& operator=(Action &a)
     {
       type = a.type;
       screen = std::move(a.screen);
       return *this;
     }
+#endif
     Action& operator=(Action &&a)
     {
       type = a.type;

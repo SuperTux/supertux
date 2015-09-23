@@ -43,67 +43,88 @@ enum OptionsMenuIDs {
   MNID_CHRISTMAS_MODE
 };
 
-OptionsMenu::OptionsMenu(bool complete)
+OptionsMenu::OptionsMenu(bool complete) :
+  next_magnification(0),
+  next_aspect_ratio(0),
+  next_resolution(0),
+  magnifications(),
+  aspect_ratios(),
+  resolutions()
 {
   add_label(_("Options"));
   add_hl();
 
-  if (complete)
-  {
-    // Language and profile changes are only be possible in the
-    // main menu, since elsewhere it might not always work fully
-    add_submenu(_("Select Language"), MenuStorage::LANGUAGE_MENU)
-      ->set_help(_("Select a different language to display text in"));
-
-    add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
-      ->set_help(_("Select a profile to play with"));
-  }
-
-  add_toggle(MNID_FULLSCREEN,_("Fullscreen"), g_config->use_fullscreen)
-    ->set_help(_("Fill the entire screen"));
-
-  MenuItem* fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"));
-  fullscreen_res->set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
-
-  MenuItem* magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"));
-  magnification->set_help(_("Change the magnification of the game area"));
-
+  magnifications.clear();
   // These values go from screen:640/projection:1600 to
   // screen:1600/projection:640 (i.e. 640, 800, 1024, 1280, 1600)
-  magnification->list.push_back(_("auto"));
-  magnification->list.push_back("40%");
-  magnification->list.push_back("50%");
-  magnification->list.push_back("62.5%");
-  magnification->list.push_back("80%");
-  magnification->list.push_back("100%");
-  magnification->list.push_back("125%");
-  magnification->list.push_back("160%");
-  magnification->list.push_back("200%");
-  magnification->list.push_back("250%");
+  magnifications.push_back(_("auto"));
+  magnifications.push_back("40%");
+  magnifications.push_back("50%");
+  magnifications.push_back("62.5%");
+  magnifications.push_back("80%");
+  magnifications.push_back("100%");
+  magnifications.push_back("125%");
+  magnifications.push_back("160%");
+  magnifications.push_back("200%");
+  magnifications.push_back("250%");
+  // Gets the actual magnification:
   if (g_config->magnification != 0.0f) //auto
   {
     std::ostringstream out;
     out << (g_config->magnification*100) << "%";
     std::string magn = out.str();
     size_t count = 0;
-    for (std::vector<std::string>::iterator i = magnification->list.begin(); i != magnification->list.end(); ++i)
+    for (std::vector<std::string>::iterator i = magnifications.begin(); i != magnifications.end(); ++i)
     {
       if (*i == magn)
       {
-	magnification->selected = count;
-	magn.clear();
-	break;
+        next_magnification = count;
+        magn.clear();
+        break;
       }
 
       ++count;
     }
     if (!magn.empty()) //magnification not in our list but accept anyway
     {
-      magnification->selected = magnification->list.size();
-      magnification->list.push_back(magn);
+      next_magnification = magnifications.size();
+      magnifications.push_back(magn);
     }
   }
 
+  aspect_ratios.clear();
+  aspect_ratios.push_back(_("auto"));
+  aspect_ratios.push_back("5:4");
+  aspect_ratios.push_back("4:3");
+  aspect_ratios.push_back("16:10");
+  aspect_ratios.push_back("16:9");
+  aspect_ratios.push_back("1368:768");
+  // Gets the actual aspect ratio:
+  if (g_config->aspect_size != Size(0, 0)) //auto
+  {
+    std::ostringstream out;
+    out << g_config->aspect_size.width << ":" << g_config->aspect_size.height;
+    std::string aspect_ratio = out.str();
+    size_t cnt_ = 0;
+    for(std::vector<std::string>::iterator i = aspect_ratios.begin(); i != aspect_ratios.end(); ++i)
+    {
+      if(*i == aspect_ratio)
+      {
+        aspect_ratio.clear();
+        next_aspect_ratio = cnt_;
+        break;
+      }
+      ++cnt_;
+    }
+
+    if (!aspect_ratio.empty())
+    {
+      next_aspect_ratio = aspect_ratios.size();
+      aspect_ratios.push_back(aspect_ratio);
+    }
+  }
+
+  resolutions.clear();
   int display_mode_count = SDL_GetNumDisplayModes(0);
   std::string last_display_mode;
   for(int i = 0; i < display_mode_count; ++i)
@@ -117,84 +138,77 @@ OptionsMenu::OptionsMenu(bool complete)
     else
     {
       std::ostringstream out;
-      out << mode.w << "x" << mode.h << "@" << mode.refresh_rate;
+      out << mode.w << "x" << mode.h;
+      if(mode.refresh_rate)
+        out << "@" << mode.refresh_rate;
       if(last_display_mode == out.str())
         continue;
       last_display_mode = out.str();
-      fullscreen_res->list.push_back(out.str());
+      resolutions.insert(resolutions.begin(), out.str());
     }
   }
-  fullscreen_res->list.push_back("Desktop");
+  resolutions.push_back("Desktop");
 
   std::string fullscreen_size_str = "Desktop";
   {
     std::ostringstream out;
     if (g_config->fullscreen_size != Size(0, 0))
     {
-      out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height << "@" << g_config->fullscreen_refresh_rate;
+      out << g_config->fullscreen_size.width << "x" << g_config->fullscreen_size.height;
+      if (g_config->fullscreen_refresh_rate)
+         out << "@" << g_config->fullscreen_refresh_rate;
       fullscreen_size_str = out.str();
     }
   }
 
   size_t cnt = 0;
-  for (std::vector<std::string>::iterator i = fullscreen_res->list.begin(); i != fullscreen_res->list.end(); ++i)
+  for (std::vector<std::string>::iterator i = resolutions.begin(); i != resolutions.end(); ++i)
   {
     if (*i == fullscreen_size_str)
     {
       fullscreen_size_str.clear();
-      fullscreen_res->selected = cnt;
+      next_resolution = cnt;
       break;
     }
     ++cnt;
   }
   if (!fullscreen_size_str.empty())
   {
-    fullscreen_res->selected = fullscreen_res->list.size();
-    fullscreen_res->list.push_back(fullscreen_size_str);
+    next_resolution = resolutions.size();
+    resolutions.push_back(fullscreen_size_str);
   }
 
-  MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"));
+  if (complete)
+  {
+    // Language and profile changes are only be possible in the
+    // main menu, since elsewhere it might not always work fully
+    add_submenu(_("Select Language"), MenuStorage::LANGUAGE_MENU)
+      ->set_help(_("Select a different language to display text in"));
+
+    add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
+      ->set_help(_("Select a profile to play with"));
+  }
+
+  add_toggle(MNID_FULLSCREEN,_("Fullscreen"), &g_config->use_fullscreen)
+    ->set_help(_("Fill the entire screen"));
+
+  MenuItem* fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"), &next_resolution, resolutions);
+  fullscreen_res->set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
+
+  MenuItem* magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"), &next_magnification, magnifications);
+  magnification->set_help(_("Change the magnification of the game area"));
+
+  MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
   aspect->set_help(_("Adjust the aspect ratio"));
 
-  aspect->list.push_back(_("auto"));
-  aspect->list.push_back("5:4");
-  aspect->list.push_back("4:3");
-  aspect->list.push_back("16:10");
-  aspect->list.push_back("16:9");
-  aspect->list.push_back("1368:768");
-
-  if (g_config->aspect_size != Size(0, 0))
-  {
-    std::ostringstream out;
-    out << g_config->aspect_size.width << ":" << g_config->aspect_size.height;
-    std::string aspect_ratio = out.str();
-    size_t cnt_ = 0;
-    for(std::vector<std::string>::iterator i = aspect->list.begin(); i != aspect->list.end(); ++i)
-    {
-      if(*i == aspect_ratio)
-      {
-        aspect_ratio.clear();
-	aspect->selected = cnt_;
-        break;
-      }
-      ++cnt_;
-    }
-
-    if (!aspect_ratio.empty())
-    {
-      aspect->selected = aspect->list.size();
-      aspect->list.push_back(aspect_ratio);
-    }
-  }
-
   if (SoundManager::current()->is_audio_enabled()) {
-    add_toggle(MNID_SOUND, _("Sound"), g_config->sound_enabled)
+    add_toggle(MNID_SOUND, _("Sound"), &g_config->sound_enabled)
       ->set_help(_("Disable all sound effects"));
-    add_toggle(MNID_MUSIC, _("Music"), g_config->music_enabled)
+    add_toggle(MNID_MUSIC, _("Music"), &g_config->music_enabled)
       ->set_help(_("Disable all music"));
   } else {
-    add_inactive(MNID_SOUND, _("Sound (disabled)"));
-    add_inactive(MNID_MUSIC, _("Music (disabled)"));
+    add_inactive( _("Sound (disabled)"));
+    add_inactive( _("Music (disabled)"));
   }
 
   add_submenu(_("Setup Keyboard"), MenuStorage::KEYBOARD_MENU)
@@ -205,12 +219,12 @@ OptionsMenu::OptionsMenu(bool complete)
 
   if (g_config->developer_mode)
   {
-    add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), g_config->developer_mode);
+    add_toggle(MNID_DEVELOPER_MODE, _("Developer Mode"), &g_config->developer_mode);
   }
 
   if (g_config->is_christmas() || g_config->christmas_mode)
   {
-    add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), g_config->christmas_mode);
+    add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), &g_config->christmas_mode);
   }
 
   add_hl();
@@ -227,13 +241,13 @@ OptionsMenu::menu_action(MenuItem* item)
   switch (item->id) {
     case MNID_ASPECTRATIO:
       {
-        if (item->list[item->selected] == _("auto"))
+        if (aspect_ratios[next_aspect_ratio] == _("auto"))
         {
           g_config->aspect_size = Size(0, 0); // Magic values
           VideoSystem::current()->get_renderer().apply_config();
           MenuManager::instance().on_window_resize();
         }
-        else if (sscanf(item->list[item->selected].c_str(), "%d:%d",
+        else if (sscanf(aspect_ratios[next_aspect_ratio].c_str(), "%d:%d",
                         &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
         {
           VideoSystem::current()->get_renderer().apply_config();
@@ -247,11 +261,11 @@ OptionsMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_MAGNIFICATION:
-      if (item->list[item->selected] == _("auto"))
+      if (magnifications[next_magnification] == _("auto"))
       {
         g_config->magnification = 0.0f; // Magic value
       }
-      else if(sscanf(item->list[item->selected].c_str(), "%f", &g_config->magnification) == 1)
+      else if(sscanf(magnifications[next_magnification].c_str(), "%f", &g_config->magnification) == 1)
       {
         g_config->magnification /= 100.0f;
       }
@@ -264,13 +278,13 @@ OptionsMenu::menu_action(MenuItem* item)
         int width;
         int height;
         int refresh_rate;
-        if (item->list[item->selected] == "Desktop")
+        if (resolutions[next_resolution] == "Desktop")
         {
           g_config->fullscreen_size.width = 0;
           g_config->fullscreen_size.height = 0;
           g_config->fullscreen_refresh_rate = 0;
         }
-        else if(sscanf(item->list[item->selected].c_str(), "%dx%d@%d",
+        else if(sscanf(resolutions[next_resolution].c_str(), "%dx%d@%d",
                   &width, &height, &refresh_rate) == 3)
         {
           // do nothing, changes are only applied when toggling fullscreen mode
@@ -278,42 +292,30 @@ OptionsMenu::menu_action(MenuItem* item)
           g_config->fullscreen_size.height = height;
           g_config->fullscreen_refresh_rate = refresh_rate;
         }
+        else if(sscanf(resolutions[next_resolution].c_str(), "%dx%d",
+                       &width, &height) == 2)
+        {
+            g_config->fullscreen_size.width = width;
+            g_config->fullscreen_size.height = height;
+            g_config->fullscreen_refresh_rate = 0;
+        }
       }
       break;
 
     case MNID_FULLSCREEN:
-      if(g_config->use_fullscreen != is_toggled(MNID_FULLSCREEN)) {
-        g_config->use_fullscreen = !g_config->use_fullscreen;
-        VideoSystem::current()->get_renderer().apply_config();
-        MenuManager::instance().on_window_resize();
-        g_config->save();
-      }
+      VideoSystem::current()->get_renderer().apply_config();
+      MenuManager::instance().on_window_resize();
+      g_config->save();
       break;
 
     case MNID_SOUND:
-      if(g_config->sound_enabled != is_toggled(MNID_SOUND)) {
-        g_config->sound_enabled = !g_config->sound_enabled;
-        SoundManager::current()->enable_sound(g_config->sound_enabled);
-        g_config->save();
-      }
+      SoundManager::current()->enable_sound(g_config->sound_enabled);
+      g_config->save();
       break;
 
     case MNID_MUSIC:
-      if(g_config->music_enabled != is_toggled(MNID_MUSIC)) {
-        g_config->music_enabled = !g_config->music_enabled;
-        SoundManager::current()->enable_music(g_config->music_enabled);
-        g_config->save();
-      }
-      break;
-
-    case MNID_DEVELOPER_MODE:
-      g_config->developer_mode = is_toggled(MNID_DEVELOPER_MODE);
-      log_info << "developer mode: " << g_config->developer_mode << std::endl;
-      break;
-
-    case MNID_CHRISTMAS_MODE:
-      g_config->christmas_mode = is_toggled(MNID_CHRISTMAS_MODE);
-      log_info << "christmas mode: " << g_config->christmas_mode << std::endl;
+      SoundManager::current()->enable_music(g_config->music_enabled);
+      g_config->save();
       break;
 
     default:

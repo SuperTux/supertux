@@ -79,7 +79,7 @@ public:
   void hide(); /**< hide the console */
   void toggle(); /**< display the console if hidden, hide otherwise */
 
-  bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */
+  bool hasFocus() const; /**< true if characters should be sent to the console instead of their normal target */
 
 private:
   ConsoleBuffer& m_buffer;

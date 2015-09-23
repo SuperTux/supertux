@@ -27,13 +27,13 @@ class FadeIn : public ScreenFade
 {
 public:
   FadeIn(float fade_time, Color dest_color = Color(0, 0, 0));
-  virtual ~FadeIn();
+  ~FadeIn();
 
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
+  void update(float elapsed_time);
+  void draw(DrawingContext& context);
 
   /// returns true if the effect is completed
-  virtual bool done();
+  bool done() const;
 
 private:
   Color color;

@@ -22,11 +22,20 @@
 
 class OptionsMenu : public Menu
 {
-public:
-  OptionsMenu(bool complete);
-  virtual ~OptionsMenu();
+  public:
+    OptionsMenu(bool complete);
+    virtual ~OptionsMenu();
 
-  void menu_action(MenuItem* item) override;
+    void menu_action(MenuItem* item) override;
+
+  private:
+    size_t next_magnification;
+    size_t next_aspect_ratio;
+    size_t next_resolution;
+
+    std::vector<std::string> magnifications;
+    std::vector<std::string> aspect_ratios;
+    std::vector<std::string> resolutions;
 };
 
 #endif

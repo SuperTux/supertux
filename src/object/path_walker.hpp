@@ -36,7 +36,7 @@ public:
   virtual Vector advance(float elapsed_time);
 
   /** current position of path walker */
-  Vector get_pos();
+  Vector get_pos() const;
 
   /** advance until at given node, then stop */
   void goto_node(int node_no);
@@ -48,7 +48,7 @@ public:
   void stop_moving();
 
   /** returns true if PathWalker is currently moving */
-  bool is_moving() {
+  bool is_moving() const {
     return running;
   }
 

@@ -34,7 +34,7 @@ public:
 protected:
   virtual void hit(Player& player);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  Player* get_nearest_player();
+  Player* get_nearest_player() const;
 
 protected:
   std::string message;

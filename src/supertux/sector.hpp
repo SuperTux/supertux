@@ -71,7 +71,7 @@ public:
   ~Sector();
 
   /// get parent level
-  Level* get_level();
+  Level* get_level() const;
 
   /// read sector from lisp file
   void parse(const Reader& lisp);
@@ -109,9 +109,9 @@ public:
 
   void play_music(MusicType musictype);
   void resume_music();
-  MusicType get_music_type();
+  MusicType get_music_type() const;
 
-  int get_active_bullets()
+  int get_active_bullets() const
   { return (int)bullets.size(); }
   bool add_smoke_cloud(const Vector& pos);
 
@@ -120,7 +120,7 @@ public:
   { return _current; }
 
   /** Get total number of badguys */
-  int get_total_badguys();
+  int get_total_badguys() const;
 
   /** Get total number of GameObjects of given type */
   template<class T> int get_total_count()
@@ -165,17 +165,17 @@ public:
   std::vector<Player*> get_players() const {
     return std::vector<Player*>(1, this->player);
   }
-  Player *get_nearest_player (const Vector& pos);
-  Player *get_nearest_player (const Rectf& pos)
+  Player *get_nearest_player (const Vector& pos) const;
+  Player *get_nearest_player (const Rectf& pos) const
   {
     return (get_nearest_player (get_anchor_pos (pos, ANCHOR_MIDDLE)));
   }
 
-  std::vector<MovingObject*> get_nearby_objects (const Vector& center, float max_distance);
+  std::vector<MovingObject*> get_nearby_objects (const Vector& center, float max_distance) const;
 
-  Rectf get_active_region();
+  Rectf get_active_region() const;
 
-  int get_foremost_layer();
+  int get_foremost_layer() const;
 
   /**
    * returns the width (in px) of a sector)
@@ -252,7 +252,7 @@ private:
 
   void fix_old_tiles();
 
-  int calculate_foremost_layer();
+  int calculate_foremost_layer() const;
 
 private:
   static Sector* _current;

@@ -19,6 +19,9 @@
 #include <math.h>
 #include <stdexcept>
 
+#define INCLUDE_MENU_ITEMS
+// This causes the #include "gui/menu_item.hpp" to include all menu items too.
+
 #include "control/input_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
@@ -77,10 +80,8 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
    * something that isn't selectable. Set the active_item to the first
    * selectable item added.
    */
-  if (active_item == -1
-      && item->kind != MN_HL
-      && item->kind != MN_LABEL
-      && item->kind != MN_INACTIVE)
+
+  if (active_item == -1 && !item->skippable())
   {
     active_item = items.size() - 1;
   }
@@ -91,15 +92,14 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
 MenuItem*
 Menu::add_hl()
 {
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_HL));
+  std::unique_ptr<ItemHorizontalLine> item(new ItemHorizontalLine());
   return add_item(std::move(item));
 }
 
 MenuItem*
 Menu::add_label(const std::string& text)
 {
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_LABEL));
-  item->text = text;
+  std::unique_ptr<ItemLabel> item(new ItemLabel(text));
   return add_item(std::move(item));
 }
 
@@ -107,59 +107,49 @@ MenuItem*
 Menu::add_controlfield(int id, const std::string& text,
                        const std::string& mapping)
 {
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_CONTROLFIELD, id));
-  item->change_text(text);
-  item->change_input(mapping);
+  std::unique_ptr<ItemControlField> item(new ItemControlField(text, mapping, id));
   return add_item(std::move(item));
 }
 
 MenuItem*
 Menu::add_entry(int id, const std::string& text)
 {
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_ACTION, id));
-  item->text = text;
+  std::unique_ptr<ItemAction> item(new ItemAction(text, id));
   return add_item(std::move(item));
 }
 
 MenuItem*
-Menu::add_inactive(int id, const std::string& text)
+Menu::add_inactive(const std::string& text)
 {
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_INACTIVE, id));
-  item->text = text;
+  std::unique_ptr<ItemInactive> item(new ItemInactive(text));
   return add_item(std::move(item));
 }
 
 MenuItem*
-Menu::add_toggle(int id, const std::string& text, bool toogled)
+Menu::add_toggle(int id, const std::string& text, bool* toggled)
 {
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_TOGGLE, id));
-  item->text = text;
-  item->toggled = toogled;
+  std::unique_ptr<ItemToggle> item(new ItemToggle(text, toggled, id));
   return add_item(std::move(item));
 }
 
 MenuItem*
-Menu::add_string_select(int id, const std::string& text)
+Menu::add_string_select(int id, const std::string& text, size_t* selected, std::vector<std::string> strings)
 {
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_STRINGSELECT, id));
-  item->text = text;
+  std::unique_ptr<ItemStringSelect> item(new ItemStringSelect(text, strings, selected, id));
   return add_item(std::move(item));
 }
 
 MenuItem*
-Menu::add_back(const std::string& text)
+Menu::add_back(const std::string& text, int id)
 {
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_BACK));
-  item->text = text;
+  std::unique_ptr<ItemBack> item(new ItemBack(text, id));
   return add_item(std::move(item));
 }
 
 MenuItem*
-Menu::add_submenu(const std::string& text, int submenu)
+Menu::add_submenu(const std::string& text, int submenu, int id)
 {
-  std::unique_ptr<MenuItem> item(new MenuItem(MN_GOTO));
-  item->text = text;
-  item->target_menu = submenu;
+  std::unique_ptr<ItemGoTo> item(new ItemGoTo(text, submenu, id));
   return add_item(std::move(item));
 }
 
@@ -246,6 +236,7 @@ void
 Menu::process_action(MenuAction menuaction)
 {
   int last_active_item = active_item;
+
   switch(menuaction) {
     case MENU_ACTION_UP:
       do {
@@ -253,124 +244,40 @@ Menu::process_action(MenuAction menuaction)
           --active_item;
         else
           active_item = int(items.size())-1;
-      } while ((items[active_item]->kind == MN_HL
-                || items[active_item]->kind == MN_LABEL
-                || items[active_item]->kind == MN_INACTIVE)
+      } while (items[active_item]->skippable()
                && (active_item != last_active_item));
-
       break;
-
     case MENU_ACTION_DOWN:
       do {
         if(active_item < int(items.size())-1 )
           ++active_item;
         else
           active_item = 0;
-      } while ((items[active_item]->kind == MN_HL
-                || items[active_item]->kind == MN_LABEL
-                || items[active_item]->kind == MN_INACTIVE)
+      } while (items[active_item]->skippable()
                && (active_item != last_active_item));
-
       break;
-
-    case MENU_ACTION_LEFT:
-      if(items[active_item]->kind == MN_STRINGSELECT) {
-        if(items[active_item]->selected > 0)
-          items[active_item]->selected--;
-        else
-          items[active_item]->selected = items[active_item]->list.size()-1;
-
-        menu_action(items[active_item].get());
-      }
+    default:
       break;
+  }
 
-    case MENU_ACTION_RIGHT:
-      if(items[active_item]->kind == MN_STRINGSELECT) {
-        if(items[active_item]->selected+1 < items[active_item]->list.size())
-          items[active_item]->selected++;
-        else
-          items[active_item]->selected = 0;
+  if (items[active_item]->no_other_action()) {
+    items[active_item]->process_action(menuaction);
+    return;
+  }
 
-        menu_action(items[active_item].get());
-      }
-      break;
-
-    case MENU_ACTION_HIT: {
-      switch (items[active_item]->kind) {
-        case MN_GOTO:
-          assert(items[active_item]->target_menu != 0);
-          MenuManager::instance().push_menu(items[active_item]->target_menu);
-          break;
-
-        case MN_TOGGLE:
-          items[active_item]->toggled = !items[active_item]->toggled;
-          menu_action(items[active_item].get());
-          break;
-
-        case MN_CONTROLFIELD:
-          menu_action(items[active_item].get());
-          break;
-
-        case MN_ACTION:
-          menu_action(items[active_item].get());
-          break;
-
-        case MN_STRINGSELECT:
-          if(items[active_item]->selected+1 < items[active_item]->list.size())
-            items[active_item]->selected++;
-          else
-            items[active_item]->selected = 0;
-
-          menu_action(items[active_item].get());
-          break;
-
-        case MN_TEXTFIELD:
-        case MN_NUMFIELD:
-          menuaction = MENU_ACTION_DOWN;
-          process_input();
-          break;
-
-        case MN_BACK:
-          MenuManager::instance().pop_menu();
-          return;
-
-        default:
-          break;
-      }
-      break;
-    }
-
-    case MENU_ACTION_REMOVE:
-      if(items[active_item]->kind == MN_TEXTFIELD
-         || items[active_item]->kind == MN_NUMFIELD)
-      {
-        if(!items[active_item]->input.empty())
-        {
-          int i = items[active_item]->input.size();
-
-          while(delete_character > 0)        /* remove characters */
-          {
-            items[active_item]->input.resize(i-1);
-            delete_character--;
-          }
-        }
-      }
-      break;
-
-    case MENU_ACTION_INPUT:
-      if(items[active_item]->kind == MN_TEXTFIELD
-         || (items[active_item]->kind == MN_NUMFIELD
-             && mn_input_char >= '0' && mn_input_char <= '9'))
-      {
-        items[active_item]->input.push_back(mn_input_char);
-      }
-      break;
+  items[active_item]->process_action(menuaction);
+  switch(menuaction) {
 
     case MENU_ACTION_BACK:
       MenuManager::instance().pop_menu();
-      return;
+      break;
 
-    case MENU_ACTION_NONE:
+    case MENU_ACTION_HIT: {
+      menu_action(items[active_item].get());
+      break;
+    }
+
+    default:
       break;
   }
 }
@@ -381,29 +288,12 @@ Menu::draw_item(DrawingContext& context, int index)
   float menu_height = get_height();
   float menu_width  = get_width();
 
-  MenuItem& pitem = *(items[index]);
+  MenuItem* pitem = items[index].get();
 
-  Color text_color = ColorScheme::Menu::default_color;
-  float x_pos       = pos.x;
+  float x_pos       = pos.x - menu_width/2;
   float y_pos       = pos.y + 24*index - menu_height/2 + 12;
-  int text_width  = int(Resources::normal_font->get_text_width(pitem.text));
-  int input_width = int(Resources::normal_font->get_text_width(pitem.input) + 10);
-  int list_width = 0;
 
-  float left  = pos.x - menu_width/2 + 16;
-  float right = pos.x + menu_width/2 - 16;
-
-  if(pitem.list.size() > 0) {
-    list_width = (int) Resources::normal_font->get_text_width(pitem.list[pitem.selected]);
-  }
-
-  if (arrange_left)
-    x_pos += 24 - menu_width/2 + (text_width + input_width + list_width)/2;
-
-  if(index == active_item)
-  {
-    text_color = ColorScheme::Menu::active_color;
-  }
+  pitem->draw(context, Vector(x_pos, y_pos), menu_width, active_item == index);
 
   if(active_item == index)
   {
@@ -419,124 +309,6 @@ Menu::draw_item(DrawingContext& context, int index)
                              12.0f,
                              LAYER_GUI-10);
   }
-
-  switch (pitem.kind)
-  {
-    case MN_INACTIVE:
-    {
-      context.draw_text(Resources::normal_font, pitem.text,
-                        Vector(pos.x, y_pos - int(Resources::normal_font->get_height()/2)),
-                        ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::inactive_color);
-      break;
-    }
-
-    case MN_HL:
-    {
-      // TODO
-      float x = pos.x - menu_width/2;
-      float y = y_pos - 12;
-      /* Draw a horizontal line with a little 3d effect */
-      context.draw_filled_rect(Vector(x, y + 6),
-                               Vector(menu_width, 4),
-                               Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
-      context.draw_filled_rect(Vector(x, y + 6),
-                               Vector(menu_width, 2),
-                               Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
-      break;
-    }
-    case MN_LABEL:
-    {
-      context.draw_text(Resources::big_font, pitem.text,
-                        Vector(pos.x, y_pos - int(Resources::big_font->get_height()/2)),
-                        ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::label_color);
-      break;
-    }
-    case MN_TEXTFIELD:
-    case MN_NUMFIELD:
-    case MN_CONTROLFIELD:
-    {
-      if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
-      {
-        if(active_item == index)
-          context.draw_text(Resources::normal_font,
-                            pitem.get_input_with_symbol(true),
-                            Vector(right, y_pos - int(Resources::normal_font->get_height()/2)),
-                            ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
-        else
-          context.draw_text(Resources::normal_font,
-                            pitem.get_input_with_symbol(false),
-                            Vector(right, y_pos - int(Resources::normal_font->get_height()/2)),
-                            ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
-      }
-      else
-        context.draw_text(Resources::normal_font, pitem.input,
-                          Vector(right, y_pos - int(Resources::normal_font->get_height()/2)),
-                          ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
-
-      context.draw_text(Resources::normal_font, pitem.text,
-                        Vector(left, y_pos - int(Resources::normal_font->get_height()/2)),
-                        ALIGN_LEFT, LAYER_GUI, text_color);
-      break;
-    }
-    case MN_STRINGSELECT:
-    {
-      float roff = Resources::arrow_left->get_width();
-      // Draw left side
-      context.draw_text(Resources::normal_font, pitem.text,
-                        Vector(left, y_pos - int(Resources::normal_font->get_height()/2)),
-                        ALIGN_LEFT, LAYER_GUI, text_color);
-
-      // Draw right side
-      context.draw_surface(Resources::arrow_left,
-                           Vector(right - list_width - roff - roff, y_pos - 8),
-                           LAYER_GUI);
-      context.draw_surface(Resources::arrow_right,
-                           Vector(right - roff, y_pos - 8),
-                           LAYER_GUI);
-      context.draw_text(Resources::normal_font, pitem.list[pitem.selected],
-                        Vector(right - roff, y_pos - int(Resources::normal_font->get_height()/2)),
-                        ALIGN_RIGHT, LAYER_GUI, text_color);
-      break;
-    }
-    case MN_BACK:
-    {
-      context.draw_text(Resources::normal_font, pitem.text,
-                        Vector(pos.x, y_pos - int(Resources::normal_font->get_height()/2)),
-                        ALIGN_CENTER, LAYER_GUI, text_color);
-      context.draw_surface(Resources::back,
-                           Vector(x_pos + text_width/2  + 16, y_pos - 8),
-                           LAYER_GUI);
-      break;
-    }
-
-    case MN_TOGGLE:
-    {
-      context.draw_text(Resources::normal_font, pitem.text,
-                        Vector(pos.x - menu_width/2 + 16, y_pos - (Resources::normal_font->get_height()/2)),
-                        ALIGN_LEFT, LAYER_GUI, text_color);
-
-      if(pitem.toggled)
-        context.draw_surface(Resources::checkbox_checked,
-                             Vector(x_pos + (menu_width/2-16) - Resources::checkbox->get_width(), y_pos - 8),
-                             LAYER_GUI + 1);
-      else
-        context.draw_surface(Resources::checkbox,
-                             Vector(x_pos + (menu_width/2-16) - Resources::checkbox->get_width(), y_pos - 8),
-                             LAYER_GUI + 1);
-      break;
-    }
-    case MN_ACTION:
-      context.draw_text(Resources::normal_font, pitem.text,
-                        Vector(pos.x, y_pos - int(Resources::normal_font->get_height()/2)),
-                        ALIGN_CENTER, LAYER_GUI, text_color);
-      break;
-
-    case MN_GOTO:
-      context.draw_text(Resources::normal_font, pitem.text,
-                        Vector(pos.x, y_pos - int(Resources::normal_font->get_height()/2)),
-                        ALIGN_CENTER, LAYER_GUI, text_color);
-      break;
-  }
 }
 
 float
@@ -547,18 +319,7 @@ Menu::get_width() const
   float menu_width = 0;
   for(unsigned int i = 0; i < items.size(); ++i)
   {
-    FontPtr font = Resources::normal_font;
-    if(items[i]->kind == MN_LABEL)
-      font = Resources::big_font;
-
-    float w = font->get_text_width(items[i]->text) +
-      Resources::big_font->get_text_width(items[i]->input) + 16;
-    if(items[i]->kind == MN_TOGGLE)
-      w += 32;
-    if (items[i]->kind == MN_STRINGSELECT)
-      w += font->get_text_width(items[i]->list[items[i]->selected]) + 32;
-
-
+    float w = items[i]->get_width();
     if(w > menu_width)
       menu_width = w;
   }
@@ -647,21 +408,10 @@ int Menu::get_active_item_id() const
   return items[active_item]->id;
 }
 
-bool
-Menu::is_toggled(int id) const
-{
-  return get_item_by_id(id).toggled;
-}
-
-void
-Menu::set_toggled(int id, bool toggled)
-{
-  get_item_by_id(id).toggled = toggled;
-}
-
 void
 Menu::event(const SDL_Event& ev)
 {
+  items[active_item]->event(ev);
   switch(ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     if(ev.button.button == SDL_BUTTON_LEFT)
@@ -695,9 +445,7 @@ Menu::event(const SDL_Event& ev)
           = static_cast<int> ((y - (pos.y - get_height()/2)) / 24);
 
         /* only change the mouse focus to a selectable item */
-        if ((items[new_active_item]->kind != MN_HL)
-            && (items[new_active_item]->kind != MN_LABEL)
-            && (items[new_active_item]->kind != MN_INACTIVE))
+        if (!items[new_active_item]->skippable())
           active_item = new_active_item;
 
         if(MouseCursor::current())

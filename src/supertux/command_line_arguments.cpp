@@ -55,7 +55,7 @@ CommandLineArguments::~CommandLineArguments()
 }
 
 void
-CommandLineArguments::print_datadir()
+CommandLineArguments::print_datadir() const
 {
   // Print the datadir searchpath to stdout, one path per
   // line. Then exit. Intended for use by the supertux-editor.
@@ -68,7 +68,7 @@ CommandLineArguments::print_datadir()
 }
 
 void
-CommandLineArguments::print_help(const char* arg0)
+CommandLineArguments::print_help(const char* arg0) const
 {
   std::cerr
             << boost::format(_(     "Usage: %s [OPTIONS] [LEVELFILE]")) % arg0 << "\n" << "\n"
@@ -111,7 +111,7 @@ CommandLineArguments::print_help(const char* arg0)
 }
 
 void
-CommandLineArguments::print_version()
+CommandLineArguments::print_version() const
 {
   std::cout << PACKAGE_NAME << " " << PACKAGE_VERSION << std::endl;
 }

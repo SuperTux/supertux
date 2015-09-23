@@ -82,9 +82,15 @@ std::string generate_menu_item_text(const Addon& addon)
 AddonMenu::AddonMenu() :
   m_addon_manager(*AddonManager::current()),
   m_installed_addons(),
-  m_repository_addons()
+  m_repository_addons(),
+  m_addons_enabled()
 {
   refresh();
+}
+
+AddonMenu::~AddonMenu()
+{
+  delete[] m_addons_enabled;
 }
 
 void
@@ -92,6 +98,9 @@ AddonMenu::refresh()
 {
   m_installed_addons = m_addon_manager.get_installed_addons();
   m_repository_addons = m_addon_manager.get_repository_addons();
+
+  delete[] m_addons_enabled;
+  m_addons_enabled = new bool[m_installed_addons.size()];
 
   rebuild_menu();
 }
@@ -108,11 +117,11 @@ AddonMenu::rebuild_menu()
   {
     if (!m_repository_addons.empty())
     {
-      add_inactive(MNID_NOTHING_NEW, _("No Addons installed"));
+      add_inactive(_("No Addons installed"));
     }
     else
     {
-      add_inactive(MNID_NOTHING_NEW, _("No Addons found"));
+      add_inactive(_("No Addons found"));
     }
   }
   else
@@ -122,7 +131,8 @@ AddonMenu::rebuild_menu()
     {
       const Addon& addon = m_addon_manager.get_installed_addon(addon_id);
       std::string text = generate_menu_item_text(addon);
-      add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, addon.is_enabled());
+      m_addons_enabled[idx] = addon.is_enabled();
+      add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, m_addons_enabled + idx);
       idx += 1;
     }
   }
@@ -167,13 +177,13 @@ AddonMenu::rebuild_menu()
 
     if (!have_new_stuff && m_addon_manager.has_been_updated())
     {
-      add_inactive(MNID_NOTHING_NEW, _("No new Addons found"));
+      add_inactive(_("No new Addons found"));
     }
   }
 
   if (!m_addon_manager.has_online_support())
   {
-    add_inactive(MNID_CHECK_ONLINE, std::string(_("Check Online (disabled)")));
+    add_inactive(std::string(_("Check Online (disabled)")));
   }
   else
   {
@@ -217,15 +227,13 @@ AddonMenu::menu_action(MenuItem* item)
       if (0 <= idx && idx < static_cast<int>(m_installed_addons.size()))
       {
         const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[idx]);
-        if(addon.is_enabled())
+        if(m_addons_enabled[idx])
         {
           m_addon_manager.disable_addon(addon.get_id());
-          set_toggled(item->id, addon.is_enabled());
         }
         else
         {
           m_addon_manager.enable_addon(addon.get_id());
-          set_toggled(item->id, addon.is_enabled());
         }
       }
     }

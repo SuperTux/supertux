@@ -34,7 +34,7 @@ public:
   /// set display black (or back to normal)
   virtual void set_black(bool enabled) = 0;
   /// check if display is set to black
-  virtual bool is_black() = 0;
+  virtual bool is_black() const = 0;
   /// set black borders for cutscenes
   virtual void sixteen_to_nine(float fadetime) = 0;
   /// deactivate borders

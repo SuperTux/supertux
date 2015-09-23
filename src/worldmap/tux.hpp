@@ -47,7 +47,7 @@ private:
 
 private:
   void stop();
-  bool canWalk(int tile_data, Direction dir); /**< check if we can leave a tile (with given "tile_data") in direction "dir" */
+  bool canWalk(int tile_data, Direction dir) const; /**< check if we can leave a tile (with given "tile_data") in direction "dir" */
   void updateInputDirection(); /**< if controller was pressed, update input_direction */
   void tryStartWalking(); /**< try starting to walk in input_direction */
   void tryContinueWalking(float elapsed_time); /**< try to continue walking in current direction */
@@ -63,10 +63,10 @@ public:
   void set_direction(Direction dir);
 
   void set_ghost_mode(bool enabled);
-  bool get_ghost_mode();
+  bool get_ghost_mode() const;
 
   bool is_moving() const { return moving; }
-  Vector get_pos();
+  Vector get_pos() const;
   Vector get_tile_pos() const { return tile_pos; }
   void  set_tile_pos(Vector p) { tile_pos = p; }
 

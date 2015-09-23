@@ -53,7 +53,7 @@ public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
   //Tux can only go this fast. If set to 0 no special limit is used, only the default limits.
   void set_speedlimit(float newlimit);
-  float get_speedlimit();
+  float get_speedlimit() const;
 
 public:
   Player(PlayerStatus* player_status, const std::string& name);
@@ -67,12 +67,12 @@ public:
    * Level solved. Don't kill Tux any more.
    */
   void set_winning();
-  bool is_winning()
+  bool is_winning() const
   {
     return winning;
   }
 
-  Controller* get_controller()
+  Controller* get_controller() const
   {
     return controller;
   }
@@ -125,7 +125,7 @@ public:
    */
   bool set_bonus(BonusType type, bool animate = false);
 
-  PlayerStatus* get_status()
+  PlayerStatus* get_status() const
   {
     return player_status;
   }
@@ -173,20 +173,20 @@ public:
   /**
    * Returns the current velocity of the player
    */
-  Vector get_velocity();
+  Vector get_velocity() const;
 
   void bounce(BadGuy& badguy);
 
   bool is_dead() const
   { return dead; }
-  bool is_big();
-  bool is_stone()
+  bool is_big() const;
+  bool is_stone() const
   { return stone; }
 
   void set_visible(bool visible);
-  bool get_visible();
+  bool get_visible() const;
 
-  bool on_ground();
+  bool on_ground() const;
 
   Portable* get_grabbed_object() const
   {
@@ -212,7 +212,7 @@ public:
   /**
    * Returns whether ghost mode is currently enabled
    */
-  bool get_ghost_mode() { return ghost_mode; }
+  bool get_ghost_mode() const { return ghost_mode; }
 
   /**
    * Changes height of bounding box.
@@ -255,7 +255,7 @@ private:
   void do_jump_apex();
   void early_jump_apex();
 
-  bool slightly_above_ground();
+  bool slightly_above_ground() const;
 
   /**
    * slows Tux down a little, based on where he's standing
