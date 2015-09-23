@@ -266,10 +266,4 @@ Totem::synchronize_with(Totem* base)
   physic.set_velocity_y(base->physic.get_velocity_y());
 }
 
-bool
-Totem::is_flammable() const
-{
-  return false;
-}
-
 /* EOF */

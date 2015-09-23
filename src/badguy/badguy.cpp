@@ -20,6 +20,7 @@
 #include "math/random_generator.hpp"
 #include "object/broken_brick.hpp"
 #include "object/bullet.hpp"
+#include "object/particles.hpp"
 #include "object/sprite_particle.hpp"
 #include "object/player.hpp"
 #include "object/water_drop.hpp"
@@ -184,17 +185,12 @@ BadGuy::update(float elapsed_time)
       try_activate();
       break;
     case STATE_BURNING: {
-      // spawn fire particles
-      int pa = graphicsRandom.rand(0,4);
-      float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
-      float py = graphicsRandom.randf(bbox.p1.y, bbox.p2.y);
-      Vector ppos = Vector(px, py);
-      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/fire.sprite",
-                                                                     "burning_" + std::to_string(pa),
-                                                                     ppos, ANCHOR_MIDDLE,
-                                                                     Vector(0, -10 * Sector::current()->get_gravity()), Vector(0, -20 * Sector::current()->get_gravity()),
-                                                                     LAYER_OBJECTS));
-    }
+      is_active_flag = false;
+      movement = physic.get_movement(elapsed_time);
+      if ( sprite->animation_done() ) {
+        remove_me();
+      }
+    } break;
     case STATE_SQUISHED:
       is_active_flag = false;
       if(state_timer.check()) {
@@ -722,12 +718,15 @@ BadGuy::ignite()
 
     run_dead_script();
 
-  } else {
+  } else if (sprite->has_action("burning-left")) {
     // burn it!
-    sprite->set_color(Color(0.40f, 0.40f, 0.40f));
     SoundManager::current()->play("sounds/flame.wav", get_pos());
+    sprite->set_action(dir == LEFT ? "burning-left" : "burning-right", 1);
     set_state(STATE_BURNING);
     run_dead_script();
+  } else {
+    // Let it fall off the screen then.
+    kill_fall();
   }
 }
 

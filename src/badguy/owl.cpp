@@ -209,5 +209,14 @@ Owl::collision_solid(const CollisionHit& hit)
   }
 } /* void Owl::collision_solid */
 
+void
+Owl::ignite() {
+  if (carried_object != NULL) {
+    carried_object->ungrab (*this, dir);
+    carried_object = NULL;
+  }
+  BadGuy::ignite();
+}
+
 /* vim: set sw=2 sts=2 et fdm=marker : */
 /* EOF */

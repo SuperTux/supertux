@@ -91,7 +91,7 @@ SkullyHop::collision_squished(GameObject& object)
 void
 SkullyHop::collision_solid(const CollisionHit& hit)
 {
-  if (frozen)
+  if (frozen || BadGuy::get_state() == STATE_BURNING)
   {
     BadGuy::collision_solid(hit);
     return;
