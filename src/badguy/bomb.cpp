@@ -43,8 +43,15 @@ Bomb::Bomb(const Vector& pos, Direction dir_, std::string custom_sprite /*= "ima
 void
 Bomb::collision_solid(const CollisionHit& hit)
 {
-  if(hit.bottom)
+  if(grabbed) {
+    return;
+  }
+  if(hit.top || hit.bottom)
     physic.set_velocity_y(0);
+  if(hit.left || hit.right)
+    physic.set_velocity_x(-physic.get_velocity_x());
+  if(hit.crush)
+    physic.set_velocity(0, 0);
 
   update_on_ground_flag(hit);
 }
@@ -64,6 +71,8 @@ Bomb::collision_badguy(BadGuy& , const CollisionHit& )
 void
 Bomb::active_update(float elapsed_time)
 {
+  if (on_ground()) physic.set_velocity_x(0);
+
   ticking->set_position(get_pos());
   if(sprite->animation_done()) {
     explode();
@@ -121,10 +130,28 @@ void
 Bomb::ungrab(MovingObject& object, Direction dir_)
 {
   this->dir = dir_;
-  // portable objects are usually pushed away from Tux when dropped, but we
-  // don't want that, so we set the position
-  //FIXME: why don't we want that? shouldn't behavior be consistent?
-  set_pos(object.get_pos() + Vector(dir_ == LEFT ? -16 : 16, get_bbox().get_height()*0.66666 - 32));
+  // This object is now thrown.
+  int toss_velocity_x = 0;
+  int toss_velocity_y = 0;
+  Player* player = dynamic_cast<Player*> (&object);
+
+  // toss upwards
+  if(dir_ == UP)
+    toss_velocity_y += -500;
+
+  // toss to the side when moving sideways
+  if(player && player->physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 1) {
+    toss_velocity_x += (dir_ == LEFT) ? -200 : 200;
+    toss_velocity_y = (toss_velocity_y < -200) ? toss_velocity_y : -200;
+    // toss farther when running
+    if(player && player->physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
+      toss_velocity_x += player->physic.get_velocity_x()-(190*(dir_ == LEFT ? -1 : 1));
+  }
+  log_warning << toss_velocity_x << toss_velocity_y << std::endl;////
+
+  //set_pos(object.get_pos() + Vector((dir_ == LEFT ? -33 : 33), get_bbox().get_height()*0.66666 - 32));
+  physic.set_velocity(toss_velocity_x, toss_velocity_y);
+
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;
 }
