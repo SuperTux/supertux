@@ -23,4 +23,26 @@
     (hitbox 1 -19 31.8 31.8)
     (images "cpt-squished-right.png")
   )
+ (action
+  (name "melting-left")
+  (hitbox 2 5 31.8 31.8)
+  (images "cpt-melting-0.png"
+          "cpt-melting-1.png"
+          "cpt-melting-2.png"))
+ (action
+  (name "melting-right")
+  (hitbox 2 5 31.8 31.8)
+  (mirror-action "melting-left"))
+ (action
+  (name "ground-melting-left")
+  (hitbox 18 5 31.8 31.8)
+  (images "cpt-gmelting-0.png"
+          "cpt-gmelting-1.png"
+          "cpt-gmelting-2.png"
+          "cpt-gmelting-3.png"
+          "cpt-gmelting-4.png"))
+ (action
+  (name "ground-melting-right")
+  (hitbox 18 5 31.8 31.8)
+  (mirror-action "ground-melting-left"))
 )

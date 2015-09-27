@@ -32,4 +32,10 @@ Spiky::is_freezable() const
   return true;
 }
 
+bool
+Spiky::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

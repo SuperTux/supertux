@@ -29,6 +29,7 @@ public:
   void active_update(float elapsed_time);
   void kill_fall();
   bool is_freezable() const;
+  bool is_flammable() const;
 
 protected:
   enum AngryStoneState {

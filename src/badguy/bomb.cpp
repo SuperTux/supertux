@@ -113,6 +113,12 @@ Bomb::kill_fall()
 }
 
 void
+Bomb::ignite()
+{
+  explode();
+}
+
+void
 Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   movement = pos - get_pos();

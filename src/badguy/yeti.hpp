@@ -36,6 +36,8 @@ public:
   void kill_squished(GameObject& object);
   void kill_fall();
 
+  bool is_flammable() const;
+
 private:
   void run();
   void jump_up();

@@ -40,6 +40,8 @@ public:
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
+  bool is_flammable() const;
+
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   const Vector initial_velocity; /**< velocity at time of creation */

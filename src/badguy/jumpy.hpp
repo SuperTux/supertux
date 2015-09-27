@@ -31,6 +31,7 @@ public:
 
   void freeze();
   bool is_freezable() const;
+  bool is_flammable() const;
 
 private:
   HitResponse hit(const CollisionHit& hit);

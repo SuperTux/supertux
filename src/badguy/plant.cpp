@@ -104,4 +104,12 @@ Plant::active_update(float elapsed_time) {
 
 }
 
+void
+Plant::ignite()
+{
+  BadGuy::ignite();
+  if (state == PLANT_SLEEPING && sprite->has_action("sleeping-burning-left")) {
+    sprite->set_action(dir == LEFT ? "sleeping-burning-left" : "sleeping-burning-right", 1);
+  }
+}
 /* EOF */

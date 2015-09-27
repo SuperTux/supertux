@@ -126,4 +126,10 @@ Flame::is_freezable() const
   return true;
 }
 
+bool
+Flame::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

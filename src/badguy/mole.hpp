@@ -34,13 +34,16 @@ public:
 
   bool is_freezable() const;
 
+  virtual void ignite();
+
 private:
   enum MoleState {
     PRE_THROWING,
     THROWING,
     POST_THROWING,
     PEEKING,
-    DEAD
+    DEAD,
+    BURNING
   };
 
 private:

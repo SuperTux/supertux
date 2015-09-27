@@ -82,4 +82,10 @@ Ghostflame::kill_fall()
 {
 }
 
+bool
+Ghostflame::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

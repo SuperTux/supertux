@@ -217,4 +217,10 @@ Kugelblitz::try_activate()
   }
 }
 
+bool
+Kugelblitz::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

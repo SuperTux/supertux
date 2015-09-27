@@ -108,4 +108,10 @@ SSpiky::is_freezable() const
   return true;
 }
 
+bool
+SSpiky::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */
