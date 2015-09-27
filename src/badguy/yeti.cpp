@@ -303,4 +303,10 @@ Yeti::collision_solid(const CollisionHit& hit)
   }
 }
 
+bool
+Yeti::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

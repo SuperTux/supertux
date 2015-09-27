@@ -186,5 +186,11 @@ Haywire::is_freezable() const
   return true;
 }
 
+void
+Haywire::ignite()
+{
+  kill_fall();
+}
+
 /* vim: set sw=2 sts=2 et : */
 /* EOF */

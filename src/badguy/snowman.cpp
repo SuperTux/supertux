@@ -57,10 +57,18 @@ Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
   if(bullet.get_type() == FIRE_BONUS) {
     // fire bullets destroy snowman's body
-    loose_head();
+    Vector snowball_pos = get_pos();
+    // Hard-coded values from sprites
+    snowball_pos.x += 5;
+    snowball_pos.y += 1;
+
+    /* Create a new snowball where the snowman's head was */
+    auto snowball = std::make_shared<SnowBall>(snowball_pos, dir, dead_script);
+    Sector::current()->add_object(snowball);
 
     SoundManager::current()->play("sounds/pop.ogg", get_pos()); // this could be a different sound
     bullet.remove_me();
+    ignite();
 
     return ABORT_MOVE;
   }

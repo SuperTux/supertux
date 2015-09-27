@@ -72,4 +72,10 @@ YetiStalactite::update(float elapsed_time)
   BadGuy::update(elapsed_time);
 }
 
+bool
+YetiStalactite::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

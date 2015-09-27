@@ -116,11 +116,13 @@ Igel::is_freezable() const
   return true;
 }
 
-bool
+/**bool
 Igel::collision_squished(GameObject& )
 {
   // this will hurt
   return false;
-}
+}*/
+// Enable this and the igle will no longer be butt-jumpable.
+// Don't forget to enable it in .hpp too!
 
 /* EOF */

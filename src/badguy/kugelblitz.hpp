@@ -33,6 +33,8 @@ public:
   void kill_fall();
   void explode();
 
+  bool is_flammable() const;
+
   virtual void draw(DrawingContext& context);
 
 private:

@@ -63,6 +63,7 @@ GoldBomb::collision_solid(const CollisionHit& hit)
       physic.set_velocity_x(-physic.get_velocity_x());
     else if (hit.top)
       physic.set_velocity_y(0);
+    update_on_ground_flag(hit);
     return;
   }
   WalkingBadguy::collision_solid(hit);
@@ -128,6 +129,7 @@ void
 GoldBomb::active_update(float elapsed_time)
 {
   if(tstate == STATE_TICKING) {
+    if (on_ground()) physic.set_velocity_x(0);
     ticking->set_position(get_pos());
     if(sprite->animation_done()) {
       kill_fall();
@@ -165,6 +167,12 @@ GoldBomb::kill_fall()
   }
 
   run_dead_script();
+}
+
+void
+GoldBomb::ignite()
+{
+  kill_fall();
 }
 
 void

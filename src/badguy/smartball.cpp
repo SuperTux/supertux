@@ -16,8 +16,10 @@
 
 #include "badguy/smartball.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 SmartBall::SmartBall(const Reader& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/smart-snowball.sprite", "left", "right")

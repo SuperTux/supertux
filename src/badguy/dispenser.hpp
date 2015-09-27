@@ -31,6 +31,7 @@ public:
   void freeze();
   void unfreeze();
   bool is_freezable() const;
+  bool is_flammable() const;
 
 protected:
   bool collision_squished(GameObject& object);
@@ -50,7 +51,12 @@ private:
   bool swivel;
   bool broken;
   bool random;
-  std::string type;
+
+  typedef enum {
+    DT_DROPPER, DT_ROCKETLAUNCHER, DT_CANNON
+  }DispenserType;
+
+  DispenserType type;
 };
 
 #endif

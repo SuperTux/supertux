@@ -49,6 +49,16 @@ function ice()
 	sector.Tux.add_bonus("iceflower");
 }
 
+function air()
+{
+	sector.Tux.add_bonus("airflower");
+}
+
+function earth()
+{
+	sector.Tux.add_bonus("earthflower");
+}
+
 function shrink()
 {
 	sector.Tux.add_bonus("none");

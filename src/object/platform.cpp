@@ -78,12 +78,7 @@ Platform::update(float elapsed_time)
       // Player doesn't touch platform and Platform is not moving
 
       // Travel to node nearest to nearest player
-      // FIXME: does not really use nearest player
-      Player* player = 0;
-      std::vector<Player*> players = Sector::current()->get_players();
-      for (std::vector<Player*>::iterator playerIter = players.begin(); playerIter != players.end(); ++playerIter) {
-        player = *playerIter;
-      }
+      Player* player = Sector::current()->get_nearest_player(bbox);
       if (player) {
         int nearest_node_id = path->get_nearest_node_no(player->get_bbox().p2);
         if (nearest_node_id != -1) {

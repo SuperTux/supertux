@@ -45,8 +45,18 @@ Dispenser::Dispenser(const Reader& reader) :
   reader.get("badguy", badguys);
   random = false; // default
   reader.get("random", random);
-  type = "dropper"; //default
-  reader.get("type", type);
+  std::string type_s = "dropper"; //default
+  reader.get("type", type_s);
+  if (type_s == "dropper") {
+    type = DT_DROPPER;
+  } else if (type_s == "rocketlauncher") {
+    type = DT_ROCKETLAUNCHER;
+  } else if (type_s == "cannon") {
+    type = DT_CANNON;
+  } else {
+    log_warning << "Unknown type of dispenser:" << type_s << ", setting to dropper." << std::endl;
+    type = DT_DROPPER;
+  }
   next_badguy = 0;
   autotarget = false;
   swivel = false;
@@ -55,17 +65,23 @@ Dispenser::Dispenser(const Reader& reader) :
   if (badguys.size() <= 0)
     throw std::runtime_error("No badguys in dispenser.");
 
-  if (type == "rocketlauncher") {
-    sprite->set_action(dir == LEFT ? "working-left" : "working-right");
-    set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
+  switch (type) {
+    case DT_DROPPER:
+      sprite->set_action("dropper");
+      break;
+    case DT_ROCKETLAUNCHER:
+      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+      set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
 
-    if (start_dir == AUTO) {
-      autotarget = true;
-    }
-  } else if (type == "cannon") {
-    sprite->set_action("working");
-  } else {
-    sprite->set_action("dropper");
+      if (start_dir == AUTO) {
+        autotarget = true;
+      }
+      break;
+    case DT_CANNON:
+      sprite->set_action("working");
+      break;
+    default:
+      break;
   }
 
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
@@ -101,7 +117,7 @@ Dispenser::collision_squished(GameObject& object)
 {
   //Cannon launching MrRocket can be broken by jumping on it
   //other dispensers are not that fragile.
-  if (broken || type != "rocketlauncher") {
+  if (broken || type != DT_ROCKETLAUNCHER) {
     return false;
   }
 
@@ -172,6 +188,9 @@ Dispenser::active_update(float )
 void
 Dispenser::launch_badguy()
 {
+  if (frozen) {
+    return;
+  }
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen()) {
     Direction launchdir = dir;
@@ -219,26 +238,28 @@ Dispenser::launch_badguy()
 
       object_bbox = bad_guy.get_bbox();
 
-      if (type == "dropper")
-      {
-        spawnpoint = get_anchor_pos (get_bbox(), ANCHOR_BOTTOM);
-        spawnpoint.x -= 0.5 * object_bbox.get_width();
-      }
-      else if ((type == "cannon") || (type == "rocketlauncher"))
-      {
-        spawnpoint = get_pos(); /* top-left corner of the cannon */
-        if (launchdir == LEFT)
-          spawnpoint.x -= object_bbox.get_width() + 1;
-        else
-          spawnpoint.x += get_bbox().get_width() + 1;
+      switch (type) {
+        case DT_DROPPER:
+          spawnpoint = get_anchor_pos (get_bbox(), ANCHOR_BOTTOM);
+          spawnpoint.x -= 0.5 * object_bbox.get_width();
+          break;
+        case DT_ROCKETLAUNCHER:
+        case DT_CANNON:
+          spawnpoint = get_pos(); /* top-left corner of the cannon */
+          if (launchdir == LEFT)
+            spawnpoint.x -= object_bbox.get_width() + 1;
+          else
+            spawnpoint.x += get_bbox().get_width() + 1;
+          break;
+        default:
+          break;
       }
 
       /* Now we set the real spawn position */
       bad_guy.set_pos(spawnpoint);
 
       /* We don't want to count dispensed badguys in level stats */
-      if(bad_guy.countMe)
-        bad_guy.countMe = false;
+      bad_guy.countMe = false;
 
       Sector::current()->add_object(game_object);
     } catch(const std::exception& e) {
@@ -254,14 +275,14 @@ Dispenser::freeze()
   set_group(COLGROUP_MOVING_STATIC);
   frozen = true;
 
-    if(type=="rocketlauncher" && sprite->has_action("iced-left"))
+    if(type == DT_ROCKETLAUNCHER && sprite->has_action("iced-left"))
     // Only swivel dispensers can use their left/right iced actions.
     sprite->set_action(dir == LEFT ? "iced-left" : "iced-right", 1);
-  // when the sprite doesn't have separate actions for left and right or isn't a rocketlauncher,
-  // it tries to use an universal one.
+    // when the sprite doesn't have separate actions for left and right or isn't a rocketlauncher,
+    // it tries to use an universal one.
   else
   {
-    if(type=="cannon" && sprite->has_action("iced"))
+    if(type == DT_CANNON && sprite->has_action("iced"))
       sprite->set_action("iced", 1);
       // When is the dispenser a cannon, it uses the "iced" action.
     else
@@ -287,8 +308,8 @@ Dispenser::unfreeze()
   frozen = false;
 
   // restore original color if needed
-  if(((!sprite->has_action("iced-left") && type=="rocketlauncher")
-      || (!sprite->has_action("iced") && type=="cannon"))
+  if(((!sprite->has_action("iced-left") && type == DT_ROCKETLAUNCHER)
+      || (!sprite->has_action("iced") && type == DT_CANNON))
      && (!sprite->has_action("dropper-iced")) )
   {
     sprite->set_color(Color(1.00, 1.00, 1.00f));
@@ -301,6 +322,12 @@ bool
 Dispenser::is_freezable() const
 {
   return true;
+}
+
+bool
+Dispenser::is_flammable() const
+{
+  return false;
 }
 
 /* EOF */

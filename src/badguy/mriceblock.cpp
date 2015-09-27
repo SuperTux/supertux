@@ -21,6 +21,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 #include <math.h>
 
@@ -288,6 +289,12 @@ bool
 MrIceBlock::is_portable() const
 {
   return ice_state == ICESTATE_FLAT;
+}
+
+void
+MrIceBlock::ignite() {
+  set_state(ICESTATE_NORMAL);
+  BadGuy::ignite();
 }
 
 SmartBlock::SmartBlock(const Reader& reader) :

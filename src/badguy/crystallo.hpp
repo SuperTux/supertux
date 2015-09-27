@@ -29,6 +29,7 @@ public:
   Crystallo(const Vector& pos, Direction d);
 
   void active_update(float elapsed_time);
+  bool is_flammable() const;
 
 protected:
   bool collision_squished(GameObject& object);

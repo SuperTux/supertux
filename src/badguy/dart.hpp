@@ -43,6 +43,8 @@ public:
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
+  bool is_flammable() const;
+
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   std::unique_ptr<SoundSource> sound_source; /**< SoundSource for ambient sound */
