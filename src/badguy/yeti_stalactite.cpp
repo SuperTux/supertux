@@ -73,7 +73,6 @@ YetiStalactite::update(float elapsed_time)
   BadGuy::update(elapsed_time);
 }
 
-
 ObjectSettings
 YetiStalactite::get_settings() {
   ObjectSettings result(_("Yeti's stalactite"));
@@ -81,6 +80,12 @@ YetiStalactite::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+bool
+YetiStalactite::is_flammable() const
+{
+  return false;
 }
 
 /* EOF */

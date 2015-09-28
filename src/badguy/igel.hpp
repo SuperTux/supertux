@@ -40,7 +40,9 @@ public:
   virtual ObjectSettings get_settings();
 
 protected:
-  bool collision_squished(GameObject& object);
+//  bool collision_squished(GameObject& object);
+// Enable this and the igel will no longer be butt-jumpable when frozen.
+// Remember to enable it in .cpp too!
   void be_normal(); /**< switch to state STATE_NORMAL */
   void turn_around(); /**< reverse direction, assumes we are in STATE_NORMAL */
   bool can_see(const MovingObject& o); /**< check if we can see o */

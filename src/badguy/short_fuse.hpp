@@ -35,6 +35,7 @@ protected:
   HitResponse collision_bullet (Bullet& bullet, const CollisionHit& );
   bool collision_squished (GameObject& object);
   void kill_fall (void);
+  void ignite();
   void explode (void);
 };
 

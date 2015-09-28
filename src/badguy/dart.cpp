@@ -126,7 +126,6 @@ Dart::collision_player(Player& player, const CollisionHit& hit)
   return BadGuy::collision_player(player, hit);
 }
 
-
 ObjectSettings
 Dart::get_settings() {
   ObjectSettings result(_("Dart"));
@@ -134,6 +133,12 @@ Dart::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+bool
+Dart::is_flammable() const
+{
+  return false;
 }
 
 /* EOF */

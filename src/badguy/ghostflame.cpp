@@ -83,7 +83,6 @@ Ghostflame::kill_fall()
 {
 }
 
-
 ObjectSettings
 Ghostflame::get_settings() {
   ObjectSettings result(_("Ghost flame"));
@@ -92,4 +91,11 @@ Ghostflame::get_settings() {
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
 }
+
+bool
+Ghostflame::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

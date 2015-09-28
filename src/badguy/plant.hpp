@@ -33,6 +33,7 @@ public:
   }
 
   virtual ObjectSettings get_settings();
+  void ignite();
 
 protected:
   enum PlantState {

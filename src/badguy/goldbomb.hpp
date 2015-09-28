@@ -48,6 +48,7 @@ public:
   }
 
   virtual ObjectSettings get_settings();
+  void ignite();
 
 protected:
   bool collision_squished(GameObject& object);

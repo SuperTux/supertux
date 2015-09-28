@@ -36,6 +36,7 @@ public:
   }
 
   virtual ObjectSettings get_settings();
+  bool is_flammable() const;
 
 private:
   HitResponse hit(const CollisionHit& hit);

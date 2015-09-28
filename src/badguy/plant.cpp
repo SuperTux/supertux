@@ -105,7 +105,6 @@ Plant::active_update(float elapsed_time) {
 
 }
 
-
 ObjectSettings
 Plant::get_settings() {
   ObjectSettings result(_("Plant"));
@@ -113,6 +112,15 @@ Plant::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+void
+Plant::ignite()
+{
+  BadGuy::ignite();
+  if (state == PLANT_SLEEPING && sprite->has_action("sleeping-burning-left")) {
+    sprite->set_action(dir == LEFT ? "sleeping-burning-left" : "sleeping-burning-right", 1);
+  }
 }
 
 /* EOF */

@@ -61,8 +61,7 @@ Fish::draw(DrawingContext& context)
   if (get_state() == STATE_FALLING) {
     sprite->set_action("down");
     sprite->draw(context, get_pos(), layer);
-  }
-  else if (get_state() == STATE_ACTIVE) {
+  } else {
     sprite->draw(context, get_pos(), layer);
   }
 }

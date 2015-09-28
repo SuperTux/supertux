@@ -126,7 +126,12 @@ Totem::active_update(float elapsed_time)
 bool
 Totem::collision_squished(GameObject& object)
 {
-  if (carrying) carrying->jump_off();
+  /// Tux shouldn't be able to bisect totem stack by sacrificing his powerup.
+  /// --Hume2
+  if (carrying) {
+    return false;
+  }
+
   if (carried_by) {
     Player* player = dynamic_cast<Player*>(&object);
     if (player) player->bounce(*this);

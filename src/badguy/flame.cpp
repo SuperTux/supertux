@@ -127,7 +127,6 @@ Flame::is_freezable() const
   return true;
 }
 
-
 ObjectSettings
 Flame::get_settings() {
   ObjectSettings result(_("Flame"));
@@ -135,6 +134,12 @@ Flame::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+bool
+Flame::is_flammable() const
+{
+  return false;
 }
 
 /* EOF */

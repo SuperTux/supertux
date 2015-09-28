@@ -103,13 +103,21 @@ public:
 
   bool is_in_water() const;
 
+  /** Get melting particle sprite filename */
+  virtual std::string get_mpsf() const {
+    return "images/objects/water_drop/water_drop.sprite";
+  }
+
 protected:
   enum State {
     STATE_INIT,
     STATE_INACTIVE,
     STATE_ACTIVE,
     STATE_SQUISHED,
-    STATE_FALLING
+    STATE_FALLING,
+    STATE_BURNING,
+    STATE_MELTING,
+    STATE_GROUND_MELTING
   };
 
 protected:
@@ -222,6 +230,8 @@ protected:
   bool in_water; /** < true if the badguy is currently in water */
 
   std::string dead_script; /**< script to execute when badguy is killed */
+
+  float melting_time;
 
 private:
   State state;

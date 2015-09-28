@@ -33,7 +33,6 @@ Spiky::is_freezable() const
   return true;
 }
 
-
 ObjectSettings
 Spiky::get_settings() {
   ObjectSettings result(_("Spiky"));
@@ -41,6 +40,12 @@ Spiky::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+bool
+Spiky::is_flammable() const
+{
+  return false;
 }
 
 /* EOF */

@@ -35,6 +35,7 @@ public:
   virtual ObjectSettings get_settings();
 
   void active_update(float elapsed_time);
+  bool is_flammable() const;
 
 protected:
   bool collision_squished(GameObject& object);

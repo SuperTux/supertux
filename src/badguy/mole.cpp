@@ -133,6 +133,11 @@ Mole::active_update(float elapsed_time)
         set_state(PRE_THROWING);
       }
       break;
+    case BURNING:
+      if (sprite->animation_done()) {
+        set_state(DEAD);
+      }
+      break;
     case DEAD:
       break;
   }
@@ -176,11 +181,14 @@ Mole::set_state(MoleState new_state)
       sprite->set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       break;
+    case BURNING:
+      sprite->set_action("burning", 1);
+      set_colgroup_active(COLGROUP_DISABLED);
+      break;
   }
 
   state = new_state;
 }
-
 
 ObjectSettings
 Mole::get_settings() {
@@ -189,6 +197,11 @@ Mole::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+void
+Mole::ignite() {
+  set_state(BURNING);
 }
 
 /* EOF */

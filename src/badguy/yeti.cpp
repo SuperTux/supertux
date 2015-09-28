@@ -304,7 +304,6 @@ Yeti::collision_solid(const CollisionHit& hit)
   }
 }
 
-
 ObjectSettings
 Yeti::get_settings() {
   ObjectSettings result(_("Yeti"));
@@ -312,6 +311,12 @@ Yeti::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+bool
+Yeti::is_flammable() const
+{
+  return false;
 }
 
 /* EOF */

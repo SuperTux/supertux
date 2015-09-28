@@ -45,6 +45,8 @@ public:
 
   virtual ObjectSettings get_settings();
 
+  bool is_flammable() const;
+
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   const Vector initial_velocity; /**< velocity at time of creation */

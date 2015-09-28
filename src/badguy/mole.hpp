@@ -39,13 +39,16 @@ public:
 
   virtual ObjectSettings get_settings();
 
+  virtual void ignite();
+
 private:
   enum MoleState {
     PRE_THROWING,
     THROWING,
     POST_THROWING,
     PEEKING,
-    DEAD
+    DEAD,
+    BURNING
   };
 
 private:

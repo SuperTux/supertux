@@ -40,6 +40,7 @@ public:
   }
 
   virtual ObjectSettings get_settings();
+  void ignite();
 
 protected:
   bool is_above_player (void);

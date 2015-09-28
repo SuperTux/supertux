@@ -102,7 +102,6 @@ ShortFuse::kill_fall (void)
   explode ();
 }
 
-
 ObjectSettings
 ShortFuse::get_settings() {
   ObjectSettings result(_("Short fuse"));
@@ -110,6 +109,12 @@ ShortFuse::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+void
+ShortFuse::ignite()
+{
+  kill_fall();
 }
 
 /* vim: set sw=2 sts=2 et : */

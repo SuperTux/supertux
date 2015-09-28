@@ -155,6 +155,11 @@ public:
     return attributes & SOLID;
   }
 
+  /** Determines whether the tile's attributes are important to calculate the
+   * collisions. The tile may be unisolid and therefore the collision with that
+   * tile don't matter.*/
+  bool is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const;
+
   /** Checks the UNISOLID attribute. Returns "true" if set, "false" otherwise. */
   bool is_unisolid() const
   {

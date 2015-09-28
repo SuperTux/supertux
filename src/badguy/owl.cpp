@@ -216,7 +216,6 @@ Owl::collision_solid(const CollisionHit& hit)
   }
 } /* void Owl::collision_solid */
 
-
 ObjectSettings
 Owl::get_settings() {
   ObjectSettings result(_("Owl"));
@@ -224,6 +223,15 @@ Owl::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+void
+Owl::ignite() {
+  if (carried_object != NULL) {
+    carried_object->ungrab (*this, dir);
+    carried_object = NULL;
+  }
+  BadGuy::ignite();
 }
 
 /* vim: set sw=2 sts=2 et fdm=marker : */

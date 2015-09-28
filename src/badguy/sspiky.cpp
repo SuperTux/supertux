@@ -109,7 +109,6 @@ SSpiky::is_freezable() const
   return true;
 }
 
-
 ObjectSettings
 SSpiky::get_settings() {
   ObjectSettings result(_("Sleeping spiky"));
@@ -117,6 +116,12 @@ SSpiky::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+bool
+SSpiky::is_flammable() const
+{
+  return false;
 }
 
 /* EOF */

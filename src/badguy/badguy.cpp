@@ -20,7 +20,13 @@
 #include "editor/editor.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
+#include "math/random_generator.hpp"
+#include "object/broken_brick.hpp"
+#include "object/bullet.hpp"
+#include "object/particles.hpp"
+#include "object/sprite_particle.hpp"
 #include "object/player.hpp"
+#include "object/water_drop.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
@@ -30,6 +36,7 @@
 #include <sstream>
 
 static const float SQUISH_TIME = 2;
+static const float BURN_TIME = 1;
 
 static const float X_OFFSCREEN_DISTANCE = 1280;
 static const float Y_OFFSCREEN_DISTANCE = 800;
@@ -46,6 +53,7 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_) :
   ignited(false),
   in_water(false),
   dead_script(),
+  melting_time(0),
   state(STATE_INIT),
   is_active_flag(),
   state_timer(),
@@ -74,6 +82,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   ignited(false),
   in_water(false),
   dead_script(),
+  melting_time(0),
   state(STATE_INIT),
   is_active_flag(),
   state_timer(),
@@ -102,6 +111,7 @@ BadGuy::BadGuy(const Reader& reader, const std::string& sprite_name_, int layer_
   ignited(false),
   in_water(false),
   dead_script(),
+  melting_time(0),
   state(STATE_INIT),
   is_active_flag(),
   state_timer(),
@@ -180,6 +190,13 @@ BadGuy::update(float elapsed_time)
       inactive_update(elapsed_time);
       try_activate();
       break;
+    case STATE_BURNING: {
+      is_active_flag = false;
+      movement = physic.get_movement(elapsed_time);
+      if ( sprite->animation_done() ) {
+        remove_me();
+      }
+    } break;
     case STATE_SQUISHED:
       is_active_flag = false;
       if(state_timer.check()) {
@@ -187,6 +204,22 @@ BadGuy::update(float elapsed_time)
         break;
       }
       movement = physic.get_movement(elapsed_time);
+      break;
+    case STATE_MELTING: {
+      is_active_flag = false;
+      movement = physic.get_movement(elapsed_time);
+      if ( sprite->animation_done() || on_ground() ) {
+        Sector::current()->add_object( std::make_shared<WaterDrop>(bbox.p1, get_mpsf(), physic.get_velocity()) );
+        remove_me();
+        break;
+      }
+    } break;
+    case STATE_GROUND_MELTING:
+      is_active_flag = false;
+      movement = physic.get_movement(elapsed_time);
+      if ( sprite->animation_done() ) {
+        remove_me();
+      }
       break;
     case STATE_FALLING:
       is_active_flag = false;
@@ -372,7 +405,7 @@ BadGuy::collision_squished(GameObject& object)
     Player* player = dynamic_cast<Player*>(&object);
     if(player && (player->does_buttjump)) {
       player->bounce(*this);
-      kill_fall();//TODO: shatter frozen badguys
+      kill_fall();
       return true;
     }
   }
@@ -450,18 +483,35 @@ BadGuy::kill_fall()
 {
   if (!is_active()) return;
 
-  SoundManager::current()->play("sounds/fall.wav", get_pos());
-  physic.set_velocity_y(0);
-  physic.set_acceleration_y(0);
-  physic.enable_gravity(true);
-  set_state(STATE_FALLING);
+  if (frozen) {
+    SoundManager::current()->play("sounds/brick.wav");
+    Vector pr_pos;
+    float cx = bbox.get_width() / 2;
+    float cy = bbox.get_height() / 2;
+    for (pr_pos.x = 0; pr_pos.x < bbox.get_width(); pr_pos.x += 16) {
+      for (pr_pos.y = 0; pr_pos.y < bbox.get_height(); pr_pos.y += 16) {
+        Vector speed = Vector((pr_pos.x - cx) * 8, (pr_pos.y - cy) * 8 + 100);
+        Sector::current()->add_object(
+          std::make_shared<BrokenBrick>(sprite->clone(), bbox.p1 + pr_pos, speed));
+      }
+    }
+    // start dead-script
+    run_dead_script();
+    remove_me();
+  } else {
+    SoundManager::current()->play("sounds/fall.wav", get_pos());
+    physic.set_velocity_y(0);
+    physic.set_acceleration_y(0);
+    physic.enable_gravity(true);
+    set_state(STATE_FALLING);
 
-  // Set the badguy layer to be the foremost, so that
-  // this does not reveal secret tilemaps:
-  layer = Sector::current()->get_foremost_layer();
+    // Set the badguy layer to be the foremost, so that
+    // this does not reveal secret tilemaps:
+    layer = Sector::current()->get_foremost_layer() + 1;
+    // start dead-script
+    run_dead_script();
+  }
 
-  // start dead-script
-  run_dead_script();
 }
 
 void
@@ -488,6 +538,9 @@ BadGuy::set_state(State state_)
   State laststate = this->state;
   this->state = state_;
   switch(state_) {
+    case STATE_BURNING:
+      state_timer.start(BURN_TIME);
+      break;
     case STATE_SQUISHED:
       state_timer.start(SQUISH_TIME);
       break;
@@ -583,7 +636,7 @@ BadGuy::might_fall(int height) const
 Player*
 BadGuy::get_nearest_player() const
 {
-  return Sector::current()->get_nearest_player (this->get_bbox ());
+  return Sector::current()->get_nearest_player(bbox);
 }
 
 void
@@ -670,7 +723,38 @@ BadGuy::is_in_water() const
 void
 BadGuy::ignite()
 {
-  kill_fall();
+  physic.enable_gravity(true);
+  physic.set_velocity_x(0);
+  physic.set_velocity_y(0);
+  set_group(COLGROUP_MOVING_ONLY_STATIC);
+  sprite->stop_animation();
+  layer = LAYER_OBJECTS - 1;
+
+  if (sprite->has_action("melting-left")) {
+
+    // melt it!
+    if (sprite->has_action("ground-melting-left") && on_ground()) {
+      sprite->set_action(dir == LEFT ? "ground-melting-left" : "ground-melting-right", 1);
+      SoundManager::current()->play("sounds/splash.ogg", get_pos());
+      set_state(STATE_GROUND_MELTING);
+    } else {
+      sprite->set_action(dir == LEFT ? "melting-left" : "melting-right", 1);
+      SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
+      set_state(STATE_MELTING);
+    }
+
+    run_dead_script();
+
+  } else if (sprite->has_action("burning-left")) {
+    // burn it!
+    SoundManager::current()->play("sounds/flame.wav", get_pos());
+    sprite->set_action(dir == LEFT ? "burning-left" : "burning-right", 1);
+    set_state(STATE_BURNING);
+    run_dead_script();
+  } else {
+    // Let it fall off the screen then.
+    kill_fall();
+  }
 }
 
 void

@@ -94,7 +94,7 @@ void
 Toad::collision_solid(const CollisionHit& hit)
 {
   // default behavior when frozen
-  if (frozen)
+  if (frozen || BadGuy::get_state() == STATE_BURNING)
   {
     BadGuy::collision_solid(hit);
     return;

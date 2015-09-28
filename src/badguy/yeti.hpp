@@ -41,6 +41,8 @@ public:
 
   virtual ObjectSettings get_settings();
 
+  bool is_flammable() const;
+
 private:
   void run();
   void jump_up();

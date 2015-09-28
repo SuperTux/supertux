@@ -104,7 +104,6 @@ MoleRock::collision_player(Player& player, const CollisionHit& hit)
   return BadGuy::collision_player(player, hit);
 }
 
-
 ObjectSettings
 MoleRock::get_settings() {
   ObjectSettings result(_("Mole's rock"));
@@ -112,6 +111,12 @@ MoleRock::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+bool
+MoleRock::is_flammable() const
+{
+  return false;
 }
 
 /* EOF */

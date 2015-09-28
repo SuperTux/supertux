@@ -269,4 +269,22 @@
 	(action (name "flat-right")
 		(fps 64.0)
 		(hitbox 2 3 31.8 31.8)
-		(mirror-action "flat-left")))
+		(mirror-action "flat-left"))
+	(action
+	  (name "burning-left")
+	  (hitbox 2 35 31.8 31.8)
+	  (fps 15)
+	  (images "burning-0.png"
+		  "burning-1.png"
+		  "burning-2.png"
+		  "burning-3.png"
+		  "burning-4.png"
+		  "burning-5.png"
+		  "burning-6.png"
+		  "burning-7.png"
+		  "burning-8.png"
+		  ))
+	(action (name "burning-right")
+		(hitbox 2 35 31.8 31.8)
+		(fps 15)
+		(mirror-action "burning-left")))

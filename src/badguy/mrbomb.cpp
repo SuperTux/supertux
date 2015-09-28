@@ -114,6 +114,12 @@ MrBomb::kill_fall()
 }
 
 void
+MrBomb::ignite()
+{
+  kill_fall();
+}
+
+void
 MrBomb::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   assert(frozen);

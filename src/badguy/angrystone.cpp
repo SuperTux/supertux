@@ -183,4 +183,10 @@ AngryStone::get_settings() {
   return result;
 }
 
+bool
+AngryStone::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

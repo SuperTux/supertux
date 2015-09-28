@@ -121,20 +121,7 @@ InfoBlock::collision(GameObject& other, const CollisionHit& hit_)
 Player*
 InfoBlock::get_nearest_player() const
 {
-  // FIXME: does not really return nearest player
-  //  for (std::vector<Player*>::iterator playerIter = players.begin(); playerIter != players.end(); ++playerIter) {
-  //    Player* player = *playerIter;
-  //    return player;
-  //  }
-
-  std::vector<Player*> players = Sector::current()->get_players();
-  if(players.size() > 0)
-  {
-    // Return first player
-    return players[0];
-  }
-
-  return 0;
+  return Sector::current()->get_nearest_player (bbox);
 }
 
 void

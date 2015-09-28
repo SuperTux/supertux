@@ -35,6 +35,7 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void active_update(float elapsed_time);
   void kill_fall();
+  void ignite();
   void explode();
   void grab(MovingObject& object, const Vector& pos, Direction dir);
   void ungrab(MovingObject& object, Direction dir);

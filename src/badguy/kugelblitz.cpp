@@ -218,7 +218,6 @@ Kugelblitz::try_activate()
   }
 }
 
-
 ObjectSettings
 Kugelblitz::get_settings() {
   ObjectSettings result(_("Kugelblitz"));
@@ -226,6 +225,12 @@ Kugelblitz::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+bool
+Kugelblitz::is_flammable() const
+{
+  return false;
 }
 
 /* EOF */

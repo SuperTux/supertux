@@ -187,7 +187,6 @@ Haywire::is_freezable() const
   return true;
 }
 
-
 ObjectSettings
 Haywire::get_settings() {
   ObjectSettings result(_("Haywire"));
@@ -195,6 +194,12 @@ Haywire::get_settings() {
   result.options.push_back( dir_option(&dir) );
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
+}
+
+void
+Haywire::ignite()
+{
+  kill_fall();
 }
 
 /* vim: set sw=2 sts=2 et : */

@@ -71,7 +71,6 @@ Crystallo::collision_squished(GameObject& object)
   return true;
 }
 
-
 ObjectSettings
 Crystallo::get_settings() {
   ObjectSettings result(_("Crystallo"));
@@ -80,4 +79,11 @@ Crystallo::get_settings() {
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
   return result;
 }
+
+bool
+Crystallo::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

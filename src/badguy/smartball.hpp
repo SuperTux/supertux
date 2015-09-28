@@ -33,9 +33,12 @@ public:
 
   virtual ObjectSettings get_settings();
 
+  virtual std::string get_mpsf() const {
+    return "images/objects/water_drop/pink_drop.sprite";
+  }
+
 protected:
   bool collision_squished(GameObject& object);
-
 };
 
 #endif

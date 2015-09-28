@@ -33,6 +33,7 @@ public:
   }
 
   virtual ObjectSettings get_settings();
+  bool is_flammable() const;
 
 private:
   float angle;

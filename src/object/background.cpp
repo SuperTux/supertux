@@ -41,7 +41,9 @@ Background::Background() :
   scroll_offset(),
   image_top(),
   image(),
-  image_bottom()
+  image_bottom(),
+  has_pos_x(false),
+  has_pos_y(false)
 {
 }
 
@@ -58,13 +60,15 @@ Background::Background(const Reader& reader) :
   scroll_offset(),
   image_top(),
   image(),
-  image_bottom()
+  image_bottom(),
+  has_pos_x(false),
+  has_pos_y(false)
 {
   // read position, defaults to (0,0)
   float px = 0;
   float py = 0;
-  reader.get("x", px);
-  reader.get("y", py);
+  has_pos_x = reader.get("x", px);
+  has_pos_y = reader.get("y", py);
   this->pos = Vector(px,py);
 
   speed = 1.0;
@@ -275,8 +279,9 @@ Background::draw(DrawingContext& context)
   Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
                        context.get_translation().y - translation_range.height / 2.0f);
 
-  // FIXME: We are not handling 'pos'
-  draw_image(context, Vector(level_size.width / 2.0f, level_size.height / 2.0f) + center_offset * (1.0f - speed));
+  float px = has_pos_x ? pos.x : level_size.width/2;
+  float py = has_pos_y ? pos.y : level_size.height/2;
+  draw_image(context, Vector(px, py) + center_offset * (1.0f - speed));
 }
 
 /* EOF */
