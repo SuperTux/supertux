@@ -110,7 +110,7 @@ SSpiky::is_freezable() const
 bool
 SSpiky::is_flammable() const
 {
-  return false;
+  return true;
 }
 
 /* EOF */
