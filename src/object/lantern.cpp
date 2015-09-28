@@ -129,4 +129,13 @@ Lantern::is_open() const
   return ((grabbed) && lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0);
 }
 
+void
+Lantern::add_color(Color c) {
+  lightcolor.red   = std::min(1.0f, lightcolor.red   + c.red);
+  lightcolor.green = std::min(1.0f, lightcolor.green + c.green);
+  lightcolor.blue  = std::min(1.0f, lightcolor.blue  + c.blue);
+  lightcolor.alpha = std::min(1.0f, lightcolor.alpha + c.alpha);
+  updateColor();
+}
+
 /* EOF */
