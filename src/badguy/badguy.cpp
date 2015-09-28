@@ -33,6 +33,7 @@
 #include <sstream>
 
 static const float SQUISH_TIME = 2;
+static const float GEAR_TIME = 2;
 static const float BURN_TIME = 1;
 
 static const float X_OFFSCREEN_DISTANCE = 1280;
@@ -191,6 +192,7 @@ BadGuy::update(float elapsed_time)
         remove_me();
       }
     } break;
+    case STATE_GEAR:
     case STATE_SQUISHED:
       is_active_flag = false;
       if(state_timer.check()) {
@@ -215,6 +217,22 @@ BadGuy::update(float elapsed_time)
         remove_me();
       }
       break;
+    case STATE_INSIDE_MELTING: {
+      is_active_flag = false;
+      movement = physic.get_movement(elapsed_time);
+      if ( on_ground() && sprite->animation_done() ) {
+        sprite->set_action(dir == LEFT ? "gear-left" : "gear-right", 1);
+        set_state(STATE_GEAR);
+      }
+      int pa = graphicsRandom.rand(0,3);
+      float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
+      float py = graphicsRandom.randf(bbox.p1.y, bbox.p2.y);
+      Vector ppos = Vector(px, py);
+      Sector::current()->add_object(std::make_shared<SpriteParticle>(get_mpsf(), "particle_" + std::to_string(pa),
+                                                                     ppos, ANCHOR_MIDDLE,
+                                                                     Vector(0, 0), Vector(0, 100 * Sector::current()->get_gravity()),
+                                                                     LAYER_OBJECTS-1));
+    } break;
     case STATE_FALLING:
       is_active_flag = false;
       movement = physic.get_movement(elapsed_time);
@@ -525,6 +543,9 @@ BadGuy::set_state(State state_)
     case STATE_SQUISHED:
       state_timer.start(SQUISH_TIME);
       break;
+    case STATE_GEAR:
+      state_timer.start(GEAR_TIME);
+      break;
     case STATE_ACTIVE:
       set_group(colgroup_active);
       //bbox.set_pos(start_position);
@@ -723,6 +744,12 @@ BadGuy::ignite()
     SoundManager::current()->play("sounds/flame.wav", get_pos());
     sprite->set_action(dir == LEFT ? "burning-left" : "burning-right", 1);
     set_state(STATE_BURNING);
+    run_dead_script();
+  } else if (sprite->has_action("inside-melting-left")) {
+    // melt it inside!
+    SoundManager::current()->play("sounds/splash.ogg", get_pos());
+    sprite->set_action(dir == LEFT ? "inside-melting-left" : "inside-melting-right", 1);
+    set_state(STATE_INSIDE_MELTING);
     run_dead_script();
   } else {
     // Let it fall off the screen then.
