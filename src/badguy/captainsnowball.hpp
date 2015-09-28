@@ -28,7 +28,6 @@ public:
   virtual void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
 
-  bool might_climb(int width, int height);
   virtual std::string get_class() const {
     return "captainsnowball";
   }

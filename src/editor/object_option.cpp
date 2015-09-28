@@ -14,6 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <string>
+#include <vector>
+
 #include "editor/object_option.hpp"
 
 ObjectOption::ObjectOption(MenuItemKind ip_type, std::string text_, void* ip) :

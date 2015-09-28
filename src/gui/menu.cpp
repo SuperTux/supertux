@@ -234,10 +234,8 @@ Menu::process_input()
     menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
 
-  if((controller->pressed(Controller::ACTION)
-     || controller->pressed(Controller::MENU_SELECT)) &&
-     !(items[active_item]->kind == MN_TEXTFIELD ||
-       items[active_item]->kind == MN_NUMFIELD)) {
+  if(controller->pressed(Controller::ACTION)
+     || controller->pressed(Controller::MENU_SELECT)) {
     menuaction = MENU_ACTION_HIT;
   }
   if(controller->pressed(Controller::ESCAPE) ||
@@ -490,14 +488,6 @@ Menu::event(const SDL_Event& ev)
       }
     }
     break;
-
-    case SDL_TEXTINPUT:
-      if (items[active_item]->kind == MN_TEXTFIELD ||
-          items[active_item]->kind == MN_NUMFIELD ||
-          items[active_item]->kind == MN_INTFIELD){
-        items[active_item]->input = items[active_item]->input + ev.text.text;
-      }
-      break;
 
     default:
       break;
