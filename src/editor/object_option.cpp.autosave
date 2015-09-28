@@ -14,23 +14,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_SETTINGS_HPP
-#define HEADER_SUPERTUX_EDITOR_OBJECT_SETTINGS_HPP
-
-#include <vector>
-
 #include "editor/object_option.hpp"
 
-class ObjectSettings
+ObjectOption::ObjectOption(MenuItemKind ip_type, std::string text_, void* ip) :
+  type(ip_type),
+  text(text_),
+  option(ip),
+  select()
 {
-  public:
-    ObjectSettings(std::string name_);
-    ~ObjectSettings();
+  select.clear();
+}
 
-    std::string name;
-    std::vector<ObjectOption> options;
-};
+ObjectOption::~ObjectOption() {
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_SETTINGS_HPP
+}
 
 /* EOF */
