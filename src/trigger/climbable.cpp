@@ -92,10 +92,10 @@ Climbable::event(Player& player, EventType type)
       } else {
         if (type == EVENT_ACTIVATE) activate_try_timer.start(ACTIVATE_TRY_FOR);
         // the "-13" to y velocity prevents Tux from walking in place on the ground for horizonal adjustments
-        if (player.get_bbox().p1.x < get_bbox().p1.x - GRACE_DX) player.add_velocity(Vector(POSITION_FIX_AX,-13));
-        if (player.get_bbox().p2.x > get_bbox().p2.x + GRACE_DX) player.add_velocity(Vector(-POSITION_FIX_AX,-13));
-        if (player.get_bbox().p1.y < get_bbox().p1.y - GRACE_DY) player.add_velocity(Vector(0,POSITION_FIX_AY));
-        if (player.get_bbox().p2.y > get_bbox().p2.y + GRACE_DY) player.add_velocity(Vector(0,-POSITION_FIX_AY));
+        if (player.get_bbox().p1.x < bbox.p1.x - GRACE_DX) player.add_velocity(Vector(POSITION_FIX_AX,-13));
+        if (player.get_bbox().p2.x > bbox.p2.x + GRACE_DX) player.add_velocity(Vector(-POSITION_FIX_AX,-13));
+        if (player.get_bbox().p1.y < bbox.p1.y - GRACE_DY) player.add_velocity(Vector(0,POSITION_FIX_AY));
+        if (player.get_bbox().p2.y > bbox.p2.y + GRACE_DY) player.add_velocity(Vector(0,-POSITION_FIX_AY));
       }
     }
   }
@@ -108,10 +108,10 @@ Climbable::event(Player& player, EventType type)
 bool
 Climbable::may_climb(Player& player)
 {
-  if (player.get_bbox().p1.x < get_bbox().p1.x - GRACE_DX) return false;
-  if (player.get_bbox().p2.x > get_bbox().p2.x + GRACE_DX) return false;
-  if (player.get_bbox().p1.y < get_bbox().p1.y - GRACE_DY) return false;
-  if (player.get_bbox().p2.y > get_bbox().p2.y + GRACE_DY) return false;
+  if (player.get_bbox().p1.x < bbox.p1.x - GRACE_DX) return false;
+  if (player.get_bbox().p2.x > bbox.p2.x + GRACE_DX) return false;
+  if (player.get_bbox().p1.y < bbox.p1.y - GRACE_DY) return false;
+  if (player.get_bbox().p2.y > bbox.p2.y + GRACE_DY) return false;
   return true;
 }
 

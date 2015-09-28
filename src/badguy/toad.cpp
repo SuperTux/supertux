@@ -73,8 +73,8 @@ Toad::set_state(ToadState newState)
       if (newState == FALLING) {
         Player* player = get_nearest_player();
         // face player
-        if (player && (player->get_bbox().p2.x < get_bbox().p1.x) && (dir == RIGHT)) dir = LEFT;
-        if (player && (player->get_bbox().p1.x > get_bbox().p2.x) && (dir == LEFT)) dir = RIGHT;
+        if (player && (player->get_bbox().p2.x < bbox.p1.x) && (dir == RIGHT)) dir = LEFT;
+        if (player && (player->get_bbox().p1.x > bbox.p2.x) && (dir == LEFT)) dir = RIGHT;
         sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
       }
 

@@ -54,7 +54,7 @@ Block::collision(GameObject& other, const CollisionHit& )
 {
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
-    if(player->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
+    if(player->get_bbox().get_top() > bbox.get_bottom() - SHIFT_DELTA) {
       hit(*player);
     }
   }
@@ -66,7 +66,7 @@ Block::collision(GameObject& other, const CollisionHit& )
   Portable* portable = dynamic_cast<Portable*> (&other);
   MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
   bool is_portable = ((portable != 0) && portable->is_portable());
-  bool hit_mo_from_below = ((moving_object == 0) || (moving_object->get_bbox().get_bottom() < (get_bbox().get_top() + SHIFT_DELTA)));
+  bool hit_mo_from_below = ((moving_object == 0) || (moving_object->get_bbox().get_bottom() < (bbox.get_top() + SHIFT_DELTA)));
   if(bouncing && !is_portable && hit_mo_from_below) {
 
     // Badguys get killed
@@ -134,7 +134,7 @@ Block::start_bounce(GameObject* hitter)
   MovingObject* hitter_mo = dynamic_cast<MovingObject*>(hitter);
   if (hitter_mo) {
     float center_of_hitter = hitter_mo->get_bbox().get_middle().x;
-    float offset = (get_bbox().get_middle().x - center_of_hitter)*2 / get_bbox().get_width();
+    float offset = (bbox.get_middle().x - center_of_hitter)*2 / bbox.get_width();
     sprite->set_angle(BUMP_ROTATION_ANGLE*offset);
   }
 }

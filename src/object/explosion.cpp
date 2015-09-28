@@ -40,7 +40,7 @@ Explosion::Explosion(const Vector& pos) :
 {
   SoundManager::current()->preload("sounds/explosion.wav");
   SoundManager::current()->preload("sounds/firecracker.ogg");
-  set_pos(get_pos() - (get_bbox().get_middle() - get_pos()));
+  set_pos(get_pos() - (bbox.get_middle() - get_pos()));
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
 }
@@ -77,7 +77,7 @@ Explosion::explode()
     bbox.get_middle(), -360, 360, 450, 900, Vector(0, 1000), pnumber, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS-1));
 
   if (push) {
-    Vector center = get_bbox ().get_middle ();
+    Vector center = bbox.get_middle ();
     std::vector<MovingObject*> near_objects = Sector::current()->get_nearby_objects (center, 10.0 * 32.0);
 
     for (size_t i = 0; i < near_objects.size (); i++) {
@@ -133,11 +133,11 @@ Explosion::draw(DrawingContext& context)
   //Draw the Sprite.
   sprite->draw(context, get_pos(), LAYER_OBJECTS+40);
   //Explosions produce light (if ambient light is not maxed)
-  context.get_light( get_bbox().get_middle(), &light);
+  context.get_light( bbox.get_middle(), &light);
   if (light.red + light.green + light.blue < 3.0){
     context.push_target();
     context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, get_bbox().get_middle(), 0);
+    lightsprite->draw(context, bbox.get_middle(), 0);
     context.pop_target();
   }
 }

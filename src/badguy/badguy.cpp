@@ -549,7 +549,7 @@ BadGuy::is_offscreen() const
 {
   Player* player = get_nearest_player();
   if (!player) return false;
-  Vector dist = player->get_bbox().get_middle() - get_bbox().get_middle();
+  Vector dist = player->get_bbox().get_middle() - bbox.get_middle();
   // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px
   // This doesn't work for wide-screen monitors which give us a virt. res. of approx. 1066px x 600px
   if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
@@ -572,7 +572,7 @@ BadGuy::try_activate()
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
       if (start_dir == AUTO) {
         Player* player_ = get_nearest_player();
-        if (player_ && (player_->get_bbox().p1.x > get_bbox().p2.x)) {
+        if (player_ && (player_->get_bbox().p1.x > bbox.p2.x)) {
           dir = RIGHT;
         } else {
           dir = LEFT;

@@ -114,7 +114,7 @@ GhostTree::active_update(float elapsed_time)
       for(auto iter = willowisps.begin(); iter != willowisps.end(); ++iter) {
         TreeWillOWisp& willo = **iter;
         if(willo.get_color() == col) {
-          willo.start_sucking(get_bbox().get_middle() + SUCK_TARGET_OFFSET + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD), gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)));
+          willo.start_sucking(bbox.get_middle() + SUCK_TARGET_OFFSET + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD), gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)));
         }
       }
       mystate = STATE_SUCKING;
@@ -162,7 +162,7 @@ GhostTree::active_update(float elapsed_time)
       /* TODO indicate root with an animation */
       Player* player = get_nearest_player();
       if (player) {
-        auto root = std::make_shared<Root>(Vector(player->get_bbox().get_left(), get_bbox().get_bottom()+ROOT_TOP_OFFSET));
+        auto root = std::make_shared<Root>(Vector(player->get_bbox().get_left(), bbox.get_bottom()+ROOT_TOP_OFFSET));
         Sector::current()->add_object(root);
       }
     }
@@ -171,7 +171,7 @@ GhostTree::active_update(float elapsed_time)
       // suck in lantern
       assert (suck_lantern);
       Vector pos = suck_lantern->get_pos();
-      Vector delta = get_bbox().get_middle() + SUCK_TARGET_OFFSET - pos;
+      Vector delta = bbox.get_middle() + SUCK_TARGET_OFFSET - pos;
       Vector dir_ = delta.unit();
       if (delta.norm() < 1) {
         dir_ = delta;
@@ -266,7 +266,7 @@ GhostTree::collision(GameObject& other, const CollisionHit& ) {
 
 void
 GhostTree::spawn_lantern() {
-  auto lantern = std::make_shared<Lantern>(get_bbox().get_middle() + SUCK_TARGET_OFFSET);
+  auto lantern = std::make_shared<Lantern>(bbox.get_middle() + SUCK_TARGET_OFFSET);
   Sector::current()->add_object(lantern);
 }
 

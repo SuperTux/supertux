@@ -73,7 +73,7 @@ Lantern::draw(DrawingContext& context){
   context.push_target();
   context.set_target(DrawingContext::LIGHTMAP);
 
-  lightsprite->draw(context, get_bbox().get_middle(), 0);
+  lightsprite->draw(context, bbox.get_middle(), 0);
 
   context.pop_target();
 }
