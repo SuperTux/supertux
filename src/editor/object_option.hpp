@@ -17,7 +17,10 @@
 #ifndef HEADER_SUPERTUX_EDITOR_OBJECT_OPTION_HPP
 #define HEADER_SUPERTUX_EDITOR_OBJECT_OPTION_HPP
 
-#include "gui/menu_item.hpp"
+#include <string>
+#include <vector>
+
+#include "gui/menu_action.hpp"
 
 class ObjectOption
 {
