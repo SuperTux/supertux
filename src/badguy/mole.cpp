@@ -88,15 +88,12 @@ Mole::collision_squished(GameObject& )
 void
 Mole::throw_rock()
 {
-  float px = get_bbox().get_middle().x;
-  float py = get_bbox().get_middle().y;
-
   float angle = gameRandom.rand(90 - 15, 90 + 15) * (M_PI / 180);
   float vx = cos(angle) * THROW_VELOCITY;
   float vy = -sin(angle) * THROW_VELOCITY;
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Sector::current()->add_object(std::make_shared<MoleRock>(Vector(px, py), Vector(vx, vy), this));
+  Sector::current()->add_object(std::make_shared<MoleRock>(bbox.get_middle(), Vector(vx, vy), this));
 }
 
 void
@@ -130,6 +127,11 @@ Mole::active_update(float elapsed_time)
     case PEEKING:
       if (sprite->animation_done()) {
         set_state(PRE_THROWING);
+      }
+      break;
+    case BURNING:
+      if (sprite->animation_done()) {
+        set_state(DEAD);
       }
       break;
     case DEAD:
@@ -175,9 +177,18 @@ Mole::set_state(MoleState new_state)
       sprite->set_action("idle");
       set_colgroup_active(COLGROUP_DISABLED);
       break;
+    case BURNING:
+      sprite->set_action("burning", 1);
+      set_colgroup_active(COLGROUP_DISABLED);
+      break;
   }
 
   state = new_state;
+}
+
+void
+Mole::ignite() {
+  set_state(BURNING);
 }
 
 /* EOF */

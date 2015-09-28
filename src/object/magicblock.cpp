@@ -71,7 +71,7 @@ MagicBlock::MagicBlock(const Reader& lisp) :
     trigger_blue = (color.blue == 1.0f ? MIN_INTENSITY : 0);
   }
 
-  center = get_bbox().get_middle();
+  center = bbox.get_middle();
 }
 
 void
@@ -112,7 +112,7 @@ MagicBlock::update(float elapsed_time)
     // lighting suggests going solid
 
     if (!is_solid) {
-      if (Sector::current()->is_free_of_movingstatics(get_bbox(), this)) {
+      if (Sector::current()->is_free_of_movingstatics(bbox, this)) {
         is_solid = true;
         solid_time = 0;
         switch_delay = SWITCH_DELAY;
@@ -147,7 +147,7 @@ MagicBlock::draw(DrawingContext& context){
   //Draw the Sprite.
   MovingSprite::draw(context);
   //Add the color.
-  context.draw_filled_rect( get_bbox(), color, layer);
+  context.draw_filled_rect( bbox, color, layer);
 }
 
 bool

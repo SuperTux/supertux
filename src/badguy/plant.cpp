@@ -76,13 +76,12 @@ Plant::active_update(float elapsed_time) {
 
     Player* player = this->get_nearest_player();
     if (player) {
-      Rectf mb = this->get_bbox();
       Rectf pb = player->get_bbox();
 
-      bool inReach_left = (pb.p2.x >= mb.p2.x-((dir == LEFT) ? 256 : 0));
-      bool inReach_right = (pb.p1.x <= mb.p1.x+((dir == RIGHT) ? 256 : 0));
-      bool inReach_top = (pb.p2.y >= mb.p2.y);
-      bool inReach_bottom = (pb.p1.y <= mb.p1.y);
+      bool inReach_left = (pb.p2.x >= bbox.p2.x-((dir == LEFT) ? 256 : 0));
+      bool inReach_right = (pb.p1.x <= bbox.p1.x+((dir == RIGHT) ? 256 : 0));
+      bool inReach_top = (pb.p2.y >= bbox.p2.y);
+      bool inReach_bottom = (pb.p1.y <= bbox.p1.y);
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // wake up
@@ -104,4 +103,12 @@ Plant::active_update(float elapsed_time) {
 
 }
 
+void
+Plant::ignite()
+{
+  BadGuy::ignite();
+  if (state == PLANT_SLEEPING && sprite->has_action("sleeping-burning-left")) {
+    sprite->set_action(dir == LEFT ? "sleeping-burning-left" : "sleeping-burning-right", 1);
+  }
+}
 /* EOF */

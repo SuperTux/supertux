@@ -125,4 +125,10 @@ Dart::collision_player(Player& player, const CollisionHit& hit)
   return BadGuy::collision_player(player, hit);
 }
 
+bool
+Dart::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

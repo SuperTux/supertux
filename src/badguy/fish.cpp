@@ -60,8 +60,7 @@ Fish::draw(DrawingContext& context)
   if (get_state() == STATE_FALLING) {
     sprite->set_action("down");
     sprite->draw(context, get_pos(), layer);
-  }
-  else if (get_state() == STATE_ACTIVE) {
+  } else {
     sprite->draw(context, get_pos(), layer);
   }
 }
@@ -82,7 +81,7 @@ Fish::collision_tile(uint32_t tile_attributes)
   if ((tile_attributes & Tile::WATER) && (physic.get_velocity_y() >= 0)) {
 
     // initialize stop position if uninitialized
-    if (stop_y == 0) stop_y = get_pos().y + get_bbox().get_height();
+    if (stop_y == 0) stop_y = get_pos().y + bbox.get_height();
 
     // stop when we have reached the stop position
     if (get_pos().y >= stop_y) {

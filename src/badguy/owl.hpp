@@ -34,6 +34,7 @@ public:
   void freeze();
   void unfreeze();
   bool is_freezable() const;
+  void ignite();
 
 protected:
   bool is_above_player (void);

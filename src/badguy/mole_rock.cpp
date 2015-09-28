@@ -103,4 +103,10 @@ MoleRock::collision_player(Player& player, const CollisionHit& hit)
   return BadGuy::collision_player(player, hit);
 }
 
+bool
+MoleRock::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */

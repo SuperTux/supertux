@@ -593,7 +593,7 @@ Player::handle_horizontal_input()
       // dust some particles
       Sector::current()->add_object(
         std::make_shared<Particles>(
-          Vector(dir == LEFT ? get_bbox().p2.x : get_bbox().p1.x, get_bbox().p2.y),
+          Vector(dir == LEFT ? bbox.p2.x : bbox.p1.x, bbox.p2.y),
           dir == LEFT ? 50 : -70, dir == LEFT ? 70 : -50, 260, 280,
           Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
 
@@ -893,7 +893,7 @@ Player::handle_input()
     stone = false;
     for (int i = 0; i < 8; i++)
     {
-      Vector ppos = Vector(get_bbox().get_left() + 8 + 16*((int)i/4), get_bbox().get_top() + 16*(i%4));
+      Vector ppos = Vector(bbox.get_left() + 8 + 16*((int)i/4), bbox.get_top() + 16*(i%4));
       float grey = graphicsRandom.randf(.4f, .8f);
       Color pcolor = Color(grey, grey, grey);
       Sector::current()->add_object(std::make_shared<Particles>(ppos, -60, 240, 42, 81, Vector(0, 500),
@@ -958,8 +958,8 @@ Player::position_grabbed_object()
   assert(moving_object);
 
   // Position where we will hold the lower-inner corner
-  Vector pos(get_bbox().get_left() + get_bbox().get_width()/2,
-      get_bbox().get_top() + get_bbox().get_height()*0.66666);
+  Vector pos(bbox.get_left() + bbox.get_width()/2,
+      bbox.get_top() + bbox.get_height()*0.66666);
 
   // Adjust to find the grabbed object's upper-left corner
   if (dir == LEFT)
@@ -1191,10 +1191,10 @@ Player::draw(DrawingContext& context)
     return;
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
-  if (Sector::current() && Sector::current()->camera && (get_bbox().p2.y - 16 < Sector::current()->camera->get_translation().y)) {
-    float px = get_pos().x + (get_bbox().p2.x - get_bbox().p1.x - airarrow.get()->get_width()) / 2;
+  if (Sector::current() && Sector::current()->camera && (bbox.p2.y - 16 < Sector::current()->camera->get_translation().y)) {
+    float px = bbox.p1.x + (bbox.p2.x - bbox.p1.x - airarrow.get()->get_width()) / 2;
     float py = Sector::current()->camera->get_translation().y;
-    py += std::min(((py - (get_bbox().p2.y + 16)) / 4), 16.0f);
+    py += std::min(((py - (bbox.p2.y + 16)) / 4), 16.0f);
     context.draw_surface(airarrow, Vector(px, py), LAYER_HUD - 1);
   }
 
@@ -1391,11 +1391,11 @@ Player::collision_solid(const CollisionHit& hit)
       physic.set_velocity_y(-300);
       on_ground_flag = false;
       Sector::current()->add_object(std::make_shared<Particles>(
-                                      Vector(get_bbox().p2.x, get_bbox().p2.y),
+                                      bbox.p2,
                                       50, 70, 260, 280, Vector(0, 300), 3,
                                       Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
       Sector::current()->add_object(std::make_shared<Particles>(
-                                      Vector(get_bbox().p1.x, get_bbox().p2.y),
+                                      Vector(bbox.p1.x, bbox.p2.y),
                                       -70, -50, 260, 280, Vector(0, 300), 3,
                                       Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
       Sector::current()->camera->shake(.1f, 0, 5);
@@ -1584,10 +1584,10 @@ Player::check_bounds()
     set_pos(Vector(0, get_pos().y));
   }
 
-  if (get_bbox().get_right() > Sector::current()->get_width()) {
+  if (bbox.get_right() > Sector::current()->get_width()) {
     // Lock Tux to the size of the level, so that he doesn't fall off
     // the right side
-    set_pos(Vector(Sector::current()->get_width() - get_bbox().get_width(), get_pos().y));
+    set_pos(Vector(Sector::current()->get_width() - bbox.get_width(), bbox.p1.y));
   }
 
   /* fallen out of the level? */

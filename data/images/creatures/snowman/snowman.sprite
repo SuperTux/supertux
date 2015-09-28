@@ -36,6 +36,29 @@
     (hitbox 10 3 36 72)
     (mirror-action "headless-left")
   )
+ (action
+  (name "melting-left")
+  (hitbox 10 3 36 72)
+  (images "melting-0.png"
+          "melting-1.png"
+          "melting-2.png"
+          "melting-3.png"))
+ (action
+  (name "melting-right")
+  (hitbox 10 3 36 72)
+  (mirror-action "melting-left"))
+ (action
+  (name "ground-melting-left")
+  (hitbox 42 -10 36 72)
+  (images "gmelting-0.png"
+          "gmelting-1.png"
+          "gmelting-2.png"
+          "gmelting-3.png"
+          "gmelting-4.png"))
+ (action
+  (name "ground-melting-right")
+  (hitbox 42 -10 36 72)
+  (mirror-action "ground-melting-left"))
 )
 
 ;; EOF ;;

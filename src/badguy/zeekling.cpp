@@ -97,7 +97,7 @@ Zeekling::onBumpHorizontal() {
 
 void
 Zeekling::onBumpVertical() {
-  if (frozen)
+  if (frozen || BadGuy::get_state() == STATE_BURNING)
   {
     physic.set_velocity_y(0);
     physic.set_velocity_x(0);

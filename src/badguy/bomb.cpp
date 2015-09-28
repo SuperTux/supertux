@@ -99,7 +99,7 @@ Bomb::explode()
 
   if(is_valid()) {
     remove_me();
-    auto explosion = std::make_shared<Explosion>(get_bbox().get_middle());
+    auto explosion = std::make_shared<Explosion>(bbox.get_middle());
     Sector::current()->add_object(explosion);
   }
 
@@ -108,6 +108,12 @@ Bomb::explode()
 
 void
 Bomb::kill_fall()
+{
+  explode();
+}
+
+void
+Bomb::ignite()
 {
   explode();
 }

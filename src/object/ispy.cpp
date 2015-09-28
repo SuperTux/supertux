@@ -61,11 +61,11 @@ Ispy::update(float )
 
   if (state == ISPYSTATE_IDLE) {
     // check if a player has been spotted
-    Vector eye = get_bbox().get_middle();
-    if (dir == LEFT) eye = Vector(get_bbox().p1.x, get_bbox().get_middle().y);
-    if (dir == RIGHT) eye = Vector(get_bbox().p2.x, get_bbox().get_middle().y);
-    if (dir == UP) eye = Vector(get_bbox().get_middle().x, get_bbox().p1.y);
-    if (dir == DOWN) eye = Vector(get_bbox().get_middle().x, get_bbox().p2.y);
+    Vector eye = bbox.get_middle();
+    if (dir == LEFT) eye = Vector(bbox.p1.x, bbox.get_middle().y);
+    if (dir == RIGHT) eye = Vector(bbox.p2.x, bbox.get_middle().y);
+    if (dir == UP) eye = Vector(bbox.get_middle().x, bbox.p1.y);
+    if (dir == DOWN) eye = Vector(bbox.get_middle().x, bbox.p2.y);
 
     if (Sector::current()->can_see_player(eye)) {
       sprite->set_action((dir == DOWN) ? "alert-down" : ((dir == LEFT) ? "alert-left" : "alert-right"), 1);

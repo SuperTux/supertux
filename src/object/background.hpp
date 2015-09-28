@@ -68,6 +68,8 @@ private:
   SurfacePtr image_top; /**< image to draw above pos */
   SurfacePtr image; /**< image to draw, anchored at pos */
   SurfacePtr image_bottom; /**< image to draw below pos+screenheight */
+
+  bool has_pos_x, has_pos_y;
 };
 
 #endif /*SUPERTUX_BACKGROUND_H*/

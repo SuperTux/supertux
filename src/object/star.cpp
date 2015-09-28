@@ -45,7 +45,7 @@ Star::update(float elapsed_time)
   movement = physic.get_movement(elapsed_time);
 
   // when near Tux, spawn particles
-  Player* player = Sector::current()->get_nearest_player (this->get_bbox ());
+  Player* player = Sector::current()->get_nearest_player (bbox);
   if (player) {
     float disp_x = player->get_bbox().p1.x - bbox.p1.x;
     float disp_y = player->get_bbox().p1.y - bbox.p1.y;
@@ -74,12 +74,12 @@ Star::draw(DrawingContext& context){
   //Draw the Sprite.
   MovingSprite::draw(context);
   //Draw the light when dark
-  context.get_light( get_bbox().get_middle(), &light );
+  context.get_light( bbox.get_middle(), &light );
   if (light.red + light.green + light.blue < 3.0){
     MovingSprite::draw(context);
     context.push_target();
     context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, get_bbox().get_middle(), 0);
+    lightsprite->draw(context, bbox.get_middle(), 0);
     context.pop_target();
   }
 }

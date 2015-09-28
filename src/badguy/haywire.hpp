@@ -28,6 +28,7 @@ public:
   Haywire(const Vector& pos, Direction d);
 
   void kill_fall();
+  void ignite();
   HitResponse collision(GameObject& object, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 

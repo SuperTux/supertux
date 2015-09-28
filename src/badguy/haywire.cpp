@@ -173,7 +173,7 @@ Haywire::kill_fall()
   }
   if(is_valid()) {
     remove_me();
-    auto explosion = std::make_shared<Explosion>(get_bbox().get_middle());
+    auto explosion = std::make_shared<Explosion>(bbox.get_middle());
     Sector::current()->add_object(explosion);
   }
 
@@ -184,6 +184,12 @@ bool
 Haywire::is_freezable() const
 {
   return true;
+}
+
+void
+Haywire::ignite()
+{
+  kill_fall();
 }
 
 /* vim: set sw=2 sts=2 et : */

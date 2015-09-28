@@ -29,6 +29,8 @@ public:
   void start_shaking();
   bool is_hanging();
   void update(float elapsed_time);
+
+  bool is_flammable() const;
 };
 
 #endif

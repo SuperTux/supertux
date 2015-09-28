@@ -76,7 +76,7 @@ Kugelblitz::collision_player(Player& player, const CollisionHit& )
   }
   // hit from above?
   if(player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
-     (get_bbox().p1.y + get_bbox().p2.y) / 2) {
+     (bbox.p1.y + bbox.p2.y) / 2) {
     // if it's not is it possible to squish us, then this will hurt
     if(!collision_squished(player))
       player.kill(false);
@@ -160,12 +160,12 @@ Kugelblitz::draw(DrawingContext& context)
   sprite->draw(context, get_pos(), layer);
 
   //Only draw light in dark areas
-  context.get_light( get_bbox().get_middle(), &light );
+  context.get_light( bbox.get_middle(), &light );
   if (light.red + light.green < 2.0){
     context.push_target();
     context.set_target(DrawingContext::LIGHTMAP);
     sprite->draw(context, get_pos(), layer);
-    lightsprite->draw(context, get_bbox().get_middle(), 0);
+    lightsprite->draw(context, bbox.get_middle(), 0);
     context.pop_target();
   }
 }
@@ -195,7 +195,7 @@ Kugelblitz::try_activate()
 
   Player* player_ = get_nearest_player();
   if (!player_) return;
-  Vector dist = player_->get_bbox().get_middle() - get_bbox().get_middle();
+  Vector dist = player_->get_bbox().get_middle() - bbox.get_middle();
   if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
     set_state(STATE_ACTIVE);
     if (!is_initialized) {
@@ -203,7 +203,7 @@ Kugelblitz::try_activate()
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
       if (start_dir == AUTO) {
         Player* player__ = get_nearest_player();
-        if (player__ && (player__->get_bbox().p1.x > get_bbox().p2.x)) {
+        if (player__ && (player__->get_bbox().p1.x > bbox.p2.x)) {
           dir = RIGHT;
         } else {
           dir = LEFT;
@@ -215,6 +215,12 @@ Kugelblitz::try_activate()
     }
     activate();
   }
+}
+
+bool
+Kugelblitz::is_flammable() const
+{
+  return false;
 }
 
 /* EOF */

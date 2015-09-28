@@ -36,6 +36,7 @@ public:
 
   void freeze();
   bool is_freezable() const;
+  bool is_flammable() const;
 
 private:
   float angle;

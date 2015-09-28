@@ -62,14 +62,14 @@ Brick::collision(GameObject& other, const CollisionHit& hit_){
     // hit contains no information for collisions with blocks.
     // Badguy's bottom has to be below the top of the brick
     // SHIFT_DELTA is required to slide over one tile gaps.
-    if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > get_bbox().get_top() + SHIFT_DELTA ) ){
+    if( badguy->can_break() && ( badguy->get_bbox().get_bottom() > bbox.get_top() + SHIFT_DELTA ) ){
       try_break(player);
     }
   }
   Portable* portable = dynamic_cast<Portable*> (&other);
   if(portable) {
     MovingObject* moving = dynamic_cast<MovingObject*> (&other);
-    if(moving->get_bbox().get_top() > get_bbox().get_bottom() - SHIFT_DELTA) {
+    if(moving->get_bbox().get_top() > bbox.get_bottom() - SHIFT_DELTA) {
       try_break(player);
     }
   }

@@ -28,6 +28,7 @@ public:
   void active_update(float elapsed_time);
   void draw(DrawingContext& context);
   void kill_fall();
+  bool is_flammable() const;
 
 private:
   float angle;

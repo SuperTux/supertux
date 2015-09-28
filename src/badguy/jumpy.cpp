@@ -109,4 +109,10 @@ Jumpy::is_freezable() const
   return true;
 }
 
+bool
+Jumpy::is_flammable() const
+{
+  return false;
+}
+
 /* EOF */
