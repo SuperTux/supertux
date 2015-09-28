@@ -57,9 +57,10 @@ Jumpy::hit(const CollisionHit& chit)
       groundhit_pos_set = true;
     }
 
-    physic.set_velocity_y((frozen || get_state() == STATE_FALLING) ? 0 : JUMPYSPEED);
+    physic.set_velocity_y((frozen || get_state() != STATE_ACTIVE) ? 0 : JUMPYSPEED);
     // TODO create a nice sound for this...
     //SoundManager::current()->play("sounds/skid.wav");
+    update_on_ground_flag(chit);
   } else if(chit.top) {
     physic.set_velocity_y(0);
   }
@@ -112,7 +113,7 @@ Jumpy::is_freezable() const
 bool
 Jumpy::is_flammable() const
 {
-  return false;
+  return true;
 }
 
 /* EOF */

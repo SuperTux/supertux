@@ -38,4 +38,26 @@
   (fps 6.0)
   (hitbox 6 10 31.8 31.8)
   (mirror-action "waking-left"))
+ (action
+  (name "inside-melting-left")
+  (hitbox 6 10 31.8 31.8)
+  (fps 20.0)
+  (images "melting-0.png"
+   "melting-1.png"
+   "melting-2.png"
+   "melting-3.png"
+   "gear.png"))
+ (action
+  (name "inside-melting-right")
+  (fps 20.0)
+  (hitbox 6 10 31.8 31.8)
+  (mirror-action "inside-melting-left"))
+ (action
+  (name "gear-left")
+  (hitbox 6 10 31.8 31.8)
+  (images "gear-cracked.png"))
+ (action
+  (name "gear-right")
+  (hitbox 6 10 31.8 31.8)
+  (mirror-action "gear-left"))
 )
