@@ -239,7 +239,7 @@ Yeti::drop_stalactite()
   // make a stalactite falling down and shake camera a bit
   Sector::current()->camera->shake(.1f, 0, 10);
 
-  Player* player = this->get_nearest_player();
+  Player* player = get_nearest_player();
   if (!player) return;
 
   Sector* sector = Sector::current();

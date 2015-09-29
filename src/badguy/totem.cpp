@@ -91,9 +91,9 @@ Totem::active_update(float elapsed_time)
         if (!t) continue;
 
         // skip if we are not approaching each other
-        if (!((this->dir == LEFT) && (t->dir == RIGHT))) continue;
+        if (!((dir == LEFT) && (t->dir == RIGHT))) continue;
 
-        Vector p1 = this->get_pos();
+        Vector p1 = bbox.p1;
         Vector p2 = t->get_pos();
 
         // skip if not on same height

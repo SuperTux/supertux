@@ -64,7 +64,7 @@ SSpiky::active_update(float elapsed_time) {
 
   if(state == SSPIKY_SLEEPING) {
 
-    Player* player = this->get_nearest_player();
+    Player* player = get_nearest_player();
     if (player) {
       Rectf pb = player->get_bbox();
 
