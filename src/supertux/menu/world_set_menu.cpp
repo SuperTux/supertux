@@ -36,6 +36,8 @@
 
 WorldSetMenu::WorldSetMenu()
 {
+   add_label(_("Start Game"));
+   add_hl();
    add_entry(WORLDSET_STORY, _("Story Mode"));
    add_entry(WORLDSET_CONTRIB, _("Contrib Levels"));
    add_hl();
