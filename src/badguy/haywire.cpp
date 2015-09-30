@@ -146,7 +146,7 @@ Haywire::active_update(float elapsed_time)
   }
 
   if (is_exploding) {
-    Player *p = this->get_nearest_player ();
+    Player *p = get_nearest_player ();
     float target_velocity = 0.0;
 
     if (p) {

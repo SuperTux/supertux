@@ -188,8 +188,8 @@ WeakBlock::spreadHit()
       if (!wb) continue;
       if (wb == this) continue;
       if (wb->state != STATE_NORMAL) continue;
-      float dx = fabsf(wb->get_pos().x - this->get_pos().x);
-      float dy = fabsf(wb->get_pos().y - this->get_pos().y);
+      float dx = fabsf(wb->get_pos().x - bbox.p1.x);
+      float dy = fabsf(wb->get_pos().y - bbox.p1.y);
       if ((dx <= 32.5) && (dy <= 32.5)) wb->startBurning();
     }
   }

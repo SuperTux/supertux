@@ -95,7 +95,7 @@ Dispenser::activate()
     return;
   }
   if( autotarget && !swivel ){ // auto cannon sprite might be wrong
-    Player* player = this->get_nearest_player();
+    Player* player = get_nearest_player();
     if( player ){
       dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
       sprite->set_action(dir == LEFT ? "working-left" : "working-right");
@@ -168,7 +168,7 @@ Dispenser::active_update(float )
         swivel = false;
       }
 
-      Player* player = this->get_nearest_player();
+      Player* player = get_nearest_player();
       if( player && !swivel ){
         Direction targetdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
         if( dir != targetdir ){ // no target: swivel cannon
@@ -195,7 +195,7 @@ Dispenser::launch_badguy()
   if (!is_offscreen()) {
     Direction launchdir = dir;
     if( !autotarget && start_dir == AUTO ){
-      Player* player = this->get_nearest_player();
+      Player* player = get_nearest_player();
       if( player ){
         launchdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
       }
