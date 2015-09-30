@@ -17,11 +17,15 @@
 #include "editor/input_center.hpp"
 
 #include "editor/editor.hpp"
+#include "editor/object_menu.hpp"
 #include "editor/tool_icon.hpp"
 #include "editor/tip.hpp"
 #include "math/rectf.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
+#include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/game_object_ptr.hpp"
 #include "supertux/level.hpp"
@@ -232,6 +236,20 @@ EditorInputCenter::grab_object() {
 }
 
 void
+EditorInputCenter::set_object() {
+  for (auto i = Editor::current()->currentsector->moving_objects.begin();
+      i != Editor::current()->currentsector->moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+    Rectf bbox = moving_object->get_bbox();
+    if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
+        sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
+      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ObjectMenu(moving_object)));
+      return;
+    }
+  }
+}
+
+void
 EditorInputCenter::move_object() {
   if (dragged_object) {
     if (!dragged_object->is_valid()) {
@@ -286,38 +304,51 @@ EditorInputCenter::put_object() {
 void
 EditorInputCenter::event(SDL_Event& ev) {
   switch (ev.type) {
-    case SDL_MOUSEBUTTONDOWN: if(ev.button.button == SDL_BUTTON_LEFT)
-    {
-      dragging = true;
-      drag_start = sector_pos;
-      switch (Editor::current()->tileselect.input_type) {
-        case EditorInputGui::IP_TILE: {
-          switch (Editor::current()->tileselect.select_mode->get_mode()) {
-            case 0:
-              put_tile();
-              break;
-            case 2:
-              fill();
-              break;
-            default:
-              break;
-          }
-        } break;
-        case EditorInputGui::IP_OBJECT:
-          grab_object();
-          if (Editor::current()->tileselect.object != "") {
-            if (!dragged_object) {
-              put_object();
+    case SDL_MOUSEBUTTONDOWN:
+    switch (ev.button.button) {
+      case SDL_BUTTON_LEFT: {
+        dragging = true;
+        drag_start = sector_pos;
+        switch (Editor::current()->tileselect.input_type) {
+          case EditorInputGui::IP_TILE: {
+            switch (Editor::current()->tileselect.select_mode->get_mode()) {
+              case 0:
+                put_tile();
+                break;
+              case 2:
+                fill();
+                break;
+              default:
+                break;
             }
-          } else {
-            rubber_object();
-          }
-        break;
+          } break;
+          case EditorInputGui::IP_OBJECT:
+            grab_object();
+            if (Editor::current()->tileselect.object != "") {
+              if (!dragged_object) {
+                put_object();
+              }
+            } else {
+              rubber_object();
+            }
+          break;
         default:
           break;
-      }
+        }
+      } break;
+      case SDL_BUTTON_RIGHT: {
+        switch (Editor::current()->tileselect.input_type) {
+          case EditorInputGui::IP_TILE: {
+            //possible future usage
+          } break;
+          case EditorInputGui::IP_OBJECT:
+            set_object();
+            break;
+          default:
+            break;
+        }
+      } break;
     } break;
-
     case SDL_MOUSEBUTTONUP: if(ev.button.button == SDL_BUTTON_LEFT) {
       dragging = false;
       if (Editor::current()->tileselect.input_type == EditorInputGui::IP_OBJECT) {
