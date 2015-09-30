@@ -165,7 +165,7 @@ PowerUp::update(float elapsed_time)
     movement = physic.get_movement(elapsed_time);
   //Stars sparkle when close to Tux
   if (sprite_name == "images/powerups/star/star.sprite"){
-    Player* player = Sector::current()->get_nearest_player (this->get_bbox ());
+    Player* player = Sector::current()->get_nearest_player(bbox);
     if (player) {
       float disp_x = player->get_bbox().p1.x - bbox.p1.x;
       float disp_y = player->get_bbox().p1.y - bbox.p1.y;
@@ -195,7 +195,7 @@ PowerUp::draw(DrawingContext& context){
   //Draw the Sprite.
   sprite->draw(context, get_pos(), layer);
   //Draw light when dark for defaults
-  context.get_light( get_bbox().get_middle(), &light );
+  context.get_light( bbox.get_middle(), &light );
   if (light.red + light.green + light.blue < 3.0){
     //Stars are brighter
     if (sprite_name == "images/powerups/star/star.sprite") {
@@ -203,7 +203,7 @@ PowerUp::draw(DrawingContext& context){
     }
     context.push_target();
     context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, get_bbox().get_middle(), 0);
+    lightsprite->draw(context, bbox.get_middle(), 0);
     context.pop_target();
   }
 }

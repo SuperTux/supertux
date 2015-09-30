@@ -21,6 +21,7 @@
 #include "math/random_generator.hpp"
 #include "supertux/globals.hpp"
 #include "util/gettext.hpp"
+#include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 
 // TODO: tweak values

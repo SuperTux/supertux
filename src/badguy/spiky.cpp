@@ -45,7 +45,7 @@ Spiky::get_settings() {
 bool
 Spiky::is_flammable() const
 {
-  return false;
+  return true;
 }
 
 /* EOF */

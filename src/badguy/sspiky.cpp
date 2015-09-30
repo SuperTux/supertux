@@ -65,15 +65,14 @@ SSpiky::active_update(float elapsed_time) {
 
   if(state == SSPIKY_SLEEPING) {
 
-    Player* player = this->get_nearest_player();
+    Player* player = get_nearest_player();
     if (player) {
-      Rectf mb = this->get_bbox();
       Rectf pb = player->get_bbox();
 
-      bool inReach_left = (pb.p2.x >= mb.p2.x-((dir == LEFT) ? 256 : 0));
-      bool inReach_right = (pb.p1.x <= mb.p1.x+((dir == RIGHT) ? 256 : 0));
-      bool inReach_top = (pb.p2.y >= mb.p1.y);
-      bool inReach_bottom = (pb.p1.y <= mb.p2.y);
+      bool inReach_left = (pb.p2.x >= bbox.p2.x-((dir == LEFT) ? 256 : 0));
+      bool inReach_right = (pb.p1.x <= bbox.p1.x+((dir == RIGHT) ? 256 : 0));
+      bool inReach_top = (pb.p2.y >= bbox.p1.y);
+      bool inReach_bottom = (pb.p1.y <= bbox.p2.y);
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
         // wake up
@@ -121,7 +120,7 @@ SSpiky::get_settings() {
 bool
 SSpiky::is_flammable() const
 {
-  return false;
+  return true;
 }
 
 /* EOF */

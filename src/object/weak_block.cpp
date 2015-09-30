@@ -159,12 +159,12 @@ WeakBlock::draw(DrawingContext& context)
   sprite->draw(context, get_pos(), LAYER_OBJECTS + 10);
   //Draw the light if burning and dark
   if(linked && (state != STATE_NORMAL)){
-    context.get_light( get_bbox().get_middle(), &light );
+    context.get_light( bbox.get_middle(), &light );
     if (light.red + light.green + light.blue < 3.0){
       context.push_target();
       context.set_target(DrawingContext::LIGHTMAP);
       sprite->draw(context, get_pos(), LAYER_OBJECTS + 10);
-      lightsprite->draw(context, get_bbox().get_middle(), 0);
+      lightsprite->draw(context, bbox.get_middle(), 0);
       context.pop_target();
     }
   }
@@ -195,8 +195,8 @@ WeakBlock::spreadHit()
       if (!wb) continue;
       if (wb == this) continue;
       if (wb->state != STATE_NORMAL) continue;
-      float dx = fabsf(wb->get_pos().x - this->get_pos().x);
-      float dy = fabsf(wb->get_pos().y - this->get_pos().y);
+      float dx = fabsf(wb->get_pos().x - bbox.p1.x);
+      float dy = fabsf(wb->get_pos().y - bbox.p1.y);
       if ((dx <= 32.5) && (dy <= 32.5)) wb->startBurning();
     }
   }

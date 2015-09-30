@@ -147,7 +147,7 @@ Haywire::active_update(float elapsed_time)
   }
 
   if (is_exploding) {
-    Player *p = this->get_nearest_player ();
+    Player *p = get_nearest_player ();
     float target_velocity = 0.0;
 
     if (p) {
@@ -174,7 +174,7 @@ Haywire::kill_fall()
   }
   if(is_valid()) {
     remove_me();
-    auto explosion = std::make_shared<Explosion>(get_bbox().get_middle());
+    auto explosion = std::make_shared<Explosion>(bbox.get_middle());
     Sector::current()->add_object(explosion);
   }
 

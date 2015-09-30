@@ -116,7 +116,7 @@ Dispenser::activate()
     return;
   }
   if( autotarget && !swivel ){ // auto cannon sprite might be wrong
-    Player* player = this->get_nearest_player();
+    Player* player = get_nearest_player();
     if( player ){
       dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
       sprite->set_action(dir == LEFT ? "working-left" : "working-right");
@@ -189,7 +189,7 @@ Dispenser::active_update(float )
         swivel = false;
       }
 
-      Player* player = this->get_nearest_player();
+      Player* player = get_nearest_player();
       if( player && !swivel ){
         Direction targetdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
         if( dir != targetdir ){ // no target: swivel cannon
@@ -216,7 +216,7 @@ Dispenser::launch_badguy()
   if (!is_offscreen() && !Editor::current()) {
     Direction launchdir = dir;
     if( !autotarget && start_dir == AUTO ){
-      Player* player = this->get_nearest_player();
+      Player* player = get_nearest_player();
       if( player ){
         launchdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
       }
@@ -261,7 +261,7 @@ Dispenser::launch_badguy()
 
       switch (type) {
         case DT_DROPPER:
-          spawnpoint = get_anchor_pos (get_bbox(), ANCHOR_BOTTOM);
+          spawnpoint = get_anchor_pos (bbox, ANCHOR_BOTTOM);
           spawnpoint.x -= 0.5 * object_bbox.get_width();
           break;
         case DT_ROCKETLAUNCHER:
@@ -270,7 +270,7 @@ Dispenser::launch_badguy()
           if (launchdir == LEFT)
             spawnpoint.x -= object_bbox.get_width() + 1;
           else
-            spawnpoint.x += get_bbox().get_width() + 1;
+            spawnpoint.x += bbox.get_width() + 1;
           break;
         default:
           break;

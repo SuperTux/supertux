@@ -103,7 +103,7 @@ WillOWisp::draw(DrawingContext& context)
   context.set_target(DrawingContext::LIGHTMAP);
 
   sprite->draw(context, get_pos(), layer);
-  lightsprite->draw(context, get_bbox().get_middle(), 0);
+  lightsprite->draw(context, bbox.get_middle(), 0);
 
   context.pop_target();
 }
@@ -113,8 +113,8 @@ WillOWisp::active_update(float elapsed_time)
 {
   Player* player = get_nearest_player();
   if (!player) return;
-  Vector p1 = this->get_pos() + (this->get_bbox().p2 - this->get_bbox().p1) / 2;
-  Vector p2 = player->get_pos() + (player->get_bbox().p2 - player->get_bbox().p1) / 2;
+  Vector p1 = bbox.get_middle();
+  Vector p2 = player->get_bbox().get_middle();
   Vector dist = (p2 - p1);
 
   switch(mystate) {

@@ -86,7 +86,7 @@ AngryStone::active_update(float elapsed_time) {
   }
 
   if (state == IDLE) {
-    MovingObject* player = this->get_nearest_player();
+    MovingObject* player = get_nearest_player();
     if(player) {
       MovingObject* badguy = this;
       const Vector playerPos = player->get_pos();

@@ -89,15 +89,12 @@ Mole::collision_squished(GameObject& )
 void
 Mole::throw_rock()
 {
-  float px = get_bbox().get_middle().x;
-  float py = get_bbox().get_middle().y;
-
   float angle = gameRandom.rand(90 - 15, 90 + 15) * (M_PI / 180);
   float vx = cos(angle) * THROW_VELOCITY;
   float vy = -sin(angle) * THROW_VELOCITY;
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Sector::current()->add_object(std::make_shared<MoleRock>(Vector(px, py), Vector(vx, vy), this));
+  Sector::current()->add_object(std::make_shared<MoleRock>(bbox.get_middle(), Vector(vx, vy), this));
 }
 
 void

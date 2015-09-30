@@ -61,13 +61,12 @@ Igel::turn_around()
 bool
 Igel::can_see(const MovingObject& o)
 {
-  Rectf mb = get_bbox();
   Rectf ob = o.get_bbox();
 
-  bool inReach_left = ((ob.p2.x < mb.p1.x) && (ob.p2.x >= mb.p1.x-((dir == LEFT) ? RANGE_OF_VISION : 0)));
-  bool inReach_right = ((ob.p1.x > mb.p2.x) && (ob.p1.x <= mb.p2.x+((dir == RIGHT) ? RANGE_OF_VISION : 0)));
-  bool inReach_top = (ob.p2.y >= mb.p1.y);
-  bool inReach_bottom = (ob.p1.y <= mb.p2.y);
+  bool inReach_left = ((ob.p2.x < bbox.p1.x) && (ob.p2.x >= bbox.p1.x-((dir == LEFT) ? RANGE_OF_VISION : 0)));
+  bool inReach_right = ((ob.p1.x > bbox.p2.x) && (ob.p1.x <= bbox.p2.x+((dir == RIGHT) ? RANGE_OF_VISION : 0)));
+  bool inReach_top = (ob.p2.y >= bbox.p1.y);
+  bool inReach_bottom = (ob.p1.y <= bbox.p2.y);
 
   return ((inReach_left || inReach_right) && inReach_top && inReach_bottom);
 }

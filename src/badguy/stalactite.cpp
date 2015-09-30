@@ -46,13 +46,13 @@ void
 Stalactite::active_update(float elapsed_time)
 {
   if(state == STALACTITE_HANGING) {
-    Player* player = this->get_nearest_player();
+    Player* player = get_nearest_player();
     if (player) {
       if(player->get_bbox().p2.x > bbox.p1.x - SHAKE_RANGE_X
          && player->get_bbox().p1.x < bbox.p2.x + SHAKE_RANGE_X
          && player->get_bbox().p2.y > bbox.p1.y
          && player->get_bbox().p1.y < bbox.p2.y + SHAKE_RANGE_Y
-         && Sector::current()->can_see_player(get_bbox().get_middle())) {
+         && Sector::current()->can_see_player(bbox.get_middle())) {
         timer.start(SHAKE_TIME);
         state = STALACTITE_SHAKING;
         SoundManager::current()->play("sounds/cracking.wav", get_pos());

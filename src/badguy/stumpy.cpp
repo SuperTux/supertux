@@ -108,7 +108,7 @@ Stumpy::collision_squished(GameObject& object)
       float vx = sin(angle)*velocity;
       float vy = -cos(angle)*velocity;
       Vector pspeed = Vector(vx, vy);
-      Vector paccel = Vector(0, 100);
+      Vector paccel = Vector(0, Sector::current()->get_gravity()*10);
       Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/bark.sprite",
                                                                      "default",
                                                                      ppos, ANCHOR_MIDDLE,

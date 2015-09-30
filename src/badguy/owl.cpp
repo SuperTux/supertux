@@ -83,7 +83,7 @@ Owl::initialize()
 bool
 Owl::is_above_player (void)
 {
-  Player* player = Sector::current()->get_nearest_player (this->get_bbox ());
+  Player* player = Sector::current()->get_nearest_player (bbox);
   if (!player)
     return false;
 
@@ -92,11 +92,10 @@ Owl::is_above_player (void)
   float x_offset = (dir == LEFT) ? ACTIVATION_DISTANCE : -ACTIVATION_DISTANCE;
 
   const Rectf& player_bbox = player->get_bbox();
-  const Rectf& owl_bbox = get_bbox();
 
-  if ((player_bbox.p1.y >= owl_bbox.p2.y) /* player is below us */
-      && ((player_bbox.p2.x + x_offset) > owl_bbox.p1.x)
-      && ((player_bbox.p1.x + x_offset) < owl_bbox.p2.x))
+  if ((player_bbox.p1.y >= bbox.p2.y) /* player is below us */
+      && ((player_bbox.p2.x + x_offset) > bbox.p1.x)
+      && ((player_bbox.p1.x + x_offset) < bbox.p2.x))
     return true;
   else
     return false;
@@ -135,7 +134,7 @@ Owl::active_update (float elapsed_time)
 bool
 Owl::collision_squished(GameObject&)
 {
-  Player* player = Sector::current()->get_nearest_player (this->get_bbox ());
+  Player* player = Sector::current()->get_nearest_player (bbox);
   if (player)
     player->bounce (*this);
 

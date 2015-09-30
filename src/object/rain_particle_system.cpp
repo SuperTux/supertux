@@ -20,6 +20,7 @@
 #include "object/camera.hpp"
 #include "object/rainsplash.hpp"
 #include "util/gettext.hpp"
+#include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
 RainParticleSystem::RainParticleSystem()

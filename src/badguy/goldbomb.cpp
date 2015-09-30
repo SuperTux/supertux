@@ -163,7 +163,7 @@ GoldBomb::kill_fall()
 
   if(is_valid()) {
     remove_me();
-    Sector::current()->add_object(std::make_shared<Explosion>(get_bbox().get_middle()));
+    Sector::current()->add_object(std::make_shared<Explosion>(bbox.get_middle()));
     Sector::current()->add_object(std::make_shared<CoinExplode>(get_pos() + Vector (0, -40)));
   }
 
