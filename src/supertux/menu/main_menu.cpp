@@ -27,6 +27,7 @@
 #include "supertux/menu/contrib_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
+#include "supertux/menu/world_set_menu.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/textscroller.hpp"
@@ -39,7 +40,6 @@ MainMenu::MainMenu()
   set_center_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
 
   add_entry(MNID_STARTGAME, _("Start Game"));
-  add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
   add_entry(MNID_ADDONS, _("Add-ons"));
   add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
   add_entry(MNID_CREDITS, _("Credits"));
@@ -57,22 +57,17 @@ MainMenu::menu_action(MenuItem* item)
 {
   switch (item->id)
   {
+
     case MNID_STARTGAME:
-      {
-        std::unique_ptr<World> world = World::load("levels/world1");
-        GameManager::current()->start_worldmap(std::move(world));
-      }
+      // World selection menu
+      MenuManager::instance().push_menu(MenuStorage::WORLDSET_MENU);
       break;
-
-    case MNID_LEVELS_CONTRIB:
-      // Contrib Menu
-      MenuManager::instance().push_menu(MenuStorage::CONTRIB_MENU);
-      break;
-
+    
     case MNID_ADDONS:
       // Add-ons Menu
       MenuManager::instance().push_menu(MenuStorage::ADDON_MENU);
       break;
+
 
     case MNID_CREDITS:
       MenuManager::instance().clear_menu_stack();
