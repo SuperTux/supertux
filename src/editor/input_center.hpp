@@ -63,6 +63,7 @@ class EditorInputCenter
     void grab_object();
     void move_object();
     void hover_object();
+    void set_object();
 
     void draw_tile_tip(DrawingContext&);
 
