@@ -19,6 +19,7 @@
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/rainsplash.hpp"
+#include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
 RainParticleSystem::RainParticleSystem()

@@ -18,6 +18,7 @@
 
 #include "math/random_generator.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/sector.hpp"
 #include "video/surface.hpp"
 #include "util/reader.hpp"
 
