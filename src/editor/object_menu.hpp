@@ -14,19 +14,26 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "editor/object_option.hpp"
+#ifndef HEADER_SUPERTUX_EDITOR_OBJECT_MENU_HPP
+#define HEADER_SUPERTUX_EDITOR_OBJECT_MENU_HPP
 
-ObjectOption::ObjectOption(MenuItemKind ip_type, std::string text_, void* ip) :
-  type(ip_type),
-  text(text_),
-  option(ip),
-  select()
+#include "gui/menu.hpp"
+
+class GameObject;
+
+class ObjectMenu : public Menu
 {
-  select.clear();
-}
+  public:
+    ObjectMenu(GameObject *go);
+    ~ObjectMenu();
 
-ObjectOption::~ObjectOption() {
+    void menu_action(MenuItem* item) override;
 
-}
+    GameObject *object;
 
-/* EOF */
+  private:
+    ObjectMenu(const ObjectMenu&);
+    ObjectMenu& operator=(const ObjectMenu&);
+};
+
+#endif // HEADER_SUPERTUX_EDITOR_OBJECT_MENU_HPP
