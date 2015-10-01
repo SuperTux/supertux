@@ -84,14 +84,16 @@ SuperTux uses CMake to generate a set of Makefiles for the build
 process. To generate these Makefiles and build SuperTux, perform the
 following steps:
 
- 1. `cd` to the directory where you unpacked the SuperTux source
-    archive, i.e. to the directory containing `src` and `data`.
+1. `cd` to the directory where you unpacked the SuperTux source
+   archive, i.e. to the directory containing `src` and `data`.
  
-2. If you git cloned this Supertux repo from Github run 'git submodule update --init --recursive' to fetch/update tinygettext, but
-if you got this version of Supertux from a tarball (.tar) its unnecessary to do so, since tinygettext is already in the .tar.
+2. If you cloned this Supertux repo using git run `git submodule
+   update --init --recursive` to fetch/update squirrel and tinygettext.
+   (If you got this version of Supertux from a tarball (.tar), squirrel
+   and tinygettext are already in the tarball.)
  
- 3. Create and change to a new, empty build directory by running `mkdir
-    build`, `cd build`.
+3. Create and change to a new, empty build directory by running `mkdir
+   build`, `cd build`.
 
 4. Run `cmake ..` to create the Makefiles needed to build SuperTux
    with standard options. If you are missing any libraries needed to
