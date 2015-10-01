@@ -53,6 +53,7 @@ IF(COMMAND cmake_policy)
 ENDIF(COMMAND cmake_policy)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/mk/cmake)
+INCLUDE(ConfigureFiles)
 
 ## For autopackage
 SET(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
@@ -176,12 +177,13 @@ IF(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
                     COMMAND ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} >> "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo_append "#define PACKAGE_VERSION \"${SUPERTUX_VERSION} commit "
+                    
                     COMMAND ${GIT_EXECUTABLE} rev-parse --sq HEAD >> "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} >>  "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo "\""
                     COMMAND ${CMAKE_COMMAND} -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
                     COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_BINARY_DIR}/version.h.tmp" "${CMAKE_BINARY_DIR}/version.h"
                     COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+                    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
                     COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
                     VERBATIM)
 ELSE(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
@@ -211,11 +213,27 @@ INCLUDE(ConfigureChecks)
 
 ## Also execute instructions in external/squirrel/CMakeLists.txt
 
+IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
+  message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
+ENDIF()
+
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
 
 ## Add squirrel lib dir to search path
 
 LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
+
+## Also execute instructions in external/squirrel/CMakeLists.txt
+
+IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
+  message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
+ENDIF()
+
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext)
+
+## Add tinygettext lib dir to search path
+
+LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext)
 
 ## Some additional include paths
 
@@ -403,12 +421,14 @@ ENDIF(WIN32)
 
 ## Generate supertux executable in the right place
 
-SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+#SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+CONFIGURE_FILES(${CMAKE_CURRENT_SOURCE_DIR}/data ${CMAKE_BINARY_DIR}/data)
 
 ## Add target for supertux binary
 
 ADD_LIBRARY(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
-ADD_EXECUTABLE(supertux2 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${TINYGETTEXT_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
+ADD_EXECUTABLE(supertux2 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
 SET_TARGET_PROPERTIES(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
 IF(WIN32)
@@ -431,6 +451,7 @@ TARGET_LINK_LIBRARIES(supertux2 ${SDL2_LIBRARIES})
 TARGET_LINK_LIBRARIES(supertux2 ${SDL2IMAGE_LIBRARIES})
 
 TARGET_LINK_LIBRARIES(supertux2 squirrel)
+TARGET_LINK_LIBRARIES(supertux2 tinygettext)
 TARGET_LINK_LIBRARIES(supertux2 ${OPENAL_LIBRARY})
 TARGET_LINK_LIBRARIES(supertux2 ${OGGVORBIS_LIBRARIES})
 TARGET_LINK_LIBRARIES(supertux2 ${PHYSFS_LIBRARY})

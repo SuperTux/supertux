@@ -223,7 +223,7 @@ TileSetParser::parse_tiles(const Reader& reader)
   unsigned int width  = 0;
   unsigned int height = 0;
 
-  reader.get("ids",        ids);
+  bool has_ids = reader.get("ids",        ids);
   bool has_attributes = reader.get("attributes", attributes);
   bool has_datas = reader.get("datas", datas);
 
@@ -241,6 +241,10 @@ TileSetParser::parse_tiles(const Reader& reader)
   float fps = 10;
   reader.get("fps",     fps);
 
+  if (ids.empty() || !has_ids)
+  {
+    throw std::runtime_error("No IDs specified.");
+  }
   if (width == 0)
   {
     throw std::runtime_error("Width is zero.");
