@@ -211,11 +211,27 @@ INCLUDE(ConfigureChecks)
 
 ## Also execute instructions in external/squirrel/CMakeLists.txt
 
+IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
+  message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
+ENDIF()
+
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
 
 ## Add squirrel lib dir to search path
 
 LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
+
+## Also execute instructions in external/squirrel/CMakeLists.txt
+
+IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
+  message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
+ENDIF()
+
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext)
+
+## Add tinygettext lib dir to search path
+
+LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext)
 
 ## Some additional include paths
 
@@ -408,7 +424,7 @@ SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 ## Add target for supertux binary
 
 ADD_LIBRARY(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
-ADD_EXECUTABLE(supertux2 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${TINYGETTEXT_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
+ADD_EXECUTABLE(supertux2 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
 SET_TARGET_PROPERTIES(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
 IF(WIN32)
@@ -431,6 +447,7 @@ TARGET_LINK_LIBRARIES(supertux2 ${SDL2_LIBRARIES})
 TARGET_LINK_LIBRARIES(supertux2 ${SDL2IMAGE_LIBRARIES})
 
 TARGET_LINK_LIBRARIES(supertux2 squirrel)
+TARGET_LINK_LIBRARIES(supertux2 tinygettext)
 TARGET_LINK_LIBRARIES(supertux2 ${OPENAL_LIBRARY})
 TARGET_LINK_LIBRARIES(supertux2 ${OGGVORBIS_LIBRARIES})
 TARGET_LINK_LIBRARIES(supertux2 ${PHYSFS_LIBRARY})
