@@ -52,9 +52,9 @@ before_install:
   - (cd SDL2_image-$SDL2IMAGE_VERSION && ./configure --prefix=/usr && make -j3 && sudo make install)
 
   # Try building with GLBinding
+  # Note: glbindings ./configure needs to be run twice in order to generate a makefile
   - if [ "$USE_GLBINDING" = "ON" ]; then
     wget https://github.com/cginternals/glbinding/archive/v$GLBINDING_VERSION.tar.gz -O - | tar xz;
-    # Note: glbindings ./configure needs to be run twice in order to generate a makefile
     cd glbinding-$GLBINDING_VERSION && ./configure --prefix=/usr && ./configure --prefix=/usr && make -j3 && sudo make install;
     fi
 
