@@ -57,6 +57,7 @@ before_install:
     wget https://github.com/cginternals/glbinding/archive/v$GLBINDING_VERSION.tar.gz -O - | tar xz;
     cd glbinding-$GLBINDING_VERSION && ./configure --prefix=/usr && ./configure --prefix=/usr;
     cd build && make -j3 && sudo make install;
+    cd ..;
     fi
 
 script:
