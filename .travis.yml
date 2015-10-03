@@ -29,7 +29,8 @@ env:
     - BUILD_TYPE="Debug"
     - BUILD_TYPE="Release"
     - USE_GLBINDING=OFF
-    - USE_GLBINDING=ON
+    # glbinding fails to compile on clang:
+    #- USE_GLBINDING=ON
  
 before_install:
   - sudo apt-get update -qq
