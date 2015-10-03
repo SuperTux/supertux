@@ -54,7 +54,8 @@ before_install:
   # Try building with GLBinding
   - if [ "$USE_GLBINDING" = "ON" ]; then
     wget https://github.com/cginternals/glbinding/archive/v$GLBINDING_VERSION.tar.gz -O - | tar xz;
-    cd v$GLBINDING_VERSION && ./configure --prefix=/usr && make -j3 && sudo make install;
+    # Note: glbindings ./configure needs to be run twice in order to generate a makefile
+    cd glbinding-$GLBINDING_VERSION && ./configure --prefix=/usr && ./configure --prefix=/usr && make -j3 && sudo make install;
     fi
 
 script:
