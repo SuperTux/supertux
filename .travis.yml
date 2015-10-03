@@ -52,7 +52,7 @@ before_install:
   - (cd SDL2_image-$SDL2IMAGE_VERSION && ./configure --prefix=/usr && make -j3 && sudo make install)
 
   # Try building with GLBinding
-  - if [ "$USE_GLBINDING" = "ON"] then
+  - if [ "$USE_GLBINDING" = "ON"]; then
     wget https://github.com/cginternals/glbinding/archive/v$GLBINDING_VERSION.tar.gz -O - | tar xz;
     cd v$GLBINDING_VERSION && ./configure --prefix=/usr && make -j3 && sudo make install;
     fi
