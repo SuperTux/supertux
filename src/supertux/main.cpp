@@ -91,12 +91,10 @@ public:
 void
 Main::init_tinygettext()
 {
-  g_dictionary_manager.reset(new tinygettext::DictionaryManager);
+  g_dictionary_manager.reset(new tinygettext::DictionaryManager(std::unique_ptr<tinygettext::FileSystem>(new PhysFSFileSystem), "UTF-8"));
   tinygettext::Log::set_log_info_callback(0);
-  g_dictionary_manager->set_filesystem(std::unique_ptr<tinygettext::FileSystem>(new PhysFSFileSystem));
 
   g_dictionary_manager->add_directory("locale");
-  g_dictionary_manager->set_charset("UTF-8");
 
   // Config setting "locale" overrides language detection
   if (g_config->locale != "")
