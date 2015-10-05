@@ -24,10 +24,13 @@ env:
     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
     # via the "travis encrypt" command using the project repo's public key
     - secure: "eVEyzIVjDlB16EPkXmj74tyF9pgX34kpgvBUMXJJ+hduuPwaGC6vl8T164fNQUIua2Z2/PqxmTLJRR3n5Bbkdf859NdX+4JUzc3SoFEKlgcLMYnOQeuimUAiMKxe4vmC4sub5LZVFsp9ORzVYkXgiMBnxiD5GuYxvZPy1lCaH9E="
-    - CMAKE_VERSION=3.3.0 SDL2_VERSION=2.0.3 SDL2IMAGE_VERSION=2.0.0
+    - CMAKE_VERSION=3.3.0 SDL2_VERSION=2.0.3 SDL2IMAGE_VERSION=2.0.0 GLBINDING_VERSION=1.1.0
   matrix:
     - BUILD_TYPE="Debug"
     - BUILD_TYPE="Release"
+    - USE_GLBINDING=OFF
+    # glbinding fails to compile on clang:
+    #- USE_GLBINDING=ON
  
 before_install:
   - sudo apt-get update -qq
@@ -49,13 +52,22 @@ before_install:
   - wget http://www.libsdl.org/projects/SDL_image/release/SDL2_image-$SDL2IMAGE_VERSION.tar.gz -O - | tar xz
   - (cd SDL2_image-$SDL2IMAGE_VERSION && ./configure --prefix=/usr && make -j3 && sudo make install)
 
+  # Try building with GLBinding
+  # Note: glbindings ./configure needs to be run twice in order to generate a makefile
+  - if [ "$USE_GLBINDING" = "ON" ]; then
+    wget https://github.com/cginternals/glbinding/archive/v$GLBINDING_VERSION.tar.gz -O - | tar xz;
+    cd glbinding-$GLBINDING_VERSION && ./configure --prefix=/usr && ./configure --prefix=/usr;
+    cd build && make -j3 && sudo make install;
+    cd ../..;
+    fi
+
 script:
   # Clean from previous Travis build
   - git clean -f
   # Then build:
   - mkdir "build-$BUILD_TYPE"
   - cd "build-$BUILD_TYPE"
-  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$USE_GLBINDING
   - make VERBOSE=1 -j3
 
 addons:
