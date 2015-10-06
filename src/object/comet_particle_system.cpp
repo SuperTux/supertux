@@ -40,7 +40,6 @@ CometParticleSystem::CometParticleSystem()
     do {
       particle->speed = (cometsize+1)*30 + graphicsRandom.randf(3.6);
     } while(particle->speed < 1);
-    particle->speed *= 10; // gravity
 
     particles.push_back(particle);
   }
@@ -64,7 +63,7 @@ void CometParticleSystem::update(float elapsed_time)
   for(
     i = particles.begin(); i != particles.end(); ++i) {
     CometParticle* particle = (CometParticle*) *i;
-    float movement = particle->speed * elapsed_time;
+    float movement = particle->speed * elapsed_time * Sector::current()->get_gravity();
     float abs_x = Sector::current()->camera->get_translation().x;
     float abs_y = Sector::current()->camera->get_translation().y;
     particle->pos.y += movement;

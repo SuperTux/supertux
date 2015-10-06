@@ -64,7 +64,7 @@ SnowParticleSystem::SnowParticleSystem() :
     particle->texture = snowimages[snowsize];
     particle->flake_size = powf(snowsize+3,4); // since it ranges from 0 to 2
 
-    particle->speed = 2 * (1 + (2 - snowsize)/2 + graphicsRandom.randf(1.8)) * 10; // gravity
+    particle->speed = 20 * (1 + (2 - snowsize)/2 + graphicsRandom.randf(1.8));
 
     // Spinning
     particle->angle = graphicsRandom.randf(360.0);
@@ -121,6 +121,7 @@ void SnowParticleSystem::update(float elapsed_time)
       assert(false);
   }
 
+  float sq_g = sqrt(Sector::current()->get_gravity());
   std::vector<Particle*>::iterator i;
 
   for(i = particles.begin(); i != particles.end(); ++i) {
@@ -128,12 +129,12 @@ void SnowParticleSystem::update(float elapsed_time)
     float anchor_delta;
 
     // Falling
-    particle->pos.y += particle->speed * elapsed_time;
+    particle->pos.y += particle->speed * elapsed_time * sq_g;
     // Drifting (speed approaches wind at a rate dependent on flake size)
     particle->drift_speed += (gust_current_velocity - particle->drift_speed) / particle->flake_size + graphicsRandom.randf(-SNOW::EPSILON,SNOW::EPSILON);
     particle->anchorx += particle->drift_speed * elapsed_time;
     // Wobbling (particle approaches anchorx)
-    particle->pos.x += particle->wobble * elapsed_time;
+    particle->pos.x += particle->wobble * elapsed_time * sq_g;
     anchor_delta = (particle->anchorx - particle->pos.x);
     particle->wobble += (SNOW::WOBBLE_FACTOR * anchor_delta) + graphicsRandom.randf(-SNOW::EPSILON, SNOW::EPSILON);
     particle->wobble *= SNOW::WOBBLE_DECAY;
