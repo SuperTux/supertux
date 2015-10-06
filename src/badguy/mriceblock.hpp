@@ -39,6 +39,12 @@ public:
   void ungrab(MovingObject& object, Direction dir);
   bool is_portable() const;
 
+  bool can_break();
+  virtual std::string get_class() const {
+    return "mriceblock";
+  }
+
+  virtual ObjectSettings get_settings();
   bool can_break() const;
 
   void ignite();
@@ -66,6 +72,7 @@ class SmartBlock : public MrIceBlock
 {
 public:
   SmartBlock(const Reader& reader);
+  virtual ObjectSettings get_settings();
 
   virtual std::string get_mpsf() const {
     return "images/objects/water_drop/pink_drop.sprite";

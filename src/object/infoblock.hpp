@@ -27,9 +27,15 @@ public:
   virtual ~InfoBlock();
   void update(float elapsed_time);
   void draw(DrawingContext& context);
+  virtual void save(lisp::Writer& writer);
 
   void show_message();
   void hide_message();
+  virtual std::string get_class() const {
+    return "infoblock";
+  }
+
+  virtual ObjectSettings get_settings();
 
 protected:
   virtual void hit(Player& player);

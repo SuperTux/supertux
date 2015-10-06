@@ -26,6 +26,7 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "util/log.hpp"
+#include "util/gettext.hpp"
 
 #define FLYING_SPEED 120.0
 #define ACTIVATION_DISTANCE 128.0
@@ -45,6 +46,12 @@ Owl::Owl(const Vector& pos, Direction d) :
   carried_object(NULL)
 {
   set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
+}
+
+void
+Owl::save(lisp::Writer& writer) {
+  BadGuy::save(writer);
+  writer.write("carry", carried_obj_name);
 }
 
 void
@@ -207,6 +214,15 @@ Owl::collision_solid(const CollisionHit& hit)
     }
   }
 } /* void Owl::collision_solid */
+
+ObjectSettings
+Owl::get_settings() {
+  ObjectSettings result(_("Owl"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
+}
 
 void
 Owl::ignite() {

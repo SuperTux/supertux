@@ -21,6 +21,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 #include "supertux/sector.hpp"
 
 #include <math.h>
@@ -302,6 +303,25 @@ SmartBlock::SmartBlock(const Reader& reader) :
 {
   max_drop_height = 16;
   sprite = SpriteManager::current()->create("images/creatures/mr_iceblock/smart_block/smart_block.sprite");
+}
+
+
+ObjectSettings
+MrIceBlock::get_settings() {
+  ObjectSettings result(_("Mr. Ice Block"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
+}
+
+ObjectSettings
+SmartBlock::get_settings() {
+  ObjectSettings result(_("Smart Block"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 /* EOF */

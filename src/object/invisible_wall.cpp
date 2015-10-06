@@ -17,6 +17,7 @@
 #include "object/invisible_wall.hpp"
 
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 InvisibleWall::InvisibleWall(const Reader& lisp) :
@@ -28,6 +29,23 @@ InvisibleWall::InvisibleWall(const Reader& lisp) :
   lisp.get("width", width);
   lisp.get("height", height);
   bbox.set_size(width, height);
+}
+
+void
+InvisibleWall::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  writer.write("width", width);
+  writer.write("height", height);
+}
+
+ObjectSettings
+InvisibleWall::get_settings() {
+  ObjectSettings result(_("Invisible wall"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &width));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &height));
+
+  return result;
 }
 
 HitResponse

@@ -25,6 +25,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 #define  LIFETIME 5
@@ -215,6 +216,15 @@ Kugelblitz::try_activate()
     }
     activate();
   }
+}
+
+ObjectSettings
+Kugelblitz::get_settings() {
+  ObjectSettings result(_("Kugelblitz"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 bool

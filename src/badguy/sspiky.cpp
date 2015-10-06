@@ -19,6 +19,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 
 SSpiky::SSpiky(const Reader& reader)
   : WalkingBadguy(reader, "images/creatures/spiky/sleepingspiky.sprite", "left", "right"), state(SSPIKY_SLEEPING)
@@ -105,6 +106,15 @@ bool
 SSpiky::is_freezable() const
 {
   return true;
+}
+
+ObjectSettings
+SSpiky::get_settings() {
+  ObjectSettings result(_("Sleeping spiky"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 bool

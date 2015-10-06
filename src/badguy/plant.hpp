@@ -28,6 +28,11 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void active_update(float elapsed_time);
+  virtual std::string get_class() const {
+    return "plant";
+  }
+
+  virtual ObjectSettings get_settings();
   void ignite();
 
 protected:

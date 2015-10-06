@@ -28,6 +28,7 @@ class ScriptedObject : public MovingSprite,
 {
 public:
   ScriptedObject(const Reader& lisp);
+  virtual void save(lisp::Writer& writer);
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
@@ -58,6 +59,11 @@ public:
   bool gravity_enabled() const;
 
   std::string get_name();
+  virtual std::string get_class() const {
+    return "scriptedobject";
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   Physic physic;

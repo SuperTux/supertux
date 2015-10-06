@@ -25,6 +25,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 
 #include <float.h>
 #include <math.h>
@@ -301,6 +302,15 @@ Yeti::collision_solid(const CollisionHit& hit)
     // hit wall
     jump_up();
   }
+}
+
+ObjectSettings
+Yeti::get_settings() {
+  ObjectSettings result(_("Yeti"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 bool

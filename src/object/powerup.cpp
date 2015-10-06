@@ -24,6 +24,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 #include <sstream>
@@ -87,6 +88,15 @@ PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
     lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
   } else if (sprite_name == "images/powerups/star/star.sprite") {
     lightsprite->set_color(Color(0.4f, 0.4f, 0.4f));
+  }
+}
+
+void
+PowerUp::save(lisp::Writer& writer){
+  MovingSprite::save(writer);
+  writer.write("no_physics",no_physics);
+  if(script != ""){
+    writer.write("script",script,false);
   }
 }
 
@@ -197,4 +207,14 @@ PowerUp::draw(DrawingContext& context){
     context.pop_target();
   }
 }
+
+ObjectSettings
+PowerUp::get_settings() {
+  ObjectSettings result(_("Power up"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Script"), &script));
+
+  return result;
+}
+
 /* EOF */

@@ -34,6 +34,9 @@ public:
   void stop(); /**< stop playing EndSequence, mark it as done playing */
   bool is_tux_stopped(); /**< returns true if Tux has reached his final position */
   bool is_done(); /**< returns true if EndSequence has finished playing */
+  virtual bool do_save() {
+    return false;
+  }
 
 protected:
   virtual void starting(); /**< called when EndSequence starts */

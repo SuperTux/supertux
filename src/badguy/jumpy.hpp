@@ -31,6 +31,11 @@ public:
 
   void freeze();
   bool is_freezable() const;
+  virtual std::string get_class() const {
+    return "jumpy";
+  }
+
+  virtual ObjectSettings get_settings();
   bool is_flammable() const;
 
 private:

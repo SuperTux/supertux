@@ -29,6 +29,7 @@ public:
   Background();
   Background(const Reader& reader);
   virtual ~Background();
+  virtual void save(lisp::Writer& writer);
 
   void set_image(const std::string& name, float bkgd_speed);
 
@@ -41,6 +42,18 @@ public:
 
   virtual void draw(DrawingContext& context);
   void draw_image(DrawingContext& context, const Vector& pos);
+  virtual std::string get_class() const {
+    return "background";
+  }
+
+  int get_layer() const
+  { return layer; }
+
+  virtual ObjectSettings get_settings();
+
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/background.png";
+  }
 
 private:
   enum Alignment {

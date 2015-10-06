@@ -22,6 +22,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
+#include "util/gettext.hpp"
 
 namespace {
 const float MUZZLE_Y = 25; /**< [px] muzzle y-offset from top */
@@ -44,6 +45,14 @@ DartTrap::DartTrap(const Reader& reader) :
   state = IDLE;
   set_colgroup_active(COLGROUP_DISABLED);
   if (initial_delay == 0) initial_delay = 0.1f;
+}
+
+void
+DartTrap::save(lisp::Writer& writer) {
+  BadGuy::save(writer);
+  writer.write("initial-delay", initial_delay);
+  writer.write("fire-delay", fire_delay);
+  writer.write("ammo", ammo);
 }
 
 void
@@ -100,6 +109,20 @@ DartTrap::fire()
   Sector::current()->add_object(std::make_shared<Dart>(Vector(px, py), dir, this));
   state = IDLE;
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+}
+
+
+ObjectSettings
+DartTrap::get_settings() {
+  ObjectSettings result(_("Dart trap"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Initial delay"), &initial_delay));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Fire delay"), &fire_delay));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Ammo"), &ammo));
+
+  return result;
 }
 
 /* EOF */

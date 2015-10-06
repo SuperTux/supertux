@@ -16,6 +16,7 @@
 
 #include "supertux/game_object.hpp"
 #include "supertux/object_remove_listener.hpp"
+#include "util/gettext.hpp"
 
 GameObject::GameObject() :
   wants_to_die(false),
@@ -71,6 +72,20 @@ GameObject::del_remove_listener(ObjectRemoveListener* listener)
     entry = next;
     next = next->next;
   }
+}
+
+void
+GameObject::save(lisp::Writer& writer) {
+  if(name != "") {
+    writer.write("name", name, false);
+  }
+}
+
+ObjectSettings
+GameObject::get_settings() {
+  ObjectSettings result(_("Unknown object"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  return result;
 }
 
 /* EOF */

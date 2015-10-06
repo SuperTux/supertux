@@ -24,6 +24,11 @@ class ShortFuse : public WalkingBadguy
 {
 public:
   ShortFuse(const Reader& reader);
+  virtual std::string get_class() const {
+    return "short_fuse";
+  }
+
+  virtual ObjectSettings get_settings();
 
 protected:
   HitResponse collision_player (Player& player, const CollisionHit& hit);

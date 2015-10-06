@@ -19,6 +19,7 @@
 #include "supertux/sector.hpp"
 
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 
 namespace {
 
@@ -124,4 +125,13 @@ Igel::collision_squished(GameObject& )
 // Enable this and the igle will no longer be butt-jumpable.
 // Don't forget to enable it in .hpp too!
 
+
+ObjectSettings
+Igel::get_settings() {
+  ObjectSettings result(_("Igel"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
+}
 /* EOF */

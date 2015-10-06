@@ -29,6 +29,11 @@ public:
   Firefly(const Reader& lisp);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual std::string get_class() const {
+    return "firefly";
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   bool activated;

@@ -33,6 +33,11 @@ public:
   void active_update(float);
 
   bool is_freezable() const;
+  virtual std::string get_class() const {
+    return "mole";
+  }
+
+  virtual ObjectSettings get_settings();
 
   virtual void ignite();
 

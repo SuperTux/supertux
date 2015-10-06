@@ -20,6 +20,7 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
 #include "object/anchor_point.hpp"
+#include "util/gettext.hpp"
 
 Crystallo::Crystallo(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
@@ -38,6 +39,12 @@ Crystallo::Crystallo(const Vector& pos, Direction d) :
   walk_speed = 80;
   max_drop_height = 16;
   radius = 100;
+}
+
+void
+Crystallo::save(lisp::Writer& writer){
+  BadGuy::save(writer);
+  writer.write("radius",radius);
 }
 
 void
@@ -62,6 +69,15 @@ Crystallo::collision_squished(GameObject& object)
   this->set_action(dir == LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
   kill_squished(object);
   return true;
+}
+
+ObjectSettings
+Crystallo::get_settings() {
+  ObjectSettings result(_("Crystallo"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 bool

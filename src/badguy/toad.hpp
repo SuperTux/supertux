@@ -36,6 +36,11 @@ public:
 
   void unfreeze();
   bool is_freezable() const;
+  virtual std::string get_class() const {
+    return "toad";
+  }
+
+  virtual ObjectSettings get_settings();
 
 protected:
   enum ToadState {

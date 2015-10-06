@@ -30,9 +30,15 @@ class Spotlight : public GameObject
 public:
   Spotlight(const Reader& reader);
   virtual ~Spotlight();
+  virtual void save(lisp::Writer& writer);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
+  virtual std::string get_class() const {
+    return "spotlight";
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   Vector  position;

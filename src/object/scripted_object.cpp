@@ -21,6 +21,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 ScriptedObject::ScriptedObject(const Reader& lisp) :
@@ -46,6 +47,27 @@ ScriptedObject::ScriptedObject(const Reader& lisp) :
   } else {
     set_group( COLGROUP_DISABLED );
   }
+}
+
+void
+ScriptedObject::save(lisp::Writer& writer){
+  MovingSprite::save(writer);
+  writer.write("width",bbox.get_width());
+  writer.write("height",bbox.get_height());
+  writer.write("solid",solid);
+  writer.write("physic-enabled",physic_enabled);
+  writer.write("visible",visible);
+}
+
+ObjectSettings
+ScriptedObject::get_settings() {
+  ObjectSettings result(_("Scripted object"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Enabled physics"), &physic_enabled));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Visible"), &visible));
+
+  return result;
 }
 
 void

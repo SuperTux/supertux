@@ -29,6 +29,7 @@ class Candle : public MovingSprite,
 public:
   Candle(const Reader& lisp);
   virtual void draw(DrawingContext& context);
+  virtual void save(lisp::Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
@@ -45,6 +46,11 @@ public:
   /**
    * @}
    */
+  virtual std::string get_class() const {
+    return "candle";
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   bool burning; /**< true if candle is currently lighted */

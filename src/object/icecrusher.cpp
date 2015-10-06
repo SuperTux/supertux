@@ -29,6 +29,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 
 namespace {
 /* Maximum movement speed in pixels per LOGICAL_FPS */
@@ -307,6 +308,15 @@ IceCrusher::eye_position(bool right)
   }
 
   return Vector(0,0);
+}
+
+
+ObjectSettings
+IceCrusher::get_settings() {
+  ObjectSettings result(_("Ice crusher"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  return result;
 }
 
 /* EOF */

@@ -23,6 +23,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 /* Trampoline will accelerate player to to VY_BOUNCE, if
@@ -131,6 +132,14 @@ bool
 RustyTrampoline::is_portable() const
 {
   return Rock::is_portable() && portable;
+}
+
+ObjectSettings
+RustyTrampoline::get_settings() {
+  ObjectSettings result(_("Rusty trampoline"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  return result;
 }
 
 /* EOF */

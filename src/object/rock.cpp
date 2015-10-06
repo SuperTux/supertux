@@ -18,6 +18,7 @@
 #include "object/rock.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/tile.hpp"
+#include "util/gettext.hpp"
 
 namespace {
 const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
@@ -137,5 +138,13 @@ Rock::ungrab(MovingObject& , Direction dir)
   grabbed = false;
 }
 
+
+ObjectSettings
+Rock::get_settings() {
+  ObjectSettings result(_("Rock"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  return result;
+}
 
 /* EOF */

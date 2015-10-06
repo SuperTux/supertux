@@ -26,6 +26,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
+#include "util/gettext.hpp"
 
 static const std::string FLAME_SOUND = "sounds/flame.wav";
 
@@ -124,6 +125,15 @@ bool
 Flame::is_freezable() const
 {
   return true;
+}
+
+ObjectSettings
+Flame::get_settings() {
+  ObjectSettings result(_("Flame"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 bool

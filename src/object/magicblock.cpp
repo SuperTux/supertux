@@ -26,6 +26,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 namespace {
@@ -75,6 +76,20 @@ MagicBlock::MagicBlock(const Reader& lisp) :
 }
 
 void
+MagicBlock::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  writer.write("color", color.toVector(false));
+}
+
+ObjectSettings
+MagicBlock::get_settings() {
+  ObjectSettings result(_("Magic block"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  return result;
+}
+
+void
 MagicBlock::update(float elapsed_time)
 {
   //Check if center of this block is on screen.
@@ -93,7 +108,7 @@ MagicBlock::update(float elapsed_time)
   if(black) {
     lighting_ok = (light.red >= trigger_red || light.green >= trigger_green
                    || light.blue >= trigger_blue);
-  }else{
+  } else {
     lighting_ok = (light.red >= trigger_red && light.green >= trigger_green
                    && light.blue >= trigger_blue);
   }

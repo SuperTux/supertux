@@ -20,6 +20,7 @@
 #include <stdexcept>
 #include <sstream>
 
+#include "editor/editor.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "supertux/tile_set.hpp"
@@ -57,6 +58,11 @@ TileSetParser::parse()
     else if (iter.item() == "tilegroup")
     {
       /* tilegroups are only interesting for the editor */
+      Reader reader = *iter.lisp();
+      Tilegroup tilegroup;
+      reader.get("name", tilegroup.name);
+      reader.get("tiles", tilegroup.tiles);
+      m_tileset.tilegroups.push_back(tilegroup);
     }
     else if (iter.item() == "tiles")
     {

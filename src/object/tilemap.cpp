@@ -16,6 +16,7 @@
 
 #include <math.h>
 
+#include "editor/editor.hpp"
 #include "object/tilemap.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/tilemap.hpp"
@@ -26,6 +27,7 @@
 #include "util/reader.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
+  editor_active(true),
   tileset(new_tileset),
   tiles(),
   real_solid(false),
@@ -48,6 +50,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
 }
 
 TileMap::TileMap(const Reader& reader) :
+  editor_active(true),
   tileset(),
   tiles(),
   real_solid(false),
@@ -136,6 +139,7 @@ TileMap::TileMap(const Reader& reader) :
 
 TileMap::TileMap(const TileSet *new_tileset, std::string name_, int z_pos_,
                  bool solid, size_t width_, size_t height_) :
+  editor_active(true),
   tileset(new_tileset),
   tiles(),
   real_solid(solid),
@@ -165,6 +169,31 @@ TileMap::TileMap(const TileSet *new_tileset, std::string name_, int z_pos_,
 
 TileMap::~TileMap()
 {
+}
+
+void
+TileMap::save(lisp::Writer& writer) {
+  GameObject::save(writer);
+  if (draw_target == LIGHTMAP) {
+    writer.write("draw-target", "lightmap", false);
+  } else {
+    writer.write("draw-target", "normal", false);
+  }
+  writer.write("width", width);
+  writer.write("height", height);
+  writer.write("speed", speed_x);
+  if(speed_y != speed_x) {
+    writer.write("speed", speed_y);
+  }
+  writer.write("solid", real_solid);
+  writer.write("z-pos", z_pos);
+  if(alpha != 1) {
+    writer.write("alpha", alpha);
+  }
+  if(path) {
+    path->save(writer);
+  }
+  writer.write("tiles", tiles);
 }
 
 void
@@ -205,7 +234,14 @@ TileMap::draw(DrawingContext& context)
   }
 
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
-  if(current_alpha != 1.0) context.set_alpha(current_alpha);
+
+  if (editor_active) {
+    if(current_alpha != 1.0) {
+      context.set_alpha(current_alpha);
+    }
+  } else {
+    context.set_alpha(current_alpha/2);
+  }
 
   /* Force the translation to be an integer so that the tiles appear sharper.
    * For consistency (i.e., to avoid 1-pixel gaps), this needs to be done even

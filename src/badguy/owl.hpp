@@ -26,6 +26,7 @@ class Owl : public BadGuy
 public:
   Owl(const Reader& reader);
   Owl(const Vector& pos, Direction d);
+  virtual void save(lisp::Writer& writer);
 
   void initialize();
   void collision_solid(const CollisionHit& hit);
@@ -34,6 +35,11 @@ public:
   void freeze();
   void unfreeze();
   bool is_freezable() const;
+  virtual std::string get_class() const {
+    return "owl";
+  }
+
+  virtual ObjectSettings get_settings();
   void ignite();
 
 protected:

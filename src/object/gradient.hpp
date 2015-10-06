@@ -29,6 +29,7 @@ public:
   Gradient();
   Gradient(const Reader& reader);
   virtual ~Gradient();
+  virtual void save(lisp::Writer& writer);
 
   void set_gradient(Color top, Color bottom);
 
@@ -44,6 +45,18 @@ public:
   virtual void update(float elapsed_time);
 
   virtual void draw(DrawingContext& context);
+  virtual std::string get_class() const {
+    return "gradient";
+  }
+
+  int get_layer() const
+  { return layer; }
+
+  virtual ObjectSettings get_settings();
+
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/gradient.png";
+  }
 
 private:
   int layer;

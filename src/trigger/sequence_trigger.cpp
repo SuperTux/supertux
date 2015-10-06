@@ -48,6 +48,14 @@ SequenceTrigger::~SequenceTrigger()
 }
 
 void
+SequenceTrigger::save(lisp::Writer& writer) {
+  MovingObject::save(writer);
+  writer.write("width", bbox.get_width());
+  writer.write("height", bbox.get_height());
+  writer.write("sequence", sequence_name, false);
+}
+
+void
 SequenceTrigger::event(Player& player, EventType type)
 {
   if(type == triggerevent) {

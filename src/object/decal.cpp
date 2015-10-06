@@ -16,10 +16,12 @@
 
 #include "object/decal.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 Decal::Decal(const Reader& reader) :
-  MovingSprite(reader, LAYER_OBJECTS, COLGROUP_DISABLED)
+  MovingSprite(reader, LAYER_OBJECTS, COLGROUP_DISABLED),
+  default_action()
 {
   layer = reader_get_layer (reader, /* default = */ LAYER_OBJECTS);
 
@@ -27,9 +29,24 @@ Decal::Decal(const Reader& reader) :
   reader.get("solid", solid);
   if(solid)
     set_group(COLGROUP_STATIC);
-  std::string action;
-  if(reader.get("action", action))
-    set_action(action, -1);
+  if(reader.get("action", default_action))
+    set_action(default_action, -1);
+}
+
+void
+Decal::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  writer.write("solid", group == COLGROUP_STATIC);
+  writer.write("action", default_action);
+}
+
+ObjectSettings
+Decal::get_settings() {
+  ObjectSettings result(_("Decal"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Action"), &default_action));
+
+  return result;
 }
 
 Decal::~Decal()

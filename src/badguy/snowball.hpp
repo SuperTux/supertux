@@ -24,6 +24,11 @@ class SnowBall : public WalkingBadguy
 public:
   SnowBall(const Reader& reader);
   SnowBall(const Vector& pos, Direction d, std::string script);
+  virtual std::string get_class() const {
+    return "snowball";
+  }
+
+  virtual ObjectSettings get_settings();
 
 protected:
   bool collision_squished(GameObject& object);

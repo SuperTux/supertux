@@ -20,6 +20,12 @@
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/cheat_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
+#include "supertux/menu/editor_menu.hpp"
+#include "supertux/menu/editor_level_select_menu.hpp"
+#include "supertux/menu/editor_levelset_select_menu.hpp"
+#include "supertux/menu/editor_objectgroup_menu.hpp"
+#include "supertux/menu/editor_tilegroup_menu.hpp"
+#include "supertux/menu/editor_sectors_menu.hpp"
 #include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"
@@ -100,6 +106,24 @@ MenuStorage::create(MenuId menu_id)
 
     case ADDON_MENU:
       return std::unique_ptr<Menu>(new AddonMenu);
+
+    case EDITOR_LEVELSET_SELECT_MENU:
+      return std::unique_ptr<Menu>(new EditorLevelsetSelectMenu);
+
+    case EDITOR_LEVEL_SELECT_MENU:
+      return std::unique_ptr<Menu>(new EditorLevelSelectMenu);
+
+    case EDITOR_MENU:
+      return std::unique_ptr<Menu>(new EditorMenu);
+
+    case EDITOR_TILEGROUP_MENU:
+      return std::unique_ptr<Menu>(new EditorTilegroupMenu);
+
+    case EDITOR_OBJECTGROUP_MENU:
+      return std::unique_ptr<Menu>(new EditorObjectgroupMenu);
+
+    case EDITOR_SECTORS_MENU:
+      return std::unique_ptr<Menu>(new EditorSectorsMenu);
 
     case NO_MENU:
       return std::unique_ptr<Menu>();

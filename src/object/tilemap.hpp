@@ -45,6 +45,7 @@ public:
   TileMap(const TileSet *tileset, std::string name, int z_pos, bool solid_,
           size_t width_, size_t height_);
   virtual ~TileMap();
+  virtual void save(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
@@ -166,6 +167,16 @@ public:
    * Return tilemap's opacity. Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha.
    */
   float get_alpha();
+
+  virtual std::string get_class() const {
+    return "tilemap";
+  }
+
+  bool editor_active;
+
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/tilemap.png";
+  }
 
 private:
   const TileSet *tileset;

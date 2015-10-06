@@ -24,6 +24,7 @@
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 
 Coin::Coin(const Vector& pos)
   : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
@@ -70,6 +71,21 @@ Coin::Coin(const Reader& reader)
   }
 
   SoundManager::current()->preload("sounds/coin.wav");
+}
+
+void
+Coin::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  if (path) {
+    path->save(writer);
+  }
+}
+
+ObjectSettings
+Coin::get_settings() {
+  ObjectSettings result(_("Coin"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  return result;
 }
 
 void
@@ -210,7 +226,7 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
       SoundManager::current()->play("sounds/coin2.ogg");
     if(physic.get_velocity_y() > 200) {// lets some coins bounce
       physic.set_velocity_y(-99);
-    }else{
+    } else {
       physic.set_velocity_y(0);
       physic.set_velocity_x(0);
     }

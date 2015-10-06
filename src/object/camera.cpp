@@ -28,6 +28,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,
@@ -111,6 +112,34 @@ public:
   }
 };
 
+void
+Camera::save(lisp::Writer& writer){
+  GameObject::save(writer);
+  switch (defaultmode) {
+    case NORMAL: writer.write("mode", "normal", false); break;
+    case MANUAL: writer.write("mode", "manual", false); break;
+    case AUTOSCROLL:
+      writer.write("mode", "autoscroll", false);
+      autoscroll_path->save(writer);
+    case SCROLLTO: break;
+    break;
+  }
+}
+
+ObjectSettings
+Camera::get_settings() {
+  ObjectSettings result(_("Camera"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  ObjectOption moo(MN_STRINGSELECT, _("Mode"), &defaultmode);
+  moo.select.push_back(_("normal"));
+  moo.select.push_back(_("auto scrolling"));
+  moo.select.push_back(_("manual"));
+  result.options.push_back(moo);
+
+  return result;
+}
+
 Camera::Camera(Sector* newsector, std::string name_) :
   mode(NORMAL),
   translation(),
@@ -130,7 +159,8 @@ Camera::Camera(Sector* newsector, std::string name_) :
   scroll_goal(),
   scroll_to_pos(),
   scrollspeed(),
-  config()
+  config(),
+  defaultmode(NORMAL)
 {
   this->name = name_;
   config = new CameraConfig();
@@ -193,6 +223,7 @@ Camera::parse(const Reader& reader)
     str << "invalid camera mode '" << modename << "'found in worldfile.";
     throw std::runtime_error(str.str());
   }
+  defaultmode = mode;
 }
 
 void
@@ -630,6 +661,12 @@ Camera::update_scroll_to(float elapsed_time)
 Vector
 Camera::get_center() const {
   return translation + Vector(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+}
+
+void
+Camera::move(const int dx, const int dy) {
+  translation.x += dx;
+  translation.y += dy;
 }
 
 /* EOF */

@@ -23,6 +23,7 @@
 #include "scripting/wind.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
@@ -50,6 +51,29 @@ Wind::Wind(const Reader& reader) :
   reader.get("acceleration", acceleration);
 
   set_group(COLGROUP_TOUCHABLE);
+}
+
+void
+Wind::save(lisp::Writer& writer) {
+  MovingObject::save(writer);
+  writer.write("width", bbox.get_width());
+  writer.write("height", bbox.get_height());
+  writer.write("speed-x", speed.x);
+  writer.write("speed-y", speed.y);
+  writer.write("acceleration", acceleration);
+  writer.write("blowing", blowing);
+}
+
+ObjectSettings
+Wind::get_settings() {
+  ObjectSettings result(_("Wind"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed X"), &speed.x));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed Y"), &speed.y));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Acceleration"), &acceleration));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Blowing"), &blowing));
+
+  return result;
 }
 
 void

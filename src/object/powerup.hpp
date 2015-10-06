@@ -24,11 +24,17 @@ class PowerUp : public MovingSprite
 public:
   PowerUp(const Reader& lisp);
   PowerUp(const Vector& pos, const std::string& sprite_name);
+  virtual void save(lisp::Writer& writer);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
   virtual void collision_solid(const CollisionHit& hit);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual std::string get_class() const {
+    return "powerup";
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   Physic physic;
