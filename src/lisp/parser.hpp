@@ -61,12 +61,9 @@ private:
 private:
   Lexer* lexer;
   std::string filename;
-  tinygettext::DictionaryManager* dictionary_manager;
-  tinygettext::Dictionary* dictionary;
   Lexer::TokenType token;
-  char** searchpath;
-
   struct obstack obst;
+  bool translate;
 
 private:
   Parser(const Parser&);

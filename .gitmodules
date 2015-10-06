@@ -1,6 +1,6 @@
 [submodule "external/tinygettext"]
 	path = external/tinygettext
-	url = https://github.com/tinygettext/tinygettext.git
+	url = https://github.com/SuperTux/tinygettext.git
 [submodule "external/squirrel"]
 	path = external/squirrel
 	url = https://github.com/SuperTux/squirrel.git

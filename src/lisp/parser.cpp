@@ -31,39 +31,20 @@
 
 namespace lisp {
 
-Parser::Parser(bool translate) :
+Parser::Parser(bool translate_) :
   lexer(0),
   filename(),
-  dictionary_manager(0),
-  dictionary(0),
   token(),
-  searchpath(),
-  obst()
+  obst(),
+  translate(translate_)
 {
-  if(translate) {
-    dictionary_manager = new tinygettext::DictionaryManager();
-    dictionary_manager->set_charset("UTF-8");
-    if (g_config) {
-      if (g_config->locale != "") {
-        dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
-      }
-      else if(g_dictionary_manager && g_dictionary_manager->get_language()) {
-        // Language set to auto-detect?
-        dictionary_manager->set_language(g_dictionary_manager->get_language());
-      }
-    }
-  }
-
   obstack_init(&obst);
-  searchpath = PHYSFS_getSearchPath();
 }
 
 Parser::~Parser()
 {
   obstack_free(&obst, NULL);
   delete lexer;
-  delete dictionary_manager;
-  PHYSFS_freeList(searchpath);
 }
 
 static std::string dirname(const std::string& filename)
@@ -72,7 +53,7 @@ static std::string dirname(const std::string& filename)
   if(p == std::string::npos)
     return "";
 
-  return filename.substr(0, p+1);
+  return filename.substr(0, p);
 }
 
 const Lisp*
@@ -87,14 +68,9 @@ Parser::parse(const std::string& filename_)
     throw std::runtime_error(msg.str());
   }
 
-  if(dictionary_manager) {
+  if(translate && g_dictionary_manager) {
     std::string rel_dir = dirname (filename_);
-    for(char** i = searchpath; *i != NULL; i++)
-    {
-      std::string abs_dir = std::string (*i) + PHYSFS_getDirSeparator () + rel_dir;
-      dictionary_manager->add_directory (abs_dir);
-    }
-    dictionary = & (dictionary_manager->get_dictionary());
+    g_dictionary_manager->add_directory (rel_dir);
   }
 
   return parse(in, filename_);
@@ -157,8 +133,8 @@ Parser::read()
           parse_error("Expected string after '(_'");
 
         result = new(obst) Lisp(Lisp::TYPE_STRING);
-        if(dictionary) {
-          std::string translation = dictionary->translate(lexer->getString());
+        if(translate) {
+          std::string translation = _(lexer->getString());
           result->v.string = new(obst) char[translation.size()+1];
           memcpy(result->v.string, translation.c_str(), translation.size()+1);
         } else {

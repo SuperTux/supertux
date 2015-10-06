@@ -61,7 +61,7 @@ Config::~Config()
 void
 Config::load()
 {
-  lisp::Parser parser;
+  lisp::Parser parser(false);
   const lisp::Lisp* root = parser.parse("config");
 
   const lisp::Lisp* config_lisp = root->get_lisp("supertux-config");
