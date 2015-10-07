@@ -1048,8 +1048,8 @@ WorldMap::load_state()
     tux->set_tile_pos(p);
 
     int tile_data = tile_data_at(p);
-    if(!( tile_data & ( Tile::WORLDMAP_NORTH |  Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))) {
-      log_warning << "Player at illegal position " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << " respawning." << std::endl;
+    if(!( tile_data & ( Tile::WORLDMAP_NORTH | Tile::WORLDMAP_SOUTH | Tile::WORLDMAP_WEST | Tile::WORLDMAP_EAST ))) {
+      log_warning << "Player at illegal position " << p.x << ", " << p.y << " respawning." << std::endl;
       move_to_spawnpoint("main");
     }
 
