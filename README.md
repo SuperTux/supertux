@@ -56,8 +56,8 @@ CC-by-SA)
 SuperTux.
 
 `data/credits.txt`
-: Credits for people that contributed to the creationof SuperTux. (You
-can view these in the game menuas well.)
+: Credits for people that contributed to the creation of SuperTux. (You
+can view these in the game menu as well.)
 
 `data/README`
 : Licensing information about the data.
