@@ -852,7 +852,8 @@
       1729 1730 1733 1734
       1822 1823 2400 2401
       1824 1825 2402 2403
-      3163 3164 3165 3166)
+      3163 3164 172  246 
+      3165 3166 247  248 )
   )
   (tilegroup
     (name "Jungle")
@@ -1907,6 +1908,15 @@
       1
     )
     (image "tiles/blocks/block_vert.png")
+  )
+  (tiles
+    (width 2)
+    (height 2)
+    (ids
+      172 246
+      247 248
+    )
+    (image "tiles/signs/platform.png")
   )
   (tiles
     (width 4)
