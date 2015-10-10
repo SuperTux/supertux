@@ -892,11 +892,12 @@
   (tilegroup
     (name "Jungle")
     (tiles
-      301 302 303 0
-      304 305 306 0
-      307 308 309 0
-      311 310 0   0
-      312 0   0   0)
+      301 302 303 347
+      304 305 306 350
+      307 308 309 352
+      343 344 345 346
+      311 310 348 349
+      312 353 351   0)
   )
   (tilegroup
     (name "Industrial")
@@ -2043,11 +2044,13 @@
   )
   (tiles
     (width 2)
-    (height 1)
+    (height 2)
     (ids
+      343 344
       311 310
     )
     (attributes
+      1 1
       1 1
     )
     (image "tiles/jungle/concave.png")
@@ -2070,6 +2073,21 @@
     )
     (solid #t)
     (fps 10)
+  )
+  (tiles
+    (width 3)
+    (height 3)
+    (ids
+      345 346 347
+      348 349 350
+      351 352 353
+    )
+    (attributes
+      0 1 1
+      1 1 1
+      1 1 1
+    )
+    (image "tiles/jungle/special.png")
   )
   (tiles
     (width 2)
