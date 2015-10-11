@@ -178,6 +178,10 @@ IceCrusher::collision_solid(const CollisionHit& hit)
       }
       break;
     case RECOVERING:
+      if (hit.top) {
+        set_state(IDLE);
+        start_position = bbox.p1;
+      }
       break;
     default:
       log_debug << "IceCrusher in invalid state" << std::endl;

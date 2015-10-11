@@ -64,10 +64,20 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
   // calculate rectangle where the object will move
   float x1, x2;
   float y1, y2;
+
   x1 = object->pos.x;
   x2 = x1 + 32 + movement.x;
+  if (x2 < x1) {
+    x1 = x2;
+    x2 = object->pos.x;
+  }
+
   y1 = object->pos.y;
   y2 = y1 + 32 + movement.y;
+  if (y2 < y1) {
+    y1 = y2;
+    y2 = object->pos.y;
+  }
   bool water = false;
 
   // test with all tiles in this rectangle

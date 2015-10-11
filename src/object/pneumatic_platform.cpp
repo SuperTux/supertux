@@ -102,10 +102,10 @@ PneumaticPlatform::update(float elapsed_time)
     contacts.clear();
     slave->contacts.clear();
 
-    speed_y += ((float)contact_diff * elapsed_time) * 128.0f;
-    speed_y -= (offset_y * elapsed_time * 0.5f);
+    speed_y += ((float)contact_diff * elapsed_time) * 12.8f;
+    speed_y -= (offset_y * elapsed_time * 0.05f);
     speed_y *= 1 - elapsed_time;
-    offset_y += speed_y * elapsed_time;
+    offset_y += speed_y * elapsed_time * Sector::current()->get_gravity();
     if (offset_y < -256) { offset_y = -256; speed_y = 0; }
     if (offset_y > 256) { offset_y = 256; speed_y = -0; }
     movement = Vector(0, (start_y + offset_y) - get_pos().y);

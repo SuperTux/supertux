@@ -80,13 +80,13 @@ BicyclePlatform::collision(GameObject& other, const CollisionHit& )
 
   Player* pl = dynamic_cast<Player*>(mo);
   if (pl) {
-    if (pl->is_big()) momentum += 1;
+    if (pl->is_big()) momentum += 0.1 * Sector::current()->get_gravity();
     Portable* po = pl->get_grabbed_object();
     MovingObject* pomo = dynamic_cast<MovingObject*>(po);
-    if (contacts.insert(pomo).second) momentum += 1;
+    if (contacts.insert(pomo).second) momentum += 0.1 * Sector::current()->get_gravity();
   }
 
-  if (contacts.insert(&other).second) momentum += 1;
+  if (contacts.insert(&other).second) momentum += 0.1 * Sector::current()->get_gravity();
   return FORCE_MOVE;
 }
 
