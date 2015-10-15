@@ -58,6 +58,7 @@ class Editor : public Screen,
     bool newlevel_request;
     bool reload_request;
     bool reactivate_request;
+    bool deactivate_request;
     bool save_request;
 
     void disable_keyboard() {
