@@ -64,7 +64,7 @@ SnowParticleSystem::SnowParticleSystem() :
     particle->texture = snowimages[snowsize];
     particle->flake_size = powf(snowsize+3,4); // since it ranges from 0 to 2
 
-    particle->speed = 20 * (1 + (2 - snowsize)/2 + graphicsRandom.randf(1.8));
+    particle->speed = 6.32 * (1 + (2 - snowsize)/2 + graphicsRandom.randf(1.8));
 
     // Spinning
     particle->angle = graphicsRandom.randf(360.0);
