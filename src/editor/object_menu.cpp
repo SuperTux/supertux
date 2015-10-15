@@ -16,6 +16,7 @@
 
 #include "editor/object_menu.hpp"
 
+#include "editor/editor.hpp"
 #include "editor/object_settings.hpp"
 #include "supertux/game_object.hpp"
 #include "util/gettext.hpp"
@@ -55,6 +56,7 @@ ObjectMenu::ObjectMenu(GameObject *go) :
 ObjectMenu::~ObjectMenu()
 {
   object->after_editor_set();
+  Editor::current()->reactivate_request = true;
 }
 
 void

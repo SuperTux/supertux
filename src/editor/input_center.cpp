@@ -247,7 +247,9 @@ EditorInputCenter::set_object() {
     Rectf bbox = moving_object->get_bbox();
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
-      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ObjectMenu(moving_object)));
+      std::unique_ptr<Menu> om(new ObjectMenu(moving_object));
+      Editor::current()->deactivate_request = true;
+      MenuManager::instance().push_menu(move(om));
       return;
     }
   }
@@ -361,8 +363,8 @@ EditorInputCenter::event(SDL_Event& ev) {
     switch (ev.button.button) {
       case SDL_BUTTON_LEFT: {
         //TODO: Make the right clicks working.
-        if (InputManager::current()->get_controller()->hold(Controller::JUMP)) {
-          InputManager::current()->get_controller()->set_control(Controller::JUMP,false);
+        if (InputManager::current()->get_controller()->hold(Controller::ACTION)) {
+          InputManager::current()->get_controller()->set_control(Controller::ACTION,false);
           process_right_click();
         } else {
           process_left_click();
