@@ -95,6 +95,14 @@ void Editor::update(float elapsed_time)
     save_request = false;
   }
 
+  if (deactivate_request) {
+    enabled = false;
+    deactivate_request = false;
+    return;
+  }
+
+  /// NO MORE REQUESTS!!!
+
   if (InputManager::current()->get_controller()->pressed(Controller::ESCAPE)) {
     enabled = false;
     MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);

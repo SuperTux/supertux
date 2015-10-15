@@ -16,6 +16,7 @@
 
 #include "editor/input_center.hpp"
 
+#include "control/input_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/tool_icon.hpp"
@@ -208,6 +209,9 @@ EditorInputCenter::hover_object() {
   for (auto i = Editor::current()->currentsector->moving_objects.begin();
        i != Editor::current()->currentsector->moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
+    if (!moving_object->do_save()) {
+      continue;
+    }
     Rectf bbox = moving_object->get_bbox();
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
@@ -243,7 +247,9 @@ EditorInputCenter::set_object() {
     Rectf bbox = moving_object->get_bbox();
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
-      MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ObjectMenu(moving_object)));
+      std::unique_ptr<Menu> om(new ObjectMenu(moving_object));
+      Editor::current()->deactivate_request = true;
+      MenuManager::instance().push_menu(move(om));
       return;
     }
   }
@@ -283,6 +289,9 @@ EditorInputCenter::rubber_rect() {
 
 void
 EditorInputCenter::put_object() {
+  if (Editor::current()->tileselect.object[0] == '#') {
+    return;
+  }
   GameObjectPtr game_object;
   try {
     game_object = ObjectFactory::instance().create(Editor::current()->tileselect.object, sector_pos, LEFT);
@@ -302,51 +311,67 @@ EditorInputCenter::put_object() {
 }
 
 void
+EditorInputCenter::process_left_click() {
+  dragging = true;
+  drag_start = sector_pos;
+  switch (Editor::current()->tileselect.input_type) {
+    case EditorInputGui::IP_TILE: {
+      switch (Editor::current()->tileselect.select_mode->get_mode()) {
+        case 0:
+          put_tile();
+          break;
+        case 2:
+          fill();
+          break;
+        default:
+          break;
+      }
+    } break;
+    case EditorInputGui::IP_OBJECT:
+      grab_object();
+      if (Editor::current()->tileselect.object != "") {
+        if (!dragged_object) {
+          put_object();
+        }
+      } else {
+        rubber_object();
+      }
+    break;
+  default:
+    break;
+  }
+}
+
+void
+EditorInputCenter::process_right_click() {
+  switch (Editor::current()->tileselect.input_type) {
+    case EditorInputGui::IP_TILE: {
+      //possible future usage
+    } break;
+    case EditorInputGui::IP_OBJECT:
+      set_object();
+      break;
+    default:
+      break;
+  }
+}
+
+void
 EditorInputCenter::event(SDL_Event& ev) {
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     switch (ev.button.button) {
       case SDL_BUTTON_LEFT: {
-        dragging = true;
-        drag_start = sector_pos;
-        switch (Editor::current()->tileselect.input_type) {
-          case EditorInputGui::IP_TILE: {
-            switch (Editor::current()->tileselect.select_mode->get_mode()) {
-              case 0:
-                put_tile();
-                break;
-              case 2:
-                fill();
-                break;
-              default:
-                break;
-            }
-          } break;
-          case EditorInputGui::IP_OBJECT:
-            grab_object();
-            if (Editor::current()->tileselect.object != "") {
-              if (!dragged_object) {
-                put_object();
-              }
-            } else {
-              rubber_object();
-            }
-          break;
-        default:
-          break;
+        //TODO: Make the right clicks working.
+        if (InputManager::current()->get_controller()->hold(Controller::ACTION)) {
+          InputManager::current()->get_controller()->set_control(Controller::ACTION,false);
+          process_right_click();
+        } else {
+          process_left_click();
         }
       } break;
       case SDL_BUTTON_RIGHT: {
-        switch (Editor::current()->tileselect.input_type) {
-          case EditorInputGui::IP_TILE: {
-            //possible future usage
-          } break;
-          case EditorInputGui::IP_OBJECT:
-            set_object();
-            break;
-          default:
-            break;
-        }
+        process_right_click();
       } break;
     } break;
     case SDL_MOUSEBUTTONUP: if(ev.button.button == SDL_BUTTON_LEFT) {

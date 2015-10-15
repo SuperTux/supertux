@@ -67,6 +67,9 @@ class EditorInputCenter
 
     void draw_tile_tip(DrawingContext&);
 
+    void process_left_click();
+    void process_right_click();
+
     // sp is sector pos, tp is pos on tilemap.
     Vector tp_to_sp(Vector tp);
     Vector sp_to_tp(Vector sp);
