@@ -66,9 +66,9 @@ MagicBlock::MagicBlock(const Reader& lisp) :
     trigger_blue = MIN_INTENSITY;
   } else {
     black = false;
-    trigger_red = (color.red == 1.0f ? MIN_INTENSITY : 0);
-    trigger_green = (color.green == 1.0f ? MIN_INTENSITY : 0);
-    trigger_blue = (color.blue == 1.0f ? MIN_INTENSITY : 0);
+    trigger_red = color.red;
+    trigger_green = color.green;
+    trigger_blue = color.blue;
   }
 
   center = bbox.get_middle();
