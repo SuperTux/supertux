@@ -209,6 +209,9 @@ EditorInputCenter::hover_object() {
   for (auto i = Editor::current()->currentsector->moving_objects.begin();
        i != Editor::current()->currentsector->moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
+    if (!moving_object->do_save()) {
+      continue;
+    }
     Rectf bbox = moving_object->get_bbox();
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
@@ -284,6 +287,9 @@ EditorInputCenter::rubber_rect() {
 
 void
 EditorInputCenter::put_object() {
+  if (Editor::current()->tileselect.object[0] == '#') {
+    return;
+  }
   GameObjectPtr game_object;
   try {
     game_object = ObjectFactory::instance().create(Editor::current()->tileselect.object, sector_pos, LEFT);
