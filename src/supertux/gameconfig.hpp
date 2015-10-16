@@ -84,6 +84,7 @@ public:
 
   bool developer_mode;
   bool christmas_mode;
+  bool transitions_enabled;
 
   bool is_christmas() {
     using namespace boost::gregorian;

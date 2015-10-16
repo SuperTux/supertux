@@ -441,7 +441,10 @@ GameSession::setup()
     active = false;
     ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new LevelIntro(level.get(), best_level_statistics, m_savegame.get_player_status())));
   }
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
+  if(g_config->transitions_enabled)
+  {
+    ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
+  }
   end_seq_started = false;
 }
 
