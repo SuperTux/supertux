@@ -70,6 +70,12 @@ Parser::parse(const std::string& filename_)
 
   if(translate && g_dictionary_manager) {
     std::string rel_dir = dirname (filename_);
+    if(rel_dir.empty())
+    {
+      // Relative dir inside PhysFS search path?
+      // Get full path from search path, instead.
+      rel_dir = PHYSFS_getRealDir(filename_.c_str());
+    }
     g_dictionary_manager->add_directory (rel_dir);
   }
 
