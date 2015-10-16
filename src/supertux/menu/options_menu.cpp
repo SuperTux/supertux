@@ -40,7 +40,8 @@ enum OptionsMenuIDs {
   MNID_SOUND,
   MNID_MUSIC,
   MNID_DEVELOPER_MODE,
-  MNID_CHRISTMAS_MODE
+  MNID_CHRISTMAS_MODE,
+  MNID_TRANSITIONS
 };
 
 OptionsMenu::OptionsMenu(bool complete) :
@@ -216,6 +217,9 @@ OptionsMenu::OptionsMenu(bool complete) :
 
   add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
     ->set_help(_("Configure joystick control-action mappings"));
+
+  MenuItem* enable_transitions = add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled);
+  enable_transitions->set_help(_("Enable screen transitions and smooth menu animation"));
 
   if (g_config->developer_mode)
   {

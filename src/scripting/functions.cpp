@@ -76,17 +76,26 @@ void exit_screen()
 
 void fadeout_screen(float seconds)
 {
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeOut(seconds)));
+  if(g_config->transitions_enabled)
+  {
+    ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeOut(seconds)));
+  }
 }
 
 void shrink_screen(float dest_x, float dest_y, float seconds)
 {
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new ShrinkFade(Vector(dest_x, dest_y), seconds)));
+  if(g_config->transitions_enabled)
+  {
+    ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new ShrinkFade(Vector(dest_x, dest_y), seconds)));
+  }
 }
 
 void abort_screenfade()
 {
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>());
+  if(g_config->transitions_enabled)
+  {
+    ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>());
+  }
 }
 
 std::string translate(const std::string& text)

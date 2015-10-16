@@ -23,6 +23,7 @@
 #include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
 #include "math/sizef.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/timer.hpp"
@@ -90,6 +91,12 @@ public:
 
   void update()
   {
+    if (!g_config->transitions_enabled && m_is_active)
+    {
+      m_effect_progress = 1.0f;
+      m_is_active = false;
+      return;
+    }
     if (m_is_active)
     {
       m_effect_progress = (real_time - m_effect_start_time) * 6.0f;

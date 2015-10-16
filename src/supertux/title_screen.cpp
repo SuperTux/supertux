@@ -104,7 +104,10 @@ TitleScreen::setup()
   }
 
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.25)));
+  if(g_config->transitions_enabled)
+  {
+    ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.25)));
+  }
 }
 
 void
