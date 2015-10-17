@@ -230,7 +230,7 @@ public:
   void print_search_path()
   {
     const char* writedir = PHYSFS_getWriteDir();
-    log_info << "PhysfsWritedDir: " << (writedir ? writedir : "(null)") << std::endl;
+    log_info << "PhysfsWriteDir: " << (writedir ? writedir : "(null)") << std::endl;
     log_info << "PhysfsSearchPath:" << std::endl;
     char** searchpath = PHYSFS_getSearchPath();
     for(char** i = searchpath; *i != NULL; ++i)
