@@ -18,6 +18,7 @@
 #include "object/weak_block.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "badguy/badguy.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/explosion.hpp"
@@ -96,6 +97,13 @@ WeakBlock::collision(GameObject& other, const CollisionHit& hit)
         break;
 				
       case STATE_BURNING:
+        if(sprite_name != "images/objects/weak_block/strawbox.sprite")
+          break;
+
+        if(BadGuy* badguy = dynamic_cast<BadGuy*> (&other)) {
+          badguy->kill_fall();
+        }
+        break;
       case STATE_DISINTEGRATING:
         break;
 				
