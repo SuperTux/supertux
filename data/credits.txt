@@ -204,7 +204,7 @@
 -Contact
 
 	Visit our webpage at
-*http://supertux.lethargik.org
+*http://supertux.github.io
 
 	Or visit us directly at IRC:
 *#supertux at irc.freenode.net
@@ -218,7 +218,14 @@
 
 
 
+-Want to help…
 
+	…with localization?
+*https://www.transifex.com/arctic-games/supertux/
+
+
+	…with something else?
+*http://github.com/supertux
 
 
 
