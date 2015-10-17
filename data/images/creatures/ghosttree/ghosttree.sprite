@@ -20,12 +20,14 @@
   (action
     (name "dying")
     (hitbox 230 300 40 60)
-    (fps 4)
+    (fps 25)
     (images 
       "ghosttree-dying-0.png"
-      "ghosttree-dying-0.png"
-      "ghosttree-dying-0.png"
-      "ghosttree-dying-0.png"
+      "ghosttree-dying-1.png"
+      "ghosttree-dying-2.png"
+      "ghosttree-dying-3.png"
+      "ghosttree-dying-4.png"
+      "ghosttree-dying-5.png"
     )
   )
 )
