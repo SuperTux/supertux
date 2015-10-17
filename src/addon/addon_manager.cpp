@@ -34,6 +34,7 @@
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "util/file_system.hpp"
+#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/writer.hpp"
@@ -78,6 +79,16 @@ bool has_suffix(const std::string& str, const std::string& suffix)
     return str.compare(str.length() - suffix.length(), suffix.length(), suffix) == 0;
   else
     return false;
+}
+
+static void add_to_dictionary_path(void *data, const char *origdir, const char *fname)
+{
+    std::string full_path = std::string(origdir) + "/" + std::string(fname);
+    if(PHYSFS_isDirectory(full_path.c_str()))
+    {
+        log_debug << "Adding \"" << full_path << "\" to dictionary search path" << std::endl;
+        g_dictionary_manager->add_directory(full_path);
+    }
 }
 
 } // namespace
@@ -422,6 +433,10 @@ AddonManager::enable_addon(const AddonId& addon_id)
     }
     else
     {
+      if(addon.get_type() == Addon::LANGUAGEPACK)
+      {
+        PHYSFS_enumerateFilesCallback(addon.get_id().c_str(), add_to_dictionary_path, NULL);
+      }
       addon.set_enabled(true);
     }
   }

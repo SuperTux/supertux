@@ -30,7 +30,7 @@ public:
   static std::unique_ptr<Addon> parse(const Reader& lisp);
   static std::unique_ptr<Addon> parse(const std::string& fname);
 
-  enum Type { WORLD, WORLDMAP, LEVELSET };
+  enum Type { WORLD, WORLDMAP, LEVELSET, LANGUAGEPACK };
 
 private:
   // fields provided by the addon.zip itself
