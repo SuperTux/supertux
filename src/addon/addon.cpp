@@ -44,6 +44,10 @@ Addon::Type addon_type_from_string(const std::string& type)
   {
     return Addon::LEVELSET;
   }
+  else if(type == "languagepack")
+  {
+    return Addon::LANGUAGEPACK;
+  }
   else
   {
     throw std::runtime_error("not a valid Addon::Type: " + type);
