@@ -153,9 +153,7 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
     if(player && player->physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
       toss_velocity_x += player->physic.get_velocity_x()-(190*(dir_ == LEFT ? -1 : 1));
   }
-  log_warning << toss_velocity_x << toss_velocity_y << std::endl;////
 
-  //set_pos(object.get_pos() + Vector((dir_ == LEFT ? -33 : 33), get_bbox().get_height()*0.66666 - 32));
   physic.set_velocity(toss_velocity_x, toss_velocity_y);
 
   set_colgroup_active(COLGROUP_MOVING);
