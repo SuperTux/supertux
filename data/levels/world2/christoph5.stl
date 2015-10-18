@@ -278,7 +278,7 @@
       (x 2860.672)
       (y 1171.501)
     )
-    (jumpy
+    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
       (x 2661.577)
       (y 858.8568)
     )
