@@ -476,23 +476,23 @@ door6b.goto_node(1);
       (x 3106)
       (y 147)
     )
-    (jumpy
+    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
       (x 759)
       (y 1192)
     )
-    (jumpy
+    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
       (x 2098)
       (y 1075)
     )
-    (jumpy
+    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
       (x 2162)
       (y 355)
     )
-    (jumpy
+    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
       (x 2354)
       (y 355)
     )
-    (jumpy
+    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
       (x 679)
       (y 1896)
     )
