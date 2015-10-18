@@ -175,11 +175,11 @@
       (x 4258.1)
       (y 1926.1)
     )
-    (jumpy
+    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
       (x 256)
       (y 2336)
     )
-    (jumpy
+    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
       (x 6336)
       (y 320)
     )

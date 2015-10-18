@@ -607,7 +607,7 @@ tischsaege.goto_node( 0 ) 	")
       (x 4032)
       (y 64)
     )
-    (jumpy
+    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
       (x 2560)
       (y 448)
     )
