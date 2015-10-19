@@ -27,6 +27,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/log.hpp"
 #include "util/reader.hpp"
 
 static const float FLYSPEED = 64; /**< speed in px per second */
@@ -270,10 +271,7 @@ WillOWisp::set_state(const std::string& new_state)
   } else if(new_state == "vanish") {
     vanish();
   } else {
-    std::ostringstream msg;
-    msg << "Can't set unknown willowisp state '" << new_state << "', should "
-      "be stopped, move_path, move_path_track or normal";
-    throw new std::runtime_error(msg.str());
+    log_warning << "Can't set unknown willowisp state '" << new_state << std::endl;
   }
 }
 

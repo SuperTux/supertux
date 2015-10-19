@@ -20,6 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/log.hpp"
 #include "util/reader.hpp"
 
 #include <sstream>
@@ -39,7 +40,9 @@ PushButton::PushButton(const Reader& lisp) :
   set_action("off", -1);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
-  if (!lisp.get("script", script)) throw std::runtime_error("no script set");
+  if (!lisp.get("script", script)) {
+    log_warning << "No script set for pushbutton." << std::endl;
+  }
 }
 
 void
