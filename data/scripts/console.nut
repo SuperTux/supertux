@@ -61,7 +61,7 @@ function earth()
 
 function shrink()
 {
-	sector.Tux.add_bonus("none");
+	sector.Tux.kill(false);
 }
 
 function kill()
