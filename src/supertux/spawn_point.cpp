@@ -51,7 +51,7 @@ SpawnPoint::SpawnPoint(const Reader& slisp) :
   }
 
   if(name == "")
-    throw std::runtime_error("No name specified for spawnpoint");
+    log_warning << "No name specified for spawnpoint. Will be deleted." << std::endl;
   if(pos.x < 0 || pos.y < 0)
     throw std::runtime_error("Invalid coordinates for spawnpoint");
 }

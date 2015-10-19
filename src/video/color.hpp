@@ -49,7 +49,13 @@ public:
     blue(),
     alpha()
   {
-    assert(vals.size() >= 3);
+    if (vals.size() < 3) {
+      red = 0;
+      green = 0;
+      blue = 0;
+      alpha = 0;
+      return;
+    }
     red   = vals[0];
     green = vals[1];
     blue  = vals[2];
