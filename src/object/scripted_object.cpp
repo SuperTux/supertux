@@ -18,9 +18,11 @@
 
 #include <stdio.h>
 
+#include "math/random_generator.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/log.hpp"
 #include "util/reader.hpp"
 
 ScriptedObject::ScriptedObject(const Reader& lisp) :
@@ -34,8 +36,10 @@ ScriptedObject::ScriptedObject(const Reader& lisp) :
   new_vel()
 {
   lisp.get("name", name);
-  if(name == "")
-    throw std::runtime_error("Scripted object must have a name specified");
+  if(name == "") {
+    name = "unnamed" + std::to_string(graphicsRandom.rand());
+    log_warning << "Scripted object must have a name specified, setting to: " << name << std::endl;
+  }
 
   lisp.get("solid", solid);
   lisp.get("physic-enabled", physic_enabled);
