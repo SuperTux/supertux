@@ -23,6 +23,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/screen_manager.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/player_status.hpp"
 #include "util/gettext.hpp"
@@ -77,7 +78,7 @@ LevelIntro::update(float elapsed_time)
   }
 
   player_sprite_py += player_sprite_vy * elapsed_time;
-  player_sprite_vy += 1000 * elapsed_time;
+  player_sprite_vy += 100 * elapsed_time * Sector::current()->get_gravity();
   if (player_sprite_py >= 0) {
     player_sprite_py = 0;
     player_sprite_vy = 0;
