@@ -163,7 +163,7 @@ PlayerStatus::draw(DrawingContext& context)
     if (displayed_coins < coins) displayed_coins++;
     if (displayed_coins > coins) displayed_coins--;
   }
-  displayed_coins = std::min(std::max(displayed_coins, 0), 9999);
+  displayed_coins = std::min(std::max(displayed_coins, 0), MAX_COINS);
 
   std::stringstream ss;
   ss << displayed_coins;
