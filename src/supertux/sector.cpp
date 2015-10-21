@@ -976,7 +976,7 @@ void check_collisions(collision::Constraints* constraints,
 
     if(other->get_movement() != Vector(0, 0)) {
       // TODO what todo when we collide with 2 moving objects?!?
-      constraints->ground_movement = other->get_movement();
+      constraints->ground_movement += other->get_movement();
     }
   }
 
@@ -1199,6 +1199,7 @@ Sector::collision_static_constrains(MovingObject& object)
 
   Constraints constraints;
   Vector movement = object.get_movement();
+  Vector pressure = Vector(0,0);
   Rectf& dest = object.dest;
 
   for(int i = 0; i < 2; ++i) {
@@ -1213,9 +1214,11 @@ Sector::collision_static_constrains(MovingObject& object)
         // we're crushed, but ignore this for now, we'll get this again
         // later if we're really crushed or things will solve itself when
         // looking at the vertical constraints
+        pressure.y += object.get_bbox().get_height() - height;
+      } else {
+        dest.p2.y = constraints.get_position_bottom() - DELTA;
+        dest.p1.y = dest.p2.y - object.get_bbox().get_height();
       }
-      dest.p2.y = constraints.get_position_bottom() - DELTA;
-      dest.p1.y = dest.p2.y - object.get_bbox().get_height();
     } else if(constraints.get_position_top() > -infinity) {
       dest.p1.y = constraints.get_position_top() + DELTA;
       dest.p2.y = dest.p1.y + object.get_bbox().get_height();
@@ -1242,15 +1245,10 @@ Sector::collision_static_constrains(MovingObject& object)
     float width = constraints.get_width ();
     if(width < infinity) {
       if(width + SHIFT_DELTA < object.get_bbox().get_width()) {
-#if 0
-        printf("Object %p crushed horizontally... L:%f R:%f\n", &object,
-               constraints.get_position_left(), constraints.get_position_right());
-#endif
-        CollisionHit h;
-        h.left = true;
-        h.right = true;
-        h.crush = true;
-        object.collision_solid(h);
+        // we're crushed, but ignore this for now, we'll get this again
+        // later if we're really crushed or things will solve itself when
+        // looking at the horizontal constraints
+        pressure.x += object.get_bbox().get_width() - width;
       } else {
         float xmid = constraints.get_x_midpoint ();
         dest.p1.x = xmid - object.get_bbox().get_width()/2;
@@ -1272,20 +1270,37 @@ Sector::collision_static_constrains(MovingObject& object)
       object.collision_solid(constraints.hit);
   }
 
+  // an extra pass to make sure we're not crushed vertically
+  if (pressure.y > 0) {
+    constraints = Constraints();
+    collision_static(&constraints, movement, dest, object);
+    if(constraints.get_position_bottom() < infinity) {
+      float height = constraints.get_height ();
+      if(height + SHIFT_DELTA < object.get_bbox().get_height()) {
+        CollisionHit h;
+        h.top = true;
+        h.bottom = true;
+        h.crush = pressure.y > 16;
+        object.collision_solid(h);
+      }
+    }
+  }
+
   // an extra pass to make sure we're not crushed horizontally
-  constraints = Constraints();
-  collision_static(&constraints, movement, dest, object);
-  if(constraints.get_position_bottom() < infinity) {
-    float height = constraints.get_height ();
-    if(height + SHIFT_DELTA < object.get_bbox().get_height()) {
-#if 0
-      printf("Object %p crushed vertically...\n", &object);
-#endif
-      CollisionHit h;
-      h.top = true;
-      h.bottom = true;
-      h.crush = true;
-      object.collision_solid(h);
+  if (pressure.x > 0) {
+    constraints = Constraints();
+    collision_static(&constraints, movement, dest, object);
+    if(constraints.get_position_right() < infinity) {
+      float width = constraints.get_width ();
+      if(width + SHIFT_DELTA < object.get_bbox().get_width()) {
+        CollisionHit h;
+        h.top = true;
+        h.bottom = true;
+        h.left = true;
+        h.right = true;
+        h.crush = pressure.x > 16;
+        object.collision_solid(h);
+      }
     }
   }
 }
