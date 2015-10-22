@@ -38,7 +38,7 @@ distributions.
   specific to your graphics card. Make sure that you have hardware
   accelerated OpenGL drivers installed. Software renderers like Mesa
   will make SuperTux unplayable slow.
-* [SDL2](http://www.libsdl.org) (2.0.0 or later)
+* [SDL2](http://www.libsdl.org) (2.0.1 or later)
 * [SDL2_image](http://www.libsdl.org/projects/SDL_image) (2.0.0 or later)
 * [PhysFS](http://www.icculus.org/physfs) (1.0.x or 2.0.x)
 * [OpenAL](http://www.openal.org): There are no official Linux releases
