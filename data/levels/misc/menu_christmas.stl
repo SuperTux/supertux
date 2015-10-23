@@ -14,7 +14,7 @@ logo.set_visible(true);
 
 christmas_hat <- FloatingImage(\"images/objects/particles/santa-cap-big.sprite\");
 christmas_hat.set_anchor_point(ANCHOR_MIDDLE);
-christmas_hat.set_pos(-135, -288);
+christmas_hat.set_pos(32, -241);
 christmas_hat.set_visible(true);
 // Suspend (this is needed so that logo doesn't get deleted)
 suspend();
