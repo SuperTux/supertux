@@ -110,6 +110,11 @@
  \"Battle Theme\" by
 	remaxim
 
+ \“SuperTux christmas theme\“
+ original by
+	Marek \"Wansti\" Moeckel
+ arranged by
+	Chris Leutwyler
 
 -Sound
 
