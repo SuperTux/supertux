@@ -192,5 +192,13 @@ Haywire::ignite()
   kill_fall();
 }
 
+void
+Haywire::freeze() {
+  BadGuy::freeze();
+  is_exploding = false;
+  ticking->stop();
+  grunting->stop();
+}
+
 /* vim: set sw=2 sts=2 et : */
 /* EOF */
