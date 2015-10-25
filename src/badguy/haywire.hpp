@@ -35,6 +35,7 @@ public:
   void active_update(float elapsed_time);
 
   bool is_freezable() const;
+  void freeze();
 
 protected:
   bool collision_squished(GameObject& object);
