@@ -47,6 +47,8 @@ public:
     return lightcolor;
   }
 
+  void add_color(Color c);
+
 private:
   Color lightcolor;
   SpritePtr lightsprite;
