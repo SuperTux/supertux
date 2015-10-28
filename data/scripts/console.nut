@@ -39,6 +39,11 @@ function grow()
 	sector.Tux.add_bonus("grow");
 }
 
+function invincibleone()
+{
+      sector.Tux.make_invincible();
+}
+
 function fire()
 {
 	sector.Tux.add_bonus("fireflower");
