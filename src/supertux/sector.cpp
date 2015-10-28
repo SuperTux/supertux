@@ -201,7 +201,7 @@ Sector::parse(const Reader& sector)
       iter.value()->get(music);
     } else if(token == "spawnpoint") {
       auto sp = std::make_shared<SpawnPoint>(*iter.lisp());
-      if (sp->name != "" && sp->pos.x > 0 && sp->pos.y > 0) {
+      if (sp->name != "" && sp->pos.x >= 0 && sp->pos.y >= 0) {
         spawnpoints.push_back(sp);
       }
     } else if(token == "init-script") {
