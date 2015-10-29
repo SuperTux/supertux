@@ -120,7 +120,7 @@ TileMap::TileMap(const Reader& reader) :
   bool empty = true;
 
   // make sure all tiles used on the tilemap are loaded and tilemap isn't empty
-  for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i) {
+  for(Tiles::const_iterator i = tiles.begin(); i != tiles.end(); ++i) {
     if(*i != 0) {
       empty = false;
     }
@@ -300,7 +300,7 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
   update_effective_solid ();
 
   // make sure all tiles are loaded
-  for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
+  for(Tiles::const_iterator i = tiles.begin(); i != tiles.end(); ++i)
     tileset->get(*i);
 }
 
@@ -432,7 +432,7 @@ TileMap::set_alpha(float alpha_)
 }
 
 float
-TileMap::get_alpha()
+TileMap::get_alpha() const
 {
   return this->current_alpha;
 }
