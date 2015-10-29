@@ -48,7 +48,9 @@ TitleScreen::TitleScreen(Savegame& savegame) :
   copyright_text()
 {
   controller.reset(new CodeController());
-  titlesession.reset(new GameSession("levels/misc/menu.stl", savegame));
+  titlesession.reset(new GameSession(g_config->christmas_mode ?
+                                     "levels/misc/menu_christmas.stl" : "levels/misc/menu.stl",
+                                     savegame));
 
   Player* player = titlesession->get_current_sector()->player;
   player->set_controller(controller.get());
@@ -104,7 +106,10 @@ TitleScreen::setup()
   }
 
   MenuManager::instance().set_menu(MenuStorage::MAIN_MENU);
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.25)));
+  if(g_config->transitions_enabled)
+  {
+    ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.25)));
+  }
 }
 
 void

@@ -24,17 +24,17 @@ enum LogLevel { LOG_NONE, LOG_FATAL, LOG_WARNING, LOG_INFO, LOG_DEBUG };
 extern LogLevel g_log_level;
 
 std::ostream& log_debug_f(const char* file, int line, bool use_console_buffer);
-#define log_debug if (g_log_level < LOG_DEBUG) {} else log_debug_f(__FILE__, __LINE__, true)
-#define log_debug_ if (g_log_level < LOG_DEBUG) {} else log_debug_f(__FILE__, __LINE__, false)
+#define log_debug if (g_log_level >= LOG_DEBUG) log_debug_f(__FILE__, __LINE__, true)
+#define log_debug_ if (g_log_level >= LOG_DEBUG) log_debug_f(__FILE__, __LINE__, false)
 
 std::ostream& log_info_f(const char* file, int line);
-#define log_info if (g_log_level < LOG_INFO) {} else log_info_f(__FILE__, __LINE__)
+#define log_info if (g_log_level >= LOG_INFO) log_info_f(__FILE__, __LINE__)
 
 std::ostream& log_warning_f(const char* file, int line);
-#define log_warning if (g_log_level < LOG_WARNING) {} else log_warning_f(__FILE__, __LINE__)
+#define log_warning if (g_log_level >= LOG_WARNING) log_warning_f(__FILE__, __LINE__)
 
 std::ostream& log_fatal_f(const char* file, int line);
-#define log_fatal if (g_log_level < LOG_FATAL) {} else log_fatal_f(__FILE__, __LINE__)
+#define log_fatal if (g_log_level >= LOG_FATAL) log_fatal_f(__FILE__, __LINE__)
 
 class Vector;
 std::ostream& operator<< (std::ostream& str, const Vector& vector);

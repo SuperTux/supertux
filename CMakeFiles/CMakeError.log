@@ -1,0 +1,67 @@
+Determining if the system is big endian passed with the following output:
+Change Dir: /home/ok1asw/st-vyvoj/supertux/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3175908785/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3175908785.dir/build.make CMakeFiles/cmTryCompileExec3175908785.dir/build
+make[1]: Entering directory `/home/ok1asw/st-vyvoj/supertux/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/ok1asw/st-vyvoj/supertux/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3175908785.dir/TestEndianess.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec3175908785.dir/TestEndianess.c.o   -c /home/ok1asw/st-vyvoj/supertux/CMakeFiles/CMakeTmp/TestEndianess.c
+Linking C executable cmTryCompileExec3175908785
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3175908785.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec3175908785.dir/TestEndianess.c.o  -o cmTryCompileExec3175908785 -rdynamic 
+make[1]: Leaving directory `/home/ok1asw/st-vyvoj/supertux/CMakeFiles/CMakeTmp'
+
+TestEndianess.c:
+/* A 16 bit integer is required. */
+typedef unsigned short cmakeint16;
+
+/* On a little endian machine, these 16bit ints will give "THIS IS LITTLE ENDIAN."
+   On a big endian machine the characters will be exchanged pairwise. */
+const cmakeint16 info_little[] =  {0x4854, 0x5349, 0x4920, 0x2053, 0x494c, 0x5454, 0x454c, 0x4520, 0x444e, 0x4149, 0x2e4e, 0x0000};
+
+/* on a big endian machine, these 16bit ints will give "THIS IS BIG ENDIAN."
+   On a little endian machine the characters will be exchanged pairwise. */
+const cmakeint16 info_big[] =     {0x5448, 0x4953, 0x2049, 0x5320, 0x4249, 0x4720, 0x454e, 0x4449, 0x414e, 0x2e2e, 0x0000};
+
+#ifdef __CLASSIC_C__
+int main(argc, argv) int argc; char *argv[];
+#else
+int main(int argc, char *argv[])
+#endif
+{
+  int require = 0;
+  require += info_little[argc];
+  require += info_big[argc];
+  (void)argv;
+  return require;
+}
+
+
+Performing C++ SOURCE FILE Test HAVE_ICONV_CONST failed with the following output:
+Change Dir: /home/ok1asw/st-vyvoj/supertux/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3258161060/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3258161060.dir/build.make CMakeFiles/cmTryCompileExec3258161060.dir/build
+make[1]: Entering directory `/home/ok1asw/st-vyvoj/supertux/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/ok1asw/st-vyvoj/supertux/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3258161060.dir/src.cxx.o
+/usr/bin/c++    -DHAVE_ICONV_CONST   -o CMakeFiles/cmTryCompileExec3258161060.dir/src.cxx.o -c /home/ok1asw/st-vyvoj/supertux/CMakeFiles/CMakeTmp/src.cxx
+/home/ok1asw/st-vyvoj/supertux/CMakeFiles/CMakeTmp/src.cxx:4:98: error: new declaration ‘double libiconv(libiconv_t, char**, size_t*, char**, size_t*)’
+  double iconv(iconv_t cd,  char **inbuf, size_t *inbytesleft, char **outbuf, size_t *outbytesleft);
+                                                                                                  ^
+In file included from /home/ok1asw/st-vyvoj/supertux/CMakeFiles/CMakeTmp/src.cxx:2:0:
+/usr/include/iconv.h:83:15: error: ambiguates old declaration ‘size_t libiconv(libiconv_t, char**, size_t*, char**, size_t*)’
+ extern size_t iconv (iconv_t cd,  char* * inbuf, size_t *inbytesleft, char* * outbuf, size_t *outbytesleft);
+               ^
+make[1]: Leaving directory `/home/ok1asw/st-vyvoj/supertux/CMakeFiles/CMakeTmp'
+make[1]: *** [CMakeFiles/cmTryCompileExec3258161060.dir/src.cxx.o] Error 1
+make: *** [cmTryCompileExec3258161060/fast] Error 2
+
+Source file was:
+
+	#include <iconv.h>
+	// this declaration will fail when there already exists a non const char** version which returns size_t
+	double iconv(iconv_t cd,  char **inbuf, size_t *inbytesleft, char **outbuf, size_t *outbytesleft);
+	int main() { return 0; }
+	

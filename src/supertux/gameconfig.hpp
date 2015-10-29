@@ -84,12 +84,14 @@ public:
 
   bool developer_mode;
   bool christmas_mode;
+  bool transitions_enabled;
 
-  bool is_christmas() {
+  bool is_christmas() const {
     using namespace boost::gregorian;
     using namespace boost::posix_time;
     date today = second_clock::local_time().date();
-    return today.day_of_year() >= 354;
+    date saint_nicholas_day(today.year(), Dec, 6);
+    return today >= saint_nicholas_day;
   }
 };
 

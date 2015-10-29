@@ -51,7 +51,8 @@ Config::Config() :
   joystick_config(),
   addons(),
   developer_mode(false),
-  christmas_mode(false)
+  christmas_mode(false),
+  transitions_enabled(true)
 {
 }
 
@@ -80,6 +81,7 @@ Config::load()
       christmas_mode = true;
     }
   }
+  config_lisp->get("transitions_enabled", transitions_enabled);
   config_lisp->get("locale", locale);
   config_lisp->get("random_seed", random_seed);
 
@@ -166,6 +168,7 @@ Config::save()
   if(is_christmas()) {
     writer.write("christmas", christmas_mode);
   }
+  writer.write("transitions_enabled", transitions_enabled);
   writer.write("locale", locale);
 
   writer.start_list("video");

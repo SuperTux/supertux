@@ -21,6 +21,7 @@
 #include "lisp/parser.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/info_box_line.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/screen_manager.hpp"
@@ -89,7 +90,10 @@ void
 TextScroller::setup()
 {
   SoundManager::current()->play_music(music);
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.5)));
+  if(g_config->transitions_enabled)
+  {
+    ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.5)));
+  }
 }
 
 void
@@ -110,7 +114,14 @@ TextScroller::update(float elapsed_time)
     scroll += SCROLL;
   if(controller->pressed(Controller::START) ||
      controller->pressed(Controller::ESCAPE)) {
-    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+    if(g_config->transitions_enabled)
+    {
+      ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+    }
+    else
+    {
+      ScreenManager::current()->pop_screen();
+    }
   }
 
   scroll += speed * elapsed_time;

@@ -18,8 +18,10 @@
 
 #include <math.h>
 
+#include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
+#include "object/electrifier.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -51,6 +53,8 @@ Kugelblitz::Kugelblitz(const Reader& reader) :
 
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.2f, 0.1f, 0.0f));
+
+  SoundManager::current()->preload("sounds/lightning.wav");
 }
 
 void
@@ -117,8 +121,6 @@ Kugelblitz::hit(const CollisionHit& hit_)
     movement_timer.start(MOVETIME);
     lifetime.start(LIFETIME);
 
-  } else if(hit_.top) { // bumped on roof
-    physic.set_velocity_y(0);
   }
 
   return CONTINUE;
@@ -139,18 +141,12 @@ Kugelblitz::active_update(float elapsed_time)
         movement_timer.start(MOVETIME);
       }
     }
-    /*
-      if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 16) {
-      //HIT WATER
-      Sector::current()->add_object(new Electrifier(75,1421,1.5));
-      Sector::current()->add_object(new Electrifier(76,1422,1.5));
+
+    if (is_in_water()) {
+      Sector::current()->add_object( std::make_shared<Electrifier>(75,1421,1.5));
+      Sector::current()->add_object( std::make_shared<Electrifier>(76,1422,1.5));
       explode();
-      }
-      if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 48) {
-      //HIT ELECTRIFIED WATER
-      explode();
-      }
-    */
+    }
   }
   BadGuy::active_update(elapsed_time);
 }
@@ -174,12 +170,14 @@ Kugelblitz::draw(DrawingContext& context)
 void
 Kugelblitz::kill_fall()
 {
+  explode();
 }
 
 void
 Kugelblitz::explode()
 {
   if (!dying) {
+    SoundManager::current()->play("sounds/lightning.wav", bbox.p1);
     sprite->set_action("pop");
     lifetime.start(0.2f);
     dying = true;

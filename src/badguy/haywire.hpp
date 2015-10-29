@@ -40,6 +40,7 @@ public:
   }
 
   virtual ObjectSettings get_settings();
+  void freeze();
 
 protected:
   bool collision_squished(GameObject& object);

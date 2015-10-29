@@ -20,8 +20,10 @@
 #include "math/random_generator.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/fadeout.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/screen_manager.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/player_status.hpp"
 #include "util/gettext.hpp"
@@ -65,11 +67,18 @@ LevelIntro::update(float elapsed_time)
      || controller->pressed(Controller::MENU_SELECT)
      || controller->pressed(Controller::START)
      || controller->pressed(Controller::ESCAPE)) {
-    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.1)));
+    if(g_config->transitions_enabled)
+    {
+      ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.1)));
+    }
+    else
+    {
+      ScreenManager::current()->pop_screen();
+    }
   }
 
   player_sprite_py += player_sprite_vy * elapsed_time;
-  player_sprite_vy += 1000 * elapsed_time;
+  player_sprite_vy += 100 * elapsed_time * Sector::current()->get_gravity();
   if (player_sprite_py >= 0) {
     player_sprite_py = 0;
     player_sprite_vy = 0;

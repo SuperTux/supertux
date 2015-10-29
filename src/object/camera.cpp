@@ -29,6 +29,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,
@@ -210,8 +211,11 @@ Camera::parse(const Reader& reader)
     mode = AUTOSCROLL;
 
     const lisp::Lisp* pathLisp = reader.get_lisp("path");
-    if(pathLisp == NULL)
-      throw std::runtime_error("No path specified in autoscroll camera.");
+    if(pathLisp == NULL) {
+      log_warning << "No path specified in autoscroll camera." << std::endl;
+      mode = NORMAL;
+      return;
+    }
 
     autoscroll_path.reset(new Path());
     autoscroll_path->read(*pathLisp);
@@ -219,9 +223,8 @@ Camera::parse(const Reader& reader)
   } else if(modename == "manual") {
     mode = MANUAL;
   } else {
-    std::stringstream str;
-    str << "invalid camera mode '" << modename << "'found in worldfile.";
-    throw std::runtime_error(str.str());
+    mode = NORMAL;
+    log_warning << "invalid camera mode '" << modename << "'found in worldfile." << std::endl;
   }
   defaultmode = mode;
 }

@@ -53,6 +53,8 @@ public:
 
   virtual ObjectSettings get_settings();
 
+  void add_color(Color c);
+
 private:
   Color lightcolor;
   SpritePtr lightsprite;

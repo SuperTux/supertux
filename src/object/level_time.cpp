@@ -27,6 +27,7 @@
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
@@ -40,7 +41,10 @@ LevelTime::LevelTime(const Reader& reader) :
 {
   reader.get("name", name);
   reader.get("time", time_left);
-  if(time_left <= 0) throw std::runtime_error("No or invalid leveltime specified");
+  if(time_left <= 0) {
+    log_warning << "No or invalid leveltime specified." << std::endl;
+    remove_me();
+  }
   time_surface = Surface::create("images/engine/hud/time-0.png");
 }
 
