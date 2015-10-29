@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Think Fast, or Die"))
+  (name (_ "Think Fast, or Die"))  (license "GPL 2+ / CC-by-sa 3.0")
   (author "Kevin")
   (target-time 0)
   (sector
