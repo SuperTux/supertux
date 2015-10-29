@@ -1,2 +1,0 @@
-# Hashes of file build rules.
-12bddf2d50569f696c662009c6e47623 version.h

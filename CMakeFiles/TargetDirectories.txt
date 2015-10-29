@@ -1,6 +1,0 @@
-/home/ok1asw/st-vyvoj/supertux/external/tinygettext/CMakeFiles/po_parser_test.dir
-/home/ok1asw/st-vyvoj/supertux/external/squirrel/CMakeFiles/squirrel.dir
-/home/ok1asw/st-vyvoj/supertux/CMakeFiles/supertux2.dir
-/home/ok1asw/st-vyvoj/supertux/CMakeFiles/supertux2_c.dir
-/home/ok1asw/st-vyvoj/supertux/external/tinygettext/CMakeFiles/tinygettext.dir
-/home/ok1asw/st-vyvoj/supertux/external/tinygettext/CMakeFiles/tinygettext_test.dir

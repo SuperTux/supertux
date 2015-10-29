@@ -3,28 +3,28 @@
 
 #define PACKAGE_NAME "supertux2"
 
-/* #undef ENABLE_SQDBG */
+#cmakedefine ENABLE_SQDBG
 
-/* #undef ENABLE_BINRELOC */
-#define INSTALL_SUBDIR_BIN "games"
-#define INSTALL_SUBDIR_SHARE "share/games/supertux2"
+#cmakedefine ENABLE_BINRELOC
+#define INSTALL_SUBDIR_BIN "${INSTALL_SUBDIR_BIN}"
+#define INSTALL_SUBDIR_SHARE "${INSTALL_SUBDIR_SHARE}"
 
-#define SIZEOF_VOID_P 8
+#define SIZEOF_VOID_P ${SIZEOF_VOID_P}
 #if SIZEOF_VOID_P == 8
 #define _SQ64
 #endif
 
-/* #undef HAVE_ICONV_CONST */
+#cmakedefine HAVE_ICONV_CONST
 #ifdef HAVE_ICONV_CONST
 #define ICONV_CONST const
 #else
 #define ICONV_CONST
 #endif
 
-/* #undef WORDS_BIGENDIAN */
+#cmakedefine WORDS_BIGENDIAN
 
-#define HAVE_OPENGL
+#cmakedefine HAVE_OPENGL
 
-#define HAVE_LIBCURL
+#cmakedefine HAVE_LIBCURL
 
 #endif /*CONFIG_H*/
