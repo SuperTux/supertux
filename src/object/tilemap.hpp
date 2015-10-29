@@ -147,7 +147,7 @@ public:
     drawing_effect = effect;
   }
 
-  DrawingEffect get_drawing_effect()
+  DrawingEffect get_drawing_effect() const
   {
     return drawing_effect;
   }
@@ -166,7 +166,7 @@ public:
   /**
    * Return tilemap's opacity. Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha.
    */
-  float get_alpha();
+  float get_alpha() const;
 
   virtual std::string get_class() const {
     return "tilemap";

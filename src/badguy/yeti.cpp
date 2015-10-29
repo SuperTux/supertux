@@ -244,7 +244,7 @@ Yeti::drop_stalactite()
   if (!player) return;
 
   Sector* sector = Sector::current();
-  for(Sector::GameObjects::iterator i = sector->gameobjects.begin();
+  for(Sector::GameObjects::const_iterator i = sector->gameobjects.begin();
       i != sector->gameobjects.end(); ++i) {
     YetiStalactite* stalactite = dynamic_cast<YetiStalactite*>(i->get());
     if(stalactite && stalactite->is_hanging()) {
