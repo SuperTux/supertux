@@ -230,7 +230,7 @@ AddonMenu::menu_action(MenuItem* item)
       if (0 <= idx && idx < static_cast<int>(m_installed_addons.size()))
       {
         const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[idx]);
-        if(m_addons_enabled[idx])
+        if(addon.is_enabled())
         {
           m_addon_manager.disable_addon(addon.get_id());
         }
