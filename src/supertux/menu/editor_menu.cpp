@@ -24,8 +24,10 @@
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
+#include "video/color.hpp"
 
-EditorMenu::EditorMenu()
+EditorMenu::EditorMenu() :
+  b(0.5f)
 {
   add_label(_("Level Editor"));
   add_hl();
@@ -35,6 +37,7 @@ EditorMenu::EditorMenu()
   add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
   add_hl();
   add_entry(MNID_QUITEDITOR, _("Exit level editor"));
+  add_colorchanel(&b, Color(0.0f, 0.0f, 1.0f));
 }
 
 void
