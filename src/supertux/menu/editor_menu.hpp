@@ -37,6 +37,8 @@ public:
 
   void menu_action(MenuItem* item) override;
 
+  float b;
+
 private:
   EditorMenu(const EditorMenu&);
   EditorMenu& operator=(const EditorMenu&);

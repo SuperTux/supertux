@@ -125,7 +125,7 @@ ItemNumField::process_action(MenuAction action) {
       }
     } while ( (last_char & 128) && !(last_char & 64) );
     if (input.length() && input != "-") {
-      *number = std::stoi(input);
+      *number = std::stof(input);
     } else {
       *number = 0;
     }
