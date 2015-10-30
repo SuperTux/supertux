@@ -1087,6 +1087,7 @@ WorldMap::load_state()
   } catch(std::exception& e) {
     log_debug << "Not loading worldmap state: " << e.what() << std::endl;
     save_state(); // make new initial save
+    move_to_spawnpoint("main"); // set tux to main spawnpoint
   }
   sq_settop(vm, oldtop);
 
