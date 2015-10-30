@@ -32,6 +32,7 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/timer.hpp"
 #include "util/gettext.hpp"
+#include "video/color.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
 #include "video/renderer.hpp"
@@ -171,6 +172,12 @@ MenuItem*
 Menu::add_submenu(const std::string& text, int submenu, int id)
 {
   std::unique_ptr<ItemGoTo> item(new ItemGoTo(text, submenu, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_colorchanel(float* input, Color chanel, int id) {
+  std::unique_ptr<ItemColorChanel> item(new ItemColorChanel(input, chanel, id));
   return add_item(std::move(item));
 }
 
