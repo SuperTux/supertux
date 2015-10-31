@@ -14,10 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <string.h>
+#include <stdexcept>
+#include "util/log.hpp"
+
 #include "lisp/writer.hpp"
 
 #include "physfs/ofile_stream.hpp"
 #include "util/log.hpp"
+#include "lisp/lisp.hpp"
 
 namespace lisp {
 
@@ -175,6 +180,78 @@ Writer::write(const std::string& name,
     write_escaped_string(*i);
   }
   *out << ")\n";
+}
+
+void
+Writer::paste(const Lisp* lsp,
+              const std::string& container_name)
+{
+  start_list(container_name);
+  paste_raw(lsp);
+  end_list(container_name);
+}
+
+void
+Writer::paste_raw(const Lisp* lsp)
+{
+  const Lisp* car = lsp->get_car();
+  const Lisp* cdr = lsp->get_cdr();
+  {
+    //Check CAR, if Symbol, that's the name
+    const Lisp* name_lisp = car->get_car();
+    std::string name("");
+    if (name_lisp->get_type() == Lisp::LispType::TYPE_SYMBOL) {
+      name_lisp->get(name);
+    } else {
+      log_fatal << "Nameless Lisp tree passed to Writer::paste_raw\n";
+      throw std::runtime_error("Nameless Lisp tree passed to Writer::paste_raw");
+    }
+    //Check just after CAR, if not container,
+    // this is a value container.
+    const Lisp* val_lisp = car->get_cdr()->get_car();
+    switch (val_lisp->get_type()) {
+      //This is a list
+      case Lisp::LispType::TYPE_CONS:
+        start_list(name);
+        paste_raw(car->get_cdr());
+        end_list(name);
+        break;
+      //This isn't a list, just write
+      case Lisp::LispType::TYPE_STRING:
+        {
+          std::string strval;
+          val_lisp->get(strval);
+          write(name, strval);
+        }
+        break;
+      case Lisp::LispType::TYPE_BOOLEAN:
+        {
+          bool boolval;
+          val_lisp->get(boolval);
+          write(name, boolval);
+        }
+        break;
+      case Lisp::LispType::TYPE_INTEGER:
+        {
+          int intval;
+          val_lisp->get(intval);
+          write(name, intval);
+        }
+        break;
+      case Lisp::LispType::TYPE_REAL:
+        {
+          float realval;
+          val_lisp->get(realval);
+          write(name, realval);
+        }
+        break;
+      default:
+        log_warning << "Unexpected type of lisp value '" << name << "'\n";
+        break;
+    }
+  }
+  if (cdr)
+    paste_raw(cdr);
 }
 
 void
