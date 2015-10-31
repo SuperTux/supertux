@@ -91,6 +91,14 @@ static void add_to_dictionary_path(void *data, const char *origdir, const char *
     }
 }
 
+static void remove_from_dictionary_path(void *data, const char *origdir, const char *fname)
+{
+    std::string full_path = std::string(origdir) + "/" + std::string(fname);
+    if(PHYSFS_isDirectory(full_path.c_str()))
+    {
+        g_dictionary_manager->remove_directory(full_path);
+    }
+}
 } // namespace
 
 AddonManager::AddonManager(const std::string& addon_directory,
@@ -461,6 +469,10 @@ AddonManager::disable_addon(const AddonId& addon_id)
     }
     else
     {
+      if(addon.get_type() == Addon::LANGUAGEPACK)
+      {
+        PHYSFS_enumerateFilesCallback(addon.get_id().c_str(), remove_from_dictionary_path, NULL);
+      }
       addon.set_enabled(false);
     }
   }
