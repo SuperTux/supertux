@@ -379,14 +379,14 @@ Sector::parse_old_format(const Reader& reader)
       }
     }
 
-    if (height < 19) tilemap->resize(width, 19);
+    if (height < 19 && !Editor::current()) tilemap->resize(width, 19);
     add_object(tilemap);
   }
 
   if(reader.get("background-tm", tiles)) {
     auto tilemap = std::make_shared<TileMap>(level->get_tileset());
     tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
-    if (height < 19) tilemap->resize(width, 19);
+    if (height < 19 && !Editor::current()) tilemap->resize(width, 19);
     add_object(tilemap);
   }
 
@@ -395,7 +395,7 @@ Sector::parse_old_format(const Reader& reader)
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
 
     // fill additional space in foreground with tiles of ID 2035 (lightmap/black)
-    if (height < 19) tilemap->resize(width, 19, 2035);
+    if (height < 19 && !Editor::current()) tilemap->resize(width, 19, 2035);
 
     add_object(tilemap);
   }
