@@ -39,6 +39,11 @@ function grow()
 	sector.Tux.add_bonus("grow");
 }
 
+function make_invincible()
+{
+      sector.Tux.make_invincible();
+}
+
 function fire()
 {
 	sector.Tux.add_bonus("fireflower");
@@ -93,4 +98,3 @@ function functions(...)
 		obj = obj.parent;
 	}
 }
-
