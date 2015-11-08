@@ -247,6 +247,7 @@ Menu::process_action(MenuAction menuaction)
       } while (items[active_item]->skippable()
                && (active_item != last_active_item));
       break;
+
     case MENU_ACTION_DOWN:
       do {
         if(active_item < int(items.size())-1 )
@@ -256,6 +257,12 @@ Menu::process_action(MenuAction menuaction)
       } while (items[active_item]->skippable()
                && (active_item != last_active_item));
       break;
+
+    case MENU_ACTION_BACK:
+      MenuManager::instance().pop_menu();
+      return;
+      break;
+
     default:
       break;
   }
@@ -266,20 +273,10 @@ Menu::process_action(MenuAction menuaction)
   }
 
   items[active_item]->process_action(menuaction);
-  switch(menuaction) {
-
-    case MENU_ACTION_BACK:
-      MenuManager::instance().pop_menu();
-      break;
-
-    case MENU_ACTION_HIT: {
-      menu_action(items[active_item].get());
-      break;
-    }
-
-    default:
-      break;
+  if(menuaction == MENU_ACTION_HIT) {
+    menu_action(items[active_item].get());
   }
+
 }
 
 void
