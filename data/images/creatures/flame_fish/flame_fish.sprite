@@ -1,4 +1,4 @@
-(sprite
+(supertux-sprite
  (action
   (name "normal")
   (hitbox 2 3 0 0)
