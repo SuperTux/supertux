@@ -50,6 +50,7 @@ ProfileMenu::ProfileMenu()
 void
 ProfileMenu::menu_action(MenuItem* item)
 {
+  g_config->save();
   g_config->profile = item->id;
   MenuManager::instance().clear_menu_stack();
 }
