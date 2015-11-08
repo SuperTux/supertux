@@ -17,6 +17,7 @@
 #include "supertux/gameconfig.hpp"
 
 #include <stdexcept>
+#include <iostream>
 
 #include "addon/addon_manager.hpp"
 #include "control/input_manager.hpp"
@@ -129,10 +130,18 @@ Config::load()
     }
   }
 
+  //If addons is found in config file then it's a pre-0.4.0 file.
   const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
   if (config_addons_lisp)
   {
-    lisp::ListIterator iter(config_addons_lisp);
+    std::cout << "Old addons file found." << std::endl;
+    Writer addons_writer("addon-list");
+    addons_writer.paste(config_addons_lisp, "addons");
+  }
+  
+  const lisp::Lisp* addons_lisp = parser.parse("addon-list")->get_lisp("addons");
+  if (addons_lisp) {
+    lisp::ListIterator iter(addons_lisp);
     while(iter.next())
     {
       const std::string& token = iter.item();
@@ -207,17 +216,20 @@ Config::save()
   }
   writer.end_list("control");
 
-  writer.start_list("addons");
+  writer.end_list("supertux-config");
+
+  //Addons written in seperate file
+  Writer addon_writer("addon-list");
+  
+  addon_writer.start_list("addons");
   for(auto addon : addons)
   {
-    writer.start_list("addon");
-    writer.write("id", addon.id);
-    writer.write("enabled", addon.enabled);
-    writer.end_list("addon");
+    addon_writer.start_list("addon");
+    addon_writer.write("id", addon.id);
+    addon_writer.write("enabled", addon.enabled);
+    addon_writer.end_list("addon");
   }
-  writer.end_list("addons");
-
-  writer.end_list("supertux-config");
+  addon_writer.end_list("addons");
 }
 
 /* EOF */
