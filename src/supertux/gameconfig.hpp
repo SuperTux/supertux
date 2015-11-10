@@ -25,6 +25,10 @@
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
+namespace lisp {
+  class Lisp;
+}
+
 class Config
 {
 public:
@@ -32,6 +36,8 @@ public:
   ~Config();
 
   void load();
+  void load_addons(const lisp::Lisp* lsp);
+  bool load_from(const lisp::Lisp* lsp);
   void save();
 
   int profile;

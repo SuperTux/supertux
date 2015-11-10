@@ -64,12 +64,94 @@ void
 Config::load()
 {
   lisp::Parser parser(false);
-  const lisp::Lisp* root = parser.parse("config");
+  bool missing_profile; //Whether profile file exists
+  const lisp::Lisp* profile_lisp;
+  try {
+    profile_lisp = parser.parse("current-profile");
+    missing_profile = false;
+  } catch (std::runtime_error) {
+    missing_profile = true;
+  }
+  //If new current profile file not found,
+  if (missing_profile || !profile_lisp) {
+    //Check for (outdated) config file
+    bool oldcfg_missing;
+    const lisp::Lisp* old_config;
+    try {
+      old_config = parser.parse("config");
+      oldcfg_missing = false;
+    } catch (std::runtime_error) {
+      oldcfg_missing = true;
+    }
+    if (!oldcfg_missing && old_config && load_from(old_config)) {
+      //Rewrite back to config file just in case,
+      // This time with a warning comment
+      {
+        lisp::Writer writer("config");
+        writer.write_comment("WARNING: This is an old (Pre-0.4.0) config file!");
+        writer.write_comment("WARNING: Changing this will likely have no effect");
+        writer.write_comment("WARNING: but is used as a default for new profiles you create");
+        writer.paste(old_config, "supertux-config");
+      }
+    }
+    //Save either default, or create new 
+    save();
+  } else {
+    //Look in correct folder to get that config file
+    profile_lisp->get_lisp("supertux-profile")->get("profile", profile);
+    
+    std::ostringstream stream;
+    stream << "profile" << profile << "/config";
+    load_from(parser.parse(stream.str()));
+  }
 
-  const lisp::Lisp* config_lisp = root->get_lisp("supertux-config");
+  //ADDONS
+  //Try to get the new addons file, if not use the old one.
+  const lisp::Lisp* addons_lisp = parser.parse("addon-list")->get_lisp("addons");
+  if (addons_lisp) {
+    load_addons(addons_lisp);
+  } else {
+    const lisp::Lisp* config_addons_lisp = parser.parse("config")->get_lisp("addons");
+    if (config_addons_lisp)
+    {
+      Writer addons_writer("addon-list");
+      addons_writer.paste(config_addons_lisp, "addons");
+      load_addons(config_addons_lisp);
+    }
+  }
+}
+
+void 
+Config::load_addons(const lisp::Lisp* lsp)
+{
+  lisp::ListIterator iter(lsp);
+  while(iter.next())
+  {
+    const std::string& token = iter.item();
+    if (token == "addon")
+    {
+      std::string id;
+      bool enabled = false;
+      if (iter.lisp()->get("id", id) &&
+          iter.lisp()->get("enabled", enabled))
+      {
+        addons.push_back({id, enabled});
+      }
+    }
+    else
+    {
+      log_warning << "Unknown token in addons file: " << token << std::endl;
+    }
+  }
+}
+
+bool
+Config::load_from(const lisp::Lisp* lsp) 
+{
+  const lisp::Lisp* config_lisp = lsp->get_lisp("supertux-config");
   if(!config_lisp)
   {
-    throw std::runtime_error("File is not a supertux-config file");
+    return false;
   }
 
   config_lisp->get("profile", profile);
@@ -129,48 +211,29 @@ Config::load()
       joystick_config.read(*joystick_lisp);
     }
   }
-
-  //If addons is found in config file then it's a pre-0.4.0 file.
-  const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
-  if (config_addons_lisp)
-  {
-    std::cout << "Old addons file found." << std::endl;
-    Writer addons_writer("addon-list");
-    addons_writer.paste(config_addons_lisp, "addons");
-  }
-  
-  const lisp::Lisp* addons_lisp = parser.parse("addon-list")->get_lisp("addons");
-  if (addons_lisp) {
-    lisp::ListIterator iter(addons_lisp);
-    while(iter.next())
-    {
-      const std::string& token = iter.item();
-      if (token == "addon")
-      {
-        std::string id;
-        bool enabled = false;
-        if (iter.lisp()->get("id", id) &&
-            iter.lisp()->get("enabled", enabled))
-        {
-          addons.push_back({id, enabled});
-        }
-      }
-      else
-      {
-        log_warning << "Unknown token in config file: " << token << std::endl;
-      }
-    }
-  }
+  return true;
 }
 
 void
 Config::save()
 {
-  lisp::Writer writer("config");
+  //Write which profile to read from
+  {
+    lisp::Writer profile_writer("current-profile");
+    profile_writer.write_comment("WARNING: Essential supertux file. Destroying or editing this may cause you to lose data.");
+    profile_writer.start_list("supertux-profile");
+    profile_writer.write("profile", profile);
+    profile_writer.end_list("supertux-profile");
+  }
+  
+  //profile/config file
+  std::ostringstream stream;
+  stream << "profile" << profile << "/config";
+  lisp::Writer writer(stream.str());
 
   writer.start_list("supertux-config");
-
-  writer.write("profile", profile);
+  //Pre 0.3.6
+  //writer.write("profile", profile);
   writer.write("show_fps", show_fps);
   writer.write("console", console_enabled);
   writer.write("developer", developer_mode);
@@ -218,7 +281,9 @@ Config::save()
 
   writer.end_list("supertux-config");
 
-  //Addons written in seperate file
+  //Addons written in seperate file "addon-list"
+  // Don't need to be redone on profile change,
+  // but doesn't hurt I guess
   Writer addon_writer("addon-list");
   
   addon_writer.start_list("addons");
