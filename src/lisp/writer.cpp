@@ -219,28 +219,28 @@ Writer::paste_raw(const Lisp* lsp)
       //This isn't a list, just write
       case Lisp::LispType::TYPE_STRING:
         {
-          std::string strval;
+          std::string strval = "";
           val_lisp->get(strval);
           write(name, strval);
         }
         break;
       case Lisp::LispType::TYPE_BOOLEAN:
         {
-          bool boolval;
+          bool boolval = false;
           val_lisp->get(boolval);
           write(name, boolval);
         }
         break;
       case Lisp::LispType::TYPE_INTEGER:
         {
-          int intval;
+          int intval = 0;
           val_lisp->get(intval);
           write(name, intval);
         }
         break;
       case Lisp::LispType::TYPE_REAL:
         {
-          float realval;
+          float realval = 0;
           val_lisp->get(realval);
           write(name, realval);
         }
