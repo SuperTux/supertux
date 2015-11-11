@@ -63,6 +63,13 @@ SET(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 INCLUDE(TestBigEndian)
 TEST_BIG_ENDIAN(WORDS_BIGENDIAN)
 
+## Add definitions
+IF(CMAKE_BUILD_TYPE MATCHES Release)
+  ADD_DEFINITIONS(-DRELEASE)
+ELSE()
+  ADD_DEFINITIONS(-DDEBUG)
+ENDIF()
+
 ## These variables enable MSVC to find libraries located in "dependencies{32|64}"
 IF(WIN32)
   ## Store path of dependecy folder
