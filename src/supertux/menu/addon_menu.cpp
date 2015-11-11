@@ -53,7 +53,7 @@ std::string addon_type_to_translated_string(Addon::Type type)
       return _("World");
 
     case Addon::LANGUAGEPACK:
-      return "";
+      return _("Language pack");
 
     default:
       return _("Unknown");
@@ -65,12 +65,7 @@ std::string generate_menu_item_text(const Addon& addon)
   std::string text;
   std::string type = addon_type_to_translated_string(addon.get_type());
 
-  if(addon.get_type() == Addon::LANGUAGEPACK)
-  {
-    text = str(boost::format(_("\"%s\" by \"%s\""))
-               % addon.get_title() % addon.get_author());
-  }
-  else if(!addon.get_author().empty())
+  if(!addon.get_author().empty())
   {
     text = str(boost::format(_("%s \"%s\" by \"%s\""))
                % type % addon.get_title() % addon.get_author());
@@ -87,12 +82,11 @@ std::string generate_menu_item_text(const Addon& addon)
 
 } // namespace
 
-AddonMenu::AddonMenu(bool language_pack_mode) :
+AddonMenu::AddonMenu() :
   m_addon_manager(*AddonManager::current()),
   m_installed_addons(),
   m_repository_addons(),
-  m_addons_enabled(),
-  m_language_pack_mode(language_pack_mode)
+  m_addons_enabled()
 {
   refresh();
 }
@@ -118,14 +112,7 @@ void
 AddonMenu::rebuild_menu()
 {
   clear();
-  if(m_language_pack_mode)
-  {
-    add_label(_("Language packs"));
-  }
-  else
-  {
-    add_label(_("Add-ons"));
-  }
+  add_label(_("Add-ons"));
   add_hl();
 
 
@@ -133,25 +120,11 @@ AddonMenu::rebuild_menu()
   {
     if (!m_repository_addons.empty())
     {
-      if(m_language_pack_mode)
-      {
-        add_inactive(_("No Language packs installed"));
-      }
-      else
-      {
-        add_inactive(_("No Addons installed"));
-      }
+      add_inactive(_("No Addons installed"));
     }
     else
     {
-      if(m_language_pack_mode)
-      {
-        add_inactive(_("No Language packs found"));
-      }
-      else
-      {
-        add_inactive(_("No Addons found"));
-      }
+      add_inactive(_("No Addons found"));
     }
   }
   else
@@ -160,21 +133,11 @@ AddonMenu::rebuild_menu()
     for (const auto& addon_id : m_installed_addons)
     {
       const Addon& addon = m_addon_manager.get_installed_addon(addon_id);
-      if((m_language_pack_mode && addon.get_type() != Addon::LANGUAGEPACK) ||
-         (!m_language_pack_mode && addon.get_type() == Addon::LANGUAGEPACK))
-        continue;
-
       std::string text = generate_menu_item_text(addon);
       m_addons_enabled[idx] = addon.is_enabled();
       add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, m_addons_enabled + idx);
       idx += 1;
     }
-  }
-
-  if(!m_language_pack_mode)
-  {
-    add_hl();
-    add_entry(MNID_LANGPACK_MODE, std::string(_("Language Packs")));
   }
 
   add_hl();
@@ -185,10 +148,6 @@ AddonMenu::rebuild_menu()
     for (const auto& addon_id : m_repository_addons)
     {
       const Addon& addon = m_addon_manager.get_repository_addon(addon_id);
-      if((m_language_pack_mode && addon.get_type() != Addon::LANGUAGEPACK) ||
-        (!m_language_pack_mode && addon.get_type() == Addon::LANGUAGEPACK))
-          continue;
-
       try
       {
         // addon is already installed, so check if they are the same
@@ -221,14 +180,7 @@ AddonMenu::rebuild_menu()
 
     if (!have_new_stuff && m_addon_manager.has_been_updated())
     {
-      if(m_language_pack_mode)
-      {
-        add_inactive(_("No new Language packs found"));
-      }
-      else
-      {
-        add_inactive(_("No new Addons found"));
-      }
+      add_inactive(_("No new Addons found"));
     }
   }
 
@@ -269,11 +221,6 @@ AddonMenu::menu_action(MenuItem* item)
     {
       log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
     }
-  }
-  else if(item->id == MNID_LANGPACK_MODE)
-  {
-    m_language_pack_mode = true;
-    rebuild_menu();
   }
   else if (MNID_ADDON_LIST_START <= item->id)
   {

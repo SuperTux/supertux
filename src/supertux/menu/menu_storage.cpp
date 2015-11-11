@@ -101,9 +101,6 @@ MenuStorage::create(MenuId menu_id)
     case ADDON_MENU:
       return std::unique_ptr<Menu>(new AddonMenu);
 
-    case LANGPACK_MENU:
-      return std::unique_ptr<Menu>(new AddonMenu(true));
-
     case NO_MENU:
       return std::unique_ptr<Menu>();
 
