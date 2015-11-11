@@ -48,8 +48,6 @@ TitleScreen::TitleScreen(Savegame& savegame) :
   copyright_text()
 {
   controller.reset(new CodeController());
-
-
   titlesession.reset(new GameSession(g_config->christmas_mode ?
 #ifdef DEBUG
                                      "levels/misc/menu_christmas.stl" : "levels/misc/menu.stl",
