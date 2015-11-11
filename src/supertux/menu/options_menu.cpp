@@ -186,6 +186,9 @@ OptionsMenu::OptionsMenu(bool complete) :
     add_submenu(_("Select Language"), MenuStorage::LANGUAGE_MENU)
       ->set_help(_("Select a different language to display text in"));
 
+    add_submenu(_("Language Packs"), MenuStorage::LANGPACK_MENU)
+      ->set_help(_("Language packs contain up-to-date translations"));
+
     add_submenu(_("Select Profile"), MenuStorage::PROFILE_MENU)
       ->set_help(_("Select a profile to play with"));
   }
