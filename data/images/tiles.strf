@@ -780,7 +780,12 @@
       1321 1322 1323 1324
       1325 1326 1327 1328
       1329 1330 1331 1332
-      1333 1334 1335 1336)
+      1333 1334 1335 1336
+      3419 3420 3421 3422 
+      3423 3424 3425 3426
+      3419 3420 3421 3422
+      3431 3432 3433 3434
+    )
   )
   (tilegroup
     (name "Points")
@@ -3289,9 +3294,6 @@
     (ids
       1717 1718 1719 1720 1721
     )
-    (attributes
-      1 0 0 0 1
-    )
     (image "tiles/pole/horz.png")
   )
   (tile
@@ -4657,5 +4659,31 @@
     )
     (image "tiles/ghostwood/ghostwood-2.png")
   )
-  ;; next-id: 3419
+  (tiles
+    (width 4)
+    (height 2)
+    (ids
+      3419 3420 3421 3422 
+      3423 3424 3425 3426
+    )
+    (attributes
+      0 0 0 0
+      0 0 0 0
+    )
+    (image "tiles/background/storm-cloud.png")
+  )
+  (tiles
+    (width 4)
+    (height 2)
+    (ids
+         0    0    0    0
+      3431 3432 3433 3434
+    )
+    (attributes
+       0 0 0 0
+       3 3 3 3
+    )
+    (image "tiles/background/storm-cloud.png")
+  )
+  ;; next-id: 3435
   )
