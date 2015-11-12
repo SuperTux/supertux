@@ -259,7 +259,7 @@ AddonMenu::menu_action(MenuItem* item)
             refresh();
           }
         });
-      std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
+      std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status, /* auto_close = */ true));
       dialog->set_title(_("Downloading Add-On Repository Index"));
       MenuManager::instance().set_dialog(std::move(dialog));
     }

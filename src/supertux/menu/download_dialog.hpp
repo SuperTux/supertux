@@ -29,9 +29,10 @@ class DownloadDialog : public Dialog
 private:
   TransferStatusPtr m_status;
   std::string m_title;
+  bool m_auto_close;
 
 public:
-  DownloadDialog(TransferStatusPtr status);
+  DownloadDialog(TransferStatusPtr status, bool auto_close = false);
 
   void set_title(const std::string& title);
   void update() override;
