@@ -183,9 +183,6 @@ AddonMenu::rebuild_menu()
     for (const auto& addon_id : m_repository_addons)
     {
       const Addon& addon = m_addon_manager.get_repository_addon(addon_id);
-      if((m_language_pack_mode && addon.get_type() != Addon::LANGUAGEPACK) ||
-        (!m_language_pack_mode && addon.get_type() == Addon::LANGUAGEPACK))
-          continue;
 
       try
       {
@@ -202,9 +199,13 @@ AddonMenu::rebuild_menu()
                     << installed_addon.get_md5() << "' vs '" << addon.get_md5() << "'  '"
                     << installed_addon.get_version() << "' vs '" << addon.get_version() << "'"
                     << std::endl;
-          std::string text = generate_menu_item_text(addon);
-          add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s *NEW*") ) % text));
-          have_new_stuff = true;
+          if((m_language_pack_mode && addon.get_type() == Addon::LANGUAGEPACK) ||
+            (!m_language_pack_mode && addon.get_type() != Addon::LANGUAGEPACK))
+          {
+            std::string text = generate_menu_item_text(addon);
+            add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s *NEW*") ) % text));
+            have_new_stuff = true;
+          }
         }
       }
       catch(const std::exception& err)
