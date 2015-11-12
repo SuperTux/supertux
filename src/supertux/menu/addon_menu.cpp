@@ -128,6 +128,10 @@ AddonMenu::rebuild_menu()
   }
   add_hl();
 
+  if(!m_language_pack_mode)
+  {
+    add_entry(MNID_LANGPACK_MODE, std::string(_("Language Packs")));
+  }
 
   if (m_installed_addons.empty())
   {
@@ -160,21 +164,15 @@ AddonMenu::rebuild_menu()
     for (const auto& addon_id : m_installed_addons)
     {
       const Addon& addon = m_addon_manager.get_installed_addon(addon_id);
-      if((m_language_pack_mode && addon.get_type() != Addon::LANGUAGEPACK) ||
-         (!m_language_pack_mode && addon.get_type() == Addon::LANGUAGEPACK))
-        continue;
-
-      std::string text = generate_menu_item_text(addon);
       m_addons_enabled[idx] = addon.is_enabled();
-      add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, m_addons_enabled + idx);
+      if((m_language_pack_mode && addon.get_type() == Addon::LANGUAGEPACK) ||
+         (!m_language_pack_mode && addon.get_type() != Addon::LANGUAGEPACK))
+      {
+        std::string text = generate_menu_item_text(addon);
+        add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, m_addons_enabled + idx);
+      }
       idx += 1;
     }
-  }
-
-  if(!m_language_pack_mode)
-  {
-    add_hl();
-    add_entry(MNID_LANGPACK_MODE, std::string(_("Language Packs")));
   }
 
   add_hl();
