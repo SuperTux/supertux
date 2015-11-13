@@ -61,48 +61,28 @@ Config::~Config()
 {}
 
 void
-Config::load()
+Config::load(int profile_num)
 {
   lisp::Parser parser(false);
-  bool missing_profile; //Whether profile file exists
   const lisp::Lisp* profile_lisp;
   try {
-    profile_lisp = parser.parse("current-profile");
-    missing_profile = false;
-  } catch (std::runtime_error) {
-    missing_profile = true;
-  }
-  //If new current profile file not found,
-  if (missing_profile || !profile_lisp) {
-    //Check for (outdated) config file
-    bool oldcfg_missing;
-    const lisp::Lisp* old_config;
-    try {
-      old_config = parser.parse("config");
-      oldcfg_missing = false;
-    } catch (std::runtime_error) {
-      oldcfg_missing = true;
+    if (profile_num == -1) {
+      profile_lisp = parser.parse("current-profile");
+      //Get profile from lisp tree
+      profile_lisp->get_lisp("supertux-profile")->get("profile", profile);
+    } else {
+      profile = profile_num;
     }
-    if (!oldcfg_missing && old_config && load_from(old_config)) {
-      //Rewrite back to config file just in case,
-      // This time with a warning comment
-      {
-        lisp::Writer writer("config");
-        writer.write_comment("WARNING: This is an old (Pre-0.4.0) config file!");
-        writer.write_comment("WARNING: Changing this will likely have no effect");
-        writer.write_comment("WARNING: but is used as a default for new profiles you create");
-        writer.paste(old_config, "supertux-config");
-      }
-    }
-    //Save either default, or create new 
-    save();
-  } else {
     //Look in correct folder to get that config file
-    profile_lisp->get_lisp("supertux-profile")->get("profile", profile);
-    
     std::ostringstream stream;
     stream << "profile" << profile << "/config";
-    load_from(parser.parse(stream.str()));
+    const lisp::Lisp* profile_config = parser.parse(stream.str());
+    load_from(profile_config);
+  } catch (std::runtime_error) {
+    //Try to load the old 0.3.6 file.
+    load_legacy();
+    //Save as 0.4.0 mode, using defaults if no legacy loaded
+    save();
   }
 
   //ADDONS
@@ -143,6 +123,30 @@ Config::load_addons(const lisp::Lisp* lsp)
       log_warning << "Unknown token in addons file: " << token << std::endl;
     }
   }
+}
+
+bool
+Config::load_legacy()
+{
+  lisp::Parser parser(false);
+  //Check for (outdated) config file
+  const lisp::Lisp* old_config;
+  try {
+    old_config = parser.parse("config");
+    
+    //Rewrite back to config file just in case,
+    // This time with a warning comment
+    {
+      lisp::Writer writer("config");
+      writer.write_comment("WARNING: This is an old (Pre-0.4.0) config file!");
+      writer.write_comment("WARNING: Changing this will likely have no effect");
+      writer.write_comment("WARNING: but is used as a default for new profiles you create");
+      writer.paste(old_config, "supertux-config");
+    }
+  } catch (std::runtime_error) {
+    return false;
+  }
+  return true;
 }
 
 bool
@@ -217,14 +221,7 @@ Config::load_from(const lisp::Lisp* lsp)
 void
 Config::save()
 {
-  //Write which profile to read from
-  {
-    lisp::Writer profile_writer("current-profile");
-    profile_writer.write_comment("WARNING: Essential supertux file. Destroying or editing this may cause you to lose data.");
-    profile_writer.start_list("supertux-profile");
-    profile_writer.write("profile", profile);
-    profile_writer.end_list("supertux-profile");
-  }
+  save_current_profile();
   
   //profile/config file
   std::ostringstream stream;
@@ -295,6 +292,16 @@ Config::save()
     addon_writer.end_list("addon");
   }
   addon_writer.end_list("addons");
+}
+
+void
+Config::save_current_profile() {
+  //Write which profile to read from
+  lisp::Writer profile_writer("current-profile");
+  profile_writer.write_comment("WARNING: Essential supertux file. Destroying or editing this may cause you to lose data.");
+  profile_writer.start_list("supertux-profile");
+  profile_writer.write("profile", profile);
+  profile_writer.end_list("supertux-profile");
 }
 
 /* EOF */
