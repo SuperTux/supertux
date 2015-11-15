@@ -165,8 +165,8 @@ AddonMenu::rebuild_menu()
     {
       const Addon& addon = m_addon_manager.get_installed_addon(addon_id);
       m_addons_enabled[idx] = addon.is_enabled();
-      if((m_language_pack_mode && addon.get_type() == Addon::LANGUAGEPACK) ||
-         (!m_language_pack_mode && addon.get_type() != Addon::LANGUAGEPACK))
+      if((m_language_pack_mode && (addon.get_type() == Addon::LANGUAGEPACK)) ||
+         (!m_language_pack_mode && (addon.get_type() != Addon::LANGUAGEPACK)))
       {
         std::string text = generate_menu_item_text(addon);
         add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, m_addons_enabled + idx);
@@ -199,8 +199,8 @@ AddonMenu::rebuild_menu()
                     << installed_addon.get_md5() << "' vs '" << addon.get_md5() << "'  '"
                     << installed_addon.get_version() << "' vs '" << addon.get_version() << "'"
                     << std::endl;
-          if((m_language_pack_mode && addon.get_type() == Addon::LANGUAGEPACK) ||
-            (!m_language_pack_mode && addon.get_type() != Addon::LANGUAGEPACK))
+          if((m_language_pack_mode && (addon.get_type() == Addon::LANGUAGEPACK)) ||
+            (!m_language_pack_mode && (addon.get_type() != Addon::LANGUAGEPACK)))
           {
             std::string text = generate_menu_item_text(addon);
             add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s *NEW*") ) % text));
