@@ -92,7 +92,10 @@ void
 Main::init_tinygettext()
 {
   g_dictionary_manager.reset(new tinygettext::DictionaryManager(std::unique_ptr<tinygettext::FileSystem>(new PhysFSFileSystem), "UTF-8"));
-  tinygettext::Log::set_log_info_callback(0);
+
+  tinygettext::Log::set_log_info_callback(log_info_callback);
+  tinygettext::Log::set_log_warning_callback(log_warning_callback);
+  tinygettext::Log::set_log_error_callback(log_error_callback);
 
   g_dictionary_manager->add_directory("locale");
 
