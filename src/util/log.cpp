@@ -85,12 +85,12 @@ void log_info_callback(const std::string& str)
 
 void log_warning_callback(const std::string& str)
 {
-    log_warning << "\r\n[TINYGETTEXT] " << str << std::endl;
+    log_debug << "\r\n[TINYGETTEXT] " << str << std::endl;
 }
 
 void log_error_callback(const std::string& str)
 {
-    log_fatal << "\r\n[TINYGETTEXT] " << str << std::endl;
+    log_warning << "\r\n[TINYGETTEXT] " << str << std::endl;
 }
 
 /* EOF */
