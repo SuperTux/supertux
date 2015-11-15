@@ -308,7 +308,7 @@ Statistics::coins_to_string(int coins, int total_coins) {
 std::string
 Statistics::frags_to_string(int badguys, int total_badguys) {
   std::ostringstream os;
-  os << std::min(badguys, 999) << "/" << std::min(total_badguys, 999);
+  os << std::min(std::min(badguys, total_badguys), 999) << "/" << std::min(total_badguys, 999);
   return os.str();
 }
 
