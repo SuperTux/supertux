@@ -273,6 +273,7 @@ AddonMenu::menu_action(MenuItem* item)
   {
     m_language_pack_mode = true;
     rebuild_menu();
+    return;
   }
   else if (MNID_ADDON_LIST_START <= item->id)
   {
