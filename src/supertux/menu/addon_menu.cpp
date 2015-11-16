@@ -211,9 +211,13 @@ AddonMenu::rebuild_menu()
       catch(const std::exception& err)
       {
         // addon is not installed
-        std::string text = generate_menu_item_text(addon);
-        add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s") ) % text));
-        have_new_stuff = true;
+        if((m_language_pack_mode && (addon.get_type() == Addon::LANGUAGEPACK)) ||
+          (!m_language_pack_mode && (addon.get_type() != Addon::LANGUAGEPACK)))
+        {
+          std::string text = generate_menu_item_text(addon);
+          add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s") ) % text));
+          have_new_stuff = true;
+        }
       }
       idx += 1;
     }
