@@ -22,6 +22,7 @@
 
 #include "addon/addon.hpp"
 #include "addon/addon_manager.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
@@ -298,6 +299,13 @@ AddonMenu::menu_action(MenuItem* item)
         else
         {
           m_addon_manager.enable_addon(addon.get_id());
+        }
+        if(addon.get_type() == Addon::LANGUAGEPACK)
+        {
+            std::unique_ptr<Dialog> dialog(new Dialog);
+            dialog->set_text(_("Please restart SuperTux\nfor these changes to take effect."));
+            dialog->add_cancel_button(_("OK"));
+            MenuManager::instance().set_dialog(std::move(dialog));
         }
       }
     }
