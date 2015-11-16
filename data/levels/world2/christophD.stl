@@ -53,11 +53,11 @@
       (x 2624)
       (y 864)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 448)
       (y 1056)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 2768)
       (y 864)
     )

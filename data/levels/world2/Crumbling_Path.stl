@@ -32,7 +32,7 @@
       (x 8000)
       (y 640)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 6304)
       (y 288)
     )

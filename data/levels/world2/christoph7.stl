@@ -942,39 +942,39 @@
       (x 2246.365)
       (y 537.9115)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 2120.357)
       (y 634.9166)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 587.9446)
       (y 632.149)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 1094.963)
       (y 503.8921)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 1992.365)
       (y 249.9115)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 2502.365)
       (y 511.9115)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 3014.366)
       (y 257.9115)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 3270.366)
       (y 893.9116)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 2888.365)
       (y 511.9115)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 1480.365)
       (y 507.9115)
     )

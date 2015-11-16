@@ -168,11 +168,11 @@ Level.spawn(\"ghostforest\", \"main\");
       (x 2656)
       (y 320)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 4192)
       (y 432)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 6576)
       (y 400)
     )

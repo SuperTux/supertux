@@ -56,15 +56,15 @@
       (x 6208)
       (y 1280)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 1729)
       (y 1183)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 4704)
       (y 1315)
     )
-    (jumpy (sprite "images/creatures/jumpy/wooden.sprite")
+    (jumpy
       (x 6199)
       (y 453)
     )
