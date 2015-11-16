@@ -130,7 +130,11 @@ AddonMenu::rebuild_menu()
 
   if(!m_language_pack_mode)
   {
-    add_entry(MNID_LANGPACK_MODE, std::string(_("Language Packs")));
+    add_entry(MNID_LANGPACK_MODE, std::string(_("View Language Packs")));
+  }
+  else
+  {
+    add_entry(MNID_LANGPACK_MODE, std::string(_("View Addons")));
   }
 
   if (m_installed_addons.empty())
@@ -275,7 +279,7 @@ AddonMenu::menu_action(MenuItem* item)
   }
   else if(item->id == MNID_LANGPACK_MODE)
   {
-    m_language_pack_mode = true;
+    m_language_pack_mode = !m_language_pack_mode;
     rebuild_menu();
     return;
   }
