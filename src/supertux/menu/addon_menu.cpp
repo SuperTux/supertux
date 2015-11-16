@@ -135,7 +135,7 @@ AddonMenu::rebuild_menu()
   }
   else
   {
-    add_entry(MNID_LANGPACK_MODE, std::string(_("View Addons")));
+    add_entry(MNID_LANGPACK_MODE, std::string(_("View Add-ons")));
   }
 
   if (m_installed_addons.empty())
@@ -148,7 +148,7 @@ AddonMenu::rebuild_menu()
       }
       else
       {
-        add_inactive(_("No Addons installed"));
+        add_inactive(_("No Add-ons installed"));
       }
     }
     else
@@ -159,7 +159,7 @@ AddonMenu::rebuild_menu()
       }
       else
       {
-        add_inactive(_("No Addons found"));
+        add_inactive(_("No Add-ons found"));
       }
     }
   }
@@ -196,7 +196,7 @@ AddonMenu::rebuild_menu()
         if (installed_addon.get_md5() == addon.get_md5() ||
             installed_addon.get_version() > addon.get_version())
         {
-          log_debug << "ignoring already installed addon " << installed_addon.get_id() << std::endl;
+          log_debug << "ignoring already installed add-on " << installed_addon.get_id() << std::endl;
         }
         else
         {
@@ -235,7 +235,7 @@ AddonMenu::rebuild_menu()
       }
       else
       {
-        add_inactive(_("No new Addons found"));
+        add_inactive(_("No new Add-ons found"));
       }
     }
   }
@@ -329,7 +329,7 @@ AddonMenu::menu_action(MenuItem* item)
               }
               catch(const std::exception& err)
               {
-                log_warning << "Enabling addon failed: " << err.what() << std::endl;
+                log_warning << "Enabling add-on failed: " << err.what() << std::endl;
               }
               refresh();
             }
