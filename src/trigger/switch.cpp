@@ -34,7 +34,9 @@ Switch::Switch(const Reader& reader) :
   sprite_name(),
   sprite(),
   script(),
-  state(OFF)
+  off_script(),
+  state(OFF),
+  bistable()
 {
   if (!reader.get("x", bbox.p1.x)) throw std::runtime_error("no x position set");
   if (!reader.get("y", bbox.p1.y)) throw std::runtime_error("no y position set");
@@ -43,6 +45,8 @@ Switch::Switch(const Reader& reader) :
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   if (!reader.get("script", script)) throw std::runtime_error("no script set");
+  bistable = reader.get("off-script", off_script);
+
   SoundManager::current()->preload( SWITCH_SOUND );
 }
 
@@ -68,13 +72,20 @@ Switch::update(float )
       }
       break;
     case ON:
-      if(sprite->animation_done()) {
+      if(sprite->animation_done() && !bistable) {
         sprite->set_action("turnoff", 1);
         state = TURN_OFF;
       }
       break;
     case TURN_OFF:
       if(sprite->animation_done()) {
+        if (bistable) {
+          std::istringstream stream(off_script);
+          std::ostringstream location;
+          location << "switch" << bbox.p1;
+          Sector::current()->run_script(stream, location.str());
+        }
+
         sprite->set_action("off");
         state = OFF;
       }
@@ -102,6 +113,11 @@ Switch::event(Player& , EventType type)
     case TURN_ON:
       break;
     case ON:
+      if (bistable) {
+        sprite->set_action("turnoff", 1);
+        SoundManager::current()->play( SWITCH_SOUND );
+        state = TURN_OFF;
+      }
       break;
     case TURN_OFF:
       break;

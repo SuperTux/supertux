@@ -172,34 +172,22 @@
       (color 0 0 0)
     )
     (switch
-      (script "//green 0.14
-if(settings.get_ambient_green() !=1){
-	settings.set_ambient_light( settings.get_ambient_red(), 1, settings.get_ambient_blue() );
-}else{
-	settings.set_ambient_light( settings.get_ambient_red(), 0.14, settings.get_ambient_blue() );
-}")
+      (script "settings.set_ambient_light( settings.get_ambient_red(), 1, settings.get_ambient_blue() );")
+      (off-script "settings.set_ambient_light( settings.get_ambient_red(), 0.14, settings.get_ambient_blue() );")
       (x 736)
       (y 544)
       (sprite "images/objects/switch/switch.sprite")
     )
     (switch
-      (script "//blue 0.14 
-if(settings.get_ambient_blue() !=1){
-	settings.set_ambient_light( settings.get_ambient_red(), settings.get_ambient_green(), 1 );
-}else{
-	settings.set_ambient_light( settings.get_ambient_red(), settings.get_ambient_green(), 0.14 );
-}")
+      (script "settings.set_ambient_light( settings.get_ambient_red(), settings.get_ambient_green(), 1 );")
+      (off-script "settings.set_ambient_light( settings.get_ambient_red(), settings.get_ambient_green(), 0.14 );")
       (x 844)
       (y 544)
       (sprite "images/objects/switch/left.sprite")
     )
     (switch
-      (script "//red 0.14
-if(settings.get_ambient_red() !=1){
-	settings.set_ambient_light( 1, settings.get_ambient_green(), settings.get_ambient_blue() );
-}else{
-	settings.set_ambient_light( 0.14, settings.get_ambient_green(), settings.get_ambient_blue() );	
-}")
+      (script "settings.set_ambient_light( 1, settings.get_ambient_green(), settings.get_ambient_blue() );")
+      (off-script "settings.set_ambient_light( 0.14, settings.get_ambient_green(), settings.get_ambient_blue() );")
       (x 640)
       (y 544)
       (sprite "images/objects/switch/right.sprite")
