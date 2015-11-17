@@ -301,7 +301,7 @@ Statistics::declare_invalid()
 std::string
 Statistics::coins_to_string(int coins, int total_coins) {
   std::ostringstream os;
-  os << std::min(coins, 999) << "/" << std::min(total_coins, 999);
+  os << std::min(std::min(coins, total_coins), 999) << "/" << std::min(total_coins, 999);
   return os.str();
 }
 
