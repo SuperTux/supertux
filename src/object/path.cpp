@@ -52,6 +52,8 @@ Path::read(const Reader& reader)
         mode = PING_PONG;
       else if(mode_string == "circular")
         mode = CIRCULAR;
+      else if(mode_string == "unordered")
+        mode = UNORDERED;
       else {
         std::ostringstream msg;
         msg << "Unknown pathmode '" << mode_string << "' found";

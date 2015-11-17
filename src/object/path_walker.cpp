@@ -14,6 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "math/random_generator.hpp"
 #include "object/path_walker.hpp"
 
 #include <math.h>
@@ -87,6 +88,10 @@ PathWalker::goto_node(int node_no)
   if (node_no == stop_at_node_nr) return;
   running = true;
   stop_at_node_nr = node_no;
+
+  if (path->mode == Path::UNORDERED) {
+    next_node_nr = node_no;
+  }
 }
 
 void
@@ -108,6 +113,11 @@ PathWalker::advance_node()
   current_node_nr = next_node_nr;
   if (static_cast<int>(current_node_nr) == stop_at_node_nr) running = false;
 
+  if (path->mode == Path::UNORDERED) {
+    next_node_nr = gameRandom.rand( path->nodes.size() );
+    return;
+  }
+
   if(next_node_nr + 1 < path->nodes.size()) {
     next_node_nr++;
     return;
@@ -126,6 +136,9 @@ PathWalker::advance_node()
 
     case Path::CIRCULAR:
       next_node_nr = 0;
+      return;
+
+    case Path::UNORDERED:
       return;
   }
 
