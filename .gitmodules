@@ -10,3 +10,6 @@
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/google/googletest.git
+[submodule "external/sexp-cpp"]
+	path = external/sexp-cpp
+	url = https://github.com/lispparser/sexp-cpp.git
