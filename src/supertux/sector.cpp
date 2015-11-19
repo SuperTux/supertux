@@ -148,7 +148,7 @@ Sector::get_level() const
 }
 
 GameObjectPtr
-Sector::parse_object(const std::string& name_, const Reader& reader)
+Sector::parse_object(const std::string& name_, const ReaderMapping& reader)
 {
   if(name_ == "camera") {
     auto camera_ = std::make_shared<Camera>(this, "Camera");
@@ -187,26 +187,25 @@ Sector::parse_object(const std::string& name_, const Reader& reader)
 }
 
 void
-Sector::parse(const Reader& sector)
+Sector::parse(const ReaderMapping& sector)
 {
   bool has_background = false;
-  lisp::ListIterator iter(&sector);
+  auto iter = sector.get_iter();
   while(iter.next()) {
-    const std::string& token = iter.item();
-    if(token == "name") {
-      iter.value()->get(name);
-    } else if(token == "gravity") {
-      iter.value()->get(gravity);
-    } else if(token == "music") {
-      iter.value()->get(music);
-    } else if(token == "spawnpoint") {
+    if(iter.get_name() == "name") {
+      iter.get(name);
+    } else if(iter.get_name() == "gravity") {
+      iter.get(gravity);
+    } else if(iter.get_name() == "music") {
+      iter.get(music);
+    } else if(iter.get_name() == "spawnpoint") {
       auto sp = std::make_shared<SpawnPoint>(*iter.lisp());
       if (sp->name != "" && sp->pos.x >= 0 && sp->pos.y >= 0) {
         spawnpoints.push_back(sp);
       }
-    } else if(token == "init-script") {
-      iter.value()->get(init_script);
-    } else if(token == "ambient-light") {
+    } else if(iter.get_name() == "init-script") {
+      iter.get(init_script);
+    } else if(iter.get_name() == "ambient-light") {
       std::vector<float> vColor;
       sector.get( "ambient-light", vColor );
       if(vColor.size() < 3) {
@@ -215,7 +214,7 @@ Sector::parse(const Reader& sector)
         ambient_light = Color( vColor );
       }
     } else {
-      GameObjectPtr object = parse_object(token, *(iter.lisp()));
+      GameObjectPtr object = parse_object(token, iter.as_object());
       if(object) {
         if(std::dynamic_pointer_cast<Background>(object)) {
           has_background = true;

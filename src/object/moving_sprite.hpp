@@ -33,15 +33,15 @@ public:
                const std::string& sprite_name,
                int layer = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const Reader& reader,
+  MovingSprite(const ReaderMapping& reader,
                const Vector& pos,
                int layer = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const Reader& reader,
+  MovingSprite(const ReaderMapping& reader,
                const std::string& sprite_name,
                int layer = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const Reader& reader,
+  MovingSprite(const ReaderMapping& reader,
                int layer = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
   MovingSprite(const MovingSprite& moving_sprite);

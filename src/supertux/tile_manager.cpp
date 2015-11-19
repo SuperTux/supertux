@@ -21,6 +21,7 @@
 
 #include "lisp/list_iterator.hpp"
 #include "supertux/tile_set.hpp"
+#include "util/reader.hpp"
 
 TileManager::TileManager() :
   tilesets()
@@ -49,35 +50,36 @@ TileManager::get_tileset(const std::string &filename)
 }
 
 std::unique_ptr<TileSet>
-TileManager::parse_tileset_definition(const Reader& reader)
+TileManager::parse_tileset_definition(const ReaderCollection& collection)
 {
   std::unique_ptr<TileSet> result(new TileSet);
+  for(const auto& item : collection.get_objects())
+  {
+    if(item.get_name() == "tileset")
+    {
+      auto tileset_reader = item.get_mapping();
 
-  lisp::ListIterator iter(&reader);
-  while(iter.next()) {
-    const std::string& token = iter.item();
-    if(token != "tileset") {
-      log_warning << "Skipping unrecognized token \"" << token << "\" in tileset definition" << std::endl;
-      continue;
+      std::string file;
+      if (!tileset_reader.get("file", file)) {
+        log_warning << "Skipping tileset import without file name" << std::endl;
+        continue;
+      }
+
+      const TileSet *tileset = get_tileset(file);
+
+      uint32_t start  = 0;
+      uint32_t end    = std::numeric_limits<uint32_t>::max();
+      uint32_t offset = 0;
+      tileset_reader.get("start", start);
+      tileset_reader.get("end", end);
+      tileset_reader.get("offset", offset);
+
+      result->merge(tileset, start, end, offset);
     }
-    const lisp::Lisp* tileset_reader = iter.lisp();
-
-    std::string file;
-    if (!tileset_reader->get("file", file)) {
-      log_warning << "Skipping tileset import without file name" << std::endl;
-      continue;
+    else
+    {
+      log_warning << "Skipping unrecognized token \"" << item.get_name() << "\" in tileset definition" << std::endl;
     }
-
-    const TileSet *tileset = get_tileset(file);
-
-    uint32_t start  = 0;
-    uint32_t end    = std::numeric_limits<uint32_t>::max();
-    uint32_t offset = 0;
-    tileset_reader->get("start",  start);
-    tileset_reader->get("end",    end);
-    tileset_reader->get("offset", offset);
-
-    result->merge(tileset, start, end, offset);
   }
 
   return result;

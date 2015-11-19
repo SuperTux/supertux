@@ -22,6 +22,7 @@
 #include <stdexcept>
 
 #include "lisp/list_iterator.hpp"
+#include "util/reader.hpp"
 #include "util/log.hpp"
 
 Path::Path() :
@@ -35,15 +36,15 @@ Path::~Path()
 }
 
 void
-Path::read(const Reader& reader)
+Path::read(const ReaderMapping& reader)
 {
-  lisp::ListIterator iter(&reader);
+  auto iter = reader.get_iter();
 
   mode = CIRCULAR;
   while(iter.next()) {
-    if(iter.item() == "mode") {
+    if(iter.get_name() == "mode") {
       std::string mode_string;
-      if(!iter.value()->get(mode_string))
+      if(!iter.get(mode_string))
         throw std::runtime_error("Pathmode not a string");
 
       if(mode_string == "oneshot")
@@ -60,26 +61,25 @@ Path::read(const Reader& reader)
         throw std::runtime_error(msg.str());
       }
       continue;
+    } else if (iter.get_name() == "node") {
+      ReaderMapping node_mapping;
+      iter.get(node_mapping);
+
+      // each new node will inherit all values from the last one
+      Node node;
+      node.time = 1;
+      if( (!node_mapping.get("x", node.position.x) ||
+           !node_mapping.get("y", node.position.y)))
+        throw std::runtime_error("Path node without x and y coordinate specified");
+      node_mapping.get("time", node.time);
+
+      if(node.time <= 0)
+        throw std::runtime_error("Path node with non-positive time");
+
+      nodes.push_back(node);
+    } else {
+      log_warning << "unknown token '" << iter.get_name() << "' in Path nodes list. Ignored." << std::endl;
     }
-
-    if(iter.item() != "node") {
-      log_warning << "unknown token '" << iter.item() << "' in Path nodes list. Ignored." << std::endl;
-      continue;
-    }
-    const lisp::Lisp* node_lisp = iter.lisp();
-
-    // each new node will inherit all values from the last one
-    Node node;
-    node.time = 1;
-    if( (!node_lisp->get("x", node.position.x) ||
-         !node_lisp->get("y", node.position.y)))
-      throw std::runtime_error("Path node without x and y coordinate specified");
-    node_lisp->get("time", node.time);
-
-    if(node.time <= 0)
-      throw std::runtime_error("Path node with non-positive time");
-
-    nodes.push_back(node);
   }
 
   if (nodes.empty())

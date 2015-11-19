@@ -38,7 +38,7 @@ public:
 
   TileSet* get_tileset(const std::string &filename);
 
-  std::unique_ptr<TileSet> parse_tileset_definition(const Reader& reader);
+  std::unique_ptr<TileSet> parse_tileset_definition(const ReaderCollection& reader);
 };
 
 #endif

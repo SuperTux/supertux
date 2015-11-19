@@ -88,27 +88,31 @@ public:
 
   void load(const std::string& filename)
   {
-    lisp::Parser parser;
-    const lisp::Lisp* root = parser.parse(filename);
-    const lisp::Lisp* camconfig = root->get_lisp("camera-config");
-    if(camconfig == NULL)
+    auto root = ReaderObject::parse(filename);
+    if(root.get_name() == "camera-config")
+    {
       throw std::runtime_error("file is not a camera config file.");
+    }
+    else
+    {
+      auto camconfig = root.get_mapping();
 
-    camconfig->get("xmode", xmode);
-    camconfig->get("ymode", ymode);
-    camconfig->get("target-x", target_x);
-    camconfig->get("target-y", target_y);
-    camconfig->get("max-speed-x", max_speed_x);
-    camconfig->get("max-speed-y", max_speed_y);
-    camconfig->get("dynamic-max-speed-x", dynamic_max_speed_x);
-    camconfig->get("dirchange-time", dirchange_time);
-    camconfig->get("clamp-x", clamp_x);
-    camconfig->get("clamp-y", clamp_y);
-    camconfig->get("kirby-rectsize-x", kirby_rectsize_x);
-    camconfig->get("kirby-rectsize-y", kirby_rectsize_y);
-    camconfig->get("edge-x", edge_x);
-    camconfig->get("sensitive-x", sensitive_x);
-    camconfig->get("dynamic-speed-sm", dynamic_speed_sm);
+      camconfig.get("xmode", xmode);
+      camconfig.get("ymode", ymode);
+      camconfig.get("target-x", target_x);
+      camconfig.get("target-y", target_y);
+      camconfig.get("max-speed-x", max_speed_x);
+      camconfig.get("max-speed-y", max_speed_y);
+      camconfig.get("dynamic-max-speed-x", dynamic_max_speed_x);
+      camconfig.get("dirchange-time", dirchange_time);
+      camconfig.get("clamp-x", clamp_x);
+      camconfig.get("clamp-y", clamp_y);
+      camconfig.get("kirby-rectsize-x", kirby_rectsize_x);
+      camconfig.get("kirby-rectsize-y", kirby_rectsize_y);
+      camconfig.get("edge-x", edge_x);
+      camconfig.get("sensitive-x", sensitive_x);
+      camconfig.get("dynamic-speed-sm", dynamic_speed_sm);
+    }
   }
 };
 
@@ -170,7 +174,7 @@ Camera::get_translation() const
 }
 
 void
-Camera::parse(const Reader& reader)
+Camera::parse(const ReaderMapping& reader)
 {
   std::string modename;
 
@@ -180,16 +184,15 @@ Camera::parse(const Reader& reader)
   } else if(modename == "autoscroll") {
     mode = AUTOSCROLL;
 
-    const lisp::Lisp* pathLisp = reader.get_lisp("path");
-    if(pathLisp == NULL) {
+    ReaderMapping path_mapping;
+    if(!reader.get("path", path_mapping)) {
       log_warning << "No path specified in autoscroll camera." << std::endl;
       mode = NORMAL;
-      return;
+    } else {
+      autoscroll_path.reset(new Path());
+      autoscroll_path->read(path_mapping);
+      autoscroll_walker.reset(new PathWalker(autoscroll_path.get()));
     }
-
-    autoscroll_path.reset(new Path());
-    autoscroll_path->read(*pathLisp);
-    autoscroll_walker.reset(new PathWalker(autoscroll_path.get()));
   } else if(modename == "manual") {
     mode = MANUAL;
   } else {

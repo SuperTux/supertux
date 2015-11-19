@@ -22,6 +22,7 @@
 
 #include "control/controller.hpp"
 #include "lisp/lisp.hpp"
+#include "util/reader_fwd.hpp"
 #include "util/writer.hpp"
 
 class JoystickConfig
@@ -55,7 +56,7 @@ public:
   void bind_joyaxis(JoyId joy_id, int axis, Controller::Control c);
   void bind_joyhat(JoyId joy_id, int dir, Controller::Control c);
 
-  void read(const lisp::Lisp& joystick_lisp);
+  void read(const ReaderMapping& joystick_lisp);
   void write(Writer& writer);
 
 private:

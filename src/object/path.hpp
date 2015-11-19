@@ -31,7 +31,7 @@ public:
   Path();
   ~Path();
 
-  void read(const Reader& reader);
+  void read(const ReaderMapping& reader);
 
   Vector get_base() const;
 

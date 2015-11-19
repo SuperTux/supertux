@@ -28,7 +28,7 @@ class Platform : public MovingSprite,
                  public ScriptInterface
 {
 public:
-  Platform(const Reader& reader);
+  Platform(const ReaderMapping& reader);
   Platform(const Platform& platform);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);

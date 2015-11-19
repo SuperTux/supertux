@@ -591,26 +591,23 @@ AddonManager::parse_addon_infos(const std::string& filename) const
 
   try
   {
-    lisp::Parser parser;
-    const lisp::Lisp* root = parser.parse(filename);
-    const lisp::Lisp* addons_lisp = root->get_lisp("supertux-addons");
-    if(!addons_lisp)
+    auto root = ReaderObject::parse(filename);
+    if(root.get_name() != "supertux-addons")
     {
       throw std::runtime_error("Downloaded file is not an Add-on list");
     }
     else
     {
-      lisp::ListIterator iter(addons_lisp);
-      while(iter.next())
+      auto const& addon_collection = root.get_collection();
+      for(auto const& addon_node : addon_collection.get_objects())
       {
-        const std::string& token = iter.item();
-        if(token != "supertux-addoninfo")
+        if(addon_node.get_name() != "supertux-addoninfo")
         {
-          log_warning << "Unknown token '" << token << "' in Add-on list" << std::endl;
+          log_warning << "Unknown token '" << addon_node.get_name() << "' in Add-on list" << std::endl;
         }
         else
         {
-          std::unique_ptr<Addon> addon = Addon::parse(*iter.lisp());
+          std::unique_ptr<Addon> addon = Addon::parse(addon_node.get_mapping());
           m_addons.push_back(std::move(addon));
         }
       }

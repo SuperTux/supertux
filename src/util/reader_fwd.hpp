@@ -23,6 +23,10 @@ class Lisp;
 
 typedef lisp::Lisp Reader;
 
+class ReaderMapping;
+class ReaderCollection;
+class ReaderObject;
+
 #endif
 
 /* EOF */

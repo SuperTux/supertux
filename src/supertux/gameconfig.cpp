@@ -61,92 +61,91 @@ Config::~Config()
 void
 Config::load()
 {
-  lisp::Parser parser(false);
-  const lisp::Lisp* root = parser.parse("config");
-
-  const lisp::Lisp* config_lisp = root->get_lisp("supertux-config");
-  if(!config_lisp)
+  auto root = ReaderObject::parse("config");
+  if(root.get_name() != "supertux-config")
   {
     throw std::runtime_error("File is not a supertux-config file");
   }
 
-  config_lisp->get("profile", profile);
-  config_lisp->get("show_fps", show_fps);
-  config_lisp->get("developer", developer_mode);
+  auto config_lisp = root.get_mapping();
+  config_lisp.get("profile", profile);
+  config_lisp.get("show_fps", show_fps);
+  config_lisp.get("developer", developer_mode);
+
   if(is_christmas()) {
-    if(!config_lisp->get("christmas", christmas_mode))
+    if(!config_lisp.get("christmas", christmas_mode))
     {
       christmas_mode = true;
     }
   }
-  config_lisp->get("transitions_enabled", transitions_enabled);
-  config_lisp->get("locale", locale);
-  config_lisp->get("random_seed", random_seed);
+  config_lisp.get("transitions_enabled", transitions_enabled);
+  config_lisp.get("locale", locale);
+  config_lisp.get("random_seed", random_seed);
 
-  const lisp::Lisp* config_video_lisp = config_lisp->get_lisp("video");
+  auto config_video_lisp = config_lisp.get_mapping("video");
   if(config_video_lisp)
   {
-    config_video_lisp->get("fullscreen", use_fullscreen);
+    config_video_lisp.get("fullscreen", use_fullscreen);
     std::string video_string;
-    config_video_lisp->get("video", video_string);
+    config_video_lisp.get("video", video_string);
     video = VideoSystem::get_video_system(video_string);
-    config_video_lisp->get("vsync", try_vsync);
+    config_video_lisp.get("vsync", try_vsync);
 
-    config_video_lisp->get("fullscreen_width",  fullscreen_size.width);
-    config_video_lisp->get("fullscreen_height", fullscreen_size.height);
-    config_video_lisp->get("fullscreen_refresh_rate", fullscreen_refresh_rate);
+    config_video_lisp.get("fullscreen_width",  fullscreen_size.width);
+    config_video_lisp.get("fullscreen_height", fullscreen_size.height);
+    config_video_lisp.get("fullscreen_refresh_rate", fullscreen_refresh_rate);
 
-    config_video_lisp->get("window_width",  window_size.width);
-    config_video_lisp->get("window_height", window_size.height);
+    config_video_lisp.get("window_width",  window_size.width);
+    config_video_lisp.get("window_height", window_size.height);
 
-    config_video_lisp->get("aspect_width",  aspect_size.width);
-    config_video_lisp->get("aspect_height", aspect_size.height);
+    config_video_lisp.get("aspect_width",  aspect_size.width);
+    config_video_lisp.get("aspect_height", aspect_size.height);
 
-    config_video_lisp->get("magnification", magnification);
+    config_video_lisp.get("magnification", magnification);
   }
 
-  const lisp::Lisp* config_audio_lisp = config_lisp->get_lisp("audio");
+  auto config_audio_lisp = config_lisp.get_mapping("audio");
   if(config_audio_lisp) {
-    config_audio_lisp->get("sound_enabled", sound_enabled);
-    config_audio_lisp->get("music_enabled", music_enabled);
+    config_audio_lisp.get("sound_enabled", sound_enabled);
+    config_audio_lisp.get("music_enabled", music_enabled);
   }
 
-  const lisp::Lisp* config_control_lisp = config_lisp->get_lisp("control");
+  auto config_control_lisp = config_lisp.get_mapping("control");
   if (config_control_lisp)
   {
-    const lisp::Lisp* keymap_lisp = config_control_lisp->get_lisp("keymap");
+    auto keymap_lisp = config_control_lisp.get_mapping("keymap");
     if (keymap_lisp)
     {
-      keyboard_config.read(*keymap_lisp);
+      keyboard_config.read(keymap_lisp);
     }
 
-    const lisp::Lisp* joystick_lisp = config_control_lisp->get_lisp("joystick");
+    auto joystick_lisp = config_control_lisp.get_mapping("joystick");
     if (joystick_lisp)
     {
-      joystick_config.read(*joystick_lisp);
+      joystick_config.read(joystick_lisp);
     }
   }
 
-  const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
+  auto config_addons_lisp = config_lisp.get_collection("addons");
   if (config_addons_lisp)
   {
-    lisp::ListIterator iter(config_addons_lisp);
-    while(iter.next())
+    for(auto const& addon_node : config_addons_lisp.get_objects())
     {
-      const std::string& token = iter.item();
-      if (token == "addon")
+      if (addon_node.get_name() == "addon")
       {
+        auto addon = addon_node.get_mapping();
+
         std::string id;
         bool enabled = false;
-        if (iter.lisp()->get("id", id) &&
-            iter.lisp()->get("enabled", enabled))
+        if (addon.get("id", id) &&
+            addon.get("enabled", enabled))
         {
           addons.push_back({id, enabled});
         }
       }
       else
       {
-        log_warning << "Unknown token in config file: " << token << std::endl;
+        log_warning << "Unknown token in config file: " << addon_node.get_name() << std::endl;
       }
     }
   }

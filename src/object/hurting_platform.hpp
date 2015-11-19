@@ -25,7 +25,7 @@
 class HurtingPlatform : public Platform
 {
 public:
-  HurtingPlatform(const Reader& reader);
+  HurtingPlatform(const ReaderMapping& reader);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 

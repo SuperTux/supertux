@@ -83,10 +83,10 @@ TileMap::TileMap(const Reader& reader) :
     speed_y = 1;
   }
 
-  const lisp::Lisp* pathLisp = reader.get_lisp("path");
-  if (pathLisp) {
+  ReaderMapping path_mapping;
+  if (reader.get("path", path_mapping)) {
     path.reset(new Path());
-    path->read(*pathLisp);
+    path->read(path_mapping);
     walker.reset(new PathWalker(path.get(), /*running*/false));
     Vector v = path->get_base();
     set_offset(v);

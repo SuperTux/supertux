@@ -63,10 +63,10 @@ WillOWisp::WillOWisp(const Reader& reader) :
   reader.get("hit-script", hit_script);
   reader.get("running", running);
 
-  const lisp::Lisp* pathLisp = reader.get_lisp("path");
-  if(pathLisp != NULL) {
+  ReaderMapping path_mapping;
+  if(reader.get("path", path_mapping)) {
     path.reset(new Path());
-    path->read(*pathLisp);
+    path->read(path_mapping);
     walker.reset(new PathWalker(path.get(), running));
     if(running)
       mystate = STATE_PATHMOVING_TRACK;

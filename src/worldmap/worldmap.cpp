@@ -257,10 +257,6 @@ WorldMap::load(const std::string& filename)
 
     level_->get("name", name);
 
-    const lisp::Lisp* sector = level_->get_lisp("sector");
-    if(!sector)
-      throw std::runtime_error("No sector specified in worldmap file.");
-
     const lisp::Lisp* tilesets_lisp = level_->get_lisp("tilesets");
     if(tilesets_lisp != NULL) {
       tileset      = TileManager::current()->parse_tileset_definition(*tilesets_lisp).release();
@@ -279,6 +275,10 @@ WorldMap::load(const std::string& filename)
       tileset = TileManager::current()->get_tileset("images/worldmap.strf");
     }
     current_tileset = tileset;
+
+    const lisp::Lisp* sector = level_->get_lisp("sector");
+    if(!sector)
+      throw std::runtime_error("No sector specified in worldmap file.");
 
     lisp::ListIterator iter(sector);
     while(iter.next()) {

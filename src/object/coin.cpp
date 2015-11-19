@@ -60,10 +60,10 @@ Coin::Coin(const Reader& reader)
     from_tilemap(false),
     physic()
 {
-  const lisp::Lisp* pathLisp = reader.get_lisp("path");
-  if (pathLisp) {
+  ReaderMapping path_mapping;
+  if (reader.get("path", path_mapping)) {
     path.reset(new Path());
-    path->read(*pathLisp);
+    path->read(path_mapping);
     walker.reset(new PathWalker(path.get()));
     Vector v = path->get_base();
     set_pos(v);

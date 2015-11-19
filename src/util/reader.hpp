@@ -17,13 +17,112 @@
 #ifndef HEADER_SUPERTUX_UTIL_READER_HPP
 #define HEADER_SUPERTUX_UTIL_READER_HPP
 
+#include <memory>
+#include <vector>
+#include <string>
+
 #include "lisp/lisp.hpp"
 
-typedef lisp::Lisp Reader;
+#include "util/reader_fwd.hpp"
 
 int reader_get_layer (const Reader& reader, int def);
+
+class ReaderObject;
+class ReaderMapping;
+class ReaderCollection;
+
+class ReaderObject final
+{
+public:
+  static ReaderObject parse(std::istream& stream);
+  static ReaderObject parse(const std::string& filename);
+
+public:
+  ReaderObject();
+  ReaderObject(const lisp::Lisp* lisp);
+
+  std::string get_name() const;
+  ReaderMapping get_mapping() const;
+  ReaderCollection get_collection() const;
+
+  explicit operator bool() const { return m_impl != nullptr; }
+
+private:
+   const lisp::Lisp* m_impl;
+};
+
+class ReaderCollection final
+{
+public:
+  ReaderCollection();
+  ReaderCollection(const lisp::Lisp* impl);
+
+  std::vector<ReaderObject> get_objects() const;
+
+  explicit operator bool() const { return m_impl != nullptr; }
+
+private:
+  const lisp::Lisp* m_impl;
+};
+
+/** The ReaderIterator class is for backward compatibilty with old
+    fileformats only, do not use it in new code, use ReaderCollection
+    and ReaderMapping instead */
+class ReaderIterator
+{
+public:
+  ReaderIterator();
+  ReaderIterator(const lisp::Lisp* lisp);
+
+  bool next();
+
+  std::string get_name() const;
+
+  bool get(bool& value) const;
+  bool get(int& value) const;
+  bool get(float& value) const;
+  bool get(std::string& value) const;
+  bool get(ReaderMapping& value) const;
+
+  ReaderObject as_object() const;
+};
+
+class ReaderMapping final
+{
+public:
+  ReaderMapping();
+  ReaderMapping(const lisp::Lisp* lisp);
+
+  std::vector<std::string> get_keys() const;
+
+  ReaderIterator get_iter() const;
+
+  bool get(const char* key, bool& value) const;
+  bool get(const char* key, int& value) const;
+  bool get(const char* key, uint32_t& value) const;
+  bool get(const char* key, float& value) const;
+  bool get(const char* key, std::string& value) const;
+
+  bool get(const char* key, ReaderMapping&) const;
+  bool get(const char* key, ReaderCollection&) const;
+  bool get(const char* key, ReaderObject&) const;
+
+  ReaderMapping get_mapping(const char* key) const;
+  ReaderCollection get_collection(const char* key) const;
+  ReaderObject get_object(const char* key) const;
+
+  /** For backward compatibilty only */
+  std::vector<ReaderObject> get_all_objects(const char* key) const;
+
+  /** For backward compatibilty only */
+  std::vector<ReaderMapping> get_all_mappings(const char* key) const;
+
+  explicit operator bool() const { return m_impl != nullptr; }
+
+private:
+  const lisp::Lisp* m_impl;
+};
 
 #endif
 
 /* EOF */
-

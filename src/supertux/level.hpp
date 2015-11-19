@@ -73,7 +73,7 @@ public:
   int get_total_secrets() const;
 
 private:
-  void load_old_format(const Reader& reader);
+  void load_old_format(const ReaderMapping& reader);
 
 private:
   Level(const Level&);
