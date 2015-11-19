@@ -16,7 +16,7 @@ dependencies*/
 # Additional Repos/Translations
 supertux.*
 .tx/
-translations
+#translations
 
 # Useful Customization Files
 data/levels/more/
