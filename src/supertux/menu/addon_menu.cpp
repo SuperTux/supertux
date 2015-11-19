@@ -170,8 +170,7 @@ AddonMenu::rebuild_menu()
     {
       const Addon& addon = m_addon_manager.get_installed_addon(addon_id);
       m_addons_enabled[idx] = addon.is_enabled();
-      if((m_language_pack_mode && (addon.get_type() == Addon::LANGUAGEPACK)) ||
-         (!m_language_pack_mode && (addon.get_type() != Addon::LANGUAGEPACK)))
+      if(addon_visible(addon))
       {
         std::string text = generate_menu_item_text(addon);
         add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, m_addons_enabled + idx);
@@ -204,8 +203,7 @@ AddonMenu::rebuild_menu()
                     << installed_addon.get_md5() << "' vs '" << addon.get_md5() << "'  '"
                     << installed_addon.get_version() << "' vs '" << addon.get_version() << "'"
                     << std::endl;
-          if((m_language_pack_mode && (addon.get_type() == Addon::LANGUAGEPACK)) ||
-            (!m_language_pack_mode && (addon.get_type() != Addon::LANGUAGEPACK)))
+          if(addon_visible(addon))
           {
             std::string text = generate_menu_item_text(addon);
             add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s *NEW*") ) % text));
@@ -216,8 +214,7 @@ AddonMenu::rebuild_menu()
       catch(const std::exception& err)
       {
         // addon is not installed
-        if((m_language_pack_mode && (addon.get_type() == Addon::LANGUAGEPACK)) ||
-          (!m_language_pack_mode && (addon.get_type() != Addon::LANGUAGEPACK)))
+        if(addon_visible(addon))
         {
           std::string text = generate_menu_item_text(addon);
           add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s") ) % text));
@@ -345,6 +342,13 @@ AddonMenu::menu_action(MenuItem* item)
   {
     log_warning << "Unknown menu item clicked: " << item->id << std::endl;
   }
+}
+
+bool
+AddonMenu::addon_visible(const Addon& addon) const
+{
+  bool is_langpack = (addon.get_type() == Addon::LANGUAGEPACK);
+  return (m_language_pack_mode && is_langpack) || (!m_language_pack_mode && !is_langpack);
 }
 
 /* EOF */

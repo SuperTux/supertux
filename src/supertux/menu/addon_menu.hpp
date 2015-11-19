@@ -48,6 +48,7 @@ public:
 
 private:
   void rebuild_menu();
+  bool addon_visible(const Addon& addon) const;
 
 private:
   AddonMenu(const AddonMenu&);
