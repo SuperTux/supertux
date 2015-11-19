@@ -95,7 +95,7 @@ Sprite::set_action_continued(const std::string& name)
 }
 
 bool
-Sprite::animation_done()
+Sprite::animation_done() const
 {
   return animation_loops == 0;
 }

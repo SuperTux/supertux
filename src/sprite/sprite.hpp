@@ -54,7 +54,7 @@ public:
   void stop_animation()
   { animation_loops = 0; }
   /** Check if animation is stopped or not */
-  bool animation_done();
+  bool animation_done() const;
 
   float get_fps() const
   { return action->fps; }
