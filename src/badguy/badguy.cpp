@@ -717,12 +717,16 @@ BadGuy::is_in_water() const
 void
 BadGuy::ignite()
 {
+  if (!is_flammable() || ignited) {
+    return;
+  }
+
   physic.enable_gravity(true);
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   sprite->stop_animation();
-  layer = LAYER_OBJECTS - 1;
+  ignited = true;
 
   if (sprite->has_action("melting-left")) {
 

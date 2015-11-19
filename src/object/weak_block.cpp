@@ -101,7 +101,7 @@ WeakBlock::collision(GameObject& other, const CollisionHit& hit)
           break;
 
         if(BadGuy* badguy = dynamic_cast<BadGuy*> (&other)) {
-          badguy->kill_fall();
+          badguy->ignite();
         }
         break;
       case STATE_DISINTEGRATING:
