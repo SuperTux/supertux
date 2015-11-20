@@ -25,12 +25,13 @@
 
 #include "util/reader_fwd.hpp"
 
-int reader_get_layer (const ReaderMapping& reader, int def);
+int reader_get_layer(const ReaderMapping& reader, int def);
 
 class ReaderObject;
 class ReaderMapping;
 class ReaderCollection;
 
+/** The ReaderDocument holds the memory */
 class ReaderDocument
 {
 public:
@@ -41,14 +42,12 @@ public:
   ReaderDocument();
 
   ReaderObject get_root() const;
+
+private:
 };
 
 class ReaderObject final
 {
-public:
-  static ReaderObject parse(std::istream& stream);
-  static ReaderObject parse(const std::string& filename);
-
 public:
   ReaderObject();
   ReaderObject(const lisp::Lisp* lisp);
@@ -113,8 +112,6 @@ public:
   ReaderMapping();
   ReaderMapping(const lisp::Lisp* lisp);
 
-  std::vector<std::string> get_keys() const;
-
   ReaderIterator get_iter() const;
 
   bool get(const char* key, bool& value) const;
@@ -136,12 +133,11 @@ public:
   ReaderObject get_object(const char* key) const;
 
   /** For backward compatibilty only */
-  std::vector<ReaderObject> get_all_objects(const char* key) const;
-
-  /** For backward compatibilty only */
   std::vector<ReaderMapping> get_all_mappings(const char* key) const;
 
   explicit operator bool() const { return m_impl != nullptr; }
+
+  const lisp::Lisp* get_lisp() const { return m_impl; }
 
 private:
   const lisp::Lisp* m_impl;

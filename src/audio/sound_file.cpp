@@ -34,7 +34,8 @@
 
 std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
 {
-  auto root = ReaderObject::parse(filename);
+  auto doc = ReaderDocument::parse(filename);
+  auto root = doc.get_root();
   if(root.get_name() != "supertux-music")
   {
     throw SoundError("file is not a supertux-music file.");

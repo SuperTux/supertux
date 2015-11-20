@@ -88,7 +88,8 @@ public:
 
   void load(const std::string& filename)
   {
-    auto root = ReaderObject::parse(filename);
+    auto doc = ReaderDocument::parse(filename);
+    auto root = doc.get_root();
     if(root.get_name() == "camera-config")
     {
       throw std::runtime_error("file is not a camera config file.");

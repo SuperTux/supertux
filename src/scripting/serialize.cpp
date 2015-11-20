@@ -21,6 +21,7 @@
 #include "lisp/writer.hpp"
 #include "lisp/list_iterator.hpp"
 #include "scripting/squirrel_error.hpp"
+#include "util/reader.hpp"
 
 namespace scripting {
 
@@ -31,19 +32,16 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
   if(table_idx < 0)
     table_idx -= 2;
 
-#if 0
-  // FIXME: empty placeholder
-
-  auto iter = lisp.get_iter();
+  ListIterator iter(lisp.get_lisp());
   while(iter.next()) {
-    const std::string& token = iter.get_name();
+    const std::string& token = iter.item();
     sq_pushstring(vm, token.c_str(), token.size());
 
     const lisp::Lisp* value = iter.value();
     switch(value->get_type()) {
       case Lisp::TYPE_CONS:
         sq_newtable(vm);
-        load_squirrel_table(vm, sq_gettop(vm), *iter.lisp());
+        load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(iter.lisp()));
         break;
       case Lisp::TYPE_INTEGER:
         sq_pushinteger(vm, value->get_int());
@@ -69,7 +67,6 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
     if(SQ_FAILED(sq_createslot(vm, table_idx)))
       throw scripting::SquirrelError(vm, "Couldn't create new index");
   }
-#endif
 }
 
 void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)

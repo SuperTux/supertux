@@ -105,7 +105,8 @@ Addon::parse(const std::string& fname)
 {
   try
   {
-    auto root = ReaderObject::parse(fname);
+    auto doc = ReaderDocument::parse(fname);
+    auto root = doc.get_root();
     if(root.get_name() != "supertux-addoninfo")
     {
       throw std::runtime_error("file is not a supertux-addoninfo file.");

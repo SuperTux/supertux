@@ -61,7 +61,8 @@ Config::~Config()
 void
 Config::load()
 {
-  auto root = ReaderObject::parse("config");
+  auto doc = ReaderDocument::parse("config");
+  auto root = doc.get_root();
   if(root.get_name() != "supertux-config")
   {
     throw std::runtime_error("File is not a supertux-config file");

@@ -22,9 +22,12 @@
 
 #include "util/reader.hpp"
 
+#include <fstream>
+#include <sexp/parser.hpp>
+
 #include "video/drawing_request.hpp"
 
-int reader_get_layer (const ReaderMapping& reader, int def)
+int reader_get_layer(const ReaderMapping& reader, int def)
 {
   int tmp = 0;
   bool status;
@@ -43,10 +46,120 @@ int reader_get_layer (const ReaderMapping& reader, int def)
   return (tmp);
 } /* int reader_get_layer */
 
-#include "util/reader.hpp"
+ReaderDocument
+ReaderDocument::parse(std::istream& stream)
+{
+  return {};
+}
 
-#include <fstream>
-#include <sexp/parser.hpp>
+ReaderDocument
+ReaderDocument::parse(const std::string& filename)
+{
+  std::ifstream fin(filename);
+  if (!fin) {
+    std::ostringstream msg;
+    msg << "Parser problem: Couldn't open file '" << filename << "'.";
+    throw std::runtime_error(msg.str());
+  } else {
+    return parse(fin);
+  }
+}
+
+ReaderDocument::ReaderDocument()
+{
+}
+
+ReaderObject
+ReaderDocument::get_root() const
+{
+  return {};
+}
+
+ReaderIterator::ReaderIterator()
+{
+}
+
+ReaderIterator::ReaderIterator(const lisp::Lisp* lisp)
+{
+}
+
+bool
+ReaderIterator::next()
+{
+  return false;
+}
+
+bool
+ReaderIterator::is_string()
+{
+  return false;
+}
+
+bool
+ReaderIterator::is_pair()
+{
+  return false;
+}
+
+std::string
+ReaderIterator::as_string()
+{
+  return {};
+}
+
+const lisp::Lisp*
+ReaderIterator::get_cdr() const
+{
+  return nullptr;
+}
+
+std::string
+ReaderIterator::get_name() const
+{
+  return {};
+}
+
+bool
+ReaderIterator::get(bool& value) const
+{
+  return false;
+}
+
+bool
+ReaderIterator::get(int& value) const
+{
+  return false;
+}
+
+bool
+ReaderIterator::get(float& value) const
+{
+  return false;
+}
+
+bool
+ReaderIterator::get(std::string& value) const
+{
+  return false;
+}
+
+bool
+ReaderIterator::get(ReaderMapping& value) const
+{
+  return false;
+}
+
+ReaderObject
+ReaderIterator::as_object() const
+{
+  return {};
+}
+
+ReaderMapping
+ReaderIterator::as_mapping() const
+{
+  return {};
+}
 
 ReaderMapping::ReaderMapping(const lisp::Lisp* impl) :
   m_impl(impl)
@@ -54,8 +167,80 @@ ReaderMapping::ReaderMapping(const lisp::Lisp* impl) :
 }
 
 ReaderMapping::ReaderMapping() :
-  m_impl()
+  m_impl(nullptr)
 {
+}
+
+ReaderIterator
+ReaderMapping::get_iter() const
+{
+  return {};
+}
+
+bool
+ReaderMapping::get(const char* key, bool& value) const
+{
+  return false;
+}
+
+bool
+ReaderMapping::get(const char* key, int& value) const
+{
+  return false;
+}
+
+bool
+ReaderMapping::get(const char* key, uint32_t& value) const
+{
+  return false;
+}
+
+bool
+ReaderMapping::get(const char* key, float& value) const
+{
+  return false;
+}
+
+bool
+ReaderMapping::get(const char* key, std::string& value) const
+{
+  return false;
+}
+
+bool
+ReaderMapping::get(const char* key, std::vector<float>& value) const
+{
+  return false;
+}
+
+bool
+ReaderMapping::get(const char* key, std::vector<std::string>& value) const
+{
+  return false;
+}
+
+bool
+ReaderMapping::get(const char* key, std::vector<unsigned int>& value) const
+{
+  return false;
+}
+
+bool
+ReaderMapping::get(const char* key, ReaderMapping&) const
+{
+  return false;
+}
+
+bool
+ReaderMapping::get(const char* key, ReaderCollection&) const
+{
+  return false;
+}
+
+bool
+ReaderMapping::get(const char* key, ReaderObject&) const
+{
+  return false;
 }
 
 ReaderCollection::ReaderCollection(const lisp::Lisp* impl) :
@@ -64,36 +249,17 @@ ReaderCollection::ReaderCollection(const lisp::Lisp* impl) :
 }
 
 ReaderCollection::ReaderCollection() :
-  m_impl()
+  m_impl(nullptr)
 {
 }
 
 std::vector<ReaderObject>
 ReaderCollection::get_objects() const
 {
-  if (m_impl)
+  if (m_impl) {
     return {}; //return m_impl->get_objects();
-  else
+  } else {
     return {};
-}
-
-ReaderObject
-ReaderObject::parse(std::istream& stream)
-{
-  return {};
-}
-
-ReaderObject
-ReaderObject::parse(const std::string& filename)
-{
-  std::ifstream fin(filename);
-  if (!fin)
-  {
-    return ReaderObject();
-  }
-  else
-  {
-    return parse(fin);
   }
 }
 
@@ -110,102 +276,32 @@ ReaderObject::ReaderObject() :
 std::string
 ReaderObject::get_name() const
 {
-  if (m_impl)
+  if (m_impl) {
     return {}; //m_impl->get_name();
-  else
+  } else {
     return {};
+  }
 }
 
 ReaderMapping
 ReaderObject::get_mapping() const
 {
-  if (m_impl)
+  if (m_impl) {
     return {}; //m_impl->get_mapping();
-  else
+  } else {
     return {};
+  }
 }
 
 ReaderCollection
 ReaderObject::get_collection() const
 {
-  if (m_impl)
+  if (m_impl) {
     return {}; //m_impl->get_collection();
-  else
+  } else {
     return {};
+  }
 }
-
-bool
-ReaderMapping::get  (const char* key, bool& value) const
-{
-  if (m_impl)
-    return m_impl->get(key, value);
-  else
-    return false;
-}
-
-bool
-ReaderMapping::get(const char* key, int& value) const
-{
-  if (m_impl)
-    return m_impl->get(key, value);
-  else
-    return false;
-}
-
-bool
-ReaderMapping::get(const char* key, uint32_t& value) const
-{
-  if (m_impl)
-    return m_impl->get(key, value);
-  else
-    return false;
-}
-
-bool
-ReaderMapping::get (const char* key, float& value) const
-{
-  if (m_impl)
-    return m_impl->get(key, value);
-  else
-    return false;
-}
-
-bool
-ReaderMapping::get(const char* key, std::string& value) const
-{
-  if (m_impl)
-    return m_impl->get(key, value);
-  else
-    return false;
-}
-
-bool
-ReaderMapping::get(const char* key, ReaderObject& object) const
-{
-  if (m_impl)
-    return false; //m_impl->get(key, object);
-  else
-    return false;
-}
-
-bool
-ReaderMapping::get(const char* key, ReaderMapping& mapping) const
-{
-  if (m_impl)
-    return false; //m_impl->get(key, mapping);
-  else
-    return false;
-}
-
-bool
-ReaderMapping::get(const char* key, ReaderCollection& collection) const
-{
-  if (m_impl)
-    return false; // m_impl->get(key, collection);
-  else
-    return false;
-}
-
 
 ReaderMapping
 ReaderMapping::get_mapping(const char* key) const
@@ -214,11 +310,18 @@ ReaderMapping::get_mapping(const char* key) const
   {
     return {};
   }
+  else
   {
     ReaderMapping result;
     get(key, result);
     return result;
   }
+}
+
+std::vector<ReaderMapping>
+ReaderMapping::get_all_mappings(const char* key) const
+{
+  return {};
 }
 
 ReaderCollection
@@ -228,6 +331,7 @@ ReaderMapping::get_collection(const char* key) const
   {
     return {};
   }
+  else
   {
     ReaderCollection result;
     get(key, result);
@@ -242,20 +346,12 @@ ReaderMapping::get_object(const char* key) const
   {
     return {};
   }
+  else
   {
     ReaderObject result;
     get(key, result);
     return result;
   }
-}
-
-std::vector<std::string>
-ReaderMapping::get_keys() const
-{
-  if (m_impl)
-    return {}; // m_impl->get_keys();
-  else
-    return {};
 }
 
 /* EOF */

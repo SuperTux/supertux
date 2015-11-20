@@ -591,14 +591,15 @@ AddonManager::parse_addon_infos(const std::string& filename) const
 
   try
   {
-    auto root = ReaderObject::parse(filename);
+    auto doc = ReaderDocument::parse(filename);
+    auto root = doc.get_root();
     if(root.get_name() != "supertux-addons")
     {
       throw std::runtime_error("Downloaded file is not an Add-on list");
     }
     else
     {
-      auto const& addon_collection = root.get_collection();
+      auto addon_collection = root.get_collection();
       for(auto const& addon_node : addon_collection.get_objects())
       {
         if(addon_node.get_name() != "supertux-addoninfo")
