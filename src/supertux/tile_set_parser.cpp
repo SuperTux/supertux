@@ -19,6 +19,8 @@
 
 #include <stdexcept>
 #include <sstream>
+#include <sexp/value.hpp>
+#include <sexp/util.hpp>
 
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
@@ -178,18 +180,14 @@ TileSetParser::parse_tile_images(const ReaderMapping& images_lisp)
     }
     else if(iter.is_pair() && iter.get_name() == "region")
     {
-      auto ptr = iter.get_cdr();
+      auto const& ptr = iter.as_mapping().get_lisp();
 
-      std::string file;
-      float x = 0;
-      float y = 0;
-      float w = 0;
-      float h = 0;
-      ptr->get_car()->get(file); ptr = ptr->get_cdr();
-      ptr->get_car()->get(x); ptr = ptr->get_cdr();
-      ptr->get_car()->get(y); ptr = ptr->get_cdr();
-      ptr->get_car()->get(w); ptr = ptr->get_cdr();
-      ptr->get_car()->get(h);
+      std::string file = sexp::list_ref(ptr, 1).as_string();
+      float x = sexp::list_ref(ptr, 2).as_float();
+      float y = sexp::list_ref(ptr, 3).as_float();
+      float w = sexp::list_ref(ptr, 4).as_float();
+      float h = sexp::list_ref(ptr, 5).as_float();
+
       imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(x, y, x+w, y+h)));
     }
     else

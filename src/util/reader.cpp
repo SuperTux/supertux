@@ -24,6 +24,7 @@
 
 #include <fstream>
 #include <sexp/parser.hpp>
+#include <sexp/util.hpp>
 
 #include "video/drawing_request.hpp"
 
@@ -32,10 +33,10 @@ int reader_get_layer(const ReaderMapping& reader, int def)
   int tmp = 0;
   bool status;
 
-  status = reader.get ("z-pos", tmp);
+  status = reader.get("z-pos", tmp);
 
   if (!status)
-    status = reader.get ("layer", tmp);
+    status = reader.get("layer", tmp);
 
   if (!status)
     tmp = def;
@@ -44,12 +45,13 @@ int reader_get_layer(const ReaderMapping& reader, int def)
     tmp = LAYER_GUI - 100;
 
   return (tmp);
-} /* int reader_get_layer */
+}
 
 ReaderDocument
 ReaderDocument::parse(std::istream& stream)
 {
-  return {};
+  sexp::Value sx = sexp::Parser::from_stream(stream);
+  return ReaderDocument(std::move(sx));
 }
 
 ReaderDocument
@@ -65,219 +67,335 @@ ReaderDocument::parse(const std::string& filename)
   }
 }
 
-ReaderDocument::ReaderDocument()
+ReaderDocument::ReaderDocument() :
+  m_sx()
+{
+}
+
+ReaderDocument::ReaderDocument(sexp::Value sx) :
+  m_sx(std::move(sx))
 {
 }
 
 ReaderObject
 ReaderDocument::get_root() const
 {
-  return {};
+  return ReaderObject(&m_sx);
 }
 
-ReaderIterator::ReaderIterator()
+ReaderIterator::ReaderIterator() :
+  m_sx(nullptr)
 {
 }
 
-ReaderIterator::ReaderIterator(const lisp::Lisp* lisp)
+ReaderIterator::ReaderIterator(const sexp::Value* sx) :
+  m_sx(sx)
 {
 }
 
 bool
 ReaderIterator::next()
 {
-  return false;
+  if (m_sx && m_sx->is_cons()) {
+    m_sx = &m_sx->get_cdr();
+    return !m_sx->is_nil();
+  } else {
+    return false;
+  }
 }
 
 bool
 ReaderIterator::is_string()
 {
-  return false;
+  return m_sx->is_string();
 }
 
 bool
 ReaderIterator::is_pair()
 {
-  return false;
+  return m_sx->is_cons();
 }
 
 std::string
 ReaderIterator::as_string()
 {
-  return {};
-}
-
-const lisp::Lisp*
-ReaderIterator::get_cdr() const
-{
-  return nullptr;
+  return m_sx->as_string();
 }
 
 std::string
 ReaderIterator::get_name() const
 {
-  return {};
+  return m_sx->get_car().get_car().as_string();
 }
 
 bool
 ReaderIterator::get(bool& value) const
 {
-  return false;
+  return m_sx->get_car().get_cdr().get_car().as_bool();
 }
 
 bool
 ReaderIterator::get(int& value) const
 {
-  return false;
+  value = m_sx->get_car().get_cdr().get_car().as_int();
+  return true;
 }
 
 bool
 ReaderIterator::get(float& value) const
 {
-  return false;
+  value = m_sx->get_car().get_cdr().get_car().as_float();
+  return true;
 }
 
 bool
 ReaderIterator::get(std::string& value) const
 {
-  return false;
+  value = m_sx->get_car().get_cdr().get_car().as_string();
+  return true;
 }
 
 bool
 ReaderIterator::get(ReaderMapping& value) const
 {
-  return false;
+  value = ReaderMapping(&m_sx->get_car().get_cdr());
+  return true;
 }
 
 ReaderObject
 ReaderIterator::as_object() const
 {
-  return {};
+  return ReaderObject(m_sx);
 }
 
 ReaderMapping
 ReaderIterator::as_mapping() const
 {
-  return {};
+  return ReaderMapping(m_sx);
 }
 
-ReaderMapping::ReaderMapping(const lisp::Lisp* impl) :
-  m_impl(impl)
+ReaderMapping::ReaderMapping(const sexp::Value* sx) :
+  m_sx(sx)
 {
 }
 
 ReaderMapping::ReaderMapping() :
-  m_impl(nullptr)
+  m_sx(nullptr)
 {
 }
 
 ReaderIterator
 ReaderMapping::get_iter() const
 {
-  return {};
+  return ReaderIterator(m_sx);
 }
 
 bool
 ReaderMapping::get(const char* key, bool& value) const
 {
-  return false;
+  auto const& sx = sexp::assoc_ref(*m_sx, key);
+  if (sx.is_cons() && sx.get_car().is_boolean()) {
+    value = sx.get_car().as_bool();
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool
 ReaderMapping::get(const char* key, int& value) const
 {
-  return false;
+  auto const& sx = sexp::assoc_ref(*m_sx, key);
+  if (sx.is_cons() && sx.get_car().is_integer()) {
+    value = sx.get_car().as_int();
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool
 ReaderMapping::get(const char* key, uint32_t& value) const
 {
-  return false;
+  auto const& sx = sexp::assoc_ref(*m_sx, key);
+  if (sx.is_cons() && sx.get_car().is_integer()) {
+    value = sx.get_car().as_int();
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool
 ReaderMapping::get(const char* key, float& value) const
 {
-  return false;
+  auto const& sx = sexp::assoc_ref(*m_sx, key);
+  if (sx.is_cons() && sx.get_car().is_real()) {
+    value = sx.get_car().as_float();
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool
 ReaderMapping::get(const char* key, std::string& value) const
 {
-  return false;
+  auto const& sx = sexp::assoc_ref(*m_sx, key);
+  if (sx.is_cons() && sx.get_cdr().is_string()) {
+    value = sx.get_car().as_string();
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool
 ReaderMapping::get(const char* key, std::vector<float>& value) const
 {
-  return false;
+  auto const& sx = sexp::assoc_ref(*m_sx, key);
+  if (!sx.is_cons()) {
+    return false;
+  } else {
+    // FIXME: how to handle type errors?
+    std::vector<float> result;
+    for(auto const& it : sexp::ListAdapter(sx))
+    {
+      if (it.is_real())
+      {
+        result.push_back(it.as_float());
+      }
+      else
+      {
+        return false;
+      }
+    }
+    value = std::move(result);
+    return true;
+  }
 }
 
 bool
 ReaderMapping::get(const char* key, std::vector<std::string>& value) const
 {
-  return false;
+  auto const& sx = sexp::assoc_ref(*m_sx, key);
+  if (!sx.is_cons()) {
+    return false;
+  } else {
+    // FIXME: how to handle type errors?
+    std::vector<std::string> result;
+    for(auto const& it : sexp::ListAdapter(sx))
+    {
+      if (it.is_string())
+      {
+        result.push_back(it.as_string());
+      }
+      else
+      {
+        return false;
+      }
+    }
+    value = std::move(result);
+    return true;
+  }
 }
 
 bool
 ReaderMapping::get(const char* key, std::vector<unsigned int>& value) const
 {
-  return false;
+  auto const& sx = sexp::assoc_ref(*m_sx, key);
+  if (!sx.is_cons()) {
+    return false;
+  } else {
+    // FIXME: how to handle type errors?
+    std::vector<unsigned int> result;
+    for(auto const& it : sexp::ListAdapter(sx))
+    {
+      if (it.is_integer())
+      {
+        result.push_back(it.as_int());
+      }
+      else
+      {
+        return false;
+      }
+    }
+    value = std::move(result);
+    return true;
+  }
 }
 
 bool
-ReaderMapping::get(const char* key, ReaderMapping&) const
+ReaderMapping::get(const char* key, ReaderMapping& value) const
 {
-  return false;
+  auto sx = sexp::assoc_ref(*m_sx, key);
+  if (!sx.is_nil()) {
+    value = ReaderMapping(&sx);
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool
-ReaderMapping::get(const char* key, ReaderCollection&) const
+ReaderMapping::get(const char* key, ReaderCollection& value) const
 {
-  return false;
+  auto sx = sexp::assoc_ref(*m_sx, key);
+  if (!sx.is_nil()) {
+    value = ReaderCollection(&sx);
+    return true;
+  } else {
+    return false;
+  }
 }
 
 bool
-ReaderMapping::get(const char* key, ReaderObject&) const
+ReaderMapping::get(const char* key, ReaderObject& value) const
 {
-  return false;
+  auto sx = sexp::assoc_ref(*m_sx, key);
+  if (!sx.is_nil()) {
+    value = ReaderObject(&sx);
+    return true;
+  } else {
+    return false;
+  }
 }
 
-ReaderCollection::ReaderCollection(const lisp::Lisp* impl) :
-  m_impl(impl)
+ReaderCollection::ReaderCollection(const sexp::Value* sx) :
+  m_sx(sx)
 {
 }
 
 ReaderCollection::ReaderCollection() :
-  m_impl(nullptr)
+  m_sx(nullptr)
 {
 }
 
 std::vector<ReaderObject>
 ReaderCollection::get_objects() const
 {
-  if (m_impl) {
-    return {}; //return m_impl->get_objects();
+  if (m_sx) {
+    return {}; //return m_sx->get_objects();
   } else {
     return {};
   }
 }
 
-ReaderObject::ReaderObject(const lisp::Lisp* impl) :
-  m_impl(impl)
+ReaderObject::ReaderObject(const sexp::Value* sx) :
+  m_sx(sx)
 {
 }
 
 ReaderObject::ReaderObject() :
-  m_impl()
+  m_sx(nullptr)
 {
 }
 
 std::string
 ReaderObject::get_name() const
 {
-  if (m_impl) {
-    return {}; //m_impl->get_name();
+  if (m_sx) {
+    return {}; //m_sx->get_name();
   } else {
     return {};
   }
@@ -286,8 +404,8 @@ ReaderObject::get_name() const
 ReaderMapping
 ReaderObject::get_mapping() const
 {
-  if (m_impl) {
-    return {}; //m_impl->get_mapping();
+  if (m_sx) {
+    return {}; //m_sx->get_mapping();
   } else {
     return {};
   }
@@ -296,8 +414,8 @@ ReaderObject::get_mapping() const
 ReaderCollection
 ReaderObject::get_collection() const
 {
-  if (m_impl) {
-    return {}; //m_impl->get_collection();
+  if (m_sx) {
+    return {}; //m_sx->get_collection();
   } else {
     return {};
   }
@@ -306,7 +424,7 @@ ReaderObject::get_collection() const
 ReaderMapping
 ReaderMapping::get_mapping(const char* key) const
 {
-  if (!m_impl)
+  if (!m_sx)
   {
     return {};
   }
@@ -321,34 +439,24 @@ ReaderMapping::get_mapping(const char* key) const
 std::vector<ReaderMapping>
 ReaderMapping::get_all_mappings(const char* key) const
 {
-  return {};
+  if (!m_sx) {
+    return {};
+  } else {
+    // FIXME
+    return {};
+  }
 }
 
 ReaderCollection
 ReaderMapping::get_collection(const char* key) const
 {
-  if (!m_impl)
+  if (!m_sx)
   {
     return {};
   }
   else
   {
     ReaderCollection result;
-    get(key, result);
-    return result;
-  }
-}
-
-ReaderObject
-ReaderMapping::get_object(const char* key) const
-{
-  if (!m_impl)
-  {
-    return {};
-  }
-  else
-  {
-    ReaderObject result;
     get(key, result);
     return result;
   }

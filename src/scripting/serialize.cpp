@@ -17,6 +17,8 @@
 #include "scripting/serialize.hpp"
 
 #include <iostream>
+#include <sexp/value.hpp>
+#include <sexp/util.hpp>
 
 #include "lisp/writer.hpp"
 #include "lisp/list_iterator.hpp"
@@ -32,30 +34,31 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
   if(table_idx < 0)
     table_idx -= 2;
 
-  ListIterator iter(lisp.get_lisp());
-  while(iter.next()) {
-    const std::string& token = iter.item();
+  for(auto const& iter : sexp::ListAdapter(lisp.get_lisp()))
+  {
+    // FIXME: no error checking
+    const std::string& token = iter.get_car().get_car().as_string();
     sq_pushstring(vm, token.c_str(), token.size());
 
-    const lisp::Lisp* value = iter.value();
-    switch(value->get_type()) {
-      case Lisp::TYPE_CONS:
+    auto const& value = iter.get_car().get_cdr().get_car();
+    switch(value.get_type()) {
+      case sexp::Value::TYPE_CONS:
         sq_newtable(vm);
-        load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(iter.lisp()));
+        load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(&value));
         break;
-      case Lisp::TYPE_INTEGER:
-        sq_pushinteger(vm, value->get_int());
+      case sexp::Value::TYPE_INTEGER:
+        sq_pushinteger(vm, value.as_int());
         break;
-      case Lisp::TYPE_REAL:
-        sq_pushfloat(vm, value->get_float());
+      case sexp::Value::TYPE_REAL:
+        sq_pushfloat(vm, value.as_float());
         break;
-      case Lisp::TYPE_STRING:
-        sq_pushstring(vm, value->get_string().c_str(), -1);
+      case sexp::Value::TYPE_STRING:
+        sq_pushstring(vm, value.as_string().c_str(), -1);
         break;
-      case Lisp::TYPE_BOOLEAN:
-        sq_pushbool(vm, value->get_bool() ? SQTrue : SQFalse);
+      case sexp::Value::TYPE_BOOLEAN:
+        sq_pushbool(vm, value.as_bool() ? SQTrue : SQFalse);
         break;
-      case Lisp::TYPE_SYMBOL:
+      case sexp::Value::TYPE_SYMBOL:
         std::cerr << "Unexpected symbol in lisp file...";
         sq_pushnull(vm);
         break;
