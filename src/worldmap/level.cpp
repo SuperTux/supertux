@@ -29,7 +29,7 @@
 
 namespace worldmap {
 
-LevelTile::LevelTile(const std::string& basedir_, const Reader& lisp) :
+LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
   pos(),
   title(),
   solved(false),

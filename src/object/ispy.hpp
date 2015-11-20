@@ -26,7 +26,7 @@
 class Ispy : public MovingSprite
 {
 public:
-  Ispy(const Reader& lisp);
+  Ispy(const ReaderMapping& lisp);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 

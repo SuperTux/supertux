@@ -23,7 +23,7 @@
 
 namespace worldmap {
 
-Teleporter::Teleporter(const Reader& lisp) :
+Teleporter::Teleporter(const ReaderMapping& lisp) :
   pos(),
   sprite(),
   worldmap(),

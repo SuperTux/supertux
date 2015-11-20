@@ -29,7 +29,7 @@
 #define TIME_EXPLOSION 5.0
 #define TIME_STUNNED   0.5
 
-Haywire::Haywire(const Reader& reader) :
+Haywire::Haywire(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/haywire/haywire.sprite", "left", "right"),
   is_exploding(false),
   time_until_explosion(0.0f),

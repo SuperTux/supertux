@@ -31,7 +31,7 @@ namespace worldmap {
 class Teleporter : public GameObject
 {
 public:
-  Teleporter(const Reader& lisp);
+  Teleporter(const ReaderMapping& lisp);
 
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);

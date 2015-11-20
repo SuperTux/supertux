@@ -52,7 +52,7 @@ Coin::Coin(const Vector& pos, TileMap* tilemap)
   SoundManager::current()->preload("sounds/coin.wav");
 }
 
-Coin::Coin(const Reader& reader)
+Coin::Coin(const ReaderMapping& reader)
   : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
     path(),
     walker(),
@@ -183,7 +183,7 @@ HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity)
   physic.set_velocity(init_velocity);
 }
 
-HeavyCoin::HeavyCoin(const Reader& reader)
+HeavyCoin::HeavyCoin(const ReaderMapping& reader)
   : Coin(reader),
   physic()
 {

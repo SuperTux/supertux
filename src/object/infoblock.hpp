@@ -23,7 +23,7 @@
 class InfoBlock : public Block
 {
 public:
-  InfoBlock(const Reader& lisp);
+  InfoBlock(const ReaderMapping& lisp);
   virtual ~InfoBlock();
   void update(float elapsed_time);
   void draw(DrawingContext& context);

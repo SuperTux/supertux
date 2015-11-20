@@ -22,7 +22,7 @@
 class MrTree : public WalkingBadguy
 {
 public:
-  MrTree(const Reader& reader);
+  MrTree(const ReaderMapping& reader);
 
   bool is_freezable() const;
 

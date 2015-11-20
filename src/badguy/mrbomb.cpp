@@ -25,7 +25,7 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
-MrBomb::MrBomb(const Reader& reader) :
+MrBomb::MrBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
   grabbed()
 {

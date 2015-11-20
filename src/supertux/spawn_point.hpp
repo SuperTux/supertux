@@ -25,7 +25,7 @@ class SpawnPoint
 public:
   SpawnPoint();
   SpawnPoint(const SpawnPoint& other);
-  SpawnPoint(const Reader& lisp);
+  SpawnPoint(const ReaderMapping& lisp);
 
   std::string name;
   Vector pos;

@@ -27,7 +27,7 @@ class Background : public GameObject
 {
 public:
   Background();
-  Background(const Reader& reader);
+  Background(const ReaderMapping& reader);
   virtual ~Background();
 
   void set_image(const std::string& name, float bkgd_speed);

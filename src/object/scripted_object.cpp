@@ -25,7 +25,7 @@
 #include "util/log.hpp"
 #include "util/reader.hpp"
 
-ScriptedObject::ScriptedObject(const Reader& lisp) :
+ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
   physic(),
   name(),

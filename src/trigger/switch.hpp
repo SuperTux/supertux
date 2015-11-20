@@ -27,7 +27,7 @@
 class Switch : public TriggerBase
 {
 public:
-  Switch(const Reader& reader);
+  Switch(const ReaderMapping& reader);
   virtual ~Switch();
 
   virtual void update(float elapsed_time);

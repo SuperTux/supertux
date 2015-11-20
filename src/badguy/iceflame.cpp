@@ -27,7 +27,7 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
-Iceflame::Iceflame(const Reader& reader) :
+Iceflame::Iceflame(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/flame/iceflame.sprite", LAYER_FLOATINGOBJECTS),
   angle(0),
   radius(100),

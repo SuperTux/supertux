@@ -18,7 +18,7 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
 
-Decal::Decal(const Reader& reader) :
+Decal::Decal(const ReaderMapping& reader) :
   MovingSprite(reader, LAYER_OBJECTS, COLGROUP_DISABLED)
 {
   layer = reader_get_layer (reader, /* default = */ LAYER_OBJECTS);

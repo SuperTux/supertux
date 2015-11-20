@@ -26,7 +26,7 @@
 
 #include <stdexcept>
 
-Dispenser::Dispenser(const Reader& reader) :
+Dispenser::Dispenser(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),
   colgroup_active(),
   cycle(),

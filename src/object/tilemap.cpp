@@ -47,7 +47,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
 {
 }
 
-TileMap::TileMap(const Reader& reader) :
+TileMap::TileMap(const ReaderMapping& reader) :
   tileset(),
   tiles(),
   real_solid(false),

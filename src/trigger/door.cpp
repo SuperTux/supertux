@@ -30,7 +30,7 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
-Door::Door(const Reader& reader) :
+Door::Door(const ReaderMapping& reader) :
   state(CLOSED),
   target_sector(),
   target_spawnpoint(),

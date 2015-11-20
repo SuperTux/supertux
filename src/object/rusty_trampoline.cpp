@@ -33,7 +33,7 @@ const float VY_TRIGGER = -900; //negative, upwards
 const float VY_BOUNCE = -500;
 }
 
-RustyTrampoline::RustyTrampoline(const Reader& lisp) :
+RustyTrampoline::RustyTrampoline(const ReaderMapping& lisp) :
   Rock(lisp, "images/objects/rusty-trampoline/rusty-trampoline.sprite"),
   portable(true), counter(3)
 {

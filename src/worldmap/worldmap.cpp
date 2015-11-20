@@ -248,22 +248,23 @@ WorldMap::load(const std::string& filename)
   levels_path = FileSystem::dirname(map_filename);
 
   try {
-    lisp::Parser parser;
-    const lisp::Lisp* root = parser.parse(map_filename);
+    auto doc = ReaderDocument::parse(map_filename);
+    auto root = doc.get_root();
 
-    const lisp::Lisp* level_ = root->get_lisp("supertux-level");
-    if(level_ == NULL)
+    if(root.get_name() != "supertux-level")
       throw std::runtime_error("file isn't a supertux-level file.");
 
-    level_->get("name", name);
+    auto level_ = root.get_mapping();
 
-    const lisp::Lisp* tilesets_lisp = level_->get_lisp("tilesets");
-    if(tilesets_lisp != NULL) {
-      tileset      = TileManager::current()->parse_tileset_definition(*tilesets_lisp).release();
+    level_.get("name", name);
+
+    ReaderCollection tilesets_lisp;
+    if(level_.get("tilesets", tilesets_lisp)) {
+      tileset      = TileManager::current()->parse_tileset_definition(tilesets_lisp).release();
       free_tileset = true;
     }
     std::string tileset_name;
-    if(level_->get("tileset", tileset_name)) {
+    if(level_.get("tileset", tileset_name)) {
       if(tileset != NULL) {
         log_warning << "multiple tilesets specified in level_" << std::endl;
       } else {
@@ -276,55 +277,56 @@ WorldMap::load(const std::string& filename)
     }
     current_tileset = tileset;
 
-    const lisp::Lisp* sector = level_->get_lisp("sector");
-    if(!sector)
+    ReaderMapping sector;
+    if(!level_.get("sector", sector)) {
       throw std::runtime_error("No sector specified in worldmap file.");
-
-    lisp::ListIterator iter(sector);
-    while(iter.next()) {
-      if(iter.item() == "tilemap") {
-        add_object(std::make_shared<TileMap>(*(iter.lisp())));
-      } else if(iter.item() == "background") {
-        add_object(std::make_shared<Background>(*(iter.lisp())));
-      } else if(iter.item() == "music") {
-        iter.value()->get(music);
-      } else if(iter.item() == "init-script") {
-        iter.value()->get(init_script);
-      } else if(iter.item() == "worldmap-spawnpoint") {
-        SpawnPoint* sp = new SpawnPoint(*iter.lisp());
-        spawn_points.push_back(sp);
-      } else if(iter.item() == "level") {
-        auto level = std::make_shared<LevelTile>(levels_path, *iter.lisp());
-        load_level_information(*level.get());
-        levels.push_back(level.get());
-        add_object(level);
-      } else if(iter.item() == "special-tile") {
-        auto special_tile = std::make_shared<SpecialTile>(*iter.lisp());
-        special_tiles.push_back(special_tile.get());
-        add_object(special_tile);
-      } else if(iter.item() == "sprite-change") {
-        auto sprite_change = std::make_shared<SpriteChange>(*iter.lisp());
-        sprite_changes.push_back(sprite_change.get());
-        add_object(sprite_change);
-      } else if(iter.item() == "teleporter") {
-        auto teleporter = std::make_shared<Teleporter>(*iter.lisp());
-        teleporters.push_back(teleporter.get());
-        add_object(teleporter);
-      } else if(iter.item() == "decal") {
-        auto decal = std::make_shared<Decal>(*iter.lisp());
-        add_object(decal);
-      } else if(iter.item() == "ambient-light") {
-        std::vector<float> vColor;
-        sector->get( "ambient-light", vColor );
-        if(vColor.size() < 3) {
-          log_warning << "(ambient-light) requires a color as argument" << std::endl;
+    } else {
+      auto iter = sector.get_iter();
+      while(iter.next()) {
+        if(iter.item() == "tilemap") {
+          add_object(std::make_shared<TileMap>(iter.as_mapping()));
+        } else if(iter.item() == "background") {
+          add_object(std::make_shared<Background>(iter.as_mapping()));
+        } else if(iter.item() == "music") {
+          iter.get(music);
+        } else if(iter.item() == "init-script") {
+          iter.get(init_script);
+        } else if(iter.item() == "worldmap-spawnpoint") {
+          SpawnPoint* sp = new SpawnPoint(iter.as_mapping());
+          spawn_points.push_back(sp);
+        } else if(iter.item() == "level") {
+          auto level = std::make_shared<LevelTile>(levels_path, iter.as_mapping());
+          load_level_information(*level.get());
+          levels.push_back(level.get());
+          add_object(level);
+        } else if(iter.item() == "special-tile") {
+          auto special_tile = std::make_shared<SpecialTile>(iter.as_mapping());
+          special_tiles.push_back(special_tile.get());
+          add_object(special_tile);
+        } else if(iter.item() == "sprite-change") {
+          auto sprite_change = std::make_shared<SpriteChange>(iter.as_mapping());
+          sprite_changes.push_back(sprite_change.get());
+          add_object(sprite_change);
+        } else if(iter.item() == "teleporter") {
+          auto teleporter = std::make_shared<Teleporter>(iter.as_mapping());
+          teleporters.push_back(teleporter.get());
+          add_object(teleporter);
+        } else if(iter.item() == "decal") {
+          auto decal = std::make_shared<Decal>(iter.as_mapping());
+          add_object(decal);
+        } else if(iter.item() == "ambient-light") {
+          std::vector<float> vColor;
+          sector.get( "ambient-light", vColor );
+          if(vColor.size() < 3) {
+            log_warning << "(ambient-light) requires a color as argument" << std::endl;
+          } else {
+            ambient_light = Color( vColor );
+          }
+        } else if(iter.item() == "name") {
+          // skip
         } else {
-          ambient_light = Color( vColor );
+          log_warning << "Unknown token '" << iter.item() << "' in worldmap" << std::endl;
         }
-      } else if(iter.item() == "name") {
-        // skip
-      } else {
-        log_warning << "Unknown token '" << iter.item() << "' in worldmap" << std::endl;
       }
     }
     current_tileset = NULL;
@@ -350,16 +352,15 @@ WorldMap::load_level_information(LevelTile& level)
   level.target_time = 0.0f;
 
   try {
-    lisp::Parser parser;
-    const lisp::Lisp* root = parser.parse(levels_path + level.get_name());
-
-    const lisp::Lisp* level_lisp = root->get_lisp("supertux-level");
-    if(!level_lisp)
+    auto doc = ReaderDocument::parse(levels_path + level.get_name());
+    auto root = doc.get_root();
+    if(root.get_name() != "supertux-level") {
       return;
-
-    level_lisp->get("name", level.title);
-    level_lisp->get("target-time", level.target_time);
-
+    } else {
+      auto level_lisp = root.get_mapping();
+      level_lisp.get("name", level.title);
+      level_lisp.get("target-time", level.target_time);
+    }
   } catch(std::exception& e) {
     log_warning << "Problem when reading level information: " << e.what() << std::endl;
     return;

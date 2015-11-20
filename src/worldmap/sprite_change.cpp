@@ -23,7 +23,7 @@
 
 namespace worldmap {
 
-SpriteChange::SpriteChange(const Reader& lisp) :
+SpriteChange::SpriteChange(const ReaderMapping& lisp) :
   pos(),
   change_on_touch(false),
   sprite(),

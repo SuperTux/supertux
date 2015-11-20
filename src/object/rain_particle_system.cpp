@@ -46,7 +46,7 @@ RainParticleSystem::RainParticleSystem()
 }
 
 void
-RainParticleSystem::parse(const Reader& reader)
+RainParticleSystem::parse(const ReaderMapping& reader)
 {
   z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }

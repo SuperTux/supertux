@@ -29,7 +29,7 @@ public:
    * Create new Explosion centered(!) at @c pos
    */
   Explosion(const Vector& pos);
-  Explosion(const Reader& reader);
+  Explosion(const ReaderMapping& reader);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

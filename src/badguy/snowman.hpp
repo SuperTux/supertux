@@ -25,7 +25,7 @@
 class Snowman : public WalkingBadguy
 {
 public:
-  Snowman(const Reader& reader);
+  Snowman(const ReaderMapping& reader);
   Snowman(const Vector& pos, Direction d);
 
 protected:

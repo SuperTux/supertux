@@ -75,7 +75,7 @@ SnowParticleSystem::SnowParticleSystem() :
 }
 
 void
-SnowParticleSystem::parse(const Reader& reader)
+SnowParticleSystem::parse(const ReaderMapping& reader)
 {
   z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }

@@ -24,16 +24,19 @@
 
 namespace scripting {
 
-void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const Reader& lisp)
+void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMapping& lisp)
 {
   using namespace lisp;
 
   if(table_idx < 0)
     table_idx -= 2;
 
-  lisp::ListIterator iter(&lisp);
-  while(iter.next() && iter.lisp() != NULL) {
-    const std::string& token = iter.item();
+#if 0
+  // FIXME: empty placeholder
+
+  auto iter = lisp.get_iter();
+  while(iter.next()) {
+    const std::string& token = iter.get_name();
     sq_pushstring(vm, token.c_str(), token.size());
 
     const lisp::Lisp* value = iter.value();
@@ -66,6 +69,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const Reader& lisp
     if(SQ_FAILED(sq_createslot(vm, table_idx)))
       throw scripting::SquirrelError(vm, "Couldn't create new index");
   }
+#endif
 }
 
 void save_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, Writer& writer)

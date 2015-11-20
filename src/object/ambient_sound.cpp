@@ -26,7 +26,7 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
-AmbientSound::AmbientSound(const Reader& lisp) :
+AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   position(),
   dimension(),
   sample(),

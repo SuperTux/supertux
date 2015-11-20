@@ -32,6 +32,7 @@
 #include "supertux/screen.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/reader.hpp"
 #include "util/utf8_iterator.hpp"
 #include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
@@ -88,65 +89,65 @@ Font::Font(GlyphWidth glyph_width_,
 void
 Font::loadFontFile(const std::string &filename)
 {
-  lisp::Parser parser;
   // FIXME: Workaround for a crash on MSYS2 when starting with --debug
   log_debug_ << "Loading font: " << filename << std::endl;
-  const lisp::Lisp* root = parser.parse(filename);
-  const lisp::Lisp* config_l = root->get_lisp("supertux-font");
-
-  if(!config_l) {
+  auto doc = ReaderDocument::parse(filename);
+  auto root = doc.get_root();
+  if (root.get_name() != "supertux-font") {
     std::ostringstream msg;
     msg << "Font file:" << filename << ": is not a supertux-font file";
     throw std::runtime_error(msg.str());
   }
 
+  auto config_l = root.get_mapping();
+
   int def_char_width=0;
 
-  if( !config_l->get("glyph-width",def_char_width) ) {
+  if( !config_l.get("glyph-width",def_char_width) ) {
     log_warning << "Font:"<< filename << ": misses default glyph-width" << std::endl;
   }
 
-  if( !config_l->get("glyph-height",char_height) ) {
+  if( !config_l.get("glyph-height",char_height) ) {
     std::ostringstream msg;
     msg << "Font:" << filename << ": misses glyph-height";
     throw std::runtime_error(msg.str());
   }
 
-  config_l->get("glyph-border", border);
-  config_l->get("rtl", rtl);
+  config_l.get("glyph-border", border);
+  config_l.get("rtl", rtl);
 
-  lisp::ListIterator iter(config_l);
+  auto iter = config_l.get_iter();
   while(iter.next()) {
     const std::string& token = iter.item();
     if( token == "surface" ) {
-      const lisp::Lisp * glyphs_val = iter.lisp();
+      auto glyphs_val = iter.as_mapping();
       int local_char_width;
       bool monospaced;
       GlyphWidth local_glyph_width;
       std::string glyph_image;
       std::string shadow_image;
       std::vector<std::string> chars;
-      if( ! glyphs_val->get("glyph-width", local_char_width) ) {
+      if( ! glyphs_val.get("glyph-width", local_char_width) ) {
         local_char_width = def_char_width;
       }
-      if( ! glyphs_val->get("monospace", monospaced ) ) {
+      if( ! glyphs_val.get("monospace", monospaced ) ) {
         local_glyph_width = glyph_width;
       }
       else {
         if( monospaced ) local_glyph_width = FIXED;
         else local_glyph_width = VARIABLE;
       }
-      if( ! glyphs_val->get("glyphs", glyph_image) ) {
+      if( ! glyphs_val.get("glyphs", glyph_image) ) {
         std::ostringstream msg;
         msg << "Font:" << filename << ": missing glyphs image";
         throw std::runtime_error(msg.str());
       }
-      if( ! glyphs_val->get("shadows", shadow_image) ) {
+      if( ! glyphs_val.get("shadows", shadow_image) ) {
         std::ostringstream msg;
         msg << "Font:" << filename << ": missing shadows image";
         throw std::runtime_error(msg.str());
       }
-      if( ! glyphs_val->get("chars", chars) || chars.size() == 0) {
+      if( ! glyphs_val.get("chars", chars) || chars.size() == 0) {
         std::ostringstream msg;
         msg << "Font:" << filename << ": missing chars definition";
         throw std::runtime_error(msg.str());

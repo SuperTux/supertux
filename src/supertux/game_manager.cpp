@@ -32,6 +32,7 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/reader.hpp"
 #include "worldmap/worldmap.hpp"
 
 GameManager::GameManager() :
@@ -81,16 +82,17 @@ GameManager::get_level_name(const std::string& filename) const
 {
   try
   {
-    lisp::Parser parser;
-    const lisp::Lisp* root = parser.parse(filename);
+    auto doc = ReaderDocument::parse(filename);
+    auto root = doc.get_root();
 
-    const lisp::Lisp* level = root->get_lisp("supertux-level");
-    if(!level)
+    if(root.get_name() != "supertux-level") {
       return "";
-
-    std::string name;
-    level->get("name", name);
-    return name;
+    } else {
+      auto mapping = root.get_mapping();
+      std::string name;
+      mapping.get("name", name);
+      return name;
+    }
   }
   catch(const std::exception& e)
   {

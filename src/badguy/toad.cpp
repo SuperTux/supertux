@@ -28,7 +28,7 @@ const float TOAD_RECOVER_TIME = 0.5; /**< time to stand still before starting a 
 static const std::string HOP_SOUND = "sounds/hop.ogg";
 }
 
-Toad::Toad(const Reader& reader) :
+Toad::Toad(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/toad/toad.sprite"),
   recover_timer(),
   state()

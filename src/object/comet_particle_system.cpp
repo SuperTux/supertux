@@ -46,7 +46,7 @@ CometParticleSystem::CometParticleSystem()
 }
 
 void
-CometParticleSystem::parse(const Reader& reader)
+CometParticleSystem::parse(const ReaderMapping& reader)
 {
   z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }

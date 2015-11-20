@@ -29,7 +29,7 @@ namespace{
   const std::string SPLAT_SOUND = "sounds/splat.wav";
 }
 
-KamikazeSnowball::KamikazeSnowball(const Reader& reader) :
+KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
 {
   SoundManager::current()->preload(SPLAT_SOUND);

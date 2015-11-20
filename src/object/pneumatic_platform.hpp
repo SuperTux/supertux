@@ -25,7 +25,7 @@
 class PneumaticPlatform : public MovingSprite
 {
 public:
-  PneumaticPlatform(const Reader& reader);
+  PneumaticPlatform(const ReaderMapping& reader);
   PneumaticPlatform(PneumaticPlatform* master);
   virtual ~PneumaticPlatform();
 

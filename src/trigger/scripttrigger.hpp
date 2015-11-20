@@ -22,7 +22,7 @@
 class ScriptTrigger : public TriggerBase
 {
 public:
-  ScriptTrigger(const Reader& reader);
+  ScriptTrigger(const ReaderMapping& reader);
   ScriptTrigger(const Vector& pos, const std::string& script);
   ~ScriptTrigger();
 

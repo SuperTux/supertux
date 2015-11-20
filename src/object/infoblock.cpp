@@ -27,7 +27,7 @@
 #include "video/drawing_context.hpp"
 #include "sprite/sprite.hpp"
 
-InfoBlock::InfoBlock(const Reader& lisp) :
+InfoBlock::InfoBlock(const ReaderMapping& lisp) :
   Block(SpriteManager::current()->create("images/objects/bonus_block/infoblock.sprite")),
   message(),
   shown_pct(0),

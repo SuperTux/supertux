@@ -25,7 +25,7 @@
 class Crystallo : public WalkingBadguy
 {
 public:
-  Crystallo(const Reader& reader);
+  Crystallo(const ReaderMapping& reader);
   Crystallo(const Vector& pos, Direction d);
 
   void active_update(float elapsed_time);

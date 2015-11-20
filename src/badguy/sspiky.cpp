@@ -20,7 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-SSpiky::SSpiky(const Reader& reader)
+SSpiky::SSpiky(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/spiky/sleepingspiky.sprite", "left", "right"), state(SSPIKY_SLEEPING)
 {
   walk_speed = 80;

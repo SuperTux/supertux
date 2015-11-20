@@ -29,7 +29,7 @@ namespace worldmap {
 class SpawnPoint
 {
 public:
-  SpawnPoint(const Reader& lisp);
+  SpawnPoint(const ReaderMapping& lisp);
 
   std::string name;
   Vector pos;

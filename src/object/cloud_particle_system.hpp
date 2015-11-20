@@ -28,7 +28,7 @@ public:
   CloudParticleSystem();
   virtual ~CloudParticleSystem();
 
-  void parse(const Reader& lisp);
+  void parse(const ReaderMapping& lisp);
 
   virtual void update(float elapsed_time);
 

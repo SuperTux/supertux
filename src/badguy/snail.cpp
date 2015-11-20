@@ -29,7 +29,7 @@ const int MAX_SNAIL_SQUISHES = 10;
 const float SNAIL_KICK_SPEED_Y = -500; /**< y-velocity gained when kicked */
 }
 
-Snail::Snail(const Reader& reader) :
+Snail::Snail(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"),
   state(STATE_NORMAL),
   kicked_delay_timer(),

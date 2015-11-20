@@ -30,7 +30,7 @@ const float POSITION_FIX_AX = 30; // x-wise acceleration applied to player when 
 const float POSITION_FIX_AY = 50; // y-wise acceleration applied to player when trying to align player and Climbable
 }
 
-Climbable::Climbable(const Reader& reader) :
+Climbable::Climbable(const ReaderMapping& reader) :
   climbed_by(0),
   activate_try_timer()
 {

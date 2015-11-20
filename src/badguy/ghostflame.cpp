@@ -27,7 +27,7 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
-Ghostflame::Ghostflame(const Reader& reader) :
+Ghostflame::Ghostflame(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/flame/ghostflame.sprite", LAYER_FLOATINGOBJECTS),
   angle(0),
   radius(100),

@@ -24,7 +24,7 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
 
-Lantern::Lantern(const Reader& reader) :
+Lantern::Lantern(const ReaderMapping& reader) :
   Rock(reader, "images/objects/lantern/lantern.sprite"),
   lightcolor(1.0f, 1.0f, 1.0f),
   lightsprite()

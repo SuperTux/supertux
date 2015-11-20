@@ -25,7 +25,7 @@
 class Trampoline : public Rock
 {
 public:
-  Trampoline(const Reader& reader);
+  Trampoline(const ReaderMapping& reader);
   Trampoline(const Vector& pos, bool port);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);

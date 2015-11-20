@@ -22,7 +22,7 @@
 class PoisonIvy : public WalkingBadguy
 {
 public:
-  PoisonIvy(const Reader& reader);
+  PoisonIvy(const ReaderMapping& reader);
   PoisonIvy(const Vector& pos, Direction d);
 
   bool is_freezable() const;

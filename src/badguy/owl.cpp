@@ -30,7 +30,7 @@
 #define FLYING_SPEED 120.0
 #define ACTIVATION_DISTANCE 128.0
 
-Owl::Owl(const Reader& reader) :
+Owl::Owl(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/owl/owl.sprite", LAYER_OBJECTS + 1),
   carried_obj_name("skydive"),
   carried_object(NULL)

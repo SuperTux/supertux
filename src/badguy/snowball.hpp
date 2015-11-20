@@ -22,7 +22,7 @@
 class SnowBall : public WalkingBadguy
 {
 public:
-  SnowBall(const Reader& reader);
+  SnowBall(const ReaderMapping& reader);
   SnowBall(const Vector& pos, Direction d, std::string script);
 
 protected:

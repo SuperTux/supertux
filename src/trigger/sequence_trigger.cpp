@@ -19,7 +19,7 @@
 #include "trigger/sequence_trigger.hpp"
 #include "util/reader.hpp"
 
-SequenceTrigger::SequenceTrigger(const Reader& reader) :
+SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
   triggerevent(),
   sequence_name()
 {

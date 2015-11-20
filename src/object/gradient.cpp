@@ -31,7 +31,7 @@ Gradient::Gradient() :
 {
 }
 
-Gradient::Gradient(const Reader& reader) :
+Gradient::Gradient(const ReaderMapping& reader) :
   layer(LAYER_BACKGROUND0),
   gradient_top(),
   gradient_bottom(),

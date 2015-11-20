@@ -22,7 +22,7 @@
 class Stumpy : public WalkingBadguy
 {
 public:
-  Stumpy(const Reader& reader);
+  Stumpy(const ReaderMapping& reader);
   Stumpy(const Vector& pos, Direction d);
 
   void initialize();

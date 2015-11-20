@@ -51,7 +51,7 @@ const int INITIAL_HITPOINTS = 5; /**< number of hits we can take */
 const float YETI_SQUISH_TIME = 5;
 }
 
-Yeti::Yeti(const Reader& reader) :
+Yeti::Yeti(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/yeti/yeti.sprite"),
   state(),
   state_timer(),

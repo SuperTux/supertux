@@ -23,25 +23,25 @@
 
 namespace worldmap {
 
-SpawnPoint::SpawnPoint(const Reader& slisp) :
+SpawnPoint::SpawnPoint(const ReaderMapping& slisp) :
   name(),
   pos(),
   auto_dir(D_NONE)
 {
   pos.x = -1;
   pos.y = -1;
-  lisp::ListIterator iter(&slisp);
+  auto iter = slisp.get_iter();
   while(iter.next()) {
     const std::string& token = iter.item();
     if(token == "name") {
-      iter.value()->get(name);
+      iter.get(name);
     } else if(token == "x") {
-      iter.value()->get(pos.x);
+      iter.get(pos.x);
     } else if(token == "y") {
-      iter.value()->get(pos.y);
+      iter.get(pos.y);
     } else if(token == "auto-dir") {
       std::string s = "";
-      iter.value()->get(s);
+      iter.get(s);
       auto_dir = string_to_direction(s);
     } else {
       log_warning << "unknown token '" << token << "' in SpawnPoint" << std::endl;

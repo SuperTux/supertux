@@ -32,7 +32,7 @@ const float VY_MIN = -900; //negative, upwards
 const float VY_INITIAL = -500;
 }
 
-Trampoline::Trampoline(const Reader& lisp) :
+Trampoline::Trampoline(const ReaderMapping& lisp) :
   Rock(lisp, "images/objects/trampoline/trampoline.sprite"),
   portable(true)
 {

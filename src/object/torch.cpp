@@ -21,7 +21,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "util/reader.hpp"
 
-Torch::Torch(const Reader& reader) :
+Torch::Torch(const ReaderMapping& reader) :
   m_torch(),
   m_flame(),
   m_flame_glow(),

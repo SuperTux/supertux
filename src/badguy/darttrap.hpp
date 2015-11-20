@@ -23,7 +23,7 @@
 class DartTrap : public BadGuy
 {
 public:
-  DartTrap(const Reader& reader);
+  DartTrap(const ReaderMapping& reader);
 
   void initialize();
   void activate();

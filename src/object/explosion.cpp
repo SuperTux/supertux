@@ -45,7 +45,7 @@ Explosion::Explosion(const Vector& pos) :
   lightsprite->set_color(Color(0.6f, 0.6f, 0.6f));
 }
 
-Explosion::Explosion(const Reader& reader) :
+Explosion::Explosion(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING),
   hurt(true),
   push(false),

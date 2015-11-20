@@ -24,7 +24,7 @@
 
 #include "video/drawing_request.hpp"
 
-int reader_get_layer (const Reader& reader, int def)
+int reader_get_layer (const ReaderMapping& reader, int def)
 {
   int tmp = 0;
   bool status;

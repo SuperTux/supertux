@@ -283,7 +283,7 @@ ObjectFactory::init_factories()
 }
 
 GameObjectPtr
-ObjectFactory::create(const std::string& name, const Reader& reader) const
+ObjectFactory::create(const std::string& name, const ReaderMapping& reader) const
 {
   Factories::const_iterator i = factories.find(name);
 
@@ -308,10 +308,8 @@ ObjectFactory::create(const std::string& name, const Vector& pos, const Directio
   if(dir != AUTO)
     lisptext << " (direction " << dir << "))";
 
-  lisp::Parser parser;
-  const lisp::Lisp* lisp = parser.parse(lisptext, "create_object");
-
-  return create(name, *(lisp->get_car()));
+  auto doc = ReaderDocument::parse(lisptext);
+  return create(name, doc.get_root().get_mapping());
 }
 
 /* EOF */

@@ -23,7 +23,7 @@
 static const float FISH_JUMP_POWER = -600;
 static const float FISH_WAIT_TIME = 1;
 
-Fish::Fish(const Reader& reader) :
+Fish::Fish(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/fish/fish.sprite", LAYER_TILES-1),
   waiting(),
   stop_y(0)

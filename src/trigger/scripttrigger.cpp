@@ -23,7 +23,7 @@
 #include "trigger/scripttrigger.hpp"
 #include "util/reader.hpp"
 
-ScriptTrigger::ScriptTrigger(const Reader& reader) :
+ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   triggerevent(),
   script()
 {

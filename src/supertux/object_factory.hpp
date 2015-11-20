@@ -38,7 +38,7 @@ public:
   /** Creates a new gameobject from a lisp node.
    * Remember to delete the objects later
    */
-  virtual GameObjectPtr create(const Reader& reader) = 0;
+  virtual GameObjectPtr create(const ReaderMapping& reader) = 0;
 };
 
 template<class C>
@@ -48,7 +48,7 @@ public:
   ConcreteObjectFactory() {}
   ~ConcreteObjectFactory() {}
 
-  GameObjectPtr create(const Reader& reader)
+  GameObjectPtr create(const ReaderMapping& reader)
   {
     return std::make_shared<C>(reader);
   }
@@ -67,7 +67,7 @@ public:
   ObjectFactory();
   ~ObjectFactory();
 
-  GameObjectPtr create(const std::string& name, const Reader& reader) const;
+  GameObjectPtr create(const std::string& name, const ReaderMapping& reader) const;
   GameObjectPtr create(const std::string& name, const Vector& pos, const Direction dir = AUTO) const;
 
 private:

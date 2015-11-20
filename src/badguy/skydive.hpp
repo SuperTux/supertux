@@ -26,7 +26,7 @@ class SkyDive : public BadGuy, public Portable
     bool is_grabbed;
 
   public:
-    SkyDive(const Reader& reader);
+    SkyDive(const ReaderMapping& reader);
     SkyDive(const Vector& pos, Direction d);
 
     void collision_solid(const CollisionHit& hit);

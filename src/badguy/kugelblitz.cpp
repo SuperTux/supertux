@@ -34,7 +34,7 @@
 #define  BASE_SPEED 200
 #define  RAND_SPEED 150
 
-Kugelblitz::Kugelblitz(const Reader& reader) :
+Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/kugelblitz/kugelblitz.sprite"),
   pos_groundhit(),
   groundhit_pos_set(false),

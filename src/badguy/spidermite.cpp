@@ -23,7 +23,7 @@
 static const float FLYTIME = 1.2f;
 static const float MOVE_SPEED = -100.0f;
 
-SpiderMite::SpiderMite(const Reader& reader) :
+SpiderMite::SpiderMite(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/spidermite/spidermite.sprite"),
   mode(),
   timer()

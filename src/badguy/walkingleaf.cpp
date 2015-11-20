@@ -19,7 +19,7 @@
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 
-WalkingLeaf::WalkingLeaf(const Reader& reader) :
+WalkingLeaf::WalkingLeaf(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
 {
   walk_speed = 60;

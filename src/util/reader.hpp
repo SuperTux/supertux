@@ -25,11 +25,23 @@
 
 #include "util/reader_fwd.hpp"
 
-int reader_get_layer (const Reader& reader, int def);
+int reader_get_layer (const ReaderMapping& reader, int def);
 
 class ReaderObject;
 class ReaderMapping;
 class ReaderCollection;
+
+class ReaderDocument
+{
+public:
+  static ReaderDocument parse(std::istream& stream);
+  static ReaderDocument parse(const std::string& filename);
+
+public:
+  ReaderDocument();
+
+  ReaderObject get_root() const;
+};
 
 class ReaderObject final
 {
@@ -76,7 +88,14 @@ public:
 
   bool next();
 
+  bool is_string();
+  bool is_pair();
+  std::string as_string();
+
+  const lisp::Lisp* get_cdr() const;
+
   std::string get_name() const;
+  std::string item() const { return get_name(); }
 
   bool get(bool& value) const;
   bool get(int& value) const;
@@ -85,6 +104,7 @@ public:
   bool get(ReaderMapping& value) const;
 
   ReaderObject as_object() const;
+  ReaderMapping as_mapping() const;
 };
 
 class ReaderMapping final
@@ -102,6 +122,10 @@ public:
   bool get(const char* key, uint32_t& value) const;
   bool get(const char* key, float& value) const;
   bool get(const char* key, std::string& value) const;
+
+  bool get(const char* key, std::vector<float>& value) const;
+  bool get(const char* key, std::vector<std::string>& value) const;
+  bool get(const char* key, std::vector<unsigned int>& value) const;
 
   bool get(const char* key, ReaderMapping&) const;
   bool get(const char* key, ReaderCollection&) const;

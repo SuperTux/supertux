@@ -25,7 +25,7 @@
 class Snail : public WalkingBadguy
 {
 public:
-  Snail(const Reader& reader);
+  Snail(const ReaderMapping& reader);
   Snail(const Vector& pos, Direction d);
 
   void initialize();

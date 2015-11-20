@@ -117,7 +117,7 @@ PlayerStatus::write(lisp::Writer& writer)
 }
 
 void
-PlayerStatus::read(const Reader& lisp)
+PlayerStatus::read(const ReaderMapping& lisp)
 {
   reset();
 

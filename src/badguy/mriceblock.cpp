@@ -31,7 +31,7 @@ const int MAXSQUISHES = 10;
 const float NOKICK_TIME = 0.1f;
 }
 
-MrIceBlock::MrIceBlock(const Reader& reader) :
+MrIceBlock::MrIceBlock(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"),
   ice_state(ICESTATE_NORMAL),
   nokick_timer(),
@@ -297,7 +297,7 @@ MrIceBlock::ignite() {
   BadGuy::ignite();
 }
 
-SmartBlock::SmartBlock(const Reader& reader) :
+SmartBlock::SmartBlock(const ReaderMapping& reader) :
   MrIceBlock(reader)
 {
   max_drop_height = 16;

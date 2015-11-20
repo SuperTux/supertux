@@ -24,7 +24,7 @@
 
 namespace worldmap {
 
-SpecialTile::SpecialTile(const Reader& lisp) :
+SpecialTile::SpecialTile(const ReaderMapping& lisp) :
   pos(),
   sprite(),
   map_message(),

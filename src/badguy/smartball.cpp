@@ -21,7 +21,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-SmartBall::SmartBall(const Reader& reader)
+SmartBall::SmartBall(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/smart-snowball.sprite", "left", "right")
 {
   walk_speed = 80;

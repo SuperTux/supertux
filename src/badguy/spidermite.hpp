@@ -22,7 +22,7 @@
 class SpiderMite : public BadGuy
 {
 public:
-  SpiderMite(const Reader& reader);
+  SpiderMite(const ReaderMapping& reader);
   SpiderMite(const Vector& pos);
 
   void initialize();

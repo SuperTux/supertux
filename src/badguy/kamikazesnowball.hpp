@@ -22,7 +22,7 @@
 class KamikazeSnowball : public BadGuy
 {
 public:
-  KamikazeSnowball(const Reader& reader);
+  KamikazeSnowball(const ReaderMapping& reader);
   KamikazeSnowball(const Vector& pos, Direction d);
 
   void initialize();

@@ -35,7 +35,7 @@ static const float TRACK_RANGE = 384; /**< at what distance to start tracking th
 static const float VANISH_RANGE = 512; /**< at what distance to stop tracking and vanish */
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
 
-WillOWisp::WillOWisp(const Reader& reader) :
+WillOWisp::WillOWisp(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS),
   mystate(STATE_IDLE),
   target_sector("main"),

@@ -31,7 +31,7 @@ class Thunderstorm : public GameObject,
                      public ScriptInterface
 {
 public:
-  Thunderstorm(const Reader& reader);
+  Thunderstorm(const ReaderMapping& reader);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

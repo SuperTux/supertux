@@ -46,18 +46,18 @@ SpriteData::Action::~Action()
 {
 }
 
-SpriteData::SpriteData(const Reader& lisp, const std::string& basedir) :
+SpriteData::SpriteData(const ReaderMapping& lisp, const std::string& basedir) :
   actions(),
   name()
 {
-  lisp::ListIterator iter(&lisp);
+  auto iter = lisp.get_iter();
   while(iter.next()) {
-    if(iter.item() == "name") {
-      iter.value()->get(name);
-    } else if(iter.item() == "action") {
-      parse_action(*iter.lisp(), basedir);
+    if(iter.get_name() == "name") {
+      iter.get(name);
+    } else if(iter.get_name() == "action") {
+      parse_action(iter.as_mapping(), basedir);
     } else {
-      log_warning << "Unknown sprite field: " << iter.item() << std::endl;
+      log_warning << "Unknown sprite field: " << iter.get_name() << std::endl;
     }
   }
   if(actions.empty())
@@ -71,7 +71,7 @@ SpriteData::~SpriteData()
 }
 
 void
-SpriteData::parse_action(const Reader& lisp, const std::string& basedir)
+SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
 {
   Action* action = new Action;
 

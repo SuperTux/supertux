@@ -23,6 +23,7 @@
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "supertux/tile_set.hpp"
+#include "util/reader.hpp"
 #include "util/file_system.hpp"
 
 TileSetParser::TileSetParser(TileSet& tileset, const std::string& filename) :
@@ -40,19 +41,23 @@ TileSetParser::parse()
   m_tileset.tiles.resize(1, 0);
   m_tileset.tiles[0] = new Tile();
 
-  lisp::Parser parser;
-  const lisp::Lisp* root = parser.parse(m_filename);
+  auto doc = ReaderDocument::parse(m_filename);
+  auto root = doc.get_root();
 
-  const lisp::Lisp* tiles_lisp = root->get_lisp("supertux-tiles");
-  if(!tiles_lisp)
+  if(root.get_name() != "supertux-tiles") {
     throw std::runtime_error("file is not a supertux tiles file.");
+  }
 
-  lisp::ListIterator iter(tiles_lisp);
+  auto iter = root.get_mapping().get_iter();
   while(iter.next())
   {
     if (iter.item() == "tile")
     {
-      parse_tile(*iter.lisp());
+      ReaderMapping tile_mapping;
+      if (iter.get(tile_mapping))
+      {
+        parse_tile(tile_mapping);
+      }
     }
     else if (iter.item() == "tilegroup")
     {
@@ -60,7 +65,11 @@ TileSetParser::parse()
     }
     else if (iter.item() == "tiles")
     {
-      parse_tiles(*iter.lisp());
+      ReaderMapping tiles_mapping;
+      if (iter.get(tiles_mapping))
+      {
+        parse_tiles(tiles_mapping);
+      }
     }
     else
     {
@@ -70,7 +79,7 @@ TileSetParser::parse()
 }
 
 void
-TileSetParser::parse_tile(const Reader& reader)
+TileSetParser::parse_tile(const ReaderMapping& reader)
 {
   uint32_t id;
   if (!reader.get("id", id))
@@ -126,16 +135,16 @@ TileSetParser::parse_tile(const Reader& reader)
   }
 
   std::vector<Tile::ImageSpec> editor_imagespecs;
-  const lisp::Lisp* editor_images;
-  editor_images = reader.get_lisp("editor-images");
-  if(editor_images)
-    editor_imagespecs = parse_tile_images(*editor_images);
+  ReaderMapping editor_images;
+  if(reader.get("editor-images", editor_images)) {
+    editor_imagespecs = parse_tile_images(editor_images);
+  }
 
   std::vector<Tile::ImageSpec> imagespecs;
-  const lisp::Lisp* images;
-  images = reader.get_lisp("images");
-  if(images)
-      imagespecs = parse_tile_images(*images);
+  ReaderMapping images;
+  if(reader.get("images", images)) {
+    imagespecs = parse_tile_images(images);
+  }
 
   std::unique_ptr<Tile> tile(new Tile(imagespecs, editor_imagespecs, attributes, data, fps));
 
@@ -153,26 +162,23 @@ TileSetParser::parse_tile(const Reader& reader)
 }
 
 std::vector<Tile::ImageSpec>
-TileSetParser::parse_tile_images(const Reader& images_lisp)
+TileSetParser::parse_tile_images(const ReaderMapping& images_lisp)
 {
   std::vector<Tile::ImageSpec> imagespecs;
 
-  const lisp::Lisp* list = &images_lisp;
-  while(list)
+  // (images "foo.png" "foo.bar" ...)
+  // (images (region "foo.png" 0 0 32 32))
+  auto iter = images_lisp.get_iter();
+  while(iter.next())
   {
-    const lisp::Lisp* cur = list->get_car();
-
-    if(cur->get_type() == lisp::Lisp::TYPE_STRING)
+    if(iter.is_string())
     {
-      std::string file;
-      cur->get(file);
+      std::string file = iter.as_string();
       imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(0, 0, 0, 0)));
     }
-    else if(cur->get_type() == lisp::Lisp::TYPE_CONS &&
-            cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL &&
-            cur->get_car()->get_symbol() == "region")
+    else if(iter.is_pair() && iter.get_name() == "region")
     {
-      const lisp::Lisp* ptr = cur->get_cdr();
+      auto ptr = iter.get_cdr();
 
       std::string file;
       float x = 0;
@@ -190,15 +196,13 @@ TileSetParser::parse_tile_images(const Reader& images_lisp)
     {
       log_warning << "Expected string or list in images tag" << std::endl;
     }
-
-    list = list->get_cdr();
   }
 
   return imagespecs;
 }
 
 void
-TileSetParser::parse_tiles(const Reader& reader)
+TileSetParser::parse_tiles(const ReaderMapping& reader)
 {
   // List of ids (use 0 if the tile should be ignored)
   std::vector<uint32_t> ids;

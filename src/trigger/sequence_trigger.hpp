@@ -24,7 +24,7 @@ class Player;
 class SequenceTrigger : public TriggerBase
 {
 public:
-  SequenceTrigger(const Reader& reader);
+  SequenceTrigger(const ReaderMapping& reader);
   SequenceTrigger(const Vector& pos, const std::string& sequence);
   ~SequenceTrigger();
 

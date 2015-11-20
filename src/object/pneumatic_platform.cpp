@@ -21,7 +21,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-PneumaticPlatform::PneumaticPlatform(const Reader& reader) :
+PneumaticPlatform::PneumaticPlatform(const ReaderMapping& reader) :
   MovingSprite(reader, LAYER_OBJECTS, COLGROUP_STATIC),
   master(0),
   slave(0),

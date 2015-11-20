@@ -23,7 +23,7 @@ class MrBomb : public WalkingBadguy,
                public Portable
 {
 public:
-  MrBomb(const Reader& reader);
+  MrBomb(const ReaderMapping& reader);
   MrBomb(const Vector& pos, Direction d);
 
   void kill_fall();

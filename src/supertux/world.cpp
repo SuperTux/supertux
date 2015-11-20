@@ -71,22 +71,24 @@ World::load_(const std::string& directory)
   m_basedir = directory;
   m_worldmap_filename = m_basedir + "/worldmap.stwm";
 
-  lisp::Parser parser;
-  const lisp::Lisp* root = parser.parse(m_basedir + "/info");
+  auto doc = ReaderDocument::parse((m_basedir + "/info"));
+  auto root = doc.get_root();
 
-  const lisp::Lisp* info = root->get_lisp("supertux-world");
-  if(info == NULL)
-    info = root->get_lisp("supertux-level-subset");
-  if(info == NULL)
+  if(root.get_name() != "supertux-world" ||
+     root.get_name() != "supertux-level-subset")
+  {
     throw std::runtime_error("File is not a world or levelsubset file");
+  }
 
   m_hide_from_contribs = false;
   m_is_levelset = true;
 
-  info->get("title", m_title);
-  info->get("description", m_description);
-  info->get("levelset", m_is_levelset);
-  info->get("hide-from-contribs", m_hide_from_contribs);
+  auto info = root.get_mapping();
+
+  info.get("title", m_title);
+  info.get("description", m_description);
+  info.get("levelset", m_is_levelset);
+  info.get("hide-from-contribs", m_hide_from_contribs);
 }
 
 std::string

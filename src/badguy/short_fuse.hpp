@@ -23,7 +23,7 @@
 class ShortFuse : public WalkingBadguy
 {
 public:
-  ShortFuse(const Reader& reader);
+  ShortFuse(const ReaderMapping& reader);
 
 protected:
   HitResponse collision_player (Player& player, const CollisionHit& hit);

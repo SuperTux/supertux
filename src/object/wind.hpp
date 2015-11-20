@@ -30,7 +30,7 @@ class Wind : public MovingObject,
              public ScriptInterface
 {
 public:
-  Wind(const Reader& reader);
+  Wind(const ReaderMapping& reader);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

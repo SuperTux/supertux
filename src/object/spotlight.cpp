@@ -20,7 +20,7 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
 
-Spotlight::Spotlight(const Reader& lisp) :
+Spotlight::Spotlight(const ReaderMapping& lisp) :
   position(),
   angle(0.0f),
   center(),

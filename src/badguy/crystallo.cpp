@@ -21,7 +21,7 @@
 #include "util/reader.hpp"
 #include "object/anchor_point.hpp"
 
-Crystallo::Crystallo(const Reader& reader) :
+Crystallo::Crystallo(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
   radius()
 {

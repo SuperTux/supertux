@@ -28,7 +28,7 @@
 
 #include <sstream>
 
-PowerUp::PowerUp(const Reader& lisp) :
+PowerUp::PowerUp(const ReaderMapping& lisp) :
   MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   script(),

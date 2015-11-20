@@ -33,7 +33,7 @@ static const float POISONIVY_WIDTH = 32;
 static const float POISONIVY_HEIGHT = 32;
 static const float POISONIVY_Y_OFFSET = 24;
 
-MrTree::MrTree(const Reader& reader)
+MrTree::MrTree(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/mr_tree/mr_tree.sprite","left","right")
 {
   walk_speed = TREE_SPEED;

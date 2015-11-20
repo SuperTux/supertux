@@ -27,7 +27,7 @@ class Candle : public MovingSprite,
                public ScriptInterface
 {
 public:
-  Candle(const Reader& lisp);
+  Candle(const ReaderMapping& lisp);
   virtual void draw(DrawingContext& context);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);

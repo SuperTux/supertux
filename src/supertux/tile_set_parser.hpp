@@ -41,9 +41,9 @@ public:
   void parse();
 
 private:
-  void parse_tile(const Reader& reader);
-  void parse_tiles(const Reader& reader);
-  std::vector<Tile::ImageSpec> parse_tile_images(const Reader& cur);
+  void parse_tile(const ReaderMapping& reader);
+  void parse_tiles(const ReaderMapping& reader);
+  std::vector<Tile::ImageSpec> parse_tile_images(const ReaderMapping& cur);
 
 private:
   TileSetParser(const TileSetParser&);

@@ -30,7 +30,7 @@ const float FLASH_DISPLAY_TIME = 0.1f;
 const float ELECTRIFY_TIME = 0.5f;
 }
 
-Thunderstorm::Thunderstorm(const Reader& reader) :
+Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   running(true),
   interval(10.0f),
   layer(LAYER_BACKGROUNDTILES-1),

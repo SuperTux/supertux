@@ -22,7 +22,7 @@
 class LiveFire : public WalkingBadguy
 {
 public:
-  LiveFire(const Reader& reader);
+  LiveFire(const ReaderMapping& reader);
 
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
@@ -52,7 +52,7 @@ protected:
 class LiveFireAsleep : public LiveFire
 {
 public:
-  LiveFireAsleep(const Reader& reader);
+  LiveFireAsleep(const ReaderMapping& reader);
 
   void initialize();
 };
@@ -60,7 +60,7 @@ public:
 class LiveFireDormant : public LiveFire
 {
 public:
-  LiveFireDormant(const Reader& reader);
+  LiveFireDormant(const ReaderMapping& reader);
 
   void initialize();
 };

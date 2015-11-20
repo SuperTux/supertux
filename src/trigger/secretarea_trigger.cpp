@@ -28,7 +28,7 @@
 
 static const float MESSAGE_TIME=3.5;
 
-SecretAreaTrigger::SecretAreaTrigger(const Reader& reader) :
+SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
   message_timer(),
   message_displayed(),
   message(),

@@ -199,7 +199,7 @@ Sector::parse(const ReaderMapping& sector)
     } else if(iter.get_name() == "music") {
       iter.get(music);
     } else if(iter.get_name() == "spawnpoint") {
-      auto sp = std::make_shared<SpawnPoint>(*iter.lisp());
+      auto sp = std::make_shared<SpawnPoint>(iter.as_mapping());
       if (sp->name != "" && sp->pos.x >= 0 && sp->pos.y >= 0) {
         spawnpoints.push_back(sp);
       }
@@ -214,7 +214,7 @@ Sector::parse(const ReaderMapping& sector)
         ambient_light = Color( vColor );
       }
     } else {
-      GameObjectPtr object = parse_object(token, iter.as_object());
+      GameObjectPtr object = parse_object(iter.get_name(), iter.as_mapping());
       if(object) {
         if(std::dynamic_pointer_cast<Background>(object)) {
           has_background = true;
@@ -248,7 +248,7 @@ Sector::parse(const ReaderMapping& sector)
 }
 
 void
-Sector::parse_old_format(const Reader& reader)
+Sector::parse_old_format(const ReaderMapping& reader)
 {
   name = "main";
   reader.get("gravity", gravity);
@@ -361,9 +361,9 @@ Sector::parse_old_format(const Reader& reader)
   }
 
   // read reset-points (now spawn-points)
-  const lisp::Lisp* resetpoints = reader.get_lisp("reset-points");
-  if(resetpoints) {
-    lisp::ListIterator iter(resetpoints);
+  ReaderMapping resetpoints;
+  if(reader.get("reset-points", resetpoints)) {
+    auto iter = resetpoints.get_iter();
     while(iter.next()) {
       if(iter.item() == "point") {
         Vector sp_pos;
@@ -381,15 +381,15 @@ Sector::parse_old_format(const Reader& reader)
   }
 
   // read objects
-  const lisp::Lisp* objects = reader.get_lisp("objects");
-  if(objects) {
-    lisp::ListIterator iter(objects);
-    while(iter.next()) {
-      auto object = parse_object(iter.item(), *(iter.lisp()));
+  ReaderCollection objects;
+  if(reader.get("objects", objects)) {
+    for(auto const& obj : objects.get_objects())
+    {
+      auto object = parse_object(obj.get_name(), obj.get_mapping());
       if(object) {
         add_object(object);
       } else {
-        log_warning << "Unknown object '" << iter.item() << "' in level." << std::endl;
+        log_warning << "Unknown object '" << obj.get_name() << "' in level." << std::endl;
       }
     }
   }

@@ -46,7 +46,7 @@ Background::Background() :
 {
 }
 
-Background::Background(const Reader& reader) :
+Background::Background(const ReaderMapping& reader) :
   alignment(NO_ALIGNMENT),
   layer(LAYER_BACKGROUND0),
   imagefile_top(),

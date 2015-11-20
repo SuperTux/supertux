@@ -27,7 +27,7 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
-Firefly::Firefly(const Reader& lisp) :
+Firefly::Firefly(const ReaderMapping& lisp) :
    MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
    activated(false),
    initial_position()

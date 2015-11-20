@@ -26,7 +26,7 @@ class Player;
 class Door : public TriggerBase
 {
 public:
-  Door(const Reader& reader);
+  Door(const ReaderMapping& reader);
   Door(int x, int y, std::string sector, std::string spawnpoint);
   virtual ~Door();
 

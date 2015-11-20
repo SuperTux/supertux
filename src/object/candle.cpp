@@ -23,7 +23,7 @@
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 
-Candle::Candle(const Reader& lisp)
+Candle::Candle(const ReaderMapping& lisp)
   : MovingSprite(lisp, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED),
     burning(true),
     flicker(true),
