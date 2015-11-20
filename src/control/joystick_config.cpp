@@ -161,19 +161,16 @@ JoystickConfig::read(const ReaderMapping& joystick_lisp)
   joystick_lisp.get("dead-zone", dead_zone);
   joystick_lisp.get("jump-with-up", jump_with_up_joy);
 
-  // FIXME: !!! this breaks compatibility !!!
-  joystick_lisp.get("jump-with-up", jump_with_up_joy);
-  auto mappings = joystick_lisp.get_collection("mappings");
-
-  for(auto const& item : mappings.get_objects())
+  auto iter = joystick_lisp.get_iter();
+  while(iter.next())
   {
-    if (item.get_name() == "map")
+    if (iter.get_name() == "map")
     {
       int button = -1;
       int axis   = 0;
       int hat    = -1;
       std::string control;
-      auto map = item.get_mapping();
+      auto map = iter.as_mapping();
       map.get("control", control);
       int i = 0;
       for(i = 0; Controller::controlNames[i] != 0; ++i)

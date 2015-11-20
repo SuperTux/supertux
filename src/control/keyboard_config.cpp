@@ -56,16 +56,15 @@ KeyboardConfig::read(const ReaderMapping& keymap_lisp)
   if (config_is_sdl2)
   {
     keymap_lisp.get("jump-with-up", jump_with_up_kbd);
-    auto mappings = keymap_lisp.get_collection("mappings");
 
-    // FIXME: !!! this breaks compatibility !!!
-    for(auto const& item : mappings.get_objects())
+    auto iter = keymap_lisp.get_iter();
+    while(iter.next())
     {
-      if (item.get_name() == "map")
+      if (iter.get_name() == "map")
       {
         int key = -1;
         std::string control;
-        auto map = item.get_mapping();
+        auto map = iter.as_mapping();
         map.get("key", key);
         map.get("control", control);
 
