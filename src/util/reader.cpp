@@ -242,7 +242,7 @@ bool
 ReaderMapping::get(const char* key, std::string& value) const
 {
   auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_cons() && sx.get_cdr().is_string()) {
+  if (sx.is_cons() && sx.get_car().is_string()) {
     value = sx.get_car().as_string();
     return true;
   } else {
@@ -395,7 +395,15 @@ std::string
 ReaderObject::get_name() const
 {
   if (m_sx) {
-    return {}; //m_sx->get_name();
+    if (m_sx->is_cons() &&
+        m_sx->get_car().is_symbol())
+    {
+      return m_sx->get_car().as_string();
+    }
+    else
+    {
+      throw std::runtime_error("malformed file structure");
+    }
   } else {
     return {};
   }
@@ -405,7 +413,15 @@ ReaderMapping
 ReaderObject::get_mapping() const
 {
   if (m_sx) {
-    return {}; //m_sx->get_mapping();
+    if (m_sx->is_cons() &&
+        (m_sx->get_cdr().is_cons() || m_sx->get_cdr().is_nil()))
+    {
+      return ReaderMapping(&m_sx->get_cdr());
+    }
+    else
+    {
+      throw std::runtime_error("malformed file structure");
+    }
   } else {
     return {};
   }
