@@ -64,6 +64,10 @@ public:
     return (walk_speed);
   }
   void  set_walk_speed (float);
+  bool is_active() const
+  {
+    return BadGuy::is_active();
+  }
 
 protected:
   void turn_around();
