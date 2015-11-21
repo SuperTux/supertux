@@ -39,7 +39,7 @@
       (bottom_color 1 1 1)
     )
     (infoblock
-      (message (_ "#These all levels are upgraded to milestone 2 design by Hume2."))
+      (message (_ "#All these levels were upgraded to milestone 2 design by Hume2."))
       (x 6976)
       (y 608)
     )
