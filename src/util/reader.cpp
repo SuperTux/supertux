@@ -239,11 +239,15 @@ ReaderMapping::get(const char* key, bool& value) const
   assert(m_sx);
 
   auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_cons() && sx.get_car().is_boolean()) {
+  if (sx.is_nil()) {
+    return false;
+  } else if (sx.is_cons() && sx.get_car().is_boolean()) {
     value = sx.get_car().as_bool();
     return true;
   } else {
-    return false;
+    std::ostringstream msg;
+    msg << "ReaderMapping::get(key, bool): invalid type: " << sx;
+    throw std::runtime_error(msg.str());
   }
 }
 
@@ -253,11 +257,15 @@ ReaderMapping::get(const char* key, int& value) const
   assert(m_sx);
 
   auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_cons() && sx.get_car().is_integer()) {
+  if (sx.is_nil()) {
+    return false;
+  } else if (sx.is_cons() && sx.get_car().is_integer()) {
     value = sx.get_car().as_int();
     return true;
   } else {
-    return false;
+    std::ostringstream msg;
+    msg << "ReaderMapping::get(key, int): invalid type: " << sx;
+    throw std::runtime_error(msg.str());
   }
 }
 
@@ -267,11 +275,15 @@ ReaderMapping::get(const char* key, uint32_t& value) const
   assert(m_sx);
 
   auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_cons() && sx.get_car().is_integer()) {
+  if (sx.is_nil()) {
+    return false;
+  } else if (sx.is_cons() && sx.get_car().is_integer()) {
     value = sx.get_car().as_int();
     return true;
   } else {
-    return false;
+    std::ostringstream msg;
+    msg << "ReaderMapping::get(key, uint32_t): invalid type: " << sx;
+    throw std::runtime_error(msg.str());
   }
 }
 
@@ -281,11 +293,15 @@ ReaderMapping::get(const char* key, float& value) const
   assert(m_sx);
 
   auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_cons() && sx.get_car().is_real()) {
+  if (sx.is_nil()) {
+    return false;
+  } else if (sx.is_cons() && sx.get_car().is_real()) {
     value = sx.get_car().as_float();
     return true;
   } else {
-    return false;
+    std::ostringstream msg;
+    msg << "ReaderMapping::get(key, float): invalid type: " << sx;
+    throw std::runtime_error(msg.str());
   }
 }
 
@@ -295,24 +311,23 @@ ReaderMapping::get(const char* key, std::string& value) const
   assert(m_sx);
 
   auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_cons() &&
-      sx.get_car().is_string())
-  {
+  if (sx.is_nil()) {
+    return false;
+  } else if (sx.is_cons() &&
+             sx.get_car().is_string()) {
     value = sx.get_car().as_string();
     return true;
-  }
-  else if (sx.is_cons() &&
-           sx.get_car().is_cons() &&
-           sx.get_car().get_car().is_symbol() &&
-           sx.get_car().get_car().as_string() == "_" &&
-           sx.get_car().get_cdr().get_car().is_string())
-  {
+  } else if (sx.is_cons() &&
+             sx.get_car().is_cons() &&
+             sx.get_car().get_car().is_symbol() &&
+             sx.get_car().get_car().as_string() == "_" &&
+             sx.get_car().get_cdr().get_car().is_string()) {
     value = _(sx.get_car().get_cdr().get_car().as_string());
     return true;
-  }
-  else
-  {
-    return false;
+  } else {
+    std::ostringstream msg;
+    msg << "ReaderMapping::get(key, string): invalid type: " << sx;
+    throw std::runtime_error(msg.str());
   }
 }
 
@@ -322,9 +337,9 @@ ReaderMapping::get(const char* key, std::vector<float>& value) const
   assert(m_sx);
 
   auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (!sx.is_cons()) {
+  if (sx.is_nil()) {
     return false;
-  } else {
+  } else if (sx.is_cons()) {
     // FIXME: how to handle type errors?
     std::vector<float> result;
     for(auto const& it : sexp::ListAdapter(sx))
@@ -335,11 +350,17 @@ ReaderMapping::get(const char* key, std::vector<float>& value) const
       }
       else
       {
-        return false;
+        std::ostringstream msg;
+        msg << "ReaderMapping::get(key, float[]): invalid type: " << sx;
+        throw std::runtime_error(msg.str());
       }
     }
     value = std::move(result);
     return true;
+  } else {
+    std::ostringstream msg;
+    msg << "ReaderMapping::get(key, float[]): invalid type: " << sx;
+    throw std::runtime_error(msg.str());
   }
 }
 
@@ -349,24 +370,25 @@ ReaderMapping::get(const char* key, std::vector<std::string>& value) const
   assert(m_sx);
 
   auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (!sx.is_cons()) {
+  if (sx.is_nil()) {
     return false;
-  } else {
-    // FIXME: how to handle type errors?
+  } else if (sx.is_cons()) {
     std::vector<std::string> result;
-    for(auto const& it : sexp::ListAdapter(sx))
-    {
-      if (it.is_string())
-      {
+    for(auto const& it : sexp::ListAdapter(sx)) {
+      if (it.is_string()) {
         result.push_back(it.as_string());
-      }
-      else
-      {
-        return false;
+      } else {
+        std::ostringstream msg;
+        msg << "ReaderMapping::get(key, string[]): invalid type: " << sx;
+        throw std::runtime_error(msg.str());
       }
     }
     value = std::move(result);
     return true;
+  } else {
+    std::ostringstream msg;
+    msg << "ReaderMapping::get(key, string[]): invalid type: " << sx;
+    throw std::runtime_error(msg.str());
   }
 }
 
@@ -376,24 +398,26 @@ ReaderMapping::get(const char* key, std::vector<unsigned int>& value) const
   assert(m_sx);
 
   auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (!sx.is_cons()) {
+  if (sx.is_nil()) {
     return false;
-  } else {
-    // FIXME: how to handle type errors?
+  } else if (sx.is_cons()) {
     std::vector<unsigned int> result;
     for(auto const& it : sexp::ListAdapter(sx))
     {
-      if (it.is_integer())
-      {
+      if (it.is_integer()) {
         result.push_back(it.as_int());
-      }
-      else
-      {
-        return false;
+      } else {
+        std::ostringstream msg;
+        msg << "ReaderMapping::get(key, unsigned int[]): invalid type: " << sx;
+        throw std::runtime_error(msg.str());
       }
     }
     value = std::move(result);
     return true;
+  } else {
+    std::ostringstream msg;
+    msg << "ReaderMapping::get(key, unsigned int[]): invalid type: " << sx;
+    throw std::runtime_error(msg.str());
   }
 }
 
