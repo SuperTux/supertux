@@ -107,7 +107,6 @@ private:
 class ReaderIterator
 {
 public:
-  ReaderIterator();
   ReaderIterator(const sexp::Value* sx);
 
   bool next();

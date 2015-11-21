@@ -105,71 +105,76 @@ ReaderDocument::get_root() const
   return ReaderObject(&m_sx);
 }
 
-ReaderIterator::ReaderIterator() :
-  m_root(nullptr),
-  m_sx(nullptr)
-{
-}
-
 ReaderIterator::ReaderIterator(const sexp::Value* sx) :
   m_root(sx),
   m_sx(nullptr)
 {
+  assert(m_root);
 }
 
 bool
 ReaderIterator::next()
 {
-  if (!m_sx && m_root)
+  if (m_root)
   {
     m_sx = m_root;
     m_root = nullptr;
     return !m_sx->is_nil();
   }
-  else if (m_sx && m_sx->is_cons())
-  {
-    m_sx = &m_sx->get_cdr();
-    return !m_sx->is_nil();
-  }
   else
   {
-    return false;
+    assert(m_sx);
+
+    m_sx = &m_sx->get_cdr();
+    return !m_sx->is_nil();
   }
 }
 
 bool
 ReaderIterator::is_string()
 {
+  assert(m_sx);
+
   return m_sx->get_car().is_string();
 }
 
 bool
 ReaderIterator::is_pair()
 {
+  assert(m_sx);
+
   return m_sx->get_car().is_cons();
 }
 
 std::string
 ReaderIterator::as_string()
 {
+  assert(m_sx);
+
   return m_sx->get_car().as_string();
 }
 
 std::string
 ReaderIterator::get_name() const
 {
+  assert(m_sx);
+
   return m_sx->get_car().get_car().as_string();
 }
 
 bool
 ReaderIterator::get(bool& value) const
 {
+  assert(m_sx);
+
   return m_sx->get_car().get_cdr().get_car().as_bool();
 }
 
 bool
 ReaderIterator::get(int& value) const
 {
+  assert(m_sx);
+
   value = m_sx->get_car().get_cdr().get_car().as_int();
   return true;
 }
@@ -177,6 +182,8 @@ ReaderIterator::get(int& value) const
 bool
 ReaderIterator::get(float& value) const
 {
+  assert(m_sx);
+
   value = m_sx->get_car().get_cdr().get_car().as_float();
   return true;
 }
@@ -184,6 +191,8 @@ ReaderIterator::get(float& value) const
 bool
 ReaderIterator::get(std::string& value) const
 {
+  assert(m_sx);
+
   value = m_sx->get_car().get_cdr().get_car().as_string();
   return true;
 }
@@ -191,6 +200,8 @@ ReaderIterator::get(std::string& value) const
 bool
 ReaderIterator::get(ReaderMapping& value) const
 {
+  assert(m_sx);
+
   value = ReaderMapping(&m_sx->get_car().get_cdr());
   return true;
 }
@@ -207,7 +218,6 @@ ReaderMapping::ReaderMapping(const sexp::Value* sx) :
   m_sx(sx)
 {
   assert(m_sx);
-  assert(m_sx->is_cons());
 }
 
 ReaderMapping::ReaderMapping() :
@@ -218,12 +228,15 @@ ReaderMapping::ReaderMapping() :
 ReaderIterator
 ReaderMapping::get_iter() const
 {
+  assert(m_sx);
   return ReaderIterator(m_sx);
 }
 
 bool
 ReaderMapping::get(const char* key, bool& value) const
 {
+  assert(m_sx);
+
   auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (sx.is_cons() && sx.get_car().is_boolean()) {
     value = sx.get_car().as_bool();
@@ -236,6 +249,8 @@ ReaderMapping::get(const char* key, bool& value) const
 bool
 ReaderMapping::get(const char* key, int& value) const
 {
+  assert(m_sx);
+
   auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (sx.is_cons() && sx.get_car().is_integer()) {
     value = sx.get_car().as_int();
@@ -248,6 +263,8 @@ ReaderMapping::get(const char* key, int& value) const
 bool
 ReaderMapping::get(const char* key, uint32_t& value) const
 {
+  assert(m_sx);
+
   auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (sx.is_cons() && sx.get_car().is_integer()) {
     value = sx.get_car().as_int();
@@ -260,6 +277,8 @@ ReaderMapping::get(const char* key, uint32_t& value) const
 bool
 ReaderMapping::get(const char* key, float& value) const
 {
+  assert(m_sx);
+
   auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (sx.is_cons() && sx.get_car().is_real()) {
     value = sx.get_car().as_float();
@@ -272,6 +291,8 @@ ReaderMapping::get(const char* key, float& value) const
 bool
 ReaderMapping::get(const char* key, std::string& value) const
 {
+  assert(m_sx);
+
   auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (sx.is_cons() && sx.get_car().is_string()) {
     value = sx.get_car().as_string();
@@ -284,6 +305,8 @@ ReaderMapping::get(const char* key, std::string& value) const
 bool
 ReaderMapping::get(const char* key, std::vector<float>& value) const
 {
+  assert(m_sx);
+
   auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (!sx.is_cons()) {
     return false;
@@ -309,6 +332,8 @@ ReaderMapping::get(const char* key, std::vector<float>& value) const
 bool
 ReaderMapping::get(const char* key, std::vector<std::string>& value) const
 {
+  assert(m_sx);
+
   auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (!sx.is_cons()) {
     return false;
@@ -334,6 +359,8 @@ ReaderMapping::get(const char* key, std::vector<std::string>& value) const
 bool
 ReaderMapping::get(const char* key, std::vector<unsigned int>& value) const
 {
+  assert(m_sx);
+
   auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (!sx.is_cons()) {
     return false;
@@ -359,6 +386,8 @@ ReaderMapping::get(const char* key, std::vector<unsigned int>& value) const
 bool
 ReaderMapping::get(const char* key, ReaderMapping& value) const
 {
+  assert(m_sx);
+
   auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (!sx.is_nil()) {
     value = ReaderMapping(&sx);
@@ -371,6 +400,8 @@ ReaderMapping::get(const char* key, ReaderMapping& value) const
 bool
 ReaderMapping::get(const char* key, ReaderCollection& value) const
 {
+  assert(m_sx);
+
   auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (!sx.is_nil()) {
     value = ReaderCollection(&sx);
@@ -393,16 +424,14 @@ ReaderCollection::ReaderCollection() :
 std::vector<ReaderObject>
 ReaderCollection::get_objects() const
 {
-  if (m_sx) {
-    std::vector<ReaderObject> result;
-    for(auto const& sx : sexp::ListAdapter(*m_sx))
-    {
-      result.push_back(ReaderObject(&sx));
-    }
-    return result;
-  } else {
-    return {};
+  assert(m_sx);
+
+  std::vector<ReaderObject> result;
+  for(auto const& sx : sexp::ListAdapter(*m_sx))
+  {
+    result.push_back(ReaderObject(&sx));
   }
+  return result;
 }
 
 ReaderObject::ReaderObject(const sexp::Value* sx) :
@@ -418,54 +447,48 @@ ReaderObject::ReaderObject() :
 std::string
 ReaderObject::get_name() const
 {
-  if (m_sx) {
-    if (m_sx->is_cons() &&
-        m_sx->get_car().is_symbol())
-    {
-      return m_sx->get_car().as_string();
-    }
-    else
-    {
-      throw std::runtime_error("malformed file structure");
-    }
-  } else {
-    return {};
+  assert(m_sx);
+
+  if (m_sx->is_cons() &&
+      m_sx->get_car().is_symbol())
+  {
+    return m_sx->get_car().as_string();
+  }
+  else
+  {
+    throw std::runtime_error("malformed file structure");
   }
 }
 
 ReaderMapping
 ReaderObject::get_mapping() const
 {
-  if (m_sx) {
-    if (m_sx->is_cons() &&
-        (m_sx->get_cdr().is_cons() || m_sx->get_cdr().is_nil()))
-    {
-      return ReaderMapping(&m_sx->get_cdr());
-    }
-    else
-    {
-      throw std::runtime_error("malformed file structure");
-    }
-  } else {
-    return {};
+  assert(m_sx);
+
+  if (m_sx->is_cons() &&
+      (m_sx->get_cdr().is_cons() || m_sx->get_cdr().is_nil()))
+  {
+    return ReaderMapping(&m_sx->get_cdr());
+  }
+  else
+  {
+    throw std::runtime_error("malformed file structure");
   }
 }
 
 ReaderCollection
 ReaderObject::get_collection() const
 {
-  if (m_sx) {
-    if (m_sx->is_cons() &&
-        (m_sx->get_cdr().is_cons() || m_sx->get_cdr().is_nil()))
-    {
-      return ReaderCollection(&m_sx->get_cdr());
-    }
-    else
-    {
-      throw std::runtime_error("malformed file structure");
-    }
-  } else {
-    return {};
+  assert(m_sx);
+
+  if (m_sx->is_cons() &&
+      (m_sx->get_cdr().is_cons() || m_sx->get_cdr().is_nil()))
+  {
+    return ReaderCollection(&m_sx->get_cdr());
+  }
+  else
+  {
+    throw std::runtime_error("malformed file structure");
   }
 }
 
