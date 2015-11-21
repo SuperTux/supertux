@@ -19,8 +19,9 @@
 
 #include <squirrel.h>
 
-#include "util/writer_fwd.hpp"
 #include "util/reader_fwd.hpp"
+
+class Writer;
 
 namespace scripting {
 

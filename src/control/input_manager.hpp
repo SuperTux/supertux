@@ -27,7 +27,6 @@
 
 #include "util/currenton.hpp"
 #include "util/reader_fwd.hpp"
-#include "util/writer_fwd.hpp"
 
 class Controller;
 class GameControllerManager;

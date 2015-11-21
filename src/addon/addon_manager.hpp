@@ -27,7 +27,6 @@
 #include "supertux/gameconfig.hpp"
 #include "util/currenton.hpp"
 #include "util/reader_fwd.hpp"
-#include "util/writer_fwd.hpp"
 
 class Addon;
 class AddonRepository;

@@ -17,12 +17,6 @@
 #ifndef HEADER_SUPERTUX_UTIL_READER_FWD_HPP
 #define HEADER_SUPERTUX_UTIL_READER_FWD_HPP
 
-namespace lisp {
-class Lisp;
-} // namespace lisp
-
-typedef lisp::Lisp Reader;
-
 class ReaderMapping;
 class ReaderCollection;
 class ReaderObject;

@@ -17,7 +17,6 @@
 #include <algorithm>
 
 #include "lisp/parser.hpp"
-#include "lisp/writer.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"

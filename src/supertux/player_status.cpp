@@ -83,7 +83,7 @@ PlayerStatus::add_coins(int count, bool play_sound)
 }
 
 void
-PlayerStatus::write(lisp::Writer& writer)
+PlayerStatus::write(Writer& writer)
 {
   switch(bonus) {
     case NO_BONUS:

@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,11 +17,50 @@
 #ifndef HEADER_SUPERTUX_UTIL_WRITER_HPP
 #define HEADER_SUPERTUX_UTIL_WRITER_HPP
 
-#include "lisp/writer.hpp"
+#include <string>
+#include <vector>
 
-typedef lisp::Writer Writer;
+class Writer
+{
+public:
+  Writer(const std::string& filename);
+  Writer(std::ostream* out);
+  ~Writer();
 
-#endif
+  void write_comment(const std::string& comment);
+
+  void start_list(const std::string& listname, bool string = false);
+
+  void write(const std::string& name, int value);
+  void write(const std::string& name, float value);
+  void write(const std::string& name, const std::string& value,
+             bool translatable = false);
+  void write(const std::string& name, const char* value,
+             bool translatable = false) { write(name, static_cast<const std::string&>(value), translatable); }
+  void write(const std::string& name, bool value);
+  void write(const std::string& name, const std::vector<int>& value);
+  void write(const std::string& name, const std::vector<unsigned int>& value);
+  void write(const std::string& name, const std::vector<float>& value);
+  void write(const std::string& name, const std::vector<std::string>& value);
+  // add more write-functions when needed...
+
+  void end_list(const std::string& listname);
+
+private:
+  void write_escaped_string(const std::string& str);
+  void indent();
+
+private:
+  std::ostream* out;
+  bool out_owned;
+  int indent_depth;
+  std::vector<std::string> lists;
+
+private:
+  Writer(const Writer&);
+  Writer & operator=(const Writer&);
+};
+
+#endif //HEADER_SUPERTUX_UTIL_WRITER_HPP
 
 /* EOF */
-

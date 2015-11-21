@@ -23,7 +23,6 @@
 
 #include "math/vector.hpp"
 #include "util/reader_fwd.hpp"
-#include "util/writer_fwd.hpp"
 
 class Path
 {

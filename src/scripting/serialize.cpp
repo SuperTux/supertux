@@ -20,7 +20,7 @@
 #include <sexp/value.hpp>
 #include <sexp/util.hpp>
 
-#include "lisp/writer.hpp"
+#include "util/writer.hpp"
 #include "lisp/list_iterator.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "util/reader.hpp"

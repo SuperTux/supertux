@@ -25,7 +25,6 @@
 #include "supertux/direction.hpp"
 #include "supertux/game_object_ptr.hpp"
 #include "util/reader_fwd.hpp"
-#include "util/writer_fwd.hpp"
 #include "util/currenton.hpp"
 #include "video/color.hpp"
 #include "object/anchor_point.hpp"

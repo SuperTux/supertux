@@ -20,10 +20,10 @@
 
 #include "addon/addon_manager.hpp"
 #include "control/input_manager.hpp"
-#include "lisp/writer.hpp"
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "util/reader.hpp"
+#include "util/writer.hpp"
 #include "util/log.hpp"
 #include "supertux/globals.hpp"
 
@@ -155,7 +155,7 @@ Config::load()
 void
 Config::save()
 {
-  lisp::Writer writer("config");
+  Writer writer("config");
 
   writer.start_list("supertux-config");
 

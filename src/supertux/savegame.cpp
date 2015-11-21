@@ -21,7 +21,7 @@
 
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
-#include "lisp/writer.hpp"
+#include "util/writer.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/serialize.hpp"
@@ -246,7 +246,7 @@ Savegame::save()
 
   HSQUIRRELVM vm = scripting::global_vm;
 
-  lisp::Writer writer(m_filename);
+  Writer writer(m_filename);
 
   writer.start_list("supertux-savegame");
   writer.write("version", 1);

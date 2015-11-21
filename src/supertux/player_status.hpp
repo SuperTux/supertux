@@ -21,9 +21,10 @@
 #include <memory>
 
 #include "util/reader_fwd.hpp"
-#include "util/writer_fwd.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
+
+class Writer;
 
 static const float BORDER_X = 10;
 static const float BORDER_Y = 10;

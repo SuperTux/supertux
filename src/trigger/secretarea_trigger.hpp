@@ -22,7 +22,6 @@
 #include "object/tilemap.hpp"
 #include "supertux/timer.hpp"
 #include "util/reader_fwd.hpp"
-#include "util/writer_fwd.hpp"
 
 class DrawingContext;
 class Color;

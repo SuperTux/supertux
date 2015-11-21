@@ -23,6 +23,8 @@
 #include "video/surface_ptr.hpp"
 #include "video/drawing_request.hpp" /* LAYER_BACKGROUND1 */
 
+class Writer;
+
 class CometParticleSystem : public ParticleSystem_Interactive
 {
 public:
