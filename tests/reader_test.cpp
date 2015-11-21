@@ -26,6 +26,7 @@ TEST(ReaderTest, test)
     "   (myint 123456789)\n"
     "   (myfloat 1.125)\n"
     "   (mystring \"Hello World\")\n"
+    "   (mymapping (a 1) (b 2))\n"
     ")\n");
 
   auto doc = ReaderDocument::parse(in);
@@ -48,6 +49,15 @@ TEST(ReaderTest, test)
   std::string mystring;
   mapping.get("mystring", mystring);
   ASSERT_EQ("Hello World", mystring);
+
+  auto child_mapping = mapping.get_mapping("mymapping");
+  int a;
+  child_mapping.get("a", a);
+  ASSERT_EQ(1, a);
+
+  int b;
+  child_mapping.get("b", b);
+  ASSERT_EQ(2, b);
 }
 
 /* EOF */

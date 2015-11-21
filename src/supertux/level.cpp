@@ -102,7 +102,7 @@ Level::load(const std::string& filepath)
     if (level.get("version", version))
     {
       if(version > 2) {
-          log_warning << "[" <<  filepath << "] level format newer than application" << std::endl;
+        log_warning << "[" <<  filepath << "] level format newer than application" << std::endl;
       }
     }
 
@@ -113,11 +113,13 @@ Level::load(const std::string& filepath)
     level.get("on-menukey-script", on_menukey_script);
     level.get("target-time", target_time);
 
-    auto sector_maps = level.get_all_mappings("sector");
-    for(auto const& sector_map : sector_maps) {
-      Sector* sector = new Sector(this);
-      sector->parse(sector_map);
-      add_sector(sector);
+    auto iter = level.get_iter();
+    while(iter.next()) {
+      if (iter.item() == "sector") {
+        Sector* sector = new Sector(this);
+        sector->parse(iter.as_mapping());
+        add_sector(sector);
+      }
     }
 
     if (license.empty()) {

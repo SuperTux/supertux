@@ -102,10 +102,6 @@ public:
 
   ReaderMapping get_mapping(const char* key) const;
   ReaderCollection get_collection(const char* key) const;
-  //ReaderObject get_object(const char* key) const;
-
-  /** For backward compatibilty only */
-  std::vector<ReaderMapping> get_all_mappings(const char* key) const;
 
   explicit operator bool() const { return m_sx != nullptr; }
 
@@ -139,10 +135,10 @@ public:
   bool get(std::string& value) const;
   bool get(ReaderMapping& value) const;
 
-  ReaderObject as_object() const;
   ReaderMapping as_mapping() const;
 
 private:
+  const sexp::Value* m_root;
   const sexp::Value* m_sx;
 };
 

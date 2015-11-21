@@ -25,7 +25,10 @@
 #include <fstream>
 #include <sexp/parser.hpp>
 #include <sexp/util.hpp>
+#include <sexp/io.hpp>
 
+#include "physfs/ifile_stream.hpp"
+#include "physfs/ifile_streambuf.hpp"
 #include "video/drawing_request.hpp"
 
 int reader_get_layer(const ReaderMapping& reader, int def)
@@ -57,13 +60,32 @@ ReaderDocument::parse(std::istream& stream)
 ReaderDocument
 ReaderDocument::parse(const std::string& filename)
 {
-  std::ifstream fin(filename);
-  if (!fin) {
-    std::ostringstream msg;
+  log_debug << "ReaderDocument::parse: " << filename << std::endl;
+
+  IFileStreambuf ins(filename);
+  std::istream in(&ins);
+
+  if(!in.good()) {
+    std::stringstream msg;
     msg << "Parser problem: Couldn't open file '" << filename << "'.";
     throw std::runtime_error(msg.str());
   } else {
-    return parse(fin);
+
+#if 0
+    // FIXME: Woot!?
+    if(translate && g_dictionary_manager) {
+      std::string rel_dir = dirname(filename);
+      if(rel_dir.empty())
+      {
+        // Relative dir inside PhysFS search path?
+        // Get full path from search path, instead.
+        rel_dir = PHYSFS_getRealDir(filename.c_str());
+      }
+      g_dictionary_manager->add_directory (rel_dir);
+    }
+#endif
+
+    return parse(in);
   }
 }
 
@@ -84,22 +106,33 @@ ReaderDocument::get_root() const
 }
 
 ReaderIterator::ReaderIterator() :
+  m_root(nullptr),
   m_sx(nullptr)
 {
 }
 
 ReaderIterator::ReaderIterator(const sexp::Value* sx) :
-  m_sx(sx)
+  m_root(sx),
+  m_sx(nullptr)
 {
 }
 
 bool
 ReaderIterator::next()
 {
-  if (m_sx && m_sx->is_cons()) {
+  if (!m_sx && m_root)
+  {
+    m_sx = m_root;
+    m_root = nullptr;
+    return !m_sx->is_nil();
+  }
+  if (m_sx && m_sx->is_cons())
+  {
     m_sx = &m_sx->get_cdr();
     return !m_sx->is_nil();
-  } else {
+  }
+  else
+  {
     return false;
   }
 }
@@ -107,19 +140,19 @@ ReaderIterator::next()
 bool
 ReaderIterator::is_string()
 {
-  return m_sx->is_string();
+  return m_sx->get_car().is_string();
 }
 
 bool
 ReaderIterator::is_pair()
 {
-  return m_sx->is_cons();
+  return m_sx->get_car().is_cons();
 }
 
 std::string
 ReaderIterator::as_string()
 {
-  return m_sx->as_string();
+  return m_sx->get_car().as_string();
 }
 
 std::string
@@ -162,21 +195,19 @@ ReaderIterator::get(ReaderMapping& value) const
   return true;
 }
 
-ReaderObject
-ReaderIterator::as_object() const
-{
-  return ReaderObject(m_sx);
-}
-
 ReaderMapping
 ReaderIterator::as_mapping() const
 {
-  return ReaderMapping(m_sx);
+  ReaderMapping result;
+  get(result);
+  return result;
 }
 
 ReaderMapping::ReaderMapping(const sexp::Value* sx) :
   m_sx(sx)
 {
+  assert(m_sx);
+  assert(m_sx->is_cons());
 }
 
 ReaderMapping::ReaderMapping() :
@@ -328,7 +359,7 @@ ReaderMapping::get(const char* key, std::vector<unsigned int>& value) const
 bool
 ReaderMapping::get(const char* key, ReaderMapping& value) const
 {
-  auto sx = sexp::assoc_ref(*m_sx, key);
+  auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (!sx.is_nil()) {
     value = ReaderMapping(&sx);
     return true;
@@ -340,7 +371,7 @@ ReaderMapping::get(const char* key, ReaderMapping& value) const
 bool
 ReaderMapping::get(const char* key, ReaderCollection& value) const
 {
-  auto sx = sexp::assoc_ref(*m_sx, key);
+  auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (!sx.is_nil()) {
     value = ReaderCollection(&sx);
     return true;
@@ -352,7 +383,7 @@ ReaderMapping::get(const char* key, ReaderCollection& value) const
 bool
 ReaderMapping::get(const char* key, ReaderObject& value) const
 {
-  auto sx = sexp::assoc_ref(*m_sx, key);
+  auto const& sx = sexp::assoc_ref(*m_sx, key);
   if (!sx.is_nil()) {
     value = ReaderObject(&sx);
     return true;
@@ -375,7 +406,12 @@ std::vector<ReaderObject>
 ReaderCollection::get_objects() const
 {
   if (m_sx) {
-    return {}; //return m_sx->get_objects();
+    std::vector<ReaderObject> result;
+    for(auto const& sx : sexp::ListAdapter(*m_sx))
+    {
+      result.push_back(ReaderObject(&sx));
+    }
+    return result;
   } else {
     return {};
   }
@@ -431,7 +467,15 @@ ReaderCollection
 ReaderObject::get_collection() const
 {
   if (m_sx) {
-    return {}; //m_sx->get_collection();
+    if (m_sx->is_cons() &&
+        (m_sx->get_cdr().is_cons() || m_sx->get_cdr().is_nil()))
+    {
+      return ReaderCollection(&m_sx->get_cdr());
+    }
+    else
+    {
+      throw std::runtime_error("malformed file structure");
+    }
   } else {
     return {};
   }
@@ -449,17 +493,6 @@ ReaderMapping::get_mapping(const char* key) const
     ReaderMapping result;
     get(key, result);
     return result;
-  }
-}
-
-std::vector<ReaderMapping>
-ReaderMapping::get_all_mappings(const char* key) const
-{
-  if (!m_sx) {
-    return {};
-  } else {
-    // FIXME
-    return {};
   }
 }
 
