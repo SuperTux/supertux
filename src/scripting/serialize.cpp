@@ -31,13 +31,13 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
   if(table_idx < 0)
     table_idx -= 2;
 
-  for(auto const& iter : sexp::ListAdapter(lisp.get_lisp()))
+  for(auto const& sx : sexp::ListAdapter(lisp.get_sexp()))
   {
     // FIXME: no error checking
-    const std::string& token = iter.get_car().get_car().as_string();
+    const std::string& token = sx.get_car().get_car().as_string();
     sq_pushstring(vm, token.c_str(), token.size());
 
-    auto const& value = iter.get_car().get_cdr().get_car();
+    auto const& value = sx.get_car().get_cdr().get_car();
     switch(value.get_type()) {
       case sexp::Value::TYPE_CONS:
         sq_newtable(vm);

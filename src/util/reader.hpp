@@ -95,7 +95,7 @@ public:
   bool get(const char* key, ReaderMapping&) const;
   bool get(const char* key, ReaderCollection&) const;
 
-  const sexp::Value& get_lisp() const { return *m_sx; }
+  const sexp::Value& get_sexp() const { return *m_sx; }
 
 private:
   const sexp::Value* m_sx;
