@@ -163,7 +163,7 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
 }
 
 std::vector<Tile::ImageSpec>
-TileSetParser::parse_tile_images(const ReaderMapping& images_lisp)
+TileSetParser::parse_tile_images(const ReaderMapping& images_lisp) const
 {
   std::vector<Tile::ImageSpec> imagespecs;
 
