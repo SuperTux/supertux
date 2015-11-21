@@ -42,6 +42,7 @@ PowerUp::PowerUp(const Reader& lisp) :
   physic.enable_gravity(true);
   SoundManager::current()->preload("sounds/grow.ogg");
   SoundManager::current()->preload("sounds/fire-flower.wav");
+  SoundManager::current()->preload("sounds/gulp.wav");
   //set default light for glow effect for standard sprites
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.0f, 0.0f, 0.0f));
@@ -107,6 +108,11 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
   Player* player = dynamic_cast<Player*>(&other);
   if(player == 0)
     return FORCE_MOVE;
+
+  if (sprite_name == "images/powerups/potions/blue-potion.sprite" ||
+      sprite_name == "images/powerups/potions/red-potion.sprite") {
+      SoundManager::current()->play("sounds/gulp.wav");
+  }
 
   if (script != "") {
     std::istringstream stream(script);
