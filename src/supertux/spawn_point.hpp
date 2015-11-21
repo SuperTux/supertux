@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SPAWN_POINT_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SPAWN_POINT_HPP
 
+#include <string>
+
 #include "math/vector.hpp"
 #include "util/reader_fwd.hpp"
 

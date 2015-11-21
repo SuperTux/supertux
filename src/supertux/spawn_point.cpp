@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdexcept>
-#include <string>
 
 #include "supertux/spawn_point.hpp"
 #include "util/log.hpp"
