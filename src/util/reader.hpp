@@ -58,8 +58,6 @@ public:
   ReaderMapping get_mapping() const;
   ReaderCollection get_collection() const;
 
-  explicit operator bool() const { return m_sx != nullptr; }
-
 private:
   const sexp::Value* m_sx;
 };
@@ -71,8 +69,6 @@ public:
   ReaderCollection(const sexp::Value* sx);
 
   std::vector<ReaderObject> get_objects() const;
-
-  explicit operator bool() const { return m_sx != nullptr; }
 
 private:
   const sexp::Value* m_sx;
@@ -98,12 +94,6 @@ public:
 
   bool get(const char* key, ReaderMapping&) const;
   bool get(const char* key, ReaderCollection&) const;
-  bool get(const char* key, ReaderObject&) const;
-
-  ReaderMapping get_mapping(const char* key) const;
-  ReaderCollection get_collection(const char* key) const;
-
-  explicit operator bool() const { return m_sx != nullptr; }
 
   const sexp::Value& get_lisp() const { return *m_sx; }
 

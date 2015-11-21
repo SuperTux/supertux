@@ -81,8 +81,8 @@ Config::load()
   config_lisp.get("locale", locale);
   config_lisp.get("random_seed", random_seed);
 
-  auto config_video_lisp = config_lisp.get_mapping("video");
-  if(config_video_lisp)
+  ReaderMapping config_video_lisp;
+  if(config_lisp.get("video", config_video_lisp))
   {
     config_video_lisp.get("fullscreen", use_fullscreen);
     std::string video_string;
@@ -103,30 +103,30 @@ Config::load()
     config_video_lisp.get("magnification", magnification);
   }
 
-  auto config_audio_lisp = config_lisp.get_mapping("audio");
-  if(config_audio_lisp) {
+  ReaderMapping config_audio_lisp;
+  if(config_lisp.get("audio", config_audio_lisp)) {
     config_audio_lisp.get("sound_enabled", sound_enabled);
     config_audio_lisp.get("music_enabled", music_enabled);
   }
 
-  auto config_control_lisp = config_lisp.get_mapping("control");
-  if (config_control_lisp)
+  ReaderMapping config_control_lisp;
+  if (config_lisp.get("control", config_control_lisp))
   {
-    auto keymap_lisp = config_control_lisp.get_mapping("keymap");
-    if (keymap_lisp)
+    ReaderMapping keymap_lisp;
+    if (config_control_lisp.get("keymap", keymap_lisp))
     {
       keyboard_config.read(keymap_lisp);
     }
 
-    auto joystick_lisp = config_control_lisp.get_mapping("joystick");
-    if (joystick_lisp)
+    ReaderMapping joystick_lisp;
+    if (config_control_lisp.get("joystick", joystick_lisp))
     {
       joystick_config.read(joystick_lisp);
     }
   }
 
-  auto config_addons_lisp = config_lisp.get_collection("addons");
-  if (config_addons_lisp)
+  ReaderCollection config_addons_lisp;
+  if (config_lisp.get("addons", config_addons_lisp))
   {
     for(auto const& addon_node : config_addons_lisp.get_objects())
     {

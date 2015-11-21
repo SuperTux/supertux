@@ -22,9 +22,9 @@ TEST(ReaderTest, test)
 {
   std::istringstream in(
     "(supertux-test\n"
-    "   (mybool #t)\n"
-    "   (myint 123456789)\n"
-    "   (myfloat 1.125)\n"
+    "   (mybool #t)\r"
+    "   (myint 123456789)\r\n"
+    "   (myfloat 1.125)\n\r"
     "   (mystring \"Hello World\")\n"
     "   (mymapping (a 1) (b 2))\n"
     ")\n");
@@ -50,7 +50,9 @@ TEST(ReaderTest, test)
   mapping.get("mystring", mystring);
   ASSERT_EQ("Hello World", mystring);
 
-  auto child_mapping = mapping.get_mapping("mymapping");
+  ReaderMapping child_mapping;
+  mapping.get("mymapping", child_mapping);
+
   int a;
   child_mapping.get("a", a);
   ASSERT_EQ(1, a);

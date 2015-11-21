@@ -75,11 +75,12 @@ Level::load(const std::string& filepath)
       return;
     }
 
-    auto tilesets_lisp = level.get_collection("tilesets");
-    if(tilesets_lisp) {
+    ReaderCollection tilesets_lisp;
+    if (level.get("tilesets", tilesets_lisp)) {
       tileset      = TileManager::current()->parse_tileset_definition(tilesets_lisp).release();
       free_tileset = true;
     }
+
     std::string tileset_name;
     if(level.get("tileset", tileset_name)) {
       if(tileset != NULL) {

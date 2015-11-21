@@ -126,7 +126,7 @@ ReaderIterator::next()
     m_root = nullptr;
     return !m_sx->is_nil();
   }
-  if (m_sx && m_sx->is_cons())
+  else if (m_sx && m_sx->is_cons())
   {
     m_sx = &m_sx->get_cdr();
     return !m_sx->is_nil();
@@ -380,18 +380,6 @@ ReaderMapping::get(const char* key, ReaderCollection& value) const
   }
 }
 
-bool
-ReaderMapping::get(const char* key, ReaderObject& value) const
-{
-  auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (!sx.is_nil()) {
-    value = ReaderObject(&sx);
-    return true;
-  } else {
-    return false;
-  }
-}
-
 ReaderCollection::ReaderCollection(const sexp::Value* sx) :
   m_sx(sx)
 {
@@ -478,36 +466,6 @@ ReaderObject::get_collection() const
     }
   } else {
     return {};
-  }
-}
-
-ReaderMapping
-ReaderMapping::get_mapping(const char* key) const
-{
-  if (!m_sx)
-  {
-    return {};
-  }
-  else
-  {
-    ReaderMapping result;
-    get(key, result);
-    return result;
-  }
-}
-
-ReaderCollection
-ReaderMapping::get_collection(const char* key) const
-{
-  if (!m_sx)
-  {
-    return {};
-  }
-  else
-  {
-    ReaderCollection result;
-    get(key, result);
-    return result;
   }
 }
 
