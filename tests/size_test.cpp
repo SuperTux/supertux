@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,28 +14,27 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <iostream>
-#include <errno.h>
-#include <string.h>
+#include <gtest/gtest.h>
 
-#include "addon/md5.hpp"
+#include "math/size.hpp"
 
-int main(int argc, char** argv)
+TEST(SizeTest, size_test)
 {
-  for(int i = 1; i < argc; ++i)
-  {
-    std::ifstream in(argv[i], std::ios::binary);
-    if (!in)
-    {
-      std::cerr << argv[0] << ": " << argv[i] << ": " << strerror(errno) << std::endl;
-    }
-    else
-    {
-      MD5 md5(in);
-      std::cout << md5.hex_digest() << "  " << argv[i] << std::endl;
-    }
-  }  
-  return 0;
+  Size size(800, 600);
+
+  ASSERT_EQ(Size(800, 600), size);
+  ASSERT_EQ(Size(1600, 1200), size * 2);
+  ASSERT_EQ(Size(400, 300), size / 2);
+  ASSERT_EQ(Size(1000, 900), size + Size(200, 300));
+
+  size *= 2;
+  ASSERT_EQ(Size(1600, 1200), size);
+
+  size /= 2;
+  ASSERT_EQ(Size(800, 600), size);
+
+  size += size;
+  ASSERT_EQ(Size(1600, 1200), size);
 }
 
 /* EOF */
