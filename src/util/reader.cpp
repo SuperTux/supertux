@@ -29,6 +29,7 @@
 
 #include "physfs/ifile_stream.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "util/gettext.hpp"
 #include "video/drawing_request.hpp"
 
 int reader_get_layer(const ReaderMapping& reader, int def)
@@ -294,10 +295,23 @@ ReaderMapping::get(const char* key, std::string& value) const
   assert(m_sx);
 
   auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_cons() && sx.get_car().is_string()) {
+  if (sx.is_cons() &&
+      sx.get_car().is_string())
+  {
     value = sx.get_car().as_string();
     return true;
-  } else {
+  }
+  else if (sx.is_cons() &&
+           sx.get_car().is_cons() &&
+           sx.get_car().get_car().is_symbol() &&
+           sx.get_car().get_car().as_string() == "_" &&
+           sx.get_car().get_cdr().get_car().is_string())
+  {
+    value = _(sx.get_car().get_cdr().get_car().as_string());
+    return true;
+  }
+  else
+  {
     return false;
   }
 }
