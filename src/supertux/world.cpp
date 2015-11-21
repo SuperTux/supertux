@@ -72,7 +72,7 @@ World::load_(const std::string& directory)
   auto doc = ReaderDocument::parse((m_basedir + "/info"));
   auto root = doc.get_root();
 
-  if(root.get_name() != "supertux-world" ||
+  if(root.get_name() != "supertux-world" &&
      root.get_name() != "supertux-level-subset")
   {
     throw std::runtime_error("File is not a world or levelsubset file");
