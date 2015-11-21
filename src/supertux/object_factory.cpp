@@ -18,7 +18,6 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "lisp/parser.hpp"
 #include "math/vector.hpp"
 #include "util/reader.hpp"
 #include "supertux/object_factory.hpp"

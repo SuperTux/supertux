@@ -21,7 +21,6 @@
 #include <map>
 
 #include "control/controller.hpp"
-#include "lisp/lisp.hpp"
 #include "util/reader_fwd.hpp"
 #include "util/writer.hpp"
 

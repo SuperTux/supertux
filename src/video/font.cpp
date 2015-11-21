@@ -26,8 +26,6 @@
 #include <SDL_image.h>
 #include <physfs.h>
 
-#include "lisp/list_iterator.hpp"
-#include "lisp/parser.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "supertux/screen.hpp"
 #include "util/file_system.hpp"

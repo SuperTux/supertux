@@ -18,7 +18,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-#include "lisp/list_iterator.hpp"
 #include "object/flower.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/coin_explode.hpp"

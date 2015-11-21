@@ -19,8 +19,6 @@
 #include <sstream>
 
 #include "gui/menu_manager.hpp"
-#include "lisp/lisp.hpp"
-#include "lisp/parser.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"

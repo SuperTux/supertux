@@ -18,7 +18,6 @@
 
 #include <iostream>
 
-#include "lisp/list_iterator.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"

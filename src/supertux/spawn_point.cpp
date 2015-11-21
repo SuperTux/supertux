@@ -16,7 +16,6 @@
 
 #include <stdexcept>
 
-#include "lisp/list_iterator.hpp"
 #include "supertux/spawn_point.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"

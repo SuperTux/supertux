@@ -23,8 +23,6 @@
 #include <sexp/util.hpp>
 #include <sexp/io.hpp>
 
-#include "lisp/list_iterator.hpp"
-#include "lisp/parser.hpp"
 #include "supertux/tile_set.hpp"
 #include "util/reader.hpp"
 #include "util/file_system.hpp"

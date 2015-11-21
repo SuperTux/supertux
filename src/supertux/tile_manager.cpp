@@ -19,7 +19,6 @@
 
 #include <limits>
 
-#include "lisp/list_iterator.hpp"
 #include "supertux/tile_set.hpp"
 #include "util/reader.hpp"
 

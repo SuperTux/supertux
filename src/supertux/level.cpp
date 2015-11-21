@@ -17,8 +17,6 @@
 #include "supertux/level.hpp"
 
 #include "badguy/goldbomb.hpp"
-#include "lisp/list_iterator.hpp"
-#include "lisp/parser.hpp"
 #include "object/bonus_block.hpp"
 #include "object/coin.hpp"
 #include "supertux/sector.hpp"

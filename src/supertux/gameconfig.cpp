@@ -20,8 +20,6 @@
 
 #include "addon/addon_manager.hpp"
 #include "control/input_manager.hpp"
-#include "lisp/list_iterator.hpp"
-#include "lisp/parser.hpp"
 #include "util/reader.hpp"
 #include "util/writer.hpp"
 #include "util/log.hpp"

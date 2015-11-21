@@ -21,7 +21,6 @@
 #include <stdexcept>
 #include <sstream>
 
-#include "lisp/parser.hpp"
 #include "util/reader.hpp"
 #include "util/writer.hpp"
 #include "util/log.hpp"

@@ -18,7 +18,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
-#include "lisp/parser.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/gameconfig.hpp"

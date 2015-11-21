@@ -21,7 +21,6 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "lisp/list_iterator.hpp"
 #include "util/reader.hpp"
 #include "util/log.hpp"
 

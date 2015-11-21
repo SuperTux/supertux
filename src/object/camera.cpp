@@ -21,7 +21,6 @@
 
 #include "util/reader.hpp"
 #include "util/writer.hpp"
-#include "lisp/parser.hpp"
 #include "object/path_walker.hpp"
 #include "object/player.hpp"
 #include "scripting/camera.hpp"

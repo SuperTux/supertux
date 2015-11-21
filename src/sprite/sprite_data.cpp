@@ -20,7 +20,6 @@
 #include <stdexcept>
 #include <sstream>
 
-#include "lisp/list_iterator.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
 

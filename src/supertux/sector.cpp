@@ -21,7 +21,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
-#include "lisp/list_iterator.hpp"
 #include "math/aatriangle.hpp"
 #include "object/background.hpp"
 #include "object/bonus_block.hpp"

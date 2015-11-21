@@ -31,8 +31,6 @@
 
 #include "addon/addon.hpp"
 #include "addon/md5.hpp"
-#include "lisp/list_iterator.hpp"
-#include "lisp/parser.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"

@@ -19,9 +19,6 @@
 
 #include <algorithm>
 
-#include "lisp/lisp.hpp"
-#include "lisp/parser.hpp"
-#include "util/writer.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/serialize.hpp"
@@ -30,6 +27,7 @@
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
+#include "util/writer.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace {

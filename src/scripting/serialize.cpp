@@ -21,7 +21,6 @@
 #include <sexp/util.hpp>
 
 #include "util/writer.hpp"
-#include "lisp/list_iterator.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "util/reader.hpp"
 
@@ -29,8 +28,6 @@ namespace scripting {
 
 void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMapping& lisp)
 {
-  using namespace lisp;
-
   if(table_idx < 0)
     table_idx -= 2;
 

@@ -27,7 +27,6 @@
 #include "audio/sound_error.hpp"
 #include "audio/ogg_sound_file.hpp"
 #include "audio/wav_sound_file.hpp"
-#include "lisp/parser.hpp"
 #include "util/reader.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
