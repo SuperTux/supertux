@@ -72,7 +72,7 @@ public:
     set_anchor_point((AnchorPoint) anchor_);
   }
   int get_anchor_point() {
-    return (int) get_anchor_point();
+    return (int)this->anchor;
   }
 
   void draw(DrawingContext& context);
