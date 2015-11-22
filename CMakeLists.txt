@@ -47,6 +47,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6.1)
 IF(COMMAND cmake_policy)
   CMAKE_POLICY(SET CMP0003 NEW)
   CMAKE_POLICY(SET CMP0008 NEW)
+  CMAKE_POLICY(SET CMP0023 NEW)
   IF(POLICY CMP0043)
     CMAKE_POLICY(SET CMP0043 OLD)
   ENDIF(POLICY CMP0043)
@@ -122,6 +123,7 @@ ELSE(WIN32)
 ENDIF(WIN32)
 SET(HAVE_SDL TRUE)
 
+OPTION(BUILD_TESTS "Build test cases" OFF)
 OPTION(ENABLE_OPENGL "Enable OpenGL support" ON)
 OPTION(GLBINDING_ENABLED "Use glbinding instead of GLEW" OFF)
 OPTION(GLBINDING_DEBUG_OUTPUT "Enable glbinding debug output for each called OpenGL function" OFF)
@@ -259,7 +261,7 @@ ENDIF(WIN32)
 
 FILE(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
 
-FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/main.cpp src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp)
+FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp)
 FILE(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
 FILE(GLOB TINYGETTEXT_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/tinygettext/src/*.cpp)
@@ -434,9 +436,12 @@ CONFIGURE_FILES(${CMAKE_CURRENT_SOURCE_DIR}/data ${CMAKE_BINARY_DIR}/data)
 
 ## Add target for supertux binary
 
-ADD_LIBRARY(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
-ADD_EXECUTABLE(supertux2 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
-SET_TARGET_PROPERTIES(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
+add_library(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
+add_library(supertux2 STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
+add_executable(supertux2_exe src/main.cpp)
+target_link_libraries(supertux2_exe supertux2)
+set_target_properties(supertux2_exe PROPERTIES OUTPUT_NAME supertux2)
+set_target_properties(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
 IF(WIN32)
   ## Copy dlls on windows
@@ -454,30 +459,57 @@ ENDIF(WIN32)
 
 TARGET_INCLUDE_DIRECTORIES(supertux2 SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
 TARGET_INCLUDE_DIRECTORIES(supertux2 SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
-TARGET_LINK_LIBRARIES(supertux2 ${SDL2_LIBRARIES})
-TARGET_LINK_LIBRARIES(supertux2 ${SDL2IMAGE_LIBRARIES})
+TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${SDL2_LIBRARIES})
+TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${SDL2IMAGE_LIBRARIES})
 
-TARGET_LINK_LIBRARIES(supertux2 squirrel)
-TARGET_LINK_LIBRARIES(supertux2 tinygettext)
-TARGET_LINK_LIBRARIES(supertux2 ${OPENAL_LIBRARY})
-TARGET_LINK_LIBRARIES(supertux2 ${OGGVORBIS_LIBRARIES})
-TARGET_LINK_LIBRARIES(supertux2 ${PHYSFS_LIBRARY})
+TARGET_LINK_LIBRARIES(supertux2 PUBLIC squirrel)
+TARGET_LINK_LIBRARIES(supertux2 PUBLIC tinygettext)
+TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${OPENAL_LIBRARY})
+TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${OGGVORBIS_LIBRARIES})
+TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${PHYSFS_LIBRARY})
 IF(HAVE_OPENGL)
-    TARGET_LINK_LIBRARIES(supertux2 ${OPENGL_LIBRARY})
+    TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${OPENGL_LIBRARY})
     IF(GLBINDING_FOUND)
-      TARGET_LINK_LIBRARIES(supertux2 ${GLBINDING_LIBRARIES})
+      TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${GLBINDING_LIBRARIES})
     ELSE()
-      TARGET_LINK_LIBRARIES(supertux2 ${GLEW_LIBRARY})
+      TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${GLEW_LIBRARY})
     ENDIF()
 ENDIF(HAVE_OPENGL)
 IF(HAVE_LIBCURL)
-  TARGET_LINK_LIBRARIES(supertux2 ${CURL_LIBRARY})
+  TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${CURL_LIBRARY})
 ENDIF(HAVE_LIBCURL)
 
 ## Link curl on windows
 IF(WIN32 AND NOT WIN64)
-    TARGET_LINK_LIBRARIES(supertux2 "${DEPENDENCY_FOLDER}/lib/libcurldll.a")
+    TARGET_LINK_LIBRARIES(supertux2 PUBLIC "${DEPENDENCY_FOLDER}/lib/libcurldll.a")
 ENDIF()
+
+if(BUILD_TESTS)
+  find_package(Threads REQUIRED)
+
+  # build gtest
+  # ${CMAKE_CURRENT_SOURCE_DIR} in include_directories is needed to generate -isystem instead of -I flags
+  add_library(gtest_main STATIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/src/gtest_main.cc)
+  target_include_directories(gtest_main SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/include/)
+  add_library(gtest STATIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/src/gtest-all.cc)
+  target_include_directories(gtest SYSTEM PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/)
+  target_include_directories(gtest SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/include/)
+
+  # build SuperTux tests
+  file(GLOB TEST_SUPERTUX_SOURCES tests/*.cpp)
+  add_executable(test_supertux2 ${TEST_SUPERTUX_SOURCES})
+  target_compile_options(test_supertux2 PRIVATE ${WARNINGS_CXX_FLAGS})
+  target_link_libraries(test_supertux2
+    gtest gtest_main
+    supertux2
+    ${CMAKE_THREAD_LIBS_INIT})
+
+  # add 'make test' target, use 'make test ARGS="-V"' or 'ctest -V' for verbose
+  enable_testing()
+  add_test(NAME test_supertux2
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND test_supertux2)
+endif()
 
 ## Install stuff
 

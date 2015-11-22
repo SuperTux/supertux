@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,27 +14,20 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <gtest/gtest.h>
 #include <iostream>
+#include <errno.h>
+#include <string.h>
 
-#include "math/sizef.hpp"
+#include "addon/md5.hpp"
 
-int main()
+TEST(MD5, test)
 {
-  Sizef size(800, 600);
+  std::istringstream empty("");
+  ASSERT_EQ("d41d8cd98f00b204e9800998ecf8427e", MD5(empty).hex_digest());
 
-  std::cout << size << std::endl;
-  std::cout << size * 2 << std::endl;
-  std::cout << 2 * size << std::endl;
-  std::cout << size / 2 << std::endl;
-  std::cout << size + size << std::endl;
-  size *= 2;
-  std::cout << size << std::endl;
-  size /= 2;
-  std::cout << size << std::endl;
-  size += size;
-  std::cout << size << std::endl;
-
-  return 0;
+  std::istringstream helloworld("HelloWorld");
+  ASSERT_EQ("68e109f0f40ca72a15e05cc22786f8e6", MD5(helloworld).hex_digest());
 }
 
 /* EOF */

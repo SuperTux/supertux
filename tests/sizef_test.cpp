@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,27 +14,27 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <iostream>
+#include <gtest/gtest.h>
 
-#include "math/size.hpp"
+#include "math/sizef.hpp"
 
-int main()
+TEST(SizefTest, sizef_test)
 {
-  Size size(800, 600);
+  Sizef size(800, 600);
 
-  std::cout << size << std::endl;
-  std::cout << size * 2 << std::endl;
-  std::cout << 2 * size << std::endl;
-  std::cout << size / 2 << std::endl;
-  std::cout << size + size << std::endl;
+  ASSERT_EQ(Sizef(800, 600), size);
+  ASSERT_EQ(Sizef(1600, 1200), size * 2);
+  ASSERT_EQ(Sizef(400, 300), size / 2);
+  ASSERT_EQ(Sizef(1000, 900), size + Sizef(200, 300));
+
   size *= 2;
-  std::cout << size << std::endl;
-  size /= 2;
-  std::cout << size << std::endl;
-  size += size;
-  std::cout << size << std::endl;
+  ASSERT_EQ(Sizef(1600, 1200), size);
 
-  return 0;
+  size /= 2;
+  ASSERT_EQ(Sizef(800, 600), size);
+
+  size += size;
+  ASSERT_EQ(Sizef(1600, 1200), size);
 }
 
 /* EOF */
