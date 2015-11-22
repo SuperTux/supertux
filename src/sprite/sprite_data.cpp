@@ -80,8 +80,6 @@ SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
         "If there are more than one action, they need names!");
   }
 
-  log_info << "adding action: " << action->name<< std::endl;
-
   std::vector<float> hitbox;
   if (lisp.get("hitbox", hitbox)) {
     switch(hitbox.size()) {
