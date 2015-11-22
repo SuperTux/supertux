@@ -69,7 +69,9 @@ World::load_(const std::string& directory)
   m_basedir = directory;
   m_worldmap_filename = m_basedir + "/worldmap.stwm";
 
-  auto doc = ReaderDocument::parse((m_basedir + "/info"));
+  std::string filename = m_basedir + "/info";
+  register_translation_directory(filename);
+  auto doc = ReaderDocument::parse(filename);
   auto root = doc.get_root();
 
   if(root.get_name() != "supertux-world" &&

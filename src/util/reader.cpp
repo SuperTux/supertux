@@ -51,6 +51,31 @@ int reader_get_layer(const ReaderMapping& reader, int def)
   return (tmp);
 }
 
+namespace {
+std::string dirname(const std::string& filename)
+{
+  std::string::size_type p = filename.find_last_of('/');
+  if(p == std::string::npos)
+    return "";
+
+  return filename.substr(0, p);
+}
+
+} // namespace
+
+void register_translation_directory(const std::string& filename)
+{
+  if (g_dictionary_manager) {
+    std::string rel_dir = dirname(filename);
+    if (rel_dir.empty()) {
+      // Relative dir inside PhysFS search path?
+      // Get full path from search path, instead.
+      rel_dir = PHYSFS_getRealDir(filename.c_str());
+    }
+    g_dictionary_manager->add_directory (rel_dir);
+  }
+}
+
 ReaderDocument
 ReaderDocument::parse(std::istream& stream)
 {
@@ -71,21 +96,6 @@ ReaderDocument::parse(const std::string& filename)
     msg << "Parser problem: Couldn't open file '" << filename << "'.";
     throw std::runtime_error(msg.str());
   } else {
-
-#if 0
-    // FIXME: Woot!?
-    if(translate && g_dictionary_manager) {
-      std::string rel_dir = dirname(filename);
-      if(rel_dir.empty())
-      {
-        // Relative dir inside PhysFS search path?
-        // Get full path from search path, instead.
-        rel_dir = PHYSFS_getRealDir(filename.c_str());
-      }
-      g_dictionary_manager->add_directory (rel_dir);
-    }
-#endif
-
     return parse(in);
   }
 }

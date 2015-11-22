@@ -58,6 +58,7 @@ Level::load(const std::string& filepath)
 {
   try {
     filename = filepath;
+    register_translation_directory(filepath);
     auto doc = ReaderDocument::parse(filepath);
     auto root = doc.get_root();
 

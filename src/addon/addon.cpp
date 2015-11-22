@@ -104,6 +104,7 @@ Addon::parse(const std::string& fname)
 {
   try
   {
+    register_translation_directory(fname);
     auto doc = ReaderDocument::parse(fname);
     auto root = doc.get_root();
     if(root.get_name() != "supertux-addoninfo")

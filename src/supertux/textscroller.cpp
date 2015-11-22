@@ -51,6 +51,7 @@ TextScroller::TextScroller(const std::string& filename) :
   std::string background_file;
 
   try {
+    register_translation_directory(filename);
     auto doc = ReaderDocument::parse(filename);
     auto root = doc.get_root();
 
