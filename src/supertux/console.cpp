@@ -141,9 +141,7 @@ Console::on_buffer_change(int line_count)
     {
       m_height = 4;
     }
-    std::cout << "before: " << m_height << " line_count: " << line_count << " font: " << m_font->get_height() << std::endl;
     m_height += m_font->get_height() * line_count;
-    std::cout << "after: " << m_height << std::endl;
   }
 
   // reset console to full opacity
