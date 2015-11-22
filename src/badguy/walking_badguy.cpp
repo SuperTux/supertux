@@ -176,6 +176,9 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
 HitResponse
 WalkingBadguy::collision_badguy(BadGuy& , const CollisionHit& hit)
 {
+  if(hit.top) {
+    return FORCE_MOVE;
+  }
 
   if ((hit.left && (dir == LEFT)) || (hit.right && (dir == RIGHT))) {
     turn_around();
