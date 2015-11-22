@@ -40,6 +40,7 @@ public:
 
 public:
   std::list<std::string> m_lines; /**< backbuffer of lines sent to the console. New lines get added to front. */
+  Console* m_console;
 
 public:
   ConsoleBuffer();
@@ -48,6 +49,8 @@ public:
   void addLine(const std::string& s); /**< display a line in the console */
 
   void flush(ConsoleStreamBuffer& buffer); /**< act upon changes in a ConsoleStreamBuffer */
+
+  void set_console(Console* console);
 
 private:
   ConsoleBuffer(const ConsoleBuffer&) = delete;
@@ -71,7 +74,7 @@ public:
   void show_history(int offset); /**< move @c offset lines forward through history; Negative offset moves backward */
   void move_cursor(int offset); /**< move the cursor @c offset chars to the right; Negative offset moves backward; 0xFFFF moves to the end */
 
-  void draw(DrawingContext& context); /**< draw the console in a DrawingContext */
+  void draw(DrawingContext& context) const; /**< draw the console in a DrawingContext */
   void update(float elapsed_time);
 
   void show(); /**< display the console */

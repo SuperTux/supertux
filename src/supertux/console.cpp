@@ -16,8 +16,8 @@
 
 #include "supertux/console.hpp"
 
+#include <assert.h>
 #include <math.h>
-#include <iostream>
 
 #include "physfs/ifile_stream.hpp"
 #include "scripting/scripting.hpp"
@@ -30,8 +30,18 @@
 static const float FADE_SPEED = 1;
 
 ConsoleBuffer::ConsoleBuffer() :
-  m_lines()
+  m_lines(),
+  m_console(nullptr)
 {
+}
+
+void
+ConsoleBuffer::set_console(Console* console)
+{
+  assert(!m_console);
+  assert(console);
+
+  m_console = console;
 }
 
 void
@@ -68,9 +78,9 @@ ConsoleBuffer::addLine(const std::string& s_)
     m_lines.pop_back();
   }
 
-  if (Console::current())
+  if (m_console)
   {
-    Console::current()->on_buffer_change(line_count);
+    m_console->on_buffer_change(line_count);
   }
 }
 
@@ -110,6 +120,7 @@ Console::Console(ConsoleBuffer& buffer) :
   m_font(new Font(Font::FIXED, "fonts/andale12.stf", 1)),
   m_stayOpen(0)
 {
+  buffer.set_console(this);
 }
 
 Console::~Console()
@@ -123,16 +134,6 @@ Console::~Console()
 void
 Console::on_buffer_change(int line_count)
 {
-  if (!m_font)
-  {
-    // FIXME: This is an ugly workaround for a crash at startup.
-    // Console::current() becomes valid before the Console constructor
-    // is finished and loading Surfaces and Fonts wants to write text
-    // to the Console, with Fonts that aren't yet loaded, thus
-    // crashing
-    return;
-  }
-
   // increase console height if necessary
   if (m_stayOpen > 0 && m_height < 64)
   {
@@ -140,7 +141,9 @@ Console::on_buffer_change(int line_count)
     {
       m_height = 4;
     }
+    std::cout << "before: " << m_height << " line_count: " << line_count << " font: " << m_font->get_height() << std::endl;
     m_height += m_font->get_height() * line_count;
+    std::cout << "after: " << m_height << std::endl;
   }
 
   // reset console to full opacity
@@ -516,10 +519,13 @@ Console::update(float elapsed_time)
       m_height = 0;
     }
   }
+
+  m_backgroundOffset += 600 * elapsed_time;
+  if (m_backgroundOffset > (int)m_background->get_width()) m_backgroundOffset -= (int)m_background->get_width();
 }
 
 void
-Console::draw(DrawingContext& context)
+Console::draw(DrawingContext& context) const
 {
   if (m_height == 0)
     return;
@@ -544,8 +550,6 @@ Console::draw(DrawingContext& context)
   {
     context.draw_surface(m_background, Vector(x, m_height - m_background->get_height()), layer);
   }
-  m_backgroundOffset+=10;
-  if (m_backgroundOffset > (int)m_background->get_width()) m_backgroundOffset -= (int)m_background->get_width();
 
   int lineNo = 0;
 
