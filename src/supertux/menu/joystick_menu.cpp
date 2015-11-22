@@ -77,7 +77,7 @@ JoystickMenu::recreate_menu()
       add_controlfield(Controller::PEEK_RIGHT,  _("Peek Right"));
       add_controlfield(Controller::PEEK_UP,     _("Peek Up"));
       add_controlfield(Controller::PEEK_DOWN,   _("Peek Down"));
-      if (g_config->developer_mode || g_config->console_enabled) {
+      if (g_config->developer_mode) {
         add_controlfield(Controller::CONSOLE, _("Console"));
       }
       if (g_config->developer_mode) {
@@ -233,7 +233,7 @@ JoystickMenu::refresh()
     refresh_menu_item(Controller::PEEK_UP);
     refresh_menu_item(Controller::PEEK_DOWN);
 
-    if (g_config->developer_mode || g_config->console_enabled) {
+    if (g_config->developer_mode) {
       refresh_menu_item(Controller::CONSOLE);
     }
     if (g_config->developer_mode) {

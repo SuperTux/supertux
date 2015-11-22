@@ -462,7 +462,7 @@ Console::hasFocus() const
 void
 Console::show()
 {
-  if(!g_config->console_enabled)
+  if(!g_config->developer_mode)
     return;
 
   m_focused = true;

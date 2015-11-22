@@ -58,7 +58,6 @@ public:
   boost::optional<bool> show_fps;
   boost::optional<bool> sound_enabled;
   boost::optional<bool> music_enabled;
-  boost::optional<bool> console_enabled;
 
   // boost::optional<int> random_seed;
 
