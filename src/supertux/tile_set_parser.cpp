@@ -138,13 +138,13 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
   std::vector<Tile::ImageSpec> editor_imagespecs;
   ReaderMapping editor_images;
   if(reader.get("editor-images", editor_images)) {
-    editor_imagespecs = parse_tile_images(editor_images);
+    editor_imagespecs = parse_imagespecs(editor_images);
   }
 
   std::vector<Tile::ImageSpec> imagespecs;
   ReaderMapping images;
   if(reader.get("images", images)) {
-    imagespecs = parse_tile_images(images);
+    imagespecs = parse_imagespecs(images);
   }
 
   std::unique_ptr<Tile> tile(new Tile(imagespecs, editor_imagespecs, attributes, data, fps));
@@ -162,48 +162,6 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
   }
 }
 
-std::vector<Tile::ImageSpec>
-TileSetParser::parse_tile_images(const ReaderMapping& images_lisp) const
-{
-  std::vector<Tile::ImageSpec> imagespecs;
-
-  // (images "foo.png" "foo.bar" ...)
-  // (images (region "foo.png" 0 0 32 32))
-  auto iter = images_lisp.get_iter();
-  while(iter.next())
-  {
-    if(iter.is_string())
-    {
-      std::string file = iter.as_string();
-      imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(0, 0, 0, 0)));
-    }
-    else if(iter.is_pair() && iter.get_name() == "region")
-    {
-      auto const& sx = iter.as_mapping().get_sexp();
-      if (sexp::list_length(sx) != 5)
-      {
-        log_warning << "(region X Y WIDTH HEIGHT) tag malformed: " << sx << std::endl;
-      }
-      else
-      {
-        std::string file = sexp::list_ref(sx, 0).as_string();
-        float x = sexp::list_ref(sx, 1).as_float();
-        float y = sexp::list_ref(sx, 2).as_float();
-        float w = sexp::list_ref(sx, 3).as_float();
-        float h = sexp::list_ref(sx, 4).as_float();
-
-        imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(x, y, x+w, y+h)));
-      }
-    }
-    else
-    {
-      log_warning << "Expected string or list in images tag" << std::endl;
-    }
-  }
-
-  return imagespecs;
-}
-
 void
 TileSetParser::parse_tiles(const ReaderMapping& reader)
 {
@@ -213,10 +171,6 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
   std::vector<uint32_t> attributes;
   // List of data for the tiles
   std::vector<uint32_t> datas;
-  //List of frames that the tiles come in
-  std::vector<std::string> images;
-  //List of frames that the editor tiles come in
-  std::vector<std::string> editor_images;
   // Name used to report errors.
   std::string image_name;
 
@@ -234,11 +188,21 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
   bool has_attributes = reader.get("attributes", attributes);
   bool has_datas = reader.get("datas", datas);
 
-  reader.get("image", images) || reader.get("images", images);
-  reader.get("editor-images", editor_images);
+  std::vector<Tile::ImageSpec> editor_imagespecs;
+  ReaderMapping editor_images;
+  if(reader.get("editor-images", editor_images)) {
+    editor_imagespecs = parse_imagespecs(editor_images);
+  }
 
-  if (images.size() > 0)
-    image_name = images[0];
+  std::vector<Tile::ImageSpec> imagespecs;
+  ReaderMapping images;
+  if(reader.get("image", images) ||
+     reader.get("images", images)) {
+    imagespecs = parse_imagespecs(images);
+  }
+
+  if (imagespecs.size() > 0)
+    image_name = imagespecs[0].file;
   else
     image_name = "(no image)";
 
@@ -298,20 +262,30 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
         int x = 32*(i % width);
         int y = 32*(i / width);
 
-        std::vector<Tile::ImageSpec> imagespecs;
-        for(std::vector<std::string>::const_iterator j = images.begin(); j != images.end(); ++j)
+        std::vector<Tile::ImageSpec> tile_imagespecs;
+        for(size_t j = 0; j < imagespecs.size(); ++j)
         {
-          imagespecs.push_back(Tile::ImageSpec(m_tiles_path + *j, Rectf(x, y, x + 32, y + 32)));
+          tile_imagespecs.push_back(Tile::ImageSpec(imagespecs[j].file,
+                                                    Rectf(x + imagespecs[j].rect.get_left(),
+                                                          y + imagespecs[j].rect.get_top(),
+                                                          x + imagespecs[j].rect.get_left() + 32,
+                                                          y + imagespecs[j].rect.get_top() + 32)));
         }
 
-        std::vector<Tile::ImageSpec> editor_imagespecs;
-        for(std::vector<std::string>::const_iterator j = editor_images.begin(); j != editor_images.end(); ++j)
+        std::vector<Tile::ImageSpec> tile_editor_imagespecs;
+        for(size_t j = 0; j < editor_imagespecs.size(); ++j)
         {
-          editor_imagespecs.push_back(Tile::ImageSpec(m_tiles_path + *j, Rectf(x, y, x + 32, y + 32)));
+          tile_editor_imagespecs.push_back(Tile::ImageSpec(editor_imagespecs[j].file,
+                                                           Rectf(x + editor_imagespecs[j].rect.get_left(),
+                                                                 y + editor_imagespecs[j].rect.get_top(),
+                                                                 x + editor_imagespecs[j].rect.get_left() + 32,
+                                                                 y + editor_imagespecs[j].rect.get_top() + 32)));
         }
 
-        std::unique_ptr<Tile> tile(new Tile(imagespecs, editor_imagespecs,
-                                          (has_attributes ? attributes[i] : 0), (has_datas ? datas[i] : 0), fps));
+        std::unique_ptr<Tile> tile(new Tile(tile_imagespecs, tile_editor_imagespecs,
+                                            (has_attributes ? attributes[i] : 0),
+                                            (has_datas ? datas[i] : 0),
+                                            fps));
         if (m_tileset.tiles[ids[i]] == 0) {
           m_tileset.tiles[ids[i]] = tile.release();
         } else {
@@ -320,6 +294,48 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
       }
     }
   }
+}
+
+std::vector<Tile::ImageSpec>
+TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp) const
+{
+  std::vector<Tile::ImageSpec> imagespecs;
+
+  // (images "foo.png" "foo.bar" ...)
+  // (images (region "foo.png" 0 0 32 32))
+  auto iter = images_lisp.get_iter();
+  while(iter.next())
+  {
+    if(iter.is_string())
+    {
+      std::string file = iter.as_string();
+      imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(0, 0, 0, 0)));
+    }
+    else if(iter.is_pair() && iter.get_name() == "region")
+    {
+      auto const& sx = iter.as_mapping().get_sexp();
+      if (sexp::list_length(sx) != 5)
+      {
+        log_warning << "(region X Y WIDTH HEIGHT) tag malformed: " << sx << std::endl;
+      }
+      else
+      {
+        std::string file = sexp::list_ref(sx, 0).as_string();
+        float x = sexp::list_ref(sx, 1).as_float();
+        float y = sexp::list_ref(sx, 2).as_float();
+        float w = sexp::list_ref(sx, 3).as_float();
+        float h = sexp::list_ref(sx, 4).as_float();
+
+        imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(x, y, x+w, y+h)));
+      }
+    }
+    else
+    {
+      log_warning << "Expected string or list in images tag" << std::endl;
+    }
+  }
+
+  return imagespecs;
 }
 
 /* EOF */
