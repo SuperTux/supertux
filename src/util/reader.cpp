@@ -52,13 +52,15 @@ int reader_get_layer(const ReaderMapping& reader, int def)
 }
 
 namespace {
+
 std::string dirname(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
-  if(p == std::string::npos)
-    return "";
-
-  return filename.substr(0, p);
+  if(p == std::string::npos) {
+    return {};
+  } else {
+    return filename.substr(0, p);
+  }
 }
 
 } // namespace
@@ -70,9 +72,15 @@ void register_translation_directory(const std::string& filename)
     if (rel_dir.empty()) {
       // Relative dir inside PhysFS search path?
       // Get full path from search path, instead.
-      rel_dir = PHYSFS_getRealDir(filename.c_str());
+      const char* rel_dir_c = PHYSFS_getRealDir(filename.c_str());
+      if (rel_dir_c) {
+        rel_dir = rel_dir_c;
+      }
     }
-    g_dictionary_manager->add_directory (rel_dir);
+
+    if (!rel_dir.empty()) {
+      g_dictionary_manager->add_directory(rel_dir);
+    }
   }
 }
 
