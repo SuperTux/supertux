@@ -165,7 +165,7 @@ ReaderIterator::as_string_item()
 }
 
 std::string
-ReaderIterator::get_name() const
+ReaderIterator::get_key() const
 {
   return m_arr[m_idx].as_array()[0].as_string();
 }

@@ -51,12 +51,12 @@ SpriteData::SpriteData(const ReaderMapping& lisp, const std::string& basedir) :
 {
   auto iter = lisp.get_iter();
   while(iter.next()) {
-    if(iter.get_name() == "name") {
+    if(iter.get_key() == "name") {
       iter.get(name);
-    } else if(iter.get_name() == "action") {
+    } else if(iter.get_key() == "action") {
       parse_action(iter.as_mapping(), basedir);
     } else {
-      log_warning << "Unknown sprite field: " << iter.get_name() << std::endl;
+      log_warning << "Unknown sprite field: " << iter.get_key() << std::endl;
     }
   }
   if(actions.empty())

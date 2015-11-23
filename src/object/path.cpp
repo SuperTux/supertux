@@ -41,7 +41,7 @@ Path::read(const ReaderMapping& reader)
 
   mode = CIRCULAR;
   while(iter.next()) {
-    if(iter.get_name() == "mode") {
+    if(iter.get_key() == "mode") {
       std::string mode_string;
       iter.get(mode_string);
 
@@ -59,7 +59,7 @@ Path::read(const ReaderMapping& reader)
         throw std::runtime_error(msg.str());
       }
       continue;
-    } else if (iter.get_name() == "node") {
+    } else if (iter.get_key() == "node") {
       ReaderMapping node_mapping = iter.as_mapping();
 
       // each new node will inherit all values from the last one
@@ -75,7 +75,7 @@ Path::read(const ReaderMapping& reader)
 
       nodes.push_back(node);
     } else {
-      log_warning << "unknown token '" << iter.get_name() << "' in Path nodes list. Ignored." << std::endl;
+      log_warning << "unknown token '" << iter.get_key() << "' in Path nodes list. Ignored." << std::endl;
     }
   }
 

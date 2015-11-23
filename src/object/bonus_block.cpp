@@ -97,7 +97,7 @@ BonusBlock::BonusBlock(const ReaderMapping& lisp) :
   contents = CONTENT_COIN;
   auto iter = lisp.get_iter();
   while(iter.next()) {
-    const std::string& token = iter.item();
+    const std::string& token = iter.get_key();
     if(token == "x") {
       iter.get(pos.x);
     } else if(token == "y") {

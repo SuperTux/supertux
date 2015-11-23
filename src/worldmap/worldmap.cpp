@@ -281,38 +281,38 @@ WorldMap::load(const std::string& filename)
     } else {
       auto iter = sector.get_iter();
       while(iter.next()) {
-        if(iter.item() == "tilemap") {
+        if(iter.get_key() == "tilemap") {
           add_object(std::make_shared<TileMap>(iter.as_mapping()));
-        } else if(iter.item() == "background") {
+        } else if(iter.get_key() == "background") {
           add_object(std::make_shared<Background>(iter.as_mapping()));
-        } else if(iter.item() == "music") {
+        } else if(iter.get_key() == "music") {
           iter.get(music);
-        } else if(iter.item() == "init-script") {
+        } else if(iter.get_key() == "init-script") {
           iter.get(init_script);
-        } else if(iter.item() == "worldmap-spawnpoint") {
+        } else if(iter.get_key() == "worldmap-spawnpoint") {
           SpawnPoint* sp = new SpawnPoint(iter.as_mapping());
           spawn_points.push_back(sp);
-        } else if(iter.item() == "level") {
+        } else if(iter.get_key() == "level") {
           auto level = std::make_shared<LevelTile>(levels_path, iter.as_mapping());
           load_level_information(*level.get());
           levels.push_back(level.get());
           add_object(level);
-        } else if(iter.item() == "special-tile") {
+        } else if(iter.get_key() == "special-tile") {
           auto special_tile = std::make_shared<SpecialTile>(iter.as_mapping());
           special_tiles.push_back(special_tile.get());
           add_object(special_tile);
-        } else if(iter.item() == "sprite-change") {
+        } else if(iter.get_key() == "sprite-change") {
           auto sprite_change = std::make_shared<SpriteChange>(iter.as_mapping());
           sprite_changes.push_back(sprite_change.get());
           add_object(sprite_change);
-        } else if(iter.item() == "teleporter") {
+        } else if(iter.get_key() == "teleporter") {
           auto teleporter = std::make_shared<Teleporter>(iter.as_mapping());
           teleporters.push_back(teleporter.get());
           add_object(teleporter);
-        } else if(iter.item() == "decal") {
+        } else if(iter.get_key() == "decal") {
           auto decal = std::make_shared<Decal>(iter.as_mapping());
           add_object(decal);
-        } else if(iter.item() == "ambient-light") {
+        } else if(iter.get_key() == "ambient-light") {
           std::vector<float> vColor;
           sector.get( "ambient-light", vColor );
           if(vColor.size() < 3) {
@@ -320,10 +320,10 @@ WorldMap::load(const std::string& filename)
           } else {
             ambient_light = Color( vColor );
           }
-        } else if(iter.item() == "name") {
+        } else if(iter.get_key() == "name") {
           // skip
         } else {
-          log_warning << "Unknown token '" << iter.item() << "' in worldmap" << std::endl;
+          log_warning << "Unknown token '" << iter.get_key() << "' in worldmap" << std::endl;
         }
       }
     }

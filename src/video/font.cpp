@@ -116,7 +116,7 @@ Font::loadFontFile(const std::string &filename)
 
   auto iter = config_l.get_iter();
   while(iter.next()) {
-    const std::string& token = iter.item();
+    const std::string& token = iter.get_key();
     if( token == "surface" ) {
       auto glyphs_val = iter.as_mapping();
       int local_char_width;

@@ -52,23 +52,23 @@ TileSetParser::parse()
   auto iter = root.get_mapping().get_iter();
   while(iter.next())
   {
-    if (iter.item() == "tile")
+    if (iter.get_key() == "tile")
     {
       ReaderMapping tile_mapping = iter.as_mapping();
       parse_tile(tile_mapping);
     }
-    else if (iter.item() == "tilegroup")
+    else if (iter.get_key() == "tilegroup")
     {
       /* tilegroups are only interesting for the editor */
     }
-    else if (iter.item() == "tiles")
+    else if (iter.get_key() == "tiles")
     {
       ReaderMapping tiles_mapping = iter.as_mapping();
       parse_tiles(tiles_mapping);
     }
     else
     {
-      log_warning << "Unknown symbol '" << iter.item() << "' in tileset file" << std::endl;
+      log_warning << "Unknown symbol '" << iter.get_key() << "' in tileset file" << std::endl;
     }
   }
 }
@@ -305,7 +305,7 @@ TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp) const
       std::string file = iter.as_string_item();
       imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(0, 0, 0, 0)));
     }
-    else if(iter.is_pair() && iter.get_name() == "region")
+    else if(iter.is_pair() && iter.get_key() == "region")
     {
       auto const& sx = iter.as_mapping().get_sexp();
       auto const& arr = sx.as_array();

@@ -191,20 +191,20 @@ Sector::parse(const ReaderMapping& sector)
   bool has_background = false;
   auto iter = sector.get_iter();
   while(iter.next()) {
-    if(iter.get_name() == "name") {
+    if(iter.get_key() == "name") {
       iter.get(name);
-    } else if(iter.get_name() == "gravity") {
+    } else if(iter.get_key() == "gravity") {
       iter.get(gravity);
-    } else if(iter.get_name() == "music") {
+    } else if(iter.get_key() == "music") {
       iter.get(music);
-    } else if(iter.get_name() == "spawnpoint") {
+    } else if(iter.get_key() == "spawnpoint") {
       auto sp = std::make_shared<SpawnPoint>(iter.as_mapping());
       if (sp->name != "" && sp->pos.x >= 0 && sp->pos.y >= 0) {
         spawnpoints.push_back(sp);
       }
-    } else if(iter.get_name() == "init-script") {
+    } else if(iter.get_key() == "init-script") {
       iter.get(init_script);
-    } else if(iter.get_name() == "ambient-light") {
+    } else if(iter.get_key() == "ambient-light") {
       std::vector<float> vColor;
       sector.get( "ambient-light", vColor );
       if(vColor.size() < 3) {
@@ -213,7 +213,7 @@ Sector::parse(const ReaderMapping& sector)
         ambient_light = Color( vColor );
       }
     } else {
-      GameObjectPtr object = parse_object(iter.get_name(), iter.as_mapping());
+      GameObjectPtr object = parse_object(iter.get_key(), iter.as_mapping());
       if(object) {
         if(std::dynamic_pointer_cast<Background>(object)) {
           has_background = true;
@@ -364,7 +364,7 @@ Sector::parse_old_format(const ReaderMapping& reader)
   if(reader.get("reset-points", resetpoints)) {
     auto iter = resetpoints.get_iter();
     while(iter.next()) {
-      if(iter.item() == "point") {
+      if(iter.get_key() == "point") {
         Vector sp_pos;
         if(reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))
         {
@@ -374,7 +374,7 @@ Sector::parse_old_format(const ReaderMapping& reader)
           spawnpoints.push_back(sp);
         }
       } else {
-        log_warning << "Unknown token '" << iter.item() << "' in reset-points." << std::endl;
+        log_warning << "Unknown token '" << iter.get_key() << "' in reset-points." << std::endl;
       }
     }
   }

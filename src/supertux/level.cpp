@@ -115,7 +115,7 @@ Level::load(const std::string& filepath)
 
     auto iter = level.get_iter();
     while(iter.next()) {
-      if (iter.item() == "sector") {
+      if (iter.get_key() == "sector") {
         Sector* sector = new Sector(this);
         sector->parse(iter.as_mapping());
         add_sector(sector);

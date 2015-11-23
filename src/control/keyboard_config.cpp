@@ -59,7 +59,7 @@ KeyboardConfig::read(const ReaderMapping& keymap_lisp)
     auto iter = keymap_lisp.get_iter();
     while(iter.next())
     {
-      if (iter.get_name() == "map")
+      if (iter.get_key() == "map")
       {
         int key = -1;
         std::string control;

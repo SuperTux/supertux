@@ -163,7 +163,7 @@ JoystickConfig::read(const ReaderMapping& joystick_lisp)
   auto iter = joystick_lisp.get_iter();
   while(iter.next())
   {
-    if (iter.get_name() == "map")
+    if (iter.get_key() == "map")
     {
       int button = -1;
       int axis   = 0;

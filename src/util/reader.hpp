@@ -135,8 +135,7 @@ public:
   bool is_pair();
   std::string as_string_item();
 
-  std::string get_name() const;
-  std::string item() const { return get_name(); }
+  std::string get_key() const;
 
   void get(bool& value) const;
   void get(int& value) const;
