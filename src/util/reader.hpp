@@ -143,8 +143,6 @@ public:
   void get(float& value) const;
   void get(std::string& value) const;
 
-  // FIXME: remove one?
-  void get(ReaderMapping& value) const;
   ReaderMapping as_mapping() const;
 
 private:

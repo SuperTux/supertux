@@ -144,8 +144,7 @@ BonusBlock::BonusBlock(const ReaderMapping& lisp) :
       }
     } else {
       if(contents == CONTENT_CUSTOM) {
-        ReaderMapping object_mapping;
-        iter.get(object_mapping);
+        ReaderMapping object_mapping = iter.as_mapping();
         GameObjectPtr game_object = ObjectFactory::instance().create(token, object_mapping);
         object = std::dynamic_pointer_cast<MovingObject>(game_object);
         if(object == 0)

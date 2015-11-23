@@ -60,8 +60,7 @@ Path::read(const ReaderMapping& reader)
       }
       continue;
     } else if (iter.get_name() == "node") {
-      ReaderMapping node_mapping;
-      iter.get(node_mapping);
+      ReaderMapping node_mapping = iter.as_mapping();
 
       // each new node will inherit all values from the last one
       Node node;

@@ -194,18 +194,10 @@ ReaderIterator::get(std::string& value) const
   value = m_arr[m_idx].as_array()[1].as_string();
 }
 
-void
-ReaderIterator::get(ReaderMapping& value) const
-{
-  value = ReaderMapping(m_doc, &m_arr[m_idx]);
-}
-
 ReaderMapping
 ReaderIterator::as_mapping() const
 {
-  ReaderMapping result;
-  get(result);
-  return result;
+  return ReaderMapping(m_doc, &m_arr[m_idx]);
 }
 
 ReaderMapping::ReaderMapping() :
