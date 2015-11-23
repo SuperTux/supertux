@@ -55,10 +55,8 @@ TileSetParser::parse()
     if (iter.item() == "tile")
     {
       ReaderMapping tile_mapping;
-      if (iter.get(tile_mapping))
-      {
-        parse_tile(tile_mapping);
-      }
+      iter.get(tile_mapping);
+      parse_tile(tile_mapping);
     }
     else if (iter.item() == "tilegroup")
     {
@@ -67,10 +65,8 @@ TileSetParser::parse()
     else if (iter.item() == "tiles")
     {
       ReaderMapping tiles_mapping;
-      if (iter.get(tiles_mapping))
-      {
-        parse_tiles(tiles_mapping);
-      }
+      iter.get(tiles_mapping);
+      parse_tiles(tiles_mapping);
     }
     else
     {

@@ -138,13 +138,13 @@ public:
   std::string get_name() const;
   std::string item() const { return get_name(); }
 
-  bool get(bool& value) const;
-  bool get(int& value) const;
-  bool get(float& value) const;
-  bool get(std::string& value) const;
+  void get(bool& value) const;
+  void get(int& value) const;
+  void get(float& value) const;
+  void get(std::string& value) const;
 
   // FIXME: remove one?
-  bool get(ReaderMapping& value) const;
+  void get(ReaderMapping& value) const;
   ReaderMapping as_mapping() const;
 
 private:

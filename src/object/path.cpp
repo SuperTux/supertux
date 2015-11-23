@@ -43,8 +43,7 @@ Path::read(const ReaderMapping& reader)
   while(iter.next()) {
     if(iter.get_name() == "mode") {
       std::string mode_string;
-      if(!iter.get(mode_string))
-        throw std::runtime_error("Pathmode not a string");
+      iter.get(mode_string);
 
       if(mode_string == "oneshot")
         mode = ONE_SHOT;

@@ -170,39 +170,34 @@ ReaderIterator::get_name() const
   return m_arr[m_idx].as_array()[0].as_string();
 }
 
-bool
+void
 ReaderIterator::get(bool& value) const
 {
   value = m_arr[m_idx].as_array()[1].as_bool();
-  return true;
 }
 
-bool
+void
 ReaderIterator::get(int& value) const
 {
   value = m_arr[m_idx].as_array()[1].as_int();
-  return true;
 }
 
-bool
+void
 ReaderIterator::get(float& value) const
 {
   value = m_arr[m_idx].as_array()[1].as_float();
-  return true;
 }
 
-bool
+void
 ReaderIterator::get(std::string& value) const
 {
   value = m_arr[m_idx].as_array()[1].as_string();
-  return true;
 }
 
-bool
+void
 ReaderIterator::get(ReaderMapping& value) const
 {
   value = ReaderMapping(m_doc, &m_arr[m_idx]);
-  return true;
 }
 
 ReaderMapping
