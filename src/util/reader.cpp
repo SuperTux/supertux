@@ -85,10 +85,10 @@ void register_translation_directory(const std::string& filename)
 }
 
 ReaderDocument
-ReaderDocument::parse(std::istream& stream)
+ReaderDocument::parse(std::istream& stream, const std::string& filename)
 {
   sexp::Value sx = sexp::Parser::from_stream(stream, sexp::Parser::USE_ARRAYS);
-  return ReaderDocument(std::move(sx));
+  return ReaderDocument(filename, std::move(sx));
 }
 
 ReaderDocument
@@ -104,16 +104,18 @@ ReaderDocument::parse(const std::string& filename)
     msg << "Parser problem: Couldn't open file '" << filename << "'.";
     throw std::runtime_error(msg.str());
   } else {
-    return parse(in);
+    return parse(in, filename);
   }
 }
 
 ReaderDocument::ReaderDocument() :
+  m_filename(),
   m_sx()
 {
 }
 
-ReaderDocument::ReaderDocument(sexp::Value sx) :
+ReaderDocument::ReaderDocument(const std::string& filename, sexp::Value sx) :
+  m_filename(filename),
   m_sx(std::move(sx))
 {
 }
@@ -121,10 +123,17 @@ ReaderDocument::ReaderDocument(sexp::Value sx) :
 ReaderObject
 ReaderDocument::get_root() const
 {
-  return ReaderObject(&m_sx);
+  return ReaderObject(this, &m_sx);
 }
 
-ReaderIterator::ReaderIterator(const sexp::Value* sx) :
+std::string
+ReaderDocument::get_filename() const
+{
+  return m_filename;
+}
+
+ReaderIterator::ReaderIterator(const ReaderDocument* doc, const sexp::Value* sx) :
+  m_doc(doc),
   m_arr(sx->as_array()),
   m_idx(0)
 {
@@ -192,7 +201,7 @@ ReaderIterator::get(std::string& value) const
 bool
 ReaderIterator::get(ReaderMapping& value) const
 {
-  value = ReaderMapping(&m_arr[m_idx]);
+  value = ReaderMapping(m_doc, &m_arr[m_idx]);
   return true;
 }
 
@@ -205,12 +214,14 @@ ReaderIterator::as_mapping() const
 }
 
 ReaderMapping::ReaderMapping() :
+  m_doc(nullptr),
   m_sx(nullptr),
   m_arr(nullptr)
 {
 }
 
-ReaderMapping::ReaderMapping(const sexp::Value* sx) :
+ReaderMapping::ReaderMapping(const ReaderDocument* doc, const sexp::Value* sx) :
+  m_doc(doc),
   m_sx(sx),
   m_arr(&m_sx->as_array())
 {
@@ -220,7 +231,7 @@ ReaderIterator
 ReaderMapping::get_iter() const
 {
   assert(m_sx);
-  return ReaderIterator(m_sx);
+  return ReaderIterator(m_doc, m_sx);
 }
 
 const sexp::Value*
@@ -237,7 +248,7 @@ ReaderMapping::get_item(const char* key) const
 }
 
 #define GET_VALUE_MACRO(type, checker, getter)                          \
-  auto const* sx = get_item(key);                                       \
+  auto const sx = get_item(key);                                        \
   if (!sx) {                                                            \
     return false;                                                       \
   } else {                                                              \
@@ -247,8 +258,9 @@ ReaderMapping::get_item(const char* key) const
       return true;                                                      \
     } else {                                                            \
       std::ostringstream msg;                                           \
-      msg << "ReaderMapping::get(key, " type "): invalid type: "        \
-          << sx;                                                        \
+      msg << m_doc->get_filename() << ":" << item[1].get_line()         \
+          << ": ReaderMapping::get(key, " type "): invalid type: "      \
+          << *sx;                                                       \
       throw std::runtime_error(msg.str());                              \
     }                                                                   \
   }
@@ -282,7 +294,7 @@ ReaderMapping::get(const char* key, float& value) const
 bool
 ReaderMapping::get(const char* key, std::string& value) const
 {
-  auto const* sx = get_item(key);
+  auto const sx = get_item(key);
   if (!sx) {
     return false;
   } else {
@@ -300,15 +312,16 @@ ReaderMapping::get(const char* key, std::string& value) const
       return true;
     } else {
       std::ostringstream msg;
-      msg << "ReaderMapping::get(key, string): invalid type: "
-          << sx;
+      msg << m_doc->get_filename() << ":" << item[1].get_line()
+          << ": ReaderMapping::get(key, string): invalid type: "
+          << *sx;
       throw std::runtime_error(msg.str());
     }
   }
 }
 
 #define GET_VALUES_MACRO(type, checker, getter)                         \
-  auto const* sx = get_item(key);                                       \
+  auto const sx = get_item(key);                                        \
   if (!sx) {                                                            \
     return false;                                                       \
   } else {                                                              \
@@ -319,8 +332,9 @@ ReaderMapping::get(const char* key, std::string& value) const
         value.emplace_back(item[i].getter());                           \
       } else {                                                          \
         std::ostringstream msg;                                         \
-        msg << "ReaderMapping::get(key, " type "): invalid type: "     \
-            << sx;                                                      \
+        msg << m_doc->get_filename() << ":" << item[i].get_line()       \
+            << ": ReaderMapping::get(key, " type "): invalid type: "    \
+            << *sx;                                                     \
         throw std::runtime_error(msg.str());                            \
       }                                                                 \
     }                                                                   \
@@ -352,7 +366,7 @@ ReaderMapping::get(const char* key, ReaderMapping& value) const
 {
   auto const sx = get_item(key);
   if (sx) {
-    value = ReaderMapping(sx);
+    value = ReaderMapping(m_doc, sx);
     return true;
   } else {
     return false;
@@ -364,19 +378,21 @@ ReaderMapping::get(const char* key, ReaderCollection& value) const
 {
   auto const sx = get_item(key);
   if (sx) {
-    value = ReaderCollection(sx);
+    value = ReaderCollection(m_doc, sx);
     return true;
   } else {
     return false;
   }
 }
 
-ReaderCollection::ReaderCollection(const sexp::Value* sx) :
+ReaderCollection::ReaderCollection(const ReaderDocument* doc, const sexp::Value* sx) :
+  m_doc(doc),
   m_sx(sx)
 {
 }
 
 ReaderCollection::ReaderCollection() :
+  m_doc(nullptr),
   m_sx(nullptr)
 {
 }
@@ -390,17 +406,19 @@ ReaderCollection::get_objects() const
   auto const& arr = m_sx->as_array();
   for(size_t i = 1; i < arr.size(); ++i)
   {
-    result.push_back(ReaderObject(&arr[i]));
+    result.push_back(ReaderObject(m_doc, &arr[i]));
   }
   return result;
 }
 
-ReaderObject::ReaderObject(const sexp::Value* sx) :
+ReaderObject::ReaderObject(const ReaderDocument* doc, const sexp::Value* sx) :
+  m_doc(doc),
   m_sx(sx)
 {
 }
 
 ReaderObject::ReaderObject() :
+  m_doc(nullptr),
   m_sx(nullptr)
 {
 }
@@ -428,7 +446,7 @@ ReaderObject::get_mapping() const
 
   if (m_sx->is_array())
   {
-    return ReaderMapping(m_sx);
+    return ReaderMapping(m_doc, m_sx);
   }
   else
   {
@@ -443,7 +461,7 @@ ReaderObject::get_collection() const
 
   if (m_sx->is_array())
   {
-    return ReaderCollection(m_sx);
+    return ReaderCollection(m_doc, m_sx);
   }
   else
   {

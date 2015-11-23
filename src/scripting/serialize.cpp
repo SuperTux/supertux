@@ -46,7 +46,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
     switch(value.get_type()) {
       case sexp::Value::TYPE_ARRAY:
         sq_newtable(vm);
-        load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(&arr[i]));
+        load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(lisp.get_doc(), &arr[i]));
         break;
       case sexp::Value::TYPE_INTEGER:
         sq_pushinteger(vm, value.as_int());

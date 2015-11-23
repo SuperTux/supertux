@@ -36,16 +36,18 @@ class ReaderObject;
 class ReaderDocument final
 {
 public:
-  static ReaderDocument parse(std::istream& stream);
+  static ReaderDocument parse(std::istream& stream, const std::string& filename = "<stream>");
   static ReaderDocument parse(const std::string& filename);
 
 public:
   ReaderDocument();
-  ReaderDocument(sexp::Value sx);
+  ReaderDocument(const std::string& filename, sexp::Value sx);
 
   ReaderObject get_root() const;
+  std::string get_filename() const;
 
 private:
+  std::string m_filename;
   sexp::Value m_sx;
 };
 
@@ -53,13 +55,14 @@ class ReaderObject final
 {
 public:
   ReaderObject();
-  ReaderObject(const sexp::Value* sx);
+  ReaderObject(const ReaderDocument* doc, const sexp::Value* sx);
 
   std::string get_name() const;
   ReaderMapping get_mapping() const;
   ReaderCollection get_collection() const;
 
 private:
+  const ReaderDocument* m_doc;
   const sexp::Value* m_sx;
 };
 
@@ -69,11 +72,12 @@ public:
   ReaderCollection();
 
   // sx should point to (section (objname (name value)...)...)
-  ReaderCollection(const sexp::Value* sx);
+  ReaderCollection(const ReaderDocument* doc, const sexp::Value* sx);
 
   std::vector<ReaderObject> get_objects() const;
 
 private:
+  const ReaderDocument* m_doc;
   const sexp::Value* m_sx;
 };
 
@@ -83,7 +87,7 @@ public:
   ReaderMapping();
 
   // sx should point to (section (name value)...)
-  ReaderMapping(const sexp::Value* sx);
+  ReaderMapping(const ReaderDocument* doc, const sexp::Value* sx);
 
   ReaderIterator get_iter() const;
 
@@ -102,11 +106,14 @@ public:
 
   const sexp::Value& get_sexp() const { return *m_sx; }
 
+  const ReaderDocument* get_doc() const { return m_doc; }
+
 private:
   /** Returns pointer to (key value) */
   const sexp::Value* get_item(const char* key) const;
 
 private:
+  const ReaderDocument* m_doc;
   const sexp::Value* m_sx;
   std::vector<sexp::Value> const* m_arr;
 };
@@ -118,7 +125,7 @@ class ReaderIterator final
 {
 public:
   // sx should point to (section (name value)...)
-  ReaderIterator(const sexp::Value* sx);
+  ReaderIterator(const ReaderDocument* doc, const sexp::Value* sx);
 
   /** must be called once before any of the other function become
       valid, i.e. ReaderIterator it; while(it.next()) { ... } */
@@ -141,6 +148,7 @@ public:
   ReaderMapping as_mapping() const;
 
 private:
+  const ReaderDocument* m_doc;
   const std::vector<sexp::Value>& m_arr;
   size_t m_idx;
 };
