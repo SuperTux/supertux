@@ -31,17 +31,22 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
   if(table_idx < 0)
     table_idx -= 2;
 
-  for(auto const& sx : sexp::ListAdapter(lisp.get_sexp()))
+  auto const& arr = lisp.get_sexp().as_array();
+  for(size_t i = 1; i < arr.size(); ++i)
   {
-    // FIXME: no error checking
-    const std::string& token = sx.get_car().get_car().as_string();
-    sq_pushstring(vm, token.c_str(), token.size());
+    auto const& pair = arr[i].as_array();
 
-    auto const& value = sx.get_car().get_cdr().get_car();
+    const std::string& key = pair[0].as_string();
+    auto const& value = pair[1];
+
+    // push the key
+    sq_pushstring(vm, key.c_str(), key.size());
+
+    // push the value
     switch(value.get_type()) {
       case sexp::Value::TYPE_ARRAY:
         sq_newtable(vm);
-        load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(&value));
+        load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(&arr[i]));
         break;
       case sexp::Value::TYPE_INTEGER:
         sq_pushinteger(vm, value.as_int());

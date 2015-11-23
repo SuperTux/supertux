@@ -170,7 +170,7 @@ Savegame::load()
           }
 
           ReaderMapping state;
-          if(mapping.get("state", state))
+          if(!mapping.get("state", state))
           {
             throw std::runtime_error("No state section in savegame");
           }
