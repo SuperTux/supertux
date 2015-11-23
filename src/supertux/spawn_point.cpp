@@ -36,21 +36,12 @@ SpawnPoint::SpawnPoint(const ReaderMapping& slisp) :
 {
   pos.x = -1;
   pos.y = -1;
-  auto iter = slisp.get_iter();
-  while(iter.next()) {
-    const std::string& token = iter.item();
-    if(token == "name") {
-      iter.get(name);
-    } else if(token == "x") {
-      iter.get(pos.x);
-    } else if(token == "y") {
-      iter.get(pos.y);
-    } else {
-      log_warning << "unknown token '" << token << "' in SpawnPoint" << std::endl;
-    }
-  }
 
-  if(name == "")
+  slisp.get("name", name);
+  slisp.get("x", pos.x);
+  slisp.get("y", pos.y);
+
+  if(name.empty())
     log_warning << "No name specified for spawnpoint. Ignoring." << std::endl;
   if(pos.x < 0 || pos.y < 0)
     log_warning << "Invalid coordinates specified for spawnpoint. Ignoring." << std::endl;

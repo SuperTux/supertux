@@ -302,7 +302,7 @@ TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp) const
   {
     if(iter.is_string())
     {
-      std::string file = iter.as_string();
+      std::string file = iter.as_string_item();
       imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(0, 0, 0, 0)));
     }
     else if(iter.is_pair() && iter.get_name() == "region")

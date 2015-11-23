@@ -159,7 +159,7 @@ ReaderIterator::is_pair()
 }
 
 std::string
-ReaderIterator::as_string()
+ReaderIterator::as_string_item()
 {
   return m_arr[m_idx].as_string();
 }

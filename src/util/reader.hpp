@@ -133,7 +133,7 @@ public:
 
   bool is_string();
   bool is_pair();
-  std::string as_string();
+  std::string as_string_item();
 
   std::string get_name() const;
   std::string item() const { return get_name(); }
