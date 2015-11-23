@@ -33,7 +33,7 @@ class ReaderMapping;
 class ReaderObject;
 
 /** The ReaderDocument holds the memory */
-class ReaderDocument
+class ReaderDocument final
 {
 public:
   static ReaderDocument parse(std::istream& stream);
@@ -67,6 +67,8 @@ class ReaderCollection final
 {
 public:
   ReaderCollection();
+
+  // sx should point to (section (objname (name value)...)...)
   ReaderCollection(const sexp::Value* sx);
 
   std::vector<ReaderObject> get_objects() const;
@@ -79,6 +81,8 @@ class ReaderMapping final
 {
 public:
   ReaderMapping();
+
+  // sx should point to (section (name value)...)
   ReaderMapping(const sexp::Value* sx);
 
   ReaderIterator get_iter() const;
@@ -99,17 +103,25 @@ public:
   const sexp::Value& get_sexp() const { return *m_sx; }
 
 private:
+  /** Returns pointer to (key value) */
+  const sexp::Value* get_item(const char* key) const;
+
+private:
   const sexp::Value* m_sx;
+  std::vector<sexp::Value> const* m_arr;
 };
 
 /** The ReaderIterator class is for backward compatibilty with old
     fileformats only, do not use it in new code, use ReaderCollection
     and ReaderMapping instead */
-class ReaderIterator
+class ReaderIterator final
 {
 public:
+  // sx should point to (section (name value)...)
   ReaderIterator(const sexp::Value* sx);
 
+  /** must be called once before any of the other function become
+      valid, i.e. ReaderIterator it; while(it.next()) { ... } */
   bool next();
 
   bool is_string();
@@ -123,13 +135,14 @@ public:
   bool get(int& value) const;
   bool get(float& value) const;
   bool get(std::string& value) const;
-  bool get(ReaderMapping& value) const;
 
+  // FIXME: remove one?
+  bool get(ReaderMapping& value) const;
   ReaderMapping as_mapping() const;
 
 private:
-  const sexp::Value* m_root;
-  const sexp::Value* m_sx;
+  const std::vector<sexp::Value>& m_arr;
+  size_t m_idx;
 };
 
 #endif

@@ -314,17 +314,18 @@ TileSetParser::parse_imagespecs(const ReaderMapping& images_lisp) const
     else if(iter.is_pair() && iter.get_name() == "region")
     {
       auto const& sx = iter.as_mapping().get_sexp();
-      if (sexp::list_length(sx) != 5)
+      auto const& arr = sx.as_array();
+      if (arr.size() != 6)
       {
         log_warning << "(region X Y WIDTH HEIGHT) tag malformed: " << sx << std::endl;
       }
       else
       {
-        std::string file = sexp::list_ref(sx, 0).as_string();
-        float x = sexp::list_ref(sx, 1).as_float();
-        float y = sexp::list_ref(sx, 2).as_float();
-        float w = sexp::list_ref(sx, 3).as_float();
-        float h = sexp::list_ref(sx, 4).as_float();
+        std::string file = arr[1].as_string();
+        float x = arr[2].as_float();
+        float y = arr[3].as_float();
+        float w = arr[4].as_float();
+        float h = arr[5].as_float();
 
         imagespecs.push_back(Tile::ImageSpec(m_tiles_path + file, Rectf(x, y, x+w, y+h)));
       }

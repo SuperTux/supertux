@@ -87,7 +87,7 @@ void register_translation_directory(const std::string& filename)
 ReaderDocument
 ReaderDocument::parse(std::istream& stream)
 {
-  sexp::Value sx = sexp::Parser::from_stream(stream);
+  sexp::Value sx = sexp::Parser::from_stream(stream, sexp::Parser::USE_ARRAYS);
   return ReaderDocument(std::move(sx));
 }
 
@@ -125,103 +125,74 @@ ReaderDocument::get_root() const
 }
 
 ReaderIterator::ReaderIterator(const sexp::Value* sx) :
-  m_root(sx),
-  m_sx(nullptr)
+  m_arr(sx->as_array()),
+  m_idx(0)
 {
-  assert(m_root);
 }
 
 bool
 ReaderIterator::next()
 {
-  if (m_root)
-  {
-    m_sx = m_root;
-    m_root = nullptr;
-    return !m_sx->is_nil();
-  }
-  else
-  {
-    assert(m_sx);
-
-    m_sx = &m_sx->get_cdr();
-    return !m_sx->is_nil();
-  }
+  m_idx += 1;
+  return m_idx < m_arr.size();
 }
 
 bool
 ReaderIterator::is_string()
 {
-  assert(m_sx);
-
-  return m_sx->get_car().is_string();
+  return m_arr[m_idx].is_string();
 }
 
 bool
 ReaderIterator::is_pair()
 {
-  assert(m_sx);
-
-  return m_sx->get_car().is_cons();
+  return m_arr[m_idx].is_array();
 }
 
 std::string
 ReaderIterator::as_string()
 {
-  assert(m_sx);
-
-  return m_sx->get_car().as_string();
+  return m_arr[m_idx].as_string();
 }
 
 std::string
 ReaderIterator::get_name() const
 {
-  assert(m_sx);
-
-  return m_sx->get_car().get_car().as_string();
+  return m_arr[m_idx].as_array()[0].as_string();
 }
 
 bool
 ReaderIterator::get(bool& value) const
 {
-  assert(m_sx);
-
-  return m_sx->get_car().get_cdr().get_car().as_bool();
+  value = m_arr[m_idx].as_array()[1].as_bool();
+  return true;
 }
 
 bool
 ReaderIterator::get(int& value) const
 {
-  assert(m_sx);
-
-  value = m_sx->get_car().get_cdr().get_car().as_int();
+  value = m_arr[m_idx].as_array()[1].as_int();
   return true;
 }
 
 bool
 ReaderIterator::get(float& value) const
 {
-  assert(m_sx);
-
-  value = m_sx->get_car().get_cdr().get_car().as_float();
+  value = m_arr[m_idx].as_array()[1].as_float();
   return true;
 }
 
 bool
 ReaderIterator::get(std::string& value) const
 {
-  assert(m_sx);
-
-  value = m_sx->get_car().get_cdr().get_car().as_string();
+  value = m_arr[m_idx].as_array()[1].as_string();
   return true;
 }
 
 bool
 ReaderIterator::get(ReaderMapping& value) const
 {
-  assert(m_sx);
-
-  value = ReaderMapping(&m_sx->get_car().get_cdr());
+  value = ReaderMapping(&m_arr[m_idx]);
   return true;
 }
 
@@ -233,14 +204,15 @@ ReaderIterator::as_mapping() const
   return result;
 }
 
-ReaderMapping::ReaderMapping(const sexp::Value* sx) :
-  m_sx(sx)
+ReaderMapping::ReaderMapping() :
+  m_sx(nullptr),
+  m_arr(nullptr)
 {
-  assert(m_sx);
 }
 
-ReaderMapping::ReaderMapping() :
-  m_sx(nullptr)
+ReaderMapping::ReaderMapping(const sexp::Value* sx) :
+  m_sx(sx),
+  m_arr(&m_sx->as_array())
 {
 }
 
@@ -251,202 +223,136 @@ ReaderMapping::get_iter() const
   return ReaderIterator(m_sx);
 }
 
+const sexp::Value*
+ReaderMapping::get_item(const char* key) const
+{
+  for(size_t i = 1; i < m_arr->size(); ++i)
+  {
+    if ((*m_arr)[i].as_array()[0].as_string() == key)
+    {
+      return &((*m_arr)[i]);
+    }
+  }
+  return nullptr;
+}
+
+#define GET_VALUE_MACRO(type, checker, getter)                          \
+  auto const* sx = get_item(key);                                       \
+  if (!sx) {                                                            \
+    return false;                                                       \
+  } else {                                                              \
+    auto const& item = sx->as_array();                                  \
+    if (item.size() == 2 && item[1].checker()) {                        \
+      value = item[1].getter();                                         \
+      return true;                                                      \
+    } else {                                                            \
+      std::ostringstream msg;                                           \
+      msg << "ReaderMapping::get(key, " type "): invalid type: "        \
+          << sx;                                                        \
+      throw std::runtime_error(msg.str());                              \
+    }                                                                   \
+  }
+
 bool
 ReaderMapping::get(const char* key, bool& value) const
 {
-  assert(m_sx);
-
-  auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_nil()) {
-    return false;
-  } else if (sx.is_cons() && sx.get_car().is_boolean()) {
-    value = sx.get_car().as_bool();
-    return true;
-  } else {
-    std::ostringstream msg;
-    msg << "ReaderMapping::get(key, bool): invalid type: " << sx;
-    throw std::runtime_error(msg.str());
-  }
+  GET_VALUE_MACRO("bool", is_boolean, as_bool);
 }
 
 bool
 ReaderMapping::get(const char* key, int& value) const
 {
-  assert(m_sx);
-
-  auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_nil()) {
-    return false;
-  } else if (sx.is_cons() && sx.get_car().is_integer()) {
-    value = sx.get_car().as_int();
-    return true;
-  } else {
-    std::ostringstream msg;
-    msg << "ReaderMapping::get(key, int): invalid type: " << sx;
-    throw std::runtime_error(msg.str());
-  }
+  GET_VALUE_MACRO("int", is_integer, as_int);
 }
 
 bool
 ReaderMapping::get(const char* key, uint32_t& value) const
 {
-  assert(m_sx);
-
-  auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_nil()) {
-    return false;
-  } else if (sx.is_cons() && sx.get_car().is_integer()) {
-    value = sx.get_car().as_int();
-    return true;
-  } else {
-    std::ostringstream msg;
-    msg << "ReaderMapping::get(key, uint32_t): invalid type: " << sx;
-    throw std::runtime_error(msg.str());
-  }
+  GET_VALUE_MACRO("uint32_t", is_integer, as_int);
 }
 
 bool
 ReaderMapping::get(const char* key, float& value) const
 {
-  assert(m_sx);
-
-  auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_nil()) {
-    return false;
-  } else if (sx.is_cons() && sx.get_car().is_real()) {
-    value = sx.get_car().as_float();
-    return true;
-  } else {
-    std::ostringstream msg;
-    msg << "ReaderMapping::get(key, float): invalid type: " << sx;
-    throw std::runtime_error(msg.str());
-  }
+  GET_VALUE_MACRO("float", is_real, as_float);
 }
+
+#undef GET_VALUE_MACRO
 
 bool
 ReaderMapping::get(const char* key, std::string& value) const
 {
-  assert(m_sx);
-
-  auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_nil()) {
+  auto const* sx = get_item(key);
+  if (!sx) {
     return false;
-  } else if (sx.is_cons() &&
-             sx.get_car().is_string()) {
-    value = sx.get_car().as_string();
-    return true;
-  } else if (sx.is_cons() &&
-             sx.get_car().is_cons() &&
-             sx.get_car().get_car().is_symbol() &&
-             sx.get_car().get_car().as_string() == "_" &&
-             sx.get_car().get_cdr().get_car().is_string()) {
-    value = _(sx.get_car().get_cdr().get_car().as_string());
-    return true;
   } else {
-    std::ostringstream msg;
-    msg << "ReaderMapping::get(key, string): invalid type: " << sx;
-    throw std::runtime_error(msg.str());
+    auto const& item = sx->as_array();
+    if (item.size() == 2 && item[1].is_string()) {
+      value = item[1].as_string();
+      return true;
+    } else if (item.size() == 2 &&
+               item[1].is_array() &&
+               item[1].as_array().size() == 2 &&
+               item[1].as_array()[0].is_symbol() &&
+               item[1].as_array()[0].as_string() == "_" &&
+               item[1].as_array()[1].is_string()) {
+      value = item[1].as_array()[1].as_string();
+      return true;
+    } else {
+      std::ostringstream msg;
+      msg << "ReaderMapping::get(key, string): invalid type: "
+          << sx;
+      throw std::runtime_error(msg.str());
+    }
   }
 }
+
+#define GET_VALUES_MACRO(type, checker, getter)                         \
+  auto const* sx = get_item(key);                                       \
+  if (!sx) {                                                            \
+    return false;                                                       \
+  } else {                                                              \
+    auto const& item = sx->as_array();                                  \
+    for(size_t i = 1; i < item.size(); ++i)                             \
+    {                                                                   \
+      if (item[i].checker()) {                                          \
+        value.emplace_back(item[i].getter());                           \
+      } else {                                                          \
+        std::ostringstream msg;                                         \
+        msg << "ReaderMapping::get(key, " type "): invalid type: "     \
+            << sx;                                                      \
+        throw std::runtime_error(msg.str());                            \
+      }                                                                 \
+    }                                                                   \
+    return true;                                                        \
+  }
 
 bool
 ReaderMapping::get(const char* key, std::vector<float>& value) const
 {
-  assert(m_sx);
-
-  auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_nil()) {
-    return false;
-  } else if (sx.is_cons()) {
-    // FIXME: how to handle type errors?
-    std::vector<float> result;
-    for(auto const& it : sexp::ListAdapter(sx))
-    {
-      if (it.is_real())
-      {
-        result.push_back(it.as_float());
-      }
-      else
-      {
-        std::ostringstream msg;
-        msg << "ReaderMapping::get(key, float[]): invalid type: " << sx;
-        throw std::runtime_error(msg.str());
-      }
-    }
-    value = std::move(result);
-    return true;
-  } else {
-    std::ostringstream msg;
-    msg << "ReaderMapping::get(key, float[]): invalid type: " << sx;
-    throw std::runtime_error(msg.str());
-  }
+  GET_VALUES_MACRO("float", is_real, as_float);
 }
 
 bool
 ReaderMapping::get(const char* key, std::vector<std::string>& value) const
 {
-  assert(m_sx);
-
-  auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_nil()) {
-    return false;
-  } else if (sx.is_cons()) {
-    std::vector<std::string> result;
-    for(auto const& it : sexp::ListAdapter(sx)) {
-      if (it.is_string()) {
-        result.push_back(it.as_string());
-      } else {
-        std::ostringstream msg;
-        msg << "ReaderMapping::get(key, string[]): invalid type: " << sx;
-        throw std::runtime_error(msg.str());
-      }
-    }
-    value = std::move(result);
-    return true;
-  } else {
-    std::ostringstream msg;
-    msg << "ReaderMapping::get(key, string[]): invalid type: " << sx;
-    throw std::runtime_error(msg.str());
-  }
+  GET_VALUES_MACRO("string", is_string, as_string);
 }
 
 bool
 ReaderMapping::get(const char* key, std::vector<unsigned int>& value) const
 {
-  assert(m_sx);
-
-  auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (sx.is_nil()) {
-    return false;
-  } else if (sx.is_cons()) {
-    std::vector<unsigned int> result;
-    for(auto const& it : sexp::ListAdapter(sx))
-    {
-      if (it.is_integer()) {
-        result.push_back(it.as_int());
-      } else {
-        std::ostringstream msg;
-        msg << "ReaderMapping::get(key, unsigned int[]): invalid type: " << sx;
-        throw std::runtime_error(msg.str());
-      }
-    }
-    value = std::move(result);
-    return true;
-  } else {
-    std::ostringstream msg;
-    msg << "ReaderMapping::get(key, unsigned int[]): invalid type: " << sx;
-    throw std::runtime_error(msg.str());
-  }
+  GET_VALUES_MACRO("unsigned int", is_integer, as_int);
 }
+
+#undef GET_VALUES_MACRO
 
 bool
 ReaderMapping::get(const char* key, ReaderMapping& value) const
 {
-  assert(m_sx);
-
-  auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (!sx.is_nil()) {
-    value = ReaderMapping(&sx);
+  auto const sx = get_item(key);
+  if (sx) {
+    value = ReaderMapping(sx);
     return true;
   } else {
     return false;
@@ -456,11 +362,9 @@ ReaderMapping::get(const char* key, ReaderMapping& value) const
 bool
 ReaderMapping::get(const char* key, ReaderCollection& value) const
 {
-  assert(m_sx);
-
-  auto const& sx = sexp::assoc_ref(*m_sx, key);
-  if (!sx.is_nil()) {
-    value = ReaderCollection(&sx);
+  auto const sx = get_item(key);
+  if (sx) {
+    value = ReaderCollection(sx);
     return true;
   } else {
     return false;
@@ -483,9 +387,10 @@ ReaderCollection::get_objects() const
   assert(m_sx);
 
   std::vector<ReaderObject> result;
-  for(auto const& sx : sexp::ListAdapter(*m_sx))
+  auto const& arr = m_sx->as_array();
+  for(size_t i = 1; i < arr.size(); ++i)
   {
-    result.push_back(ReaderObject(&sx));
+    result.push_back(ReaderObject(&arr[i]));
   }
   return result;
 }
@@ -505,10 +410,10 @@ ReaderObject::get_name() const
 {
   assert(m_sx);
 
-  if (m_sx->is_cons() &&
-      m_sx->get_car().is_symbol())
+  if (m_sx->is_array() &&
+      m_sx->as_array()[0].is_symbol())
   {
-    return m_sx->get_car().as_string();
+    return m_sx->as_array()[0].as_string();
   }
   else
   {
@@ -521,10 +426,9 @@ ReaderObject::get_mapping() const
 {
   assert(m_sx);
 
-  if (m_sx->is_cons() &&
-      (m_sx->get_cdr().is_cons() || m_sx->get_cdr().is_nil()))
+  if (m_sx->is_array())
   {
-    return ReaderMapping(&m_sx->get_cdr());
+    return ReaderMapping(m_sx);
   }
   else
   {
@@ -537,10 +441,9 @@ ReaderObject::get_collection() const
 {
   assert(m_sx);
 
-  if (m_sx->is_cons() &&
-      (m_sx->get_cdr().is_cons() || m_sx->get_cdr().is_nil()))
+  if (m_sx->is_array())
   {
-    return ReaderCollection(&m_sx->get_cdr());
+    return ReaderCollection(m_sx);
   }
   else
   {

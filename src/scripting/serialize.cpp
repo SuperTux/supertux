@@ -39,7 +39,7 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
 
     auto const& value = sx.get_car().get_cdr().get_car();
     switch(value.get_type()) {
-      case sexp::Value::TYPE_CONS:
+      case sexp::Value::TYPE_ARRAY:
         sq_newtable(vm);
         load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(&value));
         break;
