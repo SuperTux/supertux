@@ -25,13 +25,17 @@
 
 #include "util/reader_document.hpp"
 
+#define raise_exception(doc, sx, msg) raise_exception_real(__FILE__, __LINE__, doc, sx, msg)
+
 [[noreturn]]
 inline void
-raise_exception(ReaderDocument const& doc, sexp::Value const& sx,
-                const char* usermsg)
+raise_exception_real(const char* filename, int line,
+                     ReaderDocument const& doc, sexp::Value const& sx,
+                     const char* usermsg)
 {
   std::ostringstream msg;
-  msg << doc.get_filename() << ":" << sx.get_line() << ": "
+  msg << "[" << filename << ":" << line << "] "
+      << doc.get_filename() << ":" << sx.get_line() << ": "
       << usermsg << " in expression:"
       << "\n    " << sx;
   throw std::runtime_error(msg.str());
