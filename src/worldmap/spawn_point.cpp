@@ -17,7 +17,7 @@
 #include <stdexcept>
 
 #include "util/log.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "worldmap/spawn_point.hpp"
 
 namespace worldmap {

@@ -21,7 +21,7 @@
 #include <sstream>
 
 #include "util/log.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 SpriteData::Action::Action() :
   name(),

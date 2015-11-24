@@ -35,6 +35,9 @@
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
+#include "util/reader_collection.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
 namespace {

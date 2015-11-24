@@ -31,6 +31,8 @@
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "worldmap/worldmap.hpp"
 
 GameManager::GameManager() :

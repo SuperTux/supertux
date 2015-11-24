@@ -19,8 +19,6 @@
 #include <math.h>
 #include <physfs.h>
 
-#include "util/reader.hpp"
-#include "util/writer.hpp"
 #include "object/path_walker.hpp"
 #include "object/player.hpp"
 #include "scripting/camera.hpp"
@@ -28,6 +26,9 @@
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,

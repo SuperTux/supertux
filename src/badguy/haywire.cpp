@@ -24,7 +24,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 #define TIME_EXPLOSION 5.0
 #define TIME_STUNNED   0.5

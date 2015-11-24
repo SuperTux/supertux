@@ -14,19 +14,35 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_READER_HPP
-#define HEADER_SUPERTUX_UTIL_READER_HPP
+#include "reader_collection.hpp"
 
-#include <memory>
-#include <vector>
-#include <string>
+#include <assert.h>
 #include <sexp/value.hpp>
 
-#include "util/reader_fwd.hpp"
+ReaderCollection::ReaderCollection(const ReaderDocument* doc, const sexp::Value* sx) :
+  m_doc(doc),
+  m_sx(sx)
+{
+}
 
-int reader_get_layer(const ReaderMapping& reader, int def);
-void register_translation_directory(const std::string& filename);
+ReaderCollection::ReaderCollection() :
+  m_doc(nullptr),
+  m_sx(nullptr)
+{
+}
 
-#endif
+std::vector<ReaderObject>
+ReaderCollection::get_objects() const
+{
+  assert(m_sx);
+
+  std::vector<ReaderObject> result;
+  auto const& arr = m_sx->as_array();
+  for(size_t i = 1; i < arr.size(); ++i)
+  {
+    result.push_back(ReaderObject(m_doc, &arr[i]));
+  }
+  return result;
+}
 
 /* EOF */

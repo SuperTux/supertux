@@ -22,6 +22,8 @@
 #include "object/particlesystem.hpp"
 #include "video/surface_ptr.hpp"
 
+class ReaderMapping;
+
 class GhostParticleSystem : public ParticleSystem
 {
 public:

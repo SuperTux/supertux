@@ -26,7 +26,7 @@
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 #include <math.h>
 

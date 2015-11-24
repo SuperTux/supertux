@@ -21,7 +21,7 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 namespace {
 const float MUZZLE_Y = 25; /**< [px] muzzle y-offset from top */

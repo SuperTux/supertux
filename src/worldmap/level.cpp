@@ -23,7 +23,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 #include "worldmap/level.hpp"
 

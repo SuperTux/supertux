@@ -17,7 +17,7 @@
 #include "object/invisible_wall.hpp"
 
 #include "supertux/object_factory.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 InvisibleWall::InvisibleWall(const ReaderMapping& lisp) :
   MovingSprite(lisp, "images/objects/invisible/invisible.sprite", LAYER_TILES, COLGROUP_STATIC),

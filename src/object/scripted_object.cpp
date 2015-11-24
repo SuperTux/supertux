@@ -24,6 +24,7 @@
 #include "supertux/object_factory.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING_STATIC),

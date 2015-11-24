@@ -17,7 +17,7 @@
 #include "control/keyboard_config.hpp"
 
 #include "util/log.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 KeyboardConfig::KeyboardConfig() :
   keymap(),

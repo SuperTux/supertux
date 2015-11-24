@@ -24,6 +24,9 @@
 #include "supertux/tile_set.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "util/reader.hpp"
+#include "util/reader_collection.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 
 #include <sstream>
 #include <stdexcept>

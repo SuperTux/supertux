@@ -21,6 +21,7 @@
 #include "object/rainsplash.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 RainParticleSystem::RainParticleSystem()
 {

@@ -14,18 +14,33 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_READER_HPP
-#define HEADER_SUPERTUX_UTIL_READER_HPP
+#ifndef HEADER_SUPERTUX_UTIL_READER_COLLECTION_HPP
+#define HEADER_SUPERTUX_UTIL_READER_COLLECTION_HPP
 
-#include <memory>
 #include <vector>
-#include <string>
-#include <sexp/value.hpp>
 
-#include "util/reader_fwd.hpp"
+#include "util/reader_object.hpp"
 
-int reader_get_layer(const ReaderMapping& reader, int def);
-void register_translation_directory(const std::string& filename);
+namespace sexp {
+class Value;
+} // namespace sexp
+
+class ReaderDocument;
+
+class ReaderCollection final
+{
+public:
+  ReaderCollection();
+
+  // sx should point to (section (objname (name value)...)...)
+  ReaderCollection(const ReaderDocument* doc, const sexp::Value* sx);
+
+  std::vector<ReaderObject> get_objects() const;
+
+private:
+  const ReaderDocument* m_doc;
+  const sexp::Value* m_sx;
+};
 
 #endif
 

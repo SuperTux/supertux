@@ -20,7 +20,8 @@
 #include <limits>
 
 #include "supertux/tile_set.hpp"
-#include "util/reader.hpp"
+#include "util/reader_collection.hpp"
+#include "util/reader_mapping.hpp"
 
 TileManager::TileManager() :
   tilesets()

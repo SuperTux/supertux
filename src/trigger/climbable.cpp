@@ -20,7 +20,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "util/gettext.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 namespace {
 const float GRACE_DX = 8; // how far off may the player's bounding-box be x-wise

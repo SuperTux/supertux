@@ -21,9 +21,11 @@
 #include <stdexcept>
 #include <sstream>
 
-#include "util/reader.hpp"
-#include "util/writer.hpp"
 #include "util/log.hpp"
+#include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 namespace {
 

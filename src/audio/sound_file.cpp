@@ -27,7 +27,8 @@
 #include "audio/sound_error.hpp"
 #include "audio/ogg_sound_file.hpp"
 #include "audio/wav_sound_file.hpp"
-#include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 

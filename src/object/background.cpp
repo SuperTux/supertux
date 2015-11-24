@@ -26,6 +26,7 @@
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 Background::Background() :
   alignment(NO_ALIGNMENT),

@@ -25,7 +25,7 @@
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
 static const int START_COINS = 100;

@@ -28,7 +28,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 static const float FLYSPEED = 64; /**< speed in px per second */
 static const float TRACK_RANGE = 384; /**< at what distance to start tracking the player */

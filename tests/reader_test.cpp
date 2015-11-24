@@ -16,7 +16,8 @@
 
 #include <gtest/gtest.h>
 
-#include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 
 TEST(ReaderTest, test)
 {

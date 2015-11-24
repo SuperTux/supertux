@@ -26,6 +26,8 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/resources.hpp"
 #include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
 #include <sstream>
@@ -58,7 +60,7 @@ TextScroller::TextScroller(const std::string& filename) :
     if(root.get_name() != "supertux-text") {
       throw std::runtime_error("File isn't a supertux-text file");
     } else {
-      auto text_lisp =root.get_mapping();
+      auto text_lisp = root.get_mapping();
 
       if(!text_lisp.get("text", text)) {
         throw std::runtime_error("file doesn't contain a text field");

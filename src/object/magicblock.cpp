@@ -20,13 +20,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "object/camera.hpp"
 #include "object/magicblock.hpp"
+
+#include "object/camera.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 namespace {
 const float MIN_INTENSITY = 0.8f;

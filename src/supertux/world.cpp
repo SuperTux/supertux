@@ -28,6 +28,8 @@
 #include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
 #include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/string_util.hpp"
 #include "worldmap/worldmap.hpp"
 

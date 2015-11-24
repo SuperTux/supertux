@@ -22,7 +22,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 #include <sstream>
 

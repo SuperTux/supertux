@@ -18,7 +18,8 @@
 
 #include "sprite/sprite.hpp"
 #include "util/file_system.hpp"
-#include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 
 #include <sstream>
 #include <stdexcept>

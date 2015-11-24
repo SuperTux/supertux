@@ -15,8 +15,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/decal.hpp"
+
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 Decal::Decal(const ReaderMapping& reader) :
   MovingSprite(reader, LAYER_OBJECTS, COLGROUP_DISABLED)

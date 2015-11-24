@@ -21,7 +21,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 Platform::Platform(const ReaderMapping& reader) :
   MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC),

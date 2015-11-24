@@ -18,7 +18,7 @@
 
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "object/anchor_point.hpp"
 
 Crystallo::Crystallo(const ReaderMapping& reader) :

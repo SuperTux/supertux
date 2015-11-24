@@ -14,15 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/trampoline.hpp"
+
 #include "audio/sound_manager.hpp"
 #include "badguy/walking_badguy.hpp"
 #include "control/controller.hpp"
 #include "object/player.hpp"
-#include "object/trampoline.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 /* Trampoline will accelerate player to to VY_INITIAL, if
  * he jumps on it to VY_MIN. */

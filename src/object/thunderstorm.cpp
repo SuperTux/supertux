@@ -23,6 +23,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 namespace {
 const float LIGHTNING_DELAY = 2.0f;

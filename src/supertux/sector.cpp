@@ -60,6 +60,8 @@
 #include "trigger/secretarea_trigger.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "util/file_system.hpp"
+#include "util/reader_collection.hpp"
+#include "util/reader_mapping.hpp"
 
 Sector* Sector::_current = 0;
 

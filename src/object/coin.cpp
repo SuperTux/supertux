@@ -17,13 +17,13 @@
 #include "object/coin.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "util/reader.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 
 Coin::Coin(const Vector& pos)
   : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),

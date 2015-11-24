@@ -28,7 +28,7 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 Door::Door(const ReaderMapping& reader) :
   state(CLOSED),

@@ -20,7 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 MrCandle::MrCandle(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/mr_candle/mr-candle.sprite", "left", "right"),

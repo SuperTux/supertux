@@ -20,7 +20,7 @@
 
 #include "util/gettext.hpp"
 #include "util/log.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 JoystickConfig::JoystickConfig() :
   dead_zone(8000),

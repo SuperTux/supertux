@@ -22,7 +22,7 @@
 
 #include "util/writer.hpp"
 #include "scripting/squirrel_error.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 namespace scripting {
 

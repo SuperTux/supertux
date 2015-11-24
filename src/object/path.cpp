@@ -21,7 +21,7 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/log.hpp"
 
 Path::Path() :

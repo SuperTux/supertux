@@ -20,6 +20,8 @@
 
 #include "math/random_generator.hpp"
 #include "supertux/globals.hpp"
+#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
 CloudParticleSystem::CloudParticleSystem() :

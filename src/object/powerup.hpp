@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_POWERUP_HPP
 
 #include "object/moving_sprite.hpp"
+#include "supertux/physic.hpp"
 
 class PowerUp : public MovingSprite
 {

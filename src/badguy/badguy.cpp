@@ -27,7 +27,7 @@
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 #include <math.h>
 #include <sstream>
