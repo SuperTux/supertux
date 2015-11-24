@@ -59,6 +59,11 @@ SQInteger get_current_thread(HSQUIRRELVM vm)
   return 1;
 }
 
+SQInteger is_christmas(HSQUIRRELVM vm)
+{
+    return g_config->christmas_mode;
+}
+
 void wait(HSQUIRRELVM vm, float seconds)
 {
   TimeScheduler::instance->schedule_thread(vm, game_time + seconds);

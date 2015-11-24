@@ -640,6 +640,14 @@ ENDIF()
 
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
+## Configure main menu logo
+IF(CMAKE_BUILD_TYPE MATCHES Release)
+    SET(LOGO_FILE "logo_final.sprite")
+ELSE()
+    SET(LOGO_FILE "logo.sprite")
+ENDIF()
+configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
+
 
 ## CPack/Installation-specific stuff
 
