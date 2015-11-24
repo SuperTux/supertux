@@ -72,6 +72,7 @@ ReaderIterator::get(bool& value) const
 {
   assert_is_array(*m_doc, m_arr[m_idx]);
   assert_array_size_eq(*m_doc, m_arr[m_idx], 2);
+  assert_is_boolean(*m_doc, m_arr[m_idx].as_array()[1]);
 
   value = m_arr[m_idx].as_array()[1].as_bool();
 }
@@ -81,7 +82,7 @@ ReaderIterator::get(int& value) const
 {
   assert_is_array(*m_doc, m_arr[m_idx]);
   assert_array_size_eq(*m_doc, m_arr[m_idx], 2);
-  assert_is_boolean(*m_doc, m_arr[m_idx].as_array()[1]);
+  assert_is_integer(*m_doc, m_arr[m_idx].as_array()[1]);
 
   value = m_arr[m_idx].as_array()[1].as_int();
 }
