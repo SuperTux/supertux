@@ -268,6 +268,10 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       christmas_mode = true;
     }
+    else if (arg == "--no-christmas")
+    {
+      christmas_mode = false;
+    }
     else if (arg == "--disable-sound" || arg == "--disable-sfx")
     {
       sound_enabled = false;
