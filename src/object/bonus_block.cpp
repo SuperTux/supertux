@@ -50,37 +50,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
 {
   bbox.set_pos(pos);
   sprite->set_action("normal");
-  switch(data) {
-    case 1: contents = CONTENT_COIN; break;
-    case 2: contents = CONTENT_FIREGROW; break;
-    case 3: contents = CONTENT_STAR; break;
-    case 4: contents = CONTENT_1UP; break;
-    case 5: contents = CONTENT_ICEGROW; break;
-    case 6: contents = CONTENT_LIGHT;
-      SoundManager::current()->preload("sounds/switch.ogg");
-      lightsprite=Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
-      break;
-    case 7: contents = CONTENT_TRAMPOLINE;
-      //object = new Trampoline(get_pos(), false); //needed if this is to be moved to custom
-      break;
-    case 8: contents = CONTENT_CUSTOM;
-      object = std::make_shared<Trampoline>(get_pos(), true);
-      break;
-    case 9: contents = CONTENT_CUSTOM;
-      object = std::make_shared<Rock>(get_pos(), "images/objects/rock/rock.sprite");
-      break;
-    case 10: contents = CONTENT_RAIN; break;
-    case 11: contents = CONTENT_EXPLODE; break;
-    case 12: contents = CONTENT_CUSTOM;
-      object = std::make_shared<PowerUp>(get_pos(), "images/powerups/potions/red-potion.sprite");
-      break;
-    case 13: contents = CONTENT_AIRGROW; break;
-    case 14: contents = CONTENT_EARTHGROW; break;
-    default:
-      log_warning << "Invalid box contents" << std::endl;
-      contents = CONTENT_COIN;
-      break;
-  }
+  get_content_by_data(data);
 }
 
 BonusBlock::BonusBlock(const Reader& lisp) :
@@ -109,6 +79,10 @@ BonusBlock::BonusBlock(const Reader& lisp) :
       iter.value()->get(hit_counter);
     } else if(token == "script") {
       iter.value()->get(script);
+    } else if(token == "data") {
+      int d;
+      iter.value()->get(d);
+      get_content_by_data(d);
     } else if(token == "contents") {
       std::string contentstring;
       iter.value()->get(contentstring);
@@ -161,6 +135,42 @@ BonusBlock::BonusBlock(const Reader& lisp) :
     lightsprite = Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
 
   bbox.set_pos(pos);
+}
+
+void
+BonusBlock::get_content_by_data(int d)
+{
+  switch(d) {
+    case 1: contents = CONTENT_COIN; break;
+    case 2: contents = CONTENT_FIREGROW; break;
+    case 3: contents = CONTENT_STAR; break;
+    case 4: contents = CONTENT_1UP; break;
+    case 5: contents = CONTENT_ICEGROW; break;
+    case 6: contents = CONTENT_LIGHT;
+      SoundManager::current()->preload("sounds/switch.ogg");
+      lightsprite=Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
+      break;
+    case 7: contents = CONTENT_TRAMPOLINE;
+      //object = new Trampoline(get_pos(), false); //needed if this is to be moved to custom
+      break;
+    case 8: contents = CONTENT_CUSTOM;
+      object = std::make_shared<Trampoline>(get_pos(), true);
+      break;
+    case 9: contents = CONTENT_CUSTOM;
+      object = std::make_shared<Rock>(get_pos(), "images/objects/rock/rock.sprite");
+      break;
+    case 10: contents = CONTENT_RAIN; break;
+    case 11: contents = CONTENT_EXPLODE; break;
+    case 12: contents = CONTENT_CUSTOM;
+      object = std::make_shared<PowerUp>(get_pos(), "images/powerups/potions/red-potion.sprite");
+      break;
+    case 13: contents = CONTENT_AIRGROW; break;
+    case 14: contents = CONTENT_EARTHGROW; break;
+    default:
+      log_warning << "Invalid box contents" << std::endl;
+      contents = CONTENT_COIN;
+      break;
+  }
 }
 
 BonusBlock::~BonusBlock()

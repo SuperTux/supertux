@@ -18,11 +18,13 @@
 #define HEADER_SUPERTUX_OBJECT_BRICK_HPP
 
 #include "object/block.hpp"
+#include "util/reader_fwd.hpp"
 
 class Brick : public Block
 {
 public:
   Brick(const Vector& pos, int data, const std::string& spriteName);
+  Brick(const Reader& lisp);
 
   void try_break(Player* player);
   HitResponse collision(GameObject& other, const CollisionHit& hit);

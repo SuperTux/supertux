@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "lisp/list_iterator.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/explosion.hpp"
 #include "object/flower.hpp"
@@ -37,6 +38,17 @@ Brick::Brick(const Vector& pos, int data, const std::string& spriteName)
     coin_counter = 5;
   else
     breakable = true;
+}
+
+Brick::Brick(const Reader& lisp) :
+  Block(lisp, "images/objects/bonus_block/brick.sprite"),
+  breakable(),
+  coin_counter(0)
+{
+  lisp.get("breakable",breakable);
+  if (!breakable) {
+    coin_counter = 5;
+  }
 }
 
 void

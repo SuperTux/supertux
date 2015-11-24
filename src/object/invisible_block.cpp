@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "audio/sound_manager.hpp"
+#include "lisp/list_iterator.hpp"
 #include "object/invisible_block.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -26,6 +27,13 @@ InvisibleBlock::InvisibleBlock(const Vector& pos) :
    visible(false)
 {
   bbox.set_pos(pos);
+  SoundManager::current()->preload("sounds/brick.wav");
+}
+
+InvisibleBlock::InvisibleBlock(const Reader& lisp) :
+   Block(lisp, "images/objects/bonus_block/invisibleblock.sprite"),
+   visible(false)
+{
   SoundManager::current()->preload("sounds/brick.wav");
 }
 
