@@ -50,6 +50,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
@@ -414,11 +415,21 @@ Sector::fix_old_tiles()
     TileMap* solids = *i;
     for(size_t x=0; x < solids->get_width(); ++x) {
       for(size_t y=0; y < solids->get_height(); ++y) {
-        uint32_t    id   = solids->get_tile_id(x, y);
+        //uint32_t    id   = solids->get_tile_id(x, y);
         const Tile *tile = solids->get_tile(x, y);
-        Vector pos = solids->get_tile_position(x, y);
 
-        if(id == 112) {
+        if (tile->get_object_name().length() > 0) {
+          Vector pos = solids->get_tile_position(x, y);
+          try {
+            GameObjectPtr object = ObjectFactory::instance().create(tile->get_object_name(), pos, AUTO, tile->get_object_data());
+            add_object(object);
+            solids->change(x, y, 0);
+          } catch(std::exception& e) {
+            log_warning << e.what() << "" << std::endl;
+          }
+        }
+
+/*        if(id == 112) {
           add_object(std::make_shared<InvisibleBlock>(pos));
           solids->change(x, y, 0);
         } else if(tile->getAttributes() & Tile::COIN) {
@@ -443,7 +454,7 @@ Sector::fix_old_tiles()
           std::string sequence = tile->getData() == 0 ? "endsequence" : "stoptux";
           add_object(std::make_shared<SequenceTrigger>(pos, sequence));
           solids->change(x, y, 0);
-        }
+        }*/
       }
     }
   }

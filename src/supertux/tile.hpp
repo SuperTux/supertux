@@ -115,10 +115,14 @@ private:
 
   float fps;
 
+  std::string object_name;
+  std::string object_data;
+
 public:
   Tile();
   Tile(const std::vector<ImageSpec>& images, const std::vector<ImageSpec>& editor_images,
-       uint32_t attributes, uint32_t data, float fps);
+       uint32_t attributes, uint32_t data, float fps, std::string obj_name = "",
+       std::string obj_data = "");
   ~Tile();
 
   /** load Surfaces, if not already loaded */
@@ -164,6 +168,14 @@ public:
   bool is_unisolid() const
   {
     return attributes & UNISOLID;
+  }
+
+  std::string get_object_name() const {
+    return object_name;
+  }
+
+  std::string get_object_data() const {
+    return object_data;
   }
 
   void print_debug(int id) const;
