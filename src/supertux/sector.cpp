@@ -415,7 +415,6 @@ Sector::fix_old_tiles()
     TileMap* solids = *i;
     for(size_t x=0; x < solids->get_width(); ++x) {
       for(size_t y=0; y < solids->get_height(); ++y) {
-        //uint32_t    id   = solids->get_tile_id(x, y);
         const Tile *tile = solids->get_tile(x, y);
 
         if (tile->get_object_name().length() > 0) {
@@ -429,32 +428,6 @@ Sector::fix_old_tiles()
           }
         }
 
-/*        if(id == 112) {
-          add_object(std::make_shared<InvisibleBlock>(pos));
-          solids->change(x, y, 0);
-        } else if(tile->getAttributes() & Tile::COIN) {
-          add_object(std::make_shared<Coin>(pos, solids));
-          solids->change(x, y, 0);
-        } else if(tile->getAttributes() & Tile::FULLBOX) {
-          add_object(std::make_shared<BonusBlock>(pos, tile->getData()));
-          solids->change(x, y, 0);
-        } else if(tile->getAttributes() & Tile::BRICK) {
-          if( ( id == 3159 ) || ( id == 3160 ) ){
-            add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brickWeb.sprite") );
-          } else if( ( id == 78 ) || ( id == 105 ) ){
-            add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brickIce.sprite") );
-          } else if( ( id == 77 ) || ( id == 104 ) ){
-            add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brick.sprite") );
-          } else {
-            log_warning << "attribute 'brick #t' is not supported for tile-id " << id << std::endl;
-            add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brick.sprite") );
-          }
-          solids->change(x, y, 0);
-        } else if(tile->getAttributes() & Tile::GOAL) {
-          std::string sequence = tile->getData() == 0 ? "endsequence" : "stoptux";
-          add_object(std::make_shared<SequenceTrigger>(pos, sequence));
-          solids->change(x, y, 0);
-        }*/
       }
     }
   }
