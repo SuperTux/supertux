@@ -67,9 +67,10 @@ script:
   # Then build:
   - mkdir "build-$BUILD_TYPE"
   - cd "build-$BUILD_TYPE"
-  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$USE_GLBINDING
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$USE_GLBINDING -DBUILD_TESTS=ON
   - make VERBOSE=1 -j3
   - make install VERBOSE=1 DESTDIR="/tmp/supertux-$BUILD_TYPE"
+  - ./test_supertux2
 
 addons:
   coverity_scan:
