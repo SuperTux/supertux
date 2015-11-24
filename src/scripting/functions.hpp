@@ -43,6 +43,11 @@ void print_stacktrace(HSQUIRRELVM vm);
 SQInteger get_current_thread(HSQUIRRELVM vm) __custom("t");
 
 /**
+ * Should use christmas mode
+ */
+SQInteger is_christmas(HSQUIRRELVM vm) __custom("t");
+
+/**
  * Display a text file and scrolls it over the screen (on next screenswitch)
  */
 void display_text_file(const std::string& filename);

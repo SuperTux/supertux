@@ -3112,6 +3112,11 @@ static SQInteger get_current_thread_wrapper(HSQUIRRELVM vm)
   return scripting::get_current_thread(vm);
 }
 
+static SQInteger is_christmas_wrapper(HSQUIRRELVM vm)
+{
+  return scripting::is_christmas(vm);
+}
+
 static SQInteger display_text_file_wrapper(HSQUIRRELVM vm)
 {
   const SQChar* arg0;
@@ -4427,6 +4432,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_current_thread'");
+  }
+
+  sq_pushstring(v, "is_christmas", -1);
+  sq_newclosure(v, &is_christmas_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'is_christmas'");
   }
 
   sq_pushstring(v, "display_text_file", -1);
