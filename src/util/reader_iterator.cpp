@@ -16,9 +16,20 @@
 
 #include "util/reader_iterator.hpp"
 
+#include <sexp/io.hpp>
 #include <sexp/value.hpp>
+#include <sstream>
 
+#include "util/reader_error.hpp"
+#include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+
+ReaderIterator::ReaderIterator(const ReaderDocument* doc, const sexp::Value* sx) :
+  m_doc(doc),
+  m_arr(sx->as_array()),
+  m_idx(0)
+{
+}
 
 bool
 ReaderIterator::next()
@@ -42,36 +53,56 @@ ReaderIterator::is_pair()
 std::string
 ReaderIterator::as_string_item()
 {
+  assert_is_string(*m_doc, m_arr[m_idx]);
+
   return m_arr[m_idx].as_string();
 }
 
 std::string
 ReaderIterator::get_key() const
 {
+  assert_is_array(*m_doc, m_arr[m_idx]);
+  assert_array_size_ge(*m_doc, m_arr[m_idx], 2);
+
   return m_arr[m_idx].as_array()[0].as_string();
 }
 
 void
 ReaderIterator::get(bool& value) const
 {
+  assert_is_array(*m_doc, m_arr[m_idx]);
+  assert_array_size_eq(*m_doc, m_arr[m_idx], 2);
+
   value = m_arr[m_idx].as_array()[1].as_bool();
 }
 
 void
 ReaderIterator::get(int& value) const
 {
+  assert_is_array(*m_doc, m_arr[m_idx]);
+  assert_array_size_eq(*m_doc, m_arr[m_idx], 2);
+  assert_is_boolean(*m_doc, m_arr[m_idx].as_array()[1]);
+
   value = m_arr[m_idx].as_array()[1].as_int();
 }
 
 void
 ReaderIterator::get(float& value) const
 {
+  assert_is_array(*m_doc, m_arr[m_idx]);
+  assert_array_size_eq(*m_doc, m_arr[m_idx], 2);
+  assert_is_real(*m_doc, m_arr[m_idx].as_array()[1]);
+
   value = m_arr[m_idx].as_array()[1].as_float();
 }
 
 void
 ReaderIterator::get(std::string& value) const
 {
+  assert_is_array(*m_doc, m_arr[m_idx]);
+  assert_array_size_eq(*m_doc, m_arr[m_idx], 2);
+  assert_is_string(*m_doc, m_arr[m_idx].as_array()[1]);
+
   value = m_arr[m_idx].as_array()[1].as_string();
 }
 

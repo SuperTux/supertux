@@ -22,6 +22,7 @@
 
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
+#include "util/reader_error.hpp"
 
 ReaderMapping::ReaderMapping() :
   m_doc(nullptr),
@@ -33,14 +34,24 @@ ReaderMapping::ReaderMapping() :
 ReaderMapping::ReaderMapping(const ReaderDocument* doc, const sexp::Value* sx) :
   m_doc(doc),
   m_sx(sx),
-  m_arr(&m_sx->as_array())
+  m_arr()
 {
+  assert(m_doc);
+  assert(m_sx);
+
+  assert_is_array(*m_doc, *m_sx);
+
+  m_arr = &m_sx->as_array();
 }
 
 ReaderIterator
 ReaderMapping::get_iter() const
 {
+  assert(m_doc);
   assert(m_sx);
+
+  assert_is_array(*m_doc, *m_sx);
+
   return ReaderIterator(m_doc, m_sx);
 }
 
@@ -49,9 +60,14 @@ ReaderMapping::get_item(const char* key) const
 {
   for(size_t i = 1; i < m_arr->size(); ++i)
   {
-    if ((*m_arr)[i].as_array()[0].as_string() == key)
+    auto const& pair = (*m_arr)[i];
+
+    assert_array_size_ge(*m_doc, pair, 2);
+    assert_is_symbol(*m_doc, pair.as_array()[0]);
+
+    if (pair.as_array()[0].as_string() == key)
     {
-      return &((*m_arr)[i]);
+      return &pair;
     }
   }
   return nullptr;
@@ -62,17 +78,10 @@ ReaderMapping::get_item(const char* key) const
   if (!sx) {                                                            \
     return false;                                                       \
   } else {                                                              \
-    auto const& item = sx->as_array();                                  \
-    if (item.size() == 2 && item[1].checker()) {                        \
-      value = item[1].getter();                                         \
-      return true;                                                      \
-    } else {                                                            \
-      std::ostringstream msg;                                           \
-      msg << m_doc->get_filename() << ":" << item[1].get_line()         \
-          << ": ReaderMapping::get(key, " type "): invalid type: "      \
-          << *sx;                                                       \
-      throw std::runtime_error(msg.str());                              \
-    }                                                                   \
+    assert_array_size_eq(*m_doc, *sx, 2);                               \
+    assert_##checker(*m_doc, sx->as_array()[1]);                        \
+    value = sx->as_array()[1].getter();                                 \
+    return true;                                                        \
   }
 
 bool
@@ -108,12 +117,14 @@ ReaderMapping::get(const char* key, std::string& value) const
   if (!sx) {
     return false;
   } else {
+    assert_array_size_eq(*m_doc, *sx, 2);
+
     auto const& item = sx->as_array();
-    if (item.size() == 2 && item[1].is_string()) {
+
+    if (item[1].is_string()) {
       value = item[1].as_string();
       return true;
-    } else if (item.size() == 2 &&
-               item[1].is_array() &&
+    } else if (item[1].is_array() &&
                item[1].as_array().size() == 2 &&
                item[1].as_array()[0].is_symbol() &&
                item[1].as_array()[0].as_string() == "_" &&
@@ -121,11 +132,7 @@ ReaderMapping::get(const char* key, std::string& value) const
       value = item[1].as_array()[1].as_string();
       return true;
     } else {
-      std::ostringstream msg;
-      msg << m_doc->get_filename() << ":" << item[1].get_line()
-          << ": ReaderMapping::get(key, string): invalid type: "
-          << *sx;
-      throw std::runtime_error(msg.str());
+      raise_exception(*m_doc, item[1], "expected string");
     }
   }
 }
@@ -135,18 +142,12 @@ ReaderMapping::get(const char* key, std::string& value) const
   if (!sx) {                                                            \
     return false;                                                       \
   } else {                                                              \
+    assert_is_array(*m_doc, *sx);                                       \
     auto const& item = sx->as_array();                                  \
     for(size_t i = 1; i < item.size(); ++i)                             \
     {                                                                   \
-      if (item[i].checker()) {                                          \
-        value.emplace_back(item[i].getter());                           \
-      } else {                                                          \
-        std::ostringstream msg;                                         \
-        msg << m_doc->get_filename() << ":" << item[i].get_line()       \
-            << ": ReaderMapping::get(key, " type "): invalid type: "    \
-            << *sx;                                                     \
-        throw std::runtime_error(msg.str());                            \
-      }                                                                 \
+      assert_##checker(*m_doc, item[i]);                                \
+      value.emplace_back(item[i].getter());                             \
     }                                                                   \
     return true;                                                        \
   }

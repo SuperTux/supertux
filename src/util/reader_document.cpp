@@ -72,11 +72,4 @@ ReaderDocument::get_filename() const
   return m_filename;
 }
 
-ReaderIterator::ReaderIterator(const ReaderDocument* doc, const sexp::Value* sx) :
-  m_doc(doc),
-  m_arr(sx->as_array()),
-  m_idx(0)
-{
-}
-
 /* EOF */

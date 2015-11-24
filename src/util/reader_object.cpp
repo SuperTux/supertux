@@ -21,12 +21,15 @@
 #include <stdexcept>
 
 #include "util/reader_collection.hpp"
+#include "util/reader_error.hpp"
 #include "util/reader_mapping.hpp"
 
 ReaderObject::ReaderObject(const ReaderDocument* doc, const sexp::Value* sx) :
   m_doc(doc),
   m_sx(sx)
 {
+  assert(m_doc);
+  assert(m_sx);
 }
 
 ReaderObject::ReaderObject() :
@@ -38,47 +41,25 @@ ReaderObject::ReaderObject() :
 std::string
 ReaderObject::get_name() const
 {
+  assert(m_doc);
   assert(m_sx);
 
-  if (m_sx->is_array() &&
-      m_sx->as_array()[0].is_symbol())
-  {
-    return m_sx->as_array()[0].as_string();
-  }
-  else
-  {
-    throw std::runtime_error("malformed file structure");
-  }
+  assert_array_size_ge(*m_doc, *m_sx, 1);
+  assert_is_symbol(*m_doc, m_sx->as_array()[0]);
+
+  return m_sx->as_array()[0].as_string();
 }
 
 ReaderMapping
 ReaderObject::get_mapping() const
 {
-  assert(m_sx);
-
-  if (m_sx->is_array())
-  {
-    return ReaderMapping(m_doc, m_sx);
-  }
-  else
-  {
-    throw std::runtime_error("malformed file structure");
-  }
+  return ReaderMapping(m_doc, m_sx);
 }
 
 ReaderCollection
 ReaderObject::get_collection() const
 {
-  assert(m_sx);
-
-  if (m_sx->is_array())
-  {
-    return ReaderCollection(m_doc, m_sx);
-  }
-  else
-  {
-    throw std::runtime_error("malformed file structure");
-  }
+  return ReaderCollection(m_doc, m_sx);
 }
 
 /* EOF */

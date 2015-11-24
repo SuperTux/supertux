@@ -14,15 +14,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "reader_collection.hpp"
+#include "util/reader_collection.hpp"
 
 #include <assert.h>
 #include <sexp/value.hpp>
+
+#include "util/reader_error.hpp"
 
 ReaderCollection::ReaderCollection(const ReaderDocument* doc, const sexp::Value* sx) :
   m_doc(doc),
   m_sx(sx)
 {
+  assert(m_doc);
+  assert(m_sx);
 }
 
 ReaderCollection::ReaderCollection() :
@@ -34,7 +38,10 @@ ReaderCollection::ReaderCollection() :
 std::vector<ReaderObject>
 ReaderCollection::get_objects() const
 {
+  assert(m_doc);
   assert(m_sx);
+
+  assert_is_array(*m_doc, *m_sx);
 
   std::vector<ReaderObject> result;
   auto const& arr = m_sx->as_array();
