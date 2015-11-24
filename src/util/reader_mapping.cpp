@@ -62,7 +62,10 @@ ReaderMapping::get_item(const char* key) const
   {
     auto const& pair = (*m_arr)[i];
 
-    assert_array_size_ge(*m_doc, pair, 2);
+    // size should be >=2 not >=1, but we have to allow smaller once
+    // due to get_iter(), e.g. (particles-snow)
+    assert_array_size_ge(*m_doc, pair, 1);
+
     assert_is_symbol(*m_doc, pair.as_array()[0]);
 
     if (pair.as_array()[0].as_string() == key)

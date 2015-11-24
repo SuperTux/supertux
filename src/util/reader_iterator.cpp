@@ -62,7 +62,7 @@ std::string
 ReaderIterator::get_key() const
 {
   assert_is_array(*m_doc, m_arr[m_idx]);
-  assert_array_size_ge(*m_doc, m_arr[m_idx], 2);
+  assert_array_size_ge(*m_doc, m_arr[m_idx], 1);
 
   return m_arr[m_idx].as_array()[0].as_string();
 }
