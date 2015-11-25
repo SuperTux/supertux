@@ -63,8 +63,6 @@ public:
 
 private:
   std::string basedir;
-  bool picture_cached;
-  Surface* picture;
 
 private:
   LevelTile(const LevelTile&);
