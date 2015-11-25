@@ -18,6 +18,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_RESOURCES_HPP
 #define HEADER_SUPERTUX_SUPERTUX_RESOURCES_HPP
 
+#include <memory>
+
 #include "video/font_ptr.hpp"
 #include "video/surface_ptr.hpp"
 #include "supertux/tile_set.hpp"
@@ -27,7 +29,7 @@ class MouseCursor;
 class Resources
 {
 public:
-  static MouseCursor* mouse_cursor;
+  static std::unique_ptr<MouseCursor> mouse_cursor;
 
   static FontPtr fixed_font;
   static FontPtr normal_font;

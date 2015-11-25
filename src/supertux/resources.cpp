@@ -22,7 +22,7 @@
 #include "supertux/player_status.hpp"
 #include "video/font.hpp"
 
-MouseCursor* Resources::mouse_cursor = NULL;
+std::unique_ptr<MouseCursor> Resources::mouse_cursor;
 
 FontPtr Resources::fixed_font;
 FontPtr Resources::normal_font;
@@ -38,10 +38,10 @@ SurfacePtr Resources::arrow_right;
 Resources::Resources()
 {
   // Load the mouse-cursor
-  mouse_cursor = new MouseCursor("images/engine/menu/mousecursor.png",
-                                 "images/engine/menu/mousecursor-click.png",
-                                 "images/engine/menu/mousecursor-link.png");
-  MouseCursor::set_current(mouse_cursor);
+  mouse_cursor.reset(new MouseCursor("images/engine/menu/mousecursor.png",
+                                     "images/engine/menu/mousecursor-click.png",
+                                     "images/engine/menu/mousecursor-link.png"));
+  MouseCursor::set_current(mouse_cursor.get());
 
   // Load global images:
   fixed_font.reset(new Font(Font::FIXED, "fonts/white.stf"));
@@ -72,11 +72,7 @@ Resources::~Resources()
   small_font.reset();
   big_font.reset();
 
-  /* Free mouse-cursor */
-  if(mouse_cursor != NULL)
-  {
-    delete mouse_cursor;
-  }
+  mouse_cursor.reset();
 }
 
 /* EOF */
