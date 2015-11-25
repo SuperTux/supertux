@@ -163,9 +163,9 @@ public:
 
       // If we are on windows, the data directory is one directory above the binary
 #ifdef WIN32
-      const std::array<std::string, 2> subdirs = { "data", "../data" };
+      const std::array<std::string, 2> subdirs = { { "data", "../data" } };
 #else
-      const std::array<std::string, 1> subdirs = { "data" };
+      const std::array<std::string, 1> subdirs = { { "data" } };
 #endif
       bool found = false;
       for (const std::string &subdir : subdirs)
