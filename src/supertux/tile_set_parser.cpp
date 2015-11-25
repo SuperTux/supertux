@@ -120,7 +120,7 @@ TileSetParser::parse_tile(const Reader& reader)
   float fps = 10;
   reader.get("fps", fps);
 
-  std::string object_name = "", object_data = "";
+  std::string object_name, object_data;
   reader.get("object-name", object_name);
   reader.get("object-data", object_data);
 

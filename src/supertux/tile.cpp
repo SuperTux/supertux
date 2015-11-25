@@ -33,8 +33,8 @@ Tile::Tile() :
   attributes(0),
   data(0),
   fps(1),
-  object_name(""),
-  object_data("")
+  object_name(),
+  object_data()
 {
 }
 
