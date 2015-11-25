@@ -46,19 +46,16 @@ public:
   bool        free_tileset;
 
 public:
-  Level();
-  ~Level();
+  static std::unique_ptr<Level> from_file(const std::string& filename);
 
-  // loads a levelfile
-  void load(const std::string& filename);
+public:
+  ~Level();
 
   const std::string& get_name() const
   { return name; }
 
   const std::string& get_author() const
   { return author; }
-
-  void add_sector(Sector* sector);
 
   Sector* get_sector(const std::string& name) const;
 
@@ -73,6 +70,9 @@ public:
   int get_total_secrets() const;
 
 private:
+  Level();
+  void load(const std::string& filename);
+  void add_sector(Sector* sector);
   void load_old_format(const ReaderMapping& reader);
 
 private:

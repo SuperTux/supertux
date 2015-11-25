@@ -33,6 +33,14 @@
 
 using namespace std;
 
+std::unique_ptr<Level>
+Level::from_file(const std::string& filename)
+{
+  std::unique_ptr<Level> level(new Level);
+  level->load(filename);
+  return level;
+}
+
 Level::Level() :
   name("noname"),
   author("Mr. X"),
