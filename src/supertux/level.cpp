@@ -51,17 +51,13 @@ Level::Level() :
   sectors(),
   stats(),
   target_time(),
-  tileset(NULL),
-  free_tileset(false)
+  tileset("images/tiles.strf")
 {
 }
 
 Level::~Level()
 {
   sectors.clear();
-
-  if(free_tileset)
-    delete tileset;
 }
 
 void
@@ -82,38 +78,9 @@ Level::load(const std::string& filepath)
     level.get("version", version);
     if(version == 1) {
       log_info << "[" <<  filepath << "] level uses old format: version 1" << std::endl;
-      tileset = TileManager::current()->get_tileset("images/tiles.strf");
       load_old_format(level);
-    } else {
-      ReaderCollection tilesets_lisp;
-      if (level.get("tilesets", tilesets_lisp)) {
-        tileset      = TileManager::current()->parse_tileset_definition(tilesets_lisp).release();
-        free_tileset = true;
-      }
-
-      std::string tileset_name;
-      if(level.get("tileset", tileset_name)) {
-        if(tileset != NULL) {
-          log_warning << "[" <<  filepath << "] multiple tilesets specified in level" << std::endl;
-        } else {
-          tileset = TileManager::current()->get_tileset(tileset_name);
-        }
-      }
-      /* load default tileset */
-      if(tileset == NULL) {
-        tileset = TileManager::current()->get_tileset("images/tiles.strf");
-      }
-      current_tileset = tileset;
-
-      contact = "";
-      license = "";
-
-      if (level.get("version", version))
-      {
-        if(version > 2) {
-          log_warning << "[" <<  filepath << "] level format newer than application" << std::endl;
-        }
-      }
+    } else if (version == 2) {
+      level.get("tileset", tileset);
 
       level.get("name", name);
       level.get("author", author);
@@ -132,16 +99,19 @@ Level::load(const std::string& filepath)
       }
 
       if (license.empty()) {
-        log_warning << "[" <<  filepath << "] The level author \"" << author << "\" did not specify a license for this level \"" << name << "\". You might not be allowed to share it." << std::endl;
+        log_warning << "[" <<  filepath << "] The level author \"" << author
+                    << "\" did not specify a license for this level \""
+                    << name << "\". You might not be allowed to share it."
+                    << std::endl;
       }
+    } else {
+      log_warning << "[" <<  filepath << "] level format version " << version << " is not supported" << std::endl;
     }
   } catch(std::exception& e) {
     std::stringstream msg;
     msg << "Problem when reading level '" << filepath << "': " << e.what();
     throw std::runtime_error(msg.str());
   }
-
-  current_tileset = NULL;
 }
 
 void

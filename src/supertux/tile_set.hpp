@@ -42,9 +42,6 @@ public:
   TileSet();
   ~TileSet();
 
-  void merge(const TileSet *tileset, uint32_t start, uint32_t end,
-             uint32_t offset);
-
   const Tile* get(const uint32_t id) const
   {
     assert(id < tiles.size());

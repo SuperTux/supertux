@@ -256,11 +256,6 @@ WorldMap::load(const std::string& filename)
 
     level_.get("name", name);
 
-    ReaderCollection tilesets_lisp;
-    if(level_.get("tilesets", tilesets_lisp)) {
-      tileset      = TileManager::current()->parse_tileset_definition(tilesets_lisp).release();
-      free_tileset = true;
-    }
     std::string tileset_name;
     if(level_.get("tileset", tileset_name)) {
       if(tileset != NULL) {

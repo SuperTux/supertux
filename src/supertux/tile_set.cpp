@@ -73,28 +73,4 @@ TileSet::~TileSet()
   }
 }
 
-void TileSet::merge(const TileSet *tileset, uint32_t start, uint32_t end,
-                    uint32_t offset)
-{
-  for(uint32_t id = start; id <= end && id < tileset->tiles.size(); ++id) {
-    uint32_t dest_id = id - start + offset;
-
-    if(dest_id >= tiles.size())
-      tiles.resize(dest_id + 1, 0);
-
-    if(dest_id == 0)
-      continue;
-
-    Tile *tile = tileset->tiles[id];
-    if(tile == NULL)
-      continue;
-
-    if(tiles[dest_id] != NULL) {
-      log_warning << "tileset merge resulted in multiple definitions for id "
-                  << dest_id << "(originally " << id << ")" << std::endl;
-    }
-    tiles[dest_id] = tile;
-  }
-}
-
 /* EOF */

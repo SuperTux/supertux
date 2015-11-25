@@ -57,6 +57,7 @@
 #include "supertux/savegame.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
+#include "supertux/tile_manager.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "util/file_system.hpp"
@@ -328,7 +329,8 @@ Sector::parse_old_format(const ReaderMapping& reader)
   std::vector<unsigned int> tiles;
   if(reader.get("interactive-tm", tiles)
      || reader.get("tilemap", tiles)) {
-    auto tilemap = std::make_shared<TileMap>(level->get_tileset());
+    auto tileset = TileManager::current()->get_tileset(level->get_tileset());
+    auto tilemap = std::make_shared<TileMap>(tileset);
     tilemap->set(width, height, tiles, LAYER_TILES, true);
 
     // replace tile id 112 (old invisible tile) with 1311 (new invisible tile)
@@ -345,14 +347,16 @@ Sector::parse_old_format(const ReaderMapping& reader)
   }
 
   if(reader.get("background-tm", tiles)) {
-    auto tilemap = std::make_shared<TileMap>(level->get_tileset());
+    auto tileset = TileManager::current()->get_tileset(level->get_tileset());
+    auto tilemap = std::make_shared<TileMap>(tileset);
     tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
     if (height < 19) tilemap->resize(width, 19);
     add_object(tilemap);
   }
 
   if(reader.get("foreground-tm", tiles)) {
-    auto tilemap = std::make_shared<TileMap>(level->get_tileset());
+    auto tileset = TileManager::current()->get_tileset(level->get_tileset());
+    auto tilemap = std::make_shared<TileMap>(tileset);
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
 
     // fill additional space in foreground with tiles of ID 2035 (lightmap/black)
