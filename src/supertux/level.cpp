@@ -84,57 +84,56 @@ Level::load(const std::string& filepath)
       log_info << "[" <<  filepath << "] level uses old format: version 1" << std::endl;
       tileset = TileManager::current()->get_tileset("images/tiles.strf");
       load_old_format(level);
-      return;
-    }
-
-    ReaderCollection tilesets_lisp;
-    if (level.get("tilesets", tilesets_lisp)) {
-      tileset      = TileManager::current()->parse_tileset_definition(tilesets_lisp).release();
-      free_tileset = true;
-    }
-
-    std::string tileset_name;
-    if(level.get("tileset", tileset_name)) {
-      if(tileset != NULL) {
-        log_warning << "[" <<  filepath << "] multiple tilesets specified in level" << std::endl;
-      } else {
-        tileset = TileManager::current()->get_tileset(tileset_name);
+    } else {
+      ReaderCollection tilesets_lisp;
+      if (level.get("tilesets", tilesets_lisp)) {
+        tileset      = TileManager::current()->parse_tileset_definition(tilesets_lisp).release();
+        free_tileset = true;
       }
-    }
-    /* load default tileset */
-    if(tileset == NULL) {
-      tileset = TileManager::current()->get_tileset("images/tiles.strf");
-    }
-    current_tileset = tileset;
 
-    contact = "";
-    license = "";
-
-    if (level.get("version", version))
-    {
-      if(version > 2) {
-        log_warning << "[" <<  filepath << "] level format newer than application" << std::endl;
+      std::string tileset_name;
+      if(level.get("tileset", tileset_name)) {
+        if(tileset != NULL) {
+          log_warning << "[" <<  filepath << "] multiple tilesets specified in level" << std::endl;
+        } else {
+          tileset = TileManager::current()->get_tileset(tileset_name);
+        }
       }
-    }
-
-    level.get("name", name);
-    level.get("author", author);
-    level.get("contact", contact);
-    level.get("license", license);
-    level.get("on-menukey-script", on_menukey_script);
-    level.get("target-time", target_time);
-
-    auto iter = level.get_iter();
-    while(iter.next()) {
-      if (iter.get_key() == "sector") {
-        std::unique_ptr<Sector> sector(new Sector(this));
-        sector->parse(iter.as_mapping());
-        add_sector(std::move(sector));
+      /* load default tileset */
+      if(tileset == NULL) {
+        tileset = TileManager::current()->get_tileset("images/tiles.strf");
       }
-    }
+      current_tileset = tileset;
 
-    if (license.empty()) {
-      log_warning << "[" <<  filepath << "] The level author \"" << author << "\" did not specify a license for this level \"" << name << "\". You might not be allowed to share it." << std::endl;
+      contact = "";
+      license = "";
+
+      if (level.get("version", version))
+      {
+        if(version > 2) {
+          log_warning << "[" <<  filepath << "] level format newer than application" << std::endl;
+        }
+      }
+
+      level.get("name", name);
+      level.get("author", author);
+      level.get("contact", contact);
+      level.get("license", license);
+      level.get("on-menukey-script", on_menukey_script);
+      level.get("target-time", target_time);
+
+      auto iter = level.get_iter();
+      while(iter.next()) {
+        if (iter.get_key() == "sector") {
+          std::unique_ptr<Sector> sector(new Sector(this));
+          sector->parse(iter.as_mapping());
+          add_sector(std::move(sector));
+        }
+      }
+
+      if (license.empty()) {
+        log_warning << "[" <<  filepath << "] The level author \"" << author << "\" did not specify a license for this level \"" << name << "\". You might not be allowed to share it." << std::endl;
+      }
     }
   } catch(std::exception& e) {
     std::stringstream msg;
