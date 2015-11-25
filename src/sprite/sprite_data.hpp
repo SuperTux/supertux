@@ -64,7 +64,7 @@ private:
     std::vector<SurfacePtr> surfaces;
   };
 
-  typedef std::map <std::string, Action*> Actions;
+  typedef std::map <std::string, std::unique_ptr<Action> > Actions;
 
   void parse_action(const ReaderMapping& lispreader, const std::string& basedir);
   /** Get an action */
