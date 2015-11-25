@@ -377,33 +377,25 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_FIREGROW:
     {
-      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/fireflower/fireflower.sprite"));
-      SoundManager::current()->play("sounds/upgrade.wav");
-      countdown = true;
+      drop_growup_bonus("images/powerups/fireflower/fireflower.sprite", countdown);
       break;
     }
 
     case CONTENT_ICEGROW:
     {
-      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/iceflower/iceflower.sprite"));
-      SoundManager::current()->play("sounds/upgrade.wav");
-      countdown = true;
+      drop_growup_bonus("images/powerups/iceflower/iceflower.sprite", countdown);
       break;
     }
 
     case CONTENT_AIRGROW:
     {
-      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/airflower/airflower.sprite"));
-      SoundManager::current()->play("sounds/upgrade.wav");
-      countdown = true;
+      drop_growup_bonus("images/powerups/airflower/airflower.sprite", countdown);
       break;
     }
 
     case CONTENT_EARTHGROW:
     {
-      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/earthflower/earthflower.sprite"));
-      SoundManager::current()->play("sounds/upgrade.wav");
-      countdown = true;
+      drop_growup_bonus("images/powerups/earthflower/earthflower.sprite", countdown);
       break;
     }
 
@@ -489,6 +481,14 @@ BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Dir
   auto riser = std::make_shared<SpecialRiser>(get_pos(), obj);
   Sector::current()->add_object(riser);
   SoundManager::current()->play("sounds/upgrade.wav");
+}
+
+void
+BonusBlock::drop_growup_bonus(const std::string& bonus_sprite_name, bool& countdown)
+{
+  Sector::current()->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), bonus_sprite_name));
+  SoundManager::current()->play("sounds/upgrade.wav");
+  countdown = true;
 }
 
 void

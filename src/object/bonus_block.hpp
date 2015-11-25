@@ -65,6 +65,7 @@ private:
   SurfacePtr lightsprite;
   void get_content_by_data(int d);
   void raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir);
+  void drop_growup_bonus(const std::string& bonus_sprite_name, bool& countdown);
 };
 
 #endif
