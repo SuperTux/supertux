@@ -44,7 +44,7 @@ protected:
   bool isrunning; /**< true while EndSequence plays */
   bool isdone; /**< true if EndSequence has finished playing */
   bool tux_may_walk; /**< true while tux is allowed to walk */
-  CodeController* end_sequence_controller;
+  std::unique_ptr<CodeController> end_sequence_controller;
 
 private:
   EndSequence(const EndSequence&);
