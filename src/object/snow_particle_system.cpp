@@ -52,7 +52,7 @@ SnowParticleSystem::SnowParticleSystem() :
   // create some random snowflakes
   size_t snowflakecount = size_t(virtual_width/10.0);
   for(size_t i=0; i<snowflakecount; ++i) {
-    SnowParticle* particle = new SnowParticle;
+    auto particle = std::unique_ptr<SnowParticle>(new SnowParticle);
     int snowsize = graphicsRandom.rand(3);
 
     particle->pos.x = graphicsRandom.randf(virtual_width);
@@ -71,7 +71,7 @@ SnowParticleSystem::SnowParticleSystem() :
     particle->angle = graphicsRandom.randf(360.0);
     particle->spin_speed = graphicsRandom.randf(-SNOW::SPIN_SPEED,SNOW::SPIN_SPEED);
 
-    particles.push_back(particle);
+    particles.push_back(std::move(particle));
   }
 }
 
@@ -123,10 +123,9 @@ void SnowParticleSystem::update(float elapsed_time)
   }
 
   float sq_g = sqrt(Sector::current()->get_gravity());
-  std::vector<Particle*>::iterator i;
 
-  for(i = particles.begin(); i != particles.end(); ++i) {
-    SnowParticle* particle = (SnowParticle*) *i;
+  for(auto i = particles.begin(); i != particles.end(); ++i) {
+    SnowParticle* particle = (SnowParticle*)i->get();
     float anchor_delta;
 
     // Falling

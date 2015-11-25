@@ -36,13 +36,13 @@ GhostParticleSystem::GhostParticleSystem()
   // create two ghosts
   size_t ghostcount = 2;
   for(size_t i=0; i<ghostcount; ++i) {
-    GhostParticle* particle = new GhostParticle;
+    auto particle = std::unique_ptr<GhostParticle>(new GhostParticle);
     particle->pos.x = graphicsRandom.randf(virtual_width);
     particle->pos.y = graphicsRandom.randf(SCREEN_HEIGHT);
     int size = graphicsRandom.rand(2);
     particle->texture = ghosts[size];
     particle->speed = graphicsRandom.randf(std::max(50, (size * 10)), 180 + (size * 10));
-    particles.push_back(particle);
+    particles.push_back(std::move(particle));
   }
 }
 
@@ -58,9 +58,8 @@ GhostParticleSystem::~GhostParticleSystem()
 
 void GhostParticleSystem::update(float elapsed_time)
 {
-  std::vector<Particle*>::iterator i;
-  for(i = particles.begin(); i != particles.end(); ++i) {
-    GhostParticle* particle = (GhostParticle*) *i;
+  for(auto i = particles.begin(); i != particles.end(); ++i) {
+    GhostParticle* particle = (GhostParticle*)i->get();
     particle->pos.y -= particle->speed * elapsed_time;
     particle->pos.x -= particle->speed * elapsed_time;
     if(particle->pos.y > SCREEN_HEIGHT) {
