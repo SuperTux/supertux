@@ -86,36 +86,7 @@ BonusBlock::BonusBlock(const Reader& lisp) :
     } else if(token == "contents") {
       std::string contentstring;
       iter.value()->get(contentstring);
-      if(contentstring == "coin") {
-        contents = CONTENT_COIN;
-      } else if(contentstring == "firegrow") {
-        contents = CONTENT_FIREGROW;
-      } else if(contentstring == "icegrow") {
-        contents = CONTENT_ICEGROW;
-      } else if(contentstring == "airgrow") {
-        contents = CONTENT_AIRGROW;
-      } else if(contentstring == "earthgrow") {
-        contents = CONTENT_EARTHGROW;
-      } else if(contentstring == "star") {
-        contents = CONTENT_STAR;
-      } else if(contentstring == "1up") {
-        contents = CONTENT_1UP;
-      } else if(contentstring == "custom") {
-        contents = CONTENT_CUSTOM;
-      } else if(contentstring == "script") { // use when bonusblock is to contain ONLY a script
-        contents = CONTENT_SCRIPT;
-      } else if(contentstring == "light") {
-        contents = CONTENT_LIGHT;
-        SoundManager::current()->preload("sounds/switch.ogg");
-      } else if(contentstring == "trampoline") {
-        contents = CONTENT_TRAMPOLINE;
-      } else if(contentstring == "rain") {
-        contents = CONTENT_RAIN;
-      } else if(contentstring == "explode") {
-        contents = CONTENT_EXPLODE;
-      } else {
-        log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
-      }
+      contents = get_content_from_string(contentstring);
     } else {
       if(contents == CONTENT_CUSTOM) {
         GameObjectPtr game_object = ObjectFactory::instance().create(token, *(iter.lisp()));
@@ -131,8 +102,10 @@ BonusBlock::BonusBlock(const Reader& lisp) :
 
   if(contents == CONTENT_CUSTOM && object == 0)
     throw std::runtime_error("Need to specify content object for custom block");
-  if(contents == CONTENT_LIGHT)
+  if(contents == CONTENT_LIGHT) {
+    SoundManager::current()->preload("sounds/switch.ogg");
     lightsprite = Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
+  }
 
   bbox.set_pos(pos);
 }
@@ -503,5 +476,39 @@ BonusBlock::draw(DrawingContext& context){
     context.draw_surface(lightsprite, pos, 10);
     context.pop_target();
   }
+}
+
+BonusBlock::Contents
+BonusBlock::get_content_from_string(const std::string& contentstring) const
+{
+  if(contentstring == "coin")
+    return CONTENT_COIN;
+  if(contentstring == "firegrow")
+    return CONTENT_FIREGROW;
+  if(contentstring == "icegrow")
+    return CONTENT_ICEGROW;
+  if(contentstring == "airgrow")
+    return CONTENT_AIRGROW;
+  if(contentstring == "earthgrow")
+    return CONTENT_EARTHGROW;
+  if(contentstring == "star")
+    return CONTENT_STAR;
+  if(contentstring == "1up")
+    return CONTENT_1UP;
+  if(contentstring == "custom")
+    return CONTENT_CUSTOM;
+  if(contentstring == "script") // use when bonusblock is to contain ONLY a script
+    return CONTENT_SCRIPT;
+  if(contentstring == "light")
+    return CONTENT_LIGHT;
+  if(contentstring == "trampoline")
+    return CONTENT_TRAMPOLINE;
+  if(contentstring == "rain")
+    return CONTENT_RAIN;
+  if(contentstring == "explode")
+    return CONTENT_EXPLODE;
+
+  log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
+  return CONTENT_COIN;
 }
 /* EOF */
