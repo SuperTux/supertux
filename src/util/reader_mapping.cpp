@@ -58,6 +58,8 @@ ReaderMapping::get_iter() const
 const sexp::Value*
 ReaderMapping::get_item(const char* key) const
 {
+  assert(m_arr);
+
   for(size_t i = 1; i < m_arr->size(); ++i)
   {
     auto const& pair = (*m_arr)[i];
