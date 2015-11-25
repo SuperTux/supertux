@@ -242,57 +242,25 @@ BonusBlock::try_open(Player *player)
 
     case CONTENT_FIREGROW:
     {
-      if(player->get_status()->bonus == NO_BONUS) {
-        auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<GrowUp>(direction));
-        sector->add_object(riser);
-      } else {
-        auto riser = std::make_shared<SpecialRiser>(
-          get_pos(), std::make_shared<Flower>(FIRE_BONUS));
-        sector->add_object(riser);
-      }
-      SoundManager::current()->play("sounds/upgrade.wav");
+      raise_growup_bonus(player, FIRE_BONUS, direction);
       break;
     }
 
     case CONTENT_ICEGROW:
     {
-      if(player->get_status()->bonus == NO_BONUS) {
-        auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<GrowUp>(direction));
-        sector->add_object(riser);
-      } else {
-        auto riser = std::make_shared<SpecialRiser>(
-          get_pos(), std::make_shared<Flower>(ICE_BONUS));
-        sector->add_object(riser);
-      }
-      SoundManager::current()->play("sounds/upgrade.wav");
+      raise_growup_bonus(player, ICE_BONUS, direction);
       break;
     }
 
     case CONTENT_AIRGROW:
     {
-      if(player->get_status()->bonus == NO_BONUS) {
-        auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<GrowUp>(direction));
-        sector->add_object(riser);
-      } else {
-        auto riser = std::make_shared<SpecialRiser>(
-          get_pos(), std::make_shared<Flower>(AIR_BONUS));
-        sector->add_object(riser);
-      }
-      SoundManager::current()->play("sounds/upgrade.wav");
+      raise_growup_bonus(player, AIR_BONUS, direction);
       break;
     }
 
     case CONTENT_EARTHGROW:
     {
-      if(player->get_status()->bonus == NO_BONUS) {
-        auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<GrowUp>(direction));
-        sector->add_object(riser);
-      } else {
-        auto riser = std::make_shared<SpecialRiser>(
-          get_pos(), std::make_shared<Flower>(EARTH_BONUS));
-        sector->add_object(riser);
-      }
-      SoundManager::current()->play("sounds/upgrade.wav");
+      raise_growup_bonus(player, EARTH_BONUS, direction);
       break;
     }
 
@@ -506,6 +474,21 @@ BonusBlock::try_drop(Player *player)
       hit_counter--;
     }
   }
+}
+
+void
+BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir)
+{
+  std::shared_ptr<MovingObject> obj;
+  if(player->get_status()->bonus == NO_BONUS) {
+    obj = std::make_shared<GrowUp>(dir);
+  } else {
+    obj = std::make_shared<Flower>(bonus);
+  }
+
+  auto riser = std::make_shared<SpecialRiser>(get_pos(), obj);
+  Sector::current()->add_object(riser);
+  SoundManager::current()->play("sounds/upgrade.wav");
 }
 
 void
