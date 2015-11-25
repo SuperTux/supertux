@@ -447,9 +447,8 @@ Sector::fix_old_tiles()
           if (attributes & Tile::HURTS) {
             // lava or lavaflow
             // space lights a bit
-            if (((tm->get_tile(x-1, y)->getAttributes() != attributes)
-                 && (tm->get_tile(x, y-1)->getAttributes() != attributes))
-                || ((x % 3 == 0) && (y % 3 == 0))) {
+            if ((tm->get_tile(x-1, y)->getAttributes() != attributes || x%3 == 0)
+                 && (tm->get_tile(x, y-1)->getAttributes() != attributes || y%3 == 0)) {
               float pseudo_rnd = (float)((int)pos.x % 10) / 10;
               add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
             }
