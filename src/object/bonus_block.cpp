@@ -80,7 +80,7 @@ BonusBlock::BonusBlock(const Reader& lisp) :
     } else if(token == "script") {
       iter.value()->get(script);
     } else if(token == "data") {
-      int d;
+      int d = 0;
       iter.value()->get(d);
       get_content_by_data(d);
     } else if(token == "contents") {
