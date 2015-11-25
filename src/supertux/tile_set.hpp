@@ -27,10 +27,7 @@ class Tile;
 class TileSet
 {
 private:
-  typedef std::vector<Tile*> Tiles;
-  Tiles tiles;
-
-  bool        tiles_loaded;
+  std::vector<std::unique_ptr<Tile> > tiles;
 
   friend class TileManager;
   friend class Tile;
@@ -45,15 +42,14 @@ public:
   const Tile* get(const uint32_t id) const
   {
     assert(id < tiles.size());
-    Tile* tile = tiles[id];
+    Tile* tile = tiles[id].get();
     if(!tile) {
       log_warning << "Invalid tile: " << id << std::endl;
-      return tiles[0];
+      return tiles[0].get();
+    } else {
+      tile->load_images();
+      return tile;
     }
-
-    tile->load_images();
-
-    return tile;
   }
 
   uint32_t get_max_tileid() const
