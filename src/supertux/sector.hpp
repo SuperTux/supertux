@@ -213,7 +213,7 @@ public:
   float get_gravity() const;
 
 private:
-  uint32_t collision_tile_attributes(const Rectf& dest, const Vector mov) const;
+  uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
 
   void before_object_remove(GameObjectPtr object);
   bool before_object_add(GameObjectPtr object);

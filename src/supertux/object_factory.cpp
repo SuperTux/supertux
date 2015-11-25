@@ -302,7 +302,7 @@ ObjectFactory::create(const std::string& name, const Reader& reader) const
 }
 
 GameObjectPtr
-ObjectFactory::create(const std::string& name, const Vector& pos, const Direction dir, const std::string data) const
+ObjectFactory::create(const std::string& name, const Vector& pos, const Direction& dir, const std::string& data) const
 {
   std::stringstream lisptext;
   lisptext << "((x " << pos.x << ")"

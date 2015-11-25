@@ -68,7 +68,7 @@ public:
   ~ObjectFactory();
 
   GameObjectPtr create(const std::string& name, const Reader& reader) const;
-  GameObjectPtr create(const std::string& name, const Vector& pos, const Direction dir = AUTO, const std::string data = "") const;
+  GameObjectPtr create(const std::string& name, const Vector& pos, const Direction& dir = AUTO, const std::string& data = "") const;
 
 private:
   template<class C>
