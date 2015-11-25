@@ -83,8 +83,7 @@ WorldMap* WorldMap::current_ = NULL;
 WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint_) :
   tux(),
   m_savegame(savegame),
-  tileset(NULL),
-  free_tileset(false),
+  tileset(nullptr),
   camera_offset(),
   name(),
   music(),
@@ -142,9 +141,6 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
 WorldMap::~WorldMap()
 {
   using namespace scripting;
-
-  if(free_tileset)
-    delete tileset;
 
   for(GameObjects::iterator i = game_objects.begin();
       i != game_objects.end(); ++i) {
