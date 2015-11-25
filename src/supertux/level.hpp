@@ -31,15 +31,13 @@ class Sector;
 class Level
 {
 public:
-  typedef std::vector<std::unique_ptr<Sector> > Sectors;
-
   std::string name;
   std::string author;
   std::string contact;
   std::string license;
   std::string filename;
   std::string on_menukey_script;
-  Sectors     sectors;
+  std::vector<std::unique_ptr<Sector> > sectors;
   Statistics  stats;
   float       target_time;
   TileSet    *tileset;
@@ -51,19 +49,15 @@ public:
 public:
   ~Level();
 
-  const std::string& get_name() const
-  { return name; }
-
-  const std::string& get_author() const
-  { return author; }
+  const std::string& get_name() const { return name; }
+  const std::string& get_author() const { return author; }
 
   Sector* get_sector(const std::string& name) const;
 
   size_t get_sector_count() const;
   Sector* get_sector(size_t num) const;
 
-  const TileSet *get_tileset() const
-  { return tileset; }
+  const TileSet* get_tileset() const { return tileset; }
 
   int get_total_coins() const;
   int get_total_badguys() const;

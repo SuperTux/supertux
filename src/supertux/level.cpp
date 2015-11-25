@@ -193,8 +193,7 @@ int
 Level::get_total_coins() const
 {
   int total_coins = 0;
-  for(Sectors::const_iterator i = sectors.begin(); i != sectors.end(); ++i) {
-    Sector* sector = i->get();
+  for(auto const& sector : sectors) {
     for(auto o = sector->gameobjects.begin(); o != sector->gameobjects.end(); ++o) {
       Coin* coin = dynamic_cast<Coin*>(o->get());
       if(coin)
@@ -229,8 +228,9 @@ int
 Level::get_total_badguys() const
 {
   int total_badguys = 0;
-  for(Sectors::const_iterator i = sectors.begin(); i != sectors.end(); ++i)
-    total_badguys += (*i)->get_total_badguys();
+  for(auto const& sector : sectors) {
+    total_badguys += sector->get_total_badguys();
+  }
   return total_badguys;
 }
 
@@ -238,8 +238,9 @@ int
 Level::get_total_secrets() const
 {
   int total_secrets = 0;
-  for(auto i = sectors.begin(); i != sectors.end(); ++i)
-    total_secrets += (*i)->get_total_count<SecretAreaTrigger>();
+  for(auto const& sector : sectors) {
+    total_secrets += sector->get_total_count<SecretAreaTrigger>();
+  }
   return total_secrets;
 }
 
