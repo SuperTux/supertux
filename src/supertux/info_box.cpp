@@ -46,9 +46,6 @@ InfoBox::InfoBox(const std::string& text) :
 
 InfoBox::~InfoBox()
 {
-  for(std::vector<InfoBoxLine*>::iterator i = lines.begin();
-      i != lines.end(); ++i)
-    delete *i;
 }
 
 void

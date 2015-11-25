@@ -55,9 +55,6 @@ InfoBlock::InfoBlock(const ReaderMapping& lisp) :
 
 InfoBlock::~InfoBlock()
 {
-  for(std::vector<InfoBoxLine*>::const_iterator i = lines.begin(); i != lines.end(); ++i) {
-    delete *i;
-  }
 }
 
 void
