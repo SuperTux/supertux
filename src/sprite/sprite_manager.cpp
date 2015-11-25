@@ -32,9 +32,6 @@ SpriteManager::SpriteManager() :
 
 SpriteManager::~SpriteManager()
 {
-  for(Sprites::iterator i = sprites.begin(); i != sprites.end(); ++i) {
-    delete i->second;
-  }
 }
 
 SpritePtr
@@ -51,7 +48,7 @@ SpriteManager::create(const std::string& name)
       throw std::runtime_error(msg.str());
     }
   } else {
-    data = i->second;
+    data = i->second.get();
   }
 
   return SpritePtr(new Sprite(*data));
@@ -90,9 +87,9 @@ SpriteManager::load(const std::string& filename)
   } else {
     std::unique_ptr<SpriteData> data (
       new SpriteData(root.get_mapping(), FileSystem::dirname(filename)) );
-    sprites[filename] = data.release();
+    sprites[filename] = std::move(data);
 
-    return sprites[filename];
+    return sprites[filename].get();
   }
 }
 

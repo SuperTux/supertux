@@ -29,7 +29,7 @@ class SpriteData;
 class SpriteManager : public Currenton<SpriteManager>
 {
 private:
-  typedef std::map<std::string, SpriteData*> Sprites;
+  typedef std::map<std::string, std::unique_ptr<SpriteData> > Sprites;
   Sprites sprites;
 
 public:
