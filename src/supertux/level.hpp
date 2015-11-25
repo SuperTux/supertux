@@ -31,7 +31,7 @@ class Sector;
 class Level
 {
 public:
-  typedef std::vector<Sector*> Sectors;
+  typedef std::vector<std::unique_ptr<Sector> > Sectors;
 
   std::string name;
   std::string author;
@@ -72,7 +72,7 @@ public:
 private:
   Level();
   void load(const std::string& filename);
-  void add_sector(Sector* sector);
+  void add_sector(std::unique_ptr<Sector> sector);
   void load_old_format(const ReaderMapping& reader);
 
 private:

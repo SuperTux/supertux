@@ -58,8 +58,8 @@ Level::Level() :
 
 Level::~Level()
 {
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-    delete *i;
+  sectors.clear();
+
   if(free_tileset)
     delete tileset;
 }
@@ -127,9 +127,9 @@ Level::load(const std::string& filepath)
     auto iter = level.get_iter();
     while(iter.next()) {
       if (iter.get_key() == "sector") {
-        Sector* sector = new Sector(this);
+        std::unique_ptr<Sector> sector(new Sector(this));
         sector->parse(iter.as_mapping());
-        add_sector(sector);
+        add_sector(std::move(sector));
       }
     }
 
@@ -151,31 +151,31 @@ Level::load_old_format(const ReaderMapping& reader)
   reader.get("name", name);
   reader.get("author", author);
 
-  Sector* sector = new Sector(this);
+  std::unique_ptr<Sector> sector(new Sector(this));
   sector->parse_old_format(reader);
-  add_sector(sector);
+  add_sector(std::move(sector));
 }
 
 void
-Level::add_sector(Sector* sector)
+Level::add_sector(std::unique_ptr<Sector> sector)
 {
   Sector* test = get_sector(sector->get_name());
-  if(test != 0) {
+  if (test != nullptr) {
     throw std::runtime_error("Trying to add 2 sectors with same name");
+  } else {
+    sectors.push_back(std::move(sector));
   }
-  sectors.push_back(sector);
 }
 
 Sector*
 Level::get_sector(const std::string& name_) const
 {
-  for(Sectors::const_iterator i = sectors.begin(); i != sectors.end(); ++i) {
-    Sector* sector = *i;
-    if(sector->get_name() == name_)
-      return sector;
+  for(auto const& sector : sectors) {
+    if(sector->get_name() == name_) {
+      return sector.get();
+    }
   }
-
-  return 0;
+  return nullptr;
 }
 
 size_t
@@ -187,7 +187,7 @@ Level::get_sector_count() const
 Sector*
 Level::get_sector(size_t num) const
 {
-  return sectors.at(num);
+  return sectors.at(num).get();
 }
 
 int
@@ -195,7 +195,7 @@ Level::get_total_coins() const
 {
   int total_coins = 0;
   for(Sectors::const_iterator i = sectors.begin(); i != sectors.end(); ++i) {
-    Sector* sector = *i;
+    Sector* sector = i->get();
     for(auto o = sector->gameobjects.begin(); o != sector->gameobjects.end(); ++o) {
       Coin* coin = dynamic_cast<Coin*>(o->get());
       if(coin)
