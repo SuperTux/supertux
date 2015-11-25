@@ -24,12 +24,11 @@
 OFileStream::OFileStream(const std::string& filename) :
   std::ostream(nullptr), sb(new OFileStreambuf(filename))
 {
-  init(sb);
+  init(sb.get());
 }
 
 OFileStream::~OFileStream()
 {
-  delete sb;
 }
 
 #endif

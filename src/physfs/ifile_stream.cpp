@@ -21,12 +21,11 @@
 IFileStream::IFileStream(const std::string& filename) :
   std::istream(nullptr), sb(new IFileStreambuf(filename))
 {
-  init(sb);
+  init(sb.get());
 }
 
 IFileStream::~IFileStream()
 {
-  delete sb;
 }
 
 /* EOF */

@@ -17,13 +17,14 @@
 #ifndef HEADER_SUPERTUX_PHYSFS_OFILE_STREAM_HPP
 #define HEADER_SUPERTUX_PHYSFS_OFILE_STREAM_HPP
 
+#include <memory>
 #include <ostream>
 #include <physfs.h>
 
 class OFileStream : public std::ostream
 {
 protected:
-  std::streambuf *sb;
+  std::unique_ptr<std::streambuf> sb;
 
 public:
   OFileStream(const std::string& filename);

@@ -17,13 +17,14 @@
 #ifndef HEADER_SUPERTUX_PHYSFS_IFILE_STREAM_HPP
 #define HEADER_SUPERTUX_PHYSFS_IFILE_STREAM_HPP
 
+#include <memory>
 #include <istream>
 #include <physfs.h>
 
 class IFileStream : public std::istream
 {
 protected:
-  std::streambuf *sb;
+  std::unique_ptr<std::streambuf> sb;
 
 public:
   IFileStream(const std::string& filename);
