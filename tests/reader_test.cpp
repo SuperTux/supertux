@@ -19,7 +19,7 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 
-TEST(ReaderTest, test)
+TEST(ReaderTest, get)
 {
   std::istringstream in(
     "(supertux-test\n"
@@ -27,6 +27,7 @@ TEST(ReaderTest, test)
     "   (myint 123456789)\r\n"
     "   (myfloat 1.125)\n\r"
     "   (mystring \"Hello World\")\n"
+    "   (mystringtrans (_ \"Hello World\"))\n"
     "   (mymapping (a 1) (b 2))\n"
     ")\n");
 
@@ -35,32 +36,88 @@ TEST(ReaderTest, test)
   ASSERT_EQ("supertux-test", root.get_name());
   auto mapping = root.get_mapping();
 
+  {
+    bool mybool;
+    mapping.get("mybool", mybool);
+    ASSERT_EQ(true, mybool);
+  }
+
+  {
+    int myint;
+    mapping.get("myint", myint);
+    ASSERT_EQ(123456789, myint);
+  }
+
+  {
+    float myfloat;
+    mapping.get("myfloat", myfloat);
+    ASSERT_EQ(1.125, myfloat);
+  }
+
+  {
+    std::string mystring;
+    mapping.get("mystring", mystring);
+    ASSERT_EQ("Hello World", mystring);
+  }
+
+  {
+    std::string mystringtrans;
+    mapping.get("mystringtrans", mystringtrans);
+    ASSERT_EQ("Hello World", mystringtrans);
+  }
+
+  {
+    ReaderMapping child_mapping;
+    mapping.get("mymapping", child_mapping);
+
+    int a;
+    child_mapping.get("a", a);
+    ASSERT_EQ(1, a);
+
+    int b;
+    child_mapping.get("b", b);
+    ASSERT_EQ(2, b);
+  }
+
+  {
+    bool mybool;
+    int myint;
+    float myfloat;
+    ASSERT_THROW({mapping.get("mybool", myfloat);}, std::runtime_error);
+    ASSERT_THROW({mapping.get("myint", mybool);}, std::runtime_error);
+    ASSERT_THROW({mapping.get("myfloat", myint);}, std::runtime_error);
+    ASSERT_THROW({mapping.get("mymapping", myint);}, std::runtime_error);
+  }
+}
+
+TEST(ReaderTest, syntax_error)
+{
+  std::istringstream in(
+    "(supertux-test\n"
+    "   (mybool #t err)\r"
+    "   (myint 123456789 err)\r\n"
+    "   (myfloat 1.125 err)\n\r"
+    "   (mystring \"Hello World\" err)\n"
+    "   (mystringtrans (_ \"Hello World\" err))\n"
+    "   (mymapping err (a 1) (b 2))\n"
+    ")\n");
+
+  auto doc = ReaderDocument::parse(in);
+  auto root = doc.get_root();
+  ASSERT_EQ("supertux-test", root.get_name());
+  auto mapping = root.get_mapping();
+
   bool mybool;
-  mapping.get("mybool", mybool);
-  ASSERT_EQ(true, mybool);
-
   int myint;
-  mapping.get("myint", myint);
-  ASSERT_EQ(123456789, myint);
-
   float myfloat;
-  mapping.get("myfloat", myfloat);
-  ASSERT_EQ(1.125, myfloat);
+  ReaderMapping mymapping;
+  ASSERT_THROW({mapping.get("mybool", mybool);}, std::runtime_error);
+  ASSERT_THROW({mapping.get("myint", myint);}, std::runtime_error);
+  ASSERT_THROW({mapping.get("myfloat", myfloat);}, std::runtime_error);
 
-  std::string mystring;
-  mapping.get("mystring", mystring);
-  ASSERT_EQ("Hello World", mystring);
-
-  ReaderMapping child_mapping;
-  mapping.get("mymapping", child_mapping);
-
-  int a;
-  child_mapping.get("a", a);
-  ASSERT_EQ(1, a);
-
-  int b;
-  child_mapping.get("b", b);
-  ASSERT_EQ(2, b);
+  mapping.get("mymapping", mymapping);
+  ASSERT_THROW({mymapping.get("a", myint);}, std::runtime_error);
+  ASSERT_THROW({mymapping.get("b", myint);}, std::runtime_error);
 }
 
 /* EOF */
