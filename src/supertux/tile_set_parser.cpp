@@ -40,9 +40,6 @@ TileSetParser::parse()
 {
   m_tiles_path = FileSystem::dirname(m_filename);
 
-  m_tileset.tiles.resize(1);
-  m_tileset.tiles[0] = std::unique_ptr<Tile>(new Tile);
-
   auto doc = ReaderDocument::parse(m_filename);
   auto root = doc.get_root();
 
@@ -143,18 +140,7 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
   }
 
   std::unique_ptr<Tile> tile(new Tile(imagespecs, editor_imagespecs, attributes, data, fps));
-
-  if (id >= m_tileset.tiles.size())
-    m_tileset.tiles.resize(id + 1);
-
-  if (m_tileset.tiles[id] != 0)
-  {
-    log_warning << "Tile with ID " << id << " redefined" << std::endl;
-  }
-  else
-  {
-    m_tileset.tiles[id] = std::move(tile);
-  }
+  m_tileset.add_tile(id, std::move(tile));
 }
 
 void
@@ -251,9 +237,6 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
     {
       if (ids[i] != 0)
       {
-        if (ids[i] >= m_tileset.tiles.size())
-          m_tileset.tiles.resize(ids[i] + 1);
-
         int x = 32*(i % width);
         int y = 32*(i / width);
 
@@ -281,11 +264,8 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
                                             (has_attributes ? attributes[i] : 0),
                                             (has_datas ? datas[i] : 0),
                                             fps));
-        if (m_tileset.tiles[ids[i]] == 0) {
-          m_tileset.tiles[ids[i]] = std::move(tile);
-        } else {
-          log_warning << "Tile with ID " << ids[i] << " redefined" << std::endl;
-        }
+
+        m_tileset.add_tile(ids[i], std::move(tile));
       }
     }
   }

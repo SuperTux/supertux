@@ -19,28 +19,28 @@
 #include "supertux/tile_set_parser.hpp"
 
 TileSet::TileSet() :
-  tiles(1)
+  m_tiles(1)
 {
-  tiles[0] = std::unique_ptr<Tile>(new Tile);
+  m_tiles[0] = std::unique_ptr<Tile>(new Tile);
 }
 
 TileSet::TileSet(const std::string& filename) :
-  tiles()
+  TileSet()
 {
   TileSetParser parser(*this, filename);
   parser.parse();
 
   if (0)
   { // enable this if you want to see a list of free tiles
-    log_info << "Last Tile ID is " << tiles.size()-1 << std::endl;
+    log_info << "Last Tile ID is " << m_tiles.size()-1 << std::endl;
     int last = -1;
-    for(int i = 0; i < int(tiles.size()); ++i)
+    for(int i = 0; i < int(m_tiles.size()); ++i)
     {
-      if (tiles[i] == 0 && last == -1)
+      if (m_tiles[i] == 0 && last == -1)
       {
         last = i;
       }
-      else if (tiles[i] && last != -1)
+      else if (m_tiles[i] && last != -1)
       {
         log_info << "Free Tile IDs (" << i - last << "): " << last << " - " << i-1 << std::endl;
         last = -1;
@@ -52,11 +52,11 @@ TileSet::TileSet(const std::string& filename) :
   { // enable this to dump the (large) list of tiles to log_debug
     // Two dumps are identical iff the tilesets specify identical tiles
     log_debug << "Tileset in " << filename << std::endl;
-    for(int i = 0; i < int(tiles.size()); ++i)
+    for(int i = 0; i < int(m_tiles.size()); ++i)
     {
-      if(tiles[i] != 0)
+      if(m_tiles[i] != 0)
       {
-        tiles[i]->print_debug(i);
+        m_tiles[i]->print_debug(i);
       }
     }
   }
@@ -64,6 +64,20 @@ TileSet::TileSet(const std::string& filename) :
 
 TileSet::~TileSet()
 {
+}
+
+void
+TileSet::add_tile(int id, std::unique_ptr<Tile> tile)
+{
+  if (id >= static_cast<int>(m_tiles.size())) {
+    m_tiles.resize(id + 1);
+  }
+
+  if (m_tiles[id] != 0) {
+    log_warning << "Tile with ID " << id << " redefined" << std::endl;
+  } else {
+    m_tiles[id] = std::move(tile);
+  }
 }
 
 /* EOF */

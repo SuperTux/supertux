@@ -27,25 +27,22 @@ class Tile;
 class TileSet
 {
 private:
-  std::vector<std::unique_ptr<Tile> > tiles;
-
-  friend class TileManager;
-  friend class Tile;
-  friend class TileSetParser;
-
-  TileSet(const std::string& filename);
+  std::vector<std::unique_ptr<Tile> > m_tiles;
 
 public:
+  TileSet(const std::string& filename);
   TileSet();
   ~TileSet();
 
+  void add_tile(int id, std::unique_ptr<Tile> tile);
+
   const Tile* get(const uint32_t id) const
   {
-    assert(id < tiles.size());
-    Tile* tile = tiles[id].get();
+    assert(id < m_tiles.size());
+    Tile* tile = m_tiles[id].get();
     if(!tile) {
       log_warning << "Invalid tile: " << id << std::endl;
-      return tiles[0].get();
+      return m_tiles[0].get();
     } else {
       tile->load_images();
       return tile;
@@ -54,7 +51,7 @@ public:
 
   uint32_t get_max_tileid() const
   {
-    return tiles.size();
+    return m_tiles.size();
   }
 };
 
