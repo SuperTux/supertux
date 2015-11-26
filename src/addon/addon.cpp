@@ -21,10 +21,11 @@
 #include <stdexcept>
 #include <sstream>
 
-#include "lisp/parser.hpp"
-#include "util/reader.hpp"
-#include "util/writer.hpp"
 #include "util/log.hpp"
+#include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 namespace {
 
@@ -57,7 +58,7 @@ Addon::Type addon_type_from_string(const std::string& type)
 } // namespace
 
 std::unique_ptr<Addon>
-Addon::parse(const Reader& lisp)
+Addon::parse(const ReaderMapping& lisp)
 {
   std::unique_ptr<Addon> addon(new Addon);
 
@@ -105,16 +106,16 @@ Addon::parse(const std::string& fname)
 {
   try
   {
-    lisp::Parser parser;
-    const lisp::Lisp* root = parser.parse(fname);
-    const lisp::Lisp* addon = root->get_lisp("supertux-addoninfo");
-    if(!addon)
+    register_translation_directory(fname);
+    auto doc = ReaderDocument::parse(fname);
+    auto root = doc.get_root();
+    if(root.get_name() != "supertux-addoninfo")
     {
       throw std::runtime_error("file is not a supertux-addoninfo file.");
     }
     else
     {
-      return parse(*addon);
+      return parse(root.get_mapping());
     }
   }
   catch(const std::exception& err)

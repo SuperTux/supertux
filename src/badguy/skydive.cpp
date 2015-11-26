@@ -22,7 +22,7 @@
 #include "object/player.hpp"
 #include "object/explosion.hpp"
 
-SkyDive::SkyDive(const Reader& reader) :
+SkyDive::SkyDive(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/skydive/skydive.sprite"),
   is_grabbed(false)
 {

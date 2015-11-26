@@ -36,7 +36,7 @@ Rock::Rock(const Vector& pos, std::string spritename) :
   set_group(COLGROUP_MOVING_STATIC);
 }
 
-Rock::Rock(const Reader& reader) :
+Rock::Rock(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/rock/rock.sprite"),
   physic(),
   on_ground(),
@@ -49,7 +49,7 @@ Rock::Rock(const Reader& reader) :
   set_group(COLGROUP_MOVING_STATIC);
 }
 
-Rock::Rock(const Reader& reader, std::string spritename) :
+Rock::Rock(const ReaderMapping& reader, std::string spritename) :
   MovingSprite(reader, spritename),
   physic(),
   on_ground(),

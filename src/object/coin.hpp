@@ -29,7 +29,7 @@ class Coin : public MovingSprite
 public:
   Coin(const Vector& pos);
   Coin(const Vector& pos, TileMap* tilemap);
-  Coin(const Reader& reader);
+  Coin(const ReaderMapping& reader);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
@@ -48,7 +48,7 @@ class HeavyCoin : public Coin
 {
 public:
   HeavyCoin(const Vector& pos, const Vector& init_velocity);
-  HeavyCoin(const Reader& reader);
+  HeavyCoin(const ReaderMapping& reader);
 
   virtual void update(float elapsed_time);
   virtual void collision_solid(const CollisionHit& hit);

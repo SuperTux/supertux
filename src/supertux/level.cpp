@@ -17,14 +17,16 @@
 #include "supertux/level.hpp"
 
 #include "badguy/goldbomb.hpp"
-#include "lisp/list_iterator.hpp"
-#include "lisp/parser.hpp"
 #include "object/bonus_block.hpp"
 #include "object/coin.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
 #include "trigger/secretarea_trigger.hpp"
+#include "util/reader.hpp"
+#include "util/reader_collection.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 
 #include <sstream>
 #include <stdexcept>
@@ -59,29 +61,32 @@ Level::load(const std::string& filepath)
 {
   try {
     filename = filepath;
-    lisp::Parser parser;
-    const lisp::Lisp* root = parser.parse(filepath);
+    register_translation_directory(filepath);
+    auto doc = ReaderDocument::parse(filepath);
+    auto root = doc.get_root();
 
-    const lisp::Lisp* level = root->get_lisp("supertux-level");
-    if(!level)
+    if(root.get_name() != "supertux-level")
       throw std::runtime_error("file is not a supertux-level file.");
 
+    auto level = root.get_mapping();
+
     int version = 1;
-    level->get("version", version);
+    level.get("version", version);
     if(version == 1) {
       log_info << "[" <<  filepath << "] level uses old format: version 1" << std::endl;
       tileset = TileManager::current()->get_tileset("images/tiles.strf");
-      load_old_format(*level);
+      load_old_format(level);
       return;
     }
 
-    const lisp::Lisp* tilesets_lisp = level->get_lisp("tilesets");
-    if(tilesets_lisp != NULL) {
-      tileset      = TileManager::current()->parse_tileset_definition(*tilesets_lisp).release();
+    ReaderCollection tilesets_lisp;
+    if (level.get("tilesets", tilesets_lisp)) {
+      tileset      = TileManager::current()->parse_tileset_definition(tilesets_lisp).release();
       free_tileset = true;
     }
+
     std::string tileset_name;
-    if(level->get("tileset", tileset_name)) {
+    if(level.get("tileset", tileset_name)) {
       if(tileset != NULL) {
         log_warning << "[" <<  filepath << "] multiple tilesets specified in level" << std::endl;
       } else {
@@ -97,38 +102,30 @@ Level::load(const std::string& filepath)
     contact = "";
     license = "";
 
-    lisp::ListIterator iter(level);
-    while(iter.next()) {
-      const std::string& token = iter.item();
-      if(token == "version") {
-        iter.value()->get(version);
-        if(version > 2) {
-          log_warning << "[" <<  filepath << "] level format newer than application" << std::endl;
-        }
-      } else if(token == "tileset" || token == "tilesets") {
-        continue;
-      } else if(token == "name") {
-        iter.value()->get(name);
-      } else if(token == "author") {
-        iter.value()->get(author);
-      } else if(token == "contact") {
-        iter.value()->get(contact);
-      } else if(token == "license") {
-        iter.value()->get(license);
-      } else if(token == "on-menukey-script") {
-        iter.value()->get(on_menukey_script);
-      } else if(token == "sector") {
-        Sector* sector = new Sector(this);
-        sector->parse(*(iter.lisp()));
-        add_sector(sector);
-      } else if(token == "target-time") {
-        iter.value()->get(target_time);
-      } else {
-        log_warning << "[" <<  filepath << "] Unknown token '" << token << "' in level file" << std::endl;
+    if (level.get("version", version))
+    {
+      if(version > 2) {
+        log_warning << "[" <<  filepath << "] level format newer than application" << std::endl;
       }
     }
 
-    if (license == "") {
+    level.get("name", name);
+    level.get("author", author);
+    level.get("contact", contact);
+    level.get("license", license);
+    level.get("on-menukey-script", on_menukey_script);
+    level.get("target-time", target_time);
+
+    auto iter = level.get_iter();
+    while(iter.next()) {
+      if (iter.get_key() == "sector") {
+        Sector* sector = new Sector(this);
+        sector->parse(iter.as_mapping());
+        add_sector(sector);
+      }
+    }
+
+    if (license.empty()) {
       log_warning << "[" <<  filepath << "] The level author \"" << author << "\" did not specify a license for this level \"" << name << "\". You might not be allowed to share it." << std::endl;
     }
   } catch(std::exception& e) {
@@ -141,7 +138,7 @@ Level::load(const std::string& filepath)
 }
 
 void
-Level::load_old_format(const Reader& reader)
+Level::load_old_format(const ReaderMapping& reader)
 {
   reader.get("name", name);
   reader.get("author", author);

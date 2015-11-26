@@ -32,7 +32,7 @@ namespace worldmap {
 class SpriteChange : public GameObject
 {
 public:
-  SpriteChange(const Reader& lisp);
+  SpriteChange(const ReaderMapping& lisp);
   virtual ~SpriteChange();
 
   virtual void draw(DrawingContext& context);

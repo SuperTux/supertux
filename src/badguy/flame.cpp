@@ -25,11 +25,11 @@
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 static const std::string FLAME_SOUND = "sounds/flame.wav";
 
-Flame::Flame(const Reader& reader) :
+Flame::Flame(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS),
   angle(0),
   radius(100),

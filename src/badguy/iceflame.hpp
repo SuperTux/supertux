@@ -22,7 +22,7 @@
 class Iceflame : public BadGuy
 {
 public:
-  Iceflame(const Reader& reader);
+  Iceflame(const ReaderMapping& reader);
   Iceflame(const Iceflame& iceflame);
 
   void active_update(float elapsed_time);

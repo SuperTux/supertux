@@ -26,7 +26,7 @@ class Lantern : public Rock
 {
 public:
   Lantern(const Vector& pos);
-  Lantern(const Reader& reader);
+  Lantern(const ReaderMapping& reader);
   void draw(DrawingContext& context);
   ~Lantern();
 

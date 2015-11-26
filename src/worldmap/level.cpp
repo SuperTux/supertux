@@ -23,13 +23,13 @@
 #include "sprite/sprite_manager.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 #include "worldmap/level.hpp"
 
 namespace worldmap {
 
-LevelTile::LevelTile(const std::string& basedir_, const Reader& lisp) :
+LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
   pos(),
   title(),
   solved(false),

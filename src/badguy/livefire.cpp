@@ -23,7 +23,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-LiveFire::LiveFire(const Reader& reader) :
+LiveFire::LiveFire(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/livefire/livefire.sprite", "left", "right"),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-medium.sprite")),
   death_sound("sounds/fall.wav"),
@@ -154,7 +154,7 @@ LiveFire::kill_fall()
 
 /* The following defines a sleeping version */
 
-LiveFireAsleep::LiveFireAsleep(const Reader& reader) :
+LiveFireAsleep::LiveFireAsleep(const ReaderMapping& reader) :
   LiveFire(reader)
 {
   state = STATE_SLEEPING;
@@ -168,7 +168,7 @@ LiveFireAsleep::initialize()
 }
 
 /* The following defines a dormant version that never wakes */
-LiveFireDormant::LiveFireDormant(const Reader& reader) :
+LiveFireDormant::LiveFireDormant(const ReaderMapping& reader) :
   LiveFire(reader)
 {
   walk_speed = 0;

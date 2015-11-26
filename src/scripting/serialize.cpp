@@ -17,44 +17,50 @@
 #include "scripting/serialize.hpp"
 
 #include <iostream>
+#include <sexp/value.hpp>
+#include <sexp/util.hpp>
 
-#include "lisp/writer.hpp"
-#include "lisp/list_iterator.hpp"
+#include "util/writer.hpp"
 #include "scripting/squirrel_error.hpp"
+#include "util/reader_mapping.hpp"
 
 namespace scripting {
 
-void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const Reader& lisp)
+void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMapping& lisp)
 {
-  using namespace lisp;
-
   if(table_idx < 0)
     table_idx -= 2;
 
-  lisp::ListIterator iter(&lisp);
-  while(iter.next() && iter.lisp() != NULL) {
-    const std::string& token = iter.item();
-    sq_pushstring(vm, token.c_str(), token.size());
+  auto const& arr = lisp.get_sexp().as_array();
+  for(size_t i = 1; i < arr.size(); ++i)
+  {
+    auto const& pair = arr[i].as_array();
 
-    const lisp::Lisp* value = iter.value();
-    switch(value->get_type()) {
-      case Lisp::TYPE_CONS:
+    const std::string& key = pair[0].as_string();
+    auto const& value = pair[1];
+
+    // push the key
+    sq_pushstring(vm, key.c_str(), key.size());
+
+    // push the value
+    switch(value.get_type()) {
+      case sexp::Value::TYPE_ARRAY:
         sq_newtable(vm);
-        load_squirrel_table(vm, sq_gettop(vm), *iter.lisp());
+        load_squirrel_table(vm, sq_gettop(vm), ReaderMapping(lisp.get_doc(), &arr[i]));
         break;
-      case Lisp::TYPE_INTEGER:
-        sq_pushinteger(vm, value->get_int());
+      case sexp::Value::TYPE_INTEGER:
+        sq_pushinteger(vm, value.as_int());
         break;
-      case Lisp::TYPE_REAL:
-        sq_pushfloat(vm, value->get_float());
+      case sexp::Value::TYPE_REAL:
+        sq_pushfloat(vm, value.as_float());
         break;
-      case Lisp::TYPE_STRING:
-        sq_pushstring(vm, value->get_string().c_str(), -1);
+      case sexp::Value::TYPE_STRING:
+        sq_pushstring(vm, value.as_string().c_str(), -1);
         break;
-      case Lisp::TYPE_BOOLEAN:
-        sq_pushbool(vm, value->get_bool() ? SQTrue : SQFalse);
+      case sexp::Value::TYPE_BOOLEAN:
+        sq_pushbool(vm, value.as_bool() ? SQTrue : SQFalse);
         break;
-      case Lisp::TYPE_SYMBOL:
+      case sexp::Value::TYPE_SYMBOL:
         std::cerr << "Unexpected symbol in lisp file...";
         sq_pushnull(vm);
         break;

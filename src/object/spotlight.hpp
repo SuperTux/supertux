@@ -28,7 +28,7 @@
 class Spotlight : public GameObject
 {
 public:
-  Spotlight(const Reader& reader);
+  Spotlight(const ReaderMapping& reader);
   virtual ~Spotlight();
 
   void update(float elapsed_time);

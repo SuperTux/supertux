@@ -21,9 +21,10 @@
 #include <memory>
 
 #include "util/reader_fwd.hpp"
-#include "util/writer_fwd.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
+
+class Writer;
 
 static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
@@ -47,7 +48,7 @@ public:
   void add_coins(int count, bool play_sound = true);
 
   void write(Writer& writer);
-  void read(const Reader& lisp);
+  void read(const ReaderMapping& lisp);
 
   void draw(DrawingContext& context);
 

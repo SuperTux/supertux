@@ -25,7 +25,6 @@
 #include "supertux/direction.hpp"
 #include "supertux/game_object_ptr.hpp"
 #include "util/reader_fwd.hpp"
-#include "util/writer_fwd.hpp"
 #include "util/currenton.hpp"
 #include "video/color.hpp"
 #include "object/anchor_point.hpp"
@@ -74,8 +73,8 @@ public:
   Level* get_level() const;
 
   /// read sector from lisp file
-  void parse(const Reader& lisp);
-  void parse_old_format(const Reader& lisp);
+  void parse(const ReaderMapping& sector);
+  void parse_old_format(const ReaderMapping& lisp);
 
   /// activates this sector (change music, initialize player class, ...)
   void activate(const std::string& spawnpoint);
@@ -248,7 +247,7 @@ private:
 
   void collision_static_constrains(MovingObject& object);
 
-  GameObjectPtr parse_object(const std::string& name, const Reader& lisp);
+  GameObjectPtr parse_object(const std::string& name, const ReaderMapping& lisp);
 
   void fix_old_tiles();
 

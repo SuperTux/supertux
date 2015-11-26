@@ -28,7 +28,7 @@
 class RustyTrampoline : public Rock
 {
 public:
-  RustyTrampoline(const Reader& reader);
+  RustyTrampoline(const ReaderMapping& reader);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void collision_solid(const CollisionHit& hit);

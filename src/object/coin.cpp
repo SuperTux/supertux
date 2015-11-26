@@ -17,13 +17,13 @@
 #include "object/coin.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "util/reader.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
 
 Coin::Coin(const Vector& pos)
   : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
@@ -52,7 +52,7 @@ Coin::Coin(const Vector& pos, TileMap* tilemap)
   SoundManager::current()->preload("sounds/coin.wav");
 }
 
-Coin::Coin(const Reader& reader)
+Coin::Coin(const ReaderMapping& reader)
   : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
     path(),
     walker(),
@@ -60,10 +60,10 @@ Coin::Coin(const Reader& reader)
     from_tilemap(false),
     physic()
 {
-  const lisp::Lisp* pathLisp = reader.get_lisp("path");
-  if (pathLisp) {
+  ReaderMapping path_mapping;
+  if (reader.get("path", path_mapping)) {
     path.reset(new Path());
-    path->read(*pathLisp);
+    path->read(path_mapping);
     walker.reset(new PathWalker(path.get()));
     Vector v = path->get_base();
     set_pos(v);
@@ -183,7 +183,7 @@ HeavyCoin::HeavyCoin(const Vector& pos, const Vector& init_velocity)
   physic.set_velocity(init_velocity);
 }
 
-HeavyCoin::HeavyCoin(const Reader& reader)
+HeavyCoin::HeavyCoin(const ReaderMapping& reader)
   : Coin(reader),
   physic()
 {

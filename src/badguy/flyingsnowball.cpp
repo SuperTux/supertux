@@ -27,7 +27,7 @@ const float PUFF_INTERVAL_MIN = 4.0f; /**< spawn new puff of smoke at most that 
 const float PUFF_INTERVAL_MAX = 8.0f; /**< spawn new puff of smoke at least that often */
 }
 
-FlyingSnowBall::FlyingSnowBall(const Reader& reader) :
+FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite"),
   normal_propeller_speed(),
   puff_timer()

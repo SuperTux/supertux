@@ -18,7 +18,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
-#include "lisp/parser.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/gameconfig.hpp"
@@ -27,6 +26,8 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/resources.hpp"
 #include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
 #include <sstream>
@@ -51,20 +52,27 @@ TextScroller::TextScroller(const std::string& filename) :
   std::string text;
   std::string background_file;
 
-  lisp::Parser parser;
   try {
-    const lisp::Lisp* root = parser.parse(filename);
+    register_translation_directory(filename);
+    auto doc = ReaderDocument::parse(filename);
+    auto root = doc.get_root();
 
-    const lisp::Lisp* text_lisp = root->get_lisp("supertux-text");
-    if(!text_lisp)
+    if(root.get_name() != "supertux-text") {
       throw std::runtime_error("File isn't a supertux-text file");
+    } else {
+      auto text_lisp = root.get_mapping();
 
-    if(!text_lisp->get("text", text))
-      throw std::runtime_error("file doesn't contain a text field");
-    if(!text_lisp->get("background", background_file))
-      throw std::runtime_error("file doesn't contain a background file");
-    text_lisp->get("speed", defaultspeed);
-    text_lisp->get("music", music);
+      if(!text_lisp.get("text", text)) {
+        throw std::runtime_error("file doesn't contain a text field");
+      }
+
+      if(!text_lisp.get("background", background_file)) {
+        throw std::runtime_error("file doesn't contain a background file");
+      }
+
+      text_lisp.get("speed", defaultspeed);
+      text_lisp.get("music", music);
+    }
   } catch(std::exception& e) {
     std::ostringstream msg;
     msg << "Couldn't load file '" << filename << "': " << e.what() << std::endl;

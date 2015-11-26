@@ -21,9 +21,9 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
-Platform::Platform(const Reader& reader) :
+Platform::Platform(const ReaderMapping& reader) :
   MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC),
   path(),
   walker(),
@@ -35,14 +35,22 @@ Platform::Platform(const Reader& reader) :
   bool running = true;
   reader.get("name", name);
   reader.get("running", running);
-  if ((name == "") && (!running)) automatic=true;
-  const lisp::Lisp* pathLisp = reader.get_lisp("path");
-  if(pathLisp == NULL)
+  if ((name == "") && (!running)) {
+    automatic=true;
+  }
+
+  ReaderMapping path_mapping;
+  if(reader.get("path", path_mapping))
+  {
     throw std::runtime_error("No path specified for platform");
-  path.reset(new Path());
-  path->read(*pathLisp);
-  walker.reset(new PathWalker(path.get(), running));
-  bbox.set_pos(path->get_base());
+  }
+  else
+  {
+    path.reset(new Path());
+    path->read(path_mapping);
+    walker.reset(new PathWalker(path.get(), running));
+    bbox.set_pos(path->get_base());
+  }
 }
 
 /*

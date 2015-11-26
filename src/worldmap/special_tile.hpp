@@ -31,7 +31,7 @@ namespace worldmap {
 class SpecialTile : public GameObject
 {
 public:
-  SpecialTile(const Reader& lisp);
+  SpecialTile(const ReaderMapping& lisp);
   virtual ~SpecialTile();
 
   virtual void draw(DrawingContext& context);

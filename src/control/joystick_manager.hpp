@@ -25,7 +25,6 @@
 
 #include "control/controller.hpp"
 #include "util/reader_fwd.hpp"
-#include "util/writer_fwd.hpp"
 
 class InputManager;
 class JoystickConfig;

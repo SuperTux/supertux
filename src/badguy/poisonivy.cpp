@@ -22,7 +22,7 @@
 
 #include <math.h>
 
-PoisonIvy::PoisonIvy(const Reader& reader)
+PoisonIvy::PoisonIvy(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
 {
   walk_speed = 80;

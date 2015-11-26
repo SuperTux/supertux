@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,16 +14,34 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_WRITER_FWD_HPP
-#define HEADER_SUPERTUX_UTIL_WRITER_FWD_HPP
+#ifndef HEADER_SUPERTUX_UTIL_READER_COLLECTION_HPP
+#define HEADER_SUPERTUX_UTIL_READER_COLLECTION_HPP
 
-namespace lisp {
-class Writer;
-} // namespace lisp
+#include <vector>
 
-typedef lisp::Writer Writer;
+#include "util/reader_object.hpp"
+
+namespace sexp {
+class Value;
+} // namespace sexp
+
+class ReaderDocument;
+
+class ReaderCollection final
+{
+public:
+  ReaderCollection();
+
+  // sx should point to (section (objname (name value)...)...)
+  ReaderCollection(const ReaderDocument* doc, const sexp::Value* sx);
+
+  std::vector<ReaderObject> get_objects() const;
+
+private:
+  const ReaderDocument* m_doc;
+  const sexp::Value* m_sx;
+};
 
 #endif
 
 /* EOF */
-

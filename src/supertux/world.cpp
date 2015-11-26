@@ -16,8 +16,6 @@
 
 #include <algorithm>
 
-#include "lisp/parser.hpp"
-#include "lisp/writer.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -30,6 +28,8 @@
 #include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
 #include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/string_util.hpp"
 #include "worldmap/worldmap.hpp"
 
@@ -71,22 +71,26 @@ World::load_(const std::string& directory)
   m_basedir = directory;
   m_worldmap_filename = m_basedir + "/worldmap.stwm";
 
-  lisp::Parser parser;
-  const lisp::Lisp* root = parser.parse(m_basedir + "/info");
+  std::string filename = m_basedir + "/info";
+  register_translation_directory(filename);
+  auto doc = ReaderDocument::parse(filename);
+  auto root = doc.get_root();
 
-  const lisp::Lisp* info = root->get_lisp("supertux-world");
-  if(info == NULL)
-    info = root->get_lisp("supertux-level-subset");
-  if(info == NULL)
+  if(root.get_name() != "supertux-world" &&
+     root.get_name() != "supertux-level-subset")
+  {
     throw std::runtime_error("File is not a world or levelsubset file");
+  }
 
   m_hide_from_contribs = false;
   m_is_levelset = true;
 
-  info->get("title", m_title);
-  info->get("description", m_description);
-  info->get("levelset", m_is_levelset);
-  info->get("hide-from-contribs", m_hide_from_contribs);
+  auto info = root.get_mapping();
+
+  info.get("title", m_title);
+  info.get("description", m_description);
+  info.get("levelset", m_is_levelset);
+  info.get("hide-from-contribs", m_hide_from_contribs);
 }
 
 std::string

@@ -22,13 +22,15 @@
 #include "object/particlesystem.hpp"
 #include "video/surface_ptr.hpp"
 
+class ReaderMapping;
+
 class GhostParticleSystem : public ParticleSystem
 {
 public:
   GhostParticleSystem();
   virtual ~GhostParticleSystem();
 
-  void parse(const Reader& lisp);
+  void parse(const ReaderMapping& lisp);
 
   virtual void update(float elapsed_time);
 

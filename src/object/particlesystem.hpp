@@ -21,7 +21,6 @@
 
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
-#include "util/reader.hpp"
 #include "video/surface_ptr.hpp"
 
 class DisplayManager;

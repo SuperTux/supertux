@@ -21,7 +21,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
-#include "lisp/list_iterator.hpp"
 #include "math/aatriangle.hpp"
 #include "object/background.hpp"
 #include "object/bonus_block.hpp"
@@ -61,6 +60,8 @@
 #include "trigger/secretarea_trigger.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "util/file_system.hpp"
+#include "util/reader_collection.hpp"
+#include "util/reader_mapping.hpp"
 
 Sector* Sector::_current = 0;
 
@@ -148,7 +149,7 @@ Sector::get_level() const
 }
 
 GameObjectPtr
-Sector::parse_object(const std::string& name_, const Reader& reader)
+Sector::parse_object(const std::string& name_, const ReaderMapping& reader)
 {
   if(name_ == "camera") {
     auto camera_ = std::make_shared<Camera>(this, "Camera");
@@ -187,26 +188,25 @@ Sector::parse_object(const std::string& name_, const Reader& reader)
 }
 
 void
-Sector::parse(const Reader& sector)
+Sector::parse(const ReaderMapping& sector)
 {
   bool has_background = false;
-  lisp::ListIterator iter(&sector);
+  auto iter = sector.get_iter();
   while(iter.next()) {
-    const std::string& token = iter.item();
-    if(token == "name") {
-      iter.value()->get(name);
-    } else if(token == "gravity") {
-      iter.value()->get(gravity);
-    } else if(token == "music") {
-      iter.value()->get(music);
-    } else if(token == "spawnpoint") {
-      auto sp = std::make_shared<SpawnPoint>(*iter.lisp());
+    if(iter.get_key() == "name") {
+      iter.get(name);
+    } else if(iter.get_key() == "gravity") {
+      iter.get(gravity);
+    } else if(iter.get_key() == "music") {
+      iter.get(music);
+    } else if(iter.get_key() == "spawnpoint") {
+      auto sp = std::make_shared<SpawnPoint>(iter.as_mapping());
       if (sp->name != "" && sp->pos.x >= 0 && sp->pos.y >= 0) {
         spawnpoints.push_back(sp);
       }
-    } else if(token == "init-script") {
-      iter.value()->get(init_script);
-    } else if(token == "ambient-light") {
+    } else if(iter.get_key() == "init-script") {
+      iter.get(init_script);
+    } else if(iter.get_key() == "ambient-light") {
       std::vector<float> vColor;
       sector.get( "ambient-light", vColor );
       if(vColor.size() < 3) {
@@ -215,7 +215,7 @@ Sector::parse(const Reader& sector)
         ambient_light = Color( vColor );
       }
     } else {
-      GameObjectPtr object = parse_object(token, *(iter.lisp()));
+      GameObjectPtr object = parse_object(iter.get_key(), iter.as_mapping());
       if(object) {
         if(std::dynamic_pointer_cast<Background>(object)) {
           has_background = true;
@@ -249,7 +249,7 @@ Sector::parse(const Reader& sector)
 }
 
 void
-Sector::parse_old_format(const Reader& reader)
+Sector::parse_old_format(const ReaderMapping& reader)
 {
   name = "main";
   reader.get("gravity", gravity);
@@ -362,11 +362,11 @@ Sector::parse_old_format(const Reader& reader)
   }
 
   // read reset-points (now spawn-points)
-  const lisp::Lisp* resetpoints = reader.get_lisp("reset-points");
-  if(resetpoints) {
-    lisp::ListIterator iter(resetpoints);
+  ReaderMapping resetpoints;
+  if(reader.get("reset-points", resetpoints)) {
+    auto iter = resetpoints.get_iter();
     while(iter.next()) {
-      if(iter.item() == "point") {
+      if(iter.get_key() == "point") {
         Vector sp_pos;
         if(reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))
         {
@@ -376,21 +376,21 @@ Sector::parse_old_format(const Reader& reader)
           spawnpoints.push_back(sp);
         }
       } else {
-        log_warning << "Unknown token '" << iter.item() << "' in reset-points." << std::endl;
+        log_warning << "Unknown token '" << iter.get_key() << "' in reset-points." << std::endl;
       }
     }
   }
 
   // read objects
-  const lisp::Lisp* objects = reader.get_lisp("objects");
-  if(objects) {
-    lisp::ListIterator iter(objects);
-    while(iter.next()) {
-      auto object = parse_object(iter.item(), *(iter.lisp()));
+  ReaderCollection objects;
+  if(reader.get("objects", objects)) {
+    for(auto const& obj : objects.get_objects())
+    {
+      auto object = parse_object(obj.get_name(), obj.get_mapping());
       if(object) {
         add_object(object);
       } else {
-        log_warning << "Unknown object '" << iter.item() << "' in level." << std::endl;
+        log_warning << "Unknown object '" << obj.get_name() << "' in level." << std::endl;
       }
     }
   }

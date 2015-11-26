@@ -24,7 +24,7 @@ class MrIceBlock : public WalkingBadguy,
                    public Portable
 {
 public:
-  MrIceBlock(const Reader& reader);
+  MrIceBlock(const ReaderMapping& reader);
   MrIceBlock(const Vector& pos, Direction d);
 
   void initialize();
@@ -65,7 +65,7 @@ private:
 class SmartBlock : public MrIceBlock
 {
 public:
-  SmartBlock(const Reader& reader);
+  SmartBlock(const ReaderMapping& reader);
 
   virtual std::string get_mpsf() const {
     return "images/objects/water_drop/pink_drop.sprite";

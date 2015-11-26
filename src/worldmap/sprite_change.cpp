@@ -17,13 +17,13 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 #include "worldmap/sprite_change.hpp"
 
 namespace worldmap {
 
-SpriteChange::SpriteChange(const Reader& lisp) :
+SpriteChange::SpriteChange(const ReaderMapping& lisp) :
   pos(),
   change_on_touch(false),
   sprite(),

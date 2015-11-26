@@ -40,7 +40,7 @@ const float PAUSE_TIME_NORMAL = 0.5;
 const float PAUSE_TIME_LARGE  = 1.0;
 }
 
-IceCrusher::IceCrusher(const Reader& reader) :
+IceCrusher::IceCrusher(const ReaderMapping& reader) :
   MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
   state(IDLE),
   start_position(),

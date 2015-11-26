@@ -23,10 +23,10 @@
 #include "scripting/wind.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
-Wind::Wind(const Reader& reader) :
+Wind::Wind(const ReaderMapping& reader) :
   blowing(true),
   speed(),
   acceleration(100),

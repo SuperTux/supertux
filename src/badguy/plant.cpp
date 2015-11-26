@@ -23,7 +23,7 @@
 static const float PLANT_SPEED = 80;
 static const float WAKE_TIME = .5;
 
-Plant::Plant(const Reader& reader) :
+Plant::Plant(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/plant/plant.sprite"),
   timer(),
   state()

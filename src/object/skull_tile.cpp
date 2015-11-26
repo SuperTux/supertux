@@ -24,7 +24,7 @@
 static const float CRACKTIME = 0.3f;
 static const float FALLTIME = 0.8f;
 
-SkullTile::SkullTile(const Reader& lisp) :
+SkullTile::SkullTile(const ReaderMapping& lisp) :
   MovingSprite(lisp, "images/objects/skull_tile/skull_tile.sprite", LAYER_TILES, COLGROUP_STATIC),
   physic(),
   timer(),

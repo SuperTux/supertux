@@ -51,7 +51,7 @@ WalkingBadguy::WalkingBadguy(const Vector& pos,
 {
 }
 
-WalkingBadguy::WalkingBadguy(const Reader& reader,
+WalkingBadguy::WalkingBadguy(const ReaderMapping& reader,
                              const std::string& sprite_name_,
                              const std::string& walk_left_action_,
                              const std::string& walk_right_action_,

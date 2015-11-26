@@ -17,13 +17,13 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 #include "worldmap/teleporter.hpp"
 
 namespace worldmap {
 
-Teleporter::Teleporter(const Reader& lisp) :
+Teleporter::Teleporter(const ReaderMapping& lisp) :
   pos(),
   sprite(),
   worldmap(),

@@ -26,7 +26,7 @@
 class Decal : public MovingSprite
 {
 public:
-  Decal(const Reader& reader);
+  Decal(const ReaderMapping& reader);
   virtual ~Decal();
   virtual HitResponse collision(GameObject& , const CollisionHit& ) {
     return FORCE_MOVE;

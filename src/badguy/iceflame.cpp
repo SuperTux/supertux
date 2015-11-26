@@ -25,9 +25,9 @@
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
-Iceflame::Iceflame(const Reader& reader) :
+Iceflame::Iceflame(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/flame/iceflame.sprite", LAYER_FLOATINGOBJECTS),
   angle(0),
   radius(100),

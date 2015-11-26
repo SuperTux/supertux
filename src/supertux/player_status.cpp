@@ -25,7 +25,7 @@
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
 static const int START_COINS = 100;
@@ -83,7 +83,7 @@ PlayerStatus::add_coins(int count, bool play_sound)
 }
 
 void
-PlayerStatus::write(lisp::Writer& writer)
+PlayerStatus::write(Writer& writer)
 {
   switch(bonus) {
     case NO_BONUS:
@@ -117,7 +117,7 @@ PlayerStatus::write(lisp::Writer& writer)
 }
 
 void
-PlayerStatus::read(const Reader& lisp)
+PlayerStatus::read(const ReaderMapping& lisp)
 {
   reset();
 

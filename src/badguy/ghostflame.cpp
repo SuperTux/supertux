@@ -20,14 +20,14 @@
 
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
-Ghostflame::Ghostflame(const Reader& reader) :
+Ghostflame::Ghostflame(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/flame/ghostflame.sprite", LAYER_FLOATINGOBJECTS),
   angle(0),
   radius(100),

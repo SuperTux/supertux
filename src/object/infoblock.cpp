@@ -19,15 +19,15 @@
 #include <algorithm>
 
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "supertux/info_box_line.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/info_box_line.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
-#include "sprite/sprite.hpp"
 
-InfoBlock::InfoBlock(const Reader& lisp) :
+InfoBlock::InfoBlock(const ReaderMapping& lisp) :
   Block(SpriteManager::current()->create("images/objects/bonus_block/infoblock.sprite")),
   message(),
   shown_pct(0),

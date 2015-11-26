@@ -22,7 +22,7 @@
 class Ghostflame : public BadGuy
 {
 public:
-  Ghostflame(const Reader& reader);
+  Ghostflame(const ReaderMapping& reader);
   Ghostflame(const Ghostflame& ghostflame);
 
   void active_update(float elapsed_time);

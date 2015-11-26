@@ -24,7 +24,7 @@
 #include "supertux/constants.hpp"
 #include "supertux/object_factory.hpp"
 
-UnstableTile::UnstableTile(const Reader& lisp) :
+UnstableTile::UnstableTile(const ReaderMapping& lisp) :
   MovingSprite(lisp, LAYER_TILES, COLGROUP_STATIC),
   physic(),
   state(STATE_NORMAL),

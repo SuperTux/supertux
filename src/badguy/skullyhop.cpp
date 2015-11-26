@@ -27,7 +27,7 @@ const float MAX_RECOVER_TIME = 1.0f; /**< maximum time to stand still before sta
 static const std::string SKULLYHOP_SOUND = "sounds/hop.ogg";
 }
 
-SkullyHop::SkullyHop(const Reader& reader) :
+SkullyHop::SkullyHop(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite"),
   recover_timer(),
   state()

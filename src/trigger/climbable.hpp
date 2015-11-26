@@ -29,7 +29,7 @@ class Climbable : public TriggerBase
 {
   static Color text_color;
 public:
-  Climbable(const Reader& reader);
+  Climbable(const ReaderMapping& reader);
   Climbable(const Rectf& area);
   ~Climbable();
 

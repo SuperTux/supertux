@@ -22,7 +22,7 @@
 class Fish : public BadGuy
 {
 public:
-  Fish(const Reader& );
+  Fish(const ReaderMapping& );
   Fish(const Vector& pos);
 
   void draw(DrawingContext& context);

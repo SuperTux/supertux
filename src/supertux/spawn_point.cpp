@@ -16,9 +16,9 @@
 
 #include <stdexcept>
 
-#include "lisp/list_iterator.hpp"
 #include "supertux/spawn_point.hpp"
 #include "util/log.hpp"
+#include "util/reader_mapping.hpp"
 
 SpawnPoint::SpawnPoint() :
   name(),
@@ -30,27 +30,18 @@ SpawnPoint::SpawnPoint(const SpawnPoint& other) :
   pos(other.pos)
 {}
 
-SpawnPoint::SpawnPoint(const Reader& slisp) :
+SpawnPoint::SpawnPoint(const ReaderMapping& slisp) :
   name(),
   pos()
 {
   pos.x = -1;
   pos.y = -1;
-  lisp::ListIterator iter(&slisp);
-  while(iter.next()) {
-    const std::string& token = iter.item();
-    if(token == "name") {
-      iter.value()->get(name);
-    } else if(token == "x") {
-      iter.value()->get(pos.x);
-    } else if(token == "y") {
-      iter.value()->get(pos.y);
-    } else {
-      log_warning << "unknown token '" << token << "' in SpawnPoint" << std::endl;
-    }
-  }
 
-  if(name == "")
+  slisp.get("name", name);
+  slisp.get("x", pos.x);
+  slisp.get("y", pos.y);
+
+  if(name.empty())
     log_warning << "No name specified for spawnpoint. Ignoring." << std::endl;
   if(pos.x < 0 || pos.y < 0)
     log_warning << "Invalid coordinates specified for spawnpoint. Ignoring." << std::endl;

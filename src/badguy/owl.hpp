@@ -24,7 +24,7 @@
 class Owl : public BadGuy
 {
 public:
-  Owl(const Reader& reader);
+  Owl(const ReaderMapping& reader);
   Owl(const Vector& pos, Direction d);
 
   void initialize();

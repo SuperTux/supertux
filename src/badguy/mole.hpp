@@ -22,7 +22,7 @@
 class Mole : public BadGuy
 {
 public:
-  Mole(const Reader& );
+  Mole(const ReaderMapping& );
   Mole(const Vector& pos);
 
   void kill_fall();

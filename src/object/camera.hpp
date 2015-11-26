@@ -38,7 +38,7 @@ public:
   virtual ~Camera();
 
   /// parse camera mode from lisp file
-  void parse(const Reader& reader);
+  void parse(const ReaderMapping& reader);
 
   /// reset camera position
   void reset(const Vector& tuxpos);

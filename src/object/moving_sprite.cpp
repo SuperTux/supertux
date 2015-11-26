@@ -15,9 +15,10 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/moving_sprite.hpp"
+
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 #include <stdexcept>
 
@@ -33,7 +34,7 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer_, CollisionGroup collision_group) :
+MovingSprite::MovingSprite(const ReaderMapping& reader, const Vector& pos, int layer_, CollisionGroup collision_group) :
   sprite_name(),
   sprite(),
   layer(layer_)
@@ -47,7 +48,7 @@ MovingSprite::MovingSprite(const Reader& reader, const Vector& pos, int layer_, 
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const Reader& reader, const std::string& sprite_name_, int layer_, CollisionGroup collision_group) :
+MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprite_name_, int layer_, CollisionGroup collision_group) :
   sprite_name(sprite_name_),
   sprite(),
   layer(layer_)
@@ -61,7 +62,7 @@ MovingSprite::MovingSprite(const Reader& reader, const std::string& sprite_name_
   set_group(collision_group);
 }
 
-MovingSprite::MovingSprite(const Reader& reader, int layer_, CollisionGroup collision_group) :
+MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGroup collision_group) :
   sprite_name(),
   sprite(),
   layer(layer_)

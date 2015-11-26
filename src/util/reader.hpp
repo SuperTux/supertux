@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,13 +17,16 @@
 #ifndef HEADER_SUPERTUX_UTIL_READER_HPP
 #define HEADER_SUPERTUX_UTIL_READER_HPP
 
-#include "lisp/lisp.hpp"
+#include <memory>
+#include <vector>
+#include <string>
+#include <sexp/value.hpp>
 
-typedef lisp::Lisp Reader;
+#include "util/reader_fwd.hpp"
 
-int reader_get_layer (const Reader& reader, int def);
+int reader_get_layer(const ReaderMapping& reader, int def);
+void register_translation_directory(const std::string& filename);
 
 #endif
 
 /* EOF */
-

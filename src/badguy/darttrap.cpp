@@ -21,13 +21,13 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 namespace {
 const float MUZZLE_Y = 25; /**< [px] muzzle y-offset from top */
 }
 
-DartTrap::DartTrap(const Reader& reader) :
+DartTrap::DartTrap(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", LAYER_TILES-1),
   initial_delay(0),
   fire_delay(2),

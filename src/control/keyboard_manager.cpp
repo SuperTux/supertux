@@ -21,7 +21,6 @@
 #include "control/joystick_manager.hpp"
 #include "control/keyboard_config.hpp"
 #include "gui/menu_manager.hpp"
-#include "lisp/list_iterator.hpp"
 #include "supertux/console.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"

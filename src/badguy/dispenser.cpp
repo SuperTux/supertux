@@ -22,11 +22,11 @@
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 #include <stdexcept>
 
-Dispenser::Dispenser(const Reader& reader) :
+Dispenser::Dispenser(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),
   colgroup_active(),
   cycle(),

@@ -22,7 +22,7 @@
 class SSpiky : public WalkingBadguy
 {
 public:
-  SSpiky(const Reader& reader);
+  SSpiky(const ReaderMapping& reader);
 
   void initialize();
   void collision_solid(const CollisionHit& hit);

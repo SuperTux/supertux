@@ -20,9 +20,9 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
-MrCandle::MrCandle(const Reader& reader)
+MrCandle::MrCandle(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/mr_candle/mr-candle.sprite", "left", "right"),
     lightcolor(1, 1, 1),
     candle_light(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-medium.sprite"))

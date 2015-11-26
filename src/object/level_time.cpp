@@ -27,13 +27,13 @@
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
 /** When to alert player they're low on time! */
 static const float TIME_WARNING = 20;
 
-LevelTime::LevelTime(const Reader& reader) :
+LevelTime::LevelTime(const ReaderMapping& reader) :
   time_surface(),
   running(true),
   time_left(0)

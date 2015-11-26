@@ -25,7 +25,7 @@
 class BicyclePlatform : public MovingSprite
 {
 public:
-  BicyclePlatform(const Reader& reader);
+  BicyclePlatform(const ReaderMapping& reader);
   BicyclePlatform(BicyclePlatform* master);
   virtual ~BicyclePlatform();
 

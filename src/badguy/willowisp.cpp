@@ -28,14 +28,14 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 static const float FLYSPEED = 64; /**< speed in px per second */
 static const float TRACK_RANGE = 384; /**< at what distance to start tracking the player */
 static const float VANISH_RANGE = 512; /**< at what distance to stop tracking and vanish */
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
 
-WillOWisp::WillOWisp(const Reader& reader) :
+WillOWisp::WillOWisp(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS),
   mystate(STATE_IDLE),
   target_sector("main"),
@@ -63,10 +63,10 @@ WillOWisp::WillOWisp(const Reader& reader) :
   reader.get("hit-script", hit_script);
   reader.get("running", running);
 
-  const lisp::Lisp* pathLisp = reader.get_lisp("path");
-  if(pathLisp != NULL) {
+  ReaderMapping path_mapping;
+  if(reader.get("path", path_mapping)) {
     path.reset(new Path());
-    path->read(*pathLisp);
+    path->read(path_mapping);
     walker.reset(new PathWalker(path.get(), running));
     if(running)
       mystate = STATE_PATHMOVING_TRACK;

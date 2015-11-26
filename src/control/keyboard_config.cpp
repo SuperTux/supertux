@@ -16,8 +16,8 @@
 
 #include "control/keyboard_config.hpp"
 
-#include "lisp/list_iterator.hpp"
 #include "util/log.hpp"
+#include "util/reader_mapping.hpp"
 
 KeyboardConfig::KeyboardConfig() :
   keymap(),
@@ -45,7 +45,7 @@ KeyboardConfig::KeyboardConfig() :
 }
 
 void
-KeyboardConfig::read(const lisp::Lisp& keymap_lisp)
+KeyboardConfig::read(const ReaderMapping& keymap_lisp)
 {
   // keycode values changed between SDL1 and SDL2, so we skip old SDL1
   // based values and use the defaults instead on the first read of
@@ -55,17 +55,17 @@ KeyboardConfig::read(const lisp::Lisp& keymap_lisp)
   if (config_is_sdl2)
   {
     keymap_lisp.get("jump-with-up", jump_with_up_kbd);
-    lisp::ListIterator iter(&keymap_lisp);
+
+    auto iter = keymap_lisp.get_iter();
     while(iter.next())
     {
-      if (iter.item() == "map")
+      if (iter.get_key() == "map")
       {
         int key = -1;
         std::string control;
-        const lisp::Lisp* map = iter.lisp();
-        map->get("key", key);
-
-        map->get("control", control);
+        auto map = iter.as_mapping();
+        map.get("key", key);
+        map.get("control", control);
 
         int i = 0;
         for(i = 0; Controller::controlNames[i] != 0; ++i)
@@ -84,7 +84,6 @@ KeyboardConfig::read(const lisp::Lisp& keymap_lisp)
     }
   }
 }
-
 
 void
 KeyboardConfig::bind_key(SDL_Keycode key, Controller::Control control)

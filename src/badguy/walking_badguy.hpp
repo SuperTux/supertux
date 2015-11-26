@@ -37,7 +37,7 @@ public:
                 const std::string& walk_left_action,
                 const std::string& walk_right_action,
                 int layer = LAYER_OBJECTS);
-  WalkingBadguy(const Reader& reader,
+  WalkingBadguy(const ReaderMapping& reader,
                 const std::string& sprite_name,
                 const std::string& walk_left_action,
                 const std::string& walk_right_action,

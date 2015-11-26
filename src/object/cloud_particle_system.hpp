@@ -20,6 +20,7 @@
 #include <memory>
 
 #include "object/particlesystem.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/surface_ptr.hpp"
 
 class CloudParticleSystem : public ParticleSystem
@@ -28,7 +29,7 @@ public:
   CloudParticleSystem();
   virtual ~CloudParticleSystem();
 
-  void parse(const Reader& lisp);
+  void parse(const ReaderMapping& lisp);
 
   virtual void update(float elapsed_time);
 

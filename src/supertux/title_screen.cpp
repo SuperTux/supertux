@@ -20,7 +20,6 @@
 #include "audio/sound_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
-#include "lisp/parser.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "supertux/fadein.hpp"
@@ -35,7 +34,7 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
 #include <sstream>

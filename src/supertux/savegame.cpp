@@ -19,9 +19,6 @@
 
 #include <algorithm>
 
-#include "lisp/lisp.hpp"
-#include "lisp/parser.hpp"
-#include "lisp/writer.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/serialize.hpp"
@@ -29,6 +26,9 @@
 #include "supertux/player_status.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace {
@@ -142,35 +142,36 @@ Savegame::load()
     {
       HSQUIRRELVM vm = scripting::global_vm;
 
-      lisp::Parser parser;
-      const lisp::Lisp* root = parser.parse(m_filename);
+      auto doc = ReaderDocument::parse(m_filename);
+      auto root = doc.get_root();
 
-      const lisp::Lisp* lisp = root->get_lisp("supertux-savegame");
-      if(lisp == NULL)
+      if(root.get_name() != "supertux-savegame")
       {
         throw std::runtime_error("file is not a supertux-savegame file");
       }
       else
       {
+        auto mapping = root.get_mapping();
+
         int version = 1;
-        lisp->get("version", version);
+        mapping.get("version", version);
         if(version != 1)
         {
           throw std::runtime_error("incompatible savegame version");
         }
         else
         {
-          const lisp::Lisp* tux = lisp->get_lisp("tux");
-          if(tux == NULL)
+          ReaderMapping tux;
+          if(!mapping.get("tux", tux))
           {
             throw std::runtime_error("No tux section in savegame");
           }
           {
-            m_player_status->read(*tux);
+            m_player_status->read(tux);
           }
 
-          const lisp::Lisp* state = lisp->get_lisp("state");
-          if(state == NULL)
+          ReaderMapping state;
+          if(!mapping.get("state", state))
           {
             throw std::runtime_error("No state section in savegame");
           }
@@ -178,7 +179,7 @@ Savegame::load()
           {
             sq_pushroottable(vm);
             get_table_entry(vm, "state");
-            scripting::load_squirrel_table(vm, -1, *state);
+            scripting::load_squirrel_table(vm, -1, state);
             sq_pop(vm, 2);
           }
         }
@@ -244,7 +245,7 @@ Savegame::save()
 
   HSQUIRRELVM vm = scripting::global_vm;
 
-  lisp::Writer writer(m_filename);
+  Writer writer(m_filename);
 
   writer.start_list("supertux-savegame");
   writer.write("version", 1);

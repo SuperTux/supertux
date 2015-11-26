@@ -34,7 +34,7 @@ namespace worldmap {
 class LevelTile : public GameObject
 {
 public:
-  LevelTile(const std::string& basedir, const Reader& lisp);
+  LevelTile(const std::string& basedir, const ReaderMapping& lisp);
   virtual ~LevelTile();
 
   virtual void draw(DrawingContext& context);

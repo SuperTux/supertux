@@ -22,9 +22,9 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
-Lantern::Lantern(const Reader& reader) :
+Lantern::Lantern(const ReaderMapping& reader) :
   Rock(reader, "images/objects/lantern/lantern.sprite"),
   lightcolor(1.0f, 1.0f, 1.0f),
   lightsprite()

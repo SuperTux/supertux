@@ -27,14 +27,14 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 #define  LIFETIME 5
 #define  MOVETIME 0.75
 #define  BASE_SPEED 200
 #define  RAND_SPEED 150
 
-Kugelblitz::Kugelblitz(const Reader& reader) :
+Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/kugelblitz/kugelblitz.sprite"),
   pos_groundhit(),
   groundhit_pos_set(false),

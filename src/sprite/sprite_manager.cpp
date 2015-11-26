@@ -16,10 +16,10 @@
 
 #include "sprite/sprite_manager.hpp"
 
-#include "lisp/parser.hpp"
 #include "sprite/sprite.hpp"
 #include "util/file_system.hpp"
-#include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 
 #include <sstream>
 #include <stdexcept>
@@ -60,21 +60,19 @@ SpriteManager::create(const std::string& name)
 SpriteData*
 SpriteManager::load(const std::string& filename)
 {
-  lisp::Parser parser;
-  const lisp::Lisp* root;
+  ReaderDocument doc;
 
   try {
     if(filename.size() >= 7 && filename.compare(filename.size() - 7, 7, ".sprite") == 0) {
-        // Sprite file
-        root = parser.parse(filename);
+      // Sprite file
+      doc = ReaderDocument::parse(filename);
     } else {
       // Load image file directly
       std::stringstream lisptext;
       lisptext << "(supertux-sprite (action "
                <<    "(name \"default\") "
                <<    "(images \"" << FileSystem::basename(filename) << "\")))";
-
-      root = parser.parse(lisptext, "SpriteManager::load");
+      doc = ReaderDocument::parse(lisptext);
     }
   } catch(const std::exception& e) {
     std::ostringstream msg;
@@ -83,18 +81,19 @@ SpriteManager::load(const std::string& filename)
     throw std::runtime_error(msg.str());
   }
 
-  const lisp::Lisp* sprite = root->get_lisp("supertux-sprite");
-  if(!sprite) {
+  auto root = doc.get_root();
+
+  if(root.get_name() != "supertux-sprite") {
     std::ostringstream msg;
     msg << "'" << filename << "' is not a supertux-sprite file";
     throw std::runtime_error(msg.str());
+  } else {
+    std::unique_ptr<SpriteData> data (
+      new SpriteData(root.get_mapping(), FileSystem::dirname(filename)) );
+    sprites[filename] = data.release();
+
+    return sprites[filename];
   }
-
-  std::unique_ptr<SpriteData> data (
-    new SpriteData(*sprite, FileSystem::dirname(filename)) );
-  sprites[filename] = data.release();
-
-  return sprites[filename];
 }
 
 /* EOF */

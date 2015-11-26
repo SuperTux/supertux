@@ -21,8 +21,7 @@
 #include <map>
 
 #include "control/controller.hpp"
-#include "lisp/lisp.hpp"
-
+#include "util/reader_fwd.hpp"
 #include "util/writer.hpp"
 
 class KeyboardConfig
@@ -33,7 +32,7 @@ public:
   SDL_Keycode reversemap_key(Controller::Control c) const;
   void bind_key(SDL_Keycode key, Controller::Control c);
 
-  void read(const lisp::Lisp& keymap_lisp);
+  void read(const ReaderMapping& keymap_lisp);
   void write(Writer& writer);
 
   typedef std::map<SDL_Keycode, Controller::Control> KeyMap;

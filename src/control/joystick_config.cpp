@@ -18,9 +18,9 @@
 
 #include <iostream>
 
-#include "lisp/list_iterator.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
+#include "util/reader_mapping.hpp"
 
 JoystickConfig::JoystickConfig() :
   dead_zone(8000),
@@ -155,23 +155,22 @@ JoystickConfig::bind_joybutton(JoyId joy_id, int button, Controller::Control con
 }
 
 void
-JoystickConfig::read(const lisp::Lisp& joystick_lisp)
+JoystickConfig::read(const ReaderMapping& joystick_lisp)
 {
   joystick_lisp.get("dead-zone", dead_zone);
   joystick_lisp.get("jump-with-up", jump_with_up_joy);
 
-  lisp::ListIterator iter(&joystick_lisp);
+  auto iter = joystick_lisp.get_iter();
   while(iter.next())
   {
-    if (iter.item() == "map")
+    if (iter.get_key() == "map")
     {
       int button = -1;
       int axis   = 0;
       int hat    = -1;
       std::string control;
-      const lisp::Lisp* map = iter.lisp();
-
-      map->get("control", control);
+      auto map = iter.as_mapping();
+      map.get("control", control);
       int i = 0;
       for(i = 0; Controller::controlNames[i] != 0; ++i)
       {
@@ -185,15 +184,15 @@ JoystickConfig::read(const lisp::Lisp& joystick_lisp)
       }
       else
       {
-        if (map->get("button", button))
+        if (map.get("button", button))
         {
           bind_joybutton(0, button, Controller::Control(i));
         }
-        else if (map->get("axis",   axis))
+        else if (map.get("axis",   axis))
         {
           bind_joyaxis(0, axis, Controller::Control(i));
         }
-        else if (map->get("hat",   hat))
+        else if (map.get("hat",   hat))
         {
           if (hat != SDL_HAT_UP   &&
               hat != SDL_HAT_DOWN &&

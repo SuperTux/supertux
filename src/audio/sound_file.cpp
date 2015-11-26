@@ -27,42 +27,47 @@
 #include "audio/sound_error.hpp"
 #include "audio/ogg_sound_file.hpp"
 #include "audio/wav_sound_file.hpp"
-#include "lisp/parser.hpp"
-#include "util/reader.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 
 std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
 {
-  lisp::Parser parser(false);
-  const lisp::Lisp* root = parser.parse(filename);
-  const lisp::Lisp* music = root->get_lisp("supertux-music");
-  if(music == NULL)
+  auto doc = ReaderDocument::parse(filename);
+  auto root = doc.get_root();
+  if(root.get_name() != "supertux-music")
+  {
     throw SoundError("file is not a supertux-music file.");
-
-  std::string raw_music_file;
-  float loop_begin = 0;
-  float loop_at    = -1;
-
-  music->get("file", raw_music_file);
-  music->get("loop-begin", loop_begin);
-  music->get("loop-at", loop_at);
-
-  if(loop_begin < 0) {
-    throw SoundError("can't loop from negative value");
   }
+  else
+  {
+    auto music = root.get_mapping();
 
-  std::string basedir = FileSystem::dirname(filename);
-  raw_music_file = FileSystem::normalize(basedir + raw_music_file);
+    std::string raw_music_file;
+    float loop_begin = 0;
+    float loop_at    = -1;
 
-  PHYSFS_file* file = PHYSFS_openRead(raw_music_file.c_str());
-  if(!file) {
-    std::stringstream msg;
-    msg << "Couldn't open '" << raw_music_file << "': " << PHYSFS_getLastError();
-    throw SoundError(msg.str());
+    music.get("file", raw_music_file);
+    music.get("loop-begin", loop_begin);
+    music.get("loop-at", loop_at);
+
+    if(loop_begin < 0) {
+      throw SoundError("can't loop from negative value");
+    }
+
+    std::string basedir = FileSystem::dirname(filename);
+    raw_music_file = FileSystem::normalize(basedir + raw_music_file);
+
+    PHYSFS_file* file = PHYSFS_openRead(raw_music_file.c_str());
+    if(!file) {
+      std::stringstream msg;
+      msg << "Couldn't open '" << raw_music_file << "': " << PHYSFS_getLastError();
+      throw SoundError(msg.str());
+    }
+
+    return std::unique_ptr<SoundFile>(new OggSoundFile(file, loop_begin, loop_at));
   }
-
-  return std::unique_ptr<SoundFile>(new OggSoundFile(file, loop_begin, loop_at));
 }
 
 std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)

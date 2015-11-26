@@ -26,6 +26,7 @@
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 Background::Background() :
   alignment(NO_ALIGNMENT),
@@ -46,7 +47,7 @@ Background::Background() :
 {
 }
 
-Background::Background(const Reader& reader) :
+Background::Background(const ReaderMapping& reader) :
   alignment(NO_ALIGNMENT),
   layer(LAYER_BACKGROUND0),
   imagefile_top(),

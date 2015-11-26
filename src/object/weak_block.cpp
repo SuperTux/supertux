@@ -26,11 +26,11 @@
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 #include <math.h>
 
-WeakBlock::WeakBlock(const Reader& lisp)
+WeakBlock::WeakBlock(const ReaderMapping& lisp)
 : MovingSprite(lisp, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
   linked(true),
   light(0.0f,0.0f,0.0f),

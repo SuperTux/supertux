@@ -22,7 +22,7 @@
 class Jumpy : public BadGuy
 {
 public:
-  Jumpy(const Reader& reader);
+  Jumpy(const ReaderMapping& reader);
 
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);

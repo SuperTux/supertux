@@ -27,7 +27,7 @@ class Gradient : public GameObject
 {
 public:
   Gradient();
-  Gradient(const Reader& reader);
+  Gradient(const ReaderMapping& reader);
   virtual ~Gradient();
 
   void set_gradient(Color top, Color bottom);

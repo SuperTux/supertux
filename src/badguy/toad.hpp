@@ -25,7 +25,7 @@
 class Toad : public BadGuy
 {
 public:
-  Toad(const Reader& reader);
+  Toad(const ReaderMapping& reader);
   Toad(const Vector& pos, Direction d);
 
   void initialize();

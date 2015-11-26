@@ -31,7 +31,7 @@ class WillOWisp : public BadGuy,
                   public ScriptInterface
 {
 public:
-  WillOWisp(const Reader& reader);
+  WillOWisp(const ReaderMapping& reader);
 
   void activate();
   void deactivate();

@@ -18,11 +18,12 @@
 #define HEADER_SUPERTUX_OBJECT_POWERUP_HPP
 
 #include "object/moving_sprite.hpp"
+#include "supertux/physic.hpp"
 
 class PowerUp : public MovingSprite
 {
 public:
-  PowerUp(const Reader& lisp);
+  PowerUp(const ReaderMapping& lisp);
   PowerUp(const Vector& pos, const std::string& sprite_name);
 
   virtual void update(float elapsed_time);

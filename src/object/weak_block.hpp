@@ -29,7 +29,7 @@
 class WeakBlock : public MovingSprite
 {
 public:
-  WeakBlock(const Reader& lisp);
+  WeakBlock(const ReaderMapping& lisp);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);

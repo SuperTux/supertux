@@ -26,7 +26,7 @@
 class Torch : public MovingObject
 {
 public:
-  Torch(const Reader& reader);
+  Torch(const ReaderMapping& reader);
 
   void draw(DrawingContext& context) override;
   void update(float) override;

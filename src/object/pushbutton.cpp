@@ -21,7 +21,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
-#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 #include <sstream>
 #include <stdexcept>
@@ -31,7 +31,7 @@ const std::string BUTTON_SOUND = "sounds/switch.ogg";
 //14 -> 8
 }
 
-PushButton::PushButton(const Reader& lisp) :
+PushButton::PushButton(const ReaderMapping& lisp) :
   MovingSprite(lisp, "images/objects/pushbutton/pushbutton.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_MOVING),
   script(),
   state(OFF)

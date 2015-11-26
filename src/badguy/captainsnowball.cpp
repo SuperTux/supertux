@@ -25,7 +25,7 @@ namespace{
   static const float BOARDING_SPEED = 200;
 }
 
-CaptainSnowball::CaptainSnowball(const Reader& reader)
+CaptainSnowball::CaptainSnowball(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/cpt-snowball.sprite", "left", "right")
 {
   walk_speed = BOARDING_SPEED;

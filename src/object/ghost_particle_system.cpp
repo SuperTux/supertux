@@ -21,6 +21,7 @@
 
 #include "math/random_generator.hpp"
 #include "supertux/globals.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
 //FIXME: Sometimes both ghosts have the same image
@@ -46,7 +47,7 @@ GhostParticleSystem::GhostParticleSystem()
 }
 
 void
-GhostParticleSystem::parse(const Reader& reader)
+GhostParticleSystem::parse(const ReaderMapping& reader)
 {
   z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }

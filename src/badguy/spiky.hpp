@@ -22,7 +22,7 @@
 class Spiky : public WalkingBadguy
 {
 public:
-  Spiky(const Reader& reader);
+  Spiky(const ReaderMapping& reader);
 
   bool is_freezable() const;
   bool is_flammable() const;

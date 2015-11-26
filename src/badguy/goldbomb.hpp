@@ -26,7 +26,7 @@
 class GoldBomb : public WalkingBadguy, public Portable
 {
 public:
-  GoldBomb(const Reader& reader);
+  GoldBomb(const ReaderMapping& reader);
 
   void collision_solid(const CollisionHit& hit);
   HitResponse collision(GameObject& object, const CollisionHit& hit);

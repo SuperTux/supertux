@@ -23,7 +23,6 @@
 
 #include "math/vector.hpp"
 #include "util/reader_fwd.hpp"
-#include "util/writer_fwd.hpp"
 
 class Path
 {
@@ -31,7 +30,7 @@ public:
   Path();
   ~Path();
 
-  void read(const Reader& reader);
+  void read(const ReaderMapping& reader);
 
   Vector get_base() const;
 
