@@ -41,7 +41,6 @@ class TileMap : public GameObject,
 {
 public:
   TileMap(const TileSet *tileset);
-  TileMap(const ReaderMapping& reader);
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
   virtual ~TileMap();
 

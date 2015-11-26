@@ -21,6 +21,7 @@
 #include <assert.h>
 #include <map>
 #include <memory>
+#include <functional>
 
 #include "supertux/direction.hpp"
 #include "supertux/game_object_ptr.hpp"
@@ -29,38 +30,13 @@
 class Vector;
 class GameObject;
 
-class AbstractObjectFactory
-{
-public:
-  virtual ~AbstractObjectFactory()
-  { }
-
-  /** Creates a new gameobject from a lisp node.
-   * Remember to delete the objects later
-   */
-  virtual GameObjectPtr create(const ReaderMapping& reader) = 0;
-};
-
-template<class C>
-class ConcreteObjectFactory : public AbstractObjectFactory
-{
-public:
-  ConcreteObjectFactory() {}
-  ~ConcreteObjectFactory() {}
-
-  GameObjectPtr create(const ReaderMapping& reader)
-  {
-    return std::make_shared<C>(reader);
-  }
-};
-
 class ObjectFactory
 {
 public:
   static ObjectFactory& instance();
 
 private:
-  typedef std::map<std::string, std::unique_ptr<AbstractObjectFactory> > Factories;
+  typedef std::map<std::string, std::function<GameObjectPtr (const ReaderMapping&)> > Factories;
   Factories factories;
 
 public:
@@ -71,11 +47,19 @@ public:
   GameObjectPtr create(const std::string& name, const Vector& pos, const Direction dir = AUTO) const;
 
 private:
+  void add_factory(const char* name,
+                   std::function<GameObjectPtr (const ReaderMapping&)> func)
+  {
+    assert(factories.find(name) == factories.end());
+    factories[name] = func;
+  }
+
   template<class C>
   void add_factory(const char* name)
   {
-    assert(factories.find(name) == factories.end());
-    factories[name] = std::unique_ptr<AbstractObjectFactory>(new ConcreteObjectFactory<C>());
+    add_factory(name, [](const ReaderMapping& reader) {
+        return std::make_shared<C>(reader);
+      });
   }
   void init_factories();
 };

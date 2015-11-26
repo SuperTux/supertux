@@ -52,12 +52,6 @@ TileMap::TileMap(const TileSet *new_tileset) :
 {
 }
 
-TileMap::TileMap(const ReaderMapping& reader) :
-  TileMap(TileManager::current()->get_tileset(Level::current()->get_tileset()),
-          reader)
-{
-}
-
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   tileset(tileset_),
   tiles(),
