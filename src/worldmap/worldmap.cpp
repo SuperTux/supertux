@@ -264,7 +264,6 @@ WorldMap::load(const std::string& filename)
     if(tileset == NULL) {
       tileset = TileManager::current()->get_tileset("images/worldmap.strf");
     }
-    current_tileset = tileset;
 
     ReaderMapping sector;
     if(!level_.get("sector", sector)) {
@@ -273,7 +272,7 @@ WorldMap::load(const std::string& filename)
       auto iter = sector.get_iter();
       while(iter.next()) {
         if(iter.get_key() == "tilemap") {
-          add_object(std::make_shared<TileMap>(iter.as_mapping()));
+          add_object(std::make_shared<TileMap>(tileset, iter.as_mapping()));
         } else if(iter.get_key() == "background") {
           add_object(std::make_shared<Background>(iter.as_mapping()));
         } else if(iter.get_key() == "music") {
@@ -318,7 +317,6 @@ WorldMap::load(const std::string& filename)
         }
       }
     }
-    current_tileset = NULL;
 
     if(solid_tilemaps.empty())
       throw std::runtime_error("No solid tilemap specified");

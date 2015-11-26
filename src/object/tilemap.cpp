@@ -21,7 +21,9 @@
 #include "scripting/squirrel_util.hpp"
 #include "scripting/tilemap.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
 #include "util/reader.hpp"
@@ -51,7 +53,13 @@ TileMap::TileMap(const TileSet *new_tileset) :
 }
 
 TileMap::TileMap(const ReaderMapping& reader) :
-  tileset(),
+  TileMap(TileManager::current()->get_tileset(Level::current()->get_tileset()),
+          reader)
+{
+}
+
+TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
+  tileset(tileset_),
   tiles(),
   real_solid(false),
   effective_solid(false),
@@ -70,8 +78,7 @@ TileMap::TileMap(const ReaderMapping& reader) :
   walker(),
   draw_target(DrawingContext::NORMAL)
 {
-  tileset = current_tileset;
-  assert(tileset != NULL);
+  assert(tileset);
 
   reader.get("name",   name);
   reader.get("solid",  real_solid);
@@ -135,35 +142,6 @@ TileMap::TileMap(const ReaderMapping& reader) :
   {
     log_info << "Tilemap '" << name << "', z-pos '" << z_pos << "' is empty." << std::endl;
   }
-}
-
-TileMap::TileMap(const TileSet *new_tileset, std::string name_, int z_pos_,
-                 bool solid, size_t width_, size_t height_) :
-  tileset(new_tileset),
-  tiles(),
-  real_solid(solid),
-  effective_solid(solid),
-  speed_x(1),
-  speed_y(1),
-  width(0),
-  height(0),
-  z_pos(z_pos_),
-  offset(Vector(0,0)),
-  movement(Vector(0,0)),
-  drawing_effect(NO_EFFECT),
-  alpha(1.0),
-  current_alpha(1.0),
-  remaining_fade_time(0),
-  path(),
-  walker(),
-  draw_target(DrawingContext::NORMAL)
-{
-  this->name = name_;
-
-  if (this->z_pos > (LAYER_GUI - 100))
-    this->z_pos = LAYER_GUI - 100;
-
-  resize(width_, height_);
 }
 
 TileMap::~TileMap()

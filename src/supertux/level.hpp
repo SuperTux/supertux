@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_LEVEL_HPP
 
 #include "supertux/statistics.hpp"
+#include "util/currenton.hpp"
 #include "util/reader_fwd.hpp"
 
 class Sector;
@@ -27,7 +28,7 @@ class Sector;
  *
  * Each Sector in turn contains GameObjects, e.g. Badguys and Players.
  */
-class Level
+class Level : public Currenton<Level>
 {
 public:
   std::string name;

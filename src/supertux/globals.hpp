@@ -20,7 +20,6 @@
 #include <memory>
 
 class Config;
-class TileSet;
 
 /** The width of the display (this is a logical value, not the
     physical value, since aspect_ration and projection_area might
@@ -36,9 +35,6 @@ extern std::unique_ptr<Config> g_config;
 
 extern float game_time;
 extern float real_time;
-
-/** this is only set while loading a map */
-extern TileSet* current_tileset;
 
 extern float g_game_speed;
 
