@@ -160,18 +160,21 @@ ReaderMapping::get(const char* key, std::string& value) const
 bool
 ReaderMapping::get(const char* key, std::vector<float>& value) const
 {
+  value.clear();
   GET_VALUES_MACRO("float", is_real, as_float);
 }
 
 bool
 ReaderMapping::get(const char* key, std::vector<std::string>& value) const
 {
+  value.clear();
   GET_VALUES_MACRO("string", is_string, as_string);
 }
 
 bool
 ReaderMapping::get(const char* key, std::vector<unsigned int>& value) const
 {
+  value.clear();
   GET_VALUES_MACRO("unsigned int", is_integer, as_int);
 }
 
