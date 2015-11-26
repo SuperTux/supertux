@@ -29,6 +29,13 @@ InvisibleBlock::InvisibleBlock(const Vector& pos) :
   SoundManager::current()->preload("sounds/brick.wav");
 }
 
+InvisibleBlock::InvisibleBlock(const ReaderMapping& lisp) :
+   Block(lisp, "images/objects/bonus_block/invisibleblock.sprite"),
+   visible(false)
+{
+  SoundManager::current()->preload("sounds/brick.wav");
+}
+
 void
 InvisibleBlock::draw(DrawingContext& context)
 {

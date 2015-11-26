@@ -122,6 +122,10 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
   float fps = 10;
   reader.get("fps", fps);
 
+  std::string object_name, object_data;
+  reader.get("object-name", object_name);
+  reader.get("object-data", object_data);
+
   if(reader.get("slope-type", data))
   {
     attributes |= Tile::SOLID | Tile::SLOPE;
@@ -139,7 +143,8 @@ TileSetParser::parse_tile(const ReaderMapping& reader)
     imagespecs = parse_imagespecs(images);
   }
 
-  std::unique_ptr<Tile> tile(new Tile(imagespecs, editor_imagespecs, attributes, data, fps));
+  std::unique_ptr<Tile> tile(new Tile(imagespecs, editor_imagespecs, attributes, data, fps,
+                                      object_name, object_data));
   m_tileset.add_tile(id, std::move(tile));
 }
 

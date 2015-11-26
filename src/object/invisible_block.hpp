@@ -18,11 +18,13 @@
 #define HEADER_SUPERTUX_OBJECT_INVISIBLE_BLOCK_HPP
 
 #include "object/block.hpp"
+#include "util/reader_fwd.hpp"
 
 class InvisibleBlock : public Block
 {
 public:
   InvisibleBlock(const Vector& pos);
+  InvisibleBlock(const ReaderMapping& lisp);
 
   virtual void draw(DrawingContext& context);
   virtual bool collides(GameObject& other, const CollisionHit& hit);

@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_BONUS_BLOCK_HPP
 
 #include "object/block.hpp"
+#include "object/player.hpp"
 #include "object/moving_sprite.hpp"
 
 class BonusBlock : public Block
@@ -62,6 +63,10 @@ private:
   std::string sprite_name;
   std::string script;
   SurfacePtr lightsprite;
+  void get_content_by_data(int d);
+  void raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir);
+  void drop_growup_bonus(const std::string& bonus_sprite_name, bool& countdown);
+  BonusBlock::Contents get_content_from_string(const std::string& contentstring) const;
 };
 
 #endif

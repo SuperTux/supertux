@@ -32,19 +32,24 @@ Tile::Tile() :
   editor_images(),
   attributes(0),
   data(0),
-  fps(1)
+  fps(1),
+  object_name(),
+  object_data()
 {
 }
 
 Tile::Tile(const std::vector<ImageSpec>& imagespecs_, const std::vector<ImageSpec>& editor_imagespecs_,
-           uint32_t attributes_, uint32_t data_, float fps_) :
+           uint32_t attributes_, uint32_t data_, float fps_, std::string obj_name,
+           std::string obj_data) :
   imagespecs(imagespecs_),
   images(),
   editor_imagespecs(editor_imagespecs_),
   editor_images(),
   attributes(attributes_),
   data(data_),
-  fps(fps_)
+  fps(fps_),
+  object_name(obj_name),
+  object_data(obj_data)
 {
   correct_attributes();
 }

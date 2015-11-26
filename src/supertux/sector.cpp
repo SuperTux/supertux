@@ -36,6 +36,7 @@
 #include "physfs/ifile_streambuf.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
@@ -715,7 +716,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 }
 
 uint32_t
-Sector::collision_tile_attributes(const Rectf& dest, const Vector mov) const
+Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
 {
   float x1 = dest.p1.x;
   float y1 = dest.p1.y;
