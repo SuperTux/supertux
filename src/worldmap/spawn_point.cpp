@@ -34,9 +34,10 @@ SpawnPoint::SpawnPoint(const ReaderMapping& slisp) :
   slisp.get("x", pos.x);
   slisp.get("y", pos.y);
 
-  std::string s;
-  slisp.get("auto-dir", s);
-  auto_dir = string_to_direction(s);
+  std::string auto_dir_str;
+  if (slisp.get("auto-dir", auto_dir_str)) {
+    auto_dir = string_to_direction(auto_dir_str);
+  }
 
   if(name.empty())
     throw std::runtime_error("No name specified for spawnpoint");
