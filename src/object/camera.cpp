@@ -139,13 +139,12 @@ Camera::Camera(Sector* newsector, std::string name_) :
   config()
 {
   this->name = name_;
-  config = new CameraConfig();
+  config = std::unique_ptr<CameraConfig>(new CameraConfig);
   reload_config();
 }
 
 Camera::~Camera()
 {
-  delete config;
 }
 
 void

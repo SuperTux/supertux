@@ -36,10 +36,6 @@ ParticleSystem::ParticleSystem(float max_particle_size_) :
 
 ParticleSystem::~ParticleSystem()
 {
-  std::vector<Particle*>::iterator i;
-  for(i = particles.begin(); i != particles.end(); ++i) {
-    delete *i;
-  }
 }
 
 void ParticleSystem::draw(DrawingContext& context)
@@ -50,9 +46,8 @@ void ParticleSystem::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(max_particle_size,max_particle_size));
 
-  std::vector<Particle*>::iterator i;
-  for(i = particles.begin(); i != particles.end(); ++i) {
-    Particle* particle = *i;
+  for(auto i = particles.begin(); i != particles.end(); ++i) {
+    Particle* particle = i->get();
 
     // remap x,y coordinates onto screencoordinates
     Vector pos;

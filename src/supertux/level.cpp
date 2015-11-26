@@ -33,6 +33,14 @@
 
 using namespace std;
 
+std::unique_ptr<Level>
+Level::from_file(const std::string& filename)
+{
+  std::unique_ptr<Level> level(new Level);
+  level->load(filename);
+  return level;
+}
+
 Level::Level() :
   name("noname"),
   author("Mr. X"),
@@ -50,8 +58,8 @@ Level::Level() :
 
 Level::~Level()
 {
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-    delete *i;
+  sectors.clear();
+
   if(free_tileset)
     delete tileset;
 }
@@ -76,57 +84,56 @@ Level::load(const std::string& filepath)
       log_info << "[" <<  filepath << "] level uses old format: version 1" << std::endl;
       tileset = TileManager::current()->get_tileset("images/tiles.strf");
       load_old_format(level);
-      return;
-    }
-
-    ReaderCollection tilesets_lisp;
-    if (level.get("tilesets", tilesets_lisp)) {
-      tileset      = TileManager::current()->parse_tileset_definition(tilesets_lisp).release();
-      free_tileset = true;
-    }
-
-    std::string tileset_name;
-    if(level.get("tileset", tileset_name)) {
-      if(tileset != NULL) {
-        log_warning << "[" <<  filepath << "] multiple tilesets specified in level" << std::endl;
-      } else {
-        tileset = TileManager::current()->get_tileset(tileset_name);
+    } else {
+      ReaderCollection tilesets_lisp;
+      if (level.get("tilesets", tilesets_lisp)) {
+        tileset      = TileManager::current()->parse_tileset_definition(tilesets_lisp).release();
+        free_tileset = true;
       }
-    }
-    /* load default tileset */
-    if(tileset == NULL) {
-      tileset = TileManager::current()->get_tileset("images/tiles.strf");
-    }
-    current_tileset = tileset;
 
-    contact = "";
-    license = "";
-
-    if (level.get("version", version))
-    {
-      if(version > 2) {
-        log_warning << "[" <<  filepath << "] level format newer than application" << std::endl;
+      std::string tileset_name;
+      if(level.get("tileset", tileset_name)) {
+        if(tileset != NULL) {
+          log_warning << "[" <<  filepath << "] multiple tilesets specified in level" << std::endl;
+        } else {
+          tileset = TileManager::current()->get_tileset(tileset_name);
+        }
       }
-    }
-
-    level.get("name", name);
-    level.get("author", author);
-    level.get("contact", contact);
-    level.get("license", license);
-    level.get("on-menukey-script", on_menukey_script);
-    level.get("target-time", target_time);
-
-    auto iter = level.get_iter();
-    while(iter.next()) {
-      if (iter.get_key() == "sector") {
-        Sector* sector = new Sector(this);
-        sector->parse(iter.as_mapping());
-        add_sector(sector);
+      /* load default tileset */
+      if(tileset == NULL) {
+        tileset = TileManager::current()->get_tileset("images/tiles.strf");
       }
-    }
+      current_tileset = tileset;
 
-    if (license.empty()) {
-      log_warning << "[" <<  filepath << "] The level author \"" << author << "\" did not specify a license for this level \"" << name << "\". You might not be allowed to share it." << std::endl;
+      contact = "";
+      license = "";
+
+      if (level.get("version", version))
+      {
+        if(version > 2) {
+          log_warning << "[" <<  filepath << "] level format newer than application" << std::endl;
+        }
+      }
+
+      level.get("name", name);
+      level.get("author", author);
+      level.get("contact", contact);
+      level.get("license", license);
+      level.get("on-menukey-script", on_menukey_script);
+      level.get("target-time", target_time);
+
+      auto iter = level.get_iter();
+      while(iter.next()) {
+        if (iter.get_key() == "sector") {
+          std::unique_ptr<Sector> sector(new Sector(this));
+          sector->parse(iter.as_mapping());
+          add_sector(std::move(sector));
+        }
+      }
+
+      if (license.empty()) {
+        log_warning << "[" <<  filepath << "] The level author \"" << author << "\" did not specify a license for this level \"" << name << "\". You might not be allowed to share it." << std::endl;
+      }
     }
   } catch(std::exception& e) {
     std::stringstream msg;
@@ -143,31 +150,31 @@ Level::load_old_format(const ReaderMapping& reader)
   reader.get("name", name);
   reader.get("author", author);
 
-  Sector* sector = new Sector(this);
+  std::unique_ptr<Sector> sector(new Sector(this));
   sector->parse_old_format(reader);
-  add_sector(sector);
+  add_sector(std::move(sector));
 }
 
 void
-Level::add_sector(Sector* sector)
+Level::add_sector(std::unique_ptr<Sector> sector)
 {
   Sector* test = get_sector(sector->get_name());
-  if(test != 0) {
+  if (test != nullptr) {
     throw std::runtime_error("Trying to add 2 sectors with same name");
+  } else {
+    sectors.push_back(std::move(sector));
   }
-  sectors.push_back(sector);
 }
 
 Sector*
 Level::get_sector(const std::string& name_) const
 {
-  for(Sectors::const_iterator i = sectors.begin(); i != sectors.end(); ++i) {
-    Sector* sector = *i;
-    if(sector->get_name() == name_)
-      return sector;
+  for(auto const& sector : sectors) {
+    if(sector->get_name() == name_) {
+      return sector.get();
+    }
   }
-
-  return 0;
+  return nullptr;
 }
 
 size_t
@@ -179,15 +186,14 @@ Level::get_sector_count() const
 Sector*
 Level::get_sector(size_t num) const
 {
-  return sectors.at(num);
+  return sectors.at(num).get();
 }
 
 int
 Level::get_total_coins() const
 {
   int total_coins = 0;
-  for(Sectors::const_iterator i = sectors.begin(); i != sectors.end(); ++i) {
-    Sector* sector = *i;
+  for(auto const& sector : sectors) {
     for(auto o = sector->gameobjects.begin(); o != sector->gameobjects.end(); ++o) {
       Coin* coin = dynamic_cast<Coin*>(o->get());
       if(coin)
@@ -222,8 +228,9 @@ int
 Level::get_total_badguys() const
 {
   int total_badguys = 0;
-  for(Sectors::const_iterator i = sectors.begin(); i != sectors.end(); ++i)
-    total_badguys += (*i)->get_total_badguys();
+  for(auto const& sector : sectors) {
+    total_badguys += sector->get_total_badguys();
+  }
   return total_badguys;
 }
 
@@ -231,8 +238,9 @@ int
 Level::get_total_secrets() const
 {
   int total_secrets = 0;
-  for(auto i = sectors.begin(); i != sectors.end(); ++i)
-    total_secrets += (*i)->get_total_count<SecretAreaTrigger>();
+  for(auto const& sector : sectors) {
+    total_secrets += sector->get_total_count<SecretAreaTrigger>();
+  }
   return total_secrets;
 }
 

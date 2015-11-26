@@ -152,10 +152,7 @@ WorldMap::~WorldMap()
     try_unexpose(object);
   }
 
-  for(SpawnPoints::iterator i = spawn_points.begin();
-      i != spawn_points.end(); ++i) {
-    delete *i;
-  }
+  spawn_points.clear();
 
   for(ScriptList::iterator i = scripts.begin();
       i != scripts.end(); ++i) {
@@ -214,8 +211,8 @@ WorldMap::try_unexpose(const GameObjectPtr& object)
 void
 WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
 {
-  for(SpawnPoints::iterator i = spawn_points.begin(); i != spawn_points.end(); ++i) {
-    SpawnPoint* sp = *i;
+  for(auto i = spawn_points.begin(); i != spawn_points.end(); ++i) {
+    SpawnPoint* sp = i->get();
     if(sp->name == spawnpoint) {
       Vector p = sp->pos;
       tux->set_tile_pos(p);
@@ -293,8 +290,8 @@ WorldMap::load(const std::string& filename)
         } else if(iter.get_key() == "init-script") {
           iter.get(init_script);
         } else if(iter.get_key() == "worldmap-spawnpoint") {
-          SpawnPoint* sp = new SpawnPoint(iter.as_mapping());
-          spawn_points.push_back(sp);
+          std::unique_ptr<SpawnPoint> sp(new SpawnPoint(iter.as_mapping()));
+          spawn_points.push_back(std::move(sp));
         } else if(iter.get_key() == "level") {
           auto level = std::make_shared<LevelTile>(levels_path, iter.as_mapping());
           load_level_information(*level.get());

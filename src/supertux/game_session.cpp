@@ -121,9 +121,8 @@ GameSession::restart_level(bool after_death)
 
   currentsector = 0;
 
-  level.reset(new Level);
   try {
-    level->load(levelfile);
+    level = Level::from_file(levelfile);
     level->stats.total_coins = level->get_total_coins();
     level->stats.total_badguys = level->get_total_badguys();
     level->stats.total_secrets = level->get_total_secrets();

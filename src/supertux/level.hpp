@@ -31,48 +31,42 @@ class Sector;
 class Level
 {
 public:
-  typedef std::vector<Sector*> Sectors;
-
   std::string name;
   std::string author;
   std::string contact;
   std::string license;
   std::string filename;
   std::string on_menukey_script;
-  Sectors     sectors;
+  std::vector<std::unique_ptr<Sector> > sectors;
   Statistics  stats;
   float       target_time;
   TileSet    *tileset;
   bool        free_tileset;
 
 public:
-  Level();
+  static std::unique_ptr<Level> from_file(const std::string& filename);
+
+public:
   ~Level();
 
-  // loads a levelfile
-  void load(const std::string& filename);
-
-  const std::string& get_name() const
-  { return name; }
-
-  const std::string& get_author() const
-  { return author; }
-
-  void add_sector(Sector* sector);
+  const std::string& get_name() const { return name; }
+  const std::string& get_author() const { return author; }
 
   Sector* get_sector(const std::string& name) const;
 
   size_t get_sector_count() const;
   Sector* get_sector(size_t num) const;
 
-  const TileSet *get_tileset() const
-  { return tileset; }
+  const TileSet* get_tileset() const { return tileset; }
 
   int get_total_coins() const;
   int get_total_badguys() const;
   int get_total_secrets() const;
 
 private:
+  Level();
+  void load(const std::string& filename);
+  void add_sector(std::unique_ptr<Sector> sector);
   void load_old_format(const ReaderMapping& reader);
 
 private:

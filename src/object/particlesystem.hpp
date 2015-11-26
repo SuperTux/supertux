@@ -73,7 +73,7 @@ protected:
 
   float max_particle_size;
   int z_pos;
-  std::vector<Particle*> particles;
+  std::vector<std::unique_ptr<Particle> > particles;
   float virtual_width;
   float virtual_height;
 };

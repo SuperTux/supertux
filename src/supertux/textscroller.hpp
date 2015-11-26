@@ -51,7 +51,7 @@ private:
   float speed;
   std::string music;
   SurfacePtr background;
-  std::vector<InfoBoxLine*> lines;
+  std::vector<std::unique_ptr<InfoBoxLine> > lines;
   float scroll;
   bool fading;
 

@@ -125,7 +125,7 @@ private:
   float scroll_to_pos;
   float scrollspeed;
 
-  CameraConfig *config;
+  std::unique_ptr<CameraConfig> config;
 
 private:
   Camera(const Camera&);

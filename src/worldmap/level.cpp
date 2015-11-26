@@ -39,9 +39,7 @@ LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
   statistics(),
   target_time(),
   extro_script(),
-  basedir(basedir_),
-  picture_cached(false),
-  picture(0)
+  basedir(basedir_)
 {
   lisp.get("name", name);
   lisp.get("x", pos.x);
@@ -64,7 +62,6 @@ LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
 
 LevelTile::~LevelTile()
 {
-  delete picture;
 }
 
 void

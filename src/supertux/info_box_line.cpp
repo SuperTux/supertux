@@ -106,10 +106,10 @@ InfoBoxLine::~InfoBoxLine()
 {
 }
 
-const std::vector<InfoBoxLine*>
+std::vector<std::unique_ptr<InfoBoxLine> >
 InfoBoxLine::split(const std::string& text, float width)
 {
-  std::vector<InfoBoxLine*> lines;
+  std::vector<std::unique_ptr<InfoBoxLine> > lines;
 
   std::string::size_type i = 0;
   std::string::size_type l;
@@ -117,7 +117,7 @@ InfoBoxLine::split(const std::string& text, float width)
   while(i < text.size()) {
     // take care of empty lines - represent them as blank lines of normal text
     if (text[i] == '\n') {
-      lines.push_back(new InfoBoxLine('\t', ""));
+      lines.emplace_back(new InfoBoxLine('\t', ""));
       i++;
       continue;
     }
@@ -135,7 +135,7 @@ InfoBoxLine::split(const std::string& text, float width)
 
     // if we are dealing with an image, just store the line
     if (format_char == '!') {
-      lines.push_back(new InfoBoxLine(format_char, s));
+      lines.emplace_back(new InfoBoxLine(format_char, s));
       continue;
     }
 
@@ -145,7 +145,7 @@ InfoBoxLine::split(const std::string& text, float width)
       FontPtr font = get_font_by_format_char(format_char);
       std::string s2 = s;
       if (font) s2 = font->wrap_to_width(s2, width, &overflow);
-      lines.push_back(new InfoBoxLine(format_char, s2));
+      lines.emplace_back(new InfoBoxLine(format_char, s2));
       s = overflow;
     } while (s.length() > 0);
   }

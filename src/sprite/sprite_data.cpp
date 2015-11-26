@@ -65,14 +65,12 @@ SpriteData::SpriteData(const ReaderMapping& lisp, const std::string& basedir) :
 
 SpriteData::~SpriteData()
 {
-  for(Actions::iterator i=actions.begin(); i != actions.end(); ++i)
-    delete i->second;
 }
 
 void
 SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
 {
-  Action* action = new Action;
+  auto action = std::unique_ptr<Action>(new Action);
 
   if(!lisp.get("name", action->name)) {
     if(!actions.empty())
@@ -141,7 +139,7 @@ SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
       if (action->hitbox_h < 1) action->hitbox_h = max_h - action->y_offset;
     }
   }
-  actions[action->name] = action;
+  actions[action->name] = std::move(action);
 }
 
 const SpriteData::Action*
@@ -149,9 +147,9 @@ SpriteData::get_action(const std::string& act) const
 {
   Actions::const_iterator i = actions.find(act);
   if(i == actions.end()) {
-    return 0;
+    return nullptr;
   }
-  return i->second;
+  return i->second.get();
 }
 
 /* EOF */

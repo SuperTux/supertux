@@ -62,19 +62,18 @@ TileManager::parse_tileset_definition(const ReaderCollection& collection)
       std::string file;
       if (!tileset_reader.get("file", file)) {
         log_warning << "Skipping tileset import without file name" << std::endl;
-        continue;
+      } else {
+        const TileSet *tileset = get_tileset(file);
+
+        uint32_t start  = 0;
+        uint32_t end    = std::numeric_limits<uint32_t>::max();
+        uint32_t offset = 0;
+        tileset_reader.get("start", start);
+        tileset_reader.get("end", end);
+        tileset_reader.get("offset", offset);
+
+        result->merge(tileset, start, end, offset);
       }
-
-      const TileSet *tileset = get_tileset(file);
-
-      uint32_t start  = 0;
-      uint32_t end    = std::numeric_limits<uint32_t>::max();
-      uint32_t offset = 0;
-      tileset_reader.get("start", start);
-      tileset_reader.get("end", end);
-      tileset_reader.get("offset", offset);
-
-      result->merge(tileset, start, end, offset);
     }
     else
     {

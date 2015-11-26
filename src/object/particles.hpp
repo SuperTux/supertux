@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PARTICLES_HPP
 #define HEADER_SUPERTUX_OBJECT_PARTICLES_HPP
 
+#include <memory>
+
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
@@ -58,7 +60,7 @@ private:
   float size;
   int drawing_layer;
 
-  std::vector <Particle*> particles;
+  std::vector<std::unique_ptr<Particle> > particles;
 };
 
 #endif

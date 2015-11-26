@@ -42,7 +42,7 @@ public:
 
 private:
   size_t firstline;
-  std::vector<InfoBoxLine*> lines;
+  std::vector<std::unique_ptr<InfoBoxLine> > lines;
   std::map<std::string, Surface*> images;
   SurfacePtr arrow_scrollup;
   SurfacePtr arrow_scrolldown;

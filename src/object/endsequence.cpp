@@ -23,13 +23,12 @@ EndSequence::EndSequence() :
   isrunning(false),
   isdone(false),
   tux_may_walk(true),
-  end_sequence_controller(0)
+  end_sequence_controller()
 {
 }
 
 EndSequence::~EndSequence()
 {
-  delete end_sequence_controller;
 }
 
 void
@@ -52,8 +51,8 @@ EndSequence::start()
   isdone = false;
 
   Player& tux = *Sector::current()->player;
-  end_sequence_controller = new CodeController();
-  tux.set_controller(end_sequence_controller);
+  end_sequence_controller.reset(new CodeController());
+  tux.set_controller(end_sequence_controller.get());
   tux.set_speedlimit(230); //MAX_WALK_XM
 
   starting();

@@ -46,7 +46,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
   // create particles
   for(int p = 0; p < number; p++)
   {
-    Particle* particle = new Particle;
+    auto particle = std::unique_ptr<Particle>(new Particle);
     particle->pos = epicenter;
 
     float angle = graphicsRandom.rand(min_angle, max_angle)
@@ -58,7 +58,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
     //    if(angle >= M_PI_2 && angle < 3*M_PI_2)
     //      particle->vel.y *= -1;
 
-    particles.push_back(particle);
+    particles.push_back(std::move(particle));
   }
 }
 
@@ -85,7 +85,7 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
   // create particles
   for(int p = 0; p < number; p++)
   {
-    Particle* particle = new Particle;
+    auto particle = std::unique_ptr<Particle>(new Particle);
     particle->pos = epicenter;
 
     float velocity = (min_initial_velocity == max_initial_velocity) ? min_initial_velocity :
@@ -96,16 +96,12 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
     particle->vel.x = (sin(angle)) * velocity;
     particle->vel.y = (-cos(angle)) * velocity;
 
-    particles.push_back(particle);
+    particles.push_back(std::move(particle));
   }
 }
 
 Particles::~Particles()
 {
-  // free particles
-  for(std::vector<Particle*>::iterator i = particles.begin();
-      i < particles.end(); ++i)
-    delete (*i);
 }
 
 void
@@ -114,8 +110,7 @@ Particles::update(float elapsed_time)
   Vector camera = Sector::current()->camera->get_translation();
 
   // update particles
-  for(std::vector<Particle*>::iterator i = particles.begin();
-      i != particles.end(); ) {
+  for(auto i = particles.begin(); i != particles.end(); ) {
     (*i)->pos.x += (*i)->vel.x * elapsed_time;
     (*i)->pos.y += (*i)->vel.y * elapsed_time;
 
@@ -124,7 +119,6 @@ Particles::update(float elapsed_time)
 
     if((*i)->pos.x < camera.x || (*i)->pos.x > SCREEN_WIDTH + camera.x ||
        (*i)->pos.y < camera.y || (*i)->pos.y > SCREEN_HEIGHT + camera.y) {
-      delete (*i);
       i = particles.erase(i);
     } else {
       ++i;
@@ -139,8 +133,7 @@ void
 Particles::draw(DrawingContext& context)
 {
   // draw particles
-  for(std::vector<Particle*>::iterator i = particles.begin();
-      i != particles.end(); ++i) {
+  for(auto i = particles.begin(); i != particles.end(); ++i) {
     context.draw_filled_rect((*i)->pos, Vector(size,size), color,drawing_layer);
   }
 }

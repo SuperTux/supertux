@@ -33,10 +33,7 @@ public:
 
   void write(const std::string& name, int value);
   void write(const std::string& name, float value);
-  void write(const std::string& name, const std::string& value,
-             bool translatable = false);
-  void write(const std::string& name, const char* value,
-             bool translatable = false) { write(name, static_cast<const std::string&>(value), translatable); }
+  void write(const std::string& name, const std::string& value, bool translatable = false);
   void write(const std::string& name, bool value);
   void write(const std::string& name, const std::vector<int>& value);
   void write(const std::string& name, const std::vector<unsigned int>& value);

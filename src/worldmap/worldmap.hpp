@@ -72,7 +72,6 @@ class WorldMap : public Screen
 private:
   typedef std::vector<SpecialTile*> SpecialTiles;
   typedef std::vector<SpriteChange*> SpriteChanges;
-  typedef std::vector<SpawnPoint*> SpawnPoints;
   typedef std::vector<LevelTile*> LevelTiles;
   typedef std::vector<GameObjectPtr> GameObjects;
   typedef std::vector<HSQOBJECT> ScriptList;
@@ -107,7 +106,7 @@ private:
   SpecialTiles special_tiles;
   LevelTiles levels;
   SpriteChanges sprite_changes;
-  SpawnPoints spawn_points;
+  std::vector<std::unique_ptr<SpawnPoint> > spawn_points;
   std::vector<Teleporter*> teleporters;
 
   Statistics total_stats;
