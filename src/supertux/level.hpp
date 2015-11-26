@@ -42,10 +42,10 @@ public:
   float       target_time;
   std::string tileset;
 
-public:
-  static std::unique_ptr<Level> from_file(const std::string& filename);
+  friend class LevelParser;
 
 public:
+  Level();
   ~Level();
 
   const std::string& get_name() const { return name; }
@@ -63,7 +63,6 @@ public:
   int get_total_secrets() const;
 
 private:
-  Level();
   void load(const std::string& filename);
   void add_sector(std::unique_ptr<Sector> sector);
   void load_old_format(const ReaderMapping& reader);

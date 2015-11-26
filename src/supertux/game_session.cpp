@@ -36,6 +36,7 @@
 #include "supertux/fadein.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/level_parser.hpp"
 #include "supertux/levelintro.hpp"
 #include "supertux/levelset_screen.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -122,7 +123,7 @@ GameSession::restart_level(bool after_death)
   currentsector = 0;
 
   try {
-    level = Level::from_file(levelfile);
+    level = LevelParser::from_file(levelfile);
     level->stats.total_coins = level->get_total_coins();
     level->stats.total_badguys = level->get_total_badguys();
     level->stats.total_secrets = level->get_total_secrets();

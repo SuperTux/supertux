@@ -66,15 +66,14 @@ class Sector : public scripting::SSector,
                public Currenton<Sector>
 {
 public:
+  friend class SectorParser;
+
+public:
   Sector(Level* parent);
   ~Sector();
 
   /// get parent level
   Level* get_level() const;
-
-  /// read sector from lisp file
-  void parse(const ReaderMapping& sector);
-  void parse_old_format(const ReaderMapping& lisp);
 
   /// activates this sector (change music, initialize player class, ...)
   void activate(const std::string& spawnpoint);

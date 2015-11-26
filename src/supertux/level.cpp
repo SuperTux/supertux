@@ -23,23 +23,11 @@
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
 #include "trigger/secretarea_trigger.hpp"
-#include "util/reader.hpp"
-#include "util/reader_collection.hpp"
-#include "util/reader_document.hpp"
-#include "util/reader_mapping.hpp"
 
 #include <sstream>
 #include <stdexcept>
 
 using namespace std;
-
-std::unique_ptr<Level>
-Level::from_file(const std::string& filename)
-{
-  std::unique_ptr<Level> level(new Level);
-  level->load(filename);
-  return level;
-}
 
 Level::Level() :
   name("noname"),
@@ -58,71 +46,6 @@ Level::Level() :
 Level::~Level()
 {
   sectors.clear();
-}
-
-void
-Level::load(const std::string& filepath)
-{
-  try {
-    filename = filepath;
-    register_translation_directory(filepath);
-    auto doc = ReaderDocument::parse(filepath);
-    auto root = doc.get_root();
-
-    if(root.get_name() != "supertux-level")
-      throw std::runtime_error("file is not a supertux-level file.");
-
-    auto level = root.get_mapping();
-
-    int version = 1;
-    level.get("version", version);
-    if(version == 1) {
-      log_info << "[" <<  filepath << "] level uses old format: version 1" << std::endl;
-      load_old_format(level);
-    } else if (version == 2) {
-      level.get("tileset", tileset);
-
-      level.get("name", name);
-      level.get("author", author);
-      level.get("contact", contact);
-      level.get("license", license);
-      level.get("on-menukey-script", on_menukey_script);
-      level.get("target-time", target_time);
-
-      auto iter = level.get_iter();
-      while(iter.next()) {
-        if (iter.get_key() == "sector") {
-          std::unique_ptr<Sector> sector(new Sector(this));
-          sector->parse(iter.as_mapping());
-          add_sector(std::move(sector));
-        }
-      }
-
-      if (license.empty()) {
-        log_warning << "[" <<  filepath << "] The level author \"" << author
-                    << "\" did not specify a license for this level \""
-                    << name << "\". You might not be allowed to share it."
-                    << std::endl;
-      }
-    } else {
-      log_warning << "[" <<  filepath << "] level format version " << version << " is not supported" << std::endl;
-    }
-  } catch(std::exception& e) {
-    std::stringstream msg;
-    msg << "Problem when reading level '" << filepath << "': " << e.what();
-    throw std::runtime_error(msg.str());
-  }
-}
-
-void
-Level::load_old_format(const ReaderMapping& reader)
-{
-  reader.get("name", name);
-  reader.get("author", author);
-
-  std::unique_ptr<Sector> sector(new Sector(this));
-  sector->parse_old_format(reader);
-  add_sector(std::move(sector));
 }
 
 void
