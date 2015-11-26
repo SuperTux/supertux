@@ -22,6 +22,8 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/level.hpp"
+#include "supertux/tile_manager.hpp"
 
 #include "badguy/angrystone.hpp"
 #include "badguy/badguy.hpp"
@@ -265,7 +267,6 @@ ObjectFactory::init_factories()
   add_factory<SkullTile>("skull_tile");
   add_factory<Spotlight>("spotlight");
   add_factory<Thunderstorm>("thunderstorm");
-  add_factory<TileMap>("tilemap");
   add_factory<Torch>("torch");
   add_factory<Trampoline>("trampoline");
   add_factory<RustyTrampoline>("rustytrampoline");
@@ -280,6 +281,11 @@ ObjectFactory::init_factories()
   add_factory<SecretAreaTrigger>("secretarea");
   add_factory<SequenceTrigger>("sequencetrigger");
   add_factory<Switch>("switch");
+
+  add_factory("tilemap", [](const ReaderMapping& reader) {
+      auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
+      return std::make_shared<TileMap>(tileset, reader);
+    });
 }
 
 GameObjectPtr
@@ -295,7 +301,7 @@ ObjectFactory::create(const std::string& name, const ReaderMapping& reader) cons
   }
   else
   {
-    return i->second->create(reader);
+    return i->second(reader);
   }
 }
 

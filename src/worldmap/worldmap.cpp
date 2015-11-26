@@ -83,8 +83,7 @@ WorldMap* WorldMap::current_ = NULL;
 WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint_) :
   tux(),
   m_savegame(savegame),
-  tileset(NULL),
-  free_tileset(false),
+  tileset(nullptr),
   camera_offset(),
   name(),
   music(),
@@ -142,9 +141,6 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
 WorldMap::~WorldMap()
 {
   using namespace scripting;
-
-  if(free_tileset)
-    delete tileset;
 
   for(GameObjects::iterator i = game_objects.begin();
       i != game_objects.end(); ++i) {
@@ -256,11 +252,6 @@ WorldMap::load(const std::string& filename)
 
     level_.get("name", name);
 
-    ReaderCollection tilesets_lisp;
-    if(level_.get("tilesets", tilesets_lisp)) {
-      tileset      = TileManager::current()->parse_tileset_definition(tilesets_lisp).release();
-      free_tileset = true;
-    }
     std::string tileset_name;
     if(level_.get("tileset", tileset_name)) {
       if(tileset != NULL) {
@@ -273,7 +264,6 @@ WorldMap::load(const std::string& filename)
     if(tileset == NULL) {
       tileset = TileManager::current()->get_tileset("images/worldmap.strf");
     }
-    current_tileset = tileset;
 
     ReaderMapping sector;
     if(!level_.get("sector", sector)) {
@@ -282,7 +272,7 @@ WorldMap::load(const std::string& filename)
       auto iter = sector.get_iter();
       while(iter.next()) {
         if(iter.get_key() == "tilemap") {
-          add_object(std::make_shared<TileMap>(iter.as_mapping()));
+          add_object(std::make_shared<TileMap>(tileset, iter.as_mapping()));
         } else if(iter.get_key() == "background") {
           add_object(std::make_shared<Background>(iter.as_mapping()));
         } else if(iter.get_key() == "music") {
@@ -327,7 +317,6 @@ WorldMap::load(const std::string& filename)
         }
       }
     }
-    current_tileset = NULL;
 
     if(solid_tilemaps.empty())
       throw std::runtime_error("No solid tilemap specified");

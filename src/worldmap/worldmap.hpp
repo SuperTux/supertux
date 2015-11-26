@@ -80,8 +80,7 @@ private:
 
   Savegame& m_savegame;
 
-  TileSet *tileset;
-  bool     free_tileset;
+  TileSet* tileset;
 
   static WorldMap* current_;
 

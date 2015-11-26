@@ -18,9 +18,9 @@
 #define HEADER_SUPERTUX_SUPERTUX_LEVEL_HPP
 
 #include "supertux/statistics.hpp"
+#include "util/currenton.hpp"
 #include "util/reader_fwd.hpp"
 
-class TileSet;
 class Sector;
 
 /**
@@ -28,7 +28,7 @@ class Sector;
  *
  * Each Sector in turn contains GameObjects, e.g. Badguys and Players.
  */
-class Level
+class Level : public Currenton<Level>
 {
 public:
   std::string name;
@@ -40,8 +40,7 @@ public:
   std::vector<std::unique_ptr<Sector> > sectors;
   Statistics  stats;
   float       target_time;
-  TileSet    *tileset;
-  bool        free_tileset;
+  std::string tileset;
 
 public:
   static std::unique_ptr<Level> from_file(const std::string& filename);
@@ -57,7 +56,7 @@ public:
   size_t get_sector_count() const;
   Sector* get_sector(size_t num) const;
 
-  const TileSet* get_tileset() const { return tileset; }
+  std::string get_tileset() const { return tileset; }
 
   int get_total_coins() const;
   int get_total_badguys() const;

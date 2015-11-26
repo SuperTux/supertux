@@ -26,8 +26,6 @@ std::unique_ptr<Config> g_config;
 float game_time = 0;
 float real_time = 0;
 
-TileSet* current_tileset = NULL;
-
 float g_game_speed = 1.0f;
 
 /* EOF */

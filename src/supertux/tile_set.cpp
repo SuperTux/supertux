@@ -19,31 +19,28 @@
 #include "supertux/tile_set_parser.hpp"
 
 TileSet::TileSet() :
-  tiles(),
-  tiles_loaded(false)
+  m_tiles(1)
 {
-  tiles.resize(1, 0);
-  tiles[0] = new Tile();
+  m_tiles[0] = std::unique_ptr<Tile>(new Tile);
 }
 
 TileSet::TileSet(const std::string& filename) :
-  tiles(),
-  tiles_loaded(true)
+  TileSet()
 {
   TileSetParser parser(*this, filename);
   parser.parse();
 
   if (0)
   { // enable this if you want to see a list of free tiles
-    log_info << "Last Tile ID is " << tiles.size()-1 << std::endl;
+    log_info << "Last Tile ID is " << m_tiles.size()-1 << std::endl;
     int last = -1;
-    for(int i = 0; i < int(tiles.size()); ++i)
+    for(int i = 0; i < int(m_tiles.size()); ++i)
     {
-      if (tiles[i] == 0 && last == -1)
+      if (m_tiles[i] == 0 && last == -1)
       {
         last = i;
       }
-      else if (tiles[i] && last != -1)
+      else if (m_tiles[i] && last != -1)
       {
         log_info << "Free Tile IDs (" << i - last << "): " << last << " - " << i-1 << std::endl;
         last = -1;
@@ -55,11 +52,11 @@ TileSet::TileSet(const std::string& filename) :
   { // enable this to dump the (large) list of tiles to log_debug
     // Two dumps are identical iff the tilesets specify identical tiles
     log_debug << "Tileset in " << filename << std::endl;
-    for(int i = 0; i < int(tiles.size()); ++i)
+    for(int i = 0; i < int(m_tiles.size()); ++i)
     {
-      if(tiles[i] != 0)
+      if(m_tiles[i] != 0)
       {
-        tiles[i]->print_debug(i);
+        m_tiles[i]->print_debug(i);
       }
     }
   }
@@ -67,33 +64,19 @@ TileSet::TileSet(const std::string& filename) :
 
 TileSet::~TileSet()
 {
-  if(tiles_loaded) {
-    for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
-      delete *i;
-  }
 }
 
-void TileSet::merge(const TileSet *tileset, uint32_t start, uint32_t end,
-                    uint32_t offset)
+void
+TileSet::add_tile(int id, std::unique_ptr<Tile> tile)
 {
-  for(uint32_t id = start; id <= end && id < tileset->tiles.size(); ++id) {
-    uint32_t dest_id = id - start + offset;
+  if (id >= static_cast<int>(m_tiles.size())) {
+    m_tiles.resize(id + 1);
+  }
 
-    if(dest_id >= tiles.size())
-      tiles.resize(dest_id + 1, 0);
-
-    if(dest_id == 0)
-      continue;
-
-    Tile *tile = tileset->tiles[id];
-    if(tile == NULL)
-      continue;
-
-    if(tiles[dest_id] != NULL) {
-      log_warning << "tileset merge resulted in multiple definitions for id "
-                  << dest_id << "(originally " << id << ")" << std::endl;
-    }
-    tiles[dest_id] = tile;
+  if (m_tiles[id] != 0) {
+    log_warning << "Tile with ID " << id << " redefined" << std::endl;
+  } else {
+    m_tiles[id] = std::move(tile);
   }
 }
 

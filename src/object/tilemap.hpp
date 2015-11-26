@@ -41,9 +41,7 @@ class TileMap : public GameObject,
 {
 public:
   TileMap(const TileSet *tileset);
-  TileMap(const ReaderMapping& reader);
-  TileMap(const TileSet *tileset, std::string name, int z_pos, bool solid_,
-          size_t width_, size_t height_);
+  TileMap(const TileSet *tileset, const ReaderMapping& reader);
   virtual ~TileMap();
 
   virtual void update(float elapsed_time);
