@@ -40,7 +40,7 @@ Platform::Platform(const ReaderMapping& reader) :
   }
 
   ReaderMapping path_mapping;
-  if(reader.get("path", path_mapping))
+  if (!reader.get("path", path_mapping))
   {
     throw std::runtime_error("No path specified for platform");
   }
