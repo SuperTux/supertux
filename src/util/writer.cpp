@@ -105,6 +105,15 @@ Writer::write(const std::string& name, float value)
   *out << '(' << name << ' ' << value << ")\n";
 }
 
+/** This function is needed to properly resolve the overloaded write()
+    function, without it the call write("foo", "bar") would call
+    write(name, bool), not write(name, string, bool) */
+void
+Writer::write(const std::string& name, const char* value)
+{
+  write(name, value, false);
+}
+
 void
 Writer::write(const std::string& name, const std::string& value,
               bool translatable)
