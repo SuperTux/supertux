@@ -70,9 +70,8 @@ std::string generate_menu_item_text(const Addon& addon)
   if(addon.get_type() == Addon::LANGUAGEPACK)
   {
     using tinygettext::Language;
-    text = str(boost::format(_("\"%s\" by \"%s\""))
-               % Language::from_env(addon.get_title()).get_name()
-               % addon.get_author());
+    text = str(boost::format(_("\"%s\""))
+               % Language::from_env(addon.get_title()).get_name());
   }
   else if(!addon.get_author().empty())
   {
