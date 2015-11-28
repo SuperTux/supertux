@@ -95,6 +95,7 @@ void abort_screenfade();
  * files)
  */
 std::string translate(const std::string& text);
+std::string _(const std::string& text);
 
 /**
  * Load a script file and executes it. This is typically used to import
