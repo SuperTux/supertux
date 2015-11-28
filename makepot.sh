@@ -6,11 +6,13 @@ find data/ "(" -name "credits.txt" ")" -print0 | xargs -0 xgettext --keyword='_:
 for LEVELSET in `ls data/levels`;do
   SCRIPT_FILES=$(find data/levels/$LEVELSET -name "*.nut")
   for SCRIPT_FILE in $SCRIPT_FILES; do
-    python ./extract_strings.py ${SCRIPT_FILE} data/levels/$LEVELSET/scripts.txt
+    name=$(basename ${SCRIPT_FILE})
+    name=${name/.nut/}
+    python ./extract_strings.py ${SCRIPT_FILE} data/levels/$LEVELSET/scripts_${name}.txt
   done
 done
 
 for LEVELSET in `ls data/levels`; do
   find data/levels/$LEVELSET "(" -name "*.stl" -or -name "*.stwm" -or -name "*.txt" ")" -print0 | xargs -0 xgettext --keyword='_:1' --language=Lisp --sort-by-file --output translations/$LEVELSET.pot
-  rm -f data/levels/$LEVELSET/scripts.txt
+  rm -f data/levels/$LEVELSET/scripts_*.txt 2> /dev/null
 done
