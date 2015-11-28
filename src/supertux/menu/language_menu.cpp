@@ -20,6 +20,7 @@
 extern "C" {
 #include <findlocale.h>
 }
+#include "addon/addon_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
@@ -83,6 +84,7 @@ LanguageMenu::menu_action(MenuItem* item)
         g_config->locale = i->str();
         g_dictionary_manager->set_language(*i);
         g_config->save();
+        AddonManager::current()->check_for_langpack_updates();
         MenuManager::instance().clear_menu_stack();
         break;
       }

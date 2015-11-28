@@ -387,6 +387,10 @@ Main::launch_game()
     screen_manager.push_screen(std::unique_ptr<Screen>(new TitleScreen(*default_savegame)));
   }
 
+  timelog("langpack_updates");
+  addon_manager.check_for_langpack_updates();
+  timelog(0);
+
   screen_manager.run(context);
 }
 
