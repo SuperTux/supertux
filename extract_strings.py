@@ -36,7 +36,7 @@ else:
 				if line_it < num_lines:
 					if line_it == num_lines - 1:
 						lisp_content += "))"
-					lisp_content += "\r\n"
+					lisp_content += "\n"
 				line_it += 1
 	lisp_content += lisp_template_end
 
