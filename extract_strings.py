@@ -30,14 +30,13 @@ else:
 			lisp_content += ")\r\n"
 		else:
 			lisp_content += "  (msgid (_ "
-			line_it = 0
-			for line in lines:
+			for i, line in enumerate(lines):
 				lisp_content += line
-				if line_it < num_lines:
-					if line_it == num_lines - 1:
+				if i < num_lines:
+					if i == num_lines - 1:
 						lisp_content += "))"
 					lisp_content += "\n"
-				line_it += 1
+
 	lisp_content += lisp_template_end
 
 	if strings_found:
