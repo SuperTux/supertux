@@ -23,7 +23,8 @@ else:
 
 	for match in matches:
 		lines = match[1].split("\\n")
-		if len(lines) == 1:
+		num_lines = len(lines)
+		if num_lines == 1:
 			lisp_content += "  (msgid "
 			lisp_content += "(_ " + match[1] + ")"
 			lisp_content += ")\r\n"
@@ -32,8 +33,8 @@ else:
 			line_it = 0
 			for line in lines:
 				lisp_content += line
-				if line_it < len(lines):
-					if line_it == len(lines) - 1:
+				if line_it < num_lines:
+					if line_it == num_lines - 1:
 						lisp_content += "))"
 					lisp_content += "\r\n"
 				line_it += 1
