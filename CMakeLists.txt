@@ -36,9 +36,6 @@
 
 PROJECT(SUPERTUX)
 
-## Version, for display in title bar.
-## Will add 'commit <hash>' to the end if git is available and this is a git repository.
-SET(SUPERTUX_VERSION "0.4.0-git")
 
 ### CMake configuration
 
@@ -67,7 +64,7 @@ TEST_BIG_ENDIAN(WORDS_BIGENDIAN)
 ## Add definitions
 IF(CMAKE_BUILD_TYPE MATCHES Release)
   ADD_DEFINITIONS(-DRELEASE)
-ELSE()
+ELSEIF(CMAKE_BUILD_TYPE MATCHES Debug)
   ADD_DEFINITIONS(-DDEBUG)
 ENDIF()
 
@@ -116,6 +113,7 @@ IF(WIN32)
   FIND_PATH(SDL2IMAGE_INCLUDE_DIRS NAMES SDL_image.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2_image")
   FIND_LIBRARY(SDL2_LIBRARIES NAMES SDL2 PATHS "${DEPENDENCY_FOLDER}/lib")
   FIND_LIBRARY(SDL2IMAGE_LIBRARIES NAMES SDL2_image PATHS "${DEPENDENCY_FOLDER}/lib")
+  FIND_LIBRARY(SDL2MAIN_LIBRARIES NAMES SDL2main PATHS "${DEPENDENCY_FOLDER}/lib")
 ELSE(WIN32)
   INCLUDE(FindPkgConfig)
   PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2>=2.0.1)
@@ -178,35 +176,29 @@ ENDIF(NOT WIN32 OR WIN64)
 MARK_AS_ADVANCED(GIT_EXECUTABLE)
 FIND_PROGRAM(GIT_EXECUTABLE git)
 
-# The .git directory inside the base directory
-SET(GIT_CFG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/.git/")
+IF(GIT_EXECUTABLE EQUAL "GIT_EXECUTABLE-NOTFOUND")
+    MESSAGE( SEND_ERROR "Cound not find GIT or valid version.cmake. Version information will be invalid." )
+ENDIF(GIT_EXECUTABLE EQUAL "GIT_EXECUTABLE-NOTFOUND")
 
-IF(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
-  ADD_CUSTOM_COMMAND(OUTPUT "${CMAKE_BINARY_DIR}/version.h"
-                    COMMAND ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} >> "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo_append "#define PACKAGE_VERSION \"${SUPERTUX_VERSION} commit "
-                    
-                    COMMAND ${GIT_EXECUTABLE} rev-parse --sq HEAD >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} >>  "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo "\""
-                    COMMAND ${CMAKE_COMMAND} -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_BINARY_DIR}/version.h.tmp" "${CMAKE_BINARY_DIR}/version.h"
-                    COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-                    COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
-                    VERBATIM)
-ELSE(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
-  ADD_CUSTOM_COMMAND(OUTPUT "${CMAKE_BINARY_DIR}/version.h"
-                    COMMAND ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} >> "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo "#define PACKAGE_VERSION \"${SUPERTUX_VERSION}\""
-                    COMMAND ${CMAKE_COMMAND} -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_BINARY_DIR}/version.h.tmp" "${CMAKE_BINARY_DIR}/version.h"
-                    COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                    COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
-                    VERBATIM)
-ENDIF(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
+INCLUDE(GetGitRevisionDescription)
+git_describe(VERSION_STRING "--tags")
+STRING(REPLACE "v" "" VERSION_LIST ${VERSION_STRING})
+STRING(REGEX REPLACE "(-|\\.)" ";" VERSION_LIST ${VERSION_LIST})
+
+LIST(GET VERSION_LIST 0 MAJOR_VERSION_GIT)
+LIST(GET VERSION_LIST 1 MINOR_VERSION_GIT)
+LIST(GET VERSION_LIST 2 PATCH_VERSION_GIT)
+LIST(GET VERSION_LIST 3 TWEAK_VERSION_GIT)
+LIST(GET VERSION_LIST 4 GIT_HASH)
+
+SET(SUPERTUX_VERSION_MAJOR ${MAJOR_VERSION_GIT})
+SET(SUPERTUX_VERSION_MINOR ${MINOR_VERSION_GIT})
+SET(SUPERTUX_VERSION_PATCH ${PATCH_VERSION_GIT})
+SET(SUPERTUX_VERSION_TWEAK ${TWEAK_VERSION_GIT})
+
+SET(SUPERTUX_VERSION ${VERSION_STRING})
+
+configure_file(version.h.in ${CMAKE_BINARY_DIR}/version.h )
 
 SET_SOURCE_FILES_PROPERTIES(${CMAKE_BINARY_DIR}/version.h
                             PROPERTIES GENERATED true)
@@ -231,8 +223,9 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
 ## Add squirrel lib dir to search path
 
 LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR}/external/squirrel)
 
-## Also execute instructions in external/squirrel/CMakeLists.txt
+## Also execute instructions in external/tinygettext/CMakeLists.txt
 
 IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
   message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
@@ -243,6 +236,7 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext)
 ## Add tinygettext lib dir to search path
 
 LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext)
 
 ## Some additional include paths
 
@@ -437,51 +431,56 @@ CONFIGURE_FILES(${CMAKE_CURRENT_SOURCE_DIR}/data ${CMAKE_BINARY_DIR}/data)
 ## Add target for supertux binary
 
 add_library(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
-add_library(supertux2 STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
-add_executable(supertux2_exe src/main.cpp)
-target_link_libraries(supertux2_exe supertux2)
+add_library(supertux2_lib STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
+IF(WIN32)
+    add_executable(supertux2_exe WIN32 src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
+    TARGET_LINK_LIBRARIES(supertux2_exe ${SDL2MAIN_LIBRARIES})
+ELSE()
+    add_executable(supertux2_exe src/main.cpp)    
+ENDIF(WIN32)
+target_link_libraries(supertux2_exe supertux2_lib)
 set_target_properties(supertux2_exe PROPERTIES OUTPUT_NAME supertux2)
-set_target_properties(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
+set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
 IF(WIN32)
   ## Copy dlls on windows
-  ADD_CUSTOM_COMMAND(TARGET supertux2 POST_BUILD
+  ADD_CUSTOM_COMMAND(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
       "${DEPENDENCY_FOLDER}/dll"
-      $<TARGET_FILE_DIR:supertux2>)
-  ADD_CUSTOM_COMMAND(TARGET supertux2 POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-      "${DEPENDENCY_FOLDER}/DigiCertHighAssuranceEVRootCA.pem"
-      $<TARGET_FILE_DIR:supertux2>)
+      $<TARGET_FILE_DIR:supertux2_lib>)
+#  ADD_CUSTOM_COMMAND(TARGET supertux2 POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy
+#     "${DEPENDENCY_FOLDER}/DigiCertHighAssuranceEVRootCA.pem"
+#     $<TARGET_FILE_DIR:supertux2_lib>)
 ENDIF(WIN32)
 
 ## Link supertux binary with squirrel and other libraries
 
-TARGET_INCLUDE_DIRECTORIES(supertux2 SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
-TARGET_INCLUDE_DIRECTORIES(supertux2 SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
-TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${SDL2_LIBRARIES})
-TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${SDL2IMAGE_LIBRARIES})
+TARGET_INCLUDE_DIRECTORIES(supertux2_lib SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
+TARGET_INCLUDE_DIRECTORIES(supertux2_lib SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${SDL2_LIBRARIES})
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${SDL2IMAGE_LIBRARIES})
 
-TARGET_LINK_LIBRARIES(supertux2 PUBLIC squirrel)
-TARGET_LINK_LIBRARIES(supertux2 PUBLIC tinygettext)
-TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${OPENAL_LIBRARY})
-TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${OGGVORBIS_LIBRARIES})
-TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${PHYSFS_LIBRARY})
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC squirrel)
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC tinygettext)
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${OPENAL_LIBRARY})
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${OGGVORBIS_LIBRARIES})
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${PHYSFS_LIBRARY})
 IF(HAVE_OPENGL)
-    TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${OPENGL_LIBRARY})
+    TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${OPENGL_LIBRARY})
     IF(GLBINDING_FOUND)
-      TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${GLBINDING_LIBRARIES})
+      TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${GLBINDING_LIBRARIES})
     ELSE()
-      TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${GLEW_LIBRARY})
+      TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${GLEW_LIBRARY})
     ENDIF()
 ENDIF(HAVE_OPENGL)
 IF(HAVE_LIBCURL)
-  TARGET_LINK_LIBRARIES(supertux2 PUBLIC ${CURL_LIBRARY})
+  TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${CURL_LIBRARY})
 ENDIF(HAVE_LIBCURL)
 
 ## Link curl on windows
 IF(WIN32 AND NOT WIN64)
-    TARGET_LINK_LIBRARIES(supertux2 PUBLIC "${DEPENDENCY_FOLDER}/lib/libcurldll.a")
+    TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC "${DEPENDENCY_FOLDER}/lib/libcurldll.a")
 ENDIF()
 
 if(BUILD_TESTS)
@@ -501,7 +500,7 @@ if(BUILD_TESTS)
   target_compile_options(test_supertux2 PRIVATE ${WARNINGS_CXX_FLAGS})
   target_link_libraries(test_supertux2
     gtest gtest_main
-    supertux2
+    supertux2_lib
     ${CMAKE_THREAD_LIBS_INIT})
 
   # add 'make test' target, use 'make test ARGS="-V"' or 'ctest -V' for verbose
@@ -515,9 +514,9 @@ endif()
 
 IF(WIN32 AND NOT UNIX)
 
-  SET(INSTALL_SUBDIR_BIN "." CACHE STRING "Installation subdir for binaries")
+  SET(INSTALL_SUBDIR_BIN "bin" CACHE STRING "Installation subdir for binaries")
   SET(INSTALL_SUBDIR_SHARE "data" CACHE STRING "Installation subdir for data")
-  SET(INSTALL_SUBDIR_DOC "." CACHE STRING "Installation subdir for docs")
+  SET(INSTALL_SUBDIR_DOC "doc" CACHE STRING "Installation subdir for docs")
 
   INSTALL(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
 
@@ -583,6 +582,7 @@ configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 ## CPack/Installation-specific stuff
 
 INCLUDE(InstallRequiredSystemLibraries)
+SET(CPACK_PACKAGE_NAME "SuperTux")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Jump'n'Run Game featuring Tux")
 SET(CPACK_PACKAGE_VENDOR "SuperTux Devel Team")
 SET(CPACK_PACKAGE_CONTACT "SuperTux Devel Team <supertux-devel@lists.lethargik.org>")
@@ -598,17 +598,26 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   # The OS X PackageMaker doesn't seem to like files with no extension
 ELSE(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
-  SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+  SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-SET(CPACK_PACKAGE_VERSION_MAJOR "0")
-SET(CPACK_PACKAGE_VERSION_MINOR "4")
-SET(CPACK_PACKAGE_VERSION_PATCH "0-GIT")
-SET(CPACK_PACKAGE_INSTALL_DIRECTORY "SuperTux ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
-SET(CPACK_PACKAGE_EXECUTABLES "..\\\\supertux2" "SuperTux ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+SET(CPACK_PACKAGE_VERSION_MAJOR ${SUPERTUX_VERSION_MAJOR})
+SET(CPACK_PACKAGE_VERSION_MINOR ${SUPERTUX_VERSION_MINOR})
+
+IF(SUPERTUX_VERSION_TWEAK)
+    SET(CPACK_PACKAGE_VERSION_PATCH "${SUPERTUX_VERSION_PATCH}.${SUPERTUX_VERSION_TWEAK}")
+ELSE()
+    SET(CPACK_PACKAGE_VERSION_PATCH ${SUPERTUX_VERSION_PATCH})
+ENDIF(SUPERTUX_VERSION_TWEAK)
+SET(CPACK_PACKAGE_INSTALL_DIRECTORY "SuperTux")
+SET(CPACK_PACKAGE_EXECUTABLES "supertux2" "SuperTux")
 IF(WIN32 AND NOT UNIX)
-  SET(CPACK_NSIS_INSTALLED_ICON_NAME "..\\\\supertux2")
-  SET(CPACK_NSIS_DISPLAY_NAME "SuperTux ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+  SET(CPACK_NSIS_INSTALLED_ICON_NAME "supertux2")
+  SET(CPACK_NSIS_DISPLAY_NAME "SuperTux")
   SET(CPACK_NSIS_COMPRESSOR "/SOLID lzma")
+  SET(CPACK_WIX_PROGRAM_MENU_FOLDER "")
+  SET(CPACK_WIX_UPGRADE_GUID "93E16F4E-0A68-422A-8ADC-47BE5B9433B2")
+  SET(CPACK_WIX_PRODUCT_ICON "${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico")
+  SET(CPACK_GENERATOR WIX)
 ELSE(WIN32 AND NOT UNIX)
 ENDIF(WIN32 AND NOT UNIX)
 INCLUDE(CPack)
