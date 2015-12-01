@@ -75,13 +75,13 @@ EndSequence::stop()
 }
 
 bool
-EndSequence::is_tux_stopped()
+EndSequence::is_tux_stopped() const
 {
   return !tux_may_walk;
 }
 
 bool
-EndSequence::is_done()
+EndSequence::is_done() const
 {
   return isdone;
 }
