@@ -34,8 +34,8 @@ private:
 public:
   GLVideoSystem();
 
-  Renderer& get_renderer() override;
-  Lightmap& get_lightmap() override;
+  Renderer& get_renderer() const override;
+  Lightmap& get_lightmap() const override;
   TexturePtr new_texture(SDL_Surface* image) override;
   SurfaceData* new_surface_data(const Surface& surface) override;
   void free_surface_data(SurfaceData* surface_data) override;

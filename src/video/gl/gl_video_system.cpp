@@ -30,13 +30,13 @@ GLVideoSystem::GLVideoSystem() :
 }
 
 Renderer&
-GLVideoSystem::get_renderer()
+GLVideoSystem::get_renderer() const
 {
   return *m_renderer;
 }
 
 Lightmap&
-GLVideoSystem::get_lightmap()
+GLVideoSystem::get_lightmap() const
 {
   return *m_lightmap;
 }

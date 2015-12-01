@@ -34,13 +34,13 @@ SDLVideoSystem::SDLVideoSystem() :
 }
 
 Renderer&
-SDLVideoSystem::get_renderer()
+SDLVideoSystem::get_renderer() const
 {
   return *m_renderer;
 }
 
 Lightmap&
-SDLVideoSystem::get_lightmap()
+SDLVideoSystem::get_lightmap() const
 {
   return *m_lightmap;
 }
