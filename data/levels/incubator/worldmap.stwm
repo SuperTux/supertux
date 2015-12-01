@@ -62,7 +62,7 @@
     (level
       (name "cube_garden.stl")
       (x 46)
-      (y 11)
+      (y 9)
     )
     (level
       (name "jagged_path.stl")
@@ -153,11 +153,6 @@
       (name "fall_kugelblitz.stl")
       (x 40)
       (y 22)
-    )
-    (level
-      (name "glaciers.stl")
-      (x 45)
-      (y 8)
     )
     (level
       (name "let_us_snow.stl")
