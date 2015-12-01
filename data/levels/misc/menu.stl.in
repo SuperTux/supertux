@@ -7,7 +7,13 @@
     (name "main")
     (music "music/theme.music")
     (init-script "
-logo <- FloatingImage(\"images/objects/logo/logo.sprite\");
+logo <- FloatingImage(\"images/objects/logo/@LOGO_FILE@\");
+if(is_christmas()) {
+christmas_hat <- FloatingImage(\"images/objects/particles/santa-cap-big.sprite\");
+christmas_hat.set_anchor_point(ANCHOR_MIDDLE);
+christmas_hat.set_pos(32, -237);
+christmas_hat.set_visible(true);
+}
 logo.set_anchor_point(ANCHOR_MIDDLE);
 logo.set_pos(0, -171);
 logo.set_visible(true);
