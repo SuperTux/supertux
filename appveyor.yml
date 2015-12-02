@@ -1,0 +1,46 @@
+version: '{build}'
+os: Visual Studio 2015
+configuration: Release
+platform: x86
+
+install:
+- ps: |
+    Invoke-WebRequest http://brlcad.org/~maths22/supertux-builddep/dependencies-win32.zip -OutFile "$env:APPVEYOR_BUILD_FOLDER/dependencies.zip"
+    Add-Type -assembly "system.io.compression.filesystem"
+    [io.compression.zipfile]::ExtractToDirectory("$env:APPVEYOR_BUILD_FOLDER/dependencies.zip", "$env:APPVEYOR_BUILD_FOLDER/")
+    move "$env:APPVEYOR_BUILD_FOLDER/dependencies" "$env:APPVEYOR_BUILD_FOLDER/dependencies32"
+
+before_build:
+- cmd: |
+    git submodule update --init --recursive
+    echo Running cmake ..
+    cmake -G "Visual Studio 14 2015" -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true
+
+build:
+  project: ALL_BUILD.vcxproj
+  parallel: true
+  verbosity: minimal
+
+after_build:
+- cmd: '"C:\Program Files (x86)\CMake\bin\cpack.exe"'
+
+test: off
+
+artifacts:
+- path: SuperTux-*
+  name: setup
+
+deploy_script:
+- ps: |
+    Get-ChildItem . -Filter "SuperTux-*" | ForEach-Object `
+    {
+        echo $_.Name
+        $name=$_.Name
+        $path = "https://transfer.sh/$name"
+        $webClient = New-Object System.Net.WebClient;
+        $urlarr = $webClient.UploadFile($path, "PUT", $_.FullName)
+        $enc = [System.Text.Encoding]::ASCII
+        $url = $enc.GetString($urlarr) -replace "`n|`r"
+        $path = "http://brlcad.org/~maths22/travis_upload.php?key=magickeyhere&url=$url&fname=$name"
+        echo $webClient.DownloadString($path)
+    }
