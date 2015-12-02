@@ -1044,30 +1044,41 @@ Player::get_coins()
   return player_status->coins;
 }
 
-bool
-Player::add_bonus(const std::string& bonustype)
-{
+BonusType
+Player::string_to_bonus(const std::string& bonus) {
   BonusType type = NO_BONUS;
 
-  if(bonustype == "grow") {
+  if(bonus == "grow") {
     type = GROWUP_BONUS;
-  } else if(bonustype == "fireflower") {
+  } else if(bonus == "fireflower") {
     type = FIRE_BONUS;
-  } else if(bonustype == "iceflower") {
+  } else if(bonus == "iceflower") {
     type = ICE_BONUS;
-  } else if(bonustype == "airflower") {
+  } else if(bonus == "airflower") {
     type = AIR_BONUS;
-  } else if(bonustype == "earthflower") {
+  } else if(bonus == "earthflower") {
     type = EARTH_BONUS;
-  } else if(bonustype == "none") {
+  } else if(bonus == "none") {
     type = NO_BONUS;
   } else {
     std::ostringstream msg;
-    msg << "Unknown bonus type "  << bonustype;
+    msg << "Unknown bonus type "  << bonus;
     throw std::runtime_error(msg.str());
   }
 
-  return add_bonus(type);
+  return type;
+}
+
+bool
+Player::add_bonus(const std::string& bonustype)
+{
+  return add_bonus( string_to_bonus(bonustype) );
+}
+
+bool
+Player::set_bonus(const std::string& bonustype)
+{
+  return set_bonus( string_to_bonus(bonustype) );
 }
 
 bool
@@ -1103,6 +1114,10 @@ Player::set_bonus(BonusType type, bool animate)
   }
 
   if (type == NO_BONUS) {
+    if (!adjust_height(SMALL_TUX_HEIGHT)) {
+      log_debug << "Can't adjust Tux height" << std::endl;
+      return false;
+    }
     if (does_buttjump) does_buttjump = false;
   }
 

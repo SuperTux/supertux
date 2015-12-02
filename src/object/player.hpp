@@ -110,6 +110,7 @@ public:
   void move(const Vector& vector);
 
   virtual bool add_bonus(const std::string& bonus);
+  virtual bool set_bonus(const std::string& bonus);
   virtual void add_coins(int count);
   virtual int get_coins();
 
@@ -256,6 +257,8 @@ private:
   void early_jump_apex();
 
   bool slightly_above_ground() const;
+
+  BonusType string_to_bonus(const std::string& bonus);
 
   /**
    * slows Tux down a little, based on where he's standing
