@@ -19,6 +19,7 @@
 #include <config.h>
 #include <algorithm>
 #include <boost/format.hpp>
+#include <tinygettext/language.hpp>
 
 #include "addon/addon.hpp"
 #include "addon/addon_manager.hpp"
@@ -68,8 +69,14 @@ std::string generate_menu_item_text(const Addon& addon)
 
   if(addon.get_type() == Addon::LANGUAGEPACK)
   {
-    text = str(boost::format(_("\"%s\" by \"%s\""))
-               % addon.get_title() % addon.get_author());
+    using tinygettext::Language;
+    std::string langname = Language::from_env(addon.get_title()).get_name();
+    if(langname.empty())
+    {
+      langname = addon.get_title();
+    }
+    text = str(boost::format("\"%s\"")
+               % langname);
   }
   else if(!addon.get_author().empty())
   {

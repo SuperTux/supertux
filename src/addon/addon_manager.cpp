@@ -634,4 +634,48 @@ AddonManager::update()
   m_downloader.update();
 }
 
+void
+AddonManager::check_for_langpack_updates()
+{
+  try
+  {
+    check_online();
+    try
+    {
+      const std::string& addon_id = "langpack-" + g_config->locale;
+      log_debug << "Looking for language addon with ID " << addon_id << "..." << std::endl;
+      Addon& langpack = get_repository_addon(addon_id);
+
+      try
+      {
+        Addon& installed_langpack = get_installed_addon(addon_id);
+        if (installed_langpack.get_md5() == langpack.get_md5() ||
+            installed_langpack.get_version() > langpack.get_version())
+        {
+          log_debug << "Language addon " << addon_id << " is already the latest version." << std::endl;
+          return;
+        }
+
+        // Langpack update available. Let's install it!
+        install_addon(addon_id);
+        enable_addon(addon_id);
+      }
+      catch(const std::exception& err)
+      {
+        log_debug << "Language addon " << addon_id << " is not installed. Installing..." << std::endl;
+        install_addon(addon_id);
+        enable_addon(addon_id);
+      }
+    }
+    catch(std::exception& err)
+    {
+      log_debug << "Language addon for current locale not found." << std::endl;
+    }
+  }
+  catch(...)
+  {
+    // If anything fails here, just silently ignore.
+  }
+}
+
 /* EOF */

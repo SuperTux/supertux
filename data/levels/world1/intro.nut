@@ -26,7 +26,7 @@ function logo_in()
 
 function intro_text()
 {
-  Text.set_text(translate ("Somewhere at the shores\nof Antarctica..."));
+  Text.set_text(_("Somewhere at the shores\nof Antarctica..."));
   Text.fade_in(1);
   wait(1);
   Text.fade_out(1);
@@ -38,19 +38,19 @@ function rap_scene()
   //begin conversation and Tux rap
   play_sound("speech/tux_hello.ogg"); // 3.1 seconds
   Text.set_centered(false);
-  Text.set_text(translate ("Tux: Hello Penny"));
+  Text.set_text(_("Tux: Hello Penny"));
   Text.fade_in(1);
   wait(2.5);
   Text.fade_out(1);
   wait(1);
   play_sound("speech/penny_runt_01.ogg"); // 1.2 seconds
-  Text.set_text(translate ("Penny: Hey Tux"));
+  Text.set_text(_("Penny: Hey Tux"));
   Text.fade_in(0.5);
   wait(1);
   Text.fade_out(0.5);
   wait(0.5);
   play_sound("speech/tux_murp_01.ogg"); // 1.5 seconds
-  Text.set_text(translate ("Tux: Check out my dance moves."));
+  Text.set_text(_("Tux: Check out my dance moves."));
   Text.fade_in(0.5);
   wait(1);
   Text.fade_out(0.5);
@@ -154,33 +154,33 @@ function rap_scene()
   //wake up, Tux...
   Effect.fade_in(3);
   play_sound("speech/tux_upset.ogg"); // 11 seconds
-  Text.set_text(translate ("Tux: Oww... my head..."));
+  Text.set_text(_("Tux: Oww... my head..."));
   Text.fade_in(1);
   wait(1.9);
   Tux.activate();
   Text.fade_out(0.3);
   wait(0.5);
-  Text.set_text(translate ("Tux: Wait!")); // t=2.4
+  Text.set_text(_("Tux: Wait!")); // t=2.4
   Text.fade_in(0.5);
   wait(1);
   Text.fade_out(0.5);
   wait(0.5);
-  Text.set_text(translate ("Tux: Penny!")); // t=3.9
+  Text.set_text(_("Tux: Penny!")); // t=3.9
   Text.fade_in(0.5);
   wait(1);
   Text.fade_out(0.5);
   wait(0.5);
-  Text.set_text(translate ("Tux: Where are you, Penny?!")); // t=4.4
+  Text.set_text(_("Tux: Where are you, Penny?!")); // t=4.4
   Text.fade_in(0.5);
   wait(2);
   Text.fade_out(0.5);
   wait(0.5);
-  Text.set_text(translate ("Tux: Oh no...")); // t=6.9
+  Text.set_text(_("Tux: Oh no...")); // t=6.9
   Text.fade_in(0.5);
   wait(1);
   Text.fade_out(0.5);
   wait(0.5);
-  Text.set_text(translate ("Tux: Don't worry, Penny, I'll rescue you!")); // t=8.4
+  Text.set_text(_("Tux: Don't worry, Penny, I'll rescue you!")); // t=8.4
   Text.fade_in(0.5);
   wait(2);
   Text.fade_out(0.5);

@@ -4499,6 +4499,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'translate'");
   }
 
+  sq_pushstring(v, "_", -1);
+  sq_newclosure(v, &translate_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function '_'");
+  }
+
   sq_pushstring(v, "import", -1);
   sq_newclosure(v, &import_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");

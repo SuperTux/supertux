@@ -48,7 +48,7 @@ TitleScreen::TitleScreen(Savegame& savegame) :
 {
   controller.reset(new CodeController());
   titlesession.reset(new GameSession(g_config->christmas_mode ?
-#ifdef DEBUG
+#if defined(DEBUG) || defined(_DEBUG)
                                      "levels/misc/menu_christmas.stl" : "levels/misc/menu.stl",
 #else
                                      "levels/misc/menu_christmas.stl" : "levels/misc/menu_final.stl",

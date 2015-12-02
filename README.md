@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/SuperTux/supertux.svg?branch=master)](https://travis-ci.org/SuperTux/supertux)
+[![AppVeyor Build Satus](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true)](https://ci.appveyor.com/project/maths22/supertux-9ml4d)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/4025/badge.svg)](https://scan.coverity.com/projects/4025)
 SuperTux - <http://supertux.lethargik.org/>
 ===========================================

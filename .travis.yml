@@ -64,6 +64,7 @@ before_install:
 script:
   # Clean from previous Travis build
   - git clean -f
+  - git fetch --unshallow
   # Then build:
   - mkdir "build-$BUILD_TYPE"
   - cd "build-$BUILD_TYPE"

@@ -77,6 +77,7 @@ public:
   void disable_addon(const AddonId& addon_id);
 
   void update();
+  void check_for_langpack_updates();
 
 private:
   std::vector<std::string> scan_for_archives() const;

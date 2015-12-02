@@ -16,6 +16,8 @@
 
 #include "object/lantern.hpp"
 
+#include <algorithm>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/treewillowisp.hpp"
 #include "badguy/willowisp.hpp"
