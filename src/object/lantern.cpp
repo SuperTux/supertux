@@ -24,6 +24,8 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
 
+#include <algorithm>
+
 Lantern::Lantern(const Reader& reader) :
   Rock(reader, "images/objects/lantern/lantern.sprite"),
   lightcolor(1.0f, 1.0f, 1.0f),

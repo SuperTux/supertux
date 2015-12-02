@@ -16,11 +16,6 @@
 
 #include "SDL.h"
 
-// On windows SDL defines main, but we want to use this one
-#ifdef WIN32
-#  undef main
-#endif
-
 #include "supertux/main.hpp"
 
 int main(int argc, char** argv)

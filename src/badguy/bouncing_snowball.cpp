@@ -19,6 +19,8 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
+#include <algorithm>
+
 static const float JUMPSPEED = -450;
 static const float BSNOWBALL_WALKSPEED = 80;
 
