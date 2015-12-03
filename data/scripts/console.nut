@@ -80,17 +80,14 @@ function lifeup()
 function functions(...)
 {
 	local obj = this;
-	if(vargc == 1)
+	if(vargv.len() == 1)
 		obj = vargv[0];
 	if(::type(obj) == "instance")
 		obj = obj.getclass()
 
-	while(obj != null) {
-		foreach(key, val in obj) {
-			if(::type(val) == "function")
-				println(key);
-		}
-		obj = obj.parent;
+	foreach(key, val in obj) {
+		if(::type(val) == "function")
+			println(key);
 	}
 }
 
