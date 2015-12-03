@@ -528,6 +528,9 @@ IF(WIN32 AND NOT UNIX)
   INSTALL(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
 
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
+  
+  include(InstallRequiredSystemLibraries)
+  INSTALL(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${INSTALL_SUBDIR_BIN})
 
 ELSE(WIN32 AND NOT UNIX)
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -536,7 +539,8 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   SET(INSTALL_SUBDIR_SHARE "SuperTux.app/Contents/Resources/data" CACHE STRING "Installation subdir for data")
   SET(INSTALL_SUBDIR_DOC "SuperTux.app/Contents/Resources" CACHE STRING "Installation subdir for docs")
 
-  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist DESTINATION "SuperTux.app/Contents/")
+  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in ${CMAKE_BUILD_DIR}/tools/darwin/info.plist)
+  INSTALL(FILES ${CMAKE_BUILD_DIR}/tools/darwin/info.plist DESTINATION "SuperTux.app/Contents/")
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/receipt DESTINATION "SuperTux.app/Contents/_MASReceipt/")
 
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns DESTINATION "SuperTux.app/Contents/Resources/")
