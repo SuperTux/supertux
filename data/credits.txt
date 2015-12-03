@@ -65,6 +65,9 @@
 	Karkus476
  Programming
 
+	Hume
+ Programming, Level Design
+
 	Jacob \"maths22\" Burroughs
  Packaging, Nightly builds
 
