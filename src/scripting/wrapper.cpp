@@ -3372,6 +3372,30 @@ static SQInteger translate_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger __wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    std::string return_value = scripting::_(arg0);
+
+    sq_pushstring(vm, return_value.c_str(), return_value.size());
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function '_'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger import_wrapper(HSQUIRRELVM vm)
 {
   HSQUIRRELVM arg0 = vm;
@@ -4530,7 +4554,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   }
 
   sq_pushstring(v, "_", -1);
-  sq_newclosure(v, &translate_wrapper, 0);
+  sq_newclosure(v, &__wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function '_'");
