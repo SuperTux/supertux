@@ -40,7 +40,6 @@
 #include "video/drawing_context.hpp"
 
 #include <sstream>
-#include <future>
 #include <version.h>
 
 TitleScreen::TitleScreen(Savegame& savegame) :
