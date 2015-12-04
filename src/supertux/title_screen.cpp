@@ -43,13 +43,6 @@
 #include <future>
 #include <version.h>
 
-namespace {
-  void check_for_langpack_updates()
-  {
-    AddonManager::current()->check_for_langpack_updates();
-  }
-}
-
 TitleScreen::TitleScreen(Savegame& savegame) :
   frame(),
   controller(),
@@ -123,12 +116,6 @@ TitleScreen::setup()
   if(g_config->transitions_enabled)
   {
     ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.25)));
-  }
-
-  if(first_start)
-  {
-    std::async(check_for_langpack_updates);
-    first_start = false;
   }
 }
 
