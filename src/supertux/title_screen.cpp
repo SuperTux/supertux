@@ -47,8 +47,7 @@ TitleScreen::TitleScreen(Savegame& savegame) :
   frame(),
   controller(),
   titlesession(),
-  copyright_text(),
-  first_start(true)
+  copyright_text()
 {
   controller.reset(new CodeController());
   titlesession.reset(new GameSession(g_config->christmas_mode ?
