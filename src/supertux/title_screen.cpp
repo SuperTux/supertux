@@ -40,7 +40,15 @@
 #include "video/drawing_context.hpp"
 
 #include <sstream>
+#include <future>
 #include <version.h>
+
+namespace {
+  void check_for_langpack_updates()
+  {
+    AddonManager::current()->check_for_langpack_updates();
+  }
+}
 
 TitleScreen::TitleScreen(Savegame& savegame) :
   frame(),
@@ -119,7 +127,7 @@ TitleScreen::setup()
 
   if(first_start)
   {
-    AddonManager::current()->check_for_langpack_updates();
+    std::async(check_for_langpack_updates);
     first_start = false;
   }
 }
