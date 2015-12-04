@@ -637,15 +637,15 @@ AddonManager::update()
 void
 AddonManager::check_for_langpack_updates()
 {
+  const std::string& language = g_dictionary_manager->get_language().get_language();
+  if(language == "en")
+    return;
+
   try
   {
     check_online();
     try
     {
-      const std::string& language = g_dictionary_manager->get_language().get_language();
-      if(language == "en")
-        return;
-
       const std::string& addon_id = "langpack-" + language;
       log_debug << "Looking for language addon with ID " << addon_id << "..." << std::endl;
       Addon& langpack = get_repository_addon(addon_id);
