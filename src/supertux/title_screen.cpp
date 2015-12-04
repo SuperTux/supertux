@@ -17,6 +17,7 @@
 
 #include "supertux/title_screen.hpp"
 
+#include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
@@ -45,7 +46,8 @@ TitleScreen::TitleScreen(Savegame& savegame) :
   frame(),
   controller(),
   titlesession(),
-  copyright_text()
+  copyright_text(),
+  first_start(true)
 {
   controller.reset(new CodeController());
   titlesession.reset(new GameSession(g_config->christmas_mode ?
@@ -113,6 +115,12 @@ TitleScreen::setup()
   if(g_config->transitions_enabled)
   {
     ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.25)));
+  }
+
+  if(first_start)
+  {
+    AddonManager::current()->check_for_langpack_updates();
+    first_start = false;
   }
 }
 

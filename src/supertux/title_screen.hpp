@@ -53,6 +53,7 @@ private:
   std::unique_ptr<CodeController> controller;
   std::unique_ptr<GameSession> titlesession;
   std::string copyright_text;
+  bool first_start;
 
 private:
   TitleScreen(const TitleScreen&);
