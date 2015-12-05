@@ -1,7 +1,0 @@
-(supertux-sprite
-  (action
-    (name "default")
-  (hitbox 0 0 96 96)
-    (images "icesquare4.png")
-  )
-)
