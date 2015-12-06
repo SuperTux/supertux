@@ -254,6 +254,7 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
 
 IF(WIN32)
   ADD_DEFINITIONS(-D_USE_MATH_DEFINES -DNOMINMAX)
+  ADD_DEFINITIONS(-DWIN32)
 ENDIF(WIN32)
 
 ## Build list of sources for supertux binary
