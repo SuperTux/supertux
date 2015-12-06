@@ -30,8 +30,8 @@ env:
     - BUILD_TYPE="Release"
     - USE_GLBINDING=OFF
     # glbinding fails to compile on clang:
-    #- USE_GLBINDING=ON
- 
+    - USE_GLBINDING=ON
+
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install build-essential libogg-dev libvorbis-dev libphysfs-dev libglew-dev libopenal-dev libboost-all-dev
