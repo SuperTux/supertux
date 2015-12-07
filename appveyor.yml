@@ -5,7 +5,7 @@ platform: x86
 
 install:
 - ps: |
-    Invoke-WebRequest http://brlcad.org/~maths22/supertux-builddep/dependencies-win32.zip -OutFile "$env:APPVEYOR_BUILD_FOLDER/dependencies.zip"
+    Invoke-WebRequest http://download.supertuxproject.org/builddep/dependencies-win32.zip -OutFile "$env:APPVEYOR_BUILD_FOLDER/dependencies.zip"
     Add-Type -assembly "system.io.compression.filesystem"
     [io.compression.zipfile]::ExtractToDirectory("$env:APPVEYOR_BUILD_FOLDER/dependencies.zip", "$env:APPVEYOR_BUILD_FOLDER/")
     move "$env:APPVEYOR_BUILD_FOLDER/dependencies" "$env:APPVEYOR_BUILD_FOLDER/dependencies32"
