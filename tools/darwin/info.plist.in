@@ -5,9 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>supertux2</string>
+	<string>SuperTux</string>
 	<key>CFBundleIconFile</key>
-	<string>supertux</string>
+	<string>SuperTux</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.googlecode.supertux2</string>
 	<key>CFBundleInfoDictionaryVersion</key>
