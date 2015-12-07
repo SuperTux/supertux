@@ -33,7 +33,7 @@ protected:
   virtual int underflow();
   virtual pos_type seekoff(off_type pos, std::ios_base::seekdir,
                            std::ios_base::openmode);
-  virtual pos_type seekpos(pos_type pos, std::ios_base::openmode);
+  virtual pos_type seekpos(const pos_type& pos, std::ios_base::openmode);
 
 private:
   PHYSFS_file* file;

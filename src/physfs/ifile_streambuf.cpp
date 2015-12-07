@@ -61,7 +61,7 @@ IFileStreambuf::underflow()
 }
 
 IFileStreambuf::pos_type
-IFileStreambuf::seekpos(pos_type pos, std::ios_base::openmode)
+IFileStreambuf::seekpos(const pos_type& pos, std::ios_base::openmode)
 {
   if(PHYSFS_seek(file, static_cast<PHYSFS_uint64> (pos)) == 0) {
     return pos_type(off_type(-1));
