@@ -1,4 +1,4 @@
-# Travis-CI configuration file for SuperTuxKart
+# Travis-CI configuration file for SuperTux
 #
 # Configuration manual:
 # http://docs.travis-ci.com/user/build-configuration/
@@ -81,6 +81,7 @@ addons:
     packages:
     - cmake
     - build-essential
+    - libc++-dev
     - libogg-dev
     - libvorbis-dev
     - libphysfs-dev
