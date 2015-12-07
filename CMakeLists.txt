@@ -40,7 +40,7 @@ PROJECT(SUPERTUX)
 ### CMake configuration
 
 # allow building with CMake 2.6. Set compatibility options. Use some bundled modules as a fallback
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.1)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2)
 IF(COMMAND cmake_policy)
   CMAKE_POLICY(SET CMP0003 NEW)
   CMAKE_POLICY(SET CMP0008 NEW)
@@ -525,13 +525,25 @@ IF(WIN32 AND NOT UNIX)
   SET(INSTALL_SUBDIR_BIN "bin" CACHE STRING "Installation subdir for binaries")
   SET(INSTALL_SUBDIR_SHARE "data" CACHE STRING "Installation subdir for data")
   SET(INSTALL_SUBDIR_DOC "doc" CACHE STRING "Installation subdir for docs")
-
+  
   INSTALL(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
 
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
   
-  include(InstallRequiredSystemLibraries)
-  INSTALL(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${INSTALL_SUBDIR_BIN})
+  OPTION(PACKAGE_VCREDIST "Package the VCREDIST libraries with the program" OFF)
+  
+  IF(PACKAGE_VCREDIST)
+    include(InstallRequiredSystemLibraries)
+    INSTALL(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${INSTALL_SUBDIR_BIN})
+    include(FindWindowsSDK)
+    IF(${CMAKE_VS_PLATFORM_NAME} STREQUAL "Win32")
+        SET(UCRT_PATH "${WINDOWSSDK_PREFERRED_DIR}/Redist/ucrt/DLLs/x86")
+    ELSE()
+        SET(UCRT_PATH "${WINDOWSSDK_PREFERRED_DIR}/Redist/ucrt/DLLs/x64")
+    ENDIF()
+    FILE(GLOB UCRT_DLLS "${UCRT_PATH}/*")
+    INSTALL(FILES ${UCRT_DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
+  ENDIF()
 
 ELSE(WIN32 AND NOT UNIX)
 
