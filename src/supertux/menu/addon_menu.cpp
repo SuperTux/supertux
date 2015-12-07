@@ -286,7 +286,7 @@ AddonMenu::menu_action(MenuItem* item)
   {
     m_language_pack_mode = !m_language_pack_mode;
     rebuild_menu();
-    MenuManager::instance().on_window_resize();
+    on_window_resize();
     return;
   }
   else if (MNID_ADDON_LIST_START <= item->id)
