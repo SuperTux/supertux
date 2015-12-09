@@ -1,0 +1,221 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# DusXMT <merkur32@gmail.com>, 2014
+# Roman 'Kaktuxista' Benji <romanbeno273@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Slovak (http://www.transifex.com/arctic-games/supertux/language/sk/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:3
+msgid "Welcome to Antarctica"
+msgstr "Vítajte v Antarktíde"
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
+msgid ""
+"-Bonus Blocks\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
+"#\n"
+"#Hit them from below to get at their contents."
+msgstr "-Bonusové Bloky\n!images/objects/bonus_block/full-0.png\n#Bonusové bloky môžu obsahovať mince, vylepšenia alebo špeciálne pomôcky, ktoré vám môžu pomôcť s vašou výpravou.\n#\n#Buchnite do nich zo spodu pre získanie ich obsahu."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
+msgid ""
+"-Eggs\n"
+"!images/powerups/egg/egg.png\n"
+"#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
+msgstr "-Vajcia\n!images/powerups/egg/egg.png\n#Ak dáte Tuxovi vajce, narastie. Keď je veľký, môže s hlavou rozbíjať drevené bloky."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:79
+msgid ""
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
+msgstr "-Záchytné body\n!images/objects/resetpoints/bell-m.png\n#Aktivujte záchytný bod. Ak umriete, môžete začať tento level znovu stadiaľto. Vždy, keď začnete od záchytného bodu, stratíte najmenej 25 mincí."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:86
+msgid ""
+"-Running\n"
+"!images/tiles/signs/run.png\n"
+"#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
+msgstr "-Utekanie\n!images/tiles/signs/run.png\n#Cesta pred vami je zablokovaná. Naberte trochu rýchlosti, a mali by ste môcť cez tie bloky preskočiť."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:93
+msgid ""
+"-Fire Flower\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#The fire flower gives Tux the ability to shoot fireballs."
+msgstr "-Ohnivý kvet\n!images/powerups/fireflower/fire_flower-0.png\n#Ohnivé kvety dávajú Tuxovi schopnosť strielať ohnivé gule."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:100
+msgid ""
+"-Tux Doll\n"
+"!images/powerups/1up/1up.png\n"
+"#The Tux doll gives Tux 100 coins."
+msgstr "-Hračka Tuxa\n!images/powerups/1up/1up.png\n#Hračka Tuxa dá Tuxovi 100 mincí."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:107
+msgid ""
+"-Secret Areas\n"
+"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
+msgstr "-Tajné miesta\n#Mnohé levely obsahujú tajné miesta skryté za čo by vyzeralo byť prostými stenami. Hľadajte stopy, ako ich nájsť."
+
+#: data/levels/world1/02 - The Journey Begins.stl:3
+msgid "The Journey Begins"
+msgstr "Cesta sa začína"
+
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
+msgid "Via Nostalgica"
+msgstr "Cez Nostalgiu"
+
+#: data/levels/world1/04 - Tobgle Road.stl:3
+msgid "Tobgle Road"
+msgstr "Tobglova cesta"
+
+#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
+msgid "The Somewhat Smaller Bath"
+msgstr "Trochu menší kúpeľ"
+
+#: data/levels/world1/06 - The Frosted Fields.stl:3
+msgid "The Frosted Fields"
+msgstr "Zamrznuté pláne"
+
+#: data/levels/world1/07 - Oh No More Snowballs.stl:3
+msgid "Oh no! More Snowballs!"
+msgstr "Ach, nie! Viac slehových gúl!"
+
+#: data/levels/world1/08 - Stone Cold.stl:3
+msgid "Stone Cold"
+msgstr "Ľadový ako kameň"
+
+#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
+msgid "Grumbel's Sense of Snow"
+msgstr "Grumbelov zmysel pre sneh"
+
+#: data/levels/world1/10 - 23rd Airborne.stl:3
+msgid "23rd Airborne"
+msgstr "23-tí Letec"
+
+#: data/levels/world1/11 - Night Chill.stl:3
+msgid "Night Chill"
+msgstr "Nočný mráz"
+
+#: data/levels/world1/12 - Into the Stars.stl:3
+msgid "Into the Stars"
+msgstr "Do hviezd"
+
+#: data/levels/world1/13 - Above the Arctic Skies.stl:3
+msgid "Above the Arctic Skies"
+msgstr "Nad arktickými mrakmi"
+
+#: data/levels/world1/14 - Entrance to the Cave.stl:3
+msgid "Entrance to the Cave"
+msgstr "Vchod do jaskyne"
+
+#: data/levels/world1/15 - Under the Ice.stl:3
+msgid "Under the Ice"
+msgstr "Pod ľadom"
+
+#: data/levels/world1/16 - Living in a Fridge.stl:3
+msgid "Living in a Fridge"
+msgstr "Život v chladničke"
+
+#: data/levels/world1/17 - Or is it just me.stl:3
+msgid "'...or is it just me?'"
+msgstr "'...alebo že by som to bol ja?'"
+
+#: data/levels/world1/18 - Ice in the Hole.stl:3
+msgid "Ice in the Hole"
+msgstr "Ľad v diere"
+
+#: data/levels/world1/19 - Miyamoto Monument.stl:3
+msgid "Miyamoto Monument"
+msgstr "Pamätník Miyamoto"
+
+#: data/levels/world1/20 - End of the Tunnel.stl:3
+msgid "End of the Tunnel"
+msgstr "Koniec tunelu"
+
+#: data/levels/world1/21 - A Path in the Clouds.stl:3
+msgid "A Path in the Clouds"
+msgstr "Cesta v oblakoch"
+
+#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
+msgid "A Mysterious House of Ice"
+msgstr "Tajomný dom ľadu"
+
+#: data/levels/world1/23 - The Escape.stl:3
+msgid "The Escape"
+msgstr "Útek"
+
+#: data/levels/world1/24 - The Shattered Bridge.stl:3
+msgid "The Shattered Bridge"
+msgstr "Rozbitý most"
+
+#: data/levels/world1/25 - Arctic Ruins.stl:3
+msgid "Arctic Ruins"
+msgstr "Arktické ruiny"
+
+#: data/levels/world1/26 - The Castle of Nolok.stl:3
+msgid "The Castle of Nolok"
+msgstr "Nolokov hrad"
+
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:3
+msgid "No More Mr Ice Guy"
+msgstr "Koniec zahrávaniu sa"
+
+#: data/levels/world1/Fork_in_the_Road.stl:3
+msgid "A Fork in the Road"
+msgstr "Križovatka"
+
+#: data/levels/world1/Fork_in_the_Road.stl:353
+msgid ""
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
+"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
+msgstr "-Vypínače\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Vypínače môžu byť použité na všeličo. Stlačte klávesu 'Nahor' na použitie vypínaču."
+
+#: data/levels/world1/Fork_in_the_Road.stl:362
+msgid ""
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
+"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
+msgstr "-Strunové Dosky\n!images/objects/trampoline/trampoline2-0.png\n#Strunové dosky dovolujú Tuxovi skákať do nových výšok. Ako na takejto doske poskakujete, podržte klávesu na skákanie a pozorujte, do akých výšok letíte."
+
+#: data/levels/world1/Fork_in_the_Road.stl:369
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr "-Štveranie sa\n#Tux sa vie štverať! Stlačte klávesu 'Nahor' pre začatie štverania. Stlačte klávesu 'Činnost', alebo skákaciu klávesu, aby sa pustil."
+
+#: data/levels/world1/bonus.stl:3
+msgid "Bonus Level"
+msgstr "Bonusový level"
+
+#: data/levels/world1/intro.stl:3
+msgid "Picnic With Penny"
+msgstr "Piknik s Penny"
+
+#: data/levels/world1/worldmap.stwm:3
+msgid "Icyisland"
+msgstr "Ľadoostrov"
+
+#: data/levels/world1/worldmap.stwm:37
+msgid "You Found a Secret Area!"
+msgstr "Našli ste tajné miesto!"

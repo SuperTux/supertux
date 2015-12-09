@@ -1,0 +1,106 @@
+# Travis-CI configuration file for SuperTux
+#
+# Configuration manual:
+# http://docs.travis-ci.com/user/build-configuration/
+#
+# Heavily borrowed from SuperTuxKart's travis.yml.
+#
+# SuperTuxKart's travis.yml file can be found here:
+# https://github.com/supertuxkart/stk-code/blob/master/.travis.yml
+# License: https://github.com/supertuxkart/stk-code/blob/master/COPYING
+#
+
+language: cpp
+dist: trusty
+sudo: required
+
+compiler:
+  - gcc
+  - clang
+
+matrix:
+  fast_finish: true
+  exclude:
+  - compiler: gcc
+    os: osx
+  
+os:
+  - linux
+  - osx
+
+env:
+  global:
+    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+    # via the "travis encrypt" command using the project repo's public key
+    - secure: "eVEyzIVjDlB16EPkXmj74tyF9pgX34kpgvBUMXJJ+hduuPwaGC6vl8T164fNQUIua2Z2/PqxmTLJRR3n5Bbkdf859NdX+4JUzc3SoFEKlgcLMYnOQeuimUAiMKxe4vmC4sub5LZVFsp9ORzVYkXgiMBnxiD5GuYxvZPy1lCaH9E="
+    - GLBINDING_VERSION=1.1.0
+  matrix:
+    - BUILD_TYPE="Debug"
+    - BUILD_TYPE="Release"
+    - USE_GLBINDING=OFF
+    # glbinding fails to compile on clang:
+    #- USE_GLBINDING=ON
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_d8a9ffcc8634_key -iv $encrypted_d8a9ffcc8634_iv -in .travis/travis-upload.pem.enc -out .travis/travis-upload.pem -d
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
+        brew update;
+        brew upgrade cmake;
+        brew install libogg libvorbis physfs glew openal-soft sdl2 sdl2_image;
+    fi
+  # Try building with GLBinding
+  # Note: glbindings ./configure needs to be run twice in order to generate a makefile
+  - if [ "$USE_GLBINDING" = "ON" ]; then
+    wget https://github.com/cginternals/glbinding/archive/v$GLBINDING_VERSION.tar.gz -O - | tar xz;
+    cd glbinding-$GLBINDING_VERSION && ./configure --prefix=/usr && ./configure --prefix=/usr;
+    cd build && make -j3 && sudo make install;
+    cd ../..;
+    fi
+
+script:
+  - git fetch --unshallow
+  # Then build:
+  - mkdir "build-$BUILD_TYPE"
+  - cd "build-$BUILD_TYPE"
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$USE_GLBINDING -DBUILD_TESTS=ON
+  - make -j3
+  - make install DESTDIR="/tmp/supertux-$BUILD_TYPE"
+  - ./test_supertux2
+  
+ 
+deploy:
+  provider: script
+  script: ../.travis/deploy-osx.sh
+  skip_cleanup: true
+  on:
+    branch: master
+    condition: $BUILD_TYPE = Release
+    
+addons:
+  apt:
+    packages:
+    - cmake
+    - build-essential
+    - libc++-dev
+    - libogg-dev
+    - libvorbis-dev
+    - libphysfs-dev
+    - libglew-dev
+    - libopenal-dev
+    - libboost-all-dev
+    - libsdl2-dev
+    - libsdl2-image-dev
+    - rpm
+    - sshpass
+  coverity_scan:
+    project:
+      name: "SuperTux/supertux"
+      description: "Build submitted via Travis CI"
+    notification_email: supertux-commit@lists.lethargik.org
+    build_command_prepend: "cmake . && make clean"
+    build_command:   "make -j 3"
+    branch_pattern: coverity_scan
+
+notifications:
+  email:
+    - supertux-commit@lists.lethargik.org

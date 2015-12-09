@@ -1,0 +1,17 @@
+[Meta]
+RootName: @icculus.org/physfs
+DisplayName: PhysicsFS
+ShortName: physfs
+Skeleton-Author: Matthias Braun <matze@braunis.de>
+Skeleton-Version: 1
+Repository: http://lincity-ng.berlios.de/autopackage/physfs.xml
+
+[Notes]
+The interface version follows the software version in this library.
+This skeleton can detect 1.0
+
+[Test]
+testForLib libphysfs-1.0.so.0 && {
+    INTERFACE_VERSIONS="1.0"
+    SOFTWARE_VERSIONS="1.0"
+}

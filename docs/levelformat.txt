@@ -1,0 +1,223 @@
+Note: the "official" editor for supertux is now flexlay
+(http://flexlay.berlios.de)
+
+- Level editing for SuperTux -
+http://supertux.lethargik.org/
+
+Last update: April 26, 2004
+
+This document describes both the level format and
+the level editor.
+
+= LEVEL FORMAT =
+
+Since the level editor does not support anything, you might have
+to edit a couple of things directly from the level file, so it
+might be a better idea to read this.
+
+Level format should be pretty straight forward. The syntax is the
+Scheme one. But even if you have no idea about it, no worry,
+it is pretty intuitive.
+
+Attention: this describes the new level format. But current levels
+still use the old one, since the engine still supports it and also
+level editors still use it.
+
+To explain a bit of the level format, there is nothing better than
+really looking at it. So here goes a quote of it. The comments
+prefix-ed by a ';', describe what everything is about.
+
+; This is a comment!
+; Level made using SuperTux's built-in Level Editor
+(supertux-level
+; version higher than 1 means that it follows the new level format (CVS)
+  (version 2)
+; Level's title and author name
+  (name "The Castle of Nolok")
+  (author "Ingo Ruhnke")
+; Time the player has to finish the level (it is not in seconds!)
+  (time 300)
+; Each level has one or more sectors. Sectors can be seen as levels inside this
+; level. Their use is for swapping.
+  (sector
+; Naming sectors is useful for swapping
+; "main" sectors are the ones that the player will start in
+    (name "main")
+; Setup an end sequence animation (blank for nothing).
+; Currently supported is fireworks that displays fireworks on exit.
+    (end-sequence-animation "fireworks")
+; Level's gravity (better let it 10)
+    (gravity 10)
+; We can have one or more playerspawn that can be used by doors.
+; "main" is the default one for this sector.
+  (playerspawn
+    (name "main")
+    (x 100)
+    (y 170)
+  )
+; Level's music file from data/music
+    (music "fortress.mod")
+; This level will use a vertical background
+; You can also set a background image by using:
+; (background "arctis.jpg")
+    (background
+      (top_red 0)
+      (top_green 0)
+      (top_blue 0)
+      (bottom_red 150)
+      (bottom_green 0)
+      (bottom_blue 0)
+    )
+; Now let's go for tilemaps. Tilemaps are the tiles field. We can have more
+; than one. Each one has the following properties:
+; layer - can be foreground (drawn above player), interactive (interacts with player,
+; (solid #t) has to be set, as well), background (drawn below the player).
+; speed - this can be used for parallax effects. Better use a level editor (though
+; there is not yet one that supports it) to edit this.
+    (tilemap
+      (layer "interactive")
+      (solid #t)
+      (speed 1)
+; width and height of the tilemap. Has to be specified.
+      (width 525)
+      (height 15)
+; Here goes the tilemap :
+      (tiles 64 64 69 68 68 ...
+       ....
+       ....)
+    )
+; Another tilemap, this is the background one
+    (tilemap
+      (layer "background")
+      (solid #f)
+      (speed 1)
+      (width 525)
+      (height 15)
+      (tiles 0 0 ...
+       ... )
+    )
+; Yet another one. Normally there are only three.
+    (tilemap
+      (layer "foreground")
+      (solid #f)
+      (speed 1)
+      (width 525)
+      (height 15)
+      (tiles 0 0 0 0 ...
+       ...)
+    )
+; Let's setup a few bad guys.
+    (jumpy
+      (x 1277)
+      (y 388)
+; stay-on-platform is a flag to tell them not to fall from
+; their platforms.
+      (stay-on-platform #f)
+    )
+    (mriceblock
+      (x 4345)
+      (y 380)
+      (stay-on-platform #f)
+    )
+    (stalactite
+      (x 790)
+      (y 96)
+      (stay-on-platform #f)
+    )
+; At last, but not least, the camera:
+; (Order doesn't matter for Lisp, so camera could be on top or the middle)
+    (camera
+; This is the ordinary mode, but we can also have an auto one.
+; "auto" can be used to create a path to the camera.
+; Here is an example of an auto camera:
+;  (camera
+;    (mode "autoscroll")
+;    (path
+;      (point (x 0) (y 0) (speed 0.5))
+;      (point (x 500) (y 0) (speed 2))
+;      (point (x 1200) (y 0) (speed 1))
+;      (point (x 3000) (y 0) (speed 1))
+;      (point (x 1500) (y 0) (speed 1.4))
+;      (point (x 99999) (y 0))
+;    )
+;  )
+      (mode "normal")
+; backscrolling is only set for normal. It says if player can back
+; scroll or not (just go to the front).
+      (backscrolling #t)
+    )
+; We could also setup other objects, like trampolines, doors (to swap),
+; and moving platform. Please check another level (ie. in test/) that
+; uses them to learn more about them.
+  )
+)
+
+= LEVEL EDITORS =
+
+USING THE BUILT-IN LEVEL EDITOR:
+--------------------------------
+
+When opening the leveleditor, a menu will appear. This menu
+can be used to select or add level subsets. A level subset is
+a collection of levels. Subsets can be chose during gameplay
+when starting a game.
+
+After selecting the subset, have a look at the level editor.
+The button bar in the right is the place where you can control
+the actions related with editing. You can select levels and add
+through there.
+
+To select tiles (foreground or background) and enemies, the button
+bar is the right place. There you can also save, test and setup
+the level. It is also possible between two selection cursors! Give
+a try to both. A right click in a button bar button will give you
+a description and a shortcut for it.
+
+To change a tile, just press the tile you want to change with a
+left mouse click. The current tile will be used. Depending
+on the selection behavior, you can or not select more
+than one tiles.
+
+To scroll, you just have to point over the two arrow buttons, or
+use the right button click.
+
+There is a small help that can be reached by pressing F1.
+
+To go back to the menu, just press Esc.
+
+The levels are saved under a .supertux/levels directory in
+your home directory.
+
+
+USING FLEXLAY:
+--------------
+
+FlexLay is an external project (it even uses different libraries)
+that is developed by Ingo Ruhnke and supports a lot of different
+games, including SuperTux (or else we wouldn't mention it :) ).
+
+Anyway, it is pretty easy to use and is a lot more advanced than
+the internal one. So, if you are considering doing a few levels
+for us, it would be a good idea to check this out.
+
+Its webpage is located at:
+http://pingus.seul.org/~grumbel/flexlay/
+
+It needs ClanLib and a few odd libraries... Anyway, it worths
+it ;)
+
+The only cons it has is that you have to have an accelerated
+videocard (with the drivers working, obviously). For linux,
+we advise nvidia videocards with the use of nvidia's closed
+drivers. ATI drivers should be enough to run this game though.
+
+
+= CONCLUSION =
+
+To sum up, go build lots of levels and HAVE FUN!!
+
+Please, send your levels or any art, including sketches, you
+have created to the SuperTux mailing list.
+
+
+    - SuperTux developers

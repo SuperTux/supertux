@@ -1,0 +1,134 @@
+//  Dart - Your average poison dart
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#include "badguy/dart.hpp"
+
+#include "audio/sound_manager.hpp"
+#include "audio/sound_source.hpp"
+#include "sprite/sprite.hpp"
+#include "supertux/object_factory.hpp"
+
+namespace {
+const float DART_SPEED = 200;
+}
+
+static const std::string DART_SOUND = "sounds/flame.wav";
+
+Dart::Dart(const Reader& reader) :
+  BadGuy(reader, "images/creatures/dart/dart.sprite"),
+  parent(0),
+  sound_source()
+{
+  physic.enable_gravity(false);
+  countMe = false;
+  SoundManager::current()->preload(DART_SOUND);
+  SoundManager::current()->preload("sounds/darthit.wav");
+  SoundManager::current()->preload("sounds/stomp.wav");
+}
+
+Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = 0) :
+  BadGuy(pos, d, "images/creatures/dart/dart.sprite"),
+  parent(parent_),
+  sound_source()
+{
+  physic.enable_gravity(false);
+  countMe = false;
+  SoundManager::current()->preload(DART_SOUND);
+  SoundManager::current()->preload("sounds/darthit.wav");
+  SoundManager::current()->preload("sounds/stomp.wav");
+}
+
+Dart::~Dart()
+{
+}
+
+bool
+Dart::updatePointers(const GameObject* from_object, GameObject* to_object)
+{
+  if (from_object == parent) {
+    parent = dynamic_cast<Dart*>(to_object);
+    return true;
+  }
+  return false;
+}
+
+void
+Dart::initialize()
+{
+  physic.set_velocity_x(dir == LEFT ? -::DART_SPEED : ::DART_SPEED);
+  sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
+}
+
+void
+Dart::activate()
+{
+  sound_source = SoundManager::current()->create_sound_source(DART_SOUND);
+  sound_source->set_position(get_pos());
+  sound_source->set_looping(true);
+  sound_source->set_gain(1.0);
+  sound_source->set_reference_distance(32);
+  sound_source->play();
+}
+
+void
+Dart::deactivate()
+{
+  sound_source.reset();
+  remove_me();
+}
+
+void
+Dart::active_update(float elapsed_time)
+{
+  BadGuy::active_update(elapsed_time);
+  sound_source->set_position(get_pos());
+}
+
+void
+Dart::collision_solid(const CollisionHit& )
+{
+  SoundManager::current()->play("sounds/darthit.wav", get_pos());
+  remove_me();
+}
+
+HitResponse
+Dart::collision_badguy(BadGuy& badguy, const CollisionHit& )
+{
+  // ignore collisions with parent
+  if (&badguy == parent) {
+    return FORCE_MOVE;
+  }
+  SoundManager::current()->play("sounds/stomp.wav", get_pos());
+  remove_me();
+  badguy.kill_fall();
+  return ABORT_MOVE;
+}
+
+HitResponse
+Dart::collision_player(Player& player, const CollisionHit& hit)
+{
+  SoundManager::current()->play("sounds/stomp.wav", get_pos());
+  remove_me();
+  return BadGuy::collision_player(player, hit);
+}
+
+bool
+Dart::is_flammable() const
+{
+  return false;
+}
+
+/* EOF */

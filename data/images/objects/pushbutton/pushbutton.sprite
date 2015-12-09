@@ -1,0 +1,12 @@
+(supertux-sprite
+  (action
+    (name "off")
+    (hitbox 1 2 30 14)
+    (images "pushbutton-0.png")
+  )
+  (action
+    (name "on")
+    (hitbox 1 2 30 8)
+    (images "pushbutton-1.png")
+  )
+)

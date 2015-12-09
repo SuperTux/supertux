@@ -1,0 +1,26 @@
+LEVEL DESIGN GUIDELINES
+
+These guidelines should be kept for any level that appears on the official world maps.
+Designers contributing levels to the Contrib and Bonus sections are free of regulations -
+that's what those sections are for. However, to maintain a certain level of playability,
+official levels should be designed with these rules in mind:
+
+1. Don't mix tilesets! There shouldn't be any ice or castle tiles in a forest level,
+unless there is an obvious reason (like transition into another area).
+2. Clearly distinguish between the layers - players should be able to see immediately
+where they can safely walk and what is foreground and background. Avoid placing bonus
+items (coins, boxes) in the background.
+3. Be careful not to create dead ends. Test your level thoroughly to find possible paths
+you might have missed before.
+4. Use everything the engine offers - but don't place it all in a single level!
+5. Avoid large amounts of objects and badguys on the screen at once as it greatly
+decreases playability. Also, your level might not be playable on slower machines anymore.
+6. Find the right difficulty! Too easy levels get boring very quickly while too hard ones
+can be frustrating. Levels you built often appear a lot easier for yourself, so be sure
+to let other people test them.
+7. Don't make your level too short or too long - good size largely depends on the level's
+overall design, so there's no general "good" value. In longer levels, make sure there are
+enough reset points, so players won't have to repeat large portions of the level.
+8. Secret areas should be well-hidden and not be visible on first sight. Use your
+imagination to think of new ways to create secrets - some of the above rules can be
+broken for that purpose, but be careful!

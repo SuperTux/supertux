@@ -1,0 +1,60 @@
+SuperTux Coding Standards
+=========================
+
+* start member variable name with "m_", global variables with "g_" and
+  static variables with "s_"
+
+* avoid spaces at the end of lines
+
+* proper separation between generic engine code and game specific code
+  should be done whenever feasible
+
+* the path in #include directives must not contain "..", all paths
+  must be relative to the src/ directory
+
+* external libraries are not allowed in src/, they go to external/
+
+* do not use raw pointer and new/delete, use std::unique_ptr<> instead
+
+* properly separate data members and member functions, don't mix them
+  in the same public/private/protected section
+
+* conditional includes should be indented:
+
+#ifdef FOOBAR
+#  include "foobar.hpp"
+#endif
+
+* use #include <> for libraries in external/
+
+* include guards are of the form:
+
+#ifndef HEADER_SUPERTUX_{PATH}_{FILE}_HPP
+#define HEADER_SUPERTUX_{PATH}_{FILE}_HPP
+
+* use one file per class
+
+* write namespaces like: "namespace NameSpace {", no newline before the '{', finish them with:
+  "} // namespace Namespace"
+
+* compile with the maximum warning level and with -Werror:
+
+  -Werror -ansi -pedantic -Wall -Wextra -Wnon-virtual-dtor -Weffc++
+  -Wcast-qual -Winit-self -Wno-unused-parameter
+
+  possible additional flags for the future: -Wconversion -Wshadow
+
+* write doxygen comments as:
+
+  /** This is a comment */
+
+  do not use /**< and other styles of comments
+
+* write regular comments with //, not with /* */
+
+* more info on good practices can be found at:
+
+  http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml
+
+
+# EOF #

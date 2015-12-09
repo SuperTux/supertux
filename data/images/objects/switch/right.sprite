@@ -1,0 +1,31 @@
+(supertux-sprite
+  (action
+    (name "off")
+    (hitbox 0 2 20 43)
+    (images 
+      "right-0.png"
+    )
+  )
+  (action
+    (name "turnon")
+    (hitbox 0 2 20 43)
+    (images 
+      "right-1.png"
+    )
+  )
+  (action
+    (name "on")
+    (hitbox 0 2 20 43)
+    (images 
+      "right-2.png"
+    )
+  )
+  (action
+    (name "turnoff")
+    (hitbox 0 2 20 43)
+    (images 
+      "right-1.png"
+    )
+  )
+)
+

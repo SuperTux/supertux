@@ -1,0 +1,6 @@
+(supertux-world
+  (title (_ "Halloween 2014"))
+  (description "Halloween 2014 Level Pack")
+  (hide-from-contribs #f)
+  (levelset #f)
+)

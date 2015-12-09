@@ -1,0 +1,21 @@
+/* This file is processed by miniswig to produce the scripting API */
+#include "scripting/ambient_sound.hpp"
+#include "scripting/anchor_points.hpp"
+#include "scripting/camera.hpp"
+#include "scripting/candle.hpp"
+#include "scripting/display_effect.hpp"
+#include "scripting/floating_image.hpp"
+#include "scripting/functions.hpp"
+#include "scripting/level.hpp"
+#include "scripting/level_time.hpp"
+#include "scripting/platform.hpp"
+#include "scripting/player.hpp"
+#include "scripting/scripted_object.hpp"
+#include "scripting/ssector.hpp"
+#include "scripting/text.hpp"
+#include "scripting/thunderstorm.hpp"
+#include "scripting/tilemap.hpp"
+#include "scripting/willowisp.hpp"
+#include "scripting/wind.hpp"
+
+/* EOF */

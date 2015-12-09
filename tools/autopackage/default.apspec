@@ -1,0 +1,58 @@
+# -*-shell-script-*-
+# Autopackage spec file
+
+[Meta]
+RootName: @supertux.berlios.de/supertux:$SOFTWAREVERSION
+DisplayName: SuperTux Platform Game
+ShortName: supertux
+Maintainer: SuperTux Development Team <supertux-devel@lists.berlios.de>
+Packager: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+Summary: SuperTux is a classic style 2D jump and run sidescroller game in a style similar to the original SuperMario games.
+SoftwareVersion: 0.3.2-SVN
+PackageVersion: 2
+AutopackageTarget: 1.2
+
+[Description]
+SuperTux is a classic style 2D jump and run sidescroller game in a style similar to the original SuperMario games.
+
+Run and jump through multiple worlds, fighting off enemies by jumping
+on them or bumping them from below.  Grabbing power-ups and other stuff
+on the way.
+
+[BuildPrepare]
+old_build_root="$build_root"
+APKG_BUILD_SKIP_MAKE=1
+APKG_BUILD_ROOT=0
+prepareBuild --enable-binreloc=yes --build=i386
+jam
+jam "-sDESTDIR=$old_build_root" install
+
+[BuildUnprepare]
+unprepareBuild
+
+[Imports]
+echo '*' | import
+
+[Prepare]
+# Dependency checking
+require '@openal.org/openal' 0.0
+require '@libsdl.org/sdl' 1.2
+require '@opengl.org/opengl' 1.2
+require '@xiph.org/libogg' 0.5
+require '@xiph.org/libvorbis' 0.3
+require '@gnu.org/libstdc++' 3
+require '@libsdl.org/sdl_image' 1.2
+require '@icculus.org/physfs' 1.0
+
+[Install]
+# Put your installation script here
+installExe bin/*
+installData share/supertux2
+copyFiles share/doc "$PREFIX/share"
+installIcon share/pixmaps/*.png
+installIcon share/pixmaps/*.xpm
+installDesktop "Games" share/applications/supertux2.desktop
+
+[Uninstall]
+# Usually just the following line is enough to uninstall everything
+uninstallFromLog

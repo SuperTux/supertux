@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>SuperTux - Milestone 2 Specifications</title>
+</head>
+<body>
+<div style="text-align: center;"><big>SuperTux Milestone 2</big><br>
+<br>
+<div style="text-align: left;"><span style="font-weight: bold;">Spoiler
+Warning:<br>
+</span><small style="font-weight: bold;">This document contains a very
+detailed description about SuperTux milestone 2, including every new
+feature, as well as the full story.</small><span
+ style="font-weight: bold;"><small style="font-weight: bold;"> If you
+only want to play SuperTux and you are not interested in the
+development process, you should not read any further, as it will give
+away a lot of surprises; however, if you are involved in developing the
+game, reading this is a requirement.</small><br>
+</span></div>
+<div style="text-align: left;"><small><br>
+<br>
+Worldmap:<br>
+After finishing Antarctica by beating the worlds boss, a cutscene,
+replacing the currently displayed text, will be shown. (For a detailed
+description of cutscenes, see section "Story".) Tux will then advance
+to world 2, the forest island. Its worldmap will be built using the
+same, possibly enhanced, format that Antarctica uses. The worldmap will
+be designed as follows: The island consists of four sections. A light
+friendly looking forest where Tux starts his journey, a ghost forest
+section, and a transition between them; in the center of the island,
+surrounded by the ghost forest is the world's castle, called Dark
+Forest Keep. Levels will be spread throughout the whole island,
+distributed as follows: 50 per cent of the levels are inside the light
+section, 30 per cent inside the haunted section, with one or two levels
+inside the transition area. The remaining 20 per cent will take place
+inside the castle.</small><small><br>
+</small><small>Other than on the Antarctica worldmap, the levels should
+be placed on different paths, so that there is always a choice between
+at least two levels. Exceptions to this (i.e. levels with no
+alternative to choose from) are<br>
+a) the first level,<br>
+b) levels on one path that are in some way connected by story,<br>
+c) the (first) transition to the ghost forest section, and<br>
+d) the castle levels.<br>
+The primary goal of the forest world is to beat the boss at the final
+castle level. In order to get there, Tux needs to collect five keys
+scattered throughout the island which will open the door to the castle.
+Thus, the paths on the worldmap should lead into five dead-ends that
+hold the levels in which the key can be found. The path to the castle
+is accessible from after the first level. However, when Tux tries to
+enter the castle, he can't unlock the door without all five keys.<br>
+</small><small><br>
+<br>
+Levels:<br>
+Unlike Antarctica, forest levels can have variable sizes, both
+horizontally and vertically. In addition to that, levels can have a
+number of different sectors of variable size, connected by doors,
+portals, script events and spawn points. Due to this variability, there
+is no recommended level size anymore; the "perfect size" of a level
+solely depends on its design.<br>
+The three different themes on forest world -light forest, ghost forest
+and castle- are each represented by a matching tileset. All forest
+levels use one of these tilesets; a general rule should be not to mix
+them.<br>
+Levels in the transition area between light and ghost forest, however,
+follow a different design: Those levels will have a light sector and a
+very similar looking ghost forest sector. Throughout the level, Tux will
+need to travel between the sectors to solve puzzles and find his way
+through the level. Transition between the worlds can happen by either<br>
+a) actively walking through a portal,<br>
+b) being beamed into the other world without warning, using invisible
+triggers, or<br>
+c) being caught by special badguys that have the ability to carry you
+over to the other world.<br>
+</small><small>Levels have the ability to autoscroll in all four
+directions. There is no fixed ending sequence like in Antarctica
+anymore; level designers can use scripts to determine the ending
+conditions of a level. These can include picking up an object, killing
+a certain enemy or reaching a certain area.<br>
+</small><small>For more general information on level design, read the
+file "levelguidelines.txt" in the docs directory of the SuperTux
+repository.<br>
+Level events can be automated using scripts in order to create in-game
+cutscenes.<br>
+<br>
+<br>
+Scripting:<br>
+Milestone 2 will feature a scripting system that can be used to
+customize events and objects inside a level. </small><small>Any level
+object and badguy can trigger a script; the language used for them is
+Squirrel. </small><small>Scripts are embedded in a level object
+definition inside the level file, macros can be defined in external
+.nut files. </small><small><br>
+</small><small>They can be used for the following actions:<br>
+&nbsp;&nbsp;&nbsp; -Create cutscenes<br>
+&nbsp;&nbsp;&nbsp; -Customize level objects and powerups<br>
+&nbsp;&nbsp;&nbsp; -Transform a level<br>
+&nbsp;&nbsp;&nbsp; -Manipulate levels by adding or removing objects and
+badguys<br>
+&nbsp;&nbsp;&nbsp; -Finish a level<br>
+</small><small><br>
+<br>
+</small><small>Powerups:<br>
+In Milestone 2 in general, the favored way of enhancing Tux'
+abilities will be through level objects that temporarily grant Tux
+special abilities (see Level Objects section for more details), rather
+than permanent powerups like fire and ice shots. Those will still be
+there, but they'll remain relatively weak, so they don't get in the way
+of level design. An ice shot will be implemented, the fire shot's
+behavior will be improved [need more detail here]. The fire shot gets
+a new ability to burn through specific tiles to reveal paths. These
+paths, however, should contain only bonus items like coins; it must be
+possible to finish a level without needing the fire powerup.<br>
+&nbsp;&nbsp;&nbsp; -Ice shot<br>
+&nbsp;&nbsp;&nbsp; -Fire melts ice, ice freezes water<br>
+&nbsp;&nbsp;&nbsp; -Super Buttjump (timed)<br>
+General idea: More level objects than powerups, they can be placed
+where they are needed.<br>
+Powers like fire must not get in the way of level design<br>
+</small><small><br>
+<br>
+</small><small>Permanent Abilities:<br>
+&nbsp;&nbsp;&nbsp; -Flapping<br>
+&nbsp;&nbsp;&nbsp; -Butt Jump (permanent for big tux)<br>
+Always big Tux in forest world?<br>
+<br>
+<br>
+</small><small>Level Objects:<br>
+&nbsp;&nbsp;&nbsp; -Coin - collect 100 coins to get an extra life.<br>
+&nbsp;&nbsp;&nbsp; -Bonus Block - contains powerups.<br>
+</small><small>&nbsp;&nbsp;&nbsp; -Message Box - a special bonus block
+that contains a message. Implemented as telephones.</small><br>
+<small>&nbsp;&nbsp;&nbsp; -Ambient Sound - plays a looping sound effect
+inside the defined range.<br>
+&nbsp;&nbsp;&nbsp; -Timer - adds a time limit to a level.<br>
+&nbsp;&nbsp;&nbsp; -Particle System - adds background visual effects
+like clouds, snow, and rain.<br>
+</small><small>&nbsp;&nbsp;&nbsp; -Door - respawns Tux at a defined
+spawn point when activated.<br>
+</small><small>&nbsp;&nbsp;&nbsp; -Spawn Point - defines the place
+where Tux appears after walking through a door.<br>
+</small><small>&nbsp;&nbsp;&nbsp; -Bell - When touched, Tux respawns at
+the bell after dying.</small><br>
+<small>&nbsp;&nbsp;&nbsp; -Trampoline - Tux can jump on them for a very
+high jump; can be carried around.<br>
+&nbsp;&nbsp;&nbsp; -Falling Block - solid block that falls down shortly
+after being touched.<br>
+&nbsp;&nbsp;&nbsp; -Powerup - an object that represents a powerup, such
+as egg, flower, star, extra life, or potion.<br>
+&nbsp;&nbsp;&nbsp; -Message Trigger - display a message as soon as Tux
+enters their range. Used to mark secret areas.<br>
+&nbsp;&nbsp;&nbsp; -Sequence Trigger - executes a script on contact.<br>
+&nbsp;&nbsp;&nbsp; -Moving Platform - [still needs to be defined.]<br>
+&nbsp;&nbsp;&nbsp; -Camera Blocker - prevents the camera from scrolling
+into a specific direction. Instantly kill Tux on contact.<br>
+&nbsp;&nbsp;&nbsp; -Carryable Block - Blocks that can be carried around
+and stacked.<br>
+&nbsp;&nbsp;&nbsp; -Bubble Dispenser - Releases bubbles that Tux can
+use to travel upwards.<br>
+&nbsp;&nbsp;&nbsp; -Ice Cube/Straw Block - a block that can be
+destroyed by the fire shot. Appearance depends on the world it's used
+in.<br>
+<br>
+<br>
+Badguys:<br>
+&nbsp;&nbsp;&nbsp; Poison Ivy - Forest equivalent to Mr. Snowball.<br>
+&nbsp;&nbsp;&nbsp; Mr. Tree - Large badguy that walks around slowly.
+Needs to be jumped on twice.<br>
+&nbsp;&nbsp;&nbsp; Mr. Rocket - Shot out of a dispenser and flies
+straight into one direction. Explodes on collision.<br>
+&nbsp;&nbsp;&nbsp; Dispenser - Frequently shoots rockets or drops other
+badguys.<br>
+&nbsp;&nbsp;&nbsp; Zeekling - Flies around straight left or right, and
+straight towards Tux when he gets close.<br>
+&nbsp;&nbsp;&nbsp; other badguy ideas: bird creatures, moles, ghosts<br>
+<br>
+<br>
+Bosses:<br>
+&nbsp;&nbsp;&nbsp; Yeti<br>
+&nbsp;&nbsp;&nbsp; Forest Boss needed!</small><small><br>
+</small><br>
+<br>
+<small>Engine:<br>
+Apart from the code needed to create the game elements mentioned above,
+one goal is to make it easier to add custom content. Though it will not
+go as far as allowing total conversations of the game, it should be
+possible to easily change or add game content like graphics, levels and
+sounds without touching the code. This will be accomplished by using
+the PhysFS library for data handling, as well as adding functions to
+browse the data folders for custom levels, worldmaps and scripts. All
+game data, except music files, will be stored in a .zip archive located
+in the data directory. Additional data paths can be specified using
+command line options.<br>
+OpenGL only.<br>
+<br>
+<br>
+Graphics:<br>
+&nbsp;&nbsp;&nbsp; Tilesets:<br>
+&nbsp;&nbsp;&nbsp; Forest: light green and light brown, rain<br>
+&nbsp;&nbsp;&nbsp; Ghost Forest: dead trees, dark brown, dark green,
+dark grey, Fog, Ghosts<br>
+&nbsp;&nbsp;&nbsp; Castle: add dead flowers and plants on the walls<br>
+&nbsp;&nbsp;&nbsp; Tilable level backgrounds<br>
+&nbsp;&nbsp;&nbsp; Portals<br>
+&nbsp;&nbsp;&nbsp; no more pipes<br>
+<br>
+<br>
+Sound:<br>
+&nbsp;&nbsp;&nbsp; Ambient sounds<br>
+&nbsp;&nbsp;&nbsp; Sounds with added environment effects (echoes, etc.)<br>
+<br>
+<br>
+Music:<br>
+Musical themes will be added for the following events and environments:<br>
+a) Two themes for the light forest world<br>
+b) Two ghost forest themes<br>
+c) One castle theme<br>
+</small><small>d) Boss fight music<br>
+e) Game-Over music<br>
+</small><small>f) Credits theme</small><br>
+<small>There might be different Boss fight and game over themes for
+every world.<br>
+An enhanced version of the main theme will be used.<br>
+<br>
+<br>
+Story:<br>
+More focus on the story<br>
+Cutscenes at beginning and end of every world, maybe one interlude per
+world.<br>
+<br>
+<br>
+Level Editor:<br>
+The in-game editor will be replaced by the external editor Flexlay.
+With the release of milestone 2, Flexlay should support all newly added
+features like new level objects, new badguys, and scripting. Binary
+packages should be available for all platforms that run SuperTux.<br>
+</small></div>
+</div>
+</body>
+</html>

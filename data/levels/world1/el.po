@@ -1,0 +1,220 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Vangelis Nomikos <nvangelis@gmail.com>, 2013-2014
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-11 02:39+0200\n"
+"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Greek (http://www.transifex.com/arctic-games/supertux/language/el/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:3
+msgid "Welcome to Antarctica"
+msgstr "Καλώς ήρθες στην Ανταρκτική"
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
+msgid ""
+"-Bonus Blocks\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
+"#\n"
+"#Hit them from below to get at their contents."
+msgstr "-Μπόνους Μπλοκ\n!images/objects/bonus_block/full-0.png\n#Μπόνους μπλοκς μπορούν να περιέχουν κέρματα, power-ups ή εδικά στοιχεία για να σε βοηθήσουν στην προσπάθεια σου.\n#\n#Χτύπα τα από κάτω για να πάρεις το περιεχόμενο τους."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
+msgid ""
+"-Eggs\n"
+"!images/powerups/egg/egg.png\n"
+"#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
+msgstr ""
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:79
+msgid ""
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
+msgstr "-Σημεία Ελέγχου\n!images/objects/resetpoints/bell-m.png\n#Ενεργοποίησε το σημείο ελέγχου. Αν πεθάνεις, μπορείς να επαναλάβεις το επίπεδο από αυτό το σημείο. Κάθε φορά που ξαναπροσπαθείς από ένα σημείο ελέγχου, θα χάνεις τουλάχιστον 25 νομίσματα."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:86
+msgid ""
+"-Running\n"
+"!images/tiles/signs/run.png\n"
+"#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
+msgstr "-Τρέξιμο\n!images/tiles/signs/run.png\n#Η διαδρομή μπροστά σου είναι αποκλεισμένη. Απέκτησε κάποια ταχύτητα πριν πηδήξεις για να περάσεις πάνω από τα μπλοκ."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:93
+msgid ""
+"-Fire Flower\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#The fire flower gives Tux the ability to shoot fireballs."
+msgstr "-Λουλούδι Φωτιά\n!images/powerups/fireflower/fire_flower-0.png\n#Το λουλούδι φωτιά δίνει στον Tux τη δυνατότητα να πυροβολεί με μπάλες φωτιάς."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:100
+msgid ""
+"-Tux Doll\n"
+"!images/powerups/1up/1up.png\n"
+"#The Tux doll gives Tux 100 coins."
+msgstr "-Κούκλα Tux\n!images/powerups/1up/1up.png\n#Η κούλα Tux δίνει στον Tux 100 νομίσματα."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:107
+msgid ""
+"-Secret Areas\n"
+"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
+msgstr "-Μυστικές Περιοχές\n#Πολλά επίπεδα περιέχουν μυστικές περιοχές πίσω από ό,τι φαίνεται να είναι απλοί τοίχοι. Ψάξε για ενδείξεις για να τα βρεις."
+
+#: data/levels/world1/02 - The Journey Begins.stl:3
+msgid "The Journey Begins"
+msgstr "Το Ταξίδι Ξεκινάει"
+
+#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
+#: Via Nostalgica.stl:3
+msgid "Via Nostalgica"
+msgstr "Via Nostalgica"
+
+#: data/levels/world1/04 - Tobgle Road.stl:3
+msgid "Tobgle Road"
+msgstr "Tobgle Δρόμος"
+
+#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
+msgid "The Somewhat Smaller Bath"
+msgstr "Το Κάπως Μικρότερο Λουτρό"
+
+#: data/levels/world1/06 - The Frosted Fields.stl:3
+msgid "The Frosted Fields"
+msgstr "Τα Παγωμένα Πεδία"
+
+#: data/levels/world1/07 - Oh No More Snowballs.stl:3
+msgid "Oh no! More Snowballs!"
+msgstr "Ωχ όχι! Περισσότερες Χιονόμπαλες!"
+
+#: data/levels/world1/08 - Stone Cold.stl:3
+msgid "Stone Cold"
+msgstr "Πέτρινο Ψύχος"
+
+#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
+msgid "Grumbel's Sense of Snow"
+msgstr "Η Αίσθηση Χινιού του Grumbel"
+
+#: data/levels/world1/10 - 23rd Airborne.stl:3
+msgid "23rd Airborne"
+msgstr "23η  Airborne"
+
+#: data/levels/world1/11 - Night Chill.stl:3
+msgid "Night Chill"
+msgstr "Νυχτερινή Ψύχρα"
+
+#: data/levels/world1/12 - Into the Stars.stl:3
+msgid "Into the Stars"
+msgstr "Στα Αστέρια"
+
+#: data/levels/world1/13 - Above the Arctic Skies.stl:3
+msgid "Above the Arctic Skies"
+msgstr "Πάνω από τους Αρκτικούς Ουρανούς"
+
+#: data/levels/world1/14 - Entrance to the Cave.stl:3
+msgid "Entrance to the Cave"
+msgstr "Είσοδος στο Σπήλαιο"
+
+#: data/levels/world1/15 - Under the Ice.stl:3
+msgid "Under the Ice"
+msgstr "Κάτω από τον Πάγο"
+
+#: data/levels/world1/16 - Living in a Fridge.stl:3
+msgid "Living in a Fridge"
+msgstr "Ζώντας σε ένα Ψυγείο"
+
+#: data/levels/world1/17 - Or is it just me.stl:3
+msgid "'...or is it just me?'"
+msgstr "'...ή είναι αυτό απλά δικό μου?'"
+
+#: data/levels/world1/18 - Ice in the Hole.stl:3
+msgid "Ice in the Hole"
+msgstr "Πάγος στην Τρύπα"
+
+#: data/levels/world1/19 - Miyamoto Monument.stl:3
+msgid "Miyamoto Monument"
+msgstr "Το Μηνμείο του Miyamoto"
+
+#: data/levels/world1/20 - End of the Tunnel.stl:3
+msgid "End of the Tunnel"
+msgstr "Τέλος του Τούνελ"
+
+#: data/levels/world1/21 - A Path in the Clouds.stl:3
+msgid "A Path in the Clouds"
+msgstr "Ένα Μονοπάτι στα Σύννεφα"
+
+#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
+msgid "A Mysterious House of Ice"
+msgstr "Ένα Μυστηριώδες Σπίτι στον Πάγο"
+
+#: data/levels/world1/23 - The Escape.stl:3
+msgid "The Escape"
+msgstr "Η Απόδραση"
+
+#: data/levels/world1/24 - The Shattered Bridge.stl:3
+msgid "The Shattered Bridge"
+msgstr "H Γκρεμισμένη Γέφυρα"
+
+#: data/levels/world1/25 - Arctic Ruins.stl:3
+msgid "Arctic Ruins"
+msgstr "Αρκτικά Ερείπια"
+
+#: data/levels/world1/26 - The Castle of Nolok.stl:3
+msgid "The Castle of Nolok"
+msgstr "Το Κάστρο του Nolok"
+
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:3
+msgid "No More Mr Ice Guy"
+msgstr "Όχι άλλο Κύριε Παγωμένε Τύπε"
+
+#: data/levels/world1/Fork_in_the_Road.stl:3
+msgid "A Fork in the Road"
+msgstr "Ένα Πιρούνι στο Δρόμο"
+
+#: data/levels/world1/Fork_in_the_Road.stl:353
+msgid ""
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
+"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
+msgstr "-Διακόπτες\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Οι διακόπτες μπορούν να χρησιμοποιηθούν για να κάνουν κάθε λογής πράγματα. Πάτησε το πλήκτρο UP για να χρησιμοποιήσεις τους διακόπτες. Ο συγκεκριμένος ενεργοποιεί τον ανελκυστήρα στα δεξιά σου."
+
+#: data/levels/world1/Fork_in_the_Road.stl:362
+msgid ""
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
+"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
+msgstr "-Βατήρες\n!images/objects/trampoline/trampoline2-0.png\n#Οι βατήρες επιτρέπουν στον Tux να πηδάει σε νέα ύψη. Κράτα πατημένο το πλήκτρο άλματος ενώ αναπηδείς στο βατήρα για να αποκτήσεις επιπλέον ύψος."
+
+#: data/levels/world1/Fork_in_the_Road.stl:369
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr "- Σκαρφάλωμα\n# Ο Tux μπορεί να σκαρφαλώσει! Πάτησε το πλήκτο ΠΑΝΩ για να ξεκινήσει το σκαρφάλωμα. Πάτησε το πλήκτρο ΔΡΑΣΗ ή πήδα ώστε να συνεχίσει."
+
+#: data/levels/world1/bonus.stl:3
+msgid "Bonus Level"
+msgstr "Έξτρα Επίπεδο"
+
+#: data/levels/world1/intro.stl:3
+msgid "Picnic With Penny"
+msgstr "Πικνικ με την Penny"
+
+#: data/levels/world1/worldmap.stwm:3
+msgid "Icyisland"
+msgstr "Παγωμένο Νησί"
+
+#: data/levels/world1/worldmap.stwm:37
+msgid "You Found a Secret Area!"
+msgstr "Βρήκες μια Μυστική Περιοχή"

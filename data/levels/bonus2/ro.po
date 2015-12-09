@@ -1,0 +1,178 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Razvan <razvan.net@gmail.com>, 2007
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-28 18:10+0000\n"
+"PO-Revision-Date: 2015-07-11 02:36+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Romanian (http://www.transifex.com/arctic-games/supertux/language/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#: data/levels/bonus2/extro.txt:3
+msgid ""
+"-Congratulations!\n"
+"\n"
+"#You successfully made it through\n"
+"#Bonus Island II\n"
+"\n"
+"\n"
+"\tfeaturing levels contributed by\n"
+"\tKevin\n"
+"\tJason Kleinemas\n"
+"\tDenilson\n"
+"\tTobe Deprez\n"
+"\tBig C\n"
+"\tThomas Nilsen\n"
+"\tTorfi Gunnarsson\n"
+"\tDaniel Alston\n"
+"\tNilrok\n"
+"\tCorlin Heydman\n"
+"\n"
+"\n"
+"#Once again, we'd like to thank\n"
+"#everyone who contributed to this\n"
+"#release. We hope that you enjoyed\n"
+"#it, and that it made waiting for\n"
+"#Milestone 2 a little easier. :-)\n"
+"\n"
+"\n"
+" The end of the ice age is near..."
+msgstr ""
+
+#: data/levels/bonus2/level1.stl:3
+msgid "Mario's Supposed to Deal With This..."
+msgstr "Mario Trebuia sa se Ocupe Cu Asta..."
+
+#: data/levels/bonus2/level10.stl:3
+msgid "fjerd"
+msgstr "fjerd"
+
+#: data/levels/bonus2/level11.stl:3
+msgid "The long cave"
+msgstr "Pestera lunga"
+
+#: data/levels/bonus2/level12.stl:3
+msgid "Blind To The World"
+msgstr "Lume Invisibila"
+
+#: data/levels/bonus2/level13.stl:3
+msgid "snarf"
+msgstr "snarf"
+
+#: data/levels/bonus2/level14.stl:3
+msgid "On The Road Again"
+msgstr "Pe Drum Din Nou"
+
+#: data/levels/bonus2/level15.stl:3
+msgid "Frozen Tunnel"
+msgstr "Tunelul Inghetat"
+
+#: data/levels/bonus2/level16.stl:3
+msgid "Luft Airship"
+msgstr "Dirijabilul Luft"
+
+#: data/levels/bonus2/level17.stl:3
+msgid "...Where Everything Is Possible"
+msgstr "...Unde Orice Este Posibil"
+
+#: data/levels/bonus2/level18.stl:3
+msgid "Insert Original Title Here"
+msgstr "Inserati Titlu Original Aici"
+
+#: data/levels/bonus2/level19.stl:3
+msgid "End Of The Ice Age"
+msgstr "Sfarsitul Erei Glaciare"
+
+#: data/levels/bonus2/level2.stl:3
+msgid "Think Fast, or Die"
+msgstr "Gandeste Rapid sau Mori"
+
+#: data/levels/bonus2/level20.stl:3
+msgid "Fan Fortress"
+msgstr "Fortareata Ventilator"
+
+#: data/levels/bonus2/level21.stl:3
+msgid "Nolok's Party Pit"
+msgstr "Petrecerea Din Groapa lui Nolok"
+
+#: data/levels/bonus2/level22.stl:3
+msgid "Water Ways"
+msgstr "Caile De Pe Ape"
+
+#: data/levels/bonus2/level23.stl:3
+msgid "All That Glistens Is Not Gold"
+msgstr "Toate Sclipirile Nu Sunt Aur"
+
+#: data/levels/bonus2/level24.stl:3
+msgid "A Cold Day"
+msgstr "O Zi Rece"
+
+#: data/levels/bonus2/level25.stl:3
+msgid "High Gravity"
+msgstr "Gravitate Puternica"
+
+#: data/levels/bonus2/level26.stl:3
+msgid "Firestorm"
+msgstr "Furtuna De Foc"
+
+#: data/levels/bonus2/level27.stl:3
+msgid "A Long Journey"
+msgstr "O Calatorie Lunga"
+
+#: data/levels/bonus2/level28.stl:3
+msgid "Life Support"
+msgstr "Suport Viata"
+
+#: data/levels/bonus2/level3.stl:3
+msgid "Cliff Jumping"
+msgstr "Sarituri De Pe Stanci"
+
+#: data/levels/bonus2/level4.stl:3
+msgid "Into The Cave"
+msgstr "Inauntrul Pesterii"
+
+#: data/levels/bonus2/level5.stl:3
+msgid "You have 1 minute"
+msgstr "Ai 1 minut"
+
+#: data/levels/bonus2/level6.stl:3
+msgid "A Path Trough The Clouds"
+msgstr "O Cale Printre Nori"
+
+#: data/levels/bonus2/level7.stl:3
+msgid "In Flanders Ice Field"
+msgstr "In Campul Inghetat al lui Flander"
+
+#: data/levels/bonus2/level8.stl:3
+msgid "Castle in the Sky"
+msgstr "Castelul din Cer"
+
+#: data/levels/bonus2/level9.stl:3
+msgid "Tradition"
+msgstr "Traditie"
+
+#: data/levels/bonus2/worldmap.stwm:3
+msgid "Bonus Island II"
+msgstr "Insula Bonus II"
+
+#: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
+msgid "You found a secret place!"
+msgstr "Ai gasit un loc secret!"
+
+#: data/levels/bonus2/worldmap.stwm:29
+msgid "I wonder where that path leads to..."
+msgstr "Sunt curios unde duce aceasta cale..."
+
+#: data/levels/bonus2/worldmap.stwm:36
+msgid "Warp home..."
+msgstr "Teleporteaza-te acasa..."

@@ -1,0 +1,12 @@
+[submodule "external/tinygettext"]
+	path = external/tinygettext
+	url = https://github.com/SuperTux/tinygettext.git
+[submodule "external/squirrel"]
+	path = external/squirrel
+	url = https://github.com/SuperTux/squirrel.git
+[submodule "translations"]
+	path = translations
+	url = https://github.com/SuperTux/translations
+[submodule "external/googletest"]
+	path = external/googletest
+	url = https://github.com/google/googletest.git

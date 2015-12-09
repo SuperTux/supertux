@@ -1,0 +1,11 @@
+(supertux-sprite
+ (action
+  (name "stand-left")
+  (images "penny.png")
+ )
+
+ (action
+  (name "stand-right")
+  (mirror-action "stand-left")
+ )
+)

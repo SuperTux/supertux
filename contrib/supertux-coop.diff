@@ -1,0 +1,405 @@
+Index: src/control/joystickkeyboardcontroller.cpp
+===================================================================
+--- src/control/joystickkeyboardcontroller.cpp	(revision 6139)
++++ src/control/joystickkeyboardcontroller.cpp	(working copy)
+@@ -479,11 +479,12 @@
+   KeyMap::iterator key_mapping = keymap.find(event.key.keysym.sym);
+ 
+   // if console key was pressed: toggle console
+-  if ((key_mapping != keymap.end()) && (key_mapping->second == CONSOLE)) {
++  // only main controller does console
++  if ((key_mapping != keymap.end()) && (key_mapping->second == CONSOLE) && (this == g_main_controller)) {
+     if (event.type == SDL_KEYDOWN) 
+       Console::instance->toggle();
+   } else {
+-    if (Console::instance->hasFocus()) {
++    if (Console::instance->hasFocus() && (this == g_main_controller)) {
+       // if console is open: send key there
+       process_console_key_event(event);
+     } else if (MenuManager::current()) {
+Index: src/object/player.cpp
+===================================================================
+--- src/object/player.cpp	(revision 6139)
++++ src/object/player.cpp	(working copy)
+@@ -152,7 +152,7 @@
+   climbing(0)
+ {
+   this->name = name;
+-  controller = g_main_controller;
++  controller = (name == "Penny") ? g_secondary_controller : g_main_controller;
+   scripting_controller.reset(new CodeController());
+   sprite = sprite_manager->create("images/creatures/tux/tux.sprite");
+   airarrow = Surface::create("images/engine/hud/airarrow.png");
+@@ -1015,6 +1015,16 @@
+   else
+     sa_postfix = "-right";
+ 
++  // two-player hack: draw Penny in a different color
++  if (name == "Penny") {
++    sprite->set_color(Color(1.0f, 1.0f, 0.5f, 1.0f));
++  } else {
++    sprite->set_color(Color(1.0f, 1.0f, 1.0f, 1.0f));
++  }
++  // if/when we have complete penny gfx, we can
++  // load those instead of Tux's sprite in the
++  // constructor
++
+   /* Set Tux sprite action */
+   if(dying) {
+     sprite->set_action("gameover");
+@@ -1177,6 +1187,11 @@
+     return FORCE_MOVE;
+   }
+ 
++  Player* player = dynamic_cast<Player*> (&other);
++  if(player) {
++    return ABORT_MOVE;
++  }
++
+   if(hit.left || hit.right) {
+     try_grab(); //grab objects right now, in update it will be too late
+   }
+@@ -1276,8 +1291,11 @@
+     dying_timer.start(3.0);
+     set_group(COLGROUP_DISABLED);
+ 
+-    Sector::current()->effect->fade_out(3.0);
+-    sound_manager->stop_music(3.0);
++    // Two-player hack: ignore Penny's death
++    if (name != "Penny") {
++      Sector::current()->effect->fade_out(3.0);
++      sound_manager->stop_music(3.0);
++    }
+   }
+ }
+ 
+Index: src/supertux/game_session.cpp
+===================================================================
+--- src/supertux/game_session.cpp	(revision 6139)
++++ src/supertux/game_session.cpp	(working copy)
+@@ -93,6 +93,7 @@
+   end_sequence = 0;
+ 
+   g_main_controller->reset();
++  g_secondary_controller->reset();
+ 
+   currentsector = 0;
+ 
+@@ -434,6 +435,22 @@
+     game_pause = false;
+   }
+ 
++  // two-player hack: resurrect Penny when she dies
++  Player* tux = currentsector->player;
++  for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin(); i != currentsector->gameobjects.end(); ++i) {
++    Player* p = dynamic_cast<Player*>(*i);
++    if (!p) continue;
++    if (p == tux) continue;
++    if (p->is_dead()) {
++      p->remove_me();
++      static PlayerStatus* ps = new PlayerStatus();
++      p = new Player(ps, "Penny");
++      currentsector->add_object(p);
++      p->move(tux->get_pos());
++      p->safe_timer.start(TUX_SAFE_TIME);
++    }
++  }
++
+   check_end_conditions();
+ 
+   // respawning in new sector?
+Index: src/supertux/gameconfig.cpp
+===================================================================
+--- src/supertux/gameconfig.cpp	(revision 6139)
++++ src/supertux/gameconfig.cpp	(working copy)
+@@ -94,6 +94,11 @@
+     g_main_controller->read(*config_control_lisp);
+   }
+ 
++  const lisp::Lisp* config_control_p2_lisp = config_lisp->get_lisp("control-p2");
++  if(config_control_p2_lisp && g_secondary_controller) {
++    g_secondary_controller->read(*config_control_p2_lisp);
++  }
++
+   const lisp::Lisp* config_addons_lisp = config_lisp->get_lisp("addons");
+   if(config_addons_lisp) {
+     AddonManager::get_instance().read(*config_addons_lisp);
+@@ -138,6 +143,12 @@
+     writer.end_list("control");
+   }
+ 
++  if(g_secondary_controller) {
++    writer.start_list("control-p2");
++    g_secondary_controller->write(writer);
++    writer.end_list("control-p2");
++  }
++
+   writer.start_list("addons");
+   AddonManager::get_instance().write(writer);
+   writer.end_list("addons");
+Index: src/supertux/globals.cpp
+===================================================================
+--- src/supertux/globals.cpp	(revision 6139)
++++ src/supertux/globals.cpp	(working copy)
+@@ -19,6 +19,7 @@
+ 
+ SDL_Surface* g_screen;
+ JoystickKeyboardController* g_main_controller = 0;
++JoystickKeyboardController* g_secondary_controller = 0;
+ tinygettext::DictionaryManager* dictionary_manager = 0;
+ 
+ int SCREEN_WIDTH;
+Index: src/supertux/globals.hpp
+===================================================================
+--- src/supertux/globals.hpp	(revision 6139)
++++ src/supertux/globals.hpp	(working copy)
+@@ -41,6 +41,7 @@
+ 
+ // global variables
+ extern JoystickKeyboardController* g_main_controller;
++extern JoystickKeyboardController* g_secondary_controller;
+ 
+ extern SDL_Surface* g_screen;
+ 
+@@ -64,6 +65,7 @@
+ 
+ // global player state
+ extern PlayerStatus* player_status;
++extern PlayerStatus* second_player_status;
+ 
+ extern SpriteManager* sprite_manager;
+ 
+Index: src/supertux/main.cpp
+===================================================================
+--- src/supertux/main.cpp	(revision 6139)
++++ src/supertux/main.cpp	(working copy)
+@@ -541,6 +541,7 @@
+ 
+     timelog("controller");
+     g_main_controller = new JoystickKeyboardController();
++    g_secondary_controller = new JoystickKeyboardController();
+ 
+     timelog("config");
+     init_config();
+@@ -629,6 +630,8 @@
+   g_config = NULL;
+   delete g_main_controller;
+   g_main_controller = NULL;
++  delete g_secondary_controller;
++  g_secondary_controller = NULL;
+   delete Console::instance;
+   Console::instance = NULL;
+   scripting::exit_squirrel();
+Index: src/supertux/menu/menu_storage.cpp
+===================================================================
+--- src/supertux/menu/menu_storage.cpp	(revision 6139)
++++ src/supertux/menu/menu_storage.cpp	(working copy)
+@@ -26,6 +26,8 @@
+ ProfileMenu*  MenuStorage::profile_menu = 0;
+ KeyboardMenu* MenuStorage::key_options_menu = 0;
+ JoystickMenu* MenuStorage::joystick_options_menu = 0;
++KeyboardMenu* MenuStorage::key_options_p2_menu = 0;
++JoystickMenu* MenuStorage::joystick_options_p2_menu = 0;
+ 
+ OptionsMenu*
+ MenuStorage::get_options_menu()
+@@ -63,4 +65,26 @@
+   return joystick_options_menu;
+ }
+ 
++KeyboardMenu*
++MenuStorage::get_key_options_p2_menu()
++{
++  if (!key_options_p2_menu)
++  { // FIXME: this in never freed
++    key_options_p2_menu = new KeyboardMenu(g_secondary_controller);
++  }
++
++  return key_options_p2_menu;
++}
++
++JoystickMenu*
++MenuStorage::get_joystick_options_p2_menu()
++{
++  if (!joystick_options_p2_menu)
++  { // FIXME: this in never freed
++    joystick_options_p2_menu = new JoystickMenu(g_secondary_controller);
++  }
++
++  return joystick_options_p2_menu;
++}
++
+ /* EOF */
+Index: src/supertux/menu/menu_storage.hpp
+===================================================================
+--- src/supertux/menu/menu_storage.hpp	(revision 6139)
++++ src/supertux/menu/menu_storage.hpp	(working copy)
+@@ -32,12 +32,16 @@
+   static ProfileMenu*  get_profile_menu();
+   static KeyboardMenu* get_key_options_menu();
+   static JoystickMenu* get_joystick_options_menu();
++  static KeyboardMenu* get_key_options_p2_menu();
++  static JoystickMenu* get_joystick_options_p2_menu();
+ 
+ private:
+   static OptionsMenu*  options_menu;
+   static ProfileMenu*  profile_menu;
+   static KeyboardMenu* key_options_menu;
+   static JoystickMenu* joystick_options_menu;
++  static KeyboardMenu* key_options_p2_menu;
++  static JoystickMenu* joystick_options_p2_menu;
+ 
+ private:
+   MenuStorage(const MenuStorage&);
+Index: src/supertux/menu/options_menu.cpp
+===================================================================
+--- src/supertux/menu/options_menu.cpp	(revision 6139)
++++ src/supertux/menu/options_menu.cpp	(working copy)
+@@ -161,6 +161,13 @@
+ 
+   add_submenu(_("Setup Joystick"), MenuStorage::get_joystick_options_menu())
+     ->set_help(_("Configure joystick control-action mappings"));
++
++  add_submenu(_("Setup P2 Keyboard"), MenuStorage::get_key_options_p2_menu())
++    ->set_help(_("Configure key-action mappings"));
++
++  add_submenu(_("Setup P2 Joystick"), MenuStorage::get_joystick_options_p2_menu())
++    ->set_help(_("Configure joystick control-action mappings"));
++
+   add_hl();
+   add_back(_("Back"));
+ }
+Index: src/supertux/player_status.cpp
+===================================================================
+--- src/supertux/player_status.cpp	(revision 6139)
++++ src/supertux/player_status.cpp	(working copy)
+@@ -30,6 +30,7 @@
+ static const int MAX_COINS = 9999;
+ 
+ PlayerStatus* player_status = 0;
++PlayerStatus* second_player_status = 0;
+ 
+ PlayerStatus::PlayerStatus() :
+   coins(START_COINS),
+Index: src/supertux/resources.cpp
+===================================================================
+--- src/supertux/resources.cpp	(revision 6139)
++++ src/supertux/resources.cpp	(working copy)
+@@ -48,6 +48,7 @@
+   sprite_manager = new SpriteManager();
+ 
+   player_status = new PlayerStatus();
++  second_player_status = new PlayerStatus();
+ }
+ 
+ /* Free shared data: */
+@@ -67,6 +68,9 @@
+ 
+   delete player_status;
+   player_status = NULL;
++
++  delete second_player_status;
++  second_player_status = NULL;
+ }
+ 
+ /* EOF */
+Index: src/supertux/screen_manager.cpp
+===================================================================
+--- src/supertux/screen_manager.cpp	(revision 6139)
++++ src/supertux/screen_manager.cpp	(working copy)
+@@ -190,11 +190,13 @@
+ ScreenManager::process_events()
+ {
+   g_main_controller->update();
++  g_secondary_controller->update();
+   Uint8* keystate = SDL_GetKeyState(NULL);
+   SDL_Event event;
+   while(SDL_PollEvent(&event)) 
+   {
+     g_main_controller->process_event(event);
++    g_secondary_controller->process_event(event);
+ 
+     if(MenuManager::current() != NULL)
+       MenuManager::current()->event(event);
+Index: src/supertux/sector.cpp
+===================================================================
+--- src/supertux/sector.cpp	(revision 6139)
++++ src/supertux/sector.cpp	(working copy)
+@@ -84,6 +84,7 @@
+   effect(0)
+ {
+   add_object(new Player(player_status, "Tux"));
++  add_object(new Player(second_player_status, "Penny"));
+   add_object(new DisplayEffect("Effect"));
+   add_object(new TextObject("Text"));
+ 
+@@ -572,19 +573,27 @@
+   }
+   try_expose_me();
+ 
+-  // spawn smalltux below spawnpoint
+-  if (!player->is_big()) {
+-    player->move(player_pos + Vector(0,32));
+-  } else {
+-    player->move(player_pos);
+-  }
+ 
+-  // spawning tux in the ground would kill him
+-  if(!is_free_of_tiles(player->get_bbox())) {
+-    log_warning << "Tried spawning Tux in solid matter. Compensating." << std::endl;
+-    Vector npos = player->get_bbox().p1;
+-    npos.y-=32;
+-    player->move(npos);
++  // two-player hack: move other players to main player's position
++  for(GameObjects::iterator i = gameobjects.begin();
++      i != gameobjects.end(); ++i) {
++    Player* p = dynamic_cast<Player*>(*i);
++    if (!p) continue;
++
++    // spawn smalltux below spawnpoint
++    if (!p->is_big()) {
++      p->move(player_pos + Vector(0,32));
++    } else {
++      p->move(player_pos);
++    }
++
++    // spawning tux in the ground would kill him
++    if(!is_free_of_tiles(p->get_bbox())) {
++      log_warning << "Tried spawning Tux in solid matter. Compensating." << std::endl;
++      Vector npos = p->get_bbox().p1;
++      npos.y-=32;
++      p->move(npos);
++    }
+   }
+ 
+   camera->reset(player->get_pos());
+@@ -645,7 +654,13 @@
+ void
+ Sector::update(float elapsed_time)
+ {
+-  player->check_bounds(camera);
++  // keep players in bounds
++  for(GameObjects::iterator i = gameobjects.begin();
++      i != gameobjects.end(); ++i) {
++    Player* p = dynamic_cast<Player*>(*i);
++    if (!p) continue;
++    p->check_bounds(camera);
++  }
+ 
+   /* update objects */
+   for(GameObjects::iterator i = gameobjects.begin();
+@@ -741,10 +756,11 @@
+   Player* player = dynamic_cast<Player*> (object);
+   if(player != NULL) {
+     if(this->player != 0) {
+-      log_warning << "Multiple players added. Ignoring" << std::endl;
+-      return false;
++//      log_warning << "Multiple players added. Ignoring" << std::endl;
++//      return false;
++    } else {
++      this->player = player;
+     }
+-    this->player = player;
+   }
+ 
+   DisplayEffect* effect = dynamic_cast<DisplayEffect*> (object);

@@ -1,0 +1,57 @@
+; Zeekling
+(supertux-sprite
+ (action
+  (name "left")
+  (hitbox 8 19 31 30)
+  (images "left-0.png"
+   "left-1.png"
+   "left-2.png"
+   "left-3.png"))
+ (action
+  (name "right")
+  (hitbox 25 19 31 30)
+  (mirror-action "left"))
+ (action
+  (name "iced-left")
+  (hitbox 8 19 31 30)
+  (images "frozen.png"))
+ (action
+  (name "iced-right")
+  (hitbox 25 19 31 30)
+  (mirror-action "iced-left"))
+ (action
+  (name "squished-left")
+  (hitbox 8 19 31 30)
+  (images "squished.png"))
+ (action
+  (name "squished-right")
+  (hitbox 25 19 31 30)
+  (mirror-action "squished-left"))
+ (action
+  (name "diving-left")
+  (hitbox 6 20 31 30)
+  (images "diving.png"))
+ (action
+  (name "diving-right")
+  (hitbox 27 20 31 30)
+  (mirror-action "diving-left")
+ )
+ (action
+  (name "burning-left")
+  (hitbox 8 19 31 30)
+  (fps 15)
+  (images "burning-0.png"
+   "burning-1.png"
+   "burning-2.png"
+   "burning-3.png"
+   "burning-4.png"
+   "burning-5.png"
+   "burning-6.png"
+   "burning-7.png"))
+ (action
+  (name "burning-right")
+  (hitbox 25 19 31 30)
+  (fps 15)
+  (mirror-action "burning-left"))
+)
+

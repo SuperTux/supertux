@@ -1,0 +1,117 @@
+== Images ==
+
+Most images were created either by grumbel or gwater. Check the log for details.
+
+== Levels ==
+
+The license should be include in the file itself.
+
+Contrib levels are so old that they have no specific license, but they should be redistributable along with the rest of SuperTux.
+
+Test levels are created by SuperTux developers to test specific code and so are under the GPL.
+
+== Locale ==
+
+License should be included with them.
+
+== Music ==
+
+All files in data/music created by wansti and licensed under GPLv2+CC-by-sa, unless stated otherwise.
+* airship_remix.ogg - from remaxim at OpenGameArt.org, permission to release under CC-BY-SA and GPL version 2 or later
+* battle_theme.ogg - from remaxim at OpenGameArt.org, permission to release under CC-BY-SA and GPL version 2 or later
+* bonuscave.ogg
+* bossattack.ogg
+* cave.ogg
+* chipdisko.ogg - Mortimer's Chipdisko by Lukas Nystrand as Mortimer Twang - explicit permission granted to release unter GPL and CC-by-sa.
+* clavelian_march.ogg
+* credits.ogg
+* darkforestkeep.ogg
+* forest.ogg
+* forest2.ogg
+* forest3.ogg
+* forestmap.ogg
+* fortress.ogg
+* ghostforest.ogg
+* ghostforest2.ogg
+* greatgigantic.ogg - Based on a work by Chris Huelsbeck - We have his permission to release this under GPL.
+* intro.ogg
+* invincible.ogg
+* leveldone.ogg
+* salcon.ogg - Salsa Con Carne by Mystical - Replaced due to licensing issues (some non-free samples are used)
+    by a work-in-progress remix in trunk and the 0.3.x branch (r4585), for which we have permission to release under GPL and CC-by-sa. - wansti
+* theme.ogg
+* treeboss.ogg
+* wisphunt.ogg
+* voc-***.ogg
+
+== Scripts ==
+
+These are just more code.
+
+== Speech ==
+
+* penny_runt_01.ogg - self-made by gwater
+* tux_hello.ogg - self-made by TuxThePenguin
+* tux_murp_01.ogg - self-made by TuxThePenguin
+* tux_rap.ogg - self-made by TuxThePenguin and wansti
+* tux_upset.ogg - self-made by TuxThePenguin
+
+== Sounds ==
+
+* bigjump.wav - self-made by wansti
+* brick.wav - replaced with a self-made sound submitted by Yaniel, GPLv2+CC-by-sa
+* coin.wav - Replaced by a self-made, almost identical sound by wansti
+* dartfire.wav - self-made by sommer
+* darthit.wav - self-made by sommer
+* door.wav - self-made by gwater (Jun 30 2006 13:42:40 <gwater> ok it's my squeaky step, but it kind of sounds like a door.)
+* empty.wav - 0-length wav file
+* explosion.wav - Replaced by a self-made sound (GPLv2+/CC-by-SA) by sommer 17:34, 7 June 2007 (UTC)
+* fall.wav - added Fri May 14 05:24:24 2004 UTC by sik0fewl. Message was "added sounds from Nathan McCoy" -sommer 22:43, 4 Jan 2007 (CET)
+* fire-flower.wav - submitted as GPL by Bastian Zapf
+* fireworks.wav - submitted as GPL by Ricardo Cruz
+* fizz.wav - replaced by some white noise made with audacity, WolfgangB
+* flame.wav - self-made by MatzeB
+* flip.wav - replaced by wansti "new backflip sound (not perfect but much better than the old one)"
+* grow.ogg - self-made by wansti, replaced grow.wav
+* gulp.wav - CC0, source http://freesound.org/people/Q.K./sounds/56271/
+* hop.ogg - self-made by WolfgangB GPLv2+CC-by-sa
+* hurt.wav - self-made by MatzeB
+* iceblock_bump.wav - replaced with a self-made sound by Some_Person
+* invincible_start.ogg - self-made sound by Wansti
+* jump.wav - self-made by wansti
+* kick.wav - replaced with a self-made sound by Some_Person
+* kill.wav - copy of hurt.wav
+* lava.wav - submitted as GPL by Bastian Zapf
+* lifeup.wav - added Fri May 14 05:24:24 2004 UTC by sik0fewl. Message was "added sounds from Nathan McCoy" -sommer 22:43, 4 Jan 2007 (CET)
+* lightning.wav - sampled by Some_Person from http://www.pdsounds.org/sounds/storm_thunderbolts
+* locked.ogg - self-made by WolfgangB GPLv2+CC-by-sa
+* mr_tree.ogg - self-made by gwater
+* mr_treehit.ogg - self-made by gwater
+* phone.wav - self-made by gwater (unused ATM, was used in infoblock.cpp)
+* rain.wav - self-made by wansti
+* saw.wav Mill1.wav from LinCity-NG (Data is dual licensed under under the GPL and CC-by-sa-v2 ), created by Paulo Morfeo http://svn.berlios.de/viewcvs/lincity-ng/trunk/data/sounds/Mill1.wav
+* shoot.wav - added Fri May 14 05:24:24 2004 UTC by sik0fewl. Message was "added sounds from Nathan McCoy" -sommer 22:43, 4 Jan 2007 (CET)
+* skid.wav - replaced with a self-made sound by wansti
+* splash.ogg - Based on 'Fish Splashing-SoundBible.com-250179430' sound bible, by blastwavefx.com, released under CC-BY-SA 3.0 
+    and on 'Water vaporizing on hot Stones' by Natalie from pdsounds.org, released under public domain
+    Mix by Marianne Gagnon, released under CC-BY-SA 3.0
+* splash.wav - sound created by soundscalpel.com, licensed under CC-by http://freesound.org/people/soundscalpel.com/sounds/110393/
+* squish.wav - replaced with a self-made sound by Some_Person
+* stomp.wav - replaced with a self-made sound by Some_Person
+* switch.ogg - self-made by WolfgangB GPLv2+CC-by-sa
+* thunder.wav - sampled by Some_Person from http://www.pdsounds.org/sounds/storm_thunderbolts
+* ticking.wav - self-made by sommer
+* totem.ogg - self-made by WolfgangB GPLv2+CC-by-sa
+* trampoline.wav - self-made by wansti
+* tree_howling.ogg - added by MatzeB
+* tree_suck.ogg - added by MatzeB
+* turnkey.ogg - self-made by WolfgangB GPLv2+CC-by-sa
+* upgrade.wav - replaced with Yaniel's sound
+* warp.wav - submitted as GPL by Ricardo Cruz
+* waterfall.wav - submitted as GPL by Bastian Zapf
+* willocatch.wav - added by MatzeB
+* willowisp.wav - self-made by wansti
+* wood.wav - self-made by wansti
+* yeti_finish.ogg - self-made by MatzeB
+* yeti_gna.wav - self-made by MatzeB
+* yeti_roar.wav - self-made by MatzeB
