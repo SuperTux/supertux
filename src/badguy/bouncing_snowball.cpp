@@ -68,11 +68,14 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
     physic.set_velocity_y(0);
   }
 
-  if(hit.left || hit.right) { // left or right collision
+  // left or right collision
+  // The direction must correspond, else we got fake bounces on slopes.
+  if((hit.left && dir == LEFT) || (hit.right && dir == RIGHT)) {
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(-physic.get_velocity_x());
   }
+
 }
 
 HitResponse
