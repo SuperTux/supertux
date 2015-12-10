@@ -7,6 +7,9 @@ Debug/
 Release/
 tools/innosetup/Output
 
+# Version file
+version.cmake
+
 # Qt Creator project file
 CMakeLists.txt.user
 
