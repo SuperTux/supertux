@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$CC" = "gcc" ]; then
     echo -e "Host brlcad.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
     eval "$(ssh-agent -s)"
     chmod 600 ../.travis/travis-upload.pem
