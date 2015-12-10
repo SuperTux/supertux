@@ -47,7 +47,7 @@ Please see them:
 `NEWS.md`
 : Changes since the previous versions of SuperTux.
 
-`LICENSE`
+`LICENSE.txt`
 : The GNU General Public License, under whose terms SuperTux is
 licensed. (Most of the data subdirectory is also licensed under
 CC-by-SA)
