@@ -189,6 +189,11 @@ void whereami();
 void gotoend();
 
 /**
+ * move Tux to the X and Y blocks relative to his position
+ */
+void warp(float offset_x, float offset_y);
+
+/**
  * show the camera's coordinates
  */
 void camera();
