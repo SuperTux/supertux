@@ -1039,7 +1039,7 @@ Player::add_coins(int count)
 }
 
 int
-Player::get_coins()
+Player::get_coins() const
 {
   return player_status->coins;
 }
