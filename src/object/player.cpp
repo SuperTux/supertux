@@ -1101,6 +1101,10 @@ Player::add_bonus(BonusType type, bool animate)
 bool
 Player::set_bonus(BonusType type, bool animate)
 {
+  if(dying) {
+    return false;
+  }
+
   if((player_status->bonus == NO_BONUS) && (type != NO_BONUS)) {
     if (!adjust_height(BIG_TUX_HEIGHT)) {
       log_debug << "Can't adjust Tux height" << std::endl;
