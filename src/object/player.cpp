@@ -1122,47 +1122,38 @@ Player::set_bonus(BonusType type, bool animate)
   }
 
   if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
+    Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
+    Vector pspeed = Vector(((dir == LEFT) ? 100 : -100), -300);
+    Vector paccel = Vector(0, 1000);
+    std::string action = (dir == LEFT) ? "left" : "right";
+    std::string particle_name = "";
+
     if ((player_status->bonus == FIRE_BONUS) && (animate)) {
       // visually lose helmet
-      Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
-      Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
-      Vector paccel = Vector(0, 1000);
-      std::string action = (dir==LEFT)?"left":"right";
       if (g_config->christmas_mode) {
-        Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/santatux-hat.sprite", action, ppos,ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1)); 
+        particle_name = "santatux-hat";
       }
       else {
-        Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/firetux-helmet.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
+        particle_name = "firetux-helmet";
       }
-      if (climbing) stop_climbing(*climbing);
     }
     if ((player_status->bonus == ICE_BONUS) && (animate)) {
       // visually lose cap
-      Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
-      Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
-      Vector paccel = Vector(0, 1000);
-      std::string action = (dir==LEFT)?"left":"right";
-      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/icetux-cap.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
-      if (climbing) stop_climbing(*climbing);
+      particle_name = "icetux-cap";
     }
     if ((player_status->bonus == AIR_BONUS) && (animate)) {
       // visually lose hat
-      Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
-      Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
-      Vector paccel = Vector(0, 1000);
-      std::string action = (dir==LEFT)?"left":"right";
-      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/airtux-hat.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
-      if (climbing) stop_climbing(*climbing);
+      particle_name = "airtux-hat";
     }
     if ((player_status->bonus == EARTH_BONUS) && (animate)) {
       // visually lose hard-hat
-      Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
-      Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
-      Vector paccel = Vector(0, 1000);
-      std::string action = (dir==LEFT)?"left":"right";
-      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/earthtux-hardhat.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
-      if (climbing) stop_climbing(*climbing);
+      particle_name = "earthtux-hardhat";
     }
+    if(!particle_name.empty() && animate) {
+      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/" + particle_name + ".sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1));
+    }
+    if(climbing) stop_climbing(*climbing);
+
     player_status->max_fire_bullets = 0;
     player_status->max_ice_bullets = 0;
     player_status->max_air_time = 0;
