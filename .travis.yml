@@ -23,7 +23,7 @@ matrix:
   exclude:
   - compiler: gcc
     os: osx
-  
+
 os:
   - linux
   - osx
@@ -51,10 +51,10 @@ before_install:
   # Try building with GLBinding
   # Note: glbindings ./configure needs to be run twice in order to generate a makefile
   - if [ "$USE_GLBINDING" = "ON" ]; then
-    wget https://github.com/cginternals/glbinding/archive/v$GLBINDING_VERSION.tar.gz -O - | tar xz;
-    cd glbinding-$GLBINDING_VERSION && ./configure --prefix=/usr && ./configure --prefix=/usr;
-    cd build && make -j3 && sudo make install;
-    cd ../..;
+        wget https://github.com/cginternals/glbinding/archive/v$GLBINDING_VERSION.tar.gz -O - | tar xz;
+        cd glbinding-$GLBINDING_VERSION && ./configure --prefix=/usr && ./configure --prefix=/usr;
+        cd build && make -j3 && sudo make install;
+        cd ../..;
     fi
 
 script:
@@ -66,8 +66,8 @@ script:
   - make -j3
   - make install DESTDIR="/tmp/supertux-$BUILD_TYPE"
   - ./test_supertux2
-  
- 
+
+
 deploy:
   - provider: script
     script: ../.travis/deploy-osx.sh
@@ -81,7 +81,7 @@ deploy:
     on:
       branch: master
       condition: $BUILD_TYPE = Release
-    
+
 addons:
   apt:
     packages:
