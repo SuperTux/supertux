@@ -103,7 +103,7 @@ GLRenderer::GLRenderer() :
 #endif
 
   static auto extensions = glbinding::ContextInfo::extensions();
-  log_info << "Using glbinding 1.0.0 " << std::endl;
+  log_info << "Using glbinding" << std::endl;
   log_info << "ARB_texture_non_power_of_two: " << static_cast<int>(extensions.find(GLextension::GL_ARB_texture_non_power_of_two) != extensions.end()) << std::endl;
 
 #endif

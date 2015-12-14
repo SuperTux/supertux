@@ -167,7 +167,7 @@ WalkingBadguy::collision_solid(const CollisionHit& hit)
     if (physic.get_velocity_y() > 0) physic.set_velocity_y(0);
   }
 
-  if ((hit.left && (hit.slope_normal.y == 0) && (dir == LEFT)) || (hit.right && (hit.slope_normal.y == 0) && (dir == RIGHT))) {
+  if ((hit.left && (dir == LEFT)) || (hit.right && (dir == RIGHT))) {
     turn_around();
   }
 

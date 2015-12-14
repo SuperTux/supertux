@@ -1039,35 +1039,46 @@ Player::add_coins(int count)
 }
 
 int
-Player::get_coins()
+Player::get_coins() const
 {
   return player_status->coins;
+}
+
+BonusType
+Player::string_to_bonus(const std::string& bonus) {
+  BonusType type = NO_BONUS;
+
+  if(bonus == "grow") {
+    type = GROWUP_BONUS;
+  } else if(bonus == "fireflower") {
+    type = FIRE_BONUS;
+  } else if(bonus == "iceflower") {
+    type = ICE_BONUS;
+  } else if(bonus == "airflower") {
+    type = AIR_BONUS;
+  } else if(bonus == "earthflower") {
+    type = EARTH_BONUS;
+  } else if(bonus == "none") {
+    type = NO_BONUS;
+  } else {
+    std::ostringstream msg;
+    msg << "Unknown bonus type "  << bonus;
+    throw std::runtime_error(msg.str());
+  }
+
+  return type;
 }
 
 bool
 Player::add_bonus(const std::string& bonustype)
 {
-  BonusType type = NO_BONUS;
+  return add_bonus( string_to_bonus(bonustype) );
+}
 
-  if(bonustype == "grow") {
-    type = GROWUP_BONUS;
-  } else if(bonustype == "fireflower") {
-    type = FIRE_BONUS;
-  } else if(bonustype == "iceflower") {
-    type = ICE_BONUS;
-  } else if(bonustype == "airflower") {
-    type = AIR_BONUS;
-  } else if(bonustype == "earthflower") {
-    type = EARTH_BONUS;
-  } else if(bonustype == "none") {
-    type = NO_BONUS;
-  } else {
-    std::ostringstream msg;
-    msg << "Unknown bonus type "  << bonustype;
-    throw std::runtime_error(msg.str());
-  }
-
-  return add_bonus(type);
+bool
+Player::set_bonus(const std::string& bonustype)
+{
+  return set_bonus( string_to_bonus(bonustype) );
 }
 
 bool
@@ -1090,6 +1101,10 @@ Player::add_bonus(BonusType type, bool animate)
 bool
 Player::set_bonus(BonusType type, bool animate)
 {
+  if(dying) {
+    return false;
+  }
+
   if((player_status->bonus == NO_BONUS) && (type != NO_BONUS)) {
     if (!adjust_height(BIG_TUX_HEIGHT)) {
       log_debug << "Can't adjust Tux height" << std::endl;
@@ -1103,51 +1118,46 @@ Player::set_bonus(BonusType type, bool animate)
   }
 
   if (type == NO_BONUS) {
+    if (!adjust_height(SMALL_TUX_HEIGHT)) {
+      log_debug << "Can't adjust Tux height" << std::endl;
+      return false;
+    }
     if (does_buttjump) does_buttjump = false;
   }
 
   if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
+    Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
+    Vector pspeed = Vector(((dir == LEFT) ? 100 : -100), -300);
+    Vector paccel = Vector(0, 1000);
+    std::string action = (dir == LEFT) ? "left" : "right";
+    std::string particle_name = "";
+
     if ((player_status->bonus == FIRE_BONUS) && (animate)) {
       // visually lose helmet
-      Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
-      Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
-      Vector paccel = Vector(0, 1000);
-      std::string action = (dir==LEFT)?"left":"right";
       if (g_config->christmas_mode) {
-        Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/santatux-hat.sprite", action, ppos,ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1)); 
+        particle_name = "santatux-hat";
       }
       else {
-        Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/firetux-helmet.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
+        particle_name = "firetux-helmet";
       }
-      if (climbing) stop_climbing(*climbing);
     }
     if ((player_status->bonus == ICE_BONUS) && (animate)) {
       // visually lose cap
-      Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
-      Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
-      Vector paccel = Vector(0, 1000);
-      std::string action = (dir==LEFT)?"left":"right";
-      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/icetux-cap.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
-      if (climbing) stop_climbing(*climbing);
+      particle_name = "icetux-cap";
     }
     if ((player_status->bonus == AIR_BONUS) && (animate)) {
       // visually lose hat
-      Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
-      Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
-      Vector paccel = Vector(0, 1000);
-      std::string action = (dir==LEFT)?"left":"right";
-      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/airtux-hat.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
-      if (climbing) stop_climbing(*climbing);
+      particle_name = "airtux-hat";
     }
     if ((player_status->bonus == EARTH_BONUS) && (animate)) {
       // visually lose hard-hat
-      Vector ppos = Vector((bbox.p1.x + bbox.p2.x) / 2, bbox.p1.y);
-      Vector pspeed = Vector(((dir==LEFT) ? +100 : -100), -300);
-      Vector paccel = Vector(0, 1000);
-      std::string action = (dir==LEFT)?"left":"right";
-      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/earthtux-hardhat.sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS-1));
-      if (climbing) stop_climbing(*climbing);
+      particle_name = "earthtux-hardhat";
     }
+    if(!particle_name.empty() && animate) {
+      Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/" + particle_name + ".sprite", action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1));
+    }
+    if(climbing) stop_climbing(*climbing);
+
     player_status->max_fire_bullets = 0;
     player_status->max_ice_bullets = 0;
     player_status->max_air_time = 0;

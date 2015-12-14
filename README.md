@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/SuperTux/supertux.svg?branch=master)](https://travis-ci.org/SuperTux/supertux)
-[![AppVeyor Build Satus](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true)](https://ci.appveyor.com/project/maths22/supertux-9ml4d)
+[![AppVeyor Build Satus](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/maths22/supertux-9ml4d/branch/master)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/4025/badge.svg)](https://scan.coverity.com/projects/4025)
 SuperTux - <http://supertux.lethargik.org/>
 ===========================================
@@ -47,7 +47,7 @@ Please see them:
 `NEWS.md`
 : Changes since the previous versions of SuperTux.
 
-`LICENSE`
+`LICENSE.txt`
 : The GNU General Public License, under whose terms SuperTux is
 licensed. (Most of the data subdirectory is also licensed under
 CC-by-SA)

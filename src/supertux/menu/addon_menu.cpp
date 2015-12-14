@@ -138,11 +138,11 @@ AddonMenu::rebuild_menu()
 
   if(!m_language_pack_mode)
   {
-    add_entry(MNID_LANGPACK_MODE, std::string(_("View Language Packs")));
+    add_entry(MNID_LANGPACK_MODE, _("View Language Packs"));
   }
   else
   {
-    add_entry(MNID_LANGPACK_MODE, std::string(_("View Add-ons")));
+    add_entry(MNID_LANGPACK_MODE, _("View Add-ons"));
   }
 
   if (m_installed_addons.empty())
@@ -246,11 +246,11 @@ AddonMenu::rebuild_menu()
 
   if (!m_addon_manager.has_online_support())
   {
-    add_inactive(std::string(_("Check Online (disabled)")));
+    add_inactive(_("Check Online (disabled)"));
   }
   else
   {
-    add_entry(MNID_CHECK_ONLINE, std::string(_("Check Online")));
+    add_entry(MNID_CHECK_ONLINE, _("Check Online"));
   }
 
   add_hl();
@@ -286,6 +286,7 @@ AddonMenu::menu_action(MenuItem* item)
   {
     m_language_pack_mode = !m_language_pack_mode;
     rebuild_menu();
+    on_window_resize();
     return;
   }
   else if (MNID_ADDON_LIST_START <= item->id)

@@ -39,10 +39,18 @@ Teleporter::Teleporter(const ReaderMapping& lisp) :
     sprite = SpriteManager::current()->create(spritefile);
   }
 
-  lisp.get("worldmap", worldmap);
-  lisp.get("spawnpoint", spawnpoint);
-  lisp.get("automatic", automatic);
-  lisp.get("message", message);
+  if(!lisp.get("worldmap", worldmap)) {
+    // worldmap parameter doesn't need to be set. Ignore.
+  }
+  if(!lisp.get("spawnpoint", spawnpoint)) {
+    // not set, use "main" spawnpoint.
+  }
+  if(!lisp.get("automatic", automatic)) {
+    // doesn't need to be set. Don't teleport automatically.
+  }
+  if(!lisp.get("message", message)) {
+    // Optional message not set. Ignore!
+  }
 }
 
 void

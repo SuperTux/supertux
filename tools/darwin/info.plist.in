@@ -5,9 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>supertux2</string>
+	<string>SuperTux</string>
 	<key>CFBundleIconFile</key>
-	<string>supertux</string>
+	<string>SuperTux</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.googlecode.supertux2</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>STUX</string>
 	<key>CFBundleVersion</key>
-	<string>0.4.0-git</string>
+	<string>${VERSION_STRING}</string>
 	<key>NSMainNibFile</key>
 	<string>SDLMain</string>
 	<key>NSPrincipalClass</key>

@@ -36,22 +36,38 @@ SpecialTile::SpecialTile(const ReaderMapping& lisp) :
   apply_action_south(true),
   apply_action_west(true)
 {
-  lisp.get("x", pos.x);
-  lisp.get("y", pos.y);
-  lisp.get("invisible-tile", invisible);
+  if(!lisp.get("x", pos.x)) {
+    log_warning << "X coordinate of special tile not set, defaulting to 0" << std::endl;
+  }
+  if(!lisp.get("y", pos.y)) {
+    log_warning << "Y coordinate of special tile not set, defaulting to 0" << std::endl;
+  }
+  if(!lisp.get("invisible-tile", invisible)) {
+    // Ignore attribute if it's not specified. Tile is visible.
+  }
 
   if(!invisible) {
     std::string spritefile = "";
-    lisp.get("sprite", spritefile);
+    if(!lisp.get("sprite", spritefile)) {
+      log_warning << "No sprite specified for visible special tile." << std::endl;
+    }
     sprite = SpriteManager::current()->create(spritefile);
   }
 
-  lisp.get("map-message", map_message);
-  lisp.get("passive-message", passive_message);
-  lisp.get("script", script);
+  if(!lisp.get("map-message", map_message)) {
+    // Ignore attribute if it's not specified. No map message set.
+  }
+  if(!lisp.get("passive-message", passive_message)) {
+    // Ignore attribute if it's not specified. No passive message set.
+  }
+  if(!lisp.get("script", script)) {
+    // Ignore attribute if it's not specified. No script set.
+  }
 
   std::string apply_direction;
-  lisp.get("apply-to-direction", apply_direction);
+  if(!lisp.get("apply-to-direction", apply_direction)) {
+    // Ignore attribute if it's not specified. Applies to all directions.
+  }
   if(!apply_direction.empty()) {
     apply_action_north = false;
     apply_action_south = false;
