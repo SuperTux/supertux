@@ -35,6 +35,7 @@ public:
 public:
   int dead_zone;
   bool jump_with_up_joy;
+  bool use_game_controller;
 
   ButtonMap joy_button_map;
   AxisMap joy_axis_map;

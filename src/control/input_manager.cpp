@@ -32,7 +32,7 @@
 InputManager::InputManager(KeyboardConfig& keyboard_config,
                            JoystickConfig& joystick_config) :
   controller(new Controller),
-  m_use_game_controller(true),
+  m_use_game_controller(joystick_config.use_game_controller),
   keyboard_manager(new KeyboardManager(this, keyboard_config)),
   joystick_manager(new JoystickManager(this, joystick_config)),
   game_controller_manager(new GameControllerManager(this))
