@@ -74,7 +74,7 @@ OpenALSoundSource::resume()
 }
 
 bool
-OpenALSoundSource::paused()
+OpenALSoundSource::paused() const
 {
     ALint state = AL_PAUSED;
     alGetSourcei(source, AL_SOURCE_STATE, &state);

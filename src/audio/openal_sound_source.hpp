@@ -32,7 +32,7 @@ public:
   virtual void pause();
   virtual void resume();
   virtual bool playing() const;
-  virtual bool paused();
+  virtual bool paused() const;
 
   virtual void update();
 
