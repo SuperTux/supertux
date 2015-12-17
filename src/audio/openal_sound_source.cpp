@@ -48,7 +48,7 @@ OpenALSoundSource::play()
 }
 
 bool
-OpenALSoundSource::playing()
+OpenALSoundSource::playing() const
 {
   ALint state = AL_PLAYING;
   alGetSourcei(source, AL_SOURCE_STATE, &state);
