@@ -359,4 +359,33 @@ AddonMenu::addon_visible(const Addon& addon) const
   return (m_language_pack_mode && is_langpack) || (!m_language_pack_mode && !is_langpack);
 }
 
+void
+AddonMenu::check_for_langpack_updates()
+{
+  const std::string& language = g_dictionary_manager->get_language().get_language();
+
+  if(language == "en")
+    return;
+
+  try
+  {
+    TransferStatusPtr status = AddonManager::current()->request_check_online();
+    std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
+    dialog->set_title(_("Looking for language pack..."));
+    status->then([language](bool success)
+    {
+      if (success)
+      {
+        const std::string& addon_id = "langpack-" + language;
+        AddonManager::current()->request_install_addon(addon_id);
+      }
+    });
+    MenuManager::instance().set_dialog(std::move(dialog));
+  }
+  catch(...)
+  {
+    // If anything fails here, just silently ignore.
+  }
+}
+
 /* EOF */

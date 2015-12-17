@@ -45,6 +45,7 @@ public:
 
   void refresh() override;
   void menu_action(MenuItem* item) override;
+  static void check_for_langpack_updates();
 
 private:
   void rebuild_menu();
