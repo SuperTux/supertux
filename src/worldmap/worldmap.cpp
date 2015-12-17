@@ -390,7 +390,7 @@ WorldMap::on_escape_press()
 }
 
 Vector
-WorldMap::get_next_tile(Vector pos, Direction direction) const
+WorldMap::get_next_tile(Vector pos, const Direction& direction) const
 {
   switch(direction) {
     case D_WEST:
@@ -412,7 +412,7 @@ WorldMap::get_next_tile(Vector pos, Direction direction) const
 }
 
 bool
-WorldMap::path_ok(Direction direction, const Vector& old_pos, Vector* new_pos) const
+WorldMap::path_ok(const Direction& direction, const Vector& old_pos, Vector* new_pos) const
 {
   *new_pos = get_next_tile(old_pos, direction);
 
@@ -699,7 +699,7 @@ WorldMap::update(float delta)
 }
 
 int
-WorldMap::tile_data_at(Vector p) const
+WorldMap::tile_data_at(const Vector& p) const
 {
   int dirs = 0;
 
@@ -714,7 +714,7 @@ WorldMap::tile_data_at(Vector p) const
 }
 
 int
-WorldMap::available_directions_at(Vector p) const
+WorldMap::available_directions_at(const Vector& p) const
 {
   return tile_data_at(p) & Tile::WORLDMAP_DIR_MASK;
 }
