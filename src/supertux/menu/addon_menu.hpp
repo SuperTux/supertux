@@ -38,14 +38,17 @@ private:
   std::vector<std::string> m_repository_addons;
   bool* m_addons_enabled;
   bool m_language_pack_mode;
+  bool m_auto_install_langpack;
 
 public:
-  AddonMenu(bool language_pack_mode = false);
+  AddonMenu(bool language_pack_mode = false, bool auto_install_langpack = false);
   ~AddonMenu();
 
   void refresh() override;
   void menu_action(MenuItem* item) override;
-  static void check_for_langpack_updates();
+  void check_online();
+  void install_addon(const Addon& addon);
+  void toggle_addon(const Addon& addon);
 
 private:
   void rebuild_menu();

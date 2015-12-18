@@ -95,14 +95,22 @@ std::string generate_menu_item_text(const Addon& addon)
 
 } // namespace
 
-AddonMenu::AddonMenu(bool language_pack_mode) :
+AddonMenu::AddonMenu(bool language_pack_mode, bool auto_install_langpack) :
   m_addon_manager(*AddonManager::current()),
   m_installed_addons(),
   m_repository_addons(),
   m_addons_enabled(),
-  m_language_pack_mode(language_pack_mode)
+  m_language_pack_mode(language_pack_mode),
+  m_auto_install_langpack(auto_install_langpack)
 {
   refresh();
+  if(auto_install_langpack)
+  {
+    const std::string& language = g_dictionary_manager->get_language().get_language();
+    if(language == "en")
+      return;
+    check_online();
+  }
 }
 
 AddonMenu::~AddonMenu()
@@ -262,25 +270,7 @@ AddonMenu::menu_action(MenuItem* item)
 {
   if (item->id == MNID_CHECK_ONLINE) // check if "Check Online" was chosen
   {
-    try
-    {
-      TransferStatusPtr status = m_addon_manager.request_check_online();
-      status->then(
-        [this](bool success)
-        {
-          if (success)
-          {
-            refresh();
-          }
-        });
-      std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
-      dialog->set_title(_("Downloading Add-On Repository Index"));
-      MenuManager::instance().set_dialog(std::move(dialog));
-    }
-    catch (std::exception& e)
-    {
-      log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
-    }
+    check_online();
   }
   else if(item->id == MNID_LANGPACK_MODE)
   {
@@ -297,21 +287,7 @@ AddonMenu::menu_action(MenuItem* item)
       if (0 <= idx && idx < static_cast<int>(m_installed_addons.size()))
       {
         const Addon& addon = m_addon_manager.get_installed_addon(m_installed_addons[idx]);
-        if(addon.is_enabled())
-        {
-          m_addon_manager.disable_addon(addon.get_id());
-        }
-        else
-        {
-          m_addon_manager.enable_addon(addon.get_id());
-        }
-        if(addon.get_type() == Addon::LANGUAGEPACK)
-        {
-            std::unique_ptr<Dialog> dialog(new Dialog);
-            dialog->set_text(_("Please restart SuperTux\nfor these changes to take effect."));
-            dialog->add_cancel_button(_("OK"));
-            MenuManager::instance().set_dialog(std::move(dialog));
-        }
+        toggle_addon(addon);
       }
     }
     else if (IS_REPOSITORY_MENU_ID(item->id))
@@ -320,29 +296,7 @@ AddonMenu::menu_action(MenuItem* item)
       if (0 <= idx && idx < static_cast<int>(m_repository_addons.size()))
       {
         const Addon& addon = m_addon_manager.get_repository_addon(m_repository_addons[idx]);
-        auto addon_id = addon.get_id();
-        TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
-
-        status->then(
-          [this, addon_id](bool success)
-          {
-            if (success)
-            {
-              try
-              {
-                m_addon_manager.enable_addon(addon_id);
-              }
-              catch(const std::exception& err)
-              {
-                log_warning << "Enabling add-on failed: " << err.what() << std::endl;
-              }
-              refresh();
-            }
-          });
-
-        std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
-        dialog->set_title(str(boost::format( _("Downloading %s") ) % generate_menu_item_text(addon)));
-        MenuManager::instance().set_dialog(std::move(dialog));
+        install_addon(addon);
       }
     }
   }
@@ -360,32 +314,85 @@ AddonMenu::addon_visible(const Addon& addon) const
 }
 
 void
-AddonMenu::check_for_langpack_updates()
+AddonMenu::check_online()
 {
-  const std::string& language = g_dictionary_manager->get_language().get_language();
-
-  if(language == "en")
-    return;
-
   try
   {
-    TransferStatusPtr status = AddonManager::current()->request_check_online();
-    std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
-    dialog->set_title(_("Looking for language pack..."));
-    status->then([language](bool success)
+    TransferStatusPtr status = m_addon_manager.request_check_online();
+    status->then([this](bool success)
     {
       if (success)
       {
-        const std::string& addon_id = "langpack-" + language;
-        AddonManager::current()->request_install_addon(addon_id);
+        if(m_auto_install_langpack)
+        {
+          install_addon(m_addon_manager.get_repository_addon("langpack-" + g_dictionary_manager->get_language().get_language()));
+        }
+        else
+        {
+          refresh();
+        }
       }
     });
+    std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
+    dialog->set_title(_("Downloading Add-On Repository Index"));
     MenuManager::instance().set_dialog(std::move(dialog));
   }
-  catch(...)
+  catch (std::exception& e)
   {
-    // If anything fails here, just silently ignore.
+    log_warning << "Check for available Add-ons failed: " << e.what() << std::endl;
   }
 }
+
+void
+AddonMenu::install_addon(const Addon& addon)
+{
+  auto addon_id = addon.get_id();
+  TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
+  std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status));
+  dialog->set_title(str(boost::format( _("Downloading %s") ) % generate_menu_item_text(addon)));
+  status->then([this, addon_id](bool success)
+  {
+    if (success)
+    {
+      try
+      {
+        m_addon_manager.enable_addon(addon_id);
+        if(m_auto_install_langpack)
+        {
+          MenuManager::instance().set_dialog({});
+          MenuManager::instance().clear_menu_stack();
+          return;
+        }
+      }
+      catch(const std::exception& err)
+      {
+        log_warning << "Enabling add-on failed: " << err.what() << std::endl;
+      }
+      refresh();
+    }
+  });
+  MenuManager::instance().set_dialog(std::move(dialog));
+}
+
+void
+AddonMenu::toggle_addon(const Addon& addon)
+{
+  if(addon.is_enabled())
+  {
+    m_addon_manager.disable_addon(addon.get_id());
+  }
+  else
+  {
+    m_addon_manager.enable_addon(addon.get_id());
+  }
+  if(addon.get_type() == Addon::LANGUAGEPACK)
+  {
+    std::unique_ptr<Dialog> dialog(new Dialog);
+    dialog->set_text(_("Please restart SuperTux\nfor these changes to take effect."));
+    dialog->add_cancel_button(_("OK"));
+    MenuManager::instance().set_dialog(std::move(dialog));
+  }
+}
+
 
 /* EOF */
