@@ -90,7 +90,8 @@ LanguageMenu::menu_action(MenuItem* item)
       }
     }
   }
-  MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU);
+  if(g_dictionary_manager->get_language().get_language() != "en")
+    MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU);
 }
 
 /* EOF */
