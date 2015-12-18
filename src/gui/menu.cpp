@@ -187,6 +187,12 @@ Menu::add_colordisplay(Color* color, int id) {
   return add_item(std::move(item));
 }
 
+MenuItem*
+Menu::add_color(const std::string& text, Color* color, int id) {
+  std::unique_ptr<ItemColor> item(new ItemColor(text, color, id));
+  return add_item(std::move(item));
+}
+
 void
 Menu::clear()
 {
