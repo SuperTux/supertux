@@ -181,6 +181,12 @@ Menu::add_colorchanel(float* input, Color chanel, int id) {
   return add_item(std::move(item));
 }
 
+MenuItem*
+Menu::add_colordisplay(Color* color, int id) {
+  std::unique_ptr<ItemColorDisplay> item(new ItemColorDisplay(color, id));
+  return add_item(std::move(item));
+}
+
 void
 Menu::clear()
 {
