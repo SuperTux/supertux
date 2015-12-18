@@ -91,6 +91,7 @@ Path::save(lisp::Writer& writer) {
     case ONE_SHOT:  writer.write("mode", "oneshot"  , false); break;
     case PING_PONG: writer.write("mode", "ping_pong", false); break;
     case CIRCULAR:  writer.write("mode", "circular" , false); break;
+    case UNORDERED: writer.write("mode", "unordered", false); break;
   }
 
   for(auto i = nodes.begin(); i != nodes.end(); ++i) {
