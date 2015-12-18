@@ -27,7 +27,7 @@
 #include "video/color.hpp"
 
 EditorMenu::EditorMenu() :
-  b(0.5f)
+  c(0, 0, 0)
 {
   add_label(_("Level Editor"));
   add_hl();
@@ -37,7 +37,10 @@ EditorMenu::EditorMenu() :
   add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
   add_hl();
   add_entry(MNID_QUITEDITOR, _("Exit level editor"));
-  add_colorchanel(&b, Color(0.0f, 0.0f, 1.0f));
+  add_colorchanel( &(c.red), Color(1.0f, 0.0f, 0.0f));
+  add_colorchanel( &(c.green), Color(0.0f, 1.0f, 0.0f));
+  add_colorchanel( &(c.blue), Color(0.0f, 0.0f, 1.0f));
+  add_colordisplay(&c);
 }
 
 void
