@@ -43,7 +43,7 @@ env:
 
 before_install:
   - if [ "$TRAVIS_SECURE_ENV_VARS" = "true" ]; then
-        openssl aes-256-cbc -K $encrypted_d8a9ffcc8634_key -iv $encrypted_d8a9ffcc8634_iv -in .travis/travis-upload.pem.enc -out .travis/travis-upload.pem -d
+        openssl aes-256-cbc -K $encrypted_d8a9ffcc8634_key -iv $encrypted_d8a9ffcc8634_iv -in .travis/travis-upload.pem.enc -out .travis/travis-upload.pem -d;
     fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
         brew update;
