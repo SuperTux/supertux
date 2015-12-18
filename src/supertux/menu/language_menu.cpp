@@ -86,11 +86,11 @@ LanguageMenu::menu_action(MenuItem* item)
         g_config->locale = i->str();
         g_dictionary_manager->set_language(*i);
         g_config->save();
-        MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU);
         break;
       }
     }
   }
+  MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU);
 }
 
 /* EOF */
