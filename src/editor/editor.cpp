@@ -45,6 +45,7 @@ Editor::Editor() :
   newlevel_request(false),
   reload_request(false),
   reactivate_request(false),
+  deactivate_request(false),
   save_request(false),
   currentsector(),
   levelloaded(false),
