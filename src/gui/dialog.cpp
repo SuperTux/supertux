@@ -33,8 +33,8 @@ Dialog::Dialog(bool passive) :
   m_buttons(),
   m_selected_button(),
   m_cancel_button(-1),
-  m_text_size(),
-  m_passive(passive)
+  m_passive(passive),
+  m_text_size()
 {
 }
 
