@@ -325,7 +325,8 @@ AddonMenu::check_online()
       {
         if(m_auto_install_langpack)
         {
-          install_addon(m_addon_manager.get_repository_addon("langpack-" + g_dictionary_manager->get_language().get_language()));
+          const std::string& langpack_id = "langpack-" + g_dictionary_manager->get_language().get_language();
+          install_addon(m_addon_manager.get_repository_addon(langpack_id));
         }
         else
         {
