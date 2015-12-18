@@ -254,13 +254,6 @@ ScreenManager::process_events()
         {
           take_screenshot();
         }
-        else if (event.key.keysym.sym == SDLK_F1 &&
-                 event.key.keysym.mod & KMOD_CTRL)
-        {
-          Console::current()->toggle();
-          g_config->console_enabled = true;
-          g_config->save();
-        }
         else if (event.key.keysym.sym == SDLK_F2 &&
                  event.key.keysym.mod & KMOD_CTRL)
         {

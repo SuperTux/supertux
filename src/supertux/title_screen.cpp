@@ -17,6 +17,7 @@
 
 #include "supertux/title_screen.hpp"
 
+#include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
@@ -49,7 +50,11 @@ TitleScreen::TitleScreen(Savegame& savegame) :
 {
   controller.reset(new CodeController());
   titlesession.reset(new GameSession(g_config->christmas_mode ?
+#if defined(DEBUG) || defined(_DEBUG)
                                      "levels/misc/menu_christmas.stl" : "levels/misc/menu.stl",
+#else
+                                     "levels/misc/menu_christmas.stl" : "levels/misc/menu_final.stl",
+#endif
                                      savegame));
 
   Player* player = titlesession->get_current_sector()->player;

@@ -106,7 +106,7 @@ Explosion::explode()
       }
 
       WalkingBadguy *badguy = dynamic_cast<WalkingBadguy *> (obj);
-      if (badguy) {
+      if (badguy && badguy->is_active()) {
         badguy->add_velocity (add_speed);
       }
     } /* for (i = 0 ... near_objects) */

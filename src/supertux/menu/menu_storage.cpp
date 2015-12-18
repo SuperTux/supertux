@@ -125,6 +125,12 @@ MenuStorage::create(MenuId menu_id)
     case EDITOR_SECTORS_MENU:
       return std::unique_ptr<Menu>(new EditorSectorsMenu);
 
+    case LANGPACK_MENU:
+      return std::unique_ptr<Menu>(new AddonMenu(true));
+
+    case LANGPACK_AUTO_UPDATE_MENU:
+      return std::unique_ptr<Menu>(new AddonMenu(true, true));
+
     case NO_MENU:
       return std::unique_ptr<Menu>();
 

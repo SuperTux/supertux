@@ -92,7 +92,10 @@ void
 Main::init_tinygettext()
 {
   g_dictionary_manager.reset(new tinygettext::DictionaryManager(std::unique_ptr<tinygettext::FileSystem>(new PhysFSFileSystem), "UTF-8"));
-  tinygettext::Log::set_log_info_callback(0);
+
+  tinygettext::Log::set_log_info_callback(log_info_callback);
+  tinygettext::Log::set_log_warning_callback(log_warning_callback);
+  tinygettext::Log::set_log_error_callback(log_error_callback);
 
   g_dictionary_manager->add_directory("locale");
 
@@ -351,6 +354,7 @@ Main::launch_game()
     // we have a normal path specified at commandline, not a physfs path.
     // So we simply mount that path here...
     std::string dir = FileSystem::dirname(g_config->start_level);
+    std::string filename = FileSystem::basename(g_config->start_level);
     std::string fileProtocol = "file://";
     std::string::size_type position = dir.find(fileProtocol);
     if(position != std::string::npos) {
@@ -363,11 +367,10 @@ Main::launch_game()
        g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0)
     {
       screen_manager.push_screen(std::unique_ptr<Screen>(
-                                              new worldmap::WorldMap(
-                                                FileSystem::basename(g_config->start_level), *default_savegame)));
+                                              new worldmap::WorldMap(filename, *default_savegame)));
     } else {
       std::unique_ptr<GameSession> session (
-        new GameSession(FileSystem::basename(g_config->start_level), *default_savegame));
+        new GameSession(filename, *default_savegame));
 
       g_config->random_seed = session->get_demo_random_seed(g_config->start_demo);
       g_config->random_seed = gameRandom.srand(g_config->random_seed);

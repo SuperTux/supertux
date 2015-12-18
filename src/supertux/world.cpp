@@ -47,7 +47,7 @@ World::load(const std::string& directory)
     world->m_savegame_filename = stream.str();
   }
 
-  return std::move(world);
+  return world;
 }
 
 World::World() :

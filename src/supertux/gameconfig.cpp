@@ -40,7 +40,6 @@ Config::Config() :
   show_fps(false),
   sound_enabled(true),
   music_enabled(true),
-  console_enabled(false),
   random_seed(0), // set by time(), by default (unless in config)
   start_level(),
   enable_script_debugger(false),
@@ -73,7 +72,6 @@ Config::load()
 
   config_lisp->get("profile", profile);
   config_lisp->get("show_fps", show_fps);
-  config_lisp->get("console", console_enabled);
   config_lisp->get("developer", developer_mode);
   if(is_christmas()) {
     if(!config_lisp->get("christmas", christmas_mode))
@@ -163,7 +161,6 @@ Config::save()
 
   writer.write("profile", profile);
   writer.write("show_fps", show_fps);
-  writer.write("console", console_enabled);
   writer.write("developer", developer_mode);
   if(is_christmas()) {
     writer.write("christmas", christmas_mode);

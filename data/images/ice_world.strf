@@ -237,9 +237,7 @@
 )
 (tiles
 	(width 4)(height 4)
-	(images 
-		(region "worldmap/shared/roads.png" 96 128 32 32)
-	)
+	(images "worldmap/shared/invisible_paths.png")
 	(editor-images "worldmap/shared/invisible_paths-editor.png")
 	(ids
 		30 31 32 33

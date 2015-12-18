@@ -18,12 +18,14 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "lisp/list_iterator.hpp"
 #include "object/broken_brick.hpp"
 #include "object/coin.hpp"
 #include "object/flower.hpp"
 #include "object/growup.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 
@@ -39,6 +41,27 @@ Block::Block(SpritePtr newsprite) :
   bounce_offset(0),
   original_y(-1)
 {
+  bbox.set_size(32, 32.1f);
+  set_group(COLGROUP_STATIC);
+  SoundManager::current()->preload("sounds/upgrade.wav");
+  SoundManager::current()->preload("sounds/brick.wav");
+}
+
+Block::Block(const Reader& lisp, std::string sprite_file) :
+  sprite(),
+  bouncing(false),
+  breaking(false),
+  bounce_dir(0),
+  bounce_offset(0),
+  original_y(-1)
+{
+  lisp.get("x", bbox.p1.x);
+  lisp.get("y", bbox.p1.y);
+
+  std::string sf = sprite_file;
+  lisp.get("sprite", sf);
+  sprite = SpriteManager::current()->create(sf);
+
   bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
   SoundManager::current()->preload("sounds/upgrade.wav");

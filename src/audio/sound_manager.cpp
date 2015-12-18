@@ -134,7 +134,7 @@ SoundManager::intern_create_sound_source(const std::string& filename)
   }
 
   alSourcei(source->source, AL_BUFFER, buffer);
-  return std::move(source);
+  return source;
 }
 
 std::unique_ptr<SoundSource>

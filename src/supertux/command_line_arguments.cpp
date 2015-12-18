@@ -40,7 +40,6 @@ CommandLineArguments::CommandLineArguments() :
   show_fps(),
   sound_enabled(),
   music_enabled(),
-  console_enabled(),
   start_level(),
   enable_script_debugger(),
   start_demo(),
@@ -89,8 +88,6 @@ CommandLineArguments::print_help(const char* arg0) const
             << _(     "  --disable-sound              Disable sound effects") << "\n"
             << _(     "  --disable-music              Disable music") << "\n" << "\n"
             << _(     "Game Options:") << "\n"
-            << _(     "  --console                    Enable ingame scripting console") << "\n"
-            << _(     "  --noconsole                  Disable ingame scripting console") << "\n"
             << _(     "  --show-fps                   Display framerate in levels") << "\n"
             << _(     "  --no-show-fps                Do not display framerate in levels") << "\n"
             << _(     "  --developer                  Switch on developer feature") << "\n"
@@ -271,13 +268,9 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       christmas_mode = true;
     }
-    else if (arg == "--console")
+    else if (arg == "--no-christmas")
     {
-      console_enabled = true;
-    }
-    else if (arg == "--noconsole")
-    {
-      console_enabled = false;
+      christmas_mode = false;
     }
     else if (arg == "--disable-sound" || arg == "--disable-sfx")
     {
@@ -338,7 +331,6 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(show_fps);
   merge_option(sound_enabled);
   merge_option(music_enabled);
-  merge_option(console_enabled);
   merge_option(start_level);
   merge_option(enable_script_debugger);
   merge_option(start_demo);

@@ -144,9 +144,9 @@ SpriteData::parse_action(const Reader& lisp, const std::string& basedir)
 }
 
 const SpriteData::Action*
-SpriteData::get_action(const std::string& act)
+SpriteData::get_action(const std::string& act) const
 {
-  Actions::iterator i = actions.find(act);
+  Actions::const_iterator i = actions.find(act);
   if(i == actions.end()) {
     return 0;
   }

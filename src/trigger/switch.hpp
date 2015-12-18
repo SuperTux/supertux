@@ -50,7 +50,9 @@ private:
   std::string sprite_name;
   SpritePtr sprite;
   std::string script;
+  std::string off_script;
   SwitchState state;
+  bool bistable;
 };
 
 #endif

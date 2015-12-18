@@ -32,11 +32,11 @@ public:
   void start(); /**< play EndSequence */
   void stop_tux(); /**< called when Tux has reached his final position */
   void stop(); /**< stop playing EndSequence, mark it as done playing */
-  bool is_tux_stopped(); /**< returns true if Tux has reached his final position */
-  bool is_done(); /**< returns true if EndSequence has finished playing */
   virtual bool do_save() {
     return false;
   }
+  bool is_tux_stopped() const; /**< returns true if Tux has reached his final position */
+  bool is_done() const; /**< returns true if EndSequence has finished playing */
 
 protected:
   virtual void starting(); /**< called when EndSequence starts */

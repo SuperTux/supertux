@@ -31,8 +31,8 @@ public:
   virtual void stop();
   virtual void pause();
   virtual void resume();
-  virtual bool playing();
-  virtual bool paused();
+  virtual bool playing() const;
+  virtual bool paused() const;
 
   virtual void update();
 

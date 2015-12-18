@@ -76,17 +76,23 @@ DartTrap::collision_player(Player& , const CollisionHit& )
 void
 DartTrap::active_update(float )
 {
-  if (state == IDLE) {
-    if ((ammo != 0) && (fire_timer.check())) {
-      if (ammo > 0) ammo--;
-      load();
-      fire_timer.start(fire_delay);
-    }
-  }
-  if (state == LOADING) {
-    if (sprite->animation_done()) {
-      fire();
-    }
+  switch (state) {
+    case IDLE:
+      if ((ammo != 0) && (fire_timer.check())) {
+        if (ammo > 0) ammo--;
+        load();
+        fire_timer.start(fire_delay);
+      }
+      break;
+
+    case LOADING:
+      if (sprite->animation_done()) {
+        fire();
+      }
+      break;
+
+    default:
+      break;
   }
 }
 

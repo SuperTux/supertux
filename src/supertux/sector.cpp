@@ -52,6 +52,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
@@ -455,36 +456,19 @@ Sector::fix_old_tiles()
     TileMap* solids = *i;
     for(size_t x=0; x < solids->get_width(); ++x) {
       for(size_t y=0; y < solids->get_height(); ++y) {
-        uint32_t    id   = solids->get_tile_id(x, y);
         const Tile *tile = solids->get_tile(x, y);
-        Vector pos = solids->get_tile_position(x, y);
 
-        if(id == 112) {
-          add_object(std::make_shared<InvisibleBlock>(pos));
-          solids->change(x, y, 0);
-        } else if(tile->getAttributes() & Tile::COIN) {
-          add_object(std::make_shared<Coin>(pos, solids));
-          solids->change(x, y, 0);
-        } else if(tile->getAttributes() & Tile::FULLBOX) {
-          add_object(std::make_shared<BonusBlock>(pos, tile->getData()));
-          solids->change(x, y, 0);
-        } else if(tile->getAttributes() & Tile::BRICK) {
-          if( ( id == 3159 ) || ( id == 3160 ) ){
-            add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brickWeb.sprite") );
-          } else if( ( id == 78 ) || ( id == 105 ) ){
-            add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brickIce.sprite") );
-          } else if( ( id == 77 ) || ( id == 104 ) ){
-            add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brick.sprite") );
-          } else {
-            log_warning << "attribute 'brick #t' is not supported for tile-id " << id << std::endl;
-            add_object( std::make_shared<Brick>(pos, tile->getData(), "images/objects/bonus_block/brick.sprite") );
+        if (tile->get_object_name().length() > 0) {
+          Vector pos = solids->get_tile_position(x, y);
+          try {
+            GameObjectPtr object = ObjectFactory::instance().create(tile->get_object_name(), pos, AUTO, tile->get_object_data());
+            add_object(object);
+            solids->change(x, y, 0);
+          } catch(std::exception& e) {
+            log_warning << e.what() << "" << std::endl;
           }
-          solids->change(x, y, 0);
-        } else if(tile->getAttributes() & Tile::GOAL) {
-          std::string sequence = tile->getData() == 0 ? "endsequence" : "stoptux";
-          add_object(std::make_shared<SequenceTrigger>(pos, sequence));
-          solids->change(x, y, 0);
         }
+
       }
     }
   }
@@ -495,23 +479,24 @@ Sector::fix_old_tiles()
     if (!tm) continue;
     for(size_t x=0; x < tm->get_width(); ++x) {
       for(size_t y=0; y < tm->get_height(); ++y) {
-        uint32_t id = tm->get_tile_id(x, y);
+        const Tile* tile = tm->get_tile(x, y);
+        uint32_t attributes = tile->getAttributes();
         Vector pos = tm->get_tile_position(x, y);
         Vector center = pos + Vector(16, 16);
 
-        // torch
-        if (id == 1517) {
-          float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-          add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
-        }
-        // lava or lavaflow
-        if ((id == 173) || (id == 1700) || (id == 1705) || (id == 1706)) {
-          // space lights a bit
-          if ((((tm->get_tile_id(x-1, y)) != tm->get_tile_id(x,y))
-               && (tm->get_tile_id(x, y-1) != tm->get_tile_id(x,y)))
-              || ((x % 3 == 0) && (y % 3 == 0))) {
+        if (attributes & Tile::FIRE) {
+          if (attributes & Tile::HURTS) {
+            // lava or lavaflow
+            // space lights a bit
+            if ((tm->get_tile(x-1, y)->getAttributes() != attributes || x%3 == 0)
+                 && (tm->get_tile(x, y-1)->getAttributes() != attributes || y%3 == 0)) {
+              float pseudo_rnd = (float)((int)pos.x % 10) / 10;
+              add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
+            }
+          } else {
+            // torch
             float pseudo_rnd = (float)((int)pos.x % 10) / 10;
-            add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
+            add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
           }
         }
 
@@ -1100,7 +1085,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 }
 
 uint32_t
-Sector::collision_tile_attributes(const Rectf& dest, const Vector mov) const
+Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
 {
   float x1 = dest.p1.x;
   float y1 = dest.p1.y;

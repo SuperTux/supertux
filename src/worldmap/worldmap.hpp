@@ -144,19 +144,19 @@ public:
   /** Draw worldmap */
   virtual void draw(DrawingContext& context);
 
-  Vector get_next_tile(Vector pos, Direction direction) const;
+  Vector get_next_tile(Vector pos, const Direction& direction) const;
 
   /**
    * gets a bitfield of Tile::WORLDMAP_NORTH | Tile::WORLDMAP_WEST | ... values,
    * which indicates the directions Tux can move to when at the given position.
    */
-  int available_directions_at(Vector pos) const;
+  int available_directions_at(const Vector& pos) const;
 
   /**
    * returns a bitfield representing the union of all Tile::WORLDMAP_XXX values
    * of all solid tiles at the given position
    */
-  int tile_data_at(Vector pos) const;
+  int tile_data_at(const Vector& pos) const;
 
   size_t level_count() const;
   size_t solved_level_count() const;
@@ -179,7 +179,7 @@ public:
 
   /** Check if it is possible to walk from \a pos into \a direction,
       if possible, write the new position to \a new_pos */
-  bool path_ok(Direction direction, const Vector& pos, Vector* new_pos) const;
+  bool path_ok(const Direction& direction, const Vector& pos, Vector* new_pos) const;
 
   /**
    * Save worldmap state to squirrel state table

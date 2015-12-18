@@ -51,7 +51,70 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
 {
   bbox.set_pos(pos);
   sprite->set_action("normal");
-  switch(data) {
+  get_content_by_data(data);
+}
+
+BonusBlock::BonusBlock(const Reader& lisp) :
+  Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
+  contents(),
+  object(0),
+  hit_counter(1),
+  sprite_name(),
+  script(),
+  lightsprite()
+{
+  Vector pos;
+
+  contents = CONTENT_COIN;
+  lisp::ListIterator iter(&lisp);
+  while(iter.next()) {
+    const std::string& token = iter.item();
+    if(token == "x") {
+      iter.value()->get(pos.x);
+    } else if(token == "y") {
+      iter.value()->get(pos.y);
+    } else if(token == "sprite") {
+      iter.value()->get(sprite_name);
+      sprite = SpriteManager::current()->create(sprite_name);
+    } else if(token == "count") {
+      iter.value()->get(hit_counter);
+    } else if(token == "script") {
+      iter.value()->get(script);
+    } else if(token == "data") {
+      int d = 0;
+      iter.value()->get(d);
+      get_content_by_data(d);
+    } else if(token == "contents") {
+      std::string contentstring;
+      iter.value()->get(contentstring);
+      contents = get_content_from_string(contentstring);
+    } else {
+      if(contents == CONTENT_CUSTOM) {
+        GameObjectPtr game_object = ObjectFactory::instance().create(token, *(iter.lisp()));
+        object = std::dynamic_pointer_cast<MovingObject>(game_object);
+        if(object == 0)
+          throw std::runtime_error(
+            "Only MovingObjects are allowed inside BonusBlocks");
+      } else {
+        log_warning << "Invalid element '" << token << "' in bonusblock" << std::endl;
+      }
+    }
+  }
+
+  if(contents == CONTENT_CUSTOM && object == 0)
+    throw std::runtime_error("Need to specify content object for custom block");
+  if(contents == CONTENT_LIGHT) {
+    SoundManager::current()->preload("sounds/switch.ogg");
+    lightsprite = Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
+  }
+
+  bbox.set_pos(pos);
+}
+
+void
+BonusBlock::get_content_by_data(int d)
+{
+  switch(d) {
     case 1: contents = CONTENT_COIN; break;
     case 2: contents = CONTENT_FIREGROW; break;
     case 3: contents = CONTENT_STAR; break;
@@ -82,86 +145,6 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
       contents = CONTENT_COIN;
       break;
   }
-}
-
-BonusBlock::BonusBlock(const Reader& lisp) :
-  Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
-  contents(),
-  object(0),
-  hit_counter(1),
-  sprite_name(),
-  script(),
-  lightsprite()
-{
-  Vector pos;
-
-  contents = CONTENT_COIN;
-  lisp::ListIterator iter(&lisp);
-  while(iter.next()) {
-    const std::string& token = iter.item();
-    if(token == "x") {
-      iter.value()->get(pos.x);
-    } else if(token == "y") {
-      iter.value()->get(pos.y);
-    } else if(token == "sprite") {
-      iter.value()->get(sprite_name);
-      sprite = SpriteManager::current()->create(sprite_name);
-    } else if(token == "count") {
-      iter.value()->get(hit_counter);
-    } else if(token == "script") {
-      iter.value()->get(script);
-    } else if(token == "contents") {
-      std::string contentstring;
-      iter.value()->get(contentstring);
-      if(contentstring == "coin") {
-        contents = CONTENT_COIN;
-      } else if(contentstring == "firegrow") {
-        contents = CONTENT_FIREGROW;
-      } else if(contentstring == "icegrow") {
-        contents = CONTENT_ICEGROW;
-      } else if(contentstring == "airgrow") {
-        contents = CONTENT_AIRGROW;
-      } else if(contentstring == "earthgrow") {
-        contents = CONTENT_EARTHGROW;
-      } else if(contentstring == "star") {
-        contents = CONTENT_STAR;
-      } else if(contentstring == "1up") {
-        contents = CONTENT_1UP;
-      } else if(contentstring == "custom") {
-        contents = CONTENT_CUSTOM;
-      } else if(contentstring == "script") { // use when bonusblock is to contain ONLY a script
-        contents = CONTENT_SCRIPT;
-      } else if(contentstring == "light") {
-        contents = CONTENT_LIGHT;
-        SoundManager::current()->preload("sounds/switch.ogg");
-      } else if(contentstring == "trampoline") {
-        contents = CONTENT_TRAMPOLINE;
-      } else if(contentstring == "rain") {
-        contents = CONTENT_RAIN;
-      } else if(contentstring == "explode") {
-        contents = CONTENT_EXPLODE;
-      } else {
-        log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
-      }
-    } else {
-      if(contents == CONTENT_CUSTOM) {
-        GameObjectPtr game_object = ObjectFactory::instance().create(token, *(iter.lisp()));
-        object = std::dynamic_pointer_cast<MovingObject>(game_object);
-        if(object == 0)
-          throw std::runtime_error(
-            "Only MovingObjects are allowed inside BonusBlocks");
-      } else {
-        log_warning << "Invalid element '" << token << "' in bonusblock" << std::endl;
-      }
-    }
-  }
-
-  if(contents == CONTENT_CUSTOM && object == 0)
-    throw std::runtime_error("Need to specify content object for custom block");
-  if(contents == CONTENT_LIGHT)
-    lightsprite = Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
-
-  bbox.set_pos(pos);
 }
 
 BonusBlock::~BonusBlock()
@@ -286,57 +269,25 @@ BonusBlock::try_open(Player *player)
 
     case CONTENT_FIREGROW:
     {
-      if(player->get_status()->bonus == NO_BONUS) {
-        auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<GrowUp>(direction));
-        sector->add_object(riser);
-      } else {
-        auto riser = std::make_shared<SpecialRiser>(
-          get_pos(), std::make_shared<Flower>(FIRE_BONUS));
-        sector->add_object(riser);
-      }
-      SoundManager::current()->play("sounds/upgrade.wav");
+      raise_growup_bonus(player, FIRE_BONUS, direction);
       break;
     }
 
     case CONTENT_ICEGROW:
     {
-      if(player->get_status()->bonus == NO_BONUS) {
-        auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<GrowUp>(direction));
-        sector->add_object(riser);
-      } else {
-        auto riser = std::make_shared<SpecialRiser>(
-          get_pos(), std::make_shared<Flower>(ICE_BONUS));
-        sector->add_object(riser);
-      }
-      SoundManager::current()->play("sounds/upgrade.wav");
+      raise_growup_bonus(player, ICE_BONUS, direction);
       break;
     }
 
     case CONTENT_AIRGROW:
     {
-      if(player->get_status()->bonus == NO_BONUS) {
-        auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<GrowUp>(direction));
-        sector->add_object(riser);
-      } else {
-        auto riser = std::make_shared<SpecialRiser>(
-          get_pos(), std::make_shared<Flower>(AIR_BONUS));
-        sector->add_object(riser);
-      }
-      SoundManager::current()->play("sounds/upgrade.wav");
+      raise_growup_bonus(player, AIR_BONUS, direction);
       break;
     }
 
     case CONTENT_EARTHGROW:
     {
-      if(player->get_status()->bonus == NO_BONUS) {
-        auto riser = std::make_shared<SpecialRiser>(get_pos(), std::make_shared<GrowUp>(direction));
-        sector->add_object(riser);
-      } else {
-        auto riser = std::make_shared<SpecialRiser>(
-          get_pos(), std::make_shared<Flower>(EARTH_BONUS));
-        sector->add_object(riser);
-      }
-      SoundManager::current()->play("sounds/upgrade.wav");
+      raise_growup_bonus(player, EARTH_BONUS, direction);
       break;
     }
 
@@ -453,33 +404,25 @@ BonusBlock::try_drop(Player *player)
 
     case CONTENT_FIREGROW:
     {
-      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/fireflower/fireflower.sprite"));
-      SoundManager::current()->play("sounds/upgrade.wav");
-      countdown = true;
+      drop_growup_bonus("images/powerups/fireflower/fireflower.sprite", countdown);
       break;
     }
 
     case CONTENT_ICEGROW:
     {
-      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/iceflower/iceflower.sprite"));
-      SoundManager::current()->play("sounds/upgrade.wav");
-      countdown = true;
+      drop_growup_bonus("images/powerups/iceflower/iceflower.sprite", countdown);
       break;
     }
 
     case CONTENT_AIRGROW:
     {
-      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/airflower/airflower.sprite"));
-      SoundManager::current()->play("sounds/upgrade.wav");
-      countdown = true;
+      drop_growup_bonus("images/powerups/airflower/airflower.sprite", countdown);
       break;
     }
 
     case CONTENT_EARTHGROW:
     {
-      sector->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), "images/powerups/earthflower/earthflower.sprite"));
-      SoundManager::current()->play("sounds/upgrade.wav");
-      countdown = true;
+      drop_growup_bonus("images/powerups/earthflower/earthflower.sprite", countdown);
       break;
     }
 
@@ -553,6 +496,29 @@ BonusBlock::try_drop(Player *player)
 }
 
 void
+BonusBlock::raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir)
+{
+  std::shared_ptr<MovingObject> obj;
+  if(player->get_status()->bonus == NO_BONUS) {
+    obj = std::make_shared<GrowUp>(dir);
+  } else {
+    obj = std::make_shared<Flower>(bonus);
+  }
+
+  auto riser = std::make_shared<SpecialRiser>(get_pos(), obj);
+  Sector::current()->add_object(riser);
+  SoundManager::current()->play("sounds/upgrade.wav");
+}
+
+void
+BonusBlock::drop_growup_bonus(const std::string& bonus_sprite_name, bool& countdown)
+{
+  Sector::current()->add_object(std::make_shared<PowerUp>(get_pos() + Vector(0, 32), bonus_sprite_name));
+  SoundManager::current()->play("sounds/upgrade.wav");
+  countdown = true;
+}
+
+void
 BonusBlock::draw(DrawingContext& context){
   // do the regular drawing first
   Block::draw(context);
@@ -564,5 +530,39 @@ BonusBlock::draw(DrawingContext& context){
     context.draw_surface(lightsprite, pos, 10);
     context.pop_target();
   }
+}
+
+BonusBlock::Contents
+BonusBlock::get_content_from_string(const std::string& contentstring) const
+{
+  if(contentstring == "coin")
+    return CONTENT_COIN;
+  if(contentstring == "firegrow")
+    return CONTENT_FIREGROW;
+  if(contentstring == "icegrow")
+    return CONTENT_ICEGROW;
+  if(contentstring == "airgrow")
+    return CONTENT_AIRGROW;
+  if(contentstring == "earthgrow")
+    return CONTENT_EARTHGROW;
+  if(contentstring == "star")
+    return CONTENT_STAR;
+  if(contentstring == "1up")
+    return CONTENT_1UP;
+  if(contentstring == "custom")
+    return CONTENT_CUSTOM;
+  if(contentstring == "script") // use when bonusblock is to contain ONLY a script
+    return CONTENT_SCRIPT;
+  if(contentstring == "light")
+    return CONTENT_LIGHT;
+  if(contentstring == "trampoline")
+    return CONTENT_TRAMPOLINE;
+  if(contentstring == "rain")
+    return CONTENT_RAIN;
+  if(contentstring == "explode")
+    return CONTENT_EXPLODE;
+
+  log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
+  return CONTENT_COIN;
 }
 /* EOF */

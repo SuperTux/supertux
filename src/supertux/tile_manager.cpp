@@ -80,7 +80,7 @@ TileManager::parse_tileset_definition(const Reader& reader)
     result->merge(tileset, start, end, offset);
   }
 
-  return std::move(result);
+  return result;
 }
 
 /* EOF */

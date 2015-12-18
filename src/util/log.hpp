@@ -41,6 +41,10 @@ std::ostream& operator<< (std::ostream& str, const Vector& vector);
 class Rectf;
 std::ostream& operator<< (std::ostream& str, const Rectf& rect);
 
+void log_info_callback(const std::string& str);
+void log_error_callback(const std::string& str);
+void log_warning_callback(const std::string& str);
+
 #endif
 
 /* EOF */

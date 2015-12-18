@@ -54,7 +54,7 @@ public:
   void stop_animation()
   { animation_loops = 0; }
   /** Check if animation is stopped or not */
-  bool animation_done();
+  bool animation_done() const;
 
   float get_fps() const
   { return action->fps; }
@@ -105,13 +105,13 @@ public:
     this->frame = 0;
     this->frameidx = frame_ % get_frames();
   }
-  SurfacePtr get_frame(unsigned int frame_)
+  SurfacePtr get_frame(unsigned int frame_) const
   {
     assert(frame_ < action->surfaces.size());
     return action->surfaces[frame_];
   }
 
-  bool has_action (const std::string& name)
+  bool has_action (const std::string& name) const
   {
     return (data.get_action(name) != NULL);
   }

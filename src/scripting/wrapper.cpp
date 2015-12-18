@@ -1136,6 +1136,36 @@ static SQInteger Player_add_bonus_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Player_set_bonus_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_bonus' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    bool return_value = _this->set_bonus(arg0);
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_bonus'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Player_add_coins_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -3342,6 +3372,30 @@ static SQInteger translate_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger __wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    std::string return_value = scripting::_(arg0);
+
+    sq_pushstring(vm, return_value.c_str(), return_value.size());
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function '_'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger import_wrapper(HSQUIRRELVM vm)
 {
   HSQUIRRELVM arg0 = vm;
@@ -4499,6 +4553,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'translate'");
   }
 
+  sq_pushstring(v, "_", -1);
+  sq_newclosure(v, &__wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function '_'");
+  }
+
   sq_pushstring(v, "import", -1);
   sq_newclosure(v, &import_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
@@ -5050,6 +5111,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'add_bonus'");
+  }
+
+  sq_pushstring(v, "set_bonus", -1);
+  sq_newclosure(v, &Player_set_bonus_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_bonus'");
   }
 
   sq_pushstring(v, "add_coins", -1);

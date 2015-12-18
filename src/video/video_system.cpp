@@ -17,6 +17,7 @@
 #include "video/video_system.hpp"
 
 #include <config.h>
+#include <stdexcept>
 
 #include "util/log.hpp"
 #include "video/sdl/sdl_video_system.hpp"
@@ -83,7 +84,11 @@ VideoSystem::get_video_system(const std::string &video)
   }
   else
   {
-    return AUTO_VIDEO;
+#ifdef HAVE_OPENGL
+    throw std::runtime_error("invalid VideoSystem::Enum, valid values are 'auto', 'sdl' and 'opengl'");
+#else
+    throw std::runtime_error("invalid VideoSystem::Enum, valid values are 'auto' and 'sdl'");
+#endif
   }
 }
 

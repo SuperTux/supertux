@@ -60,7 +60,16 @@
  Programming
 
 	Tobias \"Tobbi\" Markus
+ Programming, ad interim project lead
+
+	Karkus476
  Programming
+
+	Hume
+ Programming, Level Design
+
+	Jacob \"maths22\" Burroughs
+ Packaging, Nightly builds
 
 	Benjamin \"GiBy\" Leduc
  Translation Guru (and many details anyone else could have done)
@@ -147,7 +156,7 @@
  	Anders (Danish)
  	Phan Anh (Vietnamese)
  	Constantin Baranov (Russian)
- 	Indrit Bashkimi (Albanese) 
+ 	Indrit Bashkimi (Albanese)
  	Javier Beaumont (Castilian Spanish)
  	Martí Bosc (Catalan)
  	Matthias Braun (German)
@@ -179,7 +188,7 @@
  	Lauri \"xet7\" Ojansivu (Finnish)
  	Karl Ove Hufthammer (Norwegian)
  	Léo Poughon (French)
- 	Bansaj Pradhan (Nepali) 
+ 	Bansaj Pradhan (Nepali)
  	Herval Ribeiro (Brazilian Portuguese)
  	Frederic Rodrigo (French)
  	D. J. S. (Hungarian)
@@ -190,7 +199,7 @@
  	Andrius Štikonas (Lithuanian)
  	Eugen Uvin (Ukrainian)
  	Frank van der Loo (Dutch)
- 	Mihas \"meequz\" Varantsou (Belarusian) 
+ 	Mihas \"meequz\" Varantsou (Belarusian)
  	Antoni Villalonga (Catalan)
  	Roman M. Yagodin (Russian)
  	Kővágó Zoltán (Hungarian)
@@ -209,7 +218,7 @@
 -Contact
 
 	Visit our webpage at
-*http://supertux.github.io
+*http://supertuxproject.org
 
 	Or visit us directly at IRC:
 *#supertux at irc.freenode.net

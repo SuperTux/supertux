@@ -28,7 +28,7 @@
 
 namespace {
 
-static const char* s_allowed_characters = "-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+static const char* s_allowed_characters = "-_0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 Addon::Type addon_type_from_string(const std::string& type)
 {

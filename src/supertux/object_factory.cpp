@@ -241,6 +241,7 @@ ObjectFactory::init_factories()
   add_factory<Background>("background");
   add_factory<BicyclePlatform>("bicycle-platform");
   add_factory<BonusBlock>("bonusblock");
+  add_factory<Brick>("brick");
   add_factory<Candle>("candle");
   add_factory<Coin>("coin");
   add_factory<Decal>("decal");
@@ -251,6 +252,7 @@ ObjectFactory::init_factories()
   add_factory<HurtingPlatform>("hurting_platform");
   add_factory<IceCrusher>("icecrusher");
   add_factory<InfoBlock>("infoblock");
+  add_factory<InvisibleBlock>("invisible_block");
   add_factory<InvisibleWall>("invisible_wall");
   add_factory<Ispy>("ispy");
   add_factory<Lantern>("lantern");
@@ -300,13 +302,16 @@ ObjectFactory::create(const std::string& name, const Reader& reader) const
 }
 
 GameObjectPtr
-ObjectFactory::create(const std::string& name, const Vector& pos, const Direction dir) const
+ObjectFactory::create(const std::string& name, const Vector& pos, const Direction& dir, const std::string& data) const
 {
   std::stringstream lisptext;
   lisptext << "((x " << pos.x << ")"
-           << " (y " << pos.y << ")";
-  if(dir != AUTO)
+           << " (y " << pos.y << ")" << data;
+  if(dir != AUTO) {
     lisptext << " (direction " << dir << "))";
+  } else {
+    lisptext << ")";
+  }
 
   lisp::Parser parser;
   const lisp::Lisp* lisp = parser.parse(lisptext, "create_object");

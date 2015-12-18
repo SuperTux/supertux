@@ -85,36 +85,38 @@ AngryStone::active_update(float elapsed_time) {
     return;
   }
 
-  if (state == IDLE) {
-    MovingObject* player = get_nearest_player();
-    if(player) {
-      MovingObject* badguy = this;
-      const Vector playerPos = player->get_pos();
-      const Vector badguyPos = badguy->get_pos();
-      float dx = (playerPos.x - badguyPos.x);
-      float dy = (playerPos.y - badguyPos.y);
+  switch (state) {
 
-      float playerHeight = player->get_bbox().p2.y - player->get_bbox().p1.y;
-      float badguyHeight = badguy->get_bbox().p2.y - badguy->get_bbox().p1.y;
 
-      float playerWidth = player->get_bbox().p2.x - player->get_bbox().p1.x;
-      float badguyWidth = badguy->get_bbox().p2.x - badguy->get_bbox().p1.x;
+    case IDLE: {
+      MovingObject* player = get_nearest_player();
+      if(player) {
+        MovingObject* badguy = this;
+        const Vector playerPos = player->get_pos();
+        const Vector badguyPos = badguy->get_pos();
+        float dx = (playerPos.x - badguyPos.x);
+        float dy = (playerPos.y - badguyPos.y);
 
-      if ((dx > -playerWidth) && (dx < badguyWidth)) {
-        if (dy > 0) {
-          attackDirection.x = 0;
-          attackDirection.y = 1;
-        } else {
-          attackDirection.x = 0;
-          attackDirection.y = -1;
-        }
-        if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
-          sprite->set_action("charging");
-          timer.start(CHARGE_TIME);
-          state = CHARGING;
-        }
-      } else
-        if ((dy > -playerHeight) && (dy < badguyHeight)) {
+        float playerHeight = player->get_bbox().p2.y - player->get_bbox().p1.y;
+        float badguyHeight = badguy->get_bbox().p2.y - badguy->get_bbox().p1.y;
+
+        float playerWidth = player->get_bbox().p2.x - player->get_bbox().p1.x;
+        float badguyWidth = badguy->get_bbox().p2.x - badguy->get_bbox().p1.x;
+
+        if ((dx > -playerWidth) && (dx < badguyWidth)) {
+          if (dy > 0) {
+            attackDirection.x = 0;
+            attackDirection.y = 1;
+          } else {
+            attackDirection.x = 0;
+            attackDirection.y = -1;
+          }
+          if ((attackDirection.x != oldWallDirection.x) || (attackDirection.y != oldWallDirection.y)) {
+            sprite->set_action("charging");
+            timer.start(CHARGE_TIME);
+            state = CHARGING;
+          }
+        } else if ((dy > -playerHeight) && (dy < badguyHeight)) {
           if (dx > 0) {
             attackDirection.x = 1;
             attackDirection.y = 0;
@@ -128,42 +130,42 @@ AngryStone::active_update(float elapsed_time) {
             state = CHARGING;
           }
         }
+      }
+    } break;
 
-    }
-  }
+    case CHARGING: {
+      if (timer.check()) {
+        sprite->set_action("attacking");
+        timer.start(ATTACK_TIME);
+        state = ATTACKING;
+        physic.enable_gravity(false);
+        physic.set_velocity_x(CHARGE_SPEED * attackDirection.x);
+        physic.set_velocity_y(CHARGE_SPEED * attackDirection.y);
+        oldWallDirection.x = 0;
+        oldWallDirection.y = 0;
+      }
+    } break;
 
-  if (state == CHARGING) {
-    if (timer.check()) {
-      sprite->set_action("attacking");
-      timer.start(ATTACK_TIME);
-      state = ATTACKING;
-      physic.enable_gravity(false);
-      physic.set_velocity_x(CHARGE_SPEED * attackDirection.x);
-      physic.set_velocity_y(CHARGE_SPEED * attackDirection.y);
-      oldWallDirection.x = 0;
-      oldWallDirection.y = 0;
-    }
-  }
+    case ATTACKING: {
+      if (timer.check()) {
+        timer.start(RECOVER_TIME);
+        state = RECOVERING;
+        sprite->set_action("idle");
+        physic.enable_gravity(true);
+        physic.set_velocity_x(0);
+        physic.set_velocity_y(0);
+      }
+    } break;
 
-  if (state == ATTACKING) {
-    if (timer.check()) {
-      timer.start(RECOVER_TIME);
-      state = RECOVERING;
-      sprite->set_action("idle");
-      physic.enable_gravity(true);
-      physic.set_velocity_x(0);
-      physic.set_velocity_y(0);
-    }
-  }
-
-  if (state == RECOVERING) {
-    if (timer.check()) {
-      state = IDLE;
-      sprite->set_action("idle");
-      physic.enable_gravity(true);
-      physic.set_velocity_x(0);
-      physic.set_velocity_y(0);
-    }
+    case RECOVERING: {
+      if (timer.check()) {
+        state = IDLE;
+        sprite->set_action("idle");
+        physic.enable_gravity(true);
+        physic.set_velocity_x(0);
+        physic.set_velocity_y(0);
+      }
+    } break;
   }
 
 }

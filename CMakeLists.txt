@@ -36,17 +36,15 @@
 
 PROJECT(SUPERTUX)
 
-## Version, for display in title bar.
-## Will add 'commit <hash>' to the end if git is available and this is a git repository.
-SET(SUPERTUX_VERSION "0.4.0-git")
 
 ### CMake configuration
 
 # allow building with CMake 2.6. Set compatibility options. Use some bundled modules as a fallback
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.1)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2)
 IF(COMMAND cmake_policy)
   CMAKE_POLICY(SET CMP0003 NEW)
   CMAKE_POLICY(SET CMP0008 NEW)
+  CMAKE_POLICY(SET CMP0023 NEW)
   IF(POLICY CMP0043)
     CMAKE_POLICY(SET CMP0043 OLD)
   ENDIF(POLICY CMP0043)
@@ -62,6 +60,13 @@ SET(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 
 INCLUDE(TestBigEndian)
 TEST_BIG_ENDIAN(WORDS_BIGENDIAN)
+
+## Add definitions
+IF(CMAKE_BUILD_TYPE MATCHES Release)
+  ADD_DEFINITIONS(-DRELEASE)
+ELSEIF(CMAKE_BUILD_TYPE MATCHES Debug)
+  ADD_DEFINITIONS(-DDEBUG)
+ENDIF()
 
 ## These variables enable MSVC to find libraries located in "dependencies{32|64}"
 IF(WIN32)
@@ -108,6 +113,7 @@ IF(WIN32)
   FIND_PATH(SDL2IMAGE_INCLUDE_DIRS NAMES SDL_image.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2_image")
   FIND_LIBRARY(SDL2_LIBRARIES NAMES SDL2 PATHS "${DEPENDENCY_FOLDER}/lib")
   FIND_LIBRARY(SDL2IMAGE_LIBRARIES NAMES SDL2_image PATHS "${DEPENDENCY_FOLDER}/lib")
+  FIND_LIBRARY(SDL2MAIN_LIBRARIES NAMES SDL2main PATHS "${DEPENDENCY_FOLDER}/lib")
 ELSE(WIN32)
   INCLUDE(FindPkgConfig)
   PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2>=2.0.1)
@@ -115,6 +121,7 @@ ELSE(WIN32)
 ENDIF(WIN32)
 SET(HAVE_SDL TRUE)
 
+OPTION(BUILD_TESTS "Build test cases" OFF)
 OPTION(ENABLE_OPENGL "Enable OpenGL support" ON)
 OPTION(GLBINDING_ENABLED "Use glbinding instead of GLEW" OFF)
 OPTION(GLBINDING_DEBUG_OUTPUT "Enable glbinding debug output for each called OpenGL function" OFF)
@@ -165,39 +172,39 @@ ENDIF(NOT WIN32 OR WIN64)
 #INCLUDE_DIRECTORIES(${ICONV_INCLUDE_DIR})
 #LINK_LIBRARIES(${ICONV_LIBRARY})
 
-## Find revision of WC
-MARK_AS_ADVANCED(GIT_EXECUTABLE)
-FIND_PROGRAM(GIT_EXECUTABLE git)
+IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+	## Find revision of WC
+	MARK_AS_ADVANCED(GIT_EXECUTABLE)
+	FIND_PROGRAM(GIT_EXECUTABLE git)
+	IF(NOT GIT_EXECUTABLE EQUAL "GIT_EXECUTABLE-NOTFOUND")
+		INCLUDE(GetGitRevisionDescription)
+		git_describe(VERSION_STRING_GIT "--tags")
+		STRING(REPLACE "v" "" VERSION_LIST ${VERSION_STRING_GIT})
+		STRING(REGEX REPLACE "(-|_|\\.)" ";" VERSION_LIST ${VERSION_LIST})
 
-# The .git directory inside the base directory
-SET(GIT_CFG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/.git/")
+		LIST(LENGTH VERSION_LIST VERSION_LIST_SIZE)
 
-IF(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
-  ADD_CUSTOM_COMMAND(OUTPUT "${CMAKE_BINARY_DIR}/version.h"
-                    COMMAND ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} >> "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo_append "#define PACKAGE_VERSION \"${SUPERTUX_VERSION} commit "
-                    
-                    COMMAND ${GIT_EXECUTABLE} rev-parse --sq HEAD >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} >>  "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo "\""
-                    COMMAND ${CMAKE_COMMAND} -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_BINARY_DIR}/version.h.tmp" "${CMAKE_BINARY_DIR}/version.h"
-                    COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-                    COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
-                    VERBATIM)
-ELSE(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
-  ADD_CUSTOM_COMMAND(OUTPUT "${CMAKE_BINARY_DIR}/version.h"
-                    COMMAND ${CMAKE_COMMAND} -E echo "#ifndef VERSION_H" > "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} -E echo "#define VERSION_H" >> "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} >> "${CMAKE_BINARY_DIR}/version.h.tmp" -E echo "#define PACKAGE_VERSION \"${SUPERTUX_VERSION}\""
-                    COMMAND ${CMAKE_COMMAND} -E echo "#endif" >>  "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_BINARY_DIR}/version.h.tmp" "${CMAKE_BINARY_DIR}/version.h"
-                    COMMAND ${CMAKE_COMMAND} -E remove "${CMAKE_BINARY_DIR}/version.h.tmp"
-                    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                    COMMENT "Updating ${CMAKE_BINARY_DIR}/version.h..."
-                    VERBATIM)
-ENDIF(GIT_EXECUTABLE AND EXISTS ${GIT_CFG_DIR})
+		LIST(GET VERSION_LIST 0 MAJOR_VERSION_GIT)
+		LIST(GET VERSION_LIST 1 MINOR_VERSION_GIT)
+		LIST(GET VERSION_LIST 2 PATCH_VERSION_GIT)
+		
+		IF(${VERSION_LIST_SIZE} EQUAL 5)
+			 LIST(GET VERSION_LIST 3 TWEAK_VERSION_GIT)
+			 LIST(GET VERSION_LIST 4 GIT_HASH)
+		ENDIF()
+		
+		CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/version.cmake.in" "${CMAKE_SOURCE_DIR}/version.cmake")
+	ENDIF(NOT GIT_EXECUTABLE EQUAL "GIT_EXECUTABLE-NOTFOUND")
+ENDIF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
+IF(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake") 
+	 MESSAGE( SEND_ERROR "Cound not find GIT or valid version.cmake. Version information will be invalid." )
+ENDIF(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
+INCLUDE("${CMAKE_SOURCE_DIR}/version.cmake")
+
+
+SET(SUPERTUX_VERSION ${SUPERTUX_VERSION_STRING})
+
+configure_file(version.h.in ${CMAKE_BINARY_DIR}/version.h )
 
 SET_SOURCE_FILES_PROPERTIES(${CMAKE_BINARY_DIR}/version.h
                             PROPERTIES GENERATED true)
@@ -222,8 +229,9 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
 ## Add squirrel lib dir to search path
 
 LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR}/external/squirrel)
 
-## Also execute instructions in external/squirrel/CMakeLists.txt
+## Also execute instructions in external/tinygettext/CMakeLists.txt
 
 IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
   message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
@@ -234,6 +242,7 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext)
 ## Add tinygettext lib dir to search path
 
 LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext)
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext)
 
 ## Some additional include paths
 
@@ -246,13 +255,14 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
 
 IF(WIN32)
   ADD_DEFINITIONS(-D_USE_MATH_DEFINES -DNOMINMAX)
+  ADD_DEFINITIONS(-DWIN32)
 ENDIF(WIN32)
 
 ## Build list of sources for supertux binary
 
 FILE(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obstack/*.c external/findlocale/findlocale.c)
 
-FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/main.cpp src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp)
+FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp)
 FILE(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
 
 FILE(GLOB TINYGETTEXT_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/tinygettext/src/*.cpp)
@@ -326,7 +336,7 @@ IF(CMAKE_COMPILER_IS_GNUCC)
   SET(CMAKE_CXX_FLAGS_PROFILE "-pg" CACHE STRING "Profile flags")
   SET(CMAKE_C_FLAGS_PROFILE "-pg" CACHE STRING "Profile flags")
   SET(CMAKE_LD_FLAGS_PROFILE "-lgmon" CACHE STRING "Profile flags")
-  ADD_DEFINITIONS(-Wall -Wextra -Wno-unused-parameter -funit-at-a-time)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unused-parameter -funit-at-a-time")
   IF(WERROR)
     ADD_DEFINITIONS(-Werror)
   ELSE(WERROR)
@@ -399,7 +409,7 @@ ENDIF(GENERATE_MESSAGESPOT)
 
 ## Some additional compiler switches
 IF(CMAKE_COMPILER_IS_GNUCC)
-  ADD_DEFINITIONS(-fno-strict-aliasing)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing")
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -423,95 +433,136 @@ ENDIF(WIN32)
 
 #SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-CONFIGURE_FILES(${CMAKE_CURRENT_SOURCE_DIR}/data ${CMAKE_BINARY_DIR}/data)
+IF(NOT ${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+    CONFIGURE_FILES(${CMAKE_CURRENT_SOURCE_DIR}/data ${CMAKE_BINARY_DIR}/data)
+ENDIF(NOT ${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 
 ## Add target for supertux binary
 
-ADD_LIBRARY(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
-ADD_EXECUTABLE(supertux2 ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
-SET_TARGET_PROPERTIES(supertux2 PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
+add_library(supertux2_c OBJECT ${SUPERTUX_SOURCES_C})
+add_library(supertux2_lib STATIC ${CMAKE_BINARY_DIR}/version.h ${SUPERTUX_SOURCES_CXX} ${SUPERTUX_RESOURCES} $<TARGET_OBJECTS:supertux2_c>)
+IF(WIN32)
+    add_executable(supertux2_exe WIN32 src/main.cpp ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.rc)
+    TARGET_LINK_LIBRARIES(supertux2_exe ${SDL2MAIN_LIBRARIES})
+ELSE()
+    add_executable(supertux2_exe src/main.cpp)
+ENDIF(WIN32)
+target_link_libraries(supertux2_exe supertux2_lib)
+set_target_properties(supertux2_exe PROPERTIES OUTPUT_NAME supertux2)
+set_target_properties(supertux2_lib PROPERTIES COMPILE_FLAGS "${SUPERTUX2_EXTRA_WARNING_FLAGS}")
 
 IF(WIN32)
   ## Copy dlls on windows
-  ADD_CUSTOM_COMMAND(TARGET supertux2 POST_BUILD
+  ADD_CUSTOM_COMMAND(TARGET supertux2_lib POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
       "${DEPENDENCY_FOLDER}/dll"
-      $<TARGET_FILE_DIR:supertux2>)
-  ADD_CUSTOM_COMMAND(TARGET supertux2 POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-      "${DEPENDENCY_FOLDER}/DigiCertHighAssuranceEVRootCA.pem"
-      $<TARGET_FILE_DIR:supertux2>)
+      $<TARGET_FILE_DIR:supertux2_lib>)
+#  ADD_CUSTOM_COMMAND(TARGET supertux2 POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy
+#     "${DEPENDENCY_FOLDER}/DigiCertHighAssuranceEVRootCA.pem"
+#     $<TARGET_FILE_DIR:supertux2_lib>)
 ENDIF(WIN32)
 
 ## Link supertux binary with squirrel and other libraries
 
-TARGET_INCLUDE_DIRECTORIES(supertux2 SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
-TARGET_INCLUDE_DIRECTORIES(supertux2 SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
-TARGET_LINK_LIBRARIES(supertux2 ${SDL2_LIBRARIES})
-TARGET_LINK_LIBRARIES(supertux2 ${SDL2IMAGE_LIBRARIES})
+TARGET_INCLUDE_DIRECTORIES(supertux2_lib SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
+TARGET_INCLUDE_DIRECTORIES(supertux2_lib SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${SDL2_LIBRARIES})
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${SDL2IMAGE_LIBRARIES})
 
-TARGET_LINK_LIBRARIES(supertux2 squirrel)
-TARGET_LINK_LIBRARIES(supertux2 tinygettext)
-TARGET_LINK_LIBRARIES(supertux2 ${OPENAL_LIBRARY})
-TARGET_LINK_LIBRARIES(supertux2 ${OGGVORBIS_LIBRARIES})
-TARGET_LINK_LIBRARIES(supertux2 ${PHYSFS_LIBRARY})
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC squirrel)
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC tinygettext)
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${OPENAL_LIBRARY})
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${OGGVORBIS_LIBRARIES})
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${PHYSFS_LIBRARY})
 IF(HAVE_OPENGL)
-    TARGET_LINK_LIBRARIES(supertux2 ${OPENGL_LIBRARY})
+    TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${OPENGL_LIBRARY})
     IF(GLBINDING_FOUND)
-      TARGET_LINK_LIBRARIES(supertux2 ${GLBINDING_LIBRARIES})
+      TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${GLBINDING_LIBRARIES})
     ELSE()
-      TARGET_LINK_LIBRARIES(supertux2 ${GLEW_LIBRARY})
+      TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${GLEW_LIBRARY})
     ENDIF()
 ENDIF(HAVE_OPENGL)
 IF(HAVE_LIBCURL)
-  TARGET_LINK_LIBRARIES(supertux2 ${CURL_LIBRARY})
+  TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${CURL_LIBRARY})
 ENDIF(HAVE_LIBCURL)
 
 ## Link curl on windows
 IF(WIN32 AND NOT WIN64)
-    TARGET_LINK_LIBRARIES(supertux2 "${DEPENDENCY_FOLDER}/lib/libcurldll.a")
+    TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC "${DEPENDENCY_FOLDER}/lib/libcurldll.a")
 ENDIF()
+
+if(BUILD_TESTS)
+  find_package(Threads REQUIRED)
+
+  # build gtest
+  # ${CMAKE_CURRENT_SOURCE_DIR} in include_directories is needed to generate -isystem instead of -I flags
+  add_library(gtest_main STATIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/src/gtest_main.cc)
+  target_include_directories(gtest_main SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/include/)
+  add_library(gtest STATIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/src/gtest-all.cc)
+  target_include_directories(gtest SYSTEM PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/)
+  target_include_directories(gtest SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/include/)
+
+  # build SuperTux tests
+  file(GLOB TEST_SUPERTUX_SOURCES tests/*.cpp)
+  add_executable(test_supertux2 ${TEST_SUPERTUX_SOURCES})
+  target_compile_options(test_supertux2 PRIVATE ${WARNINGS_CXX_FLAGS})
+  target_link_libraries(test_supertux2
+    gtest gtest_main
+    supertux2_lib
+    ${CMAKE_THREAD_LIBS_INIT})
+
+  # add 'make test' target, use 'make test ARGS="-V"' or 'ctest -V' for verbose
+  enable_testing()
+  add_test(NAME test_supertux2
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMAND test_supertux2)
+endif()
 
 ## Install stuff
 
 IF(WIN32 AND NOT UNIX)
 
-  SET(INSTALL_SUBDIR_BIN "." CACHE STRING "Installation subdir for binaries")
+  SET(INSTALL_SUBDIR_BIN "bin" CACHE STRING "Installation subdir for binaries")
   SET(INSTALL_SUBDIR_SHARE "data" CACHE STRING "Installation subdir for data")
-  SET(INSTALL_SUBDIR_DOC "." CACHE STRING "Installation subdir for docs")
-
+  SET(INSTALL_SUBDIR_DOC "doc" CACHE STRING "Installation subdir for docs")
+  
   INSTALL(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
 
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
+  
+  OPTION(PACKAGE_VCREDIST "Package the VCREDIST libraries with the program" OFF)
+  
+  IF(PACKAGE_VCREDIST)
+    include(InstallRequiredSystemLibraries)
+    INSTALL(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${INSTALL_SUBDIR_BIN})
+    include(FindWindowsSDK)
+    IF(${CMAKE_VS_PLATFORM_NAME} STREQUAL "Win32")
+        SET(UCRT_PATH "${WINDOWSSDK_PREFERRED_DIR}/Redist/ucrt/DLLs/x86")
+    ELSE()
+        SET(UCRT_PATH "${WINDOWSSDK_PREFERRED_DIR}/Redist/ucrt/DLLs/x64")
+    ENDIF()
+    FILE(GLOB UCRT_DLLS "${UCRT_PATH}/*")
+    INSTALL(FILES ${UCRT_DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
+  ENDIF()
 
 ELSE(WIN32 AND NOT UNIX)
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-
-  SET(INSTALL_SUBDIR_BIN "SuperTux.app/Contents/MacOS" CACHE STRING "Installation subdir for binaries")
-  SET(INSTALL_SUBDIR_SHARE "SuperTux.app/Contents/Resources/data" CACHE STRING "Installation subdir for data")
-  SET(INSTALL_SUBDIR_DOC "SuperTux.app/Contents/Resources" CACHE STRING "Installation subdir for docs")
-
-  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist DESTINATION "SuperTux.app/Contents/")
-  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/receipt DESTINATION "SuperTux.app/Contents/_MASReceipt/")
-
-  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns DESTINATION "SuperTux.app/Contents/Resources/")
-
-ELSE(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   SET(INSTALL_SUBDIR_BIN "games" CACHE STRING "Installation subdir for binaries")
   SET(INSTALL_SUBDIR_SHARE "share/games/supertux2" CACHE STRING "Installation subdir for data")
   SET(INSTALL_SUBDIR_DOC "share/doc/supertux2" CACHE STRING "Installation subdir for docs")
 
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop DESTINATION "share/applications")
+  
+  SET(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
 
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
 
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 ENDIF(WIN32 AND NOT UNIX)
 
-INSTALL(TARGETS supertux2 DESTINATION ${INSTALL_SUBDIR_BIN})
+INSTALL(TARGETS supertux2_exe DESTINATION ${INSTALL_SUBDIR_BIN})
 
-INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/INSTALL.md ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/NEWS.md DESTINATION ${INSTALL_SUBDIR_DOC})
+INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/INSTALL.md ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt ${CMAKE_CURRENT_SOURCE_DIR}/NEWS.md DESTINATION ${INSTALL_SUBDIR_DOC})
 
 INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/credits.txt DESTINATION ${INSTALL_SUBDIR_SHARE})
 
@@ -544,9 +595,47 @@ configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 ## CPack/Installation-specific stuff
 
 INCLUDE(InstallRequiredSystemLibraries)
+SET(DIRS ${Boost_LIBRARY_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/external/squirrel ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext)
+
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    FIND_PACKAGE(png)
+    foreach (_file ${PNG_LIBRARIES})
+        get_filename_component(_resolvedFile "${_file}" REALPATH)
+        get_filename_component(_name "${_file}" NAME)
+	INSTALL(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
+    endforeach()    
+    FIND_PACKAGE(jpeg)
+    foreach (_file ${JPEG_LIBRARIES})
+        get_filename_component(_resolvedFile "${_file}" REALPATH)
+        get_filename_component(_name "${_file}" NAME)
+	INSTALL(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
+    endforeach()    
+
+    INSTALL(CODE "
+       if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
+       include(BundleUtilities)
+       fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
+       endif()
+       ")
+    
+    CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in" "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
+
+    SET(CPACK_BUNDLE_NAME "SuperTux")
+    SET(CPACK_BUNDLE_PLIST "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
+    SET(CPACK_BUNDLE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns")
+    SET(CPACK_BUNDLE_STARTUP_COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/startup.sh")
+    SET(CPACK_DMG_VOLUME_NAME "SuperTux ${SUPERTUX_VERSION_STRING}")
+    SET(CPACK_DMG_DS_STORE "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/DS_Store")
+    SET(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/background.png")
+ENDIF()
+
+
+
+SET(CPACK_PACKAGE_NAME "SuperTux")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Jump'n'Run Game featuring Tux")
 SET(CPACK_PACKAGE_VENDOR "SuperTux Devel Team")
 SET(CPACK_PACKAGE_CONTACT "SuperTux Devel Team <supertux-devel@lists.lethargik.org>")
+SET(CPACK_SOURCE_IGNORE_FILES "/\\\\.git/;${CMAKE_BINARY_DIR}")
 SET(CPACK_DEBIAN_PACKAGE_NAME "supertux2")
 SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.5), libgcc1 (>= 1:4.1), libgl1-mesa-glx | libgl1, libogg0 (>= 1.1.3), libopenal0a, libphysfs-1.0-0, libsdl-image1.2 (>= 1.2.5), libsdl1.2debian (>= 1.2.10-1), libstdc++6 (>= 4.1.2), libvorbis0a (>= 1.1.2), libvorbisfile3 (>= 1.1.2), libcurl3 (>= 7.16)")
 SET(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Classic 2D jump 'n run sidescroller with Tux\n SuperTux is a classic 2D jump 'n run sidescroller game in a similar\n style like the original SuperMario games. This release of SuperTux\n features 9 enemies, 26 playable levels, software and OpenGL rendering\n modes, configurable joystick and keyboard input, new music and\n completely redone graphics.\n .\n This is a development snapshot of SuperTux. It may suffer from\n critical bugs and has not been fully tested. \n .\n Homepage: http://supertux.lethargik.org/")
@@ -559,17 +648,29 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   # The OS X PackageMaker doesn't seem to like files with no extension
 ELSE(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
-  SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+  SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-SET(CPACK_PACKAGE_VERSION_MAJOR "0")
-SET(CPACK_PACKAGE_VERSION_MINOR "3")
-SET(CPACK_PACKAGE_VERSION_PATCH "4-GIT")
-SET(CPACK_PACKAGE_INSTALL_DIRECTORY "SuperTux ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
-SET(CPACK_PACKAGE_EXECUTABLES "..\\\\supertux2" "SuperTux ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+SET(CPACK_PACKAGE_VERSION_MAJOR ${SUPERTUX_VERSION_MAJOR})
+SET(CPACK_PACKAGE_VERSION_MINOR ${SUPERTUX_VERSION_MINOR})
+
+IF(SUPERTUX_VERSION_TWEAK)
+    SET(CPACK_PACKAGE_VERSION_PATCH "${SUPERTUX_VERSION_PATCH}.${SUPERTUX_VERSION_TWEAK}")
+ELSE()
+    SET(CPACK_PACKAGE_VERSION_PATCH ${SUPERTUX_VERSION_PATCH})
+ENDIF(SUPERTUX_VERSION_TWEAK)
+SET(CPACK_PACKAGE_INSTALL_DIRECTORY "SuperTux")
+SET(CPACK_PACKAGE_EXECUTABLES "supertux2" "SuperTux")
 IF(WIN32 AND NOT UNIX)
-  SET(CPACK_NSIS_INSTALLED_ICON_NAME "..\\\\supertux2")
-  SET(CPACK_NSIS_DISPLAY_NAME "SuperTux ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+  SET(CPACK_NSIS_INSTALLED_ICON_NAME "supertux2")
+  SET(CPACK_NSIS_DISPLAY_NAME "SuperTux")
   SET(CPACK_NSIS_COMPRESSOR "/SOLID lzma")
+  SET(CPACK_WIX_PROGRAM_MENU_FOLDER "")
+  SET(CPACK_WIX_UPGRADE_GUID "93E16F4E-0A68-422A-8ADC-47BE5B9433B2")
+  SET(CPACK_WIX_PRODUCT_ICON "${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico")
+
+  SET(CPACK_WIX_UI_BANNER "${CMAKE_CURRENT_SOURCE_DIR}/mk/wix/banner.png")
+  SET(CPACK_WIX_UI_DIALOG "${CMAKE_CURRENT_SOURCE_DIR}/mk/wix/dialog.png")
+  SET(CPACK_GENERATOR WIX)
 ELSE(WIN32 AND NOT UNIX)
 ENDIF(WIN32 AND NOT UNIX)
 INCLUDE(CPack)

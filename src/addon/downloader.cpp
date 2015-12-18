@@ -119,21 +119,6 @@ public:
       curl_easy_setopt(m_handle, CURLOPT_NOPROGRESS, 0);
       curl_easy_setopt(m_handle, CURLOPT_PROGRESSDATA, this);
       curl_easy_setopt(m_handle, CURLOPT_PROGRESSFUNCTION, &Transfer::on_progress_wrap);
-
-#ifdef WIN32
-      char* basepath_c = SDL_GetBasePath();
-      std::string basepath = basepath_c;
-      SDL_free(basepath_c);
-      std::string certificate = "DigiCertHighAssuranceEVRootCA.pem";
-      std::string path = basepath + certificate;
-      if (FileSystem::exists(path))
-        CURLcode error = curl_easy_setopt(m_handle, CURLOPT_CAINFO, path.c_str());
-      else
-      {
-        path = FileSystem::join(PHYSFS_getRealDir(certificate.c_str()), certificate);
-        curl_easy_setopt(m_handle, CURLOPT_CAINFO, path.c_str());
-      }
-#endif
     }
   }
 

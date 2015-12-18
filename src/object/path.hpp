@@ -73,7 +73,9 @@ private:
     // moves from first to last node then in reverse order back to first
     PING_PONG,
     // moves from last node back to the first node
-    CIRCULAR
+    CIRCULAR,
+    // moves randomly among the nodes
+    UNORDERED
   };
 
   WalkMode mode;
