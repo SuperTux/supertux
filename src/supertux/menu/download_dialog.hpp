@@ -32,7 +32,7 @@ private:
   bool m_auto_close;
 
 public:
-  DownloadDialog(TransferStatusPtr status, bool auto_close = false);
+  DownloadDialog(TransferStatusPtr status, bool auto_close = false, bool passive = false);
 
   void set_title(const std::string& title);
   void update() override;

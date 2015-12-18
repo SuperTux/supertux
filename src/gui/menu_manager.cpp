@@ -169,7 +169,7 @@ MenuManager::refresh()
 void
 MenuManager::process_input()
 {
-  if (m_dialog)
+  if (m_dialog && !m_dialog->is_passive())
   {
     m_dialog->process_input(*InputManager::current()->get_controller());
   }
@@ -184,7 +184,7 @@ MenuManager::event(const SDL_Event& ev)
 {
   if (!m_transition->is_active())
   {
-    if (m_dialog)
+    if (m_dialog && !m_dialog->is_passive())
     {
       m_dialog->event(ev);
     }
@@ -218,7 +218,7 @@ MenuManager::draw(DrawingContext& context)
       m_dialog->update();
       m_dialog->draw(context);
     }
-    else if (current_menu())
+    if (current_menu() && (!m_dialog || m_dialog->is_passive()))
     {
       // brute force the transition into the right shape in case the
       // menu has changed sizes

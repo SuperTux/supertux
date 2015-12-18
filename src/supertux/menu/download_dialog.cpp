@@ -21,10 +21,11 @@
 #include "gui/menu_manager.hpp"
 #include "util/gettext.hpp"
 
-DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close) :
+DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close, bool passive) :
   m_status(status),
   m_title(),
-  m_auto_close(auto_close)
+  m_auto_close(auto_close),
+  Dialog(passive)
 {
   add_default_button(_("Abort Download"), [this]{
       on_abort();
