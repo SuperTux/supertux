@@ -332,6 +332,14 @@ AddonMenu::check_online()
           refresh();
         }
       }
+      else
+      {
+        if(m_auto_install_langpack)
+        {
+          MenuManager::instance().set_dialog({});
+          MenuManager::instance().clear_menu_stack();
+        }
+      }
     });
     std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status, false, m_auto_install_langpack));
     dialog->set_title(_("Downloading Add-On Repository Index"));
@@ -369,6 +377,14 @@ AddonMenu::install_addon(const Addon& addon)
         log_warning << "Enabling add-on failed: " << err.what() << std::endl;
       }
       refresh();
+    }
+    else
+    {
+      if(m_auto_install_langpack)
+      {
+        MenuManager::instance().set_dialog({});
+        MenuManager::instance().clear_menu_stack();
+      }
     }
   });
   MenuManager::instance().set_dialog(std::move(dialog));
