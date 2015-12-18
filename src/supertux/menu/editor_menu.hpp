@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_MENU_HPP
 
 #include "gui/menu.hpp"
+#include "video/color.hpp"
 
 class Level;
 
@@ -37,7 +38,7 @@ public:
 
   void menu_action(MenuItem* item) override;
 
-  float b;
+  Color c;
 
 private:
   EditorMenu(const EditorMenu&);
