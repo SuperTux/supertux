@@ -218,7 +218,7 @@
 -Contact
 
 	Visit our webpage at
-*http://supertux.github.io
+*http://supertuxproject.org
 
 	Or visit us directly at IRC:
 *#supertux at irc.freenode.net
