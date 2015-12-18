@@ -115,7 +115,6 @@ TitleScreen::setup()
   {
     ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.25)));
   }
-  MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU);
 }
 
 void
