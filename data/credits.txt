@@ -63,7 +63,7 @@
  Programming, ad interim project lead
 
 	Karkus476
- Programming
+ Programming, \"Flexlay\" Level editor
 
 	Hume
  Programming, Level Design
@@ -74,7 +74,7 @@
 	Benjamin \"GiBy\" Leduc
  Translation Guru (and many details anyone else could have done)
 
-	Duong-Khang \"neoneurone\" NGUYEN
+	Duong-Khang \"neoneurone\" Nguyen
  Contrib Programming
 
 	Richard Smith
