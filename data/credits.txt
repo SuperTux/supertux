@@ -91,7 +91,7 @@
 
 	Sydney Dykstra
  Graphics
- 
+
 - Additional contributions
 
 	Arian Behvandnejad
@@ -128,8 +128,6 @@
  Build error fix
 	José Rebelo
  Scripting function fix
-	Savsish
- Localization updates
 	Willy Scheibel
  Support for \"glbinding\" as optional OpenGL binding
 	Matthew Taylor
