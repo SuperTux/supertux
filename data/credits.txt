@@ -221,7 +221,7 @@
 *http://supertuxproject.org
 
 	Or visit us directly at IRC:
-*#supertux at irc.freenode.net
+*#supertux at chat.freenode.net
 
 	Or at our Forum:
 *http://forum.freegamedev.net/viewforum.php?f=66
@@ -239,7 +239,7 @@
 
 
 	…with something else?
-*http://github.com/supertux
+*https://github.com/supertux
 
 
 
