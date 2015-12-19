@@ -35,6 +35,11 @@ public:
   bool collision_squished(GameObject& object);
   void kill_squished(GameObject& object);
   void kill_fall();
+  virtual std::string get_class() const {
+    return "yeti";
+  }
+
+  virtual ObjectSettings get_settings();
 
   bool is_flammable() const;
 

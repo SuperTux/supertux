@@ -55,6 +55,7 @@ public:
   AmbientSound(const Reader& lisp);
   AmbientSound(Vector pos, float factor, float bias, float vol, std::string file);
   ~AmbientSound();
+  virtual void save(lisp::Writer& writer);
 
   void set_pos(Vector newpos)
   {
@@ -64,7 +65,9 @@ public:
   {
     return position;
   }
-
+  virtual std::string get_class() const {
+    return "ambient_sound";
+  }
   /**
    * @name Scriptable Methods
    * @{
@@ -75,6 +78,8 @@ public:
   /**
    * @}
    */
+
+  virtual ObjectSettings get_settings();
 
 protected:
   virtual void hit(Player& player);

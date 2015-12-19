@@ -23,6 +23,7 @@ class Dispenser : public BadGuy
 {
 public:
   Dispenser(const Reader& reader);
+  virtual void save(lisp::Writer& writer);
 
   void activate();
   void deactivate();
@@ -31,6 +32,11 @@ public:
   void freeze();
   void unfreeze();
   bool is_freezable() const;
+  virtual std::string get_class() const {
+    return "dispenser";
+  }
+
+  virtual ObjectSettings get_settings();
   bool is_flammable() const;
 
 protected:

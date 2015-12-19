@@ -35,6 +35,12 @@ public:
 
   void collect();
   virtual void update(float elapsed_time);
+  virtual void save(lisp::Writer& writer);
+  virtual std::string get_class() const {
+    return "coin";
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   std::shared_ptr<Path> path;
@@ -52,6 +58,10 @@ public:
 
   virtual void update(float elapsed_time);
   virtual void collision_solid(const CollisionHit& hit);
+
+  virtual std::string get_class() const {
+    return "heavycoin";
+  }
 
 private:
   Physic physic;

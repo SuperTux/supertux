@@ -18,6 +18,7 @@
 #include "object/camera.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 #include <stdexcept>
@@ -85,6 +86,40 @@ Gradient::Gradient(const Reader& reader) :
 
   gradient_top = Color(bkgd_top_color);
   gradient_bottom = Color(bkgd_bottom_color);
+}
+
+void
+Gradient::save(lisp::Writer& writer) {
+  GameObject::save(writer);
+  writer.write("z-pos",layer);
+  switch (gradient_direction) {
+    case HORIZONTAL:        writer.write("direction", "horizontal"       , false); break;
+    case VERTICAL_SECTOR:   writer.write("direction", "vertical_sector"  , false); break;
+    case HORIZONTAL_SECTOR: writer.write("direction", "horizontal_sector", false); break;
+    case VERTICAL: break;
+  }
+  if(gradient_direction == HORIZONTAL || gradient_direction == HORIZONTAL_SECTOR) {
+    writer.write("left_color" , gradient_top.toVector(false));
+    writer.write("right_color", gradient_bottom.toVector(false));
+  } else {
+    writer.write("top_color"   , gradient_top.toVector(false));
+    writer.write("bottom_color", gradient_bottom.toVector(false));
+  }
+}
+
+ObjectSettings
+Gradient::get_settings() {
+  ObjectSettings result(_("Gradient"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  ObjectOption doo(MN_STRINGSELECT, _("Direction"), &gradient_direction);
+  doo.select.push_back(_("vertical"));
+  doo.select.push_back(_("horizontal"));
+  doo.select.push_back(_("vertical sector"));
+  doo.select.push_back(_("horizontal sector"));
+  result.options.push_back(doo);
+
+  return result;
 }
 
 Gradient::~Gradient()

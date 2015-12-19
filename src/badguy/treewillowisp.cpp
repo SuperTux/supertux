@@ -22,6 +22,7 @@
 #include "object/lantern.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "util/gettext.hpp"
 
 #include <math.h>
 

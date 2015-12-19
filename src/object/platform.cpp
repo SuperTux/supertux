@@ -21,6 +21,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 Platform::Platform(const Reader& reader) :
@@ -43,6 +44,23 @@ Platform::Platform(const Reader& reader) :
   path->read(*pathLisp);
   walker.reset(new PathWalker(path.get(), running));
   bbox.set_pos(path->get_base());
+}
+
+void
+Platform::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  if (!automatic) {
+    writer.write("running", true);
+  }
+  path->save(writer);
+}
+
+ObjectSettings
+Platform::get_settings() {
+  ObjectSettings result(_("Platform"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+
+  return result;
 }
 
 /*

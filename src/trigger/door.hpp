@@ -29,6 +29,10 @@ public:
   Door(const Reader& reader);
   Door(int x, int y, std::string sector, std::string spawnpoint);
   virtual ~Door();
+  virtual void save(lisp::Writer& writer);
+  virtual std::string get_class() const {
+    return "door";
+  }
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

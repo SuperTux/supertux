@@ -42,6 +42,12 @@ ParticleSystem::~ParticleSystem()
   }
 }
 
+void
+ParticleSystem::save(lisp::Writer& writer){
+  GameObject::save(writer);
+  writer.write("z-pos",z_pos);
+}
+
 void ParticleSystem::draw(DrawingContext& context)
 {
   float scrollx = context.get_translation().x;

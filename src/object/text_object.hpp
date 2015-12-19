@@ -33,6 +33,9 @@ class TextObject : public GameObject,
 public:
   TextObject(std::string name = "");
   virtual ~TextObject();
+  virtual bool do_save() {
+    return false;
+  }
 
   void expose(HSQUIRRELVM vm, SQInteger table_idx);
   void unexpose(HSQUIRRELVM vm, SQInteger table_idx);

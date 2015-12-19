@@ -59,7 +59,7 @@ CoinRain::update(float elapsed_time)
       Sector::current()->add_object(std::make_shared<HeavyCoin>(Vector (position.x+32*((drop<5)?-drop-1:drop-4),-32), Vector (0,0)));
       counter++;
       timer.start(DROP_TIME);
-    }else{
+    } else {
       remove_me();
     }
   }

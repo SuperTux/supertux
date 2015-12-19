@@ -21,6 +21,7 @@
 #include "math/random_generator.hpp"
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
+#include "util/gettext.hpp"
 
 CloudParticleSystem::CloudParticleSystem() :
   ParticleSystem(128),
@@ -57,6 +58,15 @@ void CloudParticleSystem::update(float elapsed_time)
     CloudParticle* particle = (CloudParticle*) *i;
     particle->pos.x += particle->speed * elapsed_time;
   }
+}
+
+ObjectSettings
+CloudParticleSystem::get_settings() {
+  ObjectSettings result(_("Cloud particles"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
+
+  return result;
 }
 
 /* EOF */

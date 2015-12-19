@@ -28,6 +28,11 @@ public:
   void active_update(float elapsed_time);
   void draw(DrawingContext& context);
   void kill_fall();
+  virtual std::string get_class() const {
+    return "ghostflame";
+  }
+
+  virtual ObjectSettings get_settings();
   bool is_flammable() const;
 
 private:

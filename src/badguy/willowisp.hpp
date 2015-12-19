@@ -32,6 +32,7 @@ class WillOWisp : public BadGuy,
 {
 public:
   WillOWisp(const Reader& reader);
+  virtual void save(lisp::Writer& writer);
 
   void activate();
   void deactivate();
@@ -55,6 +56,11 @@ public:
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual std::string get_class() const {
+    return "willowisp";
+  }
+
+  virtual ObjectSettings get_settings();
 
 protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit);

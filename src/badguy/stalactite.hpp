@@ -35,6 +35,11 @@ public:
   void deactivate();
 
   void squish();
+  virtual std::string get_class() const {
+    return "stalactite";
+  }
+
+  virtual ObjectSettings get_settings();
 
 protected:
   enum StalactiteState {

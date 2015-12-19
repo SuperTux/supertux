@@ -26,6 +26,7 @@
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 #include <math.h>
@@ -50,6 +51,12 @@ WeakBlock::WeakBlock(const Reader& lisp)
     lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
   } else if(sprite_name == "images/objects/weak_block/meltbox.sprite")
     SoundManager::current()->preload("sounds/sizzle.ogg");
+}
+
+void
+WeakBlock::save(lisp::Writer& writer) {
+  MovingSprite::save(writer);
+  writer.write("linked", linked);
 }
 
 HitResponse
@@ -203,5 +210,13 @@ WeakBlock::spreadHit()
   }
 }
 
+ObjectSettings
+WeakBlock::get_settings() {
+  ObjectSettings result(_("Weak block"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Linked"), &linked));
+
+  return result;
+}
 
 /* EOF */

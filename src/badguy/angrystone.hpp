@@ -29,6 +29,11 @@ public:
   void active_update(float elapsed_time);
   void kill_fall();
   bool is_freezable() const;
+  virtual std::string get_class() const {
+    return "angrystone";
+  }
+
+  virtual ObjectSettings get_settings();
   bool is_flammable() const;
 
 protected:

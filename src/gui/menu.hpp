@@ -25,6 +25,7 @@
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
+class Color;
 class DrawingContext;
 class MenuItem;
 
@@ -46,6 +47,12 @@ public:
   MenuItem* add_controlfield(int id, const std::string& text,
                              const std::string& mapping = "");
   MenuItem* add_string_select(int id, const std::string& text, size_t* selected, std::vector<std::string> strings);
+  MenuItem* add_textfield(const std::string& text, std::string* input, int id = -1);
+  MenuItem* add_intfield(const std::string& text, int* input, int id = -1);
+  MenuItem* add_numfield(const std::string& text, float* input, int id = -1);
+
+  MenuItem* add_colordisplay(Color* color, int id = -1);
+  MenuItem* add_colorchanel(float* input, Color chanel, int id = -1);
 
   virtual void menu_action(MenuItem* item) = 0;
 

@@ -27,6 +27,12 @@ class Crystallo : public WalkingBadguy
 public:
   Crystallo(const Reader& reader);
   Crystallo(const Vector& pos, Direction d);
+  virtual void save(lisp::Writer& writer);
+  virtual std::string get_class() const {
+    return "crystallo";
+  }
+
+  virtual ObjectSettings get_settings();
 
   void active_update(float elapsed_time);
   bool is_flammable() const;

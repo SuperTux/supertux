@@ -25,6 +25,11 @@ public:
   Spiky(const Reader& reader);
 
   bool is_freezable() const;
+  virtual std::string get_class() const {
+    return "spiky";
+  }
+
+  virtual ObjectSettings get_settings();
   bool is_flammable() const;
 
 private:

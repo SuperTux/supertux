@@ -42,6 +42,11 @@ public:
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
+  virtual std::string get_class() const {
+    return "dart";
+  }
+
+  virtual ObjectSettings get_settings();
 
   bool is_flammable() const;
 

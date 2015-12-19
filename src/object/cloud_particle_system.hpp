@@ -34,6 +34,13 @@ public:
 
   std::string type() const
   { return "CloudParticleSystem"; }
+  virtual std::string get_class() const {
+    return "particles-clouds";
+  }
+
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/clouds.png";
+  }
 
 private:
   class CloudParticle : public Particle
@@ -47,6 +54,8 @@ private:
   };
 
   SurfacePtr cloudimage;
+
+  virtual ObjectSettings get_settings();
 
 private:
   CloudParticleSystem(const CloudParticleSystem&);

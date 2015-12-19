@@ -26,6 +26,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
@@ -45,6 +46,21 @@ LevelTime::LevelTime(const Reader& reader) :
     remove_me();
   }
   time_surface = Surface::create("images/engine/hud/time-0.png");
+}
+
+void
+LevelTime::save(lisp::Writer& writer) {
+  GameObject::save(writer);
+  writer.write("time", time_left);
+}
+
+ObjectSettings
+LevelTime::get_settings() {
+  ObjectSettings result(_("Level time"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Time"), &time_left));
+
+  return result;
 }
 
 void

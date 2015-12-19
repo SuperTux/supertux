@@ -74,12 +74,17 @@ class MenuItem
 #ifdef INCLUDE_MENU_ITEMS
   #include "gui/item_action.hpp"
   #include "gui/item_back.hpp"
+  #include "gui/item_colorchanel.hpp"
+  #include "gui/item_colordisplay.hpp"
   #include "gui/item_controlfield.hpp"
   #include "gui/item_goto.hpp"
   #include "gui/item_hl.hpp"
   #include "gui/item_inactive.hpp"
+  #include "gui/item_intfield.hpp"
   #include "gui/item_label.hpp"
+  #include "gui/item_numfield.hpp"
   #include "gui/item_stringselect.hpp"
+  #include "gui/item_textfield.hpp"
   #include "gui/item_toggle.hpp"
 #endif
 /* EOF */

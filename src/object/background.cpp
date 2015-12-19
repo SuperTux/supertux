@@ -25,6 +25,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 
 Background::Background() :
@@ -130,6 +131,49 @@ Background::Background(const Reader& reader) :
 
 Background::~Background()
 {
+}
+
+void
+Background::save(lisp::Writer& writer) {
+  GameObject::save(writer);
+  switch (alignment) {
+    case LEFT_ALIGNMENT:   writer.write("alignment", "left",   false); break;
+    case RIGHT_ALIGNMENT:  writer.write("alignment", "right",  false); break;
+    case TOP_ALIGNMENT:    writer.write("alignment", "top",    false); break;
+    case BOTTOM_ALIGNMENT: writer.write("alignment", "bottom", false); break;
+    case NO_ALIGNMENT: break;
+  }
+
+  writer.write("scroll-offset-x", scroll_offset.x);
+  writer.write("scroll-offset-y", scroll_offset.y);
+  writer.write("scroll-speed-x",  scroll_speed.x);
+  writer.write("scroll-speed-y",  scroll_speed.y);
+  writer.write("speed", speed);
+  if (speed_y != speed){
+    writer.write("speed_y", speed_y);
+  }
+
+  writer.write("image", imagefile, false);
+  if (imagefile_top != "") {
+    writer.write("image-top", imagefile_top);
+  }
+  if (imagefile_bottom != "") {
+    writer.write("image-bottom", imagefile_bottom);
+  }
+}
+
+ObjectSettings
+Background::get_settings() {
+  ObjectSettings result(_("Background"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset x"), &scroll_offset.x));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset y"), &scroll_offset.y));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll speed x"), &scroll_speed.x));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll speed y"), &scroll_speed.y));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed x"), &speed));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed y"), &speed_y));
+
+  return result;
 }
 
 void

@@ -19,9 +19,13 @@
 
 #include <iostream>
 
+class ObjectOption;
+
 enum Direction { AUTO, LEFT, RIGHT, UP, DOWN };
 
 std::ostream& operator<<(std::ostream& o, const Direction& dir);
+
+ObjectOption dir_option(Direction *dir);
 
 #endif
 

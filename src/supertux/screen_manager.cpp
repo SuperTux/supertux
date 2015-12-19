@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "scripting/scripting.hpp"
@@ -205,6 +206,10 @@ ScreenManager::process_events()
 
     m_menu_manager->event(event);
 
+    if (Editor::current()) if (Editor::current()->levelloaded) {
+      Editor::current()->event(event);
+    }
+
     switch(event.type)
     {
       case SDL_QUIT:
@@ -218,6 +223,9 @@ ScreenManager::process_events()
             VideoSystem::current()->resize(event.window.data1,
                                            event.window.data2);
             m_menu_manager->on_window_resize();
+            if (Editor::current()) if (Editor::current()->levelloaded) {
+              Editor::current()->resize();
+            }
             break;
 
           case SDL_WINDOWEVENT_FOCUS_LOST:

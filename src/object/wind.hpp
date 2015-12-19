@@ -31,6 +31,7 @@ class Wind : public MovingObject,
 {
 public:
   Wind(const Reader& reader);
+  virtual void save(lisp::Writer& writer);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
@@ -57,6 +58,11 @@ public:
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual std::string get_class() const {
+    return "wind";
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   bool blowing; /**< true if wind is currently switched on */

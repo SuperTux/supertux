@@ -28,10 +28,13 @@ public:
   BonusBlock(const Reader& lisp);
   virtual ~BonusBlock();
   HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual void save(lisp::Writer& writer);
 
   void try_open(Player *player);
   void try_drop(Player *player);
-
+  virtual std::string get_class() const {
+    return "bonusblock";
+  }
   enum Contents {
     CONTENT_COIN,
     CONTENT_FIREGROW,
@@ -47,6 +50,8 @@ public:
     CONTENT_RAIN,
     CONTENT_EXPLODE
   };
+
+  virtual ObjectSettings get_settings();
 
 protected:
   virtual void hit(Player& player);

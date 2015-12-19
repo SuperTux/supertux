@@ -18,11 +18,20 @@
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 
 #include <stdint.h>
+#include <string>
 
 #include "supertux/tile.hpp"
 #include "util/log.hpp"
 
 class Tile;
+
+class Tilegroup{
+  public:
+    Tilegroup();
+    ~Tilegroup();
+    std::string name;
+    std::vector<int> tiles;
+};
 
 class TileSet
 {
@@ -41,6 +50,8 @@ private:
 public:
   TileSet();
   ~TileSet();
+
+  std::vector<Tilegroup> tilegroups;
 
   void merge(const TileSet *tileset, uint32_t start, uint32_t end,
              uint32_t offset);

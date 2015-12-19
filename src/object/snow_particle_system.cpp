@@ -20,6 +20,7 @@
 
 #include "math/random_generator.hpp"
 #include "supertux/globals.hpp"
+#include "util/gettext.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 
@@ -142,6 +143,15 @@ void SnowParticleSystem::update(float elapsed_time)
     particle->angle += particle->spin_speed * elapsed_time;
     particle->angle = fmodf(particle->angle, 360.0);
   }
+}
+
+ObjectSettings
+SnowParticleSystem::get_settings() {
+  ObjectSettings result(_("Snow particles"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
+
+  return result;
 }
 
 /* EOF */

@@ -24,11 +24,17 @@ class DartTrap : public BadGuy
 {
 public:
   DartTrap(const Reader& reader);
+  virtual void save(lisp::Writer& writer);
 
   void initialize();
   void activate();
   void active_update(float elapsed_time);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
+  virtual std::string get_class() const {
+    return "darttrap";
+  }
+
+  virtual ObjectSettings get_settings();
 
 protected:
   enum State {

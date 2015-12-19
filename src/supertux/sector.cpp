@@ -18,9 +18,11 @@
 
 #include <algorithm>
 #include <math.h>
+#include <vector>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
+#include "editor/editor.hpp"
 #include "lisp/list_iterator.hpp"
 #include "math/aatriangle.hpp"
 #include "object/background.hpp"
@@ -238,7 +240,9 @@ Sector::parse(const Reader& sector)
 
   if(solid_tilemaps.empty()) { log_warning << "sector '" << name << "' does not contain a solid tile layer." << std::endl; }
 
-  fix_old_tiles();
+  if (! Tile::draw_editor_images) {
+    fix_old_tiles();
+  }
   if(!camera) {
     log_warning << "sector '" << name << "' does not contain a camera." << std::endl;
     update_game_objects();
@@ -247,6 +251,41 @@ Sector::parse(const Reader& sector)
 
   update_game_objects();
   foremost_layer = calculate_foremost_layer();
+}
+
+void
+Sector::save(lisp::Writer &writer)
+{
+  writer.start_list("sector", false);
+
+  writer.write("name", name, false);
+  writer.write("gravity", gravity);
+  writer.write("ambient-light", ambient_light.toVector(false));
+
+  if (init_script != "") {
+    writer.write("init-script", init_script,false);
+  }
+  if (music != "") {
+    writer.write("music", music, false);
+  }
+
+  // saving spawnpoints
+  for(auto i = spawnpoints.begin(); i != spawnpoints.end(); ++i) {
+    std::shared_ptr<SpawnPoint> spawny = *i;
+    spawny->save(writer);
+  }
+
+  // saving oběcts (not really)
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    GameObjectPtr& obj = *i;
+    if (obj->do_save()) {
+      writer.start_list(obj->get_class());
+      obj->save(writer);
+      writer.end_list(obj->get_class());
+    }
+  }
+
+  writer.end_list("sector");
 }
 
 void
@@ -341,14 +380,14 @@ Sector::parse_old_format(const Reader& reader)
       }
     }
 
-    if (height < 19) tilemap->resize(width, 19);
+    if (height < 19 && !Editor::current()) tilemap->resize(width, 19);
     add_object(tilemap);
   }
 
   if(reader.get("background-tm", tiles)) {
     auto tilemap = std::make_shared<TileMap>(level->get_tileset());
     tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
-    if (height < 19) tilemap->resize(width, 19);
+    if (height < 19 && !Editor::current()) tilemap->resize(width, 19);
     add_object(tilemap);
   }
 
@@ -357,7 +396,7 @@ Sector::parse_old_format(const Reader& reader)
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
 
     // fill additional space in foreground with tiles of ID 2035 (lightmap/black)
-    if (height < 19) tilemap->resize(width, 19, 2035);
+    if (height < 19 && !Editor::current()) tilemap->resize(width, 19, 2035);
 
     add_object(tilemap);
   }
@@ -404,7 +443,9 @@ Sector::parse_old_format(const Reader& reader)
 
   if(solid_tilemaps.empty()) { log_warning << "sector '" << name << "' does not contain a solid tile layer." << std::endl; }
 
-  fix_old_tiles();
+  if (! Tile::draw_editor_images) {
+    fix_old_tiles();
+  }
   update_game_objects();
 }
 
@@ -1297,6 +1338,12 @@ const float MAX_SPEED = 16.0f;
 void
 Sector::handle_collisions()
 {
+
+  if (Editor::current()) if(Editor::current()->levelloaded) {
+    return;
+    //Oběcts in editor shouldn't collide.
+  }
+
   using namespace collision;
 
   // calculate destination positions of the objects

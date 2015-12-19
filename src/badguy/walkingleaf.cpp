@@ -18,6 +18,7 @@
 
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 
 WalkingLeaf::WalkingLeaf(const Reader& reader) :
   WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
@@ -46,4 +47,14 @@ WalkingLeaf::is_freezable() const
 {
   return true;
 }
+
+ObjectSettings
+WalkingLeaf::get_settings() {
+  ObjectSettings result(_("Walking leaf"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
+}
+
 /* EOF */

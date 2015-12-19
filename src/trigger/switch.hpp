@@ -29,6 +29,10 @@ class Switch : public TriggerBase
 public:
   Switch(const Reader& reader);
   virtual ~Switch();
+  virtual void save(lisp::Writer& writer);
+  virtual std::string get_class() const {
+    return "switch";
+  }
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

@@ -30,6 +30,7 @@ class Platform : public MovingSprite,
 public:
   Platform(const Reader& reader);
   Platform(const Platform& platform);
+  virtual void save(lisp::Writer& writer);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void update(float elapsed_time);
@@ -63,6 +64,11 @@ public:
   Path& get_path() const {
     return *path.get();
   }
+  virtual std::string get_class() const {
+    return "platform";
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   std::unique_ptr<Path> path;

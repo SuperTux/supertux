@@ -86,6 +86,29 @@ Path::read(const Reader& reader)
     throw std::runtime_error("Path with zero nodes");
 }
 
+void
+Path::save(lisp::Writer& writer) {
+  writer.start_list("path");
+
+  switch (mode) {
+    case ONE_SHOT:  writer.write("mode", "oneshot"  , false); break;
+    case PING_PONG: writer.write("mode", "ping_pong", false); break;
+    case CIRCULAR:  writer.write("mode", "circular" , false); break;
+    case UNORDERED: writer.write("mode", "unordered", false); break;
+  }
+
+  for(auto i = nodes.begin(); i != nodes.end(); ++i) {
+    Node* nod = &(*i);
+    writer.start_list("node");
+    writer.write("x", nod->position.x);
+    writer.write("y", nod->position.y);
+    writer.write("time", nod->time);
+    writer.end_list("node");
+  }
+
+  writer.end_list("path");
+}
+
 Vector
 Path::get_base() const
 {

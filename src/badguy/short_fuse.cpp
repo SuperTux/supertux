@@ -24,6 +24,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "util/log.hpp"
 
@@ -99,6 +100,15 @@ void
 ShortFuse::kill_fall (void)
 {
   explode ();
+}
+
+ObjectSettings
+ShortFuse::get_settings() {
+  ObjectSettings result(_("Short fuse"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  return result;
 }
 
 void

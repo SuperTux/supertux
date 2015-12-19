@@ -34,6 +34,9 @@ public:
             const Vector& acceleration, int number, Color color,
             int size, float life_time, int drawing_layer);
   ~Particles();
+  virtual bool do_save() {
+    return false;
+  }
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

@@ -24,6 +24,9 @@ class InvisibleBlock : public Block
 {
 public:
   InvisibleBlock(const Vector& pos);
+  virtual bool do_save() const {
+    return false;
+  }
   InvisibleBlock(const Reader& lisp);
 
   virtual void draw(DrawingContext& context);

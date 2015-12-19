@@ -27,10 +27,16 @@ class Ispy : public MovingSprite
 {
 public:
   Ispy(const Reader& lisp);
+  virtual void save(lisp::Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   virtual void update(float elapsed_time);
+  virtual std::string get_class() const {
+    return "ispy";
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   bool line_intersects_line(Vector line1_start, Vector line1_end, Vector line2_start, Vector line2_end);

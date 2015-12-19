@@ -19,13 +19,14 @@
 #include <algorithm>
 
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/info_box_line.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
-#include "sprite/sprite.hpp"
 
 InfoBlock::InfoBlock(const Reader& lisp) :
   Block(SpriteManager::current()->create("images/objects/bonus_block/infoblock.sprite")),
@@ -58,6 +59,22 @@ InfoBlock::~InfoBlock()
   for(std::vector<InfoBoxLine*>::const_iterator i = lines.begin(); i != lines.end(); ++i) {
     delete *i;
   }
+}
+
+void
+InfoBlock::save(lisp::Writer& writer) {
+  MovingObject::save(writer);
+  writer.write("message", message, true);
+}
+
+
+ObjectSettings
+InfoBlock::get_settings() {
+  ObjectSettings result(_("Info block"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Message"), &message));
+
+  return result;
 }
 
 void

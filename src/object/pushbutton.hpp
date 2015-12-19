@@ -26,9 +26,15 @@ class PushButton : public MovingSprite
 {
 public:
   PushButton(const Reader& reader);
+  virtual void save(lisp::Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
+  virtual std::string get_class() const {
+    return "pushbutton";
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   enum PushButtonState {

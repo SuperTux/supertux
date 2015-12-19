@@ -21,6 +21,7 @@
 #include <squirrel.h>
 #include <stdint.h>
 
+#include "lisp/writer.hpp"
 #include "scripting/ssector.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/game_object_ptr.hpp"
@@ -75,6 +76,7 @@ public:
 
   /// read sector from lisp file
   void parse(const Reader& lisp);
+  void save(lisp::Writer &writer);
   void parse_old_format(const Reader& lisp);
 
   /// activates this sector (change music, initialize player class, ...)

@@ -28,6 +28,11 @@ public:
   HurtingPlatform(const Reader& reader);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual std::string get_class() const {
+    return "hurting_platform";
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
 
