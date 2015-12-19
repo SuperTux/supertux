@@ -91,6 +91,49 @@
 
 	Sydney Dykstra
  Graphics
+ 
+- Additional contributions
+
+	Arian Behvandnejad
+ Bug fixes
+	brmbrmcar
+ Scripting functions, Level fixes
+	Daniel Butum
+ Code quality fixes
+	Vincent Cheng
+ Various contributions
+	chrism
+ Various contributions
+	Daniela Ferraz
+ Localization, Bug fixes
+	Fabian Greffrath
+ Build issue fix
+	Jann Horn
+ Code contributions
+	Devyn Collier Johnson
+ Graphics
+	David King
+ Code contribution
+	David King
+ AppData file
+	Jonas Kuemmerlin
+ Bug fix
+	mahboi
+ Menu reorganization
+	Matt McCutchen
+ Various contributions
+	nicholas
+ Fixing tile bugs
+	Eric Newberry
+ Build error fix
+	José Rebelo
+ Scripting function fix
+	Savsish
+ Localization updates
+	Willy Scheibel
+ Support for \"glbinding\" as optional OpenGL binding
+	Matthew Taylor
+ New menu code
 
 - Milestone 1 contributions by...
 
@@ -256,67 +299,6 @@
     zecas \"zezinho\" (French)
  	Kővágó Zoltán (Hungarian)
 
-- Additional contributions
-
-	Arian Behvandnejad
- Bug fixes
-
-	brmbrmcar
- Scripting functions, Level fixes
-
-	Daniel Butum
- Code quality fixes
-
-	Vincent Cheng
- Various contributions
-
-	chrism
- Various contributions
-
-	Daniela Ferraz
- Localization, Bug fixes
-
-	Fabian Greffrath
- Build issue fix
-
-	Jann Horn
- Code contributions
-
-	Devyn Collier Johnson
- Graphics
-
-	David King
- Code contribution
-
-	David King
- AppData file
-
-	Jonas Kuemmerlin
- Bug fix
-
-	mahboi
- Menu reorganization
-
-	Matt McCutchen
- Various contributions
-
-	nicholas
- Fixing tile bugs
-
-	Eric Newberry
- Build error fix
-
-	José Rebelo
- Scripting function fix
-
-	Savsish
- Localization updates
-
-	Willy Scheibel
- Support for \"glbinding\" as optional OpenGL binding
-
-	Matthew Taylor
- New menu code
 
 -Thanks to
 
