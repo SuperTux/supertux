@@ -31,7 +31,7 @@ Compared to the latest beta, 0.3.5a, this release features:
 * updated more levels (fix playability, ...)
 * updated build system, featuring unit tests, libraries as git submodules and improved Travis-CI builds to support nightly builds
 * more levels in Incubator Island
-* support for horizontal and vertical gradients that span the length / height of a sector. Add `(direction "horizontal\_sector / vertical\_sector")` to your gradient.
+* support for horizontal and vertical gradients that span the length / height of a sector. Add `(direction "horizontal_sector / vertical_sector")` to your gradient.
 * much more...
 
 SuperTux 0.3.5a (2015-05-01)
