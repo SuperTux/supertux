@@ -44,19 +44,7 @@
 !images/credits/ondra.jpg
  Programming, Documentation
 
-	Tobias \"tobgle\" Gläßer
- Programming, Previous Maintainer
-
-	Ricardo \"blacksheep\" Cruz
- Programming
-
-	Benjamin P. \"litespeed\" Jung
- Graphics
-
 	Ryan \"sik0fewl\" Flegel
- Programming
-
-	Bastiaan \"basti_\" Zapf
  Programming
 
 	Tobias \"Tobbi\" Markus
@@ -74,12 +62,6 @@
 	Benjamin \"GiBy\" Leduc
  Translation Guru (and many details anyone else could have done)
 
-	Duong-Khang \"neoneurone\" Nguyen
- Contrib Programming
-
-	Richard Smith
- Contrib Programming
-
 	Arvid Norlander
  Level Design
 
@@ -89,6 +71,21 @@
 	Sydney Dykstra
  Graphics
 
+
+- Milestone 1 contributions by...
+
+	Bastiaan \"basti_\" Zapf
+ Programming
+	Benjamin P. \"litespeed\" Jung
+ Graphics
+	Duong-Khang \"neoneurone\" Nguyen
+ Contrib Programming
+	Ricardo \"blacksheep\" Cruz
+ Programming
+	Richard Smith
+ Contrib Programming
+	Tobias \"tobgle\" Gläßer
+ Programming, Previous Maintainer
 
 -Additional Music
 
