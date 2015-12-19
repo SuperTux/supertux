@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 09:03+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -48,9 +48,9 @@ msgstr "...mutta kukaan ei voi pysäyttää sitä..."
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:307
 msgid ""
-"-Sorry, this flying platform is lazy.\n"
+"-Sorry, this flying platform is lazy.\r\n"
 "-Come back another time."
-msgstr "-Anteeksi, tämä lentävä taso on laiska.\n-Tule takaisin toiste."
+msgstr ""
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
@@ -113,15 +113,15 @@ msgstr "...syvin!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
-msgstr ""
+msgstr "Ympyrät"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr ""
+msgstr "Älä menetä kyytiäsi"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
-msgstr ""
+msgstr "Mennään alas"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
@@ -169,15 +169,15 @@ msgstr "Vessa alue"
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
-"- Flush: \n"
+"- Flush: \r\n"
 "#Press the up key to flush! "
-msgstr "- Huuhtominen:\n#Paina ylös näppäintä huuhtoaksesi!"
+msgstr ""
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
-"- A Way out?\n"
+"- A Way out?\r\n"
 "#Let's Jump! "
-msgstr "- Ulospääsy?\n#Hypätään!"
+msgstr ""
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"

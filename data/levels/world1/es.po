@@ -5,13 +5,14 @@
 # Translators:
 # Fran <franchulo021@gmail.com>, 2015
 # Germana <germanaoliveirab@gmail.com>, 2013
+# William Beltrán <wbeltranc@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 19:20+0000\n"
-"Last-Translator: Fran <franchulo021@gmail.com>\n"
+"POT-Creation-Date: 2015-11-29 18:41+0100\n"
+"PO-Revision-Date: 2015-12-17 04:17+0000\n"
+"Last-Translator: William Beltrán <wbeltranc@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,51 +26,51 @@ msgstr "Bienvenido a la Antártida"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
-"-Bonus Blocks\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
-"#\n"
+"-Bonus Blocks\r\n"
+"!images/objects/bonus_block/full-0.png\r\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\r\n"
+"#\r\n"
 "#Hit them from below to get at their contents."
 msgstr "-Bloques de Bonificación\n!images/objects/bonus_block/full-0.png\n#Los bloques de bonificación pueden contener monedas, poderes o itém especiales que te ayudar en tu búsqueda.\n#\n#Golpealos desde abajo para acceder a su contenido."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
-"-Eggs\n"
-"!images/powerups/egg/egg.png\n"
+"-Eggs\r\n"
+"!images/powerups/egg/egg.png\r\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Huevos\n!images/powerups/egg/egg.png\n#Los huevos hacen crecer a Tux. Luego Tux podrá destruir bloques de madera con su cabeza."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
-"-Checkpoints\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
-msgstr ""
+"-Checkpoints\r\n"
+"!images/objects/resetpoints/bell-m.png\r\n"
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
+msgstr "-Puntos de control\n!images/objects/resetpoints/bell-m.png\n#Activa el punto de control. Si mueres, puedes reintentar el nivel desde aquí. Cada vez que reintentas desde un punto de control, perderás el 10 porciento de tus monedas (al menos 25 monedas)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
-"-Running\n"
-"!images/tiles/signs/run.png\n"
+"-Running\r\n"
+"!images/tiles/signs/run.png\r\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Correr\n!images/tiles/signs/run.png\n#El camino frente a ti está bloqueado. Consigue un poco de velocidad antes de saltar para pasar sobre los bloques."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
-"-Fire Flower\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
+"-Fire Flower\r\n"
+"!images/powerups/fireflower/fire_flower-0.png\r\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Flor de fuego\n!images/powerups/fireflower/fire_flower-0.png\n#La flor de fuego da a Tux la habilidad de disparar bolas de fuego."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
-"-Tux Doll\n"
-"!images/powerups/1up/1up.png\n"
+"-Tux Doll\r\n"
+"!images/powerups/1up/1up.png\r\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr ""
+msgstr "-Muñeca Tux\n!images/powerups/1up/1up.png\n#La muñeca Tux la da a Tux 100 monedas."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
-"-Secret Areas\n"
+"-Secret Areas\r\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
 msgstr "-Áreas Secretas\n#Muchos niveles contienen áreas secretas detrás de lo que puede parecer una pared. Busca pistar para encontrarlas."
 
@@ -77,8 +78,7 @@ msgstr "-Áreas Secretas\n#Muchos niveles contienen áreas secretas detrás de l
 msgid "The Journey Begins"
 msgstr "La Aventura Comienza"
 
-#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
-#: Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostalgica"
 
@@ -184,23 +184,23 @@ msgstr "Un Tenedor en el Camino"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
-"-Switches\n"
-"!images/objects/switch/left-0.png\n"
-"!images/objects/switch/switch-0.png\n"
-"!images/objects/switch/right-0.png\n"
+"-Switches\r\n"
+"!images/objects/switch/left-0.png\r\n"
+"!images/objects/switch/switch-0.png\r\n"
+"!images/objects/switch/right-0.png\r\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
 msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
-"!images/objects/trampoline/trampoline2-0.png\n"
+"-Spring Boards\r\n"
+"!images/objects/trampoline/trampoline2-0.png\r\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
 msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
-"- Climbing\n"
+"- Climbing\r\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Escalando\n# ¡Tux puede escalar! Presiona la tecla flecha hacia arriba para empezar a escalar. Presiona la tecla de acción o salta para soltar."
 
@@ -211,6 +211,48 @@ msgstr "Bonificación de nivel"
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Picnic con Penny"
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid ""
+"Somewhere at the shores\n"
+"of Antarctica..."
+msgstr "En algún lugar en las costas\nde la Antártida..."
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux: Hello Penny"
+msgstr "Tux: Hola Penny"
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Penny: Hey Tux"
+msgstr "Penny: Hola Tux"
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid "Tux: Check out my dance moves."
+msgstr "Tux: Echa un vistazo a mis pasos de baile."
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "Tux: Oww... my head..."
+msgstr "Tux: Ayyy... mi cabeza..."
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "Tux: Wait!"
+msgstr "Tux: ¡Espera!"
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid "Tux: Penny!"
+msgstr "Tux: ¡Penny!"
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid "Tux: Where are you, Penny?!"
+msgstr "Tux: ¡¿Dónde estás, Penny?!"
+
+#: data/levels/world1/scripts_intro.txt:11
+msgid "Tux: Oh no..."
+msgstr "Tux: Oh no..."
+
+#: data/levels/world1/scripts_intro.txt:12
+msgid "Tux: Don't worry, Penny, I'll rescue you!"
+msgstr "Tux: ¡No te preocupes, Penny, te rescataré!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"

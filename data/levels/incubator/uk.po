@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-22 12:06+0000\n"
+"Last-Translator: Max Lyashuk <m_lyashuk@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/arctic-games/supertux/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,29 +24,37 @@ msgstr "Перехід печерею"
 
 #: data/levels/incubator/cherry_frosting.stl:3
 msgid "The Cherry Frosting"
-msgstr ""
+msgstr "Вишнева глазур"
 
 #: data/levels/incubator/cube_garden.stl:3
 msgid "Mad Ysonn Cube Garden"
-msgstr ""
+msgstr "Сад скаженого куба"
+
+#: data/levels/incubator/frozen_fissure.stl:3
+msgid "Frozen Fissure"
+msgstr "Вкритий кригою тріщина"
 
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
-msgstr ""
+msgstr "У темінь"
 
 #: data/levels/incubator/into_dark.stl:224
 msgid ""
-"-Hint:\n"
+"-Hint:\r\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr ""
+msgstr "-Підказка:\n#Скористайтесь полум’яною квіткою аби пробити собі шлях крізь лід."
 
 #: data/levels/incubator/into_dark.stl:230
 msgid "#Beware of fire!"
-msgstr ""
+msgstr "#Остерігайся вогню!"
 
 #: data/levels/incubator/jagged_path.stl:3
 msgid "The Jagged Path"
-msgstr ""
+msgstr "Шлях найманця"
+
+#: data/levels/incubator/midnight_crossing.stl:3
+msgid "Midnight Crossing"
+msgstr "Перехід опівночі"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
@@ -54,16 +62,20 @@ msgstr "Не такий вже й довгий шлях"
 
 #: data/levels/incubator/obstaclecourse.stl:3
 msgid "Obstacle Course"
-msgstr ""
+msgstr "Смуга перешкод"
 
 #: data/levels/incubator/obstaclecourse.stl:48
 msgid "#If you get stuck, flip the switch to kill Tux."
-msgstr ""
+msgstr "#Якщо ви застрягли, перемкніть аби вбити Тукса."
+
+#: data/levels/incubator/pipeline.stl:3
+msgid "Pipeline"
+msgstr "Трубопровід"
 
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"
-msgstr ""
+msgstr "Націлення на дію"
 
 #: data/levels/incubator/worldmap.stwm:3
 msgid "Incubator Island"
-msgstr ""
+msgstr "Острів-інкубатор"

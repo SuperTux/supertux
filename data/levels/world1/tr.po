@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:38+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-29 18:41+0100\n"
+"PO-Revision-Date: 2015-11-29 18:43+0000\n"
+"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/arctic-games/supertux/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,60 +26,59 @@ msgstr "Antartika'ya hoş geldiniz"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
-"-Bonus Blocks\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
-"#\n"
+"-Bonus Blocks\r\n"
+"!images/objects/bonus_block/full-0.png\r\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\r\n"
+"#\r\n"
 "#Hit them from below to get at their contents."
-msgstr "-Bonus Bloklar\n!images/objects/bonus_block/full-0.png\n#Bonus bloklar yolculuğunuzda yardımcı olmak için altın, güçlendirici veya özel eşyalar içerebilir\n#\n#içeriklerini aşağıdan vurarak alın"
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
-"-Eggs\n"
-"!images/powerups/egg/egg.png\n"
+"-Eggs\r\n"
+"!images/powerups/egg/egg.png\r\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Yumurtalar\n!images/powerups/egg/egg.png\n#Yumurtalar Tux'un büyümesini sağlar. Tux bu sayede odun blokları kafasıyla kırabilir."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
-"-Checkpoints\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
-msgstr "-Kontrol noktaları\n!images/objects/resetpoints/bell-m.png\n#Kontrol noktası aktif. eğer sen ölürsen,bu  noktadan devam edebilirsin. Her zaman kontrol noktasından devam edebilirsin, ancak 25 para kaybedeceksin."
+"-Checkpoints\r\n"
+"!images/objects/resetpoints/bell-m.png\r\n"
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
-"-Running\n"
-"!images/tiles/signs/run.png\n"
+"-Running\r\n"
+"!images/tiles/signs/run.png\r\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Koşmak\n!images/tiles/signs/run.png\n#önünüzdeki yol tıkalı. Blokları geçmek için zıplamadan önce biraz hız kazanın."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
-"-Fire Flower\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
+"-Fire Flower\r\n"
+"!images/powerups/fireflower/fire_flower-0.png\r\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Ateş çiçeği\n !images/powerups/fireflower/fire_flower-0.png\n#Ateş çiçeği Tux'un ateş topu atabilmesini sağlar. "
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
-"-Tux Doll\n"
-"!images/powerups/1up/1up.png\n"
+"-Tux Doll\r\n"
+"!images/powerups/1up/1up.png\r\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-Tux bebeği\n!images/powerups/1up/1up.png\n#Tux bebeği Tux'a 100 altın verir"
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
-"-Secret Areas\n"
+"-Secret Areas\r\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Gizli bölgeler\n#Çoğu bölüm normal duvar gibi görünen şeylerin arkasında gizli bölgeler barındırır. Bunları bulmak için ipuçlarına bakın."
+msgstr ""
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
 msgstr "Yolculuk başlıyor"
 
-#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
-#: Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostalgica"
 
@@ -185,25 +184,25 @@ msgstr "Yolda Bir Çatallanma"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
-"-Switches\n"
-"!images/objects/switch/left-0.png\n"
-"!images/objects/switch/switch-0.png\n"
-"!images/objects/switch/right-0.png\n"
+"-Switches\r\n"
+"!images/objects/switch/left-0.png\r\n"
+"!images/objects/switch/switch-0.png\r\n"
+"!images/objects/switch/right-0.png\r\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "--Şalterler\n!images/objects/switch/left-0.png\n !images/objects/switch/switch-0.png\n !images/objects/switch/right-0.png\n#Şalterler her türlü işi yapmak için kullanılabilir. YUKARI tuşuna basarak kullanın. Bu sağınnızdaki asansörü çalıştırmak için kullanılır."
+msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
-"!images/objects/trampoline/trampoline2-0.png\n"
+"-Spring Boards\r\n"
+"!images/objects/trampoline/trampoline2-0.png\r\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr "-Zıplama tahtaları\n!images/objects/trampoline/trampoline2-0.png\n#Zıplama tahtaları Tux'un yeni yüksekliklere zıplamasını sağlar. Daha fazla zıplamak için tahtada zıplarken zıplama tuşuna basın."
+msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
-"- Climbing\n"
+"- Climbing\r\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Tırmanma\n# Tux tırmanabilir! Tırmanmak için Yukarı tuşuna bas. Gitmek için Hareket veya zıplama tuşuna bas."
+msgstr ""
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
@@ -212,6 +211,48 @@ msgstr "Bonus bölüm"
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Penny ile piknik"
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid ""
+"Somewhere at the shores\n"
+"of Antarctica..."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux: Hello Penny"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Penny: Hey Tux"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid "Tux: Check out my dance moves."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "Tux: Oww... my head..."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "Tux: Wait!"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid "Tux: Penny!"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid "Tux: Where are you, Penny?!"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:11
+msgid "Tux: Oh no..."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:12
+msgid "Tux: Don't worry, Penny, I'll rescue you!"
+msgstr ""
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"

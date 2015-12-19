@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:38+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-29 18:41+0100\n"
+"PO-Revision-Date: 2015-11-29 18:43+0000\n"
+"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
 "Language-Team: Nepali (http://www.transifex.com/arctic-games/supertux/language/ne/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,60 +27,59 @@ msgstr "एन्टार्टिकामा स्वागत छ"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
-"-Bonus Blocks\n"
-"!images/objects/bonus_block/full-0.png\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
-"#\n"
+"-Bonus Blocks\r\n"
+"!images/objects/bonus_block/full-0.png\r\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\r\n"
+"#\r\n"
 "#Hit them from below to get at their contents."
-msgstr "-बोनस ब्लकहरु\n!images/objects/bonus_block/full-0.png\n#बोनस ब्लकहरुमा तपाईँको कवेस्टमा सहयोगी हुने  सिक्का, पावर-अपहरु वा विशेष सामानहरु हुनसक्छ।\n#\n#त्यसमा भएको सामाग्री पाउन तलबाट हिर्काउनुहोस्।"
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
-"-Eggs\n"
-"!images/powerups/egg/egg.png\n"
+"-Eggs\r\n"
+"!images/powerups/egg/egg.png\r\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-अण्डाहरु\n!images/powerups/egg/egg.png\n#अण्डाले टक्सलाई ठूलो बनाउँछ। त्यसपछि टक्सले आफ्नो टाउकोले काठको ब्लकहरु फोड्न सक्छ।"
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
-"-Checkpoints\n"
-"!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
-msgstr "-चेकपोइन्टहरु\n!images/objects/resetpoints/bell-m.png\n#चेकपोइन्टलाई सक्रिय बनाउनुहोस्। यदि तपाईँ मरे, तपाईँले यो स्थानबाट स्तर पुन:प्रयास गर्नसक्नु हुन्छ। हरेकपल्ट चेकपोइन्टबाट पुन: प्रयास गर्दा, तपाईँले कम से कम २५ सिक्काहरु गुमाउनुहुन्छ।"
+"-Checkpoints\r\n"
+"!images/objects/resetpoints/bell-m.png\r\n"
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
-"-Running\n"
-"!images/tiles/signs/run.png\n"
+"-Running\r\n"
+"!images/tiles/signs/run.png\r\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-दौडनु\n!images/tiles/signs/run.png\n#तपाईँको अगाडि भएको मार्ग छेकिएको छ। ब्लकहरु माथिबाट जान उफ्रिनु अघि केहि गति प्राप्त गर्नुहोस्।"
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
-"-Fire Flower\n"
-"!images/powerups/fireflower/fire_flower-0.png\n"
+"-Fire Flower\r\n"
+"!images/powerups/fireflower/fire_flower-0.png\r\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-आगोको फूल\n!images/powerups/fireflower/fire_flower-0.png\n#आगोको फूलले टक्सलाई आगोको गोलाहरु फाल्ने क्षमता दिन्छ।"
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
-"-Tux Doll\n"
-"!images/powerups/1up/1up.png\n"
+"-Tux Doll\r\n"
+"!images/powerups/1up/1up.png\r\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-टक्स गुडिया\n!images/powerups/1up/1up.png\n#टक्स गुडियाले टक्सलाई १०० वटा सिक्काहरु दिन्छ।"
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
-"-Secret Areas\n"
+"-Secret Areas\r\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-गोप्य ठाउँहरु\n#धेरै स्तरहरुमा सादा भित्ताजस्तो देखिने ठाउँ पछाडि गोप्य ठाउँहरु हुनसक्छ।तिनीहरुलाई खोज्न संकेतहरु हेर्नुहोस्।"
+msgstr ""
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
 msgstr "यात्रा सुरु भयो"
 
-#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
-#: Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "मार्फत उदासीन"
 
@@ -186,25 +185,25 @@ msgstr "बाटोमा एउटा काँडा"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
-"-Switches\n"
-"!images/objects/switch/left-0.png\n"
-"!images/objects/switch/switch-0.png\n"
-"!images/objects/switch/right-0.png\n"
+"-Switches\r\n"
+"!images/objects/switch/left-0.png\r\n"
+"!images/objects/switch/switch-0.png\r\n"
+"!images/objects/switch/right-0.png\r\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "-स्विचहरु\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#स्विचहरु सबै प्रकारको काम गर्न प्रयोग गरिन्छ। स्विच प्रयोग गर्न माथि बाँण कुञ्जी थिच्नुहोस्। यो वालाले तपाईँको दायाँको लिफ्ट सक्रिय बनाउँछ।"
+msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
-"!images/objects/trampoline/trampoline2-0.png\n"
+"-Spring Boards\r\n"
+"!images/objects/trampoline/trampoline2-0.png\r\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr "-स्प्रिङ बोर्ड\n!images/objects/trampoline/trampoline2-0.png\nस्प्रिङ बोर्डले टकसलाई एउटा नयाँ उचाईमा पुराउन मद्दत गर्छ ।अत्तिरिक्त उचाईमा पुग्न स्प्रिङ बोर्ड उफ्रेको बेलामा उफ्रने कुंजी थिच्नु होस् ।"
+msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
-"- Climbing\n"
+"- Climbing\r\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "-चड्ने\n#टक्स चड्न सक्छ! चडाइ सुरु गर्न माथिको बाँण कुञ्जी थिच्नुहोस्। छोड्न कार्य कुञ्जी थिच्नुहोस् वा उफ्रनुहोस्।"
+msgstr ""
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
@@ -213,6 +212,48 @@ msgstr "बोनस स्तर"
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "पेनी सँग पिकनिक"
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid ""
+"Somewhere at the shores\n"
+"of Antarctica..."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux: Hello Penny"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Penny: Hey Tux"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid "Tux: Check out my dance moves."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "Tux: Oww... my head..."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "Tux: Wait!"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid "Tux: Penny!"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid "Tux: Where are you, Penny?!"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:11
+msgid "Tux: Oh no..."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:12
+msgid "Tux: Don't worry, Penny, I'll rescue you!"
+msgstr ""
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"

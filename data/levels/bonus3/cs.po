@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jirka Paleček <nrrstttpt@gmail.com>, 2013-2015
+# Jiří Paleček <nrrstttpt@gmail.com>, 2013-2015
 # fri, 2013-2014
-# TeraTux devel Team <teratux.mail@gmail.com>, 2013-2014
+# TeraTux devel Team <teratux.mail@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-26 13:36+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-22 16:09+0000\n"
 "Last-Translator: TeraTux devel Team <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -50,9 +50,9 @@ msgstr "...ale nikdo to nedokáže zastavit..."
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:307
 msgid ""
-"-Sorry, this flying platform is lazy.\n"
+"-Sorry, this flying platform is lazy.\r\n"
 "-Come back another time."
-msgstr "-Promiňte, tato létající plošina je líná.\n-Vraťte se jindy."
+msgstr "-Promiňte, ale tato plošina je líná.\n-Vraťte se jindy"
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
@@ -119,7 +119,7 @@ msgstr "Kruhy"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr "Nezmeškej svůj odvoz"
+msgstr "Nepropásni svou jízdu"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
@@ -171,15 +171,15 @@ msgstr "Toaletní zóna"
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
-"- Flush: \n"
+"- Flush: \r\n"
 "#Press the up key to flush! "
-msgstr "-Spláchnutí: ⏎\n#Stiskni tlačítko nahoru pro spláchnutí!"
+msgstr "-Spláchnutí\n#Stiskni klávesu NAHORU pro spláchnutí!"
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
-"- A Way out?\n"
+"- A Way out?\r\n"
 "#Let's Jump! "
-msgstr "- Cesta pryč?⏎\n#Skoč!"
+msgstr "-Cesta pryč?\n#Skoč!"
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
@@ -199,11 +199,11 @@ msgstr "Útěk z kanálu"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
-msgstr "Pršet, či nepršet? - To je otázka"
+msgstr "Pršet, či nepršet? - Toť otázka"
 
 #: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
-msgstr "Pršet, či nepršet? - To je otázka (Antarktida)"
+msgstr "Pršet, či nepršet? - Toť otázka (Antarktida)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"

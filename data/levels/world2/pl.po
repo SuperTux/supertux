@@ -1,17 +1,21 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # Łukasz Hryniuk <lukasz.hryniuk@wp.pl>, 2013
 # Łukasz Hryniuk <lukasz.hryniuk@wp.pl>, 2013
 # mkkot <marcin2006@gmail.com>, 2014
+# mkkot <marcin2006@gmail.com>, 2014-2015
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Paweł Talar <ptalar15@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-12-08 20:28+0000\n"
+"Last-Translator: mkkot <marcin2006@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,9 +33,9 @@ msgstr "Przełęcz górska"
 
 #: data/levels/world2/Mtn_Pass.stl:493
 msgid ""
-"- Climbing\n"
+"- Climbing\r\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "-Wspinaczka\n#Tux może się wspinać! Naciśnij strzałkę w górę, by zacząć wspinaczkę. Wciśnij przycisk akcji lub skoku, by zejść."
+msgstr "- Wspinanie się\r\n# Tux potrafi się wspinać! Wciśnij przycisk W GÓRĘ, aby zacząć się wspinać. Wciśnij przycisk akcji lub skoku, aby się puścić. "
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
@@ -43,12 +47,12 @@ msgstr "Tux Budowniczy"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
-"-Portable Rocks:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr "-Przenośne Skały:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+"-Portable Rocks:\r\n"
+"\r\n"
+"!images/help/rockhowto1.png\r\n"
+"!images/help/rockhowto2.png\r\n"
+"!images/help/rockhowto3.png\r\n"
+msgstr "-Przenośne skały:\r\n\r\n!images/help/rockhowto1.png\r\n!images/help/rockhowto2.png\r\n!images/help/rockhowto3.png\r\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -177,26 +181,26 @@ msgstr "Korzenie, drzewiaste korzenie"
 
 #: data/levels/world2/level1.stl:146
 msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
+"-Hint:\r\n"
+"#If there seems to be\r\n"
+"#no way to reach a door,\r\n"
+"#remember that you might\r\n"
+"#be supposed to come out\r\n"
 "#of that door..."
-msgstr "-Podpowiedź:\n#Skoro nie ma jak\n#osiągnąć drzwi,\n#pamiętaj, że być może\n#powinieneś przez te drzwi\n#wyjść..."
+msgstr "-Podpowiedź:\r\n#Jeśli nie umiesz\r\n#sięgnąć drzwi,\r\n#być może nie wiesz,\r\n#że należy przez nie wyjść..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "W dół dziurą królika"
+msgstr "W dół króliczą norą"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
+"-Oh no!\r\n"
+"#The path is blocked! It\r\n"
+"#seems that the only way\r\n"
+"#leads through that dark\r\n"
 "#hole in the ground..."
-msgstr "-O nie!\n#Droga jest zablokowana!\n#Chyba jedyne wyjście\n#prowadzi przez tę ciemną\n#dziurę w ziemi..."
+msgstr "-O nie!\r\n#Droga jest zablokowana!\r\n#Wydaje się, że jedyna droga\r\n#prowadzi w dół\r\n#króliczej nory..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"

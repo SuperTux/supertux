@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# I will not tell you that <leftermos@yahoo.gr>, 2015
 # Vangelis Nomikos <nvangelis@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:38+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-12-04 16:42+0000\n"
+"Last-Translator: I will not tell you that <leftermos@yahoo.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/arctic-games/supertux/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +49,7 @@ msgstr "...αλλά κανένας δε μπορεί να το σταματήσ�
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:307
 msgid ""
-"-Sorry, this flying platform is lazy.\n"
+"-Sorry, this flying platform is lazy.\r\n"
 "-Come back another time."
 msgstr ""
 
@@ -62,11 +63,11 @@ msgstr "Κάστρο του Φωτός και του Σκότους"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr ""
+msgstr "Τρέξιμο στη σπηλιά"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
-msgstr ""
+msgstr "Κρύο Σπήλαιο"
 
 #: data/levels/bonus3/cavern_v2.stl:50
 msgid ""
@@ -76,7 +77,7 @@ msgstr ""
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr ""
+msgstr "Φρούριο Καρυδών"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
@@ -113,7 +114,7 @@ msgstr "....βαθύτερη!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
-msgstr ""
+msgstr "Κύκλοι"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
@@ -121,7 +122,7 @@ msgstr ""
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
-msgstr ""
+msgstr "Κατεβαίνοντας"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
@@ -169,13 +170,13 @@ msgstr "Η Ζώνη Τουαλέτας"
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
-"- Flush: \n"
+"- Flush: \r\n"
 "#Press the up key to flush! "
 msgstr ""
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
-"- A Way out?\n"
+"- A Way out?\r\n"
 "#Let's Jump! "
 msgstr ""
 

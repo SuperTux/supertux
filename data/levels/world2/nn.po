@@ -1,3 +1,6 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # Karl Ove Hufthammer <karl@huftis.org>, 2006-2007,2013-2015
@@ -6,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-21 10:04+0000\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk (http://www.transifex.com/arctic-games/supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
@@ -26,9 +29,9 @@ msgstr "Fjellpasset"
 
 #: data/levels/world2/Mtn_Pass.stl:493
 msgid ""
-"- Climbing\n"
+"- Climbing\r\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Klatring\n# Tux kan klatra! Trykk «Pil opp» for å starta å klatra. Trykk handlings- eller hoppeknappen for å sleppa taket."
+msgstr "- Klatring\r\n# Tux kan klatra! Trykk «Pil opp» for å starta å klatra. Trykk handlings- eller hoppeknappen for å sleppa taket."
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
@@ -40,12 +43,12 @@ msgstr "Byggmeister Tux"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
-"-Portable Rocks:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr "-Flyttbare steinar\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+"-Portable Rocks:\r\n"
+"\r\n"
+"!images/help/rockhowto1.png\r\n"
+"!images/help/rockhowto2.png\r\n"
+"!images/help/rockhowto3.png\r\n"
+msgstr "-Flyttbare steinar\r\n\r\n!images/help/rockhowto1.png\r\n!images/help/rockhowto2.png\r\n!images/help/rockhowto3.png\r\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -174,13 +177,13 @@ msgstr "Tilbake til røtene"
 
 #: data/levels/world2/level1.stl:146
 msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
+"-Hint:\r\n"
+"#If there seems to be\r\n"
+"#no way to reach a door,\r\n"
+"#remember that you might\r\n"
+"#be supposed to come out\r\n"
 "#of that door..."
-msgstr "-Hint\n#Viss det ikkje ser ut\n#til å finnast nokon\n#måte å nå ei dør, kan\n#det vera meininga at\n#du skal komma ut av\n#døra ..."
+msgstr "-Hint\r\n#Viss det ikkje ser ut\r\n#til å finnast nokon\r\n#måte å nå ei dør, kan\r\n#det vera meininga at\r\n#du skal komma ut av\r\n#døra ..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
@@ -188,12 +191,12 @@ msgstr "Gjennom kaninholet"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
+"-Oh no!\r\n"
+"#The path is blocked! It\r\n"
+"#seems that the only way\r\n"
+"#leads through that dark\r\n"
 "#hole in the ground..."
-msgstr "-Å nei!\n#Vegen vidare er stengt!\n#Det ser ut til at den\n#einaste måten å komma\n#vidare på er å hoppa\n#ned i det mørke holet\n#i bakken ..."
+msgstr "-Å nei!\r\n#Vegen vidare er stengd!\r\n#Det ser ut til at den\r\n#einaste måten å komma\r\n#vidare på er å hoppa\r\n#ned i det mørke holet\r\n#i bakken ..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"

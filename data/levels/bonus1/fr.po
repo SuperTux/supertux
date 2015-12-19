@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# zecas <jjorge@free.fr>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:36+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-21 12:40+0100\n"
+"PO-Revision-Date: 2015-11-23 12:19+0000\n"
+"Last-Translator: zecas <jjorge@free.fr>\n"
 "Language-Team: French (http://www.transifex.com/arctic-games/supertux/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,30 +56,30 @@ msgstr "Zone 42"
 
 #: data/levels/bonus1/extro.txt:3
 msgid ""
-"-Congratulations!\n"
-"\n"
-"#You have successfully finished\n"
-"#Bonus Island I\n"
-"\n"
-"\tfeaturing levels contributed by\n"
-"\tJason W. Thompson\n"
-"\tTorfi Gunnarsson\n"
-"\tAbednego\n"
-"\tMatr1x\n"
-"\n"
-"\n"
-"#If you didn't clear all levels yet,\n"
-"#find your way back home and take\n"
-"#another path. There is still more\n"
-"#challenge waiting for you!\n"
-"\n"
-"#And there is a secret level to be\n"
-"#found as well...\n"
-"\n"
-"#A big \"Thank you\" goes out to\n"
-"#everyone who contributed to this\n"
+"-Congratulations!\r\n"
+"\r\n"
+"#You have successfully finished\r\n"
+"#Bonus Island I\r\n"
+"\r\n"
+"\tfeaturing levels contributed by\r\n"
+"\tJason W. Thompson\r\n"
+"\tTorfi Gunnarsson\r\n"
+"\tAbednego\r\n"
+"\tMatr1x\r\n"
+"\r\n"
+"\r\n"
+"#If you didn't clear all levels yet,\r\n"
+"#find your way back home and take\r\n"
+"#another path. There is still more\r\n"
+"#challenge waiting for you!\r\n"
+"\r\n"
+"#And there is a secret level to be\r\n"
+"#found as well...\r\n"
+"\r\n"
+"#A big \"Thank you\" goes out to\r\n"
+"#everyone who contributed to this\r\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Félicitation !\n\n# Vous avez fini\n#L'Île Bonus I\n\n\tsom indeholder baner lavet af\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Si Vous n'avez pas fini tous \n#les niveau, Retournez sur vos pas et  \n#prenez un autre chemin. D'autres\n#Défis vous attendent encore !    \n\n#Avez-vous trouvé le niveau caché?\n# Alors en route…"
+msgstr "-Bravo!\n\n#Tu as réussi\n#Bonus Island I\n\n\tavec des niveaux contribués par\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Si tu n'as pas encore terminé tous\n#les niveaux, retourne au début et\n#choisis un autre chemin. Il y a toujours\n#d'autres défis qui t'attendent!\n\n#Et il y a aussi un niveau secret\n#à trouver aussi...\n\n#Un grand \"Merci\" à tous ceux qui\n#ont contribué à cette version. Nous\n#espérons que tu l'as appréciée!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -102,11 +103,15 @@ msgstr "Les Méchants, ils sont Méchants"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
-msgstr "Un bon Départ"
+msgstr "Un bon début"
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
 msgstr "Trop Fastoche"
+
+#: data/levels/bonus1/torfi-level2.stl:42
+msgid "#All these levels were upgraded to milestone 2 design by Hume2."
+msgstr "#Tous ces niveaux ont été portés du milestone2 par Hume2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"

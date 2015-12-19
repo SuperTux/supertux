@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-05-28 18:12+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 09:03+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Arabic (http://www.transifex.com/arctic-games/supertux/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr ""
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:307
 msgid ""
-"-Sorry, this flying platform is lazy.\n"
+"-Sorry, this flying platform is lazy.\r\n"
 "-Come back another time."
 msgstr ""
 
@@ -168,13 +168,13 @@ msgstr ""
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
-"- Flush: \n"
+"- Flush: \r\n"
 "#Press the up key to flush! "
 msgstr ""
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
-"- A Way out?\n"
+"- A Way out?\r\n"
 "#Let's Jump! "
 msgstr ""
 

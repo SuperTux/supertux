@@ -1,12 +1,16 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Joe Hansen <joedalton2@yahoo.dk>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-23 14:58+0000\n"
+"Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/arctic-games/supertux/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,17 +24,17 @@ msgstr "Stien braser sammen"
 
 #: data/levels/world2/Mtn_Pass.stl:3
 msgid "The Mountain Pass"
-msgstr ""
+msgstr "Bjergpasset"
 
 #: data/levels/world2/Mtn_Pass.stl:493
 msgid ""
-"- Climbing\n"
+"- Climbing\r\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
+msgstr "- Klatring\n# Tux kan klatre! Tryk på tasten op for at klatre. Tryk på HANDLINGS-tasten eller hop for at slippe."
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr "Skatten oppe band skyerne"
+msgstr "Skatten oppe blandt skyerne"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
@@ -38,11 +42,11 @@ msgstr "Byggemand Tux"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
-"-Portable Rocks:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
+"-Portable Rocks:\r\n"
+"\r\n"
+"!images/help/rockhowto1.png\r\n"
+"!images/help/rockhowto2.png\r\n"
+"!images/help/rockhowto3.png\r\n"
 msgstr "-Sten der kan løftes:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
@@ -80,7 +84,7 @@ msgstr "Umoderne"
 
 #: data/levels/world2/christoph8.stl:3
 msgid "Little Venice"
-msgstr "Lille Venedi"
+msgstr "Lille Venedig"
 
 #: data/levels/world2/christoph9.stl:3
 msgid "Two Tiny Towers"
@@ -92,15 +96,15 @@ msgstr "Jeg føler mig helt blæst"
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
-msgstr "\"Kneep-deep in the depth\""
+msgstr "Langt nede i dybet"
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
-msgstr "GaffatAbe"
+msgstr "Tunnelabe"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr "Rum af stjerner"
+msgstr "Stjernerum"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
@@ -172,13 +176,13 @@ msgstr "Trærødder"
 
 #: data/levels/world2/level1.stl:146
 msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
+"-Hint:\r\n"
+"#If there seems to be\r\n"
+"#no way to reach a door,\r\n"
+"#remember that you might\r\n"
+"#be supposed to come out\r\n"
 "#of that door..."
-msgstr "- Tip:\n#Hvis du ikke kan nå\n#en dør, er det måske\n#meningen, at du skal\n#komme ud af den \n#senere..."
+msgstr "- Tip:\n#Hvis du ikke kan nå\n#en dør, er det måske\n#meningen, at du skal\n#komme ud af den \n#senere ..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
@@ -186,12 +190,12 @@ msgstr "Ned i kaninhullet"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
+"-Oh no!\r\n"
+"#The path is blocked! It\r\n"
+"#seems that the only way\r\n"
+"#leads through that dark\r\n"
 "#hole in the ground..."
-msgstr "-Åh nej!\n#Stien er blokkeret! Det\n#ser ud til at den eneste vej\n#går gennem det mørke\n#hul i jorden..."
+msgstr "-Åh nej!\n#Stien er blokeret! Det\n#ser ud til, at den eneste vej\n#går gennem det mørke\n#hul i jorden ..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
@@ -239,4 +243,4 @@ msgstr "En landsby i skoven"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr "Skov Verdenen"
+msgstr "Skovverdenen"

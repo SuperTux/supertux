@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:36+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-22 11:45+0000\n"
 "Last-Translator: Max Lyashuk <m_lyashuk@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/arctic-games/supertux/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -20,38 +20,38 @@ msgstr ""
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
-"-Congratulations!\n"
-"\n"
-"#You successfully made it through\n"
-"#Bonus Island II\n"
-"\n"
-"\n"
-"\tfeaturing levels contributed by\n"
-"\tKevin\n"
-"\tJason Kleinemas\n"
-"\tDenilson\n"
-"\tTobe Deprez\n"
-"\tBig C\n"
-"\tThomas Nilsen\n"
-"\tTorfi Gunnarsson\n"
-"\tDaniel Alston\n"
-"\tNilrok\n"
-"\tCorlin Heydman\n"
-"\n"
-"\n"
-"#Once again, we'd like to thank\n"
-"#everyone who contributed to this\n"
-"#release. We hope that you enjoyed\n"
-"#it, and that it made waiting for\n"
-"#Milestone 2 a little easier. :-)\n"
-"\n"
-"\n"
+"-Congratulations!\r\n"
+"\r\n"
+"#You successfully made it through\r\n"
+"#Bonus Island II\r\n"
+"\r\n"
+"\r\n"
+"\tfeaturing levels contributed by\r\n"
+"\tKevin\r\n"
+"\tJason Kleinemas\r\n"
+"\tDenilson\r\n"
+"\tTobe Deprez\r\n"
+"\tBig C\r\n"
+"\tThomas Nilsen\r\n"
+"\tTorfi Gunnarsson\r\n"
+"\tDaniel Alston\r\n"
+"\tNilrok\r\n"
+"\tCorlin Heydman\r\n"
+"\r\n"
+"\r\n"
+"#Once again, we'd like to thank\r\n"
+"#everyone who contributed to this\r\n"
+"#release. We hope that you enjoyed\r\n"
+"#it, and that it made waiting for\r\n"
+"#Milestone 2 a little easier. :-)\r\n"
+"\r\n"
+"\r\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-Вітаємо!\n\n#Ви успішно подолали\n#Бонусний острів II\n\n\n\tу створенні приймали участь:\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ще раз хочу подякувати всім\n#хто доклав свої зусиль до цього\n#релізу. Ми надіємось він вам\n#сподобався і ви вже чекаєте\n#наступного 2 етапу. :-)\n\n\n Вже невдовзі кризі кінець..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr ""
+msgstr "Схоже без Маріо тут не обійшлося..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -63,7 +63,7 @@ msgstr "Довга печера"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr ""
+msgstr "Сліпий до світу"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
@@ -99,7 +99,7 @@ msgstr "Думай швидко, або помри"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
-msgstr ""
+msgstr "Фортеця вентияторів"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
@@ -111,7 +111,7 @@ msgstr "Водні шляхи"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr ""
+msgstr "Не все те золото що блищить"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
@@ -147,7 +147,7 @@ msgstr "Маєш 1 хвилину"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr ""
+msgstr "Шлях через хмари"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
@@ -171,8 +171,8 @@ msgstr "Ви знайшли сховок!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
-msgstr ""
+msgstr "Цікаво, куди ж веде цей шлях..."
 
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
-msgstr ""
+msgstr "Викривлений дім..."

@@ -1,3 +1,6 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # Gwenn M <tornoz@laposte.net>, 2015
@@ -5,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-08-06 11:12+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-24 11:42+0000\n"
 "Last-Translator: Gwenn M <tornoz@laposte.net>\n"
 "Language-Team: Breton (http://www.transifex.com/arctic-games/supertux/language/br/)\n"
 "MIME-Version: 1.0\n"
@@ -25,9 +28,9 @@ msgstr "A-dreuz ar menezioù"
 
 #: data/levels/world2/Mtn_Pass.stl:493
 msgid ""
-"- Climbing\n"
+"- Climbing\r\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Krapat\n# Gallout a ra Tux krapat ! Pouezit war ar stokell A-US evit krapat. Pouezit war ar stokell OBER evit lammat pe kouezhañ."
+msgstr "- Krapat\n# Gouest eo Tux da grapat ! Pouezit war ar stokell A-US evit krapat. Pouezit war ar stokell OBER pe lammit evit mont kuit."
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
@@ -39,12 +42,12 @@ msgstr "Tux an tisavour"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
-"-Portable Rocks:\n"
-"\n"
-"!images/help/rockhowto1.png\n"
-"!images/help/rockhowto2.png\n"
-"!images/help/rockhowto3.png\n"
-msgstr "-Fiñvit ar reier:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+"-Portable Rocks:\r\n"
+"\r\n"
+"!images/help/rockhowto1.png\r\n"
+"!images/help/rockhowto2.png\r\n"
+"!images/help/rockhowto3.png\r\n"
+msgstr "-Reier hezoug :\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -65,7 +68,7 @@ msgstr "Kreñvlec'h ar gwez"
 
 #: data/levels/world2/christoph3.stl:3
 msgid "A Mouldy Grotto"
-msgstr ""
+msgstr "Grotto Modo"
 
 #: data/levels/world2/christoph5.stl:3
 msgid "Short Visit to El Castillo"
@@ -93,151 +96,151 @@ msgstr "Teir follenn en avel"
 
 #: data/levels/world2/christophB.stl:3
 msgid "Kneep-deep in the depth"
-msgstr ""
+msgstr "E donder ar c'hondon"
 
 #: data/levels/world2/christophC.stl:3
 msgid "Duct Ape"
-msgstr ""
+msgstr "Marmouzed"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr ""
+msgstr "Stered"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr ""
+msgstr "Ar mogerioù didrouz"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr ""
+msgstr "Dan Morial"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr ""
+msgstr " Dizroenn"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr ""
+msgstr "Kastell ar c'hoad teñval - Ar c'hambr diaoulek"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr ""
+msgstr "Kastell ar c'hoad teñval - Daoulagad Nolok"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr ""
+msgstr "Kastell ar c'hoad teñval - An tour du"
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr ""
+msgstr "Klask war lec'h ar pesk bras !"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr ""
+msgstr "Live ar c'hoad 1"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr ""
+msgstr "Ur bed tasmant"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr ""
+msgstr "alc'hwez 1 dour - da lakaat a-dreñv al lamm-dour"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr ""
+msgstr "alc'hwez 2 douar - da lakaat dindan an douar"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr ""
+msgstr "alc'hwez 3 koad - da lakaat un ur wezenn vras"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr ""
+msgstr "alc'hwez 4 tan - da lakaat en ur c'hastell bihan"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr ""
+msgstr "alc'hwez 5 aer - da lakaat er c'houmoul"
 
 #: data/levels/world2/keystodoor.stl:3
 msgid "Entrance to the Castle"
-msgstr ""
+msgstr "Mont-tre er c'hastell"
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
-msgstr ""
+msgstr "Delienn o kerzhout"
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
-msgstr ""
+msgstr "Gwriziennoù"
 
 #: data/levels/world2/level1.stl:146
 msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
+"-Hint:\r\n"
+"#If there seems to be\r\n"
+"#no way to reach a door,\r\n"
+"#remember that you might\r\n"
+"#be supposed to come out\r\n"
 "#of that door..."
-msgstr ""
+msgstr "-Kuzul :\n#Ma vez doare\n#ebet da vont betek\n#un nor, marteze e\n#c'haller dont-maez\n#eus an nor."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
-msgstr ""
+msgstr "Riboul ar c'honikl"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
+"-Oh no!\r\n"
+"#The path is blocked! It\r\n"
+"#seems that the only way\r\n"
+"#leads through that dark\r\n"
 "#hole in the ground..."
-msgstr ""
+msgstr "-Chaous !\n#Stanket eo an hent !\n#An diskoulm nemetañ\n#a seblant bezañ an toull\n#teñval-mañ..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
-msgstr ""
+msgstr "- Kollet oc'h ?"
 
 #: data/levels/world2/level4.stl:3
 msgid "Going Underground"
-msgstr ""
+msgstr "Dindan an douar"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr ""
+msgstr "Green Hills"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
-msgstr ""
+msgstr "Anv ebet"
 
 #: data/levels/world2/light+magic.stl:3
 msgid "Light and Magic"
-msgstr ""
+msgstr "Gouloù hud"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr ""
+msgstr "Digoll ar gaoued"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr ""
+msgstr "Stroñs"
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr ""
+msgstr "Ne gresk ket ar manked er gwez"
 
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
-msgstr ""
+msgstr "War sevel"
 
 #: data/levels/world2/updown.stl:3
 msgid "Up and Down"
-msgstr ""
+msgstr "A-us hag en traoñ"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"
-msgstr ""
+msgstr "Ur gêriadenn er c'hoad"
 
 #: data/levels/world2/worldmap.stwm:3
 msgid "Forest World"
-msgstr ""
+msgstr "Bed ar c'hoad"

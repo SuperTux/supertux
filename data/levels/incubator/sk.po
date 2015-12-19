@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 09:04+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Slovak (http://www.transifex.com/arctic-games/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -31,13 +31,17 @@ msgstr "Čerešňová poleva"
 msgid "Mad Ysonn Cube Garden"
 msgstr "Kockatá záhrada Šialeného Ysonna"
 
+#: data/levels/incubator/frozen_fissure.stl:3
+msgid "Frozen Fissure"
+msgstr ""
+
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
 msgstr ""
 
 #: data/levels/incubator/into_dark.stl:224
 msgid ""
-"-Hint:\n"
+"-Hint:\r\n"
 "#Use the fireflower to melt a path through the ice."
 msgstr ""
 
@@ -49,6 +53,10 @@ msgstr ""
 msgid "The Jagged Path"
 msgstr "Nerovná cesta"
 
+#: data/levels/incubator/midnight_crossing.stl:3
+msgid "Midnight Crossing"
+msgstr ""
+
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
 msgstr "Nie až tak dlhá cesta"
@@ -59,6 +67,10 @@ msgstr ""
 
 #: data/levels/incubator/obstaclecourse.stl:48
 msgid "#If you get stuck, flip the switch to kill Tux."
+msgstr ""
+
+#: data/levels/incubator/pipeline.stl:3
+msgid "Pipeline"
 msgstr ""
 
 #: data/levels/incubator/primed.stl:3

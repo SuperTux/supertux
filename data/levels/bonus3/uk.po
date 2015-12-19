@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-22 11:58+0000\n"
 "Last-Translator: Max Lyashuk <m_lyashuk@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/arctic-games/supertux/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr "-89,2 градусів"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
-msgstr ""
+msgstr "Глобальне потепління"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
@@ -48,9 +48,9 @@ msgstr "...але ніхто не може його зупинити..."
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:307
 msgid ""
-"-Sorry, this flying platform is lazy.\n"
+"-Sorry, this flying platform is lazy.\r\n"
 "-Come back another time."
-msgstr ""
+msgstr "-Вибач, але ця платформа стомилась.\n-Приходь пізніше."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
@@ -72,31 +72,31 @@ msgstr "Холодна печера"
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr ""
+msgstr "#Гарна робота! Ви втримали цей червоний ліхтар! І хоча ви не повинні були, але зробили, ви отримуєте 100 монет!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr ""
+msgstr "Кокосова фортеця"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
-msgstr ""
+msgstr "Криштальний захід сонця"
 
 #: data/levels/bonus3/crystal.stl:3
 msgid "Crystal Skies"
-msgstr ""
+msgstr "Кришталеве небо"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr ""
+msgstr "Кришталева краса"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr ""
+msgstr "Кришталевий катаклізм"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
-msgstr ""
+msgstr "Вихід з кришталевих полів"
 
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
@@ -113,51 +113,51 @@ msgstr "...найглибше!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
-msgstr ""
+msgstr "Кола"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr ""
+msgstr "Не проґав свій транспорт"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
-msgstr ""
+msgstr "Спускання"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
-msgstr ""
+msgstr "Вхід до замку"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
-msgstr ""
+msgstr "Квітка-бонус"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
-msgstr ""
+msgstr "Після льодовиків"
 
 #: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
-msgstr ""
+msgstr "Висячи на даху"
 
 #: data/levels/bonus3/hilly_landscape.stl:3
 msgid "A hilly landscape"
-msgstr ""
+msgstr "Гориста місцевість"
 
 #: data/levels/bonus3/in_the_spring.stl:3
 msgid "In the Spring"
-msgstr ""
+msgstr "Навесні"
 
 #: data/levels/bonus3/its_getting_unfinishable.stl:3
 msgid "It's getting unfinishable"
-msgstr ""
+msgstr "Проходження стає неможливим"
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
-msgstr ""
+msgstr "Непогано було б мати трохи світла в темряві, дякую!"
 
 #: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
-msgstr ""
+msgstr "Сповіщення про снігопад"
 
 #: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
@@ -165,19 +165,19 @@ msgstr ""
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
-msgstr ""
+msgstr "Вбиральня"
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
-"- Flush: \n"
+"- Flush: \r\n"
 "#Press the up key to flush! "
-msgstr ""
+msgstr "- Змивання: \n#Натисніть ВГОРУ щоб змити! "
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
-"- A Way out?\n"
+"- A Way out?\r\n"
 "#Let's Jump! "
-msgstr ""
+msgstr "- Вихід?\n#Давай стрибнемо! "
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
@@ -193,15 +193,15 @@ msgstr "Червона тривога! Ліс палає!"
 
 #: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
-msgstr ""
+msgstr "Втеча каналізацією"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
-msgstr ""
+msgstr "Дощити чи не дощити - ось в чому питання"
 
 #: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
-msgstr ""
+msgstr "Дощити чи не дощити - ось в чому питання (Антарктика)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
@@ -217,7 +217,7 @@ msgstr "Під льодом"
 
 #: data/levels/bonus3/worldmap.stwm:3
 msgid "Bonus Island III"
-msgstr ""
+msgstr "Бонусний острів III"
 
 #: data/levels/bonus3/worldmap.stwm:12
 msgid "You found a secret place!"

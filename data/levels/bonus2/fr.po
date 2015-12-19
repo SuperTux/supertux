@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013,2015
+# Sébastien Aperghis-Tramoni, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:36+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-21 15:12+0000\n"
+"Last-Translator: Sébastien Aperghis-Tramoni\n"
 "Language-Team: French (http://www.transifex.com/arctic-games/supertux/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,38 +21,38 @@ msgstr ""
 
 #: data/levels/bonus2/extro.txt:3
 msgid ""
-"-Congratulations!\n"
-"\n"
-"#You successfully made it through\n"
-"#Bonus Island II\n"
-"\n"
-"\n"
-"\tfeaturing levels contributed by\n"
-"\tKevin\n"
-"\tJason Kleinemas\n"
-"\tDenilson\n"
-"\tTobe Deprez\n"
-"\tBig C\n"
-"\tThomas Nilsen\n"
-"\tTorfi Gunnarsson\n"
-"\tDaniel Alston\n"
-"\tNilrok\n"
-"\tCorlin Heydman\n"
-"\n"
-"\n"
-"#Once again, we'd like to thank\n"
-"#everyone who contributed to this\n"
-"#release. We hope that you enjoyed\n"
-"#it, and that it made waiting for\n"
-"#Milestone 2 a little easier. :-)\n"
-"\n"
-"\n"
+"-Congratulations!\r\n"
+"\r\n"
+"#You successfully made it through\r\n"
+"#Bonus Island II\r\n"
+"\r\n"
+"\r\n"
+"\tfeaturing levels contributed by\r\n"
+"\tKevin\r\n"
+"\tJason Kleinemas\r\n"
+"\tDenilson\r\n"
+"\tTobe Deprez\r\n"
+"\tBig C\r\n"
+"\tThomas Nilsen\r\n"
+"\tTorfi Gunnarsson\r\n"
+"\tDaniel Alston\r\n"
+"\tNilrok\r\n"
+"\tCorlin Heydman\r\n"
+"\r\n"
+"\r\n"
+"#Once again, we'd like to thank\r\n"
+"#everyone who contributed to this\r\n"
+"#release. We hope that you enjoyed\r\n"
+"#it, and that it made waiting for\r\n"
+"#Milestone 2 a little easier. :-)\r\n"
+"\r\n"
+"\r\n"
 " The end of the ice age is near..."
-msgstr "-Félicitation !\n\n#Vous venez d'entrer sur \n#l'Île Bonus II\n\n\n\tCes niveaux ont été conçu par :\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Encore une fois, nous remercions\n#tous ceux qui y ont contribué. \n#Nous espérons que vous allez l'apprécier#\n#Milestone 2 sera plus simple :) \n\n\n La fin de l'ère glacière est proche..."
+msgstr "- Félicitations !\n\n#Vous avez réussi à terminer\n#l'Île Bonus 2\n\ncomposée de niveaux créés par\nKevin\nJason Kleinemas\nDenilson\nTobe Deprez\nBig C\nThomas Nilsen\nTorfi Gunnarsson\nDaniel Alston\nNilrok\nCorlin Heydman\n\n#Nous voulons une nouvelle fois\n#remercier toutes les personnes qui\n#ont contribué. Nous espérons que\n#vous avez apprécié d'y jouer, et que\n#cela rend un peu plus facile l'attente\n#de la Milestone 2 :-)\n\n\nLa fin de l'âge de glace est proche…"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Mario doit-il Vraiment faire ça ?"
+msgstr "Mario doit-il vraiment faire ça ?"
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -59,11 +60,11 @@ msgstr "fjerd"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr "La longue Caverne"
+msgstr "La longue caverne"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "Aveugle aux Yeux du Monde"
+msgstr "Aveugle aux yeux du monde"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
@@ -71,11 +72,11 @@ msgstr "snarf"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr "Toujours sur la Route"
+msgstr "Toujours sur la route"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr "Le tunnel Glacé"
+msgstr "Le tunnel glacé"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
@@ -83,15 +84,15 @@ msgstr "Luft Airship"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...Là ou Tous devient Possible"
+msgstr "… Là ou tout devient possible"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr "Trouver un Titre Original"
+msgstr "Trouver un titre original"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
-msgstr "La Fin de l'ère Glacière"
+msgstr "La fin de l'âge glaciaire"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
@@ -103,7 +104,7 @@ msgstr "La forteresse des ventilos"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
-msgstr "La Boume de Nolok"
+msgstr "La boume de Nolok"
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
@@ -111,35 +112,35 @@ msgstr "La voie des mers"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "Tout ce qui Brille n'est pas d'Or"
+msgstr "Tout ce qui brille n'est pas d'or"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr "Un jour de grand Froid"
+msgstr "Un jour de grand froid"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr "Haute Gravité"
+msgstr "Haute gravité"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
-msgstr "La Tempête de Feu"
+msgstr "La tempête de feu"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
-msgstr "Un long Voyage"
+msgstr "Un long voyage"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
-msgstr "Besoin de vie ?"
+msgstr "Besoin de vie ?"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr "Saute par dessus la Falaise"
+msgstr "Saute par dessus la falaise"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr "Dans la Grotte"
+msgstr "Dans la grotte"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
@@ -147,15 +148,15 @@ msgstr "Vous avez une minute"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr "Un Chemin à travers les Nuages"
+msgstr "Un chemin à travers les nuages"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr "Les champs Glacés des Flandres"
+msgstr "Les champs glacés des Flandres"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr "Le Château dans le Ciel"
+msgstr "Le château dans le ciel"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
@@ -171,8 +172,8 @@ msgstr "Vous avez trouvé une Île cachée !"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
-msgstr "Quelle est donc se Chemin..."
+msgstr "Ou mène donc ce chemin…"
 
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
-msgstr "Retourner au départ..."
+msgstr "Retourner au départ…"
