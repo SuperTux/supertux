@@ -30,7 +30,7 @@ msgstr "Horský průsmyk"
 
 #: data/levels/world2/Mtn_Pass.stl:493
 msgid ""
-"- Climbing\r\n"
+"- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "-Šplhání\n#Tux umí šplhat! Stiskni klávesu NAHORU, aby začal šplhat. Stiskni klávesu AKCE nebo skoč, aby přestal šplhat."
 
@@ -44,11 +44,11 @@ msgstr "Tux stavitel"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
-"-Portable Rocks:\r\n"
-"\r\n"
-"!images/help/rockhowto1.png\r\n"
-"!images/help/rockhowto2.png\r\n"
-"!images/help/rockhowto3.png\r\n"
+"-Portable Rocks:\n"
+"\n"
+"!images/help/rockhowto1.png\n"
+"!images/help/rockhowto2.png\n"
+"!images/help/rockhowto3.png\n"
 msgstr "-Přenosné kameny\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
@@ -178,11 +178,11 @@ msgstr "Kořeny, dřevěné kořeny"
 
 #: data/levels/world2/level1.stl:146
 msgid ""
-"-Hint:\r\n"
-"#If there seems to be\r\n"
-"#no way to reach a door,\r\n"
-"#remember that you might\r\n"
-"#be supposed to come out\r\n"
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
 "#of that door..."
 msgstr "-Tip\n#Pamatuj, že pokud to vypadá, že není žádný způsob, jak dosáhnout dveří, možná máš z těchto dveří vyjít..."
 
@@ -192,10 +192,10 @@ msgstr "Dolů králičí norou"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
-"-Oh no!\r\n"
-"#The path is blocked! It\r\n"
-"#seems that the only way\r\n"
-"#leads through that dark\r\n"
+"-Oh no!\n"
+"#The path is blocked! It\n"
+"#seems that the only way\n"
+"#leads through that dark\n"
 "#hole in the ground..."
 msgstr "-Ale ne!\n#Cesta je zablokovaná! Jako\n#jediná cesta vede skrz tuhle\n#temnou díru v zemi..."
 

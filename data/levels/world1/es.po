@@ -26,51 +26,51 @@ msgstr "Bienvenido a la Antártida"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
-"-Bonus Blocks\r\n"
-"!images/objects/bonus_block/full-0.png\r\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\r\n"
-"#\r\n"
+"-Bonus Blocks\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
+"#\n"
 "#Hit them from below to get at their contents."
 msgstr "-Bloques de Bonificación\n!images/objects/bonus_block/full-0.png\n#Los bloques de bonificación pueden contener monedas, poderes o itém especiales que te ayudar en tu búsqueda.\n#\n#Golpealos desde abajo para acceder a su contenido."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
-"-Eggs\r\n"
-"!images/powerups/egg/egg.png\r\n"
+"-Eggs\n"
+"!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Huevos\n!images/powerups/egg/egg.png\n#Los huevos hacen crecer a Tux. Luego Tux podrá destruir bloques de madera con su cabeza."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
-"-Checkpoints\r\n"
-"!images/objects/resetpoints/bell-m.png\r\n"
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr "-Puntos de control\n!images/objects/resetpoints/bell-m.png\n#Activa el punto de control. Si mueres, puedes reintentar el nivel desde aquí. Cada vez que reintentas desde un punto de control, perderás el 10 porciento de tus monedas (al menos 25 monedas)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
-"-Running\r\n"
-"!images/tiles/signs/run.png\r\n"
+"-Running\n"
+"!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Correr\n!images/tiles/signs/run.png\n#El camino frente a ti está bloqueado. Consigue un poco de velocidad antes de saltar para pasar sobre los bloques."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
-"-Fire Flower\r\n"
-"!images/powerups/fireflower/fire_flower-0.png\r\n"
+"-Fire Flower\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Flor de fuego\n!images/powerups/fireflower/fire_flower-0.png\n#La flor de fuego da a Tux la habilidad de disparar bolas de fuego."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
-"-Tux Doll\r\n"
-"!images/powerups/1up/1up.png\r\n"
+"-Tux Doll\n"
+"!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "-Muñeca Tux\n!images/powerups/1up/1up.png\n#La muñeca Tux la da a Tux 100 monedas."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
-"-Secret Areas\r\n"
+"-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
 msgstr "-Áreas Secretas\n#Muchos niveles contienen áreas secretas detrás de lo que puede parecer una pared. Busca pistar para encontrarlas."
 
@@ -184,23 +184,23 @@ msgstr "Un Tenedor en el Camino"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
-"-Switches\r\n"
-"!images/objects/switch/left-0.png\r\n"
-"!images/objects/switch/switch-0.png\r\n"
-"!images/objects/switch/right-0.png\r\n"
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
 msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\r\n"
-"!images/objects/trampoline/trampoline2-0.png\r\n"
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
 msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
-"- Climbing\r\n"
+"- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Escalando\n# ¡Tux puede escalar! Presiona la tecla flecha hacia arriba para empezar a escalar. Presiona la tecla de acción o salta para soltar."
 

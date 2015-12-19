@@ -40,7 +40,7 @@ msgstr "En deñvalijenn"
 
 #: data/levels/incubator/into_dark.stl:224
 msgid ""
-"-Hint:\r\n"
+"-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
 msgstr "-Kuzul :\n#Implijit ar vleunienn-dan evit teuziñ ar skorn"
 

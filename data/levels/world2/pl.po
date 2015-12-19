@@ -33,9 +33,9 @@ msgstr "Przełęcz górska"
 
 #: data/levels/world2/Mtn_Pass.stl:493
 msgid ""
-"- Climbing\r\n"
+"- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Wspinanie się\r\n# Tux potrafi się wspinać! Wciśnij przycisk W GÓRĘ, aby zacząć się wspinać. Wciśnij przycisk akcji lub skoku, aby się puścić. "
+msgstr "- Wspinanie się\n# Tux potrafi się wspinać! Wciśnij przycisk W GÓRĘ, aby zacząć się wspinać. Wciśnij przycisk akcji lub skoku, aby się puścić. "
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
@@ -47,12 +47,12 @@ msgstr "Tux Budowniczy"
 
 #: data/levels/world2/builder.stl:38
 msgid ""
-"-Portable Rocks:\r\n"
-"\r\n"
-"!images/help/rockhowto1.png\r\n"
-"!images/help/rockhowto2.png\r\n"
-"!images/help/rockhowto3.png\r\n"
-msgstr "-Przenośne skały:\r\n\r\n!images/help/rockhowto1.png\r\n!images/help/rockhowto2.png\r\n!images/help/rockhowto3.png\r\n"
+"-Portable Rocks:\n"
+"\n"
+"!images/help/rockhowto1.png\n"
+"!images/help/rockhowto2.png\n"
+"!images/help/rockhowto3.png\n"
+msgstr "-Przenośne skały:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -181,13 +181,13 @@ msgstr "Korzenie, drzewiaste korzenie"
 
 #: data/levels/world2/level1.stl:146
 msgid ""
-"-Hint:\r\n"
-"#If there seems to be\r\n"
-"#no way to reach a door,\r\n"
-"#remember that you might\r\n"
-"#be supposed to come out\r\n"
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
 "#of that door..."
-msgstr "-Podpowiedź:\r\n#Jeśli nie umiesz\r\n#sięgnąć drzwi,\r\n#być może nie wiesz,\r\n#że należy przez nie wyjść..."
+msgstr "-Podpowiedź:\n#Jeśli nie umiesz\n#sięgnąć drzwi,\n#być może nie wiesz,\n#że należy przez nie wyjść..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
@@ -195,12 +195,12 @@ msgstr "W dół króliczą norą"
 
 #: data/levels/world2/level2.stl:46
 msgid ""
-"-Oh no!\r\n"
-"#The path is blocked! It\r\n"
-"#seems that the only way\r\n"
-"#leads through that dark\r\n"
+"-Oh no!\n"
+"#The path is blocked! It\n"
+"#seems that the only way\n"
+"#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-O nie!\r\n#Droga jest zablokowana!\r\n#Wydaje się, że jedyna droga\r\n#prowadzi w dół\r\n#króliczej nory..."
+msgstr "-O nie!\n#Droga jest zablokowana!\n#Wydaje się, że jedyna droga\n#prowadzi w dół\n#króliczej nory..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"

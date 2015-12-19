@@ -44,7 +44,7 @@ msgstr "In die Dunkelheit"
 
 #: data/levels/incubator/into_dark.stl:224
 msgid ""
-"-Hint:\r\n"
+"-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
 msgstr "-Tipp:\n#Benutzen Sie die Feuerblume, um einen Pfad durch das Eis zu schmelzen."
 

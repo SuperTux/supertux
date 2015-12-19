@@ -42,7 +42,7 @@ msgstr "Na Escuridão"
 
 #: data/levels/incubator/into_dark.stl:224
 msgid ""
-"-Hint:\r\n"
+"-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
 msgstr "-Dica:\n#Use a flor de fogo para derreter o caminho pelo gelo."
 

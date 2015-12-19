@@ -32,51 +32,51 @@ msgstr "Üdv az Antarktiszon"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
-"-Bonus Blocks\r\n"
-"!images/objects/bonus_block/full-0.png\r\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\r\n"
-"#\r\n"
+"-Bonus Blocks\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
+"#\n"
 "#Hit them from below to get at their contents."
 msgstr "-Bónuszdobozok\n!images/objects/bonus_block/full-0.png\n#A bónuszdobozokban érmék, teljesítménynövelők és egyéb különleges dolgok lehetnek segítségedre.\n#\n#Üsd meg őket alulról, hogy megkapd a tartalmukat."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
-"-Eggs\r\n"
-"!images/powerups/egg/egg.png\r\n"
+"-Eggs\n"
+"!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Tojások\n!images/powerups/egg/egg.png\n#A tojástól Tux nagyobbra nő, így már szét tudja törni a fejével a fadobozokat is."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
-"-Checkpoints\r\n"
-"!images/objects/resetpoints/bell-m.png\r\n"
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr "-Ellenőrző pontok \n!images/objects/resetpoints/bell-m.png \n#Aktiváld az ellenőrző pontot! Ha meghalsz, akkor újrakezdheted a pályát innen. Akárhányszor újra kezded a játékot egy ellenőrző ponttól, annyiszor elveszíted az érméid 10 százalékát (legalább 25 érmét)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
-"-Running\r\n"
-"!images/tiles/signs/run.png\r\n"
+"-Running\n"
+"!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Futás\n!images/tiles/signs/run.png\n#Az út le van zárva. Neki kell futnod, hogy át tudd ugrani."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
-"-Fire Flower\r\n"
-"!images/powerups/fireflower/fire_flower-0.png\r\n"
+"-Fire Flower\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Tűzvirág\n!images/powerups/fireflower/fire_flower-0.png\n#A tűzvirág felvétele után Tux képes lesz tűzgolyókat is lőni."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
-"-Tux Doll\r\n"
-"!images/powerups/1up/1up.png\r\n"
+"-Tux Doll\n"
+"!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "-Tux-baba\n!images/powerups/1up/1up.png\n#Ha elkapod, kapsz 100 érmét."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
-"-Secret Areas\r\n"
+"-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
 msgstr "-Titkos helyek\n#Sok pályán találhatsz titkos területeket a simának tűnő falak mögött. Megtalálásukhoz figyeld az árulkodó jeleket."
 
@@ -190,23 +190,23 @@ msgstr "Egy elágazás az úton"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
-"-Switches\r\n"
-"!images/objects/switch/left-0.png\r\n"
-"!images/objects/switch/switch-0.png\r\n"
-"!images/objects/switch/right-0.png\r\n"
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
 msgstr "-Kapcsolók\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#A kapcsolók sokféle dologra használhatóak. Nyomd meg a FEL gombot a használatukhoz. Ez aktiválja a tőled jobbra lévő liftet."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\r\n"
-"!images/objects/trampoline/trampoline2-0.png\r\n"
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
 msgstr "-Ugródeszkák\n!images/objects/trampoline/trampoline2-0.png\n#Az ugródeszkák lehetővé teszik, hogy Tux magasabbra ugorhasson. Tartsd lenyomva az UGRÁS gombot miközben ugrálsz a deszkán, hogy még magasabbra juss."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
-"- Climbing\r\n"
+"- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Mászás\n# Tux tud mászni! Nyomd meg a FEL gombot a mászás elkezdéséhez. Nyomd meg az AKCIÓ gombot vagy ugorj az abbahagyásához."
 

@@ -42,7 +42,7 @@ msgstr "Do temnoty"
 
 #: data/levels/incubator/into_dark.stl:224
 msgid ""
-"-Hint:\r\n"
+"-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
 msgstr "-Tip\n#Použij ohnivou květinu, aby sis protál cestu skrz led."
 

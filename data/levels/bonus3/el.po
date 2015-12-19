@@ -49,7 +49,7 @@ msgstr "...αλλά κανένας δε μπορεί να το σταματήσ�
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:307
 msgid ""
-"-Sorry, this flying platform is lazy.\r\n"
+"-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
 msgstr ""
 
@@ -170,13 +170,13 @@ msgstr "Η Ζώνη Τουαλέτας"
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
-"- Flush: \r\n"
+"- Flush: \n"
 "#Press the up key to flush! "
 msgstr ""
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
-"- A Way out?\r\n"
+"- A Way out?\n"
 "#Let's Jump! "
 msgstr ""
 

@@ -41,9 +41,9 @@ msgstr "Inn i mørket"
 
 #: data/levels/incubator/into_dark.stl:224
 msgid ""
-"-Hint:\r\n"
+"-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr "-Hint:\r\n#Bruk eldblomen for å smelta ein sti gjennom isen."
+msgstr "-Hint:\n#Bruk eldblomen for å smelta ein sti gjennom isen."
 
 #: data/levels/incubator/into_dark.stl:230
 msgid "#Beware of fire!"

@@ -24,51 +24,51 @@ msgstr "Velkommen til Antarktis"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
-"-Bonus Blocks\r\n"
-"!images/objects/bonus_block/full-0.png\r\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\r\n"
-"#\r\n"
+"-Bonus Blocks\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
+"#\n"
 "#Hit them from below to get at their contents."
 msgstr "-Bonusblokke\n!images/objects/bonus_block/full-0.png\n#Bonusblokke kan indeholde mønter, våben eller særlige ting, som kan hjælpe dig på din vej.\n#\n#Hop op i dem fra neden for at finde ud af hvad de indeholder."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
-"-Eggs\r\n"
-"!images/powerups/egg/egg.png\r\n"
+"-Eggs\n"
+"!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Æg\n!images/powerups/egg/egg.png\n#Dette æg får Tux til at vokse sig større. Nu kan Tux smadre trækasser med sit hoved."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
-"-Checkpoints\r\n"
-"!images/objects/resetpoints/bell-m.png\r\n"
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr "-Kontrolpunkter\n!images/objects/resetpoints/bell-m.png\n#Aktiver kontrolpunktet. Hvis du dør, så kan du starte forfra på banen derfra. Hver gang du prøver igen fra et kontrolpunkt, så mister du 10 procent af dine mønster (mindst 25 mønter)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
-"-Running\r\n"
-"!images/tiles/signs/run.png\r\n"
+"-Running\n"
+"!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Løb\n!images/tiles/signs/run.png\n#Vejen er spærret. Tag tilløb inden du hopper over kasserne."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
-"-Fire Flower\r\n"
-"!images/powerups/fireflower/fire_flower-0.png\r\n"
+"-Fire Flower\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Ildblomst\n!images/powerups/fireflower/fire_flower-0.png\n#Ildblomsten gør, at Tux kan skyde med ildkugler."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
-"-Tux Doll\r\n"
-"!images/powerups/1up/1up.png\r\n"
+"-Tux Doll\n"
+"!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "-Tux-dukke\n!images/powerups/1up/1up.png\n#Tux-dukken giver Tux 100 mønter."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
-"-Secret Areas\r\n"
+"-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
 msgstr "-Hemmelige huler\n#Mange baner indeholder hemmelige huler gemt bag ved falske væge. Led efter spor for at finde dem."
 
@@ -182,23 +182,23 @@ msgstr "En gren i vejen"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
-"-Switches\r\n"
-"!images/objects/switch/left-0.png\r\n"
-"!images/objects/switch/switch-0.png\r\n"
-"!images/objects/switch/right-0.png\r\n"
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
 msgstr "-Kontakter\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Kontakter kan bruges til en række formål. Tryk på tasten op for at bruge kontakter. Denne aktiverer liften til højre for dig."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\r\n"
-"!images/objects/trampoline/trampoline2-0.png\r\n"
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
 msgstr "-Springbræt\n!images/objects/trampoline/trampoline2-0.png\n#Springbræt giver Tux mulighed for at hoppe til nye højder. Hold hop-tasten nede mens du hopper på springbrættet for at komme ekstra højt op."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
-"- Climbing\r\n"
+"- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Klatring\n# Tux kan klatre! Tryk på tasten op for at klatre. Tryk på HANDLINGS-tasten eller hop for at slippe."
 

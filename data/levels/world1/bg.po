@@ -24,51 +24,51 @@ msgstr "Добре дошли в Антарктида"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
-"-Bonus Blocks\r\n"
-"!images/objects/bonus_block/full-0.png\r\n"
-"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\r\n"
-"#\r\n"
+"-Bonus Blocks\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
+"#\n"
 "#Hit them from below to get at their contents."
 msgstr "-Блокчета с награди\n!images/objects/bonus_block/full-0.png\n#Блокчетата с награди може да съдържат монети, придобивки или специални предмети, които да ти помогнат в мисията ти.\n#\n#Удари ги отдолу, за да вземеш това, което е вътре."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
-"-Eggs\r\n"
-"!images/powerups/egg/egg.png\r\n"
+"-Eggs\n"
+"!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
 msgstr "-Яйца\n!images/powerups/egg/egg.png\n#Яйцето прави Тъкс по-голям. Когато Тъкс е голям, той може да разбива дървените блокчета с глава."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
-"-Checkpoints\r\n"
-"!images/objects/resetpoints/bell-m.png\r\n"
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr "-Контролни точки\n!images/objects/resetpoints/bell-m.png\n#Активирай контролната точка. Ако умреш, можеш да започнеш пак от тук. Всеки пък, когато се връщаш към контролна точка, ще губиш 10% от монетите си (но задължително поне 25 монети)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
-"-Running\r\n"
-"!images/tiles/signs/run.png\r\n"
+"-Running\n"
+"!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
 msgstr "-Тичане\n!images/tiles/signs/run.png\n#Пътят пред теб е препречен. Засили се, преди да скочиш, за да преминеш над блокчетата."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
-"-Fire Flower\r\n"
-"!images/powerups/fireflower/fire_flower-0.png\r\n"
+"-Fire Flower\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
 msgstr "-Огнено цвете\n!images/powerups/fireflower/fire_flower-0.png\n#Огненото цвете дава на Тъкс способността да изстрелва огнени топки."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
-"-Tux Doll\r\n"
-"!images/powerups/1up/1up.png\r\n"
+"-Tux Doll\n"
+"!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
 msgstr "-Кукла Тъкс\n!images/powerups/1up/1up.png\n#Куклата Тъкс дава 100 монети."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
-"-Secret Areas\r\n"
+"-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
 msgstr "-Тайни места\n#В много от нивата има тайни места зад на пръв поглед нормално изглеждащи стени. Оглеждай се за подсказки, за да ги откриеш."
 
@@ -182,23 +182,23 @@ msgstr "Пътят се разделя"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
-"-Switches\r\n"
-"!images/objects/switch/left-0.png\r\n"
-"!images/objects/switch/switch-0.png\r\n"
-"!images/objects/switch/right-0.png\r\n"
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
 msgstr "-Превключватели\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Превключвателите могат да правят различни неща. Натисни НАГОРЕ, за да ги използваш. Този превключвател включва асансьора вдясно."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\r\n"
-"!images/objects/trampoline/trampoline2-0.png\r\n"
+"-Spring Boards\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
 msgstr "-Трамплини\n!images/objects/trampoline/trampoline2-0.png\n#Трамплините помагат на Тъкс да скача по-високо. Задръж бутона за СКОК, докато подскачаш върху трамплина, за да скочиш още по-високо."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
-"- Climbing\r\n"
+"- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
 msgstr "- Катерене\n# Тъкс може да се катери! Натисни НАГОРЕ, за да започнеш да се катериш. Натисни ДЕЙСТВИЕ, за да скочиш или да се пуснеш."
 
