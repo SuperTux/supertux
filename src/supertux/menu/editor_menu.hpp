@@ -38,8 +38,6 @@ public:
 
   void menu_action(MenuItem* item) override;
 
-  Color c;
-
 private:
   EditorMenu(const EditorMenu&);
   EditorMenu& operator=(const EditorMenu&);
