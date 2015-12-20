@@ -187,16 +187,16 @@ IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 		LIST(GET VERSION_LIST 0 MAJOR_VERSION_GIT)
 		LIST(GET VERSION_LIST 1 MINOR_VERSION_GIT)
 		LIST(GET VERSION_LIST 2 PATCH_VERSION_GIT)
-		
+
 		IF(${VERSION_LIST_SIZE} EQUAL 5)
 			 LIST(GET VERSION_LIST 3 TWEAK_VERSION_GIT)
 			 LIST(GET VERSION_LIST 4 GIT_HASH)
 		ENDIF()
-		
+
 		CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/version.cmake.in" "${CMAKE_SOURCE_DIR}/version.cmake")
 	ENDIF(NOT GIT_EXECUTABLE EQUAL "GIT_EXECUTABLE-NOTFOUND")
 ENDIF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
-IF(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake") 
+IF(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
 	 MESSAGE( SEND_ERROR "Cound not find GIT or valid version.cmake. Version information will be invalid." )
 ENDIF(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
 INCLUDE("${CMAKE_SOURCE_DIR}/version.cmake")
@@ -526,13 +526,13 @@ IF(WIN32 AND NOT UNIX)
   SET(INSTALL_SUBDIR_BIN "bin" CACHE STRING "Installation subdir for binaries")
   SET(INSTALL_SUBDIR_SHARE "data" CACHE STRING "Installation subdir for data")
   SET(INSTALL_SUBDIR_DOC "doc" CACHE STRING "Installation subdir for docs")
-  
+
   INSTALL(FILES ${DLLS} DESTINATION ${INSTALL_SUBDIR_BIN})
 
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.ico DESTINATION ".")
-  
+
   OPTION(PACKAGE_VCREDIST "Package the VCREDIST libraries with the program" OFF)
-  
+
   IF(PACKAGE_VCREDIST)
     include(InstallRequiredSystemLibraries)
     INSTALL(FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} DESTINATION ${INSTALL_SUBDIR_BIN})
@@ -553,7 +553,7 @@ ELSE(WIN32 AND NOT UNIX)
   SET(INSTALL_SUBDIR_DOC "share/doc/supertux2" CACHE STRING "Installation subdir for docs")
 
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.desktop DESTINATION "share/applications")
-  
+
   SET(APPS "\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${INSTALL_SUBDIR_BIN}/supertux2")
 
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
@@ -603,13 +603,13 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         get_filename_component(_resolvedFile "${_file}" REALPATH)
         get_filename_component(_name "${_file}" NAME)
 	INSTALL(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-    endforeach()    
+    endforeach()
     FIND_PACKAGE(jpeg)
     foreach (_file ${JPEG_LIBRARIES})
         get_filename_component(_resolvedFile "${_file}" REALPATH)
         get_filename_component(_name "${_file}" NAME)
 	INSTALL(FILES ${_resolvedFile} DESTINATION "MacOS" RENAME ${_name})
-    endforeach()    
+    endforeach()
 
     INSTALL(CODE "
        if(\"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/\" MATCHES \".*\\\\.app.*\")
@@ -617,7 +617,7 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
        fixup_bundle(\"${APPS}\"   \"\"   \"${DIRS}\")
        endif()
        ")
-    
+
     CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in" "${CMAKE_BINARY_DIR}/tools/darwin/info.plist")
 
     SET(CPACK_BUNDLE_NAME "SuperTux")
@@ -644,12 +644,8 @@ SET(CPACK_RPM_PACKAGE_NAME "supertux2")
 SET(CPACK_RPM_PACKAGE_DESCRIPTION "Classic 2D jump 'n run sidescroller with Tux\n SuperTux is a classic 2D jump 'n run sidescroller game in a similar\n style like the original SuperMario games. This release of SuperTux\n features 9 enemies, 26 playable levels, software and OpenGL rendering\n modes, configurable joystick and keyboard input, new music and\n completely redone graphics.\n .\n This is a development snapshot of SuperTux. It may suffer from\n critical bugs and has not been fully tested. \n .\n Homepage: http://supertux.lethargik.org/")
 SET(CPACK_RPM_PACKAGE_LICENSE "GNU General Public License (GPL)")
 SET(CPACK_RPM_PACKAGE_GROUP "Amusements/Games/Action/Arcade")
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  # The OS X PackageMaker doesn't seem to like files with no extension
-ELSE(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
-  SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
 SET(CPACK_PACKAGE_VERSION_MAJOR ${SUPERTUX_VERSION_MAJOR})
 SET(CPACK_PACKAGE_VERSION_MINOR ${SUPERTUX_VERSION_MINOR})
 
