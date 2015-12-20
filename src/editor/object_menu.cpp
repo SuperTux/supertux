@@ -20,6 +20,7 @@
 #include "editor/object_settings.hpp"
 #include "supertux/game_object.hpp"
 #include "util/gettext.hpp"
+#include "video/color.hpp"
 
 ObjectMenu::ObjectMenu(GameObject *go) :
   object(go)
@@ -44,6 +45,9 @@ ObjectMenu::ObjectMenu(GameObject *go) :
         break;
       case MN_STRINGSELECT:
         add_string_select(-1, oo->text, (size_t*)oo->option, oo->select);
+        break;
+      case MN_COLOR:
+        add_color(oo->text, (Color*)oo->option);
         break;
       default:
         break;

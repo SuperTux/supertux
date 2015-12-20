@@ -30,6 +30,7 @@ enum MenuItemKind {
   MN_CONTROLFIELD,
   MN_STRINGSELECT,
   MN_LABEL,
+  MN_COLOR,
   MN_HL /* horizontal line */
 };
 

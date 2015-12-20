@@ -117,6 +117,14 @@ Gradient::get_settings() {
   ObjectSettings result(_("Gradient"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
 
+  if (gradient_direction == HORIZONTAL || gradient_direction == HORIZONTAL_SECTOR) {
+    result.options.push_back( ObjectOption(MN_COLOR, _("Left Colour"), &gradient_top));
+    result.options.push_back( ObjectOption(MN_COLOR, _("Right Colour"), &gradient_bottom));
+  } else {
+    result.options.push_back( ObjectOption(MN_COLOR, _("Top Colour"), &gradient_top));
+    result.options.push_back( ObjectOption(MN_COLOR, _("Bottom Colour"), &gradient_bottom));
+  }
+
   ObjectOption doo(MN_STRINGSELECT, _("Direction"), &gradient_direction);
   doo.select.push_back(_("vertical"));
   doo.select.push_back(_("horizontal"));
