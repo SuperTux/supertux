@@ -113,9 +113,7 @@
 	Devyn Collier Johnson
  Graphics
 	David King
- Code contribution
-	David King
- AppData file
+ Code contribution, AppData file
 	Jonas Kuemmerlin
  Bug fix
 	mahboi
