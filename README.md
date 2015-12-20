@@ -3,7 +3,7 @@
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/4025/badge.svg)](https://scan.coverity.com/projects/4025)
 SuperTux - <http://supertuxproject.org/>
 ===========================================
-Last update: February 26, 2010
+Last update: December 20, 2015
 
 Description
 -----------
