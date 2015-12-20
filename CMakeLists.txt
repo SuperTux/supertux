@@ -521,6 +521,7 @@ endif()
 
 ## Install stuff
 
+OPTION(DISABLE_CPACK_BUNDLING "Build an .app bundle without CPack" OFF)
 IF(WIN32 AND NOT UNIX)
 
   SET(INSTALL_SUBDIR_BIN "bin" CACHE STRING "Installation subdir for binaries")
@@ -547,6 +548,21 @@ IF(WIN32 AND NOT UNIX)
   ENDIF()
 
 ELSE(WIN32 AND NOT UNIX)
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
+
+  SET(INFOPLIST_CFBUNDLEEXECUTABLE "supertux2")
+
+  SET(INSTALL_SUBDIR_BIN "SuperTux.app/Contents/MacOS" CACHE STRING "Installation subdir for binaries")
+  SET(INSTALL_SUBDIR_SHARE "SuperTux.app/Contents/Resources/data" CACHE STRING "Installation subdir for data")
+  SET(INSTALL_SUBDIR_DOC "SuperTux.app/Contents/Resources" CACHE STRING "Installation subdir for docs")
+
+  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/info.plist.in ${CMAKE_BINARY_DIR}/tools/darwin/info.plist)
+  INSTALL(FILES ${CMAKE_BINARY_DIR}/tools/darwin/info.plist DESTINATION "SuperTux.app/Contents/")
+  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/tools/darwin/receipt DESTINATION "SuperTux.app/Contents/_MASReceipt/")
+
+  INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.icns DESTINATION "SuperTux.app/Contents/Resources/")
+
+ELSE(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
 
   SET(INSTALL_SUBDIR_BIN "games" CACHE STRING "Installation subdir for binaries")
   SET(INSTALL_SUBDIR_SHARE "share/games/supertux2" CACHE STRING "Installation subdir for data")
@@ -558,6 +574,7 @@ ELSE(WIN32 AND NOT UNIX)
 
   INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.png ${CMAKE_CURRENT_SOURCE_DIR}/data/images/engine/icons/supertux.xpm DESTINATION "share/pixmaps/")
 
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND DISABLE_CPACK_BUNDLING)
 ENDIF(WIN32 AND NOT UNIX)
 
 INSTALL(TARGETS supertux2_exe DESTINATION ${INSTALL_SUBDIR_BIN})
@@ -597,7 +614,9 @@ configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 INCLUDE(InstallRequiredSystemLibraries)
 SET(DIRS ${Boost_LIBRARY_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/external/squirrel ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext)
 
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
+    SET(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
+
     FIND_PACKAGE(png)
     foreach (_file ${PNG_LIBRARIES})
         get_filename_component(_resolvedFile "${_file}" REALPATH)
