@@ -68,6 +68,7 @@ ObjectSettings
 Spotlight::get_settings() {
   ObjectSettings result(_("Spotlight"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &color));
 
   return result;
 }

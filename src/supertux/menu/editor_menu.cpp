@@ -26,8 +26,7 @@
 #include "util/gettext.hpp"
 #include "video/color.hpp"
 
-EditorMenu::EditorMenu() :
-  c(0, 0, 0)
+EditorMenu::EditorMenu()
 {
   add_label(_("Level Editor"));
   add_hl();
@@ -37,7 +36,6 @@ EditorMenu::EditorMenu() :
   add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
   add_hl();
   add_entry(MNID_QUITEDITOR, _("Exit level editor"));
-  add_color("Color tester", &c);
 }
 
 void
