@@ -1,6 +1,7 @@
 #!/bin/sh
 
 ST_VERSION=`grep '^SET(SUPERTUX_VERSION' CMakeLists.txt | sed -e 's/SET(SUPERTUX_VERSION "\([^"]\+\)")/\1/'`
+ST_VERSION=`git describe --tags | sed 's/^v//' | awk -F- '{print $1"-"$2;}'`
 DISTDIR="supertux-$ST_VERSION"
 
 if test -e "$DISTDIR"
