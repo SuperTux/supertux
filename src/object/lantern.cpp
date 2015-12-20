@@ -65,6 +65,7 @@ ObjectSettings
 Lantern::get_settings() {
   ObjectSettings result(_("Lantern"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor));
 
   return result;
 }
