@@ -3775,6 +3775,36 @@ static SQInteger gotoend_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger warp_wrapper(HSQUIRRELVM vm)
+{
+  SQFloat arg0;
+  SQFloat arg1;
+
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::warp(static_cast<float> (arg0), static_cast<float> (arg1));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'warp'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger camera_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
@@ -4684,6 +4714,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'gotoend'");
+  }
+
+  sq_pushstring(v, "warp", -1);
+  sq_newclosure(v, &warp_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'warp'");
   }
 
   sq_pushstring(v, "camera", -1);
