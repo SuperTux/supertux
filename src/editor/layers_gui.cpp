@@ -18,10 +18,13 @@
 
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
+#include "editor/object_menu.hpp"
 #include "editor/tip.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
 #include "object/tilemap.hpp"
+#include "gui/menu.hpp"
+#include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/colorscheme.hpp"
@@ -127,12 +130,18 @@ EditorLayersGui::event(SDL_Event& ev) {
             if (hovered_layer >= layers.size()) {
               break;
             }
-            if ( layers[hovered_layer]->is_tilemap ) {
-              if (selected_tilemap) {
-                ((TileMap*)selected_tilemap)->editor_active = false;
+            if (InputManager::current()->get_controller()->hold(Controller::ACTION)) {
+              std::unique_ptr<Menu> om(new ObjectMenu(layers[hovered_layer]->layer));
+              Editor::current()->deactivate_request = true;
+              MenuManager::instance().push_menu(move(om));
+            } else {
+              if ( layers[hovered_layer]->is_tilemap ) {
+                if (selected_tilemap) {
+                  ((TileMap*)selected_tilemap)->editor_active = false;
+                }
+                selected_tilemap = layers[hovered_layer]->layer;
+                ((TileMap*)selected_tilemap)->editor_active = true;
               }
-              selected_tilemap = layers[hovered_layer]->layer;
-              ((TileMap*)selected_tilemap)->editor_active = true;
             }
             break;
           default:
