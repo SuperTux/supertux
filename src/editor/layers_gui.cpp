@@ -18,6 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
+#include "editor/tip.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
 #include "object/tilemap.hpp"
@@ -43,7 +44,8 @@ EditorLayersGui::EditorLayersGui() :
   sector_text(),
   sector_text_width(0),
   hovered_item(HI_NONE),
-  hovered_layer(-1)
+  hovered_layer(-1),
+  object_tip()
 {
 }
 
@@ -53,6 +55,11 @@ EditorLayersGui::~EditorLayersGui()
 
 void
 EditorLayersGui::draw(DrawingContext& context) {
+
+  if (object_tip) {
+    object_tip->draw_up(context, get_layer_coords(hovered_layer));
+  }
+
   context.draw_filled_rect(Rectf(Vector(0, Ypos), Vector(Width, SCREEN_HEIGHT)),
                            Color(0.9f, 0.9f, 1.0f, 0.6f),
                            0.0f,
@@ -105,6 +112,7 @@ EditorLayersGui::update(float elapsed_time) {
 
 bool
 EditorLayersGui::event(SDL_Event& ev) {
+  object_tip = NULL;
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     {
@@ -116,6 +124,9 @@ EditorLayersGui::event(SDL_Event& ev) {
             MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
             break;
           case HI_LAYERS:
+            if (hovered_layer >= layers.size()) {
+              break;
+            }
             if ( layers[hovered_layer]->is_tilemap ) {
               if (selected_tilemap) {
                 ((TileMap*)selected_tilemap)->editor_active = false;
@@ -151,6 +162,7 @@ EditorLayersGui::event(SDL_Event& ev) {
         } else {
           hovered_item = HI_LAYERS;
           hovered_layer = get_layer_pos(mouse_pos);
+          update_tip();
         }
       }
     }
@@ -193,6 +205,15 @@ EditorLayersGui::add_layer(GameObject* layer) {
     }
   }
   layers.push_back(move(icon));
+}
+
+void
+EditorLayersGui::update_tip() {
+  if ( hovered_layer >= layers.size() ) {
+    return;
+  }
+  std::unique_ptr<Tip> new_tip(new Tip(layers[hovered_layer]->layer));
+  object_tip = move(new_tip);
 }
 
 Vector

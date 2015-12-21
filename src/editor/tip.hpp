@@ -29,6 +29,7 @@ class Tip
     ~Tip();
 
     void draw(DrawingContext& context, Vector pos);
+    void draw_up(DrawingContext& context, Vector pos);
 
   private:
     std::vector<std::string> strings;
