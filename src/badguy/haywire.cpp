@@ -56,18 +56,6 @@ Haywire::Haywire(const Reader& reader) :
   sprite = SpriteManager::current()->create( sprite_name );
 }
 
-HitResponse
-Haywire::collision(GameObject& object, const CollisionHit& hit)
-{
-  return WalkingBadguy::collision(object, hit);
-}
-
-HitResponse
-Haywire::collision_player(Player& player, const CollisionHit& hit)
-{
-  return WalkingBadguy::collision_player(player, hit);
-}
-
 bool
 Haywire::collision_squished(GameObject& object)
 {
