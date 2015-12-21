@@ -91,4 +91,9 @@ Tip::draw(DrawingContext& context, Vector pos) {
   }
 }
 
+void
+Tip::draw_up(DrawingContext& context, Vector pos) {
+  draw(context, Vector(pos.x, pos.y - (strings.size()+1)*22 ));
+}
+
 /* EOF */

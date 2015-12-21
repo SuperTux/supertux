@@ -25,6 +25,7 @@
 class LayerIcon;
 class GameObject;
 class Vector;
+class Tip;
 
 class EditorLayersGui
 {
@@ -55,13 +56,16 @@ class EditorLayersGui
 
     Vector get_layer_coords(const int pos);
     int get_layer_pos(const Vector coords);
+    void update_tip();
 
     typedef enum {
       HI_NONE, HI_SPAWNPOINTS, HI_SECTOR, HI_LAYERS
     }HoveredItem;
 
     HoveredItem hovered_item;
-    int hovered_layer;
+    unsigned int hovered_layer;
+
+    std::unique_ptr<Tip> object_tip;
 
     EditorLayersGui(const EditorLayersGui&);
     EditorLayersGui& operator=(const EditorLayersGui&);
