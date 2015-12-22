@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:36+0000\n"
-"Last-Translator: Mihail Varantsou <meequz@gmail.com>\n"
+"POT-Creation-Date: 2015-11-21 12:40+0100\n"
+"PO-Revision-Date: 2015-11-22 09:04+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Belarusian (http://www.transifex.com/arctic-games/supertux/language/be/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -78,7 +78,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Віншуем!\n\n#Вы паспяхова скончылі\n#Бонусную выспу I.\n\n\tузроўні рабілі:\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Калі вы не скончылі яшчэ ўсе ўзроўні,\n#вярніцеся дахаты і абярыце\n#новы шлях. Там вас чакае яшчэ шмат\n#выпрабаванняў!\n\n#Да таго ж там ёсць таемны ўзровень...\n\n#Вялікі дзякуй усім, хто зрабіў унёсак\n#у гэты выпуск. Спадзяемся,\n#вам спадабалася!"
+msgstr ""
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -102,11 +102,15 @@ msgstr "Нягоднікі смуродзяць!"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
-msgstr "Добры пачатак"
+msgstr ""
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
 msgstr "Занадта лёгка"
+
+#: data/levels/bonus1/torfi-level2.stl:42
+msgid "#All these levels were upgraded to milestone 2 design by Hume2."
+msgstr ""
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"

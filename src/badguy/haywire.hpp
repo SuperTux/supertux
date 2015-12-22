@@ -29,8 +29,6 @@ public:
 
   void kill_fall();
   void ignite();
-  HitResponse collision(GameObject& object, const CollisionHit& hit);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
 
   void active_update(float elapsed_time);
 

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:36+0000\n"
+"POT-Creation-Date: 2015-11-21 12:40+0100\n"
+"PO-Revision-Date: 2015-11-22 12:32+0000\n"
 "Last-Translator: Max Lyashuk <m_lyashuk@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/arctic-games/supertux/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgstr "Брама замку"
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
-msgstr ""
+msgstr "Довгий шлях до дому"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
@@ -109,6 +109,10 @@ msgstr "Хороший початок"
 msgid "Too easy"
 msgstr "Надто просто"
 
+#: data/levels/bonus1/torfi-level2.stl:42
+msgid "#All these levels were upgraded to milestone 2 design by Hume2."
+msgstr ""
+
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
 msgstr "Досі надто просто"
@@ -131,7 +135,7 @@ msgstr ""
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
-msgstr ""
+msgstr "Видима частина айсберга"
 
 #: data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
@@ -155,7 +159,7 @@ msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
-msgstr ""
+msgstr "Покинути острів команди SuperTux"
 
 #: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
@@ -179,7 +183,7 @@ msgstr ""
 
 #: data/levels/bonus1/worldmap.stwm:83
 msgid "Warp home"
-msgstr ""
+msgstr "Викривлений дім"
 
 #: data/levels/bonus1/worldmap.stwm:97
 msgid "Warp to the SuperTux Team Island"

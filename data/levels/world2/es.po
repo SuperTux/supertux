@@ -1,14 +1,18 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # Fran <franchulo021@gmail.com>, 2015
 # Germana <germanaoliveirab@gmail.com>, 2013
+# William Beltrán <wbeltranc@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-11 19:04+0000\n"
-"Last-Translator: Fran <franchulo021@gmail.com>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-12-17 03:27+0000\n"
+"Last-Translator: William Beltrán <wbeltranc@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +26,7 @@ msgstr "Camino inestable"
 
 #: data/levels/world2/Mtn_Pass.stl:3
 msgid "The Mountain Pass"
-msgstr ""
+msgstr "El Paso de la Montaña"
 
 #: data/levels/world2/Mtn_Pass.stl:493
 msgid ""
@@ -54,7 +58,7 @@ msgstr "Fortaleza de Hielo"
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr ""
+msgstr "NOLOK"
 
 #: data/levels/world2/christoph1.stl:3
 msgid "Bouncy Coils"
@@ -180,7 +184,7 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-Consejo:\n#Si pareciera no haber manera\n#de alcanzar una puerta,\n#recuerda que presuntamente \n#podrías salir\n#de esa puerta..."
+msgstr "-Consejo:\n#Si pareciera no haber\n#manera de alcanzar una puerta,\n#recuerda que presuntamente \n#podrías salir\n#de esa puerta..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
@@ -193,7 +197,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-Oh no!\n#¡El camino está bloqueado!\n#parece que el único camino\n#te lleva a través de ese\n#oscuro hoyo en la tierra..."
+msgstr "-Oh no!\n#¡El camino está bloqueado!\n#parece que el único camino\n#te lleva a través de ese oscuro\n#hoyo en la tierra..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"

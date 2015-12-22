@@ -1,14 +1,38 @@
 SuperTux Release and Development Notes
 ======================================
 
-SuperTux 0.4.0 (TBD)
+SuperTux 0.4.0 (2015-12-20)
 ----------------------------
 
-Tracking changes of next release (0.4.0):
-* support for horizontal and vertical gradients
-that span the length / height of a sector. Add
-(direction "horizontal\_sector / vertical\_sector") to your gradient
+Compared to 0.1.3, this release features:
 
+* a nearly completely rewritten game engine based on OpenGL, OpenAL, SDL2, ...
+* support for translations
+* in-game manager for downloadable add-ons and translations
+* Bonus Island III, a for now unfinished Forest Island and the development levels in Incubator Island
+* a final boss in Icy Island
+* new and improved soundtracks and sound effects
+* new badguys, bonuses and power-ups (air-, earth- and ice-flower)
+* a halloween tilemap
+* new graphic effects (glowing objects, particles, ...)
+* levels and worldmaps are scriptable using [squirrel](http://squirrel-lang.org/)
+* much more game objects: trampolines, switches, portable stones, wind, moving platforms, ... - most of them have scripting APIs
+* improved statistics
+* many invisible changes, like unit tests, efficiency improvements and more bugfixes
+* much more...
+
+Compared to the latest beta, 0.3.5a, this release features:
+
+* updated translations
+* reworked add-on manager to support downloadable and updatable localization packs
+* many bugfixes
+* added iced-graphics to some more badguys
+* melting animation for some badguys
+* updated more levels (fix playability, ...)
+* updated build system, featuring unit tests, libraries as git submodules and improved Travis-CI builds to support nightly builds
+* more levels in Incubator Island
+* support for horizontal and vertical gradients that span the length / height of a sector. Add `(direction "horizontal_sector / vertical_sector")` to your gradient.
+* much more...
 
 SuperTux 0.3.5a (2015-05-01)
 ----------------------------

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-21 20:36+0000\n"
+"Last-Translator: Дмитрий <starwars32@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,23 +31,31 @@ msgstr "Вишнёвая Глазурь"
 msgid "Mad Ysonn Cube Garden"
 msgstr ""
 
+#: data/levels/incubator/frozen_fissure.stl:3
+msgid "Frozen Fissure"
+msgstr "Ледяная Щель"
+
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
-msgstr ""
+msgstr "В темноту"
 
 #: data/levels/incubator/into_dark.stl:224
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr ""
+msgstr "-Подсказка:\n#Используй огненный цветок чтобы растопить путь сквозь лёд."
 
 #: data/levels/incubator/into_dark.stl:230
 msgid "#Beware of fire!"
-msgstr ""
+msgstr "#Берегись огня!"
 
 #: data/levels/incubator/jagged_path.stl:3
 msgid "The Jagged Path"
 msgstr "Неровный Путь"
+
+#: data/levels/incubator/midnight_crossing.stl:3
+msgid "Midnight Crossing"
+msgstr "Полуночный Переход"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
@@ -55,15 +63,19 @@ msgstr "Не такой уж и длинный путь"
 
 #: data/levels/incubator/obstaclecourse.stl:3
 msgid "Obstacle Course"
-msgstr ""
+msgstr "Полоса Препятствий"
 
 #: data/levels/incubator/obstaclecourse.stl:48
 msgid "#If you get stuck, flip the switch to kill Tux."
-msgstr ""
+msgstr "#Если вы застряли, щелкните выключателем, чтобы убить Тукса."
+
+#: data/levels/incubator/pipeline.stl:3
+msgid "Pipeline"
+msgstr "Трубопровод"
 
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"
-msgstr ""
+msgstr "Готов Действовать"
 
 #: data/levels/incubator/worldmap.stwm:3
 msgid "Incubator Island"

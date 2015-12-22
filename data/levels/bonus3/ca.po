@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Prisma Traduccions <maceleiro@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 09:03+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Catalan (http://www.transifex.com/arctic-games/supertux/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -27,15 +28,15 @@ msgstr ""
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
-msgstr ""
+msgstr "Una nit en el cel"
 
 #: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
-msgstr ""
+msgstr "El castell abandonat"
 
 #: data/levels/bonus3/another_cold_day.stl:3
 msgid "Another cold day"
-msgstr ""
+msgstr "Un altre dia fred"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Antarctic rain"
@@ -100,7 +101,7 @@ msgstr ""
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
 msgid "The dark castle"
-msgstr ""
+msgstr "El castell fosc"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
@@ -216,7 +217,7 @@ msgstr "Sota el gel"
 
 #: data/levels/bonus3/worldmap.stwm:3
 msgid "Bonus Island III"
-msgstr ""
+msgstr "Illa de bonificació III"
 
 #: data/levels/bonus3/worldmap.stwm:12
 msgid "You found a secret place!"
@@ -224,8 +225,8 @@ msgstr "Has trobat un lloc secret!"
 
 #: data/levels/bonus3/worldmap.stwm:20
 msgid "Congratulations... you found the secret pathway!"
-msgstr ""
+msgstr "Felicitats... has trobat un camí secret!"
 
 #: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
 msgid "Go Home"
-msgstr ""
+msgstr "Anar a casa"

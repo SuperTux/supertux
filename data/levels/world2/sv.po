@@ -1,3 +1,6 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # Arvid Norlander <anmaster@berlios.de>, 2006-2010
@@ -6,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 09:03+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Swedish (http://www.transifex.com/arctic-games/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +48,7 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr "-Bärbara stenar:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+msgstr ""
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -180,7 +183,7 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-Tips:\n#Om det inte verkar\n#finnas något sätt\n#att komma åt en dörr\n#kom då ihåg att du kanske\n#skulle komma ut\n#från den dörren...."
+msgstr ""
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
@@ -193,7 +196,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-Åh nej!\n#Genvägen är blockerad! Det\n#verkar som att den enda rätta\n#vägen leder genom det där\n#mörka hålet i marken..."
+msgstr ""
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"

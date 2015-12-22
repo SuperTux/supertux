@@ -1,16 +1,16 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
-# Prisma Traduccions <maceleiro@gmail.com>, 2014
+# Marc Celeiro <maceleiro@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:38+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-29 18:41+0100\n"
+"PO-Revision-Date: 2015-12-19 21:04+0000\n"
+"Last-Translator: Marc Celeiro <maceleiro@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/arctic-games/supertux/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "Benvingut a Antàrtida"
+msgstr "Benvingut a l'Antàrtida"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
@@ -36,21 +36,21 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Ous\n!images/powerups/egg/egg.png\n#Els ous fan que en Tux es faci gran. En Tux pot trencar blocs de fusta amb el seu cap."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
-msgstr "-Punts de control\n!images/objects/resetpoints/bell-m.png\n#Activa el punt de control. Si mors, pot reintentar el nivell a partir d'aquí. Cada vegada que tornis a intentar-ho des d'un punt de control, perdràs almenys 25 monedes."
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
+msgstr "-Punts de control\n!images/objects/resetpoints/bell-m.png\n#Activa el punt de control. Si mors, pot reintentar el nivell a partir d'aquí. Cada vegada que tornis a intentar-ho des d'un punt de control, perdràs el 10 per cent de les teves monedes (almenys 25 monedes)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Còrrer\n!images/tiles/signs/run.png\n#Davant teu, el camí està bloquejat. Guanya una mica de velocitat abans de saltar per passar per sobre dels blocs."
+msgstr "-A còrrer!\n!images/tiles/signs/run.png\n#Davant teu, el camí està bloquejat. Guanya una mica de velocitat abans de saltar per passar per sobre dels blocs."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
@@ -76,8 +76,7 @@ msgstr "-Llocs secrets\n#Molts nivells contenen llocs secrets darrere del que se
 msgid "The Journey Begins"
 msgstr "L'Aventrua comença"
 
-#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
-#: Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostàlgica"
 
@@ -210,6 +209,48 @@ msgstr "Nivell de bonificació"
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Pícnic amb Penny"
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid ""
+"Somewhere at the shores\n"
+"of Antarctica..."
+msgstr "En algun lloc de les costes\nde l'Antàrtida..."
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux: Hello Penny"
+msgstr "Tux: Hola Penny"
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Penny: Hey Tux"
+msgstr "Penny: Ei Tux"
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid "Tux: Check out my dance moves."
+msgstr "Tux: Observa els meus moviments de ball."
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "Tux: Oww... my head..."
+msgstr "Tux: Oh... el meu cap..."
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "Tux: Wait!"
+msgstr "Tux: Espera't!"
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid "Tux: Penny!"
+msgstr "Tux: Penny!"
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid "Tux: Where are you, Penny?!"
+msgstr "Tux: On ets, Penny?!"
+
+#: data/levels/world1/scripts_intro.txt:11
+msgid "Tux: Oh no..."
+msgstr "Tux: Oh no..."
+
+#: data/levels/world1/scripts_intro.txt:12
+msgid "Tux: Don't worry, Penny, I'll rescue you!"
+msgstr "Tux: No et preocupis, Penny, que et salvaré!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"

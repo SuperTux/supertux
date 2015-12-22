@@ -3,18 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Wuzzy <almikes@aol.com>, 2015
 # Ettore Atalan <atalanttore@googlemail.com>, 2015
 # Marcel Haring, 2014
 # Nils Welzk, 2013
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2013-2014
-# Tobias Markus <tobbi@mozilla-uk.org>, 2013-2014
+# Tobias Markus <tobbi@mozilla-uk.org>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:38+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-12-13 11:13+0000\n"
+"Last-Translator: Wuzzy <almikes@aol.com>\n"
 "Language-Team: German (http://www.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,17 +49,17 @@ msgstr "Antarktischer Regen"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
-msgstr "...doch Niemand kann es aufhalten..."
+msgstr "… doch niemand kann es aufhalten..."
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:307
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr "-Entschuldige, diese Flugplattform ist faul.\n-Komm später wieder."
+msgstr "-Entschuldigung, diese Flugplattform ist faul.\n-Kommen Sie später wieder."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr "Du kannst nicht höher als die Wolken klettern..."
+msgstr "Man kann nicht höher als die Wolken klettern …"
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
@@ -76,7 +77,7 @@ msgstr "Kalte Höhle"
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr "#Gut gemacht! Du hast die rote Laterne mitgenommen! Das wäre nicht nötig gewesen, aber dafür kriegst du jetzt 100 Münzen!"
+msgstr "#Gut gemacht! Sie haben die rote Laterne mitgenommen! Das wäre nicht nötig gewesen, aber dafür kriegen Sie jetzt 100 Münzen!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
@@ -109,11 +110,11 @@ msgstr "Die dunkle Burg"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
-msgstr "Tief, tiefer..."
+msgstr "Tief, tiefer …"
 
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
-msgstr "... am tiefsten!"
+msgstr "… am tiefsten!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
@@ -121,7 +122,7 @@ msgstr "Kreise"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr "Verpasse nicht Deine Fahrt"
+msgstr "Verpassen Sie nicht die Fahrt"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
@@ -175,13 +176,13 @@ msgstr "Die Toilettenzone"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr "- Spülung: ⏎\n#Drück den Knopf um zu spülen!"
+msgstr "- Spülung: \n#Drücken Sie die Hoch-Taste, um zu spülen! "
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr "- Ein Weg hinaus?⏎\n#Lass uns Springen!"
+msgstr "- Ein Weg hinaus?\n#Lass uns springen! "
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
@@ -193,7 +194,7 @@ msgstr "Rosa Schnee"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
-msgstr "Alarmstufe ROT! Der Wald brennt!"
+msgstr "Alarmstufe rot! Der Wald brennt!"
 
 #: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
@@ -201,11 +202,11 @@ msgstr "Fluchtweg: Abwasserkanal"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
-msgstr "Regnen oder nicht regnen - Das ist hier die Frage"
+msgstr "Regnen oder nicht regnen – Das ist hier die Frage"
 
 #: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
-msgstr "Regnen oder nicht regnen - Das ist hier die Frage (Antarktisch)"
+msgstr "Regnen oder nicht regnen – Das ist hier die Frage (Antarktisch)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
@@ -225,11 +226,11 @@ msgstr "Bonus-Insel III"
 
 #: data/levels/bonus3/worldmap.stwm:12
 msgid "You found a secret place!"
-msgstr "Du hast einen geheimen Platz gefunden!"
+msgstr "Sie haben einen geheimen Ort gefunden!"
 
 #: data/levels/bonus3/worldmap.stwm:20
 msgid "Congratulations... you found the secret pathway!"
-msgstr "Herzlichen Glückwunsch... Du hast den geheimen Pfad gefunden!"
+msgstr "Herzlichen Glückwunsch … Sie heben den geheimen Pfad gefunden!"
 
 #: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
 msgid "Go Home"

@@ -39,7 +39,7 @@ public:
     is_playing = false;
   }
 
-  virtual bool playing()
+  virtual bool playing() const
   {
     return is_playing;
   }

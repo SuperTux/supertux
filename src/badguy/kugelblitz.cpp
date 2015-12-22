@@ -45,7 +45,7 @@ Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
   light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
-  reader.get("x", start_position.x);
+  start_position.x = bbox.p1.x;
   sprite->set_action("falling");
   physic.enable_gravity(false);
   countMe = false;

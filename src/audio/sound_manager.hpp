@@ -101,7 +101,7 @@ private:
   static ALuint load_file_into_buffer(SoundFile& file);
   static ALenum get_sample_format(const SoundFile& file);
 
-  void print_openal_version();
+  static void print_openal_version();
   void check_alc_error(const char* message);
   static void check_al_error(const char* message);
 

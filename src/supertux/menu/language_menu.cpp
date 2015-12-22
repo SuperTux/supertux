@@ -23,6 +23,8 @@ extern "C" {
 #include "addon/addon_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/menu/addon_menu.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 
@@ -84,12 +86,12 @@ LanguageMenu::menu_action(MenuItem* item)
         g_config->locale = i->str();
         g_dictionary_manager->set_language(*i);
         g_config->save();
-        AddonManager::current()->check_for_langpack_updates();
-        MenuManager::instance().clear_menu_stack();
         break;
       }
     }
   }
+  if(g_dictionary_manager->get_language().get_language() != "en")
+    MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU);
 }
 
 /* EOF */

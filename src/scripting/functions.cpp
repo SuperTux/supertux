@@ -297,6 +297,16 @@ void gotoend()
     Vector(tux->get_pos().x, tux->get_pos().y));
 }
 
+void warp(float offset_x, float offset_y)
+{
+  if (!validate_sector_player()) return;
+  ::Player* tux = Sector::current()->player;
+  tux->move(Vector(
+              tux->get_pos().x + (offset_x*32), tux->get_pos().y - (offset_y*32)));
+  Sector::current()->camera->reset(
+    Vector(tux->get_pos().x, tux->get_pos().y));
+}
+
 void camera()
 {
   if (!validate_sector_player()) return;

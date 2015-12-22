@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 04:14+0000\n"
-"Last-Translator: Wuzzy <almikes@aol.com>\n"
+"POT-Creation-Date: 2015-11-29 18:41+0100\n"
+"PO-Revision-Date: 2015-11-29 18:43+0000\n"
+"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
 "Language-Team: Lojban (http://www.transifex.com/arctic-games/supertux/language/jbo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +42,7 @@ msgstr ""
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
 msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
@@ -57,14 +57,14 @@ msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-ni'oni'o lo'e fagri xrula\n!images/powerups/fireflower/fire_flower-0.png\n#ni'o lo'e fagri xrula cu sabji lo ka ce'u kakne lo nu cecla lo fagri bolci kei kei la tuks"
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-ni'oni'o lo bambola pe la tuks\n!images/powerups/1up/1up.png\n#ni'o lo bambola pe la tuks cu sabji lo panono sivni la tuks"
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
@@ -76,8 +76,7 @@ msgstr ""
 msgid "The Journey Begins"
 msgstr "lo nu litru cu cfari"
 
-#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
-#: Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "la nostalgi'as."
 
@@ -188,7 +187,7 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "-ni'oni'o lo vraga\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#ni'o lo vraga cu tutci so'e da .i ko da'ergau le galtu batke tezu'e lo nu pilno lo vraga .i ti vraga lo nu narca'acadgau lo lafmi'u ri'u do"
+msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
@@ -201,7 +200,7 @@ msgstr ""
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- ni'oni'o lo si'o cpare\n# ni'o la tuks ka'e cpare .i ko da'ergau le galtu batke tezu'e lo nu co'a cpare .i ko da'ergau le zukte ja plipe batke tezu'e lo nu toljgari"
+msgstr ""
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
@@ -209,6 +208,48 @@ msgstr ""
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid ""
+"Somewhere at the shores\n"
+"of Antarctica..."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux: Hello Penny"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Penny: Hey Tux"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid "Tux: Check out my dance moves."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "Tux: Oww... my head..."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "Tux: Wait!"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid "Tux: Penny!"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid "Tux: Where are you, Penny?!"
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:11
+msgid "Tux: Oh no..."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:12
+msgid "Tux: Don't worry, Penny, I'll rescue you!"
 msgstr ""
 
 #: data/levels/world1/worldmap.stwm:3

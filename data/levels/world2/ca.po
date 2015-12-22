@@ -1,12 +1,15 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Prisma Traduccions <maceleiro@gmail.com>, 2014
+# Prisma Traduccions <maceleiro@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 09:03+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Catalan (http://www.transifex.com/arctic-games/supertux/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +30,7 @@ msgstr "El pas de la muntanya"
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "-Salts\n#En Tux pot saltar! Prem la tecla ESPAI per començar. Deixa-la anar per tornar-lo al terra."
+msgstr ""
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
@@ -44,7 +47,7 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr "-Roques transportables:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+msgstr ""
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -105,15 +108,15 @@ msgstr "Habitació de les estrelles"
 
 #: data/levels/world2/christophE.stl:3
 msgid "The Silent Walls"
-msgstr ""
+msgstr "Les parets silencioses"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr ""
+msgstr "Dan Morial"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr ""
+msgstr "Desviament"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
@@ -161,7 +164,7 @@ msgstr ""
 
 #: data/levels/world2/keystodoor.stl:3
 msgid "Entrance to the Castle"
-msgstr ""
+msgstr "Entrada al castell"
 
 #: data/levels/world2/leaves.stl:3
 msgid "Walking Leaves"
@@ -192,7 +195,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-Oh no!\n#El camí està bloquejat!\n#Sembla que la única sortida\n#es a través d'aquest fosc\n#forat a la terra..."
+msgstr ""
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
@@ -216,11 +219,11 @@ msgstr "Llum i màgia"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
-msgstr "La venjança del Mussol"
+msgstr "La venjança del mussol"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
-msgstr ""
+msgstr "Aterrador"
 
 #: data/levels/world2/trees.stl:3
 msgid "Penguins don't grow on Trees"

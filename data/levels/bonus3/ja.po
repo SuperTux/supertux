@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
+# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:38+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 10:11+0000\n"
 "Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +51,7 @@ msgstr "...しかし、それを止めることはできません..."
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr "-申し訳ありませんが、このリフトはなまけものです。\n-別の時間に戻ります。"
+msgstr "-申し訳ありませんが、このリフトはなまけものです。 \n-別の時間に戻ります。"
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
@@ -171,13 +172,13 @@ msgstr "ザ トイレ ゾーン"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr "- フラッシュ:\n#フラッシュするためにキーを押してください!"
+msgstr "- フラッシュ: \n#フラッシュするためにキーを押してください!"
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr "- 道がない?\n#ジャンプしてみましょう!"
+msgstr "- 道がない? \n#ジャンプしてみましょう!"
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"

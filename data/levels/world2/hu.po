@@ -1,3 +1,6 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # chris020891 <chris020891@gmail.com>, 2014
@@ -12,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-12-15 03:09+0000\n"
+"Last-Translator: Tibor Buzási\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -186,7 +189,7 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-Tipp:\n#Ha úgy tűnik, egy ajtót\n#sehogy sem lehet elérni,\n#akkor lehet, hogy ott\n#kellene kijönnöd..."
+msgstr "-Tipp:\n#Ha úgy tűnik, egy ajtót\n#sehogy sem lehet elérni,\n#akkor lehet, hogy\n#az az ajtón kellene\n#kijönnöd..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"

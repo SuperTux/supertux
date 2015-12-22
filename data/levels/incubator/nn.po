@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-21 10:04+0000\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk (http://www.transifex.com/arctic-games/supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,23 +31,31 @@ msgstr "Kirsebærglasur"
 msgid "Mad Ysonn Cube Garden"
 msgstr "Galne-Ysonns kubehage"
 
+#: data/levels/incubator/frozen_fissure.stl:3
+msgid "Frozen Fissure"
+msgstr "Sprekkar i isen"
+
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
-msgstr ""
+msgstr "Inn i mørket"
 
 #: data/levels/incubator/into_dark.stl:224
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr ""
+msgstr "-Hint:\n#Bruk eldblomen for å smelta ein sti gjennom isen."
 
 #: data/levels/incubator/into_dark.stl:230
 msgid "#Beware of fire!"
-msgstr ""
+msgstr "#Pass deg for elden!"
 
 #: data/levels/incubator/jagged_path.stl:3
 msgid "The Jagged Path"
 msgstr "Den ujamne stien"
+
+#: data/levels/incubator/midnight_crossing.stl:3
+msgid "Midnight Crossing"
+msgstr "Midnattshoppet"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
@@ -55,11 +63,15 @@ msgstr "Den korte vegen"
 
 #: data/levels/incubator/obstaclecourse.stl:3
 msgid "Obstacle Course"
-msgstr ""
+msgstr "Hinderløp"
 
 #: data/levels/incubator/obstaclecourse.stl:48
 msgid "#If you get stuck, flip the switch to kill Tux."
-msgstr ""
+msgstr "#Viss du står fast, trykk på brytaren for å ta livet av Tux."
+
+#: data/levels/incubator/pipeline.stl:3
+msgid "Pipeline"
+msgstr "Berre røyr"
 
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"

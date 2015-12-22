@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jiří Paleček <nrrstttpt@gmail.com>, 2015
 # fri, 2013
 # TeraTux devel Team <teratux.mail@gmail.com>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-26 13:34+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-22 16:08+0000\n"
 "Last-Translator: TeraTux devel Team <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +49,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-Blahopřejeme!\n\n#Úspěšně jsi se dostal přes\n#Bonus Island II\n\n\n\tnovými úrovněmi přispěli\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ještě jednou bychom chtěli poděkovat\n#všem, kteří přispěli a zasloužili se tím o toto\n#vydání. Věříme, že jste si to užili\n#a čekání na Milník 3\n#je o trochu snadnější. :-)\n\n\n Konec doby ledové je blízko..."
+msgstr "-Gratulujeme!\n\n#Úspěšně jsi to dotáhl přes Bonusový ostrov II\n\n\tObsažené úrovně přispěli:\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ještě jednou chceme poděkovat všem, jež\n#přispěli do tohoto vydání.\n#Doufáme, že sis to užil a že ti to\n#zkrátí čekání na Tisíciletí 2.\n\n#Konec doby ledové se blíží... -)"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."

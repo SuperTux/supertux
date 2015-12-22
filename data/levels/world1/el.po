@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# I will not tell you that <leftermos@yahoo.gr>, 2015
 # Vangelis Nomikos <nvangelis@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:38+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-29 18:41+0100\n"
+"PO-Revision-Date: 2015-12-01 23:37+0000\n"
+"Last-Translator: I will not tell you that <leftermos@yahoo.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/arctic-games/supertux/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +30,7 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Μπόνους Μπλοκ\n!images/objects/bonus_block/full-0.png\n#Μπόνους μπλοκς μπορούν να περιέχουν κέρματα, power-ups ή εδικά στοιχεία για να σε βοηθήσουν στην προσπάθεια σου.\n#\n#Χτύπα τα από κάτω για να πάρεις το περιεχόμενο τους."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
@@ -42,48 +43,47 @@ msgstr ""
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
-msgstr "-Σημεία Ελέγχου\n!images/objects/resetpoints/bell-m.png\n#Ενεργοποίησε το σημείο ελέγχου. Αν πεθάνεις, μπορείς να επαναλάβεις το επίπεδο από αυτό το σημείο. Κάθε φορά που ξαναπροσπαθείς από ένα σημείο ελέγχου, θα χάνεις τουλάχιστον 25 νομίσματα."
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Τρέξιμο\n!images/tiles/signs/run.png\n#Η διαδρομή μπροστά σου είναι αποκλεισμένη. Απέκτησε κάποια ταχύτητα πριν πηδήξεις για να περάσεις πάνω από τα μπλοκ."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Λουλούδι Φωτιά\n!images/powerups/fireflower/fire_flower-0.png\n#Το λουλούδι φωτιά δίνει στον Tux τη δυνατότητα να πυροβολεί με μπάλες φωτιάς."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-Κούκλα Tux\n!images/powerups/1up/1up.png\n#Η κούλα Tux δίνει στον Tux 100 νομίσματα."
+msgstr "-Tux Doll\n!images/powerups/1up/1up.png\n#Η κούκλα Tux δίνει στον Tux 100 κέρματα."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Μυστικές Περιοχές\n#Πολλά επίπεδα περιέχουν μυστικές περιοχές πίσω από ό,τι φαίνεται να είναι απλοί τοίχοι. Ψάξε για ενδείξεις για να τα βρεις."
+msgstr ""
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
 msgstr "Το Ταξίδι Ξεκινάει"
 
-#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
-#: Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostalgica"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
-msgstr "Tobgle Δρόμος"
+msgstr "Δρόμος Tobgle"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
@@ -103,7 +103,7 @@ msgstr "Πέτρινο Ψύχος"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
-msgstr "Η Αίσθηση Χινιού του Grumbel"
+msgstr "Η Αίσθηση Χιονιού του Grumbel"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
@@ -135,7 +135,7 @@ msgstr "Ζώντας σε ένα Ψυγείο"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr "'...ή είναι αυτό απλά δικό μου?'"
+msgstr "'...ή είναι απλώς η ιδέα μου?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
@@ -143,7 +143,7 @@ msgstr "Πάγος στην Τρύπα"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
-msgstr "Το Μηνμείο του Miyamoto"
+msgstr "Το Μνημείο του Miyamoto"
 
 #: data/levels/world1/20 - End of the Tunnel.stl:3
 msgid "End of the Tunnel"
@@ -188,20 +188,20 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "-Διακόπτες\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Οι διακόπτες μπορούν να χρησιμοποιηθούν για να κάνουν κάθε λογής πράγματα. Πάτησε το πλήκτρο UP για να χρησιμοποιήσεις τους διακόπτες. Ο συγκεκριμένος ενεργοποιεί τον ανελκυστήρα στα δεξιά σου."
+msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
 "-Spring Boards\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr "-Βατήρες\n!images/objects/trampoline/trampoline2-0.png\n#Οι βατήρες επιτρέπουν στον Tux να πηδάει σε νέα ύψη. Κράτα πατημένο το πλήκτρο άλματος ενώ αναπηδείς στο βατήρα για να αποκτήσεις επιπλέον ύψος."
+msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Σκαρφάλωμα\n# Ο Tux μπορεί να σκαρφαλώσει! Πάτησε το πλήκτο ΠΑΝΩ για να ξεκινήσει το σκαρφάλωμα. Πάτησε το πλήκτρο ΔΡΑΣΗ ή πήδα ώστε να συνεχίσει."
+msgstr ""
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
@@ -211,10 +211,52 @@ msgstr "Έξτρα Επίπεδο"
 msgid "Picnic With Penny"
 msgstr "Πικνικ με την Penny"
 
+#: data/levels/world1/scripts_intro.txt:2
+msgid ""
+"Somewhere at the shores\n"
+"of Antarctica..."
+msgstr "Κάπου στις όχθες\nτης Ανταρκτικής..."
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux: Hello Penny"
+msgstr "Tux: Γειά σου Penny"
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Penny: Hey Tux"
+msgstr "Penny: Γειά σου Tux"
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid "Tux: Check out my dance moves."
+msgstr ""
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "Tux: Oww... my head..."
+msgstr "Tux: Άουυ... Το κεφάλι μου..."
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "Tux: Wait!"
+msgstr "Tux: Περίμενε!"
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid "Tux: Penny!"
+msgstr "Tux: Penny!"
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid "Tux: Where are you, Penny?!"
+msgstr "Tux: Που είσαι, Penny;!"
+
+#: data/levels/world1/scripts_intro.txt:11
+msgid "Tux: Oh no..."
+msgstr "Tux: Ωχ όχι..."
+
+#: data/levels/world1/scripts_intro.txt:12
+msgid "Tux: Don't worry, Penny, I'll rescue you!"
+msgstr "Tux: Μην ανησυχείς, Penny, θα σε σώσω!"
+
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
 msgstr "Παγωμένο Νησί"
 
 #: data/levels/world1/worldmap.stwm:37
 msgid "You Found a Secret Area!"
-msgstr "Βρήκες μια Μυστική Περιοχή"
+msgstr "Βρήκες μια Μυστική Περιοχή!"

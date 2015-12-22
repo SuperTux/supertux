@@ -25,6 +25,7 @@
 JoystickConfig::JoystickConfig() :
   dead_zone(8000),
   jump_with_up_joy(false),
+  use_game_controller(true),
   joy_button_map(),
   joy_axis_map(),
   joy_hat_map()
@@ -159,6 +160,7 @@ JoystickConfig::read(const ReaderMapping& joystick_lisp)
 {
   joystick_lisp.get("dead-zone", dead_zone);
   joystick_lisp.get("jump-with-up", jump_with_up_joy);
+  joystick_lisp.get("use-game-controller", use_game_controller);
 
   auto iter = joystick_lisp.get_iter();
   while(iter.next())
@@ -215,6 +217,7 @@ JoystickConfig::write(Writer& writer)
 {
   writer.write("dead-zone", dead_zone);
   writer.write("jump-with-up", jump_with_up_joy);
+  writer.write("use-game-controller", use_game_controller);
 
   for(ButtonMap::iterator i = joy_button_map.begin(); i != joy_button_map.end();
       ++i) {

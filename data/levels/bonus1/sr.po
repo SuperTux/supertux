@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Slobodan Simić (Слободан Симић) <slsimic@gmail.com>, 2014
+# Slobodan Simić (Слободан Симић) <slsimic@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:36+0000\n"
+"POT-Creation-Date: 2015-11-21 12:40+0100\n"
+"PO-Revision-Date: 2015-11-23 12:13+0000\n"
 "Last-Translator: Slobodan Simić (Слободан Симић) <slsimic@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/arctic-games/supertux/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -79,7 +80,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Честитамо!\n\n#Успешно сте завршили\n#Бонус острво I\n\n\tнивое које су направили\n\tЏејсон В. Томпсон\n\tТорфи Гунарсон\n\tАбеднего\n\tМатр1кс\n\n\n#Ако нисте завршили све нивое,\n#вратите се на почетак и крените\n#другим путем. Још увек те чека\n#пуно изазова!\n\n#Такође постоје и тајни нивои\n#које треба открити...\n\n#А велико „Хвала“ иде свима који\n#су допринели овом издању.\n#Надамо сте да сте уживали!"
+msgstr "-Честитамо!↩\n↩\n#Успешно сте завршили↩\n#Бонус острво I↩\n↩\n\tнивое које су направили↩\n\tЏејсон В. Томпсон↩\n\tТорфи Гунарсон↩\n\tАбеднего↩\n\tМатр1кс↩\n↩\n↩\n#Ако нисте завршили све нивое,↩\n#вратите се на почетак и крените↩\n#другим путем. Још увек те чека↩\n#пуно изазова!↩\n↩\n#Такође постоје и тајни нивои↩\n#које треба открити...↩\n↩\n#А велико „Хвала“ иде свима који↩\n#су допринели овом издању.↩\n#Надамо сте да сте уживали!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -108,6 +109,10 @@ msgstr "Добар почетак"
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
 msgstr "Прелако"
+
+#: data/levels/bonus1/torfi-level2.stl:42
+msgid "#All these levels were upgraded to milestone 2 design by Hume2."
+msgstr "# Све ове нивое је на дизајн издања 2 дорадио Хјум2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -139,7 +144,7 @@ msgstr "Бонус острво 1"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
-msgstr "Нашао си тајно место!"
+msgstr "Пронашао си тајну област!"
 
 #: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."

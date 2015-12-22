@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# TeraTux devel Team <teratux.mail@gmail.com>, 2013
+# Jiří Paleček <nrrstttpt@gmail.com>, 2015
+# TeraTux devel Team <teratux.mail@gmail.com>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:36+0000\n"
+"POT-Creation-Date: 2015-11-21 12:40+0100\n"
+"PO-Revision-Date: 2015-11-22 16:08+0000\n"
 "Last-Translator: TeraTux devel Team <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +25,7 @@ msgstr "Zkouška letu"
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
-msgstr "Doupata bez draků"
+msgstr "Bezdračí doupě"
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
@@ -79,7 +80,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Gratulujeme!\n\n#Úspěšně jsi dokončil(a)\n#bonusový ostrov I\n\n\ts úrovněmi\n\tJasona W. Thompsona\n\tTorfiho Gunnarssona\n\tAbednega\n\tMatr1xe\n\n\n#Pokud jsi ještě nedokončil(a) všechny\n#úrovně, vrať se domů a jdi jinou\n#cestou. Očekává tě pár dalších úkolů!\n\n#Potom je tu také schována tajná úrověň...\n\n#Velké \"Díky\" každému, kdo k této verzi\n#přispěl. Doufáme, že se ti líbila!"
+msgstr "-Gratulujeme!\n\n#Úspěšně jsi dokončil Bonusový ostrov I!\n\n\tObsažené úrovně přispěli:\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Pokud jsi ještě nedokončil všechny úrovně,\n#najdi cestu zpět domů a jdi\n#jinou cestou. Pořád tu na tebe čekají\n#nějaké další výzvy.\n#A také tady můžeš najít tajnou úroveň...\n#Velké díky patří všem, jež\n#přispěli do tohoto vydání. Doufáme,\n#že sis to užil!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -103,11 +104,15 @@ msgstr "Zlejšci smrdí!"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
-msgstr "Pěkný začátek"
+msgstr "Dobrý začátek"
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
 msgstr "Moc jednoduché"
+
+#: data/levels/bonus1/torfi-level2.stl:42
+msgid "#All these levels were upgraded to milestone 2 design by Hume2."
+msgstr "#Všechny tyto úrovně do stylu nového SuperTuxe předělal Hume2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"

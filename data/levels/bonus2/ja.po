@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-31 10:08+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 10:11+0000\n"
 "Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-おめでとうございます!\n\n#あなたは、ボーナス アイランド2\n#をクリアしました。\n\n#このコースを作成したのは、\n#ケビン\n#ジェイソン Kleinemas\n#デニルソン\n#トベ デプレ\n#ビッグC\n#トーマス ニルソン\n#Torfi ガナーソン\n#ダニエル アルストン\n#Nilrok\n#Corlin Heydman\n\n\n#もう一度、我々はこのコース集の作成者に\n#感謝したいと思います。私達は、それを\n#楽しむことを願います。\n#また、マイルストーン2を待つことが\n#少し楽なようです。 :-)\n\n\n#氷河期の終わりは近いようです...."
+msgstr "-おめでとうございます! \n#あなたは、ボーナス アイランド2 \n#をクリアしました。 \n#このコースを作成したのは、 \n#ケビン \n#ジェイソン Kleinemas \n#デニルソン \n#トベ デプレ\n#ビッグC \n#トーマス ニルソン \n#Torfi ガナーソン \n#ダニエル アルストン \n#Nilrok \n#Corlin Heydman \n#もう一度、我々はこのコース集の作成者に \n#感謝したいと思います。私達は、それを #楽しむことを願います。 \n#また、マイルストーン2を待つことが \n#少し楽なようです。 :-) \n#氷河期の終わりは近いようです...."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -116,11 +116,11 @@ msgstr "すべてが輝く金ではありません。"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr "さむい一日"
+msgstr "寒い一日"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr "つよい重力"
+msgstr "強い重力"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"

@@ -105,13 +105,13 @@ public:
     this->frame = 0;
     this->frameidx = frame_ % get_frames();
   }
-  SurfacePtr get_frame(unsigned int frame_)
+  SurfacePtr get_frame(unsigned int frame_) const
   {
     assert(frame_ < action->surfaces.size());
     return action->surfaces[frame_];
   }
 
-  bool has_action (const std::string& name)
+  bool has_action (const std::string& name) const
   {
     return (data.get_action(name) != NULL);
   }

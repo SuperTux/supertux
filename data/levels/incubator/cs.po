@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jirka Paleček <nrrstttpt@gmail.com>, 2013,2015
+# Jiří Paleček <nrrstttpt@gmail.com>, 2013,2015
 # fri, 2013
 # TeraTux devel Team <teratux.mail@gmail.com>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-26 13:40+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-22 16:12+0000\n"
 "Last-Translator: TeraTux devel Team <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -32,6 +32,10 @@ msgstr "Jinovatka na třešních"
 msgid "Mad Ysonn Cube Garden"
 msgstr "Zahrada kostek šíleného Ysona"
 
+#: data/levels/incubator/frozen_fissure.stl:3
+msgid "Frozen Fissure"
+msgstr "Zamrzlá štěrbina"
+
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
 msgstr "Do temnoty"
@@ -40,7 +44,7 @@ msgstr "Do temnoty"
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr "-Tip:\n#Použij ohnivou květinu k protavení cesty skrz led."
+msgstr "-Tip\n#Použij ohnivou květinu, aby sis protál cestu skrz led."
 
 #: data/levels/incubator/into_dark.stl:230
 msgid "#Beware of fire!"
@@ -49,6 +53,10 @@ msgstr "#Pozor na oheň!"
 #: data/levels/incubator/jagged_path.stl:3
 msgid "The Jagged Path"
 msgstr "Zubatá cesta"
+
+#: data/levels/incubator/midnight_crossing.stl:3
+msgid "Midnight Crossing"
+msgstr "Křižování o půlnoci"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
@@ -62,9 +70,13 @@ msgstr "Překážkový kurs"
 msgid "#If you get stuck, flip the switch to kill Tux."
 msgstr "#Pokud se zasekneš, otoč páčku pro sebevraždu."
 
+#: data/levels/incubator/pipeline.stl:3
+msgid "Pipeline"
+msgstr "Řada trubek"
+
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"
-msgstr "Připraven k akci\t"
+msgstr "Připraven k akci"
 
 #: data/levels/incubator/worldmap.stwm:3
 msgid "Incubator Island"

@@ -21,9 +21,10 @@
 #include "gui/menu_manager.hpp"
 #include "util/gettext.hpp"
 
-DownloadDialog::DownloadDialog(TransferStatusPtr status) :
+DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close, bool passive) : Dialog(passive),
   m_status(status),
-  m_title()
+  m_title(),
+  m_auto_close(auto_close)
 {
   add_default_button(_("Abort Download"), [this]{
       on_abort();
@@ -90,6 +91,12 @@ DownloadDialog::on_abort()
 void
 DownloadDialog::on_download_complete()
 {
+  if(m_auto_close)
+  {
+    MenuManager::instance().set_dialog({});
+    return;
+  }
+
   clear_buttons();
   add_button(_("Close"), [this]{
       MenuManager::instance().set_dialog({});

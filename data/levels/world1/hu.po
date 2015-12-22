@@ -5,6 +5,7 @@
 # Translators:
 # D. J. S. <djsossz@freemail.hu>, 2012
 # Norbert Molnár <buzitetu@indamail.hu>, 2013
+# Galp Flark <ginjeet@gmail.com>, 2015
 # Bendegúz Gyönki <gyonkibendeguz@gmail.com>, 2013
 # Bendegúz Gyönki <gyonkibendeguz@gmail.com>, 2014
 #  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 02:38+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-29 18:41+0100\n"
+"PO-Revision-Date: 2015-12-15 03:02+0000\n"
+"Last-Translator: Galp Flark <ginjeet@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,14 +44,14 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Tojás\n!images/powerups/egg/egg.png\n#A tojástól Tux nagyobbra nő, így már szét tudja törni a fejével a fadobozokat is."
+msgstr "-Tojások\n!images/powerups/egg/egg.png\n#A tojástól Tux nagyobbra nő, így már szét tudja törni a fejével a fadobozokat is."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
-"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose at least 25 coins."
-msgstr "-Ellenőrző pontok \n!images/objects/resetpoints/bell-m.png \n#Aktiváld az ellenőrző pontot. Ha meghalsz, akkor újrakezdheted a pályát innen. Akárhányszor újra kezded a játékot egy ellenőrző ponttól, annyiszor elveszítesz legalább 25 érmét."
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
+msgstr "-Ellenőrző pontok \n!images/objects/resetpoints/bell-m.png \n#Aktiváld az ellenőrző pontot! Ha meghalsz, akkor újrakezdheted a pályát innen. Akárhányszor újra kezded a játékot egy ellenőrző ponttól, annyiszor elveszíted az érméid 10 százalékát (legalább 25 érmét)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
@@ -77,14 +78,13 @@ msgstr "-Tux-baba\n!images/powerups/1up/1up.png\n#Ha elkapod, kapsz 100 érmét.
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Titkos helyek\n#Sok pályán találhatsz titkos területeket a simának tűnő falak mögött. A megtalálásukhoz figyeld az apró jeleket."
+msgstr "-Titkos helyek\n#Sok pályán találhatsz titkos területeket a simának tűnő falak mögött. Megtalálásukhoz figyeld az árulkodó jeleket."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
 msgstr "Az utazás elkezdődik"
 
-#: data/levels/world1/03 - Via Nostalgica-bis.stl:3 data/levels/world1/03 -
-#: Via Nostalgica.stl:3
+#: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
 msgstr "Via Nostalgica"
 
@@ -98,7 +98,7 @@ msgstr "A valamivel kisebb fürdő"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
-msgstr "A megfagyott mezők"
+msgstr "Fagyott mezők"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
@@ -195,7 +195,7 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "-Kapcsolók\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#A kapcsolók sokféle dologra használhatóak. Nyomd meg a FEL gombot az aktiváláshoz. Ez például aktiválja a tőled jobbra lévő liftet."
+msgstr "-Kapcsolók\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#A kapcsolók sokféle dologra használhatóak. Nyomd meg a FEL gombot a használatukhoz. Ez aktiválja a tőled jobbra lévő liftet."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
@@ -217,6 +217,48 @@ msgstr "Bónusz pálya"
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
 msgstr "Piknik Pennyvel"
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid ""
+"Somewhere at the shores\n"
+"of Antarctica..."
+msgstr "Valahol Antarctica\nPartjain..."
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux: Hello Penny"
+msgstr "Tux: Csók, Penny"
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Penny: Hey Tux"
+msgstr "Penny: Szia Tux"
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid "Tux: Check out my dance moves."
+msgstr "Tux: Figyelmezz tánclépéseim menő mivoltára."
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "Tux: Oww... my head..."
+msgstr "Tux: Aú... a kobakom..."
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "Tux: Wait!"
+msgstr "Tux: Megállj!"
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid "Tux: Penny!"
+msgstr "Tux: Penny!"
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid "Tux: Where are you, Penny?!"
+msgstr "Tux: Hol vagy, Penny?!"
+
+#: data/levels/world1/scripts_intro.txt:11
+msgid "Tux: Oh no..."
+msgstr "Tux: Jaj, ne!"
+
+#: data/levels/world1/scripts_intro.txt:12
+msgid "Tux: Don't worry, Penny, I'll rescue you!"
+msgstr "Tux: ne búsulj, Penny! Kiszabadítalak, meglásd!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>SuperTux</string>
+	<string>${INFOPLIST_CFBUNDLEEXECUTABLE}</string>
 	<key>CFBundleIconFile</key>
 	<string>SuperTux</string>
 	<key>CFBundleIdentifier</key>

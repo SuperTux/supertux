@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Gwenn M <tornoz@laposte.net>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2013-08-10 23:11+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-24 11:49+0000\n"
+"Last-Translator: Gwenn M <tornoz@laposte.net>\n"
 "Language-Team: Breton (http://www.transifex.com/arctic-games/supertux/language/br/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,50 +20,62 @@ msgstr ""
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
-msgstr ""
+msgstr "Redadeg ar c'hav"
 
 #: data/levels/incubator/cherry_frosting.stl:3
 msgid "The Cherry Frosting"
-msgstr ""
+msgstr " Lindrenniñ kerez"
 
 #: data/levels/incubator/cube_garden.stl:3
 msgid "Mad Ysonn Cube Garden"
-msgstr ""
+msgstr "Mad Ysonn Cube Garden"
+
+#: data/levels/incubator/frozen_fissure.stl:3
+msgid "Frozen Fissure"
+msgstr "Frailh skornet"
 
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
-msgstr ""
+msgstr "En deñvalijenn"
 
 #: data/levels/incubator/into_dark.stl:224
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr ""
+msgstr "-Kuzul :\n#Implijit ar vleunienn-dan evit teuziñ ar skorn"
 
 #: data/levels/incubator/into_dark.stl:230
 msgid "#Beware of fire!"
-msgstr ""
+msgstr "#Diwallit ouzh an tan !"
 
 #: data/levels/incubator/jagged_path.stl:3
 msgid "The Jagged Path"
-msgstr ""
+msgstr "An hent dantek"
+
+#: data/levels/incubator/midnight_crossing.stl:3
+msgid "Midnight Crossing"
+msgstr "Hent an hanternoz"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
-msgstr ""
+msgstr "An hent berr"
 
 #: data/levels/incubator/obstaclecourse.stl:3
 msgid "Obstacle Course"
-msgstr ""
+msgstr "Redadeg harzhoù"
 
 #: data/levels/incubator/obstaclecourse.stl:48
 msgid "#If you get stuck, flip the switch to kill Tux."
-msgstr ""
+msgstr "#Ma z' oc'h stanket, implijit an trec'haoler evit lazhañ Tux."
+
+#: data/levels/incubator/pipeline.stl:3
+msgid "Pipeline"
+msgstr "Eoulsan"
 
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"
-msgstr ""
+msgstr "Dibabet evit birvilh"
 
 #: data/levels/incubator/worldmap.stwm:3
 msgid "Incubator Island"
-msgstr ""
+msgstr "Enezenn an dozverez"

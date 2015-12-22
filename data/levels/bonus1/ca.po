@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:36+0000\n"
-"Last-Translator: Prisma Traduccions <maceleiro@gmail.com>\n"
+"POT-Creation-Date: 2015-11-21 12:40+0100\n"
+"PO-Revision-Date: 2015-11-22 09:04+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Catalan (http://www.transifex.com/arctic-games/supertux/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,7 +79,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Felicitats!\n\n#Has superat amb èxit els nivells de la\n#Illa de Bonificació 1\n\n\taquests nivells van ser aportats per:\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Si no has completat tots els nivells encara,\n#troba el teu camí per tornar a casa i agafa\n#una altra via. Queden més reptes \n#esperant-te!\n\n#Hi ha un nivell secret que pots descobrir\n#també...\n\n#Un gran \"Gràcies\" per tots els\n#que contribuïren en el llançament\nEsperem que hagis gaudit!"
+msgstr ""
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -103,11 +103,15 @@ msgstr "Els enemics fan pudor!"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
-msgstr "Un bon començament"
+msgstr ""
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
 msgstr "Massa fàcil"
+
+#: data/levels/bonus1/torfi-level2.stl:42
+msgid "#All these levels were upgraded to milestone 2 design by Hume2."
+msgstr ""
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"

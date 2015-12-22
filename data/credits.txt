@@ -44,41 +44,44 @@
 !images/credits/ondra.jpg
  Programming, Documentation
 
-	Tobias \"tobgle\" Gläßer
- Programming, Previous Maintainer
-
-	Ricardo \"blacksheep\" Cruz
- Programming
-
-	Benjamin P. \"litespeed\" Jung
- Graphics
-
 	Ryan \"sik0fewl\" Flegel
- Programming
-
-	Bastiaan \"basti_\" Zapf
  Programming
 
 	Tobias \"Tobbi\" Markus
  Programming, ad interim project lead
 
-	Karkus476
+	Mathnerd314
  Programming
+
+	Tim \"tuxdev\" Goya
+ Programming
+
+	LMH
+ Programming, Level Design
+
+	M. Teufel
+ Coordination
+
+	Karkus476
+ Programming, \"Flexlay\" Level editor
 
 	Hume
  Programming, Level Design
+
+	Miloš Klouček
+ Programming
+
+	Seebi \"Flakebi\"
+ Windows build fixes
+
+	CT. da'Bomb
+ Level Design, Graphics
 
 	Jacob \"maths22\" Burroughs
  Packaging, Nightly builds
 
 	Benjamin \"GiBy\" Leduc
  Translation Guru (and many details anyone else could have done)
-
-	Duong-Khang \"neoneurone\" NGUYEN
- Contrib Programming
-
-	Richard Smith
- Contrib Programming
 
 	Arvid Norlander
  Level Design
@@ -89,6 +92,59 @@
 	Sydney Dykstra
  Graphics
 
+- Additional contributions
+
+	Arian Behvandnejad
+ Bug fixes
+	brmbrmcar
+ Scripting functions, Level fixes
+	Daniel Butum
+ Code quality fixes
+	Vincent Cheng
+ Various contributions
+	chrism
+ Various contributions
+	Daniela Ferraz
+ Localization, Bug fixes
+	Fabian Greffrath
+ Build issue fix
+	Jann Horn
+ Code contributions
+	Devyn Collier Johnson
+ Graphics
+	David King
+ Code contribution, AppData file
+	Jonas Kuemmerlin
+ Bug fix
+	mahboi
+ Menu reorganization
+	Matt McCutchen
+ Various contributions
+	nicholas
+ Fixing tile bugs
+	Eric Newberry
+ Build error fix
+	José Rebelo
+ Scripting function fix
+	Willy Scheibel
+ Support for \"glbinding\" as optional OpenGL binding
+	Matthew Taylor
+ New menu code
+
+- Milestone 1 contributions by...
+
+	Bastiaan \"basti_\" Zapf
+ Programming
+	Benjamin P. \"litespeed\" Jung
+ Graphics
+	Duong-Khang \"neoneurone\" Nguyen
+ Contrib Programming
+	Ricardo \"blacksheep\" Cruz
+ Programming
+	Richard Smith
+ Contrib Programming
+	Tobias \"tobgle\" Gläßer
+ Programming, Previous Maintainer
 
 -Additional Music
 
@@ -125,16 +181,26 @@
  arranged by
 	Chris Leutwyler
 
+\"halloween_1.ogg\" by
+	Forty-Two
+
 -Sound
 
 	Wolfgang Becker
+	blastwavefx.com
 	Matthias Braun
 	Ricardo Cruz
+	Marianne Gagnon
 	Stephen Groundwater
 	Nathan McCoy
 	Marek Moeckel
 	Paulo Morfeo
+	Natalie
+	Q.K.
+	Some_Person
 	Christoph Sommer
+	soundscalpel.com
+	Yaniel
 	Bastian Zapf
 
 
@@ -155,53 +221,87 @@
 
  	Anders (Danish)
  	Phan Anh (Vietnamese)
+        Sébastien Aperghis-Tramoni (French)
+        Ettore Atalan (German)
  	Constantin Baranov (Russian)
  	Indrit Bashkimi (Albanese)
  	Javier Beaumont (Castilian Spanish)
+        Baráth Béla (Hungarian)
+        William Beltrán (Spanish)
  	Martí Bosc (Catalan)
  	Matthias Braun (German)
  	Sergio López Briñas (Castilian Spanish)
  	Marko Burjek (Slovenian)
+        Tibor Buzási (Hungarian)
  	Fernando Carmona (Castilian Spanish)
+        Marc Celeiro (Catalan)
  	Wei-Lun Chao (Mandarin)
  	Ricardo Cruz (European Portuguese)
  	Razvan Dajboc (Romanian)
  	Pieter De Decker (Dutch)
  	Bertrand Delaitre (French)
+        Dmitry \"starwars32\" (Russian)
+        Antoine Dumondel (French)
+        faradundamarti (Turkish)
  	Daniela Ferraz (European/Brazilian Portuguese)
+        Galp Flark (Hungarian)
  	Florian Forster (German)
+        Franchulo (Spanish)
+        fri (Czech)
  	Prabin Gautam (Nepali)
+        Victor Gonçalves (Brazilian Portuguese)
+        Joe Hansen (Danish)
+        Hume (Czech)
  	Ondřej Hošek (Czech)
  	Iknos (Italian)
  	Jose Jorge (European Portuguese)
+        juanda097 (Spanish)
  	Manuela Kessler (Italian)
  	Günter \"kyber\" Kits (Estonian)
  	Dominik Klementowski (Polish)
  	Marcin Kocur (Polish)
  	Benjamin Leduc (French/Esperanto)
  	Sérgio Lopes (European Portuguese)
+        Max Lyashuk (Ukranian)
  	Tobias Markus (German)
+        Lucas Mascaro (French)
  	meczup (Turkish)
  	Gwenn Meynier (Breton)
+        mkkot (Polish)
+        mol1 (French)
+        Narre (Czech)
+        Jonatas L. Nogueira (Brazilian Portuguese)
+        Vangelis Nomikos (Greek)
+        Allan Nordhøy (Norwegian)
  	Arvid Norlander (Swedish)
  	Krishnamurti Lelis Lima Vieira Nunes (Brazilian Portuguese)
  	Lauri \"xet7\" Ojansivu (Finnish)
  	Karl Ove Hufthammer (Norwegian)
  	Léo Poughon (French)
  	Bansaj Pradhan (Nepali)
+        Nathanael Ready (French)
  	Herval Ribeiro (Brazilian Portuguese)
  	Frederic Rodrigo (French)
  	D. J. S. (Hungarian)
  	Slobodan Simić (Serbian)
+        SomeRandomUser (Greek)
+        Sumita \"tako44\" Sanshiro (Japanese)
  	Liu Sizhuang (Simplified Chinese)
  	Jan Solanti (Finnish)
  	Christoph Sommer (German)
  	Andrius Štikonas (Lithuanian)
+        symvizan (Hungarian)
+        Krzysiek Szeląg (Polish)
  	Eugen Uvin (Ukrainian)
  	Frank van der Loo (Dutch)
  	Mihas \"meequz\" Varantsou (Belarusian)
+        Jakub Vaněk (Czech)
+        Lyubomir Vasilev (Bulgarian)
  	Antoni Villalonga (Catalan)
+        Wuzzy (German)
  	Roman M. Yagodin (Russian)
+        yakup (Turkish)
+        zecas \"zezinho\" (French)
  	Kővágó Zoltán (Hungarian)
 
 
@@ -218,10 +318,10 @@
 -Contact
 
 	Visit our webpage at
-*http://supertux.github.io
+*http://supertuxproject.org
 
 	Or visit us directly at IRC:
-*#supertux at irc.freenode.net
+*#supertux at chat.freenode.net
 
 	Or at our Forum:
 *http://forum.freegamedev.net/viewforum.php?f=66
@@ -239,7 +339,7 @@
 
 
 	…with something else?
-*http://github.com/supertux
+*https://github.com/supertux
 
 
 

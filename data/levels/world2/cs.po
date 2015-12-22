@@ -1,14 +1,17 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jirka Paleček <nrrstttpt@gmail.com>, 2013
+# Jiří Paleček <nrrstttpt@gmail.com>, 2013,2015
 # fri, 2013
 # TeraTux devel Team <teratux.mail@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-26 13:46+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-22 16:11+0000\n"
 "Last-Translator: TeraTux devel Team <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +32,7 @@ msgstr "Horský průsmyk"
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Šplhání\n# Tux umí šplhat!  Stiskněte klávesu NAHORU, aby začal šplhat.  Stiskněte klávesu AKCE nebo poskočte, aby pokračoval v chůzi."
+msgstr "-Šplhání\n#Tux umí šplhat! Stiskni klávesu NAHORU, aby začal šplhat. Stiskni klávesu AKCE nebo skoč, aby přestal šplhat."
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
@@ -46,7 +49,7 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr "-Přenosné bloky:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+msgstr "-Přenosné kameny\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -181,7 +184,7 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-Nápověda:\n#Pokud se zdá, že není\n#způsobu, jak se dostat\n# ke dveřím, pamatuj si, že\n#máš možná vyjít těmito\n#dveřmi..."
+msgstr "-Tip\n#Pamatuj, že pokud to vypadá, že není žádný způsob, jak dosáhnout dveří, možná máš z těchto dveří vyjít..."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
@@ -194,7 +197,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-Ale ne!\n#Cesta je zatarasena!\n#Vypadá to, že jediná cesta\n#vede dolů skrz tuhle tmavou\n#díru v zemi..."
+msgstr "-Ale ne!\n#Cesta je zablokovaná! Jako\n#jediná cesta vede skrz tuhle\n#temnou díru v zemi..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"

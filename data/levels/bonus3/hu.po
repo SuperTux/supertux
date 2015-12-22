@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:38+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-21 08:13+0000\n"
+"Last-Translator: Tibor Buzási\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,7 +69,7 @@ msgstr "Barlang futás"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
-msgstr "Hideg Barlang"
+msgstr "Hideg barlang"
 
 #: data/levels/bonus3/cavern_v2.stl:50
 msgid ""
@@ -99,7 +99,7 @@ msgstr "Kristály felfordulás"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
-msgstr "Kifelé a Kristály Mezőkről"
+msgstr "Kint a kristály mezőkön"
 
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
@@ -116,15 +116,15 @@ msgstr "...legmélyebb!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
-msgstr ""
+msgstr "Körök"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr ""
+msgstr "Ne késd le a fuvart"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
-msgstr ""
+msgstr "Lefelémenet"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
@@ -174,7 +174,7 @@ msgstr "A toilett zóna"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr "- Felriasztás:\n#Mondjad le a Fel gombot a felriasztáshoz!"
+msgstr "- Felriasztás:\n#Nyomd le a Fel gombot a felriasztáshoz!"
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
@@ -228,7 +228,7 @@ msgstr "Találtál egy titkos helyet!"
 
 #: data/levels/bonus3/worldmap.stwm:20
 msgid "Congratulations... you found the secret pathway!"
-msgstr "Gratulálok... Megtaláltad a titkos ösvényt!"
+msgstr "Gratulálok... megtaláltad a titkos ösvényt!"
 
 #: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
 msgid "Go Home"

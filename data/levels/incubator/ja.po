@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-20 01:53+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 10:10+0000\n"
 "Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -31,6 +31,10 @@ msgstr "チェリーフロスティング"
 msgid "Mad Ysonn Cube Garden"
 msgstr "マッドYsonnキューブガーデン"
 
+#: data/levels/incubator/frozen_fissure.stl:3
+msgid "Frozen Fissure"
+msgstr "フローズンの割れ目"
+
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
 msgstr "やみの中へ"
@@ -39,7 +43,7 @@ msgstr "やみの中へ"
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr "-ヒント:\n#ファイヤーフラワーを使って、氷が通る道を溶かしてください。"
+msgstr "-ヒント: \n#ファイヤーフラワーを使って、氷の通る道を\n#溶かしてください。"
 
 #: data/levels/incubator/into_dark.stl:230
 msgid "#Beware of fire!"
@@ -48,6 +52,10 @@ msgstr "#火の用心"
 #: data/levels/incubator/jagged_path.stl:3
 msgid "The Jagged Path"
 msgstr "ギザギザの道"
+
+#: data/levels/incubator/midnight_crossing.stl:3
+msgid "Midnight Crossing"
+msgstr "ミッドナイト クロッシング"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
@@ -60,6 +68,10 @@ msgstr "障害物コース"
 #: data/levels/incubator/obstaclecourse.stl:48
 msgid "#If you get stuck, flip the switch to kill Tux."
 msgstr "#あなたが動けなくなった場合は、Tuxを殺すためにスイッチを入れます。"
+
+#: data/levels/incubator/pipeline.stl:3
+msgid "Pipeline"
+msgstr "パイプライン"
 
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"

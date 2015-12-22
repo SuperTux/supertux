@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 17:53+0200\n"
-"PO-Revision-Date: 2015-08-16 15:56+0000\n"
+"POT-Creation-Date: 2015-11-29 18:41+0100\n"
+"PO-Revision-Date: 2015-11-30 09:04+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Breton (http://www.transifex.com/arctic-games/supertux/language/br/)\n"
 "MIME-Version: 1.0\n"
@@ -22,235 +22,275 @@ msgstr ""
 msgid "Joystick Mappings"
 msgstr "Reolerezh an dornell"
 
-#: src/supertux/command_line_arguments.cpp:74
+#: src/supertux/command_line_arguments.cpp:73
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
 msgstr "Arver : %s [DIBARZHIOÙ] [RESTR LIVE]"
 
-#: src/supertux/command_line_arguments.cpp:75
+#: src/supertux/command_line_arguments.cpp:74
 msgid "General Options:"
 msgstr "Dibarzhioù hollek :"
 
-#: src/supertux/command_line_arguments.cpp:76
+#: src/supertux/command_line_arguments.cpp:75
 msgid "  -h, --help                   Show this help message and quit"
 msgstr "-h, --help Skrammañ ar gemennadenn skoazell-mañ ha kuitaat"
 
-#: src/supertux/command_line_arguments.cpp:77
+#: src/supertux/command_line_arguments.cpp:76
 msgid "  -v, --version                Show SuperTux version and quit"
 msgstr "-v, --version Skrammañ handelv SuperTux ha kuitaat"
 
-#: src/supertux/command_line_arguments.cpp:78
+#: src/supertux/command_line_arguments.cpp:77
 msgid "  --verbose                    Print verbose messages"
 msgstr "--verbose Moullañ kemennadennoù munutaet"
 
-#: src/supertux/command_line_arguments.cpp:79
+#: src/supertux/command_line_arguments.cpp:78
 msgid "  --debug                      Print extra verbose messages"
 msgstr "--debug Moullañ kemennadennoù munutaet ouzhpenn"
 
-#: src/supertux/command_line_arguments.cpp:80
+#: src/supertux/command_line_arguments.cpp:79
 msgid ""
 "  --print-datadir              Print supertux's primary data directory."
 msgstr "--print-datadir Moullañ kavlec'h roadennoù pennañ Supertux."
 
-#: src/supertux/command_line_arguments.cpp:81
+#: src/supertux/command_line_arguments.cpp:80
 msgid "Video Options:"
 msgstr "Dibarzhioù video :"
 
-#: src/supertux/command_line_arguments.cpp:82
+#: src/supertux/command_line_arguments.cpp:81
 msgid "  -f, --fullscreen             Run in fullscreen mode"
 msgstr "-f, --fullscreen Lañsañ er skramm a-bezh"
 
-#: src/supertux/command_line_arguments.cpp:83
+#: src/supertux/command_line_arguments.cpp:82
 msgid "  -w, --window                 Run in window mode"
 msgstr "-w, --window Lañsañ e mod prenestr"
 
-#: src/supertux/command_line_arguments.cpp:84
+#: src/supertux/command_line_arguments.cpp:83
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
 msgstr "-g, --geometry LEDANDERxUHELDER Lañsañ SuperTux en diarunusted roet"
 
-#: src/supertux/command_line_arguments.cpp:85
+#: src/supertux/command_line_arguments.cpp:84
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
 msgstr "-a, --aspect LEDANDERxUHELDER Lañsañ SuperTux gant ar c'henfeur neuz roet"
 
-#: src/supertux/command_line_arguments.cpp:86
+#: src/supertux/command_line_arguments.cpp:85
 msgid "  -d, --default                Reset video settings to default values"
 msgstr "-d, --default : Adderaouekaat an arventennoù video d'an talvoudoù dre ziouer"
 
-#: src/supertux/command_line_arguments.cpp:87
+#: src/supertux/command_line_arguments.cpp:86
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
 msgstr "--renderer DEOUEZIER Ober gant sdl, opengl pe dibab ent emgefreek"
 
-#: src/supertux/command_line_arguments.cpp:88
+#: src/supertux/command_line_arguments.cpp:87
 msgid "Audio Options:"
 msgstr "Dibarzhioù Aodio :"
 
-#: src/supertux/command_line_arguments.cpp:89
+#: src/supertux/command_line_arguments.cpp:88
 msgid "  --disable-sound              Disable sound effects"
 msgstr "--disable-sound Diweredekaat an efedoù son"
 
-#: src/supertux/command_line_arguments.cpp:90
+#: src/supertux/command_line_arguments.cpp:89
 msgid "  --disable-music              Disable music"
 msgstr "--disable-music Diweredekaat ar sonerezh"
 
-#: src/supertux/command_line_arguments.cpp:91
+#: src/supertux/command_line_arguments.cpp:90
 msgid "Game Options:"
 msgstr "Dibarzhioù ar c'hoari :"
 
-#: src/supertux/command_line_arguments.cpp:92
-msgid "  --console                    Enable ingame scripting console"
-msgstr "--console Gweredekaat ar penel skript er c'hoari"
-
-#: src/supertux/command_line_arguments.cpp:93
-msgid "  --noconsole                  Disable ingame scripting console"
-msgstr "--console Diweredekaat ar penel skript er c'hoari"
-
-#: src/supertux/command_line_arguments.cpp:94
+#: src/supertux/command_line_arguments.cpp:91
 msgid "  --show-fps                   Display framerate in levels"
 msgstr "--show-fps Skrammañ ar feur skeudennoù er c'hoari"
 
-#: src/supertux/command_line_arguments.cpp:95
+#: src/supertux/command_line_arguments.cpp:92
 msgid "  --no-show-fps                Do not display framerate in levels"
 msgstr "--no-show-fps Na skrammañ ar feur skeudennoù er c'hoari"
 
-#: src/supertux/command_line_arguments.cpp:96
+#: src/supertux/command_line_arguments.cpp:93
 msgid "  --developer                  Switch on developer feature"
 msgstr "--developer Gweredekaat ar c'heweriusterioù diorroer"
 
-#: src/supertux/command_line_arguments.cpp:97
+#: src/supertux/command_line_arguments.cpp:94
 msgid "  -s, --debug-scripts          Enable script debugger."
 msgstr "-s, --debug-scripts Gweredekaat an diveuger skriptoù."
 
-#: src/supertux/command_line_arguments.cpp:98
+#: src/supertux/command_line_arguments.cpp:95
 msgid "Demo Recording Options:"
 msgstr "Dibarzhioù an enrolladennoù c'hoariadennoù :"
 
-#: src/supertux/command_line_arguments.cpp:99
+#: src/supertux/command_line_arguments.cpp:96
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
 msgstr "--record-demo RESTR LIVE Enrollañ ur c'hoariadenn e RESTR"
 
-#: src/supertux/command_line_arguments.cpp:100
+#: src/supertux/command_line_arguments.cpp:97
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
 msgstr "--play-demo RESTR LIVE Lenn ur c'hoariadenn bet enrollet"
 
-#: src/supertux/command_line_arguments.cpp:101
+#: src/supertux/command_line_arguments.cpp:98
 msgid "Directory Options:"
 msgstr "Dibarzhioù ar c'havlec'h :"
 
-#: src/supertux/command_line_arguments.cpp:102
+#: src/supertux/command_line_arguments.cpp:99
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
 msgstr "--datadir KAVLEC'H Arventennañ ar c'havlec'h evit restroù roadennoù ar c'hoari"
 
-#: src/supertux/command_line_arguments.cpp:103
+#: src/supertux/command_line_arguments.cpp:100
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
 msgstr "--usedir KAVLEC'H Arventennañ ar c'havlec'h evit roadennoù an arveriad (enrolladennoù, hag all.)"
 
-#: src/supertux/command_line_arguments.cpp:104
+#: src/supertux/command_line_arguments.cpp:101
 msgid "Environment variables:"
 msgstr "Argemennoù an endro :"
 
-#: src/supertux/command_line_arguments.cpp:105
+#: src/supertux/command_line_arguments.cpp:102
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
 msgstr " SUPERTUX2_USER_DIR Kavlec'h evit ar roadennoù arveriad (enrolladennoù, hag all.)"
 
-#: src/supertux/command_line_arguments.cpp:106
+#: src/supertux/command_line_arguments.cpp:103
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "SUPERTUX2_DATA_DIR Kavlec'h evit restroù ar c'hoari"
 
-#: src/supertux/levelintro.cpp:94
+#: src/supertux/levelintro.cpp:112
 #, c-format
 msgid "contributed by %s"
 msgstr "kinniget gant %s"
 
-#: src/supertux/levelintro.cpp:109 src/supertux/statistics.cpp:119
+#: src/supertux/levelintro.cpp:127 src/supertux/statistics.cpp:119
 msgid "Best Level Statistics"
 msgstr "Stadegoù gwellañ al live"
 
-#: src/supertux/levelintro.cpp:115 src/supertux/statistics.cpp:207
+#: src/supertux/levelintro.cpp:133 src/supertux/statistics.cpp:207
 msgid "Coins"
 msgstr "Pezhioù"
 
-#: src/supertux/levelintro.cpp:122
+#: src/supertux/levelintro.cpp:140
 msgid "Badguys killed"
 msgstr "Enebourien lazhet"
 
-#: src/supertux/levelintro.cpp:129 src/supertux/statistics.cpp:223
+#: src/supertux/levelintro.cpp:147 src/supertux/statistics.cpp:223
 msgid "Secrets"
 msgstr "Sekredoù"
 
-#: src/supertux/levelintro.cpp:136
+#: src/supertux/levelintro.cpp:154
 msgid "Best time"
 msgstr "Amzer gwellañ"
 
-#: src/supertux/levelintro.cpp:143
+#: src/supertux/levelintro.cpp:161
 msgid "Level target time"
 msgstr "Amzer da dizhout evit al live"
 
-#: src/supertux/menu/addon_menu.cpp:47
+#: src/supertux/menu/addon_menu.cpp:49
 msgid "Levelset"
 msgstr "Levelset"
 
-#: src/supertux/menu/addon_menu.cpp:50
+#: src/supertux/menu/addon_menu.cpp:52
 msgid "Worldmap"
 msgstr "Kartenn ar bed"
 
-#: src/supertux/menu/addon_menu.cpp:53
+#: src/supertux/menu/addon_menu.cpp:55
 msgid "World"
 msgstr "Bed"
 
-#: src/supertux/menu/addon_menu.cpp:56
+#: src/supertux/menu/addon_menu.cpp:61
 msgid "Unknown"
 msgstr "Dianav"
 
-#: src/supertux/menu/addon_menu.cpp:67
+#: src/supertux/menu/addon_menu.cpp:83
 #, c-format
 msgid "%s \"%s\" by \"%s\""
 msgstr "%s \"%s\" gant \"%s\""
 
-#: src/supertux/menu/addon_menu.cpp:103 src/supertux/menu/main_menu.cpp:43
+#: src/supertux/menu/addon_menu.cpp:131
+msgid "Language packs"
+msgstr "Pakadoù yezh"
+
+#: src/supertux/menu/addon_menu.cpp:135 src/supertux/menu/main_menu.cpp:44
 msgid "Add-ons"
 msgstr "Askouezhioù"
 
-#: src/supertux/menu/addon_menu.cpp:109
-msgid "No Addons installed"
-msgstr "Askouezh ebet staliet"
+#: src/supertux/menu/addon_menu.cpp:141
+msgid "View Language Packs"
+msgstr "Gwelout ar pakadoù yezh"
 
-#: src/supertux/menu/addon_menu.cpp:147
+#: src/supertux/menu/addon_menu.cpp:145
+msgid "View Add-ons"
+msgstr "Gwelout an askouezhioù"
+
+#: src/supertux/menu/addon_menu.cpp:154
+msgid "No Language packs installed"
+msgstr "N'eus pakad yezh staliet ebet"
+
+#: src/supertux/menu/addon_menu.cpp:158
+msgid "No Add-ons installed"
+msgstr "N'eus askouezh ebet staliet"
+
+#: src/supertux/menu/addon_menu.cpp:165
+msgid "No Language packs found"
+msgstr "N'eo bet kavet pakad yezh ebet"
+
+#: src/supertux/menu/addon_menu.cpp:169
+msgid "No Add-ons found"
+msgstr "N'eo bet kavet askouezh ebet"
+
+#: src/supertux/menu/addon_menu.cpp:216
 #, c-format
 msgid "Install %s *NEW*"
 msgstr "Staliañ %s *NEVEZ*"
 
-#: src/supertux/menu/addon_menu.cpp:155
+#: src/supertux/menu/addon_menu.cpp:227
 #, c-format
 msgid "Install %s"
 msgstr "Staliañ %s"
 
-#: src/supertux/menu/addon_menu.cpp:163
-msgid "No new Addons found"
-msgstr "Askouezh nevez ebet kavet"
+#: src/supertux/menu/addon_menu.cpp:238
+msgid "No new Language packs found"
+msgstr "N'eo bet kavet pakad yezh nevez ebet"
 
-#: src/supertux/menu/addon_menu.cpp:169
+#: src/supertux/menu/addon_menu.cpp:242
+msgid "No new Add-ons found"
+msgstr "N'eo bet kavet askouezh nevez ebet"
+
+#: src/supertux/menu/addon_menu.cpp:249
 msgid "Check Online (disabled)"
 msgstr "Klask enlinenn (diweredekaet)"
 
-#: src/supertux/menu/addon_menu.cpp:173
+#: src/supertux/menu/addon_menu.cpp:253
 msgid "Check Online"
 msgstr "Klask enlinenn"
 
-#: src/supertux/menu/addon_menu.cpp:177 src/supertux/menu/cheat_menu.cpp:41
-#: src/supertux/menu/contrib_levelset_menu.cpp:68
+#: src/supertux/menu/addon_menu.cpp:257 src/supertux/menu/cheat_menu.cpp:41
+#: src/supertux/menu/contrib_levelset_menu.cpp:69
 #: src/supertux/menu/contrib_menu.cpp:141
-#: src/supertux/menu/joystick_menu.cpp:96
-#: src/supertux/menu/keyboard_menu.cpp:48
-#: src/supertux/menu/language_menu.cpp:49
-#: src/supertux/menu/options_menu.cpp:217
-#: src/supertux/menu/profile_menu.cpp:46
+#: src/supertux/menu/joystick_menu.cpp:98
+#: src/supertux/menu/keyboard_menu.cpp:49
+#: src/supertux/menu/language_menu.cpp:50
+#: src/supertux/menu/options_menu.cpp:238
+#: src/supertux/menu/profile_menu.cpp:47
+#: src/supertux/menu/world_set_menu.cpp:44
 #: src/supertux/menu/worldmap_cheat_menu.cpp:44
 msgid "Back"
 msgstr "Distreiñ"
+
+#: src/supertux/menu/addon_menu.cpp:277
+msgid "Downloading Add-On Repository Index"
+msgstr "O pellgargañ ibil mirlec'h an askouezhioù"
+
+#: src/supertux/menu/addon_menu.cpp:310
+msgid ""
+"Please restart SuperTux\n"
+"for these changes to take effect."
+msgstr "Adloc'hit SuperTux\nevit ma vefe kadarnaet ar c'hemmadennoù."
+
+#: src/supertux/menu/addon_menu.cpp:311
+msgid "OK"
+msgstr "OK"
+
+#: src/supertux/menu/addon_menu.cpp:343
+#, c-format
+msgid "Downloading %s"
+msgstr "O pellgargañ %s"
 
 #: src/supertux/menu/cheat_menu.cpp:29
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
@@ -299,7 +339,8 @@ msgstr "Lazhañ Tux"
 msgid "Finish Level"
 msgstr "Echuiñ al live"
 
-#: src/supertux/menu/contrib_menu.cpp:51 src/supertux/menu/main_menu.cpp:42
+#: src/supertux/menu/contrib_menu.cpp:51
+#: src/supertux/menu/world_set_menu.cpp:42
 msgid "Contrib Levels"
 msgstr "Liveoù ouzhpenn"
 
@@ -329,11 +370,11 @@ msgid "Continue"
 msgstr "Kenderc'hel"
 
 #: src/supertux/menu/game_menu.cpp:36
-msgid "Restart level"
-msgstr ""
+msgid "Restart Level"
+msgstr "Adkregiñ gant al live"
 
-#: src/supertux/menu/game_menu.cpp:37 src/supertux/menu/main_menu.cpp:44
-#: src/supertux/menu/options_menu.cpp:48
+#: src/supertux/menu/game_menu.cpp:37 src/supertux/menu/main_menu.cpp:45
+#: src/supertux/menu/options_menu.cpp:55
 #: src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
 msgstr "Dibarzhioù"
@@ -342,299 +383,329 @@ msgstr "Dibarzhioù"
 msgid "Abort Level"
 msgstr "Nullañ al live"
 
-#: src/supertux/menu/joystick_menu.cpp:50
-#: src/supertux/menu/options_menu.cpp:203
+#: src/supertux/menu/joystick_menu.cpp:52
+#: src/supertux/menu/options_menu.cpp:221
 msgid "Setup Joystick"
 msgstr "Kefluniañ an dornell"
 
-#: src/supertux/menu/joystick_menu.cpp:53
+#: src/supertux/menu/joystick_menu.cpp:55
 msgid "Manual Configuration"
 msgstr "Kefluniadur gant an dorn"
 
-#: src/supertux/menu/joystick_menu.cpp:55
+#: src/supertux/menu/joystick_menu.cpp:57
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
 msgstr "Ober gant ar c'hefluniadur dre zorn e plas skor GameController emgefreek SDL2 "
 
-#: src/supertux/menu/joystick_menu.cpp:67
-#: src/supertux/menu/keyboard_menu.cpp:30
+#: src/supertux/menu/joystick_menu.cpp:69
+#: src/supertux/menu/keyboard_menu.cpp:31
 msgid "Up"
 msgstr "A-us"
 
-#: src/supertux/menu/joystick_menu.cpp:68
-#: src/supertux/menu/keyboard_menu.cpp:31
+#: src/supertux/menu/joystick_menu.cpp:70
+#: src/supertux/menu/keyboard_menu.cpp:32
 msgid "Down"
 msgstr "Traoñ"
 
-#: src/supertux/menu/joystick_menu.cpp:69
-#: src/supertux/menu/keyboard_menu.cpp:32
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/keyboard_menu.cpp:33
 msgid "Left"
 msgstr "Kleiz"
 
-#: src/supertux/menu/joystick_menu.cpp:70
-#: src/supertux/menu/keyboard_menu.cpp:33
+#: src/supertux/menu/joystick_menu.cpp:72
+#: src/supertux/menu/keyboard_menu.cpp:34
 msgid "Right"
 msgstr "Dehoù"
 
-#: src/supertux/menu/joystick_menu.cpp:71
-#: src/supertux/menu/keyboard_menu.cpp:34
+#: src/supertux/menu/joystick_menu.cpp:73
+#: src/supertux/menu/keyboard_menu.cpp:35
 msgid "Jump"
 msgstr "Lammat"
 
-#: src/supertux/menu/joystick_menu.cpp:72
-#: src/supertux/menu/keyboard_menu.cpp:35
+#: src/supertux/menu/joystick_menu.cpp:74
+#: src/supertux/menu/keyboard_menu.cpp:36
 msgid "Action"
 msgstr "Ober"
 
-#: src/supertux/menu/joystick_menu.cpp:73
+#: src/supertux/menu/joystick_menu.cpp:75
 msgid "Pause/Menu"
 msgstr "Ehan/Lañser"
 
-#: src/supertux/menu/joystick_menu.cpp:74
-#: src/supertux/menu/keyboard_menu.cpp:36
+#: src/supertux/menu/joystick_menu.cpp:76
+#: src/supertux/menu/keyboard_menu.cpp:37
 msgid "Peek Left"
 msgstr "Sellet a-gleiz"
 
-#: src/supertux/menu/joystick_menu.cpp:75
-#: src/supertux/menu/keyboard_menu.cpp:37
+#: src/supertux/menu/joystick_menu.cpp:77
+#: src/supertux/menu/keyboard_menu.cpp:38
 msgid "Peek Right"
 msgstr "Sellet a-zehoù"
 
-#: src/supertux/menu/joystick_menu.cpp:76
-#: src/supertux/menu/keyboard_menu.cpp:38
+#: src/supertux/menu/joystick_menu.cpp:78
+#: src/supertux/menu/keyboard_menu.cpp:39
 msgid "Peek Up"
 msgstr "Sellet a-us"
 
-#: src/supertux/menu/joystick_menu.cpp:77
-#: src/supertux/menu/keyboard_menu.cpp:39
+#: src/supertux/menu/joystick_menu.cpp:79
+#: src/supertux/menu/keyboard_menu.cpp:40
 msgid "Peek Down"
 msgstr "Sellet en traoñ"
 
-#: src/supertux/menu/joystick_menu.cpp:79
-#: src/supertux/menu/keyboard_menu.cpp:41
+#: src/supertux/menu/joystick_menu.cpp:81
+#: src/supertux/menu/keyboard_menu.cpp:42
 msgid "Console"
 msgstr "Penel"
 
-#: src/supertux/menu/joystick_menu.cpp:82
-#: src/supertux/menu/keyboard_menu.cpp:44
+#: src/supertux/menu/joystick_menu.cpp:84
+#: src/supertux/menu/keyboard_menu.cpp:45
 msgid "Cheat Menu"
 msgstr "Lañser an truchourezh"
 
-#: src/supertux/menu/joystick_menu.cpp:84
-#: src/supertux/menu/keyboard_menu.cpp:46
+#: src/supertux/menu/joystick_menu.cpp:86
+#: src/supertux/menu/keyboard_menu.cpp:47
 msgid "Jump with Up"
 msgstr "Lammat gant ar stokell A-us"
 
-#: src/supertux/menu/joystick_menu.cpp:90
+#: src/supertux/menu/joystick_menu.cpp:92
 msgid "No Joysticks found"
 msgstr "Dornell ebet kavet"
 
-#: src/supertux/menu/joystick_menu.cpp:91
+#: src/supertux/menu/joystick_menu.cpp:93
 msgid "Scan for Joysticks"
 msgstr "Klask dornelloù"
 
-#: src/supertux/menu/joystick_menu.cpp:105
-#: src/supertux/menu/keyboard_menu.cpp:60
+#: src/supertux/menu/joystick_menu.cpp:107
+#: src/supertux/menu/keyboard_menu.cpp:61
 msgid "None"
 msgstr "Hini ebet"
 
-#: src/supertux/menu/joystick_menu.cpp:120
+#: src/supertux/menu/joystick_menu.cpp:126
 msgid "Press Button"
 msgstr "Pouezit war ur stokell"
 
-#: src/supertux/menu/keyboard_menu.cpp:28
-#: src/supertux/menu/options_menu.cpp:200
+#: src/supertux/menu/keyboard_menu.cpp:29
+#: src/supertux/menu/options_menu.cpp:218
 msgid "Setup Keyboard"
 msgstr "Kefluniañ an touchennaoueg"
 
-#: src/supertux/menu/keyboard_menu.cpp:62
+#: src/supertux/menu/keyboard_menu.cpp:63
 msgid "Up cursor"
-msgstr "Pignat"
+msgstr "Bir a-us"
 
-#: src/supertux/menu/keyboard_menu.cpp:64
+#: src/supertux/menu/keyboard_menu.cpp:65
 msgid "Down cursor"
-msgstr "Diskenn"
+msgstr "Bir traoñ"
 
-#: src/supertux/menu/keyboard_menu.cpp:66
+#: src/supertux/menu/keyboard_menu.cpp:67
 msgid "Left cursor"
-msgstr "Kleiz"
+msgstr "Bir kleiz"
 
-#: src/supertux/menu/keyboard_menu.cpp:68
+#: src/supertux/menu/keyboard_menu.cpp:69
 msgid "Right cursor"
-msgstr "Dehoù"
+msgstr "Bir dehoù"
 
-#: src/supertux/menu/keyboard_menu.cpp:70
+#: src/supertux/menu/keyboard_menu.cpp:71
 msgid "Return"
 msgstr "Distreiñ"
 
-#: src/supertux/menu/keyboard_menu.cpp:72
+#: src/supertux/menu/keyboard_menu.cpp:73
 msgid "Space"
 msgstr "Esaouenn"
 
-#: src/supertux/menu/keyboard_menu.cpp:74
+#: src/supertux/menu/keyboard_menu.cpp:75
 msgid "Right Shift"
 msgstr "Penlizh. dehoù"
 
-#: src/supertux/menu/keyboard_menu.cpp:76
+#: src/supertux/menu/keyboard_menu.cpp:77
 msgid "Left Shift"
 msgstr "Penlizh. kleiz"
 
-#: src/supertux/menu/keyboard_menu.cpp:78
+#: src/supertux/menu/keyboard_menu.cpp:79
 msgid "Right Control"
 msgstr "Reol. dehoù"
 
-#: src/supertux/menu/keyboard_menu.cpp:80
+#: src/supertux/menu/keyboard_menu.cpp:81
 msgid "Left Control"
 msgstr "Reol. kleiz"
 
-#: src/supertux/menu/keyboard_menu.cpp:82
+#: src/supertux/menu/keyboard_menu.cpp:83
 msgid "Right Alt"
 msgstr "Alt dehoù"
 
-#: src/supertux/menu/keyboard_menu.cpp:84
+#: src/supertux/menu/keyboard_menu.cpp:85
 msgid "Left Alt"
 msgstr "Alt kleiz"
 
-#: src/supertux/menu/keyboard_menu.cpp:86
+#: src/supertux/menu/keyboard_menu.cpp:87
 msgid "Right Command"
 msgstr "Arc'had dehoù"
 
-#: src/supertux/menu/keyboard_menu.cpp:88
+#: src/supertux/menu/keyboard_menu.cpp:89
 msgid "Left Command"
 msgstr "Arc'had kleiz"
 
-#: src/supertux/menu/keyboard_menu.cpp:98
+#: src/supertux/menu/keyboard_menu.cpp:103
 msgid "Press Key"
 msgstr "Pouezit war ur stokell"
 
-#: src/supertux/menu/language_menu.cpp:36
+#: src/supertux/menu/language_menu.cpp:37
 msgid "Language"
 msgstr "Yezh"
 
-#: src/supertux/menu/language_menu.cpp:38
+#: src/supertux/menu/language_menu.cpp:39
 msgid "<auto-detect>"
 msgstr "<dibab emgefreek>"
 
-#: src/supertux/menu/main_menu.cpp:41
+#: src/supertux/menu/main_menu.cpp:43 src/supertux/menu/world_set_menu.cpp:39
 msgid "Start Game"
 msgstr "C'hoari"
 
-#: src/supertux/menu/main_menu.cpp:45
+#: src/supertux/menu/main_menu.cpp:46
 msgid "Credits"
 msgstr "Perzhidi"
 
-#: src/supertux/menu/main_menu.cpp:46
+#: src/supertux/menu/main_menu.cpp:47
 msgid "Quit"
 msgstr "Kuitaat"
 
-#: src/supertux/menu/main_menu.cpp:95
+#: src/supertux/menu/main_menu.cpp:105
 msgid "Do you really want to quit SuperTux?"
 msgstr "Fellout a ra deoc'h kuitaat SuperTux ?"
 
-#: src/supertux/menu/main_menu.cpp:96
+#: src/supertux/menu/main_menu.cpp:106
 msgid "Cancel"
 msgstr "Nullañ"
 
-#: src/supertux/menu/main_menu.cpp:97
+#: src/supertux/menu/main_menu.cpp:107
 msgid "Quit SuperTux"
 msgstr "Kuitaat SuperTux"
 
-#: src/supertux/menu/options_menu.cpp:55
+#: src/supertux/menu/options_menu.cpp:61 src/supertux/menu/options_menu.cpp:97
+#: src/supertux/menu/options_menu.cpp:251
+#: src/supertux/menu/options_menu.cpp:271
+msgid "auto"
+msgstr "emgefreek"
+
+#: src/supertux/menu/options_menu.cpp:186
 msgid "Select Language"
 msgstr "Dibab ur yezh"
 
-#: src/supertux/menu/options_menu.cpp:56
+#: src/supertux/menu/options_menu.cpp:187
 msgid "Select a different language to display text in"
 msgstr "Dibab ur yezh evit an destenn"
 
-#: src/supertux/menu/options_menu.cpp:58 src/supertux/menu/profile_menu.cpp:29
+#: src/supertux/menu/options_menu.cpp:189
+msgid "Language Packs"
+msgstr "Pakadoù yezh"
+
+#: src/supertux/menu/options_menu.cpp:190
+msgid "Language packs contain up-to-date translations"
+msgstr "Troidigezhioù hizivaet a vez kavet er pakadoù yezh"
+
+#: src/supertux/menu/options_menu.cpp:192
+#: src/supertux/menu/profile_menu.cpp:30
 msgid "Select Profile"
 msgstr "Dibab un aelad"
 
-#: src/supertux/menu/options_menu.cpp:59
+#: src/supertux/menu/options_menu.cpp:193
 msgid "Select a profile to play with"
 msgstr "Dibab un aelad evit c'hoari gantañ"
 
-#: src/supertux/menu/options_menu.cpp:62
+#: src/supertux/menu/options_menu.cpp:196
 msgid "Fullscreen"
 msgstr "Skramm a-bezh"
 
-#: src/supertux/menu/options_menu.cpp:63
+#: src/supertux/menu/options_menu.cpp:197
 msgid "Fill the entire screen"
 msgstr "Leuniañ ar skramm a-bezh"
 
-#: src/supertux/menu/options_menu.cpp:65
+#: src/supertux/menu/options_menu.cpp:199
 msgid "Resolution"
 msgstr "Diarunusted"
 
-#: src/supertux/menu/options_menu.cpp:66
+#: src/supertux/menu/options_menu.cpp:200
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
 msgstr "Despizañ an diarunusted evit ar mod skramm a-bezh (ret eo deoc'h tremen er skramm a-bezh evit arloañ)"
 
-#: src/supertux/menu/options_menu.cpp:68
+#: src/supertux/menu/options_menu.cpp:202
 msgid "Magnification"
 msgstr "Tevadur"
 
-#: src/supertux/menu/options_menu.cpp:69
+#: src/supertux/menu/options_menu.cpp:203
 msgid "Change the magnification of the game area"
 msgstr "Kemmañ tevadur maez ar c'hoari"
 
-#: src/supertux/menu/options_menu.cpp:73
-#: src/supertux/menu/options_menu.cpp:159
-#: src/supertux/menu/options_menu.cpp:230
-#: src/supertux/menu/options_menu.cpp:250
-msgid "auto"
-msgstr "emgefreek"
-
-#: src/supertux/menu/options_menu.cpp:156
+#: src/supertux/menu/options_menu.cpp:205
 msgid "Aspect Ratio"
 msgstr "Kenfeur an neuz"
 
-#: src/supertux/menu/options_menu.cpp:157
+#: src/supertux/menu/options_menu.cpp:206
 msgid "Adjust the aspect ratio"
 msgstr "Kengeidañ kenfeur an neuz"
 
-#: src/supertux/menu/options_menu.cpp:191
+#: src/supertux/menu/options_menu.cpp:209
 msgid "Sound"
 msgstr "Son"
 
-#: src/supertux/menu/options_menu.cpp:192
+#: src/supertux/menu/options_menu.cpp:210
 msgid "Disable all sound effects"
 msgstr "Diweredekaat an holl efedoù son"
 
-#: src/supertux/menu/options_menu.cpp:193
+#: src/supertux/menu/options_menu.cpp:211
 msgid "Music"
 msgstr "Sonerezh"
 
-#: src/supertux/menu/options_menu.cpp:194
+#: src/supertux/menu/options_menu.cpp:212
 msgid "Disable all music"
 msgstr "Diweredekaat an holl sonerezh"
 
-#: src/supertux/menu/options_menu.cpp:196
+#: src/supertux/menu/options_menu.cpp:214
 msgid "Sound (disabled)"
 msgstr "Son (diweredekaet)"
 
-#: src/supertux/menu/options_menu.cpp:197
+#: src/supertux/menu/options_menu.cpp:215
 msgid "Music (disabled)"
 msgstr "Sonerezh (diweredekaet)"
 
-#: src/supertux/menu/options_menu.cpp:201
+#: src/supertux/menu/options_menu.cpp:219
 msgid "Configure key-action mappings"
 msgstr "Kefluniañ reoliadurioù ar stokelloù"
 
-#: src/supertux/menu/options_menu.cpp:204
+#: src/supertux/menu/options_menu.cpp:222
 msgid "Configure joystick control-action mappings"
 msgstr "Kefluniañ reoliadurioù an dornell"
 
-#: src/supertux/menu/options_menu.cpp:208
+#: src/supertux/menu/options_menu.cpp:224
+msgid "Enable transitions"
+msgstr "Gweredekaat an ardreuzadoù"
+
+#: src/supertux/menu/options_menu.cpp:225
+msgid "Enable screen transitions and smooth menu animation"
+msgstr "Gweredekaat ardreuzadoù ar skramm ha bliverezh lenkr al lañser"
+
+#: src/supertux/menu/options_menu.cpp:229
 msgid "Developer Mode"
 msgstr "Mod diorroer"
 
-#: src/supertux/menu/options_menu.cpp:213
+#: src/supertux/menu/options_menu.cpp:234
 msgid "Christmas Mode"
 msgstr "Mod Nedeleg"
+
+#: src/supertux/menu/profile_menu.cpp:37
+#, c-format
+msgid "[Profile %s]"
+msgstr "[Aelad %s]"
+
+#: src/supertux/menu/profile_menu.cpp:41
+#, c-format
+msgid "Profile %s"
+msgstr "Aelad %s"
+
+#: src/supertux/menu/world_set_menu.cpp:41
+msgid "Story Mode"
+msgstr "Mod istor"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Bonus: None"
@@ -696,11 +767,11 @@ msgstr "Enebourien"
 msgid "Time"
 msgstr "Amzer"
 
-#: src/supertux/title_screen.cpp:59
+#: src/supertux/title_screen.cpp:65
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/supertux/title_screen.cpp:60
+#: src/supertux/title_screen.cpp:66
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file LICENSE for details.\n"
@@ -713,3 +784,7 @@ msgstr "Deomp dezhi..."
 #: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"
 msgstr "Kavet ho peus ul lec'h kuzh"
+
+#: src/worldmap/worldmap.cpp:349
+msgid "<no title>"
+msgstr "<titl ebet>"

@@ -40,11 +40,12 @@ private:
   std::vector<Button> m_buttons;
   int m_selected_button;
   int m_cancel_button;
+  int m_passive;
 
   Sizef m_text_size;
 
 public:
-  Dialog();
+  Dialog(bool passive = false);
   virtual ~Dialog();
 
   void set_text(const std::string& text);
@@ -64,6 +65,10 @@ public:
   void process_input(const Controller& controller);
   void draw(DrawingContext& context);
   virtual void update() {}
+  bool is_passive() const
+  {
+    return m_passive;
+  }
 
 private:
   void on_button_click(int button) const;

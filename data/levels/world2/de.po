@@ -1,17 +1,22 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Wuzzy <almikes@aol.com>, 2015
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
 # Ettore Atalan <atalanttore@googlemail.com>, 2015
 # Marcel Haring, 2013-2014
 # Nils Welzk, 2013
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2013
+# Tobias Markus <tobbi@mozilla-uk.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-12-13 11:30+0000\n"
+"Last-Translator: Wuzzy <almikes@aol.com>\n"
 "Language-Team: German (http://www.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,11 +36,11 @@ msgstr "Der Bergpass"
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Klettern\n# Tux kann klettern! Drücke die HOCH-Taste, um zu klettern. Springe oder drücke die AKTION-Taste, um loszulassen."
+msgstr "- Klettern\n# Tux kann klettern! Drücken Sie die HOCH-Taste, um zu klettern. Springen oder drücken Sie die AKTION-Taste, um loszulassen."
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
-msgstr "Schatz im Himmel"
+msgstr "Schatz in den Lüften"
 
 #: data/levels/world2/builder.stl:3
 msgid "Tux the Builder"
@@ -121,15 +126,15 @@ msgstr "Umweg"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr "Dunkelwaldfestung - Die böse Kammer"
+msgstr "Dunkelwaldfestung – Die böse Kammer"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr "Dunkelwaldfestung - Die Augen von Nolok"
+msgstr "Dunkelwaldfestung – Die Augen von Nolok"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr "Dunkelwaldfestung - Der schwarze Turm"
+msgstr "Dunkelwaldfestung – Der schwarze Turm"
 
 #: data/levels/world2/fish.stl:3
 msgid "Find the Bigger Fish!"
@@ -145,23 +150,23 @@ msgstr "Eine gespenstische Welt"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr "Schlüssel 1 Wasser - hinter Wasserfall verstecken"
+msgstr "Schlüssel 1 Wasser – hinter Wasserfall verstecken"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr "Schlüssel 2 Erde - im Untergrund verstecken"
+msgstr "Schlüssel 2 Erde – im Untergrund verstecken"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr "Schlüssel 3 Holz - in einem großen Baum verstecken"
+msgstr "Schlüssel 3 Holz – in einem großen Baum verstecken"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr "Schlüssel 4 Feuer - in einer kleinen Burg verstecken"
+msgstr "Schlüssel 4 Feuer – in einer kleinen Burg verstecken"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr "Schlüssel 5 Luft - in den Wolken verstecken"
+msgstr "Schlüssel 5 Luft – in den Wolken verstecken"
 
 #: data/levels/world2/keystodoor.stl:3
 msgid "Entrance to the Castle"
@@ -183,7 +188,7 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-Tipp:\n#Wenn du keinen Weg\n#zu einer Tür siehst,\n#kommst du vielleicht\n#später aus dieser\n#Tür heraus..."
+msgstr "-Tipp:\n#Wenn Sie keinen Weg\n#zu einer Tür sehen,\n#kommen Sie vielleicht\n#später aus dieser\n#Tür hinaus."
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
@@ -196,7 +201,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-Oh nein!\n#Der Weg ist versperrt! Es\n#scheint nur durch dieses \n#dunkle Loch im Boden \n#weiter zu gehen..."
+msgstr "-Oh nein!\n#Der Weg ist versperrt! Es\n#scheint nur durch dieses \n#dunkle Loch im Boden \n#weiter zu gehen."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"

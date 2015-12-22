@@ -1,3 +1,6 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # Karl Ove Hufthammer <karl@huftis.org>, 2006-2007,2013-2015
@@ -6,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-21 10:04+0000\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk (http://www.transifex.com/arctic-games/supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
@@ -193,7 +196,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-Å nei!\n#Vegen vidare er stengt!\n#Det ser ut til at den\n#einaste måten å komma\n#vidare på er å hoppa\n#ned i det mørke holet\n#i bakken ..."
+msgstr "-Å nei!\n#Vegen vidare er stengd!\n#Det ser ut til at den\n#einaste måten å komma\n#vidare på er å hoppa\n#ned i det mørke holet\n#i bakken ..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"

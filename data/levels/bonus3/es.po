@@ -5,13 +5,14 @@
 # Translators:
 # Fran <franchulo021@gmail.com>, 2015
 # Germana <germanaoliveirab@gmail.com>, 2013
+# William Beltrán <wbeltranc@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-13 19:24+0000\n"
-"Last-Translator: Fran <franchulo021@gmail.com>\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-12-17 03:40+0000\n"
+"Last-Translator: William Beltrán <wbeltranc@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +52,7 @@ msgstr "...pero nadie puede pararla..."
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr "-Lo sentimos, esta plataforma de vuelo es vaga.\n-Vuelve en otro momento."
+msgstr "-Disculpa, esta plataforma de vuelo es inestable.\n-Vuelve en otro momento."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
@@ -73,7 +74,7 @@ msgstr "Caverna de Oro"
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr ""
+msgstr "#¡Buen trabajo! ¡Mantuviste la linterna roja! ¡No lo necesitaste sin embargo, pero solo porque lo hiciste, tienes 100 monedas!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
@@ -172,13 +173,13 @@ msgstr "La Zona de Baño"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr "- Enjuagar: \n#¡Presiona la tecla flecha arriba para enjuagar! "
+msgstr ""
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr "- ¿Una salida?\n#¡Vamos a saltar!"
+msgstr "- Una salida?↩\n#Salta! "
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"

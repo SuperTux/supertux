@@ -65,6 +65,13 @@ private:
   int stomp_count;
   int hit_points;
   SurfacePtr hud_head;
+
+  float left_stand_x;
+  float right_stand_x;
+  float left_jump_x;
+  float right_jump_x;
+
+  void recalculate_pos();
 };
 
 #endif

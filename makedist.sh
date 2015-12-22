@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ST_VERSION=`grep '^SET(SUPERTUX_VERSION' CMakeLists.txt | sed -e 's/SET(SUPERTUX_VERSION "\([^"]\+\)")/\1/'`
+ST_VERSION=`git describe --tags | sed 's/^v//' | awk -F- '{print $1;}'`
 DISTDIR="supertux-$ST_VERSION"
 
 if test -e "$DISTDIR"
@@ -12,12 +12,12 @@ fi
 echo "Creating directory $DISTDIR"
 mkdir "$DISTDIR" || exit 1
 
-cp "CMakeLists.txt" "LICENSE" "INSTALL.md" "README.md" "NEWS.md" "config.h.cmake" "makedist.sh" "makepot.sh" "supertux2.appdata.xml" "supertux2.desktop" $DISTDIR
+cp "CMakeLists.txt" "LICENSE.txt" "INSTALL.md" "README.md" "NEWS.md" "config.h.cmake" "makedist.sh" "makepot.sh" "supertux2.appdata.xml" "supertux2.desktop" "version.cmake" "version.cmake.in" "version.h.in" $DISTDIR
 cp --parents mk/cmake/*.cmake $DISTDIR
 cp --parents mk/msvc/* $DISTDIR
 
 echo "Copying files:"
-for DIR in contrib data docs man src tools external
+for DIR in contrib data docs man src tools external tests
 do
 	echo -n "  $DIR ... "
 	find "$DIR" -type f -exec "cp" "--parents" "{}" "$DISTDIR" ";" -o -name .svn -prune

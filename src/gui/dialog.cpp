@@ -28,11 +28,12 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-Dialog::Dialog() :
+Dialog::Dialog(bool passive) :
   m_text(),
   m_buttons(),
   m_selected_button(),
   m_cancel_button(-1),
+  m_passive(passive),
   m_text_size()
 {
 }
@@ -107,6 +108,9 @@ Dialog::get_button_at(const Vector& mouse_pos) const
 void
 Dialog::event(const SDL_Event& ev)
 {
+  if(m_passive) // Passive dialogs don't accept events
+    return;
+
   switch(ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     if(ev.button.button == SDL_BUTTON_LEFT)
@@ -147,6 +151,9 @@ Dialog::event(const SDL_Event& ev)
 void
 Dialog::process_input(const Controller& controller)
 {
+  if(m_passive) // Passive dialogs don't accept events
+    return;
+
   if (controller.pressed(Controller::LEFT))
   {
     m_selected_button -= 1;
@@ -176,19 +183,19 @@ Dialog::process_input(const Controller& controller)
 void
 Dialog::draw(DrawingContext& ctx)
 {
-  Rectf bg_rect(Vector(SCREEN_WIDTH/2 - m_text_size.width/2,
-                       SCREEN_HEIGHT/2 - m_text_size.height/2),
+  Rectf bg_rect(Vector(m_passive ? (SCREEN_WIDTH - m_text_size.width - 20) : SCREEN_WIDTH/2 - m_text_size.width/2,
+                       m_passive ? (SCREEN_HEIGHT - m_text_size.height - 65) : (SCREEN_HEIGHT/2 - m_text_size.height/2)),
                 Sizef(m_text_size.width,
                       m_text_size.height + 44));
 
   // draw background rect
   ctx.draw_filled_rect(bg_rect.grown(12.0f),
-                       Color(0.2f, 0.3f, 0.4f, 0.8f),
+                       Color(0.2f, 0.3f, 0.4f, m_passive ? 0.3 : 0.8f),
                        16.0f,
                        LAYER_GUI-10);
 
   ctx.draw_filled_rect(bg_rect.grown(8.0f),
-                       Color(0.6f, 0.7f, 0.8f, 0.5f),
+                       Color(0.6f, 0.7f, 0.8f, m_passive ? 0.2 : 0.5f),
                        16.0f,
                        LAYER_GUI-10);
 
@@ -197,6 +204,8 @@ Dialog::draw(DrawingContext& ctx)
                 Vector(bg_rect.p1.x + bg_rect.get_width()/2.0f,
                        bg_rect.p1.y),
                 ALIGN_CENTER, LAYER_GUI);
+  if(m_passive)
+    return;
 
   // draw HL line
   ctx.draw_filled_rect(Vector(bg_rect.p1.x, bg_rect.p2.y - 35),

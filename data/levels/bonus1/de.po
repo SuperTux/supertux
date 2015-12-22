@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Wuzzy <almikes@aol.com>, 2015
 # Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>, 2013
+# Tobias Markus <tobbi@mozilla-uk.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:36+0000\n"
-"Last-Translator: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>\n"
+"POT-Creation-Date: 2015-11-21 12:40+0100\n"
+"PO-Revision-Date: 2015-12-13 11:13+0000\n"
+"Last-Translator: Wuzzy <almikes@aol.com>\n"
 "Language-Team: German (http://www.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,7 +81,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Herzlichen Glückwunsch!\n#\n#\n\tLevels dieser Welt stammen aus Einsendungen folgender SuperTux-Spieler:\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n#\n#\n#Falls das nicht die letzte übrige Level war: Vom Start-Iglu aus lassen sich noch viele andere Levels erreichen - und außerdem gibt es auch noch eine geheim-Level zu finden!\n#Ein herzliches \"Dankeschön!\" an jeden, der zu diesem Release beigetragen hat. Wir hoffen es hat Spaß gemacht!"
+msgstr "-Herzlichen Glückwunsch!\n#\n#Sie haben erfolgreich\n#Bonus-Insel I\n#abgeschlossen.\n\n\tLevels dieser Welt stammen aus Einsendungen folgender SuperTux-Spieler:\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n#\n#\n#Falls das nicht die letzte übrige Level war: Vom Start-Iglu aus lassen sich noch viele andere Levels erreichen – und außerdem gibt es auch noch einen Geheim-Level zu finden!\n#Ein herzliches „Dankeschön!“ an jeden, der zu diesem Release beigetragen hat. Wir hoffen, es hat Spaß gemacht!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -108,6 +110,10 @@ msgstr "Ein guter Start"
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
 msgstr "Fast zu leicht"
+
+#: data/levels/bonus1/torfi-level2.stl:42
+msgid "#All these levels were upgraded to milestone 2 design by Hume2."
+msgstr "#Diese Level wurden von Hume an das Meilenstein-2-Design angepasst."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -159,15 +165,15 @@ msgstr "SuperTux-Team-Insel verlassen"
 
 #: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
-msgstr "Teleport zu Abednego's Areal"
+msgstr "Teleport zu Abednegos Areal"
 
 #: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
-msgstr "Torfi's Territorium verlassen"
+msgstr "Torfis Territorium verlassen"
 
 #: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
-msgstr "Abednego's Areal verlassen"
+msgstr "Abednegos Areal verlassen"
 
 #: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
@@ -195,4 +201,4 @@ msgstr "Weiter in Matr1x' Sektor"
 
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
-msgstr "Teleport zu Torfi's Territorium"
+msgstr "Teleport zu Torfis Territorium"

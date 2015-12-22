@@ -1,3 +1,6 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 # Bansaj Pradhan <bansajpradhan@gmail.com>, 2013
@@ -8,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 09:03+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Nepali (http://www.transifex.com/arctic-games/supertux/language/ne/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +33,7 @@ msgstr "पहाडको मार्ग"
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "-चड्ने\n#टक्स चड्न सक्छ! चडाइ सुरु गर्न माथिको बाँण कुञ्जी थिच्नुहोस्। छोड्न कार्य कुञ्जी थिच्नुहोस् वा उफ्रनुहोस्।"
+msgstr ""
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
@@ -47,7 +50,7 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr "-चलायमान ढुङ्गा:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+msgstr ""
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -182,7 +185,7 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-सुझाव:\n#केही देखिदैन् भने\n#ढोकामा पुग्न कुनै बाटो,\n#सम्झनुहोस् कि शायद\n#बाहिर आउनु पर्छ\n#त्यो ढोकाबाट"
+msgstr ""
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
@@ -195,7 +198,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-ओह नाइ!\n#यो बाटो बन्द छ! यहाँ\n#भएको एउटा मात्र बाटोले\n#भुइँको अध्यारो प्वालको\n#माध्याम दिलाउने देखिन्छ..."
+msgstr ""
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"

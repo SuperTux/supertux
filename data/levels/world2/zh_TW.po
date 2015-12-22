@@ -1,11 +1,14 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-11 02:37+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 09:03+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/arctic-games/supertux/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +29,7 @@ msgstr "山中小徑"
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "-攀爬\n# Tux 可以攀爬喔！按住上鍵開始爬。按下動作鍵或跳躍鍵離開。"
+msgstr ""
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
@@ -43,7 +46,7 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr "-可被舉起的石頭:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+msgstr ""
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -178,7 +181,7 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "提示：\n# 如果看起來\n# 沒有辦法碰到某個門的話，\n#記得您有可能會因為之後從那個門出來而感到訝異\n#"
+msgstr ""
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
@@ -191,7 +194,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "喔不！\n# 道路被封鎖了！ 看來\n#唯一的路\n#就是\n#地上的那個黑暗的洞口了\n# "
+msgstr ""
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"

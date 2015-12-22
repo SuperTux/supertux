@@ -1,12 +1,11 @@
 [![Build Status](https://travis-ci.org/SuperTux/supertux.svg?branch=master)](https://travis-ci.org/SuperTux/supertux)
 [![AppVeyor Build Satus](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/maths22/supertux-9ml4d/branch/master)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/4025/badge.svg)](https://scan.coverity.com/projects/4025)
-SuperTux - <http://supertux.lethargik.org/>
-===========================================
-Last update: February 26, 2010
+# SuperTux - <http://supertuxproject.org/>
 
-Description
------------
+Last update: December 20, 2015
+
+## Description
 
 SuperTux is a jump'n'run game with strong inspiration from the
 Super Mario Bros. games for the various Nintendo platforms.
@@ -16,8 +15,7 @@ on them, bumping them from below or tossing objects at them, grabbing
 power-ups and other stuff on the way.
 
 
-Story: Penny gets captured!
----------------------------
+## Story: Penny gets captured!
 
 Tux and Penny were out having a nice picnic on the ice fields of
 Antarctica. Suddenly, a creature jumped from behind an ice bush, there
@@ -33,39 +31,24 @@ Tux looks and sees Nolok's fortress in the distance. Determined to
 save his beloved Penny, he begins his journey.
 
 
-Documentation
--------------
+## Documentation
+
 Important documentation for SuperTux is contained in multiple files.
 Please see them:
 
-`INSTALL.md`
-: Requirements, compiling and installing.
-
-`README.md`
-: This file
-
-`NEWS.md`
-: Changes since the previous versions of SuperTux.
-
-`LICENSE.txt`
-: The GNU General Public License, under whose terms SuperTux is
+* `INSTALL.md` - Requirements, compiling and installing.
+* `README.md` - This file
+* `NEWS.md` - Changes since the previous versions of SuperTux.
+* `LICENSE.txt` - The GNU General Public License, under whose terms SuperTux is
 licensed. (Most of the data subdirectory is also licensed under
 CC-by-SA)
-
-`docs/levelguidelines.txt`
-: Very useful information for those that want to design levels for
-SuperTux.
-
-`data/credits.txt`
-: Credits for people that contributed to the creation of SuperTux. (You
-can view these in the game menu as well.)
-
-`data/README`
-: Licensing information about the data.
+* `docs/levelguidelines.txt` - Very useful information for those that want to
+design levels for SuperTux.
+* `data/credits.txt` - Credits for people that contributed to the creation of
+SuperTux. (You can view these in the game menu as well.)
 
 
-Running the game
-----------------
+## Running the game
 
 SuperTux makes use of proc to see where it is. In other words, it does
 not have any need to be installed and can be run from anywhere. This
@@ -85,17 +68,15 @@ drivers. (On Linux, the team recommends using cards from NVidia with
 the proprietary drivers, but ATI or another vendor should do.)
 
 
-Playing the game
-----------------
+## Playing the game
 
 Both keyboards and joysticks/gamepads are supported. You can change
 the controls via the Options menu. Basically, the only keys you will
 need to use in-game are to do the following actions: jump, duck,
-right, left, power and 'P' to pause/unpause the game. There isn't much
+right, left, action and 'P' to pause/unpause the game. There isn't much
 to tell about the first few, but the "action" key allows you to pick
 up objects and use any powerup you got. For instance, with the fire
-flower, you can shoot bullets (note that this is the only power
-currently implemented).
+flower, you can shoot fireballs, or with the ice flower fire ice pellets.
 
 Other useful keys include the Esc key, which is used to go to the menu
 or to go up a level in the menu. The menu can be navigated using the
@@ -105,24 +86,28 @@ In the worldmap, the arrow keys are used to navigate and Enter to
 enter the current level.
 
 
-Development status
-------------------
+## Development status
 
-This version of SuperTux is still under development, even though the
-0.3 line of versions is somewhat aged. This means that badguys,
-features, levels, graphics or anything else may be removed in the
-future.
+With the release of SuperTux Milestone 2 (December 2015), we hope to
+provide a fairly stable release. Development of the game will continue
+(of course), now working towards a Milestone 3 release.
 
-Especially the Forest world included in this package may be subject to
-drastic changes. These changes may go as far as removing the world
-altogether. Currently (February 2010) there is no consensus within the
-SuperTux development community regarding the fate of the Forest. Don't
-get too attached to it ;)
+The Forest World (you can check it out:
+Start Game > Contrib Levels > Forest World) is notably unstable, which
+is why it resides only in the contrib levels menu. We (SuperTux Team)
+intend to continue with the development of the Forest World, but
+decided that in order to allow more access to the most recent version
+(in repositories etc.) we would have to release Milestone 2 without the 
+Forest World included in the Story Mode.
+
+Don't forget that you can get involved with the development at
+<https://github.com/supertux/supertux>,
+or get updated about the recent changes on Twitter 
+[@supertux_team](https://twitter.com/supertux_team)
 
 
-The End
--------
+## The End
 
-Thanks for trying out SuperTux.
+Thanks for playing SuperTux.
 
 The SuperTux development team

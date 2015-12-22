@@ -4,14 +4,16 @@
 # 
 # Translators:
 # dominik232 <dominik232@gmail.com>, 2014
+# Krzysiek Szeląg, 2015
+# Krzysiek Szeląg, 2015
 # Paweł Talar <ptalar15@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:10+0000\n"
-"PO-Revision-Date: 2015-07-11 02:36+0000\n"
-"Last-Translator: dominik232 <dominik232@gmail.com>\n"
+"POT-Creation-Date: 2015-11-21 12:40+0100\n"
+"PO-Revision-Date: 2015-12-13 17:19+0000\n"
+"Last-Translator: Krzysiek Szeląg\n"
 "Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,7 +51,7 @@ msgstr "Długa droga do domu"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
-msgstr ""
+msgstr "Zamek w Bonusowej Wyspie"
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
@@ -80,11 +82,11 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
+msgstr "-Gratulacje!\n\n#Udało Ci się wygrać\n#Bonusową wyspę I\n\n\tzawierającą poziomy stworzone przez:\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Jeśli jeszcze nie wygrałeś wszystkich poziomów,\n#znajdź drogę do domu i spróbuj\n#je wygrać. Więcej wyzwań\n#czeka na Ciebie!\n\n#A, i jeszcze jest bonusowy poziom\n#do znalezienia...\n\n#Wielkie podziękowania idą do\n#każdego, kto przyczynił się do tego wydania.\n#Mamy nadzieję, że podobało Ci się!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
-msgstr ""
+msgstr "Przestań tu gadać"
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
@@ -100,7 +102,7 @@ msgstr "Byłem tutaj wcześniej?"
 
 #: data/levels/bonus1/thompson-level2.stl:3
 msgid "Bad Guys Stink!"
-msgstr ""
+msgstr "Źli śmierdzą!"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
@@ -109,6 +111,10 @@ msgstr "Dobry początek"
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
 msgstr "Zbyt łatwo"
+
+#: data/levels/bonus1/torfi-level2.stl:42
+msgid "#All these levels were upgraded to milestone 2 design by Hume2."
+msgstr "#Wszystkie poziomy zostały ulepszone do stylu Milestone 2 przez Hume2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -128,7 +134,7 @@ msgstr "Labirynt w na niebie"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr ""
+msgstr "Blisko rozpadu"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
@@ -148,52 +154,52 @@ msgstr "Wskazówka: Użyj igloo, aby wrócić tutaj."
 
 #: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"
-msgstr ""
+msgstr "Do sektora Matr1x'a"
 
 #: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
-msgstr ""
+msgstr "Do domeny Thompson'a"
 
 #: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
-msgstr ""
+msgstr "Opuść wyspę drużyny SuperTux"
 
 #: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
-msgstr ""
+msgstr "Do obszaru Abednego"
 
 #: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
-msgstr ""
+msgstr "Opuść terytorium Torfi'ego"
 
 #: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
-msgstr ""
+msgstr "Opuść obszar Abednego"
 
 #: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
-msgstr ""
+msgstr "Opuść domenę Thompson'a"
 
 #: data/levels/bonus1/worldmap.stwm:77
 msgid "Back to Matr1x' Sector"
-msgstr ""
+msgstr "Wracaj do sektora Matr1x'a"
 
 #: data/levels/bonus1/worldmap.stwm:83
 msgid "Warp home"
-msgstr ""
+msgstr "Do domu"
 
 #: data/levels/bonus1/worldmap.stwm:97
 msgid "Warp to the SuperTux Team Island"
-msgstr ""
+msgstr "Do wyspy drużyny SuperTux"
 
 #: data/levels/bonus1/worldmap.stwm:123
 msgid "Leave Matr1x' Sector"
-msgstr ""
+msgstr "Opuść sektor Matr1x'a"
 
 #: data/levels/bonus1/worldmap.stwm:129
 msgid "Continue Matr1x' Sector"
-msgstr ""
+msgstr "Kontynuuj sektor Matr1x'a"
 
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
-msgstr ""
+msgstr "Do terytorium Torfi'ego"

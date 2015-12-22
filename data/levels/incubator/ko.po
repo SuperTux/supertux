@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 02:39+0200\n"
-"PO-Revision-Date: 2015-07-11 01:53+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 09:04+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -29,6 +29,10 @@ msgstr ""
 msgid "Mad Ysonn Cube Garden"
 msgstr ""
 
+#: data/levels/incubator/frozen_fissure.stl:3
+msgid "Frozen Fissure"
+msgstr ""
+
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
 msgstr ""
@@ -47,6 +51,10 @@ msgstr ""
 msgid "The Jagged Path"
 msgstr ""
 
+#: data/levels/incubator/midnight_crossing.stl:3
+msgid "Midnight Crossing"
+msgstr ""
+
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
 msgstr ""
@@ -57,6 +65,10 @@ msgstr ""
 
 #: data/levels/incubator/obstaclecourse.stl:48
 msgid "#If you get stuck, flip the switch to kill Tux."
+msgstr ""
+
+#: data/levels/incubator/pipeline.stl:3
+msgid "Pipeline"
 msgstr ""
 
 #: data/levels/incubator/primed.stl:3

@@ -1,12 +1,16 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
 # Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-28 18:11+0000\n"
-"PO-Revision-Date: 2015-07-21 11:13+0000\n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 10:14+0000\n"
 "Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +31,7 @@ msgstr "山の道"
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- 登れます\n# Tuxはのぼることができます。のぼるには、上キーを押してください。アクションキー、ジャンプキーを押すとのぼるのをやめます。"
+msgstr "- 登れます # Tuxはのぼることができます。のぼるには、上キーを押してください。アクションキー、ジャンプキーを押すとのぼるのをやめます。"
 
 #: data/levels/world2/airkey.stl:3
 msgid "Treasure in the skies"
@@ -44,7 +48,7 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr "-自由に使えるブロック:\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+msgstr "-自由に使えるブロック: \n!images/help/rockhowto1.png \n!images/help/rockhowto2.png \n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -179,7 +183,7 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-Hint:\n#通路に行けそうでなくても、\n#あなたはそのドアを\n#通れる可能性が\n#あるかもしれません。"
+msgstr "-Hint: \n#通路に行けそうでなくても、 \n#あなたはそのドアを \n#通れる可能性が \n#あるかもしれません。"
 
 #: data/levels/world2/level2.stl:3
 msgid "Down The Rabbit Hole"
@@ -192,7 +196,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr "-残念!\n#その道はふさがれています！\n#通るための方法は、\n#地面に暗い穴を通して\n#つなげるそうです..."
+msgstr "-残念! \n#その道はふさがれています！ \n#通るための方法は、 \n#地面に暗い穴を通して \n#つなげるそうです..."
 
 #: data/levels/world2/level2.stl:55
 msgid "-Are you lost?"
