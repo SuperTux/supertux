@@ -76,10 +76,12 @@ class Editor : public Screen,
     void load_sector(std::string name);
     void load_sector(int id);
 
-    void scroll_up();
-    void scroll_down();
-    void scroll_left();
-    void scroll_right();
+
+    // speed is in tiles per frame
+    void scroll_up(float speed = 1.0f);
+    void scroll_down(float speed = 1.0f);
+    void scroll_left(float speed = 1.0f);
+    void scroll_right(float speed = 1.0f);
 
   private:
     bool enabled;
