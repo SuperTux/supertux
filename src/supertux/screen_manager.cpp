@@ -235,7 +235,9 @@ ScreenManager::process_events()
         {
           g_config->show_fps = !g_config->show_fps;
         }
-        else if (event.key.keysym.sym == SDLK_F11)
+        else if (event.key.keysym.sym == SDLK_F11 ||
+                 ((event.key.keysym.mod & KMOD_LALT || event.key.keysym.mod & KMOD_RALT) &&
+                 (event.key.keysym.sym == SDLK_KP_ENTER || event.key.keysym.sym == SDLK_RETURN)))
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
           VideoSystem::current()->apply_config();
