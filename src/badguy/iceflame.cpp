@@ -30,13 +30,13 @@
 Iceflame::Iceflame(const Reader& reader) :
   BadGuy(reader, "images/creatures/flame/iceflame.sprite", LAYER_FLOATINGOBJECTS),
   angle(0),
-  radius(100),
-  speed(2),
+  radius(),
+  speed(),
   light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
-  reader.get("radius", radius);
-  reader.get("speed", speed);
+  if ( !reader.get("radius", radius)) radius = 100;
+  if ( !reader.get("speed", speed)) speed = 2;
   bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
                       start_position.y + sin(angle) * radius));
   countMe = false;

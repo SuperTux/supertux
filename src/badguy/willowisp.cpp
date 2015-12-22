@@ -38,8 +38,8 @@ static const std::string SOUNDFILE = "sounds/willowisp.wav";
 WillOWisp::WillOWisp(const Reader& reader) :
   BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS),
   mystate(STATE_IDLE),
-  target_sector("main"),
-  target_spawnpoint("main"),
+  target_sector(),
+  target_spawnpoint(),
   hit_script(),
   sound_source(),
   path(),
@@ -49,19 +49,15 @@ WillOWisp::WillOWisp(const Reader& reader) :
   vanish_range(),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
-  bool running = false;
-  flyspeed     = FLYSPEED;
-  track_range  = TRACK_RANGE;
-  vanish_range = VANISH_RANGE;
+  if ( !reader.get("sector", target_sector)) target_sector = "main";
+  if ( !reader.get("spawnpoint", target_spawnpoint)) target_spawnpoint = "main";
+  if ( !reader.get("flyspeed", flyspeed)) flyspeed = FLYSPEED;
+  if ( !reader.get("track-range", track_range)) track_range = TRACK_RANGE;
+  if ( !reader.get("vanish-range", vanish_range)) vanish_range = VANISH_RANGE;
+  if ( !reader.get("hit-script", hit_script)) hit_script = "";
 
-  reader.get("sector", target_sector);
-  reader.get("spawnpoint", target_spawnpoint);
-  reader.get("name", name);
-  reader.get("flyspeed", flyspeed);
-  reader.get("track-range", track_range);
-  reader.get("vanish-range", vanish_range);
-  reader.get("hit-script", hit_script);
-  reader.get("running", running);
+  bool running;
+  if ( !reader.get("running", running)) running = false;
 
   const lisp::Lisp* pathLisp = reader.get_lisp("path");
   if(pathLisp != NULL) {

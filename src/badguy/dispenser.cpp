@@ -41,12 +41,11 @@ Dispenser::Dispenser(const Reader& reader) :
 {
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
-  reader.get("cycle", cycle);
-  reader.get("badguy", badguys);
-  random = false; // default
-  reader.get("random", random);
+  if ( !reader.get("cycle", cycle)) cycle = 5;
+  if ( !reader.get("badguy", badguys)) badguys.clear();
+  if ( !reader.get("random", random)) random = false;
   std::string type_s = "dropper"; //default
-  reader.get("type", type_s);
+  if ( !reader.get("type", type_s)) type_s = "";
   if (type_s == "dropper") {
     type = DT_DROPPER;
   } else if (type_s == "rocketlauncher") {

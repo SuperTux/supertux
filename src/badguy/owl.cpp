@@ -32,10 +32,10 @@
 
 Owl::Owl(const Reader& reader) :
   BadGuy(reader, "images/creatures/owl/owl.sprite", LAYER_OBJECTS + 1),
-  carried_obj_name("skydive"),
+  carried_obj_name(),
   carried_object(NULL)
 {
-  reader.get("carry", carried_obj_name);
+  if ( !reader.get("carry", carried_obj_name)) carried_obj_name = "skydive";
   set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
 }
 
