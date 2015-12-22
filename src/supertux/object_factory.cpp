@@ -311,7 +311,8 @@ GameObjectPtr
 ObjectFactory::create(const std::string& name, const Vector& pos, const Direction& dir, const std::string& data) const
 {
   std::stringstream lisptext;
-  lisptext << "((x " << pos.x << ")"
+  lisptext << "(" << name << "\n"
+           << " (x " << pos.x << ")"
            << " (y " << pos.y << ")" << data;
   if(dir != AUTO) {
     lisptext << " (direction " << dir << "))";
