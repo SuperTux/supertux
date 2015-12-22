@@ -124,7 +124,6 @@ Haywire::active_update(float elapsed_time)
   if (is_stunned) {
     if (time_stunned > elapsed_time) {
       time_stunned -= elapsed_time;
-      return;
     }
     else { /* if (time_stunned <= elapsed_time) */
       elapsed_time -= time_stunned;
