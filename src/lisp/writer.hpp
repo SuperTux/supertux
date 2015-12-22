@@ -22,6 +22,8 @@
 
 namespace lisp {
 
+class Lisp;
+  
 class Writer
 {
 public:
@@ -46,11 +48,23 @@ public:
   void write(const std::string& name, const std::vector<std::string>& value);
   // add more write-functions when needed...
 
+  /**
+   * Paste in a Lisp tree 'lsp' gotten using 'parse' or
+   * 'get_lisp' with the name 'container_name'.
+   */
+  void paste(const Lisp* lsp, const std::string& container_name="");
+
   void end_list(const std::string& listname);
 
 private:
   void write_escaped_string(const std::string& str);
   void indent();
+  /**
+   * @brief Pastes lisp tree into file. 
+   * @param lsp
+   * Must have a name (TYPE_SYMBOL) as first thing.
+   */
+  void paste_raw(const Lisp* lsp);
 
 private:
   std::ostream* out;

@@ -24,6 +24,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/gettext.hpp"
+#include "physfs.h"
 
 ProfileMenu::ProfileMenu()
 {
@@ -50,7 +51,22 @@ ProfileMenu::ProfileMenu()
 void
 ProfileMenu::menu_action(MenuItem* item)
 {
+  g_config->save();
   g_config->profile = item->id;
+  //Ensure profile folder exists, if not, create it
+  std::ostringstream dirname;
+  dirname << "profile" << g_config->profile;
+  if(!PHYSFS_exists(dirname.str().c_str()))
+  {
+    if(!PHYSFS_mkdir(dirname.str().c_str()))
+    {
+      std::ostringstream msg;
+      msg << "Couldn't create directory for new profile - "
+          << dirname << "': " <<PHYSFS_getLastError();
+      throw std::runtime_error(msg.str());
+    }
+  }
+  g_config->load(g_config->profile);
   MenuManager::instance().clear_menu_stack();
 }
 

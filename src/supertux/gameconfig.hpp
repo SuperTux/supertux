@@ -25,14 +25,25 @@
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
+namespace lisp {
+  class Lisp;
+}
+
 class Config
 {
 public:
   Config();
   ~Config();
-
-  void load();
+  
+  // If no profile_num specified, will use current-profile file
+  void load(int profile_num = -1);
+  void load_addons(const lisp::Lisp* lsp);
+  /**Try to load old 0.3.6 config file.*/
+  bool load_legacy();
+  bool load_from(const lisp::Lisp* lsp);
   void save();
+  /**Save to current-profile file the number profile_num*/
+  void save_current_profile();
 
   int profile;
 
