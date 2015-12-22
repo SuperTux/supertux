@@ -39,6 +39,7 @@
 #include "video/font.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
+#include "math/vector.hpp"
 
 EditorInputCenter::EditorInputCenter() :
   hovered_tile(0, 0),
@@ -49,8 +50,7 @@ EditorInputCenter::EditorInputCenter() :
   dragged_object(NULL),
   object_tip(),
   obj_mouse_desync(0, 0),
-  mouse_hs(HS_NONE),
-  mouse_vs(VS_NONE)
+  scrolling(Vector())
 {
 }
 
@@ -428,54 +428,66 @@ EditorInputCenter::actualize_pos() {
   hover_object();
 }
 
+// How close to edge before scrolling starts (in tiles)
+#define SCROLL_TILE_PROX 3
+#define SCROLL_PROX (SCROLL_TILE_PROX * 32.0f)
+
 void
 EditorInputCenter::actualize_scrolling() {
-  int inv_x = SCREEN_WIDTH - mouse_pos.x;
-  int inv_y = SCREEN_HEIGHT - mouse_pos.y;
-  if (mouse_pos.x <= 16) {
-    mouse_hs = HS_LEFT;
-  } else if(inv_x > 128 && inv_x < 144) {
-    mouse_hs = HS_RIGHT;
-  } else {
-    mouse_hs = HS_NONE;
+  // What we can actually see
+  int editor_height = SCREEN_HEIGHT - 32;
+  int editor_width = SCREEN_WIDTH - 128;
+  
+  // Proximities to boundaries, may be negative
+  int top_prox = mouse_pos.y;
+  int bottom_prox = editor_height - mouse_pos.y;
+  
+  int left_prox = mouse_pos.x;
+  int right_prox = editor_width - mouse_pos.x;
+
+  // Get the distance
+  if (left_prox > 0 && left_prox < SCROLL_PROX) {
+    left_prox = SCROLL_PROX - left_prox;
+    scrolling.x = -(left_prox  / SCROLL_PROX);
+  } else if (right_prox > 0 && right_prox < SCROLL_PROX) {
+    right_prox = SCROLL_PROX - right_prox;
+    scrolling.x = right_prox  / SCROLL_PROX;
   }
-  if (mouse_pos.y <= 16) {
-    mouse_vs = VS_UP;
-  } else if(inv_y > 32 && inv_y < 48) {
-    mouse_vs = VS_DOWN;
-  } else {
-    mouse_vs = VS_NONE;
+  
+  if (top_prox > 0 && top_prox < SCROLL_PROX) {
+    top_prox = SCROLL_PROX - top_prox;
+    scrolling.y = -(top_prox  / SCROLL_PROX);
+  } else if (bottom_prox > 0 && bottom_prox < SCROLL_PROX) {
+    bottom_prox = SCROLL_PROX - bottom_prox;
+    scrolling.y = bottom_prox / SCROLL_PROX;
   }
 }
 
+#undef SCROLL_PROX
+#undef SCROLL_TILE_PROX
+
 void
 EditorInputCenter::update_scroll() {
-  switch (mouse_hs) {
-    case HS_LEFT:
-      Editor::current()->scroll_left();
-      break;
-    case HS_RIGHT:
-      Editor::current()->scroll_right();
-      break;
-    default:
-      break;
-  }
-  switch (mouse_vs) {
-    case VS_UP:
-      Editor::current()->scroll_up();
-      break;
-    case VS_DOWN:
-      Editor::current()->scroll_down();
-      break;
-    default:
-      break;
-  }
+  float horiz_scroll = scrolling.x;
+  float vert_scroll = scrolling.y;
+
+  if (horiz_scroll < 0)
+    Editor::current()->scroll_left(-horiz_scroll);
+  else if (horiz_scroll > 0)
+    Editor::current()->scroll_right(horiz_scroll);
+  else {}
+  
+  if (vert_scroll < 0)
+    Editor::current()->scroll_up(-vert_scroll);
+  else if (vert_scroll > 0)
+    Editor::current()->scroll_down(vert_scroll);
+  else {}
 }
 
 void
 EditorInputCenter::stop_scrolling() {
-  mouse_vs = VS_NONE;
-  mouse_hs = HS_NONE;
+  scrolling.x = 0;
+  scrolling.y = 0;
 }
 
 void

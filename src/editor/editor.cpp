@@ -127,10 +127,10 @@ bool Editor::can_scroll_horz() {
   return currentsector->get_width() + 128 > SCREEN_WIDTH;
 }
 
-void Editor::scroll_left() {
+void Editor::scroll_left(float speed) {
   if (can_scroll_horz()) {
-    if (currentsector->camera->get_translation().x >= 32) {
-      currentsector->camera->move(-32, 0);
+    if (currentsector->camera->get_translation().x >= speed*32) {
+      currentsector->camera->move(-32 * speed, 0);
     } else {
       //When is the camera less than one tile after the left limit, it puts the camera to the limit.
       currentsector->camera->move(-currentsector->camera->get_translation().x, 0);
@@ -139,10 +139,10 @@ void Editor::scroll_left() {
   }
 }
 
-void Editor::scroll_right() {
+void Editor::scroll_right(float speed) {
   if (can_scroll_horz()) {
-    if (currentsector->camera->get_translation().x <= currentsector->get_width() - SCREEN_WIDTH + 96) {
-      currentsector->camera->move(32, 0);
+    if (currentsector->camera->get_translation().x <= currentsector->get_width() - SCREEN_WIDTH + 128 - 32 * speed) {
+      currentsector->camera->move(32*speed, 0);
     } else {
       //When is the camera less than one tile after the right limit, it puts the camera to the limit.
       // The limit is shifted 128 pixels to the right due to the input gui.
@@ -153,10 +153,10 @@ void Editor::scroll_right() {
   }
 }
 
-void Editor::scroll_up() {
+void Editor::scroll_up(float speed) {
   if (can_scroll_vert()) {
-    if (currentsector->camera->get_translation().y >= 32) {
-      currentsector->camera->move(0,-32);
+    if (currentsector->camera->get_translation().y >= speed*32) {
+      currentsector->camera->move(0,-32*speed);
     } else {
       //When is the camera less than one tile after the top limit, it puts the camera to the limit.
       currentsector->camera->move(0, -currentsector->camera->get_translation().y);
@@ -165,10 +165,10 @@ void Editor::scroll_up() {
   }
 }
 
-void Editor::scroll_down() {
+void Editor::scroll_down(float speed) {
   if (can_scroll_vert()) {
-    if (currentsector->camera->get_translation().y <= currentsector->get_height() - SCREEN_HEIGHT) {
-      currentsector->camera->move(0, 32);
+    if (currentsector->camera->get_translation().y <= currentsector->get_height() - SCREEN_HEIGHT - 32 * speed) {
+      currentsector->camera->move(0, 32*speed);
     } else {
       //When is the camera less than one tile after the bottom limit, it puts the camera to the limit.
       // The limit is shifted 32 pixels to the bottom due to the layer toolbar.
