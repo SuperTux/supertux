@@ -44,7 +44,7 @@ GoldBomb::GoldBomb(const ReaderMapping& reader) :
   if( !reader.get( "sprite", sprite_name ) ){
     return;
   }
-  if( sprite_name == "" ){
+  if (sprite_name.empty()) {
     sprite_name = "images/creatures/gold_bomb/gold_bomb.sprite";
     return;
   }

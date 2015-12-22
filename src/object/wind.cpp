@@ -92,7 +92,7 @@ Wind::collision(GameObject& other, const CollisionHit& )
 void
 Wind::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name == "")
+  if (name.empty())
     return;
 
   scripting::Wind* _this = new scripting::Wind(this);
@@ -102,7 +102,7 @@ Wind::expose(HSQUIRRELVM vm, SQInteger table_idx)
 void
 Wind::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name == "")
+  if (name.empty())
     return;
 
   scripting::unexpose_object(vm, table_idx, name);

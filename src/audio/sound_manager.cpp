@@ -278,7 +278,7 @@ SoundManager::play_music(const std::string& filename, bool fade)
   if(!music_enabled)
     return;
 
-  if(filename == "") {
+  if(filename.empty()) {
     music_source.reset();
     return;
   }

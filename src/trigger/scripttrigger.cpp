@@ -37,7 +37,7 @@ ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   bbox.set_size(w, h);
   reader.get("script", script);
   reader.get("button", must_activate);
-  if(script == "") {
+  if(script.empty()) {
     throw std::runtime_error("Need to specify a script for trigger object");
   }
 

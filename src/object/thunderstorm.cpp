@@ -86,7 +86,7 @@ Thunderstorm::draw(DrawingContext& context)
 void
 Thunderstorm::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name == "") return;
+  if (name.empty()) return;
   scripting::Thunderstorm* _this = new scripting::Thunderstorm(this);
   expose_object(vm, table_idx, _this, name, true);
 }
@@ -94,7 +94,7 @@ Thunderstorm::expose(HSQUIRRELVM vm, SQInteger table_idx)
 void
 Thunderstorm::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  if (name == "") return;
+  if (name.empty()) return;
   scripting::unexpose_object(vm, table_idx, name);
 }
 

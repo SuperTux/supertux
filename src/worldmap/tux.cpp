@@ -230,7 +230,7 @@ Tux::tryContinueWalking(float elapsed_time)
   if ((worldmap->at_level())
       || (worldmap->tile_data_at(tile_pos) & Tile::WORLDMAP_STOP)
       || (special_tile && !special_tile->passive_message
-          && special_tile->script == "")
+          && special_tile->script.empty())
       || (teleporter) || ghost_mode) {
     if(special_tile && !special_tile->map_message.empty()
        && !special_tile->passive_message)

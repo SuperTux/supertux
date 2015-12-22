@@ -71,7 +71,7 @@ ContribMenu::ContribMenu() :
           const auto& state = savegame.get_levelset_state(world->get_basedir());
           for(const auto& level_state : state.level_states)
           {
-            if(level_state.filename == "")
+            if(level_state.filename.empty())
               continue;
 
             if (level_state.solved)
@@ -102,7 +102,7 @@ ContribMenu::ContribMenu() :
           const auto& state = savegame.get_worldmap_state(world->get_worldmap_filename());
           for(const auto& level_state : state.level_states)
           {
-            if(level_state.filename == "")
+            if(level_state.filename.empty())
               continue;
 
             if (level_state.solved)

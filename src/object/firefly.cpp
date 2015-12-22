@@ -37,7 +37,7 @@ Firefly::Firefly(const ReaderMapping& lisp) :
     reactivate();
     return;
   }
-  if( sprite_name == "" ){
+  if (sprite_name.empty()) {
     sprite_name = "images/objects/resetpoints/default-resetpoint.sprite";
     reactivate();
     return;

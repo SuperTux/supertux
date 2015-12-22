@@ -35,8 +35,8 @@ Platform::Platform(const ReaderMapping& reader) :
   bool running = true;
   reader.get("name", name);
   reader.get("running", running);
-  if ((name == "") && (!running)) {
-    automatic=true;
+  if ((name.empty()) && (!running)) {
+    automatic = true;
   }
 
   ReaderMapping path_mapping;
