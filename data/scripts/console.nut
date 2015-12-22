@@ -79,6 +79,11 @@ function lifeup()
 	sector.Tux.add_coins(100);
 }
 
+function none()
+{
+	sector.Tux.set_bonus("none");
+}
+
 /**
  * Display a list of functions in the roottable (or in the table specified)
  */
