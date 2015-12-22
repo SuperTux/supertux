@@ -63,18 +63,25 @@ Yeti::Yeti(const Reader& reader) :
   left_jump_x(),
   right_jump_x()
 {
-  hit_points = INITIAL_HITPOINTS;
-  reader.get("lives", hit_points);
+  if ( !reader.get("lives", hit_points) ) {
+    hit_points = INITIAL_HITPOINTS;
+  }
   countMe = true;
   SoundManager::current()->preload("sounds/yeti_gna.wav");
   SoundManager::current()->preload("sounds/yeti_roar.wav");
 
-  std::string hud_icon = "images/creatures/yeti/hudlife.png";
-  reader.get("hud-icon", hud_icon);
+  std::string hud_icon;
+  if ( !reader.get("hud-icon", hud_icon) ) {
+    hud_icon = "images/creatures/yeti/hudlife.png";
+  }
   hud_head = Surface::create(hud_icon);
 
-  bool fixed_pos = true;
-  reader.get("fixed-pos", fixed_pos);
+  initialize();
+
+  bool fixed_pos;
+  if ( !reader.get("fixed-pos", fixed_pos) ) {
+    fixed_pos = false;
+  }
   if (fixed_pos) {
     left_stand_x = 80;
     right_stand_x = 1140;
