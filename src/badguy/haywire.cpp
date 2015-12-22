@@ -126,7 +126,6 @@ Haywire::active_update(float elapsed_time)
       time_stunned -= elapsed_time;
     }
     else { /* if (time_stunned <= elapsed_time) */
-      elapsed_time -= time_stunned;
       time_stunned = 0.0;
       is_stunned = false;
     }
@@ -136,7 +135,7 @@ Haywire::active_update(float elapsed_time)
     Player *p = get_nearest_player ();
     float target_velocity = 0.0;
 
-    if (p) {
+    if (p && time_stunned == 0.0) {
       /* Player is on the right */
       if (p->get_pos ().x > this->get_pos ().x)
         target_velocity = walk_speed;
