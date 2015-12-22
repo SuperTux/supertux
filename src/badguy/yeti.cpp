@@ -163,8 +163,7 @@ Yeti::active_update(float elapsed_time)
       if (((dir == RIGHT) && (get_pos().x >= right_stand_x)) || ((dir == LEFT) && (get_pos().x <= left_stand_x))) be_angry();
       break;
     case BE_ANGRY:
-      if(state_timer.check()) {
-        SoundManager::current()->play("sounds/yeti_gna.wav");
+      if(state_timer.check() && on_ground()) {
         physic.set_velocity_y(STOMP_VY);
         sprite->set_action((dir==RIGHT)?"stomp-right":"stomp-left");
       }
@@ -214,7 +213,6 @@ Yeti::be_angry()
 
   sprite->set_action((dir==RIGHT) ? "stand-right" : "stand-left");
   physic.set_velocity_x(0);
-  physic.set_velocity_y(0);
   stomp_count = 0;
   state = BE_ANGRY;
   state_timer.start(STOMP_WAIT);
@@ -307,6 +305,7 @@ Yeti::drop_stalactite()
 void
 Yeti::collision_solid(const CollisionHit& hit)
 {
+  update_on_ground_flag(hit);
   if(hit.top || hit.bottom) {
     // hit floor or roof
     physic.set_velocity_y(0);
@@ -322,6 +321,7 @@ Yeti::collision_solid(const CollisionHit& hit)
         // we just landed
         if(!state_timer.started()) {
           sprite->set_action((dir==RIGHT)?"stand-right":"stand-left");
+          SoundManager::current()->play("sounds/yeti_gna.wav");
           stomp_count++;
           drop_stalactite();
 
