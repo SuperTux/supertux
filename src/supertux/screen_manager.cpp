@@ -240,7 +240,7 @@ ScreenManager::process_events()
 
     m_menu_manager->event(event);
 
-    if (Editor::current()) if (Editor::current()->levelloaded) {
+    if (EditorActive()) {
       Editor::current()->event(event);
     }
 
@@ -257,7 +257,7 @@ ScreenManager::process_events()
             VideoSystem::current()->resize(event.window.data1,
                                            event.window.data2);
             m_menu_manager->on_window_resize();
-            if (Editor::current()) if (Editor::current()->levelloaded) {
+            if (EditorActive()) {
               Editor::current()->resize();
             }
             break;
