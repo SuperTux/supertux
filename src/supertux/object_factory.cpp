@@ -315,7 +315,7 @@ ObjectFactory::create(const std::string& name, const Vector& pos, const Directio
            << " (x " << pos.x << ")"
            << " (y " << pos.y << ")" << data;
   if(dir != AUTO) {
-    lisptext << " (direction " << dir << "))";
+    lisptext << " (direction \"" << dir << "\"))";
   } else {
     lisptext << ")";
   }
