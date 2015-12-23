@@ -142,6 +142,17 @@ SectorParser::parse(const ReaderMapping& sector)
       if (!sp->name.empty() && sp->pos.x >= 0 && sp->pos.y >= 0) {
         m_sector.spawnpoints.push_back(sp);
       }
+      if (EditorActive()) {
+        GameObjectPtr object = parse_object("spawnpoint", iter.as_mapping());
+        if(object) {
+          if(std::dynamic_pointer_cast<Background>(object)) {
+            has_background = true;
+          } else if(std::dynamic_pointer_cast<Gradient>(object)) {
+            has_background = true;
+          }
+          m_sector.add_object(object);
+        }
+      }
     } else if(iter.get_key() == "init-script") {
       iter.get(m_sector.init_script);
     } else if(iter.get_key() == "ambient-light") {

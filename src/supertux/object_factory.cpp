@@ -79,6 +79,8 @@
 #include "badguy/yeti_stalactite.hpp"
 #include "badguy/zeekling.hpp"
 
+#include "editor/spawnpoint_marker.hpp"
+
 #include "object/ambient_sound.hpp"
 #include "object/anchor_point.hpp"
 #include "object/background.hpp"
@@ -284,6 +286,8 @@ ObjectFactory::init_factories()
   add_factory<SecretAreaTrigger>("secretarea");
   add_factory<SequenceTrigger>("sequencetrigger");
   add_factory<Switch>("switch");
+
+  add_factory<SpawnPointMarker>("spawnpoint");
 
   add_factory("tilemap", [](const ReaderMapping& reader) {
       auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());

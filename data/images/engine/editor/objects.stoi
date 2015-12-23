@@ -239,6 +239,9 @@
     (class "sequencetrigger")
     (icon "images/engine/editor/sequencetrigger.png"))
   (object
+    (class "spawnpoint")
+    (icon "images/engine/editor/spawnpoint.png"))
+  (object
     (class "ambient_sound")
     (icon "images/engine/editor/ambientsound.png"))
   (object
