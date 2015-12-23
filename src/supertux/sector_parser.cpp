@@ -145,11 +145,6 @@ SectorParser::parse(const ReaderMapping& sector)
       if (EditorActive()) {
         GameObjectPtr object = parse_object("spawnpoint", iter.as_mapping());
         if(object) {
-          if(std::dynamic_pointer_cast<Background>(object)) {
-            has_background = true;
-          } else if(std::dynamic_pointer_cast<Gradient>(object)) {
-            has_background = true;
-          }
           m_sector.add_object(object);
         }
       }
