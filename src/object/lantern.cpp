@@ -70,6 +70,11 @@ Lantern::get_settings() {
   return result;
 }
 
+void
+Lantern::after_editor_set() {
+  updateColor();
+}
+
 Lantern::~Lantern()
 {
 }
@@ -80,6 +85,7 @@ Lantern::updateColor(){
   //Turn lantern off if light is black
   if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
     sprite->set_action("off");
+    sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   } else {
     sprite->set_action("normal");
     sprite->set_color(lightcolor);
