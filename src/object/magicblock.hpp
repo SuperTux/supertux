@@ -41,6 +41,7 @@ public:
   }
 
   virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
 
 private:
   bool is_solid;
