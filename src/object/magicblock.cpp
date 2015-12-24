@@ -98,6 +98,22 @@ MagicBlock::get_settings() {
 }
 
 void
+MagicBlock::after_editor_set() {
+  if(color.red == 0 && color.green == 0 && color.blue == 0) { //is it black?
+    black = true;
+    trigger_red = MIN_INTENSITY;
+    trigger_green = MIN_INTENSITY;
+    trigger_blue = MIN_INTENSITY;
+  } else {
+    black = false;
+    trigger_red = color.red;
+    trigger_green = color.green;
+    trigger_blue = color.blue;
+  }
+  sprite->set_color(color);
+}
+
+void
 MagicBlock::update(float elapsed_time)
 {
   //Check if center of this block is on screen.
