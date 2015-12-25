@@ -35,6 +35,7 @@ extern "C" {
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "math/random_generator.hpp"
+#include "object/player.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
@@ -50,6 +51,7 @@ extern "C" {
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/title_screen.hpp"
+#include "supertux/sector.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
@@ -375,6 +377,11 @@ Main::launch_game()
       g_config->random_seed = session->get_demo_random_seed(g_config->start_demo);
       g_config->random_seed = gameRandom.srand(g_config->random_seed);
       graphicsRandom.srand(0);
+      
+      if (g_config->tux_spawn_pos)
+      {
+        session->get_current_sector()->player->set_pos(*g_config->tux_spawn_pos);
+      }
 
       if(g_config->start_demo != "")
         session->play_demo(g_config->start_demo);

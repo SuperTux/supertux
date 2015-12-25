@@ -20,10 +20,12 @@
 #include "control/joystick_config.hpp"
 #include "control/keyboard_config.hpp"
 #include "math/size.hpp"
+#include "math/vector.hpp"
 #include "video/video_system.hpp"
 
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <boost/format.hpp>
 
 class Config
 {
@@ -65,6 +67,9 @@ public:
   bool enable_script_debugger;
   std::string start_demo;
   std::string record_demo;
+  
+  /** this variable is set if tux should spawn somewhere which isn't the "main" spawn point*/
+  boost::optional<Vector> tux_spawn_pos;
 
   /** force SuperTux language to this locale, e.g. "de". A file
       "data/locale/xx.po" must exist for this to work. An empty string

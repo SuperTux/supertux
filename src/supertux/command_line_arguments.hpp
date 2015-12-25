@@ -20,6 +20,7 @@
 #include <boost/optional.hpp>
 
 #include "math/size.hpp"
+#include "math/vector.hpp"
 #include "util/log.hpp"
 #include "video/video_system.hpp"
 
@@ -49,6 +50,7 @@ public:
   boost::optional<int> fullscreen_refresh_rate;
   boost::optional<Size> window_size;
   boost::optional<Size> aspect_size;
+  
 
   // boost::optional<float> magnification;
 
@@ -65,6 +67,7 @@ public:
   boost::optional<bool> enable_script_debugger;
   boost::optional<std::string> start_demo;
   boost::optional<std::string> record_demo;
+  boost::optional<Vector> tux_spawn_pos;
 
   boost::optional<bool> developer_mode;
   

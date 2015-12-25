@@ -45,6 +45,7 @@ Config::Config() :
   enable_script_debugger(false),
   start_demo(),
   record_demo(),
+  tux_spawn_pos(),
   locale(),
   keyboard_config(),
   joystick_config(),

@@ -20,11 +20,13 @@
 #include <iostream>
 #include <physfs.h>
 #include <stdexcept>
+#include <string>
 
 #include "supertux/gameconfig.hpp"
 #include "supertux/main.hpp"
 #include "util/gettext.hpp"
 #include "version.h"
+#include "math/vector.hpp"
 
 CommandLineArguments::CommandLineArguments() :
   m_action(NO_ACTION),
@@ -44,6 +46,7 @@ CommandLineArguments::CommandLineArguments() :
   enable_script_debugger(),
   start_demo(),
   record_demo(),
+  tux_spawn_pos(),
   developer_mode(),
   christmas_mode()
 {
@@ -91,7 +94,8 @@ CommandLineArguments::print_help(const char* arg0) const
             << _(     "  --show-fps                   Display framerate in levels") << "\n"
             << _(     "  --no-show-fps                Do not display framerate in levels") << "\n"
             << _(     "  --developer                  Switch on developer feature") << "\n"
-            << _(     "  -s, --debug-scripts          Enable script debugger.") << "\n" << "\n"
+            << _(     "  -s, --debug-scripts          Enable script debugger.") << "\n"
+            << _(     "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if level is specified.") << "\n" << "\n"
             << _(     "Demo Recording Options:") << "\n"
             << _(     "  --record-demo FILE LEVEL     Record a demo to FILE") << "\n"
             << _(     "  --play-demo FILE LEVEL       Play a recorded demo") << "\n" << "\n"
@@ -302,6 +306,26 @@ CommandLineArguments::parse_args(int argc, char** argv)
         record_demo = argv[++i];
       }
     }
+    else if (arg == "--spawn-pos") 
+    {
+      Vector spawn_pos;
+      
+      if (!start_level)
+        throw std::runtime_error("--spawn-pos can only be used when a levelfile is specified.");
+      
+      if (++i >= argc)
+        throw std::runtime_error("Need to specify a spawn-pos X,Y");
+      else
+      {
+        int x, y;
+        if (sscanf(argv[i], "%9d,%9d", &x, &y) != 2)
+          throw std::runtime_error("Invalid spawn-pos, should be X,Y");
+        spawn_pos.x = x;
+        spawn_pos.y = y;
+      }
+      
+      tux_spawn_pos = spawn_pos;
+    }
     else if (arg == "--debug-scripts" || arg == "-s")
     {
       enable_script_debugger = true;
@@ -335,6 +359,7 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(enable_script_debugger);
   merge_option(start_demo);
   merge_option(record_demo);
+  merge_option(tux_spawn_pos);
   merge_option(developer_mode);
   merge_option(christmas_mode);
 
