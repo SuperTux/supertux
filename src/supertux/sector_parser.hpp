@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_SECTOR_PARSER_HPP
 
 #include <memory>
+#include <string>
 
 #include "supertux/game_object_ptr.hpp"
 
