@@ -316,6 +316,14 @@ static inline void timelog(const char* component)
 void
 Main::launch_game()
 {
+#ifdef WIN32
+	//SDL is used instead of PHYSFS because both create the same path in app data
+	//However, PHYSFS is not yet initizlized, and this should be run before anything is initialized
+	std::string prefpath = SDL_GetPrefPath("SuperTux", "supertux2");
+	freopen((prefpath + "/console.out").c_str(), "a", stdout);
+	freopen((prefpath + "/console.err").c_str(), "a", stderr);
+#endif
+
   SDLSubsystem sdl_subsystem;
   ConsoleBuffer console_buffer;
 
