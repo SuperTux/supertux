@@ -160,7 +160,7 @@ public:
     {
       // check if we run from source dir
       char* basepath_c = SDL_GetBasePath();
-      std::string basepath = basepath_c;
+      std::string basepath = basepath_c ? basepath_c : "./";
       SDL_free(basepath_c);
 
       // If we are on windows, the data directory is one directory above the binary
