@@ -20,6 +20,7 @@
 #include <version.h>
 
 #include <SDL_image.h>
+#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include <boost/optional.hpp>
 #include <array>
@@ -209,18 +210,55 @@ public:
     }
     else
     {
-      std::string physfs_userdir = PHYSFS_getUserDir();
-#ifdef _WIN32
-      userdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
-#else
-      userdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
-#endif
+		userdir = PHYSFS_getPrefDir("SuperTux","supertux2");
     }
+
+	std::string physfs_userdir = PHYSFS_getUserDir();
+#ifdef _WIN32
+	std::string olduserdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
+#else
+	std::string olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
+#endif
+	if (FileSystem::is_directory(olduserdir)) {
+	  boost::filesystem::path olduserpath(olduserdir);
+	  boost::filesystem::path userpath(userdir);
+	  
+	  boost::filesystem::directory_iterator end_itr;
+
+	  bool success = true;
+
+	  // cycle through the directory
+	  for (boost::filesystem::directory_iterator itr(olduserpath); itr != end_itr; ++itr) {
+		try
+		{
+		  boost::filesystem::rename(itr->path().string().c_str(), userpath / itr->path().filename());
+		}
+		catch (const boost::filesystem::filesystem_error& err)
+		{
+		  success = false;
+		  log_warning << "Failed to move contents of config directory: " << err.what();
+		}
+	  }
+	  if (success) {
+	    try
+		{
+		  boost::filesystem::remove_all(olduserpath);
+		}
+		catch (const boost::filesystem::filesystem_error& err)
+		{
+		  success = false;
+		  log_warning << "Failed to remove old config directory: " << err.what();
+		}
+	  }
+	  if (success) {
+	    log_info << "Moved old config dir " << olduserdir << " to " << userdir << std::endl;
+	  }
+	}
 
     if (!FileSystem::is_directory(userdir))
     {
-      FileSystem::mkdir(userdir);
-      log_info << "Created SuperTux userdir: " << userdir << std::endl;
+	  FileSystem::mkdir(userdir);
+	  log_info << "Created SuperTux userdir: " << userdir << std::endl;  
     }
 
     if (!PHYSFS_setWriteDir(userdir.c_str()))
