@@ -304,10 +304,7 @@
       (y 1862.1)
     )
     (infoblock
-      (message (_ "#Du aktivierst Schalter mit dieser Taste:
-#
-#
-#You activate switches with this button:
+      (message (_ "#You activate switches with this button:
 !images/tiles/signs/up.png"))
       (x 432)
       (y 1568)
