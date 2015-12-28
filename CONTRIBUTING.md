@@ -1,5 +1,7 @@
 # Contributing to SuperTux
 
+## Unsure? [Contact Us](http://supertuxproject.org/contact.html)
+
 ## Bug reports
 
 - GitHub Issues in English only. IRC support might be possible in other languages,
@@ -36,17 +38,18 @@ Please use Transifex to fix or report translation related issues.
 ## Pull requests
 
 - No duplicate pull requests, please.
-- Please try to test your code to see if it works correctly. If the pull request
+- Please test your code to see if it works correctly. If the pull request
   is untested or work-in-progress, please mention that.
 - Pull requests importing translation updates from Transifex are, unless requested
   by a contributor, not very welcome.
 - Commit messages should follow this style: short summary up to 50 chars (72 are
   okay if you need that much), an empty line, more detailed explanatory text which
-  can include multiple paragraphs or bullet points, if necessary, `Closes #xyz.`
-  and finally, if your commit doesn't include any changes that need CI testing,
-  `[ci skip]`
-- Please squash commits that belong together. Force pushes to pull requests are
-  OK.
+  can include multiple paragraphs or bullet points. 
+- If necessary, `Closes #xyz.` where #xyz is the number of the issue which that pull request will fix.
+- If your commit doesn't include any changes that need CI testing (no code changes e.g. graphics), 
+  add `[ci skip]` to any line which isn't the first or second. This saves IRC spam.
+- Please [squash](https://help.github.com/articles/about-git-rebase/) commits that belong together. 
+  If you forget initially, it's okay to force push to your own fork to fix it.
 - No merge commits inside pull requests. Use `git-rebase` to keep your branch
   up-to-date.
 - To make it easier for everyone, don't make a pull request pulling your fork's
