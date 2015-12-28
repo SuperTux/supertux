@@ -2,7 +2,7 @@
 [![AppVeyor Build Satus](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/maths22/supertux-9ml4d/branch/master)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/4025/badge.svg)](https://scan.coverity.com/projects/4025)
 # SuperTux - <http://supertuxproject.org/>
-:penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin:<br />
+:penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin::penguin:<br />
 Last update: December 20, 2015
 
 ## Description
