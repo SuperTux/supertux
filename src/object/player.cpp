@@ -955,7 +955,16 @@ void
 Player::position_grabbed_object()
 {
   MovingObject* moving_object = dynamic_cast<MovingObject*>(grabbed_object);
-  assert(moving_object);
+  if(moving_object == NULL) {
+    // Yes this might be a hack, but anyway...
+
+    log_debug << "Non MovingObject grabbed?!? Ungrabbing..." << std::endl;
+
+    grabbed_object->ungrab(*this, dir);
+    grabbed_object = NULL;
+
+    return;
+  }
 
   // Position where we will hold the lower-inner corner
   Vector pos(bbox.get_left() + bbox.get_width()/2,
