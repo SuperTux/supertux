@@ -45,6 +45,7 @@ public:
 protected:
   Player* climbed_by; /**< set to player who's currently climbing us, null if nobody is */
   Timer activate_try_timer; /**< try to correct mis-alignment while this timer runs */
+  std::string message;
 
 private:
   Climbable(const Climbable&);

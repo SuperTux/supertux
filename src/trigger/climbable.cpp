@@ -32,7 +32,8 @@ const float POSITION_FIX_AY = 50; // y-wise acceleration applied to player when 
 
 Climbable::Climbable(const ReaderMapping& reader) :
   climbed_by(0),
-  activate_try_timer()
+  activate_try_timer(),
+  message()
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -40,11 +41,16 @@ Climbable::Climbable(const ReaderMapping& reader) :
   reader.get("width", w);
   reader.get("height", h);
   bbox.set_size(w, h);
+
+  if(!reader.get("message", message)) {
+    log_debug << "No message in climbable object" << std::endl;
+  }
 }
 
 Climbable::Climbable(const Rectf& area) :
   climbed_by(0),
-  activate_try_timer()
+  activate_try_timer(),
+  message()
 {
   bbox = area;
 }
@@ -71,11 +77,11 @@ Climbable::update(float /*elapsed_time*/)
 void
 Climbable::draw(DrawingContext& context)
 {
-  if (climbed_by) {
+  if (climbed_by && !message.empty()) {
     context.push_transform();
     context.set_translation(Vector(0, 0));
-    // Vector pos = Vector(0, SCREEN_HEIGHT/2 - Resources::normal_font->get_height()/2);
-    // context.draw_center_text(Resources::normal_font, _("Up we go..."), pos, LAYER_HUD, Climbable::text_color);
+    Vector pos = Vector(0, SCREEN_HEIGHT/2 - Resources::normal_font->get_height()/2);
+    context.draw_center_text(Resources::normal_font, _(message), pos, LAYER_HUD, Climbable::text_color);
     context.pop_transform();
   }
 }
