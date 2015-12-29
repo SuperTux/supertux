@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# mol1 <leo.poughon@neuf.fr>, 2015
 # zecas <jjorge@free.fr>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-21 12:40+0100\n"
-"PO-Revision-Date: 2015-11-23 12:19+0000\n"
-"Last-Translator: zecas <jjorge@free.fr>\n"
+"POT-Creation-Date: 2015-12-22 13:02+0100\n"
+"PO-Revision-Date: 2015-12-23 21:55+0000\n"
+"Last-Translator: mol1 <leo.poughon@neuf.fr>\n"
 "Language-Team: French (http://www.transifex.com/arctic-games/supertux/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,30 +57,30 @@ msgstr "Zone 42"
 
 #: data/levels/bonus1/extro.txt:3
 msgid ""
-"-Congratulations!\n"
-"\n"
-"#You have successfully finished\n"
-"#Bonus Island I\n"
-"\n"
-"\tfeaturing levels contributed by\n"
-"\tJason W. Thompson\n"
-"\tTorfi Gunnarsson\n"
-"\tAbednego\n"
-"\tMatr1x\n"
-"\n"
-"\n"
-"#If you didn't clear all levels yet,\n"
-"#find your way back home and take\n"
-"#another path. There is still more\n"
-"#challenge waiting for you!\n"
-"\n"
-"#And there is a secret level to be\n"
-"#found as well...\n"
-"\n"
-"#A big \"Thank you\" goes out to\n"
-"#everyone who contributed to this\n"
+"-Congratulations!\r\n"
+"\r\n"
+"#You have successfully finished\r\n"
+"#Bonus Island I\r\n"
+"\r\n"
+"\tfeaturing levels contributed by\r\n"
+"\tJason W. Thompson\r\n"
+"\tTorfi Gunnarsson\r\n"
+"\tAbednego\r\n"
+"\tMatr1x\r\n"
+"\r\n"
+"\r\n"
+"#If you didn't clear all levels yet,\r\n"
+"#find your way back home and take\r\n"
+"#another path. There is still more\r\n"
+"#challenge waiting for you!\r\n"
+"\r\n"
+"#And there is a secret level to be\r\n"
+"#found as well...\r\n"
+"\r\n"
+"#A big \"Thank you\" goes out to\r\n"
+"#everyone who contributed to this\r\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Bravo!\n\n#Tu as réussi\n#Bonus Island I\n\n\tavec des niveaux contribués par\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Si tu n'as pas encore terminé tous\n#les niveaux, retourne au début et\n#choisis un autre chemin. Il y a toujours\n#d'autres défis qui t'attendent!\n\n#Et il y a aussi un niveau secret\n#à trouver aussi...\n\n#Un grand \"Merci\" à tous ceux qui\n#ont contribué à cette version. Nous\n#espérons que tu l'as appréciée!"
+msgstr "-Bravo!\n\n#Tu as réussi\n#Bonus Island I\n\n\tavec des niveaux contribués par\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Si tu n'as pas encore terminé tous\n#les niveaux, retourne au début et\n#choisis un autre chemin. Il y a toujours\n#d'autres défis qui t'attendent!\n\n#Et il y a aussi un niveau secret\n#à trouver ...\n\n#Un grand \"Merci\" à tous ceux qui\n#ont contribué à cette version. Nous\n#espérons que tu l'as appréciée!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -111,7 +112,7 @@ msgstr "Trop Fastoche"
 
 #: data/levels/bonus1/torfi-level2.stl:42
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
-msgstr "#Tous ces niveaux ont été portés du milestone2 par Hume2."
+msgstr "#Tous ces niveaux ont été portés à la version Milestone 2 par Hume2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -119,7 +120,7 @@ msgstr "Encore Trop Fastoche"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
-msgstr "Le Dégèle"
+msgstr "Le Dégel"
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
@@ -131,11 +132,11 @@ msgstr "L'Horreur dans le Ciel"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr "Collapse Imminent ! "
+msgstr "Effondrement Imminent ! "
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
-msgstr "Le Sommet de l'Isberg"
+msgstr "Le Sommet de l'Iceberg"
 
 #: data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
@@ -151,52 +152,52 @@ msgstr "Utilisez les igloos pour retourner ici"
 
 #: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"
-msgstr "Allez sur l'île de Matr1x "
+msgstr "Aller sur l'île de Matr1x "
 
 #: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
-msgstr "Allez dans le domaine de Thompsons "
+msgstr "Aller dans le domaine de Thompsons "
 
 #: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
-msgstr "Quittez l'Île de l'équipe 'SuperTux'"
+msgstr "Quitter l'Île de l'équipe 'SuperTux'"
 
 #: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
-msgstr "Allez dans la zone d'Abednego"
+msgstr "Aller dans la zone d'Abednego"
 
 #: data/levels/bonus1/worldmap.stwm:57 data/levels/bonus1/worldmap.stwm:143
 msgid "Leave Torfi's Territory"
-msgstr "Quittez le territoire de Torfis"
+msgstr "Quitter le territoire de Torfis"
 
 #: data/levels/bonus1/worldmap.stwm:64 data/levels/bonus1/worldmap.stwm:90
 msgid "Leave Abednego's Area"
-msgstr "Quittez la zone Abednegos "
+msgstr "Quitter la zone Abednegos "
 
 #: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
-msgstr "Quittez le domaine de Thompsons"
+msgstr "Quitter le domaine de Thompsons"
 
 #: data/levels/bonus1/worldmap.stwm:77
 msgid "Back to Matr1x' Sector"
-msgstr "Retournez sur l'île de Matr1x"
+msgstr "Retourner sur l'île de Matr1x"
 
 #: data/levels/bonus1/worldmap.stwm:83
 msgid "Warp home"
-msgstr "Retournez au point de départ"
+msgstr "Retourner au point de départ"
 
 #: data/levels/bonus1/worldmap.stwm:97
 msgid "Warp to the SuperTux Team Island"
-msgstr "Allez sur l'Île de l'équipe 'SuperTux'"
+msgstr "Aller sur l'Île de l'équipe 'SuperTux'"
 
 #: data/levels/bonus1/worldmap.stwm:123
 msgid "Leave Matr1x' Sector"
-msgstr "Quittez l'île de Matr1x"
+msgstr "Quitter l'île de Matr1x"
 
 #: data/levels/bonus1/worldmap.stwm:129
 msgid "Continue Matr1x' Sector"
-msgstr "Continuez sur l'île de Matr1x"
+msgstr "Continuer sur l'île de Matr1x"
 
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
-msgstr "Allez dans le territoire de Torfis"
+msgstr "Aller dans le territoire de Torfis"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-23 12:20+0000\n"
+"POT-Creation-Date: 2015-12-22 13:02+0100\n"
+"PO-Revision-Date: 2015-12-23 21:06+0000\n"
 "Last-Translator: zecas <jjorge@free.fr>\n"
 "Language-Team: French (http://www.transifex.com/arctic-games/supertux/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -49,9 +49,9 @@ msgstr "Pluie d'Antarctique"
 msgid "...but no one can stop it..."
 msgstr "… mais personne ne peut l'arrêter…"
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:307
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
 msgid ""
-"-Sorry, this flying platform is lazy.\n"
+"-Sorry, this flying platform is lazy.\r\n"
 "-Come back another time."
 msgstr "-Désolé, cette plateforme volante est fainéante.\n-Reviens plus tard."
 
@@ -172,13 +172,13 @@ msgstr "La 4½ ème dimension"
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
-"- Flush: \n"
+"- Flush: \r\n"
 "#Press the up key to flush! "
 msgstr "- Vider: \n#Appuye sur la touche haut pour vider! "
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
-"- A Way out?\n"
+"- A Way out?\r\n"
 "#Let's Jump! "
 msgstr "- Une sortie?\n#Sautons! "
 
