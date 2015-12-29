@@ -22,6 +22,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/sector.hpp"
+#include "scripting/functions.hpp"
 #include "util/gettext.hpp"
 
 CheatMenu::CheatMenu()
@@ -37,6 +38,7 @@ CheatMenu::CheatMenu()
   add_entry(MNID_SHRINK, _("Shrink Tux"));
   add_entry(MNID_KILL, _("Kill Tux"));
   add_entry(MNID_FINISH, _("Finish Level"));
+  add_entry(MNID_GHOST, _("Activate Ghost Mode"));
   add_hl();
   add_back(_("Back"));
 }
@@ -111,6 +113,13 @@ CheatMenu::menu_action(MenuItem* item)
         if (GameSession::current())
         {
           GameSession::current()->finish(true);
+        }
+        break;
+        
+      case MNID_GHOST:
+        if (GameSession::current())
+        {
+          scripting::ghost();
         }
         break;
 

@@ -31,7 +31,8 @@ private:
     MNID_STAR,
     MNID_SHRINK,
     MNID_KILL,
-    MNID_FINISH
+    MNID_FINISH,
+    MNID_GHOST
   };
 
 public:
