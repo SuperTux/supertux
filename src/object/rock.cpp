@@ -16,6 +16,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/rock.hpp"
+#include "object/coin.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/tile.hpp"
 
@@ -95,6 +96,10 @@ Rock::collision_solid(const CollisionHit& hit)
 HitResponse
 Rock::collision(GameObject& other, const CollisionHit& hit)
 {
+  HeavyCoin* heavy_coin = dynamic_cast<HeavyCoin*> (&other);
+  if (heavy_coin) {
+    return ABORT_MOVE;
+  }
   if(grabbed) {
     return ABORT_MOVE;
   }

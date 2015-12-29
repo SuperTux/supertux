@@ -20,6 +20,7 @@
 #include "badguy/walking_badguy.hpp"
 #include "control/controller.hpp"
 #include "object/player.hpp"
+#include "object/coin.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
@@ -75,7 +76,10 @@ Trampoline::update(float elapsed_time)
 HitResponse
 Trampoline::collision(GameObject& other, const CollisionHit& hit)
 {
-
+  HeavyCoin* heavy_coin = dynamic_cast<HeavyCoin*> (&other);
+  if (heavy_coin) {
+    return ABORT_MOVE;
+  }
   //Tramponine has to be on ground to work.
   if(on_ground) {
     Player* player = dynamic_cast<Player*> (&other);

@@ -61,7 +61,6 @@ RustyTrampoline::update(float elapsed_time)
 HitResponse
 RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
 {
-
   //Trampoline has to be on ground to work.
   if(on_ground) {
     Player* player = dynamic_cast<Player*> (&other);
