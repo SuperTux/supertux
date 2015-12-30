@@ -41,10 +41,7 @@ Climbable::Climbable(const ReaderMapping& reader) :
   reader.get("width", w);
   reader.get("height", h);
   bbox.set_size(w, h);
-
-  if(!reader.get("message", message)) {
-    log_debug << "No message in climbable object" << std::endl;
-  }
+  reader.get("message", message);
 }
 
 Climbable::Climbable(const Rectf& area) :
