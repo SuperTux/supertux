@@ -28,7 +28,7 @@
 
 Dispenser::Dispenser(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),
-  colgroup_active(),
+  colgroup_active(COLGROUP_MOVING_STATIC),
   cycle(),
   badguys(),
   next_badguy(),
@@ -71,6 +71,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
     case DT_ROCKETLAUNCHER:
       sprite->set_action(dir == LEFT ? "working-left" : "working-right");
       set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
+      colgroup_active = COLGROUP_MOVING;
 
       if (start_dir == AUTO) {
         autotarget = true;
@@ -306,13 +307,19 @@ Dispenser::unfreeze()
   set_group(colgroup_active);
   frozen = false;
 
-  // restore original color if needed
-  if(((!sprite->has_action("iced-left") && type == DT_ROCKETLAUNCHER)
-      || (!sprite->has_action("iced") && type == DT_CANNON))
-     && (!sprite->has_action("dropper-iced")) )
-  {
-    sprite->set_color(Color(1.00, 1.00, 1.00f));
-    sprite->set_animation_loops();
+  sprite->set_color(Color(1.00, 1.00, 1.00f));
+  switch (type) {
+    case DT_DROPPER:
+      sprite->set_action("dropper");
+      break;
+    case DT_ROCKETLAUNCHER:
+      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+      break;
+    case DT_CANNON:
+      sprite->set_action("working");
+      break;
+    default:
+      break;
   }
   activate();
 }
