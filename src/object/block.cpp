@@ -90,9 +90,10 @@ Block::collision(GameObject& other, const CollisionHit& )
   Portable* portable = dynamic_cast<Portable*> (&other);
   MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
   Bomb* bomb = dynamic_cast<Bomb*> (&other);
-  bool is_portable = ((portable != 0) && portable->is_portable()) && (bomb == 0);
+  bool is_portable = ((portable != 0) && portable->is_portable());
+  bool is_bomb = (bomb != 0); // bombs need to explode, although they are considered portable
   bool hit_mo_from_below = ((moving_object == 0) || (moving_object->get_bbox().get_bottom() < (bbox.get_top() + SHIFT_DELTA)));
-  if(bouncing && !is_portable && hit_mo_from_below) {
+  if(bouncing && (!is_portable || is_bomb) && hit_mo_from_below) {
 
     // Badguys get killed
     BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
