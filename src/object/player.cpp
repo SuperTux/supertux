@@ -1303,7 +1303,11 @@ Player::draw(DrawingContext& context)
       }
     }
     else {
-      sprite->set_action(sa_prefix+"-walk"+sa_postfix);
+      if(fabsf(physic.get_velocity_x()) > MAX_WALK_XM) {
+        sprite->set_action(sa_prefix+"-run"+sa_postfix);
+      } else {
+        sprite->set_action(sa_prefix+"-walk"+sa_postfix);
+      }
     }
   }
 

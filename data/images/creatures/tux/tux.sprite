@@ -30,6 +30,32 @@
          (mirror-action "small-walk-right"))
 
        (action
+         (name "small-run-right")
+         (fps 15.0)
+         (hitbox 8 16 32 32)
+         (images "small/run-0.png"
+                 "small/run-1.png"
+                 "small/run-2.png"
+                 "small/run-3.png"
+                 "small/run-4.png"
+                 "small/run-5.png"
+                 "small/run-6.png"
+                 "small/run-7.png"
+                 "small/run-8.png"
+                 "small/run-9.png"
+                 "small/run-10.png"
+                 "small/run-11.png"
+                 "small/run-12.png"
+                 "small/run-13.png"
+                 "small/run-14.png"))
+
+       (action
+         (name "small-run-left")
+         (fps 15.0)
+         (hitbox 8 16 32 32)
+         (mirror-action "small-run-right"))
+
+       (action
          (name "small-stand-right")
          (fps 15.0)
          (hitbox 8 16 32 32)
@@ -838,7 +864,7 @@
          (name "earth-buttjump-left-stone")
          (hitbox 16 14 32 64)
          (mirror-action "earth-buttjump-right-stone"))
-         
+
 ; Santa Tux
        (action
          (name "santa-walk-right")
