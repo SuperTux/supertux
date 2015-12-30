@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "badguy/bomb.hpp"
 #include "object/broken_brick.hpp"
 #include "object/coin.hpp"
 #include "object/flower.hpp"
@@ -88,7 +89,8 @@ Block::collision(GameObject& other, const CollisionHit& )
   //   3) the object is being hit from below (baguys don't get killed for activating boxes)
   Portable* portable = dynamic_cast<Portable*> (&other);
   MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
-  bool is_portable = ((portable != 0) && portable->is_portable());
+  Bomb* bomb = dynamic_cast<Bomb*> (&other);
+  bool is_portable = ((portable != 0) && portable->is_portable()) && (bomb == 0);
   bool hit_mo_from_below = ((moving_object == 0) || (moving_object->get_bbox().get_bottom() < (bbox.get_top() + SHIFT_DELTA)));
   if(bouncing && !is_portable && hit_mo_from_below) {
 
