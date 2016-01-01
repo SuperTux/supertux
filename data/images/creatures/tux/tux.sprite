@@ -31,7 +31,7 @@
 
        (action
          (name "small-run-right")
-         (fps 15.0)
+         (fps 25.0)
          (hitbox 8 16 32 32)
          (images "small/run-0.png"
                  "small/run-1.png"
@@ -47,11 +47,12 @@
                  "small/run-11.png"
                  "small/run-12.png"
                  "small/run-13.png"
-                 "small/run-14.png"))
+                 "small/run-14.png"
+                 "small/run-15.png"))
 
        (action
          (name "small-run-left")
-         (fps 15.0)
+         (fps 25.0)
          (hitbox 8 16 32 32)
          (mirror-action "small-run-right"))
 
