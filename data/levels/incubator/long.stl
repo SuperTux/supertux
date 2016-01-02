@@ -1577,12 +1577,12 @@
     )
     (infoblock
       (message (_ "#Until this moment you have luck.
-#You get hardly here.
-#You still have a lot way to go.
-#It certainly know well.
+#The way here was hard.
+#You still have a long way to go.
+#You must know it well.
 #Even now you must not fail it.
-#Now go down into the shaft.
-#I think you are understand it."))
+#Now go down to the shaft.
+#I hope you understood."))
       (x 320)
       (y 416)
     )
