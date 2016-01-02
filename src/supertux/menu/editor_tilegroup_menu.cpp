@@ -38,7 +38,7 @@ EditorTilegroupMenu::EditorTilegroupMenu()
   add_hl();
 
   int id = 0;
-  for(auto i = Editor::current()->level->tileset->tilegroups.begin(); i != Editor::current()->level->tileset->tilegroups.end(); ++i) {
+  for(auto i = Editor::current()->tileset->tilegroups.begin(); i != Editor::current()->tileset->tilegroups.end(); ++i) {
     Tilegroup* tg = &(*i);
     add_entry(id, tg->name);
     id++;
@@ -53,7 +53,7 @@ EditorTilegroupMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
   {
-    Editor::current()->tileselect.active_tilegroup = Editor::current()->level->tileset->tilegroups[item->id].tiles;
+    Editor::current()->tileselect.active_tilegroup = Editor::current()->tileset->tilegroups[item->id].tiles;
     Editor::current()->reactivate_request = true;
     Editor::current()->tileselect.input_type = EditorInputGui::IP_TILE;
     MenuManager::instance().clear_menu_stack();

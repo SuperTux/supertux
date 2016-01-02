@@ -59,7 +59,7 @@ TileSetParser::parse()
     else if (iter.get_key() == "tilegroup")
     {
       /* tilegroups are only interesting for the editor */
-      Reader reader = *iter.lisp();
+      ReaderMapping reader = iter.as_mapping();
       Tilegroup tilegroup;
       reader.get("name", tilegroup.name);
       reader.get("tiles", tilegroup.tiles);

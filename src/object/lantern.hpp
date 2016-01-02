@@ -29,7 +29,7 @@ public:
   Lantern(const ReaderMapping& reader);
   void draw(DrawingContext& context);
   ~Lantern();
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 

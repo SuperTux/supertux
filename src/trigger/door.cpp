@@ -72,7 +72,7 @@ Door::Door(int x, int y, std::string sector, std::string spawnpoint) :
 }
 
 void
-Door::save(lisp::Writer& writer) {
+Door::save(Writer& writer) {
   MovingObject::save(writer);
   writer.write("sector", target_sector, false);
   writer.write("spawnpoint", target_spawnpoint, false);

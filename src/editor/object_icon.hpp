@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
 
 #include "util/reader_fwd.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
 #include "video/drawing_context.hpp"
 
@@ -25,7 +26,7 @@ class ObjectIcon
 {
   public:
     ObjectIcon(const std::string name, const std::string icon);
-    ObjectIcon(const Reader& reader);
+    ObjectIcon(const ReaderMapping& reader);
     virtual ~ObjectIcon();
 
     std::string object_name;

@@ -139,7 +139,7 @@ Background::~Background()
 }
 
 void
-Background::save(lisp::Writer& writer) {
+Background::save(Writer& writer) {
   GameObject::save(writer);
   switch (alignment) {
     case LEFT_ALIGNMENT:   writer.write("alignment", "left",   false); break;

@@ -31,7 +31,7 @@ public:
   virtual ~InfoBlock();
   void update(float elapsed_time);
   void draw(DrawingContext& context);
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   void show_message();
   void hide_message();

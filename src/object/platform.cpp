@@ -61,7 +61,7 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
 }
 
 void
-Platform::save(lisp::Writer& writer) {
+Platform::save(Writer& writer) {
   MovingSprite::save(writer);
   if (!automatic) {
     writer.write("running", true);

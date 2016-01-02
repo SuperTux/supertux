@@ -34,7 +34,7 @@ InvisibleWall::InvisibleWall(const ReaderMapping& lisp):
 }
 
 void
-InvisibleWall::save(lisp::Writer& writer) {
+InvisibleWall::save(Writer& writer) {
   MovingSprite::save(writer);
   writer.write("width", width);
   writer.write("height", height);

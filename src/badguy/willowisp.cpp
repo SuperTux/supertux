@@ -81,7 +81,7 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
 }
 
 void
-WillOWisp::save(lisp::Writer& writer) {
+WillOWisp::save(Writer& writer) {
   BadGuy::save(writer);
   writer.write("sector", target_sector);
   writer.write("spawnpoint", target_spawnpoint);

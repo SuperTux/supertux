@@ -30,7 +30,7 @@ class WillOWisp : public BadGuy,
 {
 public:
   WillOWisp(const ReaderMapping& reader);
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   void activate();
   void deactivate();

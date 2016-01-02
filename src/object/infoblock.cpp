@@ -59,7 +59,7 @@ InfoBlock::~InfoBlock()
 }
 
 void
-InfoBlock::save(lisp::Writer& writer) {
+InfoBlock::save(Writer& writer) {
   MovingObject::save(writer);
   writer.write("message", message, true);
 }

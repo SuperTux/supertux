@@ -29,7 +29,7 @@ class Decal : public MovingSprite
 public:
   Decal(const ReaderMapping& reader);
   virtual ~Decal();
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   virtual HitResponse collision(GameObject& , const CollisionHit& ) {
     return FORCE_MOVE;

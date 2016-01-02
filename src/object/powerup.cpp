@@ -93,7 +93,7 @@ PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
 }
 
 void
-PowerUp::save(lisp::Writer& writer){
+PowerUp::save(Writer& writer){
   MovingSprite::save(writer);
   writer.write("no_physics",no_physics);
   if(script != ""){

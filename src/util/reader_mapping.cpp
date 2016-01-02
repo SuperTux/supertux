@@ -159,6 +159,14 @@ ReaderMapping::get(const char* key, std::string& value) const
   }
 
 bool
+ReaderMapping::get(const char* key, std::vector<int>& value) const
+{
+  value.clear();
+  GET_VALUES_MACRO("int", is_integer, as_int);
+}
+
+
+bool
 ReaderMapping::get(const char* key, std::vector<float>& value) const
 {
   value.clear();

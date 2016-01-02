@@ -73,7 +73,7 @@ Candle::Candle(const ReaderMapping& lisp)
 }
 
 void
-Candle::save(lisp::Writer& writer) {
+Candle::save(Writer& writer) {
   MovingSprite::save(writer);
   writer.write("burning", burning);
   writer.write("flicker", flicker);
