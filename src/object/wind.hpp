@@ -30,7 +30,7 @@ class Wind : public MovingObject,
 {
 public:
   Wind(const ReaderMapping& reader);
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

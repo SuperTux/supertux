@@ -58,7 +58,7 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
 }
 
 void
-Thunderstorm::save(lisp::Writer& writer) {
+Thunderstorm::save(Writer& writer) {
   GameObject::save(writer);
   writer.write("running", running);
   writer.write("interval", interval);

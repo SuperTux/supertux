@@ -30,7 +30,7 @@ class MagicBlock: public MovingSprite
 {
 public:
   MagicBlock(const ReaderMapping& reader);
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   bool collides(GameObject& other, const CollisionHit& hit) const;
   HitResponse collision(GameObject& other, const CollisionHit& hit);

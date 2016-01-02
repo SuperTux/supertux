@@ -23,7 +23,7 @@ class Dispenser : public BadGuy
 {
 public:
   Dispenser(const ReaderMapping& reader);
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   void draw(DrawingContext& context);
   void activate();

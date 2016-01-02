@@ -74,7 +74,7 @@ Coin::Coin(const ReaderMapping& reader)
 }
 
 void
-Coin::save(lisp::Writer& writer) {
+Coin::save(Writer& writer) {
   MovingSprite::save(writer);
   if (path) {
     path->save(writer);

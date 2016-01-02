@@ -101,9 +101,19 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 }
 
 void
-Dispenser::save(lisp::Writer& writer) {
+Dispenser::save(Writer& writer) {
   BadGuy::save(writer);
-  writer.write("type", type, false);
+  switch (type) {
+    case DT_DROPPER:
+      writer.write("type", "dropper", false);
+      break;
+    case DT_ROCKETLAUNCHER:
+      writer.write("type", "rocketlauncher", false);
+      break;
+    case DT_CANNON:
+      writer.write("type", "cannon", false);
+      break;
+  }
   writer.write("badguy", badguys);
   writer.write("random", random);
   writer.write("cycle", cycle);

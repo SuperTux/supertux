@@ -48,7 +48,8 @@ private:
     THROWING,
     POST_THROWING,
     PEEKING,
-    DEAD
+    DEAD,
+    BURNING
   };
 
 private:

@@ -48,7 +48,7 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
 }
 
 void
-DartTrap::save(lisp::Writer& writer) {
+DartTrap::save(Writer& writer) {
   BadGuy::save(writer);
   writer.write("initial-delay", initial_delay);
   writer.write("fire-delay", fire_delay);

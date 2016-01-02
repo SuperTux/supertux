@@ -57,7 +57,7 @@ Spotlight::~Spotlight()
 }
 
 void
-Spotlight::save(lisp::Writer& writer) {
+Spotlight::save(Writer& writer) {
   GameObject::save(writer);
   writer.write("x", position.x);
   writer.write("y", position.y);

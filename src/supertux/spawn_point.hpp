@@ -31,7 +31,7 @@ public:
   SpawnPoint(const SpawnPoint& other);
   SpawnPoint(const ReaderMapping& lisp);
 
-  void save(lisp::Writer& writer);
+  void save(Writer& writer);
 
   std::string name;
   Vector pos;

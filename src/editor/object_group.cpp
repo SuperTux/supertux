@@ -16,7 +16,7 @@
 
 #include "editor/object_group.hpp"
 
-#include "lisp/list_iterator.hpp"
+#include "util/reader_mapping.hpp"
 
 ObjectGroup::ObjectGroup() :
   name(),
@@ -25,7 +25,7 @@ ObjectGroup::ObjectGroup() :
   icons.clear();
 }
 
-ObjectGroup::ObjectGroup(const Reader& reader) :
+ObjectGroup::ObjectGroup(const ReaderMapping& reader) :
   name(),
   icons()
 {
@@ -34,11 +34,11 @@ ObjectGroup::ObjectGroup(const Reader& reader) :
 
   reader.get("name", name);
 
-  lisp::ListIterator iter(&reader);
+  auto iter = reader.get_iter();
   while(iter.next()) {
-    const std::string& token = iter.item();
+    const std::string& token = iter.get_key();
     if (token == "object") {
-      icons.push_back( ObjectIcon( *(iter.lisp()) ) );
+      icons.push_back( ObjectIcon( iter.as_mapping() ) );
     }
   }
 }

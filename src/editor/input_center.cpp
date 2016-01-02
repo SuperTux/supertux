@@ -437,11 +437,11 @@ EditorInputCenter::actualize_scrolling() {
   // What we can actually see
   int editor_height = SCREEN_HEIGHT - 32;
   int editor_width = SCREEN_WIDTH - 128;
-  
+
   // Proximities to boundaries, may be negative
   int top_prox = mouse_pos.y;
   int bottom_prox = editor_height - mouse_pos.y;
-  
+
   int left_prox = mouse_pos.x;
   int right_prox = editor_width - mouse_pos.x;
 
@@ -453,7 +453,7 @@ EditorInputCenter::actualize_scrolling() {
     right_prox = SCROLL_PROX - right_prox;
     scrolling.x = right_prox  / SCROLL_PROX;
   }
-  
+
   if (top_prox > 0 && top_prox < SCROLL_PROX) {
     top_prox = SCROLL_PROX - top_prox;
     scrolling.y = -(top_prox  / SCROLL_PROX);
@@ -476,7 +476,7 @@ EditorInputCenter::update_scroll() {
   else if (horiz_scroll > 0)
     Editor::current()->scroll_right(horiz_scroll);
   else {}
-  
+
   if (vert_scroll < 0)
     Editor::current()->scroll_up(-vert_scroll);
   else if (vert_scroll > 0)
@@ -507,7 +507,7 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
     context.push_transform();
     context.set_alpha(0.5);
 
-    const Tile* tg_tile = Editor::current()->level->tileset->get( Editor::current()->tileselect.tile );
+    const Tile* tg_tile = Editor::current()->tileset->get( Editor::current()->tileselect.tile );
     tg_tile->draw(context, tp_to_sp(hovered_tile) - Editor::current()->currentsector->camera->get_translation(),
                   LAYER_GUI-11);
 

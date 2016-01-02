@@ -45,6 +45,8 @@ public:
 
   std::vector<Tilegroup> tilegroups;
 
+  void merge(const TileSet *tileset, uint32_t start, uint32_t end,
+             uint32_t offset);
   void add_tile(int id, std::unique_ptr<Tile> tile);
 
   const Tile* get(const uint32_t id) const

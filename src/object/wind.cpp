@@ -52,7 +52,7 @@ Wind::Wind(const ReaderMapping& reader) :
 }
 
 void
-Wind::save(lisp::Writer& writer) {
+Wind::save(Writer& writer) {
   MovingObject::save(writer);
   writer.write("width", bbox.get_width());
   writer.write("height", bbox.get_height());

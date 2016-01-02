@@ -72,6 +72,6 @@ ItemTextField::process_action(MenuAction action) {
       if (input->length() == 0) {
         break;
       }
-    } while ( (last_char & 0b10000000) && !(last_char & 0b01000000) );
+    } while ( (last_char & 128) && !(last_char & 64) );
   }
 }

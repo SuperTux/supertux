@@ -55,7 +55,7 @@ Switch::~Switch()
 }
 
 void
-Switch::save(lisp::Writer& writer) {
+Switch::save(Writer& writer) {
   MovingObject::save(writer);
   writer.write("script", script, false);
 }

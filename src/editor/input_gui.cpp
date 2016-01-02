@@ -135,7 +135,7 @@ EditorInputGui::draw_tilegroup(DrawingContext& context) {
       if ((*tile_ID) == 0) {
         continue;
       }
-      const Tile* tg_tile = Editor::current()->level->tileset->get(*tile_ID);
+      const Tile* tg_tile = Editor::current()->tileset->get(*tile_ID);
       tg_tile->draw(context, get_tile_coords(pos - starting_tile), LAYER_GUI-9);
     }
   }

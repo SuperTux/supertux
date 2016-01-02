@@ -121,7 +121,7 @@ AmbientSound::~AmbientSound()
 }
 
 void
-AmbientSound::save(lisp::Writer& writer) {
+AmbientSound::save(Writer& writer) {
   GameObject::save(writer);
   writer.write("width", dimension.x);
   writer.write("height", dimension.y);

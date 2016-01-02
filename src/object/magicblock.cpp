@@ -83,7 +83,7 @@ MagicBlock::MagicBlock(const ReaderMapping& lisp) :
 }
 
 void
-MagicBlock::save(lisp::Writer& writer) {
+MagicBlock::save(Writer& writer) {
   MovingSprite::save(writer);
   writer.write("color", color.toVector(false));
 }

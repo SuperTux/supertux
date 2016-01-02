@@ -17,12 +17,13 @@
 #include <string>
 
 #include "editor/object_icon.hpp"
-#include "lisp/list_iterator.hpp"
 #include "math/rect.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
+#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 ObjectIcon::ObjectIcon(std::string name, std::string icon) :
   object_name(name),
@@ -31,7 +32,7 @@ ObjectIcon::ObjectIcon(std::string name, std::string icon) :
   surface = Surface::create(icon);
 }
 
-ObjectIcon::ObjectIcon(const Reader& reader) :
+ObjectIcon::ObjectIcon(const ReaderMapping& reader) :
   object_name(),
   surface()
 {

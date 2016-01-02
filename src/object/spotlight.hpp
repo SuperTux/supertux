@@ -30,7 +30,7 @@ class Spotlight : public MovingObject
 public:
   Spotlight(const ReaderMapping& reader);
   virtual ~Spotlight();
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

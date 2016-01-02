@@ -54,7 +54,7 @@ WeakBlock::WeakBlock(const ReaderMapping& lisp)
 }
 
 void
-WeakBlock::save(lisp::Writer& writer) {
+WeakBlock::save(Writer& writer) {
   MovingSprite::save(writer);
   writer.write("linked", linked);
 }

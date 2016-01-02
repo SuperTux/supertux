@@ -31,7 +31,7 @@ public:
   Platform(const ReaderMapping& reader);
   Platform(const ReaderMapping& reader, const std::string& default_sprite);
   Platform(const Platform& platform);
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void update(float elapsed_time);
