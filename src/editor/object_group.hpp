@@ -28,7 +28,7 @@ class ObjectGroup
 {
   public:
     ObjectGroup();
-    ObjectGroup(const Reader& reader);
+    ObjectGroup(const ReaderMapping& reader);
     ~ObjectGroup();
 
     std::string name;

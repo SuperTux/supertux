@@ -18,7 +18,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
-#include "editor/editor.hpp"
 #include "object/flower.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/coin_explode.hpp"
@@ -46,12 +45,10 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
   contents(),
   object(),
   hit_counter(1),
-  not_on_tilemap(false),
   sprite_name(),
   script(),
   lightsprite()
 {
-  not_on_tilemap = false;
   bbox.set_pos(pos);
   sprite->set_action("normal");
   get_content_by_data(data);
@@ -62,12 +59,10 @@ BonusBlock::BonusBlock(const ReaderMapping& lisp) :
   contents(),
   object(0),
   hit_counter(1),
-  not_on_tilemap(true),
   sprite_name(),
   script(),
   lightsprite()
 {
-  not_on_tilemap = true;
   Vector pos;
 
   contents = CONTENT_COIN;
@@ -158,7 +153,7 @@ BonusBlock::~BonusBlock()
 }
 
 void
-BonusBlock::save(lisp::Writer& writer) {
+BonusBlock::save(Writer& writer) {
   Block::save(writer);
   switch (contents) {
     case CONTENT_COIN:       writer.write("contents", "coin"      , false); break;
@@ -209,10 +204,6 @@ BonusBlock::get_settings() {
   return result;
 }
 
-bool
-BonusBlock::do_save() {
-  return not_on_tilemap;
-}
 
 void
 BonusBlock::hit(Player & player)

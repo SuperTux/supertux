@@ -56,7 +56,7 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
 }
 
 void
-ScriptedObject::save(lisp::Writer& writer){
+ScriptedObject::save(Writer& writer){
   MovingSprite::save(writer);
   writer.write("width",bbox.get_width());
   writer.write("height",bbox.get_height());

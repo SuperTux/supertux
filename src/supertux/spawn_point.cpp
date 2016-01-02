@@ -48,7 +48,7 @@ SpawnPoint::SpawnPoint(const ReaderMapping& slisp) :
 }
 
 void
-SpawnPoint::save(lisp::Writer& writer){
+SpawnPoint::save(Writer& writer){
   writer.start_list("spawnpoint");
 
   writer.write("x",pos.x);

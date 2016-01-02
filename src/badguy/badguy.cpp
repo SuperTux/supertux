@@ -273,7 +273,7 @@ BadGuy::update(float elapsed_time)
 }
 
 void
-BadGuy::save(lisp::Writer& writer) {
+BadGuy::save(Writer& writer) {
   MovingSprite::save(writer);
   if(dir == LEFT){
     writer.write("direction", "left", false);

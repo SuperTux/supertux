@@ -54,7 +54,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
 }
 
 void
-Ispy::save(lisp::Writer& writer) {
+Ispy::save(Writer& writer) {
   MovingSprite::save(writer);
   switch (dir) {
     case LEFT:  writer.write("direction", "left" , false); break;

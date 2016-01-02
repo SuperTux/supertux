@@ -29,6 +29,21 @@ Tilegroup::~Tilegroup() {
 
 }
 
+/*
+  tiles(),
+  tiles_loaded(false),
+  tilegroups()
+{
+  tiles.resize(1, 0);
+  tiles[0] = new Tile();
+  tilegroups.clear();
+}
+
+TileSet::TileSet(const std::string& filename) :
+  tiles(),
+  tiles_loaded(true),
+  tilegroups()
+*/
 TileSet::TileSet() :
   m_tiles(1),
   tilegroups()
@@ -38,8 +53,7 @@ TileSet::TileSet() :
 }
 
 TileSet::TileSet(const std::string& filename) :
-  TileSet(),
-  tilegroups()
+  TileSet()
 {
   TileSetParser parser(*this, filename);
   parser.parse();

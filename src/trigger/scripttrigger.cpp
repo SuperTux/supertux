@@ -62,7 +62,7 @@ ScriptTrigger::~ScriptTrigger()
 }
 
 void
-ScriptTrigger::save(lisp::Writer& writer) {
+ScriptTrigger::save(Writer& writer) {
   MovingObject::save(writer);
   writer.write("width", bbox.get_width());
   writer.write("height", bbox.get_height());

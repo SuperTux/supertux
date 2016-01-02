@@ -52,7 +52,7 @@ ParticleSystem::~ParticleSystem()
 }
 
 void
-ParticleSystem::save(lisp::Writer& writer){
+ParticleSystem::save(Writer& writer){
   GameObject::save(writer);
   writer.write("z-pos",z_pos);
 }

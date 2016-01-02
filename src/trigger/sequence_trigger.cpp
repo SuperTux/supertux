@@ -55,11 +55,11 @@ SequenceTrigger::~SequenceTrigger()
 }
 
 void
-SequenceTrigger::save(lisp::Writer& writer) {
+SequenceTrigger::save(Writer& writer) {
   MovingObject::save(writer);
   writer.write("width", bbox.get_width());
   writer.write("height", bbox.get_height());
-  writer.write("sequence", sequence_name, false);
+  writer.write("sequence", sequence_to_string(sequence), false);
 }
 
 void

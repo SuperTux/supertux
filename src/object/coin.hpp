@@ -35,7 +35,7 @@ public:
 
   void collect();
   virtual void update(float elapsed_time);
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
   virtual std::string get_class() const {
     return "coin";
   }

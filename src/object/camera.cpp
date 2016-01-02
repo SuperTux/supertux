@@ -119,7 +119,7 @@ public:
 };
 
 void
-Camera::save(lisp::Writer& writer){
+Camera::save(Writer& writer){
   GameObject::save(writer);
   switch (defaultmode) {
     case NORMAL: writer.write("mode", "normal", false); break;

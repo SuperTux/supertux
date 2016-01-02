@@ -30,7 +30,7 @@ class Platform : public MovingSprite,
 public:
   Platform(const ReaderMapping& reader);
   Platform(const Platform& platform);
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void update(float elapsed_time);

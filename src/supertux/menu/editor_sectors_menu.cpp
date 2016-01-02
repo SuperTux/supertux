@@ -38,8 +38,7 @@ EditorSectorsMenu::EditorSectorsMenu()
 
   int id = 0;
   for(auto i = Editor::current()->level->sectors.begin(); i != Editor::current()->level->sectors.end(); ++i) {
-    Sector* sec = *i;
-    add_entry(id, sec->get_name());
+    add_entry(id, (*i)->get_name());
     id++;
   }
 

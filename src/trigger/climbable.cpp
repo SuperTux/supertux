@@ -61,7 +61,7 @@ Climbable::~Climbable()
 }
 
 void
-Climbable::save(lisp::Writer& writer) {
+Climbable::save(Writer& writer) {
   MovingObject::save(writer);
   writer.write("width", bbox.get_width());
   writer.write("height", bbox.get_height());

@@ -84,7 +84,7 @@ Path::read(const ReaderMapping& reader)
 }
 
 void
-Path::save(lisp::Writer& writer) {
+Path::save(Writer& writer) {
   writer.start_list("path");
 
   switch (mode) {

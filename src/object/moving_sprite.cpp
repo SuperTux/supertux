@@ -148,7 +148,7 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
 }
 
 void
-MovingSprite::save(lisp::Writer& writer) {
+MovingSprite::save(Writer& writer) {
   MovingObject::save(writer);
   writer.write("sprite", sprite_name, false);
 }

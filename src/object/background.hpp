@@ -31,7 +31,7 @@ public:
   Background();
   Background(const ReaderMapping& reader);
   virtual ~Background();
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   void set_image(const std::string& name);
   void set_image(const std::string& name, float bkgd_speed);

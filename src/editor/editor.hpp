@@ -31,6 +31,7 @@
 
 class Level;
 class Sector;
+class TileSet;
 class World;
 
 class Editor : public Screen,
@@ -68,6 +69,8 @@ class Editor : public Screen,
     Sector* currentsector;
 
     bool levelloaded;
+
+    TileSet* tileset;
 
     EditorInputCenter inputcenter;
     EditorInputGui tileselect;

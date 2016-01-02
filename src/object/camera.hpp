@@ -36,7 +36,7 @@ class Camera : public GameObject,
 public:
   Camera(Sector* sector, std::string name = "");
   virtual ~Camera();
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   /// parse camera mode from lisp file
   void parse(const ReaderMapping& reader);

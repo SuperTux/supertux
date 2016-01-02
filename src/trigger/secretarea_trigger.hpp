@@ -33,7 +33,7 @@ public:
   SecretAreaTrigger(const ReaderMapping& reader);
   SecretAreaTrigger(const Rectf& area, std::string fade_tilemap = "");
   ~SecretAreaTrigger();
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
   virtual std::string get_class() const {
     return "secretarea";
   }

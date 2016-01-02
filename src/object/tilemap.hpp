@@ -44,7 +44,7 @@ public:
   TileMap(const TileSet *tileset);
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
   virtual ~TileMap();
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

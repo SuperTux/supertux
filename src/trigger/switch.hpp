@@ -29,7 +29,7 @@ class Switch : public TriggerBase
 public:
   Switch(const ReaderMapping& reader);
   virtual ~Switch();
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
   virtual std::string get_class() const {
     return "switch";
   }

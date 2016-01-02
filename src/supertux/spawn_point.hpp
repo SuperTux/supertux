@@ -20,8 +20,8 @@
 #include <string>
 
 #include "math/vector.hpp"
-#include "lisp/writer.hpp"
 #include "util/reader_fwd.hpp"
+#include "util/writer.hpp"
 
 class SpawnPoint
 {
@@ -30,7 +30,7 @@ public:
   SpawnPoint(const SpawnPoint& other);
   SpawnPoint(const ReaderMapping& lisp);
 
-  void save(lisp::Writer& writer);
+  void save(Writer& writer);
 
   std::string name;
   Vector pos;

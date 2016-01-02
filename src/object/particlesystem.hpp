@@ -48,7 +48,7 @@ class ParticleSystem : public GameObject,
 public:
   ParticleSystem(float max_particle_size = 60);
   virtual ~ParticleSystem();
-  virtual void save(lisp::Writer& writer);
+  virtual void save(Writer& writer);
   virtual std::string get_class() const {
     return "particle-system";
   }

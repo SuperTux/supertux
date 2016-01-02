@@ -36,7 +36,7 @@ Decal::Decal(const ReaderMapping& reader) :
 }
 
 void
-Decal::save(lisp::Writer& writer) {
+Decal::save(Writer& writer) {
   MovingSprite::save(writer);
   writer.write("solid", group == COLGROUP_STATIC);
   writer.write("action", default_action);
