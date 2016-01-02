@@ -20,32 +20,27 @@
 #include "util/log.hpp"
 
 Sequence string_to_sequence(const std::string& sequencename) {
-  if (sequencename == "endsequence") {
+  if (sequencename == "endsequence")
     return SEQ_ENDSEQUENCE;
-  } else if (sequencename == "stoptux") {
+  if (sequencename == "stoptux")
     return SEQ_STOPTUX;
-  } else if (sequencename == "fireworks") {
+  if (sequencename == "fireworks")
     return SEQ_FIREWORKS;
-  } else {
-    log_warning << "Unknown sequence: " << sequencename << std::endl;
-    return SEQ_ENDSEQUENCE;
-  }
+
+  log_warning << "Unknown sequence: " << sequencename << std::endl;
+  return SEQ_ENDSEQUENCE;
 }
 
 std::string sequence_to_string(const Sequence& seq) {
   switch (seq) {
     case SEQ_ENDSEQUENCE:
       return "endsequence";
-      break;
     case SEQ_STOPTUX:
       return "stoptux";
-      break;
     case SEQ_FIREWORKS:
       return "fireworks";
-      break;
     default:
-      return "unknown" + std::to_string( (int)seq );
-      break;
+      return "unknown sequence " + std::to_string( (int)seq );
   }
 }
 
