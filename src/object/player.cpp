@@ -336,13 +336,19 @@ Player::adjust_height(float new_height)
 void
 Player::trigger_sequence(std::string sequence_name)
 {
+  trigger_sequence(string_to_sequence(sequence_name));
+}
+
+void
+Player::trigger_sequence(Sequence seq)
+{
   if (climbing) stop_climbing(*climbing);
   backflipping = false;
   backflip_direction = 0;
   sprite->set_angle(0.0f);
   powersprite->set_angle(0.0f);
   lightsprite->set_angle(0.0f);
-  GameSession::current()->start_sequence(sequence_name);
+  GameSession::current()->start_sequence(seq);
 }
 
 void

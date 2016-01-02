@@ -24,6 +24,7 @@
 #include "supertux/physic.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/script_interface.hpp"
+#include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
 
 class BadGuy;
@@ -225,6 +226,7 @@ public:
    * Orders the current GameSession to start a sequence
    */
   void trigger_sequence(std::string sequence_name);
+  void trigger_sequence(Sequence seq);
 
   /**
    * Requests that the player start climbing the given Climbable

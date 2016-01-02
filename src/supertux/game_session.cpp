@@ -600,7 +600,7 @@ GameSession::get_working_directory() const
 }
 
 void
-GameSession::start_sequence(const std::string& sequencename)
+GameSession::start_sequence(Sequence seq)
 {
   // do not play sequences when in edit mode
   if (edit_mode) {
@@ -609,10 +609,10 @@ GameSession::start_sequence(const std::string& sequencename)
   }
 
   // handle special "stoptux" sequence
-  if (sequencename == "stoptux") {
+  if (seq == SEQ_STOPTUX) {
     if (!end_sequence) {
       log_warning << "Final target reached without an active end sequence" << std::endl;
-      this->start_sequence("endsequence");
+      this->start_sequence(SEQ_ENDSEQUENCE);
     }
     if (end_sequence) end_sequence->stop_tux();
     return;
@@ -622,16 +622,16 @@ GameSession::start_sequence(const std::string& sequencename)
   if (end_sequence)
     return;
 
-  if (sequencename == "endsequence") {
+  if (seq == SEQ_ENDSEQUENCE) {
     if (currentsector->get_players()[0]->get_physic().get_velocity_x() < 0) {
       end_sequence = std::make_shared<EndSequenceWalkLeft>();
     } else {
       end_sequence = std::make_shared<EndSequenceWalkRight>();
     }
-  } else if (sequencename == "fireworks") {
+  } else if (seq == SEQ_FIREWORKS) {
     end_sequence = std::make_shared<EndSequenceFireworks>();
   } else {
-    log_warning << "Unknown sequence '" << sequencename << "'. Ignoring." << std::endl;
+    log_warning << "Unknown sequence '" << (int)seq << "'. Ignoring." << std::endl;
     return;
   }
 

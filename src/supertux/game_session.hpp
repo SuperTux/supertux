@@ -23,6 +23,7 @@
 
 #include "object/endsequence.hpp"
 #include "supertux/screen.hpp"
+#include "supertux/sequence.hpp"
 #include "supertux/player_status.hpp"
 #include "util/currenton.hpp"
 #include "video/surface.hpp"
@@ -72,7 +73,7 @@ public:
   Level* get_current_level() const
   { return level.get(); }
 
-  void start_sequence(const std::string& sequencename);
+  void start_sequence(Sequence seq);
 
   /**
    * returns the "working directory" usually this is the directory where the

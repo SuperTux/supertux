@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,31 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_TRIGGER_SEQUENCE_TRIGGER_HPP
-#define HEADER_SUPERTUX_TRIGGER_SEQUENCE_TRIGGER_HPP
+#ifndef HEADER_SUPERTUX_SUPERTUX_SEQUENCE_HPP
+#define HEADER_SUPERTUX_SUPERTUX_SEQUENCE_HPP
 
-#include "supertux/sequence.hpp"
-#include "trigger/trigger_base.hpp"
-
-class Player;
-class ReaderMapping;
-
-class SequenceTrigger : public TriggerBase
-{
-public:
-  SequenceTrigger(const ReaderMapping& reader);
-  SequenceTrigger(const Vector& pos, const std::string& sequence_name);
-  ~SequenceTrigger();
-
-  void event(Player& player, EventType type);
-
-  std::string get_sequence_name() const;
-
-private:
-  EventType triggerevent;
-  Sequence sequence;
+enum Sequence {
+  SEQ_ENDSEQUENCE,
+  SEQ_STOPTUX,
+  SEQ_FIREWORKS
 };
 
-#endif
+Sequence string_to_sequence(const std::string& sequencename);
+std::string sequence_to_string(const Sequence& seq);
 
+#endif // HEADER_SUPERTUX_SUPERTUX_SEQUENCE_HPP
 /* EOF */
