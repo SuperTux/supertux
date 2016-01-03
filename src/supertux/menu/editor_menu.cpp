@@ -34,6 +34,7 @@ EditorMenu::EditorMenu()
   add_entry(MNID_SAVELEVEL, _("Save current level"));
   add_entry(MNID_LEVELSEL, _("Edit another level"));
   add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
+  add_submenu(_("Level properties"), MenuStorage::EDITOR_LEVEL_MENU);
   add_hl();
   add_entry(MNID_QUITEDITOR, _("Exit level editor"));
 }
