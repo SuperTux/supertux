@@ -20,6 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 MrCandle::MrCandle(const ReaderMapping& reader)
@@ -74,6 +75,28 @@ MrCandle::collision(GameObject& other, const CollisionHit& hit) {
     return FORCE_MOVE;
   }
   return WalkingBadguy::collision(other, hit);
+}
+
+ObjectSettings
+MrCandle::get_settings() {
+  ObjectSettings result(_("Mr. Candle"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( dir_option(&dir) );
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor));
+  return result;
+}
+
+void
+MrCandle::after_editor_set() {
+  sprite->set_color(lightcolor);
+  candle_light->set_color(lightcolor);
+}
+
+void
+MrCandle::save(Writer& writer) {
+  BadGuy::save(writer);
+  writer.write("color", lightcolor.toVector(false));
 }
 
 /* EOF */

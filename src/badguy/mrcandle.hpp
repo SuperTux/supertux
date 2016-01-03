@@ -36,6 +36,13 @@ public:
 
   void kill_fall() { };
 
+  virtual ObjectSettings get_settings();
+  virtual void save(Writer& writer);
+  virtual void after_editor_set();
+  virtual std::string get_class() const {
+    return "mrcandle";
+  }
+
 private:
 
   Color lightcolor;
