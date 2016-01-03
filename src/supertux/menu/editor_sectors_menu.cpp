@@ -21,6 +21,7 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/menu_item.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
@@ -43,8 +44,9 @@ EditorSectorsMenu::EditorSectorsMenu()
   }
 
   add_hl();
-  add_entry(-1,_("Create new sector"));
-  add_entry(-2,_("Abort"));
+  add_submenu(_("Sector settings..."), MenuStorage::EDITOR_SECTOR_MENU);
+  add_entry(-2,_("Create new sector"));
+  add_entry(-3,_("Abort"));
 }
 
 void
@@ -56,8 +58,15 @@ EditorSectorsMenu::menu_action(MenuItem* item)
     Editor::current()->reactivate_request = true;
     MenuManager::instance().clear_menu_stack();
   } else {
-    MenuManager::instance().clear_menu_stack();
-    Editor::current()->reactivate_request = true;
+    switch (item->id) {
+      case -1:
+        break;
+      case -2:
+      case -3:
+        MenuManager::instance().clear_menu_stack();
+        Editor::current()->reactivate_request = true;
+        break;
+    }
   }
 }
 
