@@ -25,6 +25,7 @@
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/editor_objectgroup_menu.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
+#include "supertux/menu/editor_sector_menu.hpp"
 #include "supertux/menu/editor_sectors_menu.hpp"
 #include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
@@ -130,6 +131,9 @@ MenuStorage::create(MenuId menu_id)
 
     case EDITOR_SECTORS_MENU:
       return std::unique_ptr<Menu>(new EditorSectorsMenu);
+
+    case EDITOR_SECTOR_MENU:
+      return std::unique_ptr<Menu>(new EditorSectorMenu);
 
     case NO_MENU:
       return std::unique_ptr<Menu>();
