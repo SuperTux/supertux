@@ -62,7 +62,9 @@ Yeti::Yeti(const ReaderMapping& reader) :
   left_stand_x(),
   right_stand_x(),
   left_jump_x(),
-  right_jump_x()
+  right_jump_x(),
+  fixed_pos(),
+  hud_icon()
 {
   if ( !reader.get("lives", hit_points) ) {
     hit_points = INITIAL_HITPOINTS;
@@ -71,7 +73,6 @@ Yeti::Yeti(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/yeti_gna.wav");
   SoundManager::current()->preload("sounds/yeti_roar.wav");
 
-  std::string hud_icon;
   if ( !reader.get("hud-icon", hud_icon) ) {
     hud_icon = "images/creatures/yeti/hudlife.png";
   }
@@ -79,7 +80,6 @@ Yeti::Yeti(const ReaderMapping& reader) :
 
   initialize();
 
-  bool fixed_pos;
   if ( !reader.get("fixed-pos", fixed_pos) ) {
     fixed_pos = false;
   }
@@ -355,8 +355,18 @@ Yeti::get_settings() {
   ObjectSettings result(_("Yeti"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
   result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"),   &dead_script));
+  result.options.push_back( ObjectOption(MN_TOGGLE,    _("Fixed position"), &fixed_pos));
+  result.options.push_back( ObjectOption(MN_INTFIELD,  _("Lives"),          &hit_points));
   return result;
+}
+
+void
+Yeti::save(Writer& writer) {
+  BadGuy::save(writer);
+  writer.write("hud-icon", hud_icon, false);
+  writer.write("fixed-pos", fixed_pos);
+  writer.write("lives", hit_points);
 }
 
 /* EOF */
