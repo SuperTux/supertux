@@ -42,6 +42,7 @@ public:
   }
 
   virtual ObjectSettings get_settings();
+  virtual void save(Writer& writer);
 
 private:
   void run();
@@ -77,6 +78,9 @@ private:
   float right_jump_x;
 
   void recalculate_pos();
+
+  bool fixed_pos;
+  std::string hud_icon;
 };
 
 #endif
