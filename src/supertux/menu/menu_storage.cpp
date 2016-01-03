@@ -21,6 +21,7 @@
 #include "supertux/menu/cheat_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
 #include "supertux/menu/editor_menu.hpp"
+#include "supertux/menu/editor_level_menu.hpp"
 #include "supertux/menu/editor_level_select_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/editor_objectgroup_menu.hpp"
@@ -134,6 +135,9 @@ MenuStorage::create(MenuId menu_id)
 
     case EDITOR_SECTOR_MENU:
       return std::unique_ptr<Menu>(new EditorSectorMenu);
+
+    case EDITOR_LEVEL_MENU:
+      return std::unique_ptr<Menu>(new EditorLevelMenu);
 
     case NO_MENU:
       return std::unique_ptr<Menu>();
