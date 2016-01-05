@@ -24,6 +24,7 @@ class Sprite;
 
 namespace worldmap {
 
+class SpecialTile;
 class WorldMap;
 
 class Tux : public GameObject
@@ -69,6 +70,8 @@ public:
   Vector get_pos() const;
   Vector get_tile_pos() const { return tile_pos; }
   void  set_tile_pos(Vector p) { tile_pos = p; }
+
+  void process_special_tile(SpecialTile* special_tile);
 
 private:
   Tux(const Tux&);

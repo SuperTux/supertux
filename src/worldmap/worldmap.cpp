@@ -914,6 +914,7 @@ WorldMap::setup()
     std::istringstream in(init_script);
     run_script(in, "WorldMap::init");
   }
+  tux->process_special_tile( at_special_tile() );
 }
 
 void

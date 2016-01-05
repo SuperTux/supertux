@@ -70,7 +70,7 @@
       (invisible-tile #t)
       (script "	if(query(\"unlicensed\")){set_unlicensed(false);}	")
       (x 15)
-      (y 45)
+      (y 44)
     )
     (teleporter
       (worldmap "levels/bonus3/worldmap.stwm")

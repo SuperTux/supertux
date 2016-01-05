@@ -208,18 +208,7 @@ Tux::tryContinueWalking(float elapsed_time)
        (direction == D_WEST && special_tile->apply_action_east) ||
        (direction == D_EAST && special_tile->apply_action_west))
     {
-      if(special_tile->passive_message) {
-        worldmap->passive_message = special_tile->map_message;
-        worldmap->passive_message_timer.start(map_message_TIME);
-      } else if(special_tile->script != "") {
-        try {
-          std::istringstream in(special_tile->script);
-          worldmap->run_script(in, "specialtile");
-        } catch(std::exception& e) {
-          log_warning << "Couldn't execute special tile script: " << e.what()
-                      << std::endl;
-        }
-      }
+      process_special_tile(special_tile);
     }
   }
 
@@ -324,6 +313,26 @@ Tux::setup()
   if(sprite_change != NULL) {
     sprite = sprite_change->sprite->clone();
     sprite_change->clear_stay_action();
+  }
+}
+
+void
+Tux::process_special_tile(SpecialTile* special_tile) {
+  if (!special_tile) {
+    return;
+  }
+
+  if(special_tile->passive_message) {
+    worldmap->passive_message = special_tile->map_message;
+    worldmap->passive_message_timer.start(map_message_TIME);
+  } else if(special_tile->script != "") {
+    try {
+      std::istringstream in(special_tile->script);
+      worldmap->run_script(in, "specialtile");
+    } catch(std::exception& e) {
+      log_warning << "Couldn't execute special tile script: " << e.what()
+                  << std::endl;
+    }
   }
 }
 
