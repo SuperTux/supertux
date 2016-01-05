@@ -85,10 +85,7 @@
       (y 925.254)
     )
     (infoblock
-      (message (_ "#Verwenden Sie den Feind, um dieses Level zu beenden!
-#
-#
-#Use the enemy to finish this level!"))
+      (message (_ "#Use the enemy to finish this level!"))
       (x 8879.03)
       (y 1477.657)
     )
