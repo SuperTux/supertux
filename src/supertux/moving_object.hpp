@@ -88,7 +88,7 @@ public:
   /** when 2 objects collided, we will first call the
       pre_collision_check functions of both objects that can decide on
       how to react to the collision. */
-  virtual bool collides(GameObject& other, const CollisionHit& hit)
+  virtual bool collides(GameObject& other, const CollisionHit& hit) const
   {
     (void) other;
     (void) hit;

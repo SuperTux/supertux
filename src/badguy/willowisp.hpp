@@ -57,7 +57,7 @@ public:
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
 protected:
-  virtual bool collides(GameObject& other, const CollisionHit& hit);
+  virtual bool collides(GameObject& other, const CollisionHit& hit) const;
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
 private:

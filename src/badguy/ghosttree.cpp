@@ -199,7 +199,8 @@ GhostTree::active_update(float elapsed_time)
 }
 
 bool
-GhostTree::is_color_deadly(Color color) const {
+GhostTree::is_color_deadly(Color color) const
+{
   if (color == Color(0,0,0)) return false;
   Color my_color = glow_sprite->get_color();
   return ((my_color.red != color.red) || (my_color.green != color.green) || (my_color.blue != color.blue));
@@ -237,7 +238,8 @@ GhostTree::draw(DrawingContext& context)
 }
 
 bool
-GhostTree::collides(GameObject& other, const CollisionHit& ) {
+GhostTree::collides(GameObject& other, const CollisionHit& ) const
+{
   if (mystate != STATE_SUCKING) return false;
   if (dynamic_cast<Lantern*>(&other)) return true;
   if (dynamic_cast<Player*>(&other)) return true;
@@ -245,7 +247,8 @@ GhostTree::collides(GameObject& other, const CollisionHit& ) {
 }
 
 HitResponse
-GhostTree::collision(GameObject& other, const CollisionHit& ) {
+GhostTree::collision(GameObject& other, const CollisionHit& )
+{
   if(mystate != STATE_SUCKING) return ABORT_MOVE;
 
   Player* player = dynamic_cast<Player*>(&other);
@@ -265,7 +268,8 @@ GhostTree::collision(GameObject& other, const CollisionHit& ) {
 }
 
 void
-GhostTree::spawn_lantern() {
+GhostTree::spawn_lantern()
+{
   auto lantern = std::make_shared<Lantern>(bbox.get_middle() + SUCK_TARGET_OFFSET);
   Sector::current()->add_object(lantern);
 }

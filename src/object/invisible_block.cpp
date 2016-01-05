@@ -44,7 +44,7 @@ InvisibleBlock::draw(DrawingContext& context)
 }
 
 bool
-InvisibleBlock::collides(GameObject& other, const CollisionHit& )
+InvisibleBlock::collides(GameObject& other, const CollisionHit& ) const
 {
   if(visible)
     return true;

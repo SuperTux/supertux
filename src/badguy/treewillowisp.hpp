@@ -47,7 +47,7 @@ public:
   virtual void draw(DrawingContext& context);
 
 protected:
-  virtual bool collides(GameObject& other, const CollisionHit& hit);
+  virtual bool collides(GameObject& other, const CollisionHit& hit) const;
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
 private:

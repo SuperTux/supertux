@@ -152,7 +152,7 @@ MagicBlock::draw(DrawingContext& context){
 }
 
 bool
-MagicBlock::collides(GameObject& /*other*/, const CollisionHit& /*hit*/)
+MagicBlock::collides(GameObject& /*other*/, const CollisionHit& /*hit*/) const
 {
   return is_solid;
 }
