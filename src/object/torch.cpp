@@ -77,15 +77,11 @@ Torch::collision(GameObject& other, const CollisionHit& )
 {
   // FIXME: this doesn't work, as bbox is wrong
   Player* player = dynamic_cast<Player*>(&other);
-  if(player == 0)
-  {
-    return ABORT_MOVE;
-  }
-  else
+  if(player != 0)
   {
     m_burning = true;
-    return ABORT_MOVE;
   }
+  return ABORT_MOVE;
 }
 
 /* EOF */
