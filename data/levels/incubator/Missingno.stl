@@ -527,17 +527,12 @@
       (y 2688)
     )
     (infoblock
-      (message (_ "#Sei geduldig!
-#
-#Be patient!"))
+      (message (_ "#Be patient!"))
       (x 3392)
       (y 2528)
     )
     (infoblock
-      (message (_ "#Nicht bewegen beim Flug!
-#Gib Acht bei der Landung!
-#
-#Dont move while flying!
+      (message (_ "#Dont move while flying!
 #Pay attention at landing!"))
       (x 8896)
       (y 160)
