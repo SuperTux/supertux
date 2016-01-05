@@ -96,7 +96,7 @@ ShortFuse::collision_bullet (Bullet& bullet, const CollisionHit& )
 }
 
 void
-ShortFuse::kill_fall (void)
+ShortFuse::kill_fall()
 {
   explode ();
 }

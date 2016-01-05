@@ -29,9 +29,9 @@ protected:
   HitResponse collision_player (Player& player, const CollisionHit& hit);
   HitResponse collision_bullet (Bullet& bullet, const CollisionHit& );
   bool collision_squished (GameObject& object);
-  void kill_fall (void);
+  void kill_fall();
   void ignite();
-  void explode (void);
+  void explode();
 };
 
 #endif /* HEADER_SUPERTUX_BADGUY_SHORT_FUSE_HPP */

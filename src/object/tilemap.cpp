@@ -416,7 +416,7 @@ TileMap::get_alpha() const
  * Private methods
  */
 void
-TileMap::update_effective_solid (void)
+TileMap::update_effective_solid()
 {
   if (!real_solid)
     effective_solid = false;

@@ -42,7 +42,7 @@ class SkyDive : public BadGuy, public Portable
 
     void active_update (float elapsed_time);
 
-    void explode (void);
+    void explode();
 };
 
 #endif /* HEADER_SUPERTUX_BADGUY_BOMBFISH_HPP */

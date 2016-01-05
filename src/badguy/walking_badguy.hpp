@@ -59,7 +59,7 @@ public:
    */
   void add_velocity(const Vector& velocity);
 
-  float get_walk_speed (void) const
+  float get_walk_speed() const
   {
     return (walk_speed);
   }

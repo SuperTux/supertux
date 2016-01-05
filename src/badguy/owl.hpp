@@ -37,7 +37,7 @@ public:
   void ignite();
 
 protected:
-  bool is_above_player (void);
+  bool is_above_player() const;
   void active_update (float elapsed_time);
   bool collision_squished(GameObject& object);
 

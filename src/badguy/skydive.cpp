@@ -115,7 +115,7 @@ SkyDive::active_update (float elapsed_time)
 } /* void active_update */
 
 void
-SkyDive::explode (void)
+SkyDive::explode()
 {
   if (!is_valid())
     return;

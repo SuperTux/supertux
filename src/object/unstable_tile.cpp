@@ -52,7 +52,7 @@ UnstableTile::collision(GameObject& other, const CollisionHit& )
   return FORCE_MOVE;
 }
 
-void UnstableTile::shake (void)
+void UnstableTile::shake()
 {
   if (state != STATE_NORMAL)
     return;
@@ -66,7 +66,7 @@ void UnstableTile::shake (void)
   }
 }
 
-void UnstableTile::dissolve (void)
+void UnstableTile::dissolve()
 {
   if ((state != STATE_NORMAL) && (state != STATE_SHAKE))
     return;
@@ -80,7 +80,7 @@ void UnstableTile::dissolve (void)
   }
 }
 
-void UnstableTile::slow_fall (void)
+void UnstableTile::slow_fall()
 {
   /* Only enter slow-fall if neither shake nor dissolve is available. */
   if (state != STATE_NORMAL) {
@@ -100,7 +100,7 @@ void UnstableTile::slow_fall (void)
   }
 }
 
-void UnstableTile::fall_down (void)
+void UnstableTile::fall_down()
 {
   if ((state != STATE_NORMAL)
       && (state != STATE_SHAKE)

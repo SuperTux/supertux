@@ -94,15 +94,15 @@ public:
     speed_bottom = std::min (speed_bottom, velocity);
   }
 
-  float get_position_left   (void) const { return position_left;   }
-  float get_position_right  (void) const { return position_right;  }
-  float get_position_top    (void) const { return position_top;    }
-  float get_position_bottom (void) const { return position_bottom; }
+  float get_position_left   () const { return position_left;   }
+  float get_position_right  () const { return position_right;  }
+  float get_position_top    () const { return position_top;    }
+  float get_position_bottom () const { return position_bottom; }
 
-  float get_height (void) const { return (position_bottom - position_top); }
-  float get_width  (void) const { return (position_right - position_left); }
+  float get_height () const { return (position_bottom - position_top); }
+  float get_width  () const { return (position_right - position_left); }
 
-  float get_x_midpoint (void) const { return (.5f * (position_left + position_right)); }
+  float get_x_midpoint () const { return (.5f * (position_left + position_right)); }
 
   Vector ground_movement;
   CollisionHit hit;

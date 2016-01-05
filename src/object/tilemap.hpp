@@ -177,7 +177,7 @@ private:
    * See `is_solid' above. */
   bool real_solid;
   bool effective_solid;
-  void update_effective_solid (void);
+  void update_effective_solid();
 
   float speed_x;
   float speed_y;

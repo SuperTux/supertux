@@ -35,7 +35,7 @@ public:
   void draw(DrawingContext& context);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
-  bool hurts (void) const
+  bool hurts() const
   {
     return this->hurt;
   }
@@ -45,7 +45,7 @@ public:
     this->hurt = val;
   }
 
-  bool pushes (void) const
+  bool pushes() const
   {
     return this->push;
   }

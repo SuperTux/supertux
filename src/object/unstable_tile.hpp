@@ -46,10 +46,10 @@ private:
   void startCrumbling();
 
 private:
-  void shake (void);
-  void dissolve (void);
-  void fall_down (void);
-  void slow_fall (void);
+  void shake();
+  void dissolve();
+  void fall_down();
+  void slow_fall();
 
   Physic physic;
   State state;

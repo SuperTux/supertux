@@ -74,7 +74,7 @@ Owl::initialize()
 }
 
 bool
-Owl::is_above_player (void)
+Owl::is_above_player() const
 {
   Player* player = Sector::current()->get_nearest_player (bbox);
   if (!player)
@@ -86,12 +86,9 @@ Owl::is_above_player (void)
 
   const Rectf& player_bbox = player->get_bbox();
 
-  if ((player_bbox.p1.y >= bbox.p2.y) /* player is below us */
-      && ((player_bbox.p2.x + x_offset) > bbox.p1.x)
-      && ((player_bbox.p1.x + x_offset) < bbox.p2.x))
-    return true;
-  else
-    return false;
+  return ((player_bbox.p1.y >= bbox.p2.y) /* player is below us */
+          && ((player_bbox.p2.x + x_offset) > bbox.p1.x)
+          && ((player_bbox.p1.x + x_offset) < bbox.p2.x));
 }
 
 void
