@@ -497,7 +497,7 @@ WorldMap::finished_level(Level* gamelevel)
     }
   }
 
-  if (level->extro_script != "") {
+  if (!level->extro_script.empty()) {
     try {
       std::istringstream in(level->extro_script);
       run_script(in, "worldmap:extro_script");
@@ -624,7 +624,7 @@ WorldMap::update(float delta)
     Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
     if (teleporter && (teleporter->automatic || (enter_level && (!tux->is_moving())))) {
       enter_level = false;
-      if (teleporter->worldmap != "") {
+      if (!teleporter->worldmap.empty()) {
         change(teleporter->worldmap, teleporter->spawnpoint);
       } else {
         // TODO: an animation, camera scrolling or a fading would be a nice touch
@@ -854,7 +854,7 @@ WorldMap::draw_status(DrawingContext& context)
 
     // display teleporter messages
     Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
-    if (teleporter && (teleporter->message != "")) {
+    if (teleporter && (!teleporter->message.empty())) {
       Vector pos = Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - Resources::normal_font->get_height() - 30);
       context.draw_text(Resources::normal_font, teleporter->message, pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::teleporter_message_color);
     }
@@ -884,7 +884,7 @@ WorldMap::setup()
   load_state();
 
   // if force_spawnpoint was set, move Tux there, then clear force_spawnpoint
-  if (force_spawnpoint != "") {
+  if (!force_spawnpoint.empty()) {
     move_to_spawnpoint(force_spawnpoint);
     force_spawnpoint = "";
   }
@@ -910,7 +910,7 @@ WorldMap::setup()
     // doesn't exist or erroneous; do nothing
   }
 
-  if(init_script != "") {
+  if(!init_script.empty()) {
     std::istringstream in(init_script);
     run_script(in, "WorldMap::init");
   }

@@ -138,7 +138,7 @@ SectorParser::parse(const ReaderMapping& sector)
       iter.get(m_sector.music);
     } else if(iter.get_key() == "spawnpoint") {
       auto sp = std::make_shared<SpawnPoint>(iter.as_mapping());
-      if (sp->name != "" && sp->pos.x >= 0 && sp->pos.y >= 0) {
+      if (!sp->name.empty() && sp->pos.x >= 0 && sp->pos.y >= 0) {
         m_sector.spawnpoints.push_back(sp);
       }
     } else if(iter.get_key() == "init-script") {
@@ -195,7 +195,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   reader.get("gravity", m_sector.gravity);
 
   std::string backgroundimage;
-  if (reader.get("background", backgroundimage) && (backgroundimage != "")) {
+  if (reader.get("background", backgroundimage) && (!backgroundimage.empty())) {
     if (backgroundimage == "arctis.png") backgroundimage = "arctis.jpg";
     if (backgroundimage == "arctis2.jpg") backgroundimage = "arctis.jpg";
     if (backgroundimage == "ocean.png") backgroundimage = "ocean.jpg";
@@ -226,7 +226,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   bkgd_bottom.green = static_cast<float> (g) / 255.0f;
   bkgd_bottom.blue = static_cast<float> (b) / 255.0f;
 
-  if(backgroundimage != "") {
+  if(!backgroundimage.empty()) {
     auto background = std::make_shared<Background>();
     background->set_image(backgroundimage, bgspeed);
     m_sector.add_object(background);

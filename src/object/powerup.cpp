@@ -115,7 +115,7 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
       SoundManager::current()->play("sounds/gulp.wav");
   }
 
-  if (script != "") {
+  if (!script.empty()) {
     std::istringstream stream(script);
     Sector::current()->run_script(stream, "powerup-script");
     remove_me();

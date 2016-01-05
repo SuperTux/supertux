@@ -129,7 +129,7 @@ GameSession::restart_level(bool after_death)
     level->stats.total_secrets = level->get_total_secrets();
     level->stats.reset();
 
-    if(reset_sector != "") {
+    if(!reset_sector.empty()) {
       currentsector = level->get_sector(reset_sector);
       if(!currentsector) {
         std::stringstream msg;
@@ -157,7 +157,7 @@ GameSession::restart_level(bool after_death)
     currentsector->play_music(LEVEL_MUSIC);
   }
 
-  if(capture_file != "") {
+  if(!capture_file.empty()) {
     int newSeed=0;               // next run uses a new seed
     while (newSeed == 0)            // which is the next non-zero random num.
       newSeed = gameRandom.rand();
@@ -255,7 +255,7 @@ GameSession::on_escape_press()
     return;   // don't let the player open the menu, when he is dying
   }
 
-  if(level->on_menukey_script != "") {
+  if(!level->on_menukey_script.empty()) {
     std::istringstream in(level->on_menukey_script);
     run_script(in, "OnMenuKeyScript");
   } else {
@@ -491,7 +491,7 @@ GameSession::update(float elapsed_time)
   check_end_conditions();
 
   // respawning in new sector?
-  if(newsector != "" && newspawnpoint != "") {
+  if(!newsector.empty() && !newspawnpoint.empty()) {
     Sector* sector = level->get_sector(newsector);
     if(sector == 0) {
       log_warning << "Sector '" << newsector << "' not found" << std::endl;

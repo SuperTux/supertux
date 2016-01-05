@@ -108,7 +108,7 @@ LevelIntro::draw(DrawingContext& context)
   }
 
   std::string author = level->get_author();
-  if ((author != "") && (author != "SuperTux Team")) {
+  if ((!author.empty()) && (author != "SuperTux Team")) {
     std::string author_text = str(boost::format(_("contributed by %s")) % author);
     context.draw_center_text(Resources::small_font, author_text, Vector(0, py), LAYER_FOREGROUND1, LevelIntro::author_color);
     py += static_cast<int>(Resources::small_font->get_height());

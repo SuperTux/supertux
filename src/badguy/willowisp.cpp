@@ -217,7 +217,7 @@ WillOWisp::collision_player(Player& player, const CollisionHit& ) {
   mystate = STATE_WARPING;
   sprite->set_action("warping", 1);
 
-  if(hit_script != "") {
+  if(!hit_script.empty()) {
     std::istringstream stream(hit_script);
     Sector::current()->run_script(stream, "hit-script");
   } else {

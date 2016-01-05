@@ -55,7 +55,7 @@ public:
   Texture() : cache_filename() {}
   virtual ~Texture()
   {
-    if (TextureManager::current() && cache_filename != "")
+    if (TextureManager::current() && !cache_filename.empty())
       /* The cache entry is now useless: its weak pointer to us has been
        * cleared.  Remove the entry altogether to save memory. */
       TextureManager::current()->reap_cache_entry(cache_filename);

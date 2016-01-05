@@ -96,7 +96,7 @@ SecretAreaTrigger::event(Player& , EventType type)
       message_displayed = true;
       Sector::current()->get_level()->stats.secrets++;
 
-      if (fade_tilemap != "") {
+      if (!fade_tilemap.empty()) {
         // fade away tilemaps
         Sector& sector = *Sector::current();
         for(Sector::GameObjects::iterator i = sector.gameobjects.begin(); i != sector.gameobjects.end(); ++i) {
@@ -107,7 +107,7 @@ SecretAreaTrigger::event(Player& , EventType type)
         }
       }
 
-      if(script != "") {
+      if(!script.empty()) {
         std::istringstream stream(script);
         Sector::current()->run_script(stream, "SecretAreaScript");
       }

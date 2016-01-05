@@ -522,7 +522,7 @@ BadGuy::run_dead_script()
   countMe = false;
 
   // start dead-script
-  if(dead_script != "") {
+  if(!dead_script.empty()) {
     std::istringstream stream(dead_script);
     Sector::current()->run_script(stream, "dead-script");
   }

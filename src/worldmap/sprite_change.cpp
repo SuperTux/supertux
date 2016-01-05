@@ -55,7 +55,7 @@ SpriteChange::~SpriteChange()
 void
 SpriteChange::draw(DrawingContext& context)
 {
-  if(in_stay_action && stay_action != "") {
+  if(in_stay_action && !stay_action.empty()) {
     sprite->set_action(stay_action);
     sprite->draw(context, pos * 32, LAYER_OBJECTS-1);
   }
@@ -78,7 +78,7 @@ SpriteChange::clear_stay_action()
   in_stay_action = false;
 
   // if we are in a stay_group, also clear all stay actions in this group
-  if (stay_group != "") {
+  if (!stay_group.empty()) {
     for (std::list<SpriteChange*>::iterator i = all_sprite_changes.begin(); i != all_sprite_changes.end(); ++i) {
       SpriteChange* sc = *i;
       if (sc->stay_group != stay_group) continue;

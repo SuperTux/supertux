@@ -102,7 +102,7 @@ Main::init_tinygettext()
   g_dictionary_manager->add_directory("locale");
 
   // Config setting "locale" overrides language detection
-  if (g_config->locale != "")
+  if (!g_config->locale.empty())
   {
     g_dictionary_manager->set_language(tinygettext::Language::from_name(g_config->locale));
   }
@@ -352,7 +352,7 @@ Main::launch_game()
   GameManager game_manager;
   ScreenManager screen_manager;
 
-  if(g_config->start_level != "") {
+  if(!g_config->start_level.empty()) {
     // we have a normal path specified at commandline, not a physfs path.
     // So we simply mount that path here...
     std::string dir = FileSystem::dirname(g_config->start_level);
@@ -383,10 +383,10 @@ Main::launch_game()
         session->get_current_sector()->player->set_pos(*g_config->tux_spawn_pos);
       }
 
-      if(g_config->start_demo != "")
+      if(!g_config->start_demo.empty())
         session->play_demo(g_config->start_demo);
 
-      if(g_config->record_demo != "")
+      if(!g_config->record_demo.empty())
         session->record_demo(g_config->record_demo);
       screen_manager.push_screen(std::move(session));
     }
