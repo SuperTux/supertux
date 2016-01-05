@@ -88,10 +88,10 @@ public:
     }
   }
 
-  std::shared_ptr<Path> get_path()
+  std::shared_ptr<Path> get_path() const
   { return path; }
 
-  std::shared_ptr<PathWalker> get_walker()
+  std::shared_ptr<PathWalker> get_walker() const
   { return walker; }
 
   void set_offset(const Vector &offset_)
