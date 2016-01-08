@@ -72,8 +72,14 @@ GoldBomb::collision_solid(const CollisionHit& hit)
 HitResponse
 GoldBomb::collision(GameObject& object, const CollisionHit& hit)
 {
-  if(tstate == STATE_TICKING)
-    return ABORT_MOVE;
+  if(tstate == STATE_TICKING) {
+    if ( dynamic_cast<Player*>(&object) ) {
+      return ABORT_MOVE;
+    }
+    if ( dynamic_cast<BadGuy*>(&object) ) {
+      return ABORT_MOVE;
+    }
+  }
   if(grabbed)
     return FORCE_MOVE;
   return WalkingBadguy::collision(object, hit);
@@ -83,7 +89,7 @@ HitResponse
 GoldBomb::collision_player(Player& player, const CollisionHit& hit)
 {
   if(tstate == STATE_TICKING)
-    return ABORT_MOVE;
+    return FORCE_MOVE;
   if(grabbed)
     return FORCE_MOVE;
   return WalkingBadguy::collision_player(player, hit);
@@ -93,7 +99,7 @@ HitResponse
 GoldBomb::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
   if(tstate == STATE_TICKING)
-    return ABORT_MOVE;
+    return FORCE_MOVE;
   return WalkingBadguy::collision_badguy(badguy, hit);
 }
 
@@ -111,6 +117,7 @@ GoldBomb::collision_squished(GameObject& object)
     frozen = false;
     set_action(dir == LEFT ? "ticking-left" : "ticking-right", 1);
     physic.set_velocity_x(0);
+    //set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
 
     if (player)
       player->bounce(*this);
