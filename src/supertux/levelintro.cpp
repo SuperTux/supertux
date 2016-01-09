@@ -137,26 +137,26 @@ LevelIntro::draw(DrawingContext& context)
 
   {
     std::stringstream ss;
-    ss << _("Badguys killed") << ": " << Statistics::frags_to_string((best_level_statistics && (best_level_statistics->badguys >= 0)) ? best_level_statistics->badguys : 0, stats.total_badguys);
+    ss << _("Badguys killed") << ": " << Statistics::frags_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->badguys : 0, stats.total_badguys);
     context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
     py += static_cast<int>(Resources::normal_font->get_height());
   }
 
   {
     std::stringstream ss;
-    ss << _("Secrets") << ": " << Statistics::secrets_to_string((best_level_statistics && (best_level_statistics->secrets >= 0)) ? best_level_statistics->secrets : 0, stats.total_secrets);
+    ss << _("Secrets") << ": " << Statistics::secrets_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->secrets : 0, stats.total_secrets);
     context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
     py += static_cast<int>(Resources::normal_font->get_height());
   }
 
   {
     std::stringstream ss;
-    ss << _("Best time") << ": " << Statistics::time_to_string((best_level_statistics && (best_level_statistics->time >= 0)) ? best_level_statistics->time : 0);
+    ss << _("Best time") << ": " << Statistics::time_to_string((best_level_statistics && (best_level_statistics->coins >= 0)) ? best_level_statistics->time : 0);
     context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
     py += static_cast<int>(Resources::normal_font->get_height());
   }
 
-  if(level->target_time) {
+  if(level->target_time){
     std::stringstream ss;
     ss << _("Level target time") << ": " << Statistics::time_to_string(level->target_time);
     context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
