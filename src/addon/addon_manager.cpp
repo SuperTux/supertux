@@ -610,8 +610,15 @@ AddonManager::parse_addon_infos(const std::string& filename) const
         }
         else
         {
-          std::unique_ptr<Addon> addon = Addon::parse(addon_node.get_mapping());
-          m_addons.push_back(std::move(addon));
+          try
+          {
+            std::unique_ptr<Addon> addon = Addon::parse(addon_node.get_mapping());
+            m_addons.push_back(std::move(addon));
+          }
+          catch(const std::exception& e)
+          {
+            log_warning << "Problem when reading Add-on entry: " << e.what() << std::endl;
+          }
         }
       }
 
