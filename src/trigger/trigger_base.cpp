@@ -81,7 +81,7 @@ TriggerBase::collision(GameObject& other, const CollisionHit& )
 void
 TriggerBase::object_removed(GameObject* object)
 {
-  for (std::list<Player*>::const_iterator i = losetouch_listeners.begin(); i != losetouch_listeners.end(); ++i) {
+  for (std::list<Player*>::iterator i = losetouch_listeners.begin(); i != losetouch_listeners.end(); ++i) {
     Player* p = *i;
     if (p == object) {
       losetouch_listeners.erase(i);
