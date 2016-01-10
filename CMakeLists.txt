@@ -331,7 +331,7 @@ ENDIF(COMPILE_AMALGATION)
 OPTION(WERROR "Stop on first compiler warning" OFF)
 OPTION(WARNINGS "Enable long list of warnings for compiler to check" OFF)
 
-IF(CMAKE_COMPILER_IS_GNUCC)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   # http://www.guyrutenberg.com/2014/01/05/enabling-c11-c0x-in-cmake/
   include(CheckCXXCompilerFlag)
   CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
@@ -368,7 +368,7 @@ IF(CMAKE_COMPILER_IS_GNUCC)
     #   -Wlogical-op -Wstrict-null-sentinel
     SET(SUPERTUX2_EXTRA_WARNING_FLAGS "-fdiagnostics-show-option -pedantic -Wno-long-long -Wcast-align -Wdisabled-optimization -Winit-self -Winvalid-pch -Wmissing-include-dirs -Wmissing-noreturn -Wpacked -Wredundant-decls -Wstack-protector -Wformat=2 -Weffc++ -Wctor-dtor-privacy  -Wno-unused-parameter -Wshadow -Wnon-virtual-dtor -Wcast-qual")
   ENDIF(WARNINGS)
-ENDIF(CMAKE_COMPILER_IS_GNUCC)
+endif()
 
 ## If xgettext is available, generate messages.pot for sources
 
@@ -423,9 +423,9 @@ IF(GENERATE_MESSAGESPOT)
 ENDIF(GENERATE_MESSAGESPOT)
 
 ## Some additional compiler switches
-IF(CMAKE_COMPILER_IS_GNUCC)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing")
-ENDIF(CMAKE_COMPILER_IS_GNUCC)
+endif()
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   ADD_DEFINITIONS(-DMACOSX)
