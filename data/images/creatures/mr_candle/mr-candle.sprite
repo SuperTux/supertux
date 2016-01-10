@@ -1,0 +1,24 @@
+(supertux-sprite
+  (action
+    (name "left")
+    (hitbox 0 0 19 30)
+    (images "mr-candle-left-0.png"
+            "mr-candle-left-1.png"
+            "mr-candle-left-2.png")
+  )
+  (action
+    (name "right")
+    (hitbox 0 0 19 30)
+    (mirror-action "left")
+  )
+  (action
+    (name "iced-left")
+    (hitbox 0 0 19 30)
+    (images "mr-candle-off.png")
+  )
+  (action
+    (name "iced-right")
+    (hitbox 0 0 19 30)
+    (mirror-action "iced-left")
+  )  
+)

@@ -1,0 +1,38 @@
+(supertux-sprite
+ (action
+  (name "normal")
+  (hitbox 2 3 31.8 31.8)
+  (images "left-0.png"
+          "left-1.png"))
+
+ (action
+  (name "down")
+  (hitbox 2 11 31.8 31.8)
+  (images "down.png"))
+
+ (action
+  (name "iced")
+  (hitbox 2 3 31.8 31.8)
+  (images "iced-left.png"))
+
+ (action
+  (name "iced-down")
+  (hitbox 2 11 31.8 31.8)
+  (images "iced-down.png"))
+
+ (action
+  (name "burning-left")
+  (fps 15)
+  (hitbox 2 43 31.8 31.8)
+  (images "burning-0.png"
+          "burning-1.png"
+          "burning-2.png"
+          "burning-3.png"
+          "burning-4.png"
+          "burning-5.png"
+          "burning-6.png"
+          "burning-7.png"
+          "burning-8.png"
+          "burning-9.png"))
+)
+

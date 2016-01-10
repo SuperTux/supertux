@@ -1,0 +1,49 @@
+(supertux-sprite
+  ;; Hue: +115
+  (action
+    (name "left")
+    (hitbox 3 6 32 32)
+    (images "left-0.png"
+            "left-1.png"
+            "left-2.png"
+            "left-1.png")
+  )
+  (action
+    (name "right")
+    (hitbox 3 6 32 32)
+    (mirror-action "left")
+  )
+  (action
+    (name "squished-left")
+    (hitbox 1 -19 31.8 31.8)
+    (images "mrs-squished-left.png")
+  )
+  (action
+    (name "squished-right")
+    (hitbox 1 -19 31.8 31.8)
+    (mirror-action "squished-left")
+  )
+ (action
+  (name "melting-left")
+  (hitbox 3 6 32 32)
+  (images "melting-0.png"
+          "melting-1.png"
+          "melting-2.png"
+          "melting-3.png"))
+ (action
+  (name "melting-right")
+  (hitbox 3 6 32 32)
+  (mirror-action "melting-left"))
+ (action
+  (name "ground-melting-left")
+  (hitbox 19 6 32 32)
+  (images "gmelting-0.png"
+          "gmelting-1.png"
+          "gmelting-2.png"
+          "gmelting-3.png"
+          "gmelting-4.png"))
+ (action
+  (name "ground-melting-right")
+  (hitbox 19 6 32 32)
+  (mirror-action "ground-melting-left"))
+)

@@ -1,0 +1,6 @@
+(supertux-sprite
+ (action
+  (name "default")
+  (hitbox 8 4 28 43)
+  (images "skydive.png"))
+)

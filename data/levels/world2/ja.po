@@ -1,0 +1,247 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
+# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 10:14+0000\n"
+"Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
+"Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: data/levels/world2/Crumbling_Path.stl:3
+msgid "Crumbling Path"
+msgstr "崩れ落ちる道"
+
+#: data/levels/world2/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr "山の道"
+
+#: data/levels/world2/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr "- 登れます # Tuxはのぼることができます。のぼるには、上キーを押してください。アクションキー、ジャンプキーを押すとのぼるのをやめます。"
+
+#: data/levels/world2/airkey.stl:3
+msgid "Treasure in the skies"
+msgstr "空の宝物"
+
+#: data/levels/world2/builder.stl:3
+msgid "Tux the Builder"
+msgstr "Tuxは大工さん"
+
+#: data/levels/world2/builder.stl:38
+msgid ""
+"-Portable Rocks:\n"
+"\n"
+"!images/help/rockhowto1.png\n"
+"!images/help/rockhowto2.png\n"
+"!images/help/rockhowto3.png\n"
+msgstr "-自由に使えるブロック: \n!images/help/rockhowto1.png \n!images/help/rockhowto2.png \n!images/help/rockhowto3.png\n"
+
+#: data/levels/world2/castle.stl:3
+msgid "Iceberg Fortress"
+msgstr "氷山の要塞"
+
+#: data/levels/world2/castledoor.stl:3
+#: data/levels/world2/dfk-placeholder-1.stl:3
+msgid "NOLOK"
+msgstr "NOLOK"
+
+#: data/levels/world2/christoph1.stl:3
+msgid "Bouncy Coils"
+msgstr "弾むコイル"
+
+#: data/levels/world2/christoph2.stl:3
+msgid "Tree Fortress"
+msgstr "木のお城"
+
+#: data/levels/world2/christoph3.stl:3
+msgid "A Mouldy Grotto"
+msgstr "Mouldy洞窟"
+
+#: data/levels/world2/christoph5.stl:3
+msgid "Short Visit to El Castillo"
+msgstr "エルカスティージョへ訪問"
+
+#: data/levels/world2/christoph6.stl:3
+msgid "Welcome to the Forest"
+msgstr "ようこそ森へ"
+
+#: data/levels/world2/christoph7.stl:3
+msgid "Countercurrent"
+msgstr "逆流"
+
+#: data/levels/world2/christoph8.stl:3
+msgid "Little Venice"
+msgstr "小さなヴェネツィア"
+
+#: data/levels/world2/christoph9.stl:3
+msgid "Two Tiny Towers"
+msgstr "2つの小さいタワー"
+
+#: data/levels/world2/christophA.stl:3
+msgid "Three sheets to the wind"
+msgstr "3枚のシートは風へ"
+
+#: data/levels/world2/christophB.stl:3
+msgid "Kneep-deep in the depth"
+msgstr "Kneep-deepは深い"
+
+#: data/levels/world2/christophC.stl:3
+msgid "Duct Ape"
+msgstr "ダクトエイプ"
+
+#: data/levels/world2/christophD.stl:3
+msgid "Room of Stars"
+msgstr "星の部屋"
+
+#: data/levels/world2/christophE.stl:3
+msgid "The Silent Walls"
+msgstr "声がない壁"
+
+#: data/levels/world2/dan_morial.stl:3
+msgid "Dan Morial"
+msgstr "ダンモリアル"
+
+#: data/levels/world2/detour.stl:3
+msgid "Detour"
+msgstr "回り道"
+
+#: data/levels/world2/dfk-level1.stl:3
+msgid "Dark Forest Keep - The Evil Chamber"
+msgstr "ダークフォレストキープ - 悪の商工会議所"
+
+#: data/levels/world2/dfk-level2.stl:3
+msgid "Dark Forest Keep - The Eyes Of Nolok"
+msgstr "ダークフォレストキープ - Nolokの目"
+
+#: data/levels/world2/dfk-level3.stl:3
+msgid "Dark Forest Keep - The Black Tower"
+msgstr "ダークフォレストキープ - 黒いタワー"
+
+#: data/levels/world2/fish.stl:3
+msgid "Find the Bigger Fish!"
+msgstr "ビガーフィッシュをみつけて"
+
+#: data/levels/world2/forest1-grumbel.stl:3
+msgid "Forest Level 1"
+msgstr "森のコース 1"
+
+#: data/levels/world2/ghostly.stl:3
+msgid "A Ghostly World"
+msgstr "幽霊の世界"
+
+#: data/levels/world2/key1.stl:3
+msgid "key 1 water - to be placed behind waterfall"
+msgstr "カギ1 水 - 滝の後ろにあるよ！"
+
+#: data/levels/world2/key2.stl:3
+msgid "key 2 earth - to be placed underground"
+msgstr "カギ2 大地 - 地下にあるよ!"
+
+#: data/levels/world2/key3.stl:3
+msgid "key 3 wood - to be placed in a big tree"
+msgstr "カギ3 木 - おおきな木にあるよ!"
+
+#: data/levels/world2/key4.stl:3
+msgid "key 4 fire - to be placed in a small castle"
+msgstr "カギ4 火 - 小さいお城にあるよ!"
+
+#: data/levels/world2/key5.stl:3
+msgid "key 5 air - to be placed in clouds "
+msgstr "カギ5 空 - 雲の中にあるよ!"
+
+#: data/levels/world2/keystodoor.stl:3
+msgid "Entrance to the Castle"
+msgstr "城の玄関"
+
+#: data/levels/world2/leaves.stl:3
+msgid "Walking Leaves"
+msgstr "歩いている葉っぱ"
+
+#: data/levels/world2/level1.stl:3
+msgid "Roots, Woody Roots"
+msgstr "木の根"
+
+#: data/levels/world2/level1.stl:146
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-Hint: \n#通路に行けそうでなくても、 \n#あなたはそのドアを \n#通れる可能性が \n#あるかもしれません。"
+
+#: data/levels/world2/level2.stl:3
+msgid "Down The Rabbit Hole"
+msgstr "下にうさぎの穴"
+
+#: data/levels/world2/level2.stl:46
+msgid ""
+"-Oh no!\n"
+"#The path is blocked! It\n"
+"#seems that the only way\n"
+"#leads through that dark\n"
+"#hole in the ground..."
+msgstr "-残念! \n#その道はふさがれています！ \n#通るための方法は、 \n#地面に暗い穴を通して \n#つなげるそうです..."
+
+#: data/levels/world2/level2.stl:55
+msgid "-Are you lost?"
+msgstr "-あなたは失いましたか?"
+
+#: data/levels/world2/level4.stl:3
+msgid "Going Underground"
+msgstr "地下に向かってます"
+
+#: data/levels/world2/level5.stl:3
+msgid "Green Hills"
+msgstr "緑の丘"
+
+#: data/levels/world2/level6.stl:3
+msgid "No Name"
+msgstr "名前がありません"
+
+#: data/levels/world2/light+magic.stl:3
+msgid "Light and Magic"
+msgstr "光とマジック"
+
+#: data/levels/world2/owls_revenge.stl:3
+msgid "Owls' Revenge"
+msgstr "フクロウのリベンジ"
+
+#: data/levels/world2/shocking.stl:3
+msgid "Shocking"
+msgstr "ショック!"
+
+#: data/levels/world2/trees.stl:3
+msgid "Penguins don't grow on Trees"
+msgstr "木の上で成長しないペンギン"
+
+#: data/levels/world2/underconstruction.stl:3
+msgid "Under Construction"
+msgstr "工事中"
+
+#: data/levels/world2/updown.stl:3
+msgid "Up and Down"
+msgstr "上と下"
+
+#: data/levels/world2/village.stl:3
+msgid "A Village in the Forest"
+msgstr "森の村"
+
+#: data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr "森の世界"
