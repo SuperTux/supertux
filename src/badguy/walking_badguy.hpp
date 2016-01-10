@@ -31,17 +31,20 @@ public:
                 const std::string& sprite_name,
                 const std::string& walk_left_action,
                 const std::string& walk_right_action,
-                int layer = LAYER_OBJECTS);
+                int layer = LAYER_OBJECTS,
+                const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
   WalkingBadguy(const Vector& pos, Direction direction,
                 const std::string& sprite_name,
                 const std::string& walk_left_action,
                 const std::string& walk_right_action,
-                int layer = LAYER_OBJECTS);
+                int layer = LAYER_OBJECTS,
+                const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
   WalkingBadguy(const ReaderMapping& reader,
                 const std::string& sprite_name,
                 const std::string& walk_left_action,
                 const std::string& walk_right_action,
-                int layer = LAYER_OBJECTS);
+                int layer = LAYER_OBJECTS,
+                const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
 
   void initialize();
   void active_update(float elapsed_time);

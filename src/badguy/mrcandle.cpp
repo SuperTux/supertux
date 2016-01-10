@@ -24,8 +24,7 @@
 
 MrCandle::MrCandle(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/mr_candle/mr-candle.sprite", "left", "right"),
-    lightcolor(1, 1, 1),
-    candle_light(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-medium.sprite"))
+    lightcolor(1, 1, 1)
 {
   walk_speed = 80;
   max_drop_height = 64;
@@ -35,11 +34,10 @@ MrCandle::MrCandle(const ReaderMapping& reader)
     lightcolor = Color(vColor);
   }
   sprite->set_color(lightcolor);
-  candle_light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-  candle_light->set_color(lightcolor);
+  lightsprite->set_color(lightcolor);
 
   countMe = false;
-
+  glowing = true;
 }
 
 bool
@@ -55,15 +53,15 @@ MrCandle::is_flammable() const
 }
 
 void
-MrCandle::draw(DrawingContext& context) {
-  BadGuy::draw(context);
+MrCandle::freeze() {
+  BadGuy::freeze();
+  glowing = false;
+}
 
-  if (!frozen) {
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    candle_light->draw(context, bbox.get_middle(), 0);
-    context.pop_target();
-  }
+void
+MrCandle::unfreeze() {
+  BadGuy::unfreeze();
+  glowing = true;
 }
 
 HitResponse

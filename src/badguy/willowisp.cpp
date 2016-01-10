@@ -36,7 +36,8 @@ static const float VANISH_RANGE = 512; /**< at what distance to stop tracking an
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
 
 WillOWisp::WillOWisp(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS),
+  BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS,
+         "images/objects/lightmap_light/lightmap_light-small.sprite"),
   mystate(STATE_IDLE),
   target_sector(),
   target_spawnpoint(),
@@ -46,8 +47,7 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   walker(),
   flyspeed(),
   track_range(),
-  vanish_range(),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  vanish_range()
 {
   if ( !reader.get("sector", target_sector)) target_sector = "main";
   if ( !reader.get("spawnpoint", target_spawnpoint)) target_spawnpoint = "main";
@@ -72,24 +72,10 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   SoundManager::current()->preload(SOUNDFILE);
   SoundManager::current()->preload("sounds/warp.wav");
 
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.0f, 0.2f, 0.0f));
+  glowing = true;
 
   sprite->set_action("idle");
-}
-
-void
-WillOWisp::draw(DrawingContext& context)
-{
-  sprite->draw(context, get_pos(), layer);
-
-  context.push_target();
-  context.set_target(DrawingContext::LIGHTMAP);
-
-  sprite->draw(context, get_pos(), layer);
-  lightsprite->draw(context, bbox.get_middle(), 0);
-
-  context.pop_target();
 }
 
 void

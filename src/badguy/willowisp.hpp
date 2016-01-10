@@ -46,8 +46,6 @@ public:
    */
   void vanish();
 
-  virtual void draw(DrawingContext& context);
-
   virtual void goto_node(int node_no);
   virtual void set_state(const std::string& state);
   virtual void start_moving();
@@ -81,7 +79,6 @@ private:
   float flyspeed;
   float track_range;
   float vanish_range;
-  SpritePtr lightsprite;
 };
 
 #endif

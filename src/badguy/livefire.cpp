@@ -25,14 +25,13 @@
 
 LiveFire::LiveFire(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/livefire/livefire.sprite", "left", "right"),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-medium.sprite")),
   death_sound("sounds/fall.wav"),
   state(STATE_WALKING)
 {
   walk_speed = 80;
   max_drop_height = 20;
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(1.0f, 0.9f, 0.8f));
+  glowing = true;
 }
 
 void
@@ -93,18 +92,6 @@ LiveFire::active_update(float elapsed_time) {
   }
 
   BadGuy::active_update(elapsed_time);
-}
-
-void
-LiveFire::draw(DrawingContext& context)
-{
-  //Draw the Sprite.
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
-  //Draw the light
-  context.push_target();
-  context.set_target(DrawingContext::LIGHTMAP);
-  lightsprite->draw(context, bbox.get_middle(), 0);
-  context.pop_target();
 }
 
 void

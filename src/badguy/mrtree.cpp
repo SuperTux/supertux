@@ -34,7 +34,8 @@ static const float POISONIVY_HEIGHT = 32;
 static const float POISONIVY_Y_OFFSET = 24;
 
 MrTree::MrTree(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/mr_tree/mr_tree.sprite","left","right")
+  : WalkingBadguy(reader, "images/creatures/mr_tree/mr_tree.sprite","left","right", LAYER_OBJECTS,
+                  "images/objects/lightmap_light/lightmap_light-large.sprite")
 {
   walk_speed = TREE_SPEED;
   max_drop_height = 16;

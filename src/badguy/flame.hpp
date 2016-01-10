@@ -31,7 +31,6 @@ public:
   void deactivate();
 
   void active_update(float elapsed_time);
-  void draw(DrawingContext& context);
   void kill_fall();
 
   void freeze();
@@ -43,7 +42,6 @@ private:
   float radius;
   float speed;
   Color light;
-  SpritePtr lightsprite;
 
   std::unique_ptr<SoundSource> sound_source;
 };

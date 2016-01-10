@@ -29,7 +29,9 @@ public:
   bool is_freezable() const;
   bool is_flammable() const;
 
-  void draw(DrawingContext& context);
+  void freeze();
+  void unfreeze();
+
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   void kill_fall() { };
@@ -37,7 +39,6 @@ public:
 private:
 
   Color lightcolor;
-  SpritePtr candle_light;
 };
 
 #endif

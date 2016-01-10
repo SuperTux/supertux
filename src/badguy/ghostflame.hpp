@@ -26,7 +26,6 @@ public:
   Ghostflame(const Ghostflame& ghostflame);
 
   void active_update(float elapsed_time);
-  void draw(DrawingContext& context);
   void kill_fall();
   bool is_flammable() const;
 
@@ -35,8 +34,6 @@ private:
   float radius;
   float speed;
   Color light;
-  SpritePtr lightsprite;
-
 };
 
 #endif

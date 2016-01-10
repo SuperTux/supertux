@@ -30,12 +30,12 @@
 static const std::string FLAME_SOUND = "sounds/flame.wav";
 
 Flame::Flame(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS),
+  BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS,
+         "images/objects/lightmap_light/lightmap_light-small.sprite"),
   angle(0),
   radius(),
   speed(),
   light(0.0f,0.0f,0.0f),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite")),
   sound_source()
 {
   if ( !reader.get("radius", radius)) radius = 100;
@@ -47,8 +47,8 @@ Flame::Flame(const ReaderMapping& reader) :
 
   set_colgroup_active(COLGROUP_TOUCHABLE);
 
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.21f, 0.13f, 0.08f));
+  glowing = true;
 }
 
 void
@@ -62,24 +62,6 @@ Flame::active_update(float elapsed_time)
   sound_source->set_position(get_pos());
 
   if (sprite->get_action() == "fade" && sprite->animation_done()) remove_me();
-}
-
-void
-Flame::draw(DrawingContext& context)
-{
-  //Draw the Sprite.
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
-  //Draw the light if dark
-  if(true){
-    context.get_light( bbox.get_middle(), &light );
-    if (light.red + light.green < 2.0){
-      context.push_target();
-      context.set_target(DrawingContext::LIGHTMAP);
-      sprite->draw(context, get_pos(), layer);
-      lightsprite->draw(context, bbox.get_middle(), 0);
-      context.pop_target();
-    }
-  }
 }
 
 void

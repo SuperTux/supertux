@@ -28,12 +28,13 @@
 #include "util/reader_mapping.hpp"
 
 Iceflame::Iceflame(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/flame/iceflame.sprite", LAYER_FLOATINGOBJECTS),
+  BadGuy(reader, "images/creatures/flame/iceflame.sprite", LAYER_FLOATINGOBJECTS,
+         "images/objects/lightmap_light/lightmap_light-small.sprite"),
   angle(0),
   radius(),
   speed(),
-  light(0.0f,0.0f,0.0f),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
+  light(0.0f,0.0f,0.0f)
+  //lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   if ( !reader.get("radius", radius)) radius = 100;
   if ( !reader.get("speed", speed)) speed = 2;
@@ -44,8 +45,8 @@ Iceflame::Iceflame(const ReaderMapping& reader) :
 
   set_colgroup_active(COLGROUP_TOUCHABLE);
 
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   lightsprite->set_color(Color(0.00f, 0.13f, 0.18f));
+  glowing = true;
 
 }
 
@@ -59,24 +60,6 @@ Iceflame::active_update(float elapsed_time)
 
   if (sprite->get_action() == "fade" && sprite->animation_done()) remove_me();
 }
-
-void
-Iceflame::draw(DrawingContext& context)
-{
-  context.push_target();
-  //Rotate the Sprite (3 rotations per revolution)
-  sprite->set_angle(angle * 360.0f / (2*M_PI) * 3);
-  //Draw the Sprite.
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
-  //Draw the light if dark
-  context.get_light( bbox.get_middle(), &light );
-  if (light.blue + light.green < 2.0){
-    context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, bbox.get_middle(), 0);
-  }
-  context.pop_target();
-}
-
 
 void
 Iceflame::kill_fall()

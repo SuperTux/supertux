@@ -26,7 +26,6 @@ public:
   Iceflame(const Iceflame& iceflame);
 
   void active_update(float elapsed_time);
-  void draw(DrawingContext& context);
   void kill_fall();
 
   void ignite();
@@ -37,8 +36,6 @@ private:
   float radius;
   float speed;
   Color light;
-  SpritePtr lightsprite;
-
 };
 
 #endif

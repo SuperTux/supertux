@@ -27,7 +27,6 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void active_update(float elapsed_time);
-  void draw(DrawingContext& context);
 
   void freeze();
   bool is_freezable() const;
@@ -36,7 +35,6 @@ public:
   virtual void kill_fall();
 
 private:
-  SpritePtr lightsprite;
   std::string death_sound;
 
 protected:

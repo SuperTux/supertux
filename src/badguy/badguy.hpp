@@ -29,9 +29,12 @@ class Bullet;
 class BadGuy : public MovingSprite
 {
 public:
-  BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS);
-  BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS);
-  BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS);
+  BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+  BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+  BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
+         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
@@ -229,6 +232,9 @@ protected:
   std::string dead_script; /**< script to execute when badguy is killed */
 
   float melting_time;
+
+  SpritePtr lightsprite;
+  bool glowing;
 
 private:
   State state;
