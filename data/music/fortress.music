@@ -1,5 +1,0 @@
-(supertux-music
-  (file "fortress.ogg")
-  (loop-begin 11.37)
-  (loop-at    -1)
-)

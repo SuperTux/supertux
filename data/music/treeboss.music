@@ -1,5 +1,0 @@
-(supertux-music
-  (file "treeboss.ogg")
-  (loop-begin 32.15)
-  (loop-at    -1)
-)

@@ -1,5 +1,0 @@
-(supertux-music
-  (file "voc-daytime2.ogg")
-  (loop-begin 0)
-  (loop-at    -1)
-)

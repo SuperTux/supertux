@@ -1,9 +1,0 @@
-(supertux-sprite
- (action
-  (name "right")
-  (fps 1)
-  (images
-    "santa-cap-big.png"
-  )
- )
-)
