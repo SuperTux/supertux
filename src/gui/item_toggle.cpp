@@ -28,8 +28,6 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-static const float FLICK_CURSOR_TIME = 0.5f;
-
 ItemToggle::ItemToggle(const std::string& text_, bool* toggled_, int _id) :
   MenuItem(text_, _id),
   toggled(toggled_)
