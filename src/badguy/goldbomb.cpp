@@ -117,7 +117,6 @@ GoldBomb::collision_squished(GameObject& object)
     frozen = false;
     set_action(dir == LEFT ? "ticking-left" : "ticking-right", 1);
     physic.set_velocity_x(0);
-    //set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
 
     if (player)
       player->bounce(*this);
