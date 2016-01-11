@@ -96,11 +96,11 @@ AngryStone::active_update(float elapsed_time) {
         float dx = (playerPos.x - badguyPos.x);
         float dy = (playerPos.y - badguyPos.y);
 
-        float playerHeight = player->get_bbox().p2.y - player->get_bbox().p1.y;
-        float badguyHeight = badguy->get_bbox().p2.y - badguy->get_bbox().p1.y;
+        float playerHeight = player->get_bbox().get_height();
+        float badguyHeight = badguy->get_bbox().get_height();
 
-        float playerWidth = player->get_bbox().p2.x - player->get_bbox().p1.x;
-        float badguyWidth = badguy->get_bbox().p2.x - badguy->get_bbox().p1.x;
+        float playerWidth = player->get_bbox().get_width();
+        float badguyWidth = badguy->get_bbox().get_width();
 
         if ((dx > -playerWidth) && (dx < badguyWidth)) {
           if (dy > 0) {
