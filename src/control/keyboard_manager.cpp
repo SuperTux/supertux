@@ -31,7 +31,8 @@ KeyboardManager::KeyboardManager(InputManager* parent,
                                  KeyboardConfig& keyboard_config) :
   m_parent(parent),
   m_keyboard_config(keyboard_config),
-  wait_for_key(-1)
+  wait_for_key(-1),
+  m_lock_text_input(false)
 {
 }
 
@@ -50,7 +51,16 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
   {
     if (event.type == SDL_KEYDOWN)
     {
+      // text input gets locked between the console-key being pressed
+      // and released to avoid the console-key getting interpreted as
+      // text input and echoed to the console
+      m_lock_text_input = true;
+
       Console::current()->toggle();
+    }
+    else if (event.type == SDL_KEYUP)
+    {
+      m_lock_text_input = false;
     }
   }
   else if (Console::current()->hasFocus())
@@ -83,7 +93,7 @@ KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 void
 KeyboardManager::process_text_input_event(const SDL_TextInputEvent& event)
 {
-  if (Console::current()->hasFocus()) {
+  if (!m_lock_text_input && Console::current()->hasFocus()) {
     for(int i = 0; event.text[i] != '\0'; ++i)
     {
       Console::current()->input(event.text[i]);

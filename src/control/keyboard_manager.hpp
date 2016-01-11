@@ -34,6 +34,7 @@ private:
   InputManager* m_parent;
   KeyboardConfig& m_keyboard_config;
   int wait_for_key;
+  bool m_lock_text_input;
 
 public:
   KeyboardManager(InputManager* parent, KeyboardConfig& keyboard_config);
