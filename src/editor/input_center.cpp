@@ -302,6 +302,11 @@ EditorInputCenter::put_object() {
   if (game_object == NULL)
     throw std::runtime_error("Creating " + Editor::current()->tileselect.object + " object failed.");
 
+  MovingObject* mo = dynamic_cast<MovingObject*> (game_object.get());
+  if (!mo) {
+    Editor::current()->layerselect.add_layer(game_object.get());
+  }
+
   try {
     Editor::current()->currentsector->add_object(game_object);
   } catch(const std::exception& e) {
