@@ -25,7 +25,7 @@ class GrowUp : public MovingSprite
 {
 public:
   GrowUp(Direction direction = RIGHT);
-  virtual bool do_save() {
+  virtual bool do_save() const {
     return false;
   }
 
