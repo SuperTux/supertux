@@ -26,7 +26,7 @@ class Flower : public MovingObject
 public:
   Flower(BonusType type);
   ~Flower();
-  virtual bool do_save() {
+  virtual bool do_save() const {
     return false;
   }
 

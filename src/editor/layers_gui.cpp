@@ -34,6 +34,7 @@
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
 #include "video/renderer.hpp"
@@ -134,6 +135,10 @@ EditorLayersGui::event(SDL_Event& ev) {
               std::unique_ptr<Menu> om(new ObjectMenu(layers[hovered_layer]->layer));
               Editor::current()->deactivate_request = true;
               MenuManager::instance().push_menu(move(om));
+            } else if (InputManager::current()->get_controller()->hold(Controller::START)) {
+              //Delete it
+              layers[hovered_layer]->layer->remove_me();
+              layers.erase( layers.begin() + hovered_layer );
             } else {
               if ( layers[hovered_layer]->is_tilemap ) {
                 if (selected_tilemap) {

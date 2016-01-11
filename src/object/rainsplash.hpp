@@ -28,7 +28,7 @@ class RainSplash : public GameObject
 public:
   RainSplash(Vector pos, bool vertical);
   ~RainSplash();
-  virtual bool do_save() {
+  virtual bool do_save() const {
     return false;
   }
 

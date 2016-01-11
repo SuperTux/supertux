@@ -27,7 +27,7 @@ public:
 
   void try_break(Player* player);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual bool do_save() {
+  virtual bool do_save() const {
     return false;
   }
   virtual std::string get_class() const {

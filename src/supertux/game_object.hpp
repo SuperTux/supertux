@@ -65,7 +65,7 @@ public:
   virtual std::string get_class() const {
     return "game-object";
   }
-  virtual bool do_save() {
+  virtual bool do_save() const {
     return true;
   }
 
