@@ -218,40 +218,54 @@ SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/addon_manager.
 
 INCLUDE(ConfigureChecks)
 
-## Also execute instructions in external/squirrel/CMakeLists.txt
+INCLUDE(ExternalProject)
+
+## Also build external/squirrel
 
 IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt)
   message(FATAL_ERROR "squirrel submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/CMakeLists.txt is missing")
 ENDIF()
 
-SET(SQUIRREL_IS_SUBPROJECT ON)
-ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
+SET(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/)
+ExternalProject_Add(squirrel
+  SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
+  BUILD_COMMAND make
+  CMAKE_ARGS
+  -DBUILD_SHARED_LIBS=OFF
+  -DCMAKE_INSTALL_PREFIX=${SQUIRREL_PREFIX})
+  
+ADD_LIBRARY(squirrel_lib STATIC IMPORTED)
+SET_TARGET_PROPERTIES(squirrel_lib PROPERTIES IMPORTED_LOCATION "${SQUIRREL_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}squirrel${CMAKE_STATIC_LIBRARY_SUFFIX}")
 
-## Add squirrel lib dir to search path
+LINK_DIRECTORIES(${SQUIRREL_PREFIX}/libs)
+INCLUDE_DIRECTORIES(${SQUIRREL_PREFIX}/include)
 
-LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel)
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR}/external/squirrel)
-
-## Also execute instructions in external/tinygettext/CMakeLists.txt
+## Also build external/tinygettext
 
 IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt)
   message(FATAL_ERROR "tinygettext submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/CMakeLists.txt is missing")
 ENDIF()
 
-SET(TINYGETTEXT_IS_SUBPROJECT ON)
-ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext)
+set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext/)
+ExternalProject_Add(tinygettext
+  SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
+  BUILD_COMMAND make
+  CMAKE_ARGS
+  -DBUILD_SHARED_LIBS=OFF
+  -DHAVE_SDL=ON
+  -DCMAKE_INSTALL_PREFIX=${TINYGETTEXT_PREFIX}
+  -DSDL2_INCLUDE_DIRS=${SDL2_INCLUDE_DIRS})
+  
+ADD_LIBRARY(tinygettext_lib STATIC IMPORTED)
+SET_TARGET_PROPERTIES(tinygettext_lib PROPERTIES IMPORTED_LOCATION "${TINYGETTEXT_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}tinygettext${CMAKE_STATIC_LIBRARY_SUFFIX}")
 
-## Add tinygettext lib dir to search path
-
-LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext)
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext)
+LINK_DIRECTORIES(${TINYGETTEXT_PREFIX}/libs)
+INCLUDE_DIRECTORIES(${TINYGETTEXT_PREFIX}/include)
 
 ## Some additional include paths
 
 include_directories (${CMAKE_BINARY_DIR}/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/src/)
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/squirrel/include/)
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/tinygettext/include/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/findlocale/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/obstack/)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/include/)
@@ -267,9 +281,6 @@ FILE(GLOB SUPERTUX_SOURCES_C RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/obsta
 
 FILE(GLOB SUPERTUX_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*/*.cpp src/supertux/menu/*.cpp src/video/sdl/*.cpp)
 FILE(GLOB SUPERTUX_RESOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${PROJECT_BINARY_DIR}/tmp/*.rc")
-
-FILE(GLOB TINYGETTEXT_SOURCES_CXX RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} external/tinygettext/src/*.cpp)
-SET_SOURCE_FILES_PROPERTIES(${TINYGETTEXT_SOURCES_CXX} PROPERTIES COMPILE_DEFINITIONS HAVE_SDL)
 
 IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt)
   message(FATAL_ERROR "sexp-cpp submodule is not checked out or ${CMAKE_CURRENT_SOURCE_DIR}/external/sexp-cpp/CMakeLists.txt is missing")
@@ -287,7 +298,6 @@ ENDIF(HAVE_OPENGL)
 LIST(SORT SUPERTUX_SOURCES_C)
 LIST(SORT SUPERTUX_SOURCES_CXX)
 LIST(SORT SUPERTUX_RESOURCES)
-LIST(SORT TINYGETTEXT_SOURCES_CXX)
 
 ## Build miniswig and generate miniswig wrapper
 
@@ -480,13 +490,16 @@ ENDIF(WIN32)
 
 ## Link supertux binary with squirrel and other libraries
 
+ADD_DEPENDENCIES(supertux2_lib tinygettext)
+ADD_DEPENDENCIES(supertux2_lib squirrel)
+
 TARGET_INCLUDE_DIRECTORIES(supertux2_lib SYSTEM PUBLIC ${SDL2_INCLUDE_DIRS})
 TARGET_INCLUDE_DIRECTORIES(supertux2_lib SYSTEM PUBLIC ${SDL2IMAGE_INCLUDE_DIRS})
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${SDL2_LIBRARIES})
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${SDL2IMAGE_LIBRARIES})
 
-TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC squirrel)
-TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC tinygettext)
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC squirrel_lib)
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC tinygettext_lib)
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC sexp)
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${OPENAL_LIBRARY})
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${OGGVORBIS_LIBRARIES})
