@@ -206,6 +206,8 @@ GameSession::get_demo_random_seed(const std::string& filename) const
       test_stream->get(buf[i]);
     if (sscanf(buf, "random_seed=%10d", &seed) == 1) {
       log_info << "Random seed " << seed << " from demo file" << std::endl;
+      delete test_stream;
+      test_stream = nullptr;
       return seed;
     }
     else
