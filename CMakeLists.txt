@@ -229,7 +229,6 @@ ENDIF()
 SET(SQUIRREL_PREFIX ${CMAKE_BINARY_DIR}/squirrel/)
 ExternalProject_Add(squirrel
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/squirrel/"
-  BUILD_COMMAND make
   CMAKE_ARGS
   -DBUILD_SHARED_LIBS=OFF
   -DCMAKE_INSTALL_PREFIX=${SQUIRREL_PREFIX})
@@ -249,7 +248,6 @@ ENDIF()
 set(TINYGETTEXT_PREFIX ${CMAKE_BINARY_DIR}/tinygettext/)
 ExternalProject_Add(tinygettext
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/tinygettext/"
-  BUILD_COMMAND make
   CMAKE_ARGS
   -DBUILD_SHARED_LIBS=OFF
   -DHAVE_SDL=ON
