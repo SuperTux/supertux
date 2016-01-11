@@ -39,8 +39,8 @@ PROJECT(SUPERTUX)
 
 ### CMake configuration
 
-# allow building with CMake 2.6. Set compatibility options. Use some bundled modules as a fallback
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2)
+# allow building with CMake 2.8. Set compatibility options. Use some bundled modules as a fallback
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 IF(COMMAND cmake_policy)
   CMAKE_POLICY(SET CMP0003 NEW)
   CMAKE_POLICY(SET CMP0008 NEW)
