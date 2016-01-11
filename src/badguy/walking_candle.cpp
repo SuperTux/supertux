@@ -90,7 +90,7 @@ MrCandle::get_settings() {
 void
 MrCandle::after_editor_set() {
   sprite->set_color(lightcolor);
-  candle_light->set_color(lightcolor);
+  lightsprite->set_color(lightcolor);
 }
 
 void
