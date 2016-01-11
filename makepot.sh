@@ -14,5 +14,6 @@ done
 
 for LEVELSET in $(ls data/levels); do
   find data/levels/$LEVELSET "(" -name "*.stl" -or -name "*.stwm" -or -name "*.txt" ")" -print0 | xargs -0 xgettext --keyword='_:1' --language=Lisp --sort-by-file --output translations/$LEVELSET.pot
+  sed -i -e 's/\\r\\n/\\n/g' translations/$LEVELSET.pot
   rm -f data/levels/$LEVELSET/scripts_*.txt 2> /dev/null
 done
