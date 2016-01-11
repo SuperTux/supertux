@@ -103,6 +103,9 @@ KeyboardManager::process_console_key_event(const SDL_KeyboardEvent& event)
     case SDLK_BACKSPACE:
       Console::current()->backspace();
       break;
+    case SDLK_DELETE:
+      Console::current()->eraseChar();
+      break;
     case SDLK_TAB:
       Console::current()->autocomplete();
       break;
