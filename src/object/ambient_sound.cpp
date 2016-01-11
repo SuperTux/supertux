@@ -27,8 +27,6 @@
 #include "util/reader_mapping.hpp"
 
 AmbientSound::AmbientSound(const ReaderMapping& lisp) :
-  position(),
-  dimension(),
   sample(),
   sound_source(),
   latency(),
@@ -40,35 +38,27 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   currentvolume(),
   volume_ptr()
 {
-  position.x = 0;
-  position.y = 0;
+  group = COLGROUP_DISABLED;
 
-  dimension.x = 0;
-  dimension.y = 0;
-
-  distance_factor = 0;
-  distance_bias = 0;
-  maximumvolume = 1;
   currentvolume = 0;
 
-  if (!(lisp.get("x", position.x)&&lisp.get("y", position.y))) {
-    log_warning << "No Position in ambient_sound" << std::endl;
-  }
+  float w, h;
+  if (!lisp.get("name" , name)) name = "";
+  if (!lisp.get("x", bbox.p1.x)) bbox.p1.x = 0;
+  if (!lisp.get("y", bbox.p1.y)) bbox.p1.y = 0;
+  if (!lisp.get("width" , w)) w = 0;
+  if (!lisp.get("height", h)) h = 0;
+  bbox.set_size(w, h);
 
-  lisp.get("name" , name);
-  lisp.get("width" , dimension.x);
-  lisp.get("height", dimension.y);
-
-  lisp.get("distance_factor",distance_factor);
-  lisp.get("distance_bias"  ,distance_bias  );
-  lisp.get("sample"         ,sample         );
-  lisp.get("volume"         ,maximumvolume  );
+  if (!lisp.get("distance_factor",distance_factor)) distance_factor = 0;
+  if (!lisp.get("distance_bias"  ,distance_bias  )) distance_bias = 0;
+  if (!lisp.get("sample"         ,sample         )) sample = "";
+  if (!lisp.get("volume"         ,maximumvolume  )) maximumvolume = 1;
 
   // set dimension to zero if smaller than 64, which is default size in flexlay
 
-  if ((dimension.x <= 64) || (dimension.y <= 64)) {
-    dimension.x = 0;
-    dimension.y = 0;
+  if ((w <= 64) || (h <= 64)) {
+    bbox.set_size(0, 0);
   }
 
   // square all distances (saves us a sqrt later)
@@ -91,8 +81,6 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
 }
 
 AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std::string file) :
-  position(),
-  dimension(),
   sample(file),
   sound_source(),
   latency(),
@@ -104,11 +92,10 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
   currentvolume(),
   volume_ptr()
 {
-  position.x=pos.x;
-  position.y=pos.y;
+  group = COLGROUP_DISABLED;
 
-  dimension.x=0;
-  dimension.y=0;
+  bbox.set_pos(pos);
+  bbox.set_size(0, 0);
 
   distance_factor=factor*factor;
   distance_bias=bias*bias;
@@ -174,10 +161,10 @@ AmbientSound::update(float deltat)
     py=Sector::current()->camera->get_center().y;
 
     // Relate to which point in the area
-    rx=px<position.x?position.x:
-      (px<position.x+dimension.x?px:position.x+dimension.x);
-    ry=py<position.y?position.y:
-      (py<position.y+dimension.y?py:position.y+dimension.y);
+    rx=px<bbox.p1.x?bbox.p1.x:
+      (px<bbox.p2.x?px:bbox.p2.x);
+    ry=py<bbox.p1.y?bbox.p1.y:
+      (py<bbox.p2.y?py:bbox.p2.y);
 
     // calculate square of distance
     float sqrdistance=(px-rx)*(px-rx)+(py-ry)*(py-ry);
@@ -238,23 +225,36 @@ AmbientSound::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
   scripting::unexpose_object(vm, table_idx, name);
 }
 
+#ifndef SCRIPTING_API
+void
+AmbientSound::set_pos(const Vector& pos)
+{
+  MovingObject::set_pos(pos);
+}
+#endif
+
 void
 AmbientSound::set_pos(float x, float y)
 {
-  position.x = x;
-  position.y = y;
+  bbox.set_pos(Vector(x, y));
 }
 
 float
 AmbientSound::get_pos_x() const
 {
-  return position.x;
+  return bbox.p1.x;
 }
 
 float
 AmbientSound::get_pos_y() const
 {
-  return position.y;
+  return bbox.p1.y;
+}
+
+HitResponse
+AmbientSound::collision(GameObject& other, const CollisionHit& hit_)
+{
+  return ABORT_MOVE;
 }
 
 /* EOF */

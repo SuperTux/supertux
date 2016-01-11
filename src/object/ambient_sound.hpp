@@ -40,14 +40,14 @@
 #define HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 
 #include "scripting/ambient_sound.hpp"
-#include "supertux/game_object.hpp"
+#include "supertux/moving_object.hpp"
 #include "supertux/script_interface.hpp"
 #include "util/reader_fwd.hpp"
 
 class Player;
 class SoundSource;
 
-class AmbientSound : public GameObject,
+class AmbientSound : public MovingObject,
                      public ScriptInterface,
                      public scripting::AmbientSound
 {
@@ -56,19 +56,20 @@ public:
   AmbientSound(Vector pos, float factor, float bias, float vol, std::string file);
   ~AmbientSound();
 
-  void set_pos(Vector newpos)
-  {
-    position=newpos;
-  }
+  HitResponse collision(GameObject& other, const CollisionHit& hit_);
+
   const Vector get_pos() const
   {
-    return position;
+    return bbox.p1;
   }
 
   /**
    * @name Scriptable Methods
    * @{
    */
+#ifndef SCRIPTING_API
+  void set_pos(const Vector& pos);
+#endif
   void set_pos(float x, float y);
   float get_pos_x() const;
   float get_pos_y() const;
@@ -86,8 +87,6 @@ protected:
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
 private:
-  Vector position;
-  Vector dimension;
 
   std::string sample;
   std::unique_ptr<SoundSource> sound_source;
