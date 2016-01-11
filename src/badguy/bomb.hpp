@@ -26,7 +26,7 @@ class Bomb : public BadGuy,
 {
 public:
   Bomb(const Vector& pos, Direction dir, std::string custom_sprite = "images/creatures/mr_bomb/bomb.sprite" );
-  virtual bool do_save() {
+  virtual bool do_save() const {
     return false;
   }
 
