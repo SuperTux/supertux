@@ -73,12 +73,20 @@ ScriptedObject::move(float x, float y)
   bbox.move(Vector(x, y));
 }
 
+#ifndef SCRIPTING_API
+void
+ScriptedObject::set_pos(const Vector& pos)
+{
+  MovingObject::set_pos(pos);
+  physic.reset();
+}
+#endif
+
 void
 ScriptedObject::set_pos(float x, float y)
 {
   // printf("SetPos: %f %f\n", x, y);
-  MovingObject::set_pos(Vector(x, y));
-  physic.reset();
+  ScriptedObject::set_pos(Vector(x, y));
 }
 
 float

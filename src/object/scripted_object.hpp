@@ -44,6 +44,9 @@ public:
   std::string get_action();
 
   void move(float x, float y);
+#ifndef SCRIPTING_API 
+  void set_pos(const Vector& pos);
+#endif
   void set_pos(float x, float y);
   float get_pos_x();
   float get_pos_y();
