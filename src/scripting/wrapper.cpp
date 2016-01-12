@@ -3778,13 +3778,11 @@ static SQInteger gotoend_wrapper(HSQUIRRELVM vm)
 static SQInteger warp_wrapper(HSQUIRRELVM vm)
 {
   SQFloat arg0;
-  SQFloat arg1;
-
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
     return SQ_ERROR;
   }
-
+  SQFloat arg1;
   if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
     sq_throwerror(vm, _SC("Argument 2 not a float"));
     return SQ_ERROR;
