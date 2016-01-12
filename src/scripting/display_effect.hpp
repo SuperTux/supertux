@@ -17,28 +17,39 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_DISPLAY_EFFECT_HPP
 #define HEADER_SUPERTUX_SCRIPTING_DISPLAY_EFFECT_HPP
 
+class DisplayEffect;
+
 namespace scripting {
 
 class DisplayEffect
 {
-public:
 #ifndef SCRIPTING_API
-  virtual ~DisplayEffect()
-  {}
+private:
+  ::DisplayEffect* m_parent;
+
+public:
+  DisplayEffect(::DisplayEffect* parent);
+  ~DisplayEffect();
+
+private:
+private:
+  DisplayEffect(const DisplayEffect&) = delete;
+  DisplayEffect& operator=(const DisplayEffect&) = delete;
 #endif
 
+public:
   /// fade display to black
-  virtual void fade_out(float fadetime) = 0;
+  void fade_out(float fadetime);
   /// fade display from black to normal
-  virtual void fade_in(float fadetime) = 0;
+  void fade_in(float fadetime);
   /// set display black (or back to normal)
-  virtual void set_black(bool enabled) = 0;
+  void set_black(bool enabled);
   /// check if display is set to black
-  virtual bool is_black() const = 0;
+  bool is_black() const;
   /// set black borders for cutscenes
-  virtual void sixteen_to_nine(float fadetime) = 0;
+  void sixteen_to_nine(float fadetime);
   /// deactivate borders
-  virtual void four_to_three(float fadetime) = 0;
+  void four_to_three(float fadetime);
 
   // fade display until just a small visible circle is left
   // (like what happens in some cartoons at the end)
