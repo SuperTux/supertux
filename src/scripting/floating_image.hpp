@@ -23,7 +23,6 @@
 #define HEADER_SUPERTUX_SCRIPTING_FLOATING_IMAGE_HPP
 
 class FloatingImage;
-typedef FloatingImage _FloatingImage;
 #endif
 
 namespace scripting {
@@ -50,7 +49,7 @@ public:
 
 #ifndef SCRIPTING_API
 private:
-  std::shared_ptr<_FloatingImage> floating_image;
+  std::shared_ptr<::FloatingImage> floating_image;
 #endif
 };
 

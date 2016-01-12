@@ -19,7 +19,6 @@
 
 #ifndef SCRIPTING_API
 class LevelTime;
-typedef LevelTime _LevelTime;
 #endif
 
 namespace scripting {
@@ -28,7 +27,7 @@ class LevelTime
 {
 public:
 #ifndef SCRIPTING_API
-  LevelTime(_LevelTime* level_time);
+  LevelTime(::LevelTime* level_time);
   ~LevelTime();
 #endif
 
@@ -53,7 +52,7 @@ public:
   void set_time(float time_left);
 
 #ifndef SCRIPTING_API
-  _LevelTime* level_time;
+  ::LevelTime* level_time;
 
 private:
   LevelTime(const LevelTime&);

@@ -19,7 +19,6 @@
 
 #ifndef SCRIPTING_API
 class TileMap;
-typedef TileMap _TileMap;
 #endif
 
 namespace scripting {
@@ -28,7 +27,7 @@ class TileMap
 {
 public:
 #ifndef SCRIPTING_API
-  TileMap(_TileMap* tilemap);
+  TileMap(::TileMap* tilemap);
   ~TileMap();
 #endif
 
@@ -58,7 +57,7 @@ public:
   float get_alpha();
 
 #ifndef SCRIPTING_API
-  _TileMap* tilemap;
+  ::TileMap* tilemap;
 
 private:
   TileMap(const TileMap&);

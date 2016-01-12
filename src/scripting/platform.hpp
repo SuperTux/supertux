@@ -19,7 +19,6 @@
 
 #ifndef SCRIPTING_API
 class Platform;
-typedef Platform _Platform;
 #endif
 
 namespace scripting {
@@ -28,7 +27,7 @@ class Platform
 {
 public:
 #ifndef SCRIPTING_API
-  Platform(_Platform* platform);
+  Platform(::Platform* platform);
   ~Platform();
 #endif
 
@@ -42,7 +41,7 @@ public:
   void stop_moving();
 
 #ifndef SCRIPTING_API
-  _Platform* platform;
+  ::Platform* platform;
 
 private:
   Platform(const Platform&);

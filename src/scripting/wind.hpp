@@ -19,7 +19,6 @@
 
 #ifndef SCRIPTING_API
 class Wind;
-typedef Wind _Wind;
 #endif
 
 namespace scripting {
@@ -28,7 +27,7 @@ class Wind
 {
 public:
 #ifndef SCRIPTING_API
-  Wind(_Wind* wind);
+  Wind(::Wind* wind);
   ~Wind();
 #endif
 
@@ -39,7 +38,7 @@ public:
   void stop();
 
 #ifndef SCRIPTING_API
-  _Wind* wind;
+  ::Wind* wind;
 
 private:
   Wind(const Wind&);

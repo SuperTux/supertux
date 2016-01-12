@@ -24,7 +24,7 @@
 namespace scripting {
 
 FloatingImage::FloatingImage(const std::string& spritefile) :
-  floating_image(std::make_shared<_FloatingImage>(spritefile))
+  floating_image(std::make_shared<::FloatingImage>(spritefile))
 {
   using namespace worldmap;
 

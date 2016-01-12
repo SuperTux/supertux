@@ -19,7 +19,6 @@
 
 #ifndef SCRIPTING_API
 class Camera;
-typedef Camera _Camera;
 #endif
 
 namespace scripting {
@@ -28,7 +27,7 @@ class Camera
 {
 public:
 #ifndef SCRIPTING_API
-  Camera(_Camera* camera);
+  Camera(::Camera* camera);
   ~Camera();
 #endif
 
@@ -44,7 +43,7 @@ public:
   void scroll_to(float x, float y, float scrolltime);
 
 #ifndef SCRIPTING_API
-  _Camera* camera;
+  ::Camera* camera;
 
 private:
   Camera(const Camera&);

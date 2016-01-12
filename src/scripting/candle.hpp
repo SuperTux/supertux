@@ -19,7 +19,6 @@
 
 #ifndef SCRIPTING_API
 class Candle;
-typedef Candle _Candle;
 #endif
 
 namespace scripting {
@@ -28,7 +27,7 @@ class Candle
 {
 public:
 #ifndef SCRIPTING_API
-  Candle(_Candle* candle);
+  Candle(::Candle* candle);
   ~Candle();
 #endif
 
@@ -36,7 +35,7 @@ public:
   void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
 
 #ifndef SCRIPTING_API
-  _Candle* candle;
+  ::Candle* candle;
 
 private:
   Candle(const Candle&);

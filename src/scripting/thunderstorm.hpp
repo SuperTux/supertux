@@ -19,7 +19,6 @@
 
 #ifndef SCRIPTING_API
 class Thunderstorm;
-typedef Thunderstorm _Thunderstorm;
 #endif
 
 namespace scripting {
@@ -28,7 +27,7 @@ class Thunderstorm
 {
 public:
 #ifndef SCRIPTING_API
-  Thunderstorm(_Thunderstorm* thunderstorm);
+  Thunderstorm(::Thunderstorm* thunderstorm);
   ~Thunderstorm();
 #endif
 
@@ -63,7 +62,7 @@ public:
   void electrify();
 
 #ifndef SCRIPTING_API
-  _Thunderstorm* thunderstorm;
+  ::Thunderstorm* thunderstorm;
 
 private:
   Thunderstorm(const Thunderstorm&);
