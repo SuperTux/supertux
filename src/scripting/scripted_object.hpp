@@ -53,7 +53,7 @@ public:
   float get_velocity_x();
   float get_velocity_y();
 
-  void enable_gravity(bool gravity_enabled);
+  void enable_gravity(bool f);
   bool gravity_enabled() const;
 
   void set_visible(bool visible);

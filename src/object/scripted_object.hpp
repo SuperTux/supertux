@@ -51,7 +51,7 @@ public:
   bool is_visible();
   void set_solid(bool solid);
   bool is_solid();
-  void enable_gravity(bool gravity_enabled);
+  void enable_gravity(bool f);
   bool gravity_enabled() const;
 
   std::string get_name();

@@ -84,9 +84,9 @@ ScriptedObject::get_velocity_y()
 }
 
 void
-ScriptedObject::enable_gravity(bool gravity_enabled)
+ScriptedObject::enable_gravity(bool f)
 {
-  m_parent->enable_gravity(gravity_enabled);
+  m_parent->enable_gravity(f);
 }
 
 bool
