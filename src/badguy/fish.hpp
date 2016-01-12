@@ -35,6 +35,7 @@ public:
 
   void freeze();
   void unfreeze();
+  void kill_fall();
   bool is_freezable() const;
 
 private:

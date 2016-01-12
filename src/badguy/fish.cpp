@@ -143,6 +143,13 @@ Fish::unfreeze()
   start_waiting();
 }
 
+void
+Fish::kill_fall()
+{
+  sprite->set_action("down");
+  BadGuy::kill_fall();
+}
+
 bool
 Fish::is_freezable() const
 {
