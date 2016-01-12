@@ -17,7 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 #define HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 
-#include "scripting/player.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
@@ -47,7 +46,6 @@ class Camera;
 class PlayerStatus;
 
 class Player : public MovingObject,
-               public scripting::Player,
                public ScriptInterface
 {
 public:
@@ -240,6 +238,12 @@ public:
 
   Physic& get_physic() { return physic; }
 
+  void activate();
+  void deactivate();
+
+  void walk(float speed);
+  void set_dir(bool right);
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
@@ -249,11 +253,6 @@ private:
 
   void handle_horizontal_input();
   void handle_vertical_input();
-
-  void activate();
-  void deactivate();
-  void walk(float speed);
-  void set_dir(bool right);
 
   void do_jump_apex();
   void early_jump_apex();
