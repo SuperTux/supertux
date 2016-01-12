@@ -17,27 +17,39 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_TEXT_HPP
 #define HEADER_SUPERTUX_SCRIPTING_TEXT_HPP
 
+#include <string>
+
+class TextObject;
+
 namespace scripting {
 
 class Text
 {
-public:
 #ifndef SCRIPTING_API
-  virtual ~Text()
-  { }
+private:
+  ::TextObject* m_parent;
+
+public:
+  Text(::TextObject* parent);
+  ~Text();
+
+private:
+  Text(const Text&) = delete;
+  Text& operator=(const Text&) = delete;
 #endif
 
-  virtual void set_text(const std::string& text) = 0;
-  virtual void set_font(const std::string& fontname) = 0;
-  virtual void fade_in(float fadetime) = 0;
-  virtual void fade_out(float fadetime) = 0;
-  virtual void set_visible(bool visible) = 0;
-  virtual void set_centered(bool centered) = 0;
-  virtual void set_pos(float x, float y) = 0;
-  virtual float get_pos_x() = 0;
-  virtual float get_pos_y() = 0;
-  virtual void set_anchor_point(int anchor) = 0;
-  virtual int  get_anchor_point() = 0;
+public:
+  void set_text(const std::string& text);
+  void set_font(const std::string& fontname);
+  void fade_in(float fadetime);
+  void fade_out(float fadetime);
+  void set_visible(bool visible);
+  void set_centered(bool centered);
+  void set_pos(float x, float y);
+  float get_pos_x();
+  float get_pos_y();
+  void set_anchor_point(int anchor);
+  int  get_anchor_point();
 };
 
 }

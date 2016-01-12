@@ -26,7 +26,6 @@
 
 /** A text object intended for scripts that want to tell a story */
 class TextObject : public GameObject,
-                   public scripting::Text,
                    public ScriptInterface
 {
   static Color default_color;
@@ -54,9 +53,6 @@ public:
 
   void set_pos(const Vector& pos_) {
     this->pos = pos_;
-  }
-  void set_pos(float x, float y) {
-    set_pos(Vector(x, y));
   }
   const Vector& get_pos() const {
     return pos;
