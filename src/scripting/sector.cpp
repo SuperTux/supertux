@@ -14,47 +14,47 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "scripting/ssector.hpp"
+#include "scripting/sector.hpp"
 
 #include "supertux/sector.hpp"
 
 namespace scripting {
 
-SSector::SSector(::Sector* parent) :
+Sector::Sector(::Sector* parent) :
   m_parent(parent)
 {
 }
 
-SSector::~SSector()
+Sector::~Sector()
 {
 }
 
 void
-SSector::set_ambient_light(float red, float green, float blue)
+Sector::set_ambient_light(float red, float green, float blue)
 {
   m_parent->set_ambient_light(red, green, blue);
 }
 
 float
-SSector::get_ambient_red() const
+Sector::get_ambient_red() const
 {
   return m_parent->get_ambient_red();
 }
 
 float
-SSector::get_ambient_green() const
+Sector::get_ambient_green() const
 {
   return m_parent->get_ambient_green();
 }
 
 float
-SSector::get_ambient_blue() const
+Sector::get_ambient_blue() const
 {
   return m_parent->get_ambient_blue();
 }
 
 void
-SSector::set_gravity(float gravity)
+Sector::set_gravity(float gravity)
 {
   m_parent->set_gravity(gravity);
 }

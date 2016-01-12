@@ -23,19 +23,19 @@ class Sector;
 
 namespace scripting {
 
-class SSector
+class Sector
 {
 #ifndef SCRIPTING_API
 private:
   ::Sector* m_parent;
 
 public:
-  SSector(::Sector* parent);
-  ~SSector();
+  Sector(::Sector* parent);
+  ~Sector();
 
 private:
-  SSector(const SSector&) = delete;
-  SSector& operator=(const SSector&) = delete;
+  Sector(const Sector&) = delete;
+  Sector& operator=(const Sector&) = delete;
 #endif
 
 public:

@@ -21,7 +21,7 @@
 
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "scripting/ssector.hpp"
+#include "scripting/sector.hpp"
 #include "supertux/game_session.hpp"
 
 #include "audio/sound_manager.hpp"
@@ -491,7 +491,7 @@ Sector::try_expose_me()
 {
   HSQUIRRELVM vm = scripting::global_vm;
   sq_pushobject(vm, sector_table);
-  auto obj = new scripting::SSector(this);
+  auto obj = new scripting::Sector(this);
   expose_object(vm, -1, obj, "settings", true);
   sq_pop(vm, 1);
 }
