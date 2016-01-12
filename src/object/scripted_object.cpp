@@ -19,6 +19,7 @@
 #include <stdio.h>
 
 #include "math/random_generator.hpp"
+#include "scripting/scripted_object.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -57,7 +58,8 @@ void
 ScriptedObject::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  expose_object(vm, table_idx, dynamic_cast<scripting::ScriptedObject *>(this), name, false);
+  auto obj = new scripting::ScriptedObject(this);
+  expose_object(vm, table_idx, obj, name, true);
 }
 
 void
@@ -71,22 +73,6 @@ void
 ScriptedObject::move(float x, float y)
 {
   bbox.move(Vector(x, y));
-}
-
-#ifndef SCRIPTING_API
-void
-ScriptedObject::set_pos(const Vector& pos)
-{
-  MovingObject::set_pos(pos);
-  physic.reset();
-}
-#endif
-
-void
-ScriptedObject::set_pos(float x, float y)
-{
-  // printf("SetPos: %f %f\n", x, y);
-  ScriptedObject::set_pos(Vector(x, y));
 }
 
 float

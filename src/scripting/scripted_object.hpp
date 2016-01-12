@@ -17,41 +17,55 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_SCRIPTED_OBJECT_HPP
 #define HEADER_SUPERTUX_SCRIPTING_SCRIPTED_OBJECT_HPP
 
+#include <string>
+
+#ifndef SCRIPTING_API
+class ScriptedObject;
+#endif
+
 namespace scripting {
 
 class ScriptedObject
 {
-public:
 #ifndef SCRIPTING_API
-  virtual ~ScriptedObject()
-  {}
+private:
+  ::ScriptedObject* m_parent;
+
+public:
+  ScriptedObject(::ScriptedObject* parent);
+  ~ScriptedObject();
+
+private:
+  ScriptedObject(const ScriptedObject&) = delete;
+  ScriptedObject& operator=(const ScriptedObject&) = delete;
 #endif
 
-  virtual void set_action(const std::string& animation) = 0;
-  virtual std::string get_action() = 0;
+public:
+  void set_action(const std::string& animation);
+  std::string get_action();
 
-  virtual void move(float x, float y) = 0;
-  virtual void set_pos(float x, float y) = 0;
-  virtual float get_pos_x() = 0;
-  virtual float get_pos_y() = 0;
+  void move(float x, float y);
+  void set_pos(float x, float y);
+  float get_pos_x();
+  float get_pos_y();
 
-  virtual void set_velocity(float x, float y) = 0;
-  virtual float get_velocity_x() = 0;
-  virtual float get_velocity_y() = 0;
+  void set_velocity(float x, float y);
+  float get_velocity_x();
+  float get_velocity_y();
 
-  virtual void enable_gravity(bool gravity_enabled) = 0;
-  virtual bool gravity_enabled() const = 0;
+  void enable_gravity(bool gravity_enabled);
+  bool gravity_enabled() const;
 
-  virtual void set_visible(bool visible) = 0;
-  virtual bool is_visible() = 0;
+  void set_visible(bool visible);
+  bool is_visible();
 
-  virtual void set_solid(bool solid) = 0;
-  virtual bool is_solid() = 0;
+  void set_solid(bool solid);
+  bool is_solid();
 
-  virtual std::string get_name() = 0;
+  std::string get_name();
 };
 
-}
+} // namespace scripting
 
 #endif
 
