@@ -39,7 +39,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 #define HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 
-#include "scripting/ambient_sound.hpp"
+#include "math/vector.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/script_interface.hpp"
 #include "util/reader_fwd.hpp"
@@ -48,8 +49,7 @@ class Player;
 class SoundSource;
 
 class AmbientSound : public MovingObject,
-                     public ScriptInterface,
-                     public scripting::AmbientSound
+                     public ScriptInterface
 {
 public:
   AmbientSound(const ReaderMapping& lisp);

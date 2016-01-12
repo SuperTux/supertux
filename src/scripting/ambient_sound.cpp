@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,36 +14,39 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SCRIPTING_AMBIENT_SOUND_HPP
-#define HEADER_SUPERTUX_SCRIPTING_AMBIENT_SOUND_HPP
+#include "scripting/ambient_sound.hpp"
 
-class AmbientSound;
+#include "object/ambient_sound.hpp"
 
 namespace scripting {
 
-class AmbientSound
+AmbientSound::AmbientSound(::AmbientSound* parent) :
+  m_parent(parent)
 {
-#ifndef SCRIPTING_API
-private:
-  ::AmbientSound* m_parent;
-
-public:
-  AmbientSound(::AmbientSound* parent);
-   ~AmbientSound();
-
-private:
-  AmbientSound(const AmbientSound&) = delete;
-  AmbientSound& operator=(const AmbientSound&) = delete;
-#endif
-
-public:
-  void set_pos(float x, float y);
-  float get_pos_x() const;
-  float get_pos_y() const;
-};
-
 }
 
-#endif
+AmbientSound::~AmbientSound()
+{
+}
+
+void
+AmbientSound::set_pos(float x, float y)
+{
+  m_parent->set_pos(x, y);
+}
+
+float
+AmbientSound::get_pos_x() const
+{
+  return m_parent->get_pos_x();
+}
+
+float
+AmbientSound::get_pos_y() const
+{
+  return m_parent->get_pos_y();
+}
+
+} // namespace scripting
 
 /* EOF */
