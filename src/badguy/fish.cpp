@@ -57,12 +57,7 @@ Fish::draw(DrawingContext& context)
   if(waiting.started())
     return;
 
-  if (get_state() == STATE_FALLING) {
-    sprite->set_action("down");
-    sprite->draw(context, get_pos(), layer);
-  } else {
-    sprite->draw(context, get_pos(), layer);
-  }
+  BadGuy::draw(context);
 }
 
 HitResponse
