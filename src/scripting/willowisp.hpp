@@ -17,9 +17,11 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_WILLOWISP_HPP
 #define HEADER_SUPERTUX_SCRIPTING_WILLOWISP_HPP
 
+#ifndef SCRIPTING_API
 #include <string>
 
 class WillOWisp;
+#endif
 
 namespace scripting {
 

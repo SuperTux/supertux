@@ -19,9 +19,9 @@
 
 #ifndef SCRIPTING_API
 #include <string>
-#endif
 
 class Player;
+#endif
 
 namespace scripting {
 

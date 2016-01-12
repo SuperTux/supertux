@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_SCRIPTED_OBJECT_HPP
 #define HEADER_SUPERTUX_SCRIPTING_SCRIPTED_OBJECT_HPP
 
+#ifndef SCRIPTING_API
 #include <string>
 
-#ifndef SCRIPTING_API
 class ScriptedObject;
 #endif
 

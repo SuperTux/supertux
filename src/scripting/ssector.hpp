@@ -17,7 +17,9 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_SSECTOR_HPP
 #define HEADER_SUPERTUX_SCRIPTING_SSECTOR_HPP
 
+#ifndef SCRIPTING_API
 class Sector;
+#endif
 
 namespace scripting {
 

@@ -17,9 +17,11 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_TEXT_HPP
 #define HEADER_SUPERTUX_SCRIPTING_TEXT_HPP
 
+#ifndef SCRIPTING_API
 #include <string>
 
 class TextObject;
+#endif
 
 namespace scripting {
 
