@@ -22,6 +22,7 @@
 #include "object/path_walker.hpp"
 #include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "scripting/willowisp.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
@@ -264,8 +265,8 @@ WillOWisp::expose(HSQUIRRELVM vm, SQInteger table_idx)
     return;
 
   std::cout << "[DEBUG] Expose me '" << name << "'\n";
-  scripting::WillOWisp* _this = static_cast<scripting::WillOWisp*> (this);
-  expose_object(vm, table_idx, _this, name);
+  auto obj = new scripting::WillOWisp(this);
+  expose_object(vm, table_idx, obj, name, true);
 }
 
 void

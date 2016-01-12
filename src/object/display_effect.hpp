@@ -17,12 +17,10 @@
 #ifndef HEADER_SUPERTUX_OBJECT_DISPLAY_EFFECT_HPP
 #define HEADER_SUPERTUX_OBJECT_DISPLAY_EFFECT_HPP
 
-#include "scripting/display_effect.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
 
 class DisplayEffect : public GameObject,
-                      public scripting::DisplayEffect,
                       public ScriptInterface
 {
 public:

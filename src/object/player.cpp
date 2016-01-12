@@ -28,6 +28,7 @@
 #include "object/particles.hpp"
 #include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
+#include "scripting/player.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
@@ -249,7 +250,8 @@ Player::expose(HSQUIRRELVM vm, SQInteger table_idx)
   if (name.empty())
     return;
 
-  scripting::expose_object(vm, table_idx, dynamic_cast<scripting::Player *>(this), name, false);
+  auto obj = new scripting::Player(this);
+  scripting::expose_object(vm, table_idx, obj, name, false);
 }
 
 void

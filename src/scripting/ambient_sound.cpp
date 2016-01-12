@@ -1,5 +1,5 @@
-//  SuperTux - Sector scripting
-//  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
+//  SuperTux
+//  Copyright (C) 2015 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,40 +14,39 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SCRIPTING_SSECTOR_HPP
-#define HEADER_SUPERTUX_SCRIPTING_SSECTOR_HPP
+#include "scripting/ambient_sound.hpp"
 
-#ifndef SCRIPTING_API
-class Sector;
-#endif
+#include "object/ambient_sound.hpp"
 
 namespace scripting {
 
-class SSector
+AmbientSound::AmbientSound(::AmbientSound* parent) :
+  m_parent(parent)
 {
-#ifndef SCRIPTING_API
-private:
-  ::Sector* m_parent;
-
-public:
-  SSector(::Sector* parent);
-  ~SSector();
-
-private:
-  SSector(const SSector&) = delete;
-  SSector& operator=(const SSector&) = delete;
-#endif
-
-public:
-  void set_ambient_light(float red, float green, float blue);
-  float get_ambient_red() const;
-  float get_ambient_green() const;
-  float get_ambient_blue() const;
-  void set_gravity(float gravity);
-};
-
 }
 
-#endif
+AmbientSound::~AmbientSound()
+{
+}
+
+void
+AmbientSound::set_pos(float x, float y)
+{
+  m_parent->set_pos(x, y);
+}
+
+float
+AmbientSound::get_pos_x() const
+{
+  return m_parent->get_pos_x();
+}
+
+float
+AmbientSound::get_pos_y() const
+{
+  return m_parent->get_pos_y();
+}
+
+} // namespace scripting
 
 /* EOF */

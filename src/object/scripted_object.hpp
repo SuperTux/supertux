@@ -18,12 +18,10 @@
 #define HEADER_SUPERTUX_OBJECT_SCRIPTED_OBJECT_HPP
 
 #include "object/moving_sprite.hpp"
-#include "scripting/scripted_object.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/script_interface.hpp"
 
 class ScriptedObject : public MovingSprite,
-                       public scripting::ScriptedObject,
                        public ScriptInterface
 {
 public:
@@ -44,10 +42,6 @@ public:
   std::string get_action();
 
   void move(float x, float y);
-#ifndef SCRIPTING_API 
-  void set_pos(const Vector& pos);
-#endif
-  void set_pos(float x, float y);
   float get_pos_x();
   float get_pos_y();
   void set_velocity(float x, float y);

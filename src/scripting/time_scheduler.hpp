@@ -29,7 +29,7 @@ class TimeScheduler
 {
 public:
   TimeScheduler();
-  virtual ~TimeScheduler();
+  ~TimeScheduler();
 
   void update(float time);
   void schedule_thread(HSQUIRRELVM vm, float time);

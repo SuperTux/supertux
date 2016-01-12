@@ -19,9 +19,10 @@
 #include <algorithm>
 #include <math.h>
 
-#include "supertux/game_session.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
+#include "scripting/ssector.hpp"
+#include "supertux/game_session.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
@@ -490,8 +491,8 @@ Sector::try_expose_me()
 {
   HSQUIRRELVM vm = scripting::global_vm;
   sq_pushobject(vm, sector_table);
-  scripting::SSector* this_ = static_cast<scripting::SSector*>(this);
-  expose_object(vm, -1, this_, "settings", false);
+  auto obj = new scripting::SSector(this);
+  expose_object(vm, -1, obj, "settings", true);
   sq_pop(vm, 1);
 }
 
@@ -1321,19 +1322,19 @@ Sector::set_ambient_light(float red, float green, float blue)
 }
 
 float
-Sector::get_ambient_red()
+Sector::get_ambient_red() const
 {
   return ambient_light.red;
 }
 
 float
-Sector::get_ambient_green()
+Sector::get_ambient_green() const
 {
   return ambient_light.green;
 }
 
 float
-Sector::get_ambient_blue()
+Sector::get_ambient_blue() const
 {
   return ambient_light.blue;
 }

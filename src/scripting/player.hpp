@@ -19,130 +19,140 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+
+class Player;
 #endif
 
 namespace scripting {
 
 class Player
 {
-public:
 #ifndef SCRIPTING_API
-  virtual ~Player()
-  {}
+private:
+  ::Player* m_parent;
+
+public:
+  Player(::Player* parent);
+  ~Player();
+
+private:
+  Player(const Player&) = delete;
+  Player& operator=(const Player&) = delete;
 #endif
 
+public:
   /**
    * Set tux bonus.
    * This can be "grow", "fireflower" or "iceflower" at the moment
    */
-  virtual bool add_bonus(const std::string& bonus) = 0;
-   /**
-    * Replaces the Tux's bonus with another bonus.
-    * This can be "grow", "fireflower" or "iceflower" at the moment
-    */
-   virtual bool set_bonus(const std::string& bonus) = 0;
+  bool add_bonus(const std::string& bonus);
+  /**
+   * Replaces the Tux's bonus with another bonus.
+   * This can be "grow", "fireflower" or "iceflower" at the moment
+   */
+  bool set_bonus(const std::string& bonus);
   /**
    * Give tux more coins
    */
-  virtual void add_coins(int count) = 0;
+  void add_coins(int count);
   /**
    * Make tux invincible for a short amount of time
    */
-  virtual void make_invincible() = 0;
+  void make_invincible();
   /**
    * Deactivate user/scripting input for Tux
    */
-  virtual void deactivate() = 0;
+  void deactivate();
   /**
    * Give control back to user/scripting
    */
-  virtual void activate() = 0;
+  void activate();
   /**
    * Make Tux walk
    */
-  virtual void walk(float speed) = 0;
+  void walk(float speed);
   /**
    * Face Tux in the proper direction
    */
-  virtual void set_dir(bool right) = 0;
+  void set_dir(bool right);
   /**
    * Set player visible or invisible
    */
-  virtual void set_visible(bool visible) = 0;
+  void set_visible(bool visible);
   /**
    * returns true if the player is currently visible (that is he was not set
    * invisible by the set_visible method)
    */
-  virtual bool get_visible() const = 0;
+  bool get_visible() const;
 
   /**
    * Hurts a player, if completely=true then the player will be killed even
    * if he had grow or fireflower bonus
    */
-  virtual void kill(bool completely) = 0;
+  void kill(bool completely);
 
   /**
    * Switches ghost mode on/off.
    * Lets Tux float around and through solid objects.
    */
-  virtual void set_ghost_mode(bool enable) = 0;
+  void set_ghost_mode(bool enable);
 
   /**
    * Returns whether ghost mode is currently enabled
    */
-  virtual bool get_ghost_mode() const = 0;
+  bool get_ghost_mode() const;
 
   /**
    * start kick animation
    */
-  virtual void kick() = 0;
+  void kick();
 
   /**
    * play cheer animation.
    * This might need some space and behave in an unpredictable way. Best to use this at level end.
    */
-  virtual void do_cheer() = 0;
+  void do_cheer();
 
   /**
    * duck down if possible.
    * this won't last long as long as input is enabled.
    */
-  virtual void do_duck() = 0;
+  void do_duck();
 
   /**
    * stand back up if possible.
    */
-  virtual void do_standup() = 0;
+  void do_standup();
 
   /**
    * do a backflip if possible.
    */
-  virtual void do_backflip() = 0;
+  void do_backflip();
 
   /**
    * jump in the air if possible
    * sensible values for yspeed are negative - unless we want to jump into the ground of course
    */
-  virtual void do_jump(float yspeed) = 0;
+  void do_jump(float yspeed);
 
   /**
    * Orders the current GameSession to start a sequence
    */
-  virtual void trigger_sequence(std::string sequence_name) = 0;
+  void trigger_sequence(std::string sequence_name);
 
   /**
    * Uses a scriptable controller for all user input (or restores controls)
    */
-  virtual void use_scripting_controller(bool use_or_release) = 0;
+  void use_scripting_controller(bool use_or_release);
 
   /**
    * Instructs the scriptable controller to press or release a button
    */
-  virtual void do_scripting_controller(std::string control, bool pressed) = 0;
+  void do_scripting_controller(std::string control, bool pressed);
 
 };
 
-}
+} // namespace scripting
 
 #endif
 

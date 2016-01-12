@@ -21,6 +21,7 @@
 #include "audio/sound_source.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
+#include "scripting/ambient_sound.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
@@ -215,8 +216,8 @@ AmbientSound::draw(DrawingContext &)
 void
 AmbientSound::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
-  scripting::AmbientSound* _this = static_cast<scripting::AmbientSound*> (this);
-  expose_object(vm, table_idx, _this, name, false);
+  auto obj = new scripting::AmbientSound(this);
+  expose_object(vm, table_idx, obj, name, true);
 }
 
 void

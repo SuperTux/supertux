@@ -17,19 +17,31 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_AMBIENT_SOUND_HPP
 #define HEADER_SUPERTUX_SCRIPTING_AMBIENT_SOUND_HPP
 
+#ifndef SCRIPTING_API
+class AmbientSound;
+#endif
+
 namespace scripting {
 
 class AmbientSound
 {
-public:
 #ifndef SCRIPTING_API
-  virtual ~AmbientSound()
-  {}
+private:
+  ::AmbientSound* m_parent;
+
+public:
+  AmbientSound(::AmbientSound* parent);
+   ~AmbientSound();
+
+private:
+  AmbientSound(const AmbientSound&) = delete;
+  AmbientSound& operator=(const AmbientSound&) = delete;
 #endif
 
-  virtual void set_pos(float x, float y) = 0;
-  virtual float get_pos_x() const = 0;
-  virtual float get_pos_y() const = 0;
+public:
+  void set_pos(float x, float y);
+  float get_pos_x() const;
+  float get_pos_y() const;
 };
 
 }

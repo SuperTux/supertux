@@ -21,7 +21,6 @@
 #include <squirrel.h>
 #include <stdint.h>
 
-#include "scripting/ssector.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/game_object_ptr.hpp"
 #include "util/reader_fwd.hpp"
@@ -61,7 +60,7 @@ enum MusicType {
  *
  * Sectors contain GameObjects, e.g. Badguys and Players.
  */
-class Sector : public scripting::SSector
+class Sector
 {
 public:
   friend class SectorParser;
@@ -198,9 +197,9 @@ public:
    *  get/set color of ambient light
    */
   void set_ambient_light(float red, float green, float blue);
-  float get_ambient_red();
-  float get_ambient_green();
-  float get_ambient_blue();
+  float get_ambient_red() const;
+  float get_ambient_green() const;
+  float get_ambient_blue() const;
 
   /**
    *  set gravity throughout sector

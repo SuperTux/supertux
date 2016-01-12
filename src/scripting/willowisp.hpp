@@ -17,18 +17,32 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_WILLOWISP_HPP
 #define HEADER_SUPERTUX_SCRIPTING_WILLOWISP_HPP
 
+#ifndef SCRIPTING_API
+#include <string>
+
+class WillOWisp;
+#endif
+
 namespace scripting {
 
 class WillOWisp
 {
-public:
 #ifndef SCRIPTING_API
-  virtual ~WillOWisp()
-  {}
+private:
+  ::WillOWisp* m_parent;
+
+public:
+  WillOWisp(::WillOWisp* parent);
+  ~WillOWisp();
+
+private:
+  WillOWisp(const WillOWisp&) = delete;
+  WillOWisp& operator=(const WillOWisp&) = delete;
 #endif
 
+public:
   /** Move willowisp to given node */
-  virtual void goto_node(int node_no) = 0;
+  void goto_node(int node_no);
 
   /** set willowisp state; can be:
    * -stopped          willowisp doesn't move
@@ -37,13 +51,13 @@ public:
    * -normal           "normal" mode starts tracking tux when he is near enough
    * -vanish           vanish
    */
-  virtual void set_state(const std::string& state) = 0;
+  void set_state(const std::string& state);
 
-  virtual void start_moving() = 0;
-  virtual void stop_moving() = 0;
+  void start_moving();
+  void stop_moving();
 };
 
-}
+} // namespace scripting
 
 #endif
 
