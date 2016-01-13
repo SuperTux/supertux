@@ -197,24 +197,6 @@
         )
       )
     )
-    (platform
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 4128)
-          (y -64)
-        )
-      )
-    )
-    (platform
-      (sprite "images/objects/flying_platform/flying_platform.sprite")
-      (path
-        (node
-          (x 4256)
-          (y -64)
-        )
-      )
-    )
     (gradient
       (top_color 0 0.3137255 1)
       (bottom_color 1 1 1)
@@ -225,120 +207,17 @@
       (x 352)
       (y 928)
     )
-    (infoblock
-      (message (_ ""))
+    (invisible_wall
+      (width 32)
+      (height 780)
       (x 6432)
-      (y -288)
+      (y -780)
     )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -32)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -64)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -96)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -128)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -160)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -192)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -224)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -256)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -736)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -320)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -352)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -384)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -416)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -448)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -480)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -512)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -544)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -576)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -608)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -640)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -672)
-    )
-    (infoblock
-      (message (_ ""))
-      (x 6432)
-      (y -704)
+    (invisible_wall
+      (width 256)
+      (height 812)
+      (x 4128)
+      (y -812)
     )
     (mrbomb
       (x 992)
