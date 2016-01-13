@@ -51,6 +51,13 @@ MrTree::is_freezable() const
 bool
 MrTree::collision_squished(GameObject& object)
 {
+  Player* player = dynamic_cast<Player*>(&object);
+  if(player && (player->does_buttjump || player->is_invincible())) {
+    player->bounce(*this);
+    kill_fall();
+    return true;
+  }
+
   // replace with Stumpy
   Vector stumpy_pos = get_pos();
   stumpy_pos.x += 20;
@@ -61,7 +68,6 @@ MrTree::collision_squished(GameObject& object)
 
   // give Feedback
   SoundManager::current()->play("sounds/mr_tree.ogg", get_pos());
-  Player* player = dynamic_cast<Player*>(&object);
   if (player) player->bounce(*this);
 
   // spawn some particles

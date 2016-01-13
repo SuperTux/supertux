@@ -82,8 +82,14 @@ Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 bool
 Snowman::collision_squished(GameObject& object)
 {
-  // bounce
   Player* player = dynamic_cast<Player*>(&object);
+  if(player && (player->does_buttjump || player->is_invincible())) {
+    player->bounce(*this);
+    kill_fall();
+    return true;
+  }
+
+  // bounce
   if (player)
     player->bounce(*this);
 
