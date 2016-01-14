@@ -22,11 +22,11 @@
 InvisibleWall::InvisibleWall(const ReaderMapping& lisp) :
   MovingSprite(lisp, "images/objects/invisible/invisible.sprite", LAYER_TILES, COLGROUP_STATIC),
   physic(),
-  width(32),
-  height(32)
+  width(),
+  height()
 {
-  lisp.get("width", width);
-  lisp.get("height", height);
+  if (!lisp.get("width", width)) width = 32;
+  if (!lisp.get("height", height)) width = 32;
   bbox.set_size(width, height);
 }
 

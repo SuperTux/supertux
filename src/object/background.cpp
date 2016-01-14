@@ -104,11 +104,11 @@ Background::Background(const ReaderMapping& reader) :
     }
   }
 
-  reader.get("scroll-offset-x", scroll_offset.x);
-  reader.get("scroll-offset-y", scroll_offset.y);
+  if (!reader.get("scroll-offset-x", scroll_offset.x)) scroll_offset.x = 0;
+  if (!reader.get("scroll-offset-y", scroll_offset.y)) scroll_offset.y = 0;
 
-  reader.get("scroll-speed-x", scroll_speed.x);
-  reader.get("scroll-speed-y", scroll_speed.y);
+  if (!reader.get("scroll-speed-x", scroll_speed.x)) scroll_speed.x = 0.5;
+  if (!reader.get("scroll-speed-y", scroll_speed.y)) scroll_speed.y = 0.5;
 
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
 

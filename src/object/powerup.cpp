@@ -37,9 +37,8 @@ PowerUp::PowerUp(const ReaderMapping& lisp) :
   light(0.0f,0.0f,0.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
-  lisp.get("script", script);
-  no_physics = false;
-  lisp.get("disable-physics", no_physics);
+  if (!lisp.get("script", script)) script = "";
+  if (!lisp.get("disable-physics", no_physics)) no_physics = false;
   physic.enable_gravity(true);
   SoundManager::current()->preload("sounds/grow.ogg");
   SoundManager::current()->preload("sounds/fire-flower.wav");

@@ -33,8 +33,11 @@ Lantern::Lantern(const ReaderMapping& reader) :
 {
   //get color from lisp
   std::vector<float> vColor;
-  reader.get("color", vColor);
-  lightcolor = Color(vColor);
+  if (reader.get("color", vColor)) {
+    lightcolor = Color(vColor);
+  } else {
+    lightcolor = Color(0, 0, 0);
+  }
   lightsprite = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite");
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   updateColor();

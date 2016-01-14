@@ -27,27 +27,25 @@
 #include "video/drawing_context.hpp"
 
 Wind::Wind(const ReaderMapping& reader) :
-  blowing(true),
+  blowing(),
   speed(),
-  acceleration(100),
+  acceleration(),
   elapsed_time(0)
 {
-  reader.get("name", name);
-  reader.get("x", bbox.p1.x);
-  reader.get("y", bbox.p1.y);
-  float w = 32, h = 32;
-  reader.get("width", w);
-  reader.get("height", h);
+  float w,h;
+  if (!reader.get("name", name)) name = "";
+  if (!reader.get("x", bbox.p1.x)) bbox.p1.x = 0;
+  if (!reader.get("y", bbox.p1.y)) bbox.p1.y = 0;
+  if (!reader.get("width", w)) w = 32;
+  if (!reader.get("height", h)) h = 32;
   bbox.set_size(w, h);
 
-  reader.get("blowing", blowing);
+  if (!reader.get("blowing", blowing)) blowing = true;
 
-  float speed_x = 0, speed_y = 0;
-  reader.get("speed-x", speed_x);
-  reader.get("speed-y", speed_y);
-  speed = Vector(speed_x, speed_y);
+  if (!reader.get("speed-x", speed.x)) speed.x = 0;
+  if (!reader.get("speed-y", speed.y)) speed.y = 0;
 
-  reader.get("acceleration", acceleration);
+  if (!reader.get("acceleration", acceleration)) acceleration = 100;
 
   set_group(COLGROUP_TOUCHABLE);
 }

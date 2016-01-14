@@ -45,7 +45,7 @@ Brick::Brick(const ReaderMapping& lisp) :
   breakable(),
   coin_counter(0)
 {
-  lisp.get("breakable",breakable);
+  if (!lisp.get("breakable",breakable)) breakable = true;
   if (!breakable) {
     coin_counter = 5;
   }

@@ -36,8 +36,8 @@ InfoBlock::InfoBlock(const ReaderMapping& lisp) :
   lines_height()
 {
   Vector pos;
-  lisp.get("x", pos.x);
-  lisp.get("y", pos.y);
+  if (!lisp.get("x", pos.x)) pos.x = 0;
+  if (!lisp.get("y", pos.y)) pos.y = 0;
   bbox.set_pos(pos);
 
   if(!lisp.get("message", message)) {

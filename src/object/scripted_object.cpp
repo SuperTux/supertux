@@ -31,21 +31,21 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
   physic(),
   name(),
-  solid(true),
-  physic_enabled(true),
-  visible(true),
+  solid(),
+  physic_enabled(),
+  visible(),
   new_vel_set(false),
   new_vel()
 {
-  lisp.get("name", name);
+  if (!lisp.get("name", name)) name = "";
   if(name.empty()) {
     name = "unnamed" + std::to_string(graphicsRandom.rand());
     log_warning << "Scripted object must have a name specified, setting to: " << name << std::endl;
   }
 
-  lisp.get("solid", solid);
-  lisp.get("physic-enabled", physic_enabled);
-  lisp.get("visible", visible);
+  if (!lisp.get("solid", solid)) solid = true;
+  if (!lisp.get("physic-enabled", physic_enabled)) physic_enabled = true;
+  if (!lisp.get("visible", visible)) visible = true;
   layer = reader_get_layer (lisp, /* default = */ LAYER_OBJECTS);
   if( solid ){
     set_group( COLGROUP_MOVING_STATIC );

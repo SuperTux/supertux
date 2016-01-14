@@ -36,10 +36,10 @@ static const float TIME_WARNING = 20;
 LevelTime::LevelTime(const ReaderMapping& reader) :
   time_surface(),
   running(true),
-  time_left(0)
+  time_left()
 {
-  reader.get("name", name);
-  reader.get("time", time_left);
+  if (!reader.get("name", name)) name = "";
+  if (!reader.get("time", time_left)) time_left = 0;
   if(time_left <= 0) {
     log_warning << "No or invalid leveltime specified." << std::endl;
     remove_me();

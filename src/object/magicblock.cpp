@@ -53,8 +53,11 @@ MagicBlock::MagicBlock(const ReaderMapping& lisp) :
   set_group(COLGROUP_STATIC);
   //get color from lisp
   std::vector<float> vColor;
-  lisp.get("color", vColor );
-  color = Color( vColor );
+  if (lisp.get("color", vColor )) {
+    color = Color( vColor );
+  } else {
+    color = Color(0, 0, 0);
+  }
 
   //all alpha to make the sprite still visible
   color.alpha = ALPHA_SOLID;
