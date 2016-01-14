@@ -54,39 +54,4 @@ ProfileMenu::menu_action(MenuItem* item)
   MenuManager::instance().clear_menu_stack();
 }
 
-/*
-  std::string
-  TitleScreen::get_slotinfo(int slot)
-  {
-  std::string tmp;
-  std::string title;
-
-  std::string basename = current_world->get_basedir();
-  basename = basename.substr(0, basename.length()-1);
-  std::string worlddirname = FileSystem::basename(basename);
-  std::ostringstream stream;
-  stream << "profile" << config->profile << "/" << worlddirname << "_" << slot << ".stsg";
-  std::string slotfile = stream.str();
-
-  try {
-  lisp::Parser parser;
-  const lisp::Lisp* root = parser.parse(slotfile);
-
-  const lisp::Lisp* savegame = root->get_lisp("supertux-savegame");
-  if(!savegame)
-  throw std::runtime_error("file is not a supertux-savegame.");
-
-  savegame->get("title", title);
-  } catch(std::exception& ) {
-  std::ostringstream slottitle;
-  slottitle << _("Slot") << " " << slot << " - " << _("Free");
-  return slottitle.str();
-  }
-
-  std::ostringstream slottitle;
-  slottitle << _("Slot") << " " << slot << " - " << title;
-  return slottitle.str();
-  }
-*/
-
 /* EOF */
