@@ -81,6 +81,7 @@ public:
    */
 
   virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
 
 protected:
   virtual void hit(Player& player);
@@ -106,6 +107,8 @@ private:
   float currentvolume; /// how loud we are
 
   float * volume_ptr; /// this will be used by the volume adjustment effect.
+
+  Vector new_size;
 
 private:
   AmbientSound(const AmbientSound&);
