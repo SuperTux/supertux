@@ -359,9 +359,9 @@
       (y 416)
     )
     (infoblock
-      (message (_ "-Spring Boards
+      (message (_ "-Trampolines
 !images/objects/trampoline/trampoline2-0.png
-#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."))
+#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."))
       (x 8384)
       (y 640)
     )
