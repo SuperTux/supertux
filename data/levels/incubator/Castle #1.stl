@@ -3,6 +3,7 @@
   (name (_ "Castle #1"))
   (author "sK!LL")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 0)
   (sector
     (name "main")
     (music "music/fortress.music")
@@ -405,8 +406,8 @@
     )
     (spawnpoint
       (name "main")
-      (x 5248)
-      (y 864)
+      (x 96)
+      (y 1600)
     )
     (tilemap
       (solid #f)

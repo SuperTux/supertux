@@ -712,8 +712,8 @@ Plata3.goto_node(0);")
     )
     (spawnpoint
       (name "main")
-      (x 13088)
-      (y 768)
+      (x 32)
+      (y 288)
     )
     (spawnpoint
       (name "salir")
