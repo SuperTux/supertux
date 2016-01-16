@@ -1531,17 +1531,12 @@ Player::kill(bool completely)
       set_bonus(GROWUP_BONUS, true);
     } else if(player_status->bonus == GROWUP_BONUS) {
       safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
-      adjust_height(SMALL_TUX_HEIGHT);
       duck = false;
       backflipping = false;
       sprite->set_angle(0.0f);
       powersprite->set_angle(0.0f);
       lightsprite->set_angle(0.0f);
       set_bonus(NO_BONUS, true);
-    } else if(player_status->bonus == NO_BONUS) {
-      safe_timer.start(TUX_SAFE_TIME);
-      adjust_height(SMALL_TUX_HEIGHT);
-      duck = false;
     }
   } else {
     SoundManager::current()->play("sounds/kill.wav");
