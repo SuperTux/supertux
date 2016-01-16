@@ -42,13 +42,20 @@ Please use Transifex to fix or report translation related issues.
   is untested or work-in-progress, please mention that.
 - Pull requests importing translation updates from Transifex are, unless requested
   by a contributor, not very welcome.
-- Commit messages should follow this style: short summary up to 50 chars (72 are
-  okay if you need that much), an empty line, more detailed explanatory text which
-  can include multiple paragraphs or bullet points. 
-- If necessary, `Closes #xyz.` where #xyz is the number of the issue which that pull request will fix.
-- If your commit doesn't include any changes that need CI testing (no code changes e.g. graphics), 
-  add `[ci skip]` to any line which isn't the first or second. This saves IRC spam.
-- Please [squash](https://help.github.com/articles/about-git-rebase/) commits that belong together. 
+- Commit messages should follow this style:
+  - First line: Short summary, up to 72 characters
+  - An empty line, separating message subject and body
+  - Detailed explanatory text for the change which can include multiple paragraphs,
+    or bullet points. Maximum of 72 characters per line.
+  - If the commit fixes an issue reported on GitHub, please add another empty
+    line, followed by a line containing `Closes #xyz`, where `#xyz` is the issue
+    to close. See <https://help.github.com/articles/closing-issues-via-commit-messages/>
+    for a more detailed description of this feature.
+  - If the commit doesn't include any changes that need CI testing (code or
+    build system changes should always be CI tested, other things not), yet another
+    empty line, followed by a line containing `[ci skip]`. This makes the CI
+    ignore that commit.
+- Please [squash](https://help.github.com/articles/about-git-rebase/) commits that belong together.
   If you forget initially, it's okay to force push to your own fork to fix it.
 - No merge commits inside pull requests. Use `git-rebase` to keep your branch
   up-to-date.
