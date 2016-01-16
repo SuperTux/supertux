@@ -304,8 +304,8 @@ WorldMap::load(const std::string& filename)
           add_object(decal);
         } else if(iter.get_key() == "ambient-light") {
           std::vector<float> vColor;
-          sector.get( "ambient-light", vColor );
-          if(vColor.size() < 3) {
+          bool hasColor = sector.get( "ambient-light", vColor );
+          if(vColor.size() < 3 || !hasColor) {
             log_warning << "(ambient-light) requires a color as argument" << std::endl;
           } else {
             ambient_light = Color( vColor );

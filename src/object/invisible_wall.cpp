@@ -26,7 +26,7 @@ InvisibleWall::InvisibleWall(const ReaderMapping& lisp) :
   height()
 {
   if (!lisp.get("width", width)) width = 32;
-  if (!lisp.get("height", height)) width = 32;
+  if (!lisp.get("height", height)) height = 32;
   bbox.set_size(width, height);
 }
 

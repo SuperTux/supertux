@@ -145,8 +145,8 @@ SectorParser::parse(const ReaderMapping& sector)
       iter.get(m_sector.init_script);
     } else if(iter.get_key() == "ambient-light") {
       std::vector<float> vColor;
-      sector.get( "ambient-light", vColor );
-      if(vColor.size() < 3) {
+      bool hasColor = sector.get( "ambient-light", vColor );
+      if(vColor.size() < 3 || !hasColor) {
         log_warning << "(ambient-light) requires a color as argument" << std::endl;
       } else {
         m_sector.ambient_light = Color( vColor );
