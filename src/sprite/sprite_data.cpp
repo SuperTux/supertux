@@ -25,20 +25,14 @@
 
 SpriteData::Action::Action() :
   name(),
-  x_offset(),
-  y_offset(),
-  hitbox_w(),
-  hitbox_h(),
-  z_order(),
-  fps(),
+  x_offset(0),
+  y_offset(0),
+  hitbox_w(0),
+  hitbox_h(0),
+  z_order(0),
+  fps(10),
   surfaces()
 {
-  x_offset = 0;
-  y_offset = 0;
-  hitbox_w = 0;
-  hitbox_h = 0;
-  z_order = 0;
-  fps = 10;
 }
 
 SpriteData::Action::~Action()
