@@ -26,6 +26,7 @@
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 #include "worldmap/level.hpp"
+#include "worldmap/worldmap.hpp"
 
 namespace worldmap {
 
@@ -39,6 +40,7 @@ LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
   statistics(),
   target_time(),
   extro_script(),
+  title_color(WorldMap::level_title_color),
   basedir(basedir_)
 {
   lisp.get("name", name);
@@ -51,6 +53,11 @@ LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
   sprite = SpriteManager::current()->create(spritefile);
 
   lisp.get("extro-script", extro_script);
+
+  std::vector<float> vColor;
+  if (lisp.get("color", vColor)) {
+    title_color = Color(vColor);
+  }
 
   if (!PHYSFS_exists((basedir_ + name).c_str()))
   {

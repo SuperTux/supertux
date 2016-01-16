@@ -25,6 +25,7 @@
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/statistics.hpp"
+#include "video/color.hpp"
 #include "video/surface.hpp"
 
 class Sprite;
@@ -60,6 +61,9 @@ public:
 
   /** Script that is run when the level is successfully finished */
   std::string extro_script;
+
+  /** The colour of the level title */
+  Color title_color;
 
 private:
   std::string basedir;
