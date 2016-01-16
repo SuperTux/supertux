@@ -1537,10 +1537,6 @@ Player::kill(bool completely)
       powersprite->set_angle(0.0f);
       lightsprite->set_angle(0.0f);
       set_bonus(NO_BONUS, true);
-    } else if(player_status->bonus == NO_BONUS) {
-      safe_timer.start(TUX_SAFE_TIME);
-      adjust_height(SMALL_TUX_HEIGHT);
-      duck = false;
     }
   } else {
     SoundManager::current()->play("sounds/kill.wav");
