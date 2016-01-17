@@ -219,6 +219,7 @@ Menu::process_input()
   }
   if(controller->pressed(Controller::ESCAPE) ||
      controller->pressed(Controller::START) ||
+     controller->pressed(Controller::CHEAT_MENU) ||
      controller->pressed(Controller::MENU_BACK)) {
     menuaction = MENU_ACTION_BACK;
   }
