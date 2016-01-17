@@ -146,7 +146,7 @@ Fish::unfreeze()
 void
 Fish::kill_fall()
 {
-  sprite->set_action("down");
+  sprite->set_action("normal");
   BadGuy::kill_fall();
 }
 

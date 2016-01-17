@@ -136,13 +136,15 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
   assert(action != 0);
   update();
 
-  context.set_drawing_effect(effect);
+  context.push_transform();
+  context.set_drawing_effect(context.get_drawing_effect() ^ effect);
   context.draw_surface(action->surfaces[frameidx],
                        pos - Vector(action->x_offset, action->y_offset),
                        angle,
                        color,
                        blend,
                        layer + action->z_order);
+  context.pop_transform();
 }
 
 void
