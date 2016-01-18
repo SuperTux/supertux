@@ -34,7 +34,6 @@ Iceflame::Iceflame(const ReaderMapping& reader) :
   radius(),
   speed(),
   light(0.0f,0.0f,0.0f)
-  //lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite"))
 {
   if ( !reader.get("radius", radius)) radius = 100;
   if ( !reader.get("speed", speed)) speed = 2;
@@ -57,6 +56,7 @@ Iceflame::active_update(float elapsed_time)
   Vector newpos(start_position.x + cos(angle) * radius,
                 start_position.y + sin(angle) * radius);
   movement = newpos - get_pos();
+  sprite->set_angle(angle * 360.0f / (2*M_PI) * 3);
 
   if (sprite->get_action() == "fade" && sprite->animation_done()) remove_me();
 }
