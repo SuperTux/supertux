@@ -67,6 +67,7 @@ BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
   SoundManager::current()->preload("sounds/splash.ogg");
+  SoundManager::current()->preload("sounds/fire.ogg");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
@@ -100,6 +101,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
   SoundManager::current()->preload("sounds/splash.ogg");
+  SoundManager::current()->preload("sounds/fire.ogg");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
@@ -140,6 +142,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
   SoundManager::current()->preload("sounds/splash.ogg");
+  SoundManager::current()->preload("sounds/fire.ogg");
 
   dir = (start_dir == AUTO) ? LEFT : start_dir;
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
@@ -765,7 +768,7 @@ BadGuy::ignite()
   } else if (sprite->has_action("burning-left")) {
     // burn it!
     glowing = true;
-    SoundManager::current()->play("sounds/flame.wav", get_pos());
+    SoundManager::current()->play("sounds/fire.ogg", get_pos());
     sprite->set_action(dir == LEFT ? "burning-left" : "burning-right", 1);
     set_state(STATE_BURNING);
     run_dead_script();
