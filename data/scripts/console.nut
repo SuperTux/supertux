@@ -84,6 +84,11 @@ function none()
 	sector.Tux.set_bonus("none");
 }
 
+function ghost()
+{
+	sector.Tux.set_ghost_mode(true);	
+}
+
 /**
  * Display a list of functions in the roottable (or in the table specified)
  */
