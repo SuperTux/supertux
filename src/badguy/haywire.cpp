@@ -29,6 +29,9 @@
 #define TIME_EXPLOSION 5.0
 #define TIME_STUNNED   0.5
 
+#define NORMAL_WALK_SPEED    80
+#define EXPLODING_WALK_SPEED 160
+
 Haywire::Haywire(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/haywire/haywire.sprite", "left", "right"),
   is_exploding(false),
@@ -38,7 +41,7 @@ Haywire::Haywire(const ReaderMapping& reader) :
   ticking(),
   grunting()
 {
-  walk_speed = 80;
+  walk_speed = NORMAL_WALK_SPEED;
   max_drop_height = 16;
 
   //Prevent stutter when Tux jumps on Mr Bomb
@@ -77,23 +80,7 @@ Haywire::collision_squished(GameObject& object)
   }
 
   if (!is_exploding) {
-    set_action ((dir == LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
-    walk_left_action = "ticking-left";
-    walk_right_action = "ticking-right";
-    set_walk_speed (160);
-    time_until_explosion = TIME_EXPLOSION;
-    is_exploding = true;
-
-    ticking = SoundManager::current()->create_sound_source("sounds/fizz.wav");
-    ticking->set_position(get_pos());
-    ticking->set_looping(true);
-    ticking->set_reference_distance(32);
-    ticking->play();
-    grunting = SoundManager::current()->create_sound_source("sounds/grunts.ogg");
-    grunting->set_position(get_pos());
-    grunting->set_looping(true);
-    grunting->set_reference_distance(32);
-    grunting->play();
+    start_exploding();
   }
 
   time_stunned = TIME_STUNNED;
@@ -182,10 +169,46 @@ void
 Haywire::freeze() {
   BadGuy::freeze();
   if (is_exploding) {
-    is_exploding = false;
-    ticking->stop();
-    grunting->stop();
+    stop_exploding();
   }
+}
+
+void
+Haywire::start_exploding()
+{
+  set_action ((dir == LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
+  walk_left_action = "ticking-left";
+  walk_right_action = "ticking-right";
+  set_walk_speed (EXPLODING_WALK_SPEED);
+  time_until_explosion = TIME_EXPLOSION;
+  is_exploding = true;
+
+  ticking = SoundManager::current()->create_sound_source("sounds/fizz.wav");
+  ticking->set_position(get_pos());
+  ticking->set_looping(true);
+  ticking->set_reference_distance(32);
+  ticking->play();
+  grunting = SoundManager::current()->create_sound_source("sounds/grunts.ogg");
+  grunting->set_position(get_pos());
+  grunting->set_looping(true);
+  grunting->set_reference_distance(32);
+  grunting->play();
+}
+
+void
+Haywire::stop_exploding()
+{
+  walk_left_action = "left";
+  walk_right_action = "right";
+  set_walk_speed(NORMAL_WALK_SPEED);
+  time_until_explosion = 0.0f;
+  is_exploding = false;
+
+  if (ticking)
+    ticking->stop();
+
+  if (grunting)
+    grunting->stop();
 }
 
 /* vim: set sw=2 sts=2 et : */
