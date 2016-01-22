@@ -39,6 +39,10 @@ protected:
   bool collision_squished(GameObject& object);
 
 private:
+  void start_exploding();
+  void stop_exploding();
+
+private:
   bool is_exploding;
   float time_until_explosion;
   bool is_stunned;
