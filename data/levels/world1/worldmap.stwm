@@ -2,7 +2,7 @@
   (version 2)
   (name (_ "Icyisland"))
   (author "SuperTux Team")
-  (contact "http://developer.berlios.de/projects/supertux/")
+  (contact "http://supertuxproject.org/")
   (license "GPL 2 / CC-by-sa 3.0")
   (sector
     (name "main")
