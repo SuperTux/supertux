@@ -99,6 +99,7 @@ GameSession::reset_level()
   currentStatus->max_fire_bullets = max_fire_bullets_at_start;
   currentStatus->max_ice_bullets = max_ice_bullets_at_start;
   reset_sector = "";
+  reset_pos = Vector();
 }
 
 int

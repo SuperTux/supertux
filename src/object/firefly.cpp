@@ -59,7 +59,8 @@ Firefly::Firefly(const ReaderMapping& lisp) :
 void
 Firefly::reactivate()
 {
-  if(GameSession::current()->get_reset_point_pos() == initial_position){
+  if(!GameSession::current()->get_reset_point_sectorname().empty() &&
+     GameSession::current()->get_reset_point_pos() == initial_position) {
     // TODO: && GameSession::current()->get_reset_point_sectorname() ==  <sector this firefly is in>
     // GameSession::current()->get_current_sector()->get_name() is not yet initialized.
     // Worst case a resetpoint in a different sector at the same position as the real
