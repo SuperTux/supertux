@@ -3,6 +3,7 @@
   (name (_ "'...or is it just me?'"))
   (author "SuperTux Team")
   (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 60)
   (sector
     (name "main")
     (music "music/voc-dark.music")
