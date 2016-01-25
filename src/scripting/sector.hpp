@@ -21,6 +21,8 @@
 class Sector;
 #endif
 
+#include <string>
+
 namespace scripting {
 
 class Sector
@@ -43,6 +45,10 @@ public:
   float get_ambient_red() const;
   float get_ambient_green() const;
   float get_ambient_blue() const;
+  void set_gradient_direction(const std::string& direction);
+  std::string get_gradient_direction() const;
+  void set_gradient_color1(float red, float green, float blue);
+  void set_gradient_color2(float red, float green, float blue);
   void set_gravity(float gravity);
 };
 

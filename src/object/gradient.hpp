@@ -38,8 +38,10 @@ public:
   Color get_gradient_bottom() const
   { return gradient_bottom; }
 
-  GradientDirection get_gradient_direction() const
+  GradientDirection get_direction() const
   { return gradient_direction; }
+
+  void set_direction(const GradientDirection& direction);
 
   virtual void update(float elapsed_time);
 

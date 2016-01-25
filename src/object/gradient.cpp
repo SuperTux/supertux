@@ -118,6 +118,12 @@ Gradient::set_gradient(Color top, Color bottom)
 }
 
 void
+Gradient::set_direction(const GradientDirection& direction)
+{
+  gradient_direction = direction;
+}
+
+void
 Gradient::draw(DrawingContext& context)
 {
   if(gradient_direction != HORIZONTAL && gradient_direction != VERTICAL)

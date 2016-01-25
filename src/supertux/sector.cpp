@@ -30,6 +30,7 @@
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
+#include "object/gradient.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "object/smoke_cloud.hpp"
@@ -1395,6 +1396,17 @@ Sector::get_nearby_objects (const Vector& center, float max_distance) const
   }
 
   return (ret);
+}
+
+Gradient*
+Sector::get_background_gradient() const
+{
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    Gradient* gradient = dynamic_cast<Gradient*>(i->get());
+    if (gradient)
+      return gradient;
+  }
+  return NULL;
 }
 
 /* vim: set sw=2 sts=2 et : */
