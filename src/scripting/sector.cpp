@@ -38,7 +38,7 @@ Background* get_background_image(::Sector* parent)
   auto background = parent->get_background_image();
   if(background == NULL)
   {
-    log_info << "No background gradient found" << std::endl;
+    log_info << "No background image found" << std::endl;
     return NULL;
   }
   return background;
