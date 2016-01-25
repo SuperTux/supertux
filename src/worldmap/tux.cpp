@@ -58,32 +58,36 @@ Tux::~Tux()
 void
 Tux::draw(DrawingContext& context)
 {
-  switch (worldmap->get_savegame().get_player_status()->bonus) {
-    case GROWUP_BONUS:
-      sprite->set_action(moving ? "large-walking" : "large-stop");
-      break;
-    case FIRE_BONUS:
-      sprite->set_action(moving ? "fire-walking" : "fire-stop");
-      break;
-    case ICE_BONUS:
-      sprite->set_action(moving ? "ice-walking" : "ice-stop");
-      break;
-    case AIR_BONUS:
-      sprite->set_action(moving ? "air-walking" : "air-stop");
-      break;
-    case EARTH_BONUS:
-      sprite->set_action(moving ? "earth-walking" : "earth-stop");
-      break;
-    case NO_BONUS:
-      sprite->set_action(moving ? "small-walking" : "small-stop");
-      break;
-    default:
-      log_debug << "Bonus type not handled in worldmap." << std::endl;
-      sprite->set_action("large-stop");
-      break;
+  std::string action = get_action_prefix_for_bonus(worldmap->get_savegame().get_player_status()->bonus);
+  if(!action.empty())
+  {
+    sprite->set_action(moving ? action + "-walking" : "-stop");
   }
-
+  else
+  {
+    log_debug << "Bonus type not handled in worldmap." << std::endl;
+    sprite->set_action("large-stop");
+  }
   sprite->draw(context, get_pos(), LAYER_OBJECTS);
+}
+
+std::string
+Tux::get_action_prefix_for_bonus(const BonusType& bonus) const
+{
+  if(bonus == GROWUP_BONUS)
+    return "large";
+  if(bonus == FIRE_BONUS)
+    return "fire";
+  if(bonus == ICE_BONUS)
+    return "ice";
+  if(bonus == AIR_BONUS)
+    return "air";
+  if(bonus == EARTH_BONUS)
+    return "earth";
+  if(bonus == NO_BONUS)
+    return "small";
+
+  return "";
 }
 
 Vector
