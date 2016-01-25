@@ -18,10 +18,9 @@
 #define HEADER_SUPERTUX_SCRIPTING_SSECTOR_HPP
 
 #ifndef SCRIPTING_API
+#include <string>
 class Sector;
 #endif
-
-#include <string>
 
 namespace scripting {
 
