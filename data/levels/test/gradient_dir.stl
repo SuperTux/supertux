@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Gradient direction test"))
+  (name (_ "Gradient scripting test"))
   (author "Hume")
   (contact "Nemám zájem, aby mě někdo otravoval.")
   (license "GPL 2+ / CC-by-sa 3.0")
@@ -29,35 +29,70 @@
     )
     (infoblock
       (message (_ "-Set gradient direction to vertical"))
-      (x 480)
+      (x 460)
       (y 576)
     )
     (switch
       (script "sector.settings.set_gradient_direction(\"vertical\");")
       (sprite "images/objects/switch/switch.sprite")
-      (x 480)
+      (x 460)
       (y 650)
     )
     (infoblock
       (message (_ "-Set gradient direction to horizontal sector"))
-      (x 600)
+      (x 580)
       (y 576)
     )
     (switch
       (script "sector.settings.set_gradient_direction(\"horizontal_sector\");")
       (sprite "images/objects/switch/switch.sprite")
-      (x 600)
+      (x 580)
       (y 650)
     )
     (infoblock
       (message (_ "-Set gradient direction to vertical sector"))
-      (x 720)
+      (x 700)
       (y 576)
     )
     (switch
       (script "sector.settings.set_gradient_direction(\"vertical_sector\");")
       (sprite "images/objects/switch/switch.sprite")
-      (x 720)
+      (x 700)
+      (y 650)
+    )
+    (infoblock
+      (message (_ "-Swap gradient colors"))
+      (x 820)
+      (y 576)
+    )
+    (switch
+      (script "sector.settings.swap_gradient_colors();")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 820)
+      (y 650)
+    )
+    (infoblock
+      (message (_ "-Set colors to orange - black"))
+      (x 940)
+      (y 576)
+    )
+    (switch
+      (script "sector.settings.set_gradient_color1(1, 0.54902, 0);
+      sector.settings.set_gradient_color2(0, 0, 0);")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 940)
+      (y 650)
+    )
+    (infoblock
+      (message (_ "-Set colors to red - green"))
+      (x 1000)
+      (y 576)
+    )
+    (switch
+      (script "sector.settings.set_gradient_color1(1, 0, 0);
+      sector.settings.set_gradient_color2(0, 1, 0);")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 1000)
       (y 650)
     )
     (spawnpoint
