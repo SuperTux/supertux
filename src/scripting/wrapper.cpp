@@ -2406,6 +2406,30 @@ static SQInteger Sector_set_gradient_color2_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Sector_swap_gradient_colors_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'swap_gradient_colors' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+
+  try {
+    _this->swap_gradient_colors();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'swap_gradient_colors'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Sector_set_gravity_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -5615,6 +5639,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnn");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'set_gradient_color2'");
+  }
+
+  sq_pushstring(v, "swap_gradient_colors", -1);
+  sq_newclosure(v, &Sector_swap_gradient_colors_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'swap_gradient_colors'");
   }
 
   sq_pushstring(v, "set_gravity", -1);

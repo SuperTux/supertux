@@ -48,6 +48,7 @@ public:
   std::string get_gradient_direction() const;
   void set_gradient_color1(float red, float green, float blue);
   void set_gradient_color2(float red, float green, float blue);
+  void swap_gradient_colors();
   void set_gravity(float gravity);
 };
 

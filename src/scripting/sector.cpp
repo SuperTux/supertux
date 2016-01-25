@@ -19,6 +19,21 @@
 #include "object/gradient.hpp"
 #include "supertux/sector.hpp"
 
+namespace {
+
+Gradient* get_background_gradient(::Sector* parent)
+{
+  auto gradient = parent->get_background_gradient();
+  if(gradient == NULL)
+  {
+    log_info << "No background gradient found" << std::endl;
+    return NULL;
+  }
+  return gradient;
+}
+
+}
+
 namespace scripting {
 
 Sector::Sector(::Sector* parent) :
@@ -57,12 +72,9 @@ Sector::get_ambient_blue() const
 void
 Sector::set_gradient_direction(const std::string& direction)
 {
-  auto gradient = m_parent->get_background_gradient();
-  if(gradient == NULL)
-  {
-    log_info << "No background gradient found" << std::endl;
+  auto gradient = get_background_gradient(m_parent);
+  if(!gradient)
     return;
-  }
 
   if(direction == "horizontal")
     gradient->set_direction(GradientDirection::HORIZONTAL);
@@ -79,13 +91,9 @@ Sector::set_gradient_direction(const std::string& direction)
 std::string
 Sector::get_gradient_direction() const
 {
-  auto gradient = m_parent->get_background_gradient();
-  if(gradient == NULL)
-  {
-    log_info << "No background gradient found" << std::endl;
-    return NULL;
-  }
-
+  auto gradient = get_background_gradient(m_parent);
+  if(!gradient)
+    return "";
   auto direction = gradient->get_direction();
 
   if(direction == GradientDirection::HORIZONTAL)
@@ -103,25 +111,28 @@ Sector::get_gradient_direction() const
 void
 Sector::set_gradient_color1(float red, float green, float blue)
 {
-  auto gradient = m_parent->get_background_gradient();
-  if(gradient == NULL)
-  {
-    log_info << "No background gradient found" << std::endl;
-    return ;
-  }
+  auto gradient = get_background_gradient(m_parent);
+  if(!gradient)
+    return;
   gradient->set_gradient(Color(red, green, blue), gradient->get_gradient_bottom());
 }
 
 void
 Sector::set_gradient_color2(float red, float green, float blue)
 {
-  auto gradient = m_parent->get_background_gradient();
-  if(gradient == NULL)
-  {
-    log_info << "No background gradient found" << std::endl;
+  auto gradient = get_background_gradient(m_parent);
+  if(!gradient)
     return;
-  }
   gradient->set_gradient(gradient->get_gradient_top(), Color(red, green, blue));
+}
+
+void
+Sector::swap_gradient_colors()
+{
+  auto gradient = get_background_gradient(m_parent);
+  if(!gradient)
+    return;
+  gradient->set_gradient(gradient->get_gradient_bottom(), gradient->get_gradient_top());
 }
 
 void
