@@ -49,6 +49,7 @@ class Portable;
 class DrawingContext;
 class DisplayEffect;
 class Gradient;
+class Background;
 
 enum MusicType {
   LEVEL_MUSIC,
@@ -170,6 +171,7 @@ public:
   std::vector<MovingObject*> get_nearby_objects (const Vector& center, float max_distance) const;
 
   Gradient* get_background_gradient() const;
+  Background* get_background_image() const;
 
   Rectf get_active_region() const;
 

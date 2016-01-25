@@ -27,6 +27,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
 #include "math/aatriangle.hpp"
+#include "object/background.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
@@ -1405,6 +1406,17 @@ Sector::get_background_gradient() const
     Gradient* gradient = dynamic_cast<Gradient*>(i->get());
     if (gradient)
       return gradient;
+  }
+  return NULL;
+}
+
+Background*
+Sector::get_background_image() const
+{
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    Background* background = dynamic_cast<Background*>(i->get());
+    if (background)
+      return background;
   }
   return NULL;
 }

@@ -44,11 +44,18 @@ public:
   float get_ambient_red() const;
   float get_ambient_green() const;
   float get_ambient_blue() const;
+
   void set_gradient_direction(const std::string& direction);
   std::string get_gradient_direction() const;
   void set_gradient_color1(float red, float green, float blue);
   void set_gradient_color2(float red, float green, float blue);
   void swap_gradient_colors();
+
+  void set_background_image(const std::string& image);
+  void set_background_images(const std::string& top_image, const std::string& middle_image,
+                             const std::string& bottom_image);
+  void set_background_speed(float speed);
+
   void set_gravity(float gravity);
 };
 

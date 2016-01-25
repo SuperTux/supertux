@@ -2430,6 +2430,103 @@ static SQInteger Sector_swap_gradient_colors_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Sector_set_background_image_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_background_image' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_background_image(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_background_image'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Sector_set_background_images_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_background_images' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg2;
+  if(SQ_FAILED(sq_getstring(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_background_images(arg0, arg1, arg2);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_background_images'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Sector_set_background_speed_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_background_speed' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_background_speed(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_background_speed'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Sector_set_gravity_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -5646,6 +5743,27 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'swap_gradient_colors'");
+  }
+
+  sq_pushstring(v, "set_background_image", -1);
+  sq_newclosure(v, &Sector_set_background_image_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_background_image'");
+  }
+
+  sq_pushstring(v, "set_background_images", -1);
+  sq_newclosure(v, &Sector_set_background_images_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsss");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_background_images'");
+  }
+
+  sq_pushstring(v, "set_background_speed", -1);
+  sq_newclosure(v, &Sector_set_background_speed_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_background_speed'");
   }
 
   sq_pushstring(v, "set_gravity", -1);

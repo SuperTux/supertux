@@ -140,12 +140,26 @@ Background::update(float delta)
 }
 
 void
-Background::set_image(const std::string& name_, float speed_)
+Background::set_image(const std::string& name_)
 {
   this->imagefile = name_;
-  this->speed = speed_;
-
   image = Surface::create(name_);
+}
+
+void
+Background::set_image(const std::string& name_, float speed_)
+{
+  this->speed = speed_;
+  set_image(name_);
+}
+
+void
+Background::set_images(const std::string& name_top_, const std::string& name_middle_,
+                       const std::string& name_bottom_)
+{
+  image_top = Surface::create(name_top_);
+  image = Surface::create(name_middle_);
+  image_bottom = Surface::create(name_bottom_);
 }
 
 void
