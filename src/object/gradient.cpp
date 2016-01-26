@@ -17,6 +17,8 @@
 #include "object/gradient.hpp"
 
 #include "object/camera.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "scripting/gradient.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
@@ -43,6 +45,7 @@ Gradient::Gradient(const ReaderMapping& reader) :
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
   std::string direction;
+  if (!reader.get("name", name)) name = "";
   if(reader.get("direction", direction))
   {
     if(direction == "horizontal")
@@ -139,6 +142,25 @@ Gradient::draw(DrawingContext& context)
   context.set_translation(Vector(0, 0));
   context.draw_gradient(gradient_top, gradient_bottom, layer, gradient_direction, gradient_region);
   context.pop_transform();
+}
+
+void
+Gradient::expose(HSQUIRRELVM vm, SQInteger table_idx)
+{
+  if (name.empty())
+    return;
+
+  scripting::Gradient* _this = new scripting::Gradient(this);
+  expose_object(vm, table_idx, _this, name, true);
+}
+
+void
+Gradient::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
+{
+  if (name.empty())
+    return;
+
+  scripting::unexpose_object(vm, table_idx, name);
 }
 
 /* EOF */

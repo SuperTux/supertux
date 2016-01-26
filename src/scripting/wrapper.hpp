@@ -20,6 +20,8 @@ class DisplayEffect;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::DisplayEffect* object, bool setup_releasehook = false);
 class FloatingImage;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::FloatingImage* object, bool setup_releasehook = false);
+class Gradient;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Gradient* object, bool setup_releasehook = false);
 class LevelTime;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::LevelTime* object, bool setup_releasehook = false);
 class Platform;

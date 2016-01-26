@@ -906,6 +906,169 @@ static SQInteger FloatingImage_fade_out_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Gradient_release_hook(SQUserPointer ptr, SQInteger )
+{
+  scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger Gradient_set_direction_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_direction' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (data);
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_direction(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_direction'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Gradient_get_direction_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'get_direction' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (data);
+
+  try {
+    std::string return_value = _this->get_direction();
+
+    sq_pushstring(vm, return_value.c_str(), return_value.size());
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_direction'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Gradient_set_color1_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_color1' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_color1(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_color1'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Gradient_set_color2_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_color2' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_color2(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_color2'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Gradient_swap_colors_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'swap_colors' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (data);
+
+  try {
+    _this->swap_colors();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'swap_colors'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger LevelTime_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::LevelTime* _this = reinterpret_cast<scripting::LevelTime*> (ptr);
@@ -4425,6 +4588,32 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::FloatingImage* object, b
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Gradient* object, bool setup_releasehook)
+{
+  using namespace wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "Gradient", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Gradient'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Gradient'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Gradient_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void create_squirrel_instance(HSQUIRRELVM v, scripting::LevelTime* object, bool setup_releasehook)
 {
   using namespace wrapper;
@@ -5314,6 +5503,53 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'FloatingImage'");
+  }
+
+  // Register class Gradient
+  sq_pushstring(v, "Gradient", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'Gradient'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "set_direction", -1);
+  sq_newclosure(v, &Gradient_set_direction_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_gradient_direction'");
+  }
+
+  sq_pushstring(v, "get_direction", -1);
+  sq_newclosure(v, &Gradient_get_direction_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_gradient_direction'");
+  }
+
+  sq_pushstring(v, "set_color1", -1);
+  sq_newclosure(v, &Gradient_set_color1_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_gradient_color1'");
+  }
+
+  sq_pushstring(v, "set_color2", -1);
+  sq_newclosure(v, &Gradient_set_color2_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_gradient_color2'");
+  }
+
+  sq_pushstring(v, "swap_colors", -1);
+  sq_newclosure(v, &Gradient_swap_colors_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'swap_gradient_colors'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'Gradient'");
   }
 
   // Register class LevelTime

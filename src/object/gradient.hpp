@@ -18,12 +18,14 @@
 #define HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 
 #include "supertux/game_object.hpp"
+#include "supertux/script_interface.hpp"
 #include "util/reader_fwd.hpp"
 #include "video/drawing_context.hpp"
 
 class DisplayManager;
 
-class Gradient : public GameObject
+class Gradient : public GameObject,
+                 public ScriptInterface
 {
 public:
   Gradient();
@@ -46,6 +48,9 @@ public:
   virtual void update(float elapsed_time);
 
   virtual void draw(DrawingContext& context);
+
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
 private:
   int layer;
