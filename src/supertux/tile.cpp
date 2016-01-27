@@ -110,25 +110,34 @@ Tile::load_images()
   }
 }
 
-void
-Tile::draw(DrawingContext& context, const Vector& pos, int z_pos, Color color) const
+SurfacePtr
+Tile::get_current_image() const
 {
-  if(draw_editor_images) {
-    if(editor_images.size() > 1) {
+  if (draw_editor_images) {
+    if (editor_images.size() > 1) {
       size_t frame = size_t(game_time * fps) % editor_images.size();
-      context.draw_surface(editor_images[frame], pos, 0, color, Blend(), z_pos);
-      return;
+      return editor_images[frame];
     } else if (editor_images.size() == 1) {
-      context.draw_surface(editor_images[0], pos, 0, color, Blend(), z_pos);
-      return;
+      return editor_images[0];
     }
   }
 
-  if(images.size() > 1) {
+  if (images.size() > 1) {
     size_t frame = size_t(game_time * fps) % images.size();
-    context.draw_surface(images[frame], pos, 0, color, Blend(), z_pos);
+    return images[frame];
   } else if (images.size() == 1) {
-    context.draw_surface(images[0], pos, 0, color, Blend(), z_pos);
+    return images[0];
+  } else {
+    return nullptr;
+  }
+}
+
+void
+Tile::draw(DrawingContext& context, const Vector& pos, int z_pos, Color color) const
+{
+  SurfacePtr surface = get_current_image();
+  if (surface) {
+    context.draw_surface(surface, pos, 0, color, Blend(), z_pos);
   }
 }
 
