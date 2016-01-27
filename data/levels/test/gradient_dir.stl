@@ -15,6 +15,7 @@
       (top_color 1 0 0)
       (bottom_color 0 1 0)
       (direction "vertical")
+      (name "g")
     )
     (infoblock
       (message (_ "-Set gradient direction to horizontal"))
@@ -22,7 +23,7 @@
       (y 576)
     )
     (switch
-      (script "sector.settings.set_gradient_direction(\"horizontal\");")
+      (script "g.set_direction(\"horizontal\");")
       (sprite "images/objects/switch/switch.sprite")
       (x 320)
       (y 650)
@@ -33,7 +34,7 @@
       (y 576)
     )
     (switch
-      (script "sector.settings.set_gradient_direction(\"vertical\");")
+      (script "g.set_direction(\"vertical\");")
       (sprite "images/objects/switch/switch.sprite")
       (x 460)
       (y 650)
@@ -44,7 +45,7 @@
       (y 576)
     )
     (switch
-      (script "sector.settings.set_gradient_direction(\"horizontal_sector\");")
+      (script "g.set_direction(\"horizontal_sector\");")
       (sprite "images/objects/switch/switch.sprite")
       (x 580)
       (y 650)
@@ -55,7 +56,7 @@
       (y 576)
     )
     (switch
-      (script "sector.settings.set_gradient_direction(\"vertical_sector\");")
+      (script "g.set_direction(\"vertical_sector\");")
       (sprite "images/objects/switch/switch.sprite")
       (x 700)
       (y 650)
@@ -66,7 +67,7 @@
       (y 576)
     )
     (switch
-      (script "sector.settings.swap_gradient_colors();")
+      (script "g.swap_colors();")
       (sprite "images/objects/switch/switch.sprite")
       (x 820)
       (y 650)
@@ -77,8 +78,8 @@
       (y 576)
     )
     (switch
-      (script "sector.settings.set_gradient_color1(1, 0.54902, 0);
-      sector.settings.set_gradient_color2(0, 0, 0);")
+      (script "g.set_color1(1, 0.54902, 0);
+      g.set_color2(0, 0, 0);")
       (sprite "images/objects/switch/switch.sprite")
       (x 940)
       (y 650)
@@ -89,8 +90,8 @@
       (y 576)
     )
     (switch
-      (script "sector.settings.set_gradient_color1(1, 0, 0);
-      sector.settings.set_gradient_color2(0, 1, 0);")
+      (script "g.set_color1(1, 0, 0);
+      g.set_color2(0, 1, 0);")
       (sprite "images/objects/switch/switch.sprite")
       (x 1000)
       (y 650)
