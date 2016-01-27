@@ -24,17 +24,6 @@
 
 namespace {
 
-Gradient* get_background_gradient(::Sector* parent)
-{
-  auto gradient = parent->get_background_gradient();
-  if(gradient == NULL)
-  {
-    log_info << "No background gradient found" << std::endl;
-    return NULL;
-  }
-  return gradient;
-}
-
 Background* get_background_image(::Sector* parent)
 {
   auto background = parent->get_background_image();
@@ -81,72 +70,6 @@ float
 Sector::get_ambient_blue() const
 {
   return m_parent->get_ambient_blue();
-}
-
-void
-Sector::set_gradient_direction(const std::string& direction)
-{
-  auto gradient = get_background_gradient(m_parent);
-  if(!gradient)
-    return;
-
-  if(direction == "horizontal")
-    gradient->set_direction(GradientDirection::HORIZONTAL);
-  else if(direction == "vertical")
-    gradient->set_direction(GradientDirection::VERTICAL);
-  else if(direction == "horizontal_sector")
-    gradient->set_direction(GradientDirection::HORIZONTAL_SECTOR);
-  else if(direction == "vertical_sector")
-    gradient->set_direction(GradientDirection::VERTICAL_SECTOR);
-  else
-    log_info << "Invalid direction for gradient \"" << direction << "\"";
-}
-
-std::string
-Sector::get_gradient_direction() const
-{
-  auto gradient = get_background_gradient(m_parent);
-  if(!gradient)
-    return "";
-  auto direction = gradient->get_direction();
-
-  if(direction == GradientDirection::HORIZONTAL)
-    return "horizontal";
-  if(direction == GradientDirection::VERTICAL)
-    return "vertical";
-  if(direction == GradientDirection::HORIZONTAL_SECTOR)
-    return "horizontal_sector";
-  if(direction == GradientDirection::VERTICAL_SECTOR)
-    return "vertical_sector";
-
-  return NULL;
-}
-
-void
-Sector::set_gradient_color1(float red, float green, float blue)
-{
-  auto gradient = get_background_gradient(m_parent);
-  if(!gradient)
-    return;
-  gradient->set_gradient(Color(red, green, blue), gradient->get_gradient_bottom());
-}
-
-void
-Sector::set_gradient_color2(float red, float green, float blue)
-{
-  auto gradient = get_background_gradient(m_parent);
-  if(!gradient)
-    return;
-  gradient->set_gradient(gradient->get_gradient_top(), Color(red, green, blue));
-}
-
-void
-Sector::swap_gradient_colors()
-{
-  auto gradient = get_background_gradient(m_parent);
-  if(!gradient)
-    return;
-  gradient->set_gradient(gradient->get_gradient_bottom(), gradient->get_gradient_top());
 }
 
 void
