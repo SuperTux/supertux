@@ -129,6 +129,8 @@ public:
   /** load Surfaces, if not already loaded */
   void load_images();
 
+  SurfacePtr get_current_image() const;
+
   /** Draw a tile on the screen */
   void draw(DrawingContext& context, const Vector& pos, int z_pos, Color color = Color(1, 1, 1)) const;
 
