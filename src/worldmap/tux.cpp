@@ -61,7 +61,7 @@ Tux::draw(DrawingContext& context)
   std::string action = get_action_prefix_for_bonus(worldmap->get_savegame().get_player_status()->bonus);
   if(!action.empty())
   {
-    sprite->set_action(moving ? action + "-walking" : "-stop");
+    sprite->set_action(moving ? action + "-walking" : action + "-stop");
   }
   else
   {
