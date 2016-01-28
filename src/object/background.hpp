@@ -18,12 +18,14 @@
 #define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 
 #include "supertux/game_object.hpp"
+#include "supertux/script_interface.hpp"
 #include "util/reader_fwd.hpp"
 #include "video/drawing_context.hpp"
 
 class DisplayManager;
 
-class Background : public GameObject
+class Background : public GameObject,
+                   public ScriptInterface
 {
 public:
   Background();
@@ -43,6 +45,9 @@ public:
 
   virtual void draw(DrawingContext& context);
   void draw_image(DrawingContext& context, const Vector& pos);
+
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
 private:
   enum Alignment {

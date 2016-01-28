@@ -27,7 +27,6 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
 #include "math/aatriangle.hpp"
-#include "object/background.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
@@ -1396,17 +1395,6 @@ Sector::get_nearby_objects (const Vector& center, float max_distance) const
   }
 
   return (ret);
-}
-
-Background*
-Sector::get_background_image() const
-{
-  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
-    Background* background = dynamic_cast<Background*>(i->get());
-    if (background)
-      return background;
-  }
-  return NULL;
 }
 
 /* vim: set sw=2 sts=2 et : */

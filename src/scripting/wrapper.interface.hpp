@@ -1,6 +1,7 @@
 /* This file is processed by miniswig to produce the scripting API */
 #include "scripting/ambient_sound.hpp"
 #include "scripting/anchor_points.hpp"
+#include "scripting/background.hpp"
 #include "scripting/camera.hpp"
 #include "scripting/candle.hpp"
 #include "scripting/display_effect.hpp"

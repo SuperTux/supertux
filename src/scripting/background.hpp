@@ -1,5 +1,5 @@
 //  SuperTux - Sector scripting
-//  Copyright (C) 2006 Wolfgang Becker <uafr@gmx.de>
+//  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,38 +14,36 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_SCRIPTING_SSECTOR_HPP
-#define HEADER_SUPERTUX_SCRIPTING_SSECTOR_HPP
+#ifndef HEADER_SUPERTUX_SCRIPTING_BACKGROUND_HPP
+#define HEADER_SUPERTUX_SCRIPTING_BACKGROUND_HPP
 
 #ifndef SCRIPTING_API
 #include <string>
-class Sector;
+class Background;
 #endif
 
 namespace scripting {
 
-class Sector
+class Background
 {
 #ifndef SCRIPTING_API
 private:
-  ::Sector* m_parent;
+  ::Background* m_parent;
 
 public:
-  Sector(::Sector* parent);
-  ~Sector();
+  Background(::Background* parent);
+  ~Background();
 
 private:
-  Sector(const Sector&) = delete;
-  Sector& operator=(const Sector&) = delete;
+  Background(const Background&) = delete;
+  Background& operator=(const Background&) = delete;
 #endif
 
 public:
-  void set_ambient_light(float red, float green, float blue);
-  float get_ambient_red() const;
-  float get_ambient_green() const;
-  float get_ambient_blue() const;
-
-  void set_gravity(float gravity);
+  void set_image(const std::string& image);
+  void set_images(const std::string& top_image, const std::string& middle_image,
+                             const std::string& bottom_image);
+  void set_speed(float speed);
 };
 
 }

@@ -103,6 +103,110 @@ static SQInteger AmbientSound_get_pos_y_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Background_release_hook(SQUserPointer ptr, SQInteger )
+{
+  scripting::Background* _this = reinterpret_cast<scripting::Background*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger Background_set_image_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_image' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Background* _this = reinterpret_cast<scripting::Background*> (data);
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_image(arg0);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_image'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Background_set_images_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_images' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Background* _this = reinterpret_cast<scripting::Background*> (data);
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg2;
+  if(SQ_FAILED(sq_getstring(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_images(arg0, arg1, arg2);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_images'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Background_set_speed_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_speed' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Background* _this = reinterpret_cast<scripting::Background*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_speed(static_cast<float> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_speed'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Camera_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (ptr);
@@ -2437,103 +2541,6 @@ static SQInteger Sector_get_ambient_blue_wrapper(HSQUIRRELVM vm)
 
 }
 
-static SQInteger Sector_set_background_image_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
-    sq_throwerror(vm, _SC("'set_background_image' called without instance"));
-    return SQ_ERROR;
-  }
-  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
-  const SQChar* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->set_background_image(arg0);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_background_image'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Sector_set_background_images_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
-    sq_throwerror(vm, _SC("'set_background_images' called without instance"));
-    return SQ_ERROR;
-  }
-  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
-  const SQChar* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-  const SQChar* arg1;
-  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
-    sq_throwerror(vm, _SC("Argument 2 not a string"));
-    return SQ_ERROR;
-  }
-  const SQChar* arg2;
-  if(SQ_FAILED(sq_getstring(vm, 4, &arg2))) {
-    sq_throwerror(vm, _SC("Argument 3 not a string"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->set_background_images(arg0, arg1, arg2);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_background_images'"));
-    return SQ_ERROR;
-  }
-
-}
-
-static SQInteger Sector_set_background_speed_wrapper(HSQUIRRELVM vm)
-{
-  SQUserPointer data;
-  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
-    sq_throwerror(vm, _SC("'set_background_speed' called without instance"));
-    return SQ_ERROR;
-  }
-  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
-  SQFloat arg0;
-  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a float"));
-    return SQ_ERROR;
-  }
-
-  try {
-    _this->set_background_speed(static_cast<float> (arg0));
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_background_speed'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger Sector_set_gravity_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -4328,6 +4335,32 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::AmbientSound* object, bo
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Background* object, bool setup_releasehook)
+{
+  using namespace wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "Background", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Background'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Background'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Background_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Camera* object, bool setup_releasehook)
 {
   using namespace wrapper;
@@ -5116,6 +5149,38 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register class 'AmbientSound'");
   }
 
+  // Register class Background
+  sq_pushstring(v, "Background", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'Background'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "set_image", -1);
+  sq_newclosure(v, &Background_set_image_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_background_image'");
+  }
+
+  sq_pushstring(v, "set_images", -1);
+  sq_newclosure(v, &Background_set_images_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsss");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_background_images'");
+  }
+
+  sq_pushstring(v, "set_speed", -1);
+  sq_newclosure(v, &Background_set_speed_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_background_speed'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'Background'");
+  }
+
   // Register class Camera
   sq_pushstring(v, "Camera", -1);
   if(sq_newclass(v, SQFalse) < 0) {
@@ -5788,27 +5853,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'get_ambient_blue'");
-  }
-
-  sq_pushstring(v, "set_background_image", -1);
-  sq_newclosure(v, &Sector_set_background_image_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_background_image'");
-  }
-
-  sq_pushstring(v, "set_background_images", -1);
-  sq_newclosure(v, &Sector_set_background_images_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsss");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_background_images'");
-  }
-
-  sq_pushstring(v, "set_background_speed", -1);
-  sq_newclosure(v, &Sector_set_background_speed_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tn");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_background_speed'");
   }
 
   sq_pushstring(v, "set_gravity", -1);
