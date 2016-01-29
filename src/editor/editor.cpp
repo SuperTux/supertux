@@ -251,8 +251,8 @@ void Editor::reload_level() {
   enabled = true;
   // Re/load level
   level = NULL;
-  level = LevelParser::from_file(world->get_basedir() + "/" + levelfile);
   levelloaded = true;
+  level = LevelParser::from_file(world->get_basedir() + "/" + levelfile);
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   load_sector("main");
   currentsector->activate("main");
