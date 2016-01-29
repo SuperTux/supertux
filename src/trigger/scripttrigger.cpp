@@ -18,11 +18,13 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "editor/editor.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/scripttrigger.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/drawing_context.hpp"
 
 ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   triggerevent(),
@@ -79,6 +81,15 @@ ScriptTrigger::event(Player& , EventType type)
 
   std::istringstream stream(script);
   Sector::current()->run_script(stream, "ScriptTrigger");
+}
+
+void
+ScriptTrigger::draw(DrawingContext& context)
+{
+  if (EditorActive()) {
+    context.draw_filled_rect(bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
+                             0.0f, LAYER_OBJECTS);
+  }
 }
 
 /* EOF */

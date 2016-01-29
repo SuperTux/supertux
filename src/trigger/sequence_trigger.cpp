@@ -18,10 +18,12 @@
 
 #include "trigger/sequence_trigger.hpp"
 
+#include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/drawing_context.hpp"
 
 SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
   triggerevent(),
@@ -73,6 +75,15 @@ SequenceTrigger::event(Player& player, EventType type)
 std::string
 SequenceTrigger::get_sequence_name() const {
   return sequence_to_string(sequence);
+}
+
+void
+SequenceTrigger::draw(DrawingContext& context)
+{
+  if (EditorActive()) {
+    context.draw_filled_rect(bbox, Color(1.0f, 0.0f, 0.0f, 0.6f),
+                             0.0f, LAYER_OBJECTS);
+  }
 }
 
 /* EOF */
