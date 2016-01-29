@@ -34,6 +34,7 @@ public:
 
   void write(Writer& writer);
   void event(Player& player, EventType type);
+  void draw(DrawingContext& context);
 
 private:
   EventType triggerevent;

@@ -35,6 +35,7 @@ public:
   }
 
   void event(Player& player, EventType type);
+  void draw(DrawingContext& context);
 
   std::string get_sequence_name() const;
 

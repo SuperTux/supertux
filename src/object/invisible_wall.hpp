@@ -30,6 +30,8 @@ public:
   virtual void save(Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
+  void draw(DrawingContext& context);
+
   virtual std::string get_class() const {
     return "invisible_wall";
   }

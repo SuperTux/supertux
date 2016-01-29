@@ -16,6 +16,7 @@
 
 #include "trigger/secretarea_trigger.hpp"
 
+#include "editor/editor.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/level.hpp"
 #include "supertux/globals.hpp"
@@ -25,6 +26,7 @@
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
+#include "video/drawing_context.hpp"
 
 static const float MESSAGE_TIME=3.5;
 
@@ -96,7 +98,10 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.draw_center_text(Resources::normal_font, message, pos, LAYER_HUD, SecretAreaTrigger::text_color);
     context.pop_transform();
   }
-  if (message_timer.check()) {
+  if (EditorActive()) {
+    context.draw_filled_rect(bbox, Color(0.0f, 1.0f, 0.0f, 0.6f),
+                             0.0f, LAYER_OBJECTS);
+  } else if (message_timer.check()) {
     remove_me();
   }
 }

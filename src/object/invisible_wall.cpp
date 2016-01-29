@@ -17,6 +17,7 @@
 #include "object/invisible_wall.hpp"
 
 #include "supertux/object_factory.hpp"
+#include "editor/editor.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -52,6 +53,15 @@ HitResponse
 InvisibleWall::collision(GameObject& , const CollisionHit& )
 {
   return FORCE_MOVE;
+}
+
+void
+InvisibleWall::draw(DrawingContext& context)
+{
+  if (EditorActive()) {
+    context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
+                             0.0f, LAYER_OBJECTS);
+  }
 }
 
 /* EOF */

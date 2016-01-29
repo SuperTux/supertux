@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "editor/editor.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
 #include "scripting/ambient_sound.hpp"
@@ -27,6 +28,7 @@
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/drawing_context.hpp"
 
 AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   sample(),
@@ -242,11 +244,6 @@ AmbientSound::update(float deltat)
 }
 
 void
-AmbientSound::draw(DrawingContext &)
-{
-}
-
-void
 AmbientSound::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   auto obj = new scripting::AmbientSound(this);
@@ -289,6 +286,15 @@ HitResponse
 AmbientSound::collision(GameObject& other, const CollisionHit& hit_)
 {
   return ABORT_MOVE;
+}
+
+void
+AmbientSound::draw(DrawingContext& context)
+{
+  if (EditorActive()) {
+    context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
+                             0.0f, LAYER_OBJECTS);
+  }
 }
 
 /* EOF */
