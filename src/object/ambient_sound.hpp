@@ -80,13 +80,14 @@ public:
    * @}
    */
 
+  void draw(DrawingContext& context);
+
   virtual ObjectSettings get_settings();
   virtual void after_editor_set();
 
 protected:
   virtual void hit(Player& player);
   virtual void update(float time);
-  virtual void draw(DrawingContext&);
   virtual void start_playing();
   virtual void stop_playing();
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);

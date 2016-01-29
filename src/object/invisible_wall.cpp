@@ -17,6 +17,7 @@
 #include "object/invisible_wall.hpp"
 
 #include "supertux/object_factory.hpp"
+#include "editor/editor.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -42,12 +43,20 @@ InvisibleWall::save(Writer& writer) {
 
 ObjectSettings
 InvisibleWall::get_settings() {
+  width = bbox.get_width;
+  height = bbox.get_height;
+
   ObjectSettings result(_("Invisible wall"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &width));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &height));
 
   return result;
+}
+
+void
+InvisibleWall::after_editor_set() {
+  bbox.set_size(width, height);
 }
 
 HitResponse
@@ -57,8 +66,12 @@ InvisibleWall::collision(GameObject& , const CollisionHit& )
 }
 
 void
-InvisibleWall::draw(DrawingContext& )
+InvisibleWall::draw(DrawingContext& context)
 {
+  if (EditorActive()) {
+    context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
+                             0.0f, LAYER_OBJECTS);
+  }
 }
 
 void
