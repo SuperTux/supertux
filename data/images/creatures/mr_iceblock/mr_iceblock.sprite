@@ -25,7 +25,7 @@
 
 	(action (name "flat-right")
 		(hitbox 1 9 33 26)
-		(mirror-action "falling-left"))
+		(mirror-action "flat-left"))
 
 	(action
 		(name "melting-left")
