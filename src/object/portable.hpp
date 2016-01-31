@@ -49,7 +49,7 @@ public:
    * Is the object so heavy/bulky/fragile that Tux can't run while
    * carrying it?
    */
-  virtual bool is_hampering()
+  virtual bool is_hampering() const
   {
     return false;
   }
