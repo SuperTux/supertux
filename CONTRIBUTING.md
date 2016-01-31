@@ -10,6 +10,9 @@
   time.
 - Also try to check if your issue has been resolved in the development version.
 - Separate issues and feature requests. Don't put all in the same issue.
+- If you made a mistake in your bug report, please use GitHub's edit feature
+  to correct the wrong detail, instead of closing the old issue and opening a
+  new one.
 
 
 ### Required information
