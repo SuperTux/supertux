@@ -33,7 +33,7 @@
     )
     (dispenser
       (cycle 1)
-      (badguy "snowball" "mrssnowball" "captainsnowball" "snowshot" "bouncingsnowball" "mriceblock" "smartblock" "snowman")
+      (badguy "snowball" "smartball" "captainsnowball" "kamikazesnowball" "bouncingsnowball" "mriceblock" "smartblock" "snowman")
       (x 2432)
       (y 608)
     )
