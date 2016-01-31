@@ -1734,6 +1734,7 @@ Player::start_climbing(Climbable& climbable)
     sprite->set_angle(0.0f);
     powersprite->set_angle(0.0f);
     lightsprite->set_angle(0.0f);
+    do_standup();
   }
 }
 
