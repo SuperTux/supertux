@@ -57,10 +57,10 @@ public:
   const Vector& get_pos() const {
     return pos;
   }
-  float get_pos_x() {
+  float get_pos_x() const {
     return pos.x;
   }
-  float get_pos_y() {
+  float get_pos_y() const {
     return pos.y;
   }
 

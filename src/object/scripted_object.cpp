@@ -76,13 +76,13 @@ ScriptedObject::move(float x, float y)
 }
 
 float
-ScriptedObject::get_pos_x()
+ScriptedObject::get_pos_x() const
 {
   return get_pos().x;
 }
 
 float
-ScriptedObject::get_pos_y()
+ScriptedObject::get_pos_y() const
 {
   return get_pos().y;
 }
@@ -95,13 +95,13 @@ ScriptedObject::set_velocity(float x, float y)
 }
 
 float
-ScriptedObject::get_velocity_x()
+ScriptedObject::get_velocity_x() const
 {
   return physic.get_velocity_x();
 }
 
 float
-ScriptedObject::get_velocity_y()
+ScriptedObject::get_velocity_y() const
 {
   return physic.get_velocity_y();
 }
@@ -113,7 +113,7 @@ ScriptedObject::set_visible(bool visible_)
 }
 
 bool
-ScriptedObject::is_visible()
+ScriptedObject::is_visible() const
 {
   return visible;
 }
@@ -130,7 +130,7 @@ ScriptedObject::set_solid(bool solid_)
 }
 
 bool
-ScriptedObject::is_solid()
+ScriptedObject::is_solid() const
 {
   return solid;
 }
@@ -154,13 +154,13 @@ ScriptedObject::set_action(const std::string& animation)
 }
 
 std::string
-ScriptedObject::get_action()
+ScriptedObject::get_action() const
 {
   return sprite->get_action();
 }
 
 std::string
-ScriptedObject::get_name()
+ScriptedObject::get_name() const
 {
   return name;
 }

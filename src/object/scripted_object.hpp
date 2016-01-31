@@ -39,22 +39,22 @@ public:
   // --- scripting Interface stuff ---
 
   void set_action(const std::string& animation);
-  std::string get_action();
+  std::string get_action() const;
 
   void move(float x, float y);
-  float get_pos_x();
-  float get_pos_y();
+  float get_pos_x() const;
+  float get_pos_y() const;
   void set_velocity(float x, float y);
-  float get_velocity_x();
-  float get_velocity_y();
+  float get_velocity_x() const;
+  float get_velocity_y() const;
   void set_visible(bool visible);
-  bool is_visible();
+  bool is_visible() const;
   void set_solid(bool solid);
-  bool is_solid();
+  bool is_solid() const;
   void enable_gravity(bool f);
   bool gravity_enabled() const;
 
-  std::string get_name();
+  std::string get_name() const;
 
 private:
   Physic physic;
