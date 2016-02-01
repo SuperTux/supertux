@@ -46,8 +46,8 @@ TileMap::TileMap(const TileSet *new_tileset) :
   alpha(1.0),
   current_alpha(1.0),
   remaining_fade_time(0),
-  tint(1,1,1),
-  current_tint(1,1,1),
+  tint(1, 1, 1),
+  current_tint(1, 1, 1),
   remaining_tint_fade_time(0),
   path(),
   walker(),
@@ -71,8 +71,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   alpha(1.0),
   current_alpha(1.0),
   remaining_fade_time(0),
-  tint(1,1,1),
-  current_tint(1,1,1),
+  tint(1, 1, 1),
+  current_tint(1, 1, 1),
   remaining_tint_fade_time(0),
   path(),
   walker(),
@@ -154,7 +154,7 @@ TileMap::~TileMap()
 {
 }
 
-void TileMap::float_chanel(float target, float &current, float remaining_time, float elapsed_time)
+void TileMap::float_channel(float target, float &current, float remaining_time, float elapsed_time)
 {
   float amt = (target - current) / (remaining_time / elapsed_time);
   if (amt > 0) current = std::min(current + amt, target);
@@ -170,7 +170,7 @@ TileMap::update(float elapsed_time)
     if (remaining_fade_time == 0.0f) {
       current_alpha = alpha;
     } else {
-      float_chanel(alpha, current_alpha, remaining_fade_time, elapsed_time);
+      float_channel(alpha, current_alpha, remaining_fade_time, elapsed_time);
     }
     update_effective_solid ();
   }
@@ -183,10 +183,10 @@ TileMap::update(float elapsed_time)
     if (remaining_tint_fade_time == 0.0f) {
       current_tint = tint;
     } else {
-      float_chanel(tint.red  , current_tint.red  , remaining_tint_fade_time, elapsed_time);
-      float_chanel(tint.green, current_tint.green, remaining_tint_fade_time, elapsed_time);
-      float_chanel(tint.blue , current_tint.blue , remaining_tint_fade_time, elapsed_time);
-      float_chanel(tint.alpha, current_tint.alpha, remaining_tint_fade_time, elapsed_time);
+      float_channel(tint.red  , current_tint.red  , remaining_tint_fade_time, elapsed_time);
+      float_channel(tint.green, current_tint.green, remaining_tint_fade_time, elapsed_time);
+      float_channel(tint.blue , current_tint.blue , remaining_tint_fade_time, elapsed_time);
+      float_channel(tint.alpha, current_tint.alpha, remaining_tint_fade_time, elapsed_time);
     }
   }
 

@@ -205,7 +205,7 @@ private:
   Color current_tint; /**< current tilemap tint */
   float remaining_tint_fade_time; /**< seconds until requested tilemap tint is reached */
 
-  void float_chanel(float target, float &current, float remaining_time, float elapsed_time);
+  void float_channel(float target, float &current, float remaining_time, float elapsed_time);
 
   std::shared_ptr<Path> path;
   std::shared_ptr<PathWalker> walker;
