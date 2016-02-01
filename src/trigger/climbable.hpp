@@ -37,6 +37,9 @@ public:
     return "climbable";
   }
 
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
+
   void event(Player& player, EventType type);
   void update(float elapsed_time);
   void draw(DrawingContext& context);
@@ -52,6 +55,8 @@ protected:
   std::string message;
 
 private:
+  Vector new_size;
+
   Climbable(const Climbable&);
   Climbable& operator=(const Climbable&);
 };
