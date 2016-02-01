@@ -48,6 +48,11 @@ void TileMap::fade(float alpha, float seconds)
   tilemap->fade(alpha, seconds);
 }
 
+void TileMap::tint_fade(float seconds, float red, float green, float blue, float alpha)
+{
+  tilemap->tint_fade(Color(red, green, blue, alpha), seconds);
+}
+
 void TileMap::set_alpha(float alpha)
 {
   tilemap->set_alpha(alpha);

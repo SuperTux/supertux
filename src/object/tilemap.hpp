@@ -22,6 +22,7 @@
 #include "object/path_walker.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
+#include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
 namespace lisp {
@@ -156,6 +157,12 @@ public:
   void fade(float alpha, float seconds = 0);
 
   /**
+   * Start fading the tilemap to tint given by RGBA.
+   * Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity.
+   */
+  void tint_fade(Color new_tint, float seconds = 0);
+
+  /**
    * Instantly switch tilemap's opacity to @c alpha. Also influences solidity.
    */
   void set_alpha(float alpha);
@@ -190,6 +197,15 @@ private:
   float alpha; /**< requested tilemap opacity */
   float current_alpha; /**< current tilemap opacity */
   float remaining_fade_time; /**< seconds until requested tilemap opacity is reached */
+
+  /** The tint can have its own alpha channel, but this alpha channel doesn't affect
+      the solidity of the tilemap. This alpha channel makes the tilemap only less or
+      more translucent.*/
+  Color tint; /**< requested tilemap tint */
+  Color current_tint; /**< current tilemap tint */
+  float remaining_tint_fade_time; /**< seconds until requested tilemap tint is reached */
+
+  void float_chanel(float target, float &current, float remaining_time, float elapsed_time);
 
   std::shared_ptr<Path> path;
   std::shared_ptr<PathWalker> walker;

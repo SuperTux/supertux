@@ -3158,6 +3158,55 @@ static SQInteger TileMap_fade_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger TileMap_tint_fade_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'tint_fade' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg4;
+  if(SQ_FAILED(sq_getfloat(vm, 6, &arg4))) {
+    sq_throwerror(vm, _SC("Argument 5 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->tint_fade(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3), static_cast<float> (arg4));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'tint_fade'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger TileMap_set_alpha_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -6040,6 +6089,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnn");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'fade'");
+  }
+
+  sq_pushstring(v, "tint_fade", -1);
+  sq_newclosure(v, &TileMap_tint_fade_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'tint_fade'");
   }
 
   sq_pushstring(v, "set_alpha", -1);

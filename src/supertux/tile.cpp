@@ -111,24 +111,24 @@ Tile::load_images()
 }
 
 void
-Tile::draw(DrawingContext& context, const Vector& pos, int z_pos) const
+Tile::draw(DrawingContext& context, const Vector& pos, int z_pos, Color color) const
 {
   if(draw_editor_images) {
     if(editor_images.size() > 1) {
       size_t frame = size_t(game_time * fps) % editor_images.size();
-      context.draw_surface(editor_images[frame], pos, z_pos);
+      context.draw_surface(editor_images[frame], pos, 0, color, Blend(), z_pos);
       return;
     } else if (editor_images.size() == 1) {
-      context.draw_surface(editor_images[0], pos, z_pos);
+      context.draw_surface(editor_images[0], pos, 0, color, Blend(), z_pos);
       return;
     }
   }
 
   if(images.size() > 1) {
     size_t frame = size_t(game_time * fps) % images.size();
-    context.draw_surface(images[frame], pos, z_pos);
+    context.draw_surface(images[frame], pos, 0, color, Blend(), z_pos);
   } else if (images.size() == 1) {
-    context.draw_surface(images[0], pos, z_pos);
+    context.draw_surface(images[0], pos, 0, color, Blend(), z_pos);
   }
 }
 

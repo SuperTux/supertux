@@ -47,6 +47,12 @@ public:
   void fade(float alpha, float seconds);
 
   /**
+   * Start fading the tilemap to tint given by RGBA.
+   * Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity.
+   */
+  void tint_fade(float seconds, float red, float green, float blue, float alpha);
+
+  /**
    * Instantly switch tilemap's opacity to @c alpha. Also influences solidity.
    */
   void set_alpha(float alpha);

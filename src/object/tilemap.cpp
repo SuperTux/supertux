@@ -46,6 +46,9 @@ TileMap::TileMap(const TileSet *new_tileset) :
   alpha(1.0),
   current_alpha(1.0),
   remaining_fade_time(0),
+  tint(1,1,1),
+  current_tint(1,1,1),
+  remaining_tint_fade_time(0),
   path(),
   walker(),
   draw_target(DrawingContext::NORMAL)
@@ -68,6 +71,9 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   alpha(1.0),
   current_alpha(1.0),
   remaining_fade_time(0),
+  tint(1,1,1),
+  current_tint(1,1,1),
+  remaining_tint_fade_time(0),
   path(),
   walker(),
   draw_target(DrawingContext::NORMAL)
@@ -103,6 +109,12 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   if (reader.get("alpha", alpha)) {
     current_alpha = alpha;
+  }
+
+  std::vector<float> vColor;
+  if (reader.get("tint", vColor)) {
+    current_tint = Color(vColor);
+    tint = current_tint;
   }
 
   /* Initialize effective_solid based on real_solid and current_alpha. */
@@ -142,6 +154,13 @@ TileMap::~TileMap()
 {
 }
 
+void TileMap::float_chanel(float target, float &current, float remaining_time, float elapsed_time)
+{
+  float amt = (target - current) / (remaining_time / elapsed_time);
+  if (amt > 0) current = std::min(current + amt, target);
+  if (amt < 0) current = std::max(current + amt, target);
+}
+
 void
 TileMap::update(float elapsed_time)
 {
@@ -151,11 +170,24 @@ TileMap::update(float elapsed_time)
     if (remaining_fade_time == 0.0f) {
       current_alpha = alpha;
     } else {
-      float amt = (alpha - current_alpha) / (remaining_fade_time / elapsed_time);
-      if (amt > 0) current_alpha = std::min(current_alpha + amt, alpha);
-      if (amt < 0) current_alpha = std::max(current_alpha + amt, alpha);
+      float_chanel(alpha, current_alpha, remaining_fade_time, elapsed_time);
     }
     update_effective_solid ();
+  }
+
+  // handle tint fading
+  if (current_tint.red != tint.red || current_tint.green != tint.green ||
+      current_tint.blue != tint.blue || current_tint.alpha != tint.alpha) {
+
+    remaining_tint_fade_time = std::max(0.0f, remaining_tint_fade_time - elapsed_time);
+    if (remaining_tint_fade_time == 0.0f) {
+      current_tint = tint;
+    } else {
+      float_chanel(tint.red  , current_tint.red  , remaining_tint_fade_time, elapsed_time);
+      float_chanel(tint.green, current_tint.green, remaining_tint_fade_time, elapsed_time);
+      float_chanel(tint.blue , current_tint.blue , remaining_tint_fade_time, elapsed_time);
+      float_chanel(tint.alpha, current_tint.alpha, remaining_tint_fade_time, elapsed_time);
+    }
   }
 
   movement = Vector(0,0);
@@ -208,7 +240,7 @@ TileMap::draw(DrawingContext& context)
       if (tiles[index] == 0) continue;
       const Tile* tile = tileset->get(tiles[index]);
       assert(tile != 0);
-      tile->draw(context, pos, z_pos);
+      tile->draw(context, pos, z_pos, current_tint);
     } /* for (pos y) */
   } /* for (pos x) */
 
@@ -395,6 +427,13 @@ TileMap::fade(float alpha_, float seconds)
 {
   this->alpha = alpha_;
   this->remaining_fade_time = seconds;
+}
+
+void
+TileMap::tint_fade(Color new_tint, float seconds)
+{
+  this->tint = new_tint;
+  this->remaining_tint_fade_time = seconds;
 }
 
 void
