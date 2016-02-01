@@ -35,7 +35,8 @@ SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
   message_displayed(),
   message(),
   fade_tilemap(),
-  script()
+  script(),
+  new_size()
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -58,7 +59,8 @@ SecretAreaTrigger::SecretAreaTrigger(const Rectf& area, std::string fade_tilemap
   message_displayed(),
   message(_("You found a secret area!")),
   fade_tilemap(fade_tilemap_),
-  script()
+  script(),
+  new_size()
 {
   bbox = area;
   message_displayed = false;
@@ -76,6 +78,25 @@ SecretAreaTrigger::save(Writer& writer) {
   if (script != "") {
     writer.write("script", script, false);
   }
+}
+
+ObjectSettings
+SecretAreaTrigger::get_settings() {
+  new_size.x = bbox.get_width();
+  new_size.y = bbox.get_height();
+  ObjectSettings result(_("Secret area"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Fade-tilemap"), &fade_tilemap));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Message"), &message));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Script"), &script));
+  return result;
+}
+
+void
+SecretAreaTrigger::after_editor_set() {
+  bbox.set_size(new_size.x, new_size.y);
 }
 
 SecretAreaTrigger::~SecretAreaTrigger()

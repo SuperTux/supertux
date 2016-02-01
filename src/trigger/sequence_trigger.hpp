@@ -34,6 +34,9 @@ public:
     return "sequencetrigger";
   }
 
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
+
   void event(Player& player, EventType type);
   void draw(DrawingContext& context);
 
@@ -42,6 +45,7 @@ public:
 private:
   EventType triggerevent;
   Sequence sequence;
+  Vector new_size;
 };
 
 #endif
