@@ -23,6 +23,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/switch.hpp"
+#include "util/gettext.hpp"
 
 #include <sstream>
 
@@ -57,7 +58,21 @@ Switch::~Switch()
 void
 Switch::save(Writer& writer) {
   MovingObject::save(writer);
+  writer.write("sprite", sprite_name, false);
   writer.write("script", script, false);
+
+  if (off_script.length()) {
+    writer.write("off-script", off_script, false);
+  }
+}
+
+ObjectSettings
+Switch::get_settings() {
+  ObjectSettings result(_("Switch"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Turn on script"), &script));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Turn off script"), &off_script));
+  return result;
 }
 
 void

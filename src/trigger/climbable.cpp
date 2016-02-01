@@ -36,7 +36,8 @@ const float POSITION_FIX_AY = 50; // y-wise acceleration applied to player when 
 Climbable::Climbable(const ReaderMapping& reader) :
   climbed_by(0),
   activate_try_timer(),
-  message()
+  message(),
+  new_size()
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -50,7 +51,8 @@ Climbable::Climbable(const ReaderMapping& reader) :
 Climbable::Climbable(const Rectf& area) :
   climbed_by(0),
   activate_try_timer(),
-  message()
+  message(),
+  new_size()
 {
   bbox = area;
 }
@@ -68,6 +70,24 @@ Climbable::save(Writer& writer) {
   MovingObject::save(writer);
   writer.write("width", bbox.get_width());
   writer.write("height", bbox.get_height());
+  writer.write("message", message, true);
+}
+
+ObjectSettings
+Climbable::get_settings() {
+  new_size.x = bbox.get_width();
+  new_size.y = bbox.get_height();
+  ObjectSettings result(_("Climbable"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Message"), &message));
+  return result;
+}
+
+void
+Climbable::after_editor_set() {
+  bbox.set_size(new_size.x, new_size.y);
 }
 
 void
