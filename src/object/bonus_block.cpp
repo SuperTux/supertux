@@ -401,7 +401,10 @@ BonusBlock::try_drop(Player *player)
     }
 
     case CONTENT_SCRIPT:
-    { break; } // because scripts always run, this prevents default contents from being assumed
+    {
+      countdown = true;
+      break;
+    } // because scripts always run, this prevents default contents from being assumed
 
     case CONTENT_LIGHT:
     {
