@@ -34,7 +34,7 @@ static const float map_message_TIME = 2.8f;
 Tux::Tux(WorldMap* worldmap_) :
   back_direction(),
   worldmap(worldmap_),
-  sprite(SpriteManager::current()->create("images/worldmap/common/tux.sprite")),
+  sprite(SpriteManager::current()->create(worldmap->get_savegame().get_player_status()->worldmap_sprite)),
   controller(),
   input_direction(),
   direction(),
@@ -199,6 +199,7 @@ Tux::tryContinueWalking(float elapsed_time)
   if(sprite_change != NULL) {
     sprite = sprite_change->sprite->clone();
     sprite_change->clear_stay_action();
+    worldmap->get_savegame().get_player_status()->worldmap_sprite = sprite_change->sprite_name;
   }
 
   // if this is a special_tile with passive_message, display it

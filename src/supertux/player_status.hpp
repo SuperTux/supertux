@@ -62,6 +62,8 @@ public:
   int max_air_time; /**<determines maximum number of seconds player can float in air */
   int max_earth_time; /**< determines maximum number of seconds player can turn to stone */
 
+  std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
+
 private:
   int displayed_coins;
   int displayed_coins_frame;

@@ -43,6 +43,7 @@ PlayerStatus::PlayerStatus() :
   max_ice_bullets(0),
   max_air_time(0),
   max_earth_time(0),
+  worldmap_sprite("images/worldmap/common/tux.sprite"),
   displayed_coins(DISPLAYED_COINS_UNSET),
   displayed_coins_frame(0),
   coin_surface()
@@ -114,6 +115,8 @@ PlayerStatus::write(Writer& writer)
   writer.write("earthflowers", max_earth_time);
 
   writer.write("coins", coins);
+
+  writer.write("worldmap-sprite", worldmap_sprite, false);
 }
 
 void
@@ -146,6 +149,8 @@ PlayerStatus::read(const ReaderMapping& lisp)
   lisp.get("earthflowers", max_earth_time);
 
   lisp.get("coins", coins);
+
+  lisp.get("worldmap-sprite", worldmap_sprite);
 }
 
 void

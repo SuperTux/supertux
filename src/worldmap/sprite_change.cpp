@@ -27,6 +27,7 @@ SpriteChange::SpriteChange(const ReaderMapping& lisp) :
   pos(),
   change_on_touch(false),
   sprite(),
+  sprite_name(),
   stay_action(),
   stay_group(),
   in_stay_action(false)
@@ -35,9 +36,8 @@ SpriteChange::SpriteChange(const ReaderMapping& lisp) :
   lisp.get("y", pos.y);
   lisp.get("change-on-touch", change_on_touch);
 
-  std::string spritefile = "";
-  lisp.get("sprite", spritefile);
-  sprite = SpriteManager::current()->create(spritefile);
+  if (!lisp.get("sprite", sprite_name)) sprite_name = "";
+  sprite = SpriteManager::current()->create(sprite_name);
 
   lisp.get("stay-action", stay_action);
   lisp.get("initial-stay-action", in_stay_action);

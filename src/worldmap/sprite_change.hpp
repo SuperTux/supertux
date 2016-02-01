@@ -57,6 +57,7 @@ public:
 
   /** sprite to change tux image to */
   SpritePtr sprite;
+  std::string sprite_name;
 
   /** stay action can be used for objects like boats or cars, if it is
       != "" then this sprite will be displayed when tux left the tile
