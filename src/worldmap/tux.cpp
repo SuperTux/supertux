@@ -181,6 +181,17 @@ Tux::canWalk(int tile_data, Direction dir) const
 }
 
 void
+Tux::ChangeSprite(SpriteChange* sprite_change)
+{
+  //SpriteChange* sprite_change = worldmap->at_sprite_change(tile_pos);
+  if(sprite_change != NULL) {
+    sprite = sprite_change->sprite->clone();
+    sprite_change->clear_stay_action();
+    worldmap->get_savegame().get_player_status()->worldmap_sprite = sprite_change->sprite_name;
+  }
+}
+
+void
 Tux::tryContinueWalking(float elapsed_time)
 {
   if (!moving)
@@ -196,11 +207,7 @@ Tux::tryContinueWalking(float elapsed_time)
   offset -= 32;
 
   SpriteChange* sprite_change = worldmap->at_sprite_change(tile_pos);
-  if(sprite_change != NULL) {
-    sprite = sprite_change->sprite->clone();
-    sprite_change->clear_stay_action();
-    worldmap->get_savegame().get_player_status()->worldmap_sprite = sprite_change->sprite_name;
-  }
+  ChangeSprite(sprite_change);
 
   // if this is a special_tile with passive_message, display it
   SpecialTile* special_tile = worldmap->at_special_tile();
@@ -274,13 +281,12 @@ Tux::tryContinueWalking(float elapsed_time)
 
   SpriteChange* next_sprite = worldmap->at_sprite_change(next_tile);
   if(next_sprite != NULL && next_sprite->change_on_touch) {
-    sprite = next_sprite->sprite->clone();
-    next_sprite->clear_stay_action();
+    ChangeSprite(next_sprite);
   }
-  SpriteChange* last_sprite = worldmap->at_sprite_change(tile_pos);
-  if(last_sprite != NULL && next_sprite != NULL) {
+  //SpriteChange* last_sprite = worldmap->at_sprite_change(tile_pos);
+  if(sprite_change != NULL && next_sprite != NULL) {
     log_debug << "Old: " << tile_pos << " New: " << next_tile << std::endl;
-    last_sprite->set_stay_action();
+    sprite_change->set_stay_action();
   }
 
   tile_pos = next_tile;
@@ -315,10 +321,7 @@ Tux::setup()
 {
   // check if we already touch a SpriteChange object
   SpriteChange* sprite_change = worldmap->at_sprite_change(tile_pos);
-  if(sprite_change != NULL) {
-    sprite = sprite_change->sprite->clone();
-    sprite_change->clear_stay_action();
-  }
+  ChangeSprite(sprite_change);
 }
 
 void

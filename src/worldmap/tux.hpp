@@ -25,6 +25,7 @@ class Sprite;
 namespace worldmap {
 
 class SpecialTile;
+class SpriteChange;
 class WorldMap;
 
 class Tux : public GameObject
@@ -53,6 +54,8 @@ private:
   void updateInputDirection(); /**< if controller was pressed, update input_direction */
   void tryStartWalking(); /**< try starting to walk in input_direction */
   void tryContinueWalking(float elapsed_time); /**< try to continue walking in current direction */
+
+  void ChangeSprite(SpriteChange* sc); /**< Uses the given sprite change */
 
 public:
   Tux(WorldMap* worldmap_);
