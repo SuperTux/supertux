@@ -24,6 +24,7 @@
 
 #include "object/camera.hpp"
 #include "sprite/sprite.hpp"
+#include "supertux/constants.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
@@ -45,6 +46,7 @@ MagicBlock::MagicBlock(const ReaderMapping& lisp) :
   trigger_blue(),
   solid_time(0),
   switch_delay(0),
+  solid_box(),
   color(),
   light(1.0f,1.0f,1.0f),
   center(),
@@ -76,6 +78,7 @@ MagicBlock::MagicBlock(const ReaderMapping& lisp) :
   }
 
   center = bbox.get_middle();
+  solid_box = Rectf(bbox.p1.x + SHIFT_DELTA, bbox.p1.y + SHIFT_DELTA, bbox.p2.x - SHIFT_DELTA, bbox.p2.y - SHIFT_DELTA);
 }
 
 void
@@ -116,7 +119,7 @@ MagicBlock::update(float elapsed_time)
     // lighting suggests going solid
 
     if (!is_solid) {
-      if (Sector::current()->is_free_of_movingstatics(bbox, this)) {
+      if (Sector::current()->is_free_of_movingstatics(solid_box, this)) {
         is_solid = true;
         solid_time = 0;
         switch_delay = SWITCH_DELAY;

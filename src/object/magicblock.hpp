@@ -43,6 +43,7 @@ private:
   float trigger_blue;
   float solid_time;
   float switch_delay; /**< seconds until switching solidity */
+  Rectf solid_box;
   Color color;
   Color light;
   Vector center;
