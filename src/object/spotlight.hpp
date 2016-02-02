@@ -23,10 +23,8 @@
 #include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
-//#include "supertux/game_object.hpp"
 #include "video/color.hpp"
 
-//class Spotlight : public GameObject
 class Spotlight : public MovingObject
 {
 public:
@@ -39,7 +37,6 @@ public:
   HitResponse collision(GameObject& other, const CollisionHit& hit_);
 
 private:
-  //Vector  position;
   float   angle;
   SpritePtr center;
   SpritePtr base;
