@@ -48,10 +48,10 @@ public:
   void set_visible(bool visible);
   void set_centered(bool centered);
   void set_pos(float x, float y);
-  float get_pos_x();
-  float get_pos_y();
+  float get_pos_x() const;
+  float get_pos_y() const;
   void set_anchor_point(int anchor);
-  int  get_anchor_point();
+  int  get_anchor_point() const;
 };
 
 }

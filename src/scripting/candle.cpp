@@ -26,7 +26,7 @@ Candle::Candle(::Candle* candle_)
 Candle::~Candle()
 { }
 
-bool Candle::get_burning()
+bool Candle::get_burning() const
 {
   return candle->get_burning();
 }

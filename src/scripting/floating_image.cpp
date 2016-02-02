@@ -49,7 +49,7 @@ FloatingImage::set_layer(int layer)
 }
 
 int
-FloatingImage::get_layer()
+FloatingImage::get_layer() const
 {
   return floating_image->get_layer();
 }
@@ -61,13 +61,13 @@ FloatingImage::set_pos(float x, float y)
 }
 
 float
-FloatingImage::get_pos_x()
+FloatingImage::get_pos_x() const
 {
   return floating_image->get_pos().x;
 }
 
 float
-FloatingImage::get_pos_y()
+FloatingImage::get_pos_y() const
 {
   return floating_image->get_pos().y;
 }
@@ -79,13 +79,13 @@ FloatingImage::set_anchor_point(int anchor)
 }
 
 int
-FloatingImage::get_anchor_point()
+FloatingImage::get_anchor_point() const
 {
   return (int) floating_image->get_anchor_point();
 }
 
 bool
-FloatingImage::get_visible()
+FloatingImage::get_visible() const
 {
   return floating_image->get_visible();
 }
@@ -103,7 +103,7 @@ FloatingImage::set_action(const std::string& action)
 }
 
 std::string
-FloatingImage::get_action()
+FloatingImage::get_action() const
 {
   return floating_image->get_action();
 }

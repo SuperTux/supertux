@@ -34,16 +34,16 @@ public:
   ~FloatingImage();
 
   void set_layer(int layer);
-  int get_layer();
+  int get_layer() const;
   void set_pos(float x, float y);
-  float get_pos_x();
-  float get_pos_y();
+  float get_pos_x() const;
+  float get_pos_y() const;
   void set_anchor_point(int anchor);
-  int get_anchor_point();
+  int get_anchor_point() const;
   void set_visible(bool visible);
-  bool get_visible();
+  bool get_visible() const;
   void set_action(const std::string& action);
-  std::string get_action();
+  std::string get_action() const;
   void fade_in(float fadetime);
   void fade_out(float fadetime);
 

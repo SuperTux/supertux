@@ -72,13 +72,13 @@ Text::set_pos(float x, float y)
 }
 
 float
-Text::get_pos_x()
+Text::get_pos_x() const
 {
   return m_parent->get_pos_x();
 }
 
 float
-Text::get_pos_y()
+Text::get_pos_y() const
 {
   return m_parent->get_pos_y();
 }
@@ -90,7 +90,7 @@ Text::set_anchor_point(int anchor)
 }
 
 int
-Text::get_anchor_point()
+Text::get_anchor_point() const
 {
   return m_parent->get_anchor_point();
 }
