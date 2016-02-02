@@ -89,4 +89,18 @@ Color::operator < (const Color& other) const
   return greyscale() < other.greyscale();
 }
 
+std::vector<float>
+Color::toVector(bool include_alpha)
+{
+  std::vector<float> result;
+  result.clear();
+  result.push_back(red);
+  result.push_back(green);
+  result.push_back(blue);
+  if (include_alpha){
+    result.push_back(alpha);
+  }
+  return result;
+}
+
 /* EOF */
