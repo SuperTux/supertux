@@ -1471,7 +1471,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   MovingObject* moving_object = static_cast<MovingObject*> (&other);
   if(moving_object->get_group() == COLGROUP_TOUCHABLE) {
     TriggerBase* trigger = dynamic_cast<TriggerBase*> (&other);
-    if(trigger) {
+    if(trigger && !deactivated) {
       if(controller->pressed(Controller::UP))
         trigger->event(*this, TriggerBase::EVENT_ACTIVATE);
     }
