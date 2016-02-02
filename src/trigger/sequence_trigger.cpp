@@ -28,7 +28,8 @@
 
 SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
   triggerevent(),
-  sequence(SEQ_ENDSEQUENCE)
+  sequence(SEQ_ENDSEQUENCE),
+  new_size()
 {
   if (!reader.get("x", bbox.p1.x)) bbox.p1.x = 0;
   if (!reader.get("y", bbox.p1.y)) bbox.p1.y = 0;
@@ -45,7 +46,8 @@ SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
 
 SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence_name) :
   triggerevent(),
-  sequence(SEQ_ENDSEQUENCE)
+  sequence(SEQ_ENDSEQUENCE),
+  new_size()
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);
@@ -76,7 +78,7 @@ SequenceTrigger::get_settings() {
 
   ObjectOption seq(MN_STRINGSELECT, _("Sequence"), &sequence);
   seq.select.push_back(_("end sequence"));
-  seq.select.push_back(_("stop tux"));
+  seq.select.push_back(_("stop Tux"));
   seq.select.push_back(_("fireworks"));
 
   result.options.push_back( seq );
