@@ -22,10 +22,12 @@
 #include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"
-#include "supertux/game_object.hpp"
+#include "supertux/moving_object.hpp"
+//#include "supertux/game_object.hpp"
 #include "video/color.hpp"
 
-class Spotlight : public GameObject
+//class Spotlight : public GameObject
+class Spotlight : public MovingObject
 {
 public:
   Spotlight(const ReaderMapping& reader);
@@ -34,8 +36,10 @@ public:
   void update(float elapsed_time);
   void draw(DrawingContext& context);
 
+  HitResponse collision(GameObject& other, const CollisionHit& hit_);
+
 private:
-  Vector  position;
+  //Vector  position;
   float   angle;
   SpritePtr center;
   SpritePtr base;

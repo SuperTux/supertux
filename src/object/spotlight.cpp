@@ -22,8 +22,7 @@
 #include "util/reader_mapping.hpp"
 
 Spotlight::Spotlight(const ReaderMapping& lisp) :
-  position(),
-  angle(0.0f),
+  angle(),
   center(),
   base(),
   lights(),
@@ -31,10 +30,13 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
   lightcone(),
   color(1.0f, 1.0f, 1.0f)
 {
-  lisp.get("x", position.x);
-  lisp.get("y", position.y);
+  group = COLGROUP_DISABLED;
 
-  lisp.get("angle", angle);
+  if (!lisp.get("x", bbox.p1.x)) bbox.p1.x = 0;
+  if (!lisp.get("y", bbox.p1.y)) bbox.p1.y = 0;
+  bbox.set_size(32, 32);
+
+  if (!lisp.get("angle", angle)) angle = 0.0f;
 
   std::vector<float> vColor;
   if( lisp.get( "color", vColor ) ){
@@ -68,7 +70,7 @@ Spotlight::draw(DrawingContext& context)
   light->set_color(color);
   light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   light->set_angle(angle);
-  light->draw(context, position, 0);
+  light->draw(context, bbox.p1, 0);
 
   //lightcone->set_angle(angle);
   //lightcone->draw(context, position, 0);
@@ -76,17 +78,23 @@ Spotlight::draw(DrawingContext& context)
   context.set_target(DrawingContext::NORMAL);
 
   lights->set_angle(angle);
-  lights->draw(context, position, 0);
+  lights->draw(context, bbox.p1, 0);
 
   base->set_angle(angle);
-  base->draw(context, position, 0);
+  base->draw(context, bbox.p1, 0);
 
-  center->draw(context, position, 0);
+  center->draw(context, bbox.p1, 0);
 
   lightcone->set_angle(angle);
-  lightcone->draw(context, position, LAYER_FOREGROUND1 + 10);
+  lightcone->draw(context, bbox.p1, LAYER_FOREGROUND1 + 10);
 
   context.pop_target();
+}
+
+HitResponse
+Spotlight::collision(GameObject& other, const CollisionHit& hit_)
+{
+  return FORCE_MOVE;
 }
 
 /* EOF */
