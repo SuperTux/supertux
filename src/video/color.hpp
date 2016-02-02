@@ -25,64 +25,17 @@
 class Color
 {
 public:
-  Color() :
-    red(0),
-    green(0),
-    blue(0),
-    alpha(1.0f)
-  {}
+  Color();
 
-  Color(float red_, float green_, float blue_, float alpha_ = 1.0) :
-    red(red_),
-    green(green_),
-    blue(blue_),
-    alpha(alpha_)
-  {
-    assert(0 <= red   && red <= 1.0);
-    assert(0 <= green && green <= 1.0);
-    assert(0 <= blue  && blue <= 1.0);
-  }
+  Color(float red_, float green_, float blue_, float alpha_ = 1.0);
 
-  Color(const std::vector<float>& vals) :
-    red(),
-    green(),
-    blue(),
-    alpha()
-  {
-    if (vals.size() < 3) {
-      red = 0;
-      green = 0;
-      blue = 0;
-      alpha = 0;
-      return;
-    }
-    red   = vals[0];
-    green = vals[1];
-    blue  = vals[2];
-    if(vals.size() > 3)
-      alpha = vals[3];
-    else
-      alpha = 1.0;
-    assert(0 <= red   && red <= 1.0);
-    assert(0 <= green && green <= 1.0);
-    assert(0 <= blue  && blue <= 1.0);
-  }
+  Color(const std::vector<float>& vals);
 
-  bool operator==(const Color& other) const
-  {
-    return red == other.red && green == other.green && blue == other.blue
-      && alpha == other.alpha;
-  }
+  bool operator==(const Color& other) const;
 
-  float greyscale() const
-  {
-    return red * 0.30f + green * 0.59f + blue * 0.11f;
-  }
+  float greyscale() const;
 
-  bool operator < (const Color& other) const
-  {
-    return greyscale() < other.greyscale();
-  }
+  bool operator < (const Color& other) const;
 
   float red, green, blue, alpha;
 

@@ -27,4 +27,66 @@ const Color Color::MAGENTA(1.0, 0.0, 1.0);
 const Color Color::YELLOW(1.0, 1.0, 0.0);
 const Color Color::WHITE(1.0, 1.0, 1.0);
 
+Color::Color() :
+  red(0),
+  green(0),
+  blue(0),
+  alpha(1.0f)
+{}
+
+Color::Color(float red_, float green_, float blue_, float alpha_) :
+  red(red_),
+  green(green_),
+  blue(blue_),
+  alpha(alpha_)
+{
+  assert(0 <= red   && red <= 1.0);
+  assert(0 <= green && green <= 1.0);
+  assert(0 <= blue  && blue <= 1.0);
+}
+
+Color::Color(const std::vector<float>& vals) :
+  red(),
+  green(),
+  blue(),
+  alpha()
+{
+  if (vals.size() < 3) {
+    red = 0;
+    green = 0;
+    blue = 0;
+    alpha = 0;
+    return;
+  }
+  red   = vals[0];
+  green = vals[1];
+  blue  = vals[2];
+  if(vals.size() > 3)
+    alpha = vals[3];
+  else
+    alpha = 1.0;
+  assert(0 <= red   && red <= 1.0);
+  assert(0 <= green && green <= 1.0);
+  assert(0 <= blue  && blue <= 1.0);
+}
+
+bool
+Color::operator==(const Color& other) const
+{
+  return red == other.red && green == other.green && blue == other.blue
+    && alpha == other.alpha;
+}
+
+float
+Color::greyscale() const
+{
+  return red * 0.30f + green * 0.59f + blue * 0.11f;
+}
+
+bool
+Color::operator < (const Color& other) const
+{
+  return greyscale() < other.greyscale();
+}
+
 /* EOF */
