@@ -59,8 +59,8 @@ Spotlight::~Spotlight()
 void
 Spotlight::save(Writer& writer) {
   GameObject::save(writer);
-  writer.write("x", position.x);
-  writer.write("y", position.y);
+  writer.write("x", bbox.p1.x);
+  writer.write("y", bbox.p1.y);
   writer.write("color", color.toVector(false));
 }
 
