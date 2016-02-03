@@ -21,6 +21,8 @@
 
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/script_interface.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/surface_ptr.hpp"
 
 class DisplayManager;
@@ -40,13 +42,17 @@ class DisplayManager;
  * initialize particles in the constructor and move them in the simulate
  * function.
  */
-class ParticleSystem : public GameObject
+class ParticleSystem : public GameObject,
+                       public ScriptInterface
 {
 public:
   ParticleSystem(float max_particle_size = 60);
   virtual ~ParticleSystem();
 
+  void parse(const ReaderMapping& reader);
   virtual void draw(DrawingContext& context);
+  void set_enabled(bool enabled);
+  bool get_enabled() const;
 
 protected:
   class Particle
@@ -76,6 +82,10 @@ protected:
   std::vector<std::unique_ptr<Particle> > particles;
   float virtual_width;
   float virtual_height;
+  bool enabled;
+
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 };
 
 #endif

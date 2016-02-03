@@ -49,6 +49,7 @@ GhostParticleSystem::GhostParticleSystem()
 void
 GhostParticleSystem::parse(const ReaderMapping& reader)
 {
+  ParticleSystem::parse(reader);
   z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }
 
@@ -58,6 +59,9 @@ GhostParticleSystem::~GhostParticleSystem()
 
 void GhostParticleSystem::update(float elapsed_time)
 {
+  if(!enabled)
+    return;
+
   for(auto i = particles.begin(); i != particles.end(); ++i) {
     GhostParticle* particle = (GhostParticle*)i->get();
     particle->pos.y -= particle->speed * elapsed_time;

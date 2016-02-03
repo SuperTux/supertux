@@ -26,6 +26,8 @@ class Gradient;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Gradient* object, bool setup_releasehook = false);
 class LevelTime;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::LevelTime* object, bool setup_releasehook = false);
+class ParticleSystem;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::ParticleSystem* object, bool setup_releasehook = false);
 class Platform;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Platform* object, bool setup_releasehook = false);
 class Player;

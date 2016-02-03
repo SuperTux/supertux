@@ -78,6 +78,7 @@ SnowParticleSystem::SnowParticleSystem() :
 void
 SnowParticleSystem::parse(const ReaderMapping& reader)
 {
+  ParticleSystem::parse(reader);
   z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }
 
@@ -87,6 +88,9 @@ SnowParticleSystem::~SnowParticleSystem()
 
 void SnowParticleSystem::update(float elapsed_time)
 {
+  if(!enabled)
+    return;
+
   // Simple ADSR wind gusts
 
   if (timer.check()) {

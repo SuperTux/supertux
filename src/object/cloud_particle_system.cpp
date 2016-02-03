@@ -45,6 +45,7 @@ CloudParticleSystem::CloudParticleSystem() :
 void
 CloudParticleSystem::parse(const ReaderMapping& reader)
 {
+  ParticleSystem::parse(reader);
   z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }
 
@@ -54,6 +55,9 @@ CloudParticleSystem::~CloudParticleSystem()
 
 void CloudParticleSystem::update(float elapsed_time)
 {
+  if(!enabled)
+    return;
+
   for(auto i = particles.begin(); i != particles.end(); ++i) {
     CloudParticle* particle = (CloudParticle*)i->get();
     particle->pos.x += particle->speed * elapsed_time;

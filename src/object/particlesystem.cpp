@@ -19,6 +19,8 @@
 #include <math.h>
 
 #include "math/random_generator.hpp"
+#include "scripting/squirrel_util.hpp"
+#include "scripting/particlesystem.hpp"
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
@@ -27,11 +29,20 @@ ParticleSystem::ParticleSystem(float max_particle_size_) :
   z_pos(),
   particles(),
   virtual_width(),
-  virtual_height()
+  virtual_height(),
+  enabled(true)
 {
   virtual_width = SCREEN_WIDTH + max_particle_size * 2;
   virtual_height = SCREEN_HEIGHT + max_particle_size *2;
   z_pos = LAYER_BACKGROUND1;
+}
+
+void ParticleSystem::parse(const ReaderMapping& reader)
+{
+  if (!reader.get("name", name))
+    name = "";
+  if(!reader.get("enabled", enabled))
+    enabled = true;
 }
 
 ParticleSystem::~ParticleSystem()
@@ -40,6 +51,9 @@ ParticleSystem::~ParticleSystem()
 
 void ParticleSystem::draw(DrawingContext& context)
 {
+  if(!enabled)
+    return;
+
   float scrollx = context.get_translation().x;
   float scrolly = context.get_translation().y;
 
@@ -65,6 +79,38 @@ void ParticleSystem::draw(DrawingContext& context)
   }
 
   context.pop_transform();
+}
+
+void
+ParticleSystem::set_enabled(bool enabled)
+{
+  this->enabled = enabled;
+}
+
+bool
+ParticleSystem::get_enabled() const
+{
+  return this->enabled;
+}
+
+
+void
+ParticleSystem::expose(HSQUIRRELVM vm, SQInteger table_idx)
+{
+  if (name.empty())
+    return;
+
+  scripting::ParticleSystem* _this = new scripting::ParticleSystem(this);
+  expose_object(vm, table_idx, _this, name, true);
+}
+
+void
+ParticleSystem::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
+{
+  if (name.empty())
+    return;
+
+  scripting::unexpose_object(vm, table_idx, name);
 }
 
 /* EOF */

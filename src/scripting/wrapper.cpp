@@ -1487,6 +1487,77 @@ static SQInteger LevelTime_set_time_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger ParticleSystem_release_hook(SQUserPointer ptr, SQInteger )
+{
+  scripting::ParticleSystem* _this = reinterpret_cast<scripting::ParticleSystem*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger ParticleSystem_set_enabled_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_enabled' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::ParticleSystem* _this = reinterpret_cast<scripting::ParticleSystem*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_enabled(arg0 == SQTrue);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_enabled'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger ParticleSystem_get_enabled_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'get_enabled' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::ParticleSystem* _this = reinterpret_cast<scripting::ParticleSystem*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    bool return_value = _this->get_enabled();
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_enabled'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Platform_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::Platform* _this = reinterpret_cast<scripting::Platform*> (ptr);
@@ -5151,6 +5222,32 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::LevelTime* object, bool 
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, scripting::ParticleSystem* object, bool setup_releasehook)
+{
+  using namespace wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "ParticleSystem", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'ParticleSystem'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'ParticleSystem'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, ParticleSystem_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Platform* object, bool setup_releasehook)
 {
   using namespace wrapper;
@@ -6131,6 +6228,31 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'LevelTime'");
+  }
+
+  // Register class ParticleSystem
+  sq_pushstring(v, "ParticleSystem", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'ParticleSystem'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "set_enabled", -1);
+  sq_newclosure(v, &ParticleSystem_set_enabled_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_enabled'");
+  }
+
+  sq_pushstring(v, "get_enabled", -1);
+  sq_newclosure(v, &ParticleSystem_get_enabled_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_enabled'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'ParticleSystem'");
   }
 
   // Register class Platform
