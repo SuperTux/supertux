@@ -44,6 +44,7 @@ PlayerStatus::PlayerStatus() :
   max_air_time(0),
   max_earth_time(0),
   worldmap_sprite("images/worldmap/common/tux.sprite"),
+  last_worldmap(),
   displayed_coins(DISPLAYED_COINS_UNSET),
   displayed_coins_frame(0),
   coin_surface()
@@ -117,6 +118,7 @@ PlayerStatus::write(Writer& writer)
   writer.write("coins", coins);
 
   writer.write("worldmap-sprite", worldmap_sprite, false);
+  writer.write("last-worldmap", last_worldmap, false);
 }
 
 void
@@ -151,6 +153,7 @@ PlayerStatus::read(const ReaderMapping& lisp)
   lisp.get("coins", coins);
 
   lisp.get("worldmap-sprite", worldmap_sprite);
+  lisp.get("last-worldmap", last_worldmap);
 }
 
 void

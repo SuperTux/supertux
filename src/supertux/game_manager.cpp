@@ -67,9 +67,15 @@ GameManager::start_worldmap(std::unique_ptr<World> world)
     m_savegame.reset(new Savegame(m_world->get_savegame_filename()));
     m_savegame->load();
 
-    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(
-                                    new worldmap::WorldMap(m_world->get_worldmap_filename(),
-                                                           *m_savegame)));
+    if (m_savegame->get_player_status()->last_worldmap.length()) {
+      ScreenManager::current()->push_screen(std::unique_ptr<Screen>(
+                                      new worldmap::WorldMap(m_savegame->get_player_status()->last_worldmap,
+                                                             *m_savegame)));
+    } else {
+      ScreenManager::current()->push_screen(std::unique_ptr<Screen>(
+                                      new worldmap::WorldMap(m_world->get_worldmap_filename(),
+                                                             *m_savegame)));
+    }
   }
   catch(std::exception& e)
   {

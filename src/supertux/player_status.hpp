@@ -63,6 +63,7 @@ public:
   int max_earth_time; /**< determines maximum number of seconds player can turn to stone */
 
   std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
+  std::string last_worldmap; /**< the last played worldmap */
 
 private:
   int displayed_coins;

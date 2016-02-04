@@ -230,6 +230,7 @@ WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
 void
 WorldMap::change(const std::string& filename, const std::string& force_spawnpoint_)
 {
+  m_savegame.get_player_status()->last_worldmap = filename;
   ScreenManager::current()->pop_screen();
   ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, m_savegame, force_spawnpoint_)));
 }
