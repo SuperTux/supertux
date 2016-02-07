@@ -43,6 +43,7 @@ void ParticleSystem::parse(const ReaderMapping& reader)
     name = "";
   if(!reader.get("enabled", enabled))
     enabled = true;
+  z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }
 
 ParticleSystem::~ParticleSystem()

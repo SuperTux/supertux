@@ -50,7 +50,6 @@ void
 GhostParticleSystem::parse(const ReaderMapping& reader)
 {
   ParticleSystem::parse(reader);
-  z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }
 
 GhostParticleSystem::~GhostParticleSystem()
