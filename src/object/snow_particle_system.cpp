@@ -75,12 +75,6 @@ SnowParticleSystem::SnowParticleSystem() :
   }
 }
 
-void
-SnowParticleSystem::parse(const ReaderMapping& reader)
-{
-  ParticleSystem::parse(reader);
-}
-
 SnowParticleSystem::~SnowParticleSystem()
 {
 }

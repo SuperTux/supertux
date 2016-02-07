@@ -49,7 +49,7 @@ public:
   ParticleSystem(float max_particle_size = 60);
   virtual ~ParticleSystem();
 
-  void parse(const ReaderMapping& reader);
+  virtual void parse(const ReaderMapping& reader);
   virtual void draw(DrawingContext& context);
   void set_enabled(bool enabled_);
   bool get_enabled() const;

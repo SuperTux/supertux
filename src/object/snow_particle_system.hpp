@@ -28,8 +28,6 @@ public:
   SnowParticleSystem();
   virtual ~SnowParticleSystem();
 
-  void parse(const ReaderMapping& lisp);
-
   virtual void update(float elapsed_time);
 
   std::string type() const

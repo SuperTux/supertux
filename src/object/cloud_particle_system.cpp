@@ -42,12 +42,6 @@ CloudParticleSystem::CloudParticleSystem() :
   }
 }
 
-void
-CloudParticleSystem::parse(const ReaderMapping& reader)
-{
-  ParticleSystem::parse(reader);
-}
-
 CloudParticleSystem::~CloudParticleSystem()
 {
 }

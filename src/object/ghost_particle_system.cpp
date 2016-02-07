@@ -46,12 +46,6 @@ GhostParticleSystem::GhostParticleSystem()
   }
 }
 
-void
-GhostParticleSystem::parse(const ReaderMapping& reader)
-{
-  ParticleSystem::parse(reader);
-}
-
 GhostParticleSystem::~GhostParticleSystem()
 {
 }
