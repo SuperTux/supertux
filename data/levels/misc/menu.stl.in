@@ -9,10 +9,21 @@
     (init-script "
 logo <- FloatingImage(\"images/objects/logo/@LOGO_FILE@\");
 if(is_christmas()) {
-christmas_hat <- FloatingImage(\"images/objects/particles/santa-cap-big.sprite\");
-christmas_hat.set_anchor_point(ANCHOR_MIDDLE);
-christmas_hat.set_pos(32, -237);
-christmas_hat.set_visible(true);
+  christmas_hat <- FloatingImage(\"images/objects/particles/santa-cap-big.sprite\");
+  christmas_hat.set_anchor_point(ANCHOR_MIDDLE);
+  christmas_hat.set_pos(32, -237);
+  christmas_hat.set_visible(true);
+
+  // enable snow particles
+  snow_particles.set_enabled(true);
+
+  // change background
+  background.set_images(\"nightsky_top.png\",
+                        \"nightsky_middle.png\",
+                        \"nightsky_bottom.png\");
+
+  // change music
+  play_music(\"music/christmas_theme.music\");
 }
 logo.set_anchor_point(ANCHOR_MIDDLE);
 logo.set_pos(0, -171);
@@ -26,6 +37,11 @@ suspend();
       (image-top "images/background/arctis_top.jpg")
       (image "images/background/arctis.jpg")
       (image-bottom "images/background/arctis_bottom.jpg")
+      (name "background")
+    )
+    (particles-snow
+      (name "snow_particles")
+      (enabled #f)
     )
     (camera
       (mode "normal")
