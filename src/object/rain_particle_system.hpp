@@ -28,8 +28,6 @@ public:
   RainParticleSystem();
   virtual ~RainParticleSystem();
 
-  void parse(const ReaderMapping& lisp);
-
   virtual void update(float elapsed_time);
 
   std::string type() const

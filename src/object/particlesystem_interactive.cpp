@@ -43,6 +43,11 @@ ParticleSystem_Interactive::~ParticleSystem_Interactive()
   }
 }
 
+void ParticleSystem_Interactive::parse(const ReaderMapping& reader)
+{
+  z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
+}
+
 void ParticleSystem_Interactive::draw(DrawingContext& context)
 {
   context.push_transform();

@@ -20,6 +20,7 @@
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader.hpp"
 #include "video/surface_ptr.hpp"
 
 class DisplayManager;
@@ -41,6 +42,7 @@ public:
   ParticleSystem_Interactive();
   virtual ~ParticleSystem_Interactive();
 
+  virtual void parse(const ReaderMapping& reader);
   virtual void draw(DrawingContext& context);
 
 protected:

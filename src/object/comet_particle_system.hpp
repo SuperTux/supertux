@@ -31,7 +31,6 @@ public:
   CometParticleSystem();
   virtual ~CometParticleSystem();
 
-  void parse(const ReaderMapping& lisp);
   void write(Writer& writer);
 
   virtual void update(float elapsed_time);
