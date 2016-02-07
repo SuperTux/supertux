@@ -84,15 +84,15 @@ void ParticleSystem::draw(DrawingContext& context)
 }
 
 void
-ParticleSystem::set_enabled(bool enabled)
+ParticleSystem::set_enabled(bool enabled_)
 {
-  this->enabled = enabled;
+  enabled = enabled_;
 }
 
 bool
 ParticleSystem::get_enabled() const
 {
-  return this->enabled;
+  return enabled;
 }
 
 
