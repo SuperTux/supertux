@@ -46,6 +46,7 @@ public:
   float get_ambient_blue() const;
 
   void set_gravity(float gravity);
+  void set_music(const std::string& music);
 };
 
 }

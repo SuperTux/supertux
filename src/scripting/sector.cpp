@@ -61,6 +61,12 @@ Sector::set_gravity(float gravity)
   m_parent->set_gravity(gravity);
 }
 
+void
+Sector::set_music(const std::string& music)
+{
+  m_parent->music = music;
+}
+
 } // namespace scripting
 
 /* EOF */

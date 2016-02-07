@@ -23,7 +23,7 @@ if(is_christmas()) {
                         \"nightsky_bottom.png\");
 
   // change music
-  play_music(\"music/christmas_theme.music\");
+  settings.set_music(\"music/christmas_theme.music\");
 }
 logo.set_anchor_point(ANCHOR_MIDDLE);
 logo.set_pos(0, -171);
