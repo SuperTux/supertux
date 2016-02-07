@@ -41,7 +41,7 @@ YetiStalactite::start_shaking()
 }
 
 bool
-YetiStalactite::is_hanging()
+YetiStalactite::is_hanging() const
 {
   return state == STALACTITE_HANGING;
 }
