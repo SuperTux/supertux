@@ -22,6 +22,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "scripting/particlesystem.hpp"
 #include "supertux/globals.hpp"
+#include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
 ParticleSystem::ParticleSystem(float max_particle_size_) :
