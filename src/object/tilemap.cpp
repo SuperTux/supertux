@@ -244,57 +244,6 @@ TileMap::draw(DrawingContext& context)
     } /* for (pos y) */
   } /* for (pos x) */
 
-  /* Make sure that tiles with images larger than 32x32 that overlap
-   * the draw rect will be drawn, even if their tile position does
-   * not fall within the draw rect. */
-  static const int EXTENDING_TILES = 32;
-  int ex_left = std::max(0, t_draw_rect.left-EXTENDING_TILES);
-  int ex_top = std::max(0, t_draw_rect.top-EXTENDING_TILES);
-  Vector ex_start = get_tile_position(ex_left, ex_top);
-
-  for (pos.x = start.x, tx = t_draw_rect.left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
-    for (pos.y = ex_start.y, ty = ex_top; ty < t_draw_rect.top; pos.y += 32, ++ty) {
-      int index = ty*width + tx;
-      assert (index >= 0);
-      assert (index < (width * height));
-
-      if (tiles[index] == 0) continue;
-      const Tile* tile = tileset->get(tiles[index]);
-      assert(tile != 0);
-
-      SurfacePtr image = tile->get_current_image();
-      if (image) {
-        int h = image->get_height();
-        if (h <= 32) continue;
-
-        if (pos.y + h > start.y)
-          tile->draw(context, pos, z_pos, current_tint);
-      }
-    }
-  }
-
-  for (pos.x = ex_start.x, tx = ex_left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
-    for(pos.y = ex_start.y, ty = ex_top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
-      int index = ty*width + tx;
-      assert (index >= 0);
-      assert (index < (width * height));
-
-      if (tiles[index] == 0) continue;
-      const Tile* tile = tileset->get(tiles[index]);
-      assert(tile != 0);
-
-      SurfacePtr image = tile->get_current_image();
-      if (image) {
-        int w = image->get_width();
-        int h = image->get_height();
-        if (w <= 32 && h <= 32) continue;
-
-        if (pos.x + w > start.x && pos.y + h > start.y)
-          tile->draw(context, pos, z_pos, current_tint);
-      }
-    }
-  }
-
   if(draw_target != DrawingContext::NORMAL) {
     context.pop_target();
   }
