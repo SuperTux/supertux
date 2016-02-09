@@ -2371,6 +2371,66 @@ static SQInteger Player_do_scripting_controller_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Player_get_velocity_x_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'get_velocity_x' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_velocity_x();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_velocity_x'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Player_get_velocity_y_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'get_velocity_y' called without instance"));
+    return SQ_ERROR;
+  }
+  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    float return_value = _this->get_velocity_y();
+
+    sq_pushfloat(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_velocity_y'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger ScriptedObject_release_hook(SQUserPointer ptr, SQInteger )
 {
   scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (ptr);
@@ -6660,6 +6720,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsb");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'do_scripting_controller'");
+  }
+
+  sq_pushstring(v, "get_velocity_x", -1);
+  sq_newclosure(v, &Player_get_velocity_x_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_velocity_x'");
+  }
+
+  sq_pushstring(v, "get_velocity_y", -1);
+  sq_newclosure(v, &Player_get_velocity_y_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_velocity_y'");
   }
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
