@@ -40,6 +40,18 @@ public:
   /** Stop tilemap at next node */
   void stop_moving();
 
+  /** returns tile ID in row y and column y (of the tilemap) */
+  int get_tile_id(int x, int y);
+
+  /** returns tile ID at position pos (in world coordinates) */
+  int get_tile_id_at(float x, float y);
+
+  /** replaces the tile by given tile in row y and column y (of the tilemap) */
+  void change(int x, int y, int newtile);
+
+  /** replaces the tile by given tile at position pos (in world coordinates) */
+  void change_at(float x, float y, int newtile);
+
   /**
    * Start fading the tilemap to opacity given by @c alpha.
    * Destination opacity will be reached after @c seconds seconds. Also influences solidity.
