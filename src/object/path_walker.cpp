@@ -85,6 +85,7 @@ PathWalker::get_pos() const
 void
 PathWalker::goto_node(int node_no)
 {
+  if (path->mode == Path::UNORDERED && running) return;
   if (node_no == stop_at_node_nr) return;
   running = true;
   stop_at_node_nr = node_no;
