@@ -43,12 +43,12 @@ void TileMap::stop_moving()
   tilemap->stop_moving();
 }
 
-int TileMap::get_tile_id(int x, int y)
+int TileMap::get_tile_id(int x, int y) const
 {
   return tilemap->get_tile_id(x, y);
 }
 
-int TileMap::get_tile_id_at(float x, float y)
+int TileMap::get_tile_id_at(float x, float y) const
 {
   return tilemap->get_tile_id_at( Vector(x, y) );
 }
@@ -78,7 +78,7 @@ void TileMap::set_alpha(float alpha)
   tilemap->set_alpha(alpha);
 }
 
-float TileMap::get_alpha()
+float TileMap::get_alpha() const
 {
   return tilemap->get_alpha();
 }

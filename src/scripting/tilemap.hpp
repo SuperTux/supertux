@@ -41,10 +41,10 @@ public:
   void stop_moving();
 
   /** returns tile ID in row y and column y (of the tilemap) */
-  int get_tile_id(int x, int y);
+  int get_tile_id(int x, int y) const;
 
   /** returns tile ID at position pos (in world coordinates) */
-  int get_tile_id_at(float x, float y);
+  int get_tile_id_at(float x, float y) const;
 
   /** replaces the tile by given tile in row y and column y (of the tilemap) */
   void change(int x, int y, int newtile);
@@ -72,7 +72,7 @@ public:
   /**
    * Return tilemap's opacity. Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha.
    */
-  float get_alpha();
+  float get_alpha() const;
 
 #ifndef SCRIPTING_API
   ::TileMap* tilemap;
