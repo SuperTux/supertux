@@ -36,7 +36,7 @@ ScriptedObject::set_action(const std::string& animation)
 }
 
 std::string
-ScriptedObject::get_action()
+ScriptedObject::get_action() const
 {
   return m_parent->get_action();
 }
@@ -54,13 +54,13 @@ ScriptedObject::set_pos(float x, float y)
 }
 
 float
-ScriptedObject::get_pos_x()
+ScriptedObject::get_pos_x() const
 {
   return m_parent->get_pos_x();
 }
 
 float
-ScriptedObject::get_pos_y()
+ScriptedObject::get_pos_y() const
 {
   return m_parent->get_pos_y();
 }
@@ -72,13 +72,13 @@ ScriptedObject::set_velocity(float x, float y)
 }
 
 float
-ScriptedObject::get_velocity_x()
+ScriptedObject::get_velocity_x() const
 {
   return m_parent->get_velocity_x();
 }
 
 float
-ScriptedObject::get_velocity_y()
+ScriptedObject::get_velocity_y() const
 {
   return m_parent->get_velocity_y();
 }
@@ -102,7 +102,7 @@ ScriptedObject::set_visible(bool visible)
 }
 
 bool
-ScriptedObject::is_visible()
+ScriptedObject::is_visible() const
 {
   return m_parent->is_visible();
 }
@@ -114,13 +114,13 @@ ScriptedObject::set_solid(bool solid)
 }
 
 bool
-ScriptedObject::is_solid()
+ScriptedObject::is_solid() const
 {
   return m_parent->is_solid();
 }
 
 std::string
-ScriptedObject::get_name()
+ScriptedObject::get_name() const
 {
   return m_parent->get_name();
 }
