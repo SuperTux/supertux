@@ -150,8 +150,8 @@ public:
    */
   void do_scripting_controller(std::string control, bool pressed);
 
-  float get_velocity_x();
-  float get_velocity_y();
+  float get_velocity_x() const;
+  float get_velocity_y() const;
 
 };
 

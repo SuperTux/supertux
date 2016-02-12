@@ -162,13 +162,13 @@ Player::do_scripting_controller(std::string control, bool pressed)
 }
 
 float
-Player::get_velocity_x()
+Player::get_velocity_x() const
 {
   return m_parent->physic.get_velocity_x();
 }
 
 float
-Player::get_velocity_y()
+Player::get_velocity_y() const
 {
   return m_parent->physic.get_velocity_y();
 }
