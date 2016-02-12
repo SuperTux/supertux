@@ -284,7 +284,7 @@ Statistics::operator+=(const Statistics& s2)
 }
 
 bool
-Statistics::completed(const Statistics& stats, const float target_time)
+Statistics::completed(const Statistics& stats, const float target_time) const
 {
   return (stats.coins == stats.total_coins &&
       stats.badguys == stats.total_badguys &&

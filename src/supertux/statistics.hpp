@@ -64,7 +64,7 @@ public:
   void reset(); /**< Set stats (but not totals) to zero */
   void merge(const Statistics& stats); /**< Given another Statistics object finds the best of each one */
   void operator+=(const Statistics& o); /**< Add two Statistics objects */
-  bool completed(const Statistics& stats, const float target_time); /* Check if stats match total stats */
+  bool completed(const Statistics& stats, const float target_time) const; /* Check if stats match total stats */
 
   void declare_invalid(); /**< marks statistics as invalid for their entire lifetime (e.g. after cheating). Invalid statistics will not be merged or drawn. */
 
