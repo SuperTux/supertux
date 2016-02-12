@@ -38,7 +38,7 @@ void LevelTime::stop()
   level_time->stop();
 }
 
-float LevelTime::get_time()
+float LevelTime::get_time() const
 {
   return level_time->get_time();
 }
