@@ -67,7 +67,7 @@ SecretAreaTrigger::~SecretAreaTrigger()
 }
 
 std::string
-SecretAreaTrigger::get_fade_tilemap_name()
+SecretAreaTrigger::get_fade_tilemap_name() const
 {
   return fade_tilemap;
 }

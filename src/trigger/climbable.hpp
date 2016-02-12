@@ -40,7 +40,7 @@ public:
   /**
    * returns true if the player is within bounds of the Climbable
    */
-  bool may_climb(Player& player);
+  bool may_climb(Player& player) const;
 
 protected:
   Player* climbed_by; /**< set to player who's currently climbing us, null if nobody is */

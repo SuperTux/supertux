@@ -36,7 +36,7 @@ public:
 
   void event(Player& player, EventType type);
   void draw(DrawingContext& context);
-  std::string get_fade_tilemap_name();
+  std::string get_fade_tilemap_name() const;
 
 private:
   Timer message_timer;
