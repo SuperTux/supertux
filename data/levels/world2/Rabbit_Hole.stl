@@ -20,7 +20,7 @@
     (dispenser
       (cycle 2)
       (type "rocketlauncher")
-      (badguy "kamikazesnowball")
+      (badguy "leafshot")
       (x 10239)
       (y 165)
     )
