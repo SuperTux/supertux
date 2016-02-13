@@ -118,10 +118,10 @@ public:
   int get_total_badguys() const;
 
   /** Get total number of GameObjects of given type */
-  template<class T> int get_total_count()
+  template<class T> int get_total_count() const
   {
     int total = 0;
-    for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    for(GameObjects::const_iterator i = gameobjects.begin(); i != gameobjects.end(); ++i) {
       if (dynamic_cast<T*>(i->get())) total++;
     }
     return total;
