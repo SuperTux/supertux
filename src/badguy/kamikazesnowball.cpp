@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 
 /*
@@ -26,6 +27,7 @@
  */
 namespace{
   static const float KAMIKAZE_SPEED = 200;
+  static const float LEAFSHOT_SPEED = 400;
   const std::string SPLAT_SOUND = "sounds/splat.wav";
 }
 
@@ -93,6 +95,26 @@ KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
   }
 
   return ABORT_MOVE;
+}
+
+LeafShot::LeafShot(const ReaderMapping& reader) :
+  KamikazeSnowball(reader)
+{
+  sprite = SpriteManager::current()->create("images/creatures/leafshot/leafshot.sprite");
+}
+
+void
+LeafShot::initialize()
+{
+  physic.set_velocity_x(dir == LEFT ? -LEAFSHOT_SPEED : LEAFSHOT_SPEED);
+  physic.enable_gravity(false);
+  sprite->set_action(dir == LEFT ? "left" : "right");
+}
+
+bool
+LeafShot::is_freezable() const
+{
+  return true;
 }
 
 /* EOF */

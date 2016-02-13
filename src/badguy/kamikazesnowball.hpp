@@ -34,6 +34,15 @@ protected:
   void kill_collision();
 };
 
+class LeafShot : public KamikazeSnowball
+{
+  public:
+    LeafShot(const ReaderMapping& reader);
+
+    void initialize();
+    bool is_freezable() const;
+};
+
 #endif
 
 /* EOF */

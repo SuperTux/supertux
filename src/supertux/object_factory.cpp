@@ -205,6 +205,7 @@ ObjectFactory::init_factories()
   add_factory<Jumpy>("jumpy");
   add_factory<KamikazeSnowball>("kamikazesnowball");
   add_factory<Kugelblitz>("kugelblitz");
+  add_factory<LeafShot>("leafshot");
   add_factory<LiveFire>("livefire");
   add_factory<LiveFireAsleep>("livefire_asleep");
   add_factory<LiveFireDormant>("livefire_dormant");
