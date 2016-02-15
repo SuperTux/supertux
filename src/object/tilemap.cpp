@@ -28,6 +28,7 @@
 #include "supertux/sector.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
+#include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -54,7 +55,9 @@ TileMap::TileMap(const TileSet *new_tileset) :
   remaining_tint_fade_time(0),
   path(),
   walker(),
-  draw_target(DrawingContext::NORMAL)
+  draw_target(DrawingContext::NORMAL),
+  new_size_x(0),
+  new_size_y(0)
 {
 }
 
@@ -80,7 +83,9 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   remaining_tint_fade_time(0),
   path(),
   walker(),
-  draw_target(DrawingContext::NORMAL)
+  draw_target(DrawingContext::NORMAL),
+  new_size_x(0),
+  new_size_y(0)
 {
   assert(tileset);
 
@@ -184,10 +189,32 @@ TileMap::save(Writer& writer) {
   if(alpha != 1) {
     writer.write("alpha", alpha);
   }
+  writer.write("tint", tint.toVector(false));
   if(path) {
     path->save(writer);
   }
   writer.write("tiles", tiles);
+}
+
+ObjectSettings
+TileMap::get_settings() {
+  new_size_x = width;
+  new_size_y = height;
+  ObjectSettings result(_("Tile map"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("solid"), &real_solid));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("width"), &new_size_x));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("height"), &new_size_y));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("alpha"), &alpha));
+  result.options.push_back( ObjectOption(MN_COLOR, _("tint"), &tint));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("z-pos"), &z_pos));
+
+  return result;
+}
+
+void
+TileMap::after_editor_set() {
+  resize(new_size_x, new_size_y);
 }
 
 void
