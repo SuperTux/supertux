@@ -38,7 +38,10 @@ public:
   TileMap(const TileSet *tileset);
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
   virtual ~TileMap();
+
   virtual void save(Writer& writer);
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
@@ -216,6 +219,9 @@ private:
   std::shared_ptr<PathWalker> walker;
 
   DrawingContext::Target draw_target; /**< set to LIGHTMAP to draw to lightmap */
+
+  int new_size_x;
+  int new_size_y;
 
 private:
   TileMap(const TileMap&);
