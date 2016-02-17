@@ -38,6 +38,7 @@ Config::Config() :
   video(VideoSystem::AUTO_VIDEO),
   try_vsync(true),
   show_fps(false),
+  show_player_pos(false),
   sound_enabled(true),
   music_enabled(true),
   random_seed(0), // set by time(), by default (unless in config)
@@ -72,6 +73,7 @@ Config::load()
   auto config_lisp = root.get_mapping();
   config_lisp.get("profile", profile);
   config_lisp.get("show_fps", show_fps);
+  config_lisp.get("show_player_pos", show_player_pos);
   config_lisp.get("developer", developer_mode);
 
   if(is_christmas()) {
@@ -162,6 +164,7 @@ Config::save()
 
   writer.write("profile", profile);
   writer.write("show_fps", show_fps);
+  writer.write("show_player_pos", show_player_pos);
   writer.write("developer", developer_mode);
   if(is_christmas()) {
     writer.write("christmas", christmas_mode);

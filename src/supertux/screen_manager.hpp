@@ -62,6 +62,7 @@ public:
 
 private:
   void draw_fps(DrawingContext& context, float fps);
+  void draw_player_pos(DrawingContext& context);
   void draw(DrawingContext& context);
   void update_gamelogic(float elapsed_time);
   void process_events();

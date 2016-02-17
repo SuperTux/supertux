@@ -58,6 +58,7 @@ public:
    boost::optional<VideoSystem::Enum> video;
   // boost::optional<bool> try_vsync;
   boost::optional<bool> show_fps;
+  boost::optional<bool> show_player_pos;
   boost::optional<bool> sound_enabled;
   boost::optional<bool> music_enabled;
 

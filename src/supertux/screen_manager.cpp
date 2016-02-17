@@ -21,6 +21,7 @@
 #include "control/input_manager.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
+#include "object/player.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
@@ -35,6 +36,7 @@
 #include "supertux/resources.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/screen_fade.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/timer.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
@@ -129,6 +131,23 @@ ScreenManager::draw_fps(DrawingContext& context, float fps_fps)
 }
 
 void
+ScreenManager::draw_player_pos(DrawingContext& context)
+{
+  if (auto session = GameSession::current())
+  {
+    auto sector = session->get_current_sector();
+    if (sector == NULL)
+      return;
+    auto pos = sector->get_players()[0]->get_pos();
+    auto pos_text = "X:" + std::to_string(int(pos.x)) + " Y:" + std::to_string(int(pos.y));
+
+    context.draw_text(Resources::small_font, pos_text,
+                      Vector(SCREEN_WIDTH - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
+                             BORDER_Y + 40), ALIGN_LEFT, LAYER_HUD);
+  }
+}
+
+void
 ScreenManager::draw(DrawingContext& context)
 {
   assert(!m_screen_stack.empty());
@@ -148,6 +167,11 @@ ScreenManager::draw(DrawingContext& context)
   if (g_config->show_fps)
   {
     draw_fps(context, m_fps);
+  }
+
+  if (g_config->show_player_pos)
+  {
+    draw_player_pos(context);
   }
 
   // if a screenshot was requested, pass request on to drawing_context

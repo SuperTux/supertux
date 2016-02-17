@@ -40,6 +40,7 @@ CommandLineArguments::CommandLineArguments() :
   use_fullscreen(),
   video(),
   show_fps(),
+  show_player_pos(),
   sound_enabled(),
   music_enabled(),
   start_level(),
@@ -93,6 +94,8 @@ CommandLineArguments::print_help(const char* arg0) const
             << _(     "Game Options:") << "\n"
             << _(     "  --show-fps                   Display framerate in levels") << "\n"
             << _(     "  --no-show-fps                Do not display framerate in levels") << "\n"
+            << _(     "  --show-pos                   Display player's current position") << "\n"
+            << _(     "  --no-show-pos                Do not display player's position") << "\n"
             << _(     "  --developer                  Switch on developer feature") << "\n"
             << _(     "  -s, --debug-scripts          Enable script debugger.") << "\n"
             << _(     "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if level is specified.") << "\n" << "\n"
@@ -264,6 +267,14 @@ CommandLineArguments::parse_args(int argc, char** argv)
     {
       show_fps = false;
     }
+    else if (arg == "--show-pos")
+    {
+      show_player_pos = true;
+    }
+    else if (arg == "--no-show-pos")
+    {
+      show_player_pos = false;
+    }
     else if (arg == "--developer")
     {
       developer_mode = true;
@@ -353,6 +364,7 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(use_fullscreen);
   merge_option(video);
   merge_option(show_fps);
+  merge_option(show_player_pos);
   merge_option(sound_enabled);
   merge_option(music_enabled);
   merge_option(start_level);
