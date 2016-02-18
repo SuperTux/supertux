@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "audio/sound_manager.hpp"
+#include "object/explosion.hpp"
 #include "object/rock.hpp"
 #include "object/coin.hpp"
 #include "supertux/object_factory.hpp"
@@ -100,6 +101,12 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
   if (heavy_coin) {
     return ABORT_MOVE;
   }
+
+  Explosion* explosion = dynamic_cast<Explosion*> (&other);
+  if (explosion) {
+    return ABORT_MOVE;
+  }
+
   if(grabbed) {
     return ABORT_MOVE;
   }
