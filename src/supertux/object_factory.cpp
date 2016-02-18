@@ -41,6 +41,7 @@
 #include "badguy/ghostflame.hpp"
 #include "badguy/ghosttree.hpp"
 #include "badguy/goldbomb.hpp"
+#include "badguy/hanging_ball.hpp"
 #include "badguy/haywire.hpp"
 #include "badguy/iceflame.hpp"
 #include "badguy/igel.hpp"
@@ -202,6 +203,7 @@ ObjectFactory::init_factories()
   add_factory<Ghostflame>("ghostflame");
   add_factory<GhostTree>("ghosttree");
   add_factory<GoldBomb>("goldbomb");
+  add_factory<HangingBall>("hangingball");
   add_factory<Haywire>("haywire");
   add_factory<Iceflame>("iceflame");
   add_factory<Igel>("igel");

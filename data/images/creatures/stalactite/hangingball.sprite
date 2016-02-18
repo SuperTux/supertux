@@ -1,0 +1,13 @@
+(supertux-sprite
+	(action
+	  (name "normal")
+	  (hitbox 4 4 28 45)
+	  (images "hangingball-hanging.png"))
+	(action
+	  (name "squished")
+	  (hitbox 12 -9 28 32)
+	  (images "hangingball-cracked.png"))
+	(action
+	  (name "iced")
+	  (hitbox 4 4 28 45)
+	  (images "hangingball-frozen.png")))

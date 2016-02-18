@@ -34,6 +34,8 @@ public:
   void draw(DrawingContext& context);
   void deactivate();
 
+  void fall();
+
   void squish();
   std::string get_class() const {
     return "stalactite";
@@ -49,6 +51,9 @@ protected:
     STALACTITE_FALLING,
     STALACTITE_SQUISHED
   };
+
+  virtual std::string get_cracking_sound_path() const;
+  virtual std::string get_crash_sound_path() const;
 
 protected:
   Timer timer;

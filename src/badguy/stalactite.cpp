@@ -21,6 +21,7 @@
 #include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
@@ -36,9 +37,9 @@ Stalactite::Stalactite(const ReaderMapping& lisp) :
 {
   countMe = false;
   set_colgroup_active(COLGROUP_TOUCHABLE);
-  SoundManager::current()->preload("sounds/cracking.wav");
+  SoundManager::current()->preload(get_cracking_sound_path());
+  SoundManager::current()->preload(get_crash_sound_path());
   SoundManager::current()->preload("sounds/sizzle.ogg");
-  SoundManager::current()->preload("sounds/icecrash.ogg");
 }
 
 void
@@ -52,9 +53,7 @@ Stalactite::active_update(float elapsed_time)
          && player->get_bbox().p2.y > bbox.p1.y
          && player->get_bbox().p1.y < bbox.p2.y + SHAKE_RANGE_Y
          && Sector::current()->can_see_player(bbox.get_middle())) {
-        timer.start(SHAKE_TIME);
-        state = STALACTITE_SHAKING;
-        SoundManager::current()->play("sounds/cracking.wav", get_pos());
+        fall();
       }
     }
   } else if(state == STALACTITE_SHAKING) {
@@ -70,6 +69,14 @@ Stalactite::active_update(float elapsed_time)
 }
 
 void
+Stalactite::fall()
+{
+  timer.start(SHAKE_TIME);
+  state = STALACTITE_SHAKING;
+  SoundManager::current()->play(get_cracking_sound_path(), get_pos());
+}
+
+void
 Stalactite::squish()
 {
   state = STALACTITE_SQUISHED;
@@ -78,7 +85,7 @@ Stalactite::squish()
   physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);
   sprite->set_action("squished");
-  SoundManager::current()->play("sounds/icecrash.ogg", get_pos());
+  SoundManager::current()->play(get_crash_sound_path(), get_pos());
   set_group(COLGROUP_MOVING_ONLY_STATIC);
   run_dead_script();
 }
@@ -127,12 +134,10 @@ HitResponse
 Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& )
 {
   if(state == STALACTITE_HANGING) {
-    timer.start(SHAKE_TIME);
-    state = STALACTITE_SHAKING;
+    fall();
     bullet.remove_me();
     if(bullet.get_type() == FIRE_BONUS)
       SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
-    SoundManager::current()->play("sounds/cracking.wav", get_pos());
   }
 
   return FORCE_MOVE;
@@ -163,6 +168,18 @@ Stalactite::deactivate()
 {
   if(state != STALACTITE_HANGING)
     remove_me();
+}
+
+std::string
+Stalactite::get_cracking_sound_path() const
+{
+  return "sounds/cracking.wav";
+}
+
+std::string
+Stalactite::get_crash_sound_path() const
+{
+  return "sounds/icecrash.ogg";
 }
 
 /* EOF */

@@ -150,6 +150,9 @@
     (class "stalactite")
     (icon "images/creatures/stalactite/falling.png"))
   (object
+    (class "hangingball")
+    (icon "images/creatures/stalactite/hangingball-hanging.png"))
+  (object
     (class "yeti_stalactite")
     (icon "images/engine/editor/stalactite_yeti.png"))
  )
