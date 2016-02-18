@@ -66,8 +66,8 @@ public:
   std::vector<AddonId> get_repository_addons() const;
   std::vector<AddonId> get_installed_addons() const;
 
-  Addon& get_repository_addon(const AddonId& addon);
-  Addon& get_installed_addon(const AddonId& addon);
+  Addon& get_repository_addon(const AddonId& addon) const;
+  Addon& get_installed_addon(const AddonId& addon) const;
 
   TransferStatusPtr request_install_addon(const AddonId& addon_id);
   void install_addon(const AddonId& addon_id);

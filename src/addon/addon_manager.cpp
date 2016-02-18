@@ -161,7 +161,7 @@ AddonManager::~AddonManager()
 }
 
 Addon&
-AddonManager::get_repository_addon(const AddonId& id)
+AddonManager::get_repository_addon(const AddonId& id) const
 {
   auto it = std::find_if(m_repository_addons.begin(), m_repository_addons.end(),
                          [&id](const std::unique_ptr<Addon>& addon)
@@ -180,7 +180,7 @@ AddonManager::get_repository_addon(const AddonId& id)
 }
 
 Addon&
-AddonManager::get_installed_addon(const AddonId& id)
+AddonManager::get_installed_addon(const AddonId& id) const
 {
   auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
                          [&id](const std::unique_ptr<Addon>& addon)
