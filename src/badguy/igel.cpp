@@ -58,7 +58,7 @@ Igel::turn_around()
 }
 
 bool
-Igel::can_see(const MovingObject& o)
+Igel::can_see(const MovingObject& o) const
 {
   Rectf ob = o.get_bbox();
 

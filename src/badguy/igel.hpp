@@ -40,7 +40,7 @@ protected:
 // Remember to enable it in .cpp too!
   void be_normal(); /**< switch to state STATE_NORMAL */
   void turn_around(); /**< reverse direction, assumes we are in STATE_NORMAL */
-  bool can_see(const MovingObject& o); /**< check if we can see o */
+  bool can_see(const MovingObject& o) const; /**< check if we can see o */
 
 private:
   Timer turn_recover_timer; /**< wait time until we will turn around again when shot at */
