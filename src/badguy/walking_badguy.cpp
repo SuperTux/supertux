@@ -196,7 +196,9 @@ WalkingBadguy::turn_around()
   if(frozen)
     return;
   dir = dir == LEFT ? RIGHT : LEFT;
-  sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
+  if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE || get_state() == STATE_ACTIVE) {
+    sprite->set_action(dir == LEFT ? walk_left_action : walk_right_action);
+  }
   physic.set_velocity_x(-physic.get_velocity_x());
   physic.set_acceleration_x (-physic.get_acceleration_x ());
 
