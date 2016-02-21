@@ -213,17 +213,23 @@ Haywire::stop_exploding()
 
 void Haywire::stop_looping_sounds()
 {
-  if (ticking && grunting) {
+  if (ticking) {
     ticking->stop();
+  }
+  if (grunting) {
     grunting->stop();
   }
 }
 
 void Haywire::play_looping_sounds()
 {
-  if (is_exploding && ticking && grunting) {
-    ticking->play();
-    grunting->play();
+  if (is_exploding) {
+    if (ticking) {
+      ticking->play();
+    }
+    if (grunting) {
+      grunting->play();
+    }
   }
 }
 
