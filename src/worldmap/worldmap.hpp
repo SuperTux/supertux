@@ -65,6 +65,7 @@ enum {
  */
 class WorldMap : public Screen
 {
+public:
   static Color level_title_color;
   static Color message_color;
   static Color teleporter_message_color;
