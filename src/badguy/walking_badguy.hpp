@@ -64,7 +64,7 @@ public:
 
   float get_walk_speed() const
   {
-    return (walk_speed);
+    return walk_speed;
   }
   void  set_walk_speed (float);
   bool is_active() const
