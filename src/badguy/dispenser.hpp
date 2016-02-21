@@ -24,6 +24,7 @@ class Dispenser : public BadGuy
 public:
   Dispenser(const ReaderMapping& reader);
 
+  void draw(DrawingContext& context);
   void activate();
   void deactivate();
   void active_update(float elapsed_time);
@@ -53,7 +54,7 @@ private:
   bool random;
 
   typedef enum {
-    DT_DROPPER, DT_ROCKETLAUNCHER, DT_CANNON
+    DT_DROPPER, DT_ROCKETLAUNCHER, DT_CANNON, DT_POINT
   }DispenserType;
 
   DispenserType type;

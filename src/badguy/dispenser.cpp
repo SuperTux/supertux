@@ -52,6 +52,8 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
     type = DT_ROCKETLAUNCHER;
   } else if (type_s == "cannon") {
     type = DT_CANNON;
+  } else if (type_s == "point") {
+    type = DT_POINT;
   } else {
     log_warning << "Unknown type of dispenser:" << type_s << ", setting to dropper." << std::endl;
     type = DT_DROPPER;
@@ -80,12 +82,22 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
     case DT_CANNON:
       sprite->set_action("working");
       break;
+    case DT_POINT:
+      set_colgroup_active(COLGROUP_DISABLED);
+      colgroup_active = COLGROUP_DISABLED;
     default:
       break;
   }
 
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   countMe = false;
+}
+
+void
+Dispenser::draw(DrawingContext& context) {
+  if (type != DT_POINT) {
+    BadGuy::draw(context);
+  }
 }
 
 void
@@ -251,6 +263,8 @@ Dispenser::launch_badguy()
           else
             spawnpoint.x += bbox.get_width() + 1;
           break;
+        case DT_POINT:
+          spawnpoint = bbox.p1;
         default:
           break;
       }
