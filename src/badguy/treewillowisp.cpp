@@ -166,7 +166,9 @@ TreeWillOWisp::get_color() const
 
 void TreeWillOWisp::stop_looping_sounds()
 {
-  sound_source->stop();
+  if (sound_source) {
+    sound_source->stop();
+  }
 }
 
 void TreeWillOWisp::play_looping_sounds()

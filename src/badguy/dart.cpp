@@ -133,7 +133,9 @@ Dart::is_flammable() const
 
 void Dart::stop_looping_sounds()
 {
-  sound_source->stop();
+  if (sound_source) {
+    sound_source->stop();
+  }
 }
 
 void Dart::play_looping_sounds()

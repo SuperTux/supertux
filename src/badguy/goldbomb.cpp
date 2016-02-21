@@ -253,7 +253,9 @@ GoldBomb::is_portable() const
 
 void GoldBomb::stop_looping_sounds()
 {
-  ticking->stop();
+  if (ticking) {
+    ticking->stop();
+  }
 }
 
 void GoldBomb::play_looping_sounds()
