@@ -211,5 +211,19 @@ Haywire::stop_exploding()
     grunting->stop();
 }
 
+void Haywire::stop_looping_sounds()
+{
+  ticking->stop();
+  grunting->stop();
+}
+
+void Haywire::play_looping_sounds()
+{
+  if (is_exploding && ticking && grunting) {
+    ticking->play();
+    grunting->play();
+  }
+}
+
 /* vim: set sw=2 sts=2 et : */
 /* EOF */

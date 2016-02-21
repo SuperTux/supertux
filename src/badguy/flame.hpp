@@ -37,6 +37,9 @@ public:
   bool is_freezable() const;
   bool is_flammable() const;
 
+  void stop_looping_sounds();
+  void play_looping_sounds();
+
 private:
   float angle;
   float radius;

@@ -131,4 +131,16 @@ Dart::is_flammable() const
   return false;
 }
 
+void Dart::stop_looping_sounds()
+{
+  sound_source->stop();
+}
+
+void Dart::play_looping_sounds()
+{
+  if (sound_source) {
+    sound_source->play();
+  }
+}
+
 /* EOF */

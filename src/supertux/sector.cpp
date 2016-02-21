@@ -1397,5 +1397,22 @@ Sector::get_nearby_objects (const Vector& center, float max_distance) const
   return (ret);
 }
 
+void
+Sector::stop_looping_sounds()
+{
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    GameObjectPtr object = *i;
+    object->stop_looping_sounds();
+  }
+}
+
+void Sector::play_looping_sounds()
+{
+  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
+    GameObjectPtr object = *i;
+    object->play_looping_sounds();
+  }
+}
+
 /* vim: set sw=2 sts=2 et : */
 /* EOF */

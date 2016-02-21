@@ -114,4 +114,16 @@ Flame::is_flammable() const
   return false;
 }
 
+void Flame::stop_looping_sounds()
+{
+  sound_source->stop();
+}
+
+void Flame::play_looping_sounds()
+{
+  if (sound_source) {
+    sound_source->play();
+  }
+}
+
 /* EOF */

@@ -164,4 +164,16 @@ TreeWillOWisp::get_color() const
   return color;
 }
 
+void TreeWillOWisp::stop_looping_sounds()
+{
+  sound_source->stop();
+}
+
+void TreeWillOWisp::play_looping_sounds()
+{
+  if (sound_source) {
+    sound_source->play();
+  }
+}
+
 /* EOF */

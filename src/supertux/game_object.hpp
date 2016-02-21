@@ -83,6 +83,12 @@ public:
     return name;
   }
 
+  /** stops all looping sounds */
+  virtual void stop_looping_sounds() {}
+
+  /** continues all looping sounds */
+  virtual void play_looping_sounds() {}
+
 private:
   /** this flag indicates if the object should be removed at the end of the
    * frame

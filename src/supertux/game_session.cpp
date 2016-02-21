@@ -500,9 +500,11 @@ GameSession::update(float elapsed_time)
       log_warning << "Sector '" << newsector << "' not found" << std::endl;
       sector = level->get_sector("main");
     }
+    currentsector->stop_looping_sounds();
     sector->activate(newspawnpoint);
     sector->play_music(LEVEL_MUSIC);
     currentsector = sector;
+    currentsector->play_looping_sounds();
     //Keep persistent across sectors
     if(edit_mode)
       currentsector->get_players()[0]->set_edit_mode(edit_mode);

@@ -279,4 +279,16 @@ WillOWisp::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
   scripting::unexpose_object(vm, table_idx, name);
 }
 
+void WillOWisp::stop_looping_sounds()
+{
+  sound_source->stop();
+}
+
+void WillOWisp::play_looping_sounds()
+{
+  if (sound_source) {
+    sound_source->play();
+  }
+}
+
 /* EOF */

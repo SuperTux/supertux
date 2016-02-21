@@ -82,6 +82,12 @@ public:
 
   void draw(DrawingContext& context);
 
+  /// stops all looping sounds in whole sector.
+  void stop_looping_sounds();
+
+  /// continues the looping sounds in whole sector.
+  void play_looping_sounds();
+
   /**
    * runs a script in the context of the sector (sector_table will be the
    * roottable of this squirrel VM)

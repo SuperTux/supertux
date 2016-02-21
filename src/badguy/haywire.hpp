@@ -35,6 +35,9 @@ public:
   bool is_freezable() const;
   void freeze();
 
+  void stop_looping_sounds();
+  void play_looping_sounds();
+
 protected:
   bool collision_squished(GameObject& object);
 

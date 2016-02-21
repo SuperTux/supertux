@@ -37,6 +37,9 @@ public:
   void grab(MovingObject& object, const Vector& pos, Direction dir);
   void ungrab(MovingObject& object, Direction dir);
 
+  void stop_looping_sounds();
+  void play_looping_sounds();
+
 private:
   enum State {
     STATE_TICKING

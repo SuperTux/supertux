@@ -251,4 +251,16 @@ GoldBomb::is_portable() const
   return (frozen || (tstate == STATE_TICKING));
 }
 
+void GoldBomb::stop_looping_sounds()
+{
+  ticking->stop();
+}
+
+void GoldBomb::play_looping_sounds()
+{
+  if (tstate == STATE_TICKING && ticking) {
+    ticking->play();
+  }
+}
+
 /* EOF */

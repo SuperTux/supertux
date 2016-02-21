@@ -160,4 +160,16 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
   grabbed = false;
 }
 
+void Bomb::stop_looping_sounds()
+{
+  ticking->stop();
+}
+
+void Bomb::play_looping_sounds()
+{
+  if (ticking) {
+    ticking->play();
+  }
+}
+
 /* EOF */

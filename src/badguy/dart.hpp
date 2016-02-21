@@ -45,6 +45,9 @@ public:
 
   bool is_flammable() const;
 
+  void stop_looping_sounds();
+  void play_looping_sounds();
+
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   std::unique_ptr<SoundSource> sound_source; /**< SoundSource for ambient sound */

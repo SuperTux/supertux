@@ -46,6 +46,9 @@ public:
 
   virtual void draw(DrawingContext& context);
 
+  virtual void stop_looping_sounds();
+  virtual void play_looping_sounds();
+
 protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const;
   HitResponse collision_player(Player& player, const CollisionHit& hit);
