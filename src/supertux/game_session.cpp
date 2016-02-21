@@ -276,6 +276,7 @@ GameSession::toggle_pause()
     ScreenManager::current()->set_speed(0);
     MenuManager::instance().set_menu(MenuStorage::GAME_MENU);
     SoundManager::current()->pause_sounds();
+    currentsector->stop_looping_sounds();
     SoundManager::current()->pause_music();
     game_pause = true;
   }
@@ -488,6 +489,7 @@ GameSession::update(float elapsed_time)
     ScreenManager::current()->set_speed(speed_before_pause);
     SoundManager::current()->resume_music();
     SoundManager::current()->resume_sounds();
+    currentsector->play_looping_sounds();
     game_pause = false;
   }
 
