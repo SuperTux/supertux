@@ -234,7 +234,7 @@ private:
   void on_escape_press();
 
   Vector get_camera_pos_for_tux() const;
-  void clamp_camera_position(Vector& c);
+  void clamp_camera_position(Vector& c) const;
 
 private:
   WorldMap(const WorldMap&);

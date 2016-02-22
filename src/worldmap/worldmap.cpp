@@ -518,7 +518,8 @@ WorldMap::get_camera_pos_for_tux() const {
 }
 
 void
-WorldMap::clamp_camera_position(Vector& c) {
+WorldMap::clamp_camera_position(Vector& c) const
+{
   if (c.x < 0)
     c.x = 0;
   if (c.y < 0)
