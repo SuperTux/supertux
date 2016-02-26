@@ -429,6 +429,13 @@
       (x 51)
       (y 37)
     )
+    (level
+      (name "diagonal_chasm.stl")
+      (color 1 1 1)
+      (sprite "images/worldmap/common/shroom.sprite")
+      (x 23)
+      (y 22)
+    )
     (worldmap-spawnpoint
       (name "main")
       (auto-dir "north")
