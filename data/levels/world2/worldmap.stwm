@@ -436,6 +436,13 @@
       (x 23)
       (y 22)
     )
+    (level
+      (name "green_hills.stl")
+      (color 1 1 1)
+      (sprite "images/worldmap/common/shroom.sprite")
+      (x 51)
+      (y 33)
+    )
     (worldmap-spawnpoint
       (name "main")
       (auto-dir "north")
