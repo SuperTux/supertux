@@ -41,6 +41,8 @@ WorldmapCheatMenu::WorldmapCheatMenu()
   add_entry(MNID_FINISH_WORLDMAP, _("Finish WorldMap"));
   add_entry(MNID_RESET_WORLDMAP, _("Reset WorldMap"));
   add_hl();
+  add_entry(MNID_MOVE_TO_MAIN, _("Move to main spawnpoint"));
+  add_hl();
   add_back(_("Back"));
 }
 
@@ -110,6 +112,10 @@ WorldmapCheatMenu::menu_action(MenuItem* item)
 
       case MNID_RESET_WORLDMAP:
         worldmap->set_levels_solved(false, false);
+        break;
+
+      case MNID_MOVE_TO_MAIN:
+        worldmap->move_to_spawnpoint("main");
         break;
     }
   }
