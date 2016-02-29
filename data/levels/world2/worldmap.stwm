@@ -443,6 +443,13 @@
       (x 51)
       (y 33)
     )
+    (level
+      (name "dont_get_blown_away.stl")
+      (color 1 1 1)
+      (sprite "images/worldmap/common/shroom.sprite")
+      (x 58)
+      (y 32)
+    )
     (worldmap-spawnpoint
       (name "main")
       (auto-dir "north")
