@@ -25,6 +25,7 @@
 #include "supertux/tile_set.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "util/file_system.hpp"
+#include "util/log.hpp"
 #include "util/writer.hpp"
 
 #include <sstream>
@@ -52,7 +53,7 @@ Level::~Level()
 }
 
 void
-Level::save(const std::string& filepath)
+Level::save(const std::string& filepath, bool retry)
 {
   //FIXME: It tests for directory in supertux/data, but saves into .supertux2.
 
@@ -107,9 +108,24 @@ Level::save(const std::string& filepath)
     writer.end_list("supertux-level");
     log_warning << "Level saved as " << filepath << "." << std::endl;
   } catch(std::exception& e) {
-    std::stringstream msg;
-    msg << "Problem when saving level '" << filepath << "': " << e.what();
-    throw std::runtime_error(msg.str());
+    if (retry) {
+      std::stringstream msg;
+      msg << "Problem when saving level '" << filepath << "': " << e.what();
+      throw std::runtime_error(msg.str());
+    } else {
+      log_warning << "Failed to save the level, retrying..." << std::endl;
+      { // create the level directory again
+        std::string dirname = FileSystem::dirname(filepath);
+        if(!PHYSFS_mkdir(dirname.c_str()))
+        {
+          std::ostringstream msg;
+          msg << "Couldn't create directory for level '"
+              << dirname << "': " <<PHYSFS_getLastError();
+          throw std::runtime_error(msg.str());
+        }
+      }
+      save(filepath, true);
+    }
   }
 }
 
