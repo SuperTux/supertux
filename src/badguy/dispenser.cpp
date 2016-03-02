@@ -113,6 +113,9 @@ Dispenser::save(Writer& writer) {
     case DT_CANNON:
       writer.write("type", "cannon", false);
       break;
+    case DT_POINT:
+      writer.write("type", "point", false);
+      break;
   }
   writer.write("badguy", badguys);
   writer.write("random", random);
