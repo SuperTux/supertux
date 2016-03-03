@@ -26,7 +26,7 @@
 class ItemStringSelect : public MenuItem
 {
   public:
-    ItemStringSelect(const std::string& text_, std::vector<std::string> list_, size_t* selected_, int _id = -1);
+    ItemStringSelect(const std::string& text_, std::vector<std::string> list_, int* selected_, int _id = -1);
 
     /** Draws the menu item. */
     virtual void draw(DrawingContext&, Vector pos, int menu_width, bool active);
@@ -38,7 +38,7 @@ class ItemStringSelect : public MenuItem
     virtual void process_action(MenuAction action);
 
     std::vector<std::string> list; // list of values for a STRINGSELECT item
-    size_t* selected; // currently selected item
+    int* selected; // currently selected item
 
   private:
     ItemStringSelect(const ItemStringSelect&);
