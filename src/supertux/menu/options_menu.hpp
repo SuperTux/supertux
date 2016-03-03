@@ -29,9 +29,9 @@ class OptionsMenu : public Menu
     void menu_action(MenuItem* item) override;
 
   private:
-    size_t next_magnification;
-    size_t next_aspect_ratio;
-    size_t next_resolution;
+    int next_magnification;
+    int next_aspect_ratio;
+    int next_resolution;
 
     std::vector<std::string> magnifications;
     std::vector<std::string> aspect_ratios;

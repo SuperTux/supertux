@@ -44,7 +44,7 @@ ObjectMenu::ObjectMenu(GameObject *go) :
         add_toggle(-1, oo->text, (bool*)oo->option);
         break;
       case MN_STRINGSELECT:
-        add_string_select(-1, oo->text, (size_t*)oo->option, oo->select);
+        add_string_select(-1, oo->text, (int*)oo->option, oo->select);
         break;
       case MN_COLOR:
         add_color(oo->text, (Color*)oo->option);

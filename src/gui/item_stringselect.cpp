@@ -29,7 +29,7 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-ItemStringSelect::ItemStringSelect(const std::string& text_, std::vector<std::string> list_, size_t* selected_, int _id) :
+ItemStringSelect::ItemStringSelect(const std::string& text_, std::vector<std::string> list_, int* selected_, int _id) :
   MenuItem(text_, _id),
   list(list_),
   selected(selected_)
@@ -74,7 +74,7 @@ ItemStringSelect::process_action(MenuAction action) {
       MenuManager::instance().current_menu()->menu_action(this);
       break;
     case MENU_ACTION_RIGHT:
-      if( (*selected)+1 < list.size()) {
+      if( (*selected)+1 < int(list.size())) {
         (*selected)++;
       } else {
         (*selected) = 0;
