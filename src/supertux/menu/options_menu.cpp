@@ -74,7 +74,7 @@ OptionsMenu::OptionsMenu(bool complete) :
     std::ostringstream out;
     out << (g_config->magnification*100) << "%";
     std::string magn = out.str();
-    size_t count = 0;
+    int count = 0;
     for (std::vector<std::string>::iterator i = magnifications.begin(); i != magnifications.end(); ++i)
     {
       if (*i == magn)
@@ -106,7 +106,7 @@ OptionsMenu::OptionsMenu(bool complete) :
     std::ostringstream out;
     out << g_config->aspect_size.width << ":" << g_config->aspect_size.height;
     std::string aspect_ratio = out.str();
-    size_t cnt_ = 0;
+    int cnt_ = 0;
     for(std::vector<std::string>::iterator i = aspect_ratios.begin(); i != aspect_ratios.end(); ++i)
     {
       if(*i == aspect_ratio)
@@ -162,7 +162,7 @@ OptionsMenu::OptionsMenu(bool complete) :
     }
   }
 
-  size_t cnt = 0;
+  int cnt = 0;
   for (std::vector<std::string>::iterator i = resolutions.begin(); i != resolutions.end(); ++i)
   {
     if (*i == fullscreen_size_str)
