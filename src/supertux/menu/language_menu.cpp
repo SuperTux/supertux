@@ -45,7 +45,7 @@ LanguageMenu::LanguageMenu()
   std::set<tinygettext::Language> languages = g_dictionary_manager->get_languages();
   for (std::set<tinygettext::Language>::iterator i = languages.begin(); i != languages.end(); ++i)
   {
-    add_entry(mnid++, i->get_name());
+    add_entry(mnid++, i->get_localized_name());
   }
 
   add_hl();
