@@ -184,6 +184,9 @@
  \"halloween_1.ogg\" by
 	Forty-Two
 
+ \"Forest Prophecy reEducated\" (forest_theme.ogg) by
+	Marek \"Wansti\" Möckel and Tobias \"ToBeFree\" Frei
+
 -Sound
 
 	Wolfgang Becker
