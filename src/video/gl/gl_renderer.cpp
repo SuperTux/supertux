@@ -425,7 +425,7 @@ GLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
 }
 
 Vector
-GLRenderer::to_logical(int physical_x, int physical_y)
+GLRenderer::to_logical(int physical_x, int physical_y) const
 {
   return Vector(static_cast<float>(physical_x - m_viewport.x) * SCREEN_WIDTH / m_viewport.w,
                 static_cast<float>(physical_y - m_viewport.y) * SCREEN_HEIGHT / m_viewport.h);

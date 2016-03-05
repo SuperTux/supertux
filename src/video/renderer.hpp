@@ -54,7 +54,7 @@ public:
   virtual void flip() = 0;
   virtual void resize(int w, int h) = 0;
   virtual void apply_config() = 0;
-  virtual Vector to_logical(int physical_x, int physical_y) = 0;
+  virtual Vector to_logical(int physical_x, int physical_y) const = 0;
   virtual void set_gamma(float gamma) = 0;
   virtual SDL_Window* get_window() const = 0;
 };

@@ -357,7 +357,7 @@ SDLRenderer::apply_config()
 }
 
 Vector
-SDLRenderer::to_logical(int physical_x, int physical_y)
+SDLRenderer::to_logical(int physical_x, int physical_y) const
 {
   return Vector(static_cast<float>(physical_x - m_viewport.x) * SCREEN_WIDTH / m_viewport.w,
                 static_cast<float>(physical_y - m_viewport.y) * SCREEN_HEIGHT / m_viewport.h);
