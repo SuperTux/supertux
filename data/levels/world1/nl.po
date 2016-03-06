@@ -19,7 +19,7 @@ msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr ""
+msgstr "Welkom op Antarctica"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
@@ -73,83 +73,83 @@ msgstr ""
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
-msgstr ""
+msgstr "De Reis Begint"
 
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
-msgstr ""
+msgstr "Nostalgiestraat"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
-msgstr ""
+msgstr "Tobgle Weg"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr ""
+msgstr "Het Iets Kleinere Bad"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
-msgstr ""
+msgstr "De Bevroren Velden"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
-msgstr ""
+msgstr "Oh nee! Meer Sneeuwballen!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
-msgstr ""
+msgstr "Steen Koud"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
-msgstr ""
+msgstr "Grumbels Gevoel voor Sneeuw"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
-msgstr ""
+msgstr "23ste Luchttroepen"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
-msgstr ""
+msgstr "Koude Nacht"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
-msgstr ""
+msgstr "Naar de Sterren"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr ""
+msgstr "Boven de Noordpool"
 
 #: data/levels/world1/14 - Entrance to the Cave.stl:3
 msgid "Entrance to the Cave"
-msgstr ""
+msgstr "Ingang naar de Grot"
 
 #: data/levels/world1/15 - Under the Ice.stl:3
 msgid "Under the Ice"
-msgstr ""
+msgstr "Onder het IJs"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
-msgstr ""
+msgstr "Wonen in een Diepvries"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr ""
+msgstr "'...of ben ik het?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
-msgstr ""
+msgstr "IJs in het Gat"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
-msgstr ""
+msgstr "Miyamoto Monument"
 
 #: data/levels/world1/20 - End of the Tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr ""
+msgstr "Einde van de Tunnel"
 
 #: data/levels/world1/21 - A Path in the Clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr ""
+msgstr "Een pad in de Wolken"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
@@ -157,19 +157,19 @@ msgstr ""
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
-msgstr ""
+msgstr "De Ontsnapping"
 
 #: data/levels/world1/24 - The Shattered Bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr ""
+msgstr "De Kapotte Brug"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
-msgstr ""
+msgstr "Noordpool Ruпnes"
 
 #: data/levels/world1/26 - The Castle of Nolok.stl:3
 msgid "The Castle of Nolok"
-msgstr ""
+msgstr "Noloks Kasteel"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
@@ -253,7 +253,7 @@ msgstr ""
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr ""
+msgstr "IJzig eiland"
 
 #: data/levels/world1/worldmap.stwm:37
 msgid "You Found a Secret Area!"
