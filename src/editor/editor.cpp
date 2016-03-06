@@ -96,6 +96,7 @@ void Editor::update(float elapsed_time)
 
   if (save_request) {
     level->save(world->get_basedir() + "/" + levelfile);
+    enabled = true;
     save_request = false;
   }
 
