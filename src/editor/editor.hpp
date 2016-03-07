@@ -30,6 +30,7 @@
 #include "util/currenton.hpp"
 
 class Level;
+class Savegame;
 class Sector;
 class TileSet;
 class World;
@@ -68,6 +69,7 @@ class Editor : public Screen,
     }
 
     Sector* currentsector;
+    std::unique_ptr<Savegame> m_savegame;
 
     bool levelloaded;
     bool leveltested;
