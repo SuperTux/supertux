@@ -24,6 +24,7 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
@@ -49,8 +50,10 @@ Editor::Editor() :
   reactivate_request(false),
   deactivate_request(false),
   save_request(false),
+  test_request(false),
   currentsector(),
   levelloaded(false),
+  leveltested(false),
   tileset(NULL),
   inputcenter(),
   tileselect(),
@@ -77,6 +80,9 @@ void Editor::draw(DrawingContext& context)
 
 void Editor::update(float elapsed_time)
 {
+  leveltested = false;
+  Tile::draw_editor_images = true;
+
   if (reload_request) {
     reload_level();
   }
@@ -100,6 +106,11 @@ void Editor::update(float elapsed_time)
     save_request = false;
   }
 
+  if (test_request) {
+    test_request = false;
+    test_level();
+  }
+
   if (deactivate_request) {
     enabled = false;
     deactivate_request = false;
@@ -121,6 +132,14 @@ void Editor::update(float elapsed_time)
   }
 
   update_keyboard();
+}
+
+void Editor::test_level() {
+  leveltested = true;
+  Tile::draw_editor_images = false;
+  level->save("levels/misc/test.stl");
+  std::unique_ptr<World> test_world = World::load("levels/misc");
+  GameManager::current()->start_level(std::move(test_world), "test.stl");
 }
 
 bool Editor::can_scroll_vert() {

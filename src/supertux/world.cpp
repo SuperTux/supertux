@@ -27,6 +27,7 @@
 #include "supertux/world.hpp"
 #include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
+#include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -72,25 +73,34 @@ World::load_(const std::string& directory)
   m_worldmap_filename = m_basedir + "/worldmap.stwm";
 
   std::string filename = m_basedir + "/info";
-  register_translation_directory(filename);
-  auto doc = ReaderDocument::parse(filename);
-  auto root = doc.get_root();
 
-  if(root.get_name() != "supertux-world" &&
-     root.get_name() != "supertux-level-subset")
-  {
-    throw std::runtime_error("File is not a world or levelsubset file");
+  try {
+    register_translation_directory(filename);
+    auto doc = ReaderDocument::parse(filename);
+    auto root = doc.get_root();
+
+    if(root.get_name() != "supertux-world" &&
+       root.get_name() != "supertux-level-subset")
+    {
+      throw std::runtime_error("File is not a world or levelsubset file");
+    }
+
+    m_hide_from_contribs = false;
+    m_is_levelset = true;
+
+    auto info = root.get_mapping();
+
+    info.get("title", m_title);
+    info.get("description", m_description);
+    info.get("levelset", m_is_levelset);
+    info.get("hide-from-contribs", m_hide_from_contribs);
+  } catch (std::exception& e) {
+    log_warning << "Failed to load " << filename << ":" << e.what() << std::endl;
+    m_title = "";
+    m_description = "";
+    m_is_levelset = true;
+    m_hide_from_contribs = true;
   }
-
-  m_hide_from_contribs = false;
-  m_is_levelset = true;
-
-  auto info = root.get_mapping();
-
-  info.get("title", m_title);
-  info.get("description", m_description);
-  info.get("levelset", m_is_levelset);
-  info.get("hide-from-contribs", m_hide_from_contribs);
 }
 
 std::string
