@@ -61,6 +61,7 @@ class Editor : public Screen,
     bool reactivate_request;
     bool deactivate_request;
     bool save_request;
+    bool test_request;
 
     void disable_keyboard() {
       enabled = false;
@@ -69,6 +70,7 @@ class Editor : public Screen,
     Sector* currentsector;
 
     bool levelloaded;
+    bool leveltested;
 
     TileSet* tileset;
 
@@ -92,6 +94,7 @@ class Editor : public Screen,
     void reload_level();
     void load_layers();
     void quit_editor();
+    void test_level();
     void update_keyboard();
 
     bool can_scroll_horz();
@@ -102,8 +105,10 @@ class Editor : public Screen,
 };
 
 inline bool EditorActive() {
-  if (Editor::current()) if (Editor::current()->levelloaded) {
-    return true;
+  if (Editor::current()) {
+    if (Editor::current()->levelloaded && ! Editor::current()->leveltested) {
+      return true;
+    }
   }
   return false;
 }
