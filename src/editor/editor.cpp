@@ -52,6 +52,7 @@ Editor::Editor() :
   save_request(false),
   test_request(false),
   currentsector(),
+  m_savegame(),
   levelloaded(false),
   leveltested(false),
   tileset(NULL),
@@ -303,6 +304,8 @@ Editor::setup() {
   MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
   tileselect.setup();
   layerselect.setup();
+  m_savegame.reset(new Savegame("levels/misc"));
+  m_savegame->load();
 }
 
 void

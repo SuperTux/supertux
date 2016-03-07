@@ -60,6 +60,9 @@ Firefly::Firefly(const ReaderMapping& lisp) :
 void
 Firefly::reactivate()
 {
+  if (!GameSession::current()) {
+    return;
+  }
   if(!GameSession::current()->get_reset_point_sectorname().empty() &&
      GameSession::current()->get_reset_point_pos() == initial_position) {
     // TODO: && GameSession::current()->get_reset_point_sectorname() ==  <sector this firefly is in>
