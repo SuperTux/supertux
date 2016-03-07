@@ -32,6 +32,7 @@ EditorMenu::EditorMenu()
   add_hl();
   add_entry(MNID_RETURNTOEDITOR, _("Return to editor"));
   add_entry(MNID_SAVELEVEL, _("Save current level"));
+  add_entry(MNID_TESTLEVEL, _("Test the level"));
   add_entry(MNID_LEVELSEL, _("Edit another level"));
   add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
   add_submenu(_("Level properties"), MenuStorage::EDITOR_LEVEL_MENU);
@@ -52,6 +53,11 @@ EditorMenu::menu_action(MenuItem* item)
     case MNID_SAVELEVEL:
       MenuManager::instance().clear_menu_stack();
       Editor::current()->save_request = true;
+      break;
+
+    case MNID_TESTLEVEL:
+      MenuManager::instance().clear_menu_stack();
+      Editor::current()->test_request = true;
       break;
 
     case MNID_LEVELSEL:
