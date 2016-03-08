@@ -121,6 +121,7 @@ void Editor::update(float elapsed_time)
   if (test_request) {
     test_request = false;
     test_level();
+    return;
   }
 
   if (deactivate_request) {
