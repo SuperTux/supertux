@@ -16,10 +16,13 @@
 
 #include "editor/editor.hpp"
 
+#include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "editor/layer_icon.hpp"
 #include "gui/mousecursor.hpp"
+#include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
+#include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_menu.hpp"
@@ -81,9 +84,17 @@ void Editor::draw(DrawingContext& context)
 
 void Editor::update(float elapsed_time)
 {
-  leveltested = false;
-  Tile::draw_editor_images = true;
+  // Reactivate the editor after level test
+  if (leveltested) {
+    leveltested = false;
+    Tile::draw_editor_images = true;
+    currentsector->activate(currentsector->player->get_pos());
+    MenuManager::instance().clear_menu_stack();
+    SoundManager::current()->stop_music();
+    enabled = true;
+  }
 
+  // Pass all requests
   if (reload_request) {
     reload_level();
   }
@@ -118,8 +129,7 @@ void Editor::update(float elapsed_time)
     return;
   }
 
-  /// NO MORE REQUESTS!!!
-
+  // update other stuff
   if (InputManager::current()->get_controller()->pressed(Controller::ESCAPE)) {
     enabled = false;
     MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
