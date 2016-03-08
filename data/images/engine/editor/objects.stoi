@@ -124,6 +124,9 @@
     (class "kamikazesnowball")
     (icon "images/creatures/snowball/kamikaze-left.png"))
   (object
+    (class "leafshot")
+    (icon "images/creatures/leafshot/left-1.png"))
+  (object
     (class "mole_rock")
     (icon "images/creatures/mole/mole-rock.png"))
   (object

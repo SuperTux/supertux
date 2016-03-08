@@ -46,6 +46,11 @@ class LeafShot : public KamikazeSnowball
 
     void initialize();
     bool is_freezable() const;
+    virtual std::string get_class() const {
+      return "leafshot";
+    }
+
+    virtual ObjectSettings get_settings();
 };
 
 #endif
