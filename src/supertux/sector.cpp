@@ -292,7 +292,7 @@ Sector::activate(const Vector& player_pos)
   }
 
   // Run init script
-  if(!init_script.empty()) {
+  if(!init_script.empty() && !EditorActive()) {
     std::istringstream in(init_script);
     run_script(in, "init-script");
   }
