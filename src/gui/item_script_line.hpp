@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
+//  Copyright (C) 2016 Hume2 <teratux.mail@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,17 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_GUI_ITEM_TEXTFIELD_HPP
-#define HEADER_SUPERTUX_GUI_ITEM_TEXTFIELD_HPP
+#ifndef HEADER_SUPERTUX_GUI_ITEM_SCRIPT_LINE_HPP
+#define HEADER_SUPERTUX_GUI_ITEM_SCRIPT_LINE_HPP
 
-#include "gui/menu_item.hpp"
+#include "gui/item_textfield.hpp"
 
-#include "supertux/timer.hpp"
-
-class ItemTextField : public MenuItem
+class ItemScriptLine : public ItemTextField
 {
   public:
-    ItemTextField(const std::string& text_, std::string* input_, int id_ = -1);
+    ItemScriptLine(std::string* input_, int id_ = -1);
 
     /** Draws the menu item. */
     virtual void draw(DrawingContext&, Vector pos, int menu_width, bool active);
@@ -35,23 +33,12 @@ class ItemTextField : public MenuItem
     /** Processes the menu action. */
     virtual void process_action(MenuAction action);
 
-    std::string* input;
-
-    void change_input(const std::string& input_) {
-      *input = input_;
-    }
-
-    /** Processes the given event. */
-    virtual void event(const SDL_Event& ev);
-
-  protected:
-    int flickw;
-
   private:
-    ItemTextField(const ItemTextField&);
-    ItemTextField& operator=(const ItemTextField&);
+
+    ItemScriptLine(const ItemScriptLine&);
+    ItemScriptLine& operator=(const ItemScriptLine&);
 };
 
-#endif // HEADER_SUPERTUX_GUI_ITEM_TEXTFIELD_HPP
+#endif // HEADER_SUPERTUX_GUI_ITEM_SCRIPT_LINE_HPP
 
 /* EOF */
