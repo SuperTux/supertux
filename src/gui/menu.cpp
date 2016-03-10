@@ -120,6 +120,13 @@ Menu::add_textfield(const std::string& text, std::string* input, int id)
 }
 
 MenuItem*
+Menu::add_script_line(std::string* input, int id)
+{
+  std::unique_ptr<ItemScriptLine> item(new ItemScriptLine(input, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
 Menu::add_intfield(const std::string& text, int* input, int id)
 {
   std::unique_ptr<ItemIntField> item(new ItemIntField(text, input, id));
