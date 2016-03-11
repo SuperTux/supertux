@@ -23,11 +23,15 @@ class ScriptMenu : public Menu
 {
 public:
   ScriptMenu(std::string* script_);
+  ~ScriptMenu();
 
   void menu_action(MenuItem* item) override;
 
 private:
   std::string* base_script;
+  std::vector<std::unique_ptr<std::string> > script_strings;
+
+  void push_string(std::string new_line);
 
   ScriptMenu(const ScriptMenu&);
   ScriptMenu& operator=(const ScriptMenu&);

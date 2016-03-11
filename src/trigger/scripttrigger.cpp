@@ -83,7 +83,7 @@ ScriptTrigger::get_settings() {
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Script"), &script));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Button"), &must_activate));
   return result;
 }

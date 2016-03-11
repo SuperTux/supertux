@@ -90,7 +90,7 @@ SecretAreaTrigger::get_settings() {
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Fade-tilemap"), &fade_tilemap));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Message"), &message));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Script"), &script));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
   return result;
 }
 

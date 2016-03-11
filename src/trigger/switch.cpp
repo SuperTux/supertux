@@ -70,8 +70,8 @@ ObjectSettings
 Switch::get_settings() {
   ObjectSettings result(_("Switch"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Turn on script"), &script));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Turn off script"), &off_script));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Turn on script"), &script));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Turn off script"), &off_script));
   return result;
 }
 

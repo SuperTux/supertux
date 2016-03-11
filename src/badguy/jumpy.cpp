@@ -122,7 +122,7 @@ Jumpy::get_settings() {
   ObjectSettings result(_("Jumpy"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
   result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"), &dead_script));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
   return result;
 }
 
