@@ -54,8 +54,8 @@ Editor::Editor() :
   deactivate_request(false),
   save_request(false),
   test_request(false),
-  currentsector(),
   m_savegame(),
+  currentsector(),
   levelloaded(false),
   leveltested(false),
   tileset(NULL),
@@ -342,6 +342,10 @@ Editor::event(SDL_Event& ev) {
     inputcenter.event(ev);
   }
 
+}
+
+bool Editor::is_active() {
+  return levelloaded && !leveltested;
 }
 
 /* EOF */
