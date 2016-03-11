@@ -31,12 +31,12 @@ EditorLevelMenu::EditorLevelMenu()
 {
   add_label(_("Level properties"));
   add_hl();
-  add_textfield(_("Name"), &(Editor::current()->level->name));
-  add_textfield(_("Author"), &(Editor::current()->level->author));
-  add_textfield(_("Contact"), &(Editor::current()->level->contact));
-  add_textfield(_("License"), &(Editor::current()->level->license));
-  add_textfield(_("On menukey script"), &(Editor::current()->level->on_menukey_script));
-  add_numfield(_("Target time"), &(Editor::current()->level->target_time));
+  add_textfield(_("Name"), &(Editor::current()->get_level()->name));
+  add_textfield(_("Author"), &(Editor::current()->get_level()->author));
+  add_textfield(_("Contact"), &(Editor::current()->get_level()->contact));
+  add_textfield(_("License"), &(Editor::current()->get_level()->license));
+  add_textfield(_("On menukey script"), &(Editor::current()->get_level()->on_menukey_script));
+  add_numfield(_("Target time"), &(Editor::current()->get_level()->target_time));
   add_hl();
   add_back(_("OK"));
 }
