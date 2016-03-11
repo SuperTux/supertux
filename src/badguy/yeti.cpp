@@ -355,7 +355,7 @@ Yeti::get_settings() {
   ObjectSettings result(_("Yeti"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
   result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Death script"),   &dead_script));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"),   &dead_script));
   result.options.push_back( ObjectOption(MN_TOGGLE,    _("Fixed position"), &fixed_pos));
   result.options.push_back( ObjectOption(MN_INTFIELD,  _("Lives"),          &hit_points));
   return result;

@@ -20,17 +20,49 @@
 #include "gui/menu_item.hpp"
 #include "gui/item_action.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 
 ScriptMenu::ScriptMenu(std::string* script_) :
-  base_script(script_)
+  base_script(script_),
+  script_strings()
 {
+  script_strings.clear();
+
   add_label(_("Edit the script"));
   add_hl();
 
-  add_script_line(base_script);
+  // Split the script to the lines.
+  std::string script = *base_script;
+  std::string line_break = "\n";
+  std::string new_line;
+  size_t endl_pos = script.find(line_break);
+  while (endl_pos != std::string::npos) {
+    new_line = script.substr(0, endl_pos);
+    script = script.substr(endl_pos + line_break.length());
+    push_string(new_line);
+    endl_pos = script.find(line_break);
+  }
+  push_string(script);
+
+  //add_script_line(base_script);
 
   add_hl();
   add_back(_("OK"));
+}
+
+ScriptMenu::~ScriptMenu()
+{
+  *base_script = *(script_strings[0]);
+  for (auto i = script_strings.begin()+1; i != script_strings.end(); ++i) {
+    *base_script += "\n" + **i;
+  }
+}
+
+void
+ScriptMenu::push_string(std::string new_line)
+{
+  script_strings.push_back( move(std::unique_ptr<std::string>(new std::string(new_line))) );
+  add_script_line( (script_strings.end()-1)->get() );
 }
 
 void

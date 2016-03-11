@@ -49,6 +49,9 @@ ObjectMenu::ObjectMenu(GameObject *go) :
       case MN_COLOR:
         add_color(oo->text, (Color*)oo->option);
         break;
+      case MN_SCRIPT:
+        add_script(oo->text, (std::string*)oo->option);
+        break;
       default:
         break;
     }

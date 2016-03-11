@@ -66,6 +66,11 @@ Tip::Tip(GameObject* object) :
         text += std::to_string(((Color*)oo->option)->green) + " ";
         text += std::to_string(((Color*)oo->option)->blue);
         break;
+      case MN_SCRIPT:
+        if (((std::string*)oo->option)->length()) {
+          text += "...";
+        }
+        break;
       default:
         text += _("Unknown");
         break;
