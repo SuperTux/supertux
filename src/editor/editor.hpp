@@ -51,11 +51,20 @@ class Editor : public Screen,
     void event(SDL_Event& ev);
     void resize();
 
+  protected:
+    friend class EditorInputCenter;
+    friend class EditorInputGui;
+    friend class EditorLayersGui;
+    friend class EditorLevelsetSelectMenu;
+    friend class EditorObjectgroupMenu;
+    friend class EditorTilegroupMenu;
+
     std::unique_ptr<Level> level;
     std::unique_ptr<World> world;
 
     std::string levelfile;
 
+  public:
     bool quit_request;
     bool newlevel_request;
     bool reload_request;
@@ -68,9 +77,33 @@ class Editor : public Screen,
       enabled = false;
     }
 
-    Sector* currentsector;
+    bool is_active();
+
+    Level* get_level() const {
+      return level.get();
+    }
+
+    World* get_world() const {
+      return world.get();
+    }
+
+    std::string get_levelfile() const {
+      return levelfile;
+    }
+
+    void set_level(std::string levelfile_) {
+      Editor::current()->levelfile = levelfile_;
+      Editor::current()->reload_request = true;
+    }
+
+    void load_sector(std::string name);
+    void load_sector(int id);
+
     std::unique_ptr<Savegame> m_savegame;
 
+    Sector* currentsector;
+
+  protected:
     bool levelloaded;
     bool leveltested;
 
@@ -79,10 +112,6 @@ class Editor : public Screen,
     EditorInputCenter inputcenter;
     EditorInputGui tileselect;
     EditorLayersGui layerselect;
-
-    void load_sector(std::string name);
-    void load_sector(int id);
-
 
     // speed is in tiles per frame
     void scroll_up(float speed = 1.0f);
@@ -108,7 +137,7 @@ class Editor : public Screen,
 
 inline bool EditorActive() {
   if (Editor::current()) {
-    if (Editor::current()->levelloaded && ! Editor::current()->leveltested) {
+    if (Editor::current()->is_active()) {
       return true;
     }
   }

@@ -38,7 +38,8 @@ EditorSectorsMenu::EditorSectorsMenu()
   add_hl();
 
   int id = 0;
-  for(auto i = Editor::current()->level->sectors.begin(); i != Editor::current()->level->sectors.end(); ++i) {
+  for(auto i = Editor::current()->get_level()->sectors.begin();
+      i != Editor::current()->get_level()->sectors.end(); ++i) {
     add_entry(id, (*i)->get_name());
     id++;
   }
