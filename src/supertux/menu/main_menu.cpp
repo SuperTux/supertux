@@ -81,8 +81,8 @@ MainMenu::menu_action(MenuItem* item)
       {
         MenuManager::instance().clear_menu_stack();
         std::unique_ptr<Screen> screen(new Editor());
-        std::unique_ptr<FadeOut> fade(new FadeOut(1));
-        SoundManager::current()->stop_music(1);
+        std::unique_ptr<FadeOut> fade(new FadeOut(0.5));
+        SoundManager::current()->stop_music(0.5);
         ScreenManager::current()->push_screen(move(screen),move(fade));
         //Editor::current()->setup();
       }
