@@ -47,6 +47,7 @@ public:
                              const std::string& mapping = "");
   MenuItem* add_string_select(int id, const std::string& text, int* selected, std::vector<std::string> strings);
   MenuItem* add_textfield(const std::string& text, std::string* input, int id = -1);
+  MenuItem* add_script(const std::string& text, std::string* script, int id = -1);
   MenuItem* add_script_line(std::string* input, int id = -1);
   MenuItem* add_intfield(const std::string& text, int* input, int id = -1);
   MenuItem* add_numfield(const std::string& text, float* input, int id = -1);
