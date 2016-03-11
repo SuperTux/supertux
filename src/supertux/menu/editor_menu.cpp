@@ -40,6 +40,11 @@ EditorMenu::EditorMenu()
   add_entry(MNID_QUITEDITOR, _("Exit level editor"));
 }
 
+EditorMenu::~EditorMenu()
+{
+  Editor::current()->reactivate_request = true;
+}
+
 void
 EditorMenu::menu_action(MenuItem* item)
 {
@@ -47,7 +52,6 @@ EditorMenu::menu_action(MenuItem* item)
   {
     case MNID_RETURNTOEDITOR:
       MenuManager::instance().clear_menu_stack();
-      Editor::current()->reactivate_request = true;
       break;
 
     case MNID_SAVELEVEL:

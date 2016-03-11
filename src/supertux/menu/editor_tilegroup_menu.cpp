@@ -48,19 +48,20 @@ EditorTilegroupMenu::EditorTilegroupMenu()
   add_entry(-1,_("Abort"));
 }
 
+EditorTilegroupMenu::~EditorTilegroupMenu()
+{
+  Editor::current()->reactivate_request = true;
+}
+
 void
 EditorTilegroupMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
   {
     Editor::current()->tileselect.active_tilegroup = Editor::current()->tileset->tilegroups[item->id].tiles;
-    Editor::current()->reactivate_request = true;
     Editor::current()->tileselect.input_type = EditorInputGui::IP_TILE;
-    MenuManager::instance().clear_menu_stack();
-  } else {
-    MenuManager::instance().clear_menu_stack();
-    Editor::current()->reactivate_request = true;
   }
+  MenuManager::instance().clear_menu_stack();
 }
 
 /* EOF */
