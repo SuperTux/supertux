@@ -129,7 +129,7 @@ AmbientSound::save(Writer& writer) {
   GameObject::save(writer);
   writer.write("width", bbox.get_width());
   writer.write("height", bbox.get_height());
-  writer.write("diatance_factor", distance_factor);
+  writer.write("distance_factor", distance_factor);
   writer.write("distance_bias", distance_bias);
   writer.write("sample", sample, false);
   writer.write("volume", maximumvolume);
