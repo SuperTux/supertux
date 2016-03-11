@@ -30,6 +30,7 @@ private:
 
 public:
   EditorLevelSelectMenu();
+  ~EditorLevelSelectMenu();
 
   void menu_action(MenuItem* item) override;
 

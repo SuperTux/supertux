@@ -36,6 +36,7 @@ class EditorMenu : public Menu
 private:
 public:
   EditorMenu();
+  ~EditorMenu();
 
   void menu_action(MenuItem* item) override;
 

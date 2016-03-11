@@ -23,6 +23,7 @@ class EditorObjectgroupMenu : public Menu
 {
 public:
   EditorObjectgroupMenu();
+  ~EditorObjectgroupMenu();
 
   void menu_action(MenuItem* item) override;
 

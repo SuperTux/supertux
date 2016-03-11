@@ -131,19 +131,13 @@ void Editor::update(float elapsed_time)
   }
 
   // update other stuff
-  if (InputManager::current()->get_controller()->pressed(Controller::ESCAPE)) {
-    enabled = false;
-    MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
-  }
-
   if (levelloaded) {
     currentsector->update(0);
     tileselect.update(elapsed_time);
     layerselect.update(elapsed_time);
     inputcenter.update(elapsed_time);
+    update_keyboard();
   }
-
-  update_keyboard();
 }
 
 void Editor::test_level() {
@@ -215,7 +209,14 @@ void Editor::scroll_down(float speed) {
 }
 
 void Editor::update_keyboard() {
+
   if (!enabled){
+    return;
+  }
+
+  if (InputManager::current()->get_controller()->pressed(Controller::ESCAPE)) {
+    enabled = false;
+    MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
     return;
   }
 
