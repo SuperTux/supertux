@@ -64,14 +64,18 @@ ItemTextField::event(const SDL_Event& ev) {
 
 void
 ItemTextField::process_action(MenuAction action) {
-  if (action == MENU_ACTION_REMOVE && input->length()) {
-    unsigned char last_char;
-    do {
-      last_char = *(--input->end());
-      input->resize(input->length() - 1);
-      if (input->length() == 0) {
-        break;
-      }
-    } while ( (last_char & 128) && !(last_char & 64) );
+  if (action == MENU_ACTION_REMOVE) {
+    if (input->length()) {
+      unsigned char last_char;
+      do {
+        last_char = *(--input->end());
+        input->resize(input->length() - 1);
+        if (input->length() == 0) {
+          break;
+        }
+      } while ( (last_char & 128) && !(last_char & 64) );
+    } else {
+      invalid_remove();
+    }
   }
 }

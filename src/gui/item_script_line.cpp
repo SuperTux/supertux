@@ -17,7 +17,10 @@
 #include "gui/item_script_line.hpp"
 
 #include "control/input_manager.hpp"
+#include "gui/menu.hpp"
 #include "gui/menu_action.hpp"
+#include "gui/menu_manager.hpp"
+#include "gui/menu_script.hpp"
 #include "math/vector.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/globals.hpp"
@@ -55,8 +58,23 @@ ItemScriptLine::process_action(MenuAction action) {
   ItemTextField::process_action(action);
   Controller* controller = InputManager::current()->get_controller();
   if (action == MENU_ACTION_HIT && controller->pressed(Controller::MENU_SELECT)) {
-    *input += "TODO: Add a new line!";
+    Menu* cm = MenuManager::instance().current_menu();
+    ScriptMenu* menu = dynamic_cast<ScriptMenu*>(cm);
+    if (!menu) {
+      return;
+    }
+    menu->add_line();
   }
+}
+
+void
+ItemScriptLine::invalid_remove() {
+  Menu* cm = MenuManager::instance().current_menu();
+  ScriptMenu* menu = dynamic_cast<ScriptMenu*>(cm);
+  if (!menu) {
+    return;
+  }
+  menu->remove_line();
 }
 
 /* EOF */
