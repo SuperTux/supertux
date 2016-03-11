@@ -48,19 +48,20 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
   add_entry(-1,_("Abort"));
 }
 
+EditorObjectgroupMenu::~EditorObjectgroupMenu()
+{
+  Editor::current()->reactivate_request = true;
+}
+
 void
 EditorObjectgroupMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
   {
     Editor::current()->tileselect.active_objectgroup = item->id;
-    Editor::current()->reactivate_request = true;
     Editor::current()->tileselect.input_type = EditorInputGui::IP_OBJECT;
-    MenuManager::instance().clear_menu_stack();
-  } else {
-    MenuManager::instance().clear_menu_stack();
-    Editor::current()->reactivate_request = true;
   }
+  MenuManager::instance().clear_menu_stack();
 }
 
 /* EOF */

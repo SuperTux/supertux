@@ -34,6 +34,7 @@
 EditorLevelSelectMenu::EditorLevelSelectMenu() :
   m_levelset()
 {
+  Editor::current()->deactivate_request = true;
   m_levelset = std::unique_ptr<Levelset>(new Levelset(Editor::current()->world->get_basedir()));
 
   add_label(Editor::current()->world->get_title());
@@ -49,7 +50,12 @@ EditorLevelSelectMenu::EditorLevelSelectMenu() :
 
   add_hl();
   add_entry(-1,_("Create Level"));
-  add_entry(-2,_("Back"));
+  add_back(_("Back"),-2);
+}
+
+EditorLevelSelectMenu::~EditorLevelSelectMenu()
+{
+  Editor::current()->reactivate_request = true;
 }
 
 void
