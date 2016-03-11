@@ -32,7 +32,7 @@ EditorSectorMenu::EditorSectorMenu()
   add_label(_("Sector") + " " + Editor::current()->currentsector->get_name());
   add_hl();
   add_textfield(_("Name"), Editor::current()->currentsector->get_name_ptr());
-  add_textfield(_("Initialization script"), Editor::current()->currentsector->get_init_script_ptr());
+  add_script(_("Initialization script"), Editor::current()->currentsector->get_init_script_ptr());
   add_color(_("Ambient light"), Editor::current()->currentsector->get_ambient_light_ptr());
   add_hl();
   add_back(_("OK"));
