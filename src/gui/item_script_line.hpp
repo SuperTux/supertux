@@ -33,6 +33,9 @@ class ItemScriptLine : public ItemTextField
     /** Processes the menu action. */
     virtual void process_action(MenuAction action);
 
+    /** Calls when the user wants to remove an invalid char. */
+    virtual void invalid_remove();
+
   private:
 
     ItemScriptLine(const ItemScriptLine&);

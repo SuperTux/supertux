@@ -17,6 +17,7 @@
 #include "gui/menu_script.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "gui/item_script_line.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/item_action.hpp"
 #include "util/gettext.hpp"
@@ -63,6 +64,28 @@ ScriptMenu::push_string(std::string new_line)
 {
   script_strings.push_back( move(std::unique_ptr<std::string>(new std::string(new_line))) );
   add_script_line( (script_strings.end()-1)->get() );
+}
+
+void
+ScriptMenu::remove_line() {
+  // The script should have at least one line.
+  if (script_strings.size() <= 1) {
+    return;
+  }
+
+  script_strings.erase(script_strings.begin() + (active_item - 2));
+  delete_item(active_item);
+}
+
+void
+ScriptMenu::add_line() {
+  std::unique_ptr<std::string> new_line = std::unique_ptr<std::string>(new std::string(""));
+  script_strings.insert(script_strings.begin() + (active_item - 1), move(new_line));
+
+  std::unique_ptr<ItemScriptLine> line_item = std::unique_ptr<ItemScriptLine>(
+        new ItemScriptLine( (script_strings.begin()+(active_item-1))->get() ));
+  add_item(move(line_item), active_item+1);
+  active_item++;
 }
 
 void
