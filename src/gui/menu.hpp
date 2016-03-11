@@ -112,6 +112,8 @@ public:
 
 private:
   int arrange_left;
+
+protected:
   int active_item;
 };
 

@@ -41,6 +41,9 @@ class ItemTextField : public MenuItem
       *input = input_;
     }
 
+    /** Calls when the user wants to remove an invalid char. */
+    virtual void invalid_remove() {}
+
     /** Processes the given event. */
     virtual void event(const SDL_Event& ev);
 

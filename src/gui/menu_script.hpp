@@ -27,6 +27,9 @@ public:
 
   void menu_action(MenuItem* item) override;
 
+  void remove_line();
+  void add_line();
+
 private:
   std::string* base_script;
   std::vector<std::unique_ptr<std::string> > script_strings;
