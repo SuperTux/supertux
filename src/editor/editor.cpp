@@ -42,6 +42,7 @@
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/world.hpp"
+#include "video/surface.hpp"
 
 Editor::Editor() :
   level(),
@@ -62,8 +63,10 @@ Editor::Editor() :
   inputcenter(),
   tileselect(),
   layerselect(),
-  enabled(false)
+  enabled(false),
+  bgr_surface()
 {
+  bgr_surface = Surface::create("images/background/forest1.jpg");
 }
 
 Editor::~Editor()
@@ -75,6 +78,9 @@ void Editor::draw(DrawingContext& context)
 {
   if (levelloaded) {
     currentsector->draw(context);
+  } else {
+    context.draw_surface_part(bgr_surface, Rectf(Vector(0, 0), bgr_surface->get_size()),
+                              Rectf(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)), -100);
   }
   inputcenter.draw(context);
   tileselect.draw(context);
@@ -91,6 +97,7 @@ void Editor::update(float elapsed_time)
     currentsector->activate(currentsector->player->get_pos());
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();
+    deactivate_request = false;
     enabled = true;
   }
 

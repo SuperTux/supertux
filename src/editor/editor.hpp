@@ -28,6 +28,7 @@
 #include "gui/menu_manager.hpp"
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
+#include "video/surface_ptr.hpp"
 
 class Level;
 class Savegame;
@@ -121,6 +122,7 @@ class Editor : public Screen,
 
   private:
     bool enabled;
+    SurfacePtr bgr_surface;
 
     void reload_level();
     void load_layers();
