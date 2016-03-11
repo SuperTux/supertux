@@ -31,6 +31,7 @@ enum MenuItemKind {
   MN_STRINGSELECT,
   MN_LABEL,
   MN_COLOR,
+  MN_SCRIPT,
   MN_HL /* horizontal line */
 };
 

@@ -90,6 +90,8 @@ public:
 
 protected:
   MenuItem* add_item(std::unique_ptr<MenuItem> menu_item);
+  MenuItem* add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
+  void delete_item(int pos_);
 
 private:
   void process_action(MenuAction menuaction);

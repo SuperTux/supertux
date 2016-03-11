@@ -185,7 +185,7 @@ ObjectSettings
 BonusBlock::get_settings() {
   ObjectSettings result(_("Bonus block"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Script"), &script));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Count"), &hit_counter));
 
   ObjectOption coo(MN_STRINGSELECT, _("Content"), &contents);

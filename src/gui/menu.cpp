@@ -91,6 +91,44 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
 }
 
 MenuItem*
+Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
+{
+  items.insert(items.begin()+pos_,std::move(new_item));
+  MenuItem* item = items[pos_].get();
+
+  /* When the item is inserted before the selected item, the
+   * same menu item should be still selected.
+   */
+
+  if (active_item >= pos_)
+  {
+    active_item++;
+  }
+
+  return item;
+}
+
+void
+Menu::delete_item(int pos_)
+{
+  items.erase(items.begin()+pos_);
+
+  /* When the item is deleted before the selected item, the
+   * same menu item should be still selected.
+   */
+
+  if (active_item >= pos_)
+  {
+    do {
+      if (active_item > 0)
+        --active_item;
+      else
+        active_item = int(items.size())-1;
+    } while (items[active_item]->skippable());
+  }
+}
+
+MenuItem*
 Menu::add_hl()
 {
   std::unique_ptr<ItemHorizontalLine> item(new ItemHorizontalLine());

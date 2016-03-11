@@ -56,7 +56,7 @@ ObjectSettings
 PushButton::get_settings() {
   ObjectSettings result(_("Button"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Script"), &script));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
 
   return result;
 }
