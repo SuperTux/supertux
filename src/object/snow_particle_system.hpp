@@ -37,8 +37,9 @@ public:
   virtual std::string get_class() const {
     return "particle-snow";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Snow particles");
+  }
 
   virtual const std::string get_icon_path() const {
     return "images/engine/editor/snow.png";

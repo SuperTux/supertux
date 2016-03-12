@@ -39,8 +39,9 @@ public:
   virtual std::string get_class() const {
     return "particles-ghosts";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Ghost particles");
+  }
 
   virtual const std::string get_icon_path() const {
     return "images/engine/editor/ghostparticles.png";

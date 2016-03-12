@@ -27,7 +27,6 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
-#include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -169,8 +168,7 @@ Background::save(Writer& writer) {
 
 ObjectSettings
 Background::get_settings() {
-  ObjectSettings result(_("Background"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = GameObject::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset x"), &scroll_offset.x));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset y"), &scroll_offset.y));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll speed x"), &scroll_speed.x));

@@ -50,6 +50,11 @@ public:
   virtual std::string get_class() const {
     return "particle-system";
   }
+  virtual std::string get_display_name() const override
+  {
+    return _("Particle system");
+  }
+  virtual ObjectSettings get_settings();
 
   virtual void parse(const ReaderMapping& reader);
   virtual void draw(DrawingContext& context);

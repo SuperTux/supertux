@@ -38,6 +38,9 @@ public:
   virtual std::string get_class() const {
     return "trampoline";
   }
+  std::string get_display_name() const {
+    return _("Trampoline");
+  }
 
   virtual ObjectSettings get_settings();
 

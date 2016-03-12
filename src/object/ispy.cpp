@@ -22,7 +22,6 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 #include <sstream>
@@ -68,8 +67,7 @@ Ispy::save(Writer& writer) {
 
 ObjectSettings
 Ispy::get_settings() {
-  ObjectSettings result(_("Ispy"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = MovingSprite::get_settings();
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
   result.options.push_back( dir_option(&dir) );
 

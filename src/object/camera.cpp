@@ -25,7 +25,6 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -134,8 +133,7 @@ Camera::save(Writer& writer){
 
 ObjectSettings
 Camera::get_settings() {
-  ObjectSettings result(_("Camera"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = GameObject::get_settings();
 
   ObjectOption moo(MN_STRINGSELECT, _("Mode"), &defaultmode);
   moo.select.push_back(_("normal"));

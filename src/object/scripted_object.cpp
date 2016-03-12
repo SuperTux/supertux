@@ -23,7 +23,6 @@
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
@@ -67,8 +66,7 @@ ScriptedObject::save(Writer& writer){
 
 ObjectSettings
 ScriptedObject::get_settings() {
-  ObjectSettings result(_("Scripted object"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = MovingSprite::get_settings();
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Enabled physics"), &physic_enabled));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Visible"), &visible));

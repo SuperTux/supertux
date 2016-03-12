@@ -20,7 +20,6 @@
 #include "object/portable.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 
 PneumaticPlatform::PneumaticPlatform(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
@@ -110,15 +109,6 @@ PneumaticPlatform::update(float elapsed_time)
     if (offset_y > 256) { offset_y = 256; speed_y = -0; }
     movement = Vector(0, (start_y + offset_y) - get_pos().y);
   }
-}
-
-
-ObjectSettings
-PneumaticPlatform::get_settings() {
-  ObjectSettings result(_("Pneumatic platform"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-
-  return result;
 }
 
 /* EOF */

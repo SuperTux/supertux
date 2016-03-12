@@ -17,7 +17,6 @@
 #include "object/decal.hpp"
 
 #include "supertux/object_factory.hpp"
-#include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -44,8 +43,7 @@ Decal::save(Writer& writer) {
 
 ObjectSettings
 Decal::get_settings() {
-  ObjectSettings result(_("Decal"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = MovingSprite::get_settings();
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Action"), &default_action));
 
   return result;

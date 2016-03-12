@@ -38,6 +38,9 @@ public:
   virtual std::string get_class() const {
     return "weak_block";
   }
+  std::string get_display_name() const {
+    return _("Weak block");
+  }
 
   virtual ObjectSettings get_settings();
 
@@ -59,7 +62,7 @@ private:
     STATE_DISINTEGRATING /**< crumbling to dust, no longer solid */
   };
   State state;
-	
+
   bool linked;
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 

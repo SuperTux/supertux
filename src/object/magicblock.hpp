@@ -39,6 +39,9 @@ public:
   virtual std::string get_class() const {
     return "magicblock";
   }
+  std::string get_display_name() const {
+    return _("Magic block");
+  }
 
   virtual ObjectSettings get_settings();
   virtual void after_editor_set();

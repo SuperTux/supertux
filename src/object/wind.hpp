@@ -60,6 +60,9 @@ public:
   virtual std::string get_class() const {
     return "wind";
   }
+  std::string get_display_name() const {
+    return _("Wind");
+  }
 
   virtual ObjectSettings get_settings();
 

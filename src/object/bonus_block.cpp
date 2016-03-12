@@ -35,7 +35,6 @@
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 #include <stdexcept>
@@ -183,8 +182,7 @@ BonusBlock::save(Writer& writer) {
 
 ObjectSettings
 BonusBlock::get_settings() {
-  ObjectSettings result(_("Bonus block"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = MovingObject::get_settings();
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Count"), &hit_counter));
 

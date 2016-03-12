@@ -38,6 +38,9 @@ public:
   virtual std::string get_class() const {
     return "infoblock";
   }
+  std::string get_display_name() const {
+    return _("Info block");
+  }
 
   virtual ObjectSettings get_settings();
 

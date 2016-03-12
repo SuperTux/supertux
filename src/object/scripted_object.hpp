@@ -59,6 +59,9 @@ public:
   virtual std::string get_class() const {
     return "scriptedobject";
   }
+  std::string get_display_name() const {
+    return _("Scripted object");
+  }
 
   virtual ObjectSettings get_settings();
 
