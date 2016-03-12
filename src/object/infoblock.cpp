@@ -24,7 +24,6 @@
 #include "supertux/info_box_line.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
@@ -67,8 +66,7 @@ InfoBlock::save(Writer& writer) {
 
 ObjectSettings
 InfoBlock::get_settings() {
-  ObjectSettings result(_("Info block"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = Block::get_settings();
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Message"), &message));
 
   return result;

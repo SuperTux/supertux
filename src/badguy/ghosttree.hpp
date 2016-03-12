@@ -44,7 +44,7 @@ public:
   virtual std::string get_class() const {
     return "ghosttree";
   }
-  std::string get_display_name() {
+  std::string get_display_name() const {
     return _("Ghost tree");
   }
 

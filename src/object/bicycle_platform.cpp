@@ -23,7 +23,6 @@
 #include "object/portable.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 
 BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),

@@ -39,6 +39,9 @@ public:
   virtual std::string get_class() const {
     return "particles-clouds";
   }
+  std::string get_display_name() const {
+    return _("Cloud particles");
+  }
 
   virtual const std::string get_icon_path() const {
     return "images/engine/editor/clouds.png";
@@ -56,8 +59,6 @@ private:
   };
 
   SurfacePtr cloudimage;
-
-  virtual ObjectSettings get_settings();
 
 private:
   CloudParticleSystem(const CloudParticleSystem&);

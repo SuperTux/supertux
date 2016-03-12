@@ -19,7 +19,6 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 Spotlight::Spotlight(const ReaderMapping& lisp) :
@@ -66,8 +65,7 @@ Spotlight::save(Writer& writer) {
 
 ObjectSettings
 Spotlight::get_settings() {
-  ObjectSettings result(_("Spotlight"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = MovingObject::get_settings();
   result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &color));
 
   return result;

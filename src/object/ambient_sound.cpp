@@ -26,7 +26,6 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
@@ -139,8 +138,7 @@ ObjectSettings
 AmbientSound::get_settings() {
   new_size.x = bbox.get_width();
   new_size.y = bbox.get_height();
-  ObjectSettings result(_("Ambient sound"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = MovingObject::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance factor"), &distance_factor));

@@ -24,7 +24,6 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 Lantern::Lantern(const ReaderMapping& reader) :
@@ -63,8 +62,7 @@ Lantern::save(Writer& writer) {
 
 ObjectSettings
 Lantern::get_settings() {
-  ObjectSettings result(_("Lantern"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = Rock::get_settings();
   result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor));
 
   return result;

@@ -46,8 +46,7 @@ InvisibleWall::get_settings() {
   width = bbox.get_width;
   height = bbox.get_height;
 
-  ObjectSettings result(_("Invisible wall"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = MovingObject::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &width));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &height));
 
