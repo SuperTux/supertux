@@ -51,6 +51,8 @@ class EditorInputCenter
     std::unique_ptr<Tip> object_tip;
     Vector obj_mouse_desync;
 
+    bool render_grid;
+
     void input_tile(Vector pos);
     void put_tile();
     void draw_rectangle();
