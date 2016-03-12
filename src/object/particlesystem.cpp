@@ -38,6 +38,14 @@ ParticleSystem::ParticleSystem(float max_particle_size_) :
   z_pos = LAYER_BACKGROUND1;
 }
 
+ObjectSettings
+ParticleSystem::get_settings() {
+  ObjectSettings result = GameObject::get_settings();
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
+
+  return result;
+}
+
 void ParticleSystem::parse(const ReaderMapping& reader)
 {
   if (!reader.get("name", name))

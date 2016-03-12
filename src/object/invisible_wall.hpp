@@ -35,6 +35,9 @@ public:
   virtual std::string get_class() const {
     return "invisible_wall";
   }
+  std::string get_display_name() const {
+    return _("Invisible wall");
+  }
 
   virtual ObjectSettings get_settings();
 

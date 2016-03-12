@@ -70,6 +70,9 @@ public:
   virtual std::string get_class() const {
     return "leveltime";
   }
+  std::string get_display_name() const {
+    return _("Level time");
+  }
 
   virtual ObjectSettings get_settings();
 

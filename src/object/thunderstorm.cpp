@@ -22,7 +22,6 @@
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -66,8 +65,7 @@ Thunderstorm::save(Writer& writer) {
 
 ObjectSettings
 Thunderstorm::get_settings() {
-  ObjectSettings result(_("Thunderstorm"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = GameObject::get_settings();
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Running"), &running));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Interval"), &interval));
 

@@ -34,6 +34,9 @@ public:
   virtual std::string get_class() const {
     return "powerup";
   }
+  std::string get_display_name() const {
+    return _("Power up");
+  }
 
   virtual ObjectSettings get_settings();
 

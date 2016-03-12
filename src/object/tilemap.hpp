@@ -46,6 +46,9 @@ public:
   virtual ~TileMap();
 
   virtual void save(Writer& writer);
+  std::string get_display_name() const {
+    return _("Tile map");
+  }
   virtual ObjectSettings get_settings();
   virtual void after_editor_set();
 

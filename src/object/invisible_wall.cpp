@@ -18,7 +18,6 @@
 
 #include "supertux/object_factory.hpp"
 #include "editor/editor.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 InvisibleWall::InvisibleWall(const ReaderMapping& lisp) :
@@ -41,8 +40,7 @@ InvisibleWall::save(Writer& writer) {
 
 ObjectSettings
 InvisibleWall::get_settings() {
-  ObjectSettings result(_("Invisible wall"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = MovingSprite::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &width));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &height));
 

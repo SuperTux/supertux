@@ -20,7 +20,6 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -54,8 +53,7 @@ PushButton::save(Writer& writer) {
 
 ObjectSettings
 PushButton::get_settings() {
-  ObjectSettings result(_("Button"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = MovingSprite::get_settings();
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
 
   return result;

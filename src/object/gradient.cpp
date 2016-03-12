@@ -21,7 +21,6 @@
 #include "scripting/gradient.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -114,8 +113,7 @@ Gradient::save(Writer& writer) {
 
 ObjectSettings
 Gradient::get_settings() {
-  ObjectSettings result(_("Gradient"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = GameObject::get_settings();
 
   if (gradient_direction == HORIZONTAL || gradient_direction == HORIZONTAL_SECTOR) {
     result.options.push_back( ObjectOption(MN_COLOR, _("Left Colour"), &gradient_top));

@@ -35,8 +35,9 @@ public:
   virtual std::string get_class() const {
     return "torch";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const override {
+    return _("Torch");
+  }
 
 private:
   SpritePtr m_torch;

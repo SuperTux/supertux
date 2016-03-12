@@ -57,6 +57,9 @@ public:
   int get_layer() const
   { return layer; }
 
+  std::string get_display_name() const {
+    return _("Background");
+  }
   virtual ObjectSettings get_settings();
 
   virtual const std::string get_icon_path() const {

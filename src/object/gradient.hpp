@@ -57,6 +57,10 @@ public:
     return "gradient";
   }
 
+  std::string get_display_name() const {
+    return _("Gradient");
+  }
+
   int get_layer() const
   { return layer; }
 

@@ -67,8 +67,9 @@ public:
   virtual std::string get_class() const {
     return "platform";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Platform");
+  }
 
 private:
   std::unique_ptr<Path> path;

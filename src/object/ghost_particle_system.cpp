@@ -67,13 +67,4 @@ void GhostParticleSystem::update(float elapsed_time)
   }
 }
 
-ObjectSettings
-GhostParticleSystem::get_settings() {
-  ObjectSettings result(_("Ghost particles"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
-
-  return result;
-}
-
 /* EOF */

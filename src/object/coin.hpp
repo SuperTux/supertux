@@ -39,8 +39,9 @@ public:
   virtual std::string get_class() const {
     return "coin";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Coin");
+  }
 
 private:
   std::shared_ptr<Path> path;

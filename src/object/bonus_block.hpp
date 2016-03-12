@@ -35,6 +35,9 @@ public:
   virtual std::string get_class() const {
     return "bonusblock";
   }
+  std::string get_display_name() const {
+    return _("Bonus block");
+  }
   enum Contents {
     CONTENT_COIN,
     CONTENT_FIREGROW,

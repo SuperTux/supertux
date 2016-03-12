@@ -26,7 +26,6 @@
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 #include <math.h>
@@ -63,7 +62,7 @@ HitResponse
 WeakBlock::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
   switch (state) {
-			
+
     case STATE_NORMAL:
       //Ensure only fire destroys weakblock
       if(bullet.get_type() == FIRE_BONUS) {
@@ -75,16 +74,16 @@ WeakBlock::collision_bullet(Bullet& bullet, const CollisionHit& hit)
         bullet.ricochet(*this, hit);
       }
     break;
-			
+
     case STATE_BURNING:
     case STATE_DISINTEGRATING:
       break;
-			
+
     default:
       log_debug << "unhandled state" << std::endl;
       break;
 	}
-	
+
 	return FORCE_MOVE;
 }
 
@@ -92,7 +91,7 @@ HitResponse
 WeakBlock::collision(GameObject& other, const CollisionHit& hit)
 {
   switch (state) {
-				
+
       case STATE_NORMAL:
         if (Bullet* bullet = dynamic_cast<Bullet*> (&other)) {
           return collision_bullet(*bullet, hit);
@@ -102,7 +101,7 @@ WeakBlock::collision(GameObject& other, const CollisionHit& hit)
           startBurning();
         }
         break;
-				
+
       case STATE_BURNING:
         if(sprite_name != "images/objects/weak_block/strawbox.sprite")
           break;
@@ -113,12 +112,12 @@ WeakBlock::collision(GameObject& other, const CollisionHit& hit)
         break;
       case STATE_DISINTEGRATING:
         break;
-				
+
       default:
         log_debug << "unhandled state" << std::endl;
         break;
   }
-	
+
   return FORCE_MOVE;
 }
 
@@ -126,10 +125,10 @@ void
 WeakBlock::update(float )
 {
   switch (state) {
-				
+
       case STATE_NORMAL:
         break;
-				
+
       case STATE_BURNING:
         // cause burn light to flicker randomly
         if (linked) {
@@ -149,14 +148,14 @@ WeakBlock::update(float )
           lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
         }
         break;
-				
+
       case STATE_DISINTEGRATING:
         if (sprite->animation_done()) {
           remove_me();
           return;
         }
         break;
-				
+
   }
 }
 
@@ -212,8 +211,7 @@ WeakBlock::spreadHit()
 
 ObjectSettings
 WeakBlock::get_settings() {
-  ObjectSettings result(_("Weak block"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = MovingSprite::get_settings();
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Linked"), &linked));
 
   return result;

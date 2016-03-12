@@ -20,7 +20,6 @@
 #include "object/camera.hpp"
 #include "object/rainsplash.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -88,15 +87,6 @@ void RainParticleSystem::update(float elapsed_time)
       particle->pos.y = new_y;
     }
   }
-}
-
-ObjectSettings
-RainParticleSystem::get_settings() {
-  ObjectSettings result(_("Rain particles"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
-
-  return result;
 }
 
 /* EOF */

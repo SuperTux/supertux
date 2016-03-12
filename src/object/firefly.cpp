@@ -25,7 +25,6 @@
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 Firefly::Firefly(const ReaderMapping& lisp) :
@@ -110,14 +109,6 @@ Firefly::collision(GameObject& other, const CollisionHit& )
   }
 
   return ABORT_MOVE;
-}
-
-ObjectSettings
-Firefly::get_settings() {
-  ObjectSettings result(_("Reset point"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-
-  return result;
 }
 
 /* EOF */

@@ -23,7 +23,6 @@
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/gettext.hpp"
 
 UnstableTile::UnstableTile(const ReaderMapping& lisp) :
   MovingSprite(lisp, LAYER_TILES, COLGROUP_STATIC),
@@ -156,14 +155,6 @@ UnstableTile::update(float elapsed_time)
         movement = physic.get_movement (elapsed_time);
       break;
   }
-}
-
-ObjectSettings
-UnstableTile::get_settings() {
-  ObjectSettings result(_("Unstable tile"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-
-  return result;
 }
 
 /* EOF */

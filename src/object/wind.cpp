@@ -24,7 +24,6 @@
 #include "scripting/wind.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
@@ -65,8 +64,7 @@ Wind::save(Writer& writer) {
 
 ObjectSettings
 Wind::get_settings() {
-  ObjectSettings result(_("Wind"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = MovingObject::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed X"), &speed.x));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed Y"), &speed.y));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Acceleration"), &acceleration));

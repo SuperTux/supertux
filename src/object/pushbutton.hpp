@@ -33,6 +33,9 @@ public:
   virtual std::string get_class() const {
     return "pushbutton";
   }
+  std::string get_display_name() const {
+    return _("Button");
+  }
 
   virtual ObjectSettings get_settings();
 

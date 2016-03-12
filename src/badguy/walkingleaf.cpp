@@ -46,5 +46,4 @@ WalkingLeaf::is_freezable() const
 {
   return true;
 }
-
 /* EOF */

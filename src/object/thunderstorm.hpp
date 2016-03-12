@@ -81,6 +81,9 @@ public:
   virtual std::string get_class() const {
     return "thunderstorm";
   }
+  std::string get_display_name() const {
+    return _("Thunderstorm");
+  }
 
   virtual ObjectSettings get_settings();
 

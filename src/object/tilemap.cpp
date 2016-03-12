@@ -28,7 +28,6 @@
 #include "supertux/sector.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
-#include "util/gettext.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -200,8 +199,7 @@ ObjectSettings
 TileMap::get_settings() {
   new_size_x = width;
   new_size_y = height;
-  ObjectSettings result(_("Tile map"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectSettings result = GameObject::get_settings();
   result.options.push_back( ObjectOption(MN_TOGGLE, _("solid"), &real_solid));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("width"), &new_size_x));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("height"), &new_size_y));
