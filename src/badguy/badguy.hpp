@@ -52,13 +52,12 @@ public:
     return "badguy";
   }
 
-  virtual std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Badguy");
   }
 
   virtual ObjectSettings get_settings() override {
-    ObjectSettings result(this->get_display_name());
-    result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+    ObjectSettings result = GameObject::get_settings();
     result.options.push_back( dir_option(&dir) );
     result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
     return result;
