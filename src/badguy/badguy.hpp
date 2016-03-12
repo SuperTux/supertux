@@ -23,7 +23,6 @@
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
-#include "util/gettext.hpp"
 
 class Player;
 class Bullet;
