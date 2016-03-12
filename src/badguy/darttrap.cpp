@@ -22,7 +22,6 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/gettext.hpp"
 
 namespace {
 const float MUZZLE_Y = 25; /**< [px] muzzle y-offset from top */
@@ -120,10 +119,7 @@ DartTrap::fire()
 
 ObjectSettings
 DartTrap::get_settings() {
-  ObjectSettings result(_("Dart trap"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
+  ObjectSettings result = BadGuy::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Initial delay"), &initial_delay));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Fire delay"), &fire_delay));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Ammo"), &ammo));

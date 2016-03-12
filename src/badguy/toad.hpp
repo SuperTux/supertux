@@ -39,8 +39,9 @@ public:
   virtual std::string get_class() const {
     return "toad";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Toad");
+  }
 
 protected:
   enum ToadState {

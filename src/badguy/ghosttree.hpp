@@ -44,8 +44,9 @@ public:
   virtual std::string get_class() const {
     return "ghosttree";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() {
+    return _("Ghost tree");
+  }
 
 private:
   enum MyState {

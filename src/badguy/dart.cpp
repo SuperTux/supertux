@@ -20,7 +20,6 @@
 #include "audio/sound_source.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/gettext.hpp"
 
 namespace {
 const float DART_SPEED = 200;
@@ -130,15 +129,6 @@ bool
 Dart::is_flammable() const
 {
   return false;
-}
-
-ObjectSettings
-Dart::get_settings() {
-  ObjectSettings result(_("Dart"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
 }
 
 void Dart::stop_looping_sounds()

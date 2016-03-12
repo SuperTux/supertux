@@ -36,11 +36,14 @@ public:
 
   void kill_fall() { };
 
-  virtual ObjectSettings get_settings();
+  ObjectSettings get_settings();
   virtual void save(Writer& writer);
   virtual void after_editor_set();
   virtual std::string get_class() const {
     return "mrcandle";
+  }
+  std::string get_display_name() const {
+    return _("Mr. Candle");
   }
 
 private:

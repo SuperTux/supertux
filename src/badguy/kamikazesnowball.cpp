@@ -20,7 +20,6 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/gettext.hpp"
 
 /*
  * Kamikaze Snowball will fly in one direction until he hits something.
@@ -104,15 +103,6 @@ LeafShot::LeafShot(const ReaderMapping& reader) :
   sprite = SpriteManager::current()->create("images/creatures/leafshot/leafshot.sprite");
 }
 
-ObjectSettings
-KamikazeSnowball::get_settings() {
-  ObjectSettings result(_("Kamikaze snowball"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
-}
-
 void
 LeafShot::initialize()
 {
@@ -125,15 +115,6 @@ bool
 LeafShot::is_freezable() const
 {
   return true;
-}
-
-ObjectSettings
-LeafShot::get_settings() {
-  ObjectSettings result(_("Leaf Shot"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
 }
 
 /* EOF */

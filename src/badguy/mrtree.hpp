@@ -28,8 +28,9 @@ public:
   virtual std::string get_class() const {
     return "mrtree";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Mr. Tree");
+  }
 
 protected:
   bool collision_squished(GameObject& object);

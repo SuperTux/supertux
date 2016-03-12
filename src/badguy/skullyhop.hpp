@@ -39,8 +39,9 @@ public:
   virtual std::string get_class() const {
     return "skullyhop";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Skully hop");
+  }
 
 private:
   enum SkullyHopState {

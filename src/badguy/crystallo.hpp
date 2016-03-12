@@ -31,8 +31,9 @@ public:
   virtual std::string get_class() const {
     return "crystallo";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Crystallo");
+  }
 
   void active_update(float elapsed_time);
   bool is_flammable() const;

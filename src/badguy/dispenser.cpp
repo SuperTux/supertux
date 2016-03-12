@@ -24,7 +24,6 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/gettext.hpp"
 
 #include <stdexcept>
 
@@ -381,10 +380,7 @@ Dispenser::is_flammable() const
 
 ObjectSettings
 Dispenser::get_settings() {
-  ObjectSettings result(_("Dispenser"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
+  ObjectSettings result = BadGuy::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Cycle"), &cycle));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Random"), &random));
   return result;
