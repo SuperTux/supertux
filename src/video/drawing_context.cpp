@@ -269,6 +269,29 @@ DrawingContext::draw_inverse_ellipse(const Vector& pos, const Vector& size, cons
   requests->push_back(request);
 }
 
+void
+DrawingContext::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, int layer)
+{
+  DrawingRequest* request = new(obst) DrawingRequest();
+
+  request->target = target;
+  request->type   = LINE;
+  request->pos    = transform.apply(pos1);
+  request->layer  = layer;
+
+  request->drawing_effect = transform.drawing_effect;
+  request->alpha = transform.alpha;
+
+  LineRequest* line = new(obst) LineRequest;
+
+  line->color        = color;
+  line->color.alpha  = color.alpha * transform.alpha;
+  line->dest_pos     = pos2;
+  request->request_data = line;
+
+  requests->push_back(request);
+}
+
 Rectf
 DrawingContext::get_cliprect() const
 {
@@ -405,6 +428,9 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
           case GETLIGHT:
             lightmap.get_light(request);
             break;
+          case LINE:
+            renderer.draw_line(request);
+            break;
         }
         break;
       case LIGHTMAP:
@@ -436,6 +462,9 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
             break;
           case GETLIGHT:
             lightmap.get_light(request);
+            break;
+          case LINE:
+            lightmap.draw_line(request);
             break;
         }
         break;
