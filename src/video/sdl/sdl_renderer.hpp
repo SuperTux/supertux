@@ -33,6 +33,7 @@ public:
   void draw_gradient(const DrawingRequest& request) override;
   void draw_filled_rect(const DrawingRequest& request) override;
   void draw_inverse_ellipse(const DrawingRequest& request) override;
+  void draw_line(const DrawingRequest& request) override;
   void do_take_screenshot() override;
   void flip() override;
   void resize(int w, int h) override;

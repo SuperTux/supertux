@@ -324,4 +324,31 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
   SDL_RenderFillRects(renderer, rects, 2*slices+2);
 }
 
+void
+SDLPainter::draw_line(SDL_Renderer* renderer, const DrawingRequest& request)
+{
+  const LineRequest* linerequest
+    = static_cast<LineRequest*>(request.request_data);
+
+/*  SDL_Rect rect;
+  rect.x = request.pos.x;
+  rect.y = request.pos.y;
+  rect.w = fillrectrequest->size.x;
+  rect.h = fillrectrequest->size.y;*/
+
+  Uint8 r = static_cast<Uint8>(linerequest->color.red * 255);
+  Uint8 g = static_cast<Uint8>(linerequest->color.green * 255);
+  Uint8 b = static_cast<Uint8>(linerequest->color.blue * 255);
+  Uint8 a = static_cast<Uint8>(linerequest->color.alpha * 255);
+
+  int x1 = request.pos.x;
+  int y1 = request.pos.y;
+  int x2 = linerequest->dest_pos.x;
+  int y2 = linerequest->dest_pos.y;
+
+  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(renderer, r, g, b, a);
+  SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+}
+
 /* EOF */
