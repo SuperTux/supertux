@@ -50,6 +50,7 @@ EditorInputCenter::EditorInputCenter() :
   dragged_object(NULL),
   object_tip(),
   obj_mouse_desync(0, 0),
+  render_grid(true),
   scrolling(Vector())
 {
 }
@@ -420,6 +421,12 @@ EditorInputCenter::event(SDL_Event& ev) {
         }
       }
     } break;
+    case SDL_KEYDOWN:
+      if (ev.key.keysym.sym == SDLK_F8)
+      {
+        render_grid = !render_grid;
+      }
+      break;
     default:
       break;
   }
@@ -562,7 +569,10 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context) {
 void
 EditorInputCenter::draw(DrawingContext& context) {
   draw_tile_tip(context);
-  draw_tile_grid(context);
+
+  if (render_grid) {
+    draw_tile_grid(context);
+  }
 
   if (object_tip) {
     object_tip->draw(context, mouse_pos);
