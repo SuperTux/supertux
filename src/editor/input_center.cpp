@@ -521,8 +521,48 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
 }
 
 void
+EditorInputCenter::draw_tile_grid(DrawingContext& context) {
+  if ( !Editor::current()->layerselect.selected_tilemap ) {
+    return;
+  }
+
+  TileMap* current_tm = (TileMap*)Editor::current()->layerselect.selected_tilemap;
+  int tm_width = current_tm->get_width();
+  int tm_height = current_tm->get_height();
+  Rectf draw_rect = Rectf(Editor::current()->currentsector->camera->get_translation(),
+        Editor::current()->currentsector->camera->get_translation() + Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
+  Vector start = sp_to_tp( Vector(draw_rect.p1.x, draw_rect.p1.y) );
+  Vector end = sp_to_tp( Vector(draw_rect.p2.x, draw_rect.p2.y) );
+  start.x = std::max(0.0f, start.x);
+  start.y = std::max(0.0f, start.y);
+  end.x = std::min(float(tm_width-1), end.x);
+  end.y = std::min(float(tm_height-1), end.y);
+
+  Vector line_start, line_end;
+  for (int i = start.x; i <= end.x; i++) {
+    line_start = tile_screen_pos( Vector(i, 0) );
+    line_end = tile_screen_pos( Vector(i, tm_height) );
+    context.draw_line(line_start, line_end, Color(1, 1, 1, 0.7), current_tm->get_layer());
+  }
+
+  for (int i = start.y; i <= end.y; i++) {
+    line_start = tile_screen_pos( Vector(0, i) );
+    line_end = tile_screen_pos( Vector(tm_width, i) );
+    context.draw_line(line_start, line_end, Color(1, 1, 1, 0.7), current_tm->get_layer());
+  }
+
+  start = tile_screen_pos( Vector(0,0) );
+  end = tile_screen_pos( Vector(tm_width, tm_height) );
+  context.draw_line(start, Vector(start.x, end.y), Color(1, 0, 1), current_tm->get_layer());
+  context.draw_line(start, Vector(end.x, start.y), Color(1, 0, 1), current_tm->get_layer());
+  context.draw_line(Vector(start.x, end.y), end, Color(1, 0, 1), current_tm->get_layer());
+  context.draw_line(Vector(end.x, start.y), end, Color(1, 0, 1), current_tm->get_layer());
+}
+
+void
 EditorInputCenter::draw(DrawingContext& context) {
   draw_tile_tip(context);
+  draw_tile_grid(context);
 
   if (object_tip) {
     object_tip->draw(context, mouse_pos);
@@ -570,6 +610,12 @@ EditorInputCenter::sp_to_tp(Vector sp) {
   } else {
     return Vector(0, 0);
   }
+}
+
+Vector
+EditorInputCenter::tile_screen_pos(Vector tp) {
+  Vector sp = tp_to_sp(tp);
+  return sp - Editor::current()->currentsector->camera->get_translation();
 }
 
 /* EOF */

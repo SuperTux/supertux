@@ -66,6 +66,7 @@ class EditorInputCenter
     void set_object();
 
     void draw_tile_tip(DrawingContext&);
+    void draw_tile_grid(DrawingContext&);
 
     void process_left_click();
     void process_right_click();
@@ -73,6 +74,7 @@ class EditorInputCenter
     // sp is sector pos, tp is pos on tilemap.
     Vector tp_to_sp(Vector tp);
     Vector sp_to_tp(Vector sp);
+    Vector tile_screen_pos(Vector tp);
 
     // in sector position
     Rectf drag_rect();
