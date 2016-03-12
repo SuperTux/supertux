@@ -199,7 +199,7 @@ EditorInputGui::event(SDL_Event& ev) {
               case IP_TILE: {
                 int size = active_tilegroup.size();
                 if (hovered_tile < size && hovered_tile >= 0) {
-                  tile = active_tilegroup[hovered_tile];
+                  tile = active_tilegroup[hovered_tile + starting_tile];
                 } else {
                   tile = 0;
                 }
@@ -207,7 +207,7 @@ EditorInputGui::event(SDL_Event& ev) {
               case IP_OBJECT: {
                 int size = object_input->groups[active_objectgroup].icons.size();
                 if (hovered_tile < size && hovered_tile >= 0) {
-                  object = object_input->groups[active_objectgroup].icons[hovered_tile].object_name;
+                  object = object_input->groups[active_objectgroup].icons[hovered_tile + starting_tile].object_name;
                 }
               } break;
               default:
