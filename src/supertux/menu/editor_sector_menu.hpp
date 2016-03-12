@@ -24,10 +24,14 @@ class EditorSectorMenu : public Menu
 private:
 public:
   EditorSectorMenu();
+  ~EditorSectorMenu();
 
   void menu_action(MenuItem* item) override;
 
 private:
+  std::string* sector_name_ptr;
+  std::string original_name;
+
   EditorSectorMenu(const EditorSectorMenu&);
   EditorSectorMenu& operator=(const EditorSectorMenu&);
 };
