@@ -30,8 +30,9 @@ public:
   virtual std::string get_class() const {
     return "kamikazesnowball";
   }
-
-  virtual ObjectSettings get_settings();
+  virtual std::string get_display_name() const {
+    return _("Kamikaze snowball");
+  }
 
 protected:
   bool collision_squished(GameObject& object);
@@ -46,6 +47,12 @@ class LeafShot : public KamikazeSnowball
 
     void initialize();
     bool is_freezable() const;
+    virtual std::string get_class() const {
+      return "leafshot";
+    }
+    std::string get_display_name() const {
+      return _("Leaf Shot");
+    }
 };
 
 #endif

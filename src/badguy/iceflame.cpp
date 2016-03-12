@@ -25,7 +25,6 @@
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 Iceflame::Iceflame(const ReaderMapping& reader) :
@@ -62,15 +61,6 @@ bool
 Iceflame::is_flammable() const
 {
   return true;
-}
-
-ObjectSettings
-Iceflame::get_settings() {
-  ObjectSettings result(_("Ice flame"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
 }
 
 /* EOF */

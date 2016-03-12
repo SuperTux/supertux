@@ -37,8 +37,11 @@ public:
   virtual std::string get_class() const {
     return "dispenser";
   }
+  std::string get_display_name() const {
+    return _("Dispenser");
+  }
 
-  virtual ObjectSettings get_settings();
+  ObjectSettings get_settings();
 
 protected:
   bool collision_squished(GameObject& object);

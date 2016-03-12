@@ -44,8 +44,9 @@ public:
   virtual std::string get_class() const {
     return "mole_rock";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Mole's rock");
+  }
 
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */

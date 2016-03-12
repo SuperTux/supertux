@@ -40,8 +40,9 @@ public:
   virtual std::string get_class() const {
     return "owl";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Owl");
+  }
 
 protected:
   bool is_above_player() const;

@@ -33,7 +33,9 @@ public:
     return "iceflame";
   }
 
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Ice flame");
+  }
 };
 
 #endif

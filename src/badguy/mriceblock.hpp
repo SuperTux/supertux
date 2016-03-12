@@ -47,8 +47,9 @@ public:
   virtual std::string get_class() const {
     return "mriceblock";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Mr. Ice Block");
+  }
 
 protected:
   enum IceState {
@@ -77,7 +78,9 @@ public:
   virtual std::string get_water_sprite() const {
     return "images/objects/water_drop/pink_drop.sprite";
   }
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Smart Block");
+  }
 };
 
 #endif

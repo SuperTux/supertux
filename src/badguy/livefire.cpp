@@ -22,7 +22,6 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 
 LiveFire::LiveFire(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/livefire/livefire.sprite", "left", "right"),
@@ -168,34 +167,6 @@ LiveFireDormant::initialize()
 {
   physic.set_velocity_x(0);
   sprite->set_action(dir == LEFT ? "sleeping-left" : "sleeping-right");
-}
-
-
-ObjectSettings
-LiveFire::get_settings() {
-  ObjectSettings result(_("Live fire"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
-}
-
-ObjectSettings
-LiveFireAsleep::get_settings() {
-  ObjectSettings result(_("Sleeping live fire"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
-}
-
-ObjectSettings
-LiveFireDormant::get_settings() {
-  ObjectSettings result(_("Dormant live fire"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
 }
 
 /* EOF */

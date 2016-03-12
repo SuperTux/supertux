@@ -21,7 +21,6 @@
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 
 namespace {
 const float PUFF_INTERVAL_MIN = 4.0f; /**< spawn new puff of smoke at most that often */
@@ -123,16 +122,6 @@ FlyingSnowBall::active_update(float elapsed_time)
     normal_propeller_speed = gameRandom.randf(0.95, 1.05);
     physic.set_velocity_y(physic.get_velocity_y() - 50);
   }
-}
-
-
-ObjectSettings
-FlyingSnowBall::get_settings() {
-  ObjectSettings result(_("Flying snowball"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
 }
 
 /* EOF */
