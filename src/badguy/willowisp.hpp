@@ -59,6 +59,9 @@ public:
   virtual std::string get_class() const {
     return "willowisp";
   }
+  std::string get_display_name() const {
+    return _("Will 'o' wisp");
+  }
 
   virtual ObjectSettings get_settings();
 

@@ -19,7 +19,6 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 
 namespace{
   static const float CAPTAIN_WALK_SPEED = 100;
@@ -95,16 +94,6 @@ CaptainSnowball::collision_squished(GameObject& object)
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(object);
   return true;
-}
-
-
-ObjectSettings
-CaptainSnowball::get_settings() {
-  ObjectSettings result(_("Captain snowball"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
 }
 
 /* EOF */

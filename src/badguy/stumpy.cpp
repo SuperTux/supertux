@@ -22,7 +22,6 @@
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 
 #include <math.h>
 
@@ -169,16 +168,6 @@ bool
 Stumpy::is_freezable() const
 {
   return true;
-}
-
-
-ObjectSettings
-Stumpy::get_settings() {
-  ObjectSettings result(_("Stumpy"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
 }
 
 /* EOF */

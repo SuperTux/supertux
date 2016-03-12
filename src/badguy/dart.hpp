@@ -45,9 +45,11 @@ public:
   virtual std::string get_class() const {
     return "dart";
   }
+  std::string get_display_name() const {
+    return _("Dart");
+  }
 
   bool is_flammable() const;
-  virtual ObjectSettings get_settings();
 
   void stop_looping_sounds();
   void play_looping_sounds();

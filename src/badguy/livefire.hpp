@@ -36,8 +36,9 @@ public:
   virtual std::string get_class() const {
     return "livefire";
   }
-
-  virtual ObjectSettings get_settings();
+  virtual std::string get_display_name() const override {
+    return _("Live fire");
+  }
 
 private:
   std::string death_sound;
@@ -58,7 +59,9 @@ public:
   LiveFireAsleep(const ReaderMapping& reader);
 
   void initialize();
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Sleeping live fire");
+  }
 };
 
 class LiveFireDormant : public LiveFire
@@ -67,7 +70,9 @@ public:
   LiveFireDormant(const ReaderMapping& reader);
 
   void initialize();
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Dormant live fire");
+  }
 };
 
 #endif

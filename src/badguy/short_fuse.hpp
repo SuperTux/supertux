@@ -27,8 +27,9 @@ public:
   virtual std::string get_class() const {
     return "short_fuse";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Short fuse");
+  }
 
 protected:
   HitResponse collision_player (Player& player, const CollisionHit& hit);

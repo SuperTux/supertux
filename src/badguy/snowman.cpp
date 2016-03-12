@@ -21,7 +21,6 @@
 #include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 
 Snowman::Snowman(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/snowman/snowman.sprite", "walk-left", "walk-right")
@@ -99,16 +98,6 @@ Snowman::collision_squished(GameObject& object)
   loose_head();
 
   return true;
-}
-
-
-ObjectSettings
-Snowman::get_settings() {
-  ObjectSettings result(_("Snowman"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
 }
 
 /* EOF */

@@ -40,6 +40,9 @@ public:
   virtual std::string get_class() const {
     return "yeti";
   }
+  std::string get_display_name() const {
+    return _("Yeti");
+  }
 
   virtual ObjectSettings get_settings();
   virtual void save(Writer& writer);

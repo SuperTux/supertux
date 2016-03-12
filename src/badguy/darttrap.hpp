@@ -33,8 +33,11 @@ public:
   virtual std::string get_class() const {
     return "darttrap";
   }
+  std::string get_display_name() const {
+    return _("Dart trap");
+  }
 
-  virtual ObjectSettings get_settings();
+  ObjectSettings get_settings();
 
 protected:
   enum State {

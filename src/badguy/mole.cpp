@@ -21,7 +21,6 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 
 #include <math.h>
 
@@ -190,15 +189,6 @@ Mole::set_state(MoleState new_state)
 void
 Mole::ignite() {
   set_state(BURNING);
-}
-
-ObjectSettings
-Mole::get_settings() {
-  ObjectSettings result(_("Mole"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
 }
 
 /* EOF */

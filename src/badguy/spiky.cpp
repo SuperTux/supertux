@@ -18,7 +18,6 @@
 
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/gettext.hpp"
 
 Spiky::Spiky(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/spiky/spiky.sprite", "left", "right")
@@ -37,15 +36,6 @@ bool
 Spiky::is_flammable() const
 {
   return true;
-}
-
-ObjectSettings
-Spiky::get_settings() {
-  ObjectSettings result(_("Spiky"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
 }
 
 /* EOF */

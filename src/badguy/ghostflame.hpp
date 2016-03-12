@@ -31,8 +31,9 @@ public:
   virtual std::string get_class() const {
     return "ghostflame";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Ghost flame");
+  }
 
 private:
   float angle;

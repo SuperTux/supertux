@@ -36,8 +36,9 @@ public:
   virtual std::string get_class() const {
     return "igel";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Igel");
+  }
 
 protected:
 //  bool collision_squished(GameObject& object);

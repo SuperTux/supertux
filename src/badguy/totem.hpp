@@ -37,8 +37,9 @@ public:
   virtual std::string get_class() const {
     return "totem";
   }
-
-  virtual ObjectSettings get_settings();
+  std::string get_display_name() const {
+    return _("Totem");
+  }
 
 protected:
   bool collision_squished(GameObject& object);

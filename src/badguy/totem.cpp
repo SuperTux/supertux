@@ -21,7 +21,6 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 
 #include <math.h>
 
@@ -265,16 +264,6 @@ Totem::synchronize_with(Totem* base)
 
   physic.set_velocity_x(base->physic.get_velocity_x());
   physic.set_velocity_y(base->physic.get_velocity_y());
-}
-
-
-ObjectSettings
-Totem::get_settings() {
-  ObjectSettings result(_("Totem"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
 }
 
 /* EOF */

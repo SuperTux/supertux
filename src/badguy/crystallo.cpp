@@ -20,7 +20,6 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader_mapping.hpp"
 #include "object/anchor_point.hpp"
-#include "util/gettext.hpp"
 
 Crystallo::Crystallo(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
@@ -77,15 +76,6 @@ bool
 Crystallo::is_flammable() const
 {
   return false;
-}
-
-ObjectSettings
-Crystallo::get_settings() {
-  ObjectSettings result(_("Crystallo"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
-  return result;
 }
 
 /* EOF */

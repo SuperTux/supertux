@@ -25,7 +25,6 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 #include <float.h>
@@ -352,10 +351,7 @@ Yeti::is_flammable() const
 
 ObjectSettings
 Yeti::get_settings() {
-  ObjectSettings result(_("Yeti"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"),   &dead_script));
+  ObjectSettings result = BadGuy::get_settings();
   result.options.push_back( ObjectOption(MN_TOGGLE,    _("Fixed position"), &fixed_pos));
   result.options.push_back( ObjectOption(MN_INTFIELD,  _("Lives"),          &hit_points));
   return result;
