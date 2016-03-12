@@ -22,20 +22,41 @@
 #include "editor/editor.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
+#include "supertux/level.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
 #include "video/color.hpp"
 
-EditorSectorMenu::EditorSectorMenu()
+EditorSectorMenu::EditorSectorMenu() :
+  sector_name_ptr(Editor::current()->currentsector->get_name_ptr()),
+  original_name(*sector_name_ptr)
 {
   add_label(_("Sector") + " " + Editor::current()->currentsector->get_name());
   add_hl();
-  add_textfield(_("Name"), Editor::current()->currentsector->get_name_ptr());
+  add_textfield(_("Name"), sector_name_ptr);
   add_script(_("Initialization script"), Editor::current()->currentsector->get_init_script_ptr());
   add_color(_("Ambient light"), Editor::current()->currentsector->get_ambient_light_ptr());
   add_hl();
   add_back(_("OK"));
+}
+
+EditorSectorMenu::~EditorSectorMenu()
+{
+  // Makes sure that the name of the sector isn't already used.
+  Level* level = Editor::current()->get_level();
+  bool is_sector = false;
+  for(auto const& sector : level->sectors) {
+    if(sector->get_name() == Editor::current()->currentsector->get_name()) {
+      if (is_sector) {
+        // Puts the name that was there before when the name is already used.
+        *sector_name_ptr = original_name;
+        break;
+      } else {
+        is_sector = true;
+      }
+    }
+  }
 }
 
 void
