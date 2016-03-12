@@ -17,10 +17,13 @@
 #ifndef HEADER_SUPERTUX_BADGUY_BADGUY_HPP
 #define HEADER_SUPERTUX_BADGUY_BADGUY_HPP
 
+#include "editor/object_option.hpp"
+#include "gui/menu_action.hpp"
 #include "object/moving_sprite.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
+#include "util/gettext.hpp"
 
 class Player;
 class Bullet;
@@ -47,6 +50,18 @@ public:
   virtual void save(Writer& writer);
   virtual std::string get_class() const {
     return "badguy";
+  }
+
+  virtual std::string get_display_name() const {
+    return _("Badguy");
+  }
+
+  virtual ObjectSettings get_settings() override {
+    ObjectSettings result(this->get_display_name());
+    result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+    result.options.push_back( dir_option(&dir) );
+    result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
+    return result;
   }
 
   /** Called when a collision with another object occurred. The
