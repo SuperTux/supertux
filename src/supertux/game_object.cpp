@@ -16,7 +16,6 @@
 
 #include "supertux/game_object.hpp"
 #include "supertux/object_remove_listener.hpp"
-#include "util/gettext.hpp"
 
 GameObject::GameObject() :
   wants_to_die(false),
@@ -83,7 +82,7 @@ GameObject::save(Writer& writer) {
 
 ObjectSettings
 GameObject::get_settings() {
-  ObjectSettings result(_("Unknown object"));
+  ObjectSettings result(this->get_display_name());
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
   return result;
 }

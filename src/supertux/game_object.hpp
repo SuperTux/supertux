@@ -21,6 +21,7 @@
 #include <string>
 
 #include "editor/object_settings.hpp"
+#include "util/gettext.hpp"
 #include "util/writer.hpp"
 
 class DrawingContext;
@@ -64,6 +65,9 @@ public:
   virtual void save(Writer& writer);
   virtual std::string get_class() const {
     return "game-object";
+  }
+  virtual std::string get_display_name() const {
+    return _("Unknown object");
   }
   virtual bool do_save() const {
     return true;
