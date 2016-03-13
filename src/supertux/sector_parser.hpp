@@ -31,6 +31,7 @@ class SectorParser
 public:
   static std::unique_ptr<Sector> from_reader(Level& level, const ReaderMapping& sector);
   static std::unique_ptr<Sector> from_reader_old_format(Level& level, const ReaderMapping& sector);
+  static std::unique_ptr<Sector> from_nothing(Level& level);
 
 private:
   SectorParser(Sector& sector);
@@ -38,6 +39,7 @@ private:
   void fix_old_tiles();
   void parse_old_format(const ReaderMapping& reader);
   void parse(const ReaderMapping& sector);
+  void create_sector();
   GameObjectPtr parse_object(const std::string& name_, const ReaderMapping& reader);
 
 private:
