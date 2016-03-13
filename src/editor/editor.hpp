@@ -88,6 +88,10 @@ class Editor : public Screen,
       return world.get();
     }
 
+    TileSet* get_tileset() const {
+      return tileset;
+    }
+
     std::string get_levelfile() const {
       return levelfile;
     }

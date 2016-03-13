@@ -22,10 +22,13 @@
 #include "video/surface.hpp"
 #include "video/drawing_context.hpp"
 
+class SpawnPoint;
+
 class SpawnPointMarker : public MovingObject
 {
   public:
     SpawnPointMarker(const ReaderMapping& lisp);
+    SpawnPointMarker(const SpawnPoint* sp);
     ~SpawnPointMarker();
 
     void update(float elapsed_time) {
@@ -50,6 +53,8 @@ class SpawnPointMarker : public MovingObject
 
   private:
     SurfacePtr surface;
+
+    void setup();
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_SPAWNPOINT_MARKER_HPP

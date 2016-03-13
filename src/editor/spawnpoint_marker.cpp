@@ -18,6 +18,7 @@
 
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/spawn_point.hpp"
 #include "util/gettext.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
@@ -29,13 +30,25 @@ SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
   if ( !lisp.get("x", bbox.p1.x)) bbox.p1.x = 0;
   if ( !lisp.get("y", bbox.p1.y)) bbox.p1.y = 0;
 
-  bbox.set_size(32, 32);
+  setup();
+}
 
-  surface = Surface::create("images/engine/editor/spawnpoint.png");
+SpawnPointMarker::SpawnPointMarker (const SpawnPoint* sp) :
+  surface()
+{
+  name = sp->name;
+  bbox.p1 = sp->pos;
+  setup();
 }
 
 SpawnPointMarker::~SpawnPointMarker() {
 
+}
+
+void SpawnPointMarker::setup() {
+  bbox.set_size(32, 32);
+
+  surface = Surface::create("images/engine/editor/spawnpoint.png");
 }
 
 void SpawnPointMarker::draw(DrawingContext& context) {
