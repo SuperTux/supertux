@@ -20,28 +20,15 @@
 
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
-#include "editor/spawnpoint_marker.hpp"
 #include "gui/menu_item.hpp"
-#include "object/background.hpp"
-#include "object/camera.hpp"
-#include "object/tilemap.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/screen_fade.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/spawn_point.hpp"
-#include "supertux/tile_set.hpp"
-#include "supertux/world.hpp"
+#include "supertux/sector_parser.hpp"
 #include "util/file_system.hpp"
-#include "util/log.hpp"
 #include "util/gettext.hpp"
-
-const std::string DEFAULT_BG_TOP    = "images/background/BlueRock_Forest/blue-top.jpg";
-const std::string DEFAULT_BG_MIDDLE = "images/background/BlueRock_Forest/blue-middle.jpg";
-const std::string DEFAULT_BG_BOTTOM = "images/background/BlueRock_Forest/blue-bottom.jpg";
 
 EditorSectorsMenu::EditorSectorsMenu()
 {
@@ -65,8 +52,8 @@ void
 EditorSectorsMenu::create_sector()
 {
   Level* level = Editor::current()->get_level();
-  TileSet* tileset = Editor::current()->get_tileset();
-  std::unique_ptr<Sector> new_sector = std::unique_ptr<Sector>(new Sector(level));
+
+  auto new_sector = SectorParser::from_nothing(*level);
 
   if (!new_sector) {
     log_warning << "Failed to create a new sector." << std::endl;
@@ -81,42 +68,6 @@ EditorSectorsMenu::create_sector()
     num++;
   } while ( level->get_sector(sector_name) );
   *(new_sector->get_name_ptr()) = sector_name;
-
-  auto background = std::make_shared<Background>();
-  background->set_images(DEFAULT_BG_TOP, DEFAULT_BG_MIDDLE, DEFAULT_BG_BOTTOM);
-  background->set_speed(0.5);
-  new_sector->add_object(background);
-
-  auto bkgrd = std::make_shared<TileMap>(tileset);
-  bkgrd->resize(100, 35);
-  bkgrd->set_layer(-100);
-  bkgrd->set_solid(false);
-  new_sector->add_object(bkgrd);
-
-  auto intact = std::make_shared<TileMap>(tileset);
-  intact->resize(100, 35);
-  intact->set_layer(0);
-  intact->set_solid(true);
-  new_sector->add_object(intact);
-
-  auto frgrd = std::make_shared<TileMap>(tileset);
-  frgrd->resize(100, 35);
-  frgrd->set_layer(100);
-  frgrd->set_solid(false);
-  new_sector->add_object(frgrd);
-
-  auto spawn_point = std::make_shared<SpawnPoint>();
-  spawn_point->name = "main";
-  spawn_point->pos = Vector(64, 480);
-  new_sector->spawnpoints.push_back(spawn_point);
-
-  GameObjectPtr spawn_point_marker = std::make_shared<SpawnPointMarker>( spawn_point.get() );
-  new_sector->add_object(spawn_point_marker);
-
-  auto camera = std::make_shared<Camera>(new_sector.get(), "Camera");
-  new_sector->add_object(camera);
-
-  new_sector->update_game_objects();
 
   level->add_sector(move(new_sector));
   Editor::current()->load_sector(level->get_sector_count() - 1);
