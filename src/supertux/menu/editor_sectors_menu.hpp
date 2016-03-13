@@ -27,6 +27,8 @@ public:
   void menu_action(MenuItem* item) override;
 
 private:
+  void create_sector();
+
   EditorSectorsMenu(const EditorSectorsMenu&);
   EditorSectorsMenu& operator=(const EditorSectorsMenu&);
 };

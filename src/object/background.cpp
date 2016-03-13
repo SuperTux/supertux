@@ -209,6 +209,12 @@ Background::set_images(const std::string& name_top_, const std::string& name_mid
 }
 
 void
+Background::set_speed(float speed_)
+{
+  speed = speed_;
+}
+
+void
 Background::draw_image(DrawingContext& context, const Vector& pos_)
 {
   Sizef level(Sector::current()->get_width(), Sector::current()->get_height());

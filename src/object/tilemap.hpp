@@ -117,6 +117,9 @@ public:
   int get_layer() const
   { return z_pos; }
 
+  void set_layer(int layer_)
+  { z_pos = layer_; }
+
   bool is_solid() const
   { return real_solid && effective_solid; }
 
