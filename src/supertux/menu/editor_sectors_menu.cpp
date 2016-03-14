@@ -20,6 +20,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/game_manager.hpp"
@@ -45,7 +46,8 @@ EditorSectorsMenu::EditorSectorsMenu()
   add_hl();
   add_submenu(_("Sector settings..."), MenuStorage::EDITOR_SECTOR_MENU);
   add_entry(-2,_("Create new sector"));
-  add_entry(-3,_("Abort"));
+  add_entry(-3,_("Delete this sector"));
+  add_entry(-4,_("Abort"));
 }
 
 void
@@ -76,6 +78,41 @@ EditorSectorsMenu::create_sector()
 }
 
 void
+EditorSectorsMenu::delete_sector()
+{
+  Level* level = Editor::current()->get_level();
+  std::unique_ptr<Dialog> dialog(new Dialog);
+
+  // Do not delete sector when there would be no left.
+  if (level->get_sector_count() < 2) {
+    // do not allow to delete the sector
+    dialog->set_text(_("Each level must have at least one sector."));
+    dialog->clear_buttons();
+    dialog->add_cancel_button(_("Cancel"));
+  } else {
+    // confirmation dialog
+    dialog->set_text(_("Do you really want to delete this sector?"));
+    dialog->clear_buttons();
+    dialog->add_cancel_button(_("Cancel"));
+    dialog->add_button(_("Delete sector"), [] {
+        MenuManager::instance().clear_menu_stack();
+        // This function doesn't see the variable level, so it must be redeclared.
+        Level* level_ = Editor::current()->get_level();
+        for(auto i = level_->sectors.begin();
+            i != Editor::current()->get_level()->sectors.end(); ++i) {
+          if ( i->get() == Editor::current()->currentsector ) {
+            level_->sectors.erase(i);
+            break;
+          }
+        }
+        Editor::current()->load_sector(0);
+        Editor::current()->reactivate_request = true;
+      });
+  }
+  MenuManager::instance().set_dialog(std::move(dialog));
+}
+
+void
 EditorSectorsMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
@@ -91,6 +128,9 @@ EditorSectorsMenu::menu_action(MenuItem* item)
         create_sector();
         break;
       case -3:
+        delete_sector();
+        break;
+      case -4:
         MenuManager::instance().clear_menu_stack();
         Editor::current()->reactivate_request = true;
         break;
