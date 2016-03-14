@@ -28,6 +28,7 @@ public:
 
 private:
   void create_sector();
+  void delete_sector();
 
   EditorSectorsMenu(const EditorSectorsMenu&);
   EditorSectorsMenu& operator=(const EditorSectorsMenu&);

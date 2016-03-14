@@ -277,12 +277,14 @@ void Editor::load_sector(std::string name) {
     size_t i = 0;
     currentsector = level->get_sector(i);
   }
+  currentsector->activate("main");
   load_layers();
 }
 
 void Editor::load_sector(int id) {
   size_t i = id;
   currentsector = level->get_sector(i);
+  currentsector->activate("main");
   load_layers();
 }
 
