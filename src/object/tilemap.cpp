@@ -131,14 +131,20 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   reader.get("width", width);
   reader.get("height", height);
-  if(width < 0 || height < 0)
-    throw std::runtime_error("Invalid/No width/height specified in tilemap.");
+  if(width < 0 || height < 0) {
+    //throw std::runtime_error("Invalid/No width/height specified in tilemap.");
+    width = 0;
+    height = 0;
+    tiles.clear();
+    resize(Sector::current()->get_width()/32, Sector::current()->get_height()/32);
+    editor_active = false;
+  } else {
+    if(!reader.get("tiles", tiles))
+      throw std::runtime_error("No tiles in tilemap.");
 
-  if(!reader.get("tiles", tiles))
-    throw std::runtime_error("No tiles in tilemap.");
-
-  if(int(tiles.size()) != width*height) {
-    throw std::runtime_error("wrong number of tiles in tilemap.");
+    if(int(tiles.size()) != width*height) {
+      throw std::runtime_error("wrong number of tiles in tilemap.");
+    }
   }
 
   bool empty = true;
