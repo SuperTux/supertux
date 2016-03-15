@@ -26,8 +26,10 @@ class RainParticleSystem : public ParticleSystem_Interactive
 {
 public:
   RainParticleSystem();
+  RainParticleSystem(const ReaderMapping& reader);
   virtual ~RainParticleSystem();
 
+  void init();
   virtual void update(float elapsed_time);
 
   std::string type() const

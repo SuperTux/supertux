@@ -246,10 +246,13 @@ ObjectFactory::init_factories()
   add_factory<BonusBlock>("bonusblock");
   add_factory<Brick>("brick");
   add_factory<Candle>("candle");
+  add_factory<CloudParticleSystem>("particles-clouds");
   add_factory<Coin>("coin");
+  add_factory<CometParticleSystem>("particles-comets");
   add_factory<Decal>("decal");
   add_factory<Explosion>("explosion");
   add_factory<Firefly>("firefly");
+  add_factory<GhostParticleSystem>("particles-ghosts");
   add_factory<Gradient>("gradient");
   add_factory<HeavyCoin>("heavycoin");
   add_factory<HurtingPlatform>("hurting_platform");
@@ -265,9 +268,11 @@ ObjectFactory::init_factories()
   add_factory<PneumaticPlatform>("pneumatic-platform");
   add_factory<PowerUp>("powerup");
   add_factory<PushButton>("pushbutton");
+  add_factory<RainParticleSystem>("particles-rain");
   add_factory<Rock>("rock");
   add_factory<ScriptedObject>("scriptedobject");
   add_factory<SkullTile>("skull_tile");
+  add_factory<SnowParticleSystem>("particles-snow");
   add_factory<Spotlight>("spotlight");
   add_factory<Thunderstorm>("thunderstorm");
   add_factory<Torch>("torch");

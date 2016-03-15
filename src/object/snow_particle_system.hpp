@@ -26,8 +26,10 @@ class SnowParticleSystem : public ParticleSystem
 {
 public:
   SnowParticleSystem();
+  SnowParticleSystem(const ReaderMapping& reader);
   virtual ~SnowParticleSystem();
 
+  void init();
   virtual void update(float elapsed_time);
 
   std::string type() const

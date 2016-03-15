@@ -29,10 +29,12 @@ class CometParticleSystem : public ParticleSystem_Interactive
 {
 public:
   CometParticleSystem();
+  CometParticleSystem(const ReaderMapping& reader);
   virtual ~CometParticleSystem();
 
   void write(Writer& writer);
 
+  void init();
   virtual void update(float elapsed_time);
 
   std::string type() const

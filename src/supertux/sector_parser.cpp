@@ -92,26 +92,6 @@ SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader
     auto camera_ = std::make_shared<Camera>(&m_sector, "Camera");
     camera_->parse(reader);
     return camera_;
-  } else if(name_ == "particles-snow") {
-    auto partsys = std::make_shared<SnowParticleSystem>();
-    partsys->parse(reader);
-    return partsys;
-  } else if(name_ == "particles-rain") {
-    auto partsys = std::make_shared<RainParticleSystem>();
-    partsys->parse(reader);
-    return partsys;
-  } else if(name_ == "particles-comets") {
-    auto partsys = std::make_shared<CometParticleSystem>();
-    partsys->parse(reader);
-    return partsys;
-  } else if(name_ == "particles-ghosts") {
-    auto partsys = std::make_shared<GhostParticleSystem>();
-    partsys->parse(reader);
-    return partsys;
-  } else if(name_ == "particles-clouds") {
-    auto partsys = std::make_shared<CloudParticleSystem>();
-    partsys->parse(reader);
-    return partsys;
   } else if(name_ == "money") { // for compatibility with old maps
     return std::make_shared<Jumpy>(reader);
   } else {

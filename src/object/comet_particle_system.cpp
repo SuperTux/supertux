@@ -25,6 +25,21 @@
 
 CometParticleSystem::CometParticleSystem()
 {
+  init();
+}
+
+CometParticleSystem::CometParticleSystem(const ReaderMapping& reader)
+{
+  init();
+  parse(reader);
+}
+
+CometParticleSystem::~CometParticleSystem()
+{
+}
+
+void CometParticleSystem::init()
+{
   cometimages[0] = Surface::create("images/creatures/mr_bomb/exploding-left-0.png");
   cometimages[1] = Surface::create("images/creatures/mr_bomb/exploding-left-0.png");
 
@@ -44,10 +59,6 @@ CometParticleSystem::CometParticleSystem()
 
     particles.push_back(particle);
   }
-}
-
-CometParticleSystem::~CometParticleSystem()
-{
 }
 
 void CometParticleSystem::update(float elapsed_time)

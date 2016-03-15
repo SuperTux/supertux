@@ -25,6 +25,21 @@
 
 RainParticleSystem::RainParticleSystem()
 {
+  init();
+}
+
+RainParticleSystem::RainParticleSystem(const ReaderMapping& reader)
+{
+  init();
+  parse(reader);
+}
+
+RainParticleSystem::~RainParticleSystem()
+{
+}
+
+void RainParticleSystem::init()
+{
   rainimages[0] = Surface::create("images/objects/particles/rain0.png");
   rainimages[1] = Surface::create("images/objects/particles/rain1.png");
 
@@ -44,10 +59,6 @@ RainParticleSystem::RainParticleSystem()
 
     particles.push_back(particle);
   }
-}
-
-RainParticleSystem::~RainParticleSystem()
-{
 }
 
 void RainParticleSystem::update(float elapsed_time)

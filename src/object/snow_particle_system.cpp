@@ -41,6 +41,25 @@ SnowParticleSystem::SnowParticleSystem() :
   gust_onset(0),
   gust_current_velocity(0)
 {
+  init();
+}
+
+SnowParticleSystem::SnowParticleSystem(const ReaderMapping& reader) :
+  state(RELEASING),
+  timer(),
+  gust_onset(0),
+  gust_current_velocity(0)
+{
+  init();
+  parse(reader);
+}
+
+SnowParticleSystem::~SnowParticleSystem()
+{
+}
+
+void SnowParticleSystem::init()
+{
   snowimages[0] = Surface::create("images/objects/particles/snow2.png");
   snowimages[1] = Surface::create("images/objects/particles/snow1.png");
   snowimages[2] = Surface::create("images/objects/particles/snow0.png");
@@ -73,10 +92,6 @@ SnowParticleSystem::SnowParticleSystem() :
 
     particles.push_back(std::move(particle));
   }
-}
-
-SnowParticleSystem::~SnowParticleSystem()
-{
 }
 
 void SnowParticleSystem::update(float elapsed_time)

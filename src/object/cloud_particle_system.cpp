@@ -28,6 +28,23 @@ CloudParticleSystem::CloudParticleSystem() :
   ParticleSystem(128),
   cloudimage(Surface::create("images/objects/particles/cloud.png"))
 {
+  init();
+}
+
+CloudParticleSystem::CloudParticleSystem(const ReaderMapping& reader) :
+  ParticleSystem(128),
+  cloudimage(Surface::create("images/objects/particles/cloud.png"))
+{
+  init();
+  parse(reader);
+}
+
+CloudParticleSystem::~CloudParticleSystem()
+{
+}
+
+void CloudParticleSystem::init()
+{
   virtual_width = 2000.0;
 
   // create some random clouds
@@ -40,10 +57,6 @@ CloudParticleSystem::CloudParticleSystem() :
 
     particles.push_back(std::move(particle));
   }
-}
-
-CloudParticleSystem::~CloudParticleSystem()
-{
 }
 
 void CloudParticleSystem::update(float elapsed_time)

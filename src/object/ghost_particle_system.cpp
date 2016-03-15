@@ -28,6 +28,21 @@
 //       Ghosts don't change their movement pattern - not random
 GhostParticleSystem::GhostParticleSystem()
 {
+  init();
+}
+
+GhostParticleSystem::GhostParticleSystem(const ReaderMapping& reader)
+{
+  init();
+  parse(reader);
+}
+
+GhostParticleSystem::~GhostParticleSystem()
+{
+}
+
+void GhostParticleSystem::init()
+{
   ghosts[0] = Surface::create("images/objects/particles/ghost0.png");
   ghosts[1] = Surface::create("images/objects/particles/ghost1.png");
 
@@ -44,10 +59,6 @@ GhostParticleSystem::GhostParticleSystem()
     particle->speed = graphicsRandom.randf(std::max(50, (size * 10)), 180 + (size * 10));
     particles.push_back(std::move(particle));
   }
-}
-
-GhostParticleSystem::~GhostParticleSystem()
-{
 }
 
 void GhostParticleSystem::update(float elapsed_time)
