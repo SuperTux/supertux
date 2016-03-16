@@ -116,8 +116,8 @@ Background::Background(const ReaderMapping& reader) :
 
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
 
-  if(!reader.get("image", imagefile) || !reader.get("speed", speed))
-    throw std::runtime_error("Must specify image and speed for background");
+  if (!reader.get("image", imagefile)) imagefile = "images/background/transparent_up.png";
+  if (!reader.get("speed", speed)) speed = 0.5;
 
   set_image(imagefile, speed);
   if (!reader.get("speed-y", speed_y))
