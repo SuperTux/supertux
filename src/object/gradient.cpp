@@ -84,12 +84,18 @@ Gradient::Gradient(const ReaderMapping& reader) :
     }
   }
 
-  if(!reader.get("top_color", bkgd_top_color) ||
-     !reader.get("bottom_color", bkgd_bottom_color))
-    throw std::runtime_error("Must specify top_color and bottom_color in gradient");
+  if (reader.get("top_color", bkgd_top_color)) {
+    gradient_top = Color(bkgd_top_color);
+  } else {
+    gradient_top = Color(0.3, 0.4, 0.75);
+  }
 
-  gradient_top = Color(bkgd_top_color);
-  gradient_bottom = Color(bkgd_bottom_color);
+  if (reader.get("bottom_color", bkgd_bottom_color)) {
+    gradient_bottom = Color(bkgd_bottom_color);
+  } else {
+    gradient_bottom = Color(1, 1, 1);
+  }
+
 }
 
 void
