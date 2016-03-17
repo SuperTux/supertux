@@ -35,6 +35,8 @@ public:
   void menu_action(MenuItem* item) override;
 
 private:
+  void create_level();
+
   EditorLevelSelectMenu(const EditorLevelSelectMenu&);
   EditorLevelSelectMenu& operator=(const EditorLevelSelectMenu&);
 };
