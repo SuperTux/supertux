@@ -27,12 +27,14 @@ class LevelParser
 {
 public:
   static std::unique_ptr<Level> from_file(const std::string& filename);
+  static std::unique_ptr<Level> from_nothing(const std::string& basedir);
 
 private:
   LevelParser(Level& level);
 
   void load(const std::string& filepath);
   void load_old_format(const ReaderMapping& reader);
+  void create(const std::string& filepath, const std::string& levelname);
 
 private:
   Level& m_level;

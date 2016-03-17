@@ -21,8 +21,11 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/menu_item.hpp"
+#include "physfs/ifile_streambuf.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/level.hpp"
+#include "supertux/level_parser.hpp"
 #include "supertux/levelset.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
@@ -59,6 +62,15 @@ EditorLevelSelectMenu::~EditorLevelSelectMenu()
 }
 
 void
+EditorLevelSelectMenu::create_level()
+{
+  auto new_level = LevelParser::from_nothing(Editor::current()->get_world()->get_basedir());
+  new_level->save(Editor::current()->get_world()->get_basedir() + "/" + new_level->filename);
+  Editor::current()->set_level(new_level->filename);
+  MenuManager::instance().clear_menu_stack();
+}
+
+void
 EditorLevelSelectMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
@@ -66,7 +78,11 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
     Editor::current()->set_level(m_levelset->get_level_filename(item->id));
     MenuManager::instance().clear_menu_stack();
   } else {
-    MenuManager::instance().pop_menu();
+    if (item->id == -1) {
+      create_level();
+    } else {
+      MenuManager::instance().pop_menu();
+    }
   }
 }
 

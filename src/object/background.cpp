@@ -190,6 +190,7 @@ Background::set_image(const std::string& name_)
 {
   this->imagefile = name_;
   image = Surface::create(name_);
+  imagefile = name_;
 }
 
 void
@@ -204,8 +205,13 @@ Background::set_images(const std::string& name_top_, const std::string& name_mid
                        const std::string& name_bottom_)
 {
   image_top = Surface::create(name_top_);
+  imagefile_top = name_top_;
+
   image = Surface::create(name_middle_);
+  imagefile = name_middle_;
+
   image_bottom = Surface::create(name_bottom_);
+  imagefile_bottom = name_bottom_;
 }
 
 void
