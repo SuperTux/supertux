@@ -35,7 +35,6 @@ Flame::Flame(const ReaderMapping& reader) :
   angle(0),
   radius(),
   speed(),
-  light(0.0f,0.0f,0.0f),
   sound_source()
 {
   if ( !reader.get("radius", radius)) radius = 100;

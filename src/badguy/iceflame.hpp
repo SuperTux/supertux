@@ -17,25 +17,18 @@
 #ifndef HEADER_SUPERTUX_BADGUY_ICEFLAME_HPP
 #define HEADER_SUPERTUX_BADGUY_ICEFLAME_HPP
 
-#include "badguy/badguy.hpp"
+#include "badguy/flame.hpp"
 
-class Iceflame : public BadGuy
+class Iceflame : public Flame
 {
 public:
   Iceflame(const ReaderMapping& reader);
   Iceflame(const Iceflame& iceflame);
 
   void active_update(float elapsed_time);
-  void kill_fall();
 
   void ignite();
   bool is_flammable() const;
-
-private:
-  float angle;
-  float radius;
-  float speed;
-  Color light;
 };
 
 #endif

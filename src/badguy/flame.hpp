@@ -40,11 +40,10 @@ public:
   void stop_looping_sounds();
   void play_looping_sounds();
 
-private:
+protected:
   float angle;
   float radius;
   float speed;
-  Color light;
 
   std::unique_ptr<SoundSource> sound_source;
 };

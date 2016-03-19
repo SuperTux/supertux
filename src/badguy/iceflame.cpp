@@ -28,42 +28,17 @@
 #include "util/reader_mapping.hpp"
 
 Iceflame::Iceflame(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/flame/iceflame.sprite", LAYER_FLOATINGOBJECTS,
-         "images/objects/lightmap_light/lightmap_light-small.sprite"),
-  angle(0),
-  radius(),
-  speed(),
-  light(0.0f,0.0f,0.0f)
+  Flame(reader)
 {
-  if ( !reader.get("radius", radius)) radius = 100;
-  if ( !reader.get("speed", speed)) speed = 2;
-  bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
-                      start_position.y + sin(angle) * radius));
-  countMe = false;
-  SoundManager::current()->preload("sounds/sizzle.ogg");
-
-  set_colgroup_active(COLGROUP_TOUCHABLE);
-
   lightsprite->set_color(Color(0.00f, 0.13f, 0.18f));
-  glowing = true;
-
+  sprite = SpriteManager::current()->create("images/creatures/flame/iceflame.sprite");
 }
 
 void
 Iceflame::active_update(float elapsed_time)
 {
-  angle = fmodf(angle + elapsed_time * speed, (float) (2*M_PI));
-  Vector newpos(start_position.x + cos(angle) * radius,
-                start_position.y + sin(angle) * radius);
-  movement = newpos - get_pos();
+  Flame::active_update(elapsed_time);
   sprite->set_angle(angle * 360.0f / (2*M_PI) * 3);
-
-  if (sprite->get_action() == "fade" && sprite->animation_done()) remove_me();
-}
-
-void
-Iceflame::kill_fall()
-{
 }
 
 void

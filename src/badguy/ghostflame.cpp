@@ -28,41 +28,10 @@
 #include "util/reader_mapping.hpp"
 
 Ghostflame::Ghostflame(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/flame/ghostflame.sprite", LAYER_FLOATINGOBJECTS,
-         "images/objects/lightmap_light/lightmap_light-small.sprite"),
-  angle(0),
-  radius(),
-  speed(),
-  light(0.0f,0.0f,0.0f)
+  Flame(reader)
 {
-  if ( !reader.get("radius", radius)) radius = 100;
-  if ( !reader.get("speed", speed)) speed = 2;
-  bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
-                      start_position.y + sin(angle) * radius));
-  countMe = false;
-  //TODO: get unique death sound
-  SoundManager::current()->preload("sounds/fizz.wav");
-
-  set_colgroup_active(COLGROUP_TOUCHABLE);
-
   lightsprite->set_color(Color(0.21f, 0.00f, 0.21f));
-  glowing = true;
-
-}
-
-void
-Ghostflame::active_update(float elapsed_time)
-{
-  angle = fmodf(angle + elapsed_time * speed, (float) (2*M_PI));
-  Vector newpos(start_position.x + cos(angle) * radius,
-                start_position.y + sin(angle) * radius);
-  movement = newpos - get_pos();
-
-}
-
-void
-Ghostflame::kill_fall()
-{
+  sprite = SpriteManager::current()->create("images/creatures/flame/ghostflame.sprite");
 }
 
 bool
