@@ -450,6 +450,13 @@
       (x 58)
       (y 32)
     )
+    (level
+      (name "scary_forest.stl")
+      (color 1 1 1)
+      (sprite "images/worldmap/common/shroom.sprite")
+      (x 23)
+      (y 11)
+    )
     (worldmap-spawnpoint
       (name "main")
       (auto-dir "north")
