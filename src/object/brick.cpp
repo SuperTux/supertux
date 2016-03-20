@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "math/random_generator.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/explosion.hpp"
 #include "object/flower.hpp"
@@ -102,6 +103,12 @@ Brick::try_break(Player* player)
     return;
 
   SoundManager::current()->play("sounds/brick.wav");
+  if(graphicsRandom.rand(0, 10) > 8) {
+    if(graphicsRandom.rand(0, 2) == 1)
+        SoundManager::current()->play("sounds/meow1.wav");
+    else
+        SoundManager::current()->play("sounds/meow2.wav");
+  }
   Sector* sector = Sector::current();
   Player& player_one = *(sector->player);
   if(coin_counter > 0 ){

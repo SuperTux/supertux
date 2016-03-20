@@ -46,6 +46,8 @@ Block::Block(SpritePtr newsprite) :
   set_group(COLGROUP_STATIC);
   SoundManager::current()->preload("sounds/upgrade.wav");
   SoundManager::current()->preload("sounds/brick.wav");
+  SoundManager::current()->preload("sounds/meow1.wav");
+  SoundManager::current()->preload("sounds/meow2.wav");
 }
 
 Block::Block(const ReaderMapping& lisp, std::string sprite_file) :
@@ -67,6 +69,8 @@ Block::Block(const ReaderMapping& lisp, std::string sprite_file) :
   set_group(COLGROUP_STATIC);
   SoundManager::current()->preload("sounds/upgrade.wav");
   SoundManager::current()->preload("sounds/brick.wav");
+  SoundManager::current()->preload("sounds/meow1.wav");
+  SoundManager::current()->preload("sounds/meow2.wav");
 }
 
 Block::~Block()
