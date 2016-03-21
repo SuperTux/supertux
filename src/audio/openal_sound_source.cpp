@@ -35,7 +35,7 @@ OpenALSoundSource::~OpenALSoundSource()
 void
 OpenALSoundSource::stop()
 {
-  alSourceStop(source);
+  alSourceRewindv(1, &source); // Stops the source
   alSourcei(source, AL_BUFFER, AL_NONE);
   SoundManager::check_al_error("Problem stopping audio source: ");
 }
