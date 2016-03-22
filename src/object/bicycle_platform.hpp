@@ -35,6 +35,8 @@ public:
     return "bicycle-platform";
   }
 
+  virtual void move_to(const Vector& pos);
+
   virtual ObjectSettings get_settings();
 
 protected:

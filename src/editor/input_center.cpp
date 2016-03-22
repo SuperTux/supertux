@@ -263,7 +263,7 @@ EditorInputCenter::move_object() {
       dragged_object = NULL;
       return;
     }
-    dragged_object->set_pos(sector_pos - obj_mouse_desync);
+    dragged_object->move_to(sector_pos - obj_mouse_desync);
   }
 }
 
