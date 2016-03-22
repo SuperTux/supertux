@@ -111,4 +111,16 @@ PneumaticPlatform::update(float elapsed_time)
   }
 }
 
+void
+PneumaticPlatform::move_to(const Vector& pos) {
+  Vector shift = pos - bbox.p1;
+  if (this == slave) {
+    master->set_pos(master->get_pos() + shift);
+  } else if (this == master) {
+    slave->set_pos(slave->get_pos() + shift);
+  }
+  MovingObject::move_to(pos);
+  start_y += shift.y;
+}
+
 /* EOF */

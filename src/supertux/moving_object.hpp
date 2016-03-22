@@ -137,6 +137,14 @@ public:
     bbox.set_pos(pos);
   }
 
+  /** moves entire object to a specific position, including all
+      points those the object has, exactly like the object has
+      spawned in that given pos instead.*/
+  virtual void move_to(const Vector& pos)
+  {
+    set_pos(pos);
+  }
+
   /** sets the moving object's bbox to a specific width. Be careful
       when using this function. There are no collision detection
       checks performed here so bad things could happen. */

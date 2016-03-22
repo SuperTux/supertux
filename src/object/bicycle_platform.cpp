@@ -23,6 +23,7 @@
 #include "object/portable.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/log.hpp"
 
 BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
@@ -126,6 +127,18 @@ BicyclePlatform::update(float elapsed_time)
     slave->center += Vector(angular_speed, 0) * elapsed_time * 32;
 
   }
+}
+
+void
+BicyclePlatform::move_to(const Vector& pos) {
+  Vector shift = pos - bbox.p1;
+  if (this == slave) {
+    master->set_pos(master->get_pos() + shift);
+  } else if (this == master) {
+    slave->set_pos(slave->get_pos() + shift);
+  }
+  MovingObject::move_to(pos);
+  center += shift;
 }
 
 ObjectSettings

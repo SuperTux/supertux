@@ -38,6 +38,8 @@ public:
     return _("Pneumatic platform");
   }
 
+  void move_to(const Vector& pos);
+
 protected:
   PneumaticPlatform* master; /**< pointer to PneumaticPlatform that does movement calculation */
   PneumaticPlatform* slave; /**< pointer to PneumaticPlatform that reacts to master platform's movement calculation */
