@@ -24,6 +24,7 @@
 #include "supertux/menu/editor_level_menu.hpp"
 #include "supertux/menu/editor_level_select_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
+#include "supertux/menu/editor_new_levelset_menu.hpp"
 #include "supertux/menu/editor_objectgroup_menu.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/menu/editor_sector_menu.hpp"
@@ -114,6 +115,9 @@ MenuStorage::create(MenuId menu_id)
 
     case EDITOR_LEVELSET_SELECT_MENU:
       return std::unique_ptr<Menu>(new EditorLevelsetSelectMenu);
+
+    case EDITOR_NEW_LEVELSET_MENU:
+      return std::unique_ptr<Menu>(new EditorNewLevelsetMenu);
 
     case LANGPACK_AUTO_UPDATE_MENU:
       return std::unique_ptr<Menu>(new AddonMenu(true, true));

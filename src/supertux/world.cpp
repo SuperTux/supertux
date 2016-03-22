@@ -51,6 +51,45 @@ World::load(const std::string& directory)
   return world;
 }
 
+std::unique_ptr<World>
+World::create(const std::string& title, const std::string& desc)
+{
+  std::unique_ptr<World> world(new World);
+
+  //Limit the charset to numbers and alphabet.
+  std::string base = title;
+  for (size_t i = 0; i < base.length(); i++) {
+    if (!((base[i] >= '0' && base[i] <= '9') ||
+          (base[i] >= 'A' && base[i] <= 'Z') ||
+          (base[i] >= 'a' && base[i] <= 'z'))) {
+      base[i] = '_';
+    }
+  }
+
+  base = "levels/" + base;
+
+  //Find a non-existing fitting directory name
+  std::string dirname = base;
+  if (PHYSFS_exists(dirname.c_str())) {
+    int num = 1;
+    do {
+      num++;
+      dirname = base + std::to_string(num);
+    } while ( PHYSFS_exists(dirname.c_str()) );
+  }
+
+  world->create_(dirname, title, desc);
+
+  { // generate savegame filename
+    std::string worlddirname = FileSystem::basename(dirname);
+    std::ostringstream stream;
+    stream << "profile" << g_config->profile << "/" << worlddirname << ".stsg";
+    world->m_savegame_filename = stream.str();
+  }
+
+  return world;
+}
+
 World::World() :
   m_basedir(),
   m_worldmap_filename(),
@@ -103,6 +142,18 @@ World::load_(const std::string& directory)
   }
 }
 
+void
+World::create_(const std::string& directory, const std::string& title, const std::string& desc)
+{
+  m_basedir = directory;
+  m_worldmap_filename = m_basedir + "/worldmap.stwm";
+
+  m_title = title;
+  m_description = desc;
+  m_is_levelset = true;
+  m_hide_from_contribs = false;
+}
+
 std::string
 World::get_basedir() const
 {
@@ -113,6 +164,66 @@ std::string
 World::get_title() const
 {
   return m_title;
+}
+
+void
+World::save(bool retry)
+{
+  std::string filepath = m_basedir + "/info";
+
+  try {
+
+    { // make sure the levelset directory exists
+      std::string dirname = FileSystem::dirname(filepath);
+      if(!PHYSFS_exists(dirname.c_str()))
+      {
+        if(!PHYSFS_mkdir(dirname.c_str()))
+        {
+          std::ostringstream msg;
+          msg << "Couldn't create directory for levelset '"
+              << dirname << "': " <<PHYSFS_getLastError();
+          throw std::runtime_error(msg.str());
+        }
+      }
+
+      if(!PHYSFS_isDirectory(dirname.c_str()))
+      {
+        std::ostringstream msg;
+        msg << "Levelset path '" << dirname << "' is not a directory";
+        throw std::runtime_error(msg.str());
+      }
+    }
+
+    Writer writer(filepath);
+    writer.start_list("supertux-level-subset");
+
+    writer.write("title", m_title, true);
+    writer.write("description", m_description, true);
+    writer.write("levelset", m_is_levelset);
+    writer.write("hide-from-contribs", m_hide_from_contribs);
+
+    writer.end_list("supertux-level-subset");
+    log_warning << "Levelset info saved as " << filepath << "." << std::endl;
+  } catch(std::exception& e) {
+    if (retry) {
+      std::stringstream msg;
+      msg << "Problem when saving levelset info '" << filepath << "': " << e.what();
+      throw std::runtime_error(msg.str());
+    } else {
+      log_warning << "Failed to save the levelset info, retrying..." << std::endl;
+      { // create the levelset directory again
+        std::string dirname = FileSystem::dirname(filepath);
+        if(!PHYSFS_mkdir(dirname.c_str()))
+        {
+          std::ostringstream msg;
+          msg << "Couldn't create directory for levelset '"
+              << dirname << "': " <<PHYSFS_getLastError();
+          throw std::runtime_error(msg.str());
+        }
+      }
+      save(true);
+    }
+  }
 }
 
 /* EOF */

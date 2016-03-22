@@ -129,7 +129,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
   }
 
   add_hl();
-  add_entry(-1,_("New level subset"));
+  add_submenu(_("New level subset"), MenuStorage::EDITOR_NEW_LEVELSET_MENU);
   add_back(_("Back"),-2);
 }
 
