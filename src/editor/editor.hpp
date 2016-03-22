@@ -57,6 +57,7 @@ class Editor : public Screen,
     friend class EditorInputGui;
     friend class EditorLayersGui;
     friend class EditorLevelsetSelectMenu;
+    friend class EditorNewLevelsetMenu;
     friend class EditorObjectgroupMenu;
     friend class EditorTilegroupMenu;
 
