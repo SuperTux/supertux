@@ -160,4 +160,14 @@ Platform::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
   scripting::unexpose_object(vm, table_idx, name);
 }
 
+void
+Platform::move_to(const Vector& pos)
+{
+  Vector shift = pos - bbox.p1;
+  if (path) {
+    path->move_by(shift);
+  }
+  set_pos(pos);
+}
+
 /* EOF */

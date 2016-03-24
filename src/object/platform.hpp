@@ -62,6 +62,8 @@ public:
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
+  virtual void move_to(const Vector& pos);
+
   Path& get_path() const {
     return *path.get();
   }

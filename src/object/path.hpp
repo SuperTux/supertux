@@ -65,6 +65,11 @@ public:
    */
   int get_farthest_node_no(Vector reference_point) const;
 
+  /**
+   * Moves all nodes by given shift.
+   */
+  void move_by(Vector& shift);
+
 private:
   friend class PathWalker;
 
