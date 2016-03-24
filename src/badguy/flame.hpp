@@ -36,6 +36,9 @@ public:
   void freeze();
   bool is_freezable() const;
   bool is_flammable() const;
+
+  virtual void save(Writer& writer);
+  ObjectSettings get_settings();
   virtual std::string get_class() const {
     return "flame";
   }
