@@ -157,4 +157,12 @@ Path::get_farthest_node_no(Vector reference_point) const
   return farthest_node_id;
 }
 
+void
+Path::move_by(Vector& shift) {
+  for(auto i = nodes.begin(); i != nodes.end(); ++i) {
+    Node* nod = &(*i);
+    nod->position += shift;
+  }
+}
+
 /* EOF */
