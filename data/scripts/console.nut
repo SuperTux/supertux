@@ -84,6 +84,11 @@ function none()
 	sector.Tux.set_bonus("none");
 }
 
+function help()
+{
+	println("This is the console, enabled with developer mode. You can run the same scripts as you can in-level, but make sure to put 'sector.' before a command for a sector command. You can also run scripts defined in scripts/console.nut."); 
+}
+
 /**
  * Display a list of functions in the roottable (or in the table specified)
  */
