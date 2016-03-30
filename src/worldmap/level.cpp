@@ -59,7 +59,10 @@ LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
     title_color = Color(vColor);
   }
 
-  if (!PHYSFS_exists((basedir_ + name).c_str()))
+  if(basedir == "./")
+    basedir = "";
+
+  if (!PHYSFS_exists((basedir + name).c_str()))
   {
     log_warning << "level file '" << name
                 << "' does not exist and will not be added to the worldmap" << std::endl;

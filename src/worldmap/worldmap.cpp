@@ -341,6 +341,8 @@ WorldMap::load_level_information(LevelTile& level)
 
   try {
     std::string filename = levels_path + level.get_name();
+    if(levels_path == "./")
+      filename = level.get_name();
     register_translation_directory(filename);
     auto doc = ReaderDocument::parse(filename);
     auto root = doc.get_root();

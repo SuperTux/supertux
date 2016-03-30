@@ -123,6 +123,11 @@ GameSession::restart_level(bool after_death)
 
   currentsector = 0;
 
+  const std::string base_dir = FileSystem::dirname(levelfile);
+  if(base_dir == "./") {
+    levelfile = FileSystem::basename(levelfile);
+  }
+
   try {
     level = LevelParser::from_file(levelfile);
     level->stats.total_coins = level->get_total_coins();
