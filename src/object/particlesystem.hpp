@@ -25,8 +25,6 @@
 #include "util/reader_mapping.hpp"
 #include "video/surface_ptr.hpp"
 
-class DisplayManager;
-
 /**
  * This is the base class for particle systems. It is responsible for storing a
  * set of particles with each having an x- and y-coordinate the number of the

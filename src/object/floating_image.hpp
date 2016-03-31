@@ -21,8 +21,6 @@
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 
-class Sprite;
-
 class FloatingImage : public GameObject
 {
 public:

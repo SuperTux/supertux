@@ -21,8 +21,6 @@
 #include "object/portable.hpp"
 #include "supertux/physic.hpp"
 
-class Sprite;
-
 class Rock : public MovingSprite,
              public Portable
 {

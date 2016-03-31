@@ -23,11 +23,11 @@
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
 #include "supertux/timer.hpp"
-#include "util/reader_fwd.hpp"
 
 class Sector;
 class Path;
 class PathWalker;
+class ReaderMapping;
 class CameraConfig;
 
 class Camera : public GameObject,

@@ -20,8 +20,9 @@
 #include <map>
 #include <vector>
 
-#include "util/reader_fwd.hpp"
 #include "video/surface.hpp"
+
+class ReaderMapping;
 
 class SpriteData
 {

@@ -29,8 +29,6 @@
 #include "util/reader_fwd.hpp"
 
 class Addon;
-class AddonRepository;
-class TransferStatus;
 using TransferStatusPtr = std::shared_ptr<TransferStatus>;
 
 typedef std::string AddonId;

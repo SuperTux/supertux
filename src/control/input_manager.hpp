@@ -26,15 +26,12 @@
 #include <memory>
 
 #include "util/currenton.hpp"
-#include "util/reader_fwd.hpp"
 
-class Controller;
 class GameControllerManager;
 class JoystickManager;
 class JoystickMenu;
 class KeyboardManager;
 class KeyboardMenu;
-class Menu;
 class KeyboardConfig;
 class JoystickConfig;
 

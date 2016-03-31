@@ -21,7 +21,8 @@
 
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
-#include "util/reader_fwd.hpp"
+
+class ReaderMapping;
 
 class Torch : public MovingObject
 {

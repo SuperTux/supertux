@@ -23,7 +23,6 @@
 
 #include "math/vector.hpp"
 #include "video/color.hpp"
-#include "video/surface_ptr.hpp"
 
 class DrawingContext;
 class MenuItem;

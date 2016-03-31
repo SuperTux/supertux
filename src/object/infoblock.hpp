@@ -20,8 +20,9 @@
 #include <memory>
 
 #include "object/block.hpp"
-#include "supertux/info_box_line.hpp"
 #include "supertux/textscroller.hpp"
+
+class InfoBoxLine;
 
 class InfoBlock : public Block
 {

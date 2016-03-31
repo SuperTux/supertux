@@ -19,9 +19,6 @@
 
 #include "badguy/walking_badguy.hpp"
 
-#include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
-
 class Snowman : public WalkingBadguy
 {
 public:

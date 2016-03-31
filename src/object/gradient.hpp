@@ -19,10 +19,9 @@
 
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
-#include "util/reader_fwd.hpp"
 #include "video/drawing_context.hpp"
 
-class DisplayManager;
+class ReaderMapping;
 
 class Gradient : public GameObject,
                  public ScriptInterface

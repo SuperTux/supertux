@@ -19,8 +19,6 @@
 
 #include "object/moving_sprite.hpp"
 
-class Player;
-
 /** A tile that starts falling down if tux stands to long on it */
 class SkullTile : public MovingSprite
 {

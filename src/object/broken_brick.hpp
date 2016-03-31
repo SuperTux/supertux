@@ -23,7 +23,6 @@
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
-#include "video/color.hpp"
 
 class BrokenBrick : public GameObject
 {

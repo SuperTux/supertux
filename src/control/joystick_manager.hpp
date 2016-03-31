@@ -24,7 +24,6 @@
 #include "SDL.h"
 
 #include "control/controller.hpp"
-#include "util/reader_fwd.hpp"
 
 class InputManager;
 class JoystickConfig;

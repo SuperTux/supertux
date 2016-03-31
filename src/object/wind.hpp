@@ -19,9 +19,8 @@
 
 #include "supertux/moving_object.hpp"
 #include "supertux/script_interface.hpp"
-#include "util/reader_fwd.hpp"
 
-class Player;
+class ReaderMapping;
 
 /**
  * Defines an area that will gently push Players in one direction

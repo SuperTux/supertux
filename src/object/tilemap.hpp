@@ -25,12 +25,6 @@
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
-namespace lisp {
-class Lisp;
-}
-
-class Level;
-class TileManager;
 class Tile;
 class TileSet;
 

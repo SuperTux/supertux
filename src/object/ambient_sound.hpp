@@ -40,12 +40,12 @@
 #define HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 
 #include "math/vector.hpp"
-#include "supertux/game_object.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/script_interface.hpp"
-#include "util/reader_fwd.hpp"
 
+class GameObject;
 class Player;
+class ReaderMapping;
 class SoundSource;
 
 class AmbientSound : public MovingObject,

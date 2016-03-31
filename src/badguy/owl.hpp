@@ -19,7 +19,8 @@
 #define HEADER_SUPERTUX_BADGUY_OWL_HPP
 
 #include "badguy/badguy.hpp"
-#include "object/portable.hpp"
+
+class Portable;
 
 class Owl : public BadGuy
 {

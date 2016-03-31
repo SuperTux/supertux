@@ -18,7 +18,8 @@
 #define HEADER_SUPERTUX_OBJECT_DECAL_HPP
 
 #include "object/moving_sprite.hpp"
-#include "util/reader_fwd.hpp"
+
+class ReaderMapping;
 
 /**
  * A decorative image, perhaps part of the terrain

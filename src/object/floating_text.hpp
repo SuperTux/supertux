@@ -24,8 +24,6 @@
 #include "supertux/timer.hpp"
 #include "video/color.hpp"
 
-class Sprite;
-
 class FloatingText : public GameObject
 {
   static Color text_color;

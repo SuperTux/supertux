@@ -21,10 +21,6 @@
 #include "sprite/sprite_ptr.hpp"
 #include "video/drawing_context.hpp"
 
-class Surface;
-class DrawingContext;
-class Blend;
-
 class Sprite
 {
 public:

@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_OBJECT_BRICK_HPP
 
 #include "object/block.hpp"
-#include "util/reader_fwd.hpp"
 
 class Brick : public Block
 {

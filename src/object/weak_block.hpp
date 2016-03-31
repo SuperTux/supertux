@@ -19,8 +19,8 @@
 #define HEADER_SUPERTUX_OBJECT_WEAK_BLOCK_HPP
 
 #include "object/moving_sprite.hpp"
-#include "supertux/physic.hpp"
-#include "object/bullet.hpp"
+
+class Bullet;
 
 
 /**

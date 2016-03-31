@@ -21,7 +21,6 @@
 
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
-#include "supertux/timer.hpp"
 
 /**
  * A block that disintegrates when stood on

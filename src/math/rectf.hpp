@@ -23,8 +23,6 @@
 #include "math/vector.hpp"
 #include "object/anchor_point.hpp"
 
-class Sizef;
-
 /** This class represents a rectangle.
  * (Implementation Note) We're using upper left and lower right point instead of
  * upper left and width/height here, because that makes the collision detection

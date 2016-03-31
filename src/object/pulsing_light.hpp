@@ -19,8 +19,6 @@
 
 #include "object/light.hpp"
 
-class Sprite;
-
 /**
  * Light source that changes alpha value to give the impression of a pulsating light
  */

@@ -19,7 +19,6 @@
 
 #include "object/block.hpp"
 #include "object/player.hpp"
-#include "object/moving_sprite.hpp"
 
 class BonusBlock : public Block
 {

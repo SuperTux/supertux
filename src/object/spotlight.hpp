@@ -19,11 +19,11 @@
 
 #include <memory>
 
-#include "util/reader_fwd.hpp"
-#include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
 #include "video/color.hpp"
+
+class ReaderMapping;
 
 class Spotlight : public MovingObject
 {

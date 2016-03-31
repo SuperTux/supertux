@@ -23,10 +23,6 @@
 
 #include "gui/menu_item.hpp"
 
-#include "gui/menu.hpp"
-
-class Color;
-
 class ItemToggle : public MenuItem
 {
   public:

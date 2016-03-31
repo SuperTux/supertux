@@ -21,9 +21,10 @@
 
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
-#include "util/reader_fwd.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
+
+class ReaderMapping;
 
 class LevelTime : public GameObject,
                   public ScriptInterface

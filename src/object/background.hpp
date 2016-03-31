@@ -22,8 +22,6 @@
 #include "util/reader_fwd.hpp"
 #include "video/drawing_context.hpp"
 
-class DisplayManager;
-
 class Background : public GameObject,
                    public ScriptInterface
 {

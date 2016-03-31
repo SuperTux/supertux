@@ -20,8 +20,9 @@
 #include <memory>
 
 #include "object/particlesystem.hpp"
-#include "util/reader_mapping.hpp"
 #include "video/surface_ptr.hpp"
+
+class ReaderMapping;
 
 class CloudParticleSystem : public ParticleSystem
 {

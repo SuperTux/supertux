@@ -20,8 +20,6 @@
 #include "object/moving_sprite.hpp"
 #include "supertux/physic.hpp"
 
-class Player;
-
 /** A tile that starts falling down if tux stands to long on it */
 class InvisibleWall : public MovingSprite
 {

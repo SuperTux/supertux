@@ -22,7 +22,8 @@
 #include <vector>
 
 #include "math/vector.hpp"
-#include "util/reader_fwd.hpp"
+
+class ReaderMapping;
 
 class Path
 {

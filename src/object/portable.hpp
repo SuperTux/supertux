@@ -18,7 +18,8 @@
 #define HEADER_SUPERTUX_OBJECT_PORTABLE_HPP
 
 #include "supertux/direction.hpp"
-#include "supertux/moving_object.hpp"
+
+class MovingObject;
 
 /**
  * An object that inherits from this object is considered "portable" and can
