@@ -19,8 +19,6 @@
 
 #include "gui/menu.hpp"
 
-class Level;
-
 enum GameMenuIDs {
   MNID_CONTINUE,
   MNID_RESETLEVEL,

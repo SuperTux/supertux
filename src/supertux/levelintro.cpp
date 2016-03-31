@@ -31,8 +31,6 @@
 #include <sstream>
 #include <boost/format.hpp>
 
-class PlayerStatus;
-
 LevelIntro::LevelIntro(const Level* level_, const Statistics* best_level_statistics_, const PlayerStatus* player_status_) :
   level(level_),
   best_level_statistics(best_level_statistics_),

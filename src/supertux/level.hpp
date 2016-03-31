@@ -19,8 +19,8 @@
 
 #include "supertux/statistics.hpp"
 #include "util/currenton.hpp"
-#include "util/reader_fwd.hpp"
 
+class ReaderMapping;
 class Sector;
 
 /**

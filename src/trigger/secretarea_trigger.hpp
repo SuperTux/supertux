@@ -19,12 +19,11 @@
 
 #include "trigger/trigger_base.hpp"
 
-#include "object/tilemap.hpp"
 #include "supertux/timer.hpp"
-#include "util/reader_fwd.hpp"
 
 class DrawingContext;
 class Color;
+class ReaderMapping;
 
 class SecretAreaTrigger : public TriggerBase
 {

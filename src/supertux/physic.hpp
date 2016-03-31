@@ -18,7 +18,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_PHYSIC_HPP
 #define HEADER_SUPERTUX_SUPERTUX_PHYSIC_HPP
 
-#include "math/vector.hpp"
+class Vector;
 
 /// Physics engine.
 /** This is a very simplistic physics engine handling accelerated and constant

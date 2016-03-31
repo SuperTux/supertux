@@ -19,14 +19,9 @@
 #define HEADER_SUPERTUX_SUPERTUX_TITLE_HPP
 
 #include "supertux/game_session.hpp"
+#include "supertux/savegame.hpp"
 
-class AddonMenu;
 class CodeController;
-class ContribMenu;
-class ContribWorldMenu;
-class Menu;
-class PlayerStatus;
-class World;
 class Savegame;
 
 /**

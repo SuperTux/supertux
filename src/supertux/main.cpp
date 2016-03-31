@@ -44,10 +44,12 @@ extern "C" {
 #include "sprite/sprite_manager.hpp"
 #include "supertux/command_line_arguments.hpp"
 #include "supertux/game_manager.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/savegame.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/title_screen.hpp"
@@ -377,7 +379,7 @@ Main::launch_game()
       g_config->random_seed = session->get_demo_random_seed(g_config->start_demo);
       g_config->random_seed = gameRandom.srand(g_config->random_seed);
       graphicsRandom.srand(0);
-      
+
       if (g_config->tux_spawn_pos)
       {
         session->get_current_sector()->player->set_pos(*g_config->tux_spawn_pos);

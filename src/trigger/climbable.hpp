@@ -17,13 +17,13 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_CLIMBABLE_HPP
 #define HEADER_SUPERTUX_TRIGGER_CLIMBABLE_HPP
 
-#include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
 #include "trigger/trigger_base.hpp"
-#include "util/reader_fwd.hpp"
-#include "video/drawing_context.hpp"
 
+class Color;
+class DrawingContext;
 class Player;
+class ReaderMapping;
 
 class Climbable : public TriggerBase
 {

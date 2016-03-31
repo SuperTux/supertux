@@ -24,7 +24,6 @@
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
-namespace lisp { class Lisp; }
 class DrawingContext;
 
 /** This class is a layer between level and worldmap to keep

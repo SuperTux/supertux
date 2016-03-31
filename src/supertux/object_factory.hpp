@@ -25,8 +25,8 @@
 
 #include "supertux/direction.hpp"
 #include "supertux/game_object_ptr.hpp"
-#include "util/reader_fwd.hpp"
 
+class ReaderMapping;
 class Vector;
 class GameObject;
 

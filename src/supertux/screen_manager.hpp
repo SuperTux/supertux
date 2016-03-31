@@ -25,7 +25,6 @@
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
-class Console;
 class DrawingContext;
 class MenuManager;
 class MenuStorage;

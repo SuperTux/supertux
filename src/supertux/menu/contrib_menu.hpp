@@ -19,7 +19,6 @@
 
 #include "gui/menu.hpp"
 
-class ContribWorldMenu;
 class World;
 
 class ContribMenu : public Menu

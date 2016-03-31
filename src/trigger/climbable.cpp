@@ -18,9 +18,11 @@
 
 #include "object/player.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/object_factory.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/drawing_context.hpp"
 
 namespace {
 const float GRACE_DX = 8; // how far off may the player's bounding-box be x-wise

@@ -20,6 +20,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"

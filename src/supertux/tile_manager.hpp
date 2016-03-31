@@ -22,7 +22,6 @@
 #include <string>
 
 #include "util/currenton.hpp"
-#include "util/reader_fwd.hpp"
 
 class TileSet;
 

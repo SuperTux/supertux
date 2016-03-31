@@ -32,7 +32,6 @@
 #include "object/player.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"

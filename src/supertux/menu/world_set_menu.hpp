@@ -25,13 +25,11 @@ enum WorldSetMenuIDs
   WORLDSET_CONTRIB
 };
 
-class World;
-
 class WorldSetMenu : public Menu
 {
 public:
   WorldSetMenu();
-  
+
   void menu_action(MenuItem* item) override;
 };
 

@@ -22,7 +22,6 @@
 
 #include "video/font_ptr.hpp"
 #include "video/surface_ptr.hpp"
-#include "supertux/tile_set.hpp"
 
 class MouseCursor;
 

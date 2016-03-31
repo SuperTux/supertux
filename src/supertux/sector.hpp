@@ -23,7 +23,6 @@
 
 #include "supertux/direction.hpp"
 #include "supertux/game_object_ptr.hpp"
-#include "util/reader_fwd.hpp"
 #include "video/color.hpp"
 #include "object/anchor_point.hpp"
 
@@ -33,21 +32,17 @@ class Constraints;
 
 class Vector;
 class Rectf;
-class Sprite;
-class GameObject;
 class Player;
-class PlayerStatus;
 class Camera;
 class TileMap;
 class Bullet;
-class ScriptInterpreter;
 class SpawnPoint;
 class MovingObject;
-class CollisionHit;
 class Level;
 class Portable;
 class DrawingContext;
 class DisplayEffect;
+class ReaderMapping;
 
 enum MusicType {
   LEVEL_MUSIC,

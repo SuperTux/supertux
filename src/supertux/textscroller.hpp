@@ -25,7 +25,6 @@
 #include "video/surface_ptr.hpp"
 
 class DrawingContext;
-class Font;
 class InfoBoxLine;
 
 /**

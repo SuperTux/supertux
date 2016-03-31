@@ -21,18 +21,16 @@
 #include <vector>
 #include <squirrel.h>
 
+#include "math/vector.hpp"
 #include "object/endsequence.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/player_status.hpp"
 #include "util/currenton.hpp"
-#include "video/surface.hpp"
 
 class CodeController;
 class DrawingContext;
 class Level;
-class Menu;
-class PlayerStatus;
 class Sector;
 class Statistics;
 class Savegame;

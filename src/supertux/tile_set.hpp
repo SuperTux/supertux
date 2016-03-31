@@ -22,8 +22,6 @@
 #include "supertux/tile.hpp"
 #include "util/log.hpp"
 
-class Tile;
-
 class TileSet
 {
 private:

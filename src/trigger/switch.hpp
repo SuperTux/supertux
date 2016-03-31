@@ -19,10 +19,8 @@
 
 #include <string>
 
-#include "sprite/sprite.hpp"
 #include "trigger/trigger_base.hpp"
 #include "util/reader_mapping.hpp"
-#include "video/drawing_context.hpp"
 
 class Switch : public TriggerBase
 {

@@ -22,8 +22,6 @@
 #include <string>
 #include <vector>
 
-#include "supertux/savegame.hpp"
-
 class World
 {
 private:

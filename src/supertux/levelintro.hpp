@@ -23,7 +23,6 @@
 #include "supertux/timer.hpp"
 
 class DrawingContext;
-class Surface;
 class PlayerStatus;
 
 /**

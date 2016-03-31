@@ -20,7 +20,8 @@
 #include <string>
 
 #include "math/vector.hpp"
-#include "util/reader_fwd.hpp"
+
+class ReaderMapping;
 
 class SpawnPoint
 {

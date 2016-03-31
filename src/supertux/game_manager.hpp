@@ -18,10 +18,9 @@
 #define HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
 
 #include <memory>
-
-#include "supertux/savegame.hpp"
 #include "util/currenton.hpp"
 
+class Savegame;
 class World;
 
 class GameManager : public Currenton<GameManager>

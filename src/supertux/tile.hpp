@@ -23,7 +23,6 @@
 #include <stdint.h>
 
 #include "math/rectf.hpp"
-#include "util/reader_fwd.hpp"
 #include "video/color.hpp"
 #include "video/surface.hpp"
 

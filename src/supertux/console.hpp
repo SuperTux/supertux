@@ -29,7 +29,6 @@
 
 class Console;
 class ConsoleStreamBuffer;
-class ConsoleCommandReceiver;
 class DrawingContext;
 
 class ConsoleBuffer : public Currenton<ConsoleBuffer>
