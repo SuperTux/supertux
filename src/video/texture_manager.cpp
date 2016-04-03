@@ -85,8 +85,24 @@ TexturePtr
 TextureManager::get(const std::string& _filename, const Rect& rect)
 {
   std::string filename = FileSystem::normalize(_filename);
-  // FIXME: implement caching
-  return create_image_texture(filename, rect);
+  std::string key = filename + "_" +
+                    std::to_string(rect.left)  + "|" +
+                    std::to_string(rect.top)   + "|" +
+                    std::to_string(rect.right) + "|" +
+                    std::to_string(rect.bottom);
+  ImageTextures::iterator i = m_image_textures.find(key);
+
+  TexturePtr texture;
+  if(i != m_image_textures.end())
+    texture = i->second.lock();
+
+  if(!texture) {
+    texture = create_image_texture(filename, rect);
+    texture->cache_filename = key;
+    m_image_textures[key] = texture;
+  }
+
+  return texture;
 }
 
 void
