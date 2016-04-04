@@ -22,9 +22,9 @@
 #include <vector>
 
 #include "math/vector.hpp"
-#include "util/writer_fwd.hpp"
 
 class ReaderMapping;
+class Writer;
 
 class Path
 {
