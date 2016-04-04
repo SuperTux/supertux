@@ -20,9 +20,9 @@
 #include <string>
 
 #include "math/vector.hpp"
-#include "lisp/writer.hpp"
 
 class ReaderMapping;
+class Writer;
 
 class SpawnPoint
 {

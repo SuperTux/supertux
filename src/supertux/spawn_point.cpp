@@ -19,6 +19,7 @@
 #include "supertux/spawn_point.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 SpawnPoint::SpawnPoint() :
   name(),

@@ -23,6 +23,7 @@
 
 #include "util/reader_mapping.hpp"
 #include "util/log.hpp"
+#include "util/writer.hpp"
 
 Path::Path() :
   nodes(),
