@@ -186,13 +186,6 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
     throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");
   }
 
-#ifdef OLD_SDL
-  if (image->format->palette)
-  { // copy the image palette to subimage if present
-    SDL_SetSurfacePalette(subimage.get(), image->format->palette->colors);
-  }
-#endif
-
   return VideoSystem::current()->new_texture(subimage.get());
 }
 
