@@ -129,7 +129,7 @@ LevelParser::create(const std::string& filepath, const std::string& levelname)
 {
   m_level.filename = filepath;
   m_level.name = levelname;
-  m_level.license = "CC0";
+  m_level.license = "CC-BY-SA";
 
   auto sector = SectorParser::from_nothing(m_level);
   *(sector->get_name_ptr()) = "main";

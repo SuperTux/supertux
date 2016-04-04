@@ -20,6 +20,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "supertux/game_manager.hpp"
@@ -68,6 +69,12 @@ EditorLevelSelectMenu::create_level()
   new_level->save(Editor::current()->get_world()->get_basedir() + "/" + new_level->filename);
   Editor::current()->set_level(new_level->filename);
   MenuManager::instance().clear_menu_stack();
+
+  std::unique_ptr<Dialog> dialog(new Dialog);
+  dialog->set_text(_("Share this level under license CC-BY-SA (advertized).\nIf you don't agree with this license, change it in level properties."));
+  dialog->clear_buttons();
+  dialog->add_button(_("OK"), [] {});
+  MenuManager::instance().set_dialog(std::move(dialog));
 }
 
 void
