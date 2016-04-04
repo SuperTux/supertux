@@ -234,4 +234,14 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
   }
 }
 
+void
+Coin::move_to(const Vector& pos)
+{
+  Vector shift = pos - bbox.p1;
+  if (path) {
+    path->move_by(shift);
+  }
+  set_pos(pos);
+}
+
 /* EOF */

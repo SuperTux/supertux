@@ -43,6 +43,8 @@ public:
     return _("Coin");
   }
 
+  virtual void move_to(const Vector& pos);
+
 private:
   std::shared_ptr<Path> path;
   std::shared_ptr<PathWalker> walker;
