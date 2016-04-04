@@ -43,7 +43,6 @@ Light::draw(DrawingContext& context)
 
   sprite->set_color(color);
   sprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-  sprite->set_angle(90); // FIXME: color won't get applied for angle=0
   sprite->draw(context, position, 0);
 
   context.pop_target();
