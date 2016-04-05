@@ -23,8 +23,10 @@
 #include "editor/tool_icon.hpp"
 #include "editor/tip.hpp"
 #include "math/rectf.hpp"
+#include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
+#include "object/wind.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -37,6 +39,10 @@
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
+#include "trigger/climbable.hpp"
+#include "trigger/scripttrigger.hpp"
+#include "trigger/secretarea_trigger.hpp"
+#include "trigger/sequence_trigger.hpp"
 #include "video/font.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
@@ -230,18 +236,40 @@ EditorInputCenter::hover_object() {
   for (auto i = Editor::current()->currentsector->moving_objects.begin();
        i != Editor::current()->currentsector->moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
-    if (!moving_object->do_save()) {
+    PointMarker* pm = dynamic_cast<PointMarker*>(moving_object);
+    if (!moving_object->do_save() && !pm) {
       continue;
     }
     Rectf bbox = moving_object->get_bbox();
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
-      std::unique_ptr<Tip> new_tip(new Tip(moving_object));
-      object_tip = move(new_tip);
+      if (moving_object->do_save()) {
+        std::unique_ptr<Tip> new_tip(new Tip(moving_object));
+        object_tip = move(new_tip);
+      } else {
+        break;
+      }
       return;
     }
   }
   object_tip = NULL;
+}
+
+void
+EditorInputCenter::mark_object() {
+  delete_markers();
+
+  AmbientSound* dc1 = dynamic_cast<AmbientSound*>(dragged_object);
+  Climbable* dc2 = dynamic_cast<Climbable*>(dragged_object);
+  ScriptTrigger* dc3 = dynamic_cast<ScriptTrigger*>(dragged_object);
+  SecretAreaTrigger* dc4 = dynamic_cast<SecretAreaTrigger*>(dragged_object);
+  SequenceTrigger* dc5 = dynamic_cast<SequenceTrigger*>(dragged_object);
+  Wind* dc6 = dynamic_cast<Wind*>(dragged_object);
+
+  if (dc1 || dc2 || dc3 || dc4 || dc5 || dc6) {
+    marked_object = dragged_object;
+    marked_object->edit_bbox();
+  }
 }
 
 void
@@ -253,12 +281,12 @@ EditorInputCenter::grab_object() {
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
       dragged_object = moving_object;
+      PointMarker* pm = dynamic_cast<PointMarker*>(moving_object);
       obj_mouse_desync = sector_pos - bbox.p1;
       // marker testing
-      /*delete_markers();
-      marked_object = moving_object;
-      auto marker = std::make_shared<PointMarker>(moving_object->get_pos());
-      Sector::current()->add_object(marker);*/
+      if (!pm) {
+        mark_object();
+      }
       return;
     }
   }

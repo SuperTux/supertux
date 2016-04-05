@@ -117,6 +117,9 @@ public:
     return bbox.p1;
   }
 
+  /** puts resizers at its edges, used in editor input center */
+  void edit_bbox();
+
   /** returns the bounding box of the Object */
   const Rectf& get_bbox() const
   {
