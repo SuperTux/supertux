@@ -223,6 +223,7 @@ void Editor::update_keyboard() {
 
   if (InputManager::current()->get_controller()->pressed(Controller::ESCAPE)) {
     enabled = false;
+    inputcenter.delete_markers();
     MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
     return;
   }

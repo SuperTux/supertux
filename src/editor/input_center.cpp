@@ -19,6 +19,7 @@
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/object_menu.hpp"
+#include "editor/point_marker.hpp"
 #include "editor/tool_icon.hpp"
 #include "editor/tip.hpp"
 #include "math/rectf.hpp"
@@ -48,6 +49,7 @@ EditorInputCenter::EditorInputCenter() :
   dragging(false),
   drag_start(0, 0),
   dragged_object(NULL),
+  marked_object(NULL),
   object_tip(),
   obj_mouse_desync(0, 0),
   render_grid(true),
@@ -62,6 +64,24 @@ EditorInputCenter::~EditorInputCenter()
 void
 EditorInputCenter::update(float elapsed_time) {
   update_scroll();
+}
+
+void
+EditorInputCenter::delete_markers() {
+  if (!marked_object) {
+    return;
+  }
+
+  for (auto i = Editor::current()->currentsector->moving_objects.begin();
+       i != Editor::current()->currentsector->moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+    PointMarker* marker = dynamic_cast<PointMarker*>(moving_object);
+    if (marker) {
+      marker->remove_me();
+    }
+  }
+  marked_object = NULL;
+  Editor::current()->currentsector->update(0);
 }
 
 Rectf
@@ -234,6 +254,11 @@ EditorInputCenter::grab_object() {
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
       dragged_object = moving_object;
       obj_mouse_desync = sector_pos - bbox.p1;
+      // marker testing
+      /*delete_markers();
+      marked_object = moving_object;
+      auto marker = std::make_shared<PointMarker>(moving_object->get_pos());
+      Sector::current()->add_object(marker);*/
       return;
     }
   }
