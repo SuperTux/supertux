@@ -16,7 +16,6 @@
 
 #include "object/wind.hpp"
 
-#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
@@ -24,6 +23,7 @@
 #include "scripting/wind.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/editor_active.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 

@@ -16,13 +16,13 @@
 
 #include "trigger/secretarea_trigger.hpp"
 
-#include "editor/editor.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/level.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
+#include "util/editor_active.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"

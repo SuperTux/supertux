@@ -19,13 +19,13 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
-#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/editor_active.hpp"
 #include "util/reader_mapping.hpp"
 
 static const std::string FLAME_SOUND = "sounds/flame.wav";
