@@ -39,6 +39,7 @@ class EditorInputCenter
 
     void actualize_pos();
     void stop_scrolling();
+    void delete_markers();
 
   private:
     Vector hovered_tile;
@@ -48,6 +49,7 @@ class EditorInputCenter
     bool dragging;
     Vector drag_start;
     MovingObject *dragged_object;
+    MovingObject *marked_object;
     std::unique_ptr<Tip> object_tip;
     Vector obj_mouse_desync;
 
