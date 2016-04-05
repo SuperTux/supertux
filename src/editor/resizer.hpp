@@ -14,32 +14,41 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef HEADER_SUPERTUX_EDITOR_RESIZER_HPP
+#define HEADER_SUPERTUX_EDITOR_RESIZER_HPP
+
 #include "editor/point_marker.hpp"
 
-#include "supertux/globals.hpp"
-#include "supertux/resources.hpp"
-#include "video/color.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
-
-PointMarker::PointMarker (const Vector& pos)
+class Resizer : public PointMarker
 {
-  bbox.p1 = pos;
-  bbox.set_size(16, 16);
-}
+  public:
+    enum Side{
+      NONE,
+      LEFT_UP,
+      RIGHT_DOWN
+    };
 
-PointMarker::PointMarker ()
-{
-  bbox.p1 = Vector(0, 0);
-  bbox.p2 = Vector(16, 16);
-}
+    Resizer(Rectf* rect_, Side vert_, Side horz_);
+    ~Resizer();
 
-PointMarker::~PointMarker() {
+    void update(float elapsed_time);
+    virtual void move_to(const Vector& pos);
 
-}
+    virtual bool do_save() const {
+      return false;
+    }
 
-void PointMarker::draw(DrawingContext& context) {
-  context.draw_filled_rect(bbox, Color(1, 1, 1, 0.5), LAYER_GUI-20);
-}
+    void refresh_pos();
+
+  private:
+    Rectf* rect;
+    Side vert;
+    Side horz;
+
+    Resizer(const Resizer&);
+    Resizer& operator=(const Resizer&);
+};
+
+#endif // HEADER_SUPERTUX_EDITOR_RESIZER_HPP
 
 /* EOF */

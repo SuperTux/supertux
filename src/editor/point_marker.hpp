@@ -24,6 +24,7 @@ class PointMarker : public MovingObject
 {
   public:
     PointMarker(const Vector& pos);
+    PointMarker();
     ~PointMarker();
 
     void update(float elapsed_time) {
