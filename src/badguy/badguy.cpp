@@ -17,7 +17,6 @@
 #include "badguy/badguy.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "editor/editor.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "math/random_generator.hpp"
@@ -32,6 +31,7 @@
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
+#include "util/editor_active.hpp"
 #include "util/reader_mapping.hpp"
 
 #include <math.h>

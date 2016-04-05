@@ -142,14 +142,14 @@ class Editor : public Screen,
     Editor& operator=(const Editor&);
 };
 
-inline bool EditorActive() {
+/*inline bool EditorActive() {
   if (Editor::current()) {
     if (Editor::current()->is_active()) {
       return true;
     }
   }
   return false;
-}
+}*/
 
 #endif // HEADER_SUPERTUX_EDITOR_EDITOR_HPP
 

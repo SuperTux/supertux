@@ -50,6 +50,7 @@
 #include "supertux/tile_manager.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "trigger/sequence_trigger.hpp"
+#include "util/editor_active.hpp"
 #include "util/file_system.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"

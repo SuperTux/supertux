@@ -18,10 +18,10 @@
 
 #include "trigger/sequence_trigger.hpp"
 
-#include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
+#include "util/editor_active.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"

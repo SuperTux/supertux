@@ -39,6 +39,7 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/timer.hpp"
+#include "util/editor_active.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 
