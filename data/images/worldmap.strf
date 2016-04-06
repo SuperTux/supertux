@@ -115,6 +115,97 @@
 1992 1993 0 0
 ))
 
+(tilegroup
+  (name "Jungle")
+  (tiles
+     111 112 113 114
+     115 116 117 118
+     119 120 121 122
+     123 124 125 126
+     127 128 129 130
+     131 132 133 134
+     135 136 137 138
+     139 140 141 142
+
+     143 144 145   0
+     148 149 150   0
+     153 154 155   0
+     158 159 160   0
+     163 164 165   0
+     168 169 170   0
+     146 147 161 162
+     151 152 166 167
+     156 157 171 172
+))
+
+(tilegroup
+  (name "Stone")
+  (tiles
+     254 255 256 257
+     258 259 260 261
+     262 263 264 265
+     238 239 240 241
+     242 243 244 245
+     246 247 248 249
+     250 251 252 253
+
+     266 267 173 174
+     268 269 175 176 
+))
+
+(tilegroup
+  (name "Cave")
+  (tiles
+     222 223 224 225
+     226 227 228 229
+     230 231 232 233
+     234 235 236 237
+
+     205 206 207 208
+     211   0 212   0
+     216 217 218   0
+     213 214 209 210
+     219 220 215 221
+
+     197 198 199 200
+     201 202 203 204
+
+     177 178 179 180
+     182 183 184 185
+     187 188 189 190
+     192 193 194 195
+     181 186 191 196
+
+     282 283 284 285
+     288   0 290 286
+     294 295 296 287
+     270 271 291 292
+     276 277 297 298
+     272 273 274 275
+     278 279 280 281
+     293 299 289   0
+
+     300   0 301 302
+       0   0 303 304
+     305 306 307 308
+     309 310 311 312
+     313 314 315 316
+     317 318 319 320
+     321 322 323 324
+     325 326 327 328
+))
+
+(tilegroup
+  (name "Volcano")
+  (tiles
+     329 330 331 332
+     333 334 335 336
+     337 338 339 340
+     341 342 343 344
+     345 346 347 348
+     349 350 351 352
+     353 354 355 356
+))
 
 (tile (id 9)
       (images "worldmap/antarctica/water.png"))
@@ -539,6 +630,293 @@
       (west #t)
       (east #t)
       (stop #f))
+(tiles
+  (width 4)
+  (height 4)
+  (ids
+    111 112 113 114
+    115 116 117 118
+    119 120 121 122
+    123 124 125 126
+  )
+  (datas
+      6  10  23  30
+      5   9  29  27
+     18  20  24  31
+     17   3  12   0
+  )
+  (image "worldmap/jungle/paths-back.png")
+)
+
+(tiles
+  (width 4)
+  (height 4)
+  (ids
+    127 128 129 130
+    131 132 133 134
+    135 136 137 138
+    139 140 141 142
+  )
+  (datas
+      6  10  23  30
+      5   9  29  27
+     18  20  24  31
+     17   3  12   0
+  )
+  (image "worldmap/jungle/paths-front.png")
+)
+
+(tiles
+  (width 5)
+  (height 3)
+  (ids
+    143 144 145 146 147
+    148 149 150 151 152
+    153 154 155 156 157
+  )
+  (datas
+      0   0   0   0   0
+      0   0   0   0   0
+      0   0   0  12  12
+  )
+  (image "worldmap/jungle/shores-back.png")
+)
+
+(tiles
+  (width 5)
+  (height 3)
+  (ids
+    158 159 160 161 162
+    163 164 165 166 167
+    168 169 170 171 172
+  )
+  (datas
+      0   0   0   0   0
+      0   0   0   0   0
+      0   0   0   0   0
+  )
+  (image "worldmap/jungle/shores-front.png")
+)
+
+(tiles
+  (width 2)
+  (height 2)
+  (ids
+    173 174
+    175 176
+  )
+  (datas
+      6   3
+     10   0
+  )
+  (images "worldmap/cave/cave_entrance.png")
+  (editor-images "worldmap/cave/cave_entrance-editor.png")
+)
+(tiles
+  (width 5)
+  (height 4)
+  (ids
+    177 178 179 180 181
+    182 183 184 185 186
+    187 188 189 190 191
+    192 193 194 195 196
+  )
+  (datas
+      0   0   0   0   3
+      0   0   0   0  12
+      0   0   0   0   0
+      0   0   0   0   0
+  )
+  (images "worldmap/cave/cracks.png")
+)
+(tiles
+  (width 4)
+  (height 2)
+  (ids
+    197 198 199 200
+    201 202 203 204
+  )
+  (images "worldmap/cave/decor.png")
+)
+(tiles
+  (width 6)
+  (height 3)
+  (ids
+    205 206 207 208 209 210
+    211   0 212 213 214 215
+    216 217 218 219 220 221
+  )
+  (images "worldmap/cave/overlay.png")
+)
+(tiles
+  (width 4)
+  (height 4)
+  (ids
+    222 223 224 225
+    226 227 228 229
+    230 231 232 233
+    234 235 236 237
+  )
+  (datas
+      6  10  24  17
+      5   9  18  20
+     30  27  12  31
+     23  29   3   0
+  )
+  (images "worldmap/cave/paths.png")
+)
+(tiles
+  (width 4)
+  (height 4)
+  (ids
+    238 239 240 241
+    242 243 244 245
+    246 247 248 249
+    250 251 252 253
+  )
+  (datas
+      6  10  18   3
+      5   9  17  12
+     23  30   0  31
+     29  27  20  24
+  )
+  (images "worldmap/cave/stone-paths.png")
+)
+(tiles
+  (width 4)
+  (height 3)
+  (ids
+    254 255 256 257
+    258 259 260 261
+    262 263 264 265
+  )
+  (images "worldmap/cave/stone.png")
+)
+(tiles
+  (width 2)
+  (height 2)
+  (ids
+    266 267
+    268 269
+  )
+  (datas
+      3  12
+     12   3
+  )
+  (images "worldmap/cave/stone-stairs.png")
+)
+(tiles
+  (width 6)
+  (height 5)
+  (ids
+    270 271 272 273 274 275
+    276 277 278 279 280 281
+    282 283 284 285 286 287
+    288 289 290 291 292 293
+    294 295 296 297 298 299
+  )
+  (datas
+      0   0   0   0   0   0
+      0   0   0   0   0   0
+      0   0   0   3  12   0
+      0   0   0   0   0   0
+      0   0   0   0   0   0
+  )
+  (images "worldmap/cave/water-overlay.png")
+)
+(tile (id 300)
+      (images "worldmap/cave/groundwater/still.png"))
+(tiles
+  (width 2)
+  (height 2)
+  (ids
+    301 302
+    303 304
+  )
+  (images "worldmap/cave/groundwater/flowing-0.png"
+          "worldmap/cave/groundwater/flowing-1.png"
+          "worldmap/cave/groundwater/flowing-2.png"
+          "worldmap/cave/groundwater/flowing-3.png"
+          "worldmap/cave/groundwater/flowing-4.png"
+          "worldmap/cave/groundwater/flowing-5.png"
+          "worldmap/cave/groundwater/flowing-6.png"
+          "worldmap/cave/groundwater/flowing-7.png")
+  (editor-images "worldmap/cave/groundwater/flowing-editor.png")
+)
+(tiles
+  (width 4)
+  (height 2)
+  (ids
+    305 306 307 308
+    309 310 311 312
+  )
+  (images "worldmap/cave/groundwater/bend-0.png"
+          "worldmap/cave/groundwater/bend-1.png"
+          "worldmap/cave/groundwater/bend-2.png"
+          "worldmap/cave/groundwater/bend-3.png"
+          "worldmap/cave/groundwater/bend-4.png"
+          "worldmap/cave/groundwater/bend-5.png"
+          "worldmap/cave/groundwater/bend-6.png"
+          "worldmap/cave/groundwater/bend-7.png")
+  (editor-images "worldmap/cave/groundwater/bend-editor.png")
+)
+(tiles
+  (width 4)
+  (height 2)
+  (ids
+    313 314 315 316
+    317 318 319 320
+  )
+  (images "worldmap/cave/groundwater/cross-0.png"
+          "worldmap/cave/groundwater/cross-1.png"
+          "worldmap/cave/groundwater/cross-2.png"
+          "worldmap/cave/groundwater/cross-3.png"
+          "worldmap/cave/groundwater/cross-4.png"
+          "worldmap/cave/groundwater/cross-5.png"
+          "worldmap/cave/groundwater/cross-6.png"
+          "worldmap/cave/groundwater/cross-7.png")
+  (editor-images "worldmap/cave/groundwater/cross-editor.png")
+)
+(tiles
+  (width 4)
+  (height 2)
+  (ids
+    321 322 323 324
+    325 326 327 328
+  )
+  (images "worldmap/cave/groundwater/drail-0.png"
+          "worldmap/cave/groundwater/drail-1.png"
+          "worldmap/cave/groundwater/drail-2.png"
+          "worldmap/cave/groundwater/drail-3.png"
+          "worldmap/cave/groundwater/drail-4.png"
+          "worldmap/cave/groundwater/drail-5.png"
+          "worldmap/cave/groundwater/drail-6.png"
+          "worldmap/cave/groundwater/drail-7.png")
+  (editor-images "worldmap/cave/groundwater/drail-editor.png")
+)
+(tiles
+  (width 4)
+  (height 7)
+  (ids
+    329 330 331 332
+    333 334 335 336
+    337 338 339 340
+    341 342 343 344
+    345 346 347 348
+    349 350 351 352
+    353 354 355 356
+  )
+  (datas
+      0   0   0   0
+      0   0   0   0
+      0   0   0   0
+      6  10   3   0
+      5   9  31  12
+     24  17  23  30
+     18  20  29  27
+  )
+  (images "worldmap/volcano/ground.png")
+)
 
 (tiles
   (width 5)
