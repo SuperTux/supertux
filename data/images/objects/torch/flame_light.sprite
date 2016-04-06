@@ -1,7 +1,0 @@
-(supertux-sprite
-  (action
-    (name "default")
-    (hitbox 384 384 0 0)
-    (images "flame_light.png")
-  )
-)

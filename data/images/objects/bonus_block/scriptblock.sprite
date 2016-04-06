@@ -1,9 +1,0 @@
-(supertux-sprite
-      (action
-         (name "normal")
-         (images "scriptblock.png"))
-      (action
-         (name "empty")
-         (images "scriptblock_empty.png"))
-
-)

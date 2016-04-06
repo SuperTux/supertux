@@ -1,5 +1,0 @@
-(supertux-music
-  (file "airship_remix.ogg")
-  (loop-begin 4)
-  (loop-at    58)
-)

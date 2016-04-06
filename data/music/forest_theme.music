@@ -1,5 +1,0 @@
-(supertux-music
-  (file "forest_theme.ogg")
-  (loop-begin 0)
-  (loop-at    -1)
-)
