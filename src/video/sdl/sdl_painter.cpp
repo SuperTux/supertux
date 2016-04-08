@@ -18,6 +18,7 @@
 
 #include "SDL.h"
 
+#include "math/rectf.hpp"
 #include "util/log.hpp"
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_texture.hpp"
@@ -330,12 +331,6 @@ SDLPainter::draw_line(SDL_Renderer* renderer, const DrawingRequest& request)
   const LineRequest* linerequest
     = static_cast<LineRequest*>(request.request_data);
 
-/*  SDL_Rect rect;
-  rect.x = request.pos.x;
-  rect.y = request.pos.y;
-  rect.w = fillrectrequest->size.x;
-  rect.h = fillrectrequest->size.y;*/
-
   Uint8 r = static_cast<Uint8>(linerequest->color.red * 255);
   Uint8 g = static_cast<Uint8>(linerequest->color.green * 255);
   Uint8 b = static_cast<Uint8>(linerequest->color.blue * 255);
@@ -349,6 +344,93 @@ SDLPainter::draw_line(SDL_Renderer* renderer, const DrawingRequest& request)
   SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
   SDL_SetRenderDrawColor(renderer, r, g, b, a);
   SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+}
+
+namespace {
+
+Rectf
+make_edge(int x1, int y1, int x2, int y2)
+{
+  if(y1 < y2) {
+    return Rectf(Vector(x1, y1), Vector(x2, y2));
+  } else {
+    return Rectf(Vector(x2, y2), Vector(x1, y1));
+  }
+}
+
+void
+draw_span_between_edges(SDL_Renderer* renderer, const Rectf e1, const Rectf e2)
+{
+  // calculate difference between the y coordinates
+  // of the first edge and return if 0
+  float e1ydiff = (float)(e1.p2.y - e1.p1.y);
+  if(e1ydiff == 0.0f)
+    return;
+
+  // calculate difference between the y coordinates
+  // of the second edge and return if 0
+  float e2ydiff = (float)(e2.p2.y - e2.p1.y);
+  if(e2ydiff == 0.0f)
+    return;
+
+  float e1xdiff = e1.p2.x - e1.p1.x;
+  float e2xdiff = e2.p2.x - e2.p1.x;
+  float factor1 = (e2.p1.y - e1.p1.y) / e1ydiff;
+  float factorStep1 = 1.0f / e1ydiff;
+  float factor2 = 0.0f;
+  float factorStep2 = 1.0f / e2ydiff;
+
+  for(int y = e2.p1.y; y < e2.p2.y; y++) {
+    SDL_RenderDrawLine(renderer, e1.p1.x + e1xdiff * factor1, y, e2.p1.x + e2xdiff * factor2, y);
+    factor1 += factorStep1;
+    factor2 += factorStep2;
+  }
+}
+
+} //namespace
+
+void
+SDLPainter::draw_triangle(SDL_Renderer* renderer, const DrawingRequest& request)
+{
+  const TriangleRequest* trianglerequest
+    = static_cast<TriangleRequest*>(request.request_data);
+
+  Uint8 r = static_cast<Uint8>(trianglerequest->color.red * 255);
+  Uint8 g = static_cast<Uint8>(trianglerequest->color.green * 255);
+  Uint8 b = static_cast<Uint8>(trianglerequest->color.blue * 255);
+  Uint8 a = static_cast<Uint8>(trianglerequest->color.alpha * 255);
+
+  int x1 = request.pos.x;
+  int y1 = request.pos.y;
+  int x2 = trianglerequest->pos2.x;
+  int y2 = trianglerequest->pos2.y;
+  int x3 = trianglerequest->pos3.x;
+  int y3 = trianglerequest->pos3.y;
+
+  Rectf edges[3];
+  edges[0] = make_edge(x1, y1, x2, y2);
+  edges[1] = make_edge(x2, y2, x3, y3);
+  edges[2] = make_edge(x3, y3, x1, y1);
+
+  int maxLength = 0;
+  int longEdge = 0;
+
+  // find edge with the greatest length in the y axis
+  for(int i = 0; i < 3; i++) {
+    int length = edges[i].p2.y - edges[i].p1.y;
+    if(length > maxLength) {
+      maxLength = length;
+      longEdge = i;
+    }
+  }
+  int shortEdge1 = (longEdge + 1) % 3;
+  int shortEdge2 = (longEdge + 2) % 3;
+
+  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(renderer, r, g, b, a);
+
+  draw_span_between_edges(renderer, edges[longEdge], edges[shortEdge1]);
+  draw_span_between_edges(renderer, edges[longEdge], edges[shortEdge2]);
 }
 
 /* EOF */

@@ -292,6 +292,30 @@ DrawingContext::draw_line(const Vector& pos1, const Vector& pos2, const Color& c
   requests->push_back(request);
 }
 
+void
+DrawingContext::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer)
+{
+  DrawingRequest* request = new(obst) DrawingRequest();
+
+  request->target = target;
+  request->type   = TRIANGLE;
+  request->pos    = transform.apply(pos1);
+  request->layer  = layer;
+
+  request->drawing_effect = transform.drawing_effect;
+  request->alpha = transform.alpha;
+
+  TriangleRequest* triangle = new(obst) TriangleRequest;
+
+  triangle->color        = color;
+  triangle->color.alpha  = color.alpha * transform.alpha;
+  triangle->pos2         = pos2;
+  triangle->pos3         = pos3;
+  request->request_data = triangle;
+
+  requests->push_back(request);
+}
+
 Rectf
 DrawingContext::get_cliprect() const
 {
@@ -431,6 +455,9 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
           case LINE:
             renderer.draw_line(request);
             break;
+          case TRIANGLE:
+            renderer.draw_triangle(request);
+            break;
         }
         break;
       case LIGHTMAP:
@@ -465,6 +492,9 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
             break;
           case LINE:
             lightmap.draw_line(request);
+            break;
+          case TRIANGLE:
+            lightmap.draw_triangle(request);
             break;
         }
         break;

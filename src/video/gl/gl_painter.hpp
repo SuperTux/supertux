@@ -42,6 +42,7 @@ public:
   static void draw_filled_rect(const DrawingRequest& request);
   static void draw_inverse_ellipse(const DrawingRequest& request);
   static void draw_line(const DrawingRequest& request);
+  static void draw_triangle(const DrawingRequest& request);
 
 private:
   GLPainter(const GLPainter&) = delete;

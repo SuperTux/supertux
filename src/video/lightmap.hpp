@@ -50,6 +50,7 @@ public:
   virtual void draw_inverse_ellipse(const DrawingRequest& request) = 0;
   virtual void get_light(const DrawingRequest& request) const = 0;
   virtual void draw_line(const DrawingRequest& request) = 0;
+  virtual void draw_triangle(const DrawingRequest& request) = 0;
 };
 
 #endif
