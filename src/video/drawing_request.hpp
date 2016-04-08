@@ -35,7 +35,7 @@ class Surface;
 
 enum RequestType
 {
-  SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, INVERSEELLIPSE, DRAW_LIGHTMAP, GETLIGHT, LINE
+  SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, INVERSEELLIPSE, DRAW_LIGHTMAP, GETLIGHT, LINE, TRIANGLE
 };
 
 struct DrawingRequestData
@@ -141,6 +141,18 @@ struct LineRequest : public DrawingRequestData
 
   Color  color;
   Vector dest_pos;
+};
+
+struct TriangleRequest : public DrawingRequestData
+{
+  TriangleRequest() :
+    color(),
+    pos2(),
+    pos3()
+  {}
+
+  Color  color;
+  Vector pos2, pos3;
 };
 
 struct DrawingRequest

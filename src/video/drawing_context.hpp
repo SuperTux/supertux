@@ -123,6 +123,7 @@ public:
   void draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color& color, int layer);
 
   void draw_line(const Vector& pos1, const Vector& pos2, const Color& color, int layer);
+  void draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer);
 
   /// Returns the visible area in world coordinates
   Rectf get_cliprect() const;
