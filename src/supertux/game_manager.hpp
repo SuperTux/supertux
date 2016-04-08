@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_GAME_MANAGER_HPP
 
 #include <memory>
+#include <string>
 #include "util/currenton.hpp"
 
 class Savegame;
