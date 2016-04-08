@@ -3,7 +3,7 @@
 	url = https://github.com/SuperTux/tinygettext.git
 [submodule "external/squirrel"]
 	path = external/squirrel
-	url = https://github.com/SuperTux/squirrel.git
+	url = https://github.com/albertodemichelis/squirrel.git
 [submodule "translations"]
 	path = translations
 	url = https://github.com/SuperTux/translations
