@@ -203,15 +203,17 @@ std::string PlayerStatus::get_bonus_prefix() const
   switch (this->bonus) {
   default:
   case NO_BONUS:
-    return std::string("small");
+    return "small";
   case GROWUP_BONUS:
-    return std::string("big");
+    return "big";
   case FIRE_BONUS:
-    return std::string("fire");
+    return "fire";
   case ICE_BONUS:
-    return std::string("ice");
+    return "ice";
   case AIR_BONUS:
-    return std::string("air");
+    return "air";
+  case EARTH_BONUS:
+    return "earth";
   }
 }
 
