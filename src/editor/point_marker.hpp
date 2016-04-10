@@ -41,6 +41,8 @@ class PointMarker : public MovingObject
       return FORCE_MOVE;
     }
 
+    virtual Vector get_point_vector() const;
+
   private:
     PointMarker(const PointMarker&);
     PointMarker& operator=(const PointMarker&);
