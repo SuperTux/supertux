@@ -286,7 +286,7 @@ DrawingContext::draw_line(const Vector& pos1, const Vector& pos2, const Color& c
 
   line->color        = color;
   line->color.alpha  = color.alpha * transform.alpha;
-  line->dest_pos     = pos2;
+  line->dest_pos     = transform.apply(pos2);
   request->request_data = line;
 
   requests->push_back(request);
@@ -309,8 +309,8 @@ DrawingContext::draw_triangle(const Vector& pos1, const Vector& pos2, const Vect
 
   triangle->color        = color;
   triangle->color.alpha  = color.alpha * transform.alpha;
-  triangle->pos2         = pos2;
-  triangle->pos3         = pos3;
+  triangle->pos2         = transform.apply(pos2);
+  triangle->pos3         = transform.apply(pos3);
   request->request_data = triangle;
 
   requests->push_back(request);

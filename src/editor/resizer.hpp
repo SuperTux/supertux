@@ -33,6 +33,7 @@ class Resizer : public PointMarker
 
     void update(float elapsed_time);
     virtual void move_to(const Vector& pos);
+    virtual Vector get_point_vector() const;
 
     virtual bool do_save() const {
       return false;

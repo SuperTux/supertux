@@ -87,4 +87,34 @@ void Resizer::move_to(const Vector& pos) {
   refresh_pos();
 }
 
+Vector Resizer::get_point_vector() const {
+  Vector result;
+
+  switch (vert) {
+    case NONE:
+      result.y = 0;
+      break;
+    case LEFT_UP:
+      result.y = -1;
+      break;
+    case RIGHT_DOWN:
+      result.y = 1;
+      break;
+  }
+
+  switch (horz) {
+    case NONE:
+      result.x = 0;
+      break;
+    case LEFT_UP:
+      result.x = -1;
+      break;
+    case RIGHT_DOWN:
+      result.x = 1;
+      break;
+  }
+
+  return result;
+}
+
 /* EOF */

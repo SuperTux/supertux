@@ -39,7 +39,21 @@ PointMarker::~PointMarker() {
 }
 
 void PointMarker::draw(DrawingContext& context) {
-  context.draw_filled_rect(bbox, Color(1, 1, 1, 0.5), LAYER_GUI-20);
+  Vector dir = get_point_vector();
+  if (dir.x == 0 && dir.y == 0) {
+    context.draw_filled_rect(bbox, Color(1, 1, 1, 0.5), LAYER_GUI-20);
+  } else {
+    // draw a triangle
+    dir = dir.unit() * 8;
+    Vector dir2 = Vector(-dir.y, dir.x);
+    Vector pos = bbox.get_middle();
+    context.draw_triangle(pos + dir, pos - dir + dir2, pos - dir - dir2,
+                          Color(1, 1, 1, 0.5), LAYER_GUI-20);
+  }
+}
+
+Vector PointMarker::get_point_vector() const {
+  return Vector(0,0);
 }
 
 /* EOF */
