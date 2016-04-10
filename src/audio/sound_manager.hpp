@@ -61,6 +61,7 @@ public:
 
   void set_listener_position(const Vector& position);
   void set_listener_velocity(const Vector& velocity);
+  void set_listener_orientation(const Vector& at, const Vector& up);
 
   void enable_music(bool music_enabled);
   void play_music(const std::string& filename, bool fade = false);

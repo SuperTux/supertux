@@ -53,6 +53,8 @@ SoundManager::SoundManager() :
     check_al_error("Audio error after init: ");
     sound_enabled = true;
     music_enabled = true;
+
+    set_listener_orientation(Vector(0.0f, 0.0f), Vector(0.0f, 0.0f));
   } catch(std::exception& e) {
     if(context != NULL) {
       alcDestroyContext(context);
@@ -378,6 +380,13 @@ void
 SoundManager::set_listener_velocity(const Vector& vel)
 {
   alListener3f(AL_VELOCITY, vel.x, vel.y, 0);
+}
+
+void
+SoundManager::set_listener_orientation(const Vector& at, const Vector& up)
+{
+  ALfloat orientation[]={at.x, at.y, 0.0, up.x, up.y, 0.0};
+  alListenerfv(AL_ORIENTATION, orientation);
 }
 
 void
