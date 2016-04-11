@@ -278,8 +278,13 @@ EditorInputCenter::grab_object() {
       i != Editor::current()->currentsector->moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     Rectf bbox = moving_object->get_bbox();
+
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
+      if (!moving_object->is_valid()) {
+        continue;
+      }
+
       dragged_object = moving_object;
       PointMarker* pm = dynamic_cast<PointMarker*>(moving_object);
       obj_mouse_desync = sector_pos - bbox.p1;
@@ -290,6 +295,7 @@ EditorInputCenter::grab_object() {
       return;
     }
   }
+  delete_markers();
   dragged_object = NULL;
 }
 
@@ -322,6 +328,7 @@ EditorInputCenter::move_object() {
 
 void
 EditorInputCenter::rubber_object() {
+  delete_markers();
   if (dragged_object) {
     dragged_object->remove_me();
   }
@@ -329,6 +336,7 @@ EditorInputCenter::rubber_object() {
 
 void
 EditorInputCenter::rubber_rect() {
+  delete_markers();
   Rectf dr = drag_rect();
   for (auto i = Editor::current()->currentsector->moving_objects.begin();
       i != Editor::current()->currentsector->moving_objects.end(); ++i) {
@@ -475,8 +483,7 @@ EditorInputCenter::event(SDL_Event& ev) {
       }
     } break;
     case SDL_KEYDOWN:
-      if (ev.key.keysym.sym == SDLK_F8)
-      {
+      if (ev.key.keysym.sym == SDLK_F8) {
         render_grid = !render_grid;
       }
       break;
