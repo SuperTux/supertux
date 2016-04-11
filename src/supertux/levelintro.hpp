@@ -54,6 +54,7 @@ private:
   float player_sprite_vy; /**< Velocity (y axis) for the player sprite */
   Timer player_sprite_jump_timer; /**< When timer fires, the player sprite will "jump" */
   const PlayerStatus* player_status; /**The player status passed from GameSession*/
+  void draw_stats_line(DrawingContext& context, int& py, const std::string& name, const std::string& stat);
 
 private:
   LevelIntro(const LevelIntro&);
