@@ -35,6 +35,7 @@ LevelIntro::LevelIntro(const Level* level_, const Statistics* best_level_statist
   level(level_),
   best_level_statistics(best_level_statistics_),
   player_sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
+  power_sprite(SpriteManager::current()->create("images/creatures/tux/powerups.sprite")),
   player_sprite_py(0),
   player_sprite_vy(0),
   player_sprite_jump_timer(),
@@ -43,6 +44,14 @@ LevelIntro::LevelIntro(const Level* level_, const Statistics* best_level_statist
   //Show appropriate tux animation for player status.
   player_sprite->set_action(player_status->get_bonus_prefix() + "-walk-right");
   player_sprite_jump_timer.start(graphicsRandom.randf(5,10));
+
+  /* Set Tux powerup sprite action */
+  if (player_status->bonus == EARTH_BONUS
+      || player_status->bonus == AIR_BONUS
+      || (player_status->bonus == FIRE_BONUS && g_config->christmas_mode))
+  {
+    power_sprite->set_action(player_sprite->get_action());
+  }
 }
 
 LevelIntro::~LevelIntro()
@@ -116,6 +125,12 @@ LevelIntro::draw(DrawingContext& context)
 
   {
     player_sprite->draw(context, Vector((SCREEN_WIDTH - player_sprite->get_current_hitbox_width()) / 2, py + player_sprite_py), LAYER_FOREGROUND1);
+    if (player_status->bonus == EARTH_BONUS
+        || player_status->bonus == AIR_BONUS
+        || (player_status->bonus == FIRE_BONUS && g_config->christmas_mode))
+    {
+      power_sprite->draw(context, Vector((SCREEN_WIDTH - player_sprite->get_current_hitbox_width()) / 2, py + player_sprite_py), LAYER_FOREGROUND1);
+    }
     py += static_cast<int>(player_sprite->get_current_hitbox_height());
   }
 
