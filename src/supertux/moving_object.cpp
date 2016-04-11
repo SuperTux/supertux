@@ -40,6 +40,10 @@ MovingObject::save(Writer& writer) {
 
 void
 MovingObject::edit_bbox() {
+  if (!is_valid()) {
+    return;
+  }
+
   GameObjectPtr marker1, marker2, marker3, marker4, marker5, marker6, marker7, marker8;
   marker1 = std::make_shared<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::LEFT_UP);
   marker2 = std::make_shared<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::NONE);
