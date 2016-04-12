@@ -638,22 +638,22 @@ INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/credits.txt DESTINATION ${INSTALL
 
 INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.appdata.xml DESTINATION "share/appdata" )
 
-INSTALL(DIRECTORY data/images
-                  data/fonts
-                  data/music
-                  data/scripts
-                  data/speech
-                  data/sounds
-                  data/locale
+INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/data/images
+                  ${CMAKE_BINARY_DIR}/data/fonts
+                  ${CMAKE_BINARY_DIR}/data/music
+                  ${CMAKE_BINARY_DIR}/data/scripts
+                  ${CMAKE_BINARY_DIR}/data/speech
+                  ${CMAKE_BINARY_DIR}/data/sounds
+                  ${CMAKE_BINARY_DIR}/data/locale
                   DESTINATION ${INSTALL_SUBDIR_SHARE})
 
 IF(CMAKE_BUILD_TYPE MATCHES Release)
-  INSTALL(DIRECTORY data/levels
+  INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/data/levels
                     DESTINATION ${INSTALL_SUBDIR_SHARE}
                     PATTERN "data/levels/test" EXCLUDE
                     PATTERN "data/levels/test_old" EXCLUDE)
 ELSE()
-  INSTALL(DIRECTORY data/levels
+  INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/data/levels
                     DESTINATION ${INSTALL_SUBDIR_SHARE})
 ENDIF()
 
