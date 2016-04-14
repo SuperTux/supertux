@@ -1,0 +1,51 @@
+version: '{build}'
+os: Visual Studio 2015
+configuration: Release
+platform: x64
+
+install:
+- ps: |
+    Invoke-WebRequest http://download.supertuxproject.org/builddep/dependencies-win64.zip -OutFile "$env:APPVEYOR_BUILD_FOLDER/dependencies.zip"
+    Add-Type -assembly "system.io.compression.filesystem"
+    [io.compression.zipfile]::ExtractToDirectory("$env:APPVEYOR_BUILD_FOLDER/dependencies.zip", "$env:APPVEYOR_BUILD_FOLDER/")
+
+before_build:
+- cmd: |
+    git submodule update --init --recursive
+    echo Running cmake ..
+    cmake -G "Visual Studio 14 2015 Win64" -DCMAKE_INSTALL_PREFIX=%P% -DHAVE_SDL=true -DPACKAGE_VCREDIST=true
+
+build:
+  project: ALL_BUILD.vcxproj
+  parallel: true
+  verbosity: minimal
+
+after_build:
+- cmd: '"C:\Program Files (x86)\CMake\bin\cpack.exe"'
+
+test: off
+
+artifacts:
+- path: SuperTux-*
+  name: setup
+
+deploy:
+- provider: FTP
+  host: brlcad.org
+  protocol: sftp
+  username: travis-upload
+  password:
+    secure: a/wZj2elh/Hhy/MQV/QS5A==
+  folder: /files/
+  artifact: setup
+  on:
+    branch: master
+- provider: GitHub
+  description: 'SuperTux release'
+  auth_token:
+    secure: 1sgroG7ycKHC6R2y/V7DECd/SHxXK4CNSDU7zZOnAlyBiVKT9ykvRKWt2DGcEZDq
+  artifact: setup
+  draft: true
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only
