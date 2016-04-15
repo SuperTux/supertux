@@ -191,7 +191,7 @@ public:
       }
     }
 
-    if (!PHYSFS_addToSearchPath(datadir.c_str(), 1))
+    if (!PHYSFS_mount(datadir.c_str(), NULL, 1))
     {
       log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
     }
@@ -212,8 +212,12 @@ public:
     {
 		userdir = PHYSFS_getPrefDir("SuperTux","supertux2");
     }
-
+	//Kept for backwards-compatability only, hence the silence
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 	std::string physfs_userdir = PHYSFS_getUserDir();
+#pragma GCC diagnostic pop
+
 #ifdef _WIN32
 	std::string olduserdir = FileSystem::join(physfs_userdir, PACKAGE_NAME);
 #else
@@ -269,7 +273,7 @@ public:
       throw std::runtime_error(msg.str());
     }
 
-    PHYSFS_addToSearchPath(userdir.c_str(), 0);
+    PHYSFS_mount(userdir.c_str(), NULL, 0);
   }
 
   void print_search_path()
@@ -354,13 +358,6 @@ static inline void timelog(const char* component)
 void
 Main::launch_game()
 {
-#ifdef WIN32
-	//SDL is used instead of PHYSFS because both create the same path in app data
-	//However, PHYSFS is not yet initizlized, and this should be run before anything is initialized
-	std::string prefpath = SDL_GetPrefPath("SuperTux", "supertux2");
-	freopen((prefpath + "/console.out").c_str(), "a", stdout);
-	freopen((prefpath + "/console.err").c_str(), "a", stderr);
-#endif
 
   SDLSubsystem sdl_subsystem;
   ConsoleBuffer console_buffer;
@@ -411,7 +408,7 @@ Main::launch_game()
       dir = dir.replace(position, fileProtocol.length(), "");
     }
     log_debug << "Adding dir: " << dir << std::endl;
-    PHYSFS_addToSearchPath(dir.c_str(), true);
+    PHYSFS_mount(dir.c_str(), NULL, true);
 
     if(g_config->start_level.size() > 4 &&
        g_config->start_level.compare(g_config->start_level.size() - 5, 5, ".stwm") == 0)
@@ -448,6 +445,14 @@ Main::launch_game()
 int
 Main::run(int argc, char** argv)
 {
+#ifdef WIN32
+	//SDL is used instead of PHYSFS because both create the same path in app data
+	//However, PHYSFS is not yet initizlized, and this should be run before anything is initialized
+	std::string prefpath = SDL_GetPrefPath("SuperTux", "supertux2");
+	freopen((prefpath + "/console.out").c_str(), "a", stdout);
+	freopen((prefpath + "/console.err").c_str(), "a", stderr);
+#endif
+ 
   int result = 0;
 
   try

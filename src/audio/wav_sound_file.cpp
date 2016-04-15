@@ -48,7 +48,7 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file_) :
 {
   assert(file);
   char magic[4];
-  if(PHYSFS_read(file, magic, sizeof(magic), 1) != 1)
+  if(PHYSFS_readBytes(file, magic, sizeof(magic)) < static_cast<std::make_signed<size_t>::type>(sizeof(magic)))
     throw SoundError("Couldn't read file magic (not a wave file)");
   if(strncmp(magic, "RIFF", 4) != 0) {
     log_debug << "MAGIC: " << magic << std::endl;
@@ -58,7 +58,7 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file_) :
   uint32_t wavelen = read32LE(file);
   (void) wavelen;
 
-  if(PHYSFS_read(file, magic, sizeof(magic), 1) != 1)
+  if(PHYSFS_readBytes(file, magic, sizeof(magic)) < static_cast<std::make_signed<size_t>::type>(sizeof(magic)))
     throw SoundError("Couldn't read chunk header (not a wav file?)");
   if(strncmp(magic, "WAVE", 4) != 0)
     throw SoundError("file is not a valid RIFF/WAVE file");
@@ -68,7 +68,7 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file_) :
 
   // search audio data format chunk
   do {
-    if(PHYSFS_read(file, chunkmagic, sizeof(chunkmagic), 1) != 1)
+    if(PHYSFS_readBytes(file, chunkmagic, sizeof(chunkmagic)) < static_cast<std::make_signed<size_t>::type>(sizeof(chunkmagic)))
       throw SoundError("EOF while searching format chunk");
     chunklen = read32LE(file);
 
@@ -107,7 +107,7 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file_) :
 
   // set file offset to DATA chunk data
   do {
-    if(PHYSFS_read(file, chunkmagic, sizeof(chunkmagic), 1) != 1)
+    if(PHYSFS_readBytes(file, chunkmagic, sizeof(chunkmagic)) < static_cast<std::make_signed<size_t>::type>(sizeof(chunkmagic)))
       throw SoundError("EOF while searching data chunk");
     chunklen = read32LE(file);
 
@@ -144,7 +144,7 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
     return 0;
 
   size_t readsize = std::min(static_cast<size_t> (end - cur), buffer_size);
-  if(PHYSFS_read(file, buffer, readsize, 1) != 1)
+  if(PHYSFS_readBytes(file, buffer, readsize) != static_cast<std::make_signed<size_t>::type>(sizeof(readsize)))
     throw SoundError("read error while reading samples");
 
 #ifdef WORDS_BIGENDIAN

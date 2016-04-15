@@ -86,7 +86,7 @@ std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
 
   try {
     char magic[4];
-    if(PHYSFS_read(file, magic, sizeof(magic), 1) != 1)
+    if(PHYSFS_readBytes(file, magic, sizeof(magic)) < static_cast<std::make_signed<size_t>::type>(sizeof(magic)))
       throw SoundError("Couldn't read magic, file too short");
     if (PHYSFS_seek(file, 0) == 0) {
       std::stringstream msg;
