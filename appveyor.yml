@@ -32,7 +32,7 @@ artifacts:
 
 deploy:
 - provider: FTP
-  host: brlcad.org
+  host: upload.supertuxproject.org
   protocol: sftp
   username: travis-upload
   password:

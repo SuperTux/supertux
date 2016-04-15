@@ -11,6 +11,6 @@ if [ "$TRAVIS_OS_NAME" = "osx" ]; then
     cpack -G Bundle;
     for file in SuperTux-*; do
         echo "Uploading $file";
-        scp $file travis-upload@brlcad.org:/files/
+        scp $file travis-upload@upload.supertuxproject.org:/files/
     done
 fi
