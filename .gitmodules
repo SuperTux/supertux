@@ -16,3 +16,6 @@
 [submodule "data"]
 	path = data
 	url = https://github.com/SuperTux/data.git
+[submodule "external/physfs"]
+	path = external/physfs
+	url = https://github.com/SuperTux/physfs
