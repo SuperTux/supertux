@@ -2,7 +2,7 @@
 
 
 if [ "$TRAVIS_OS_NAME" = "osx" ]; then
-    echo -e "Host brlcad.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+    echo -e "Host upload.supertuxproject.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
     eval "$(ssh-agent -s)"
     chmod 600 ../.travis/travis-upload.pem
     ssh-add ../.travis/travis-upload.pem
