@@ -55,7 +55,12 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   } else if (type_s == "point") {
     type = DT_POINT;
   } else {
-    log_warning << "Unknown type of dispenser:" << type_s << ", setting to dropper." << std::endl;
+    if(type_s.empty()) {
+      log_warning << "No dispenser type set, setting to dropper." << std::endl;
+    }
+    else {
+      log_warning << "Unknown type of dispenser:" << type_s << ", setting to dropper." << std::endl;
+    }
     type = DT_DROPPER;
   }
   next_badguy = 0;
