@@ -86,6 +86,9 @@ Fish::collision_tile(uint32_t tile_attributes)
     }
 
   }
+  if ((!(tile_attributes & Tile::WATER) || frozen) && (tile_attributes & Tile::HURTS)) {
+    kill_fall();
+  }
 }
 
 void
