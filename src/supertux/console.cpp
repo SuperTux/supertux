@@ -24,6 +24,7 @@
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
 /// speed (pixels/s) the console closes
@@ -117,7 +118,7 @@ Console::Console(ConsoleBuffer& buffer) :
   m_alpha(1.0),
   m_offset(0),
   m_focused(false),
-  m_font(new Font(Font::FIXED, "fonts/andale12.stf", 1)),
+  m_font(new Font("data/fonts/otf/SourceCodePro-Regular.otf", 10, 0)),
   m_stayOpen(0)
 {
   buffer.set_console(this);
