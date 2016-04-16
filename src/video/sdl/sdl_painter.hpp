@@ -28,6 +28,7 @@ public:
   static void draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request);
   static void draw_filled_rect(SDL_Renderer* renderer, const DrawingRequest& request);
   static void draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& request);
+  static void draw_text(SDL_Renderer* renderer, const DrawingRequest& request);
   static void draw_line(SDL_Renderer* renderer, const DrawingRequest& request);
   static void draw_triangle(SDL_Renderer* renderer, const DrawingRequest& request);
 

@@ -18,6 +18,7 @@
 
 #include <algorithm>
 
+#include "supertux/resources.hpp"
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
@@ -386,6 +387,81 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 
   glEnable(GL_TEXTURE_2D);
   glColor4f(1, 1, 1, 1);
+}
+
+void
+GLPainter::draw_text(const DrawingRequest& request)
+{
+  const TextRequest* textrequest = static_cast<TextRequest*>(request.request_data);
+
+  auto font = textrequest->font->get_ttf_font();
+  int line_height = textrequest->font->get_height();
+  int shadow_size = textrequest->font->get_shadow_size();
+
+  int last_pos = 0;
+  int last_y = request.pos.y;
+  for(size_t i = 0; i < textrequest->text.length(); i++)
+  {
+    if(textrequest->text[i] != '\n' /* new line */ && i != textrequest->text.length() - 1 /* end of string */)
+    {
+      continue;
+    }
+    std::string str;
+    if(textrequest->text[i] == '\n')
+      str = textrequest->text.substr(last_pos, i - last_pos);
+    else
+      str = textrequest->text.substr(last_pos, i + 1);
+
+    last_pos = i + 1;
+
+    auto texture = TextureManager::current()->get(font, str, request.color);
+    auto gltexture = std::dynamic_pointer_cast<GLTexture>(texture);
+    auto surface = Surface::create(texture);
+    auto surface_data = static_cast<GLSurfaceData*>(surface->get_surface_data());
+    if(surface_data == NULL)
+    {
+      return;
+    }
+
+    int last_x = request.pos.x;
+    if(textrequest->alignment == ALIGN_CENTER)
+      last_x -= surface->get_width() / 2;
+    else if(textrequest->alignment == ALIGN_RIGHT)
+      last_x -= surface->get_width();
+
+    GLuint th = gltexture->get_handle();
+    if (th != s_last_texture) {
+      s_last_texture = th;
+      glBindTexture(GL_TEXTURE_2D, th);
+    }
+
+    intern_draw(last_x + shadow_size, last_y + shadow_size,
+                last_x + shadow_size + surface->get_width(),
+                last_y + shadow_size + surface->get_height(),
+                surface_data->get_uv_left(),
+                surface_data->get_uv_top(),
+                surface_data->get_uv_right(),
+                surface_data->get_uv_bottom(),
+                request.angle,
+                request.alpha,
+                Color(0, 0, 0, 0.45),
+                request.blend,
+                request.drawing_effect);
+
+    intern_draw(last_x, last_y,
+                last_x + surface->get_width(),
+                last_y + surface->get_height(),
+                surface_data->get_uv_left(),
+                surface_data->get_uv_top(),
+                surface_data->get_uv_right(),
+                surface_data->get_uv_bottom(),
+                request.angle,
+                request.alpha,
+                request.color,
+                request.blend,
+                request.drawing_effect);
+    last_y += line_height;
+  }
 }
 
 void

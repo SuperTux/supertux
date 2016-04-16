@@ -19,6 +19,7 @@
 #include "SDL.h"
 
 #include "math/rectf.hpp"
+#include "supertux/resources.hpp"
 #include "util/log.hpp"
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_texture.hpp"
@@ -321,6 +322,78 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
   SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
   SDL_SetRenderDrawColor(renderer, r, g, b, a);
   SDL_RenderFillRects(renderer, rects, 2*slices+2);
+}
+
+void
+SDLPainter::draw_text(SDL_Renderer* renderer, const DrawingRequest& request)
+{
+  const TextRequest* textrequest = static_cast<TextRequest*>(request.request_data);
+
+  auto font = textrequest->font->get_ttf_font();
+  int line_height = textrequest->font->get_height();
+  int shadow_size = textrequest->font->get_shadow_size();
+
+  // 2 pixel shadow looks "weird" on the menu items, but only in SDL renderer
+  if(shadow_size > 1)
+    shadow_size -= 1;
+
+  int last_pos = 0;
+  int last_y = request.pos.y;
+  for(size_t i = 0; i < textrequest->text.length(); i++)
+  {
+    if(textrequest->text[i] != '\n' /* new line */ && i != textrequest->text.length() - 1 /* end of string */)
+    {
+      continue;
+    }
+    std::string str;
+    if(textrequest->text[i] == '\n')
+      str = textrequest->text.substr(last_pos, i - last_pos);
+    else
+      str = textrequest->text.substr(last_pos, i + 1);
+
+    last_pos = i + 1;
+
+    auto texture = std::dynamic_pointer_cast<SDLTexture>(
+      TextureManager::current()->get(font, str, request.color));
+
+    SDL_Rect dst_rect;
+    dst_rect.x = request.pos.x;
+    dst_rect.y = last_y;
+    dst_rect.w = texture->get_texture_width();
+    dst_rect.h = texture->get_texture_height();
+
+    if(textrequest->alignment == ALIGN_CENTER)
+      dst_rect.x -= texture->get_texture_width() / 2;
+    else if(textrequest->alignment == ALIGN_RIGHT)
+      dst_rect.x -= texture->get_texture_width();
+
+    SDL_Rect dst_shadow_rect = dst_rect;
+    dst_shadow_rect.x += shadow_size;
+    dst_shadow_rect.y += shadow_size;
+    dst_shadow_rect.w += shadow_size;
+    dst_shadow_rect.h += shadow_size;
+
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
+    if (request.drawing_effect & HORIZONTAL_FLIP)
+    {
+      flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
+    }
+
+    if (request.drawing_effect & VERTICAL_FLIP)
+    {
+      flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
+    }
+
+    SDL_SetTextureColorMod(texture->get_texture(), 0, 0, 0);
+    SDL_SetTextureAlphaMod(texture->get_texture(), request.alpha * 0.45 * 255);
+    SDL_RenderCopyEx(renderer, texture->get_texture(), NULL, &dst_shadow_rect, request.angle, NULL, flip);
+
+    SDL_SetTextureColorMod(texture->get_texture(), 255, 255, 255);
+    SDL_SetTextureAlphaMod(texture->get_texture(), request.alpha * 255);
+    SDL_RenderCopyEx(renderer, texture->get_texture(), NULL, &dst_rect, request.angle, NULL, flip);
+
+    last_y += line_height;
+  }
 }
 
 void

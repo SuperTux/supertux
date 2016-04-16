@@ -425,6 +425,12 @@ GLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
 }
 
 void
+GLRenderer::draw_text(const DrawingRequest& request)
+{
+  GLPainter::draw_text(request);
+}
+
+void
 GLRenderer::draw_line(const DrawingRequest& request)
 {
   GLPainter::draw_line(request);
