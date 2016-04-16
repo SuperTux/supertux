@@ -44,10 +44,10 @@ Resources::Resources()
   MouseCursor::set_current(mouse_cursor.get());
 
   // Load global images:
-  fixed_font.reset(new Font(Font::FIXED, "fonts/white.stf"));
-  normal_font.reset(new Font(Font::VARIABLE, "fonts/white.stf"));
-  small_font.reset(new Font(Font::VARIABLE, "fonts/white-small.stf", 1));
-  big_font.reset(new Font(Font::VARIABLE, "fonts/white-big.stf", 3));
+  fixed_font.reset(new Font("data/fonts/otf/Hanken-Book.ttf", 18));
+  normal_font.reset(new Font("data/fonts/otf/PatrickHand-Regular.ttf", 20));
+  small_font.reset(new Font("data/fonts/otf/PatrickHand-Regular.ttf", 10, 1));
+  big_font.reset(new Font("data/fonts/otf/PatrickHand-Regular.ttf", 25, 3));
 
   /* Load menu images */
   checkbox = Surface::create("images/engine/menu/checkbox-unchecked.png");
