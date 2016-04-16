@@ -56,6 +56,7 @@ Wind::update(float elapsed_time_)
   this->elapsed_time = elapsed_time_;
 
   if (!blowing) return;
+  if (bbox.get_width() <= 16 || bbox.get_height() <= 16) return;
 
   // TODO: nicer, configurable particles for wind?
   if (graphicsRandom.rand(0, 100) < 20) {
