@@ -424,6 +424,12 @@ GLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
   GLPainter::draw_inverse_ellipse(request);
 }
 
+void
+GLRenderer::draw_text(const DrawingRequest& request)
+{
+  GLPainter::draw_text(request);
+}
+
 Vector
 GLRenderer::to_logical(int physical_x, int physical_y) const
 {
