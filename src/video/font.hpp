@@ -38,19 +38,13 @@ enum FontAlignment {
 class Font
 {
 public:
-  enum GlyphWidth {
-    FIXED,
-    VARIABLE
-  };
-
-public:
   /** Construct a fixed-width font
    *
    *  @param glyph_width  VARIABLE for proportional fonts, VARIABLE for monospace ones
    *  @param fontfile     file in format supertux-font
    *  @param sgadowsize   offset of shadow
    */
-  Font(GlyphWidth glyph_width, const std::string& fontfile, int shadowsize = 2);
+  Font(const std::string& fontfile, int font_size, int shadowsize = 2);
   ~Font();
 
   /** returns the width of a given text. (Note that I won't add a normal
@@ -81,67 +75,27 @@ public:
    */
   std::string wrap_to_width(const std::string& text, float width, std::string* overflow);
 
-  /** Draws the given text to the screen. Also needs the position.
-   * Type of alignment, drawing effect and alpha are optional. */
-  void draw(Renderer *renderer, const std::string& text, const Vector& pos,
-            FontAlignment alignment = ALIGN_LEFT,
-            DrawingEffect drawing_effect = NO_EFFECT,
-            Color color = Color(1.0,1.0,1.0),
-            float alpha = 1.0f) const;
+   /**
+    * returns the equivalent TrueTypeFont
+    */
+   TTF_Font* get_ttf_font() const;
+
+   /**
+    * Returns the shadow size for the current font
+    */
+  unsigned int get_shadow_size() const;
 
 private:
-  friend class DrawingContext;
-
-  void draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
-                 DrawingEffect drawing_effect = NO_EFFECT,
-                 Color color = Color(1.0,1.0,1.0),
-                 float alpha = 1.0f) const;
-
-  void draw_chars(Renderer *renderer, bool nonshadow, const std::string& text,
-                  const Vector& position, DrawingEffect drawing_effect, Color color,
-                  float alpha) const;
-
-  void loadFontFile(const std::string &filename);
-  void loadFontSurface(const std::string &glyphimage,
-                       const std::string &shadowimage,
-                       const std::vector<std::string> &chars,
-                       GlyphWidth glyph_width,
-                       int char_width);
-private:
-  struct Glyph {
-    /** How many pixels should the cursor advance after printing the
-        glyph */
-    float advance;
-
-    /** Offset that is used when drawing the glyph */
-    Vector offset;
-
-    /** index of containing surface */
-    int surface_idx;
-
-    /** Position of the glyph inside the surface */
-    Rectf rect;
-
-    Glyph() :
-      advance(),
-      offset(),
-      surface_idx(),
-      rect()
-    {}
-  };
-
-private:
-  GlyphWidth glyph_width;
-
-  std::vector<SurfacePtr>  glyph_surfaces;
-  std::vector<SurfacePtr>  shadow_surfaces;
-  int char_height;
   int shadowsize;
   int border;
   bool rtl;
 
-  /** 65536 of glyphs */
-  std::vector<Glyph> glyphs;
+  const std::string file_name;
+  int fontsize;
+  TTF_Font* ttf_font;
+
+  Font(const Font&);
+  Font operator=(const Font&);
 };
 
 #endif
