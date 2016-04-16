@@ -34,9 +34,9 @@ GameObject::GameObject(const GameObject& rhs) :
 GameObject::~GameObject()
 {
   // call remove listeners (and remove them from the list)
-  RemoveListenerListEntry* entry = remove_listeners;
+  auto entry = remove_listeners;
   while(entry != NULL) {
-    RemoveListenerListEntry* next = entry->next;
+    auto next = entry->next;
     entry->listener->object_removed(this);
     delete entry;
     entry = next;
@@ -46,7 +46,7 @@ GameObject::~GameObject()
 void
 GameObject::add_remove_listener(ObjectRemoveListener* listener)
 {
-  RemoveListenerListEntry* entry = new RemoveListenerListEntry();
+  auto entry = new RemoveListenerListEntry();
   entry->next = remove_listeners;
   entry->listener = listener;
   remove_listeners = entry;
@@ -55,13 +55,13 @@ GameObject::add_remove_listener(ObjectRemoveListener* listener)
 void
 GameObject::del_remove_listener(ObjectRemoveListener* listener)
 {
-  RemoveListenerListEntry* entry = remove_listeners;
+  auto entry = remove_listeners;
   if (entry->listener == listener) {
     remove_listeners = entry->next;
     delete entry;
     return;
   }
-  RemoveListenerListEntry* next = entry->next;
+  auto next = entry->next;
   while(next != NULL) {
     if (next->listener == listener) {
       entry->next = next->next;
