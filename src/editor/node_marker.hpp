@@ -36,6 +36,8 @@ class NodeMarker : public PointMarker
     virtual void editor_delete();
     virtual Vector get_point_vector() const;
 
+    virtual ObjectSettings get_settings();
+
   private:
     NodeMarker(const NodeMarker&);
     NodeMarker& operator=(const NodeMarker&);

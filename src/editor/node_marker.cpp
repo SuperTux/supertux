@@ -52,4 +52,9 @@ void NodeMarker::editor_delete() {
   path->nodes.erase(node);
 }
 
+ObjectSettings NodeMarker::get_settings() {
+  ObjectSettings result(_("Path Node"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Time"), &(node->time)));
+  return result;
+}
 /* EOF */
