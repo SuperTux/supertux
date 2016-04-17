@@ -350,7 +350,7 @@ void
 EditorInputCenter::rubber_object() {
   delete_markers();
   if (dragged_object) {
-    dragged_object->remove_me();
+    dragged_object->editor_delete();
   }
 }
 
@@ -364,7 +364,7 @@ EditorInputCenter::rubber_rect() {
     Rectf bbox = moving_object->get_bbox();
     if (bbox.p2.x >= dr.p1.x && bbox.p1.x <= dr.p2.x &&
         bbox.p2.y >= dr.p1.y && bbox.p1.y <= dr.p2.y ) {
-      moving_object->remove_me();
+      moving_object->editor_delete();
     }
   }
 }

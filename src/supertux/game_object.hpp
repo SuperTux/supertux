@@ -88,6 +88,12 @@ public:
     wants_to_die = true;
   }
 
+  /** used by the editor to delete the object */
+  virtual void editor_delete()
+  {
+    remove_me();
+  }
+
   /** registers a remove listener which will be called if the object
    * gets removed/destroyed
    */

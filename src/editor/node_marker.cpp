@@ -47,4 +47,9 @@ void NodeMarker::move_to(const Vector& pos) {
   MovingObject::move_to(pos);
 }
 
+void NodeMarker::editor_delete() {
+  GameObject::editor_delete();
+  path->nodes.erase(node);
+}
+
 /* EOF */

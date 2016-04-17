@@ -141,6 +141,12 @@ BicyclePlatform::move_to(const Vector& pos) {
   center += shift;
 }
 
+void
+BicyclePlatform::editor_delete() {
+  master->remove_me();
+  slave->remove_me();
+}
+
 ObjectSettings
 BicyclePlatform::get_settings() {
   ObjectSettings result(_("Bicycle platform"));

@@ -36,6 +36,7 @@ public:
   }
 
   virtual void move_to(const Vector& pos);
+  virtual void editor_delete();
 
   virtual ObjectSettings get_settings();
 
