@@ -78,10 +78,6 @@ EditorInputCenter::update(float elapsed_time) {
 
 void
 EditorInputCenter::delete_markers() {
-  if (!marked_object) {
-    return;
-  }
-
   for (auto i = Editor::current()->currentsector->moving_objects.begin();
        i != Editor::current()->currentsector->moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
