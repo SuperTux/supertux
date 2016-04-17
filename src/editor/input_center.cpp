@@ -25,6 +25,9 @@
 #include "math/rectf.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
+#include "object/path.hpp"
+#include "object/platform.hpp"
+#include "object/coin.hpp"
 #include "object/tilemap.hpp"
 #include "object/wind.hpp"
 #include "gui/menu.hpp"
@@ -56,6 +59,7 @@ EditorInputCenter::EditorInputCenter() :
   drag_start(0, 0),
   dragged_object(NULL),
   marked_object(NULL),
+  edited_path(NULL),
   object_tip(),
   obj_mouse_desync(0, 0),
   render_grid(true),
@@ -87,6 +91,7 @@ EditorInputCenter::delete_markers() {
     }
   }
   marked_object = NULL;
+  edited_path = NULL;
   Editor::current()->currentsector->update(0);
 }
 
@@ -269,6 +274,25 @@ EditorInputCenter::mark_object() {
   if (dc1 || dc2 || dc3 || dc4 || dc5 || dc6) {
     marked_object = dragged_object;
     marked_object->edit_bbox();
+    return;
+  }
+
+  Coin* coin = dynamic_cast<Coin*>(dragged_object);
+  if (coin) {
+    if (coin->get_path()) {
+      marked_object = dragged_object;
+      edited_path = coin->get_path();
+      edited_path->edit_path();
+    }
+    return;
+  }
+
+  Platform* platform = dynamic_cast<Platform*>(dragged_object);
+  if (platform) {
+    marked_object = dragged_object;
+    edited_path = &platform->get_path();
+    edited_path->edit_path();
+    return;
   }
 }
 
@@ -627,8 +651,35 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context) {
 }
 
 void
+EditorInputCenter::draw_path(DrawingContext& context) {
+  if (!edited_path) {
+    return;
+  }
+
+  for(auto i = edited_path->nodes.begin(); i != edited_path->nodes.end(); ++i) {
+    auto j = i+1;
+    Path::Node* node1 = &(*i);
+    Path::Node* node2;
+    if (j == edited_path->nodes.end()) {
+      if (edited_path->mode == Path::CIRCULAR || edited_path->mode == Path::UNORDERED) {
+        //loop to the first node
+        node2 = &(*edited_path->nodes.begin());
+      } else {
+        continue;
+      }
+    } else {
+      node2 = &(*j);
+    }
+    context.draw_line(node1->position - Editor::current()->currentsector->camera->get_translation(),
+                      node2->position - Editor::current()->currentsector->camera->get_translation(),
+                      Color(1, 0, 0), LAYER_GUI - 21);
+  }
+}
+
+void
 EditorInputCenter::draw(DrawingContext& context) {
   draw_tile_tip(context);
+  draw_path(context);
 
   if (render_grid) {
     draw_tile_grid(context);
