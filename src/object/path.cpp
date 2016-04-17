@@ -21,6 +21,10 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "editor/node_marker.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/game_object_ptr.hpp"
+#include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/log.hpp"
 #include "util/writer.hpp"
@@ -163,6 +167,15 @@ Path::move_by(Vector& shift) {
   for(auto i = nodes.begin(); i != nodes.end(); ++i) {
     Node* nod = &(*i);
     nod->position += shift;
+  }
+}
+
+void
+Path::edit_path() {
+  for(auto i = nodes.begin(); i != nodes.end(); ++i) {
+    GameObjectPtr marker;
+    marker = std::make_shared<NodeMarker>(this, i);
+    Sector::current()->add_object(marker);
   }
 }
 

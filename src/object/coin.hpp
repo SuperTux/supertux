@@ -45,6 +45,10 @@ public:
 
   virtual void move_to(const Vector& pos);
 
+  Path* get_path() const {
+    return path.get();
+  }
+
 private:
   std::shared_ptr<Path> path;
   std::shared_ptr<PathWalker> walker;

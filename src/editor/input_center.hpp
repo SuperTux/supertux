@@ -25,6 +25,7 @@
 
 class Rectf;
 class MovingObject;
+class Path;
 class Tip;
 
 class EditorInputCenter
@@ -48,8 +49,9 @@ class EditorInputCenter
 
     bool dragging;
     Vector drag_start;
-    MovingObject *dragged_object;
-    MovingObject *marked_object;
+    MovingObject* dragged_object;
+    MovingObject* marked_object;
+    Path* edited_path;
     std::unique_ptr<Tip> object_tip;
     Vector obj_mouse_desync;
 
@@ -72,6 +74,7 @@ class EditorInputCenter
 
     void draw_tile_tip(DrawingContext&);
     void draw_tile_grid(DrawingContext&);
+    void draw_path(DrawingContext&);
 
     void process_left_click();
     void process_right_click();

@@ -70,8 +70,10 @@ public:
    */
   void move_by(Vector& shift);
 
-private:
-  friend class PathWalker;
+  /**
+   * Puts node markers to the nodes to edit them.
+   */
+  void edit_path();
 
   enum WalkMode {
     // moves from first to last path node and stops
