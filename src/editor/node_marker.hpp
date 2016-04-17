@@ -33,6 +33,7 @@ class NodeMarker : public PointMarker
     std::vector<Path::Node>::iterator node;
 
     virtual void move_to(const Vector& pos);
+    virtual void editor_delete();
     virtual Vector get_point_vector() const;
 
   private:

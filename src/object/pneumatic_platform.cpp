@@ -123,4 +123,10 @@ PneumaticPlatform::move_to(const Vector& pos) {
   start_y += shift.y;
 }
 
+void
+PneumaticPlatform::editor_delete() {
+  master->remove_me();
+  slave->remove_me();
+}
+
 /* EOF */
