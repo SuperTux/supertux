@@ -52,6 +52,12 @@ Brick::Brick(const ReaderMapping& lisp) :
 }
 
 void
+Brick::save(Writer& writer) {
+  Block::save(writer);
+  writer.write("breakable", breakable);
+}
+
+void
 Brick::hit(Player& player)
 {
   if(sprite->get_action() == "empty")
@@ -123,6 +129,15 @@ Brick::try_break(Player* player)
     }
     break_me();
   }
+}
+
+ObjectSettings
+Brick::get_settings() {
+  ObjectSettings result = Block::get_settings();
+
+  result.options.push_back(ObjectOption(MN_TOGGLE, _("Breakable"), &breakable));
+
+  return result;
 }
 
 //IMPLEMENT_FACTORY(Brick, "brick");
