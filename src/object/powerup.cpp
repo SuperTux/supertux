@@ -92,11 +92,11 @@ PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
 }
 
 void
-PowerUp::save(Writer& writer){
+PowerUp::save(Writer& writer) {
   MovingSprite::save(writer);
-  writer.write("no_physics",no_physics);
-  if(script != ""){
-    writer.write("script",script,false);
+  writer.write("no_physics", no_physics);
+  if(!script.empty()){
+    writer.write("script", script, false);
   }
 }
 

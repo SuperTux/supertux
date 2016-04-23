@@ -221,26 +221,28 @@ void Editor::update_keyboard() {
     return;
   }
 
-  if (InputManager::current()->get_controller()->pressed(Controller::ESCAPE)) {
+  auto controller = InputManager::current()->get_controller();
+
+  if (controller->pressed(Controller::ESCAPE)) {
     enabled = false;
     inputcenter.delete_markers();
     MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
     return;
   }
 
-  if (InputManager::current()->get_controller()->hold(Controller::LEFT)) {
+  if (controller->hold(Controller::LEFT)) {
     scroll_left();
   }
 
-  if (InputManager::current()->get_controller()->hold(Controller::RIGHT)) {
+  if (controller->hold(Controller::RIGHT)) {
     scroll_right();
   }
 
-  if (InputManager::current()->get_controller()->hold(Controller::UP)) {
+  if (controller->hold(Controller::UP)) {
     scroll_up();
   }
 
-  if (InputManager::current()->get_controller()->hold(Controller::DOWN)) {
+  if (controller->hold(Controller::DOWN)) {
     scroll_down();
   }
 }
@@ -354,7 +356,7 @@ Editor::event(SDL_Event& ev) {
 
 }
 
-bool Editor::is_active() {
+bool Editor::is_active() const {
   return levelloaded && !leveltested;
 }
 

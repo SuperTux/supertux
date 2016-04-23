@@ -23,10 +23,10 @@
 #include "video/color.hpp"
 
 //
-class ItemColorChanel : public MenuItem
+class ItemColorChannel : public MenuItem
 {
   public:
-    ItemColorChanel(float* input_, Color chanel_, int id_ = -1);
+    ItemColorChannel(float* input_, Color channel_, int id_ = -1);
 
     /** Draws the menu item. */
     virtual void draw(DrawingContext&, Vector pos, int menu_width, bool active);
@@ -51,14 +51,14 @@ class ItemColorChanel : public MenuItem
   private:
 
     int flickw;
-    bool has_coma;
-    Color chanel;
+    bool has_comma;
+    Color channel;
 
     void add_char(char c);
     void remove_char();
 
-    ItemColorChanel(const ItemColorChanel&);
-    ItemColorChanel& operator=(const ItemColorChanel&);
+    ItemColorChannel(const ItemColorChannel&);
+    ItemColorChannel& operator=(const ItemColorChannel&);
 };
 
 #endif // HEADER_SUPERTUX_GUI_ITEM_COLORCHANEL_HPP

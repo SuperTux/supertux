@@ -45,7 +45,9 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
   for(const char* const* filename = files.get(); *filename != 0; ++filename)
   {
     std::string filepath = FileSystem::join("levels", *filename);
-    if(PHYSFS_isDirectory(filepath.c_str()))
+    PHYSFS_Stat statbuf;
+    PHYSFS_stat(filepath.c_str(), &statbuf);
+    if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
     {
       level_worlds.push_back(filepath);
     }
@@ -135,10 +137,11 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
 
 EditorLevelsetSelectMenu::~EditorLevelsetSelectMenu()
 {
-  if (!Editor::current()->levelloaded && !Editor::current()->reload_request) {
-    Editor::current()->quit_request = true;
+  auto editor = Editor::current();
+  if (!editor->levelloaded && !editor->reload_request) {
+    editor->quit_request = true;
   } else {
-    Editor::current()->reactivate_request = true;
+    editor->reactivate_request = true;
   }
 }
 

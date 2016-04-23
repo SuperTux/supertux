@@ -149,7 +149,7 @@ public:
     drawing_effect = effect;
   }
 
-  DrawingEffect get_drawing_effect()
+  DrawingEffect get_drawing_effect() const
   {
     return drawing_effect;
   }

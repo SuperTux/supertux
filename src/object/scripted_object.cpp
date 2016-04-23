@@ -55,13 +55,13 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
 }
 
 void
-ScriptedObject::save(Writer& writer){
+ScriptedObject::save(Writer& writer) {
   MovingSprite::save(writer);
-  writer.write("width",bbox.get_width());
-  writer.write("height",bbox.get_height());
-  writer.write("solid",solid);
-  writer.write("physic-enabled",physic_enabled);
-  writer.write("visible",visible);
+  writer.write("width", bbox.get_width());
+  writer.write("height", bbox.get_height());
+  writer.write("solid", solid);
+  writer.write("physic-enabled", physic_enabled);
+  writer.write("visible", visible);
 }
 
 ObjectSettings

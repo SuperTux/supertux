@@ -41,7 +41,6 @@ public:
 
 protected:
   bool collision_squished(GameObject& object);
-
 };
 
 #endif

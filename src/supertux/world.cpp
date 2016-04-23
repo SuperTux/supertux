@@ -186,7 +186,9 @@ World::save(bool retry)
         }
       }
 
-      if(!PHYSFS_isDirectory(dirname.c_str()))
+      PHYSFS_Stat statbuf;
+      PHYSFS_stat(dirname.c_str(), &statbuf);
+      if(statbuf.filetype != PHYSFS_FILETYPE_DIRECTORY)
       {
         std::ostringstream msg;
         msg << "Levelset path '" << dirname << "' is not a directory";

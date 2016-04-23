@@ -228,8 +228,8 @@ Menu::add_submenu(const std::string& text, int submenu, int id)
 }
 
 MenuItem*
-Menu::add_colorchanel(float* input, Color chanel, int id) {
-  std::unique_ptr<ItemColorChanel> item(new ItemColorChanel(input, chanel, id));
+Menu::add_colorchannel(float* input, Color channel, int id) {
+  std::unique_ptr<ItemColorChannel> item(new ItemColorChannel(input, channel, id));
   return add_item(std::move(item));
 }
 

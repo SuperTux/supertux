@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "gui/item_colorchanel.hpp"
+#include "gui/item_colorchannel.hpp"
 
 #include "gui/menu_action.hpp"
 #include "math/vector.hpp"
@@ -27,12 +27,12 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-ItemColorChanel::ItemColorChanel(float* input_, Color chanel_, int id_) :
+ItemColorChannel::ItemColorChannel(float* input_, Color channel_, int id_) :
   MenuItem(std::to_string(*input_), id_),
   number(input_),
   flickw(0),
-  has_coma(true),
-  chanel(chanel_)
+  has_comma(true),
+  channel(channel_)
 {
   flickw = Resources::normal_font->get_text_width("_");
 
@@ -41,7 +41,7 @@ ItemColorChanel::ItemColorChanel(float* input_, Color chanel_, int id_) :
     char c = *i;
     if (c == '.') {
       text.resize(text.length() - 1);
-      has_coma = false;
+      has_comma = false;
     }
     if (c != '0') {
       break;
@@ -51,20 +51,20 @@ ItemColorChanel::ItemColorChanel(float* input_, Color chanel_, int id_) :
 }
 
 void
-ItemColorChanel::draw(DrawingContext& context, Vector pos, int menu_width, bool active) {
+ItemColorChannel::draw(DrawingContext& context, Vector pos, int menu_width, bool active) {
   MenuItem::draw(context, pos, menu_width, active);
   float lw = float(menu_width - 32) * (*number);
   context.draw_filled_rect(Rectf(pos + Vector(16, 6), pos + Vector(16 + lw, 16)),
-                           chanel, 0.0f, LAYER_GUI-1);
+                           channel, 0.0f, LAYER_GUI-1);
 }
 
 int
-ItemColorChanel::get_width() const {
+ItemColorChannel::get_width() const {
   return Resources::normal_font->get_text_width(text) + 16 + flickw;
 }
 
 void
-ItemColorChanel::event(const SDL_Event& ev) {
+ItemColorChannel::event(const SDL_Event& ev) {
   if (ev.type == SDL_TEXTINPUT) {
     std::string txt = ev.text.text;
     for (auto i = txt.begin(); i != txt.end(); ++i) {
@@ -74,14 +74,14 @@ ItemColorChanel::event(const SDL_Event& ev) {
 }
 
 void
-ItemColorChanel::add_char(char c) {
-  if (!has_coma && (c == '.' || c == ',')) {
+ItemColorChannel::add_char(char c) {
+  if (!has_comma && (c == '.' || c == ',')) {
     if (!text.length()) {
       text = "0.";
     } else {
       text.push_back('.');
     }
-    has_coma = true;
+    has_comma = true;
   }
 
   if (c < '0' || c > '9') {
@@ -97,7 +97,7 @@ ItemColorChanel::add_char(char c) {
 }
 
 void
-ItemColorChanel::remove_char() {
+ItemColorChannel::remove_char() {
   unsigned char last_char;
   do {
     last_char = *(--text.end());
@@ -106,7 +106,7 @@ ItemColorChanel::remove_char() {
       break;
     }
     if (last_char == '.') {
-      has_coma = false;
+      has_comma = false;
     }
   } while ( (last_char & 128) && !(last_char & 64) );
   if (text.length() && text != "-") {
@@ -117,13 +117,13 @@ ItemColorChanel::remove_char() {
 }
 
 void
-ItemColorChanel::process_action(MenuAction action) {
+ItemColorChannel::process_action(MenuAction action) {
   if (action == MENU_ACTION_REMOVE && text.length()) {
     remove_char();
   }
 }
 
 Color
-ItemColorChanel::get_color() const {
-  return chanel;
+ItemColorChannel::get_color() const {
+  return channel;
 }

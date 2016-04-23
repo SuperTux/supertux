@@ -111,5 +111,4 @@ Plant::ignite()
     sprite->set_action(dir == LEFT ? "sleeping-burning-left" : "sleeping-burning-right", 1);
   }
 }
-
 /* EOF */

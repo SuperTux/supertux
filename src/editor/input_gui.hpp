@@ -45,7 +45,7 @@ class EditorInputGui
 
     typedef enum {
       IP_NONE, IP_TILE, IP_OBJECT
-    }InputType;
+    } InputType;
     InputType input_type;
 
     std::vector<int> active_tilegroup;
@@ -61,11 +61,11 @@ class EditorInputGui
 
     typedef enum {
       HI_NONE, HI_TILEGROUP, HI_OBJECTS, HI_TILE, HI_TOOL
-    }HoveredItem;
+    } HoveredItem;
 
     typedef enum {
       TS_NONE, TS_UP, TS_DOWN
-    }TileScrolling;
+    } TileScrolling;
 
     HoveredItem hovered_item;
     int hovered_tile;
