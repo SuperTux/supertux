@@ -75,6 +75,11 @@ public:
    */
   void edit_path();
 
+  /**
+   * Returns false when has no nodes
+   */
+  bool is_valid() const;
+
   enum WalkMode {
     // moves from first to last path node and stops
     ONE_SHOT,

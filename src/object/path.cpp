@@ -179,4 +179,8 @@ Path::edit_path() {
   }
 }
 
+bool
+Path::is_valid() const {
+  return nodes.size();
+}
 /* EOF */
