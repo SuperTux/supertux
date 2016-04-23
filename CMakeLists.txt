@@ -722,7 +722,8 @@ IF(CMAKE_BUILD_TYPE MATCHES Release)
   INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/data/levels
                     DESTINATION ${INSTALL_SUBDIR_SHARE}
                     PATTERN "data/levels/test" EXCLUDE
-                    PATTERN "data/levels/test_old" EXCLUDE)
+                    PATTERN "data/levels/test_old" EXCLUDE
+                    PATTERN "data/levels/incubator" EXCLUDE)
 ELSE()
   INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/data/levels
                     DESTINATION ${INSTALL_SUBDIR_SHARE})
