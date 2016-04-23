@@ -57,4 +57,9 @@ ObjectSettings NodeMarker::get_settings() {
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Time"), &(node->time)));
   return result;
 }
+
+void NodeMarker::update(float elapsed_time) {
+  set_pos(node->position - Vector(8, 8));
+}
+
 /* EOF */

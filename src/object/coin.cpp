@@ -23,6 +23,7 @@
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/editor_active.hpp"
 #include "util/reader_mapping.hpp"
 
 Coin::Coin(const Vector& pos)
@@ -86,7 +87,11 @@ Coin::update(float elapsed_time)
   // if we have a path to follow, follow it
   if (walker.get()) {
     Vector v = from_tilemap ? offset + walker->get_pos() : walker->advance(elapsed_time);
-    movement = v - get_pos();
+    if (EditorActive()) {
+      set_pos(v);
+    } else {
+      movement = v - get_pos();
+    }
   }
 }
 

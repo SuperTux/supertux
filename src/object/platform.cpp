@@ -22,6 +22,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/editor_active.hpp"
 
 Platform::Platform(const ReaderMapping& reader) :
   Platform(reader, "images/objects/flying_platform/flying_platform.sprite")
@@ -123,8 +124,14 @@ Platform::update(float elapsed_time)
     player_contact = false;
   }
 
-  movement = walker->advance(elapsed_time) - get_pos();
-  speed = movement / elapsed_time;
+  Vector new_pos = walker->advance(elapsed_time);
+  if (EditorActive()) {
+    set_pos(new_pos);
+  } else {
+    movement = new_pos - get_pos();
+    speed = movement / elapsed_time;
+  }
+
 }
 
 void

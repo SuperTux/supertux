@@ -17,6 +17,7 @@
 #include "math/random_generator.hpp"
 #include "object/path_walker.hpp"
 #include "util/editor_active.hpp"
+#include "util/log.hpp"
 
 #include <math.h>
 #include <assert.h>
@@ -43,7 +44,11 @@ Vector
 PathWalker::advance(float elapsed_time)
 {
   if (!path->is_valid()) return Vector(0, 0);
-  if (EditorActive()) return path->nodes[0].position;
+  if (EditorActive()) {
+    Vector pos__ = path->nodes.begin()->position;
+//    log_warning << "x" << pos__.x << " y" << pos__.y << std::endl;
+    return pos__;
+  }
 
   if (!running) return path->nodes[current_node_nr].position;
 
@@ -79,7 +84,7 @@ Vector
 PathWalker::get_pos() const
 {
   if (!path->is_valid()) return Vector(0, 0);
-  if (EditorActive()) return path->nodes[0].position;
+  if (EditorActive()) return path->nodes.begin()->position;
 
   const Path::Node* current_node = & (path->nodes[current_node_nr]);
   const Path::Node* next_node = & (path->nodes[next_node_nr]);
