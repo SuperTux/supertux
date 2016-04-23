@@ -42,6 +42,8 @@ class EditorInputCenter
     void stop_scrolling();
     void delete_markers();
 
+    void edit_path(Path* path);
+
   private:
     Vector hovered_tile;
     Vector sector_pos;

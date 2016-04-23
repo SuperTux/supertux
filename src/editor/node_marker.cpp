@@ -43,8 +43,8 @@ Vector NodeMarker::get_point_vector() const {
 }
 
 void NodeMarker::move_to(const Vector& pos) {
-  node->position = bbox.get_middle();
   MovingObject::move_to(pos);
+  node->position = bbox.get_middle();
 }
 
 void NodeMarker::editor_delete() {

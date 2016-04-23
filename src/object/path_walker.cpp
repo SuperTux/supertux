@@ -16,6 +16,7 @@
 
 #include "math/random_generator.hpp"
 #include "object/path_walker.hpp"
+#include "util/editor_active.hpp"
 
 #include <math.h>
 #include <assert.h>
@@ -41,6 +42,9 @@ PathWalker::~PathWalker()
 Vector
 PathWalker::advance(float elapsed_time)
 {
+  if (!path->is_valid()) return Vector(0, 0);
+  if (EditorActive()) return path->nodes[0].position;
+
   if (!running) return path->nodes[current_node_nr].position;
 
   assert(elapsed_time >= 0);
@@ -74,6 +78,9 @@ PathWalker::advance(float elapsed_time)
 Vector
 PathWalker::get_pos() const
 {
+  if (!path->is_valid()) return Vector(0, 0);
+  if (EditorActive()) return path->nodes[0].position;
+
   const Path::Node* current_node = & (path->nodes[current_node_nr]);
   const Path::Node* next_node = & (path->nodes[next_node_nr]);
   Vector new_pos = current_node->position +
@@ -85,6 +92,8 @@ PathWalker::get_pos() const
 void
 PathWalker::goto_node(int node_no)
 {
+  int nodes_count = path->nodes.size();
+  if (node_no >= nodes_count) return;
   if (path->mode == Path::UNORDERED && running) return;
   if (node_no == stop_at_node_nr) return;
   running = true;
@@ -111,6 +120,8 @@ PathWalker::stop_moving()
 void
 PathWalker::advance_node()
 {
+  if (!path->is_valid()) return;
+
   current_node_nr = next_node_nr;
   if (static_cast<int>(current_node_nr) == stop_at_node_nr) running = false;
 
@@ -152,6 +163,8 @@ PathWalker::advance_node()
 void
 PathWalker::goback_node()
 {
+  if (!path->is_valid()) return;
+
   current_node_nr = next_node_nr;
 
   if(next_node_nr > 0) {

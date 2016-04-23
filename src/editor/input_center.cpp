@@ -256,6 +256,16 @@ EditorInputCenter::hover_object() {
 }
 
 void
+EditorInputCenter::edit_path(Path* path) {
+  if (path->is_valid()) {
+    edited_path = path;
+    edited_path->edit_path();
+  } else {
+    edited_path = NULL;
+  }
+}
+
+void
 EditorInputCenter::mark_object() {
   delete_markers();
 
@@ -276,8 +286,7 @@ EditorInputCenter::mark_object() {
   if (coin) {
     if (coin->get_path()) {
       marked_object = dragged_object;
-      edited_path = coin->get_path();
-      edited_path->edit_path();
+      edit_path(coin->get_path());
     }
     return;
   }
@@ -285,8 +294,7 @@ EditorInputCenter::mark_object() {
   Platform* platform = dynamic_cast<Platform*>(dragged_object);
   if (platform) {
     marked_object = dragged_object;
-    edited_path = &platform->get_path();
-    edited_path->edit_path();
+    edit_path(&platform->get_path());
     return;
   }
 }
