@@ -43,7 +43,7 @@ Crystallo::Crystallo(const Vector& pos, Direction d) :
 }
 
 void
-Crystallo::save(Writer& writer){
+Crystallo::save(Writer& writer) {
   BadGuy::save(writer);
   writer.write("radius",radius);
 }

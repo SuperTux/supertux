@@ -275,12 +275,12 @@ BadGuy::update(float elapsed_time)
 void
 BadGuy::save(Writer& writer) {
   MovingSprite::save(writer);
-  if(dir == LEFT){
+  if(dir == LEFT) {
     writer.write("direction", "left", false);
   } else {
     writer.write("direction", "right", false);
   }
-  if(dead_script != ""){
+  if(!dead_script.empty()) {
     writer.write("dead-script", dead_script, false);
   }
 }

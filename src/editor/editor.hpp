@@ -79,7 +79,7 @@ class Editor : public Screen,
       enabled = false;
     }
 
-    bool is_active();
+    bool is_active() const;
 
     Level* get_level() const {
       return level.get();

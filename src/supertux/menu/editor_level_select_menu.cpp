@@ -38,16 +38,19 @@
 EditorLevelSelectMenu::EditorLevelSelectMenu() :
   m_levelset()
 {
-  Editor::current()->deactivate_request = true;
-  m_levelset = std::unique_ptr<Levelset>(new Levelset(Editor::current()->get_world()->get_basedir()));
+  auto editor = Editor::current();
+  auto basedir = editor->get_world()->get_basedir();
 
-  add_label(Editor::current()->get_world()->get_title());
+  editor->deactivate_request = true;
+  m_levelset = std::unique_ptr<Levelset>(new Levelset(basedir));
+
+  add_label(editor->get_world()->get_title());
   add_hl();
 
   for (int i = 0; i < m_levelset->get_num_levels(); ++i)
   {
     std::string filename = m_levelset->get_level_filename(i);
-    std::string full_filename = FileSystem::join(Editor::current()->get_world()->get_basedir(), filename);
+    std::string full_filename = FileSystem::join(basedir, filename);
     std::string title = GameManager::current()->get_level_name(full_filename);
     add_entry(i, title);
   }

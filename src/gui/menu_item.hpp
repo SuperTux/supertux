@@ -75,7 +75,7 @@ class MenuItem
   #include "gui/item_action.hpp"
   #include "gui/item_back.hpp"
   #include "gui/item_color.hpp"
-  #include "gui/item_colorchanel.hpp"
+  #include "gui/item_colorchannel.hpp"
   #include "gui/item_colordisplay.hpp"
   #include "gui/item_controlfield.hpp"
   #include "gui/item_goto.hpp"

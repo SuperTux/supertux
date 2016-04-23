@@ -72,7 +72,9 @@ Level::save(const std::string& filepath, bool retry)
         }
       }
 
-      if(!PHYSFS_isDirectory(dirname.c_str()))
+      PHYSFS_Stat statbuf;
+      PHYSFS_stat(dirname.c_str(), &statbuf);
+      if(statbuf.filetype != PHYSFS_FILETYPE_DIRECTORY)
       {
         std::ostringstream msg;
         msg << "Level path '" << dirname << "' is not a directory";

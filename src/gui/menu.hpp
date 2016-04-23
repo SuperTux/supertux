@@ -54,7 +54,7 @@ public:
 
   MenuItem* add_color(const std::string& text, Color* color, int id = -1);
   MenuItem* add_colordisplay(Color* color, int id = -1);
-  MenuItem* add_colorchanel(float* input, Color chanel, int id = -1);
+  MenuItem* add_colorchannel(float* input, Color channel, int id = -1);
 
   virtual void menu_action(MenuItem* item) = 0;
 

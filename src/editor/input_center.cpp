@@ -78,8 +78,9 @@ EditorInputCenter::update(float elapsed_time) {
 
 void
 EditorInputCenter::delete_markers() {
-  for (auto i = Editor::current()->currentsector->moving_objects.begin();
-       i != Editor::current()->currentsector->moving_objects.end(); ++i) {
+  auto sector = Editor::current()->currentsector;
+  for (auto i = sector->moving_objects.begin();
+       i != sector->moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
     PointMarker* marker = dynamic_cast<PointMarker*>(moving_object);
     if (marker) {
@@ -88,7 +89,7 @@ EditorInputCenter::delete_markers() {
   }
   marked_object = NULL;
   edited_path = NULL;
-  Editor::current()->currentsector->update(0);
+  sector->update(0);
 }
 
 Rectf
@@ -152,16 +153,15 @@ EditorInputCenter::draw_rectangle() {
 void
 EditorInputCenter::fill() {
 
-  if (! Editor::current()->layerselect.selected_tilemap) {
+  auto tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
+  if (! tilemap) {
     return;
   }
 
   // The tile that is going to be replaced:
-  Uint32 replace_tile =
-      ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_tile_id(hovered_tile.x, hovered_tile.y);
+  Uint32 replace_tile = tilemap->get_tile_id(hovered_tile.x, hovered_tile.y);
 
-  if (Editor::current()->tileselect.tile ==
-      ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_tile_id(hovered_tile.x, hovered_tile.y)) {
+  if (Editor::current()->tileselect.tile == tilemap->get_tile_id(hovered_tile.x, hovered_tile.y)) {
     // Replacing by the same tiles shouldn't do anything.
     return;
   }
@@ -182,8 +182,7 @@ EditorInputCenter::fill() {
 
     // Tests for being inside tilemap:
     if ( pos.x < 0 || pos.y < 0 ||
-         pos.x >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_width() ||
-         pos.y >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_height()) {
+         pos.x >= tilemap->get_width() || pos.y >= tilemap->get_height()) {
       pos_stack.pop_back();
       continue;
     }
@@ -194,7 +193,7 @@ EditorInputCenter::fill() {
     // Going left...
     pos_ = pos + Vector(-1, 0);
     if (pos_.x >= 0) {
-      if (replace_tile == ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_tile_id(pos_.x, pos_.y)) {
+      if (replace_tile == tilemap->get_tile_id(pos_.x, pos_.y)) {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -202,8 +201,8 @@ EditorInputCenter::fill() {
 
     // Going right...
     pos_ = pos + Vector(1, 0);
-    if (pos_.x < ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_width()) {
-      if (replace_tile == ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_tile_id(pos_.x, pos_.y)) {
+    if (pos_.x < tilemap->get_width()) {
+      if (replace_tile == tilemap->get_tile_id(pos_.x, pos_.y)) {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -212,7 +211,7 @@ EditorInputCenter::fill() {
     // Going up...
     pos_ = pos + Vector(0, -1);
     if (pos_.y >= 0) {
-      if (replace_tile == ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_tile_id(pos_.x, pos_.y)) {
+      if (replace_tile == tilemap->get_tile_id(pos_.x, pos_.y)) {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -220,8 +219,8 @@ EditorInputCenter::fill() {
 
     // Going down...
     pos_ = pos + Vector(0, 1);
-    if (pos_.y < ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_height()) {
-      if (replace_tile == ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_tile_id(pos_.x, pos_.y)) {
+    if (pos_.y < tilemap->get_height()) {
+      if (replace_tile == tilemap->get_tile_id(pos_.x, pos_.y)) {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -348,7 +347,9 @@ EditorInputCenter::move_object() {
 
 void
 EditorInputCenter::rubber_object() {
-  delete_markers();
+  if (!edited_path) {
+    delete_markers();
+  }
   if (dragged_object) {
     dragged_object->editor_delete();
   }
@@ -416,7 +417,7 @@ EditorInputCenter::process_left_click() {
     } break;
     case EditorInputGui::IP_OBJECT:
       grab_object();
-      if (Editor::current()->tileselect.object != "") {
+      if (!Editor::current()->tileselect.object.empty()) {
         if (!dragged_object) {
           put_object();
         }
@@ -445,13 +446,15 @@ EditorInputCenter::process_right_click() {
 
 void
 EditorInputCenter::event(SDL_Event& ev) {
+  auto tileselect = &(Editor::current()->tileselect);
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     switch (ev.button.button) {
       case SDL_BUTTON_LEFT: {
         //TODO: Make the right clicks working.
-        if (InputManager::current()->get_controller()->hold(Controller::ACTION)) {
-          InputManager::current()->get_controller()->set_control(Controller::ACTION,false);
+        auto controller = InputManager::current()->get_controller();
+        if (controller->hold(Controller::ACTION)) {
+          controller->set_control(Controller::ACTION,false);
           process_right_click();
         } else {
           process_left_click();
@@ -463,9 +466,9 @@ EditorInputCenter::event(SDL_Event& ev) {
     } break;
     case SDL_MOUSEBUTTONUP: if(ev.button.button == SDL_BUTTON_LEFT) {
       dragging = false;
-      if (Editor::current()->tileselect.input_type == EditorInputGui::IP_OBJECT) {
-        if (Editor::current()->tileselect.select_mode->get_mode() == 1 &&
-            Editor::current()->tileselect.object == "" ) {
+      if (tileselect->input_type == EditorInputGui::IP_OBJECT) {
+        if (tileselect->select_mode->get_mode() == 1 &&
+            tileselect->object.empty() ) {
           rubber_rect();
         }
       }
@@ -477,9 +480,9 @@ EditorInputCenter::event(SDL_Event& ev) {
       actualize_pos();
       actualize_scrolling();
       if (dragging) {
-        switch (Editor::current()->tileselect.input_type) {
+        switch (tileselect->input_type) {
           case EditorInputGui::IP_TILE:
-            switch (Editor::current()->tileselect.select_mode->get_mode()) {
+            switch (tileselect->select_mode->get_mode()) {
               case 0:
                 put_tile();
                 break;
@@ -491,7 +494,7 @@ EditorInputCenter::event(SDL_Event& ev) {
             }
             break;
           case EditorInputGui::IP_OBJECT:
-            if (Editor::current()->tileselect.object == "") {
+            if (tileselect->object.empty()) {
               rubber_rect();
             } else {
               move_object();
@@ -584,23 +587,25 @@ EditorInputCenter::stop_scrolling() {
 
 void
 EditorInputCenter::draw_tile_tip(DrawingContext& context) {
-  if ( Editor::current()->tileselect.input_type == EditorInputGui::IP_TILE ) {
+  auto editor = Editor::current();
+  if ( editor->tileselect.input_type == EditorInputGui::IP_TILE ) {
 
-    if ( !Editor::current()->layerselect.selected_tilemap ) {
+    auto tilemap = dynamic_cast<TileMap*>(editor->layerselect.selected_tilemap);
+    if (!tilemap) {
       return;
     }
 
-    if ( Editor::current()->tileselect.tile == 0 || hovered_tile.x < 0 || hovered_tile.y < 0 ||
-         hovered_tile.x >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_width() ||
-         hovered_tile.y >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_height()) {
+    if ( editor->tileselect.tile == 0 || hovered_tile.x < 0 || hovered_tile.y < 0 ||
+         hovered_tile.x >= tilemap->get_width() ||
+         hovered_tile.y >= tilemap->get_height()) {
       return;
     }
 
     context.push_transform();
     context.set_alpha(0.5);
 
-    const Tile* tg_tile = Editor::current()->tileset->get( Editor::current()->tileselect.tile );
-    tg_tile->draw(context, tp_to_sp(hovered_tile) - Editor::current()->currentsector->camera->get_translation(),
+    const Tile* tg_tile = editor->tileset->get( editor->tileselect.tile );
+    tg_tile->draw(context, tp_to_sp(hovered_tile) - editor->currentsector->camera->get_translation(),
                   LAYER_GUI-11);
 
     context.pop_transform();
@@ -609,15 +614,16 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
 
 void
 EditorInputCenter::draw_tile_grid(DrawingContext& context) {
-  if ( !Editor::current()->layerselect.selected_tilemap ) {
+  auto editor = Editor::current();
+  if ( !editor->layerselect.selected_tilemap ) {
     return;
   }
 
-  TileMap* current_tm = (TileMap*)Editor::current()->layerselect.selected_tilemap;
+  TileMap* current_tm = dynamic_cast<TileMap*>(editor->layerselect.selected_tilemap);
   int tm_width = current_tm->get_width();
   int tm_height = current_tm->get_height();
-  Rectf draw_rect = Rectf(Editor::current()->currentsector->camera->get_translation(),
-        Editor::current()->currentsector->camera->get_translation() + Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
+  Rectf draw_rect = Rectf(editor->currentsector->camera->get_translation(),
+        editor->currentsector->camera->get_translation() + Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
   Vector start = sp_to_tp( Vector(draw_rect.p1.x, draw_rect.p1.y) );
   Vector end = sp_to_tp( Vector(draw_rect.p2.x, draw_rect.p2.y) );
   start.x = std::max(0.0f, start.x);
@@ -707,10 +713,10 @@ EditorInputCenter::draw(DrawingContext& context) {
 
 Vector
 EditorInputCenter::tp_to_sp(Vector tp) {
-  if (Editor::current()->layerselect.selected_tilemap) {
+  auto tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
+  if (tilemap) {
     Vector sp = Vector( tp.x * 32, tp.y * 32 );
-    // This line is cool :DDDDD
-    return sp + ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_offset();
+    return sp + tilemap->get_offset();
   } else {
     return Vector(0, 0);
   }
@@ -718,9 +724,9 @@ EditorInputCenter::tp_to_sp(Vector tp) {
 
 Vector
 EditorInputCenter::sp_to_tp(Vector sp) {
-  if (Editor::current()->layerselect.selected_tilemap) {
-    // This line is cool :DDDDD
-    sp -= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_offset();
+  auto tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
+  if (tilemap) {
+    sp -= tilemap->get_offset();
     int x = sp.x / 32;
     int y = sp.y / 32;
     return Vector( x, y );
