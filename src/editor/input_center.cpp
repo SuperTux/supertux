@@ -74,6 +74,14 @@ EditorInputCenter::~EditorInputCenter()
 void
 EditorInputCenter::update(float elapsed_time) {
   update_scroll();
+
+  if (marked_object) if (!marked_object->is_valid()) {
+    delete_markers();
+  }
+
+  if (edited_path) if (!edited_path->is_valid()) {
+    delete_markers();
+  }
 }
 
 void
@@ -89,7 +97,6 @@ EditorInputCenter::delete_markers() {
   }
   marked_object = NULL;
   edited_path = NULL;
-  sector->update(0);
 }
 
 Rectf
@@ -662,9 +669,10 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context) {
 
 void
 EditorInputCenter::draw_path(DrawingContext& context) {
-  if (!edited_path) {
-    return;
-  }
+  if (!edited_path) return;
+  if (!marked_object) return;
+  if (!marked_object->is_valid()) return;
+  if (!edited_path->is_valid()) return;
 
   for(auto i = edited_path->nodes.begin(); i != edited_path->nodes.end(); ++i) {
     auto j = i+1;
