@@ -23,10 +23,11 @@
 #include "math/vector.hpp"
 #include "supertux/screen.hpp"
 
-class Rectf;
+class GameObject;
 class MovingObject;
 class NodeMarker;
 class Path;
+class Rectf;
 class Tip;
 
 class EditorInputCenter
@@ -44,7 +45,7 @@ class EditorInputCenter
     void delete_markers();
     void update_node_iterators();
 
-    void edit_path(Path* path);
+    void edit_path(Path* path, GameObject* new_marked_object = NULL);
 
   private:
     Vector hovered_tile;
@@ -54,7 +55,7 @@ class EditorInputCenter
     bool dragging;
     Vector drag_start;
     MovingObject* dragged_object;
-    MovingObject* marked_object;
+    GameObject* marked_object;
     Path* edited_path;
     NodeMarker* last_node_marker;
     std::unique_ptr<Tip> object_tip;

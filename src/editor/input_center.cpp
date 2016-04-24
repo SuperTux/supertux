@@ -266,10 +266,16 @@ EditorInputCenter::hover_object() {
 }
 
 void
-EditorInputCenter::edit_path(Path* path) {
+EditorInputCenter::edit_path(Path* path, GameObject* new_marked_object) {
+  if (!path) return;
+  delete_markers();
+
   if (path->is_valid()) {
     edited_path = path;
     edited_path->edit_path();
+    if (new_marked_object) {
+      marked_object = new_marked_object;
+    }
   } else {
     edited_path = NULL;
   }
@@ -288,23 +294,21 @@ EditorInputCenter::mark_object() {
 
   if (dc1 || dc2 || dc3 || dc4 || dc5 || dc6) {
     marked_object = dragged_object;
-    marked_object->edit_bbox();
+    dragged_object->edit_bbox();
     return;
   }
 
   Coin* coin = dynamic_cast<Coin*>(dragged_object);
   if (coin) {
     if (coin->get_path()) {
-      marked_object = dragged_object;
-      edit_path(coin->get_path());
+      edit_path(coin->get_path(), dragged_object);
     }
     return;
   }
 
   Platform* platform = dynamic_cast<Platform*>(dragged_object);
   if (platform) {
-    marked_object = dragged_object;
-    edit_path(&platform->get_path());
+    edit_path(&platform->get_path(), dragged_object);
     return;
   }
 }

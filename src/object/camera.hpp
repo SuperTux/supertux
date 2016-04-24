@@ -95,6 +95,8 @@ public:
     return "images/engine/editor/camera.png";
   }
 
+  Path* get_path() const;
+
 private:
   void update_scroll_normal(float elapsed_time);
   void update_scroll_autoscroll(float elapsed_time);

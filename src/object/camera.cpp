@@ -673,4 +673,10 @@ Camera::move(const int dx, const int dy) {
   translation.y += dy;
 }
 
+
+Path*
+Camera::get_path() const {
+  return autoscroll_path.get();
+}
+
 /* EOF */
