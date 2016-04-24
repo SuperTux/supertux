@@ -17,12 +17,12 @@
 #include "badguy/dispenser.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/editor_active.hpp"
 #include "util/reader_mapping.hpp"
 
 #include <stdexcept>
@@ -232,7 +232,7 @@ Dispenser::launch_badguy()
   if (frozen) return;
 
   //FIXME: Does is_offscreen() work right here?
-  if (!is_offscreen() && !Editor::current()) {
+  if (!is_offscreen() && !EditorActive()) {
     Direction launchdir = dir;
     if( !autotarget && start_dir == AUTO ){
       Player* player = get_nearest_player();
@@ -383,6 +383,7 @@ Dispenser::get_settings() {
   ObjectSettings result = BadGuy::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Cycle"), &cycle));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Random"), &random));
+  result.options.push_back( ObjectOption(MN_BADGUYSELECT, _("Enemies"), &badguys));
   return result;
 }
 

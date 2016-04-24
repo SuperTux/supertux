@@ -245,6 +245,12 @@ Menu::add_color(const std::string& text, Color* color, int id) {
   return add_item(std::move(item));
 }
 
+MenuItem*
+Menu::add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id) {
+  std::unique_ptr<ItemBadguySelect> item(new ItemBadguySelect(text, badguys, id));
+  return add_item(std::move(item));
+}
+
 void
 Menu::clear()
 {

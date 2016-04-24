@@ -46,6 +46,9 @@ ObjectMenu::ObjectMenu(GameObject *go) :
       case MN_STRINGSELECT:
         add_string_select(-1, oo->text, (int*)oo->option, oo->select);
         break;
+      case MN_BADGUYSELECT:
+        add_badguy_select(oo->text, (std::vector<std::string>*)oo->option);
+        break;
       case MN_COLOR:
         add_color(oo->text, (Color*)oo->option);
         break;

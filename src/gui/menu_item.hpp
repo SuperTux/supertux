@@ -74,6 +74,7 @@ class MenuItem
 #ifdef INCLUDE_MENU_ITEMS
   #include "gui/item_action.hpp"
   #include "gui/item_back.hpp"
+  #include "gui/item_badguy_select.hpp"
   #include "gui/item_color.hpp"
   #include "gui/item_colorchannel.hpp"
   #include "gui/item_colordisplay.hpp"
