@@ -211,7 +211,7 @@ TileMap::get_settings() {
   result.options.push_back( ObjectOption(MN_INTFIELD, _("height"), &new_size_y));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("alpha"), &alpha));
   result.options.push_back( ObjectOption(MN_COLOR, _("tint"), &tint));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("z-pos"), &z_pos));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
 
   return result;
 }
