@@ -18,6 +18,7 @@
 
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
+#include "editor/node_marker.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/point_marker.hpp"
 #include "editor/tool_icon.hpp"
@@ -60,6 +61,7 @@ EditorInputCenter::EditorInputCenter() :
   dragged_object(NULL),
   marked_object(NULL),
   edited_path(NULL),
+  last_node_marker(NULL),
   object_tip(),
   obj_mouse_desync(0, 0),
   render_grid(true),
@@ -97,6 +99,7 @@ EditorInputCenter::delete_markers() {
   }
   marked_object = NULL;
   edited_path = NULL;
+  last_node_marker = NULL;
 }
 
 Rectf
@@ -326,11 +329,17 @@ EditorInputCenter::grab_object() {
       if (!pm) {
         mark_object();
       }
+      last_node_marker = dynamic_cast<NodeMarker*>(pm);
+      return;
+    }
+  }
+  dragged_object = NULL;
+  if (edited_path && Editor::current()->tileselect.object == "#node") {
+    if (edited_path->is_valid()) {
       return;
     }
   }
   delete_markers();
-  dragged_object = NULL;
 }
 
 void
@@ -368,6 +377,7 @@ EditorInputCenter::rubber_object() {
   if (dragged_object) {
     dragged_object->editor_delete();
   }
+  last_node_marker = NULL;
 }
 
 void
@@ -383,22 +393,60 @@ EditorInputCenter::rubber_rect() {
       moving_object->editor_delete();
     }
   }
+  last_node_marker = NULL;
+}
+
+void
+EditorInputCenter::update_node_iterators() {
+  if (!edited_path) return;
+  if (!edited_path->is_valid()) return;
+
+  auto sector = Editor::current()->currentsector;
+  for (auto i = sector->moving_objects.begin();
+       i != sector->moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+    NodeMarker* marker = dynamic_cast<NodeMarker*>(moving_object);
+    if (marker) {
+      marker->update_iterator();
+    }
+  }
+}
+
+void
+EditorInputCenter::add_path_node() {
+  Path::Node new_node;
+  new_node.position = sector_pos;
+  new_node.time = 1;
+  edited_path->nodes.insert(last_node_marker->node + 1, new_node);
+  GameObjectPtr marker;
+  marker = std::make_shared<NodeMarker>(edited_path, edited_path->nodes.end() - 1, edited_path->nodes.size() - 1);
+  Sector::current()->add_object(marker);
+  //last_node_marker = dynamic_cast<NodeMarker*>(marker.get());
+  update_node_iterators();
+  Editor::current()->currentsector->update(0);
+  grab_object();
 }
 
 void
 EditorInputCenter::put_object() {
-  if (Editor::current()->tileselect.object[0] == '#') {
+  auto tileselect = &(Editor::current()->tileselect);
+  if (tileselect->object[0] == '#') {
+    if (edited_path && tileselect->object == "#node") {
+      if (edited_path->is_valid() && last_node_marker) {
+        add_path_node();
+      }
+    }
     return;
   }
   GameObjectPtr game_object;
   try {
-    game_object = ObjectFactory::instance().create(Editor::current()->tileselect.object, sector_pos, LEFT);
+    game_object = ObjectFactory::instance().create(tileselect->object, sector_pos, LEFT);
   } catch(const std::exception& e) {
-    log_warning << "Error creating object " << Editor::current()->tileselect.object << ": " << e.what() << std::endl;
+    log_warning << "Error creating object " << tileselect->object << ": " << e.what() << std::endl;
     return;
   }
   if (game_object == NULL)
-    throw std::runtime_error("Creating " + Editor::current()->tileselect.object + " object failed.");
+    throw std::runtime_error("Creating " + tileselect->object + " object failed.");
 
   MovingObject* mo = dynamic_cast<MovingObject*> (game_object.get());
   if (!mo) {
@@ -408,7 +456,7 @@ EditorInputCenter::put_object() {
   try {
     Editor::current()->currentsector->add_object(game_object);
   } catch(const std::exception& e) {
-    log_warning << "Error adding object " << Editor::current()->tileselect.object << ": " << e.what() << std::endl;
+    log_warning << "Error adding object " << tileselect->object << ": " << e.what() << std::endl;
     return;
   }
 }

@@ -105,6 +105,8 @@ class Editor : public Screen,
     void load_sector(std::string name);
     void load_sector(int id);
 
+    void update_node_iterators();
+
     std::unique_ptr<Savegame> m_savegame;
 
     Sector* currentsector;

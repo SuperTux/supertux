@@ -25,6 +25,7 @@
 
 class Rectf;
 class MovingObject;
+class NodeMarker;
 class Path;
 class Tip;
 
@@ -41,6 +42,7 @@ class EditorInputCenter
     void actualize_pos();
     void stop_scrolling();
     void delete_markers();
+    void update_node_iterators();
 
     void edit_path(Path* path);
 
@@ -54,6 +56,7 @@ class EditorInputCenter
     MovingObject* dragged_object;
     MovingObject* marked_object;
     Path* edited_path;
+    NodeMarker* last_node_marker;
     std::unique_ptr<Tip> object_tip;
     Vector obj_mouse_desync;
 
@@ -73,6 +76,7 @@ class EditorInputCenter
     void hover_object();
     void set_object();
     void mark_object();
+    void add_path_node();
 
     void draw_tile_tip(DrawingContext&);
     void draw_tile_grid(DrawingContext&);
