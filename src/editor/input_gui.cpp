@@ -61,7 +61,7 @@ EditorInputGui::EditorInputGui() :
   select_mode->push_mode  ("images/engine/editor/select-mode1.png");
   select_mode->push_mode  ("images/engine/editor/select-mode2.png");
   move_mode->push_mode    ("images/engine/editor/move-mode1.png");
-  settings_mode->push_mode("images/engine/editor/settings-mode1.png");
+  //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
 }
 
 EditorInputGui::~EditorInputGui() {
@@ -228,7 +228,7 @@ EditorInputGui::event(SDL_Event& ev) {
                 move_mode->next_mode();
                 break;
               case 3:
-                settings_mode->next_mode();
+                Editor::current()->esc_press();
                 break;
               default:
                 break;

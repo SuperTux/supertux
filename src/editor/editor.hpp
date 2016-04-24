@@ -106,6 +106,7 @@ class Editor : public Screen,
     void load_sector(int id);
 
     void update_node_iterators();
+    void esc_press();
 
     std::unique_ptr<Savegame> m_savegame;
 

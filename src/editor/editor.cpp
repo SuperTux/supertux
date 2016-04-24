@@ -215,6 +215,12 @@ void Editor::scroll_down(float speed) {
   }
 }
 
+void Editor::esc_press() {
+  enabled = false;
+  inputcenter.delete_markers();
+  MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
+}
+
 void Editor::update_keyboard() {
 
   if (!enabled){
@@ -224,9 +230,7 @@ void Editor::update_keyboard() {
   auto controller = InputManager::current()->get_controller();
 
   if (controller->pressed(Controller::ESCAPE)) {
-    enabled = false;
-    inputcenter.delete_markers();
-    MenuManager::instance().set_menu(MenuStorage::EDITOR_MENU);
+    esc_press();
     return;
   }
 
