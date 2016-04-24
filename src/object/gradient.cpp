@@ -129,6 +129,7 @@ Gradient::get_settings() {
     result.options.push_back( ObjectOption(MN_COLOR, _("Bottom Colour"), &gradient_bottom));
   }
 
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &layer));
   ObjectOption doo(MN_STRINGSELECT, _("Direction"), &gradient_direction);
   doo.select.push_back(_("vertical"));
   doo.select.push_back(_("horizontal"));
