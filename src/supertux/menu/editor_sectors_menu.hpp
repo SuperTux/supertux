@@ -23,6 +23,7 @@ class EditorSectorsMenu : public Menu
 {
 public:
   EditorSectorsMenu();
+  ~EditorSectorsMenu();
 
   void menu_action(MenuItem* item) override;
 
