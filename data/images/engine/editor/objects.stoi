@@ -271,5 +271,8 @@
   (object
     (class "gradient")
     (icon "images/engine/editor/gradient.png"))
+  (object
+    (class "#node")
+    (icon "images/engine/editor/path_node.png"))
  )
 )
