@@ -51,6 +51,7 @@ public:
   MenuItem* add_script_line(std::string* input, int id = -1);
   MenuItem* add_intfield(const std::string& text, int* input, int id = -1);
   MenuItem* add_numfield(const std::string& text, float* input, int id = -1);
+  MenuItem* add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id = -1);
 
   MenuItem* add_color(const std::string& text, Color* color, int id = -1);
   MenuItem* add_colordisplay(Color* color, int id = -1);

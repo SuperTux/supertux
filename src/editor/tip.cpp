@@ -61,6 +61,9 @@ Tip::Tip(GameObject* object) :
       case MN_STRINGSELECT:
         text += oo->select[*((int*)(oo->option))];
         break;
+      case MN_BADGUYSELECT:
+        text += std::to_string(((std::vector<std::string>*)oo->option)->size());
+        break;
       case MN_COLOR:
         text += std::to_string(((Color*)oo->option)->red) + " ";
         text += std::to_string(((Color*)oo->option)->green) + " ";
