@@ -22,6 +22,7 @@
 #include "editor/tip.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
+#include "object/camera.hpp"
 #include "object/tilemap.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
@@ -146,6 +147,13 @@ EditorLayersGui::event(SDL_Event& ev) {
                 }
                 selected_tilemap = layers[hovered_layer]->layer;
                 ((TileMap*)selected_tilemap)->editor_active = true;
+                Editor::current()->inputcenter.edit_path(((TileMap*)selected_tilemap)->get_path().get(),
+                                                         selected_tilemap);
+              } else {
+                Camera* cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);
+                if (cam) {
+                  Editor::current()->inputcenter.edit_path(cam->get_path(), cam);
+                }
               }
             }
             break;
