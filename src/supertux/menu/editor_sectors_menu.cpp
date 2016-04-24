@@ -50,6 +50,11 @@ EditorSectorsMenu::EditorSectorsMenu()
   add_entry(-4,_("Abort"));
 }
 
+EditorSectorsMenu::~EditorSectorsMenu()
+{
+  Editor::current()->reactivate_request = true;
+}
+
 void
 EditorSectorsMenu::create_sector()
 {
@@ -118,7 +123,6 @@ EditorSectorsMenu::menu_action(MenuItem* item)
   if (item->id >= 0)
   {
     Editor::current()->load_sector(item->id);
-    Editor::current()->reactivate_request = true;
     MenuManager::instance().clear_menu_stack();
   } else {
     switch (item->id) {
@@ -132,7 +136,6 @@ EditorSectorsMenu::menu_action(MenuItem* item)
         break;
       case -4:
         MenuManager::instance().clear_menu_stack();
-        Editor::current()->reactivate_request = true;
         break;
     }
   }
