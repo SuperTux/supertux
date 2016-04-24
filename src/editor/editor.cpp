@@ -356,8 +356,14 @@ Editor::event(SDL_Event& ev) {
 
 }
 
-bool Editor::is_active() const {
+bool
+Editor::is_active() const {
   return levelloaded && !leveltested;
+}
+
+void
+Editor::update_node_iterators() {
+  inputcenter.update_node_iterators();
 }
 
 /* EOF */

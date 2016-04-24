@@ -14,17 +14,27 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "editor/editor.hpp"
 #include "editor/node_marker.hpp"
 
-NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iterator) :
+NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_) :
   path(path_),
-  node(node_iterator)
+  node(node_iterator),
+  id(id_)
 {
   set_pos(node->position - Vector(8, 8));
 }
 
 NodeMarker::~NodeMarker() {
 
+}
+
+void NodeMarker::update_iterator() {
+  if (id >= path->nodes.size()) {
+    remove_me();
+  } else {
+    node = path->nodes.begin() + id;
+  }
 }
 
 Vector NodeMarker::get_point_vector() const {
@@ -48,8 +58,8 @@ void NodeMarker::move_to(const Vector& pos) {
 }
 
 void NodeMarker::editor_delete() {
-  GameObject::editor_delete();
   path->nodes.erase(node);
+  Editor::current()->update_node_iterators();
 }
 
 ObjectSettings NodeMarker::get_settings() {

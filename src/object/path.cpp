@@ -172,10 +172,12 @@ Path::move_by(Vector& shift) {
 
 void
 Path::edit_path() {
+  int id = 0;
   for(auto i = nodes.begin(); i != nodes.end(); ++i) {
     GameObjectPtr marker;
-    marker = std::make_shared<NodeMarker>(this, i);
+    marker = std::make_shared<NodeMarker>(this, i, id);
     Sector::current()->add_object(marker);
+    id++;
   }
 }
 

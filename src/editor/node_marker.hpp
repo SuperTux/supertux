@@ -26,11 +26,12 @@
 class NodeMarker : public PointMarker
 {
   public:
-    NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator);
+    NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_);
     ~NodeMarker();
 
     Path* path;
     std::vector<Path::Node>::iterator node;
+    size_t id;
 
     virtual void update(float elapsed_time);
     virtual void move_to(const Vector& pos);
@@ -38,6 +39,8 @@ class NodeMarker : public PointMarker
     virtual Vector get_point_vector() const;
 
     virtual ObjectSettings get_settings();
+
+    void update_iterator();
 
   private:
     NodeMarker(const NodeMarker&);
