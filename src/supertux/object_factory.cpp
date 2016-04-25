@@ -104,6 +104,7 @@
 #include "object/endsequence.hpp"
 #include "object/endsequence_walkleft.hpp"
 #include "object/endsequence_walkright.hpp"
+#include "object/enemy_blocker.hpp"
 #include "object/explosion.hpp"
 #include "object/falling_coin.hpp"
 #include "object/firefly.hpp"
@@ -193,6 +194,7 @@ ObjectFactory::init_factories()
   add_factory<Dart>("dart");
   add_factory<DartTrap>("darttrap");
   add_factory<Dispenser>("dispenser");
+  add_factory<EnemyBlocker>("enemy_blocker");
   add_factory<Fish>("fish");
   add_factory<Flame>("flame");
   add_factory<FlyingSnowBall>("flyingsnowball");
