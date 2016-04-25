@@ -34,6 +34,7 @@
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
 #include "video/renderer.hpp"
@@ -54,6 +55,8 @@ EditorInputGui::EditorInputGui() :
   hovered_tile(-1),
   tile_scrolling(TS_NONE),
   starting_tile(0),
+  dragging(false),
+  drag_start(0, 0),
   Xpos(512)
 {
   std::unique_ptr<ObjectInput> oi( new ObjectInput() );
@@ -179,6 +182,39 @@ EditorInputGui::update(float elapsed_time) {
   }
 }
 
+Rectf
+EditorInputGui::normalize_selection() {
+  Vector drag_start_ = drag_start;
+  Vector drag_end = Vector(hovered_tile % 4, hovered_tile / 4);
+  if (drag_start_.x > drag_end.x) {
+    std::swap(drag_start_.x, drag_end.x);
+  }
+  if (drag_start_.y > drag_end.y) {
+    std::swap(drag_start_.y, drag_end.y);
+  }
+  return Rectf(drag_start_, drag_end);
+}
+
+void
+EditorInputGui::update_selection() {
+  Rectf select = normalize_selection();
+  tiles->tiles.clear();
+  tiles->width = select.get_width() + 1;
+  tiles->height = select.get_height() + 1;
+
+  int size = active_tilegroup.size();
+  for (int y = select.p1.y; y <= select.p2.y; y++) {
+    for (int x = select.p1.x; x <= select.p2.x; x++) {
+      int tile_pos = y*4 + x;
+      if (tile_pos < size && tile_pos >= 0) {
+        tiles->tiles.push_back(active_tilegroup[tile_pos + starting_tile]);
+      } else {
+        tiles->tiles.push_back(0);
+      }
+    }
+  }
+}
+
 bool
 EditorInputGui::event(SDL_Event& ev) {
   switch (ev.type) {
@@ -198,6 +234,8 @@ EditorInputGui::event(SDL_Event& ev) {
           case HI_TILE:
             switch (input_type) {
               case IP_TILE: {
+                dragging = true;
+                drag_start = Vector(hovered_tile % 4, hovered_tile / 4);
                 int size = active_tilegroup.size();
                 if (hovered_tile < size && hovered_tile >= 0) {
                   tiles->set_tile(active_tilegroup[hovered_tile + starting_tile]);
@@ -243,6 +281,11 @@ EditorInputGui::event(SDL_Event& ev) {
       }
     } break;
 
+    case SDL_MOUSEBUTTONUP:
+      dragging = false;
+      return false;
+      break;
+
     case SDL_MOUSEMOTION:
     {
       Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
@@ -269,6 +312,9 @@ EditorInputGui::event(SDL_Event& ev) {
       } else {
         hovered_item = HI_TILE;
         hovered_tile = get_tile_pos(mouse_pos);
+        if (dragging && input_type == IP_TILE) {
+          update_selection();
+        }
       }
       if (y < 16) {
         tile_scrolling = TS_UP;

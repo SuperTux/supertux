@@ -145,7 +145,13 @@ EditorInputCenter::input_tile(Vector pos, uint32_t tile) {
 
 void
 EditorInputCenter::put_tile() {
-  input_tile(hovered_tile, Editor::current()->tileselect.tiles->pos(0, 0));
+  auto tiles = Editor::current()->tileselect.tiles.get();
+  Vector add_tile;
+  for (add_tile.x = tiles->width-1; add_tile.x >= 0; add_tile.x--) {
+    for (add_tile.y = tiles->height-1; add_tile.y >= 0; add_tile.y--) {
+      input_tile(hovered_tile + add_tile, Editor::current()->tileselect.tiles->pos(add_tile.x, add_tile.y));
+    }
+  }
 }
 
 void
@@ -154,10 +160,15 @@ EditorInputCenter::draw_rectangle() {
   Rectf dr = drag_rect();
   dr.p1 = sp_to_tp(dr.p1);
   dr.p2 = sp_to_tp(dr.p2);
+  bool sgn_x = drag_start.x < sector_pos.x;
+  bool sgn_y = drag_start.y < sector_pos.y;
 
-  for (int x = dr.p1.x; x <= dr.p2.x; x++) {
-    for (int y = dr.p1.y; y <= dr.p2.y; y++) {
-      input_tile( Vector(x,y), Editor::current()->tileselect.tiles->pos(x - dr.p1.x, y - dr.p1.y) );
+  int x_, y_;
+  x_ = sgn_x ? 0 : -dr.get_width();
+  for (int x = dr.p1.x; x <= dr.p2.x; x++, x_++) {
+    y_ = sgn_y ? 0 : -dr.get_height();
+    for (int y = dr.p1.y; y <= dr.p2.y; y++, y_++) {
+      input_tile( Vector(x,y), Editor::current()->tileselect.tiles->pos(x_, y_) );
     }
   }
 }
@@ -541,15 +552,18 @@ EditorInputCenter::event(SDL_Event& ev) {
         process_right_click();
       } break;
     } break;
-    case SDL_MOUSEBUTTONUP: if(ev.button.button == SDL_BUTTON_LEFT) {
+
+    case SDL_MOUSEBUTTONUP:
       dragging = false;
-      if (tileselect->input_type == EditorInputGui::IP_OBJECT) {
-        if (tileselect->select_mode->get_mode() == 1 &&
-            tileselect->object.empty() ) {
-          rubber_rect();
+      if(ev.button.button == SDL_BUTTON_LEFT) {
+        if (tileselect->input_type == EditorInputGui::IP_OBJECT) {
+          if (tileselect->select_mode->get_mode() == 1 &&
+              tileselect->object.empty() ) {
+            rubber_rect();
+          }
         }
       }
-    } break;
+      break;
 
     case SDL_MOUSEMOTION:
     {
@@ -683,9 +697,12 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
              on_tile.x >= tilemap->get_width() || on_tile.y >= tilemap->get_height()) {
           continue;
         }
-        const Tile* tg_tile = editor->tileset->get( tiles->pos(drawn_tile.x, drawn_tile.y) );
-        tg_tile->draw(context, tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
-                      LAYER_GUI-11, Color(1, 1, 1, 0.5));
+        uint32_t tile_id = tiles->pos(drawn_tile.x, drawn_tile.y);
+        if (tile_id) {
+          const Tile* tg_tile = editor->tileset->get( tile_id );
+          tg_tile->draw(context, tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
+                        LAYER_GUI-11, Color(1, 1, 1, 0.5));
+        }
       }
     }
   }
