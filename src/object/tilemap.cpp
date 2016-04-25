@@ -28,6 +28,7 @@
 #include "supertux/sector.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
+#include "util/editor_active.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -254,8 +255,12 @@ TileMap::update(float elapsed_time)
   // if we have a path to follow, follow it
   if (walker.get()) {
     Vector v = walker->advance(elapsed_time);
-    movement = v - get_offset();
-    set_offset(v);
+    if (path->is_valid()) {
+      movement = v - get_offset();
+      set_offset(v);
+    } else {
+      set_offset(Vector(0, 0));
+    }
   }
 }
 

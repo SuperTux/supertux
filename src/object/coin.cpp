@@ -87,10 +87,12 @@ Coin::update(float elapsed_time)
   // if we have a path to follow, follow it
   if (walker.get()) {
     Vector v = from_tilemap ? offset + walker->get_pos() : walker->advance(elapsed_time);
-    if (EditorActive()) {
-      set_pos(v);
-    } else {
-      movement = v - get_pos();
+    if (path->is_valid()) {
+      if (EditorActive()) {
+        set_pos(v);
+      } else {
+        movement = v - get_pos();
+      }
     }
   }
 }
