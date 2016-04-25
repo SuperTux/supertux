@@ -21,6 +21,7 @@
 #include "editor/editor.hpp"
 #include "editor/object_group.hpp"
 #include "editor/object_input.hpp"
+#include "editor/tile_selection.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -39,7 +40,7 @@
 #include "video/video_system.hpp"
 
 EditorInputGui::EditorInputGui() :
-  tile(0),
+  tiles(new TileSelection()),
   object(),
   input_type(IP_NONE),
   active_tilegroup(),
@@ -199,9 +200,9 @@ EditorInputGui::event(SDL_Event& ev) {
               case IP_TILE: {
                 int size = active_tilegroup.size();
                 if (hovered_tile < size && hovered_tile >= 0) {
-                  tile = active_tilegroup[hovered_tile + starting_tile];
+                  tiles->set_tile(active_tilegroup[hovered_tile + starting_tile]);
                 } else {
-                  tile = 0;
+                  tiles->set_tile(0);
                 }
               } break;
               case IP_OBJECT: {
@@ -218,7 +219,7 @@ EditorInputGui::event(SDL_Event& ev) {
           case HI_TOOL:
             switch (hovered_tile) {
               case 0:
-                tile = 0;
+                tiles->set_tile(0);
                 object = "";
                 break;
               case 1:
@@ -297,7 +298,7 @@ EditorInputGui::resize() {
 void
 EditorInputGui::setup() {
   resize();
-  tile = 0;
+  tiles->set_tile(0);
 }
 
 Vector

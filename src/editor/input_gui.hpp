@@ -26,6 +26,7 @@ class SDL_event;
 class TileSet;
 class Vector;
 class ObjectInput;
+class TileSelection;
 class ToolIcon;
 
 class EditorInputGui
@@ -40,7 +41,7 @@ class EditorInputGui
     void setup();
     void resize();
 
-    Uint32 tile;
+    std::unique_ptr<TileSelection> tiles;
     std::string object;
 
     typedef enum {
