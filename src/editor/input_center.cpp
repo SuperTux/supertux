@@ -16,6 +16,7 @@
 
 #include "editor/input_center.hpp"
 
+#include "badguy/willowisp.hpp"
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/node_marker.hpp"
@@ -302,6 +303,14 @@ EditorInputCenter::mark_object() {
   if (coin) {
     if (coin->get_path()) {
       edit_path(coin->get_path(), dragged_object);
+    }
+    return;
+  }
+
+  WillOWisp* willo = dynamic_cast<WillOWisp*>(dragged_object);
+  if (willo) {
+    if (willo->get_path()) {
+      edit_path(willo->get_path(), dragged_object);
     }
     return;
   }
