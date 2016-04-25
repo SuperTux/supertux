@@ -22,8 +22,9 @@
 #include "editor/node_marker.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/point_marker.hpp"
-#include "editor/tool_icon.hpp"
+#include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
+#include "editor/tool_icon.hpp"
 #include "math/rectf.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
@@ -127,24 +128,24 @@ EditorInputCenter::drag_rect() {
 }
 
 void
-EditorInputCenter::input_tile(Vector pos) {
-  if ( !Editor::current()->layerselect.selected_tilemap ) {
+EditorInputCenter::input_tile(Vector pos, uint32_t tile) {
+  TileMap* tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
+  if ( !tilemap ) {
     return;
   }
 
   if ( pos.x < 0 || pos.y < 0 ||
-       pos.x >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_width() ||
-       pos.y >= ((TileMap *)Editor::current()->layerselect.selected_tilemap)->get_height()) {
+       pos.x >= tilemap->get_width() ||
+       pos.y >= tilemap->get_height()) {
     return;
   }
 
-  ((TileMap *)Editor::current()->layerselect.selected_tilemap)->change(pos.x, pos.y,
-                                                                       Editor::current()->tileselect.tile);
+  tilemap->change(pos.x, pos.y, tile);
 }
 
 void
 EditorInputCenter::put_tile() {
-  input_tile(hovered_tile);
+  input_tile(hovered_tile, Editor::current()->tileselect.tiles->pos(0, 0));
 }
 
 void
@@ -156,7 +157,7 @@ EditorInputCenter::draw_rectangle() {
 
   for (int x = dr.p1.x; x <= dr.p2.x; x++) {
     for (int y = dr.p1.y; y <= dr.p2.y; y++) {
-      input_tile( Vector(x,y) );
+      input_tile( Vector(x,y), Editor::current()->tileselect.tiles->pos(x - dr.p1.x, y - dr.p1.y) );
     }
   }
 }
@@ -172,7 +173,7 @@ EditorInputCenter::fill() {
   // The tile that is going to be replaced:
   Uint32 replace_tile = tilemap->get_tile_id(hovered_tile.x, hovered_tile.y);
 
-  if (Editor::current()->tileselect.tile == tilemap->get_tile_id(hovered_tile.x, hovered_tile.y)) {
+  if (Editor::current()->tileselect.tiles->pos(0, 0) == tilemap->get_tile_id(hovered_tile.x, hovered_tile.y)) {
     // Replacing by the same tiles shouldn't do anything.
     return;
   }
@@ -198,7 +199,7 @@ EditorInputCenter::fill() {
       continue;
     }
 
-    input_tile (pos);
+    input_tile(pos, Editor::current()->tileselect.tiles->pos(pos.x - hovered_tile.x, pos.y - hovered_tile.y));
     Vector pos_;
 
     // Going left...
@@ -671,20 +672,22 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
       return;
     }
 
-    if ( editor->tileselect.tile == 0 || hovered_tile.x < 0 || hovered_tile.y < 0 ||
-         hovered_tile.x >= tilemap->get_width() ||
-         hovered_tile.y >= tilemap->get_height()) {
-      return;
+    Vector drawn_tile = hovered_tile;
+    auto tiles = editor->tileselect.tiles.get();
+
+    for (drawn_tile.x = tiles->width-1; drawn_tile.x >= 0; drawn_tile.x--) {
+      for (drawn_tile.y = tiles->height-1; drawn_tile.y >= 0; drawn_tile.y--) {
+        Vector on_tile = hovered_tile + drawn_tile;
+
+        if ( editor->tileselect.tiles->empty() || on_tile.x < 0 || on_tile.y < 0 ||
+             on_tile.x >= tilemap->get_width() || on_tile.y >= tilemap->get_height()) {
+          continue;
+        }
+        const Tile* tg_tile = editor->tileset->get( tiles->pos(drawn_tile.x, drawn_tile.y) );
+        tg_tile->draw(context, tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
+                      LAYER_GUI-11, Color(1, 1, 1, 0.5));
+      }
     }
-
-    context.push_transform();
-    context.set_alpha(0.5);
-
-    const Tile* tg_tile = editor->tileset->get( editor->tileselect.tile );
-    tg_tile->draw(context, tp_to_sp(hovered_tile) - editor->currentsector->camera->get_translation(),
-                  LAYER_GUI-11);
-
-    context.pop_transform();
   }
 }
 

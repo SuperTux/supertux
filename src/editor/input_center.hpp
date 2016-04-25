@@ -63,7 +63,7 @@ class EditorInputCenter
 
     bool render_grid;
 
-    void input_tile(Vector pos);
+    void input_tile(Vector pos, uint32_t tile);
     void put_tile();
     void draw_rectangle();
     void fill();
