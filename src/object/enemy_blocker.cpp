@@ -20,7 +20,7 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
 
-EnemyBlocker::EnemyBlocker(const Reader& lisp) :
+EnemyBlocker::EnemyBlocker(const ReaderMapping& lisp) :
   MovingSprite(lisp, "images/objects/invisible/invisible.sprite", LAYER_TILES, COLGROUP_STATIC),
   physic(),
   width(32),
