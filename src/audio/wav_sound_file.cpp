@@ -144,7 +144,7 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
     return 0;
 
   size_t readsize = std::min(static_cast<size_t> (end - cur), buffer_size);
-  if(PHYSFS_readBytes(file, buffer, readsize) != static_cast<std::make_signed<size_t>::type>(sizeof(readsize)))
+  if(PHYSFS_readBytes(file, buffer, readsize) != static_cast<std::make_signed<size_t>::type>(readsize))
     throw SoundError("read error while reading samples");
 
 #ifdef WORDS_BIGENDIAN

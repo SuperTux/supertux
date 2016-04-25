@@ -112,7 +112,7 @@ OggSoundFile::cb_read(void* ptr, size_t size, size_t nmemb, void* source)
   if(res <= 0)
     return 0;
 
-  return static_cast<size_t> (res) / nmemb;
+  return static_cast<size_t> (res) / size;
 }
 
 int
