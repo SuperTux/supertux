@@ -20,14 +20,15 @@
 #include <stdexcept>
 
 #include "control/input_manager.hpp"
+#include "math/vector.hpp"
 #include "supertux/screen.hpp"
 
 class SDL_event;
 class TileSet;
-class Vector;
 class ObjectInput;
 class TileSelection;
 class ToolIcon;
+class Rectf;
 
 class EditorInputGui
 {
@@ -72,6 +73,8 @@ class EditorInputGui
     int hovered_tile;
     TileScrolling tile_scrolling;
     int starting_tile;
+    bool dragging;
+    Vector drag_start;
 
     int Xpos;
     const int Ypos = 60;
@@ -80,6 +83,9 @@ class EditorInputGui
     int get_tile_pos(const Vector coords);
     Vector get_tool_coords(const int pos);
     int get_tool_pos(const Vector coords);
+
+    void update_selection();
+    Rectf normalize_selection();
 
     void draw_tilegroup(DrawingContext&);
     void draw_objectgroup(DrawingContext&);
