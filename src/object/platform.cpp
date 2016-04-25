@@ -93,6 +93,11 @@ Platform::collision(GameObject& other, const CollisionHit& )
 void
 Platform::update(float elapsed_time)
 {
+  if (!path->is_valid()) {
+    remove_me();
+    return;
+  }
+
   // check if Platform should automatically pick a destination
   if (automatic) {
 
