@@ -64,6 +64,11 @@ public:
   }
 
   virtual ObjectSettings get_settings();
+  virtual void move_to(const Vector& pos);
+
+  Path* get_path() const {
+    return path.get();
+  }
 
 protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const;

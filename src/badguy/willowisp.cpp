@@ -28,6 +28,7 @@
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/editor_active.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -94,6 +95,13 @@ WillOWisp::save(Writer& writer) {
 void
 WillOWisp::active_update(float elapsed_time)
 {
+  if (EditorActive() && path.get()) {
+    if (path->is_valid()) {
+      set_pos(walker->advance(elapsed_time));
+      return;
+    }
+  }
+
   Player* player = get_nearest_player();
   if (!player) return;
   Vector p1 = bbox.get_middle();
@@ -317,6 +325,16 @@ void WillOWisp::play_looping_sounds()
   if (sound_source) {
     sound_source->play();
   }
+}
+
+void
+WillOWisp::move_to(const Vector& pos)
+{
+  Vector shift = pos - bbox.p1;
+  if (path) {
+    path->move_by(shift);
+  }
+  set_pos(pos);
 }
 
 /* EOF */
