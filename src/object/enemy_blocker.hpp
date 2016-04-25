@@ -26,7 +26,7 @@ class Player;
 class EnemyBlocker : public MovingSprite
 {
 public:
-  EnemyBlocker(const Reader& lisp);
+  EnemyBlocker(const ReaderMapping& lisp);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
