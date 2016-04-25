@@ -47,9 +47,9 @@ size_t my_curl_string_append(void* ptr, size_t size, size_t nmemb, void* userdat
 size_t my_curl_physfs_write(void* ptr, size_t size, size_t nmemb, void* userdata)
 {
   PHYSFS_file* f = static_cast<PHYSFS_file*>(userdata);
-  PHYSFS_sint64 written = PHYSFS_write(f, ptr, size, nmemb);
+  PHYSFS_sint64 written = PHYSFS_writeBytes(f, ptr, size * nmemb);
   log_debug << "read " << size * nmemb << " bytes of data..." << std::endl;
-  return size * written;
+  return written;
 }
 
 } // namespace
@@ -154,7 +154,7 @@ public:
 
   size_t on_data(void* ptr, size_t size, size_t nmemb)
   {
-    PHYSFS_write(m_fout.get(), ptr, size, nmemb);
+    PHYSFS_writeBytes(m_fout.get(), ptr, size * nmemb);
     return size * nmemb;
   }
 

@@ -42,7 +42,9 @@ ContribMenu::ContribMenu() :
   for(const char* const* filename = files.get(); *filename != 0; ++filename)
   {
     std::string filepath = FileSystem::join("levels", *filename);
-    if(PHYSFS_isDirectory(filepath.c_str()))
+    PHYSFS_Stat statbuf;
+    PHYSFS_stat(filepath.c_str(), &statbuf);
+    if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
     {
       level_worlds.push_back(filepath);
     }

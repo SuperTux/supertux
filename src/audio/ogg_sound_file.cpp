@@ -108,12 +108,11 @@ OggSoundFile::cb_read(void* ptr, size_t size, size_t nmemb, void* source)
   PHYSFS_file* file = reinterpret_cast<PHYSFS_file*> (source);
 
   PHYSFS_sint64 res
-    = PHYSFS_read(file, ptr, static_cast<PHYSFS_uint32> (size),
-                  static_cast<PHYSFS_uint32> (nmemb));
+    = PHYSFS_readBytes(file, ptr, static_cast<PHYSFS_uint32> (size) * static_cast<PHYSFS_uint32> (nmemb));
   if(res <= 0)
     return 0;
 
-  return static_cast<size_t> (res);
+  return static_cast<size_t> (res) / nmemb;
 }
 
 int

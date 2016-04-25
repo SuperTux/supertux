@@ -47,7 +47,7 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
         brew update;
         brew upgrade cmake;
-        brew install libogg libvorbis physfs glew openal-soft sdl2 sdl2_image;
+        brew install libogg libvorbis glew openal-soft sdl2 sdl2_image;
     fi
   # Try building with GLBinding
   # Note: glbindings ./configure needs to be run twice in order to generate a makefile
@@ -91,7 +91,6 @@ addons:
     - libc++-dev
     - libogg-dev
     - libvorbis-dev
-    - libphysfs-dev
     - libglew-dev
     - libopenal-dev
     - libboost-all-dev

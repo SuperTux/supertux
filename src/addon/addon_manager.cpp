@@ -64,7 +64,7 @@ MD5 md5_from_file(const std::string& filename)
     while (true)
     {
       unsigned char buffer[1024];
-      PHYSFS_sint64 len = PHYSFS_read(file, buffer, 1, sizeof(buffer));
+      PHYSFS_sint64 len = PHYSFS_readBytes(file, buffer, sizeof(buffer));
       if (len <= 0) break;
       md5.update(buffer, len);
     }
@@ -85,7 +85,9 @@ bool has_suffix(const std::string& str, const std::string& suffix)
 static void add_to_dictionary_path(void *data, const char *origdir, const char *fname)
 {
     std::string full_path = std::string(origdir) + "/" + std::string(fname);
-    if(PHYSFS_isDirectory(full_path.c_str()))
+    PHYSFS_Stat statbuf;
+    PHYSFS_stat(full_path.c_str(), &statbuf);
+    if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
     {
         log_debug << "Adding \"" << full_path << "\" to dictionary search path" << std::endl;
         g_dictionary_manager->add_directory(full_path);
@@ -95,7 +97,9 @@ static void add_to_dictionary_path(void *data, const char *origdir, const char *
 static void remove_from_dictionary_path(void *data, const char *origdir, const char *fname)
 {
     std::string full_path = std::string(origdir) + "/" + std::string(fname);
-    if(PHYSFS_isDirectory(full_path.c_str()))
+    PHYSFS_Stat statbuf;
+    PHYSFS_stat(full_path.c_str(), &statbuf);
+    if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
     {
         g_dictionary_manager->remove_directory(full_path);
     }
@@ -435,7 +439,7 @@ AddonManager::enable_addon(const AddonId& addon_id)
   {
     log_debug << "Adding archive \"" << addon.get_install_filename() << "\" to search path" << std::endl;
     //int PHYSFS_mount(addon.installed_install_filename.c_str(), "addons/", 0)
-    if (PHYSFS_addToSearchPath(addon.get_install_filename().c_str(), 0) == 0)
+    if (PHYSFS_mount(addon.get_install_filename().c_str(), NULL, 0) == 0)
     {
       log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
                   << PHYSFS_getLastError() << std::endl;
@@ -463,7 +467,7 @@ AddonManager::disable_addon(const AddonId& addon_id)
   else
   {
     log_debug << "Removing archive \"" << addon.get_install_filename() << "\" from search path" << std::endl;
-    if (PHYSFS_removeFromSearchPath(addon.get_install_filename().c_str()) == 0)
+    if (PHYSFS_unmount(addon.get_install_filename().c_str()) == 0)
     {
       log_warning << "Could not remove " << addon.get_install_filename() << " from search path: "
                   << PHYSFS_getLastError() << std::endl;
@@ -547,7 +551,7 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
   {
     std::string os_path = FileSystem::join(realdir, archive);
 
-    PHYSFS_addToSearchPath(os_path.c_str(), 0);
+    PHYSFS_mount(os_path.c_str(), NULL, 0);
 
     std::string nfo_filename = scan_for_info(os_path);
 
@@ -569,7 +573,7 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
       }
     }
 
-    PHYSFS_removeFromSearchPath(os_path.c_str());
+    PHYSFS_unmount(os_path.c_str());
   }
 }
 
