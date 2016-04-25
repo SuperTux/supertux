@@ -188,7 +188,7 @@ TileMap::save(Writer& writer) {
   writer.write("height", height);
   writer.write("speed", speed_x);
   if(speed_y != speed_x) {
-    writer.write("speed", speed_y);
+    writer.write("speed-y", speed_y);
   }
   writer.write("solid", real_solid);
   writer.write("z-pos", z_pos);
