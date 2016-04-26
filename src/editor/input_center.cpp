@@ -192,6 +192,7 @@ EditorInputCenter::fill() {
   std::vector<Vector> pos_stack;
   pos_stack.clear();
   pos_stack.push_back(hovered_tile);
+  auto tiles = Editor::current()->tileselect.tiles.get();
 
   // Passing recursively trough all tiles to be replaced...
   while (pos_stack.size()) {
@@ -202,6 +203,7 @@ EditorInputCenter::fill() {
     }
 
     Vector pos = pos_stack[pos_stack.size() - 1];
+    Vector tpos = pos - hovered_tile;
 
     // Tests for being inside tilemap:
     if ( pos.x < 0 || pos.y < 0 ||
@@ -210,13 +212,14 @@ EditorInputCenter::fill() {
       continue;
     }
 
-    input_tile(pos, Editor::current()->tileselect.tiles->pos(pos.x - hovered_tile.x, pos.y - hovered_tile.y));
+    input_tile(pos, tiles->pos(tpos.x, tpos.y));
     Vector pos_;
 
     // Going left...
     pos_ = pos + Vector(-1, 0);
     if (pos_.x >= 0) {
-      if (replace_tile == tilemap->get_tile_id(pos_.x, pos_.y)) {
+      if (replace_tile == tilemap->get_tile_id(pos_.x, pos_.y) &&
+          replace_tile != tiles->pos(tpos.x - 1, tpos.y)) {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -225,7 +228,8 @@ EditorInputCenter::fill() {
     // Going right...
     pos_ = pos + Vector(1, 0);
     if (pos_.x < tilemap->get_width()) {
-      if (replace_tile == tilemap->get_tile_id(pos_.x, pos_.y)) {
+      if (replace_tile == tilemap->get_tile_id(pos_.x, pos_.y) &&
+          replace_tile != tiles->pos(tpos.x + 1, tpos.y)) {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -234,7 +238,8 @@ EditorInputCenter::fill() {
     // Going up...
     pos_ = pos + Vector(0, -1);
     if (pos_.y >= 0) {
-      if (replace_tile == tilemap->get_tile_id(pos_.x, pos_.y)) {
+      if (replace_tile == tilemap->get_tile_id(pos_.x, pos_.y) &&
+          replace_tile != tiles->pos(tpos.x, tpos.y - 1)) {
         pos_stack.push_back( pos_ );
         continue;
       }
@@ -243,7 +248,8 @@ EditorInputCenter::fill() {
     // Going down...
     pos_ = pos + Vector(0, 1);
     if (pos_.y < tilemap->get_height()) {
-      if (replace_tile == tilemap->get_tile_id(pos_.x, pos_.y)) {
+      if (replace_tile == tilemap->get_tile_id(pos_.x, pos_.y) &&
+          replace_tile != tiles->pos(tpos.x, tpos.y + 1)) {
         pos_stack.push_back( pos_ );
         continue;
       }
