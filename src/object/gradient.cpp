@@ -101,7 +101,7 @@ Gradient::Gradient(const ReaderMapping& reader) :
 void
 Gradient::save(Writer& writer) {
   GameObject::save(writer);
-  writer.write("z-pos",layer);
+  writer.write("z-pos", layer);
   switch (gradient_direction) {
     case HORIZONTAL:        writer.write("direction", "horizontal"       , false); break;
     case VERTICAL_SECTOR:   writer.write("direction", "vertical_sector"  , false); break;
