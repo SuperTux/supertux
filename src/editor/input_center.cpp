@@ -168,7 +168,7 @@ EditorInputCenter::draw_rectangle() {
   for (int x = dr.p1.x; x <= dr.p2.x; x++, x_++) {
     y_ = sgn_y ? 0 : -dr.get_height();
     for (int y = dr.p1.y; y <= dr.p2.y; y++, y_++) {
-      input_tile( Vector(x,y), Editor::current()->tileselect.tiles->pos(x_, y_) );
+      input_tile( Vector(x, y), Editor::current()->tileselect.tiles->pos(x_, y_) );
     }
   }
 }
@@ -548,7 +548,7 @@ EditorInputCenter::event(SDL_Event& ev) {
         //TODO: Make the right clicks working.
         auto controller = InputManager::current()->get_controller();
         if (controller->hold(Controller::ACTION)) {
-          controller->set_control(Controller::ACTION,false);
+          controller->set_control(Controller::ACTION, false);
           process_right_click();
         } else {
           process_left_click();
@@ -746,7 +746,7 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context) {
     context.draw_line(line_start, line_end, Color(1, 1, 1, 0.7), current_tm->get_layer());
   }
 
-  start = tile_screen_pos( Vector(0,0) );
+  start = tile_screen_pos( Vector(0, 0) );
   end = tile_screen_pos( Vector(tm_width, tm_height) );
   context.draw_line(start, Vector(start.x, end.y), Color(1, 0, 1), current_tm->get_layer());
   context.draw_line(start, Vector(end.x, start.y), Color(1, 0, 1), current_tm->get_layer());
