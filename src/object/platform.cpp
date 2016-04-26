@@ -67,6 +67,14 @@ Platform::save(Writer& writer) {
   path->save(writer);
 }
 
+ObjectSettings
+Platform::get_settings() {
+  ObjectSettings result = MovingSprite::get_settings();
+  result.options.push_back( Path::get_mode_option(&path->mode) );
+  result.options.push_back( PathWalker::get_running_option(&walker->running) );
+  return result;
+}
+
 /*
   Platform::Platform(const Platform& other) :
   MovingSprite(other),

@@ -22,6 +22,7 @@
 #include <stdexcept>
 
 #include "editor/node_marker.hpp"
+#include "editor/object_option.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/game_object_ptr.hpp"
 #include "supertux/sector.hpp"
@@ -31,7 +32,7 @@
 
 Path::Path() :
   nodes(),
-  mode()
+  mode(CIRCULAR)
 {
 }
 
@@ -186,5 +187,15 @@ Path::edit_path() {
 bool
 Path::is_valid() const {
   return nodes.size();
+}
+
+ObjectOption
+Path::get_mode_option(WalkMode* mode_) {
+  ObjectOption result(MN_STRINGSELECT, _("Path Mode"), mode_);
+  result.select.push_back(_("one shot"));
+  result.select.push_back(_("ping pong"));
+  result.select.push_back(_("circular"));
+  result.select.push_back(_("unordered"));
+  return result;
 }
 /* EOF */

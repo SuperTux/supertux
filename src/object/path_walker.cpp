@@ -14,9 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "editor/object_option.hpp"
 #include "math/random_generator.hpp"
 #include "object/path_walker.hpp"
 #include "util/editor_active.hpp"
+#include "util/gettext.hpp"
 #include "util/log.hpp"
 
 #include <math.h>
@@ -189,6 +191,12 @@ PathWalker::goback_node()
   assert(false);
   next_node_nr = 0;
   walking_speed = 0;
+}
+
+ObjectOption
+PathWalker::get_running_option(bool* _running) {
+  ObjectOption result(MN_TOGGLE, _("Running"), _running);
+  return result;
 }
 
 /* EOF */

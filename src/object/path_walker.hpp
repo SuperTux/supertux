@@ -21,6 +21,8 @@
 
 #include "object/path.hpp"
 
+class ObjectOption;
+
 /**
  * A walker that travels along a path
  */
@@ -52,16 +54,18 @@ public:
     return running;
   }
 
-  const Path* path;
+  static ObjectOption get_running_option(bool* _running);
 
-private:
-  void advance_node();
-  void goback_node();
+  const Path* path;
 
   /**
    * set to false to immediately stop advancing
    */
   bool running;
+
+private:
+  void advance_node();
+  void goback_node();
 
   size_t current_node_nr;
   size_t next_node_nr;
