@@ -86,6 +86,7 @@ class EditorInputGui
 
     void update_selection();
     Rectf normalize_selection();
+    Rectf selection_draw_rect();
 
     void draw_tilegroup(DrawingContext&);
     void draw_objectgroup(DrawingContext&);

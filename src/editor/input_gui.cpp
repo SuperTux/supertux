@@ -77,8 +77,11 @@ EditorInputGui::draw(DrawingContext& context) {
   //SCREEN_WIDTH SCREEN_HEIGHT
   context.draw_filled_rect(Rectf(Vector(Xpos, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)),
                            Color(0.9f, 0.9f, 1.0f, 0.6f),
-                           0.0f,
-                           LAYER_GUI-10);
+                           0.0f, LAYER_GUI-10);
+  if (dragging) {
+    context.draw_filled_rect(selection_draw_rect(), Color(0.2f, 0.4f, 1.0f, 0.6f),
+                             0.0f, LAYER_GUI+1);
+  }
 
   switch (hovered_item) {
     case HI_TILEGROUP:
@@ -193,6 +196,15 @@ EditorInputGui::normalize_selection() {
     std::swap(drag_start_.y, drag_end.y);
   }
   return Rectf(drag_start_, drag_end);
+}
+
+Rectf
+EditorInputGui::selection_draw_rect() {
+  Rectf select = normalize_selection();
+  select.p2 += Vector(1, 1);
+  select.p1 = (select.p1 * 32) + Vector(Xpos, Ypos);
+  select.p2 = (select.p2 * 32) + Vector(Xpos, Ypos);
+  return select;
 }
 
 void
