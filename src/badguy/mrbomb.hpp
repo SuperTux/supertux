@@ -38,7 +38,7 @@ public:
   bool is_portable() const;
 
   bool is_freezable() const;
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "mrbomb";
   }
   std::string get_display_name() const {

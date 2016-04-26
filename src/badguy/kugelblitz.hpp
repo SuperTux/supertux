@@ -36,7 +36,7 @@ public:
   bool is_flammable() const;
 
   virtual void draw(DrawingContext& context);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "kugelblitz";
   }
   std::string get_display_name() const {

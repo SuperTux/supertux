@@ -29,7 +29,7 @@ public:
   Firefly(const ReaderMapping& lisp);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "firefly";
   }
   std::string get_display_name() const {

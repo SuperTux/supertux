@@ -38,7 +38,7 @@ public:
 
   std::string type() const
   { return "CometParticleSystem"; }
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "particles-comets";
   }
   std::string get_display_name() const {

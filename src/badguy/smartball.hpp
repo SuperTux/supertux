@@ -32,7 +32,7 @@ public:
     return "images/objects/water_drop/pink_drop.sprite";
   }
 
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "smartball";
   }
   std::string get_display_name() const {

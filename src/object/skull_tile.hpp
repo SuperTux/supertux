@@ -24,7 +24,7 @@ class SkullTile : public MovingSprite
 {
 public:
   SkullTile(const ReaderMapping& lisp);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "skulltile";
   }
 

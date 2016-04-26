@@ -30,12 +30,12 @@ public:
   void kill_fall();
   bool is_freezable() const;
   bool is_flammable() const;
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "angrystone";
   }
   std::string get_display_name() const {
     return _("Angry stone");
-  };
+  }
 
 protected:
   enum AngryStoneState {

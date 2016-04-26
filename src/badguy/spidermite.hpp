@@ -32,7 +32,7 @@ public:
   void freeze();
   void unfreeze();
   bool is_freezable() const;
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "spidermite";
   }
   std::string get_display_name() const {

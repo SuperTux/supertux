@@ -34,7 +34,7 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "totem";
   }
   std::string get_display_name() const {

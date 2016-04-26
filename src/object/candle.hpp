@@ -46,7 +46,7 @@ public:
   /**
    * @}
    */
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "candle";
   }
   std::string get_display_name() const {

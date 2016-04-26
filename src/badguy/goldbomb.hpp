@@ -44,7 +44,7 @@ public:
 
   void kill_fall();
   void ignite();
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "goldbomb";
   }
   std::string get_display_name() const {

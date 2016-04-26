@@ -36,7 +36,7 @@ public:
 
   virtual void ignite();
 
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "mole";
   }
   std::string get_display_name() const {

@@ -29,7 +29,7 @@ public:
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void save(Writer& writer);
   virtual ObjectSettings get_settings();
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "brick";
   }
 

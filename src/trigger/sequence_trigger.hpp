@@ -30,7 +30,7 @@ public:
   SequenceTrigger(const Vector& pos, const std::string& sequence_name);
   ~SequenceTrigger();
   virtual void save(Writer& writer);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "sequencetrigger";
   }
 
