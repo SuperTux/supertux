@@ -32,7 +32,7 @@ public:
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "unstable_tile";
   }
   std::string get_display_name() const {

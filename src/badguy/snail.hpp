@@ -37,7 +37,7 @@ public:
   void active_update(float elapsed_time);
 
   bool is_freezable() const;
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "snail";
   }
   std::string get_display_name() const {

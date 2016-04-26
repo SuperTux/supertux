@@ -41,7 +41,7 @@ public:
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
   bool is_flammable() const;
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "mole_rock";
   }
   std::string get_display_name() const {

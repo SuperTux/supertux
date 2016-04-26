@@ -34,7 +34,7 @@ public:
   virtual HitResponse collision(GameObject& , const CollisionHit& ) {
     return FORCE_MOVE;
   }
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "decal";
   }
   std::string get_display_name() const {

@@ -31,7 +31,7 @@ public:
 
   void try_open(Player *player);
   void try_drop(Player *player);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "bonusblock";
   }
   std::string get_display_name() const {

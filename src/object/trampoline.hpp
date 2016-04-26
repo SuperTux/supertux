@@ -35,7 +35,7 @@ public:
   void grab(MovingObject&, const Vector& pos, Direction);
   void ungrab(MovingObject&, Direction);
   bool is_portable() const;
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "trampoline";
   }
   std::string get_display_name() const {

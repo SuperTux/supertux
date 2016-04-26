@@ -37,7 +37,7 @@ public:
   void unfreeze();
   bool is_freezable() const;
   void ignite();
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "owl";
   }
   std::string get_display_name() const {

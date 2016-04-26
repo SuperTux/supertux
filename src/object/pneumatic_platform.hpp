@@ -31,7 +31,7 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void update(float elapsed_time);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "pneumatic-platform";
   }
   std::string get_display_name() const {

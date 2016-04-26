@@ -50,7 +50,7 @@ public:
 
   void add_color(Color c);
 
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "lantern";
   }
   std::string get_display_name() const {

@@ -82,7 +82,7 @@ public:
    * get the coordinates of the point directly in the center of this camera
    */
   Vector get_center() const;
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "camera";
   }
   std::string get_display_name() const {

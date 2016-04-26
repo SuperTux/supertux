@@ -35,7 +35,7 @@ public:
   void deactivate();
 
   void squish();
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "stalactite";
   }
   std::string get_display_name() const {

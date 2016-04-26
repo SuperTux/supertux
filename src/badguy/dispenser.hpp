@@ -34,7 +34,7 @@ public:
   void unfreeze();
   bool is_freezable() const;
   bool is_flammable() const;
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "dispenser";
   }
   std::string get_display_name() const {

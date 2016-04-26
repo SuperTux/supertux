@@ -31,7 +31,7 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
   bool is_freezable() const;
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "stumpy";
   }
   std::string get_display_name() const {

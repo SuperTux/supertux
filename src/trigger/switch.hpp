@@ -28,7 +28,7 @@ public:
   Switch(const ReaderMapping& reader);
   virtual ~Switch();
   virtual void save(Writer& writer);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "switch";
   }
 

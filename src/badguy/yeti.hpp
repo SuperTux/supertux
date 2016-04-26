@@ -37,7 +37,7 @@ public:
   void kill_fall();
 
   bool is_flammable() const;
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "yeti";
   }
   std::string get_display_name() const {

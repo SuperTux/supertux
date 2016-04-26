@@ -44,7 +44,7 @@ public:
   void ignite();
   bool can_break();
 
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "mriceblock";
   }
   std::string get_display_name() const {

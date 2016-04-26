@@ -42,7 +42,7 @@ public:
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "dart";
   }
   std::string get_display_name() const {

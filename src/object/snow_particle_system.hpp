@@ -34,7 +34,7 @@ public:
 
   std::string type() const
   { return "SnowParticleSystem"; }
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "particle-snow";
   }
   std::string get_display_name() const {

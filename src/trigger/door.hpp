@@ -30,7 +30,7 @@ public:
   Door(int x, int y, std::string sector, std::string spawnpoint);
   virtual ~Door();
   virtual void save(Writer& writer);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "door";
   }
 

@@ -36,7 +36,7 @@ public:
   void collect();
   virtual void update(float elapsed_time);
   virtual void save(Writer& writer);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "coin";
   }
   std::string get_display_name() const {

@@ -26,7 +26,7 @@ public:
 
   bool is_freezable() const;
   bool is_flammable() const;
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "spiky";
   }
   std::string get_display_name() const {

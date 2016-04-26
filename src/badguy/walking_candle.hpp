@@ -39,7 +39,7 @@ public:
   ObjectSettings get_settings();
   virtual void save(Writer& writer);
   virtual void after_editor_set();
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "mrcandle";
   }
   std::string get_display_name() const {

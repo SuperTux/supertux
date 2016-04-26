@@ -28,7 +28,7 @@ public:
   ScriptTrigger(const Vector& pos, const std::string& script);
   ~ScriptTrigger();
   virtual void save(Writer& writer);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "scripttrigger";
   }
 

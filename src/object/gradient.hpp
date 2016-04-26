@@ -52,7 +52,7 @@ public:
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "gradient";
   }
 

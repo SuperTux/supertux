@@ -35,7 +35,7 @@ public:
 
   void grab(MovingObject& object, const Vector& pos, Direction dir);
   void ungrab(MovingObject& object, Direction dir);
-  virtual std::string get_class() const {
+  std::string get_class() const {
     return "rock";
   }
   std::string get_display_name() const {
