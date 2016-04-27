@@ -138,8 +138,8 @@ class Editor : public Screen,
     void test_level();
     void update_keyboard();
 
-    bool can_scroll_horz();
-    bool can_scroll_vert();
+    bool can_scroll_horz() const;
+    bool can_scroll_vert() const;
 
     Editor(const Editor&);
     Editor& operator=(const Editor&);

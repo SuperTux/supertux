@@ -155,11 +155,11 @@ void Editor::test_level() {
   GameManager::current()->start_level(std::move(test_world), "test.stl");
 }
 
-bool Editor::can_scroll_vert() {
+bool Editor::can_scroll_vert() const {
   return currentsector->get_height() + 32 > SCREEN_HEIGHT;
 }
 
-bool Editor::can_scroll_horz() {
+bool Editor::can_scroll_horz() const {
   return currentsector->get_width() + 128 > SCREEN_WIDTH;
 }
 
