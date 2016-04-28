@@ -16,11 +16,30 @@
 
 #include "editor/object_group.hpp"
 
+#include "lisp/list_iterator.hpp"
+
 ObjectGroup::ObjectGroup() :
   name(),
   icons()
 {
   icons.clear();
+}
+
+ObjectGroup::ObjectGroup(const Reader& reader) :
+  name(),
+  icons()
+{
+  icons.clear();
+
+  reader.get("name", name);
+
+  lisp::ListIterator iter(&reader);
+  while(iter.next()) {
+    const std::string& token = iter.item();
+    if (token == "object") {
+      icons.push_back( ObjectIcon( *(iter.lisp()) ) );
+    }
+  }
 }
 
 ObjectGroup::~ObjectGroup()
