@@ -1,0 +1,129 @@
+(supertux-level
+  (version 2)
+  (name (_ "Tile Platform Test"))
+  (author "Mathnerd314")
+  (sector
+    (name "main")
+    (music "music/chipdisko.ogg")
+    (init-script "platform1.start_moving();platform2.start_moving();platform3.start_moving();") ;needed for some reason (they don't move initially)
+    (ambient-light 1 1 1)
+    (spawnpoint
+      (name "main")
+      (x 100)
+      (y 100)
+    )
+    (background
+      (speed 0.5)
+      (image "images/background/arctis.jpg")
+    )
+    (tilemap
+      (z-pos 0)
+      (solid #t)
+      (speed 1)
+      (width 27)
+      (height 19)
+      (tiles
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  
+7  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  8  9  0  0  0  0  0  0  
+13 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 15 0  0  0  0  0  0  
+10 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 12 0  0  0  0  0  0  
+      )
+    )
+    (tilemap
+      (name "platform1")
+      (z-pos 1)
+      (solid #t)
+      (speed 1)
+      (speed-y 1)
+      (path
+        (mode "circular")
+        (node
+          (x 224)
+          (y 192)
+          (time 5)
+        )
+        (node
+          (x 224)
+          (y 472)
+          (time 5)
+        )
+      )
+      (width 5)
+      (height 4)
+      (tiles
+        0  0  44 0  0
+        7  8  8  8  9 
+        13 14 14 14 15
+        16 17 17 17 18
+      )
+    )
+    (tilemap
+      (name "platform2")
+      (z-pos 2)
+      (solid #t)
+      (speed 1)
+      (speed-y 1)
+      (path
+        (mode "circular")
+        (node
+          (x 86)
+          (y 450)
+          (time 1)
+        )
+        (node
+          (x 200)
+          (y 450)
+          (time 1)
+        )
+      )
+      (width 5)
+      (height 1)
+      (tiles
+        27 28 28 28 29
+      )
+    )
+    (tilemap
+      (name "platform3")
+      (z-pos 2)
+      (solid #t)
+      (speed 1)
+      (speed-y 1)
+      (path
+        (mode "circular")
+        (node
+          (x 200)
+          (y 450)
+          (time 1)
+        )
+        (node
+          (x 86)
+          (y 450)
+          (time 1)
+        )
+      )
+      (width 5)
+      (height 1)
+      (tiles
+        27 28 28 28 29
+      )
+    )
+    (camera
+      (mode "normal")
+    )
+  )
+)

@@ -1,0 +1,46 @@
+(supertux-sprite
+	(action
+	  (name "left")
+	  (hitbox 4 3 31.8 31.8)
+	  (images "spidermite.png"
+		  "spidermite0.png"
+		  "spidermite1.png"
+		  "spidermite0.png"))
+	(action
+	  (name "right")
+	  (hitbox 4 3 31.8 31.8)
+	  (mirror-action "left"))
+
+	(action
+	  (name "squished-left")
+	  (hitbox 4 3 31.8 31.8)
+	  (images "spidermite-squish.png"))
+	(action
+	  (name "squished-right")
+	  (hitbox 4 3 31.8 31.8)
+	  (mirror-action "squished-left"))
+	(action
+	  (name "iced-left")
+	  (hitbox 4 3 31.8 31.8)
+	  (images "spidermite-frozen.png"))
+	(action
+	  (name "iced-right")
+	  (hitbox 4 3 31.8 31.8)
+	  (mirror-action "iced-left"))
+	(action
+	  (name "burning-left")
+	  (hitbox 4 35 31.8 31.8)
+	  (fps 15)
+	  (images "burning-0.png"
+		  "burning-1.png"
+		  "burning-2.png"
+		  "burning-3.png"
+		  "burning-4.png"
+		  "burning-5.png"
+		  "burning-6.png"
+		  "burning-7.png"))
+	(action
+	  (name "burning-right")
+	  (hitbox 4 35 31.8 31.8)
+	  (fps 15)
+	  (mirror-action "burning-left")))

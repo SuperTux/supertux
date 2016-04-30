@@ -1,0 +1,82 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
+# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-11-20 10:10+0000\n"
+"Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
+"Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: data/levels/incubator/cave_run.stl:3
+msgid "Cave Run"
+msgstr "どうくつで走る"
+
+#: data/levels/incubator/cherry_frosting.stl:3
+msgid "The Cherry Frosting"
+msgstr "チェリーフロスティング"
+
+#: data/levels/incubator/cube_garden.stl:3
+msgid "Mad Ysonn Cube Garden"
+msgstr "マッドYsonnキューブガーデン"
+
+#: data/levels/incubator/frozen_fissure.stl:3
+msgid "Frozen Fissure"
+msgstr "フローズンの割れ目"
+
+#: data/levels/incubator/into_dark.stl:3
+msgid "Into the Dark"
+msgstr "やみの中へ"
+
+#: data/levels/incubator/into_dark.stl:224
+msgid ""
+"-Hint:\n"
+"#Use the fireflower to melt a path through the ice."
+msgstr "-ヒント: \n#ファイヤーフラワーを使って、氷の通る道を\n#溶かしてください。"
+
+#: data/levels/incubator/into_dark.stl:230
+msgid "#Beware of fire!"
+msgstr "#火の用心"
+
+#: data/levels/incubator/jagged_path.stl:3
+msgid "The Jagged Path"
+msgstr "ギザギザの道"
+
+#: data/levels/incubator/midnight_crossing.stl:3
+msgid "Midnight Crossing"
+msgstr "ミッドナイト クロッシング"
+
+#: data/levels/incubator/not_so_long.stl:3
+msgid "The not so long way"
+msgstr "そう長くはないようだ"
+
+#: data/levels/incubator/obstaclecourse.stl:3
+msgid "Obstacle Course"
+msgstr "障害物コース"
+
+#: data/levels/incubator/obstaclecourse.stl:48
+msgid "#If you get stuck, flip the switch to kill Tux."
+msgstr "#あなたが動けなくなった場合は、Tuxを殺すためにスイッチを入れます。"
+
+#: data/levels/incubator/pipeline.stl:3
+msgid "Pipeline"
+msgstr "パイプライン"
+
+#: data/levels/incubator/primed.stl:3
+msgid "Primed for Action"
+msgstr "アクションのためのプライミング"
+
+#: data/levels/incubator/worldmap.stwm:3
+msgid "Incubator Island"
+msgstr "インキュベーター アイランド"

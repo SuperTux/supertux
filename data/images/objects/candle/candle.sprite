@@ -1,0 +1,18 @@
+(supertux-sprite
+  (action
+    (name "on")
+    (images 
+      "candle-1.png"
+      "candle-2.png"
+      "candle-3.png"
+      "candle-4.png"
+      )
+    )
+  (action
+    (name "off")
+    (images 
+      "off.png"
+      )
+    )
+  )
+

@@ -1,0 +1,63 @@
+(supertux-sprite
+  (action
+    (name "left")
+    (hitbox 4 18 36 18)
+    (images "left-1.png"
+            "left-2.png"
+            "left-1.png"
+            "left-2.png"
+            "left-3.png"
+            "left-4.png"
+            "left-3.png"
+            "left-4.png"
+            "left-3.png"
+            "left-2.png")
+  )
+  (action
+    (name "right")
+    (mirror-action "left")
+  )
+  (action
+    (name "iced-left")
+    (hitbox 4 18 36 18)
+    (images "frozen.png")
+  )
+  (action
+    (name "iced-right")
+    (mirror-action "iced-left")
+  )
+  (action
+    (name "squished-left")
+    (hitbox 0 6 36 2)
+    (images "../poison_ivy/squished.png")
+  )
+  (action
+    (name "squished-right")
+    (mirror-action "squished-left")
+  )
+  (action
+    (name "collision-left")
+    (images "collision.png")
+  )
+  (action
+    (name "collision-right")
+    (hitbox -27 18 15 18)
+    (mirror-action "collision-left")
+  )
+  (action
+    (name "burning-left")
+    (hitbox 4 28 36 18)
+    (images "burning-0.png"
+            "burning-1.png"
+            "burning-2.png"
+            "burning-3.png"
+            "burning-4.png"
+            "burning-5.png"
+            "burning-6.png"
+            "burning-7.png")
+  )
+  (action
+    (name "burning-right")
+    (mirror-action "burning-left")
+  )
+)

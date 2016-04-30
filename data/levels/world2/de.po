@@ -1,0 +1,252 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Wuzzy <almikes@aol.com>, 2015
+# Benjamin Leduc <giby_the_kid@yahoo.fr>, 2013
+# Ettore Atalan <atalanttore@googlemail.com>, 2015
+# Marcel Haring, 2013-2014
+# Nils Welzk, 2013
+# Ondřej Hošek <ondra.hosek@gmail.com>, 2013
+# Tobias Markus <tobbi@mozilla-uk.org>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-19 23:37+0100\n"
+"PO-Revision-Date: 2015-12-13 11:30+0000\n"
+"Last-Translator: Wuzzy <almikes@aol.com>\n"
+"Language-Team: German (http://www.transifex.com/arctic-games/supertux/language/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/levels/world2/Crumbling_Path.stl:3
+msgid "Crumbling Path"
+msgstr "Instabiler Pfad"
+
+#: data/levels/world2/Mtn_Pass.stl:3
+msgid "The Mountain Pass"
+msgstr "Der Bergpass"
+
+#: data/levels/world2/Mtn_Pass.stl:493
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr "- Klettern\n# Tux kann klettern! Drücken Sie die HOCH-Taste, um zu klettern. Springen oder drücken Sie die AKTION-Taste, um loszulassen."
+
+#: data/levels/world2/airkey.stl:3
+msgid "Treasure in the skies"
+msgstr "Schatz in den Lüften"
+
+#: data/levels/world2/builder.stl:3
+msgid "Tux the Builder"
+msgstr "Tux der Baumeister"
+
+#: data/levels/world2/builder.stl:38
+msgid ""
+"-Portable Rocks:\n"
+"\n"
+"!images/help/rockhowto1.png\n"
+"!images/help/rockhowto2.png\n"
+"!images/help/rockhowto3.png\n"
+msgstr "-Tragbare Felsen:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+
+#: data/levels/world2/castle.stl:3
+msgid "Iceberg Fortress"
+msgstr "Eisbergfestung"
+
+#: data/levels/world2/castledoor.stl:3
+#: data/levels/world2/dfk-placeholder-1.stl:3
+msgid "NOLOK"
+msgstr "NOLOK"
+
+#: data/levels/world2/christoph1.stl:3
+msgid "Bouncy Coils"
+msgstr "Federnde Spulen"
+
+#: data/levels/world2/christoph2.stl:3
+msgid "Tree Fortress"
+msgstr "Baumfestung"
+
+#: data/levels/world2/christoph3.stl:3
+msgid "A Mouldy Grotto"
+msgstr "Eine dunkle Grotte"
+
+#: data/levels/world2/christoph5.stl:3
+msgid "Short Visit to El Castillo"
+msgstr "Ein Abstecher nach El Castillo"
+
+#: data/levels/world2/christoph6.stl:3
+msgid "Welcome to the Forest"
+msgstr "Willkommen im Wald"
+
+#: data/levels/world2/christoph7.stl:3
+msgid "Countercurrent"
+msgstr "Gegenstrom"
+
+#: data/levels/world2/christoph8.stl:3
+msgid "Little Venice"
+msgstr "Klein-Venedig"
+
+#: data/levels/world2/christoph9.stl:3
+msgid "Two Tiny Towers"
+msgstr "Zwei winzige Türme"
+
+#: data/levels/world2/christophA.stl:3
+msgid "Three sheets to the wind"
+msgstr "Drei Blätter in den Wind"
+
+#: data/levels/world2/christophB.stl:3
+msgid "Kneep-deep in the depth"
+msgstr "Knietief in der Tiefe"
+
+#: data/levels/world2/christophC.stl:3
+msgid "Duct Ape"
+msgstr "Röhrenaffe"
+
+#: data/levels/world2/christophD.stl:3
+msgid "Room of Stars"
+msgstr "Raum der Sterne"
+
+#: data/levels/world2/christophE.stl:3
+msgid "The Silent Walls"
+msgstr "Die stillen Mauern"
+
+#: data/levels/world2/dan_morial.stl:3
+msgid "Dan Morial"
+msgstr "Dan Morial"
+
+#: data/levels/world2/detour.stl:3
+msgid "Detour"
+msgstr "Umweg"
+
+#: data/levels/world2/dfk-level1.stl:3
+msgid "Dark Forest Keep - The Evil Chamber"
+msgstr "Dunkelwaldfestung – Die böse Kammer"
+
+#: data/levels/world2/dfk-level2.stl:3
+msgid "Dark Forest Keep - The Eyes Of Nolok"
+msgstr "Dunkelwaldfestung – Die Augen von Nolok"
+
+#: data/levels/world2/dfk-level3.stl:3
+msgid "Dark Forest Keep - The Black Tower"
+msgstr "Dunkelwaldfestung – Der schwarze Turm"
+
+#: data/levels/world2/fish.stl:3
+msgid "Find the Bigger Fish!"
+msgstr "Finde den größeren Fisch!  "
+
+#: data/levels/world2/forest1-grumbel.stl:3
+msgid "Forest Level 1"
+msgstr "Waldebene 1"
+
+#: data/levels/world2/ghostly.stl:3
+msgid "A Ghostly World"
+msgstr "Eine gespenstische Welt"
+
+#: data/levels/world2/key1.stl:3
+msgid "key 1 water - to be placed behind waterfall"
+msgstr "Schlüssel 1 Wasser – hinter Wasserfall verstecken"
+
+#: data/levels/world2/key2.stl:3
+msgid "key 2 earth - to be placed underground"
+msgstr "Schlüssel 2 Erde – im Untergrund verstecken"
+
+#: data/levels/world2/key3.stl:3
+msgid "key 3 wood - to be placed in a big tree"
+msgstr "Schlüssel 3 Holz – in einem großen Baum verstecken"
+
+#: data/levels/world2/key4.stl:3
+msgid "key 4 fire - to be placed in a small castle"
+msgstr "Schlüssel 4 Feuer – in einer kleinen Burg verstecken"
+
+#: data/levels/world2/key5.stl:3
+msgid "key 5 air - to be placed in clouds "
+msgstr "Schlüssel 5 Luft – in den Wolken verstecken"
+
+#: data/levels/world2/keystodoor.stl:3
+msgid "Entrance to the Castle"
+msgstr "Eingang zur Burg"
+
+#: data/levels/world2/leaves.stl:3
+msgid "Walking Leaves"
+msgstr "Wandelnde Blätter"
+
+#: data/levels/world2/level1.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Wurzeln, hölzerne Wurzeln"
+
+#: data/levels/world2/level1.stl:146
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-Tipp:\n#Wenn Sie keinen Weg\n#zu einer Tür sehen,\n#kommen Sie vielleicht\n#später aus dieser\n#Tür hinaus."
+
+#: data/levels/world2/level2.stl:3
+msgid "Down The Rabbit Hole"
+msgstr "Tiefer in den Kaninchenbau"
+
+#: data/levels/world2/level2.stl:46
+msgid ""
+"-Oh no!\n"
+"#The path is blocked! It\n"
+"#seems that the only way\n"
+"#leads through that dark\n"
+"#hole in the ground..."
+msgstr "-Oh nein!\n#Der Weg ist versperrt! Es\n#scheint nur durch dieses \n#dunkle Loch im Boden \n#weiter zu gehen."
+
+#: data/levels/world2/level2.stl:55
+msgid "-Are you lost?"
+msgstr "-Verlaufen?"
+
+#: data/levels/world2/level4.stl:3
+msgid "Going Underground"
+msgstr "Abwärts gehen"
+
+#: data/levels/world2/level5.stl:3
+msgid "Green Hills"
+msgstr "Grüne Hügel"
+
+#: data/levels/world2/level6.stl:3
+msgid "No Name"
+msgstr "Kein Name"
+
+#: data/levels/world2/light+magic.stl:3
+msgid "Light and Magic"
+msgstr "Licht und Magie"
+
+#: data/levels/world2/owls_revenge.stl:3
+msgid "Owls' Revenge"
+msgstr "Rache der Eulen"
+
+#: data/levels/world2/shocking.stl:3
+msgid "Shocking"
+msgstr "Schockierend"
+
+#: data/levels/world2/trees.stl:3
+msgid "Penguins don't grow on Trees"
+msgstr "Pinguine wachsen nicht auf Bäumen"
+
+#: data/levels/world2/underconstruction.stl:3
+msgid "Under Construction"
+msgstr "Im Bau"
+
+#: data/levels/world2/updown.stl:3
+msgid "Up and Down"
+msgstr "Auf und nieder"
+
+#: data/levels/world2/village.stl:3
+msgid "A Village in the Forest"
+msgstr "Ein Dorf im Wald"
+
+#: data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr "Waldwelt"

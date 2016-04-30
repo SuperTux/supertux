@@ -1,0 +1,79 @@
+(supertux-sprite
+  (action
+    (hitbox 20 23 42 62)
+    (name "left")
+    (images 
+      "small-left-0.png"
+      "small-left-1.png"
+      "small-left-2.png"
+      "small-left-3.png"
+      "small-left-4.png"
+      "small-left-5.png"
+    )
+  )
+  (action
+    (hitbox 20 23 42 62)
+    (name "right")
+    (mirror-action "left")
+  )
+  (action
+    (hitbox 20 23 42 62)
+    (fps 15)
+    (name "burning-left")
+    (images 
+      "small-burning-0.png"
+      "small-burning-1.png"
+      "small-burning-2.png"
+      "small-burning-3.png"
+      "small-burning-4.png"
+      "small-burning-5.png"
+      "small-burning-6.png"
+      "small-burning-7.png"
+      "small-burning-8.png"
+      "small-burning-9.png"
+      "small-burning-10.png"
+    )
+  )
+  (action
+    (hitbox 20 23 42 62)
+    (name "burning-right")
+    (fps 15)
+    (mirror-action "burning-left")
+  )
+  (action
+    (hitbox 20 23 42 62)
+    (name "iced-left")
+    (images "small-frozen.png")
+  )
+  (action
+    (hitbox 20 23 42 62)
+    (name "iced-right")
+    (mirror-action "iced-left")
+  )
+  (action
+    (hitbox 20 23 42 62)
+    (name "dizzy-left")
+    (images 
+      "dizzy-0.png"
+      "dizzy-1.png"
+      "dizzy-2.png"
+    )
+  )
+  (action
+    (hitbox 20 23 42 62)
+    (name "dizzy-right")
+    (mirror-action "dizzy-left")
+  )
+  (action
+    (hitbox 20 23 42 42)
+    (name "squished-left")
+    (images 
+      "squished-left.png"
+    )
+  )
+  (action
+    (hitbox 20 23 42 42)
+    (name "squished-right")
+    (mirror-action "squished-left")
+  )
+)

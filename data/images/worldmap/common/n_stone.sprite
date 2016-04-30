@@ -1,0 +1,12 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (hitbox 16 16 0 0)
+    (images "n_stone.png")
+  )
+  (action
+    (name "solved")
+    (hitbox 16 16 0 0)
+    (images "n_stone.png")
+  )
+)

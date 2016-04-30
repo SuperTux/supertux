@@ -1,0 +1,357 @@
+; Credits text
+(supertux-text
+  (background "oiltux.jpg")
+  (music "music/credits.ogg")
+  (speed 30)
+
+  (text (_ "!images/engine/menu/logo.png
+
+
+
+	Bill Kendrick
+!images/credits/bill.jpg
+ Original Developer
+
+	Ingo \"grumbel\" Ruhnke
+!images/credits/ingo.jpg
+ Graphics, Programming, Level Design
+
+	Matthias \"MatzeB\" Braun
+!images/credits/matze.jpg
+ Programming
+
+	Marek \"Wansti\" Moeckel
+!images/credits/wansti.jpg
+ Music, Level Design
+
+	Stephen Groundwater
+!images/credits/gwater.jpg
+ Graphics
+
+	Christoph Sommer
+!images/credits/christoph.jpg
+ Programming, Graphics, Level Design
+
+	Wolfgang Becker
+!images/credits/wolfgang.jpg
+ Programming, Level Design
+
+	Christopher A. \"paroneayea\" Webber
+!images/credits/paroneayea.jpg
+ Graphics, Story
+
+	Ondřej \"Ravu al Hemio\" Hošek
+!images/credits/ondra.jpg
+ Programming, Documentation
+
+	Ryan \"sik0fewl\" Flegel
+ Programming
+
+	Tobias \"Tobbi\" Markus
+ Programming, project lead ad interim
+
+	Mathnerd314
+ Programming
+
+	Tim \"tuxdev\" Goya
+ Programming
+
+	LMH
+ Programming, Level Design
+
+	M. Teufel
+ Coordination
+
+	Karkus476
+ Programming, \"Flexlay\" Level editor
+
+	Hume
+ Programming, Level Design
+
+	Miloš Klouček
+ Programming
+
+	Seebi \"Flakebi\"
+ Windows build fixes
+
+	CT. da'Bomb
+ Level Design, Graphics
+
+	Jacob \"maths22\" Burroughs
+ Packaging, Nightly builds
+
+	Benjamin \"GiBy\" Leduc
+ Translation Guru (and many details anyone else could have done)
+
+	Arvid Norlander
+ Level Design
+
+	165your4
+ Graphics
+
+	Sydney Dykstra
+ Graphics
+
+- Additional contributions
+
+	Arian Behvandnejad
+ Bug fixes
+	brmbrmcar
+ Scripting functions, Level fixes
+	Daniel Butum
+ Code quality fixes
+	Vincent Cheng
+ Various contributions
+	chrism
+ Various contributions
+	Daniela Ferraz
+ Localization, Bug fixes
+	Fabian Greffrath
+ Build issue fix
+	Jann Horn
+ Code contributions
+	Devyn Collier Johnson
+ Graphics
+	David King
+ Code contribution, AppData file
+	Jonas Kuemmerlin
+ Bug fix
+	mahboi
+ Menu reorganization
+	Matt McCutchen
+ Various contributions
+	nicholas
+ Fixing tile bugs
+	Eric Newberry
+ Build error fix
+	José Rebelo
+ Scripting function fix
+	Willy Scheibel
+ Support for \"glbinding\" as optional OpenGL binding
+	Matthew Taylor
+ New menu code
+
+- Milestone 1 contributions by...
+
+	Bastiaan \"basti_\" Zapf
+ Programming
+	Benjamin P. \"litespeed\" Jung
+ Graphics
+	Duong-Khang \"neoneurone\" Nguyen
+ Contrib Programming
+	Ricardo \"blacksheep\" Cruz
+ Programming
+	Richard Smith
+ Contrib Programming
+	Tobias \"tobgle\" Gläßer
+ Programming, Previous Maintainer
+
+-Additional Music
+
+ \"Mortimers Chipdisko\" by
+	Lukas Nystrand (as Mortimer Twang)
+
+ \"Salsa Con Carne\" by
+	Asbjoern Andersen (as Mystical)
+ remixed by
+	DJ Gentoo
+
+ \"voc songs\" by
+	semajD
+
+ \"clavelian_march\" by
+	treskalle
+
+ Excerpts from the Giana Sisters
+ Soundtrack used with kind permission
+ from
+	Chris Huelsbeck
+
+ \"Airship song\" (orchestral remix) by
+	Bart K.
+ remixed by
+	remaxim
+
+ \"Battle Theme\" by
+	remaxim
+
+ \“SuperTux christmas theme\“
+ original by
+	Marek \"Wansti\" Moeckel
+ arranged by
+	Chris Leutwyler
+
+ \"halloween_1.ogg\" by
+	Forty-Two
+
+ \"Forest Prophecy reEducated\" (forest_theme.ogg) by
+	Marek \"Wansti\" Möckel and Tobias \"ToBeFree\" Frei
+
+-Sound
+
+	Wolfgang Becker
+	blastwavefx.com
+	Matthias Braun
+	Ricardo Cruz
+	Marianne Gagnon
+	Stephen Groundwater
+	Nathan McCoy
+	Marek Moeckel
+	Paulo Morfeo
+	Natalie
+	Q.K.
+	Some_Person
+	Christoph Sommer
+	soundscalpel.com
+	Yaniel
+	Bastian Zapf
+
+
+-Voice Acting
+
+*Tux
+	Daniel Alston
+!images/credits/daniel.jpg
+
+*Yeti
+	Matthias Braun
+
+*Penny
+	Mathilda Edmunds
+
+
+-Localization
+
+ 	Anders (Danish)
+ 	Phan Anh (Vietnamese)
+        Sébastien Aperghis-Tramoni (French)
+        Ettore Atalan (German)
+ 	Constantin Baranov (Russian)
+ 	Indrit Bashkimi (Albanese)
+ 	Javier Beaumont (Castilian Spanish)
+        Baráth Béla (Hungarian)
+        William Beltrán (Spanish)
+ 	Martí Bosc (Catalan)
+ 	Matthias Braun (German)
+ 	Sergio López Briñas (Castilian Spanish)
+ 	Marko Burjek (Slovenian)
+        Tibor Buzási (Hungarian)
+ 	Fernando Carmona (Castilian Spanish)
+        Marc Celeiro (Catalan)
+ 	Wei-Lun Chao (Mandarin)
+ 	Ricardo Cruz (European Portuguese)
+ 	Razvan Dajboc (Romanian)
+ 	Pieter De Decker (Dutch)
+ 	Bertrand Delaitre (French)
+        Dmitry \"starwars32\" (Russian)
+        Antoine Dumondel (French)
+        faradundamarti (Turkish)
+ 	Daniela Ferraz (European/Brazilian Portuguese)
+        Galp Flark (Hungarian)
+ 	Florian Forster (German)
+        Franchulo (Spanish)
+        fri (Czech)
+ 	Prabin Gautam (Nepali)
+        Victor Gonçalves (Brazilian Portuguese)
+        Joe Hansen (Danish)
+        Hume (Czech)
+ 	Ondřej Hošek (Czech)
+ 	Iknos (Italian)
+ 	Jose Jorge (European Portuguese)
+        juanda097 (Spanish)
+ 	Manuela Kessler (Italian)
+ 	Günter \"kyber\" Kits (Estonian)
+ 	Dominik Klementowski (Polish)
+ 	Marcin Kocur (Polish)
+ 	Benjamin Leduc (French/Esperanto)
+ 	Sérgio Lopes (European Portuguese)
+        Max Lyashuk (Ukranian)
+ 	Tobias Markus (German)
+        Lucas Mascaro (French)
+ 	meczup (Turkish)
+ 	Gwenn Meynier (Breton)
+        mkkot (Polish)
+        mol1 (French)
+        Narre (Czech)
+        Jonatas L. Nogueira (Brazilian Portuguese)
+        Vangelis Nomikos (Greek)
+        Allan Nordhøy (Norwegian)
+ 	Arvid Norlander (Swedish)
+ 	Krishnamurti Lelis Lima Vieira Nunes (Brazilian Portuguese)
+ 	Lauri \"xet7\" Ojansivu (Finnish)
+ 	Karl Ove Hufthammer (Norwegian)
+ 	Léo Poughon (French)
+ 	Bansaj Pradhan (Nepali)
+        Nathanael Ready (French)
+ 	Herval Ribeiro (Brazilian Portuguese)
+ 	Frederic Rodrigo (French)
+ 	D. J. S. (Hungarian)
+ 	Slobodan Simić (Serbian)
+        SomeRandomUser (Greek)
+        Sumita \"tako44\" Sanshiro (Japanese)
+ 	Liu Sizhuang (Simplified Chinese)
+ 	Jan Solanti (Finnish)
+ 	Christoph Sommer (German)
+ 	Andrius Štikonas (Lithuanian)
+        symvizan (Hungarian)
+        Krzysiek Szeląg (Polish)
+ 	Eugen Uvin (Ukrainian)
+ 	Frank van der Loo (Dutch)
+ 	Mihas \"meequz\" Varantsou (Belarusian)
+        Jakub Vaněk (Czech)
+        Lyubomir Vasilev (Bulgarian)
+ 	Antoni Villalonga (Catalan)
+        Wuzzy (German)
+ 	Roman M. Yagodin (Russian)
+        yakup (Turkish)
+        zecas \"zezinho\" (French)
+ 	Kővágó Zoltán (Hungarian)
+
+
+-Thanks to
+
+	Larry Ewing
+ Creator of Tux, the Linux penguin
+
+	SDL, OpenAL and OpenGL
+ For making such a great gaming experience
+ possible on Linux
+
+
+-Contact
+
+	Visit our webpage at
+*http://supertuxproject.org
+
+	Or visit us directly at IRC:
+*#supertux at webchat.freenode.net
+
+	Or at our Forum:
+*http://forum.freegamedev.net/viewforum.php?f=66
+
+	Comments, ideas and suggestions
+	go to our mailing list
+*supertux-devel@lists.lethargik.org
+
+
+
+-Want to help…
+
+	…with localization?
+*https://www.transifex.com/arctic-games/supertux/
+
+
+	…with something else?
+*https://github.com/supertux
+
+
+
+	Thank you for
+	playing
+
+-SuperTux
+
+
+
+	Penny awaits you in Milestone 3!"))
+)
