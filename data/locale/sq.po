@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-12-15 19:17+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-04-22 07:32+0000\n"
 "Last-Translator: Indrit Bashkimi <indrit.bashkimi@gmail.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/arctic-games/supertux/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -18,137 +18,143 @@ msgstr ""
 "Language: sq\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/control/joystick_config.cpp:83
+#: src/control/joystick_config.cpp:84
 msgid "Joystick Mappings"
 msgstr ""
 
-#: src/supertux/command_line_arguments.cpp:73
+#: src/supertux/command_line_arguments.cpp:76
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
 msgstr "Përdorimi: %s [OPSIONET] [SKEDARINIVELIT]"
 
-#: src/supertux/command_line_arguments.cpp:74
+#: src/supertux/command_line_arguments.cpp:77
 msgid "General Options:"
 msgstr "Opsionet e përgjithshme:"
 
-#: src/supertux/command_line_arguments.cpp:75
+#: src/supertux/command_line_arguments.cpp:78
 msgid "  -h, --help                   Show this help message and quit"
 msgstr "-h, --help Shfaq këtë mesazh ndihme dhe dil"
 
-#: src/supertux/command_line_arguments.cpp:76
+#: src/supertux/command_line_arguments.cpp:79
 msgid "  -v, --version                Show SuperTux version and quit"
 msgstr "-v, --version Shfaq version e SuperTux dhe dil"
 
-#: src/supertux/command_line_arguments.cpp:77
+#: src/supertux/command_line_arguments.cpp:80
 msgid "  --verbose                    Print verbose messages"
 msgstr "  --verbose                    Shtyp shumë mesazhe"
 
-#: src/supertux/command_line_arguments.cpp:78
+#: src/supertux/command_line_arguments.cpp:81
 msgid "  --debug                      Print extra verbose messages"
-msgstr ""
+msgstr "  --debug                      Shtyp shumë mesazhe shtesë"
 
-#: src/supertux/command_line_arguments.cpp:79
+#: src/supertux/command_line_arguments.cpp:82
 msgid ""
 "  --print-datadir              Print supertux's primary data directory."
 msgstr "  --print-datadir              Shtyp dosjen kryesore të të dhënave të supertux."
 
-#: src/supertux/command_line_arguments.cpp:80
+#: src/supertux/command_line_arguments.cpp:83
 msgid "Video Options:"
 msgstr "Opsionet e videos:"
 
-#: src/supertux/command_line_arguments.cpp:81
+#: src/supertux/command_line_arguments.cpp:84
 msgid "  -f, --fullscreen             Run in fullscreen mode"
 msgstr "  -f, --fullscreen             Ekzekuto me ekran të plotë"
 
-#: src/supertux/command_line_arguments.cpp:82
+#: src/supertux/command_line_arguments.cpp:85
 msgid "  -w, --window                 Run in window mode"
 msgstr "  -w, --window                 Ekzekuto në një dritare"
 
-#: src/supertux/command_line_arguments.cpp:83
+#: src/supertux/command_line_arguments.cpp:86
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
 msgstr "  -g, --geometry GJERËSIAxLARTËSIA  Nis SuperTux me rezolucionin e dhënë"
 
-#: src/supertux/command_line_arguments.cpp:84
+#: src/supertux/command_line_arguments.cpp:87
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
 msgstr "  -a, --aspect WIDTH:HEIGHT    Ekzekuton SuperTux me përmasat e dhëna"
 
-#: src/supertux/command_line_arguments.cpp:85
+#: src/supertux/command_line_arguments.cpp:88
 msgid "  -d, --default                Reset video settings to default values"
 msgstr "  -d, --default                Rivendos parametrat e videos në vlerat e paracaktuara"
 
-#: src/supertux/command_line_arguments.cpp:86
+#: src/supertux/command_line_arguments.cpp:89
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr ""
+msgstr "  --renderer RENDERER          Përdor sdl, opengl, ose auto për render"
 
-#: src/supertux/command_line_arguments.cpp:87
+#: src/supertux/command_line_arguments.cpp:90
 msgid "Audio Options:"
 msgstr "Opsionet e zërit:"
 
-#: src/supertux/command_line_arguments.cpp:88
+#: src/supertux/command_line_arguments.cpp:91
 msgid "  --disable-sound              Disable sound effects"
 msgstr "  --disable-sound              Çaktivizon efektet e tingujve"
 
-#: src/supertux/command_line_arguments.cpp:89
+#: src/supertux/command_line_arguments.cpp:92
 msgid "  --disable-music              Disable music"
 msgstr "  --disable-music              Çaktivizon muzikën"
 
-#: src/supertux/command_line_arguments.cpp:90
+#: src/supertux/command_line_arguments.cpp:93
 msgid "Game Options:"
 msgstr "Opsionet e lojës:"
 
-#: src/supertux/command_line_arguments.cpp:91
+#: src/supertux/command_line_arguments.cpp:94
 msgid "  --show-fps                   Display framerate in levels"
 msgstr "  --show-fps                   Shfaq numrin e fotogrameve në nivele"
 
-#: src/supertux/command_line_arguments.cpp:92
+#: src/supertux/command_line_arguments.cpp:95
 msgid "  --no-show-fps                Do not display framerate in levels"
 msgstr "  --no-show-fps                Mos shfaq numrin e fotogrameve në nivele"
 
-#: src/supertux/command_line_arguments.cpp:93
+#: src/supertux/command_line_arguments.cpp:96
 msgid "  --developer                  Switch on developer feature"
 msgstr "  --developer                  Aktivizo veçoritë në përpunim"
 
-#: src/supertux/command_line_arguments.cpp:94
+#: src/supertux/command_line_arguments.cpp:97
 msgid "  -s, --debug-scripts          Enable script debugger."
 msgstr ""
 
-#: src/supertux/command_line_arguments.cpp:95
+#: src/supertux/command_line_arguments.cpp:98
+msgid ""
+"  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
+" level is specified."
+msgstr ""
+
+#: src/supertux/command_line_arguments.cpp:99
 msgid "Demo Recording Options:"
 msgstr ""
 
-#: src/supertux/command_line_arguments.cpp:96
+#: src/supertux/command_line_arguments.cpp:100
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
 msgstr ""
 
-#: src/supertux/command_line_arguments.cpp:97
+#: src/supertux/command_line_arguments.cpp:101
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
 msgstr ""
 
-#: src/supertux/command_line_arguments.cpp:98
+#: src/supertux/command_line_arguments.cpp:102
 msgid "Directory Options:"
 msgstr "Opsionet e dosjes:"
 
-#: src/supertux/command_line_arguments.cpp:99
+#: src/supertux/command_line_arguments.cpp:103
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
 msgstr "  --datadir DIR                Vendos dosjen për skedarët e të dhënave të lojës"
 
-#: src/supertux/command_line_arguments.cpp:100
+#: src/supertux/command_line_arguments.cpp:104
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
 msgstr "  --userdir DIR                Vendos dosjen për të dhënat e përdoruesit (ruajta e lojës, etj.)"
 
-#: src/supertux/command_line_arguments.cpp:101
+#: src/supertux/command_line_arguments.cpp:105
 msgid "Environment variables:"
 msgstr "Variabëlit e ambientit:"
 
-#: src/supertux/command_line_arguments.cpp:102
+#: src/supertux/command_line_arguments.cpp:106
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
 msgstr "  SUPERTUX2_USER_DIR           Dosja për të dhënat e përdoruesit (ruajta e lojës, etj.)"
 
-#: src/supertux/command_line_arguments.cpp:103
+#: src/supertux/command_line_arguments.cpp:107
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "  SUPERTUX2_DATA_DIR           Dosja për skedarët e të dhënave të lojës"
 
@@ -159,7 +165,7 @@ msgstr "me kontributin e %s"
 
 #: src/supertux/levelintro.cpp:127 src/supertux/statistics.cpp:119
 msgid "Best Level Statistics"
-msgstr "Statistika të niveleve më të mira"
+msgstr "Statistikat e rezultateve më të mira"
 
 #: src/supertux/levelintro.cpp:133 src/supertux/statistics.cpp:207
 msgid "Coins"
@@ -171,7 +177,7 @@ msgstr "Armiq të vrarë"
 
 #: src/supertux/levelintro.cpp:147 src/supertux/statistics.cpp:223
 msgid "Secrets"
-msgstr "Sekretet"
+msgstr "Sekrete"
 
 #: src/supertux/levelintro.cpp:154
 msgid "Best time"
@@ -179,7 +185,7 @@ msgstr "Koha më e mirë"
 
 #: src/supertux/levelintro.cpp:161
 msgid "Level target time"
-msgstr "Koha e objektivit të nivelit"
+msgstr "Objektivi i kohëzgjatjes së nivelit"
 
 #: src/supertux/menu/addon_menu.cpp:49
 msgid "Levelset"
@@ -195,77 +201,77 @@ msgstr "Bota"
 
 #: src/supertux/menu/addon_menu.cpp:61
 msgid "Unknown"
-msgstr ""
+msgstr "I panjohur"
 
 #: src/supertux/menu/addon_menu.cpp:83
 #, c-format
 msgid "%s \"%s\" by \"%s\""
 msgstr "%s \"%s\" nga \"%s\""
 
-#: src/supertux/menu/addon_menu.cpp:131
+#: src/supertux/menu/addon_menu.cpp:139
 msgid "Language packs"
 msgstr "Pakot e gjuhëve"
 
-#: src/supertux/menu/addon_menu.cpp:135 src/supertux/menu/main_menu.cpp:44
+#: src/supertux/menu/addon_menu.cpp:143 src/supertux/menu/main_menu.cpp:44
 msgid "Add-ons"
 msgstr "Shtesat"
 
-#: src/supertux/menu/addon_menu.cpp:141
+#: src/supertux/menu/addon_menu.cpp:149
 msgid "View Language Packs"
 msgstr "Shiko pakot e gjuhëve"
 
-#: src/supertux/menu/addon_menu.cpp:145
+#: src/supertux/menu/addon_menu.cpp:153
 msgid "View Add-ons"
 msgstr "Shiko shtesat"
 
-#: src/supertux/menu/addon_menu.cpp:154
+#: src/supertux/menu/addon_menu.cpp:162
 msgid "No Language packs installed"
 msgstr "Asnjë pako gjuhe e instaluar"
 
-#: src/supertux/menu/addon_menu.cpp:158
+#: src/supertux/menu/addon_menu.cpp:166
 msgid "No Add-ons installed"
 msgstr "Asnjë shtesë e instaluar"
 
-#: src/supertux/menu/addon_menu.cpp:165
+#: src/supertux/menu/addon_menu.cpp:173
 msgid "No Language packs found"
 msgstr "Nuk u gjetën pako gjuhe"
 
-#: src/supertux/menu/addon_menu.cpp:169
+#: src/supertux/menu/addon_menu.cpp:177
 msgid "No Add-ons found"
 msgstr "Nuk u gjetën shtesa"
 
-#: src/supertux/menu/addon_menu.cpp:216
+#: src/supertux/menu/addon_menu.cpp:224
 #, c-format
 msgid "Install %s *NEW*"
 msgstr "Instalo %s *NEW*"
 
-#: src/supertux/menu/addon_menu.cpp:227
+#: src/supertux/menu/addon_menu.cpp:235
 #, c-format
 msgid "Install %s"
 msgstr "Instalo %s"
 
-#: src/supertux/menu/addon_menu.cpp:238
+#: src/supertux/menu/addon_menu.cpp:246
 msgid "No new Language packs found"
 msgstr "Nuk u gjetën pako të reja gjuhe"
 
-#: src/supertux/menu/addon_menu.cpp:242
+#: src/supertux/menu/addon_menu.cpp:250
 msgid "No new Add-ons found"
 msgstr "Nuk u gjetën shtesa të reja"
 
-#: src/supertux/menu/addon_menu.cpp:249
+#: src/supertux/menu/addon_menu.cpp:257
 msgid "Check Online (disabled)"
 msgstr "Kontrollo në linjë (e çaktivizuar)"
 
-#: src/supertux/menu/addon_menu.cpp:253
+#: src/supertux/menu/addon_menu.cpp:261
 msgid "Check Online"
 msgstr "Kontrollo në linjë"
 
-#: src/supertux/menu/addon_menu.cpp:257 src/supertux/menu/cheat_menu.cpp:41
+#: src/supertux/menu/addon_menu.cpp:265 src/supertux/menu/cheat_menu.cpp:41
 #: src/supertux/menu/contrib_levelset_menu.cpp:69
 #: src/supertux/menu/contrib_menu.cpp:141
 #: src/supertux/menu/joystick_menu.cpp:98
 #: src/supertux/menu/keyboard_menu.cpp:49
-#: src/supertux/menu/language_menu.cpp:50
+#: src/supertux/menu/language_menu.cpp:52
 #: src/supertux/menu/options_menu.cpp:238
 #: src/supertux/menu/profile_menu.cpp:47
 #: src/supertux/menu/world_set_menu.cpp:44
@@ -273,24 +279,24 @@ msgstr "Kontrollo në linjë"
 msgid "Back"
 msgstr "Mbrapa"
 
-#: src/supertux/menu/addon_menu.cpp:277
+#: src/supertux/menu/addon_menu.cpp:346
 msgid "Downloading Add-On Repository Index"
 msgstr ""
 
-#: src/supertux/menu/addon_menu.cpp:310
+#: src/supertux/menu/addon_menu.cpp:361
+#, c-format
+msgid "Downloading %s"
+msgstr "Duke shkarkuar %s"
+
+#: src/supertux/menu/addon_menu.cpp:408
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
 msgstr "Rinis SuperTux\nnë mënyrë që ndryshimet të kenë efekt."
 
-#: src/supertux/menu/addon_menu.cpp:311
+#: src/supertux/menu/addon_menu.cpp:409
 msgid "OK"
 msgstr "OK"
-
-#: src/supertux/menu/addon_menu.cpp:343
-#, c-format
-msgid "Downloading %s"
-msgstr "Duke shkarkuar %s"
 
 #: src/supertux/menu/cheat_menu.cpp:29
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
@@ -342,26 +348,26 @@ msgstr "Mbaro nivelin"
 #: src/supertux/menu/contrib_menu.cpp:51
 #: src/supertux/menu/world_set_menu.cpp:42
 msgid "Contrib Levels"
-msgstr ""
+msgstr "Nivele shtesë"
 
 #: src/supertux/menu/contrib_menu.cpp:88
 #: src/supertux/menu/contrib_menu.cpp:119
 msgid "*NEW*"
-msgstr ""
+msgstr "*E RE*"
 
-#: src/supertux/menu/download_dialog.cpp:28
+#: src/supertux/menu/download_dialog.cpp:29
 msgid "Abort Download"
 msgstr "Anulo shkarkimin"
 
-#: src/supertux/menu/download_dialog.cpp:44
+#: src/supertux/menu/download_dialog.cpp:45
 msgid "Error:\n"
 msgstr "Gabim:\n"
 
-#: src/supertux/menu/download_dialog.cpp:45
+#: src/supertux/menu/download_dialog.cpp:46
 msgid "Ok"
 msgstr "Ok"
 
-#: src/supertux/menu/download_dialog.cpp:94
+#: src/supertux/menu/download_dialog.cpp:101
 msgid "Close"
 msgstr "Mbyll"
 
@@ -429,7 +435,7 @@ msgstr "Veprimi"
 
 #: src/supertux/menu/joystick_menu.cpp:75
 msgid "Pause/Menu"
-msgstr ""
+msgstr "Pauzë/Menu"
 
 #: src/supertux/menu/joystick_menu.cpp:76
 #: src/supertux/menu/keyboard_menu.cpp:37
@@ -464,7 +470,7 @@ msgstr "Menuja e hileve"
 #: src/supertux/menu/joystick_menu.cpp:86
 #: src/supertux/menu/keyboard_menu.cpp:47
 msgid "Jump with Up"
-msgstr ""
+msgstr "Kërce me Lart"
 
 #: src/supertux/menu/joystick_menu.cpp:92
 msgid "No Joysticks found"
@@ -486,7 +492,7 @@ msgstr "Shtyp një buton"
 #: src/supertux/menu/keyboard_menu.cpp:29
 #: src/supertux/menu/options_menu.cpp:218
 msgid "Setup Keyboard"
-msgstr ""
+msgstr "Konfiguro tastierën"
 
 #: src/supertux/menu/keyboard_menu.cpp:63
 msgid "Up cursor"
@@ -506,7 +512,7 @@ msgstr ""
 
 #: src/supertux/menu/keyboard_menu.cpp:71
 msgid "Return"
-msgstr ""
+msgstr "Return"
 
 #: src/supertux/menu/keyboard_menu.cpp:73
 msgid "Space"
@@ -522,11 +528,11 @@ msgstr "Shift i majtë"
 
 #: src/supertux/menu/keyboard_menu.cpp:79
 msgid "Right Control"
-msgstr ""
+msgstr "Ctrl i djathtë"
 
 #: src/supertux/menu/keyboard_menu.cpp:81
 msgid "Left Control"
-msgstr ""
+msgstr "Ctrl i majtë"
 
 #: src/supertux/menu/keyboard_menu.cpp:83
 msgid "Right Alt"
@@ -548,13 +554,13 @@ msgstr ""
 msgid "Press Key"
 msgstr "Shtyp një buton"
 
-#: src/supertux/menu/language_menu.cpp:37
+#: src/supertux/menu/language_menu.cpp:39
 msgid "Language"
 msgstr "Gjuha"
 
-#: src/supertux/menu/language_menu.cpp:39
+#: src/supertux/menu/language_menu.cpp:41
 msgid "<auto-detect>"
-msgstr "<auto-zbulo>"
+msgstr "<vetë-zbulo>"
 
 #: src/supertux/menu/main_menu.cpp:43 src/supertux/menu/world_set_menu.cpp:39
 msgid "Start Game"
@@ -584,7 +590,7 @@ msgstr "Dil nga SuperTux"
 #: src/supertux/menu/options_menu.cpp:251
 #: src/supertux/menu/options_menu.cpp:271
 msgid "auto"
-msgstr ""
+msgstr "vetëvepro"
 
 #: src/supertux/menu/options_menu.cpp:186
 msgid "Select Language"
@@ -627,7 +633,7 @@ msgstr "Rezolucioni"
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
-msgstr ""
+msgstr "Përcakto rezolucionin e përdorur kur është ekrani i plotë (duhet të aktivosh ekranin e plotë për të përfunduar ndryshimin)"
 
 #: src/supertux/menu/options_menu.cpp:202
 msgid "Magnification"
@@ -639,11 +645,11 @@ msgstr "Ndrysho zmadhimin e zonës së lojës"
 
 #: src/supertux/menu/options_menu.cpp:205
 msgid "Aspect Ratio"
-msgstr ""
+msgstr "Përpjesëtimi lartësi/gjerësi"
 
 #: src/supertux/menu/options_menu.cpp:206
 msgid "Adjust the aspect ratio"
-msgstr ""
+msgstr "Rregullo përpjesëtimin lartësi/gjerësi"
 
 #: src/supertux/menu/options_menu.cpp:209
 msgid "Sound"
@@ -696,7 +702,7 @@ msgstr "Modaliteti i krishtlindjeve"
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
 msgid "[Profile %s]"
-msgstr ""
+msgstr "[Profili %s]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
@@ -705,7 +711,7 @@ msgstr "Profili %s"
 
 #: src/supertux/menu/world_set_menu.cpp:41
 msgid "Story Mode"
-msgstr ""
+msgstr "Ndjek historinë"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Bonus: None"
@@ -725,11 +731,11 @@ msgstr ""
 
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
-msgstr ""
+msgstr "Pauzë"
 
 #: src/supertux/menu/worldmap_menu.cpp:34
 msgid "Quit World"
-msgstr "Dil nga Bota"
+msgstr "Dil nga bota"
 
 #: src/supertux/statistics.cpp:130
 msgid "Max coins collected:"
@@ -737,7 +743,7 @@ msgstr "Maksimali i monedhave të mbledhura:"
 
 #: src/supertux/statistics.cpp:134
 msgid "Max fragging:"
-msgstr ""
+msgstr "Maksimali i vrasjeve:"
 
 #: src/supertux/statistics.cpp:138
 msgid "Max secrets found:"
@@ -749,7 +755,7 @@ msgstr "Koha më e mirë e plotësimit:"
 
 #: src/supertux/statistics.cpp:147
 msgid "Level target time:"
-msgstr ""
+msgstr "Objektivi i kohëzgjatjes së nivelit:"
 
 #: src/supertux/statistics.cpp:203
 msgid "You"
@@ -777,14 +783,10 @@ msgid ""
 "redistribute it under certain conditions; see the file LICENSE for details.\n"
 msgstr "Kjo lojë vjen me ABSOLUTISHT PA GARANCI. Ky është një program i lirë, dhe je i mirëpritur\nnëse e rishpërndan nën disa kushte; shiko skedarin LICENSE për detaje.\n\n"
 
-#: src/trigger/climbable.cpp:78
-msgid "Up we go..."
-msgstr ""
-
 #: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"
 msgstr "Gjete një zonë sekrete!"
 
-#: src/worldmap/worldmap.cpp:349
+#: src/worldmap/worldmap.cpp:338
 msgid "<no title>"
 msgstr "<pa titull>"

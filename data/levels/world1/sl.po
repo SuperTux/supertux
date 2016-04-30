@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Gorzy Gorup <gorupgorazd@gmail.com>, 2016
+# Gorzy Gorup <gorupgorazd@gmail.com>, 2016
 # Marko Burjek <email4marko@gmail.com>, 2005-2007
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-11-29 18:43+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-04-02 14:53+0000\n"
+"Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/arctic-games/supertux/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +22,7 @@ msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "Dobrodošli na Antarktiki"
+msgstr "Dobrodošel na Antarktiki"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
@@ -29,48 +31,48 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
+msgstr "-Bonus kocke\n!images/objects/bonus_block/full-0.png\n#V bonus kockah so lahko skriti kovanci, predmeti za povečanje moči ali posebni premeti, ki ti bodo pomagali pri tvoji nalogi.\n#\n#Če želiš njihovo vsebino, jih udari od spodaj."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Jajca\n!images/powerups/egg/egg.png\n#Zaradi jajca se Tux poveča. To mu omogoči, da s svojo glavo uničuje lesene kocke."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr ""
+msgstr "-Nadzorne točke\n!images/objects/resetpoints/bell-m.png\n#Aktiviraj nadzorno točko. Če umreš, se boš ponovno pojavil na tem mestu. Vsakič, ko začneš stopnjo z nadzorne točke, boš izgubil 10 odstotkov svojih kovancev (vsaj 25 kovancev)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr ""
+msgstr "-Tek\n!images/tiles/signs/run.png\n#Na tvoji poti je ovira. Da bi jo preskočil, moraš pridobiti hitrost in nato skočiti."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
+msgstr "-Ognjena cvetlica\n!images/powerups/fireflower/fire_flower-0.png\n#Če Tux poje ognjeno cvetlico, lahko strelja sunke ognja."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr ""
+msgstr "-Lutka Tux\n!images/powerups/1up/1up.png\n#Lutka Tux podari Tuxu 100 kovancev."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr ""
+msgstr "-Skrivna območja\n#V mnogih stopnjah so za zidovi skrivna območja. S pomočjo raznih sledi jih boš našel."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -94,7 +96,7 @@ msgstr "Zmrznjena polja"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
-msgstr "Oh ne! Še več snežnih kep!"
+msgstr "Oh ne! Še več Snežnih kep!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
@@ -106,11 +108,11 @@ msgstr "Grumbeljev občutek za sneg"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
-msgstr ""
+msgstr "Triindvajseti letalec"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
-msgstr "Osvežujoča noč"
+msgstr "Nočni hlad"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
@@ -130,11 +132,11 @@ msgstr "Pod ledom"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "Živeti v Hladilniku"
+msgstr "Življenje v hladilniku"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr "'...ali sem samo jaz?'"
+msgstr "'...ali se mi samo zdi?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
@@ -146,11 +148,11 @@ msgstr "Spomenik Miyamoto"
 
 #: data/levels/world1/20 - End of the Tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr "Konec Tunela"
+msgstr "Konec predora"
 
 #: data/levels/world1/21 - A Path in the Clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "Pot v Oblakih"
+msgstr "Pot v oblakih"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
@@ -174,11 +176,11 @@ msgstr "Nolokov grad"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "Nič več G. Ledkov"
+msgstr "Nič več Ledenkov"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
-msgstr ""
+msgstr "Odcep"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
@@ -187,20 +189,20 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr ""
+msgstr "-Vzvodi\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Vzvodi so uporabni za marsikaj. Pritisni tipko Gor, da jih premakneš. Tale bo aktiviral dvigalo na desni."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
+"-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
-"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr ""
+"#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
+msgstr "-Trampolini\n!images/objects/trampoline/trampoline2-0.png\n#Trampolini omogočijo Tuxu, da skoči višje. Pritisni in drži tipko za skok, medtem ko skačeš po trampolinu, in odneslo te bo še višje."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
+msgstr "-Plezanje\n#Tux zna plezati! Pritisni tipko za Gor, da začneš plezati. Pritisni tipko za dejanje ali skok, da se spustiš dol."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
@@ -214,48 +216,48 @@ msgstr "Piknik s Penny"
 msgid ""
 "Somewhere at the shores\n"
 "of Antarctica..."
-msgstr ""
+msgstr "Nekje na antarktični obali..."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux: Hello Penny"
-msgstr ""
+msgstr "Tux: Živjo, Penny"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Penny: Hey Tux"
-msgstr ""
+msgstr "Penny: Pozdravljen, Tux"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid "Tux: Check out my dance moves."
-msgstr ""
+msgstr "Tux: Poglej, kako plešem."
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "Tux: Oww... my head..."
-msgstr ""
+msgstr "Tux: Auč... moja glava..."
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "Tux: Wait!"
-msgstr ""
+msgstr "Tux: Čakaj!"
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid "Tux: Penny!"
-msgstr ""
+msgstr "Tux: Penny!"
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid "Tux: Where are you, Penny?!"
-msgstr ""
+msgstr "Tux: Kje si, Penny?!"
 
 #: data/levels/world1/scripts_intro.txt:11
 msgid "Tux: Oh no..."
-msgstr ""
+msgstr "Tux: Oh ne..."
 
 #: data/levels/world1/scripts_intro.txt:12
 msgid "Tux: Don't worry, Penny, I'll rescue you!"
-msgstr ""
+msgstr "Tux: Ne skrbi, Penny, rešil te bom!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr ""
+msgstr "Ledeni otok"
 
 #: data/levels/world1/worldmap.stwm:37
 msgid "You Found a Secret Area!"
-msgstr ""
+msgstr "Našel si skrivno območje!"

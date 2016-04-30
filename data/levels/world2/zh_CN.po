@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:03+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-12 08:34+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/arctic-games/supertux/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -18,29 +18,92 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: data/levels/world2/Bouncy_Coils.stl:3
+msgid "Bouncy Coils"
+msgstr "弹簧"
+
+#: data/levels/world2/Castle_Entrance.stl:3
+msgid "Entrance to the Castle"
+msgstr ""
+
+#: data/levels/world2/CounterCurrent.stl:3
+msgid "Countercurrent"
+msgstr "逆流而上"
+
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
 msgstr "粉碎的道路"
 
-#: data/levels/world2/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr ""
+#: data/levels/world2/Duct_Ape.stl:3
+msgid "Duct Ape"
+msgstr "空中的财宝"
 
-#: data/levels/world2/Mtn_Pass.stl:493
+#: data/levels/world2/El_Castillo.stl:3
+msgid "Short Visit to El Castillo"
+msgstr "到El Castillo的旅行"
+
+#: data/levels/world2/Find_Big_Fish.stl:3
+msgid "Find the Bigger Fish!"
+msgstr "寻找大鱼!"
+
+#: data/levels/world2/Going_Underground.stl:3
+msgid "Going Underground"
+msgstr "到地下去"
+
+#: data/levels/world2/Kneep_Deep.stl:3
+msgid "Kneep-deep in the depth"
+msgstr "深渊"
+
+#: data/levels/world2/Little_Venice.stl:3
+msgid "Little Venice"
+msgstr "小威尼斯"
+
+#: data/levels/world2/Mouldy_Grotto.stl:3
+msgid "A Mouldy Grotto"
+msgstr "发霉的洞穴"
+
+#: data/levels/world2/Penguin_Grow_Trees.stl:3
+msgid "Penguins don't grow on Trees"
+msgstr "企鹅不长在树上"
+
+#: data/levels/world2/Rabbit_Hole.stl:3
+msgid "Down The Rabbit Hole"
+msgstr "兔子洞窟"
+
+#: data/levels/world2/Rabbit_Hole.stl:46
 msgid ""
-"- Climbing\n"
-"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+"-Oh no!\n"
+"#The path is blocked! It\n"
+"#seems that the only way\n"
+"#leads through that dark\n"
+"#hole in the ground..."
 msgstr ""
 
-#: data/levels/world2/airkey.stl:3
+#: data/levels/world2/Rabbit_Hole.stl:55
+msgid "-Are you lost?"
+msgstr "-你迷路了吗?"
+
+#: data/levels/world2/Silent_Walls.stl:3
+msgid "The Silent Walls"
+msgstr "静寂的墙壁"
+
+#: data/levels/world2/Three_Sheets.stl:3
+msgid "Three sheets to the wind"
+msgstr "三个风管"
+
+#: data/levels/world2/Treasure_Skies.stl:3
 msgid "Treasure in the skies"
 msgstr "空中的财宝"
 
-#: data/levels/world2/builder.stl:3
+#: data/levels/world2/Tree_Fortress.stl:3
+msgid "Tree Fortress"
+msgstr "树木堡垒"
+
+#: data/levels/world2/Tux_Builder.stl:3
 msgid "Tux the Builder"
 msgstr "建筑师Tux"
 
-#: data/levels/world2/builder.stl:38
+#: data/levels/world2/Tux_Builder.stl:38
 msgid ""
 "-Portable Rocks:\n"
 "\n"
@@ -48,6 +111,22 @@ msgid ""
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
 msgstr ""
+
+#: data/levels/world2/Two_Towers.stl:3
+msgid "Two Tiny Towers"
+msgstr "小双塔"
+
+#: data/levels/world2/Up_and_Down.stl:3
+msgid "Up and Down"
+msgstr "上上下下"
+
+#: data/levels/world2/Walking_Leaves.stl:3
+msgid "Walking Leaves"
+msgstr "行走的树叶"
+
+#: data/levels/world2/Welcome_Forest.stl:3
+msgid "Welcome to the Forest"
+msgstr "欢迎来到森林"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -58,57 +137,9 @@ msgstr "冰山堡垒"
 msgid "NOLOK"
 msgstr "NOLOK"
 
-#: data/levels/world2/christoph1.stl:3
-msgid "Bouncy Coils"
-msgstr "弹簧"
-
-#: data/levels/world2/christoph2.stl:3
-msgid "Tree Fortress"
-msgstr "树木堡垒"
-
-#: data/levels/world2/christoph3.stl:3
-msgid "A Mouldy Grotto"
-msgstr "发霉的洞穴"
-
-#: data/levels/world2/christoph5.stl:3
-msgid "Short Visit to El Castillo"
-msgstr "到El Castillo的旅行"
-
-#: data/levels/world2/christoph6.stl:3
-msgid "Welcome to the Forest"
-msgstr "欢迎来到森林"
-
-#: data/levels/world2/christoph7.stl:3
-msgid "Countercurrent"
-msgstr "逆流而上"
-
-#: data/levels/world2/christoph8.stl:3
-msgid "Little Venice"
-msgstr "小威尼斯"
-
-#: data/levels/world2/christoph9.stl:3
-msgid "Two Tiny Towers"
-msgstr "小双塔"
-
-#: data/levels/world2/christophA.stl:3
-msgid "Three sheets to the wind"
-msgstr "三个风管"
-
-#: data/levels/world2/christophB.stl:3
-msgid "Kneep-deep in the depth"
-msgstr "深渊"
-
-#: data/levels/world2/christophC.stl:3
-msgid "Duct Ape"
-msgstr "空中的财宝"
-
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
 msgstr "星星的房间"
-
-#: data/levels/world2/christophE.stl:3
-msgid "The Silent Walls"
-msgstr "静寂的墙壁"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
@@ -129,10 +160,6 @@ msgstr "黑暗森林的守卫 - Nolok之眼"
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
 msgstr "黑暗森林的守卫 - 黑塔"
-
-#: data/levels/world2/fish.stl:3
-msgid "Find the Bigger Fish!"
-msgstr "寻找大鱼!"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
@@ -162,19 +189,11 @@ msgstr "4 火之钥 - 开启城堡"
 msgid "key 5 air - to be placed in clouds "
 msgstr "5 气之钥 - 开启云朵"
 
-#: data/levels/world2/keystodoor.stl:3
-msgid "Entrance to the Castle"
-msgstr ""
-
-#: data/levels/world2/leaves.stl:3
-msgid "Walking Leaves"
-msgstr "行走的树叶"
-
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
 msgstr "树根"
 
-#: data/levels/world2/level1.stl:146
+#: data/levels/world2/level1.stl:200
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -183,27 +202,6 @@ msgid ""
 "#be supposed to come out\n"
 "#of that door..."
 msgstr ""
-
-#: data/levels/world2/level2.stl:3
-msgid "Down The Rabbit Hole"
-msgstr "兔子洞窟"
-
-#: data/levels/world2/level2.stl:46
-msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
-"#hole in the ground..."
-msgstr ""
-
-#: data/levels/world2/level2.stl:55
-msgid "-Are you lost?"
-msgstr "-你迷路了吗?"
-
-#: data/levels/world2/level4.stl:3
-msgid "Going Underground"
-msgstr "到地下去"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
@@ -221,21 +219,17 @@ msgstr "光影魔术"
 msgid "Owls' Revenge"
 msgstr "猫头鹰的复仇"
 
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr ""
+
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "震动"
 
-#: data/levels/world2/trees.stl:3
-msgid "Penguins don't grow on Trees"
-msgstr "企鹅不长在树上"
-
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
 msgstr "尚未完成"
-
-#: data/levels/world2/updown.stl:3
-msgid "Up and Down"
-msgstr "上上下下"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Myeongjin <aranet100@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:03+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-04-04 05:31+0000\n"
+"Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,53 +20,53 @@ msgstr ""
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "-89,2 degrees"
-msgstr ""
+msgstr "-89,2도"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
-msgstr ""
+msgstr "지구 온난화"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
-msgstr ""
+msgstr "하늘에서의 첫날 밤"
 
 #: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
-msgstr ""
+msgstr "버려진 성"
 
 #: data/levels/bonus3/another_cold_day.stl:3
 msgid "Another cold day"
-msgstr ""
+msgstr "또 다른 추운 날"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Antarctic rain"
-msgstr ""
+msgstr "남극 비"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
-msgstr ""
+msgstr "...하지만 아무도 그걸 멈출 수 없어..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:307
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr ""
+msgstr "-미안하지만, 이 날기 플랫폼은 게으르네.\n-다른 시간에 돌아오게나."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr ""
+msgstr "하늘보다 더 높은 곳에 오를 수는 없어..."
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
-msgstr ""
+msgstr "빛과 어둠의 성"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr ""
+msgstr "동굴 달리기"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
-msgstr ""
+msgstr "차가운 동굴"
 
 #: data/levels/bonus3/cavern_v2.stl:50
 msgid ""
@@ -75,140 +76,140 @@ msgstr ""
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr ""
+msgstr "코코넛 요새"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
-msgstr ""
+msgstr "크리스탈 일몰"
 
 #: data/levels/bonus3/crystal.stl:3
 msgid "Crystal Skies"
-msgstr ""
+msgstr "크리스탈 하늘"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr ""
+msgstr "크리스탈 아름다움"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr ""
+msgstr "크리스탈 대격변"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
-msgstr ""
+msgstr "크리스탈 필드에 벗어나다"
 
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
 msgid "The dark castle"
-msgstr ""
+msgstr "어두운 성"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
-msgstr ""
+msgstr "깊어, 더 깊어..."
 
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
-msgstr ""
+msgstr "...가장 깊어!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
-msgstr ""
+msgstr "동그라미"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr ""
+msgstr "탈 것을 놓지지 마"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
-msgstr ""
+msgstr "아래로 가는 중"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
-msgstr ""
+msgstr "성에 들어가는 중"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
-msgstr ""
+msgstr "꽃 보너스"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
-msgstr ""
+msgstr "빙하 이후"
 
 #: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
-msgstr ""
+msgstr "지붕에 매달리기"
 
 #: data/levels/bonus3/hilly_landscape.stl:3
 msgid "A hilly landscape"
-msgstr ""
+msgstr "언덕 풍경"
 
 #: data/levels/bonus3/in_the_spring.stl:3
 msgid "In the Spring"
-msgstr ""
+msgstr "봄에는"
 
 #: data/levels/bonus3/its_getting_unfinishable.stl:3
 msgid "It's getting unfinishable"
-msgstr ""
+msgstr "점점 도착할 수 없어"
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
-msgstr ""
+msgstr "어둠 속 어떤 빛이 괜찮네, 고마워!"
 
 #: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
-msgstr ""
+msgstr "대설 경보"
 
 #: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
-msgstr ""
+msgstr "구멍, 얼음의 날"
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
-msgstr ""
+msgstr "화장실 구역"
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr ""
+msgstr "- 물 내리기: \n#물 내리려면 위 키를 누르세요!"
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr ""
+msgstr "- 나가는 길?\n#뛰자! "
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
-msgstr ""
+msgstr "내 페니가 해양 너머에 있어"
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"
-msgstr ""
+msgstr "분홍 눈"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
-msgstr ""
+msgstr "적색 경보! 숲이 타고 있다!"
 
 #: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
-msgstr ""
+msgstr "하수도 탈출"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
-msgstr ""
+msgstr "비가 오느냐 안오느냐 - 그것이 문제로다"
 
 #: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
-msgstr ""
+msgstr "비가 오느냐 안오느냐 - 그것이 문제로다 (남극)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
-msgstr ""
+msgstr "눈 덮힌 언덕"
 
 #: data/levels/bonus3/three_frosty_icebergs.stl:3
 msgid "Three Frosty Icebergs"
-msgstr ""
+msgstr "서리가 내린 빙산 셋"
 
 #: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
@@ -216,16 +217,16 @@ msgstr "얼음 밑으로"
 
 #: data/levels/bonus3/worldmap.stwm:3
 msgid "Bonus Island III"
-msgstr ""
+msgstr "보너스 섬 III"
 
 #: data/levels/bonus3/worldmap.stwm:12
 msgid "You found a secret place!"
-msgstr ""
+msgstr "숨겨진 장소를 찾았습니다!"
 
 #: data/levels/bonus3/worldmap.stwm:20
 msgid "Congratulations... you found the secret pathway!"
-msgstr ""
+msgstr "축하합니다... 숨겨진 좁은 길을 찾았습니다!"
 
 #: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
 msgid "Go Home"
-msgstr ""
+msgstr "집으로 가기"

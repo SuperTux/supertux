@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-12-03 07:47+0000\n"
-"Last-Translator: Gwenn M <tornoz@laposte.net>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-17 09:13+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Breton (http://www.transifex.com/arctic-games/supertux/language/br/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,48 +29,48 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Bloc'hoù souezhadenn\n!images/objects/bonus_block/full-0.png\n#Pezhioù, gwellaennoù pe objedoù arbennik a vez kavet er bloc'hoù souezhadenn evit skoazellañ ac'hanoc'h en ho kest.\n#\n#Stokit anezho dre zindan evit tapout an endalc'had."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Vioù\n!images/powerups/egg/egg.png\n#Brasoc'h eo Tux goude bezañ bet tapet ur vi. Gouest eo da zistruj bloc'hoù koad gant e benn. "
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Poentoù saveteiñ\n!images/objects/resetpoints/bell-m.png\n#Gweredekait ar poent saveteiñ. Ma varvit e viot gouest da adkregiñ al live adalek amañ. Bewech mar adkrogot adalek ur poent saveteiñ e vo kollet 10 dregant eus ho pezhioù ganeoc'h (25 pezh d'an nebeutañ)."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Redek\n!images/tiles/signs/run.png\n#Stanket eo an hent e tal. Tapit tizh en ur redek a-raok lammat evit tremen dreist ar bloc'hoù."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Bleunienn dan\n!images/powerups/fireflower/fire_flower-0.png\n#Gouest eo Tux da dennañ bouloù tan goude bezañ bet tapet ur vleunienn dan."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-Tudennig Tux\n!images/powerups/1up/1up.png\n#100 pezh a vez roet gant an dudennig Tux."
+msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Lodennoù kuzh\n#En ur bern liveoù e vez kavet lodennoù kuzh a-dreñv traoù a seblant bezañ mogerioù eeun. Klaskit war lec'h merkoù evit kavout anezho."
+msgstr ""
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -187,20 +187,20 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "-Trec'haolerioù\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Ur bern traoù disheñvel a c'haller ober gant trec'haolerioù. Pouezit war ar stokell A-US evit arverañ trec'haolerioù. An hini-mañ a weredekaio ar saverez a-zehou."
+msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
+"-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
-"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr "-Trampolin\n!images/objects/trampoline/trampoline2-0.png\n#Uhelderioù nevez a c'hall bezañ tizhet gant Tux a-drugarez d'an trampolin. Laoskit ar stokell evit lammat pouezet evit mont uheloc'h c'hoazh."
+"#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
+msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Krapat\n# Gouest eo Tux da grapat ! Pouezit war ar stokell A-US evit krapat. Pouezit war ar stokell OBER pe lammit evit mont kuit."
+msgstr ""
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

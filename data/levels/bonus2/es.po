@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Germana <germanaoliveirab@gmail.com>, 2013
-# William Beltrán <wbeltranc@gmail.com>, 2015
+# william beltran <wbeltranc@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-12-17 03:34+0000\n"
-"Last-Translator: William Beltrán <wbeltranc@gmail.com>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-02-08 03:32+0000\n"
+"Last-Translator: william beltran <wbeltranc@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,51 +44,51 @@ msgid ""
 "#everyone who contributed to this\n"
 "#release. We hope that you enjoyed\n"
 "#it, and that it made waiting for\n"
-"#Milestone 2 a little easier. :-)\n"
+"#Milestone 3 a little easier. :-)\n"
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-¡Felicitaciones!\n\n#Has completado exitosamente\n#Isla Extra II\n\n\n\tlos niveles presentados fueron aportados por\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Una vez mas, queremos agradecer\n#a todos aquellos que contribuyeron con este \n#lanzamiento. Esperamos que lo hayas\n#disfrutado, y que la espera por \n#Milestone 2 haya sido un poco más fácil. :-)\n\n\n El fin de la era del hielo esta cerca..."
+msgstr "-¡Felicitaciones!\n\n#Has completado exitosamente\n#Isla Extra II\n\n\n\tlos niveles presentados fueron aportados por\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Una vez más, queremos agradecer\n#a todos aquellos que contribuyeron con este \n#lanzamiento. Esperamos que lo hayas\n#disfrutado, y que la espera por \n#Milestone 3 haya sido un poco más fácil. :-)\n\n\n El fin de la era del hielo esta cerca..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Se supone que Mario puede con esto..."
+msgstr "Se Supone que Mario Puede Con Esto..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
-msgstr ""
+msgstr "Tres antes del último"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr "La larga cueva"
+msgstr "La Cueva Larga"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr "Ciego ante el mundo"
+msgstr "Ciego Ante El Mundo"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
-msgstr "tragar"
+msgstr "snarf"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr "De nuevo en camino"
+msgstr "De Nuevo En El Camino"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr "Tunel helado"
+msgstr "Tunel Congelado"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr ""
+msgstr "Aire-Dirigible"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...donde todo es posible"
+msgstr "...Donde Todo Es Posible"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr "Insertese título original aquí"
+msgstr "Insertese El Título Original Aquí"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
@@ -96,11 +96,11 @@ msgstr "Final de la Era de hielo"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr "Piensa rápido, o muere"
+msgstr "Piensa Rápido, o Muere"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
-msgstr "Fortaleza ventilador"
+msgstr "Fortaleza Ventilador"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
@@ -112,35 +112,35 @@ msgstr "Caminos de agua"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "No es oro todo lo que reluce"
+msgstr "No Todo Lo Que Brilla Es Oro"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr "Un frio dia"
+msgstr "Un Día Frio"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr "Alta gravedad"
+msgstr "Alta Gravedad"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
-msgstr "Tormenta de fuego"
+msgstr "Tormenta de Fuego"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
-msgstr "Un largo viaje"
+msgstr "Un Viaje Largo"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
-msgstr "Auxilios"
+msgstr "Apoyo Vital"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr "Saltamiento de precipicios"
+msgstr "Salto de Acantilado"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr "En las cuevas"
+msgstr "Dentro De La Cueva"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
@@ -148,15 +148,15 @@ msgstr "Tienes 1 minuto"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr "Un camino entre las nubes"
+msgstr "Un Camino Entre Las Nubes"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr "En la llanura helada de Flanders"
+msgstr "En la Llanura Helada de Flanders"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr "Castillo en el cielo"
+msgstr "Castillo en el Cielo"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
@@ -168,7 +168,7 @@ msgstr "Isla de Bonificación II"
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr "¡Encontraste un lugar secreto!"
+msgstr "¡Encontraste una área secreta!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
@@ -176,4 +176,4 @@ msgstr "Me pregunto adonde llevará ese camino..."
 
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
-msgstr "Transporte a casa"
+msgstr "Transporte a casa..."

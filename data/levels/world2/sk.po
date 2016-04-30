@@ -4,14 +4,15 @@
 # 
 # Translators:
 # DusXMT <merkur32@gmail.com>, 2014
+# MiroslavR <miroslavr256@gmail.com>, 2016
 # Roman 'Kaktuxista' Benji <romanbeno273@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:03+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-13 00:27+0000\n"
+"Last-Translator: MiroslavR <miroslavr256@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/arctic-games/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,36 +20,115 @@ msgstr ""
 "Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
+#: data/levels/world2/Bouncy_Coils.stl:3
+msgid "Bouncy Coils"
+msgstr "Skackajúce špirály"
+
+#: data/levels/world2/Castle_Entrance.stl:3
+msgid "Entrance to the Castle"
+msgstr "Vstup do zámku"
+
+#: data/levels/world2/CounterCurrent.stl:3
+msgid "Countercurrent"
+msgstr "Protiprúd"
+
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
 msgstr "Rozpadajúci sa chodník"
 
-#: data/levels/world2/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "Horský priesmyk"
+#: data/levels/world2/Duct_Ape.stl:3
+msgid "Duct Ape"
+msgstr "Kanálom"
 
-#: data/levels/world2/Mtn_Pass.stl:493
+#: data/levels/world2/El_Castillo.stl:3
+msgid "Short Visit to El Castillo"
+msgstr "Krátka návšteva El Castilla"
+
+#: data/levels/world2/Find_Big_Fish.stl:3
+msgid "Find the Bigger Fish!"
+msgstr "Nájdi väčšiu rybu!"
+
+#: data/levels/world2/Going_Underground.stl:3
+msgid "Going Underground"
+msgstr "Kurz: Podzemie"
+
+#: data/levels/world2/Kneep_Deep.stl:3
+msgid "Kneep-deep in the depth"
+msgstr "Až po kolená v hlbine"
+
+#: data/levels/world2/Little_Venice.stl:3
+msgid "Little Venice"
+msgstr "Malé Benátky"
+
+#: data/levels/world2/Mouldy_Grotto.stl:3
+msgid "A Mouldy Grotto"
+msgstr "Plesnivá jaskyňa"
+
+#: data/levels/world2/Penguin_Grow_Trees.stl:3
+msgid "Penguins don't grow on Trees"
+msgstr "Tučniaci nerastú na stromoch"
+
+#: data/levels/world2/Rabbit_Hole.stl:3
+msgid "Down The Rabbit Hole"
+msgstr "Dole zajačiou dierou"
+
+#: data/levels/world2/Rabbit_Hole.stl:46
 msgid ""
-"- Climbing\n"
-"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
+"-Oh no!\n"
+"#The path is blocked! It\n"
+"#seems that the only way\n"
+"#leads through that dark\n"
+"#hole in the ground..."
+msgstr "-Ach, nie!\n#Cesta je zablokovaná!\n#Zdá sa, že jediná cesta\n#vedie cez tú temnú\n#dieru v zemi..."
 
-#: data/levels/world2/airkey.stl:3
+#: data/levels/world2/Rabbit_Hole.stl:55
+msgid "-Are you lost?"
+msgstr "-Ste stratený?"
+
+#: data/levels/world2/Silent_Walls.stl:3
+msgid "The Silent Walls"
+msgstr "Tiché múry"
+
+#: data/levels/world2/Three_Sheets.stl:3
+msgid "Three sheets to the wind"
+msgstr "Tri listy do vetra"
+
+#: data/levels/world2/Treasure_Skies.stl:3
 msgid "Treasure in the skies"
 msgstr "Poklad na nebesiach"
 
-#: data/levels/world2/builder.stl:3
-msgid "Tux the Builder"
-msgstr "Tux Staviteľ"
+#: data/levels/world2/Tree_Fortress.stl:3
+msgid "Tree Fortress"
+msgstr "Stromová pevnosť"
 
-#: data/levels/world2/builder.stl:38
+#: data/levels/world2/Tux_Builder.stl:3
+msgid "Tux the Builder"
+msgstr "Staviteľ Tux"
+
+#: data/levels/world2/Tux_Builder.stl:38
 msgid ""
 "-Portable Rocks:\n"
 "\n"
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr ""
+msgstr "-Prenosné kamene:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+
+#: data/levels/world2/Two_Towers.stl:3
+msgid "Two Tiny Towers"
+msgstr "Dve malé veže"
+
+#: data/levels/world2/Up_and_Down.stl:3
+msgid "Up and Down"
+msgstr "Hore a dole"
+
+#: data/levels/world2/Walking_Leaves.stl:3
+msgid "Walking Leaves"
+msgstr "Chodiace listy"
+
+#: data/levels/world2/Welcome_Forest.stl:3
+msgid "Welcome to the Forest"
+msgstr "Vitajte v lese"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -59,57 +139,9 @@ msgstr "Ľadovcová pevnosť"
 msgid "NOLOK"
 msgstr "NOLOK"
 
-#: data/levels/world2/christoph1.stl:3
-msgid "Bouncy Coils"
-msgstr "Skackajúce špirály"
-
-#: data/levels/world2/christoph2.stl:3
-msgid "Tree Fortress"
-msgstr "Stromová pevnosť"
-
-#: data/levels/world2/christoph3.stl:3
-msgid "A Mouldy Grotto"
-msgstr "Plesnivá jaskyňa"
-
-#: data/levels/world2/christoph5.stl:3
-msgid "Short Visit to El Castillo"
-msgstr "Krátka návšteva El Castilla"
-
-#: data/levels/world2/christoph6.stl:3
-msgid "Welcome to the Forest"
-msgstr "Vítajte v lese"
-
-#: data/levels/world2/christoph7.stl:3
-msgid "Countercurrent"
-msgstr "Protiprúd"
-
-#: data/levels/world2/christoph8.stl:3
-msgid "Little Venice"
-msgstr "Malé Benátky"
-
-#: data/levels/world2/christoph9.stl:3
-msgid "Two Tiny Towers"
-msgstr "Dve malé veže"
-
-#: data/levels/world2/christophA.stl:3
-msgid "Three sheets to the wind"
-msgstr "Tri listy do vetra"
-
-#: data/levels/world2/christophB.stl:3
-msgid "Kneep-deep in the depth"
-msgstr "Až po kolená v hlbine"
-
-#: data/levels/world2/christophC.stl:3
-msgid "Duct Ape"
-msgstr "Kanálom"
-
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
 msgstr "Izba hviezd"
-
-#: data/levels/world2/christophE.stl:3
-msgid "The Silent Walls"
-msgstr "Tiché múry"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
@@ -131,10 +163,6 @@ msgstr "Pevnosť Temného lesa - Nolokove oči"
 msgid "Dark Forest Keep - The Black Tower"
 msgstr "Pevnosť Temného lesa - Čierna veža"
 
-#: data/levels/world2/fish.stl:3
-msgid "Find the Bigger Fish!"
-msgstr "Nájdi väčšiu rybu!"
-
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
 msgstr "Lesný level 1"
@@ -145,37 +173,29 @@ msgstr "Strašidelný svet"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr "kľúč 1 vodný - má byť daný za vodopád"
+msgstr "kľúč 1 vodný - má sa umiestniť za vodopád"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr "kľúč 2 zemný - má byť daný pod zem"
+msgstr "kľúč 2 zemný - má sa umiestniť pod zem"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr "kľúč 3 drevený - má byť daný do vysokého stromu"
+msgstr "kľúč 3 drevený - má sa umiestniť do vysokého stromu"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr "kľúč 4 ohnivý - má byť daný do malého hradu"
+msgstr "kľúč 4 ohnivý - má sa umiestniť do malého hradu"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr "kľúč 5 vzdušný - má byť daný do oblakov"
-
-#: data/levels/world2/keystodoor.stl:3
-msgid "Entrance to the Castle"
-msgstr "Vstup do zámku"
-
-#: data/levels/world2/leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Chodiace listy"
+msgstr "kľúč 5 vzdušný - má sa umiestniť do oblakov"
 
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
 msgstr "Korene, drevnaté korene"
 
-#: data/levels/world2/level1.stl:146
+#: data/levels/world2/level1.stl:200
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -183,28 +203,7 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr ""
-
-#: data/levels/world2/level2.stl:3
-msgid "Down The Rabbit Hole"
-msgstr "Dole zajačiou dierou"
-
-#: data/levels/world2/level2.stl:46
-msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
-"#hole in the ground..."
-msgstr ""
-
-#: data/levels/world2/level2.stl:55
-msgid "-Are you lost?"
-msgstr "-Ste stratený?"
-
-#: data/levels/world2/level4.stl:3
-msgid "Going Underground"
-msgstr "Kurz: Podzemie"
+msgstr "-Rada:\n#Ak sa vám zdá, že dostať sa\n#k nejakým dverám je nemožné,\n#myslite aj na možnosť, že z tých\n#dverí máte vyjsť..."
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
@@ -222,21 +221,17 @@ msgstr "Svetlo a mágia"
 msgid "Owls' Revenge"
 msgstr "Pomsta sov"
 
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Tu treba vložiť medziscénu---"
+
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "Šokujúce"
 
-#: data/levels/world2/trees.stl:3
-msgid "Penguins don't grow on Trees"
-msgstr "Tučniaci nerastú na stromoch"
-
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
 msgstr "Ešte nedokončené"
-
-#: data/levels/world2/updown.stl:3
-msgid "Up and Down"
-msgstr "Hore a dole"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"

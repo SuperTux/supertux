@@ -3,16 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Hume2 <teratux.mail@gmail.com>, 2016
 # Jiří Paleček <nrrstttpt@gmail.com>, 2013-2015
 # fri, 2013-2014
-# TeraTux devel Team <teratux.mail@gmail.com>, 2013-2015
+# Hume2 <teratux.mail@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-22 16:09+0000\n"
-"Last-Translator: TeraTux devel Team <teratux.mail@gmail.com>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-13 00:30+0000\n"
+"Last-Translator: Hume2 <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,11 +49,11 @@ msgstr "Antarktický déšť"
 msgid "...but no one can stop it..."
 msgstr "...ale nikdo to nedokáže zastavit..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:307
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr "-Promiňte, ale tato plošina je líná.\n-Vraťte se jindy"
+msgstr "-Promiňte, tato létající plošina je líná.\n-Vraťte se jindy."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
@@ -173,13 +174,13 @@ msgstr "Toaletní zóna"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr "-Spláchnutí\n#Stiskni klávesu NAHORU pro spláchnutí!"
+msgstr "-Spláchnutí: \n#Stiskni tlačítko nahoru pro spláchnutí!"
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr "-Cesta pryč?\n#Skoč!"
+msgstr "- Cesta pryč?\n#Skoč!"
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"

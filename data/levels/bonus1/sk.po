@@ -4,13 +4,14 @@
 # 
 # Translators:
 # DusXMT <merkur32@gmail.com>, 2014
+# MiroslavR <miroslavr256@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-21 12:40+0100\n"
-"PO-Revision-Date: 2015-11-22 09:04+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-13 00:27+0000\n"
+"Last-Translator: MiroslavR <miroslavr256@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/arctic-games/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgstr "Bonus Dias!"
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
-msgstr "Hradná Brána"
+msgstr "Hradná brána"
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
@@ -48,7 +49,7 @@ msgstr "Dlhá cesta domov"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
-msgstr "Zámok Bonusového Ostrovu"
+msgstr "Hrad Bonusového ostrova"
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
@@ -79,7 +80,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
+msgstr "-Gratulujeme!\n\n#Úspešne ste dokončili\n#Bonusový ostrov I\n\n\tobsahujúci úrovne, ktoré prispeli\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Ak ste ešte nedokončili všetky úrovne,\n#nájdite si cestu späť domov a poberte\n#sa inou cestou. Stále na vás čakajú\n#ďalšie výzvy!\n\n#Zároveň tu môžete nájsť jednu skrytú\n#úroveň...\n\n#Veľké poďakovanie patrí všetkým,\n#ktorí prispeli k tomuto vydaniu.\n#Dúfame, že sa vám to páčilo!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -103,7 +104,7 @@ msgstr "Nepriatelia sú hnusný!"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
-msgstr ""
+msgstr "Dobrý začiatok"
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
@@ -119,11 +120,11 @@ msgstr "Stále moc ľahké"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
-msgstr "Polo-Zamrznutý"
+msgstr "Polozamrznutý"
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
-msgstr "Jaskyňa Zrkadiel"
+msgstr "Zrkadlová jaskyňa"
 
 #: data/levels/bonus1/wansti-level3.stl:3
 msgid "A Maze In The Sky"
@@ -135,11 +136,11 @@ msgstr "Dochádza k Rozpadu!"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
-msgstr "Vrchol Ľadovcu"
+msgstr "Vrchol ľadovca"
 
 #: data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
-msgstr "Bonusový Ostrov I"
+msgstr "Bonusový ostrov I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mantas Kriaučiūnas <mantas@akl.lt>, 2015
 # Andrius Štikonas <andrius@stikonas.eu>, 2006
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-11-29 18:43+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-17 09:13+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/arctic-games/supertux/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,11 +83,11 @@ msgstr "Via Nostalgica"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
-msgstr ""
+msgstr "Tobgle kelias"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr ""
+msgstr "Nedidelis šikšnosparnis"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
@@ -191,9 +192,9 @@ msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
+"-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
-"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
+"#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
 msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
@@ -204,53 +205,53 @@ msgstr ""
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
-msgstr "Premijinis lygis"
+msgstr "Ypatingas  lygis"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr "Piknikas su Penny"
+msgstr "Iškyla su Pene"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid ""
 "Somewhere at the shores\n"
 "of Antarctica..."
-msgstr ""
+msgstr "Kažkuriame Antarktidos\nkrante..."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux: Hello Penny"
-msgstr ""
+msgstr "Tuksas: Labas Pene"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Penny: Hey Tux"
-msgstr ""
+msgstr "Penė: Sveikas Tuksai"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid "Tux: Check out my dance moves."
-msgstr ""
+msgstr "Tuksas: Pažiūrėk į mano šokio judesius."
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "Tux: Oww... my head..."
-msgstr ""
+msgstr "Tuksas: Ooo... mano galva..."
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "Tux: Wait!"
-msgstr ""
+msgstr "Tuksas: Palauk!"
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid "Tux: Penny!"
-msgstr ""
+msgstr "Tuksas: Pene!"
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid "Tux: Where are you, Penny?!"
-msgstr ""
+msgstr "Tuksas: Kur tu esi, Pene?!"
 
 #: data/levels/world1/scripts_intro.txt:11
 msgid "Tux: Oh no..."
-msgstr ""
+msgstr "Tuksas: O ne..."
 
 #: data/levels/world1/scripts_intro.txt:12
 msgid "Tux: Don't worry, Penny, I'll rescue you!"
-msgstr ""
+msgstr "Tuksas: Nesijaudink, Pene, aš išgelbėsiu tave!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
@@ -258,4 +259,4 @@ msgstr "Ledo sala"
 
 #: data/levels/world1/worldmap.stwm:37
 msgid "You Found a Secret Area!"
-msgstr ""
+msgstr "Jūs radote slapta zoną"

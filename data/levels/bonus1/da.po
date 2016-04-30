@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Joe Hansen <joedalton2@yahoo.dk>, 2015
+# Joe Hansen <joedalton2@yahoo.dk>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-21 12:40+0100\n"
-"PO-Revision-Date: 2015-11-23 14:42+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-13 00:27+0000\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/arctic-games/supertux/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -48,11 +48,11 @@ msgstr "Lang vej hjem"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
-msgstr "Bonusflagens borg"
+msgstr "Bonusøens borg"
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
-msgstr "Area 42"
+msgstr "Område 42"
 
 #: data/levels/bonus1/extro.txt:3
 msgid ""
@@ -79,7 +79,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-Tillykke!\n\n#Du har succesfuldt klaret\n#Bonusø 1\n\n\tsom indeholder baner lavet af\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Hvis du ikke har klaret alle baner endnu,\n#kan du gå tilbage og tage\n#en anden sti. Der er stadig flere\n#udfordringer der venter på dig!\n\n#Og der er også en hemmelig bane\n#at finde ...\n\t\n#Et stort tak går til\n#alle som hjalp med denne\n#udgivelse. Vi håber du nød den!"
+msgstr "-Tillykke!\n\n#Du har succesfuldt klaret\n#Bonusø I\n\n\tsom indeholder baner lavet af\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Hvis du ikke har klaret alle baner endnu,\n#kan du gå tilbage og tage\n#en anden sti. Der er stadig flere\n#udfordringer, der venter på dig!\n\n#Og der er også en hemmelig bane\n#at finde ...\n\t\n#Et stort tak går til\n#alle som hjalp med denne\n#udgivelse. Vi håber I nød det!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -91,7 +91,7 @@ msgstr "Jeg synes det er noget fisket"
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
-msgstr "\"Fire In The Sky\""
+msgstr "»Fire In The Sky«"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
@@ -139,11 +139,11 @@ msgstr "Toppen af isbjerget"
 
 #: data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
-msgstr "Bonusflage 1"
+msgstr "Bonusø I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
-msgstr "Du har fundet en hemmelig flage!"
+msgstr "Du har fundet et hemmelig sted!"
 
 #: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."
@@ -151,7 +151,7 @@ msgstr "Tip: Brug igloerne til at komme her tilbage"
 
 #: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"
-msgstr "Hop til Matr1x sektor"
+msgstr "Hop til Matr1x-sektoren"
 
 #: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
@@ -159,7 +159,7 @@ msgstr "Hop til Thompsons domæne"
 
 #: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
-msgstr "Forlad 'SuperTux Team'-flagen"
+msgstr "Forlad »SuperTux Team«-øen"
 
 #: data/levels/bonus1/worldmap.stwm:50
 msgid "Warp to Abednego's Area"
@@ -179,7 +179,7 @@ msgstr "Forlad Thompsons domæne"
 
 #: data/levels/bonus1/worldmap.stwm:77
 msgid "Back to Matr1x' Sector"
-msgstr "Hop tilbage til Matr1x sektor"
+msgstr "Hop tilbage til Matr1x-sektoren"
 
 #: data/levels/bonus1/worldmap.stwm:83
 msgid "Warp home"
@@ -187,7 +187,7 @@ msgstr "Hop hjem"
 
 #: data/levels/bonus1/worldmap.stwm:97
 msgid "Warp to the SuperTux Team Island"
-msgstr "Hop til \"SuperTux Team\"-flagen"
+msgstr "Hop til »SuperTux Team«-øen"
 
 #: data/levels/bonus1/worldmap.stwm:123
 msgid "Leave Matr1x' Sector"

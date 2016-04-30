@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Myeongjin <aranet100@gmail.com>, 2016
 # Roland Kim <dyn4micwork@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-11-29 18:43+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-04-12 03:27+0000\n"
+"Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "어서와, 남극은 처음이지?"
+msgstr "어서 와, 남극은 처음이지?"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
@@ -29,48 +30,48 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
+msgstr "-보너스 상자\n!images/objects/bonus_block/full-0.png\n#보너스 상자에는 당신이 퀘스트를 수행하는 데 도움을 주는 코인, 파워업이나 특별한 아이템이 들어 있습니다.\n#\n#아이템을 얻으려면 아래에서 상자를 위로 치세요."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-알\n!images/powerups/egg/egg.png\n#알은 턱스를 크게 키워줍니다. 턱스가 머리로 나무 상자를 깰 수 있게 해 줍니다."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr ""
+msgstr "-체크포인트\n!images/objects/resetpoints/bell-m.png\n#체크포인트를 활성화합니다. 죽으면, 여기에서 레벨을 다시 시작할 수 있습니다. 체크포인트에서 다시 시작할 때매다, (최소 25코인 정도로) 10퍼센트의 코인을 소비합니다."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr ""
+msgstr "-달리기\n!images/tiles/signs/run.png\n#앞에 블럭이 막고 있습니다. 블럭을 넘으려면 점프하기 전에 더 멀리 달려서 속도를 더 얻어야 합니다."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
+msgstr "-화염 꽃\n!images/powerups/fireflower/fire_flower-0.png\n#화염 꽃은 턱스가 화염을 발사할 수 있도록 해 줍니다."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr ""
+msgstr "-턱스 인형\n!images/powerups/1up/1up.png\n#턱스 인형은 턱스에게 100코인을 얻습니다."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr ""
+msgstr "-숨겨진 구역\n#많은 레벨들은 일반 벽처럼 보이는 숨겨진 구역들이 있습니다. 잘 찾아보세요."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -94,7 +95,7 @@ msgstr "햇빛 쏟아지는 평원"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
-msgstr "눈덩이 천국"
+msgstr "안돼! 눈덩이가 너무 많아!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
@@ -106,7 +107,7 @@ msgstr "미끄러운 얼음길"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
-msgstr "하늘길"
+msgstr "하늘23번길"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
@@ -118,11 +119,11 @@ msgstr "별 속으로"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "남극 하늘을 향해"
+msgstr "북극 하늘을 향해"
 
 #: data/levels/world1/14 - Entrance to the Cave.stl:3
 msgid "Entrance to the Cave"
-msgstr "던전 입구"
+msgstr "동굴 입구"
 
 #: data/levels/world1/15 - Under the Ice.stl:3
 msgid "Under the Ice"
@@ -134,7 +135,7 @@ msgstr "냉장고 속"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr "외로운 길"
+msgstr "'... 나 혼자야?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
@@ -146,7 +147,7 @@ msgstr "다시 환상 속으로"
 
 #: data/levels/world1/20 - End of the Tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr "던전의 끝"
+msgstr "동굴의 끝"
 
 #: data/levels/world1/21 - A Path in the Clouds.stl:3
 msgid "A Path in the Clouds"
@@ -166,7 +167,7 @@ msgstr "부서진 다리"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
-msgstr "남극을 뒤엎는 한이 있어도"
+msgstr "북극을 뒤엎는 한이 있어도"
 
 #: data/levels/world1/26 - The Castle of Nolok.stl:3
 msgid "The Castle of Nolok"
@@ -187,20 +188,20 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr ""
+msgstr "-스위치\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#스위치는 온갖 방법을 해낼 수 있습니다. 스위치를 작동하려면 위쪽 키를 누르세요. 이곳에서는 오른쪽의 리프트를 작동시킵니다."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
+"-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
-"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr ""
+"#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
+msgstr "-트램폴린\n!images/objects/trampoline/trampoline2-0.png\n#트램폴린은 턱스를 더 높이 점프할 수 있도록 해줍니다. 트램폴린에서 뛰고 있을 때 점프 키를 누르고 있으면 더 높이 점프할 수 있습니다."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
+msgstr "- 오르기\n# 턱스가 오를 수 있습니다!  오르려면 위쪽 키를 누르세요. 동작 키나 점프로 내보낼 수 있습니다."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
@@ -208,49 +209,49 @@ msgstr "보너스 레벨"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr "프롤로그"
+msgstr "페니와 소풍을"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid ""
 "Somewhere at the shores\n"
 "of Antarctica..."
-msgstr ""
+msgstr "남극의 어느 해안가에서..."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux: Hello Penny"
-msgstr ""
+msgstr "턱스: 안녕 페니"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Penny: Hey Tux"
-msgstr ""
+msgstr "페니: 이봐 턱스"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid "Tux: Check out my dance moves."
-msgstr ""
+msgstr "턱스: 내가 추는 춤 잘 봐."
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "Tux: Oww... my head..."
-msgstr ""
+msgstr "턱스: 어흐흐... 내 머리에..."
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "Tux: Wait!"
-msgstr ""
+msgstr "턱스: 기다려!"
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid "Tux: Penny!"
-msgstr ""
+msgstr "턱스: 페니!"
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid "Tux: Where are you, Penny?!"
-msgstr ""
+msgstr "턱스: 페니야 어딨어?!"
 
 #: data/levels/world1/scripts_intro.txt:11
 msgid "Tux: Oh no..."
-msgstr ""
+msgstr "턱스: 안돼..."
 
 #: data/levels/world1/scripts_intro.txt:12
 msgid "Tux: Don't worry, Penny, I'll rescue you!"
-msgstr ""
+msgstr "턱스: 걱정 마, 페니, 내가 구하러 갈게!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"

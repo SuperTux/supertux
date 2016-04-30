@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Slobodan Simić (Слободан Симић) <slsimic@gmail.com>, 2014
-# Slobodan Simić (Слободан Симић) <slsimic@gmail.com>, 2015
+# Slobodan Simić <slsimic@gmail.com>, 2014
+# Slobodan Simić <slsimic@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-23 12:13+0000\n"
-"Last-Translator: Slobodan Simić (Слободан Симић) <slsimic@gmail.com>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-12 08:35+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Serbian (http://www.transifex.com/arctic-games/supertux/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,11 +44,11 @@ msgid ""
 "#everyone who contributed to this\n"
 "#release. We hope that you enjoyed\n"
 "#it, and that it made waiting for\n"
-"#Milestone 2 a little easier. :-)\n"
+"#Milestone 3 a little easier. :-)\n"
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-Честитамо!↩\n↩\n#Успешно си прешао↩\n#Бонус острво 2↩\n↩\n↩\n\tса нивоима које су направили↩\n\tКевин↩\n\tЏејсон Клајнемас↩\n\tДенилсон↩\n\tТобе Депре↩\n\tБиг Си↩\n\tТомас Нилсен↩\n\tТорфи Гунарсон↩\n\tДанијел Алстон↩\n\tНилрок↩\n\tКорлин Хајдман↩\n↩\n↩\n#Још једном, желимо да захвалимо↩\n#свима који су допринели овом↩\n#издању. Надамо се да сте уживали↩\n#и да смо вам олакшали ишчекивање↩\n#2. прекретнице. :-)\n\n\n Крај леденог доба се ближи..."
+msgstr ""
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."

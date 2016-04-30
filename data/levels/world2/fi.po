@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jaakoppi Horila <supermariojaska5@gmail.com>, 2016
 # xet7 <x@xet7.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:03+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-02-07 09:33+0000\n"
+"Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,36 +19,115 @@ msgstr ""
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: data/levels/world2/Bouncy_Coils.stl:3
+msgid "Bouncy Coils"
+msgstr "Hyvä jousitus"
+
+#: data/levels/world2/Castle_Entrance.stl:3
+msgid "Entrance to the Castle"
+msgstr "Linnan suu"
+
+#: data/levels/world2/CounterCurrent.stl:3
+msgid "Countercurrent"
+msgstr "Vastavirta"
+
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
 msgstr "Murtuva polku"
 
-#: data/levels/world2/Mtn_Pass.stl:3
-msgid "The Mountain Pass"
-msgstr "Vuoristosola"
+#: data/levels/world2/Duct_Ape.stl:3
+msgid "Duct Ape"
+msgstr "Putkistoapina"
 
-#: data/levels/world2/Mtn_Pass.stl:493
+#: data/levels/world2/El_Castillo.stl:3
+msgid "Short Visit to El Castillo"
+msgstr "Pikavierailu El Castilloon"
+
+#: data/levels/world2/Find_Big_Fish.stl:3
+msgid "Find the Bigger Fish!"
+msgstr "Etsi isompi kala!"
+
+#: data/levels/world2/Going_Underground.stl:3
+msgid "Going Underground"
+msgstr "Maan alle!"
+
+#: data/levels/world2/Kneep_Deep.stl:3
+msgid "Kneep-deep in the depth"
+msgstr "Aikaraja syvyydessä"
+
+#: data/levels/world2/Little_Venice.stl:3
+msgid "Little Venice"
+msgstr "Pieni Venetsia"
+
+#: data/levels/world2/Mouldy_Grotto.stl:3
+msgid "A Mouldy Grotto"
+msgstr "Tunkkainen luola"
+
+#: data/levels/world2/Penguin_Grow_Trees.stl:3
+msgid "Penguins don't grow on Trees"
+msgstr "Pingviinit eivät kasva puissa."
+
+#: data/levels/world2/Rabbit_Hole.stl:3
+msgid "Down The Rabbit Hole"
+msgstr "Kaninkolot"
+
+#: data/levels/world2/Rabbit_Hole.stl:46
 msgid ""
-"- Climbing\n"
-"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
+"-Oh no!\n"
+"#The path is blocked! It\n"
+"#seems that the only way\n"
+"#leads through that dark\n"
+"#hole in the ground..."
+msgstr "-Voi ei!\n#Tie edessäsi on tukossa!\n#Näyttää siltä, että ainoa\n#reitti kulkee tuon pimeän\n#kolon kautta..."
 
-#: data/levels/world2/airkey.stl:3
+#: data/levels/world2/Rabbit_Hole.stl:55
+msgid "-Are you lost?"
+msgstr "-Oletko eksyksissä?"
+
+#: data/levels/world2/Silent_Walls.stl:3
+msgid "The Silent Walls"
+msgstr "Hiljaiset seinät"
+
+#: data/levels/world2/Three_Sheets.stl:3
+msgid "Three sheets to the wind"
+msgstr "Kolme piirua tuuleen"
+
+#: data/levels/world2/Treasure_Skies.stl:3
 msgid "Treasure in the skies"
 msgstr "Aarre pilvissä"
 
-#: data/levels/world2/builder.stl:3
+#: data/levels/world2/Tree_Fortress.stl:3
+msgid "Tree Fortress"
+msgstr "Puiden valtakunta"
+
+#: data/levels/world2/Tux_Builder.stl:3
 msgid "Tux the Builder"
 msgstr "Päivä rakentajana"
 
-#: data/levels/world2/builder.stl:38
+#: data/levels/world2/Tux_Builder.stl:38
 msgid ""
 "-Portable Rocks:\n"
 "\n"
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr ""
+msgstr "-Siirrettävät kivet:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+
+#: data/levels/world2/Two_Towers.stl:3
+msgid "Two Tiny Towers"
+msgstr "Kaksi pientä tornia"
+
+#: data/levels/world2/Up_and_Down.stl:3
+msgid "Up and Down"
+msgstr "Ylös ja alas"
+
+#: data/levels/world2/Walking_Leaves.stl:3
+msgid "Walking Leaves"
+msgstr "Vaeltavat lehdet"
+
+#: data/levels/world2/Welcome_Forest.stl:3
+msgid "Welcome to the Forest"
+msgstr "Tervetuloa metsään"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
@@ -58,57 +138,9 @@ msgstr "Jäävuoren Linnoitus"
 msgid "NOLOK"
 msgstr "NOLOK"
 
-#: data/levels/world2/christoph1.stl:3
-msgid "Bouncy Coils"
-msgstr "Hyvä jousitus"
-
-#: data/levels/world2/christoph2.stl:3
-msgid "Tree Fortress"
-msgstr "Puiden valtakunta"
-
-#: data/levels/world2/christoph3.stl:3
-msgid "A Mouldy Grotto"
-msgstr "Tunkkainen luola"
-
-#: data/levels/world2/christoph5.stl:3
-msgid "Short Visit to El Castillo"
-msgstr "Pikavierailu El Castilloon"
-
-#: data/levels/world2/christoph6.stl:3
-msgid "Welcome to the Forest"
-msgstr "Tervetuloa metsään"
-
-#: data/levels/world2/christoph7.stl:3
-msgid "Countercurrent"
-msgstr "Vastavirta"
-
-#: data/levels/world2/christoph8.stl:3
-msgid "Little Venice"
-msgstr "Pieni Venetsia"
-
-#: data/levels/world2/christoph9.stl:3
-msgid "Two Tiny Towers"
-msgstr "Kaksi pientä tornia"
-
-#: data/levels/world2/christophA.stl:3
-msgid "Three sheets to the wind"
-msgstr "Kolme piirua tuuleen"
-
-#: data/levels/world2/christophB.stl:3
-msgid "Kneep-deep in the depth"
-msgstr "Aikaraja syvyydessä"
-
-#: data/levels/world2/christophC.stl:3
-msgid "Duct Ape"
-msgstr "Putkistoapina"
-
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
 msgstr "Tähtien huone"
-
-#: data/levels/world2/christophE.stl:3
-msgid "The Silent Walls"
-msgstr "Hiljaiset seinät"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
@@ -129,10 +161,6 @@ msgstr "Varjometsän pitäjä - Nolokin silmät"
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
 msgstr "Varjometsän pitäjä - Musta torni"
-
-#: data/levels/world2/fish.stl:3
-msgid "Find the Bigger Fish!"
-msgstr "Etsi isompi kala!"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
@@ -162,19 +190,11 @@ msgstr "avain 4 tuli - olkoon pienessä linnassa"
 msgid "key 5 air - to be placed in clouds "
 msgstr "avain 5 ilma - olkoon pilvissä"
 
-#: data/levels/world2/keystodoor.stl:3
-msgid "Entrance to the Castle"
-msgstr "Linnan suu"
-
-#: data/levels/world2/leaves.stl:3
-msgid "Walking Leaves"
-msgstr "Vaeltavat lehdet"
-
 #: data/levels/world2/level1.stl:3
 msgid "Roots, Woody Roots"
 msgstr "Juuret, puiset juuret"
 
-#: data/levels/world2/level1.stl:146
+#: data/levels/world2/level1.stl:200
 msgid ""
 "-Hint:\n"
 "#If there seems to be\n"
@@ -182,28 +202,7 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr ""
-
-#: data/levels/world2/level2.stl:3
-msgid "Down The Rabbit Hole"
-msgstr "Kaninkolot"
-
-#: data/levels/world2/level2.stl:46
-msgid ""
-"-Oh no!\n"
-"#The path is blocked! It\n"
-"#seems that the only way\n"
-"#leads through that dark\n"
-"#hole in the ground..."
-msgstr ""
-
-#: data/levels/world2/level2.stl:55
-msgid "-Are you lost?"
-msgstr "-Oletko eksyksissä?"
-
-#: data/levels/world2/level4.stl:3
-msgid "Going Underground"
-msgstr "Maan alle!"
+msgstr "-Vihje:\n#Jos et keksi mitään reittiä\n#ovelle, muista että se saattaa\n#olla uloskäynti..."
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
@@ -221,21 +220,17 @@ msgstr "Valon taikaa"
 msgid "Owls' Revenge"
 msgstr "Pöllöjen paluu"
 
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Aseta Tähän Välikohtaus---"
+
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"
 msgstr "Sähköä"
 
-#: data/levels/world2/trees.stl:3
-msgid "Penguins don't grow on Trees"
-msgstr "Pingviinit eivät kasva puissa."
-
 #: data/levels/world2/underconstruction.stl:3
 msgid "Under Construction"
 msgstr "Keskeneräinen"
-
-#: data/levels/world2/updown.stl:3
-msgid "Up and Down"
-msgstr "Ylös ja alas"
 
 #: data/levels/world2/village.stl:3
 msgid "A Village in the Forest"

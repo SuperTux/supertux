@@ -5,13 +5,14 @@
 # Translators:
 # Arvid Norlander <anmaster@berlios.de>, 2006-2008,2010
 # Kristoffer Grundström <kristoffer.grundstrom1983@gmail.com>, 2014
+# sebras <sebras@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-21 12:40+0100\n"
-"PO-Revision-Date: 2015-11-22 09:04+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-13 00:29+0000\n"
+"Last-Translator: sebras <sebras@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/arctic-games/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,7 +81,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
+msgstr "-Gratulerar!\n\n#Du har slutfört\n#Bonusö I\n\n\tmed nivåer bidragna av\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Om du inte slutfört alla banor än\n#leta dig tillbaka hem och följ en\n#annan väg. Det finns fortfarande\n#fler utmaningar som väntar dig!\n\n#Och det finns en hemlig bana att\n#hitta dessutom…\n\n#Ett stort tack till alla som har bidragit\n#till denna version. Vi hoppas att\n#du uppskattade den!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -104,7 +105,7 @@ msgstr "Dåliga killar stinker!"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
-msgstr ""
+msgstr "En bra början"
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
@@ -112,7 +113,7 @@ msgstr "För enkelt"
 
 #: data/levels/bonus1/torfi-level2.stl:42
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
-msgstr ""
+msgstr "#Alla dessa banor uppgraderades till designen för milstople 2 av Hume2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -132,7 +133,7 @@ msgstr "En labyrint i höjden"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
-msgstr "Kollaps nära förestående"
+msgstr "Kollaps nära förestående!"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
@@ -140,7 +141,7 @@ msgstr "Toppen på isberget"
 
 #: data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
-msgstr "Bonusö I"
+msgstr "Bonus-ö I"
 
 #: data/levels/bonus1/worldmap.stwm:12
 msgid "You found a secret place!"
@@ -148,7 +149,7 @@ msgstr "Du har hittat en hemlig plats!"
 
 #: data/levels/bonus1/worldmap.stwm:20
 msgid "Hint: Use igloos to get back here."
-msgstr "Tips: Använd iglor för att komma tillbaka hit"
+msgstr "Tips: Använd igloor för att komma tillbaka hit."
 
 #: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"
@@ -156,7 +157,7 @@ msgstr "Teleportera till Matr1xs sektor"
 
 #: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
-msgstr "Teleportera till Thompsons domäner"
+msgstr "Teleportera till Thompsons domän"
 
 #: data/levels/bonus1/worldmap.stwm:43 data/levels/bonus1/worldmap.stwm:104
 msgid "Leave the SuperTux Team Island"
@@ -176,7 +177,7 @@ msgstr "Lämna Abednegos område"
 
 #: data/levels/bonus1/worldmap.stwm:70 data/levels/bonus1/worldmap.stwm:117
 msgid "Leave Thompson's Domain"
-msgstr "Lämna Thompsons domäner"
+msgstr "Lämna Thompsons domän"
 
 #: data/levels/bonus1/worldmap.stwm:77
 msgid "Back to Matr1x' Sector"
@@ -200,4 +201,4 @@ msgstr "Fortsätt i Matr1xs sektor"
 
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"
-msgstr "Teleportera till Torfis territorie"
+msgstr "Teleportera till Torfis territorium"

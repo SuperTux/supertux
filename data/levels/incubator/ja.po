@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
+# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015-2016
 # Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 10:10+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-04-08 11:49+0000\n"
 "Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,66 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: data/levels/incubator/Angry Stone vs. YOU.stl:3
+msgid "Angry Stone vs. YOU"
+msgstr "怒った石 vs. あなた"
+
+#: data/levels/incubator/Angry Stone vs. YOU.stl:307
+msgid ""
+"#You activate switches with this button:\n"
+"!images/tiles/signs/up.png"
+msgstr "#このボタンを使用してスイッチを\n#作動させてください。\n!images/tiles/signs/up.png"
+
+#: data/levels/incubator/Castle #1.stl:3
+msgid "Castle #1"
+msgstr "城 #1"
+
+#: data/levels/incubator/Missingno.stl:3
+msgid "Missingno"
+msgstr "欠落なし"
+
+#: data/levels/incubator/Missingno.stl:530
+msgid "#Be patient!"
+msgstr "#我慢して！"
+
+#: data/levels/incubator/Missingno.stl:535
+msgid ""
+"#Dont move while flying!\n"
+"#Pay attention at landing!"
+msgstr "#飛ぶまで動かないで!\n#着陸時に十分注意してください！"
+
+#: data/levels/incubator/NewIcelevel1.stl:3
+msgid "Blue iced hills"
+msgstr "ブルーアイスの丘"
+
+#: data/levels/incubator/NewIcelevel2.stl:3
+msgid "Bads mountains"
+msgstr "悪い山"
+
+#: data/levels/incubator/NewIcelevel3.stl:3
+msgid "eman level ehT <---"
+msgstr "eman level ehT <---"
+
+#: data/levels/incubator/NewIcelevel4.stl:3
+msgid "Ice sea"
+msgstr "氷の海"
+
+#: data/levels/incubator/NewIcelevel5.stl:3
+msgid "Electric-Wood factory"
+msgstr "電気-石工場"
+
+#: data/levels/incubator/Nice Ice.stl:3
+msgid "Nice Ice"
+msgstr "良い氷"
+
+#: data/levels/incubator/Nice Ice.stl:88
+msgid "#Use the enemy to finish this level!"
+msgstr "#このレベルをクリアするためには、\n#敵を使用してください！"
+
+#: data/levels/incubator/SP33DRUN.stl:3
+msgid "SP33DRUN"
+msgstr "SP33DRUN"
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
@@ -31,9 +91,25 @@ msgstr "チェリーフロスティング"
 msgid "Mad Ysonn Cube Garden"
 msgstr "マッドYsonnキューブガーデン"
 
+#: data/levels/incubator/fall_kugelblitz.stl:3
+msgid "Kugelblitzstorm"
+msgstr "クーゲルブリッツの嵐"
+
 #: data/levels/incubator/frozen_fissure.stl:3
 msgid "Frozen Fissure"
 msgstr "フローズンの割れ目"
+
+#: data/levels/incubator/hungry_tux.stl:3
+msgid "Tux is hungry!"
+msgstr "お腹が空いたTux"
+
+#: data/levels/incubator/ice_mountain.stl:3
+msgid "Crystal Mountain"
+msgstr "クリスタル マウンテン"
+
+#: data/levels/incubator/in_the_mountain.stl:3
+msgid "In the mountain"
+msgstr "山の中で"
 
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
@@ -43,7 +119,7 @@ msgstr "やみの中へ"
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr "-ヒント: \n#ファイヤーフラワーを使って、氷の通る道を\n#溶かしてください。"
+msgstr ""
 
 #: data/levels/incubator/into_dark.stl:230
 msgid "#Beware of fire!"
@@ -53,9 +129,48 @@ msgstr "#火の用心"
 msgid "The Jagged Path"
 msgstr "ギザギザの道"
 
+#: data/levels/incubator/let_us_snow.stl:3
+msgid "Let us snow!"
+msgstr "雪で遊ぼう!"
+
+#: data/levels/incubator/let_us_snow.stl:205
+msgid ""
+"-Warning!\n"
+"#Beware the falling enemies!"
+msgstr ""
+
+#: data/levels/incubator/long.stl:3
+msgid "A long adventure"
+msgstr "長い冒険"
+
+#: data/levels/incubator/long.stl:1579
+msgid ""
+"#Until this moment you have luck.\n"
+"#The way here was hard.\n"
+"#You still have a long way to go.\n"
+"#You must know it well.\n"
+"#Even now you must not fail it.\n"
+"#Now go down to the shaft.\n"
+"#I hope you understood."
+msgstr ""
+
+#: data/levels/incubator/long.stl:3997
+msgid ""
+"-Congratulations!\n"
+"#You are in half the level! "
+msgstr ""
+
+#: data/levels/incubator/long.stl:4549
+msgid "-You are going wrong!"
+msgstr "-間違いへ向かっている!"
+
 #: data/levels/incubator/midnight_crossing.stl:3
 msgid "Midnight Crossing"
 msgstr "ミッドナイト クロッシング"
+
+#: data/levels/incubator/mountain_climbing.stl:3
+msgid "Mountain climbing"
+msgstr "山登り"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"

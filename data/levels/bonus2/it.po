@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Bananasoft <bananasoftservice@yahoo.it>, 2016
+# Paride Barison, 2015
 # Marcello Bolognesi, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:04+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-04-04 07:36+0000\n"
+"Last-Translator: Bananasoft <bananasoftservice@yahoo.it>\n"
 "Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,11 +45,11 @@ msgid ""
 "#everyone who contributed to this\n"
 "#release. We hope that you enjoyed\n"
 "#it, and that it made waiting for\n"
-"#Milestone 2 a little easier. :-)\n"
+"#Milestone 3 a little easier. :-)\n"
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-Congratulazioni!\n\n#Ce l'hai fatta a superare\n#Isola Bonus II\n\n\n\tlivelli aggiuntivi contribuiti da\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ancora una volta, vogliamo ringraziare\n#tutti quelli che hanno contribuito a questa\n#release. Speriamo ti sia divertito\n#e che l'attesa per la\n#Milestone 3 sia un po' più facile. :-)\n\n\n La fine dell'era glaciale è vicina..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
@@ -59,7 +61,7 @@ msgstr "fjerd"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr "La Lunga Caverna"
+msgstr "La Caverna Lunga "
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"

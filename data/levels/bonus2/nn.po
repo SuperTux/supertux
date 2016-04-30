@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Karl Ove Hufthammer <karl@huftis.org>, 2007,2013,2015
+# Karl Ove Hufthammer <karl@huftis.org>, 2007,2013,2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 20:46+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-13 00:54+0000\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk (http://www.transifex.com/arctic-games/supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
@@ -43,11 +43,11 @@ msgid ""
 "#everyone who contributed to this\n"
 "#release. We hope that you enjoyed\n"
 "#it, and that it made waiting for\n"
-"#Milestone 2 a little easier. :-)\n"
+"#Milestone 3 a little easier. :-)\n"
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-Gratulerer!\n\n#Du kom deg gjennom\n#Bonusøy II\n\n\n\tBretta på øya er laga av\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Igjen takk til alle som har bidratt\n#til denne utgåva. Me håpar du har\n#kost deg med å spela, og at det\n#har gjort ventetida til\nMilestolpe 2 litt lettare. :-)\n\n\n Istida går mot slutten …"
+msgstr "-Gratulerer!\n\n#Du kom deg gjennom\n#Bonusøy II\n\n\n\tBretta på øya er laga av\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Igjen takk til alle som har bidratt\n#til denne utgåva. Me håpar du har\n#kost deg med å spela, og at det\n#har gjort ventetida til\nMilestolpe 3 litt lettare. :-)\n\n\n Istida går mot slutten …"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."

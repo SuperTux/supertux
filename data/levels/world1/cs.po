@@ -3,17 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Hume2 <teratux.mail@gmail.com>, 2016
 # Jiří Paleček <nrrstttpt@gmail.com>, 2015
 # Jiří Paleček <nrrstttpt@gmail.com>, 2013-2015
 # fri, 2013
-# TeraTux devel Team <teratux.mail@gmail.com>, 2013-2015
+# Hume2 <teratux.mail@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-12-13 15:29+0000\n"
-"Last-Translator: TeraTux devel Team <teratux.mail@gmail.com>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-23 18:33+0000\n"
+"Last-Translator: Hume2 <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,35 +40,35 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Vejce\n!images/powerups/egg/egg.png\n#Vejce zvětší Tuxe. Potom může ničit dřevěné bedny hlavou."
+msgstr "-Vejce\n!images/powerups/egg/egg.png\n#Vejce nechá Tuxe vyrůst. Tux pak může dřevěné kostky rozdrtit svou hlavou."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Uložováky\n!images/objects/resetpoints/bell-m.png\n#Aktivuj si uložovák. Pokud zemřeš, můžeš se vrátit sem. Pokaždé, když se vrátíš na uložovák, ztratíš 10% ze svých mincí. (nejméně však 25 mincí)"
+msgstr "-Uložováky\n!images/objects/resetpoints/bell-m.png\n#Aktivuj si uložovák. Když zemřeš, tak se vrátíš sem. Pokaždé, když se vrátíš na uložovák, ztratíš 10% svých mincí (alespoň 25 mincí)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Běhání\n!images/tiles/signs/run.png\n#Cesta před tebou je zablokovaná. Před skokem se trochu rozeběhni, abys barikádu přeskočil."
+msgstr "-Běh\n!images/tiles/signs/run.png\n#Stezka před vámi je zahrazena. Získejte nějakou rychlost před skokem, který vás přenese přes kostky."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Ohnivá květina\n!images/powerups/fireflower/fire_flower-0.png\n#Ohnivá květina dá Tuxovi schopnost střílet ohnivé koule. Kolik sesbírá květin, tolik střel bude moci vystřelit po sobě."
+msgstr "-Ohnivá květina\n!images/powerups/fireflower/fire_flower-0.png\n#Ohnivá květina dává Tuxovi schopnost střílet ohnivé koule."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-Stokoruna\n!images/powerups/1up/1up.png\n#Tučňáčí stokoruna dá Tuxovi 100 mincí."
+msgstr "-Tučňáčí stokoruna\n!images/powerups/1up/1up.png\n#Tučňáčí stokoruna dá Tuxovi 100 mincí."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
@@ -190,20 +191,20 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "-Páčky\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Páčky se dají použít na dělání všemožných věcí. Stiskni klávesu NAHORU, abys je použil. Tahle páčka aktivuje výtah po tvé pravici."
+msgstr "-Páčky\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Páčky se dají použít k lecčemu. K použití páčky stiskněte klávesu nahoru.  Tato páčka zapne výtah napravo."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
+"-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
-"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr "-Trampolíny\n!images/objects/trampoline/trampoline2-0.png\n#Trampolíny umožní skákat Tuxovi do velkých výšek. Podrž klávesu skoku, aby ses vymrštil zvlášť vysoko."
+"#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
+msgstr "-Trampolíny\n!images/objects/trampoline/trampoline2-0.png\n#Trampolíny umožňují Tuxovi vyskočit ještě výše. Když při tom ještě vyskočíš, odrazíš se obzvláště vysoko."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "-Šplhání\n#Tux umí šplhat! Stiskni klávesu NAHORU, aby začal šplhat. Stiskni klávesu AKCE nebo skoč, aby přestal šplhat."
+msgstr "- Šplhání\n# Tux umí šplhat! Stiskněte klávesu nahoru, aby začal šplhat. Stiskněte klávesu akce nebo poskočte, aby pokračoval v chůzi."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

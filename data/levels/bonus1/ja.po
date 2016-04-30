@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
+# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015-2016
 # Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-21 12:40+0100\n"
-"PO-Revision-Date: 2015-12-17 10:24+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-13 01:18+0000\n"
 "Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr "-おめでとうございます! \n#あなたは無事にボーナス アイランド1 \n#を終えました。 \n#これらのコースを作ったのは、 \n#ジェイソン·W·トンプソン \n#Torfiガナーソン 3アベデネゴ \n#Matr1x \n#の皆さんです。 \n#あなたがまだすべてのコースをクリア出来ていなかったら、 \n#もどって別の道をさがせばいいでしょう。 \n#あなたの挑戦をまっています! \n#また、秘密のコースもあります... \n#本当にありがとうございます! \n#このリリースに貢献した皆様に \n#私達は、あなたがそれを楽しんでもらえると \n#うれしいです!"
+msgstr "-おめでとうございます!\n#あなたは無事にボーナス アイランド1\n#を終えました。\n\n#これらのコースを作ったのは、 \n#ジェイソン·W·トンプソン\n#Torfiガナーソン \n#アベデネゴ\n#Matr1x\n#の皆さんです。\n\n\n#あなたがまだすべてのコースを\n#クリア出来ていなかったら、\n#もどって別の道をさがせばいいでしょう。\n#あなたの挑戦をまっています!\n#また、秘密のコースもあります...\n\n\n#本当にありがとうございます!\n#このリリースに貢献した皆様に\n#私達は、あなたがそれを楽しんでもらえると\n#うれしいです!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Myeongjin <aranet100@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:04+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-04-11 02:35+0000\n"
+"Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,63 +43,63 @@ msgid ""
 "#everyone who contributed to this\n"
 "#release. We hope that you enjoyed\n"
 "#it, and that it made waiting for\n"
-"#Milestone 2 a little easier. :-)\n"
+"#Milestone 3 a little easier. :-)\n"
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-축하합니다!\n\n#당신은 보너스 섬 II에 성공적으로\n#깼습니다\n\n\n\t특색있는 레벨 기여자\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#다시 한번, 우리는 이 배포판에\n#기여한 모든 분들께 감사를\n#드리고 싶습니다. 우리는 그것을\n#즐기길 바라며, 마일스톤 3에서는\n#조금 더 쉽게 만들겠습니다. :-)\n\n\n 빙하기의 끝은 가까이에..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr ""
+msgstr "이...와 다루는 마리오의 제안"
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
-msgstr ""
+msgstr "피에르드"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr ""
+msgstr "긴 동굴"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
-msgstr ""
+msgstr "세계에 눈이 멀다"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
-msgstr ""
+msgstr "야금"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
-msgstr ""
+msgstr "다시 길에서"
 
 #: data/levels/bonus2/level15.stl:3
 msgid "Frozen Tunnel"
-msgstr ""
+msgstr "언 터널"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr ""
+msgstr "뤂 비행선"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr ""
+msgstr "...모든 것이 가능한 곳"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr ""
+msgstr "여기에 원래 제목을 입력하세요"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
-msgstr ""
+msgstr "빙하기의 끝"
 
 #: data/levels/bonus2/level2.stl:3
 msgid "Think Fast, or Die"
-msgstr ""
+msgstr "빨리 생각해, 또는 죽어"
 
 #: data/levels/bonus2/level20.stl:3
 msgid "Fan Fortress"
-msgstr ""
+msgstr "팬 요새"
 
 #: data/levels/bonus2/level21.stl:3
 msgid "Nolok's Party Pit"
@@ -106,27 +107,27 @@ msgstr ""
 
 #: data/levels/bonus2/level22.stl:3
 msgid "Water Ways"
-msgstr ""
+msgstr "물길"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr ""
+msgstr "반짝인다고 다 금은 아니다"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr ""
+msgstr "추운 날"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
-msgstr ""
+msgstr "센 중력"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
-msgstr ""
+msgstr "불폭풍"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
-msgstr ""
+msgstr "긴 여행"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
@@ -134,44 +135,44 @@ msgstr ""
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr ""
+msgstr "절벽 뛰기"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr ""
+msgstr "동굴 속으로"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
-msgstr ""
+msgstr "너에게 1분이 있어"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr ""
+msgstr "구름을 통한 길"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
-msgstr ""
+msgstr "플랑드르 아이스 필드에서"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr ""
+msgstr "하늘에 성이"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"
-msgstr ""
+msgstr "전통"
 
 #: data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr ""
+msgstr "보너스 섬 II"
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr ""
+msgstr "숨겨진 장소를 찾았습니다!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
-msgstr ""
+msgstr "저 길이 어디로 이어지는지 궁금해..."
 
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
-msgstr ""
+msgstr "집으로 워프..."

@@ -4,21 +4,82 @@
 # 
 # Translators:
 # Alkım Kaçmaz <alkimkacmaz@gmail.com>, 2013
+# faradundamarti <faradundamarti@yandex.com>, 2015-2016
 # yakup <mutouk@yandex.ru>, 2013,2015
 # Yusuf Özsoy <yusufozsoy96@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:04+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-03-13 09:08+0000\n"
+"Last-Translator: faradundamarti <faradundamarti@yandex.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/arctic-games/supertux/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: data/levels/incubator/Angry Stone vs. YOU.stl:3
+msgid "Angry Stone vs. YOU"
+msgstr "Sinirli Taşa karşı SEN"
+
+#: data/levels/incubator/Angry Stone vs. YOU.stl:307
+msgid ""
+"#You activate switches with this button:\n"
+"!images/tiles/signs/up.png"
+msgstr "#Anahtarları bu düğme ile etkinleştir:\n!images/tiles/signs/up.png"
+
+#: data/levels/incubator/Castle #1.stl:3
+msgid "Castle #1"
+msgstr "Kale#1"
+
+#: data/levels/incubator/Missingno.stl:3
+msgid "Missingno"
+msgstr ""
+
+#: data/levels/incubator/Missingno.stl:530
+msgid "#Be patient!"
+msgstr "#Sabırlı ol!"
+
+#: data/levels/incubator/Missingno.stl:535
+msgid ""
+"#Dont move while flying!\n"
+"#Pay attention at landing!"
+msgstr "#Uçuş sırasında taşıma!\n#İnişte dikkatli olun!"
+
+#: data/levels/incubator/NewIcelevel1.stl:3
+msgid "Blue iced hills"
+msgstr "Mavi buz tepeleri"
+
+#: data/levels/incubator/NewIcelevel2.stl:3
+msgid "Bads mountains"
+msgstr "Kötülük Dağları"
+
+#: data/levels/incubator/NewIcelevel3.stl:3
+msgid "eman level ehT <---"
+msgstr "ıda mülöB <---"
+
+#: data/levels/incubator/NewIcelevel4.stl:3
+msgid "Ice sea"
+msgstr "Buz denizi"
+
+#: data/levels/incubator/NewIcelevel5.stl:3
+msgid "Electric-Wood factory"
+msgstr "Elektrik-Tahta Fabrikası"
+
+#: data/levels/incubator/Nice Ice.stl:3
+msgid "Nice Ice"
+msgstr "Güzel Buz"
+
+#: data/levels/incubator/Nice Ice.stl:88
+msgid "#Use the enemy to finish this level!"
+msgstr "#Bu bölümü bitirmek için düşman kullan!"
+
+#: data/levels/incubator/SP33DRUN.stl:3
+msgid "SP33DRUN"
+msgstr "SP33DRUN"
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
@@ -32,9 +93,25 @@ msgstr "Kirazlı Dondurma"
 msgid "Mad Ysonn Cube Garden"
 msgstr "Deli Ysonn Küp Bahçesi"
 
+#: data/levels/incubator/fall_kugelblitz.stl:3
+msgid "Kugelblitzstorm"
+msgstr "Şimşek tophu fırtınası"
+
 #: data/levels/incubator/frozen_fissure.stl:3
 msgid "Frozen Fissure"
-msgstr ""
+msgstr "Donmuş Çatlak"
+
+#: data/levels/incubator/hungry_tux.stl:3
+msgid "Tux is hungry!"
+msgstr "Tux'un karnı aç!"
+
+#: data/levels/incubator/ice_mountain.stl:3
+msgid "Crystal Mountain"
+msgstr "Kristal Dağ"
+
+#: data/levels/incubator/in_the_mountain.stl:3
+msgid "In the mountain"
+msgstr "Dağda"
 
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
@@ -44,19 +121,58 @@ msgstr "Karanlığa Doğru"
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr ""
+msgstr "-İpucu:\n#Buzu eritip yol açmak için ateş çiçeğini kullan."
 
 #: data/levels/incubator/into_dark.stl:230
 msgid "#Beware of fire!"
-msgstr ""
+msgstr "#Ateşten sakın!"
 
 #: data/levels/incubator/jagged_path.stl:3
 msgid "The Jagged Path"
 msgstr "Pürüzlü Yol"
 
+#: data/levels/incubator/let_us_snow.stl:3
+msgid "Let us snow!"
+msgstr "Kar yağdığını varsayalım!"
+
+#: data/levels/incubator/let_us_snow.stl:205
+msgid ""
+"-Warning!\n"
+"#Beware the falling enemies!"
+msgstr "-Dikkat!↩\n#Düşen düşmanlardan sakının!"
+
+#: data/levels/incubator/long.stl:3
+msgid "A long adventure"
+msgstr "Uzun bir macera"
+
+#: data/levels/incubator/long.stl:1579
+msgid ""
+"#Until this moment you have luck.\n"
+"#The way here was hard.\n"
+"#You still have a long way to go.\n"
+"#You must know it well.\n"
+"#Even now you must not fail it.\n"
+"#Now go down to the shaft.\n"
+"#I hope you understood."
+msgstr ""
+
+#: data/levels/incubator/long.stl:3997
+msgid ""
+"-Congratulations!\n"
+"#You are in half the level! "
+msgstr "-Tebrikler\n#Bölümün yarısındasınız!"
+
+#: data/levels/incubator/long.stl:4549
+msgid "-You are going wrong!"
+msgstr "-Yanlış yoldan gidiyorsun"
+
 #: data/levels/incubator/midnight_crossing.stl:3
 msgid "Midnight Crossing"
-msgstr ""
+msgstr "Gece Yarısı Kesişmesi"
+
+#: data/levels/incubator/mountain_climbing.stl:3
+msgid "Mountain climbing"
+msgstr "Dağ tırmanışı"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
@@ -64,15 +180,15 @@ msgstr "O Kadar Da Uzun Olmayan Yol"
 
 #: data/levels/incubator/obstaclecourse.stl:3
 msgid "Obstacle Course"
-msgstr ""
+msgstr "Engelli Koşu Yeri"
 
 #: data/levels/incubator/obstaclecourse.stl:48
 msgid "#If you get stuck, flip the switch to kill Tux."
-msgstr ""
+msgstr "#Eğer çıkmaza girerseniz,Tuxu öldürmek için düğmeye vur."
 
 #: data/levels/incubator/pipeline.stl:3
 msgid "Pipeline"
-msgstr ""
+msgstr "Boru hattı"
 
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"

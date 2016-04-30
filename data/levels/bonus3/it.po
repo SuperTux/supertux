@@ -4,13 +4,15 @@
 # 
 # Translators:
 # Angela <angelapellegrino@hotmail.it>, 2014
+# Enrico <allin@infinito.it>, 2015
 # Marcello Bolognesi, 2013
+# Riccardo Di Maio <riccardodimaio11@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:03+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-12 08:29+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +31,7 @@ msgstr "Riscaldamento globale"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
-msgstr ""
+msgstr "Una Notte in Cielo"
 
 #: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
@@ -47,7 +49,7 @@ msgstr "Pioggia antartica"
 msgid "...but no one can stop it..."
 msgstr "...ma nessuno può fermarlo..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:307
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -73,11 +75,11 @@ msgstr "Caverna Fredda"
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr ""
+msgstr "#Ottimo lavoro! Hai tenuto la lanterna rossa! Non era necessario, ma visto che l'hai fatto eccoti 100 monete!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr ""
+msgstr "Fortezza Noce di Cocco"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
@@ -89,15 +91,15 @@ msgstr "Cieli di Cristallo"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr ""
+msgstr "Bellezza di Cristallo"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr ""
+msgstr "Cataclisma di Cristallo"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
-msgstr ""
+msgstr "Sui Campi di Cristallo"
 
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
@@ -106,11 +108,11 @@ msgstr "Il castello oscuro"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
-msgstr ""
+msgstr "A fondo, più a fondo..."
 
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
-msgstr ""
+msgstr "...massima profondità!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
@@ -150,7 +152,7 @@ msgstr "In Primavera"
 
 #: data/levels/bonus3/its_getting_unfinishable.stl:3
 msgid "It's getting unfinishable"
-msgstr ""
+msgstr "Sta diventando infinibile"
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"

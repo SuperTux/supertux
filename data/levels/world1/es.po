@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Fran <franchulo021@gmail.com>, 2015
+# Francisco B.G. <franchulo021@gmail.com>, 2015
 # Germana <germanaoliveirab@gmail.com>, 2013
-# William Beltrán <wbeltranc@gmail.com>, 2015
+# william beltran <wbeltranc@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-12-17 04:17+0000\n"
-"Last-Translator: William Beltrán <wbeltranc@gmail.com>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-02-03 01:09+0000\n"
+"Last-Translator: william beltran <wbeltranc@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,27 +52,27 @@ msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Correr\n!images/tiles/signs/run.png\n#El camino frente a ti está bloqueado. Consigue un poco de velocidad antes de saltar para pasar sobre los bloques."
+msgstr "-Corre\n!images/tiles/signs/run.png\n#El camino frente a ti está bloqueado. Consigue un poco de velocidad antes de saltar para pasar sobre los bloques."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Flor de fuego\n!images/powerups/fireflower/fire_flower-0.png\n#La flor de fuego da a Tux la habilidad de disparar bolas de fuego."
+msgstr "-Flor de fuego\n!images/powerups/fireflower/fire_flower-0.png\n#La flor de fuego le da a Tux la habilidad de disparar bolas de fuego."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-Muñeca Tux\n!images/powerups/1up/1up.png\n#La muñeca Tux la da a Tux 100 monedas."
+msgstr "-Muñeco Tux\n!images/powerups/1up/1up.png\n#El muñeco Tux da a Tux 100 monedas."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Áreas Secretas\n#Muchos niveles contienen áreas secretas detrás de lo que puede parecer una pared. Busca pistar para encontrarlas."
+msgstr "-Áreas Secretas\n#Muchos niveles contienen áreas secretas detrás de lo que puede parecer una pared. Busca pistas para encontrarlas."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -80,7 +80,7 @@ msgstr "La Aventura Comienza"
 
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
-msgstr "Via Nostalgica"
+msgstr "Vía Nostálgica"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
@@ -88,11 +88,11 @@ msgstr "Camino Tobgle"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "El Algo Pequeño Baño"
+msgstr "El Baño Un Poco Pequeño"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
-msgstr "Los campos congelados"
+msgstr "Los Campos Congelados"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
@@ -100,15 +100,15 @@ msgstr "¡Oh no! ¡Más Bolas de Nieve!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
-msgstr "Piedra Fria"
+msgstr "Frío Como El Hielo"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
-msgstr "El sentido nevado de Grumbel"
+msgstr "Grumbel, Misterio en la Nieve"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
-msgstr "23º División Aeroespacial"
+msgstr "23º En Vuelo"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
@@ -120,11 +120,11 @@ msgstr "Entre las estrellas"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "Sobre los cielos árticos"
+msgstr "Sobre los Cielos Árticos"
 
 #: data/levels/world1/14 - Entrance to the Cave.stl:3
 msgid "Entrance to the Cave"
-msgstr "Entrada a la cueva"
+msgstr "Entrada a la Cueva"
 
 #: data/levels/world1/15 - Under the Ice.stl:3
 msgid "Under the Ice"
@@ -132,7 +132,7 @@ msgstr "Bajo el hielo"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "Viviendo en un Frigorífico"
+msgstr "Viviendo en un Refrigerador"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
@@ -140,7 +140,7 @@ msgstr "'¿...o es cosa mia?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
-msgstr "Agujero helado"
+msgstr "Hielo en el Hoyo"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
@@ -156,15 +156,15 @@ msgstr "Un Camino entre las Nubes"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
-msgstr "Una misteriosa casa de hielo"
+msgstr "Una Misteriosa Casa de Hielo"
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
-msgstr "La Escapada"
+msgstr "El Escape"
 
 #: data/levels/world1/24 - The Shattered Bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "El Puente Astillado"
+msgstr "El Puente Destruido"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
@@ -176,11 +176,11 @@ msgstr "El Castillo de Nolok"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "No más Sr. Cubo de Hielo"
+msgstr "No más Sr. de Hielo"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
-msgstr "Un Tenedor en el Camino"
+msgstr "Una Desviación en el Camino"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
@@ -189,28 +189,28 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr ""
+msgstr "-Interruptores\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Los interruptores pueden ser usados para hacer todo tipo de cosas. Presiona la tecla ARRIBA para usar los interruptores. Esta activa el ascensor a tu derecha."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
+"-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
-"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr ""
+"#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
+msgstr "-Trampolines\n!images/objects/trampoline/trampoline2-0.png\n#Los trampolines permiten a Tux saltar a nuevas alturas. Manten presionada la tecla de saltar mientras da saltos en el trampolín para lanzar a altura extra."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Escalando\n# ¡Tux puede escalar! Presiona la tecla flecha hacia arriba para empezar a escalar. Presiona la tecla de acción o salta para soltar."
+msgstr "- Escalando\n# ¡Tux puede escalar! Presiona la tecla ARRIBA para empezar a escalar. Presiona la tecla de ACCIÓN o salta para soltar."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
-msgstr "Bonificación de nivel"
+msgstr "Nivel de Bonificación"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr "Picnic con Penny"
+msgstr "Picnic Con Penny"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid ""
@@ -256,8 +256,8 @@ msgstr "Tux: ¡No te preocupes, Penny, te rescataré!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr "Isla Helada"
+msgstr "Isla Glacial"
 
 #: data/levels/world1/worldmap.stwm:37
 msgid "You Found a Secret Area!"
-msgstr "¡Encontraste un área secreta!"
+msgstr "¡Encontraste un Área Secreta!"

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jaakoppi Horila <supermariojaska5@gmail.com>, 2016
 # xet7 <x@xet7.org>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:03+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-02-07 10:13+0000\n"
+"Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr "-89,2 astetta"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
-msgstr "Maapallon ilmaston lämpeneminen"
+msgstr "Ilmastonlämpeneminen"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
@@ -46,15 +47,15 @@ msgstr "Etelämantereen sade"
 msgid "...but no one can stop it..."
 msgstr "...mutta kukaan ei voi pysäyttää sitä..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:307
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr ""
+msgstr "-Anteeksi, tämä lentävä lautta on laiska.\n-Tule takaisin joskus toiste."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr "Et voi kiivetä korkeammalle kuin pilvet..."
+msgstr "Et voi kiivetä pilviä korkeammalle..."
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
@@ -62,7 +63,7 @@ msgstr "Valon ja pimeyden linna"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr "Luola juokse"
+msgstr "Luolajuoksu"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
@@ -80,19 +81,19 @@ msgstr "Kookospähkinälinnoitus"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
-msgstr "Kristalli auringonlasku"
+msgstr "Kristallinen auringonlasku"
 
 #: data/levels/bonus3/crystal.stl:3
 msgid "Crystal Skies"
-msgstr "Kristalli pilvet"
+msgstr "Kristallipilvet"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr "Kristalli kauneus"
+msgstr "Kristallinen kauneus"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr "Kristalli luonnonmullistus"
+msgstr "Kristallinen luonnonmullistus"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
@@ -129,7 +130,7 @@ msgstr "Mennään linnaan"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
-msgstr "Kukka Bonus"
+msgstr "Kukkabonus"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
@@ -157,7 +158,7 @@ msgstr "Hieman valoa pimeydessä olisi hienoa, kiitos!"
 
 #: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
-msgstr "Lumiputous vaara"
+msgstr "Lumivyöryvaroitus"
 
 #: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
@@ -165,23 +166,23 @@ msgstr "Reikiä, päivä jäällä"
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
-msgstr "Vessa alue"
+msgstr "Vessa-alue"
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr ""
+msgstr "-Huuhdo:\n#Paina YLÖS-nuolta huuhtoaksesi!"
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr ""
+msgstr "-Uloskäynti?\n#Hypätään!"
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
-msgstr "Pennini on valtameren yllä"
+msgstr "Pennyni on valtameren yllä"
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"
@@ -197,11 +198,11 @@ msgstr "Viemäripako"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
-msgstr "Sataa vai eikö sataa - kas siinä kysymys"
+msgstr "Sataa vai eikö sataa - kas siinä pulma"
 
 #: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
-msgstr "Sataa vai eikö sataa - kas siinä kysymys (Etelämantere)"
+msgstr "Sataa vai eikö sataa - kas siinä pulma (Etelämantere)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"

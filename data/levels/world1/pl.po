@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Krzysiek Szeląg, 2015
+# Krzysiek Szeląg, 2016
 # Łukasz Hryniuk <lukasz.hryniuk@wp.pl>, 2013
 # Łukasz Hryniuk <lukasz.hryniuk@wp.pl>, 2013
 # mkkot <marcin2006@gmail.com>, 2014
@@ -15,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-12-04 21:00+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-18 20:20+0000\n"
 "Last-Translator: Krzysiek Szeląg\n"
 "Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -36,14 +37,14 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Bonusowe bloki\n!images/objects/bonus_block/full-0.png\n#Bonusowe bloki mogą zawierac monety, życia lub specjalne obiekty, które pomogą Ci w podróży.\n#\n#Uderz je od dołu, aby dostać się do zawartości."
+msgstr "-Bonusowe Bloki\n!images/objects/bonus_block/full-0.png\n#Bonusowe bloki mogą zawierać monety, ulepszenia lub specjalne przedmioty, które mogą ci pomóc w misji.\n#\n#Uderz je z dołu, by zdobyć ich zawartość."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Jaja\n!images/powerups/egg/egg.png\n#Dzięki jajom Tux rośnie. Duży Tux może niszczyć drewniane bloki głową."
+msgstr "-Jajka\n!images/powerups/egg/egg.png\n#Jajko sprawia, że Tux rośnie. Dzięki temu może rozbijać drewniane bloki głową."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -57,27 +58,27 @@ msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Bieganie\n!images/tiles/signs/run.png\n#Droga przed Tobą jest zablokowana. Nabierz szybkości zanim przeskoczysz przez przeszkody."
+msgstr "-Bieganie\n!images/tiles/signs/run.png\n#Ścieżka przed tobą jest zablokowana. Nabierz rozpędu przed przeskoczeniem nad blokami."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Ognisty kwiat\n!images/powerups/fireflower/fire_flower-0.png\n#Ognisty kwiat umożliwia Tuksowi strzelanie ognistymi kulami."
+msgstr "-Ognisty kwiat\n!images/powerups/fireflower/fire_flower-0.png\n# Ognisty Kwiat daje Tuksowi możliwość strzelania ognistymi kulami."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-Wizerunek Tuksa\n!images/powerups/1up/1up.png\n#Wizerunek Tuksa daje 100 monet."
+msgstr "-Awatar Tuksa\n!images/powerups/1up/1up.png\n#Awatar daje Tuksowi 100 monet."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Sekretne obszary\n#Wiele poziomów posiada sekretne obszary ukryte za tym, co wydawać by się mogło jest zwykłą ścianą. Szukaj wskazówek, aby je odnaleźć."
+msgstr "-Sekretne strefy\n#Wiele poziomów zawiera sekretne strefy za czymś, co wygląda jak zwykła ściana. Rozglądaj się za wskazówkami, by je znaleźć."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -194,20 +195,20 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "-Przełączniki\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Przełączniki mogą zostać użyte do różnych rzeczy. Wciśnij przycisk W GÓRĘ, aby ich użyć. Ten włącza windę, która znajduje się po prawej."
+msgstr "-Przełączniki\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Przełączniki mogą być użyte do wszelkiego rodzaju działań. Naciśnij klawisz w górę, by ich użyć. Ten aktywuje windę po twojej prawej."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
+"-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
-"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr "-Trampoliny\n!images/objects/trampoline/trampoline2-0.png\n#Trampoliny umożliwiają Tuksowi skakanie na niespotykane wysokości. Wciśnij przycisk skoku przy odbijaniu się od trampoliny, aby się wybić."
+"#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
+msgstr "-Trampoliny\n!images/objects/trampoline/trampoline2-0.png\n#Trampoliny pozwalają Tuksowi skakać jeszcze wyżej. Naciśnij klawisz skoku podczas odbijania się od trampoliny, by skoczyć bardzo wysoko."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Wspinanie się\n# Tux potrafi się wspinać! Wciśnij przycisk W GÓRĘ, aby zacząć się wspinać. Wciśnij przycisk akcji lub skoku, aby się puścić. "
+msgstr "-Wspinaczka\n#Tux może się wspinać! Naciśnij strzałkę w górę, by zacząć wspinaczkę. Wciśnij przycisk akcji lub skoku, by zejść."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

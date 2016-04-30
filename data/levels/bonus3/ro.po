@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Nicolae Crefelean, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:03+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-12 08:29+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Romanian (http://www.transifex.com/arctic-games/supertux/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -19,33 +20,33 @@ msgstr ""
 
 #: data/levels/bonus3/-89-2_degrees.stl:3
 msgid "-89,2 degrees"
-msgstr ""
+msgstr "-89,2 grade"
 
 #: data/levels/bonus3/Global_Warming.stl:3
 msgid "Global Warming"
-msgstr ""
+msgstr "Încălzire globală"
 
 #: data/levels/bonus3/One Night in the Sky.stl:3
 msgid "One Night in the Sky"
-msgstr ""
+msgstr "O noapte în cer"
 
 #: data/levels/bonus3/abandoned_castle.stl:3
 msgid "The abandoned castle"
-msgstr ""
+msgstr "Castelul abandonat"
 
 #: data/levels/bonus3/another_cold_day.stl:3
 msgid "Another cold day"
-msgstr ""
+msgstr "Altă zi rece"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Antarctic rain"
-msgstr ""
+msgstr "Ploaie în Antarctica"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
-msgstr ""
+msgstr "...dar nimeni n-o poate opri..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:307
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -53,118 +54,118 @@ msgstr ""
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr ""
+msgstr "Nu te poți cățăra peste nivelul norilor..."
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
-msgstr ""
+msgstr "Castelul Luminii și al Întunericului"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr ""
+msgstr "Alergarea prin peșteră"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
-msgstr ""
+msgstr "Caverna rece"
 
 #: data/levels/bonus3/cavern_v2.stl:50
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr ""
+msgstr "#Bună treabă! Ai păstrat felinarul roșu! Nu era nevoie dar pentru că ai făcut-o, poftim 100 de monede!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
-msgstr ""
+msgstr "Fortăreața nucii de cocos"
 
 #: data/levels/bonus3/crystal sunset.stl:3
 msgid "Crystal Sunset"
-msgstr ""
+msgstr "Apusul de cristal"
 
 #: data/levels/bonus3/crystal.stl:3
 msgid "Crystal Skies"
-msgstr ""
+msgstr "Ceruri de cristal"
 
 #: data/levels/bonus3/crystal_beauty.stl:3
 msgid "Crystal Beauty"
-msgstr ""
+msgstr "Frumusețea de cristal"
 
 #: data/levels/bonus3/crystal_cataclysm.stl:3
 msgid "Crystal Cataclysm"
-msgstr ""
+msgstr "Cataclism de cristal"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
-msgstr ""
+msgstr "Afară, pe câmpurile de cristal"
 
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
 msgid "The dark castle"
-msgstr ""
+msgstr "Castelul întunecat"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
-msgstr ""
+msgstr "Adânc, mai adânc..."
 
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
-msgstr ""
+msgstr "... cel mai adânc!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
-msgstr ""
+msgstr "Cercuri"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr ""
+msgstr "Nu pierde cursa"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
-msgstr ""
+msgstr "Coborâm"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
-msgstr ""
+msgstr "Intrarea în castel"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
-msgstr ""
+msgstr "Bonusul floare"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
-msgstr ""
+msgstr "După ghețari"
 
 #: data/levels/bonus3/hanging roof.stl:3
 msgid "Hanging From the Roof"
-msgstr ""
+msgstr "Atârnând de acoperiș"
 
 #: data/levels/bonus3/hilly_landscape.stl:3
 msgid "A hilly landscape"
-msgstr ""
+msgstr "Un peisaj deluros"
 
 #: data/levels/bonus3/in_the_spring.stl:3
 msgid "In the Spring"
-msgstr ""
+msgstr "Primăvara"
 
 #: data/levels/bonus3/its_getting_unfinishable.stl:3
 msgid "It's getting unfinishable"
-msgstr ""
+msgstr "Devine interminabil"
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
-msgstr ""
+msgstr "Niște lumină în întuneric ar fi bună, mulțumesc!"
 
 #: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
-msgstr ""
+msgstr "Alertă de ninsoare"
 
 #: data/levels/bonus3/niv-2.1.stl:3
 msgid "Holes, a Day on Ice"
-msgstr ""
+msgstr "Găuri, o zi pe gheață"
 
 #: data/levels/bonus3/niv-3.stl:3
 msgid "The Toilette zone"
-msgstr ""
+msgstr "Zona toaletei"
 
 #: data/levels/bonus3/niv-3.stl:29
 msgid ""
@@ -180,52 +181,52 @@ msgstr ""
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
-msgstr ""
+msgstr "Penny a mea este peste ocean"
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"
-msgstr ""
+msgstr "Zăpadă roz"
 
 #: data/levels/bonus3/red_alert_forest.stl:3
 msgid "Red alert! The forest is burning!"
-msgstr ""
+msgstr "Alertă roșie! Pădurea arde!"
 
 #: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
-msgstr ""
+msgstr "Evadarea din canal"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
-msgstr ""
+msgstr "Să plouă sau să nu plouă - asta-i întrebarea"
 
 #: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
-msgstr ""
+msgstr "Să plouă sau să nu plouă - asta-i întrebarea (Antarctica)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
-msgstr ""
+msgstr "Un deal nins"
 
 #: data/levels/bonus3/three_frosty_icebergs.stl:3
 msgid "Three Frosty Icebergs"
-msgstr ""
+msgstr "Trei ghețari geroși"
 
 #: data/levels/bonus3/under ice.stl:3
 msgid "Under the Ice"
-msgstr "Sub Gheata"
+msgstr "Sub gheață"
 
 #: data/levels/bonus3/worldmap.stwm:3
 msgid "Bonus Island III"
-msgstr ""
+msgstr "Insula Bonus III"
 
 #: data/levels/bonus3/worldmap.stwm:12
 msgid "You found a secret place!"
-msgstr "Ai gasit un loc secret!"
+msgstr "Ai găsit un loc secret!"
 
 #: data/levels/bonus3/worldmap.stwm:20
 msgid "Congratulations... you found the secret pathway!"
-msgstr ""
+msgstr "Felicitări... ai găsit o cale secretă!"
 
 #: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
 msgid "Go Home"
-msgstr ""
+msgstr "Mergi acasă"

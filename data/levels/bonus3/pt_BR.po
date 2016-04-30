@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-25 12:54+0000\n"
-"Last-Translator: Victor Gonçalves <hotcyv@gmail.com>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-12 08:29+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,11 +50,11 @@ msgstr "Chuva antártica"
 msgid "...but no one can stop it..."
 msgstr "...mas niguém pode parar ela..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:307
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr "-Desculpe, esta plataforma voadora está com preguiça.\n-Volte outra hora."
+msgstr ""
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
@@ -175,13 +175,13 @@ msgstr "Para Zona Toalete"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr "- Descarga: \n#Pressione a tecla para cima para dar a descarga!"
+msgstr ""
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr "- Uma Saída?\n#Vamos Pular!"
+msgstr ""
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"

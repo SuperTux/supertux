@@ -4,14 +4,16 @@
 # 
 # Translators:
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
+# Jose Riha <jose1711@gmail.com>, 2015
 # DusXMT <merkur32@gmail.com>, 2014
+# MiroslavR <miroslavr256@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-11-30 09:04+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-12 04:51+0000\n"
+"Last-Translator: MiroslavR <miroslavr256@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/arctic-games/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,139 +21,145 @@ msgstr ""
 "Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: src/control/joystick_config.cpp:83
+#: src/control/joystick_config.cpp:84
 msgid "Joystick Mappings"
-msgstr ""
-
-#: src/supertux/command_line_arguments.cpp:73
-#, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr ""
-
-#: src/supertux/command_line_arguments.cpp:74
-msgid "General Options:"
-msgstr ""
-
-#: src/supertux/command_line_arguments.cpp:75
-msgid "  -h, --help                   Show this help message and quit"
-msgstr ""
+msgstr "Mapovanie joysticku"
 
 #: src/supertux/command_line_arguments.cpp:76
-msgid "  -v, --version                Show SuperTux version and quit"
-msgstr ""
+#, c-format
+msgid "Usage: %s [OPTIONS] [LEVELFILE]"
+msgstr "Použitie: %s [MOŽNOSTI] [SÚBORÚROVNE]"
 
 #: src/supertux/command_line_arguments.cpp:77
-msgid "  --verbose                    Print verbose messages"
-msgstr ""
+msgid "General Options:"
+msgstr "Všeobecné možnosti:"
 
 #: src/supertux/command_line_arguments.cpp:78
-msgid "  --debug                      Print extra verbose messages"
-msgstr ""
+msgid "  -h, --help                   Show this help message and quit"
+msgstr "  -h, --help                   Zobraziť túto správu s pomocou a ukončiť hru"
 
 #: src/supertux/command_line_arguments.cpp:79
-msgid ""
-"  --print-datadir              Print supertux's primary data directory."
-msgstr ""
+msgid "  -v, --version                Show SuperTux version and quit"
+msgstr "  -v, --version                Zobraziť verziu hry SuperTux a ukončiť hru"
 
 #: src/supertux/command_line_arguments.cpp:80
-msgid "Video Options:"
-msgstr ""
+msgid "  --verbose                    Print verbose messages"
+msgstr "  --verbose                    Vypisovať detailné správy"
 
 #: src/supertux/command_line_arguments.cpp:81
-msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr ""
+msgid "  --debug                      Print extra verbose messages"
+msgstr "  --debug                      Vypisovať ďalšie detailné správy"
 
 #: src/supertux/command_line_arguments.cpp:82
-msgid "  -w, --window                 Run in window mode"
-msgstr ""
+msgid ""
+"  --print-datadir              Print supertux's primary data directory."
+msgstr "  --print-datadir              Vypísať primárny adresár s dátami hry SuperTux."
 
 #: src/supertux/command_line_arguments.cpp:83
-msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr ""
+msgid "Video Options:"
+msgstr "Grafické možnosti:"
 
 #: src/supertux/command_line_arguments.cpp:84
-msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr ""
+msgid "  -f, --fullscreen             Run in fullscreen mode"
+msgstr "  -f, --fullscreen             Spustiť hru v režime celej obrazovky"
 
 #: src/supertux/command_line_arguments.cpp:85
-msgid "  -d, --default                Reset video settings to default values"
-msgstr ""
+msgid "  -w, --window                 Run in window mode"
+msgstr "  -w, --window                 Spustiť hru v režime okna"
 
 #: src/supertux/command_line_arguments.cpp:86
-msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr ""
+msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
+msgstr "  -g, --geometry ŠÍRKAxVÝŠKA   Spustiť SuperTux v danom rozlíšení"
 
 #: src/supertux/command_line_arguments.cpp:87
-msgid "Audio Options:"
-msgstr ""
+msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
+msgstr "  -a, --aspect ŠÍRKA:VÝŠKA     Spustiť SuperTux s daným pomerom šírky a výšky"
 
 #: src/supertux/command_line_arguments.cpp:88
-msgid "  --disable-sound              Disable sound effects"
-msgstr ""
+msgid "  -d, --default                Reset video settings to default values"
+msgstr "  -d, --default                Obnoviť predvolené hodnoty grafických nastavení"
 
 #: src/supertux/command_line_arguments.cpp:89
-msgid "  --disable-music              Disable music"
-msgstr ""
+msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
+msgstr "  --renderer RENDERER          Čo používať na vykresľovanie – sdl, opengl alebo auto"
 
 #: src/supertux/command_line_arguments.cpp:90
-msgid "Game Options:"
-msgstr ""
+msgid "Audio Options:"
+msgstr "Zvukové možnosti:"
 
 #: src/supertux/command_line_arguments.cpp:91
-msgid "  --show-fps                   Display framerate in levels"
-msgstr ""
+msgid "  --disable-sound              Disable sound effects"
+msgstr "  --disable-sound              Zakázať zvukové efekty"
 
 #: src/supertux/command_line_arguments.cpp:92
-msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr ""
+msgid "  --disable-music              Disable music"
+msgstr "  --disable-music              Zakázať hudbu"
 
 #: src/supertux/command_line_arguments.cpp:93
-msgid "  --developer                  Switch on developer feature"
-msgstr ""
+msgid "Game Options:"
+msgstr "Herné možnosti:"
 
 #: src/supertux/command_line_arguments.cpp:94
-msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr ""
+msgid "  --show-fps                   Display framerate in levels"
+msgstr "  --show-fps                   Zobrazovať počet snímok za sekundu v úrovniach"
 
 #: src/supertux/command_line_arguments.cpp:95
-msgid "Demo Recording Options:"
-msgstr ""
+msgid "  --no-show-fps                Do not display framerate in levels"
+msgstr "  --no-show-fps                Nezobrazovať počet snímok za sekundu v úrovniach"
 
 #: src/supertux/command_line_arguments.cpp:96
-msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr ""
+msgid "  --developer                  Switch on developer feature"
+msgstr "  --developer                  Zapnúť vývojársku funkciu"
 
 #: src/supertux/command_line_arguments.cpp:97
-msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr ""
+msgid "  -s, --debug-scripts          Enable script debugger."
+msgstr "  -s, --debug-scripts          Povoliť ladenie skriptov."
 
 #: src/supertux/command_line_arguments.cpp:98
-msgid "Directory Options:"
-msgstr ""
+msgid ""
+"  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
+" level is specified."
+msgstr "  --spawn-pos X,Y              Pozícia v úrovni, na ktorej sa má zrodiť Tux. Možno použiť, iba ak je zadaná úroveň."
 
 #: src/supertux/command_line_arguments.cpp:99
-msgid ""
-"  --datadir DIR                Set the directory for the games datafiles"
-msgstr ""
+msgid "Demo Recording Options:"
+msgstr "Možnosti nahrávania záznamov:"
 
 #: src/supertux/command_line_arguments.cpp:100
+msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
+msgstr "  --record-demo SÚBOR ÚROVEŇ   Zaznamenať hru do súboru SÚBOR"
+
+#: src/supertux/command_line_arguments.cpp:101
+msgid "  --play-demo FILE LEVEL       Play a recorded demo"
+msgstr "  --play-demo SÚBOR ÚROVEŇ     Prehrať záznam hry"
+
+#: src/supertux/command_line_arguments.cpp:102
+msgid "Directory Options:"
+msgstr "Možnosti priečinkov:"
+
+#: src/supertux/command_line_arguments.cpp:103
+msgid ""
+"  --datadir DIR                Set the directory for the games datafiles"
+msgstr "  --datadir ADR                Nastaviť adresár pre súbory s hernými dátami"
+
+#: src/supertux/command_line_arguments.cpp:104
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr ""
+msgstr "  --userdir ADR                Nastaviť adresár pre používateľské dáta (uložené hry atď.)"
 
-#: src/supertux/command_line_arguments.cpp:101
+#: src/supertux/command_line_arguments.cpp:105
 msgid "Environment variables:"
-msgstr ""
+msgstr "Premenné prostredia:"
 
-#: src/supertux/command_line_arguments.cpp:102
+#: src/supertux/command_line_arguments.cpp:106
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr ""
+msgstr "  SUPERTUX2_USER_DIR           Adresár pre používateľské dáta (uložené hry atď.)"
 
-#: src/supertux/command_line_arguments.cpp:103
+#: src/supertux/command_line_arguments.cpp:107
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr ""
+msgstr "  SUPERTUX2_DATA_DIR           Adresár pre súbory s hernými dátami"
 
 #: src/supertux/levelintro.cpp:112
 #, c-format
@@ -180,11 +188,11 @@ msgstr "Najlepší čas"
 
 #: src/supertux/levelintro.cpp:161
 msgid "Level target time"
-msgstr "Požadovaný čas levelu"
+msgstr "Cieľový čas úrovne"
 
 #: src/supertux/menu/addon_menu.cpp:49
 msgid "Levelset"
-msgstr "Sada levelov"
+msgstr "Séria úrovní"
 
 #: src/supertux/menu/addon_menu.cpp:52
 msgid "Worldmap"
@@ -196,77 +204,77 @@ msgstr "Svet"
 
 #: src/supertux/menu/addon_menu.cpp:61
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámy"
 
 #: src/supertux/menu/addon_menu.cpp:83
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr "%s \"%s\", vytvoril \"%s\""
+msgstr "%s \"%s\" od autora \"%s\""
 
-#: src/supertux/menu/addon_menu.cpp:131
+#: src/supertux/menu/addon_menu.cpp:139
 msgid "Language packs"
-msgstr ""
+msgstr "Jazykové balíky"
 
-#: src/supertux/menu/addon_menu.cpp:135 src/supertux/menu/main_menu.cpp:44
+#: src/supertux/menu/addon_menu.cpp:143 src/supertux/menu/main_menu.cpp:44
 msgid "Add-ons"
-msgstr "Voliteľný obsah"
+msgstr "Doplnky"
 
-#: src/supertux/menu/addon_menu.cpp:141
+#: src/supertux/menu/addon_menu.cpp:149
 msgid "View Language Packs"
-msgstr ""
+msgstr "Zobraziť jazykové balíky"
 
-#: src/supertux/menu/addon_menu.cpp:145
+#: src/supertux/menu/addon_menu.cpp:153
 msgid "View Add-ons"
-msgstr ""
+msgstr "Zobraziť doplnky"
 
-#: src/supertux/menu/addon_menu.cpp:154
+#: src/supertux/menu/addon_menu.cpp:162
 msgid "No Language packs installed"
-msgstr ""
+msgstr "Nie sú nainštalované žiadne jazykové balíky"
 
-#: src/supertux/menu/addon_menu.cpp:158
+#: src/supertux/menu/addon_menu.cpp:166
 msgid "No Add-ons installed"
-msgstr ""
+msgstr "Nie sú nainštalované žiadne doplnky"
 
-#: src/supertux/menu/addon_menu.cpp:165
+#: src/supertux/menu/addon_menu.cpp:173
 msgid "No Language packs found"
-msgstr ""
+msgstr "Nenašli sa žiadne jazykové balíky"
 
-#: src/supertux/menu/addon_menu.cpp:169
+#: src/supertux/menu/addon_menu.cpp:177
 msgid "No Add-ons found"
-msgstr ""
+msgstr "Nenašli sa žiadne doplnky"
 
-#: src/supertux/menu/addon_menu.cpp:216
+#: src/supertux/menu/addon_menu.cpp:224
 #, c-format
 msgid "Install %s *NEW*"
-msgstr ""
+msgstr "Nainštalovať %s *NOVINKA*"
 
-#: src/supertux/menu/addon_menu.cpp:227
+#: src/supertux/menu/addon_menu.cpp:235
 #, c-format
 msgid "Install %s"
-msgstr ""
+msgstr "Nainštalovať %s"
 
-#: src/supertux/menu/addon_menu.cpp:238
+#: src/supertux/menu/addon_menu.cpp:246
 msgid "No new Language packs found"
-msgstr ""
+msgstr "Nenašli sa žiadne nové jazykové balíky"
 
-#: src/supertux/menu/addon_menu.cpp:242
+#: src/supertux/menu/addon_menu.cpp:250
 msgid "No new Add-ons found"
-msgstr ""
+msgstr "Nenašli sa žiadne nové doplnky"
 
-#: src/supertux/menu/addon_menu.cpp:249
+#: src/supertux/menu/addon_menu.cpp:257
 msgid "Check Online (disabled)"
 msgstr "Overiť Online (vypnuté)"
 
-#: src/supertux/menu/addon_menu.cpp:253
+#: src/supertux/menu/addon_menu.cpp:261
 msgid "Check Online"
-msgstr "Overiť Online"
+msgstr "Overiť online"
 
-#: src/supertux/menu/addon_menu.cpp:257 src/supertux/menu/cheat_menu.cpp:41
+#: src/supertux/menu/addon_menu.cpp:265 src/supertux/menu/cheat_menu.cpp:41
 #: src/supertux/menu/contrib_levelset_menu.cpp:69
 #: src/supertux/menu/contrib_menu.cpp:141
 #: src/supertux/menu/joystick_menu.cpp:98
 #: src/supertux/menu/keyboard_menu.cpp:49
-#: src/supertux/menu/language_menu.cpp:50
+#: src/supertux/menu/language_menu.cpp:52
 #: src/supertux/menu/options_menu.cpp:238
 #: src/supertux/menu/profile_menu.cpp:47
 #: src/supertux/menu/world_set_menu.cpp:44
@@ -274,97 +282,97 @@ msgstr "Overiť Online"
 msgid "Back"
 msgstr "späť"
 
-#: src/supertux/menu/addon_menu.cpp:277
+#: src/supertux/menu/addon_menu.cpp:346
 msgid "Downloading Add-On Repository Index"
-msgstr ""
+msgstr "Sťahuje sa zoznam doplnkov"
 
-#: src/supertux/menu/addon_menu.cpp:310
+#: src/supertux/menu/addon_menu.cpp:361
+#, c-format
+msgid "Downloading %s"
+msgstr "Sťahuje sa %s"
+
+#: src/supertux/menu/addon_menu.cpp:408
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
-msgstr ""
+msgstr "Vykonané zmeny sa uplatnia\naž po reštarte hry SuperTux."
 
-#: src/supertux/menu/addon_menu.cpp:311
+#: src/supertux/menu/addon_menu.cpp:409
 msgid "OK"
-msgstr ""
-
-#: src/supertux/menu/addon_menu.cpp:343
-#, c-format
-msgid "Downloading %s"
-msgstr ""
+msgstr "OK"
 
 #: src/supertux/menu/cheat_menu.cpp:29
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
 msgid "Cheats"
-msgstr ""
+msgstr "Podvody"
 
 #: src/supertux/menu/cheat_menu.cpp:31
 #: src/supertux/menu/worldmap_cheat_menu.cpp:31
 msgid "Bonus: Grow"
-msgstr ""
+msgstr "Bonus: Rast"
 
 #: src/supertux/menu/cheat_menu.cpp:32
 #: src/supertux/menu/worldmap_cheat_menu.cpp:32
 msgid "Bonus: Fire"
-msgstr ""
+msgstr "Bonus: Oheň"
 
 #: src/supertux/menu/cheat_menu.cpp:33
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 msgid "Bonus: Ice"
-msgstr ""
+msgstr "Bonus: Ľad"
 
 #: src/supertux/menu/cheat_menu.cpp:34
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 msgid "Bonus: Air"
-msgstr ""
+msgstr "Bonus: Vzduch"
 
 #: src/supertux/menu/cheat_menu.cpp:35
 #: src/supertux/menu/worldmap_cheat_menu.cpp:35
 msgid "Bonus: Earth"
-msgstr ""
+msgstr "Bonus: Zem"
 
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Bonus: Star"
-msgstr ""
+msgstr "Bonus: Hviezda"
 
 #: src/supertux/menu/cheat_menu.cpp:37
 msgid "Shrink Tux"
-msgstr ""
+msgstr "Zmenšiť Tuxa"
 
 #: src/supertux/menu/cheat_menu.cpp:38
 msgid "Kill Tux"
-msgstr ""
+msgstr "Zabiť Tuxa"
 
 #: src/supertux/menu/cheat_menu.cpp:39
 #: src/supertux/menu/worldmap_cheat_menu.cpp:38
 msgid "Finish Level"
-msgstr ""
+msgstr "Dokončiť úroveň"
 
 #: src/supertux/menu/contrib_menu.cpp:51
 #: src/supertux/menu/world_set_menu.cpp:42
 msgid "Contrib Levels"
-msgstr "Neoficiálne levely"
+msgstr "Neoficiálne úrovne"
 
 #: src/supertux/menu/contrib_menu.cpp:88
 #: src/supertux/menu/contrib_menu.cpp:119
 msgid "*NEW*"
-msgstr ""
+msgstr "*NOVINKA*"
 
-#: src/supertux/menu/download_dialog.cpp:28
+#: src/supertux/menu/download_dialog.cpp:29
 msgid "Abort Download"
-msgstr ""
-
-#: src/supertux/menu/download_dialog.cpp:44
-msgid "Error:\n"
-msgstr ""
+msgstr "Prerušiť sťahovanie"
 
 #: src/supertux/menu/download_dialog.cpp:45
-msgid "Ok"
-msgstr ""
+msgid "Error:\n"
+msgstr "Chyba:\n"
 
-#: src/supertux/menu/download_dialog.cpp:94
+#: src/supertux/menu/download_dialog.cpp:46
+msgid "Ok"
+msgstr "Ok"
+
+#: src/supertux/menu/download_dialog.cpp:101
 msgid "Close"
-msgstr ""
+msgstr "Zatvoriť"
 
 #: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Continue"
@@ -372,7 +380,7 @@ msgstr "Pokračovať"
 
 #: src/supertux/menu/game_menu.cpp:36
 msgid "Restart Level"
-msgstr ""
+msgstr "Opakovať úroveň"
 
 #: src/supertux/menu/game_menu.cpp:37 src/supertux/menu/main_menu.cpp:45
 #: src/supertux/menu/options_menu.cpp:55
@@ -382,21 +390,21 @@ msgstr "Možnosti"
 
 #: src/supertux/menu/game_menu.cpp:39
 msgid "Abort Level"
-msgstr "Ukončiť hru"
+msgstr "Prerušiť úroveň"
 
 #: src/supertux/menu/joystick_menu.cpp:52
 #: src/supertux/menu/options_menu.cpp:221
 msgid "Setup Joystick"
-msgstr "Nastavenie Joysticku"
+msgstr "Nastaviť joystick"
 
 #: src/supertux/menu/joystick_menu.cpp:55
 msgid "Manual Configuration"
-msgstr ""
+msgstr "Manuálna konfigurácia"
 
 #: src/supertux/menu/joystick_menu.cpp:57
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr ""
+msgstr "Použiť manuálnu konfiguráciu namiesto automatickej podpory herných ovládačov, ktorú poskytuje SDL2"
 
 #: src/supertux/menu/joystick_menu.cpp:69
 #: src/supertux/menu/keyboard_menu.cpp:31
@@ -411,12 +419,12 @@ msgstr "Dole"
 #: src/supertux/menu/joystick_menu.cpp:71
 #: src/supertux/menu/keyboard_menu.cpp:33
 msgid "Left"
-msgstr "V ľavo"
+msgstr "Doľava"
 
 #: src/supertux/menu/joystick_menu.cpp:72
 #: src/supertux/menu/keyboard_menu.cpp:34
 msgid "Right"
-msgstr "V pravo"
+msgstr "Doprava"
 
 #: src/supertux/menu/joystick_menu.cpp:73
 #: src/supertux/menu/keyboard_menu.cpp:35
@@ -435,12 +443,12 @@ msgstr "Pauza/Menu"
 #: src/supertux/menu/joystick_menu.cpp:76
 #: src/supertux/menu/keyboard_menu.cpp:37
 msgid "Peek Left"
-msgstr "Nazrieť do ľava"
+msgstr "Nazrieť doľava"
 
 #: src/supertux/menu/joystick_menu.cpp:77
 #: src/supertux/menu/keyboard_menu.cpp:38
 msgid "Peek Right"
-msgstr "Nazrieť do prava"
+msgstr "Nazrieť doprava"
 
 #: src/supertux/menu/joystick_menu.cpp:78
 #: src/supertux/menu/keyboard_menu.cpp:39
@@ -460,7 +468,7 @@ msgstr "Konzola"
 #: src/supertux/menu/joystick_menu.cpp:84
 #: src/supertux/menu/keyboard_menu.cpp:45
 msgid "Cheat Menu"
-msgstr ""
+msgstr "Ponuka podvodov"
 
 #: src/supertux/menu/joystick_menu.cpp:86
 #: src/supertux/menu/keyboard_menu.cpp:47
@@ -469,11 +477,11 @@ msgstr "Skákanie s tlačídlom Hore"
 
 #: src/supertux/menu/joystick_menu.cpp:92
 msgid "No Joysticks found"
-msgstr "Nebol nájdený žiaden Joystick"
+msgstr "Nenašiel sa žiaden joystick"
 
 #: src/supertux/menu/joystick_menu.cpp:93
 msgid "Scan for Joysticks"
-msgstr "Hľadať Joysticky"
+msgstr "Hľadať joysticky"
 
 #: src/supertux/menu/joystick_menu.cpp:107
 #: src/supertux/menu/keyboard_menu.cpp:61
@@ -491,19 +499,19 @@ msgstr "Nastaviť klávesnicu"
 
 #: src/supertux/menu/keyboard_menu.cpp:63
 msgid "Up cursor"
-msgstr "Šípka hore"
+msgstr "Šípka nahor"
 
 #: src/supertux/menu/keyboard_menu.cpp:65
 msgid "Down cursor"
-msgstr "Šípka dole"
+msgstr "Šípka nadol"
 
 #: src/supertux/menu/keyboard_menu.cpp:67
 msgid "Left cursor"
-msgstr "Šípka do ľava"
+msgstr "Šípka doľava"
 
 #: src/supertux/menu/keyboard_menu.cpp:69
 msgid "Right cursor"
-msgstr "Šípka do prava"
+msgstr "Šípka doprava"
 
 #: src/supertux/menu/keyboard_menu.cpp:71
 msgid "Return"
@@ -515,55 +523,55 @@ msgstr "Medzerník"
 
 #: src/supertux/menu/keyboard_menu.cpp:75
 msgid "Right Shift"
-msgstr "Pravý Shift"
+msgstr "Shift (pravý)"
 
 #: src/supertux/menu/keyboard_menu.cpp:77
 msgid "Left Shift"
-msgstr "Ľavý Shift"
+msgstr "Shift (ľavý)"
 
 #: src/supertux/menu/keyboard_menu.cpp:79
 msgid "Right Control"
-msgstr "Pravé CTRL"
+msgstr "Ctrl (pravý)"
 
 #: src/supertux/menu/keyboard_menu.cpp:81
 msgid "Left Control"
-msgstr "Ľavé CTRL"
+msgstr "Ctrl (ľavý)"
 
 #: src/supertux/menu/keyboard_menu.cpp:83
 msgid "Right Alt"
-msgstr "Pravý Alt"
+msgstr "Alt (pravý)"
 
 #: src/supertux/menu/keyboard_menu.cpp:85
 msgid "Left Alt"
-msgstr "Ľavý Alt"
+msgstr "Alt (ľavý)"
 
 #: src/supertux/menu/keyboard_menu.cpp:87
 msgid "Right Command"
-msgstr ""
+msgstr "Command (pravý)"
 
 #: src/supertux/menu/keyboard_menu.cpp:89
 msgid "Left Command"
-msgstr ""
+msgstr "Command (ľavý)"
 
 #: src/supertux/menu/keyboard_menu.cpp:103
 msgid "Press Key"
-msgstr "Stlačte klávesu"
+msgstr "Stlačte kláves"
 
-#: src/supertux/menu/language_menu.cpp:37
+#: src/supertux/menu/language_menu.cpp:39
 msgid "Language"
 msgstr "Jazyk"
 
-#: src/supertux/menu/language_menu.cpp:39
+#: src/supertux/menu/language_menu.cpp:41
 msgid "<auto-detect>"
-msgstr "<vybrať-automaticky>"
+msgstr "<zistiť-automaticky>"
 
 #: src/supertux/menu/main_menu.cpp:43 src/supertux/menu/world_set_menu.cpp:39
 msgid "Start Game"
-msgstr "Spustiť Hru"
+msgstr "Začať hru"
 
 #: src/supertux/menu/main_menu.cpp:46
 msgid "Credits"
-msgstr "Zoznam autorov a prispievajúcich"
+msgstr "Autori"
 
 #: src/supertux/menu/main_menu.cpp:47
 msgid "Quit"
@@ -571,15 +579,15 @@ msgstr "Ukončiť"
 
 #: src/supertux/menu/main_menu.cpp:105
 msgid "Do you really want to quit SuperTux?"
-msgstr ""
+msgstr "Naozaj chcete ukončiť SuperTux?"
 
 #: src/supertux/menu/main_menu.cpp:106
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 #: src/supertux/menu/main_menu.cpp:107
 msgid "Quit SuperTux"
-msgstr ""
+msgstr "Ukončiť SuperTux"
 
 #: src/supertux/menu/options_menu.cpp:61 src/supertux/menu/options_menu.cpp:97
 #: src/supertux/menu/options_menu.cpp:251
@@ -597,11 +605,11 @@ msgstr "Zvoliť iný jazyk na zobrazenie textu"
 
 #: src/supertux/menu/options_menu.cpp:189
 msgid "Language Packs"
-msgstr ""
+msgstr "Jazykové balíky"
 
 #: src/supertux/menu/options_menu.cpp:190
 msgid "Language packs contain up-to-date translations"
-msgstr ""
+msgstr "Jazykové balíky obsahujú najnovšie preklady"
 
 #: src/supertux/menu/options_menu.cpp:192
 #: src/supertux/menu/profile_menu.cpp:30
@@ -622,7 +630,7 @@ msgstr "Zaplniť celú obrazovku"
 
 #: src/supertux/menu/options_menu.cpp:199
 msgid "Resolution"
-msgstr "Rozlíštenie"
+msgstr "Rozlíšenie"
 
 #: src/supertux/menu/options_menu.cpp:200
 msgid ""
@@ -652,7 +660,7 @@ msgstr "Zvuk"
 
 #: src/supertux/menu/options_menu.cpp:210
 msgid "Disable all sound effects"
-msgstr "Vypnúť všetky zvukové efekty"
+msgstr "Zakázať všetky zvukové efekty"
 
 #: src/supertux/menu/options_menu.cpp:211
 msgid "Music"
@@ -660,15 +668,15 @@ msgstr "Hudba"
 
 #: src/supertux/menu/options_menu.cpp:212
 msgid "Disable all music"
-msgstr "Vypnúť všetku hudbu"
+msgstr "Zakázať všetku hudbu"
 
 #: src/supertux/menu/options_menu.cpp:214
 msgid "Sound (disabled)"
-msgstr "Zvuk (vypnutý)"
+msgstr "Zvuk (zakázaný)"
 
 #: src/supertux/menu/options_menu.cpp:215
 msgid "Music (disabled)"
-msgstr "Hudba (vypnutá)"
+msgstr "Hudba (zakázaná)"
 
 #: src/supertux/menu/options_menu.cpp:219
 msgid "Configure key-action mappings"
@@ -680,49 +688,49 @@ msgstr "Nastavenie ovládaco-činnostných mapovaní s Joystickom"
 
 #: src/supertux/menu/options_menu.cpp:224
 msgid "Enable transitions"
-msgstr ""
+msgstr "Povoliť prechody"
 
 #: src/supertux/menu/options_menu.cpp:225
 msgid "Enable screen transitions and smooth menu animation"
-msgstr ""
+msgstr "Povoliť prechody medzi obrazovkami a plynulé animácie ponúk"
 
 #: src/supertux/menu/options_menu.cpp:229
 msgid "Developer Mode"
-msgstr ""
+msgstr "Vývojársky režim"
 
 #: src/supertux/menu/options_menu.cpp:234
 msgid "Christmas Mode"
-msgstr ""
+msgstr "Vianočný režim"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
 msgid "[Profile %s]"
-msgstr ""
+msgstr "[Profil %s]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
 msgid "Profile %s"
-msgstr ""
+msgstr "Profil %s"
 
 #: src/supertux/menu/world_set_menu.cpp:41
 msgid "Story Mode"
-msgstr ""
+msgstr "Režim príbehu"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Bonus: None"
-msgstr ""
+msgstr "Bonus: Žiaden"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
 msgid "Reset Level"
-msgstr ""
+msgstr "Obnoviť úroveň"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:41
 msgid "Finish WorldMap"
-msgstr ""
+msgstr "Dokončiť mapu sveta"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:42
 msgid "Reset WorldMap"
-msgstr ""
+msgstr "Obnoviť mapu sveta "
 
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
@@ -750,7 +758,7 @@ msgstr "Najlepší čas:"
 
 #: src/supertux/statistics.cpp:147
 msgid "Level target time:"
-msgstr "Požadovaný čas levelu:"
+msgstr "Cieľový čas úrovne:"
 
 #: src/supertux/statistics.cpp:203
 msgid "You"
@@ -776,16 +784,12 @@ msgstr "Autorské práva"
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file LICENSE for details.\n"
-msgstr "Táto hra neprichádza s ABSOLUTNE ŽIADNOU ZÁRUKOU. Toto je slobodný softvér, a môžte ho\nredistribuovať pod určitými podmienkami; viďte súbor LICENSE pre podrobnosti.\n"
-
-#: src/trigger/climbable.cpp:78
-msgid "Up we go..."
-msgstr "A ideme na hor..."
+msgstr "Táto hra je ABSOLÚTNE BEZ ZÁRUKY. Ide o slobodný softvér, ktorého redistribúcia je za istých\npodmienok vítaná; podrobnosti nájdete v súbore LICENSE.\n"
 
 #: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"
 msgstr "Našli ste tajné miesto!"
 
-#: src/worldmap/worldmap.cpp:349
+#: src/worldmap/worldmap.cpp:338
 msgid "<no title>"
-msgstr ""
+msgstr "<bez názvu>"

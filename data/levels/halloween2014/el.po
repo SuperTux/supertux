@@ -4,13 +4,14 @@
 # 
 # Translators:
 # I will not tell you that <leftermos@yahoo.gr>, 2015
+# Vangelis Skarmoutsos <skarmoutsosv@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-21 12:56+0100\n"
-"PO-Revision-Date: 2015-12-01 23:41+0000\n"
-"Last-Translator: I will not tell you that <leftermos@yahoo.gr>\n"
+"POT-Creation-Date: 2016-04-18 22:38+0200\n"
+"PO-Revision-Date: 2016-04-26 14:45+0000\n"
+"Last-Translator: Vangelis Skarmoutsos <skarmoutsosv@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/arctic-games/supertux/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,15 +21,15 @@ msgstr ""
 
 #: src/halloween2014/levels/halloween2014/halloween1.stl:3
 msgid "Darkness Prevails"
-msgstr ""
+msgstr "Επικράτηση σκότους"
 
 #: src/halloween2014/levels/halloween2014/halloween2.stl:3
 msgid "The Fog is Clearing Up"
-msgstr ""
+msgstr "Η ομίχλη καθαρίζει"
 
 #: src/halloween2014/levels/halloween2014/halloween3.stl:3
 msgid "Graveyard Shift"
-msgstr ""
+msgstr "Υπεκφυγή νεκροταφείου"
 
 #: src/halloween2014/levels/halloween2014/intro.stl:3
 msgid "The Abandoned House"
@@ -36,16 +37,16 @@ msgstr "Το Εγκαταλελειμμένο Σπίτι"
 
 #: src/halloween2014/levels/halloween2014/mound.stl:3
 msgid "Mound of the Dead"
-msgstr ""
+msgstr "Το βουνό των νεκρών"
 
 #: src/halloween2014/levels/halloween2014/outro.stl:3
 msgid "Halloween Party?"
-msgstr ""
+msgstr "Το πάρτι του Χάλογουιν;"
 
 #: src/halloween2014/levels/halloween2014/pools.stl:3
 msgid "Putrid Pools"
-msgstr ""
+msgstr "Άθλιες πισίνες"
 
 #: src/halloween2014/levels/halloween2014/worldmap.stwm:3
 msgid "Halloween 2014"
-msgstr ""
+msgstr "Χάλογουιν 2014"

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Nicolae Crefelean, 2015
 # Razvan <razvan.net@gmail.com>, 2007
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-11-29 18:43+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-17 09:13+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Romanian (http://www.transifex.com/arctic-games/supertux/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr "Bunvenit in Antarctica"
+msgstr "Bun venit în Antarctica"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
@@ -74,63 +75,63 @@ msgstr ""
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
-msgstr "Calatoria Incepe"
+msgstr "Călătoria începe"
 
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
-msgstr "Via Nostalgica"
+msgstr "Via nostalgica"
 
 #: data/levels/world1/04 - Tobgle Road.stl:3
 msgid "Tobgle Road"
-msgstr "Drmul Tobgle"
+msgstr "Drumul Tobgle"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "Baia Oarecum Mai Mica"
+msgstr "Baia oarecum mai mică"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
-msgstr "Campurile Inghetate"
+msgstr "Câmpurile înghețate"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
-msgstr "Oh nu! Mai Multi Bulgari De Zapada!"
+msgstr "O, nu! Alți bulgări de zăpadă!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
-msgstr "Rece ca Gheata"
+msgstr "Rece ca gheața"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
-msgstr "Cum Simte Grumbel Zapada"
+msgstr "Cum simte Grumbel zăpada"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
-msgstr "A 23-A Companie De Zbor"
+msgstr "A 23-a companie de zbor"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
-msgstr "Racoarea Noptii"
+msgstr "Frigul nopții"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
-msgstr "Inspre Stele"
+msgstr "În stele"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
-msgstr "Deasupra Cerului Arctic"
+msgstr "Deasupra cerului arctic"
 
 #: data/levels/world1/14 - Entrance to the Cave.stl:3
 msgid "Entrance to the Cave"
-msgstr "Intrarea in Pestera"
+msgstr "Intrarea în peșteră"
 
 #: data/levels/world1/15 - Under the Ice.stl:3
 msgid "Under the Ice"
-msgstr "Sub Gheata"
+msgstr "Sub gheață"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "Viata in Frigider"
+msgstr "Viața în frigider"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
@@ -138,7 +139,7 @@ msgstr "'...sau mi se pare doar mie?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
-msgstr "Gheata in Gaura"
+msgstr "Gheață în gaură"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
@@ -146,15 +147,15 @@ msgstr "Monumentul Miyamoto"
 
 #: data/levels/world1/20 - End of the Tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr "Sfarsitul Tunelului"
+msgstr "Capătul tunelului"
 
 #: data/levels/world1/21 - A Path in the Clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "O Cale in Nori"
+msgstr "O cale în nori"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
-msgstr "O Misterioasa Casa De Gheata"
+msgstr "O misterioasă casă de gheață"
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
@@ -162,11 +163,11 @@ msgstr "Escapada"
 
 #: data/levels/world1/24 - The Shattered Bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "Podul Distrus"
+msgstr "Podul distrus"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
-msgstr "Ruine Arctice"
+msgstr "Ruine arctice"
 
 #: data/levels/world1/26 - The Castle of Nolok.stl:3
 msgid "The Castle of Nolok"
@@ -174,11 +175,11 @@ msgstr "Castelul lui Nolok"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "Nu mai sunt un tip simpatic"
+msgstr "Gata cu joaca"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
-msgstr ""
+msgstr "O bifurcație în drum"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
@@ -191,9 +192,9 @@ msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
+"-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
-"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
+"#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
 msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
@@ -204,7 +205,7 @@ msgstr ""
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
-msgstr "Nivel Bonus"
+msgstr "Nivel bonus"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
@@ -214,48 +215,48 @@ msgstr "Picnic cu Penny"
 msgid ""
 "Somewhere at the shores\n"
 "of Antarctica..."
-msgstr ""
+msgstr "Undeva pe malurile\nAntarcticii..."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux: Hello Penny"
-msgstr ""
+msgstr "Tux: Salut, Penny"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Penny: Hey Tux"
-msgstr ""
+msgstr "Penny: Salut, Tux"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid "Tux: Check out my dance moves."
-msgstr ""
+msgstr "Tux: Ia uite cum dansez."
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "Tux: Oww... my head..."
-msgstr ""
+msgstr "Tux: Au... capul meu..."
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "Tux: Wait!"
-msgstr ""
+msgstr "Tux: Stai!"
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid "Tux: Penny!"
-msgstr ""
+msgstr "Tux: Penny!"
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid "Tux: Where are you, Penny?!"
-msgstr ""
+msgstr "Tux: Unde ești, Penny?!"
 
 #: data/levels/world1/scripts_intro.txt:11
 msgid "Tux: Oh no..."
-msgstr ""
+msgstr "Tux: O, nu..."
 
 #: data/levels/world1/scripts_intro.txt:12
 msgid "Tux: Don't worry, Penny, I'll rescue you!"
-msgstr ""
+msgstr "Tux: Nu te îngrijora, Penny. Te voi salva eu!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr "Insula inghetata"
+msgstr "Insula înghețată"
 
 #: data/levels/world1/worldmap.stwm:37
 msgid "You Found a Secret Area!"
-msgstr ""
+msgstr "Ai găsit o zonă secretă!"

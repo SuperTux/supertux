@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
+# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015-2016
 # Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 10:11+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-13 01:18+0000\n"
 "Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -44,11 +44,11 @@ msgid ""
 "#everyone who contributed to this\n"
 "#release. We hope that you enjoyed\n"
 "#it, and that it made waiting for\n"
-"#Milestone 2 a little easier. :-)\n"
+"#Milestone 3 a little easier. :-)\n"
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-おめでとうございます! \n#あなたは、ボーナス アイランド2 \n#をクリアしました。 \n#このコースを作成したのは、 \n#ケビン \n#ジェイソン Kleinemas \n#デニルソン \n#トベ デプレ\n#ビッグC \n#トーマス ニルソン \n#Torfi ガナーソン \n#ダニエル アルストン \n#Nilrok \n#Corlin Heydman \n#もう一度、我々はこのコース集の作成者に \n#感謝したいと思います。私達は、それを #楽しむことを願います。 \n#また、マイルストーン2を待つことが \n#少し楽なようです。 :-) \n#氷河期の終わりは近いようです...."
+msgstr "-おめでとうございます!\n#あなたは、ボーナス アイランド2\n#をクリアしました。\n\n\n#このコースを作成したのは、\n#ケビン\n#ジェイソン Kleinemas\n#デニルソン\n#トベ デプレ\n#ビッグC\n#トーマス ニルソン\n#Torfi ガナーソン\n#ダニエル アルストン\n#Nilrok\n#Corlin Heydman\n\n\n#もう一度、我々はこのコース集の作成者に\n#感謝したいと思います。私達は、それを\n#楽しむことを願います。\n#また、マイルストーン3を待つことが\n#少し楽なようです。 :-)\n#氷河期の終わりは近いようです...."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."

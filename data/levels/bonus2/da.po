@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Joe Hansen <joedalton2@yahoo.dk>, 2015
+# Joe Hansen <joedalton2@yahoo.dk>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-23 14:42+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-13 00:27+0000\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/arctic-games/supertux/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -43,15 +43,15 @@ msgid ""
 "#everyone who contributed to this\n"
 "#release. We hope that you enjoyed\n"
 "#it, and that it made waiting for\n"
-"#Milestone 2 a little easier. :-)\n"
+"#Milestone 3 a little easier. :-)\n"
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-Tillykke!\n\n#Du har succesfuld klaret dig gennem\n#Bonusø 2\n\n\n\tsom indeholder niveauer lavet af\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Endnu en gang vil vi gerne takke\n#alle, som har hjulpet til med denne\n#udgivelse. Vi håber, at I nød\n#det, og at det gjorde det lidt lettere at\n#vente på milesten 2. :-)\n\n\n Istidens ende er nær ..."
+msgstr "-Tillykke!\n\n#Du har succesfuld klaret dig gennem\n#Bonusø II\n\n\n\tsom indeholder niveauer lavet af\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Endnu en gang vil vi gerne takke\n#alle, som har hjulpet til med denne\n#udgivelse. Vi håber, at I nød\n#det, og at det gjorde det lidt lettere at\n#vente på milesten 3. :-)\n\n\n Istidens ende er nær ..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Er det ikke meningen at Mario skal klare det her?"
+msgstr "Er det ikke meningen, at Mario skal klare det her?"
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -83,7 +83,7 @@ msgstr "Air luftskib"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "...hvor alt er muligt"
+msgstr "... hvor alt er muligt"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
@@ -163,7 +163,7 @@ msgstr "Tradition"
 
 #: data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr "Bonusflage 2"
+msgstr "Bonusø II"
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
@@ -171,8 +171,8 @@ msgstr "Du har fundet et hemmelig sted!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
-msgstr "Hvor mon den sti fører hen..."
+msgstr "Hvor mon den sti fører hen ..."
 
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
-msgstr "Hop hjem..."
+msgstr "Hop hjem ..."

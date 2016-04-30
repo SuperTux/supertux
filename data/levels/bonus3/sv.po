@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Kristoffer Grundström <kristoffer.grundstrom1983@gmail.com>, 2014
+# sebras <sebras@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:03+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-13 00:27+0000\n"
+"Last-Translator: sebras <sebras@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/arctic-games/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,21 +41,21 @@ msgstr "Ytterligare en kall dag"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Antarctic rain"
-msgstr "Antartiskt regn"
+msgstr "Antarktiskt regn"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
-msgstr "..., men ingen kan stoppa det..."
+msgstr "…men ingen kan stoppa det…"
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:307
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr ""
+msgstr "-Tyvärr, denna flygande plattformen är lat.\n-Kom tillbaka en annan gång."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr "Du kan inte klättra högre än molnen..."
+msgstr "Du kan inte klättra högre än molnen…"
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
@@ -105,23 +106,23 @@ msgstr "Det mörka slottet"
 
 #: data/levels/bonus3/deep_deeper.stl:3
 msgid "Deep, deeper..."
-msgstr "Djup, djupare..."
+msgstr "Djup, djupare…"
 
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
-msgstr "...djupast!"
+msgstr "…djupast!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
-msgstr ""
+msgstr "Cirklar"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr ""
+msgstr "Missa inte din åktur"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
-msgstr ""
+msgstr "På väg ner"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
@@ -129,7 +130,7 @@ msgstr "Går in i slottet"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
-msgstr "Blom-bonus"
+msgstr "Blombonus"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
@@ -141,7 +142,7 @@ msgstr "Hängande från taket"
 
 #: data/levels/bonus3/hilly_landscape.stl:3
 msgid "A hilly landscape"
-msgstr "Ett bergigt landskap"
+msgstr "Ett kuperat landskap"
 
 #: data/levels/bonus3/in_the_spring.stl:3
 msgid "In the Spring"
@@ -171,17 +172,17 @@ msgstr "Toalettzonen"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr ""
+msgstr "- Spola: \n#Tryck på upp för att spola! "
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr ""
+msgstr "- En utväg?\n#Låt oss hoppa!"
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
-msgstr "Min Penny är över havet"
+msgstr "Min Penny är på andra sidan havet"
 
 #: data/levels/bonus3/pinksnow.stl:3
 msgid "Pink Snow"
@@ -193,7 +194,7 @@ msgstr "Röd varning! Skogen brinner!"
 
 #: data/levels/bonus3/sever_escape.stl:3
 msgid "Sewer escape"
-msgstr "Rymmning från kloaken"
+msgstr "Rymning från kloaken"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
@@ -225,7 +226,7 @@ msgstr "Du har hittat ett hemligt ställe!"
 
 #: data/levels/bonus3/worldmap.stwm:20
 msgid "Congratulations... you found the secret pathway!"
-msgstr "Grattis.... du har hittat den hemliga gångstigen!"
+msgstr "Grattis… du har hittat den hemliga gångstigen!"
 
 #: data/levels/bonus3/worldmap.stwm:78 data/levels/bonus3/worldmap.stwm:86
 msgid "Go Home"

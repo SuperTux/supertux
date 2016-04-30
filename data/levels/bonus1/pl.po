@@ -5,14 +5,14 @@
 # Translators:
 # dominik232 <dominik232@gmail.com>, 2014
 # Krzysiek Szeląg, 2015
-# Krzysiek Szeląg, 2015
+# Krzysiek Szeląg, 2015-2016
 # Paweł Talar <ptalar15@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-21 12:40+0100\n"
-"PO-Revision-Date: 2015-12-13 17:19+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-18 20:25+0000\n"
 "Last-Translator: Krzysiek Szeląg\n"
 "Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "Lochy ale nie smoki "
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
-msgstr "Łgarstwo!"
+msgstr "Łgarstwa!"
 
 #: data/levels/bonus1/abednego-level4.stl:3
 msgid "Train Leaves in One Minute"

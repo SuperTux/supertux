@@ -1,0 +1,792 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Булат Ибраһим <bulat_ibrahim@mail.ru>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-19 05:54+0000\n"
+"Last-Translator: Булат Ибраһим <bulat_ibrahim@mail.ru>\n"
+"Language-Team: Tatar (http://www.transifex.com/arctic-games/supertux/language/tt/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tt\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/control/joystick_config.cpp:84
+msgid "Joystick Mappings"
+msgstr "Джойстик көйләүләре"
+
+#: src/supertux/command_line_arguments.cpp:76
+#, c-format
+msgid "Usage: %s [OPTIONS] [LEVELFILE]"
+msgstr "Куллану: %s [КӨЙЛӘҮЛӘР] [ДӘРӘҖӘ_ФАЙЛЫ]"
+
+#: src/supertux/command_line_arguments.cpp:77
+msgid "General Options:"
+msgstr "Төп көйләүләр:"
+
+#: src/supertux/command_line_arguments.cpp:78
+msgid "  -h, --help                   Show this help message and quit"
+msgstr "-h, --help Бу белешмәне күрсәтергә һәм чыгарга"
+
+#: src/supertux/command_line_arguments.cpp:79
+msgid "  -v, --version                Show SuperTux version and quit"
+msgstr "-v, --version SuperTux версиясен күрсәтергә һәм чыгарга"
+
+#: src/supertux/command_line_arguments.cpp:80
+msgid "  --verbose                    Print verbose messages"
+msgstr "--verbose Тулы мәгълүматларны чыгарырга"
+
+#: src/supertux/command_line_arguments.cpp:81
+msgid "  --debug                      Print extra verbose messages"
+msgstr "--debug Өстәмә тулы мәгълүматларны чыгарырга"
+
+#: src/supertux/command_line_arguments.cpp:82
+msgid ""
+"  --print-datadir              Print supertux's primary data directory."
+msgstr "--print-datadir SuperTux -ның төп юлын күрсәтергә."
+
+#: src/supertux/command_line_arguments.cpp:83
+msgid "Video Options:"
+msgstr "Графика көйләүләре:"
+
+#: src/supertux/command_line_arguments.cpp:84
+msgid "  -f, --fullscreen             Run in fullscreen mode"
+msgstr "-f, --fullscreen Тулы экранда җибәрергә"
+
+#: src/supertux/command_line_arguments.cpp:85
+msgid "  -w, --window                 Run in window mode"
+msgstr "-w, --window Тәрәзәдә җибәрергә"
+
+#: src/supertux/command_line_arguments.cpp:86
+msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
+msgstr "-g, --geometry КИҢЛЕКxБИЕКЛЕК SuperTux-ны бу ачыклыкта җибәрергә"
+
+#: src/supertux/command_line_arguments.cpp:87
+msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
+msgstr "-a, --aspect КИҢЛЕК:БИЕКЛЕК SuperTux -ны бу яклар бәйләнешендә җибәрергә"
+
+#: src/supertux/command_line_arguments.cpp:88
+msgid "  -d, --default                Reset video settings to default values"
+msgstr "-d, --default График көйләүләрне гадәттәгечәгә кайтарырга"
+
+#: src/supertux/command_line_arguments.cpp:89
+msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
+msgstr "--renderer ЧЫГАРУ Чыгару өчен sdl, opengl яки auto кулланырга"
+
+#: src/supertux/command_line_arguments.cpp:90
+msgid "Audio Options:"
+msgstr "Тавыш көйләүләре:"
+
+#: src/supertux/command_line_arguments.cpp:91
+msgid "  --disable-sound              Disable sound effects"
+msgstr "--disable-sound Тавыш эффектларын сүндерергә"
+
+#: src/supertux/command_line_arguments.cpp:92
+msgid "  --disable-music              Disable music"
+msgstr "--disable-music Көйләрне сүндерергә"
+
+#: src/supertux/command_line_arguments.cpp:93
+msgid "Game Options:"
+msgstr "Уен көйләүләре:"
+
+#: src/supertux/command_line_arguments.cpp:94
+msgid "  --show-fps                   Display framerate in levels"
+msgstr "--show-fps Кадрлар ешлыгын күрсәтергә"
+
+#: src/supertux/command_line_arguments.cpp:95
+msgid "  --no-show-fps                Do not display framerate in levels"
+msgstr "--no-show-fps Кадрлар ешлыгын күрсәтмәскә"
+
+#: src/supertux/command_line_arguments.cpp:96
+msgid "  --developer                  Switch on developer feature"
+msgstr "--developer Ясаучы үзенчәлекләрен кабызырга"
+
+#: src/supertux/command_line_arguments.cpp:97
+msgid "  -s, --debug-scripts          Enable script debugger."
+msgstr "-s, --debug-scripts Сценарийлар тикшерүчесен кабызырга."
+
+#: src/supertux/command_line_arguments.cpp:98
+msgid ""
+"  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
+" level is specified."
+msgstr "--spawn-pos X,Y Дәрәҗәдә кайсы җирдә Туксны куярга. Дәрәҗә билгеләнелгән вакытта гына кулланыла."
+
+#: src/supertux/command_line_arguments.cpp:99
+msgid "Demo Recording Options:"
+msgstr "Демо Яздыру Көйләүләре"
+
+#: src/supertux/command_line_arguments.cpp:100
+msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
+msgstr "--record-demo ФАЙЛ ДӘРӘҖӘ Демоны ФАЙЛГА яза"
+
+#: src/supertux/command_line_arguments.cpp:101
+msgid "  --play-demo FILE LEVEL       Play a recorded demo"
+msgstr "--play-demo ФАЙЛ ДӘРӘҖӘ Язылган демоны уйната"
+
+#: src/supertux/command_line_arguments.cpp:102
+msgid "Directory Options:"
+msgstr "Директорияләрне көйләү:"
+
+#: src/supertux/command_line_arguments.cpp:103
+msgid ""
+"  --datadir DIR                Set the directory for the games datafiles"
+msgstr "--datadir ЮЛ Уен мәгълүматлары өчен юлны урнаштыра"
+
+#: src/supertux/command_line_arguments.cpp:104
+msgid ""
+"  --userdir DIR                Set the directory for user data (savegames, "
+"etc.)"
+msgstr "--userdir ЮЛ Кулланучы мәгълүматлары өчен юлны урнаштыра (сакланулар һ. б.)"
+
+#: src/supertux/command_line_arguments.cpp:105
+msgid "Environment variables:"
+msgstr "Мохит үзгәрмәләре:"
+
+#: src/supertux/command_line_arguments.cpp:106
+msgid ""
+"  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
+msgstr "SUPERTUX2_USER_DIR Кулланучы мәгълүматлары өчен юл (сакланулар һ. б.)"
+
+#: src/supertux/command_line_arguments.cpp:107
+msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
+msgstr "SUPERTUX2_DATA_DIR Уен мәгълүматлары өчен юл"
+
+#: src/supertux/levelintro.cpp:112
+#, c-format
+msgid "contributed by %s"
+msgstr "кертем ясады: %s"
+
+#: src/supertux/levelintro.cpp:127 src/supertux/statistics.cpp:119
+msgid "Best Level Statistics"
+msgstr "Дәрәҗәнең иң яхшы күрсәткече"
+
+#: src/supertux/levelintro.cpp:133 src/supertux/statistics.cpp:207
+msgid "Coins"
+msgstr "Тәңкәләр җыелган"
+
+#: src/supertux/levelintro.cpp:140
+msgid "Badguys killed"
+msgstr "Дошманнар юк ителгән"
+
+#: src/supertux/levelintro.cpp:147 src/supertux/statistics.cpp:223
+msgid "Secrets"
+msgstr "Яшерен урыннар табылган"
+
+#: src/supertux/levelintro.cpp:154
+msgid "Best time"
+msgstr "Иң яхшы вакыт"
+
+#: src/supertux/levelintro.cpp:161
+msgid "Level target time"
+msgstr "Дәрәҗә таләп иткән вакыт"
+
+#: src/supertux/menu/addon_menu.cpp:49
+msgid "Levelset"
+msgstr "Дәрәҗәләр"
+
+#: src/supertux/menu/addon_menu.cpp:52
+msgid "Worldmap"
+msgstr "Дөнья картасы"
+
+#: src/supertux/menu/addon_menu.cpp:55
+msgid "World"
+msgstr "Дөнья"
+
+#: src/supertux/menu/addon_menu.cpp:61
+msgid "Unknown"
+msgstr "Билгесез"
+
+#: src/supertux/menu/addon_menu.cpp:83
+#, c-format
+msgid "%s \"%s\" by \"%s\""
+msgstr "%s %s авторы %s"
+
+#: src/supertux/menu/addon_menu.cpp:139
+msgid "Language packs"
+msgstr "Телләр"
+
+#: src/supertux/menu/addon_menu.cpp:143 src/supertux/menu/main_menu.cpp:44
+msgid "Add-ons"
+msgstr "Кушымталар"
+
+#: src/supertux/menu/addon_menu.cpp:149
+msgid "View Language Packs"
+msgstr "Телләрне карарга"
+
+#: src/supertux/menu/addon_menu.cpp:153
+msgid "View Add-ons"
+msgstr "Кушымталарны карарга"
+
+#: src/supertux/menu/addon_menu.cpp:162
+msgid "No Language packs installed"
+msgstr "Урнаштырылган телләр юк"
+
+#: src/supertux/menu/addon_menu.cpp:166
+msgid "No Add-ons installed"
+msgstr "Урнаштырылган кушымталар юк"
+
+#: src/supertux/menu/addon_menu.cpp:173
+msgid "No Language packs found"
+msgstr "Телләр табылмады"
+
+#: src/supertux/menu/addon_menu.cpp:177
+msgid "No Add-ons found"
+msgstr "Кушымталар табылмады"
+
+#: src/supertux/menu/addon_menu.cpp:224
+#, c-format
+msgid "Install %s *NEW*"
+msgstr "Урнаштырырга: %s *ЯҢА*"
+
+#: src/supertux/menu/addon_menu.cpp:235
+#, c-format
+msgid "Install %s"
+msgstr "Урнаштырырга: %s"
+
+#: src/supertux/menu/addon_menu.cpp:246
+msgid "No new Language packs found"
+msgstr "Яңа телләр табылмады"
+
+#: src/supertux/menu/addon_menu.cpp:250
+msgid "No new Add-ons found"
+msgstr "Яңа кушымталар табылмады"
+
+#: src/supertux/menu/addon_menu.cpp:257
+msgid "Check Online (disabled)"
+msgstr "Челтәрдә карарга (сүндерелгән)"
+
+#: src/supertux/menu/addon_menu.cpp:261
+msgid "Check Online"
+msgstr "Челтәрдә карарга"
+
+#: src/supertux/menu/addon_menu.cpp:265 src/supertux/menu/cheat_menu.cpp:41
+#: src/supertux/menu/contrib_levelset_menu.cpp:69
+#: src/supertux/menu/contrib_menu.cpp:141
+#: src/supertux/menu/joystick_menu.cpp:98
+#: src/supertux/menu/keyboard_menu.cpp:49
+#: src/supertux/menu/language_menu.cpp:52
+#: src/supertux/menu/options_menu.cpp:238
+#: src/supertux/menu/profile_menu.cpp:47
+#: src/supertux/menu/world_set_menu.cpp:44
+#: src/supertux/menu/worldmap_cheat_menu.cpp:44
+msgid "Back"
+msgstr "Артка"
+
+#: src/supertux/menu/addon_menu.cpp:346
+msgid "Downloading Add-On Repository Index"
+msgstr "Кушымталар саклагычы индексын йөкләү"
+
+#: src/supertux/menu/addon_menu.cpp:361
+#, c-format
+msgid "Downloading %s"
+msgstr "Йөкләнә %s"
+
+#: src/supertux/menu/addon_menu.cpp:408
+msgid ""
+"Please restart SuperTux\n"
+"for these changes to take effect."
+msgstr "Үзгәрешләрне кабул итү өчен,\nSuperTux-ны яңабаштан җибәрегез."
+
+#: src/supertux/menu/addon_menu.cpp:409
+msgid "OK"
+msgstr "ӘЙЕ"
+
+#: src/supertux/menu/cheat_menu.cpp:29
+#: src/supertux/menu/worldmap_cheat_menu.cpp:29
+msgid "Cheats"
+msgstr "Читлар"
+
+#: src/supertux/menu/cheat_menu.cpp:31
+#: src/supertux/menu/worldmap_cheat_menu.cpp:31
+msgid "Bonus: Grow"
+msgstr "Ташлама: Үсү"
+
+#: src/supertux/menu/cheat_menu.cpp:32
+#: src/supertux/menu/worldmap_cheat_menu.cpp:32
+msgid "Bonus: Fire"
+msgstr "Ташлама: Ут"
+
+#: src/supertux/menu/cheat_menu.cpp:33
+#: src/supertux/menu/worldmap_cheat_menu.cpp:33
+msgid "Bonus: Ice"
+msgstr "Ташлама: Боз"
+
+#: src/supertux/menu/cheat_menu.cpp:34
+#: src/supertux/menu/worldmap_cheat_menu.cpp:34
+msgid "Bonus: Air"
+msgstr "Ташлама: Һава"
+
+#: src/supertux/menu/cheat_menu.cpp:35
+#: src/supertux/menu/worldmap_cheat_menu.cpp:35
+msgid "Bonus: Earth"
+msgstr "Ташлама: Җир"
+
+#: src/supertux/menu/cheat_menu.cpp:36
+msgid "Bonus: Star"
+msgstr "Ташлама: Йолдыз"
+
+#: src/supertux/menu/cheat_menu.cpp:37
+msgid "Shrink Tux"
+msgstr "Туксны кечерәйтергә"
+
+#: src/supertux/menu/cheat_menu.cpp:38
+msgid "Kill Tux"
+msgstr "Туксны үтерергә"
+
+#: src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/worldmap_cheat_menu.cpp:38
+msgid "Finish Level"
+msgstr "Дәрәҗәне тәмамларга"
+
+#: src/supertux/menu/contrib_menu.cpp:51
+#: src/supertux/menu/world_set_menu.cpp:42
+msgid "Contrib Levels"
+msgstr "Өстәмә биремнәр"
+
+#: src/supertux/menu/contrib_menu.cpp:88
+#: src/supertux/menu/contrib_menu.cpp:119
+msgid "*NEW*"
+msgstr "*ЯҢА*"
+
+#: src/supertux/menu/download_dialog.cpp:29
+msgid "Abort Download"
+msgstr "Йөкләүне туктатырга"
+
+#: src/supertux/menu/download_dialog.cpp:45
+msgid "Error:\n"
+msgstr "Хата:\n"
+
+#: src/supertux/menu/download_dialog.cpp:46
+msgid "Ok"
+msgstr "Әйе"
+
+#: src/supertux/menu/download_dialog.cpp:101
+msgid "Close"
+msgstr "Ябарга"
+
+#: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
+msgid "Continue"
+msgstr "Дәвам итәргә"
+
+#: src/supertux/menu/game_menu.cpp:36
+msgid "Restart Level"
+msgstr "Дәрәҗә яңабаштан"
+
+#: src/supertux/menu/game_menu.cpp:37 src/supertux/menu/main_menu.cpp:45
+#: src/supertux/menu/options_menu.cpp:55
+#: src/supertux/menu/worldmap_menu.cpp:32
+msgid "Options"
+msgstr "Көйләүләр"
+
+#: src/supertux/menu/game_menu.cpp:39
+msgid "Abort Level"
+msgstr "Дәрәҗәне туктатырга"
+
+#: src/supertux/menu/joystick_menu.cpp:52
+#: src/supertux/menu/options_menu.cpp:221
+msgid "Setup Joystick"
+msgstr "Джойстик"
+
+#: src/supertux/menu/joystick_menu.cpp:55
+msgid "Manual Configuration"
+msgstr "Кулдан көйләү"
+
+#: src/supertux/menu/joystick_menu.cpp:57
+msgid ""
+"Use manual configuration instead of SDL2's automatic GameController support"
+msgstr "Автоматик SDL2 көйләве урынына үземнекен кулланырга"
+
+#: src/supertux/menu/joystick_menu.cpp:69
+#: src/supertux/menu/keyboard_menu.cpp:31
+msgid "Up"
+msgstr "Өскә"
+
+#: src/supertux/menu/joystick_menu.cpp:70
+#: src/supertux/menu/keyboard_menu.cpp:32
+msgid "Down"
+msgstr "Аска"
+
+#: src/supertux/menu/joystick_menu.cpp:71
+#: src/supertux/menu/keyboard_menu.cpp:33
+msgid "Left"
+msgstr "Сулга"
+
+#: src/supertux/menu/joystick_menu.cpp:72
+#: src/supertux/menu/keyboard_menu.cpp:34
+msgid "Right"
+msgstr "Уңга"
+
+#: src/supertux/menu/joystick_menu.cpp:73
+#: src/supertux/menu/keyboard_menu.cpp:35
+msgid "Jump"
+msgstr "Сикерү"
+
+#: src/supertux/menu/joystick_menu.cpp:74
+#: src/supertux/menu/keyboard_menu.cpp:36
+msgid "Action"
+msgstr "Гамәл"
+
+#: src/supertux/menu/joystick_menu.cpp:75
+msgid "Pause/Menu"
+msgstr "Пауза/Меню"
+
+#: src/supertux/menu/joystick_menu.cpp:76
+#: src/supertux/menu/keyboard_menu.cpp:37
+msgid "Peek Left"
+msgstr "Сулга карау"
+
+#: src/supertux/menu/joystick_menu.cpp:77
+#: src/supertux/menu/keyboard_menu.cpp:38
+msgid "Peek Right"
+msgstr "Уңга карау"
+
+#: src/supertux/menu/joystick_menu.cpp:78
+#: src/supertux/menu/keyboard_menu.cpp:39
+msgid "Peek Up"
+msgstr "Өскә карау"
+
+#: src/supertux/menu/joystick_menu.cpp:79
+#: src/supertux/menu/keyboard_menu.cpp:40
+msgid "Peek Down"
+msgstr "Аска карау"
+
+#: src/supertux/menu/joystick_menu.cpp:81
+#: src/supertux/menu/keyboard_menu.cpp:42
+msgid "Console"
+msgstr "Консоль"
+
+#: src/supertux/menu/joystick_menu.cpp:84
+#: src/supertux/menu/keyboard_menu.cpp:45
+msgid "Cheat Menu"
+msgstr "Читлар менюсы"
+
+#: src/supertux/menu/joystick_menu.cpp:86
+#: src/supertux/menu/keyboard_menu.cpp:47
+msgid "Jump with Up"
+msgstr "Сикерү = Өскә"
+
+#: src/supertux/menu/joystick_menu.cpp:92
+msgid "No Joysticks found"
+msgstr "Джойстик табылмады"
+
+#: src/supertux/menu/joystick_menu.cpp:93
+msgid "Scan for Joysticks"
+msgstr "Джойстикларны табарга"
+
+#: src/supertux/menu/joystick_menu.cpp:107
+#: src/supertux/menu/keyboard_menu.cpp:61
+msgid "None"
+msgstr "Бирелмәгән"
+
+#: src/supertux/menu/joystick_menu.cpp:126
+msgid "Press Button"
+msgstr "Төймәгә басыгыз"
+
+#: src/supertux/menu/keyboard_menu.cpp:29
+#: src/supertux/menu/options_menu.cpp:218
+msgid "Setup Keyboard"
+msgstr "Төймәсар"
+
+#: src/supertux/menu/keyboard_menu.cpp:63
+msgid "Up cursor"
+msgstr "Ук өскә"
+
+#: src/supertux/menu/keyboard_menu.cpp:65
+msgid "Down cursor"
+msgstr "Ук аска"
+
+#: src/supertux/menu/keyboard_menu.cpp:67
+msgid "Left cursor"
+msgstr "Ук сулга"
+
+#: src/supertux/menu/keyboard_menu.cpp:69
+msgid "Right cursor"
+msgstr "Ук уңга"
+
+#: src/supertux/menu/keyboard_menu.cpp:71
+msgid "Return"
+msgstr "Enter"
+
+#: src/supertux/menu/keyboard_menu.cpp:73
+msgid "Space"
+msgstr "Space"
+
+#: src/supertux/menu/keyboard_menu.cpp:75
+msgid "Right Shift"
+msgstr "Уң Shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:77
+msgid "Left Shift"
+msgstr "Сул Shift"
+
+#: src/supertux/menu/keyboard_menu.cpp:79
+msgid "Right Control"
+msgstr "Уң Control"
+
+#: src/supertux/menu/keyboard_menu.cpp:81
+msgid "Left Control"
+msgstr "Сул Control"
+
+#: src/supertux/menu/keyboard_menu.cpp:83
+msgid "Right Alt"
+msgstr "Уң Alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:85
+msgid "Left Alt"
+msgstr "Сул Alt"
+
+#: src/supertux/menu/keyboard_menu.cpp:87
+msgid "Right Command"
+msgstr "Уң төймә"
+
+#: src/supertux/menu/keyboard_menu.cpp:89
+msgid "Left Command"
+msgstr "Сул төймә"
+
+#: src/supertux/menu/keyboard_menu.cpp:103
+msgid "Press Key"
+msgstr "Төймәгә басыгыз"
+
+#: src/supertux/menu/language_menu.cpp:39
+msgid "Language"
+msgstr "Тел"
+
+#: src/supertux/menu/language_menu.cpp:41
+msgid "<auto-detect>"
+msgstr "<авто-билгеләү>"
+
+#: src/supertux/menu/main_menu.cpp:43 src/supertux/menu/world_set_menu.cpp:39
+msgid "Start Game"
+msgstr "Уенны башларга"
+
+#: src/supertux/menu/main_menu.cpp:46
+msgid "Credits"
+msgstr "Ясаучылар"
+
+#: src/supertux/menu/main_menu.cpp:47
+msgid "Quit"
+msgstr "Чыгарга"
+
+#: src/supertux/menu/main_menu.cpp:105
+msgid "Do you really want to quit SuperTux?"
+msgstr "Чыннан да SuperTux-тан чыгаргамы?"
+
+#: src/supertux/menu/main_menu.cpp:106
+msgid "Cancel"
+msgstr "Баш тарту"
+
+#: src/supertux/menu/main_menu.cpp:107
+msgid "Quit SuperTux"
+msgstr "SuperTux-тан чыгарга"
+
+#: src/supertux/menu/options_menu.cpp:61 src/supertux/menu/options_menu.cpp:97
+#: src/supertux/menu/options_menu.cpp:251
+#: src/supertux/menu/options_menu.cpp:271
+msgid "auto"
+msgstr "автоматик"
+
+#: src/supertux/menu/options_menu.cpp:186
+msgid "Select Language"
+msgstr "Телне сайлагыз"
+
+#: src/supertux/menu/options_menu.cpp:187
+msgid "Select a different language to display text in"
+msgstr "Текст күрсәтелү өчен башка телне сайларга"
+
+#: src/supertux/menu/options_menu.cpp:189
+msgid "Language Packs"
+msgstr "Тел пакетлары"
+
+#: src/supertux/menu/options_menu.cpp:190
+msgid "Language packs contain up-to-date translations"
+msgstr "Тел пакетлары яңартылган тәрҗемәләр бирә"
+
+#: src/supertux/menu/options_menu.cpp:192
+#: src/supertux/menu/profile_menu.cpp:30
+msgid "Select Profile"
+msgstr "Профильны сайлагыз"
+
+#: src/supertux/menu/options_menu.cpp:193
+msgid "Select a profile to play with"
+msgstr "Уен өчен профиль сайларга"
+
+#: src/supertux/menu/options_menu.cpp:196
+msgid "Fullscreen"
+msgstr "Тулы экран"
+
+#: src/supertux/menu/options_menu.cpp:197
+msgid "Fill the entire screen"
+msgstr "Бөтен экранны алырга"
+
+#: src/supertux/menu/options_menu.cpp:199
+msgid "Resolution"
+msgstr "Ачыклык"
+
+#: src/supertux/menu/options_menu.cpp:200
+msgid ""
+"Determine the resolution used in fullscreen mode (you must toggle fullscreen"
+" to complete the change)"
+msgstr "Тулы экран өчен ачыклыкны билгеләргә (сезгә тулы экран режимын сайларга кирәк)"
+
+#: src/supertux/menu/options_menu.cpp:202
+msgid "Magnification"
+msgstr "Масштаб"
+
+#: src/supertux/menu/options_menu.cpp:203
+msgid "Change the magnification of the game area"
+msgstr "Уен җиренең масштабын үзгәртергә"
+
+#: src/supertux/menu/options_menu.cpp:205
+msgid "Aspect Ratio"
+msgstr "Экран форматы"
+
+#: src/supertux/menu/options_menu.cpp:206
+msgid "Adjust the aspect ratio"
+msgstr "Экран яклары бәйләнешен дөресләргә"
+
+#: src/supertux/menu/options_menu.cpp:209
+msgid "Sound"
+msgstr "Тавышлар"
+
+#: src/supertux/menu/options_menu.cpp:210
+msgid "Disable all sound effects"
+msgstr "Бөтен тавыш эффектларын сүндерергә"
+
+#: src/supertux/menu/options_menu.cpp:211
+msgid "Music"
+msgstr "Көйләр"
+
+#: src/supertux/menu/options_menu.cpp:212
+msgid "Disable all music"
+msgstr "Төймәләр гамәлләрен билгеләргә"
+
+#: src/supertux/menu/options_menu.cpp:214
+msgid "Sound (disabled)"
+msgstr "Тавышлар (сүндерелгән)"
+
+#: src/supertux/menu/options_menu.cpp:215
+msgid "Music (disabled)"
+msgstr "Көйләр (сүндерелгән)"
+
+#: src/supertux/menu/options_menu.cpp:219
+msgid "Configure key-action mappings"
+msgstr "Төймәләр гамәлләрен билгеләргә"
+
+#: src/supertux/menu/options_menu.cpp:222
+msgid "Configure joystick control-action mappings"
+msgstr "Джойстик көйләүләрен билгеләргә"
+
+#: src/supertux/menu/options_menu.cpp:224
+msgid "Enable transitions"
+msgstr "Күчүне кабызырга"
+
+#: src/supertux/menu/options_menu.cpp:225
+msgid "Enable screen transitions and smooth menu animation"
+msgstr "Күчүне һәм менюда салмак анимацияне кабызырга"
+
+#: src/supertux/menu/options_menu.cpp:229
+msgid "Developer Mode"
+msgstr "Ясаучы Режимы"
+
+#: src/supertux/menu/options_menu.cpp:234
+msgid "Christmas Mode"
+msgstr "Яңа ел Режимы"
+
+#: src/supertux/menu/profile_menu.cpp:37
+#, c-format
+msgid "[Profile %s]"
+msgstr "[Профиль %s]"
+
+#: src/supertux/menu/profile_menu.cpp:41
+#, c-format
+msgid "Profile %s"
+msgstr "Профиль %s"
+
+#: src/supertux/menu/world_set_menu.cpp:41
+msgid "Story Mode"
+msgstr "Тарих режимы"
+
+#: src/supertux/menu/worldmap_cheat_menu.cpp:36
+msgid "Bonus: None"
+msgstr "Ташлама: Юк"
+
+#: src/supertux/menu/worldmap_cheat_menu.cpp:39
+msgid "Reset Level"
+msgstr "Дәрәҗә яңабаштан"
+
+#: src/supertux/menu/worldmap_cheat_menu.cpp:41
+msgid "Finish WorldMap"
+msgstr "Картаны тәмамларга"
+
+#: src/supertux/menu/worldmap_cheat_menu.cpp:42
+msgid "Reset WorldMap"
+msgstr "Карта яңабаштан"
+
+#: src/supertux/menu/worldmap_menu.cpp:29
+msgid "Pause"
+msgstr "Пауза"
+
+#: src/supertux/menu/worldmap_menu.cpp:34
+msgid "Quit World"
+msgstr "Дөньядан китәргә"
+
+#: src/supertux/statistics.cpp:130
+msgid "Max coins collected:"
+msgstr "Җыелган тәңкәләр:"
+
+#: src/supertux/statistics.cpp:134
+msgid "Max fragging:"
+msgstr "Юк ителгән:"
+
+#: src/supertux/statistics.cpp:138
+msgid "Max secrets found:"
+msgstr "Табылган яшерен җирләр:"
+
+#: src/supertux/statistics.cpp:142
+msgid "Best time completed:"
+msgstr "Иң яхшы вакыт:"
+
+#: src/supertux/statistics.cpp:147
+msgid "Level target time:"
+msgstr "Дәрәҗә таләп иткән вакыт:"
+
+#: src/supertux/statistics.cpp:203
+msgid "You"
+msgstr "Сезнеке"
+
+#: src/supertux/statistics.cpp:205
+msgid "Best"
+msgstr "Иң яхшысы"
+
+#: src/supertux/statistics.cpp:215
+msgid "Badguys"
+msgstr "Дошманнар"
+
+#: src/supertux/statistics.cpp:231
+msgid "Time"
+msgstr "Вакыт"
+
+#: src/supertux/title_screen.cpp:65
+msgid "Copyright"
+msgstr "Автор хокукы"
+
+#: src/supertux/title_screen.cpp:66
+msgid ""
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"redistribute it under certain conditions; see the file LICENSE for details.\n"
+msgstr "Бу уен БЕРНИНДИ ДӘ ГАРАНТИЯСЫЗ бирелә. Бу азат программа тәэминаты,\nһәм сез аны билгеле бер шартларда тарата аласыз; (өстәмә мәгълүмат өчен COPYING файлын карагыз).\n"
+
+#: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
+msgid "You found a secret area!"
+msgstr "Сез яшерен җирне таптыгыз!"
+
+#: src/worldmap/worldmap.cpp:338
+msgid "<no title>"
+msgstr "<исем юк>"

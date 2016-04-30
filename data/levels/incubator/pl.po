@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Krzysiek Szeląg, 2015
-# Krzysiek Szeląg, 2015
+# Krzysiek Szeląg, 2015-2016
 # mkkot <marcin2006@gmail.com>, 2014
 # Paweł Talar <ptalar15@gmail.com>, 2013
 # Paweł Talar <ptalar15@gmail.com>, 2013
@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-12-09 18:06+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-18 20:35+0000\n"
 "Last-Translator: Krzysiek Szeląg\n"
 "Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -21,6 +21,66 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: data/levels/incubator/Angry Stone vs. YOU.stl:3
+msgid "Angry Stone vs. YOU"
+msgstr "Wściekły Kamień vs. Ty"
+
+#: data/levels/incubator/Angry Stone vs. YOU.stl:307
+msgid ""
+"#You activate switches with this button:\n"
+"!images/tiles/signs/up.png"
+msgstr "#Aktywujesz dźwignię tym przyciskiem:\n!images/tiles/signs/up.png"
+
+#: data/levels/incubator/Castle #1.stl:3
+msgid "Castle #1"
+msgstr "Zamek #1"
+
+#: data/levels/incubator/Missingno.stl:3
+msgid "Missingno"
+msgstr "Missingno"
+
+#: data/levels/incubator/Missingno.stl:530
+msgid "#Be patient!"
+msgstr "#Bądź cierpliwy!"
+
+#: data/levels/incubator/Missingno.stl:535
+msgid ""
+"#Dont move while flying!\n"
+"#Pay attention at landing!"
+msgstr "#Nie ruszaj się gdy latasz!\n#Zwracaj uwagę na lądowaniu!"
+
+#: data/levels/incubator/NewIcelevel1.stl:3
+msgid "Blue iced hills"
+msgstr ""
+
+#: data/levels/incubator/NewIcelevel2.stl:3
+msgid "Bads mountains"
+msgstr "Złe góry"
+
+#: data/levels/incubator/NewIcelevel3.stl:3
+msgid "eman level ehT <---"
+msgstr "umoizop awzaN <---"
+
+#: data/levels/incubator/NewIcelevel4.stl:3
+msgid "Ice sea"
+msgstr "Lodowe Morze"
+
+#: data/levels/incubator/NewIcelevel5.stl:3
+msgid "Electric-Wood factory"
+msgstr ""
+
+#: data/levels/incubator/Nice Ice.stl:3
+msgid "Nice Ice"
+msgstr "Lodzio miodzio"
+
+#: data/levels/incubator/Nice Ice.stl:88
+msgid "#Use the enemy to finish this level!"
+msgstr "#Użyj przeciwnika, aby wygrać poziom!"
+
+#: data/levels/incubator/SP33DRUN.stl:3
+msgid "SP33DRUN"
+msgstr "SP33DRUN"
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
@@ -34,9 +94,25 @@ msgstr "Lody wiśniowe"
 msgid "Mad Ysonn Cube Garden"
 msgstr "Sześcienny ogród szalonego Ysonna"
 
+#: data/levels/incubator/fall_kugelblitz.stl:3
+msgid "Kugelblitzstorm"
+msgstr ""
+
 #: data/levels/incubator/frozen_fissure.stl:3
 msgid "Frozen Fissure"
 msgstr "Zamarznięta szczelina"
+
+#: data/levels/incubator/hungry_tux.stl:3
+msgid "Tux is hungry!"
+msgstr "Tux jest głodny!"
+
+#: data/levels/incubator/ice_mountain.stl:3
+msgid "Crystal Mountain"
+msgstr "Kryształowe Góry"
+
+#: data/levels/incubator/in_the_mountain.stl:3
+msgid "In the mountain"
+msgstr "W górach"
 
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
@@ -56,9 +132,48 @@ msgstr "#Strzeż się ognia!"
 msgid "The Jagged Path"
 msgstr "Naderwana droga"
 
+#: data/levels/incubator/let_us_snow.stl:3
+msgid "Let us snow!"
+msgstr "Pozwól nam padać!"
+
+#: data/levels/incubator/let_us_snow.stl:205
+msgid ""
+"-Warning!\n"
+"#Beware the falling enemies!"
+msgstr "-Ostrzeżenie!\n#Uważaj na spadających przeciwników!"
+
+#: data/levels/incubator/long.stl:3
+msgid "A long adventure"
+msgstr "Długa przygoda"
+
+#: data/levels/incubator/long.stl:1579
+msgid ""
+"#Until this moment you have luck.\n"
+"#The way here was hard.\n"
+"#You still have a long way to go.\n"
+"#You must know it well.\n"
+"#Even now you must not fail it.\n"
+"#Now go down to the shaft.\n"
+"#I hope you understood."
+msgstr ""
+
+#: data/levels/incubator/long.stl:3997
+msgid ""
+"-Congratulations!\n"
+"#You are in half the level! "
+msgstr "-Gratulacje!\n#Jesteś w połowie poziomu!"
+
+#: data/levels/incubator/long.stl:4549
+msgid "-You are going wrong!"
+msgstr "-Robisz źle!"
+
 #: data/levels/incubator/midnight_crossing.stl:3
 msgid "Midnight Crossing"
 msgstr "Przejście o północy"
+
+#: data/levels/incubator/mountain_climbing.stl:3
+msgid "Mountain climbing"
+msgstr "Wspinaczka górska"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"

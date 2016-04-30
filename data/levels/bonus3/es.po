@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Fran <franchulo021@gmail.com>, 2015
+# Francisco B.G. <franchulo021@gmail.com>, 2015
 # Germana <germanaoliveirab@gmail.com>, 2013
-# William Beltrán <wbeltranc@gmail.com>, 2015
+# william beltran <wbeltranc@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-12-17 03:40+0000\n"
-"Last-Translator: William Beltrán <wbeltranc@gmail.com>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-02-05 21:42+0000\n"
+"Last-Translator: william beltran <wbeltranc@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,13 +42,13 @@ msgstr "Otro día frío"
 
 #: data/levels/bonus3/antarctic_rain.stl:3
 msgid "Antarctic rain"
-msgstr "Lluvia de antártida"
+msgstr "Lluvia Glacial"
 
 #: data/levels/bonus3/but_no_one_can_stop_it.stl:3
 msgid "...but no one can stop it..."
-msgstr "...pero nadie puede pararla..."
+msgstr "...pero nadie puede detenerlo..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:307
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
@@ -56,7 +56,7 @@ msgstr "-Disculpa, esta plataforma de vuelo es inestable.\n-Vuelve en otro momen
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."
-msgstr "No puedes trepar las arriba de las nubes..."
+msgstr "No puedes trepar más arriba de las nubes..."
 
 #: data/levels/bonus3/castle_light+darkness-v3.stl:3
 msgid "Castle of Light and Darkness"
@@ -64,7 +64,7 @@ msgstr "Castillo de Luz y Oscuridad"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr ""
+msgstr "Camino de Cueva"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"
@@ -98,7 +98,7 @@ msgstr "Cataclismo de Cristal"
 
 #: data/levels/bonus3/crystalfields.stl:3
 msgid "Out on the Crystal Fields"
-msgstr "Sobre los Campos de Cristal"
+msgstr "Afuera en los Campos de Cristal"
 
 #: data/levels/bonus3/dark_castle-v2.stl:3
 #: data/levels/bonus3/dark_castle.stl:3
@@ -111,7 +111,7 @@ msgstr "Profundo, más profundo..."
 
 #: data/levels/bonus3/deepest.stl:3
 msgid "...deepest!"
-msgstr "...más profundo!"
+msgstr "...¡más profundo!"
 
 #: data/levels/bonus3/dungeon_island/dungeon1.stl:3
 msgid "Circles"
@@ -119,11 +119,11 @@ msgstr "Círculos"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr "No pierdas tu viaje"
+msgstr "No te pierdas tu paseo"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"
-msgstr "Yendo hacia abajo"
+msgstr "Bajando"
 
 #: data/levels/bonus3/entering_castle.stl:3
 msgid "Entering the castle"
@@ -131,7 +131,7 @@ msgstr "Entrando al castillo"
 
 #: data/levels/bonus3/flowers.stl:3
 msgid "Flower Bonus"
-msgstr "Bono de Flor"
+msgstr "Flor de Bonificación"
 
 #: data/levels/bonus3/glaciers.stl:3
 msgid "After the Glaciers"
@@ -155,7 +155,7 @@ msgstr "Se esta haciendo interminable "
 
 #: data/levels/bonus3/light_in_the_darkness.stl:3
 msgid "Some light in the darkness would be fine, thanks!"
-msgstr "Una luz en la oscuridad sería grandioso, gracias!"
+msgstr "¡Una luz en la oscuridad sería grandioso, gracias!"
 
 #: data/levels/bonus3/niv-1.1.stl:3
 msgid "Snowfall alert"
@@ -173,13 +173,13 @@ msgstr "La Zona de Baño"
 msgid ""
 "- Flush: \n"
 "#Press the up key to flush! "
-msgstr ""
+msgstr "- Enjuagar: \n#¡Presiona la tecla flecha arriba para enjuagar! "
 
 #: data/levels/bonus3/niv-3.stl:239
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "
-msgstr "- Una salida?↩\n#Salta! "
+msgstr "- ¿Una salida?\n#¡Salta!"
 
 #: data/levels/bonus3/over_the_ocean.stl:3
 msgid "My Penny is over the ocean"
@@ -199,11 +199,11 @@ msgstr "Alcantarilla de escape"
 
 #: data/levels/bonus3/shakespeare-rain.stl:3
 msgid "To rain or not to rain - That's the question"
-msgstr "Llover o no llover - Esa es la pregunta"
+msgstr "Llover o no llover - Esa es la cuestión"
 
 #: data/levels/bonus3/shakespeare-rain_antarctic.stl:3
 msgid "To rain or not to rain - That's the question (Antarctic)"
-msgstr "Llover o no llover - Esa es la pregunta (Antartida)"
+msgstr "Llover o no llover - Esa es la cuestión (Antártida)"
 
 #: data/levels/bonus3/snowy_hill.stl:3
 msgid "A snowy hill"
@@ -223,7 +223,7 @@ msgstr "Isla de Bonificación III"
 
 #: data/levels/bonus3/worldmap.stwm:12
 msgid "You found a secret place!"
-msgstr "¡Hallaste un lugar secreto!"
+msgstr "¡Hallaste un área secreta!"
 
 #: data/levels/bonus3/worldmap.stwm:20
 msgid "Congratulations... you found the secret pathway!"

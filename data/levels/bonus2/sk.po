@@ -4,13 +4,14 @@
 # 
 # Translators:
 # DusXMT <merkur32@gmail.com>, 2014
+# MiroslavR <miroslavr256@gmail.com>, 2016
 # Roman 'Kaktuxista' Benji <romanbeno273@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:04+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-12 08:35+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Slovak (http://www.transifex.com/arctic-games/supertux/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +45,7 @@ msgid ""
 "#everyone who contributed to this\n"
 "#release. We hope that you enjoyed\n"
 "#it, and that it made waiting for\n"
-"#Milestone 2 a little easier. :-)\n"
+"#Milestone 3 a little easier. :-)\n"
 "\n"
 "\n"
 " The end of the ice age is near..."
@@ -112,11 +113,11 @@ msgstr "Vodné Cesty"
 
 #: data/levels/bonus2/level23.stl:3
 msgid "All That Glistens Is Not Gold"
-msgstr "To ligotanie, to nie je zlato"
+msgstr "Nie je všetko zlato, čo sa blyští"
 
 #: data/levels/bonus2/level24.stl:3
 msgid "A Cold Day"
-msgstr "Chladný Deň"
+msgstr "Chladný deň"
 
 #: data/levels/bonus2/level25.stl:3
 msgid "High Gravity"
@@ -128,7 +129,7 @@ msgstr "Ohnivá Búrka"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
-msgstr "Dlhá Cesta"
+msgstr "Dlhá cesta"
 
 #: data/levels/bonus2/level28.stl:3
 msgid "Life Support"
@@ -140,7 +141,7 @@ msgstr "Skákanie z vrchov"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr "Do Jaskyne"
+msgstr "Do jaskyne"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
@@ -164,15 +165,15 @@ msgstr "Tradícia"
 
 #: data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr "Bonusový Ostrov II"
+msgstr "Bonusový ostrov II"
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr "Objavil si tajné miesto!"
+msgstr "Našli ste tajné miesto!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
-msgstr "Zaújmalo by ma, kam vedie tá cesta..."
+msgstr "Zaujímalo by ma, kam vedie tá cesta..."
 
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."

@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
+# Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015-2016
 # Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-12-17 10:28+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-04-08 11:42+0000\n"
 "Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -30,48 +30,48 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-ボーナスブロック \n!images/objects/bonus_block/full-0.png\n#ボーナスブロックは、 \n#あなたの冒険を助けるコイン、 \n#パワーアップアイテムなどがはいっています。 \n#その中身を取るには、そのブロックをたたきます。"
+msgstr "-ボーナスブロック\n!images/objects/bonus_block/full-0.png\n#ボーナスブロックは、\n#あなたの冒険を助けるコイン、\n#パワーアップアイテムなどがはいっています。\n#その中身を取るには、そのブロックをたたきます。"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-卵 !images/powerups/egg/egg.png #卵はTuxを大きくさせます。 #Tuxは木のブロックを壊せるようになります。"
+msgstr "-卵\n!images/powerups/egg/egg.png\n#卵はTuxを大きくさせます。\n#Tuxは木のブロックを壊せるようになります。"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-チェックポイント \n!images/objects/resetpoints/bell-m.png \n#あなたがミスをすると、チェックポイントを \n#ふれていればそこからはじめられます。 \n#ただし、25枚以上のコインを失います。"
+msgstr "-チェックポイント\n!images/objects/resetpoints/bell-m.png\n#これに触れると、チェックポイントを\n#有効にします。あなたがミスをした場合、\n#ここからコースを再開できます。ただし、\n#あなたの10%以上(最低で25枚)のコインを\n#失います。"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-はしって！ !images/tiles/signs/run.png #この先に、たかいブロックがあります。 #走りながらとぶと飛びこえられます。"
+msgstr "-走って！\n!images/tiles/signs/run.png\n#この先に、たかいブロックがあります。\n#走りながらとぶと飛びこえられます。"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-ファイヤーフラワー !images/powerups/fireflower/fire_flower-0.png #この花をとると、Tuxはファイヤーボールを #打てるようになります。"
+msgstr "-ファイヤーフラワー\n!images/powerups/fireflower/fire_flower-0.png\n#この花をとると、Tuxはファイヤーボールを\n#打てるようになります。"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-Tuxの人形 !images/powerups/1up/1up.png #これをとると、コインを100枚 #とったことになります。"
+msgstr "-Tuxの人形\n!images/powerups/1up/1up.png\n#これをとると、コインを100枚\n#とったことになります。"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-ひみつの場所 #多くのコースは、壁に見えるようで、 #実は入ることができる秘密の場所があります。 #手がかりをさがしてみてください。"
+msgstr "-秘密の場所\n#多くのコースは、壁に見えるようで、\n#実は入ることができる秘密の場所があります。\n#手がかりをさがしてみてください。"
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -95,7 +95,7 @@ msgstr "くもったフィールド"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
-msgstr "ああ もう! もっとゆきだまを!"
+msgstr "ああ もう! もっと雪玉を!"
 
 #: data/levels/world1/08 - Stone Cold.stl:3
 msgid "Stone Cold"
@@ -103,7 +103,7 @@ msgstr "ストーン・コールド"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
-msgstr "雪のGrumbelの感覚"
+msgstr "雪でのGrumbelのセンス"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
@@ -115,7 +115,7 @@ msgstr "夜のさむさ"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
-msgstr "ほしにむかって"
+msgstr "星にむかって"
 
 #: data/levels/world1/13 - Above the Arctic Skies.stl:3
 msgid "Above the Arctic Skies"
@@ -188,20 +188,20 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "-スイッチ !images/objects/switch/left-0.png !images/objects/switch/switch-0.png !images/objects/switch/right-0.png #スイッチは、なにかを実行するためにつかえます。 #上キーを押します。正面、左、右のものがあります。"
+msgstr "-スイッチ\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png !images/objects/switch/right-0.png\n#スイッチは、なにかを実行するためにつかえます。\n#上キーを押します。正面、左、右のものがあります。"
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
+"-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
-"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr "-ジャンプ台 !images/objects/trampoline/trampoline2-0.png #ジャンプ台は、高くジャンプできるようになります。 #ジャンプキーを押したままやると、 #高くジャンプできます。"
+"#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
+msgstr "-ジャンプ台\n!images/objects/trampoline/trampoline2-0.png\n#ジャンプ台は、高くジャンプできるようになります。\n#ジャンプキーを押したままジャンプすると、\n#高くジャンプできます。"
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- 登れます # Tuxはのぼることができます。のぼるには、上キーを押してください。アクションキー、ジャンプキーを押すとのぼるのをやめます。"
+msgstr "- 登れます\n# Tuxはのぼることができます。のぼるには、上キーを押してください。アクションキー、ジャンプキーを押すとのぼるのをやめます。"
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

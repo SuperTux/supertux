@@ -5,13 +5,14 @@
 # Translators:
 # I will not tell you that <leftermos@yahoo.gr>, 2015
 # Vangelis Nomikos <nvangelis@gmail.com>, 2013-2014
+# Vangelis Skarmoutsos <skarmoutsosv@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-12-01 23:37+0000\n"
-"Last-Translator: I will not tell you that <leftermos@yahoo.gr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-04-26 11:21+0000\n"
+"Last-Translator: Vangelis Skarmoutsos <skarmoutsosv@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/arctic-games/supertux/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,48 +31,48 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
+msgstr "-Κουτάκια δώρων\n!images/objects/bonus_block/full-0.png\n#Τα κουτάκια δώρων μπορεί να περιέχουν νομίσματα, ενισχυτικά ή ειδικά αντικείμενα για να σας βοηθήσουν στην αναζήτηση.\n#\n#Χτυπήστε τα από κάτω για να δείτε τα περιεχόμενα τους."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Αυγά\n!images/powerups/egg/egg.png\n#Το αυγό κάνει τον Tux να γίνεται μεγαλύτερος. Τότε ο Tux μπορεί να σπάσει ξύλινα κουτάκια με το κεφάλι του."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr ""
+msgstr "-Σημεία ελέγχου\n!images/objects/resetpoints/bell-m.png\n#Ενεργοποιήστε το σημείο ελέγχου. Αν χάσετε, μπορείτε να συνεχίσετε το επίπεδο από εκεί. Κάθε φορά που ξανασυνεχίσετε από ένα σημείο ελέγχου, θα χάνετε το 10 τοις εκατό από τα νομίσματά σας (τουλάχιστον 25 νομίσματα)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr ""
+msgstr "-Τρέξιμο\n!images/tiles/signs/run.png\n#Το μονοπάτι μπροστά σας έχει εμπόδιο. Πάρτε κάποια φόρα πριν πηδήσετε για να ξεπεράσετε το εμπόδιο."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
+msgstr "-Λουλούδι φωτιάς\n!images/powerups/fireflower/fire_flower-0.png\n#Το λουλούδι φωτιάς δίνει στον Tux την δυνατότητα να πυροβολάει πύρινες μπάλες."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr "-Tux Doll\n!images/powerups/1up/1up.png\n#Η κούκλα Tux δίνει στον Tux 100 κέρματα."
+msgstr "-Κούκλα Tux\n!images/powerups/1up/1up.png\n#Η κούκλα Tux σας δίνει 100 νομίσματα."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr ""
+msgstr "-Μυστικές περιοχές\n#Πολά επίπεδα περιέχουν μυστικές περιοχές πίσω από αυτό που φαίνεται να είναι απλός τοίχος. Ψάξτε για ενδείξεις ώστε για να τις βρείτε."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -188,20 +189,20 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr ""
+msgstr "-Διακόπτες\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Οι διακόπτες μπορούν να χρησιμοποιηθούν για να κάνουν όλων των ειδών τα πράγματα. Πατήστε το πλήκτρο «Επάνω βελάκι» για να χρησιμοποιήσετε τους διακόπτες. Αυτό ενεργοποιεί τον ανελκυστήρα στα δεξιά σας."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
-"-Spring Boards\n"
+"-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
-"#Spring boards allow Tux to jump to new heights. Hold down the jump key while bouncing on the spring board to launch extra high."
-msgstr ""
+"#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
+msgstr "-Τραμπολίνο\n!images/objects/trampoline/trampoline2-0.png\n#Το τραμπολίνο επιτρέπει στον Tux να πηδήξει σε νέα ύψη. Κρατήστε πατημένο το πλήκτρο πηδήματος καθώς πηδάτε στο τραμπολίνο για να φτάσετε σε επιπλέον ύψος."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
+msgstr "- Αναρρίχηση\n# Ο Tux μπορεί να σκαρφαλώσει!  Πατήστε το πλήκτρο «Επάνω βελάκι» για να ξεκινήσετε το σκαρφάλωμα.  Πατήστε το πλήκτρο ACTION ή πηδήξτε για να το αφήσετε."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
@@ -227,7 +228,7 @@ msgstr "Penny: Γειά σου Tux"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid "Tux: Check out my dance moves."
-msgstr ""
+msgstr "Tux: Δείτε τις χορευτικές μου κινήσεις."
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "Tux: Oww... my head..."

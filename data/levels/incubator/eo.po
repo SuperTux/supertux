@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-11-20 09:04+0000\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-12 10:03+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Esperanto (http://www.transifex.com/arctic-games/supertux/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,66 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/levels/incubator/Angry Stone vs. YOU.stl:3
+msgid "Angry Stone vs. YOU"
+msgstr ""
+
+#: data/levels/incubator/Angry Stone vs. YOU.stl:307
+msgid ""
+"#You activate switches with this button:\n"
+"!images/tiles/signs/up.png"
+msgstr ""
+
+#: data/levels/incubator/Castle #1.stl:3
+msgid "Castle #1"
+msgstr ""
+
+#: data/levels/incubator/Missingno.stl:3
+msgid "Missingno"
+msgstr ""
+
+#: data/levels/incubator/Missingno.stl:530
+msgid "#Be patient!"
+msgstr ""
+
+#: data/levels/incubator/Missingno.stl:535
+msgid ""
+"#Dont move while flying!\n"
+"#Pay attention at landing!"
+msgstr ""
+
+#: data/levels/incubator/NewIcelevel1.stl:3
+msgid "Blue iced hills"
+msgstr ""
+
+#: data/levels/incubator/NewIcelevel2.stl:3
+msgid "Bads mountains"
+msgstr ""
+
+#: data/levels/incubator/NewIcelevel3.stl:3
+msgid "eman level ehT <---"
+msgstr ""
+
+#: data/levels/incubator/NewIcelevel4.stl:3
+msgid "Ice sea"
+msgstr ""
+
+#: data/levels/incubator/NewIcelevel5.stl:3
+msgid "Electric-Wood factory"
+msgstr ""
+
+#: data/levels/incubator/Nice Ice.stl:3
+msgid "Nice Ice"
+msgstr ""
+
+#: data/levels/incubator/Nice Ice.stl:88
+msgid "#Use the enemy to finish this level!"
+msgstr ""
+
+#: data/levels/incubator/SP33DRUN.stl:3
+msgid "SP33DRUN"
+msgstr ""
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
@@ -30,8 +90,24 @@ msgstr ""
 msgid "Mad Ysonn Cube Garden"
 msgstr ""
 
+#: data/levels/incubator/fall_kugelblitz.stl:3
+msgid "Kugelblitzstorm"
+msgstr ""
+
 #: data/levels/incubator/frozen_fissure.stl:3
 msgid "Frozen Fissure"
+msgstr ""
+
+#: data/levels/incubator/hungry_tux.stl:3
+msgid "Tux is hungry!"
+msgstr ""
+
+#: data/levels/incubator/ice_mountain.stl:3
+msgid "Crystal Mountain"
+msgstr ""
+
+#: data/levels/incubator/in_the_mountain.stl:3
+msgid "In the mountain"
 msgstr ""
 
 #: data/levels/incubator/into_dark.stl:3
@@ -52,8 +128,47 @@ msgstr ""
 msgid "The Jagged Path"
 msgstr ""
 
+#: data/levels/incubator/let_us_snow.stl:3
+msgid "Let us snow!"
+msgstr ""
+
+#: data/levels/incubator/let_us_snow.stl:205
+msgid ""
+"-Warning!\n"
+"#Beware the falling enemies!"
+msgstr ""
+
+#: data/levels/incubator/long.stl:3
+msgid "A long adventure"
+msgstr ""
+
+#: data/levels/incubator/long.stl:1579
+msgid ""
+"#Until this moment you have luck.\n"
+"#The way here was hard.\n"
+"#You still have a long way to go.\n"
+"#You must know it well.\n"
+"#Even now you must not fail it.\n"
+"#Now go down to the shaft.\n"
+"#I hope you understood."
+msgstr ""
+
+#: data/levels/incubator/long.stl:3997
+msgid ""
+"-Congratulations!\n"
+"#You are in half the level! "
+msgstr ""
+
+#: data/levels/incubator/long.stl:4549
+msgid "-You are going wrong!"
+msgstr ""
+
 #: data/levels/incubator/midnight_crossing.stl:3
 msgid "Midnight Crossing"
+msgstr ""
+
+#: data/levels/incubator/mountain_climbing.stl:3
+msgid "Mountain climbing"
 msgstr ""
 
 #: data/levels/incubator/not_so_long.stl:3

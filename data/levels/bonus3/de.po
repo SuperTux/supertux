@@ -8,14 +8,14 @@
 # Marcel Haring, 2014
 # Nils Welzk, 2013
 # Ondřej Hošek <ondra.hosek@gmail.com>, 2013-2014
-# Tobias Markus <tobbi@mozilla-uk.org>, 2013-2015
+# Tobias Markus <tobbi@mozilla-uk.org>, 2013-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-12-13 11:13+0000\n"
-"Last-Translator: Wuzzy <almikes@aol.com>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-13 00:26+0000\n"
+"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
 "Language-Team: German (http://www.transifex.com/arctic-games/supertux/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,11 +51,11 @@ msgstr "Antarktischer Regen"
 msgid "...but no one can stop it..."
 msgstr "… doch niemand kann es aufhalten..."
 
-#: data/levels/bonus3/but_no_one_can_stop_it.stl:307
+#: data/levels/bonus3/but_no_one_can_stop_it.stl:393
 msgid ""
 "-Sorry, this flying platform is lazy.\n"
 "-Come back another time."
-msgstr "-Entschuldigung, diese Flugplattform ist faul.\n-Kommen Sie später wieder."
+msgstr "-Entschuldige, diese Flugplattform ist faul.\n-Komm später wieder."
 
 #: data/levels/bonus3/cant_climb_higher_clouds.stl:3
 msgid "You can't climb higher than the clouds..."

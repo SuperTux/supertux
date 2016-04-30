@@ -4,14 +4,16 @@
 # 
 # Translators:
 # Angela <angelapellegrino@hotmail.it>, 2014
+# Paride Barison, 2015
+# Sebastiano Guerrini <seb47tv@gmail.com>, 2016
 # Andrius Štikonas <andrius@stikonas.eu>, 2006
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-21 12:40+0100\n"
-"PO-Revision-Date: 2015-11-22 09:04+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-04-27 13:45+0000\n"
+"Last-Translator: Sebastiano Guerrini <seb47tv@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,7 +82,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
+msgstr "-Congratulazioni!\n\n#Hai terminato con successo\n#Bonus Isola I\n⇥featuring levels contributed by\n⇥Jason W. Thompson\n⇥Torfi Gunnarsson\n⇥Abednego\n⇥Matr1x\n\n\n#If you didn't clear all levels yet,\n#find your way back home and take\n#another path. There is still more\n#challenge waiting for you!\n\n#And there is a secret level to be\n#found as well...\n\n#A big \"Thank you\" goes out to\n#everyone who contributed to this\n#release. We hope you enjoyed it!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -104,7 +106,7 @@ msgstr "I cattivi puzzano!"
 
 #: data/levels/bonus1/torfi-level1.stl:3
 msgid "A good start"
-msgstr ""
+msgstr "Un buon inizio"
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
@@ -112,7 +114,7 @@ msgstr "Troppo facile"
 
 #: data/levels/bonus1/torfi-level2.stl:42
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
-msgstr ""
+msgstr "#Tutti i livelli sono stati aggiornati alla milestone 2 da Hume2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"

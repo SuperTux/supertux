@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Lyubomir Vasilev, 2015
+# Любомир Василев, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-19 23:37+0100\n"
-"PO-Revision-Date: 2015-12-03 08:36+0000\n"
-"Last-Translator: Lyubomir Vasilev\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-01-13 00:21+0000\n"
+"Last-Translator: Любомир Василев\n"
 "Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,11 +43,11 @@ msgid ""
 "#everyone who contributed to this\n"
 "#release. We hope that you enjoyed\n"
 "#it, and that it made waiting for\n"
-"#Milestone 2 a little easier. :-)\n"
+"#Milestone 3 a little easier. :-)\n"
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-Поздравления!\n\n#Ти успешно завърши\n#Допълнителния остров 2\n\n\n\tНивата са създадени от:\n\tКевин\n\tДжейсън Клайнемас\n\tДенилсон\n\tТобе Депрез\n\tГолемия C\n\tТомас Нилсен\n\tТорфи Гунарсон\n\tДаниел Алстон\n\tНилрок\n\tКорлин Хайдман\n\n\n#Отново бихме искали да благодарим\n#на всички, които помогнаха.\n#Надяваме се, че си се забавлявал/а,\n#и че така чакането за етап 2 е\n#било малко по-приятно. :-)\n\n\nКраят на ледената епоха е близо…"
+msgstr "-Поздравления!\n\n#Ти успешно завърши\n#Допълнителния остров 2\n\n\n\tНивата са създадени от:\n\tКевин\n\tДжейсън Клайнемас\n\tДенилсон\n\tТобе Депрез\n\tГолемия C\n\tТомас Нилсен\n\tТорфи Гунарсон\n\tДаниел Алстон\n\tНилрок\n\tКорлин Хайдман\n\n\n#Отново бихме искали да благодарим\n#на всички, които помогнаха.\n#Надяваме се, че си се забавлявал/а,\n#и че така чакането за етап 3 е\n#било малко по-приятно. :-)\n\n\nКраят на ледената епоха е близо…"
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."

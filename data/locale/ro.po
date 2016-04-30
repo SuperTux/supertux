@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Nicolae Crefelean, 2015-2016
 # Razvan <razvan.net@gmail.com>, 2007
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-29 18:41+0100\n"
-"PO-Revision-Date: 2015-11-30 09:04+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"PO-Revision-Date: 2016-04-07 22:15+0000\n"
+"Last-Translator: Nicolae Crefelean\n"
 "Language-Team: Romanian (http://www.transifex.com/arctic-games/supertux/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,148 +19,154 @@ msgstr ""
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: src/control/joystick_config.cpp:83
+#: src/control/joystick_config.cpp:84
 msgid "Joystick Mappings"
-msgstr ""
-
-#: src/supertux/command_line_arguments.cpp:73
-#, c-format
-msgid "Usage: %s [OPTIONS] [LEVELFILE]"
-msgstr ""
-
-#: src/supertux/command_line_arguments.cpp:74
-msgid "General Options:"
-msgstr ""
-
-#: src/supertux/command_line_arguments.cpp:75
-msgid "  -h, --help                   Show this help message and quit"
-msgstr ""
+msgstr "Mapări joystick"
 
 #: src/supertux/command_line_arguments.cpp:76
-msgid "  -v, --version                Show SuperTux version and quit"
-msgstr ""
+#, c-format
+msgid "Usage: %s [OPTIONS] [LEVELFILE]"
+msgstr "Utilizare: %s [OPȚIUNI] [FIȘIERNIVEL]"
 
 #: src/supertux/command_line_arguments.cpp:77
-msgid "  --verbose                    Print verbose messages"
-msgstr ""
+msgid "General Options:"
+msgstr "Opțiuni generale:"
 
 #: src/supertux/command_line_arguments.cpp:78
-msgid "  --debug                      Print extra verbose messages"
-msgstr ""
+msgid "  -h, --help                   Show this help message and quit"
+msgstr "  -h, --help                   Afișează acest mesaj și iese"
 
 #: src/supertux/command_line_arguments.cpp:79
-msgid ""
-"  --print-datadir              Print supertux's primary data directory."
-msgstr ""
+msgid "  -v, --version                Show SuperTux version and quit"
+msgstr "  -v, --version                Afișează versiunea SuperTux și iese"
 
 #: src/supertux/command_line_arguments.cpp:80
-msgid "Video Options:"
-msgstr ""
+msgid "  --verbose                    Print verbose messages"
+msgstr "  --verbose                    Scrie mesaje detaliate"
 
 #: src/supertux/command_line_arguments.cpp:81
-msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr ""
+msgid "  --debug                      Print extra verbose messages"
+msgstr "  --debug                      Scrie mesaje foarte detaliate"
 
 #: src/supertux/command_line_arguments.cpp:82
-msgid "  -w, --window                 Run in window mode"
-msgstr ""
+msgid ""
+"  --print-datadir              Print supertux's primary data directory."
+msgstr "  --print-datadir              Scrie principalul director de date la SuperTux."
 
 #: src/supertux/command_line_arguments.cpp:83
-msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr ""
+msgid "Video Options:"
+msgstr "Opțiuni video:"
 
 #: src/supertux/command_line_arguments.cpp:84
-msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr ""
+msgid "  -f, --fullscreen             Run in fullscreen mode"
+msgstr "  -f, --fullscreen             Rulează pe tot ecranul"
 
 #: src/supertux/command_line_arguments.cpp:85
-msgid "  -d, --default                Reset video settings to default values"
-msgstr ""
+msgid "  -w, --window                 Run in window mode"
+msgstr "  -w, --window                 Rulează într-o fereastră"
 
 #: src/supertux/command_line_arguments.cpp:86
-msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr ""
+msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
+msgstr "  -g, --geometry LĂȚIMExÎNĂLȚIME  Rulează SuperTux în rezoluția cerută"
 
 #: src/supertux/command_line_arguments.cpp:87
-msgid "Audio Options:"
-msgstr ""
+msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
+msgstr "  -a, --aspect LĂȚIMExÎNĂLȚIME    Rulează SuperTux cu rația de aspect cerută"
 
 #: src/supertux/command_line_arguments.cpp:88
-msgid "  --disable-sound              Disable sound effects"
-msgstr ""
+msgid "  -d, --default                Reset video settings to default values"
+msgstr "  -d, --default                Restabilește setările video implicite"
 
 #: src/supertux/command_line_arguments.cpp:89
-msgid "  --disable-music              Disable music"
-msgstr ""
+msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
+msgstr "  --renderer RENDATOR          Folosește sdl, opengl sau auto pentru randare"
 
 #: src/supertux/command_line_arguments.cpp:90
-msgid "Game Options:"
-msgstr ""
+msgid "Audio Options:"
+msgstr "Opțiuni audio:"
 
 #: src/supertux/command_line_arguments.cpp:91
-msgid "  --show-fps                   Display framerate in levels"
-msgstr ""
+msgid "  --disable-sound              Disable sound effects"
+msgstr "  --disable-sound              Dezactivează efectele sonore"
 
 #: src/supertux/command_line_arguments.cpp:92
-msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr ""
+msgid "  --disable-music              Disable music"
+msgstr "  --disable-music              Dezactivează muzica"
 
 #: src/supertux/command_line_arguments.cpp:93
-msgid "  --developer                  Switch on developer feature"
-msgstr ""
+msgid "Game Options:"
+msgstr "Opțiunile jocului:"
 
 #: src/supertux/command_line_arguments.cpp:94
-msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr ""
+msgid "  --show-fps                   Display framerate in levels"
+msgstr "  --show-fps                   Afișează rata de cadre în nivele"
 
 #: src/supertux/command_line_arguments.cpp:95
-msgid "Demo Recording Options:"
-msgstr ""
+msgid "  --no-show-fps                Do not display framerate in levels"
+msgstr "  --no-show-fps                Nu afișa rata de cadre în nivele"
 
 #: src/supertux/command_line_arguments.cpp:96
-msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr ""
+msgid "  --developer                  Switch on developer feature"
+msgstr "  --developer                  Comută funcția de dezvoltator"
 
 #: src/supertux/command_line_arguments.cpp:97
-msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr ""
+msgid "  -s, --debug-scripts          Enable script debugger."
+msgstr "  -s, --debug-scripts          Activează depanatorul de script."
 
 #: src/supertux/command_line_arguments.cpp:98
-msgid "Directory Options:"
-msgstr ""
+msgid ""
+"  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
+" level is specified."
+msgstr "  --spawn-pos X,Y Locul de start al lui Tux - folosit doar dacă este specificat un nivel."
 
 #: src/supertux/command_line_arguments.cpp:99
-msgid ""
-"  --datadir DIR                Set the directory for the games datafiles"
-msgstr ""
+msgid "Demo Recording Options:"
+msgstr "Opțiuni înregistrare demo:"
 
 #: src/supertux/command_line_arguments.cpp:100
+msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
+msgstr "  --record-demo FIȘIER NIVEL     Înregistrează un demo în FIȘIER"
+
+#: src/supertux/command_line_arguments.cpp:101
+msgid "  --play-demo FILE LEVEL       Play a recorded demo"
+msgstr "  --play-demo FILE LEVEL       Redă un demo înregistrat"
+
+#: src/supertux/command_line_arguments.cpp:102
+msgid "Directory Options:"
+msgstr "Opțiuni director:"
+
+#: src/supertux/command_line_arguments.cpp:103
+msgid ""
+"  --datadir DIR                Set the directory for the games datafiles"
+msgstr "  --datadir DIR                Stabilește directorul fișierelor de date ale jocului"
+
+#: src/supertux/command_line_arguments.cpp:104
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr ""
+msgstr "  --userdir DIR                Stabilește directorul pentru datele utilizatorui (salvări de jocuri etc.)"
 
-#: src/supertux/command_line_arguments.cpp:101
+#: src/supertux/command_line_arguments.cpp:105
 msgid "Environment variables:"
-msgstr ""
+msgstr "Variabile de mediu:"
 
-#: src/supertux/command_line_arguments.cpp:102
+#: src/supertux/command_line_arguments.cpp:106
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr ""
+msgstr "  SUPERTUX2_USER_DIR           Director pentru datele utilizatorului (salvări de jocuri etc.)"
 
-#: src/supertux/command_line_arguments.cpp:103
+#: src/supertux/command_line_arguments.cpp:107
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr ""
+msgstr "  SUPERTUX2_DATA_DIR           Director pentru fișierele de date ale jocului"
 
 #: src/supertux/levelintro.cpp:112
 #, c-format
 msgid "contributed by %s"
-msgstr ""
+msgstr "contribuit de %s"
 
 #: src/supertux/levelintro.cpp:127 src/supertux/statistics.cpp:119
 msgid "Best Level Statistics"
-msgstr "Statistici Cel Mai Bun Nivel"
+msgstr "Cea mai bună realizare"
 
 #: src/supertux/levelintro.cpp:133 src/supertux/statistics.cpp:207
 msgid "Coins"
@@ -167,7 +174,7 @@ msgstr "Monede"
 
 #: src/supertux/levelintro.cpp:140
 msgid "Badguys killed"
-msgstr ""
+msgstr "Inamici învinși"
 
 #: src/supertux/levelintro.cpp:147 src/supertux/statistics.cpp:223
 msgid "Secrets"
@@ -175,203 +182,203 @@ msgstr "Secrete"
 
 #: src/supertux/levelintro.cpp:154
 msgid "Best time"
-msgstr ""
+msgstr "Cel mai bun timp"
 
 #: src/supertux/levelintro.cpp:161
 msgid "Level target time"
-msgstr ""
+msgstr "Timpul țintă pentru nivel"
 
 #: src/supertux/menu/addon_menu.cpp:49
 msgid "Levelset"
-msgstr ""
+msgstr "Set de nivele"
 
 #: src/supertux/menu/addon_menu.cpp:52
 msgid "Worldmap"
-msgstr ""
+msgstr "Lumea"
 
 #: src/supertux/menu/addon_menu.cpp:55
 msgid "World"
-msgstr ""
+msgstr "Lume"
 
 #: src/supertux/menu/addon_menu.cpp:61
 msgid "Unknown"
-msgstr ""
+msgstr "Necunoscut"
 
 #: src/supertux/menu/addon_menu.cpp:83
 #, c-format
 msgid "%s \"%s\" by \"%s\""
-msgstr ""
+msgstr "%s \"%s\" de \"%s\""
 
-#: src/supertux/menu/addon_menu.cpp:131
+#: src/supertux/menu/addon_menu.cpp:139
 msgid "Language packs"
-msgstr ""
+msgstr "Pachete lingvistice"
 
-#: src/supertux/menu/addon_menu.cpp:135 src/supertux/menu/main_menu.cpp:44
+#: src/supertux/menu/addon_menu.cpp:143 src/supertux/menu/main_menu.cpp:44
 msgid "Add-ons"
-msgstr "Add-ons"
+msgstr "Suplimente"
 
-#: src/supertux/menu/addon_menu.cpp:141
+#: src/supertux/menu/addon_menu.cpp:149
 msgid "View Language Packs"
-msgstr ""
+msgstr "Vezi pachetele lingvistice"
 
-#: src/supertux/menu/addon_menu.cpp:145
+#: src/supertux/menu/addon_menu.cpp:153
 msgid "View Add-ons"
-msgstr ""
+msgstr "Vezi suplimentele"
 
-#: src/supertux/menu/addon_menu.cpp:154
+#: src/supertux/menu/addon_menu.cpp:162
 msgid "No Language packs installed"
-msgstr ""
+msgstr "Nu există pachete lingvistice instalate"
 
-#: src/supertux/menu/addon_menu.cpp:158
+#: src/supertux/menu/addon_menu.cpp:166
 msgid "No Add-ons installed"
-msgstr ""
+msgstr "Nu există suplimente instalate"
 
-#: src/supertux/menu/addon_menu.cpp:165
+#: src/supertux/menu/addon_menu.cpp:173
 msgid "No Language packs found"
-msgstr ""
+msgstr "Nu au fost găsite pachete lingvistice"
 
-#: src/supertux/menu/addon_menu.cpp:169
+#: src/supertux/menu/addon_menu.cpp:177
 msgid "No Add-ons found"
-msgstr ""
+msgstr "Nu au fost găsite suplimente"
 
-#: src/supertux/menu/addon_menu.cpp:216
+#: src/supertux/menu/addon_menu.cpp:224
 #, c-format
 msgid "Install %s *NEW*"
-msgstr ""
+msgstr "Instalare %s *NOU*"
 
-#: src/supertux/menu/addon_menu.cpp:227
+#: src/supertux/menu/addon_menu.cpp:235
 #, c-format
 msgid "Install %s"
-msgstr ""
+msgstr "Instalare %s"
 
-#: src/supertux/menu/addon_menu.cpp:238
+#: src/supertux/menu/addon_menu.cpp:246
 msgid "No new Language packs found"
-msgstr ""
+msgstr "Nu au fost găsite noi pachete lingvistice"
 
-#: src/supertux/menu/addon_menu.cpp:242
+#: src/supertux/menu/addon_menu.cpp:250
 msgid "No new Add-ons found"
-msgstr ""
+msgstr "Nu au fost găsite noi suplimente"
 
-#: src/supertux/menu/addon_menu.cpp:249
+#: src/supertux/menu/addon_menu.cpp:257
 msgid "Check Online (disabled)"
-msgstr "Verifica Online (dezactivat)"
+msgstr "Verifică online (dezactivat)"
 
-#: src/supertux/menu/addon_menu.cpp:253
+#: src/supertux/menu/addon_menu.cpp:261
 msgid "Check Online"
-msgstr "Verifica Online"
+msgstr "Verifică online"
 
-#: src/supertux/menu/addon_menu.cpp:257 src/supertux/menu/cheat_menu.cpp:41
+#: src/supertux/menu/addon_menu.cpp:265 src/supertux/menu/cheat_menu.cpp:41
 #: src/supertux/menu/contrib_levelset_menu.cpp:69
 #: src/supertux/menu/contrib_menu.cpp:141
 #: src/supertux/menu/joystick_menu.cpp:98
 #: src/supertux/menu/keyboard_menu.cpp:49
-#: src/supertux/menu/language_menu.cpp:50
+#: src/supertux/menu/language_menu.cpp:52
 #: src/supertux/menu/options_menu.cpp:238
 #: src/supertux/menu/profile_menu.cpp:47
 #: src/supertux/menu/world_set_menu.cpp:44
 #: src/supertux/menu/worldmap_cheat_menu.cpp:44
 msgid "Back"
-msgstr "Inapoi"
+msgstr "Înapoi"
 
-#: src/supertux/menu/addon_menu.cpp:277
+#: src/supertux/menu/addon_menu.cpp:346
 msgid "Downloading Add-On Repository Index"
-msgstr ""
+msgstr "Se descarcă lista de suplimente"
 
-#: src/supertux/menu/addon_menu.cpp:310
+#: src/supertux/menu/addon_menu.cpp:361
+#, c-format
+msgid "Downloading %s"
+msgstr "Descărcare %s"
+
+#: src/supertux/menu/addon_menu.cpp:408
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
-msgstr ""
+msgstr "Repornește SuperTux\nca să aibă efect modificările."
 
-#: src/supertux/menu/addon_menu.cpp:311
+#: src/supertux/menu/addon_menu.cpp:409
 msgid "OK"
-msgstr ""
-
-#: src/supertux/menu/addon_menu.cpp:343
-#, c-format
-msgid "Downloading %s"
-msgstr ""
+msgstr "Bine"
 
 #: src/supertux/menu/cheat_menu.cpp:29
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
 msgid "Cheats"
-msgstr ""
+msgstr "Trișări"
 
 #: src/supertux/menu/cheat_menu.cpp:31
 #: src/supertux/menu/worldmap_cheat_menu.cpp:31
 msgid "Bonus: Grow"
-msgstr ""
+msgstr "Bonus: Crește"
 
 #: src/supertux/menu/cheat_menu.cpp:32
 #: src/supertux/menu/worldmap_cheat_menu.cpp:32
 msgid "Bonus: Fire"
-msgstr ""
+msgstr "Bonus: Foc"
 
 #: src/supertux/menu/cheat_menu.cpp:33
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 msgid "Bonus: Ice"
-msgstr ""
+msgstr "Bonus: Gheață"
 
 #: src/supertux/menu/cheat_menu.cpp:34
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 msgid "Bonus: Air"
-msgstr ""
+msgstr "Bonus: Aer"
 
 #: src/supertux/menu/cheat_menu.cpp:35
 #: src/supertux/menu/worldmap_cheat_menu.cpp:35
 msgid "Bonus: Earth"
-msgstr ""
+msgstr "Bonus: Pământ"
 
 #: src/supertux/menu/cheat_menu.cpp:36
 msgid "Bonus: Star"
-msgstr ""
+msgstr "Bonus: Stea"
 
 #: src/supertux/menu/cheat_menu.cpp:37
 msgid "Shrink Tux"
-msgstr ""
+msgstr "Micșorează Tux"
 
 #: src/supertux/menu/cheat_menu.cpp:38
 msgid "Kill Tux"
-msgstr ""
+msgstr "Omoară Tux"
 
 #: src/supertux/menu/cheat_menu.cpp:39
 #: src/supertux/menu/worldmap_cheat_menu.cpp:38
 msgid "Finish Level"
-msgstr ""
+msgstr "Termină nivelul"
 
 #: src/supertux/menu/contrib_menu.cpp:51
 #: src/supertux/menu/world_set_menu.cpp:42
 msgid "Contrib Levels"
-msgstr "Contributie Nivele"
+msgstr "Nivele contribuite"
 
 #: src/supertux/menu/contrib_menu.cpp:88
 #: src/supertux/menu/contrib_menu.cpp:119
 msgid "*NEW*"
-msgstr ""
+msgstr "*NOU*"
 
-#: src/supertux/menu/download_dialog.cpp:28
+#: src/supertux/menu/download_dialog.cpp:29
 msgid "Abort Download"
-msgstr ""
-
-#: src/supertux/menu/download_dialog.cpp:44
-msgid "Error:\n"
-msgstr ""
+msgstr "Anulează descărcarea"
 
 #: src/supertux/menu/download_dialog.cpp:45
-msgid "Ok"
-msgstr ""
+msgid "Error:\n"
+msgstr "Eroare:\n"
 
-#: src/supertux/menu/download_dialog.cpp:94
+#: src/supertux/menu/download_dialog.cpp:46
+msgid "Ok"
+msgstr "Bine"
+
+#: src/supertux/menu/download_dialog.cpp:101
 msgid "Close"
-msgstr ""
+msgstr "Închide"
 
 #: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Continue"
-msgstr "Continua"
+msgstr "Continuă"
 
 #: src/supertux/menu/game_menu.cpp:36
 msgid "Restart Level"
-msgstr ""
+msgstr "Repornește nivelul"
 
 #: src/supertux/menu/game_menu.cpp:37 src/supertux/menu/main_menu.cpp:45
 #: src/supertux/menu/options_menu.cpp:55
@@ -381,21 +388,21 @@ msgstr "Optiuni"
 
 #: src/supertux/menu/game_menu.cpp:39
 msgid "Abort Level"
-msgstr "Renunta Nivel"
+msgstr "Abandonează nivelul"
 
 #: src/supertux/menu/joystick_menu.cpp:52
 #: src/supertux/menu/options_menu.cpp:221
 msgid "Setup Joystick"
-msgstr "Configurare Joystick"
+msgstr "Configurare joystick"
 
 #: src/supertux/menu/joystick_menu.cpp:55
 msgid "Manual Configuration"
-msgstr ""
+msgstr "Configurare manuală"
 
 #: src/supertux/menu/joystick_menu.cpp:57
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr ""
+msgstr "Folosește configurarea manuală în locul suportului automat SDL2 pentru controlerele de joc"
 
 #: src/supertux/menu/joystick_menu.cpp:69
 #: src/supertux/menu/keyboard_menu.cpp:31
@@ -410,7 +417,7 @@ msgstr "Jos"
 #: src/supertux/menu/joystick_menu.cpp:71
 #: src/supertux/menu/keyboard_menu.cpp:33
 msgid "Left"
-msgstr "Stanga"
+msgstr "Stânga"
 
 #: src/supertux/menu/joystick_menu.cpp:72
 #: src/supertux/menu/keyboard_menu.cpp:34
@@ -420,59 +427,59 @@ msgstr "Dreapta"
 #: src/supertux/menu/joystick_menu.cpp:73
 #: src/supertux/menu/keyboard_menu.cpp:35
 msgid "Jump"
-msgstr "Saritura"
+msgstr "Săritură"
 
 #: src/supertux/menu/joystick_menu.cpp:74
 #: src/supertux/menu/keyboard_menu.cpp:36
 msgid "Action"
-msgstr "Actiune"
+msgstr "Acțiune"
 
 #: src/supertux/menu/joystick_menu.cpp:75
 msgid "Pause/Menu"
-msgstr "Pauza/Meniu"
+msgstr "Pauză/Meniu"
 
 #: src/supertux/menu/joystick_menu.cpp:76
 #: src/supertux/menu/keyboard_menu.cpp:37
 msgid "Peek Left"
-msgstr "Privire Stanga"
+msgstr "Privire stânga"
 
 #: src/supertux/menu/joystick_menu.cpp:77
 #: src/supertux/menu/keyboard_menu.cpp:38
 msgid "Peek Right"
-msgstr "Privire Dreapta"
+msgstr "Privire dreapta"
 
 #: src/supertux/menu/joystick_menu.cpp:78
 #: src/supertux/menu/keyboard_menu.cpp:39
 msgid "Peek Up"
-msgstr ""
+msgstr "Privire sus"
 
 #: src/supertux/menu/joystick_menu.cpp:79
 #: src/supertux/menu/keyboard_menu.cpp:40
 msgid "Peek Down"
-msgstr ""
+msgstr "Privire jos"
 
 #: src/supertux/menu/joystick_menu.cpp:81
 #: src/supertux/menu/keyboard_menu.cpp:42
 msgid "Console"
-msgstr "Consola"
+msgstr "Consolă"
 
 #: src/supertux/menu/joystick_menu.cpp:84
 #: src/supertux/menu/keyboard_menu.cpp:45
 msgid "Cheat Menu"
-msgstr ""
+msgstr "Meniu trișare"
 
 #: src/supertux/menu/joystick_menu.cpp:86
 #: src/supertux/menu/keyboard_menu.cpp:47
 msgid "Jump with Up"
-msgstr ""
+msgstr "Sari cu Sus"
 
 #: src/supertux/menu/joystick_menu.cpp:92
 msgid "No Joysticks found"
-msgstr "Nu au fost gasite joystick-uri"
+msgstr "Nu au fost găsite joystick-uri"
 
 #: src/supertux/menu/joystick_menu.cpp:93
 msgid "Scan for Joysticks"
-msgstr ""
+msgstr "Caută joystick-uri"
 
 #: src/supertux/menu/joystick_menu.cpp:107
 #: src/supertux/menu/keyboard_menu.cpp:61
@@ -481,12 +488,12 @@ msgstr "Niciunul"
 
 #: src/supertux/menu/joystick_menu.cpp:126
 msgid "Press Button"
-msgstr "Apasa Buton"
+msgstr "Apasă un buton"
 
 #: src/supertux/menu/keyboard_menu.cpp:29
 #: src/supertux/menu/options_menu.cpp:218
 msgid "Setup Keyboard"
-msgstr "Configurare Tastatura"
+msgstr "Configurare tastatură"
 
 #: src/supertux/menu/keyboard_menu.cpp:63
 msgid "Up cursor"
@@ -498,7 +505,7 @@ msgstr "Cursor jos"
 
 #: src/supertux/menu/keyboard_menu.cpp:67
 msgid "Left cursor"
-msgstr "Cursor stanga"
+msgstr "Cursor stânga"
 
 #: src/supertux/menu/keyboard_menu.cpp:69
 msgid "Right cursor"
@@ -506,11 +513,11 @@ msgstr "Cursor dreapta"
 
 #: src/supertux/menu/keyboard_menu.cpp:71
 msgid "Return"
-msgstr "Return"
+msgstr "Revenire"
 
 #: src/supertux/menu/keyboard_menu.cpp:73
 msgid "Space"
-msgstr "Spatiu"
+msgstr "Spațiu"
 
 #: src/supertux/menu/keyboard_menu.cpp:75
 msgid "Right Shift"
@@ -518,7 +525,7 @@ msgstr "Shift dreapta"
 
 #: src/supertux/menu/keyboard_menu.cpp:77
 msgid "Left Shift"
-msgstr "Shift stanga"
+msgstr "Shift stânga"
 
 #: src/supertux/menu/keyboard_menu.cpp:79
 msgid "Right Control"
@@ -526,7 +533,7 @@ msgstr "Control dreapta"
 
 #: src/supertux/menu/keyboard_menu.cpp:81
 msgid "Left Control"
-msgstr "Control stanga"
+msgstr "Control stânga"
 
 #: src/supertux/menu/keyboard_menu.cpp:83
 msgid "Right Alt"
@@ -534,31 +541,31 @@ msgstr "Alt dreapta"
 
 #: src/supertux/menu/keyboard_menu.cpp:85
 msgid "Left Alt"
-msgstr "Alt stanga"
+msgstr "Alt stânga"
 
 #: src/supertux/menu/keyboard_menu.cpp:87
 msgid "Right Command"
-msgstr ""
+msgstr "Command dreapta"
 
 #: src/supertux/menu/keyboard_menu.cpp:89
 msgid "Left Command"
-msgstr ""
+msgstr "Command stânga"
 
 #: src/supertux/menu/keyboard_menu.cpp:103
 msgid "Press Key"
-msgstr "Apasa tasta"
+msgstr "Apasa o tastă"
 
-#: src/supertux/menu/language_menu.cpp:37
+#: src/supertux/menu/language_menu.cpp:39
 msgid "Language"
 msgstr "Limba"
 
-#: src/supertux/menu/language_menu.cpp:39
+#: src/supertux/menu/language_menu.cpp:41
 msgid "<auto-detect>"
-msgstr ""
+msgstr "<auto-detecție>"
 
 #: src/supertux/menu/main_menu.cpp:43 src/supertux/menu/world_set_menu.cpp:39
 msgid "Start Game"
-msgstr "Porneste Joc"
+msgstr "Pornește jocul"
 
 #: src/supertux/menu/main_menu.cpp:46
 msgid "Credits"
@@ -566,50 +573,50 @@ msgstr "Credite"
 
 #: src/supertux/menu/main_menu.cpp:47
 msgid "Quit"
-msgstr "Iesire"
+msgstr "Ieșire"
 
 #: src/supertux/menu/main_menu.cpp:105
 msgid "Do you really want to quit SuperTux?"
-msgstr ""
+msgstr "Sigur părăsiți SuperTux?"
 
 #: src/supertux/menu/main_menu.cpp:106
 msgid "Cancel"
-msgstr ""
+msgstr "Anulează"
 
 #: src/supertux/menu/main_menu.cpp:107
 msgid "Quit SuperTux"
-msgstr ""
+msgstr "Închide SuperTux"
 
 #: src/supertux/menu/options_menu.cpp:61 src/supertux/menu/options_menu.cpp:97
 #: src/supertux/menu/options_menu.cpp:251
 #: src/supertux/menu/options_menu.cpp:271
 msgid "auto"
-msgstr ""
+msgstr "auto"
 
 #: src/supertux/menu/options_menu.cpp:186
 msgid "Select Language"
-msgstr ""
+msgstr "Selecție limbă"
 
 #: src/supertux/menu/options_menu.cpp:187
 msgid "Select a different language to display text in"
-msgstr ""
+msgstr "Alegeți limba de afișare a textului"
 
 #: src/supertux/menu/options_menu.cpp:189
 msgid "Language Packs"
-msgstr ""
+msgstr "Pachete lingvistice"
 
 #: src/supertux/menu/options_menu.cpp:190
 msgid "Language packs contain up-to-date translations"
-msgstr ""
+msgstr "Pachetele lingvistice conțin traduceri actualizate"
 
 #: src/supertux/menu/options_menu.cpp:192
 #: src/supertux/menu/profile_menu.cpp:30
 msgid "Select Profile"
-msgstr ""
+msgstr "Alegere profil"
 
 #: src/supertux/menu/options_menu.cpp:193
 msgid "Select a profile to play with"
-msgstr ""
+msgstr "Alegeți un profil de joc"
 
 #: src/supertux/menu/options_menu.cpp:196
 msgid "Fullscreen"
@@ -617,33 +624,33 @@ msgstr "Pe tot ecranul"
 
 #: src/supertux/menu/options_menu.cpp:197
 msgid "Fill the entire screen"
-msgstr ""
+msgstr "Umple întregul ecran"
 
 #: src/supertux/menu/options_menu.cpp:199
 msgid "Resolution"
-msgstr ""
+msgstr "Rezoluția"
 
 #: src/supertux/menu/options_menu.cpp:200
 msgid ""
 "Determine the resolution used in fullscreen mode (you must toggle fullscreen"
 " to complete the change)"
-msgstr ""
+msgstr "Determină rezoluția folosită pe tot ecranul (trebuie să comutați pe tot ecranul pentru aplicarea modificării)"
 
 #: src/supertux/menu/options_menu.cpp:202
 msgid "Magnification"
-msgstr ""
+msgstr "Scalare"
 
 #: src/supertux/menu/options_menu.cpp:203
 msgid "Change the magnification of the game area"
-msgstr ""
+msgstr "Modificați scalarea zonei de joc"
 
 #: src/supertux/menu/options_menu.cpp:205
 msgid "Aspect Ratio"
-msgstr ""
+msgstr "Rația de aspect"
 
 #: src/supertux/menu/options_menu.cpp:206
 msgid "Adjust the aspect ratio"
-msgstr ""
+msgstr "Ajustați rația de aspect"
 
 #: src/supertux/menu/options_menu.cpp:209
 msgid "Sound"
@@ -651,15 +658,15 @@ msgstr "Sunet"
 
 #: src/supertux/menu/options_menu.cpp:210
 msgid "Disable all sound effects"
-msgstr ""
+msgstr "Dezactivați efectele sonore"
 
 #: src/supertux/menu/options_menu.cpp:211
 msgid "Music"
-msgstr "Muzica"
+msgstr "Muzică"
 
 #: src/supertux/menu/options_menu.cpp:212
 msgid "Disable all music"
-msgstr ""
+msgstr "Dezactivează muzica"
 
 #: src/supertux/menu/options_menu.cpp:214
 msgid "Sound (disabled)"
@@ -667,89 +674,89 @@ msgstr "Sunet (dezactivat)"
 
 #: src/supertux/menu/options_menu.cpp:215
 msgid "Music (disabled)"
-msgstr "Muzica (dezactivat)"
+msgstr "Muzica (dezactivată)"
 
 #: src/supertux/menu/options_menu.cpp:219
 msgid "Configure key-action mappings"
-msgstr ""
+msgstr "Maparea tastelor de acțiune"
 
 #: src/supertux/menu/options_menu.cpp:222
 msgid "Configure joystick control-action mappings"
-msgstr ""
+msgstr "Maparea butoanelor de acțiune ale joystick-ului"
 
 #: src/supertux/menu/options_menu.cpp:224
 msgid "Enable transitions"
-msgstr ""
+msgstr "Activare tranziții"
 
 #: src/supertux/menu/options_menu.cpp:225
 msgid "Enable screen transitions and smooth menu animation"
-msgstr ""
+msgstr "Activați tranzițiile de ecran și animațiile fluente ale meniului"
 
 #: src/supertux/menu/options_menu.cpp:229
 msgid "Developer Mode"
-msgstr ""
+msgstr "Modul dezvoltatorului"
 
 #: src/supertux/menu/options_menu.cpp:234
 msgid "Christmas Mode"
-msgstr ""
+msgstr "Modul de Crăciun"
 
 #: src/supertux/menu/profile_menu.cpp:37
 #, c-format
 msgid "[Profile %s]"
-msgstr ""
+msgstr "[Profil %s]"
 
 #: src/supertux/menu/profile_menu.cpp:41
 #, c-format
 msgid "Profile %s"
-msgstr ""
+msgstr "Profil %s"
 
 #: src/supertux/menu/world_set_menu.cpp:41
 msgid "Story Mode"
-msgstr ""
+msgstr "Modul poveste"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:36
 msgid "Bonus: None"
-msgstr ""
+msgstr "Bonus: Nimic"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:39
 msgid "Reset Level"
-msgstr ""
+msgstr "Reinițializare nivel"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:41
 msgid "Finish WorldMap"
-msgstr ""
+msgstr "Finalizează Lumea"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:42
 msgid "Reset WorldMap"
-msgstr ""
+msgstr "Reinițializează lumea"
 
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
-msgstr "Pauza"
+msgstr "Pauză"
 
 #: src/supertux/menu/worldmap_menu.cpp:34
 msgid "Quit World"
-msgstr "Iesire Lume"
+msgstr "Ieșire din lume"
 
 #: src/supertux/statistics.cpp:130
 msgid "Max coins collected:"
-msgstr "Max monede colectate:"
+msgstr "Maxim monede colectate:"
 
 #: src/supertux/statistics.cpp:134
 msgid "Max fragging:"
-msgstr "Max fragging:"
+msgstr "Maxim adversari învinși:"
 
 #: src/supertux/statistics.cpp:138
 msgid "Max secrets found:"
-msgstr "Max secrete gasite:"
+msgstr "Maxim secrete găsite:"
 
 #: src/supertux/statistics.cpp:142
 msgid "Best time completed:"
-msgstr ""
+msgstr "Timp record pentru finalizare:"
 
 #: src/supertux/statistics.cpp:147
 msgid "Level target time:"
-msgstr ""
+msgstr "Timpul țintă pentru finalizare:"
 
 #: src/supertux/statistics.cpp:203
 msgid "You"
@@ -757,11 +764,11 @@ msgstr "Tu"
 
 #: src/supertux/statistics.cpp:205
 msgid "Best"
-msgstr "Cel Mai Bun"
+msgstr "Record"
 
 #: src/supertux/statistics.cpp:215
 msgid "Badguys"
-msgstr ""
+msgstr "Adversari"
 
 #: src/supertux/statistics.cpp:231
 msgid "Time"
@@ -769,22 +776,18 @@ msgstr "Timp"
 
 #: src/supertux/title_screen.cpp:65
 msgid "Copyright"
-msgstr ""
+msgstr "Drepturi de autor"
 
 #: src/supertux/title_screen.cpp:66
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file LICENSE for details.\n"
-msgstr ""
-
-#: src/trigger/climbable.cpp:78
-msgid "Up we go..."
-msgstr ""
+msgstr "Acest joc vine FĂRĂ ABSOLUT NICIO GARANȚIE. Acesta este un program liber și sunteți binevenit\nsă îl redistribuiți cu anumite condiții. Citiți fișierul LICENSE pentru detalii.\n"
 
 #: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"
-msgstr "Ai gasit o zona secreta!"
+msgstr "Ai găsit o zonă secretă!"
 
-#: src/worldmap/worldmap.cpp:349
+#: src/worldmap/worldmap.cpp:338
 msgid "<no title>"
-msgstr ""
+msgstr "<fără titlu>"
