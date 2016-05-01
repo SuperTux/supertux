@@ -407,15 +407,7 @@ BonusBlock::try_drop(Player *player)
     } // because scripts always run, this prevents default contents from being assumed
 
     case CONTENT_LIGHT:
-    {
-      try_open(player);
-      break;
-    }
     case CONTENT_TRAMPOLINE:
-    {
-      try_open(player);
-      break;
-    }
     case CONTENT_RAIN:
     {
       try_open(player);
