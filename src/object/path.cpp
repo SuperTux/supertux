@@ -30,6 +30,16 @@ Path::Path() :
 {
 }
 
+Path::Path(const Vector& pos) :
+  nodes(),
+  mode()
+{
+  Node first_node;
+  first_node.position = pos;
+  first_node.time = 1;
+  nodes.push_back(first_node);
+}
+
 Path::~Path()
 {
 }

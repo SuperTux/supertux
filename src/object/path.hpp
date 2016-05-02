@@ -29,6 +29,7 @@ class Path
 {
 public:
   Path();
+  Path(const Vector& pos);
   ~Path();
 
   void read(const ReaderMapping& reader);

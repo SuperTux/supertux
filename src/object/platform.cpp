@@ -24,7 +24,7 @@
 #include "util/reader_mapping.hpp"
 
 Platform::Platform(const ReaderMapping& reader) :
-  MovingSprite(reader, Vector(0,0), LAYER_OBJECTS, COLGROUP_STATIC),
+  MovingSprite(reader, "images/objects/flying_platform/flying_platform.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
   path(),
   walker(),
   speed(Vector(0,0)),
@@ -42,7 +42,8 @@ Platform::Platform(const ReaderMapping& reader) :
   ReaderMapping path_mapping;
   if (!reader.get("path", path_mapping))
   {
-    throw std::runtime_error("No path specified for platform");
+    path.reset(new Path(bbox.p1));
+    walker.reset(new PathWalker(path.get(), running));
   }
   else
   {
