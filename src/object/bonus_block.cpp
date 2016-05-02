@@ -38,6 +38,7 @@
 #include "util/reader_mapping.hpp"
 
 #include <stdexcept>
+#include <physfs.h>
 
 BonusBlock::BonusBlock(const Vector& pos, int data) :
   Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
@@ -74,7 +75,9 @@ BonusBlock::BonusBlock(const ReaderMapping& lisp) :
       iter.get(pos.y);
     } else if(token == "sprite") {
       iter.get(sprite_name);
-      sprite = SpriteManager::current()->create(sprite_name);
+      if (sprite_name.size() && PHYSFS_exists(sprite_name.c_str())) {
+        sprite = SpriteManager::current()->create(sprite_name);
+      }
     } else if(token == "count") {
       iter.get(hit_counter);
     } else if(token == "script") {
