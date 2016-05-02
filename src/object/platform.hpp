@@ -29,6 +29,7 @@ class Platform : public MovingSprite,
 {
 public:
   Platform(const ReaderMapping& reader);
+  Platform(const ReaderMapping& reader, const std::string& default_sprite);
   Platform(const Platform& platform);
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);

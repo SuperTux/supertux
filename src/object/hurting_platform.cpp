@@ -21,7 +21,7 @@
 #include "supertux/object_factory.hpp"
 
 HurtingPlatform::HurtingPlatform(const ReaderMapping& reader)
-  : Platform(reader)
+  : Platform(reader, "images/objects/sawblade/sawblade.sprite")
 {
   set_group(COLGROUP_TOUCHABLE);
 }
