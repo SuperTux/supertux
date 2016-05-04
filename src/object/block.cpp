@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <physfs.h>
+
 #include "object/block.hpp"
 
 #include "audio/sound_manager.hpp"
@@ -59,8 +61,11 @@ Block::Block(const ReaderMapping& lisp, std::string sprite_file) :
   lisp.get("x", bbox.p1.x);
   lisp.get("y", bbox.p1.y);
 
-  std::string sf = sprite_file;
+  std::string sf;
   lisp.get("sprite", sf);
+  if (sf.empty() || !PHYSFS_exists(sf.c_str())) {
+    sf = sprite_file;
+  }
   sprite = SpriteManager::current()->create(sf);
 
   bbox.set_size(32, 32.1f);
