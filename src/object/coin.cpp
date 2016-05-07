@@ -152,7 +152,7 @@ Coin::collect()
     soundSource->set_position(get_pos());
     soundSource->set_pitch(pitch);
     soundSource->play();
-    SoundManager::current()->manage_source(soundSource);
+    SoundManager::current()->manage_source(std::move(soundSource));
   
   Sector::current()->player->get_status()->add_coins(1, false);
   Sector::current()->add_object(std::make_shared<BouncyCoin>(get_pos(), false, get_sprite_name()));
