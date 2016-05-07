@@ -17,6 +17,7 @@
 #include "object/coin.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "audio/sound_source.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
@@ -147,7 +148,7 @@ Coin::collect()
     }
     sound_timer.start(1);
 
-    SoundManager* soundSource = SoundManager::current()->create_sound_source("sounds/coin.wav");
+    std::unique_ptr<SoundSource> soundSource = SoundManager::current()->create_sound_source("sounds/coin.wav");
     soundSource->set_position(get_pos());
     soundSource->set_pitch(pitch);
     soundSource->play();
