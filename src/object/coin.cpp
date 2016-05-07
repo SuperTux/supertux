@@ -85,8 +85,6 @@ Coin::update(float elapsed_time)
 void
 Coin::collect()
 {
-  // TODO: commented out musical code. Maybe fork this for a special "MusicalCoin" object?
-  /*
     static Timer sound_timer;
     static int pitch_one = 128;
     static float last_pitch = 1;
@@ -149,13 +147,13 @@ Coin::collect()
     }
     sound_timer.start(1);
 
-    SoundSource* soundSource = SoundManager::current()->create_sound_source("sounds/coin.wav");
+    std::unique_ptr<SoundSource> soundSource = SoundManager::current()->create_sound_source("sounds/coin.wav");
     soundSource->set_position(get_pos());
     soundSource->set_pitch(pitch);
     soundSource->play();
     SoundManager::current()->manage_source(soundSource);
-  */
-  Sector::current()->player->get_status()->add_coins(1);
+  
+  Sector::current()->player->get_status()->add_coins(1, false);
   Sector::current()->add_object(std::make_shared<BouncyCoin>(get_pos(), false, get_sprite_name()));
   Sector::current()->get_level()->stats.coins++;
   remove_me();
