@@ -147,7 +147,7 @@ Coin::collect()
     }
     sound_timer.start(1);
 
-    std::unique_ptr<SoundSource> soundSource = SoundManager::current()->create_sound_source("sounds/coin.wav");
+    SoundManager* soundSource = SoundManager::current()->create_sound_source("sounds/coin.wav");
     soundSource->set_position(get_pos());
     soundSource->set_pitch(pitch);
     soundSource->play();
