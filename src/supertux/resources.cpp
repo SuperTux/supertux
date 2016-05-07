@@ -29,11 +29,15 @@ FontPtr Resources::normal_font;
 FontPtr Resources::small_font;
 FontPtr Resources::big_font;
 
+FT_Face Resources::normal_font_ft;
+
 SurfacePtr Resources::checkbox;
 SurfacePtr Resources::checkbox_checked;
 SurfacePtr Resources::back;
 SurfacePtr Resources::arrow_left;
 SurfacePtr Resources::arrow_right;
+
+FT_Library Resources::ft_library;
 
 Resources::Resources()
 {
@@ -55,6 +59,13 @@ Resources::Resources()
   back = Surface::create("images/engine/menu/arrow-back.png");
   arrow_left = Surface::create("images/engine/menu/arrow-left.png");
   arrow_right = Surface::create("images/engine/menu/arrow-right.png");
+
+  FT_Init_FreeType(&ft_library);
+  FT_New_Face(ft_library, "data/fonts/otf/Hanken-Book.ttf", 0, &Resources::normal_font_ft);
+
+  float hdpi, vdpi;
+  SDL_GetDisplayDPI(0, NULL, &hdpi, &vdpi);
+  FT_Set_Char_Size(Resources::normal_font_ft, 0, 20, hdpi, vdpi);
 }
 
 Resources::~Resources()
@@ -73,6 +84,9 @@ Resources::~Resources()
   big_font.reset();
 
   mouse_cursor.reset();
+
+
+  FT_Done_FreeType(ft_library);
 }
 
 /* EOF */

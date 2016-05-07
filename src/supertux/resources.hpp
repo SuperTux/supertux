@@ -20,6 +20,9 @@
 
 #include <memory>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 #include "video/font_ptr.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -29,11 +32,13 @@ class Resources
 {
 public:
   static std::unique_ptr<MouseCursor> mouse_cursor;
+  static FT_Library ft_library;
 
   static FontPtr fixed_font;
   static FontPtr normal_font;
   static FontPtr small_font;
   static FontPtr big_font;
+  static FT_Face normal_font_ft;
 
   static SurfacePtr checkbox;
   static SurfacePtr checkbox_checked;
