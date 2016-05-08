@@ -82,6 +82,39 @@ bool has_suffix(const std::string& str, const std::string& suffix)
     return false;
 }
 
+static Addon& get_addon(const AddonManager::AddonList& list, const AddonId& id,
+                        bool installed)
+{
+  auto it = std::find_if(list.begin(), list.end(),
+                         [&id](const std::unique_ptr<Addon>& addon)
+                         {
+                           return addon->get_id() == id;
+                         });
+
+  if (it != list.end())
+  {
+    return **it;
+  }
+  else
+  {
+    auto type = std::string(installed ? "installed" : "repository");
+    throw std::runtime_error("Couldn't find " + type + " addon with id: " + id);
+  }
+}
+
+static std::vector<AddonId> get_addons(const AddonManager::AddonList& list)
+{
+  std::vector<AddonId> results;
+  results.reserve(list.size());
+  std::transform(list.begin(), list.end(),
+                 std::back_inserter(results),
+                 [](const std::unique_ptr<Addon>& addon)
+                 {
+                   return addon->get_id();
+                 });
+  return results;
+}
+
 static void add_to_dictionary_path(void *data, const char *origdir, const char *fname)
 {
     std::string full_path = std::string(origdir) + "/" + std::string(fname);
@@ -167,68 +200,26 @@ AddonManager::~AddonManager()
 Addon&
 AddonManager::get_repository_addon(const AddonId& id) const
 {
-  auto it = std::find_if(m_repository_addons.begin(), m_repository_addons.end(),
-                         [&id](const std::unique_ptr<Addon>& addon)
-                         {
-                           return addon->get_id() == id;
-                         });
-
-  if (it != m_repository_addons.end())
-  {
-    return **it;
-  }
-  else
-  {
-    throw std::runtime_error("Couldn't find repository Addon with id: " + id);
-  }
+  return get_addon(m_repository_addons, id, false);
 }
 
 Addon&
 AddonManager::get_installed_addon(const AddonId& id) const
 {
-  auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
-                         [&id](const std::unique_ptr<Addon>& addon)
-                         {
-                           return addon->get_id() == id;
-                         });
-
-  if (it != m_installed_addons.end())
-  {
-    return **it;
-  }
-  else
-  {
-    throw std::runtime_error("Couldn't find installed Addon with id: " + id);
-  }
+  return get_addon(m_installed_addons, id, true);
 }
 
 std::vector<AddonId>
 AddonManager::get_repository_addons() const
 {
-  std::vector<AddonId> results;
-  results.reserve(m_repository_addons.size());
-  std::transform(m_repository_addons.begin(), m_repository_addons.end(),
-                 std::back_inserter(results),
-                 [](const std::unique_ptr<Addon>& addon)
-                 {
-                   return addon->get_id();
-                 });
-  return results;
+  return get_addons(m_repository_addons);
 }
 
 
 std::vector<AddonId>
 AddonManager::get_installed_addons() const
 {
-  std::vector<AddonId> results;
-  results.reserve(m_installed_addons.size());
-  std::transform(m_installed_addons.begin(), m_installed_addons.end(),
-                 std::back_inserter(results),
-                 [](const std::unique_ptr<Addon>& addon)
-                 {
-                   return addon->get_id();
-                 });
-  return results;
+  return get_addons(m_installed_addons);
 }
 
 bool

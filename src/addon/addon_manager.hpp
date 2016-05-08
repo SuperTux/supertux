@@ -36,9 +36,10 @@ typedef std::string AddonId;
 /** Checks for, installs and removes Add-ons */
 class AddonManager : public Currenton<AddonManager>
 {
-private:
+public:
   using AddonList = std::vector<std::unique_ptr<Addon> >;
 
+private:
   Downloader m_downloader;
   std::string m_addon_directory;
   std::string m_repository_url;
