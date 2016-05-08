@@ -79,10 +79,10 @@ ScriptMenu::remove_line() {
 
 void
 ScriptMenu::add_line() {
-  std::unique_ptr<std::string> new_line = std::unique_ptr<std::string>(new std::string(""));
+  auto new_line = std::unique_ptr<std::string>(new std::string());
   script_strings.insert(script_strings.begin() + (active_item - 1), move(new_line));
 
-  std::unique_ptr<ItemScriptLine> line_item = std::unique_ptr<ItemScriptLine>(
+  auto line_item = std::unique_ptr<ItemScriptLine>(
         new ItemScriptLine( (script_strings.begin()+(active_item-1))->get() ));
   add_item(move(line_item), active_item+1);
   active_item++;
