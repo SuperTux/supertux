@@ -79,7 +79,7 @@ LanguageMenu::menu_action(MenuItem* item)
     int mnid = MNID_LANGUAGE_NEXT;
     std::set<tinygettext::Language> languages = g_dictionary_manager->get_languages();
 
-    for (auto lang : languages)
+    for (auto& lang : languages)
     {
       if (item->id == mnid++)
       {

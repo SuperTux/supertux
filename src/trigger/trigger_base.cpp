@@ -31,7 +31,7 @@ TriggerBase::TriggerBase() :
 TriggerBase::~TriggerBase()
 {
   // unregister remove_listener hooks, so nobody will try to call us after we've been destroyed
-  for (auto p : losetouch_listeners) {
+  for (auto& p : losetouch_listeners) {
     p->del_remove_listener(this);
   }
   losetouch_listeners.clear();
@@ -41,7 +41,7 @@ void
 TriggerBase::update(float )
 {
   if (lasthit && !hit) {
-    for (auto p : losetouch_listeners) {
+    for (auto& p : losetouch_listeners) {
       event(*p, EVENT_LOSETOUCH);
       p->del_remove_listener(this);
     }

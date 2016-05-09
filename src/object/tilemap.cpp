@@ -136,7 +136,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   bool empty = true;
 
   // make sure all tiles used on the tilemap are loaded and tilemap isn't empty
-  for(const auto tile : tiles) {
+  for(const auto& tile : tiles) {
     if(tile != 0) {
       empty = false;
     }
@@ -363,7 +363,7 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
   update_effective_solid ();
 
   // make sure all tiles are loaded
-  for(const auto tile : tiles)
+  for(const auto& tile : tiles)
     tileset->get(tile);
 }
 

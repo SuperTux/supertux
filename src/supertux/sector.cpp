@@ -124,7 +124,7 @@ Sector::~Sector()
   update_game_objects();
   assert(gameobjects_new.size() == 0);
 
-  for(auto object: gameobjects) {
+  for(auto& object: gameobjects) {
     before_object_remove(object);
   }
 }
@@ -177,10 +177,10 @@ Sector::add_object(GameObjectPtr object)
 {
   // make sure the object isn't already in the list
 #ifndef NDEBUG
-  for(auto game_object : gameobjects) {
+  for(auto& game_object : gameobjects) {
     assert(game_object != object);
   }
-  for(auto gameobject : gameobjects_new) {
+  for(auto& gameobject : gameobjects_new) {
     assert(gameobject != object);
   }
 #endif
@@ -227,7 +227,7 @@ Sector::activate(const Vector& player_pos)
       throw scripting::SquirrelError(vm, "Couldn't set sector in roottable");
     sq_pop(vm, 1);
 
-    for(auto object : gameobjects) {
+    for(auto& object : gameobjects) {
       try_expose(object);
     }
   }
@@ -383,7 +383,7 @@ Sector::update_game_objects()
   }
 
   /* add newly created objects */
-  for(auto object : gameobjects_new)
+  for(auto& object : gameobjects_new)
   {
     before_object_add(object);
 
@@ -543,7 +543,7 @@ Sector::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(camera->get_translation());
 
-  for(auto object : gameobjects) {
+  for(auto& object : gameobjects) {
     if(!object->is_valid())
       continue;
 
@@ -559,7 +559,7 @@ Sector::draw(DrawingContext& context)
 
   if(show_collrects) {
     Color color(1.0f, 0.0f, 0.0f, 0.75f);
-    for(auto object : moving_objects) {
+    for(auto& object : moving_objects) {
       const Rectf& rect = object->get_bbox();
 
       context.draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
@@ -657,7 +657,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
   float y1 = dest.get_top();
   float y2 = dest.get_bottom();
 
-  for(auto solids : solid_tilemaps) {
+  for(auto& solids : solid_tilemaps) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
 
@@ -710,7 +710,7 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
   float y2 = dest.p2.y;
 
   uint32_t result = 0;
-  for(auto solids: solid_tilemaps) {
+  for(auto& solids: solid_tilemaps) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
     // For ice (only), add a little fudge to recognize tiles Tux is standing on.
@@ -818,7 +818,7 @@ Sector::collision_static(collision::Constraints* constraints,
   collision_tilemap(constraints, movement, dest, object);
 
   // collision with other (static) objects
-  for(auto moving_object : moving_objects) {
+  for(auto& moving_object : moving_objects) {
     if(moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
       continue;
@@ -969,7 +969,7 @@ Sector::handle_collisions()
   }
 
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
-  for(auto moving_object : moving_objects) {
+  for(auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
         && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
@@ -980,7 +980,7 @@ Sector::handle_collisions()
   }
 
   // part2: COLGROUP_MOVING vs tile attributes
-  for(auto moving_object : moving_objects) {
+  for(auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
         && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
@@ -994,13 +994,13 @@ Sector::handle_collisions()
   }
 
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
-  for(auto moving_object : moving_objects) {
+  for(auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC)
        || !moving_object->is_valid())
       continue;
 
-    for(auto moving_object_2 : moving_objects) {
+    for(auto& moving_object_2 : moving_objects) {
       if(moving_object_2->get_group() != COLGROUP_TOUCHABLE
          || !moving_object_2->is_valid())
         continue;
@@ -1042,7 +1042,7 @@ Sector::handle_collisions()
   }
 
   // apply object movement
-  for(auto moving_object : moving_objects) {
+  for(auto& moving_object : moving_objects) {
     moving_object->bbox = moving_object->dest;
     moving_object->movement = Vector(0, 0);
   }
@@ -1053,7 +1053,7 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
-  for(auto solids : solid_tilemaps) {
+  for(auto& solids : solid_tilemaps) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(rect);
 
@@ -1089,7 +1089,7 @@ Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object,
 
   if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
 
-  for(auto moving_object : moving_objects) {
+  for(auto& moving_object : moving_objects) {
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
     if (moving_object->get_group() == COLGROUP_STATIC) {
@@ -1132,7 +1132,7 @@ Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, con
   float ley = std::max(line_start.y, line_end.y);
   for (float test_x = lsx; test_x <= lex; test_x += 16) {
     for (float test_y = lsy; test_y <= ley; test_y += 16) {
-      for(auto solids : solid_tilemaps) {
+      for(auto& solids : solid_tilemaps) {
         const Tile* tile = solids->get_tile_at(Vector(test_x, test_y));
         if(!tile) continue;
         // FIXME: check collision with slope tiles
@@ -1142,7 +1142,7 @@ Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, con
   }
 
   // check if no object is in the way
-  for(const auto moving_object : moving_objects) {
+  for(const auto& moving_object : moving_objects) {
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
     if ((moving_object->get_group() == COLGROUP_MOVING)
@@ -1159,7 +1159,7 @@ bool
 Sector::can_see_player(const Vector& eye) const
 {
     const std::vector<Player*> players = get_players();
-    for (auto pl : players) {
+    for (auto& pl : players) {
       // test for free line of sight to any of all four corners and the middle of the player's bounding box
       if (free_line_of_sight(eye, pl->get_bbox().p1, pl)) return true;
       if (free_line_of_sight(eye, Vector(pl->get_bbox().p2.x, pl->get_bbox().p1.y), pl)) return true;
@@ -1234,7 +1234,7 @@ Sector::get_total_badguys() const
 bool
 Sector::inside(const Rectf& rect) const
 {
-  for(auto solids : solid_tilemaps) {
+  for(auto& solids : solid_tilemaps) {
     Rectf bbox = solids->get_bbox();
     bbox.p1.y = -INFINITY; // pretend the tilemap extends infinitely far upwards
 
@@ -1248,7 +1248,7 @@ float
 Sector::get_width() const
 {
   float width = 0;
-  for(auto solids: solid_tilemaps) {
+  for(auto& solids: solid_tilemaps) {
     width = std::max(width, solids->get_bbox().get_right());
   }
 
@@ -1259,7 +1259,7 @@ float
 Sector::get_height() const
 {
   float height = 0;
-  for(auto solids: solid_tilemaps) {
+  for(auto& solids: solid_tilemaps) {
     height = std::max(height, solids->get_bbox().get_bottom());
   }
 
@@ -1320,7 +1320,7 @@ Sector::get_nearest_player (const Vector& pos) const
   float nearest_dist = std::numeric_limits<float>::max();
 
   std::vector<Player*> players = get_players();
-  for (auto this_player : players)
+  for (auto& this_player : players)
   {
     if (this_player->is_dying() || this_player->is_dead())
       continue;
@@ -1360,14 +1360,14 @@ Sector::get_nearby_objects (const Vector& center, float max_distance) const
 void
 Sector::stop_looping_sounds()
 {
-  for(auto object : gameobjects) {
+  for(auto& object : gameobjects) {
     object->stop_looping_sounds();
   }
 }
 
 void Sector::play_looping_sounds()
 {
-  for(auto object : gameobjects) {
+  for(auto& object : gameobjects) {
     object->play_looping_sounds();
   }
 }

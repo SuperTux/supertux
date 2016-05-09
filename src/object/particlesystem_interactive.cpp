@@ -37,7 +37,7 @@ ParticleSystem_Interactive::ParticleSystem_Interactive() :
 
 ParticleSystem_Interactive::~ParticleSystem_Interactive()
 {
-  for(auto particle : particles) {
+  for(auto& particle : particles) {
     delete particle;
   }
 }
@@ -51,7 +51,7 @@ void ParticleSystem_Interactive::draw(DrawingContext& context)
 {
   context.push_transform();
 
-  for(auto particle : particles) {
+  for(auto& particle : particles) {
     context.draw_surface(particle->texture, particle->pos, z_pos);
   }
 
@@ -92,7 +92,7 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
   dest.move(movement);
   Constraints constraints;
 
-  for(const auto solids : Sector::current()->solid_tilemaps) {
+  for(const auto& solids : Sector::current()->solid_tilemaps) {
     // FIXME Handle a nonzero tilemap offset
     for(int x = starttilex; x*32 < max_x; ++x) {
       for(int y = starttiley; y*32 < max_y; ++y) {
