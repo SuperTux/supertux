@@ -102,7 +102,7 @@ public:
   bool is_in_water() const;
 
   /** Get melting particle sprite filename */
-  virtual std::string get_mpsf() const {
+  virtual std::string get_water_sprite() const {
     return "images/objects/water_drop/water_drop.sprite";
   }
 

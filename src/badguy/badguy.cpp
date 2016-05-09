@@ -227,7 +227,7 @@ BadGuy::update(float elapsed_time)
       is_active_flag = false;
       movement = physic.get_movement(elapsed_time);
       if ( sprite->animation_done() || on_ground() ) {
-        Sector::current()->add_object( std::make_shared<WaterDrop>(bbox.p1, get_mpsf(), physic.get_velocity()) );
+        Sector::current()->add_object( std::make_shared<WaterDrop>(bbox.p1, get_water_sprite(), physic.get_velocity()) );
         remove_me();
         break;
       }
@@ -250,7 +250,7 @@ BadGuy::update(float elapsed_time)
       float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
       float py = graphicsRandom.randf(bbox.p1.y, bbox.p2.y);
       Vector ppos = Vector(px, py);
-      Sector::current()->add_object(std::make_shared<SpriteParticle>(get_mpsf(), "particle_" + std::to_string(pa),
+      Sector::current()->add_object(std::make_shared<SpriteParticle>(get_water_sprite(), "particle_" + std::to_string(pa),
                                                                      ppos, ANCHOR_MIDDLE,
                                                                      Vector(0, 0), Vector(0, 100 * Sector::current()->get_gravity()),
                                                                      LAYER_OBJECTS-1));

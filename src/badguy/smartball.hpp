@@ -28,7 +28,7 @@ public:
   SmartBall(const ReaderMapping& reader);
   SmartBall(const Vector& pos, Direction d);
 
-  virtual std::string get_mpsf() const {
+  virtual std::string get_water_sprite() const {
     return "images/objects/water_drop/pink_drop.sprite";
   }
 
