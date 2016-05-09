@@ -352,7 +352,7 @@ Sector::update(float elapsed_time)
   player->check_bounds();
 
   /* update objects */
-  for(auto object : gameobjects) {
+  for(auto& object : gameobjects) {
     if(!object->is_valid())
       continue;
 
