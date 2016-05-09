@@ -320,8 +320,7 @@ SoundManager::pause_music(float fadetime)
 void
 SoundManager::pause_sounds()
 {
-  for(SoundSources::iterator i = sources.begin(); i != sources.end(); ++i) {
-    auto& source = *i;
+  for(auto& source : sources) {
     if(source->playing()) {
       source->pause();
     }
@@ -331,8 +330,7 @@ SoundManager::pause_sounds()
 void
 SoundManager::resume_sounds()
 {
-  for(SoundSources::iterator i = sources.begin(); i != sources.end(); ++i) {
-    auto& source = *i;
+  for(auto& source : sources) {
     if(source->paused()) {
       source->resume();
     }
@@ -342,10 +340,9 @@ SoundManager::resume_sounds()
 void
 SoundManager::stop_sounds()
 {
-    for(SoundSources::iterator i = sources.begin(); i != sources.end(); ++i) {
-        auto& source = *i;
-        source->stop();
-    }
+  for(auto& source : sources) {
+    source->stop();
+  }
 }
 
 void

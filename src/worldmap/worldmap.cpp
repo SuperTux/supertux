@@ -142,9 +142,7 @@ WorldMap::~WorldMap()
 {
   using namespace scripting;
 
-  for(GameObjects::iterator i = game_objects.begin();
-      i != game_objects.end(); ++i) {
-    GameObjectPtr& object = *i;
+  for(auto& object : game_objects) {
     try_unexpose(object);
   }
 

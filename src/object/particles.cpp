@@ -133,8 +133,8 @@ void
 Particles::draw(DrawingContext& context)
 {
   // draw particles
-  for(auto i = particles.begin(); i != particles.end(); ++i) {
-    context.draw_filled_rect((*i)->pos, Vector(size,size), color,drawing_layer);
+  for(auto& particle : particles) {
+    context.draw_filled_rect(particle->pos, Vector(size,size), color, drawing_layer);
   }
 }
 
