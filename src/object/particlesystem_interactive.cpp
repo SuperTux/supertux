@@ -37,9 +37,8 @@ ParticleSystem_Interactive::ParticleSystem_Interactive() :
 
 ParticleSystem_Interactive::~ParticleSystem_Interactive()
 {
-  std::vector<Particle*>::iterator i;
-  for(i = particles.begin(); i != particles.end(); ++i) {
-    delete *i;
+  for(auto particle : particles) {
+    delete particle;
   }
 }
 
@@ -52,9 +51,7 @@ void ParticleSystem_Interactive::draw(DrawingContext& context)
 {
   context.push_transform();
 
-  std::vector<Particle*>::iterator i;
-  for(i = particles.begin(); i != particles.end(); ++i) {
-    Particle* particle = *i;
+  for(auto particle : particles) {
     context.draw_surface(particle->texture, particle->pos, z_pos);
   }
 
@@ -95,8 +92,7 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
   dest.move(movement);
   Constraints constraints;
 
-  for(std::list<TileMap*>::const_iterator i = Sector::current()->solid_tilemaps.begin(); i != Sector::current()->solid_tilemaps.end(); ++i) {
-    TileMap* solids = *i;
+  for(const auto solids : Sector::current()->solid_tilemaps) {
     // FIXME Handle a nonzero tilemap offset
     for(int x = starttilex; x*32 < max_x; ++x) {
       for(int y = starttiley; y*32 < max_y; ++y) {
