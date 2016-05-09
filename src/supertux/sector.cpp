@@ -236,8 +236,8 @@ Sector::activate(const Vector& player_pos)
 
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
-  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
-    Player* p = dynamic_cast<Player*>(i->get());
+  for(auto& object : gameobjects) {
+    auto p = dynamic_cast<Player*>(object.get());
     if (!p) continue;
 
     // spawn smalltux below spawnpoint
