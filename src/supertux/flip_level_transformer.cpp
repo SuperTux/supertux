@@ -30,10 +30,7 @@ FlipLevelTransformer::transform_sector(Sector* sector)
 {
   float height = sector->get_height();
 
-  for(Sector::GameObjects::iterator i = sector->gameobjects.begin();
-      i != sector->gameobjects.end(); ++i) {
-    GameObjectPtr object = *i;
-
+  for(auto object : sector->gameobjects) {
     TileMap* tilemap = dynamic_cast<TileMap*>(object.get());
     if(tilemap) {
       transform_tilemap(height, *tilemap);
@@ -66,8 +63,8 @@ FlipLevelTransformer::transform_sector(Sector* sector)
       transform_moving_object(height, *mobject);
     }
   }
-  for(auto i = sector->spawnpoints.begin(); i != sector->spawnpoints.end(); ++i) {
-    transform_spawnpoint(height, **i);
+  for(auto spawnpoint : sector->spawnpoints) {
+    transform_spawnpoint(height, *spawnpoint);
   }
 
   if(sector->camera != 0 && sector->player != 0)
@@ -87,8 +84,8 @@ FlipLevelTransformer::transform_drawing_effect(DrawingEffect effect)
 void
 FlipLevelTransformer::transform_path(float height, float obj_height, Path& path)
 {
-  for (std::vector<Path::Node>::iterator i = path.nodes.begin(); i != path.nodes.end(); ++i) {
-    Vector& pos = i->position;
+  for (auto node : path.nodes) {
+    Vector& pos = node.position;
     pos.y = height - pos.y - obj_height;
   }
 }
