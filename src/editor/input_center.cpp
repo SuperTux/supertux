@@ -91,9 +91,7 @@ EditorInputCenter::update(float elapsed_time) {
 void
 EditorInputCenter::delete_markers() {
   auto sector = Editor::current()->currentsector;
-  for (auto i = sector->moving_objects.begin();
-       i != sector->moving_objects.end(); ++i) {
-    MovingObject* moving_object = *i;
+  for (auto moving_object : sector->moving_objects) {
     PointMarker* marker = dynamic_cast<PointMarker*>(moving_object);
     if (marker) {
       marker->remove_me();
@@ -262,9 +260,7 @@ EditorInputCenter::fill() {
 
 void
 EditorInputCenter::hover_object() {
-  for (auto i = Editor::current()->currentsector->moving_objects.begin();
-       i != Editor::current()->currentsector->moving_objects.end(); ++i) {
-    MovingObject* moving_object = *i;
+  for (auto moving_object : Editor::current()->currentsector->moving_objects) {
     PointMarker* pm = dynamic_cast<PointMarker*>(moving_object);
     if (!moving_object->do_save() && !pm) {
       continue;
@@ -342,9 +338,7 @@ EditorInputCenter::mark_object() {
 
 void
 EditorInputCenter::grab_object() {
-  for (auto i = Editor::current()->currentsector->moving_objects.begin();
-      i != Editor::current()->currentsector->moving_objects.end(); ++i) {
-    MovingObject* moving_object = *i;
+  for (auto moving_object : Editor::current()->currentsector->moving_objects) {
     Rectf bbox = moving_object->get_bbox();
 
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
@@ -375,9 +369,7 @@ EditorInputCenter::grab_object() {
 
 void
 EditorInputCenter::set_object() {
-  for (auto i = Editor::current()->currentsector->moving_objects.begin();
-      i != Editor::current()->currentsector->moving_objects.end(); ++i) {
-    MovingObject* moving_object = *i;
+  for (auto moving_object : Editor::current()->currentsector->moving_objects) {
     Rectf bbox = moving_object->get_bbox();
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
@@ -415,9 +407,7 @@ void
 EditorInputCenter::rubber_rect() {
   delete_markers();
   Rectf dr = drag_rect();
-  for (auto i = Editor::current()->currentsector->moving_objects.begin();
-      i != Editor::current()->currentsector->moving_objects.end(); ++i) {
-    MovingObject* moving_object = *i;
+  for (auto moving_object : Editor::current()->currentsector->moving_objects) {
     Rectf bbox = moving_object->get_bbox();
     if (bbox.p2.x >= dr.p1.x && bbox.p1.x <= dr.p2.x &&
         bbox.p2.y >= dr.p1.y && bbox.p1.y <= dr.p2.y ) {
@@ -433,9 +423,7 @@ EditorInputCenter::update_node_iterators() {
   if (!edited_path->is_valid()) return;
 
   auto sector = Editor::current()->currentsector;
-  for (auto i = sector->moving_objects.begin();
-       i != sector->moving_objects.end(); ++i) {
-    MovingObject* moving_object = *i;
+  for (auto moving_object : sector->moving_objects) {
     NodeMarker* marker = dynamic_cast<NodeMarker*>(moving_object);
     if (marker) {
       marker->update_iterator();

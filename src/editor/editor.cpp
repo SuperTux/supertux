@@ -257,8 +257,8 @@ void Editor::load_layers() {
   layerselect.selected_tilemap = NULL;
   layerselect.layers.clear();
   bool tsel = false;
-  for(auto i = currentsector->gameobjects.begin(); i != currentsector->gameobjects.end(); i++) {
-    GameObject* go = &(**i);
+  for(auto i : currentsector->gameobjects) {
+    GameObject* go = i.get();
     MovingObject *mo = dynamic_cast<MovingObject*>(go);
     if ( !mo && go->do_save() ) {
       layerselect.add_layer(go);
