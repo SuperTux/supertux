@@ -46,11 +46,11 @@ TextureManager::TextureManager() :
 
 TextureManager::~TextureManager()
 {
-  for(ImageTextures::iterator i = m_image_textures.begin(); i != m_image_textures.end(); ++i)
+  for(auto& texture : m_image_textures)
   {
-    if(!i->second.expired())
+    if(!texture.second.expired())
     {
-      log_warning << "Texture '" << i->first << "' not freed" << std::endl;
+      log_warning << "Texture '" << texture.first << "' not freed" << std::endl;
     }
   }
   m_image_textures.clear();
@@ -266,15 +266,14 @@ TextureManager::save_textures()
 
   glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
-  for(Textures::iterator i = m_textures.begin(); i != m_textures.end(); ++i)
+  for(auto& texture : m_textures)
   {
-    save_texture(*i);
+    save_texture(texture);
   }
 
-  for(ImageTextures::iterator i = m_image_textures.begin();
-      i != m_image_textures.end(); ++i)
+  for(auto& tex : m_image_textures)
   {
-    GLTexture* texture = dynamic_cast<GLTexture*>(i->second.lock().get());
+    auto texture = dynamic_cast<GLTexture*>(tex.second.lock().get());
     if(texture == NULL)
       continue;
 
@@ -334,10 +333,7 @@ TextureManager::reload_textures()
 #endif
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-  for(std::vector<SavedTexture>::iterator i = m_saved_textures.begin();
-      i != m_saved_textures.end(); ++i) {
-    SavedTexture& saved_texture = *i;
-
+  for(auto& saved_texture : m_saved_textures) {
     GLuint handle;
     glGenTextures(1, &handle);
     assert_gl("creating texture handle");
