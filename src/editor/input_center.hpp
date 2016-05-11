@@ -53,6 +53,7 @@ class EditorInputCenter
     Vector mouse_pos;
 
     bool dragging;
+    bool dragging_left;
     Vector drag_start;
     MovingObject* dragged_object;
     GameObject* marked_object;
@@ -93,6 +94,9 @@ class EditorInputCenter
 
     // in sector position
     Rectf drag_rect();
+    Rectf tile_drag_rect();
+    Rectf selection_draw_rect();
+    void update_tile_selection();
 
     // scrolling the level on update
     // Vector(horizontal tiles per sec, vertical tiles per sec)
