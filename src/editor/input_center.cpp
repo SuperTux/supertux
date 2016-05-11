@@ -59,6 +59,7 @@ EditorInputCenter::EditorInputCenter() :
   sector_pos(0, 0),
   mouse_pos(0, 0),
   dragging(false),
+  dragging_left(false),
   drag_start(0, 0),
   dragged_object(NULL),
   marked_object(NULL),
@@ -483,6 +484,7 @@ EditorInputCenter::put_object() {
 void
 EditorInputCenter::process_left_click() {
   dragging = true;
+  dragging_left = false;
   drag_start = sector_pos;
   switch (Editor::current()->tileselect.input_type) {
     case EditorInputGui::IP_TILE: {
@@ -514,6 +516,9 @@ EditorInputCenter::process_left_click() {
 
 void
 EditorInputCenter::process_right_click() {
+  dragging = true;
+  dragging_left = true;
+  drag_start = sector_pos;
   switch (Editor::current()->tileselect.input_type) {
     case EditorInputGui::IP_TILE: {
       //possible future usage
@@ -523,6 +528,49 @@ EditorInputCenter::process_right_click() {
       break;
     default:
       break;
+  }
+}
+
+Rectf
+EditorInputCenter::tile_drag_rect() {
+  Rectf result = drag_rect();
+  result.p1 = sp_to_tp(result.p1);
+  result.p2 = sp_to_tp(result.p2);
+  return result;
+}
+
+Rectf
+EditorInputCenter::selection_draw_rect() {
+  Rectf select = tile_drag_rect();
+  select.p2 += Vector(1, 1);
+  select.p1 = tile_screen_pos(select.p1);
+  select.p2 = tile_screen_pos(select.p2);
+  return select;
+}
+
+void
+EditorInputCenter::update_tile_selection() {
+  Rectf select = tile_drag_rect();
+  auto tiles = Editor::current()->tileselect.tiles.get();
+  TileMap* tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
+  if ( !tilemap ) {
+    return;
+  }
+
+  tiles->tiles.clear();
+  tiles->width = select.get_width() + 1;
+  tiles->height = select.get_height() + 1;
+
+  int w = tilemap->get_width();
+  int h = tilemap->get_height();
+  for (int y = select.p1.y; y <= select.p2.y; y++) {
+    for (int x = select.p1.x; x <= select.p2.x; x++) {
+      if ( x < 0 || y < 0 || x >= w || y >= h) {
+        tiles->tiles.push_back(0);
+      } else {
+        tiles->tiles.push_back(tilemap->get_tile_id(x, y));
+      }
+    }
   }
 }
 
@@ -567,15 +615,19 @@ EditorInputCenter::event(SDL_Event& ev) {
       if (dragging) {
         switch (tileselect->input_type) {
           case EditorInputGui::IP_TILE:
-            switch (tileselect->select_mode->get_mode()) {
-              case 0:
-                put_tile();
-                break;
-              case 1:
-                draw_rectangle();
-                break;
-              default:
-                break;
+            if (dragging_left) {
+              update_tile_selection();
+            } else {
+              switch (tileselect->select_mode->get_mode()) {
+                case 0:
+                  put_tile();
+                  break;
+                case 1:
+                  draw_rectangle();
+                  break;
+                default:
+                  break;
+            }
             }
             break;
           case EditorInputGui::IP_OBJECT:
@@ -782,7 +834,8 @@ EditorInputCenter::draw(DrawingContext& context) {
     object_tip->draw(context, mouse_pos);
   }
 
-  if (dragging && Editor::current()->tileselect.select_mode->get_mode() == 1) {
+  if (dragging && Editor::current()->tileselect.select_mode->get_mode() == 1
+      && !dragging_left) {
     // Draw selection rectangle...
     Vector p0 = drag_start - Editor::current()->currentsector->camera->get_translation();
     Vector p1 = Vector(drag_start.x, sector_pos.y) - Editor::current()->currentsector->camera->get_translation();
@@ -799,6 +852,11 @@ EditorInputCenter::draw(DrawingContext& context) {
 
     context.draw_filled_rect(Rectf(p0, mouse_pos),
                              Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
+  }
+
+  if (dragging && dragging_left) {
+    context.draw_filled_rect(selection_draw_rect(),
+                             Color(0.2f, 0.4f, 1.0f, 0.6f), 0.0f, LAYER_GUI-13);
   }
 }
 
