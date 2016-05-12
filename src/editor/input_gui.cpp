@@ -217,9 +217,9 @@ EditorInputGui::update_selection() {
   int size = active_tilegroup.size();
   for (int y = select.p1.y; y <= select.p2.y; y++) {
     for (int x = select.p1.x; x <= select.p2.x; x++) {
-      int tile_pos = y*4 + x;
+      int tile_pos = y*4 + x + starting_tile;
       if (tile_pos < size && tile_pos >= 0) {
-        tiles->tiles.push_back(active_tilegroup[tile_pos + starting_tile]);
+        tiles->tiles.push_back(active_tilegroup[tile_pos]);
       } else {
         tiles->tiles.push_back(0);
       }
