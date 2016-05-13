@@ -148,7 +148,7 @@ EditorInputCenter::put_tile() {
   Vector add_tile;
   for (add_tile.x = tiles->width-1; add_tile.x >= 0; add_tile.x--) {
     for (add_tile.y = tiles->height-1; add_tile.y >= 0; add_tile.y--) {
-      input_tile(hovered_tile + add_tile, Editor::current()->tileselect.tiles->pos(add_tile.x, add_tile.y));
+      input_tile(hovered_tile + add_tile, tiles->pos(add_tile.x, add_tile.y));
     }
   }
 }
