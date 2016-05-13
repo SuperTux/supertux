@@ -45,7 +45,7 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
   }
 
   add_hl();
-  add_entry(-1,_("Abort"));
+  add_entry(-1,_("Cancel"));
 }
 
 EditorObjectgroupMenu::~EditorObjectgroupMenu()
