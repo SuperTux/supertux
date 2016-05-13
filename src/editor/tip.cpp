@@ -42,35 +42,34 @@ Tip::Tip(GameObject* object) :
   header = os.name;
   std::string text;
 
-  for(auto i = os.options.begin(); i != os.options.end(); ++i) {
-    ObjectOption* oo = &(*i);
-    text = oo->text + ": ";
-    switch (oo->type) {
+  for(auto& oo : os.options) {
+    text = oo.text + ": ";
+    switch (oo.type) {
       case MN_TEXTFIELD:
-        text += *((std::string*)(oo->option));
+        text += *((std::string*)(oo.option));
         break;
       case MN_NUMFIELD:
-        text += std::to_string(*((float*)(oo->option)));
+        text += std::to_string(*((float*)(oo.option)));
         break;
       case MN_INTFIELD:
-        text += std::to_string(*((int*)(oo->option)));
+        text += std::to_string(*((int*)(oo.option)));
         break;
       case MN_TOGGLE:
-        text += (*((bool*)(oo->option))) ? _("true") : _("false");
+        text += (*((bool*)(oo.option))) ? _("true") : _("false");
         break;
       case MN_STRINGSELECT:
-        text += oo->select[*((int*)(oo->option))];
+        text += oo.select[*((int*)(oo.option))];
         break;
       case MN_BADGUYSELECT:
-        text += std::to_string(((std::vector<std::string>*)oo->option)->size());
+        text += std::to_string(((std::vector<std::string>*)oo.option)->size());
         break;
       case MN_COLOR:
-        text += std::to_string(((Color*)oo->option)->red) + " ";
-        text += std::to_string(((Color*)oo->option)->green) + " ";
-        text += std::to_string(((Color*)oo->option)->blue);
+        text += std::to_string(((Color*)oo.option)->red) + " ";
+        text += std::to_string(((Color*)oo.option)->green) + " ";
+        text += std::to_string(((Color*)oo.option)->blue);
         break;
       case MN_SCRIPT:
-        if (((std::string*)oo->option)->length()) {
+        if (((std::string*)oo.option)->length()) {
           text += "...";
         }
         break;
@@ -91,10 +90,9 @@ Tip::draw(DrawingContext& context, Vector pos) {
   context.draw_text(Resources::normal_font, header, pos,
                     ALIGN_RIGHT, LAYER_GUI-11, ColorScheme::Menu::label_color);
 
-  for(auto i = strings.begin(); i != strings.end(); ++i) {
-    std::string* str = &(*i);
+  for(auto& str : strings) {
     pos.y += 22;
-    context.draw_text(Resources::normal_font, *str, pos,
+    context.draw_text(Resources::normal_font, str, pos,
                       ALIGN_RIGHT, LAYER_GUI-11, ColorScheme::Menu::default_color);
   }
 }
