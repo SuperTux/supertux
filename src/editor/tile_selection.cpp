@@ -45,8 +45,8 @@ void TileSelection::set_tile(uint32_t tile) {
 }
 
 bool TileSelection::empty() const {
-  for (auto it = tiles.begin(); it != tiles.end(); ++it) {
-    if (*it != 0) {
+  for (auto& tile : tiles) {
+    if (tile != 0) {
       return false;
     }
   }
