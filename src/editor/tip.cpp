@@ -21,8 +21,6 @@
 #include "supertux/game_object.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
-#include "util/gettext.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
 #include "video/renderer.hpp"
@@ -40,44 +38,9 @@ Tip::Tip(GameObject* object) :
 
   ObjectSettings os = object->get_settings();
   header = os.name;
-  std::string text;
 
   for(auto& oo : os.options) {
-    text = oo.text + ": ";
-    switch (oo.type) {
-      case MN_TEXTFIELD:
-        text += *((std::string*)(oo.option));
-        break;
-      case MN_NUMFIELD:
-        text += std::to_string(*((float*)(oo.option)));
-        break;
-      case MN_INTFIELD:
-        text += std::to_string(*((int*)(oo.option)));
-        break;
-      case MN_TOGGLE:
-        text += (*((bool*)(oo.option))) ? _("true") : _("false");
-        break;
-      case MN_STRINGSELECT:
-        text += oo.select[*((int*)(oo.option))];
-        break;
-      case MN_BADGUYSELECT:
-        text += std::to_string(((std::vector<std::string>*)oo.option)->size());
-        break;
-      case MN_COLOR:
-        text += std::to_string(((Color*)oo.option)->red) + " ";
-        text += std::to_string(((Color*)oo.option)->green) + " ";
-        text += std::to_string(((Color*)oo.option)->blue);
-        break;
-      case MN_SCRIPT:
-        if (((std::string*)oo.option)->length()) {
-          text += "...";
-        }
-        break;
-      default:
-        text += _("Unknown");
-        break;
-    }
-    strings.push_back(text);
+    strings.push_back(oo.text + ": " + oo.to_string());
   }
 }
 

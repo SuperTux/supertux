@@ -21,6 +21,8 @@
 #include <vector>
 
 #include "gui/menu_action.hpp"
+#include "util/gettext.hpp"
+#include "video/color.hpp"
 
 class ObjectOption
 {
@@ -48,6 +50,35 @@ class ObjectOption
       option = blb.option;
       select = blb.select;
       return *this;
+    }
+
+    const std::string to_string() {
+      switch (type) {
+        case MN_TEXTFIELD:
+          return *((std::string*)(option));
+        case MN_NUMFIELD:
+          return std::to_string(*((float*)(option)));
+        case MN_INTFIELD:
+          return std::to_string(*((int*)(option)));
+        case MN_TOGGLE:
+          return (*((bool*)(option))) ? _("true") : _("false");
+        case MN_STRINGSELECT:
+          return select[*((int*)(option))];
+        case MN_BADGUYSELECT:
+          return std::to_string(((std::vector<std::string>*)option)->size());
+        case MN_COLOR:
+          return std::to_string(((Color*)option)->red) + " "
+                 + std::to_string(((Color*)option)->green) + " "
+                 + std::to_string(((Color*)option)->blue);
+        case MN_SCRIPT:
+          if (((std::string*)option)->length()) {
+            return "...";
+          }
+          return "";
+        default:
+          return _("Unknown");
+      }
+      return "";
     }
 };
 
