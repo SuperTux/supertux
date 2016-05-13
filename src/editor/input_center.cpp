@@ -80,11 +80,11 @@ void
 EditorInputCenter::update(float elapsed_time) {
   update_scroll();
 
-  if (marked_object) if (!marked_object->is_valid()) {
+  if (marked_object && !marked_object->is_valid()) {
     delete_markers();
   }
 
-  if (edited_path) if (!edited_path->is_valid()) {
+  if (edited_path && !edited_path->is_valid()) {
     delete_markers();
   }
 }
