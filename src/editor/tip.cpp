@@ -87,13 +87,14 @@ Tip::~Tip() {
 
 void
 Tip::draw(DrawingContext& context, Vector pos) {
+  pos.y += 35;
   context.draw_text(Resources::normal_font, header, pos,
-                    ALIGN_RIGHT, LAYER_GUI-11, ColorScheme::Menu::label_color);
+                    ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::label_color);
 
   for(auto& str : strings) {
     pos.y += 22;
     context.draw_text(Resources::normal_font, str, pos,
-                      ALIGN_RIGHT, LAYER_GUI-11, ColorScheme::Menu::default_color);
+                      ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::default_color);
   }
 }
 
