@@ -45,7 +45,7 @@ EditorTilegroupMenu::EditorTilegroupMenu()
   }
 
   add_hl();
-  add_entry(-1,_("Abort"));
+  add_entry(-1,_("Cancel"));
 }
 
 EditorTilegroupMenu::~EditorTilegroupMenu()

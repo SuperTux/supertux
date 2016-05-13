@@ -47,7 +47,7 @@ EditorSectorsMenu::EditorSectorsMenu()
   add_submenu(_("Sector settings..."), MenuStorage::EDITOR_SECTOR_MENU);
   add_entry(-2,_("Create new sector"));
   add_entry(-3,_("Delete this sector"));
-  add_entry(-4,_("Abort"));
+  add_entry(-4,_("Cancel"));
 }
 
 EditorSectorsMenu::~EditorSectorsMenu()
