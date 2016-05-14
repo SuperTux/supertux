@@ -8,6 +8,7 @@
 # D. J. S. <djsossz@freemail.hu>, 2012
 # Norbert Molnár <buzitetu@indamail.hu>, 2013
 # gyeben <gyonkibendeguz@gmail.com>, 2013
+# Haba Tamás <habatamas0@gmail.com>, 2016
 # Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006-2007
 # Kővágó, Zoltán <DirtY.iCE.hu@gmail.com>, 2013
 # Kristóf Kófiás <kristof.kofias@gmail.com>, 2014
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-01-06 09:09+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-10 15:27+0000\n"
+"Last-Translator: Haba Tamás <habatamas0@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,164 +32,172 @@ msgstr ""
 msgid "Joystick Mappings"
 msgstr "Botkormány kiosztása"
 
-#: src/supertux/command_line_arguments.cpp:76
+#: src/supertux/command_line_arguments.cpp:77
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
 msgstr "Használat: %s [BEÁLLÍTÁSOK] [PÁLYAFÁLJ]"
 
-#: src/supertux/command_line_arguments.cpp:77
+#: src/supertux/command_line_arguments.cpp:78
 msgid "General Options:"
 msgstr "Általános beállítások:"
 
-#: src/supertux/command_line_arguments.cpp:78
+#: src/supertux/command_line_arguments.cpp:79
 msgid "  -h, --help                   Show this help message and quit"
 msgstr "  -h, --help                   Ennek a segítségnek a megjelenítése és kilépés"
 
-#: src/supertux/command_line_arguments.cpp:79
+#: src/supertux/command_line_arguments.cpp:80
 msgid "  -v, --version                Show SuperTux version and quit"
 msgstr "  -v, --version                SuperTux verzió megjelenítése és kilépés"
 
-#: src/supertux/command_line_arguments.cpp:80
+#: src/supertux/command_line_arguments.cpp:81
 msgid "  --verbose                    Print verbose messages"
 msgstr "  --verbose                    Részletes üzenetek kiírása"
 
-#: src/supertux/command_line_arguments.cpp:81
+#: src/supertux/command_line_arguments.cpp:82
 msgid "  --debug                      Print extra verbose messages"
 msgstr "  --debug                      Extra részletes üzenetek kiírása"
 
-#: src/supertux/command_line_arguments.cpp:82
+#: src/supertux/command_line_arguments.cpp:83
 msgid ""
 "  --print-datadir              Print supertux's primary data directory."
 msgstr "  --print-datadir              SuperTux fő adatmappájának kiírása"
 
-#: src/supertux/command_line_arguments.cpp:83
+#: src/supertux/command_line_arguments.cpp:84
 msgid "Video Options:"
 msgstr "Videó beállítások:"
 
-#: src/supertux/command_line_arguments.cpp:84
+#: src/supertux/command_line_arguments.cpp:85
 msgid "  -f, --fullscreen             Run in fullscreen mode"
 msgstr "  -f, --fullscreen             Futtatás teljes képernyős módban"
 
-#: src/supertux/command_line_arguments.cpp:85
+#: src/supertux/command_line_arguments.cpp:86
 msgid "  -w, --window                 Run in window mode"
 msgstr "  -w, --window                 Futtatás ablak módban"
 
-#: src/supertux/command_line_arguments.cpp:86
+#: src/supertux/command_line_arguments.cpp:87
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
 msgstr "  -g, --geometry WIDTHxHEIGHT  SuperTux futtatása a megadott felbontással"
 
-#: src/supertux/command_line_arguments.cpp:87
+#: src/supertux/command_line_arguments.cpp:88
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
 msgstr "  -a, --aspect WIDTH:HEIGHT    SuperTux futtatása a megadott képaránnyal"
 
-#: src/supertux/command_line_arguments.cpp:88
+#: src/supertux/command_line_arguments.cpp:89
 msgid "  -d, --default                Reset video settings to default values"
 msgstr "  -d, --default                Videó beállítások visszaállítása az alapértelmezettre"
 
-#: src/supertux/command_line_arguments.cpp:89
+#: src/supertux/command_line_arguments.cpp:90
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
 msgstr "  --renderer RENDERER          sdl, opengl vagy auto használata rendereléshez"
 
-#: src/supertux/command_line_arguments.cpp:90
+#: src/supertux/command_line_arguments.cpp:91
 msgid "Audio Options:"
 msgstr "Audió beállítások:"
 
-#: src/supertux/command_line_arguments.cpp:91
+#: src/supertux/command_line_arguments.cpp:92
 msgid "  --disable-sound              Disable sound effects"
 msgstr "  --disable-sound              Hangeffektek letiltása"
 
-#: src/supertux/command_line_arguments.cpp:92
+#: src/supertux/command_line_arguments.cpp:93
 msgid "  --disable-music              Disable music"
 msgstr "  --disable-music              Zene letiltása"
 
-#: src/supertux/command_line_arguments.cpp:93
+#: src/supertux/command_line_arguments.cpp:94
 msgid "Game Options:"
 msgstr "Játék beállítások:"
 
-#: src/supertux/command_line_arguments.cpp:94
+#: src/supertux/command_line_arguments.cpp:95
 msgid "  --show-fps                   Display framerate in levels"
 msgstr "  --show-fps                   Képfrissítési arány megjelenítése a pályákon"
 
-#: src/supertux/command_line_arguments.cpp:95
+#: src/supertux/command_line_arguments.cpp:96
 msgid "  --no-show-fps                Do not display framerate in levels"
 msgstr "  --no-show-fps                Képfrissítési arány elrejtése a pályákon"
 
-#: src/supertux/command_line_arguments.cpp:96
+#: src/supertux/command_line_arguments.cpp:97
+msgid "  --show-pos                   Display player's current position"
+msgstr "  --show-pos                   Játékos pozíciójának mutatása"
+
+#: src/supertux/command_line_arguments.cpp:98
+msgid "  --no-show-pos                Do not display player's position"
+msgstr "  --no-show-pos                Ne mutassa a játékos pozícióját"
+
+#: src/supertux/command_line_arguments.cpp:99
 msgid "  --developer                  Switch on developer feature"
 msgstr "  --developer                  Fejlesztői funkciók bekapcsolása"
 
-#: src/supertux/command_line_arguments.cpp:97
+#: src/supertux/command_line_arguments.cpp:100
 msgid "  -s, --debug-scripts          Enable script debugger."
 msgstr "  -s, --debug-scripts          Szkript hibakereső engedélyezése"
 
-#: src/supertux/command_line_arguments.cpp:98
+#: src/supertux/command_line_arguments.cpp:101
 msgid ""
 "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
 " level is specified."
-msgstr ""
+msgstr "  --spawn-pos X,Y              Hol jelenjen meg Tux a pálya kezdésénél. Csak akkor használatos, ha meg van adva a pálya."
 
-#: src/supertux/command_line_arguments.cpp:99
+#: src/supertux/command_line_arguments.cpp:102
 msgid "Demo Recording Options:"
 msgstr "Demó felvételi beállítások:"
 
-#: src/supertux/command_line_arguments.cpp:100
+#: src/supertux/command_line_arguments.cpp:103
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
 msgstr "  --record-demo FÁLJ PÁLYA     Demó felvétele FÁLJ-ba"
 
-#: src/supertux/command_line_arguments.cpp:101
+#: src/supertux/command_line_arguments.cpp:104
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
 msgstr "  --play-demo FÁLJ PÁLYA       Felvett demó lejátszása"
 
-#: src/supertux/command_line_arguments.cpp:102
+#: src/supertux/command_line_arguments.cpp:105
 msgid "Directory Options:"
 msgstr "Mappa beállítások:"
 
-#: src/supertux/command_line_arguments.cpp:103
+#: src/supertux/command_line_arguments.cpp:106
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
 msgstr "  --datadir MAPPA              A játék adatfáljok mappájának beállítása"
 
-#: src/supertux/command_line_arguments.cpp:104
+#: src/supertux/command_line_arguments.cpp:107
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
 msgstr "  --userdir MAPPA              A felhasználói adatok (játékmentések stb.) mappájának beállítása"
 
-#: src/supertux/command_line_arguments.cpp:105
+#: src/supertux/command_line_arguments.cpp:108
 msgid "Environment variables:"
 msgstr "Környezeti változók:"
 
-#: src/supertux/command_line_arguments.cpp:106
+#: src/supertux/command_line_arguments.cpp:109
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
 msgstr "  SUPERTUX2_USER_DIR            A felhasználói adatok (játékmentések stb.) mappája"
 
-#: src/supertux/command_line_arguments.cpp:107
+#: src/supertux/command_line_arguments.cpp:110
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "  SUPERTUX2_DATA_DIR           A játék adatfáljainak mappája"
 
-#: src/supertux/levelintro.cpp:112
+#: src/supertux/levelintro.cpp:127
 #, c-format
 msgid "contributed by %s"
 msgstr "hozzájárult: %s"
 
-#: src/supertux/levelintro.cpp:127 src/supertux/statistics.cpp:119
+#: src/supertux/levelintro.cpp:148 src/supertux/statistics.cpp:119
 msgid "Best Level Statistics"
 msgstr "Legjobb eredmények a pályán"
 
-#: src/supertux/levelintro.cpp:133 src/supertux/statistics.cpp:207
+#: src/supertux/levelintro.cpp:152 src/supertux/statistics.cpp:207
 msgid "Coins"
 msgstr "Érmék"
 
-#: src/supertux/levelintro.cpp:140
+#: src/supertux/levelintro.cpp:154
 msgid "Badguys killed"
 msgstr "Megölt rosszfiúk"
 
-#: src/supertux/levelintro.cpp:147 src/supertux/statistics.cpp:223
+#: src/supertux/levelintro.cpp:156 src/supertux/statistics.cpp:223
 msgid "Secrets"
 msgstr "Titkok"
 
-#: src/supertux/levelintro.cpp:154
+#: src/supertux/levelintro.cpp:158
 msgid "Best time"
 msgstr "Legjobb idő"
 
@@ -275,16 +284,16 @@ msgstr "Online keresés (letiltva)"
 msgid "Check Online"
 msgstr "Online keresés"
 
-#: src/supertux/menu/addon_menu.cpp:265 src/supertux/menu/cheat_menu.cpp:41
+#: src/supertux/menu/addon_menu.cpp:265 src/supertux/menu/cheat_menu.cpp:43
 #: src/supertux/menu/contrib_levelset_menu.cpp:69
-#: src/supertux/menu/contrib_menu.cpp:141
+#: src/supertux/menu/contrib_menu.cpp:143
 #: src/supertux/menu/joystick_menu.cpp:98
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/language_menu.cpp:52
 #: src/supertux/menu/options_menu.cpp:238
 #: src/supertux/menu/profile_menu.cpp:47
 #: src/supertux/menu/world_set_menu.cpp:44
-#: src/supertux/menu/worldmap_cheat_menu.cpp:44
+#: src/supertux/menu/worldmap_cheat_menu.cpp:46
 msgid "Back"
 msgstr "Vissza"
 
@@ -307,60 +316,64 @@ msgstr "Kérlek, indítsd újra a SuperTux-ot ezen változtatások érvénybe l�
 msgid "OK"
 msgstr "Rendben"
 
-#: src/supertux/menu/cheat_menu.cpp:29
+#: src/supertux/menu/cheat_menu.cpp:30
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
 msgid "Cheats"
 msgstr "Csalások"
 
-#: src/supertux/menu/cheat_menu.cpp:31
+#: src/supertux/menu/cheat_menu.cpp:32
 #: src/supertux/menu/worldmap_cheat_menu.cpp:31
 msgid "Bonus: Grow"
 msgstr "Bónusz: növekedés"
 
-#: src/supertux/menu/cheat_menu.cpp:32
+#: src/supertux/menu/cheat_menu.cpp:33
 #: src/supertux/menu/worldmap_cheat_menu.cpp:32
 msgid "Bonus: Fire"
 msgstr "Bónusz: tűz"
 
-#: src/supertux/menu/cheat_menu.cpp:33
+#: src/supertux/menu/cheat_menu.cpp:34
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 msgid "Bonus: Ice"
 msgstr "Bónusz: jég"
 
-#: src/supertux/menu/cheat_menu.cpp:34
+#: src/supertux/menu/cheat_menu.cpp:35
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 msgid "Bonus: Air"
 msgstr "Bónusz: levegő"
 
-#: src/supertux/menu/cheat_menu.cpp:35
+#: src/supertux/menu/cheat_menu.cpp:36
 #: src/supertux/menu/worldmap_cheat_menu.cpp:35
 msgid "Bonus: Earth"
 msgstr "Bónusz: föld"
 
-#: src/supertux/menu/cheat_menu.cpp:36
+#: src/supertux/menu/cheat_menu.cpp:37
 msgid "Bonus: Star"
 msgstr "Bónusz: csillag"
 
-#: src/supertux/menu/cheat_menu.cpp:37
+#: src/supertux/menu/cheat_menu.cpp:38
 msgid "Shrink Tux"
 msgstr "Tux összezsugorítása"
 
-#: src/supertux/menu/cheat_menu.cpp:38
+#: src/supertux/menu/cheat_menu.cpp:39
 msgid "Kill Tux"
 msgstr "Tux megölése"
 
-#: src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/cheat_menu.cpp:40
 #: src/supertux/menu/worldmap_cheat_menu.cpp:38
 msgid "Finish Level"
 msgstr "Pálya befejezése"
 
-#: src/supertux/menu/contrib_menu.cpp:51
+#: src/supertux/menu/cheat_menu.cpp:41
+msgid "Activate Ghost Mode"
+msgstr "Szellem mód aktiválása"
+
+#: src/supertux/menu/contrib_menu.cpp:53
 #: src/supertux/menu/world_set_menu.cpp:42
 msgid "Contrib Levels"
 msgstr "Rajongói pályák"
 
-#: src/supertux/menu/contrib_menu.cpp:88
-#: src/supertux/menu/contrib_menu.cpp:119
+#: src/supertux/menu/contrib_menu.cpp:90
+#: src/supertux/menu/contrib_menu.cpp:121
 msgid "*NEW*"
 msgstr "*ÚJ*"
 
@@ -738,6 +751,10 @@ msgstr "Világtérkép befejezése"
 msgid "Reset WorldMap"
 msgstr "Világtérkép visszaállítása"
 
+#: src/supertux/menu/worldmap_cheat_menu.cpp:44
+msgid "Move to main spawnpoint"
+msgstr "Ugrás a fő spawn-pontra"
+
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
 msgstr "Szünet"
@@ -782,20 +799,20 @@ msgstr "Rosszfiúk"
 msgid "Time"
 msgstr "Idő"
 
-#: src/supertux/title_screen.cpp:65
+#: src/supertux/title_screen.cpp:59
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/supertux/title_screen.cpp:66
+#: src/supertux/title_screen.cpp:60
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file LICENSE for details.\n"
-msgstr "A játék abszolút nem tartalmaz semmilyen jótállást. A játék ingyenes, te is terjesztheted bizonyos\nfeltételek mellett. Lásd a LICENSE fájlt a részletekért.\n"
+"redistribute it under certain conditions; see the license file for details.\n"
+msgstr "A játék abszolút nem tartalmaz semmilyen jótállást. A játék ingyenes, te is terjesztheted bizonyos\nfeltételek mellett. Lásd a license fájlt a részletekért.\n"
 
 #: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"
 msgstr "Találtál egy titkos helyet!"
 
-#: src/worldmap/worldmap.cpp:338
+#: src/worldmap/worldmap.cpp:339
 msgid "<no title>"
 msgstr "<nincs cím>"

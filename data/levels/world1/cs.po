@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Hume2 <teratux.mail@gmail.com>, 2016
-# Jiří Paleček <nrrstttpt@gmail.com>, 2015
+# Jiří Paleček <nrrstttpt@gmail.com>, 2015-2016
 # Jiří Paleček <nrrstttpt@gmail.com>, 2013-2015
 # fri, 2013
 # Hume2 <teratux.mail@gmail.com>, 2013-2015
@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-01-23 18:33+0000\n"
-"Last-Translator: Hume2 <teratux.mail@gmail.com>\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-11 20:54+0000\n"
+"Last-Translator: Jiří Paleček <nrrstttpt@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -190,8 +190,8 @@ msgid ""
 "!images/objects/switch/left-0.png\n"
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
-"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
-msgstr "-Páčky\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Páčky se dají použít k lecčemu. K použití páčky stiskněte klávesu nahoru.  Tato páčka zapne výtah napravo."
+"#Switches can be used to do all manner of things. Press the UP key to use switches.  This one activates the lift to your right."
+msgstr "-Páčky\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Páčky mohou dělat různé věci. Stiskni klávesu NAHORU, abys je použil. Tato páčka aktivuje výtah napravo."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""

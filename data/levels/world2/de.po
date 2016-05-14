@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-13 00:26+0000\n"
 "Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
 "Language-Team: German (http://www.transifex.com/arctic-games/supertux/language/de/)\n"
@@ -195,20 +195,6 @@ msgstr "Schlüssel 4 Feuer – in einer kleinen Burg verstecken"
 msgid "key 5 air - to be placed in clouds "
 msgstr "Schlüssel 5 Luft – in den Wolken verstecken"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Wurzeln, hölzerne Wurzeln"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Tipp:\n#Wenn du keinen Weg\n#zu einer Tür siehst,\n#kommst du vielleicht\n#später aus dieser\n#Tür heraus..."
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Grüne Hügel"
@@ -224,6 +210,20 @@ msgstr "Licht und Magie"
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
 msgstr "Rache der Eulen"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Wurzeln, hölzerne Wurzeln"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-Tipp:\n#Wenn du keinen Weg\n#zu einer Tür siehst,\n#kommst du vielleicht\n#später aus dieser\n#Tür heraus..."
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

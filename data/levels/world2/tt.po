@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-13 17:40+0000\n"
 "Last-Translator: Булат Ибраһим <bulat_ibrahim@mail.ru>\n"
 "Language-Team: Tatar (http://www.transifex.com/arctic-games/supertux/language/tt/)\n"
@@ -189,20 +189,6 @@ msgstr "ачкыч 4 ут - кечкенә кальгада урнашу өче�
 msgid "key 5 air - to be placed in clouds "
 msgstr "ачкыч 5 һава - болытларда урнашу өчен"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Тамырлар, Агач тамырлары"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Киңәш:\n#Әгәр дә алда ишеккә\n#алып баручы юл юк икән,\n#исегездә тотыгыз, сезгә\n#бу ишектән чыгарга кирәк\n#булуы мөмкин..."
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Яшел калкулыклар"
@@ -218,6 +204,20 @@ msgstr "Яктылык һәм Тылсым"
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
 msgstr "Ябалаклар үче"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Тамырлар, Агач тамырлары"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-Киңәш:\n#Әгәр дә алда ишеккә\n#алып баручы юл юк икән,\n#исегездә тотыгыз, сезгә\n#бу ишектән чыгарга кирәк\n#булуы мөмкин..."
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

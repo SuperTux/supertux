@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-02-07 10:12+0000\n"
 "Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -109,7 +109,7 @@ msgstr "Hyvä alku"
 msgid "Too easy"
 msgstr "Liian helppoa"
 
-#: data/levels/bonus1/torfi-level2.stl:42
+#: data/levels/bonus1/torfi-level2.stl:43
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
 msgstr "#Hume2 käänsi kaikki nämä kentät Milestone 2-julkaisulle sopivaksi."
 

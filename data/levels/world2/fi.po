@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-02-07 09:33+0000\n"
 "Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -190,20 +190,6 @@ msgstr "avain 4 tuli - olkoon pienessä linnassa"
 msgid "key 5 air - to be placed in clouds "
 msgstr "avain 5 ilma - olkoon pilvissä"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Juuret, puiset juuret"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Vihje:\n#Jos et keksi mitään reittiä\n#ovelle, muista että se saattaa\n#olla uloskäynti..."
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Vihreät kukkulat"
@@ -219,6 +205,20 @@ msgstr "Valon taikaa"
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
 msgstr "Pöllöjen paluu"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Juuret, puiset juuret"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-Vihje:\n#Jos et keksi mitään reittiä\n#ovelle, muista että se saattaa\n#olla uloskäynti..."
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

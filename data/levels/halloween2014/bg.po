@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 22:38+0200\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2015-11-20 22:13+0000\n"
 "Last-Translator: Любомир Василев\n"
 "Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
@@ -18,34 +18,34 @@ msgstr ""
 "Language: bg\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/halloween2014/levels/halloween2014/halloween1.stl:3
+#: data/levels/halloween2014/halloween1.stl:3
 msgid "Darkness Prevails"
 msgstr "Тъмнината взема надмощие"
 
-#: src/halloween2014/levels/halloween2014/halloween2.stl:3
+#: data/levels/halloween2014/halloween2.stl:3
 msgid "The Fog is Clearing Up"
 msgstr "Мъглата се прояснява"
 
-#: src/halloween2014/levels/halloween2014/halloween3.stl:3
+#: data/levels/halloween2014/halloween3.stl:3
 msgid "Graveyard Shift"
 msgstr "Разбъркване на гробището"
 
-#: src/halloween2014/levels/halloween2014/intro.stl:3
+#: data/levels/halloween2014/intro.stl:3
 msgid "The Abandoned House"
 msgstr "Изоставената къща"
 
-#: src/halloween2014/levels/halloween2014/mound.stl:3
+#: data/levels/halloween2014/mound.stl:3
 msgid "Mound of the Dead"
 msgstr "Могилата на мъртъвците"
 
-#: src/halloween2014/levels/halloween2014/outro.stl:3
+#: data/levels/halloween2014/outro.stl:3
 msgid "Halloween Party?"
 msgstr "Купон за Хелоуин?"
 
-#: src/halloween2014/levels/halloween2014/pools.stl:3
+#: data/levels/halloween2014/pools.stl:3
 msgid "Putrid Pools"
 msgstr "Езера на разложение"
 
-#: src/halloween2014/levels/halloween2014/worldmap.stwm:3
+#: data/levels/halloween2014/worldmap.stwm:3
 msgid "Halloween 2014"
 msgstr "Хелоуин 2014"

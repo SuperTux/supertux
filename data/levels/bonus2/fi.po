@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-02-07 10:11+0000\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-02 14:37+0000\n"
 "Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "Onnittelut!\n\n#Olet läpäissyt\n#toisen Lisäsaaren\n\n\n\tKentät tek
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Mario luuli selviävänsä tästä..."
+msgstr "Tämä oli Marion hommia..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"

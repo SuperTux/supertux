@@ -5,15 +5,16 @@
 # Translators:
 # D. J. S. <djsossz@freemail.hu>, 2012
 # Norbert Molnár <buzitetu@indamail.hu>, 2013
+# Haba Tamás <habatamas0@gmail.com>, 2016
 #  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
 # Tibor Buzási, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-01-12 08:35+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-04 14:59+0000\n"
+"Last-Translator: Haba Tamás <habatamas0@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +51,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-Gratulálunk!\n\n#Sikeresen végigjátszottad a\n#Bónusz Sziget II-t\n\n\n\ta pályák készítésében közreműködtek:\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Ismételten szeretnénk köszönetet mondani\n#mindenkinek, aki közreműködött ebben\n#a kiadásban. Reméljük, tetszett\n#neked, és segített egy kicsit a\n#3. Mérföldkőre való várakozásban. :-)\n\n\n A jégkorszak vége közeleg..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."

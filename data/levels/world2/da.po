@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-13 00:27+0000\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/arctic-games/supertux/language/da/)\n"
@@ -189,20 +189,6 @@ msgstr "nøgle 4 ild - skal placeres i en lille borg"
 msgid "key 5 air - to be placed in clouds "
 msgstr "nøgle 5 luft - skal placeres i skyerne"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Trærødder"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "- Tip:\n#Hvis du ikke kan nå\n#en dør, er det måske\n#meningen, at du skal\n#komme ud af den \n#senere ..."
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Grønne bakker"
@@ -218,6 +204,20 @@ msgstr "Lys og magi"
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
 msgstr "Uglens hævn"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Trærødder"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "- Tip:\n#Hvis du ikke kan nå\n#en dør, er det måske\n#meningen, at du skal\n#komme ud af den \n#senere ..."
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

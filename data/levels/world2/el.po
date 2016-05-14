@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-04-26 15:11+0000\n"
 "Last-Translator: Vangelis Skarmoutsos <skarmoutsosv@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/arctic-games/supertux/language/el/)\n"
@@ -190,20 +190,6 @@ msgstr "πλήκτρο 4 - τοποθέτηση σε ένα μικρό κάστ�
 msgid "key 5 air - to be placed in clouds "
 msgstr "πλήκτρο 5 αέρας - τοποθέτηση σε σύννεφα"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Ρίζες, Ξυλώδεις Ρίζες"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Στοιχείο:\n#Αν φαίνεται ότι δεν\n#υπάρχει δρόμος για να φτάσεις\n#μια πόρτα, θυμήσου ότι μπορεί\n#να υποτίθεται ότι θα βγεις από\n#αυτή την πόρτα..."
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Πράσινοι Λόφοι"
@@ -219,6 +205,20 @@ msgstr "Φως και Μαγεία"
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
 msgstr "Η Εκδίκηση των Κουκουβάγιων"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Ρίζες, Ξυλώδεις Ρίζες"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-Στοιχείο:\n#Αν φαίνεται ότι δεν\n#υπάρχει δρόμος για να φτάσεις\n#μια πόρτα, θυμήσου ότι μπορεί\n#να υποτίθεται ότι θα βγεις από\n#αυτή την πόρτα..."
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

@@ -7,6 +7,7 @@
 # D. J. S. <djsossz@freemail.hu>, 2012
 # Norbert Molnár <buzitetu@indamail.hu>, 2013
 # gyeben <gyonkibendeguz@gmail.com>, 2014
+# Haba Tamás <habatamas0@gmail.com>, 2016
 #  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
 # Kristóf Kófiás <kristof.kofias@gmail.com>, 2014
 # Norbert Molnár <buzitetu@indamail.hu>, 2014
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-01-12 08:34+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-05 14:55+0000\n"
+"Last-Translator: Haba Tamás <habatamas0@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +85,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr ""
+msgstr "-Jaj ne!\n#Az utat eltorlaszolták!\n#Úgy néz ki, hogy csak\n#azon az sötét lyukon\n#keresztül lehet átjutni..."
 
 #: data/levels/world2/Rabbit_Hole.stl:55
 msgid "-Are you lost?"
@@ -117,7 +118,7 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr ""
+msgstr "-Hordozható kövek:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/Two_Towers.stl:3
 msgid "Two Tiny Towers"
@@ -196,20 +197,6 @@ msgstr "4. kulcs: tűz – egy kis várba helyezni"
 msgid "key 5 air - to be placed in clouds "
 msgstr "5. kulcs: levegő – felhőkbe helyezni"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Gyökerek, fás gyökerek"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr ""
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Zöldellő dombok"
@@ -226,9 +213,23 @@ msgstr "Fény és varázslat"
 msgid "Owls' Revenge"
 msgstr "A baglyok bosszúja"
 
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Gyökerek, fás gyökerek"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-Tipp:\n#Ha úgy tűnik, egy ajtót\n#sehogy sem lehet elérni,\n#akkor lehet, hogy ott\n#kellene kijönnöd..."
+
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"
-msgstr ""
+msgstr "---Tegyél átvezető jelenetet ide---"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"

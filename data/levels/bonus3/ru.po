@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-17 11:47+0000\n"
 "Last-Translator: Dmitry Anikonov <starwars32@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/arctic-games/supertux/language/ru/)\n"
@@ -175,7 +175,7 @@ msgid ""
 "#Press the up key to flush! "
 msgstr "- Смыв:\n#Нажми ВВЕРХ чтобы смыть!"
 
-#: data/levels/bonus3/niv-3.stl:239
+#: data/levels/bonus3/niv-3.stl:216
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "

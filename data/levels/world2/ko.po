@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-04-07 04:20+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
@@ -189,20 +189,6 @@ msgstr "열쇠 4 불 - 작은 성에 놓여 있음"
 msgid "key 5 air - to be placed in clouds "
 msgstr "열쇠 5 공기 - 구름에 놓여 있음"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "뿌리, 우거진 뿌리"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-힌트:\n#문에 다다를 수 있는\n#방법이 없을 것 같으면,\n#문 밖으로 나와야 할 수도\n#있음을 기억해..."
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "청구"
@@ -218,6 +204,20 @@ msgstr "빛과 마법"
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
 msgstr "올빼미들의 복수"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "뿌리, 우거진 뿌리"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-힌트:\n#문에 다다를 수 있는\n#방법이 없을 것 같으면,\n#문 밖으로 나와야 할 수도\n#있음을 기억해..."
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

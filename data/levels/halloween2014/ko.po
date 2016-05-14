@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 22:38+0200\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-03-28 08:49+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
@@ -18,34 +18,34 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/halloween2014/levels/halloween2014/halloween1.stl:3
+#: data/levels/halloween2014/halloween1.stl:3
 msgid "Darkness Prevails"
 msgstr ""
 
-#: src/halloween2014/levels/halloween2014/halloween2.stl:3
+#: data/levels/halloween2014/halloween2.stl:3
 msgid "The Fog is Clearing Up"
 msgstr "안개가 걷히다"
 
-#: src/halloween2014/levels/halloween2014/halloween3.stl:3
+#: data/levels/halloween2014/halloween3.stl:3
 msgid "Graveyard Shift"
 msgstr "묘지 움직임"
 
-#: src/halloween2014/levels/halloween2014/intro.stl:3
+#: data/levels/halloween2014/intro.stl:3
 msgid "The Abandoned House"
 msgstr "버려진 집"
 
-#: src/halloween2014/levels/halloween2014/mound.stl:3
+#: data/levels/halloween2014/mound.stl:3
 msgid "Mound of the Dead"
 msgstr "죽음의 고분"
 
-#: src/halloween2014/levels/halloween2014/outro.stl:3
+#: data/levels/halloween2014/outro.stl:3
 msgid "Halloween Party?"
 msgstr "할로윈 파티?"
 
-#: src/halloween2014/levels/halloween2014/pools.stl:3
+#: data/levels/halloween2014/pools.stl:3
 msgid "Putrid Pools"
 msgstr "부패한 웅덩이"
 
-#: src/halloween2014/levels/halloween2014/worldmap.stwm:3
+#: data/levels/halloween2014/worldmap.stwm:3
 msgid "Halloween 2014"
 msgstr "2014년 할로윈"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-13 00:27+0000\n"
 "Last-Translator: MiroslavR <miroslavr256@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/arctic-games/supertux/language/sk/)\n"
@@ -191,20 +191,6 @@ msgstr "kľúč 4 ohnivý - má sa umiestniť do malého hradu"
 msgid "key 5 air - to be placed in clouds "
 msgstr "kľúč 5 vzdušný - má sa umiestniť do oblakov"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Korene, drevnaté korene"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Rada:\n#Ak sa vám zdá, že dostať sa\n#k nejakým dverám je nemožné,\n#myslite aj na možnosť, že z tých\n#dverí máte vyjsť..."
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Zelené kopce"
@@ -220,6 +206,20 @@ msgstr "Svetlo a mágia"
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
 msgstr "Pomsta sov"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Korene, drevnaté korene"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-Rada:\n#Ak sa vám zdá, že dostať sa\n#k nejakým dverám je nemožné,\n#myslite aj na možnosť, že z tých\n#dverí máte vyjsť..."
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

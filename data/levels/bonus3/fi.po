@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-02-07 10:13+0000\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-02 14:37+0000\n"
 "Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +73,7 @@ msgstr "Kylmä luola"
 msgid ""
 "#Good job! You kept the red lantern! You didn't need to though, but just "
 "because you did, have 100 coins!"
-msgstr "#Hyvää työtä! Pidit punaisen lyhdyn! Sinun ei tarvinnut tosin, mutta koska pidit, saat 100 kolikkoa!"
+msgstr "#Hyvää työtä! Pidit punaisen lyhdyn! Sinun ei kyllä tarvinnut, mutta koska pidit, saat 100 kolikkoa!"
 
 #: data/levels/bonus3/coconut_fortress.stl:3
 msgid "Coconut Fortress"
@@ -174,7 +174,7 @@ msgid ""
 "#Press the up key to flush! "
 msgstr "-Huuhdo:\n#Paina YLÖS-nuolta huuhtoaksesi!"
 
-#: data/levels/bonus3/niv-3.stl:239
+#: data/levels/bonus3/niv-3.stl:216
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "

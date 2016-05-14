@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Gwenn M <tornoz@laposte.net>, 2015
+# Gwenn M <tornoz@laposte.net>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-01-06 09:09+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-14 13:23+0000\n"
+"Last-Translator: Gwenn M <tornoz@laposte.net>\n"
 "Language-Team: Breton (http://www.transifex.com/arctic-games/supertux/language/br/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,164 +22,172 @@ msgstr ""
 msgid "Joystick Mappings"
 msgstr "Reolerezh an dornell"
 
-#: src/supertux/command_line_arguments.cpp:76
+#: src/supertux/command_line_arguments.cpp:77
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
 msgstr "Arver : %s [DIBARZHIOÙ] [RESTR LIVE]"
 
-#: src/supertux/command_line_arguments.cpp:77
+#: src/supertux/command_line_arguments.cpp:78
 msgid "General Options:"
 msgstr "Dibarzhioù hollek :"
 
-#: src/supertux/command_line_arguments.cpp:78
+#: src/supertux/command_line_arguments.cpp:79
 msgid "  -h, --help                   Show this help message and quit"
 msgstr "-h, --help Skrammañ ar gemennadenn skoazell-mañ ha kuitaat"
 
-#: src/supertux/command_line_arguments.cpp:79
+#: src/supertux/command_line_arguments.cpp:80
 msgid "  -v, --version                Show SuperTux version and quit"
 msgstr "-v, --version Skrammañ handelv SuperTux ha kuitaat"
 
-#: src/supertux/command_line_arguments.cpp:80
+#: src/supertux/command_line_arguments.cpp:81
 msgid "  --verbose                    Print verbose messages"
 msgstr "--verbose Moullañ kemennadennoù munutaet"
 
-#: src/supertux/command_line_arguments.cpp:81
+#: src/supertux/command_line_arguments.cpp:82
 msgid "  --debug                      Print extra verbose messages"
 msgstr "--debug Moullañ kemennadennoù munutaet ouzhpenn"
 
-#: src/supertux/command_line_arguments.cpp:82
+#: src/supertux/command_line_arguments.cpp:83
 msgid ""
 "  --print-datadir              Print supertux's primary data directory."
 msgstr "--print-datadir Moullañ kavlec'h roadennoù pennañ Supertux."
 
-#: src/supertux/command_line_arguments.cpp:83
+#: src/supertux/command_line_arguments.cpp:84
 msgid "Video Options:"
 msgstr "Dibarzhioù video :"
 
-#: src/supertux/command_line_arguments.cpp:84
+#: src/supertux/command_line_arguments.cpp:85
 msgid "  -f, --fullscreen             Run in fullscreen mode"
 msgstr "-f, --fullscreen Lañsañ er skramm a-bezh"
 
-#: src/supertux/command_line_arguments.cpp:85
+#: src/supertux/command_line_arguments.cpp:86
 msgid "  -w, --window                 Run in window mode"
 msgstr "-w, --window Lañsañ e mod prenestr"
 
-#: src/supertux/command_line_arguments.cpp:86
+#: src/supertux/command_line_arguments.cpp:87
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
 msgstr "-g, --geometry LEDANDERxUHELDER Lañsañ SuperTux en diarunusted roet"
 
-#: src/supertux/command_line_arguments.cpp:87
+#: src/supertux/command_line_arguments.cpp:88
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
 msgstr "-a, --aspect LEDANDERxUHELDER Lañsañ SuperTux gant ar c'henfeur neuz roet"
 
-#: src/supertux/command_line_arguments.cpp:88
+#: src/supertux/command_line_arguments.cpp:89
 msgid "  -d, --default                Reset video settings to default values"
 msgstr "-d, --default : Adderaouekaat an arventennoù video d'an talvoudoù dre ziouer"
 
-#: src/supertux/command_line_arguments.cpp:89
+#: src/supertux/command_line_arguments.cpp:90
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
 msgstr "--renderer DEOUEZIER Ober gant sdl, opengl pe dibab ent emgefreek"
 
-#: src/supertux/command_line_arguments.cpp:90
+#: src/supertux/command_line_arguments.cpp:91
 msgid "Audio Options:"
 msgstr "Dibarzhioù Aodio :"
 
-#: src/supertux/command_line_arguments.cpp:91
+#: src/supertux/command_line_arguments.cpp:92
 msgid "  --disable-sound              Disable sound effects"
 msgstr "--disable-sound Diweredekaat an efedoù son"
 
-#: src/supertux/command_line_arguments.cpp:92
+#: src/supertux/command_line_arguments.cpp:93
 msgid "  --disable-music              Disable music"
 msgstr "--disable-music Diweredekaat ar sonerezh"
 
-#: src/supertux/command_line_arguments.cpp:93
+#: src/supertux/command_line_arguments.cpp:94
 msgid "Game Options:"
 msgstr "Dibarzhioù ar c'hoari :"
 
-#: src/supertux/command_line_arguments.cpp:94
+#: src/supertux/command_line_arguments.cpp:95
 msgid "  --show-fps                   Display framerate in levels"
 msgstr "--show-fps Skrammañ ar feur skeudennoù er c'hoari"
 
-#: src/supertux/command_line_arguments.cpp:95
+#: src/supertux/command_line_arguments.cpp:96
 msgid "  --no-show-fps                Do not display framerate in levels"
 msgstr "--no-show-fps Na skrammañ ar feur skeudennoù er c'hoari"
 
-#: src/supertux/command_line_arguments.cpp:96
+#: src/supertux/command_line_arguments.cpp:97
+msgid "  --show-pos                   Display player's current position"
+msgstr "  --show-pos                   Skrammañ lec'hiadur bremanel ar c'hoarier"
+
+#: src/supertux/command_line_arguments.cpp:98
+msgid "  --no-show-pos                Do not display player's position"
+msgstr "  --no-show-pos                Na skrammañ lec'hiadur ar c'hoarier"
+
+#: src/supertux/command_line_arguments.cpp:99
 msgid "  --developer                  Switch on developer feature"
 msgstr "--developer Gweredekaat ar c'heweriusterioù diorroer"
 
-#: src/supertux/command_line_arguments.cpp:97
+#: src/supertux/command_line_arguments.cpp:100
 msgid "  -s, --debug-scripts          Enable script debugger."
 msgstr "-s, --debug-scripts Gweredekaat an diveuger skriptoù."
 
-#: src/supertux/command_line_arguments.cpp:98
+#: src/supertux/command_line_arguments.cpp:101
 msgid ""
 "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
 " level is specified."
 msgstr ""
 
-#: src/supertux/command_line_arguments.cpp:99
+#: src/supertux/command_line_arguments.cpp:102
 msgid "Demo Recording Options:"
 msgstr "Dibarzhioù an enrolladennoù c'hoariadennoù :"
 
-#: src/supertux/command_line_arguments.cpp:100
+#: src/supertux/command_line_arguments.cpp:103
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
 msgstr "--record-demo RESTR LIVE Enrollañ ur c'hoariadenn e RESTR"
 
-#: src/supertux/command_line_arguments.cpp:101
+#: src/supertux/command_line_arguments.cpp:104
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
 msgstr "--play-demo RESTR LIVE Lenn ur c'hoariadenn bet enrollet"
 
-#: src/supertux/command_line_arguments.cpp:102
+#: src/supertux/command_line_arguments.cpp:105
 msgid "Directory Options:"
 msgstr "Dibarzhioù ar c'havlec'h :"
 
-#: src/supertux/command_line_arguments.cpp:103
+#: src/supertux/command_line_arguments.cpp:106
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
 msgstr "--datadir KAVLEC'H Arventennañ ar c'havlec'h evit restroù roadennoù ar c'hoari"
 
-#: src/supertux/command_line_arguments.cpp:104
+#: src/supertux/command_line_arguments.cpp:107
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
 msgstr "--usedir KAVLEC'H Arventennañ ar c'havlec'h evit roadennoù an arveriad (enrolladennoù, hag all.)"
 
-#: src/supertux/command_line_arguments.cpp:105
+#: src/supertux/command_line_arguments.cpp:108
 msgid "Environment variables:"
 msgstr "Argemennoù an endro :"
 
-#: src/supertux/command_line_arguments.cpp:106
+#: src/supertux/command_line_arguments.cpp:109
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
 msgstr " SUPERTUX2_USER_DIR Kavlec'h evit ar roadennoù arveriad (enrolladennoù, hag all.)"
 
-#: src/supertux/command_line_arguments.cpp:107
+#: src/supertux/command_line_arguments.cpp:110
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "SUPERTUX2_DATA_DIR Kavlec'h evit restroù ar c'hoari"
 
-#: src/supertux/levelintro.cpp:112
+#: src/supertux/levelintro.cpp:127
 #, c-format
 msgid "contributed by %s"
 msgstr "kinniget gant %s"
 
-#: src/supertux/levelintro.cpp:127 src/supertux/statistics.cpp:119
+#: src/supertux/levelintro.cpp:148 src/supertux/statistics.cpp:119
 msgid "Best Level Statistics"
 msgstr "Stadegoù gwellañ al live"
 
-#: src/supertux/levelintro.cpp:133 src/supertux/statistics.cpp:207
+#: src/supertux/levelintro.cpp:152 src/supertux/statistics.cpp:207
 msgid "Coins"
 msgstr "Pezhioù"
 
-#: src/supertux/levelintro.cpp:140
+#: src/supertux/levelintro.cpp:154
 msgid "Badguys killed"
 msgstr "Enebourien lazhet"
 
-#: src/supertux/levelintro.cpp:147 src/supertux/statistics.cpp:223
+#: src/supertux/levelintro.cpp:156 src/supertux/statistics.cpp:223
 msgid "Secrets"
 msgstr "Sekredoù"
 
-#: src/supertux/levelintro.cpp:154
+#: src/supertux/levelintro.cpp:158
 msgid "Best time"
 msgstr "Amzer gwellañ"
 
@@ -266,16 +274,16 @@ msgstr "Klask enlinenn (diweredekaet)"
 msgid "Check Online"
 msgstr "Klask enlinenn"
 
-#: src/supertux/menu/addon_menu.cpp:265 src/supertux/menu/cheat_menu.cpp:41
+#: src/supertux/menu/addon_menu.cpp:265 src/supertux/menu/cheat_menu.cpp:43
 #: src/supertux/menu/contrib_levelset_menu.cpp:69
-#: src/supertux/menu/contrib_menu.cpp:141
+#: src/supertux/menu/contrib_menu.cpp:143
 #: src/supertux/menu/joystick_menu.cpp:98
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/language_menu.cpp:52
 #: src/supertux/menu/options_menu.cpp:238
 #: src/supertux/menu/profile_menu.cpp:47
 #: src/supertux/menu/world_set_menu.cpp:44
-#: src/supertux/menu/worldmap_cheat_menu.cpp:44
+#: src/supertux/menu/worldmap_cheat_menu.cpp:46
 msgid "Back"
 msgstr "Distreiñ"
 
@@ -298,60 +306,64 @@ msgstr "Adloc'hit SuperTux\nevit ma vefe kadarnaet ar c'hemmadennoù."
 msgid "OK"
 msgstr "OK"
 
-#: src/supertux/menu/cheat_menu.cpp:29
+#: src/supertux/menu/cheat_menu.cpp:30
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
 msgid "Cheats"
 msgstr "Trucherezh"
 
-#: src/supertux/menu/cheat_menu.cpp:31
+#: src/supertux/menu/cheat_menu.cpp:32
 #: src/supertux/menu/worldmap_cheat_menu.cpp:31
 msgid "Bonus: Grow"
 msgstr "Gwelladenn : Kresk"
 
-#: src/supertux/menu/cheat_menu.cpp:32
+#: src/supertux/menu/cheat_menu.cpp:33
 #: src/supertux/menu/worldmap_cheat_menu.cpp:32
 msgid "Bonus: Fire"
 msgstr "Gwelladenn : Tan"
 
-#: src/supertux/menu/cheat_menu.cpp:33
+#: src/supertux/menu/cheat_menu.cpp:34
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 msgid "Bonus: Ice"
 msgstr "Gwelladenn : Skorn"
 
-#: src/supertux/menu/cheat_menu.cpp:34
+#: src/supertux/menu/cheat_menu.cpp:35
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 msgid "Bonus: Air"
 msgstr "Gwelladenn : Aer"
 
-#: src/supertux/menu/cheat_menu.cpp:35
+#: src/supertux/menu/cheat_menu.cpp:36
 #: src/supertux/menu/worldmap_cheat_menu.cpp:35
 msgid "Bonus: Earth"
 msgstr "Gwelladenn : Douar"
 
-#: src/supertux/menu/cheat_menu.cpp:36
+#: src/supertux/menu/cheat_menu.cpp:37
 msgid "Bonus: Star"
 msgstr "Gwelladenn : Steredenn"
 
-#: src/supertux/menu/cheat_menu.cpp:37
+#: src/supertux/menu/cheat_menu.cpp:38
 msgid "Shrink Tux"
 msgstr "Bihanaat Tux"
 
-#: src/supertux/menu/cheat_menu.cpp:38
+#: src/supertux/menu/cheat_menu.cpp:39
 msgid "Kill Tux"
 msgstr "Lazhañ Tux"
 
-#: src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/cheat_menu.cpp:40
 #: src/supertux/menu/worldmap_cheat_menu.cpp:38
 msgid "Finish Level"
 msgstr "Echuiñ al live"
 
-#: src/supertux/menu/contrib_menu.cpp:51
+#: src/supertux/menu/cheat_menu.cpp:41
+msgid "Activate Ghost Mode"
+msgstr ""
+
+#: src/supertux/menu/contrib_menu.cpp:53
 #: src/supertux/menu/world_set_menu.cpp:42
 msgid "Contrib Levels"
 msgstr "Liveoù ouzhpenn"
 
-#: src/supertux/menu/contrib_menu.cpp:88
-#: src/supertux/menu/contrib_menu.cpp:119
+#: src/supertux/menu/contrib_menu.cpp:90
+#: src/supertux/menu/contrib_menu.cpp:121
 msgid "*NEW*"
 msgstr "*NEVEZ*"
 
@@ -729,6 +741,10 @@ msgstr "Echuiñ kartenn ar bed"
 msgid "Reset WorldMap"
 msgstr "Adloc'hañ kartenn ar bed"
 
+#: src/supertux/menu/worldmap_cheat_menu.cpp:44
+msgid "Move to main spawnpoint"
+msgstr ""
+
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
 msgstr "Ehan"
@@ -773,20 +789,20 @@ msgstr "Enebourien"
 msgid "Time"
 msgstr "Amzer"
 
-#: src/supertux/title_screen.cpp:65
+#: src/supertux/title_screen.cpp:59
 msgid "Copyright"
 msgstr "Copyright"
 
-#: src/supertux/title_screen.cpp:66
+#: src/supertux/title_screen.cpp:60
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file LICENSE for details.\n"
-msgstr "HEP GWARANT EBET eo dasparzhet ar c'hoari-mañ. Ur meziant dieub eo, ha gallout a rit\naddasparzhañ anezhañ dindan diferadennoù; lennit ar restr LICENSE evit kaout munudoù\n"
+"redistribute it under certain conditions; see the license file for details.\n"
+msgstr ""
 
 #: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"
 msgstr "Kavet ho peus ul lec'h kuzh"
 
-#: src/worldmap/worldmap.cpp:338
+#: src/worldmap/worldmap.cpp:339
 msgid "<no title>"
 msgstr "<titl ebet>"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-13 00:30+0000\n"
 "Last-Translator: sebras <sebras@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/arctic-games/supertux/language/sv/)\n"
@@ -191,20 +191,6 @@ msgstr "nyckel 4 eld - ska placeras i ett litet slott"
 msgid "key 5 air - to be placed in clouds "
 msgstr "nyckel 5 luft - ska placeras i molnen"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Rötter, träaktiga rötter"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Tips:\n#Om det inte verkar finnas\n#något sätt att nå en dörr,\n#kom ihåg att det kanske inte\n#är meningen att du ska komma\n#ut genom den dörren…"
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Gröna kullar"
@@ -220,6 +206,20 @@ msgstr "Ljus och magi"
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
 msgstr "Ugglans hämnd"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Rötter, träaktiga rötter"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-Tips:\n#Om det inte verkar finnas\n#något sätt att nå en dörr,\n#kom ihåg att det kanske inte\n#är meningen att du ska komma\n#ut genom den dörren…"
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

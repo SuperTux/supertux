@@ -5,12 +5,13 @@
 # Translators:
 # Любомир Василев, 2015-2016
 # Tony Ivanov <antonivanov8@gmail.com>, 2014
+# Любомир Василев, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-01-06 21:19+0000\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-09 10:23+0000\n"
 "Last-Translator: Любомир Василев\n"
 "Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -23,164 +24,172 @@ msgstr ""
 msgid "Joystick Mappings"
 msgstr "Бутони на контролера"
 
-#: src/supertux/command_line_arguments.cpp:76
+#: src/supertux/command_line_arguments.cpp:77
 #, c-format
 msgid "Usage: %s [OPTIONS] [LEVELFILE]"
 msgstr "Употреба: %s [ОПЦИИ] [ФАЙЛ НА НИВОТО]"
 
-#: src/supertux/command_line_arguments.cpp:77
+#: src/supertux/command_line_arguments.cpp:78
 msgid "General Options:"
 msgstr "Общи опции:"
 
-#: src/supertux/command_line_arguments.cpp:78
+#: src/supertux/command_line_arguments.cpp:79
 msgid "  -h, --help                   Show this help message and quit"
 msgstr "  -h, --help                   Показва това помощно съобщение"
 
-#: src/supertux/command_line_arguments.cpp:79
+#: src/supertux/command_line_arguments.cpp:80
 msgid "  -v, --version                Show SuperTux version and quit"
 msgstr "  -v, --version                Показва версията на Супер Тъкс"
 
-#: src/supertux/command_line_arguments.cpp:80
+#: src/supertux/command_line_arguments.cpp:81
 msgid "  --verbose                    Print verbose messages"
 msgstr "  --verbose                    Извежда повече съобщения за работата"
 
-#: src/supertux/command_line_arguments.cpp:81
+#: src/supertux/command_line_arguments.cpp:82
 msgid "  --debug                      Print extra verbose messages"
 msgstr "  --debug                      Извежда още повече съобщения за работата"
 
-#: src/supertux/command_line_arguments.cpp:82
+#: src/supertux/command_line_arguments.cpp:83
 msgid ""
 "  --print-datadir              Print supertux's primary data directory."
 msgstr "  --print-datadir              Извежда основната папка с данни на Супер Тъкс."
 
-#: src/supertux/command_line_arguments.cpp:83
+#: src/supertux/command_line_arguments.cpp:84
 msgid "Video Options:"
 msgstr "Видео настройки:"
 
-#: src/supertux/command_line_arguments.cpp:84
+#: src/supertux/command_line_arguments.cpp:85
 msgid "  -f, --fullscreen             Run in fullscreen mode"
 msgstr "  -f, --fullscreen             Пускане на цял екран"
 
-#: src/supertux/command_line_arguments.cpp:85
+#: src/supertux/command_line_arguments.cpp:86
 msgid "  -w, --window                 Run in window mode"
 msgstr "  -w, --window                 Пускане в прозорец"
 
-#: src/supertux/command_line_arguments.cpp:86
+#: src/supertux/command_line_arguments.cpp:87
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
 msgstr "  -g, --geometry ШИРИНАxВИСОЧИНА  Пускане на Супер Тъкс в посочената разделителна способност"
 
-#: src/supertux/command_line_arguments.cpp:87
+#: src/supertux/command_line_arguments.cpp:88
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
 msgstr "  -a, --aspect ШИРИНА:ВИСОЧИНА    Пускане на Супер Тъкс с посоченото съотношение на страните"
 
-#: src/supertux/command_line_arguments.cpp:88
+#: src/supertux/command_line_arguments.cpp:89
 msgid "  -d, --default                Reset video settings to default values"
 msgstr "  -d, --default                Връща стандартните настройките на видеото"
 
-#: src/supertux/command_line_arguments.cpp:89
+#: src/supertux/command_line_arguments.cpp:90
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
 msgstr "  --renderer ИЗЧЕРТАВАНЕ          Използване на sdl, opengl или auto за изчертаване"
 
-#: src/supertux/command_line_arguments.cpp:90
+#: src/supertux/command_line_arguments.cpp:91
 msgid "Audio Options:"
 msgstr "Звукови настройки:"
 
-#: src/supertux/command_line_arguments.cpp:91
+#: src/supertux/command_line_arguments.cpp:92
 msgid "  --disable-sound              Disable sound effects"
 msgstr "  --disable-sound              Изключване на звуковите ефекти"
 
-#: src/supertux/command_line_arguments.cpp:92
+#: src/supertux/command_line_arguments.cpp:93
 msgid "  --disable-music              Disable music"
 msgstr "  --disable-music              Изключване на музиката"
 
-#: src/supertux/command_line_arguments.cpp:93
+#: src/supertux/command_line_arguments.cpp:94
 msgid "Game Options:"
 msgstr "Игрални настройки:"
 
-#: src/supertux/command_line_arguments.cpp:94
+#: src/supertux/command_line_arguments.cpp:95
 msgid "  --show-fps                   Display framerate in levels"
 msgstr "  --show-fps                   Показване на брояч за кадрите в секунда в нивата"
 
-#: src/supertux/command_line_arguments.cpp:95
+#: src/supertux/command_line_arguments.cpp:96
 msgid "  --no-show-fps                Do not display framerate in levels"
 msgstr "  --no-show-fps                Да не се показва брояч за кадрите в секунда в нивата"
 
-#: src/supertux/command_line_arguments.cpp:96
+#: src/supertux/command_line_arguments.cpp:97
+msgid "  --show-pos                   Display player's current position"
+msgstr "  --show-pos                   Показване на текущата позиция на играча"
+
+#: src/supertux/command_line_arguments.cpp:98
+msgid "  --no-show-pos                Do not display player's position"
+msgstr "  --no-show-pos                да не се показва текущата позиция на играча"
+
+#: src/supertux/command_line_arguments.cpp:99
 msgid "  --developer                  Switch on developer feature"
 msgstr "  --developer                  Включване на функциите за разработчици"
 
-#: src/supertux/command_line_arguments.cpp:97
+#: src/supertux/command_line_arguments.cpp:100
 msgid "  -s, --debug-scripts          Enable script debugger."
 msgstr "  -s, --debug-scripts          Включване на средствата за отстраняване на грешки в скриптовете."
 
-#: src/supertux/command_line_arguments.cpp:98
+#: src/supertux/command_line_arguments.cpp:101
 msgid ""
 "  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
 " level is specified."
 msgstr "  --spawn-pos X,Y              Къде в нивото да се появява Тъкс. Използва се, само ако е посочено и нивото."
 
-#: src/supertux/command_line_arguments.cpp:99
+#: src/supertux/command_line_arguments.cpp:102
 msgid "Demo Recording Options:"
 msgstr "Настройки за запис:"
 
-#: src/supertux/command_line_arguments.cpp:100
+#: src/supertux/command_line_arguments.cpp:103
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
 msgstr "  --record-demo ФАЙЛ НИВО     Запис във ФАЙЛ"
 
-#: src/supertux/command_line_arguments.cpp:101
+#: src/supertux/command_line_arguments.cpp:104
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
 msgstr "  --play-demo ФАЙЛ НИВО       Изпълнение на запис"
 
-#: src/supertux/command_line_arguments.cpp:102
+#: src/supertux/command_line_arguments.cpp:105
 msgid "Directory Options:"
 msgstr "Настройки на папките:"
 
-#: src/supertux/command_line_arguments.cpp:103
+#: src/supertux/command_line_arguments.cpp:106
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
 msgstr "  --datadir ПАПКА                Задаване на папката с файловете с данни на играта"
 
-#: src/supertux/command_line_arguments.cpp:104
+#: src/supertux/command_line_arguments.cpp:107
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
 msgstr "  --userdir ПАПКА                Задаване на папката за потребителските данни (запазени игри и т.н.)"
 
-#: src/supertux/command_line_arguments.cpp:105
+#: src/supertux/command_line_arguments.cpp:108
 msgid "Environment variables:"
 msgstr "Променливи на средата:"
 
-#: src/supertux/command_line_arguments.cpp:106
+#: src/supertux/command_line_arguments.cpp:109
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
 msgstr "  SUPERTUX2_USER_DIR           Папка за потребителски данни (запазени игри и т.н.)"
 
-#: src/supertux/command_line_arguments.cpp:107
+#: src/supertux/command_line_arguments.cpp:110
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "  SUPERTUX2_DATA_DIR            Папка с файловете с данни на играта"
 
-#: src/supertux/levelintro.cpp:112
+#: src/supertux/levelintro.cpp:127
 #, c-format
 msgid "contributed by %s"
 msgstr "предоставено от %s"
 
-#: src/supertux/levelintro.cpp:127 src/supertux/statistics.cpp:119
+#: src/supertux/levelintro.cpp:148 src/supertux/statistics.cpp:119
 msgid "Best Level Statistics"
 msgstr "Най-добри постижения за нивото"
 
-#: src/supertux/levelintro.cpp:133 src/supertux/statistics.cpp:207
+#: src/supertux/levelintro.cpp:152 src/supertux/statistics.cpp:207
 msgid "Coins"
 msgstr "Монети"
 
-#: src/supertux/levelintro.cpp:140
+#: src/supertux/levelintro.cpp:154
 msgid "Badguys killed"
 msgstr "Победени лоши"
 
-#: src/supertux/levelintro.cpp:147 src/supertux/statistics.cpp:223
+#: src/supertux/levelintro.cpp:156 src/supertux/statistics.cpp:223
 msgid "Secrets"
 msgstr "Тайни"
 
-#: src/supertux/levelintro.cpp:154
+#: src/supertux/levelintro.cpp:158
 msgid "Best time"
 msgstr "Най-добро време"
 
@@ -267,16 +276,16 @@ msgstr "Проверка в Интернет (изключено)"
 msgid "Check Online"
 msgstr "Проверка в Интернет"
 
-#: src/supertux/menu/addon_menu.cpp:265 src/supertux/menu/cheat_menu.cpp:41
+#: src/supertux/menu/addon_menu.cpp:265 src/supertux/menu/cheat_menu.cpp:43
 #: src/supertux/menu/contrib_levelset_menu.cpp:69
-#: src/supertux/menu/contrib_menu.cpp:141
+#: src/supertux/menu/contrib_menu.cpp:143
 #: src/supertux/menu/joystick_menu.cpp:98
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/language_menu.cpp:52
 #: src/supertux/menu/options_menu.cpp:238
 #: src/supertux/menu/profile_menu.cpp:47
 #: src/supertux/menu/world_set_menu.cpp:44
-#: src/supertux/menu/worldmap_cheat_menu.cpp:44
+#: src/supertux/menu/worldmap_cheat_menu.cpp:46
 msgid "Back"
 msgstr "Назад"
 
@@ -299,60 +308,64 @@ msgstr "Моля, рестартирай Супер Тъкс,\nза да вля�
 msgid "OK"
 msgstr "Добре"
 
-#: src/supertux/menu/cheat_menu.cpp:29
+#: src/supertux/menu/cheat_menu.cpp:30
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
 msgid "Cheats"
 msgstr "Измами"
 
-#: src/supertux/menu/cheat_menu.cpp:31
+#: src/supertux/menu/cheat_menu.cpp:32
 #: src/supertux/menu/worldmap_cheat_menu.cpp:31
 msgid "Bonus: Grow"
 msgstr "Бонус: Растеж"
 
-#: src/supertux/menu/cheat_menu.cpp:32
+#: src/supertux/menu/cheat_menu.cpp:33
 #: src/supertux/menu/worldmap_cheat_menu.cpp:32
 msgid "Bonus: Fire"
 msgstr "Бонус: Огън"
 
-#: src/supertux/menu/cheat_menu.cpp:33
+#: src/supertux/menu/cheat_menu.cpp:34
 #: src/supertux/menu/worldmap_cheat_menu.cpp:33
 msgid "Bonus: Ice"
 msgstr "Бонус: Лед"
 
-#: src/supertux/menu/cheat_menu.cpp:34
+#: src/supertux/menu/cheat_menu.cpp:35
 #: src/supertux/menu/worldmap_cheat_menu.cpp:34
 msgid "Bonus: Air"
 msgstr "Бонус: Въздух"
 
-#: src/supertux/menu/cheat_menu.cpp:35
+#: src/supertux/menu/cheat_menu.cpp:36
 #: src/supertux/menu/worldmap_cheat_menu.cpp:35
 msgid "Bonus: Earth"
 msgstr "Бонус: Земя"
 
-#: src/supertux/menu/cheat_menu.cpp:36
+#: src/supertux/menu/cheat_menu.cpp:37
 msgid "Bonus: Star"
 msgstr "Бонус: Звезда"
 
-#: src/supertux/menu/cheat_menu.cpp:37
+#: src/supertux/menu/cheat_menu.cpp:38
 msgid "Shrink Tux"
 msgstr "Смаляване на Тъкс"
 
-#: src/supertux/menu/cheat_menu.cpp:38
+#: src/supertux/menu/cheat_menu.cpp:39
 msgid "Kill Tux"
 msgstr "Убиване на Тъкс"
 
-#: src/supertux/menu/cheat_menu.cpp:39
+#: src/supertux/menu/cheat_menu.cpp:40
 #: src/supertux/menu/worldmap_cheat_menu.cpp:38
 msgid "Finish Level"
 msgstr "Завършване на ниво"
 
-#: src/supertux/menu/contrib_menu.cpp:51
+#: src/supertux/menu/cheat_menu.cpp:41
+msgid "Activate Ghost Mode"
+msgstr "Включване на призрачния режим"
+
+#: src/supertux/menu/contrib_menu.cpp:53
 #: src/supertux/menu/world_set_menu.cpp:42
 msgid "Contrib Levels"
 msgstr "Дарени нива"
 
-#: src/supertux/menu/contrib_menu.cpp:88
-#: src/supertux/menu/contrib_menu.cpp:119
+#: src/supertux/menu/contrib_menu.cpp:90
+#: src/supertux/menu/contrib_menu.cpp:121
 msgid "*NEW*"
 msgstr "*НОВО*"
 
@@ -730,6 +743,10 @@ msgstr "Завършване на световната карта"
 msgid "Reset WorldMap"
 msgstr "Нулиране на световната карта"
 
+#: src/supertux/menu/worldmap_cheat_menu.cpp:44
+msgid "Move to main spawnpoint"
+msgstr "Към основната точка на прераждане"
+
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
 msgstr "Пауза"
@@ -774,20 +791,20 @@ msgstr "Лошите"
 msgid "Time"
 msgstr "Време"
 
-#: src/supertux/title_screen.cpp:65
+#: src/supertux/title_screen.cpp:59
 msgid "Copyright"
 msgstr "Авторско право"
 
-#: src/supertux/title_screen.cpp:66
+#: src/supertux/title_screen.cpp:60
 msgid ""
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
-"redistribute it under certain conditions; see the file LICENSE for details.\n"
-msgstr "Тази игра не дава НИКАКВИ ГАРАНЦИИ. Това е свободен софтуер и Вие можете да го\nразпространявате, спазвайки определени условия. Прегледайте файла LICENSE за подробности.\n"
+"redistribute it under certain conditions; see the license file for details.\n"
+msgstr "Тази игра не дава НИКАКВИ ГАРАНЦИИ. Това е свободен софтуер и Вие можете да го\nразпространявате, спазвайки определени условия. Прегледайте файла с лиценза за подробности.\n"
 
 #: src/trigger/secretarea_trigger.cpp:47 src/trigger/secretarea_trigger.cpp:57
 msgid "You found a secret area!"
 msgstr "Ти откри тайно място!"
 
-#: src/worldmap/worldmap.cpp:338
+#: src/worldmap/worldmap.cpp:339
 msgid "<no title>"
 msgstr "<няма заглавие>"

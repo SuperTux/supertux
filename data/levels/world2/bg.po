@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-13 00:21+0000\n"
 "Last-Translator: Любомир Василев\n"
 "Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
@@ -189,20 +189,6 @@ msgstr "ключ 1 (живот) — да се постави в малък за�
 msgid "key 5 air - to be placed in clouds "
 msgstr "ключ 1 (въздух) — да се постави в облаци"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Корени, дървесни корени"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Съвет:\n#Ако изглежда, че няма\n#начин да достигнеш някоя\n#врата, помни, че може би\n#трябва да излезеш\n#от нея…"
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Зелени хълмове"
@@ -218,6 +204,20 @@ msgstr "Светлина и магия"
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
 msgstr "Отмъщението на совите"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Корени, дървесни корени"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-Съвет:\n#Ако изглежда, че няма\n#начин да достигнеш някоя\n#врата, помни, че може би\n#трябва да излезеш\n#от нея…"
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

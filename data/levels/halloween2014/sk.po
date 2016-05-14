@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 22:38+0200\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2015-12-29 04:40+0000\n"
 "Last-Translator: MiroslavR <miroslavr256@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/arctic-games/supertux/language/sk/)\n"
@@ -18,34 +18,34 @@ msgstr ""
 "Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: src/halloween2014/levels/halloween2014/halloween1.stl:3
+#: data/levels/halloween2014/halloween1.stl:3
 msgid "Darkness Prevails"
 msgstr "Prevláda tma"
 
-#: src/halloween2014/levels/halloween2014/halloween2.stl:3
+#: data/levels/halloween2014/halloween2.stl:3
 msgid "The Fog is Clearing Up"
 msgstr "Hmla sa rozplýva"
 
-#: src/halloween2014/levels/halloween2014/halloween3.stl:3
+#: data/levels/halloween2014/halloween3.stl:3
 msgid "Graveyard Shift"
 msgstr "Nočná zmena"
 
-#: src/halloween2014/levels/halloween2014/intro.stl:3
+#: data/levels/halloween2014/intro.stl:3
 msgid "The Abandoned House"
 msgstr "Opustený dom"
 
-#: src/halloween2014/levels/halloween2014/mound.stl:3
+#: data/levels/halloween2014/mound.stl:3
 msgid "Mound of the Dead"
 msgstr "Pahorok mŕtvych"
 
-#: src/halloween2014/levels/halloween2014/outro.stl:3
+#: data/levels/halloween2014/outro.stl:3
 msgid "Halloween Party?"
 msgstr "Halloweensky večierok?"
 
-#: src/halloween2014/levels/halloween2014/pools.stl:3
+#: data/levels/halloween2014/pools.stl:3
 msgid "Putrid Pools"
 msgstr "Zapáchajúce kaluže"
 
-#: src/halloween2014/levels/halloween2014/worldmap.stwm:3
+#: data/levels/halloween2014/worldmap.stwm:3
 msgid "Halloween 2014"
 msgstr "Halloween 2014"

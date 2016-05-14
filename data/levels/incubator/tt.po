@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-13 17:42+0000\n"
 "Last-Translator: Булат Ибраһим <bulat_ibrahim@mail.ru>\n"
 "Language-Team: Tatar (http://www.transifex.com/arctic-games/supertux/language/tt/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Angry Stone vs. YOU"
 msgstr "Усал Таш һәм СЕЗ"
 
-#: data/levels/incubator/Angry Stone vs. YOU.stl:307
+#: data/levels/incubator/Angry Stone vs. YOU.stl:308
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
@@ -36,11 +36,11 @@ msgstr "Кальга #1"
 msgid "Missingno"
 msgstr "Миссингно"
 
-#: data/levels/incubator/Missingno.stl:530
+#: data/levels/incubator/Missingno.stl:535
 msgid "#Be patient!"
 msgstr "#Түземле бул!"
 
-#: data/levels/incubator/Missingno.stl:535
+#: data/levels/incubator/Missingno.stl:540
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
@@ -70,7 +70,7 @@ msgstr "Электрик-Агач заводы"
 msgid "Nice Ice"
 msgstr "Ягымлы Боз"
 
-#: data/levels/incubator/Nice Ice.stl:88
+#: data/levels/incubator/Nice Ice.stl:89
 msgid "#Use the enemy to finish this level!"
 msgstr "#Дәрәҗәне тәмамлау өчен, дошманнар белән файдаланыгыз!"
 

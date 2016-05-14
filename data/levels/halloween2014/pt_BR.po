@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 22:38+0200\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2015-10-31 21:18+0000\n"
 "Last-Translator: Jonatas L. Nogueira <cpntb1@ymail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
@@ -18,34 +18,34 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/halloween2014/levels/halloween2014/halloween1.stl:3
+#: data/levels/halloween2014/halloween1.stl:3
 msgid "Darkness Prevails"
 msgstr "Escuridão Prevalecente"
 
-#: src/halloween2014/levels/halloween2014/halloween2.stl:3
+#: data/levels/halloween2014/halloween2.stl:3
 msgid "The Fog is Clearing Up"
 msgstr "A Neblina Está Se Dissipando"
 
-#: src/halloween2014/levels/halloween2014/halloween3.stl:3
+#: data/levels/halloween2014/halloween3.stl:3
 msgid "Graveyard Shift"
 msgstr "Turno no Cemitério"
 
-#: src/halloween2014/levels/halloween2014/intro.stl:3
+#: data/levels/halloween2014/intro.stl:3
 msgid "The Abandoned House"
 msgstr "A Casa Abandonada"
 
-#: src/halloween2014/levels/halloween2014/mound.stl:3
+#: data/levels/halloween2014/mound.stl:3
 msgid "Mound of the Dead"
 msgstr "Colina dos Mortos"
 
-#: src/halloween2014/levels/halloween2014/outro.stl:3
+#: data/levels/halloween2014/outro.stl:3
 msgid "Halloween Party?"
 msgstr "Festa de Halloween?"
 
-#: src/halloween2014/levels/halloween2014/pools.stl:3
+#: data/levels/halloween2014/pools.stl:3
 msgid "Putrid Pools"
 msgstr "Piscinas Pútridas"
 
-#: src/halloween2014/levels/halloween2014/worldmap.stwm:3
+#: data/levels/halloween2014/worldmap.stwm:3
 msgid "Halloween 2014"
 msgstr "Halloween 2014"

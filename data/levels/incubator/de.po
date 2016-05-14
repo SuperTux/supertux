@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-13 00:26+0000\n"
 "Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
 "Language-Team: German (http://www.transifex.com/arctic-games/supertux/language/de/)\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Angry Stone vs. YOU"
 msgstr "Wütender Stein vs. SIE"
 
-#: data/levels/incubator/Angry Stone vs. YOU.stl:307
+#: data/levels/incubator/Angry Stone vs. YOU.stl:308
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
@@ -40,11 +40,11 @@ msgstr "Schloss #1"
 msgid "Missingno"
 msgstr "Missingno"
 
-#: data/levels/incubator/Missingno.stl:530
+#: data/levels/incubator/Missingno.stl:535
 msgid "#Be patient!"
 msgstr "#Geduld!"
 
-#: data/levels/incubator/Missingno.stl:535
+#: data/levels/incubator/Missingno.stl:540
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
@@ -74,7 +74,7 @@ msgstr "Elektroholzfabrik"
 msgid "Nice Ice"
 msgstr "Nettes Eis"
 
-#: data/levels/incubator/Nice Ice.stl:88
+#: data/levels/incubator/Nice Ice.stl:89
 msgid "#Use the enemy to finish this level!"
 msgstr "#Benutzen Sie den Gegner, um diesen Level abzuschließen!"
 

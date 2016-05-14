@@ -4,13 +4,13 @@
 # 
 # Translators:
 # Am1g0 <Giuego@aol.com>, 2014
-# Paride Barison, 2015
+# Ioma Taani, 2015
 # Marcello Bolognesi, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-12 08:34+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"
@@ -191,20 +191,6 @@ msgstr "chiave 4 fuoco - da inserire in un piccolo castello"
 msgid "key 5 air - to be placed in clouds "
 msgstr "chiave 5 aria - da inserire nelle nuvole"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Radici, Legnose Radici"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr ""
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Colline Verdi"
@@ -220,6 +206,20 @@ msgstr "Luce e Magia"
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
 msgstr "La Vendetta dei Gufi"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Radici, Legnose Radici"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr ""
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

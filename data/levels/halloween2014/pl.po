@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 22:38+0200\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2015-12-17 21:16+0000\n"
 "Last-Translator: Krzysiek Szeląg\n"
 "Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
@@ -19,34 +19,34 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/halloween2014/levels/halloween2014/halloween1.stl:3
+#: data/levels/halloween2014/halloween1.stl:3
 msgid "Darkness Prevails"
 msgstr "Ciemność panuje"
 
-#: src/halloween2014/levels/halloween2014/halloween2.stl:3
+#: data/levels/halloween2014/halloween2.stl:3
 msgid "The Fog is Clearing Up"
 msgstr "Mgła czyści"
 
-#: src/halloween2014/levels/halloween2014/halloween3.stl:3
+#: data/levels/halloween2014/halloween3.stl:3
 msgid "Graveyard Shift"
 msgstr "Zmiana na cmentarzu"
 
-#: src/halloween2014/levels/halloween2014/intro.stl:3
+#: data/levels/halloween2014/intro.stl:3
 msgid "The Abandoned House"
 msgstr "Opuszczony dom"
 
-#: src/halloween2014/levels/halloween2014/mound.stl:3
+#: data/levels/halloween2014/mound.stl:3
 msgid "Mound of the Dead"
 msgstr "Kopiec umarłych"
 
-#: src/halloween2014/levels/halloween2014/outro.stl:3
+#: data/levels/halloween2014/outro.stl:3
 msgid "Halloween Party?"
 msgstr "Przyjęcie Halloween'owe?"
 
-#: src/halloween2014/levels/halloween2014/pools.stl:3
+#: data/levels/halloween2014/pools.stl:3
 msgid "Putrid Pools"
 msgstr "Cuchnące rozlewiska"
 
-#: src/halloween2014/levels/halloween2014/worldmap.stwm:3
+#: data/levels/halloween2014/worldmap.stwm:3
 msgid "Halloween 2014"
 msgstr "Halloween 2014"

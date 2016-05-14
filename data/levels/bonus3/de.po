@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-13 00:26+0000\n"
 "Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
 "Language-Team: German (http://www.transifex.com/arctic-games/supertux/language/de/)\n"
@@ -178,7 +178,7 @@ msgid ""
 "#Press the up key to flush! "
 msgstr "- Spülung: \n#Drücken Sie die Hoch-Taste, um zu spülen! "
 
-#: data/levels/bonus3/niv-3.stl:239
+#: data/levels/bonus3/niv-3.stl:216
 msgid ""
 "- A Way out?\n"
 "#Let's Jump! "

@@ -4,13 +4,13 @@
 # 
 # Translators:
 # Bananasoft <bananasoftservice@yahoo.it>, 2016
-# Paride Barison, 2015
+# Ioma Taani, 2015
 # Marcello Bolognesi, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-04-04 07:36+0000\n"
 "Last-Translator: Bananasoft <bananasoftservice@yahoo.it>\n"
 "Language-Team: Italian (http://www.transifex.com/arctic-games/supertux/language/it/)\n"

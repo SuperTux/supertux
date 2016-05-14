@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Любомир Василев, 2015-2016
+# Любомир Василев, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-01-17 09:47+0000\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-09 09:41+0000\n"
 "Last-Translator: Любомир Василев\n"
 "Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -186,7 +187,7 @@ msgid ""
 "!images/objects/switch/left-0.png\n"
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
-"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
+"#Switches can be used to do all manner of things. Press the UP key to use switches.  This one activates the lift to your right."
 msgstr "-Превключватели\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Превключвателите могат да правят различни неща. Натисни НАГОРЕ, за да ги използваш. Този превключвател включва асансьора вдясно."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362

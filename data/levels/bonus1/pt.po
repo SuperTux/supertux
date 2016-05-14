@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-12 09:00+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Portuguese (http://www.transifex.com/arctic-games/supertux/language/pt/)\n"
@@ -110,7 +110,7 @@ msgstr "Um bom inicio"
 msgid "Too easy"
 msgstr "Muito fácil"
 
-#: data/levels/bonus1/torfi-level2.stl:42
+#: data/levels/bonus1/torfi-level2.stl:43
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
 msgstr "#Todos estes níveis foram adaptados do milestone 2 por Hume2."
 

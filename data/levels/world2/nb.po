@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-13 00:54+0000\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/arctic-games/supertux/language/nb/)\n"
@@ -189,20 +189,6 @@ msgstr "Nøkkel 4 (ild) skal plasseres i et lite slott"
 msgid "key 5 air - to be placed in clouds "
 msgstr "Nøkkel 5 (luft) skal plasseres i skyene"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Tilbake til røttene"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Hint\n#Viss det ikke ser ut\n#til å finnes noen\n#måte å nå en dør, kan\n#det være meningen at\n#du skal komme ut av\n#døra ..."
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Grønn var min barndoms dal"
@@ -218,6 +204,20 @@ msgstr "Lys og magi"
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
 msgstr "Uglas hevn"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Tilbake til røttene"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-Hint\n#Viss det ikke ser ut\n#til å finnes noen\n#måte å nå en dør, kan\n#det være meningen at\n#du skal komme ut av\n#døra ..."
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Wuzzy <almikes@aol.com>, 2015
+# Wuzzy <almikes@aol.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-01-17 09:13+0000\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-09 09:26+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Lojban (http://www.transifex.com/arctic-games/supertux/language/jbo/)\n"
 "MIME-Version: 1.0\n"
@@ -186,7 +186,7 @@ msgid ""
 "!images/objects/switch/left-0.png\n"
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
-"#Switches can be used to do all manner of things. Press the UP key to use switchs.  This one activates the lift to your right."
+"#Switches can be used to do all manner of things. Press the UP key to use switches.  This one activates the lift to your right."
 msgstr ""
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
@@ -214,43 +214,43 @@ msgstr ""
 msgid ""
 "Somewhere at the shores\n"
 "of Antarctica..."
-msgstr ""
+msgstr ".i ne'a lo xaskoi be la ziptu'a"
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux: Hello Penny"
-msgstr ""
+msgstr "la tuks cu cusku lu coi penis li'u"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Penny: Hey Tux"
-msgstr ""
+msgstr ".i la penis cusku lu coi tuks li'u"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid "Tux: Check out my dance moves."
-msgstr ""
+msgstr ".i la tuks lu ko zgana lo nu mi dansu li'u co'e"
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "Tux: Oww... my head..."
-msgstr ""
+msgstr ".i la tuks lu .oi stedu li'u co'e"
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "Tux: Wait!"
-msgstr ""
+msgstr ".i la tuks lu ko denpa li'u co'e"
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid "Tux: Penny!"
-msgstr ""
+msgstr ".i la tuks lu ju'i penis li'u co'e"
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid "Tux: Where are you, Penny?!"
-msgstr ""
+msgstr ".i la tuks lu doi penis do ma zvati li'u co'e"
 
 #: data/levels/world1/scripts_intro.txt:11
 msgid "Tux: Oh no..."
-msgstr ""
+msgstr ".i la tuks. lu .u'anai li'u co'e"
 
 #: data/levels/world1/scripts_intro.txt:12
 msgid "Tux: Don't worry, Penny, I'll rescue you!"
-msgstr ""
+msgstr ".i la tuks lu ko na xanka doi penis .i mi ba nurxru do li'u co'e"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"

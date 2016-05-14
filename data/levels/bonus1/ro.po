@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Nicolae Crefelean, 2015
+# Nicolae Crefelean, 2015-2016
 # Razvan <razvan.net@gmail.com>, 2007
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-01-12 09:00+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-14 13:44+0000\n"
+"Last-Translator: Nicolae Crefelean\n"
 "Language-Team: Romanian (http://www.transifex.com/arctic-games/supertux/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,7 +80,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
+msgstr "-Felicitări!\n\n#Ai terminat cu succes\n#Insula bonus I\n\n\tcu nivele contribuite de\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Dacă n-ai terminat toate nivelele,\n#mergi înapoi acasă și alege\n#o altă cale. Încă sunt multe\n#provocări care te așteaptă!\n\n#Și e și un nivel secret\n#pe care îl poți găsi...\n\n#Le mulțumim mult tuturor\n#contribuitorilor la această ediție.\n#Sperăm că v-a plăcut!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -110,7 +110,7 @@ msgstr "Un bun început"
 msgid "Too easy"
 msgstr "Prea ușor"
 
-#: data/levels/bonus1/torfi-level2.stl:42
+#: data/levels/bonus1/torfi-level2.stl:43
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
 msgstr "#Toate aceste nivele au fost adaptate la designul ediției 2 de Hume2."
 

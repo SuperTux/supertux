@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-04-26 15:49+0000\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-04 17:02+0000\n"
 "Last-Translator: Alisa P <parashchenko.alisa@yandex.com>\n"
 "Language-Team: Latin (http://www.transifex.com/arctic-games/supertux/language/la/)\n"
 "MIME-Version: 1.0\n"
@@ -135,7 +135,7 @@ msgstr "Auxilium pro vita"
 
 #: data/levels/bonus2/level3.stl:3
 msgid "Cliff Jumping"
-msgstr "Saltare in saxis"
+msgstr "Salere in saxis"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"

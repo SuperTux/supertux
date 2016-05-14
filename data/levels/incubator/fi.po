@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-02-07 10:02+0000\n"
 "Last-Translator: Jaakoppi Horila <supermariojaska5@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/arctic-games/supertux/language/fi/)\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Angry Stone vs. YOU"
 msgstr "Raivokivi vs. SINÄ"
 
-#: data/levels/incubator/Angry Stone vs. YOU.stl:307
+#: data/levels/incubator/Angry Stone vs. YOU.stl:308
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
@@ -37,11 +37,11 @@ msgstr "Linna #1"
 msgid "Missingno"
 msgstr "Kadonnut numero"
 
-#: data/levels/incubator/Missingno.stl:530
+#: data/levels/incubator/Missingno.stl:535
 msgid "#Be patient!"
 msgstr "#Ole kärsivällinen!"
 
-#: data/levels/incubator/Missingno.stl:535
+#: data/levels/incubator/Missingno.stl:540
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
@@ -71,7 +71,7 @@ msgstr "Sähköinen puutehdas"
 msgid "Nice Ice"
 msgstr "Jäätävän mukavaa"
 
-#: data/levels/incubator/Nice Ice.stl:88
+#: data/levels/incubator/Nice Ice.stl:89
 msgid "#Use the enemy to finish this level!"
 msgstr "#hyödynnä vihollista läpäistäksesi kentän"
 

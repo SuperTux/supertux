@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-02-04 21:06+0000\n"
 "Last-Translator: william beltran <wbeltranc@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arctic-games/supertux/language/es/)\n"
@@ -191,20 +191,6 @@ msgstr "llave 4 fuego - para ser colocada en un castillo pequeño"
 msgid "key 5 air - to be placed in clouds "
 msgstr "llave 5 aire - para ser colocada en las nubes"
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr "Raíces, Raíces de madera"
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr "-Consejo:\n#Si parece no haber\n#modo de alcanzar una puerta,\n#recuerda que podrías\n#supuestamente salir\n#de esa puerta..."
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
 msgstr "Green Hills"
@@ -220,6 +206,20 @@ msgstr "Luz y Magia"
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
 msgstr "La Venganza del Búho"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Raíces, Raíces de madera"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "-Consejo:\n#Si parece no haber\n#modo de alcanzar una puerta,\n#recuerda que podrías\n#supuestamente salir\n#de esa puerta..."
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

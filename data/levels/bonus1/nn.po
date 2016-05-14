@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
 "PO-Revision-Date: 2016-01-13 00:54+0000\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk (http://www.transifex.com/arctic-games/supertux/language/nn/)\n"
@@ -110,7 +110,7 @@ msgstr "Ein god start"
 msgid "Too easy"
 msgstr "For lett"
 
-#: data/levels/bonus1/torfi-level2.stl:42
+#: data/levels/bonus1/torfi-level2.stl:43
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
 msgstr "#Alle desse bretta vart oppdaterte til milestein 2-designen av Hume2."
 

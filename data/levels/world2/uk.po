@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Max Lyashuk <m_lyashuk@ukr.net>, 2015
+# Max Lyashuk <m_lyashuk@ukr.net>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-16 20:25+0100\n"
-"PO-Revision-Date: 2016-01-12 08:34+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"PO-Revision-Date: 2016-05-11 19:09+0000\n"
+"Last-Translator: Max Lyashuk <m_lyashuk@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/arctic-games/supertux/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +32,7 @@ msgstr "Противоток"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
-msgstr ""
+msgstr "Хиткий шлях"
 
 #: data/levels/world2/Duct_Ape.stl:3
 msgid "Duct Ape"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
-msgstr ""
+msgstr "Спускання під землю"
 
 #: data/levels/world2/Kneep_Deep.stl:3
 msgid "Kneep-deep in the depth"
@@ -64,11 +64,11 @@ msgstr ""
 
 #: data/levels/world2/Penguin_Grow_Trees.stl:3
 msgid "Penguins don't grow on Trees"
-msgstr ""
+msgstr "Пінгвіни не ростуть на деревах"
 
 #: data/levels/world2/Rabbit_Hole.stl:3
 msgid "Down The Rabbit Hole"
-msgstr ""
+msgstr "У заячу нору"
 
 #: data/levels/world2/Rabbit_Hole.stl:46
 msgid ""
@@ -93,7 +93,7 @@ msgstr ""
 
 #: data/levels/world2/Treasure_Skies.stl:3
 msgid "Treasure in the skies"
-msgstr ""
+msgstr "Скарб у небі"
 
 #: data/levels/world2/Tree_Fortress.stl:3
 msgid "Tree Fortress"
@@ -110,7 +110,7 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr ""
+msgstr "-Портативні камінці:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/Two_Towers.stl:3
 msgid "Two Tiny Towers"
@@ -130,16 +130,16 @@ msgstr "Вітаємо у Лісі"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr ""
+msgstr "Фортеця-айсберг"
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
 msgid "NOLOK"
-msgstr ""
+msgstr "НОЛОК"
 
 #: data/levels/world2/christophD.stl:3
 msgid "Room of Stars"
-msgstr ""
+msgstr "Зала зірок"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
@@ -147,7 +147,7 @@ msgstr ""
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"
-msgstr ""
+msgstr "Об'їзд"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
@@ -189,23 +189,9 @@ msgstr ""
 msgid "key 5 air - to be placed in clouds "
 msgstr ""
 
-#: data/levels/world2/level1.stl:3
-msgid "Roots, Woody Roots"
-msgstr ""
-
-#: data/levels/world2/level1.stl:200
-msgid ""
-"-Hint:\n"
-"#If there seems to be\n"
-"#no way to reach a door,\n"
-"#remember that you might\n"
-"#be supposed to come out\n"
-"#of that door..."
-msgstr ""
-
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
-msgstr ""
+msgstr "Зелені пагорби"
 
 #: data/levels/world2/level6.stl:3
 msgid "No Name"
@@ -217,6 +203,20 @@ msgstr "Світло та магія"
 
 #: data/levels/world2/owls_revenge.stl:3
 msgid "Owls' Revenge"
+msgstr "Помста Сови"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr ""
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
 msgstr ""
 
 #: data/levels/world2/scripts_default.txt:2
