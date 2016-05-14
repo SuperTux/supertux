@@ -150,7 +150,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   }
   resolutions.push_back("Desktop");
 
-  std::string fullscreen_size_str = "Desktop";
+  std::string fullscreen_size_str = _("Desktop");
   {
     std::ostringstream out;
     if (g_config->fullscreen_size != Size(0, 0))
