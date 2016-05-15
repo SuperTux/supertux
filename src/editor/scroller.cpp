@@ -109,10 +109,14 @@ EditorScroller::event(SDL_Event& ev) {
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     {
-      if (hidden) return false;
+      if(ev.button.button == SDL_BUTTON_LEFT) {
+        if (hidden) return false;
 
-      if (mouse_pos.x < SIZE && mouse_pos.y < SIZE) {
-        scrolling = true;
+        if (mouse_pos.x < SIZE && mouse_pos.y < SIZE) {
+          scrolling = true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }

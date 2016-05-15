@@ -232,8 +232,7 @@ EditorInputGui::event(SDL_Event& ev) {
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     {
-      if(ev.button.button == SDL_BUTTON_LEFT)
-      {
+      if(ev.button.button == SDL_BUTTON_LEFT || ev.button.button == SDL_BUTTON_RIGHT) {
         switch (hovered_item) {
           case HI_TILEGROUP:
             Editor::current()->disable_keyboard();

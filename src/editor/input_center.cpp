@@ -578,14 +578,7 @@ EditorInputCenter::event(SDL_Event& ev) {
     case SDL_MOUSEBUTTONDOWN:
     switch (ev.button.button) {
       case SDL_BUTTON_LEFT: {
-        //TODO: Make the right clicks working.
-        auto controller = InputManager::current()->get_controller();
-        if (controller->hold(Controller::ACTION)) {
-          controller->set_control(Controller::ACTION, false);
-          process_right_click();
-        } else {
-          process_left_click();
-        }
+        process_left_click();
       } break;
       case SDL_BUTTON_RIGHT: {
         process_right_click();
