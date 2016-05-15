@@ -67,8 +67,7 @@ EditorInputCenter::EditorInputCenter() :
   last_node_marker(NULL),
   object_tip(),
   obj_mouse_desync(0, 0),
-  render_grid(true),
-  scrolling(Vector())
+  render_grid(true)
 {
 }
 
@@ -78,8 +77,6 @@ EditorInputCenter::~EditorInputCenter()
 
 void
 EditorInputCenter::update(float elapsed_time) {
-  update_scroll();
-
   if (marked_object && !marked_object->is_valid()) {
     delete_markers();
   }
@@ -611,7 +608,6 @@ EditorInputCenter::event(SDL_Event& ev) {
     {
       mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
       actualize_pos();
-      actualize_scrolling();
       if (dragging) {
         switch (tileselect->input_type) {
           case EditorInputGui::IP_TILE:
@@ -658,68 +654,6 @@ EditorInputCenter::actualize_pos() {
   hovered_tile = sp_to_tp(sector_pos);
   // update tip
   hover_object();
-}
-
-// How close to edge before scrolling starts (in tiles)
-#define SCROLL_TILE_PROX 3
-#define SCROLL_PROX (SCROLL_TILE_PROX * 32.0f)
-
-void
-EditorInputCenter::actualize_scrolling() {
-  // What we can actually see
-  int editor_height = SCREEN_HEIGHT - 32;
-  int editor_width = SCREEN_WIDTH - 128;
-
-  // Proximities to boundaries, may be negative
-  int top_prox = mouse_pos.y;
-  int bottom_prox = editor_height - mouse_pos.y;
-
-  int left_prox = mouse_pos.x;
-  int right_prox = editor_width - mouse_pos.x;
-
-  // Get the distance
-  if (left_prox > 0 && left_prox < SCROLL_PROX) {
-    left_prox = SCROLL_PROX - left_prox;
-    scrolling.x = -(left_prox  / SCROLL_PROX);
-  } else if (right_prox > 0 && right_prox < SCROLL_PROX) {
-    right_prox = SCROLL_PROX - right_prox;
-    scrolling.x = right_prox  / SCROLL_PROX;
-  }
-
-  if (top_prox > 0 && top_prox < SCROLL_PROX) {
-    top_prox = SCROLL_PROX - top_prox;
-    scrolling.y = -(top_prox  / SCROLL_PROX);
-  } else if (bottom_prox > 0 && bottom_prox < SCROLL_PROX) {
-    bottom_prox = SCROLL_PROX - bottom_prox;
-    scrolling.y = bottom_prox / SCROLL_PROX;
-  }
-}
-
-#undef SCROLL_PROX
-#undef SCROLL_TILE_PROX
-
-void
-EditorInputCenter::update_scroll() {
-  float horiz_scroll = scrolling.x;
-  float vert_scroll = scrolling.y;
-
-  if (horiz_scroll < 0)
-    Editor::current()->scroll_left(-horiz_scroll);
-  else if (horiz_scroll > 0)
-    Editor::current()->scroll_right(horiz_scroll);
-  else {}
-
-  if (vert_scroll < 0)
-    Editor::current()->scroll_up(-vert_scroll);
-  else if (vert_scroll > 0)
-    Editor::current()->scroll_down(vert_scroll);
-  else {}
-}
-
-void
-EditorInputCenter::stop_scrolling() {
-  scrolling.x = 0;
-  scrolling.y = 0;
 }
 
 void

@@ -24,6 +24,7 @@
 #include "editor/input_center.hpp"
 #include "editor/input_gui.hpp"
 #include "editor/layers_gui.hpp"
+#include "editor/scroller.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/screen.hpp"
@@ -59,6 +60,7 @@ class Editor : public Screen,
     friend class EditorLevelsetSelectMenu;
     friend class EditorNewLevelsetMenu;
     friend class EditorObjectgroupMenu;
+    friend class EditorScroller;
     friend class EditorTilegroupMenu;
 
     std::unique_ptr<Level> level;
@@ -121,6 +123,7 @@ class Editor : public Screen,
     EditorInputCenter inputcenter;
     EditorInputGui tileselect;
     EditorLayersGui layerselect;
+    EditorScroller scroller;
 
     // speed is in tiles per frame
     void scroll_up(float speed = 1.0f);

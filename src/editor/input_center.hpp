@@ -41,7 +41,6 @@ class EditorInputCenter
     void update(float elapsed_time);
 
     void actualize_pos();
-    void stop_scrolling();
     void delete_markers();
     void update_node_iterators();
 
@@ -97,13 +96,6 @@ class EditorInputCenter
     Rectf tile_drag_rect();
     Rectf selection_draw_rect();
     void update_tile_selection();
-
-    // scrolling the level on update
-    // Vector(horizontal tiles per sec, vertical tiles per sec)
-    Vector scrolling;
-
-    void actualize_scrolling();
-    void update_scroll();
 
     EditorInputCenter(const EditorInputCenter&);
     EditorInputCenter& operator=(const EditorInputCenter&);
