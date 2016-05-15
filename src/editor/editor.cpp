@@ -63,6 +63,7 @@ Editor::Editor() :
   inputcenter(),
   tileselect(),
   layerselect(),
+  scroller(),
   enabled(false),
   bgr_surface()
 {
@@ -85,6 +86,7 @@ void Editor::draw(DrawingContext& context)
   inputcenter.draw(context);
   tileselect.draw(context);
   layerselect.draw(context);
+  scroller.draw(context);
   MouseCursor::current()->draw(context);
 }
 
@@ -143,6 +145,7 @@ void Editor::update(float elapsed_time)
     tileselect.update(elapsed_time);
     layerselect.update(elapsed_time);
     inputcenter.update(elapsed_time);
+    scroller.update(elapsed_time);
     update_keyboard();
   }
 }
@@ -156,11 +159,11 @@ void Editor::test_level() {
 }
 
 bool Editor::can_scroll_vert() const {
-  return currentsector->get_height() + 32 > SCREEN_HEIGHT;
+  return levelloaded && (currentsector->get_height() + 32 > SCREEN_HEIGHT);
 }
 
 bool Editor::can_scroll_horz() const {
-  return currentsector->get_width() + 128 > SCREEN_WIDTH;
+  return levelloaded && (currentsector->get_width() + 128 > SCREEN_WIDTH);
 }
 
 void Editor::scroll_left(float speed) {
@@ -353,6 +356,10 @@ Editor::event(SDL_Event& ev) {
   }
 
   if ( layerselect.event(ev) ) {
+    return;
+  }
+
+  if ( scroller.event(ev) ) {
     return;
   }
 

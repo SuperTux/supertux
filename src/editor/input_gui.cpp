@@ -301,7 +301,6 @@ EditorInputGui::event(SDL_Event& ev) {
     case SDL_MOUSEMOTION:
     {
       Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
-      Editor::current()->inputcenter.stop_scrolling();
       float x = mouse_pos.x - Xpos;
       float y = mouse_pos.y - Ypos;
       if (x < 0) {
