@@ -50,10 +50,13 @@ public:
       return "cannon";
     case DT_POINT:
       return "point";
+    default:
+      return "unknown";
     }
   }
 
   ObjectSettings get_settings();
+  void after_editor_set();
 
 protected:
   bool collision_squished(GameObject& object);
@@ -61,6 +64,8 @@ protected:
   void launch_badguy();
 
 private:
+
+  void set_correct_action();
 
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup colgroup_active;
