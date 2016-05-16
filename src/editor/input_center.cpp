@@ -513,12 +513,11 @@ EditorInputCenter::process_left_click() {
 
 void
 EditorInputCenter::process_right_click() {
-  dragging = true;
-  dragging_left = true;
-  drag_start = sector_pos;
   switch (Editor::current()->tileselect.input_type) {
     case EditorInputGui::IP_TILE: {
-      //possible future usage
+      dragging = true;
+      dragging_left = true;
+      drag_start = sector_pos;
     } break;
     case EditorInputGui::IP_OBJECT:
       set_object();
