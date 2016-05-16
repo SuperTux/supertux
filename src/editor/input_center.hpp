@@ -52,7 +52,7 @@ class EditorInputCenter
     Vector mouse_pos;
 
     bool dragging;
-    bool dragging_left;
+    bool dragging_right;
     Vector drag_start;
     MovingObject* dragged_object;
     GameObject* marked_object;
