@@ -40,6 +40,18 @@ public:
   std::string get_display_name() const {
     return _("Dispenser");
   }
+  std::string get_type_string() const {
+    switch(type) {
+    case DT_DROPPER:
+      return "dropper";
+    case DT_ROCKETLAUNCHER:
+      return "rocketlauncher";
+    case DT_CANNON:
+      return "cannon";
+    case DT_POINT:
+      return "point";
+    }
+  }
 
   ObjectSettings get_settings();
 
