@@ -102,20 +102,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 void
 Dispenser::save(Writer& writer) {
   BadGuy::save(writer);
-  switch (type) {
-    case DT_DROPPER:
-      writer.write("type", "dropper", false);
-      break;
-    case DT_ROCKETLAUNCHER:
-      writer.write("type", "rocketlauncher", false);
-      break;
-    case DT_CANNON:
-      writer.write("type", "cannon", false);
-      break;
-    case DT_POINT:
-      writer.write("type", "point", false);
-      break;
-  }
+  writer.write("type", get_type_string(), false);
   writer.write("badguy", badguys);
   writer.write("random", random);
   writer.write("cycle", cycle);
