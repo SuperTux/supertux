@@ -110,7 +110,7 @@ Dispenser::save(Writer& writer) {
 
 void
 Dispenser::draw(DrawingContext& context) {
-  if (type != DT_POINT) {
+  if (type != DT_POINT || EditorActive()) {
     BadGuy::draw(context);
   }
 }
@@ -337,19 +337,7 @@ Dispenser::unfreeze()
   frozen = false;
 
   sprite->set_color(Color(1.00, 1.00, 1.00f));
-  switch (type) {
-    case DT_DROPPER:
-      sprite->set_action("dropper");
-      break;
-    case DT_ROCKETLAUNCHER:
-      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
-      break;
-    case DT_CANNON:
-      sprite->set_action("working");
-      break;
-    default:
-      break;
-  }
+  set_correct_action();
   activate();
 }
 
@@ -365,13 +353,50 @@ Dispenser::is_flammable() const
   return false;
 }
 
+void
+Dispenser::set_correct_action()
+{
+  switch (type) {
+    case DT_DROPPER:
+      sprite->set_action("dropper");
+      break;
+    case DT_ROCKETLAUNCHER:
+      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+      break;
+    case DT_CANNON:
+      sprite->set_action("working");
+      break;
+    case DT_POINT:
+      sprite->set_action("invisible");
+      break;
+    default:
+      break;
+  }
+}
+
 ObjectSettings
-Dispenser::get_settings() {
+Dispenser::get_settings()
+{
   ObjectSettings result = BadGuy::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Cycle"), &cycle));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Random"), &random));
   result.options.push_back( ObjectOption(MN_BADGUYSELECT, _("Enemies"), &badguys));
+
+  ObjectOption seq(MN_STRINGSELECT, _("Type"), &type);
+  seq.select.push_back(_("dropper"));
+  seq.select.push_back(_("rocket launcher"));
+  seq.select.push_back(_("cannon"));
+  seq.select.push_back(_("invisible"));
+
+  result.options.push_back( seq );
   return result;
+}
+
+void
+Dispenser::after_editor_set()
+{
+  BadGuy::after_editor_set();
+  set_correct_action();
 }
 
 /* EOF */
