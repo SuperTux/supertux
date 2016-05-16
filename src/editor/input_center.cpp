@@ -59,7 +59,7 @@ EditorInputCenter::EditorInputCenter() :
   sector_pos(0, 0),
   mouse_pos(0, 0),
   dragging(false),
-  dragging_left(false),
+  dragging_right(false),
   drag_start(0, 0),
   dragged_object(NULL),
   marked_object(NULL),
@@ -481,7 +481,7 @@ EditorInputCenter::put_object() {
 void
 EditorInputCenter::process_left_click() {
   dragging = true;
-  dragging_left = false;
+  dragging_right = false;
   drag_start = sector_pos;
   switch (Editor::current()->tileselect.input_type) {
     case EditorInputGui::IP_TILE: {
@@ -519,7 +519,7 @@ EditorInputCenter::process_right_click() {
   switch (Editor::current()->tileselect.input_type) {
     case EditorInputGui::IP_TILE: {
       dragging = true;
-      dragging_left = true;
+      dragging_right = true;
       drag_start = sector_pos;
       update_tile_selection();
     } break;
@@ -599,7 +599,7 @@ EditorInputCenter::event(SDL_Event& ev) {
       if (dragging) {
         switch (tileselect->input_type) {
           case EditorInputGui::IP_TILE:
-            if (dragging_left) {
+            if (dragging_right) {
               update_tile_selection();
             } else {
               switch (tileselect->select_mode->get_mode()) {
@@ -760,7 +760,7 @@ EditorInputCenter::draw(DrawingContext& context) {
   }
 
   if (dragging && Editor::current()->tileselect.select_mode->get_mode() == 1
-      && !dragging_left) {
+      && !dragging_right) {
     // Draw selection rectangle...
     Vector p0 = drag_start - Editor::current()->currentsector->camera->get_translation();
     Vector p1 = Vector(drag_start.x, sector_pos.y) - Editor::current()->currentsector->camera->get_translation();
@@ -779,7 +779,7 @@ EditorInputCenter::draw(DrawingContext& context) {
                              Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
   }
 
-  if (dragging && dragging_left) {
+  if (dragging && dragging_right) {
     context.draw_filled_rect(selection_draw_rect(),
                              Color(0.2f, 0.4f, 1.0f, 0.6f), 0.0f, LAYER_GUI-13);
   }
