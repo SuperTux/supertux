@@ -34,6 +34,8 @@ public:
     return _("Kamikaze snowball");
   }
 
+  void after_editor_set();
+
 protected:
   bool collision_squished(GameObject& object);
   HitResponse collision_player(Player& player, const CollisionHit& hit);

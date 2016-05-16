@@ -127,4 +127,11 @@ DartTrap::get_settings() {
   return result;
 }
 
+void
+DartTrap::after_editor_set()
+{
+  BadGuy::after_editor_set();
+  sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+}
+
 /* EOF */
