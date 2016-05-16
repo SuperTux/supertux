@@ -586,14 +586,6 @@ EditorInputCenter::event(SDL_Event& ev) {
 
     case SDL_MOUSEBUTTONUP:
       dragging = false;
-      if(ev.button.button == SDL_BUTTON_LEFT) {
-        if (tileselect->input_type == EditorInputGui::IP_OBJECT) {
-          if (tileselect->select_mode->get_mode() == 1 &&
-              tileselect->object.empty() ) {
-            rubber_rect();
-          }
-        }
-      }
       break;
 
     case SDL_MOUSEMOTION:
@@ -620,7 +612,10 @@ EditorInputCenter::event(SDL_Event& ev) {
             break;
           case EditorInputGui::IP_OBJECT:
             if (tileselect->object.empty()) {
-              rubber_rect();
+              if (tileselect->select_mode->get_mode() == 1 &&
+                  tileselect->object.empty() ) {
+                rubber_rect();
+              }
             } else {
               move_object();
             }
