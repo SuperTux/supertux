@@ -38,6 +38,7 @@ public:
   }
 
   ObjectSettings get_settings();
+  void after_editor_set();
 
 protected:
   enum State {

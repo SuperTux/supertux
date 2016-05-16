@@ -145,4 +145,11 @@ void Dart::play_looping_sounds()
   }
 }
 
+void
+Dart::after_editor_set()
+{
+  BadGuy::after_editor_set();
+  sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
+}
+
 /* EOF */

@@ -35,6 +35,8 @@ public:
     return _("Bouncing Snowball");
   }
 
+  void after_editor_set();
+
 protected:
   bool collision_squished(GameObject& object);
 };

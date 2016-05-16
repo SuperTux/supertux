@@ -54,6 +54,8 @@ public:
   void stop_looping_sounds();
   void play_looping_sounds();
 
+  void after_editor_set();
+
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   std::unique_ptr<SoundSource> sound_source; /**< SoundSource for ambient sound */

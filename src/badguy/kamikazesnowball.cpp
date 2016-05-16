@@ -97,6 +97,13 @@ KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
   return ABORT_MOVE;
 }
 
+void
+KamikazeSnowball::after_editor_set()
+{
+  BadGuy::after_editor_set();
+  sprite->set_action(dir == LEFT ? "left" : "right");
+}
+
 LeafShot::LeafShot(const ReaderMapping& reader) :
   KamikazeSnowball(reader)
 {
