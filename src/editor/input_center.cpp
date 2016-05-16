@@ -489,6 +489,9 @@ EditorInputCenter::process_left_click() {
         case 0:
           put_tile();
           break;
+        case 1:
+          draw_rectangle();
+          break;
         case 2:
           fill();
           break;
@@ -518,6 +521,7 @@ EditorInputCenter::process_right_click() {
       dragging = true;
       dragging_left = true;
       drag_start = sector_pos;
+      update_tile_selection();
     } break;
     case EditorInputGui::IP_OBJECT:
       set_object();
