@@ -162,7 +162,7 @@
     (class "coin")
     (icon "images/objects/coin/path_coin.png"))
   (object
-    (class "deacal")
+    (class "decal")
     (icon "images/engine/editor/decal.png"))
   (object
     (class "dispenser")
