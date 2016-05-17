@@ -68,8 +68,8 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   swivel = false;
   broken = false;
 
-  if (badguys.size() <= 0)
-    throw std::runtime_error("No badguys in dispenser.");
+//  if (badguys.size() <= 0)
+//    throw std::runtime_error("No badguys in dispenser.");
 
   switch (type) {
     case DT_DROPPER:
@@ -205,9 +205,9 @@ Dispenser::active_update(float )
 void
 Dispenser::launch_badguy()
 {
-  if (frozen) {
-    return;
-  }
+  if (badguys.empty()) return;
+  if (frozen) return;
+
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen()) {
     Direction launchdir = dir;
