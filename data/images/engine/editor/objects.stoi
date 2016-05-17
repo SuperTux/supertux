@@ -171,10 +171,10 @@
     (class "platform")
     (icon "images/objects/flying_platform/flying_platform-0.png"))
   (object
-    (class "pneumatic_platform")
+    (class "pneumatic-platform")
     (icon "images/engine/editor/pneumaticplatform.png"))
   (object
-    (class "bicycle_platform")
+    (class "bicycle-platform")
     (icon "images/engine/editor/bicycleplatform.png"))
   (object
     (class "powerup")
