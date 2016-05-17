@@ -165,6 +165,9 @@
     (class "deacal")
     (icon "images/engine/editor/decal.png"))
   (object
+    (class "dispenser")
+    (icon "images/creatures/dispenser/dropper.png"))
+  (object
     (class "platform")
     (icon "images/objects/flying_platform/flying_platform-0.png"))
   (object
