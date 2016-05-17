@@ -50,8 +50,8 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   if (!lisp.get("name" , name)) name = "";
   if (!lisp.get("x", bbox.p1.x)) bbox.p1.x = 0;
   if (!lisp.get("y", bbox.p1.y)) bbox.p1.y = 0;
-  if (!lisp.get("width" , w)) w = 0;
-  if (!lisp.get("height", h)) h = 0;
+  if (!lisp.get("width" , w)) w = 32;
+  if (!lisp.get("height", h)) h = 32;
   bbox.set_size(w, h);
 
   if (!lisp.get("distance_factor",distance_factor)) distance_factor = 0;
@@ -59,16 +59,12 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   if (!lisp.get("sample"         ,sample         )) sample = "";
   if (!lisp.get("volume"         ,maximumvolume  )) maximumvolume = 1;
 
-  // set dimension to zero if smaller than 64, which is default size in flexlay
-
-  if ((w <= 64) || (h <= 64)) {
-    bbox.set_size(0, 0);
-  }
-
   // square all distances (saves us a sqrt later)
 
-  distance_bias*=distance_bias;
-  distance_factor*=distance_factor;
+  if (!EditorActive()) {
+    distance_bias*=distance_bias;
+    distance_factor*=distance_factor;
+  }
 
   // set default silence_distance
 
@@ -166,6 +162,8 @@ AmbientSound::stop_playing()
 void
 AmbientSound::start_playing()
 {
+  if (EditorActive()) return;
+
   try {
     sound_source = SoundManager::current()->create_sound_source(sample);
     if(!sound_source)
