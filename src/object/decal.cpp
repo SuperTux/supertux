@@ -21,7 +21,7 @@
 #include "util/reader_mapping.hpp"
 
 Decal::Decal(const ReaderMapping& reader) :
-  MovingSprite(reader, LAYER_OBJECTS, COLGROUP_DISABLED)
+  MovingSprite(reader, "images/decal/explanations/billboard-fireflower.png", LAYER_OBJECTS, COLGROUP_DISABLED)
 {
   layer = reader_get_layer (reader, /* default = */ LAYER_OBJECTS);
 

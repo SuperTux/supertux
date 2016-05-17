@@ -30,7 +30,7 @@
 #include <sstream>
 
 PowerUp::PowerUp(const ReaderMapping& lisp) :
-  MovingSprite(lisp, LAYER_OBJECTS, COLGROUP_MOVING),
+  MovingSprite(lisp, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
   physic(),
   script(),
   no_physics(),
