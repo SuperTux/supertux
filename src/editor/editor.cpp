@@ -151,11 +151,11 @@ void Editor::update(float elapsed_time)
 }
 
 void Editor::test_level() {
-  leveltested = true;
   Tile::draw_editor_images = false;
   level->save("levels/misc/test.stl");
   std::unique_ptr<World> test_world = World::load("levels/misc");
   GameManager::current()->start_level(std::move(test_world), "test.stl");
+  leveltested = true;
 }
 
 bool Editor::can_scroll_vert() const {
