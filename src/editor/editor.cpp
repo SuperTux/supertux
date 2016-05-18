@@ -95,6 +95,7 @@ void Editor::update(float elapsed_time)
   // Reactivate the editor after level test
   if (leveltested) {
     leveltested = false;
+    levelloaded = true;
     Tile::draw_editor_images = true;
     currentsector->activate(currentsector->player->get_pos());
     MenuManager::instance().clear_menu_stack();
@@ -151,6 +152,7 @@ void Editor::update(float elapsed_time)
 }
 
 void Editor::test_level() {
+  levelloaded = false;
   Tile::draw_editor_images = false;
   level->save("levels/misc/test.stl");
   std::unique_ptr<World> test_world = World::load("levels/misc");
