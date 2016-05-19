@@ -60,6 +60,7 @@ public:
     return _("Background");
   }
   virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
 
   virtual const std::string get_icon_path() const {
     return "images/engine/editor/background.png";

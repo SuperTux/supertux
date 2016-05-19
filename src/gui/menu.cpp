@@ -214,6 +214,13 @@ Menu::add_string_select(int id, const std::string& text, int* selected, std::vec
 }
 
 MenuItem*
+Menu::add_file(const std::string& text, std::string* input, std::vector<std::string> extensions, int id)
+{
+  std::unique_ptr<ItemFile> item(new ItemFile(text, input, extensions, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
 Menu::add_back(const std::string& text, int id)
 {
   std::unique_ptr<ItemBack> item(new ItemBack(text, id));

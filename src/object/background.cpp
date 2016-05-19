@@ -127,9 +127,14 @@ Background::Background(const ReaderMapping& reader) :
 
   if (reader.get("image-top", imagefile_top)) {
     image_top = Surface::create(imagefile_top);
+  } else {
+    imagefile_top = imagefile;
   }
+
   if (reader.get("image-bottom", imagefile_bottom)) {
     image_bottom = Surface::create(imagefile_bottom);
+  } else {
+    imagefile_bottom = imagefile;
   }
 }
 
@@ -177,7 +182,28 @@ Background::get_settings() {
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed x"), &speed));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed y"), &speed_y));
 
+  ObjectOption img(MN_FILE, _("Top image"), &imagefile_top);
+  img.select.push_back(".png");
+  img.select.push_back(".jpg");
+  img.select.push_back(".gif");
+  img.select.push_back(".bmp");
+  result.options.push_back(img);
+  ObjectOption img2(MN_FILE, _("Image"), &imagefile);
+  img2.select = img.select;
+  ObjectOption img3(MN_FILE, _("Bottom image"), &imagefile_bottom);
+  img3.select = img.select;
+  result.options.push_back(img2);
+  result.options.push_back(img3);
+
   return result;
+}
+
+void
+Background::after_editor_set()
+{
+  image_top = Surface::create(imagefile_top);
+  image = Surface::create(imagefile);
+  image_bottom = Surface::create(imagefile_bottom);
 }
 
 void
