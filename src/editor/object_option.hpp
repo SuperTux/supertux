@@ -75,6 +75,8 @@ class ObjectOption
             return "...";
           }
           return "";
+        case MN_FILE:
+          return *((std::string*)(option));
         default:
           return _("Unknown");
       }

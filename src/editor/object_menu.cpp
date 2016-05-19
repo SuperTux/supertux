@@ -55,6 +55,9 @@ ObjectMenu::ObjectMenu(GameObject *go) :
       case MN_SCRIPT:
         add_script(oo->text, (std::string*)oo->option);
         break;
+      case MN_FILE:
+        add_file(oo->text, (std::string*)oo->option, oo->select);
+        break;
       default:
         break;
     }
