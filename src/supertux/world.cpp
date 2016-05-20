@@ -113,6 +113,12 @@ World::load_(const std::string& directory)
 
   std::string filename = m_basedir + "/info";
 
+  if(!PHYSFS_exists(filename.c_str()))
+  {
+    set_default_values();
+    return;
+  }
+
   try {
     register_translation_directory(filename);
     auto doc = ReaderDocument::parse(filename);
@@ -135,10 +141,7 @@ World::load_(const std::string& directory)
     info.get("hide-from-contribs", m_hide_from_contribs);
   } catch (std::exception& e) {
     log_warning << "Failed to load " << filename << ":" << e.what() << std::endl;
-    m_title = "";
-    m_description = "";
-    m_is_levelset = true;
-    m_hide_from_contribs = true;
+    set_default_values();
   }
 }
 
@@ -226,6 +229,15 @@ World::save(bool retry)
       save(true);
     }
   }
+}
+
+void
+World::set_default_values()
+{
+  m_title = "";
+  m_description = "";
+  m_is_levelset = true;
+  m_hide_from_contribs = true;
 }
 
 /* EOF */

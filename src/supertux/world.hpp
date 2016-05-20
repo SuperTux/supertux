@@ -54,6 +54,7 @@ public:
   std::string get_savegame_filename() const { return m_savegame_filename; }
 
   void save(bool retry = false);
+  void set_default_values();
 
 private:
   std::string m_basedir;
