@@ -31,7 +31,7 @@
 #include "supertux/menu/world_set_menu.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/textscroller.hpp"
+#include "supertux/creditsscroller.hpp" // TODO: reorder alphabetically?!
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
@@ -74,12 +74,12 @@ MainMenu::menu_action(MenuItem* item)
       MenuManager::instance().clear_menu_stack();
       if(g_config->transitions_enabled)
       {
-        ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.txt")),
+        ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new CreditsScroller("credits.stcr")),
                                                     std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
       }
       else
       {
-        ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.txt")));
+        ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new CreditsScroller("credits.stcr")));
       }
       break;
 
