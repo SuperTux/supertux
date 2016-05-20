@@ -104,6 +104,9 @@ FileSystemMenu::refresh_items()
   add_back(_("Cancel"));
 
   active_item = 2;
+
+  // Re-center menu
+  on_window_resize();
 }
 
 bool
