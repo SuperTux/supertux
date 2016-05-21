@@ -55,6 +55,9 @@ public:
     return "moving-sprite";
   }
 
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set();
+
   std::string get_sprite_name() const;
 
 protected:
