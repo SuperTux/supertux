@@ -31,6 +31,7 @@ Jumpy::Jumpy(const ReaderMapping& reader) :
   pos_groundhit(),
   groundhit_pos_set(false)
 {
+  sprite->set_action("left-middle");
   // TODO create a nice sound for this...
   //SoundManager::current()->preload("sounds/skid.wav");
 }
