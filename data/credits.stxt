@@ -883,7 +883,7 @@
       )
       (text
         (type "reference")
-        (string (_ "http://supertuxproject.org"))
+        (string "http://supertuxproject.org")
       )
       (blank)
       (text
@@ -901,7 +901,7 @@
       )
       (text
         (type "reference")
-        (string (_ "http://forum.freegamedev.net/viewforum.php?f=66"))
+        (string "http://forum.freegamedev.net/viewforum.php?f=66")
       )
       (blank)
       (text
@@ -930,7 +930,7 @@
       )
       (text
         (type "reference")
-        (string (_ "https://www.transifex.com/arctic-games/supertux/"))
+        (string "https://www.transifex.com/arctic-games/supertux/")
       )
       (blank)
       (blank)
@@ -940,7 +940,7 @@
       )
       (text
         (type "reference")
-        (string (_ "https://github.com/supertux"))
+        (string "https://github.com/supertux")
       )
       (blank)
       (blank)
