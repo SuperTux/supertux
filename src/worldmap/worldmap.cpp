@@ -668,15 +668,8 @@ WorldMap::update(float delta)
 
           // update state and savegame
           save_state();
-          if(g_config->transitions_enabled)
-          {
-            ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_savegame, &level_->statistics)),
-                                          std::unique_ptr<ScreenFade>(new ShrinkFade(shrinkpos, 1.0f)));
-          }
-          else
-          {
-            ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_savegame, &level_->statistics)));
-          }
+          ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new GameSession(levelfile, m_savegame, &level_->statistics)),
+                                                std::unique_ptr<ScreenFade>(new ShrinkFade(shrinkpos, 1.0f)));
           in_level = true;
         } catch(std::exception& e) {
           log_fatal << "Couldn't load level: " << e.what() << std::endl;
@@ -877,10 +870,7 @@ WorldMap::setup()
 {
   SoundManager::current()->play_music(music);
   MenuManager::instance().clear_menu_stack();
-  if(g_config->transitions_enabled)
-  {
-    ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
-  }
+  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
 
   current_ = this;
   load_state();

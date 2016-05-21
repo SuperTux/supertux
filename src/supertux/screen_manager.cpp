@@ -79,8 +79,10 @@ ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<Scree
 {
   log_debug << "ScreenManager::push_screen(): " << screen.get() << std::endl;
   assert(screen);
-
-  m_screen_fade = std::move(screen_fade);
+  if(g_config->transitions_enabled)
+  {
+    m_screen_fade = std::move(screen_fade);
+  }
   m_actions.push_back(Action(Action::PUSH_ACTION, std::move(screen)));
 }
 
@@ -88,21 +90,29 @@ void
 ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
 {
   log_debug << "ScreenManager::pop_screen(): stack_size: " << m_screen_stack.size() << std::endl;
-
-  m_screen_fade = std::move(screen_fade);
+  if(g_config->transitions_enabled)
+  {
+    m_screen_fade = std::move(screen_fade);
+  }
   m_actions.push_back(Action(Action::POP_ACTION));
 }
 
 void
 ScreenManager::set_screen_fade(std::unique_ptr<ScreenFade> screen_fade)
 {
-  m_screen_fade = std::move(screen_fade);
+  if(g_config->transitions_enabled)
+  {
+    m_screen_fade = std::move(screen_fade);
+  }
 }
 
 void
 ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
 {
-  m_screen_fade = std::move(screen_fade);
+  if(g_config->transitions_enabled)
+  {
+    m_screen_fade = std::move(screen_fade);
+  }
   m_actions.push_back(Action(Action::QUIT_ACTION));
 }
 
