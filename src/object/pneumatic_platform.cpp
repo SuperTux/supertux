@@ -129,4 +129,10 @@ PneumaticPlatform::editor_delete() {
   slave->remove_me();
 }
 
+void
+PneumaticPlatform::after_editor_set() {
+  MovingSprite::after_editor_set();
+  slave->change_sprite(sprite_name);
+}
+
 /* EOF */
