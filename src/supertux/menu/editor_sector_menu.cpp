@@ -32,11 +32,16 @@ EditorSectorMenu::EditorSectorMenu() :
   sector_name_ptr(Editor::current()->currentsector->get_name_ptr()),
   original_name(*sector_name_ptr)
 {
-  add_label(_("Sector") + " " + Editor::current()->currentsector->get_name());
+  auto sector = Editor::current()->currentsector;
+
+  add_label(_("Sector") + " " + sector->get_name());
   add_hl();
   add_textfield(_("Name"), sector_name_ptr);
-  add_script(_("Initialization script"), Editor::current()->currentsector->get_init_script_ptr());
-  add_color(_("Ambient light"), Editor::current()->currentsector->get_ambient_light_ptr());
+  add_script(_("Initialization script"), sector->get_init_script_ptr());
+  add_color(_("Ambient light"), sector->get_ambient_light_ptr());
+  add_numfield(_("Gravity"), &sector->gravity);
+
+  add_file(_("Music"), &sector->music, std::vector<std::string>(1, ".ogg"));
   add_hl();
   add_back(_("OK"));
 }
