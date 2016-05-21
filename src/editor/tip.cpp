@@ -17,6 +17,7 @@
 #include "editor/tip.hpp"
 
 #include "editor/object_settings.hpp"
+#include "gui/menu_item.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/globals.hpp"
@@ -40,7 +41,9 @@ Tip::Tip(GameObject* object) :
   header = os.name;
 
   for(auto& oo : os.options) {
-    strings.push_back(oo.text + ": " + oo.to_string());
+    if (oo.type != MN_REMOVE) {
+      strings.push_back(oo.text + ": " + oo.to_string());
+    }
   }
 }
 

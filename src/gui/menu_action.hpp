@@ -34,6 +34,7 @@ enum MenuItemKind {
   MN_COLOR,
   MN_SCRIPT,
   MN_FILE,
+  MN_REMOVE,
   MN_HL /* horizontal line */
 };
 

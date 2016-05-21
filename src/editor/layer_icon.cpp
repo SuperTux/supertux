@@ -50,6 +50,8 @@ LayerIcon::~LayerIcon() {
 
 void
 LayerIcon::draw(DrawingContext& context, Vector pos) {
+  if (!is_valid()) return;
+
   ObjectIcon::draw(context,pos);
   int l = get_zpos();
   if (l != std::numeric_limits<int>::min()) {
@@ -91,4 +93,8 @@ LayerIcon::get_zpos() {
   return std::numeric_limits<int>::min();
 }
 
+bool
+LayerIcon::is_valid() const {
+  return layer && layer->is_valid();
+}
 /* EOF */

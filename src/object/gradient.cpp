@@ -137,6 +137,7 @@ Gradient::get_settings() {
   doo.select.push_back(_("horizontal sector"));
   result.options.push_back(doo);
 
+  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   return result;
 }
 

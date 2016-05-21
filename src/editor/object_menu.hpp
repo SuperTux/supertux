@@ -32,6 +32,10 @@ class ObjectMenu : public Menu
     GameObject *object;
 
   private:
+    enum MenuIDs {
+      MNID_REMOVE
+    };
+
     ObjectMenu(const ObjectMenu&);
     ObjectMenu& operator=(const ObjectMenu&);
 };
