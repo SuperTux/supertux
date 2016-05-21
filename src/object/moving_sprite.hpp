@@ -59,6 +59,7 @@ public:
   virtual void after_editor_set();
 
   std::string get_sprite_name() const;
+  void change_sprite(const std::string new_sprite_name);
 
 protected:
   std::string sprite_name;

@@ -147,10 +147,10 @@ BicyclePlatform::editor_delete() {
   slave->remove_me();
 }
 
-ObjectSettings
-BicyclePlatform::get_settings() {
-  ObjectSettings result(_("Bicycle platform"));
-  return result;
+void
+BicyclePlatform::after_editor_set() {
+  MovingSprite::after_editor_set();
+  slave->change_sprite(sprite_name);
 }
 
 /* EOF */
