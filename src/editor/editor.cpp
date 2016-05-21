@@ -381,4 +381,9 @@ Editor::update_node_iterators() {
   inputcenter.update_node_iterators();
 }
 
+void
+Editor::delete_markers() {
+  inputcenter.delete_markers();
+}
+
 /* EOF */

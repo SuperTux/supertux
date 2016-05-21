@@ -105,7 +105,11 @@ EditorLayersGui::draw(DrawingContext& context) {
   for(auto i = layers.begin(); i != layers.end(); ++i) {
     pos++;
     LayerIcon* li = &(**i);
-    li->draw(context, get_layer_coords(pos));
+    if (li->is_valid()) {
+      li->draw(context, get_layer_coords(pos));
+    } else {
+      layers.erase(i);
+    }
   }
 
 }
@@ -131,24 +135,18 @@ EditorLayersGui::event(SDL_Event& ev) {
             if (hovered_layer >= layers.size()) {
               break;
             }
-            if (InputManager::current()->get_controller()->hold(Controller::START)) {
-              //Delete it
-              layers[hovered_layer]->layer->remove_me();
-              layers.erase( layers.begin() + hovered_layer );
+            if ( layers[hovered_layer]->is_tilemap ) {
+              if (selected_tilemap) {
+                ((TileMap*)selected_tilemap)->editor_active = false;
+              }
+              selected_tilemap = layers[hovered_layer]->layer;
+              ((TileMap*)selected_tilemap)->editor_active = true;
+              Editor::current()->inputcenter.edit_path(((TileMap*)selected_tilemap)->get_path().get(),
+                                                       selected_tilemap);
             } else {
-              if ( layers[hovered_layer]->is_tilemap ) {
-                if (selected_tilemap) {
-                  ((TileMap*)selected_tilemap)->editor_active = false;
-                }
-                selected_tilemap = layers[hovered_layer]->layer;
-                ((TileMap*)selected_tilemap)->editor_active = true;
-                Editor::current()->inputcenter.edit_path(((TileMap*)selected_tilemap)->get_path().get(),
-                                                         selected_tilemap);
-              } else {
-                Camera* cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);
-                if (cam) {
-                  Editor::current()->inputcenter.edit_path(cam->get_path(), cam);
-                }
+              Camera* cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);
+              if (cam) {
+                Editor::current()->inputcenter.edit_path(cam->get_path(), cam);
               }
             }
             break;

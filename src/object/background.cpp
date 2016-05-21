@@ -195,6 +195,7 @@ Background::get_settings() {
   result.options.push_back(img2);
   result.options.push_back(img3);
 
+  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   return result;
 }
 

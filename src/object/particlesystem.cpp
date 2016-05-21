@@ -43,6 +43,7 @@ ParticleSystem::get_settings() {
   ObjectSettings result = GameObject::get_settings();
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
 
+  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   return result;
 }
 

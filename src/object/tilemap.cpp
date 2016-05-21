@@ -214,6 +214,9 @@ TileMap::get_settings() {
   result.options.push_back( ObjectOption(MN_COLOR, _("tint"), &tint));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
 
+  if (!editor_active) {
+    result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
+  }
   return result;
 }
 

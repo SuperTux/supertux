@@ -69,6 +69,7 @@ Thunderstorm::get_settings() {
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Running"), &running));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Interval"), &interval));
 
+  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   return result;
 }
 

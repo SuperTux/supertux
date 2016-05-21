@@ -18,6 +18,8 @@
 
 #include "editor/editor.hpp"
 #include "editor/object_settings.hpp"
+#include "gui/menu_item.hpp"
+#include "gui/menu_manager.hpp"
 #include "supertux/game_object.hpp"
 #include "util/gettext.hpp"
 #include "video/color.hpp"
@@ -58,6 +60,9 @@ ObjectMenu::ObjectMenu(GameObject *go) :
       case MN_FILE:
         add_file(oo->text, (std::string*)oo->option, oo->select);
         break;
+      case MN_REMOVE:
+        add_entry(MNID_REMOVE, _("Remove"));
+        break;
       default:
         break;
     }
@@ -75,5 +80,14 @@ ObjectMenu::~ObjectMenu()
 void
 ObjectMenu::menu_action(MenuItem* item)
 {
-
+  switch (item->id) {
+    case MNID_REMOVE:
+      Editor::current()->delete_markers();
+      Editor::current()->reactivate_request = true;
+      MenuManager::instance().pop_menu();
+      object->remove_me();
+      break;
+    default:
+      break;
+  }
 }
