@@ -22,6 +22,7 @@
 #include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/info_box_line.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/resources.hpp"
@@ -42,6 +43,7 @@ CreditsScroller::CreditsScroller(const std::string& filename) :
   speed(),
   music(),
   background(),
+  lines(),
   scroll(),
   fading()
 {
@@ -62,6 +64,30 @@ CreditsScroller::CreditsScroller(const std::string& filename) :
 
       if(!credits.get("background", background_file)) {
         throw std::runtime_error("File doesn't contain a background file");
+      }
+
+      ReaderMapping content;
+      if(!credits.get("content", content)) {
+        throw std::runtime_error("No content specified in credits file");
+      } else {
+        auto iter = content.get_iter();
+        while(iter.next()) {
+          if(iter.get_key() == "image") {
+            // Line contains image
+            std::string image_file;
+            iter.get(image_file);
+            lines.emplace_back(new InfoBoxLine('!', image_file));
+          } else if(iter.get_key() == "person") {
+            // add person to credits output
+          } else if(iter.get_key() == "note") {
+            // add note
+          } else if (iter.get_key() == "blank") {
+            // Empty line
+            lines.emplace_back(new InfoBoxLine('\t', ""));
+          } else {
+            log_warning << "Unknown token '" << iter.get_key() << "'in credits file (" << filename << ")" << std::endl;
+          }
+        }
       }
 
       credits.get("speed", defaultspeed);

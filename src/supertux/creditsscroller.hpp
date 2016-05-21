@@ -26,6 +26,7 @@
 #include "video/surface_ptr.hpp"
 
 class DrawingContext;
+class InfoBoxLine;
 
 /**
  * Screen that displays intro text, extro text, etc.
@@ -50,6 +51,7 @@ private:
   float speed;
   std::string music;
   SurfacePtr background;
+  std::vector<std::unique_ptr<InfoBoxLine> > lines;
   float scroll;
   bool fading;
 
