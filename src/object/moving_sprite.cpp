@@ -155,8 +155,24 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
 }
 
 void
-MovingSprite::save(Writer& writer) {
+MovingSprite::save(Writer& writer)
+{
   MovingObject::save(writer);
   writer.write("sprite", sprite_name, false);
 }
+
+ObjectSettings MovingSprite::get_settings()
+{
+  ObjectSettings result = MovingObject::get_settings();
+  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
+  spr.select.push_back(".sprite");
+  result.options.push_back(spr);
+  return result;
+}
+
+void MovingSprite::after_editor_set()
+{
+  sprite = SpriteManager::current()->create(sprite_name);
+}
+
 /* EOF */
