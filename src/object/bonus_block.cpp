@@ -175,7 +175,7 @@ BonusBlock::save(Writer& writer) {
   if (script != "") {
     writer.write("script", script, false);
   }
-  if (hit_counter > 1) {
+  if (hit_counter != 1) {
     writer.write("count", hit_counter);
   }
 }
