@@ -43,6 +43,9 @@ public:
     return _("Coin");
   }
 
+  ObjectSettings get_settings();
+  void after_editor_set();
+
   virtual void move_to(const Vector& pos);
 
   Path* get_path() const {
@@ -54,6 +57,7 @@ private:
   std::shared_ptr<PathWalker> walker;
   Vector offset;
   bool from_tilemap;
+  bool add_path;
   Physic physic;
 };
 
@@ -69,6 +73,9 @@ public:
   virtual std::string get_class() const {
     return "heavycoin";
   }
+
+  ObjectSettings get_settings();
+  void after_editor_set();
 
 private:
   Physic physic;
