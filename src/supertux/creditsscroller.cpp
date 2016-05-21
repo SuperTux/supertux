@@ -71,19 +71,70 @@ CreditsScroller::CreditsScroller(const std::string& filename) :
         throw std::runtime_error("No content specified in credits file");
       } else {
         auto iter = content.get_iter();
-        while(iter.next()) {
-          if(iter.get_key() == "image") {
-            // Line contains image
+        while (iter.next()) {
+          if (iter.get_key() == "image") {
             std::string image_file;
             iter.get(image_file);
             lines.emplace_back(new InfoBoxLine('!', image_file));
-          } else if(iter.get_key() == "person") {
-            // add person to credits output
-          } else if(iter.get_key() == "note") {
-            // add note
+          } else if (iter.get_key() == "person") {
+            bool simple;
+            std::string name, info, image_file;
+
+            if (!iter.as_mapping().get("simple", simple)) {
+              simple = false;
+            }
+
+            if (simple) {
+              if (!iter.as_mapping().get("name", name) || !iter.as_mapping().get("info", info)) {
+                throw std::runtime_error("Simple entry requires both name and info specified");
+              }
+
+              if (iter.as_mapping().get("image", image_file)) {
+                log_warning << "Image specified in a simple person entry (" << filename << ")" << std::endl;
+              }
+
+              lines.emplace_back(new InfoBoxLine(' ', name + " (" + info + ")"));
+            } else {
+              if (iter.as_mapping().get("name", name)) {
+                lines.emplace_back(new InfoBoxLine('\t', name));
+              }
+
+              if (iter.as_mapping().get("image", image_file) && !simple) {
+                lines.emplace_back(new InfoBoxLine('!', image_file));
+              }
+
+              if (iter.as_mapping().get("info", info)) {
+                lines.emplace_back(new InfoBoxLine(' ', info));
+              }
+            }
           } else if (iter.get_key() == "blank") {
             // Empty line
             lines.emplace_back(new InfoBoxLine('\t', ""));
+          } else if (iter.get_key() == "text") {
+            std::string type, string;
+
+            if (!iter.as_mapping().get("type", type)) {
+              type = "normal";
+            }
+
+            if (!iter.as_mapping().get("string", string)) {
+              throw std::runtime_error("Text entry requires a string");
+            }
+
+            if(type == "normal")
+              lines.emplace_back(new InfoBoxLine('\t', string));
+            else if(type == "normal-left")
+              lines.emplace_back(new InfoBoxLine('#', string));
+            else if(type == "small")
+              lines.emplace_back(new InfoBoxLine(' ', string));
+            else if(type == "heading")
+              lines.emplace_back(new InfoBoxLine('-', string));
+            else if(type == "reference")
+              lines.emplace_back(new InfoBoxLine('*', string));
+            else {
+              log_warning << "Unknown text type '" << iter.get_key() << "'in credits file (" << filename << ")" << std::endl;
+              lines.emplace_back(new InfoBoxLine('\t', string));
+            }
           } else {
             log_warning << "Unknown token '" << iter.get_key() << "'in credits file (" << filename << ")" << std::endl;
           }
