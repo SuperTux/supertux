@@ -32,4 +32,36 @@ ObjectOption::~ObjectOption() {
 
 }
 
+const std::string
+ObjectOption::to_string() {
+  switch (type) {
+    case MN_TEXTFIELD:
+      return *((std::string*)(option));
+    case MN_NUMFIELD:
+      return std::to_string(*((float*)(option)));
+    case MN_INTFIELD:
+      return std::to_string(*((int*)(option)));
+    case MN_TOGGLE:
+      return (*((bool*)(option))) ? _("true") : _("false");
+    case MN_STRINGSELECT:
+      return select[*((int*)(option))];
+    case MN_BADGUYSELECT:
+      return std::to_string(((std::vector<std::string>*)option)->size());
+    case MN_COLOR:
+      return std::to_string(((Color*)option)->red) + " "
+             + std::to_string(((Color*)option)->green) + " "
+             + std::to_string(((Color*)option)->blue);
+    case MN_SCRIPT:
+      if (((std::string*)option)->length()) {
+        return "...";
+      }
+      return "";
+    case MN_FILE:
+      return *((std::string*)(option));
+    default:
+      return _("Unknown");
+  }
+  return "";
+}
+
 /* EOF */
