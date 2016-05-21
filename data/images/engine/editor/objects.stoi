@@ -33,6 +33,9 @@
     (class "haywire")
     (icon "images/creatures/haywire/left-0.png"))
   (object
+    (class "icecrusher")
+    (icon "images/creatures/icecrusher/iceblock.png"))
+  (object
     (class "iceflame")
     (icon "images/creatures/flame/iceflame.png"))
   (object
