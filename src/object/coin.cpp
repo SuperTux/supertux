@@ -32,6 +32,7 @@ Coin::Coin(const Vector& pos)
     walker(),
     offset(),
     from_tilemap(false),
+    add_path(false),
     physic()
 {
   SoundManager::current()->preload("sounds/coin.wav");
@@ -43,6 +44,7 @@ Coin::Coin(const Vector& pos, TileMap* tilemap)
     walker(std::shared_ptr<PathWalker>(tilemap->get_walker())),
     offset(),
     from_tilemap(true),
+    add_path(false),
     physic()
 {
   if(walker.get()) {
@@ -59,6 +61,7 @@ Coin::Coin(const ReaderMapping& reader)
     walker(),
     offset(),
     from_tilemap(false),
+    add_path(false),
     physic()
 {
   ReaderMapping path_mapping;
@@ -249,6 +252,50 @@ Coin::move_to(const Vector& pos)
     path->move_by(shift);
   }
   set_pos(pos);
+}
+
+ObjectSettings
+Coin::get_settings()
+{
+  ObjectSettings result = MovingSprite::get_settings();
+
+  add_path = walker.get() && path->is_valid();
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Following path"), &add_path));
+
+  if (walker.get() && path->is_valid()) {
+    result.options.push_back( Path::get_mode_option(&path->mode) );
+  }
+
+  return result;
+}
+
+void
+Coin::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+
+  if (walker.get() && path->is_valid()) {
+    if (!add_path) {
+      path->nodes.clear();
+    }
+  } else {
+    if (add_path) {
+      path.reset(new Path(bbox.p1));
+      walker.reset(new PathWalker(path.get()));
+    }
+  }
+}
+
+ObjectSettings
+HeavyCoin::get_settings()
+{
+  return MovingSprite::get_settings();
+}
+
+void
+HeavyCoin::after_editor_set()
+{
+  MovingSprite::after_editor_set();
 }
 
 /* EOF */
