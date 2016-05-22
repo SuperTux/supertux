@@ -305,6 +305,7 @@ void Editor::load_sector(int id) {
 void Editor::reload_level() {
   reload_request = false;
   enabled = true;
+  tileselect.input_type = EditorInputGui::IP_NONE;
   // Re/load level
   level = NULL;
   levelloaded = true;
