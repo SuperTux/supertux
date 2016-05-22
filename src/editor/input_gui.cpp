@@ -306,7 +306,6 @@ EditorInputGui::event(SDL_Event& ev) {
         hovered_item = HI_NONE;
         tile_scrolling = TS_NONE;
         return false;
-        break;
       }
       if (y < 0) {
         if (y < -38) {
