@@ -55,7 +55,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
 }
 
 BonusBlock::BonusBlock(const ReaderMapping& lisp) :
-  Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
+  Block(lisp, "images/objects/bonus_block/bonusblock.sprite"),
   contents(),
   object(0),
   hit_counter(1),
@@ -63,21 +63,12 @@ BonusBlock::BonusBlock(const ReaderMapping& lisp) :
   script(),
   lightsprite()
 {
-  Vector pos;
-
   contents = CONTENT_COIN;
   auto iter = lisp.get_iter();
   while(iter.next()) {
     const std::string& token = iter.get_key();
-    if(token == "x") {
-      iter.get(pos.x);
-    } else if(token == "y") {
-      iter.get(pos.y);
-    } else if(token == "sprite") {
-      iter.get(sprite_name);
-      if (sprite_name.size() && PHYSFS_exists(sprite_name.c_str())) {
-        sprite = SpriteManager::current()->create(sprite_name);
-      }
+    if(token == "x" || token == "y" || token == "sprite") {
+      // already initialized in Block::Block
     } else if(token == "count") {
       iter.get(hit_counter);
     } else if(token == "script") {
@@ -110,8 +101,6 @@ BonusBlock::BonusBlock(const ReaderMapping& lisp) :
     SoundManager::current()->preload("sounds/switch.ogg");
     lightsprite = Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
   }
-
-  bbox.set_pos(pos);
 }
 
 void
@@ -182,7 +171,7 @@ BonusBlock::save(Writer& writer) {
 
 ObjectSettings
 BonusBlock::get_settings() {
-  ObjectSettings result = MovingObject::get_settings();
+  ObjectSettings result = Block::get_settings();
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Count"), &hit_counter));
 

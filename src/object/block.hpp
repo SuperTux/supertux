@@ -36,6 +36,10 @@ public:
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
+  virtual void save(Writer& writer);
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set();
+
 protected:
   friend class FlipLevelTransformer;
 
@@ -45,6 +49,7 @@ protected:
   void break_me();
 
   SpritePtr sprite;
+  std::string sprite_name;
   bool bouncing;
   bool breaking;
   float bounce_dir;
