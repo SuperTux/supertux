@@ -609,6 +609,11 @@
       1358 1359 1360 0
       1361 1362 1363 0
       1364 1365 1366 0
+	  458  459  460  0
+	  461  462  463  0
+	  464  465  466  0
+	  467  468  469  0
+	  470  471  472  0
       1972 1976 1980 1984
       1973 1977 1981 1985
       1974 1978 1982 1986
@@ -618,6 +623,9 @@
       2007 1353 2012 0
       2008 1354 2013 0
       2009 1821 2014 0
+	  473  474  0    0
+	  475  476  0    0
+	  477  478  0    0
 
       1860 1861 1862 1863
       1864 1865 1866 1867
@@ -667,6 +675,9 @@
       3402 3403 3404 3405
       3410 3411 3412 3413
          0    0 3416 3418
+	  3435 3436 3437 0
+	  491  492  493  494
+	  495  496  497  498
     )
   )
 
@@ -805,9 +816,14 @@
       1990 1991 3061 3065
       1992 1993 3062 3066
       1994 1995 3063 3067
-      3285 3286 0    0
-      3287 3288 0    0
-      3289 3290 0    0
+	  3438 3439 3450 3451
+      3440 3441 3452 3453
+      3442 3443 3454 3455
+      3444 3445 3456 3457
+      3285 3286 3446 3447
+      3287 3288 3448 3449
+      3289 3290 3458 3459
+	  0    0    3460 3461
 
       217  218  219  220
       221  222  224  225
@@ -836,6 +852,8 @@
       3027 3028 3029 3030
       3031 3032 3033 3034
       3035 3036 0    0
+	  483  484  485  486
+	  487  488  489  490
     )
   )
   (tilegroup
@@ -905,7 +923,9 @@
       1822 1823 2400 2401
       1824 1825 2402 2403
       3163 3164 172  246
-      3165 3166 247  248 )
+      3165 3166 247  248 
+	  479  480  0    0
+	  481  482  0    0)
   )
   (tilegroup
     (name "Jungle")
@@ -2199,6 +2219,59 @@
       0   0   0   0   454 455 456 457
     )
     (image "tiles/forest/foresttiles-12.png")
+  )
+  (tiles
+    (width 3)
+    (height 5)
+    (ids
+      458 459 460
+      461 462 463
+	  464 465 466
+	  467 468 469
+	  470 471 472
+    )
+    (image "tiles/forest/brush2.png")
+  )
+  (tiles
+    (width 2)
+    (height 3)
+    (ids
+      473 474
+	  475 476
+	  477 478
+    )
+    (image "tiles/forest/hole2.png")
+  )
+  (tiles
+    (width 2)
+    (height 3)
+    (ids
+      479 480
+	  481 482
+    )
+    (image "tiles/signs/platform_wood.png")
+  )
+  (tiles
+    (width 4)
+    (height 2)
+    (ids
+      483 484 485 486
+	  487 488 489 490
+    )
+    (image "tiles/pole/misc.png")
+  )
+  (tiles
+    (width 4)
+    (height 2)
+    (ids
+      491 492 493 494
+	  495 496 497 498
+    )
+	(attributes
+      0 0 0 0
+      1 1 1 1
+    )
+    (image "tiles/ghostwood/earth-floor.png")
   )
   (tiles
     (width 4)
@@ -4434,8 +4507,8 @@
       3257 3258 3259 3260
     )
     (attributes
-      0 0
-      0 0
+      1 1
+      1 1
     )
     (image "tiles/castle/hearttile.png")
   )
@@ -4504,8 +4577,8 @@
       3269 3270 3271 3272
     )
     (attributes
-      0 0
-      0 0
+      1 1
+      1 1
     )
     (image "tiles/castle/pennyhere.png")
   )
@@ -4528,7 +4601,7 @@
       3281 3282
     )
     (attributes
-      0 0
+      1 1
     )
     (image "tiles/castle/grey7.png")
   )
@@ -4679,5 +4752,91 @@
     )
     (image "tiles/background/storm-cloud.png")
   )
-  ;; next-id: 3435
+  (tiles
+    (width 3)
+    (height 1)
+    (ids
+      3435 3436 3437
+    )
+    (attributes
+       1 1 1
+    )
+    (image "tiles/forest/forestlog.png")
+  )
+  (tiles
+    (width 2)
+    (height 4)
+    (ids
+      3438 3439
+      3440 3441
+      3442 3443
+      3444 3445
+    )
+    (attributes
+      1 1
+      1 1
+      1 1
+      1 1
+    )
+    (image "tiles/forest/statue2.png")
+  )
+  (tile
+    (id 3446)
+    (images "creatures/spike/spikeup.png")
+    (hurts #t)
+  )
+  (tile
+    (id 3447)
+    (images "creatures/spike/spikedown.png")
+    (hurts #t)
+  )
+  (tile
+    (id 3448)
+    (images "creatures/spike/spikeleft.png")
+    (hurts #t)
+  )
+  (tile
+    (id 3449)
+    (images "creatures/spike/spikeright.png")
+    (hurts #t)
+  )
+  (tiles
+    (width 2)
+    (height 4)
+    (ids
+      3450 3451
+      3452 3453
+      3454 3455
+	  3456 3457
+    )
+	(attributes
+      1 1
+      1 1
+      1 1
+      1 1
+    )
+    (image "tiles/doodads/nolok_statue.png")
+  )
+  (tile
+    (id 3458)
+    (images "creatures/spike/spikeup2.png")
+    (hurts #t)
+  )
+  (tile
+    (id 3459)
+    (images "creatures/spike/spikedown2.png")
+    (hurts #t)
+  )
+  (tile
+    (id 3460)
+    (images "creatures/spike/spikeleft2.png")
+    (hurts #t)
+  )
+  (tile
+    (id 3461)
+    (images "creatures/spike/spikeright2.png")
+    (hurts #t)
+  )
+
+  ;; next-id: 3462
   )
