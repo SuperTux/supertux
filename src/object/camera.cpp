@@ -120,6 +120,9 @@ public:
 void
 Camera::save(Writer& writer){
   GameObject::save(writer);
+  if (defaultmode == AUTOSCROLL && !autoscroll_path->is_valid()) {
+    defaultmode = NORMAL;
+  }
   switch (defaultmode) {
     case NORMAL: writer.write("mode", "normal", false); break;
     case MANUAL: writer.write("mode", "manual", false); break;
@@ -141,7 +144,25 @@ Camera::get_settings() {
   moo.select.push_back(_("manual"));
   result.options.push_back(moo);
 
+  if (autoscroll_walker.get() && autoscroll_path->is_valid()) {
+    result.options.push_back( Path::get_mode_option(&autoscroll_path->mode) );
+  }
+
   return result;
+}
+
+void
+Camera::after_editor_set() {
+  if (autoscroll_walker.get() && autoscroll_path->is_valid()) {
+    if (defaultmode != AUTOSCROLL) {
+      autoscroll_path->nodes.clear();
+    }
+  } else {
+    if (defaultmode == AUTOSCROLL) {
+      autoscroll_path.reset(new Path(Vector(0,0)));
+      autoscroll_walker.reset(new PathWalker(autoscroll_path.get()));
+    }
+  }
 }
 
 Camera::Camera(Sector* newsector, std::string name_) :
