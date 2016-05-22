@@ -159,6 +159,9 @@
     (class "bonusblock")
     (icon "images/objects/bonus_block/full-0.png"))
   (object
+    (class "brick")
+    (icon "images/tiles/blocks/brick0.png"))
+  (object
     (class "heavycoin")
     (icon "images/objects/coin/heavy_coin.png"))
   (object
