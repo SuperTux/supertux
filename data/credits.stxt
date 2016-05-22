@@ -914,7 +914,7 @@
       )
       (text
         (type "reference")
-        (string (_ "supertux-devel@lists.lethargik.org"))
+        (string "supertux-devel@lists.lethargik.org")
       )
       (blank)
       (blank)
