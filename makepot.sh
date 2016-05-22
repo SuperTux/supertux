@@ -1,6 +1,6 @@
 #!/bin/sh
 xgettext --keyword='_' -C -o translations/messages.pot $(find src -name "*.cpp")
-find data/ "(" -name "credits.txt" ")" -print0 | xargs -0 xgettext --keyword='_:1' --language=Lisp --from-code=UTF-8 --sort-by-file --output translations/credits.pot
+find data/ "(" -name "credits.stxt" ")" -print0 | xargs -0 xgettext --keyword='_:1' --language=Lisp --from-code=UTF-8 --sort-by-file --output translations/credits.pot
 
 # Prepare script files for inclusion in tinygettext
 for LEVELSET in $(ls data/levels); do

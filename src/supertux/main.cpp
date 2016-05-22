@@ -176,7 +176,7 @@ public:
       for (const std::string &subdir : subdirs)
       {
         datadir = FileSystem::join(basepath, subdir);
-        if (FileSystem::exists(FileSystem::join(datadir, "credits.txt")))
+        if (FileSystem::exists(FileSystem::join(datadir, "credits.stxt")))
         {
           found = true;
           break;

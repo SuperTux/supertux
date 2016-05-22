@@ -71,7 +71,7 @@ MainMenu::menu_action(MenuItem* item)
 
     case MNID_CREDITS:
       MenuManager::instance().clear_menu_stack();
-      ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.txt")),
+      ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.stxt")),
                                             std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
       break;
 

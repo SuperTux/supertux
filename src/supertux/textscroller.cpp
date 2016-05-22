@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2016 M. Teufel <mteufel@urandom.eu.org>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -62,25 +63,108 @@ TextScroller::TextScroller(const std::string& filename) :
     } else {
       auto text_lisp = root.get_mapping();
 
-      if(!text_lisp.get("text", text)) {
-        throw std::runtime_error("file doesn't contain a text field");
+      int version = 1;
+      text_lisp.get("version", version);
+      if (version == 1) {
+        log_info << "[" << filename << "] Text uses old format: version 1" << std::endl;
+
+        if(!text_lisp.get("text", text)) {
+          throw std::runtime_error("File doesn't contain a text field");
+        }
+
+        // Split text string lines into a vector
+        lines = InfoBoxLine::split(text, SCREEN_WIDTH - 2*LEFT_BORDER);
+      } else if (version == 2) {
+        ReaderMapping content;
+        if (!text_lisp.get("content", content)) {
+          throw std::runtime_error("File doesn't contain content");
+        } else {
+          auto iter = content.get_iter();
+          while (iter.next()) {
+            if (iter.get_key() == "image") {
+              std::string image_file;
+              iter.get(image_file);
+              lines.emplace_back(new InfoBoxLine('!', image_file));
+            } else if (iter.get_key() == "person") {
+              bool simple;
+              std::string name, info, image_file;
+
+              if (!iter.as_mapping().get("simple", simple)) {
+                simple = false;
+              }
+
+              if (simple) {
+                if (!iter.as_mapping().get("name", name) || !iter.as_mapping().get("info", info)) {
+                  throw std::runtime_error("Simple entry requires both name and info specified");
+                }
+
+                if (iter.as_mapping().get("image", image_file)) {
+                  log_warning << "[" << filename << "] Simple person entry shouldn't specify images" << std::endl;
+                }
+
+                lines.emplace_back(new InfoBoxLine(' ', name + " (" + info + ")"));
+              } else {
+                if (iter.as_mapping().get("name", name)) {
+                  lines.emplace_back(new InfoBoxLine('\t', name));
+                }
+
+                if (iter.as_mapping().get("image", image_file) && !simple) {
+                  lines.emplace_back(new InfoBoxLine('!', image_file));
+                }
+
+                if (iter.as_mapping().get("info", info)) {
+                  lines.emplace_back(new InfoBoxLine(' ', info));
+                }
+              }
+            } else if (iter.get_key() == "blank") {
+              // Empty line
+              lines.emplace_back(new InfoBoxLine('\t', ""));
+            } else if (iter.get_key() == "text") {
+              std::string type, string;
+
+              if (!iter.as_mapping().get("type", type)) {
+                type = "normal";
+              }
+
+              if (!iter.as_mapping().get("string", string)) {
+                throw std::runtime_error("Text entry requires a string");
+              }
+
+              if (type == "normal")
+                lines.emplace_back(new InfoBoxLine('\t', string));
+              else if (type == "normal-left")
+                lines.emplace_back(new InfoBoxLine('#', string));
+              else if (type == "small")
+                lines.emplace_back(new InfoBoxLine(' ', string));
+              else if (type == "heading")
+                lines.emplace_back(new InfoBoxLine('-', string));
+              else if (type == "reference")
+                lines.emplace_back(new InfoBoxLine('*', string));
+              else {
+                log_warning << "[" << filename << "] Unknown text type '" << type << "'" << std::endl;
+                lines.emplace_back(new InfoBoxLine('\t', string));
+              }
+            } else {
+              log_warning << "[" << filename << "] Unknown token '" << iter.get_key() << "'" << std::endl;
+            }
+          }
+        }
+      } else {
+        throw std::runtime_error("File format version is not supported");
       }
 
-      if(!text_lisp.get("background", background_file)) {
-        throw std::runtime_error("file doesn't contain a background file");
+      if (!text_lisp.get("background", background_file)) {
+        throw std::runtime_error("File doesn't contain a background file");
       }
 
       text_lisp.get("speed", defaultspeed);
       text_lisp.get("music", music);
     }
-  } catch(std::exception& e) {
+  } catch (std::exception& e) {
     std::ostringstream msg;
     msg << "Couldn't load file '" << filename << "': " << e.what() << std::endl;
     throw std::runtime_error(msg.str());
   }
-
-  // Split text string lines into a vector
-  lines = InfoBoxLine::split(text, SCREEN_WIDTH - 2*LEFT_BORDER);
 
   // load background image
   background = Surface::create("images/background/" + background_file);
@@ -137,12 +221,12 @@ TextScroller::draw(DrawingContext& context)
 
 
   float y = SCREEN_HEIGHT - scroll;
-  for(size_t i = 0; i < lines.size(); i++) {
-    if (y + lines[i]->get_height() >= 0 && SCREEN_HEIGHT - y >= 0) {
-      lines[i]->draw(context, Rectf(LEFT_BORDER, y, SCREEN_WIDTH - 2*LEFT_BORDER, y), LAYER_GUI);
+  for (auto& line : lines) {
+    if (y + line->get_height() >= 0 && SCREEN_HEIGHT - y >= 0) {
+      line->draw(context, Rectf(LEFT_BORDER, y, SCREEN_WIDTH - 2*LEFT_BORDER, y), LAYER_GUI);
     }
 
-    y += lines[i]->get_height();
+    y += line->get_height();
   }
 
   if(y < 0 && !fading ) {
