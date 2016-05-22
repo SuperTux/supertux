@@ -57,7 +57,8 @@ TileMap::TileMap(const TileSet *new_tileset) :
   walker(),
   draw_target(DrawingContext::NORMAL),
   new_size_x(0),
-  new_size_y(0)
+  new_size_y(0),
+  add_path(false)
 {
 }
 
@@ -85,7 +86,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   walker(),
   draw_target(DrawingContext::NORMAL),
   new_size_x(0),
-  new_size_y(0)
+  new_size_y(0),
+  add_path(false)
 {
   assert(tileset);
 
@@ -214,6 +216,13 @@ TileMap::get_settings() {
   result.options.push_back( ObjectOption(MN_COLOR, _("tint"), &tint));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
 
+  add_path = walker.get() && path->is_valid();
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Following path"), &add_path));
+
+  if (walker.get() && path->is_valid()) {
+    result.options.push_back( Path::get_mode_option(&path->mode) );
+  }
+
   if (!editor_active) {
     result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   }
@@ -223,6 +232,17 @@ TileMap::get_settings() {
 void
 TileMap::after_editor_set() {
   resize(new_size_x, new_size_y);
+
+  if (walker.get() && path->is_valid()) {
+    if (!add_path) {
+      path->nodes.clear();
+    }
+  } else {
+    if (add_path) {
+      path.reset(new Path(offset));
+      walker.reset(new PathWalker(path.get()));
+    }
+  }
 }
 
 void
