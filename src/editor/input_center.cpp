@@ -366,6 +366,52 @@ EditorInputCenter::grab_object() {
 }
 
 void
+EditorInputCenter::clone_object() {
+  for (auto moving_object : Editor::current()->currentsector->moving_objects) {
+    Rectf bbox = moving_object->get_bbox();
+
+    if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
+        sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
+      if (!moving_object->is_valid()) {
+        continue;
+      }
+
+      PointMarker* pm = dynamic_cast<PointMarker*>(moving_object);
+      if (pm) {
+        continue; //Do not clone markers
+      }
+      obj_mouse_desync = sector_pos - bbox.p1;
+
+      auto tileselect = &(Editor::current()->tileselect);
+      GameObjectPtr game_object;
+      try {
+        game_object = ObjectFactory::instance().create(moving_object->get_class(), moving_object->get_pos());
+      } catch(const std::exception& e) {
+        log_warning << "Error creating object " << tileselect->object << ": " << e.what() << std::endl;
+        return;
+      }
+      if (!game_object)
+        throw std::runtime_error("Cloning object failed.");
+
+      try {
+        Editor::current()->currentsector->add_object(game_object);
+      } catch(const std::exception& e) {
+        log_warning << "Error adding object " << tileselect->object << ": " << e.what() << std::endl;
+        return;
+      }
+
+      dragged_object = dynamic_cast<MovingObject*>(game_object.get());
+      ObjectSettings settings = moving_object->get_settings();
+      dragged_object->get_settings().copy_from(&settings);
+      dragged_object->after_editor_set();
+      return;
+    }
+  }
+  dragged_object = NULL;
+  delete_markers();
+}
+
+void
 EditorInputCenter::set_object() {
   for (auto moving_object : Editor::current()->currentsector->moving_objects) {
     Rectf bbox = moving_object->get_bbox();
@@ -500,7 +546,16 @@ EditorInputCenter::process_left_click() {
       }
     } break;
     case EditorInputGui::IP_OBJECT:
-      grab_object();
+      switch (Editor::current()->tileselect.move_mode->get_mode()) {
+        case 0:
+          grab_object();
+          break;
+        case 1:
+          clone_object();
+          break;
+        default:
+          break;
+      }
       if (!Editor::current()->tileselect.object.empty()) {
         if (!dragged_object) {
           put_object();
@@ -611,7 +666,7 @@ EditorInputCenter::event(SDL_Event& ev) {
                   break;
                 default:
                   break;
-            }
+              }
             }
             break;
           case EditorInputGui::IP_OBJECT:
