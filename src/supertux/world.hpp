@@ -61,8 +61,11 @@ private:
   std::string m_worldmap_filename;
   std::string m_savegame_filename;
 
+public:
   std::string m_title;
   std::string m_description;
+
+private:
   bool m_hide_from_contribs;
   bool m_is_levelset;
 
