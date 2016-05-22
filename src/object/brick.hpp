@@ -32,6 +32,9 @@ public:
   std::string get_class() const {
     return "brick";
   }
+  std::string get_display_name() const {
+    return _("Brick");
+  }
 
 protected:
   virtual void hit(Player& player);
