@@ -173,7 +173,6 @@ EditorLayersGui::event(SDL_Event& ev) {
       if (y < 0 || x > Width) {
         hovered_item = HI_NONE;
         return false;
-        break;
       }
       if (x < 0) {
         hovered_item = HI_SPAWNPOINTS;
