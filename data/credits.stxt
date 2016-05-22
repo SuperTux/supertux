@@ -691,7 +691,7 @@
       (simple #t))
     (person
       (name "Max Lyashuk")
-      (info (_ "Ukranian"))
+      (info (_ "Ukrainian"))
       (simple #t))
     (person
       (name "Tobias Markus")
