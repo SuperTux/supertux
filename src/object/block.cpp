@@ -38,6 +38,7 @@ static const float BUMP_ROTATION_ANGLE = 10;
 
 Block::Block(SpritePtr newsprite) :
   sprite(newsprite),
+  sprite_name(),
   bouncing(false),
   breaking(false),
   bounce_dir(0),
@@ -52,6 +53,7 @@ Block::Block(SpritePtr newsprite) :
 
 Block::Block(const ReaderMapping& lisp, std::string sprite_file) :
   sprite(),
+  sprite_name(),
   bouncing(false),
   breaking(false),
   bounce_dir(0),
@@ -67,6 +69,7 @@ Block::Block(const ReaderMapping& lisp, std::string sprite_file) :
     sf = sprite_file;
   }
   sprite = SpriteManager::current()->create(sf);
+  sprite_name = sprite_file;
 
   bbox.set_size(32, 32.1f);
   set_group(COLGROUP_STATIC);
@@ -76,6 +79,12 @@ Block::Block(const ReaderMapping& lisp, std::string sprite_file) :
 
 Block::~Block()
 {
+}
+
+void
+Block::save(Writer& writer) {
+  MovingObject::save(writer);
+  writer.write("sprite", sprite_name, false);
 }
 
 HitResponse
@@ -193,6 +202,20 @@ Block::break_me()
     std::make_shared<BrokenBrick>(sprite->clone(), get_pos() + Vector(16, 16),
                                   Vector(150, -300)));
   remove_me();
+}
+
+ObjectSettings Block::get_settings()
+{
+  ObjectSettings result = MovingObject::get_settings();
+  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
+  spr.select.push_back(".sprite");
+  result.options.push_back(spr);
+  return result;
+}
+
+void Block::after_editor_set()
+{
+  sprite = SpriteManager::current()->create(sprite_name);
 }
 
 /* EOF */
