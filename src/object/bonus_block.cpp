@@ -168,7 +168,7 @@ BonusBlock::save(Writer& writer) {
     case CONTENT_CUSTOM:     writer.write("contents", "custom"    , false); break;
     case CONTENT_SCRIPT:     writer.write("contents", "script"    , false); break;
     case CONTENT_LIGHT:      writer.write("contents", "light"     , false); break;
-    case CONTENT_TRAMPOLINE: writer.write("contents", "trampoilne", false); break;
+    case CONTENT_TRAMPOLINE: writer.write("contents", "trampoline", false); break;
     case CONTENT_RAIN:       writer.write("contents", "rain"      , false); break;
     case CONTENT_EXPLODE:    writer.write("contents", "explode"   , false); break;
   }
