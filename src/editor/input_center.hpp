@@ -74,6 +74,7 @@ class EditorInputCenter
 
     void grab_object();
     void move_object();
+    void clone_object();
     void hover_object();
     void set_object();
     void mark_object();
