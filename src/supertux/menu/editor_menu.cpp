@@ -28,14 +28,22 @@
 
 EditorMenu::EditorMenu()
 {
+  bool worldmap = Editor::current()->get_worldmap_mode();
+
   add_label(_("Level Editor"));
   add_hl();
   add_entry(MNID_RETURNTOEDITOR, _("Return to editor"));
   add_entry(MNID_SAVELEVEL, _("Save current level"));
-  add_entry(MNID_TESTLEVEL, _("Test the level"));
+
+  if (!worldmap) {
+    add_entry(MNID_TESTLEVEL, _("Test the level"));
+  }
+
   add_entry(MNID_LEVELSEL, _("Edit another level"));
   add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
-  add_submenu(_("Level properties"), MenuStorage::EDITOR_LEVEL_MENU);
+
+  add_submenu(worldmap ? _("Worldmap properties") : _("Level properties"),
+              MenuStorage::EDITOR_LEVEL_MENU);
   add_submenu(_("Level subset properties"), MenuStorage::EDITOR_LEVELSET_MENU);
   add_hl();
   add_entry(MNID_QUITEDITOR, _("Exit level editor"));

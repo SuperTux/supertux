@@ -86,6 +86,7 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
   if (item->id >= 0)
   {
     Editor::current()->set_level(m_levelset->get_level_filename(item->id));
+    Editor::current()->set_worldmap_mode(false);
     MenuManager::instance().clear_menu_stack();
   } else {
     if (item->id == -1) {

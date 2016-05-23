@@ -67,6 +67,7 @@ class Editor : public Screen,
     std::unique_ptr<World> world;
 
     std::string levelfile;
+    bool worldmap_mode;
 
   public:
     bool quit_request;
@@ -102,6 +103,14 @@ class Editor : public Screen,
     void set_level(std::string levelfile_) {
       Editor::current()->levelfile = levelfile_;
       Editor::current()->reload_request = true;
+    }
+
+    void set_worldmap_mode(bool new_mode) {
+      worldmap_mode = new_mode;
+    }
+
+    bool get_worldmap_mode() const {
+      return worldmap_mode;
     }
 
     void load_sector(std::string name);
