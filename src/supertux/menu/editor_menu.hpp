@@ -22,15 +22,6 @@
 
 class Level;
 
-enum EditorMenuIDs {
-  MNID_RETURNTOEDITOR,
-  MNID_SAVELEVEL,
-  MNID_TESTLEVEL,
-  MNID_LEVELSEL,
-  MNID_LEVELSETSEL,
-  MNID_QUITEDITOR
-};
-
 class EditorMenu : public Menu
 {
 private:
@@ -41,6 +32,15 @@ public:
   void menu_action(MenuItem* item) override;
 
 private:
+  enum MenuIDs {
+    MNID_RETURNTOEDITOR,
+    MNID_SAVELEVEL,
+    MNID_TESTLEVEL,
+    MNID_LEVELSEL,
+    MNID_LEVELSETSEL,
+    MNID_QUITEDITOR
+  };
+
   EditorMenu(const EditorMenu&);
   EditorMenu& operator=(const EditorMenu&);
 };

@@ -16,12 +16,15 @@
 
 #include "supertux/menu/editor_levelset_menu.hpp"
 
+#include <physfs.h>
+
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "editor/editor.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/world.hpp"
+#include "util/file_system.hpp"
 #include "util/gettext.hpp"
 
 EditorLevelsetMenu::EditorLevelsetMenu()
@@ -32,6 +35,12 @@ EditorLevelsetMenu::EditorLevelsetMenu()
   add_hl();
   add_textfield(_("Name"), &(world->m_title));
   add_textfield(_("Description"), &(world->m_description));
+
+  std::string worldmap_file = FileSystem::join(world->get_basedir(), "worldmap.stwm");
+  if (PHYSFS_exists(worldmap_file.c_str())) {
+    add_toggle(-1, _("Do not use worldmap"), &(world->m_is_levelset));
+    add_entry(MNID_EDITWORLDMAP, _("Edit worldmap"));
+  }
   add_hl();
   add_back(_("OK"));
 }
@@ -44,7 +53,17 @@ EditorLevelsetMenu::~EditorLevelsetMenu()
 void
 EditorLevelsetMenu::menu_action(MenuItem* item)
 {
+  auto editor = Editor::current();
+  switch (item->id) {
+    case MNID_EDITWORLDMAP:
+        editor->set_level("worldmap.stwm");
+        MenuManager::instance().clear_menu_stack();
+      break;
+    default:
+      break;
+  }
 
+  //Editor::current()->set_level(m_levelset->get_level_filename(item->id));
 }
 
 /* EOF */
