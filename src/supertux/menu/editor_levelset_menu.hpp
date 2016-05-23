@@ -29,6 +29,11 @@ public:
   void menu_action(MenuItem* item) override;
 
 private:
+  enum MenuIDs {
+    MNID_EDITWORLDMAP,
+    MNID_NEWWORLDMAP
+  };
+
   EditorLevelsetMenu(const EditorLevelsetMenu&);
   EditorLevelsetMenu& operator=(const EditorLevelsetMenu&);
 };

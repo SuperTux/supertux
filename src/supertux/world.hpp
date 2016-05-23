@@ -67,6 +67,8 @@ public:
 
 private:
   bool m_hide_from_contribs;
+
+public:
   bool m_is_levelset;
 
 private:
