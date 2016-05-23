@@ -57,6 +57,7 @@ EditorLevelsetMenu::menu_action(MenuItem* item)
   switch (item->id) {
     case MNID_EDITWORLDMAP:
         editor->set_level("worldmap.stwm");
+        editor->set_worldmap_mode(true);
         MenuManager::instance().clear_menu_stack();
       break;
     default:

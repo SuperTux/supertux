@@ -48,6 +48,7 @@ Editor::Editor() :
   level(),
   world(),
   levelfile(),
+  worldmap_mode(false),
   quit_request(false),
   newlevel_request(false),
   reload_request(false),

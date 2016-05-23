@@ -29,16 +29,21 @@
 
 EditorLevelMenu::EditorLevelMenu()
 {
+  bool worldmap = Editor::current()->get_worldmap_mode();
   auto level = Editor::current()->get_level();
 
-  add_label(_("Level properties"));
+  add_label(worldmap ? _("Worldmap properties") :_("Level properties"));
   add_hl();
   add_textfield(_("Name"), &(level->name));
   add_textfield(_("Author"), &(level->author));
   add_textfield(_("Contact"), &(level->contact));
   add_textfield(_("License"), &(level->license));
-  add_script(_("On menukey script"), &(level->on_menukey_script));
-  add_numfield(_("Target time"), &(level->target_time));
+
+  if (!worldmap) {
+    add_script(_("On menukey script"), &(level->on_menukey_script));
+    add_numfield(_("Target time"), &(level->target_time));
+  }
+
   add_hl();
   add_back(_("OK"));
 }
