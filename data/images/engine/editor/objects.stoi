@@ -2,6 +2,7 @@
 
  (objectgroup
   (name ( _"Hostile"))
+  (worldmap #f)
   (object 
     (class "angrystone")     
     (icon "images/creatures/angrystone/charging-0.png"))
@@ -120,6 +121,7 @@
   
  (objectgroup  
   (name (_"Projectiles"))
+  (worldmap #f)
   (object
     (class "dart")
     (icon "images/creatures/dart/flying.png"))
@@ -145,6 +147,7 @@
 
  (objectgroup  
   (name (_"Bosses"))
+  (worldmap #f)
   (object
     (class "yeti")
     (icon "images/creatures/yeti/hudlife.png"))
@@ -155,6 +158,7 @@
 
  (objectgroup  
   (name (_"Interactive"))
+  (worldmap #f)
   (object
     (class "bonusblock")
     (icon "images/objects/bonus_block/full-0.png"))
@@ -222,6 +226,7 @@
 
  (objectgroup  
   (name (_"Lightmap"))
+  (worldmap #f)
   (object
     (class "candle")
     (icon "images/objects/candle/candle-1.png"))
@@ -238,6 +243,7 @@
 
  (objectgroup  
   (name (_"Ambient"))
+  (worldmap #f)
   (object
     (class "tilemap")
     (icon "images/engine/editor/tilemap.png"))
@@ -283,5 +289,31 @@
   (object
     (class "#node")
     (icon "images/engine/editor/path_node.png"))
+ )
+
+ (objectgroup  
+  (name (_"Worldmap markers"))
+  (worldmap #t)
+  (object
+    (class "level")
+    (icon "images/worldmap/common/leveldot_red.png"))
+  (object
+    (class "special-tile")
+    (icon "images/worldmap/common/messagedot.png"))
+  (object
+    (class "sprite-change")
+    (icon "images/engine/editor/spritechange.png"))
+  (object
+    (class "teleporter")
+    (icon "images/worldmap/common/teleporterdot.png"))
+  (object
+    (class "worldmap-spawnpoint")
+    (icon "images/worldmap/common/tux.png"))
+  (object
+    (class "decal")
+    (icon "images/engine/editor/decal.png"))
+  (object
+    (class "tilemap")
+    (icon "images/engine/editor/tilemap.png"))
  )
 )
