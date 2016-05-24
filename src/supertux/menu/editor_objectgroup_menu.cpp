@@ -33,6 +33,8 @@
 
 EditorObjectgroupMenu::EditorObjectgroupMenu()
 {
+  bool worldmap = Editor::current()->get_worldmap_mode();
+
   add_label(_("Objects"));
   add_hl();
 
@@ -40,7 +42,9 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
   for(auto i = Editor::current()->tileselect.object_input->groups.begin();
       i != Editor::current()->tileselect.object_input->groups.end(); ++i) {
     ObjectGroup* og = &(*i);
-    add_entry(id, og->name);
+    if (worldmap == og->for_worldmap) {
+      add_entry(id, og->name);
+    }
     id++;
   }
 

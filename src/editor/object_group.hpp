@@ -33,6 +33,7 @@ class ObjectGroup
 
     std::string name;
     std::vector<ObjectIcon> icons;
+    bool for_worldmap;
 
     void add_icon(std::string object, std::string icon_path);
 };

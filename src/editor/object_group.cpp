@@ -20,19 +20,22 @@
 
 ObjectGroup::ObjectGroup() :
   name(),
-  icons()
+  icons(),
+  for_worldmap(false)
 {
   icons.clear();
 }
 
 ObjectGroup::ObjectGroup(const ReaderMapping& reader) :
   name(),
-  icons()
+  icons(),
+  for_worldmap(false)
 {
   icons.clear();
   icons.push_back( ObjectIcon("#move", "images/engine/editor/arrow.png") );
 
   reader.get("name", name);
+  reader.get("worldmap", for_worldmap);
 
   auto iter = reader.get_iter();
   while(iter.next()) {
