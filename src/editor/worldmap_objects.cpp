@@ -228,7 +228,7 @@ WorldmapSpawnPoint::get_settings() {
 }
 
 SpriteChange::SpriteChange (const ReaderMapping& lisp) :
-  WorldmapObject(lisp),
+  WorldmapObject(lisp, "images/engine/editor/spritechange.png"),
   target_sprite(sprite_name),
   stay_action(),
   initial_stay_action(false),

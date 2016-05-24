@@ -25,6 +25,7 @@
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
+#include "editor/worldmap_objects.hpp"
 #include "math/rectf.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
@@ -514,6 +515,11 @@ EditorInputCenter::put_object() {
   MovingObject* mo = dynamic_cast<MovingObject*> (game_object.get());
   if (!mo) {
     Editor::current()->layerselect.add_layer(game_object.get());
+  }
+
+  worldmap_editor::WorldmapObject* wo = dynamic_cast<worldmap_editor::WorldmapObject*> (game_object.get());
+  if (wo) {
+    wo->move_to(wo->get_pos() / 32);
   }
 
   try {
