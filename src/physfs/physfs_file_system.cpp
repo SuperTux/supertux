@@ -43,4 +43,12 @@ PhysFSFileSystem::open_file(const std::string& filename)
   return std::unique_ptr<std::istream>(new IFileStream(filename));
 }
 
+bool
+PhysFSFileSystem::is_directory(const std::string& filename)
+{
+  PHYSFS_Stat statbuf;
+  PHYSFS_stat(filename.c_str(), &statbuf);
+  return statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY;
+}
+
 /* EOF */

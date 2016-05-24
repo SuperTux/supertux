@@ -21,6 +21,7 @@
 
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "physfs/physfs_file_system.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/menu/contrib_levelset_menu.hpp"
@@ -42,11 +43,35 @@ ContribMenu::ContribMenu() :
   for(const char* const* filename = files.get(); *filename != 0; ++filename)
   {
     std::string filepath = FileSystem::join("levels", *filename);
-    PHYSFS_Stat statbuf;
-    PHYSFS_stat(filepath.c_str(), &statbuf);
-    if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
+    if(PhysFSFileSystem::is_directory(filepath))
     {
       level_worlds.push_back(filepath);
+    }
+  }
+
+  std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
+    addons(PHYSFS_enumerateFiles("custom"),
+          PHYSFS_freeList);
+  for(const char* const* addondir = addons.get(); *addondir != 0; ++addondir)
+  {
+    std::string addonpath = FileSystem::join("custom", *addondir);
+    if(PhysFSFileSystem::is_directory(addonpath))
+    {
+      std::string addonlevelpath = FileSystem::join(addonpath.c_str(), "levels");
+      if(PhysFSFileSystem::is_directory(addonlevelpath))
+      {
+        std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
+          addonfiles(PHYSFS_enumerateFiles(addonlevelpath.c_str()),
+                PHYSFS_freeList);
+        for(const char* const* filename = addonfiles.get(); *filename != 0; ++filename)
+        {
+          std::string filepath = FileSystem::join(addonlevelpath.c_str(), *filename);
+          if(PhysFSFileSystem::is_directory(filepath))
+          {
+            level_worlds.push_back(filepath);
+          }
+        }
+      }
     }
   }
 

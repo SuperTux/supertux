@@ -32,6 +32,11 @@ public:
 
   enum Type { WORLD, WORLDMAP, LEVELSET, LANGUAGEPACK };
 
+  enum Format {
+    ORIGINAL = 0,
+    WITH_MOUNTPOINT = 1
+  };
+
 private:
   // fields provided by the addon.zip itself
   std::string m_id;
@@ -40,6 +45,7 @@ private:
   std::string m_title;
   std::string m_author;
   std::string m_license;
+  int m_format;
 
   // additional fields provided for addons from an addon repository
   std::string m_url;
@@ -55,6 +61,7 @@ private:
 public:
   std::string get_id() const { return m_id; }
   int get_version() const { return m_version; }
+  int get_format() const { return m_format; }
 
   Type get_type() const { return m_type; }
   std::string get_title() const { return m_title; }

@@ -90,6 +90,7 @@ Addon::parse(const ReaderMapping& lisp)
     lisp.get("license", addon->m_license);
     lisp.get("url", addon->m_url);
     lisp.get("md5", addon->m_md5);
+    lisp.get("format", addon->m_format);
 
     return addon;
   }
@@ -133,6 +134,7 @@ Addon::Addon() :
   m_title(),
   m_author(),
   m_license(),
+  m_format(0),
   m_url(),
   m_md5(),
   m_install_filename(),

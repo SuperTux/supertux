@@ -430,7 +430,18 @@ AddonManager::enable_addon(const AddonId& addon_id)
   {
     log_debug << "Adding archive \"" << addon.get_install_filename() << "\" to search path" << std::endl;
     //int PHYSFS_mount(addon.installed_install_filename.c_str(), "addons/", 0)
-    if (PHYSFS_mount(addon.get_install_filename().c_str(), NULL, 0) == 0)
+
+    std::string mountpoint;
+    switch (addon.get_format()) {
+      case Addon::ORIGINAL:
+        mountpoint = "";
+        break;
+      default:
+        mountpoint = "custom/" + addon_id;
+        break;
+    }
+
+    if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
     {
       log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
                   << PHYSFS_getLastError() << std::endl;
