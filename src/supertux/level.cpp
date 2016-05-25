@@ -89,6 +89,7 @@ Level::save(const std::string& filepath, bool retry)
     writer.write("version", 2);
     writer.write("name", name, true);
     writer.write("author", author, false);
+    writer.write("tileset", tileset, false);
     if (contact != "") {
       writer.write("contact", contact, false);
     }
