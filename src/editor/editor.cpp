@@ -262,9 +262,9 @@ void Editor::load_layers() {
   layerselect.selected_tilemap = NULL;
   layerselect.layers.clear();
   bool tsel = false;
-  for(auto i : currentsector->gameobjects) {
-    GameObject* go = i.get();
-    MovingObject *mo = dynamic_cast<MovingObject*>(go);
+  for(auto& i : currentsector->gameobjects) {
+    auto go = i.get();
+    auto mo = dynamic_cast<MovingObject*>(go);
     if ( !mo && go->do_save() ) {
       layerselect.add_layer(go);
 
