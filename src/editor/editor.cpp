@@ -66,9 +66,8 @@ Editor::Editor() :
   layerselect(),
   scroller(),
   enabled(false),
-  bgr_surface()
+  bgr_surface(Surface::create("images/background/forest1.jpg"))
 {
-  bgr_surface = Surface::create("images/background/forest1.jpg");
 }
 
 Editor::~Editor()
