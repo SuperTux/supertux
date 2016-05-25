@@ -250,6 +250,7 @@ SpriteChange::SpriteChange (const ReaderMapping& lisp) :
   stay_group(),
   change_on_touch(true)
 {
+  // To make obvious where the sprite change is, let's use an universal 32×32 sprite
   sprite = SpriteManager::current()->create("images/engine/editor/spritechange.png");
 
   lisp.get("stay-action", stay_action);
