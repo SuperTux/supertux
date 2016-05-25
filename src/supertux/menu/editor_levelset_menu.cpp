@@ -18,11 +18,14 @@
 
 #include <physfs.h>
 
+#include "gui/dialog.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "editor/editor.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/level.hpp"
+#include "supertux/level_parser.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
@@ -40,6 +43,8 @@ EditorLevelsetMenu::EditorLevelsetMenu()
   if (PHYSFS_exists(worldmap_file.c_str())) {
     add_toggle(-1, _("Do not use worldmap"), &(world->m_is_levelset));
     add_entry(MNID_EDITWORLDMAP, _("Edit worldmap"));
+  } else {
+    add_entry(MNID_NEWWORLDMAP, _("Create worldmap"));
   }
   add_hl();
   add_back(_("OK"));
@@ -51,6 +56,24 @@ EditorLevelsetMenu::~EditorLevelsetMenu()
 }
 
 void
+EditorLevelsetMenu::create_worldmap()
+{
+  auto editor = Editor::current();
+  editor->set_worldmap_mode(true);
+  auto new_worldmap = LevelParser::from_nothing_worldmap(
+        editor->get_world()->get_basedir(), editor->get_world()->m_title);
+  new_worldmap->save(editor->get_world()->get_basedir() + "/" + new_worldmap->filename);
+  editor->set_level(new_worldmap->filename);
+  MenuManager::instance().clear_menu_stack();
+
+  std::unique_ptr<Dialog> dialog(new Dialog);
+  dialog->set_text(_("Share this worldmap under license CC-BY-SA (advertized).\nIf you don't agree with this license, change it in level properties."));
+  dialog->clear_buttons();
+  dialog->add_button(_("OK"), [] {});
+  MenuManager::instance().set_dialog(std::move(dialog));
+}
+
+void
 EditorLevelsetMenu::menu_action(MenuItem* item)
 {
   auto editor = Editor::current();
@@ -59,6 +82,9 @@ EditorLevelsetMenu::menu_action(MenuItem* item)
         editor->set_level("worldmap.stwm");
         editor->set_worldmap_mode(true);
         MenuManager::instance().clear_menu_stack();
+      break;
+    case MNID_NEWWORLDMAP:
+      create_worldmap();
       break;
     default:
       break;

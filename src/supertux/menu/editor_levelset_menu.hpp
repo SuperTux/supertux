@@ -34,6 +34,8 @@ private:
     MNID_NEWWORLDMAP
   };
 
+  void create_worldmap();
+
   EditorLevelsetMenu(const EditorLevelsetMenu&);
   EditorLevelsetMenu& operator=(const EditorLevelsetMenu&);
 };
