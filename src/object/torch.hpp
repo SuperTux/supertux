@@ -33,7 +33,7 @@ public:
   void update(float) override;
 
   HitResponse collision(GameObject& other, const CollisionHit& ) override;
-  std::string get_class() const {
+  std::string get_class() const override {
     return "torch";
   }
   std::string get_display_name() const override {

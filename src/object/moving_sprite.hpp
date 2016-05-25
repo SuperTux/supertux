@@ -48,15 +48,15 @@ public:
   //MovingSprite& operator=(const MovingSprite& moving_sprite);
   ~MovingSprite();
 
-  virtual void draw(DrawingContext& context);
-  virtual void update(float elapsed_time);
-  virtual void save(Writer& writer);
-  virtual std::string get_class() const {
+  virtual void draw(DrawingContext& context) override;
+  virtual void update(float elapsed_time) override;
+  virtual void save(Writer& writer) override;
+  virtual std::string get_class() const override {
     return "moving-sprite";
   }
 
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set();
+  virtual void after_editor_set() override;
 
   std::string get_sprite_name() const;
   void change_sprite(const std::string new_sprite_name);

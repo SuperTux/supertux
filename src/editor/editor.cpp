@@ -92,18 +92,6 @@ void Editor::draw(DrawingContext& context)
 
 void Editor::update(float elapsed_time)
 {
-  // Reactivate the editor after level test
-  if (leveltested) {
-    leveltested = false;
-    levelloaded = true;
-    Tile::draw_editor_images = true;
-    currentsector->activate(currentsector->player->get_pos());
-    MenuManager::instance().clear_menu_stack();
-    SoundManager::current()->stop_music();
-    deactivate_request = false;
-    enabled = true;
-  }
-
   // Pass all requests
   if (reload_request) {
     reload_level();
@@ -148,6 +136,18 @@ void Editor::update(float elapsed_time)
     inputcenter.update(elapsed_time);
     scroller.update(elapsed_time);
     update_keyboard();
+  }
+
+  // Reactivate the editor after level test
+  if (leveltested) {
+    leveltested = false;
+    levelloaded = true;
+    Tile::draw_editor_images = true;
+    currentsector->activate(currentsector->player->get_pos());
+    MenuManager::instance().clear_menu_stack();
+    SoundManager::current()->stop_music();
+    deactivate_request = false;
+    enabled = true;
   }
 }
 

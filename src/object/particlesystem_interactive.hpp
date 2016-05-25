@@ -43,7 +43,7 @@ public:
   virtual ~ParticleSystem_Interactive();
 
   virtual void parse(const ReaderMapping& reader);
-  virtual void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context) override;
   virtual std::string get_display_name() const override
   {
     return _("Interactive particle system");

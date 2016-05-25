@@ -24,16 +24,16 @@ class LiveFire : public WalkingBadguy
 public:
   LiveFire(const ReaderMapping& reader);
 
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-  void active_update(float elapsed_time);
+  void collision_solid(const CollisionHit& hit) override;
+  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  void active_update(float elapsed_time) override;
 
-  void freeze();
-  bool is_freezable() const;
-  bool is_flammable() const;
+  void freeze() override;
+  bool is_freezable() const override;
+  bool is_flammable() const override;
 
-  virtual void kill_fall();
-  virtual std::string get_class() const {
+  virtual void kill_fall() override;
+  virtual std::string get_class() const override {
     return "livefire";
   }
   virtual std::string get_display_name() const override {
