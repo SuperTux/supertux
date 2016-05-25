@@ -32,13 +32,13 @@ public:
   Block(const ReaderMapping& lisp, std::string sprite_file);
   ~Block();
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& context) override;
 
-  virtual void save(Writer& writer);
+  virtual void save(Writer& writer) override;
   virtual ObjectSettings get_settings() override;
-  virtual void after_editor_set();
+  virtual void after_editor_set() override;
 
 protected:
   friend class FlipLevelTransformer;

@@ -40,14 +40,14 @@ public:
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
-  virtual void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context) override;
 
   /** Called each frame. The default implementation checks badguy
       state and calls active_update and inactive_update */
-  virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time) override;
 
-  virtual void save(Writer& writer);
-  virtual std::string get_class() const {
+  virtual void save(Writer& writer) override;
+  virtual std::string get_class() const override {
     return "badguy";
   }
 
@@ -65,11 +65,11 @@ public:
   /** Called when a collision with another object occurred. The
       default implementation calls collision_player, collision_solid,
       collision_badguy and collision_squished */
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
 
   /** Called when a collision with tile with special attributes
       occurred */
-  virtual void collision_tile(uint32_t tile_attributes);
+  virtual void collision_tile(uint32_t tile_attributes) override;
 
   /** Set the badguy to kill/falling state, which makes him falling of
       the screen (his sprite is turned upside-down) */
@@ -143,7 +143,7 @@ protected:
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit);
 
   /** Called when the badguy collided with solid ground */
-  virtual void collision_solid(const CollisionHit& hit);
+  virtual void collision_solid(const CollisionHit& hit) override;
 
   /** Called when the badguy collided with another badguy */
   virtual HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
