@@ -28,6 +28,7 @@ class WorldmapObject : public MovingSprite
   public:
     WorldmapObject(const ReaderMapping& lisp, const std::string default_sprite);
     WorldmapObject(const ReaderMapping& lisp);
+    WorldmapObject(const Vector& pos, const std::string default_sprite);
     ~WorldmapObject();
 
     void update(float elapsed_time) {
@@ -102,6 +103,7 @@ class WorldmapSpawnPoint : public WorldmapObject
 {
   public:
     WorldmapSpawnPoint(const ReaderMapping& lisp);
+    WorldmapSpawnPoint(const std::string& name_, const Vector& pos);
     ~WorldmapSpawnPoint();
 
     virtual std::string get_class() const {

@@ -68,6 +68,7 @@ EditorLevelSelectMenu::~EditorLevelSelectMenu()
 void
 EditorLevelSelectMenu::create_level()
 {
+  Editor::current()->set_worldmap_mode(false);
   auto new_level = LevelParser::from_nothing(Editor::current()->get_world()->get_basedir());
   new_level->save(Editor::current()->get_world()->get_basedir() + "/" + new_level->filename);
   Editor::current()->set_level(new_level->filename);

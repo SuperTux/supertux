@@ -43,6 +43,14 @@ WorldmapObject::WorldmapObject (const ReaderMapping& lisp) :
   bbox.set_size(32, 32);
 }
 
+WorldmapObject::WorldmapObject (const Vector& pos, const std::string default_sprite) :
+  MovingSprite(pos, default_sprite)
+{
+  bbox.p1.x = 32 * bbox.p1.x;
+  bbox.p1.y = 32 * bbox.p1.y;
+  bbox.set_size(32, 32);
+}
+
 WorldmapObject::~WorldmapObject() {
 
 }
@@ -208,6 +216,13 @@ WorldmapSpawnPoint::WorldmapSpawnPoint (const ReaderMapping& lisp) :
   if (lisp.get("auto-dir", auto_dir_str)) {
     dir = worldmap::string_to_direction(auto_dir_str);
   }
+}
+
+WorldmapSpawnPoint::WorldmapSpawnPoint (const std::string& name_, const Vector& pos) :
+  WorldmapObject(pos, "images/worldmap/common/tux.png"),
+  dir(worldmap::D_NONE)
+{
+  name = name_;
 }
 
 WorldmapSpawnPoint::~WorldmapSpawnPoint() { }

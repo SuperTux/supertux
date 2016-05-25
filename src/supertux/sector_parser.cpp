@@ -22,6 +22,7 @@
 #include "badguy/jumpy.hpp"
 #include "editor/editor.hpp"
 #include "editor/spawnpoint_marker.hpp"
+#include "editor/worldmap_objects.hpp"
 #include "math/aatriangle.hpp"
 #include "object/background.hpp"
 #include "object/bonus_block.hpp"
@@ -418,38 +419,50 @@ SectorParser::fix_old_tiles()
 void
 SectorParser::create_sector()
 {
-  TileSet* tileset = Editor::current()->get_tileset();
+  TileSet* tileset = TileManager::current()->get_tileset(m_sector.level->get_tileset());
+  bool worldmap = EditorActive() ? Editor::current()->get_worldmap_mode() : false;
 
-  auto background = std::make_shared<Background>();
-  background->set_images(DEFAULT_BG_TOP, DEFAULT_BG_MIDDLE, DEFAULT_BG_BOTTOM);
-  background->set_speed(0.5);
-  m_sector.add_object(background);
+  if (!worldmap) {
+    auto background = std::make_shared<Background>();
+    background->set_images(DEFAULT_BG_TOP, DEFAULT_BG_MIDDLE, DEFAULT_BG_BOTTOM);
+    background->set_speed(0.5);
+    m_sector.add_object(background);
 
-  auto bkgrd = std::make_shared<TileMap>(tileset);
-  bkgrd->resize(100, 35);
-  bkgrd->set_layer(-100);
-  bkgrd->set_solid(false);
-  m_sector.add_object(bkgrd);
+    auto bkgrd = std::make_shared<TileMap>(tileset);
+    bkgrd->resize(100, 35);
+    bkgrd->set_layer(-100);
+    bkgrd->set_solid(false);
+    m_sector.add_object(bkgrd);
+
+    auto frgrd = std::make_shared<TileMap>(tileset);
+    frgrd->resize(100, 35);
+    frgrd->set_layer(100);
+    frgrd->set_solid(false);
+    m_sector.add_object(frgrd);
+  }
 
   auto intact = std::make_shared<TileMap>(tileset);
-  intact->resize(100, 35);
+  if (worldmap) {
+    intact->resize(100, 100, 9);
+  } else {
+    intact->resize(100, 35, 0);
+  }
   intact->set_layer(0);
   intact->set_solid(true);
   m_sector.add_object(intact);
-
-  auto frgrd = std::make_shared<TileMap>(tileset);
-  frgrd->resize(100, 35);
-  frgrd->set_layer(100);
-  frgrd->set_solid(false);
-  m_sector.add_object(frgrd);
 
   auto spawn_point = std::make_shared<SpawnPoint>();
   spawn_point->name = "main";
   spawn_point->pos = Vector(64, 480);
   m_sector.spawnpoints.push_back(spawn_point);
 
-  GameObjectPtr spawn_point_marker = std::make_shared<SpawnPointMarker>( spawn_point.get() );
-  m_sector.add_object(spawn_point_marker);
+  if (worldmap) {
+    GameObjectPtr spawn_point_marker = std::make_shared<worldmap_editor::WorldmapSpawnPoint>("main", Vector(4, 4));
+    m_sector.add_object(spawn_point_marker);
+  } else {
+    GameObjectPtr spawn_point_marker = std::make_shared<SpawnPointMarker>( spawn_point.get() );
+    m_sector.add_object(spawn_point_marker);
+  }
 
   auto camera = std::make_shared<Camera>(&m_sector, "Camera");
   m_sector.add_object(camera);
