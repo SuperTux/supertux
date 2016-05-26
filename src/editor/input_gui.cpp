@@ -133,16 +133,15 @@ void
 EditorInputGui::draw_tilegroup(DrawingContext& context) {
   if (input_type == IP_TILE) {
     int pos = -1;
-    for(auto i = active_tilegroup.begin(); i != active_tilegroup.end(); ++i) {
+    for(auto& tile_ID : active_tilegroup) {
       pos++;
       if (pos < starting_tile) {
         continue;
       }
-      int* tile_ID = &(*i);
-      if ((*tile_ID) == 0) {
+      if (tile_ID == 0) {
         continue;
       }
-      const Tile* tg_tile = Editor::current()->tileset->get(*tile_ID);
+      const Tile* tg_tile = Editor::current()->tileset->get(tile_ID);
       tg_tile->draw(context, get_tile_coords(pos - starting_tile), LAYER_GUI-9);
     }
   }
@@ -152,14 +151,12 @@ void
 EditorInputGui::draw_objectgroup(DrawingContext& context) {
   if (input_type == IP_OBJECT) {
     int pos = -1;
-    for(auto i = object_input->groups[active_objectgroup].icons.begin();
-        i != object_input->groups[active_objectgroup].icons.end(); ++i) {
+    for(auto& icon : object_input->groups[active_objectgroup].icons) {
       pos++;
       if (pos < starting_tile) {
         continue;
       }
-      ObjectIcon* oi = &(*i);
-      oi->draw(context, get_tile_coords(pos - starting_tile));
+      icon.draw(context, get_tile_coords(pos - starting_tile));
     }
   }
 }
