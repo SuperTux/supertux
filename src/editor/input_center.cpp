@@ -90,8 +90,8 @@ EditorInputCenter::update(float elapsed_time) {
 void
 EditorInputCenter::delete_markers() {
   auto sector = Editor::current()->currentsector;
-  for (auto moving_object : sector->moving_objects) {
-    PointMarker* marker = dynamic_cast<PointMarker*>(moving_object);
+  for (auto& moving_object : sector->moving_objects) {
+    auto marker = dynamic_cast<PointMarker*>(moving_object);
     if (marker) {
       marker->remove_me();
     }
@@ -259,7 +259,7 @@ EditorInputCenter::fill() {
 
 void
 EditorInputCenter::hover_object() {
-  for (auto moving_object : Editor::current()->currentsector->moving_objects) {
+  for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
     PointMarker* pm = dynamic_cast<PointMarker*>(moving_object);
     if (!moving_object->do_save() && !pm) {
       continue;
@@ -337,7 +337,7 @@ EditorInputCenter::mark_object() {
 
 void
 EditorInputCenter::grab_object() {
-  for (auto moving_object : Editor::current()->currentsector->moving_objects) {
+  for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
     Rectf bbox = moving_object->get_bbox();
 
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
@@ -368,7 +368,7 @@ EditorInputCenter::grab_object() {
 
 void
 EditorInputCenter::clone_object() {
-  for (auto moving_object : Editor::current()->currentsector->moving_objects) {
+  for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
     Rectf bbox = moving_object->get_bbox();
 
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
