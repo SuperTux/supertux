@@ -178,7 +178,9 @@ ObjectSettings MovingSprite::get_settings()
 
 void MovingSprite::after_editor_set()
 {
+  std::string current_action = sprite->get_action();
   sprite = SpriteManager::current()->create(sprite_name);
+  sprite->set_action(current_action);
 }
 
 /* EOF */
