@@ -43,7 +43,7 @@ MainMenu::MainMenu()
   add_entry(MNID_STARTGAME, _("Start Game"));
   add_entry(MNID_ADDONS, _("Add-ons"));
   add_submenu(_("Options"), MenuStorage::OPTIONS_MENU);
-  add_entry(MNID_LEVELEDITOR, _("Level editor") + " (WIP)");
+  add_entry(MNID_LEVELEDITOR, _("Level editor"));
   add_entry(MNID_CREDITS, _("Credits"));
   add_entry(MNID_QUITMAINMENU, _("Quit"));
 }
