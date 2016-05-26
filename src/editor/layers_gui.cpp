@@ -101,15 +101,14 @@ EditorLayersGui::draw(DrawingContext& context) {
                     Vector(35, Ypos+5),
                     ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
-  int pos = -1;
-  for(auto i = layers.begin(); i != layers.end(); ++i) {
-    pos++;
-    LayerIcon* li = &(**i);
-    if (li->is_valid()) {
-      li->draw(context, get_layer_coords(pos));
+  int pos = 0;
+  for(auto& layer_icon : layers) {
+    if (layer_icon->is_valid()) {
+      layer_icon->draw(context, get_layer_coords(pos));
     } else {
-      layers.erase(i);
+      layers.erase(layers.begin() + pos);
     }
+    pos++;
   }
 
 }
