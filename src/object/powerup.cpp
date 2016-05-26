@@ -94,7 +94,7 @@ PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
 void
 PowerUp::save(Writer& writer) {
   MovingSprite::save(writer);
-  writer.write("no_physics", no_physics);
+  writer.write("disable-physics", no_physics);
   if(!script.empty()){
     writer.write("script", script, false);
   }
@@ -217,6 +217,7 @@ ObjectSettings
 PowerUp::get_settings() {
   ObjectSettings result = MovingSprite::get_settings();
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Script"), &script));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Disable gravity"), &no_physics));
 
   return result;
 }
