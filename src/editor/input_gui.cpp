@@ -353,6 +353,11 @@ EditorInputGui::setup() {
   tiles->set_tile(0);
 }
 
+void
+EditorInputGui::reset_pos() {
+  starting_tile = 0;
+}
+
 Vector
 EditorInputGui::get_tile_coords(const int pos){
   int x = pos%4;

@@ -58,8 +58,10 @@ EditorTilegroupMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
   {
-    Editor::current()->tileselect.active_tilegroup = Editor::current()->tileset->tilegroups[item->id].tiles;
-    Editor::current()->tileselect.input_type = EditorInputGui::IP_TILE;
+    auto tileselect = &(Editor::current()->tileselect);
+    tileselect->active_tilegroup = Editor::current()->tileset->tilegroups[item->id].tiles;
+    tileselect->input_type = EditorInputGui::IP_TILE;
+    tileselect->reset_pos();
   }
   MenuManager::instance().clear_menu_stack();
 }

@@ -41,6 +41,7 @@ class EditorInputGui
     bool event(SDL_Event& ev);
     void setup();
     void resize();
+    void reset_pos();
 
     std::unique_ptr<TileSelection> tiles;
     std::string object;
