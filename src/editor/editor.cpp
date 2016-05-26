@@ -143,6 +143,7 @@ void Editor::update(float elapsed_time)
     leveltested = false;
     levelloaded = true;
     Tile::draw_editor_images = true;
+    level->reactivate();
     currentsector->activate(currentsector->player->get_pos());
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();

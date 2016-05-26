@@ -28,7 +28,7 @@ class Sector;
  *
  * Each Sector in turn contains GameObjects, e.g. Badguys and Players.
  */
-class Level : public Currenton<Level>
+class Level
 {
 public:
   std::string name;
@@ -69,7 +69,15 @@ public:
   int get_total_badguys() const;
   int get_total_secrets() const;
 
+  static Level* current() {
+    return _current;
+  }
+
+  void reactivate();
+
 private:
+  static Level* _current;
+
   void load_old_format(const ReaderMapping& reader);
 
 private:
