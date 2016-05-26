@@ -33,6 +33,8 @@
 
 using namespace std;
 
+Level* Level::_current = 0;
+
 Level::Level() :
   name("noname"),
   author("Mr. X"),
@@ -45,6 +47,7 @@ Level::Level() :
   target_time(),
   tileset("images/tiles.strf")
 {
+  _current = this;
 }
 
 Level::~Level()
@@ -219,6 +222,12 @@ Level::get_total_secrets() const
     total_secrets += sector->get_total_count<SecretAreaTrigger>();
   }
   return total_secrets;
+}
+
+void
+Level::reactivate()
+{
+  _current = this;
 }
 
 /* EOF */
