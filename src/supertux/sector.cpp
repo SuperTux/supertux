@@ -1415,8 +1415,7 @@ Sector::save(Writer &writer)
   // Do not save spawnpoints since we have spawnpoint markers.
 
   // saving oběcts (not really)
-  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
-    GameObjectPtr& obj = *i;
+  for(auto& obj : gameobjects) {
     if (obj->do_save()) {
       writer.start_list(obj->get_class());
       obj->save(writer);

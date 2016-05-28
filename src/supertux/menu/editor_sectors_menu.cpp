@@ -37,9 +37,8 @@ EditorSectorsMenu::EditorSectorsMenu()
   add_hl();
 
   int id = 0;
-  for(auto i = Editor::current()->get_level()->sectors.begin();
-      i != Editor::current()->get_level()->sectors.end(); ++i) {
-    add_entry(id, (*i)->get_name());
+  for(auto& sector : Editor::current()->get_level()->sectors) {
+    add_entry(id, sector->get_name());
     id++;
   }
 
