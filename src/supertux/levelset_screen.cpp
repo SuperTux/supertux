@@ -82,6 +82,7 @@ LevelsetScreen::setup()
 
     if (EditorActive()) {
       log_warning << "Editor is still active, quiting Levelset screen" << std::endl;
+      ScreenManager::current()->pop_screen();
     } else {
       std::unique_ptr<Screen> screen(new GameSession(FileSystem::join(m_basedir, m_level_filename),
                                                      m_savegame));
