@@ -22,6 +22,7 @@
 #include "supertux/savegame.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
+#include "util/editor_active.hpp"
 #include "util/file_system.hpp"
 
 LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& level_filename,
@@ -79,9 +80,13 @@ LevelsetScreen::setup()
   {
     m_level_started = true;
 
-    std::unique_ptr<Screen> screen(new GameSession(FileSystem::join(m_basedir, m_level_filename),
-                                                   m_savegame));
-    ScreenManager::current()->push_screen(std::move(screen));
+    if (EditorActive()) {
+      log_warning << "Editor is still active, quiting Levelset screen" << std::endl;
+    } else {
+      std::unique_ptr<Screen> screen(new GameSession(FileSystem::join(m_basedir, m_level_filename),
+                                                     m_savegame));
+      ScreenManager::current()->push_screen(std::move(screen));
+    }
   }
 }
 
