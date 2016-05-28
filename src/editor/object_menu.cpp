@@ -30,35 +30,34 @@ ObjectMenu::ObjectMenu(GameObject *go) :
   ObjectSettings os = object->get_settings();
   add_label(os.name);
   add_hl();
-  for(auto i = os.options.begin(); i != os.options.end(); ++i) {
-    ObjectOption* oo = &(*i);
-    switch (oo->type) {
+  for(auto& oo : os.options) {
+    switch (oo.type) {
       case MN_TEXTFIELD:
-        add_textfield(oo->text, (std::string*)oo->option);
+        add_textfield(oo.text, (std::string*)oo.option);
         break;
       case MN_NUMFIELD:
-        add_numfield(oo->text, (float*)oo->option);
+        add_numfield(oo.text, (float*)oo.option);
         break;
       case MN_INTFIELD:
-        add_intfield(oo->text, (int*)oo->option);
+        add_intfield(oo.text, (int*)oo.option);
         break;
       case MN_TOGGLE:
-        add_toggle(-1, oo->text, (bool*)oo->option);
+        add_toggle(-1, oo.text, (bool*)oo.option);
         break;
       case MN_STRINGSELECT:
-        add_string_select(-1, oo->text, (int*)oo->option, oo->select);
+        add_string_select(-1, oo.text, (int*)oo.option, oo.select);
         break;
       case MN_BADGUYSELECT:
-        add_badguy_select(oo->text, (std::vector<std::string>*)oo->option);
+        add_badguy_select(oo.text, (std::vector<std::string>*)oo.option);
         break;
       case MN_COLOR:
-        add_color(oo->text, (Color*)oo->option);
+        add_color(oo.text, (Color*)oo.option);
         break;
       case MN_SCRIPT:
-        add_script(oo->text, (std::string*)oo->option);
+        add_script(oo.text, (std::string*)oo.option);
         break;
       case MN_FILE:
-        add_file(oo->text, (std::string*)oo->option, oo->select);
+        add_file(oo.text, (std::string*)oo.option, oo.select);
         break;
       case MN_REMOVE:
         add_entry(MNID_REMOVE, _("Remove"));

@@ -39,11 +39,9 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
   add_hl();
 
   int id = 0;
-  for(auto i = Editor::current()->tileselect.object_input->groups.begin();
-      i != Editor::current()->tileselect.object_input->groups.end(); ++i) {
-    ObjectGroup* og = &(*i);
-    if (worldmap == og->for_worldmap) {
-      add_entry(id, og->name);
+  for(auto& og : Editor::current()->tileselect.object_input->groups) {
+    if (worldmap == og.for_worldmap) {
+      add_entry(id, og.name);
     }
     id++;
   }

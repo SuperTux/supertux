@@ -38,9 +38,8 @@ EditorTilegroupMenu::EditorTilegroupMenu()
   add_hl();
 
   int id = 0;
-  for(auto i = Editor::current()->tileset->tilegroups.begin(); i != Editor::current()->tileset->tilegroups.end(); ++i) {
-    Tilegroup* tg = &(*i);
-    add_entry(id, tg->name);
+  for(auto& tg : Editor::current()->tileset->tilegroups) {
+    add_entry(id, tg.name);
     id++;
   }
 

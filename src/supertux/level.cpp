@@ -106,8 +106,8 @@ Level::save(const std::string& filepath, bool retry)
       writer.write("target-time", target_time);
     }
 
-    for(auto i = sectors.begin(); i != sectors.end(); ++i) {
-      (*i)->save(writer);
+    for(auto& sector : sectors) {
+      sector->save(writer);
     }
 
     // Ends writing to supertux level file. Keep this at the very end.
