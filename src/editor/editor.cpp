@@ -129,7 +129,7 @@ void Editor::update(float elapsed_time)
   }
 
   // update other stuff
-  if (levelloaded) {
+  if (is_active()) {
     currentsector->update(0);
     tileselect.update(elapsed_time);
     layerselect.update(elapsed_time);
@@ -137,23 +137,9 @@ void Editor::update(float elapsed_time)
     scroller.update(elapsed_time);
     update_keyboard();
   }
-
-  // Reactivate the editor after level test
-  if (leveltested) {
-    leveltested = false;
-    levelloaded = true;
-    Tile::draw_editor_images = true;
-    level->reactivate();
-    currentsector->activate(currentsector->player->get_pos());
-    MenuManager::instance().clear_menu_stack();
-    SoundManager::current()->stop_music();
-    deactivate_request = false;
-    enabled = true;
-  }
 }
 
 void Editor::test_level() {
-  levelloaded = false;
   Tile::draw_editor_images = false;
   level->save("levels/misc/test.stl");
   std::unique_ptr<World> test_world = World::load("levels/misc");
@@ -338,11 +324,25 @@ void
 Editor::setup() {
   Tile::draw_editor_images = true;
   Sector::draw_solids_only = false;
-  MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+  if (!levelloaded) {
+    MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+  }
   tileselect.setup();
   layerselect.setup();
   m_savegame.reset(new Savegame("levels/misc"));
   m_savegame->load();
+
+  // Reactivate the editor after level test
+  if (leveltested) {
+    leveltested = false;
+    Tile::draw_editor_images = true;
+    level->reactivate();
+    currentsector->activate(currentsector->player->get_pos());
+    MenuManager::instance().clear_menu_stack();
+    SoundManager::current()->stop_music();
+    deactivate_request = false;
+    enabled = true;
+  }
 }
 
 void
