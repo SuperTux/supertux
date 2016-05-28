@@ -112,12 +112,11 @@ Path::save(Writer& writer) {
     case UNORDERED: writer.write("mode", "unordered", false); break;
   }
 
-  for(auto i = nodes.begin(); i != nodes.end(); ++i) {
-    Node* nod = &(*i);
+  for(auto& nod : nodes) {
     writer.start_list("node");
-    writer.write("x", nod->position.x);
-    writer.write("y", nod->position.y);
-    writer.write("time", nod->time);
+    writer.write("x", nod.position.x);
+    writer.write("y", nod.position.y);
+    writer.write("time", nod.time);
     writer.end_list("node");
   }
 
@@ -167,9 +166,8 @@ Path::get_farthest_node_no(Vector reference_point) const
 
 void
 Path::move_by(Vector& shift) {
-  for(auto i = nodes.begin(); i != nodes.end(); ++i) {
-    Node* nod = &(*i);
-    nod->position += shift;
+  for(auto& nod : nodes) {
+    nod.position += shift;
   }
 }
 
