@@ -67,7 +67,6 @@ public:
 private:
   BonusBlock(const BonusBlock&);
   BonusBlock& operator=(const BonusBlock&);
-  std::string sprite_name;
   std::string script;
   SurfacePtr lightsprite;
   void get_content_by_data(int d);
