@@ -107,7 +107,7 @@ Path::save(Writer& writer) {
 
   switch (mode) {
     case ONE_SHOT:  writer.write("mode", "oneshot"  , false); break;
-    case PING_PONG: writer.write("mode", "ping_pong", false); break;
+    case PING_PONG: writer.write("mode", "pingpong" , false); break;
     case CIRCULAR:  writer.write("mode", "circular" , false); break;
     case UNORDERED: writer.write("mode", "unordered", false); break;
   }
