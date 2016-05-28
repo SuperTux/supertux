@@ -45,7 +45,6 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
   contents(),
   object(),
   hit_counter(1),
-  sprite_name(),
   script(),
   lightsprite()
 {
@@ -59,7 +58,6 @@ BonusBlock::BonusBlock(const ReaderMapping& lisp) :
   contents(),
   object(0),
   hit_counter(1),
-  sprite_name(),
   script(),
   lightsprite()
 {
