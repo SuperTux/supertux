@@ -189,7 +189,6 @@ EditorLayersGui::event(SDL_Event& ev) {
     break;
     default:
       return false;
-      break;
   }
   return true;
 }
