@@ -45,6 +45,7 @@ public:
 
 private:
   std::string default_action;
+  bool solid;
 };
 
 #endif /*SUPERTUX_DECAL_H*/
