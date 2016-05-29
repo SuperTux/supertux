@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Mr. Candle test"))
+  (name (_ "Walking candle test"))
   (author "Hume")
   (contact "Nemám zájem, aby mě někdo otravoval.")
   (license "GPL 2+ / CC-by-sa 3.0")
@@ -76,27 +76,27 @@
       (x 96)
       (y 96)
     )
-    (mrcandle
+    (walking_candle
       (color 1 0 0)
       (x 486)
       (y 522)
     )
-    (mrcandle
+    (walking_candle
       (color 0 1 0)
       (x 1286)
       (y 618)
     )
-    (mrcandle
+    (walking_candle
       (color 0 0 1)
       (x 1446)
       (y 618)
     )
-    (mrcandle
+    (walking_candle
       (color 1 1 0)
       (x 1382)
       (y 490)
     )
-    (mrcandle
+    (walking_candle
       (color 1 1 1)
       (x 1606)
       (y 522)
