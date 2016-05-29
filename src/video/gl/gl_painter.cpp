@@ -410,7 +410,7 @@ GLPainter::draw_line(const DrawingRequest& request)
   };
   glVertexPointer(2, GL_FLOAT, 0, vertices);
 
-  glDrawArrays(GL_LINES, 0, 4);
+  glDrawArrays(GL_LINES, 0, 2);
 
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glEnable(GL_TEXTURE_2D);
@@ -442,7 +442,7 @@ GLPainter::draw_triangle(const DrawingRequest& request)
   };
   glVertexPointer(2, GL_FLOAT, 0, vertices);
 
-  glDrawArrays(GL_TRIANGLES, 0, 6);
+  glDrawArrays(GL_TRIANGLES, 0, 3);
 
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glEnable(GL_TEXTURE_2D);
