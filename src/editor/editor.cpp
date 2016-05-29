@@ -164,7 +164,7 @@ void Editor::scroll_left(float speed) {
       //When is the camera less than one tile after the left limit, it puts the camera to the limit.
       camera->move(-camera->get_translation().x, 0);
     }
-    inputcenter.actualize_pos();
+    inputcenter.update_pos();
   }
 }
 
@@ -178,7 +178,7 @@ void Editor::scroll_right(float speed) {
       // The limit is shifted 128 pixels to the right due to the input gui.
       camera->move(currentsector->get_width() - camera->get_translation().x - SCREEN_WIDTH +128, 0);
     }
-    inputcenter.actualize_pos();
+    inputcenter.update_pos();
   }
 }
 
@@ -191,7 +191,7 @@ void Editor::scroll_up(float speed) {
       //When is the camera less than one tile after the top limit, it puts the camera to the limit.
       camera->move(0, -camera->get_translation().y);
     }
-    inputcenter.actualize_pos();
+    inputcenter.update_pos();
   }
 }
 
@@ -205,7 +205,7 @@ void Editor::scroll_down(float speed) {
       // The limit is shifted 32 pixels to the bottom due to the layer toolbar.
       camera->move(0, currentsector->get_height() - camera->get_translation().y - SCREEN_HEIGHT +32);
     }
-    inputcenter.actualize_pos();
+    inputcenter.update_pos();
   }
 }
 
@@ -350,7 +350,7 @@ Editor::resize() {
   // Calls on window resize.
   tileselect.resize();
   layerselect.resize();
-  inputcenter.actualize_pos();
+  inputcenter.update_pos();
 }
 
 void
