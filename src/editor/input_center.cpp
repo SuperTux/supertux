@@ -656,7 +656,7 @@ EditorInputCenter::event(SDL_Event& ev) {
     case SDL_MOUSEMOTION:
     {
       mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
-      actualize_pos();
+      update_pos();
       if (dragging) {
         switch (tileselect->input_type) {
           case EditorInputGui::IP_TILE:
@@ -701,7 +701,7 @@ EditorInputCenter::event(SDL_Event& ev) {
 }
 
 void
-EditorInputCenter::actualize_pos() {
+EditorInputCenter::update_pos() {
   sector_pos = mouse_pos + Editor::current()->currentsector->camera->get_translation();
   hovered_tile = sp_to_tp(sector_pos);
   // update tip

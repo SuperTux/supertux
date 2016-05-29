@@ -40,7 +40,7 @@ class EditorInputCenter
     void draw(DrawingContext&);
     void update(float elapsed_time);
 
-    void actualize_pos();
+    void update_pos();
     void delete_markers();
     void update_node_iterators();
 
