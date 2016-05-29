@@ -98,14 +98,11 @@ EditorSectorsMenu::delete_sector()
     dialog->set_text(_("Do you really want to delete this sector?"));
     dialog->clear_buttons();
     dialog->add_cancel_button(_("Cancel"));
-    dialog->add_button(_("Delete sector"), [] {
+    dialog->add_button(_("Delete sector"), [level] {
         MenuManager::instance().clear_menu_stack();
-        // This function doesn't see the variable level, so it must be redeclared.
-        Level* level_ = Editor::current()->get_level();
-        for(auto i = level_->sectors.begin();
-            i != Editor::current()->get_level()->sectors.end(); ++i) {
+        for(auto i = level->sectors.begin(); i != level->sectors.end(); ++i) {
           if ( i->get() == Editor::current()->currentsector ) {
-            level_->sectors.erase(i);
+            level->sectors.erase(i);
             break;
           }
         }
