@@ -102,11 +102,15 @@ EditorLayersGui::draw(DrawingContext& context) {
                     ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   int pos = 0;
-  for(auto& layer_icon : layers) {
+  for(auto it = layers.begin(); it != layers.end(); ++it) {
+    LayerIcon* layer_icon = (*it).get();
     if (layer_icon->is_valid()) {
       layer_icon->draw(context, get_layer_coords(pos));
     } else {
-      layers.erase(layers.begin() + pos);
+      auto it2 = it;
+      it++;
+      layers.erase(it2);
+      it--;
     }
     pos++;
   }
