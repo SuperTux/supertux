@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "badguy/mrcandle.hpp"
+#include "badguy/walking_candle.hpp"
 
 #include "object/lantern.hpp"
 #include "sprite/sprite.hpp"
@@ -22,7 +22,7 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader_mapping.hpp"
 
-MrCandle::MrCandle(const ReaderMapping& reader)
+WalkingCandle::WalkingCandle(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/mr_candle/mr-candle.sprite", "left", "right"),
     lightcolor(1, 1, 1)
 {
@@ -41,31 +41,31 @@ MrCandle::MrCandle(const ReaderMapping& reader)
 }
 
 bool
-MrCandle::is_freezable() const
+WalkingCandle::is_freezable() const
 {
   return true;
 }
 
 bool
-MrCandle::is_flammable() const
+WalkingCandle::is_flammable() const
 {
   return frozen;
 }
 
 void
-MrCandle::freeze() {
+WalkingCandle::freeze() {
   BadGuy::freeze();
   glowing = false;
 }
 
 void
-MrCandle::unfreeze() {
+WalkingCandle::unfreeze() {
   BadGuy::unfreeze();
   glowing = true;
 }
 
 HitResponse
-MrCandle::collision(GameObject& other, const CollisionHit& hit) {
+WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
   Lantern* l = dynamic_cast<Lantern*>(&other);
   if (l && !frozen) if (l->get_bbox().p2.y < bbox.p1.y) {
     l->add_color(lightcolor);

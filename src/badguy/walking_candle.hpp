@@ -14,17 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_BADGUY_MRCANDLE_HPP
-#define HEADER_SUPERTUX_BADGUY_MRCANDLE_HPP
+#ifndef HEADER_SUPERTUX_BADGUY_WALKING_CANDLE_HPP
+#define HEADER_SUPERTUX_BADGUY_WALKING_CANDLE_HPP
 
 #include "badguy/walking_badguy.hpp"
 
 class Color;
 
-class MrCandle : public WalkingBadguy
+class WalkingCandle : public WalkingBadguy
 {
 public:
-  MrCandle(const ReaderMapping& reader);
+  WalkingCandle(const ReaderMapping& reader);
 
   bool is_freezable() const;
   bool is_flammable() const;

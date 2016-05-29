@@ -51,7 +51,6 @@
 #include "badguy/mole.hpp"
 #include "badguy/mole_rock.hpp"
 #include "badguy/mrbomb.hpp"
-#include "badguy/mrcandle.hpp"
 #include "badguy/mriceblock.hpp"
 #include "badguy/mrtree.hpp"
 #include "badguy/owl.hpp"
@@ -73,6 +72,7 @@
 #include "badguy/totem.hpp"
 #include "badguy/treewillowisp.hpp"
 #include "badguy/walking_badguy.hpp"
+#include "badguy/walking_candle.hpp"
 #include "badguy/walkingleaf.hpp"
 #include "badguy/willowisp.hpp"
 #include "badguy/yeti.hpp"
@@ -212,7 +212,6 @@ ObjectFactory::init_factories()
   add_factory<Mole>("mole");
   add_factory<MoleRock>("mole_rock");
   add_factory<MrBomb>("mrbomb");
-  add_factory<MrCandle>("mrcandle");
   add_factory<MrIceBlock>("mriceblock");
   add_factory<MrTree>("mrtree");
   add_factory<Owl>("owl");
@@ -233,6 +232,7 @@ ObjectFactory::init_factories()
   add_factory<Stumpy>("stumpy");
   add_factory<Toad>("toad");
   add_factory<Totem>("totem");
+  add_factory<WalkingCandle>("walking_candle");
   add_factory<WalkingLeaf>("walkingleaf");
   add_factory<WillOWisp>("willowisp");
   add_factory<Yeti>("yeti");
