@@ -132,10 +132,17 @@ Savegame::load()
 
   if(!PHYSFS_exists(m_filename.c_str()))
   {
-    log_info << m_filename << ": doesn't exist, not loading state" << std::endl;
+    log_info << m_filename << " doesn't exist, not loading state" << std::endl;
   }
   else
   {
+    PHYSFS_Stat statbuf;
+    PHYSFS_stat(m_filename.c_str(), &statbuf);
+    if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
+    {
+      log_info << m_filename << " is a directory, not loading state" << std::endl;
+      return;
+    }
     log_debug << "loading savegame from " << m_filename << std::endl;
 
     try
