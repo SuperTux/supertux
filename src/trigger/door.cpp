@@ -113,12 +113,13 @@ Door::draw(DrawingContext& context)
 }
 
 void
-Door::event(Player& , EventType type)
+Door::event(Player& player, EventType type)
 {
   switch (state) {
     case CLOSED:
       // if door was activated, start opening it
       if (type == EVENT_ACTIVATE) {
+        player.door_waiting = true;
         state = OPENING;
         SoundManager::current()->play("sounds/door.wav");
         sprite->set_action("opening", 1);
