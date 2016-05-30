@@ -126,7 +126,7 @@ EditorInputCenter::drag_rect() {
 
 void
 EditorInputCenter::input_tile(Vector pos, uint32_t tile) {
-  TileMap* tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
+  auto tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
   if ( !tilemap ) {
     return;
   }
@@ -260,7 +260,7 @@ EditorInputCenter::fill() {
 void
 EditorInputCenter::hover_object() {
   for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
-    PointMarker* pm = dynamic_cast<PointMarker*>(moving_object);
+    auto pm = dynamic_cast<PointMarker*>(moving_object);
     if (!moving_object->do_save() && !pm) {
       continue;
     }
@@ -299,12 +299,12 @@ void
 EditorInputCenter::mark_object() {
   delete_markers();
 
-  AmbientSound* dc1 = dynamic_cast<AmbientSound*>(dragged_object);
-  Climbable* dc2 = dynamic_cast<Climbable*>(dragged_object);
-  ScriptTrigger* dc3 = dynamic_cast<ScriptTrigger*>(dragged_object);
-  SecretAreaTrigger* dc4 = dynamic_cast<SecretAreaTrigger*>(dragged_object);
-  SequenceTrigger* dc5 = dynamic_cast<SequenceTrigger*>(dragged_object);
-  Wind* dc6 = dynamic_cast<Wind*>(dragged_object);
+  auto dc1 = dynamic_cast<AmbientSound*>(dragged_object);
+  auto dc2 = dynamic_cast<Climbable*>(dragged_object);
+  auto dc3 = dynamic_cast<ScriptTrigger*>(dragged_object);
+  auto dc4 = dynamic_cast<SecretAreaTrigger*>(dragged_object);
+  auto dc5 = dynamic_cast<SequenceTrigger*>(dragged_object);
+  auto dc6 = dynamic_cast<Wind*>(dragged_object);
 
   if (dc1 || dc2 || dc3 || dc4 || dc5 || dc6) {
     marked_object = dragged_object;
@@ -312,7 +312,7 @@ EditorInputCenter::mark_object() {
     return;
   }
 
-  Coin* coin = dynamic_cast<Coin*>(dragged_object);
+  auto coin = dynamic_cast<Coin*>(dragged_object);
   if (coin) {
     if (coin->get_path()) {
       edit_path(coin->get_path(), dragged_object);
@@ -320,7 +320,7 @@ EditorInputCenter::mark_object() {
     return;
   }
 
-  WillOWisp* willo = dynamic_cast<WillOWisp*>(dragged_object);
+  auto willo = dynamic_cast<WillOWisp*>(dragged_object);
   if (willo) {
     if (willo->get_path()) {
       edit_path(willo->get_path(), dragged_object);
@@ -328,7 +328,7 @@ EditorInputCenter::mark_object() {
     return;
   }
 
-  Platform* platform = dynamic_cast<Platform*>(dragged_object);
+  auto platform = dynamic_cast<Platform*>(dragged_object);
   if (platform) {
     edit_path(&platform->get_path(), dragged_object);
     return;
@@ -347,7 +347,7 @@ EditorInputCenter::grab_object() {
       }
 
       dragged_object = moving_object;
-      PointMarker* pm = dynamic_cast<PointMarker*>(moving_object);
+      auto pm = dynamic_cast<PointMarker*>(moving_object);
       obj_mouse_desync = sector_pos - bbox.p1;
       // marker testing
       if (!pm) {
@@ -377,7 +377,7 @@ EditorInputCenter::clone_object() {
         continue;
       }
 
-      PointMarker* pm = dynamic_cast<PointMarker*>(moving_object);
+      auto pm = dynamic_cast<PointMarker*>(moving_object);
       if (pm) {
         continue; //Do not clone markers
       }
@@ -414,7 +414,7 @@ EditorInputCenter::clone_object() {
 
 void
 EditorInputCenter::set_object() {
-  for (auto moving_object : Editor::current()->currentsector->moving_objects) {
+  for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
     Rectf bbox = moving_object->get_bbox();
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
@@ -452,7 +452,7 @@ void
 EditorInputCenter::rubber_rect() {
   delete_markers();
   Rectf dr = drag_rect();
-  for (auto moving_object : Editor::current()->currentsector->moving_objects) {
+  for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
     Rectf bbox = moving_object->get_bbox();
     if (bbox.p2.x >= dr.p1.x && bbox.p1.x <= dr.p2.x &&
         bbox.p2.y >= dr.p1.y && bbox.p1.y <= dr.p2.y ) {
@@ -468,8 +468,8 @@ EditorInputCenter::update_node_iterators() {
   if (!edited_path->is_valid()) return;
 
   auto sector = Editor::current()->currentsector;
-  for (auto moving_object : sector->moving_objects) {
-    NodeMarker* marker = dynamic_cast<NodeMarker*>(moving_object);
+  for (auto& moving_object : sector->moving_objects) {
+    auto marker = dynamic_cast<NodeMarker*>(moving_object);
     if (marker) {
       marker->update_iterator();
     }
@@ -512,12 +512,12 @@ EditorInputCenter::put_object() {
   if (game_object == NULL)
     throw std::runtime_error("Creating " + tileselect->object + " object failed.");
 
-  MovingObject* mo = dynamic_cast<MovingObject*> (game_object.get());
+  auto mo = dynamic_cast<MovingObject*> (game_object.get());
   if (!mo) {
     Editor::current()->layerselect.add_layer(game_object.get());
   }
 
-  worldmap_editor::WorldmapObject* wo = dynamic_cast<worldmap_editor::WorldmapObject*> (game_object.get());
+  auto wo = dynamic_cast<worldmap_editor::WorldmapObject*> (game_object.get());
   if (wo) {
     wo->move_to(wo->get_pos() / 32);
   }
@@ -613,7 +613,7 @@ void
 EditorInputCenter::update_tile_selection() {
   Rectf select = tile_drag_rect();
   auto tiles = Editor::current()->tileselect.tiles.get();
-  TileMap* tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
+  auto tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
   if ( !tilemap ) {
     return;
   }
@@ -747,7 +747,7 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context) {
     return;
   }
 
-  TileMap* current_tm = dynamic_cast<TileMap*>(editor->layerselect.selected_tilemap);
+  auto current_tm = dynamic_cast<TileMap*>(editor->layerselect.selected_tilemap);
   int tm_width = current_tm->get_width();
   int tm_height = current_tm->get_height();
   Rectf draw_rect = Rectf(editor->currentsector->camera->get_translation(),
