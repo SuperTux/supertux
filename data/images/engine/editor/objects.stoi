@@ -166,6 +166,9 @@
     (class "infoblock")
     (icon "images/objects/bonus_block/infoblock.png"))
   (object
+    (class "invisible_block")
+    (icon "images/objects/bonus_block/bonus-invisible.png"))
+  (object
     (class "brick")
     (icon "images/tiles/blocks/brick0.png"))
   (object
