@@ -122,7 +122,6 @@ Door::event(Player& , EventType type)
         state = OPENING;
         SoundManager::current()->play("sounds/door.wav");
         sprite->set_action("opening", 1);
-        ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeOut(1)));
       }
       break;
     case OPENING:
