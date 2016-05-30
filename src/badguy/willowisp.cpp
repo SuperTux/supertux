@@ -95,11 +95,9 @@ WillOWisp::save(Writer& writer) {
 void
 WillOWisp::active_update(float elapsed_time)
 {
-  if (EditorActive() && path.get()) {
-    if (path->is_valid()) {
+  if (EditorActive() && path.get() && path->is_valid()) {
       set_pos(walker->advance(elapsed_time));
       return;
-    }
   }
 
   Player* player = get_nearest_player();
