@@ -801,8 +801,9 @@ EditorInputCenter::draw_path(DrawingContext& context) {
     } else {
       node2 = &(*j);
     }
-    context.draw_line(node1->position - Editor::current()->currentsector->camera->get_translation(),
-                      node2->position - Editor::current()->currentsector->camera->get_translation(),
+    auto cam_translation = Editor::current()->currentsector->camera->get_translation();
+    context.draw_line(node1->position - cam_translation,
+                      node2->position - cam_translation,
                       Color(1, 0, 0), LAYER_GUI - 21);
   }
 }
