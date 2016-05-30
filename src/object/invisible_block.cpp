@@ -20,6 +20,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
+#include "util/editor_active.hpp"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos) :
    Block(SpriteManager::current()->create("images/objects/bonus_block/invisibleblock.sprite")),
@@ -27,6 +28,7 @@ InvisibleBlock::InvisibleBlock(const Vector& pos) :
 {
   bbox.set_pos(pos);
   SoundManager::current()->preload("sounds/brick.wav");
+  sprite->set_action("default-editor");
 }
 
 InvisibleBlock::InvisibleBlock(const ReaderMapping& lisp) :
@@ -39,7 +41,7 @@ InvisibleBlock::InvisibleBlock(const ReaderMapping& lisp) :
 void
 InvisibleBlock::draw(DrawingContext& context)
 {
-  if(visible)
+  if(visible || EditorActive())
     sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
 
