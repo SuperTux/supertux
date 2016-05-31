@@ -245,8 +245,9 @@ EditorInputGui::event(SDL_Event& ev) {
                 dragging = true;
                 drag_start = Vector(hovered_tile % 4, hovered_tile / 4);
                 int size = active_tilegroup.size();
-                if (hovered_tile < size && hovered_tile >= 0) {
-                  tiles->set_tile(active_tilegroup[hovered_tile + starting_tile]);
+                int tile_pos = hovered_tile + starting_tile;
+                if (tile_pos < size && tile_pos >= 0) {
+                  tiles->set_tile(active_tilegroup[tile_pos]);
                 } else {
                   tiles->set_tile(0);
                 }
