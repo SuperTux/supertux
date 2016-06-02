@@ -22,6 +22,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/editor_active.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -76,7 +77,9 @@ Thunderstorm::get_settings() {
 void
 Thunderstorm::update(float )
 {
+  if (EditorActive()) return;
   if (!running) return;
+
   if (time_to_thunder.check()) {
     thunder();
     time_to_lightning.start(LIGHTNING_DELAY);
