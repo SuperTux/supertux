@@ -52,17 +52,11 @@ InfoBlock::~InfoBlock()
 {
 }
 
-void
-InfoBlock::save(Writer& writer) {
-  Block::save(writer);
-  writer.write("message", message, true);
-}
-
-
 ObjectSettings
 InfoBlock::get_settings() {
   ObjectSettings result = Block::get_settings();
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Message"), &message));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Message"), &message,
+                                         "message"));
 
   return result;
 }

@@ -46,7 +46,6 @@ class ParticleSystem : public GameObject,
 public:
   ParticleSystem(float max_particle_size = 60);
   virtual ~ParticleSystem();
-  virtual void save(Writer& writer) override;
   virtual std::string get_class() const override {
     return "particle-system";
   }

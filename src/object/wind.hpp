@@ -30,7 +30,6 @@ class Wind : public MovingObject,
 {
 public:
   Wind(const ReaderMapping& reader);
-  virtual void save(Writer& writer);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
@@ -70,6 +69,7 @@ private:
   bool blowing; /**< true if wind is currently switched on */
   Vector speed;
   float acceleration;
+  Vector new_size;
 
   float elapsed_time; /**< stores last elapsed_time gotten at update() */
 };

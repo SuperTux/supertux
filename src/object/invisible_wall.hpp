@@ -25,7 +25,6 @@ class InvisibleWall : public MovingSprite
 {
 public:
   InvisibleWall(const ReaderMapping& lisp);
-  virtual void save(Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void draw(DrawingContext& context);

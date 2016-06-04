@@ -92,15 +92,6 @@ PowerUp::PowerUp(const Vector& pos, const std::string& sprite_name_) :
 }
 
 void
-PowerUp::save(Writer& writer) {
-  MovingSprite::save(writer);
-  writer.write("disable-physics", no_physics);
-  if(!script.empty()){
-    writer.write("script", script, false);
-  }
-}
-
-void
 PowerUp::collision_solid(const CollisionHit& hit)
 {
   if(hit.bottom) {
@@ -216,8 +207,10 @@ PowerUp::draw(DrawingContext& context){
 ObjectSettings
 PowerUp::get_settings() {
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Script"), &script));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Disable gravity"), &no_physics));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Script"), &script,
+                                         "script"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Disable gravity"), &no_physics,
+                                         "disable-physics"));
 
   return result;
 }

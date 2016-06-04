@@ -55,7 +55,6 @@ public:
   AmbientSound(const ReaderMapping& lisp);
   AmbientSound(Vector pos, float factor, float bias, float vol, std::string file);
   ~AmbientSound();
-  virtual void save(Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit_);
 

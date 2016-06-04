@@ -67,25 +67,16 @@ ScriptTrigger::~ScriptTrigger()
 {
 }
 
-void
-ScriptTrigger::save(Writer& writer) {
-  MovingObject::save(writer);
-  writer.write("width", bbox.get_width());
-  writer.write("height", bbox.get_height());
-  writer.write("script", script, false);
-  writer.write("button", triggerevent == EVENT_ACTIVATE);
-}
-
 ObjectSettings
 ScriptTrigger::get_settings() {
   new_size.x = bbox.get_width();
   new_size.y = bbox.get_height();
   ObjectSettings result(_("Script trigger"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y));
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Button"), &must_activate));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script, "script"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Button"), &must_activate, "button"));
   return result;
 }
 

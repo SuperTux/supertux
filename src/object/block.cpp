@@ -81,12 +81,6 @@ Block::~Block()
 {
 }
 
-void
-Block::save(Writer& writer) {
-  MovingObject::save(writer);
-  writer.write("sprite", sprite_name, false);
-}
-
 HitResponse
 Block::collision(GameObject& other, const CollisionHit& )
 {
@@ -207,7 +201,7 @@ Block::break_me()
 ObjectSettings Block::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
-  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
+  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite");
   spr.select.push_back(".sprite");
   result.options.push_back(spr);
   return result;

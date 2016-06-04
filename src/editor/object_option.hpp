@@ -27,12 +27,21 @@
 class ObjectOption
 {
   public:
-    ObjectOption(MenuItemKind ip_type, std::string text_, void* ip);
+    ObjectOption(MenuItemKind ip_type, std::string text_, void* ip,
+                 std::string key_ = "", bool visible_ = true, bool allow_empty_ = true);
     ~ObjectOption();
 
     MenuItemKind type;
     std::string text;
     void* option;
+    std::string key;
+    // Visible in object options
+    bool visible;
+    // Allow empty value?
+    bool allow_empty;
+    bool is_savable() const {
+      return !key.empty();
+    }
 
     std::vector<std::string> select;
 
@@ -40,6 +49,9 @@ class ObjectOption
       type(blb.type),
       text(blb.text),
       option(blb.option),
+      key(blb.key),
+      visible(blb.visible),
+      allow_empty(blb.allow_empty),
       select(blb.select)
     { /* blb-ost */ }
 
@@ -49,6 +61,9 @@ class ObjectOption
       text = blb.text;
       option = blb.option;
       select = blb.select;
+      key = blb.key;
+      visible = blb.visible;
+      allow_empty = blb.allow_empty;
       return *this;
     }
 

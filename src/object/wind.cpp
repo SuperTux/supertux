@@ -31,6 +31,7 @@ Wind::Wind(const ReaderMapping& reader) :
   blowing(),
   speed(),
   acceleration(),
+  new_size(),
   elapsed_time(0)
 {
   float w,h;
@@ -51,24 +52,23 @@ Wind::Wind(const ReaderMapping& reader) :
   set_group(COLGROUP_TOUCHABLE);
 }
 
-void
-Wind::save(Writer& writer) {
-  MovingObject::save(writer);
-  writer.write("width", bbox.get_width());
-  writer.write("height", bbox.get_height());
-  writer.write("speed-x", speed.x);
-  writer.write("speed-y", speed.y);
-  writer.write("acceleration", acceleration);
-  writer.write("blowing", blowing);
-}
-
 ObjectSettings
 Wind::get_settings() {
+  new_size.x = bbox.get_width();
+  new_size.y = bbox.get_height();
   ObjectSettings result = MovingObject::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed X"), &speed.x));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed Y"), &speed.y));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Acceleration"), &acceleration));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Blowing"), &blowing));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, "width", &new_size.x,
+                                         "width", false));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, "height", &new_size.y,
+                                         "height", false));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed X"), &speed.x,
+                                         "speed-x"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed Y"), &speed.y,
+                                         "speed-y"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Acceleration"), &acceleration,
+                                         "acceleration"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Blowing"), &blowing,
+                                         "blowing"));
 
   return result;
 }

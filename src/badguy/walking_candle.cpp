@@ -79,7 +79,7 @@ WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
 ObjectSettings
 WalkingCandle::get_settings() {
   ObjectSettings result = BadGuy::get_settings();
-  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor));
+  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor, "color"));
   return result;
 }
 
@@ -87,12 +87,6 @@ void
 WalkingCandle::after_editor_set() {
   sprite->set_color(lightcolor);
   lightsprite->set_color(lightcolor);
-}
-
-void
-WalkingCandle::save(Writer& writer) {
-  BadGuy::save(writer);
-  writer.write("color", lightcolor.toVector(false));
 }
 
 /* EOF */

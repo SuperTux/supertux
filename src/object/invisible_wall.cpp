@@ -31,18 +31,11 @@ InvisibleWall::InvisibleWall(const ReaderMapping& lisp) :
   bbox.set_size(width, height);
 }
 
-void
-InvisibleWall::save(Writer& writer) {
-  MovingSprite::save(writer);
-  writer.write("width", width);
-  writer.write("height", height);
-}
-
 ObjectSettings
 InvisibleWall::get_settings() {
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &width));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &height));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &width, "width"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &height, "height"));
 
   return result;
 }

@@ -72,19 +72,12 @@ Door::Door(int x, int y, std::string sector, std::string spawnpoint) :
   SoundManager::current()->preload("sounds/door.wav");
 }
 
-void
-Door::save(Writer& writer) {
-  MovingObject::save(writer);
-  writer.write("sector", target_sector, false);
-  writer.write("spawnpoint", target_spawnpoint, false);
-}
-
 ObjectSettings
 Door::get_settings() {
   ObjectSettings result(_("Door"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Sector"), &target_sector));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawn point"), &target_spawnpoint));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Sector"), &target_sector, "sector"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawn point"), &target_spawnpoint, "spawnpoint"));
   return result;
 }
 

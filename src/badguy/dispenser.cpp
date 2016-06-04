@@ -38,7 +38,8 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   swivel(),
   broken(),
   random(),
-  type()
+  type(),
+  type_str()
 {
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
@@ -64,6 +65,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
     }
     type = DT_DROPPER;
   }
+  type_str = get_type_string();
   next_badguy = 0;
   autotarget = false;
   swivel = false;
@@ -97,15 +99,6 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   countMe = false;
-}
-
-void
-Dispenser::save(Writer& writer) {
-  BadGuy::save(writer);
-  writer.write("type", get_type_string(), false);
-  writer.write("badguy", badguys);
-  writer.write("random", random);
-  writer.write("cycle", cycle);
 }
 
 void
@@ -378,9 +371,12 @@ ObjectSettings
 Dispenser::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Cycle"), &cycle));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Random"), &random));
-  result.options.push_back( ObjectOption(MN_BADGUYSELECT, _("Enemies"), &badguys));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Cycle"), &cycle,
+                                         "cycle"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Random"), &random,
+                                         "random"));
+  result.options.push_back( ObjectOption(MN_BADGUYSELECT, _("Enemies"), &badguys,
+                                         "badguy"));
 
   ObjectOption seq(MN_STRINGSELECT, _("Type"), &type);
   seq.select.push_back(_("dropper"));
@@ -389,6 +385,9 @@ Dispenser::get_settings()
   seq.select.push_back(_("invisible"));
 
   result.options.push_back( seq );
+
+  type_str = get_type_string();
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, "type", &type_str, "type", false));
   return result;
 }
 

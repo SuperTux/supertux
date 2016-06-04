@@ -54,16 +54,10 @@ Lantern::Lantern(const Vector& pos) :
   SoundManager::current()->preload("sounds/willocatch.wav");
 }
 
-void
-Lantern::save(Writer& writer) {
-  MovingSprite::save(writer);
-  writer.write("color", lightcolor.toVector(false));
-}
-
 ObjectSettings
 Lantern::get_settings() {
   ObjectSettings result = Rock::get_settings();
-  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor));
+  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor, "color"));
 
   return result;
 }

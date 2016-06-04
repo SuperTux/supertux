@@ -47,14 +47,6 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
 }
 
 void
-DartTrap::save(Writer& writer) {
-  BadGuy::save(writer);
-  writer.write("initial-delay", initial_delay);
-  writer.write("fire-delay", fire_delay);
-  writer.write("ammo", ammo);
-}
-
-void
 DartTrap::initialize()
 {
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
@@ -120,9 +112,12 @@ DartTrap::fire()
 ObjectSettings
 DartTrap::get_settings() {
   ObjectSettings result = BadGuy::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Initial delay"), &initial_delay));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Fire delay"), &fire_delay));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Ammo"), &ammo));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Initial delay"), &initial_delay,
+                                         "initial-delay"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Fire delay"), &fire_delay,
+                                         "fire-delay"));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Ammo"), &ammo,
+                                         "ammo"));
 
   return result;
 }

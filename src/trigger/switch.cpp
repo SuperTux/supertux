@@ -55,26 +55,16 @@ Switch::~Switch()
 {
 }
 
-void
-Switch::save(Writer& writer) {
-  MovingObject::save(writer);
-  writer.write("sprite", sprite_name, false);
-  writer.write("script", script, false);
-
-  if (off_script.length()) {
-    writer.write("off-script", off_script, false);
-  }
-}
-
 ObjectSettings
 Switch::get_settings() {
   ObjectSettings result(_("Switch"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
+  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite", false);
   spr.select.push_back(".sprite");
   result.options.push_back(spr);
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Turn on script"), &script));
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Turn off script"), &off_script));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Turn on script"), &script, "script"));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Turn off script"), &off_script,
+                                         "off-script", true, false));
   return result;
 }
 

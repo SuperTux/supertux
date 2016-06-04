@@ -27,7 +27,6 @@ class Crystallo : public WalkingBadguy
 public:
   Crystallo(const ReaderMapping& reader);
   Crystallo(const Vector& pos, Direction d);
-  void save(Writer& writer);
   ObjectSettings get_settings();
   std::string get_class() const {
     return "crystallo";

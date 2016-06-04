@@ -42,16 +42,11 @@ Crystallo::Crystallo(const Vector& pos, Direction d) :
   radius = 100;
 }
 
-void
-Crystallo::save(Writer& writer) {
-  BadGuy::save(writer);
-  writer.write("radius", radius);
-}
-
 ObjectSettings
 Crystallo::get_settings() {
   ObjectSettings result = WalkingBadguy::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Radius"), &radius));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Radius"), &radius,
+                                         "radius"));
   return result;
 }
 

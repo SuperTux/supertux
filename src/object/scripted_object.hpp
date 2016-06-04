@@ -26,7 +26,6 @@ class ScriptedObject : public MovingSprite,
 {
 public:
   ScriptedObject(const ReaderMapping& lisp);
-  virtual void save(Writer& writer);
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
@@ -73,6 +72,7 @@ private:
   bool visible;
   bool new_vel_set;
   Vector new_vel;
+  Vector new_size;
 };
 
 #endif

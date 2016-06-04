@@ -153,21 +153,8 @@ Background::save(Writer& writer) {
     case NO_ALIGNMENT: break;
   }
 
-  writer.write("scroll-offset-x", scroll_offset.x);
-  writer.write("scroll-offset-y", scroll_offset.y);
-  writer.write("scroll-speed-x",  scroll_speed.x);
-  writer.write("scroll-speed-y",  scroll_speed.y);
-  writer.write("speed", speed);
   if (speed_y != speed){
     writer.write("speed_y", speed_y);
-  }
-
-  writer.write("image", imagefile, false);
-  if (imagefile_top != "") {
-    writer.write("image-top", imagefile_top);
-  }
-  if (imagefile_bottom != "") {
-    writer.write("image-bottom", imagefile_bottom);
   }
 }
 
@@ -175,22 +162,26 @@ ObjectSettings
 Background::get_settings() {
   ObjectSettings result = GameObject::get_settings();
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &layer));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset x"), &scroll_offset.x));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset y"), &scroll_offset.y));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll speed x"), &scroll_speed.x));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll speed y"), &scroll_speed.y));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed x"), &speed));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset x"),
+                                         &scroll_offset.x, "scroll-offset-x"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset y"),
+                                         &scroll_offset.y, "scroll-offset-y"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll speed x"),
+                                         &scroll_speed.x, "scroll-speed-x"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll speed y"),
+                                         &scroll_speed.y, "scroll-speed-y"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed x"), &speed, "speed"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed y"), &speed_y));
 
-  ObjectOption img(MN_FILE, _("Top image"), &imagefile_top);
+  ObjectOption img(MN_FILE, _("Top image"), &imagefile_top, "image-top", true, false);
   img.select.push_back(".png");
   img.select.push_back(".jpg");
   img.select.push_back(".gif");
   img.select.push_back(".bmp");
   result.options.push_back(img);
-  ObjectOption img2(MN_FILE, _("Image"), &imagefile);
+  ObjectOption img2(MN_FILE, _("Image"), &imagefile, "image");
   img2.select = img.select;
-  ObjectOption img3(MN_FILE, _("Bottom image"), &imagefile_bottom);
+  ObjectOption img3(MN_FILE, _("Bottom image"), &imagefile_bottom, "image-bottom", true, false);
   img3.select = img.select;
   result.options.push_back(img2);
   result.options.push_back(img3);

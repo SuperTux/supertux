@@ -119,27 +119,17 @@ AmbientSound::~AmbientSound()
   stop_playing();
 }
 
-void
-AmbientSound::save(Writer& writer) {
-  GameObject::save(writer);
-  writer.write("width", bbox.get_width());
-  writer.write("height", bbox.get_height());
-  writer.write("distance_factor", distance_factor);
-  writer.write("distance_bias", distance_bias);
-  writer.write("sample", sample, false);
-  writer.write("volume", maximumvolume);
-}
-
 ObjectSettings
 AmbientSound::get_settings() {
   new_size.x = bbox.get_width();
   new_size.y = bbox.get_height();
   ObjectSettings result = MovingObject::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance factor"), &distance_factor));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance bias"), &distance_bias));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Volume"), &maximumvolume));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, "sample", &sample, "sample", false));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance factor"), &distance_factor, "distance_factor"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance bias"), &distance_bias, "distance_bias"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Volume"), &maximumvolume, "volume"));
   return result;
 }
 

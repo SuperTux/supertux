@@ -72,14 +72,6 @@ Candle::Candle(const ReaderMapping& lisp)
 }
 
 void
-Candle::save(Writer& writer) {
-  MovingSprite::save(writer);
-  writer.write("burning", burning);
-  writer.write("flicker", flicker);
-  writer.write("color", lightcolor.toVector(false));
-}
-
-void
 Candle::after_editor_set() {
   candle_light_1->set_color(lightcolor);
   candle_light_2->set_color(lightcolor);
@@ -90,9 +82,9 @@ Candle::after_editor_set() {
 ObjectSettings
 Candle::get_settings() {
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Burning"), &burning));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Flicker"), &name));
-  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Burning"), &burning, "burning"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Flicker"), &name, "flicker"));
+  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor, "color"));
 
   return result;
 }

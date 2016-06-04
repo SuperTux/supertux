@@ -24,7 +24,6 @@ class DartTrap : public BadGuy
 {
 public:
   DartTrap(const ReaderMapping& reader);
-  virtual void save(Writer& writer);
 
   void initialize();
   void activate();

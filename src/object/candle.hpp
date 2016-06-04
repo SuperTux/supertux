@@ -29,7 +29,6 @@ class Candle : public MovingSprite,
 public:
   Candle(const ReaderMapping& lisp);
   virtual void draw(DrawingContext& context);
-  virtual void save(Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
