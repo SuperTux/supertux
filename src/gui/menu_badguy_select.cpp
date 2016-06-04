@@ -106,8 +106,8 @@ BadguySelectMenu::refresh_menu()
   add_hl();
 
   int i = 0;
-  for (auto it = badguys->begin(); it != badguys->end(); ++it) {
-    add_entry(i, *it);
+  for (auto& badguy : *badguys) {
+    add_entry(i, badguy);
     i++;
   }
 
@@ -138,15 +138,13 @@ BadguySelectMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0) {
     remove_item = item->id;
+    auto self  = this;
     // confirmation dialog
     std::unique_ptr<Dialog> dialog(new Dialog);
     dialog->set_text(_("Do you want to delete this badguy from the list?"));
-    dialog->add_default_button(_("Yes"), [] {
-        BadguySelectMenu* this_menu = dynamic_cast<BadguySelectMenu*>(MenuManager::instance().current_menu());
-        if (this_menu) {
-          this_menu->remove_badguy();
-        }
-      });
+    dialog->add_default_button(_("Yes"), [self] {
+      self->remove_badguy();
+    });
     dialog->add_cancel_button(_("No"));
     MenuManager::instance().set_dialog(std::move(dialog));
   } else if (item->id == -3) {
