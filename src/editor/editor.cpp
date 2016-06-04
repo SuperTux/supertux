@@ -374,8 +374,9 @@ Editor::event(SDL_Event& ev) {
 }
 
 bool
-Editor::is_active() const {
-  return levelloaded && !leveltested;
+Editor::is_active() {
+  auto self = Editor::current();
+  return self && self->levelloaded && !self->leveltested;
 }
 
 void

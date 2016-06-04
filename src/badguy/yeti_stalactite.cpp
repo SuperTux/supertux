@@ -16,9 +16,9 @@
 
 #include "badguy/yeti_stalactite.hpp"
 
+#include "editor/editor.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/editor_active.hpp"
 
 static const float YT_SHAKE_TIME = .8f;
 
@@ -59,7 +59,7 @@ YetiStalactite::active_update(float elapsed_time)
 void
 YetiStalactite::update(float elapsed_time)
 {
-  if (EditorActive() && sprite->get_action() != "yeti-stalactite" &&
+  if (Editor::is_active() && sprite->get_action() != "yeti-stalactite" &&
       sprite->has_action("yeti-stalactite")) {
     sprite->set_action("yeti-stalactite");
   }

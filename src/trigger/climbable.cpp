@@ -16,11 +16,11 @@
 
 #include "trigger/climbable.hpp"
 
+#include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/editor_active.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -111,7 +111,7 @@ Climbable::draw(DrawingContext& context)
     context.draw_center_text(Resources::normal_font, _(message), pos, LAYER_HUD, Climbable::text_color);
     context.pop_transform();
   }
-  if (EditorActive()) {
+  if (Editor::is_active()) {
     context.draw_filled_rect(bbox, Color(1.0f, 1.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }

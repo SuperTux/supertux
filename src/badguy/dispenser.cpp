@@ -17,12 +17,12 @@
 #include "badguy/dispenser.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/player.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/editor_active.hpp"
 #include "util/reader_mapping.hpp"
 
 #include <stdexcept>
@@ -110,7 +110,7 @@ Dispenser::save(Writer& writer) {
 
 void
 Dispenser::draw(DrawingContext& context) {
-  if (type != DT_POINT || EditorActive()) {
+  if (type != DT_POINT || Editor::is_active()) {
     BadGuy::draw(context);
   }
 }
@@ -219,7 +219,7 @@ Dispenser::launch_badguy()
   if (frozen) return;
 
   //FIXME: Does is_offscreen() work right here?
-  if (!is_offscreen() && !EditorActive()) {
+  if (!is_offscreen() && !Editor::is_active()) {
     Direction launchdir = dir;
     if( !autotarget && start_dir == AUTO ){
       Player* player = get_nearest_player();

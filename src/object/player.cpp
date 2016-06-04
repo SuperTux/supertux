@@ -20,6 +20,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
@@ -35,7 +36,6 @@
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "trigger/climbable.hpp"
-#include "util/editor_active.hpp"
 
 #include <math.h>
 
@@ -1215,7 +1215,7 @@ Player::kick()
 void
 Player::draw(DrawingContext& context)
 {
-  if (EditorActive()) {
+  if (Editor::is_active()) {
     return;
   }
 

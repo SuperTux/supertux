@@ -31,7 +31,6 @@
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
-#include "util/editor_active.hpp"
 #include "util/reader_mapping.hpp"
 
 #include <math.h>
@@ -204,7 +203,7 @@ BadGuy::update(float elapsed_time)
   switch(state) {
     case STATE_ACTIVE:
       is_active_flag = true;
-      if (EditorActive()) {
+      if (Editor::is_active()) {
         break;
       }
       active_update(elapsed_time);
@@ -612,14 +611,14 @@ bool
 BadGuy::is_offscreen() const
 {
   Vector dist;
-  if (EditorActive()) {
+  if (Editor::is_active()) {
     auto cam = Sector::current()->camera;
     dist = cam->get_center() - bbox.get_middle();
   }
   auto player = get_nearest_player();
   if (!player)
     return false;
-  if(!EditorActive()) {
+  if(!Editor::is_active()) {
     dist = player->get_bbox().get_middle() - bbox.get_middle();
   }
   // In SuperTux 0.1.x, Badguys were activated when Tux<->Badguy center distance was approx. <= ~668px

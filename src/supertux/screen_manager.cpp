@@ -39,7 +39,6 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/timer.hpp"
-#include "util/editor_active.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 
@@ -241,7 +240,7 @@ ScreenManager::process_events()
 
     m_menu_manager->event(event);
 
-    if (EditorActive()) {
+    if (Editor::is_active()) {
       Editor::current()->event(event);
     }
 
@@ -258,7 +257,7 @@ ScreenManager::process_events()
             VideoSystem::current()->resize(event.window.data1,
                                            event.window.data2);
             m_menu_manager->on_window_resize();
-            if (EditorActive()) {
+            if (Editor::is_active()) {
               Editor::current()->resize();
             }
             break;

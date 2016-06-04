@@ -50,7 +50,6 @@
 #include "supertux/tile_manager.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "trigger/sequence_trigger.hpp"
-#include "util/editor_active.hpp"
 #include "util/file_system.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
@@ -84,7 +83,7 @@ Sector::Sector(Level* parent) :
   effect(0)
 {
   PlayerStatus* player_status;
-  if (EditorActive()) {
+  if (Editor::is_active()) {
     player_status = Editor::current()->m_savegame->get_player_status();
   } else {
     player_status = GameSession::current()->get_savegame().get_player_status();
@@ -293,7 +292,7 @@ Sector::activate(const Vector& player_pos)
   }
 
   // Run init script
-  if(!init_script.empty() && !EditorActive()) {
+  if(!init_script.empty() && !Editor::is_active()) {
     std::istringstream in(init_script);
     run_script(in, "init-script");
   }
@@ -966,7 +965,7 @@ void
 Sector::handle_collisions()
 {
 
-  if (EditorActive()) {
+  if (Editor::is_active()) {
     return;
     //Oběcts in editor shouldn't collide.
   }

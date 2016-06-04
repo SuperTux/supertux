@@ -19,13 +19,13 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "editor/editor.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
 #include "scripting/ambient_sound.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/editor_active.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
@@ -61,7 +61,7 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
 
   // square all distances (saves us a sqrt later)
 
-  if (!EditorActive()) {
+  if (!Editor::is_active()) {
     distance_bias*=distance_bias;
     distance_factor*=distance_factor;
   }
@@ -162,7 +162,7 @@ AmbientSound::stop_playing()
 void
 AmbientSound::start_playing()
 {
-  if (EditorActive()) return;
+  if (Editor::is_active()) return;
 
   try {
     sound_source = SoundManager::current()->create_sound_source(sample);
@@ -287,7 +287,7 @@ AmbientSound::collision(GameObject& other, const CollisionHit& hit_)
 void
 AmbientSound::draw(DrawingContext& context)
 {
-  if (EditorActive()) {
+  if (Editor::is_active()) {
     context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }

@@ -18,10 +18,10 @@
 
 #include "trigger/sequence_trigger.hpp"
 
+#include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/editor_active.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -106,7 +106,7 @@ SequenceTrigger::get_sequence_name() const {
 void
 SequenceTrigger::draw(DrawingContext& context)
 {
-  if (EditorActive()) {
+  if (Editor::is_active()) {
     context.draw_filled_rect(bbox, Color(1.0f, 0.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
