@@ -67,8 +67,8 @@ void
 ItemColorChannel::event(const SDL_Event& ev) {
   if (ev.type == SDL_TEXTINPUT) {
     std::string txt = ev.text.text;
-    for (auto i = txt.begin(); i != txt.end(); ++i) {
-      add_char(*i);
+    for (auto& c : txt) {
+      add_char(c);
     }
   }
 }
