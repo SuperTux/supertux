@@ -16,8 +16,8 @@
 
 #include "object/invisible_wall.hpp"
 
+#include "editor/editor.hpp"
 #include "supertux/object_factory.hpp"
-#include "util/editor_active.hpp"
 #include "util/reader_mapping.hpp"
 
 InvisibleWall::InvisibleWall(const ReaderMapping& lisp) :
@@ -56,7 +56,7 @@ InvisibleWall::collision(GameObject& , const CollisionHit& )
 void
 InvisibleWall::draw(DrawingContext& context)
 {
-  if (EditorActive()) {
+  if (Editor::is_active()) {
     context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }

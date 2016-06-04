@@ -62,7 +62,6 @@
 #include "supertux/tile_manager.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "trigger/sequence_trigger.hpp"
-#include "util/editor_active.hpp"
 #include "util/file_system.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
@@ -139,7 +138,7 @@ SectorParser::parse(const ReaderMapping& sector)
       if (!sp->name.empty() && sp->pos.x >= 0 && sp->pos.y >= 0) {
         m_sector.spawnpoints.push_back(sp);
       }
-      if (EditorActive()) {
+      if (Editor::is_active()) {
         GameObjectPtr object = parse_object("spawnpoint", iter.as_mapping());
         if(object) {
           m_sector.add_object(object);
@@ -180,7 +179,7 @@ SectorParser::parse(const ReaderMapping& sector)
     log_warning << "sector '" << m_sector.name << "' does not contain a solid tile layer." << std::endl;
   }
 
-  if (!EditorActive()) {
+  if (!Editor::is_active()) {
     fix_old_tiles();
   }
 
@@ -354,7 +353,7 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
     log_warning << "sector '" << m_sector.name << "' does not contain a solid tile layer." << std::endl;
   }
 
-  if (!EditorActive()) {
+  if (!Editor::is_active()) {
     fix_old_tiles();
   }
   m_sector.update_game_objects();
@@ -420,7 +419,7 @@ void
 SectorParser::create_sector()
 {
   TileSet* tileset = TileManager::current()->get_tileset(m_sector.level->get_tileset());
-  bool worldmap = EditorActive() ? Editor::current()->get_worldmap_mode() : false;
+  bool worldmap = Editor::is_active() ? Editor::current()->get_worldmap_mode() : false;
 
   if (!worldmap) {
     auto background = std::make_shared<Background>();

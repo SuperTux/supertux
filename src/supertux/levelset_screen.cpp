@@ -16,13 +16,13 @@
 
 #include "supertux/levelset_screen.hpp"
 
+#include "editor/editor.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/levelset.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
-#include "util/editor_active.hpp"
 #include "util/file_system.hpp"
 
 LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& level_filename,
@@ -80,7 +80,7 @@ LevelsetScreen::setup()
   {
     m_level_started = true;
 
-    if (EditorActive()) {
+    if (Editor::is_active()) {
       log_warning << "Editor is still active, quiting Levelset screen" << std::endl;
       ScreenManager::current()->pop_screen();
     } else {

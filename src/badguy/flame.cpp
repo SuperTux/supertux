@@ -19,13 +19,13 @@
 #include <math.h>
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/editor_active.hpp"
 #include "util/reader_mapping.hpp"
 
 static const std::string FLAME_SOUND = "sounds/flame.wav";
@@ -40,7 +40,7 @@ Flame::Flame(const ReaderMapping& reader) :
 {
   if ( !reader.get("radius", radius)) radius = 100;
   if ( !reader.get("speed", speed)) speed = 2;
-  if (!EditorActive()) {
+  if (!Editor::is_active()) {
     bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
                         start_position.y + sin(angle) * radius));
   }
@@ -74,7 +74,7 @@ Flame::active_update(float elapsed_time)
   angle = fmodf(angle + elapsed_time * speed, (float) (2*M_PI));
   Vector newpos(start_position.x + cos(angle) * radius,
                 start_position.y + sin(angle) * radius);
-  if (!EditorActive()) {
+  if (!Editor::is_active()) {
     movement = newpos - get_pos();
     sound_source->set_position(get_pos());
   }

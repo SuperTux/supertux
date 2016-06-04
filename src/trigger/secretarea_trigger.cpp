@@ -16,13 +16,13 @@
 
 #include "trigger/secretarea_trigger.hpp"
 
+#include "editor/editor.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/level.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-#include "util/editor_active.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -119,7 +119,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.draw_center_text(Resources::normal_font, message, pos, LAYER_HUD, SecretAreaTrigger::text_color);
     context.pop_transform();
   }
-  if (EditorActive()) {
+  if (Editor::is_active()) {
     context.draw_filled_rect(bbox, Color(0.0f, 1.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   } else if (message_timer.check()) {

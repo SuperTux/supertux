@@ -17,12 +17,12 @@
 #include "object/thunderstorm.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "object/electrifier.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/editor_active.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -77,7 +77,7 @@ Thunderstorm::get_settings() {
 void
 Thunderstorm::update(float )
 {
-  if (EditorActive()) return;
+  if (Editor::is_active()) return;
   if (!running) return;
 
   if (time_to_thunder.check()) {
