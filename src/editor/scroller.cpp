@@ -60,6 +60,9 @@ EditorScroller::draw(DrawingContext& context) {
   context.draw_filled_rect(Rectf(Vector(0, 0), Vector(SIZE, SIZE)),
                            Color(0.9f, 0.9f, 1.0f, 0.6f),
                            MIDDLE, LAYER_GUI-10);
+  context.draw_filled_rect(Rectf(Vector(40, 40), Vector(56, 56)),
+                           Color(0.9f, 0.9f, 1.0f, 0.6f),
+                           8, LAYER_GUI-20);
   if (can_scroll()) {
     draw_arrow(context, mouse_pos);
   }
