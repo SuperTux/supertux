@@ -68,9 +68,9 @@ LevelParser::from_nothing_worldmap(const std::string& basedir, const std::string
     int num = 0;
     do {
       num++;
-      level_file = basedir + "/worldmap" + std::to_string(num) + ".stl";
+      level_file = basedir + "/worldmap" + std::to_string(num) + ".stwm";
     } while ( PHYSFS_exists(level_file.c_str()) );
-    level_file = "worldmap" + std::to_string(num) + ".stl";
+    level_file = "worldmap" + std::to_string(num) + ".stwm";
   } else {
     level_file = "worldmap.stwm";
   }
