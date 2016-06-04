@@ -18,6 +18,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "editor/editor.hpp"
 #include "object/lantern.hpp"
 #include "object/path_walker.hpp"
 #include "object/player.hpp"
@@ -28,7 +29,6 @@
 #include "supertux/game_session.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/editor_active.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -95,7 +95,7 @@ WillOWisp::save(Writer& writer) {
 void
 WillOWisp::active_update(float elapsed_time)
 {
-  if (EditorActive() && path.get() && path->is_valid()) {
+  if (Editor::is_active() && path.get() && path->is_valid()) {
       set_pos(walker->advance(elapsed_time));
       return;
   }

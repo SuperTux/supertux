@@ -16,6 +16,7 @@
 
 #include "object/wind.hpp"
 
+#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
@@ -23,7 +24,6 @@
 #include "scripting/wind.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/editor_active.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
@@ -94,7 +94,7 @@ Wind::update(float elapsed_time_)
 void
 Wind::draw(DrawingContext& context)
 {
-  if (EditorActive()) {
+  if (Editor::is_active()) {
     context.draw_filled_rect(bbox, Color(0.0f, 1.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }

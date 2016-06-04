@@ -17,13 +17,13 @@
 #include "object/coin.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/editor_active.hpp"
 #include "util/reader_mapping.hpp"
 
 Coin::Coin(const Vector& pos)
@@ -91,7 +91,7 @@ Coin::update(float elapsed_time)
   if (walker.get()) {
     Vector v = from_tilemap ? offset + walker->get_pos() : walker->advance(elapsed_time);
     if (path->is_valid()) {
-      if (EditorActive()) {
+      if (Editor::is_active()) {
         set_pos(v);
       } else {
         movement = v - get_pos();

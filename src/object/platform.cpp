@@ -16,13 +16,13 @@
 
 #include "object/platform.hpp"
 
+#include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "scripting/platform.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/editor_active.hpp"
 
 Platform::Platform(const ReaderMapping& reader) :
   Platform(reader, "images/objects/flying_platform/flying_platform.sprite")
@@ -138,7 +138,7 @@ Platform::update(float elapsed_time)
   }
 
   Vector new_pos = walker->advance(elapsed_time);
-  if (EditorActive()) {
+  if (Editor::is_active()) {
     set_pos(new_pos);
   } else {
     movement = new_pos - get_pos();

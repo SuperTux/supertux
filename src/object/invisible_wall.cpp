@@ -67,7 +67,7 @@ InvisibleWall::collision(GameObject& , const CollisionHit& )
 void
 InvisibleWall::draw(DrawingContext& context)
 {
-  if (EditorActive()) {
+  if (Editor::is_active()) {
     context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
