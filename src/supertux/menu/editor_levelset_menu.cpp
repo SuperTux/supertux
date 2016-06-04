@@ -59,10 +59,11 @@ void
 EditorLevelsetMenu::create_worldmap()
 {
   auto editor = Editor::current();
+  auto world = editor->get_world();
+  auto basedir = world->get_basedir();
   editor->set_worldmap_mode(true);
-  auto new_worldmap = LevelParser::from_nothing_worldmap(
-        editor->get_world()->get_basedir(), editor->get_world()->m_title);
-  new_worldmap->save(editor->get_world()->get_basedir() + "/" + new_worldmap->filename);
+  auto new_worldmap = LevelParser::from_nothing_worldmap(basedir, world->m_title);
+  new_worldmap->save(basedir + "/" + new_worldmap->filename);
   editor->set_level(new_worldmap->filename);
   MenuManager::instance().clear_menu_stack();
 
