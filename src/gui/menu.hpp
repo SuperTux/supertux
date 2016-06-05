@@ -95,6 +95,9 @@ protected:
   MenuItem* add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
   void delete_item(int pos_);
 
+  ///returns true when the text is more important than action
+  virtual bool is_sensitive();
+
 private:
   void process_action(MenuAction menuaction);
   void check_controlfield_change_event(const SDL_Event& event);

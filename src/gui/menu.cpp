@@ -319,7 +319,8 @@ Menu::process_input()
   }
 
   if(controller->pressed(Controller::ACTION)
-     || controller->pressed(Controller::MENU_SELECT)) {
+     || controller->pressed(Controller::MENU_SELECT)
+     || (!is_sensitive() && controller->pressed(Controller::MENU_SELECT_SPACE))) {
     menuaction = MENU_ACTION_HIT;
   }
   if(controller->pressed(Controller::ESCAPE) ||
@@ -585,6 +586,11 @@ Menu::set_active_item(int id)
       break;
     }
   }
+}
+
+bool
+Menu::is_sensitive() {
+  return false;
 }
 
 /* EOF */

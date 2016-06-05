@@ -94,4 +94,9 @@ ScriptMenu::menu_action(MenuItem* item)
 
 }
 
+bool
+ScriptMenu::is_sensitive() {
+  return true;
+}
+
 /* EOF */
