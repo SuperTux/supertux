@@ -160,21 +160,21 @@ JoystickMenu::refresh_menu_item(Controller::Control id)
   {
     std::ostringstream name;
 
-    name << "Axis ";
+    name << _("Axis ");
 
     if (axis < 0)
-      name << "-";
+      name << _("-");
     else
-      name << "+";
+      name << _("+");
 
     if (abs(axis) == 1)
-      name << "X";
+      name << _("X");
     else if (abs(axis) == 2)
-      name << "Y";
+      name << _("Y");
     else if (abs(axis) == 3)
-      name << "X2";
+      name << _("X2");
     else if (abs(axis) == 4)
-      name << "Y2";
+      name << _("Y2");
     else
       name << abs(axis);
 
@@ -187,19 +187,19 @@ JoystickMenu::refresh_menu_item(Controller::Control id)
     switch (hat_dir)
     {
       case SDL_HAT_UP:
-        name = "Hat Up";
+        name = _("Hat Up");
         break;
 
       case SDL_HAT_DOWN:
-        name = "Hat Down";
+        name = _("Hat Down");
         break;
 
       case SDL_HAT_LEFT:
-        name = "Hat Left";
+        name = _("Hat Left");
         break;
 
       case SDL_HAT_RIGHT:
-        name = "Hat Right";
+        name = _("Hat Right");
         break;
 
       default:
@@ -211,7 +211,7 @@ JoystickMenu::refresh_menu_item(Controller::Control id)
   }
   else
   {
-    itemcf->change_input("None");
+    itemcf->change_input(_("None"));
   }
 }
 
