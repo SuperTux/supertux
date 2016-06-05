@@ -19,14 +19,13 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader_mapping.hpp"
 
-InvisibleWall::InvisibleWall(const ReaderMapping& lisp) :
-  MovingSprite(lisp, "images/objects/invisible/invisible.sprite", LAYER_TILES, COLGROUP_STATIC),
-  physic(),
-  width(),
-  height()
+InvisibleWall::InvisibleWall(const ReaderMapping& lisp)
 {
+  float width, height;
+
   if (!lisp.get("width", width)) width = 32;
   if (!lisp.get("height", height)) height = 32;
+
   bbox.set_size(width, height);
 }
 
@@ -34,6 +33,16 @@ HitResponse
 InvisibleWall::collision(GameObject& , const CollisionHit& )
 {
   return FORCE_MOVE;
+}
+
+void
+InvisibleWall::draw(DrawingContext& )
+{
+}
+
+void
+InvisibleWall::update(float )
+{
 }
 
 /* EOF */
