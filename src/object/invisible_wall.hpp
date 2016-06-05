@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_OBJECT_INVISIBLE_WALL_HPP
 
 #include "object/moving_sprite.hpp"
-#include "supertux/physic.hpp"
 
 /** A tile that starts falling down if tux stands to long on it */
 class InvisibleWall : public MovingSprite
@@ -27,10 +26,6 @@ public:
   InvisibleWall(const ReaderMapping& lisp);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-
-private:
-  Physic physic;
-  float width, height;
 };
 
 #endif
