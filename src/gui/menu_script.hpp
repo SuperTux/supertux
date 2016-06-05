@@ -30,6 +30,9 @@ public:
   void remove_line();
   void add_line();
 
+protected:
+  bool is_sensitive();
+
 private:
   std::string* base_script;
   std::vector<std::unique_ptr<std::string> > script_strings;

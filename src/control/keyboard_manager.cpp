@@ -197,6 +197,8 @@ KeyboardManager::process_menu_key_event(const SDL_KeyboardEvent& event)
       control = Controller::RIGHT;
       break;
     case SDLK_SPACE:
+      control = Controller::MENU_SELECT_SPACE;
+      break;
     case SDLK_RETURN:
     case SDLK_KP_ENTER:
       control = Controller::MENU_SELECT;
