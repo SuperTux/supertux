@@ -41,11 +41,11 @@ Switch::Switch(const ReaderMapping& reader) :
 {
   if (!reader.get("x", bbox.p1.x)) throw std::runtime_error("no x position set");
   if (!reader.get("y", bbox.p1.y)) throw std::runtime_error("no y position set");
-  if (!reader.get("sprite", sprite_name)) throw std::runtime_error("no sprite name set");
+  if (!reader.get("sprite", sprite_name)) sprite_name = "images/objects/switch/left.sprite";
   sprite = SpriteManager::current()->create(sprite_name);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
-  if (!reader.get("script", script)) throw std::runtime_error("no script set");
+  reader.get("script", script);
   bistable = reader.get("off-script", off_script);
 
   SoundManager::current()->preload( SWITCH_SOUND );
@@ -70,9 +70,17 @@ ObjectSettings
 Switch::get_settings() {
   ObjectSettings result(_("Switch"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
+  spr.select.push_back(".sprite");
+  result.options.push_back(spr);
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Turn on script"), &script));
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Turn off script"), &off_script));
   return result;
+}
+
+void
+Switch::after_editor_set() {
+  sprite = SpriteManager::current()->create(sprite_name);
 }
 
 void
