@@ -45,16 +45,11 @@ PushButton::PushButton(const ReaderMapping& lisp) :
   }
 }
 
-void
-PushButton::save(Writer& writer) {
-  MovingSprite::save(writer);
-  writer.write("script", script, false);
-}
-
 ObjectSettings
 PushButton::get_settings() {
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script,
+                                         "script"));
 
   return result;
 }

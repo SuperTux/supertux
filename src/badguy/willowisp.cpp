@@ -83,12 +83,6 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
 void
 WillOWisp::save(Writer& writer) {
   BadGuy::save(writer);
-  writer.write("sector", target_sector);
-  writer.write("spawnpoint", target_spawnpoint);
-  writer.write("flyspeed", flyspeed);
-  writer.write("track-range", track_range);
-  writer.write("vanish-range", vanish_range);
-  writer.write("hit-script", hit_script);
   writer.write("running", mystate == STATE_PATHMOVING_TRACK);
 }
 
@@ -302,12 +296,12 @@ WillOWisp::get_settings() {
   ObjectSettings result(_("Will 'o' wisp"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
   result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Sector"), &target_sector));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawnpoint"), &target_spawnpoint));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Hit script"), &hit_script));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Track range"), &track_range));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Vanish range"), &vanish_range));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Fly speed"), &flyspeed));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Sector"), &target_sector, "sector"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawnpoint"), &target_spawnpoint, "spawnpoint"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Hit script"), &hit_script, "hit-script"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Track range"), &track_range, "track-range"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Vanish range"), &vanish_range, "vanish-range"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Fly speed"), &flyspeed, "flyspeed"));
   return result;
 }
 

@@ -35,7 +35,8 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   physic_enabled(),
   visible(),
   new_vel_set(false),
-  new_vel()
+  new_vel(),
+  new_size()
 {
   if (!lisp.get("name", name)) name = "";
   if(name.empty()) {
@@ -53,23 +54,16 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
     set_group( COLGROUP_DISABLED );
   }
 }
-
-void
-ScriptedObject::save(Writer& writer) {
-  MovingSprite::save(writer);
-  writer.write("width", bbox.get_width());
-  writer.write("height", bbox.get_height());
-  writer.write("solid", solid);
-  writer.write("physic-enabled", physic_enabled);
-  writer.write("visible", visible);
-}
-
 ObjectSettings
 ScriptedObject::get_settings() {
+  new_size.x = bbox.get_width();
+  new_size.y = bbox.get_height();
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Enabled physics"), &physic_enabled));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Visible"), &visible));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, "width", &new_size.x, "width", false));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, "height", &new_size.y, "height", false));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid, "solid"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Enabled physics"), &physic_enabled, "physic-enabled"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Visible"), &visible, "visible"));
 
   return result;
 }

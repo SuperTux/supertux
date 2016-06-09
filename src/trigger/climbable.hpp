@@ -32,7 +32,6 @@ public:
   Climbable(const ReaderMapping& reader);
   Climbable(const Rectf& area);
   ~Climbable();
-  virtual void save(Writer& writer);
   std::string get_class() const {
     return "climbable";
   }

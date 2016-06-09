@@ -27,7 +27,6 @@ public:
   ScriptTrigger(const ReaderMapping& reader);
   ScriptTrigger(const Vector& pos, const std::string& script);
   ~ScriptTrigger();
-  virtual void save(Writer& writer);
   std::string get_class() const {
     return "scripttrigger";
   }

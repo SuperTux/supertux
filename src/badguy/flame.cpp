@@ -53,18 +53,13 @@ Flame::Flame(const ReaderMapping& reader) :
   glowing = true;
 }
 
-void
-Flame::save(Writer& writer) {
-  BadGuy::save(writer);
-  writer.write("radius", radius);
-  writer.write("speed", speed);
-}
-
 ObjectSettings
 Flame::get_settings() {
   ObjectSettings result = BadGuy::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Radius"), &radius));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed"), &speed));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Radius"), &radius,
+                                         "radius"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed"), &speed,
+                                         "speed"));
   return result;
 }
 

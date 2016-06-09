@@ -81,16 +81,10 @@ MagicBlock::MagicBlock(const ReaderMapping& lisp) :
   solid_box = Rectf(bbox.p1.x + SHIFT_DELTA, bbox.p1.y + SHIFT_DELTA, bbox.p2.x - SHIFT_DELTA, bbox.p2.y - SHIFT_DELTA);
 }
 
-void
-MagicBlock::save(Writer& writer) {
-  MovingSprite::save(writer);
-  writer.write("color", color.toVector(false));
-}
-
 ObjectSettings
 MagicBlock::get_settings() {
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &color));
+  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &color, "color"));
 
   return result;
 }

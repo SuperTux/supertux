@@ -37,8 +37,8 @@ InvisibleWall::InvisibleWall(const ReaderMapping& lisp):
 void
 InvisibleWall::save(Writer& writer) {
   MovingSprite::save(writer);
-  writer.write("width", width);
-  writer.write("height", height);
+  writer.write("width", bbox.get_width);
+  writer.write("height", bbox.get_height);
 }
 
 ObjectSettings
@@ -47,8 +47,8 @@ InvisibleWall::get_settings() {
   height = bbox.get_height;
 
   ObjectSettings result = MovingObject::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &width));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &height));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &width, "width"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &height, "height"));
 
   return result;
 }

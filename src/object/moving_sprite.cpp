@@ -154,13 +154,6 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
   set_pos(get_anchor_pos(old_bbox, w, h, anchorPoint));
 }
 
-void
-MovingSprite::save(Writer& writer)
-{
-  MovingObject::save(writer);
-  writer.write("sprite", sprite_name, false);
-}
-
 void MovingSprite::change_sprite(const std::string new_sprite_name)
 {
   sprite_name = new_sprite_name;
@@ -170,7 +163,7 @@ void MovingSprite::change_sprite(const std::string new_sprite_name)
 ObjectSettings MovingSprite::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
-  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
+  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite");
   spr.select.push_back(".sprite");
   result.options.push_back(spr);
   return result;

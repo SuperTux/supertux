@@ -29,7 +29,6 @@ public:
   Lantern(const ReaderMapping& reader);
   void draw(DrawingContext& context);
   ~Lantern();
-  virtual void save(Writer& writer);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 

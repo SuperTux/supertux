@@ -23,7 +23,6 @@ class Dispenser : public BadGuy
 {
 public:
   Dispenser(const ReaderMapping& reader);
-  virtual void save(Writer& writer);
 
   void draw(DrawingContext& context);
   void activate();
@@ -81,9 +80,10 @@ private:
 
   typedef enum {
     DT_DROPPER, DT_ROCKETLAUNCHER, DT_CANNON, DT_POINT
-  }DispenserType;
+  } DispenserType;
 
   DispenserType type;
+  std::string type_str;
 };
 
 #endif

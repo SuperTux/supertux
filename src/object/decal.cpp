@@ -34,13 +34,6 @@ Decal::Decal(const ReaderMapping& reader) :
     set_action(default_action, -1);
 }
 
-void
-Decal::save(Writer& writer) {
-  MovingSprite::save(writer);
-  writer.write("solid", solid);
-  writer.write("action", default_action);
-}
-
 ObjectSettings
 Decal::get_settings() {
   ObjectSettings result = MovingObject::get_settings();
@@ -48,8 +41,8 @@ Decal::get_settings() {
   spr.select.push_back(".png");
   spr.select.push_back(".sprite");
   result.options.push_back(spr);
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Action"), &default_action));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Action"), &default_action, "action"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid, "solid"));
 
   return result;
 }

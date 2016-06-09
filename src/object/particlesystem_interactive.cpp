@@ -145,7 +145,7 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
 ObjectSettings
 ParticleSystem_Interactive::get_settings() {
   ObjectSettings result = GameObject::get_settings();
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos, "z-pos"));
 
   result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   return result;

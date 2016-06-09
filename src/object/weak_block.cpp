@@ -52,12 +52,6 @@ WeakBlock::WeakBlock(const ReaderMapping& lisp)
     SoundManager::current()->preload("sounds/sizzle.ogg");
 }
 
-void
-WeakBlock::save(Writer& writer) {
-  MovingSprite::save(writer);
-  writer.write("linked", linked);
-}
-
 HitResponse
 WeakBlock::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
@@ -212,7 +206,8 @@ WeakBlock::spreadHit()
 ObjectSettings
 WeakBlock::get_settings() {
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Linked"), &linked));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Linked"), &linked,
+                                         "linked"));
 
   return result;
 }

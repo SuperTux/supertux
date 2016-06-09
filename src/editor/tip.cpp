@@ -41,7 +41,7 @@ Tip::Tip(GameObject* object) :
   header = os.name;
 
   for(auto& oo : os.options) {
-    if (oo.type != MN_REMOVE) {
+    if (oo.type != MN_REMOVE && oo.visible) {
       strings.push_back(oo.text + ": " + oo.to_string());
     }
   }

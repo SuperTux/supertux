@@ -41,7 +41,8 @@ ParticleSystem::ParticleSystem(float max_particle_size_) :
 ObjectSettings
 ParticleSystem::get_settings() {
   ObjectSettings result = GameObject::get_settings();
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos,
+                                         "z-pos"));
 
   result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   return result;
@@ -58,12 +59,6 @@ void ParticleSystem::parse(const ReaderMapping& reader)
 
 ParticleSystem::~ParticleSystem()
 {
-}
-
-void
-ParticleSystem::save(Writer& writer){
-  GameObject::save(writer);
-  writer.write("z-pos",z_pos);
 }
 
 void ParticleSystem::draw(DrawingContext& context)

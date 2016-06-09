@@ -57,18 +57,13 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   }
 }
 
-void
-Thunderstorm::save(Writer& writer) {
-  GameObject::save(writer);
-  writer.write("running", running);
-  writer.write("interval", interval);
-}
-
 ObjectSettings
 Thunderstorm::get_settings() {
   ObjectSettings result = GameObject::get_settings();
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Running"), &running));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Interval"), &interval));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Running"), &running,
+                                         "running"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Interval"), &interval,
+                                         "interval"));
 
   result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   return result;

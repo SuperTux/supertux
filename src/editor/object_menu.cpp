@@ -31,6 +31,10 @@ ObjectMenu::ObjectMenu(GameObject *go) :
   add_label(os.name);
   add_hl();
   for(auto& oo : os.options) {
+    if(!oo.visible) {
+      continue;
+    }
+
     switch (oo.type) {
       case MN_TEXTFIELD:
         add_textfield(oo.text, (std::string*)oo.option);

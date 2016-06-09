@@ -45,7 +45,6 @@ public:
   }
 
   virtual ObjectSettings get_settings();
-  virtual void save(Writer& writer);
 
 private:
   void run();

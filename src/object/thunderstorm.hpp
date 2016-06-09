@@ -32,7 +32,6 @@ class Thunderstorm : public GameObject,
 {
 public:
   Thunderstorm(const ReaderMapping& reader);
-  virtual void save(Writer& writer);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

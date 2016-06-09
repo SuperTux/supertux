@@ -32,7 +32,6 @@ class LevelTime : public GameObject,
   static Color text_color;
 public:
   LevelTime(const ReaderMapping& reader);
-  virtual void save(Writer& writer);
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);

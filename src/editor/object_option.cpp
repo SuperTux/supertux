@@ -19,10 +19,14 @@
 
 #include "editor/object_option.hpp"
 
-ObjectOption::ObjectOption(MenuItemKind ip_type, std::string text_, void* ip) :
+ObjectOption::ObjectOption(MenuItemKind ip_type, std::string text_, void* ip,
+                           std::string key_, bool visible_, bool allow_empty_) :
   type(ip_type),
   text(text_),
   option(ip),
+  key(key_),
+  visible(visible_),
+  allow_empty(allow_empty_),
   select()
 {
   select.clear();

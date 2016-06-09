@@ -25,7 +25,6 @@ class PowerUp : public MovingSprite
 public:
   PowerUp(const ReaderMapping& lisp);
   PowerUp(const Vector& pos, const std::string& sprite_name);
-  virtual void save(Writer& writer);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
