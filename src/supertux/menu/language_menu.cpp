@@ -42,10 +42,13 @@ LanguageMenu::LanguageMenu()
   add_entry(MNID_LANGUAGE_ENGLISH, "English");
 
   int mnid = MNID_LANGUAGE_NEXT;
-  std::set<tinygettext::Language> languages = g_dictionary_manager->get_languages();
-  for (std::set<tinygettext::Language>::iterator i = languages.begin(); i != languages.end(); ++i)
+  auto languages = g_dictionary_manager->get_languages();
+  for (auto& lang : languages)
   {
-    add_entry(mnid++, i->get_localized_name());
+    // TODO: Currently, the fonts used in SuperTux don't contain the glyphs to
+    // display the language names in the respective language. Thus reverting for
+    // 0.5.0.
+    add_entry(mnid++, lang.get_name());
   }
 
   add_hl();
