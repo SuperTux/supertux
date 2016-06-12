@@ -295,7 +295,7 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
         out << ind << ind << "sq_throwerror(vm, _SC(\"'" << function->name << "' called without instance\"));\n";
         out << ind << ind << "return SQ_ERROR;\n";
         out << ind << "}\n";
-        out << ind << ns_prefix <<  _class->name << "* _this = reinterpret_cast<" << ns_prefix << _class->name << "*> (data);\n";
+        out << ind << "auto _this = reinterpret_cast<" << ns_prefix << _class->name << "*> (data);\n";
         out << "\n";
         out << ind << "if (_this == NULL) {\n";
         out << ind << ind << "return SQ_ERROR;\n";
@@ -350,7 +350,7 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     }
     if(_class != 0) {
         if(function->type == Function::CONSTRUCTOR) {
-            out << ns_prefix << _class->name << "* _this = new " << ns_prefix;
+            out << "auto _this = new " << ns_prefix;
         } else {
             out << "_this->";
         }
@@ -541,8 +541,7 @@ WrapperCreator::create_class_release_hook(Class* _class)
 {
     out << "static SQInteger " << _class->name << "_release_hook(SQUserPointer ptr, SQInteger )\n"
         << "{\n"
-        << ind << ns_prefix << _class->name
-        << "* _this = reinterpret_cast<" << ns_prefix << _class->name
+        << ind << "auto _this = reinterpret_cast<" << ns_prefix << _class->name
         << "*> (ptr);\n"
         << ind << "delete _this;\n"
         << ind << "return 0;\n"
