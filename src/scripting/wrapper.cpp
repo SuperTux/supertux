@@ -14,7 +14,7 @@ namespace wrapper {
 
 static SQInteger AmbientSound_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::AmbientSound* _this = reinterpret_cast<scripting::AmbientSound*> (ptr);
+  auto _this = reinterpret_cast<scripting::AmbientSound*> (ptr);
   delete _this;
   return 0;
 }
@@ -26,7 +26,7 @@ static SQInteger AmbientSound_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_pos' called without instance"));
     return SQ_ERROR;
   }
-  scripting::AmbientSound* _this = reinterpret_cast<scripting::AmbientSound*> (data);
+  auto _this = reinterpret_cast<scripting::AmbientSound*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -65,7 +65,7 @@ static SQInteger AmbientSound_get_pos_x_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_pos_x' called without instance"));
     return SQ_ERROR;
   }
-  scripting::AmbientSound* _this = reinterpret_cast<scripting::AmbientSound*> (data);
+  auto _this = reinterpret_cast<scripting::AmbientSound*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -95,7 +95,7 @@ static SQInteger AmbientSound_get_pos_y_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_pos_y' called without instance"));
     return SQ_ERROR;
   }
-  scripting::AmbientSound* _this = reinterpret_cast<scripting::AmbientSound*> (data);
+  auto _this = reinterpret_cast<scripting::AmbientSound*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -120,7 +120,7 @@ static SQInteger AmbientSound_get_pos_y_wrapper(HSQUIRRELVM vm)
 
 static SQInteger Background_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::Background* _this = reinterpret_cast<scripting::Background*> (ptr);
+  auto _this = reinterpret_cast<scripting::Background*> (ptr);
   delete _this;
   return 0;
 }
@@ -132,7 +132,7 @@ static SQInteger Background_set_image_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_image' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Background* _this = reinterpret_cast<scripting::Background*> (data);
+  auto _this = reinterpret_cast<scripting::Background*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -166,7 +166,7 @@ static SQInteger Background_set_images_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_images' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Background* _this = reinterpret_cast<scripting::Background*> (data);
+  auto _this = reinterpret_cast<scripting::Background*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -210,7 +210,7 @@ static SQInteger Background_set_speed_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_speed' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Background* _this = reinterpret_cast<scripting::Background*> (data);
+  auto _this = reinterpret_cast<scripting::Background*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -239,7 +239,7 @@ static SQInteger Background_set_speed_wrapper(HSQUIRRELVM vm)
 
 static SQInteger Camera_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (ptr);
+  auto _this = reinterpret_cast<scripting::Camera*> (ptr);
   delete _this;
   return 0;
 }
@@ -251,7 +251,7 @@ static SQInteger Camera_reload_config_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'reload_config' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+  auto _this = reinterpret_cast<scripting::Camera*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -280,7 +280,7 @@ static SQInteger Camera_shake_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'shake' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+  auto _this = reinterpret_cast<scripting::Camera*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -324,7 +324,7 @@ static SQInteger Camera_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_pos' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+  auto _this = reinterpret_cast<scripting::Camera*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -363,7 +363,7 @@ static SQInteger Camera_set_mode_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_mode' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+  auto _this = reinterpret_cast<scripting::Camera*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -397,7 +397,7 @@ static SQInteger Camera_scroll_to_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'scroll_to' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Camera* _this = reinterpret_cast<scripting::Camera*> (data);
+  auto _this = reinterpret_cast<scripting::Camera*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -436,7 +436,7 @@ static SQInteger Camera_scroll_to_wrapper(HSQUIRRELVM vm)
 
 static SQInteger Candle_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::Candle* _this = reinterpret_cast<scripting::Candle*> (ptr);
+  auto _this = reinterpret_cast<scripting::Candle*> (ptr);
   delete _this;
   return 0;
 }
@@ -448,7 +448,7 @@ static SQInteger Candle_get_burning_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_burning' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Candle* _this = reinterpret_cast<scripting::Candle*> (data);
+  auto _this = reinterpret_cast<scripting::Candle*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -478,7 +478,7 @@ static SQInteger Candle_set_burning_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_burning' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Candle* _this = reinterpret_cast<scripting::Candle*> (data);
+  auto _this = reinterpret_cast<scripting::Candle*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -507,7 +507,7 @@ static SQInteger Candle_set_burning_wrapper(HSQUIRRELVM vm)
 
 static SQInteger DisplayEffect_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::DisplayEffect* _this = reinterpret_cast<scripting::DisplayEffect*> (ptr);
+  auto _this = reinterpret_cast<scripting::DisplayEffect*> (ptr);
   delete _this;
   return 0;
 }
@@ -519,7 +519,7 @@ static SQInteger DisplayEffect_fade_out_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'fade_out' called without instance"));
     return SQ_ERROR;
   }
-  scripting::DisplayEffect* _this = reinterpret_cast<scripting::DisplayEffect*> (data);
+  auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -553,7 +553,7 @@ static SQInteger DisplayEffect_fade_in_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'fade_in' called without instance"));
     return SQ_ERROR;
   }
-  scripting::DisplayEffect* _this = reinterpret_cast<scripting::DisplayEffect*> (data);
+  auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -587,7 +587,7 @@ static SQInteger DisplayEffect_set_black_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_black' called without instance"));
     return SQ_ERROR;
   }
-  scripting::DisplayEffect* _this = reinterpret_cast<scripting::DisplayEffect*> (data);
+  auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -621,7 +621,7 @@ static SQInteger DisplayEffect_is_black_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'is_black' called without instance"));
     return SQ_ERROR;
   }
-  scripting::DisplayEffect* _this = reinterpret_cast<scripting::DisplayEffect*> (data);
+  auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -651,7 +651,7 @@ static SQInteger DisplayEffect_sixteen_to_nine_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'sixteen_to_nine' called without instance"));
     return SQ_ERROR;
   }
-  scripting::DisplayEffect* _this = reinterpret_cast<scripting::DisplayEffect*> (data);
+  auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -685,7 +685,7 @@ static SQInteger DisplayEffect_four_to_three_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'four_to_three' called without instance"));
     return SQ_ERROR;
   }
-  scripting::DisplayEffect* _this = reinterpret_cast<scripting::DisplayEffect*> (data);
+  auto _this = reinterpret_cast<scripting::DisplayEffect*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -714,7 +714,7 @@ static SQInteger DisplayEffect_four_to_three_wrapper(HSQUIRRELVM vm)
 
 static SQInteger FloatingImage_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (ptr);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (ptr);
   delete _this;
   return 0;
 }
@@ -728,7 +728,7 @@ static SQInteger FloatingImage_constructor_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    scripting::FloatingImage* _this = new scripting::FloatingImage(arg0);
+    auto _this = new scripting::FloatingImage(arg0);
   if(SQ_FAILED(sq_setinstanceup(vm, 1, _this))) {
     sq_throwerror(vm, _SC("Couldn't setup instance of 'FloatingImage' class"));
     return SQ_ERROR;
@@ -754,7 +754,7 @@ static SQInteger FloatingImage_set_layer_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_layer' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -788,7 +788,7 @@ static SQInteger FloatingImage_get_layer_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_layer' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -818,7 +818,7 @@ static SQInteger FloatingImage_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_pos' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -857,7 +857,7 @@ static SQInteger FloatingImage_get_pos_x_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_pos_x' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -887,7 +887,7 @@ static SQInteger FloatingImage_get_pos_y_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_pos_y' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -917,7 +917,7 @@ static SQInteger FloatingImage_set_anchor_point_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_anchor_point' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -951,7 +951,7 @@ static SQInteger FloatingImage_get_anchor_point_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_anchor_point' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -981,7 +981,7 @@ static SQInteger FloatingImage_set_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_visible' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1015,7 +1015,7 @@ static SQInteger FloatingImage_get_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_visible' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1045,7 +1045,7 @@ static SQInteger FloatingImage_set_action_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_action' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1079,7 +1079,7 @@ static SQInteger FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_action' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1109,7 +1109,7 @@ static SQInteger FloatingImage_fade_in_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'fade_in' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1143,7 +1143,7 @@ static SQInteger FloatingImage_fade_out_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'fade_out' called without instance"));
     return SQ_ERROR;
   }
-  scripting::FloatingImage* _this = reinterpret_cast<scripting::FloatingImage*> (data);
+  auto _this = reinterpret_cast<scripting::FloatingImage*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1172,7 +1172,7 @@ static SQInteger FloatingImage_fade_out_wrapper(HSQUIRRELVM vm)
 
 static SQInteger Gradient_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (ptr);
+  auto _this = reinterpret_cast<scripting::Gradient*> (ptr);
   delete _this;
   return 0;
 }
@@ -1184,7 +1184,7 @@ static SQInteger Gradient_set_direction_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_direction' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (data);
+  auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1218,7 +1218,7 @@ static SQInteger Gradient_get_direction_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_direction' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (data);
+  auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1248,7 +1248,7 @@ static SQInteger Gradient_set_color1_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_color1' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (data);
+  auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1292,7 +1292,7 @@ static SQInteger Gradient_set_color2_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_color2' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (data);
+  auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1336,7 +1336,7 @@ static SQInteger Gradient_swap_colors_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'swap_colors' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Gradient* _this = reinterpret_cast<scripting::Gradient*> (data);
+  auto _this = reinterpret_cast<scripting::Gradient*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1360,7 +1360,7 @@ static SQInteger Gradient_swap_colors_wrapper(HSQUIRRELVM vm)
 
 static SQInteger LevelTime_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::LevelTime* _this = reinterpret_cast<scripting::LevelTime*> (ptr);
+  auto _this = reinterpret_cast<scripting::LevelTime*> (ptr);
   delete _this;
   return 0;
 }
@@ -1372,7 +1372,7 @@ static SQInteger LevelTime_start_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'start' called without instance"));
     return SQ_ERROR;
   }
-  scripting::LevelTime* _this = reinterpret_cast<scripting::LevelTime*> (data);
+  auto _this = reinterpret_cast<scripting::LevelTime*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1401,7 +1401,7 @@ static SQInteger LevelTime_stop_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'stop' called without instance"));
     return SQ_ERROR;
   }
-  scripting::LevelTime* _this = reinterpret_cast<scripting::LevelTime*> (data);
+  auto _this = reinterpret_cast<scripting::LevelTime*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1430,7 +1430,7 @@ static SQInteger LevelTime_get_time_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_time' called without instance"));
     return SQ_ERROR;
   }
-  scripting::LevelTime* _this = reinterpret_cast<scripting::LevelTime*> (data);
+  auto _this = reinterpret_cast<scripting::LevelTime*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1460,7 +1460,7 @@ static SQInteger LevelTime_set_time_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_time' called without instance"));
     return SQ_ERROR;
   }
-  scripting::LevelTime* _this = reinterpret_cast<scripting::LevelTime*> (data);
+  auto _this = reinterpret_cast<scripting::LevelTime*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1489,7 +1489,7 @@ static SQInteger LevelTime_set_time_wrapper(HSQUIRRELVM vm)
 
 static SQInteger ParticleSystem_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::ParticleSystem* _this = reinterpret_cast<scripting::ParticleSystem*> (ptr);
+  auto _this = reinterpret_cast<scripting::ParticleSystem*> (ptr);
   delete _this;
   return 0;
 }
@@ -1501,7 +1501,7 @@ static SQInteger ParticleSystem_set_enabled_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_enabled' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ParticleSystem* _this = reinterpret_cast<scripting::ParticleSystem*> (data);
+  auto _this = reinterpret_cast<scripting::ParticleSystem*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1535,7 +1535,7 @@ static SQInteger ParticleSystem_get_enabled_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_enabled' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ParticleSystem* _this = reinterpret_cast<scripting::ParticleSystem*> (data);
+  auto _this = reinterpret_cast<scripting::ParticleSystem*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1560,7 +1560,7 @@ static SQInteger ParticleSystem_get_enabled_wrapper(HSQUIRRELVM vm)
 
 static SQInteger Platform_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::Platform* _this = reinterpret_cast<scripting::Platform*> (ptr);
+  auto _this = reinterpret_cast<scripting::Platform*> (ptr);
   delete _this;
   return 0;
 }
@@ -1572,7 +1572,7 @@ static SQInteger Platform_goto_node_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'goto_node' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Platform* _this = reinterpret_cast<scripting::Platform*> (data);
+  auto _this = reinterpret_cast<scripting::Platform*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1606,7 +1606,7 @@ static SQInteger Platform_start_moving_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'start_moving' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Platform* _this = reinterpret_cast<scripting::Platform*> (data);
+  auto _this = reinterpret_cast<scripting::Platform*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1635,7 +1635,7 @@ static SQInteger Platform_stop_moving_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'stop_moving' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Platform* _this = reinterpret_cast<scripting::Platform*> (data);
+  auto _this = reinterpret_cast<scripting::Platform*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1659,7 +1659,7 @@ static SQInteger Platform_stop_moving_wrapper(HSQUIRRELVM vm)
 
 static SQInteger Player_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (ptr);
+  auto _this = reinterpret_cast<scripting::Player*> (ptr);
   delete _this;
   return 0;
 }
@@ -1671,7 +1671,7 @@ static SQInteger Player_add_bonus_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'add_bonus' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1706,7 +1706,7 @@ static SQInteger Player_set_bonus_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_bonus' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1741,7 +1741,7 @@ static SQInteger Player_add_coins_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'add_coins' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1775,7 +1775,7 @@ static SQInteger Player_make_invincible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'make_invincible' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1804,7 +1804,7 @@ static SQInteger Player_deactivate_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'deactivate' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1833,7 +1833,7 @@ static SQInteger Player_activate_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'activate' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1862,7 +1862,7 @@ static SQInteger Player_walk_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'walk' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1896,7 +1896,7 @@ static SQInteger Player_set_dir_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_dir' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1930,7 +1930,7 @@ static SQInteger Player_set_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_visible' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1964,7 +1964,7 @@ static SQInteger Player_get_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_visible' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -1994,7 +1994,7 @@ static SQInteger Player_kill_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'kill' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2028,7 +2028,7 @@ static SQInteger Player_set_ghost_mode_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_ghost_mode' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2062,7 +2062,7 @@ static SQInteger Player_get_ghost_mode_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_ghost_mode' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2092,7 +2092,7 @@ static SQInteger Player_kick_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'kick' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2121,7 +2121,7 @@ static SQInteger Player_do_cheer_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'do_cheer' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2150,7 +2150,7 @@ static SQInteger Player_do_duck_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'do_duck' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2179,7 +2179,7 @@ static SQInteger Player_do_standup_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'do_standup' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2208,7 +2208,7 @@ static SQInteger Player_do_backflip_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'do_backflip' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2237,7 +2237,7 @@ static SQInteger Player_do_jump_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'do_jump' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2271,7 +2271,7 @@ static SQInteger Player_trigger_sequence_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'trigger_sequence' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2305,7 +2305,7 @@ static SQInteger Player_use_scripting_controller_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'use_scripting_controller' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2339,7 +2339,7 @@ static SQInteger Player_do_scripting_controller_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'do_scripting_controller' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2378,7 +2378,7 @@ static SQInteger Player_get_velocity_x_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_velocity_x' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2408,7 +2408,7 @@ static SQInteger Player_get_velocity_y_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_velocity_y' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Player* _this = reinterpret_cast<scripting::Player*> (data);
+  auto _this = reinterpret_cast<scripting::Player*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2433,7 +2433,7 @@ static SQInteger Player_get_velocity_y_wrapper(HSQUIRRELVM vm)
 
 static SQInteger ScriptedObject_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (ptr);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (ptr);
   delete _this;
   return 0;
 }
@@ -2445,7 +2445,7 @@ static SQInteger ScriptedObject_set_action_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_action' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2479,7 +2479,7 @@ static SQInteger ScriptedObject_get_action_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_action' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2509,7 +2509,7 @@ static SQInteger ScriptedObject_move_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'move' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2548,7 +2548,7 @@ static SQInteger ScriptedObject_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_pos' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2587,7 +2587,7 @@ static SQInteger ScriptedObject_get_pos_x_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_pos_x' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2617,7 +2617,7 @@ static SQInteger ScriptedObject_get_pos_y_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_pos_y' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2647,7 +2647,7 @@ static SQInteger ScriptedObject_set_velocity_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_velocity' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2686,7 +2686,7 @@ static SQInteger ScriptedObject_get_velocity_x_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_velocity_x' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2716,7 +2716,7 @@ static SQInteger ScriptedObject_get_velocity_y_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_velocity_y' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2746,7 +2746,7 @@ static SQInteger ScriptedObject_enable_gravity_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'enable_gravity' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2780,7 +2780,7 @@ static SQInteger ScriptedObject_gravity_enabled_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'gravity_enabled' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2810,7 +2810,7 @@ static SQInteger ScriptedObject_set_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_visible' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2844,7 +2844,7 @@ static SQInteger ScriptedObject_is_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'is_visible' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2874,7 +2874,7 @@ static SQInteger ScriptedObject_set_solid_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_solid' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2908,7 +2908,7 @@ static SQInteger ScriptedObject_is_solid_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'is_solid' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2938,7 +2938,7 @@ static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_name' called without instance"));
     return SQ_ERROR;
   }
-  scripting::ScriptedObject* _this = reinterpret_cast<scripting::ScriptedObject*> (data);
+  auto _this = reinterpret_cast<scripting::ScriptedObject*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -2963,7 +2963,7 @@ static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
 
 static SQInteger Sector_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (ptr);
+  auto _this = reinterpret_cast<scripting::Sector*> (ptr);
   delete _this;
   return 0;
 }
@@ -2975,7 +2975,7 @@ static SQInteger Sector_set_ambient_light_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_ambient_light' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+  auto _this = reinterpret_cast<scripting::Sector*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3019,7 +3019,7 @@ static SQInteger Sector_get_ambient_red_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_ambient_red' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+  auto _this = reinterpret_cast<scripting::Sector*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3049,7 +3049,7 @@ static SQInteger Sector_get_ambient_green_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_ambient_green' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+  auto _this = reinterpret_cast<scripting::Sector*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3079,7 +3079,7 @@ static SQInteger Sector_get_ambient_blue_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_ambient_blue' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+  auto _this = reinterpret_cast<scripting::Sector*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3109,7 +3109,7 @@ static SQInteger Sector_set_gravity_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_gravity' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+  auto _this = reinterpret_cast<scripting::Sector*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3143,7 +3143,7 @@ static SQInteger Sector_set_music_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_music' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Sector* _this = reinterpret_cast<scripting::Sector*> (data);
+  auto _this = reinterpret_cast<scripting::Sector*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3172,7 +3172,7 @@ static SQInteger Sector_set_music_wrapper(HSQUIRRELVM vm)
 
 static SQInteger Text_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::Text* _this = reinterpret_cast<scripting::Text*> (ptr);
+  auto _this = reinterpret_cast<scripting::Text*> (ptr);
   delete _this;
   return 0;
 }
@@ -3184,7 +3184,7 @@ static SQInteger Text_set_text_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_text' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Text* _this = reinterpret_cast<scripting::Text*> (data);
+  auto _this = reinterpret_cast<scripting::Text*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3218,7 +3218,7 @@ static SQInteger Text_set_font_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_font' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Text* _this = reinterpret_cast<scripting::Text*> (data);
+  auto _this = reinterpret_cast<scripting::Text*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3252,7 +3252,7 @@ static SQInteger Text_fade_in_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'fade_in' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Text* _this = reinterpret_cast<scripting::Text*> (data);
+  auto _this = reinterpret_cast<scripting::Text*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3286,7 +3286,7 @@ static SQInteger Text_fade_out_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'fade_out' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Text* _this = reinterpret_cast<scripting::Text*> (data);
+  auto _this = reinterpret_cast<scripting::Text*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3320,7 +3320,7 @@ static SQInteger Text_set_visible_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_visible' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Text* _this = reinterpret_cast<scripting::Text*> (data);
+  auto _this = reinterpret_cast<scripting::Text*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3354,7 +3354,7 @@ static SQInteger Text_set_centered_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_centered' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Text* _this = reinterpret_cast<scripting::Text*> (data);
+  auto _this = reinterpret_cast<scripting::Text*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3388,7 +3388,7 @@ static SQInteger Text_set_pos_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_pos' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Text* _this = reinterpret_cast<scripting::Text*> (data);
+  auto _this = reinterpret_cast<scripting::Text*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3427,7 +3427,7 @@ static SQInteger Text_get_pos_x_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_pos_x' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Text* _this = reinterpret_cast<scripting::Text*> (data);
+  auto _this = reinterpret_cast<scripting::Text*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3457,7 +3457,7 @@ static SQInteger Text_get_pos_y_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_pos_y' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Text* _this = reinterpret_cast<scripting::Text*> (data);
+  auto _this = reinterpret_cast<scripting::Text*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3487,7 +3487,7 @@ static SQInteger Text_set_anchor_point_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_anchor_point' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Text* _this = reinterpret_cast<scripting::Text*> (data);
+  auto _this = reinterpret_cast<scripting::Text*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3521,7 +3521,7 @@ static SQInteger Text_get_anchor_point_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_anchor_point' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Text* _this = reinterpret_cast<scripting::Text*> (data);
+  auto _this = reinterpret_cast<scripting::Text*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3546,7 +3546,7 @@ static SQInteger Text_get_anchor_point_wrapper(HSQUIRRELVM vm)
 
 static SQInteger Thunderstorm_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::Thunderstorm* _this = reinterpret_cast<scripting::Thunderstorm*> (ptr);
+  auto _this = reinterpret_cast<scripting::Thunderstorm*> (ptr);
   delete _this;
   return 0;
 }
@@ -3558,7 +3558,7 @@ static SQInteger Thunderstorm_start_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'start' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Thunderstorm* _this = reinterpret_cast<scripting::Thunderstorm*> (data);
+  auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3587,7 +3587,7 @@ static SQInteger Thunderstorm_stop_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'stop' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Thunderstorm* _this = reinterpret_cast<scripting::Thunderstorm*> (data);
+  auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3616,7 +3616,7 @@ static SQInteger Thunderstorm_thunder_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'thunder' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Thunderstorm* _this = reinterpret_cast<scripting::Thunderstorm*> (data);
+  auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3645,7 +3645,7 @@ static SQInteger Thunderstorm_lightning_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'lightning' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Thunderstorm* _this = reinterpret_cast<scripting::Thunderstorm*> (data);
+  auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3674,7 +3674,7 @@ static SQInteger Thunderstorm_flash_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'flash' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Thunderstorm* _this = reinterpret_cast<scripting::Thunderstorm*> (data);
+  auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3703,7 +3703,7 @@ static SQInteger Thunderstorm_electrify_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'electrify' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Thunderstorm* _this = reinterpret_cast<scripting::Thunderstorm*> (data);
+  auto _this = reinterpret_cast<scripting::Thunderstorm*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3727,7 +3727,7 @@ static SQInteger Thunderstorm_electrify_wrapper(HSQUIRRELVM vm)
 
 static SQInteger TileMap_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (ptr);
+  auto _this = reinterpret_cast<scripting::TileMap*> (ptr);
   delete _this;
   return 0;
 }
@@ -3739,7 +3739,7 @@ static SQInteger TileMap_goto_node_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'goto_node' called without instance"));
     return SQ_ERROR;
   }
-  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+  auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3773,7 +3773,7 @@ static SQInteger TileMap_start_moving_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'start_moving' called without instance"));
     return SQ_ERROR;
   }
-  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+  auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3802,7 +3802,7 @@ static SQInteger TileMap_stop_moving_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'stop_moving' called without instance"));
     return SQ_ERROR;
   }
-  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+  auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3831,7 +3831,7 @@ static SQInteger TileMap_get_tile_id_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_tile_id' called without instance"));
     return SQ_ERROR;
   }
-  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+  auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3849,7 +3849,7 @@ static SQInteger TileMap_get_tile_id_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    int return_value = _this->get_tile_id(arg0, arg1);
+    int return_value = _this->get_tile_id(static_cast<int> (arg0), static_cast<int> (arg1));
 
     sq_pushinteger(vm, return_value);
     return 1;
@@ -3871,7 +3871,7 @@ static SQInteger TileMap_get_tile_id_at_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_tile_id_at' called without instance"));
     return SQ_ERROR;
   }
-  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+  auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3889,7 +3889,7 @@ static SQInteger TileMap_get_tile_id_at_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    int return_value = _this->get_tile_id_at(arg0, arg1);
+    int return_value = _this->get_tile_id_at(static_cast<float> (arg0), static_cast<float> (arg1));
 
     sq_pushinteger(vm, return_value);
     return 1;
@@ -3911,7 +3911,7 @@ static SQInteger TileMap_change_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'change' called without instance"));
     return SQ_ERROR;
   }
-  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+  auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3934,7 +3934,7 @@ static SQInteger TileMap_change_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    _this->change(arg0, arg1, arg2);
+    _this->change(static_cast<int> (arg0), static_cast<int> (arg1), static_cast<int> (arg2));
 
     return 0;
 
@@ -3955,7 +3955,7 @@ static SQInteger TileMap_change_at_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'change_at' called without instance"));
     return SQ_ERROR;
   }
-  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+  auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -3978,7 +3978,7 @@ static SQInteger TileMap_change_at_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    _this->change_at(arg0, arg1, arg2);
+    _this->change_at(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<int> (arg2));
 
     return 0;
 
@@ -3999,7 +3999,7 @@ static SQInteger TileMap_fade_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'fade' called without instance"));
     return SQ_ERROR;
   }
-  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+  auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -4038,7 +4038,7 @@ static SQInteger TileMap_tint_fade_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'tint_fade' called without instance"));
     return SQ_ERROR;
   }
-  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+  auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -4092,7 +4092,7 @@ static SQInteger TileMap_set_alpha_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_alpha' called without instance"));
     return SQ_ERROR;
   }
-  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+  auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -4126,7 +4126,7 @@ static SQInteger TileMap_get_alpha_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'get_alpha' called without instance"));
     return SQ_ERROR;
   }
-  scripting::TileMap* _this = reinterpret_cast<scripting::TileMap*> (data);
+  auto _this = reinterpret_cast<scripting::TileMap*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -4151,7 +4151,7 @@ static SQInteger TileMap_get_alpha_wrapper(HSQUIRRELVM vm)
 
 static SQInteger WillOWisp_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::WillOWisp* _this = reinterpret_cast<scripting::WillOWisp*> (ptr);
+  auto _this = reinterpret_cast<scripting::WillOWisp*> (ptr);
   delete _this;
   return 0;
 }
@@ -4163,7 +4163,7 @@ static SQInteger WillOWisp_goto_node_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'goto_node' called without instance"));
     return SQ_ERROR;
   }
-  scripting::WillOWisp* _this = reinterpret_cast<scripting::WillOWisp*> (data);
+  auto _this = reinterpret_cast<scripting::WillOWisp*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -4197,7 +4197,7 @@ static SQInteger WillOWisp_set_state_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'set_state' called without instance"));
     return SQ_ERROR;
   }
-  scripting::WillOWisp* _this = reinterpret_cast<scripting::WillOWisp*> (data);
+  auto _this = reinterpret_cast<scripting::WillOWisp*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -4231,7 +4231,7 @@ static SQInteger WillOWisp_start_moving_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'start_moving' called without instance"));
     return SQ_ERROR;
   }
-  scripting::WillOWisp* _this = reinterpret_cast<scripting::WillOWisp*> (data);
+  auto _this = reinterpret_cast<scripting::WillOWisp*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -4260,7 +4260,7 @@ static SQInteger WillOWisp_stop_moving_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'stop_moving' called without instance"));
     return SQ_ERROR;
   }
-  scripting::WillOWisp* _this = reinterpret_cast<scripting::WillOWisp*> (data);
+  auto _this = reinterpret_cast<scripting::WillOWisp*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -4284,7 +4284,7 @@ static SQInteger WillOWisp_stop_moving_wrapper(HSQUIRRELVM vm)
 
 static SQInteger Wind_release_hook(SQUserPointer ptr, SQInteger )
 {
-  scripting::Wind* _this = reinterpret_cast<scripting::Wind*> (ptr);
+  auto _this = reinterpret_cast<scripting::Wind*> (ptr);
   delete _this;
   return 0;
 }
@@ -4296,7 +4296,7 @@ static SQInteger Wind_start_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'start' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Wind* _this = reinterpret_cast<scripting::Wind*> (data);
+  auto _this = reinterpret_cast<scripting::Wind*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
@@ -4325,7 +4325,7 @@ static SQInteger Wind_stop_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("'stop' called without instance"));
     return SQ_ERROR;
   }
-  scripting::Wind* _this = reinterpret_cast<scripting::Wind*> (data);
+  auto _this = reinterpret_cast<scripting::Wind*> (data);
 
   if (_this == NULL) {
     return SQ_ERROR;
