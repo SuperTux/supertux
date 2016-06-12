@@ -70,23 +70,18 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "namespace wrapper {\n"
         << "\n";
 
-    for(std::vector<AtomicType*>::iterator i = ns->types.begin();
-            i != ns->types.end(); ++i) {
-        AtomicType* type = *i;
-        Class* _class = dynamic_cast<Class*> (type);
+    for(auto& type : ns->types) {
+        auto _class = dynamic_cast<Class*> (type);
         if(_class != 0)
             create_class_wrapper(_class);
     }
-    for(std::vector<Function*>::iterator i = ns->functions.begin();
-            i != ns->functions.end(); ++i) {
-        create_function_wrapper(0, *i);
+    for(auto& func : ns->functions) {
+        create_function_wrapper(0, func);
     }
 
     out << "} // namespace wrapper\n";
 
-    for(std::vector<AtomicType*>::iterator i = ns->types.begin();
-            i != ns->types.end(); ++i) {
-        AtomicType* type = *i;
+    for(auto& type : ns->types) {
         Class* _class = dynamic_cast<Class*> (type);
         if(_class != 0)
             create_squirrel_instance(_class);
@@ -129,7 +124,7 @@ WrapperCreator::create_register_function_code(Function* function, Class* _class)
       if(!function->parameters.empty())
         {
           std::vector<Parameter>::iterator p = function->parameters.begin();
-          
+
           // Skip the first parameter since its a HSQUIRRELVM that is
           // handled internally
           if (function->suspend) {
@@ -162,9 +157,7 @@ WrapperCreator::create_register_function_code(Function* function, Class* _class)
 void
 WrapperCreator::create_register_functions_code(Namespace* ns)
 {
-    for(std::vector<Function*>::iterator i = ns->functions.begin();
-            i != ns->functions.end(); ++i) {
-        Function* function = *i;
+    for(auto& function : ns->functions) {
         create_register_function_code(function, 0);
     }
 }
@@ -172,10 +165,8 @@ WrapperCreator::create_register_functions_code(Namespace* ns)
 void
 WrapperCreator::create_register_classes_code(Namespace* ns)
 {
-    for(std::vector<AtomicType*>::iterator i = ns->types.begin();
-            i != ns->types.end(); ++i) {
-        AtomicType* type = *i;
-        Class* _class = dynamic_cast<Class*> (type);
+    for(auto& type : ns->types) {
+        auto _class = dynamic_cast<Class*> (type);
         if(_class == 0)
             continue;
         if(_class->super_classes.size() > 0)
@@ -213,16 +204,14 @@ WrapperCreator::create_register_class_code(Class* _class)
     out << ind << ind << "throw SquirrelError(v, msg.str());\n";
     out << ind << "}\n";
 
-    for(std::vector<ClassMember*>::iterator i = _class->members.begin();
-            i != _class->members.end(); ++i) {
-        ClassMember* member = *i;
+    for(auto& member : _class->members) {
         if(member->visibility != ClassMember::PUBLIC)
             continue;
-        Function* function = dynamic_cast<Function*> (member);
+        auto function = dynamic_cast<Function*> (member);
         if(function) {
             create_register_function_code(function, _class);
         }
-        Field* field = dynamic_cast<Field*> (member);
+        auto field = dynamic_cast<Field*> (member);
         if(field) {
             create_register_constant_code(field);
         }
@@ -231,9 +220,7 @@ WrapperCreator::create_register_class_code(Class* _class)
     create_register_slot_code("class", _class->name);
     out << "\n";
 
-    for(std::vector<Class*>::iterator i = _class->sub_classes.begin();
-            i != _class->sub_classes.end(); ++i) {
-        Class* _class = *i;
+    for(auto& _class : _class->sub_classes) {
         create_register_class_code(_class);
     }
 }
@@ -241,9 +228,7 @@ WrapperCreator::create_register_class_code(Class* _class)
 void
 WrapperCreator::create_register_constants_code(Namespace* ns)
 {
-    for(std::vector<Field*>::iterator i = ns->fields.begin();
-            i != ns->fields.end(); ++i) {
-        Field* field = *i;
+    for(auto& field: ns->fields) {
         create_register_constant_code(field);
     }
 }
@@ -320,7 +305,7 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
 
     // custom function?
     if(function->custom) {
-        if(function->type != Function::FUNCTION) 
+        if(function->type != Function::FUNCTION)
             throw std::runtime_error(
                     "custom not allow constructor+destructor yet");
         if(function->return_type.atomic_type != SQIntegerType::instance())
@@ -343,15 +328,14 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     // declare and retrieve arguments
     int i = 0;
     int arg_offset = 2;
-    for(std::vector<Parameter>::iterator p = function->parameters.begin();
-            p != function->parameters.end(); ++p) {
-        if(i == 0 && p->type.atomic_type == HSQUIRRELVMType::instance()) {
+    for(auto& p : function->parameters) {
+        if(i == 0 && p.type.atomic_type == HSQUIRRELVMType::instance()) {
             out << ind << "HSQUIRRELVM arg0 = vm;\n";
             arg_offset--;
         } else {
             char argname[64];
             snprintf(argname, sizeof(argname), "arg%d", i);
-            prepare_argument(p->type, i + arg_offset, argname);
+            prepare_argument(p.type, i + arg_offset, argname);
         }
         ++i;
     }
@@ -502,9 +486,7 @@ void
 WrapperCreator::create_class_wrapper(Class* _class)
 {
     create_class_release_hook(_class);
-    for(std::vector<ClassMember*>::iterator i = _class->members.begin();
-            i != _class->members.end(); ++i) {
-        ClassMember* member = *i;
+    for(auto& member : _class->members) {
         if(member->visibility != ClassMember::PUBLIC)
             continue;
         Function* function = dynamic_cast<Function*> (member);
