@@ -53,7 +53,8 @@ Config::Config() :
   addons(),
   developer_mode(false),
   christmas_mode(false),
-  transitions_enabled(true)
+  transitions_enabled(true),
+  repository_url()
 {
 }
 
@@ -85,6 +86,7 @@ Config::load()
   config_lisp.get("transitions_enabled", transitions_enabled);
   config_lisp.get("locale", locale);
   config_lisp.get("random_seed", random_seed);
+  config_lisp.get("repository_url", repository_url);
 
   ReaderMapping config_video_lisp;
   if(config_lisp.get("video", config_video_lisp))
@@ -171,6 +173,7 @@ Config::save()
   }
   writer.write("transitions_enabled", transitions_enabled);
   writer.write("locale", locale);
+  writer.write("repository_url", repository_url);
 
   writer.start_list("video");
   writer.write("fullscreen", use_fullscreen);

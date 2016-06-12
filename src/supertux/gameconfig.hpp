@@ -91,6 +91,8 @@ public:
   bool christmas_mode;
   bool transitions_enabled;
 
+  std::string repository_url;
+
   bool is_christmas() const {
     using namespace boost::gregorian;
     using namespace boost::posix_time;
