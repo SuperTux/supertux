@@ -584,6 +584,7 @@ EditorInputCenter::process_right_click() {
       drag_start = sector_pos;
       update_tile_selection();
     } break;
+    case EditorInputGui::IP_NONE:
     case EditorInputGui::IP_OBJECT:
       set_object();
       break;
