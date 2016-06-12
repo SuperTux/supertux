@@ -49,7 +49,8 @@ CommandLineArguments::CommandLineArguments() :
   record_demo(),
   tux_spawn_pos(),
   developer_mode(),
-  christmas_mode()
+  christmas_mode(),
+  repository_url()
 {
 }
 
@@ -105,6 +106,8 @@ CommandLineArguments::print_help(const char* arg0) const
             << _(     "Directory Options:") << "\n"
             << _(     "  --datadir DIR                Set the directory for the games datafiles") << "\n"
             << _(     "  --userdir DIR                Set the directory for user data (savegames, etc.)") << "\n" << "\n"
+            << _(     "Add-On Options:") << "\n"
+            << _(     "  --repository-url URL         Set the URL to the Add-On repository") << "\n" << "\n"
             << _(     "Environment variables:") << "\n"
             << _(     "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)" ) << "\n"
             << _(     "  SUPERTUX2_DATA_DIR           Directory for the games datafiles" ) << "\n"<< "\n"
@@ -153,7 +156,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else if (arg == "--datadir")
     {
-      if (i+1 >= argc)
+      if (i + 1 >= argc)
       {
         throw std::runtime_error("Need to specify a directory for --datadir");
       }
@@ -164,7 +167,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else if (arg == "--userdir")
     {
-      if (i+1 >= argc)
+      if (i + 1 >= argc)
       {
         throw std::runtime_error("Need to specify a directory for --userdir");
       }
@@ -297,7 +300,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else if (arg == "--play-demo")
     {
-      if (i+1 >= argc)
+      if (i + 1 >= argc)
       {
         throw std::runtime_error("Need to specify a demo filename");
       }
@@ -308,7 +311,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else if (arg == "--record-demo")
     {
-      if (i+1 >= argc)
+      if (i + 1 >= argc)
       {
         throw std::runtime_error("Need to specify a demo filename");
       }
@@ -340,6 +343,17 @@ CommandLineArguments::parse_args(int argc, char** argv)
     else if (arg == "--debug-scripts" || arg == "-s")
     {
       enable_script_debugger = true;
+    }
+    else if (arg == "--repository-url")
+    {
+      if (i + 1 >= argc)
+      {
+        throw std::runtime_error("Need to specify a repository URL");
+      }
+      else
+      {
+        repository_url = argv[++i];
+      }
     }
     else if (arg[0] != '-')
     {
@@ -374,6 +388,7 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(tux_spawn_pos);
   merge_option(developer_mode);
   merge_option(christmas_mode);
+  merge_option(repository_url);
 
 #undef merge_option
 }

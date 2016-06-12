@@ -185,6 +185,12 @@ AddonManager::AddonManager(const std::string& addon_directory,
   {
     log_info << "repository.nfo doesn't exist, not loading" << std::endl;
   }
+
+  if (!g_config->repository_url.empty() &&
+      g_config->repository_url != m_repository_url)
+  {
+    m_repository_url = g_config->repository_url;
+  }
 }
 
 AddonManager::~AddonManager()
