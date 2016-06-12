@@ -156,7 +156,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else if (arg == "--datadir")
     {
-      if (i+1 >= argc)
+      if (i + 1 >= argc)
       {
         throw std::runtime_error("Need to specify a directory for --datadir");
       }
@@ -167,7 +167,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else if (arg == "--userdir")
     {
-      if (i+1 >= argc)
+      if (i + 1 >= argc)
       {
         throw std::runtime_error("Need to specify a directory for --userdir");
       }
@@ -300,7 +300,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else if (arg == "--play-demo")
     {
-      if (i+1 >= argc)
+      if (i + 1 >= argc)
       {
         throw std::runtime_error("Need to specify a demo filename");
       }
@@ -311,7 +311,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else if (arg == "--record-demo")
     {
-      if (i+1 >= argc)
+      if (i + 1 >= argc)
       {
         throw std::runtime_error("Need to specify a demo filename");
       }
