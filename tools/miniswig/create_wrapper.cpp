@@ -35,10 +35,8 @@ WrapperCreator::create_wrapper(Namespace* ns)
     hppout << "void register_" << modulename << "_wrapper(HSQUIRRELVM v);\n"
            << "\n";
 
-    for(std::vector<AtomicType*>::iterator i = ns->types.begin();
-            i != ns->types.end(); ++i) {
-        AtomicType* type = *i;
-        Class* _class = dynamic_cast<Class*> (type);
+    for(auto& type : ns->types) {
+        auto _class = dynamic_cast<Class*> (type);
         if(_class == 0)
             continue;
 
