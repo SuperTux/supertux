@@ -48,8 +48,9 @@ class SpawnPointMarker : public MovingObject
     virtual std::string get_class() const {
       return "spawnpoint";
     }
-
-    virtual ObjectSettings get_settings();
+    virtual std::string get_display_name() const {
+      return _("Spawn point");
+    }
 
   private:
     SurfacePtr surface;

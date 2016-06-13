@@ -55,11 +55,11 @@ void SpawnPointMarker::draw(DrawingContext& context) {
   context.draw_surface(surface, bbox.p1, LAYER_FOREGROUND1);
 }
 
-ObjectSettings
+/*ObjectSettings
 SpawnPointMarker::get_settings() {
   ObjectSettings result(_("Spawn Point"));
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
   return result;
-}
+}*/
 
 /* EOF */
