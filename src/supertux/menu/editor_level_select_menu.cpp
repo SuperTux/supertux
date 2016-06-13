@@ -35,17 +35,31 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 
 EditorLevelSelectMenu::EditorLevelSelectMenu() :
+  m_world(Editor::current()->get_world()),
   m_levelset()
 {
+  initialize();
+}
+
+EditorLevelSelectMenu::EditorLevelSelectMenu(std::unique_ptr<World> world) :
+  m_world(),
+  m_levelset()
+{
+  m_world = std::move(world);
+  initialize();
+}
+
+void EditorLevelSelectMenu::initialize() {
   auto editor = Editor::current();
-  auto basedir = editor->get_world()->get_basedir();
+  auto basedir = m_world->get_basedir();
 
   editor->deactivate_request = true;
   m_levelset = std::unique_ptr<Levelset>(new Levelset(basedir));
 
-  add_label(editor->get_world()->get_title());
+  add_label(m_world->get_title());
   add_hl();
 
   for (int i = 0; i < m_levelset->get_num_levels(); ++i)
@@ -88,6 +102,7 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
   {
+    Editor::current()->world = move(m_world);
     Editor::current()->set_level(m_levelset->get_level_filename(item->id));
     Editor::current()->set_worldmap_mode(false);
     MenuManager::instance().clear_menu_stack();

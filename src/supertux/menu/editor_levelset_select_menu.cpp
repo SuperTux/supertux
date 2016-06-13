@@ -25,12 +25,14 @@
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/menu/contrib_levelset_menu.hpp"
+#include "supertux/menu/editor_level_select_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 
 EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
   m_contrib_worlds()
@@ -150,8 +152,8 @@ EditorLevelsetSelectMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
   {
-    Editor::current()->world = move(m_contrib_worlds[item->id]);
-    MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
+    std::unique_ptr<Menu> menu = std::unique_ptr<Menu>(new EditorLevelSelectMenu(std::move(m_contrib_worlds[item->id])));
+    MenuManager::instance().push_menu(std::move(menu));
   }
 }
 

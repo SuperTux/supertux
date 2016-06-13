@@ -25,16 +25,18 @@ class World;
 class EditorLevelSelectMenu : public Menu
 {
 private:
-/*  std::unique_ptr<World> m_world;*/
+  std::unique_ptr<World> m_world;
   std::unique_ptr<Levelset> m_levelset;
 
 public:
   EditorLevelSelectMenu();
+  EditorLevelSelectMenu(std::unique_ptr<World> world);
   ~EditorLevelSelectMenu();
 
   void menu_action(MenuItem* item) override;
 
 private:
+  void initialize();
   void create_level();
 
   EditorLevelSelectMenu(const EditorLevelSelectMenu&);
