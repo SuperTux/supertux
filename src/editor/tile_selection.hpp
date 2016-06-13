@@ -18,6 +18,7 @@
 #define  HEADER_SUPERTUX_EDITOR_TILE_SELECTION_HPP
 
 #include <algorithm>
+#include <stdint.h>
 #include <vector>
 
 class TileSelection
