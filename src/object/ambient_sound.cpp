@@ -124,7 +124,11 @@ AmbientSound::get_settings() {
   new_size.x = bbox.get_width();
   new_size.y = bbox.get_height();
   ObjectSettings result = MovingObject::get_settings();
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, "sample", &sample, "sample", false));
+
+  ObjectOption smp(MN_FILE, _("Sound"), &sample, "sample");
+  smp.select.push_back(".wav");
+  smp.select.push_back(".ogg");
+  result.options.push_back(smp);
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance factor"), &distance_factor, "distance_factor"));
