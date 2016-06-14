@@ -46,6 +46,7 @@
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/world.hpp"
+#include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
 
 Editor::Editor() :
@@ -302,7 +303,11 @@ void Editor::reload_level() {
   // Re/load level
   level = NULL;
   levelloaded = true;
+
+  ReaderMapping::translations_enabled = false;
   level = LevelParser::from_file(world->get_basedir() + "/" + levelfile);
+  ReaderMapping::translations_enabled = true;
+
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   load_sector("main");
   currentsector->activate("main");
