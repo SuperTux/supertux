@@ -28,8 +28,6 @@ private:
   std::unique_ptr<World> m_world;
   std::unique_ptr<Levelset> m_levelset;
 
-  bool m_change_world;
-
 public:
   EditorLevelSelectMenu();
   EditorLevelSelectMenu(std::unique_ptr<World> world);

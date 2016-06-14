@@ -38,8 +38,7 @@
 
 EditorLevelSelectMenu::EditorLevelSelectMenu() :
   m_world(),
-  m_levelset(),
-  m_change_world(false)
+  m_levelset()
 {
   m_world = std::move(Editor::current()->world);
   initialize();
@@ -47,8 +46,7 @@ EditorLevelSelectMenu::EditorLevelSelectMenu() :
 
 EditorLevelSelectMenu::EditorLevelSelectMenu(std::unique_ptr<World> world) :
   m_world(),
-  m_levelset(),
-  m_change_world(true)
+  m_levelset()
 {
   m_world = std::move(world);
   initialize();
