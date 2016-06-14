@@ -161,7 +161,7 @@ Background::save(Writer& writer) {
 ObjectSettings
 Background::get_settings() {
   ObjectSettings result = GameObject::get_settings();
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &layer));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &layer, "z-pos"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset x"),
                                          &scroll_offset.x, "scroll-offset-x"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset y"),
