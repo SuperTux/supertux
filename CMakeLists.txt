@@ -163,7 +163,6 @@ FIND_PACKAGE(PhysFS)
 CHECK_SYMBOL_EXISTS("PHYSFS_getPrefDir" "${PHYSFS_INCLUDE_DIR}/physfs.h" HAVE_PHYSFS_GETPREFDIR)
 IF(HAVE_PHYSFS_GETPREFDIR)
 	SET(USE_SYSTEM_PHYSFS ON CACHE BOOL "Use preinstalled physfs (must support getPrefDir)")
-	INCLUDE_DIRECTORIES(SYSTEM ${PHYSFS_INCLUDE_DIR})
 ELSE(HAVE_PHYSFS_GETPREFDIR)
 	SET(USE_SYSTEM_PHYSFS OFF CACHE BOOL "Use preinstalled physfs (must support getPrefDir)")
 ENDIF(HAVE_PHYSFS_GETPREFDIR)
@@ -201,8 +200,11 @@ IF(NOT USE_SYSTEM_PHYSFS)
 		ADD_LIBRARY(physfs_lib STATIC IMPORTED)
 		SET_TARGET_PROPERTIES(physfs_lib PROPERTIES IMPORTED_LOCATION "${PHYSFS_PREFIX}/lib${LIB_SUFFIX}/${CMAKE_STATIC_LIBRARY_PREFIX}physfs${CMAKE_STATIC_LIBRARY_SUFFIX}")
 	ENDIF()
-	INCLUDE_DIRECTORIES(SYSTEM "${PHYSFS_PREFIX}/include/")
+	SET(PHYSFS_INCLUDE_DIR "${PHYSFS_PREFIX}/include/")
 ENDIF()
+
+INCLUDE_DIRECTORIES(BEFORE SYSTEM ${PHYSFS_INCLUDE_DIR})
+
 
 ## The curl headers are in the standard include path in dependencies
 ## so it's not required to add them here
@@ -380,22 +382,6 @@ LIST(SORT SUPERTUX_SOURCES_C)
 LIST(SORT SUPERTUX_SOURCES_CXX)
 LIST(SORT SUPERTUX_RESOURCES)
 
-## Build miniswig and generate miniswig wrapper
-
-OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" OFF)
-IF(GENERATE_WRAPPER)
-  ADD_SUBDIRECTORY(tools/miniswig)
-  ADD_CUSTOM_COMMAND(
-    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.hpp
-    COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
-    ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${CMAKE_CURRENT_BINARY_DIR}/miniswig.tmp -I${CMAKE_CURRENT_SOURCE_DIR}/src
-    COMMAND tools/miniswig/miniswig
-    ARGS --input miniswig.tmp --output-cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace scripting
-    DEPENDS tools/miniswig/miniswig
-    IMPLICIT_DEPENDS CXX ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.interface.hpp
-  )
-ENDIF(GENERATE_WRAPPER)
-
 IF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
   SET(SUPERTUX_SOURCES_CXX ${SUPERTUX_SOURCES_CXX} ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
 ENDIF(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp)
@@ -534,6 +520,22 @@ IF(WIN32)
     SET(SUPERTUX_SOURCES_C ${SUPERTUX_SOURCES_C} ${CMAKE_CURRENT_BINARY_DIR}/supertux_rc.o)
   ENDIF(MINGW)
 ENDIF(WIN32)
+
+## Build miniswig and generate miniswig wrapper
+
+OPTION(GENERATE_WRAPPER "Build miniswig and generate the wrapper" OFF)
+IF(GENERATE_WRAPPER)
+  ADD_SUBDIRECTORY(tools/miniswig)
+  ADD_CUSTOM_COMMAND(
+    OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.hpp
+    COMMAND cd ${CMAKE_CURRENT_SOURCE_DIR} && ${CMAKE_CXX_COMPILER}
+    ARGS -x "c++" -E -CC -DSCRIPTING_API src/scripting/wrapper.interface.hpp -o ${CMAKE_CURRENT_BINARY_DIR}/miniswig.tmp -I${CMAKE_CURRENT_SOURCE_DIR}/src
+    COMMAND tools/miniswig/miniswig
+    ARGS --input miniswig.tmp --output-cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.cpp --output-hpp ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.hpp --module supertux --select-namespace scripting
+    DEPENDS tools/miniswig/miniswig
+    IMPLICIT_DEPENDS CXX ${CMAKE_CURRENT_SOURCE_DIR}/src/scripting/wrapper.interface.hpp
+  )
+ENDIF(GENERATE_WRAPPER)
 
 ## Generate supertux executable in the right place
 

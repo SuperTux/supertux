@@ -56,12 +56,21 @@ FIND_PROGRAM(FLEX_EXECUTABLE flex)
 IF (NOT FLEX_EXECUTABLE)
   MESSAGE(FATAL_ERROR "flex not found - aborting")
 ENDIF (NOT FLEX_EXECUTABLE)
+
 ADD_CUSTOM_COMMAND(
   OUTPUT ${MINISWIG_BINARY_DIR}/lexer.cpp
   COMMAND ${FLEX_EXECUTABLE}
   ARGS -o ${MINISWIG_BINARY_DIR}/lexer.cpp ${MINISWIG_SOURCE_DIR}/lexer.ll
   DEPENDS lexer.ll ${MINISWIG_BINARY_DIR}/parser.hpp
 )
+
+IF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  ADD_DEFINITIONS("-Wno-deprecated-register -Wno-unneeded-internal-declaration -Wno-unused-function")
+ENDIF()
+
+IF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+  ADD_DEFINITIONS("-Wno-unused-function")
+ENDIF()
 
 ## Add target for miniswig binary
 
