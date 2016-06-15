@@ -314,8 +314,9 @@ TileMap::draw(DrawingContext& context)
    * FIXME Force integer translation for all graphics, not just tilemaps. */
   float trans_x = roundf(context.get_translation().x);
   float trans_y = roundf(context.get_translation().y);
-  context.set_translation(Vector(int(trans_x * speed_x),
-                                 int(trans_y * speed_y)));
+  bool normal_speed = editor_active && Editor::is_active();
+  context.set_translation(Vector(int(trans_x * (normal_speed ? 1 : speed_x)),
+                                 int(trans_y * (normal_speed ? 1 : speed_y))));
 
   Rectf draw_rect = Rectf(context.get_translation(),
         context.get_translation() + Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
