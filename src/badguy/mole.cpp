@@ -76,8 +76,9 @@ Mole::collision_badguy(BadGuy& , const CollisionHit& )
 bool
 Mole::collision_squished(GameObject& )
 {
-  if (frozen)
-    return true;
+  if (frozen) {
+    unfreeze();
+  }
 
   set_state(DEAD);
   SoundManager::current()->play("sounds/squish.wav", get_pos());
@@ -189,6 +190,8 @@ Mole::set_state(MoleState new_state)
 void
 Mole::ignite() {
   set_state(BURNING);
+  run_dead_script();
+  SoundManager::current()->play("sounds/fire.ogg", get_pos());
 }
 
 /* EOF */
