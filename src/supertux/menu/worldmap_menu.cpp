@@ -31,7 +31,7 @@ WorldmapMenu::WorldmapMenu()
   add_entry(MNID_RETURNWORLDMAP, _("Continue"));
   add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
   add_hl();
-  add_entry(MNID_QUITWORLDMAP, _("Quit World"));
+  add_entry(MNID_QUITWORLDMAP, _("Leave World"));
 }
 
 void
