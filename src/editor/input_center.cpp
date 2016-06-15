@@ -55,6 +55,8 @@
 #include "video/video_system.hpp"
 #include "math/vector.hpp"
 
+bool EditorInputCenter::render_grid = true;
+
 EditorInputCenter::EditorInputCenter() :
   hovered_tile(0, 0),
   sector_pos(0, 0),
@@ -67,8 +69,7 @@ EditorInputCenter::EditorInputCenter() :
   edited_path(NULL),
   last_node_marker(NULL),
   object_tip(),
-  obj_mouse_desync(0, 0),
-  render_grid(true)
+  obj_mouse_desync(0, 0)
 {
 }
 

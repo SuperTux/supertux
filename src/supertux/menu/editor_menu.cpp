@@ -20,6 +20,8 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "editor/editor.hpp"
+#include "editor/input_center.hpp"
+#include "editor/scroller.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/screen_manager.hpp"
@@ -41,6 +43,9 @@ EditorMenu::EditorMenu()
 
   add_entry(MNID_LEVELSEL, _("Edit another level"));
   add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
+
+  add_toggle(-1, _("Show grid"), &EditorInputCenter::render_grid);
+  add_toggle(-1, _("Hide scroller"), &EditorScroller::hidden);
 
   add_submenu(worldmap ? _("Worldmap properties") : _("Level properties"),
               MenuStorage::EDITOR_LEVEL_MENU);

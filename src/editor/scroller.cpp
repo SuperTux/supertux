@@ -36,8 +36,9 @@ const float SIZE = 96;
 
 }
 
+bool EditorScroller::hidden = false;
+
 EditorScroller::EditorScroller() :
-  hidden(false),
   scrolling(),
   scrolling_vec(0, 0),
   mouse_pos(0, 0)

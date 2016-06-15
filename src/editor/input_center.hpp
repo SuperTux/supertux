@@ -46,6 +46,8 @@ class EditorInputCenter
 
     void edit_path(Path* path, GameObject* new_marked_object = NULL);
 
+    static bool render_grid;
+
   private:
     Vector hovered_tile;
     Vector sector_pos;
@@ -60,8 +62,6 @@ class EditorInputCenter
     NodeMarker* last_node_marker;
     std::unique_ptr<Tip> object_tip;
     Vector obj_mouse_desync;
-
-    bool render_grid;
 
     void input_tile(Vector pos, uint32_t tile);
     void put_tile();
