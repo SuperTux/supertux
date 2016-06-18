@@ -23,6 +23,7 @@
 #include "gui/menu_script.hpp"
 #include "math/vector.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/console.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/color.hpp"
@@ -39,18 +40,18 @@ ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
 void
 ItemScriptLine::draw(DrawingContext& context, Vector pos, int menu_width, bool active) {
   std::string r_input = *input;
+  auto font = Console::current()->get_font();
   bool fl = active && (int(real_time*2)%2);
   if ( fl ) {
     r_input += "_";
   }
-  context.draw_text(Resources::normal_font, r_input,
-                    Vector(pos.x + 16, pos.y - int(Resources::normal_font->get_height()/2)),
+  context.draw_text(font, r_input, Vector(pos.x + 16, pos.y - int(font->get_height()/2)),
                     ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::field_color);
 }
 
 int
 ItemScriptLine::get_width() const {
-  return Resources::normal_font->get_text_width(*input) + 16 + flickw;
+  return Console::current()->get_font()->get_text_width(*input) + 16 + flickw;
 }
 
 void
