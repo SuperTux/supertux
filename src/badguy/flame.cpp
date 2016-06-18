@@ -80,6 +80,8 @@ Flame::active_update(float elapsed_time)
 void
 Flame::activate()
 {
+  if(Editor::is_active())
+    return;
   sound_source = SoundManager::current()->create_sound_source(FLAME_SOUND);
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
