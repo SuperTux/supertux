@@ -67,9 +67,9 @@ void
 Flame::active_update(float elapsed_time)
 {
   angle = fmodf(angle + elapsed_time * speed, (float) (2*M_PI));
-  Vector newpos(start_position.x + cos(angle) * radius,
-                start_position.y + sin(angle) * radius);
   if (!Editor::is_active()) {
+    Vector newpos(start_position.x + cos(angle) * radius,
+                  start_position.y + sin(angle) * radius);
     movement = newpos - get_pos();
     sound_source->set_position(get_pos());
   }
