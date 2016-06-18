@@ -56,10 +56,9 @@ ItemScriptLine::get_width() const {
 void
 ItemScriptLine::process_action(MenuAction action) {
   ItemTextField::process_action(action);
-  Controller* controller = InputManager::current()->get_controller();
+  auto controller = InputManager::current()->get_controller();
   if (action == MENU_ACTION_HIT && controller->pressed(Controller::MENU_SELECT)) {
-    Menu* cm = MenuManager::instance().current_menu();
-    ScriptMenu* menu = dynamic_cast<ScriptMenu*>(cm);
+    auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
     if (!menu) {
       return;
     }
@@ -69,8 +68,7 @@ ItemScriptLine::process_action(MenuAction action) {
 
 void
 ItemScriptLine::invalid_remove() {
-  Menu* cm = MenuManager::instance().current_menu();
-  ScriptMenu* menu = dynamic_cast<ScriptMenu*>(cm);
+  auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
   if (!menu) {
     return;
   }
