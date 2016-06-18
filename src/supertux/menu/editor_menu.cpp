@@ -44,8 +44,8 @@ EditorMenu::EditorMenu()
   add_entry(MNID_LEVELSEL, _("Edit another level"));
   add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
 
-  add_toggle(-1, _("Show grid"), &EditorInputCenter::render_grid);
-  add_toggle(-1, _("Hide scroller"), &EditorScroller::hidden);
+  add_toggle(-1, _("Show grid (F8)"), &EditorInputCenter::render_grid);
+  add_toggle(-1, _("Hide scroller (F9)"), &EditorScroller::hidden);
 
   add_submenu(worldmap ? _("Worldmap properties") : _("Level properties"),
               MenuStorage::EDITOR_LEVEL_MENU);
