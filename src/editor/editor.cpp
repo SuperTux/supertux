@@ -346,7 +346,7 @@ Editor::setup() {
         MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
       });
 
-      dialog->add_button(_("Ignore (not advertized)"), [] {
+      dialog->add_button(_("Ignore (not advised)"), [] {
         MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
       });
 

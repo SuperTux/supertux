@@ -68,7 +68,7 @@ EditorLevelsetMenu::create_worldmap()
   MenuManager::instance().clear_menu_stack();
 
   std::unique_ptr<Dialog> dialog(new Dialog);
-  dialog->set_text(_("Share this worldmap under license CC-BY-SA (advertized).\nIf you don't agree with this license, change it in level properties."));
+  dialog->set_text(_("Share this worldmap under license CC-BY-SA (advised).\nIf you don't agree with this license, change it in level properties."));
   dialog->clear_buttons();
   dialog->add_button(_("OK"), [] {});
   MenuManager::instance().set_dialog(std::move(dialog));
