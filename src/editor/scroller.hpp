@@ -38,7 +38,7 @@ class EditorScroller
     void update(float elapsed_time);
     bool event(SDL_Event& ev);
 
-    static bool hidden;
+    static bool rendered;
 
   private:
     bool scrolling;

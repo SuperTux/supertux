@@ -40,9 +40,6 @@ public:
   virtual void after_editor_set();
 
 private:
-  Physic physic;
-
-  void draw(DrawingContext& context);
   void update(float elapsed_time);
 
   float width, height;

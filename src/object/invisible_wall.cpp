@@ -16,10 +16,10 @@
 
 #include "object/invisible_wall.hpp"
 
-#include "supertux/object_factory.hpp"
 #include "editor/editor.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/drawing_context.hpp"
 
 InvisibleWall::InvisibleWall(const ReaderMapping& lisp):
   width(),
@@ -34,17 +34,10 @@ InvisibleWall::InvisibleWall(const ReaderMapping& lisp):
   bbox.set_size(width, height);
 }
 
-void
-InvisibleWall::save(Writer& writer) {
-  MovingSprite::save(writer);
-  writer.write("width", bbox.get_width);
-  writer.write("height", bbox.get_height);
-}
-
 ObjectSettings
 InvisibleWall::get_settings() {
-  width = bbox.get_width;
-  height = bbox.get_height;
+  width = bbox.get_width();
+  height = bbox.get_height();
 
   ObjectSettings result = MovingObject::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &width, "width"));

@@ -36,7 +36,7 @@ const float SIZE = 96;
 
 }
 
-bool EditorScroller::hidden = false;
+bool EditorScroller::rendered = true;
 
 EditorScroller::EditorScroller() :
   scrolling(),
@@ -56,7 +56,7 @@ EditorScroller::can_scroll() {
 
 void
 EditorScroller::draw(DrawingContext& context) {
-  if (hidden) return;
+  if (!rendered) return;
 
   context.draw_filled_rect(Rectf(Vector(0, 0), Vector(SIZE, SIZE)),
                            Color(0.9f, 0.9f, 1.0f, 0.6f),
@@ -88,7 +88,7 @@ EditorScroller::draw_arrow(DrawingContext& context, Vector pos) {
 
 void
 EditorScroller::update(float elapsed_time) {
-  if (hidden) return;
+  if (!rendered) return;
   if (!can_scroll()) return;
 
   float horiz_scroll = scrolling_vec.x * elapsed_time;
@@ -114,7 +114,7 @@ EditorScroller::event(SDL_Event& ev) {
     case SDL_MOUSEBUTTONDOWN:
     {
       if(ev.button.button == SDL_BUTTON_LEFT) {
-        if (hidden) return false;
+        if (!rendered) return false;
 
         if (mouse_pos.x < SIZE && mouse_pos.y < SIZE) {
           scrolling = true;
@@ -133,7 +133,7 @@ EditorScroller::event(SDL_Event& ev) {
 
     case SDL_MOUSEMOTION:
     {
-      if (hidden) return false;
+      if (!rendered) return false;
 
       mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
       if (mouse_pos.x < SIZE && mouse_pos.y < SIZE) {
@@ -148,7 +148,7 @@ EditorScroller::event(SDL_Event& ev) {
 
     case SDL_KEYDOWN:
       if (ev.key.keysym.sym == SDLK_F9) {
-        hidden = !hidden;
+        rendered = !rendered;
       }
       return false;
       break;
