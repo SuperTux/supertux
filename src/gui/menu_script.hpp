@@ -31,7 +31,7 @@ public:
   void add_line();
 
 protected:
-  bool is_sensitive();
+  bool is_sensitive() override;
 
 private:
   std::string* base_script;
