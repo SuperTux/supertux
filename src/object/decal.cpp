@@ -37,7 +37,7 @@ Decal::Decal(const ReaderMapping& reader) :
 ObjectSettings
 Decal::get_settings() {
   ObjectSettings result = MovingObject::get_settings();
-  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
+  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite");
   spr.select.push_back(".png");
   spr.select.push_back(".sprite");
   result.options.push_back(spr);
