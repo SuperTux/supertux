@@ -492,7 +492,7 @@ AddonManager::disable_addon(const AddonId& addon_id)
 }
 
 bool
-AddonManager::is_old_addon_enabled() {
+AddonManager::is_old_addon_enabled() const {
   auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
                          [](const std::unique_ptr<Addon>& addon)
                          {
@@ -550,7 +550,7 @@ AddonManager::unmount_old_addons()
 }
 
 bool
-AddonManager::is_from_old_addon(std::string filename)
+AddonManager::is_from_old_addon(std::string filename) const
 {
   std::string real_path = PHYSFS_getRealDir(filename.c_str());
   for (auto& addon : m_installed_addons) {
