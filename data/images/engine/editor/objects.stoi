@@ -257,6 +257,9 @@
     (class "climbable")
     (icon "images/engine/editor/climbable.png"))
   (object
+    (class "invisible_wall")
+    (icon "images/engine/editor/invisible_wall.png"))
+  (object
     (class "scripttrigger")
     (icon "images/engine/editor/scripttrigger.png"))
   (object
