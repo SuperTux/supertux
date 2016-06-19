@@ -135,6 +135,7 @@ void
 IceCrusher::collision_solid(const CollisionHit& hit)
 {
   switch(state) {
+    case RECOVERING:
     case IDLE:
       break;
     case CRUSHING:
@@ -174,12 +175,6 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           }
         }
         set_state(RECOVERING);
-      }
-      break;
-    case RECOVERING:
-      if (hit.top) {
-        set_state(IDLE);
-        start_position = bbox.p1;
       }
       break;
     default:
