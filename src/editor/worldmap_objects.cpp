@@ -132,20 +132,24 @@ LevelDot::after_editor_set() {
   name = FileSystem::basename(level);
   level = FileSystem::dirname(level);
   level.erase(level.end()-1); // Erase the slash at the end
-  std::string basedir_ = Editor::current()->get_world()->get_basedir();
-  std::string basedir = "/" + basedir_;
-  while (level.size() && level != basedir) {
+  if (level[0] == '/' || level[0] == '\\') {
+    level.erase(level.begin()); // Erase the slash at the begin
+  }
+  std::string basedir = Editor::current()->get_world()->get_basedir();
+  int c = 100;
+  while (level.size() && level != basedir && c > 0) {
     name = FileSystem::join(FileSystem::basename(level), name);
     level = FileSystem::dirname(level);
     level.erase(level.end()-1); // Erase the slash at the end
+    c--; //Do not cycle forever if something has failed.
   }
 
   // Forbid the players to use levels of other levelsets
   level = FileSystem::join(Editor::current()->get_world()->get_basedir(), name);
   if (!PHYSFS_exists(level.c_str())) {
-    level = basedir_ + "/";
-    name = "";
     log_warning << "Using levels of other level subsets is not allowed!" << std::endl;
+    level = basedir + "/";
+    name = "";
   }
 }
 
