@@ -16,3 +16,6 @@
 [submodule "external/physfs"]
 	path = external/physfs
 	url = https://github.com/SuperTux/physfs
+[submodule "external/SDL_ttf"]
+	path = external/SDL_ttf
+	url = https://github.com/SuperTux/SDL_ttf.git
