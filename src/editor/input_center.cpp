@@ -65,6 +65,7 @@ EditorInputCenter::EditorInputCenter() :
   dragging_right(false),
   drag_start(0, 0),
   dragged_object(NULL),
+  hovered_object(NULL),
   marked_object(NULL),
   edited_path(NULL),
   last_node_marker(NULL),
@@ -269,8 +270,11 @@ EditorInputCenter::hover_object() {
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
       if (moving_object->do_save()) {
-        std::unique_ptr<Tip> new_tip(new Tip(moving_object));
-        object_tip = move(new_tip);
+        if (moving_object != hovered_object) {
+          std::unique_ptr<Tip> new_tip(new Tip(moving_object));
+          object_tip = move(new_tip);
+          hovered_object = moving_object;
+        }
       } else {
         break;
       }
@@ -278,6 +282,7 @@ EditorInputCenter::hover_object() {
     }
   }
   object_tip = NULL;
+  hovered_object = NULL;
 }
 
 void
@@ -338,25 +343,21 @@ EditorInputCenter::mark_object() {
 
 void
 EditorInputCenter::grab_object() {
-  for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
-    Rectf bbox = moving_object->get_bbox();
-
-    if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
-        sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
-      if (!moving_object->is_valid()) {
-        continue;
-      }
-
-      dragged_object = moving_object;
-      auto pm = dynamic_cast<PointMarker*>(moving_object);
-      obj_mouse_desync = sector_pos - bbox.p1;
-      // marker testing
-      if (!pm) {
-        mark_object();
-      }
-      last_node_marker = dynamic_cast<NodeMarker*>(pm);
+  if (hovered_object) {
+    if (!hovered_object->is_valid()) {
+      hovered_object = NULL;
       return;
     }
+
+    dragged_object = hovered_object;
+    auto pm = dynamic_cast<PointMarker*>(hovered_object);
+    obj_mouse_desync = sector_pos - hovered_object->get_pos();
+    // marker testing
+    if (!pm) {
+      mark_object();
+    }
+    last_node_marker = dynamic_cast<NodeMarker*>(pm);
+    return;
   }
   dragged_object = NULL;
   if (edited_path && Editor::current()->tileselect.object == "#node") {
@@ -369,45 +370,41 @@ EditorInputCenter::grab_object() {
 
 void
 EditorInputCenter::clone_object() {
-  for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
-    Rectf bbox = moving_object->get_bbox();
-
-    if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
-        sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
-      if (!moving_object->is_valid()) {
-        continue;
-      }
-
-      auto pm = dynamic_cast<PointMarker*>(moving_object);
-      if (pm) {
-        continue; //Do not clone markers
-      }
-      obj_mouse_desync = sector_pos - bbox.p1;
-
-      auto tileselect = &(Editor::current()->tileselect);
-      GameObjectPtr game_object;
-      try {
-        game_object = ObjectFactory::instance().create(moving_object->get_class(), moving_object->get_pos());
-      } catch(const std::exception& e) {
-        log_warning << "Error creating object " << tileselect->object << ": " << e.what() << std::endl;
-        return;
-      }
-      if (!game_object)
-        throw std::runtime_error("Cloning object failed.");
-
-      try {
-        Editor::current()->currentsector->add_object(game_object);
-      } catch(const std::exception& e) {
-        log_warning << "Error adding object " << tileselect->object << ": " << e.what() << std::endl;
-        return;
-      }
-
-      dragged_object = dynamic_cast<MovingObject*>(game_object.get());
-      ObjectSettings settings = moving_object->get_settings();
-      dragged_object->get_settings().copy_from(&settings);
-      dragged_object->after_editor_set();
+  if (hovered_object) {
+    if (!hovered_object->is_valid()) {
+      hovered_object = NULL;
       return;
     }
+
+    auto pm = dynamic_cast<PointMarker*>(hovered_object);
+    if (pm) {
+      return; //Do not clone markers
+    }
+    obj_mouse_desync = sector_pos - hovered_object->get_pos();
+
+    auto tileselect = &(Editor::current()->tileselect);
+    GameObjectPtr game_object;
+    try {
+      game_object = ObjectFactory::instance().create(hovered_object->get_class(), hovered_object->get_pos());
+    } catch(const std::exception& e) {
+      log_warning << "Error creating object " << hovered_object->get_class() << ": " << e.what() << std::endl;
+      return;
+    }
+    if (!game_object)
+      throw std::runtime_error("Cloning object failed.");
+
+    try {
+      Editor::current()->currentsector->add_object(game_object);
+    } catch(const std::exception& e) {
+      log_warning << "Error adding object " << tileselect->object << ": " << e.what() << std::endl;
+      return;
+    }
+
+    dragged_object = dynamic_cast<MovingObject*>(game_object.get());
+    ObjectSettings settings = hovered_object->get_settings();
+    dragged_object->get_settings().copy_from(&settings);
+    dragged_object->after_editor_set();
+    return;
   }
   dragged_object = NULL;
   delete_markers();
@@ -415,15 +412,11 @@ EditorInputCenter::clone_object() {
 
 void
 EditorInputCenter::set_object() {
-  for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
-    Rectf bbox = moving_object->get_bbox();
-    if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
-        sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
-      std::unique_ptr<Menu> om(new ObjectMenu(moving_object));
-      Editor::current()->deactivate_request = true;
-      MenuManager::instance().push_menu(move(om));
-      return;
-    }
+  if (hovered_object) {
+    std::unique_ptr<Menu> om(new ObjectMenu(hovered_object));
+    Editor::current()->deactivate_request = true;
+    MenuManager::instance().push_menu(move(om));
+    return;
   }
 }
 

@@ -57,6 +57,7 @@ class EditorInputCenter
     bool dragging_right;
     Vector drag_start;
     MovingObject* dragged_object;
+    MovingObject* hovered_object;
     GameObject* marked_object;
     Path* edited_path;
     NodeMarker* last_node_marker;
