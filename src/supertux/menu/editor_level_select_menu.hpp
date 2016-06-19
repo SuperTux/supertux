@@ -39,6 +39,8 @@ private:
   void initialize();
   void create_level();
 
+  bool reinit_world;
+
   EditorLevelSelectMenu(const EditorLevelSelectMenu&);
   EditorLevelSelectMenu& operator=(const EditorLevelSelectMenu&);
 };

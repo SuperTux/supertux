@@ -38,7 +38,8 @@
 
 EditorLevelSelectMenu::EditorLevelSelectMenu() :
   m_world(),
-  m_levelset()
+  m_levelset(),
+  reinit_world(true)
 {
   m_world = std::move(Editor::current()->world);
   initialize();
@@ -46,7 +47,8 @@ EditorLevelSelectMenu::EditorLevelSelectMenu() :
 
 EditorLevelSelectMenu::EditorLevelSelectMenu(std::unique_ptr<World> world) :
   m_world(),
-  m_levelset()
+  m_levelset(),
+  reinit_world(false)
 {
   m_world = std::move(world);
   initialize();
@@ -78,7 +80,9 @@ void EditorLevelSelectMenu::initialize() {
 
 EditorLevelSelectMenu::~EditorLevelSelectMenu()
 {
-  Editor::current()->world = std::move(m_world);
+  if (reinit_world) {
+    Editor::current()->world = std::move(m_world);
+  }
   Editor::current()->reactivate_request = true;
 }
 
@@ -105,6 +109,9 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
   {
     Editor::current()->set_level(m_levelset->get_level_filename(item->id));
     Editor::current()->set_worldmap_mode(false);
+    if (!reinit_world) {
+      Editor::current()->world = std::move(m_world);
+    }
     MenuManager::instance().clear_menu_stack();
   } else {
     switch (item->id) {
