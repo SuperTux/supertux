@@ -116,6 +116,8 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
   } else {
     switch (item->id) {
       case -1:
+        Editor::current()->world = std::move(m_world);
+        reinit_world = false;
         create_level();
         break;
       case -2:
