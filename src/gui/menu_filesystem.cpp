@@ -18,6 +18,7 @@
 
 #include <physfs.h>
 
+#include "addon/addon_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/item_action.hpp"
@@ -33,14 +34,19 @@ FileSystemMenu::FileSystemMenu(std::string* filename_, const std::vector<std::st
   directories(),
   files()
 {
+  AddonManager::current()->unmount_old_addons();
+
   directory = FileSystem::dirname(*filename);
+  if (!PHYSFS_exists(directory.c_str())) {
+    directory = "/"; //The filename is probably included in an old add-on.
+  }
 
   refresh_items();
 }
 
 FileSystemMenu::~FileSystemMenu()
 {
-
+  AddonManager::current()->mount_old_addons();
 }
 
 void
@@ -71,6 +77,7 @@ FileSystemMenu::refresh_items()
     for(const char* const* file = dir_files.get(); *file != 0; ++file)
     {
       std::string dirpath = FileSystem::join(directory, *file);
+
       PHYSFS_Stat statbuf;
       PHYSFS_stat(dirpath.c_str(), &statbuf);
       if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
@@ -89,6 +96,10 @@ FileSystemMenu::refresh_items()
     {
       for(const char* const* file = dir_files; *file != 0; ++file)
       {
+        if (AddonManager::current()->is_from_old_addon(FileSystem::join(directory, *file))) {
+          continue;
+        }
+
         if(has_right_suffix(*file))
         {
           files.push_back(*file);

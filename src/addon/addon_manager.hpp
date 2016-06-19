@@ -77,6 +77,9 @@ public:
 
   bool is_old_addon_enabled();
   void disable_old_addons();
+  void mount_old_addons();
+  void unmount_old_addons();
+  bool is_from_old_addon(std::string filename);
 
   void update();
   void check_for_langpack_updates();

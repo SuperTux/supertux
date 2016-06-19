@@ -336,6 +336,8 @@ Editor::setup() {
   Tile::draw_editor_images = true;
   Sector::draw_solids_only = false;
   if (!levelloaded) {
+
+#if 0
     if (AddonManager::current()->is_old_addon_enabled()) {
       std::unique_ptr<Dialog> dialog(new Dialog);
       dialog->set_text(_("Some obsolete add-ons are still active\nand might cause collisions with default Super Tux structure.\nYou can still enable these add-ons in the menu.\nDisabling these add-ons will not delete your game progress."));
@@ -355,7 +357,9 @@ Editor::setup() {
       });
 
       MenuManager::instance().set_dialog(std::move(dialog));
-    } else {
+    } else
+#endif
+    {
       MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
     }
   }
