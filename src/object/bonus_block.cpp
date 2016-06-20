@@ -152,7 +152,14 @@ BonusBlock::save(Writer& writer) {
     case CONTENT_EARTHGROW:  writer.write("contents", "earthgrow" , false); break;
     case CONTENT_STAR:       writer.write("contents", "star"      , false); break;
     case CONTENT_1UP:        writer.write("contents", "1up"       , false); break;
-    case CONTENT_CUSTOM:     writer.write("contents", "custom"    , false); break;
+    case CONTENT_CUSTOM:
+      writer.write("contents", "custom"    , false);
+      if (object) {
+        writer.start_list(object->get_class());
+        object->save(writer);
+        writer.end_list(object->get_class());
+      }
+      break;
     case CONTENT_SCRIPT:     writer.write("contents", "script"    , false); break;
     case CONTENT_LIGHT:      writer.write("contents", "light"     , false); break;
     case CONTENT_TRAMPOLINE: writer.write("contents", "trampoline", false); break;
