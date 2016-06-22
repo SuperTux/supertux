@@ -60,5 +60,10 @@
   (name "swivel-right")
   (hitbox 4 12 55 40)
   (mirror-action "swivel-left"))
+
+ (action
+  (name "invisible")
+  (hitbox 0 0 32 32)
+  (images "invisible.png"))
 )
 
