@@ -43,7 +43,16 @@ public:
   virtual ~ParticleSystem_Interactive();
 
   virtual void parse(const ReaderMapping& reader);
-  virtual void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context) override;
+  virtual std::string get_display_name() const override
+  {
+    return _("Interactive particle system");
+  }
+  virtual ObjectSettings get_settings() override;
+
+  int get_layer() {
+    return z_pos;
+  }
 
 protected:
   class Particle

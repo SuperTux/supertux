@@ -27,6 +27,13 @@ public:
 
   void try_break(Player* player);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual ObjectSettings get_settings();
+  std::string get_class() const {
+    return "brick";
+  }
+  std::string get_display_name() const {
+    return _("Brick");
+  }
 
 protected:
   virtual void hit(Player& player);

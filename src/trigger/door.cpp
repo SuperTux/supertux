@@ -28,6 +28,7 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
+#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 Door::Door(const ReaderMapping& reader) :
@@ -69,6 +70,15 @@ Door::Door(int x, int y, std::string sector, std::string spawnpoint) :
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   SoundManager::current()->preload("sounds/door.wav");
+}
+
+ObjectSettings
+Door::get_settings() {
+  ObjectSettings result(_("Door"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Sector"), &target_sector, "sector"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawn point"), &target_spawnpoint, "spawnpoint"));
+  return result;
 }
 
 Door::~Door()

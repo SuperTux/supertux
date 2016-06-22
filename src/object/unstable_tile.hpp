@@ -32,6 +32,12 @@ public:
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
+  std::string get_class() const {
+    return "unstable_tile";
+  }
+  std::string get_display_name() const {
+    return _("Unstable tile");
+  }
 
 private:
   enum State {

@@ -108,4 +108,25 @@ DartTrap::fire()
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 }
 
+
+ObjectSettings
+DartTrap::get_settings() {
+  ObjectSettings result = BadGuy::get_settings();
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Initial delay"), &initial_delay,
+                                         "initial-delay"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Fire delay"), &fire_delay,
+                                         "fire-delay"));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Ammo"), &ammo,
+                                         "ammo"));
+
+  return result;
+}
+
+void
+DartTrap::after_editor_set()
+{
+  BadGuy::after_editor_set();
+  sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
+}
+
 /* EOF */

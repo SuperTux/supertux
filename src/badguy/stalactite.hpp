@@ -35,6 +35,12 @@ public:
   void deactivate();
 
   void squish();
+  std::string get_class() const {
+    return "stalactite";
+  }
+  std::string get_display_name() const {
+    return _("Stalactite");
+  }
 
 protected:
   enum StalactiteState {

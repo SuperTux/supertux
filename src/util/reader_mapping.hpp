@@ -34,6 +34,8 @@ public:
   // sx should point to (section (name value)...)
   ReaderMapping(const ReaderDocument* doc, const sexp::Value* sx);
 
+  static bool translations_enabled;
+
   ReaderIterator get_iter() const;
 
   bool get(const char* key, bool& value) const;
@@ -42,6 +44,7 @@ public:
   bool get(const char* key, float& value) const;
   bool get(const char* key, std::string& value) const;
 
+  bool get(const char* key, std::vector<int>& value) const;
   bool get(const char* key, std::vector<float>& value) const;
   bool get(const char* key, std::vector<std::string>& value) const;
   bool get(const char* key, std::vector<unsigned int>& value) const;

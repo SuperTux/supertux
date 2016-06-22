@@ -35,6 +35,12 @@ public:
   virtual void collision_solid(const CollisionHit& hit);
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
+  std::string get_class() const {
+    return "icecrusher";
+  }
+  std::string get_display_name() const {
+    return _("Ice crusher");
+  }
 
 #if 0
   const Vector& get_speed() const

@@ -32,6 +32,12 @@ public:
   Climbable(const ReaderMapping& reader);
   Climbable(const Rectf& area);
   ~Climbable();
+  std::string get_class() const {
+    return "climbable";
+  }
+
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
 
   void event(Player& player, EventType type);
   void update(float elapsed_time);
@@ -48,6 +54,8 @@ protected:
   std::string message;
 
 private:
+  Vector new_size;
+
   Climbable(const Climbable&);
   Climbable& operator=(const Climbable&);
 };

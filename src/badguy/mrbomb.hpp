@@ -38,6 +38,12 @@ public:
   bool is_portable() const;
 
   bool is_freezable() const;
+  std::string get_class() const {
+    return "mrbomb";
+  }
+  std::string get_display_name() const {
+    return _("Mr. Bomb");
+  }
 
 protected:
   bool collision_squished(GameObject& object);

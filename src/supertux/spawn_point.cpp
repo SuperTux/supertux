@@ -19,6 +19,7 @@
 #include "supertux/spawn_point.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 SpawnPoint::SpawnPoint() :
   name(),
@@ -45,6 +46,17 @@ SpawnPoint::SpawnPoint(const ReaderMapping& slisp) :
     log_warning << "No name specified for spawnpoint. Ignoring." << std::endl;
   if(pos.x < 0 || pos.y < 0)
     log_warning << "Invalid coordinates specified for spawnpoint. Ignoring." << std::endl;
+}
+
+void
+SpawnPoint::save(Writer& writer){
+  writer.start_list("spawnpoint");
+
+  writer.write("x",pos.x);
+  writer.write("y",pos.y);
+  writer.write("name",name,false);
+
+  writer.end_list("spawnpoint");
 }
 
 /* EOF */

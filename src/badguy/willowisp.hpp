@@ -30,6 +30,7 @@ class WillOWisp : public BadGuy,
 {
 public:
   WillOWisp(const ReaderMapping& reader);
+  virtual void save(Writer& writer);
 
   void activate();
   void deactivate();
@@ -54,6 +55,20 @@ public:
 
   virtual void stop_looping_sounds();
   virtual void play_looping_sounds();
+
+  std::string get_class() const {
+    return "willowisp";
+  }
+  std::string get_display_name() const {
+    return _("Will 'o' wisp");
+  }
+
+  virtual ObjectSettings get_settings();
+  virtual void move_to(const Vector& pos);
+
+  Path* get_path() const {
+    return path.get();
+  }
 
 protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const;

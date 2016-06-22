@@ -18,18 +18,21 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "editor/editor.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "trigger/scripttrigger.hpp"
+#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/drawing_context.hpp"
 
 ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   triggerevent(),
-  script()
+  script(),
+  new_size(),
+  must_activate(false)
 {
-  bool must_activate = false;
-
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
   float w = 32, h = 32;
@@ -50,7 +53,9 @@ ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
 
 ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script_) :
   triggerevent(),
-  script()
+  script(),
+  new_size(),
+  must_activate()
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);
@@ -62,6 +67,29 @@ ScriptTrigger::~ScriptTrigger()
 {
 }
 
+ObjectSettings
+ScriptTrigger::get_settings() {
+  new_size.x = bbox.get_width();
+  new_size.y = bbox.get_height();
+  ObjectSettings result(_("Script trigger"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script, "script"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Button"), &must_activate, "button"));
+  return result;
+}
+
+void
+ScriptTrigger::after_editor_set() {
+  bbox.set_size(new_size.x, new_size.y);
+  if (must_activate) {
+    triggerevent = EVENT_ACTIVATE;
+  } else {
+    triggerevent = EVENT_TOUCH;
+  }
+}
+
 void
 ScriptTrigger::event(Player& , EventType type)
 {
@@ -70,6 +98,15 @@ ScriptTrigger::event(Player& , EventType type)
 
   std::istringstream stream(script);
   Sector::current()->run_script(stream, "ScriptTrigger");
+}
+
+void
+ScriptTrigger::draw(DrawingContext& context)
+{
+  if (Editor::is_active()) {
+    context.draw_filled_rect(bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
+                             0.0f, LAYER_OBJECTS);
+  }
 }
 
 /* EOF */

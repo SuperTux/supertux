@@ -20,6 +20,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
@@ -1214,6 +1215,10 @@ Player::kick()
 void
 Player::draw(DrawingContext& context)
 {
+  if (Editor::is_active()) {
+    return;
+  }
+
   if(!visible)
     return;
 

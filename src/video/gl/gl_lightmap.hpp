@@ -38,6 +38,8 @@ public:
   void draw_filled_rect(const DrawingRequest& request) override;
   void draw_inverse_ellipse(const DrawingRequest& request) override;
   void get_light(const DrawingRequest& request) const override;
+  void draw_line(const DrawingRequest& request) override;
+  void draw_triangle(const DrawingRequest& request) override;
 
 private:
   static const int s_LIGHTMAP_DIV = 5;

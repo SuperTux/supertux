@@ -16,6 +16,7 @@
 
 #include "object/wind.hpp"
 
+#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
@@ -30,6 +31,7 @@ Wind::Wind(const ReaderMapping& reader) :
   blowing(),
   speed(),
   acceleration(),
+  new_size(),
   elapsed_time(0)
 {
   float w,h;
@@ -48,6 +50,27 @@ Wind::Wind(const ReaderMapping& reader) :
   if (!reader.get("acceleration", acceleration)) acceleration = 100;
 
   set_group(COLGROUP_TOUCHABLE);
+}
+
+ObjectSettings
+Wind::get_settings() {
+  new_size.x = bbox.get_width();
+  new_size.y = bbox.get_height();
+  ObjectSettings result = MovingObject::get_settings();
+  result.options.push_back( ObjectOption(MN_NUMFIELD, "width", &new_size.x,
+                                         "width", false));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, "height", &new_size.y,
+                                         "height", false));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed X"), &speed.x,
+                                         "speed-x"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed Y"), &speed.y,
+                                         "speed-y"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Acceleration"), &acceleration,
+                                         "acceleration"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Blowing"), &blowing,
+                                         "blowing"));
+
+  return result;
 }
 
 void
@@ -69,8 +92,12 @@ Wind::update(float elapsed_time_)
 }
 
 void
-Wind::draw(DrawingContext& )
+Wind::draw(DrawingContext& context)
 {
+  if (Editor::is_active()) {
+    context.draw_filled_rect(bbox, Color(0.0f, 1.0f, 1.0f, 0.6f),
+                             0.0f, LAYER_OBJECTS);
+  }
 }
 
 HitResponse

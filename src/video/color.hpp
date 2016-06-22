@@ -37,6 +37,8 @@ public:
 
   bool operator < (const Color& other) const;
 
+  std::vector<float> toVector(bool include_alpha);
+
   float red, green, blue, alpha;
 
   static const Color BLACK;

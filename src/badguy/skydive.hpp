@@ -35,6 +35,12 @@ class SkyDive : public BadGuy, public Portable
     /* Inherited from Portable */
     void grab(MovingObject& object, const Vector& pos, Direction dir);
     void ungrab(MovingObject& object, Direction dir);
+    std::string get_class() const {
+      return "skydive";
+    }
+    std::string get_display_name() const {
+      return _("Sky dive");
+    }
 
   protected:
     HitResponse collision_player(Player& player, const CollisionHit& hit);

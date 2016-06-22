@@ -28,18 +28,13 @@
 #include "video/drawing_context.hpp"
 
 InfoBlock::InfoBlock(const ReaderMapping& lisp) :
-  Block(SpriteManager::current()->create("images/objects/bonus_block/infoblock.sprite")),
+  Block(lisp, "images/objects/bonus_block/infoblock.sprite"),
   message(),
   shown_pct(0),
   dest_pct(0),
   lines(),
   lines_height()
 {
-  Vector pos;
-  if (!lisp.get("x", pos.x)) pos.x = 0;
-  if (!lisp.get("y", pos.y)) pos.y = 0;
-  bbox.set_pos(pos);
-
   if(!lisp.get("message", message)) {
     log_warning << "No message in InfoBlock" << std::endl;
   }
@@ -55,6 +50,15 @@ InfoBlock::InfoBlock(const ReaderMapping& lisp) :
 
 InfoBlock::~InfoBlock()
 {
+}
+
+ObjectSettings
+InfoBlock::get_settings() {
+  ObjectSettings result = Block::get_settings();
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Message"), &message,
+                                         "message"));
+
+  return result;
 }
 
 void

@@ -29,6 +29,15 @@ public:
   void activate();
   void active_update(float elapsed_time);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
+  std::string get_class() const {
+    return "darttrap";
+  }
+  std::string get_display_name() const {
+    return _("Dart trap");
+  }
+
+  ObjectSettings get_settings();
+  void after_editor_set();
 
 protected:
   enum State {

@@ -34,7 +34,9 @@ public:
     START,
     ESCAPE,
     MENU_SELECT,
+    MENU_SELECT_SPACE,
     MENU_BACK,
+    REMOVE,
 
     CHEAT_MENU,
     CONSOLE,

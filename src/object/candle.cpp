@@ -72,6 +72,24 @@ Candle::Candle(const ReaderMapping& lisp)
 }
 
 void
+Candle::after_editor_set() {
+  candle_light_1->set_color(lightcolor);
+  candle_light_2->set_color(lightcolor);
+
+  sprite->set_action(burning ? "on" : "off");
+}
+
+ObjectSettings
+Candle::get_settings() {
+  ObjectSettings result = MovingSprite::get_settings();
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Burning"), &burning, "burning"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Flicker"), &name, "flicker"));
+  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor, "color"));
+
+  return result;
+}
+
+void
 Candle::draw(DrawingContext& context)
 {
   // draw regular sprite

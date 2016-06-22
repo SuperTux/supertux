@@ -18,6 +18,8 @@
 
 #include <math.h>
 
+#include "editor/editor.hpp"
+#include "object/tilemap.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/tilemap.hpp"
 #include "supertux/globals.hpp"
@@ -31,6 +33,7 @@
 #include "util/reader_mapping.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
+  editor_active(true),
   tileset(new_tileset),
   tiles(),
   real_solid(false),
@@ -51,11 +54,15 @@ TileMap::TileMap(const TileSet *new_tileset) :
   remaining_tint_fade_time(0),
   path(),
   walker(),
-  draw_target(DrawingContext::NORMAL)
+  draw_target(DrawingContext::NORMAL),
+  new_size_x(0),
+  new_size_y(0),
+  add_path(false)
 {
 }
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
+  editor_active(true),
   tileset(tileset_),
   tiles(),
   real_solid(false),
@@ -76,7 +83,10 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   remaining_tint_fade_time(0),
   path(),
   walker(),
-  draw_target(DrawingContext::NORMAL)
+  draw_target(DrawingContext::NORMAL),
+  new_size_x(0),
+  new_size_y(0),
+  add_path(false)
 {
   assert(tileset);
 
@@ -123,14 +133,20 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   reader.get("width", width);
   reader.get("height", height);
-  if(width < 0 || height < 0)
-    throw std::runtime_error("Invalid/No width/height specified in tilemap.");
+  if(width < 0 || height < 0) {
+    //throw std::runtime_error("Invalid/No width/height specified in tilemap.");
+    width = 0;
+    height = 0;
+    tiles.clear();
+    resize(Sector::current()->get_width()/32, Sector::current()->get_height()/32);
+    editor_active = false;
+  } else {
+    if(!reader.get("tiles", tiles))
+      throw std::runtime_error("No tiles in tilemap.");
 
-  if(!reader.get("tiles", tiles))
-    throw std::runtime_error("No tiles in tilemap.");
-
-  if(int(tiles.size()) != width*height) {
-    throw std::runtime_error("wrong number of tiles in tilemap.");
+    if(int(tiles.size()) != width*height) {
+      throw std::runtime_error("wrong number of tiles in tilemap.");
+    }
   }
 
   bool empty = true;
@@ -159,6 +175,73 @@ void TileMap::float_channel(float target, float &current, float remaining_time, 
   float amt = (target - current) / (remaining_time / elapsed_time);
   if (amt > 0) current = std::min(current + amt, target);
   if (amt < 0) current = std::max(current + amt, target);
+}
+
+void
+TileMap::save(Writer& writer) {
+  GameObject::save(writer);
+  if (draw_target == LIGHTMAP) {
+    writer.write("draw-target", "lightmap", false);
+  } else {
+    writer.write("draw-target", "normal", false);
+  }
+  writer.write("width", width);
+  writer.write("height", height);
+  writer.write("speed", speed_x);
+  if(speed_y != speed_x) {
+    writer.write("speed-y", speed_y);
+  }
+  writer.write("solid", real_solid);
+  writer.write("z-pos", z_pos);
+  if(alpha != 1) {
+    writer.write("alpha", alpha);
+  }
+  writer.write("tint", tint.toVector(false));
+  if(path) {
+    path->save(writer);
+  }
+  writer.write("tiles", tiles);
+}
+
+ObjectSettings
+TileMap::get_settings() {
+  new_size_x = width;
+  new_size_y = height;
+  ObjectSettings result = GameObject::get_settings();
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("solid"), &real_solid));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("width"), &new_size_x));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("height"), &new_size_y));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("alpha"), &alpha));
+  result.options.push_back( ObjectOption(MN_COLOR, _("tint"), &tint));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
+
+  add_path = walker.get() && path->is_valid();
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Following path"), &add_path));
+
+  if (walker.get() && path->is_valid()) {
+    result.options.push_back( Path::get_mode_option(&path->mode) );
+  }
+
+  if (!editor_active) {
+    result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
+  }
+  return result;
+}
+
+void
+TileMap::after_editor_set() {
+  resize(new_size_x, new_size_y);
+
+  if (walker.get() && path->is_valid()) {
+    if (!add_path) {
+      path->nodes.clear();
+    }
+  } else {
+    if (add_path) {
+      path.reset(new Path(offset));
+      walker.reset(new PathWalker(path.get()));
+    }
+  }
 }
 
 void
@@ -194,8 +277,12 @@ TileMap::update(float elapsed_time)
   // if we have a path to follow, follow it
   if (walker.get()) {
     Vector v = walker->advance(elapsed_time);
-    movement = v - get_offset();
-    set_offset(v);
+    if (path->is_valid()) {
+      movement = v - get_offset();
+      set_offset(v);
+    } else {
+      set_offset(Vector(0, 0));
+    }
   }
 }
 
@@ -212,7 +299,14 @@ TileMap::draw(DrawingContext& context)
   }
 
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
-  if(current_alpha != 1.0) context.set_alpha(current_alpha);
+
+  if (editor_active) {
+    if(current_alpha != 1.0) {
+      context.set_alpha(current_alpha);
+    }
+  } else {
+    context.set_alpha(current_alpha/2);
+  }
 
   /* Force the translation to be an integer so that the tiles appear sharper.
    * For consistency (i.e., to avoid 1-pixel gaps), this needs to be done even
@@ -220,8 +314,9 @@ TileMap::draw(DrawingContext& context)
    * FIXME Force integer translation for all graphics, not just tilemaps. */
   float trans_x = roundf(context.get_translation().x);
   float trans_y = roundf(context.get_translation().y);
-  context.set_translation(Vector(int(trans_x * speed_x),
-                                 int(trans_y * speed_y)));
+  bool normal_speed = editor_active && Editor::is_active();
+  context.set_translation(Vector(int(trans_x * (normal_speed ? 1 : speed_x)),
+                                 int(trans_y * (normal_speed ? 1 : speed_y))));
 
   Rectf draw_rect = Rectf(context.get_translation(),
         context.get_translation() + Vector(SCREEN_WIDTH, SCREEN_HEIGHT));

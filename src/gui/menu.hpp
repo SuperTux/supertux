@@ -24,6 +24,7 @@
 #include "math/vector.hpp"
 #include "video/color.hpp"
 
+class Color;
 class DrawingContext;
 class MenuItem;
 
@@ -44,7 +45,18 @@ public:
   MenuItem* add_submenu(const std::string& text, int submenu, int id = -1);
   MenuItem* add_controlfield(int id, const std::string& text,
                              const std::string& mapping = "");
-  MenuItem* add_string_select(int id, const std::string& text, size_t* selected, std::vector<std::string> strings);
+  MenuItem* add_string_select(int id, const std::string& text, int* selected, std::vector<std::string> strings);
+  MenuItem* add_textfield(const std::string& text, std::string* input, int id = -1);
+  MenuItem* add_script(const std::string& text, std::string* script, int id = -1);
+  MenuItem* add_script_line(std::string* input, int id = -1);
+  MenuItem* add_intfield(const std::string& text, int* input, int id = -1);
+  MenuItem* add_numfield(const std::string& text, float* input, int id = -1);
+  MenuItem* add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id = -1);
+  MenuItem* add_file(const std::string& text, std::string* input, std::vector<std::string> extensions, int id = -1);
+
+  MenuItem* add_color(const std::string& text, Color* color, int id = -1);
+  MenuItem* add_colordisplay(Color* color, int id = -1);
+  MenuItem* add_colorchannel(float* input, Color channel, int id = -1);
 
   virtual void menu_action(MenuItem* item) = 0;
 
@@ -80,6 +92,11 @@ public:
 
 protected:
   MenuItem* add_item(std::unique_ptr<MenuItem> menu_item);
+  MenuItem* add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
+  void delete_item(int pos_);
+
+  ///returns true when the text is more important than action
+  virtual bool is_sensitive();
 
 private:
   void process_action(MenuAction menuaction);
@@ -100,6 +117,8 @@ public:
 
 private:
   int arrange_left;
+
+protected:
   int active_item;
 };
 

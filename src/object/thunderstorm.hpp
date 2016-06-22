@@ -77,6 +77,18 @@ public:
   /**
    * @}
    */
+  std::string get_class() const {
+    return "thunderstorm";
+  }
+  std::string get_display_name() const {
+    return _("Thunderstorm");
+  }
+
+  virtual ObjectSettings get_settings();
+
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/thunderstorm.png";
+  }
 
 private:
   bool running; /**< whether we currently automatically trigger lightnings */

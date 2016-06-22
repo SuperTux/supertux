@@ -36,6 +36,15 @@ public:
 
   void kill_fall() { };
 
+  ObjectSettings get_settings();
+  virtual void after_editor_set();
+  std::string get_class() const {
+    return "mrcandle";
+  }
+  std::string get_display_name() const {
+    return _("Mr. Candle");
+  }
+
 private:
 
   Color lightcolor;

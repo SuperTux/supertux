@@ -41,6 +41,12 @@ public:
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
 
   bool is_flammable() const;
+  std::string get_class() const {
+    return "mole_rock";
+  }
+  std::string get_display_name() const {
+    return _("Mole's rock");
+  }
 
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */

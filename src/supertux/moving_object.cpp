@@ -16,6 +16,9 @@
 
 #include "supertux/moving_object.hpp"
 
+#include "editor/resizer.hpp"
+#include "supertux/sector.hpp"
+
 MovingObject::MovingObject() :
   bbox(),
   movement(),
@@ -26,6 +29,38 @@ MovingObject::MovingObject() :
 
 MovingObject::~MovingObject()
 {
+}
+
+void
+MovingObject::save(Writer& writer) {
+  GameObject::save(writer);
+  writer.write("x", bbox.p1.x);
+  writer.write("y", bbox.p1.y);
+}
+
+void
+MovingObject::edit_bbox() {
+  if (!is_valid()) {
+    return;
+  }
+
+  GameObjectPtr marker1, marker2, marker3, marker4, marker5, marker6, marker7, marker8;
+  marker1 = std::make_shared<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::LEFT_UP);
+  marker2 = std::make_shared<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::NONE);
+  marker3 = std::make_shared<Resizer>(&bbox, Resizer::LEFT_UP, Resizer::RIGHT_DOWN);
+  marker4 = std::make_shared<Resizer>(&bbox, Resizer::NONE, Resizer::LEFT_UP);
+  marker5 = std::make_shared<Resizer>(&bbox, Resizer::NONE, Resizer::RIGHT_DOWN);
+  marker6 = std::make_shared<Resizer>(&bbox, Resizer::RIGHT_DOWN, Resizer::LEFT_UP);
+  marker7 = std::make_shared<Resizer>(&bbox, Resizer::RIGHT_DOWN, Resizer::NONE);
+  marker8 = std::make_shared<Resizer>(&bbox, Resizer::RIGHT_DOWN, Resizer::RIGHT_DOWN);
+  Sector::current()->add_object(marker1);
+  Sector::current()->add_object(marker2);
+  Sector::current()->add_object(marker3);
+  Sector::current()->add_object(marker4);
+  Sector::current()->add_object(marker5);
+  Sector::current()->add_object(marker6);
+  Sector::current()->add_object(marker7);
+  Sector::current()->add_object(marker8);
 }
 
 /* EOF */

@@ -118,6 +118,18 @@ SDLLightmap::draw_inverse_ellipse(const DrawingRequest& request)
 }
 
 void
+SDLLightmap::draw_line(const DrawingRequest& request)
+{
+  SDLPainter::draw_line(m_renderer, request);
+}
+
+void
+SDLLightmap::draw_triangle(const DrawingRequest& request)
+{
+  SDLPainter::draw_triangle(m_renderer, request);
+}
+
+void
 SDLLightmap::get_light(const DrawingRequest& request) const
 {
   const GetLightRequest* getlightrequest

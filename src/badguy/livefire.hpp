@@ -24,15 +24,21 @@ class LiveFire : public WalkingBadguy
 public:
   LiveFire(const ReaderMapping& reader);
 
-  void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-  void active_update(float elapsed_time);
+  void collision_solid(const CollisionHit& hit) override;
+  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  void active_update(float elapsed_time) override;
 
-  void freeze();
-  bool is_freezable() const;
-  bool is_flammable() const;
+  void freeze() override;
+  bool is_freezable() const override;
+  bool is_flammable() const override;
 
-  virtual void kill_fall();
+  virtual void kill_fall() override;
+  virtual std::string get_class() const override {
+    return "livefire";
+  }
+  virtual std::string get_display_name() const override {
+    return _("Live fire");
+  }
 
 private:
   std::string death_sound;
@@ -53,6 +59,9 @@ public:
   LiveFireAsleep(const ReaderMapping& reader);
 
   void initialize();
+  std::string get_display_name() const {
+    return _("Sleeping live fire");
+  }
 };
 
 class LiveFireDormant : public LiveFire
@@ -61,6 +70,9 @@ public:
   LiveFireDormant(const ReaderMapping& reader);
 
   void initialize();
+  std::string get_display_name() const {
+    return _("Dormant live fire");
+  }
 };
 
 #endif

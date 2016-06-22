@@ -29,6 +29,14 @@ public:
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
+  std::string get_class() const {
+    return "pushbutton";
+  }
+  std::string get_display_name() const {
+    return _("Button");
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   enum PushButtonState {

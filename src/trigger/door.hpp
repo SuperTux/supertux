@@ -29,6 +29,11 @@ public:
   Door(const ReaderMapping& reader);
   Door(int x, int y, std::string sector, std::string spawnpoint);
   virtual ~Door();
+  std::string get_class() const {
+    return "door";
+  }
+
+  virtual ObjectSettings get_settings();
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

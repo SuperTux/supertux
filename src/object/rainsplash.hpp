@@ -28,6 +28,10 @@ class RainSplash : public GameObject
 public:
   RainSplash(Vector pos, bool vertical);
   ~RainSplash();
+  virtual bool do_save() const {
+    return false;
+  }
+
 protected:
   virtual void hit(Player& );
   virtual void update(float time);

@@ -388,4 +388,65 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
   glColor4f(1, 1, 1, 1);
 }
 
+void
+GLPainter::draw_line(const DrawingRequest& request)
+{
+  const LineRequest* linerequest
+    = static_cast<LineRequest*>(request.request_data);
+
+  glDisable(GL_TEXTURE_2D);
+  glColor4f(linerequest->color.red, linerequest->color.green,
+            linerequest->color.blue, linerequest->color.alpha);
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+  float x1 = request.pos.x;
+  float y1 = request.pos.y;
+  float x2 = linerequest->dest_pos.x;
+  float y2 = linerequest->dest_pos.y;
+
+  float vertices[] = {
+    x1, y1,
+    x2, y2
+  };
+  glVertexPointer(2, GL_FLOAT, 0, vertices);
+
+  glDrawArrays(GL_LINES, 0, 2);
+
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  glEnable(GL_TEXTURE_2D);
+  glColor4f(1, 1, 1, 1);
+}
+
+void
+GLPainter::draw_triangle(const DrawingRequest& request)
+{
+  const TriangleRequest* trianglerequest
+    = static_cast<TriangleRequest*>(request.request_data);
+
+  glDisable(GL_TEXTURE_2D);
+  glColor4f(trianglerequest->color.red, trianglerequest->color.green,
+            trianglerequest->color.blue, trianglerequest->color.alpha);
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+  float x1 = request.pos.x;
+  float y1 = request.pos.y;
+  float x2 = trianglerequest->pos2.x;
+  float y2 = trianglerequest->pos2.y;
+  float x3 = trianglerequest->pos3.x;
+  float y3 = trianglerequest->pos3.y;
+
+  float vertices[] = {
+    x1, y1,
+    x2, y2,
+    x3, y3
+  };
+  glVertexPointer(2, GL_FLOAT, 0, vertices);
+
+  glDrawArrays(GL_TRIANGLES, 0, 3);
+
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  glEnable(GL_TEXTURE_2D);
+  glColor4f(1, 1, 1, 1);
+}
+
 /* EOF */

@@ -42,11 +42,19 @@ public:
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
+  std::string get_class() const {
+    return "dart";
+  }
+  std::string get_display_name() const {
+    return _("Dart");
+  }
 
   bool is_flammable() const;
 
   void stop_looping_sounds();
   void play_looping_sounds();
+
+  void after_editor_set();
 
 protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */

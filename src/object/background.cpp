@@ -116,8 +116,8 @@ Background::Background(const ReaderMapping& reader) :
 
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
 
-  if(!reader.get("image", imagefile) || !reader.get("speed", speed))
-    throw std::runtime_error("Must specify image and speed for background");
+  if (!reader.get("image", imagefile)) imagefile = "images/background/transparent_up.png";
+  if (!reader.get("speed", speed)) speed = 0.5;
 
   set_image(imagefile, speed);
   if (!reader.get("speed-y", speed_y))
@@ -127,14 +127,75 @@ Background::Background(const ReaderMapping& reader) :
 
   if (reader.get("image-top", imagefile_top)) {
     image_top = Surface::create(imagefile_top);
+  } else {
+    imagefile_top = imagefile;
   }
+
   if (reader.get("image-bottom", imagefile_bottom)) {
     image_bottom = Surface::create(imagefile_bottom);
+  } else {
+    imagefile_bottom = imagefile;
   }
 }
 
 Background::~Background()
 {
+}
+
+void
+Background::save(Writer& writer) {
+  GameObject::save(writer);
+  switch (alignment) {
+    case LEFT_ALIGNMENT:   writer.write("alignment", "left",   false); break;
+    case RIGHT_ALIGNMENT:  writer.write("alignment", "right",  false); break;
+    case TOP_ALIGNMENT:    writer.write("alignment", "top",    false); break;
+    case BOTTOM_ALIGNMENT: writer.write("alignment", "bottom", false); break;
+    case NO_ALIGNMENT: break;
+  }
+
+  if (speed_y != speed){
+    writer.write("speed_y", speed_y);
+  }
+}
+
+ObjectSettings
+Background::get_settings() {
+  ObjectSettings result = GameObject::get_settings();
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &layer, "z-pos"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset x"),
+                                         &scroll_offset.x, "scroll-offset-x"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset y"),
+                                         &scroll_offset.y, "scroll-offset-y"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll speed x"),
+                                         &scroll_speed.x, "scroll-speed-x"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll speed y"),
+                                         &scroll_speed.y, "scroll-speed-y"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed x"), &speed, "speed"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed y"), &speed_y));
+
+  ObjectOption img(MN_FILE, _("Top image"), &imagefile_top, "image-top", true, false);
+  img.select.push_back(".png");
+  img.select.push_back(".jpg");
+  img.select.push_back(".gif");
+  img.select.push_back(".bmp");
+  result.options.push_back(img);
+  ObjectOption img2(MN_FILE, _("Image"), &imagefile, "image");
+  img2.select = img.select;
+  ObjectOption img3(MN_FILE, _("Bottom image"), &imagefile_bottom, "image-bottom", true, false);
+  img3.select = img.select;
+  result.options.push_back(img2);
+  result.options.push_back(img3);
+
+  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
+  return result;
+}
+
+void
+Background::after_editor_set()
+{
+  image_top = Surface::create(imagefile_top);
+  image = Surface::create(imagefile);
+  image_bottom = Surface::create(imagefile_bottom);
 }
 
 void
@@ -148,6 +209,7 @@ Background::set_image(const std::string& name_)
 {
   this->imagefile = name_;
   image = Surface::create(name_);
+  imagefile = name_;
 }
 
 void
@@ -162,8 +224,19 @@ Background::set_images(const std::string& name_top_, const std::string& name_mid
                        const std::string& name_bottom_)
 {
   image_top = Surface::create(name_top_);
+  imagefile_top = name_top_;
+
   image = Surface::create(name_middle_);
+  imagefile = name_middle_;
+
   image_bottom = Surface::create(name_bottom_);
+  imagefile_bottom = name_bottom_;
+}
+
+void
+Background::set_speed(float speed_)
+{
+  speed = speed_;
 }
 
 void

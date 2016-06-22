@@ -28,6 +28,7 @@ private:
   World();
 
   void load_(const std::string& directory);
+  void create_(const std::string& directory, const std::string& title, const std::string& desc);
 
 public:
   /**
@@ -36,6 +37,7 @@ public:
       @param directory  Directory containing the info file, e.g. "levels/world1"
   */
   static std::unique_ptr<World> load(const std::string& directory);
+  static std::unique_ptr<World> create(const std::string& title, const std::string& desc);
 
 public:
   ~World();
@@ -51,14 +53,22 @@ public:
   std::string get_worldmap_filename() const { return m_worldmap_filename; }
   std::string get_savegame_filename() const { return m_savegame_filename; }
 
+  void save(bool retry = false);
+  void set_default_values();
+
 private:
   std::string m_basedir;
   std::string m_worldmap_filename;
   std::string m_savegame_filename;
 
+public:
   std::string m_title;
   std::string m_description;
+
+private:
   bool m_hide_from_contribs;
+
+public:
   bool m_is_levelset;
 
 private:

@@ -34,6 +34,12 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
   virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
+  std::string get_class() const {
+    return "totem";
+  }
+  std::string get_display_name() const {
+    return _("Totem");
+  }
 
 protected:
   bool collision_squished(GameObject& object);

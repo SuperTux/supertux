@@ -32,6 +32,12 @@ public:
   void freeze();
   bool is_freezable() const;
   bool is_flammable() const;
+  std::string get_class() const {
+    return "jumpy";
+  }
+  std::string get_display_name() const {
+    return _("Jumpy");
+  }
 
 private:
   HitResponse hit(const CollisionHit& hit);

@@ -55,6 +55,14 @@ public:
   bool gravity_enabled() const;
 
   std::string get_name() const;
+  std::string get_class() const {
+    return "scriptedobject";
+  }
+  std::string get_display_name() const {
+    return _("Scripted object");
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   Physic physic;
@@ -64,6 +72,7 @@ private:
   bool visible;
   bool new_vel_set;
   Vector new_vel;
+  Vector new_size;
 };
 
 #endif

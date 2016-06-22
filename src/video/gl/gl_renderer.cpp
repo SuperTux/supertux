@@ -424,6 +424,18 @@ GLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
   GLPainter::draw_inverse_ellipse(request);
 }
 
+void
+GLRenderer::draw_line(const DrawingRequest& request)
+{
+  GLPainter::draw_line(request);
+}
+
+void
+GLRenderer::draw_triangle(const DrawingRequest& request)
+{
+  GLPainter::draw_triangle(request);
+}
+
 Vector
 GLRenderer::to_logical(int physical_x, int physical_y) const
 {

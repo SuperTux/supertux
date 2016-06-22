@@ -37,6 +37,14 @@ public:
   bool is_freezable() const;
   bool is_flammable() const;
 
+  ObjectSettings get_settings();
+  virtual std::string get_class() const {
+    return "flame";
+  }
+  std::string get_display_name() const {
+    return _("Flame");
+  }
+
   void stop_looping_sounds();
   void play_looping_sounds();
 

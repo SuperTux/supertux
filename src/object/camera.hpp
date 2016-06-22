@@ -36,6 +36,7 @@ class Camera : public GameObject,
 public:
   Camera(Sector* sector, std::string name = "");
   virtual ~Camera();
+  virtual void save(Writer& writer);
 
   /// parse camera mode from lisp file
   void parse(const ReaderMapping& reader);
@@ -67,12 +68,13 @@ public:
    * to the position goal
    */
   void scroll_to(const Vector& goal, float scrolltime);
+  void move(const int dx, const int dy);
 
   void reload_config();
 
   enum CameraMode
   {
-    NORMAL, AUTOSCROLL, SCROLLTO, MANUAL
+    NORMAL, AUTOSCROLL, MANUAL, SCROLLTO
   };
   CameraMode mode;
 
@@ -80,6 +82,21 @@ public:
    * get the coordinates of the point directly in the center of this camera
    */
   Vector get_center() const;
+  std::string get_class() const {
+    return "camera";
+  }
+  std::string get_display_name() const {
+    return _("Camera");
+  }
+
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
+
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/camera.png";
+  }
+
+  Path* get_path() const;
 
 private:
   void update_scroll_normal(float elapsed_time);
@@ -130,6 +147,9 @@ private:
 private:
   Camera(const Camera&);
   Camera& operator=(const Camera&);
+
+  CameraMode defaultmode;
+
 };
 
 #endif /*SUPERTUX_CAMERA_H*/

@@ -18,6 +18,7 @@
 
 #include <sstream>
 
+#include "physfs/ifile_streambuf.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/sector_parser.hpp"
@@ -32,6 +33,49 @@ LevelParser::from_file(const std::string& filename)
   std::unique_ptr<Level> level(new Level);
   LevelParser parser(*level);
   parser.load(filename);
+  return level;
+}
+
+std::unique_ptr<Level>
+LevelParser::from_nothing(const std::string& basedir)
+{
+  std::unique_ptr<Level> level(new Level);
+  LevelParser parser(*level);
+
+  // Find a free level filename
+  std::string level_file;
+  int num = 0;
+  do {
+    num++;
+    level_file = basedir + "/level" + std::to_string(num) + ".stl";
+  } while ( PHYSFS_exists(level_file.c_str()) );
+  std::string level_name = "Level " + std::to_string(num);
+  level_file = "level" + std::to_string(num) + ".stl";
+
+  parser.create(level_file, level_name, false);
+  return level;
+}
+
+std::unique_ptr<Level>
+LevelParser::from_nothing_worldmap(const std::string& basedir, const std::string& name)
+{
+  std::unique_ptr<Level> level(new Level);
+  LevelParser parser(*level);
+
+  // Find a free level filename
+  std::string level_file = basedir + "/worldmap.stwm";
+  if (PHYSFS_exists(level_file.c_str())) {
+    int num = 0;
+    do {
+      num++;
+      level_file = basedir + "/worldmap" + std::to_string(num) + ".stwm";
+    } while ( PHYSFS_exists(level_file.c_str()) );
+    level_file = "worldmap" + std::to_string(num) + ".stwm";
+  } else {
+    level_file = "worldmap.stwm";
+  }
+
+  parser.create(level_file, name, true);
   return level;
 }
 
@@ -100,6 +144,19 @@ LevelParser::load_old_format(const ReaderMapping& reader)
   reader.get("author", m_level.author);
 
   auto sector = SectorParser::from_reader_old_format(m_level, reader);
+  m_level.add_sector(std::move(sector));
+}
+
+void
+LevelParser::create(const std::string& filepath, const std::string& levelname, bool worldmap)
+{
+  m_level.filename = filepath;
+  m_level.name = levelname;
+  m_level.license = "CC-BY-SA";
+  m_level.tileset = worldmap ? "images/worldmap.strf" : "images/tiles.strf";
+
+  auto sector = SectorParser::from_nothing(m_level);
+  *(sector->get_name_ptr()) = "main";
   m_level.add_sector(std::move(sector));
 }
 

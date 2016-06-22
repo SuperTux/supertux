@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "editor/editor.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
 #include "scripting/ambient_sound.hpp"
@@ -26,6 +27,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/drawing_context.hpp"
 
 AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   sample(),
@@ -37,7 +39,8 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   maximumvolume(),
   targetvolume(),
   currentvolume(),
-  volume_ptr()
+  volume_ptr(),
+  new_size()
 {
   group = COLGROUP_DISABLED;
 
@@ -47,8 +50,8 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   if (!lisp.get("name" , name)) name = "";
   if (!lisp.get("x", bbox.p1.x)) bbox.p1.x = 0;
   if (!lisp.get("y", bbox.p1.y)) bbox.p1.y = 0;
-  if (!lisp.get("width" , w)) w = 0;
-  if (!lisp.get("height", h)) h = 0;
+  if (!lisp.get("width" , w)) w = 32;
+  if (!lisp.get("height", h)) h = 32;
   bbox.set_size(w, h);
 
   if (!lisp.get("distance_factor",distance_factor)) distance_factor = 0;
@@ -56,16 +59,12 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   if (!lisp.get("sample"         ,sample         )) sample = "";
   if (!lisp.get("volume"         ,maximumvolume  )) maximumvolume = 1;
 
-  // set dimension to zero if smaller than 64, which is default size in flexlay
-
-  if ((w <= 64) || (h <= 64)) {
-    bbox.set_size(0, 0);
-  }
-
   // square all distances (saves us a sqrt later)
 
-  distance_bias*=distance_bias;
-  distance_factor*=distance_factor;
+  if (!Editor::is_active()) {
+    distance_bias*=distance_bias;
+    distance_factor*=distance_factor;
+  }
 
   // set default silence_distance
 
@@ -91,7 +90,8 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
   maximumvolume(),
   targetvolume(),
   currentvolume(),
-  volume_ptr()
+  volume_ptr(),
+  new_size()
 {
   group = COLGROUP_DISABLED;
 
@@ -119,6 +119,29 @@ AmbientSound::~AmbientSound()
   stop_playing();
 }
 
+ObjectSettings
+AmbientSound::get_settings() {
+  new_size.x = bbox.get_width();
+  new_size.y = bbox.get_height();
+  ObjectSettings result = MovingObject::get_settings();
+
+  ObjectOption smp(MN_FILE, _("Sound"), &sample, "sample");
+  smp.select.push_back(".wav");
+  smp.select.push_back(".ogg");
+  result.options.push_back(smp);
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance factor"), &distance_factor, "distance_factor"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance bias"), &distance_bias, "distance_bias"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Volume"), &maximumvolume, "volume"));
+  return result;
+}
+
+void
+AmbientSound::after_editor_set() {
+  bbox.set_size(new_size.x, new_size.y);
+}
+
 void
 AmbientSound::hit(Player& )
 {
@@ -133,6 +156,8 @@ AmbientSound::stop_playing()
 void
 AmbientSound::start_playing()
 {
+  if (Editor::is_active()) return;
+
   try {
     sound_source = SoundManager::current()->create_sound_source(sample);
     if(!sound_source)
@@ -209,11 +234,6 @@ AmbientSound::update(float deltat)
 }
 
 void
-AmbientSound::draw(DrawingContext &)
-{
-}
-
-void
 AmbientSound::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   auto obj = new scripting::AmbientSound(this);
@@ -256,6 +276,15 @@ HitResponse
 AmbientSound::collision(GameObject& other, const CollisionHit& hit_)
 {
   return ABORT_MOVE;
+}
+
+void
+AmbientSound::draw(DrawingContext& context)
+{
+  if (Editor::is_active()) {
+    context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
+                             0.0f, LAYER_OBJECTS);
+  }
 }
 
 /* EOF */

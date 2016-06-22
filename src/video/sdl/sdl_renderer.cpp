@@ -164,6 +164,18 @@ SDLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
 }
 
 void
+SDLRenderer::draw_line(const DrawingRequest& request)
+{
+  SDLPainter::draw_line(m_renderer, request);
+}
+
+void
+SDLRenderer::draw_triangle(const DrawingRequest& request)
+{
+  SDLPainter::draw_triangle(m_renderer, request);
+}
+
+void
 SDLRenderer::do_take_screenshot()
 {
   // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?

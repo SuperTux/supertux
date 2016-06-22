@@ -25,6 +25,12 @@ public:
   MrTree(const ReaderMapping& reader);
 
   bool is_freezable() const;
+  std::string get_class() const {
+    return "mrtree";
+  }
+  std::string get_display_name() const {
+    return _("Mr. Tree");
+  }
 
 protected:
   bool collision_squished(GameObject& object);

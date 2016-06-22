@@ -26,6 +26,9 @@ class Bomb : public BadGuy,
 {
 public:
   Bomb(const Vector& pos, Direction dir, std::string custom_sprite = "images/creatures/mr_bomb/bomb.sprite" );
+  virtual bool do_save() const {
+    return false;
+  }
 
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);

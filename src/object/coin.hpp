@@ -35,12 +35,29 @@ public:
 
   void collect();
   virtual void update(float elapsed_time);
+  virtual void save(Writer& writer);
+  std::string get_class() const {
+    return "coin";
+  }
+  std::string get_display_name() const {
+    return _("Coin");
+  }
+
+  ObjectSettings get_settings();
+  void after_editor_set();
+
+  virtual void move_to(const Vector& pos);
+
+  Path* get_path() const {
+    return path.get();
+  }
 
 private:
   std::shared_ptr<Path> path;
   std::shared_ptr<PathWalker> walker;
   Vector offset;
   bool from_tilemap;
+  bool add_path;
   Physic physic;
 };
 
@@ -52,6 +69,13 @@ public:
 
   virtual void update(float elapsed_time);
   virtual void collision_solid(const CollisionHit& hit);
+
+  virtual std::string get_class() const {
+    return "heavycoin";
+  }
+
+  ObjectSettings get_settings();
+  void after_editor_set();
 
 private:
   Physic physic;

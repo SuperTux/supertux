@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <math.h>
+#include <vector>
 
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -25,6 +26,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
+#include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
@@ -51,6 +53,7 @@
 #include "util/file_system.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 Sector* Sector::_current = 0;
 
@@ -79,7 +82,16 @@ Sector::Sector(Level* parent) :
   camera(0),
   effect(0)
 {
-  add_object(std::make_shared<Player>(GameSession::current()->get_savegame().get_player_status(), "Tux"));
+  PlayerStatus* player_status;
+  if (Editor::is_active()) {
+    player_status = Editor::current()->m_savegame->get_player_status();
+  } else {
+    player_status = GameSession::current()->get_savegame().get_player_status();
+  }
+  if (!player_status) {
+    log_warning << "Player status is not initialized." << std::endl;
+  }
+  add_object(std::make_shared<Player>(player_status, "Tux"));
   add_object(std::make_shared<DisplayEffect>("Effect"));
   add_object(std::make_shared<TextObject>("Text"));
 
@@ -280,7 +292,7 @@ Sector::activate(const Vector& player_pos)
   }
 
   // Run init script
-  if(!init_script.empty()) {
+  if(!init_script.empty() && !Editor::is_active()) {
     std::istringstream in(init_script);
     run_script(in, "init-script");
   }
@@ -952,6 +964,12 @@ const float MAX_SPEED = 16.0f;
 void
 Sector::handle_collisions()
 {
+
+  if (Editor::is_active()) {
+    return;
+    //Oběcts in editor shouldn't collide.
+  }
+
   using namespace collision;
 
   // calculate destination positions of the objects
@@ -1370,6 +1388,41 @@ void Sector::play_looping_sounds()
   for(auto& object : gameobjects) {
     object->play_looping_sounds();
   }
+}
+
+void
+Sector::save(Writer &writer)
+{
+  writer.start_list("sector", false);
+
+  writer.write("name", name, false);
+  writer.write("gravity", gravity);
+  writer.write("ambient-light", ambient_light.toVector(false));
+
+  if (init_script != "") {
+    writer.write("init-script", init_script,false);
+  }
+  if (music != "") {
+    writer.write("music", music, false);
+  }
+
+  // saving spawnpoints
+  /*for(auto i = spawnpoints.begin(); i != spawnpoints.end(); ++i) {
+    std::shared_ptr<SpawnPoint> spawny = *i;
+    spawny->save(writer);
+  }*/
+  // Do not save spawnpoints since we have spawnpoint markers.
+
+  // saving oběcts (not really)
+  for(auto& obj : gameobjects) {
+    if (obj->do_save()) {
+      writer.start_list(obj->get_class());
+      obj->save(writer);
+      writer.end_list(obj->get_class());
+    }
+  }
+
+  writer.end_list("sector");
 }
 
 /* vim: set sw=2 sts=2 et : */

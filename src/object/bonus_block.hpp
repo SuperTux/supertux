@@ -27,10 +27,16 @@ public:
   BonusBlock(const ReaderMapping& lisp);
   virtual ~BonusBlock();
   HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual void save(Writer& writer);
 
   void try_open(Player *player);
   void try_drop(Player *player);
-
+  std::string get_class() const {
+    return "bonusblock";
+  }
+  std::string get_display_name() const {
+    return _("Bonus block");
+  }
   enum Contents {
     CONTENT_COIN,
     CONTENT_FIREGROW,
@@ -47,6 +53,8 @@ public:
     CONTENT_EXPLODE
   };
 
+  virtual ObjectSettings get_settings();
+
 protected:
   virtual void hit(Player& player);
 
@@ -59,7 +67,6 @@ public:
 private:
   BonusBlock(const BonusBlock&);
   BonusBlock& operator=(const BonusBlock&);
-  std::string sprite_name;
   std::string script;
   SurfacePtr lightsprite;
   void get_content_by_data(int d);

@@ -48,6 +48,9 @@ public:
   //Tux can only go this fast. If set to 0 no special limit is used, only the default limits.
   void set_speedlimit(float newlimit);
   float get_speedlimit() const;
+  virtual bool do_save() const {
+    return false;
+  }
 
 public:
   Player(PlayerStatus* player_status, const std::string& name);

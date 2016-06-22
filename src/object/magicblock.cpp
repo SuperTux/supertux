@@ -81,6 +81,30 @@ MagicBlock::MagicBlock(const ReaderMapping& lisp) :
   solid_box = Rectf(bbox.p1.x + SHIFT_DELTA, bbox.p1.y + SHIFT_DELTA, bbox.p2.x - SHIFT_DELTA, bbox.p2.y - SHIFT_DELTA);
 }
 
+ObjectSettings
+MagicBlock::get_settings() {
+  ObjectSettings result = MovingSprite::get_settings();
+  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &color, "color"));
+
+  return result;
+}
+
+void
+MagicBlock::after_editor_set() {
+  if(color.red == 0 && color.green == 0 && color.blue == 0) { //is it black?
+    black = true;
+    trigger_red = MIN_INTENSITY;
+    trigger_green = MIN_INTENSITY;
+    trigger_blue = MIN_INTENSITY;
+  } else {
+    black = false;
+    trigger_red = color.red;
+    trigger_green = color.green;
+    trigger_blue = color.blue;
+  }
+  sprite->set_color(color);
+}
+
 void
 MagicBlock::update(float elapsed_time)
 {
@@ -100,7 +124,7 @@ MagicBlock::update(float elapsed_time)
   if(black) {
     lighting_ok = (light.red >= trigger_red || light.green >= trigger_green
                    || light.blue >= trigger_blue);
-  }else{
+  } else {
     lighting_ok = (light.red >= trigger_red && light.green >= trigger_green
                    && light.blue >= trigger_blue);
   }

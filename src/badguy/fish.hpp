@@ -37,6 +37,12 @@ public:
   void unfreeze();
   void kill_fall();
   bool is_freezable() const;
+  std::string get_class() const {
+    return "fish";
+  }
+  std::string get_display_name() const {
+    return _("Fish");
+  }
 
 private:
   HitResponse hit(const CollisionHit& );

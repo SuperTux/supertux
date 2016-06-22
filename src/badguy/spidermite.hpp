@@ -32,6 +32,12 @@ public:
   void freeze();
   void unfreeze();
   bool is_freezable() const;
+  std::string get_class() const {
+    return "spidermite";
+  }
+  std::string get_display_name() const {
+    return _("Spider mite");
+  }
 
 protected:
   enum SpiderMiteMode {

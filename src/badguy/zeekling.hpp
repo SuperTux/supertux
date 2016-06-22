@@ -33,6 +33,12 @@ public:
   void freeze();
   void unfreeze();
   bool is_freezable() const;
+  std::string get_class() const {
+    return "zeekling";
+  }
+  std::string get_display_name() const {
+    return _("Zeekling");
+  }
 
 private:
   bool collision_squished(GameObject& object);

@@ -54,6 +54,19 @@ Lantern::Lantern(const Vector& pos) :
   SoundManager::current()->preload("sounds/willocatch.wav");
 }
 
+ObjectSettings
+Lantern::get_settings() {
+  ObjectSettings result = Rock::get_settings();
+  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor, "color"));
+
+  return result;
+}
+
+void
+Lantern::after_editor_set() {
+  updateColor();
+}
+
 Lantern::~Lantern()
 {
 }
@@ -64,6 +77,7 @@ Lantern::updateColor(){
   //Turn lantern off if light is black
   if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
     sprite->set_action("off");
+    sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   } else {
     sprite->set_action("normal");
     sprite->set_color(lightcolor);

@@ -177,6 +177,18 @@ GLLightmap::draw_inverse_ellipse(const DrawingRequest& request)
 }
 
 void
+GLLightmap::draw_line(const DrawingRequest& request)
+{
+  GLPainter::draw_line(request);
+}
+
+void
+GLLightmap::draw_triangle(const DrawingRequest& request)
+{
+  GLPainter::draw_triangle(request);
+}
+
+void
 GLLightmap::get_light(const DrawingRequest& request) const
 {
   const GetLightRequest* getlightrequest

@@ -29,6 +29,12 @@ public:
   void activate();
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
+  std::string get_class() const {
+    return "flyingsnowball";
+  }
+  std::string get_display_name() const {
+    return _("Flying snowball");
+  }
 
 protected:
   bool collision_squished(GameObject& object);

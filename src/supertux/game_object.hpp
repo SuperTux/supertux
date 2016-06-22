@@ -20,6 +20,10 @@
 #include <memory>
 #include <string>
 
+#include "editor/object_settings.hpp"
+#include "util/gettext.hpp"
+#include "util/writer.hpp"
+
 class DrawingContext;
 class GameObject;
 class ObjectRemoveListener;
@@ -55,6 +59,23 @@ public:
    */
   virtual void draw(DrawingContext& context) = 0;
 
+  /** This function saves the object.
+   *  Editor will use that.
+   */
+  virtual void save(Writer& writer);
+  virtual std::string get_class() const {
+    return "game-object";
+  }
+  virtual std::string get_display_name() const {
+    return _("Unknown object");
+  }
+  virtual bool do_save() const {
+    return true;
+  }
+
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set() {}
+
   /** returns true if the object is not scheduled to be removed yet */
   bool is_valid() const
   {
@@ -65,6 +86,12 @@ public:
   void remove_me()
   {
     wants_to_die = true;
+  }
+
+  /** used by the editor to delete the object */
+  virtual void editor_delete()
+  {
+    remove_me();
   }
 
   /** registers a remove listener which will be called if the object
@@ -81,6 +108,10 @@ public:
   const std::string& get_name() const
   {
     return name;
+  }
+
+  virtual const std::string get_icon_path() const {
+    return "images/tiles/auxiliary/notile.png";
   }
 
   /** stops all looping sounds */

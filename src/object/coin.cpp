@@ -17,6 +17,7 @@
 #include "object/coin.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "object/bouncy_coin.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
@@ -31,6 +32,7 @@ Coin::Coin(const Vector& pos)
     walker(),
     offset(),
     from_tilemap(false),
+    add_path(false),
     physic()
 {
   SoundManager::current()->preload("sounds/coin.wav");
@@ -42,6 +44,7 @@ Coin::Coin(const Vector& pos, TileMap* tilemap)
     walker(std::shared_ptr<PathWalker>(tilemap->get_walker())),
     offset(),
     from_tilemap(true),
+    add_path(false),
     physic()
 {
   if(walker.get()) {
@@ -58,6 +61,7 @@ Coin::Coin(const ReaderMapping& reader)
     walker(),
     offset(),
     from_tilemap(false),
+    add_path(false),
     physic()
 {
   ReaderMapping path_mapping;
@@ -73,12 +77,26 @@ Coin::Coin(const ReaderMapping& reader)
 }
 
 void
+Coin::save(Writer& writer) {
+  MovingSprite::save(writer);
+  if (path) {
+    path->save(writer);
+  }
+}
+
+void
 Coin::update(float elapsed_time)
 {
   // if we have a path to follow, follow it
   if (walker.get()) {
     Vector v = from_tilemap ? offset + walker->get_pos() : walker->advance(elapsed_time);
-    movement = v - get_pos();
+    if (path->is_valid()) {
+      if (Editor::is_active()) {
+        set_pos(v);
+      } else {
+        movement = v - get_pos();
+      }
+    }
   }
 }
 
@@ -209,7 +227,7 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
       SoundManager::current()->play("sounds/coin2.ogg");
     if(physic.get_velocity_y() > 200) {// lets some coins bounce
       physic.set_velocity_y(-99);
-    }else{
+    } else {
       physic.set_velocity_y(0);
       physic.set_velocity_x(0);
     }
@@ -224,6 +242,60 @@ HeavyCoin::collision_solid(const CollisionHit& hit)
       SoundManager::current()->play("sounds/coin2.ogg");
     physic.set_velocity_y(-physic.get_velocity_y());
   }
+}
+
+void
+Coin::move_to(const Vector& pos)
+{
+  Vector shift = pos - bbox.p1;
+  if (path) {
+    path->move_by(shift);
+  }
+  set_pos(pos);
+}
+
+ObjectSettings
+Coin::get_settings()
+{
+  ObjectSettings result = MovingSprite::get_settings();
+
+  add_path = walker.get() && path->is_valid();
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Following path"), &add_path));
+
+  if (walker.get() && path->is_valid()) {
+    result.options.push_back( Path::get_mode_option(&path->mode) );
+  }
+
+  return result;
+}
+
+void
+Coin::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+
+  if (walker.get() && path->is_valid()) {
+    if (!add_path) {
+      path->nodes.clear();
+    }
+  } else {
+    if (add_path) {
+      path.reset(new Path(bbox.p1));
+      walker.reset(new PathWalker(path.get()));
+    }
+  }
+}
+
+ObjectSettings
+HeavyCoin::get_settings()
+{
+  return MovingSprite::get_settings();
+}
+
+void
+HeavyCoin::after_editor_set()
+{
+  MovingSprite::after_editor_set();
 }
 
 /* EOF */

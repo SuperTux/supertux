@@ -27,6 +27,12 @@ class Switch : public TriggerBase
 public:
   Switch(const ReaderMapping& reader);
   virtual ~Switch();
+  std::string get_class() const {
+    return "switch";
+  }
+
+  ObjectSettings get_settings();
+  void after_editor_set();
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

@@ -117,6 +117,53 @@ public:
   }
 };
 
+void
+Camera::save(Writer& writer){
+  GameObject::save(writer);
+  if (defaultmode == AUTOSCROLL && !autoscroll_path->is_valid()) {
+    defaultmode = NORMAL;
+  }
+  switch (defaultmode) {
+    case NORMAL: writer.write("mode", "normal", false); break;
+    case MANUAL: writer.write("mode", "manual", false); break;
+    case AUTOSCROLL:
+      writer.write("mode", "autoscroll", false);
+      autoscroll_path->save(writer);
+    case SCROLLTO: break;
+  }
+}
+
+ObjectSettings
+Camera::get_settings() {
+  ObjectSettings result = GameObject::get_settings();
+
+  ObjectOption moo(MN_STRINGSELECT, _("Mode"), &defaultmode);
+  moo.select.push_back(_("normal"));
+  moo.select.push_back(_("auto scrolling"));
+  moo.select.push_back(_("manual"));
+  result.options.push_back(moo);
+
+  if (autoscroll_walker.get() && autoscroll_path->is_valid()) {
+    result.options.push_back( Path::get_mode_option(&autoscroll_path->mode) );
+  }
+
+  return result;
+}
+
+void
+Camera::after_editor_set() {
+  if (autoscroll_walker.get() && autoscroll_path->is_valid()) {
+    if (defaultmode != AUTOSCROLL) {
+      autoscroll_path->nodes.clear();
+    }
+  } else {
+    if (defaultmode == AUTOSCROLL) {
+      autoscroll_path.reset(new Path(Vector(0,0)));
+      autoscroll_walker.reset(new PathWalker(autoscroll_path.get()));
+    }
+  }
+}
+
 Camera::Camera(Sector* newsector, std::string name_) :
   mode(NORMAL),
   translation(),
@@ -136,7 +183,8 @@ Camera::Camera(Sector* newsector, std::string name_) :
   scroll_goal(),
   scroll_to_pos(),
   scrollspeed(),
-  config()
+  config(),
+  defaultmode(NORMAL)
 {
   this->name = name_;
   config = std::unique_ptr<CameraConfig>(new CameraConfig);
@@ -199,6 +247,7 @@ Camera::parse(const ReaderMapping& reader)
     mode = NORMAL;
     log_warning << "invalid camera mode '" << modename << "'found in worldfile." << std::endl;
   }
+  defaultmode = mode;
 }
 
 void
@@ -636,6 +685,18 @@ Camera::update_scroll_to(float elapsed_time)
 Vector
 Camera::get_center() const {
   return translation + Vector(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+}
+
+void
+Camera::move(const int dx, const int dy) {
+  translation.x += dx;
+  translation.y += dy;
+}
+
+
+Path*
+Camera::get_path() const {
+  return autoscroll_path.get();
 }
 
 /* EOF */

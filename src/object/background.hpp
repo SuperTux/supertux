@@ -29,10 +29,12 @@ public:
   Background();
   Background(const ReaderMapping& reader);
   virtual ~Background();
+  virtual void save(Writer& writer);
 
   void set_image(const std::string& name);
   void set_image(const std::string& name, float bkgd_speed);
   void set_images(const std::string& name_top_, const std::string& name_middle_, const std::string& name_bottom_);
+  void set_speed(float bgd_speed);
 
   std::string get_image() const
   { return imagefile; }
@@ -46,6 +48,23 @@ public:
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+
+  std::string get_class() const {
+    return "background";
+  }
+
+  int get_layer() const
+  { return layer; }
+
+  std::string get_display_name() const {
+    return _("Background");
+  }
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
+
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/background.png";
+  }
 
 private:
   enum Alignment {

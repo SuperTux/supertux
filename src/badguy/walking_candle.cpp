@@ -76,4 +76,17 @@ WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
   return WalkingBadguy::collision(other, hit);
 }
 
+ObjectSettings
+WalkingCandle::get_settings() {
+  ObjectSettings result = BadGuy::get_settings();
+  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor, "color"));
+  return result;
+}
+
+void
+WalkingCandle::after_editor_set() {
+  sprite->set_color(lightcolor);
+  lightsprite->set_color(lightcolor);
+}
+
 /* EOF */

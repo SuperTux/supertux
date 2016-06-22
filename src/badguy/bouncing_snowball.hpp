@@ -28,6 +28,14 @@ public:
   void initialize();
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+  std::string get_class() const {
+    return "bouncingsnowball";
+  }
+  std::string get_display_name() const {
+    return _("Bouncing Snowball");
+  }
+
+  void after_editor_set();
 
 protected:
   bool collision_squished(GameObject& object);

@@ -34,6 +34,16 @@ public:
 
   std::string type() const
   { return "SnowParticleSystem"; }
+  std::string get_class() const {
+    return "particles-snow";
+  }
+  std::string get_display_name() const {
+    return _("Snow particles");
+  }
+
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/snow.png";
+  }
 
 private:
   class SnowParticle : public Particle

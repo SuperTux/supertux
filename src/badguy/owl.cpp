@@ -48,6 +48,12 @@ Owl::Owl(const Vector& pos, Direction d) :
 }
 
 void
+Owl::save(Writer& writer) {
+  BadGuy::save(writer);
+  writer.write("carry", carried_obj_name);
+}
+
+void
 Owl::initialize()
 {
   physic.set_velocity_x(dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
@@ -212,6 +218,13 @@ Owl::ignite() {
     carried_object = NULL;
   }
   BadGuy::ignite();
+}
+
+void
+Owl::after_editor_set()
+{
+  BadGuy::after_editor_set();
+  sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
 /* vim: set sw=2 sts=2 et fdm=marker : */

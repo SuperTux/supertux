@@ -32,6 +32,9 @@ public:
   void draw(DrawingContext& context);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual bool do_save() const {
+    return false;
+  }
 
   /**
    * Makes bullet bounce off an object (that got hit).

@@ -26,7 +26,13 @@ public:
   Ghostflame(const Ghostflame& ghostflame);
 
   bool is_flammable() const;
+  std::string get_class() const {
+    return "ghostflame";
+  }
 
+  std::string get_display_name() const {
+    return _("Ghost flame");
+  }
 };
 
 #endif

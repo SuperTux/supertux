@@ -14,8 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "editor/editor.hpp"
+#include "editor/object_option.hpp"
 #include "math/random_generator.hpp"
 #include "object/path_walker.hpp"
+#include "util/gettext.hpp"
+#include "util/log.hpp"
 
 #include <math.h>
 #include <assert.h>
@@ -41,6 +45,13 @@ PathWalker::~PathWalker()
 Vector
 PathWalker::advance(float elapsed_time)
 {
+  if (!path->is_valid()) return Vector(0, 0);
+  if (Editor::is_active()) {
+    Vector pos__ = path->nodes.begin()->position;
+//    log_warning << "x" << pos__.x << " y" << pos__.y << std::endl;
+    return pos__;
+  }
+
   if (!running) return path->nodes[current_node_nr].position;
 
   assert(elapsed_time >= 0);
@@ -74,6 +85,9 @@ PathWalker::advance(float elapsed_time)
 Vector
 PathWalker::get_pos() const
 {
+  if (!path->is_valid()) return Vector(0, 0);
+  if (Editor::is_active()) return path->nodes.begin()->position;
+
   const Path::Node* current_node = & (path->nodes[current_node_nr]);
   const Path::Node* next_node = & (path->nodes[next_node_nr]);
   Vector new_pos = current_node->position +
@@ -111,6 +125,8 @@ PathWalker::stop_moving()
 void
 PathWalker::advance_node()
 {
+  if (!path->is_valid()) return;
+
   current_node_nr = next_node_nr;
   if (static_cast<int>(current_node_nr) == stop_at_node_nr) running = false;
 
@@ -152,6 +168,8 @@ PathWalker::advance_node()
 void
 PathWalker::goback_node()
 {
+  if (!path->is_valid()) return;
+
   current_node_nr = next_node_nr;
 
   if(next_node_nr > 0) {
@@ -171,6 +189,12 @@ PathWalker::goback_node()
   assert(false);
   next_node_nr = 0;
   walking_speed = 0;
+}
+
+ObjectOption
+PathWalker::get_running_option(bool* _running) {
+  ObjectOption result(MN_TOGGLE, _("Running"), _running);
+  return result;
 }
 
 /* EOF */

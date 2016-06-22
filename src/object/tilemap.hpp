@@ -39,6 +39,13 @@ public:
   TileMap(const TileSet *tileset, const ReaderMapping& reader);
   virtual ~TileMap();
 
+  virtual void save(Writer& writer);
+  std::string get_display_name() const {
+    return _("Tile map");
+  }
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
+
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
@@ -110,6 +117,9 @@ public:
   int get_layer() const
   { return z_pos; }
 
+  void set_layer(int layer_)
+  { z_pos = layer_; }
+
   bool is_solid() const
   { return real_solid && effective_solid; }
 
@@ -166,6 +176,16 @@ public:
    */
   float get_alpha() const;
 
+  std::string get_class() const {
+    return "tilemap";
+  }
+
+  bool editor_active;
+
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/tilemap.png";
+  }
+
 private:
   const TileSet *tileset;
 
@@ -205,6 +225,10 @@ private:
   std::shared_ptr<PathWalker> walker;
 
   DrawingContext::Target draw_target; /**< set to LIGHTMAP to draw to lightmap */
+
+  int new_size_x;
+  int new_size_y;
+  bool add_path;
 
 private:
   TileMap(const TileMap&);

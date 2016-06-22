@@ -21,17 +21,30 @@
 #include "util/reader_mapping.hpp"
 
 Decal::Decal(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/decal/explanations/billboard-fireflower.png", LAYER_OBJECTS, COLGROUP_DISABLED)
+  MovingSprite(reader, "images/decal/explanations/billboard-fireflower.png", LAYER_OBJECTS, COLGROUP_DISABLED),
+  default_action(),
+  solid()
 {
   layer = reader_get_layer (reader, /* default = */ LAYER_OBJECTS);
 
-  bool solid;
   if (!reader.get("solid", solid)) solid = false;
   if(solid)
     set_group(COLGROUP_STATIC);
-  std::string action;
-  if(reader.get("action", action))
-    set_action(action, -1);
+  if(reader.get("action", default_action))
+    set_action(default_action, -1);
+}
+
+ObjectSettings
+Decal::get_settings() {
+  ObjectSettings result = MovingObject::get_settings();
+  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite");
+  spr.select.push_back(".png");
+  spr.select.push_back(".sprite");
+  result.options.push_back(spr);
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Action"), &default_action, "action"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid, "solid"));
+
+  return result;
 }
 
 Decal::~Decal()

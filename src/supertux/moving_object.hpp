@@ -104,10 +104,21 @@ public:
     (void) tile_attributes;
   }
 
+  /** This function saves the object.
+   *  Editor will use that.
+   */
+  virtual void save(Writer& writer);
+  virtual std::string get_class() const {
+    return "moving-object";
+  }
+
   const Vector& get_pos() const
   {
     return bbox.p1;
   }
+
+  /** puts resizers at its edges, used in editor input center */
+  void edit_bbox();
 
   /** returns the bounding box of the Object */
   const Rectf& get_bbox() const
@@ -127,6 +138,14 @@ public:
   {
     dest.move(pos-get_pos());
     bbox.set_pos(pos);
+  }
+
+  /** moves entire object to a specific position, including all
+      points those the object has, exactly like the object has
+      spawned in that given pos instead.*/
+  virtual void move_to(const Vector& pos)
+  {
+    set_pos(pos);
   }
 
   /** sets the moving object's bbox to a specific width. Be careful

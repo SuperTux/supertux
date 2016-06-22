@@ -23,7 +23,9 @@
 
 #include "math/vector.hpp"
 
+class ObjectOption;
 class ReaderMapping;
+class Writer;
 
 class Path
 {
@@ -33,6 +35,7 @@ public:
   ~Path();
 
   void read(const ReaderMapping& reader);
+  void save(Writer& writer);
 
   Vector get_base() const;
 
@@ -63,8 +66,20 @@ public:
    */
   int get_farthest_node_no(Vector reference_point) const;
 
-private:
-  friend class PathWalker;
+  /**
+   * Moves all nodes by given shift.
+   */
+  void move_by(Vector& shift);
+
+  /**
+   * Puts node markers to the nodes to edit them.
+   */
+  void edit_path();
+
+  /**
+   * Returns false when has no nodes
+   */
+  bool is_valid() const;
 
   enum WalkMode {
     // moves from first to last path node and stops
@@ -78,6 +93,11 @@ private:
   };
 
   WalkMode mode;
+
+  /**
+   * Returns an object option that modifies the mode.
+   */
+  static ObjectOption get_mode_option(WalkMode* mode_);
 };
 
 #endif

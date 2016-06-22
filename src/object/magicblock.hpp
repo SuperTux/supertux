@@ -35,6 +35,15 @@ public:
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
   void draw(DrawingContext& context);
+  std::string get_class() const {
+    return "magicblock";
+  }
+  std::string get_display_name() const {
+    return _("Magic block");
+  }
+
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
 
 private:
   bool is_solid;

@@ -49,6 +49,16 @@ public:
 
   void add_color(Color c);
 
+  std::string get_class() const {
+    return "lantern";
+  }
+  std::string get_display_name() const {
+    return _("Lantern");
+  }
+
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
+
 private:
   Color lightcolor;
   SpritePtr lightsprite;

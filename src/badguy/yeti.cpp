@@ -61,7 +61,9 @@ Yeti::Yeti(const ReaderMapping& reader) :
   left_stand_x(),
   right_stand_x(),
   left_jump_x(),
-  right_jump_x()
+  right_jump_x(),
+  fixed_pos(),
+  hud_icon()
 {
   if ( !reader.get("lives", hit_points) ) {
     hit_points = INITIAL_HITPOINTS;
@@ -70,7 +72,6 @@ Yeti::Yeti(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/yeti_gna.wav");
   SoundManager::current()->preload("sounds/yeti_roar.wav");
 
-  std::string hud_icon;
   if ( !reader.get("hud-icon", hud_icon) ) {
     hud_icon = "images/creatures/yeti/hudlife.png";
   }
@@ -78,7 +79,6 @@ Yeti::Yeti(const ReaderMapping& reader) :
 
   initialize();
 
-  bool fixed_pos;
   if ( !reader.get("fixed-pos", fixed_pos) ) {
     fixed_pos = false;
   }
@@ -347,6 +347,15 @@ bool
 Yeti::is_flammable() const
 {
   return false;
+}
+
+ObjectSettings
+Yeti::get_settings() {
+  ObjectSettings result = BadGuy::get_settings();
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, "hud-icon", &hud_icon, "hud-icon", false));
+  result.options.push_back( ObjectOption(MN_TOGGLE,    _("Fixed position"), &fixed_pos, "fixed-pos"));
+  result.options.push_back( ObjectOption(MN_INTFIELD,  _("Lives"),          &hit_points, "lives"));
+  return result;
 }
 
 /* EOF */

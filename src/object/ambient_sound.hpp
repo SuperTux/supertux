@@ -62,7 +62,9 @@ public:
   {
     return bbox.p1;
   }
-
+  std::string get_class() const {
+    return "ambient_sound";
+  }
   /**
    * @name Scriptable Methods
    * @{
@@ -77,10 +79,17 @@ public:
    * @}
    */
 
+  void draw(DrawingContext& context);
+
+  std::string get_display_name() const {
+    return _("Ambient sound");
+  }
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
+
 protected:
   virtual void hit(Player& player);
   virtual void update(float time);
-  virtual void draw(DrawingContext&);
   virtual void start_playing();
   virtual void stop_playing();
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
@@ -101,6 +110,8 @@ private:
   float currentvolume; /// how loud we are
 
   float * volume_ptr; /// this will be used by the volume adjustment effect.
+
+  Vector new_size;
 
 private:
   AmbientSound(const AmbientSound&);

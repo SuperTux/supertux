@@ -32,6 +32,12 @@ public:
   void freeze();
   bool is_freezable() const;
   bool is_flammable() const;
+  std::string get_class() const {
+    return "sspiky";
+  }
+  std::string get_display_name() const {
+    return _("Sleeping spiky");
+  }
 
 protected:
   enum SSpikyState {

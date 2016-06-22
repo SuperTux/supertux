@@ -31,6 +31,20 @@ public:
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void update(float elapsed_time);
+  std::string get_class() const {
+    return "bicycle-platform";
+  }
+  std::string get_display_name() const {
+    return _("Bicycle platform");
+  }
+
+  bool do_save() const {
+    return this == master;
+  }
+
+  virtual void move_to(const Vector& pos);
+  virtual void editor_delete();
+  virtual void after_editor_set();
 
 protected:
   BicyclePlatform* master; /**< pointer to BicyclePlatform that does movement calculation */

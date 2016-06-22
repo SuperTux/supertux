@@ -26,9 +26,15 @@ enum MenuItemKind {
   MN_INACTIVE,
   MN_TEXTFIELD,
   MN_NUMFIELD,
+  MN_INTFIELD,
   MN_CONTROLFIELD,
   MN_STRINGSELECT,
+  MN_BADGUYSELECT,
   MN_LABEL,
+  MN_COLOR,
+  MN_SCRIPT,
+  MN_FILE,
+  MN_REMOVE,
   MN_HL /* horizontal line */
 };
 

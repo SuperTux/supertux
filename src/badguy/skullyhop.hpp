@@ -36,6 +36,14 @@ public:
 
   void unfreeze();
   bool is_freezable() const;
+  std::string get_class() const {
+    return "skullyhop";
+  }
+  std::string get_display_name() const {
+    return _("Skully hop");
+  }
+
+  void after_editor_set();
 
 private:
   enum SkullyHopState {

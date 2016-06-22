@@ -27,9 +27,22 @@ public:
   InvisibleWall(const ReaderMapping& lisp);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-
   void draw(DrawingContext& context);
+
+  std::string get_class() const {
+    return "invisible_wall";
+  }
+  std::string get_display_name() const {
+    return _("Invisible wall");
+  }
+
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
+
+private:
   void update(float elapsed_time);
+
+  float width, height;
 };
 
 #endif

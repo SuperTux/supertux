@@ -46,11 +46,22 @@ class ParticleSystem : public GameObject,
 public:
   ParticleSystem(float max_particle_size = 60);
   virtual ~ParticleSystem();
+  virtual std::string get_class() const override {
+    return "particle-system";
+  }
+  virtual std::string get_display_name() const override
+  {
+    return _("Particle system");
+  }
+  virtual ObjectSettings get_settings() override;
 
   virtual void parse(const ReaderMapping& reader);
-  virtual void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context) override;
   void set_enabled(bool enabled_);
   bool get_enabled() const;
+
+  int get_layer() const
+  { return z_pos; }
 
 protected:
   class Particle
@@ -82,8 +93,8 @@ protected:
   float virtual_height;
   bool enabled;
 
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override;
+  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override;
 };
 
 #endif

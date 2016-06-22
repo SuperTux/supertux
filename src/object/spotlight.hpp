@@ -36,6 +36,15 @@ public:
 
   HitResponse collision(GameObject& other, const CollisionHit& hit_);
 
+  std::string get_class() const {
+    return "spotlight";
+  }
+  std::string get_display_name() const {
+    return _("Spotlight");
+  }
+
+  virtual ObjectSettings get_settings();
+
 private:
   float   angle;
   SpritePtr center;

@@ -29,6 +29,13 @@ public:
 
   void ignite();
   bool is_flammable() const;
+  std::string get_class() const {
+    return "iceflame";
+  }
+
+  std::string get_display_name() const {
+    return _("Ice flame");
+  }
 };
 
 #endif

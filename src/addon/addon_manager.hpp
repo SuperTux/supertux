@@ -75,6 +75,12 @@ public:
   void enable_addon(const AddonId& addon_id);
   void disable_addon(const AddonId& addon_id);
 
+  bool is_old_addon_enabled() const;
+  void disable_old_addons();
+  void mount_old_addons();
+  void unmount_old_addons();
+  bool is_from_old_addon(std::string filename) const;
+
   void update();
   void check_for_langpack_updates();
 

@@ -36,6 +36,12 @@ public:
   bool is_flammable() const;
 
   virtual void draw(DrawingContext& context);
+  std::string get_class() const {
+    return "kugelblitz";
+  }
+  std::string get_display_name() const {
+    return _("Kugelblitz");
+  }
 
 private:
   void try_activate();

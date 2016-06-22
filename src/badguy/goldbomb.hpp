@@ -44,6 +44,12 @@ public:
 
   void kill_fall();
   void ignite();
+  std::string get_class() const {
+    return "goldbomb";
+  }
+  std::string get_display_name() const {
+    return _("Golden bomb");
+  }
 
   void stop_looping_sounds();
   void play_looping_sounds();

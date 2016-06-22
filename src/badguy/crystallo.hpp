@@ -27,6 +27,13 @@ class Crystallo : public WalkingBadguy
 public:
   Crystallo(const ReaderMapping& reader);
   Crystallo(const Vector& pos, Direction d);
+  ObjectSettings get_settings();
+  std::string get_class() const {
+    return "crystallo";
+  }
+  std::string get_display_name() const {
+    return _("Crystallo");
+  }
 
   void active_update(float elapsed_time);
   bool is_flammable() const;

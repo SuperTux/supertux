@@ -32,6 +32,13 @@ public:
     return "images/objects/water_drop/pink_drop.sprite";
   }
 
+  std::string get_class() const {
+    return "smartball";
+  }
+  std::string get_display_name() const {
+    return _("Smart Ball");
+  }
+
 protected:
   bool collision_squished(GameObject& object);
 };

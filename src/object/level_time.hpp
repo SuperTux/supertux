@@ -67,6 +67,18 @@ public:
   /**
    * @}
    */
+  std::string get_class() const {
+    return "leveltime";
+  }
+  std::string get_display_name() const {
+    return _("Level time");
+  }
+
+  virtual ObjectSettings get_settings();
+
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/clock.png";
+  }
 
 private:
   SurfacePtr time_surface;

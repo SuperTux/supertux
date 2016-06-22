@@ -37,6 +37,14 @@ public:
   void kill_fall();
 
   bool is_flammable() const;
+  std::string get_class() const {
+    return "yeti";
+  }
+  std::string get_display_name() const {
+    return _("Yeti");
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   void run();
@@ -72,6 +80,9 @@ private:
   float right_jump_x;
 
   void recalculate_pos();
+
+  bool fixed_pos;
+  std::string hud_icon;
 };
 
 #endif

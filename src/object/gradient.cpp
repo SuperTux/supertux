@@ -84,12 +84,61 @@ Gradient::Gradient(const ReaderMapping& reader) :
     }
   }
 
-  if(!reader.get("top_color", bkgd_top_color) ||
-     !reader.get("bottom_color", bkgd_bottom_color))
-    throw std::runtime_error("Must specify top_color and bottom_color in gradient");
+  if (reader.get("top_color", bkgd_top_color)) {
+    gradient_top = Color(bkgd_top_color);
+  } else {
+    gradient_top = Color(0.3, 0.4, 0.75);
+  }
 
-  gradient_top = Color(bkgd_top_color);
-  gradient_bottom = Color(bkgd_bottom_color);
+  if (reader.get("bottom_color", bkgd_bottom_color)) {
+    gradient_bottom = Color(bkgd_bottom_color);
+  } else {
+    gradient_bottom = Color(1, 1, 1);
+  }
+
+}
+
+void
+Gradient::save(Writer& writer) {
+  GameObject::save(writer);
+  writer.write("layer", layer);
+  switch (gradient_direction) {
+    case HORIZONTAL:        writer.write("direction", "horizontal"       , false); break;
+    case VERTICAL_SECTOR:   writer.write("direction", "vertical_sector"  , false); break;
+    case HORIZONTAL_SECTOR: writer.write("direction", "horizontal_sector", false); break;
+    case VERTICAL: break;
+  }
+  if(gradient_direction == HORIZONTAL || gradient_direction == HORIZONTAL_SECTOR) {
+    writer.write("left_color" , gradient_top.toVector(false));
+    writer.write("right_color", gradient_bottom.toVector(false));
+  } else {
+    writer.write("top_color"   , gradient_top.toVector(false));
+    writer.write("bottom_color", gradient_bottom.toVector(false));
+  }
+}
+
+ObjectSettings
+Gradient::get_settings() {
+  ObjectSettings result = GameObject::get_settings();
+
+  if (gradient_direction == HORIZONTAL || gradient_direction == HORIZONTAL_SECTOR) {
+    result.options.push_back( ObjectOption(MN_COLOR, _("Left Colour"), &gradient_top));
+    result.options.push_back( ObjectOption(MN_COLOR, _("Right Colour"), &gradient_bottom));
+  } else {
+    result.options.push_back( ObjectOption(MN_COLOR, _("Top Colour"), &gradient_top));
+    result.options.push_back( ObjectOption(MN_COLOR, _("Bottom Colour"), &gradient_bottom));
+  }
+
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &layer));
+  ObjectOption doo(MN_STRINGSELECT, _("Direction"), &gradient_direction);
+  doo.select.push_back(_("vertical"));
+  doo.select.push_back(_("horizontal"));
+  doo.select.push_back(_("vertical sector"));
+  doo.select.push_back(_("horizontal sector"));
+  result.options.push_back(doo);
+
+  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
+  return result;
 }
 
 Gradient::~Gradient()

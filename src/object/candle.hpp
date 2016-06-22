@@ -45,6 +45,15 @@ public:
   /**
    * @}
    */
+  std::string get_class() const {
+    return "candle";
+  }
+  std::string get_display_name() const {
+    return _("Candle");
+  }
+
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
 
 private:
   bool burning; /**< true if candle is currently lighted */

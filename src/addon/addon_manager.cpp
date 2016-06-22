@@ -491,6 +491,78 @@ AddonManager::disable_addon(const AddonId& addon_id)
   }
 }
 
+bool
+AddonManager::is_old_addon_enabled() const {
+  auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
+                         [](const std::unique_ptr<Addon>& addon)
+                         {
+                           return addon->get_format() == Addon::ORIGINAL &&
+                                  addon->get_type() != Addon::LANGUAGEPACK &&
+                                  addon->is_enabled();
+                         });
+
+  return it != m_installed_addons.end();
+}
+
+void
+AddonManager::disable_old_addons()
+{
+  for (auto& addon : m_installed_addons) {
+    if (addon->get_format() == Addon::ORIGINAL &&
+        addon->get_type() != Addon::LANGUAGEPACK &&
+        addon->is_enabled()) {
+      disable_addon(addon->get_id());
+    }
+  }
+}
+
+void
+AddonManager::mount_old_addons()
+{
+  std::string mountpoint;
+  for (auto& addon : m_installed_addons) {
+    if (addon->get_format() == Addon::ORIGINAL &&
+        addon->get_type() != Addon::LANGUAGEPACK &&
+        addon->is_enabled()) {
+      if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
+      {
+        log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
+                    << PHYSFS_getLastError() << std::endl;
+      }
+    }
+  }
+}
+
+void
+AddonManager::unmount_old_addons()
+{
+  for (auto& addon : m_installed_addons) {
+    if (addon->get_format() == Addon::ORIGINAL &&
+        addon->get_type() != Addon::LANGUAGEPACK &&
+        addon->is_enabled()) {
+      if (PHYSFS_unmount(addon->get_install_filename().c_str()) == 0)
+      {
+        log_warning << "Could not remove " << addon->get_install_filename() << " from search path: "
+                    << PHYSFS_getLastError() << std::endl;
+      }
+    }
+  }
+}
+
+bool
+AddonManager::is_from_old_addon(std::string filename) const
+{
+  std::string real_path = PHYSFS_getRealDir(filename.c_str());
+  for (auto& addon : m_installed_addons) {
+    if (addon->get_format() == Addon::ORIGINAL &&
+        addon->is_enabled() &&
+        addon->get_install_filename() == real_path) {
+      return true;
+    }
+  }
+  return false;
+}
+
 std::vector<std::string>
 AddonManager::scan_for_archives() const
 {

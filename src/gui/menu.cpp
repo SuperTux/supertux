@@ -32,6 +32,7 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/timer.hpp"
 #include "util/gettext.hpp"
+#include "video/color.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
 #include "video/renderer.hpp"
@@ -90,6 +91,44 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
 }
 
 MenuItem*
+Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
+{
+  items.insert(items.begin()+pos_,std::move(new_item));
+  MenuItem* item = items[pos_].get();
+
+  /* When the item is inserted before the selected item, the
+   * same menu item should be still selected.
+   */
+
+  if (active_item >= pos_)
+  {
+    active_item++;
+  }
+
+  return item;
+}
+
+void
+Menu::delete_item(int pos_)
+{
+  items.erase(items.begin()+pos_);
+
+  /* When the item is deleted before the selected item, the
+   * same menu item should be still selected.
+   */
+
+  if (active_item >= pos_)
+  {
+    do {
+      if (active_item > 0)
+        --active_item;
+      else
+        active_item = int(items.size())-1;
+    } while (items[active_item]->skippable());
+  }
+}
+
+MenuItem*
 Menu::add_hl()
 {
   std::unique_ptr<ItemHorizontalLine> item(new ItemHorizontalLine());
@@ -108,6 +147,41 @@ Menu::add_controlfield(int id, const std::string& text,
                        const std::string& mapping)
 {
   std::unique_ptr<ItemControlField> item(new ItemControlField(text, mapping, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_textfield(const std::string& text, std::string* input, int id)
+{
+  std::unique_ptr<ItemTextField> item(new ItemTextField(text, input, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_script(const std::string& text, std::string* script, int id)
+{
+  std::unique_ptr<ItemScript> item(new ItemScript(text, script, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_script_line(std::string* input, int id)
+{
+  std::unique_ptr<ItemScriptLine> item(new ItemScriptLine(input, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_intfield(const std::string& text, int* input, int id)
+{
+  std::unique_ptr<ItemIntField> item(new ItemIntField(text, input, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_numfield(const std::string& text, float* input, int id)
+{
+  std::unique_ptr<ItemNumField> item(new ItemNumField(text, input, id));
   return add_item(std::move(item));
 }
 
@@ -133,9 +207,16 @@ Menu::add_toggle(int id, const std::string& text, bool* toggled)
 }
 
 MenuItem*
-Menu::add_string_select(int id, const std::string& text, size_t* selected, std::vector<std::string> strings)
+Menu::add_string_select(int id, const std::string& text, int* selected, std::vector<std::string> strings)
 {
   std::unique_ptr<ItemStringSelect> item(new ItemStringSelect(text, strings, selected, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_file(const std::string& text, std::string* input, std::vector<std::string> extensions, int id)
+{
+  std::unique_ptr<ItemFile> item(new ItemFile(text, input, extensions, id));
   return add_item(std::move(item));
 }
 
@@ -150,6 +231,30 @@ MenuItem*
 Menu::add_submenu(const std::string& text, int submenu, int id)
 {
   std::unique_ptr<ItemGoTo> item(new ItemGoTo(text, submenu, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_colorchannel(float* input, Color channel, int id) {
+  std::unique_ptr<ItemColorChannel> item(new ItemColorChannel(input, channel, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_colordisplay(Color* color, int id) {
+  std::unique_ptr<ItemColorDisplay> item(new ItemColorDisplay(color, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_color(const std::string& text, Color* color, int id) {
+  std::unique_ptr<ItemColor> item(new ItemColor(text, color, id));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id) {
+  std::unique_ptr<ItemBadguySelect> item(new ItemBadguySelect(text, badguys, id));
   return add_item(std::move(item));
 }
 
@@ -214,14 +319,24 @@ Menu::process_input()
   }
 
   if(controller->pressed(Controller::ACTION)
-     || controller->pressed(Controller::MENU_SELECT)) {
+     || controller->pressed(Controller::MENU_SELECT)
+     || (!is_sensitive() && controller->pressed(Controller::MENU_SELECT_SPACE))) {
     menuaction = MENU_ACTION_HIT;
   }
   if(controller->pressed(Controller::ESCAPE) ||
-     controller->pressed(Controller::START) ||
      controller->pressed(Controller::CHEAT_MENU) ||
      controller->pressed(Controller::MENU_BACK)) {
     menuaction = MENU_ACTION_BACK;
+  }
+
+  if(controller->pressed(Controller::REMOVE)) {
+    menuaction = MENU_ACTION_REMOVE;
+    menu_repeat_time = real_time + MENU_REPEAT_INITIAL;
+  }
+  if(controller->hold(Controller::REMOVE) &&
+     menu_repeat_time != 0 && real_time > menu_repeat_time) {
+    menuaction = MENU_ACTION_REMOVE;
+    menu_repeat_time = real_time + MENU_REPEAT_RATE;
   }
 
   if(items.size() == 0)
@@ -471,6 +586,11 @@ Menu::set_active_item(int id)
       break;
     }
   }
+}
+
+bool
+Menu::is_sensitive() {
+  return false;
 }
 
 /* EOF */

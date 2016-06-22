@@ -30,6 +30,7 @@ public:
   Gradient();
   Gradient(const ReaderMapping& reader);
   virtual ~Gradient();
+  virtual void save(Writer& writer);
 
   void set_gradient(Color top, Color bottom);
 
@@ -50,6 +51,23 @@ public:
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+
+  std::string get_class() const {
+    return "gradient";
+  }
+
+  std::string get_display_name() const {
+    return _("Gradient");
+  }
+
+  int get_layer() const
+  { return layer; }
+
+  virtual ObjectSettings get_settings();
+
+  virtual const std::string get_icon_path() const {
+    return "images/engine/editor/gradient.png";
+  }
 
 private:
   int layer;

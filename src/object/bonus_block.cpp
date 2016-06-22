@@ -45,7 +45,6 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
   contents(),
   object(),
   hit_counter(1),
-  sprite_name(),
   script(),
   lightsprite()
 {
@@ -55,29 +54,19 @@ BonusBlock::BonusBlock(const Vector& pos, int data) :
 }
 
 BonusBlock::BonusBlock(const ReaderMapping& lisp) :
-  Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
+  Block(lisp, "images/objects/bonus_block/bonusblock.sprite"),
   contents(),
   object(0),
   hit_counter(1),
-  sprite_name(),
   script(),
   lightsprite()
 {
-  Vector pos;
-
   contents = CONTENT_COIN;
   auto iter = lisp.get_iter();
   while(iter.next()) {
     const std::string& token = iter.get_key();
-    if(token == "x") {
-      iter.get(pos.x);
-    } else if(token == "y") {
-      iter.get(pos.y);
-    } else if(token == "sprite") {
-      iter.get(sprite_name);
-      if (sprite_name.size() && PHYSFS_exists(sprite_name.c_str())) {
-        sprite = SpriteManager::current()->create(sprite_name);
-      }
+    if(token == "x" || token == "y" || token == "sprite") {
+      // already initialized in Block::Block
     } else if(token == "count") {
       iter.get(hit_counter);
     } else if(token == "script") {
@@ -110,8 +99,6 @@ BonusBlock::BonusBlock(const ReaderMapping& lisp) :
     SoundManager::current()->preload("sounds/switch.ogg");
     lightsprite = Surface::create("/images/objects/lightmap_light/bonusblock_light.png");
   }
-
-  bbox.set_pos(pos);
 }
 
 void
@@ -153,6 +140,65 @@ BonusBlock::get_content_by_data(int d)
 BonusBlock::~BonusBlock()
 {
 }
+
+void
+BonusBlock::save(Writer& writer) {
+  Block::save(writer);
+  switch (contents) {
+    case CONTENT_COIN:       writer.write("contents", "coin"      , false); break;
+    case CONTENT_FIREGROW:   writer.write("contents", "firegrow"  , false); break;
+    case CONTENT_ICEGROW:    writer.write("contents", "icegrow"   , false); break;
+    case CONTENT_AIRGROW:    writer.write("contents", "airgrow"   , false); break;
+    case CONTENT_EARTHGROW:  writer.write("contents", "earthgrow" , false); break;
+    case CONTENT_STAR:       writer.write("contents", "star"      , false); break;
+    case CONTENT_1UP:        writer.write("contents", "1up"       , false); break;
+    case CONTENT_CUSTOM:
+      writer.write("contents", "custom"    , false);
+      if (object) {
+        writer.start_list(object->get_class());
+        object->save(writer);
+        writer.end_list(object->get_class());
+      }
+      break;
+    case CONTENT_SCRIPT:     writer.write("contents", "script"    , false); break;
+    case CONTENT_LIGHT:      writer.write("contents", "light"     , false); break;
+    case CONTENT_TRAMPOLINE: writer.write("contents", "trampoline", false); break;
+    case CONTENT_RAIN:       writer.write("contents", "rain"      , false); break;
+    case CONTENT_EXPLODE:    writer.write("contents", "explode"   , false); break;
+  }
+  if (script != "") {
+    writer.write("script", script, false);
+  }
+  if (hit_counter != 1) {
+    writer.write("count", hit_counter);
+  }
+}
+
+ObjectSettings
+BonusBlock::get_settings() {
+  ObjectSettings result = Block::get_settings();
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Count"), &hit_counter));
+
+  ObjectOption coo(MN_STRINGSELECT, _("Content"), &contents);
+  coo.select.push_back(_("coin"));
+  coo.select.push_back(_("egg or fire flower"));
+  coo.select.push_back(_("egg or ice flower"));
+  coo.select.push_back(_("egg or air flower"));
+  coo.select.push_back(_("egg or earth flower"));
+  coo.select.push_back(_("star"));
+  coo.select.push_back(_("tux doll"));
+  coo.select.push_back(_("custom"));
+  coo.select.push_back(_("script"));
+  coo.select.push_back(_("light"));
+  coo.select.push_back(_("trampoline"));
+  coo.select.push_back(_("coin rain"));
+  coo.select.push_back(_("coin explosion"));
+  result.options.push_back(coo);
+
+  return result;
+}
+
 
 void
 BonusBlock::hit(Player & player)
@@ -308,7 +354,7 @@ BonusBlock::try_open(Player *player)
   if(hit_counter <= 0 || contents == CONTENT_LIGHT){ //use 0 to allow infinite hits
   }else if(hit_counter == 1){
     sprite->set_action("empty");
-  }else{
+  } else {
     hit_counter--;
   }
 }
@@ -434,7 +480,7 @@ BonusBlock::try_drop(Player *player)
   if(countdown){ // only decrease hit counter if try_open was not called
     if(hit_counter == 1){
       sprite->set_action("empty");
-    }else{
+    } else {
       hit_counter--;
     }
   }

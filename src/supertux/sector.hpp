@@ -23,6 +23,7 @@
 
 #include "supertux/direction.hpp"
 #include "supertux/game_object_ptr.hpp"
+#include "util/writer.hpp"
 #include "video/color.hpp"
 #include "object/anchor_point.hpp"
 
@@ -76,6 +77,8 @@ public:
   void update_game_objects();
 
   void draw(DrawingContext& context);
+
+  void save(Writer &writer);
 
   /// stops all looping sounds in whole sector.
   void stop_looping_sounds();
@@ -207,6 +210,10 @@ public:
    */
   void set_gravity(float gravity);
   float get_gravity() const;
+
+  std::string* get_name_ptr() {return &name;}
+  std::string* get_init_script_ptr() {return &init_script;}
+  Color* get_ambient_light_ptr() {return &ambient_light;}
 
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;

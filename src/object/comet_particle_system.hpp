@@ -38,6 +38,12 @@ public:
 
   std::string type() const
   { return "CometParticleSystem"; }
+  std::string get_class() const {
+    return "particles-comets";
+  }
+  std::string get_display_name() const {
+    return _("Comet particles");
+  }
 
 private:
   class CometParticle : public Particle

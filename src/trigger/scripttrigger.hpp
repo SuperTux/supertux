@@ -27,13 +27,22 @@ public:
   ScriptTrigger(const ReaderMapping& reader);
   ScriptTrigger(const Vector& pos, const std::string& script);
   ~ScriptTrigger();
+  std::string get_class() const {
+    return "scripttrigger";
+  }
+
+  virtual ObjectSettings get_settings();
+  virtual void after_editor_set();
 
   void write(Writer& writer);
   void event(Player& player, EventType type);
+  void draw(DrawingContext& context);
 
 private:
   EventType triggerevent;
   std::string script;
+  Vector new_size;
+  bool must_activate;
 };
 
 #endif

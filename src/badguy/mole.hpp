@@ -36,6 +36,13 @@ public:
 
   virtual void ignite();
 
+  std::string get_class() const {
+    return "mole";
+  }
+  std::string get_display_name() const {
+    return _("Mole");
+  }
+
 private:
   enum MoleState {
     PRE_THROWING,

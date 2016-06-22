@@ -29,9 +29,22 @@ class Decal : public MovingSprite
 public:
   Decal(const ReaderMapping& reader);
   virtual ~Decal();
+
   virtual HitResponse collision(GameObject& , const CollisionHit& ) {
     return FORCE_MOVE;
   }
+  std::string get_class() const {
+    return "decal";
+  }
+  std::string get_display_name() const {
+    return _("Decal");
+  }
+
+  virtual ObjectSettings get_settings();
+
+private:
+  std::string default_action;
+  bool solid;
 };
 
 #endif /*SUPERTUX_DECAL_H*/

@@ -56,11 +56,20 @@ public:
 
   virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
+  std::string get_class() const {
+    return "wind";
+  }
+  std::string get_display_name() const {
+    return _("Wind");
+  }
+
+  virtual ObjectSettings get_settings();
 
 private:
   bool blowing; /**< true if wind is currently switched on */
   Vector speed;
   float acceleration;
+  Vector new_size;
 
   float elapsed_time; /**< stores last elapsed_time gotten at update() */
 };

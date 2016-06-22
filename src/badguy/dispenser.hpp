@@ -33,6 +33,29 @@ public:
   void unfreeze();
   bool is_freezable() const;
   bool is_flammable() const;
+  std::string get_class() const {
+    return "dispenser";
+  }
+  std::string get_display_name() const {
+    return _("Dispenser");
+  }
+  std::string get_type_string() const {
+    switch(type) {
+    case DT_DROPPER:
+      return "dropper";
+    case DT_ROCKETLAUNCHER:
+      return "rocketlauncher";
+    case DT_CANNON:
+      return "cannon";
+    case DT_POINT:
+      return "point";
+    default:
+      return "unknown";
+    }
+  }
+
+  ObjectSettings get_settings();
+  void after_editor_set();
 
 protected:
   bool collision_squished(GameObject& object);
@@ -40,6 +63,8 @@ protected:
   void launch_badguy();
 
 private:
+
+  void set_correct_action();
 
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup colgroup_active;
@@ -55,9 +80,10 @@ private:
 
   typedef enum {
     DT_DROPPER, DT_ROCKETLAUNCHER, DT_CANNON, DT_POINT
-  }DispenserType;
+  } DispenserType;
 
   DispenserType type;
+  std::string type_str;
 };
 
 #endif

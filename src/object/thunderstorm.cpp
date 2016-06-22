@@ -17,6 +17,7 @@
 #include "object/thunderstorm.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "editor/editor.hpp"
 #include "object/electrifier.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
@@ -56,10 +57,24 @@ Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
   }
 }
 
+ObjectSettings
+Thunderstorm::get_settings() {
+  ObjectSettings result = GameObject::get_settings();
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Running"), &running,
+                                         "running"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Interval"), &interval,
+                                         "interval"));
+
+  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
+  return result;
+}
+
 void
 Thunderstorm::update(float )
 {
+  if (Editor::is_active()) return;
   if (!running) return;
+
   if (time_to_thunder.check()) {
     thunder();
     time_to_lightning.start(LIGHTNING_DELAY);

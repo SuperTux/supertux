@@ -29,6 +29,12 @@ public:
   void collision_solid(const CollisionHit& hit);
 
   bool might_climb(int width, int height) const;
+  std::string get_class() const {
+    return "captainsnowball";
+  }
+  std::string get_display_name() const {
+    return _("Captain snowball");
+  }
 
 protected:
   bool collision_squished(GameObject& object);

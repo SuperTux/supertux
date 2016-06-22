@@ -23,6 +23,7 @@
 #include <sexp/util.hpp>
 #include <sexp/io.hpp>
 
+#include "editor/editor.hpp"
 #include "supertux/tile_set.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
@@ -58,6 +59,11 @@ TileSetParser::parse()
     else if (iter.get_key() == "tilegroup")
     {
       /* tilegroups are only interesting for the editor */
+      ReaderMapping reader = iter.as_mapping();
+      Tilegroup tilegroup;
+      reader.get("name", tilegroup.name);
+      reader.get("tiles", tilegroup.tiles);
+      m_tileset.tilegroups.push_back(tilegroup);
     }
     else if (iter.get_key() == "tiles")
     {

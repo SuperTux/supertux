@@ -28,7 +28,7 @@ class Sector;
  *
  * Each Sector in turn contains GameObjects, e.g. Badguys and Players.
  */
-class Level : public Currenton<Level>
+class Level
 {
 public:
   std::string name;
@@ -48,6 +48,13 @@ public:
   Level();
   ~Level();
 
+  // loads a levelfile
+  //void load(const std::string& filename);
+
+  // saves to a levelfile
+  void save(const std::string& filename, bool retry = false);
+
+  void add_sector(std::unique_ptr<Sector> sector);
   const std::string& get_name() const { return name; }
   const std::string& get_author() const { return author; }
 
@@ -62,9 +69,15 @@ public:
   int get_total_badguys() const;
   int get_total_secrets() const;
 
+  static Level* current() {
+    return _current;
+  }
+
+  void reactivate();
+
 private:
-  void load(const std::string& filename);
-  void add_sector(std::unique_ptr<Sector> sector);
+  static Level* _current;
+
   void load_old_format(const ReaderMapping& reader);
 
 private:

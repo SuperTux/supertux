@@ -25,6 +25,12 @@ class InvisibleBlock : public Block
 public:
   InvisibleBlock(const Vector& pos);
   InvisibleBlock(const ReaderMapping& lisp);
+  std::string get_class() const {
+    return "invisible_block";
+  }
+  std::string get_display_name() const {
+    return _("Invisible block");
+  }
 
   virtual void draw(DrawingContext& context);
   virtual bool collides(GameObject& other, const CollisionHit& hit) const;

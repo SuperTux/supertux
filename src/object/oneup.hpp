@@ -25,6 +25,9 @@ class OneUp : public MovingSprite
 {
 public:
   OneUp(const Vector& pos, Direction direction = RIGHT);
+  virtual bool do_save() const {
+    return false;
+  }
 
   virtual void update(float elapsed_time);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
