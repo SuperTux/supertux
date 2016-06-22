@@ -743,6 +743,8 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context) {
   }
 
   auto current_tm = dynamic_cast<TileMap*>(editor->layerselect.selected_tilemap);
+  if ( current_tm == NULL )
+    return;
   int tm_width = current_tm->get_width();
   int tm_height = current_tm->get_height();
   Rectf draw_rect = Rectf(editor->currentsector->camera->get_translation(),

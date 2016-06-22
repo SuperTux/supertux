@@ -65,7 +65,6 @@ ObjectOption::to_string() {
     default:
       return _("Unknown");
   }
-  return "";
 }
 
 /* EOF */
