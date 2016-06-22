@@ -54,7 +54,7 @@ SoundManager::SoundManager() :
     sound_enabled = true;
     music_enabled = true;
 
-    set_listener_orientation(Vector(0.0f, 0.0f), Vector(0.0f, 0.0f));
+    set_listener_orientation(Vector(0.0f, 0.0f), Vector(0.0f, -1.0f));
   } catch(std::exception& e) {
     if(context != NULL) {
       alcDestroyContext(context);
@@ -370,7 +370,7 @@ SoundManager::set_listener_position(const Vector& pos)
     return;
   lastticks = current_ticks;
 
-  alListener3f(AL_POSITION, pos.x, pos.y, 0);
+  alListener3f(AL_POSITION, pos.x, pos.y, -300);
 }
 
 void
@@ -382,7 +382,7 @@ SoundManager::set_listener_velocity(const Vector& vel)
 void
 SoundManager::set_listener_orientation(const Vector& at, const Vector& up)
 {
-  ALfloat orientation[]={at.x, at.y, 0.0, up.x, up.y, 0.0};
+  ALfloat orientation[]={at.x, at.y, 1.0, up.x, up.y, 0.0};
   alListenerfv(AL_ORIENTATION, orientation);
 }
 
