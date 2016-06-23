@@ -270,17 +270,12 @@ EditorInputCenter::hover_object() {
     Rectf bbox = moving_object->get_bbox();
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
-      auto pm = dynamic_cast<PointMarker*>(moving_object);
-      if (moving_object->do_save() || pm) {
-        if (moving_object != hovered_object) {
-          if (moving_object->do_save()) {
-            std::unique_ptr<Tip> new_tip(new Tip(moving_object));
-            object_tip = move(new_tip);
-          }
-          hovered_object = moving_object;
+      if (moving_object != hovered_object) {
+        if (moving_object->do_save()) {
+          std::unique_ptr<Tip> new_tip(new Tip(moving_object));
+          object_tip = move(new_tip);
         }
-      } else {
-        break;
+        hovered_object = moving_object;
       }
       return;
     }
