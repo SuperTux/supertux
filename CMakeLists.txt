@@ -393,7 +393,7 @@ FIND_PACKAGE(Freetype)
 set(SDL_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL_ttf/)
 ExternalProject_Add(SDL_ttf
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
-  CONFIGURE_COMMAND env CC=${CMAKE_C_COMPILER} ${CMAKE_SOURCE_DIR}/external/SDL_ttf/configure --prefix=${SDL_TTF_PREFIX} --enable-static --disable-shared --with-raqm --with-freetype-prefix=${FREETYPE_DIR}
+  CONFIGURE_COMMAND env CC=${CMAKE_C_COMPILER} ${CMAKE_SOURCE_DIR}/external/SDL_ttf/configure --prefix=${SDL_TTF_PREFIX} --enable-static --disable-shared --with-raqm --with-freetype-prefix=${FREETYPE_DIR} --with-sdl-prefix=${SDL2_PREFIX}
   BUILD_COMMAND ${MAKE}
   BUILD_IN_SOURCE 1)
 
