@@ -29,6 +29,7 @@
 #include "math/rectf.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
+#include "object/invisible_wall.hpp"
 #include "object/path.hpp"
 #include "object/platform.hpp"
 #include "object/coin.hpp"
@@ -269,10 +270,13 @@ EditorInputCenter::hover_object() {
     Rectf bbox = moving_object->get_bbox();
     if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
         sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
-      if (moving_object->do_save()) {
+      auto pm = dynamic_cast<PointMarker*>(moving_object);
+      if (moving_object->do_save() || pm) {
         if (moving_object != hovered_object) {
-          std::unique_ptr<Tip> new_tip(new Tip(moving_object));
-          object_tip = move(new_tip);
+          if (moving_object->do_save()) {
+            std::unique_ptr<Tip> new_tip(new Tip(moving_object));
+            object_tip = move(new_tip);
+          }
           hovered_object = moving_object;
         }
       } else {
@@ -311,8 +315,9 @@ EditorInputCenter::mark_object() {
   auto dc4 = dynamic_cast<SecretAreaTrigger*>(dragged_object);
   auto dc5 = dynamic_cast<SequenceTrigger*>(dragged_object);
   auto dc6 = dynamic_cast<Wind*>(dragged_object);
+  auto dc7 = dynamic_cast<InvisibleWall*>(dragged_object);
 
-  if (dc1 || dc2 || dc3 || dc4 || dc5 || dc6) {
+  if (dc1 || dc2 || dc3 || dc4 || dc5 || dc6 || dc7) {
     marked_object = dragged_object;
     dragged_object->edit_bbox();
     return;
@@ -370,7 +375,7 @@ EditorInputCenter::grab_object() {
 
 void
 EditorInputCenter::clone_object() {
-  if (hovered_object) {
+  if (hovered_object && hovered_object->do_save()) {
     if (!hovered_object->is_valid()) {
       hovered_object = NULL;
       return;
@@ -412,7 +417,7 @@ EditorInputCenter::clone_object() {
 
 void
 EditorInputCenter::set_object() {
-  if (hovered_object) {
+  if (hovered_object && hovered_object->do_save()) {
     std::unique_ptr<Menu> om(new ObjectMenu(hovered_object));
     Editor::current()->deactivate_request = true;
     MenuManager::instance().push_menu(move(om));
