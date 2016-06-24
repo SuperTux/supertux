@@ -141,6 +141,10 @@ Dispenser::collision_squished(GameObject& object)
     return false;
   }
 
+  if (frozen) {
+    unfreeze();
+  }
+
   sprite->set_action(dir == LEFT ? "broken-left" : "broken-right");
   dispense_timer.start(0);
   set_colgroup_active(COLGROUP_MOVING_STATIC); // Tux can stand on broken cannon.
@@ -294,6 +298,10 @@ Dispenser::launch_badguy()
 void
 Dispenser::freeze()
 {
+  if (broken) {
+    return;
+  }
+
   set_group(COLGROUP_MOVING_STATIC);
   frozen = true;
 
