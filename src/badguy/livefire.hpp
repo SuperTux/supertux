@@ -59,6 +59,9 @@ public:
   LiveFireAsleep(const ReaderMapping& reader);
 
   void initialize();
+  std::string get_class() const {
+    return "livefire_asleep";
+  }
   std::string get_display_name() const {
     return _("Sleeping live fire");
   }
@@ -70,6 +73,9 @@ public:
   LiveFireDormant(const ReaderMapping& reader);
 
   void initialize();
+  std::string get_class() const {
+    return "livefire_dormant";
+  }
   std::string get_display_name() const {
     return _("Dormant live fire");
   }
