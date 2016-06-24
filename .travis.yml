@@ -54,7 +54,7 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
         brew update;
         brew upgrade cmake;
-        brew install libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf;
+        brew install libogg libvorbis glew openal-soft sdl2 sdl2_image sdl2_ttf freetype harfbuzz fribidi glib gtk-doc;
     fi
   # Try building with GLBinding
   # Note: glbindings ./configure needs to be run twice in order to generate a makefile
@@ -69,6 +69,9 @@ before_install:
     fi
   # Fetch the entire git history
   - git fetch --unshallow
+  - git clone --depth 1 https://github.com/HOST-Oman/libraqm.git;
+    cd libraqm && ./autogen.sh && ./configure --prefix=/usr && make -j3 && sudo make install;
+    cd ..;
 
 script:
   - mkdir "build-$BUILD_TYPE"
@@ -111,7 +114,11 @@ addons:
     - libboost-all-dev
     - libsdl2-dev
     - libsdl2-image-dev
-    - libsdl2-ttf-dev
+    - libfreetype6-dev
+    - libharfbuzz-dev
+    - libfribidi-dev
+    - libglib2.0-dev
+    - gtk-doc-tools
     - rpm
     - sshpass
   coverity_scan:
