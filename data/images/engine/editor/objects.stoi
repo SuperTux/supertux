@@ -52,6 +52,12 @@
     (class "livefire")
     (icon "images/creatures/livefire/left-0.png"))
   (object
+    (class "livefire_asleep")
+    (icon "images/creatures/livefire/sleeping-left-1.png"))
+  (object
+    (class "livefire_dormant")
+    (icon "images/creatures/livefire/sleeping-left-0.png"))
+  (object
     (class "mole")
     (icon "images/creatures/mole/mole-5.png"))
   (object
@@ -60,6 +66,9 @@
   (object
     (class "mriceblock")
     (icon "images/creatures/mr_iceblock/left-0.png"))
+  (object
+    (class "smartblock")
+    (icon "images/creatures/mr_iceblock/smart_block/left-0.png"))
   (object
     (class "mrtree")
     (icon "images/creatures/mr_tree/walk-left-1.png"))
