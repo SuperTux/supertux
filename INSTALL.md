@@ -147,12 +147,12 @@ recent version of Visual Studio installed. Visual Studio 2013 Community Edition
 is known to work fine.
 
 Because it's difficult to build and download all the dependencies per hand on windows,
-SuperTux provides a [dependency package](https://github.com/SuperTux/downloads/raw/master/other/dependencies-0.3.5-win32.zip)
+SuperTux provides a [dependency package](https://download.supertuxproject.org/builddep/)
 that should contain all headers and libraries needed to build SuperTux on Windows.
 
 1. Unpack the SuperTux source pack or get the source with git (`git clone --recursive https://github.com/SuperTux/supertux.git`).
 
-2. Extract the [dependency package](https://github.com/SuperTux/downloads/raw/master/other/dependencies-0.3.5-win32.zip)
+2. Extract the [dependency package](https://download.supertuxproject.org/builddep/)
 into the source directory, so the `dependencies` folder is besides the `src` folder.
 
 3. Create a new, empty `build` folder.
