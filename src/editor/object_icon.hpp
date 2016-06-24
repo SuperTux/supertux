@@ -33,6 +33,11 @@ class ObjectIcon
     SurfacePtr surface;
 
     virtual void draw(DrawingContext& context, Vector pos);
+
+  private:
+    Vector offset;
+
+    void calculate_offset();
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
