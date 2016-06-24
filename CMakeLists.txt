@@ -390,10 +390,11 @@ INCLUDE_DIRECTORIES(SYSTEM ${TINYGETTEXT_PREFIX}/include)
 ## external/SDL_ttf with patches
 
 FIND_PACKAGE(Freetype)
+FIND_PACKAGE(RAQM)
 set(SDL_TTF_PREFIX ${CMAKE_BINARY_DIR}/SDL_ttf/)
 ExternalProject_Add(SDL_ttf
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/external/SDL_ttf/"
-  CONFIGURE_COMMAND env CC=${CMAKE_C_COMPILER} ${CMAKE_SOURCE_DIR}/external/SDL_ttf/configure --prefix=${SDL_TTF_PREFIX} --enable-static --disable-shared --with-raqm --with-freetype-prefix=${FREETYPE_DIR} --with-sdl-prefix=${SDL2_PREFIX}
+  CONFIGURE_COMMAND ${CMAKE_SOURCE_DIR}/external/SDL_ttf/autogen.sh && env CC=${CMAKE_C_COMPILER} ${CMAKE_SOURCE_DIR}/external/SDL_ttf/configure --prefix=${SDL_TTF_PREFIX} --enable-static --disable-shared --with-raqm --with-freetype-prefix=${FREETYPE_DIR} --with-sdl-prefix=${SDL2_PREFIX}
   BUILD_COMMAND ${MAKE}
   BUILD_IN_SOURCE 1)
 
@@ -641,6 +642,7 @@ TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${SDL2_LIBRARIES})
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${SDL2IMAGE_LIBRARIES})
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC SDL_ttf_lib)
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${FREETYPE_LIBRARIES})
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${RAQM_LIBRARIES})
 
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC squirrel_lib)
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC sqstdlib_lib)
