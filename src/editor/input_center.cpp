@@ -29,6 +29,7 @@
 #include "math/rectf.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
+#include "object/enemy_blocker.hpp"
 #include "object/invisible_wall.hpp"
 #include "object/path.hpp"
 #include "object/platform.hpp"
@@ -316,8 +317,9 @@ EditorInputCenter::mark_object() {
   auto dc5 = dynamic_cast<SequenceTrigger*>(dragged_object);
   auto dc6 = dynamic_cast<Wind*>(dragged_object);
   auto dc7 = dynamic_cast<InvisibleWall*>(dragged_object);
+  auto dc8 = dynamic_cast<EnemyBlocker*>(dragged_object);
 
-  if (dc1 || dc2 || dc3 || dc4 || dc5 || dc6 || dc7) {
+  if (dc1 || dc2 || dc3 || dc4 || dc5 || dc6 || dc7 || dc8) {
     marked_object = dragged_object;
     dragged_object->edit_bbox();
     return;
