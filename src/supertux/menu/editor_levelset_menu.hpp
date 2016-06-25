@@ -19,11 +19,14 @@
 
 #include "gui/menu.hpp"
 
+class World;
+
 class EditorLevelsetMenu : public Menu
 {
 private:
 public:
   EditorLevelsetMenu();
+  EditorLevelsetMenu(World* world_);
   ~EditorLevelsetMenu();
 
   void menu_action(MenuItem* item) override;
@@ -34,7 +37,11 @@ private:
     MNID_NEWWORLDMAP
   };
 
+  void initialize();
   void create_worldmap();
+
+  bool allow_worldmap;
+  World* world;
 
   EditorLevelsetMenu(const EditorLevelsetMenu&);
   EditorLevelsetMenu& operator=(const EditorLevelsetMenu&);
