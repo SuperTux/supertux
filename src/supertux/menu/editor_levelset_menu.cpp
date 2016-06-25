@@ -30,36 +30,49 @@
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 
-EditorLevelsetMenu::EditorLevelsetMenu()
+EditorLevelsetMenu::EditorLevelsetMenu():
+  allow_worldmap(true),
+  world(Editor::current()->get_world())
 {
-  auto world = Editor::current()->get_world();
+  initialize();
+}
 
+EditorLevelsetMenu::EditorLevelsetMenu(World* world_):
+  allow_worldmap(false),
+  world(world_)
+{
+  initialize();
+}
+
+EditorLevelsetMenu::~EditorLevelsetMenu()
+{
+  world->save();
+}
+
+void
+EditorLevelsetMenu::initialize() {
   add_label(_("Level subset properties"));
   add_hl();
   add_textfield(_("Name"), &(world->m_title));
   add_textfield(_("Description"), &(world->m_description));
 
-  std::string worldmap_file = FileSystem::join(world->get_basedir(), "worldmap.stwm");
-  if (PHYSFS_exists(worldmap_file.c_str())) {
-    add_toggle(-1, _("Do not use worldmap"), &(world->m_is_levelset));
-    add_entry(MNID_EDITWORLDMAP, _("Edit worldmap"));
-  } else {
-    add_entry(MNID_NEWWORLDMAP, _("Create worldmap"));
+  if (allow_worldmap) {
+    std::string worldmap_file = FileSystem::join(world->get_basedir(), "worldmap.stwm");
+    if (PHYSFS_exists(worldmap_file.c_str())) {
+      add_toggle(-1, _("Do not use worldmap"), &(world->m_is_levelset));
+      add_entry(MNID_EDITWORLDMAP, _("Edit worldmap"));
+    } else {
+      add_entry(MNID_NEWWORLDMAP, _("Create worldmap"));
+    }
   }
   add_hl();
   add_back(_("OK"));
-}
-
-EditorLevelsetMenu::~EditorLevelsetMenu()
-{
-  Editor::current()->get_world()->save();
 }
 
 void
 EditorLevelsetMenu::create_worldmap()
 {
   auto editor = Editor::current();
-  auto world = editor->get_world();
   auto basedir = world->get_basedir();
   editor->set_worldmap_mode(true);
   auto new_worldmap = LevelParser::from_nothing_worldmap(basedir, world->m_title);

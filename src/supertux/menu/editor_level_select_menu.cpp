@@ -23,6 +23,7 @@
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "supertux/menu/editor_levelset_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
@@ -73,8 +74,8 @@ void EditorLevelSelectMenu::initialize() {
   }
 
   add_hl();
-  add_entry(-1,_("Create Level"));
-  add_submenu(_("Level subset properties"), MenuStorage::EDITOR_LEVELSET_MENU, -3);
+  add_entry(-1, _("Create Level"));
+  add_entry(-3, _("Level subset properties"));
   add_back(_("Back"),-2);
 }
 
@@ -123,6 +124,10 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
       case -2:
         MenuManager::instance().pop_menu();
         break;
+      case -3: {
+        std::unique_ptr<Menu> menu = std::unique_ptr<Menu>(new EditorLevelsetMenu(m_world.get()));
+        MenuManager::instance().push_menu(std::move(menu));
+      } break;
       default:
         break;
     }
