@@ -54,7 +54,7 @@ EnemyBlocker::after_editor_set() {
 }
 
 HitResponse
-EnemyBlocker::collides(GameObject& other, const CollisionHit& )
+EnemyBlocker::collision(GameObject& other, const CollisionHit& )
 {
   BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
   
