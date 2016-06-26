@@ -32,6 +32,8 @@ InvisibleWall::InvisibleWall(const ReaderMapping& lisp):
   if (!lisp.get("height", height)) height = 32;
 
   bbox.set_size(width, height);
+
+  group = COLGROUP_STATIC;
 }
 
 ObjectSettings
