@@ -37,6 +37,7 @@ class NodeMarker : public PointMarker
     virtual void move_to(const Vector& pos);
     virtual void editor_delete();
     virtual Vector get_point_vector() const;
+    virtual Vector get_offset() const;
 
     virtual ObjectSettings get_settings();
 

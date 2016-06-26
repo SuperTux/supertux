@@ -23,6 +23,7 @@
 #include "math/vector.hpp"
 #include "supertux/screen.hpp"
 
+class Color;
 class GameObject;
 class MovingObject;
 class NodeMarker;
@@ -47,6 +48,10 @@ class EditorInputCenter
     void edit_path(Path* path, GameObject* new_marked_object = NULL);
 
     static bool render_grid;
+    static bool snap_to_grid;
+    static int selected_snap_grid_size;
+
+    const int snap_grid_sizes[4] = {4, 8, 16, 32};
 
   private:
     Vector hovered_tile;
@@ -82,16 +87,17 @@ class EditorInputCenter
     void add_path_node();
 
     void draw_tile_tip(DrawingContext&);
-    void draw_tile_grid(DrawingContext&);
+    void draw_tile_grid(DrawingContext&, const Color line_color, int tile_size = 32);
+    void draw_tilemap_border(DrawingContext&);
     void draw_path(DrawingContext&);
 
     void process_left_click();
     void process_right_click();
 
     // sp is sector pos, tp is pos on tilemap.
-    Vector tp_to_sp(const Vector& tp);
-    Vector sp_to_tp(Vector sp);
-    Vector tile_screen_pos(const Vector& tp);
+    Vector tp_to_sp(const Vector& tp, int tile_size = 32);
+    Vector sp_to_tp(Vector sp, int tile_size = 32);
+    Vector tile_screen_pos(const Vector& tp, int tile_size = 32);
 
     // in sector position
     Rectf drag_rect();
