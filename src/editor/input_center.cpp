@@ -57,6 +57,7 @@
 #include "math/vector.hpp"
 
 bool EditorInputCenter::render_grid = true;
+bool EditorInputCenter::snap_to_grid = false;
 
 EditorInputCenter::EditorInputCenter() :
   hovered_tile(0, 0),
@@ -432,7 +433,17 @@ EditorInputCenter::move_object() {
       dragged_object = NULL;
       return;
     }
-    dragged_object->move_to(sector_pos - obj_mouse_desync);
+    Vector new_pos = sector_pos - obj_mouse_desync;
+    if (snap_to_grid) {
+      new_pos.x = int(new_pos.x / 32) * 32;
+      new_pos.y = int(new_pos.y / 32) * 32;
+
+      auto pm = dynamic_cast<PointMarker*>(dragged_object);
+      if (pm) {
+        new_pos -= pm->get_offset();
+      }
+    }
+    dragged_object->move_to(new_pos);
   }
 }
 
@@ -693,6 +704,8 @@ EditorInputCenter::event(SDL_Event& ev) {
     case SDL_KEYDOWN:
       if (ev.key.keysym.sym == SDLK_F8) {
         render_grid = !render_grid;
+      } else if (ev.key.keysym.sym == SDLK_F7) {
+        snap_to_grid = !snap_to_grid;
       }
       break;
     default:

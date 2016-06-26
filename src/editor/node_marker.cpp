@@ -52,6 +52,10 @@ Vector NodeMarker::get_point_vector() const {
   }
 }
 
+Vector NodeMarker::get_offset() const {
+  return Vector(8, 8);
+}
+
 void NodeMarker::move_to(const Vector& pos) {
   MovingObject::move_to(pos);
   node->position = bbox.get_middle();

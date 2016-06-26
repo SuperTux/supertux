@@ -47,6 +47,7 @@ class EditorInputCenter
     void edit_path(Path* path, GameObject* new_marked_object = NULL);
 
     static bool render_grid;
+    static bool snap_to_grid;
 
   private:
     Vector hovered_tile;
