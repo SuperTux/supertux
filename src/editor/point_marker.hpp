@@ -42,6 +42,7 @@ class PointMarker : public MovingObject
     }
 
     virtual Vector get_point_vector() const;
+    virtual Vector get_offset() const;
 
   private:
     PointMarker(const PointMarker&);
