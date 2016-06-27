@@ -81,6 +81,11 @@ EditorInputCenter::~EditorInputCenter()
 
 void
 EditorInputCenter::update(float elapsed_time) {
+  if (hovered_object && !hovered_object->is_valid()) {
+    hovered_object = NULL;
+    object_tip = NULL;
+  }
+
   if (marked_object && !marked_object->is_valid()) {
     delete_markers();
   }
@@ -303,6 +308,7 @@ EditorInputCenter::edit_path(Path* path, GameObject* new_marked_object) {
 void
 EditorInputCenter::mark_object() {
   delete_markers();
+  if (!dragged_object || !dragged_object->is_valid()) return;
 
   auto dc1 = dynamic_cast<AmbientSound*>(dragged_object);
   auto dc2 = dynamic_cast<Climbable*>(dragged_object);
@@ -343,7 +349,7 @@ EditorInputCenter::mark_object() {
 
 void
 EditorInputCenter::grab_object() {
-  if (hovered_object) {
+  if (hovered_object && hovered_object->is_valid()) {
     if (!hovered_object->is_valid()) {
       hovered_object = NULL;
       return;
@@ -370,7 +376,7 @@ EditorInputCenter::grab_object() {
 
 void
 EditorInputCenter::clone_object() {
-  if (hovered_object && hovered_object->do_save()) {
+  if (hovered_object && hovered_object->is_valid() && hovered_object->do_save()) {
     if (!hovered_object->is_valid()) {
       hovered_object = NULL;
       return;
@@ -412,7 +418,7 @@ EditorInputCenter::clone_object() {
 
 void
 EditorInputCenter::set_object() {
-  if (hovered_object && hovered_object->do_save()) {
+  if (hovered_object && hovered_object->is_valid() && hovered_object->do_save()) {
     std::unique_ptr<Menu> om(new ObjectMenu(hovered_object));
     Editor::current()->deactivate_request = true;
     MenuManager::instance().push_menu(move(om));
