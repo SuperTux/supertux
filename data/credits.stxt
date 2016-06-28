@@ -731,7 +731,7 @@
       (simple #t))
     (person
       (name "Allan Nordhøy")
-      (info (_ "Norwegian"))
+      (info (_ "Norwegian Bokmål"))
       (simple #t))
     (person
       (name "Arvid Norlander")
@@ -747,7 +747,7 @@
       (simple #t))
     (person
       (name "Karl Ove Hufthammer")
-      (info (_ "Norwegian"))
+      (info (_ "Norwegian Bokmål"))
       (simple #t))
     (person
       (name "Léo Poughon")
