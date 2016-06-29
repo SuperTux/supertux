@@ -47,6 +47,7 @@ Config::Config() :
   start_demo(),
   record_demo(),
   tux_spawn_pos(),
+  edit_level(),
   locale(),
   keyboard_config(),
   joystick_config(),

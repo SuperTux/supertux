@@ -25,12 +25,14 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/screen_manager.hpp"
+#include "supertux/world.hpp"
 #include "util/gettext.hpp"
 #include "video/color.hpp"
 
 EditorMenu::EditorMenu()
 {
   bool worldmap = Editor::current()->get_worldmap_mode();
+  bool is_world = Editor::current()->get_world();
 
   add_label(_("Level Editor"));
   add_hl();
@@ -41,7 +43,10 @@ EditorMenu::EditorMenu()
     add_entry(MNID_TESTLEVEL, _("Test the level"));
   }
 
-  add_entry(MNID_LEVELSEL, _("Edit another level"));
+  if (is_world) {
+    add_entry(MNID_LEVELSEL, _("Edit another level"));
+  }
+
   add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
 
   add_toggle(-1, _("Show grid (F8)"), &EditorInputCenter::render_grid);
@@ -49,7 +54,11 @@ EditorMenu::EditorMenu()
 
   add_submenu(worldmap ? _("Worldmap properties") : _("Level properties"),
               MenuStorage::EDITOR_LEVEL_MENU);
-  add_submenu(_("Level subset properties"), MenuStorage::EDITOR_LEVELSET_MENU);
+
+  if (is_world) {
+    add_submenu(_("Level subset properties"), MenuStorage::EDITOR_LEVELSET_MENU);
+  }
+
   add_hl();
   add_entry(MNID_QUITEDITOR, _("Exit level editor"));
 }

@@ -50,7 +50,8 @@ CommandLineArguments::CommandLineArguments() :
   tux_spawn_pos(),
   developer_mode(),
   christmas_mode(),
-  repository_url()
+  repository_url(),
+  edit_level()
 {
 }
 
@@ -93,6 +94,7 @@ CommandLineArguments::print_help(const char* arg0) const
             << _(     "  --disable-sound              Disable sound effects") << "\n"
             << _(     "  --disable-music              Disable music") << "\n" << "\n"
             << _(     "Game Options:") << "\n"
+            << _(     "  --edit-level                 Open given level in editor") << "\n"
             << _(     "  --show-fps                   Display framerate in levels") << "\n"
             << _(     "  --no-show-fps                Do not display framerate in levels") << "\n"
             << _(     "  --show-pos                   Display player's current position") << "\n"
@@ -355,6 +357,17 @@ CommandLineArguments::parse_args(int argc, char** argv)
         repository_url = argv[++i];
       }
     }
+    else if (arg == "--edit-level")
+    {
+      if (i + 1 >= argc)
+      {
+        throw std::runtime_error("Need to specify a level for --edit-level");
+      }
+      else
+      {
+        edit_level = argv[++i];
+      }
+    }
     else if (arg[0] != '-')
     {
       start_level = arg;
@@ -389,6 +402,7 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(developer_mode);
   merge_option(christmas_mode);
   merge_option(repository_url);
+  merge_option(edit_level);
 
 #undef merge_option
 }
