@@ -349,7 +349,7 @@ EditorInputCenter::mark_object() {
 
 void
 EditorInputCenter::grab_object() {
-  if (hovered_object && hovered_object->is_valid()) {
+  if (hovered_object) {
     if (!hovered_object->is_valid()) {
       hovered_object = NULL;
       return;
@@ -376,7 +376,7 @@ EditorInputCenter::grab_object() {
 
 void
 EditorInputCenter::clone_object() {
-  if (hovered_object && hovered_object->is_valid() && hovered_object->do_save()) {
+  if (hovered_object && hovered_object->do_save()) {
     if (!hovered_object->is_valid()) {
       hovered_object = NULL;
       return;
