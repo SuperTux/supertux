@@ -81,7 +81,7 @@ CommandLineArguments::print_help(const char* arg0) const
             << _(     "  -v, --version                Show SuperTux version and quit") << "\n"
             << _(     "  --verbose                    Print verbose messages") << "\n"
             << _(     "  --debug                      Print extra verbose messages") << "\n"
-            << _( "  --print-datadir              Print supertux's primary data directory.") << "\n" << "\n"
+            << _( "  --print-datadir              Print SuperTux's primary data directory.") << "\n" << "\n"
             << _(     "Video Options:") << "\n"
             << _(     "  -f, --fullscreen             Run in fullscreen mode") << "\n"
             << _(     "  -w, --window                 Run in window mode") << "\n"
