@@ -82,7 +82,12 @@ ItemIntField::add_char(char c) {
   }
 
   input.push_back(c);
-  *number = std::stoi(input);
+  try {
+    int new_number = std::stoi(input);
+    *number = new_number;
+  } catch (...) {
+    input = std::to_string(*number);
+  }
 }
 
 void
