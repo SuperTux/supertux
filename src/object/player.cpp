@@ -964,16 +964,7 @@ void
 Player::position_grabbed_object()
 {
   MovingObject* moving_object = dynamic_cast<MovingObject*>(grabbed_object);
-  if(moving_object == NULL) {
-    // Yes this might be a hack, but anyway...
-
-    log_debug << "Non MovingObject grabbed?!? Ungrabbing..." << std::endl;
-
-    grabbed_object->ungrab(*this, dir);
-    grabbed_object = NULL;
-
-    return;
-  }
+  assert(moving_object);
 
   // Position where we will hold the lower-inner corner
   Vector pos(bbox.get_left() + bbox.get_width()/2,
@@ -1704,6 +1695,11 @@ Player::set_ghost_mode(bool enable)
     return;
 
   if (climbing) stop_climbing(*climbing);
+
+  if (grabbed_object) {
+    grabbed_object->ungrab(*this, dir);
+    grabbed_object = NULL;
+  }
 
   if (enable) {
     ghost_mode = true;
