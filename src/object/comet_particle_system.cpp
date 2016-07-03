@@ -61,9 +61,8 @@ void CometParticleSystem::init()
   }
 }
 
-void CometParticleSystem::update(float elapsed_time)
+void CometParticleSystem::update(float /*elapsed_time*/)
 {
-  (void) elapsed_time;
 #if 0
   std::vector<Particle*>::iterator i;
   for(

@@ -80,18 +80,15 @@ public:
   virtual ~MovingObject();
 
   /** this function is called when the object collided with something solid */
-  virtual void collision_solid(const CollisionHit& hit)
+  virtual void collision_solid(const CollisionHit& /*hit*/)
   {
-    (void) hit;
   }
 
   /** when 2 objects collided, we will first call the
       pre_collision_check functions of both objects that can decide on
       how to react to the collision. */
-  virtual bool collides(GameObject& other, const CollisionHit& hit) const
+  virtual bool collides(GameObject& /*other*/, const CollisionHit& /*hit*/) const
   {
-    (void) other;
-    (void) hit;
     return true;
   }
 
@@ -99,9 +96,8 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) = 0;
 
   /** called when tiles with special attributes have been touched */
-  virtual void collision_tile(uint32_t tile_attributes)
+  virtual void collision_tile(uint32_t /*tile_attributes*/)
   {
-    (void) tile_attributes;
   }
 
   /** This function saves the object.

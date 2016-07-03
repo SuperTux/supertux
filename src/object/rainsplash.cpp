@@ -35,9 +35,8 @@ RainSplash::hit(Player& )
 }
 
 void
-RainSplash::update(float time)
+RainSplash::update(float /*time*/)
 {
-  (void) time;
   frame++;
   if (frame >= 10) remove_me();
 }

@@ -41,10 +41,9 @@ AngryStone::AngryStone(const ReaderMapping& reader) :
 }
 
 void
-AngryStone::collision_solid(const CollisionHit& hit)
+AngryStone::collision_solid(const CollisionHit& /*hit*/)
 {
   // TODO
-  (void) hit;
 #if 0
   if ((state == ATTACKING) &&
       (hit.normal.x == -attackDirection.x) && (hit.normal.y == attackDirection.y)) {

@@ -85,10 +85,8 @@ GhostTree::activate()
 }
 
 void
-GhostTree::active_update(float elapsed_time)
+GhostTree::active_update(float /*elapsed_time*/)
 {
-  (void) elapsed_time;
-
   if (mystate == STATE_IDLE) {
     if(colorchange_timer.check()) {
       SoundManager::current()->play("sounds/tree_howling.ogg", get_pos());

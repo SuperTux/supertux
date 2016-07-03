@@ -50,8 +50,6 @@ FloatingImage::update(float elapsed_time)
       visible = false;
     }
   }
-
-  //  (void) elapsed_time;
 }
 
 void
