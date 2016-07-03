@@ -75,7 +75,7 @@ ContribMenu::ContribMenu() :
     }
   }
 
-  add_label(_("Contrib Levels"));
+  add_label(_("Bonus Levels"));
   add_hl();
 
   int i = 0;
