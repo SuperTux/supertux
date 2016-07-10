@@ -166,23 +166,13 @@ public:
       std::string basepath = basepath_c ? basepath_c : "./";
       SDL_free(basepath_c);
 
-      // If we are on windows, the data directory is one directory above the binary
-#ifdef WIN32
-      const std::array<std::string, 2> subdirs = { { "data", "../data" } };
-#else
-      const std::array<std::string, 1> subdirs = { { "data" } };
-#endif
-      bool found = false;
-      for (const std::string &subdir : subdirs)
+      if (FileSystem::exists(FileSystem::join(BUILD_DATA_DIR, "credits.stxt")))
       {
-        datadir = FileSystem::join(basepath, subdir);
-        if (FileSystem::exists(FileSystem::join(datadir, "credits.stxt")))
-        {
-          found = true;
-          break;
-        }
+	 datadir = BUILD_DATA_DIR;
+         //Add config dir for supplemental files
+       	 PHYSFS_mount(BUILD_CONFIG_DATA_DIR, NULL, 1);
       }
-      if (!found)
+      else
       {
         // if the game is not run from the source directory, try to find
         // the global install location

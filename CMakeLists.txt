@@ -57,6 +57,8 @@ INCLUDE(ExternalProject)
 ## For autopackage
 SET(APPDATADIR "${CMAKE_INSTALL_PREFIX}/share/games/supertux2")
 
+SET(BUILD_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/data")
+SET(BUILD_CONFIG_DATA_DIR "${CMAKE_BINARY_DIR}/data")
 ## Check endianess
 
 INCLUDE(TestBigEndian)
@@ -288,6 +290,9 @@ SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/title_scree
                             PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
 SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/addon_manager.cpp
                             PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
+
 ## Check platform-dependent build options
 
 INCLUDE(ConfigureChecks)
@@ -546,9 +551,6 @@ ENDIF(GENERATE_WRAPPER)
 
 #SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-IF(NOT ${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-    CONFIGURE_FILES(${CMAKE_CURRENT_SOURCE_DIR}/data ${CMAKE_BINARY_DIR}/data)
-ENDIF(NOT ${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 
 ## Add target for supertux binary
 
@@ -716,25 +718,29 @@ INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/credits.stxt DESTINATION ${INSTAL
 
 INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/supertux2.appdata.xml DESTINATION "share/appdata" )
 
-INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/data/images
-                  ${CMAKE_BINARY_DIR}/data/fonts
-                  ${CMAKE_BINARY_DIR}/data/music
-                  ${CMAKE_BINARY_DIR}/data/scripts
-                  ${CMAKE_BINARY_DIR}/data/speech
-                  ${CMAKE_BINARY_DIR}/data/sounds
-                  ${CMAKE_BINARY_DIR}/data/locale
+INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/images
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/fonts
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/music
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/scripts
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/speech
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/sounds
+                  ${CMAKE_CURRENT_SOURCE_DIR}/data/locale
                   DESTINATION ${INSTALL_SUBDIR_SHARE})
 
 IF(CMAKE_BUILD_TYPE MATCHES Release)
-  INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/data/levels
+  INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
                     DESTINATION ${INSTALL_SUBDIR_SHARE}
                     PATTERN "data/levels/test" EXCLUDE
                     PATTERN "data/levels/test_old" EXCLUDE
-                    PATTERN "data/levels/incubator" EXCLUDE)
+                    PATTERN "data/levels/incubator" EXCLUDE
+                    PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
 ELSE()
-  INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/data/levels
-                    DESTINATION ${INSTALL_SUBDIR_SHARE})
+  INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
+                    DESTINATION ${INSTALL_SUBDIR_SHARE}
+                    PATTERN "data/levels/misc/menu.stl.in" EXCLUDE)
 ENDIF()
+
+INSTALL(FILES "${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl" DESTINATION "${INSTALL_SUBDIR_SHARE}/levels/misc")
 
 ## Create config.h now that INSTALL_SUBDIR_* have been set.
 
