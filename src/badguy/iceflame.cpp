@@ -63,4 +63,10 @@ Iceflame::is_flammable() const
   return true;
 }
 
+bool
+Iceflame::is_freezable() const
+{
+  return false;
+}
+
 /* EOF */

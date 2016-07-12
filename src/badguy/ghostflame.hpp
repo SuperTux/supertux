@@ -26,6 +26,7 @@ public:
   Ghostflame(const Ghostflame& ghostflame);
 
   bool is_flammable() const;
+  bool is_freezable() const;
   std::string get_class() const {
     return "ghostflame";
   }
