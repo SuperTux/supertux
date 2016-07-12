@@ -27,6 +27,10 @@ std::ostream& operator<<(std::ostream& o, const Direction& dir);
 
 ObjectOption dir_option(Direction *dir);
 
+std::string dir_to_string(const Direction& dir);
+std::string dir_to_prefixed(const Direction& dir, const std::string& prefix);
+Direction string_to_dir(const std::string& dir_str);
+
 #endif
 
 /* EOF */
