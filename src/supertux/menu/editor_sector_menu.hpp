@@ -17,7 +17,10 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_SECTOR_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_SECTOR_MENU_HPP
 
+#include "math/size.hpp"
 #include "gui/menu.hpp"
+
+class Sector;
 
 class EditorSectorMenu : public Menu
 {
@@ -29,8 +32,16 @@ public:
   void menu_action(MenuItem* item) override;
 
 private:
+  enum MenuIDs {
+    MNID_RESIZESECTOR
+  };
+
+  Sector* sector;
   std::string* sector_name_ptr;
   std::string original_name;
+
+  Size size;
+  Size new_size;
 
   EditorSectorMenu(const EditorSectorMenu&);
   EditorSectorMenu& operator=(const EditorSectorMenu&);

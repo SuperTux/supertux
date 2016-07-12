@@ -29,11 +29,12 @@
 #include "video/color.hpp"
 
 EditorSectorMenu::EditorSectorMenu() :
-  sector_name_ptr(Editor::current()->currentsector->get_name_ptr()),
-  original_name(*sector_name_ptr)
+  sector(Editor::current()->currentsector),
+  sector_name_ptr(sector->get_name_ptr()),
+  original_name(*sector_name_ptr),
+  size(sector->get_editor_size()),
+  new_size(size)
 {
-  auto sector = Editor::current()->currentsector;
-
   add_label(_("Sector") + " " + sector->get_name());
   add_hl();
   add_textfield(_("Name"), sector_name_ptr);
@@ -42,6 +43,12 @@ EditorSectorMenu::EditorSectorMenu() :
   add_numfield(_("Gravity"), &sector->gravity);
 
   add_file(_("Music"), &sector->music, std::vector<std::string>(1, ".ogg"));
+
+  add_hl();
+  add_intfield(_("Width"), &(new_size.width));
+  add_intfield(_("Height"), &(new_size.height));
+  add_entry(MNID_RESIZESECTOR, _("Resize"));
+
   add_hl();
   add_back(_("OK"));
 }
@@ -51,8 +58,8 @@ EditorSectorMenu::~EditorSectorMenu()
   // Makes sure that the name of the sector isn't already used.
   Level* level = Editor::current()->get_level();
   bool is_sector = false;
-  for(auto const& sector : level->sectors) {
-    if(sector->get_name() == Editor::current()->currentsector->get_name()) {
+  for(auto const& sector_ : level->sectors) {
+    if(sector_->get_name() == sector->get_name()) {
       if (is_sector) {
         // Puts the name that was there before when the name is already used.
         *sector_name_ptr = original_name;
@@ -67,7 +74,14 @@ EditorSectorMenu::~EditorSectorMenu()
 void
 EditorSectorMenu::menu_action(MenuItem* item)
 {
-
+  switch (item->id) {
+    case MNID_RESIZESECTOR:
+      if (new_size.width > 0 && new_size.height > 0) {
+        sector->resize_sector(size, new_size);
+        size = new_size;
+      }
+      break;
+  }
 }
 
 /* EOF */

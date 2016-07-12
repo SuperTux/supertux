@@ -232,7 +232,9 @@ TileMap::get_settings() {
 
 void
 TileMap::after_editor_set() {
-  resize(new_size_x, new_size_y);
+  if (new_size_x > 0 && new_size_y > 0) {
+    resize(new_size_x, new_size_y);
+  }
 
   if (walker.get() && path->is_valid()) {
     if (!add_path) {
