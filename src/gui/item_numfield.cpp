@@ -108,7 +108,7 @@ ItemNumField::add_char(char c) {
 
   input.push_back(c);
   try {
-    int new_number = std::stof(input);
+    float new_number = std::stof(input);
     *number = new_number;
   } catch (...) {
     input = std::to_string(*number);

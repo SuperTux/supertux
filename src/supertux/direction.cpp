@@ -56,4 +56,38 @@ dir_option(Direction *dir) {
   return result;
 }
 
+std::string dir_to_string(const Direction& dir) {
+  switch(dir)
+  {
+    case LEFT:
+      return "left";
+    case RIGHT:
+      return "right";
+    case UP:
+      return "up";
+    case DOWN:
+      return "down";
+    case AUTO:
+    default:
+      return "auto";
+  }
+}
+
+std::string dir_to_prefixed(const Direction& dir, const std::string& prefix) {
+  return prefix + "-" + dir_to_string(dir);
+}
+
+Direction string_to_dir(const std::string& dir_str) {
+  if(dir_str == "left")
+    return LEFT;
+  else if(dir_str == "right")
+    return RIGHT;
+  else if(dir_str == "up")
+    return UP;
+  else if(dir_str == "down")
+    return DOWN;
+  else
+    return AUTO;
+}
+
 /* EOF */

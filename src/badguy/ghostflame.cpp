@@ -40,4 +40,10 @@ Ghostflame::is_flammable() const
   return false;
 }
 
+bool
+Ghostflame::is_freezable() const
+{
+  return false;
+}
+
 /* EOF */

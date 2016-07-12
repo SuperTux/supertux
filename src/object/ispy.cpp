@@ -39,8 +39,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
   std::string dir_str;
   bool facing_down;
   if (reader.get("direction", dir_str)) {
-    if( dir_str == "left" ) dir = LEFT;
-    if( dir_str == "right" ) dir = RIGHT;
+    dir = string_to_dir(dir_str);
   } else {
     dir = LEFT;
   }
@@ -55,12 +54,8 @@ Ispy::Ispy(const ReaderMapping& reader) :
 void
 Ispy::save(Writer& writer) {
   MovingSprite::save(writer);
-  switch (dir) {
-    case LEFT:  writer.write("direction", "left" , false); break;
-    case RIGHT: writer.write("direction", "right", false); break;
-    case DOWN:  writer.write("facing_down", true); break;
-    case AUTO: break;
-    case UP: break;
+  if(dir != AUTO) {
+    writer.write("direction", dir_to_string(dir), false);
   }
 }
 
@@ -71,6 +66,13 @@ Ispy::get_settings() {
   result.options.push_back( dir_option(&dir) );
 
   return result;
+}
+
+void
+Ispy::after_editor_set()
+{
+  MovingSprite::after_editor_set();
+  sprite->set_action((dir == DOWN) ? "idle-down" : ((dir == LEFT) ? "idle-left" : "idle-right"));
 }
 
 HitResponse

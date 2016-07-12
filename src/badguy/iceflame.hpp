@@ -29,6 +29,7 @@ public:
 
   void ignite();
   bool is_flammable() const;
+  bool is_freezable() const;
   std::string get_class() const {
     return "iceflame";
   }
