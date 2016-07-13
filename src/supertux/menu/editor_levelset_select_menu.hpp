@@ -25,7 +25,7 @@ class World;
 class EditorLevelsetSelectMenu : public Menu
 {
 private:
-  std::vector<std::unique_ptr<World> > m_contrib_worlds;
+  std::vector<std::string> m_contrib_worlds;
 
 public:
   EditorLevelsetSelectMenu();
