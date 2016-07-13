@@ -68,6 +68,7 @@ public:
    * existing map)
    */
   void resize(int newwidth, int newheight, int fill_id = 0);
+  void resize(Size newsize);
 
   size_t get_width() const
   { return width; }
