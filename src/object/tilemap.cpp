@@ -196,7 +196,7 @@ TileMap::save(Writer& writer) {
   if(alpha != 1) {
     writer.write("alpha", alpha);
   }
-  writer.write("tint", tint.toVector(false));
+  writer.write("tint", tint.toVector());
   if(path) {
     path->save(writer);
   }

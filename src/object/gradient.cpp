@@ -109,11 +109,11 @@ Gradient::save(Writer& writer) {
     case VERTICAL: break;
   }
   if(gradient_direction == HORIZONTAL || gradient_direction == HORIZONTAL_SECTOR) {
-    writer.write("left_color" , gradient_top.toVector(false));
-    writer.write("right_color", gradient_bottom.toVector(false));
+    writer.write("left_color" , gradient_top.toVector());
+    writer.write("right_color", gradient_bottom.toVector());
   } else {
-    writer.write("top_color"   , gradient_top.toVector(false));
-    writer.write("bottom_color", gradient_bottom.toVector(false));
+    writer.write("top_color"   , gradient_top.toVector());
+    writer.write("bottom_color", gradient_bottom.toVector());
   }
 }
 
