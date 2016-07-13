@@ -57,6 +57,8 @@ TileMap::TileMap(const TileSet *new_tileset) :
   draw_target(DrawingContext::NORMAL),
   new_size_x(0),
   new_size_y(0),
+  new_offset_x(0),
+  new_offset_y(0),
   add_path(false)
 {
 }
@@ -86,6 +88,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   draw_target(DrawingContext::NORMAL),
   new_size_x(0),
   new_size_y(0),
+  new_offset_x(0),
+  new_offset_y(0),
   add_path(false)
 {
   assert(tileset);
@@ -209,8 +213,12 @@ ObjectSettings
 TileMap::get_settings() {
   new_size_x = width;
   new_size_y = height;
+  new_offset_x = 0;
+  new_offset_y = 0;
   ObjectSettings result = GameObject::get_settings();
   result.options.push_back( ObjectOption(MN_TOGGLE, _("solid"), &real_solid));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("resize offset x"), &new_offset_x));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("resize offset y"), &new_offset_y));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("width"), &new_size_x));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("height"), &new_size_y));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("alpha"), &alpha));
@@ -234,8 +242,10 @@ TileMap::get_settings() {
 
 void
 TileMap::after_editor_set() {
-  if (new_size_x > 0 && new_size_y > 0) {
-    resize(new_size_x, new_size_y);
+  if ((new_size_x != width || new_size_y != height ||
+      new_offset_x || new_offset_y) &&
+      new_size_x > 0 && new_size_y > 0) {
+    resize(new_size_x, new_size_y, 0, new_offset_x, new_offset_y);
   }
 
   if (walker.get() && path->is_valid()) {
@@ -471,7 +481,8 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
 }
 
 void
-TileMap::resize(int new_width, int new_height, int fill_id)
+TileMap::resize(int new_width, int new_height, int fill_id,
+                int xoffset, int yoffset)
 {
   if(new_width < width) {
     // remap tiles for new width
@@ -500,6 +511,23 @@ TileMap::resize(int new_width, int new_height, int fill_id)
 
   height = new_height;
   width = new_width;
+
+  //Apply offset
+  if (xoffset || yoffset) {
+    int X, Y;
+    for(int y = 0; y < height; y++) {
+      Y = (yoffset < 0) ? y : (height - y - 1);
+      for(int x = 0; x < width; x++) {
+        X = (xoffset < 0) ? x : (width - x - 1);
+        if (Y - yoffset < 0 || Y - yoffset >= height ||
+            X - xoffset < 0 || X - xoffset >= width) {
+          tiles[Y * new_width + X] = fill_id;
+        } else {
+          tiles[Y * new_width + X] = tiles[(Y - yoffset) * width + X - xoffset];
+        }
+      }
+    }
+  }
 }
 
 void TileMap::resize(Size newsize) {
