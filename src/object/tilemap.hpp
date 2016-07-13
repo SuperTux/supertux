@@ -75,6 +75,9 @@ public:
   size_t get_height() const
   { return height; }
 
+  Size get_size() const
+  { return Size(width, height); }
+
   Vector get_offset() const
   { return offset; }
 
