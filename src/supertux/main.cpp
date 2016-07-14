@@ -35,6 +35,8 @@ extern "C" {
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
+#include "gui/menu_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "physfs/ifile_stream.hpp"
@@ -437,6 +439,20 @@ Main::launch_game()
     }
   } else {
     screen_manager.push_screen(std::unique_ptr<Screen>(new TitleScreen(*default_savegame)));
+
+    if (g_config->edit_level) {
+      if (PHYSFS_exists(g_config->edit_level->c_str())) {
+        std::unique_ptr<Editor> editor(new Editor());
+        editor->set_level(*(g_config->edit_level));
+        editor->setup();
+        editor->update(0);
+        screen_manager.push_screen(std::move(editor));
+        MenuManager::instance().clear_menu_stack();
+        sound_manager.stop_music(0.5);
+      } else {
+        log_warning << "Level " << *(g_config->edit_level) << " doesn't exist." << std::endl;
+      }
+    }
   }
 
   screen_manager.run(context);

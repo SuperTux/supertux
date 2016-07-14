@@ -196,7 +196,7 @@ TileMap::save(Writer& writer) {
   if(alpha != 1) {
     writer.write("alpha", alpha);
   }
-  writer.write("tint", tint.toVector(false));
+  writer.write("tint", tint.toVector());
   if(path) {
     path->save(writer);
   }
@@ -494,6 +494,10 @@ TileMap::resize(int new_width, int new_height, int fill_id)
 
   height = new_height;
   width = new_width;
+}
+
+void TileMap::resize(Size newsize) {
+  resize(newsize.width, newsize.height);
 }
 
 Rect

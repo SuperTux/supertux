@@ -90,16 +90,14 @@ Color::operator < (const Color& other) const
 }
 
 std::vector<float>
-Color::toVector(bool include_alpha)
+Color::toVector()
 {
   std::vector<float> result;
   result.clear();
   result.push_back(red);
   result.push_back(green);
   result.push_back(blue);
-  if (include_alpha){
-    result.push_back(alpha);
-  }
+  result.push_back(alpha);
   return result;
 }
 

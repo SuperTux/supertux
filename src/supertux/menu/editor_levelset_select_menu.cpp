@@ -92,7 +92,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
             title << " (" << level_count << " " << _("levels") << ")";
           }
           add_entry(i++, title.str());
-          m_contrib_worlds.push_back(std::move(world));
+          m_contrib_worlds.push_back(*it);
         }
         else if (world->is_worldmap())
         {
@@ -117,7 +117,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
             title << " (" << level_count << " " << _("levels") << ")";
           }
           add_entry(i++, title.str());
-          m_contrib_worlds.push_back(std::move(world));
+          m_contrib_worlds.push_back(*it);
         }
         else
         {
@@ -151,7 +151,8 @@ EditorLevelsetSelectMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
   {
-    std::unique_ptr<Menu> menu = std::unique_ptr<Menu>(new EditorLevelSelectMenu(std::move(m_contrib_worlds[item->id])));
+    std::unique_ptr<Menu> menu = std::unique_ptr<Menu>(new EditorLevelSelectMenu(
+                                 std::move(World::load(m_contrib_worlds[item->id]))));
     MenuManager::instance().push_menu(std::move(menu));
   }
 }

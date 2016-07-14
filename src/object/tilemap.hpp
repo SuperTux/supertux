@@ -68,12 +68,16 @@ public:
    * existing map)
    */
   void resize(int newwidth, int newheight, int fill_id = 0);
+  void resize(Size newsize);
 
   size_t get_width() const
   { return width; }
 
   size_t get_height() const
   { return height; }
+
+  Size get_size() const
+  { return Size(width, height); }
 
   Vector get_offset() const
   { return offset; }

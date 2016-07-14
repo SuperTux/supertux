@@ -123,7 +123,7 @@ LevelDot::save(Writer& writer) {
   writer.write("sprite", sprite_name, false);
   writer.write("extro-script", extro_script, false);
   writer.write("auto-play", auto_play);
-  writer.write("color", title_color.toVector(false));
+  writer.write("color", title_color.toVector());
 }
 
 void

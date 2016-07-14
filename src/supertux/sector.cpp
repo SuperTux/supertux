@@ -1397,7 +1397,7 @@ Sector::save(Writer &writer)
 
   writer.write("name", name, false);
   writer.write("gravity", gravity);
-  writer.write("ambient-light", ambient_light.toVector(false));
+  writer.write("ambient-light", ambient_light.toVector());
 
   if (init_script != "") {
     writer.write("init-script", init_script,false);

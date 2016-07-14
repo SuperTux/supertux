@@ -107,7 +107,7 @@ GameObject::save(Writer& writer) {
           writer.write(option.key, *(reinterpret_cast<std::vector<std::string>*>(option.option)));
           break;
         case MN_COLOR:
-          writer.write(option.key, reinterpret_cast<Color*>(option.option)->toVector(false));
+          writer.write(option.key, reinterpret_cast<Color*>(option.option)->toVector());
           break;
         default:
           break;

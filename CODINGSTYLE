@@ -52,6 +52,8 @@ SuperTux Coding Standards
 
 * write regular comments with //, not with /* */
 
+* write translator comments with // l10n: <content here>
+
 * more info on good practices can be found at:
 
   http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml
