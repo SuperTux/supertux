@@ -91,6 +91,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
       sprite->set_action("working");
       break;
     case DT_POINT:
+      sprite->set_action("invisible");
       set_colgroup_active(COLGROUP_DISABLED);
       colgroup_active = COLGROUP_DISABLED;
     default:
