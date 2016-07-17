@@ -884,7 +884,8 @@ Player::handle_input()
   try_grab();
 
   if(!controller->hold(Controller::ACTION) && grabbed_object) {
-    MovingObject* moving_object = dynamic_cast<MovingObject*> (grabbed_object);
+    auto moving_object = dynamic_cast<MovingObject*> (grabbed_object);
+    auto sector = Sector::current();
     if(moving_object) {
       // move the grabbed object a bit away from tux
       Rectf grabbed_bbox = moving_object->get_bbox();
@@ -898,7 +899,8 @@ Player::handle_input()
         dest_.p1.x = bbox.get_right() + 1;
         dest_.p2.x = dest_.p1.x + grabbed_bbox.get_width();
       }
-      if(Sector::current()->is_free_of_tiles(dest_, true)) {
+      if(sector->is_free_of_tiles(dest_, true) &&
+         sector->is_free_of_statics(dest_, moving_object, true)) {
         moving_object->set_pos(dest_.p1);
         if(controller->hold(Controller::UP)) {
           grabbed_object->ungrab(*this, UP);
@@ -925,8 +927,9 @@ Player::handle_input()
 void
 Player::position_grabbed_object()
 {
-  MovingObject* moving_object = dynamic_cast<MovingObject*>(grabbed_object);
+  auto moving_object = dynamic_cast<MovingObject*>(grabbed_object);
   assert(moving_object);
+  auto object_bbox = moving_object->get_bbox();
 
   // Position where we will hold the lower-inner corner
   Vector pos(bbox.get_left() + bbox.get_width()/2,
@@ -934,8 +937,8 @@ Player::position_grabbed_object()
 
   // Adjust to find the grabbed object's upper-left corner
   if (dir == LEFT)
-    pos.x -= moving_object->get_bbox().get_width();
-  pos.y -= moving_object->get_bbox().get_height();
+    pos.x -= object_bbox.get_width();
+  pos.y -= object_bbox.get_height();
 
   grabbed_object->grab(*this, pos, dir);
 }
