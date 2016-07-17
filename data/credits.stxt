@@ -236,6 +236,11 @@
       (info (_ "New menu code"))
       (simple #t)
     )
+    (person
+      (name "Carsten \"RustyBox\" Wirtz")
+      (info (_ "Level improvements"))
+      (simple #t)
+    )
     (blank)
     (text
       (type "heading")
