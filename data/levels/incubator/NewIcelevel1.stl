@@ -1404,7 +1404,7 @@ Plata3.goto_node(0);")
   )
   (sector
     (name "secretship")
-    (music "music/greatgigantic.ogg")
+    (music "music/greatgigantic.music")
     (gravity 5)
     (ambient-light 1 1 1)
     (background

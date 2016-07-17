@@ -6,7 +6,7 @@
   (target-time 70)
   (sector
     (name "main")
-    (music "music/treeboss.ogg")
+    (music "music/treeboss.music")
     (ambient-light 1 0 0)
     (background
       (speed 0.5)

@@ -480,7 +480,7 @@
   )
   (sector
     (name "inside_mountanin")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -857,7 +857,7 @@
   )
   (sector
     (name "tower")
-    (music "music/fortress.ogg")
+    (music "music/fortress.music")
     (init-script "schody2.fade(0.2,0)")
     (ambient-light 1 1 1)
     (camera
@@ -2045,7 +2045,7 @@ schody2.fade(0.1,0.5)")
   )
   (sector
     (name "mt2mon")
-    (music "music/wisphunt.ogg")
+    (music "music/wisphunt.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -2230,7 +2230,7 @@ schody2.fade(0.1,0.5)")
   )
   (sector
     (name "moon")
-    (music "music/wisphunt.ogg")
+    (music "music/wisphunt.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -2347,7 +2347,7 @@ schody2.fade(0.1,0.5)")
   )
   (sector
     (name "sky")
-    (music "music/wisphunt.ogg")
+    (music "music/wisphunt.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)

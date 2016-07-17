@@ -5,7 +5,7 @@
   (target-time 40)
   (sector
     (name "main")
-    (music "music/forest.ogg")
+    (music "music/forest.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)

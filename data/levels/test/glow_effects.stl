@@ -6,7 +6,7 @@
 	(sector	(name	"main"	)																																							
 		(ambient-light	0.02	0.02	0.02	)																																					
 		(camera	(mode	"normal"	))																																						
-		(music	 "music/voc-dark.ogg"	)																																							
+		(music	 "music/voc-dark.music"	)
 
 		(spawnpoint	(name	"main"	)
 			(x	64	)(y	448	))

@@ -5,7 +5,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/voc-daytime2.ogg")
+    (music "music/voc-daytime2.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)

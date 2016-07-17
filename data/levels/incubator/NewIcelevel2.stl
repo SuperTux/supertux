@@ -937,7 +937,7 @@ bloquesecreto2.goto_node(1);
   )
   (sector
     (name "secret cave")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -1183,7 +1183,7 @@ bloquesecreto2.goto_node(1);
   )
   (sector
     (name "topsecretarea")
-    (music "music/greatgigantic.ogg")
+    (music "music/greatgigantic.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)

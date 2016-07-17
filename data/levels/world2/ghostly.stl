@@ -23,7 +23,7 @@
     )
     (scripttrigger
       (script "Tux.deactivate();
-play_music(\"music/ghostforest.ogg\");
+play_music(\"music/ghostforest.music\");
 wait(1);
 thunder1.lightning();
 wait(1);
@@ -203,7 +203,7 @@ Level.spawn(\"ghostforest\", \"main\");
   )
   (sector
     (name "ghostforest")
-    (music "music/ghostforest.ogg")
+    (music "music/ghostforest.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)

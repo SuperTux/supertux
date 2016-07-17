@@ -4,7 +4,7 @@
   (author "Christoph Sommer")
   (sector
     (name "main")
-	(music "music/theme.ogg")
+	(music "music/theme.music")
     (init-script "
 logo <- FloatingImage(\"images/objects/logo/logo.sprite\");
 logo.set_anchor_point(ANCHOR_TOP);

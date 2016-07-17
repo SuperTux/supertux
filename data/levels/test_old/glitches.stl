@@ -3,7 +3,7 @@
   (version 1)
   (name "Sliding Glitches Demo")
   (author "Marek Moeckel")
-  (music "music/cave.ogg")
+  (music "music/cave.music")
   (background "cave2.jpg")
   (particle_system "")
   (bkgd_speed 50)

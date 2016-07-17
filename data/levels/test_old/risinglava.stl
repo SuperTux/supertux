@@ -4,7 +4,7 @@
   (author "Christoph Sommer")
   (sector
     (name "main")
-    (music "music/bossattack.ogg")
+    (music "music/bossattack.music")
     (background
       (y -200)
       (speed 0.5)

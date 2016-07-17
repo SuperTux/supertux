@@ -1141,7 +1141,7 @@
   )
   (sector
     (name "bonuscaves")
-    (music "music/clavelian_march.ogg")
+    (music "music/clavelian_march.music")
     (ambient-light 0.7529412 0.7529412 0.7529412)
     (background
       (speed 1)

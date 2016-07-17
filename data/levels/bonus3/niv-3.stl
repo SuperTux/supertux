@@ -169,7 +169,7 @@
   )
   (sector
     (name "deadsector")
-    (music "/music/ghostforest.ogg")
+    (music "/music/ghostforest.music")
     (ambient-light 0 1 1)
     (background
       (speed 0.5)
@@ -561,7 +561,7 @@
   )
   (sector
     (name "Skysector")
-    (music "/music/airship_remix.ogg")
+    (music "/music/airship_remix.music")
     (gravity 5)
     (ambient-light 1 1 1)
     (background
@@ -635,7 +635,7 @@
   )
   (sector
     (name "Firesector")
-    (music "/music/greatgigantic.ogg")
+    (music "/music/greatgigantic.music")
     (ambient-light 1 0.6666667 0.6666667)
     (background
       (speed 0.5)

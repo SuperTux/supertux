@@ -401,7 +401,7 @@
   )
   (sector
     (name "secret")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 0.314519 0.314519 0.314519)
     (background
       (speed 0.5)

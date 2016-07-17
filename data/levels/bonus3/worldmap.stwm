@@ -6,7 +6,7 @@
   (target-time 0)
   (sector
     (name "main")
-    (music "music/voc-daytime2.ogg")
+    (music "music/voc-daytime2.music")
     (ambient-light 1 1 1)
     (special-tile
       (map-message (_ "You found a secret place!"))

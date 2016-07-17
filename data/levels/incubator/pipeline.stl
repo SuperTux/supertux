@@ -5,7 +5,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/airship_remix.ogg")
+    (music "music/airship_remix.music")
     (ambient-light 1 1 1)
     (camera
       (mode "normal")

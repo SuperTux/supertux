@@ -6,7 +6,7 @@
   (target-time 0)
   (sector
     (name "hill")
-    (music "music/treeboss.ogg")
+    (music "music/treeboss.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -1559,7 +1559,7 @@
   )
   (sector
     (name "sachta")
-    (music "music/treeboss.ogg")
+    (music "music/treeboss.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -2306,7 +2306,7 @@ Tux.activate()")
   )
   (sector
     (name "forest")
-    (music "music/forest.ogg")
+    (music "music/forest.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -2557,7 +2557,7 @@ Tux.activate()")
   )
   (sector
     (name "trees")
-    (music "music/forest.ogg")
+    (music "music/forest.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -2817,7 +2817,7 @@ Tux.activate()")
   )
   (sector
     (name "pipey")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 1 1 1)
     (camera
       (mode "normal")
@@ -3736,7 +3736,7 @@ Tux.activate()")
   )
   (sector
     (name "water")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 1 1 1)
     (camera
       (mode "normal")
@@ -4517,7 +4517,7 @@ Tux.activate()")
   )
   (sector
     (name "castle1")
-    (music "music/fortress.ogg")
+    (music "music/fortress.music")
     (ambient-light 1 1 1)
     (bouncingsnowball
       (x 2048)
@@ -5035,7 +5035,7 @@ Tux.activate()")
   )
   (sector
     (name "castle2")
-    (music "music/fortress.ogg")
+    (music "music/fortress.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -5572,7 +5572,7 @@ Tux.activate()")
   )
   (sector
     (name "roof")
-    (music "music/wisphunt.ogg")
+    (music "music/wisphunt.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -6521,7 +6521,7 @@ platform2.goto_node(1)")
   )
   (sector
     (name "sky")
-    (music "music/wisphunt.ogg")
+    (music "music/wisphunt.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -6918,7 +6918,7 @@ platform2.goto_node(1)")
   )
   (sector
     (name "castle3")
-    (music "music/wisphunt.ogg")
+    (music "music/wisphunt.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -7029,7 +7029,7 @@ platform2.goto_node(1)")
   )
   (sector
     (name "castle4")
-    (music "music/fortress.ogg")
+    (music "music/fortress.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)

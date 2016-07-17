@@ -7,7 +7,7 @@
   (target-time 35)
   (sector
     (name "main")
-    (music "music/airship_remix.ogg")
+    (music "music/airship_remix.music")
     (ambient-light 1 1 1)
     (bouncingsnowball
       (x 1793)

@@ -7,7 +7,7 @@
   (target-time 60)
   (sector
     (name "main")
-    (music "music/voc-daytime2.ogg")
+    (music "music/voc-daytime2.music")
     (ambient-light 1 1 1)
     (bonusblock
       (script "")

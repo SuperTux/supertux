@@ -6,7 +6,7 @@
   (license "GPL 2+ / CC-by-sa 3.0")
   (sector
     (name "main")
-    (music "music/greatgigantic.ogg")
+    (music "music/greatgigantic.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
