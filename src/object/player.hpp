@@ -247,8 +247,6 @@ private:
   void handle_input_ghost(); /**< input handling while in ghost mode */
   void handle_input_climbing(); /**< input handling while climbing */
 
-  void init();
-
   void handle_horizontal_input();
   void handle_vertical_input();
 

@@ -115,38 +115,38 @@ bool no_water = true;
 }
 
 Player::Player(PlayerStatus* _player_status, const std::string& name_) :
-  deactivated(),
+  deactivated(false),
   controller(),
   scripting_controller(),
   player_status(_player_status),
-  duck(),
-  dead(),
-  dying(),
-  winning(),
-  backflipping(),
-  backflip_direction(),
-  peekingX(),
-  peekingY(),
+  duck(false),
+  dead(false),
+  dying(false),
+  winning(false),
+  backflipping(false),
+  backflip_direction(0),
+  peekingX(AUTO),
+  peekingY(AUTO),
   ability_time(),
-  stone(),
-  swimming(),
-  speedlimit(),
+  stone(false),
+  swimming(false),
+  speedlimit(0), //no special limit
   scripting_controller_old(0),
-  jump_early_apex(),
-  on_ice(),
-  ice_this_frame(),
+  jump_early_apex(false),
+  on_ice(false),
+  ice_this_frame(false),
   lightsprite(SpriteManager::current()->create("images/creatures/tux/light.sprite")),
   powersprite(SpriteManager::current()->create("images/creatures/tux/powerups.sprite")),
-  dir(),
-  old_dir(),
-  last_ground_y(),
-  fall_mode(),
-  on_ground_flag(),
-  jumping(),
-  can_jump(),
+  dir(RIGHT),
+  old_dir(dir),
+  last_ground_y(0),
+  fall_mode(ON_GROUND),
+  on_ground_flag(false),
+  jumping(false),
+  can_jump(true),
   jump_button_timer(),
-  wants_buttjump(),
-  does_buttjump(),
+  wants_buttjump(false),
+  does_buttjump(false),
   invincible_timer(),
   skidding_timer(),
   safe_timer(),
@@ -155,10 +155,10 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   ability_timer(),
   cooldown_timer(),
   dying_timer(),
-  growing(),
+  growing(false),
   backflip_timer(),
   physic(),
-  visible(),
+  visible(true),
   grabbed_object(NULL),
   sprite(),
   airarrow(),
@@ -189,60 +189,22 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   SoundManager::current()->preload("sounds/invincible_start.ogg");
   SoundManager::current()->preload("sounds/splash.wav");
 
-  init();
-}
-
-Player::~Player()
-{
-  if (climbing) stop_climbing(*climbing);
-}
-
-void
-Player::init()
-{
   if(is_big())
     set_size(TUX_WIDTH, BIG_TUX_HEIGHT);
   else
     set_size(TUX_WIDTH, SMALL_TUX_HEIGHT);
 
-  dir = RIGHT;
-  old_dir = dir;
-  duck = false;
-  dead = false;
-
-  dying = false;
-  winning = false;
-  peekingX = AUTO;
-  peekingY = AUTO;
-  last_ground_y = 0;
-  fall_mode = ON_GROUND;
-  jumping = false;
-  jump_early_apex = false;
-  can_jump = true;
-  wants_buttjump = false;
-  does_buttjump = false;
-  growing = false;
-  deactivated = false;
-  backflipping = false;
-  backflip_direction = 0;
   sprite->set_angle(0.0f);
   powersprite->set_angle(0.0f);
   lightsprite->set_angle(0.0f);
-  visible = true;
-  ability_time = 0;
-  stone = false;
-  swimming = false;
-  on_ice = false;
-  ice_this_frame = false;
-  speedlimit = 0; //no special limit
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
 
-  on_ground_flag = false;
-  grabbed_object = NULL;
-
-  climbing = 0;
-
   physic.reset();
+}
+
+Player::~Player()
+{
+  if (climbing) stop_climbing(*climbing);
 }
 
 void
