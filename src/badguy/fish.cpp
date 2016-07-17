@@ -111,6 +111,9 @@ Fish::active_update(float elapsed_time)
     physic.set_velocity_y(0);
     physic.enable_gravity(true);
   }
+
+  if (ignited)
+    remove_me();
 }
 
 void
