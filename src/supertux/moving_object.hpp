@@ -24,7 +24,6 @@
 #include "supertux/game_object.hpp"
 
 class Sector;
-class CollisionGrid;
 
 enum CollisionGroup {
   /** Objects in DISABLED group are not tested for collisions */
@@ -169,8 +168,6 @@ public:
 
 protected:
   friend class Sector;
-  friend class CollisionGrid;
-  friend class Platform;
 
   void set_group(CollisionGroup group_)
   {
