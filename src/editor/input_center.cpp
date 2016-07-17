@@ -168,10 +168,9 @@ EditorInputCenter::draw_rectangle() {
   bool sgn_x = drag_start.x < sector_pos.x;
   bool sgn_y = drag_start.y < sector_pos.y;
 
-  int x_, y_;
-  x_ = sgn_x ? 0 : -dr.get_width();
+  int x_ = sgn_x ? 0 : -dr.get_width();
   for (int x = dr.p1.x; x <= dr.p2.x; x++, x_++) {
-    y_ = sgn_y ? 0 : -dr.get_height();
+    int y_ = sgn_y ? 0 : -dr.get_height();
     for (int y = dr.p1.y; y <= dr.p2.y; y++, y_++) {
       input_tile( Vector(x, y), Editor::current()->tileselect.tiles->pos(x_, y_) );
     }
