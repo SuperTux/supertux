@@ -257,7 +257,7 @@ private:
 
   bool slightly_above_ground() const;
 
-  BonusType string_to_bonus(const std::string& bonus);
+  BonusType string_to_bonus(const std::string& bonus) const;
 
   /**
    * slows Tux down a little, based on where he's standing

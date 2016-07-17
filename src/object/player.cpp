@@ -1054,7 +1054,7 @@ Player::get_coins() const
 }
 
 BonusType
-Player::string_to_bonus(const std::string& bonus) {
+Player::string_to_bonus(const std::string& bonus) const {
   BonusType type = NO_BONUS;
 
   if(bonus == "grow") {
