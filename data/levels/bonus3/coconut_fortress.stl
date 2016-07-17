@@ -5,7 +5,7 @@
   (target-time 120)
   (sector
     (name "main")
-    (music "music/greatgigantic.ogg")
+    (music "music/greatgigantic.music")
     (ambient-light 0.6353094 0.413077 0.413077)
     (background
       (y 3350)

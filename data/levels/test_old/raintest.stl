@@ -6,7 +6,7 @@
   (sector
     (name  "main")
     (gravity 10.000000)
-    (music "music/ghostforest.ogg")
+    (music "music/ghostforest.music")
     (tilemap
       (z-pos -100)
       (solid #f)

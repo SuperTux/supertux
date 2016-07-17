@@ -795,7 +795,7 @@ block3.goto_node(2);")
   )
   (sector
     (name "NewSector")
-    (music "music/greatgigantic.ogg")
+    (music "music/greatgigantic.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)

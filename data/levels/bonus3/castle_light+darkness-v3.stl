@@ -6,7 +6,7 @@
   (target-time 80)
   (sector
     (name "main")
-    (music "music/fortress.ogg")
+    (music "music/fortress.music")
     (ambient-light 0 0 0)
     (background
       (speed 0.5)

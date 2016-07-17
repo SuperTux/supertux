@@ -5,7 +5,7 @@
   (target-time 0)
   (sector
     (name "main")
-    (music "music/theme.ogg")
+    (music "music/theme.music")
     (ambient-light 1 1 1)
     (camera
       (mode "normal")

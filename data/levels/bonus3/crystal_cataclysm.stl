@@ -6,7 +6,7 @@
   (target-time 90)
   (sector
     (name "main")
-    (music "music/greatgigantic.ogg")
+    (music "music/greatgigantic.music")
     (ambient-light 1 1 1)
     (camera
       (mode "normal")

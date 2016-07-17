@@ -6,7 +6,7 @@
   (target-time 30)
   (sector
     (name "main")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 0.2580606 0.2580606 0.2580606)
     (background
       (speed 0.5)

@@ -363,7 +363,7 @@
   )
   (sector
     (name "Cave")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)

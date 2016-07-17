@@ -141,7 +141,7 @@
   )
   (sector
     (name "underground")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 0.4193484 0.4193484 0.4193484)
     (background
       (speed 0.5)
@@ -405,7 +405,7 @@
   )
   (sector
     (name "underground2")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 0.233875 0.233875 0.233875)
     (background
       (speed 0.5)

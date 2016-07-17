@@ -5,7 +5,7 @@
   (target-time 0)
   (sector
     (name "main")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 1 0.7352407 0.7352407)
     (background
       (speed 0.5)
@@ -312,7 +312,7 @@ Level.spawn(\"main2\", \"main2\");
   )
   (sector
     (name "main2")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 1 0.781918 0.781918)
     (background
       (speed 0.5)
@@ -746,7 +746,7 @@ Level.spawn(\"main\", \"endmain\");
   )
   (sector
     (name "main3")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 0.2326848 0.2383917 0.4720989)
     (background
       (speed 0.5)
@@ -1048,7 +1048,7 @@ Level.spawn(\"main\", \"endmain\");
   )
   (sector
     (name "secret1")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 0.2757458 0.2792401 0.4100252)
     (background
       (speed 0.5)

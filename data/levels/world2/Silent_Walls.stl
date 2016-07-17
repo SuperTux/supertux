@@ -884,7 +884,7 @@ door5b.goto_node(1);
   )
   (sector
     (name "boss")
-    (music "music/treeboss.ogg")
+    (music "music/treeboss.music")
     (ambient-light 0.7529412 0.5019608 0.5019608)
     (background
       (y 832)

@@ -4,7 +4,7 @@
   (author "Torfi Gunnarsson")
   (sector
     (name "main")
-    (music "music/fortress.ogg")
+    (music "music/fortress.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)

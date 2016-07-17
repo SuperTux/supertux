@@ -6,7 +6,7 @@
   (target-time 0)
   (sector
     (name "main")
-    (music "music/clavelian_march.ogg")
+    (music "music/clavelian_march.music")
     (ambient-light 0.3157092 0.2972 0.2972)
     (bonusblock
       (script "")

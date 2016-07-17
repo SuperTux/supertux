@@ -6,7 +6,7 @@
   (target-time 0)
   (sector
     (name "main")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (init-script "while(true){
  wait(12)
  sector.settings.set_ambient_light(sector.settings.get_ambient_red()*5,sector.settings.get_ambient_green()*5,sector.settings.get_ambient_blue()*5)

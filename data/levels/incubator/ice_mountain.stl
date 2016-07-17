@@ -7,7 +7,7 @@
   (target-time 0)
   (sector
     (name "main")
-    (music "music/airship_remix.ogg")
+    (music "music/airship_remix.music")
     (init-script "import(\"levels/incubator/ice_mountain.nut\")
 
 b1 <- FloatingImage(\"images/objects/crystals/crystal_1.sprite\");

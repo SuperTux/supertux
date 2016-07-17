@@ -4,7 +4,7 @@
   (author "Torfi Gunnarsson")
   (sector
     (name "main")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 0.7411765 0.7411765 0.7411765)
     (background
       (speed 0.5)

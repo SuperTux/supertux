@@ -6,7 +6,7 @@
   (target-time 70)
   (sector
     (name "main")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 1 1 1)
     (camera
       (mode "normal")
@@ -477,7 +477,7 @@
   )
   (sector
     (name "backside")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 1 1 1)
     (camera
       (mode "normal")

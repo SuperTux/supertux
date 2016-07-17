@@ -9,7 +9,7 @@
     (gravity 10)
     (background (image "images/background/arctis_dark.jpg")
                 (speed 0.5))
-    (music "music/bossattack.ogg")
+    (music "music/bossattack.music")
     (spawnpoint (name "main") (x 100) (y 100))
     (nolok_01 (x 650) (y 512))
     (tilemap

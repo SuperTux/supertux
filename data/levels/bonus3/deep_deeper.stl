@@ -6,7 +6,7 @@
   (target-time 70)
   (sector
     (name "main")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
@@ -350,7 +350,7 @@
   )
   (sector
     (name "sector2")
-    (music "music/cave.ogg")
+    (music "music/cave.music")
     (ambient-light 0.4677348 0.4677348 0.4677348)
     (background
       (speed 0.5)
@@ -539,7 +539,7 @@
   )
   (sector
     (name "sector3")
-    (music "music/forest.ogg")
+    (music "music/forest.music")
     (ambient-light 1 1 1)
     (background
       (speed 0.5)
