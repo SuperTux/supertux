@@ -125,6 +125,7 @@ void Editor::update(float elapsed_time)
 
   if (test_request) {
     test_request = false;
+    MouseCursor::current()->set_icon(NULL);
     test_level();
     return;
   }
@@ -313,6 +314,7 @@ void Editor::reload_level() {
   currentsector->activate("main");
   currentsector->camera->mode = Camera::MANUAL;
   layerselect.refresh_sector_text();
+  tileselect.update_mouse_icon();
 }
 
 void Editor::quit_editor() {
@@ -328,7 +330,7 @@ void Editor::quit_editor() {
 
 void Editor::leave()
 {
-
+  MouseCursor::current()->set_icon(NULL);
 }
 
 void
@@ -378,6 +380,7 @@ Editor::setup() {
     SoundManager::current()->stop_music();
     deactivate_request = false;
     enabled = true;
+    tileselect.update_mouse_icon();
   }
 }
 

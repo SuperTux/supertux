@@ -58,6 +58,9 @@ public:
   /// Draw MouseCursor on screen.
   void draw(DrawingContext& context);
 
+  /// Set the icon
+  void set_icon(SurfacePtr icon_);
+
   /// Return the current cursor.
   static MouseCursor* current()
   {        return current_;      };
@@ -70,6 +73,7 @@ private:
   int m_mid_y;
   MouseCursorState m_state;
   std::vector<SurfacePtr> m_cursor;
+  SurfacePtr m_icon;
 
 private:
   static MouseCursor* current_;

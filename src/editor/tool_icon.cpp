@@ -56,4 +56,9 @@ ToolIcon::next_mode() {
   }
 }
 
+SurfacePtr
+ToolIcon::get_current_surface() const {
+  return surfaces[mode];
+}
+
 /* EOF */

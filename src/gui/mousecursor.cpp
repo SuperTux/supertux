@@ -31,7 +31,8 @@ MouseCursor::MouseCursor(const std::string& cursor_file,
   m_mid_x(0),
   m_mid_y(0),
   m_state(MC_NORMAL),
-  m_cursor()
+  m_cursor(),
+  m_icon()
 {
   m_cursor.push_back(Surface::create(cursor_file));
   m_cursor.push_back(Surface::create(cursor_click_file));
@@ -51,6 +52,11 @@ void MouseCursor::set_mid(int x, int y)
 {
   m_mid_x = x;
   m_mid_y = y;
+}
+
+void MouseCursor::set_icon(SurfacePtr icon_)
+{
+  m_icon = icon_;
 }
 
 void MouseCursor::draw(DrawingContext& context)
@@ -75,6 +81,12 @@ void MouseCursor::draw(DrawingContext& context)
     context.draw_surface(m_cursor[static_cast<int>(tmp_state)],
                          Vector(x - m_mid_x, y - m_mid_y),
                          LAYER_GUI + 100);
+
+    if (m_icon) {
+      context.draw_surface(m_icon, Vector(x - m_mid_x,
+                                          y - m_mid_y - m_icon->get_height()),
+                           LAYER_GUI + 100);
+    }
   }
 }
 
