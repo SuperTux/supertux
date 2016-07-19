@@ -46,7 +46,7 @@ SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
   bbox.set_size(w, h);
   reader.get("fade-tilemap", fade_tilemap);
   reader.get("message", message);
-  if(message.empty()) {
+  if(message.empty() && !Editor::is_active()) {
     message = _("You found a secret area!");
   }
   reader.get("script", script);
