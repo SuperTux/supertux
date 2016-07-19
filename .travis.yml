@@ -110,3 +110,5 @@ addons:
 notifications:
   email:
     - supertux-commit@lists.lethargik.org
+  slack:
+    secure: cH9u9+EfaPGIcmIcy06hxp5coMmBSKorgABXwE5M06hWbwL+4SIaAlOf9QhrOPi7TZKyyI5GXh687pWNtrgUzaBFhNrPOa/tIzr6kJryAkoFBRdn0sOsf/xYyDgTUfzS79HLYxdv7KDckmiPcgTxGGJOJ3797HBeKaEeufefzlU=
