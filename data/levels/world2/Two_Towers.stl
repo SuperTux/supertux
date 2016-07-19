@@ -578,7 +578,7 @@ biglift1.goto_node(0);
       (width 348)
       (height 172)
       (fade-tilemap "secret")
-      (message "Sie haben ein Versteck gefunden!")
+      (message "")
       (x 4448)
       (y 724)
     )
