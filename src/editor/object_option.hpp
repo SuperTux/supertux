@@ -27,8 +27,8 @@
 class ObjectOption
 {
   public:
-    ObjectOption(MenuItemKind ip_type, std::string text_, void* ip,
-                 std::string key_ = "", bool visible_ = true, bool allow_empty_ = true);
+    ObjectOption(MenuItemKind ip_type, const std::string& text_, void* ip,
+                 const std::string& key_ = std::string(), bool visible_ = true, bool allow_empty_ = true);
     ~ObjectOption();
 
     MenuItemKind type;

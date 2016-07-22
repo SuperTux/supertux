@@ -154,7 +154,7 @@ MovingSprite::set_action(const std::string& action, int loops, AnchorPoint ancho
   set_pos(get_anchor_pos(old_bbox, w, h, anchorPoint));
 }
 
-void MovingSprite::change_sprite(const std::string new_sprite_name)
+void MovingSprite::change_sprite(const std::string& new_sprite_name)
 {
   sprite_name = new_sprite_name;
   sprite = SpriteManager::current()->create(sprite_name);

@@ -25,7 +25,7 @@ namespace {
 const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
 }
 
-Rock::Rock(const Vector& pos, std::string spritename) :
+Rock::Rock(const Vector& pos, const std::string& spritename) :
   MovingSprite(pos, spritename),
   physic(),
   on_ground(),
@@ -51,7 +51,7 @@ Rock::Rock(const ReaderMapping& reader) :
   set_group(COLGROUP_MOVING_STATIC);
 }
 
-Rock::Rock(const ReaderMapping& reader, std::string spritename) :
+Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   MovingSprite(reader, spritename),
   physic(),
   on_ground(),

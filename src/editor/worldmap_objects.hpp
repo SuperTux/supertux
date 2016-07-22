@@ -26,9 +26,9 @@ namespace worldmap_editor {
 class WorldmapObject : public MovingSprite
 {
   public:
-    WorldmapObject(const ReaderMapping& lisp, const std::string default_sprite);
+    WorldmapObject(const ReaderMapping& lisp, const std::string& default_sprite);
     WorldmapObject(const ReaderMapping& lisp);
-    WorldmapObject(const Vector& pos, const std::string default_sprite);
+    WorldmapObject(const Vector& pos, const std::string& default_sprite);
     ~WorldmapObject();
 
     void update(float elapsed_time) {

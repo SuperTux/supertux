@@ -24,7 +24,7 @@
 class ToolIcon
 {
   public:
-    ToolIcon(const std::string icon);
+    ToolIcon(const std::string& icon);
     ~ToolIcon();
 
     Vector pos;
@@ -37,7 +37,7 @@ class ToolIcon
 
     void next_mode();
 
-    void push_mode(const std::string icon);
+    void push_mode(const std::string& icon);
 
   private:
     std::vector<SurfacePtr> surfaces;

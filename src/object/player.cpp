@@ -267,7 +267,7 @@ Player::use_scripting_controller(bool use_or_release)
 }
 
 void
-Player::do_scripting_controller(std::string control, bool pressed)
+Player::do_scripting_controller(const std::string& control, bool pressed)
 {
   for(int i = 0; Controller::controlNames[i] != 0; ++i) {
     if(control == std::string(Controller::controlNames[i])) {
@@ -299,7 +299,7 @@ Player::adjust_height(float new_height)
 }
 
 void
-Player::trigger_sequence(std::string sequence_name)
+Player::trigger_sequence(const std::string& sequence_name)
 {
   trigger_sequence(string_to_sequence(sequence_name));
 }

@@ -27,7 +27,7 @@
 #include "util/log.hpp"
 #include "util/string_util.hpp"
 
-FileSystemMenu::FileSystemMenu(std::string* filename_, const std::vector<std::string> extensions_) :
+FileSystemMenu::FileSystemMenu(std::string* filename_, const std::vector<std::string>& extensions_) :
   filename(filename_),
   directory(),
   extensions(extensions_),
@@ -121,7 +121,7 @@ FileSystemMenu::refresh_items()
 }
 
 bool
-FileSystemMenu::has_right_suffix(const std::string file)
+FileSystemMenu::has_right_suffix(const std::string& file) const
 {
   for (auto& extension : extensions) {
     if(StringUtil::has_suffix(file, extension))

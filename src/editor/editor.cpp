@@ -279,7 +279,7 @@ void Editor::load_layers() {
   layerselect.refresh_sector_text();
 }
 
-void Editor::load_sector(std::string name) {
+void Editor::load_sector(const std::string& name) {
   currentsector = level->get_sector(name);
   if(!currentsector) {
     size_t i = 0;

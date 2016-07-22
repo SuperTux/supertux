@@ -24,7 +24,7 @@
 
 #include <stdexcept>
 
-SpriteParticle::SpriteParticle(std::string sprite_name, std::string action,
+SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
                                Vector position_, AnchorPoint anchor, Vector velocity_, Vector acceleration_,
                                int drawing_layer_) :
   sprite(),

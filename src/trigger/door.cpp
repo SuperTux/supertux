@@ -53,7 +53,7 @@ Door::Door(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/door.wav");
 }
 
-Door::Door(int x, int y, std::string sector, std::string spawnpoint) :
+Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoint) :
   state(CLOSED),
   target_sector(),
   target_spawnpoint(),

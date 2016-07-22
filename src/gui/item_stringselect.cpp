@@ -29,7 +29,7 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-ItemStringSelect::ItemStringSelect(const std::string& text_, std::vector<std::string> list_, int* selected_, int _id) :
+ItemStringSelect::ItemStringSelect(const std::string& text_, const std::vector<std::string>& list_, int* selected_, int _id) :
   MenuItem(text_, _id),
   list(list_),
   selected(selected_)

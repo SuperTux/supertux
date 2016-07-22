@@ -21,7 +21,7 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-TextObject::TextObject(std::string name_) :
+TextObject::TextObject(const std::string& name_) :
   font(),
   text(),
   fading(0),

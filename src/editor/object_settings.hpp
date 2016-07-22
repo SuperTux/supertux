@@ -24,7 +24,7 @@
 class ObjectSettings
 {
   public:
-    ObjectSettings(std::string name_);
+    ObjectSettings(const std::string& name_);
     ~ObjectSettings();
 
     std::string name;

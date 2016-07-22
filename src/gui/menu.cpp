@@ -207,14 +207,14 @@ Menu::add_toggle(int id, const std::string& text, bool* toggled)
 }
 
 MenuItem*
-Menu::add_string_select(int id, const std::string& text, int* selected, std::vector<std::string> strings)
+Menu::add_string_select(int id, const std::string& text, int* selected, const std::vector<std::string>& strings)
 {
   std::unique_ptr<ItemStringSelect> item(new ItemStringSelect(text, strings, selected, id));
   return add_item(std::move(item));
 }
 
 MenuItem*
-Menu::add_file(const std::string& text, std::string* input, std::vector<std::string> extensions, int id)
+Menu::add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions, int id)
 {
   std::unique_ptr<ItemFile> item(new ItemFile(text, input, extensions, id));
   return add_item(std::move(item));

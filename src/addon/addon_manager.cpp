@@ -550,7 +550,7 @@ AddonManager::unmount_old_addons()
 }
 
 bool
-AddonManager::is_from_old_addon(std::string filename) const
+AddonManager::is_from_old_addon(const std::string& filename) const
 {
   std::string real_path = PHYSFS_getRealDir(filename.c_str());
   for (auto& addon : m_installed_addons) {

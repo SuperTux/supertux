@@ -138,7 +138,7 @@ public:
   /**
    * Orders the current GameSession to start a sequence
    */
-  void trigger_sequence(std::string sequence_name);
+  void trigger_sequence(const std::string& sequence_name);
 
   /**
    * Uses a scriptable controller for all user input (or restores controls)
@@ -148,7 +148,7 @@ public:
   /**
    * Instructs the scriptable controller to press or release a button
    */
-  void do_scripting_controller(std::string control, bool pressed);
+  void do_scripting_controller(const std::string& control, bool pressed);
 
   float get_velocity_x() const;
   float get_velocity_y() const;

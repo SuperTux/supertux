@@ -80,7 +80,7 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   latency=0;
 }
 
-AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std::string file) :
+AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, const std::string& file) :
   sample(file),
   sound_source(),
   latency(),

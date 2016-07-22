@@ -24,7 +24,7 @@
 #include "supertux/menu/menu_storage.hpp"
 
 ItemFile::ItemFile(const std::string& text_, std::string* filename_,
-                     const std::vector<std::string> extensions_, int _id) :
+                     const std::vector<std::string>& extensions_, int _id) :
   MenuItem(text_, _id),
   filename(filename_),
   extensions(extensions_)

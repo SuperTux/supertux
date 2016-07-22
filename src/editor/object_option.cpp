@@ -19,8 +19,8 @@
 
 #include "editor/object_option.hpp"
 
-ObjectOption::ObjectOption(MenuItemKind ip_type, std::string text_, void* ip,
-                           std::string key_, bool visible_, bool allow_empty_) :
+ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text_, void* ip,
+                           const std::string& key_, bool visible_, bool allow_empty_) :
   type(ip_type),
   text(text_),
   option(ip),
