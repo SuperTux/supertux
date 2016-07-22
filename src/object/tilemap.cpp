@@ -341,11 +341,13 @@ TileMap::draw(DrawingContext& context)
         assert (index >= 0);
         assert (index < (width * height));
 
-        if (tiles[index] == 0) continue;
+        //uint32_t tile_id = tiles[index];
+        tileset->draw_tile(context, tiles[index], pos, z_pos, current_tint);
+        /*if (tiles[index] == 0) continue;
         const Tile* tile = tileset->get(tiles[index]);
         assert(tile != 0);
 
-        tile->draw(context, pos, z_pos, current_tint);
+        tile->draw(context, pos, z_pos, current_tint);*/
       } /* for (pos y) */
     } /* for (pos x) */
 
@@ -365,7 +367,7 @@ TileMap::draw(DrawingContext& context)
 
         if (tiles[index] == 0) continue;
         const Tile* tile = tileset->get(tiles[index]);
-        assert(tile != 0);
+        if (!tile) continue;
 
         SurfacePtr image = tile->get_current_image();
         if (image) {
@@ -386,7 +388,7 @@ TileMap::draw(DrawingContext& context)
 
         if (tiles[index] == 0) continue;
         const Tile* tile = tileset->get(tiles[index]);
-        assert(tile != 0);
+        if (!tile) continue;
 
         SurfacePtr image = tile->get_current_image();
         if (image) {

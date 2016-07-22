@@ -22,7 +22,10 @@
 
 #include "supertux/tile.hpp"
 #include "util/log.hpp"
+#include "video/color.hpp"
+#include "video/surface_ptr.hpp"
 
+class DrawingContext;
 class Tile;
 
 class Tilegroup{
@@ -37,6 +40,7 @@ class TileSet
 {
 private:
   std::vector<std::unique_ptr<Tile> > m_tiles;
+  SurfacePtr notile_surface;
 
 public:
   TileSet(const std::string& filename);
@@ -49,18 +53,10 @@ public:
              uint32_t offset);
   void add_tile(int id, std::unique_ptr<Tile> tile);
 
-  const Tile* get(const uint32_t id) const
-  {
-    assert(id < m_tiles.size());
-    Tile* tile = m_tiles[id].get();
-    if(!tile) {
-      log_warning << "Invalid tile: " << id << std::endl;
-      return m_tiles[0].get();
-    } else {
-      tile->load_images();
-      return tile;
-    }
-  }
+  void draw_tile(DrawingContext& context, uint32_t id, const Vector& pos,
+                 int z_pos, Color color = Color(1, 1, 1)) const;
+
+  const Tile* get(const uint32_t id) const;
 
   uint32_t get_max_tileid() const
   {

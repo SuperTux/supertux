@@ -730,11 +730,13 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
           continue;
         }
         uint32_t tile_id = tiles->pos(drawn_tile.x, drawn_tile.y);
-        if (tile_id) {
+        editor->tileset->draw_tile(context, tile_id, tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
+                                   LAYER_GUI-11, Color(1, 1, 1, 0.5));
+        /*if (tile_id) {
           const Tile* tg_tile = editor->tileset->get( tile_id );
           tg_tile->draw(context, tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
                         LAYER_GUI-11, Color(1, 1, 1, 0.5));
-        }
+        }*/
       }
     }
   }
