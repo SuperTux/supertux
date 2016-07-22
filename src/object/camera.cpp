@@ -19,6 +19,7 @@
 #include <math.h>
 #include <physfs.h>
 
+#include "editor/editor.hpp"
 #include "object/path_walker.hpp"
 #include "object/player.hpp"
 #include "scripting/camera.hpp"
@@ -699,4 +700,8 @@ Camera::get_path() const {
   return autoscroll_path.get();
 }
 
+bool
+Camera::do_save() const {
+  return !Editor::is_active() || !Editor::current()->get_worldmap_mode();
+}
 /* EOF */

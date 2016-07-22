@@ -16,6 +16,7 @@
 
 #include "object/gradient.hpp"
 
+#include "editor/editor.hpp"
 #include "object/camera.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/gradient.hpp"
@@ -210,6 +211,11 @@ Gradient::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
     return;
 
   scripting::unexpose_object(vm, table_idx, name);
+}
+
+bool
+Gradient::do_save() const {
+  return !Editor::is_active() || !Editor::current()->get_worldmap_mode();
 }
 
 /* EOF */

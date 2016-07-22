@@ -1396,14 +1396,17 @@ Sector::save(Writer &writer)
   writer.start_list("sector", false);
 
   writer.write("name", name, false);
-  writer.write("gravity", gravity);
   writer.write("ambient-light", ambient_light.toVector());
 
-  if (init_script != "") {
+  if (init_script.size()) {
     writer.write("init-script", init_script,false);
   }
-  if (music != "") {
+  if (music.size()) {
     writer.write("music", music, false);
+  }
+
+  if (!Editor::is_active() || !Editor::current()->get_worldmap_mode()) {
+    writer.write("gravity", gravity);
   }
 
   // saving spawnpoints
