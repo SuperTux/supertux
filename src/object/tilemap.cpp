@@ -628,4 +628,10 @@ TileMap::update_effective_solid()
     effective_solid = true;
 }
 
+void
+TileMap::set_tileset(const TileSet* new_tileset)
+{
+  tileset = new_tileset;
+}
+
 /* EOF */

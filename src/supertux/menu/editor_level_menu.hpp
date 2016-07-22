@@ -24,10 +24,13 @@ class EditorLevelMenu : public Menu
 private:
 public:
   EditorLevelMenu();
+  ~EditorLevelMenu();
 
   void menu_action(MenuItem* item) override;
 
 private:
+  std::string old_tileset;
+
   EditorLevelMenu(const EditorLevelMenu&);
   EditorLevelMenu& operator=(const EditorLevelMenu&);
 };

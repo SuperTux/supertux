@@ -190,6 +190,8 @@ public:
     return "images/engine/editor/tilemap.png";
   }
 
+  void set_tileset(const TileSet* new_tileset);
+
 private:
   const TileSet *tileset;
 

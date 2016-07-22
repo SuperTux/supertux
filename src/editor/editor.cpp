@@ -434,4 +434,18 @@ Editor::sort_layers() {
   layerselect.sort_layers();
 }
 
+void
+Editor::change_tileset() {
+  tileset = TileManager::current()->get_tileset(level->get_tileset());
+  tileselect.input_type = EditorInputGui::IP_NONE;
+  for(const auto& sector : level->sectors) {
+    for(const auto& object : sector->gameobjects) {
+      auto tilemap = dynamic_cast<TileMap*>(object.get());
+      if (tilemap) {
+        tilemap->set_tileset(tileset);
+      }
+    }
+  }
+}
+
 /* EOF */

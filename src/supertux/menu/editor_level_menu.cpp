@@ -27,7 +27,8 @@
 #include "util/gettext.hpp"
 #include "video/color.hpp"
 
-EditorLevelMenu::EditorLevelMenu()
+EditorLevelMenu::EditorLevelMenu() :
+  old_tileset(Editor::current()->get_level()->tileset)
 {
   bool worldmap = Editor::current()->get_worldmap_mode();
   auto level = Editor::current()->get_level();
@@ -38,6 +39,7 @@ EditorLevelMenu::EditorLevelMenu()
   add_textfield(_("Author"), &(level->author));
   add_textfield(_("Contact"), &(level->contact));
   add_textfield(_("License"), &(level->license));
+  add_file(_("Tile set"), &(level->tileset), std::vector<std::string>(1, ".strf"));
 
   if (!worldmap) {
     add_script(_("On menukey script"), &(level->on_menukey_script));
@@ -46,6 +48,14 @@ EditorLevelMenu::EditorLevelMenu()
 
   add_hl();
   add_back(_("OK"));
+}
+
+EditorLevelMenu::~EditorLevelMenu()
+{
+  auto editor = Editor::current();
+  if (editor->get_level()->tileset != old_tileset) {
+    editor->change_tileset();
+  }
 }
 
 void
