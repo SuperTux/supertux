@@ -23,7 +23,7 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-ToolIcon::ToolIcon(std::string icon) :
+ToolIcon::ToolIcon(const std::string& icon) :
   pos(0,0),
   surfaces(),
   mode(0),
@@ -37,7 +37,7 @@ ToolIcon::~ToolIcon() {
 }
 
 void
-ToolIcon::push_mode(std::string icon) {
+ToolIcon::push_mode(const std::string& icon) {
   SurfacePtr surface = Surface::create(icon);
   surfaces.push_back(surface);
   surf_count++;

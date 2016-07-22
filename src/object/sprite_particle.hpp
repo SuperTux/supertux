@@ -27,7 +27,7 @@ class Player;
 class SpriteParticle : public GameObject
 {
 public:
-  SpriteParticle(std::string sprite_name, std::string action, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer = LAYER_OBJECTS-1);
+  SpriteParticle(const std::string& sprite_name, const std::string& action, Vector position, AnchorPoint anchor, Vector velocity, Vector acceleration, int drawing_layer = LAYER_OBJECTS-1);
   ~SpriteParticle();
 protected:
   virtual void hit(Player& player);

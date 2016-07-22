@@ -34,7 +34,7 @@ class Camera : public GameObject,
                public ScriptInterface
 {
 public:
-  Camera(Sector* sector, std::string name = "");
+  Camera(Sector* sector, const std::string& name = std::string());
   virtual ~Camera();
   virtual void save(Writer& writer);
 

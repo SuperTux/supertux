@@ -27,7 +27,7 @@
 
 namespace worldmap_editor {
 
-WorldmapObject::WorldmapObject (const ReaderMapping& lisp, const std::string default_sprite) :
+WorldmapObject::WorldmapObject (const ReaderMapping& lisp, const std::string& default_sprite) :
   MovingSprite(lisp, default_sprite)
 {
   bbox.p1.x = 32 * bbox.p1.x;
@@ -43,7 +43,7 @@ WorldmapObject::WorldmapObject (const ReaderMapping& lisp) :
   bbox.set_size(32, 32);
 }
 
-WorldmapObject::WorldmapObject (const Vector& pos, const std::string default_sprite) :
+WorldmapObject::WorldmapObject (const Vector& pos, const std::string& default_sprite) :
   MovingSprite(pos, default_sprite)
 {
   bbox.p1.x = 32 * bbox.p1.x;

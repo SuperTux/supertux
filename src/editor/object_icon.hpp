@@ -25,7 +25,7 @@
 class ObjectIcon
 {
   public:
-    ObjectIcon(const std::string name, const std::string icon);
+    ObjectIcon(const std::string& name, const std::string& icon);
     ObjectIcon(const ReaderMapping& reader);
     virtual ~ObjectIcon();
 

@@ -27,7 +27,7 @@ class Door : public TriggerBase
 {
 public:
   Door(const ReaderMapping& reader);
-  Door(int x, int y, std::string sector, std::string spawnpoint);
+  Door(int x, int y, const std::string& sector, const std::string& spawnpoint);
   virtual ~Door();
   std::string get_class() const {
     return "door";

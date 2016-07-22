@@ -17,7 +17,7 @@
 #include "editor/object_settings.hpp"
 #include "video/color.hpp"
 
-ObjectSettings::ObjectSettings(std::string name_) :
+ObjectSettings::ObjectSettings(const std::string& name_) :
   name(name_),
   options()
 {

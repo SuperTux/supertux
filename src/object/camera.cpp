@@ -165,7 +165,7 @@ Camera::after_editor_set() {
   }
 }
 
-Camera::Camera(Sector* newsector, std::string name_) :
+Camera::Camera(Sector* newsector, const std::string& name_) :
   mode(NORMAL),
   translation(),
   sector(newsector),

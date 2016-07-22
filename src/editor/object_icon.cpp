@@ -25,7 +25,7 @@
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
-ObjectIcon::ObjectIcon(std::string name, std::string icon) :
+ObjectIcon::ObjectIcon(const std::string& name, const std::string& icon) :
   object_name(name),
   surface(),
   offset()

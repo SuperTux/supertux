@@ -195,7 +195,7 @@ protected:
   bool might_fall(int height = 1) const;
 
   /** Get Direction from String. */
-  Direction str2dir( std::string dir_str ) const;
+  Direction str2dir(const std::string& dir_str) const;
 
   /** Update on_ground_flag judging by solid collision @c hit. This
       gets called from the base implementation of collision_solid, so

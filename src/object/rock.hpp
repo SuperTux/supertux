@@ -25,9 +25,9 @@ class Rock : public MovingSprite,
              public Portable
 {
 public:
-  Rock(const Vector& pos, std::string spritename);
+  Rock(const Vector& pos, const std::string& spritename);
   Rock(const ReaderMapping& reader);
-  Rock(const ReaderMapping& reader, std::string spritename);
+  Rock(const ReaderMapping& reader, const std::string& spritename);
 
   void collision_solid(const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);

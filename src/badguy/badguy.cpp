@@ -285,7 +285,7 @@ BadGuy::save(Writer& writer) {
 }
 
 Direction
-BadGuy::str2dir( std::string dir_str ) const
+BadGuy::str2dir(const std::string& dir_str) const
 {
   if( dir_str == "auto" )
     return AUTO;

@@ -35,7 +35,7 @@ class ObjectGroup
     std::vector<ObjectIcon> icons;
     bool for_worldmap;
 
-    void add_icon(std::string object, std::string icon_path);
+    void add_icon(const std::string& object, const std::string& icon_path);
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP

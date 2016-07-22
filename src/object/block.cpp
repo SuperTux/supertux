@@ -51,7 +51,7 @@ Block::Block(SpritePtr newsprite) :
   SoundManager::current()->preload("sounds/brick.wav");
 }
 
-Block::Block(const ReaderMapping& lisp, std::string sprite_file) :
+Block::Block(const ReaderMapping& lisp, const std::string& sprite_file) :
   sprite(),
   sprite_name(),
   bouncing(false),

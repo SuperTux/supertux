@@ -75,7 +75,7 @@ public:
   }
 
   void use_scripting_controller(bool use_or_release);
-  void do_scripting_controller(std::string control, bool pressed);
+  void do_scripting_controller(const std::string& control, bool pressed);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
@@ -221,7 +221,7 @@ public:
   /**
    * Orders the current GameSession to start a sequence
    */
-  void trigger_sequence(std::string sequence_name);
+  void trigger_sequence(const std::string& sequence_name);
   void trigger_sequence(Sequence seq);
 
   /**

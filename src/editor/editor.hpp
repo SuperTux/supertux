@@ -101,7 +101,7 @@ class Editor : public Screen,
       return levelfile;
     }
 
-    void set_level(std::string levelfile_) {
+    void set_level(const std::string& levelfile_) {
       Editor::current()->levelfile = levelfile_;
       Editor::current()->reload_request = true;
     }
@@ -114,7 +114,7 @@ class Editor : public Screen,
       return worldmap_mode;
     }
 
-    void load_sector(std::string name);
+    void load_sector(const std::string& name);
     void load_sector(int id);
 
     void update_node_iterators();

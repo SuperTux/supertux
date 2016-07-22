@@ -110,7 +110,7 @@ private:
 
   float m_stayOpen;
 
-  void parse(std::string s); /**< react to a given command */
+  void parse(const std::string& s); /**< react to a given command */
 
   /** ready a virtual machine instance, creating a new thread and loading default .nut files if needed */
   void ready_vm();
@@ -118,7 +118,7 @@ private:
   /** execute squirrel script and output result */
   void execute_script(const std::string& s);
 
-  bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< process internal command; return false if command was unknown, true otherwise */
+  bool consoleCommand(const std::string& command, const std::vector<std::string>& arguments); /**< process internal command; return false if command was unknown, true otherwise */
 
 private:
   Console(const Console&);

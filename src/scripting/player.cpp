@@ -144,7 +144,7 @@ Player::do_jump(float yspeed)
 }
 
 void
-Player::trigger_sequence(std::string sequence_name)
+Player::trigger_sequence(const std::string& sequence_name)
 {
   m_parent->trigger_sequence(sequence_name);
 }
@@ -156,7 +156,7 @@ Player::use_scripting_controller(bool use_or_release)
 }
 
 void
-Player::do_scripting_controller(std::string control, bool pressed)
+Player::do_scripting_controller(const std::string& control, bool pressed)
 {
   m_parent->do_scripting_controller(control, pressed);
 }

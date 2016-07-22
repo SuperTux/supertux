@@ -22,7 +22,7 @@
 class FileSystemMenu : public Menu
 {
 public:
-  FileSystemMenu(std::string* filename_, const std::vector<std::string> extensions_);
+  FileSystemMenu(std::string* filename_, const std::vector<std::string>& extensions_);
   ~FileSystemMenu();
 
   void menu_action(MenuItem* item) override;
@@ -35,7 +35,7 @@ private:
   std::vector<std::string> files;
 
   void refresh_items();
-  bool has_right_suffix(const std::string file);
+  bool has_right_suffix(const std::string& file) const;
 
   FileSystemMenu(const FileSystemMenu&);
   FileSystemMenu& operator=(const FileSystemMenu&);
