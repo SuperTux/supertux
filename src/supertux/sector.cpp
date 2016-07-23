@@ -1284,6 +1284,34 @@ Sector::get_height() const
   return height;
 }
 
+Size
+Sector::get_editor_size() const
+{
+  // Find the solid tilemap with the greatest surface
+  size_t max_surface = 0;
+  Size size;
+  for(const auto& solids: solid_tilemaps) {
+    size_t surface = solids->get_width() * solids->get_height();
+    if (surface > max_surface) {
+      max_surface = surface;
+      size = solids->get_size();
+    }
+  }
+
+  return size;
+}
+
+void
+Sector::resize_sector(Size& old_size, Size& new_size)
+{
+  for(const auto& object : gameobjects) {
+    auto tilemap = dynamic_cast<TileMap*>(object.get());
+    if (tilemap && tilemap->get_size() == old_size) {
+      tilemap->resize(new_size);
+    }
+  }
+}
+
 void
 Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 {

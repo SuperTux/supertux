@@ -31,6 +31,7 @@ namespace collision {
 class Constraints;
 }
 
+class Size;
 class Vector;
 class Rectf;
 class Player;
@@ -185,6 +186,16 @@ public:
    * returns the height (in px) of a sector)
    */
   float get_height() const;
+
+  /**
+   * returns the editor size (in tiles) of a sector
+   */
+  Size get_editor_size() const;
+
+  /**
+   * resize all tilemaps with given size
+   */
+  void resize_sector(Size& old_size, Size& new_size);
 
   /**
    * globally changes solid tilemaps' tile ids
