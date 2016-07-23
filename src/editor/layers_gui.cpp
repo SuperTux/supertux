@@ -124,7 +124,6 @@ EditorLayersGui::update(float elapsed_time) {
 
 bool
 EditorLayersGui::event(SDL_Event& ev) {
-  object_tip = NULL;
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     {
@@ -175,18 +174,24 @@ EditorLayersGui::event(SDL_Event& ev) {
       float y = mouse_pos.y - Ypos;
       if (y < 0 || x > Width) {
         hovered_item = HI_NONE;
+        object_tip = NULL;
         return false;
       }
       if (x < 0) {
         hovered_item = HI_SPAWNPOINTS;
+        object_tip = NULL;
         break;
       } else {
         if (x <= sector_text_width) {
           hovered_item = HI_SECTOR;
+          object_tip = NULL;
         } else {
+          unsigned int new_hovered_layer = get_layer_pos(mouse_pos);
+          if (hovered_layer != new_hovered_layer || hovered_item != HI_LAYERS) {
+            hovered_layer = new_hovered_layer;
+            update_tip();
+          }
           hovered_item = HI_LAYERS;
-          hovered_layer = get_layer_pos(mouse_pos);
-          update_tip();
         }
       }
     }
@@ -233,6 +238,7 @@ EditorLayersGui::add_layer(GameObject* layer) {
 void
 EditorLayersGui::update_tip() {
   if ( hovered_layer >= layers.size() ) {
+    object_tip = NULL;
     return;
   }
   std::unique_ptr<Tip> new_tip(new Tip(layers[hovered_layer]->layer));
