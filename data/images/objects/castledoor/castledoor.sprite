@@ -3,6 +3,6 @@
   (name "closed")
   (hitbox 0 0 0 0)
 (fps 4)
-  (images "castledoor_0.png"
+  (images "castledoor.png"
 ))
 )
