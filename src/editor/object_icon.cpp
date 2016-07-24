@@ -27,10 +27,9 @@
 
 ObjectIcon::ObjectIcon(const std::string& name, const std::string& icon) :
   object_name(name),
-  surface(),
+  surface(Surface::create(icon)),
   offset()
 {
-  surface = Surface::create(icon);
   calculate_offset();
 }
 

@@ -38,20 +38,18 @@
 #include "util/gettext.hpp"
 
 EditorLevelSelectMenu::EditorLevelSelectMenu() :
-  m_world(),
+  m_world(std::move(Editor::current()->world)),
   m_levelset(),
   reinit_world(true)
 {
-  m_world = std::move(Editor::current()->world);
   initialize();
 }
 
 EditorLevelSelectMenu::EditorLevelSelectMenu(std::unique_ptr<World> world) :
-  m_world(),
+  m_world(std::move(world)),
   m_levelset(),
   reinit_world(false)
 {
-  m_world = std::move(world);
   initialize();
 }
 

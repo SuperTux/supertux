@@ -367,7 +367,7 @@ EditorInputGui::get_tile_coords(const int pos){
 }
 
 int
-EditorInputGui::get_tile_pos(const Vector coords){
+EditorInputGui::get_tile_pos(const Vector& coords){
   int x = (coords.x - Xpos) / 32;
   int y = (coords.y - Ypos) / 32;
   return y*4 + x;
@@ -381,7 +381,7 @@ EditorInputGui::get_tool_coords(const int pos){
 }
 
 int
-EditorInputGui::get_tool_pos(const Vector coords){
+EditorInputGui::get_tool_pos(const Vector& coords){
   int x = (coords.x - Xpos) / 32;
   int y = (coords.y - 44)   / 16;
   return y*4 + x;

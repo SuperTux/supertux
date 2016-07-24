@@ -55,7 +55,7 @@ class EditorLayersGui
     int sector_text_width;
 
     Vector get_layer_coords(const int pos);
-    int get_layer_pos(const Vector coords);
+    int get_layer_pos(const Vector& coords);
     void update_tip();
 
     typedef enum {
