@@ -530,8 +530,8 @@ TileMap::resize(int new_width, int new_height, int fill_id,
   }
 }
 
-void TileMap::resize(Size newsize) {
-  resize(newsize.width, newsize.height);
+void TileMap::resize(const Size& newsize, const Size& resize_offset) {
+  resize(newsize.width, newsize.height, 0, resize_offset.width, resize_offset.height);
 }
 
 Rect
@@ -640,6 +640,18 @@ float
 TileMap::get_alpha() const
 {
   return this->current_alpha;
+}
+
+void
+TileMap::move_by(const Vector& shift)
+{
+  if (!path) {
+    path.reset(new Path(offset));
+    walker.reset(new PathWalker(path.get()));
+    add_path = true;
+  }
+  path->move_by(shift);
+  offset += shift;
 }
 
 /*

@@ -69,7 +69,7 @@ public:
   /**
    * Moves all nodes by given shift.
    */
-  void move_by(Vector& shift);
+  void move_by(const Vector& shift);
 
   /**
    * Puts node markers to the nodes to edit them.

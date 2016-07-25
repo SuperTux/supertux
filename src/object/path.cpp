@@ -165,7 +165,7 @@ Path::get_farthest_node_no(Vector reference_point) const
 }
 
 void
-Path::move_by(Vector& shift) {
+Path::move_by(const Vector& shift) {
   for(auto& nod : nodes) {
     nod.position += shift;
   }

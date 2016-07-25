@@ -1302,12 +1302,23 @@ Sector::get_editor_size() const
 }
 
 void
-Sector::resize_sector(Size& old_size, Size& new_size)
+Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset)
 {
+  bool is_offset = resize_offset.width || resize_offset.height;
+  Vector obj_shift = Vector(resize_offset.width * 32, resize_offset.height * 32);
   for(const auto& object : gameobjects) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
-    if (tilemap && tilemap->get_size() == old_size) {
-      tilemap->resize(new_size);
+    if (tilemap) {
+      if (tilemap->get_size() == old_size) {
+        tilemap->resize(new_size, resize_offset);
+      } else if (is_offset) {
+        tilemap->move_by(obj_shift);
+      }
+    } else if (is_offset) {
+      auto moving_object = dynamic_cast<MovingObject*>(object.get());
+      if (moving_object) {
+        moving_object->move_to(moving_object->get_pos() + obj_shift);
+      }
     }
   }
 }
