@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
+
 
 import argparse
 import glob
@@ -96,7 +98,7 @@ def generate_index(fout, directory, base_url, zipdir):
     for addon_dir in os.listdir(directory):
         addon_dir = os.path.join(directory, addon_dir)
         if os.path.isdir(addon_dir):
-            print addon_dir
+            print(addon_dir)
             nfos = glob.glob(os.path.join(addon_dir, "*.nfo"))
             if len(nfos) == 0:
                 raise Exception(".nfo file missing from %s" % addon_dir)
@@ -105,7 +107,7 @@ def generate_index(fout, directory, base_url, zipdir):
             else:
                 try:
                     process_addon(fout, addon_dir, nfos[0], base_url, zipdir)
-                except Exception, e:
+                except Exception as e:
                     sys.stderr.write("%s: ignoring addon because: %s\n" % (addon_dir, e))
     fout.write(")\n\n;; EOF ;;\n")
 

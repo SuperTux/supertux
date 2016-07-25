@@ -17,6 +17,7 @@
 # 2. Altered source versions must be plainly marked as such, and must not be
 #    misrepresented as being the original software.
 # 3. This notice may not be removed or altered from any source distribution.
+from __future__ import print_function
 
 import re
 import codecs
@@ -98,15 +99,15 @@ def parse(text):
         raise Exception("error: list not closed")
 
 if __name__ == "__main__":
-    print "parsing..."
+    print("parsing...")
     result = parse(r'(() ("bar" foo) ()) () bar ')
-    print "1.", result
-    print "2.", parse(""";;comment
-    ("Hello World" 5 1 123) ("Hello" 123 123 "foobar") ;; comment""")
-    print "3.", parse(r'(8(8)8)')
-    print "4.", parse(r'')
-    print "5.", parse(r'  ')
+    print("1.", result)
+    print("2.", parse(""";;comment
+    ("Hello World" 5 1 123) ("Hello" 123 123 "foobar") ;; comment"""))
+    print("3.", parse(r'(8(8)8)'))
+    print("4.", parse(r''))
+    print("5.", parse(r'  '))
     with codecs.open("white.stf", encoding='utf-8') as fin:
-        print "6.", parse(fin.read())
+        print("6.", parse(fin.read()))
 
 # EOF #
