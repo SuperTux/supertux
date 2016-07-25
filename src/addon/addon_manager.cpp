@@ -123,7 +123,8 @@ static void add_to_dictionary_path(void *data, const char *origdir, const char *
     if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
     {
         log_debug << "Adding \"" << full_path << "\" to dictionary search path" << std::endl;
-        g_dictionary_manager->add_directory(full_path);
+        // We want translations from addons to have precedence
+        g_dictionary_manager->add_directory(full_path, true);
     }
 }
 
