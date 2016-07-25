@@ -203,7 +203,7 @@ public:
   /**
    * resize all tilemaps with given size
    */
-  void resize_sector(Size& old_size, Size& new_size);
+  void resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset);
 
   /**
    * globally changes solid tilemaps' tile ids
