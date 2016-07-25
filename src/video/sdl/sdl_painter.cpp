@@ -359,7 +359,7 @@ make_edge(int x1, int y1, int x2, int y2)
 }
 
 void
-draw_span_between_edges(SDL_Renderer* renderer, const Rectf e1, const Rectf e2)
+draw_span_between_edges(SDL_Renderer* renderer, const Rectf& e1, const Rectf& e2)
 {
   // calculate difference between the y coordinates
   // of the first edge and return if 0
