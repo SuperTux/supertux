@@ -114,7 +114,7 @@ def generate_index(fout, directory, base_url, zipdir):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Addon Index/Zip Generator')
-    parser.add_argument('DIRECTORY',  type=str, nargs=1,
+    parser.add_argument('DIRECTORY', type=str, nargs=1,
                         help="directory containing the mods")
     parser.add_argument('-o', '--output', metavar='FILE', type=str, required=False,
                         help="output file")
