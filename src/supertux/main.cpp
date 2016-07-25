@@ -168,9 +168,9 @@ public:
 
       if (FileSystem::exists(FileSystem::join(BUILD_DATA_DIR, "credits.stxt")))
       {
-	 datadir = BUILD_DATA_DIR;
-         //Add config dir for supplemental files
-       	 PHYSFS_mount(BUILD_CONFIG_DATA_DIR, NULL, 1);
+        datadir = BUILD_DATA_DIR;
+        // Add config dir for supplemental files
+        PHYSFS_mount(BUILD_CONFIG_DATA_DIR, NULL, 1);
       }
       else
       {
