@@ -126,8 +126,9 @@ def process_langpack(fout, langpack_dir, base_url, zipdir):
                   "GPL 2+ / CC-by-sa 3.0")
 
     nfofile = addon.id + ".nfo"
-    with open(os.path.join(langpack_dir, nfofile), 'w') as nfoout:
-        addon.write(nfoout, is_package=True)
+    if not os.path.exists(os.path.join(langpack_dir, nfofile)):
+        with open(os.path.join(langpack_dir, nfofile), 'w') as nfoout:
+            addon.write(nfoout, is_package=True)
 
     (addon.md5, addon.url) = package_addon(addon, langpack_dir, base_url, zipdir)
 
