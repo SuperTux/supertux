@@ -151,7 +151,13 @@ AddonManager::AddonManager(const std::string& addon_directory,
   m_has_been_updated(false),
   m_transfer_status()
 {
-  PHYSFS_mkdir(m_addon_directory.c_str());
+  if(!PHYSFS_mkdir(m_addon_directory.c_str()))
+  {
+    std::ostringstream msg;
+    msg << "Couldn't create directory for addons '"
+        << m_addon_directory << "': " << PHYSFS_getLastError();
+    throw std::runtime_error(msg.str());
+  }
 
   add_installed_addons();
 
