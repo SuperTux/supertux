@@ -120,6 +120,7 @@ class Editor : public Screen,
     void update_node_iterators();
     void esc_press();
     void delete_markers();
+    void sort_layers();
 
     std::unique_ptr<Savegame> m_savegame;
 

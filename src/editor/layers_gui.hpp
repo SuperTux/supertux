@@ -40,6 +40,7 @@ class EditorLayersGui
     void resize();
 
     void refresh_sector_text();
+    void sort_layers();
 
     std::vector<std::unique_ptr<LayerIcon>> layers;
     void add_layer(GameObject* layer);
@@ -57,6 +58,8 @@ class EditorLayersGui
     Vector get_layer_coords(const int pos);
     int get_layer_pos(const Vector& coords);
     void update_tip();
+
+    static bool less_z_pos(const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs);
 
     typedef enum {
       HI_NONE, HI_SPAWNPOINTS, HI_SECTOR, HI_LAYERS
