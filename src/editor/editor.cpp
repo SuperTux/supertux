@@ -391,22 +391,20 @@ Editor::resize() {
 
 void
 Editor::event(SDL_Event& ev) {
-  if ( tileselect.event(ev) ) {
-    return;
-  }
-
-  if ( layerselect.event(ev) ) {
-    return;
-  }
-
-  if ( scroller.event(ev) ) {
-    return;
-  }
-
   if (enabled) {
+    if ( tileselect.event(ev) ) {
+      return;
+    }
+
+    if ( layerselect.event(ev) ) {
+      return;
+    }
+
+    if ( scroller.event(ev) ) {
+      return;
+    }
     inputcenter.event(ev);
   }
-
 }
 
 bool
