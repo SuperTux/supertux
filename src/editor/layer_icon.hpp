@@ -31,7 +31,7 @@ class LayerIcon : public ObjectIcon
 
     virtual void draw(DrawingContext& context, Vector pos);
 
-    int get_zpos();
+    int get_zpos() const;
     bool is_valid() const;
 
     bool is_tilemap;

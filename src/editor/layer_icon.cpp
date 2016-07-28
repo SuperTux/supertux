@@ -65,27 +65,31 @@ LayerIcon::draw(DrawingContext& context, Vector pos) {
 }
 
 int
-LayerIcon::get_zpos() {
+LayerIcon::get_zpos() const {
+  if(!is_valid()) {
+    return std::numeric_limits<int>::min();
+  }
+
   if (is_tilemap) { //When the layer is a tilemap, the class is obvious.
     return ((TileMap*)layer)->get_layer();
   }
 
-  Background* bkgrd = dynamic_cast<Background*>(layer);
+  auto bkgrd = dynamic_cast<Background*>(layer);
   if (bkgrd) {
     return bkgrd->get_layer();
   }
 
-  Gradient* grd = dynamic_cast<Gradient*>(layer);
+  auto grd = dynamic_cast<Gradient*>(layer);
   if (grd) {
     return grd->get_layer();
   }
 
-  ParticleSystem* ps = dynamic_cast<ParticleSystem*>(layer);
+  auto ps = dynamic_cast<ParticleSystem*>(layer);
   if (ps) {
     return ps->get_layer();
   }
 
-  ParticleSystem_Interactive* psi = dynamic_cast<ParticleSystem_Interactive*>(layer);
+  auto psi = dynamic_cast<ParticleSystem_Interactive*>(layer);
   if (psi) {
     return psi->get_layer();
   }
