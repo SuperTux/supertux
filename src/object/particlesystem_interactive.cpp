@@ -17,18 +17,18 @@
 #include "object/particlesystem_interactive.hpp"
 
 #include "math/aatriangle.hpp"
+#include "math/vector.hpp"
 #include "object/tilemap.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/collision.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 
 //TODO: Find a way to make rain collide with objects like bonus blocks
 //      Add an option to set rain strength
 //      Fix rain being "respawned" over solid tiles
 ParticleSystem_Interactive::ParticleSystem_Interactive() :
-  z_pos(),
-  particles(),
-  virtual_width(),
-  virtual_height()
+  ParticleSystem()
 {
   virtual_width = SCREEN_WIDTH;
   virtual_height = SCREEN_HEIGHT;
@@ -37,18 +37,13 @@ ParticleSystem_Interactive::ParticleSystem_Interactive() :
 
 ParticleSystem_Interactive::~ParticleSystem_Interactive()
 {
-  for(auto& particle : particles) {
-    delete particle;
-  }
-}
-
-void ParticleSystem_Interactive::parse(const ReaderMapping& reader)
-{
-  z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
 }
 
 void ParticleSystem_Interactive::draw(DrawingContext& context)
 {
+  if(!enabled)
+    return;
+
   context.push_transform();
 
   for(auto& particle : particles) {
@@ -140,15 +135,6 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
   }
 
   return 0;
-}
-
-ObjectSettings
-ParticleSystem_Interactive::get_settings() {
-  ObjectSettings result = GameObject::get_settings();
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos, "z-pos"));
-
-  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
-  return result;
 }
 
 

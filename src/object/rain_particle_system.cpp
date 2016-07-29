@@ -48,7 +48,7 @@ void RainParticleSystem::init()
   // create some random raindrops
   size_t raindropcount = size_t(virtual_width/6.0);
   for(size_t i=0; i<raindropcount; ++i) {
-    RainParticle* particle = new RainParticle;
+    auto particle = std::unique_ptr<RainParticle>(new RainParticle);
     particle->pos.x = graphicsRandom.rand(int(virtual_width));
     particle->pos.y = graphicsRandom.rand(int(virtual_height));
     int rainsize = graphicsRandom.rand(2);
@@ -57,16 +57,19 @@ void RainParticleSystem::init()
       particle->speed = (rainsize+1)*45 + graphicsRandom.randf(3.6);
     } while(particle->speed < 1);
 
-    particles.push_back(particle);
+    particles.push_back(std::move(particle));
   }
 }
 
 void RainParticleSystem::update(float elapsed_time)
 {
-  std::vector<Particle*>::iterator i;
-  for(
-    i = particles.begin(); i != particles.end(); ++i) {
-    RainParticle* particle = (RainParticle*) *i;
+  if(!enabled)
+    return;
+
+  for(auto& it : particles) {
+    auto particle = dynamic_cast<RainParticle*>(it.get());
+    assert(particle);
+
     float movement = particle->speed * elapsed_time * Sector::current()->get_gravity();
     float abs_x = Sector::current()->camera->get_translation().x;
     float abs_y = Sector::current()->camera->get_translation().y;

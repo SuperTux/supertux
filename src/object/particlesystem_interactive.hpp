@@ -17,13 +17,9 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PARTICLESYSTEM_INTERACTIVE_HPP
 #define HEADER_SUPERTUX_OBJECT_PARTICLESYSTEM_INTERACTIVE_HPP
 
-#include "math/vector.hpp"
-#include "supertux/game_object.hpp"
-#include "supertux/sector.hpp"
-#include "util/reader.hpp"
-#include "video/surface_ptr.hpp"
+#include "object/particlesystem.hpp"
 
-class DisplayManager;
+class Vector;
 
 /**
  * This is an alternative class for particle systems. It is responsible for storing a
@@ -36,50 +32,21 @@ class DisplayManager;
  * initialize particles in the constructor and move them in the simulate
  * function.
  */
-class ParticleSystem_Interactive : public GameObject
+class ParticleSystem_Interactive : public ParticleSystem
 {
 public:
   ParticleSystem_Interactive();
   virtual ~ParticleSystem_Interactive();
 
-  virtual void parse(const ReaderMapping& reader);
   virtual void draw(DrawingContext& context) override;
   virtual std::string get_display_name() const override
   {
     return _("Interactive particle system");
   }
-  virtual ObjectSettings get_settings() override;
-
-  int get_layer() {
-    return z_pos;
-  }
 
 protected:
-  class Particle
-  {
-  public:
-    Particle() :
-      pos(),
-      texture()
-    {}
-
-    virtual ~Particle()
-    {}
-
-    Vector pos;
-    SurfacePtr texture;
-
-  private:
-    Particle(const Particle&);
-    Particle& operator=(const Particle&);
-  };
-
   int collision(Particle* particle, Vector movement);
 
-  int z_pos;
-  std::vector<Particle*> particles;
-  float virtual_width;
-  float virtual_height;
 };
 
 #endif
