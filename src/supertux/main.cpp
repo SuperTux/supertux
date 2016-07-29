@@ -178,7 +178,7 @@ public:
       {
         // if the game is not run from the source directory, try to find
         // the global install location
-        datadir = datadir.substr(0, datadir.rfind(INSTALL_SUBDIR_BIN));
+        datadir = basepath.substr(0, basepath.rfind(INSTALL_SUBDIR_BIN));
         datadir = FileSystem::join(datadir, INSTALL_SUBDIR_SHARE);
       }
     }
