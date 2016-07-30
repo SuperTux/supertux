@@ -42,7 +42,10 @@ EditorSectorMenu::EditorSectorMenu() :
   add_color(_("Ambient light"), sector->get_ambient_light_ptr());
   add_numfield(_("Gravity"), &sector->gravity);
 
-  add_file(_("Music"), &sector->music, std::vector<std::string>(1, ".ogg"));
+  std::vector<std::string> music_formats;
+  music_formats.push_back(".ogg");
+  music_formats.push_back(".music");
+  add_file(_("Music"), &sector->music, music_formats);
 
   add_hl();
   add_intfield(_("Width"), &(new_size.width));
