@@ -48,7 +48,7 @@ void CometParticleSystem::init()
   // create some random comets
   size_t cometcount = 2;
   for(size_t i=0; i<cometcount; ++i) {
-    CometParticle* particle = new CometParticle;
+    auto particle = std::unique_ptr<CometParticle>(new CometParticle);
     particle->pos.x = graphicsRandom.rand(int(virtual_width));
     particle->pos.y = graphicsRandom.rand(int(virtual_height));
     int cometsize = graphicsRandom.rand(2);
@@ -57,17 +57,21 @@ void CometParticleSystem::init()
       particle->speed = (cometsize+1)*30 + graphicsRandom.randf(3.6);
     } while(particle->speed < 1);
 
-    particles.push_back(particle);
+    particles.push_back(std::move(particle));
   }
 }
 
 void CometParticleSystem::update(float /*elapsed_time*/)
 {
 #if 0
+  if(!enabled)
+    return;
+
   std::vector<Particle*>::iterator i;
-  for(
-    i = particles.begin(); i != particles.end(); ++i) {
-    CometParticle* particle = (CometParticle*) *i;
+  for(auto& it : particles) {
+    auto particle = dynamic_cast<CometParticle*>(it.get());
+    assert(particle);
+
     float movement = particle->speed * elapsed_time * Sector::current()->get_gravity();
     float abs_x = Sector::current()->camera->get_translation().x;
     float abs_y = Sector::current()->camera->get_translation().y;
