@@ -47,7 +47,7 @@ const float STOMP_WAIT = .5; /**< time we stay on the dais before jumping again 
 const float SAFE_TIME = .5; /**< the time we are safe when tux just hit us */
 const int INITIAL_HITPOINTS = 5; /**< number of hits we can take */
 
-const float YETI_SQUISH_TIME = 5;
+const float YETI_SQUISH_TIME = 1.5;
 }
 
 Yeti::Yeti(const ReaderMapping& reader) :
@@ -169,9 +169,20 @@ Yeti::active_update(float elapsed_time)
       }
       break;
     case SQUISHED:
-      if (state_timer.check()) {
-        remove_me();
+      {
+        Direction newdir = (int(state_timer.get_timeleft() * 10) % 2) ? LEFT : RIGHT;
+        if (dir != newdir && dir == RIGHT) {
+          SoundManager::current()->play("sounds/stomp.wav");
+        }
+        dir = newdir;
+        sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
       }
+      if (state_timer.check()) {
+        state = FALLING;
+        BadGuy::kill_fall();
+      }
+      break;
+    case FALLING:
       break;
   }
 
@@ -246,8 +257,7 @@ void Yeti::take_hit(Player& )
 
   if(hit_points <= 0) {
     // We're dead
-    physic.enable_gravity(true);
-    physic.set_velocity_x(0);
+    physic.set_velocity_x(((dir==RIGHT)?+RUN_VX:-RUN_VX)/5);
     physic.set_velocity_y(0);
 
     // Set the badguy layer to be above the foremost, so that
@@ -256,7 +266,7 @@ void Yeti::take_hit(Player& )
     state = SQUISHED;
     state_timer.start(YETI_SQUISH_TIME);
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
-    sprite->set_action("dead");
+    //sprite->set_action("dead"); // This sprite does not look very good
 
     run_dead_script();
   }
@@ -335,6 +345,8 @@ Yeti::collision_solid(const CollisionHit& hit)
         }
         break;
       case SQUISHED:
+        break;
+      case FALLING:
         break;
     }
   } else if(hit.left || hit.right) {

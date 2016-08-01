@@ -33,6 +33,7 @@ protected:
   virtual void stopping(); /**< called when EndSequence stops */
 
   Timer endsequence_timer;
+  Timer bosskillsequence_timer;
 };
 
 #endif

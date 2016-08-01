@@ -63,7 +63,8 @@ private:
     RUN,
     JUMP_UP,
     BE_ANGRY,
-    SQUISHED
+    SQUISHED,
+    FALLING
   };
 
 private:
