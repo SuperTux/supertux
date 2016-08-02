@@ -23,8 +23,7 @@
 
 EndSequenceFireworks::EndSequenceFireworks() :
   EndSequence(),
-  endsequence_timer(),
-  bosskillsequence_timer()
+  endsequence_timer()
 {
 }
 
@@ -41,22 +40,13 @@ void
 EndSequenceFireworks::starting()
 {
   EndSequence::starting();
-  // Delay fireworks a bit, to see the boss falling off the screen
-  bosskillsequence_timer.start(3.0f * ScreenManager::current()->get_speed());
+  endsequence_timer.start(7.3f * ScreenManager::current()->get_speed());
+  Sector::current()->add_object(std::make_shared<Fireworks>());
 }
 
 void
 EndSequenceFireworks::running(float elapsed_time)
 {
-  if (bosskillsequence_timer.check()) {
-    if (!endsequence_timer.started() && !isdone) {
-      endsequence_timer.start(7.3f * ScreenManager::current()->get_speed());
-      Sector::current()->add_object(std::make_shared<Fireworks>());
-    }
-  } else {
-    return;
-  }
-
   EndSequence::running(elapsed_time);
   //Player& tux = *Sector::current()->player;
 

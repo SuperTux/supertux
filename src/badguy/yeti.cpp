@@ -180,6 +180,8 @@ Yeti::active_update(float elapsed_time)
       if (state_timer.check()) {
         state = FALLING;
         BadGuy::kill_fall();
+        physic.set_velocity_y(JUMP_UP_VY / 5); // Move up a bit before falling
+        run_dead_script();
       }
       break;
     case FALLING:
@@ -267,8 +269,6 @@ void Yeti::take_hit(Player& )
     state_timer.start(YETI_SQUISH_TIME);
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
     //sprite->set_action("dead"); // This sprite does not look very good
-
-    run_dead_script();
   }
   else {
     safe_timer.start(SAFE_TIME);
