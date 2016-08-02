@@ -180,6 +180,7 @@ Yeti::active_update(float elapsed_time)
         if (dir != newdir && dir == RIGHT) {
           SoundManager::current()->play("sounds/stomp.wav");
           add_snow_explosions();
+          Sector::current()->camera->shake(.05f, 0, 5);
         }
         dir = newdir;
         sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
