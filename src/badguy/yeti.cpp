@@ -396,13 +396,12 @@ void Yeti::add_snow_explosions()
 }
 
 Yeti::SnowExplosionParticle::SnowExplosionParticle(const Vector& pos, const Vector& velocity)
-  : BadGuy(pos, (velocity.x > 0) ? RIGHT : LEFT, "images/creatures/snowball/kamikaze-snowball.sprite")
+  : BadGuy(pos, (velocity.x > 0) ? RIGHT : LEFT, "images/objects/bullets/icebullet.sprite")
 {
   physic.set_velocity_x(velocity.x);
   physic.set_velocity_y(velocity.y);
   physic.enable_gravity(true);
   set_state(STATE_FALLING);
-  set_action(dir == LEFT ? "melting-left" : "melting-right", 1);
   layer = Sector::current()->get_foremost_layer() + 1;
 }
 
