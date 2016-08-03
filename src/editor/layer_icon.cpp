@@ -37,7 +37,7 @@ LayerIcon::LayerIcon(GameObject *layer_) :
   is_tilemap(false),
   selection()
 {
-  TileMap* tm = dynamic_cast<TileMap*>(layer_);
+  auto tm = dynamic_cast<TileMap*>(layer_);
   if (tm) {
     is_tilemap = true;
     selection = Surface::create("images/engine/editor/selection.png");

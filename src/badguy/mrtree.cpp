@@ -87,7 +87,7 @@ MrTree::collision_squished(GameObject& object)
                                                                    LAYER_OBJECTS-1));
   }
 
-  if (!frozen){ //Frozen Mr.Trees don't spawn any PoisonIvys.
+  if (!frozen) { //Frozen Mr.Trees don't spawn any PoisonIvys.
     // spawn PoisonIvy
     Vector leaf1_pos(stumpy_pos.x - POISONIVY_WIDTH - 1, stumpy_pos.y - POISONIVY_Y_OFFSET);
     Rectf leaf1_bbox(leaf1_pos.x, leaf1_pos.y, leaf1_pos.x + POISONIVY_WIDTH, leaf1_pos.y + POISONIVY_HEIGHT);

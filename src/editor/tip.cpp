@@ -29,7 +29,7 @@
 
 Tip::Tip(GameObject* object) :
   strings(),
-  header("")
+  header()
 {
   strings.clear();
   if (!object) {

@@ -28,8 +28,8 @@ std::vector<std::string> BadguySelectMenu::all_badguys;
 
 BadguySelectMenu::BadguySelectMenu(std::vector<std::string>* badguys_) :
   badguys(badguys_),
-  selected(0),
-  remove_item(0)
+  selected(),
+  remove_item()
 {
   //initialize badguy list
   if (all_badguys.empty()) {

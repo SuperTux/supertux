@@ -194,7 +194,7 @@ WillOWisp::vanish()
 
 bool
 WillOWisp::collides(GameObject& other, const CollisionHit& ) const {
-  Lantern* lantern = dynamic_cast<Lantern*>(&other);
+  auto lantern = dynamic_cast<Lantern*>(&other);
 
   if (lantern && lantern->is_open())
     return true;

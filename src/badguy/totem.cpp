@@ -83,11 +83,11 @@ Totem::active_update(float elapsed_time)
       initialize();
     }
 
-    Sector* s = Sector::current();
+    auto s = Sector::current();
     if (s) {
       // jump a bit if we find a suitable totem
-      for (std::vector<MovingObject*>::iterator i = s->moving_objects.begin(); i != s->moving_objects.end(); ++i) {
-        Totem* t = dynamic_cast<Totem*>(*i);
+      for (const auto& obj : s->moving_objects) {
+        auto t = dynamic_cast<Totem*>(obj);
         if (!t) continue;
 
         // skip if we are not approaching each other

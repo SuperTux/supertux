@@ -32,7 +32,7 @@ ItemNumField::ItemNumField(const std::string& text_, float* input_, int id_) :
   number(input_),
   input(std::to_string(*input_)),
   flickw(0),
-  has_coma(true)
+  has_comma(true)
 {
   flickw = Resources::normal_font->get_text_width("_");
 
@@ -41,7 +41,7 @@ ItemNumField::ItemNumField(const std::string& text_, float* input_, int id_) :
     char c = *i;
     if (c == '.') {
       input.resize(input.length() - 1);
-      has_coma = false;
+      has_comma = false;
     }
     if (c != '0') {
       break;
@@ -93,13 +93,13 @@ ItemNumField::add_char(char c) {
     } else {
       input = "-";
     }
-  } else if (!has_coma && (c == '.' || c == ',')) {
+  } else if (!has_comma && (c == '.' || c == ',')) {
     if (!input.length()) {
       input = "0.";
     } else {
       input.push_back('.');
     }
-    has_coma = true;
+    has_comma = true;
   }
 
   if (c < '0' || c > '9') {
@@ -126,7 +126,7 @@ ItemNumField::process_action(MenuAction action) {
         break;
       }
       if (last_char == '.') {
-        has_coma = false;
+        has_comma = false;
       }
     } while ( (last_char & 128) && !(last_char & 64) );
     if (input.length() && input != "-") {

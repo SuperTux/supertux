@@ -24,7 +24,7 @@
 #include "video/video_system.hpp"
 
 ToolIcon::ToolIcon(const std::string& icon) :
-  pos(0,0),
+  pos(0, 0),
   surfaces(),
   mode(0),
   surf_count(0)

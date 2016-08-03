@@ -30,7 +30,7 @@
 ItemTextField::ItemTextField(const std::string& text_, std::string* input_, int id_) :
   MenuItem(text_, id_),
   input(input_),
-  flickw(0)
+  flickw()
 {
   flickw = Resources::normal_font->get_text_width("_");
 }

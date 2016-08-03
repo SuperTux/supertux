@@ -82,7 +82,7 @@ Owl::initialize()
 bool
 Owl::is_above_player() const
 {
-  Player* player = Sector::current()->get_nearest_player (bbox);
+  auto player = Sector::current()->get_nearest_player (bbox);
   if (!player)
     return false;
 

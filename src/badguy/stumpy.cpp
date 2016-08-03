@@ -89,7 +89,7 @@ Stumpy::collision_squished(GameObject& object)
   // if we're still invincible, we ignore the hit
   if (mystate == STATE_INVINCIBLE) {
     SoundManager::current()->play("sounds/mr_treehit.ogg", get_pos());
-    Player* player = dynamic_cast<Player*>(&object);
+    auto player = dynamic_cast<Player*>(&object);
     if (player) player->bounce(*this);
     return true;
   }

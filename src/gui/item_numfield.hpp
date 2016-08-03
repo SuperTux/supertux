@@ -48,7 +48,7 @@ class ItemNumField : public MenuItem
 
     std::string input;
     int flickw;
-    bool has_coma;
+    bool has_comma;
 
     void add_char(char c);
 

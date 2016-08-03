@@ -204,7 +204,7 @@ AddonManager::~AddonManager()
 {
   // sync enabled/disabled addons into the config for saving
   m_addon_config.clear();
-  for(auto& addon : m_installed_addons)
+  for(const auto& addon : m_installed_addons)
   {
     m_addon_config.push_back({addon->get_id(), addon->is_enabled()});
   }

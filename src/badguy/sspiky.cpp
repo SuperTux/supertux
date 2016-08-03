@@ -110,11 +110,7 @@ SSpiky::is_freezable() const
 bool
 SSpiky::is_flammable() const
 {
-  if (state == SSPIKY_SLEEPING) {
-    return false;
-  } else {
-    return true;
-  }
+  return state != SSPIKY_SLEEPING;
 }
 
 /* EOF */

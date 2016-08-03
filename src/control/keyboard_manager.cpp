@@ -105,43 +105,44 @@ void
 KeyboardManager::process_console_key_event(const SDL_KeyboardEvent& event)
 {
   if (event.type != SDL_KEYDOWN) return;
+  auto console = Console::current();
 
   switch (event.keysym.sym) {
     case SDLK_RETURN:
-      Console::current()->enter();
+      console->enter();
       break;
     case SDLK_BACKSPACE:
-      Console::current()->backspace();
+      console->backspace();
       break;
     case SDLK_DELETE:
-      Console::current()->eraseChar();
+      console->eraseChar();
       break;
     case SDLK_TAB:
-      Console::current()->autocomplete();
+      console->autocomplete();
       break;
     case SDLK_PAGEUP:
-      Console::current()->scroll(-1);
+      console->scroll(-1);
       break;
     case SDLK_PAGEDOWN:
-      Console::current()->scroll(+1);
+      console->scroll(+1);
       break;
     case SDLK_HOME:
-      Console::current()->move_cursor(-65535);
+      console->move_cursor(-65535);
       break;
     case SDLK_END:
-      Console::current()->move_cursor(+65535);
+      console->move_cursor(+65535);
       break;
     case SDLK_UP:
-      Console::current()->show_history(-1);
+      console->show_history(-1);
       break;
     case SDLK_DOWN:
-      Console::current()->show_history(+1);
+      console->show_history(+1);
       break;
     case SDLK_LEFT:
-      Console::current()->move_cursor(-1);
+      console->move_cursor(-1);
       break;
     case SDLK_RIGHT:
-      Console::current()->move_cursor(+1);
+      console->move_cursor(+1);
       break;
     default:
       break;
