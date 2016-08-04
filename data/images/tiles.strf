@@ -222,7 +222,7 @@
   )
 
   (tilegroup
-    (name "Pipes")
+    (name (_ "Pipes"))
     (tiles
      57   58   2841 2842
      59   60   2843 2844
@@ -251,7 +251,7 @@
      2901 2902 2903 2904))
 
   (tilegroup
-    (name "Halloween")
+    (name (_ "Halloween"))
     (tiles
       3068 3069 3070 3071
       3072 3073 3074 3075
@@ -278,14 +278,14 @@
       ))
 
   (tilegroup
-    (name "Test")
+    (name (_ "Test"))
     (tiles
      2203 2204 2205 0
      2206 2207 2208 0
      2209 2210 2211 0))
 
   (tilegroup
-   (name "Crystalcave")
+   (name (_ "Crystalcave"))
    (tiles
     2407 2408 2409 2410
     2421 2422 2423 2424
@@ -372,7 +372,7 @@
    )
 
 (tilegroup
- (name "Snowmountain")
+ (name (_ "Snowmountain"))
 (tiles
 2679 2680 2681 2682
 2695 2696 2697 2698
@@ -446,7 +446,7 @@
 ))
 
   (tilegroup
-    (name "Snow")
+    (name (_ "Snow"))
     (tiles
       7    8    9    202
       13   14   15   204
@@ -564,7 +564,7 @@
     )
   )
   (tilegroup
-    (name "Snow (Paralax Background)")
+    (name (_ "Snow (Paralax Background)"))
     (tiles
       149  150  151  245
       152  153  154  244
@@ -577,7 +577,7 @@
       0    0    0    1342)
   )
   (tilegroup
-    (name "Forest")
+    (name (_ "Forest"))
     (tiles
       1000 1001 1002 1003
       1004 1005 1006 1007
@@ -676,14 +676,14 @@
       3406 3407 3408 3409
       3402 3403 3404 3405
       3410 3411 3412 3413
-         0    0 3416 3418    
+         0    0 3416 3418
       491  492  493  494
       495  496  497  498
     )
   )
 
   (tilegroup
-    (name "Forest (Background)")
+    (name (_ "Forest (Background)"))
     (tiles
       0    0    1073 1074
       0    0    1081 1082
@@ -777,11 +777,11 @@
     )
   )
   (tilegroup
-    (name "Block")
+    (name (_ "Block"))
     (tiles 27 28 29 47 48 50 49 211 77 51 52 212 78 62 61 213 3159 44 83 2947 2948 84 103 128 102 140 3161 3162 104 105 3160 112 3037 2943 2944 2945 2946 1311 2153)
   )
   (tilegroup
-    (name "Background")
+    (name (_ "Background"))
     (tiles
       106  107  108  24
       109  110  111  25
@@ -800,11 +800,11 @@
     )
   )
   (tilegroup
-    (name "Points")
+    (name (_ "Points"))
     (tiles 132 133)
   )
   (tilegroup
-    (name "Misc")
+    (name (_ "Misc"))
     (tiles
       76   201  174  130
       75   200  173  129
@@ -835,7 +835,7 @@
     )
   )
   (tilegroup
-    (name "Pole")
+    (name (_ "Pole"))
     (tiles
       1348 1720 1719 1718
       79   80   1347 1722
@@ -858,7 +858,7 @@
     )
   )
   (tilegroup
-    (name "Stone Brick Walls")
+    (name (_ "Stone Brick Walls"))
     (tiles
       64   65   66   67
       68   69   321  0
@@ -907,7 +907,7 @@
      )
   )
   (tilegroup
-    (name "Signs")
+    (name (_ "Signs"))
     (tiles
       136  137  141  142
       138  139  143  144
@@ -924,12 +924,12 @@
       1822 1823 2400 2401
       1824 1825 2402 2403
       3163 3164 172  246
-      3165 3166 247  248 
+      3165 3166 247  248
       479  480  0    0
       481  482  0    0)
   )
   (tilegroup
-    (name "Jungle")
+    (name (_ "Jungle"))
     (tiles
       301 302 303 347
       304 305 306 350
@@ -939,7 +939,7 @@
       312 353 351   0)
   )
   (tilegroup
-    (name "Industrial")
+    (name (_ "Industrial"))
     (tiles
       3167 3168 3169 3170
       3173 3174 3175 3189
@@ -953,7 +953,7 @@
     )
   )
   (tilegroup
-    (name "Water")
+    (name (_ "Water"))
     (tiles
       2019 2140 2141 2142
       2020 0    0    0
@@ -974,7 +974,7 @@
       175 176 177 178)
   )
   (tilegroup
-    (name "Icebridge")
+    (name (_ "Icebridge"))
     (tiles
       1551 1540 1541 1545
       1549 1543 1544 1542
@@ -982,7 +982,7 @@
       0    0    0    1550)
   )
   (tilegroup
-    (name "LavaFlow")
+    (name (_ "LavaFlow"))
     (tiles
       2136 2137 2138 2139
       1711 1707 1701 1714
@@ -992,7 +992,7 @@
       1706 0    1713)
   )
   (tilegroup
-    (name "Exits")
+    (name (_ "Exits"))
     (tiles
       0    1633 1634 0
       1639 1640 1641 1642
@@ -1028,7 +1028,7 @@
     )
   )
  (tilegroup
-    (name "Castle")
+    (name (_ "Castle"))
     (tiles
       1519 1520 1521 1522
       1523 1524 1525 1526
@@ -1103,7 +1103,7 @@
   )
 
   (tilegroup
-    (name "Cave background")
+    (name (_ "Cave background"))
     (tiles
       70 0 0 0
       0  0 0 0
@@ -1128,7 +1128,7 @@
     )
   )
   (tilegroup
-    (name "Lightmap")
+    (name (_ "Lightmap"))
     (tiles
       2032 2033 2034 2035
       2036 2037    0 2038
@@ -1137,7 +1137,7 @@
     )
   )
   (tilegroup
-    (name "Unisolid")
+    (name (_ "Unisolid"))
     (tiles
       2043 2044    0  359
       1760 1761 1748 1749
