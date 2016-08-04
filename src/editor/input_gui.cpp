@@ -24,6 +24,7 @@
 #include "editor/tile_selection.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/mousecursor.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/colorscheme.hpp"
@@ -257,6 +258,7 @@ EditorInputGui::event(SDL_Event& ev) {
                 if (hovered_tile < size && hovered_tile >= 0) {
                   object = object_input->groups[active_objectgroup].icons[hovered_tile + starting_tile].object_name;
                 }
+                update_mouse_icon();
               } break;
               default:
                 break;
@@ -268,12 +270,15 @@ EditorInputGui::event(SDL_Event& ev) {
               case 0:
                 tiles->set_tile(0);
                 object = "";
+                update_mouse_icon();
                 break;
               case 1:
                 select_mode->next_mode();
+                update_mouse_icon();
                 break;
               case 2:
                 move_mode->next_mode();
+                update_mouse_icon();
                 break;
               case 3:
                 Editor::current()->esc_press();
@@ -357,6 +362,27 @@ EditorInputGui::setup() {
 void
 EditorInputGui::reset_pos() {
   starting_tile = 0;
+}
+
+void
+EditorInputGui::update_mouse_icon() {
+  switch (input_type) {
+    case IP_NONE:
+      MouseCursor::current()->set_icon(NULL);
+      break;
+    case IP_OBJECT:
+      if (object.empty()) {
+        MouseCursor::current()->set_icon(rubber->get_current_surface());
+      } else {
+        MouseCursor::current()->set_icon(move_mode->get_current_surface());
+      }
+      break;
+    case IP_TILE:
+      MouseCursor::current()->set_icon(select_mode->get_current_surface());
+      break;
+    default:
+      break;
+  }
 }
 
 Vector

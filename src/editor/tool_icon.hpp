@@ -38,6 +38,7 @@ class ToolIcon
     void next_mode();
 
     void push_mode(const std::string& icon);
+    SurfacePtr get_current_surface() const;
 
   private:
     std::vector<SurfacePtr> surfaces;

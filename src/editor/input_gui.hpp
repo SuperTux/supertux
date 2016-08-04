@@ -42,6 +42,7 @@ class EditorInputGui
     void setup();
     void resize();
     void reset_pos();
+    void update_mouse_icon();
 
     std::unique_ptr<TileSelection> tiles;
     std::string object;

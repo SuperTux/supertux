@@ -61,6 +61,7 @@ EditorTilegroupMenu::menu_action(MenuItem* item)
     tileselect->active_tilegroup = Editor::current()->tileset->tilegroups[item->id].tiles;
     tileselect->input_type = EditorInputGui::IP_TILE;
     tileselect->reset_pos();
+    tileselect->update_mouse_icon();
   }
   MenuManager::instance().clear_menu_stack();
 }
