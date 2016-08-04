@@ -21,7 +21,7 @@
 )
 
 (tilegroup
-  (name "Water-Paths")
+  (name (_ "Water-Paths"))
   (tiles
     80 81 78 79
     84 85 82 83
@@ -29,7 +29,7 @@
   )
 )
 (tilegroup
-  (name "castle_path")
+  (name (_ "castle_path"))
   (tiles
     100 101 102 103
     104 105 106 107
@@ -38,7 +38,7 @@
 )
 
 (tilegroup
-  (name "Snow")
+  (name (_ "Snow"))
   (tiles
     11  16  12  9
     15  19  17  8
@@ -64,7 +64,7 @@
 )
 
 (tilegroup
-  (name "Forest")
+  (name (_ "Forest"))
   (tiles
     552 553 554 816
     555 556 557 817
@@ -132,7 +132,7 @@
 )
 
 (tilegroup
-  (name "Darker Forest")
+  (name (_ "Darker Forest"))
   (tiles
     654 655 656 641
     649 559 652 626
@@ -196,7 +196,7 @@
 )
 
 (tilegroup
-  (name "Halloween")
+  (name (_ "Halloween"))
 (tiles
    1954 1927 1928 1929
    1933 1934 1935 1936
