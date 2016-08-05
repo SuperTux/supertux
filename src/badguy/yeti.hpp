@@ -57,13 +57,16 @@ private:
 
   void take_hit(Player& player);
 
+  void add_snow_explosions();
+
 private:
   enum YetiState {
     JUMP_DOWN,
     RUN,
     JUMP_UP,
     BE_ANGRY,
-    SQUISHED
+    SQUISHED,
+    FALLING
   };
 
 private:
@@ -83,6 +86,12 @@ private:
 
   bool fixed_pos;
   std::string hud_icon;
+
+  class SnowExplosionParticle: public BadGuy
+  {
+  public:
+    SnowExplosionParticle(const Vector& pos, const Vector& velocity);
+  };
 };
 
 #endif
