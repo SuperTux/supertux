@@ -218,8 +218,8 @@ WrapperCreator::create_register_class_code(Class* _class)
     create_register_slot_code("class", _class->name);
     out << "\n";
 
-    for(auto& _class : _class->sub_classes) {
-        create_register_class_code(_class);
+    for(auto& c : _class->sub_classes) {
+        create_register_class_code(c);
     }
 }
 
