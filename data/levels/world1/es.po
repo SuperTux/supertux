@@ -5,14 +5,15 @@
 # Translators:
 # Francisco B.G. <franchulo021@gmail.com>, 2015
 # Germana <germanaoliveirab@gmail.com>, 2013
-# william beltran <wbeltranc@gmail.com>, 2015-2016
+# William Beltrán <wbeltranc@gmail.com>, 2016
+# William Beltrán <wbeltranc@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-05-09 09:26+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-05-19 01:57+0000\n"
+"Last-Translator: William Beltrán <wbeltranc@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arctic-games/supertux/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -189,7 +190,7 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switches.  This one activates the lift to your right."
-msgstr ""
+msgstr "-Interruptores\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Los interruptores pueden ser usados para hacer todo tipo de cosas. Presiona la tecla ARRIBA para usar los interruptores. Esta activa el ascensor a tu derecha."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""

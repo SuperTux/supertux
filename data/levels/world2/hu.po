@@ -6,6 +6,7 @@
 # chris020891 <chris020891@gmail.com>, 2014
 # D. J. S. <djsossz@freemail.hu>, 2012
 # Norbert Molnár <buzitetu@indamail.hu>, 2013
+# gyeben <gyonkibendeguz@gmail.com>, 2016
 # gyeben <gyonkibendeguz@gmail.com>, 2014
 # Haba Tamás <habatamas0@gmail.com>, 2016
 #  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-05-05 14:55+0000\n"
-"Last-Translator: Haba Tamás <habatamas0@gmail.com>\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-06-24 12:58+0000\n"
+"Last-Translator: gyeben <gyonkibendeguz@gmail.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,12 +48,16 @@ msgid "Duct Ape"
 msgstr "Csatorna-labirintus"
 
 #: data/levels/world2/El_Castillo.stl:3
-msgid "Short Visit to El Castillo"
-msgstr "Rövid látogatás El Castillóban"
+msgid "A Short Visit to El Castillo"
+msgstr "Egy rövid látogatás El Castillóban"
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Találd meg a nagyobb halat!"
+
+#: data/levels/world2/Find_Big_Fish.stl:449
+msgid "-A big fish... for you."
+msgstr "-Egy nagy hal... neked."
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
@@ -111,7 +116,7 @@ msgstr "Rönkvár"
 msgid "Tux the Builder"
 msgstr "Tux, az építő"
 
-#: data/levels/world2/Tux_Builder.stl:38
+#: data/levels/world2/Tux_Builder.stl:46
 msgid ""
 "-Portable Rocks:\n"
 "\n"

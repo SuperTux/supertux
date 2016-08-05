@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-04-07 04:20+0000\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-08-04 07:42+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -39,12 +39,16 @@ msgid "Duct Ape"
 msgstr "덕트 에이프"
 
 #: data/levels/world2/El_Castillo.stl:3
-msgid "Short Visit to El Castillo"
-msgstr "엘 카시티요로의 짧은 방문"
+msgid "A Short Visit to El Castillo"
+msgstr ""
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "더 큰 물고기를 찾아라!"
+
+#: data/levels/world2/Find_Big_Fish.stl:449
+msgid "-A big fish... for you."
+msgstr ""
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
@@ -103,7 +107,7 @@ msgstr "나무 요새"
 msgid "Tux the Builder"
 msgstr "턱스 건축가"
 
-#: data/levels/world2/Tux_Builder.stl:38
+#: data/levels/world2/Tux_Builder.stl:46
 msgid ""
 "-Portable Rocks:\n"
 "\n"
@@ -122,7 +126,7 @@ msgstr "위 아래"
 
 #: data/levels/world2/Walking_Leaves.stl:3
 msgid "Walking Leaves"
-msgstr "잎을 건너다"
+msgstr "걸어다니는 잎"
 
 #: data/levels/world2/Welcome_Forest.stl:3
 msgid "Welcome to the Forest"

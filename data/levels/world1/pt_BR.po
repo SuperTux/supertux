@@ -3,18 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jonatas L. Nogueira <cpntb1@ymail.com>, 2014
+# sem nome <cpntb1@ymail.com>, 2014
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
 # Filipe Oliveira <contato@fmoliveira.com.br>, 2013
 # Herval Ribeiro <heraze@gmail.com>, 2006
 # Joel Gil Leon <joel@gil.com>, 2013
-# Jonatas L. Nogueira <cpntb1@ymail.com>, 2015
+# sem nome <cpntb1@ymail.com>, 2015
 # Victor Gonçalves <hotcyv@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
 "PO-Revision-Date: 2016-05-09 09:26+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/arctic-games/supertux/language/pt_BR/)\n"

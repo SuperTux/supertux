@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Fahad Al-Saidi <fahad.alsaidi@ymail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-05-09 09:26+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-07-05 10:09+0000\n"
+"Last-Translator: Fahad Al-Saidi <fahad.alsaidi@ymail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/arctic-games/supertux/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:3
 msgid "Welcome to Antarctica"
-msgstr ""
+msgstr "مرحبا بكم في القطب الجنوبي"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:63
 msgid ""
@@ -73,7 +74,7 @@ msgstr ""
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
-msgstr ""
+msgstr "الرحلة بدأت"
 
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
@@ -203,58 +204,58 @@ msgstr ""
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
-msgstr ""
+msgstr "مستوى المكافأة"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr ""
+msgstr "الرحلة مع دريهم"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid ""
 "Somewhere at the shores\n"
 "of Antarctica..."
-msgstr ""
+msgstr "في مكان ما على سواحل\nالقطب الجنوبي.."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux: Hello Penny"
-msgstr ""
+msgstr "البطريق: مرحبا دريهم"
 
 #: data/levels/world1/scripts_intro.txt:5
 msgid "Penny: Hey Tux"
-msgstr ""
+msgstr "دريهم: أهلا بطريق"
 
 #: data/levels/world1/scripts_intro.txt:6
 msgid "Tux: Check out my dance moves."
-msgstr ""
+msgstr "البطريق: انظر إلى رقصتي الجديدة"
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "Tux: Oww... my head..."
-msgstr ""
+msgstr "البطريق: أووو ... رأسي..."
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "Tux: Wait!"
-msgstr ""
+msgstr "البطريق: انتظر!"
 
 #: data/levels/world1/scripts_intro.txt:9
 msgid "Tux: Penny!"
-msgstr ""
+msgstr "البطريق: دريهم !"
 
 #: data/levels/world1/scripts_intro.txt:10
 msgid "Tux: Where are you, Penny?!"
-msgstr ""
+msgstr "البطريق: أين أنت يا دريهم؟"
 
 #: data/levels/world1/scripts_intro.txt:11
 msgid "Tux: Oh no..."
-msgstr ""
+msgstr "البطريق: أوه ... لا "
 
 #: data/levels/world1/scripts_intro.txt:12
 msgid "Tux: Don't worry, Penny, I'll rescue you!"
-msgstr ""
+msgstr "البطريق: لا تقلق دريهم ، سأنقذك!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr ""
+msgstr "الجزرة الثلجية"
 
 #: data/levels/world1/worldmap.stwm:37
 msgid "You Found a Secret Area!"
-msgstr ""
+msgstr "لقد وجدت منطقة سرية !"

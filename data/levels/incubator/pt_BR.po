@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jonatas L. Nogueira <cpntb1@ymail.com>, 2014
+# sem nome <cpntb1@ymail.com>, 2014
 # Dani <danielaafferraz@gmail.com>, 2013
 # Rodrigo Piñero <rodrigo.pinero@yahoo.com.br>, 2016
 # Victor Gonçalves <hotcyv@gmail.com>, 2015
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
 "PO-Revision-Date: 2016-05-12 12:12+0000\n"
 "Last-Translator: Rodrigo Piñero <rodrigo.pinero@yahoo.com.br>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/arctic-games/supertux/language/pt_BR/)\n"

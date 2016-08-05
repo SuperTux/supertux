@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Mladen Pejaković <pejakm@autistici.org>, 2015
-# Slobodan Simić <slsimic@gmail.com>, 2014
+# Slobodan Simić <slsimic@gmail.com>, 2014,2016
 # Slobodan Simić <slsimic@gmail.com>, 2014
 # Slobodan Simić <slsimic@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-05-09 09:26+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-06-27 10:14+0000\n"
+"Last-Translator: Slobodan Simić <slsimic@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/arctic-games/supertux/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,48 +32,48 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
+msgstr "-Бонус блокови\n!images/objects/bonus_block/full-0.png\n#Бонус блокови могу садржати новчиће, појачања или посебне ствари које ће ти помоћи у твом подухвату.\n#\n#Удари их одоздо да би избацили свој садржај."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Јаја↩\n!images/powerups/egg/egg.png↩\n#Јаја помажу Таксу да порасте. Такс онда може да разбије дрвене блокове главом."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr ""
+msgstr "-Контролне тачке↩\n!images/objects/resetpoints/bell-m.png↩\n#Активирајте контролну тачку. Ако изгубите живот, можете наставити игру одатле. Сваки пут када кренете од контролне тачке, изгубићете десетину новчића (или бар 25)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr ""
+msgstr "-Трчање\n!images/tiles/signs/run.png\n#Пут испред тебе је блокиран. Затрчи се пре скока да би прескочио блокаду."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
+msgstr "-Ватрени цвет\n!images/powerups/fireflower/fire_flower-0.png\n#Ватрени цвет даје Таксу способност да испаљује ватрене лопте."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr ""
+msgstr "-Такс лутка\n!images/powerups/1up/1up.png\n#Такс лутка ти даје 100 новчића."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr ""
+msgstr "-Тајна места\n#На многим нивоима постоје тајна места која се налазе иза наизглед обичних зидова. Прати трагове да би открио таква места."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -190,20 +190,20 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switches.  This one activates the lift to your right."
-msgstr ""
+msgstr "-Прекидачи\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Прекидачи се могу користити за разне ствари. Притисни ГОРЕ за коришћење прекидача.  Овај укључује лифт са твоје десне стране."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
 "-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
-msgstr ""
+msgstr "-Трамполина\n!images/objects/trampoline/trampoline2-0.png\n#Трамполине омогућавају Таксу да скаче до нових висина. Држи дугме за скок док одскакујеш на њој да би се лансирао у висине."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
+msgstr "- Пентрање\n# Такс може и да се пење!  Притисни ГОРЕ да започнеш пењање.  Притисни РАДЊУ или СКОК да скочиш или се пустиш."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Gorzy Gorup <gorupgorazd@gmail.com>, 2016
+# Gorzy Gorup <gorupgorazd@gmail.com>, 2016
 # Marko Burjek <email4marko@gmail.com>, 2005-2007
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-04-02 13:02+0000\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-06-24 14:17+0000\n"
 "Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/arctic-games/supertux/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -40,12 +41,16 @@ msgid "Duct Ape"
 msgstr "Lepljiv kanal"
 
 #: data/levels/world2/El_Castillo.stl:3
-msgid "Short Visit to El Castillo"
+msgid "A Short Visit to El Castillo"
 msgstr "Kratek obisk El Castilla"
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Poiščite večje ribe!"
+
+#: data/levels/world2/Find_Big_Fish.stl:449
+msgid "-A big fish... for you."
+msgstr "-Velika riba... zate."
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
@@ -104,7 +109,7 @@ msgstr "Kraljestvo dreves"
 msgid "Tux the Builder"
 msgstr "Mojster Tux"
 
-#: data/levels/world2/Tux_Builder.stl:38
+#: data/levels/world2/Tux_Builder.stl:46
 msgid ""
 "-Portable Rocks:\n"
 "\n"

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-05-09 09:26+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-08-04 08:06+0000\n"
+"Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +58,7 @@ msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-화염 꽃\n!images/powerups/fireflower/fire_flower-0.png\n#화염 꽃은 턱스가 화염을 발사할 수 있도록 해 줍니다."
+msgstr "-불 꽃\n!images/powerups/fireflower/fire_flower-0.png\n#불 꽃은 턱스가 불을 발사할 수 있도록 해 줍니다."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
@@ -175,7 +175,7 @@ msgstr "놀록의 성"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "최후의 일격"
+msgstr "아이스 가이 군은 더는 없어"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
@@ -188,7 +188,7 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switches.  This one activates the lift to your right."
-msgstr ""
+msgstr "-스위치\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#스위치는 온갖 방법을 해낼 수 있습니다. 스위치를 작동하려면 위쪽 키를 누르세요. 이곳에서는 오른쪽의 리프트를 작동시킵니다."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""

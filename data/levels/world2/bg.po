@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Любомир Василев, 2015-2016
+# Любомир Василев, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-01-13 00:21+0000\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-06-23 16:10+0000\n"
 "Last-Translator: Любомир Василев\n"
 "Language-Team: Bulgarian (http://www.transifex.com/arctic-games/supertux/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -39,12 +40,16 @@ msgid "Duct Ape"
 msgstr "Сложнотия"
 
 #: data/levels/world2/El_Castillo.stl:3
-msgid "Short Visit to El Castillo"
-msgstr "Кратко посещение в Ел Кастильо"
+msgid "A Short Visit to El Castillo"
+msgstr "Кратко посещение на Ел Кастильо"
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Намери по-голямата риба!"
+
+#: data/levels/world2/Find_Big_Fish.stl:449
+msgid "-A big fish... for you."
+msgstr "-Голяма риба… за теб."
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
@@ -103,7 +108,7 @@ msgstr "Дървена крепост"
 msgid "Tux the Builder"
 msgstr "Строителят Тъкс"
 
-#: data/levels/world2/Tux_Builder.stl:38
+#: data/levels/world2/Tux_Builder.stl:46
 msgid ""
 "-Portable Rocks:\n"
 "\n"

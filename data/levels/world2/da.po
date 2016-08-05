@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-01-13 00:27+0000\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-06-25 17:33+0000\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/arctic-games/supertux/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -39,12 +39,16 @@ msgid "Duct Ape"
 msgstr "Tunnelabe"
 
 #: data/levels/world2/El_Castillo.stl:3
-msgid "Short Visit to El Castillo"
+msgid "A Short Visit to El Castillo"
 msgstr "Et lille visit til El Castillo"
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Find en større fisk!"
+
+#: data/levels/world2/Find_Big_Fish.stl:449
+msgid "-A big fish... for you."
+msgstr "-En stor fisk ... til dig."
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
@@ -103,7 +107,7 @@ msgstr "Træfortet"
 msgid "Tux the Builder"
 msgstr "Byggemand Tux"
 
-#: data/levels/world2/Tux_Builder.stl:38
+#: data/levels/world2/Tux_Builder.stl:46
 msgid ""
 "-Portable Rocks:\n"
 "\n"

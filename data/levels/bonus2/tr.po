@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Alkım Kaçmaz <alkimkacmaz@gmail.com>, 2013
+# Emre ÖZKARTAL <emreaysel26@gmail.com>, 2016
 # Yusuf Özsoy <yusufozsoy96@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-01-12 08:35+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-06-28 06:43+0000\n"
+"Last-Translator: Emre ÖZKARTAL <emreaysel26@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/arctic-games/supertux/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +49,7 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr ""
+msgstr "-Tebrikler!\n\n#Bonus Adası 2'yi \n#tamamen başarıyla tamamladınız\n\n\n\tKatkıda bulunanlar\n \tKevin\n\tJason Kleinmas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tNilrok\n\tCorlin Heydman\n\n\n#Bir kez daha\n#bu oyuna katkıda bulunan\n#herkese teşekkür ediyoruz.\n#Umarız memnun kalmışsınızdır ve\n#Kilometre taşı 3 ü beklemenizi biraz kolaylaştırmıştır. :-)\n\n\nBuz çağının sonu yakın..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."

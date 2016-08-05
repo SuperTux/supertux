@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-04-11 02:35+0000\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-08-04 07:54+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -155,7 +155,7 @@ msgstr "플랑드르 아이스 필드에서"
 
 #: data/levels/bonus2/level8.stl:3
 msgid "Castle in the Sky"
-msgstr "하늘에 성이"
+msgstr "하늘에 성"
 
 #: data/levels/bonus2/level9.stl:3
 msgid "Tradition"

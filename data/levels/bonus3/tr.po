@@ -4,16 +4,17 @@
 # 
 # Translators:
 # Alkım Kaçmaz <alkimkacmaz@gmail.com>, 2013
-# faradundamarti <faradundamarti@yandex.com>, 2015-2016
+# Erdy, 2016
+# mahmut özcan <faradundamarti@yandex.com>, 2015-2016
 # yakup <mutouk@yandex.ru>, 2014
 # Yusuf Özsoy <yusufozsoy96@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-01-13 14:55+0000\n"
-"Last-Translator: faradundamarti <faradundamarti@yandex.com>\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-06-18 23:36+0000\n"
+"Last-Translator: Erdy\n"
 "Language-Team: Turkish (http://www.transifex.com/arctic-games/supertux/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,7 +121,7 @@ msgstr "Çemberler"
 
 #: data/levels/bonus3/dungeon_island/dungeon2.stl:3
 msgid "Don't miss your ride"
-msgstr ""
+msgstr "Aracını kaçırma"
 
 #: data/levels/bonus3/dungeon_island/going_down.stl:3
 msgid "Going down"

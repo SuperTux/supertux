@@ -5,13 +5,14 @@
 # Translators:
 # I will not tell you that <leftermos@yahoo.gr>, 2015
 # Vangelis Nomikos <nvangelis@gmail.com>, 2013
+# Vangelis Skarmoutsos <skarmoutsosv@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-04-26 14:58+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-05-22 18:57+0000\n"
+"Last-Translator: Vangelis Skarmoutsos <skarmoutsosv@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/arctic-games/supertux/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,63 +22,63 @@ msgstr ""
 
 #: data/levels/incubator/Angry Stone vs. YOU.stl:3
 msgid "Angry Stone vs. YOU"
-msgstr ""
+msgstr "Θυμωμένη πέτρα vs. ΕΣΥ"
 
 #: data/levels/incubator/Angry Stone vs. YOU.stl:308
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
-msgstr ""
+msgstr "#Ενεργοποιείς διακόπτες με αυτό το κουμπί:\n!images/tiles/signs/up.png"
 
 #: data/levels/incubator/Castle #1.stl:3
 msgid "Castle #1"
-msgstr ""
+msgstr "Κάστρο #1"
 
 #: data/levels/incubator/Missingno.stl:3
 msgid "Missingno"
-msgstr ""
+msgstr "Missingno"
 
 #: data/levels/incubator/Missingno.stl:535
 msgid "#Be patient!"
-msgstr ""
+msgstr "#Έχε υπομονή!"
 
 #: data/levels/incubator/Missingno.stl:540
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
-msgstr ""
+msgstr "#Μην κινείσαι καθώς πετάς\n#Δώσε προσοχή στην προσγείωση!"
 
 #: data/levels/incubator/NewIcelevel1.stl:3
 msgid "Blue iced hills"
-msgstr ""
+msgstr "Μπλε παγωμένοι λόφοι"
 
 #: data/levels/incubator/NewIcelevel2.stl:3
 msgid "Bads mountains"
-msgstr ""
+msgstr "Βουνά bads"
 
 #: data/levels/incubator/NewIcelevel3.stl:3
 msgid "eman level ehT <---"
-msgstr ""
+msgstr "eman level ehT <---"
 
 #: data/levels/incubator/NewIcelevel4.stl:3
 msgid "Ice sea"
-msgstr ""
+msgstr "Παγωμένη θάλασα"
 
 #: data/levels/incubator/NewIcelevel5.stl:3
 msgid "Electric-Wood factory"
-msgstr ""
+msgstr "Ηλεκτρικό εργοστάσιο ξυλείας"
 
 #: data/levels/incubator/Nice Ice.stl:3
 msgid "Nice Ice"
-msgstr ""
+msgstr "Καλός πάγος"
 
 #: data/levels/incubator/Nice Ice.stl:89
 msgid "#Use the enemy to finish this level!"
-msgstr ""
+msgstr "#Χρησιμοποίησε τον εχθρό για να τελειώσεις αυτό το επίπεδο!"
 
 #: data/levels/incubator/SP33DRUN.stl:3
 msgid "SP33DRUN"
-msgstr ""
+msgstr "SP33DRUN"
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
@@ -93,33 +94,33 @@ msgstr "Κυβικός κήπος του τρελού Ysonn"
 
 #: data/levels/incubator/fall_kugelblitz.stl:3
 msgid "Kugelblitzstorm"
-msgstr ""
+msgstr "Kugelblitzstorm"
 
 #: data/levels/incubator/frozen_fissure.stl:3
 msgid "Frozen Fissure"
-msgstr ""
+msgstr "Παγωμένη σχισμή"
 
 #: data/levels/incubator/hungry_tux.stl:3
 msgid "Tux is hungry!"
-msgstr ""
+msgstr "Ο Tux είναι πεινασμένος!"
 
 #: data/levels/incubator/ice_mountain.stl:3
 msgid "Crystal Mountain"
-msgstr ""
+msgstr "Κρυστάλινο βουνό"
 
 #: data/levels/incubator/in_the_mountain.stl:3
 msgid "In the mountain"
-msgstr ""
+msgstr "Μέσα στο βουνό"
 
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
-msgstr ""
+msgstr "Στο σκοτάδι"
 
 #: data/levels/incubator/into_dark.stl:224
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr ""
+msgstr "-Στοιχείο\n#Χρησιμοποίησε το λουλούδι φωτιάς για να λοιώσεις ένα μονοπάτι μέσα από τον πάγο."
 
 #: data/levels/incubator/into_dark.stl:230
 msgid "#Beware of fire!"
@@ -131,17 +132,17 @@ msgstr "Το Οδοντωτό Μονοπάτι"
 
 #: data/levels/incubator/let_us_snow.stl:3
 msgid "Let us snow!"
-msgstr ""
+msgstr "Ας χιονίσουμε!"
 
 #: data/levels/incubator/let_us_snow.stl:205
 msgid ""
 "-Warning!\n"
 "#Beware the falling enemies!"
-msgstr ""
+msgstr "-Προειδοποίηση\n#Προσοχή στους εχθρούς που πέφτουν!"
 
 #: data/levels/incubator/long.stl:3
 msgid "A long adventure"
-msgstr ""
+msgstr "Μια μακρουλή περιπέτεια"
 
 #: data/levels/incubator/long.stl:1579
 msgid ""
@@ -152,25 +153,25 @@ msgid ""
 "#Even now you must not fail it.\n"
 "#Now go down to the shaft.\n"
 "#I hope you understood."
-msgstr ""
+msgstr "#Μέχρι αυτή τη στιγμή δεν είχες τύχη.\n#Ο δρόμος μέχρι εδώ ήταν δύσκολος.\n#Έχεις πολύ ακόμη δρόμο.\n#Πρέπει να το γνωρίζεις καλά.\n#Ακόμη και τώρα δεν πρέπει να αποτύχεις.\n#Τώρα πάνε κάτω στο πηγάδι.\n#Ελπίζω να κατάλαβες."
 
 #: data/levels/incubator/long.stl:3997
 msgid ""
 "-Congratulations!\n"
 "#You are in half the level! "
-msgstr ""
+msgstr "-Συγχαρητήρια!\n#Είσαι στην μέση του επιπέδου!"
 
 #: data/levels/incubator/long.stl:4549
 msgid "-You are going wrong!"
-msgstr ""
+msgstr "-Πηγαίνεις λάθος!"
 
 #: data/levels/incubator/midnight_crossing.stl:3
 msgid "Midnight Crossing"
-msgstr ""
+msgstr "Διάβαση τα μεσάνυχτα"
 
 #: data/levels/incubator/mountain_climbing.stl:3
 msgid "Mountain climbing"
-msgstr ""
+msgstr "Αναρίχηση βουνού"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
@@ -178,11 +179,11 @@ msgstr "Ο όχι και τόσο μακρύς δρόμος"
 
 #: data/levels/incubator/obstaclecourse.stl:3
 msgid "Obstacle Course"
-msgstr ""
+msgstr "Πορεία με εμπόδιο"
 
 #: data/levels/incubator/obstaclecourse.stl:48
 msgid "#If you get stuck, flip the switch to kill Tux."
-msgstr ""
+msgstr "#Αν κολλήσεις, πάτα τον διακότη για να σκοτώσεις τον Tux."
 
 #: data/levels/incubator/pipeline.stl:3
 msgid "Pipeline"
@@ -190,8 +191,8 @@ msgstr "Γραμμή Σωλήνων"
 
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"
-msgstr ""
+msgstr "Προετοιμασία για δράση"
 
 #: data/levels/incubator/worldmap.stwm:3
 msgid "Incubator Island"
-msgstr ""
+msgstr "Εκκολαπτήριο νησί"

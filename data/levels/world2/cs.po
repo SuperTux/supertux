@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Hume2 <teratux.mail@gmail.com>, 2016
-# Jiří Paleček <nrrstttpt@gmail.com>, 2013,2015
+# Narre <nrrstttpt@gmail.com>, 2013,2015
 # fri, 2013
 # Hume2 <teratux.mail@gmail.com>, 2013-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-01-13 00:31+0000\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-06-23 17:20+0000\n"
 "Last-Translator: Hume2 <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -42,12 +42,16 @@ msgid "Duct Ape"
 msgstr "Kanálem"
 
 #: data/levels/world2/El_Castillo.stl:3
-msgid "Short Visit to El Castillo"
+msgid "A Short Visit to El Castillo"
 msgstr "Krátká návštěva El Castilla"
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
 msgstr "Najdi větší rybu!"
+
+#: data/levels/world2/Find_Big_Fish.stl:449
+msgid "-A big fish... for you."
+msgstr "-Velká ryba... pro tebe."
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
@@ -106,7 +110,7 @@ msgstr "Stromová pevnost"
 msgid "Tux the Builder"
 msgstr "Tux stavitel"
 
-#: data/levels/world2/Tux_Builder.stl:38
+#: data/levels/world2/Tux_Builder.stl:46
 msgid ""
 "-Portable Rocks:\n"
 "\n"

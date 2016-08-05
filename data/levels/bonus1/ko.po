@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 23:24+0200\n"
-"PO-Revision-Date: 2016-04-06 06:33+0000\n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-08-04 07:54+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +91,7 @@ msgstr "뭔가 비린내가"
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
-msgstr "하늘에서 불이"
+msgstr "하늘에서 불"
 
 #: data/levels/bonus1/thompson-level1.stl:3
 msgid "Have I been here before?"
@@ -127,7 +127,7 @@ msgstr "거울 동굴"
 
 #: data/levels/bonus1/wansti-level3.stl:3
 msgid "A Maze In The Sky"
-msgstr "하늘에서 미로가"
+msgstr "하늘에서 미로"
 
 #: data/levels/bonus1/wansti-level4.stl:3
 msgid "Collapse Imminent!"
