@@ -1,6 +1,24 @@
 SuperTux Release and Development Notes
 ======================================
 
+SuperTux 0.5.0-rc.1 (2016-08-05)
+--------------------------------
+
+The SuperTux team is excited to announce the availability of the first release candidate for the upcoming stable release 0.5.0 after less than a year of development. The most prominent change for this release is a new in-game level editor which allows you to create levels and worldmaps on-the-fly from within SuperTux itself.
+
+Changes:
+
+* In-game level editor
+* Improved levels in Antarctica and Forest Island
+* Language packs are fixed
+* Engine performance improvements
+* Extended the scripting API: gradients are now scriptable
+* Added a few more tiles and music
+* New console commands and command line options (related to the editor)
+* Various other bugfixes of issues reported since the v0.4.0 release
+
+This section will be updated with more RCs or a stable version being released.
+
 SuperTux 0.4.0 (2015-12-20)
 ----------------------------
 
