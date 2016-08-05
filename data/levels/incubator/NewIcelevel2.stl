@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Bads mountains"))
+  (name (_ "Bad mountains"))
   (author "Esteban")
   (contact "supertuxeditor@yahoo.es")
   (license "GPL 2+ / CC-by-sa 3.0")
