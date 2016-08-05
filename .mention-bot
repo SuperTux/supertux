@@ -1,0 +1,15 @@
+{
+  "fileBlacklist": [
+    "*.md"
+  ],
+  "userBlacklist": [
+    "Grumbel",
+    "Mathnerd314",
+    "MatzeB",
+    "sommer",
+    "uafr"
+  ],
+  "requiredOrgs": [
+    "SuperTux"
+  ]
+}
