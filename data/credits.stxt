@@ -232,6 +232,11 @@
       (simple #t)
     )
     (person
+      (name "Serano")
+      (info (_ "Level improvements"))
+      (simple #t)
+    )
+    (person
       (name "Matthew Taylor")
       (info (_ "New menu code"))
       (simple #t)
