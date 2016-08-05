@@ -7,7 +7,7 @@ find data/ -name "*.strf" -print0 | xargs -0 xgettext --keyword='_:1' --language
 # Append a new line to the first partial po template
 echo "" >> translations/objects.pot
 
-cat translations/main.pot translations/objects.pot translations/tilesets.pot > translations/messages.pot
+msgcat translations/main.pot translations/objects.pot translations/tilesets.pot > translations/messages.pot
 rm -f translations/main.pot translations/objects.pot translations/tilesets.pot 2> /dev/null
 
 # Prepare script files for inclusion in tinygettext
