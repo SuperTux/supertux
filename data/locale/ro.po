@@ -1,24 +1,50 @@
+# #-#-#-#-#  ro.po (SuperTux)  #-#-#-#-#
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Nicolae Crefelean, 2015-2016
 # drazvan, 2016
 # Razvan <razvan.net@gmail.com>, 2007
+# #-#-#-#-#  ro.po (SuperTux)  #-#-#-#-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Nicolae Crefelean, 2016
+#, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  ro.po (SuperTux)  #-#-#-#-#\n"
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-05 14:31+0200\n"
 "PO-Revision-Date: 2016-08-05 12:37+0000\n"
 "Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
-"Language-Team: Romanian (http://www.transifex.com/arctic-games/supertux/language/ro/)\n"
+"Language-Team: Romanian (http://www.transifex.com/arctic-games/supertux/"
+"language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ro\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
+"#-#-#-#-#  ro.po (SuperTux)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-08-04 09:54+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Romanian (http://www.transifex.com/arctic-games/supertux/"
+"language/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
 
 #: src/badguy/angrystone.hpp:37
 msgid "Angry stone"
@@ -540,6 +566,7 @@ msgid "Edit the script"
 msgstr ""
 
 #: src/object/ambient_sound.cpp:128 src/supertux/menu/options_menu.cpp:209
+#: data//credits.stxt:409
 msgid "Sound"
 msgstr "Sunet"
 
@@ -1026,8 +1053,7 @@ msgid "  --debug                      Print extra verbose messages"
 msgstr "  --debug                      Scrie mesaje foarte detaliate"
 
 #: src/supertux/command_line_arguments.cpp:85
-msgid ""
-"  --print-datadir              Print SuperTux's primary data directory."
+msgid "  --print-datadir              Print SuperTux's primary data directory."
 msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:86
@@ -1048,7 +1074,8 @@ msgstr "  -g, --geometry LĂȚIMExÎNĂLȚIME  Rulează SuperTux în rezoluția 
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
-msgstr "  -a, --aspect LĂȚIMExÎNĂLȚIME    Rulează SuperTux cu rația de aspect cerută"
+msgstr ""
+"  -a, --aspect LĂȚIMExÎNĂLȚIME    Rulează SuperTux cu rația de aspect cerută"
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "  -d, --default                Reset video settings to default values"
@@ -1056,7 +1083,8 @@ msgstr "  -d, --default                Restabilește setările video implicite"
 
 #: src/supertux/command_line_arguments.cpp:92
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr "  --renderer RENDATOR          Folosește sdl, opengl sau auto pentru randare"
+msgstr ""
+"  --renderer RENDATOR          Folosește sdl, opengl sau auto pentru randare"
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "Audio Options:"
@@ -1104,9 +1132,11 @@ msgstr "  -s, --debug-scripts          Activează depanatorul de script."
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid ""
-"  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
-" level is specified."
-msgstr "  --spawn-pos X,Y Locul de start al lui Tux - folosit doar dacă este specificat un nivel."
+"  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if "
+"level is specified."
+msgstr ""
+"  --spawn-pos X,Y Locul de start al lui Tux - folosit doar dacă este "
+"specificat un nivel."
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "Demo Recording Options:"
@@ -1127,13 +1157,17 @@ msgstr "Opțiuni director:"
 #: src/supertux/command_line_arguments.cpp:109
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr "  --datadir DIR                Stabilește directorul fișierelor de date ale jocului"
+msgstr ""
+"  --datadir DIR                Stabilește directorul fișierelor de date ale "
+"jocului"
 
 #: src/supertux/command_line_arguments.cpp:110
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "  --userdir DIR                Stabilește directorul pentru datele utilizatorui (salvări de jocuri etc.)"
+msgstr ""
+"  --userdir DIR                Stabilește directorul pentru datele "
+"utilizatorui (salvări de jocuri etc.)"
 
 #: src/supertux/command_line_arguments.cpp:111
 msgid "Add-On Options:"
@@ -1150,15 +1184,17 @@ msgstr "Variabile de mediu:"
 #: src/supertux/command_line_arguments.cpp:114
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr "  SUPERTUX2_USER_DIR           Director pentru datele utilizatorului (salvări de jocuri etc.)"
+msgstr ""
+"  SUPERTUX2_USER_DIR           Director pentru datele utilizatorului "
+"(salvări de jocuri etc.)"
 
 #: src/supertux/command_line_arguments.cpp:115
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr "  SUPERTUX2_DATA_DIR           Director pentru fișierele de date ale jocului"
+msgstr ""
+"  SUPERTUX2_DATA_DIR           Director pentru fișierele de date ale jocului"
 
 #: src/supertux/direction.cpp:51 src/supertux/menu/options_menu.cpp:61
-#: src/supertux/menu/options_menu.cpp:97
-#: src/supertux/menu/options_menu.cpp:251
+#: src/supertux/menu/options_menu.cpp:97 src/supertux/menu/options_menu.cpp:251
 #: src/supertux/menu/options_menu.cpp:271
 msgid "auto"
 msgstr "auto"
@@ -1296,8 +1332,7 @@ msgstr "Verifică online"
 #: src/supertux/menu/joystick_menu.cpp:98
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/language_menu.cpp:55
-#: src/supertux/menu/options_menu.cpp:238
-#: src/supertux/menu/profile_menu.cpp:47
+#: src/supertux/menu/options_menu.cpp:238 src/supertux/menu/profile_menu.cpp:47
 #: src/supertux/menu/world_set_menu.cpp:44
 #: src/supertux/menu/worldmap_cheat_menu.cpp:46
 msgid "Back"
@@ -1316,7 +1351,9 @@ msgstr "Descărcare %s"
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
-msgstr "Repornește SuperTux\nca să aibă efect modificările."
+msgstr ""
+"Repornește SuperTux\n"
+"ca să aibă efect modificările."
 
 #: src/supertux/menu/cheat_menu.cpp:30
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
@@ -1411,7 +1448,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: src/supertux/menu/editor_level_menu.cpp:39
+#: src/supertux/menu/editor_level_menu.cpp:39 data//credits.stxt:882
 msgid "Contact"
 msgstr "Contact"
 
@@ -1442,7 +1479,8 @@ msgid ""
 "Share this level under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
-"DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
+"DISCLAIMER: The SuperTux authors take no responsibility for your choice of "
+"license."
 msgstr ""
 
 #: src/supertux/menu/editor_levelset_menu.cpp:57
@@ -1467,7 +1505,8 @@ msgid ""
 "Share this worldmap under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
-"DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
+"DISCLAIMER: The SuperTux authors take no responsibility for your choice of "
+"license."
 msgstr ""
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:57
@@ -1578,8 +1617,7 @@ msgid "Restart Level"
 msgstr "Repornește nivelul"
 
 #: src/supertux/menu/game_menu.cpp:37 src/supertux/menu/main_menu.cpp:45
-#: src/supertux/menu/options_menu.cpp:55
-#: src/supertux/menu/worldmap_menu.cpp:32
+#: src/supertux/menu/options_menu.cpp:55 src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
 msgstr "Optiuni"
 
@@ -1599,7 +1637,9 @@ msgstr "Configurare manuală"
 #: src/supertux/menu/joystick_menu.cpp:57
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "Folosește configurarea manuală în locul suportului automat SDL2 pentru controlerele de joc"
+msgstr ""
+"Folosește configurarea manuală în locul suportului automat SDL2 pentru "
+"controlerele de joc"
 
 #: src/supertux/menu/joystick_menu.cpp:69
 #: src/supertux/menu/keyboard_menu.cpp:31
@@ -1844,8 +1884,7 @@ msgstr "Pachete lingvistice"
 msgid "Language packs contain up-to-date translations"
 msgstr "Pachetele lingvistice conțin traduceri actualizate"
 
-#: src/supertux/menu/options_menu.cpp:192
-#: src/supertux/menu/profile_menu.cpp:30
+#: src/supertux/menu/options_menu.cpp:192 src/supertux/menu/profile_menu.cpp:30
 msgid "Select Profile"
 msgstr "Alegere profil"
 
@@ -1867,9 +1906,11 @@ msgstr "Rezoluția"
 
 #: src/supertux/menu/options_menu.cpp:200
 msgid ""
-"Determine the resolution used in fullscreen mode (you must toggle fullscreen"
-" to complete the change)"
-msgstr "Determină rezoluția folosită pe tot ecranul (trebuie să comutați pe tot ecranul pentru aplicarea modificării)"
+"Determine the resolution used in fullscreen mode (you must toggle fullscreen "
+"to complete the change)"
+msgstr ""
+"Determină rezoluția folosită pe tot ecranul (trebuie să comutați pe tot "
+"ecranul pentru aplicarea modificării)"
 
 #: src/supertux/menu/options_menu.cpp:202
 msgid "Magnification"
@@ -2007,9 +2048,14 @@ msgstr "Drepturi de autor"
 
 #: src/supertux/title_screen.cpp:60
 msgid ""
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
+"are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
-msgstr "Acest joc vine FĂRĂ ABSOLUT NICIO GARANȚIE. Acesta este un program liber și sunteți binevenit\nsă îl redistribuiți cu anumite condiții. Citiți fișierul LICENSE pentru detalii.\n"
+msgstr ""
+"Acest joc vine FĂRĂ ABSOLUT NICIO GARANȚIE. Acesta este un program liber și "
+"sunteți binevenit\n"
+"să îl redistribuiți cu anumite condiții. Citiți fișierul LICENSE pentru "
+"detalii.\n"
 
 #: src/trigger/climbable.cpp:72
 msgid "Climbable"
@@ -2242,3 +2288,441 @@ msgstr ""
 #: data//images/worldmap.strf:135
 msgid "Darker Forest"
 msgstr ""
+
+#: data//credits.stxt:13
+msgid "Original Developer"
+msgstr "Dezvoltatorul original"
+
+#: data//credits.stxt:19 data//credits.stxt:25
+msgid "Graphics, Programming, Level Design"
+msgstr "Grafică, programare și design nivele"
+
+#: data//credits.stxt:31
+msgid "Music, Level Design"
+msgstr "Muzică, design nivele"
+
+#: data//credits.stxt:37 data//credits.stxt:137 data//credits.stxt:142
+#: data//credits.stxt:191 data//credits.stxt:256
+msgid "Graphics"
+msgstr "Grafică"
+
+#: data//credits.stxt:43
+msgid "Programming, Graphics, Level Design"
+msgstr "Programare, grafică și design nivele"
+
+#: data//credits.stxt:49 data//credits.stxt:87 data//credits.stxt:102
+msgid "Programming, Level Design"
+msgstr "Programare și design nivele"
+
+#: data//credits.stxt:55
+msgid "Graphics, Story"
+msgstr "Grafică și poveste"
+
+#: data//credits.stxt:61
+msgid "Programming, Documentation"
+msgstr "Programare și documentare"
+
+#: data//credits.stxt:67 data//credits.stxt:77 data//credits.stxt:82
+#: data//credits.stxt:107 data//credits.stxt:252 data//credits.stxt:264
+msgid "Programming"
+msgstr "Programare"
+
+#: data//credits.stxt:72
+msgid "Programming, project lead ad interim"
+msgstr "Programare, șef interimar de proiect"
+
+#: data//credits.stxt:92
+msgid "Coordination"
+msgstr "Coordonare"
+
+#: data//credits.stxt:97
+msgid "Programming, \"Flexlay\" Level editor"
+msgstr "Programare și editor de nivele „Flexlay”"
+
+#: data//credits.stxt:112
+msgid "Windows build fixes"
+msgstr "Remedii pentru pachetele Windows"
+
+#: data//credits.stxt:117
+msgid "Level Design, Graphics"
+msgstr "Design nivele și grafică"
+
+#: data//credits.stxt:122
+msgid "Packaging, Nightly builds"
+msgstr "Împachetare și compilări zilnice"
+
+#: data//credits.stxt:127
+msgid "Translation Guru (and many details anyone else could have done)"
+msgstr "Traducător guru (și multe altele)"
+
+#: data//credits.stxt:132
+msgid "Level Design"
+msgstr "Design de nivele"
+
+#: data//credits.stxt:147
+msgid "Additional contributors"
+msgstr "Alți contribuitori"
+
+#: data//credits.stxt:151
+msgid "Bug fixes"
+msgstr "Remedii probleme"
+
+#: data//credits.stxt:156
+msgid "Scripting functions, Level fixes"
+msgstr "Funcții de scenarizare, remedii nivele"
+
+#: data//credits.stxt:161
+msgid "Code quality fixes"
+msgstr "Remedii pentru calitatea codului"
+
+#: data//credits.stxt:166 data//credits.stxt:171 data//credits.stxt:176
+#: data//credits.stxt:211
+msgid "Various contributions"
+msgstr "Diverse contribuții"
+
+#: data//credits.stxt:181
+msgid "Build issue fix"
+msgstr "Remedii pentru compilare"
+
+#: data//credits.stxt:186
+msgid "Code contributions"
+msgstr "Contribuții cu cod"
+
+#: data//credits.stxt:196
+msgid "Code contribution, AppData file"
+msgstr "Contribuții cu cod, fișierul AppData"
+
+#: data//credits.stxt:201
+msgid "Bug fix"
+msgstr "Remedii probleme"
+
+#: data//credits.stxt:206
+msgid "Menu reorganization"
+msgstr "Reorganizare meniu"
+
+#: data//credits.stxt:216
+msgid "Fixing tile bugs"
+msgstr "Remedii pentru obiectele decorative"
+
+#: data//credits.stxt:221
+msgid "Build error fix"
+msgstr "Remedii pentru erori la compilare"
+
+#: data//credits.stxt:226
+msgid "Scripting function fix"
+msgstr "Remedii pentru funcția de scenarizare"
+
+#: data//credits.stxt:231
+msgid "Support for \"glbinding\" as optional OpenGL binding"
+msgstr "Suport „glbinding”, ca opțiune pentru interfațarea cu OpenGL"
+
+#: data//credits.stxt:236
+msgid "New menu code"
+msgstr "Cod pentru noul meniu"
+
+#: data//credits.stxt:241
+msgid "Level improvements"
+msgstr ""
+
+#: data//credits.stxt:247
+msgid "Milestone 1 contributions by..."
+msgstr "Contribuții la Episodul 1..."
+
+#: data//credits.stxt:260 data//credits.stxt:268
+msgid "Contrib Programming"
+msgstr "Contribuții programare"
+
+#: data//credits.stxt:272
+msgid "Programming, Previous Maintainer"
+msgstr "Programare și întreținerea anterioară"
+
+#: data//credits.stxt:277
+msgid "Additional Music"
+msgstr "Muzică adițională"
+
+#: data//credits.stxt:282
+msgid "\"Mortimers Chipdisko\" by"
+msgstr "\"Mortimers Chipdisko\" de"
+
+#: data//credits.stxt:291
+msgid "\"Salsa Con Carne\" by"
+msgstr "\"Salsa Con Carne\" de"
+
+#: data//credits.stxt:299 data//credits.stxt:351
+msgid "remixed by"
+msgstr "remixat de"
+
+#: data//credits.stxt:308
+msgid "\"voc songs\" by"
+msgstr "\"voc songs\" de"
+
+#: data//credits.stxt:317
+msgid "\"clavelian_march\" by"
+msgstr "\"clavelian_march\" de"
+
+#: data//credits.stxt:326
+msgid "Excerpts from the Giana Sisters"
+msgstr "Extrase din Giana Sisters"
+
+#: data//credits.stxt:330
+msgid "Soundtrack used with kind permission"
+msgstr "Coloană sonoră folosită cu permisiunea"
+
+#: data//credits.stxt:334
+msgid "from"
+msgstr "din"
+
+#: data//credits.stxt:343
+msgid "\"Airship song\" (orchestral remix) by"
+msgstr "\"Melodia dirijabilului\" (remix orchestral) de"
+
+#: data//credits.stxt:360
+msgid "\"Battle Theme\" by"
+msgstr "\"Tematica de bătălie\" de"
+
+#: data//credits.stxt:369
+msgid "\"SuperTux christmas theme\""
+msgstr "\"Tematica de Crăciun SuperTux\""
+
+#: data//credits.stxt:373
+msgid "original by"
+msgstr "original de"
+
+#: data//credits.stxt:382
+msgid "arranged by"
+msgstr "aranjat de"
+
+#: data//credits.stxt:391
+msgid "\"halloween_1.ogg\" by"
+msgstr "\"halloween_1.ogg\" de"
+
+#: data//credits.stxt:400
+msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
+msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg) de"
+
+#: data//credits.stxt:480
+msgid "Voice Acting"
+msgstr "Interpretare vocală"
+
+#: data//credits.stxt:511
+msgid "Localization"
+msgstr "Traducere"
+
+#: data//credits.stxt:516 data//credits.stxt:651
+msgid "Danish"
+msgstr "Daneză"
+
+#: data//credits.stxt:521
+msgid "Vietnamese"
+msgstr "Vietnameză"
+
+#: data//credits.stxt:526 data//credits.stxt:607 data//credits.stxt:615
+#: data//credits.stxt:707 data//credits.stxt:723 data//credits.stxt:759
+#: data//credits.stxt:767 data//credits.stxt:775 data//credits.stxt:855
+msgid "French"
+msgstr "Franceză"
+
+#: data//credits.stxt:531 data//credits.stxt:566 data//credits.stxt:631
+#: data//credits.stxt:703 data//credits.stxt:803 data//credits.stxt:843
+msgid "German"
+msgstr "Germană"
+
+#: data//credits.stxt:536 data//credits.stxt:611 data//credits.stxt:847
+msgid "Russian"
+msgstr "Rusă"
+
+#: data//credits.stxt:541
+msgid "Albanese"
+msgstr "Albaneză"
+
+#: data//credits.stxt:546 data//credits.stxt:571 data//credits.stxt:583
+msgid "Castilian Spanish"
+msgstr "Spaniolă castiliană"
+
+#: data//credits.stxt:551 data//credits.stxt:579 data//credits.stxt:627
+#: data//credits.stxt:779 data//credits.stxt:811 data//credits.stxt:859
+msgid "Hungarian"
+msgstr "Maghiară"
+
+#: data//credits.stxt:556 data//credits.stxt:635 data//credits.stxt:671
+msgid "Spanish"
+msgstr "Spaniolă"
+
+#: data//credits.stxt:561 data//credits.stxt:587 data//credits.stxt:839
+msgid "Catalan"
+msgstr "Catalană"
+
+#: data//credits.stxt:575
+msgid "Slovenian"
+msgstr "Slovenă"
+
+#: data//credits.stxt:591
+msgid "Mandarin"
+msgstr "Mandarină"
+
+#: data//credits.stxt:595 data//credits.stxt:667 data//credits.stxt:695
+msgid "European Portuguese"
+msgstr "Portugheză europeană"
+
+#: data//credits.stxt:599
+msgid "Romanian"
+msgstr "Română"
+
+#: data//credits.stxt:603 data//credits.stxt:823
+msgid "Dutch"
+msgstr "Daneză"
+
+#: data//credits.stxt:619 data//credits.stxt:711 data//credits.stxt:851
+msgid "Turkish"
+msgstr "Turcă"
+
+#: data//credits.stxt:623
+msgid "European/Brazilian Portuguese"
+msgstr "Portugheză braziliană/europeană"
+
+#: data//credits.stxt:639 data//credits.stxt:655 data//credits.stxt:659
+#: data//credits.stxt:727 data//credits.stxt:831
+msgid "Czech"
+msgstr "Cehă"
+
+#: data//credits.stxt:643 data//credits.stxt:763
+msgid "Nepali"
+msgstr "Nepaleză"
+
+#: data//credits.stxt:647 data//credits.stxt:731 data//credits.stxt:747
+#: data//credits.stxt:771
+msgid "Brazilian Portuguese"
+msgstr "Portugheză braziliană"
+
+#: data//credits.stxt:663 data//credits.stxt:675
+msgid "Italian"
+msgstr "Italiană"
+
+#: data//credits.stxt:679
+msgid "Estonian"
+msgstr "Estonă"
+
+#: data//credits.stxt:683 data//credits.stxt:687 data//credits.stxt:719
+#: data//credits.stxt:815
+msgid "Polish"
+msgstr "Poloneză"
+
+#: data//credits.stxt:691
+msgid "French/Esperanto"
+msgstr "Franceză/Esperanto"
+
+#: data//credits.stxt:699 data//credits.stxt:819
+msgid "Ukrainian"
+msgstr "Ucraineană"
+
+#: data//credits.stxt:715
+msgid "Breton"
+msgstr "Bretonă"
+
+#: data//credits.stxt:735 data//credits.stxt:787
+msgid "Greek"
+msgstr "Greacă"
+
+#: data//credits.stxt:739 data//credits.stxt:755
+msgid "Norwegian Bokmål"
+msgstr ""
+
+#: data//credits.stxt:743
+msgid "Swedish"
+msgstr "Suedeză"
+
+#: data//credits.stxt:751 data//credits.stxt:799
+msgid "Finnish"
+msgstr "Finlandeză"
+
+#: data//credits.stxt:783
+msgid "Serbian"
+msgstr "Sârbă"
+
+#: data//credits.stxt:791
+msgid "Japanese"
+msgstr "Japoneză"
+
+#: data//credits.stxt:795
+msgid "Simplified Chinese"
+msgstr "Chineză simplificată"
+
+#: data//credits.stxt:807
+msgid "Lithuanian"
+msgstr "Lituaniană"
+
+#: data//credits.stxt:827
+msgid "Belarusian"
+msgstr "Bielorusă"
+
+#: data//credits.stxt:835
+msgid "Bulgarian"
+msgstr "Bulgară"
+
+#: data//credits.stxt:865
+msgid "Thanks to"
+msgstr "Mulțumiri către"
+
+#: data//credits.stxt:870
+msgid "Creator of Tux, the Linux penguin"
+msgstr "Creatorul lui Tux, pinguinul Linux"
+
+#: data//credits.stxt:874
+msgid "SDL, OpenAL and OpenGL"
+msgstr "SDL, OpenAL și OpenGL"
+
+#: data//credits.stxt:875
+msgid ""
+"For making such a great gaming experience\n"
+"        possible on Linux"
+msgstr ""
+"Pentru că a făcut din joaca pe Linux\n"
+"o experiență atât de plăcută"
+
+#: data//credits.stxt:887
+msgid "Visit our webpage at"
+msgstr "Vizitați-ne pagina de internet la"
+
+#: data//credits.stxt:896
+msgid "Or visit us directly at IRC:"
+msgstr "Sau vizitați-ne direct în IRC:"
+
+#: data//credits.stxt:900
+msgid "#supertux at webchat.freenode.net"
+msgstr "#supertux pe webchat.freenode.net"
+
+#: data//credits.stxt:905
+msgid "Or at our Forum:"
+msgstr "Sau în forumul nostru:"
+
+#: data//credits.stxt:914
+msgid "Comments, ideas and suggestions"
+msgstr "Comentariile, ideile și sugestiile"
+
+#: data//credits.stxt:918
+msgid "go to our mailing list"
+msgstr "merg în lista noastră de mesagerie"
+
+#: data//credits.stxt:929
+msgid "Want to help…"
+msgstr "Dorești să ne ajuți..."
+
+#: data//credits.stxt:934
+msgid "…with localization?"
+msgstr "...cu traducerea?"
+
+#: data//credits.stxt:944
+msgid "…with something else?"
+msgstr "...cu altceva?"
+
+#: data//credits.stxt:955
+msgid "Thank you for"
+msgstr "Îți mulțumim"
+
+#: data//credits.stxt:959
+msgid "playing"
+msgstr "pentru că te-ai jucat"
+
+#: data//credits.stxt:971
+msgid "Penny awaits you in Milestone 3!"
+msgstr "Penyy te așteaptă în Episodul 3!"

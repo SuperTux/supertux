@@ -1,26 +1,52 @@
+# #-#-#-#-#  sr.po (SuperTux)  #-#-#-#-#
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Alert Aleksandar, 2016
 # Benjamin Leduc <giby_the_kid@yahoo.fr>, 2015
 # Slobodan Simić <slsimic@gmail.com>, 2014,2016
 # Slobodan Simić <slsimic@gmail.com>, 2014
 # Slobodan Simić <slsimic@gmail.com>, 2015
+# #-#-#-#-#  sr.po (SuperTux)  #-#-#-#-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Alert Aleksandar, 2016
+#, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  sr.po (SuperTux)  #-#-#-#-#\n"
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-05 14:31+0200\n"
 "PO-Revision-Date: 2016-08-05 12:37+0000\n"
 "Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
-"Language-Team: Serbian (http://www.transifex.com/arctic-games/supertux/language/sr/)\n"
+"Language-Team: Serbian (http://www.transifex.com/arctic-games/supertux/"
+"language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sr\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"#-#-#-#-#  sr.po (SuperTux)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-08-04 09:54+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Serbian (http://www.transifex.com/arctic-games/supertux/"
+"language/sr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sr\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: src/badguy/angrystone.hpp:37
 msgid "Angry stone"
@@ -350,7 +376,12 @@ msgid ""
 "and might cause collisions with default Super Tux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr "Неки застарели додаци су и даље активни\nи могу изазвати сударање са подразумеваном\nструктуром Супер Такса.\nИ даље их можете укључити из менија.\nИскључивање ових додатака неће поништити ваш напредак у игри."
+msgstr ""
+"Неки застарели додаци су и даље активни\n"
+"и могу изазвати сударање са подразумеваном\n"
+"структуром Супер Такса.\n"
+"И даље их можете укључити из менија.\n"
+"Искључивање ових додатака неће поништити ваш напредак у игри."
 
 #: src/editor/editor.cpp:348
 msgid "Disable add-ons"
@@ -542,6 +573,7 @@ msgid "Edit the script"
 msgstr "Уреди скрипту"
 
 #: src/object/ambient_sound.cpp:128 src/supertux/menu/options_menu.cpp:209
+#: data//credits.stxt:409
 msgid "Sound"
 msgstr "Звук"
 
@@ -1028,8 +1060,7 @@ msgid "  --debug                      Print extra verbose messages"
 msgstr "--debug Приказује опширније поруке"
 
 #: src/supertux/command_line_arguments.cpp:85
-msgid ""
-"  --print-datadir              Print SuperTux's primary data directory."
+msgid "  --print-datadir              Print SuperTux's primary data directory."
 msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:86
@@ -1106,9 +1137,11 @@ msgstr "-s, --debug-scripts Укључује скрипте за исправљ�
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid ""
-"  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
-" level is specified."
-msgstr "  --spawn-pos X,Y              Где у нивоу поставити Такса. Ради само ако се наведе ниво."
+"  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if "
+"level is specified."
+msgstr ""
+"  --spawn-pos X,Y              Где у нивоу поставити Такса. Ради само ако се "
+"наведе ниво."
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "Demo Recording Options:"
@@ -1135,7 +1168,9 @@ msgstr "--datadir ДИР Поставља директоријум где се �
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "--userdir ДИР Поставља директоријум за корисничке податке (снимање позиције, итд.)"
+msgstr ""
+"--userdir ДИР Поставља директоријум за корисничке податке (снимање позиције, "
+"итд.)"
 
 #: src/supertux/command_line_arguments.cpp:111
 msgid "Add-On Options:"
@@ -1152,15 +1187,16 @@ msgstr "Променљиве окружења:"
 #: src/supertux/command_line_arguments.cpp:114
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
-msgstr "SUPERTUX2_USER_DIR Директоријум за корисничке податке (снимање позиције, итд.)"
+msgstr ""
+"SUPERTUX2_USER_DIR Директоријум за корисничке податке (снимање позиције, "
+"итд.)"
 
 #: src/supertux/command_line_arguments.cpp:115
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "SUPERTUX2_DATA_DIR Директоријум где се налазе подаци игрице"
 
 #: src/supertux/direction.cpp:51 src/supertux/menu/options_menu.cpp:61
-#: src/supertux/menu/options_menu.cpp:97
-#: src/supertux/menu/options_menu.cpp:251
+#: src/supertux/menu/options_menu.cpp:97 src/supertux/menu/options_menu.cpp:251
 #: src/supertux/menu/options_menu.cpp:271
 msgid "auto"
 msgstr "аутоматски"
@@ -1298,8 +1334,7 @@ msgstr "Провери на мрежи"
 #: src/supertux/menu/joystick_menu.cpp:98
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/language_menu.cpp:55
-#: src/supertux/menu/options_menu.cpp:238
-#: src/supertux/menu/profile_menu.cpp:47
+#: src/supertux/menu/options_menu.cpp:238 src/supertux/menu/profile_menu.cpp:47
 #: src/supertux/menu/world_set_menu.cpp:44
 #: src/supertux/menu/worldmap_cheat_menu.cpp:46
 msgid "Back"
@@ -1318,7 +1353,9 @@ msgstr "Преузимам %s"
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
-msgstr "Поново покрените Супер Такс\nда би ове промене биле примењене."
+msgstr ""
+"Поново покрените Супер Такс\n"
+"да би ове промене биле примењене."
 
 #: src/supertux/menu/cheat_menu.cpp:30
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
@@ -1413,7 +1450,7 @@ msgstr "Својства нивоа"
 msgid "Author"
 msgstr "Аутор"
 
-#: src/supertux/menu/editor_level_menu.cpp:39
+#: src/supertux/menu/editor_level_menu.cpp:39 data//credits.stxt:882
 msgid "Contact"
 msgstr "Контакт"
 
@@ -1444,7 +1481,8 @@ msgid ""
 "Share this level under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
-"DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
+"DISCLAIMER: The SuperTux authors take no responsibility for your choice of "
+"license."
 msgstr ""
 
 #: src/supertux/menu/editor_levelset_menu.cpp:57
@@ -1469,7 +1507,8 @@ msgid ""
 "Share this worldmap under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
-"DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
+"DISCLAIMER: The SuperTux authors take no responsibility for your choice of "
+"license."
 msgstr ""
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:57
@@ -1580,8 +1619,7 @@ msgid "Restart Level"
 msgstr "Поново покрени ниво"
 
 #: src/supertux/menu/game_menu.cpp:37 src/supertux/menu/main_menu.cpp:45
-#: src/supertux/menu/options_menu.cpp:55
-#: src/supertux/menu/worldmap_menu.cpp:32
+#: src/supertux/menu/options_menu.cpp:55 src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
 msgstr "Опције"
 
@@ -1601,7 +1639,8 @@ msgstr "Ручно подешавање"
 #: src/supertux/menu/joystick_menu.cpp:57
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "Користи ручно подешавање уместо аутоматске СДЛ2 подршке за играчке контролере"
+msgstr ""
+"Користи ручно подешавање уместо аутоматске СДЛ2 подршке за играчке контролере"
 
 #: src/supertux/menu/joystick_menu.cpp:69
 #: src/supertux/menu/keyboard_menu.cpp:31
@@ -1846,8 +1885,7 @@ msgstr "Језички пакети"
 msgid "Language packs contain up-to-date translations"
 msgstr "Језички пакети садрже ажурне преводе"
 
-#: src/supertux/menu/options_menu.cpp:192
-#: src/supertux/menu/profile_menu.cpp:30
+#: src/supertux/menu/options_menu.cpp:192 src/supertux/menu/profile_menu.cpp:30
 msgid "Select Profile"
 msgstr "Изабери профил"
 
@@ -1869,9 +1907,11 @@ msgstr "Резолуција"
 
 #: src/supertux/menu/options_menu.cpp:200
 msgid ""
-"Determine the resolution used in fullscreen mode (you must toggle fullscreen"
-" to complete the change)"
-msgstr "Одређује резолуцију за режим пуног екрана (морате укључити Пун екран да довршите измену)"
+"Determine the resolution used in fullscreen mode (you must toggle fullscreen "
+"to complete the change)"
+msgstr ""
+"Одређује резолуцију за режим пуног екрана (морате укључити Пун екран да "
+"довршите измену)"
 
 #: src/supertux/menu/options_menu.cpp:202
 msgid "Magnification"
@@ -2009,9 +2049,13 @@ msgstr "Ауторска права"
 
 #: src/supertux/title_screen.cpp:60
 msgid ""
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
+"are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
-msgstr "Ова игрица не даје АПСОЛУТНО НИКАКВЕ ГАРАНЦИЈЕ. Ово је слободан софтвер и можете га\nпоновно дистрибуирати под одређеним условима; погледајте Лиценцу за детаље.\n"
+msgstr ""
+"Ова игрица не даје АПСОЛУТНО НИКАКВЕ ГАРАНЦИЈЕ. Ово је слободан софтвер и "
+"можете га\n"
+"поновно дистрибуирати под одређеним условима; погледајте Лиценцу за детаље.\n"
 
 #: src/trigger/climbable.cpp:72
 msgid "Climbable"
@@ -2243,4 +2287,440 @@ msgstr ""
 
 #: data//images/worldmap.strf:135
 msgid "Darker Forest"
+msgstr ""
+
+#: data//credits.stxt:13
+msgid "Original Developer"
+msgstr "Оригинални програмер"
+
+#: data//credits.stxt:19 data//credits.stxt:25
+msgid "Graphics, Programming, Level Design"
+msgstr "Графика, програмирање, ниво дизајна"
+
+#: data//credits.stxt:31
+msgid "Music, Level Design"
+msgstr ""
+
+#: data//credits.stxt:37 data//credits.stxt:137 data//credits.stxt:142
+#: data//credits.stxt:191 data//credits.stxt:256
+msgid "Graphics"
+msgstr "Графика"
+
+#: data//credits.stxt:43
+msgid "Programming, Graphics, Level Design"
+msgstr ""
+
+#: data//credits.stxt:49 data//credits.stxt:87 data//credits.stxt:102
+msgid "Programming, Level Design"
+msgstr ""
+
+#: data//credits.stxt:55
+msgid "Graphics, Story"
+msgstr ""
+
+#: data//credits.stxt:61
+msgid "Programming, Documentation"
+msgstr ""
+
+#: data//credits.stxt:67 data//credits.stxt:77 data//credits.stxt:82
+#: data//credits.stxt:107 data//credits.stxt:252 data//credits.stxt:264
+msgid "Programming"
+msgstr "Програмирање"
+
+#: data//credits.stxt:72
+msgid "Programming, project lead ad interim"
+msgstr ""
+
+#: data//credits.stxt:92
+msgid "Coordination"
+msgstr "Координација"
+
+#: data//credits.stxt:97
+msgid "Programming, \"Flexlay\" Level editor"
+msgstr ""
+
+#: data//credits.stxt:112
+msgid "Windows build fixes"
+msgstr ""
+
+#: data//credits.stxt:117
+msgid "Level Design, Graphics"
+msgstr ""
+
+#: data//credits.stxt:122
+msgid "Packaging, Nightly builds"
+msgstr ""
+
+#: data//credits.stxt:127
+msgid "Translation Guru (and many details anyone else could have done)"
+msgstr ""
+
+#: data//credits.stxt:132
+msgid "Level Design"
+msgstr ""
+
+#: data//credits.stxt:147
+msgid "Additional contributors"
+msgstr ""
+
+#: data//credits.stxt:151
+msgid "Bug fixes"
+msgstr ""
+
+#: data//credits.stxt:156
+msgid "Scripting functions, Level fixes"
+msgstr ""
+
+#: data//credits.stxt:161
+msgid "Code quality fixes"
+msgstr ""
+
+#: data//credits.stxt:166 data//credits.stxt:171 data//credits.stxt:176
+#: data//credits.stxt:211
+msgid "Various contributions"
+msgstr ""
+
+#: data//credits.stxt:181
+msgid "Build issue fix"
+msgstr ""
+
+#: data//credits.stxt:186
+msgid "Code contributions"
+msgstr ""
+
+#: data//credits.stxt:196
+msgid "Code contribution, AppData file"
+msgstr ""
+
+#: data//credits.stxt:201
+msgid "Bug fix"
+msgstr ""
+
+#: data//credits.stxt:206
+msgid "Menu reorganization"
+msgstr ""
+
+#: data//credits.stxt:216
+msgid "Fixing tile bugs"
+msgstr ""
+
+#: data//credits.stxt:221
+msgid "Build error fix"
+msgstr ""
+
+#: data//credits.stxt:226
+msgid "Scripting function fix"
+msgstr ""
+
+#: data//credits.stxt:231
+msgid "Support for \"glbinding\" as optional OpenGL binding"
+msgstr ""
+
+#: data//credits.stxt:236
+msgid "New menu code"
+msgstr ""
+
+#: data//credits.stxt:241
+msgid "Level improvements"
+msgstr ""
+
+#: data//credits.stxt:247
+msgid "Milestone 1 contributions by..."
+msgstr ""
+
+#: data//credits.stxt:260 data//credits.stxt:268
+msgid "Contrib Programming"
+msgstr ""
+
+#: data//credits.stxt:272
+msgid "Programming, Previous Maintainer"
+msgstr ""
+
+#: data//credits.stxt:277
+msgid "Additional Music"
+msgstr ""
+
+#: data//credits.stxt:282
+msgid "\"Mortimers Chipdisko\" by"
+msgstr ""
+
+#: data//credits.stxt:291
+msgid "\"Salsa Con Carne\" by"
+msgstr ""
+
+#: data//credits.stxt:299 data//credits.stxt:351
+msgid "remixed by"
+msgstr ""
+
+#: data//credits.stxt:308
+msgid "\"voc songs\" by"
+msgstr ""
+
+#: data//credits.stxt:317
+msgid "\"clavelian_march\" by"
+msgstr ""
+
+#: data//credits.stxt:326
+msgid "Excerpts from the Giana Sisters"
+msgstr ""
+
+#: data//credits.stxt:330
+msgid "Soundtrack used with kind permission"
+msgstr ""
+
+#: data//credits.stxt:334
+msgid "from"
+msgstr ""
+
+#: data//credits.stxt:343
+msgid "\"Airship song\" (orchestral remix) by"
+msgstr ""
+
+#: data//credits.stxt:360
+msgid "\"Battle Theme\" by"
+msgstr ""
+
+#: data//credits.stxt:369
+msgid "\"SuperTux christmas theme\""
+msgstr ""
+
+#: data//credits.stxt:373
+msgid "original by"
+msgstr ""
+
+#: data//credits.stxt:382
+msgid "arranged by"
+msgstr ""
+
+#: data//credits.stxt:391
+msgid "\"halloween_1.ogg\" by"
+msgstr ""
+
+#: data//credits.stxt:400
+msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
+msgstr ""
+
+#: data//credits.stxt:480
+msgid "Voice Acting"
+msgstr ""
+
+#: data//credits.stxt:511
+msgid "Localization"
+msgstr ""
+
+#: data//credits.stxt:516 data//credits.stxt:651
+msgid "Danish"
+msgstr ""
+
+#: data//credits.stxt:521
+msgid "Vietnamese"
+msgstr ""
+
+#: data//credits.stxt:526 data//credits.stxt:607 data//credits.stxt:615
+#: data//credits.stxt:707 data//credits.stxt:723 data//credits.stxt:759
+#: data//credits.stxt:767 data//credits.stxt:775 data//credits.stxt:855
+msgid "French"
+msgstr ""
+
+#: data//credits.stxt:531 data//credits.stxt:566 data//credits.stxt:631
+#: data//credits.stxt:703 data//credits.stxt:803 data//credits.stxt:843
+msgid "German"
+msgstr ""
+
+#: data//credits.stxt:536 data//credits.stxt:611 data//credits.stxt:847
+msgid "Russian"
+msgstr ""
+
+#: data//credits.stxt:541
+msgid "Albanese"
+msgstr ""
+
+#: data//credits.stxt:546 data//credits.stxt:571 data//credits.stxt:583
+msgid "Castilian Spanish"
+msgstr ""
+
+#: data//credits.stxt:551 data//credits.stxt:579 data//credits.stxt:627
+#: data//credits.stxt:779 data//credits.stxt:811 data//credits.stxt:859
+msgid "Hungarian"
+msgstr ""
+
+#: data//credits.stxt:556 data//credits.stxt:635 data//credits.stxt:671
+msgid "Spanish"
+msgstr ""
+
+#: data//credits.stxt:561 data//credits.stxt:587 data//credits.stxt:839
+msgid "Catalan"
+msgstr ""
+
+#: data//credits.stxt:575
+msgid "Slovenian"
+msgstr ""
+
+#: data//credits.stxt:591
+msgid "Mandarin"
+msgstr ""
+
+#: data//credits.stxt:595 data//credits.stxt:667 data//credits.stxt:695
+msgid "European Portuguese"
+msgstr ""
+
+#: data//credits.stxt:599
+msgid "Romanian"
+msgstr ""
+
+#: data//credits.stxt:603 data//credits.stxt:823
+msgid "Dutch"
+msgstr ""
+
+#: data//credits.stxt:619 data//credits.stxt:711 data//credits.stxt:851
+msgid "Turkish"
+msgstr ""
+
+#: data//credits.stxt:623
+msgid "European/Brazilian Portuguese"
+msgstr ""
+
+#: data//credits.stxt:639 data//credits.stxt:655 data//credits.stxt:659
+#: data//credits.stxt:727 data//credits.stxt:831
+msgid "Czech"
+msgstr ""
+
+#: data//credits.stxt:643 data//credits.stxt:763
+msgid "Nepali"
+msgstr ""
+
+#: data//credits.stxt:647 data//credits.stxt:731 data//credits.stxt:747
+#: data//credits.stxt:771
+msgid "Brazilian Portuguese"
+msgstr ""
+
+#: data//credits.stxt:663 data//credits.stxt:675
+msgid "Italian"
+msgstr ""
+
+#: data//credits.stxt:679
+msgid "Estonian"
+msgstr ""
+
+#: data//credits.stxt:683 data//credits.stxt:687 data//credits.stxt:719
+#: data//credits.stxt:815
+msgid "Polish"
+msgstr ""
+
+#: data//credits.stxt:691
+msgid "French/Esperanto"
+msgstr ""
+
+#: data//credits.stxt:699 data//credits.stxt:819
+msgid "Ukrainian"
+msgstr ""
+
+#: data//credits.stxt:715
+msgid "Breton"
+msgstr ""
+
+#: data//credits.stxt:735 data//credits.stxt:787
+msgid "Greek"
+msgstr ""
+
+#: data//credits.stxt:739 data//credits.stxt:755
+msgid "Norwegian Bokmål"
+msgstr ""
+
+#: data//credits.stxt:743
+msgid "Swedish"
+msgstr ""
+
+#: data//credits.stxt:751 data//credits.stxt:799
+msgid "Finnish"
+msgstr ""
+
+#: data//credits.stxt:783
+msgid "Serbian"
+msgstr ""
+
+#: data//credits.stxt:791
+msgid "Japanese"
+msgstr ""
+
+#: data//credits.stxt:795
+msgid "Simplified Chinese"
+msgstr ""
+
+#: data//credits.stxt:807
+msgid "Lithuanian"
+msgstr ""
+
+#: data//credits.stxt:827
+msgid "Belarusian"
+msgstr ""
+
+#: data//credits.stxt:835
+msgid "Bulgarian"
+msgstr ""
+
+#: data//credits.stxt:865
+msgid "Thanks to"
+msgstr ""
+
+#: data//credits.stxt:870
+msgid "Creator of Tux, the Linux penguin"
+msgstr ""
+
+#: data//credits.stxt:874
+msgid "SDL, OpenAL and OpenGL"
+msgstr ""
+
+#: data//credits.stxt:875
+msgid ""
+"For making such a great gaming experience\n"
+"        possible on Linux"
+msgstr ""
+
+#: data//credits.stxt:887
+msgid "Visit our webpage at"
+msgstr ""
+
+#: data//credits.stxt:896
+msgid "Or visit us directly at IRC:"
+msgstr ""
+
+#: data//credits.stxt:900
+msgid "#supertux at webchat.freenode.net"
+msgstr ""
+
+#: data//credits.stxt:905
+msgid "Or at our Forum:"
+msgstr ""
+
+#: data//credits.stxt:914
+msgid "Comments, ideas and suggestions"
+msgstr ""
+
+#: data//credits.stxt:918
+msgid "go to our mailing list"
+msgstr ""
+
+#: data//credits.stxt:929
+msgid "Want to help…"
+msgstr ""
+
+#: data//credits.stxt:934
+msgid "…with localization?"
+msgstr ""
+
+#: data//credits.stxt:944
+msgid "…with something else?"
+msgstr ""
+
+#: data//credits.stxt:955
+msgid "Thank you for"
+msgstr ""
+
+#: data//credits.stxt:959
+msgid "playing"
+msgstr ""
+
+#: data//credits.stxt:971
+msgid "Penny awaits you in Milestone 3!"
 msgstr ""

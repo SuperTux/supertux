@@ -1,18 +1,42 @@
+# #-#-#-#-#  ko.po (SuperTux)  #-#-#-#-#
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Myeongjin <aranet100@gmail.com>, 2016
 # Roland Kim <dyn4micwork@gmail.com>, 2014-2015
+# #-#-#-#-#  ko.po (SuperTux)  #-#-#-#-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Myeongjin <aranet100@gmail.com>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  ko.po (SuperTux)  #-#-#-#-#\n"
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-05 14:31+0200\n"
 "PO-Revision-Date: 2016-08-05 12:48+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
-"Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
+"Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/"
+"language/ko/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"#-#-#-#-#  ko.po (SuperTux)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-08-04 09:54+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/"
+"language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -347,7 +371,11 @@ msgid ""
 "and might cause collisions with default Super Tux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr "일부 오래된 부가 기능은 여전히 활성 중이며\n기본 슈퍼 턱스 구조와 충돌을 일으킬 수 있습니다.\n여전히 메뉴에서 이러한 부가 기능을 활성화할 수 있습니다.\n이러한 부가 기능을 비활성화하는 것은 게임 진행을 삭제하지 않습니다."
+msgstr ""
+"일부 오래된 부가 기능은 여전히 활성 중이며\n"
+"기본 슈퍼 턱스 구조와 충돌을 일으킬 수 있습니다.\n"
+"여전히 메뉴에서 이러한 부가 기능을 활성화할 수 있습니다.\n"
+"이러한 부가 기능을 비활성화하는 것은 게임 진행을 삭제하지 않습니다."
 
 #: src/editor/editor.cpp:348
 msgid "Disable add-ons"
@@ -539,6 +567,7 @@ msgid "Edit the script"
 msgstr "스크립트 편집"
 
 #: src/object/ambient_sound.cpp:128 src/supertux/menu/options_menu.cpp:209
+#: data//credits.stxt:409
 msgid "Sound"
 msgstr "소리"
 
@@ -1025,9 +1054,9 @@ msgid "  --debug                      Print extra verbose messages"
 msgstr "  --debug                      더 자세한 메시지 내용을 출력합니다"
 
 #: src/supertux/command_line_arguments.cpp:85
-msgid ""
-"  --print-datadir              Print SuperTux's primary data directory."
-msgstr "  --print-datadir              SuperTux의 기본 데이터 디렉터리를 출력합니다."
+msgid "  --print-datadir              Print SuperTux's primary data directory."
+msgstr ""
+"  --print-datadir              SuperTux의 기본 데이터 디렉터리를 출력합니다."
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "Video Options:"
@@ -1055,7 +1084,9 @@ msgstr "  -d, --default                비디오 설정을 기본값으로 재�
 
 #: src/supertux/command_line_arguments.cpp:92
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr "  --renderer 렌더러          사용할 그래픽 엔진을 sdl, opengl, 또는 auto로 설정합니다"
+msgstr ""
+"  --renderer 렌더러          사용할 그래픽 엔진을 sdl, opengl, 또는 auto로 설"
+"정합니다"
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "Audio Options:"
@@ -1083,7 +1114,8 @@ msgstr "  --show-fps                   레벨에 초당 프레임 수(FPS)를 �
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr "  --no-show-fps                레벨에 초당 프레임 수(FPS)를 표시하지 않습니다"
+msgstr ""
+"  --no-show-fps                레벨에 초당 프레임 수(FPS)를 표시하지 않습니다"
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid "  --show-pos                   Display player's current position"
@@ -1103,9 +1135,11 @@ msgstr "  -s, --debug-scripts          스크립트 디버거를 활성화합니
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid ""
-"  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
-" level is specified."
-msgstr "  --spawn-pos X,Y              턱스가 레벨에 스폰할 위치. 레벨이 특정한 경우에만 사용하세요."
+"  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if "
+"level is specified."
+msgstr ""
+"  --spawn-pos X,Y              턱스가 레벨에 스폰할 위치. 레벨이 특정한 경우"
+"에만 사용하세요."
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "Demo Recording Options:"
@@ -1113,7 +1147,8 @@ msgstr "리플레이 녹화 옵션:"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr "  --record-demo 파일명 레벨     리플레이를 지정한 파일명으로 녹화합니다"
+msgstr ""
+"  --record-demo 파일명 레벨     리플레이를 지정한 파일명으로 녹화합니다"
 
 #: src/supertux/command_line_arguments.cpp:107
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
@@ -1126,13 +1161,17 @@ msgstr "디렉터리 옵션:"
 #: src/supertux/command_line_arguments.cpp:109
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr "  --datadir DIR                게임 데이터 파일을 저장할 디렉터리를 설정합니다"
+msgstr ""
+"  --datadir DIR                게임 데이터 파일을 저장할 디렉터리를 설정합니"
+"다"
 
 #: src/supertux/command_line_arguments.cpp:110
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "  --userdir DIR                사용자 데이터(진행 상황 등)를 저장할 디렉터리를 설정합니다"
+msgstr ""
+"  --userdir DIR                사용자 데이터(진행 상황 등)를 저장할 디렉터리"
+"를 설정합니다"
 
 #: src/supertux/command_line_arguments.cpp:111
 msgid "Add-On Options:"
@@ -1156,8 +1195,7 @@ msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "  SUPERTUX2_DATA_DIR           게임 데이터 파일 디렉터리"
 
 #: src/supertux/direction.cpp:51 src/supertux/menu/options_menu.cpp:61
-#: src/supertux/menu/options_menu.cpp:97
-#: src/supertux/menu/options_menu.cpp:251
+#: src/supertux/menu/options_menu.cpp:97 src/supertux/menu/options_menu.cpp:251
 #: src/supertux/menu/options_menu.cpp:271
 msgid "auto"
 msgstr "자동"
@@ -1295,8 +1333,7 @@ msgstr "온라인에서 확인"
 #: src/supertux/menu/joystick_menu.cpp:98
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/language_menu.cpp:55
-#: src/supertux/menu/options_menu.cpp:238
-#: src/supertux/menu/profile_menu.cpp:47
+#: src/supertux/menu/options_menu.cpp:238 src/supertux/menu/profile_menu.cpp:47
 #: src/supertux/menu/world_set_menu.cpp:44
 #: src/supertux/menu/worldmap_cheat_menu.cpp:46
 msgid "Back"
@@ -1315,7 +1352,9 @@ msgstr "%s 다운로드 중"
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
-msgstr "바뀜을 적용하려면\nSuperTux를 다시 시작해주세요."
+msgstr ""
+"바뀜을 적용하려면\n"
+"SuperTux를 다시 시작해주세요."
 
 #: src/supertux/menu/cheat_menu.cpp:30
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
@@ -1410,7 +1449,7 @@ msgstr "레벨 속성"
 msgid "Author"
 msgstr "저자"
 
-#: src/supertux/menu/editor_level_menu.cpp:39
+#: src/supertux/menu/editor_level_menu.cpp:39 data//credits.stxt:882
 msgid "Contact"
 msgstr "연락처"
 
@@ -1441,8 +1480,13 @@ msgid ""
 "Share this level under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
-"DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "이 레벨을 CC-BY-SA 4.0 International에 따라 공유합니다 (조언).\n제3자에 의해 수정 및 재배포를 할 수 있도록 합니다.\n이 라이선스에 동의하지 않는다면, 레벨 속성에서 라이선스를 바꾸세요.\n면책 조항: SuperTux 저자는 라이선스 선택에 대한 책임을 지지 않습니다."
+"DISCLAIMER: The SuperTux authors take no responsibility for your choice of "
+"license."
+msgstr ""
+"이 레벨을 CC-BY-SA 4.0 International에 따라 공유합니다 (조언).\n"
+"제3자에 의해 수정 및 재배포를 할 수 있도록 합니다.\n"
+"이 라이선스에 동의하지 않는다면, 레벨 속성에서 라이선스를 바꾸세요.\n"
+"면책 조항: SuperTux 저자는 라이선스 선택에 대한 책임을 지지 않습니다."
 
 #: src/supertux/menu/editor_levelset_menu.cpp:57
 #: src/supertux/menu/editor_new_levelset_menu.cpp:43
@@ -1466,8 +1510,13 @@ msgid ""
 "Share this worldmap under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
-"DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
-msgstr "이 월드맵을 CC-BY-SA 4.0 International에 따라 공유합니다 (조언).\n제3자에 의해 수정 및 재배포를 할 수 있도록 합니다.\n이 라이선스에 동의하지 않는다면, 레벨 속성에서 라이선스를 바꾸세요.\n면책 조항: SuperTux 저자는 라이선스 선택에 대한 책임을 지지 않습니다."
+"DISCLAIMER: The SuperTux authors take no responsibility for your choice of "
+"license."
+msgstr ""
+"이 월드맵을 CC-BY-SA 4.0 International에 따라 공유합니다 (조언).\n"
+"제3자에 의해 수정 및 재배포를 할 수 있도록 합니다.\n"
+"이 라이선스에 동의하지 않는다면, 레벨 속성에서 라이선스를 바꾸세요.\n"
+"면책 조항: SuperTux 저자는 라이선스 선택에 대한 책임을 지지 않습니다."
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:57
 msgid "Choose level subset"
@@ -1577,8 +1626,7 @@ msgid "Restart Level"
 msgstr "레벨 재시작"
 
 #: src/supertux/menu/game_menu.cpp:37 src/supertux/menu/main_menu.cpp:45
-#: src/supertux/menu/options_menu.cpp:55
-#: src/supertux/menu/worldmap_menu.cpp:32
+#: src/supertux/menu/options_menu.cpp:55 src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
 msgstr "옵션"
 
@@ -1843,8 +1891,7 @@ msgstr "언어 팩"
 msgid "Language packs contain up-to-date translations"
 msgstr "언어 팩에는 최신 번역을 포함합니다"
 
-#: src/supertux/menu/options_menu.cpp:192
-#: src/supertux/menu/profile_menu.cpp:30
+#: src/supertux/menu/options_menu.cpp:192 src/supertux/menu/profile_menu.cpp:30
 msgid "Select Profile"
 msgstr "프로필 선택"
 
@@ -1866,9 +1913,11 @@ msgstr "해상도"
 
 #: src/supertux/menu/options_menu.cpp:200
 msgid ""
-"Determine the resolution used in fullscreen mode (you must toggle fullscreen"
-" to complete the change)"
-msgstr "전체 화면 모드에서 사용할 해상도를 선택합니다 (설정하기 위해 전체 화면 모드로 전환해야 합니다)"
+"Determine the resolution used in fullscreen mode (you must toggle fullscreen "
+"to complete the change)"
+msgstr ""
+"전체 화면 모드에서 사용할 해상도를 선택합니다 (설정하기 위해 전체 화면 모드"
+"로 전환해야 합니다)"
 
 #: src/supertux/menu/options_menu.cpp:202
 msgid "Magnification"
@@ -2006,9 +2055,13 @@ msgstr "저작권"
 
 #: src/supertux/title_screen.cpp:60
 msgid ""
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
+"are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
-msgstr "이 게임은 어떠한 보증도 존재하지 않는 자유 소프트웨어이며, 당신은 이를 어떠한 형태로든 자유롭게\n수정 및 재배포할 수 있습니다. 자세한 사항은 라이선스 파일을 보세요.\n"
+msgstr ""
+"이 게임은 어떠한 보증도 존재하지 않는 자유 소프트웨어이며, 당신은 이를 어떠"
+"한 형태로든 자유롭게\n"
+"수정 및 재배포할 수 있습니다. 자세한 사항은 라이선스 파일을 보세요.\n"
 
 #: src/trigger/climbable.cpp:72
 msgid "Climbable"
@@ -2241,3 +2294,441 @@ msgstr ""
 #: data//images/worldmap.strf:135
 msgid "Darker Forest"
 msgstr ""
+
+#: data//credits.stxt:13
+msgid "Original Developer"
+msgstr "원래 개발자"
+
+#: data//credits.stxt:19 data//credits.stxt:25
+msgid "Graphics, Programming, Level Design"
+msgstr "그래픽, 프로그래밍, 레벨 디자인"
+
+#: data//credits.stxt:31
+msgid "Music, Level Design"
+msgstr "음악, 레벨 디자인"
+
+#: data//credits.stxt:37 data//credits.stxt:137 data//credits.stxt:142
+#: data//credits.stxt:191 data//credits.stxt:256
+msgid "Graphics"
+msgstr "그래픽"
+
+#: data//credits.stxt:43
+msgid "Programming, Graphics, Level Design"
+msgstr "프로그래밍, 그래픽, 레벨 디자인"
+
+#: data//credits.stxt:49 data//credits.stxt:87 data//credits.stxt:102
+msgid "Programming, Level Design"
+msgstr "프로그래밍, 레벨 디자인"
+
+#: data//credits.stxt:55
+msgid "Graphics, Story"
+msgstr "그래픽, 이야기"
+
+#: data//credits.stxt:61
+msgid "Programming, Documentation"
+msgstr "프로그래밍, 설명문서"
+
+#: data//credits.stxt:67 data//credits.stxt:77 data//credits.stxt:82
+#: data//credits.stxt:107 data//credits.stxt:252 data//credits.stxt:264
+msgid "Programming"
+msgstr "프로그래밍"
+
+#: data//credits.stxt:72
+msgid "Programming, project lead ad interim"
+msgstr ""
+
+#: data//credits.stxt:92
+msgid "Coordination"
+msgstr "조정"
+
+#: data//credits.stxt:97
+msgid "Programming, \"Flexlay\" Level editor"
+msgstr "프로그래밍, \"Flexlay\" 레벨 편집자"
+
+#: data//credits.stxt:112
+msgid "Windows build fixes"
+msgstr "Windows 빌드 수정"
+
+#: data//credits.stxt:117
+msgid "Level Design, Graphics"
+msgstr "레벨 디자인, 그래픽"
+
+#: data//credits.stxt:122
+msgid "Packaging, Nightly builds"
+msgstr "패키징, Nightly 빌드"
+
+#: data//credits.stxt:127
+msgid "Translation Guru (and many details anyone else could have done)"
+msgstr "번역 구루 (많은 자세한 사항을 누군가가 해냈습니다)"
+
+#: data//credits.stxt:132
+msgid "Level Design"
+msgstr "레벨 디자인"
+
+#: data//credits.stxt:147
+msgid "Additional contributors"
+msgstr "추가 기여자"
+
+#: data//credits.stxt:151
+msgid "Bug fixes"
+msgstr "버그 수정"
+
+#: data//credits.stxt:156
+msgid "Scripting functions, Level fixes"
+msgstr "스크립팅 기능, 레벨 수정"
+
+#: data//credits.stxt:161
+msgid "Code quality fixes"
+msgstr "코드 품질 수정"
+
+#: data//credits.stxt:166 data//credits.stxt:171 data//credits.stxt:176
+#: data//credits.stxt:211
+msgid "Various contributions"
+msgstr "다양한 기여"
+
+#: data//credits.stxt:181
+msgid "Build issue fix"
+msgstr "빌드 이슈 수정"
+
+#: data//credits.stxt:186
+msgid "Code contributions"
+msgstr "코드 기여"
+
+#: data//credits.stxt:196
+msgid "Code contribution, AppData file"
+msgstr "코드 기여, AppData 파일"
+
+#: data//credits.stxt:201
+msgid "Bug fix"
+msgstr "버그 수정"
+
+#: data//credits.stxt:206
+msgid "Menu reorganization"
+msgstr "메뉴 개편"
+
+#: data//credits.stxt:216
+msgid "Fixing tile bugs"
+msgstr "타일 버그 수정"
+
+#: data//credits.stxt:221
+msgid "Build error fix"
+msgstr "빌드 오류 수정"
+
+#: data//credits.stxt:226
+msgid "Scripting function fix"
+msgstr "스크립팅 기능 수정"
+
+#: data//credits.stxt:231
+msgid "Support for \"glbinding\" as optional OpenGL binding"
+msgstr "\"glbinding\"에 선택적 OpenGL 바인딩으로 지원"
+
+#: data//credits.stxt:236
+msgid "New menu code"
+msgstr "새로운 메뉴 코드"
+
+#: data//credits.stxt:241
+msgid "Level improvements"
+msgstr ""
+
+#: data//credits.stxt:247
+msgid "Milestone 1 contributions by..."
+msgstr "마일스톤 1 기여자..."
+
+#: data//credits.stxt:260 data//credits.stxt:268
+msgid "Contrib Programming"
+msgstr "프로그래밍 기여"
+
+#: data//credits.stxt:272
+msgid "Programming, Previous Maintainer"
+msgstr "프로그래밍, 이전 유지 관리자"
+
+#: data//credits.stxt:277
+msgid "Additional Music"
+msgstr "추가 음악"
+
+#: data//credits.stxt:282
+msgid "\"Mortimers Chipdisko\" by"
+msgstr ""
+
+#: data//credits.stxt:291
+msgid "\"Salsa Con Carne\" by"
+msgstr ""
+
+#: data//credits.stxt:299 data//credits.stxt:351
+msgid "remixed by"
+msgstr ""
+
+#: data//credits.stxt:308
+msgid "\"voc songs\" by"
+msgstr ""
+
+#: data//credits.stxt:317
+msgid "\"clavelian_march\" by"
+msgstr ""
+
+#: data//credits.stxt:326
+msgid "Excerpts from the Giana Sisters"
+msgstr "자이아나 시스터즈에서 발췌"
+
+#: data//credits.stxt:330
+msgid "Soundtrack used with kind permission"
+msgstr "종류별로 허락을 받아 사용하는 사운드트랙"
+
+#: data//credits.stxt:334
+msgid "from"
+msgstr ""
+
+#: data//credits.stxt:343
+msgid "\"Airship song\" (orchestral remix) by"
+msgstr ""
+
+#: data//credits.stxt:360
+msgid "\"Battle Theme\" by"
+msgstr ""
+
+#: data//credits.stxt:369
+msgid "\"SuperTux christmas theme\""
+msgstr ""
+
+#: data//credits.stxt:373
+msgid "original by"
+msgstr ""
+
+#: data//credits.stxt:382
+msgid "arranged by"
+msgstr ""
+
+#: data//credits.stxt:391
+msgid "\"halloween_1.ogg\" by"
+msgstr ""
+
+#: data//credits.stxt:400
+msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
+msgstr ""
+
+#: data//credits.stxt:480
+msgid "Voice Acting"
+msgstr "목소리 연기"
+
+#: data//credits.stxt:511
+msgid "Localization"
+msgstr "지역화"
+
+#: data//credits.stxt:516 data//credits.stxt:651
+msgid "Danish"
+msgstr "덴마크어"
+
+#: data//credits.stxt:521
+msgid "Vietnamese"
+msgstr "베트남어"
+
+#: data//credits.stxt:526 data//credits.stxt:607 data//credits.stxt:615
+#: data//credits.stxt:707 data//credits.stxt:723 data//credits.stxt:759
+#: data//credits.stxt:767 data//credits.stxt:775 data//credits.stxt:855
+msgid "French"
+msgstr "프랑스어"
+
+#: data//credits.stxt:531 data//credits.stxt:566 data//credits.stxt:631
+#: data//credits.stxt:703 data//credits.stxt:803 data//credits.stxt:843
+msgid "German"
+msgstr "독일어"
+
+#: data//credits.stxt:536 data//credits.stxt:611 data//credits.stxt:847
+msgid "Russian"
+msgstr "러시아어"
+
+#: data//credits.stxt:541
+msgid "Albanese"
+msgstr "알바니아어"
+
+#: data//credits.stxt:546 data//credits.stxt:571 data//credits.stxt:583
+msgid "Castilian Spanish"
+msgstr "카스티야 스페인어"
+
+#: data//credits.stxt:551 data//credits.stxt:579 data//credits.stxt:627
+#: data//credits.stxt:779 data//credits.stxt:811 data//credits.stxt:859
+msgid "Hungarian"
+msgstr "헝가리어"
+
+#: data//credits.stxt:556 data//credits.stxt:635 data//credits.stxt:671
+msgid "Spanish"
+msgstr "스페인어"
+
+#: data//credits.stxt:561 data//credits.stxt:587 data//credits.stxt:839
+msgid "Catalan"
+msgstr "카탈루냐어"
+
+#: data//credits.stxt:575
+msgid "Slovenian"
+msgstr "슬로베니아어"
+
+#: data//credits.stxt:591
+msgid "Mandarin"
+msgstr "관화"
+
+#: data//credits.stxt:595 data//credits.stxt:667 data//credits.stxt:695
+msgid "European Portuguese"
+msgstr "유럽 포르투갈어"
+
+#: data//credits.stxt:599
+msgid "Romanian"
+msgstr "루마니아어"
+
+#: data//credits.stxt:603 data//credits.stxt:823
+msgid "Dutch"
+msgstr "네덜란드어"
+
+#: data//credits.stxt:619 data//credits.stxt:711 data//credits.stxt:851
+msgid "Turkish"
+msgstr "터키어"
+
+#: data//credits.stxt:623
+msgid "European/Brazilian Portuguese"
+msgstr "유럽/브라질 포르투갈어"
+
+#: data//credits.stxt:639 data//credits.stxt:655 data//credits.stxt:659
+#: data//credits.stxt:727 data//credits.stxt:831
+msgid "Czech"
+msgstr "체코어"
+
+#: data//credits.stxt:643 data//credits.stxt:763
+msgid "Nepali"
+msgstr "네팔어"
+
+#: data//credits.stxt:647 data//credits.stxt:731 data//credits.stxt:747
+#: data//credits.stxt:771
+msgid "Brazilian Portuguese"
+msgstr "브라질 포르투갈어"
+
+#: data//credits.stxt:663 data//credits.stxt:675
+msgid "Italian"
+msgstr "이탈리아어"
+
+#: data//credits.stxt:679
+msgid "Estonian"
+msgstr "에스토니아어"
+
+#: data//credits.stxt:683 data//credits.stxt:687 data//credits.stxt:719
+#: data//credits.stxt:815
+msgid "Polish"
+msgstr "폴란드어"
+
+#: data//credits.stxt:691
+msgid "French/Esperanto"
+msgstr "프랑스어/에스페란토"
+
+#: data//credits.stxt:699 data//credits.stxt:819
+msgid "Ukrainian"
+msgstr "우크라이나어"
+
+#: data//credits.stxt:715
+msgid "Breton"
+msgstr "브르타뉴어"
+
+#: data//credits.stxt:735 data//credits.stxt:787
+msgid "Greek"
+msgstr "그리스어"
+
+#: data//credits.stxt:739 data//credits.stxt:755
+msgid "Norwegian Bokmål"
+msgstr ""
+
+#: data//credits.stxt:743
+msgid "Swedish"
+msgstr "스웨덴어"
+
+#: data//credits.stxt:751 data//credits.stxt:799
+msgid "Finnish"
+msgstr "핀란드어"
+
+#: data//credits.stxt:783
+msgid "Serbian"
+msgstr "세르비아어"
+
+#: data//credits.stxt:791
+msgid "Japanese"
+msgstr "일본어"
+
+#: data//credits.stxt:795
+msgid "Simplified Chinese"
+msgstr "간체 중국어"
+
+#: data//credits.stxt:807
+msgid "Lithuanian"
+msgstr "리투아니아어"
+
+#: data//credits.stxt:827
+msgid "Belarusian"
+msgstr "벨라루스어"
+
+#: data//credits.stxt:835
+msgid "Bulgarian"
+msgstr "불가리아어"
+
+#: data//credits.stxt:865
+msgid "Thanks to"
+msgstr "감사드립니다"
+
+#: data//credits.stxt:870
+msgid "Creator of Tux, the Linux penguin"
+msgstr "리눅스 펭귄인, 턱스 제작자"
+
+#: data//credits.stxt:874
+msgid "SDL, OpenAL and OpenGL"
+msgstr "SDL, OpenAL 및 OpenGL"
+
+#: data//credits.stxt:875
+msgid ""
+"For making such a great gaming experience\n"
+"        possible on Linux"
+msgstr ""
+"        리눅스에서 이러한\n"
+"훌륭한 게임 경험을 가능하게 합니다"
+
+#: data//credits.stxt:887
+msgid "Visit our webpage at"
+msgstr "우리의 웹페이지를 방문하세요:"
+
+#: data//credits.stxt:896
+msgid "Or visit us directly at IRC:"
+msgstr "또는 우리에게 직접 IRC에서 만나세요:"
+
+#: data//credits.stxt:900
+msgid "#supertux at webchat.freenode.net"
+msgstr "webchat.freenode.net의 #supertux"
+
+#: data//credits.stxt:905
+msgid "Or at our Forum:"
+msgstr "또는 우리의 포럼에 방문하세요:"
+
+#: data//credits.stxt:914
+msgid "Comments, ideas and suggestions"
+msgstr "의견, 아이디어 및 제안"
+
+#: data//credits.stxt:918
+msgid "go to our mailing list"
+msgstr "우리의 메일링 리스트에 가세요"
+
+#: data//credits.stxt:929
+msgid "Want to help…"
+msgstr "…도움이 필요하십니까?"
+
+#: data//credits.stxt:934
+msgid "…with localization?"
+msgstr "번역에…"
+
+#: data//credits.stxt:944
+msgid "…with something else?"
+msgstr "다른 것에…"
+
+#: data//credits.stxt:955
+msgid "Thank you for"
+msgstr "플레이"
+
+#: data//credits.stxt:959
+msgid "playing"
+msgstr "해주셔서 감사합니다"
+
+#: data//credits.stxt:971
+msgid "Penny awaits you in Milestone 3!"
+msgstr "페니는 마일스톤 3에서 여러분을 기다리고 있습니다!"

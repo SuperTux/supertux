@@ -1,24 +1,50 @@
+# #-#-#-#-#  sl.po (SuperTux)  #-#-#-#-#
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Gorzy Gorup <gorupgorazd@gmail.com>, 2016
 # Marko Burjek <email4marko@gmail.com>, 2005-2007
 # Nwolfy <inactive+Nwolfy@transifex.com>, 2014
+# #-#-#-#-#  sl.po (SuperTux)  #-#-#-#-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Gorzy Gorup <gorupgorazd@gmail.com>, 2016
+#, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  sl.po (SuperTux)  #-#-#-#-#\n"
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-05 14:31+0200\n"
 "PO-Revision-Date: 2016-08-05 12:37+0000\n"
 "Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
-"Language-Team: Slovenian (http://www.transifex.com/arctic-games/supertux/language/sl/)\n"
+"Language-Team: Slovenian (http://www.transifex.com/arctic-games/supertux/"
+"language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
+"#-#-#-#-#  sl.po (SuperTux)  #-#-#-#-#\n"
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-08-04 09:54+0000\n"
+"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"Language-Team: Slovenian (http://www.transifex.com/arctic-games/supertux/"
+"language/sl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 
 #: src/badguy/angrystone.hpp:37
 msgid "Angry stone"
@@ -348,7 +374,12 @@ msgid ""
 "and might cause collisions with default Super Tux structure.\n"
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
-msgstr "Nekaj zastarelih dodatkov je še prisotnih\nin lahko povzročijo nasprotja v osnovni strukturi igre.\nČe želiš, jih lahko omogočiš v meniju.\nTudi, če jih onemogočiš, se bo tvoj napredek še zmeraj\nohranil."
+msgstr ""
+"Nekaj zastarelih dodatkov je še prisotnih\n"
+"in lahko povzročijo nasprotja v osnovni strukturi igre.\n"
+"Če želiš, jih lahko omogočiš v meniju.\n"
+"Tudi, če jih onemogočiš, se bo tvoj napredek še zmeraj\n"
+"ohranil."
 
 #: src/editor/editor.cpp:348
 msgid "Disable add-ons"
@@ -540,6 +571,7 @@ msgid "Edit the script"
 msgstr "Uredi zapis"
 
 #: src/object/ambient_sound.cpp:128 src/supertux/menu/options_menu.cpp:209
+#: data//credits.stxt:409
 msgid "Sound"
 msgstr "Zvok"
 
@@ -1026,8 +1058,7 @@ msgid "  --debug                      Print extra verbose messages"
 msgstr "-odpravi napake Prikaži dodatna verbose sporočila"
 
 #: src/supertux/command_line_arguments.cpp:85
-msgid ""
-"  --print-datadir              Print SuperTux's primary data directory."
+msgid "  --print-datadir              Print SuperTux's primary data directory."
 msgstr ""
 
 #: src/supertux/command_line_arguments.cpp:86
@@ -1056,7 +1087,9 @@ msgstr "-d, --privzeto Ponastavi nastavitve slike na privzete vrednosti"
 
 #: src/supertux/command_line_arguments.cpp:92
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
-msgstr "--poganjanje GONILNIK Za poganjanje igre lahko uporabiš SDL, OpenGL ali samodejno."
+msgstr ""
+"--poganjanje GONILNIK Za poganjanje igre lahko uporabiš SDL, OpenGL ali "
+"samodejno."
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "Audio Options:"
@@ -1104,9 +1137,11 @@ msgstr "-s, --popravi-napake Omogoči popravljanje ukaznih datotek"
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid ""
-"  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if"
-" level is specified."
-msgstr "--spawn-pos X,Y Kje v stopnji se bo prikazal Tux. Uporabi le, če je stopnja določena."
+"  --spawn-pos X,Y              Where in the level to spawn Tux. Only used if "
+"level is specified."
+msgstr ""
+"--spawn-pos X,Y Kje v stopnji se bo prikazal Tux. Uporabi le, če je stopnja "
+"določena."
 
 #: src/supertux/command_line_arguments.cpp:105
 msgid "Demo Recording Options:"
@@ -1133,7 +1168,9 @@ msgstr "--datadir DIREKTORIJ Nastavi direktorij za podatke igre"
 msgid ""
 "  --userdir DIR                Set the directory for user data (savegames, "
 "etc.)"
-msgstr "--userdir DIREKTORIJ Nastavi direktorij za uporabniške podatke (savegames, itd.)"
+msgstr ""
+"--userdir DIREKTORIJ Nastavi direktorij za uporabniške podatke (savegames, "
+"itd.)"
 
 #: src/supertux/command_line_arguments.cpp:111
 msgid "Add-On Options:"
@@ -1157,8 +1194,7 @@ msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
 msgstr "SUPERTUX2_DATA_DIR Direktorij za podatke igre"
 
 #: src/supertux/direction.cpp:51 src/supertux/menu/options_menu.cpp:61
-#: src/supertux/menu/options_menu.cpp:97
-#: src/supertux/menu/options_menu.cpp:251
+#: src/supertux/menu/options_menu.cpp:97 src/supertux/menu/options_menu.cpp:251
 #: src/supertux/menu/options_menu.cpp:271
 msgid "auto"
 msgstr "auto"
@@ -1296,8 +1332,7 @@ msgstr "Preverite na spletu"
 #: src/supertux/menu/joystick_menu.cpp:98
 #: src/supertux/menu/keyboard_menu.cpp:49
 #: src/supertux/menu/language_menu.cpp:55
-#: src/supertux/menu/options_menu.cpp:238
-#: src/supertux/menu/profile_menu.cpp:47
+#: src/supertux/menu/options_menu.cpp:238 src/supertux/menu/profile_menu.cpp:47
 #: src/supertux/menu/world_set_menu.cpp:44
 #: src/supertux/menu/worldmap_cheat_menu.cpp:46
 msgid "Back"
@@ -1316,7 +1351,9 @@ msgstr "Prenašam %s"
 msgid ""
 "Please restart SuperTux\n"
 "for these changes to take effect."
-msgstr "Prosimo, ponovno zaženite SuperTux,\nda bodo spremembe delovale."
+msgstr ""
+"Prosimo, ponovno zaženite SuperTux,\n"
+"da bodo spremembe delovale."
 
 #: src/supertux/menu/cheat_menu.cpp:30
 #: src/supertux/menu/worldmap_cheat_menu.cpp:29
@@ -1411,7 +1448,7 @@ msgstr "Lastnosti stopnje"
 msgid "Author"
 msgstr "Avtor"
 
-#: src/supertux/menu/editor_level_menu.cpp:39
+#: src/supertux/menu/editor_level_menu.cpp:39 data//credits.stxt:882
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -1442,7 +1479,8 @@ msgid ""
 "Share this level under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
-"DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
+"DISCLAIMER: The SuperTux authors take no responsibility for your choice of "
+"license."
 msgstr ""
 
 #: src/supertux/menu/editor_levelset_menu.cpp:57
@@ -1467,7 +1505,8 @@ msgid ""
 "Share this worldmap under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
 "If you don't agree with this license, change it in level properties.\n"
-"DISCLAIMER: The SuperTux authors take no responsibility for your choice of license."
+"DISCLAIMER: The SuperTux authors take no responsibility for your choice of "
+"license."
 msgstr ""
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:57
@@ -1578,8 +1617,7 @@ msgid "Restart Level"
 msgstr "Znova zaženi stopnjo"
 
 #: src/supertux/menu/game_menu.cpp:37 src/supertux/menu/main_menu.cpp:45
-#: src/supertux/menu/options_menu.cpp:55
-#: src/supertux/menu/worldmap_menu.cpp:32
+#: src/supertux/menu/options_menu.cpp:55 src/supertux/menu/worldmap_menu.cpp:32
 msgid "Options"
 msgstr "Nastavitve"
 
@@ -1599,7 +1637,8 @@ msgstr "Ročna konfiguracija"
 #: src/supertux/menu/joystick_menu.cpp:57
 msgid ""
 "Use manual configuration instead of SDL2's automatic GameController support"
-msgstr "Uporabi ročno konfiguracijo namesto SDL2 samodejne GameController podpore"
+msgstr ""
+"Uporabi ročno konfiguracijo namesto SDL2 samodejne GameController podpore"
 
 #: src/supertux/menu/joystick_menu.cpp:69
 #: src/supertux/menu/keyboard_menu.cpp:31
@@ -1844,8 +1883,7 @@ msgstr "Jezikovni paketi"
 msgid "Language packs contain up-to-date translations"
 msgstr "Jezikovni paketi vsebujejo posodobljene prevode"
 
-#: src/supertux/menu/options_menu.cpp:192
-#: src/supertux/menu/profile_menu.cpp:30
+#: src/supertux/menu/options_menu.cpp:192 src/supertux/menu/profile_menu.cpp:30
 msgid "Select Profile"
 msgstr "Izberi profil"
 
@@ -1867,9 +1905,11 @@ msgstr "Ločljivost"
 
 #: src/supertux/menu/options_menu.cpp:200
 msgid ""
-"Determine the resolution used in fullscreen mode (you must toggle fullscreen"
-" to complete the change)"
-msgstr "Ugotovi ločljivost za celoten zaslon (igra mora biti čez cel zaslon, da se bo sprememba pokazala)"
+"Determine the resolution used in fullscreen mode (you must toggle fullscreen "
+"to complete the change)"
+msgstr ""
+"Ugotovi ločljivost za celoten zaslon (igra mora biti čez cel zaslon, da se "
+"bo sprememba pokazala)"
 
 #: src/supertux/menu/options_menu.cpp:202
 msgid "Magnification"
@@ -2007,9 +2047,13 @@ msgstr "Avtorske pravice"
 
 #: src/supertux/title_screen.cpp:60
 msgid ""
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
+"are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
-msgstr "Za to igro NIKAKOR NE JAMČIMO. Ta program je zastonj in dovoljeno ti ga je deliti in razmnoževati pod\ndoločenimi pogoji; več o tem si preberi v datoteki za licenco.\n"
+msgstr ""
+"Za to igro NIKAKOR NE JAMČIMO. Ta program je zastonj in dovoljeno ti ga je "
+"deliti in razmnoževati pod\n"
+"določenimi pogoji; več o tem si preberi v datoteki za licenco.\n"
 
 #: src/trigger/climbable.cpp:72
 msgid "Climbable"
@@ -2242,3 +2286,442 @@ msgstr ""
 #: data//images/worldmap.strf:135
 msgid "Darker Forest"
 msgstr ""
+
+#: data//credits.stxt:13
+msgid "Original Developer"
+msgstr "Prvotni razvijalec"
+
+#: data//credits.stxt:19 data//credits.stxt:25
+msgid "Graphics, Programming, Level Design"
+msgstr "Grafika, programiranje, oblikovanje stopenj"
+
+#: data//credits.stxt:31
+msgid "Music, Level Design"
+msgstr "Glasba, oblikovanje stopenj"
+
+#: data//credits.stxt:37 data//credits.stxt:137 data//credits.stxt:142
+#: data//credits.stxt:191 data//credits.stxt:256
+msgid "Graphics"
+msgstr "Grafika"
+
+#: data//credits.stxt:43
+msgid "Programming, Graphics, Level Design"
+msgstr "Programiranje, grafika, oblikovanje stopenj"
+
+#: data//credits.stxt:49 data//credits.stxt:87 data//credits.stxt:102
+msgid "Programming, Level Design"
+msgstr "Programiranje, oblikovanje stopenj"
+
+#: data//credits.stxt:55
+msgid "Graphics, Story"
+msgstr "Grafika, zgodba"
+
+#: data//credits.stxt:61
+msgid "Programming, Documentation"
+msgstr "Programiranje, dokumentacija"
+
+#: data//credits.stxt:67 data//credits.stxt:77 data//credits.stxt:82
+#: data//credits.stxt:107 data//credits.stxt:252 data//credits.stxt:264
+msgid "Programming"
+msgstr "Programiranje"
+
+#: data//credits.stxt:72
+msgid "Programming, project lead ad interim"
+msgstr "Programiranje, začasni vodja projekta"
+
+#: data//credits.stxt:92
+msgid "Coordination"
+msgstr "Koordinacija"
+
+#: data//credits.stxt:97
+msgid "Programming, \"Flexlay\" Level editor"
+msgstr "Programiranje, urejevalnik stopenj \"Flexlay\""
+
+#: data//credits.stxt:112
+msgid "Windows build fixes"
+msgstr "Popravki izgradnje za Windows"
+
+#: data//credits.stxt:117
+msgid "Level Design, Graphics"
+msgstr "Oblikovanje stopenj, grafika"
+
+#: data//credits.stxt:122
+msgid "Packaging, Nightly builds"
+msgstr "Pakiranje, redne nočne izgradnje"
+
+#: data//credits.stxt:127
+msgid "Translation Guru (and many details anyone else could have done)"
+msgstr ""
+"Prevajalski Guru (in ogromno podrobnosti, ki bi jih lahko storil kdorkoli)"
+
+#: data//credits.stxt:132
+msgid "Level Design"
+msgstr "Oblikovanje stopenj"
+
+#: data//credits.stxt:147
+msgid "Additional contributors"
+msgstr "Dodatni prispevki"
+
+#: data//credits.stxt:151
+msgid "Bug fixes"
+msgstr "Popravki nepravilnosti"
+
+#: data//credits.stxt:156
+msgid "Scripting functions, Level fixes"
+msgstr "Funkcije skriptov, popravki stopenj"
+
+#: data//credits.stxt:161
+msgid "Code quality fixes"
+msgstr "Izboljšanje kode"
+
+#: data//credits.stxt:166 data//credits.stxt:171 data//credits.stxt:176
+#: data//credits.stxt:211
+msgid "Various contributions"
+msgstr "Različni prispevki"
+
+#: data//credits.stxt:181
+msgid "Build issue fix"
+msgstr "Popravki končne izgradnje"
+
+#: data//credits.stxt:186
+msgid "Code contributions"
+msgstr "Prispevki za kodo"
+
+#: data//credits.stxt:196
+msgid "Code contribution, AppData file"
+msgstr "Prispevki za kodo, datoteka AppData"
+
+#: data//credits.stxt:201
+msgid "Bug fix"
+msgstr "Popravki nepravilnosti"
+
+#: data//credits.stxt:206
+msgid "Menu reorganization"
+msgstr "Preureditev menija"
+
+#: data//credits.stxt:216
+msgid "Fixing tile bugs"
+msgstr "Popravki nepravilnosti v objektih"
+
+#: data//credits.stxt:221
+msgid "Build error fix"
+msgstr "Popravki napake v izgradnji"
+
+#: data//credits.stxt:226
+msgid "Scripting function fix"
+msgstr "Popravki funkcije skriptov"
+
+#: data//credits.stxt:231
+msgid "Support for \"glbinding\" as optional OpenGL binding"
+msgstr "Podpora za \"glbinding\" kot izbirne vezave OpenGL"
+
+#: data//credits.stxt:236
+msgid "New menu code"
+msgstr "Nova koda za meni"
+
+#: data//credits.stxt:241
+msgid "Level improvements"
+msgstr ""
+
+#: data//credits.stxt:247
+msgid "Milestone 1 contributions by..."
+msgstr "Za prvi mejnik so prispevali..."
+
+#: data//credits.stxt:260 data//credits.stxt:268
+msgid "Contrib Programming"
+msgstr "Prispevki pri programiranju"
+
+#: data//credits.stxt:272
+msgid "Programming, Previous Maintainer"
+msgstr "Programiranje, predhodni vzdrževalec"
+
+#: data//credits.stxt:277
+msgid "Additional Music"
+msgstr "Dodatna glasba"
+
+#: data//credits.stxt:282
+msgid "\"Mortimers Chipdisko\" by"
+msgstr "\"Mortimers Chipdisko\" Avtor:"
+
+#: data//credits.stxt:291
+msgid "\"Salsa Con Carne\" by"
+msgstr "\"Salsa Con Carne\" Avtor:"
+
+#: data//credits.stxt:299 data//credits.stxt:351
+msgid "remixed by"
+msgstr "Avtor remixa:"
+
+#: data//credits.stxt:308
+msgid "\"voc songs\" by"
+msgstr "\"voc songs\" Avtor:"
+
+#: data//credits.stxt:317
+msgid "\"clavelian_march\" by"
+msgstr "\"clavelian_march\" Avtor:"
+
+#: data//credits.stxt:326
+msgid "Excerpts from the Giana Sisters"
+msgstr "Izrezki iz igre Giana Sisters"
+
+#: data//credits.stxt:330
+msgid "Soundtrack used with kind permission"
+msgstr "Uporabo glasbe nam je prijazno"
+
+#: data//credits.stxt:334
+msgid "from"
+msgstr "dovolil"
+
+#: data//credits.stxt:343
+msgid "\"Airship song\" (orchestral remix) by"
+msgstr "\"Airship song\" (orkestralni remix) Avtor:"
+
+#: data//credits.stxt:360
+msgid "\"Battle Theme\" by"
+msgstr "\"Battle Theme\" Avtor:"
+
+#: data//credits.stxt:369
+msgid "\"SuperTux christmas theme\""
+msgstr "\"SuperTux christmas theme\""
+
+#: data//credits.stxt:373
+msgid "original by"
+msgstr "Originalen avtor:"
+
+#: data//credits.stxt:382
+msgid "arranged by"
+msgstr "Priredil"
+
+#: data//credits.stxt:391
+msgid "\"halloween_1.ogg\" by"
+msgstr "\"halloween_1.ogg\" Avtor:"
+
+#: data//credits.stxt:400
+msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
+msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg) Avtor:"
+
+#: data//credits.stxt:480
+msgid "Voice Acting"
+msgstr "Glasove so posodili:"
+
+#: data//credits.stxt:511
+msgid "Localization"
+msgstr "Lokalizacija"
+
+#: data//credits.stxt:516 data//credits.stxt:651
+msgid "Danish"
+msgstr "Danščina"
+
+#: data//credits.stxt:521
+msgid "Vietnamese"
+msgstr "Vietnamščina"
+
+#: data//credits.stxt:526 data//credits.stxt:607 data//credits.stxt:615
+#: data//credits.stxt:707 data//credits.stxt:723 data//credits.stxt:759
+#: data//credits.stxt:767 data//credits.stxt:775 data//credits.stxt:855
+msgid "French"
+msgstr "Francoščina"
+
+#: data//credits.stxt:531 data//credits.stxt:566 data//credits.stxt:631
+#: data//credits.stxt:703 data//credits.stxt:803 data//credits.stxt:843
+msgid "German"
+msgstr "Nemščina"
+
+#: data//credits.stxt:536 data//credits.stxt:611 data//credits.stxt:847
+msgid "Russian"
+msgstr "Ruščina"
+
+#: data//credits.stxt:541
+msgid "Albanese"
+msgstr "Albanščina"
+
+#: data//credits.stxt:546 data//credits.stxt:571 data//credits.stxt:583
+msgid "Castilian Spanish"
+msgstr "Kastilijanska španščina"
+
+#: data//credits.stxt:551 data//credits.stxt:579 data//credits.stxt:627
+#: data//credits.stxt:779 data//credits.stxt:811 data//credits.stxt:859
+msgid "Hungarian"
+msgstr "Madžarščina"
+
+#: data//credits.stxt:556 data//credits.stxt:635 data//credits.stxt:671
+msgid "Spanish"
+msgstr "Španščina"
+
+#: data//credits.stxt:561 data//credits.stxt:587 data//credits.stxt:839
+msgid "Catalan"
+msgstr "Katalonščina"
+
+#: data//credits.stxt:575
+msgid "Slovenian"
+msgstr "Slovenščina"
+
+#: data//credits.stxt:591
+msgid "Mandarin"
+msgstr "Mandarinščina"
+
+#: data//credits.stxt:595 data//credits.stxt:667 data//credits.stxt:695
+msgid "European Portuguese"
+msgstr "Evropska portugalščina"
+
+#: data//credits.stxt:599
+msgid "Romanian"
+msgstr "Romunščina"
+
+#: data//credits.stxt:603 data//credits.stxt:823
+msgid "Dutch"
+msgstr "Nizozemščina"
+
+#: data//credits.stxt:619 data//credits.stxt:711 data//credits.stxt:851
+msgid "Turkish"
+msgstr "Turščina"
+
+#: data//credits.stxt:623
+msgid "European/Brazilian Portuguese"
+msgstr "Evropska/Brazilska portugalščina"
+
+#: data//credits.stxt:639 data//credits.stxt:655 data//credits.stxt:659
+#: data//credits.stxt:727 data//credits.stxt:831
+msgid "Czech"
+msgstr "Češčina"
+
+#: data//credits.stxt:643 data//credits.stxt:763
+msgid "Nepali"
+msgstr "Nepalščina"
+
+#: data//credits.stxt:647 data//credits.stxt:731 data//credits.stxt:747
+#: data//credits.stxt:771
+msgid "Brazilian Portuguese"
+msgstr "Brazilska portugalščina"
+
+#: data//credits.stxt:663 data//credits.stxt:675
+msgid "Italian"
+msgstr "Italijanščina"
+
+#: data//credits.stxt:679
+msgid "Estonian"
+msgstr "Estonščina"
+
+#: data//credits.stxt:683 data//credits.stxt:687 data//credits.stxt:719
+#: data//credits.stxt:815
+msgid "Polish"
+msgstr "Polščina"
+
+#: data//credits.stxt:691
+msgid "French/Esperanto"
+msgstr "Francoščina/Esperanto"
+
+#: data//credits.stxt:699 data//credits.stxt:819
+msgid "Ukrainian"
+msgstr "Ukrajinščina"
+
+#: data//credits.stxt:715
+msgid "Breton"
+msgstr "Bretonščina"
+
+#: data//credits.stxt:735 data//credits.stxt:787
+msgid "Greek"
+msgstr "Grščina"
+
+#: data//credits.stxt:739 data//credits.stxt:755
+msgid "Norwegian Bokmål"
+msgstr ""
+
+#: data//credits.stxt:743
+msgid "Swedish"
+msgstr "Švedščina"
+
+#: data//credits.stxt:751 data//credits.stxt:799
+msgid "Finnish"
+msgstr "Finščina"
+
+#: data//credits.stxt:783
+msgid "Serbian"
+msgstr "Srbščina"
+
+#: data//credits.stxt:791
+msgid "Japanese"
+msgstr "Japonščina"
+
+#: data//credits.stxt:795
+msgid "Simplified Chinese"
+msgstr "Preprosta kitajščina"
+
+#: data//credits.stxt:807
+msgid "Lithuanian"
+msgstr "Litvanščina"
+
+#: data//credits.stxt:827
+msgid "Belarusian"
+msgstr "Beloruščina"
+
+#: data//credits.stxt:835
+msgid "Bulgarian"
+msgstr "Bulgarščina"
+
+#: data//credits.stxt:865
+msgid "Thanks to"
+msgstr "Zahvala gre tem ljudem:"
+
+#: data//credits.stxt:870
+msgid "Creator of Tux, the Linux penguin"
+msgstr "Ustvarjalec pingvinčka Tuxa, Linuxove maskote"
+
+#: data//credits.stxt:874
+msgid "SDL, OpenAL and OpenGL"
+msgstr "SDL, OpenAL in OpenGL"
+
+#: data//credits.stxt:875
+msgid ""
+"For making such a great gaming experience\n"
+"        possible on Linux"
+msgstr ""
+"Ker so omogočili najboljšo možno igralno\n"
+"izkušnjo na Linuxu"
+
+#: data//credits.stxt:887
+msgid "Visit our webpage at"
+msgstr "Obišči našo spletno stran:"
+
+#: data//credits.stxt:896
+msgid "Or visit us directly at IRC:"
+msgstr "Ali pa pridi k nam neposredno na IRC:"
+
+#: data//credits.stxt:900
+msgid "#supertux at webchat.freenode.net"
+msgstr "#supertux na webchat.freenode.net"
+
+#: data//credits.stxt:905
+msgid "Or at our Forum:"
+msgstr "Ali na naš forum:"
+
+#: data//credits.stxt:914
+msgid "Comments, ideas and suggestions"
+msgstr "Za komentarje, ideje in predloge"
+
+#: data//credits.stxt:918
+msgid "go to our mailing list"
+msgstr "pojdi na naš e-poštni seznam"
+
+#: data//credits.stxt:929
+msgid "Want to help…"
+msgstr "Bi rad pomagal..."
+
+#: data//credits.stxt:934
+msgid "…with localization?"
+msgstr "...pri prevajanju?"
+
+#: data//credits.stxt:944
+msgid "…with something else?"
+msgstr "...pri čem drugem?"
+
+#: data//credits.stxt:955
+msgid "Thank you for"
+msgstr "Hvala, ker si"
+
+#: data//credits.stxt:959
+msgid "playing"
+msgstr "igral"
+
+#: data//credits.stxt:971
+msgid "Penny awaits you in Milestone 3!"
+msgstr "Penny te čaka na 3. mejniku!"
