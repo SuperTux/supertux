@@ -85,7 +85,8 @@ LevelDot::LevelDot (const ReaderMapping& lisp) :
     title_color = Color(vColor);
   }
 
-  level = FileSystem::join(Editor::current()->get_world()->get_basedir(), name);
+  level = Editor::current()->get_world() ?
+    FileSystem::join(Editor::current()->get_world()->get_basedir(), name) : name;
 }
 
 LevelDot::~LevelDot() { }
