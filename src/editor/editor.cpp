@@ -46,6 +46,7 @@
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/world.hpp"
+#include "util/file_system.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/surface.hpp"
 
@@ -118,7 +119,8 @@ void Editor::update(float elapsed_time)
   }
 
   if (save_request) {
-    level->save(world ? (world->get_basedir() + "/" + levelfile) : levelfile);
+    level->save(world ? FileSystem::join(world->get_basedir(), levelfile) :
+                         levelfile);
     enabled = true;
     save_request = false;
   }
@@ -306,7 +308,8 @@ void Editor::reload_level() {
   levelloaded = true;
 
   ReaderMapping::translations_enabled = false;
-  level = LevelParser::from_file(world ? (world->get_basedir() + "/" + levelfile) : levelfile);
+  level = LevelParser::from_file(world ? FileSystem::join(world->get_basedir(),
+                                                          levelfile) : levelfile);
   ReaderMapping::translations_enabled = true;
 
   tileset = TileManager::current()->get_tileset(level->get_tileset());
