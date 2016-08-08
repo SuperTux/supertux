@@ -53,6 +53,16 @@ EnemyBlocker::after_editor_set() {
   bbox.set_size(width, height);
 }
 
+bool
+EnemyBlocker::collides(GameObject& other, const CollisionHit& )
+{
+  BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+  
+  if (badguy == 0)
+    return ABORT_MOVE;
+  return FORCE_MOVE;
+}
+
 HitResponse
 EnemyBlocker::collision(GameObject& other, const CollisionHit& )
 {
