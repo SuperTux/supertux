@@ -1,3 +1,4 @@
+
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
@@ -15,7 +16,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "scripting/functions.hpp"
-
+#include "supertux/game_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
@@ -36,7 +37,7 @@
 #include "video/video_system.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
-
+#include "editor/editor.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
 
@@ -113,7 +114,7 @@ void load_worldmap(const std::string& filename)
 {
   using namespace worldmap;
 
-  if (!WorldMap::current())
+  if (!WorldMap::current() )
   {
     throw std::runtime_error("Can't start Worldmap without active WorldMap");
   }
@@ -353,7 +354,142 @@ void play_demo(const std::string& filename)
   GameSession::current()->restart_level();
   GameSession::current()->play_demo(filename);
 }
+/**
+ *  Provides ability to store values (profile and worldmap local)
+ */
+SQInteger store(HSQUIRRELVM vm) {
+    // First get string argument
+    const SQChar* varname;
+    if(SQ_FAILED(sq_getstring(vm, 2, &varname))) {
+        sq_throwerror(vm, _SC("Argument 1 not a string"));
+        return SQ_ERROR;
+    }
+    // Check, that string doesn't begin with _
+    if(varname[0] == '_') {
+        sq_throwerror(vm, _SC("Storage name must not begin with an _!"));
+        return SQ_ERROR;
+    }
+    using worldmap::WorldMap;
+    if (!WorldMap::current() && !Editor::current()) {
+        sq_throwerror(vm, _SC("Can't use store function outside of worldmap!\n"));
+        return SQ_ERROR;
+    }
+    auto dict = GameManager::current()->get_dictionary();
 
+    switch(sq_gettype(vm, 3)) {
+    case OT_INTEGER: {
+        // Add integer to table
+        SQInteger val;
+        sq_getinteger(vm,3,&val);
+        dict->add(varname,(int) val);
+        break;
+    }
+    case OT_FLOAT: {
+        SQFloat val;
+        sq_getfloat(vm,3,&val);
+        log_debug << (float) val << std::endl;
+        dict->add(varname,(float) val);
+        break;
+    }
+    case OT_BOOL: {
+        SQBool val;
+        sq_getbool(vm,3,&val);
+        dict->add(varname, val == SQTrue);
+        break;
+    }
+    case OT_STRING: {
+        const SQChar* val;
+        sq_getstring(vm,3,&val);
+        std::string x = val;
+        dict->add(varname,x);
+        break;
+    }
+    case OT_ARRAY: {
+        // TODO Add table
+        sq_push(vm,3);
+        log_warning << "Reading array" << std::endl;
+        std::unique_ptr<sqarr> arrayl(new sqarr());
+        arrayl->loadArray(vm);
+        dict->add(varname,std::move(arrayl));
+        break;
+    }
+    case OT_TABLE: {
+        sq_push(vm,3);
+        log_warning << "Reading table" << std::endl;
+        std::unique_ptr<sqdict> dictl(new sqdict());
+        dictl->loadDict(vm);
+        dict->add(varname,std::move(dictl));
+        break;
+    }
+    default:
+        sq_throwerror(vm, _SC("Can't serialize this type,it can't be stored!\n"));
+        break;
+    }
+
+
+    // No return value
+    return 0;
 }
 
+SQInteger load(HSQUIRRELVM vm) {
+    using worldmap::WorldMap;
+    const SQChar* varname;
+    if(SQ_FAILED(sq_getstring(vm, 2, &varname))) {
+        sq_throwerror(vm, _SC("Argument 1 not a string"));
+        return SQ_ERROR;
+    }
+    if (!WorldMap::current() && !Editor::current()) {
+        sq_throwerror(vm, _SC("Can't use load function outside of worldmap!"));
+        return SQ_ERROR;
+    }
+    auto dict = GameManager::current()->get_dictionary();
+
+    auto item = dict->get(varname);
+    if(item == NULL) {
+        sq_throwerror(vm, _SC("No such value exists in the stored variables!"));
+        return SQ_ERROR;
+    }
+    switch(item->type) {
+    case DICT_INT: {
+        int val = *boost::any_cast<int>(item->item.get());
+        sq_pushinteger(vm,val);
+        break;
+    }
+    case DICT_BOOL: {
+        bool val = *boost::any_cast<bool>(item->item.get());
+        sq_pushbool(vm,val);
+        break;
+    }
+    case DICT_ARR: {
+        try {
+            auto array =*item->valarr;
+            array.get(vm);
+        } catch(const std::exception& e) {
+            log_debug << e.what() << std::endl;
+        }
+        break;
+    }
+    case DICT_FLOAT: {
+        float val = *boost::any_cast<float>(item->item.get());
+        sq_pushfloat(vm,val);
+        break;
+    }
+    case DICT_TABLE: {
+        auto dicti = *item->valdict;
+        dicti.get(vm);
+        break;
+    }
+    case DICT_STRING: {
+        char* val = (char*) malloc(sizeof(char)*(item->value.length()+1));
+        val[item->value.length()+1] = '\0';
+        strcpy(val,item->value.c_str());
+        sq_pushstring(vm,val,-1);
+        free(val);
+        break;
+    }
+    }
+    // Returns a value
+    return 1;
+}
+}
 /* EOF */

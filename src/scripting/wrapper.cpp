@@ -5168,6 +5168,16 @@ static SQInteger play_demo_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger store_wrapper(HSQUIRRELVM vm)
+{
+  return scripting::store(vm);
+}
+
+static SQInteger load_wrapper(HSQUIRRELVM vm)
+{
+  return scripting::load(vm);
+}
+
 static SQInteger Level_finish_wrapper(HSQUIRRELVM vm)
 {
   SQBool arg0;
@@ -6085,6 +6095,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'play_demo'");
+  }
+
+  sq_pushstring(v, "store", -1);
+  sq_newclosure(v, &store_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "t..");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'store'");
+  }
+
+  sq_pushstring(v, "load", -1);
+  sq_newclosure(v, &load_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'load'");
   }
 
   sq_pushstring(v, "Level_finish", -1);

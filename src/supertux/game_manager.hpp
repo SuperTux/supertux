@@ -20,7 +20,7 @@
 #include <memory>
 #include <string>
 #include "util/currenton.hpp"
-
+#include "util/dictionary.hpp"
 class Savegame;
 class World;
 
@@ -34,10 +34,12 @@ public:
   GameManager();
   ~GameManager();
 
+  dictionary* get_dictionary() const;
   void start_worldmap(std::unique_ptr<World> world);
   void start_level(std::unique_ptr<World> world, const std::string& level_filename);
 
   std::string get_level_name(const std::string& levelfile) const;
+  const std::string get_current_worldname() const;
 
 private:
   GameManager(const GameManager&) = delete;

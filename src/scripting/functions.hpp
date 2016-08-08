@@ -20,6 +20,7 @@
 #ifndef SCRIPTING_API
 #include <squirrel.h>
 #include <string>
+#include "util/sqarrayser.hpp"
 
 #define __suspend
 #define __custom(x)
@@ -228,6 +229,11 @@ void record_demo(const std::string& filename);
  */
 void play_demo(const std::string& filename);
 
+/**
+ * Declare function for storing variables
+ */
+ SQInteger store(HSQUIRRELVM vm) __custom("t..");
+ SQInteger load(HSQUIRRELVM vm) __custom("ts");
 } // namespace scripting
 
 #endif
