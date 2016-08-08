@@ -26,6 +26,7 @@ class EnemyBlocker : public MovingObject
 public:
   EnemyBlocker(const ReaderMapping& lisp);
 
+  virtual bool collides(GameObject& other, const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
   void draw(DrawingContext& context);
