@@ -24,6 +24,7 @@
 #include "supertux/fadeout.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
@@ -121,6 +122,11 @@ void load_worldmap(const std::string& filename)
   {
     ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new WorldMap(filename, WorldMap::current()->get_savegame())));
   }
+}
+
+void set_next_worldmap(const std::string& dirname, const std::string& spawnpoint)
+{
+  GameManager::current()->set_next_worldmap(dirname, spawnpoint);
 }
 
 void load_level(const std::string& filename)

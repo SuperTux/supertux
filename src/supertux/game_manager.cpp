@@ -37,7 +37,9 @@
 
 GameManager::GameManager() :
   m_world(),
-  m_savegame()
+  m_savegame(),
+  next_worldmap(),
+  next_spawnpoint()
 {
 }
 
@@ -59,7 +61,7 @@ GameManager::start_level(std::unique_ptr<World> world, const std::string& level_
 }
 
 void
-GameManager::start_worldmap(std::unique_ptr<World> world)
+GameManager::start_worldmap(std::unique_ptr<World> world, const std::string& spawnpoint)
 {
   try
   {
@@ -70,7 +72,7 @@ GameManager::start_worldmap(std::unique_ptr<World> world)
     auto last_worldmap = m_savegame->get_player_status()->last_worldmap;
     auto worldmap = new worldmap::WorldMap(last_worldmap.length() ? // has last worldmap?
                                            last_worldmap : m_world->get_worldmap_filename(),
-                                           *m_savegame);
+                                           *m_savegame, spawnpoint);
     ScreenManager::current()->push_screen(std::unique_ptr<Screen>(worldmap));
   }
   catch(std::exception& e)
@@ -103,6 +105,31 @@ GameManager::get_level_name(const std::string& filename) const
                 << e.what() << std::endl;
     return "";
   }
+}
+
+bool
+GameManager::load_next_worldmap()
+{
+  if (next_worldmap.empty())
+  {
+    return false;
+  }
+  std::unique_ptr<World> world = World::load(next_worldmap);
+  next_worldmap = "";
+  if (!world)
+  {
+    log_warning << "Can't load world '" << next_worldmap << "'" <<  std::endl;
+    return false;
+  }
+  start_worldmap(std::move(world), next_spawnpoint); // New world, new savegame
+  return true;
+}
+
+void
+GameManager::set_next_worldmap(const std::string& worldmap, const std::string &spawnpoint)
+{
+  next_worldmap = worldmap;
+  next_spawnpoint = spawnpoint;
 }
 
 /* EOF */

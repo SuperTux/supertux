@@ -42,6 +42,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -877,6 +878,8 @@ WorldMap::leave()
   if(SQ_FAILED(sq_deleteslot(global_vm, -2, SQFalse)))
     throw SquirrelError(global_vm, "Couldn't unset worldmap in roottable");
   sq_pop(global_vm, 1);
+
+  GameManager::current()->load_next_worldmap();
 }
 
 void
