@@ -220,6 +220,11 @@ EditorLayersGui::refresh_sector_text() {
 }
 
 void
+EditorLayersGui::sort_layers() {
+  std::sort(layers.begin(), layers.end(), less_z_pos);
+}
+
+void
 EditorLayersGui::add_layer(GameObject* layer) {
   std::unique_ptr<LayerIcon> icon(new LayerIcon(layer));
   int z_pos = icon->get_zpos();
@@ -253,6 +258,11 @@ EditorLayersGui::get_layer_coords(const int pos){
 int
 EditorLayersGui::get_layer_pos(const Vector& coords){
   return (coords.x - Xpos - sector_text_width) / 35;
+}
+
+bool
+EditorLayersGui::less_z_pos(const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs) {
+  return lhs->get_zpos() > rhs->get_zpos();
 }
 
 /* EOF */

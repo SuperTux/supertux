@@ -429,4 +429,9 @@ Editor::delete_markers() {
   inputcenter.delete_markers();
 }
 
+void
+Editor::sort_layers() {
+  layerselect.sort_layers();
+}
+
 /* EOF */
