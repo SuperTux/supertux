@@ -58,6 +58,11 @@ void display_text_file(const std::string& filename);
 void load_worldmap(const std::string& filename);
 
 /**
+ * Switch to a different worldmap after unloading current one, after exit_screen() is called
+ */
+void set_next_worldmap(const std::string& dirname, const std::string& spawnpoint);
+
+/**
  * Load and display a level (on next screenswitch)
  */
 void load_level(const std::string& filename);
