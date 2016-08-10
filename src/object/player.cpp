@@ -842,7 +842,7 @@ Player::handle_input()
   }
 
   /* Turn to Stone */
-  if (controller->pressed(Controller::DOWN) && player_status->bonus == EARTH_BONUS && !cooldown_timer.started()) {
+  if (controller->pressed(Controller::DOWN) && player_status->bonus == EARTH_BONUS && !cooldown_timer.started() && on_ground()) {
     if (controller->hold(Controller::ACTION) && !ability_timer.started()) {
       ability_timer.start(player_status->max_earth_time * STONE_TIME_PER_FLOWER);
       powersprite->stop_animation();
