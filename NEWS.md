@@ -1,10 +1,10 @@
 SuperTux Release and Development Notes
 ======================================
 
-SuperTux 0.5.0-rc.1 (2016-08-05)
+SuperTux 0.5.0-rc.2 (2016-08-10)
 --------------------------------
 
-The SuperTux team is excited to announce the availability of the first release candidate for the upcoming stable release 0.5.0 after less than a year of development. The most prominent change for this release is a new in-game level editor which allows you to create levels and worldmaps on-the-fly from within SuperTux itself.
+The SuperTux team is excited to announce the availability of the second release candidate for the upcoming stable release 0.5.0 after less than a year of development. The most prominent change for this release is a new in-game level editor which allows you to create levels and worldmaps on-the-fly from within SuperTux itself.
 
 Changes:
 
@@ -16,6 +16,18 @@ Changes:
 * Added a few more tiles and music
 * New console commands and command line options (related to the editor)
 * Various other bugfixes of issues reported since the v0.4.0 release
+
+Changes from 0.5.0-rc.1 (2016-08-05):
+
+* Fixed build system in order to correctly support SemVer pre-release tags
+* Fixed miniswig compilation
+* Editor: correctly join paths (using FileSystem::join())
+* Editor: LevelDot: add a NULL check to prevent a crash when editing worldmaps
+* Editor: correctly save BadGuy and Dispenser direction
+* Editor: reorder layer objects when their object menu is closed
+* Editor: allow setting z-pos of decals
+* Editor: display a notile when the tile ID is invalid
+* Editor: make it possible to switch tilesets
 
 This section will be updated with more RCs or a stable version being released.
 
