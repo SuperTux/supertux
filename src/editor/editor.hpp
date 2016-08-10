@@ -122,6 +122,8 @@ class Editor : public Screen,
     void delete_markers();
     void sort_layers();
 
+    void change_tileset();
+
     std::unique_ptr<Savegame> m_savegame;
 
     Sector* currentsector;
