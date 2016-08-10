@@ -43,6 +43,7 @@ Decal::get_settings() {
   result.options.push_back(spr);
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Action"), &default_action, "action"));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid, "solid"));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &layer, "z-pos"));
 
   return result;
 }
