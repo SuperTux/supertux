@@ -187,6 +187,9 @@
     (class "coin")
     (icon "images/objects/coin/path_coin.png"))
   (object
+    (class "darttrap")
+    (icon "images/creatures/darttrap/idle.png"))
+  (object
     (class "decal")
     (icon "images/engine/editor/decal.png"))
   (object
