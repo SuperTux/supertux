@@ -156,6 +156,9 @@ WillOWisp::active_update(float elapsed_time)
 void
 WillOWisp::activate()
 {
+  if(Editor::is_active())
+    return;
+
   sound_source = SoundManager::current()->create_sound_source(SOUNDFILE);
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
