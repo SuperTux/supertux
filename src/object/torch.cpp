@@ -26,12 +26,12 @@ Torch::Torch(const ReaderMapping& reader) :
   m_flame(),
   m_flame_glow(),
   m_flame_light(),
-  m_burning(true)
+  m_burning(true),
+  sprite_name("images/objects/torch/torch1.sprite")
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
 
-  std::string sprite_name = "images/objects/torch/torch1.sprite";
   reader.get("sprite", sprite_name);
 
   bbox.p2.x = bbox.p1.x + 50;
@@ -82,6 +82,20 @@ Torch::collision(GameObject& other, const CollisionHit& )
     m_burning = true;
   }
   return ABORT_MOVE;
+}
+
+ObjectSettings Torch::get_settings()
+{
+  ObjectSettings result = MovingObject::get_settings();
+  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite");
+  spr.select.push_back(".sprite");
+  result.options.push_back(spr);
+  return result;
+}
+
+void Torch::after_editor_set()
+{
+  m_torch = SpriteManager::current()->create(sprite_name);
 }
 
 /* EOF */

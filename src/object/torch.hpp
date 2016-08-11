@@ -40,12 +40,16 @@ public:
     return _("Torch");
   }
 
+  ObjectSettings get_settings();
+  void after_editor_set();
+
 private:
   SpritePtr m_torch;
   SpritePtr m_flame;
   SpritePtr m_flame_glow;
   SpritePtr m_flame_light;
   bool m_burning;
+  std::string sprite_name;
 
 private:
   Torch(const Torch&) = delete;
