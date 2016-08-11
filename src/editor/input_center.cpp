@@ -515,6 +515,10 @@ EditorInputCenter::put_object() {
   if (!mo) {
     Editor::current()->layerselect.add_layer(game_object.get());
   }
+  else {
+    auto bbox = mo->get_bbox();
+    mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
+  }
 
   auto wo = dynamic_cast<worldmap_editor::WorldmapObject*> (game_object.get());
   if (wo) {
@@ -531,12 +535,13 @@ EditorInputCenter::put_object() {
 
 void
 EditorInputCenter::process_left_click() {
+  auto tileselect = &(Editor::current()->tileselect);
   dragging = true;
   dragging_right = false;
   drag_start = sector_pos;
-  switch (Editor::current()->tileselect.input_type) {
+  switch (tileselect->input_type) {
     case EditorInputGui::IP_TILE: {
-      switch (Editor::current()->tileselect.select_mode->get_mode()) {
+      switch (tileselect->select_mode->get_mode()) {
         case 0:
           put_tile();
           break;
@@ -551,7 +556,7 @@ EditorInputCenter::process_left_click() {
       }
     } break;
     case EditorInputGui::IP_OBJECT:
-      switch (Editor::current()->tileselect.move_mode->get_mode()) {
+      switch (tileselect->move_mode->get_mode()) {
         case 0:
           grab_object();
           break;
@@ -561,7 +566,7 @@ EditorInputCenter::process_left_click() {
         default:
           break;
       }
-      if (!Editor::current()->tileselect.object.empty()) {
+      if (!tileselect->object.empty()) {
         if (!dragged_object) {
           put_object();
         }
