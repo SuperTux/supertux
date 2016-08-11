@@ -53,6 +53,7 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
 {
   if ( !reader.get("sector", target_sector)) target_sector = "main";
   if ( !reader.get("spawnpoint", target_spawnpoint)) target_spawnpoint = "main";
+  if ( !reader.get("name", name)) name = "";
   if ( !reader.get("flyspeed", flyspeed)) flyspeed = FLYSPEED;
   if ( !reader.get("track-range", track_range)) track_range = TRACK_RANGE;
   if ( !reader.get("vanish-range", vanish_range)) vanish_range = VANISH_RANGE;
