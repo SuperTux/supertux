@@ -31,34 +31,34 @@ FlipLevelTransformer::transform_sector(Sector* sector)
   float height = sector->get_height();
 
   for(auto& object : sector->gameobjects) {
-    TileMap* tilemap = dynamic_cast<TileMap*>(object.get());
+    auto tilemap = dynamic_cast<TileMap*>(object.get());
     if(tilemap) {
       transform_tilemap(height, *tilemap);
     }
-    Player* player = dynamic_cast<Player*>(object.get());
+    auto player = dynamic_cast<Player*>(object.get());
     if(player) {
       Vector pos = player->get_pos();
       pos.y = height - pos.y - player->get_bbox().get_height();
       player->move(pos);
       continue;
     }
-    BadGuy* badguy = dynamic_cast<BadGuy*>(object.get());
+    auto badguy = dynamic_cast<BadGuy*>(object.get());
     if(badguy) {
       transform_badguy(height, *badguy);
     }
-    Flower* flower = dynamic_cast<Flower*>(object.get());
+    auto flower = dynamic_cast<Flower*>(object.get());
     if(flower) {
       transform_flower(*flower);
     }
-    Platform* platform = dynamic_cast<Platform*>(object.get());
+    auto platform = dynamic_cast<Platform*>(object.get());
     if(platform) {
       transform_platform(height, *platform);
     }
-    Block* block = dynamic_cast<Block*>(object.get());
+    auto block = dynamic_cast<Block*>(object.get());
     if(block) {
       transform_block(height, *block);
     }
-    MovingObject* mobject = dynamic_cast<MovingObject*>(object.get());
+    auto mobject = dynamic_cast<MovingObject*>(object.get());
     if(mobject) {
       transform_moving_object(height, *mobject);
     }
@@ -107,7 +107,7 @@ FlipLevelTransformer::transform_tilemap(float height, TileMap& tilemap)
   Vector offset = tilemap.get_offset();
   offset.y = height - offset.y - tilemap.get_bbox().get_height();
   tilemap.set_offset(offset);
-  Path* path = tilemap.get_path().get();
+  auto path = tilemap.get_path().get();
   if (path)
     transform_path(height, tilemap.get_bbox().get_height(), *path);
 }
