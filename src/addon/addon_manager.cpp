@@ -52,7 +52,7 @@ MD5 md5_from_file(const std::string& filename)
 
   MD5 md5;
 
-  PHYSFS_file* file = PHYSFS_openRead(filename.c_str());
+  auto file = PHYSFS_openRead(filename.c_str());
   if (!file)
   {
     std::ostringstream out;
@@ -312,7 +312,7 @@ AddonManager::request_install_addon(const AddonId& addon_id)
       }
     }
 
-    Addon& addon = get_repository_addon(addon_id);
+    auto& addon = get_repository_addon(addon_id);
 
     std::string install_filename = FileSystem::join(m_addon_directory, addon.get_filename());
 
@@ -381,7 +381,7 @@ AddonManager::install_addon(const AddonId& addon_id)
     }
   }
 
-  Addon& repository_addon = get_repository_addon(addon_id);
+  auto& repository_addon = get_repository_addon(addon_id);
 
   std::string install_filename = FileSystem::join(m_addon_directory, repository_addon.get_filename());
 
@@ -415,7 +415,7 @@ void
 AddonManager::uninstall_addon(const AddonId& addon_id)
 {
   log_debug << "uninstalling addon " << addon_id << std::endl;
-  Addon& addon = get_installed_addon(addon_id);
+  auto& addon = get_installed_addon(addon_id);
   if (addon.is_enabled())
   {
     disable_addon(addon_id);
@@ -434,7 +434,7 @@ void
 AddonManager::enable_addon(const AddonId& addon_id)
 {
   log_debug << "enabling addon " << addon_id << std::endl;
-  Addon& addon = get_installed_addon(addon_id);
+  auto& addon = get_installed_addon(addon_id);
   if (addon.is_enabled())
   {
     log_warning << "Tried enabling already enabled Add-on" << std::endl;
@@ -474,7 +474,7 @@ void
 AddonManager::disable_addon(const AddonId& addon_id)
 {
   log_debug << "disabling addon " << addon_id << std::endl;
-  Addon& addon = get_installed_addon(addon_id);
+  auto& addon = get_installed_addon(addon_id);
   if (!addon.is_enabled())
   {
     log_warning << "Tried disabling already disabled Add-On" << std::endl;
@@ -669,7 +669,7 @@ AddonManager::add_installed_addons()
 {
   auto archives = scan_for_archives();
 
-  for(auto archive : archives)
+  for(const auto& archive : archives)
   {
     MD5 md5 = md5_from_file(archive);
     add_installed_archive(archive, md5.hex_digest());
@@ -750,7 +750,7 @@ AddonManager::check_for_langpack_updates()
 
       try
       {
-        Addon& installed_langpack = get_installed_addon(addon_id);
+        auto& installed_langpack = get_installed_addon(addon_id);
         if (installed_langpack.get_md5() == langpack.get_md5() ||
             installed_langpack.get_version() > langpack.get_version())
         {
