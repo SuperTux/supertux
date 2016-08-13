@@ -32,24 +32,11 @@ Candle::Candle(const ReaderMapping& lisp)
     candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
 {
 
-  if(!lisp.get("name", name))
-  {
-    log_debug << "Couldn't get \"name\" property for candle." << std::endl;
-  }
-  if(!lisp.get("burning", burning))
-  {
-    log_debug << "Couldn't get \"burning\" property for candle." << std::endl;
-  }
-  if(!lisp.get("flicker", flicker))
-  {
-    log_debug << "Couldn't get \"flicker\" property for candle." << std::endl;
-  }
-  //get color from lisp
+  if(!lisp.get("name", name)) name = "";
+  if(!lisp.get("burning", burning)) burning = true;
+  if(!lisp.get("flicker", flicker)) flicker = true;
   std::vector<float> vColor;
-  if(lisp.get("color", vColor))
-  {
-    log_debug << "Couldn't get \"color\" property for candle." << std::endl;
-  }
+  if(!lisp.get("color", vColor)) vColor = {1.0f, 1.0f, 1.0f};
 
   //change the light color if defined
   if (vColor.size() >= 3) {
