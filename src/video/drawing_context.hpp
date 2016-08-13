@@ -89,6 +89,9 @@ enum Target {
 class DrawingContext
 {
 public:
+
+  static bool render_lighting;
+
   DrawingContext(VideoSystem& video_system);
   ~DrawingContext();
 

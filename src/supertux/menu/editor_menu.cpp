@@ -28,6 +28,7 @@
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 #include "video/color.hpp"
+#include "video/drawing_context.hpp"
 
 EditorMenu::EditorMenu()
 {
@@ -49,6 +50,7 @@ EditorMenu::EditorMenu()
 
   add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
 
+  add_toggle(-1, _("Render lighting (F6)"), &DrawingContext::render_lighting);
   add_toggle(-1, _("Show grid (F8)"), &EditorInputCenter::render_grid);
   add_toggle(-1, _("Show scroller (F9)"), &EditorScroller::rendered);
 

@@ -31,6 +31,8 @@
 #include "video/texture_manager.hpp"
 #include "video/video_system.hpp"
 
+bool DrawingContext::render_lighting = false;
+
 DrawingContext::DrawingContext(VideoSystem& video_system_) :
   video_system(video_system_),
   transformstack(),
@@ -373,11 +375,13 @@ DrawingContext::do_drawing()
     handle_drawing_requests(lightmap_requests);
     lightmap.end_draw();
 
-    auto request = new(obst) DrawingRequest();
-    request->target = NORMAL;
-    request->type = DRAW_LIGHTMAP;
-    request->layer = LAYER_HUD - 1;
-    drawing_requests.push_back(request);
+    if (render_lighting) {
+      auto request = new(obst) DrawingRequest();
+      request->target = NORMAL;
+      request->type = DRAW_LIGHTMAP;
+      request->layer = LAYER_HUD - 1;
+      drawing_requests.push_back(request);
+    }
   }
 
   Renderer& renderer = video_system.get_renderer();
