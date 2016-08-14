@@ -63,7 +63,7 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
 {
   //Trampoline has to be on ground to work.
   if(on_ground) {
-    Player* player = dynamic_cast<Player*> (&other);
+    auto player = dynamic_cast<Player*> (&other);
     //Trampoline works for player
     if(player) {
       float vy = player->get_physic().get_velocity_y();
@@ -86,7 +86,7 @@ RustyTrampoline::collision(GameObject& other, const CollisionHit& hit)
         return FORCE_MOVE;
       }
     }
-    WalkingBadguy* walking_badguy = dynamic_cast<WalkingBadguy*> (&other);
+    auto walking_badguy = dynamic_cast<WalkingBadguy*> (&other);
     //Trampoline also works for WalkingBadguy
     if(walking_badguy) {
       float vy = walking_badguy->get_velocity_y();

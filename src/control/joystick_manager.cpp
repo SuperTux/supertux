@@ -43,7 +43,7 @@ JoystickManager::JoystickManager(InputManager* parent_,
 
 JoystickManager::~JoystickManager()
 {
-  for(auto joy : joysticks)
+  for(auto& joy : joysticks)
   {
     SDL_JoystickClose(joy);
   }

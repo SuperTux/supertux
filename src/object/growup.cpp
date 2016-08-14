@@ -81,7 +81,7 @@ GrowUp::collision_solid(const CollisionHit& hit)
 HitResponse
 GrowUp::collision(GameObject& other, const CollisionHit& hit )
 {
-  Player* player = dynamic_cast<Player*>(&other);
+  auto player = dynamic_cast<Player*>(&other);
   if(player != 0) {
     if(!player->add_bonus(GROWUP_BONUS, true)) {
       // Tux can't grow right now.

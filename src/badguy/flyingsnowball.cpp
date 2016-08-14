@@ -102,7 +102,7 @@ FlyingSnowBall::active_update(float elapsed_time)
 
   movement=physic.get_movement(elapsed_time);
 
-  Player* player = get_nearest_player();
+  auto player = get_nearest_player();
   if (player) {
     dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");

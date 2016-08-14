@@ -91,7 +91,7 @@ Bomb::explode()
   // an invalid object. There's probably a better way to do this than in the
   // Bomb class.
   if (grabber != NULL) {
-    Player* player = dynamic_cast<Player*>(grabber);
+    auto player = dynamic_cast<Player*>(grabber);
 
     if (player)
       player->stop_grabbing();
@@ -139,7 +139,7 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
   // This object is now thrown.
   int toss_velocity_x = 0;
   int toss_velocity_y = 0;
-  Player* player = dynamic_cast<Player*> (&object);
+  auto player = dynamic_cast<Player*> (&object);
 
   // toss upwards
   if(dir_ == UP)

@@ -95,7 +95,7 @@ WillOWisp::active_update(float elapsed_time)
       return;
   }
 
-  Player* player = get_nearest_player();
+  auto player = get_nearest_player();
   if (!player) return;
   Vector p1 = bbox.get_middle();
   Vector p2 = player->get_bbox().get_middle();

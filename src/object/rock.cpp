@@ -97,12 +97,12 @@ Rock::collision_solid(const CollisionHit& hit)
 HitResponse
 Rock::collision(GameObject& other, const CollisionHit& hit)
 {
-  HeavyCoin* heavy_coin = dynamic_cast<HeavyCoin*> (&other);
+  auto heavy_coin = dynamic_cast<HeavyCoin*> (&other);
   if (heavy_coin) {
     return ABORT_MOVE;
   }
 
-  Explosion* explosion = dynamic_cast<Explosion*> (&other);
+  auto explosion = dynamic_cast<Explosion*> (&other);
   if (explosion) {
     return ABORT_MOVE;
   }
@@ -112,7 +112,7 @@ Rock::collision(GameObject& other, const CollisionHit& hit)
   }
   if(!on_ground) {
     if(hit.bottom && physic.get_velocity_y() > 200) {
-      MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
+      auto moving_object = dynamic_cast<MovingObject*> (&other);
       if(moving_object) {
         //Getting a rock on the head hurts. A lot.
         moving_object->collision_tile(Tile::HURTS);

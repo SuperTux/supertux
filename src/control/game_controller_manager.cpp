@@ -203,7 +203,7 @@ GameControllerManager::on_controller_removed(int instance_id)
 {
   for(auto& controller : m_game_controllers)
   {
-    SDL_Joystick* joy = SDL_GameControllerGetJoystick(controller);
+    auto joy = SDL_GameControllerGetJoystick(controller);
     SDL_JoystickID id = SDL_JoystickInstanceID(joy);
     if (id == instance_id)
     {

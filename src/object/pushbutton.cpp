@@ -62,7 +62,7 @@ PushButton::update(float /*elapsed_time*/)
 HitResponse
 PushButton::collision(GameObject& other, const CollisionHit& hit)
 {
-  Player* player = dynamic_cast<Player*>(&other);
+  auto player = dynamic_cast<Player*>(&other);
   if (!player) return FORCE_MOVE;
   float vy = player->get_physic().get_velocity_y();
 

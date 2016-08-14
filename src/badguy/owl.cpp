@@ -130,7 +130,7 @@ Owl::active_update (float elapsed_time)
 bool
 Owl::collision_squished(GameObject&)
 {
-  Player* player = Sector::current()->get_nearest_player (bbox);
+  auto player = Sector::current()->get_nearest_player (bbox);
   if (player)
     player->bounce (*this);
 

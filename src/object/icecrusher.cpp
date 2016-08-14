@@ -110,7 +110,7 @@ IceCrusher::set_state(IceCrusherState state_, bool force)
 HitResponse
 IceCrusher::collision(GameObject& other, const CollisionHit& hit)
 {
-  Player* player = dynamic_cast<Player*>(&other);
+  auto player = dynamic_cast<Player*>(&other);
 
   /* If the other object is the player, and the collision is at the bottom of
    * the ice crusher, hurt the player. */
@@ -124,7 +124,7 @@ IceCrusher::collision(GameObject& other, const CollisionHit& hit)
     player->kill(false);
     return FORCE_MOVE;
   }
-  BadGuy* badguy = dynamic_cast<BadGuy*>(&other);
+  auto badguy = dynamic_cast<BadGuy*>(&other);
   if (badguy) {
     badguy->kill_fall();
   }
@@ -251,7 +251,7 @@ IceCrusher::draw(DrawingContext& context)
 bool
 IceCrusher::found_victim()
 {
-  Player* player = Sector::current()->get_nearest_player(bbox);
+  auto player = Sector::current()->get_nearest_player(bbox);
   if (!player) return false;
 
   const Rectf& player_bbox = player->get_bbox();
@@ -270,7 +270,7 @@ IceCrusher::eye_position(bool right)
 {
   if(state == IDLE)
   {
-    Player* player = Sector::current()->get_nearest_player (bbox);
+    auto player = Sector::current()->get_nearest_player (bbox);
     if(player)
     {
       // Icecrusher focuses on approximate position of player's head

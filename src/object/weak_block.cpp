@@ -87,7 +87,7 @@ WeakBlock::collision(GameObject& other, const CollisionHit& hit)
   switch (state) {
 
       case STATE_NORMAL:
-        if (Bullet* bullet = dynamic_cast<Bullet*> (&other)) {
+        if (auto bullet = dynamic_cast<Bullet*> (&other)) {
           return collision_bullet(*bullet, hit);
         }
         //Explosions destroy weakblocks as well
@@ -100,7 +100,7 @@ WeakBlock::collision(GameObject& other, const CollisionHit& hit)
         if(sprite_name != "images/objects/weak_block/strawbox.sprite")
           break;
 
-        if(BadGuy* badguy = dynamic_cast<BadGuy*> (&other)) {
+        if(auto badguy = dynamic_cast<BadGuy*> (&other)) {
           badguy->ignite();
         }
         break;
@@ -186,13 +186,13 @@ WeakBlock::spreadHit()
 {
   //Destroy adjacent weakblocks if applicable
   if(linked) {
-    Sector* sector = Sector::current();
+    auto sector = Sector::current();
     if (!sector) {
       log_debug << "no current sector" << std::endl;
       return;
     }
-    for(Sector::GameObjects::const_iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); ++i) {
-      WeakBlock* wb = dynamic_cast<WeakBlock*>(i->get());
+    for(const auto& i : sector->gameobjects) {
+      auto wb = dynamic_cast<WeakBlock*>(i.get());
       if (!wb) continue;
       if (wb == this) continue;
       if (wb->state != STATE_NORMAL) continue;

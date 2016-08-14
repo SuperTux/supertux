@@ -37,7 +37,7 @@ ObjectOption::~ObjectOption() {
 }
 
 const std::string
-ObjectOption::to_string() {
+ObjectOption::to_string() const {
   switch (type) {
     case MN_TEXTFIELD:
       return *((std::string*)(option));

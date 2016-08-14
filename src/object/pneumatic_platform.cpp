@@ -66,15 +66,15 @@ PneumaticPlatform::collision(GameObject& other, const CollisionHit& )
 {
 
   // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
-  MovingObject* mo = dynamic_cast<MovingObject*>(&other);
+  auto mo = dynamic_cast<MovingObject*>(&other);
   if (!mo) return FORCE_MOVE;
   if ((mo->get_bbox().p2.y) > (bbox.p1.y + 2)) return FORCE_MOVE;
 
-  Player* pl = dynamic_cast<Player*>(mo);
+  auto pl = dynamic_cast<Player*>(mo);
   if (pl) {
     if (pl->is_big()) contacts.insert(0);
-    Portable* po = pl->get_grabbed_object();
-    MovingObject* pomo = dynamic_cast<MovingObject*>(po);
+    auto po = pl->get_grabbed_object();
+    auto pomo = dynamic_cast<MovingObject*>(po);
     if (pomo) contacts.insert(pomo);
   }
 

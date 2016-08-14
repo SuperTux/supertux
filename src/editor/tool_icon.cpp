@@ -38,7 +38,7 @@ ToolIcon::~ToolIcon() {
 
 void
 ToolIcon::push_mode(const std::string& icon) {
-  SurfacePtr surface = Surface::create(icon);
+  auto surface = Surface::create(icon);
   surfaces.push_back(surface);
   surf_count++;
 }

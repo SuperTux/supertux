@@ -72,9 +72,7 @@ void ParticleSystem::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(max_particle_size,max_particle_size));
 
-  for(auto i = particles.begin(); i != particles.end(); ++i) {
-    Particle* particle = i->get();
-
+  for(const auto& particle : particles) {
     // remap x,y coordinates onto screencoordinates
     Vector pos;
 
@@ -112,7 +110,7 @@ ParticleSystem::expose(HSQUIRRELVM vm, SQInteger table_idx)
   if (name.empty())
     return;
 
-  scripting::ParticleSystem* _this = new scripting::ParticleSystem(this);
+  auto _this = new scripting::ParticleSystem(this);
   expose_object(vm, table_idx, _this, name, true);
 }
 

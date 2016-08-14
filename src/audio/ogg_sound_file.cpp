@@ -105,7 +105,7 @@ OggSoundFile::reset()
 size_t
 OggSoundFile::cb_read(void* ptr, size_t size, size_t nmemb, void* source)
 {
-  PHYSFS_file* file = reinterpret_cast<PHYSFS_file*> (source);
+  auto file = reinterpret_cast<PHYSFS_file*> (source);
 
   PHYSFS_sint64 res
     = PHYSFS_readBytes(file, ptr, static_cast<PHYSFS_uint32> (size) * static_cast<PHYSFS_uint32> (nmemb));
@@ -118,7 +118,7 @@ OggSoundFile::cb_read(void* ptr, size_t size, size_t nmemb, void* source)
 int
 OggSoundFile::cb_seek(void* source, ogg_int64_t offset, int whence)
 {
-  PHYSFS_file* file = reinterpret_cast<PHYSFS_file*> (source);
+  auto file = reinterpret_cast<PHYSFS_file*> (source);
 
   switch(whence) {
     case SEEK_SET:
@@ -143,7 +143,7 @@ OggSoundFile::cb_seek(void* source, ogg_int64_t offset, int whence)
 int
 OggSoundFile::cb_close(void* source)
 {
-  PHYSFS_file* file = reinterpret_cast<PHYSFS_file*> (source);
+  auto file = reinterpret_cast<PHYSFS_file*> (source);
   PHYSFS_close(file);
   return 0;
 }
@@ -151,7 +151,7 @@ OggSoundFile::cb_close(void* source)
 long
 OggSoundFile::cb_tell(void* source)
 {
-  PHYSFS_file* file = reinterpret_cast<PHYSFS_file*> (source);
+  auto file = reinterpret_cast<PHYSFS_file*> (source);
   return static_cast<long> (PHYSFS_tell(file));
 }
 

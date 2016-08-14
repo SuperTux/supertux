@@ -105,7 +105,7 @@ Wind::collision(GameObject& other, const CollisionHit& )
 {
   if (!blowing) return ABORT_MOVE;
 
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if (player) {
     if (!player->on_ground()) {
       player->add_velocity(speed * acceleration * elapsed_time, speed);
@@ -121,7 +121,7 @@ Wind::expose(HSQUIRRELVM vm, SQInteger table_idx)
   if (name.empty())
     return;
 
-  scripting::Wind* _this = new scripting::Wind(this);
+  auto _this = new scripting::Wind(this);
   expose_object(vm, table_idx, _this, name, true);
 }
 

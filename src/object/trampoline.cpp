@@ -76,13 +76,13 @@ Trampoline::update(float elapsed_time)
 HitResponse
 Trampoline::collision(GameObject& other, const CollisionHit& hit)
 {
-  HeavyCoin* heavy_coin = dynamic_cast<HeavyCoin*> (&other);
+  auto heavy_coin = dynamic_cast<HeavyCoin*> (&other);
   if (heavy_coin) {
     return ABORT_MOVE;
   }
   //Tramponine has to be on ground to work.
   if(on_ground) {
-    Player* player = dynamic_cast<Player*> (&other);
+    auto player = dynamic_cast<Player*> (&other);
     //Trampoline works for player
     if(player) {
       float vy = player->get_physic().get_velocity_y();
@@ -98,7 +98,7 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
         return FORCE_MOVE;
       }
     }
-    WalkingBadguy* walking_badguy = dynamic_cast<WalkingBadguy*> (&other);
+    auto walking_badguy = dynamic_cast<WalkingBadguy*> (&other);
     //Trampoline also works for WalkingBadguy
     if(walking_badguy) {
       float vy = walking_badguy->get_velocity_y();
@@ -117,19 +117,9 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-Trampoline::collision_solid(const CollisionHit& hit) {
-  Rock::collision_solid(hit);
-}
-
-void
 Trampoline::grab(MovingObject& object, const Vector& pos, Direction dir) {
   sprite->set_animation_loops(0);
   Rock::grab(object, pos, dir);
-}
-
-void
-Trampoline::ungrab(MovingObject& object, Direction dir) {
-  Rock::ungrab(object, dir);
 }
 
 bool

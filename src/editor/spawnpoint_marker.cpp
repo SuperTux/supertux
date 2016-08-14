@@ -24,7 +24,7 @@
 #include "video/video_system.hpp"
 
 SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
-  surface()
+  surface(Surface::create("images/engine/editor/spawnpoint.png"))
 {
   if ( !lisp.get("name", name)) name = "";
   if ( !lisp.get("x", bbox.p1.x)) bbox.p1.x = 0;
@@ -34,7 +34,7 @@ SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
 }
 
 SpawnPointMarker::SpawnPointMarker (const SpawnPoint* sp) :
-  surface()
+  surface(Surface::create("images/engine/editor/spawnpoint.png"))
 {
   name = sp->name;
   bbox.p1 = sp->pos;
@@ -42,13 +42,10 @@ SpawnPointMarker::SpawnPointMarker (const SpawnPoint* sp) :
 }
 
 SpawnPointMarker::~SpawnPointMarker() {
-
 }
 
 void SpawnPointMarker::setup() {
   bbox.set_size(32, 32);
-
-  surface = Surface::create("images/engine/editor/spawnpoint.png");
 }
 
 void SpawnPointMarker::draw(DrawingContext& context) {

@@ -103,7 +103,7 @@ EditorLayersGui::draw(DrawingContext& context) {
 
   int pos = 0;
   for(auto it = layers.begin(); it != layers.end(); ++it) {
-    LayerIcon* layer_icon = (*it).get();
+    auto layer_icon = (*it).get();
     if (layer_icon->is_valid()) {
       layer_icon->draw(context, get_layer_coords(pos));
     } else {
@@ -146,7 +146,7 @@ EditorLayersGui::event(SDL_Event& ev) {
               Editor::current()->inputcenter.edit_path(((TileMap*)selected_tilemap)->get_path().get(),
                                                        selected_tilemap);
             } else {
-              Camera* cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);
+              auto cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);
               if (cam) {
                 Editor::current()->inputcenter.edit_path(cam->get_path(), cam);
               }
@@ -231,9 +231,9 @@ EditorLayersGui::add_layer(GameObject* layer) {
 
   // The icon is inserted to the correct position.
   for(auto i = layers.begin(); i != layers.end(); ++i) {
-    LayerIcon* li = &(**i);
+    auto li = &(**i);
     if (li->get_zpos() < z_pos) {
-      layers.insert(i,move(icon));
+      layers.insert(i, move(icon));
       return;
     }
   }

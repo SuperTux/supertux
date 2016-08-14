@@ -51,7 +51,7 @@ MrTree::is_freezable() const
 bool
 MrTree::collision_squished(GameObject& object)
 {
-  Player* player = dynamic_cast<Player*>(&object);
+  auto player = dynamic_cast<Player*>(&object);
   if(player && (player->does_buttjump || player->is_invincible())) {
     player->bounce(*this);
     kill_fall();

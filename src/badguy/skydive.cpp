@@ -97,7 +97,7 @@ SkyDive::collision_player(Player&, const CollisionHit& hit)
 bool
 SkyDive::collision_squished (GameObject& obj)
 {
-  Player *player = dynamic_cast<Player *> (&obj);
+  auto player = dynamic_cast<Player *> (&obj);
   if (player) {
     player->bounce (*this);
     return (false);

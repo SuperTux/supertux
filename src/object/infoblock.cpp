@@ -74,10 +74,10 @@ InfoBlock::hit(Player& player)
   if (dest_pct != 1) {
 
     // first hide all other InfoBlocks' messages in same sector
-    Sector* parent = Sector::current();
+    auto parent = Sector::current();
     if (!parent) return;
-    for (Sector::GameObjects::const_iterator i = parent->gameobjects.begin(); i != parent->gameobjects.end(); ++i) {
-      InfoBlock* block = dynamic_cast<InfoBlock*>(i->get());
+    for (const auto& object : parent->gameobjects) {
+      auto block = dynamic_cast<InfoBlock*>(object.get());
       if (!block) continue;
       if (block != this) block->hide_message();
     }
@@ -93,7 +93,7 @@ InfoBlock::hit(Player& player)
 HitResponse
 InfoBlock::collision(GameObject& other, const CollisionHit& hit_)
 {
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if (player)
   {
     if (player->does_buttjump)
@@ -117,7 +117,7 @@ InfoBlock::update(float delta)
 
   // hide message if player is too far away
   if (dest_pct > 0) {
-    Player* player = get_nearest_player();
+    auto player = get_nearest_player();
     if (player) {
       Vector p1 = bbox.get_middle();
       Vector p2 = player->get_bbox().get_middle();

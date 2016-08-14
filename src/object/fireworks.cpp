@@ -38,7 +38,7 @@ void
 Fireworks::update(float )
 {
   if(timer.check()) {
-    Sector* sector = Sector::current();
+    auto sector = Sector::current();
     Vector pos = sector->camera->get_translation();
     pos += Vector(graphicsRandom.randf(SCREEN_WIDTH),
                   graphicsRandom.randf(SCREEN_HEIGHT/2));

@@ -59,7 +59,7 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
     std::string basedir = FileSystem::dirname(filename);
     raw_music_file = FileSystem::normalize(basedir + raw_music_file);
 
-    PHYSFS_file* file = PHYSFS_openRead(raw_music_file.c_str());
+    auto file = PHYSFS_openRead(raw_music_file.c_str());
     if(!file) {
       std::stringstream msg;
       msg << "Couldn't open '" << raw_music_file << "': " << PHYSFS_getLastError();
@@ -73,11 +73,11 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
 std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
 {
   if(filename.length() > 6
-     && filename.compare(filename.length()-6, 6, ".music") == 0) {
+     && filename.compare(filename.length() - 6, 6, ".music") == 0) {
     return load_music_file(filename);
   }
 
-  PHYSFS_file* file = PHYSFS_openRead(filename.c_str());
+  auto file = PHYSFS_openRead(filename.c_str());
   if(!file) {
     std::stringstream msg;
     msg << "Couldn't open '" << filename << "': " << PHYSFS_getLastError() << ", using dummy sound file.";

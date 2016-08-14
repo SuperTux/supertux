@@ -84,7 +84,7 @@ Block::~Block()
 HitResponse
 Block::collision(GameObject& other, const CollisionHit& )
 {
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if(player) {
     if(player->get_bbox().get_top() > bbox.get_bottom() - SHIFT_DELTA) {
       hit(*player);
@@ -95,28 +95,28 @@ Block::collision(GameObject& other, const CollisionHit& )
   //   1) we are bouncing
   //   2) the object is not portable (either never or not currently)
   //   3) the object is being hit from below (baguys don't get killed for activating boxes)
-  Portable* portable = dynamic_cast<Portable*> (&other);
-  MovingObject* moving_object = dynamic_cast<MovingObject*> (&other);
-  Bomb* bomb = dynamic_cast<Bomb*> (&other);
+  auto portable = dynamic_cast<Portable*> (&other);
+  auto moving_object = dynamic_cast<MovingObject*> (&other);
+  auto bomb = dynamic_cast<Bomb*> (&other);
   bool is_portable = ((portable != 0) && portable->is_portable());
   bool is_bomb = (bomb != 0); // bombs need to explode, although they are considered portable
   bool hit_mo_from_below = ((moving_object == 0) || (moving_object->get_bbox().get_bottom() < (bbox.get_top() + SHIFT_DELTA)));
   if(bouncing && (!is_portable || is_bomb) && hit_mo_from_below) {
 
     // Badguys get killed
-    BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+    auto badguy = dynamic_cast<BadGuy*> (&other);
     if(badguy) {
       badguy->kill_fall();
     }
 
     // Coins get collected
-    Coin* coin = dynamic_cast<Coin*> (&other);
+    auto coin = dynamic_cast<Coin*> (&other);
     if(coin) {
       coin->collect();
     }
 
     //Eggs get jumped
-    GrowUp* growup = dynamic_cast<GrowUp*> (&other);
+    auto growup = dynamic_cast<GrowUp*> (&other);
     if(growup) {
       growup->do_jump();
     }
@@ -183,7 +183,7 @@ Block::start_break(GameObject* hitter)
 void
 Block::break_me()
 {
-  Sector* sector = Sector::current();
+  auto sector = Sector::current();
   sector->add_object(
     std::make_shared<BrokenBrick>(sprite->clone(), get_pos(), Vector(-100, -400)));
   sector->add_object(

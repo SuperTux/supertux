@@ -81,7 +81,6 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
     case DT_ROCKETLAUNCHER:
       sprite->set_action(dir == LEFT ? "working-left" : "working-right");
       set_colgroup_active(COLGROUP_MOVING); //if this were COLGROUP_MOVING_STATIC MrRocket would explode on launch.
-      colgroup_active = COLGROUP_MOVING;
 
       if (start_dir == AUTO) {
         autotarget = true;
@@ -93,7 +92,6 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
     case DT_POINT:
       sprite->set_action("invisible");
       set_colgroup_active(COLGROUP_DISABLED);
-      colgroup_active = COLGROUP_DISABLED;
     default:
       break;
   }
@@ -116,7 +114,7 @@ Dispenser::activate()
     return;
   }
   if( autotarget && !swivel ){ // auto cannon sprite might be wrong
-    Player* player = get_nearest_player();
+    auto player = get_nearest_player();
     if( player ){
       dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
       sprite->set_action(dir == LEFT ? "working-left" : "working-right");
@@ -149,7 +147,7 @@ Dispenser::collision_squished(GameObject& object)
   sprite->set_action(dir == LEFT ? "broken-left" : "broken-right");
   dispense_timer.start(0);
   set_colgroup_active(COLGROUP_MOVING_STATIC); // Tux can stand on broken cannon.
-  Player* player = dynamic_cast<Player*>(&object);
+  auto player = dynamic_cast<Player*>(&object);
   if (player){
     player->bounce(*this);
   }
@@ -161,7 +159,7 @@ Dispenser::collision_squished(GameObject& object)
 HitResponse
 Dispenser::collision(GameObject& other, const CollisionHit& hit)
 {
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if(player) {
     // hit from above?
     if (player->get_bbox().p2.y < (bbox.p1.y + 16)) {
@@ -174,7 +172,7 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
     return FORCE_MOVE;
   }
 
-  Bullet* bullet = dynamic_cast<Bullet*> (&other);
+  auto bullet = dynamic_cast<Bullet*> (&other);
   if(bullet){
     return collision_bullet(*bullet, hit);
   }
@@ -193,7 +191,7 @@ Dispenser::active_update(float )
         swivel = false;
       }
 
-      Player* player = get_nearest_player();
+      auto player = get_nearest_player();
       if( player && !swivel ){
         Direction targetdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
         if( dir != targetdir ){ // no target: swivel cannon
@@ -259,7 +257,7 @@ Dispenser::launch_badguy()
       if (game_object == NULL)
         throw std::runtime_error("Creating " + badguy + " object failed.");
 
-      BadGuy& bad_guy = dynamic_cast<BadGuy&>(*game_object);
+      auto& bad_guy = dynamic_cast<BadGuy&>(*game_object);
 
       object_bbox = bad_guy.get_bbox();
 

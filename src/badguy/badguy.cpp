@@ -357,7 +357,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
 {
   if (!is_active()) return ABORT_MOVE;
 
-  BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+  auto badguy = dynamic_cast<BadGuy*> (&other);
   if(badguy && badguy->is_active() && badguy->get_group() == COLGROUP_MOVING) {
 
     /* Badguys don't let badguys squish other badguys. It's bad. */
@@ -373,7 +373,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
     return collision_badguy(*badguy, hit);
   }
 
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if(player) {
 
     // hit from above?
@@ -395,7 +395,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
     return collision_player(*player, hit);
   }
 
-  Bullet* bullet = dynamic_cast<Bullet*> (&other);
+  auto bullet = dynamic_cast<Bullet*> (&other);
   if(bullet)
     return collision_bullet(*bullet, hit);
 
@@ -439,7 +439,7 @@ BadGuy::collision_squished(GameObject& object)
   // frozen badguys can be killed with butt-jump
   if(frozen)
   {
-    Player* player = dynamic_cast<Player*>(&object);
+    auto player = dynamic_cast<Player*>(&object);
     if(player && (player->does_buttjump)) {
       player->bounce(*this);
       kill_fall();
@@ -506,7 +506,7 @@ BadGuy::kill_squished(GameObject& object)
   physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);
   set_group(COLGROUP_MOVING_ONLY_STATIC);
-  Player* player = dynamic_cast<Player*>(&object);
+  auto player = dynamic_cast<Player*>(&object);
   if (player) {
     player->bounce(*this);
   }
@@ -629,7 +629,7 @@ void
 BadGuy::try_activate()
 {
   // Don't activate if player is dying
-  Player* player = get_nearest_player();
+  auto player = get_nearest_player();
   if (!player) return;
 
   if (!is_offscreen()) {
@@ -638,7 +638,7 @@ BadGuy::try_activate()
 
       // if starting direction was set to AUTO, this is our chance to re-orient the badguy
       if (start_dir == AUTO) {
-        Player* player_ = get_nearest_player();
+        auto player_ = get_nearest_player();
         if (player_ && (player_->get_bbox().p1.x > bbox.p2.x)) {
           dir = RIGHT;
         } else {

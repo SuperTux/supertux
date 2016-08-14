@@ -103,7 +103,7 @@ private:
   static ALenum get_sample_format(const SoundFile& file);
 
   static void print_openal_version();
-  void check_alc_error(const char* message);
+  void check_alc_error(const char* message) const;
   static void check_al_error(const char* message);
 
   ALCdevice* device;

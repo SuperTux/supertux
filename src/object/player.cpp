@@ -948,7 +948,7 @@ Player::try_grab()
 {
   if(controller->hold(Controller::ACTION) && !grabbed_object
      && !duck) {
-    Sector* sector = Sector::current();
+    auto sector = Sector::current();
     Vector pos;
     if(dir == LEFT) {
       pos = Vector(bbox.get_left() - 5, bbox.get_bottom() - 16);
@@ -958,12 +958,12 @@ Player::try_grab()
 
     for(Sector::Portables::iterator i = sector->portables.begin();
         i != sector->portables.end(); ++i) {
-      Portable* portable = *i;
+      auto portable = *i;
       if(!portable->is_portable())
         continue;
 
       // make sure the Portable is a MovingObject
-      MovingObject* moving_object = dynamic_cast<MovingObject*> (portable);
+      auto moving_object = dynamic_cast<MovingObject*> (portable);
       assert(moving_object);
 
       // make sure the Portable isn't currently non-solid
@@ -1415,12 +1415,12 @@ Player::collision_solid(const CollisionHit& hit)
 HitResponse
 Player::collision(GameObject& other, const CollisionHit& hit)
 {
-  Bullet* bullet = dynamic_cast<Bullet*> (&other);
+  auto bullet = dynamic_cast<Bullet*> (&other);
   if(bullet) {
     return FORCE_MOVE;
   }
 
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if(player) {
     return ABORT_MOVE;
   }
@@ -1429,9 +1429,9 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     try_grab(); //grab objects right now, in update it will be too late
   }
   assert(dynamic_cast<MovingObject*> (&other) != NULL);
-  MovingObject* moving_object = static_cast<MovingObject*> (&other);
+  auto moving_object = static_cast<MovingObject*> (&other);
   if(moving_object->get_group() == COLGROUP_TOUCHABLE) {
-    TriggerBase* trigger = dynamic_cast<TriggerBase*> (&other);
+    auto trigger = dynamic_cast<TriggerBase*> (&other);
     if(trigger && !deactivated) {
       if(controller->pressed(Controller::UP))
         trigger->event(*this, TriggerBase::EVENT_ACTIVATE);
@@ -1440,7 +1440,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     return FORCE_MOVE;
   }
 
-  BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+  auto badguy = dynamic_cast<BadGuy*> (&other);
   if(badguy != NULL) {
     if(safe_timer.started() || invincible_timer.started())
       return FORCE_MOVE;

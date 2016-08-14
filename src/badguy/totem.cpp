@@ -132,7 +132,7 @@ Totem::collision_squished(GameObject& object)
   }
 
   if (carried_by) {
-    Player* player = dynamic_cast<Player*>(&object);
+    auto player = dynamic_cast<Player*>(&object);
     if (player) player->bounce(*this);
     jump_off();
   }
@@ -181,11 +181,11 @@ Totem::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   }
 
   // if we hit a Totem that is not from our stack: have our base jump on its top
-  Totem* totem = dynamic_cast<Totem*>(&badguy);
+  auto totem = dynamic_cast<Totem*>(&badguy);
   if (totem) {
-    Totem* thisBase = this; while (thisBase->carried_by) thisBase=thisBase->carried_by;
-    Totem* srcBase = totem; while (srcBase->carried_by)  srcBase=srcBase->carried_by;
-    Totem* thisTop = this;  while (thisTop->carrying)    thisTop=thisTop->carrying;
+    auto thisBase = this; while (thisBase->carried_by) thisBase=thisBase->carried_by;
+    auto srcBase = totem; while (srcBase->carried_by)  srcBase=srcBase->carried_by;
+    auto thisTop = this;  while (thisTop->carrying)    thisTop=thisTop->carrying;
     if (srcBase != thisBase) {
       srcBase->jump_on(thisTop);
     }

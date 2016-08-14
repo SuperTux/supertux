@@ -87,9 +87,9 @@ AngryStone::active_update(float elapsed_time) {
 
 
     case IDLE: {
-      MovingObject* player = get_nearest_player();
+      auto player = get_nearest_player();
       if(player) {
-        MovingObject* badguy = this;
+        auto badguy = this;
         const Vector& playerPos = player->get_pos();
         const Vector& badguyPos = badguy->get_pos();
         float dx = (playerPos.x - badguyPos.x);

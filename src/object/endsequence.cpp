@@ -50,7 +50,7 @@ EndSequence::start()
   isrunning = true;
   isdone = false;
 
-  Player& tux = *Sector::current()->player;
+  auto& tux = *Sector::current()->player;
   end_sequence_controller.reset(new CodeController());
   tux.set_controller(end_sequence_controller.get());
   tux.set_speedlimit(230); //MAX_WALK_XM

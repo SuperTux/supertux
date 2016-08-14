@@ -461,7 +461,7 @@ SoundManager::print_openal_version()
 }
 
 void
-SoundManager::check_alc_error(const char* message)
+SoundManager::check_alc_error(const char* message) const
 {
   int err = alcGetError(device);
   if(err != ALC_NO_ERROR) {

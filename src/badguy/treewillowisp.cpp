@@ -91,7 +91,7 @@ TreeWillOWisp::collision_player(Player& player, const CollisionHit& hit)
 bool
 TreeWillOWisp::collides(GameObject& other, const CollisionHit& ) const
 {
-  Lantern* lantern = dynamic_cast<Lantern*>(&other);
+  auto lantern = dynamic_cast<Lantern*>(&other);
   if (lantern && lantern->is_open())
     return true;
   if (dynamic_cast<Player*>(&other))

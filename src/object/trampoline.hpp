@@ -29,11 +29,9 @@ public:
   Trampoline(const Vector& pos, bool port);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void collision_solid(const CollisionHit& hit);
   void update(float elapsed_time);
 
   void grab(MovingObject&, const Vector& pos, Direction);
-  void ungrab(MovingObject&, Direction);
   bool is_portable() const;
   std::string get_class() const {
     return "trampoline";

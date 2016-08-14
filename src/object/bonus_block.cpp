@@ -209,13 +209,13 @@ BonusBlock::hit(Player & player)
 HitResponse
 BonusBlock::collision(GameObject& other, const CollisionHit& hit_){
 
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if (player) {
     if (player->does_buttjump)
       try_drop(player);
   }
 
-  BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+  auto badguy = dynamic_cast<BadGuy*> (&other);
   if(badguy) {
     // hit contains no information for collisions with blocks.
     // Badguy's bottom has to be below the top of the block
@@ -224,9 +224,9 @@ BonusBlock::collision(GameObject& other, const CollisionHit& hit_){
       try_open(player);
     }
   }
-  Portable* portable = dynamic_cast<Portable*> (&other);
+  auto portable = dynamic_cast<Portable*> (&other);
   if(portable) {
-    MovingObject* moving = dynamic_cast<MovingObject*> (&other);
+    auto moving = dynamic_cast<MovingObject*> (&other);
     if(moving->get_bbox().get_top() > bbox.get_bottom() - SHIFT_DELTA) {
       try_open(player);
     }
@@ -242,7 +242,7 @@ BonusBlock::try_open(Player *player)
     return;
   }
 
-  Sector* sector = Sector::current();
+  auto sector = Sector::current();
   assert(sector);
 
   if (player == NULL)
@@ -367,7 +367,7 @@ BonusBlock::try_drop(Player *player)
     return;
   }
 
-  Sector* sector = Sector::current();
+  auto sector = Sector::current();
   assert(sector);
 
   // First what's below the bonus block, if solid send it up anyway (excepting doll)

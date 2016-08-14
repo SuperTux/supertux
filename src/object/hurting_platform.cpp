@@ -29,14 +29,14 @@ HurtingPlatform::HurtingPlatform(const ReaderMapping& reader)
 HitResponse
 HurtingPlatform::collision(GameObject& other, const CollisionHit& )
 {
-  Player* player = dynamic_cast<Player*>(&other);
+  auto player = dynamic_cast<Player*>(&other);
   if (player) {
     if(player->is_invincible()) {
       return ABORT_MOVE;
     }
     player->kill(false);
   }
-  BadGuy* badguy = dynamic_cast<BadGuy*>(&other);
+  auto badguy = dynamic_cast<BadGuy*>(&other);
   if (badguy) {
     badguy->kill_fall();
   }

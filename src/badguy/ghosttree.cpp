@@ -249,7 +249,7 @@ GhostTree::collision(GameObject& other, const CollisionHit& )
 {
   if(mystate != STATE_SUCKING) return ABORT_MOVE;
 
-  Player* player = dynamic_cast<Player*>(&other);
+  auto player = dynamic_cast<Player*>(&other);
   if (player) {
     player->kill(false);
   }

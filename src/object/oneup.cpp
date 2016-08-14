@@ -39,7 +39,7 @@ OneUp::update(float elapsed_time)
 HitResponse
 OneUp::collision(GameObject& other, const CollisionHit& )
 {
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if(player) {
     player->get_status()->add_coins(100);
 #if 0

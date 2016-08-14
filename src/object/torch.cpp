@@ -76,7 +76,7 @@ HitResponse
 Torch::collision(GameObject& other, const CollisionHit& )
 {
   // FIXME: this doesn't work, as bbox is wrong
-  Player* player = dynamic_cast<Player*>(&other);
+  auto player = dynamic_cast<Player*>(&other);
   if(player != 0)
   {
     m_burning = true;

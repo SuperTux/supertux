@@ -80,7 +80,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
   if(activated || sprite->get_action() == "ringing")
     return ABORT_MOVE;
 
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if(player) {
     activated = true;
     // spawn some particles

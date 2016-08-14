@@ -36,7 +36,7 @@ SkullTile::SkullTile(const ReaderMapping& lisp) :
 HitResponse
 SkullTile::collision(GameObject& other, const CollisionHit& )
 {
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if(player)
     hit = true;
 

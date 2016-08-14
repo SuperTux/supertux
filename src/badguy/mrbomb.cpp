@@ -78,7 +78,7 @@ MrBomb::collision_player(Player& player, const CollisionHit& hit)
 bool
 MrBomb::collision_squished(GameObject& object)
 {
-  Player* player = dynamic_cast<Player*>(&object);
+  auto player = dynamic_cast<Player*>(&object);
   if(player && player->is_invincible()) {
     player->bounce(*this);
     kill_fall();

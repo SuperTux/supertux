@@ -69,7 +69,7 @@ ShortFuse::collision_squished(GameObject& obj)
   if (!is_valid ())
     return true;
 
-  Player* player = dynamic_cast<Player*>(&obj);
+  auto player = dynamic_cast<Player*>(&obj);
   if(player)
     player->bounce(*this);
 

@@ -184,7 +184,7 @@ MrIceBlock::collision_squished(GameObject& object)
   switch(ice_state) {
     case ICESTATE_KICKED:
     {
-      BadGuy* badguy = dynamic_cast<BadGuy*>(&object);
+      auto badguy = dynamic_cast<BadGuy*>(&object);
       if (badguy) {
         badguy->kill_fall();
         break;
@@ -206,7 +206,7 @@ MrIceBlock::collision_squished(GameObject& object)
     break;
     case ICESTATE_FLAT:
     {
-      MovingObject* movingobject = dynamic_cast<MovingObject*>(&object);
+      auto movingobject = dynamic_cast<MovingObject*>(&object);
       if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
         dir = RIGHT;
       } else {

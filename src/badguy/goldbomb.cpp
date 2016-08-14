@@ -209,7 +209,7 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
 {
   int toss_velocity_x = 0;
   int toss_velocity_y = 0;
-  Player* player = dynamic_cast<Player*> (&object);
+  auto player = dynamic_cast<Player*> (&object);
 
   // toss upwards
   if(dir_ == UP)
@@ -234,7 +234,7 @@ GoldBomb::ungrab(MovingObject& object, Direction dir_)
 void
 GoldBomb::freeze()
 {
-  if(tstate == STATE_NORMAL){
+  if(tstate == STATE_NORMAL) {
     WalkingBadguy::freeze();
   }
 }

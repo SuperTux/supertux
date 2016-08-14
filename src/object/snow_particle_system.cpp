@@ -136,8 +136,8 @@ void SnowParticleSystem::update(float elapsed_time)
 
   float sq_g = sqrt(Sector::current()->get_gravity());
 
-  for(auto i = particles.begin(); i != particles.end(); ++i) {
-    SnowParticle* particle = (SnowParticle*)i->get();
+  for(auto& part : particles) {
+    auto particle = dynamic_cast<SnowParticle*>(part.get());
     float anchor_delta;
 
     // Falling

@@ -79,10 +79,9 @@ Explosion::explode()
 
   if (push) {
     Vector center = bbox.get_middle ();
-    std::vector<MovingObject*> near_objects = Sector::current()->get_nearby_objects (center, 10.0 * 32.0);
+    auto near_objects = Sector::current()->get_nearby_objects (center, 10.0 * 32.0);
 
-    for (size_t i = 0; i < near_objects.size (); i++) {
-      MovingObject *obj = near_objects[i];
+    for(auto& obj: near_objects) {
       Vector obj_vector = obj->get_bbox ().get_middle ();
       Vector direction = obj_vector - center;
       float distance = direction.norm ();
@@ -100,12 +99,12 @@ Explosion::explode()
 
       Vector add_speed = direction.unit () * force;
 
-      Player *player = dynamic_cast<Player *> (obj);
+      auto player = dynamic_cast<Player *> (obj);
       if (player) {
         player->add_velocity (add_speed);
       }
 
-      WalkingBadguy *badguy = dynamic_cast<WalkingBadguy *> (obj);
+      auto badguy = dynamic_cast<WalkingBadguy *> (obj);
       if (badguy && badguy->is_active()) {
         badguy->add_velocity (add_speed);
       }
@@ -149,12 +148,12 @@ Explosion::collision(GameObject& other, const CollisionHit& )
   if ((state != STATE_EXPLODING) || !hurt)
     return ABORT_MOVE;
 
-  Player* player = dynamic_cast<Player*>(&other);
+  auto player = dynamic_cast<Player*>(&other);
   if(player != 0) {
     player->kill(false);
   }
 
-  BadGuy* badguy = dynamic_cast<BadGuy*>(&other);
+  auto badguy = dynamic_cast<BadGuy*>(&other);
   if(badguy != 0) {
     badguy->kill_fall();
   }

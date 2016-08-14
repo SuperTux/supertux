@@ -77,7 +77,7 @@ Jumpy::active_update(float elapsed_time)
   if(frozen)
     return;
 
-  Player* player = get_nearest_player();
+  auto player = get_nearest_player();
   if (player)
   {
     dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;

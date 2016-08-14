@@ -141,7 +141,7 @@ Zeekling::should_we_dive() {
   if (frozen)
     return false;
 
-  const MovingObject* player = get_nearest_player();
+  const auto player = get_nearest_player();
   if (player && last_player && (player == last_player)) {
 
     // get positions, calculate movement

@@ -113,7 +113,7 @@ Platform::update(float elapsed_time)
       // Player doesn't touch platform and Platform is not moving
 
       // Travel to node nearest to nearest player
-      Player* player = Sector::current()->get_nearest_player(bbox);
+      auto player = Sector::current()->get_nearest_player(bbox);
       if (player) {
         int nearest_node_id = path->get_nearest_node_no(player->get_bbox().p2);
         if (nearest_node_id != -1) {
@@ -169,7 +169,7 @@ void
 Platform::expose(HSQUIRRELVM vm, SQInteger table_idx)
 {
   if (name.empty()) return;
-  scripting::Platform* _this = new scripting::Platform(this);
+  auto _this = new scripting::Platform(this);
   expose_object(vm, table_idx, _this, name, true);
 }
 

@@ -32,8 +32,8 @@ void ObjectSettings::copy_from(ObjectSettings* other) {
   auto it1 = options.begin();
   auto it2 = other->options.begin();
   while (it1 != options.end() && it2 != other->options.end()) {
-    ObjectOption* oo1 = &*it1;
-    ObjectOption* oo2 = &*it2;
+    auto oo1 = &*it1;
+    auto oo2 = &*it2;
 
     switch (oo1->type) {
       case MN_TEXTFIELD:

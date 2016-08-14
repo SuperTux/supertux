@@ -229,7 +229,7 @@ Yeti::collision_squished(GameObject& object)
 void
 Yeti::kill_squished(GameObject& object)
 {
-  Player* player = dynamic_cast<Player*>(&object);
+  auto player = dynamic_cast<Player*>(&object);
   if (player) {
     player->bounce(*this);
     take_hit(*player);
@@ -277,7 +277,7 @@ Yeti::drop_stalactite()
   // make a stalactite falling down and shake camera a bit
   Sector::current()->camera->shake(.1f, 0, 10);
 
-  Player* player = get_nearest_player();
+  auto player = get_nearest_player();
   if (!player) return;
 
   Sector* sector = Sector::current();

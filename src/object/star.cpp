@@ -45,7 +45,7 @@ Star::update(float elapsed_time)
   movement = physic.get_movement(elapsed_time);
 
   // when near Tux, spawn particles
-  Player* player = Sector::current()->get_nearest_player (bbox);
+  auto player = Sector::current()->get_nearest_player (bbox);
   if (player) {
     float disp_x = player->get_bbox().p1.x - bbox.p1.x;
     float disp_y = player->get_bbox().p1.y - bbox.p1.y;
@@ -62,7 +62,7 @@ Star::update(float elapsed_time)
                                         // draw bright sparkles when very close to Tux, dark sparkles when slightly further
                                         (disp_x*disp_x + disp_y*disp_y <= 128*128) ?
                                         // make every other a longer sparkle to make trail a bit fuzzy
-                                        (size_t(game_time*20)%2) ? "small" : "medium" : "dark", 
+                                        (size_t(game_time*20)%2) ? "small" : "medium" : "dark",
                                         ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS+1+5));
       }
     }
@@ -99,7 +99,7 @@ Star::collision_solid(const CollisionHit& hit)
 HitResponse
 Star::collision(GameObject& other, const CollisionHit& )
 {
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if(player) {
     player->make_invincible();
     remove_me();

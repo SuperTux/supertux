@@ -63,13 +63,13 @@ Brick::hit(Player& player)
 HitResponse
 Brick::collision(GameObject& other, const CollisionHit& hit_){
 
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if (player) {
     if (player->does_buttjump) try_break(player);
     if (player->is_stone() && player->get_velocity().y >= 280) try_break(player); // stoneform breaks through bricks
   }
 
-  BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+  auto badguy = dynamic_cast<BadGuy*> (&other);
   if(badguy) {
     // hit contains no information for collisions with blocks.
     // Badguy's bottom has to be below the top of the brick
@@ -78,18 +78,18 @@ Brick::collision(GameObject& other, const CollisionHit& hit_){
       try_break(player);
     }
   }
-  Portable* portable = dynamic_cast<Portable*> (&other);
+  auto portable = dynamic_cast<Portable*> (&other);
   if(portable) {
-    MovingObject* moving = dynamic_cast<MovingObject*> (&other);
+    auto moving = dynamic_cast<MovingObject*> (&other);
     if(moving->get_bbox().get_top() > bbox.get_bottom() - SHIFT_DELTA) {
       try_break(player);
     }
   }
-  Explosion* explosion = dynamic_cast<Explosion*> (&other);
+  auto explosion = dynamic_cast<Explosion*> (&other);
   if(explosion && explosion->hurts()) {
     try_break(player);
   }
-  IceCrusher* icecrusher = dynamic_cast<IceCrusher*> (&other);
+  auto icecrusher = dynamic_cast<IceCrusher*> (&other);
   if(icecrusher && coin_counter == 0)
     try_break(player);
   return Block::collision(other, hit_);
@@ -102,8 +102,8 @@ Brick::try_break(Player* player)
     return;
 
   SoundManager::current()->play("sounds/brick.wav");
-  Sector* sector = Sector::current();
-  Player& player_one = *(sector->player);
+  auto sector = Sector::current();
+  auto& player_one = *(sector->player);
   if(coin_counter > 0 ){
     sector->add_object(std::make_shared<BouncyCoin>(get_pos(), true));
     coin_counter--;

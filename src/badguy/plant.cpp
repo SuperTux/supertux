@@ -74,7 +74,7 @@ Plant::active_update(float elapsed_time) {
 
   if(state == PLANT_SLEEPING) {
 
-    Player* player = get_nearest_player();
+    auto player = get_nearest_player();
     if (player) {
       Rectf pb = player->get_bbox();
 

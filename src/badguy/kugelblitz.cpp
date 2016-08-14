@@ -191,7 +191,7 @@ Kugelblitz::try_activate()
   float X_OFFSCREEN_DISTANCE = 400;
   float Y_OFFSCREEN_DISTANCE = 600;
 
-  Player* player_ = get_nearest_player();
+  auto player_ = get_nearest_player();
   if (!player_) return;
   Vector dist = player_->get_bbox().get_middle() - bbox.get_middle();
   if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {

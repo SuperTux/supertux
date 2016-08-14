@@ -37,10 +37,10 @@ Tip::Tip(GameObject* object) :
     return;
   }
 
-  ObjectSettings os = object->get_settings();
+  auto os = object->get_settings();
   header = os.name;
 
-  for(auto& oo : os.options) {
+  for(const auto& oo : os.options) {
     if (oo.type != MN_REMOVE && oo.visible) {
       strings.push_back(oo.text + ": " + oo.to_string());
     }
@@ -57,7 +57,7 @@ Tip::draw(DrawingContext& context, Vector pos) {
   context.draw_text(Resources::normal_font, header, pos,
                     ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::label_color);
 
-  for(auto& str : strings) {
+  for(const auto& str : strings) {
     pos.y += 22;
     context.draw_text(Resources::normal_font, str, pos,
                       ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::default_color);

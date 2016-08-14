@@ -123,7 +123,7 @@ FileSystemMenu::refresh_items()
 bool
 FileSystemMenu::has_right_suffix(const std::string& file) const
 {
-  for (auto& extension : extensions) {
+  for (const auto& extension : extensions) {
     if(StringUtil::has_suffix(file, extension))
     {
       return true;
