@@ -63,7 +63,7 @@ TriggerBase::draw(DrawingContext& context)
 HitResponse
 TriggerBase::collision(GameObject& other, const CollisionHit& )
 {
-  Player* player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*> (&other);
   if(player) {
     hit = true;
     if(!lasthit) {
@@ -80,7 +80,7 @@ void
 TriggerBase::object_removed(GameObject* object)
 {
   for (std::list<Player*>::iterator i = losetouch_listeners.begin(); i != losetouch_listeners.end(); ++i) {
-    Player* p = *i;
+    auto p = *i;
     if (p == object) {
       losetouch_listeners.erase(i);
       break;

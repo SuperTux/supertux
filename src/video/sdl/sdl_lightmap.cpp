@@ -132,7 +132,7 @@ SDLLightmap::draw_triangle(const DrawingRequest& request)
 void
 SDLLightmap::get_light(const DrawingRequest& request) const
 {
-  const GetLightRequest* getlightrequest
+  const auto getlightrequest
     = static_cast<GetLightRequest*>(request.request_data);
 
   SDL_Rect rect;

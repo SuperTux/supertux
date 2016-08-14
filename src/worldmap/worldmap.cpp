@@ -148,9 +148,7 @@ WorldMap::~WorldMap()
 
   spawn_points.clear();
 
-  for(ScriptList::iterator i = scripts.begin();
-      i != scripts.end(); ++i) {
-    HSQOBJECT& object = *i;
+  for(auto& object : scripts) {
     sq_release(global_vm, &object);
   }
   sq_release(global_vm, &worldmap_table);
@@ -164,7 +162,7 @@ WorldMap::~WorldMap()
 void
 WorldMap::add_object(GameObjectPtr object)
 {
-  TileMap* tilemap = dynamic_cast<TileMap*>(object.get());
+  auto tilemap = dynamic_cast<TileMap*>(object.get());
   if(tilemap != 0 && tilemap->is_solid()) {
     solid_tilemaps.push_back(tilemap);
   }
@@ -176,7 +174,7 @@ WorldMap::add_object(GameObjectPtr object)
 void
 WorldMap::try_expose(const GameObjectPtr& object)
 {
-  ScriptInterface* object_ = dynamic_cast<ScriptInterface*>(object.get());
+  auto object_ = dynamic_cast<ScriptInterface*>(object.get());
   if(object_ != NULL) {
     HSQUIRRELVM vm = scripting::global_vm;
     sq_pushobject(vm, worldmap_table);
@@ -188,7 +186,7 @@ WorldMap::try_expose(const GameObjectPtr& object)
 void
 WorldMap::try_unexpose(const GameObjectPtr& object)
 {
-  ScriptInterface* object_ = dynamic_cast<ScriptInterface*>(object.get());
+  auto object_ = dynamic_cast<ScriptInterface*>(object.get());
   if(object_ != NULL) {
     HSQUIRRELVM vm = scripting::global_vm;
     SQInteger oldtop = sq_gettop(vm);
@@ -205,8 +203,7 @@ WorldMap::try_unexpose(const GameObjectPtr& object)
 void
 WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
 {
-  for(auto i = spawn_points.begin(); i != spawn_points.end(); ++i) {
-    SpawnPoint* sp = i->get();
+  for(const auto& sp : spawn_points) {
     if(sp->name == spawnpoint) {
       Vector p = sp->pos;
       tux->set_tile_pos(p);
@@ -360,8 +357,7 @@ WorldMap::load_level_information(LevelTile& level)
 void WorldMap::calculate_total_stats()
 {
   total_stats.zero();
-  for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
-    LevelTile* level = *i;
+  for(const auto& level : levels) {
     if (level->solved) {
       total_stats += level->statistics;
     }
@@ -445,7 +441,7 @@ void
 WorldMap::finished_level(Level* gamelevel)
 {
   // TODO use Level* parameter here?
-  LevelTile* level = at_level();
+  auto level = at_level();
 
   if(level == NULL) {
     return;
@@ -552,7 +548,7 @@ WorldMap::update(float delta)
     // remove old GameObjects
     for(GameObjects::iterator i = game_objects.begin();
         i != game_objects.end(); ) {
-      GameObjectPtr& object = *i;
+      auto& object = *i;
       if(!object->is_valid()) {
         try_unexpose(object);
         i = game_objects.erase(i);
@@ -564,9 +560,9 @@ WorldMap::update(float delta)
     /* update solid_tilemaps list */
     //FIXME: this could be more efficient
     solid_tilemaps.clear();
-    for(auto i = game_objects.begin(); i != game_objects.end(); ++i)
+    for(auto& i : game_objects)
     {
-      TileMap* tm = dynamic_cast<TileMap*>(i->get());
+      auto tm = dynamic_cast<TileMap*>(i.get());
       if (!tm) continue;
       if (tm->is_solid()) solid_tilemaps.push_back(tm);
     }
@@ -601,7 +597,7 @@ WorldMap::update(float delta)
     }
 
     // handle input
-    Controller *controller = InputManager::current()->get_controller();
+    auto controller = InputManager::current()->get_controller();
     bool enter_level = false;
     if(controller->pressed(Controller::ACTION)
        || controller->pressed(Controller::JUMP)
@@ -623,7 +619,7 @@ WorldMap::update(float delta)
     }
 
     // check for teleporters
-    Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
+    auto teleporter = at_teleporter(tux->get_tile_pos());
     if (teleporter && (teleporter->automatic || (enter_level && (!tux->is_moving())))) {
       enter_level = false;
       if (!teleporter->worldmap.empty()) {
@@ -637,7 +633,7 @@ WorldMap::update(float delta)
     }
 
     // check for auto-play levels
-    LevelTile* level = at_level();
+    auto level = at_level();
     if (level && (level->auto_play) && (!level->solved) && (!tux->is_moving())) {
       enter_level = true;
       // automatically mark these levels as solved in case player aborts
@@ -647,7 +643,7 @@ WorldMap::update(float delta)
     if (enter_level && !tux->is_moving())
     {
       /* Check level action */
-      LevelTile* level_ = at_level();
+      auto level_ = at_level();
       if (!level_) {
         //Respawn if player on a tile with no level and nowhere to go.
         int tile_data = tile_data_at(tux->get_tile_pos());
@@ -688,9 +684,8 @@ WorldMap::tile_data_at(const Vector& p) const
 {
   int dirs = 0;
 
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); ++i) {
-    TileMap* tilemap = *i;
-    const Tile* tile = tilemap->get_tile((int)p.x, (int)p.y);
+  for(const auto& tilemap : solid_tilemaps) {
+    const auto tile = tilemap->get_tile((int)p.x, (int)p.y);
     int dirdata = tile->getData();
     dirs |= dirdata;
   }
@@ -707,8 +702,7 @@ WorldMap::available_directions_at(const Vector& p) const
 LevelTile*
 WorldMap::at_level() const
 {
-  for(LevelTiles::const_iterator i = levels.begin(); i != levels.end(); ++i) {
-    LevelTile* level = *i;
+  for(const auto& level : levels) {
     if (level->pos == tux->get_tile_pos())
       return level;
   }
@@ -719,9 +713,7 @@ WorldMap::at_level() const
 SpecialTile*
 WorldMap::at_special_tile() const
 {
-  for(SpecialTiles::const_iterator i = special_tiles.begin();
-      i != special_tiles.end(); ++i) {
-    SpecialTile* special_tile = *i;
+  for(const auto& special_tile : special_tiles) {
     if (special_tile->pos == tux->get_tile_pos())
       return special_tile;
   }
@@ -732,9 +724,7 @@ WorldMap::at_special_tile() const
 SpriteChange*
 WorldMap::at_sprite_change(const Vector& pos) const
 {
-  for(SpriteChanges::const_iterator i = sprite_changes.begin();
-      i != sprite_changes.end(); ++i) {
-    SpriteChange* sprite_change = *i;
+  for(const auto& sprite_change : sprite_changes) {
     if(sprite_change->pos == pos)
       return sprite_change;
   }
@@ -745,8 +735,7 @@ WorldMap::at_sprite_change(const Vector& pos) const
 Teleporter*
 WorldMap::at_teleporter(const Vector& pos) const
 {
-  for(std::vector<Teleporter*>::const_iterator i = teleporters.begin(); i != teleporters.end(); ++i) {
-    Teleporter* teleporter = *i;
+  for(const auto& teleporter : teleporters) {
     if(teleporter->pos == pos) return teleporter;
   }
 
@@ -764,9 +753,8 @@ WorldMap::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(camera_offset);
 
-  for(auto i = game_objects.begin(); i != game_objects.end(); ++i)
+  for(const auto& object : game_objects)
   {
-    GameObjectPtr& object = *i;
     if(!panning || object != tux) {
       object->draw(context);
     }
@@ -806,9 +794,7 @@ WorldMap::draw_status(DrawingContext& context)
   m_savegame.get_player_status()->draw(context);
 
   if (!tux->is_moving()) {
-    for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
-      LevelTile* level = *i;
-
+    for(const auto& level : levels) {
       if (level->pos == tux->get_tile_pos()) {
         context.draw_text(Resources::normal_font, level->title,
                           Vector(SCREEN_WIDTH/2,
@@ -832,10 +818,7 @@ WorldMap::draw_status(DrawingContext& context)
       }
     }
 
-    for(SpecialTiles::iterator i = special_tiles.begin();
-        i != special_tiles.end(); ++i) {
-      SpecialTile* special_tile = *i;
-
+    for(auto special_tile : special_tiles) {
       if (special_tile->pos == tux->get_tile_pos()) {
         /* Display an in-map message in the map, if any as been selected */
         if(!special_tile->map_message.empty() && !special_tile->passive_message)
@@ -848,7 +831,7 @@ WorldMap::draw_status(DrawingContext& context)
     }
 
     // display teleporter messages
-    Teleporter* teleporter = at_teleporter(tux->get_tile_pos());
+    auto teleporter = at_teleporter(tux->get_tile_pos());
     if (teleporter && (!teleporter->message.empty())) {
       Vector pos = Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - Resources::normal_font->get_height() - 30);
       context.draw_text(Resources::normal_font, teleporter->message, pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::teleporter_message_color);
@@ -1087,9 +1070,7 @@ size_t
 WorldMap::solved_level_count() const
 {
   size_t count = 0;
-  for(LevelTiles::const_iterator i = levels.begin(); i != levels.end(); ++i) {
-    LevelTile* level = *i;
-
+  for(const auto& level : levels) {
     if(level->solved)
       count++;
   }
@@ -1135,8 +1116,7 @@ float
 WorldMap::get_width() const
 {
   float width = 0;
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); ++i) {
-    TileMap* solids = *i;
+  for(const auto& solids : solid_tilemaps) {
     if (solids->get_width() > width) width = solids->get_width();
   }
   return width;
@@ -1146,8 +1126,7 @@ float
 WorldMap::get_height() const
 {
   float height = 0;
-  for(std::list<TileMap*>::const_iterator i = solid_tilemaps.begin(); i != solid_tilemaps.end(); ++i) {
-    TileMap* solids = *i;
+  for(const auto& solids : solid_tilemaps) {
     if (solids->get_height() > height) height = solids->get_height();
   }
   return height;

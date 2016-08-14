@@ -59,7 +59,7 @@ SDL_BlendMode blend2sdl(const Blend& blend)
 void
 SDLPainter::draw_surface(SDL_Renderer* renderer, const DrawingRequest& request)
 {
-  const Surface* surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;
+  const auto surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;
   std::shared_ptr<SDLTexture> sdltexture = std::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
 
   SDL_Rect dst_rect;
@@ -94,8 +94,8 @@ void
 SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& request)
 {
   //FIXME: support parameters request.blend
-  const SurfacePartRequest* surface = static_cast<const SurfacePartRequest*>(request.request_data);
-  const SurfacePartRequest* surfacepartrequest = static_cast<SurfacePartRequest*>(request.request_data);
+  const auto surface = static_cast<const SurfacePartRequest*>(request.request_data);
+  const auto surfacepartrequest = static_cast<SurfacePartRequest*>(request.request_data);
 
   std::shared_ptr<SDLTexture> sdltexture = std::dynamic_pointer_cast<SDLTexture>(surface->surface->get_texture());
 
@@ -136,8 +136,7 @@ SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& requ
 void
 SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
 {
-  const GradientRequest* gradientrequest
-    = static_cast<GradientRequest*>(request.request_data);
+  const auto gradientrequest = static_cast<GradientRequest*>(request.request_data);
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
   const GradientDirection& direction = gradientrequest->direction;
@@ -195,8 +194,7 @@ SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
 void
 SDLPainter::draw_filled_rect(SDL_Renderer* renderer, const DrawingRequest& request)
 {
-  const FillRectRequest* fillrectrequest
-    = static_cast<FillRectRequest*>(request.request_data);
+  const auto fillrectrequest = static_cast<FillRectRequest*>(request.request_data);
 
   SDL_Rect rect;
   rect.x = request.pos.x;
@@ -272,7 +270,7 @@ SDLPainter::draw_filled_rect(SDL_Renderer* renderer, const DrawingRequest& reque
 void
 SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& request)
 {
-  const InverseEllipseRequest* ellipse = static_cast<InverseEllipseRequest*>(request.request_data);
+  const auto ellipse = static_cast<InverseEllipseRequest*>(request.request_data);
 
   float x = request.pos.x;
   float w = ellipse->size.x;
@@ -328,8 +326,7 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
 void
 SDLPainter::draw_line(SDL_Renderer* renderer, const DrawingRequest& request)
 {
-  const LineRequest* linerequest
-    = static_cast<LineRequest*>(request.request_data);
+  const auto linerequest = static_cast<LineRequest*>(request.request_data);
 
   Uint8 r = static_cast<Uint8>(linerequest->color.red * 255);
   Uint8 g = static_cast<Uint8>(linerequest->color.green * 255);
@@ -392,8 +389,7 @@ draw_span_between_edges(SDL_Renderer* renderer, const Rectf& e1, const Rectf& e2
 void
 SDLPainter::draw_triangle(SDL_Renderer* renderer, const DrawingRequest& request)
 {
-  const TriangleRequest* trianglerequest
-    = static_cast<TriangleRequest*>(request.request_data);
+  const auto trianglerequest = static_cast<TriangleRequest*>(request.request_data);
 
   Uint8 r = static_cast<Uint8>(trianglerequest->color.red * 255);
   Uint8 g = static_cast<Uint8>(trianglerequest->color.green * 255);

@@ -46,7 +46,7 @@ TextureManager::TextureManager() :
 
 TextureManager::~TextureManager()
 {
-  for(auto& texture : m_image_textures)
+  for(const auto& texture : m_image_textures)
   {
     if(!texture.second.expired())
     {
@@ -66,7 +66,7 @@ TexturePtr
 TextureManager::get(const std::string& _filename)
 {
   std::string filename = FileSystem::normalize(_filename);
-  ImageTextures::iterator i = m_image_textures.find(filename);
+  auto i = m_image_textures.find(filename);
 
   TexturePtr texture;
   if(i != m_image_textures.end())
@@ -90,7 +90,7 @@ TextureManager::get(const std::string& _filename, const Rect& rect)
                     std::to_string(rect.top)   + "|" +
                     std::to_string(rect.right) + "|" +
                     std::to_string(rect.bottom);
-  ImageTextures::iterator i = m_image_textures.find(key);
+  auto i = m_image_textures.find(key);
 
   TexturePtr texture;
   if(i != m_image_textures.end())
@@ -108,7 +108,7 @@ TextureManager::get(const std::string& _filename, const Rect& rect)
 void
 TextureManager::reap_cache_entry(const std::string& filename)
 {
-  ImageTextures::iterator i = m_image_textures.find(filename);
+  auto i = m_image_textures.find(filename);
   assert(i != m_image_textures.end());
   assert(i->second.expired());
   m_image_textures.erase(i);
@@ -147,7 +147,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
 {
   SDL_Surface *image = nullptr;
 
-  Surfaces::iterator i = m_surfaces.find(filename);
+  auto i = m_surfaces.find(filename);
   if (i != m_surfaces.end())
   {
     image = i->second;
@@ -165,7 +165,7 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
     m_surfaces[filename] = image;
   }
 
-  SDL_PixelFormat* format = image->format;
+  auto format = image->format;
   if(format->Rmask == 0 && format->Gmask == 0 && format->Bmask == 0 && format->Amask == 0) {
     log_debug << "Wrong surface format for image " << filename << ". Compensating." << std::endl;
     image = SDL_ConvertSurfaceFormat(image, SDL_PIXELFORMAT_RGBA8888, 0);

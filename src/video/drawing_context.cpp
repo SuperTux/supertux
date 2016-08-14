@@ -79,7 +79,7 @@ DrawingContext::draw_surface(SurfacePtr surface, const Vector& position,
 {
   assert(surface != 0);
 
-  DrawingRequest* request = new(obst) DrawingRequest();
+  auto request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type = SURFACE;
@@ -97,7 +97,7 @@ DrawingContext::draw_surface(SurfacePtr surface, const Vector& position,
   request->color = color;
   request->blend = blend;
 
-  SurfaceRequest* surfacerequest = new(obst) SurfaceRequest();
+  auto surfacerequest = new(obst) SurfaceRequest();
   surfacerequest->surface = surface.get();
   request->request_data = surfacerequest;
 
@@ -118,7 +118,7 @@ DrawingContext::draw_surface_part(SurfacePtr surface,
 {
   assert(surface != 0);
 
-  DrawingRequest* request = new(obst) DrawingRequest();
+  auto request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type = SURFACE_PART;
@@ -127,7 +127,7 @@ DrawingContext::draw_surface_part(SurfacePtr surface,
   request->drawing_effect = transform.drawing_effect;
   request->alpha = transform.alpha;
 
-  SurfacePartRequest* surfacepartrequest = new(obst) SurfacePartRequest();
+  auto surfacepartrequest = new(obst) SurfacePartRequest();
   surfacepartrequest->srcrect = srcrect;
   surfacepartrequest->dstsize = dstrect.get_size();
   surfacepartrequest->surface = surface.get();
@@ -141,7 +141,7 @@ void
 DrawingContext::draw_text(FontPtr font, const std::string& text,
                           const Vector& position, FontAlignment alignment, int layer, Color color)
 {
-  DrawingRequest* request = new(obst) DrawingRequest();
+  auto request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type = TEXT;
@@ -151,7 +151,7 @@ DrawingContext::draw_text(FontPtr font, const std::string& text,
   request->alpha = transform.alpha;
   request->color = color;
 
-  TextRequest* textrequest = new(obst) TextRequest();
+  auto textrequest = new(obst) TextRequest();
   textrequest->font = font.get();
   textrequest->text = text;
   textrequest->alignment = alignment;
@@ -172,7 +172,7 @@ void
 DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer,
                               const GradientDirection& direction, const Rectf& region)
 {
-  DrawingRequest* request = new(obst) DrawingRequest();
+  auto request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type = GRADIENT;
@@ -182,7 +182,7 @@ DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer,
   request->drawing_effect = transform.drawing_effect;
   request->alpha = transform.alpha;
 
-  GradientRequest* gradientrequest = new(obst) GradientRequest();
+  auto gradientrequest = new(obst) GradientRequest();
   gradientrequest->top = top;
   gradientrequest->bottom = bottom;
   gradientrequest->direction = direction;
@@ -196,7 +196,7 @@ void
 DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
                                  const Color& color, int layer)
 {
-  DrawingRequest* request = new(obst) DrawingRequest();
+  auto request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type = FILLRECT;
@@ -206,7 +206,7 @@ DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
   request->drawing_effect = transform.drawing_effect;
   request->alpha = transform.alpha;
 
-  FillRectRequest* fillrectrequest = new(obst) FillRectRequest();
+  auto fillrectrequest = new(obst) FillRectRequest();
   fillrectrequest->size = size;
   fillrectrequest->color = color;
   fillrectrequest->color.alpha = color.alpha * transform.alpha;
@@ -226,7 +226,7 @@ DrawingContext::draw_filled_rect(const Rectf& rect, const Color& color,
 void
 DrawingContext::draw_filled_rect(const Rectf& rect, const Color& color, float radius, int layer)
 {
-  DrawingRequest* request = new(obst) DrawingRequest();
+  auto request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type   = FILLRECT;
@@ -236,7 +236,7 @@ DrawingContext::draw_filled_rect(const Rectf& rect, const Color& color, float ra
   request->drawing_effect = transform.drawing_effect;
   request->alpha = transform.alpha;
 
-  FillRectRequest* fillrectrequest = new(obst) FillRectRequest;
+  auto fillrectrequest = new(obst) FillRectRequest;
   fillrectrequest->size = Vector(rect.get_width(), rect.get_height());
   fillrectrequest->color = color;
   fillrectrequest->color.alpha = color.alpha * transform.alpha;
@@ -249,7 +249,7 @@ DrawingContext::draw_filled_rect(const Rectf& rect, const Color& color, float ra
 void
 DrawingContext::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color& color, int layer)
 {
-  DrawingRequest* request = new(obst) DrawingRequest();
+  auto request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type   = INVERSEELLIPSE;
@@ -259,7 +259,7 @@ DrawingContext::draw_inverse_ellipse(const Vector& pos, const Vector& size, cons
   request->drawing_effect = transform.drawing_effect;
   request->alpha = transform.alpha;
 
-  InverseEllipseRequest* ellipse = new(obst)InverseEllipseRequest;
+  auto ellipse = new(obst)InverseEllipseRequest;
 
   ellipse->color        = color;
   ellipse->color.alpha  = color.alpha * transform.alpha;
@@ -272,7 +272,7 @@ DrawingContext::draw_inverse_ellipse(const Vector& pos, const Vector& size, cons
 void
 DrawingContext::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, int layer)
 {
-  DrawingRequest* request = new(obst) DrawingRequest();
+  auto request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type   = LINE;
@@ -282,7 +282,7 @@ DrawingContext::draw_line(const Vector& pos1, const Vector& pos2, const Color& c
   request->drawing_effect = transform.drawing_effect;
   request->alpha = transform.alpha;
 
-  LineRequest* line = new(obst) LineRequest;
+  auto line = new(obst) LineRequest;
 
   line->color        = color;
   line->color.alpha  = color.alpha * transform.alpha;
@@ -295,7 +295,7 @@ DrawingContext::draw_line(const Vector& pos1, const Vector& pos2, const Color& c
 void
 DrawingContext::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer)
 {
-  DrawingRequest* request = new(obst) DrawingRequest();
+  auto request = new(obst) DrawingRequest();
 
   request->target = target;
   request->type   = TRIANGLE;
@@ -305,7 +305,7 @@ DrawingContext::draw_triangle(const Vector& pos1, const Vector& pos2, const Vect
   request->drawing_effect = transform.drawing_effect;
   request->alpha = transform.alpha;
 
-  TriangleRequest* triangle = new(obst) TriangleRequest;
+  auto triangle = new(obst) TriangleRequest;
 
   triangle->color        = color;
   triangle->color.alpha  = color.alpha * transform.alpha;
@@ -333,7 +333,7 @@ DrawingContext::get_light(const Vector& position, Color* color)
     return;
   }
 
-  DrawingRequest* request = new(obst) DrawingRequest();
+  auto request = new(obst) DrawingRequest();
   request->target = target;
   request->type = GETLIGHT;
   request->pos = transform.apply(position);
@@ -346,7 +346,7 @@ DrawingContext::get_light(const Vector& position, Color* color)
   }
 
   request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
-  GetLightRequest* getlightrequest = new(obst) GetLightRequest();
+  auto getlightrequest = new(obst) GetLightRequest();
   getlightrequest->color_ptr = color;
   request->request_data = getlightrequest;
   lightmap_requests.push_back(request);
@@ -367,13 +367,13 @@ DrawingContext::do_drawing()
 
   // PART1: create lightmap
   if(use_lightmap) {
-    Lightmap& lightmap = video_system.get_lightmap();
+    auto& lightmap = video_system.get_lightmap();
 
     lightmap.start_draw(ambient_color);
     handle_drawing_requests(lightmap_requests);
     lightmap.end_draw();
 
-    DrawingRequest* request = new(obst) DrawingRequest();
+    auto request = new(obst) DrawingRequest();
     request->target = NORMAL;
     request->type = DRAW_LIGHTMAP;
     request->layer = LAYER_HUD - 1;
@@ -435,7 +435,7 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
             break;
           case TEXT:
           {
-            const TextRequest* textrequest = static_cast<TextRequest*>(request.request_data);
+            const auto textrequest = static_cast<TextRequest*>(request.request_data);
             textrequest->font->draw(&renderer, textrequest->text, request.pos,
                                     textrequest->alignment, request.drawing_effect, request.color, request.alpha);
           }
@@ -473,7 +473,7 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
             break;
           case TEXT:
           {
-            const TextRequest* textrequest = static_cast<TextRequest*>(request.request_data);
+            const auto textrequest = static_cast<TextRequest*>(request.request_data);
             textrequest->font->draw(&renderer, textrequest->text, request.pos,
                                     textrequest->alignment, request.drawing_effect, request.color, request.alpha);
           }

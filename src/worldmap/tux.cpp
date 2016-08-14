@@ -152,7 +152,7 @@ Tux::tryStartWalking()
   if (input_direction == D_NONE)
     return;
 
-  LevelTile* level = worldmap->at_level();
+  auto level = worldmap->at_level();
 
   // We got a new direction, so lets start walking when possible
   Vector next_tile;
@@ -206,11 +206,11 @@ Tux::tryContinueWalking(float elapsed_time)
 
   offset -= 32;
 
-  SpriteChange* sprite_change = worldmap->at_sprite_change(tile_pos);
+  auto sprite_change = worldmap->at_sprite_change(tile_pos);
   ChangeSprite(sprite_change);
 
   // if this is a special_tile with passive_message, display it
-  SpecialTile* special_tile = worldmap->at_special_tile();
+  auto special_tile = worldmap->at_special_tile();
   if(special_tile)
   {
     // direction and the apply_action_ are opposites, since they "see"
@@ -225,7 +225,7 @@ Tux::tryContinueWalking(float elapsed_time)
   }
 
   // check if we are at a Teleporter
-  Teleporter* teleporter = worldmap->at_teleporter(tile_pos);
+  auto teleporter = worldmap->at_teleporter(tile_pos);
 
   // stop if we reached a level, a WORLDMAP_STOP tile, a teleporter or a special tile without a passive_message
   if ((worldmap->at_level())
@@ -279,7 +279,7 @@ Tux::tryContinueWalking(float elapsed_time)
     return;
   }
 
-  SpriteChange* next_sprite = worldmap->at_sprite_change(next_tile);
+  auto next_sprite = worldmap->at_sprite_change(next_tile);
   if(next_sprite != NULL && next_sprite->change_on_touch) {
     ChangeSprite(next_sprite);
   }
@@ -295,7 +295,7 @@ Tux::tryContinueWalking(float elapsed_time)
 void
 Tux::updateInputDirection()
 {
-  Controller* controller_ = InputManager::current()->get_controller();
+  auto controller_ = InputManager::current()->get_controller();
   if(controller_->hold(Controller::UP))
     input_direction = D_NORTH;
   else if(controller_->hold(Controller::DOWN))
@@ -320,7 +320,7 @@ void
 Tux::setup()
 {
   // check if we already touch a SpriteChange object
-  SpriteChange* sprite_change = worldmap->at_sprite_change(tile_pos);
+  auto sprite_change = worldmap->at_sprite_change(tile_pos);
   ChangeSprite(sprite_change);
 }
 
