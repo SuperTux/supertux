@@ -556,22 +556,28 @@ Player::handle_horizontal_input()
   }
 
   // changing directions?
-  if(on_ground() && ((vx < 0 && dirsign >0) || (vx>0 && dirsign<0))) {
-    // let's skid!
-    if(fabs(vx)>SKID_XM && !skidding_timer.started()) {
-      skidding_timer.start(SKID_TIME);
-      SoundManager::current()->play("sounds/skid.wav");
-      // dust some particles
-      Sector::current()->add_object(
-        std::make_shared<Particles>(
-          Vector(dir == LEFT ? bbox.p2.x : bbox.p1.x, bbox.p2.y),
-          dir == LEFT ? 50 : -70, dir == LEFT ? 70 : -50, 260, 280,
-          Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
+  if((vx < 0 && dirsign >0) || (vx>0 && dirsign<0)) {
+	if (on_ground()) {
+	    // let's skid!
+	    if(fabs(vx)>SKID_XM && !skidding_timer.started()) {
+    	  skidding_timer.start(SKID_TIME);
+	      SoundManager::current()->play("sounds/skid.wav");
+    	  // dust some particles
+	      Sector::current()->add_object(
+    	    std::make_shared<Particles>(
+        	  Vector(dir == LEFT ? bbox.p2.x : bbox.p1.x, bbox.p2.y),
+	          dir == LEFT ? 50 : -70, dir == LEFT ? 70 : -50, 260, 280,
+    	      Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
 
-      ax *= 2.5;
-    } else {
-      ax *= 2;
-    }
+	      ax *= 2.5;
+    	} else {
+	      ax *= 2;
+    	}
+	}
+	else {
+		// give Tux tighter air control
+		ax *= 2.0;
+	}
   }
 
   if(on_ice) {
