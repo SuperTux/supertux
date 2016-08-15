@@ -18,11 +18,13 @@
 #define HEADER_SUPERTUX_BADGUY_SNAIL_HPP
 
 #include "badguy/walking_badguy.hpp"
+#include "object/portable.hpp"
 
 /**
  * Badguy "Snail" - a snail-like creature that can be flipped and tossed around at an angle
  */
-class Snail : public WalkingBadguy
+class Snail : public WalkingBadguy,
+              public Portable
 {
 public:
   Snail(const ReaderMapping& reader);
@@ -43,19 +45,25 @@ public:
   std::string get_display_name() const {
     return _("Snail");
   }
+  
+  bool is_portable() const;
+  void ungrab(MovingObject& , Direction dir_);
+  void grab(MovingObject&, const Vector& pos, Direction dir_);
 
 protected:
   bool collision_squished(GameObject& object);
   void be_normal(); /**< switch to state STATE_NORMAL */
   void be_flat(); /**< switch to state STATE_FLAT */
   void be_kicked(); /**< switch to state STATE_KICKED_DELAY */
+  void be_grabbed();
 
 private:
   enum State {
     STATE_NORMAL, /**< walking around */
     STATE_FLAT, /**< flipped upside-down */
     STATE_KICKED_DELAY, /**< short delay before being launched */
-    STATE_KICKED /**< launched */
+    STATE_KICKED, /**< launched */
+    STATE_GRABBED /**< grabbed by tux */
   };
 
 private:

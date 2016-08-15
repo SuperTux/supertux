@@ -81,6 +81,12 @@ Snail::be_flat()
   physic.set_velocity_y(0);
 }
 
+void Snail::be_grabbed()
+{
+  state = STATE_GRABBED;
+  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right", 1);
+}
+
 void
 Snail::be_kicked()
 {
@@ -102,6 +108,9 @@ Snail::can_break() const {
 void
 Snail::active_update(float elapsed_time)
 {
+  if(state == STATE_GRABBED)
+    return;
+  
   if(frozen)
   {
     BadGuy::active_update(elapsed_time);
@@ -133,6 +142,8 @@ Snail::active_update(float elapsed_time)
       if (sprite->animation_done() || (fabsf(physic.get_velocity_x()) < walk_speed)) be_normal();
       break;
 
+    case STATE_GRABBED:
+      break;
   }
 
   BadGuy::active_update(elapsed_time);
@@ -178,6 +189,8 @@ Snail::collision_solid(const CollisionHit& hit)
         physic.set_velocity_y(0);
       }
       break;
+    case STATE_GRABBED:
+        break;
   }
 
   update_on_ground_flag(hit);
@@ -270,7 +283,7 @@ Snail::collision_squished(GameObject& object)
       }
       be_kicked();
       break;
-
+    case STATE_GRABBED:
     case STATE_KICKED_DELAY:
       break;
 
@@ -278,6 +291,34 @@ Snail::collision_squished(GameObject& object)
 
   if (player) player->bounce(*this);
   return true;
+}
+
+void
+Snail::grab(MovingObject&, const Vector& pos, Direction dir_)
+{
+  movement = pos - get_pos();
+  this->dir = dir_;
+  this->set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+  this->be_grabbed();
+  set_colgroup_active(COLGROUP_DISABLED);
+}
+
+void
+Snail::ungrab(MovingObject& , Direction dir_)
+{
+  if(dir_ == UP) {
+    this->be_flat();
+  } else {
+    this->dir = dir_;
+    this->be_kicked();
+  }
+  set_colgroup_active(COLGROUP_MOVING);
+}
+
+bool
+Snail::is_portable() const
+{
+  return state == STATE_FLAT && !ignited;
 }
 
 /* EOF */
