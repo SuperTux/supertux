@@ -21,7 +21,7 @@
 )
 
 (tilegroup
-  (name (_ "Water-Paths"))
+  (name (_ "Water paths"))
   (tiles
     80 81 78 79
     84 85 82 83
@@ -29,7 +29,7 @@
   )
 )
 (tilegroup
-  (name (_ "castle_path"))
+  (name (_ "Castle paths"))
   (tiles
     100 101 102 103
     104 105 106 107
