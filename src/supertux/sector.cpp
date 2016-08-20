@@ -973,7 +973,7 @@ Sector::handle_collisions()
   using namespace collision;
 
   // calculate destination positions of the objects
-  for(auto moving_object : moving_objects) {
+  for(const auto& moving_object : moving_objects) {
     Vector mov = moving_object->get_movement();
 
     // make sure movement is never faster than MAX_SPEED. Norm is pretty fat, so two addl. checks are done before.
@@ -987,7 +987,7 @@ Sector::handle_collisions()
   }
 
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
-  for(auto& moving_object : moving_objects) {
+  for(const auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
         && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
@@ -998,7 +998,7 @@ Sector::handle_collisions()
   }
 
   // part2: COLGROUP_MOVING vs tile attributes
-  for(auto& moving_object : moving_objects) {
+  for(const auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
         && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
@@ -1012,7 +1012,7 @@ Sector::handle_collisions()
   }
 
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
-  for(auto& moving_object : moving_objects) {
+  for(const auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC)
        || !moving_object->is_valid())
@@ -1041,7 +1041,7 @@ Sector::handle_collisions()
 
   // part3: COLGROUP_MOVING vs COLGROUP_MOVING
   for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
-    MovingObject* moving_object = *i;
+    auto moving_object = *i;
 
     if((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC)
@@ -1049,7 +1049,7 @@ Sector::handle_collisions()
       continue;
 
     for(auto i2 = i+1; i2 != moving_objects.end(); ++i2) {
-      MovingObject* moving_object_2 = *i2;
+      auto moving_object_2 = *i2;
       if((moving_object_2->get_group() != COLGROUP_MOVING
           && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
          || !moving_object_2->is_valid())
