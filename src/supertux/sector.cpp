@@ -189,10 +189,10 @@ Sector::add_object(GameObjectPtr object)
 {
   // make sure the object isn't already in the list
 #ifndef NDEBUG
-  for(auto& game_object : gameobjects) {
+  for(const auto& game_object : gameobjects) {
     assert(game_object != object);
   }
-  for(auto& gameobject : gameobjects_new) {
+  for(const auto& gameobject : gameobjects_new) {
     assert(gameobject != object);
   }
 #endif
@@ -312,7 +312,7 @@ Sector::deactivate()
     throw scripting::SquirrelError(vm, "Couldn't unset sector in roottable");
   sq_pop(vm, 1);
 
-  for(auto object: gameobjects) {
+  for(const auto& object: gameobjects) {
     try_unexpose(object);
   }
 
@@ -332,9 +332,9 @@ int
 Sector::calculate_foremost_layer() const
 {
   int layer = LAYER_BACKGROUND0;
-  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i)
+  for(const auto& obj : gameobjects)
   {
-    TileMap* tm = dynamic_cast<TileMap*>(i->get());
+    const auto& tm = dynamic_cast<TileMap*>(obj.get());
     if (!tm) continue;
     if(tm->get_layer() > layer)
     {
@@ -364,7 +364,7 @@ Sector::update(float elapsed_time)
   player->check_bounds();
 
   /* update objects */
-  for(auto& object : gameobjects) {
+  for(const auto& object : gameobjects) {
     if(!object->is_valid())
       continue;
 
@@ -382,7 +382,7 @@ Sector::update_game_objects()
   /** cleanup marked objects */
   for(auto i = gameobjects.begin();
       i != gameobjects.end(); /* nothing */) {
-    GameObjectPtr& object = *i;
+    const GameObjectPtr& object = *i;
 
     if(object->is_valid()) {
       ++i;
@@ -395,7 +395,7 @@ Sector::update_game_objects()
   }
 
   /* add newly created objects */
-  for(auto& object : gameobjects_new)
+  for(const auto& object : gameobjects_new)
   {
     before_object_add(object);
 
@@ -406,9 +406,9 @@ Sector::update_game_objects()
   /* update solid_tilemaps list */
   //FIXME: this could be more efficient
   solid_tilemaps.clear();
-  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i)
+  for(const auto& obj : gameobjects)
   {
-    TileMap* tm = dynamic_cast<TileMap*>(i->get());
+    const auto& tm = dynamic_cast<TileMap*>(obj.get());
     if (!tm) continue;
     if (tm->is_solid()) solid_tilemaps.push_back(tm);
   }
@@ -478,7 +478,7 @@ Sector::before_object_add(GameObjectPtr object)
 void
 Sector::try_expose(GameObjectPtr object)
 {
-  ScriptInterface* object_ = dynamic_cast<ScriptInterface*>(object.get());
+  auto object_ = dynamic_cast<ScriptInterface*>(object.get());
   if(object_ != NULL) {
     HSQUIRRELVM vm = scripting::global_vm;
     sq_pushobject(vm, sector_table);
@@ -500,15 +500,15 @@ Sector::try_expose_me()
 void
 Sector::before_object_remove(GameObjectPtr object)
 {
-  Portable* portable = dynamic_cast<Portable*>(object.get());
+  auto portable = dynamic_cast<Portable*>(object.get());
   if (portable) {
     portables.erase(std::find(portables.begin(), portables.end(), portable));
   }
-  Bullet* bullet = dynamic_cast<Bullet*>(object.get());
+  auto bullet = dynamic_cast<Bullet*>(object.get());
   if (bullet) {
     bullets.erase(std::find(bullets.begin(), bullets.end(), bullet));
   }
-  MovingObject* moving_object = dynamic_cast<MovingObject*>(object.get());
+  auto moving_object = dynamic_cast<MovingObject*>(object.get());
   if (moving_object) {
     moving_objects.erase(
       std::find(moving_objects.begin(), moving_objects.end(), moving_object));
@@ -521,7 +521,7 @@ Sector::before_object_remove(GameObjectPtr object)
 void
 Sector::try_unexpose(GameObjectPtr object)
 {
-  ScriptInterface* object_ = dynamic_cast<ScriptInterface*>(object.get());
+  auto object_ = dynamic_cast<ScriptInterface*>(object.get());
   if(object_ != NULL) {
     HSQUIRRELVM vm = scripting::global_vm;
     SQInteger oldtop = sq_gettop(vm);
@@ -555,13 +555,13 @@ Sector::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(camera->get_translation());
 
-  for(auto& object : gameobjects) {
+  for(const auto& object : gameobjects) {
     if(!object->is_valid())
       continue;
 
     if (draw_solids_only)
     {
-      TileMap* tm = dynamic_cast<TileMap*>(object.get());
+      auto tm = dynamic_cast<TileMap*>(object.get());
       if (tm && !tm->is_solid())
         continue;
     }
@@ -593,7 +593,7 @@ void check_collisions(collision::Constraints* constraints,
   if(!collision::intersects(obj_rect, other_rect))
     return;
 
-  MovingObject *moving_object = dynamic_cast<MovingObject*> (object);
+  auto moving_object = dynamic_cast<MovingObject*> (object);
   CollisionHit dummy;
   if(other != NULL && object != NULL && !other->collides(*object, dummy))
     return;
@@ -669,13 +669,13 @@ Sector::collision_tilemap(collision::Constraints* constraints,
   float y1 = dest.get_top();
   float y2 = dest.get_bottom();
 
-  for(auto& solids : solid_tilemaps) {
+  for(const auto& solids : solid_tilemaps) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
 
     for(int x = test_tiles.left; x < test_tiles.right; ++x) {
       for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
-        const Tile* tile = solids->get_tile(x, y);
+        const auto& tile = solids->get_tile(x, y);
         if(!tile)
           continue;
         // skip non-solid tiles
@@ -731,7 +731,7 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
     for(int x = test_tiles.left; x < test_tiles.right; ++x) {
       int y;
       for(y = test_tiles.top; y < test_tiles.bottom; ++y) {
-        const Tile* tile = solids->get_tile(x, y);
+        const auto& tile = solids->get_tile(x, y);
         if(!tile)
           continue;
         if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
@@ -739,7 +739,7 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
         }
       }
       for(; y < test_tiles_ice.bottom; ++y) {
-        const Tile* tile = solids->get_tile(x, y);
+        const auto& tile = solids->get_tile(x, y);
         if(!tile)
           continue;
         if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
@@ -1077,7 +1077,7 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
 
     for(int x = test_tiles.left; x < test_tiles.right; ++x) {
       for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
-        const auto tile = solids->get_tile(x, y);
+        const auto& tile = solids->get_tile(x, y);
         if(!tile) continue;
         if(!(tile->getAttributes() & Tile::SOLID))
           continue;
@@ -1150,8 +1150,8 @@ Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, con
   float ley = std::max(line_start.y, line_end.y);
   for (float test_x = lsx; test_x <= lex; test_x += 16) {
     for (float test_y = lsy; test_y <= ley; test_y += 16) {
-      for(auto& solids : solid_tilemaps) {
-        const Tile* tile = solids->get_tile_at(Vector(test_x, test_y));
+      for(const auto& solids : solid_tilemaps) {
+        const auto& tile = solids->get_tile_at(Vector(test_x, test_y));
         if(!tile) continue;
         // FIXME: check collision with slope tiles
         if((tile->getAttributes() & Tile::SOLID)) return false;
