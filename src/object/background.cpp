@@ -153,7 +153,7 @@ Background::save(Writer& writer) {
     case NO_ALIGNMENT: break;
   }
 
-  if (speed_y != speed){
+  if (speed_y != speed) {
     writer.write("speed_y", speed_y);
   }
 }
@@ -162,6 +162,13 @@ ObjectSettings
 Background::get_settings() {
   ObjectSettings result = GameObject::get_settings();
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &layer, "z-pos"));
+  ObjectOption align(MN_STRINGSELECT, _("Alignment"), &alignment);
+  align.select.push_back(_("none"));
+  align.select.push_back(_("left"));
+  align.select.push_back(_("right"));
+  align.select.push_back(_("top"));
+  align.select.push_back(_("bottom"));
+  result.options.push_back(align);
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset x"),
                                          &scroll_offset.x, "scroll-offset-x"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Scroll offset y"),
