@@ -38,7 +38,7 @@ EditorLevelsetMenu::EditorLevelsetMenu():
 }
 
 EditorLevelsetMenu::EditorLevelsetMenu(World* world_):
-  allow_worldmap(false),
+  allow_worldmap(true),
   world(world_)
 {
   initialize();

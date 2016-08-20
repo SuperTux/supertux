@@ -25,7 +25,6 @@ class World;
 class EditorLevelSelectMenu : public Menu
 {
 private:
-  std::unique_ptr<World> m_world;
   std::unique_ptr<Levelset> m_levelset;
 
 public:
@@ -38,8 +37,6 @@ public:
 private:
   void initialize();
   void create_level();
-
-  bool reinit_world;
 
   EditorLevelSelectMenu(const EditorLevelSelectMenu&);
   EditorLevelSelectMenu& operator=(const EditorLevelSelectMenu&);
