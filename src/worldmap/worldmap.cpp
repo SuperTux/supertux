@@ -958,9 +958,7 @@ WorldMap::save_state()
     sq_pushstring(vm, "levels", -1);
     sq_newtable(vm);
 
-    for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
-      LevelTile* level = *i;
-
+    for(const auto& level : levels) {
       sq_pushstring(vm, level->get_name().c_str(), -1);
       sq_newtable(vm);
 
@@ -1032,8 +1030,7 @@ WorldMap::load_state()
 
     // load levels
     get_table_entry(vm, "levels");
-    for(LevelTiles::iterator i = levels.begin(); i != levels.end(); ++i) {
-      LevelTile* level = *i;
+    for(const auto& level : levels) {
       sq_pushstring(vm, level->get_name().c_str(), -1);
       if(SQ_SUCCEEDED(sq_get(vm, -2))) {
         level->solved = read_bool(vm, "solved");
