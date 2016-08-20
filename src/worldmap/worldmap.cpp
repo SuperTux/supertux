@@ -818,7 +818,7 @@ WorldMap::draw_status(DrawingContext& context)
       }
     }
 
-    for(auto special_tile : special_tiles) {
+    for(const auto& special_tile : special_tiles) {
       if (special_tile->pos == tux->get_tile_pos()) {
         /* Display an in-map message in the map, if any as been selected */
         if(!special_tile->map_message.empty() && !special_tile->passive_message)
@@ -954,6 +954,30 @@ WorldMap::save_state()
       throw std::runtime_error("failed to create '" + name + "' table entry");
     }
 
+    // sprite change objects:
+    if(sprite_changes.size() > 0)
+    {
+      sq_pushstring(vm, "sprite-changes", -1);
+      sq_newtable(vm);
+
+      for(const auto& change : sprite_changes)
+      {
+        auto key = std::to_string(int(change->pos.x)) + "_" +
+                   std::to_string(int(change->pos.y));
+        sq_pushstring(vm, key.c_str(), -1);
+        sq_newtable(vm);
+        store_bool(vm, "show-stay-action", change->show_stay_action());
+        if(SQ_FAILED(sq_createslot(vm, -3)))
+        {
+          throw std::runtime_error("failed to create '" + name + "' table entry");
+        }
+      }
+      if(SQ_FAILED(sq_createslot(vm, -3)))
+      {
+        throw std::runtime_error("failed to create '" + name + "' table entry");
+      }
+    }
+
     // levels...
     sq_pushstring(vm, "levels", -1);
     sq_newtable(vm);
@@ -1043,6 +1067,27 @@ WorldMap::load_state()
 
     // leave levels table
     sq_pop(vm, 1);
+
+    // load sprite change action:
+    get_table_entry(vm, "sprite-changes");
+    for(const auto& change : sprite_changes)
+    {
+      auto key = std::to_string(int(change->pos.x)) + "_" +
+                 std::to_string(int(change->pos.y));
+      sq_pushstring(vm, key.c_str(), -1);
+      if(SQ_SUCCEEDED(sq_get(vm, -2))) {
+        bool show_stay_action = read_bool(vm, "show-stay-action");
+        if(show_stay_action)
+        {
+          change->set_stay_action();
+        }
+        else
+        {
+          change->clear_stay_action(/* propagate = */ false);
+        }
+        sq_pop(vm, 1);
+      }
+    }
 
     // load overall statistics
     total_stats.unserialize_from_squirrel(vm);
