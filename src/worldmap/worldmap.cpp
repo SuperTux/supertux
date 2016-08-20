@@ -960,13 +960,13 @@ WorldMap::save_state()
       sq_pushstring(vm, "sprite-changes", -1);
       sq_newtable(vm);
 
-      for(const auto& change : sprite_changes)
+      for(const auto& sc : sprite_changes)
       {
-        auto key = std::to_string(int(change->pos.x)) + "_" +
-                   std::to_string(int(change->pos.y));
+        auto key = std::to_string(int(sc->pos.x)) + "_" +
+                   std::to_string(int(sc->pos.y));
         sq_pushstring(vm, key.c_str(), -1);
         sq_newtable(vm);
-        store_bool(vm, "show-stay-action", change->show_stay_action());
+        store_bool(vm, "show-stay-action", sc->show_stay_action());
         if(SQ_FAILED(sq_createslot(vm, -3)))
         {
           throw std::runtime_error("failed to create '" + name + "' table entry");
@@ -1070,20 +1070,20 @@ WorldMap::load_state()
 
     // load sprite change action:
     get_table_entry(vm, "sprite-changes");
-    for(const auto& change : sprite_changes)
+    for(const auto& sc : sprite_changes)
     {
-      auto key = std::to_string(int(change->pos.x)) + "_" +
-                 std::to_string(int(change->pos.y));
+      auto key = std::to_string(int(sc->pos.x)) + "_" +
+                 std::to_string(int(sc->pos.y));
       sq_pushstring(vm, key.c_str(), -1);
       if(SQ_SUCCEEDED(sq_get(vm, -2))) {
         bool show_stay_action = read_bool(vm, "show-stay-action");
         if(show_stay_action)
         {
-          change->set_stay_action();
+          sc->set_stay_action();
         }
         else
         {
-          change->clear_stay_action(/* propagate = */ false);
+          sc->clear_stay_action(/* propagate = */ false);
         }
         sq_pop(vm, 1);
       }
