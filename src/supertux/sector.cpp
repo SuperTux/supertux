@@ -1060,7 +1060,7 @@ Sector::handle_collisions()
   }
 
   // apply object movement
-  for(auto& moving_object : moving_objects) {
+  for(const auto& moving_object : moving_objects) {
     moving_object->bbox = moving_object->dest;
     moving_object->movement = Vector(0, 0);
   }
@@ -1071,13 +1071,13 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
-  for(auto& solids : solid_tilemaps) {
+  for(const auto& solids : solid_tilemaps) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(rect);
 
     for(int x = test_tiles.left; x < test_tiles.right; ++x) {
       for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
-        const Tile* tile = solids->get_tile(x, y);
+        const auto tile = solids->get_tile(x, y);
         if(!tile) continue;
         if(!(tile->getAttributes() & Tile::SOLID))
           continue;
@@ -1107,7 +1107,7 @@ Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object,
 
   if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
 
-  for(auto& moving_object : moving_objects) {
+  for(const auto& moving_object : moving_objects) {
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
     if (moving_object->get_group() == COLGROUP_STATIC) {
@@ -1125,7 +1125,7 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 
   if (!is_free_of_tiles(rect)) return false;
 
-  for(auto moving_object : moving_objects) {
+  for(const auto& moving_object : moving_objects) {
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
     if ((moving_object->get_group() == COLGROUP_MOVING)
@@ -1177,7 +1177,7 @@ bool
 Sector::can_see_player(const Vector& eye) const
 {
     const std::vector<Player*> players = get_players();
-    for (auto& pl : players) {
+    for (const auto& pl : players) {
       // test for free line of sight to any of all four corners and the middle of the player's bounding box
       if (free_line_of_sight(eye, pl->get_bbox().p1, pl)) return true;
       if (free_line_of_sight(eye, Vector(pl->get_bbox().p2.x, pl->get_bbox().p1.y), pl)) return true;
@@ -1240,8 +1240,8 @@ int
 Sector::get_total_badguys() const
 {
   int total_badguys = 0;
-  for(auto i = gameobjects.begin(); i != gameobjects.end(); ++i) {
-    BadGuy* badguy = dynamic_cast<BadGuy*>(i->get());
+  for(const auto& object : gameobjects) {
+    auto badguy = dynamic_cast<BadGuy*>(object.get());
     if (badguy && badguy->countMe)
       total_badguys++;
   }
@@ -1252,7 +1252,7 @@ Sector::get_total_badguys() const
 bool
 Sector::inside(const Rectf& rect) const
 {
-  for(auto& solids : solid_tilemaps) {
+  for(const auto& solids : solid_tilemaps) {
     Rectf bbox = solids->get_bbox();
     bbox.p1.y = -INFINITY; // pretend the tilemap extends infinitely far upwards
 
@@ -1277,7 +1277,7 @@ float
 Sector::get_height() const
 {
   float height = 0;
-  for(auto& solids: solid_tilemaps) {
+  for(const auto& solids: solid_tilemaps) {
     height = std::max(height, solids->get_bbox().get_bottom());
   }
 
@@ -1315,7 +1315,7 @@ Sector::resize_sector(Size& old_size, Size& new_size)
 void
 Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 {
-  for(auto solids: solid_tilemaps) {
+  for(auto& solids: solid_tilemaps) {
     solids->change_all(old_tile_id, new_tile_id);
   }
 }
@@ -1413,7 +1413,7 @@ Sector::stop_looping_sounds()
 
 void Sector::play_looping_sounds()
 {
-  for(auto& object : gameobjects) {
+  for(const auto& object : gameobjects) {
     object->play_looping_sounds();
   }
 }
