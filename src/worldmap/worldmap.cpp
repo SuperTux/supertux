@@ -1089,6 +1089,9 @@ WorldMap::load_state()
       }
     }
 
+    // Leave sprite changes table
+    sq_pop(vm, 1);
+
     // load overall statistics
     total_stats.unserialize_from_squirrel(vm);
 
