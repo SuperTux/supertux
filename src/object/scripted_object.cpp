@@ -30,7 +30,6 @@
 ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   MovingSprite(lisp, "images/objects/bonus_block/brick.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
   physic(),
-  name(),
   solid(),
   physic_enabled(),
   visible(),

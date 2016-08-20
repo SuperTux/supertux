@@ -66,7 +66,6 @@ public:
 
 private:
   Physic physic;
-  std::string name;
   bool solid;
   bool physic_enabled;
   bool visible;
