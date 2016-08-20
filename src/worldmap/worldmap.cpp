@@ -1068,29 +1068,32 @@ WorldMap::load_state()
     // leave levels table
     sq_pop(vm, 1);
 
-    // load sprite change action:
-    get_table_entry(vm, "sprite-changes");
-    for(const auto& sc : sprite_changes)
+    if(sprite_changes.size() > 0)
     {
-      auto key = std::to_string(int(sc->pos.x)) + "_" +
-                 std::to_string(int(sc->pos.y));
-      sq_pushstring(vm, key.c_str(), -1);
-      if(SQ_SUCCEEDED(sq_get(vm, -2))) {
-        bool show_stay_action = read_bool(vm, "show-stay-action");
-        if(show_stay_action)
-        {
-          sc->set_stay_action();
+      // load sprite change action:
+      get_table_entry(vm, "sprite-changes");
+      for(const auto& sc : sprite_changes)
+      {
+        auto key = std::to_string(int(sc->pos.x)) + "_" +
+                   std::to_string(int(sc->pos.y));
+        sq_pushstring(vm, key.c_str(), -1);
+        if(SQ_SUCCEEDED(sq_get(vm, -2))) {
+          bool show_stay_action = read_bool(vm, "show-stay-action");
+          if(show_stay_action)
+          {
+            sc->set_stay_action();
+          }
+          else
+          {
+            sc->clear_stay_action(/* propagate = */ false);
+          }
+          sq_pop(vm, 1);
         }
-        else
-        {
-          sc->clear_stay_action(/* propagate = */ false);
-        }
-        sq_pop(vm, 1);
       }
-    }
 
-    // Leave sprite changes table
-    sq_pop(vm, 1);
+      // Leave sprite changes table
+      sq_pop(vm, 1);
+    }
 
     // load overall statistics
     total_stats.unserialize_from_squirrel(vm);
