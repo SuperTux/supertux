@@ -55,8 +55,8 @@ class EditorLayersGui
     std::string sector_text;
     int sector_text_width;
 
-    Vector get_layer_coords(const int pos);
-    int get_layer_pos(const Vector& coords);
+    Vector get_layer_coords(const int pos) const;
+    int get_layer_pos(const Vector& coords) const;
     void update_tip();
 
     static bool less_z_pos(const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs);
