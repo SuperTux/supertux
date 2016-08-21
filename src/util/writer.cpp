@@ -144,8 +144,8 @@ Writer::write(const std::string& name,
 {
   indent();
   *out << '(' << name;
-  for(std::vector<int>::const_iterator i = value.begin(); i != value.end(); ++i)
-    *out << " " << *i;
+  for(const auto& i : value)
+    *out << " " << i;
   *out << ")\n";
 }
 
@@ -155,8 +155,8 @@ Writer::write(const std::string& name,
 {
   indent();
   *out << '(' << name;
-  for(std::vector<unsigned int>::const_iterator i = value.begin(); i != value.end(); ++i)
-    *out << " " << *i;
+  for(const auto& i : value)
+    *out << " " << i;
   *out << ")\n";
 }
 
@@ -166,8 +166,8 @@ Writer::write(const std::string& name,
 {
   indent();
   *out << '(' << name;
-  for(std::vector<float>::const_iterator i = value.begin(); i != value.end(); ++i)
-    *out << " " << *i;
+  for(const auto& i : value)
+    *out << " " << i;
   *out << ")\n";
 }
 
@@ -177,9 +177,9 @@ Writer::write(const std::string& name,
 {
   indent();
   *out << '(' << name;
-  for(std::vector<std::string>::const_iterator i = value.begin(); i != value.end(); ++i) {
+  for(const auto& i : value) {
     *out << " ";
-    write_escaped_string(*i);
+    write_escaped_string(i);
   }
   *out << ")\n";
 }

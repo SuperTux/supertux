@@ -58,11 +58,11 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
   add_hl();
 
   int i = 0;
-  for (std::vector<std::string>::const_iterator it = level_worlds.begin(); it != level_worlds.end(); ++it)
+  for (const auto& level_world : level_worlds)
   {
     try
     {
-      std::unique_ptr<World> world = World::load(*it);
+      std::unique_ptr<World> world = World::load(level_world);
 
       if (!world->hide_from_contribs())
       {
@@ -92,7 +92,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
             title << " (" << level_count << " " << _("levels") << ")";
           }
           add_entry(i++, title.str());
-          m_contrib_worlds.push_back(*it);
+          m_contrib_worlds.push_back(level_world);
         }
         else if (world->is_worldmap())
         {
@@ -117,7 +117,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
             title << " (" << level_count << " " << _("levels") << ")";
           }
           add_entry(i++, title.str());
-          m_contrib_worlds.push_back(*it);
+          m_contrib_worlds.push_back(level_world);
         }
         else
         {
@@ -127,7 +127,8 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
     }
     catch(std::exception& e)
     {
-      log_info << "Couldn't parse levelset info for '" << *it << "': " << e.what() << std::endl;
+      log_info << "Couldn't parse levelset info for '" << level_world << "': "
+               << e.what() << std::endl;
     }
   }
 

@@ -281,9 +281,8 @@ Yeti::drop_stalactite()
   if (!player) return;
 
   Sector* sector = Sector::current();
-  for(Sector::GameObjects::const_iterator i = sector->gameobjects.begin();
-      i != sector->gameobjects.end(); ++i) {
-    YetiStalactite* stalactite = dynamic_cast<YetiStalactite*>(i->get());
+  for(const auto& obj : sector->gameobjects) {
+    auto stalactite = dynamic_cast<YetiStalactite*>(obj.get());
     if(stalactite && stalactite->is_hanging()) {
       if (hit_points >= 3) {
         // drop stalactites within 3 of player, going out with each jump

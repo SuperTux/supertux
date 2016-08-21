@@ -64,10 +64,8 @@ Tile::load_images()
   if(images.size() == 0 && imagespecs.size() != 0)
   {
     assert(images.size() == 0);
-    for(std::vector<ImageSpec>::iterator i = imagespecs.begin(); i != imagespecs.end(); ++i)
+    for(const auto& spec : imagespecs)
     {
-      const ImageSpec& spec = *i;
-
       SurfacePtr surface;
       if(spec.rect.get_width() <= 0)
       {
@@ -88,10 +86,8 @@ Tile::load_images()
   if(editor_images.size() == 0 && editor_imagespecs.size() != 0)
   {
     assert(editor_images.size() == 0);
-    for(std::vector<ImageSpec>::iterator i = editor_imagespecs.begin(); i != editor_imagespecs.end(); ++i)
+    for(const auto& spec : editor_imagespecs)
     {
-      const ImageSpec& spec = *i;
-
       SurfacePtr surface;
       if(spec.rect.get_width() <= 0)
       {
@@ -158,10 +154,10 @@ void
 Tile::print_debug(int id) const
 {
   log_debug << " Tile: id " << id << ", data " << getData() << ", attributes " << getAttributes() << ":" << std::endl;
-  for(std::vector<Tile::ImageSpec>::const_iterator im = editor_imagespecs.begin(); im != editor_imagespecs.end(); ++im)
-    log_debug << "  Editor Imagespec: file " << im->file << "; rect " << im->rect << std::endl;
-  for(std::vector<Tile::ImageSpec>::const_iterator im = imagespecs.begin(); im != imagespecs.end(); ++im)
-    log_debug << "  Imagespec:        file " << im->file << "; rect " << im->rect << std::endl;
+  for(const auto& im : editor_imagespecs)
+    log_debug << "  Editor Imagespec: file " << im.file << "; rect " << im.rect << std::endl;
+  for(const auto& im : imagespecs)
+    log_debug << "  Imagespec:        file " << im.file << "; rect " << im.rect << std::endl;
 }
 
 /* Check if the tile is solid given the current movement. This works

@@ -116,11 +116,11 @@ KeyboardConfig::bind_key(SDL_Keycode key, Controller::Control control)
 SDL_Keycode
 KeyboardConfig::reversemap_key(Controller::Control c) const
 {
-  for(KeyMap::const_iterator i = keymap.begin(); i != keymap.end(); ++i)
+  for(const auto& i : keymap)
   {
-    if (i->second == c)
+    if (i.second == c)
     {
-      return i->first;
+      return i.first;
     }
   }
 
@@ -137,11 +137,11 @@ KeyboardConfig::write(Writer& writer)
 
   writer.write("jump-with-up", jump_with_up_kbd);
 
-  for(KeyMap::iterator i = keymap.begin(); i != keymap.end(); ++i)
+  for(const auto& i : keymap)
   {
     writer.start_list("map");
-    writer.write("key", (int) i->first);
-    writer.write("control", Controller::controlNames[i->second]);
+    writer.write("key", (int) i.first);
+    writer.write("control", Controller::controlNames[i.second]);
     writer.end_list("map");
   }
 }

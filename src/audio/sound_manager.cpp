@@ -74,9 +74,8 @@ SoundManager::~SoundManager()
   music_source.reset();
   sources.clear();
 
-  for(SoundBuffers::iterator i = buffers.begin(); i != buffers.end(); ++i) {
-    ALuint buffer = i->second;
-    alDeleteBuffers(1, &buffer);
+  for(const auto& buffer : buffers) {
+    alDeleteBuffers(1, &buffer.second);
   }
 
   if(context != NULL) {

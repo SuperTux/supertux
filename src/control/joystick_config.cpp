@@ -48,9 +48,9 @@ JoystickConfig::JoystickConfig() :
 int
 JoystickConfig::reversemap_joyaxis(Controller::Control c) const
 {
-  for(AxisMap::const_iterator i = joy_axis_map.begin(); i != joy_axis_map.end(); ++i) {
-    if (i->second == c)
-      return i->first.second;
+  for(const auto& i : joy_axis_map) {
+    if (i.second == c)
+      return i.first.second;
   }
 
   return 0;
@@ -59,9 +59,9 @@ JoystickConfig::reversemap_joyaxis(Controller::Control c) const
 int
 JoystickConfig::reversemap_joybutton(Controller::Control c) const
 {
-  for(ButtonMap::const_iterator i = joy_button_map.begin(); i != joy_button_map.end(); ++i) {
-    if (i->second == c)
-      return i->first.second;
+  for(const auto& i : joy_button_map) {
+    if (i.second == c)
+      return i.first.second;
   }
 
   return -1;
@@ -70,9 +70,9 @@ JoystickConfig::reversemap_joybutton(Controller::Control c) const
 int
 JoystickConfig::reversemap_joyhat(Controller::Control c) const
 {
-  for(HatMap::const_iterator i = joy_hat_map.begin(); i != joy_hat_map.end(); ++i) {
-    if (i->second == c)
-      return i->first.second;
+  for(const auto& i : joy_hat_map) {
+    if (i.second == c)
+      return i.first.second;
   }
 
   return -1;
@@ -83,16 +83,16 @@ JoystickConfig::print_joystick_mappings() const
 {
   std::cout << _("Joystick Mappings") << std::endl;
   std::cout << "-----------------" << std::endl;
-  for(AxisMap::const_iterator i = joy_axis_map.begin(); i != joy_axis_map.end(); ++i) {
-    std::cout << "Axis: " << i->first.second << " -> " << i->second << std::endl;
+  for(const auto& i : joy_axis_map) {
+    std::cout << "Axis: " << i.first.second << " -> " << i.second << std::endl;
   }
 
-  for(ButtonMap::const_iterator i = joy_button_map.begin(); i != joy_button_map.end(); ++i) {
-    std::cout << "Button: " << i->first.second << " -> " << i->second << std::endl;
+  for(const auto& i : joy_button_map) {
+    std::cout << "Button: " << i.first.second << " -> " << i.second << std::endl;
   }
 
-  for(HatMap::const_iterator i = joy_hat_map.begin(); i != joy_hat_map.end(); ++i) {
-    std::cout << "Hat: " << i->first.second << " -> " << i->second << std::endl;
+  for(const auto& i : joy_hat_map) {
+    std::cout << "Hat: " << i.first.second << " -> " << i.second << std::endl;
   }
   std::cout << std::endl;
 }
@@ -219,25 +219,24 @@ JoystickConfig::write(Writer& writer)
   writer.write("jump-with-up", jump_with_up_joy);
   writer.write("use-game-controller", use_game_controller);
 
-  for(ButtonMap::iterator i = joy_button_map.begin(); i != joy_button_map.end();
-      ++i) {
+  for(const auto& i : joy_button_map) {
     writer.start_list("map");
-    writer.write("button", i->first.second);
-    writer.write("control", Controller::controlNames[i->second]);
+    writer.write("button", i.first.second);
+    writer.write("control", Controller::controlNames[i.second]);
     writer.end_list("map");
   }
 
-  for(HatMap::iterator i = joy_hat_map.begin(); i != joy_hat_map.end(); ++i) {
+  for(const auto& i : joy_hat_map) {
     writer.start_list("map");
-    writer.write("hat", i->first.second);
-    writer.write("control", Controller::controlNames[i->second]);
+    writer.write("hat", i.first.second);
+    writer.write("control", Controller::controlNames[i.second]);
     writer.end_list("map");
   }
 
-  for(AxisMap::iterator i = joy_axis_map.begin(); i != joy_axis_map.end(); ++i) {
+  for(const auto& i : joy_axis_map) {
     writer.start_list("map");
-    writer.write("axis", i->first.second);
-    writer.write("control", Controller::controlNames[i->second]);
+    writer.write("axis", i.first.second);
+    writer.write("control", Controller::controlNames[i.second]);
     writer.end_list("map");
   }
 }

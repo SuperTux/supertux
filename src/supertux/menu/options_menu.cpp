@@ -75,9 +75,9 @@ OptionsMenu::OptionsMenu(bool complete) :
     out << (g_config->magnification*100) << "%";
     std::string magn = out.str();
     int count = 0;
-    for (std::vector<std::string>::iterator i = magnifications.begin(); i != magnifications.end(); ++i)
+    for (const auto& magnification : magnifications)
     {
-      if (*i == magn)
+      if (magnification == magn)
       {
         next_magnification = count;
         magn.clear();
@@ -107,9 +107,9 @@ OptionsMenu::OptionsMenu(bool complete) :
     out << g_config->aspect_size.width << ":" << g_config->aspect_size.height;
     std::string aspect_ratio = out.str();
     int cnt_ = 0;
-    for(std::vector<std::string>::iterator i = aspect_ratios.begin(); i != aspect_ratios.end(); ++i)
+    for(const auto& ratio : aspect_ratios)
     {
-      if(*i == aspect_ratio)
+      if(ratio == aspect_ratio)
       {
         aspect_ratio.clear();
         next_aspect_ratio = cnt_;
@@ -163,9 +163,9 @@ OptionsMenu::OptionsMenu(bool complete) :
   }
 
   int cnt = 0;
-  for (std::vector<std::string>::iterator i = resolutions.begin(); i != resolutions.end(); ++i)
+  for (const auto& res : resolutions)
   {
-    if (*i == fullscreen_size_str)
+    if (res == fullscreen_size_str)
     {
       fullscreen_size_str.clear();
       next_resolution = cnt;
@@ -196,13 +196,13 @@ OptionsMenu::OptionsMenu(bool complete) :
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), &g_config->use_fullscreen)
     ->set_help(_("Fill the entire screen"));
 
-  MenuItem* fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"), &next_resolution, resolutions);
+  auto fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"), &next_resolution, resolutions);
   fullscreen_res->set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
 
-  MenuItem* magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"), &next_magnification, magnifications);
+  auto magnification = add_string_select(MNID_MAGNIFICATION, _("Magnification"), &next_magnification, magnifications);
   magnification->set_help(_("Change the magnification of the game area"));
 
-  MenuItem* aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
+  auto aspect = add_string_select(MNID_ASPECTRATIO, _("Aspect Ratio"), &next_aspect_ratio, aspect_ratios);
   aspect->set_help(_("Adjust the aspect ratio"));
 
   if (SoundManager::current()->is_audio_enabled()) {
@@ -221,7 +221,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   add_submenu(_("Setup Joystick"), MenuStorage::JOYSTICK_MENU)
     ->set_help(_("Configure joystick control-action mappings"));
 
-  MenuItem* enable_transitions = add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled);
+  auto enable_transitions = add_toggle(MNID_TRANSITIONS, _("Enable transitions"), &g_config->transitions_enabled);
   enable_transitions->set_help(_("Enable screen transitions and smooth menu animation"));
 
   if (g_config->developer_mode)
