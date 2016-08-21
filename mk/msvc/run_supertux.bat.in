@@ -1,0 +1,4 @@
+@echo off
+set PATH=@SQUIRREL_PREFIX@\bin;@PHYSFS_PREFIX@\bin;@DEPENDENCY_FOLDER@\dll;%PATH%
+ 
+start supertux2.exe %*
