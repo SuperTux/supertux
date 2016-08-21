@@ -228,7 +228,7 @@ EditorLayersGui::add_layer(GameObject* layer) {
 
   // The icon is inserted to the correct position.
   for(auto i = layers.begin(); i != layers.end(); ++i) {
-    auto li = &(**i);
+    const auto& li = i->get();
     if (li->get_zpos() < z_pos) {
       layers.insert(i, move(icon));
       return;

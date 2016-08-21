@@ -69,9 +69,8 @@ GhostTree::die()
   sprite->set_action("dying", 1);
   glow_sprite->set_action("dying", 1);
 
-  for(auto iter = willowisps.begin(); iter != willowisps.end(); ++iter) {
-    TreeWillOWisp& willo = **iter;
-    willo.vanish();
+  for(const auto& willo : willowisps) {
+    willo->vanish();
   }
   run_dead_script();
 }
@@ -109,10 +108,12 @@ GhostTree::active_update(float /*elapsed_time*/)
     if(suck_timer.check()) {
       Color col = glow_sprite->get_color();
       SoundManager::current()->play("sounds/tree_suck.ogg", get_pos());
-      for(auto iter = willowisps.begin(); iter != willowisps.end(); ++iter) {
-        TreeWillOWisp& willo = **iter;
-        if(willo.get_color() == col) {
-          willo.start_sucking(bbox.get_middle() + SUCK_TARGET_OFFSET + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD), gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)));
+      for(const auto& willo : willowisps) {
+        if(willo->get_color() == col) {
+          willo->start_sucking(
+            bbox.get_middle() + SUCK_TARGET_OFFSET
+            + Vector(gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD),
+                     gameRandom.randf(-SUCK_TARGET_SPREAD, SUCK_TARGET_SPREAD)));
         }
       }
       mystate = STATE_SUCKING;
@@ -158,7 +159,7 @@ GhostTree::active_update(float /*elapsed_time*/)
 
     if(root_timer.check()) {
       /* TODO indicate root with an animation */
-      Player* player = get_nearest_player();
+      auto player = get_nearest_player();
       if (player) {
         auto root = std::make_shared<Root>(Vector(player->get_bbox().get_left(), bbox.get_bottom()+ROOT_TOP_OFFSET));
         Sector::current()->add_object(root);

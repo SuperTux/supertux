@@ -362,11 +362,10 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 void
 SectorParser::fix_old_tiles()
 {
-  for(auto i = m_sector.solid_tilemaps.begin(); i != m_sector.solid_tilemaps.end(); i++) {
-    TileMap* solids = *i;
+  for(const auto& solids : m_sector.solid_tilemaps) {
     for(size_t x=0; x < solids->get_width(); ++x) {
       for(size_t y=0; y < solids->get_height(); ++y) {
-        const Tile *tile = solids->get_tile(x, y);
+        const auto& tile = solids->get_tile(x, y);
 
         if (tile->get_object_name().length() > 0) {
           Vector pos = solids->get_tile_position(x, y);
@@ -384,12 +383,12 @@ SectorParser::fix_old_tiles()
   }
 
   // add lights for special tiles
-  for(auto i = m_sector.gameobjects.begin(); i != m_sector.gameobjects.end(); i++) {
-    TileMap* tm = dynamic_cast<TileMap*>(i->get());
+  for(const auto& obj : m_sector.gameobjects) {
+    auto tm = dynamic_cast<TileMap*>(obj.get());
     if (!tm) continue;
     for(size_t x=0; x < tm->get_width(); ++x) {
       for(size_t y=0; y < tm->get_height(); ++y) {
-        const Tile* tile = tm->get_tile(x, y);
+        const auto& tile = tm->get_tile(x, y);
         uint32_t attributes = tile->getAttributes();
         Vector pos = tm->get_tile_position(x, y);
         Vector center = pos + Vector(16, 16);
@@ -418,7 +417,7 @@ SectorParser::fix_old_tiles()
 void
 SectorParser::create_sector()
 {
-  TileSet* tileset = TileManager::current()->get_tileset(m_sector.level->get_tileset());
+  auto tileset = TileManager::current()->get_tileset(m_sector.level->get_tileset());
   bool worldmap = Editor::is_active() ? Editor::current()->get_worldmap_mode() : false;
 
   if (!worldmap) {

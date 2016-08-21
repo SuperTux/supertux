@@ -213,7 +213,7 @@ Config::save()
   writer.end_list("control");
 
   writer.start_list("addons");
-  for(auto addon : addons)
+  for(const auto& addon : addons)
   {
     writer.start_list("addon");
     writer.write("id", addon.id);

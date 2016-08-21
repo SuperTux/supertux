@@ -37,7 +37,7 @@ EditorSectorsMenu::EditorSectorsMenu()
   add_hl();
 
   int id = 0;
-  for(auto& sector : Editor::current()->get_level()->sectors) {
+  for(const auto& sector : Editor::current()->get_level()->sectors) {
     add_entry(id, sector->get_name());
     id++;
   }
@@ -57,7 +57,7 @@ EditorSectorsMenu::~EditorSectorsMenu()
 void
 EditorSectorsMenu::create_sector()
 {
-  Level* level = Editor::current()->get_level();
+  auto level = Editor::current()->get_level();
 
   auto new_sector = SectorParser::from_nothing(*level);
 

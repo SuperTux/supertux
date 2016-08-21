@@ -160,9 +160,9 @@ MenuManager::~MenuManager()
 void
 MenuManager::refresh()
 {
-  for(auto i = m_menu_stack.begin(); i != m_menu_stack.end(); ++i)
+  for(const auto& menu : m_menu_stack)
   {
-    (*i)->refresh();
+    menu->refresh();
   }
 }
 
@@ -315,9 +315,9 @@ MenuManager::clear_menu_stack()
 void
 MenuManager::on_window_resize()
 {
-  for(auto i = m_menu_stack.begin(); i != m_menu_stack.end(); ++i)
+  for(const auto& menu : m_menu_stack)
   {
-    (*i)->on_window_resize();
+    menu->on_window_resize();
   }
 }
 

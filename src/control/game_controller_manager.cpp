@@ -32,7 +32,7 @@ GameControllerManager::GameControllerManager(InputManager* parent) :
 
 GameControllerManager::~GameControllerManager()
 {
-  for(auto con : m_game_controllers)
+  for(const auto& con : m_game_controllers)
   {
     SDL_GameControllerClose(con);
   }

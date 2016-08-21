@@ -322,15 +322,13 @@ ScreenManager::handle_screen_switch()
     while (!m_actions.empty())
     {
       // keep track of the current screen, as only that needs a call to Screen::leave()
-      Screen* current_screen = m_screen_stack.empty() ? nullptr : m_screen_stack.back().get();
+      auto current_screen = m_screen_stack.empty() ? nullptr : m_screen_stack.back().get();
 
       // move actions to a new vector since setup() might modify it
       auto actions = std::move(m_actions);
 
-      for(auto it = actions.begin(); it != actions.end(); ++it)
+      for(auto& action : actions)
       {
-        auto& action = *it;
-
         switch (action.type)
         {
           case Action::POP_ACTION:

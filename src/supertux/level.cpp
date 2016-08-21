@@ -174,14 +174,14 @@ Level::get_total_coins() const
 {
   int total_coins = 0;
   for(auto const& sector : sectors) {
-    for(auto o = sector->gameobjects.begin(); o != sector->gameobjects.end(); ++o) {
-      Coin* coin = dynamic_cast<Coin*>(o->get());
+    for(const auto& o: sector->gameobjects) {
+      auto coin = dynamic_cast<Coin*>(o.get());
       if(coin)
       {
         total_coins++;
         continue;
       }
-      BonusBlock *block = dynamic_cast<BonusBlock*>(o->get());
+      auto block = dynamic_cast<BonusBlock*>(o.get());
       if(block)
       {
         if (block->contents == BonusBlock::CONTENT_COIN)
@@ -196,7 +196,7 @@ Level::get_total_coins() const
           continue;
         }
       }
-      GoldBomb *goldbomb = dynamic_cast<GoldBomb*>(o->get());
+      auto goldbomb = dynamic_cast<GoldBomb*>(o.get());
       if(goldbomb)
         total_coins += 10;
     }

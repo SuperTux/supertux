@@ -136,7 +136,7 @@ Sector::~Sector()
   update_game_objects();
   assert(gameobjects_new.size() == 0);
 
-  for(auto& object: gameobjects) {
+  for(const auto& object: gameobjects) {
     before_object_remove(object);
   }
 }
@@ -204,7 +204,7 @@ void
 Sector::activate(const std::string& spawnpoint)
 {
   std::shared_ptr<SpawnPoint> sp;
-  for(auto& spawn_point : spawnpoints) {
+  for(const auto& spawn_point : spawnpoints) {
     if(spawn_point->name == spawnpoint) {
       sp = spawn_point;
       break;
