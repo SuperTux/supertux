@@ -102,24 +102,21 @@ EditorLayersGui::draw(DrawingContext& context) {
                     ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   int pos = 0;
-  for(auto it = layers.begin(); it != layers.end(); ++it) {
-    auto layer_icon = (*it).get();
+  for(const auto& layer_icon : layers) {
     if (layer_icon->is_valid()) {
       layer_icon->draw(context, get_layer_coords(pos));
-    } else {
-      auto it2 = it;
-      it++;
-      layers.erase(it2);
-      it--;
     }
     pos++;
   }
-
 }
 
 void
 EditorLayersGui::update(float elapsed_time) {
-
+  for(auto it = layers.begin(); it != layers.end(); ++it) {
+    auto layer_icon = (*it).get();
+    if (!layer_icon->is_valid())
+      layers.erase(it);
+  }
 }
 
 bool
@@ -251,12 +248,12 @@ EditorLayersGui::update_tip() {
 }
 
 Vector
-EditorLayersGui::get_layer_coords(const int pos){
+EditorLayersGui::get_layer_coords(const int pos) const {
   return Vector( pos * 35 + Xpos + sector_text_width, Ypos);
 }
 
 int
-EditorLayersGui::get_layer_pos(const Vector& coords){
+EditorLayersGui::get_layer_pos(const Vector& coords) const {
   return (coords.x - Xpos - sector_text_width) / 35;
 }
 
