@@ -1,1 +1,1 @@
-100 ICON "@PROJECT_SOURCE_DIR@/tools/innosetup/supertux.ico"
+100 ICON "@PROJECT_SOURCE_DIR@/data/images/engine/icons/supertux.ico"
