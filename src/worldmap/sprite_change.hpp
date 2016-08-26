@@ -45,14 +45,8 @@ public:
 
   /**
    * Deactivates the SpriteChange's stay action, if applicable
-   * @param propagate : Also change stay actions in the same stay group
    */
-  void clear_stay_action(bool propagate = true);
-
-  /*
-   * Get the current value of in_stay_action
-   */
-   bool show_stay_action() const;
+  void clear_stay_action();
 
 public:
   Vector pos;

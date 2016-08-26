@@ -66,12 +66,6 @@ SpriteChange::update(float )
 {
 }
 
-bool
-SpriteChange::show_stay_action() const
-{
-  return in_stay_action;
-}
-
 void
 SpriteChange::set_stay_action()
 {
@@ -79,12 +73,12 @@ SpriteChange::set_stay_action()
 }
 
 void
-SpriteChange::clear_stay_action(bool propagate)
+SpriteChange::clear_stay_action()
 {
   in_stay_action = false;
 
   // if we are in a stay_group, also clear all stay actions in this group
-  if (!stay_group.empty() && propagate) {
+  if (!stay_group.empty()) {
     for (auto& sc : all_sprite_changes) {
       if (sc->stay_group != stay_group) continue;
       sc->in_stay_action = false;
