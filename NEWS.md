@@ -1,10 +1,10 @@
 SuperTux Release and Development Notes
 ======================================
 
-SuperTux 0.5.0-rc.2 (2016-08-10)
+SuperTux 0.5.0-rc.3 (2016-08-26)
 --------------------------------
 
-The SuperTux team is excited to announce the availability of the second release candidate for the upcoming stable release 0.5.0 after less than a year of development. The most prominent change for this release is a new in-game level editor which allows you to create levels and worldmaps on-the-fly from within SuperTux itself.
+The SuperTux team is excited to announce the availability of the third release candidate for the upcoming stable release 0.5.0 after less than a year of development. The most prominent change for this release is a new in-game level editor which allows you to create levels and worldmaps on-the-fly from within SuperTux itself.
 
 Changes:
 
@@ -28,6 +28,22 @@ Changes from 0.5.0-rc.1 (2016-08-05):
 * Editor: allow setting z-pos of decals
 * Editor: display a notile when the tile ID is invalid
 * Editor: make it possible to switch tilesets
+
+Changes from 0.5.0-rc.2 (2016-08-10):
+
+* Editor: Torch: make it possible to change the sprite (#541)
+* Don't turn Tux into stone above ground when using earth bonus (#537)
+* WillOWisp: get name property in order to fix a scripting issue (#529)
+* Editor: don't play WillOWisp sound
+* Editor: move moving objects to the center of the mouse pointer when adding
+* Editor: Switch: make sprite option visible again
+* Make use of auto pointers and modern iterators where appropriate
+* README: various updates related to download count
+* Save and load visibility of SpriteChange tiles in squirrel table (#342)
+* Editor: Fix an issue where the name of a scripted object wouldn't be saved (#557)
+* Editor: add an alignment option for background (#547)
+* Editor: Better approach for layer removal (#510)
+* Add a launcher script for Windows builds (#443)
 
 This section will be updated with more RCs or a stable version being released.
 
