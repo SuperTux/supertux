@@ -20,6 +20,7 @@
 #include <sstream>
 
 #include "editor/editor.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/game_manager.hpp"
@@ -53,12 +54,23 @@ EditorNewLevelsetMenu::menu_action(MenuItem* item)
 {
   if (item->id > 0)
   {
-    std::unique_ptr<World> new_world = World::create(levelset_name, levelset_desc);
-    new_world->save();
-    Editor::current()->world = move(new_world);
+    if(levelset_name.empty())
+    {
+      std::unique_ptr<Dialog> dialog(new Dialog);
+      dialog->set_text(_("Please enter a name for this level subset."));
+      dialog->clear_buttons();
+      dialog->add_button(_("OK"), [] {});
+      MenuManager::instance().set_dialog(std::move(dialog));
+    }
+    else
+    {
+      std::unique_ptr<World> new_world = World::create(levelset_name, levelset_desc);
+      new_world->save();
+      Editor::current()->world = move(new_world);
 
-    MenuManager::instance().pop_menu();
-    MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
+      MenuManager::instance().pop_menu();
+      MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
+    }
   }
 }
 
