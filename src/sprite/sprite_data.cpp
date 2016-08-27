@@ -94,7 +94,7 @@ SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
 
   std::string mirror_action;
   if (lisp.get("mirror-action", mirror_action)) {
-    const Action* act_tmp = get_action(mirror_action);
+    const auto act_tmp = get_action(mirror_action);
     if(act_tmp == NULL) {
       std::ostringstream msg;
       msg << "Could not mirror action. Action not found: \"" << mirror_action << "\"\n"
@@ -103,8 +103,8 @@ SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
     } else {
       float max_w = 0;
       float max_h = 0;
-      for(int i = 0; static_cast<unsigned int>(i) < act_tmp->surfaces.size(); i++) {
-        SurfacePtr surface = act_tmp->surfaces[i]->clone();
+      for(const auto& surf : act_tmp->surfaces) {
+        auto surface = surf->clone();
         surface->hflip();
         max_w = std::max(max_w, (float) surface->get_width());
         max_h = std::max(max_h, (float) surface->get_height());
@@ -123,8 +123,8 @@ SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
     } else {
       float max_w = 0;
       float max_h = 0;
-      for(std::vector<std::string>::size_type i = 0; i < images.size(); i++) {
-        SurfacePtr surface = Surface::create(basedir + images[i]);
+      for(const auto& image : images) {
+        auto surface = Surface::create(basedir + image);
         max_w = std::max(max_w, (float) surface->get_width());
         max_h = std::max(max_h, (float) surface->get_height());
         action->surfaces.push_back(surface);
