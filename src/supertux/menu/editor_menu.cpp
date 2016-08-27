@@ -37,7 +37,7 @@ EditorMenu::EditorMenu()
   add_label(_("Level Editor"));
   add_hl();
   add_entry(MNID_RETURNTOEDITOR, _("Return to editor"));
-  add_entry(MNID_SAVELEVEL, _("Save current level"));
+  add_entry(MNID_SAVELEVEL, worldmap ? _("Save current worldmap") : _("Save current level"));
 
   if (!worldmap) {
     add_entry(MNID_TESTLEVEL, _("Test the level"));

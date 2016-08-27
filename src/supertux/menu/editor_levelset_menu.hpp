@@ -40,7 +40,6 @@ private:
   void initialize();
   void create_worldmap();
 
-  bool allow_worldmap;
   World* world;
 
   EditorLevelsetMenu(const EditorLevelsetMenu&);

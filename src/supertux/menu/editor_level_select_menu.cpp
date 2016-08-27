@@ -117,8 +117,7 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
         MenuManager::instance().pop_menu();
         break;
       case -3: {
-        std::unique_ptr<Menu> menu = std::unique_ptr<Menu>(
-                                    new EditorLevelsetMenu(world.get()));
+        auto menu = std::unique_ptr<Menu>(new EditorLevelsetMenu(world.get()));
         MenuManager::instance().push_menu(std::move(menu));
       } break;
       default:
