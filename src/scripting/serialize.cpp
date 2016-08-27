@@ -20,6 +20,7 @@
 #include <sexp/value.hpp>
 #include <sexp/util.hpp>
 
+#include "util/log.hpp"
 #include "util/writer.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "util/reader_mapping.hpp"
@@ -39,6 +40,12 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
     const std::string& key = pair[0].as_string();
     auto const& value = pair[1];
 
+    // ignore empty / null values
+    if(value.is_nil())
+    {
+      log_debug << "Found null value for key " << key << ". Ignoring." << std::endl;
+      continue;
+    }
     // push the key
     sq_pushstring(vm, key.c_str(), key.size());
 
