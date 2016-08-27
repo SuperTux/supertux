@@ -3,13 +3,13 @@
  (objectgroup
   (name ( _"Hostile"))
   (worldmap #f)
-  (object 
-    (class "angrystone")     
+  (object
+    (class "angrystone")
     (icon "images/creatures/angrystone/charging-0.png"))
-  (object 
+  (object
     (class "bouncingsnowball")
     (icon "images/creatures/bouncing_snowball/left-5.png"))
-  (object 
+  (object
     (class "captainsnowball")
     (icon "images/creatures/snowball/cpt-left-1.png"))
   (object
@@ -18,7 +18,7 @@
   (object
     (class "fish")
     (icon "images/creatures/fish/down.png"))
-  (object 
+  (object
     (class "flame")
     (icon "images/creatures/flame/flame-0.png"))
   (object
@@ -117,7 +117,7 @@
   (object
     (class "totem")
     (icon "images/creatures/totem/walking1.png"))
-  (object 
+  (object
     (class "walkingleaf")
     (icon "images/creatures/walkingleaf/left-0.png"))
   (object
@@ -127,8 +127,8 @@
     (class "zeekling")
     (icon "images/creatures/zeekling/left-0.png"))
  )
-  
- (objectgroup  
+
+ (objectgroup
   (name (_"Projectiles"))
   (worldmap #f)
   (object
@@ -154,7 +154,7 @@
     (icon "images/engine/editor/stalactite_yeti.png"))
  )
 
- (objectgroup  
+ (objectgroup
   (name (_"Bosses"))
   (worldmap #f)
   (object
@@ -165,7 +165,7 @@
     (icon "images/creatures/ghosttree/ghosttree.png"))
  )
 
- (objectgroup  
+ (objectgroup
   (name (_"Interactive"))
   (worldmap #f)
   (object
@@ -205,6 +205,9 @@
     (class "bicycle-platform")
     (icon "images/engine/editor/bicycleplatform.png"))
   (object
+    (class "hurting_platform")
+    (icon "images/engine/editor/hurtingplatform.png"))
+  (object
     (class "powerup")
     (icon "images/engine/editor/powerup.png"))
   (object
@@ -242,7 +245,7 @@
     (icon "images/objects/switch/left-0.png"))
  )
 
- (objectgroup  
+ (objectgroup
   (name (_"Lightmap"))
   (worldmap #f)
   (object
@@ -259,7 +262,7 @@
     (icon "images/objects/spotlight/spotlight_center.png"))
  )
 
- (objectgroup  
+ (objectgroup
   (name (_"Ambient"))
   (worldmap #f)
   (object
@@ -315,7 +318,7 @@
     (icon "images/engine/editor/path_node.png"))
  )
 
- (objectgroup  
+ (objectgroup
   (name (_"Worldmap markers"))
   (worldmap #t)
   (object
