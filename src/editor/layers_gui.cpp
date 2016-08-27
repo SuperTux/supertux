@@ -112,10 +112,14 @@ EditorLayersGui::draw(DrawingContext& context) {
 
 void
 EditorLayersGui::update(float elapsed_time) {
-  for(auto it = layers.begin(); it != layers.end(); ++it) {
+  auto it = layers.begin();
+  while(it != layers.end())
+  {
     auto layer_icon = (*it).get();
-    if (!layer_icon->is_valid())
-      layers.erase(it);
+    if(!layer_icon->is_valid())
+      it = layers.erase(it);
+    else
+      ++it;
   }
 }
 

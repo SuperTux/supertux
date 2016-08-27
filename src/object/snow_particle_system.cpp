@@ -138,6 +138,9 @@ void SnowParticleSystem::update(float elapsed_time)
 
   for(auto& part : particles) {
     auto particle = dynamic_cast<SnowParticle*>(part.get());
+    if(!particle)
+      continue;
+
     float anchor_delta;
 
     // Falling
