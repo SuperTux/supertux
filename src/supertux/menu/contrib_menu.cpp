@@ -24,6 +24,7 @@
 #include "physfs/physfs_file_system.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/levelset.hpp"
 #include "supertux/menu/contrib_levelset_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/title_screen.hpp"
@@ -83,8 +84,11 @@ ContribMenu::ContribMenu() :
   {
     try
     {
-      std::unique_ptr<World> world = World::load(*it);
+      auto levelset = std::unique_ptr<Levelset>(new Levelset(*it));
+      if (levelset->get_num_levels() == 0)
+        continue;
 
+      std::unique_ptr<World> world = World::load(*it);
       if (!world->hide_from_contribs())
       {
         Savegame savegame(world->get_savegame_filename());
