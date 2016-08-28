@@ -187,7 +187,7 @@
       (simple #t)
     )
     (person
-      (name "Alex \"Serano\" Jockers")
+      (name "Kai Alex \"Serano\" Jockers")
       (info (_ "Level improvements"))
       (simple #t)
     )
