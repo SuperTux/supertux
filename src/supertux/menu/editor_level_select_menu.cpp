@@ -56,16 +56,24 @@ void EditorLevelSelectMenu::initialize() {
   auto basedir = world->get_basedir();
   editor->deactivate_request = true;
   m_levelset = std::unique_ptr<Levelset>(new Levelset(basedir));
+  auto num_levels = m_levelset->get_num_levels();
 
   add_label(world->get_title());
   add_hl();
 
-  for (int i = 0; i < m_levelset->get_num_levels(); ++i)
+  if(num_levels == 0)
   {
-    std::string filename = m_levelset->get_level_filename(i);
-    std::string full_filename = FileSystem::join(basedir, filename);
-    std::string title = GameManager::current()->get_level_name(full_filename);
-    add_entry(i, title);
+    add_inactive(_("Empty levelset"));
+  }
+  else
+  {
+    for (int i = 0; i < num_levels; ++i)
+    {
+      std::string filename = m_levelset->get_level_filename(i);
+      std::string full_filename = FileSystem::join(basedir, filename);
+      std::string title = GameManager::current()->get_level_name(full_filename);
+      add_entry(i, title);
+    }
   }
 
   add_hl();
