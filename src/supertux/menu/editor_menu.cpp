@@ -55,10 +55,6 @@ EditorMenu::EditorMenu()
   add_submenu(worldmap ? _("Worldmap properties") : _("Level properties"),
               MenuStorage::EDITOR_LEVEL_MENU);
 
-  if (is_world) {
-    add_submenu(_("Level subset properties"), MenuStorage::EDITOR_LEVELSET_MENU);
-  }
-
   add_hl();
   add_entry(MNID_QUITEDITOR, _("Exit level editor"));
 }
