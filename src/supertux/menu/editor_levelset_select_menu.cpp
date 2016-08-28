@@ -78,7 +78,8 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
       {
         continue;
       }
-      auto levelset = std::unique_ptr<Levelset>(new Levelset(level_world));
+      auto levelset = std::unique_ptr<Levelset>(
+                          new Levelset(level_world, /* recursively = */ true));
       int level_count = levelset->get_num_levels();
       std::ostringstream level_title;
       level_title << title << " (" << level_count << " " << _("levels") << ")";

@@ -84,7 +84,8 @@ ContribMenu::ContribMenu() :
   {
     try
     {
-      auto levelset = std::unique_ptr<Levelset>(new Levelset(*it));
+      auto levelset =
+        std::unique_ptr<Levelset>(new Levelset(*it, /* recursively = */ true));
       if (levelset->get_num_levels() == 0)
         continue;
 

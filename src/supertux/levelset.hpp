@@ -27,7 +27,7 @@ private:
   std::vector<std::string> m_levels;
 
 public:
-  Levelset(const std::string& basedir);
+  Levelset(const std::string& basedir, bool recursively = false);
 
   int get_num_levels() const;
   std::string get_level_filename(int i) const;
@@ -35,6 +35,8 @@ public:
 private:
   Levelset(const Levelset&) = delete;
   Levelset& operator=(const Levelset&) = delete;
+
+  void walk_directory(const std::string& directory, bool recursively = false);
 };
 
 #endif

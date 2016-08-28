@@ -19,29 +19,16 @@
 #include <physfs.h>
 #include <algorithm>
 
+#include "physfs/physfs_file_system.hpp"
+#include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/string_util.hpp"
 
-Levelset::Levelset(const std::string& basedir) :
+Levelset::Levelset(const std::string& basedir, bool recursively) :
   m_basedir(basedir),
   m_levels()
 {
-  char** files = PHYSFS_enumerateFiles(m_basedir.c_str());
-  if (!files)
-  {
-    log_warning << "Couldn't read subset dir '" << m_basedir << "'" << std::endl;
-    return;
-  }
-
-  for(const char* const* filename = files; *filename != 0; ++filename)
-  {
-    if(StringUtil::has_suffix(*filename, ".stl"))
-    {
-      m_levels.push_back(*filename);
-    }
-  }
-  PHYSFS_freeList(files);
-
+  walk_directory(m_basedir, recursively);
   std::sort(m_levels.begin(), m_levels.end(), StringUtil::numeric_less);
 }
 
@@ -55,6 +42,41 @@ std::string
 Levelset::get_level_filename(int i) const
 {
   return m_levels[i];
+}
+
+void
+Levelset::walk_directory(const std::string& directory, bool recursively)
+{
+  bool is_basedir = (directory == m_basedir);
+  char** files = PHYSFS_enumerateFiles(directory.c_str());
+  if (!files)
+  {
+    log_warning << "Couldn't read subset dir '" << directory << "'" << std::endl;
+    return;
+  }
+
+  for(const char* const* filename = files; *filename != 0; ++filename)
+  {
+    auto filepath = FileSystem::join(directory.c_str(), *filename);
+    if(PhysFSFileSystem::is_directory(filepath) && recursively)
+    {
+      walk_directory(filepath, true);
+    }
+    if(StringUtil::has_suffix(*filename, ".stl"))
+    {
+      if(is_basedir)
+      {
+        m_levels.push_back(*filename);
+      }
+      else
+      {
+        // Replace basedir part of file path plus slash.
+        filepath = filepath.replace(0, m_basedir.length() + 1, "");
+        m_levels.push_back(filepath);
+      }
+    }
+  }
+  PHYSFS_freeList(files);
 }
 
 /* EOF */
