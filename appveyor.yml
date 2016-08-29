@@ -31,14 +31,15 @@ artifacts:
   name: setup
 
 deploy:
-- provider: FTP
-  host: upload.supertuxproject.org
-  protocol: sftp
-  username: travis-upload
-  password:
-    secure: a/wZj2elh/Hhy/MQV/QS5A==
-  folder: /files/
-  artifact: setup
+- provider: BinTray
+  username: maths22
+  api_key:
+    secure: AABBCC+DDD==
+  subject: maths22
+  repo: SuperTux-Nightly
+  package: win32
+  publish: true
+  override: true
   on:
     branch: master
 - provider: GitHub
