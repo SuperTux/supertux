@@ -48,7 +48,7 @@ EditorLevelMenu::EditorLevelMenu() :
   }
 
   add_hl();
-  add_entry(-1, _("OK"));
+  add_entry(-2, _("OK"));
 }
 
 EditorLevelMenu::~EditorLevelMenu()
@@ -62,7 +62,7 @@ EditorLevelMenu::~EditorLevelMenu()
 void
 EditorLevelMenu::menu_action(MenuItem* item)
 {
-  if(item->id == -1)
+  if(item->id == -2)
   {
     auto level = Editor::current()->get_level();
     if(!level->name.empty() && !level->author.empty() && !level->license.empty())
