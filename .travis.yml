@@ -73,13 +73,7 @@ script:
 
 deploy:
   - provider: script
-    script: ../.travis/deploy-osx.sh
-    skip_cleanup: true
-    on:
-      branch: master
-      condition: $BUILD_TYPE = Release
-  - provider: script
-    script: ../.travis/deploy-tarball.sh
+    script: ../.travis/deploy.sh
     skip_cleanup: true
     on:
       branch: master
