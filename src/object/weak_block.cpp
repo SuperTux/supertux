@@ -45,11 +45,14 @@ WeakBlock::WeakBlock(const ReaderMapping& lisp)
       sprite->set_action("normal");
     }
   }
-  if(sprite_name == "images/objects/weak_block/strawbox.sprite") {
+
+  if (sprite_name == "images/objects/weak_block/strawbox.sprite") {
     lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
     lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
-  } else if(sprite_name == "images/objects/weak_block/meltbox.sprite")
+    SoundManager::current()->preload("sounds/fire.ogg"); // TODO: use own sound?
+  } else if (sprite_name == "images/objects/weak_block/meltbox.sprite") {
     SoundManager::current()->preload("sounds/sizzle.ogg");
+  }
 }
 
 HitResponse
@@ -177,8 +180,11 @@ WeakBlock::startBurning()
   if (state != STATE_NORMAL) return;
   state = STATE_BURNING;
   sprite->set_action("burning", 1);
-  if(sprite_name == "images/objects/weak_block/meltbox.sprite")
+  if (sprite_name == "images/objects/weak_block/meltbox.sprite") {
     SoundManager::current()->play("sounds/sizzle.ogg");
+  } else if (sprite_name == "images/objects/weak_block/strawbox.sprite") {
+    SoundManager::current()->play("sounds/fire.ogg");
+  }
 }
 
 void
