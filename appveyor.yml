@@ -22,7 +22,9 @@ build:
   verbosity: minimal
 
 after_build:
-- cmd: '"C:\Program Files (x86)\CMake\bin\cpack.exe"'
+- ps: |
+    "C:\Program Files (x86)\CMake\bin\cpack.exe" 
+    Get-FileHash SuperTux-*
 
 test: off
 
