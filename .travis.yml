@@ -59,10 +59,10 @@ before_install:
         cd build && make -j3 && sudo make install;
         cd ../..;
     fi
+  # Fetch the entire git history
+  - git fetch --unshallow
 
 script:
-  - git fetch --unshallow
-  # Then build:
   - mkdir "build-$BUILD_TYPE"
   - cd "build-$BUILD_TYPE"
   - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$USE_GLBINDING -DBUILD_TESTS=ON
