@@ -10,6 +10,10 @@ tools/innosetup/Output
 # Version file
 version.cmake
 
+# Doxygen related files
+Doxyfile
+docs/doxygen/
+
 # Qt Creator project file
 CMakeLists.txt.user
 
