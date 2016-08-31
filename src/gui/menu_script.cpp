@@ -95,7 +95,7 @@ ScriptMenu::menu_action(MenuItem* item)
 }
 
 bool
-ScriptMenu::is_sensitive() {
+ScriptMenu::is_sensitive() const {
   return true;
 }
 

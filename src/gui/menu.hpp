@@ -96,7 +96,7 @@ protected:
   void delete_item(int pos_);
 
   ///returns true when the text is more important than action
-  virtual bool is_sensitive();
+  virtual bool is_sensitive() const;
 
 private:
   void process_action(MenuAction menuaction);

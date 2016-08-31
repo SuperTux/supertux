@@ -589,8 +589,8 @@ Menu::set_active_item(int id)
 }
 
 bool
-Menu::is_sensitive() {
-  return false;
+Menu::is_sensitive() const {
+  return true;
 }
 
 /* EOF */
