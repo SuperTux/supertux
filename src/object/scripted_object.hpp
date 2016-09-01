@@ -18,17 +18,15 @@
 #define HEADER_SUPERTUX_OBJECT_SCRIPTED_OBJECT_HPP
 
 #include "object/moving_sprite.hpp"
+#include "scripting/scripted_object.hpp"
+#include "scripting/exposed_object.hpp"
 #include "supertux/physic.hpp"
-#include "supertux/script_interface.hpp"
 
 class ScriptedObject : public MovingSprite,
-                       public ScriptInterface
+                       public ExposedObject<ScriptedObject, scripting::ScriptedObject>
 {
 public:
   ScriptedObject(const ReaderMapping& lisp);
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

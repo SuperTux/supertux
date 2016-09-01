@@ -21,7 +21,6 @@
 #include <stdexcept>
 
 #include "math/sizef.hpp"
-#include "scripting/background.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
@@ -31,6 +30,7 @@
 #include "util/reader_mapping.hpp"
 
 Background::Background() :
+  ExposedObject<Background, scripting::Background>(this),
   alignment(NO_ALIGNMENT),
   layer(LAYER_BACKGROUND0),
   imagefile_top(),
@@ -50,6 +50,7 @@ Background::Background() :
 }
 
 Background::Background(const ReaderMapping& reader) :
+  ExposedObject<Background, scripting::Background>(this),
   alignment(NO_ALIGNMENT),
   layer(LAYER_BACKGROUND0),
   imagefile_top(),
@@ -337,25 +338,6 @@ Background::draw(DrawingContext& context)
   float px = has_pos_x ? pos.x : level_size.width/2;
   float py = has_pos_y ? pos.y : level_size.height/2;
   draw_image(context, Vector(px, py) + center_offset * (1.0f - speed));
-}
-
-void
-Background::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  scripting::Background* _this = new scripting::Background(this);
-  expose_object(vm, table_idx, _this, name, true);
-}
-
-void
-Background::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 /* EOF */

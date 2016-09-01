@@ -19,7 +19,6 @@
 #include "editor/editor.hpp"
 #include "object/camera.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "scripting/gradient.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
@@ -28,6 +27,7 @@
 #include <stdexcept>
 
 Gradient::Gradient() :
+  ExposedObject<Gradient, scripting::Gradient>(this),
   layer(LAYER_BACKGROUND0),
   gradient_top(),
   gradient_bottom(),
@@ -37,6 +37,7 @@ Gradient::Gradient() :
 }
 
 Gradient::Gradient(const ReaderMapping& reader) :
+  ExposedObject<Gradient, scripting::Gradient>(this),
   layer(LAYER_BACKGROUND0),
   gradient_top(),
   gradient_bottom(),
@@ -192,25 +193,6 @@ Gradient::draw(DrawingContext& context)
   context.set_translation(Vector(0, 0));
   context.draw_gradient(gradient_top, gradient_bottom, layer, gradient_direction, gradient_region);
   context.pop_transform();
-}
-
-void
-Gradient::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  scripting::Gradient* _this = new scripting::Gradient(this);
-  expose_object(vm, table_idx, _this, name, true);
-}
-
-void
-Gradient::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 bool

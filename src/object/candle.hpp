@@ -18,22 +18,20 @@
 #define HEADER_SUPERTUX_OBJECT_CANDLE_HPP
 
 #include "object/moving_sprite.hpp"
-#include "supertux/script_interface.hpp"
+#include "scripting/candle.hpp"
+#include "scripting/exposed_object.hpp"
 
 /**
  * A burning candle: Simple, scriptable level decoration.
  */
 class Candle : public MovingSprite,
-               public ScriptInterface
+               public ExposedObject<Candle, scripting::Candle>
 {
 public:
   Candle(const ReaderMapping& lisp);
   virtual void draw(DrawingContext& context);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   /**
    * @name Scriptable Methods

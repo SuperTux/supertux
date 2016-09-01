@@ -20,12 +20,12 @@
 
 #include "math/random_generator.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "scripting/particlesystem.hpp"
 #include "supertux/globals.hpp"
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
 ParticleSystem::ParticleSystem(float max_particle_size_) :
+  ExposedObject<ParticleSystem, scripting::ParticleSystem>(this),
   max_particle_size(max_particle_size_),
   z_pos(),
   particles(),
@@ -101,26 +101,6 @@ bool
 ParticleSystem::get_enabled() const
 {
   return enabled;
-}
-
-
-void
-ParticleSystem::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  auto _this = new scripting::ParticleSystem(this);
-  expose_object(vm, table_idx, _this, name, true);
-}
-
-void
-ParticleSystem::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 /* EOF */

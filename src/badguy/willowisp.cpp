@@ -23,7 +23,6 @@
 #include "object/path_walker.hpp"
 #include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "scripting/willowisp.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
@@ -40,6 +39,7 @@ static const std::string SOUNDFILE = "sounds/willowisp.wav";
 WillOWisp::WillOWisp(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS,
          "images/objects/lightmap_light/lightmap_light-small.sprite"),
+  ExposedObject<WillOWisp, scripting::WillOWisp>(this),
   mystate(STATE_IDLE),
   target_sector(),
   target_spawnpoint(),
@@ -272,27 +272,6 @@ WillOWisp::set_state(const std::string& new_state)
   } else {
     log_warning << "Can't set unknown willowisp state '" << new_state << std::endl;
   }
-}
-
-void
-WillOWisp::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  std::cout << "[DEBUG] Expose me '" << name << "'\n";
-  auto obj = new scripting::WillOWisp(this);
-  expose_object(vm, table_idx, obj, name, true);
-}
-
-void
-WillOWisp::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  std::cout << "[DEBUG] UnExpose me '" << name << "'\n";
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 ObjectSettings

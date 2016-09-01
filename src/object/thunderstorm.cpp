@@ -33,6 +33,7 @@ const float ELECTRIFY_TIME = 0.5f;
 }
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
+  ExposedObject<Thunderstorm, scripting::Thunderstorm>(this),
   running(true),
   interval(10.0f),
   layer(LAYER_BACKGROUNDTILES-1),
@@ -96,21 +97,6 @@ Thunderstorm::draw(DrawingContext& context)
   context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(1, 1, 1, alpha), layer);
   context.pop_transform();
 
-}
-
-void
-Thunderstorm::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  scripting::Thunderstorm* _this = new scripting::Thunderstorm(this);
-  expose_object(vm, table_idx, _this, name, true);
-}
-
-void
-Thunderstorm::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

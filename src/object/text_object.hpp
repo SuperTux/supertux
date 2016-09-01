@@ -18,15 +18,15 @@
 #define HEADER_SUPERTUX_OBJECT_TEXT_OBJECT_HPP
 
 #include "object/anchor_point.hpp"
+#include "scripting/exposed_object.hpp"
 #include "scripting/text.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/script_interface.hpp"
 #include "video/color.hpp"
 #include "video/font_ptr.hpp"
 
 /** A text object intended for scripts that want to tell a story */
 class TextObject : public GameObject,
-                   public ScriptInterface
+                   public ExposedObject<TextObject, scripting::Text>
 {
   static Color default_color;
 public:
@@ -35,9 +35,6 @@ public:
   virtual bool do_save() const {
     return false;
   }
-
-  void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   void set_text(const std::string& text);
   void set_font(const std::string& name);

@@ -23,10 +23,11 @@ class Path;
 class PathWalker;
 class SoundSource;
 
-#include "supertux/script_interface.hpp"
+#include "scripting/exposed_object.hpp"
+#include "scripting/willowisp.hpp"
 
 class WillOWisp : public BadGuy,
-                  public ScriptInterface
+                  public ExposedObject<WillOWisp, scripting::WillOWisp>
 {
 public:
   WillOWisp(const ReaderMapping& reader);
@@ -49,9 +50,6 @@ public:
   virtual void set_state(const std::string& state);
   virtual void start_moving();
   virtual void stop_moving();
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   virtual void stop_looping_sounds();
   virtual void play_looping_sounds();

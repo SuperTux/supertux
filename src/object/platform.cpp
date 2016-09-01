@@ -18,7 +18,6 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
-#include "scripting/platform.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
@@ -31,6 +30,7 @@ Platform::Platform(const ReaderMapping& reader) :
 
 Platform::Platform(const ReaderMapping& reader, const std::string& default_sprite) :
   MovingSprite(reader, default_sprite, LAYER_OBJECTS, COLGROUP_STATIC),
+  ExposedObject<Platform, scripting::Platform>(this),
   path(),
   walker(),
   speed(Vector(0,0)),
@@ -163,21 +163,6 @@ void
 Platform::stop_moving()
 {
   walker->stop_moving();
-}
-
-void
-Platform::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  auto _this = new scripting::Platform(this);
-  expose_object(vm, table_idx, _this, name, true);
-}
-
-void
-Platform::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

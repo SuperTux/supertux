@@ -18,10 +18,12 @@
 #define HEADER_SUPERTUX_OBJECT_CAMERA_HPP
 
 #include <memory>
+#include <string>
 
 #include "math/vector.hpp"
+#include "scripting/camera.hpp"
+#include "scripting/exposed_object.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/script_interface.hpp"
 #include "supertux/timer.hpp"
 
 class Sector;
@@ -31,7 +33,7 @@ class ReaderMapping;
 class CameraConfig;
 
 class Camera : public GameObject,
-               public ScriptInterface
+               public ExposedObject<Camera, scripting::Camera>
 {
 public:
   Camera(Sector* sector, const std::string& name = std::string());
@@ -50,9 +52,6 @@ public:
   virtual void update(float elapsed_time);
 
   virtual void draw(DrawingContext& );
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   // shake camera in a direction 1 time
   void shake(float speed, float x, float y);

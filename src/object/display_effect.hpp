@@ -18,17 +18,15 @@
 #define HEADER_SUPERTUX_OBJECT_DISPLAY_EFFECT_HPP
 
 #include "supertux/game_object.hpp"
-#include "supertux/script_interface.hpp"
+#include "scripting/display_effect.hpp"
+#include "scripting/exposed_object.hpp"
 
 class DisplayEffect : public GameObject,
-                      public ScriptInterface
+                      public ExposedObject<DisplayEffect, scripting::DisplayEffect>
 {
 public:
   DisplayEffect(const std::string& name = std::string());
   virtual ~DisplayEffect();
-
-  void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

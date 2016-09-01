@@ -21,13 +21,13 @@
 #include "object/particles.hpp"
 #include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "scripting/wind.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
 Wind::Wind(const ReaderMapping& reader) :
+  ExposedObject<Wind, scripting::Wind>(this),
   blowing(),
   speed(),
   acceleration(),
@@ -113,25 +113,6 @@ Wind::collision(GameObject& other, const CollisionHit& )
   }
 
   return ABORT_MOVE;
-}
-
-void
-Wind::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  auto _this = new scripting::Wind(this);
-  expose_object(vm, table_idx, _this, name, true);
-}
-
-void
-Wind::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

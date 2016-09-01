@@ -19,13 +19,14 @@
 
 #include "object/moving_sprite.hpp"
 #include "object/path_walker.hpp"
-#include "supertux/script_interface.hpp"
+#include "scripting/exposed_object.hpp"
+#include "scripting/platform.hpp"
 
 /**
  * This class is the base class for platforms that tux can stand on
  */
 class Platform : public MovingSprite,
-                 public ScriptInterface
+                 public ExposedObject<Platform, scripting::Platform>
 {
 public:
   Platform(const ReaderMapping& reader);
@@ -59,9 +60,6 @@ public:
   /**
    * @}
    */
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   virtual void move_to(const Vector& pos);
 

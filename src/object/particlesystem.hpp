@@ -20,8 +20,9 @@
 #include <vector>
 
 #include "math/vector.hpp"
+#include "scripting/exposed_object.hpp"
+#include "scripting/particlesystem.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/script_interface.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/surface_ptr.hpp"
 
@@ -41,7 +42,7 @@
  * function.
  */
 class ParticleSystem : public GameObject,
-                       public ScriptInterface
+                       public ExposedObject<ParticleSystem, scripting::ParticleSystem>
 {
 public:
   ParticleSystem(float max_particle_size = 60);
@@ -92,9 +93,6 @@ protected:
   float virtual_width;
   float virtual_height;
   bool enabled;
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) override;
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) override;
 };
 
 #endif
