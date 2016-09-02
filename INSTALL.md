@@ -1,6 +1,5 @@
-Install instructions for SuperTux - <http://supertux.lethargik.org/>
+Install instructions for SuperTux - <https://supertuxproject.org/>
 ====================================================================
-Last update: December 20, 2007 by Christoph Sommer
 
 Binaries
 --------
@@ -175,4 +174,4 @@ Support
 
 You can contact us at [supertux-devel@lists.lethargik.org](mailto:supertux-devel@lists.lethargik.org)
 and in the [#supertux](irc://chat.freenode.net/supertux) channel on
-the chat.freenode.net IRC server.
+the chat.freenode.net IRC server. Usually someone will be around to give you a hand.
