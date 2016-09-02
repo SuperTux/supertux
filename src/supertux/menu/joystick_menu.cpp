@@ -83,6 +83,12 @@ JoystickMenu::recreate_menu()
       if (g_config->developer_mode) {
         add_controlfield(Controller::CHEAT_MENU, _("Cheat Menu"));
       }
+      add_hl();
+      add_inactive(_("The following feature is deprecated."));
+      // l10n: Continuation of string "The following feature is deprecated."
+      add_inactive(_("It will be removed from the next release"));
+      // l10n: Continuation of string "It will be removed from the next release"
+      add_inactive(_("of SuperTux."));
       add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), &g_config->joystick_config.jump_with_up_joy);
     }
     else
