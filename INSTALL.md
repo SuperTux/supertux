@@ -1,4 +1,4 @@
-Install instructions for SuperTux - <http://supertux.lethargik.org/>
+Install instructions for SuperTux - <http://supertuxproject.org/>
 ====================================================================
 Last update: September 2, 2016
 
@@ -162,4 +162,4 @@ Support
 
 You can contact us at [supertux-devel@lists.lethargik.org](mailto:supertux-devel@lists.lethargik.org)
 and in the [#supertux](irc://chat.freenode.net/supertux) channel on
-the chat.freenode.net IRC server.
+the chat.freenode.net IRC server. Usually someone will be around to give you a hand.
