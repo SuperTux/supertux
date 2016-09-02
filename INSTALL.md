@@ -1,6 +1,6 @@
 Install instructions for SuperTux - <http://supertux.lethargik.org/>
 ====================================================================
-Last update: December 20, 2007 by Christoph Sommer
+Last update: September 2, 2016
 
 Binaries
 --------
