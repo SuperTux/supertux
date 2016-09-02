@@ -12,6 +12,7 @@ if [ "${TRAVIS_OS_NAME}" = "linux" ] && [ "${CC}" = "gcc" ]; then
 fi
 
 for file in SuperTux-*; do
-    echo "Uploading ${file}";
+    hash="$(sha512sum "${file}" | awk -F' ' '{print $1;}')"
+    printf 'Uploading %s (SHA-2-512: %s)\n' "${file}" "${hash}"
     curl --upload-file "${file}" "https://transfer.sh/${file}"
 done
