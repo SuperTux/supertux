@@ -274,7 +274,17 @@ void
 SoundManager::play_music(const std::string& filename, bool fade)
 {
   if(filename == current_music && music_source != NULL)
+  {
+    if(music_source->paused())
+    {
+      music_source->resume();
+    }
+    else if(!music_source->playing())
+    {
+      music_source->play();
+    }
     return;
+  }
   current_music = filename;
   if(!music_enabled)
     return;
