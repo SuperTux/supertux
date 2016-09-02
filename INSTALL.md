@@ -33,28 +33,23 @@ distributions.
   - a shell and common POSIX command line tools
   - **Note:** To get these tools, you can install `build-essential` on Debian-based distros,
     `base-devel` on Arch-based distros and the Xcode Command Line tools on OS X.
-* [CMake](http://www.cmake.org/) 2.6 or later: most package managers ship this as `cmake`
+* [CMake](http://www.cmake.org/) 2.8 or later: most package managers ship this as `cmake`
 * OpenGL headers and libraries: OpenGL libraries and headers are
   specific to your graphics card. Make sure that you have hardware
   accelerated OpenGL drivers installed. Software renderers like Mesa
   will make SuperTux unplayable slow.
 * [SDL2](http://www.libsdl.org) (2.0.1 or later)
 * [SDL2_image](http://www.libsdl.org/projects/SDL_image) (2.0.0 or later)
-* [PhysFS](http://www.icculus.org/physfs) (1.0.x or 2.0.x)
-* [OpenAL](http://www.openal.org): There are no official Linux releases
-  of OpenAL yet (however, many distributions have OpenAL in their package
-  archives), you should grab the latest CVS snapshot (any snapshot from 2005
-  should work, earlier snapshots tend to have bugs). OpenAL 1.0 or later
-  implementations on other systems like Mac OS X or windows should work.
+* [OpenAL](http://www.openal.org): (1.0 or later)
 * C++ OpenGL library (choose one of the two options below):
   - [GLEW](http://glew.sourceforge.net/) or
   - [glbinding](https://github.com/hpicgs/glbinding)
-* [Boost's](http://www.boost.org) smart_ptr and format headers
+* [Boost](http://www.boost.org) smart_ptr and format headers, along with date_time and filesystem libraries
 * [cURL](http://curl.haxx.se/libcurl/): for Add-on downloads
 * [libogg and libvorbis](https://www.xiph.org/)
 
 **Note I:** for any of the above listed libraries (OpenGL, SDL2, SDL2_image,
-PhysFS, OpenAL, GLEW/glbinding, Boost, cURL, libogg and libvorbis), you should
+OpenAL, GLEW/glbinding, Boost, cURL, libogg and libvorbis), you should
 also have development headers installed. Debian-based distributions have `-devel`
 packages containing the mentioned headers, on Arch Linux these should be included
 in the library package.
@@ -66,16 +61,8 @@ to test commits and pull requests in our repository, but unfortunately it's not
 always possible to test the code in very exotic setups. However, feel free to
 report issues to our bug tracker on GitHub or to supertux-devel@lists.lethargik.org.
 
-**Note III (regarding glbinding):** To use glbinding instead of GLEW, open
-CMakeLists.txt and change this line from
-```
-OPTION(GLBINDING_ENABLED "Use glbinding instead of GLEW" OFF)
-```
-to
-```
-OPTION(GLBINDING_ENABLED "Use glbinding instead of GLEW" ON)
-```
-
+**Note III (regarding glbinding):** To use glbinding instead of GLEW, call `cmake`
+with the flag -DGLBINDING_ENABLED=ON
 
 Installing under Linux/UNIX using CMake
 ---------------------------------------
@@ -88,7 +75,8 @@ following steps:
    archive, i.e. to the directory containing `src` and `data`.
  
 2. If you cloned this Supertux repo using git run `git submodule
-   update --init --recursive` to fetch/update squirrel and tinygettext.
+   update --init --recursive` to fetch/update squirrel, tinygettext,
+   physfs, and some other modules.
    (If you got this version of Supertux from a tarball (.tar), squirrel
    and tinygettext are already in the tarball.)
  
@@ -143,7 +131,7 @@ system, you can run it from its own directory.
 Installing under Windows using CMake and Visual Studio
 ------------------------------------------------------
 To build SuperTux on Windows with Visual Studio you need to have CMake and a
-recent version of Visual Studio installed. Visual Studio 2013 Community Edition
+recent version of Visual Studio installed. Visual Studio 2015 Community Edition
 is known to work fine.
 
 Because it's difficult to build and download all the dependencies per hand on windows,
@@ -166,8 +154,7 @@ For more CMake options, look at end of the Linux/UNIX build section.
 
 6. Build the project.
 
-7. Now you can run SuperTux by directly starting the executable or from within Visual Studio (make sure to set
-`supertux2` as StartUp project).
+7. Now you can run SuperTux using the run_supertux.bat file
 
 
 Support
