@@ -55,7 +55,7 @@ void
 ItemBack::process_action(MenuAction action) {
   if (action == MENU_ACTION_HIT) {
     if(MenuManager::instance().current_menu()->on_back_action())
-    MenuManager::instance().pop_menu();
+      MenuManager::instance().pop_menu();
   }
 }
 /* EOF */
