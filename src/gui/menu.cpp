@@ -375,7 +375,9 @@ Menu::process_action(MenuAction menuaction)
       break;
 
     case MENU_ACTION_BACK:
-      MenuManager::instance().pop_menu();
+      if(on_back_action()) {
+        MenuManager::instance().pop_menu();
+      }
       return;
       break;
 

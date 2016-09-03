@@ -27,6 +27,7 @@ public:
   ~EditorLevelMenu();
 
   void menu_action(MenuItem* item) override;
+  bool on_back_action() override;
 
 private:
   std::string old_tileset;

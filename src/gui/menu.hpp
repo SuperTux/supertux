@@ -60,6 +60,12 @@ public:
 
   virtual void menu_action(MenuItem* item) = 0;
 
+  /**
+  * Executed before the menu is exited
+  * @return true if it should perform the back action, false if it shouldn't
+  */
+  virtual bool on_back_action() { return true; }
+
   void process_input();
 
   /** Perform actions to bring the menu up to date with configuration changes */
