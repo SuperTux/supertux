@@ -24,6 +24,7 @@
 #include "gui/menu_manager.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/levelset.hpp"
 #include "supertux/menu/contrib_levelset_menu.hpp"
 #include "supertux/menu/editor_level_select_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
@@ -63,67 +64,27 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
     try
     {
       std::unique_ptr<World> world = World::load(level_world);
-
-      if (!world->hide_from_contribs())
+      if(world->hide_from_contribs())
       {
-        Savegame savegame(world->get_savegame_filename());
-        savegame.load();
-
-        if (world->is_levelset())
-        {
-          int level_count = 0;
-
-          const auto& state = savegame.get_levelset_state(world->get_basedir());
-          for(const auto& level_state : state.level_states)
-          {
-            if(level_state.filename == "")
-              continue;
-            level_count += 1;
-          }
-
-          std::ostringstream title;
-          title << "[" << world->get_title() << "]";
-          if (level_count == 0)
-          {
-            title << " " << _("*NEW*");
-          }
-          else
-          {
-            title << " (" << level_count << " " << _("levels") << ")";
-          }
-          add_entry(i++, title.str());
-          m_contrib_worlds.push_back(level_world);
-        }
-        else if (world->is_worldmap())
-        {
-          int level_count = 0;
-
-          const auto& state = savegame.get_worldmap_state(world->get_worldmap_filename());
-          for(const auto& level_state : state.level_states)
-          {
-            if(level_state.filename == "")
-              continue;
-            level_count += 1;
-          }
-
-          std::ostringstream title;
-          title << world->get_title();
-          if (level_count == 0)
-          {
-            title << " " << _("*NEW*");
-          }
-          else
-          {
-            title << " (" << level_count << " " << _("levels") << ")";
-          }
-          add_entry(i++, title.str());
-          m_contrib_worlds.push_back(level_world);
-        }
-        else
-        {
-          log_warning << "unknown World type" << std::endl;
-        }
+        continue;
       }
+      if(!world->is_levelset() && !world->is_worldmap())
+      {
+        log_warning << level_world << ": unknown World type" << std::endl;
+        continue;
+      }
+      auto title = world->get_title();
+      if(title.empty())
+      {
+        continue;
+      }
+      auto levelset = std::unique_ptr<Levelset>(
+                          new Levelset(level_world, /* recursively = */ true));
+      int level_count = levelset->get_num_levels();
+      std::ostringstream level_title;
+      level_title << title << " (" << level_count << " " << _("levels") << ")";
+      add_entry(i++, level_title.str());
+      m_contrib_worlds.push_back(level_world);
     }
     catch(std::exception& e)
     {

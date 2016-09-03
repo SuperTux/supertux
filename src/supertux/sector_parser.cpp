@@ -418,8 +418,7 @@ void
 SectorParser::create_sector()
 {
   auto tileset = TileManager::current()->get_tileset(m_sector.level->get_tileset());
-  bool worldmap = Editor::is_active() ? Editor::current()->get_worldmap_mode() : false;
-
+  bool worldmap = Editor::current() ? Editor::current()->get_worldmap_mode() : false;
   if (!worldmap) {
     auto background = std::make_shared<Background>();
     background->set_images(DEFAULT_BG_TOP, DEFAULT_BG_MIDDLE, DEFAULT_BG_BOTTOM);
