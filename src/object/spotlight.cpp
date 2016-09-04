@@ -60,6 +60,7 @@ Spotlight::get_settings() {
   ObjectSettings result = MovingObject::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, "x-pos", &bbox.p1.x, "x", false));
   result.options.push_back( ObjectOption(MN_NUMFIELD, "y-pos", &bbox.p1.y, "y", false));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Angle"), &angle, "angle"));
   result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &color, "color"));
 
   return result;
