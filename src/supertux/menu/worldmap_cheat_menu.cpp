@@ -38,8 +38,8 @@ WorldmapCheatMenu::WorldmapCheatMenu()
   add_entry(MNID_FINISH_LEVEL, _("Finish Level"));
   add_entry(MNID_RESET_LEVEL, _("Reset Level"));
   add_hl();
-  add_entry(MNID_FINISH_WORLDMAP, _("Finish WorldMap"));
-  add_entry(MNID_RESET_WORLDMAP, _("Reset WorldMap"));
+  add_entry(MNID_FINISH_WORLDMAP, _("Finish Worldmap"));
+  add_entry(MNID_RESET_WORLDMAP, _("Reset Worldmap"));
   add_hl();
   add_entry(MNID_MOVE_TO_MAIN, _("Move to main spawnpoint"));
   add_hl();
