@@ -105,7 +105,7 @@ LevelDot::get_settings() {
   lvl.select.push_back(".stl");
   result.options.push_back(lvl);
 
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Extro script"), &extro_script));
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Outro script"), &extro_script));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Auto play"), &auto_play));
 
   ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);

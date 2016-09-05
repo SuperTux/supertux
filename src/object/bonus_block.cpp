@@ -182,10 +182,10 @@ BonusBlock::get_settings() {
 
   ObjectOption coo(MN_STRINGSELECT, _("Content"), &contents);
   coo.select.push_back(_("coin"));
-  coo.select.push_back(_("egg or fire flower"));
-  coo.select.push_back(_("egg or ice flower"));
-  coo.select.push_back(_("egg or air flower"));
-  coo.select.push_back(_("egg or earth flower"));
+  coo.select.push_back(_("Growth (fire flower)"));
+  coo.select.push_back(_("Growth (ice flower)"));
+  coo.select.push_back(_("Growth (air flower)"));
+  coo.select.push_back(_("Growth (earth flower)"));
   coo.select.push_back(_("star"));
   coo.select.push_back(_("tux doll"));
   coo.select.push_back(_("custom"));

@@ -378,7 +378,7 @@ ObjectSettings
 Dispenser::get_settings()
 {
   ObjectSettings result = BadGuy::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Cycle"), &cycle,
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Interval (seconds)"), &cycle,
                                          "cycle"));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Random"), &random,
                                          "random"));
