@@ -263,7 +263,7 @@ EditorLayersGui::get_layer_pos(const Vector& coords) const {
 
 bool
 EditorLayersGui::less_z_pos(const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs) {
-  return lhs->get_zpos() > rhs->get_zpos();
+  return lhs->get_zpos() < rhs->get_zpos();
 }
 
 /* EOF */

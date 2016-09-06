@@ -265,7 +265,7 @@ void Editor::load_layers() {
     if ( !mo && go->do_save() ) {
       layerselect.add_layer(go);
 
-      TileMap *tm = dynamic_cast<TileMap*>(go);
+      auto tm = dynamic_cast<TileMap*>(go);
       if (tm) {
         if ( !tm->is_solid() || tsel ) {
           tm->editor_active = false;
@@ -279,6 +279,7 @@ void Editor::load_layers() {
     }
   }
 
+  layerselect.sort_layers();
   layerselect.refresh_sector_text();
 }
 
