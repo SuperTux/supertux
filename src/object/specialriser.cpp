@@ -18,7 +18,7 @@
 #include "object/specialriser.hpp"
 #include "supertux/sector.hpp"
 
-SpecialRiser::SpecialRiser(Vector pos, std::shared_ptr<MovingObject> _child) :
+SpecialRiser::SpecialRiser(const Vector& pos, std::shared_ptr<MovingObject> _child) :
   offset(),
   child(_child)
 {

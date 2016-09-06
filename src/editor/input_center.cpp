@@ -133,7 +133,7 @@ EditorInputCenter::drag_rect() {
 }
 
 void
-EditorInputCenter::input_tile(Vector pos, uint32_t tile) {
+EditorInputCenter::input_tile(const Vector& pos, uint32_t tile) {
   auto tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
   if ( !tilemap ) {
     return;
@@ -857,7 +857,7 @@ EditorInputCenter::draw(DrawingContext& context) {
 }
 
 Vector
-EditorInputCenter::tp_to_sp(Vector tp) {
+EditorInputCenter::tp_to_sp(const Vector& tp) {
   auto tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
   if (tilemap) {
     Vector sp = Vector( tp.x * 32, tp.y * 32 );
@@ -881,7 +881,7 @@ EditorInputCenter::sp_to_tp(Vector sp) {
 }
 
 Vector
-EditorInputCenter::tile_screen_pos(Vector tp) {
+EditorInputCenter::tile_screen_pos(const Vector& tp) {
   Vector sp = tp_to_sp(tp);
   return sp - Editor::current()->currentsector->camera->get_translation();
 }

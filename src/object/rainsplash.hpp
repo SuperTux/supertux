@@ -26,7 +26,7 @@ class Player;
 class RainSplash : public GameObject
 {
 public:
-  RainSplash(Vector pos, bool vertical);
+  RainSplash(const Vector& pos, bool vertical);
   ~RainSplash();
   virtual bool do_save() const {
     return false;

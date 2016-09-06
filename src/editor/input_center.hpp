@@ -64,7 +64,7 @@ class EditorInputCenter
     std::unique_ptr<Tip> object_tip;
     Vector obj_mouse_desync;
 
-    void input_tile(Vector pos, uint32_t tile);
+    void input_tile(const Vector& pos, uint32_t tile);
     void put_tile();
     void draw_rectangle();
     void fill();
@@ -89,9 +89,9 @@ class EditorInputCenter
     void process_right_click();
 
     // sp is sector pos, tp is pos on tilemap.
-    Vector tp_to_sp(Vector tp);
+    Vector tp_to_sp(const Vector& tp);
     Vector sp_to_tp(Vector sp);
-    Vector tile_screen_pos(Vector tp);
+    Vector tile_screen_pos(const Vector& tp);
 
     // in sector position
     Rectf drag_rect();

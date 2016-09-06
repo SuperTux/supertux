@@ -34,7 +34,7 @@ public:
    * make TreeWillOWisp vanish
    */
   void vanish();
-  void start_sucking(Vector suck_target);
+  void start_sucking(const Vector& suck_target);
 
   void active_update(float elapsed_time);
   void set_color(const Color& color);

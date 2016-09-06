@@ -73,7 +73,7 @@ public:
   bool is_moving() const { return moving; }
   Vector get_pos() const;
   Vector get_tile_pos() const { return tile_pos; }
-  void  set_tile_pos(Vector p) { tile_pos = p; }
+  void  set_tile_pos(const Vector& p) { tile_pos = p; }
 
   void process_special_tile(SpecialTile* special_tile);
 

@@ -74,7 +74,7 @@ TreeWillOWisp::vanish()
 }
 
 void
-TreeWillOWisp::start_sucking(Vector suck_target_)
+TreeWillOWisp::start_sucking(const Vector& suck_target_)
 {
   mystate = STATE_SUCKED;
   this->suck_target = suck_target_;

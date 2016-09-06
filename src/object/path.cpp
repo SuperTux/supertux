@@ -133,7 +133,7 @@ Path::get_base() const
 }
 
 int
-Path::get_nearest_node_no(Vector reference_point) const
+Path::get_nearest_node_no(const Vector& reference_point) const
 {
   int nearest_node_id = -1;
   float nearest_node_dist = 0;
@@ -149,7 +149,7 @@ Path::get_nearest_node_no(Vector reference_point) const
 }
 
 int
-Path::get_farthest_node_no(Vector reference_point) const
+Path::get_farthest_node_no(const Vector& reference_point) const
 {
   int farthest_node_id = -1;
   float farthest_node_dist = 0;
@@ -165,7 +165,7 @@ Path::get_farthest_node_no(Vector reference_point) const
 }
 
 void
-Path::move_by(Vector& shift) {
+Path::move_by(const Vector& shift) {
   for(auto& nod : nodes) {
     nod.position += shift;
   }

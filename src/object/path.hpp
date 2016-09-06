@@ -59,17 +59,17 @@ public:
   /**
    * returns Node index nearest to reference_point or -1 if not applicable
    */
-  int get_nearest_node_no(Vector reference_point) const;
+  int get_nearest_node_no(const Vector& reference_point) const;
 
   /**
    * returns Node index farthest from reference_point or -1 if not applicable
    */
-  int get_farthest_node_no(Vector reference_point) const;
+  int get_farthest_node_no(const Vector& reference_point) const;
 
   /**
    * Moves all nodes by given shift.
    */
-  void move_by(Vector& shift);
+  void move_by(const Vector& shift);
 
   /**
    * Puts node markers to the nodes to edit them.
