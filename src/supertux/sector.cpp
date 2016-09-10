@@ -600,6 +600,9 @@ void check_collisions(collision::Constraints* constraints,
   if(moving_object != NULL && other != NULL && !moving_object->collides(*other, dummy))
     return;
 
+  // Check if we are jittering
+  bool jittering = other_movement.y / 0.24414f < 0.001;
+
   // calculate intersection
   float itop    = obj_rect.get_bottom() - other_rect.get_top();
   float ibottom = other_rect.get_bottom() - obj_rect.get_top();
@@ -625,7 +628,9 @@ void check_collisions(collision::Constraints* constraints,
     }
   }
 
-  constraints->ground_movement += other_movement;
+  constraints->ground_movement += Vector(other_movement.x,
+                                         jittering ? 0 : other_movement.y);
+
   if(other != NULL && object != NULL) {
     HitResponse response = other->collision(*object, dummy);
     if(response == ABORT_MOVE)
@@ -633,7 +638,8 @@ void check_collisions(collision::Constraints* constraints,
 
     if(other->get_movement() != Vector(0, 0)) {
       // TODO what todo when we collide with 2 moving objects?!?
-      constraints->ground_movement += other->get_movement();
+      constraints->ground_movement += Vector(other_movement.x,
+                                             jittering ? 0 : other_movement.y);
     }
   }
 
