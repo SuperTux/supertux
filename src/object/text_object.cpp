@@ -22,6 +22,7 @@
 #include "video/drawing_context.hpp"
 
 TextObject::TextObject(const std::string& name_) :
+  ExposedObject<TextObject, scripting::Text>(this),
   font(),
   text(),
   fading(0),
@@ -38,25 +39,6 @@ TextObject::TextObject(const std::string& name_) :
 
 TextObject::~TextObject()
 {
-}
-
-void
-TextObject::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  auto obj = new scripting::Text(this);
-  scripting::expose_object(vm, table_idx, obj, name, true);
-}
-
-void
-TextObject::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

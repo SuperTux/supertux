@@ -17,14 +17,15 @@
 #ifndef HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 #define HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 
+#include "scripting/exposed_object.hpp"
+#include "scripting/gradient.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/script_interface.hpp"
 #include "video/drawing_context.hpp"
 
 class ReaderMapping;
 
 class Gradient : public GameObject,
-                 public ScriptInterface
+                 public ExposedObject<Gradient, scripting::Gradient>
 {
 public:
   Gradient();
@@ -49,9 +50,6 @@ public:
   virtual void update(float elapsed_time);
 
   virtual void draw(DrawingContext& context);
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   std::string get_class() const {
     return "gradient";

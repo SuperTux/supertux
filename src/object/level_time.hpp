@@ -19,22 +19,20 @@
 
 #include <memory>
 
+#include "scripting/exposed_object.hpp"
+#include "scripting/level_time.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/script_interface.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
 class ReaderMapping;
 
 class LevelTime : public GameObject,
-                  public ScriptInterface
+                  public ExposedObject<LevelTime, scripting::LevelTime>
 {
   static Color text_color;
 public:
   LevelTime(const ReaderMapping& reader);
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

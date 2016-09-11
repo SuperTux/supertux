@@ -21,7 +21,6 @@
 #include "editor/editor.hpp"
 #include "object/tilemap.hpp"
 #include "scripting/squirrel_util.hpp"
-#include "scripting/tilemap.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
@@ -33,6 +32,7 @@
 #include "util/reader_mapping.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
+  ExposedObject<TileMap, scripting::TileMap>(this),
   editor_active(true),
   tileset(new_tileset),
   tiles(),
@@ -62,6 +62,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
 }
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
+  ExposedObject<TileMap, scripting::TileMap>(this),
   editor_active(true),
   tileset(tileset_),
   tiles(),
@@ -428,21 +429,6 @@ TileMap::stop_moving()
 {
   if (!walker.get()) return;
   walker->stop_moving();
-}
-
-void
-TileMap::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  scripting::TileMap* _this = new scripting::TileMap(this);
-  expose_object(vm, table_idx, _this, name, true);
-}
-
-void
-TileMap::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

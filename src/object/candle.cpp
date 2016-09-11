@@ -17,7 +17,6 @@
 #include "math/random_generator.hpp"
 #include "object/candle.hpp"
 #include "object/sprite_particle.hpp"
-#include "scripting/candle.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
@@ -25,6 +24,7 @@
 
 Candle::Candle(const ReaderMapping& lisp)
   : MovingSprite(lisp, "images/objects/candle/candle.sprite", LAYER_BACKGROUNDTILES+1, COLGROUP_DISABLED),
+    ExposedObject<Candle, scripting::Candle>(this),
     burning(true),
     flicker(true),
     lightcolor(1.0f, 1.0f, 1.0f),
@@ -103,21 +103,6 @@ HitResponse
 Candle::collision(GameObject&, const CollisionHit& )
 {
   return FORCE_MOVE;
-}
-
-void
-Candle::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  scripting::Candle* _this = new scripting::Candle(this);
-  expose_object(vm, table_idx, _this, name, true);
-}
-
-void
-Candle::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

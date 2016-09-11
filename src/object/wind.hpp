@@ -17,8 +17,9 @@
 #ifndef HEADER_SUPERTUX_OBJECT_WIND_HPP
 #define HEADER_SUPERTUX_OBJECT_WIND_HPP
 
+#include "scripting/exposed_object.hpp"
+#include "scripting/wind.hpp"
 #include "supertux/moving_object.hpp"
-#include "supertux/script_interface.hpp"
 
 class ReaderMapping;
 
@@ -26,7 +27,7 @@ class ReaderMapping;
  * Defines an area that will gently push Players in one direction
  */
 class Wind : public MovingObject,
-             public ScriptInterface
+             public ExposedObject<Wind, scripting::Wind>
 {
 public:
   Wind(const ReaderMapping& reader);
@@ -54,8 +55,6 @@ public:
    * @}
    */
 
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
   std::string get_class() const {
     return "wind";
   }

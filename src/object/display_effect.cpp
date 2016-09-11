@@ -16,7 +16,6 @@
 
 #include "object/display_effect.hpp"
 
-#include "scripting/display_effect.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
@@ -24,6 +23,7 @@
 static const float BORDER_SIZE = 75;
 
 DisplayEffect::DisplayEffect(const std::string& name_) :
+  ExposedObject<DisplayEffect, scripting::DisplayEffect>(this),
   screen_fade(NO_FADE),
   screen_fadetime(0),
   screen_fading(0),
@@ -39,21 +39,6 @@ DisplayEffect::DisplayEffect(const std::string& name_) :
 
 DisplayEffect::~DisplayEffect()
 {
-}
-
-void
-DisplayEffect::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  auto obj = new scripting::DisplayEffect(this);
-  expose_object(vm, table_idx, obj, name, true);
-}
-
-void
-DisplayEffect::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

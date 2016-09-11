@@ -18,9 +18,9 @@
 #define HEADER_SUPERTUX_OBJECT_THUNDERSTORM_HPP
 
 #include "util/reader_fwd.hpp"
+#include "scripting/exposed_object.hpp"
 #include "scripting/thunderstorm.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/script_interface.hpp"
 #include "supertux/timer.hpp"
 #include "video/drawing_context.hpp"
 
@@ -28,16 +28,13 @@
  * Thunderstorm scriptable GameObject; plays thunder, lightning and electrifies water at regular interval
  */
 class Thunderstorm : public GameObject,
-                     public ScriptInterface
+                     public ExposedObject<Thunderstorm, scripting::Thunderstorm>
 {
 public:
   Thunderstorm(const ReaderMapping& reader);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   /**
    * @name Scriptable Methods

@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 #define HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 
+#include "scripting/exposed_object.hpp"
+#include "scripting/player.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/moving_object.hpp"
@@ -41,7 +43,7 @@ static const int GROWING_FRAMES = 7;
 static const float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip results in a loss of control
 
 class Player : public MovingObject,
-               public ScriptInterface
+               public ExposedObject<Player, scripting::Player>
 {
 public:
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
@@ -55,9 +57,6 @@ public:
 public:
   Player(PlayerStatus* player_status, const std::string& name);
   virtual ~Player();
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   void set_controller(Controller* controller);
   /*

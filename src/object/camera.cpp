@@ -22,7 +22,6 @@
 #include "editor/editor.hpp"
 #include "object/path_walker.hpp"
 #include "object/player.hpp"
-#include "scripting/camera.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
@@ -166,6 +165,7 @@ Camera::after_editor_set() {
 }
 
 Camera::Camera(Sector* newsector, const std::string& name_) :
+  ExposedObject<Camera, scripting::Camera>(this),
   mode(NORMAL),
   translation(),
   sector(newsector),
@@ -194,21 +194,6 @@ Camera::Camera(Sector* newsector, const std::string& name_) :
 
 Camera::~Camera()
 {
-}
-
-void
-Camera::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if(name.empty()) return;
-  scripting::Camera* _this = new scripting::Camera(this);
-  expose_object(vm, table_idx, _this, name, true);
-}
-
-void
-Camera::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if(name.empty()) return;
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

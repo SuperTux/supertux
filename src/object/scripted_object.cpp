@@ -19,7 +19,6 @@
 #include <stdio.h>
 
 #include "math/random_generator.hpp"
-#include "scripting/scripted_object.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
@@ -29,6 +28,7 @@
 
 ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   MovingSprite(lisp, "images/objects/bonus_block/brick.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
+  ExposedObject<ScriptedObject, scripting::ScriptedObject>(this),
   physic(),
   solid(),
   physic_enabled(),
@@ -65,21 +65,6 @@ ScriptedObject::get_settings() {
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Visible"), &visible, "visible"));
 
   return result;
-}
-
-void
-ScriptedObject::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  auto obj = new scripting::ScriptedObject(this);
-  expose_object(vm, table_idx, obj, name, true);
-}
-
-void
-ScriptedObject::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

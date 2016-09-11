@@ -17,13 +17,14 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 #define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 
+#include "scripting/background.hpp"
+#include "scripting/exposed_object.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/script_interface.hpp"
 #include "util/reader_fwd.hpp"
 #include "video/drawing_context.hpp"
 
 class Background : public GameObject,
-                   public ScriptInterface
+                   public ExposedObject<Background, scripting::Background>
 {
 public:
   Background();
@@ -45,9 +46,6 @@ public:
 
   virtual void draw(DrawingContext& context);
   void draw_image(DrawingContext& context, const Vector& pos);
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   std::string get_class() const {
     return "background";

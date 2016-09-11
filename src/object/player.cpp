@@ -29,7 +29,6 @@
 #include "object/particles.hpp"
 #include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
-#include "scripting/player.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
@@ -115,6 +114,7 @@ bool no_water = true;
 }
 
 Player::Player(PlayerStatus* _player_status, const std::string& name_) :
+  ExposedObject<Player, scripting::Player>(this),
   deactivated(false),
   controller(),
   scripting_controller(),
@@ -205,25 +205,6 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
 Player::~Player()
 {
   if (climbing) stop_climbing(*climbing);
-}
-
-void
-Player::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  auto obj = new scripting::Player(this);
-  scripting::expose_object(vm, table_idx, obj, name, false);
-}
-
-void
-Player::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty())
-    return;
-
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 float

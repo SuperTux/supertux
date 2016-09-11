@@ -20,8 +20,9 @@
 #include <algorithm>
 
 #include "object/path_walker.hpp"
+#include "scripting/exposed_object.hpp"
+#include "scripting/tilemap.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/script_interface.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
@@ -32,7 +33,7 @@ class TileSet;
  * This class is responsible for drawing the level tiles
  */
 class TileMap : public GameObject,
-                public ScriptInterface
+                public ExposedObject<TileMap, scripting::TileMap>
 {
 public:
   TileMap(const TileSet *tileset);
@@ -57,9 +58,6 @@ public:
 
   /** Stop tilemap at next node */
   void stop_moving();
-
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx);
-  virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx);
 
   void set(int width, int height, const std::vector<unsigned int>& vec,
            int z_pos, bool solid);

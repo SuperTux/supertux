@@ -20,7 +20,6 @@
 #include <math.h>
 
 #include "object/player.hpp"
-#include "scripting/level_time.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/object_factory.hpp"
@@ -34,6 +33,7 @@
 static const float TIME_WARNING = 20;
 
 LevelTime::LevelTime(const ReaderMapping& reader) :
+  ExposedObject<LevelTime, scripting::LevelTime>(this),
   time_surface(),
   running(true),
   time_left()
@@ -54,21 +54,6 @@ LevelTime::get_settings() {
 
   result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   return result;
-}
-
-void
-LevelTime::expose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  scripting::LevelTime* _this = new scripting::LevelTime(this);
-  expose_object(vm, table_idx, _this, name, true);
-}
-
-void
-LevelTime::unexpose(HSQUIRRELVM vm, SQInteger table_idx)
-{
-  if (name.empty()) return;
-  scripting::unexpose_object(vm, table_idx, name);
 }
 
 void
