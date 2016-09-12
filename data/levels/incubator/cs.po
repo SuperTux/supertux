@@ -5,14 +5,15 @@
 # Translators:
 # Hume2 <teratux.mail@gmail.com>, 2016
 # Narre <nrrstttpt@gmail.com>, 2013,2015
+# Narre <nrrstttpt@gmail.com>, 2016
 # fri, 2013,2016
 # Hume2 <teratux.mail@gmail.com>, 2013,2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-13 00:30+0000\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-08-29 13:51+0000\n"
 "Last-Translator: Hume2 <teratux.mail@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/arctic-games/supertux/language/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -54,8 +55,8 @@ msgid "Blue iced hills"
 msgstr "Modře zaledněné kopce"
 
 #: data/levels/incubator/NewIcelevel2.stl:3
-msgid "Bads mountains"
-msgstr "Hory zla"
+msgid "Bad mountains"
+msgstr "Zlé hory"
 
 #: data/levels/incubator/NewIcelevel3.stl:3
 msgid "eman level ehT <---"

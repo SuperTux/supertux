@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Christian E Yoga, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2013-08-10 23:04+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-08-19 03:00+0000\n"
+"Last-Translator: Christian E Yoga\n"
 "Language-Team: Indonesian (http://www.transifex.com/arctic-games/supertux/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
-msgstr ""
+msgstr "Tes Terbang"
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
@@ -27,7 +28,7 @@ msgstr ""
 
 #: data/levels/bonus1/abednego-level3.stl:3
 msgid "Lies!"
-msgstr ""
+msgstr "Bohong!"
 
 #: data/levels/bonus1/abednego-level4.stl:3
 msgid "Train Leaves in One Minute"
@@ -39,19 +40,19 @@ msgstr ""
 
 #: data/levels/bonus1/bonus-level2.stl:3
 msgid "Castle Gate"
-msgstr ""
+msgstr "Pintu Gerbang Istana"
 
 #: data/levels/bonus1/bonus-level3.stl:3
 msgid "A Long Way Home"
-msgstr ""
+msgstr "Rumah Nan Jauh Di Sana"
 
 #: data/levels/bonus1/bonus-level4.stl:3
 msgid "Bonus Island Castle"
-msgstr ""
+msgstr "Bonus Pulau Istana"
 
 #: data/levels/bonus1/bonus-level5.stl:3
 msgid "Area 42"
-msgstr ""
+msgstr "Area 42"
 
 #: data/levels/bonus1/extro.txt:3
 msgid ""
@@ -78,7 +79,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
+msgstr "-Selamat\n\n#Kamu telah menamatkan\n#Bonus Pulau 1\n\nKontribusi level oleh:\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Kalau kamu belum menamatkan semua\n#level, kembalilah ke rumah dengan jalur\n#yang berbeda. Masih ada tantangan\n#yang menunggumu.\n\n#Dan mungkin juga ada level rahasia\n#yang akan kamu temukan.\n\n#Terima kasih untuk semua yang\n#telah berkontribusi!\n#Kami berharap kamu menikmatinya!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -106,7 +107,7 @@ msgstr ""
 
 #: data/levels/bonus1/torfi-level2.stl:3
 msgid "Too easy"
-msgstr ""
+msgstr "Terlalu mudah"
 
 #: data/levels/bonus1/torfi-level2.stl:43
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
@@ -114,15 +115,15 @@ msgstr ""
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
-msgstr ""
+msgstr "Masih terlalu mudah"
 
 #: data/levels/bonus1/wansti-level1.stl:3
 msgid "Semi-Frozen"
-msgstr ""
+msgstr "Setengah beku"
 
 #: data/levels/bonus1/wansti-level2.stl:3
 msgid "Cave Of Mirrors"
-msgstr ""
+msgstr "Gua Cermin"
 
 #: data/levels/bonus1/wansti-level3.stl:3
 msgid "A Maze In The Sky"

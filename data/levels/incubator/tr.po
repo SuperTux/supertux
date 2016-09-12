@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Alkım Kaçmaz <alkimkacmaz@gmail.com>, 2013
+# Erdy, 2016
 # mahmut özcan <faradundamarti@yandex.com>, 2015-2016
 # yakup <mutouk@yandex.ru>, 2013,2015
 # Yusuf Özsoy <yusufozsoy96@gmail.com>, 2013
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-03-13 09:08+0000\n"
-"Last-Translator: mahmut özcan <faradundamarti@yandex.com>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-08-27 17:29+0000\n"
+"Last-Translator: Erdy\n"
 "Language-Team: Turkish (http://www.transifex.com/arctic-games/supertux/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,8 +55,8 @@ msgid "Blue iced hills"
 msgstr "Mavi buz tepeleri"
 
 #: data/levels/incubator/NewIcelevel2.stl:3
-msgid "Bads mountains"
-msgstr "Kötülük Dağları"
+msgid "Bad mountains"
+msgstr "Kötü dağlar"
 
 #: data/levels/incubator/NewIcelevel3.stl:3
 msgid "eman level ehT <---"

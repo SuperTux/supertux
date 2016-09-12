@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-08-04 07:54+0000\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-08-23 04:52+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -151,7 +151,7 @@ msgstr "힌트: 여기에 다시 돌아가려면 이글루를 사용하세요."
 
 #: data/levels/bonus1/worldmap.stwm:29
 msgid "Warp to Matr1x' Sector"
-msgstr "Matr1x의 영역으로 워프"
+msgstr "Matr1x의 부분으로 워프"
 
 #: data/levels/bonus1/worldmap.stwm:36 data/levels/bonus1/worldmap.stwm:110
 msgid "Warp to Thompson's Domain"
@@ -179,7 +179,7 @@ msgstr "Thompson의 영역을 떠나기"
 
 #: data/levels/bonus1/worldmap.stwm:77
 msgid "Back to Matr1x' Sector"
-msgstr "Matr1x의 영역으로 돌아가기"
+msgstr "Matr1x의 부분으로 돌아가기"
 
 #: data/levels/bonus1/worldmap.stwm:83
 msgid "Warp home"
@@ -191,11 +191,11 @@ msgstr "SuperTux 팀 섬으로 워프"
 
 #: data/levels/bonus1/worldmap.stwm:123
 msgid "Leave Matr1x' Sector"
-msgstr "Matr1x의 영역을 떠나기"
+msgstr "Matr1x의 부분을 떠나기"
 
 #: data/levels/bonus1/worldmap.stwm:129
 msgid "Continue Matr1x' Sector"
-msgstr "Matr1x의 영역에서 계속"
+msgstr "Matr1x의 부분에서 계속"
 
 #: data/levels/bonus1/worldmap.stwm:136
 msgid "Warp to Torfi's Territory"

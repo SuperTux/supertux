@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-12 08:29+0000\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-08-23 13:27+0000\n"
 "Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
 "Language-Team: Esperanto (http://www.transifex.com/arctic-games/supertux/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,7 @@ msgstr "Kastelo de lumo kaj mallumo"
 
 #: data/levels/bonus3/cave_run.stl:3
 msgid "Cave Run"
-msgstr ""
+msgstr "Kaverna kurado"
 
 #: data/levels/bonus3/cavern_v2.stl:3
 msgid "Cold Cavern"

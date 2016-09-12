@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-06-23 15:39+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-08-09 07:54+0000\n"
+"Last-Translator: Nicolae Crefelean\n"
 "Language-Team: Romanian (http://www.transifex.com/arctic-games/supertux/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,7 +41,7 @@ msgstr " Labirintul din canal"
 
 #: data/levels/world2/El_Castillo.stl:3
 msgid "A Short Visit to El Castillo"
-msgstr ""
+msgstr "O scurtă vizită la El Castillo"
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
@@ -49,7 +49,7 @@ msgstr "Găsește peștele mai mare!"
 
 #: data/levels/world2/Find_Big_Fish.stl:449
 msgid "-A big fish... for you."
-msgstr ""
+msgstr "-Un pește mare... pentru tine."
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"

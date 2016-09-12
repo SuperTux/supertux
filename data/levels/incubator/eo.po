@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Rubén Leal Coba <mekjotradukoj@outlook.com>, 2013
+# Любомир Василев, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-12 10:03+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-08-23 13:30+0000\n"
+"Last-Translator: Любомир Василев\n"
 "Language-Team: Esperanto (http://www.transifex.com/arctic-games/supertux/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +39,7 @@ msgstr ""
 
 #: data/levels/incubator/Missingno.stl:535
 msgid "#Be patient!"
-msgstr ""
+msgstr "#Paciencu!"
 
 #: data/levels/incubator/Missingno.stl:540
 msgid ""
@@ -48,19 +49,19 @@ msgstr ""
 
 #: data/levels/incubator/NewIcelevel1.stl:3
 msgid "Blue iced hills"
-msgstr ""
+msgstr "Bluaj glaciaj montetoj"
 
 #: data/levels/incubator/NewIcelevel2.stl:3
-msgid "Bads mountains"
+msgid "Bad mountains"
 msgstr ""
 
 #: data/levels/incubator/NewIcelevel3.stl:3
 msgid "eman level ehT <---"
-msgstr ""
+msgstr "omonlevin aL <---"
 
 #: data/levels/incubator/NewIcelevel4.stl:3
 msgid "Ice sea"
-msgstr ""
+msgstr "Glacia maro"
 
 #: data/levels/incubator/NewIcelevel5.stl:3
 msgid "Electric-Wood factory"
@@ -68,19 +69,19 @@ msgstr ""
 
 #: data/levels/incubator/Nice Ice.stl:3
 msgid "Nice Ice"
-msgstr ""
+msgstr "Agrabla glacio"
 
 #: data/levels/incubator/Nice Ice.stl:89
 msgid "#Use the enemy to finish this level!"
-msgstr ""
+msgstr "#Uzu la malamikon por kompletigi ĉi tiun nivelon!"
 
 #: data/levels/incubator/SP33DRUN.stl:3
 msgid "SP33DRUN"
-msgstr ""
+msgstr "RAPID3"
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
-msgstr ""
+msgstr "Kaverna kurado"
 
 #: data/levels/incubator/cherry_frosting.stl:3
 msgid "The Cherry Frosting"
@@ -88,7 +89,7 @@ msgstr ""
 
 #: data/levels/incubator/cube_garden.stl:3
 msgid "Mad Ysonn Cube Garden"
-msgstr ""
+msgstr "La freneza ĝardeno de kuboj"
 
 #: data/levels/incubator/fall_kugelblitz.stl:3
 msgid "Kugelblitzstorm"
@@ -96,11 +97,11 @@ msgstr ""
 
 #: data/levels/incubator/frozen_fissure.stl:3
 msgid "Frozen Fissure"
-msgstr ""
+msgstr "La glaciiĝita fendo"
 
 #: data/levels/incubator/hungry_tux.stl:3
 msgid "Tux is hungry!"
-msgstr ""
+msgstr "Tukso estas malsata!"
 
 #: data/levels/incubator/ice_mountain.stl:3
 msgid "Crystal Mountain"

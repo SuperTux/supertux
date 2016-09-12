@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# chris020891 <chris020891@gmail.com>, 2014
+# Levente Krisztián Büte (Chris) <chris020891@gmail.com>, 2014
 # D. J. S. <djsossz@freemail.hu>, 2012
 # Norbert Molnár <buzitetu@indamail.hu>, 2013
 # gyeben <gyonkibendeguz@gmail.com>, 2016
@@ -12,14 +12,14 @@
 #  Kővágó Zoltán <DirtY.iCE.hu@gmail.com>, 2006
 # Kristóf Kófiás <kristof.kofias@gmail.com>, 2014
 # Norbert Molnár <buzitetu@indamail.hu>, 2014
-# Tibor Buzási, 2015
+# Tibor Buzási, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-06-24 12:58+0000\n"
-"Last-Translator: gyeben <gyonkibendeguz@gmail.com>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-08-30 17:00+0000\n"
+"Last-Translator: Tibor Buzási\n"
 "Language-Team: Hungarian (http://www.transifex.com/arctic-games/supertux/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -176,7 +176,7 @@ msgstr "Sötét erdei vár - A fekete torony"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr "Erdei pálya 1."
+msgstr "1. erdei pálya"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"

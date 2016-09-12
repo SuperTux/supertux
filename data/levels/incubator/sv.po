@@ -5,13 +5,14 @@
 # Translators:
 # Kristoffer Grundström <kristoffer.grundstrom1983@gmail.com>, 2014
 # sebras <sebras@gmail.com>, 2015-2016
+# theschitz <theodore@theschitz.se>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-13 00:29+0000\n"
-"Last-Translator: sebras <sebras@gmail.com>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-08-26 11:59+0000\n"
+"Last-Translator: theschitz <theodore@theschitz.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/arctic-games/supertux/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,7 +53,7 @@ msgid "Blue iced hills"
 msgstr "De blå isiga kullarna"
 
 #: data/levels/incubator/NewIcelevel2.stl:3
-msgid "Bads mountains"
+msgid "Bad mountains"
 msgstr "De dåliga bergen"
 
 #: data/levels/incubator/NewIcelevel3.stl:3

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-08-04 07:42+0000\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-08-23 05:59+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "성 입구"
 
 #: data/levels/world2/CounterCurrent.stl:3
 msgid "Countercurrent"
-msgstr ""
+msgstr "역류"
 
 #: data/levels/world2/Crumbling_Path.stl:3
 msgid "Crumbling Path"
@@ -40,7 +40,7 @@ msgstr "덕트 에이프"
 
 #: data/levels/world2/El_Castillo.stl:3
 msgid "A Short Visit to El Castillo"
-msgstr ""
+msgstr "엘 카시티요로의 짧은 방문"
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
@@ -48,15 +48,15 @@ msgstr "더 큰 물고기를 찾아라!"
 
 #: data/levels/world2/Find_Big_Fish.stl:449
 msgid "-A big fish... for you."
-msgstr ""
+msgstr "-너를 위해... 큰 물고기."
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
-msgstr "지하로 가는데"
+msgstr "지하로 가는 중"
 
 #: data/levels/world2/Kneep_Deep.stl:3
 msgid "Kneep-deep in the depth"
-msgstr ""
+msgstr "무릎 깊이의 깊음"
 
 #: data/levels/world2/Little_Venice.stl:3
 msgid "Little Venice"
@@ -97,7 +97,7 @@ msgstr "바람으로의 시트 세 장"
 
 #: data/levels/world2/Treasure_Skies.stl:3
 msgid "Treasure in the skies"
-msgstr "하늘에서 보물이"
+msgstr "하늘들에 보물"
 
 #: data/levels/world2/Tree_Fortress.stl:3
 msgid "Tree Fortress"
@@ -147,7 +147,7 @@ msgstr "별들의 방"
 
 #: data/levels/world2/dan_morial.stl:3
 msgid "Dan Morial"
-msgstr ""
+msgstr "단 모리알"
 
 #: data/levels/world2/detour.stl:3
 msgid "Detour"

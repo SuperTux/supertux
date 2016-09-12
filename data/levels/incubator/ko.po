@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-08-04 08:07+0000\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-09-07 11:41+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -51,12 +51,12 @@ msgid "Blue iced hills"
 msgstr "파란 얼음 언덕"
 
 #: data/levels/incubator/NewIcelevel2.stl:3
-msgid "Bads mountains"
+msgid "Bad mountains"
 msgstr "나쁜 산들"
 
 #: data/levels/incubator/NewIcelevel3.stl:3
 msgid "eman level ehT <---"
-msgstr ""
+msgstr "름이 벨레 <---"
 
 #: data/levels/incubator/NewIcelevel4.stl:3
 msgid "Ice sea"
@@ -72,11 +72,11 @@ msgstr "좋은 얼음"
 
 #: data/levels/incubator/Nice Ice.stl:89
 msgid "#Use the enemy to finish this level!"
-msgstr "#이 레벨을 마치려면 몹을 사용하세요!"
+msgstr "#이 레벨을 마치려면 적을 사용하세요!"
 
 #: data/levels/incubator/SP33DRUN.stl:3
 msgid "SP33DRUN"
-msgstr ""
+msgstr "스끠드런"
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
@@ -92,7 +92,7 @@ msgstr "메드 이슨 큐브 가든"
 
 #: data/levels/incubator/fall_kugelblitz.stl:3
 msgid "Kugelblitzstorm"
-msgstr ""
+msgstr "쿠겔블리츠폭풍"
 
 #: data/levels/incubator/frozen_fissure.stl:3
 msgid "Frozen Fissure"
@@ -130,13 +130,13 @@ msgstr "들쭉날쭉 길"
 
 #: data/levels/incubator/let_us_snow.stl:3
 msgid "Let us snow!"
-msgstr ""
+msgstr "눈과 놀자!"
 
 #: data/levels/incubator/let_us_snow.stl:205
 msgid ""
 "-Warning!\n"
 "#Beware the falling enemies!"
-msgstr "-경고!\n#타락한 몹들을 조심해!"
+msgstr "-경고!\n#타락한 적들을 조심해!"
 
 #: data/levels/incubator/long.stl:3
 msgid "A long adventure"
@@ -173,7 +173,7 @@ msgstr "등산"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
-msgstr ""
+msgstr "너무 오랜만이지 않은 길"
 
 #: data/levels/incubator/obstaclecourse.stl:3
 msgid "Obstacle Course"
@@ -189,7 +189,7 @@ msgstr "파이프라인"
 
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"
-msgstr ""
+msgstr "액션을 위한 마중물"
 
 #: data/levels/incubator/worldmap.stwm:3
 msgid "Incubator Island"

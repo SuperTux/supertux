@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-08-04 08:06+0000\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-09-11 06:00+0000\n"
 "Last-Translator: Myeongjin <aranet100@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/arctic-games/supertux/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-달리기\n!images/tiles/signs/run.png\n#앞에 블럭이 막고 있습니다. 블럭을 넘으려면 점프하기 전에 더 멀리 달려서 속도를 더 얻어야 합니다."
+msgstr "-달리기\n!images/tiles/signs/run.png\n#당신 앞에 길을 막고 있습니다. 블럭을 넘으려면 점프하기 전에 더 멀리 달려서 속도를 더 얻어야 합니다."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
@@ -75,7 +75,7 @@ msgstr "-숨겨진 구역\n#많은 레벨들은 일반 벽처럼 보이는 숨�
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
-msgstr "모험의 시작"
+msgstr "여행의 시작"
 
 #: data/levels/world1/03 - Via Nostalgica.stl:3
 msgid "Via Nostalgica"
@@ -103,7 +103,7 @@ msgstr "얼음골"
 
 #: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
 msgid "Grumbel's Sense of Snow"
-msgstr "미끄러운 얼음길"
+msgstr "미끄러운 눈길"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
@@ -131,7 +131,7 @@ msgstr "얼음 밑으로"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
-msgstr "냉장고 속"
+msgstr "냉장고 속 삶"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
@@ -143,15 +143,15 @@ msgstr "크레바스"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
-msgstr "다시 환상 속으로"
+msgstr "미야모토 환상 속으로"
 
 #: data/levels/world1/20 - End of the Tunnel.stl:3
 msgid "End of the Tunnel"
-msgstr "동굴의 끝"
+msgstr "터널의 끝"
 
 #: data/levels/world1/21 - A Path in the Clouds.stl:3
 msgid "A Path in the Clouds"
-msgstr "구름길"
+msgstr "구름 속 길"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
@@ -175,7 +175,7 @@ msgstr "놀록의 성"
 
 #: data/levels/world1/27 - No More Mr Ice Guy.stl:3
 msgid "No More Mr Ice Guy"
-msgstr "아이스 가이 군은 더는 없어"
+msgstr "더 이상 아이스 가이 군은 없어"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
@@ -201,7 +201,7 @@ msgstr "-트램폴린\n!images/objects/trampoline/trampoline2-0.png\n#트램폴�
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- 오르기\n# 턱스가 오를 수 있습니다!  오르려면 위쪽 키를 누르세요. 동작 키나 점프로 내보낼 수 있습니다."
+msgstr "- 오르기\n# 턱스가 오를 수 있습니다!  오르려면 위쪽 키를 누르세요. 동작 키나 점프로 내릴 수 있습니다."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

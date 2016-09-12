@@ -20,9 +20,9 @@ msgstr ""
 "#-#-#-#-#  sl.po (SuperTux)  #-#-#-#-#\n"
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-05 14:31+0200\n"
-"PO-Revision-Date: 2016-08-05 12:37+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-09-05 19:42+0000\n"
+"Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/arctic-games/supertux/"
 "language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -34,9 +34,9 @@ msgstr ""
 "#-#-#-#-#  sl.po (SuperTux)  #-#-#-#-#\n"
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-08-04 09:54+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-08-08 07:22+0000\n"
+"Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/arctic-games/supertux/"
 "language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -94,35 +94,35 @@ msgstr "Municija"
 msgid "Dart trap"
 msgstr "Metalec puščic"
 
-#: src/badguy/dispenser.cpp:383
-msgid "Cycle"
-msgstr "Krog"
+#: src/badguy/dispenser.cpp:381
+msgid "Interval (seconds)"
+msgstr "Interval (v sekundah)"
 
-#: src/badguy/dispenser.cpp:385
+#: src/badguy/dispenser.cpp:383
 msgid "Random"
 msgstr "Naključno"
 
-#: src/badguy/dispenser.cpp:387
+#: src/badguy/dispenser.cpp:385
 msgid "Enemies"
 msgstr "Sovragi"
 
-#: src/badguy/dispenser.cpp:390
+#: src/badguy/dispenser.cpp:388
 msgid "Type"
 msgstr "Vrsta"
 
-#: src/badguy/dispenser.cpp:391
+#: src/badguy/dispenser.cpp:389
 msgid "dropper"
 msgstr "kapalkar"
 
-#: src/badguy/dispenser.cpp:392
+#: src/badguy/dispenser.cpp:390
 msgid "rocket launcher"
 msgstr "raketometalec"
 
-#: src/badguy/dispenser.cpp:393
+#: src/badguy/dispenser.cpp:391
 msgid "cannon"
 msgstr "topničar"
 
-#: src/badguy/dispenser.cpp:394
+#: src/badguy/dispenser.cpp:392
 msgid "invisible"
 msgstr "nevidnež"
 
@@ -290,9 +290,9 @@ msgstr "Krastača"
 msgid "Totem"
 msgstr "Totem"
 
-#: src/badguy/walking_candle.cpp:82 src/object/candle.cpp:87
+#: src/badguy/walking_candle.cpp:82 src/object/candle.cpp:74
 #: src/object/lantern.cpp:60 src/object/magicblock.cpp:87
-#: src/object/spotlight.cpp:63
+#: src/object/spotlight.cpp:64
 msgid "Colour"
 msgstr "Barva"
 
@@ -304,14 +304,14 @@ msgstr "Gospod Svečar"
 msgid "Walking leaf"
 msgstr "Hodeči list"
 
-#: src/badguy/willowisp.cpp:296 src/badguy/willowisp.hpp:63
+#: src/badguy/willowisp.cpp:300 src/badguy/willowisp.hpp:63
 msgid "Will 'o' wisp"
 msgstr "Sledeča zgaga"
 
-#: src/badguy/willowisp.cpp:297 src/editor/worldmap_objects.cpp:244
-#: src/supertux/game_object.cpp:122 src/supertux/menu/editor_level_menu.cpp:37
-#: src/supertux/menu/editor_levelset_menu.cpp:56
-#: src/supertux/menu/editor_new_levelset_menu.cpp:42
+#: src/badguy/willowisp.cpp:301 src/editor/worldmap_objects.cpp:245
+#: src/supertux/game_object.cpp:122 src/supertux/menu/editor_level_menu.cpp:39
+#: src/supertux/menu/editor_levelset_menu.cpp:54
+#: src/supertux/menu/editor_new_levelset_menu.cpp:43
 #: src/supertux/menu/editor_sector_menu.cpp:40 src/trigger/climbable.cpp:73
 #: src/trigger/door.cpp:78 src/trigger/scripttrigger.cpp:75
 #: src/trigger/secretarea_trigger.cpp:74 src/trigger/sequence_trigger.cpp:73
@@ -319,36 +319,36 @@ msgstr "Sledeča zgaga"
 msgid "Name"
 msgstr "Ime"
 
-#: src/badguy/willowisp.cpp:299 src/editor/layers_gui.cpp:218
+#: src/badguy/willowisp.cpp:303 src/editor/layers_gui.cpp:219
 #: src/supertux/menu/editor_sector_menu.cpp:38 src/trigger/door.cpp:79
 msgid "Sector"
 msgstr "Predel"
 
-#: src/badguy/willowisp.cpp:300 src/editor/worldmap_objects.cpp:197
+#: src/badguy/willowisp.cpp:304 src/editor/worldmap_objects.cpp:198
 msgid "Spawnpoint"
 msgstr "Točka začetka"
 
-#: src/badguy/willowisp.cpp:301
+#: src/badguy/willowisp.cpp:305
 msgid "Hit script"
 msgstr "Zapis udarca"
 
-#: src/badguy/willowisp.cpp:302
+#: src/badguy/willowisp.cpp:306
 msgid "Track range"
 msgstr "Obseg sledenja"
 
-#: src/badguy/willowisp.cpp:303
+#: src/badguy/willowisp.cpp:307
 msgid "Vanish range"
 msgstr "Obseg izginjanja"
 
-#: src/badguy/willowisp.cpp:304
+#: src/badguy/willowisp.cpp:308
 msgid "Fly speed"
 msgstr "Hitrost letenja"
 
-#: src/badguy/yeti.cpp:356
+#: src/badguy/yeti.cpp:355
 msgid "Fixed position"
 msgstr "Stalni položaj"
 
-#: src/badguy/yeti.cpp:357
+#: src/badguy/yeti.cpp:356
 msgid "Lives"
 msgstr "Življenja"
 
@@ -368,7 +368,7 @@ msgstr "Žverca"
 msgid "Joystick Mappings"
 msgstr "Prilagoditev užitkarske palice"
 
-#: src/editor/editor.cpp:345
+#: src/editor/editor.cpp:348
 msgid ""
 "Some obsolete add-ons are still active\n"
 "and might cause collisions with default Super Tux structure.\n"
@@ -381,15 +381,15 @@ msgstr ""
 "Tudi, če jih onemogočiš, se bo tvoj napredek še zmeraj\n"
 "ohranil."
 
-#: src/editor/editor.cpp:348
+#: src/editor/editor.cpp:351
 msgid "Disable add-ons"
 msgstr "Onemogoči dodatke"
 
-#: src/editor/editor.cpp:353
+#: src/editor/editor.cpp:356
 msgid "Ignore (not advised)"
 msgstr "Zanemari (ne priporočamo)"
 
-#: src/editor/editor.cpp:357
+#: src/editor/editor.cpp:360
 msgid "Leave editor"
 msgstr "Zapusti urejevalnik"
 
@@ -411,18 +411,20 @@ msgstr "Presek poti"
 msgid "Time"
 msgstr "Čas"
 
-#: src/editor/object_menu.cpp:67
+#: src/editor/object_menu.cpp:68
 msgid "Remove"
 msgstr "Odstrani"
 
-#: src/editor/object_menu.cpp:74 src/gui/menu_badguy_select.cpp:115
+#: src/editor/object_menu.cpp:75 src/gui/menu_badguy_select.cpp:115
 #: src/gui/menu_color.cpp:38 src/gui/menu_script.cpp:51
 #: src/supertux/menu/addon_menu.cpp:409
-#: src/supertux/menu/editor_level_menu.cpp:48
-#: src/supertux/menu/editor_level_select_menu.cpp:100
-#: src/supertux/menu/editor_levelset_menu.cpp:69
-#: src/supertux/menu/editor_levelset_menu.cpp:86
-#: src/supertux/menu/editor_new_levelset_menu.cpp:45
+#: src/supertux/menu/editor_level_menu.cpp:51
+#: src/supertux/menu/editor_level_menu.cpp:89
+#: src/supertux/menu/editor_level_select_menu.cpp:105
+#: src/supertux/menu/editor_levelset_menu.cpp:65
+#: src/supertux/menu/editor_levelset_menu.cpp:82
+#: src/supertux/menu/editor_new_levelset_menu.cpp:46
+#: src/supertux/menu/editor_new_levelset_menu.cpp:62
 #: src/supertux/menu/editor_sector_menu.cpp:56
 msgid "OK"
 msgstr "V redu"
@@ -439,92 +441,93 @@ msgstr "ne drži"
 msgid "Unknown"
 msgstr "Neznano"
 
-#: src/editor/spawnpoint_marker.hpp:52 src/editor/worldmap_objects.cpp:243
+#: src/editor/spawnpoint_marker.hpp:52 src/editor/worldmap_objects.cpp:244
 #: src/trigger/door.cpp:80
 msgid "Spawn point"
 msgstr "Začetna točka"
 
-#: src/editor/worldmap_objects.cpp:101 src/editor/worldmap_objects.cpp:103
+#: src/editor/worldmap_objects.cpp:102 src/editor/worldmap_objects.cpp:104
 msgid "Level"
 msgstr "Stopnja"
 
-#: src/editor/worldmap_objects.cpp:107
-msgid "Extro script"
-msgstr "Zapis \"Extro\""
-
 #: src/editor/worldmap_objects.cpp:108
+msgid "Outro script"
+msgstr "Izvodni zapis"
+
+#: src/editor/worldmap_objects.cpp:109
 msgid "Auto play"
 msgstr "Samodejno predvajaj"
 
-#: src/editor/worldmap_objects.cpp:110 src/editor/worldmap_objects.cpp:206
-#: src/editor/worldmap_objects.cpp:283 src/editor/worldmap_objects.cpp:342
+#: src/editor/worldmap_objects.cpp:111 src/editor/worldmap_objects.cpp:207
+#: src/editor/worldmap_objects.cpp:284 src/editor/worldmap_objects.cpp:343
 #: src/object/block.cpp:204 src/object/decal.cpp:40
-#: src/object/moving_sprite.cpp:166 src/trigger/switch.cpp:62
+#: src/object/moving_sprite.cpp:166 src/object/torch.cpp:90
+#: src/trigger/switch.cpp:62
 msgid "Sprite"
 msgstr "Animirane sličice"
 
-#: src/editor/worldmap_objects.cpp:114
+#: src/editor/worldmap_objects.cpp:115
 msgid "Title colour"
 msgstr "Barva naslova"
 
-#: src/editor/worldmap_objects.cpp:196
+#: src/editor/worldmap_objects.cpp:197
 msgid "Teleporter"
 msgstr "Teleporter"
 
-#: src/editor/worldmap_objects.cpp:198 src/editor/worldmap_objects.cpp:336
+#: src/editor/worldmap_objects.cpp:199 src/editor/worldmap_objects.cpp:337
 #: src/object/infoblock.cpp:58 src/trigger/climbable.cpp:76
 #: src/trigger/secretarea_trigger.cpp:79
 msgid "Message"
 msgstr "Sporočilo"
 
-#: src/editor/worldmap_objects.cpp:199
+#: src/editor/worldmap_objects.cpp:200
 msgid "Automatic"
 msgstr "Samodejno"
 
-#: src/editor/worldmap_objects.cpp:201
+#: src/editor/worldmap_objects.cpp:202
 msgid "Change worldmap"
 msgstr "Spremeni zemljevid sveta"
 
-#: src/editor/worldmap_objects.cpp:202
+#: src/editor/worldmap_objects.cpp:203
 msgid "Target worldmap"
 msgstr "Nameri v zemljevid sveta"
 
-#: src/editor/worldmap_objects.cpp:281
+#: src/editor/worldmap_objects.cpp:282
 msgid "Sprite change"
 msgstr "Sprememba animirane sličice"
 
-#: src/editor/worldmap_objects.cpp:287
+#: src/editor/worldmap_objects.cpp:288
 msgid "Stay action"
 msgstr "Stoječa drža"
 
-#: src/editor/worldmap_objects.cpp:288
+#: src/editor/worldmap_objects.cpp:289
 msgid "Initial stay action"
 msgstr "Začetna drža"
 
-#: src/editor/worldmap_objects.cpp:289
+#: src/editor/worldmap_objects.cpp:290
 msgid "Stay group"
 msgstr "Skupina stanja"
 
-#: src/editor/worldmap_objects.cpp:290
+#: src/editor/worldmap_objects.cpp:291
 msgid "Change on touch"
 msgstr "Sprememba ob dotiku"
 
-#: src/editor/worldmap_objects.cpp:335
+#: src/editor/worldmap_objects.cpp:336
 msgid "Special tile"
 msgstr "Posebna podloga"
 
-#: src/editor/worldmap_objects.cpp:337
+#: src/editor/worldmap_objects.cpp:338
 msgid "Show message"
 msgstr "Pokaži sporočilo"
 
-#: src/editor/worldmap_objects.cpp:338 src/object/bonus_block.cpp:180
+#: src/editor/worldmap_objects.cpp:339 src/object/bonus_block.cpp:180
 #: src/object/ispy.cpp:65 src/object/powerup.cpp:210
 #: src/object/pushbutton.cpp:51 src/trigger/scripttrigger.cpp:78
 #: src/trigger/secretarea_trigger.cpp:80
 msgid "Script"
 msgstr "Zapis"
 
-#: src/editor/worldmap_objects.cpp:339
+#: src/editor/worldmap_objects.cpp:340
 msgid "Invisible"
 msgstr "Neviden"
 
@@ -571,7 +574,7 @@ msgid "Edit the script"
 msgstr "Uredi zapis"
 
 #: src/object/ambient_sound.cpp:128 src/supertux/menu/options_menu.cpp:209
-#: data//credits.stxt:409
+#: data//credits.stxt:414
 msgid "Sound"
 msgstr "Zvok"
 
@@ -605,44 +608,69 @@ msgstr "Glasnost"
 msgid "Ambient sound"
 msgstr "Zvok okolja"
 
-#: src/object/background.cpp:164 src/object/gradient.cpp:133
-#: src/object/particlesystem.cpp:44 src/object/tilemap.cpp:220
+#: src/object/background.cpp:164 src/object/decal.cpp:46
+#: src/object/gradient.cpp:133 src/object/particlesystem.cpp:44
+#: src/object/tilemap.cpp:220
 msgid "Z-pos"
 msgstr "Z-položaj"
 
 #: src/object/background.cpp:165
+msgid "Alignment"
+msgstr "Poravnava"
+
+#: src/object/background.cpp:166 src/worldmap/direction.cpp:82
+msgid "none"
+msgstr "nič"
+
+#: src/object/background.cpp:167 src/supertux/direction.cpp:52
+msgid "left"
+msgstr "levo"
+
+#: src/object/background.cpp:168 src/supertux/direction.cpp:53
+msgid "right"
+msgstr "desno"
+
+#: src/object/background.cpp:169
+msgid "top"
+msgstr "zgoraj"
+
+#: src/object/background.cpp:170
+msgid "bottom"
+msgstr "spodaj"
+
+#: src/object/background.cpp:172
 msgid "Scroll offset x"
 msgstr "Premakni po x"
 
-#: src/object/background.cpp:167
+#: src/object/background.cpp:174
 msgid "Scroll offset y"
 msgstr "Premakni po y"
 
-#: src/object/background.cpp:169
+#: src/object/background.cpp:176
 msgid "Scroll speed x"
 msgstr "Hitrost premika v x"
 
-#: src/object/background.cpp:171
+#: src/object/background.cpp:178
 msgid "Scroll speed y"
 msgstr "Hitrost premika v y"
 
-#: src/object/background.cpp:173 src/object/tilemap.cpp:217
+#: src/object/background.cpp:180 src/object/tilemap.cpp:217
 msgid "Speed x"
 msgstr "Hitrost x"
 
-#: src/object/background.cpp:174 src/object/tilemap.cpp:218
+#: src/object/background.cpp:181 src/object/tilemap.cpp:218
 msgid "Speed y"
 msgstr "Hitrost y"
 
-#: src/object/background.cpp:176
+#: src/object/background.cpp:183
 msgid "Top image"
 msgstr "Zgornja slika"
 
-#: src/object/background.cpp:182
+#: src/object/background.cpp:189
 msgid "Image"
 msgstr "Slika"
 
-#: src/object/background.cpp:184
+#: src/object/background.cpp:191
 msgid "Bottom image"
 msgstr "Spodnja slika"
 
@@ -667,20 +695,20 @@ msgid "coin"
 msgstr "kovanec"
 
 #: src/object/bonus_block.cpp:185
-msgid "egg or fire flower"
-msgstr "jajce ali ognjena roža"
+msgid "Growth (fire flower)"
+msgstr "Rast (ognjena roža)"
 
 #: src/object/bonus_block.cpp:186
-msgid "egg or ice flower"
-msgstr "jajce ali ledena roža"
+msgid "Growth (ice flower)"
+msgstr "Rast (ledena roža)"
 
 #: src/object/bonus_block.cpp:187
-msgid "egg or air flower"
-msgstr "jajce ali zračna roža"
+msgid "Growth (air flower)"
+msgstr "Rast (vetrna roža)"
 
 #: src/object/bonus_block.cpp:188
-msgid "egg or earth flower"
-msgstr "jajce ali zemeljska roža"
+msgid "Growth (earth flower)"
+msgstr "Rast (zemeljska roža)"
 
 #: src/object/bonus_block.cpp:189
 msgid "star"
@@ -746,11 +774,11 @@ msgstr "ročno"
 msgid "Camera"
 msgstr "Kamera"
 
-#: src/object/candle.cpp:85
+#: src/object/candle.cpp:72
 msgid "Burning"
 msgstr "Gorenje"
 
-#: src/object/candle.cpp:86
+#: src/object/candle.cpp:73
 msgid "Flicker"
 msgstr "Migetanje"
 
@@ -779,7 +807,7 @@ msgstr "Delci kometa"
 msgid "Action"
 msgstr "Dejanje"
 
-#: src/object/decal.cpp:45 src/object/scripted_object.cpp:64
+#: src/object/decal.cpp:45 src/object/scripted_object.cpp:63
 msgid "Solid"
 msgstr "Trdno"
 
@@ -936,11 +964,11 @@ msgstr "Skala"
 msgid "Rusty trampoline"
 msgstr "Rjasti trampulin"
 
-#: src/object/scripted_object.cpp:65
+#: src/object/scripted_object.cpp:64
 msgid "Enabled physics"
 msgstr "Omogočena fizika"
 
-#: src/object/scripted_object.cpp:66
+#: src/object/scripted_object.cpp:65
 msgid "Visible"
 msgstr "Viden"
 
@@ -951,6 +979,10 @@ msgstr "Predmeti z zapisom"
 #: src/object/snow_particle_system.hpp:41
 msgid "Snow particles"
 msgstr "Delci snega"
+
+#: src/object/spotlight.cpp:63
+msgid "Angle"
+msgstr "Kot"
 
 #: src/object/spotlight.hpp:43
 msgid "Spotlight"
@@ -992,11 +1024,11 @@ msgstr "Zemljevid podlage"
 msgid "Torch"
 msgstr "Bakla"
 
-#: src/object/trampoline.cpp:144
+#: src/object/trampoline.cpp:134
 msgid "Portable"
 msgstr "Prenosljiva"
 
-#: src/object/trampoline.hpp:42
+#: src/object/trampoline.hpp:40
 msgid "Trampoline"
 msgstr "Trampulin"
 
@@ -1059,7 +1091,7 @@ msgstr "-odpravi napake Prikaži dodatna verbose sporočila"
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  --print-datadir              Print SuperTux's primary data directory."
-msgstr ""
+msgstr "-print-datadir Prikaži primaren direktorij Supetux podatkov"
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "Video Options:"
@@ -1109,7 +1141,7 @@ msgstr "Možnosti igre:"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  --edit-level                 Open given level in editor"
-msgstr ""
+msgstr "--edit-level Odpri dani nivo v urejevalniku"
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "  --show-fps                   Display framerate in levels"
@@ -1199,14 +1231,6 @@ msgstr "SUPERTUX2_DATA_DIR Direktorij za podatke igre"
 msgid "auto"
 msgstr "auto"
 
-#: src/supertux/direction.cpp:52
-msgid "left"
-msgstr "levo"
-
-#: src/supertux/direction.cpp:53
-msgid "right"
-msgstr "desno"
-
 #: src/supertux/direction.cpp:54
 msgid "up"
 msgstr "gor"
@@ -1254,7 +1278,7 @@ msgstr "Zbirka stopenj"
 
 #: src/supertux/menu/addon_menu.cpp:52
 msgid "Worldmap"
-msgstr "Zemljevid Sveta"
+msgstr "Zemljevid sveta"
 
 #: src/supertux/menu/addon_menu.cpp:55
 msgid "World"
@@ -1325,12 +1349,12 @@ msgstr "Preverite na spletu"
 
 #: src/supertux/menu/addon_menu.cpp:265 src/supertux/menu/cheat_menu.cpp:43
 #: src/supertux/menu/contrib_levelset_menu.cpp:69
-#: src/supertux/menu/contrib_menu.cpp:168
-#: src/supertux/menu/editor_level_select_menu.cpp:77
-#: src/supertux/menu/editor_levelset_select_menu.cpp:136
-#: src/supertux/menu/editor_new_levelset_menu.cpp:48
-#: src/supertux/menu/joystick_menu.cpp:98
-#: src/supertux/menu/keyboard_menu.cpp:49
+#: src/supertux/menu/contrib_menu.cpp:173
+#: src/supertux/menu/editor_level_select_menu.cpp:82
+#: src/supertux/menu/editor_levelset_select_menu.cpp:98
+#: src/supertux/menu/editor_new_levelset_menu.cpp:49
+#: src/supertux/menu/joystick_menu.cpp:104
+#: src/supertux/menu/keyboard_menu.cpp:55
 #: src/supertux/menu/language_menu.cpp:55
 #: src/supertux/menu/options_menu.cpp:238 src/supertux/menu/profile_menu.cpp:47
 #: src/supertux/menu/world_set_menu.cpp:44
@@ -1406,15 +1430,13 @@ msgstr "Končaj stopnjo"
 msgid "Activate Ghost Mode"
 msgstr "Vključi način za duhove"
 
-#: src/supertux/menu/contrib_menu.cpp:78
+#: src/supertux/menu/contrib_menu.cpp:79
 #: src/supertux/menu/world_set_menu.cpp:42
 msgid "Contrib Levels"
 msgstr "Prispevane stopnje"
 
-#: src/supertux/menu/contrib_menu.cpp:115
-#: src/supertux/menu/contrib_menu.cpp:146
-#: src/supertux/menu/editor_levelset_select_menu.cpp:88
-#: src/supertux/menu/editor_levelset_select_menu.cpp:113
+#: src/supertux/menu/contrib_menu.cpp:120
+#: src/supertux/menu/contrib_menu.cpp:151
 msgid "*NEW*"
 msgstr "*NOVO*"
 
@@ -1434,47 +1456,66 @@ msgstr "V redu"
 msgid "Close"
 msgstr "Zapri"
 
-#: src/supertux/menu/editor_level_menu.cpp:35
+#: src/supertux/menu/editor_level_menu.cpp:37
 #: src/supertux/menu/editor_menu.cpp:55
 msgid "Worldmap properties"
 msgstr "Lastnosti zemljevida sveta"
 
-#: src/supertux/menu/editor_level_menu.cpp:35
+#: src/supertux/menu/editor_level_menu.cpp:37
 #: src/supertux/menu/editor_menu.cpp:55
 msgid "Level properties"
 msgstr "Lastnosti stopnje"
 
-#: src/supertux/menu/editor_level_menu.cpp:38
+#: src/supertux/menu/editor_level_menu.cpp:40
 msgid "Author"
 msgstr "Avtor"
 
-#: src/supertux/menu/editor_level_menu.cpp:39 data//credits.stxt:882
+#: src/supertux/menu/editor_level_menu.cpp:41 data//credits.stxt:887
 msgid "Contact"
 msgstr "Kontakt"
 
-#: src/supertux/menu/editor_level_menu.cpp:40
+#: src/supertux/menu/editor_level_menu.cpp:42
 msgid "License"
 msgstr "Licenca"
 
 #: src/supertux/menu/editor_level_menu.cpp:43
+msgid "Tile set"
+msgstr "Paket podlag"
+
+#: src/supertux/menu/editor_level_menu.cpp:46
 msgid "On menukey script"
 msgstr "Na zapisu menijskega ključa"
 
-#: src/supertux/menu/editor_level_menu.cpp:44
+#: src/supertux/menu/editor_level_menu.cpp:47
 msgid "Target time"
 msgstr "Ciljni čas"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:75
+#: src/supertux/menu/editor_level_menu.cpp:78
+msgid "Please enter a name for this level."
+msgstr "Prosim, vnesi ime za to stopnjo."
+
+#: src/supertux/menu/editor_level_menu.cpp:82
+msgid "Please enter a level author for this level."
+msgstr "Prosim, vnesi avtorja te stopnje."
+
+#: src/supertux/menu/editor_level_menu.cpp:86
+msgid "Please enter a license for this level."
+msgstr "Prosim, vnesi licenco za to stopnjo."
+
+#: src/supertux/menu/editor_level_select_menu.cpp:66
+msgid "Empty levelset"
+msgstr "Prazna zbirka stopenj"
+
+#: src/supertux/menu/editor_level_select_menu.cpp:80
 msgid "Create Level"
 msgstr "Ustvari stopnjo"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:76
-#: src/supertux/menu/editor_levelset_menu.cpp:54
-#: src/supertux/menu/editor_menu.cpp:59
+#: src/supertux/menu/editor_level_select_menu.cpp:81
+#: src/supertux/menu/editor_levelset_menu.cpp:52
 msgid "Level subset properties"
 msgstr "Lastnosti podskupin stopnje"
 
-#: src/supertux/menu/editor_level_select_menu.cpp:98
+#: src/supertux/menu/editor_level_select_menu.cpp:103
 msgid ""
 "Share this level under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
@@ -1482,54 +1523,68 @@ msgid ""
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of "
 "license."
 msgstr ""
+"To stopnjo deli pod licenco CC-BY-SA 4.0 International (priporočljivo).\n"
+"S tem je drugim omogočeno preurejanje in prerazporeditev.\n"
+"Če se s to licenco ne strinjaš, jo spremeni v lastnostih stopnje.\n"
+"OPOZORILO: Avtorji SuperTuxa ne prevzemajo odgovornosti za vašo izbiro "
+"licence."
 
-#: src/supertux/menu/editor_levelset_menu.cpp:57
-#: src/supertux/menu/editor_new_levelset_menu.cpp:43
+#: src/supertux/menu/editor_levelset_menu.cpp:55
+#: src/supertux/menu/editor_new_levelset_menu.cpp:44
 msgid "Description"
 msgstr "Opis"
 
-#: src/supertux/menu/editor_levelset_menu.cpp:62
+#: src/supertux/menu/editor_levelset_menu.cpp:59
 msgid "Do not use worldmap"
 msgstr "Ne uporabi zemljevida sveta"
 
-#: src/supertux/menu/editor_levelset_menu.cpp:63
+#: src/supertux/menu/editor_levelset_menu.cpp:60
 msgid "Edit worldmap"
 msgstr "Uredi zemljevid sveta"
 
-#: src/supertux/menu/editor_levelset_menu.cpp:65
+#: src/supertux/menu/editor_levelset_menu.cpp:62
 msgid "Create worldmap"
 msgstr "Ustvari zemljevid sveta"
 
-#: src/supertux/menu/editor_levelset_menu.cpp:84
+#: src/supertux/menu/editor_levelset_menu.cpp:80
 msgid ""
 "Share this worldmap under license CC-BY-SA 4.0 International (advised).\n"
 "It allows modifications and redistribution by third-parties.\n"
-"If you don't agree with this license, change it in level properties.\n"
+"If you don't agree with this license, change it in worldmap properties.\n"
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of "
 "license."
 msgstr ""
+"Ta zemljevid sveta deli pod licenco CC-BY-SA 4.0 International "
+"(priporočljivo).\n"
+"S tem je drugim omogočeno preurejanje in prerazporeditev.\n"
+"Če se s to licenco ne strinjaš, jo spremeni v lastnostih stopnje.\n"
+"OPOZORILO: Avtorji SuperTuxa ne prevzemajo odgovornosti za vašo izbiro "
+"licence."
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:57
+#: src/supertux/menu/editor_levelset_select_menu.cpp:58
 msgid "Choose level subset"
 msgstr "Izberi podskupino stopnje"
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:92
-#: src/supertux/menu/editor_levelset_select_menu.cpp:117
+#: src/supertux/menu/editor_levelset_select_menu.cpp:85
 msgid "levels"
 msgstr "stopnje"
 
-#: src/supertux/menu/editor_levelset_select_menu.cpp:135
-#: src/supertux/menu/editor_new_levelset_menu.cpp:39
+#: src/supertux/menu/editor_levelset_select_menu.cpp:97
+#: src/supertux/menu/editor_new_levelset_menu.cpp:40
 msgid "New level subset"
 msgstr "Nova podskupina stopnje"
 
-#: src/supertux/menu/editor_menu.cpp:37
+#: src/supertux/menu/editor_menu.cpp:37 src/supertux/menu/main_menu.cpp:46
 msgid "Level Editor"
 msgstr "Urejevalnik stopnje"
 
 #: src/supertux/menu/editor_menu.cpp:39
 msgid "Return to editor"
 msgstr "Nazaj v urejevalnik"
+
+#: src/supertux/menu/editor_menu.cpp:40
+msgid "Save current worldmap"
+msgstr "Shrani ta zemljevid sveta"
 
 #: src/supertux/menu/editor_menu.cpp:40
 msgid "Save current level"
@@ -1555,9 +1610,13 @@ msgstr "Pokaži mrežo (F8)"
 msgid "Show scroller (F9)"
 msgstr "Pokaži drsno ploščico (F9)"
 
-#: src/supertux/menu/editor_menu.cpp:63
+#: src/supertux/menu/editor_menu.cpp:59
 msgid "Exit level editor"
 msgstr "Zapusti urejevalnik"
+
+#: src/supertux/menu/editor_new_levelset_menu.cpp:60
+msgid "Please enter a name for this level subset."
+msgstr "Prosim, vnesi ime te podskupine"
 
 #: src/supertux/menu/editor_sector_menu.cpp:41
 msgid "Initialization script"
@@ -1578,7 +1637,7 @@ msgstr "Glasba"
 
 #: src/supertux/menu/editor_sector_menu.cpp:53
 msgid "Resize"
-msgstr ""
+msgstr "Spremeni velikost"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:36
 msgid "Choose sector to edit:"
@@ -1699,70 +1758,87 @@ msgstr "Konzola"
 msgid "Cheat Menu"
 msgstr "Meni goljufij"
 
-#: src/supertux/menu/joystick_menu.cpp:86
-#: src/supertux/menu/keyboard_menu.cpp:47
+#: src/supertux/menu/joystick_menu.cpp:87
+#: src/supertux/menu/keyboard_menu.cpp:48
+msgid "The following feature is deprecated."
+msgstr "Ta funkcija ni stabilna."
+
+#. l10n: Continuation of string "The following feature is deprecated."
+#: src/supertux/menu/joystick_menu.cpp:89
+#: src/supertux/menu/keyboard_menu.cpp:50
+msgid "It will be removed from the next release"
+msgstr "Odstranjena bo iz naslednje izdaje"
+
+#. l10n: Continuation of string "It will be removed from the next release"
+#: src/supertux/menu/joystick_menu.cpp:91
+#: src/supertux/menu/keyboard_menu.cpp:52
+msgid "of SuperTux."
+msgstr "SuperTuxa."
+
+#: src/supertux/menu/joystick_menu.cpp:92
+#: src/supertux/menu/keyboard_menu.cpp:53
 msgid "Jump with Up"
 msgstr "Skoči z Gor"
 
-#: src/supertux/menu/joystick_menu.cpp:92
+#: src/supertux/menu/joystick_menu.cpp:98
 msgid "No Joysticks found"
 msgstr "Ne najdem užitkarske palice"
 
-#: src/supertux/menu/joystick_menu.cpp:93
+#: src/supertux/menu/joystick_menu.cpp:99
 msgid "Scan for Joysticks"
 msgstr "Poišči užitkarske palice"
 
-#: src/supertux/menu/joystick_menu.cpp:107
-#: src/supertux/menu/joystick_menu.cpp:214
-#: src/supertux/menu/keyboard_menu.cpp:61
+#: src/supertux/menu/joystick_menu.cpp:113
+#: src/supertux/menu/joystick_menu.cpp:220
+#: src/supertux/menu/keyboard_menu.cpp:67
 msgid "None"
 msgstr "Nič"
 
-#: src/supertux/menu/joystick_menu.cpp:126
+#: src/supertux/menu/joystick_menu.cpp:132
 msgid "Press Button"
 msgstr "Pritisnite gumb"
 
-#: src/supertux/menu/joystick_menu.cpp:163
+#: src/supertux/menu/joystick_menu.cpp:169
 msgid "Axis "
 msgstr "Os"
 
-#: src/supertux/menu/joystick_menu.cpp:166
+#: src/supertux/menu/joystick_menu.cpp:172
 msgid "-"
 msgstr "-"
 
-#: src/supertux/menu/joystick_menu.cpp:168
+#: src/supertux/menu/joystick_menu.cpp:174
 msgid "+"
 msgstr "+"
 
-#: src/supertux/menu/joystick_menu.cpp:171
+#: src/supertux/menu/joystick_menu.cpp:177
 msgid "X"
 msgstr "X"
 
-#: src/supertux/menu/joystick_menu.cpp:173
+#: src/supertux/menu/joystick_menu.cpp:179
 msgid "Y"
 msgstr "Y"
 
-#: src/supertux/menu/joystick_menu.cpp:175
+#: src/supertux/menu/joystick_menu.cpp:181
 msgid "X2"
 msgstr "X2"
 
-#: src/supertux/menu/joystick_menu.cpp:177
+#: src/supertux/menu/joystick_menu.cpp:183
 msgid "Y2"
 msgstr "Y2"
 
-#: src/supertux/menu/joystick_menu.cpp:190
+#: src/supertux/menu/joystick_menu.cpp:196
 msgid "Hat Up"
 msgstr "Poglej gor"
 
-#: src/supertux/menu/joystick_menu.cpp:194
+#: src/supertux/menu/joystick_menu.cpp:200
 msgid "Hat Down"
 msgstr "Poglej dol"
 
-#: src/supertux/menu/joystick_menu.cpp:198
+#: src/supertux/menu/joystick_menu.cpp:204
 msgid "Hat Left"
 msgstr "Poglej levo"
 
-#: src/supertux/menu/joystick_menu.cpp:202
+#: src/supertux/menu/joystick_menu.cpp:208
 msgid "Hat Right"
 msgstr "Poglej desno"
 
@@ -1771,63 +1847,63 @@ msgstr "Poglej desno"
 msgid "Setup Keyboard"
 msgstr "Nastavitve tipkovnice"
 
-#: src/supertux/menu/keyboard_menu.cpp:63
+#: src/supertux/menu/keyboard_menu.cpp:69
 msgid "Up cursor"
 msgstr "Tipka navzgor"
 
-#: src/supertux/menu/keyboard_menu.cpp:65
+#: src/supertux/menu/keyboard_menu.cpp:71
 msgid "Down cursor"
 msgstr "Tipka navzdol"
 
-#: src/supertux/menu/keyboard_menu.cpp:67
+#: src/supertux/menu/keyboard_menu.cpp:73
 msgid "Left cursor"
 msgstr "Tipka levo"
 
-#: src/supertux/menu/keyboard_menu.cpp:69
+#: src/supertux/menu/keyboard_menu.cpp:75
 msgid "Right cursor"
 msgstr "Tipka desno"
 
-#: src/supertux/menu/keyboard_menu.cpp:71
+#: src/supertux/menu/keyboard_menu.cpp:77
 msgid "Return"
 msgstr "Enter"
 
-#: src/supertux/menu/keyboard_menu.cpp:73
+#: src/supertux/menu/keyboard_menu.cpp:79
 msgid "Space"
 msgstr "Preslednica"
 
-#: src/supertux/menu/keyboard_menu.cpp:75
+#: src/supertux/menu/keyboard_menu.cpp:81
 msgid "Right Shift"
 msgstr "Desni Shift"
 
-#: src/supertux/menu/keyboard_menu.cpp:77
+#: src/supertux/menu/keyboard_menu.cpp:83
 msgid "Left Shift"
 msgstr "Levi Shift"
 
-#: src/supertux/menu/keyboard_menu.cpp:79
+#: src/supertux/menu/keyboard_menu.cpp:85
 msgid "Right Control"
 msgstr "Desni Control"
 
-#: src/supertux/menu/keyboard_menu.cpp:81
+#: src/supertux/menu/keyboard_menu.cpp:87
 msgid "Left Control"
 msgstr "Levi Control"
 
-#: src/supertux/menu/keyboard_menu.cpp:83
+#: src/supertux/menu/keyboard_menu.cpp:89
 msgid "Right Alt"
 msgstr "Desni Alt"
 
-#: src/supertux/menu/keyboard_menu.cpp:85
+#: src/supertux/menu/keyboard_menu.cpp:91
 msgid "Left Alt"
 msgstr "Levi Alt"
 
-#: src/supertux/menu/keyboard_menu.cpp:87
+#: src/supertux/menu/keyboard_menu.cpp:93
 msgid "Right Command"
 msgstr "Desni Command"
 
-#: src/supertux/menu/keyboard_menu.cpp:89
+#: src/supertux/menu/keyboard_menu.cpp:95
 msgid "Left Command"
 msgstr "Levi Command"
 
-#: src/supertux/menu/keyboard_menu.cpp:103
+#: src/supertux/menu/keyboard_menu.cpp:109
 msgid "Press Key"
 msgstr "Pritisnite tipko"
 
@@ -1842,10 +1918,6 @@ msgstr "<auto-detect>"
 #: src/supertux/menu/main_menu.cpp:43 src/supertux/menu/world_set_menu.cpp:39
 msgid "Start Game"
 msgstr "Zaženi igro"
-
-#: src/supertux/menu/main_menu.cpp:46
-msgid "Level editor"
-msgstr "Urejevalnik stopnje"
 
 #: src/supertux/menu/main_menu.cpp:47
 msgid "Credits"
@@ -1990,12 +2062,12 @@ msgid "Reset Level"
 msgstr "Ponastavi stopnjo"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:41
-msgid "Finish WorldMap"
-msgstr "Končaj WorldMap"
+msgid "Finish Worldmap"
+msgstr "Končaj zemljevid sveta"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:42
-msgid "Reset WorldMap"
-msgstr "Ponastavi WorldMap"
+msgid "Reset Worldmap"
+msgstr "Ponastavi zemljevid sveta"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:44
 msgid "Move to main spawnpoint"
@@ -2111,10 +2183,6 @@ msgstr "Vklopi zapis"
 msgid "Turn off script"
 msgstr "Izklopi zapis"
 
-#: src/worldmap/direction.cpp:82
-msgid "none"
-msgstr "nič"
-
 #: src/worldmap/direction.cpp:83
 msgid "west"
 msgstr "zahod"
@@ -2131,161 +2199,161 @@ msgstr "sever"
 msgid "south"
 msgstr "jug"
 
-#: src/worldmap/worldmap.cpp:337
+#: src/worldmap/worldmap.cpp:334
 msgid "<no title>"
 msgstr "<neimenovano>"
 
 #: data//images/engine/editor/objects.stoi:4
 msgid "Hostile"
-msgstr ""
+msgstr "Sovražno"
 
 #: data//images/engine/editor/objects.stoi:132
 msgid "Projectiles"
-msgstr ""
+msgstr "Izstrelki"
 
 #: data//images/engine/editor/objects.stoi:158
 msgid "Bosses"
-msgstr ""
+msgstr "Šefi"
 
 #: data//images/engine/editor/objects.stoi:169
 msgid "Interactive"
-msgstr ""
+msgstr "Interaktivno"
 
-#: data//images/engine/editor/objects.stoi:243 data//images/tiles.strf:1131
+#: data//images/engine/editor/objects.stoi:249 data//images/tiles.strf:1131
 msgid "Lightmap"
-msgstr ""
+msgstr "Lightmap"
 
-#: data//images/engine/editor/objects.stoi:260
+#: data//images/engine/editor/objects.stoi:266
 msgid "Ambient"
-msgstr ""
+msgstr "Ambient"
 
-#: data//images/engine/editor/objects.stoi:316
+#: data//images/engine/editor/objects.stoi:322
 msgid "Worldmap markers"
-msgstr ""
+msgstr "Označbe zemljevida sveta"
 
 #: data//images/ice_world.strf:6
 msgid "Ice Cave & Crystal"
-msgstr ""
+msgstr "Ledena jama & Kristal"
 
 #: data//images/ice_world.strf:53
 msgid "Embellishments"
-msgstr ""
+msgstr "Okraski"
 
 #: data//images/ice_world.strf:137
 msgid "Ice"
-msgstr ""
+msgstr "Led"
 
 #: data//images/ice_world.strf:182 data//images/tiles.strf:1031
 msgid "Castle"
-msgstr ""
+msgstr "Grad"
 
 #: data//images/ice_world.strf:200
 msgid "Pathing"
-msgstr ""
+msgstr "Stezice"
 
 #: data//images/ice_world.strf:289 data//images/tiles.strf:956
 msgid "Water"
-msgstr ""
+msgstr "Voda"
 
 #: data//images/tiles.strf:225
 msgid "Pipes"
-msgstr ""
+msgstr "Cevi"
 
 #: data//images/tiles.strf:254 data//images/worldmap.strf:199
 msgid "Halloween"
-msgstr ""
+msgstr "Noč čarovnic"
 
 #: data//images/tiles.strf:281
 msgid "Test"
-msgstr ""
+msgstr "Preizkus"
 
 #: data//images/tiles.strf:288
 msgid "Crystalcave"
-msgstr ""
+msgstr "Kristalnajama"
 
 #: data//images/tiles.strf:375
 msgid "Snowmountain"
-msgstr ""
+msgstr "Snežnagora"
 
 #: data//images/tiles.strf:449 data//images/worldmap.strf:41
 msgid "Snow"
-msgstr ""
+msgstr "Sneg"
 
 #: data//images/tiles.strf:567
 msgid "Snow (Paralax Background)"
-msgstr ""
+msgstr "Sneg (večplastno ozadje)"
 
 #: data//images/tiles.strf:580 data//images/worldmap.strf:67
 msgid "Forest"
-msgstr ""
+msgstr "Gozd"
 
 #: data//images/tiles.strf:686
 msgid "Forest (Background)"
-msgstr ""
+msgstr "Gozd (ozadje)"
 
 #: data//images/tiles.strf:780
 msgid "Block"
-msgstr ""
+msgstr "Kocka"
 
 #: data//images/tiles.strf:803
 msgid "Points"
-msgstr ""
+msgstr "Točke"
 
 #: data//images/tiles.strf:807
 msgid "Misc"
-msgstr ""
+msgstr "Različno"
 
 #: data//images/tiles.strf:838
 msgid "Pole"
-msgstr ""
+msgstr "Drog"
 
 #: data//images/tiles.strf:861
 msgid "Stone Brick Walls"
-msgstr ""
+msgstr "Kamniti zid"
 
 #: data//images/tiles.strf:910
 msgid "Signs"
-msgstr ""
+msgstr "Znaki"
 
 #: data//images/tiles.strf:932
 msgid "Jungle"
-msgstr ""
+msgstr "Džungla"
 
 #: data//images/tiles.strf:942
 msgid "Industrial"
-msgstr ""
+msgstr "Industrijsko"
 
 #: data//images/tiles.strf:977
 msgid "Icebridge"
-msgstr ""
+msgstr "Ledenimost"
 
 #: data//images/tiles.strf:985
 msgid "LavaFlow"
-msgstr ""
+msgstr "Tok lave"
 
 #: data//images/tiles.strf:995
 msgid "Exits"
-msgstr ""
+msgstr "Izhodi"
 
 #: data//images/tiles.strf:1106
 msgid "Cave background"
-msgstr ""
+msgstr "Ozadje jame"
 
 #: data//images/tiles.strf:1140
 msgid "Unisolid"
-msgstr ""
+msgstr "Nestabilno"
 
 #: data//images/worldmap.strf:24
-msgid "Water-Paths"
-msgstr ""
+msgid "Water paths"
+msgstr "Vodne steze"
 
 #: data//images/worldmap.strf:32
-msgid "castle_path"
-msgstr ""
+msgid "Castle paths"
+msgstr "Grajske steze"
 
 #: data//images/worldmap.strf:135
 msgid "Darker Forest"
-msgstr ""
+msgstr "Temačni gozd"
 
 #: data//credits.stxt:13
 msgid "Original Developer"
@@ -2300,7 +2368,7 @@ msgid "Music, Level Design"
 msgstr "Glasba, oblikovanje stopenj"
 
 #: data//credits.stxt:37 data//credits.stxt:137 data//credits.stxt:142
-#: data//credits.stxt:191 data//credits.stxt:256
+#: data//credits.stxt:196 data//credits.stxt:261
 msgid "Graphics"
 msgstr "Grafika"
 
@@ -2321,7 +2389,7 @@ msgid "Programming, Documentation"
 msgstr "Programiranje, dokumentacija"
 
 #: data//credits.stxt:67 data//credits.stxt:77 data//credits.stxt:82
-#: data//credits.stxt:107 data//credits.stxt:252 data//credits.stxt:264
+#: data//credits.stxt:107 data//credits.stxt:257 data//credits.stxt:269
 msgid "Programming"
 msgstr "Programiranje"
 
@@ -2375,7 +2443,7 @@ msgid "Code quality fixes"
 msgstr "Izboljšanje kode"
 
 #: data//credits.stxt:166 data//credits.stxt:171 data//credits.stxt:176
-#: data//credits.stxt:211
+#: data//credits.stxt:216
 msgid "Various contributions"
 msgstr "Različni prispevki"
 
@@ -2387,290 +2455,290 @@ msgstr "Popravki končne izgradnje"
 msgid "Code contributions"
 msgstr "Prispevki za kodo"
 
-#: data//credits.stxt:196
+#: data//credits.stxt:191 data//credits.stxt:246
+msgid "Level improvements"
+msgstr "Izboljšave stopenj"
+
+#: data//credits.stxt:201
 msgid "Code contribution, AppData file"
 msgstr "Prispevki za kodo, datoteka AppData"
 
-#: data//credits.stxt:201
+#: data//credits.stxt:206
 msgid "Bug fix"
 msgstr "Popravki nepravilnosti"
 
-#: data//credits.stxt:206
+#: data//credits.stxt:211
 msgid "Menu reorganization"
 msgstr "Preureditev menija"
 
-#: data//credits.stxt:216
+#: data//credits.stxt:221
 msgid "Fixing tile bugs"
 msgstr "Popravki nepravilnosti v objektih"
 
-#: data//credits.stxt:221
+#: data//credits.stxt:226
 msgid "Build error fix"
 msgstr "Popravki napake v izgradnji"
 
-#: data//credits.stxt:226
+#: data//credits.stxt:231
 msgid "Scripting function fix"
 msgstr "Popravki funkcije skriptov"
 
-#: data//credits.stxt:231
+#: data//credits.stxt:236
 msgid "Support for \"glbinding\" as optional OpenGL binding"
 msgstr "Podpora za \"glbinding\" kot izbirne vezave OpenGL"
 
-#: data//credits.stxt:236
+#: data//credits.stxt:241
 msgid "New menu code"
 msgstr "Nova koda za meni"
 
-#: data//credits.stxt:241
-msgid "Level improvements"
-msgstr ""
-
-#: data//credits.stxt:247
+#: data//credits.stxt:252
 msgid "Milestone 1 contributions by..."
 msgstr "Za prvi mejnik so prispevali..."
 
-#: data//credits.stxt:260 data//credits.stxt:268
+#: data//credits.stxt:265 data//credits.stxt:273
 msgid "Contrib Programming"
 msgstr "Prispevki pri programiranju"
 
-#: data//credits.stxt:272
+#: data//credits.stxt:277
 msgid "Programming, Previous Maintainer"
 msgstr "Programiranje, predhodni vzdrževalec"
 
-#: data//credits.stxt:277
+#: data//credits.stxt:282
 msgid "Additional Music"
 msgstr "Dodatna glasba"
 
-#: data//credits.stxt:282
+#: data//credits.stxt:287
 msgid "\"Mortimers Chipdisko\" by"
 msgstr "\"Mortimers Chipdisko\" Avtor:"
 
-#: data//credits.stxt:291
+#: data//credits.stxt:296
 msgid "\"Salsa Con Carne\" by"
 msgstr "\"Salsa Con Carne\" Avtor:"
 
-#: data//credits.stxt:299 data//credits.stxt:351
+#: data//credits.stxt:304 data//credits.stxt:356
 msgid "remixed by"
 msgstr "Avtor remixa:"
 
-#: data//credits.stxt:308
+#: data//credits.stxt:313
 msgid "\"voc songs\" by"
 msgstr "\"voc songs\" Avtor:"
 
-#: data//credits.stxt:317
+#: data//credits.stxt:322
 msgid "\"clavelian_march\" by"
 msgstr "\"clavelian_march\" Avtor:"
 
-#: data//credits.stxt:326
+#: data//credits.stxt:331
 msgid "Excerpts from the Giana Sisters"
 msgstr "Izrezki iz igre Giana Sisters"
 
-#: data//credits.stxt:330
+#: data//credits.stxt:335
 msgid "Soundtrack used with kind permission"
 msgstr "Uporabo glasbe nam je prijazno"
 
-#: data//credits.stxt:334
+#: data//credits.stxt:339
 msgid "from"
 msgstr "dovolil"
 
-#: data//credits.stxt:343
+#: data//credits.stxt:348
 msgid "\"Airship song\" (orchestral remix) by"
 msgstr "\"Airship song\" (orkestralni remix) Avtor:"
 
-#: data//credits.stxt:360
+#: data//credits.stxt:365
 msgid "\"Battle Theme\" by"
 msgstr "\"Battle Theme\" Avtor:"
 
-#: data//credits.stxt:369
+#: data//credits.stxt:374
 msgid "\"SuperTux christmas theme\""
 msgstr "\"SuperTux christmas theme\""
 
-#: data//credits.stxt:373
+#: data//credits.stxt:378
 msgid "original by"
 msgstr "Originalen avtor:"
 
-#: data//credits.stxt:382
+#: data//credits.stxt:387
 msgid "arranged by"
 msgstr "Priredil"
 
-#: data//credits.stxt:391
+#: data//credits.stxt:396
 msgid "\"halloween_1.ogg\" by"
 msgstr "\"halloween_1.ogg\" Avtor:"
 
-#: data//credits.stxt:400
+#: data//credits.stxt:405
 msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
 msgstr "\"Forest Prophecy reEducated\" (forest_theme.ogg) Avtor:"
 
-#: data//credits.stxt:480
+#: data//credits.stxt:485
 msgid "Voice Acting"
 msgstr "Glasove so posodili:"
 
-#: data//credits.stxt:511
+#: data//credits.stxt:516
 msgid "Localization"
 msgstr "Lokalizacija"
 
-#: data//credits.stxt:516 data//credits.stxt:651
+#: data//credits.stxt:521 data//credits.stxt:656
 msgid "Danish"
 msgstr "Danščina"
 
-#: data//credits.stxt:521
+#: data//credits.stxt:526
 msgid "Vietnamese"
 msgstr "Vietnamščina"
 
-#: data//credits.stxt:526 data//credits.stxt:607 data//credits.stxt:615
-#: data//credits.stxt:707 data//credits.stxt:723 data//credits.stxt:759
-#: data//credits.stxt:767 data//credits.stxt:775 data//credits.stxt:855
+#: data//credits.stxt:531 data//credits.stxt:612 data//credits.stxt:620
+#: data//credits.stxt:712 data//credits.stxt:728 data//credits.stxt:764
+#: data//credits.stxt:772 data//credits.stxt:780 data//credits.stxt:860
 msgid "French"
 msgstr "Francoščina"
 
-#: data//credits.stxt:531 data//credits.stxt:566 data//credits.stxt:631
-#: data//credits.stxt:703 data//credits.stxt:803 data//credits.stxt:843
+#: data//credits.stxt:536 data//credits.stxt:571 data//credits.stxt:636
+#: data//credits.stxt:708 data//credits.stxt:808 data//credits.stxt:848
 msgid "German"
 msgstr "Nemščina"
 
-#: data//credits.stxt:536 data//credits.stxt:611 data//credits.stxt:847
+#: data//credits.stxt:541 data//credits.stxt:616 data//credits.stxt:852
 msgid "Russian"
 msgstr "Ruščina"
 
-#: data//credits.stxt:541
+#: data//credits.stxt:546
 msgid "Albanese"
 msgstr "Albanščina"
 
-#: data//credits.stxt:546 data//credits.stxt:571 data//credits.stxt:583
+#: data//credits.stxt:551 data//credits.stxt:576 data//credits.stxt:588
 msgid "Castilian Spanish"
 msgstr "Kastilijanska španščina"
 
-#: data//credits.stxt:551 data//credits.stxt:579 data//credits.stxt:627
-#: data//credits.stxt:779 data//credits.stxt:811 data//credits.stxt:859
+#: data//credits.stxt:556 data//credits.stxt:584 data//credits.stxt:632
+#: data//credits.stxt:784 data//credits.stxt:816 data//credits.stxt:864
 msgid "Hungarian"
 msgstr "Madžarščina"
 
-#: data//credits.stxt:556 data//credits.stxt:635 data//credits.stxt:671
+#: data//credits.stxt:561 data//credits.stxt:640 data//credits.stxt:676
 msgid "Spanish"
 msgstr "Španščina"
 
-#: data//credits.stxt:561 data//credits.stxt:587 data//credits.stxt:839
+#: data//credits.stxt:566 data//credits.stxt:592 data//credits.stxt:844
 msgid "Catalan"
 msgstr "Katalonščina"
 
-#: data//credits.stxt:575
+#: data//credits.stxt:580
 msgid "Slovenian"
 msgstr "Slovenščina"
 
-#: data//credits.stxt:591
+#: data//credits.stxt:596
 msgid "Mandarin"
 msgstr "Mandarinščina"
 
-#: data//credits.stxt:595 data//credits.stxt:667 data//credits.stxt:695
+#: data//credits.stxt:600 data//credits.stxt:672 data//credits.stxt:700
 msgid "European Portuguese"
 msgstr "Evropska portugalščina"
 
-#: data//credits.stxt:599
+#: data//credits.stxt:604
 msgid "Romanian"
 msgstr "Romunščina"
 
-#: data//credits.stxt:603 data//credits.stxt:823
+#: data//credits.stxt:608 data//credits.stxt:828
 msgid "Dutch"
 msgstr "Nizozemščina"
 
-#: data//credits.stxt:619 data//credits.stxt:711 data//credits.stxt:851
+#: data//credits.stxt:624 data//credits.stxt:716 data//credits.stxt:856
 msgid "Turkish"
 msgstr "Turščina"
 
-#: data//credits.stxt:623
+#: data//credits.stxt:628
 msgid "European/Brazilian Portuguese"
 msgstr "Evropska/Brazilska portugalščina"
 
-#: data//credits.stxt:639 data//credits.stxt:655 data//credits.stxt:659
-#: data//credits.stxt:727 data//credits.stxt:831
+#: data//credits.stxt:644 data//credits.stxt:660 data//credits.stxt:664
+#: data//credits.stxt:732 data//credits.stxt:836
 msgid "Czech"
 msgstr "Češčina"
 
-#: data//credits.stxt:643 data//credits.stxt:763
+#: data//credits.stxt:648 data//credits.stxt:768
 msgid "Nepali"
 msgstr "Nepalščina"
 
-#: data//credits.stxt:647 data//credits.stxt:731 data//credits.stxt:747
-#: data//credits.stxt:771
+#: data//credits.stxt:652 data//credits.stxt:736 data//credits.stxt:752
+#: data//credits.stxt:776
 msgid "Brazilian Portuguese"
 msgstr "Brazilska portugalščina"
 
-#: data//credits.stxt:663 data//credits.stxt:675
+#: data//credits.stxt:668 data//credits.stxt:680
 msgid "Italian"
 msgstr "Italijanščina"
 
-#: data//credits.stxt:679
+#: data//credits.stxt:684
 msgid "Estonian"
 msgstr "Estonščina"
 
-#: data//credits.stxt:683 data//credits.stxt:687 data//credits.stxt:719
-#: data//credits.stxt:815
+#: data//credits.stxt:688 data//credits.stxt:692 data//credits.stxt:724
+#: data//credits.stxt:820
 msgid "Polish"
 msgstr "Polščina"
 
-#: data//credits.stxt:691
+#: data//credits.stxt:696
 msgid "French/Esperanto"
 msgstr "Francoščina/Esperanto"
 
-#: data//credits.stxt:699 data//credits.stxt:819
+#: data//credits.stxt:704 data//credits.stxt:824
 msgid "Ukrainian"
 msgstr "Ukrajinščina"
 
-#: data//credits.stxt:715
+#: data//credits.stxt:720
 msgid "Breton"
 msgstr "Bretonščina"
 
-#: data//credits.stxt:735 data//credits.stxt:787
+#: data//credits.stxt:740 data//credits.stxt:792
 msgid "Greek"
 msgstr "Grščina"
 
-#: data//credits.stxt:739 data//credits.stxt:755
+#: data//credits.stxt:744 data//credits.stxt:760
 msgid "Norwegian Bokmål"
-msgstr ""
+msgstr "Norveški knjižni jezik - Bokmål"
 
-#: data//credits.stxt:743
+#: data//credits.stxt:748
 msgid "Swedish"
 msgstr "Švedščina"
 
-#: data//credits.stxt:751 data//credits.stxt:799
+#: data//credits.stxt:756 data//credits.stxt:804
 msgid "Finnish"
 msgstr "Finščina"
 
-#: data//credits.stxt:783
+#: data//credits.stxt:788
 msgid "Serbian"
 msgstr "Srbščina"
 
-#: data//credits.stxt:791
+#: data//credits.stxt:796
 msgid "Japanese"
 msgstr "Japonščina"
 
-#: data//credits.stxt:795
+#: data//credits.stxt:800
 msgid "Simplified Chinese"
 msgstr "Preprosta kitajščina"
 
-#: data//credits.stxt:807
+#: data//credits.stxt:812
 msgid "Lithuanian"
 msgstr "Litvanščina"
 
-#: data//credits.stxt:827
+#: data//credits.stxt:832
 msgid "Belarusian"
 msgstr "Beloruščina"
 
-#: data//credits.stxt:835
+#: data//credits.stxt:840
 msgid "Bulgarian"
 msgstr "Bulgarščina"
 
-#: data//credits.stxt:865
+#: data//credits.stxt:870
 msgid "Thanks to"
 msgstr "Zahvala gre tem ljudem:"
 
-#: data//credits.stxt:870
+#: data//credits.stxt:875
 msgid "Creator of Tux, the Linux penguin"
 msgstr "Ustvarjalec pingvinčka Tuxa, Linuxove maskote"
 
-#: data//credits.stxt:874
+#: data//credits.stxt:879
 msgid "SDL, OpenAL and OpenGL"
 msgstr "SDL, OpenAL in OpenGL"
 
-#: data//credits.stxt:875
+#: data//credits.stxt:880
 msgid ""
 "For making such a great gaming experience\n"
 "        possible on Linux"
@@ -2678,50 +2746,50 @@ msgstr ""
 "Ker so omogočili najboljšo možno igralno\n"
 "izkušnjo na Linuxu"
 
-#: data//credits.stxt:887
+#: data//credits.stxt:892
 msgid "Visit our webpage at"
 msgstr "Obišči našo spletno stran:"
 
-#: data//credits.stxt:896
+#: data//credits.stxt:901
 msgid "Or visit us directly at IRC:"
 msgstr "Ali pa pridi k nam neposredno na IRC:"
 
-#: data//credits.stxt:900
+#: data//credits.stxt:905
 msgid "#supertux at webchat.freenode.net"
 msgstr "#supertux na webchat.freenode.net"
 
-#: data//credits.stxt:905
+#: data//credits.stxt:910
 msgid "Or at our Forum:"
 msgstr "Ali na naš forum:"
 
-#: data//credits.stxt:914
+#: data//credits.stxt:919
 msgid "Comments, ideas and suggestions"
 msgstr "Za komentarje, ideje in predloge"
 
-#: data//credits.stxt:918
+#: data//credits.stxt:923
 msgid "go to our mailing list"
 msgstr "pojdi na naš e-poštni seznam"
 
-#: data//credits.stxt:929
+#: data//credits.stxt:934
 msgid "Want to help…"
 msgstr "Bi rad pomagal..."
 
-#: data//credits.stxt:934
+#: data//credits.stxt:939
 msgid "…with localization?"
 msgstr "...pri prevajanju?"
 
-#: data//credits.stxt:944
+#: data//credits.stxt:949
 msgid "…with something else?"
 msgstr "...pri čem drugem?"
 
-#: data//credits.stxt:955
+#: data//credits.stxt:960
 msgid "Thank you for"
 msgstr "Hvala, ker si"
 
-#: data//credits.stxt:959
+#: data//credits.stxt:964
 msgid "playing"
 msgstr "igral"
 
-#: data//credits.stxt:971
+#: data//credits.stxt:976
 msgid "Penny awaits you in Milestone 3!"
 msgstr "Penny te čaka na 3. mejniku!"
