@@ -32,6 +32,15 @@ artifacts:
   name: setup
 
 deploy:
+- provider: GitHub
+  description: 'SuperTux release'
+  auth_token:
+    secure: 1sgroG7ycKHC6R2y/V7DECd/SHxXK4CNSDU7zZOnAlyBiVKT9ykvRKWt2DGcEZDq
+  artifact: setup
+  draft: true
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only
 - provider: BinTray
   username: maths22
   api_key:
@@ -43,12 +52,3 @@ deploy:
   override: true
   on:
     branch: master
-- provider: GitHub
-  description: 'SuperTux release'
-  auth_token:
-    secure: 1sgroG7ycKHC6R2y/V7DECd/SHxXK4CNSDU7zZOnAlyBiVKT9ykvRKWt2DGcEZDq
-  artifact: setup
-  draft: true
-  on:
-    branch: master                 # release from master branch only
-    appveyor_repo_tag: true        # deploy on tag push only
