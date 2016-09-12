@@ -82,7 +82,6 @@ deploy:
       secure: oOoWGIvtMne9b413EGv3GSaV8PE/X1P3e85hIdTvRdxs5VTWHi9eeWpEknru8N8hQ+iIkvD2QpUvwL6Qgf7myP3OwXWEf7o6+Qxjfl49oJaROTeVUR7uzOYTmYYTCZG0b3jQKYu5JkVqJzwTNmT0GturHkW5pzsAy/rHUDuLfkI=
     file: "SuperTux-*"
     file_glob: true
-    draft: true
     skip_cleanup: true
     on:
       tags: true
