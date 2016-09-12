@@ -1,10 +1,10 @@
 SuperTux Release and Development Notes
 ======================================
 
-SuperTux 0.5.0-rc.3 (2016-08-26)
+SuperTux 0.5.0-rc.4 (2016-09-12)
 --------------------------------
 
-The SuperTux team is excited to announce the availability of the third release candidate for the upcoming stable release 0.5.0 after less than a year of development. The most prominent change for this release is a new in-game level editor which allows you to create levels and worldmaps on-the-fly from within SuperTux itself.
+The SuperTux team is excited to announce the availability of the fourth release candidate for the upcoming stable release 0.5.0 after less than a year of development. The most prominent change for this release is a new in-game level editor which allows you to create levels and worldmaps on-the-fly from within SuperTux itself.
 
 Changes:
 
@@ -44,6 +44,26 @@ Changes from 0.5.0-rc.2 (2016-08-10):
 * Editor: add an alignment option for background (#547)
 * Editor: Better approach for layer removal (#510)
 * Add a launcher script for Windows builds (#443)
+
+Changes from 0.5.0-rc.3 (2016-08-26):
+
+* Fixes for the build system and updates with regard to the automatic deployment
+  of releases
+* More code style fixes
+* Editor: verify some level properties have been set
+* Add the possibility to add sawblade/hurting platforms using the editor
+* Jump with Up: mark as deprecated in KeyboardMenu and JoystickMenu (addresses
+  #499)
+* Fix an issue with odd behavior of music playback (#583)
+* Update some parts of the (user) documentation
+* Editor: multiple fixes to levelset and worldmap creation, including UX
+  improvements
+* Editor: Angle option for spotlight
+* Unify string spelling for consistency
+* String freeze for translators is now in effect
+* Editor: sort layer in ascending order
+* Scripting: deduplicate code using the ExposedObject template class
+* Update the translations to reflect the translation progress as of 2016-09-12
 
 This section will be updated with more RCs or a stable version being released.
 
