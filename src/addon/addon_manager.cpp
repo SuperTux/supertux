@@ -31,6 +31,7 @@
 
 #include "addon/addon.hpp"
 #include "addon/md5.hpp"
+#include "physfs/physfs_file_system.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -118,9 +119,7 @@ static std::vector<AddonId> get_addons(const AddonManager::AddonList& list)
 static void add_to_dictionary_path(void *data, const char *origdir, const char *fname)
 {
     std::string full_path = std::string(origdir) + "/" + std::string(fname);
-    PHYSFS_Stat statbuf;
-    PHYSFS_stat(full_path.c_str(), &statbuf);
-    if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
+    if(PhysFSFileSystem::is_directory(full_path))
     {
         log_debug << "Adding \"" << full_path << "\" to dictionary search path" << std::endl;
         // We want translations from addons to have precedence
@@ -131,9 +130,7 @@ static void add_to_dictionary_path(void *data, const char *origdir, const char *
 static void remove_from_dictionary_path(void *data, const char *origdir, const char *fname)
 {
     std::string full_path = std::string(origdir) + "/" + std::string(fname);
-    PHYSFS_Stat statbuf;
-    PHYSFS_stat(full_path.c_str(), &statbuf);
-    if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
+    if(PhysFSFileSystem::is_directory(full_path))
     {
         g_dictionary_manager->remove_directory(full_path);
     }

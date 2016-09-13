@@ -20,6 +20,7 @@
 #include <algorithm>
 
 #include "physfs/ifile_streambuf.hpp"
+#include "physfs/physfs_file_system.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -136,9 +137,7 @@ Savegame::load()
   }
   else
   {
-    PHYSFS_Stat statbuf;
-    PHYSFS_stat(m_filename.c_str(), &statbuf);
-    if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
+    if(PhysFSFileSystem::is_directory(m_filename))
     {
       log_info << m_filename << " is a directory, not loading state" << std::endl;
       return;
@@ -242,9 +241,7 @@ Savegame::save()
       }
     }
 
-    PHYSFS_Stat statbuf;
-    PHYSFS_stat(dirname.c_str(), &statbuf);
-    if(statbuf.filetype != PHYSFS_FILETYPE_DIRECTORY)
+    if(!PhysFSFileSystem::is_directory(dirname))
     {
       std::ostringstream msg;
       msg << "Savegame path '" << dirname << "' is not a directory";

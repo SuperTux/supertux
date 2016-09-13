@@ -22,6 +22,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/item_action.hpp"
+#include "physfs/physfs_file_system.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -77,10 +78,7 @@ FileSystemMenu::refresh_items()
     for(const char* const* file = dir_files.get(); *file != 0; ++file)
     {
       std::string dirpath = FileSystem::join(directory, *file);
-
-      PHYSFS_Stat statbuf;
-      PHYSFS_stat(dirpath.c_str(), &statbuf);
-      if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
+      if(PhysFSFileSystem::is_directory(dirpath))
       {
         directories.push_back(*file);
         add_entry(item_id, "[" + std::string(*file) + "]");

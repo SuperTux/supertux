@@ -22,6 +22,7 @@
 #include "editor/editor.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "physfs/physfs_file_system.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/levelset.hpp"
@@ -47,9 +48,7 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
   for(const char* const* filename = files.get(); *filename != 0; ++filename)
   {
     std::string filepath = FileSystem::join("levels", *filename);
-    PHYSFS_Stat statbuf;
-    PHYSFS_stat(filepath.c_str(), &statbuf);
-    if(statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY)
+    if(PhysFSFileSystem::is_directory(filepath))
     {
       level_worlds.push_back(filepath);
     }

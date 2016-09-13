@@ -17,6 +17,7 @@
 #include <algorithm>
 
 #include "physfs/ifile_streambuf.hpp"
+#include "physfs/physfs_file_system.hpp"
 #include "scripting/serialize.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
@@ -189,9 +190,7 @@ World::save(bool retry)
         }
       }
 
-      PHYSFS_Stat statbuf;
-      PHYSFS_stat(dirname.c_str(), &statbuf);
-      if(statbuf.filetype != PHYSFS_FILETYPE_DIRECTORY)
+      if(!PhysFSFileSystem::is_directory(dirname))
       {
         std::ostringstream msg;
         msg << "Levelset path '" << dirname << "' is not a directory";

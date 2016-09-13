@@ -20,6 +20,7 @@
 #include "object/bonus_block.hpp"
 #include "object/coin.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "physfs/physfs_file_system.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/tile_set.hpp"
@@ -75,9 +76,7 @@ Level::save(const std::string& filepath, bool retry)
         }
       }
 
-      PHYSFS_Stat statbuf;
-      PHYSFS_stat(dirname.c_str(), &statbuf);
-      if(statbuf.filetype != PHYSFS_FILETYPE_DIRECTORY)
+      if(!PhysFSFileSystem::is_directory(dirname))
       {
         std::ostringstream msg;
         msg << "Level path '" << dirname << "' is not a directory";
