@@ -757,7 +757,7 @@
       (simple #t))
     (person
       (name "Karl Ove Hufthammer")
-      (info (_ "Norwegian Bokmål"))
+      (info (_ "Norwegian Bokmål, Norwegian Nynorsk"))
       (simple #t))
     (person
       (name "Léo Poughon")
