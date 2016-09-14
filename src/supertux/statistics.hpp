@@ -74,6 +74,16 @@ public:
 
 private:
   bool valid; /**< stores whether these statistics can be trusted */
+  int max_width; /** < Gets the max width of a stats line, 255 by default */
+  /** Captions */
+  std::string CAPTION_MAX_COINS;
+  std::string CAPTION_MAX_FRAGGING;
+  std::string CAPTION_MAX_SECRETS;
+  std::string CAPTION_BEST_TIME;
+  std::string CAPTION_TARGET_TIME;
+
+private:
+  void calculate_max_caption_length();
 
 };
 

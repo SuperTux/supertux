@@ -48,16 +48,44 @@ Statistics::Statistics() :
   time(nv_time),
   secrets(nv_secrets),
   total_secrets(nv_secrets),
-  valid(true)
+  valid(true),
+  max_width(256),
+  CAPTION_MAX_COINS(_("Max coins collected:")),
+  CAPTION_MAX_FRAGGING(_("Max fragging:")),
+  CAPTION_MAX_SECRETS(_("Max secrets found:")),
+  CAPTION_BEST_TIME(_("Best time completed:")),
+  CAPTION_TARGET_TIME(_("Level target time:"))
 {
-  WMAP_INFO_LEFT_X = SCREEN_WIDTH - 32 - 256;
-  WMAP_INFO_RIGHT_X = WMAP_INFO_LEFT_X + 256;
+  calculate_max_caption_length();
+  WMAP_INFO_LEFT_X = SCREEN_WIDTH - 32 - max_width;
+  WMAP_INFO_RIGHT_X = WMAP_INFO_LEFT_X + max_width;
   WMAP_INFO_TOP_Y1 = SCREEN_HEIGHT - 100;
   WMAP_INFO_TOP_Y2 = WMAP_INFO_TOP_Y1 + 16;
 }
 
 Statistics::~Statistics()
 {
+}
+
+void
+Statistics::calculate_max_caption_length()
+{
+  auto captions = {CAPTION_MAX_COINS, CAPTION_MAX_FRAGGING, CAPTION_MAX_SECRETS,
+                   CAPTION_BEST_TIME, CAPTION_TARGET_TIME};
+
+  max_width = 256;
+
+  for(const auto& caption : captions)
+  {
+    auto font = Resources::small_font;
+    // Add padding the size of lengthiest string:
+    auto width = font->get_text_width(caption) +
+                 font->get_text_width("XX:XX:XX");
+    if(width >= max_width)
+    {
+      max_width = width;
+    }
+  }
 }
 
 void
@@ -110,8 +138,9 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
 
   // check to see if screen size has been changed
   if (!(WMAP_INFO_TOP_Y1 == SCREEN_HEIGHT - 100)) {
-    WMAP_INFO_LEFT_X = SCREEN_WIDTH - 32 - 256;
-    WMAP_INFO_RIGHT_X = WMAP_INFO_LEFT_X + 256;
+    calculate_max_caption_length();
+    WMAP_INFO_LEFT_X = SCREEN_WIDTH - 32 - max_width;
+    WMAP_INFO_RIGHT_X = WMAP_INFO_LEFT_X + max_width;
     WMAP_INFO_TOP_Y1 = SCREEN_HEIGHT - 100;
     WMAP_INFO_TOP_Y2 = WMAP_INFO_TOP_Y1 + 16;
   }
@@ -123,28 +152,29 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
   std::string caption_buf;
   std::string stat_buf;
   float posy = WMAP_INFO_TOP_Y2;
+
   for (int stat_no = 0; stat_no < 5; stat_no++) {
     switch (stat_no)
     {
       case 0:
-        caption_buf = _("Max coins collected:");
+        caption_buf = CAPTION_MAX_COINS;
         stat_buf = coins_to_string(coins, total_coins);
         break;
       case 1:
-        caption_buf = _("Max fragging:");
+        caption_buf = CAPTION_MAX_FRAGGING;
         stat_buf = frags_to_string(badguys, total_badguys);
         break;
       case 2:
-        caption_buf = _("Max secrets found:");
+        caption_buf = CAPTION_MAX_SECRETS;
         stat_buf = secrets_to_string(secrets, total_secrets);
         break;
       case 3:
-        caption_buf = _("Best time completed:");
+        caption_buf = CAPTION_BEST_TIME;
         stat_buf = time_to_string(time);
         break;
       case 4:
-        if(target_time){ // display target time only if defined for level
-          caption_buf = _("Level target time:");
+        if(target_time) { // display target time only if defined for level
+          caption_buf = CAPTION_TARGET_TIME;
           stat_buf = time_to_string(target_time);
         } else {
           caption_buf = "";
