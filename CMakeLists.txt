@@ -479,6 +479,10 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   ENDIF(WARNINGS)
 endif()
 
+IF(MSVC)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4244 /wd4267")
+ENDIF(MSVC)
+
 ## If xgettext is available, generate messages.pot for sources
 
 OPTION(GENERATE_MESSAGESPOT "Generate messages.pot files" OFF)
