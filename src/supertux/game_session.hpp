@@ -110,6 +110,7 @@ private:
   void on_escape_press();
 
   std::unique_ptr<Level> level;
+  std::unique_ptr<Level> old_level;
   SurfacePtr statistics_backdrop;
 
   // scripts
