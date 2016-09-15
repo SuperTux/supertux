@@ -14,6 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <algorithm>
 #include <config.h>
 
 #include "video/color.hpp"
@@ -31,25 +32,29 @@ Color::Color() :
   red(0),
   green(0),
   blue(0),
-  alpha(1.0f)
+  alpha(1.0f),
+  ultra_violet(0)
 {}
 
-Color::Color(float red_, float green_, float blue_, float alpha_) :
+Color::Color(float red_, float green_, float blue_, float alpha_, float ultra_violet_) :
   red(red_),
   green(green_),
   blue(blue_),
-  alpha(alpha_)
+  alpha(alpha_),
+  ultra_violet(ultra_violet_)
 {
   assert(0 <= red   && red <= 1.0);
   assert(0 <= green && green <= 1.0);
   assert(0 <= blue  && blue <= 1.0);
+  assert(0 <= ultra_violet  && ultra_violet <= 1.0);
 }
 
 Color::Color(const std::vector<float>& vals) :
   red(),
   green(),
   blue(),
-  alpha()
+  alpha(),
+  ultra_violet()
 {
   if (vals.size() < 3) {
     red = 0;
@@ -61,32 +66,67 @@ Color::Color(const std::vector<float>& vals) :
   red   = vals[0];
   green = vals[1];
   blue  = vals[2];
-  if(vals.size() > 3)
+  if(vals.size() > 3) {
     alpha = vals[3];
-  else
+  } else {
     alpha = 1.0;
+  }
+
+  if(vals.size() > 4) {
+    ultra_violet = vals[4];
+  } else {
+    ultra_violet = 0.0;
+  }
+
   assert(0 <= red   && red <= 1.0);
   assert(0 <= green && green <= 1.0);
   assert(0 <= blue  && blue <= 1.0);
+  assert(0 <= ultra_violet  && ultra_violet <= 1.0);
+}
+
+Color::Color(const Color visible, const Color hidden) :
+  red(hidden.red),
+  green(visible.green),
+  blue(hidden.blue),
+  alpha(visible.alpha),
+  ultra_violet(hidden.green)
+{
+
 }
 
 bool
 Color::operator==(const Color& other) const
 {
   return red == other.red && green == other.green && blue == other.blue
-    && alpha == other.alpha;
+    && alpha == other.alpha && ultra_violet == other.ultra_violet;
 }
 
 float
 Color::greyscale() const
 {
-  return red * 0.30f + green * 0.59f + blue * 0.11f;
+  Color visible = get_visible_color();
+  return visible.red * 0.30f + visible.green * 0.59f + visible.blue * 0.11f;
 }
 
 bool
 Color::operator < (const Color& other) const
 {
   return greyscale() < other.greyscale();
+}
+
+Color
+Color::get_visible_color() const
+{
+  Color result(red, green, blue, alpha);
+  result.red = std::min(1.0f, red + ultra_violet * 0.2f);
+  result.blue = std::min(1.0f, blue + ultra_violet * 0.3f);
+  return result;
+}
+
+Color
+Color::get_hidden_color() const
+{
+  return Color(red, ultra_violet, blue, alpha);
 }
 
 std::vector<float>
@@ -98,6 +138,7 @@ Color::toVector()
   result.push_back(green);
   result.push_back(blue);
   result.push_back(alpha);
+  result.push_back(ultra_violet);
   return result;
 }
 

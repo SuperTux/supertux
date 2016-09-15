@@ -29,6 +29,7 @@
 SDLVideoSystem::SDLVideoSystem() :
   m_renderer(new SDLRenderer),
   m_lightmap(new SDLLightmap),
+  m_hidden_lightmap(new SDLLightmap),
   m_texture_manager(new TextureManager)
 {
 }
@@ -43,6 +44,12 @@ Lightmap&
 SDLVideoSystem::get_lightmap() const
 {
   return *m_lightmap;
+}
+
+Lightmap&
+SDLVideoSystem::get_hidden_lightmap() const
+{
+  return *m_hidden_lightmap;
 }
 
 TexturePtr

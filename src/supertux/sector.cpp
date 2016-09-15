@@ -69,7 +69,7 @@ Sector::Sector(Level* parent) :
   currentmusic(LEVEL_MUSIC),
   sector_table(),
   scripts(),
-  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
+  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f, 1.0f ),
   foremost_layer(),
   gameobjects(),
   moving_objects(),

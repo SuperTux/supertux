@@ -48,7 +48,18 @@ public:
   virtual ~VideoSystem() {}
 
   virtual Renderer& get_renderer() const = 0;
+
+  /**
+   * The visible lightmap stores the real value of green. Ultra-violet bleeds
+   * into the red and blue channel, so their real values are stored in the
+   * hidden lightmap.
+   */
   virtual Lightmap& get_lightmap() const = 0;
+
+  /**
+   * The hidden lightmap stores the real values of red, ultra-violet and blue.
+   */
+  virtual Lightmap& get_hidden_lightmap() const = 0;
   virtual TexturePtr new_texture(SDL_Surface *image) = 0;
   virtual SurfaceData* new_surface_data(const Surface &surface) = 0;
   virtual void free_surface_data(SurfaceData* surface_data) = 0;

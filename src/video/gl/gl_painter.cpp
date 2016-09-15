@@ -103,6 +103,12 @@ inline void intern_draw(float left, float top, float right, float bottom,
 } // namespace
 
 void
+GLPainter::reset_last_texture()
+{
+  s_last_texture = static_cast<GLuint>(-1);
+}
+
+void
 GLPainter::draw_surface(const DrawingRequest& request)
 {
   const Surface* surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;

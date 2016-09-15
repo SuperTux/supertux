@@ -27,9 +27,14 @@ class Color
 public:
   Color();
 
-  Color(float red_, float green_, float blue_, float alpha_ = 1.0);
+  Color(float red_, float green_, float blue_, float alpha_ = 1.0, float ultra_violet_ = 0.0);
 
   Color(const std::vector<float>& vals);
+
+  /**
+   * Composes the colour again.
+   */
+  Color(const Color visible, const Color hidden);
 
   bool operator==(const Color& other) const;
 
@@ -37,9 +42,19 @@ public:
 
   bool operator < (const Color& other) const;
 
+  /**
+   * Returns the colour that should be rendered on the visible lightmap.
+   */
+  Color get_visible_color() const;
+
+  /**
+   * Returns the colour that should be rendered on the hidden lightmap.
+   */
+  Color get_hidden_color() const;
+
   std::vector<float> toVector();
 
-  float red, green, blue, alpha;
+  float red, green, blue, alpha, ultra_violet;
 
   static const Color BLACK;
   static const Color RED;

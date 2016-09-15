@@ -36,6 +36,8 @@ private:
 public:
   GLPainter();
 
+  static void reset_last_texture();
+
   static void draw_surface(const DrawingRequest& request);
   static void draw_surface_part(const DrawingRequest& request);
   static void draw_gradient(const DrawingRequest& request);

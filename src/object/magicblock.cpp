@@ -44,6 +44,7 @@ MagicBlock::MagicBlock(const ReaderMapping& lisp) :
   trigger_red(),
   trigger_green(),
   trigger_blue(),
+  trigger_ultra_violet(),
   solid_time(0),
   switch_delay(0),
   solid_box(),
@@ -65,16 +66,18 @@ MagicBlock::MagicBlock(const ReaderMapping& lisp) :
   color.alpha = ALPHA_SOLID;
 
   //set trigger
-  if(color.red == 0 && color.green == 0 && color.blue == 0) { //is it black?
+  if(color.red == 0 && color.green == 0 && color.blue == 0 && color.ultra_violet == 0) { //is it black?
     black = true;
     trigger_red = MIN_INTENSITY;
     trigger_green = MIN_INTENSITY;
     trigger_blue = MIN_INTENSITY;
+    trigger_ultra_violet = MIN_INTENSITY;
   } else {
     black = false;
     trigger_red = color.red;
     trigger_green = color.green;
     trigger_blue = color.blue;
+    trigger_ultra_violet = color.ultra_violet;
   }
 
   center = bbox.get_middle();
@@ -91,16 +94,18 @@ MagicBlock::get_settings() {
 
 void
 MagicBlock::after_editor_set() {
-  if(color.red == 0 && color.green == 0 && color.blue == 0) { //is it black?
+  if(color.red == 0 && color.green == 0 && color.blue == 0 && color.ultra_violet == 0) { //is it black?
     black = true;
     trigger_red = MIN_INTENSITY;
     trigger_green = MIN_INTENSITY;
     trigger_blue = MIN_INTENSITY;
+    trigger_ultra_violet = MIN_INTENSITY;
   } else {
     black = false;
     trigger_red = color.red;
     trigger_green = color.green;
     trigger_blue = color.blue;
+    trigger_ultra_violet = color.ultra_violet;
   }
   sprite->set_color(color);
 }
@@ -123,10 +128,10 @@ MagicBlock::update(float elapsed_time)
   bool lighting_ok;
   if(black) {
     lighting_ok = (light.red >= trigger_red || light.green >= trigger_green
-                   || light.blue >= trigger_blue);
+                   || light.blue >= trigger_blue || light.ultra_violet >= trigger_ultra_violet);
   } else {
     lighting_ok = (light.red >= trigger_red && light.green >= trigger_green
-                   && light.blue >= trigger_blue);
+                   && light.blue >= trigger_blue && light.ultra_violet >= trigger_ultra_violet);
   }
 
   // overrule lighting_ok if switch_delay has not yet passed

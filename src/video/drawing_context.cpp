@@ -328,13 +328,13 @@ void
 DrawingContext::get_light(const Vector& position, Color* color)
 {
   if( ambient_color.red == 1.0f && ambient_color.green == 1.0f
-      && ambient_color.blue  == 1.0f ) {
-    *color = Color( 1.0f, 1.0f, 1.0f);
+      && ambient_color.blue == 1.0f && ambient_color.ultra_violet == 1.0f ) {
+    *color = Color( 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
     return;
   }
 
   auto request = new(obst) DrawingRequest();
-  request->target = target;
+  request->target = LIGHTMAP;
   request->type = GETLIGHT;
   request->pos = transform.apply(position);
 
@@ -363,15 +363,21 @@ DrawingContext::do_drawing()
   //Use Lightmap if ambient color is not white.
   bool use_lightmap = ( ambient_color.red != 1.0f ||
                         ambient_color.green != 1.0f ||
-                        ambient_color.blue != 1.0f );
+                        ambient_color.blue != 1.0f ||
+                        ambient_color.ultra_violet != 1.0f);
 
   // PART1: create lightmap
   if(use_lightmap) {
     auto& lightmap = video_system.get_lightmap();
+    auto& hidden_lightmap = video_system.get_hidden_lightmap();
 
-    lightmap.start_draw(ambient_color);
-    handle_drawing_requests(lightmap_requests);
+    lightmap.start_draw(ambient_color.get_visible_color());
+    handle_drawing_requests(lightmap_requests, false);
     lightmap.end_draw();
+
+    hidden_lightmap.start_draw(ambient_color.get_hidden_color());
+    handle_drawing_requests(lightmap_requests, true);
+    hidden_lightmap.end_draw();
 
     auto request = new(obst) DrawingRequest();
     request->target = NORMAL;
@@ -410,28 +416,31 @@ public:
 };
 
 void
-DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
+DrawingContext::handle_drawing_requests(DrawingRequests& requests_, bool hidden_color)
 {
   std::stable_sort(requests_.begin(), requests_.end(), RequestPtrCompare());
 
   Renderer& renderer = video_system.get_renderer();
   Lightmap& lightmap = video_system.get_lightmap();
+  Lightmap& hidden_lightmap = video_system.get_hidden_lightmap();
 
   DrawingRequests::const_iterator i;
   for(i = requests_.begin(); i != requests_.end(); ++i) {
     const DrawingRequest& request = **i;
+    DrawingRequest request2 = request;
 
     switch(request.target) {
       case NORMAL:
+        request2.color = request2.color.get_visible_color();
         switch(request.type) {
           case SURFACE:
-            renderer.draw_surface(request);
+            renderer.draw_surface(request2);
             break;
           case SURFACE_PART:
-            renderer.draw_surface_part(request);
+            renderer.draw_surface_part(request2);
             break;
           case GRADIENT:
-            renderer.draw_gradient(request);
+            renderer.draw_gradient(request2);
             break;
           case TEXT:
           {
@@ -441,61 +450,105 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
           }
           break;
           case FILLRECT:
-            renderer.draw_filled_rect(request);
+            renderer.draw_filled_rect(request2);
             break;
           case INVERSEELLIPSE:
-            renderer.draw_inverse_ellipse(request);
+            renderer.draw_inverse_ellipse(request2);
             break;
           case DRAW_LIGHTMAP:
             lightmap.do_draw();
             break;
-          case GETLIGHT:
-            lightmap.get_light(request);
-            break;
+          case GETLIGHT: {
+            assert(!"GetLight doesn't make sense on the normal target");
+          } break;
           case LINE:
-            renderer.draw_line(request);
+            renderer.draw_line(request2);
             break;
           case TRIANGLE:
-            renderer.draw_triangle(request);
+            renderer.draw_triangle(request2);
             break;
         }
         break;
       case LIGHTMAP:
-        switch(request.type) {
-          case SURFACE:
-            lightmap.draw_surface(request);
+        if (hidden_color) {
+          request2.color = request2.color.get_hidden_color();
+          switch(request.type) {
+            case SURFACE:
+              hidden_lightmap.draw_surface(request2);
+              break;
+            case SURFACE_PART:
+              hidden_lightmap.draw_surface_part(request2);
+              break;
+            case GRADIENT:
+              hidden_lightmap.draw_gradient(request2);
+              break;
+            case TEXT:
+            {
+              const auto textrequest = static_cast<TextRequest*>(request.request_data);
+              textrequest->font->draw(&renderer, textrequest->text, request.pos,
+                                      textrequest->alignment, request.drawing_effect, request.color, request.alpha);
+            }
             break;
-          case SURFACE_PART:
-            lightmap.draw_surface_part(request);
-            break;
-          case GRADIENT:
-            lightmap.draw_gradient(request);
-            break;
-          case TEXT:
-          {
-            const auto textrequest = static_cast<TextRequest*>(request.request_data);
-            textrequest->font->draw(&renderer, textrequest->text, request.pos,
-                                    textrequest->alignment, request.drawing_effect, request.color, request.alpha);
+            case FILLRECT:
+              hidden_lightmap.draw_filled_rect(request2);
+              break;
+            case INVERSEELLIPSE:
+              assert(!"InverseEllipse doesn't make sense on the lightmap");
+              break;
+            case DRAW_LIGHTMAP:
+              lightmap.do_draw();
+              break;
+            case GETLIGHT: {
+              Color* color_ptr = static_cast<GetLightRequest*>(request.request_data)->color_ptr;
+              Color visible_color = *color_ptr; // Save the visible colour
+
+              hidden_lightmap.get_light(request2);
+              *color_ptr = Color(visible_color, *color_ptr); // Compose the colour again
+            } break;            case LINE:
+              hidden_lightmap.draw_line(request2);
+              break;
+            case TRIANGLE:
+              hidden_lightmap.draw_triangle(request2);
+              break;
           }
-          break;
-          case FILLRECT:
-            lightmap.draw_filled_rect(request);
+        } else {
+          request2.color = request2.color.get_visible_color();
+          switch(request.type) {
+            case SURFACE:
+              lightmap.draw_surface(request2);
+              break;
+            case SURFACE_PART:
+              lightmap.draw_surface_part(request2);
+              break;
+            case GRADIENT:
+              lightmap.draw_gradient(request2);
+              break;
+            case TEXT:
+            {
+              const auto textrequest = static_cast<TextRequest*>(request.request_data);
+              textrequest->font->draw(&renderer, textrequest->text, request.pos,
+                                      textrequest->alignment, request.drawing_effect, request.color, request.alpha);
+            }
             break;
-          case INVERSEELLIPSE:
-            assert(!"InverseEllipse doesn't make sense on the lightmap");
-            break;
-          case DRAW_LIGHTMAP:
-            lightmap.do_draw();
-            break;
-          case GETLIGHT:
-            lightmap.get_light(request);
-            break;
-          case LINE:
-            lightmap.draw_line(request);
-            break;
-          case TRIANGLE:
-            lightmap.draw_triangle(request);
-            break;
+            case FILLRECT:
+              lightmap.draw_filled_rect(request2);
+              break;
+            case INVERSEELLIPSE:
+              assert(!"InverseEllipse doesn't make sense on the lightmap");
+              break;
+            case DRAW_LIGHTMAP:
+              lightmap.do_draw();
+              break;
+            case GETLIGHT: {
+              lightmap.get_light(request2);
+            } break;
+            case LINE:
+              lightmap.draw_line(request2);
+              break;
+            case TRIANGLE:
+              lightmap.draw_triangle(request2);
+              break;
+          }
         }
         break;
     }

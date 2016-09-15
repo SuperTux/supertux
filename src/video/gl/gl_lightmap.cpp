@@ -92,6 +92,8 @@ GLLightmap::start_draw(const Color &ambient_color)
 
   glClearColor( ambient_color.red, ambient_color.green, ambient_color.blue, 1 );
   glClear(GL_COLOR_BUFFER_BIT);
+
+  GLPainter::reset_last_texture();
 }
 
 void
