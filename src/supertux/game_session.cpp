@@ -56,6 +56,7 @@
 GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
   reset_button(false),
   level(),
+  old_level(),
   statistics_backdrop(Surface::create("images/engine/menu/score-backdrop.png")),
   scripts(),
   currentsector(nullptr),
@@ -128,6 +129,7 @@ GameSession::restart_level(bool after_death)
   }
 
   try {
+    old_level = std::move(level);
     level = LevelParser::from_file(levelfile);
     level->stats.total_coins = level->get_total_coins();
     level->stats.total_badguys = level->get_total_badguys();
