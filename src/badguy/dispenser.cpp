@@ -166,7 +166,7 @@ Dispenser::collision(GameObject& other, const CollisionHit& hit)
       collision_squished(*player);
       return FORCE_MOVE;
     }
-    if(frozen){
+    if(frozen && type != DT_CANNON){
       unfreeze();
     }
     return FORCE_MOVE;
