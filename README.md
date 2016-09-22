@@ -1,3 +1,4 @@
+[![Twitter Follow](https://img.shields.io/twitter/follow/supertux_team.svg?style=social&label=Follow&maxAge=2592000)](https://twitter.com/intent/follow?screen_name=supertux_team)
 [![Build Status](https://travis-ci.org/SuperTux/supertux.svg?branch=master)](https://travis-ci.org/SuperTux/supertux)
 [![AppVeyor Build Satus](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/supertux/supertux-9ml4d/branch/master)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/4025/badge.svg)](https://scan.coverity.com/projects/4025)
