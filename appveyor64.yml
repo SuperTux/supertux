@@ -41,14 +41,14 @@ deploy:
   on:
     branch: master                 # release from master branch only
     appveyor_repo_tag: true        # deploy on tag push only
-- provider: BinTray
-  username: maths22
-  api_key:
-    secure: 9miH0V65c10cbWfovqIfIHWsbyrg6jZDnaYxyGYHF5pyQbPnS+LcIX6Y/8gK2pM4
-  subject: supertux
-  repo: SuperTux-Nightly
-  package: win64
-  publish: true
-  override: true
-  on:
-    branch: master
+#- provider: BinTray
+#  username: maths22
+#  api_key:
+#    secure: 9miH0V65c10cbWfovqIfIHWsbyrg6jZDnaYxyGYHF5pyQbPnS+LcIX6Y/8gK2pM4
+#  subject: supertux
+#  repo: SuperTux-Nightly
+#  package: win64
+#  publish: true
+#  override: true
+#  on:
+#    branch: master
