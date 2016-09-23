@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-08-16 08:33+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2016-09-18 13:13+0000\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk (http://www.transifex.com/arctic-games/supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,63 +21,63 @@ msgstr ""
 
 #: data/levels/incubator/Angry Stone vs. YOU.stl:3
 msgid "Angry Stone vs. YOU"
-msgstr ""
+msgstr "Sint stein vs. DEG"
 
 #: data/levels/incubator/Angry Stone vs. YOU.stl:308
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
-msgstr ""
+msgstr "#Du slår på brytarar med denne knappen:\n!images/tiles/signs/up.png"
 
 #: data/levels/incubator/Castle #1.stl:3
 msgid "Castle #1"
-msgstr ""
+msgstr "Slott 1"
 
 #: data/levels/incubator/Missingno.stl:3
 msgid "Missingno"
-msgstr ""
+msgstr "Manglartal"
 
 #: data/levels/incubator/Missingno.stl:535
 msgid "#Be patient!"
-msgstr ""
+msgstr "#Ver tolmodig!"
 
 #: data/levels/incubator/Missingno.stl:540
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
-msgstr ""
+msgstr "#Ikkje rør deg når du flyr!\n#Land forsiktig!"
 
 #: data/levels/incubator/NewIcelevel1.stl:3
 msgid "Blue iced hills"
-msgstr ""
+msgstr "Isblå åsar"
 
 #: data/levels/incubator/NewIcelevel2.stl:3
 msgid "Bad mountains"
-msgstr ""
+msgstr "Slemme fjell"
 
 #: data/levels/incubator/NewIcelevel3.stl:3
 msgid "eman level ehT <---"
-msgstr ""
+msgstr "tenmantterB <---"
 
 #: data/levels/incubator/NewIcelevel4.stl:3
 msgid "Ice sea"
-msgstr ""
+msgstr "Ishav"
 
 #: data/levels/incubator/NewIcelevel5.stl:3
 msgid "Electric-Wood factory"
-msgstr ""
+msgstr "Elektrisk tre-fabrikk"
 
 #: data/levels/incubator/Nice Ice.stl:3
 msgid "Nice Ice"
-msgstr ""
+msgstr "Fin is"
 
 #: data/levels/incubator/Nice Ice.stl:89
 msgid "#Use the enemy to finish this level!"
-msgstr ""
+msgstr "#Bruk fienden til å fullføra brettet!"
 
 #: data/levels/incubator/SP33DRUN.stl:3
 msgid "SP33DRUN"
-msgstr ""
+msgstr "F4R7SLØP"
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
@@ -93,7 +93,7 @@ msgstr "Galne-Ysonns kubehage"
 
 #: data/levels/incubator/fall_kugelblitz.stl:3
 msgid "Kugelblitzstorm"
-msgstr ""
+msgstr "Kulelynstorm"
 
 #: data/levels/incubator/frozen_fissure.stl:3
 msgid "Frozen Fissure"
@@ -101,15 +101,15 @@ msgstr "Sprekkar i isen"
 
 #: data/levels/incubator/hungry_tux.stl:3
 msgid "Tux is hungry!"
-msgstr ""
+msgstr "Tux er svolten!"
 
 #: data/levels/incubator/ice_mountain.stl:3
 msgid "Crystal Mountain"
-msgstr ""
+msgstr "Krystallfjell"
 
 #: data/levels/incubator/in_the_mountain.stl:3
 msgid "In the mountain"
-msgstr ""
+msgstr "På fjellet"
 
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
@@ -131,17 +131,17 @@ msgstr "Den ujamne stien"
 
 #: data/levels/incubator/let_us_snow.stl:3
 msgid "Let us snow!"
-msgstr ""
+msgstr "La oss snø!"
 
 #: data/levels/incubator/let_us_snow.stl:205
 msgid ""
 "-Warning!\n"
 "#Beware the falling enemies!"
-msgstr ""
+msgstr "-Åtvaring!\n#Pass deg for fallande fiendar!"
 
 #: data/levels/incubator/long.stl:3
 msgid "A long adventure"
-msgstr ""
+msgstr "Eit langt eventyr"
 
 #: data/levels/incubator/long.stl:1579
 msgid ""
@@ -152,17 +152,17 @@ msgid ""
 "#Even now you must not fail it.\n"
 "#Now go down to the shaft.\n"
 "#I hope you understood."
-msgstr ""
+msgstr "#Fram til no har du hatt flaks.\n#Vegen fram var tung.\n#Men du har framleis langt att.\n#Ver heilt klar over dette.\n#Du må ikkje mislukkast.\n#Gå ned i sjakta.\n#Eg håpar du forstår."
 
 #: data/levels/incubator/long.stl:3997
 msgid ""
 "-Congratulations!\n"
 "#You are in half the level! "
-msgstr ""
+msgstr "-Gratulerer!\n#Du er halvvegs gjennom brettet! "
 
 #: data/levels/incubator/long.stl:4549
 msgid "-You are going wrong!"
-msgstr ""
+msgstr "-Du går feil!"
 
 #: data/levels/incubator/midnight_crossing.stl:3
 msgid "Midnight Crossing"
@@ -170,7 +170,7 @@ msgstr "Midnattshoppet"
 
 #: data/levels/incubator/mountain_climbing.stl:3
 msgid "Mountain climbing"
-msgstr ""
+msgstr "Fjellklatring"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Catalanoic <catalanoic@gmail.com>, 2016
 # Marc Celeiro <maceleiro@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-06-23 15:39+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-09-17 18:42+0000\n"
+"Last-Translator: Catalanoic <catalanoic@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/arctic-games/supertux/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,11 +37,11 @@ msgstr "Camí inestable"
 
 #: data/levels/world2/Duct_Ape.stl:3
 msgid "Duct Ape"
-msgstr ""
+msgstr "Mico de conducte"
 
 #: data/levels/world2/El_Castillo.stl:3
 msgid "A Short Visit to El Castillo"
-msgstr ""
+msgstr "Una curta visita a El Castillo"
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
@@ -48,7 +49,7 @@ msgstr "Troba el peix més gran!"
 
 #: data/levels/world2/Find_Big_Fish.stl:449
 msgid "-A big fish... for you."
-msgstr ""
+msgstr "-Un peix gros... per tu."
 
 #: data/levels/world2/Going_Underground.stl:3
 msgid "Going Underground"
@@ -56,7 +57,7 @@ msgstr "Sota terra"
 
 #: data/levels/world2/Kneep_Deep.stl:3
 msgid "Kneep-deep in the depth"
-msgstr ""
+msgstr "Fins als genolls en la profunditat"
 
 #: data/levels/world2/Little_Venice.stl:3
 msgid "Little Venice"
@@ -81,7 +82,7 @@ msgid ""
 "#seems that the only way\n"
 "#leads through that dark\n"
 "#hole in the ground..."
-msgstr ""
+msgstr "-Oh no!\n#El camí està bloquejat!\n#Sembla que és l'única via\n#que condueix a través d'aquest fosc\n#forat a terra..."
 
 #: data/levels/world2/Rabbit_Hole.stl:55
 msgid "-Are you lost?"
@@ -114,7 +115,7 @@ msgid ""
 "!images/help/rockhowto1.png\n"
 "!images/help/rockhowto2.png\n"
 "!images/help/rockhowto3.png\n"
-msgstr ""
+msgstr "-Roques portàtils:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
 
 #: data/levels/world2/Two_Towers.stl:3
 msgid "Two Tiny Towers"
@@ -155,15 +156,15 @@ msgstr "Desviament"
 
 #: data/levels/world2/dfk-level1.stl:3
 msgid "Dark Forest Keep - The Evil Chamber"
-msgstr ""
+msgstr "Dark Forest Keep - La Cambra Mal"
 
 #: data/levels/world2/dfk-level2.stl:3
 msgid "Dark Forest Keep - The Eyes Of Nolok"
-msgstr ""
+msgstr "Dark Forest Keep - Els ulls dels Nolok"
 
 #: data/levels/world2/dfk-level3.stl:3
 msgid "Dark Forest Keep - The Black Tower"
-msgstr ""
+msgstr "Dark Forest Keep - La Torre Negre"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
@@ -175,23 +176,23 @@ msgstr "Món forestal"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr ""
+msgstr "clau 1 d'aigua - a col·locar-se darrere de la cascada"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr ""
+msgstr "clau 2 de la terra - a col·locar-se sota terra"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr ""
+msgstr "clau 3 de fusta - per a ser col·locat en un arbre gran"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr ""
+msgstr "tecla 4 de foc - per a ser col·locat en un petit castell"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr ""
+msgstr "tecla 5 d'aire - a col·locar-se en els núvols"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
@@ -211,7 +212,7 @@ msgstr "La venjança del mussol"
 
 #: data/levels/world2/roots_woody_roots.stl:3
 msgid "Roots, Woody Roots"
-msgstr ""
+msgstr "Arrels, les arrels llenyoses"
 
 #: data/levels/world2/roots_woody_roots.stl:200
 msgid ""
@@ -221,11 +222,11 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr ""
+msgstr "-Pista:\n#Si sembla que no hi ha\n#forma d'arribar a una porta,\n#recorda que se suposa\n#que anaven a sortir\n#de la porta..."
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"
-msgstr ""
+msgstr "---Inserir Cinemàtica Aquí---"
 
 #: data/levels/world2/shocking.stl:3
 msgid "Shocking"

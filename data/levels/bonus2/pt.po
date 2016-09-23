@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Dani <danielaafferraz@gmail.com>, 2013
+# Rui <xymarior@yandex.com>, 2016
 # BlaCoiso, 2016
 # Rui <xymarior@yandex.com>, 2016
 msgid ""
@@ -11,7 +12,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-09 01:28+0000\n"
+"PO-Revision-Date: 2016-09-14 00:21+0000\n"
 "Last-Translator: Rui <xymarior@yandex.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -49,11 +50,11 @@ msgid ""
 "\n"
 "\n"
 " The end of the ice age is near..."
-msgstr "-Parabéns!\n\n#Conseguiste chegar ao fim!\n#Ilha Bónus II\n\n\n\tcom níveis criados por\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Mais uma vez, gostaríamos de agradecer\n#a todos os que contribuíram para este\n#lançamento. Esperamos que tenhas gostado\n#e que tenhas tornado a espera pelo\n#Milestone 3 um pouco mais fácil :-)\n\n\n#O fim da Idade do Gelo está próximo..."
+msgstr "-Parabéns!\n\n#Conseguiste chegar ao fim!\n#Ilha Extra II\n\n\n\tcom níveis criados por\n\tKevin\n\tJason Kleinemas\n\tDenilson\n\tTobe Deprez\n\tBig C\n\tThomas Nilsen\n\tTorfi Gunnarsson\n\tDaniel Alston\n\tNilrok\n\tCorlin Heydman\n\n\n#Mais uma vez, gostaríamos de agradecer\n#a todos os que contribuíram para este\n#lançamento. Esperamos que tenhas gostado\n#e que tenhas tornado a espera pela\n#Meta 3 um pouco mais fácil :-)\n\n\n#O fim da Idade do Gelo está próximo..."
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Era suposto o Mário lidar com isto..."
+msgstr "Era Suposto o Mário Lidar com Isto..."
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -69,7 +70,7 @@ msgstr "Cego para o Mundo"
 
 #: data/levels/bonus2/level13.stl:3
 msgid "snarf"
-msgstr "snarf"
+msgstr "morfar"
 
 #: data/levels/bonus2/level14.stl:3
 msgid "On The Road Again"
@@ -81,7 +82,7 @@ msgstr "Túnel Congelado"
 
 #: data/levels/bonus2/level16.stl:3
 msgid "Luft Airship"
-msgstr "Nave Luft"
+msgstr "Dirigível do Luft"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
@@ -89,7 +90,7 @@ msgstr "... Onde Tudo é Possível"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
-msgstr "Insere Aqui o Título Original"
+msgstr "Inserir Aqui o Título Original"
 
 #: data/levels/bonus2/level19.stl:3
 msgid "End Of The Ice Age"
@@ -125,7 +126,7 @@ msgstr "Alta Gravidade"
 
 #: data/levels/bonus2/level26.stl:3
 msgid "Firestorm"
-msgstr "Ataque de Fogo"
+msgstr "Tempestade de Fogo"
 
 #: data/levels/bonus2/level27.stl:3
 msgid "A Long Journey"
@@ -141,11 +142,11 @@ msgstr "Saltando do Penhasco"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr "Dentro da Cave"
+msgstr "Dentro da Caverna"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
-msgstr "Tens um minuto"
+msgstr "Tens 1 minuto"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
@@ -165,11 +166,11 @@ msgstr "Tradição"
 
 #: data/levels/bonus2/worldmap.stwm:3
 msgid "Bonus Island II"
-msgstr "Ilha Bónus III"
+msgstr "Ilha Extra II"
 
 #: data/levels/bonus2/worldmap.stwm:12 data/levels/bonus2/worldmap.stwm:20
 msgid "You found a secret place!"
-msgstr "Encontrou um sítio secreto!"
+msgstr "Encontraste uma área secreta!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."

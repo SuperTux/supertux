@@ -5,12 +5,13 @@
 # Translators:
 # Dani <danielaafferraz@gmail.com>, 2013
 # Rui <xymarior@yandex.com>, 2016
+# Rui <xymarior@yandex.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-09 01:15+0000\n"
+"PO-Revision-Date: 2016-09-14 00:21+0000\n"
 "Last-Translator: Rui <xymarior@yandex.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +36,7 @@ msgstr "Castelo #1"
 
 #: data/levels/incubator/Missingno.stl:3
 msgid "Missingno"
-msgstr ""
+msgstr "Faltando"
 
 #: data/levels/incubator/Missingno.stl:535
 msgid "#Be patient!"
@@ -57,7 +58,7 @@ msgstr "Montanhas más"
 
 #: data/levels/incubator/NewIcelevel3.stl:3
 msgid "eman level ehT <---"
-msgstr ""
+msgstr "levín od emon O <---"
 
 #: data/levels/incubator/NewIcelevel4.stl:3
 msgid "Ice sea"
@@ -65,7 +66,7 @@ msgstr "Mar de gelo"
 
 #: data/levels/incubator/NewIcelevel5.stl:3
 msgid "Electric-Wood factory"
-msgstr "Fábrica de Madeia eléctrica"
+msgstr "Fábrica de Madeira Elétrica"
 
 #: data/levels/incubator/Nice Ice.stl:3
 msgid "Nice Ice"
@@ -77,11 +78,11 @@ msgstr "#Usa o inimigo para acabar este nível!"
 
 #: data/levels/incubator/SP33DRUN.stl:3
 msgid "SP33DRUN"
-msgstr ""
+msgstr "COOORRIDA"
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
-msgstr "Corrida da Caverna"
+msgstr "Corrida na Caverna"
 
 #: data/levels/incubator/cherry_frosting.stl:3
 msgid "The Cherry Frosting"
@@ -119,7 +120,7 @@ msgstr "A entrar na Escuridão"
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr ""
+msgstr "-Dica:\n#Usa a flor-de-fogo para derreter um caminho através do gelo."
 
 #: data/levels/incubator/into_dark.stl:230
 msgid "#Beware of fire!"
@@ -131,7 +132,7 @@ msgstr "O Caminho Irregular"
 
 #: data/levels/incubator/let_us_snow.stl:3
 msgid "Let us snow!"
-msgstr ""
+msgstr "Deixa-nos nevar!"
 
 #: data/levels/incubator/let_us_snow.stl:205
 msgid ""
@@ -152,25 +153,25 @@ msgid ""
 "#Even now you must not fail it.\n"
 "#Now go down to the shaft.\n"
 "#I hope you understood."
-msgstr ""
+msgstr "#Até agora tens tido sorte.\n#O caminho até aqui foi difícil.\n#Ainda tens muito para andar.\n#Deves saber bem.\n#mesmo agora não podes falhar.\n#Agora desce para o poço.\n#Espero que tenhas entendido."
 
 #: data/levels/incubator/long.stl:3997
 msgid ""
 "-Congratulations!\n"
 "#You are in half the level! "
-msgstr ""
+msgstr "-Parabéns!\n#Estás na metade do nível! "
 
 #: data/levels/incubator/long.stl:4549
 msgid "-You are going wrong!"
-msgstr ""
+msgstr "-Estás a ir mal!"
 
 #: data/levels/incubator/midnight_crossing.stl:3
 msgid "Midnight Crossing"
-msgstr ""
+msgstr "Cruzando a Meia-Noite"
 
 #: data/levels/incubator/mountain_climbing.stl:3
 msgid "Mountain climbing"
-msgstr ""
+msgstr "Escalar montanhas"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"
@@ -178,20 +179,20 @@ msgstr "O caminho não tão longo"
 
 #: data/levels/incubator/obstaclecourse.stl:3
 msgid "Obstacle Course"
-msgstr ""
+msgstr "Pista de Obstáculos"
 
 #: data/levels/incubator/obstaclecourse.stl:48
 msgid "#If you get stuck, flip the switch to kill Tux."
-msgstr ""
+msgstr "#Se ficares preso, muda o interruptor para matar o Tux."
 
 #: data/levels/incubator/pipeline.stl:3
 msgid "Pipeline"
-msgstr ""
+msgstr "Tubo"
 
 #: data/levels/incubator/primed.stl:3
 msgid "Primed for Action"
-msgstr ""
+msgstr "Preparado para a Ação"
 
 #: data/levels/incubator/worldmap.stwm:3
 msgid "Incubator Island"
-msgstr "Incubadora de Ilhas"
+msgstr "Ilha Incubadora"

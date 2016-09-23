@@ -11,6 +11,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Karl Ove Hufthammer <karl@huftis.org>, 2016
 #, fuzzy
 msgid ""
 msgstr ""
@@ -18,8 +19,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-05 18:44+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"PO-Revision-Date: 2016-09-18 13:13+0000\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk (http://www.transifex.com/arctic-games/"
 "supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
@@ -30,9 +31,9 @@ msgstr ""
 "#-#-#-#-#  nn.po (SuperTux)  #-#-#-#-#\n"
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-08-04 09:54+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-09-18 13:14+0000\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk (http://www.transifex.com/arctic-games/"
 "supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
@@ -43,265 +44,265 @@ msgstr ""
 
 #: src/badguy/angrystone.hpp:37
 msgid "Angry stone"
-msgstr ""
+msgstr "Sint stein"
 
 #: src/badguy/badguy.hpp:55
 msgid "Badguy"
-msgstr ""
+msgstr "Slemming"
 
 #: src/badguy/badguy.hpp:61
 msgid "Death script"
-msgstr ""
+msgstr "Dødsskript"
 
 #: src/badguy/bouncing_snowball.hpp:35
 msgid "Bouncing Snowball"
-msgstr ""
+msgstr "Sprettande snøball"
 
 #: src/badguy/captainsnowball.hpp:36
 msgid "Captain snowball"
-msgstr ""
+msgstr "Kaptein snøball"
 
 #: src/badguy/crystallo.cpp:48 src/badguy/flame.cpp:59
 msgid "Radius"
-msgstr ""
+msgstr "Radius"
 
 #: src/badguy/crystallo.hpp:35
 msgid "Crystallo"
-msgstr ""
+msgstr "Crystallo"
 
 #: src/badguy/dart.hpp:49
 msgid "Dart"
-msgstr ""
+msgstr "Dart"
 
 #: src/badguy/darttrap.cpp:115
 msgid "Initial delay"
-msgstr ""
+msgstr "Startpause"
 
 #: src/badguy/darttrap.cpp:117
 msgid "Fire delay"
-msgstr ""
+msgstr "Eldpause"
 
 #: src/badguy/darttrap.cpp:119
 msgid "Ammo"
-msgstr ""
+msgstr "Ammo"
 
 #: src/badguy/darttrap.hpp:36
 msgid "Dart trap"
-msgstr ""
+msgstr "Dartfelle"
 
 #: src/badguy/dispenser.cpp:381
 msgid "Interval (seconds)"
-msgstr ""
+msgstr "Intervall (sekund)"
 
 #: src/badguy/dispenser.cpp:383
 msgid "Random"
-msgstr ""
+msgstr "Tilfeldig"
 
 #: src/badguy/dispenser.cpp:385
 msgid "Enemies"
-msgstr ""
+msgstr "Fiendar"
 
 #: src/badguy/dispenser.cpp:388
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: src/badguy/dispenser.cpp:389
 msgid "dropper"
-msgstr ""
+msgstr "droppar"
 
 #: src/badguy/dispenser.cpp:390
 msgid "rocket launcher"
-msgstr ""
+msgstr "rakettrampe"
 
 #: src/badguy/dispenser.cpp:391
 msgid "cannon"
-msgstr ""
+msgstr "kanon"
 
 #: src/badguy/dispenser.cpp:392
 msgid "invisible"
-msgstr ""
+msgstr "usynleg"
 
 #: src/badguy/dispenser.hpp:40
 msgid "Dispenser"
-msgstr ""
+msgstr "Utsendar"
 
 #: src/badguy/fish.hpp:44
 msgid "Fish"
-msgstr ""
+msgstr "Fisk"
 
 #: src/badguy/flame.cpp:61
 msgid "Speed"
-msgstr ""
+msgstr "Fart"
 
 #: src/badguy/flame.hpp:45
 msgid "Flame"
-msgstr ""
+msgstr "Flamme"
 
 #: src/badguy/flyingsnowball.hpp:36
 msgid "Flying snowball"
-msgstr ""
+msgstr "Flygande snøball"
 
 #: src/badguy/ghostflame.hpp:35
 msgid "Ghost flame"
-msgstr ""
+msgstr "Spøkjelsesflamme"
 
 #: src/badguy/ghosttree.hpp:48
 msgid "Ghost tree"
-msgstr ""
+msgstr "Spøkjelsetre"
 
 #: src/badguy/goldbomb.hpp:51
 msgid "Golden bomb"
-msgstr ""
+msgstr "Gyllen bombe"
 
 #: src/badguy/haywire.hpp:45
 msgid "Haywire"
-msgstr ""
+msgstr "Haywire"
 
 #: src/badguy/iceflame.hpp:38
 msgid "Ice flame"
-msgstr ""
+msgstr "Isflamme"
 
 #: src/badguy/igel.hpp:40
 msgid "Igel"
-msgstr ""
+msgstr "Igel"
 
 #: src/badguy/jumpy.hpp:39
 msgid "Jumpy"
-msgstr ""
+msgstr "Sprettulf"
 
 #: src/badguy/kamikazesnowball.hpp:34
 msgid "Kamikaze snowball"
-msgstr ""
+msgstr "Kamikazesnøball"
 
 #: src/badguy/kamikazesnowball.hpp:56
 msgid "Leaf Shot"
-msgstr ""
+msgstr "Lauvsprett"
 
 #: src/badguy/kugelblitz.hpp:43
 msgid "Kugelblitz"
-msgstr ""
+msgstr "Kulelyn"
 
 #: src/badguy/livefire.hpp:40
 msgid "Live fire"
-msgstr ""
+msgstr "Eldtunge"
 
 #: src/badguy/livefire.hpp:66
 msgid "Sleeping live fire"
-msgstr ""
+msgstr "Sovande eldtunge"
 
 #: src/badguy/livefire.hpp:80
 msgid "Dormant live fire"
-msgstr ""
+msgstr "Kvilande eldtunge"
 
 #: src/badguy/mole.hpp:43
 msgid "Mole"
-msgstr ""
+msgstr "Moldvarp"
 
 #: src/badguy/mole_rock.hpp:48
 msgid "Mole's rock"
-msgstr ""
+msgstr "Moldvarpstein"
 
 #: src/badguy/mrbomb.hpp:45
 msgid "Mr. Bomb"
-msgstr ""
+msgstr "Herr Bombe"
 
 #: src/badguy/mriceblock.hpp:51
 msgid "Mr. Ice Block"
-msgstr ""
+msgstr "Herr Isblokk"
 
 #: src/badguy/mriceblock.hpp:85
 msgid "Smart Block"
-msgstr ""
+msgstr "Smartblokk"
 
 #: src/badguy/mrtree.hpp:32
 msgid "Mr. Tree"
-msgstr ""
+msgstr "Herr Tre"
 
 #: src/badguy/owl.hpp:44
 msgid "Owl"
-msgstr ""
+msgstr "Ugle"
 
 #: src/badguy/plant.hpp:36
 msgid "Plant"
-msgstr ""
+msgstr "Plante"
 
 #: src/badguy/poisonivy.hpp:33
 msgid "Poisonous ivy"
-msgstr ""
+msgstr "Giftig eføy"
 
 #: src/badguy/short_fuse.hpp:31
 msgid "Short fuse"
-msgstr ""
+msgstr "Kort lunte"
 
 #: src/badguy/skullyhop.hpp:43
 msgid "Skully hop"
-msgstr ""
+msgstr "Hoppeskalle"
 
 #: src/badguy/skydive.hpp:42
 msgid "Sky dive"
-msgstr ""
+msgstr "Himmelfall"
 
 #: src/badguy/smartball.hpp:39
 msgid "Smart Ball"
-msgstr ""
+msgstr "Smartball"
 
 #: src/badguy/snail.hpp:44
 msgid "Snail"
-msgstr ""
+msgstr "Snigel"
 
 #: src/badguy/snowball.hpp:31
 msgid "Snowball"
-msgstr ""
+msgstr "Snøball"
 
 #: src/badguy/snowman.hpp:31
 msgid "Snowman"
-msgstr ""
+msgstr "Snømann"
 
 #: src/badguy/spidermite.hpp:39
 msgid "Spider mite"
-msgstr ""
+msgstr "Edderpjokk"
 
 #: src/badguy/spiky.hpp:33
 msgid "Spiky"
-msgstr ""
+msgstr "Piggleif"
 
 #: src/badguy/sspiky.hpp:39
 msgid "Sleeping spiky"
-msgstr ""
+msgstr "Sovande Piggleif"
 
 #: src/badguy/stalactite.hpp:42
 msgid "Stalactite"
-msgstr ""
+msgstr "Stalaktitt"
 
 #: src/badguy/stumpy.hpp:38
 msgid "Stumpy"
-msgstr ""
+msgstr "Stubbe"
 
 #: src/badguy/toad.hpp:43
 msgid "Toad"
-msgstr ""
+msgstr "Padde"
 
 #: src/badguy/totem.hpp:41
 msgid "Totem"
-msgstr ""
+msgstr "Totem"
 
 #: src/badguy/walking_candle.cpp:82 src/object/candle.cpp:74
 #: src/object/lantern.cpp:60 src/object/magicblock.cpp:87
 #: src/object/spotlight.cpp:64
 msgid "Colour"
-msgstr ""
+msgstr "Farge"
 
 #: src/badguy/walking_candle.hpp:45
 msgid "Mr. Candle"
-msgstr ""
+msgstr "Herr Lysestake"
 
 #: src/badguy/walkingleaf.hpp:36
 msgid "Walking leaf"
-msgstr ""
+msgstr "Vandrande blad"
 
 #: src/badguy/willowisp.cpp:300 src/badguy/willowisp.hpp:63
 msgid "Will 'o' wisp"
-msgstr ""
+msgstr "Vettelys"
 
 #: src/badguy/willowisp.cpp:301 src/editor/worldmap_objects.cpp:245
 #: src/supertux/game_object.cpp:122 src/supertux/menu/editor_level_menu.cpp:39
@@ -312,52 +313,52 @@ msgstr ""
 #: src/trigger/secretarea_trigger.cpp:74 src/trigger/sequence_trigger.cpp:73
 #: src/trigger/switch.cpp:61
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #: src/badguy/willowisp.cpp:303 src/editor/layers_gui.cpp:219
 #: src/supertux/menu/editor_sector_menu.cpp:38 src/trigger/door.cpp:79
 msgid "Sector"
-msgstr ""
+msgstr "Sektor"
 
 #: src/badguy/willowisp.cpp:304 src/editor/worldmap_objects.cpp:198
 msgid "Spawnpoint"
-msgstr ""
+msgstr "Startposisjon"
 
 #: src/badguy/willowisp.cpp:305
 msgid "Hit script"
-msgstr ""
+msgstr "Treffskript"
 
 #: src/badguy/willowisp.cpp:306
 msgid "Track range"
-msgstr ""
+msgstr "Sporingsavstand"
 
 #: src/badguy/willowisp.cpp:307
 msgid "Vanish range"
-msgstr ""
+msgstr "Forsvinningsavstand"
 
 #: src/badguy/willowisp.cpp:308
 msgid "Fly speed"
-msgstr ""
+msgstr "Flygefart"
 
 #: src/badguy/yeti.cpp:355
 msgid "Fixed position"
-msgstr ""
+msgstr "Fast posisjon"
 
 #: src/badguy/yeti.cpp:356
 msgid "Lives"
-msgstr ""
+msgstr "Liv"
 
 #: src/badguy/yeti.hpp:44
 msgid "Yeti"
-msgstr ""
+msgstr "Yeti"
 
 #: src/badguy/yeti_stalactite.hpp:38
 msgid "Yeti's stalactite"
-msgstr ""
+msgstr "Yetis stalaktitt"
 
 #: src/badguy/zeekling.hpp:40
 msgid "Zeekling"
-msgstr ""
+msgstr "Stupefisk"
 
 #: src/control/joystick_config.cpp:84
 msgid "Joystick Mappings"
@@ -370,31 +371,35 @@ msgid ""
 "You can still enable these add-ons in the menu.\n"
 "Disabling these add-ons will not delete your game progress."
 msgstr ""
+"Nokre utdaterte tilleggskart er framleis i bruk og\n"
+"kan føra til krasj med standard SuperTux-strukturar.\n"
+"Du kan framleis slå på desse tilleggskarta i menyen.\n"
+"Slår du dei av, vil spelet framleis hugsa kor langt du er kommen."
 
 #: src/editor/editor.cpp:351
 msgid "Disable add-ons"
-msgstr ""
+msgstr "Slå av tilleggskart"
 
 #: src/editor/editor.cpp:356
 msgid "Ignore (not advised)"
-msgstr ""
+msgstr "Ignorer (ikkje tilrådd)"
 
 #: src/editor/editor.cpp:360
 msgid "Leave editor"
-msgstr ""
+msgstr "Forlat redigeringsprogram"
 
 #: src/editor/input_gui.cpp:117 src/supertux/menu/editor_tilegroup_menu.cpp:37
 msgid "Tilegroups"
-msgstr ""
+msgstr "Flisgrupper"
 
 #: src/editor/input_gui.cpp:120
 #: src/supertux/menu/editor_objectgroup_menu.cpp:38
 msgid "Objects"
-msgstr ""
+msgstr "Objekt"
 
 #: src/editor/node_marker.cpp:66
 msgid "Path Node"
-msgstr ""
+msgstr "Stinode"
 
 #: src/editor/node_marker.cpp:67 src/object/level_time.cpp:53
 #: src/supertux/statistics.cpp:231
@@ -403,7 +408,7 @@ msgstr "Tid"
 
 #: src/editor/object_menu.cpp:68
 msgid "Remove"
-msgstr ""
+msgstr "Fjern"
 
 #: src/editor/object_menu.cpp:75 src/gui/menu_badguy_select.cpp:115
 #: src/gui/menu_color.cpp:38 src/gui/menu_script.cpp:51
@@ -421,11 +426,11 @@ msgstr "OK"
 
 #: src/editor/object_option.cpp:49
 msgid "true"
-msgstr ""
+msgstr "ja"
 
 #: src/editor/object_option.cpp:49
 msgid "false"
-msgstr ""
+msgstr "nei"
 
 #: src/editor/object_option.cpp:66 src/supertux/menu/addon_menu.cpp:61
 msgid "Unknown"
@@ -434,7 +439,7 @@ msgstr "Ukjend"
 #: src/editor/spawnpoint_marker.hpp:52 src/editor/worldmap_objects.cpp:244
 #: src/trigger/door.cpp:80
 msgid "Spawn point"
-msgstr ""
+msgstr "Startposisjon"
 
 #: src/editor/worldmap_objects.cpp:102 src/editor/worldmap_objects.cpp:104
 msgid "Level"
@@ -442,11 +447,11 @@ msgstr "Brett"
 
 #: src/editor/worldmap_objects.cpp:108
 msgid "Outro script"
-msgstr ""
+msgstr "Utannonseringsskript"
 
 #: src/editor/worldmap_objects.cpp:109
 msgid "Auto play"
-msgstr ""
+msgstr "Autospel"
 
 #: src/editor/worldmap_objects.cpp:111 src/editor/worldmap_objects.cpp:207
 #: src/editor/worldmap_objects.cpp:284 src/editor/worldmap_objects.cpp:343
@@ -454,100 +459,100 @@ msgstr ""
 #: src/object/moving_sprite.cpp:166 src/object/torch.cpp:90
 #: src/trigger/switch.cpp:62
 msgid "Sprite"
-msgstr ""
+msgstr "Figur"
 
 #: src/editor/worldmap_objects.cpp:115
 msgid "Title colour"
-msgstr ""
+msgstr "Tittelfarge"
 
 #: src/editor/worldmap_objects.cpp:197
 msgid "Teleporter"
-msgstr ""
+msgstr "Teleportør"
 
 #: src/editor/worldmap_objects.cpp:199 src/editor/worldmap_objects.cpp:337
 #: src/object/infoblock.cpp:58 src/trigger/climbable.cpp:76
 #: src/trigger/secretarea_trigger.cpp:79
 msgid "Message"
-msgstr ""
+msgstr "Melding"
 
 #: src/editor/worldmap_objects.cpp:200
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisk"
 
 #: src/editor/worldmap_objects.cpp:202
 msgid "Change worldmap"
-msgstr ""
+msgstr "Byt verdskart"
 
 #: src/editor/worldmap_objects.cpp:203
 msgid "Target worldmap"
-msgstr ""
+msgstr "Mål-verdskart"
 
 #: src/editor/worldmap_objects.cpp:282
 msgid "Sprite change"
-msgstr ""
+msgstr "Figurendring"
 
 #: src/editor/worldmap_objects.cpp:288
 msgid "Stay action"
-msgstr ""
+msgstr "Ståhandling"
 
 #: src/editor/worldmap_objects.cpp:289
 msgid "Initial stay action"
-msgstr ""
+msgstr "Start-ståhandling"
 
 #: src/editor/worldmap_objects.cpp:290
 msgid "Stay group"
-msgstr ""
+msgstr "Stågruppe"
 
 #: src/editor/worldmap_objects.cpp:291
 msgid "Change on touch"
-msgstr ""
+msgstr "Endra ved kontakt"
 
 #: src/editor/worldmap_objects.cpp:336
 msgid "Special tile"
-msgstr ""
+msgstr "Spesialflis"
 
 #: src/editor/worldmap_objects.cpp:338
 msgid "Show message"
-msgstr ""
+msgstr "Vis melding"
 
 #: src/editor/worldmap_objects.cpp:339 src/object/bonus_block.cpp:180
 #: src/object/ispy.cpp:65 src/object/powerup.cpp:210
 #: src/object/pushbutton.cpp:51 src/trigger/scripttrigger.cpp:78
 #: src/trigger/secretarea_trigger.cpp:80
 msgid "Script"
-msgstr ""
+msgstr "Skript"
 
 #: src/editor/worldmap_objects.cpp:340
 msgid "Invisible"
-msgstr ""
+msgstr "Usynleg"
 
 #: src/gui/menu_badguy_select.cpp:102
 msgid "List of enemies"
-msgstr ""
+msgstr "Slemmingliste"
 
 #: src/gui/menu_badguy_select.cpp:104
 msgid "Enemy"
-msgstr ""
+msgstr "Fiende"
 
 #: src/gui/menu_badguy_select.cpp:105
 msgid "Add"
-msgstr ""
+msgstr "Legg til"
 
 #: src/gui/menu_badguy_select.cpp:144
 msgid "Do you want to delete this badguy from the list?"
-msgstr ""
+msgstr "Vil du sletta denne slemmingen frå lista?"
 
 #: src/gui/menu_badguy_select.cpp:145
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: src/gui/menu_badguy_select.cpp:148
 msgid "No"
-msgstr ""
+msgstr "Nei"
 
 #: src/gui/menu_color.cpp:28
 msgid "Mix the colour"
-msgstr ""
+msgstr "Bland farge"
 
 #: src/gui/menu_filesystem.cpp:115
 #: src/supertux/menu/editor_objectgroup_menu.cpp:50
@@ -561,10 +566,10 @@ msgstr "Avbryt"
 
 #: src/gui/menu_script.cpp:32
 msgid "Edit the script"
-msgstr ""
+msgstr "Rediger skriptet"
 
 #: src/object/ambient_sound.cpp:128 src/supertux/menu/options_menu.cpp:209
-#: data//credits.stxt:409
+#: data//credits.stxt:414
 msgid "Sound"
 msgstr "Lyd"
 
@@ -573,224 +578,224 @@ msgstr "Lyd"
 #: src/trigger/scripttrigger.cpp:76 src/trigger/secretarea_trigger.cpp:75
 #: src/trigger/sequence_trigger.cpp:74
 msgid "Width"
-msgstr ""
+msgstr "Breidd"
 
 #: src/object/ambient_sound.cpp:133 src/object/invisible_wall.cpp:46
 #: src/supertux/menu/editor_sector_menu.cpp:52 src/trigger/climbable.cpp:75
 #: src/trigger/scripttrigger.cpp:77 src/trigger/secretarea_trigger.cpp:76
 #: src/trigger/sequence_trigger.cpp:75
 msgid "Height"
-msgstr ""
+msgstr "Høgd"
 
 #: src/object/ambient_sound.cpp:134
 msgid "Distance factor"
-msgstr ""
+msgstr "Avstandsfaktor"
 
 #: src/object/ambient_sound.cpp:135
 msgid "Distance bias"
-msgstr ""
+msgstr "Avstandsbias"
 
 #: src/object/ambient_sound.cpp:136
 msgid "Volume"
-msgstr ""
+msgstr "Lydstyrke"
 
 #: src/object/ambient_sound.hpp:85
 msgid "Ambient sound"
-msgstr ""
+msgstr "Omgjevnadslyd"
 
 #: src/object/background.cpp:164 src/object/decal.cpp:46
 #: src/object/gradient.cpp:133 src/object/particlesystem.cpp:44
 #: src/object/tilemap.cpp:220
 msgid "Z-pos"
-msgstr ""
+msgstr "Z-posisjon"
 
 #: src/object/background.cpp:165
 msgid "Alignment"
-msgstr ""
+msgstr "Justering"
 
 #: src/object/background.cpp:166 src/worldmap/direction.cpp:82
 msgid "none"
-msgstr ""
+msgstr "ingen"
 
 #: src/object/background.cpp:167 src/supertux/direction.cpp:52
 msgid "left"
-msgstr ""
+msgstr "venstre"
 
 #: src/object/background.cpp:168 src/supertux/direction.cpp:53
 msgid "right"
-msgstr ""
+msgstr "høgre"
 
 #: src/object/background.cpp:169
 msgid "top"
-msgstr ""
+msgstr "oppe"
 
 #: src/object/background.cpp:170
 msgid "bottom"
-msgstr ""
+msgstr "nede"
 
 #: src/object/background.cpp:172
 msgid "Scroll offset x"
-msgstr ""
+msgstr "Rulleforskyving x"
 
 #: src/object/background.cpp:174
 msgid "Scroll offset y"
-msgstr ""
+msgstr "Rulleforskyving y"
 
 #: src/object/background.cpp:176
 msgid "Scroll speed x"
-msgstr ""
+msgstr "Rullefart x"
 
 #: src/object/background.cpp:178
 msgid "Scroll speed y"
-msgstr ""
+msgstr "Rullefart y"
 
 #: src/object/background.cpp:180 src/object/tilemap.cpp:217
 msgid "Speed x"
-msgstr ""
+msgstr "Fart x"
 
 #: src/object/background.cpp:181 src/object/tilemap.cpp:218
 msgid "Speed y"
-msgstr ""
+msgstr "Fart y"
 
 #: src/object/background.cpp:183
 msgid "Top image"
-msgstr ""
+msgstr "Toppbilete"
 
 #: src/object/background.cpp:189
 msgid "Image"
-msgstr ""
+msgstr "Bilete"
 
 #: src/object/background.cpp:191
 msgid "Bottom image"
-msgstr ""
+msgstr "Botnbilete"
 
 #: src/object/background.hpp:60 data//images/tiles.strf:784
 msgid "Background"
-msgstr ""
+msgstr "Bakgrunn"
 
 #: src/object/bicycle_platform.hpp:38
 msgid "Bicycle platform"
-msgstr ""
+msgstr "Sykkelplattform"
 
 #: src/object/bonus_block.cpp:181
 msgid "Count"
-msgstr ""
+msgstr "Tal"
 
 #: src/object/bonus_block.cpp:183
 msgid "Content"
-msgstr ""
+msgstr "Innhald"
 
 #: src/object/bonus_block.cpp:184
 msgid "coin"
-msgstr ""
+msgstr "mynt"
 
 #: src/object/bonus_block.cpp:185
 msgid "Growth (fire flower)"
-msgstr ""
+msgstr "Veks (eldblome)"
 
 #: src/object/bonus_block.cpp:186
 msgid "Growth (ice flower)"
-msgstr ""
+msgstr "Veks (isblome)"
 
 #: src/object/bonus_block.cpp:187
 msgid "Growth (air flower)"
-msgstr ""
+msgstr "Veks (luftblome)"
 
 #: src/object/bonus_block.cpp:188
 msgid "Growth (earth flower)"
-msgstr ""
+msgstr "Veks (jordblome)"
 
 #: src/object/bonus_block.cpp:189
 msgid "star"
-msgstr ""
+msgstr "stjerne"
 
 #: src/object/bonus_block.cpp:190
 msgid "tux doll"
-msgstr ""
+msgstr "Tux-dokke"
 
 #: src/object/bonus_block.cpp:191
 msgid "custom"
-msgstr ""
+msgstr "tilpassa"
 
 #: src/object/bonus_block.cpp:192
 msgid "script"
-msgstr ""
+msgstr "skript"
 
 #: src/object/bonus_block.cpp:193
 msgid "light"
-msgstr ""
+msgstr "lys"
 
 #: src/object/bonus_block.cpp:194
 msgid "trampoline"
-msgstr ""
+msgstr "trampoline"
 
 #: src/object/bonus_block.cpp:195
 msgid "coin rain"
-msgstr ""
+msgstr "myntregn"
 
 #: src/object/bonus_block.cpp:196
 msgid "coin explosion"
-msgstr ""
+msgstr "mynteksplosjon"
 
 #: src/object/bonus_block.hpp:38
 msgid "Bonus block"
-msgstr ""
+msgstr "Bonusblokk"
 
 #: src/object/brick.cpp:132
 msgid "Breakable"
-msgstr ""
+msgstr "Knusbar"
 
 #: src/object/brick.hpp:35
 msgid "Brick"
-msgstr ""
+msgstr "Murstein"
 
 #: src/object/camera.cpp:141
 msgid "Mode"
-msgstr ""
+msgstr "Modus"
 
 #: src/object/camera.cpp:142
 msgid "normal"
-msgstr ""
+msgstr "normal"
 
 #: src/object/camera.cpp:143
 msgid "auto scrolling"
-msgstr ""
+msgstr "autorulling"
 
 #: src/object/camera.cpp:144
 msgid "manual"
-msgstr ""
+msgstr "manuell"
 
 #: src/object/camera.hpp:90
 msgid "Camera"
-msgstr ""
+msgstr "Kamera"
 
 #: src/object/candle.cpp:72
 msgid "Burning"
-msgstr ""
+msgstr "Brenning"
 
 #: src/object/candle.cpp:73
 msgid "Flicker"
-msgstr ""
+msgstr "Blafring"
 
 #: src/object/candle.hpp:52
 msgid "Candle"
-msgstr ""
+msgstr "Lysestake"
 
 #: src/object/cloud_particle_system.hpp:43
 msgid "Cloud particles"
-msgstr ""
+msgstr "Skypartiklar"
 
 #: src/object/coin.cpp:263 src/object/tilemap.cpp:223
 msgid "Following path"
-msgstr ""
+msgstr "Følgjer sti"
 
 #: src/object/coin.hpp:43
 msgid "Coin"
-msgstr ""
+msgstr "Mynt"
 
 #: src/object/comet_particle_system.hpp:45
 msgid "Comet particles"
-msgstr ""
+msgstr "Kometpartiklar"
 
 #: src/object/decal.cpp:44 src/supertux/menu/joystick_menu.cpp:74
 #: src/supertux/menu/keyboard_menu.cpp:36
@@ -799,260 +804,260 @@ msgstr "Handling"
 
 #: src/object/decal.cpp:45 src/object/scripted_object.cpp:63
 msgid "Solid"
-msgstr ""
+msgstr "Massivt"
 
 #: src/object/decal.hpp:40
 msgid "Decal"
-msgstr ""
+msgstr "Decal"
 
 #: src/object/firefly.hpp:36
 msgid "Reset point"
-msgstr ""
+msgstr "Gjenoppståingspunkt"
 
 #: src/object/ghost_particle_system.hpp:43
 msgid "Ghost particles"
-msgstr ""
+msgstr "Spøkjelsetrepartiklar"
 
 #: src/object/gradient.cpp:126
 msgid "Left Colour"
-msgstr ""
+msgstr "Venstre farge"
 
 #: src/object/gradient.cpp:127
 msgid "Right Colour"
-msgstr ""
+msgstr "Høgre farge"
 
 #: src/object/gradient.cpp:129
 msgid "Top Colour"
-msgstr ""
+msgstr "Toppfarge"
 
 #: src/object/gradient.cpp:130
 msgid "Bottom Colour"
-msgstr ""
+msgstr "Botnfarge"
 
 #: src/object/gradient.cpp:134 src/supertux/direction.cpp:50
 #: src/worldmap/direction.cpp:81
 msgid "Direction"
-msgstr ""
+msgstr "Retning"
 
 #: src/object/gradient.cpp:135
 msgid "vertical"
-msgstr ""
+msgstr "loddrett"
 
 #: src/object/gradient.cpp:136
 msgid "horizontal"
-msgstr ""
+msgstr "vassrett"
 
 #: src/object/gradient.cpp:137
 msgid "vertical sector"
-msgstr ""
+msgstr "loddrett sektor"
 
 #: src/object/gradient.cpp:138
 msgid "horizontal sector"
-msgstr ""
+msgstr "vassrett sektor"
 
 #: src/object/gradient.hpp:61
 msgid "Gradient"
-msgstr ""
+msgstr "Gradient"
 
 #: src/object/hurting_platform.hpp:35
 msgid "Hurting platform"
-msgstr ""
+msgstr "Skadeplattform"
 
 #: src/object/icecrusher.hpp:42
 msgid "Ice crusher"
-msgstr ""
+msgstr "Isknusar"
 
 #: src/object/infoblock.hpp:41
 msgid "Info block"
-msgstr ""
+msgstr "Infoblokk"
 
 #: src/object/invisible_block.hpp:32
 msgid "Invisible block"
-msgstr ""
+msgstr "Usynleg blokk"
 
 #: src/object/invisible_wall.hpp:36
 msgid "Invisible wall"
-msgstr ""
+msgstr "Usynleg vegg"
 
 #: src/object/ispy.hpp:39
 msgid "Ispy"
-msgstr ""
+msgstr "Spionauge"
 
 #: src/object/lantern.hpp:56
 msgid "Lantern"
-msgstr ""
+msgstr "Lykt"
 
 #: src/object/level_time.hpp:74
 msgid "Level time"
-msgstr ""
+msgstr "Brett-tid"
 
 #: src/object/magicblock.hpp:42
 msgid "Magic block"
-msgstr ""
+msgstr "Magisk blokk"
 
 #: src/object/particlesystem.hpp:54
 msgid "Particle system"
-msgstr ""
+msgstr "Partikkelsystem"
 
 #: src/object/particlesystem_interactive.hpp:44
 msgid "Interactive particle system"
-msgstr ""
+msgstr "Interaktivt partikkelsystem"
 
 #: src/object/path.cpp:192
 msgid "Path Mode"
-msgstr ""
+msgstr "Stimodus"
 
 #: src/object/path.cpp:193
 msgid "one shot"
-msgstr ""
+msgstr "eitt skot"
 
 #: src/object/path.cpp:194
 msgid "ping pong"
-msgstr ""
+msgstr "pingpong"
 
 #: src/object/path.cpp:195
 msgid "circular"
-msgstr ""
+msgstr "sirkulær"
 
 #: src/object/path.cpp:196
 msgid "unordered"
-msgstr ""
+msgstr "uordna"
 
 #: src/object/path_walker.cpp:196 src/object/thunderstorm.cpp:63
 msgid "Running"
-msgstr ""
+msgstr "Spring"
 
 #: src/object/platform.hpp:75
 msgid "Platform"
-msgstr ""
+msgstr "Plattform"
 
 #: src/object/pneumatic_platform.hpp:38
 msgid "Pneumatic platform"
-msgstr ""
+msgstr "Pneumatisk plattform"
 
 #: src/object/powerup.cpp:212
 msgid "Disable gravity"
-msgstr ""
+msgstr "Slå av tyngdekrafta"
 
 #: src/object/powerup.hpp:37
 msgid "Power up"
-msgstr ""
+msgstr "Bonus"
 
 #: src/object/pushbutton.hpp:36 src/trigger/scripttrigger.cpp:79
 msgid "Button"
-msgstr ""
+msgstr "Knapp"
 
 #: src/object/rain_particle_system.hpp:41
 msgid "Rain particles"
-msgstr ""
+msgstr "Regnpartiklar"
 
 #: src/object/rock.hpp:42
 msgid "Rock"
-msgstr ""
+msgstr "Rock"
 
 #: src/object/rusty_trampoline.hpp:44
 msgid "Rusty trampoline"
-msgstr ""
+msgstr "Rusten trampoline"
 
 #: src/object/scripted_object.cpp:64
 msgid "Enabled physics"
-msgstr ""
+msgstr "Påslått fysikk"
 
 #: src/object/scripted_object.cpp:65
 msgid "Visible"
-msgstr ""
+msgstr "Synleg"
 
 #: src/object/scripted_object.hpp:62
 msgid "Scripted object"
-msgstr ""
+msgstr "Skripta objekt"
 
 #: src/object/snow_particle_system.hpp:41
 msgid "Snow particles"
-msgstr ""
+msgstr "Snøpartiklar"
 
 #: src/object/spotlight.cpp:63
 msgid "Angle"
-msgstr ""
+msgstr "Vinkel"
 
 #: src/object/spotlight.hpp:43
 msgid "Spotlight"
-msgstr ""
+msgstr "Punktlys"
 
 #: src/object/thunderstorm.cpp:65
 msgid "Interval"
-msgstr ""
+msgstr "Intervall"
 
 #: src/object/thunderstorm.hpp:84
 msgid "Thunderstorm"
-msgstr ""
+msgstr "Torevêr"
 
 #: src/object/tilemap.cpp:213
 msgid "solid"
-msgstr ""
+msgstr "Massivt"
 
 #: src/object/tilemap.cpp:214
 msgid "width"
-msgstr ""
+msgstr "Breidd"
 
 #: src/object/tilemap.cpp:215
 msgid "height"
-msgstr ""
+msgstr "Høgd"
 
 #: src/object/tilemap.cpp:216
 msgid "alpha"
-msgstr ""
+msgstr "Alfa"
 
 #: src/object/tilemap.cpp:219
 msgid "tint"
-msgstr ""
+msgstr "Farge"
 
 #: src/object/tilemap.hpp:44
 msgid "Tile map"
-msgstr ""
+msgstr "Fliskart"
 
 #: src/object/torch.hpp:40
 msgid "Torch"
-msgstr ""
+msgstr "Fakkel"
 
 #: src/object/trampoline.cpp:134
 msgid "Portable"
-msgstr ""
+msgstr "Berbar"
 
 #: src/object/trampoline.hpp:40
 msgid "Trampoline"
-msgstr ""
+msgstr "Trampoline"
 
 #: src/object/unstable_tile.hpp:39
 msgid "Unstable tile"
-msgstr ""
+msgstr "Ustabil flis"
 
 #: src/object/weak_block.cpp:209
 msgid "Linked"
-msgstr ""
+msgstr "Kopla"
 
 #: src/object/weak_block.hpp:41
 msgid "Weak block"
-msgstr ""
+msgstr "Svak blokk"
 
 #: src/object/wind.cpp:64
 msgid "Speed X"
-msgstr ""
+msgstr "Fart X"
 
 #: src/object/wind.cpp:66
 msgid "Speed Y"
-msgstr ""
+msgstr "Fart Y"
 
 #: src/object/wind.cpp:68
 msgid "Acceleration"
-msgstr ""
+msgstr "Akselerasjon"
 
 #: src/object/wind.cpp:70
 msgid "Blowing"
-msgstr ""
+msgstr "Blæs"
 
 #: src/object/wind.hpp:63
 msgid "Wind"
-msgstr ""
+msgstr "Vind"
 
 #: src/supertux/command_line_arguments.cpp:79
 #, c-format
@@ -1065,23 +1070,23 @@ msgstr "Generelle val:"
 
 #: src/supertux/command_line_arguments.cpp:81
 msgid "  -h, --help                   Show this help message and quit"
-msgstr "  -h, --help                   Vis denne hjelpemeldinga og avslutt"
+msgstr "  -h, --help                   Vis denne hjelpemeldinga og avslutt."
 
 #: src/supertux/command_line_arguments.cpp:82
 msgid "  -v, --version                Show SuperTux version and quit"
-msgstr "  -v, --version                Vis versjonsinfo og avslutt"
+msgstr "  -v, --version                Vis versjonsinfo og avslutt."
 
 #: src/supertux/command_line_arguments.cpp:83
 msgid "  --verbose                    Print verbose messages"
-msgstr "  --verbose                    Vis utvida meldingar"
+msgstr "  --verbose                    Vis utvida meldingar."
 
 #: src/supertux/command_line_arguments.cpp:84
 msgid "  --debug                      Print extra verbose messages"
-msgstr "  --debug                      Vis endå fleire utvida meldingar"
+msgstr "  --debug                      Vis endå fleire utvida meldingar."
 
 #: src/supertux/command_line_arguments.cpp:85
 msgid "  --print-datadir              Print SuperTux's primary data directory."
-msgstr ""
+msgstr "  --print-datadir              Vis hovudmappa for speldata."
 
 #: src/supertux/command_line_arguments.cpp:86
 msgid "Video Options:"
@@ -1089,32 +1094,31 @@ msgstr "Grafikkval:"
 
 #: src/supertux/command_line_arguments.cpp:87
 msgid "  -f, --fullscreen             Run in fullscreen mode"
-msgstr "  -f, --fullscreen             Køyr i fullskjermsmodus"
+msgstr "  -f, --fullscreen             Køyr i fullskjermsmodus."
 
 #: src/supertux/command_line_arguments.cpp:88
 msgid "  -w, --window                 Run in window mode"
-msgstr "  -w, --window                 Køyr i vindaugsmodus"
+msgstr "  -w, --window                 Køyr i vindaugsmodus."
 
 #: src/supertux/command_line_arguments.cpp:89
 msgid "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution"
-msgstr ""
-"  -g, --geometry BREIDDxHØGD   Køyr spelet med oppgjeven skjermoppløysing"
+msgstr "  -g, --geometry BREIDDxHØGD   Køyr spelet med vald skjermoppløysing."
 
 #: src/supertux/command_line_arguments.cpp:90
 msgid "  -a, --aspect WIDTH:HEIGHT    Run SuperTux with given aspect ratio"
 msgstr ""
-"  -a, --aspect BREIDD:HØGD     Køyr spelet med oppgjeven breidd/høgd-forhold"
+"  -a, --aspect BREIDD:HØGD     Køyr spelet med valt breidd/høgd-forhold."
 
 #: src/supertux/command_line_arguments.cpp:91
 msgid "  -d, --default                Reset video settings to default values"
 msgstr ""
 "  -d, --default                Tilbakestill grafikkinnstillingane til "
-"standardverdiar"
+"standardverdiar."
 
 #: src/supertux/command_line_arguments.cpp:92
 msgid "  --renderer RENDERER          Use sdl, opengl, or auto to render"
 msgstr ""
-"  --renderer RENDERER          Bruk «sdl», «opengl» eller «auto» for grafikk"
+"  --renderer RENDERER          Bruk «sdl», «opengl» eller «auto» for grafikk."
 
 #: src/supertux/command_line_arguments.cpp:93
 msgid "Audio Options:"
@@ -1122,11 +1126,11 @@ msgstr "Lydval:"
 
 #: src/supertux/command_line_arguments.cpp:94
 msgid "  --disable-sound              Disable sound effects"
-msgstr "  --disable-sound              Slå av alle lydeffektar"
+msgstr "  --disable-sound              Slå av alle lydeffektar."
 
 #: src/supertux/command_line_arguments.cpp:95
 msgid "  --disable-music              Disable music"
-msgstr "  --disable-music              Slå av all musikk"
+msgstr "  --disable-music              Slå av all musikk."
 
 #: src/supertux/command_line_arguments.cpp:96
 msgid "Game Options:"
@@ -1134,31 +1138,31 @@ msgstr "Spelval:"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  --edit-level                 Open given level in editor"
-msgstr ""
+msgstr "  --edit-level                 Opna valt brett i redigeringsprogram."
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "  --show-fps                   Display framerate in levels"
-msgstr "  --show-fps                   Vis bilete per sekund i spelet"
+msgstr "  --show-fps                   Vis bilete per sekund i spelet."
 
 #: src/supertux/command_line_arguments.cpp:99
 msgid "  --no-show-fps                Do not display framerate in levels"
-msgstr "  --no-show-fps                Ikkje vis bilete per sekund i spelet"
+msgstr "  --no-show-fps                Ikkje vis bilete per sekund i spelet."
 
 #: src/supertux/command_line_arguments.cpp:100
 msgid "  --show-pos                   Display player's current position"
-msgstr ""
+msgstr "  --show-pos                   Vis gjeldande spelarposisjon."
 
 #: src/supertux/command_line_arguments.cpp:101
 msgid "  --no-show-pos                Do not display player's position"
-msgstr ""
+msgstr "  --no-show-pos                Ikkje vis spelarposisjon."
 
 #: src/supertux/command_line_arguments.cpp:102
 msgid "  --developer                  Switch on developer feature"
-msgstr "  --developer                  Slå på utviklarfunksjonar"
+msgstr "  --developer                  Slå på utviklarfunksjonar."
 
 #: src/supertux/command_line_arguments.cpp:103
 msgid "  -s, --debug-scripts          Enable script debugger."
-msgstr "  -s, --debug-scripts          Slå på skriptfeilsøkjar"
+msgstr "  -s, --debug-scripts          Slå på skriptfeilsøkjar."
 
 #: src/supertux/command_line_arguments.cpp:104
 msgid ""
@@ -1174,11 +1178,11 @@ msgstr "Val for demoopptak:"
 
 #: src/supertux/command_line_arguments.cpp:106
 msgid "  --record-demo FILE LEVEL     Record a demo to FILE"
-msgstr "  --record-demo FIL BRETT      Lagra spelopptak til fila «FIL»"
+msgstr "  --record-demo FIL BRETT      Lagra spelopptak til fila «FIL»."
 
 #: src/supertux/command_line_arguments.cpp:107
 msgid "  --play-demo FILE LEVEL       Play a recorded demo"
-msgstr "  --play-demo FIL BRETT        Spel av spelopptaket «FIL»"
+msgstr "  --play-demo FIL BRETT        Spel av spelopptaket «FIL»."
 
 #: src/supertux/command_line_arguments.cpp:108
 msgid "Directory Options:"
@@ -1187,7 +1191,7 @@ msgstr "Mappeval:"
 #: src/supertux/command_line_arguments.cpp:109
 msgid ""
 "  --datadir DIR                Set the directory for the games datafiles"
-msgstr "  --datadir MAPPE              Vel mappe for datafiler"
+msgstr "  --datadir MAPPE              Vel mappe for datafiler."
 
 #: src/supertux/command_line_arguments.cpp:110
 msgid ""
@@ -1195,15 +1199,15 @@ msgid ""
 "etc.)"
 msgstr ""
 "  --userdir MAPPE              Vel mappe for brukardata (lagra spel og "
-"liknande)"
+"liknande)."
 
 #: src/supertux/command_line_arguments.cpp:111
 msgid "Add-On Options:"
-msgstr ""
+msgstr "Val for tilleggskart:"
 
 #: src/supertux/command_line_arguments.cpp:112
 msgid "  --repository-url URL         Set the URL to the Add-On repository"
-msgstr ""
+msgstr "  --repository-url URL         Adressa til tilleggskart-samlinga."
 
 #: src/supertux/command_line_arguments.cpp:113
 msgid "Environment variables:"
@@ -1213,11 +1217,11 @@ msgstr "Miljøvariablar:"
 msgid ""
 "  SUPERTUX2_USER_DIR           Directory for user data (savegames, etc.)"
 msgstr ""
-"  SUPERTUX2_USER_DIR           Mappe for brukardata (lagra spel og liknande)"
+"  SUPERTUX2_USER_DIR           Mappe for brukardata (lagra spel og liknande)."
 
 #: src/supertux/command_line_arguments.cpp:115
 msgid "  SUPERTUX2_DATA_DIR           Directory for the games datafiles"
-msgstr "  SUPERTUX2_DATA_DIR           Mappe for datafiler"
+msgstr "  SUPERTUX2_DATA_DIR           Mappe for datafiler."
 
 #: src/supertux/direction.cpp:51 src/supertux/menu/options_menu.cpp:61
 #: src/supertux/menu/options_menu.cpp:97 src/supertux/menu/options_menu.cpp:251
@@ -1227,15 +1231,15 @@ msgstr "auto"
 
 #: src/supertux/direction.cpp:54
 msgid "up"
-msgstr ""
+msgstr "opp"
 
 #: src/supertux/direction.cpp:55
 msgid "down"
-msgstr ""
+msgstr "ned"
 
 #: src/supertux/game_object.hpp:70
 msgid "Unknown object"
-msgstr ""
+msgstr "Ukjent objekt"
 
 #: src/supertux/levelintro.cpp:120
 #, c-format
@@ -1301,11 +1305,11 @@ msgstr "Vis tilleggskart"
 
 #: src/supertux/menu/addon_menu.cpp:162
 msgid "No Language packs installed"
-msgstr "Ingen språkpakkar installert"
+msgstr "Ingen språkpakkar installerte"
 
 #: src/supertux/menu/addon_menu.cpp:166
 msgid "No Add-ons installed"
-msgstr "Ingen tilleggskart installert"
+msgstr "Ingen tilleggskart installerte"
 
 #: src/supertux/menu/addon_menu.cpp:173
 msgid "No Language packs found"
@@ -1422,7 +1426,7 @@ msgstr "Fullfør brett"
 
 #: src/supertux/menu/cheat_menu.cpp:41
 msgid "Activate Ghost Mode"
-msgstr ""
+msgstr "Slå på spøkjelsesmodus"
 
 #: src/supertux/menu/contrib_menu.cpp:79
 #: src/supertux/menu/world_set_menu.cpp:42
@@ -1453,61 +1457,66 @@ msgstr "Lukk"
 #: src/supertux/menu/editor_level_menu.cpp:37
 #: src/supertux/menu/editor_menu.cpp:55
 msgid "Worldmap properties"
-msgstr ""
+msgstr "Verdskarteigenskapar"
 
 #: src/supertux/menu/editor_level_menu.cpp:37
 #: src/supertux/menu/editor_menu.cpp:55
 msgid "Level properties"
-msgstr ""
+msgstr "Bretteigenskapar"
 
 #: src/supertux/menu/editor_level_menu.cpp:40
 msgid "Author"
-msgstr ""
+msgstr "Opphavsperson"
 
-#: src/supertux/menu/editor_level_menu.cpp:41 data//credits.stxt:882
+#: src/supertux/menu/editor_level_menu.cpp:41 data//credits.stxt:887
+#, fuzzy
 msgid "Contact"
 msgstr ""
+"#-#-#-#-#  nn.po (SuperTux)  #-#-#-#-#\n"
+"Kontakt\n"
+"#-#-#-#-#  nn.po (SuperTux)  #-#-#-#-#\n"
+"Kontaktinformasjon"
 
 #: src/supertux/menu/editor_level_menu.cpp:42
 msgid "License"
-msgstr ""
+msgstr "Lisens"
 
 #: src/supertux/menu/editor_level_menu.cpp:43
 msgid "Tile set"
-msgstr ""
+msgstr "Flissamling"
 
 #: src/supertux/menu/editor_level_menu.cpp:46
 msgid "On menukey script"
-msgstr ""
+msgstr "Menytast-skript"
 
 #: src/supertux/menu/editor_level_menu.cpp:47
 msgid "Target time"
-msgstr ""
+msgstr "Mål-tid"
 
 #: src/supertux/menu/editor_level_menu.cpp:78
 msgid "Please enter a name for this level."
-msgstr ""
+msgstr "Skriv inn namnet på brettet."
 
 #: src/supertux/menu/editor_level_menu.cpp:82
 msgid "Please enter a level author for this level."
-msgstr ""
+msgstr "Skriv inn opphavspersonen til brettet."
 
 #: src/supertux/menu/editor_level_menu.cpp:86
 msgid "Please enter a license for this level."
-msgstr ""
+msgstr "Skriv inn lisensen for brettet."
 
 #: src/supertux/menu/editor_level_select_menu.cpp:66
 msgid "Empty levelset"
-msgstr ""
+msgstr "Tom brettsamling"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:80
 msgid "Create Level"
-msgstr ""
+msgstr "Lag brett"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:81
 #: src/supertux/menu/editor_levelset_menu.cpp:52
 msgid "Level subset properties"
-msgstr ""
+msgstr "Eigenskapar for brettutval"
 
 #: src/supertux/menu/editor_level_select_menu.cpp:103
 msgid ""
@@ -1517,23 +1526,28 @@ msgid ""
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of "
 "license."
 msgstr ""
+"Del dette brettet under lisensen CC-BY-SA 4.0 International (tilrådd).\n"
+"Lisensen tillèt at andre gjer endringar i brettet og vidareformidlar det.\n"
+"Viss du ikkje likar vilkåra i lisensen, kan du endra han i "
+"bretteigenskapane.\n"
+"MERK: SuperTux-utviklarane tek ikkje ansvar for kva lisens du vel."
 
 #: src/supertux/menu/editor_levelset_menu.cpp:55
 #: src/supertux/menu/editor_new_levelset_menu.cpp:44
 msgid "Description"
-msgstr ""
+msgstr "Skildring"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:59
 msgid "Do not use worldmap"
-msgstr ""
+msgstr "Ikkje bruk verdskart"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:60
 msgid "Edit worldmap"
-msgstr ""
+msgstr "Rediger verdskart"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:62
 msgid "Create worldmap"
-msgstr ""
+msgstr "Lag verdskart"
 
 #: src/supertux/menu/editor_levelset_menu.cpp:80
 msgid ""
@@ -1543,75 +1557,81 @@ msgid ""
 "DISCLAIMER: The SuperTux authors take no responsibility for your choice of "
 "license."
 msgstr ""
+"Del dette verdskartet under lisensen CC-BY-SA 4.0 International (tilrådd).\n"
+"Lisensen tillèt at andre gjer endringar i verdskartet og vidareformidlar "
+"det.\n"
+"Viss du ikkje likar vilkåra i lisensen, kan du endra han i "
+"verdskarteigenskapane.\n"
+"MERK: SuperTux-utviklarane tek ikkje ansvar for kva lisens du vel."
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:58
 msgid "Choose level subset"
-msgstr ""
+msgstr "Vel brettuval"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:85
 msgid "levels"
-msgstr ""
+msgstr "brett"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:97
 #: src/supertux/menu/editor_new_levelset_menu.cpp:40
 msgid "New level subset"
-msgstr ""
+msgstr "Nytt brettutval"
 
 #: src/supertux/menu/editor_menu.cpp:37 src/supertux/menu/main_menu.cpp:46
 msgid "Level Editor"
-msgstr ""
+msgstr "Brettredigering"
 
 #: src/supertux/menu/editor_menu.cpp:39
 msgid "Return to editor"
-msgstr ""
+msgstr "Tilbake til brettredigering"
 
 #: src/supertux/menu/editor_menu.cpp:40
 msgid "Save current worldmap"
-msgstr ""
+msgstr "Lagra gjeldande verdskart"
 
 #: src/supertux/menu/editor_menu.cpp:40
 msgid "Save current level"
-msgstr ""
+msgstr "Lagra gjeldande brett"
 
 #: src/supertux/menu/editor_menu.cpp:43
 msgid "Test the level"
-msgstr ""
+msgstr "Test brettet"
 
 #: src/supertux/menu/editor_menu.cpp:47
 msgid "Edit another level"
-msgstr ""
+msgstr "Rediger eit anna brett"
 
 #: src/supertux/menu/editor_menu.cpp:50
 msgid "Choose another level subset"
-msgstr ""
+msgstr "Vel eit anna brettutval"
 
 #: src/supertux/menu/editor_menu.cpp:52
 msgid "Show grid (F8)"
-msgstr ""
+msgstr "Vis rutenett (F8)"
 
 #: src/supertux/menu/editor_menu.cpp:53
 msgid "Show scroller (F9)"
-msgstr ""
+msgstr "Vis rullefelt (F9)"
 
 #: src/supertux/menu/editor_menu.cpp:59
 msgid "Exit level editor"
-msgstr ""
+msgstr "Avslutt brettredigering"
 
 #: src/supertux/menu/editor_new_levelset_menu.cpp:60
 msgid "Please enter a name for this level subset."
-msgstr ""
+msgstr "Vel eit anna namn på dette brettutvalet."
 
 #: src/supertux/menu/editor_sector_menu.cpp:41
 msgid "Initialization script"
-msgstr ""
+msgstr "Startskript"
 
 #: src/supertux/menu/editor_sector_menu.cpp:42
 msgid "Ambient light"
-msgstr ""
+msgstr "Omgjevnadslys"
 
 #: src/supertux/menu/editor_sector_menu.cpp:43
 msgid "Gravity"
-msgstr ""
+msgstr "Tyngdekraft"
 
 #: src/supertux/menu/editor_sector_menu.cpp:48
 #: src/supertux/menu/options_menu.cpp:211
@@ -1620,35 +1640,35 @@ msgstr "Musikk"
 
 #: src/supertux/menu/editor_sector_menu.cpp:53
 msgid "Resize"
-msgstr ""
+msgstr "Endra storleik"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:36
 msgid "Choose sector to edit:"
-msgstr ""
+msgstr "Vel sektoren du vil redigera:"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:46
 msgid "Sector settings..."
-msgstr ""
+msgstr "Sektorinnstillingar …"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:47
 msgid "Create new sector"
-msgstr ""
+msgstr "Lag ny sektor"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:48
 msgid "Delete this sector"
-msgstr ""
+msgstr "Slett denne sektoren"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:93
 msgid "Each level must have at least one sector."
-msgstr ""
+msgstr "Kvart brett må ha minst éin sektor."
 
 #: src/supertux/menu/editor_sectors_menu.cpp:98
 msgid "Do you really want to delete this sector?"
-msgstr ""
+msgstr "Er du sikker på at du vil sletta denne sektoren?"
 
 #: src/supertux/menu/editor_sectors_menu.cpp:101
 msgid "Delete sector"
-msgstr ""
+msgstr "Slett sektor"
 
 #: src/supertux/menu/game_menu.cpp:35 src/supertux/menu/worldmap_menu.cpp:31
 msgid "Continue"
@@ -1665,7 +1685,7 @@ msgstr "Oppsett"
 
 #: src/supertux/menu/game_menu.cpp:39
 msgid "Abort Level"
-msgstr "Avbryt brett"
+msgstr "Avbryt brettet"
 
 #: src/supertux/menu/joystick_menu.cpp:52
 #: src/supertux/menu/options_menu.cpp:221
@@ -1743,19 +1763,19 @@ msgstr "Fuskemeny"
 #: src/supertux/menu/joystick_menu.cpp:87
 #: src/supertux/menu/keyboard_menu.cpp:48
 msgid "The following feature is deprecated."
-msgstr ""
+msgstr "Denne funksjonen er utdatert."
 
 #. l10n: Continuation of string "The following feature is deprecated."
 #: src/supertux/menu/joystick_menu.cpp:89
 #: src/supertux/menu/keyboard_menu.cpp:50
 msgid "It will be removed from the next release"
-msgstr ""
+msgstr "Han vert fjerna i neste versjon"
 
 #. l10n: Continuation of string "It will be removed from the next release"
 #: src/supertux/menu/joystick_menu.cpp:91
 #: src/supertux/menu/keyboard_menu.cpp:52
 msgid "of SuperTux."
-msgstr ""
+msgstr "av SuperTux."
 
 #: src/supertux/menu/joystick_menu.cpp:92
 #: src/supertux/menu/keyboard_menu.cpp:53
@@ -1782,47 +1802,47 @@ msgstr "Trykk på knapp"
 
 #: src/supertux/menu/joystick_menu.cpp:169
 msgid "Axis "
-msgstr ""
+msgstr "Akse"
 
 #: src/supertux/menu/joystick_menu.cpp:172
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: src/supertux/menu/joystick_menu.cpp:174
 msgid "+"
-msgstr ""
+msgstr "+"
 
 #: src/supertux/menu/joystick_menu.cpp:177
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/supertux/menu/joystick_menu.cpp:179
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/supertux/menu/joystick_menu.cpp:181
 msgid "X2"
-msgstr ""
+msgstr "X2"
 
 #: src/supertux/menu/joystick_menu.cpp:183
 msgid "Y2"
-msgstr ""
+msgstr "Y2"
 
 #: src/supertux/menu/joystick_menu.cpp:196
 msgid "Hat Up"
-msgstr ""
+msgstr "Hatt opp"
 
 #: src/supertux/menu/joystick_menu.cpp:200
 msgid "Hat Down"
-msgstr ""
+msgstr "Hatt ned"
 
 #: src/supertux/menu/joystick_menu.cpp:204
 msgid "Hat Left"
-msgstr ""
+msgstr "Hatt venstre"
 
 #: src/supertux/menu/joystick_menu.cpp:208
 msgid "Hat Right"
-msgstr ""
+msgstr "Hatt høgre"
 
 #: src/supertux/menu/keyboard_menu.cpp:29
 #: src/supertux/menu/options_menu.cpp:218
@@ -1919,7 +1939,7 @@ msgstr "Avslutt SuperTux"
 
 #: src/supertux/menu/options_menu.cpp:153
 msgid "Desktop"
-msgstr ""
+msgstr "Skrivebord"
 
 #: src/supertux/menu/options_menu.cpp:186
 msgid "Select Language"
@@ -1947,7 +1967,7 @@ msgstr "Vel kva profil du vil spela med"
 
 #: src/supertux/menu/options_menu.cpp:196
 msgid "Fullscreen"
-msgstr "Fullskjerm "
+msgstr "Fullskjerm"
 
 #: src/supertux/menu/options_menu.cpp:197
 msgid "Fill the entire screen"
@@ -2045,15 +2065,15 @@ msgstr "Tilbakestill brett"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:41
 msgid "Finish Worldmap"
-msgstr ""
+msgstr "Fullfør verdskart"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:42
 msgid "Reset Worldmap"
-msgstr ""
+msgstr "Tilbakestill verdskart"
 
 #: src/supertux/menu/worldmap_cheat_menu.cpp:44
 msgid "Move to main spawnpoint"
-msgstr ""
+msgstr "Flytt til hovud-startposisjonen"
 
 #: src/supertux/menu/worldmap_menu.cpp:29
 msgid "Pause"
@@ -2061,7 +2081,7 @@ msgstr "Pause"
 
 #: src/supertux/menu/worldmap_menu.cpp:34
 msgid "Leave World"
-msgstr ""
+msgstr "Forlat verd"
 
 #: src/supertux/statistics.cpp:130
 msgid "Max coins collected:"
@@ -2105,18 +2125,22 @@ msgid ""
 "are welcome to\n"
 "redistribute it under certain conditions; see the license file for details.\n"
 msgstr ""
+"Dette spelet kjem heilt utan nokon garantiar. Det er fri programvare, og du "
+"må gjerne\n"
+" gje det vidare til andre, under visse vilkår. Sjå lisensfila for meir "
+"informasjon.\n"
 
 #: src/trigger/climbable.cpp:72
 msgid "Climbable"
-msgstr ""
+msgstr "Klatrbar"
 
 #: src/trigger/door.cpp:77
 msgid "Door"
-msgstr ""
+msgstr "Dør"
 
 #: src/trigger/scripttrigger.cpp:74
 msgid "Script trigger"
-msgstr ""
+msgstr "Skriptutløysar"
 
 #: src/trigger/secretarea_trigger.cpp:50 src/trigger/secretarea_trigger.cpp:60
 msgid "You found a secret area!"
@@ -2124,59 +2148,59 @@ msgstr "Du fann ein hemmeleg plass!"
 
 #: src/trigger/secretarea_trigger.cpp:73
 msgid "Secret area"
-msgstr ""
+msgstr "Hemmeleg plass"
 
 #: src/trigger/secretarea_trigger.cpp:77
 msgid "Fade-tilemap"
-msgstr ""
+msgstr "Uttonings-fliskart"
 
 #: src/trigger/sequence_trigger.cpp:72
 msgid "Sequence trigger"
-msgstr ""
+msgstr "Følgjeutløysar"
 
 #: src/trigger/sequence_trigger.cpp:77
 msgid "Sequence"
-msgstr ""
+msgstr "Følgje"
 
 #: src/trigger/sequence_trigger.cpp:78
 msgid "end sequence"
-msgstr ""
+msgstr "sluttfølgje"
 
 #: src/trigger/sequence_trigger.cpp:79
 msgid "stop Tux"
-msgstr ""
+msgstr "stopp Tux"
 
 #: src/trigger/sequence_trigger.cpp:80
 msgid "fireworks"
-msgstr ""
+msgstr "fyrverkeri"
 
 #: src/trigger/switch.cpp:60
 msgid "Switch"
-msgstr ""
+msgstr "Brytar"
 
 #: src/trigger/switch.cpp:65
 msgid "Turn on script"
-msgstr ""
+msgstr "Slå på skript"
 
 #: src/trigger/switch.cpp:66
 msgid "Turn off script"
-msgstr ""
+msgstr "Slå av skript"
 
 #: src/worldmap/direction.cpp:83
 msgid "west"
-msgstr ""
+msgstr "vest"
 
 #: src/worldmap/direction.cpp:84
 msgid "east"
-msgstr ""
+msgstr "aust"
 
 #: src/worldmap/direction.cpp:85
 msgid "north"
-msgstr ""
+msgstr "nord"
 
 #: src/worldmap/direction.cpp:86
 msgid "south"
-msgstr ""
+msgstr "sør"
 
 #: src/worldmap/worldmap.cpp:334
 msgid "<no title>"
@@ -2184,588 +2208,590 @@ msgstr "<namnlaus>"
 
 #: data//images/engine/editor/objects.stoi:4
 msgid "Hostile"
-msgstr ""
+msgstr "Fiendtleg"
 
 #: data//images/engine/editor/objects.stoi:132
 msgid "Projectiles"
-msgstr ""
+msgstr "Prosjektil"
 
 #: data//images/engine/editor/objects.stoi:158
 msgid "Bosses"
-msgstr ""
+msgstr "Sjefar"
 
 #: data//images/engine/editor/objects.stoi:169
 msgid "Interactive"
-msgstr ""
+msgstr "Interaktiv"
 
 #: data//images/engine/editor/objects.stoi:249 data//images/tiles.strf:1131
 msgid "Lightmap"
-msgstr ""
+msgstr "Lyskart"
 
 #: data//images/engine/editor/objects.stoi:266
 msgid "Ambient"
-msgstr ""
+msgstr "Omgjevnad"
 
 #: data//images/engine/editor/objects.stoi:322
 msgid "Worldmap markers"
-msgstr ""
+msgstr "Verdskartmarkørar"
 
 #: data//images/ice_world.strf:6
 msgid "Ice Cave & Crystal"
-msgstr ""
+msgstr "Ishòle og iskrystall"
 
 #: data//images/ice_world.strf:53
 msgid "Embellishments"
-msgstr ""
+msgstr "Pynt"
 
 #: data//images/ice_world.strf:137
 msgid "Ice"
-msgstr ""
+msgstr "Is"
 
 #: data//images/ice_world.strf:182 data//images/tiles.strf:1031
 msgid "Castle"
-msgstr ""
+msgstr "Slott"
 
 #: data//images/ice_world.strf:200
 msgid "Pathing"
-msgstr ""
+msgstr "Stiar"
 
 #: data//images/ice_world.strf:289 data//images/tiles.strf:956
 msgid "Water"
-msgstr ""
+msgstr "Vatn"
 
 #: data//images/tiles.strf:225
 msgid "Pipes"
-msgstr ""
+msgstr "Røyr"
 
 #: data//images/tiles.strf:254 data//images/worldmap.strf:199
 msgid "Halloween"
-msgstr ""
+msgstr "Allehelgensaftan"
 
 #: data//images/tiles.strf:281
 msgid "Test"
-msgstr ""
+msgstr "Test"
 
 #: data//images/tiles.strf:288
 msgid "Crystalcave"
-msgstr ""
+msgstr "Krystallhòle"
 
 #: data//images/tiles.strf:375
 msgid "Snowmountain"
-msgstr ""
+msgstr "Snøfjell"
 
 #: data//images/tiles.strf:449 data//images/worldmap.strf:41
 msgid "Snow"
-msgstr ""
+msgstr "Snø"
 
 #: data//images/tiles.strf:567
 msgid "Snow (Paralax Background)"
-msgstr ""
+msgstr "Snø (parallaksebakgrunn)"
 
 #: data//images/tiles.strf:580 data//images/worldmap.strf:67
 msgid "Forest"
-msgstr ""
+msgstr "Skog"
 
 #: data//images/tiles.strf:686
 msgid "Forest (Background)"
-msgstr ""
+msgstr "Skog (bakgrunn)"
 
 #: data//images/tiles.strf:780
 msgid "Block"
-msgstr ""
+msgstr "Blokk"
 
 #: data//images/tiles.strf:803
 msgid "Points"
-msgstr ""
+msgstr "Punkt"
 
 #: data//images/tiles.strf:807
 msgid "Misc"
-msgstr ""
+msgstr "Ymse"
 
 #: data//images/tiles.strf:838
 msgid "Pole"
-msgstr ""
+msgstr "Stong"
 
 #: data//images/tiles.strf:861
 msgid "Stone Brick Walls"
-msgstr ""
+msgstr "Murveggar"
 
 #: data//images/tiles.strf:910
 msgid "Signs"
-msgstr ""
+msgstr "Skilt"
 
 #: data//images/tiles.strf:932
 msgid "Jungle"
-msgstr ""
+msgstr "Jungel"
 
 #: data//images/tiles.strf:942
 msgid "Industrial"
-msgstr ""
+msgstr "Industriell"
 
 #: data//images/tiles.strf:977
 msgid "Icebridge"
-msgstr ""
+msgstr "Isbru"
 
 #: data//images/tiles.strf:985
 msgid "LavaFlow"
-msgstr ""
+msgstr "Lavaflyt"
 
 #: data//images/tiles.strf:995
 msgid "Exits"
-msgstr ""
+msgstr "Utgangar"
 
 #: data//images/tiles.strf:1106
 msgid "Cave background"
-msgstr ""
+msgstr "Hòlebakgrunn"
 
 #: data//images/tiles.strf:1140
 msgid "Unisolid"
-msgstr ""
+msgstr "Unimassivt"
 
 #: data//images/worldmap.strf:24
 msgid "Water paths"
-msgstr ""
+msgstr "Vass-stiar"
 
 #: data//images/worldmap.strf:32
 msgid "Castle paths"
-msgstr ""
+msgstr "Slottsstiar"
 
 #: data//images/worldmap.strf:135
 msgid "Darker Forest"
-msgstr ""
+msgstr "Mørkare skog"
 
 #: data//credits.stxt:13
 msgid "Original Developer"
-msgstr ""
+msgstr "Opphavleg utviklar"
 
 #: data//credits.stxt:19 data//credits.stxt:25
 msgid "Graphics, Programming, Level Design"
-msgstr ""
+msgstr "Grafikk, programmering og brettdesign"
 
 #: data//credits.stxt:31
 msgid "Music, Level Design"
-msgstr ""
+msgstr "Musikk, brettdesign"
 
 #: data//credits.stxt:37 data//credits.stxt:137 data//credits.stxt:142
-#: data//credits.stxt:191 data//credits.stxt:256
+#: data//credits.stxt:196 data//credits.stxt:261
 msgid "Graphics"
-msgstr ""
+msgstr "Grafikk"
 
 #: data//credits.stxt:43
 msgid "Programming, Graphics, Level Design"
-msgstr ""
+msgstr "Programmering, grafikk, brettdesign"
 
 #: data//credits.stxt:49 data//credits.stxt:87 data//credits.stxt:102
 msgid "Programming, Level Design"
-msgstr ""
+msgstr "Programmering, brettdesign"
 
 #: data//credits.stxt:55
 msgid "Graphics, Story"
-msgstr ""
+msgstr "Grafikk, forteljing"
 
 #: data//credits.stxt:61
 msgid "Programming, Documentation"
-msgstr ""
+msgstr "Programmering, dokumentasjon"
 
 #: data//credits.stxt:67 data//credits.stxt:77 data//credits.stxt:82
-#: data//credits.stxt:107 data//credits.stxt:252 data//credits.stxt:264
+#: data//credits.stxt:107 data//credits.stxt:257 data//credits.stxt:269
 msgid "Programming"
-msgstr ""
+msgstr "Programmering"
 
 #: data//credits.stxt:72
 msgid "Programming, project lead ad interim"
-msgstr ""
+msgstr "Programming, mellombels prosjektleiar"
 
 #: data//credits.stxt:92
 msgid "Coordination"
-msgstr ""
+msgstr "Koordinator"
 
 #: data//credits.stxt:97
 msgid "Programming, \"Flexlay\" Level editor"
-msgstr ""
+msgstr "Programmering, brettredigeraren «Flexlay»"
 
 #: data//credits.stxt:112
 msgid "Windows build fixes"
-msgstr ""
+msgstr "Rettingar for Windows-bygging"
 
 #: data//credits.stxt:117
 msgid "Level Design, Graphics"
-msgstr ""
+msgstr "Brettdesign, grafikk"
 
 #: data//credits.stxt:122
 msgid "Packaging, Nightly builds"
-msgstr ""
+msgstr "Pakking, nattlege byggingar"
 
 #: data//credits.stxt:127
 msgid "Translation Guru (and many details anyone else could have done)"
-msgstr ""
+msgstr "Omsetjingsguru (og mykje anna som kven som helst kunne gjort)"
 
 #: data//credits.stxt:132
 msgid "Level Design"
-msgstr ""
+msgstr "Brettdesign"
 
 #: data//credits.stxt:147
 msgid "Additional contributors"
-msgstr ""
+msgstr "Fleire bidragsytarar"
 
 #: data//credits.stxt:151
 msgid "Bug fixes"
-msgstr ""
+msgstr "Feilrettingar"
 
 #: data//credits.stxt:156
 msgid "Scripting functions, Level fixes"
-msgstr ""
+msgstr "Skriptfunksjonar, brettrettingar"
 
 #: data//credits.stxt:161
 msgid "Code quality fixes"
-msgstr ""
+msgstr "Kodekvalitetsrettingar"
 
 #: data//credits.stxt:166 data//credits.stxt:171 data//credits.stxt:176
-#: data//credits.stxt:211
+#: data//credits.stxt:216
 msgid "Various contributions"
-msgstr ""
+msgstr "Ymse bidragsytarar"
 
 #: data//credits.stxt:181
 msgid "Build issue fix"
-msgstr ""
+msgstr "Retta byggjefeil"
 
 #: data//credits.stxt:186
 msgid "Code contributions"
-msgstr ""
+msgstr "Kodebidragsytarar"
 
-#: data//credits.stxt:196
-msgid "Code contribution, AppData file"
-msgstr ""
+#: data//credits.stxt:191 data//credits.stxt:246
+msgid "Level improvements"
+msgstr "Brettforbetringar"
 
 #: data//credits.stxt:201
-msgid "Bug fix"
-msgstr ""
+msgid "Code contribution, AppData file"
+msgstr "Kodebidrag, AppData-fil"
 
 #: data//credits.stxt:206
-msgid "Menu reorganization"
-msgstr ""
+msgid "Bug fix"
+msgstr "Feilretting"
 
-#: data//credits.stxt:216
-msgid "Fixing tile bugs"
-msgstr ""
+#: data//credits.stxt:211
+msgid "Menu reorganization"
+msgstr "Reorganisering av menyen"
 
 #: data//credits.stxt:221
-msgid "Build error fix"
-msgstr ""
+msgid "Fixing tile bugs"
+msgstr "Retting av flisfeil"
 
 #: data//credits.stxt:226
-msgid "Scripting function fix"
-msgstr ""
+msgid "Build error fix"
+msgstr "Retta byggjefeil"
 
 #: data//credits.stxt:231
-msgid "Support for \"glbinding\" as optional OpenGL binding"
-msgstr ""
+msgid "Scripting function fix"
+msgstr "Retta skriptfunksjon"
 
 #: data//credits.stxt:236
-msgid "New menu code"
-msgstr ""
+msgid "Support for \"glbinding\" as optional OpenGL binding"
+msgstr "Støtte for «glbinding» som valfri OpenGL-binding"
 
 #: data//credits.stxt:241
-msgid "Level improvements"
-msgstr ""
+msgid "New menu code"
+msgstr "Ny menykode"
 
-#: data//credits.stxt:247
+#: data//credits.stxt:252
 msgid "Milestone 1 contributions by..."
-msgstr ""
+msgstr "Milestein 1-bidragsytarar …"
 
-#: data//credits.stxt:260 data//credits.stxt:268
+#: data//credits.stxt:265 data//credits.stxt:273
 msgid "Contrib Programming"
-msgstr ""
-
-#: data//credits.stxt:272
-msgid "Programming, Previous Maintainer"
-msgstr ""
+msgstr "Programmeringsbidrag"
 
 #: data//credits.stxt:277
-msgid "Additional Music"
-msgstr ""
+msgid "Programming, Previous Maintainer"
+msgstr "Programmering, tidlegare vedlikehaldar"
 
 #: data//credits.stxt:282
+msgid "Additional Music"
+msgstr "Meir musikk"
+
+#: data//credits.stxt:287
 msgid "\"Mortimers Chipdisko\" by"
-msgstr ""
+msgstr "«Mortimers Chipdisko» av"
 
-#: data//credits.stxt:291
+#: data//credits.stxt:296
 msgid "\"Salsa Con Carne\" by"
-msgstr ""
+msgstr "«Salsa Con Carne» av"
 
-#: data//credits.stxt:299 data//credits.stxt:351
+#: data//credits.stxt:304 data//credits.stxt:356
 msgid "remixed by"
-msgstr ""
+msgstr "remiksa av"
 
-#: data//credits.stxt:308
+#: data//credits.stxt:313
 msgid "\"voc songs\" by"
-msgstr ""
+msgstr "«voc songs» av"
 
-#: data//credits.stxt:317
+#: data//credits.stxt:322
 msgid "\"clavelian_march\" by"
-msgstr ""
+msgstr "«clavelian_march» av"
 
-#: data//credits.stxt:326
+#: data//credits.stxt:331
 msgid "Excerpts from the Giana Sisters"
-msgstr ""
+msgstr "Utdrag frå Giana Sisters"
 
-#: data//credits.stxt:330
+#: data//credits.stxt:335
 msgid "Soundtrack used with kind permission"
-msgstr ""
+msgstr "Lydsporet er brukt med løyve"
 
-#: data//credits.stxt:334
+#: data//credits.stxt:339
 msgid "from"
-msgstr ""
+msgstr "frå"
 
-#: data//credits.stxt:343
+#: data//credits.stxt:348
 msgid "\"Airship song\" (orchestral remix) by"
-msgstr ""
+msgstr "«Airship song» (orkesterremiks) av"
 
-#: data//credits.stxt:360
+#: data//credits.stxt:365
 msgid "\"Battle Theme\" by"
-msgstr ""
+msgstr "«Battle Theme» av"
 
-#: data//credits.stxt:369
+#: data//credits.stxt:374
 msgid "\"SuperTux christmas theme\""
-msgstr ""
+msgstr "«SuperTux Christmas Theme»"
 
-#: data//credits.stxt:373
+#: data//credits.stxt:378
 msgid "original by"
-msgstr ""
+msgstr "opphavleg versjon av"
 
-#: data//credits.stxt:382
+#: data//credits.stxt:387
 msgid "arranged by"
-msgstr ""
+msgstr "arrangert av"
 
-#: data//credits.stxt:391
+#: data//credits.stxt:396
 msgid "\"halloween_1.ogg\" by"
-msgstr ""
+msgstr "«halloween_1.ogg» av"
 
-#: data//credits.stxt:400
+#: data//credits.stxt:405
 msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
-msgstr ""
+msgstr "«Forest Prophecy reEducated» (forest_theme.ogg) av"
 
-#: data//credits.stxt:480
+#: data//credits.stxt:485
 msgid "Voice Acting"
-msgstr ""
+msgstr "Stemmeskodespel"
 
-#: data//credits.stxt:511
+#: data//credits.stxt:516
 msgid "Localization"
-msgstr ""
+msgstr "Omsetjing"
 
-#: data//credits.stxt:516 data//credits.stxt:651
+#: data//credits.stxt:521 data//credits.stxt:656
 msgid "Danish"
-msgstr ""
+msgstr "Dansk"
 
-#: data//credits.stxt:521
+#: data//credits.stxt:526
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vietnamesisk"
 
-#: data//credits.stxt:526 data//credits.stxt:607 data//credits.stxt:615
-#: data//credits.stxt:707 data//credits.stxt:723 data//credits.stxt:759
-#: data//credits.stxt:767 data//credits.stxt:775 data//credits.stxt:855
+#: data//credits.stxt:531 data//credits.stxt:612 data//credits.stxt:620
+#: data//credits.stxt:712 data//credits.stxt:728 data//credits.stxt:764
+#: data//credits.stxt:772 data//credits.stxt:780 data//credits.stxt:860
 msgid "French"
-msgstr ""
+msgstr "Fransk"
 
-#: data//credits.stxt:531 data//credits.stxt:566 data//credits.stxt:631
-#: data//credits.stxt:703 data//credits.stxt:803 data//credits.stxt:843
+#: data//credits.stxt:536 data//credits.stxt:571 data//credits.stxt:636
+#: data//credits.stxt:708 data//credits.stxt:808 data//credits.stxt:848
 msgid "German"
-msgstr ""
+msgstr "Tysk"
 
-#: data//credits.stxt:536 data//credits.stxt:611 data//credits.stxt:847
+#: data//credits.stxt:541 data//credits.stxt:616 data//credits.stxt:852
 msgid "Russian"
-msgstr ""
+msgstr "Russisk"
 
-#: data//credits.stxt:541
+#: data//credits.stxt:546
 msgid "Albanese"
-msgstr ""
+msgstr "Albansk"
 
-#: data//credits.stxt:546 data//credits.stxt:571 data//credits.stxt:583
+#: data//credits.stxt:551 data//credits.stxt:576 data//credits.stxt:588
 msgid "Castilian Spanish"
-msgstr ""
+msgstr "Spansk (kastiljansk)"
 
-#: data//credits.stxt:551 data//credits.stxt:579 data//credits.stxt:627
-#: data//credits.stxt:779 data//credits.stxt:811 data//credits.stxt:859
+#: data//credits.stxt:556 data//credits.stxt:584 data//credits.stxt:632
+#: data//credits.stxt:784 data//credits.stxt:816 data//credits.stxt:864
 msgid "Hungarian"
-msgstr ""
+msgstr "Ungarsk"
 
-#: data//credits.stxt:556 data//credits.stxt:635 data//credits.stxt:671
+#: data//credits.stxt:561 data//credits.stxt:640 data//credits.stxt:676
 msgid "Spanish"
-msgstr ""
+msgstr "Spansk"
 
-#: data//credits.stxt:561 data//credits.stxt:587 data//credits.stxt:839
+#: data//credits.stxt:566 data//credits.stxt:592 data//credits.stxt:844
 msgid "Catalan"
-msgstr ""
+msgstr "Katalansk"
 
-#: data//credits.stxt:575
+#: data//credits.stxt:580
 msgid "Slovenian"
-msgstr ""
+msgstr "Slovensk"
 
-#: data//credits.stxt:591
+#: data//credits.stxt:596
 msgid "Mandarin"
-msgstr ""
+msgstr "Mandarin"
 
-#: data//credits.stxt:595 data//credits.stxt:667 data//credits.stxt:695
+#: data//credits.stxt:600 data//credits.stxt:672 data//credits.stxt:700
 msgid "European Portuguese"
-msgstr ""
+msgstr "Portugisisk (Europa)"
 
-#: data//credits.stxt:599
+#: data//credits.stxt:604
 msgid "Romanian"
-msgstr ""
+msgstr "Rumensk"
 
-#: data//credits.stxt:603 data//credits.stxt:823
+#: data//credits.stxt:608 data//credits.stxt:828
 msgid "Dutch"
-msgstr ""
+msgstr "Nederlandsk"
 
-#: data//credits.stxt:619 data//credits.stxt:711 data//credits.stxt:851
+#: data//credits.stxt:624 data//credits.stxt:716 data//credits.stxt:856
 msgid "Turkish"
-msgstr ""
+msgstr "Tyrkisk"
 
-#: data//credits.stxt:623
+#: data//credits.stxt:628
 msgid "European/Brazilian Portuguese"
-msgstr ""
+msgstr "Portugisisk (Europa/Brasil)"
 
-#: data//credits.stxt:639 data//credits.stxt:655 data//credits.stxt:659
-#: data//credits.stxt:727 data//credits.stxt:831
+#: data//credits.stxt:644 data//credits.stxt:660 data//credits.stxt:664
+#: data//credits.stxt:732 data//credits.stxt:836
 msgid "Czech"
-msgstr ""
+msgstr "Tsjekkisk"
 
-#: data//credits.stxt:643 data//credits.stxt:763
+#: data//credits.stxt:648 data//credits.stxt:768
 msgid "Nepali"
-msgstr ""
+msgstr "Nepali"
 
-#: data//credits.stxt:647 data//credits.stxt:731 data//credits.stxt:747
-#: data//credits.stxt:771
+#: data//credits.stxt:652 data//credits.stxt:736 data//credits.stxt:752
+#: data//credits.stxt:776
 msgid "Brazilian Portuguese"
-msgstr ""
+msgstr "Portugisisk (Brasil)"
 
-#: data//credits.stxt:663 data//credits.stxt:675
+#: data//credits.stxt:668 data//credits.stxt:680
 msgid "Italian"
-msgstr ""
+msgstr "Italiensk"
 
-#: data//credits.stxt:679
+#: data//credits.stxt:684
 msgid "Estonian"
-msgstr ""
+msgstr "Estisk"
 
-#: data//credits.stxt:683 data//credits.stxt:687 data//credits.stxt:719
-#: data//credits.stxt:815
+#: data//credits.stxt:688 data//credits.stxt:692 data//credits.stxt:724
+#: data//credits.stxt:820
 msgid "Polish"
-msgstr ""
+msgstr "Polsk"
 
-#: data//credits.stxt:691
+#: data//credits.stxt:696
 msgid "French/Esperanto"
-msgstr ""
+msgstr "Fransk og esperanto"
 
-#: data//credits.stxt:699 data//credits.stxt:819
+#: data//credits.stxt:704 data//credits.stxt:824
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ukrainsk"
 
-#: data//credits.stxt:715
+#: data//credits.stxt:720
 msgid "Breton"
-msgstr ""
+msgstr "Bretonsk"
 
-#: data//credits.stxt:735 data//credits.stxt:787
+#: data//credits.stxt:740 data//credits.stxt:792
 msgid "Greek"
-msgstr ""
+msgstr "Gresk"
 
-#: data//credits.stxt:739 data//credits.stxt:755
+#: data//credits.stxt:744 data//credits.stxt:760
 msgid "Norwegian Bokmål"
-msgstr ""
+msgstr "Norsk (bokmål)"
 
-#: data//credits.stxt:743
+#: data//credits.stxt:748
 msgid "Swedish"
-msgstr ""
+msgstr "Svensk"
 
-#: data//credits.stxt:751 data//credits.stxt:799
+#: data//credits.stxt:756 data//credits.stxt:804
 msgid "Finnish"
-msgstr ""
+msgstr "Finsk"
 
-#: data//credits.stxt:783
+#: data//credits.stxt:788
 msgid "Serbian"
-msgstr ""
+msgstr "Serbisk"
 
-#: data//credits.stxt:791
+#: data//credits.stxt:796
 msgid "Japanese"
-msgstr ""
+msgstr "Japansk"
 
-#: data//credits.stxt:795
+#: data//credits.stxt:800
 msgid "Simplified Chinese"
-msgstr ""
+msgstr "Kinesisk – forenkla"
 
-#: data//credits.stxt:807
+#: data//credits.stxt:812
 msgid "Lithuanian"
-msgstr ""
+msgstr "Litauisk"
 
-#: data//credits.stxt:827
+#: data//credits.stxt:832
 msgid "Belarusian"
-msgstr ""
+msgstr "Kviterussisk"
 
-#: data//credits.stxt:835
+#: data//credits.stxt:840
 msgid "Bulgarian"
-msgstr ""
-
-#: data//credits.stxt:865
-msgid "Thanks to"
-msgstr ""
+msgstr "Bulgarsk"
 
 #: data//credits.stxt:870
-msgid "Creator of Tux, the Linux penguin"
-msgstr ""
-
-#: data//credits.stxt:874
-msgid "SDL, OpenAL and OpenGL"
-msgstr ""
+msgid "Thanks to"
+msgstr "Takk til"
 
 #: data//credits.stxt:875
+msgid "Creator of Tux, the Linux penguin"
+msgstr "Laga Tux – Linux-pingvinen"
+
+#: data//credits.stxt:879
+msgid "SDL, OpenAL and OpenGL"
+msgstr "SDL, OpenAL og OpenGL"
+
+#: data//credits.stxt:880
 msgid ""
 "For making such a great gaming experience\n"
 "        possible on Linux"
 msgstr ""
+"For å ha gjort det mogleg å laga\n"
+"        så gode spel på Linux"
 
-#: data//credits.stxt:887
+#: data//credits.stxt:892
 msgid "Visit our webpage at"
-msgstr ""
+msgstr "Besøk heimesida vår:"
 
-#: data//credits.stxt:896
+#: data//credits.stxt:901
 msgid "Or visit us directly at IRC:"
-msgstr ""
-
-#: data//credits.stxt:900
-msgid "#supertux at webchat.freenode.net"
-msgstr ""
+msgstr "Eller snakk med oss på IRC:"
 
 #: data//credits.stxt:905
+msgid "#supertux at webchat.freenode.net"
+msgstr "#supertux på webchat.freenode.net"
+
+#: data//credits.stxt:910
 msgid "Or at our Forum:"
-msgstr ""
+msgstr "Eller på forumet vårt:"
 
-#: data//credits.stxt:914
+#: data//credits.stxt:919
 msgid "Comments, ideas and suggestions"
-msgstr ""
+msgstr "Kommentarar, idéar og forslag"
 
-#: data//credits.stxt:918
+#: data//credits.stxt:923
 msgid "go to our mailing list"
-msgstr ""
-
-#: data//credits.stxt:929
-msgid "Want to help…"
-msgstr ""
+msgstr "gå til e-postlista vår"
 
 #: data//credits.stxt:934
+msgid "Want to help…"
+msgstr "Vil du hjelpa til …"
+
+#: data//credits.stxt:939
 msgid "…with localization?"
-msgstr ""
+msgstr "… med omsetjing?"
 
-#: data//credits.stxt:944
+#: data//credits.stxt:949
 msgid "…with something else?"
-msgstr ""
+msgstr "… med noko anna?"
 
-#: data//credits.stxt:955
+#: data//credits.stxt:960
 msgid "Thank you for"
-msgstr ""
+msgstr "Takk for at du"
 
-#: data//credits.stxt:959
+#: data//credits.stxt:964
 msgid "playing"
-msgstr ""
+msgstr "spelte"
 
-#: data//credits.stxt:971
+#: data//credits.stxt:976
 msgid "Penny awaits you in Milestone 3!"
-msgstr ""
+msgstr "Penny ventar på deg i milestein 3!"

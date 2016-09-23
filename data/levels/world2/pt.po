@@ -5,12 +5,13 @@
 # Translators:
 # Dani <danielaafferraz@gmail.com>, 2013
 # Rui <xymarior@yandex.com>, 2016
+# Rui <xymarior@yandex.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-07 01:50+0000\n"
+"PO-Revision-Date: 2016-09-15 13:50+0000\n"
 "Last-Translator: Rui <xymarior@yandex.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +38,7 @@ msgstr "Caminho Destruído"
 
 #: data/levels/world2/Duct_Ape.stl:3
 msgid "Duct Ape"
-msgstr "Duct Ape"
+msgstr "Macaco-Tubo"
 
 #: data/levels/world2/El_Castillo.stl:3
 msgid "A Short Visit to El Castillo"
@@ -45,7 +46,7 @@ msgstr "Uma Visita Curta ao Castelo"
 
 #: data/levels/world2/Find_Big_Fish.stl:3
 msgid "Find the Bigger Fish!"
-msgstr "Encontra o Maior Peixe!"
+msgstr "Encontra o Grande Peixe!"
 
 #: data/levels/world2/Find_Big_Fish.stl:449
 msgid "-A big fish... for you."
@@ -61,7 +62,7 @@ msgstr "Nas Profundezas"
 
 #: data/levels/world2/Little_Venice.stl:3
 msgid "Little Venice"
-msgstr "Pequeno Venice"
+msgstr "Pequena Veneza"
 
 #: data/levels/world2/Mouldy_Grotto.stl:3
 msgid "A Mouldy Grotto"
@@ -73,7 +74,7 @@ msgstr "Os pinguins não crescem nas Árvores"
 
 #: data/levels/world2/Rabbit_Hole.stl:3
 msgid "Down The Rabbit Hole"
-msgstr "Pela Toca do Coelho abaixo"
+msgstr "Pela Toca do Coelho Abaixo"
 
 #: data/levels/world2/Rabbit_Hole.stl:46
 msgid ""
@@ -123,7 +124,7 @@ msgstr "Duas Pequenas Torres"
 
 #: data/levels/world2/Up_and_Down.stl:3
 msgid "Up and Down"
-msgstr "Para cima e para baixo"
+msgstr "Para Cima e Para Baixo"
 
 #: data/levels/world2/Walking_Leaves.stl:3
 msgid "Walking Leaves"
@@ -135,7 +136,7 @@ msgstr "Bem-vindo à Floresta"
 
 #: data/levels/world2/castle.stl:3
 msgid "Iceberg Fortress"
-msgstr "Fortaleza do Iceberg"
+msgstr "Fortaleza do Icebergue"
 
 #: data/levels/world2/castledoor.stl:3
 #: data/levels/world2/dfk-placeholder-1.stl:3
@@ -168,31 +169,31 @@ msgstr "Floresta Sombria - A Torre Negra"
 
 #: data/levels/world2/forest1-grumbel.stl:3
 msgid "Forest Level 1"
-msgstr "Nível 1 Floresta"
+msgstr "Nível 1 da Floresta"
 
 #: data/levels/world2/ghostly.stl:3
 msgid "A Ghostly World"
-msgstr "Mundo Fantasmagórico"
+msgstr "Um Mundo Fantasmagórico"
 
 #: data/levels/world2/key1.stl:3
 msgid "key 1 water - to be placed behind waterfall"
-msgstr "Chave 1 Água - Para ser colocada atrás da cascata"
+msgstr "chave 1 água - para ser colocada atrás da cascata"
 
 #: data/levels/world2/key2.stl:3
 msgid "key 2 earth - to be placed underground"
-msgstr "Chave 2 Terra - Para ser colocada no subsolo"
+msgstr "chave 2 terra - para ser colocada no subsolo"
 
 #: data/levels/world2/key3.stl:3
 msgid "key 3 wood - to be placed in a big tree"
-msgstr "Chave 3 Madeira - para ser colocada na árvore grande"
+msgstr "chave 3 madeira - para ser colocada numa árvore grande"
 
 #: data/levels/world2/key4.stl:3
 msgid "key 4 fire - to be placed in a small castle"
-msgstr "Chave 4 Fogo - para ser colocada no pequeno castelo"
+msgstr "chave 4 fogo - para ser colocada num pequeno castelo"
 
 #: data/levels/world2/key5.stl:3
 msgid "key 5 air - to be placed in clouds "
-msgstr "Chave 5 Ar - para ser colocada nas nuvens"
+msgstr "chave 5 ar - para ser colocada em nuvens"
 
 #: data/levels/world2/level5.stl:3
 msgid "Green Hills"
@@ -212,7 +213,7 @@ msgstr "A Vingança das Corujas"
 
 #: data/levels/world2/roots_woody_roots.stl:3
 msgid "Roots, Woody Roots"
-msgstr "Raízes, Raízes das Árvores"
+msgstr "Raízes, Raízes Lenhosas"
 
 #: data/levels/world2/roots_woody_roots.stl:200
 msgid ""
@@ -222,7 +223,7 @@ msgid ""
 "#remember that you might\n"
 "#be supposed to come out\n"
 "#of that door..."
-msgstr "-Dica:\n#Se parecer que não há maneira \n#de chegar a uma porta,\n#lembra-te que pode ser\n#suposto teres de sair\n#por essa porta..."
+msgstr "-Dica:\n#Se parecer que não há forma \n#de chegar a uma porta,\n#lembra-te que pode ser\n#suposto teres de sair\n#por essa porta..."
 
 #: data/levels/world2/scripts_default.txt:2
 msgid "---Insert Cutscene Here---"

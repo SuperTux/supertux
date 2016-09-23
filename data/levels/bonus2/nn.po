@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-13 00:54+0000\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-09-14 19:05+0000\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk (http://www.transifex.com/arctic-games/supertux/language/nn/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "-Gratulerer!\n\n#Du kom deg gjennom\n#Bonusøy II\n\n\n\tBretta på øya
 
 #: data/levels/bonus2/level1.stl:3
 msgid "Mario's Supposed to Deal With This..."
-msgstr "Det er Mario som skal ta seg av slikt ..."
+msgstr "Det er Mario som skal ta seg av slikt …"
 
 #: data/levels/bonus2/level10.stl:3
 msgid "fjerd"
@@ -59,7 +59,7 @@ msgstr "fjerd"
 
 #: data/levels/bonus2/level11.stl:3
 msgid "The long cave"
-msgstr "Den lange hola"
+msgstr "Den lange hòla"
 
 #: data/levels/bonus2/level12.stl:3
 msgid "Blind To The World"
@@ -83,7 +83,7 @@ msgstr "Luftskipet"
 
 #: data/levels/bonus2/level17.stl:3
 msgid "...Where Everything Is Possible"
-msgstr "... der alt er mogleg"
+msgstr "… der alt er mogleg"
 
 #: data/levels/bonus2/level18.stl:3
 msgid "Insert Original Title Here"
@@ -139,7 +139,7 @@ msgstr "Fjellhopping"
 
 #: data/levels/bonus2/level4.stl:3
 msgid "Into The Cave"
-msgstr "Inn i hola"
+msgstr "Inn i hòla"
 
 #: data/levels/bonus2/level5.stl:3
 msgid "You have 1 minute"
@@ -147,7 +147,7 @@ msgstr "Du har eitt minutt på deg"
 
 #: data/levels/bonus2/level6.stl:3
 msgid "A Path Trough The Clouds"
-msgstr "Ein stig gjennom skyene"
+msgstr "Ein sti gjennom skyene"
 
 #: data/levels/bonus2/level7.stl:3
 msgid "In Flanders Ice Field"
@@ -171,8 +171,8 @@ msgstr "Du fann ein hemmeleg plass!"
 
 #: data/levels/bonus2/worldmap.stwm:29
 msgid "I wonder where that path leads to..."
-msgstr "Eg undrast kor denne stigen fører ..."
+msgstr "Eg undrast kor denne stien fører …"
 
 #: data/levels/bonus2/worldmap.stwm:36
 msgid "Warp home..."
-msgstr "Teleporter heim ..."
+msgstr "Teleporter heim …"

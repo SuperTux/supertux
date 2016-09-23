@@ -5,13 +5,14 @@
 # Translators:
 # Daniela Ferraz <danielaafferraz@gmail.com>, 2013
 # Rui <xymarior@yandex.com>, 2016
+# Rui <xymarior@yandex.com>, 2016
 # zecas <jjorge@free.fr>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-07 01:44+0000\n"
+"PO-Revision-Date: 2016-09-15 14:14+0000\n"
 "Last-Translator: Rui <xymarior@yandex.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/arctic-games/supertux/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -31,35 +32,35 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr "-Blocos de Bónus\n!images/objects/bonus_block/full-0.png\n#Os blocos de bónus podem conter moedas, power-ups ou itens especiais para te ajudar na viajem.\n#\n#Atinge-os por baixo para obter o conteúdo deles."
+msgstr "-Blocos de Bónus\n!images/objects/bonus_block/full-0.png\n#Os blocos de bónus podem conter moedas, poderes especiais ou outros itens para te ajudar na viagem.\n#\n#Dá uma cabeçada neles para obteres o que está dentro deles."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-Ovos\n!images/powerups/egg/egg.png\n#O ovo faz o Tux crescer. O Tux pode então rebentar com blocos de madeira com a sua cabeça."
+msgstr "-Ovos\n!images/powerups/egg/egg.png\n#Os ovos fazem o Tux crescer. O Tux grande consegue rebentar com blocos de madeira às cabeçadas."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr "-Pontos de controlo\n!images/objects/resetpoints/bell-m.png\n#Ativa o ponto de controlo. Se morreres podes tentar tentar de novo o nível a partir deste ponto.\nTodas as vezes que tentares começar por um ponto de controlo perdes 10 por cento das tuas moedas (pelo menos 25 moedas)."
+msgstr "-Pontos de Controlo\n!images/objects/resetpoints/bell-m.png\n#Ativa o ponto de Controlo. Se morreres, podes tentar começar o nível a partir daqui. Todas as vezes que começares a partir de um ponto de controlo, perdes 10 por cento das moedas (no mínimo 25 moedas)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr "-Corrida\n!images/tiles/signs/run.png\n#O caminho à tua frente está bloqueado. Ganha alguma velocidade antes de saltares sobre os blocos."
+msgstr "-Correr\n!images/tiles/signs/run.png\n#O caminho à tua frente está bloqueado. Começa a andar um pouco mais longe dos blocos e salta quando estiveres perto dos blocos para conseguires saltar mais alto."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr "-Flor de Fogo\n!images/powerups/fireflower/fire_flower-0.png\n#A flor de fogo dá ao Tux o poder de atirar bolas de fogo."
+msgstr "-Flor-de-Fogo\n!images/powerups/fireflower/fire_flower-0.png\n#A flor-de-fogo dá ao Tux o poder de atirar bolas de fogo com a tecla de Ação."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
@@ -72,7 +73,7 @@ msgstr "-Boneco do Tux\n!images/powerups/1up/1up.png\n#O boneco do Tux dá ao Tu
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr "-Áreas secretas\n#Muitos níveis tẽm áreas secretas por detrás do que parecem simples muros. Procura por pistas para as encontrar."
+msgstr "-Áreas Secretas\n#Muitos níveis têm áreas secretas escondidas atrás do que parece uma simples parede. Está atento às pistas para as encontrar."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -88,7 +89,7 @@ msgstr "Estrada de Togble"
 
 #: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
 msgid "The Somewhat Smaller Bath"
-msgstr "A Pequena Banheira"
+msgstr "A Banheira de Alguma Forma Pequena"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
@@ -108,11 +109,11 @@ msgstr "O Que o Grumbel Chama de Neve"
 
 #: data/levels/world1/10 - 23rd Airborne.stl:3
 msgid "23rd Airborne"
-msgstr "23º Airborne"
+msgstr "23º Aerotransportado"
 
 #: data/levels/world1/11 - Night Chill.stl:3
 msgid "Night Chill"
-msgstr "Frio da  Noite"
+msgstr "Frio Noturno"
 
 #: data/levels/world1/12 - Into the Stars.stl:3
 msgid "Into the Stars"
@@ -136,11 +137,11 @@ msgstr "Vivendo num Frigorífico"
 
 #: data/levels/world1/17 - Or is it just me.stl:3
 msgid "'...or is it just me?'"
-msgstr "'... ou serei só eu?'"
+msgstr "'...ou serei só eu?'"
 
 #: data/levels/world1/18 - Ice in the Hole.stl:3
 msgid "Ice in the Hole"
-msgstr "Gelo no buraco"
+msgstr "Gelo Dentro do Buraco"
 
 #: data/levels/world1/19 - Miyamoto Monument.stl:3
 msgid "Miyamoto Monument"
@@ -156,7 +157,7 @@ msgstr "Um Caminho nas Nuvens"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
-msgstr "A Misteriosa Casa do Gelo"
+msgstr "A Misteriosa Casa de Gelo"
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
@@ -180,7 +181,7 @@ msgstr "Acabou-se Sr. Homem do Gelo"
 
 #: data/levels/world1/Fork_in_the_Road.stl:3
 msgid "A Fork in the Road"
-msgstr "Um cruzamento"
+msgstr "Um Cruzamento na Estrada"
 
 #: data/levels/world1/Fork_in_the_Road.stl:353
 msgid ""
@@ -189,7 +190,7 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switches.  This one activates the lift to your right."
-msgstr "-Interruptores\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Interruptores podem ser usados para muitos casos. Carrega na tecla SETA PARA CIMA para acionar interruptores. Este ativa o elevador à direita."
+msgstr "-Interruptores\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Os interruptores podem ser usados para muitos casos. Carrega na tecla SETA PARA CIMA para acionar interruptores. Este aqui ativa o elevador à direita."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
@@ -202,21 +203,21 @@ msgstr "-Trampolins\n!images/objects/trampoline/trampoline2-0.png\n#Os trampolin
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr "- Subir Escadas\n# O Tux pode subir escadas!  Carrega na tecla SETA PARA CIMA para começar a subir a escada. Carrega na tecla de AÇÂO ou salta para sair da escada."
+msgstr "- Subir Escadas\n# O Tux pode subir escadas!  Carrega na tecla SETA PARA CIMA para começar a subir a escada. Depois carrega na tecla de AÇÃO ou salta para sair da escada."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"
-msgstr "Nível Bónus"
+msgstr "Nível Extra"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr "Piquenique com Penny"
+msgstr "Pique-nique com a Penny"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid ""
 "Somewhere at the shores\n"
 "of Antarctica..."
-msgstr "Num lugar na costa\nda Antártida..."
+msgstr "Em algum lugar da costa\nda Antártida..."
 
 #: data/levels/world1/scripts_intro.txt:4
 msgid "Tux: Hello Penny"

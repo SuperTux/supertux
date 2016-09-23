@@ -6,14 +6,15 @@
 # Jesusaves <cpntb1@ymail.com>, 2014
 # Dani <danielaafferraz@gmail.com>, 2013
 # Rodrigo Piñero <rodrigo.pinero@yahoo.com.br>, 2016
+# Rui <xymarior@yandex.com>, 2016
 # Victor Gonçalves <hotcyv@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-08-16 08:33+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"PO-Revision-Date: 2016-09-19 08:56+0000\n"
+"Last-Translator: Rui <xymarior@yandex.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,57 +30,57 @@ msgstr "Pedra irritada vs. VOCÊ"
 msgid ""
 "#You activate switches with this button:\n"
 "!images/tiles/signs/up.png"
-msgstr ""
+msgstr "#Você aciona alavancas com este botão:\n!images/tiles/signs/up.png"
 
 #: data/levels/incubator/Castle #1.stl:3
 msgid "Castle #1"
-msgstr ""
+msgstr "Castelo #1"
 
 #: data/levels/incubator/Missingno.stl:3
 msgid "Missingno"
-msgstr ""
+msgstr "Faltando"
 
 #: data/levels/incubator/Missingno.stl:535
 msgid "#Be patient!"
-msgstr ""
+msgstr "#Seja paciente!"
 
 #: data/levels/incubator/Missingno.stl:540
 msgid ""
 "#Dont move while flying!\n"
 "#Pay attention at landing!"
-msgstr ""
+msgstr "#Não mova enquanto estiver voando!\n#Preste atenção ao aterrizar!"
 
 #: data/levels/incubator/NewIcelevel1.stl:3
 msgid "Blue iced hills"
-msgstr ""
+msgstr "Colinas geladas azuis"
 
 #: data/levels/incubator/NewIcelevel2.stl:3
 msgid "Bad mountains"
-msgstr ""
+msgstr "Montanha dos maus"
 
 #: data/levels/incubator/NewIcelevel3.stl:3
 msgid "eman level ehT <---"
-msgstr ""
+msgstr "levín oriemirp O <---"
 
 #: data/levels/incubator/NewIcelevel4.stl:3
 msgid "Ice sea"
-msgstr ""
+msgstr "Mar de gelo"
 
 #: data/levels/incubator/NewIcelevel5.stl:3
 msgid "Electric-Wood factory"
-msgstr ""
+msgstr "Fábrica de Madeira-Elétrica"
 
 #: data/levels/incubator/Nice Ice.stl:3
 msgid "Nice Ice"
-msgstr ""
+msgstr "Gelo Fixe"
 
 #: data/levels/incubator/Nice Ice.stl:89
 msgid "#Use the enemy to finish this level!"
-msgstr ""
+msgstr "#Use o inimigo para terminar o nível!"
 
 #: data/levels/incubator/SP33DRUN.stl:3
 msgid "SP33DRUN"
-msgstr ""
+msgstr "C0RRID4 D3 V3L0CID4D3"
 
 #: data/levels/incubator/cave_run.stl:3
 msgid "Cave Run"
@@ -95,7 +96,7 @@ msgstr "O Jardim do Cubo de Mad Ysonn"
 
 #: data/levels/incubator/fall_kugelblitz.stl:3
 msgid "Kugelblitzstorm"
-msgstr ""
+msgstr "Tempestade de Raios"
 
 #: data/levels/incubator/frozen_fissure.stl:3
 msgid "Frozen Fissure"
@@ -103,15 +104,15 @@ msgstr "Fenda Congelada"
 
 #: data/levels/incubator/hungry_tux.stl:3
 msgid "Tux is hungry!"
-msgstr ""
+msgstr "Tux está com fome!"
 
 #: data/levels/incubator/ice_mountain.stl:3
 msgid "Crystal Mountain"
-msgstr ""
+msgstr "Montanha de Cristal"
 
 #: data/levels/incubator/in_the_mountain.stl:3
 msgid "In the mountain"
-msgstr ""
+msgstr "Na montanha"
 
 #: data/levels/incubator/into_dark.stl:3
 msgid "Into the Dark"
@@ -121,7 +122,7 @@ msgstr "Na Escuridão"
 msgid ""
 "-Hint:\n"
 "#Use the fireflower to melt a path through the ice."
-msgstr ""
+msgstr "-Dica:\n#Use a flor de fogo para derreter o caminho pelo gelo."
 
 #: data/levels/incubator/into_dark.stl:230
 msgid "#Beware of fire!"
@@ -133,17 +134,17 @@ msgstr "O Caminho Irregular"
 
 #: data/levels/incubator/let_us_snow.stl:3
 msgid "Let us snow!"
-msgstr ""
+msgstr "Deixe-nos nevar!"
 
 #: data/levels/incubator/let_us_snow.stl:205
 msgid ""
 "-Warning!\n"
 "#Beware the falling enemies!"
-msgstr ""
+msgstr "-Aviso!\n#Cuidado com inimigos caindo!"
 
 #: data/levels/incubator/long.stl:3
 msgid "A long adventure"
-msgstr ""
+msgstr "Uma longa aventura"
 
 #: data/levels/incubator/long.stl:1579
 msgid ""
@@ -154,17 +155,17 @@ msgid ""
 "#Even now you must not fail it.\n"
 "#Now go down to the shaft.\n"
 "#I hope you understood."
-msgstr ""
+msgstr "#Até este momento você teve sorte.\n#O caminho até aqui foi duro.\n#Ainda há muito para fazer.\n#Você certamente sabe bem.\n#Mesmo agora não podes falhar.\n#Agora desça para o poço.\n#Espero que você esteja entendendo."
 
 #: data/levels/incubator/long.stl:3997
 msgid ""
 "-Congratulations!\n"
 "#You are in half the level! "
-msgstr ""
+msgstr "-Parabéns!\n#Você está na metade da fase!"
 
 #: data/levels/incubator/long.stl:4549
 msgid "-You are going wrong!"
-msgstr ""
+msgstr "-Você está indo mal!"
 
 #: data/levels/incubator/midnight_crossing.stl:3
 msgid "Midnight Crossing"
@@ -172,7 +173,7 @@ msgstr "A Travessia da Madrugada"
 
 #: data/levels/incubator/mountain_climbing.stl:3
 msgid "Mountain climbing"
-msgstr ""
+msgstr "Alpinismo"
 
 #: data/levels/incubator/not_so_long.stl:3
 msgid "The not so long way"

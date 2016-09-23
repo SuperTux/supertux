@@ -13,6 +13,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Sugahara Masayuki <brindflontia@gmail.com>, 2016
 # Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2016
 #, fuzzy
 msgid ""
@@ -33,9 +34,9 @@ msgstr ""
 "#-#-#-#-#  ja.po (SuperTux)  #-#-#-#-#\n"
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-08-04 09:54+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-09-19 13:19+0000\n"
+"Last-Translator: Sugahara Masayuki <brindflontia@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/"
 "language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -567,7 +568,7 @@ msgid "Edit the script"
 msgstr ""
 
 #: src/object/ambient_sound.cpp:128 src/supertux/menu/options_menu.cpp:209
-#: data//credits.stxt:409
+#: data//credits.stxt:414
 msgid "Sound"
 msgstr "効果音"
 
@@ -1461,7 +1462,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: src/supertux/menu/editor_level_menu.cpp:41 data//credits.stxt:882
+#: src/supertux/menu/editor_level_menu.cpp:41 data//credits.stxt:887
 msgid "Contact"
 msgstr ""
 
@@ -2333,436 +2334,436 @@ msgstr ""
 
 #: data//credits.stxt:13
 msgid "Original Developer"
-msgstr ""
+msgstr "オリジナルの開発者"
 
 #: data//credits.stxt:19 data//credits.stxt:25
 msgid "Graphics, Programming, Level Design"
-msgstr ""
+msgstr "グラフィックス、プログラミング、ステージデザイン"
 
 #: data//credits.stxt:31
 msgid "Music, Level Design"
-msgstr ""
+msgstr "音楽、ステージデザイン"
 
 #: data//credits.stxt:37 data//credits.stxt:137 data//credits.stxt:142
-#: data//credits.stxt:191 data//credits.stxt:256
+#: data//credits.stxt:196 data//credits.stxt:261
 msgid "Graphics"
-msgstr ""
+msgstr "グラフィックス"
 
 #: data//credits.stxt:43
 msgid "Programming, Graphics, Level Design"
-msgstr ""
+msgstr "プログラミング、グラフィックス、ステージデザイン"
 
 #: data//credits.stxt:49 data//credits.stxt:87 data//credits.stxt:102
 msgid "Programming, Level Design"
-msgstr ""
+msgstr "プログラミング、ステージデザイン"
 
 #: data//credits.stxt:55
 msgid "Graphics, Story"
-msgstr ""
+msgstr "グラフィックス、ストーリー"
 
 #: data//credits.stxt:61
 msgid "Programming, Documentation"
-msgstr ""
+msgstr "プログラミング、ドキュメント作成"
 
 #: data//credits.stxt:67 data//credits.stxt:77 data//credits.stxt:82
-#: data//credits.stxt:107 data//credits.stxt:252 data//credits.stxt:264
+#: data//credits.stxt:107 data//credits.stxt:257 data//credits.stxt:269
 msgid "Programming"
-msgstr ""
+msgstr "プログラミング"
 
 #: data//credits.stxt:72
 msgid "Programming, project lead ad interim"
-msgstr ""
+msgstr "プログラミング、プロジェクトリーダー"
 
 #: data//credits.stxt:92
 msgid "Coordination"
-msgstr ""
+msgstr "調整"
 
 #: data//credits.stxt:97
 msgid "Programming, \"Flexlay\" Level editor"
-msgstr ""
+msgstr "プログラミング、 Flexlay ステージエディター"
 
 #: data//credits.stxt:112
 msgid "Windows build fixes"
-msgstr ""
+msgstr "Windows ビルド修正"
 
 #: data//credits.stxt:117
 msgid "Level Design, Graphics"
-msgstr ""
+msgstr "レベルデザイン、グラフィックス"
 
 #: data//credits.stxt:122
 msgid "Packaging, Nightly builds"
-msgstr ""
+msgstr "パッケージ化、アルファ版ビルド"
 
 #: data//credits.stxt:127
 msgid "Translation Guru (and many details anyone else could have done)"
-msgstr ""
+msgstr "メインの翻訳者 (その他、たくさんの協力者たち)"
 
 #: data//credits.stxt:132
 msgid "Level Design"
-msgstr ""
+msgstr "ステージデザイン"
 
 #: data//credits.stxt:147
 msgid "Additional contributors"
-msgstr ""
+msgstr "貢献者"
 
 #: data//credits.stxt:151
 msgid "Bug fixes"
-msgstr ""
+msgstr "バグ修正"
 
 #: data//credits.stxt:156
 msgid "Scripting functions, Level fixes"
-msgstr ""
+msgstr "スクリプト機能、ステージ修正"
 
 #: data//credits.stxt:161
 msgid "Code quality fixes"
-msgstr ""
+msgstr "コードリファクタリング"
 
 #: data//credits.stxt:166 data//credits.stxt:171 data//credits.stxt:176
-#: data//credits.stxt:211
+#: data//credits.stxt:216
 msgid "Various contributions"
-msgstr ""
+msgstr "様々な協力"
 
 #: data//credits.stxt:181
 msgid "Build issue fix"
-msgstr ""
+msgstr "ビルドの問題修正"
 
 #: data//credits.stxt:186
 msgid "Code contributions"
-msgstr ""
+msgstr "プログラミングの協力"
 
-#: data//credits.stxt:196
-msgid "Code contribution, AppData file"
-msgstr ""
+#: data//credits.stxt:191 data//credits.stxt:246
+msgid "Level improvements"
+msgstr "ステージの改良"
 
 #: data//credits.stxt:201
-msgid "Bug fix"
-msgstr ""
+msgid "Code contribution, AppData file"
+msgstr "プログラミングの協力、アプリデータファイル"
 
 #: data//credits.stxt:206
-msgid "Menu reorganization"
-msgstr ""
+msgid "Bug fix"
+msgstr "バグ修正"
 
-#: data//credits.stxt:216
-msgid "Fixing tile bugs"
-msgstr ""
+#: data//credits.stxt:211
+msgid "Menu reorganization"
+msgstr "メニューの整理"
 
 #: data//credits.stxt:221
-msgid "Build error fix"
-msgstr ""
+msgid "Fixing tile bugs"
+msgstr "バグ修正"
 
 #: data//credits.stxt:226
-msgid "Scripting function fix"
-msgstr ""
+msgid "Build error fix"
+msgstr "ビルドエラー修正"
 
 #: data//credits.stxt:231
-msgid "Support for \"glbinding\" as optional OpenGL binding"
-msgstr ""
+msgid "Scripting function fix"
+msgstr "スクリプト機能の修正"
 
 #: data//credits.stxt:236
-msgid "New menu code"
-msgstr ""
+msgid "Support for \"glbinding\" as optional OpenGL binding"
+msgstr "オプションでの glbinding による OpenGL バインディング対応"
 
 #: data//credits.stxt:241
-msgid "Level improvements"
-msgstr ""
+msgid "New menu code"
+msgstr "新メニューコード"
 
-#: data//credits.stxt:247
+#: data//credits.stxt:252
 msgid "Milestone 1 contributions by..."
-msgstr ""
+msgstr "マイルストーン 1 にご協力いただいた方々"
 
-#: data//credits.stxt:260 data//credits.stxt:268
+#: data//credits.stxt:265 data//credits.stxt:273
 msgid "Contrib Programming"
 msgstr ""
 
-#: data//credits.stxt:272
+#: data//credits.stxt:277
 msgid "Programming, Previous Maintainer"
 msgstr ""
 
-#: data//credits.stxt:277
+#: data//credits.stxt:282
 msgid "Additional Music"
 msgstr ""
 
-#: data//credits.stxt:282
+#: data//credits.stxt:287
 msgid "\"Mortimers Chipdisko\" by"
 msgstr ""
 
-#: data//credits.stxt:291
+#: data//credits.stxt:296
 msgid "\"Salsa Con Carne\" by"
 msgstr ""
 
-#: data//credits.stxt:299 data//credits.stxt:351
+#: data//credits.stxt:304 data//credits.stxt:356
 msgid "remixed by"
 msgstr ""
 
-#: data//credits.stxt:308
+#: data//credits.stxt:313
 msgid "\"voc songs\" by"
 msgstr ""
 
-#: data//credits.stxt:317
+#: data//credits.stxt:322
 msgid "\"clavelian_march\" by"
 msgstr ""
 
-#: data//credits.stxt:326
+#: data//credits.stxt:331
 msgid "Excerpts from the Giana Sisters"
 msgstr ""
 
-#: data//credits.stxt:330
+#: data//credits.stxt:335
 msgid "Soundtrack used with kind permission"
 msgstr ""
 
-#: data//credits.stxt:334
+#: data//credits.stxt:339
 msgid "from"
 msgstr ""
 
-#: data//credits.stxt:343
+#: data//credits.stxt:348
 msgid "\"Airship song\" (orchestral remix) by"
 msgstr ""
 
-#: data//credits.stxt:360
+#: data//credits.stxt:365
 msgid "\"Battle Theme\" by"
 msgstr ""
 
-#: data//credits.stxt:369
+#: data//credits.stxt:374
 msgid "\"SuperTux christmas theme\""
 msgstr ""
 
-#: data//credits.stxt:373
+#: data//credits.stxt:378
 msgid "original by"
 msgstr ""
 
-#: data//credits.stxt:382
+#: data//credits.stxt:387
 msgid "arranged by"
 msgstr ""
 
-#: data//credits.stxt:391
+#: data//credits.stxt:396
 msgid "\"halloween_1.ogg\" by"
 msgstr ""
 
-#: data//credits.stxt:400
+#: data//credits.stxt:405
 msgid "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"
 msgstr ""
 
-#: data//credits.stxt:480
+#: data//credits.stxt:485
 msgid "Voice Acting"
 msgstr ""
 
-#: data//credits.stxt:511
+#: data//credits.stxt:516
 msgid "Localization"
 msgstr ""
 
-#: data//credits.stxt:516 data//credits.stxt:651
+#: data//credits.stxt:521 data//credits.stxt:656
 msgid "Danish"
 msgstr ""
 
-#: data//credits.stxt:521
+#: data//credits.stxt:526
 msgid "Vietnamese"
 msgstr ""
 
-#: data//credits.stxt:526 data//credits.stxt:607 data//credits.stxt:615
-#: data//credits.stxt:707 data//credits.stxt:723 data//credits.stxt:759
-#: data//credits.stxt:767 data//credits.stxt:775 data//credits.stxt:855
+#: data//credits.stxt:531 data//credits.stxt:612 data//credits.stxt:620
+#: data//credits.stxt:712 data//credits.stxt:728 data//credits.stxt:764
+#: data//credits.stxt:772 data//credits.stxt:780 data//credits.stxt:860
 msgid "French"
 msgstr ""
 
-#: data//credits.stxt:531 data//credits.stxt:566 data//credits.stxt:631
-#: data//credits.stxt:703 data//credits.stxt:803 data//credits.stxt:843
+#: data//credits.stxt:536 data//credits.stxt:571 data//credits.stxt:636
+#: data//credits.stxt:708 data//credits.stxt:808 data//credits.stxt:848
 msgid "German"
 msgstr ""
 
-#: data//credits.stxt:536 data//credits.stxt:611 data//credits.stxt:847
+#: data//credits.stxt:541 data//credits.stxt:616 data//credits.stxt:852
 msgid "Russian"
 msgstr ""
 
-#: data//credits.stxt:541
+#: data//credits.stxt:546
 msgid "Albanese"
 msgstr ""
 
-#: data//credits.stxt:546 data//credits.stxt:571 data//credits.stxt:583
+#: data//credits.stxt:551 data//credits.stxt:576 data//credits.stxt:588
 msgid "Castilian Spanish"
 msgstr ""
 
-#: data//credits.stxt:551 data//credits.stxt:579 data//credits.stxt:627
-#: data//credits.stxt:779 data//credits.stxt:811 data//credits.stxt:859
+#: data//credits.stxt:556 data//credits.stxt:584 data//credits.stxt:632
+#: data//credits.stxt:784 data//credits.stxt:816 data//credits.stxt:864
 msgid "Hungarian"
 msgstr ""
 
-#: data//credits.stxt:556 data//credits.stxt:635 data//credits.stxt:671
+#: data//credits.stxt:561 data//credits.stxt:640 data//credits.stxt:676
 msgid "Spanish"
 msgstr ""
 
-#: data//credits.stxt:561 data//credits.stxt:587 data//credits.stxt:839
+#: data//credits.stxt:566 data//credits.stxt:592 data//credits.stxt:844
 msgid "Catalan"
 msgstr ""
 
-#: data//credits.stxt:575
+#: data//credits.stxt:580
 msgid "Slovenian"
 msgstr ""
 
-#: data//credits.stxt:591
+#: data//credits.stxt:596
 msgid "Mandarin"
 msgstr ""
 
-#: data//credits.stxt:595 data//credits.stxt:667 data//credits.stxt:695
+#: data//credits.stxt:600 data//credits.stxt:672 data//credits.stxt:700
 msgid "European Portuguese"
 msgstr ""
 
-#: data//credits.stxt:599
+#: data//credits.stxt:604
 msgid "Romanian"
 msgstr ""
 
-#: data//credits.stxt:603 data//credits.stxt:823
+#: data//credits.stxt:608 data//credits.stxt:828
 msgid "Dutch"
 msgstr ""
 
-#: data//credits.stxt:619 data//credits.stxt:711 data//credits.stxt:851
+#: data//credits.stxt:624 data//credits.stxt:716 data//credits.stxt:856
 msgid "Turkish"
 msgstr ""
 
-#: data//credits.stxt:623
+#: data//credits.stxt:628
 msgid "European/Brazilian Portuguese"
 msgstr ""
 
-#: data//credits.stxt:639 data//credits.stxt:655 data//credits.stxt:659
-#: data//credits.stxt:727 data//credits.stxt:831
+#: data//credits.stxt:644 data//credits.stxt:660 data//credits.stxt:664
+#: data//credits.stxt:732 data//credits.stxt:836
 msgid "Czech"
 msgstr ""
 
-#: data//credits.stxt:643 data//credits.stxt:763
+#: data//credits.stxt:648 data//credits.stxt:768
 msgid "Nepali"
 msgstr ""
 
-#: data//credits.stxt:647 data//credits.stxt:731 data//credits.stxt:747
-#: data//credits.stxt:771
+#: data//credits.stxt:652 data//credits.stxt:736 data//credits.stxt:752
+#: data//credits.stxt:776
 msgid "Brazilian Portuguese"
 msgstr ""
 
-#: data//credits.stxt:663 data//credits.stxt:675
+#: data//credits.stxt:668 data//credits.stxt:680
 msgid "Italian"
 msgstr ""
 
-#: data//credits.stxt:679
+#: data//credits.stxt:684
 msgid "Estonian"
 msgstr ""
 
-#: data//credits.stxt:683 data//credits.stxt:687 data//credits.stxt:719
-#: data//credits.stxt:815
+#: data//credits.stxt:688 data//credits.stxt:692 data//credits.stxt:724
+#: data//credits.stxt:820
 msgid "Polish"
 msgstr ""
 
-#: data//credits.stxt:691
+#: data//credits.stxt:696
 msgid "French/Esperanto"
 msgstr ""
 
-#: data//credits.stxt:699 data//credits.stxt:819
+#: data//credits.stxt:704 data//credits.stxt:824
 msgid "Ukrainian"
 msgstr ""
 
-#: data//credits.stxt:715
+#: data//credits.stxt:720
 msgid "Breton"
 msgstr ""
 
-#: data//credits.stxt:735 data//credits.stxt:787
+#: data//credits.stxt:740 data//credits.stxt:792
 msgid "Greek"
 msgstr ""
 
-#: data//credits.stxt:739 data//credits.stxt:755
+#: data//credits.stxt:744 data//credits.stxt:760
 msgid "Norwegian Bokmål"
 msgstr ""
 
-#: data//credits.stxt:743
+#: data//credits.stxt:748
 msgid "Swedish"
 msgstr ""
 
-#: data//credits.stxt:751 data//credits.stxt:799
+#: data//credits.stxt:756 data//credits.stxt:804
 msgid "Finnish"
 msgstr ""
 
-#: data//credits.stxt:783
+#: data//credits.stxt:788
 msgid "Serbian"
 msgstr ""
 
-#: data//credits.stxt:791
+#: data//credits.stxt:796
 msgid "Japanese"
 msgstr "日本語"
 
-#: data//credits.stxt:795
+#: data//credits.stxt:800
 msgid "Simplified Chinese"
 msgstr ""
 
-#: data//credits.stxt:807
+#: data//credits.stxt:812
 msgid "Lithuanian"
 msgstr ""
 
-#: data//credits.stxt:827
+#: data//credits.stxt:832
 msgid "Belarusian"
 msgstr ""
 
-#: data//credits.stxt:835
+#: data//credits.stxt:840
 msgid "Bulgarian"
 msgstr ""
 
-#: data//credits.stxt:865
+#: data//credits.stxt:870
 msgid "Thanks to"
 msgstr ""
 
-#: data//credits.stxt:870
+#: data//credits.stxt:875
 msgid "Creator of Tux, the Linux penguin"
 msgstr ""
 
-#: data//credits.stxt:874
+#: data//credits.stxt:879
 msgid "SDL, OpenAL and OpenGL"
 msgstr ""
 
-#: data//credits.stxt:875
+#: data//credits.stxt:880
 msgid ""
 "For making such a great gaming experience\n"
 "        possible on Linux"
 msgstr ""
 
-#: data//credits.stxt:887
+#: data//credits.stxt:892
 msgid "Visit our webpage at"
 msgstr ""
 
-#: data//credits.stxt:896
+#: data//credits.stxt:901
 msgid "Or visit us directly at IRC:"
 msgstr ""
 
-#: data//credits.stxt:900
+#: data//credits.stxt:905
 msgid "#supertux at webchat.freenode.net"
 msgstr ""
 
-#: data//credits.stxt:905
+#: data//credits.stxt:910
 msgid "Or at our Forum:"
 msgstr ""
 
-#: data//credits.stxt:914
+#: data//credits.stxt:919
 msgid "Comments, ideas and suggestions"
 msgstr ""
 
-#: data//credits.stxt:918
+#: data//credits.stxt:923
 msgid "go to our mailing list"
 msgstr ""
 
-#: data//credits.stxt:929
-msgid "Want to help…"
-msgstr ""
-
 #: data//credits.stxt:934
+msgid "Want to help…"
+msgstr "ご不明な点がございましたら"
+
+#: data//credits.stxt:939
 msgid "…with localization?"
-msgstr ""
+msgstr "翻訳について"
 
-#: data//credits.stxt:944
+#: data//credits.stxt:949
 msgid "…with something else?"
-msgstr ""
+msgstr "その他について"
 
-#: data//credits.stxt:955
+#: data//credits.stxt:960
 msgid "Thank you for"
 msgstr ""
 
-#: data//credits.stxt:959
+#: data//credits.stxt:964
 msgid "playing"
 msgstr ""
 
-#: data//credits.stxt:971
+#: data//credits.stxt:976
 msgid "Penny awaits you in Milestone 3!"
 msgstr ""

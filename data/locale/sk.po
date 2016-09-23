@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-05 18:44+0000\n"
-"Last-Translator: Tobias Markus <tobbi@mozilla-uk.org>\n"
+"PO-Revision-Date: 2016-09-14 18:28+0000\n"
+"Last-Translator: MiroslavR <miroslavr256@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/arctic-games/supertux/"
 "language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -94,7 +94,7 @@ msgstr ""
 
 #: src/badguy/dispenser.cpp:381
 msgid "Interval (seconds)"
-msgstr ""
+msgstr "Interval (sekundy)"
 
 #: src/badguy/dispenser.cpp:383
 msgid "Random"
@@ -304,7 +304,7 @@ msgstr ""
 
 #: src/badguy/willowisp.cpp:300 src/badguy/willowisp.hpp:63
 msgid "Will 'o' wisp"
-msgstr ""
+msgstr "Bludička"
 
 #: src/badguy/willowisp.cpp:301 src/editor/worldmap_objects.cpp:245
 #: src/supertux/game_object.cpp:122 src/supertux/menu/editor_level_menu.cpp:39
@@ -340,7 +340,7 @@ msgstr ""
 
 #: src/badguy/willowisp.cpp:308
 msgid "Fly speed"
-msgstr ""
+msgstr "Rýchlosť letu"
 
 #: src/badguy/yeti.cpp:355
 msgid "Fixed position"
@@ -352,11 +352,11 @@ msgstr ""
 
 #: src/badguy/yeti.hpp:44
 msgid "Yeti"
-msgstr ""
+msgstr "Yeti"
 
 #: src/badguy/yeti_stalactite.hpp:38
 msgid "Yeti's stalactite"
-msgstr ""
+msgstr "Yetiho stalaktit"
 
 #: src/badguy/zeekling.hpp:40
 msgid "Zeekling"
@@ -1139,7 +1139,7 @@ msgstr "Herné možnosti:"
 
 #: src/supertux/command_line_arguments.cpp:97
 msgid "  --edit-level                 Open given level in editor"
-msgstr ""
+msgstr "  --edit-level                 Otvoriť zadanú úroveň v editore"
 
 #: src/supertux/command_line_arguments.cpp:98
 msgid "  --show-fps                   Display framerate in levels"
@@ -1245,7 +1245,7 @@ msgstr ""
 
 #: src/supertux/game_object.hpp:70
 msgid "Unknown object"
-msgstr ""
+msgstr "Neznámy objekt"
 
 #: src/supertux/levelintro.cpp:120
 #, c-format

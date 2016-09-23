@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Catalanoic <catalanoic@gmail.com>, 2016
 # Marc Celeiro <maceleiro@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-05-09 09:26+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-09-17 18:34+0000\n"
+"Last-Translator: Catalanoic <catalanoic@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/arctic-games/supertux/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,48 +30,48 @@ msgid ""
 "#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
 "#\n"
 "#Hit them from below to get at their contents."
-msgstr ""
+msgstr "-Blocs de bonificació\n!images/objects/bonus_block/full-0.png\n#Els blocs de bonificació poden contenir monedes, potenciadors o elements especials per ajudar en la seva recerca.\n#\n#Colpegeu-los des de baix per arribar als seus continguts."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:72
 msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr ""
+msgstr "-Ous\n!images/powerups/egg/egg.png\n#L'ou fa d'en Tux créixer més gran. Tux a continuació, pot trencar blocs de fusta amb el cap."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
 "-Checkpoints\n"
 "!images/objects/resetpoints/bell-m.png\n"
 "#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
-msgstr ""
+msgstr "-Llocs de control\n!images/objects/resetpoints/bell-m.png\n#Activa el lloc de control. Si no ho aconseguiu, podeu tornar a intentar el nivell d'aquí. Cada vegada que torneu a intentar des d'un lloc de control, es perdrà el 10 per cent de les seves monedes (almenys 25 monedes)."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:86
 msgid ""
 "-Running\n"
 "!images/tiles/signs/run.png\n"
 "#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
-msgstr ""
+msgstr "-Córrer\n!images/tiles/signs/run.png\n#El camí del davant està bloquejat. Guanyeu una mica de velocitat abans de saltar per passar per sobre dels blocs."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:93
 msgid ""
 "-Fire Flower\n"
 "!images/powerups/fireflower/fire_flower-0.png\n"
 "#The fire flower gives Tux the ability to shoot fireballs."
-msgstr ""
+msgstr "-Flor de foc\n!images/powerups/fireflower/fire_flower-0.png\n#La flor de foc dóna en Tux la capacitat de disparar boles de foc."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:100
 msgid ""
 "-Tux Doll\n"
 "!images/powerups/1up/1up.png\n"
 "#The Tux doll gives Tux 100 coins."
-msgstr ""
+msgstr "-Nineta d'en Tux\n!images/powerups/1up/1up.png\n#La nineta d'en Tux dóna 100 monedes."
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:107
 msgid ""
 "-Secret Areas\n"
 "#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
-msgstr ""
+msgstr "-Àrees secretes\n#Molts nivells contenen zones secretes rere del que sembla ser parets llises. Cerqueu pistes per trobar-les."
 
 #: data/levels/world1/02 - The Journey Begins.stl:3
 msgid "The Journey Begins"
@@ -187,20 +188,20 @@ msgid ""
 "!images/objects/switch/switch-0.png\n"
 "!images/objects/switch/right-0.png\n"
 "#Switches can be used to do all manner of things. Press the UP key to use switches.  This one activates the lift to your right."
-msgstr ""
+msgstr "-Interruptors\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Els interruptors es poden utilitzar per fer tot tipus de coses. Premeu la tecla fletxa AMUNT per utilitzar interruptors. Aquest activa l'ascensor a la seva dreta."
 
 #: data/levels/world1/Fork_in_the_Road.stl:362
 msgid ""
 "-Trampolines\n"
 "!images/objects/trampoline/trampoline2-0.png\n"
 "#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
-msgstr ""
+msgstr "-Trampolins\n!images/objects/trampoline/trampoline2-0.png\n#Els trampolins permeten en Tux saltar a noves altures. Manteniu polsada la tecla de salt mentre rebota en el trampolí per llançar-se molt alt."
 
 #: data/levels/world1/Fork_in_the_Road.stl:369
 msgid ""
 "- Climbing\n"
 "# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
-msgstr ""
+msgstr "- Escalada\n# En Tux pot escalar!  Premeu la tecla fletxa AMUNT per començar a escalar.  Premeu la tecla d'ACCIÓ o saltar per deixar-se anar."
 
 #: data/levels/world1/bonus.stl:3
 msgid "Bonus Level"

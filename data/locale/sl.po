@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-05 20:42+0200\n"
-"PO-Revision-Date: 2016-09-05 19:42+0000\n"
+"PO-Revision-Date: 2016-09-12 18:14+0000\n"
 "Last-Translator: Gorzy Gorup <gorupgorazd@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/arctic-games/supertux/"
 "language/sl/)\n"
@@ -1567,7 +1567,7 @@ msgstr "Izberi podskupino stopnje"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:85
 msgid "levels"
-msgstr "stopnje"
+msgstr "stopenj"
 
 #: src/supertux/menu/editor_levelset_select_menu.cpp:97
 #: src/supertux/menu/editor_new_levelset_menu.cpp:40

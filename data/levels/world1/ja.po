@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sugahara Masayuki <brindflontia@gmail.com>, 2016
 # Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015-2016
 # Sumita　Sanshiro (tako44) <34rosmt@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-05-22 23:16+0000\n"
-"Last-Translator: Sumita　Sanshiro (tako44) <34rosmt@gmail.com>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-09-19 12:47+0000\n"
+"Last-Translator: Sugahara Masayuki <brindflontia@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/arctic-games/supertux/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +38,7 @@ msgid ""
 "-Eggs\n"
 "!images/powerups/egg/egg.png\n"
 "#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
-msgstr "-卵\n!images/powerups/egg/egg.png\n#卵はTuxを大きくさせます。\n#Tuxは木のブロックを壊せるようになります。"
+msgstr "-卵\n!images/powerups/egg/egg.png\n#卵を取るとTuxは大きくなります。\n#大きなTuxは木のブロックを壊せるようになります。"
 
 #: data/levels/world1/01 - Welcome to Antarctica.stl:79
 msgid ""
@@ -91,7 +92,7 @@ msgstr "ちいさいおふろ"
 
 #: data/levels/world1/06 - The Frosted Fields.stl:3
 msgid "The Frosted Fields"
-msgstr "くもったフィールド"
+msgstr "凍りついたフィールド"
 
 #: data/levels/world1/07 - Oh No More Snowballs.stl:3
 msgid "Oh no! More Snowballs!"
@@ -127,7 +128,7 @@ msgstr "どうくつへの入り口"
 
 #: data/levels/world1/15 - Under the Ice.stl:3
 msgid "Under the Ice"
-msgstr "地上の下"
+msgstr "氷の下"
 
 #: data/levels/world1/16 - Living in a Fridge.stl:3
 msgid "Living in a Fridge"
@@ -155,7 +156,7 @@ msgstr "雲の上のみち"
 
 #: data/levels/world1/22 - A Mysterious House of Ice.stl:3
 msgid "A Mysterious House of Ice"
-msgstr "氷の神秘家"
+msgstr "氷でできた神秘の家"
 
 #: data/levels/world1/23 - The Escape.stl:3
 msgid "The Escape"
@@ -163,7 +164,7 @@ msgstr "脱出"
 
 #: data/levels/world1/24 - The Shattered Bridge.stl:3
 msgid "The Shattered Bridge"
-msgstr "Shattered橋"
+msgstr "閉ざされた橋"
 
 #: data/levels/world1/25 - Arctic Ruins.stl:3
 msgid "Arctic Ruins"
@@ -209,7 +210,7 @@ msgstr "ボーナス レベル"
 
 #: data/levels/world1/intro.stl:3
 msgid "Picnic With Penny"
-msgstr "ペニーはピンチ"
+msgstr "ペニーとピクニック"
 
 #: data/levels/world1/scripts_intro.txt:2
 msgid ""
@@ -231,7 +232,7 @@ msgstr "Tux: 僕のダンスの動きを見てくれよ。"
 
 #: data/levels/world1/scripts_intro.txt:7
 msgid "Tux: Oww... my head..."
-msgstr "Tux:うーん...僕の頭が..."
+msgstr "Tux:うーん...頭が..."
 
 #: data/levels/world1/scripts_intro.txt:8
 msgid "Tux: Wait!"
@@ -251,12 +252,12 @@ msgstr "Tux: なんてこった..."
 
 #: data/levels/world1/scripts_intro.txt:12
 msgid "Tux: Don't worry, Penny, I'll rescue you!"
-msgstr "Tux: Penny、心配しないで。僕が助けるよ!"
+msgstr "Tux: Penny、心配しないで。助けにいくからね!"
 
 #: data/levels/world1/worldmap.stwm:3
 msgid "Icyisland"
-msgstr "アイス島"
+msgstr "アイシスランド"
 
 #: data/levels/world1/worldmap.stwm:37
 msgid "You Found a Secret Area!"
-msgstr "あなたは、ひみつの道を見つけました！"
+msgstr "ひみつの場所を見つけました！"

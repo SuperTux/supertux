@@ -5,14 +5,15 @@
 # Translators:
 # Filipe Oliveira <contato@fmoliveira.com.br>, 2013
 # Herval Ribeiro <heraze@gmail.com>, 2006
+# Rui <xymarior@yandex.com>, 2016
 # Victor Gonçalves <hotcyv@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-04 15:35+0200\n"
-"PO-Revision-Date: 2016-01-12 09:00+0000\n"
-"Last-Translator: Benjamin Leduc <giby_the_kid@yahoo.fr>\n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-09-19 02:09+0000\n"
+"Last-Translator: Rui <xymarior@yandex.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/arctic-games/supertux/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 
 #: data/levels/bonus1/abednego-level1.stl:3
 msgid "Flight Test"
-msgstr "Teste de Vôo"
+msgstr "Teste de Voo"
 
 #: data/levels/bonus1/abednego-level2.stl:3
 msgid "Dungeons but no Dragons"
@@ -81,7 +82,7 @@ msgid ""
 "#A big \"Thank you\" goes out to\n"
 "#everyone who contributed to this\n"
 "#release. We hope you enjoyed it!"
-msgstr ""
+msgstr "-Parabéns!\n\n#Você terminou com sucesso\n#a Ilha Bônus I\n\n\tapresentando níveis extras\n\tcontribuídos por\n\tJason W. Thompson\n\tTorfi Gunnarsson\n\tAbednego\n\tMatr1x\n\n\n#Se você não terminou todos\n#os níveis ainda, volte para casa\n#e pegue outro caminho.\n#Ainda existem muitos desafios\n#esperando por você!\n\n#Existe uma fase secreta a\n#ser descoberta também...\n\n#Um grande \"Obrigado\" vai para\n#todos que contribuíram com este\n#lançamento.\n#Esperamos que tenha gostado!"
 
 #: data/levels/bonus1/matr1x-level1.stl:3
 msgid "Pipe Down Over There"
@@ -89,7 +90,7 @@ msgstr "Desça Pelo Cano"
 
 #: data/levels/bonus1/matr1x-level2.stl:3
 msgid "Something Fishy"
-msgstr "Um pouco de Peixe"
+msgstr "Algo Errado"
 
 #: data/levels/bonus1/matr1x-level3.stl:3
 msgid "Fire In The Sky"
@@ -113,7 +114,7 @@ msgstr "Muito fácil"
 
 #: data/levels/bonus1/torfi-level2.stl:43
 msgid "#All these levels were upgraded to milestone 2 design by Hume2."
-msgstr "#Todas estas fases foram atualizados para a etapa 2, desenhadas por Hume2."
+msgstr "#Todos estes níveis foram atualizados para a etapa 2, desenhados por Hume2."
 
 #: data/levels/bonus1/torfi-level3.stl:3
 msgid "Still too easy"
@@ -137,7 +138,7 @@ msgstr "Colapso Iminente!"
 
 #: data/levels/bonus1/wansti-level5.stl:3
 msgid "Tip Of The Iceberg"
-msgstr "Dica Do Iceberg"
+msgstr "Ponta do Icebergue"
 
 #: data/levels/bonus1/worldmap.stwm:3
 msgid "Bonus Island I"
