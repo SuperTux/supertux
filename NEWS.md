@@ -1,7 +1,7 @@
 SuperTux Release and Development Notes
 ======================================
 
-SuperTux 0.5.0-rc.4 (2016-09-12)
+SuperTux 0.5.0-rc.5 (2016-09-23)
 --------------------------------
 
 The SuperTux team is excited to announce the availability of the fourth release candidate for the upcoming stable release 0.5.0 after less than a year of development. The most prominent change for this release is a new in-game level editor which allows you to create levels and worldmaps on-the-fly from within SuperTux itself.
@@ -64,6 +64,12 @@ Changes from 0.5.0-rc.3 (2016-08-26):
 * Editor: sort layer in ascending order
 * Scripting: deduplicate code using the ExposedObject template class
 * Update the translations to reflect the translation progress as of 2016-09-12
+
+Changes from 0.5.0-rc.4 (2016-09-12):
+
+* Use PhysFS file system abstraction for is\_directory checks
+* Prevent statistics text from overlapping
+* Fix a bug with Level.edit() in squirrel (#207)
 
 This section will be updated with more RCs or a stable version being released.
 
