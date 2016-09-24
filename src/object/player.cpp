@@ -306,6 +306,7 @@ Player::update(float elapsed_time)
   no_water = true;
 
   if(dying && dying_timer.check()) {
+    Sector::current()->stop_looping_sounds();
     set_bonus(NO_BONUS, true);
     dead = true;
     return;
