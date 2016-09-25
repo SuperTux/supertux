@@ -85,6 +85,7 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
+      condition: $BUILD_TYPE = Release
 
 addons:
   apt:
