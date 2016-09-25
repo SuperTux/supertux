@@ -1,10 +1,10 @@
 SuperTux Release and Development Notes
 ======================================
 
-SuperTux 0.5.0-rc.5 (2016-09-23)
---------------------------------
+SuperTux 0.5.0 (2016-09-25)
+---------------------------
 
-The SuperTux team is excited to announce the availability of the fourth release candidate for the upcoming stable release 0.5.0 after less than a year of development. The most prominent change for this release is a new in-game level editor which allows you to create levels and worldmaps on-the-fly from within SuperTux itself.
+The SuperTux team is excited to announce the availability of the stable release 0.5.0 after less than a year of development. The most prominent change for this release is a new in-game level editor which allows you to create levels and worldmaps on-the-fly from within SuperTux itself.
 
 Changes:
 
@@ -16,6 +16,7 @@ Changes:
 * Added a few more tiles and music
 * New console commands and command line options (related to the editor)
 * Various other bugfixes of issues reported since the v0.4.0 release
+* And more (minor) improvements and changes
 
 Changes from 0.5.0-rc.1 (2016-08-05):
 
@@ -71,7 +72,10 @@ Changes from 0.5.0-rc.4 (2016-09-12):
 * Prevent statistics text from overlapping
 * Fix a bug with Level.edit() in squirrel (#207)
 
-This section will be updated with more RCs or a stable version being released.
+Changes from 0.5.0-rc.5 (2016-09-23):
+
+* Stop looping sounds when dead
+* Final translation update
 
 SuperTux 0.4.0 (2015-12-20)
 ----------------------------
