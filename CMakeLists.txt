@@ -65,7 +65,7 @@ INCLUDE(TestBigEndian)
 TEST_BIG_ENDIAN(WORDS_BIGENDIAN)
 
 ## Add definitions
-IF(CMAKE_BUILD_TYPE MATCHES Release)
+IF(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
   ADD_DEFINITIONS(-DRELEASE)
 ELSEIF(CMAKE_BUILD_TYPE MATCHES Debug)
   ADD_DEFINITIONS(-DDEBUG)
@@ -750,7 +750,7 @@ INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/images
                   ${CMAKE_CURRENT_SOURCE_DIR}/data/locale
                   DESTINATION ${INSTALL_SUBDIR_SHARE})
 
-IF(CMAKE_BUILD_TYPE MATCHES Release)
+IF(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
   INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/levels
                     DESTINATION ${INSTALL_SUBDIR_SHARE}
                     PATTERN "data/levels/test" EXCLUDE
@@ -770,7 +770,7 @@ INSTALL(FILES "${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl" DESTINATION "${INS
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
 ## Configure main menu logo
-IF(CMAKE_BUILD_TYPE MATCHES Release)
+IF(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
     SET(LOGO_FILE "logo_final.sprite")
 ELSE()
     SET(LOGO_FILE "logo.sprite")
