@@ -269,11 +269,11 @@ OptionsMenu::OptionsMenu(bool complete) :
   aspect->set_help(_("Adjust the aspect ratio"));
 
   if (SoundManager::current()->is_audio_enabled()) {
-      auto sound_volume = add_string_select(MNID_SOUND_VOLUME, _("Sound Volume"), &next_sound_volume, sound_volumes);
-      sound_volume->set_help(_("Adjust sound volume"));
+      auto sound_volume_select = add_string_select(MNID_SOUND_VOLUME, _("Sound Volume"), &next_sound_volume, sound_volumes);
+      sound_volume_select->set_help(_("Adjust sound volume"));
 
-      auto music_volume = add_string_select(MNID_MUSIC_VOLUME, _("Music Volume"), &next_music_volume, music_volumes);
-      music_volume->set_help(_("Adjust music volume"));
+      auto music_volume_select = add_string_select(MNID_MUSIC_VOLUME, _("Music Volume"), &next_music_volume, music_volumes);
+      music_volume_select->set_help(_("Adjust music volume"));
   } else {
     add_inactive( _("Sound (disabled)"));
     add_inactive( _("Music (disabled)"));
