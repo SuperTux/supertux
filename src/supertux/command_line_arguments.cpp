@@ -41,8 +41,8 @@ CommandLineArguments::CommandLineArguments() :
   video(),
   show_fps(),
   show_player_pos(),
-  sound_enabled(),
-  music_enabled(),
+  sound_volume(),
+  music_volume(),
   start_level(),
   enable_script_debugger(),
   start_demo(),
@@ -294,11 +294,11 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else if (arg == "--disable-sound" || arg == "--disable-sfx")
     {
-      sound_enabled = false;
+      sound_volume = 0;
     }
     else if (arg == "--disable-music")
     {
-      music_enabled = false;
+      music_volume = 0;
     }
     else if (arg == "--play-demo")
     {
@@ -392,8 +392,8 @@ CommandLineArguments::merge_into(Config& config)
   merge_option(video);
   merge_option(show_fps);
   merge_option(show_player_pos);
-  merge_option(sound_enabled);
-  merge_option(music_enabled);
+  merge_option(sound_volume);
+  merge_option(music_volume);
   merge_option(start_level);
   merge_option(enable_script_debugger);
   merge_option(start_demo);

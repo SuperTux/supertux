@@ -57,8 +57,8 @@ public:
   bool try_vsync;
   bool show_fps;
   bool show_player_pos;
-  bool sound_enabled;
-  bool music_enabled;
+  int sound_volume;
+  int music_volume;
 
   /** initial random seed.  0 ==> set from time() */
   int random_seed;
@@ -68,7 +68,7 @@ public:
   bool enable_script_debugger;
   std::string start_demo;
   std::string record_demo;
-  
+
   /** this variable is set if tux should spawn somewhere which isn't the "main" spawn point*/
   boost::optional<Vector> tux_spawn_pos;
 

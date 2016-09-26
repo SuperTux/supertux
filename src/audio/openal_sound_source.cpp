@@ -19,7 +19,9 @@
 #include "audio/sound_manager.hpp"
 
 OpenALSoundSource::OpenALSoundSource() :
-  source()
+  source(),
+  _gain(1.0f),
+  _volume(1.0f)
 {
   alGenSources(1, &source);
   SoundManager::check_al_error("Couldn't create audio source: ");
@@ -113,7 +115,8 @@ OpenALSoundSource::set_velocity(const Vector& velocity)
 void
 OpenALSoundSource::set_gain(float gain)
 {
-  alSourcef(source, AL_GAIN, gain);
+  alSourcef(source, AL_GAIN, gain * _volume);
+  _gain = gain;
 }
 
 void
@@ -126,6 +129,13 @@ void
 OpenALSoundSource::set_reference_distance(float distance)
 {
   alSourcef(source, AL_REFERENCE_DISTANCE, distance);
+}
+
+void
+OpenALSoundSource::set_volume(float volume)
+{
+  _volume = volume;
+  alSourcef(source, AL_GAIN, _gain * _volume);
 }
 
 /* EOF */

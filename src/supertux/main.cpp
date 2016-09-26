@@ -218,7 +218,7 @@ public:
 	if (FileSystem::is_directory(olduserdir)) {
 	  boost::filesystem::path olduserpath(olduserdir);
 	  boost::filesystem::path userpath(userdir);
-	  
+
 	  boost::filesystem::directory_iterator end_itr;
 
 	  bool success = true;
@@ -254,7 +254,7 @@ public:
     if (!FileSystem::is_directory(userdir))
     {
 	  FileSystem::mkdir(userdir);
-	  log_info << "Created SuperTux userdir: " << userdir << std::endl;  
+	  log_info << "Created SuperTux userdir: " << userdir << std::endl;
     }
 
     if (!PHYSFS_setWriteDir(userdir.c_str()))
@@ -366,8 +366,10 @@ Main::launch_game()
 
   timelog("audio");
   SoundManager sound_manager;
-  sound_manager.enable_sound(g_config->sound_enabled);
-  sound_manager.enable_music(g_config->music_enabled);
+  sound_manager.enable_sound(g_config->sound_volume > 0 ? true : false);
+  sound_manager.enable_music(g_config->music_volume > 0 ? true : false);
+  sound_manager.set_sound_volume(g_config->sound_volume);
+  sound_manager.set_music_volume(g_config->music_volume);
 
   Console console(console_buffer);
 
@@ -458,7 +460,7 @@ Main::run(int argc, char** argv)
 	freopen((prefpath + "/console.out").c_str(), "a", stdout);
 	freopen((prefpath + "/console.err").c_str(), "a", stderr);
 #endif
- 
+
   int result = 0;
 
   try

@@ -43,6 +43,7 @@ public:
   virtual void set_position(const Vector& position);
   virtual void set_velocity(const Vector& position);
   virtual void set_reference_distance(float distance);
+  virtual void set_volume(float volume);
 
 protected:
   friend class SoundManager;
@@ -52,6 +53,9 @@ protected:
 private:
   OpenALSoundSource(const OpenALSoundSource&) = delete;
   OpenALSoundSource& operator=(const OpenALSoundSource&) = delete;
+
+  float _gain;
+  float _volume;
 };
 
 #endif

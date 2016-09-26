@@ -37,8 +37,8 @@ enum OptionsMenuIDs {
   MNID_FULLSCREEN_RESOLUTION,
   MNID_MAGNIFICATION,
   MNID_ASPECTRATIO,
-  MNID_SOUND,
-  MNID_MUSIC,
+  MNID_SOUND_VOLUME,
+  MNID_MUSIC_VOLUME,
   MNID_DEVELOPER_MODE,
   MNID_CHRISTMAS_MODE,
   MNID_TRANSITIONS
@@ -48,9 +48,13 @@ OptionsMenu::OptionsMenu(bool complete) :
   next_magnification(0),
   next_aspect_ratio(0),
   next_resolution(0),
+  next_sound_volume(0),
+  next_music_volume(0),
   magnifications(),
   aspect_ratios(),
-  resolutions()
+  resolutions(),
+  sound_volumes(),
+  music_volumes()
 {
   add_label(_("Options"));
   add_hl();
@@ -179,6 +183,65 @@ OptionsMenu::OptionsMenu(bool complete) :
     resolutions.push_back(fullscreen_size_str);
   }
 
+  // Sound Volume
+  sound_volumes.clear();
+  sound_volumes.push_back("0%");
+  sound_volumes.push_back("25%");
+  sound_volumes.push_back("50%");
+  sound_volumes.push_back("75%");
+  sound_volumes.push_back("100%");
+
+  std::ostringstream out;
+  out << g_config->sound_volume << "%";
+  std::string sound_volume = out.str();
+  int cnt_ = 0;
+  for(const auto& volume : sound_volumes)
+  {
+      if(volume == sound_volume)
+      {
+          sound_volume.clear();
+          next_sound_volume = cnt_;
+          break;
+      }
+      ++cnt_;
+  }
+
+  if (!sound_volume.empty())
+  {
+      next_sound_volume = sound_volumes.size();
+      sound_volumes.push_back(sound_volume);
+  }
+
+  // Music Volume
+  music_volumes.clear();
+  music_volumes.push_back("0%");
+  music_volumes.push_back("25%");
+  music_volumes.push_back("50%");
+  music_volumes.push_back("75%");
+  music_volumes.push_back("100%");
+
+  out.str("");
+  out.clear();
+  out << g_config->music_volume << "%";
+  std::string music_volume = out.str();
+  cnt_ = 0;
+  for(const auto& volume : music_volumes)
+  {
+      if(volume == music_volume)
+      {
+          music_volume.clear();
+          next_music_volume = cnt_;
+          break;
+      }
+      ++cnt_;
+  }
+
+  if (!music_volume.empty())
+  {
+      next_music_volume = music_volumes.size();
+      music_volumes.push_back(music_volume);
+  }
+
   if (complete)
   {
     // Language and profile changes are only be possible in the
@@ -206,10 +269,11 @@ OptionsMenu::OptionsMenu(bool complete) :
   aspect->set_help(_("Adjust the aspect ratio"));
 
   if (SoundManager::current()->is_audio_enabled()) {
-    add_toggle(MNID_SOUND, _("Sound"), &g_config->sound_enabled)
-      ->set_help(_("Disable all sound effects"));
-    add_toggle(MNID_MUSIC, _("Music"), &g_config->music_enabled)
-      ->set_help(_("Disable all music"));
+      auto sound_volume = add_string_select(MNID_SOUND_VOLUME, _("Sound Volume"), &next_sound_volume, sound_volumes);
+      sound_volume->set_help(_("Adjust sound volume"));
+
+      auto music_volume = add_string_select(MNID_MUSIC_VOLUME, _("Music Volume"), &next_music_volume, music_volumes);
+      music_volume->set_help(_("Adjust music volume"));
   } else {
     add_inactive( _("Sound (disabled)"));
     add_inactive( _("Music (disabled)"));
@@ -315,14 +379,26 @@ OptionsMenu::menu_action(MenuItem* item)
       g_config->save();
       break;
 
-    case MNID_SOUND:
-      SoundManager::current()->enable_sound(g_config->sound_enabled);
-      g_config->save();
+    case MNID_SOUND_VOLUME:
+      if(sscanf(sound_volumes[next_sound_volume].c_str(),
+            "%i", &g_config->sound_volume) == 1)
+      {
+        bool sound_enabled = g_config->sound_volume > 0.0f ? true : false;
+        SoundManager::current()->enable_sound(sound_enabled);
+        SoundManager::current()->set_sound_volume(g_config->sound_volume);
+        g_config->save();
+      }
       break;
 
-    case MNID_MUSIC:
-      SoundManager::current()->enable_music(g_config->music_enabled);
-      g_config->save();
+    case MNID_MUSIC_VOLUME:
+      if(sscanf(music_volumes[next_music_volume].c_str(),
+            "%i", &g_config->music_volume) == 1)
+      {
+        bool music_enabled = g_config->music_volume > 0.0f ? true : false;
+        SoundManager::current()->enable_music(music_enabled);
+        SoundManager::current()->set_music_volume(g_config->music_volume);
+        g_config->save();
+      }
       break;
 
     default:

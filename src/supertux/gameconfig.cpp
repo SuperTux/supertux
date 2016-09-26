@@ -39,8 +39,8 @@ Config::Config() :
   try_vsync(true),
   show_fps(false),
   show_player_pos(false),
-  sound_enabled(true),
-  music_enabled(true),
+  sound_volume(50),
+  music_volume(50),
   random_seed(0), // set by time(), by default (unless in config)
   start_level(),
   enable_script_debugger(false),
@@ -113,8 +113,8 @@ Config::load()
 
   ReaderMapping config_audio_lisp;
   if(config_lisp.get("audio", config_audio_lisp)) {
-    config_audio_lisp.get("sound_enabled", sound_enabled);
-    config_audio_lisp.get("music_enabled", music_enabled);
+    config_audio_lisp.get("sound_volume", sound_volume);
+    config_audio_lisp.get("music_volume", music_volume);
   }
 
   ReaderMapping config_control_lisp;
@@ -196,8 +196,8 @@ Config::save()
   writer.end_list("video");
 
   writer.start_list("audio");
-  writer.write("sound_enabled", sound_enabled);
-  writer.write("music_enabled", music_enabled);
+  writer.write("sound_volume", sound_volume);
+  writer.write("music_volume", music_volume);
   writer.end_list("audio");
 
   writer.start_list("control");

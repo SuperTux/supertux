@@ -32,6 +32,7 @@ public:
   enum FadeState { NoFading, FadingOn, FadingOff, FadingPause, FadingResume };
 
   void set_fading(FadeState state, float fadetime);
+
   FadeState get_fade_state() const
   {
     return fade_state;
