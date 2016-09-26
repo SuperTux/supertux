@@ -34,7 +34,8 @@ Coin::Coin(const Vector& pos)
     offset(),
     from_tilemap(false),
     add_path(false),
-    physic()
+    physic(),
+    collect_script()
 {
   SoundManager::current()->preload("sounds/coin.wav");
 }
@@ -46,7 +47,8 @@ Coin::Coin(const Vector& pos, TileMap* tilemap)
     offset(),
     from_tilemap(true),
     add_path(false),
-    physic()
+    physic(),
+    collect_script()
 {
   if(walker.get()) {
     Vector v = path->get_base();
@@ -63,7 +65,8 @@ Coin::Coin(const ReaderMapping& reader)
     offset(),
     from_tilemap(false),
     add_path(false),
-    physic()
+    physic(),
+    collect_script()
 {
   ReaderMapping path_mapping;
   if (reader.get("path", path_mapping)) {
@@ -73,6 +76,8 @@ Coin::Coin(const ReaderMapping& reader)
     Vector v = path->get_base();
     set_pos(v);
   }
+
+  if(!reader.get("collect-script", collect_script)) collect_script = "";
 
   SoundManager::current()->preload("sounds/coin.wav");
 }
@@ -169,16 +174,22 @@ Coin::collect()
   soundSource->play();
   SoundManager::current()->manage_source(std::move(soundSource));
 
-  Sector::current()->player->get_status()->add_coins(1, false);
-  Sector::current()->add_object(std::make_shared<BouncyCoin>(get_pos(), false, get_sprite_name()));
-  Sector::current()->get_level()->stats.coins++;
+  auto sector = Sector::current();
+  sector->player->get_status()->add_coins(1, false);
+  sector->add_object(std::make_shared<BouncyCoin>(get_pos(), false, get_sprite_name()));
+  sector->get_level()->stats.coins++;
   remove_me();
+
+  if(!collect_script.empty()) {
+    std::istringstream stream(collect_script);
+    sector->run_script(stream, "collect-script");
+  }
 }
 
 HitResponse
 Coin::collision(GameObject& other, const CollisionHit& )
 {
-  Player* player = dynamic_cast<Player*>(&other);
+  auto player = dynamic_cast<Player*>(&other);
   if(player == 0)
     return ABORT_MOVE;
 
@@ -262,6 +273,9 @@ Coin::get_settings()
     result.options.push_back( Path::get_mode_option(&path->mode) );
   }
 
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Collect script"),
+                                         &collect_script, "collect-script"));
+
   return result;
 }
 
@@ -285,7 +299,10 @@ Coin::after_editor_set()
 ObjectSettings
 HeavyCoin::get_settings()
 {
-  return MovingSprite::get_settings();
+  auto result = MovingSprite::get_settings();
+  result.options.push_back( ObjectOption(MN_SCRIPT, _("Collect script"),
+                                         &collect_script, "collect-script"));
+  return result;
 }
 
 void

@@ -26,6 +26,9 @@ class TileMap;
 
 class Coin : public MovingSprite
 {
+
+friend class HeavyCoin;
+
 public:
   Coin(const Vector& pos);
   Coin(const Vector& pos, TileMap* tilemap);
@@ -59,6 +62,7 @@ private:
   bool from_tilemap;
   bool add_path;
   Physic physic;
+  std::string collect_script;
 };
 
 class HeavyCoin : public Coin
@@ -72,6 +76,9 @@ public:
 
   virtual std::string get_class() const {
     return "heavycoin";
+  }
+  std::string get_display_name() const {
+    return _("Heavy coin");
   }
 
   ObjectSettings get_settings();
