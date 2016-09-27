@@ -645,6 +645,10 @@
       (info (_ "Mandarin Chinese"))
       (simple #t))
     (person
+      (name "comradekingu")
+      (info (_ "Norwegian Bokmål"))
+      (simple #t))
+    (person
       (name "Fernando Carmona")
       (info (_ "Castilian Spanish"))
       (simple #t))
@@ -975,10 +979,6 @@
     (person
       (name "Vangelis Nomikos")
       (info (_ "Greek"))
-      (simple #t))
-    (person
-      (name "Allan Nordhøy")
-      (info (_ "Norwegian Bokmål"))
       (simple #t))
     (person
       (name "Arvid Norlander")
