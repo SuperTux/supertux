@@ -172,7 +172,7 @@ public:
       {
         datadir = BUILD_DATA_DIR;
         // Add config dir for supplemental files
-        PHYSFS_mount(BUILD_CONFIG_DATA_DIR, NULL, 1);
+        PHYSFS_mount(boost::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), NULL, 1);
       }
       else
       {
@@ -183,7 +183,7 @@ public:
       }
     }
 
-    if (!PHYSFS_mount(datadir.c_str(), NULL, 1))
+    if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), NULL, 1))
     {
       log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
     }
