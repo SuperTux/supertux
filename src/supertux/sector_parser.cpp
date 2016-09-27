@@ -153,6 +153,15 @@ SectorParser::parse(const ReaderMapping& sector)
         log_warning << "(ambient-light) requires a color as argument" << std::endl;
       } else {
         m_sector.ambient_light = Color( vColor );
+        // Set the ultra violet light to a reasonable value when not set
+        if (vColor.size() < 5) {
+          float brightness = m_sector.ambient_light.greyscale();
+          if (brightness > 0.8f && m_sector.ambient_light.red > 0.8f) {
+            m_sector.ambient_light.ultra_violet = 1.0f;
+          } else {
+            m_sector.ambient_light.ultra_violet = brightness * 0.24f;
+          }
+        }
       }
     } else {
       GameObjectPtr object = parse_object(iter.get_key(), iter.as_mapping());

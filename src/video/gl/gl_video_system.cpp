@@ -25,7 +25,8 @@
 GLVideoSystem::GLVideoSystem() :
   m_texture_manager(new TextureManager),
   m_renderer(new GLRenderer),
-  m_lightmap(new GLLightmap)
+  m_lightmap(new GLLightmap),
+  m_hidden_lightmap(new GLLightmap)
 {
 }
 
@@ -39,6 +40,12 @@ Lightmap&
 GLVideoSystem::get_lightmap() const
 {
   return *m_lightmap;
+}
+
+Lightmap&
+GLVideoSystem::get_hidden_lightmap() const
+{
+  return *m_hidden_lightmap;
 }
 
 TexturePtr

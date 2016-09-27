@@ -29,6 +29,7 @@ class SDLVideoSystem : public VideoSystem
 private:
   std::unique_ptr<Renderer> m_renderer;
   std::unique_ptr<Lightmap> m_lightmap;
+  std::unique_ptr<Lightmap> m_hidden_lightmap;
   std::unique_ptr<TextureManager> m_texture_manager;
 
 public:
@@ -36,6 +37,7 @@ public:
 
   Renderer& get_renderer() const override;
   Lightmap& get_lightmap() const override;
+  Lightmap& get_hidden_lightmap() const override;
   TexturePtr new_texture(SDL_Surface *image) override;
   SurfaceData* new_surface_data(const Surface& surface) override;
   void free_surface_data(SurfaceData* surface_data) override;

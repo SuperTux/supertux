@@ -31,6 +31,7 @@ ColorMenu::ColorMenu(Color* color_) :
   add_colorchannel( &(color->red), Color(1.0f, 0.0f, 0.0f));
   add_colorchannel( &(color->green), Color(0.0f, 1.0f, 0.0f));
   add_colorchannel( &(color->blue), Color(0.0f, 0.0f, 1.0f));
+  add_colorchannel( &(color->ultra_violet), Color(0.2f, 0.0f, 0.3f));
   add_colorchannel( &(color->alpha), Color(0.0f, 0.0f, 0.0f));
   add_colordisplay(color);
 

@@ -54,7 +54,8 @@ ObjectOption::to_string() const {
     case MN_COLOR:
       return std::to_string(((Color*)option)->red) + " "
              + std::to_string(((Color*)option)->green) + " "
-             + std::to_string(((Color*)option)->blue);
+             + std::to_string(((Color*)option)->blue) + " "
+             + std::to_string(((Color*)option)->ultra_violet);
     case MN_SCRIPT:
       if (((std::string*)option)->length()) {
         return "...";

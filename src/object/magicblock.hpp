@@ -50,6 +50,7 @@ private:
   float trigger_red;
   float trigger_green;
   float trigger_blue;
+  float trigger_ultra_violet;
   float solid_time;
   float switch_delay; /**< seconds until switching solidity */
   Rectf solid_box;

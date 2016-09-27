@@ -75,7 +75,7 @@ void
 Lantern::updateColor(){
   lightsprite->set_color(lightcolor);
   //Turn lantern off if light is black
-  if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
+  if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0 && lightcolor.ultra_violet == 0){
     sprite->set_action("off");
     sprite->set_color(Color(1.0f, 1.0f, 1.0f));
   } else {
@@ -145,7 +145,8 @@ Lantern::ungrab(MovingObject& object, Direction dir)
 bool
 Lantern::is_open() const
 {
-  return ((grabbed) && lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0);
+  return ((grabbed) && lightcolor.red == 0 && lightcolor.green == 0 &&
+          lightcolor.blue == 0 && lightcolor.ultra_violet == 0);
 }
 
 void
@@ -153,6 +154,7 @@ Lantern::add_color(Color c) {
   lightcolor.red   = std::min(1.0f, lightcolor.red   + c.red);
   lightcolor.green = std::min(1.0f, lightcolor.green + c.green);
   lightcolor.blue  = std::min(1.0f, lightcolor.blue  + c.blue);
+  lightcolor.ultra_violet  = std::min(1.0f, lightcolor.ultra_violet  + c.ultra_violet);
   lightcolor.alpha = std::min(1.0f, lightcolor.alpha + c.alpha);
   updateColor();
 }

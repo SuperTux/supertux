@@ -170,7 +170,7 @@ private:
   typedef std::vector<DrawingRequest*> DrawingRequests;
 
 private:
-  void handle_drawing_requests(DrawingRequests& requests);
+  void handle_drawing_requests(DrawingRequests& requests, bool hidden_color = false);
 
 private:
   class Transform

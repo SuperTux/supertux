@@ -72,7 +72,7 @@ TEST(ObjectOption, to_string)
   {
     Color mycolor = Color::YELLOW;
     ObjectOption color(MN_COLOR, "test", &mycolor);
-    ASSERT_EQ("1.000000 1.000000 0.000000", color.to_string());
+    ASSERT_EQ("1.000000 1.000000 0.000000 0.000000", color.to_string());
   }
 
   {
