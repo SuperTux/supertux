@@ -191,6 +191,18 @@ OptionsMenu::OptionsMenu(bool complete) :
   sound_volumes.push_back("75%");
   sound_volumes.push_back("100%");
 
+  std::ostringstream sound_vol_stream;
+  sound_vol_stream << g_config->sound_volume << "%";
+  std::string sound_vol_string = sound_vol_stream.str();
+
+  if(std::find(sound_volumes.begin(),
+        sound_volumes.end(), sound_vol_string) == sound_volumes.end())
+  {
+    sound_volumes.push_back(sound_vol_string);
+  }
+
+  std::sort(sound_volumes.begin(), sound_volumes.end(), less_than_volume);
+
   std::ostringstream out;
   out << g_config->sound_volume << "%";
   std::string sound_volume = out.str();
@@ -206,12 +218,6 @@ OptionsMenu::OptionsMenu(bool complete) :
       ++cnt_;
   }
 
-  if (!sound_volume.empty())
-  {
-      next_sound_volume = sound_volumes.size();
-      sound_volumes.push_back(sound_volume);
-  }
-
   // Music Volume
   music_volumes.clear();
   music_volumes.push_back("0%");
@@ -219,6 +225,18 @@ OptionsMenu::OptionsMenu(bool complete) :
   music_volumes.push_back("50%");
   music_volumes.push_back("75%");
   music_volumes.push_back("100%");
+
+  std::ostringstream music_vol_stream;
+  music_vol_stream << g_config->music_volume << "%";
+  std::string music_vol_string = music_vol_stream.str();
+
+  if(std::find(music_volumes.begin(),
+        music_volumes.end(), music_vol_string) == music_volumes.end())
+  {
+    music_volumes.push_back(music_vol_string);
+  }
+
+  std::sort(music_volumes.begin(), music_volumes.end(), less_than_volume);
 
   out.str("");
   out.clear();
@@ -234,12 +252,6 @@ OptionsMenu::OptionsMenu(bool complete) :
           break;
       }
       ++cnt_;
-  }
-
-  if (!music_volume.empty())
-  {
-      next_music_volume = music_volumes.size();
-      music_volumes.push_back(music_volume);
   }
 
   if (complete)
@@ -405,5 +417,19 @@ OptionsMenu::menu_action(MenuItem* item)
       break;
   }
 }
+
+bool
+OptionsMenu::less_than_volume(const std::string& lhs, const
+    std::string& rhs) {
+  int lhs_i, rhs_i;
+  if(sscanf(lhs.c_str(), "%i", &lhs_i) == 1 &&
+      sscanf(rhs.c_str(), "%i", &rhs_i) == 1)
+  {
+    return lhs_i < rhs_i;
+  }
+
+  return false;
+}
+
 
 /* EOF */

@@ -40,6 +40,8 @@ class OptionsMenu : public Menu
     std::vector<std::string> resolutions;
     std::vector<std::string> sound_volumes;
     std::vector<std::string> music_volumes;
+
+    static bool less_than_volume(const std::string& lhs, const std::string& rhs);
 };
 
 #endif
