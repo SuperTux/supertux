@@ -23,18 +23,16 @@
 
 TextObject::TextObject(const std::string& name_) :
   ExposedObject<TextObject, scripting::Text>(this),
-  font(),
+  font(Resources::normal_font),
   text(),
   fading(0),
   fadetime(0),
   visible(false),
-  centered(),
+  centered(false),
   anchor(ANCHOR_MIDDLE),
   pos(0, 0)
 {
   this->name = name_;
-  font = Resources::normal_font;
-  centered = false;
 }
 
 TextObject::~TextObject()
@@ -103,8 +101,9 @@ TextObject::draw(DrawingContext& context)
     return;
   }
 
-  float width  = 500;
-  float height = 70;
+  // 20 = twice the padding in the draw_text call below
+  float width  = font->get_text_width(text) + 20;
+  float height = font->get_text_height(text) + 20;
   Vector spos = pos + get_anchor_pos(Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
                                      width, height, anchor);
 
