@@ -108,6 +108,10 @@ private:
   void process_action(MenuAction menuaction);
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index);
+  /**
+   * Recalculates the width for this menu
+   */
+  void calculate_width();
 
 private:
   // position of the menu (ie. center of the menu, not top/left)
@@ -117,6 +121,7 @@ private:
   int   delete_character;
   char  mn_input_char;
   float menu_repeat_time;
+  float menu_width;
 
 public:
   std::vector<std::unique_ptr<MenuItem> > items;

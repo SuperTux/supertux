@@ -46,6 +46,7 @@ Menu::Menu() :
   delete_character(),
   mn_input_char(),
   menu_repeat_time(),
+  menu_width(),
   items(),
   arrange_left(),
   active_item()
@@ -75,7 +76,7 @@ MenuItem*
 Menu::add_item(std::unique_ptr<MenuItem> new_item)
 {
   items.push_back(std::move(new_item));
-  MenuItem* item = items.back().get();
+  auto item = items.back().get();
 
   /* If a new menu is being built, the active item shouldn't be set to
    * something that isn't selectable. Set the active_item to the first
@@ -86,6 +87,8 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
   {
     active_item = items.size() - 1;
   }
+
+  calculate_width();
 
   return item;
 }
@@ -104,6 +107,8 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item, int pos_)
   {
     active_item++;
   }
+
+  calculate_width();
 
   return item;
 }
@@ -426,8 +431,8 @@ Menu::draw_item(DrawingContext& context, int index)
   }
 }
 
-float
-Menu::get_width() const
+void
+Menu::calculate_width()
 {
   /* The width of the menu has to be more than the width of the text
      with the most characters */
@@ -438,7 +443,12 @@ Menu::get_width() const
     if(w > menu_width)
       menu_width = w;
   }
+  this->menu_width = menu_width;
+}
 
+float
+Menu::get_width() const
+{
   return menu_width + 24;
 }
 
@@ -528,6 +538,16 @@ Menu::event(const SDL_Event& ev)
 {
   items[active_item]->event(ev);
   switch(ev.type) {
+    case SDL_KEYDOWN:
+    case SDL_TEXTINPUT:
+      if((ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_BACKSPACE) ||
+         ev.type == SDL_TEXTINPUT)
+      {
+        // Changed item value? Let's recalculate width:
+        calculate_width();
+      }
+    break;
+
     case SDL_MOUSEBUTTONDOWN:
     if(ev.button.button == SDL_BUTTON_LEFT)
     {
