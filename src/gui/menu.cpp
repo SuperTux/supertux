@@ -436,14 +436,14 @@ Menu::calculate_width()
 {
   /* The width of the menu has to be more than the width of the text
      with the most characters */
-  float menu_width = 0;
+  float max_width = 0;
   for(unsigned int i = 0; i < items.size(); ++i)
   {
     float w = items[i]->get_width();
-    if(w > menu_width)
-      menu_width = w;
+    if(w > max_width)
+      max_width = w;
   }
-  this->menu_width = menu_width;
+  menu_width = max_width;
 }
 
 float
