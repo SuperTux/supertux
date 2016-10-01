@@ -220,6 +220,11 @@ TileMap::get_settings() {
   result.options.push_back( ObjectOption(MN_COLOR, _("tint"), &tint));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos));
 
+  ObjectOption draw_target_option(MN_STRINGSELECT, _("Draw target"), &draw_target);
+  draw_target_option.select.push_back(_("normal"));
+  draw_target_option.select.push_back(_("lightmap"));
+  result.options.push_back(draw_target_option);
+
   add_path = walker.get() && path->is_valid();
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Following path"), &add_path));
 
