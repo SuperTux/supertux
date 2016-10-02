@@ -57,6 +57,8 @@
 #include "math/vector.hpp"
 
 bool EditorInputCenter::render_grid = true;
+bool EditorInputCenter::snap_to_grid = false;
+int EditorInputCenter::selected_snap_grid_size = 3;
 
 EditorInputCenter::EditorInputCenter() :
   hovered_tile(0, 0),
@@ -432,7 +434,18 @@ EditorInputCenter::move_object() {
       dragged_object = NULL;
       return;
     }
-    dragged_object->move_to(sector_pos - obj_mouse_desync);
+    Vector new_pos = sector_pos - obj_mouse_desync;
+    if (snap_to_grid) {
+      auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
+      new_pos.x = int(new_pos.x / snap_grid_size) * snap_grid_size;
+      new_pos.y = int(new_pos.y / snap_grid_size) * snap_grid_size;
+
+      auto pm = dynamic_cast<PointMarker*>(dragged_object);
+      if (pm) {
+        new_pos -= pm->get_offset();
+      }
+    }
+    dragged_object->move_to(new_pos);
   }
 }
 
@@ -698,6 +711,8 @@ EditorInputCenter::event(SDL_Event& ev) {
     case SDL_KEYDOWN:
       if (ev.key.keysym.sym == SDLK_F8) {
         render_grid = !render_grid;
+      } else if (ev.key.keysym.sym == SDLK_F7) {
+        snap_to_grid = !snap_to_grid;
       }
       break;
     default:
@@ -748,7 +763,7 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
 }
 
 void
-EditorInputCenter::draw_tile_grid(DrawingContext& context) {
+EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_color, int tile_size) {
   auto editor = Editor::current();
   if ( !editor->layerselect.selected_tilemap ) {
     return;
@@ -757,12 +772,12 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context) {
   auto current_tm = dynamic_cast<TileMap*>(editor->layerselect.selected_tilemap);
   if ( current_tm == NULL )
     return;
-  int tm_width = current_tm->get_width();
-  int tm_height = current_tm->get_height();
+  int tm_width = current_tm->get_width() * (32 / tile_size);
+  int tm_height = current_tm->get_height() * (32 / tile_size);
   Rectf draw_rect = Rectf(editor->currentsector->camera->get_translation(),
         editor->currentsector->camera->get_translation() + Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
-  Vector start = sp_to_tp( Vector(draw_rect.p1.x, draw_rect.p1.y) );
-  Vector end = sp_to_tp( Vector(draw_rect.p2.x, draw_rect.p2.y) );
+  Vector start = sp_to_tp( Vector(draw_rect.p1.x, draw_rect.p1.y), tile_size );
+  Vector end = sp_to_tp( Vector(draw_rect.p2.x, draw_rect.p2.y), tile_size );
   start.x = std::max(0.0f, start.x);
   start.y = std::max(0.0f, start.y);
   end.x = std::min(float(tm_width-1), end.x);
@@ -770,19 +785,28 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context) {
 
   Vector line_start, line_end;
   for (int i = start.x; i <= end.x; i++) {
-    line_start = tile_screen_pos( Vector(i, 0) );
-    line_end = tile_screen_pos( Vector(i, tm_height) );
-    context.draw_line(line_start, line_end, Color(1, 1, 1, 0.7), current_tm->get_layer());
+    line_start = tile_screen_pos( Vector(i, 0), tile_size );
+    line_end = tile_screen_pos( Vector(i, tm_height), tile_size );
+    context.draw_line(line_start, line_end, line_color, current_tm->get_layer());
   }
 
   for (int i = start.y; i <= end.y; i++) {
-    line_start = tile_screen_pos( Vector(0, i) );
-    line_end = tile_screen_pos( Vector(tm_width, i) );
-    context.draw_line(line_start, line_end, Color(1, 1, 1, 0.7), current_tm->get_layer());
+    line_start = tile_screen_pos( Vector(0, i), tile_size );
+    line_end = tile_screen_pos( Vector(tm_width, i), tile_size );
+    context.draw_line(line_start, line_end, line_color, current_tm->get_layer());
   }
+}
 
-  start = tile_screen_pos( Vector(0, 0) );
-  end = tile_screen_pos( Vector(tm_width, tm_height) );
+void
+EditorInputCenter::draw_tilemap_border(DrawingContext& context) {
+  auto editor = Editor::current();
+  if ( !editor->layerselect.selected_tilemap ) return;
+
+  auto current_tm = dynamic_cast<TileMap*>(editor->layerselect.selected_tilemap);
+  if ( !current_tm ) return;
+
+  Vector start = tile_screen_pos( Vector(0, 0) );
+  Vector end = tile_screen_pos( Vector(current_tm->get_width(), current_tm->get_height()) );
   context.draw_line(start, Vector(start.x, end.y), Color(1, 0, 1), current_tm->get_layer());
   context.draw_line(start, Vector(end.x, start.y), Color(1, 0, 1), current_tm->get_layer());
   context.draw_line(Vector(start.x, end.y), end, Color(1, 0, 1), current_tm->get_layer());
@@ -823,7 +847,12 @@ EditorInputCenter::draw(DrawingContext& context) {
   draw_path(context);
 
   if (render_grid) {
-    draw_tile_grid(context);
+    draw_tile_grid(context, Color(1, 1, 1, 0.7));
+    draw_tilemap_border(context);
+    auto snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
+    if (snap_grid_size != 32) {
+      draw_tile_grid(context, Color(1, 1, 1, 0.4), snap_grid_size);
+    }
   }
 
   if (object_tip) {
@@ -857,10 +886,10 @@ EditorInputCenter::draw(DrawingContext& context) {
 }
 
 Vector
-EditorInputCenter::tp_to_sp(const Vector& tp) {
+EditorInputCenter::tp_to_sp(const Vector& tp, int tile_size) {
   auto tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
   if (tilemap) {
-    Vector sp = Vector( tp.x * 32, tp.y * 32 );
+    Vector sp = Vector( tp.x * tile_size, tp.y * tile_size );
     return sp + tilemap->get_offset();
   } else {
     return Vector(0, 0);
@@ -868,12 +897,12 @@ EditorInputCenter::tp_to_sp(const Vector& tp) {
 }
 
 Vector
-EditorInputCenter::sp_to_tp(Vector sp) {
+EditorInputCenter::sp_to_tp(const Vector& sp, int tile_size) {
   auto tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
   if (tilemap) {
-    sp -= tilemap->get_offset();
-    int x = sp.x / 32;
-    int y = sp.y / 32;
+    Vector sp_ = sp - tilemap->get_offset();
+    int x = sp_.x / tile_size;
+    int y = sp_.y / tile_size;
     return Vector( x, y );
   } else {
     return Vector(0, 0);
@@ -881,8 +910,8 @@ EditorInputCenter::sp_to_tp(Vector sp) {
 }
 
 Vector
-EditorInputCenter::tile_screen_pos(const Vector& tp) {
-  Vector sp = tp_to_sp(tp);
+EditorInputCenter::tile_screen_pos(const Vector& tp, int tile_size) {
+  Vector sp = tp_to_sp(tp, tile_size);
   return sp - Editor::current()->currentsector->camera->get_translation();
 }
 
