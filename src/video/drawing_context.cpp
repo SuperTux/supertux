@@ -31,7 +31,7 @@
 #include "video/texture_manager.hpp"
 #include "video/video_system.hpp"
 
-bool DrawingContext::render_lighting = false;
+bool DrawingContext::render_lighting = true;
 
 DrawingContext::DrawingContext(VideoSystem& video_system_) :
   video_system(video_system_),
