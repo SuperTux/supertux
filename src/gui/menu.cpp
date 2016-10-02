@@ -408,25 +408,25 @@ void
 Menu::draw_item(DrawingContext& context, int index)
 {
   float menu_height = get_height();
-  float menu_width  = get_width();
+  float menu_width_ = get_width();
 
   MenuItem* pitem = items[index].get();
 
-  float x_pos       = pos.x - menu_width/2;
+  float x_pos       = pos.x - menu_width_/2;
   float y_pos       = pos.y + 24*index - menu_height/2 + 12;
 
-  pitem->draw(context, Vector(x_pos, y_pos), menu_width, active_item == index);
+  pitem->draw(context, Vector(x_pos, y_pos), menu_width_, active_item == index);
 
   if(active_item == index)
   {
     float blink = (sinf(real_time * M_PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
-    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2 + 10 - 2, y_pos - 12 - 2),
-                                   Vector(pos.x + menu_width/2 - 10 + 2, y_pos + 12 + 2)),
+    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10 - 2, y_pos - 12 - 2),
+                                   Vector(pos.x + menu_width_/2 - 10 + 2, y_pos + 12 + 2)),
                              Color(1.0f, 1.0f, 1.0f, blink),
                              14.0f,
                              LAYER_GUI-10);
-    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width/2 + 10, y_pos - 12),
-                                   Vector(pos.x + menu_width/2 - 10, y_pos + 12)),
+    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10, y_pos - 12),
+                                   Vector(pos.x + menu_width_/2 - 10, y_pos + 12)),
                              Color(1.0f, 1.0f, 1.0f, 0.5f),
                              12.0f,
                              LAYER_GUI-10);
