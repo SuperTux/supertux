@@ -44,6 +44,10 @@ class ItemNumField : public MenuItem
     /** Processes the given event. */
     virtual void event(const SDL_Event& ev);
 
+    virtual bool changes_width() const {
+      return true;
+    }
+
   private:
 
     std::string input;

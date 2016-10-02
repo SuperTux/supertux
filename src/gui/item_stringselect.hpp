@@ -37,6 +37,10 @@ class ItemStringSelect : public MenuItem
     /** Processes the menu action. */
     virtual void process_action(MenuAction action);
 
+    virtual bool changes_width() const {
+      return true;
+    }
+
     std::vector<std::string> list; // list of values for a STRINGSELECT item
     int* selected; // currently selected item
 

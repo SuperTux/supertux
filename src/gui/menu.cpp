@@ -396,10 +396,12 @@ Menu::process_action(MenuAction menuaction)
   }
 
   items[active_item]->process_action(menuaction);
+  if(items[active_item]->changes_width()) {
+    calculate_width();
+  }
   if(menuaction == MENU_ACTION_HIT) {
     menu_action(items[active_item].get());
   }
-
 }
 
 void
@@ -540,8 +542,8 @@ Menu::event(const SDL_Event& ev)
   switch(ev.type) {
     case SDL_KEYDOWN:
     case SDL_TEXTINPUT:
-      if((ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_BACKSPACE) ||
-         ev.type == SDL_TEXTINPUT)
+      if(((ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_BACKSPACE) ||
+         ev.type == SDL_TEXTINPUT) && items[active_item]->changes_width())
       {
         // Changed item value? Let's recalculate width:
         calculate_width();

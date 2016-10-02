@@ -40,6 +40,10 @@ class ItemControlField : public MenuItem
       input = input_;
     }
 
+    virtual bool changes_width() const {
+      return true;
+    }
+
   private:
     ItemControlField(const ItemControlField&);
     ItemControlField& operator=(const ItemControlField&);

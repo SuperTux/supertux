@@ -48,6 +48,10 @@ class ItemColorChannel : public MenuItem
 
     virtual Color get_color() const;
 
+    virtual bool changes_width() const {
+      return true;
+    }
+
   private:
 
     int flickw;

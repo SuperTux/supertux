@@ -60,6 +60,12 @@ class MenuItem
       return false;
     }
 
+    /** Returns true when the width must be recalculated when an action is
+     *  processed */
+    virtual bool changes_width() const {
+      return false;
+    }
+
     int id; //item ID
     std::string text;
     std::string help;
