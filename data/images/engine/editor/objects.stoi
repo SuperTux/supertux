@@ -214,6 +214,9 @@
     (class "scriptedobject")
     (icon "images/engine/editor/scriptedobject.png"))
   (object
+    (class "ispy")
+    (icon "images/objects/ispy/idle-0.png"))
+  (object
     (class "firefly")
     (icon "images/objects/resetpoints/bell-m.png"))
   (object
