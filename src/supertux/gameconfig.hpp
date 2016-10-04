@@ -97,11 +97,14 @@ public:
   std::string repository_url;
 
   bool is_christmas() const {
-    using namespace boost::gregorian;
-    using namespace boost::posix_time;
-    date today = second_clock::local_time().date();
-    date saint_nicholas_day(today.year(), Dec, 6);
-    return today >= saint_nicholas_day;
+    time_t today = time(0);
+
+    struct tm saint_nicholas_day = *localtime(&today);
+    saint_nicholas_day.tm_mday = 6;
+    saint_nicholas_day.tm_mon = 12; // Actually December not November
+
+    const time_t t = mktime(&saint_nicholas_day);
+    return today >= t + localtime(&t)->tm_gmtoff;
   }
 };
 
