@@ -16,7 +16,7 @@
 
 #include "supertux/command_line_arguments.hpp"
 
-#include <boost/format.hpp>
+#include <util/format.hpp>
 #include <iostream>
 #include <physfs.h>
 #include <stdexcept>
@@ -76,7 +76,7 @@ void
 CommandLineArguments::print_help(const char* arg0) const
 {
   std::cerr
-            << boost::format(_(     "Usage: %s [OPTIONS] [LEVELFILE]")) % arg0 << "\n" << "\n"
+            << format("Usage: %s [OPTIONS] [LEVELFILE]",arg0) << "\n" << "\n"
             << _(     "General Options:" ) << "\n"
             << _(     "  -h, --help                   Show this help message and quit") << "\n"
             << _(     "  -v, --version                Show SuperTux version and quit") << "\n"
@@ -366,7 +366,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
     }
     else
     {
-      throw std::runtime_error((boost::format("Unknown option '%1%''. Use --help to see a list of options") % arg).str());
+      throw std::runtime_error(format("Unknown option '%1%''. Use --help to see a list of options", arg));
     }
   }
 }
