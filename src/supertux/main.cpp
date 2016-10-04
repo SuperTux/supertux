@@ -124,13 +124,13 @@ Main::init_tinygettext()
 class PhysfsSubsystem
 {
 private:
-  boost::optional<std::string> m_forced_datadir;
-  boost::optional<std::string> m_forced_userdir;
+  std::experimental::optional<std::string> m_forced_datadir;
+  std::experimental::optional<std::string> m_forced_userdir;
 
 public:
   PhysfsSubsystem(const char* argv0,
-                  boost::optional<std::string> forced_datadir,
-                  boost::optional<std::string> forced_userdir) :
+                  std::experimental::optional<std::string> forced_datadir,
+                  std::experimental::optional<std::string> forced_userdir) :
     m_forced_datadir(forced_datadir),
     m_forced_userdir(forced_userdir)
   {

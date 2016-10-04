@@ -164,7 +164,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
       }
       else
       {
-        datadir = argv[++i];
+        datadir.emplace(argv[++i]);
       }
     }
     else if (arg == "--userdir")
@@ -175,7 +175,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
       }
       else
       {
-        userdir = argv[++i];
+        userdir.emplace(argv[++i]);
       }
     }
     else if (arg == "--fullscreen" || arg == "-f")
@@ -307,9 +307,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
         throw std::runtime_error("Need to specify a demo filename");
       }
       else
-      {
-        start_demo = argv[++i];
-      }
+        start_demo.emplace(argv[++i]);
     }
     else if (arg == "--record-demo")
     {
@@ -318,9 +316,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
         throw std::runtime_error("Need to specify a demo filename");
       }
       else
-      {
-        record_demo = argv[++i];
-      }
+        record_demo.emplace(argv[++i]);
     }
     else if (arg == "--spawn-pos") 
     {
@@ -353,9 +349,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
         throw std::runtime_error("Need to specify a repository URL");
       }
       else
-      {
-        repository_url = argv[++i];
-      }
+        repository_url.emplace(argv[++i]);
     }
     else if (arg == "--edit-level")
     {
@@ -364,9 +358,7 @@ CommandLineArguments::parse_args(int argc, char** argv)
         throw std::runtime_error("Need to specify a level for --edit-level");
       }
       else
-      {
-        edit_level = argv[++i];
-      }
+        edit_level.emplace(argv[++i]);
     }
     else if (arg[0] != '-')
     {

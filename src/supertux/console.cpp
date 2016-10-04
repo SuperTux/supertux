@@ -25,6 +25,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
+#include <iostream>
 
 /// speed (pixels/s) the console closes
 static const float FADE_SPEED = 1;

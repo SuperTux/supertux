@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_OPTIONS_HPP
 #define HEADER_SUPERTUX_SUPERTUX_OPTIONS_HPP
 
-#include <boost/optional.hpp>
+#include <util/optional.hpp>
 
 #include "math/size.hpp"
 #include "math/vector.hpp"
@@ -43,42 +43,42 @@ private:
   LogLevel m_log_level;
 
 public:
-  boost::optional<std::string> datadir;
-  boost::optional<std::string> userdir;
+  std::experimental::optional<std::string> datadir;
+  std::experimental::optional<std::string> userdir;
 
-  boost::optional<Size> fullscreen_size;
-  boost::optional<int> fullscreen_refresh_rate;
-  boost::optional<Size> window_size;
-  boost::optional<Size> aspect_size;
+  std::experimental::optional<Size> fullscreen_size;
+  std::experimental::optional<int> fullscreen_refresh_rate;
+  std::experimental::optional<Size> window_size;
+  std::experimental::optional<Size> aspect_size;
   
 
-  // boost::optional<float> magnification;
+  // std::experimental::optional<float> magnification;
 
-  boost::optional<bool> use_fullscreen;
-   boost::optional<VideoSystem::Enum> video;
-  // boost::optional<bool> try_vsync;
-  boost::optional<bool> show_fps;
-  boost::optional<bool> show_player_pos;
-  boost::optional<bool> sound_enabled;
-  boost::optional<bool> music_enabled;
+  std::experimental::optional<bool> use_fullscreen;
+  std::experimental::optional<VideoSystem::Enum> video;
+  // std::experimental::optional<bool> try_vsync;
+  std::experimental::optional<bool> show_fps;
+  std::experimental::optional<bool> show_player_pos;
+  std::experimental::optional<bool> sound_enabled;
+  std::experimental::optional<bool> music_enabled;
 
-  // boost::optional<int> random_seed;
+  // std::experimental::optional<int> random_seed;
 
-  boost::optional<std::string> start_level;
-  boost::optional<bool> enable_script_debugger;
-  boost::optional<std::string> start_demo;
-  boost::optional<std::string> record_demo;
-  boost::optional<Vector> tux_spawn_pos;
+  std::experimental::optional<std::string> start_level;
+  std::experimental::optional<bool> enable_script_debugger;
+  std::experimental::optional<std::string> start_demo;
+  std::experimental::optional<std::string> record_demo;
+  std::experimental::optional<Vector> tux_spawn_pos;
 
-  boost::optional<bool> developer_mode;
+  std::experimental::optional<bool> developer_mode;
   
-  boost::optional<bool> christmas_mode;
+  std::experimental::optional<bool> christmas_mode;
 
-  boost::optional<std::string> repository_url;
+  std::experimental::optional<std::string> repository_url;
 
-  boost::optional<std::string> edit_level;
+  std::experimental::optional<std::string> edit_level;
 
-  // boost::optional<std::string> locale;
+  // std::experimental::optional<std::string> locale;
 
 public:
   CommandLineArguments();

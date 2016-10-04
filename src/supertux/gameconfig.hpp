@@ -23,9 +23,7 @@
 #include "math/vector.hpp"
 #include "video/video_system.hpp"
 
-#include <boost/date_time/gregorian/gregorian.hpp>
-#include <boost/date_time/posix_time/posix_time_types.hpp>
-#include <boost/format.hpp>
+#include <util/optional.hpp>
 
 class Config
 {
@@ -70,10 +68,10 @@ public:
   std::string record_demo;
   
   /** this variable is set if tux should spawn somewhere which isn't the "main" spawn point*/
-  boost::optional<Vector> tux_spawn_pos;
+  std::experimental::optional<Vector> tux_spawn_pos;
 
   /** The level that should be launched in the editor*/
-  boost::optional<std::string> edit_level;
+  std::experimental::optional<std::string> edit_level;
 
   /** force SuperTux language to this locale, e.g. "de". A file
       "data/locale/xx.po" must exist for this to work. An empty string
