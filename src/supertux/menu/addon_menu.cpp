@@ -18,7 +18,7 @@
 
 #include <config.h>
 #include <algorithm>
-#include <boost/format.hpp>
+#include <util/format.hpp>
 #include <tinygettext/language.hpp>
 
 #include "addon/addon.hpp"
@@ -75,19 +75,16 @@ std::string generate_menu_item_text(const Addon& addon)
     {
       langname = addon.get_title();
     }
-    text = str(boost::format("\"%s\"")
-               % langname);
+    text = format("\"%s\"",langname);
   }
   else if(!addon.get_author().empty())
   {
-    text = str(boost::format(_("%s \"%s\" by \"%s\""))
-               % type % addon.get_title() % addon.get_author());
+    text = format("%s \"%s\" by \"%s\"", type, addon.get_title(), addon.get_author());
   }
   else
   {
     // Only addon type and name, no need for translation.
-    text = str(boost::format("%s \"%s\"")
-               % type % addon.get_title());
+    text = format("%s \"%s\"", type, addon.get_title());
   }
 
   return text;
@@ -221,7 +218,7 @@ AddonMenu::rebuild_menu()
           if(addon_visible(addon))
           {
             std::string text = generate_menu_item_text(addon);
-            add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s *NEW*") ) % text));
+            add_entry(MAKE_REPOSITORY_MENU_ID(idx), format("Install %s *NEW*", text));
             have_new_stuff = true;
           }
         }
@@ -232,7 +229,7 @@ AddonMenu::rebuild_menu()
         if(addon_visible(addon))
         {
           std::string text = generate_menu_item_text(addon);
-          add_entry(MAKE_REPOSITORY_MENU_ID(idx), str(boost::format( _("Install %s") ) % text));
+          add_entry(MAKE_REPOSITORY_MENU_ID(idx), format("Install %s", text));
           have_new_stuff = true;
         }
       }
@@ -358,7 +355,7 @@ AddonMenu::install_addon(const Addon& addon)
   auto addon_id = addon.get_id();
   TransferStatusPtr status = m_addon_manager.request_install_addon(addon_id);
   std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status, false, m_auto_install_langpack));
-  dialog->set_title(str(boost::format( _("Downloading %s") ) % generate_menu_item_text(addon)));
+  dialog->set_title(format("Downloading %s", generate_menu_item_text(addon)));
   status->then([this, addon_id](bool success)
   {
     if (success)

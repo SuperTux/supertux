@@ -20,9 +20,7 @@
 #include <version.h>
 
 #include <SDL_image.h>
-#include <boost/filesystem.hpp>
-#include <boost/format.hpp>
-#include <boost/optional.hpp>
+#include <experimental/filesystem>
 #include <array>
 #include <iostream>
 #include <physfs.h>
@@ -124,13 +122,13 @@ Main::init_tinygettext()
 class PhysfsSubsystem
 {
 private:
-  boost::optional<std::string> m_forced_datadir;
-  boost::optional<std::string> m_forced_userdir;
+  std::experimental::optional<std::string> m_forced_datadir;
+  std::experimental::optional<std::string> m_forced_userdir;
 
 public:
   PhysfsSubsystem(const char* argv0,
-                  boost::optional<std::string> forced_datadir,
-                  boost::optional<std::string> forced_userdir) :
+                  std::experimental::optional<std::string> forced_datadir,
+                  std::experimental::optional<std::string> forced_userdir) :
     m_forced_datadir(forced_datadir),
     m_forced_userdir(forced_userdir)
   {
@@ -172,7 +170,7 @@ public:
       {
         datadir = BUILD_DATA_DIR;
         // Add config dir for supplemental files
-        PHYSFS_mount(boost::filesystem::canonical(BUILD_CONFIG_DATA_DIR).string().c_str(), NULL, 1);
+        PHYSFS_mount(BUILD_CONFIG_DATA_DIR, NULL, 1);
       }
       else
       {
@@ -183,7 +181,7 @@ public:
       }
     }
 
-    if (!PHYSFS_mount(boost::filesystem::canonical(datadir).string().c_str(), NULL, 1))
+    if (!PHYSFS_mount(datadir.c_str(), NULL, 1))
     {
       log_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
     }
@@ -215,35 +213,35 @@ public:
 #else
 	std::string olduserdir = FileSystem::join(physfs_userdir, "." PACKAGE_NAME);
 #endif
+
+  namespace fs = std::experimental::filesystem;
+
 	if (FileSystem::is_directory(olduserdir)) {
-	  boost::filesystem::path olduserpath(olduserdir);
-	  boost::filesystem::path userpath(userdir);
-	  
-	  boost::filesystem::directory_iterator end_itr;
+	  std::string olduserpath = olduserdir;
+	  std::string userpath = userdir;
 
 	  bool success = true;
 
 	  // cycle through the directory
-	  for (boost::filesystem::directory_iterator itr(olduserpath); itr != end_itr; ++itr) {
-		try
-		{
-		  boost::filesystem::rename(itr->path().string().c_str(), userpath / itr->path().filename());
-		}
-		catch (const boost::filesystem::filesystem_error& err)
+    for (auto &p : fs::directory_iterator(olduserpath)) {
+      try {
+        std::string path(p.path());
+        std::rename(path.c_str(), (userpath + "/" + path.substr(path.find_last_of("/\\") + 1)).c_str());
+      }
+      catch (...)
+      {
+        success = false;
+        log_warning << "Failed to move contents of config directory: ";
+      }
+    }
+    if (success) {
+	  try {
+		  fs::remove_all(olduserpath);
+    }
+		catch (...)
 		{
 		  success = false;
-		  log_warning << "Failed to move contents of config directory: " << err.what();
-		}
-	  }
-	  if (success) {
-	    try
-		{
-		  boost::filesystem::remove_all(olduserpath);
-		}
-		catch (const boost::filesystem::filesystem_error& err)
-		{
-		  success = false;
-		  log_warning << "Failed to remove old config directory: " << err.what();
+		  log_warning << "Failed to remove old config directory: ";
 		}
 	  }
 	  if (success) {

@@ -23,9 +23,7 @@
 #include "math/vector.hpp"
 #include "video/video_system.hpp"
 
-#include <boost/date_time/gregorian/gregorian.hpp>
-#include <boost/date_time/posix_time/posix_time_types.hpp>
-#include <boost/format.hpp>
+#include <util/optional.hpp>
 
 class Config
 {
@@ -70,10 +68,10 @@ public:
   std::string record_demo;
   
   /** this variable is set if tux should spawn somewhere which isn't the "main" spawn point*/
-  boost::optional<Vector> tux_spawn_pos;
+  std::experimental::optional<Vector> tux_spawn_pos;
 
   /** The level that should be launched in the editor*/
-  boost::optional<std::string> edit_level;
+  std::experimental::optional<std::string> edit_level;
 
   /** force SuperTux language to this locale, e.g. "de". A file
       "data/locale/xx.po" must exist for this to work. An empty string
@@ -97,11 +95,14 @@ public:
   std::string repository_url;
 
   bool is_christmas() const {
-    using namespace boost::gregorian;
-    using namespace boost::posix_time;
-    date today = second_clock::local_time().date();
-    date saint_nicholas_day(today.year(), Dec, 6);
-    return today >= saint_nicholas_day;
+    time_t today = time(0);
+
+    struct tm saint_nicholas_day = *localtime(&today);
+    saint_nicholas_day.tm_mday = 6;
+    saint_nicholas_day.tm_mon = 12; // Actually December not November
+
+    const time_t t = mktime(&saint_nicholas_day);
+    return today >= t + localtime(&t)->tm_gmtoff;
   }
 };
 

@@ -441,8 +441,8 @@ Player::update(float elapsed_time)
 bool
 Player::slightly_above_ground() const
 {
-  float abs_vy = std::abs(physic.get_velocity_y());
-  float ground_y_delta = std::abs(last_ground_y - get_pos().y);
+  float abs_vy = std::abs((int)physic.get_velocity_y());
+  float ground_y_delta = std::abs((int)(last_ground_y - get_pos().y));
   return (abs_vy == 15.625 || abs_vy == 31.25) && ground_y_delta < 0.85;
 }
 

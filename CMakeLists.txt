@@ -111,17 +111,6 @@ ENDIF(WIN32)
 
 ## Add lots of dependencies to compiler switches
 
-SET(Boost_ADDITIONAL_VERSIONS "1.41" "1.41.0")
-OPTION(ENABLE_BOOST_STATIC_LIBS "Use boost static libraries" ON)
-IF(ENABLE_BOOST_STATIC_LIBS)
-  SET(Boost_USE_STATIC_LIBS TRUE)
-ELSE(ENABLE_BOOST_STATIC_LIBS)
-  SET(Boost_USE_STATIC_LIBS FALSE)
-ENDIF(ENABLE_BOOST_STATIC_LIBS)
-FIND_PACKAGE(Boost REQUIRED COMPONENTS filesystem system date_time)
-INCLUDE_DIRECTORIES(SYSTEM ${Boost_INCLUDE_DIR})
-LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
-
 IF(WIN32)
   FIND_PATH(SDL2_INCLUDE_DIRS NAMES SDL.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2")
   FIND_PATH(SDL2IMAGE_INCLUDE_DIRS NAMES SDL_image.h PATHS "${DEPENDENCY_FOLDER}/include/SDL2_image")
@@ -601,6 +590,9 @@ IF(WIN32)
 #     $<TARGET_FILE_DIR:supertux2_lib>)
 ENDIF(WIN32)
 
+## Link with experimental C++ support
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC stdc++fs)
+
 ## Link supertux binary with squirrel and other libraries
 
 ADD_DEPENDENCIES(supertux2_lib tinygettext)
@@ -617,7 +609,6 @@ TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC tinygettext_lib)
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC sexp)
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${OPENAL_LIBRARY})
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${OGGVORBIS_LIBRARIES})
-TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${Boost_LIBRARIES})
 IF(USE_SYSTEM_PHYSFS)
     TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${PHYSFS_LIBRARY})
 ELSE()
@@ -781,7 +772,7 @@ configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc
 ## CPack/Installation-specific stuff
 
 INCLUDE(InstallRequiredSystemLibraries)
-SET(DIRS ${Boost_LIBRARY_DIRS} ${CMAKE_CURRENT_BINARY_DIR}/external/squirrel ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext)
+SET(DIRS ${CMAKE_CURRENT_BINARY_DIR}/external/squirrel ${CMAKE_CURRENT_BINARY_DIR}/external/tinygettext)
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND NOT DISABLE_CPACK_BUNDLING)
     SET(INFOPLIST_CFBUNDLEEXECUTABLE "SuperTux")
@@ -880,11 +871,6 @@ MARK_AS_ADVANCED(
 
 MARK_AS_ADVANCED(
   APPDATADIR
-)
-
-MARK_AS_ADVANCED(
-  Boost_INCLUDE_DIR
-  Boost_LIBRARIES
 )
 
 MARK_AS_ADVANCED(
