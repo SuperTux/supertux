@@ -591,7 +591,7 @@ IF(WIN32)
 ENDIF(WIN32)
 
 ## Link with experimental C++ support
-TARGET_LINK_LIBRARIES(supertux2_lib -lstdc++fs)
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC stdc++fs)
 
 ## Link supertux binary with squirrel and other libraries
 
