@@ -63,7 +63,11 @@ EditorMenu::EditorMenu()
 
 EditorMenu::~EditorMenu()
 {
-  Editor::current()->reactivate_request = true;
+  auto editor = Editor::current();
+  if(editor == NULL) {
+    return;
+  }
+  editor->reactivate_request = true;
 }
 
 void

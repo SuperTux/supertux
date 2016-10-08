@@ -100,6 +100,9 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
 EditorLevelsetSelectMenu::~EditorLevelsetSelectMenu()
 {
   auto editor = Editor::current();
+  if(editor == NULL) {
+    return;
+  }
   if (!editor->levelloaded && !editor->reload_request) {
     editor->quit_request = true;
   } else {

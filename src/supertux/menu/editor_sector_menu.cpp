@@ -58,8 +58,12 @@ EditorSectorMenu::EditorSectorMenu() :
 
 EditorSectorMenu::~EditorSectorMenu()
 {
+  auto editor = Editor::current();
+  if(editor == NULL) {
+    return;
+  }
   // Makes sure that the name of the sector isn't already used.
-  Level* level = Editor::current()->get_level();
+  auto level = editor->get_level();
   bool is_sector = false;
   for(auto const& sector_ : level->sectors) {
     if(sector_->get_name() == sector->get_name()) {
