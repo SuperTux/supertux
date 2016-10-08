@@ -267,6 +267,12 @@ IF(${VERSION_LIST_SIZE} GREATER 0)
 		SET(VERSION_STRING_GIT "${MAJOR_VERSION_GIT}.${MINOR_VERSION_GIT}.${PATCH_VERSION_GIT}")
 	ENDIF()
 
+        IF("${VERSION_STRING_GIT}" MATCHES "v[0-9]+\\.[0-9]+\\.[0-9]+-[A-Za-z0-9]+")
+		SET(VERSION_DEVEL_GIT TRUE)
+	ELSE()
+		SET(VERSION_DEVEL_GIT FALSE)
+	ENDIF()
+
 	CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/version.cmake.in" "${CMAKE_SOURCE_DIR}/version.cmake")
 ENDIF()
 IF(NOT EXISTS "${CMAKE_SOURCE_DIR}/version.cmake")
@@ -288,7 +294,6 @@ SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/title_scree
 SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/addon_manager.cpp
                             PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
 
 ## Configure doxygen
 # Adapted from https://tty1.net/blog/2014/cmake-doxygen_en.html
@@ -770,10 +775,10 @@ INSTALL(FILES "${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl" DESTINATION "${INS
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
 ## Configure main menu logo
-IF(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
-    SET(LOGO_FILE "logo_final.sprite")
-ELSE()
+IF(${SUPERTUX_VERSION_DEVEL})
     SET(LOGO_FILE "logo.sprite")
+ELSE()
+    SET(LOGO_FILE "logo_final.sprite")
 ENDIF()
 configure_file(data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
 

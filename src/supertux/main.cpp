@@ -202,7 +202,7 @@ public:
     }
     else
     {
-		userdir = PHYSFS_getPrefDir("SuperTux","supertux2");
+		userdir = PHYSFS_getPrefDir("SuperTux", PACKAGE_NAME);
     }
 	//Kept for backwards-compatability only, hence the silence
 #pragma GCC diagnostic push
@@ -311,7 +311,7 @@ public:
 void
 Main::init_video()
 {
-  SDL_SetWindowTitle(VideoSystem::current()->get_renderer().get_window(), PACKAGE_NAME " " PACKAGE_VERSION);
+  SDL_SetWindowTitle(VideoSystem::current()->get_renderer().get_window(),  "SuperTux " PACKAGE_VERSION);
 
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
   SDL_Surface* icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
