@@ -150,7 +150,7 @@ public:
     }
   }
 
-  void find_datadir()
+  void find_datadir() const
   {
     std::string datadir;
     if (m_forced_datadir)
@@ -189,7 +189,7 @@ public:
     }
   }
 
-  void find_userdir()
+  void find_userdir() const
   {
     std::string userdir;
     if (m_forced_userdir)
@@ -218,7 +218,7 @@ public:
 	if (FileSystem::is_directory(olduserdir)) {
 	  boost::filesystem::path olduserpath(olduserdir);
 	  boost::filesystem::path userpath(userdir);
-	  
+
 	  boost::filesystem::directory_iterator end_itr;
 
 	  bool success = true;
@@ -254,7 +254,7 @@ public:
     if (!FileSystem::is_directory(userdir))
     {
 	  FileSystem::mkdir(userdir);
-	  log_info << "Created SuperTux userdir: " << userdir << std::endl;  
+	  log_info << "Created SuperTux userdir: " << userdir << std::endl;
     }
 
     if (!PHYSFS_setWriteDir(userdir.c_str()))
@@ -458,7 +458,7 @@ Main::run(int argc, char** argv)
 	freopen((prefpath + "/console.out").c_str(), "a", stdout);
 	freopen((prefpath + "/console.err").c_str(), "a", stderr);
 #endif
- 
+
   int result = 0;
 
   try
