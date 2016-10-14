@@ -31,7 +31,7 @@
 
        (action
          (name "small-run-right")
-         (fps 25.0)
+         (fps 30)
          (hitbox 8 16 32 32)
          (images "small/run-0.png"
                  "small/run-1.png"
@@ -41,14 +41,14 @@
                  "small/run-5.png"
                  "small/run-6.png"
                  "small/run-7.png"
-                 "small/run-8.png"
-                 "small/run-9.png"
-                 "small/run-10.png"
-                 "small/run-11.png"
-                 "small/run-12.png"
-                 "small/run-13.png"
+                 "small/run-15.png"
                  "small/run-14.png"
-                 "small/run-15.png"))
+                 "small/run-13.png"
+                 "small/run-12.png"
+                 "small/run-11.png"
+                 "small/run-10.png"
+                 "small/run-9.png"
+                 "small/run-8.png"))
 
        (action
          (name "small-run-left")
