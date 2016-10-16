@@ -52,7 +52,13 @@ public:
    */
   void set_state(const std::string& state);
 
+  /**
+   * Start following the path
+   */
   void start_moving();
+  /**
+   * Stop following the path
+   */
   void stop_moving();
 };
 
