@@ -4,8 +4,8 @@ find data/ -name "credits.stxt" -print0 | xargs -0 xgettext --keyword='_:1' --la
 find data/ -name "objects.stoi" -print0 | xargs -0 xgettext --keyword='_:1' --language=Lisp --from-code=UTF-8 --sort-by-file --output translations/objects.pot --add-comments=l10n
 find data/ -name "*.strf" -print0 | xargs -0 xgettext --keyword='_:1' --language=Lisp --from-code=UTF-8 --sort-by-file --output translations/tilesets.pot --add-comments=l10n
 
-msgcat translations/main.pot translations/objects.pot translations/tilesets.pot > translations/messages.pot
-rm -f translations/main.pot translations/objects.pot translations/tilesets.pot 2> /dev/null
+msgcat translations/main.pot translations/credits.pot translations/objects.pot translations/tilesets.pot > translations/messages.pot
+rm -f translations/main.pot translations/credits.pot translations/objects.pot translations/tilesets.pot 2> /dev/null
 
 # Prepare script files for inclusion in tinygettext
 for LEVELSET in $(ls data/levels); do
