@@ -1,0 +1,47 @@
+[main]
+host = https://www.transifex.com
+
+[supertux.bonus-1]
+file_filter = data/levels/bonus1/<lang>.po
+source_lang = en
+type = PO
+
+[supertux.bonus-2]
+file_filter = data/levels/bonus2/<lang>.po
+source_lang = en
+type = PO
+
+[supertux.bonus-3]
+file_filter = data/levels/bonus3/<lang>.po
+source_lang = en
+type = PO
+
+[supertux.credits]
+file_filter = data/locale/credits-<lang>.po
+source_lang = en
+type = PO
+
+[supertux.halloween-2014]
+file_filter = data/levels/halloween2014/<lang>.po
+source_lang = en
+type = PO
+
+[supertux.incubator]
+file_filter = data/levels/incubator/<lang>.po
+source_lang = en
+type = PO
+
+[supertux.menu-principale]
+file_filter = data/locale/<lang>.po
+source_lang = en
+type = PO
+
+[supertux.world-1]
+file_filter = data/levels/world1/<lang>.po
+source_lang = en
+type = PO
+
+[supertux.world-2]
+file_filter = data/levels/world2/<lang>.po
+source_lang = en
+type = PO
