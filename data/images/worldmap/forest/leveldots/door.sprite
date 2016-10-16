@@ -1,0 +1,14 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (hitbox 48 112 96 64)
+    (images "doorclosed.png"
+)
+  )
+  (action
+    (name "solved")
+    (hitbox 48 112 96 64)
+    (images "dooropen.png"
+)
+  )
+)

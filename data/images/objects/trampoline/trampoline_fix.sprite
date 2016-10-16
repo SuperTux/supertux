@@ -1,0 +1,15 @@
+(supertux-sprite
+  (action
+    (name "normal")
+    (hitbox 0 0 0 0)
+    (images "trampoline2-0.png")
+  )
+  (action
+    (name "swinging")
+    (images "trampoline2-0.png"
+            "trampoline2-1.png"
+            "trampoline2-2.png"
+            "trampoline2-3.png"
+    )
+  )
+)

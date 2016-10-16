@@ -1,0 +1,9 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (hitbox 1 1 10 10)
+    (images 
+      "mole-rock.png"
+    )
+  )
+)

@@ -1,0 +1,198 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Kristoffer Grundström <kristoffer.grundstrom1983@gmail.com>, 2014
+# sebras <sebras@gmail.com>, 2015-2016
+# theschitz <theodore@theschitz.se>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-05 20:42+0200\n"
+"PO-Revision-Date: 2016-08-26 11:59+0000\n"
+"Last-Translator: theschitz <theodore@theschitz.se>\n"
+"Language-Team: Swedish (http://www.transifex.com/arctic-games/supertux/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/levels/incubator/Angry Stone vs. YOU.stl:3
+msgid "Angry Stone vs. YOU"
+msgstr "Arga stenar versus DU"
+
+#: data/levels/incubator/Angry Stone vs. YOU.stl:308
+msgid ""
+"#You activate switches with this button:\n"
+"!images/tiles/signs/up.png"
+msgstr "#Du aktiverar spakat med denna knapp:\n!images/tiles/signs/up.png"
+
+#: data/levels/incubator/Castle #1.stl:3
+msgid "Castle #1"
+msgstr "Slott #1"
+
+#: data/levels/incubator/Missingno.stl:3
+msgid "Missingno"
+msgstr "Saknad"
+
+#: data/levels/incubator/Missingno.stl:535
+msgid "#Be patient!"
+msgstr "#Var tålmodig!"
+
+#: data/levels/incubator/Missingno.stl:540
+msgid ""
+"#Dont move while flying!\n"
+"#Pay attention at landing!"
+msgstr "#Flytta dig inte medan du flyger!\n#Var uppmärksam vid landning!"
+
+#: data/levels/incubator/NewIcelevel1.stl:3
+msgid "Blue iced hills"
+msgstr "De blå isiga kullarna"
+
+#: data/levels/incubator/NewIcelevel2.stl:3
+msgid "Bad mountains"
+msgstr "De dåliga bergen"
+
+#: data/levels/incubator/NewIcelevel3.stl:3
+msgid "eman level ehT <---"
+msgstr "tenmannaB <--"
+
+#: data/levels/incubator/NewIcelevel4.stl:3
+msgid "Ice sea"
+msgstr "Issjön"
+
+#: data/levels/incubator/NewIcelevel5.stl:3
+msgid "Electric-Wood factory"
+msgstr "Fabriken för elektriskt trä"
+
+#: data/levels/incubator/Nice Ice.stl:3
+msgid "Nice Ice"
+msgstr "Bra is"
+
+#: data/levels/incubator/Nice Ice.stl:89
+msgid "#Use the enemy to finish this level!"
+msgstr "#Använd fienden för att avsluta denna bana!"
+
+#: data/levels/incubator/SP33DRUN.stl:3
+msgid "SP33DRUN"
+msgstr "KAPPLÖPNING"
+
+#: data/levels/incubator/cave_run.stl:3
+msgid "Cave Run"
+msgstr "Grott-springning"
+
+#: data/levels/incubator/cherry_frosting.stl:3
+msgid "The Cherry Frosting"
+msgstr "Körsbärsglasyren"
+
+#: data/levels/incubator/cube_garden.stl:3
+msgid "Mad Ysonn Cube Garden"
+msgstr "Mad Ysonn kub-trädgård"
+
+#: data/levels/incubator/fall_kugelblitz.stl:3
+msgid "Kugelblitzstorm"
+msgstr "Hagelåskstorm"
+
+#: data/levels/incubator/frozen_fissure.stl:3
+msgid "Frozen Fissure"
+msgstr "Frusna klyftan"
+
+#: data/levels/incubator/hungry_tux.stl:3
+msgid "Tux is hungry!"
+msgstr "Tux är hungrig!"
+
+#: data/levels/incubator/ice_mountain.stl:3
+msgid "Crystal Mountain"
+msgstr "Kristallbergen"
+
+#: data/levels/incubator/in_the_mountain.stl:3
+msgid "In the mountain"
+msgstr "Uppe på berget"
+
+#: data/levels/incubator/into_dark.stl:3
+msgid "Into the Dark"
+msgstr "In i mörkret"
+
+#: data/levels/incubator/into_dark.stl:224
+msgid ""
+"-Hint:\n"
+"#Use the fireflower to melt a path through the ice."
+msgstr "-Tips:\n#Använd elfblomman för att smälta en väg genom isen."
+
+#: data/levels/incubator/into_dark.stl:230
+msgid "#Beware of fire!"
+msgstr "#Se upp för eld!"
+
+#: data/levels/incubator/jagged_path.stl:3
+msgid "The Jagged Path"
+msgstr "Den taggiga genvägen"
+
+#: data/levels/incubator/let_us_snow.stl:3
+msgid "Let us snow!"
+msgstr "Låt det snöa!"
+
+#: data/levels/incubator/let_us_snow.stl:205
+msgid ""
+"-Warning!\n"
+"#Beware the falling enemies!"
+msgstr "-Varning!\n#Akta dig för fallande fiender!"
+
+#: data/levels/incubator/long.stl:3
+msgid "A long adventure"
+msgstr "Ett långt äventyr"
+
+#: data/levels/incubator/long.stl:1579
+msgid ""
+"#Until this moment you have luck.\n"
+"#The way here was hard.\n"
+"#You still have a long way to go.\n"
+"#You must know it well.\n"
+"#Even now you must not fail it.\n"
+"#Now go down to the shaft.\n"
+"#I hope you understood."
+msgstr "#Fram tills nu har du haft tur.\n#Vägen hit var svår.\n#Du har fortfarande en lång\n#väg kvar. Du måste känna\n#till den väl. Inte heller nu får\n#du misslyckas. Gå ner i \n#schaktet nu. Jag hoppas du\n#förstod."
+
+#: data/levels/incubator/long.stl:3997
+msgid ""
+"-Congratulations!\n"
+"#You are in half the level! "
+msgstr "-Grattis!\n#Du har nått halvvägs in i banan! "
+
+#: data/levels/incubator/long.stl:4549
+msgid "-You are going wrong!"
+msgstr "-Du går åt fel håll!"
+
+#: data/levels/incubator/midnight_crossing.stl:3
+msgid "Midnight Crossing"
+msgstr "Midnattsresa"
+
+#: data/levels/incubator/mountain_climbing.stl:3
+msgid "Mountain climbing"
+msgstr "Bergsbestigning"
+
+#: data/levels/incubator/not_so_long.stl:3
+msgid "The not so long way"
+msgstr "Den inte så långa vägen"
+
+#: data/levels/incubator/obstaclecourse.stl:3
+msgid "Obstacle Course"
+msgstr "Hinderbana"
+
+#: data/levels/incubator/obstaclecourse.stl:48
+msgid "#If you get stuck, flip the switch to kill Tux."
+msgstr "#Om du fastnar, dra i spaken för att döda Tux."
+
+#: data/levels/incubator/pipeline.stl:3
+msgid "Pipeline"
+msgstr "Rörledning"
+
+#: data/levels/incubator/primed.stl:3
+msgid "Primed for Action"
+msgstr "Förberedd för handling"
+
+#: data/levels/incubator/worldmap.stwm:3
+msgid "Incubator Island"
+msgstr "Kuvös-ön"

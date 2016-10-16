@@ -1,0 +1,269 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Krzysiek Szeląg, 2015
+# Krzysiek Szeląg, 2016
+# Łukasz Hryniuk, 2013
+# Łukasz Hryniuk, 2013
+# mkkot <marcin2006@gmail.com>, 2014
+# Marcin Kralka <marcink96@gmail.com>, 2014
+# mkkot <marcin2006@gmail.com>, 2014-2015
+# Paweł Talar <ptalar15@gmail.com>, 2013
+# Paweł Talar <ptalar15@gmail.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-05-22 14:41+0000\n"
+"Last-Translator: Krzysiek Szeląg\n"
+"Language-Team: Polish (http://www.transifex.com/arctic-games/supertux/language/pl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:3
+msgid "Welcome to Antarctica"
+msgstr "Witamy na Antarktydzie"
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:63
+msgid ""
+"-Bonus Blocks\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in your quest.\n"
+"#\n"
+"#Hit them from below to get at their contents."
+msgstr "-Bonusowe Bloki\n!images/objects/bonus_block/full-0.png\n#Bonusowe bloki mogą zawierać monety, ulepszenia lub specjalne przedmioty, które mogą ci pomóc w misji.\n#\n#Uderz je z dołu, by zdobyć ich zawartość."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:72
+msgid ""
+"-Eggs\n"
+"!images/powerups/egg/egg.png\n"
+"#The egg makes Tux grow larger. Tux can then smash wooden blocks with his head."
+msgstr "-Jajka\n!images/powerups/egg/egg.png\n#Jajko sprawia, że Tux rośnie. Dzięki temu może rozbijać drewniane bloki głową."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:79
+msgid ""
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Activate the checkpoint. If you die, you can retry the level from here. Every time you retry from a checkpoint, you will lose 10 percent of your coins (at least 25 coins)."
+msgstr "-Punkty zapisu\n!images/objects/resetpoints/bell-m.png\n#Aktywuj punkt zapisu. Gdy zginiesz, możesz zacząć od tego miejsca. Rozpoczęcie od punktu zapisu kosztuje 10% Twoich monet (co najmniej 25)."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:86
+msgid ""
+"-Running\n"
+"!images/tiles/signs/run.png\n"
+"#The path in front of you is blocked. Gain some speed before jumping to pass over the blocks."
+msgstr "-Bieganie\n!images/tiles/signs/run.png\n#Ścieżka przed tobą jest zablokowana. Nabierz rozpędu przed przeskoczeniem nad blokami."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:93
+msgid ""
+"-Fire Flower\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#The fire flower gives Tux the ability to shoot fireballs."
+msgstr "-Ognisty kwiat\n!images/powerups/fireflower/fire_flower-0.png\n# Ognisty Kwiat daje Tuksowi możliwość strzelania ognistymi kulami."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:100
+msgid ""
+"-Tux Doll\n"
+"!images/powerups/1up/1up.png\n"
+"#The Tux doll gives Tux 100 coins."
+msgstr "-Awatar Tuksa\n!images/powerups/1up/1up.png\n#Awatar daje Tuksowi 100 monet."
+
+#: data/levels/world1/01 - Welcome to Antarctica.stl:107
+msgid ""
+"-Secret Areas\n"
+"#Many levels contain secret areas behind what seems to be plain walls. Look for clues to find them."
+msgstr "-Sekretne strefy\n#Wiele poziomów zawiera sekretne strefy za czymś, co wygląda jak zwykła ściana. Rozglądaj się za wskazówkami, by je znaleźć."
+
+#: data/levels/world1/02 - The Journey Begins.stl:3
+msgid "The Journey Begins"
+msgstr "Początek podróży"
+
+#: data/levels/world1/03 - Via Nostalgica.stl:3
+msgid "Via Nostalgica"
+msgstr "Ulica Nostalgiczna"
+
+#: data/levels/world1/04 - Tobgle Road.stl:3
+msgid "Tobgle Road"
+msgstr "Wariantywna trasa"
+
+#: data/levels/world1/05 - The Somewhat Smaller Bath.stl:3
+msgid "The Somewhat Smaller Bath"
+msgstr "Lekki prysznic"
+
+#: data/levels/world1/06 - The Frosted Fields.stl:3
+msgid "The Frosted Fields"
+msgstr "Zamarznięte pola"
+
+#: data/levels/world1/07 - Oh No More Snowballs.stl:3
+msgid "Oh no! More Snowballs!"
+msgstr "O nie! Więcej śnieżnych piłek!"
+
+#: data/levels/world1/08 - Stone Cold.stl:3
+msgid "Stone Cold"
+msgstr "Zimny kamień"
+
+#: data/levels/world1/09 - Grumbels Sense of Snow.stl:3
+msgid "Grumbel's Sense of Snow"
+msgstr "Grumbela sens zimy"
+
+#: data/levels/world1/10 - 23rd Airborne.stl:3
+msgid "23rd Airborne"
+msgstr "23. brygada powietrzna"
+
+#: data/levels/world1/11 - Night Chill.stl:3
+msgid "Night Chill"
+msgstr "Nocny luz"
+
+#: data/levels/world1/12 - Into the Stars.stl:3
+msgid "Into the Stars"
+msgstr "Do gwiazd"
+
+#: data/levels/world1/13 - Above the Arctic Skies.stl:3
+msgid "Above the Arctic Skies"
+msgstr "Ponad arktycznym niebem"
+
+#: data/levels/world1/14 - Entrance to the Cave.stl:3
+msgid "Entrance to the Cave"
+msgstr "Wejście do jaskini"
+
+#: data/levels/world1/15 - Under the Ice.stl:3
+msgid "Under the Ice"
+msgstr "Pod lodem"
+
+#: data/levels/world1/16 - Living in a Fridge.stl:3
+msgid "Living in a Fridge"
+msgstr "Życie w lodówce"
+
+#: data/levels/world1/17 - Or is it just me.stl:3
+msgid "'...or is it just me?'"
+msgstr "\"... a może to moja wina?\""
+
+#: data/levels/world1/18 - Ice in the Hole.stl:3
+msgid "Ice in the Hole"
+msgstr "Lód w otworze"
+
+#: data/levels/world1/19 - Miyamoto Monument.stl:3
+msgid "Miyamoto Monument"
+msgstr "Pomnik Miyamoto"
+
+#: data/levels/world1/20 - End of the Tunnel.stl:3
+msgid "End of the Tunnel"
+msgstr "Koniec tunelu"
+
+#: data/levels/world1/21 - A Path in the Clouds.stl:3
+msgid "A Path in the Clouds"
+msgstr "Droga w chmurach"
+
+#: data/levels/world1/22 - A Mysterious House of Ice.stl:3
+msgid "A Mysterious House of Ice"
+msgstr "Tajemniczy dom z lodu"
+
+#: data/levels/world1/23 - The Escape.stl:3
+msgid "The Escape"
+msgstr "Ucieczka"
+
+#: data/levels/world1/24 - The Shattered Bridge.stl:3
+msgid "The Shattered Bridge"
+msgstr "Zniszczony most"
+
+#: data/levels/world1/25 - Arctic Ruins.stl:3
+msgid "Arctic Ruins"
+msgstr "Arktyczne ruiny"
+
+#: data/levels/world1/26 - The Castle of Nolok.stl:3
+msgid "The Castle of Nolok"
+msgstr "Zamek Nolok"
+
+#: data/levels/world1/27 - No More Mr Ice Guy.stl:3
+msgid "No More Mr Ice Guy"
+msgstr "Nigdy więcej lodowych kwadraciaków"
+
+#: data/levels/world1/Fork_in_the_Road.stl:3
+msgid "A Fork in the Road"
+msgstr "Rozwidlenie drogi"
+
+#: data/levels/world1/Fork_in_the_Road.stl:353
+msgid ""
+"-Switches\n"
+"!images/objects/switch/left-0.png\n"
+"!images/objects/switch/switch-0.png\n"
+"!images/objects/switch/right-0.png\n"
+"#Switches can be used to do all manner of things. Press the UP key to use switches.  This one activates the lift to your right."
+msgstr "-Przełączniki\n!images/objects/switch/left-0.png\n!images/objects/switch/switch-0.png\n!images/objects/switch/right-0.png\n#Przełączniki mogą być użyte do wszelkiego rodzaju działań. Naciśnij klawisz w górę, by ich użyć. Ten aktywuje windę po twojej prawej."
+
+#: data/levels/world1/Fork_in_the_Road.stl:362
+msgid ""
+"-Trampolines\n"
+"!images/objects/trampoline/trampoline2-0.png\n"
+"#Trampolines allow Tux to jump to new heights. Hold down the jump key while bouncing on the trampoline to launch extra high."
+msgstr "-Trampoliny\n!images/objects/trampoline/trampoline2-0.png\n#Trampoliny pozwalają Tuksowi skakać jeszcze wyżej. Naciśnij klawisz skoku podczas odbijania się od trampoliny, by skoczyć bardzo wysoko."
+
+#: data/levels/world1/Fork_in_the_Road.stl:369
+msgid ""
+"- Climbing\n"
+"# Tux can climb!  Press the UP key to start climbing.  Press the ACTION key or jump to let go."
+msgstr "-Wspinaczka\n#Tux może się wspinać! Naciśnij strzałkę w górę, by zacząć wspinaczkę. Wciśnij przycisk akcji lub skoku, by zejść."
+
+#: data/levels/world1/bonus.stl:3
+msgid "Bonus Level"
+msgstr "Dodatkowy poziom"
+
+#: data/levels/world1/intro.stl:3
+msgid "Picnic With Penny"
+msgstr "Piknik z Penny"
+
+#: data/levels/world1/scripts_intro.txt:2
+msgid ""
+"Somewhere at the shores\n"
+"of Antarctica..."
+msgstr "Gdzieś u wybrzeży\nAntarktydy ..."
+
+#: data/levels/world1/scripts_intro.txt:4
+msgid "Tux: Hello Penny"
+msgstr "Tux: Cześć Penny"
+
+#: data/levels/world1/scripts_intro.txt:5
+msgid "Penny: Hey Tux"
+msgstr "Penny: Cześć Tux"
+
+#: data/levels/world1/scripts_intro.txt:6
+msgid "Tux: Check out my dance moves."
+msgstr "Tux: Sprawdź moje ruchy taneczne."
+
+#: data/levels/world1/scripts_intro.txt:7
+msgid "Tux: Oww... my head..."
+msgstr "Tux: Ałł... moja głowa..."
+
+#: data/levels/world1/scripts_intro.txt:8
+msgid "Tux: Wait!"
+msgstr "Tux: Czekaj!"
+
+#: data/levels/world1/scripts_intro.txt:9
+msgid "Tux: Penny!"
+msgstr "Tux: Penny!"
+
+#: data/levels/world1/scripts_intro.txt:10
+msgid "Tux: Where are you, Penny?!"
+msgstr "Tux: Gdzie jesteś, Penny?!"
+
+#: data/levels/world1/scripts_intro.txt:11
+msgid "Tux: Oh no..."
+msgstr "Tux: O nie..."
+
+#: data/levels/world1/scripts_intro.txt:12
+msgid "Tux: Don't worry, Penny, I'll rescue you!"
+msgstr "Tux: Nie martw się, Penny, Uratuję cię!"
+
+#: data/levels/world1/worldmap.stwm:3
+msgid "Icyisland"
+msgstr "Lodowa Wyspa"
+
+#: data/levels/world1/worldmap.stwm:37
+msgid "You Found a Secret Area!"
+msgstr "Znalazłeś ukryty obszar!"

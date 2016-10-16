@@ -1,0 +1,149 @@
+(supertux-level
+  (version 2)
+  (name (_ "Gradient scripting test"))
+  (author "Hume")
+  (contact "Nemám zájem, aby mě někdo otravoval.")
+  (license "GPL 2+ / CC-by-sa 3.0")
+  (target-time 0)
+  (sector
+    (name "main")
+    (ambient-light 1 1 1)
+    (camera
+      (mode "normal")
+    )
+    (gradient
+      (top_color 1 0 0)
+      (bottom_color 0 1 0)
+      (direction "vertical")
+      (name "g")
+    )
+    (infoblock
+      (message (_ "-Set gradient direction to horizontal"))
+      (x 320)
+      (y 576)
+    )
+    (switch
+      (script "g.set_direction(\"horizontal\");")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 320)
+      (y 650)
+    )
+    (infoblock
+      (message (_ "-Set gradient direction to vertical"))
+      (x 460)
+      (y 576)
+    )
+    (switch
+      (script "g.set_direction(\"vertical\");")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 460)
+      (y 650)
+    )
+    (infoblock
+      (message (_ "-Set gradient direction to horizontal sector"))
+      (x 580)
+      (y 576)
+    )
+    (switch
+      (script "g.set_direction(\"horizontal_sector\");")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 580)
+      (y 650)
+    )
+    (infoblock
+      (message (_ "-Set gradient direction to vertical sector"))
+      (x 700)
+      (y 576)
+    )
+    (switch
+      (script "g.set_direction(\"vertical_sector\");")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 700)
+      (y 650)
+    )
+    (infoblock
+      (message (_ "-Swap gradient colors"))
+      (x 820)
+      (y 576)
+    )
+    (switch
+      (script "g.swap_colors();")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 820)
+      (y 650)
+    )
+    (infoblock
+      (message (_ "-Set colors to orange - black"))
+      (x 940)
+      (y 576)
+    )
+    (switch
+      (script "g.set_color1(1, 0.54902, 0);
+      g.set_color2(0, 0, 0);")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 940)
+      (y 650)
+    )
+    (infoblock
+      (message (_ "-Set colors to red - green"))
+      (x 1000)
+      (y 576)
+    )
+    (switch
+      (script "g.set_color1(1, 0, 0);
+      g.set_color2(0, 1, 0);")
+      (sprite "images/objects/switch/switch.sprite")
+      (x 1000)
+      (y 650)
+    )
+    (spawnpoint
+      (name "main")
+      (x 544)
+      (y 448)
+    )
+    (tilemap
+      (solid #t)
+      (z-pos 0)
+      (name "Interactive")
+      (width 40)
+      (height 35)
+      (tiles
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 0
+      0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 0
+      0 0 0 0 0 0 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 48 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+      )
+    )
+  )
+)

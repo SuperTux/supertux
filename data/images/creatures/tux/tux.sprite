@@ -1,0 +1,990 @@
+(supertux-sprite
+
+       (action
+         (name "gameover")
+         (fps 10.0)
+         (hitbox 13 6 32 32)
+         (images "small/gameover-0.png"
+                 "small/gameover-1.png"))
+
+
+; Small Tux
+
+       (action
+         (name "small-walk-right")
+         (fps 15.0)
+         (hitbox 8 16 32 32)
+         (images "small/walk-0.png"
+                 "small/walk-1.png"
+                 "small/walk-2.png"
+                 "small/walk-3.png"
+                 "small/walk-4.png"
+                 "small/walk-5.png"
+                 "small/walk-6.png"
+                 "small/walk-7.png"))
+
+       (action
+         (name "small-walk-left")
+         (fps 15.0)
+         (hitbox 8 16 32 32)
+         (mirror-action "small-walk-right"))
+
+       (action
+         (name "small-run-right")
+         (fps 30)
+         (hitbox 8 16 32 32)
+         (images "small/run-0.png"
+                 "small/run-1.png"
+                 "small/run-2.png"
+                 "small/run-3.png"
+                 "small/run-4.png"
+                 "small/run-5.png"
+                 "small/run-6.png"
+                 "small/run-7.png"
+                 "small/run-15.png"
+                 "small/run-14.png"
+                 "small/run-13.png"
+                 "small/run-12.png"
+                 "small/run-11.png"
+                 "small/run-10.png"
+                 "small/run-9.png"
+                 "small/run-8.png"))
+
+       (action
+         (name "small-run-left")
+         (fps 25.0)
+         (hitbox 8 16 32 32)
+         (mirror-action "small-run-right"))
+
+       (action
+         (name "small-stand-right")
+         (fps 15.0)
+         (hitbox 8 16 32 32)
+         (images "small/stand-0.png"))
+
+       (action
+         (name "small-stand-left")
+         (fps 15.0)
+         (hitbox 8 16 32 32)
+         (mirror-action "small-stand-right"))
+
+       (action
+         (name "small-jump-right")
+         (fps 15.0)
+         (hitbox 8 16 32 32)
+         (images "small/jump-0.png"))
+
+       (action
+         (name "small-jump-left")
+         (fps 15.0)
+         (hitbox 8 16 32 32)
+         (mirror-action "small-jump-right"))
+
+       (action
+         (name "small-skid-right")
+         (hitbox 8 17 32 32)
+         (images "small/skid-0.png"))
+
+       (action
+         (name "small-skid-left")
+         (hitbox 8 17 32 32)
+         (mirror-action "small-skid-right"))
+
+       (action
+         (name "small-kick-right")
+         (hitbox 8 16 32 32)
+         (images "small/kick-0.png"))
+
+       (action
+         (name "small-kick-left")
+         (hitbox 8 16 32 32)
+         (mirror-action "small-kick-right"))
+
+       (action
+         (name "small-idle-right")
+         (fps 5.0)
+         (hitbox 8 16 32 32)
+         (images "small/idle-0.png"
+                 "small/idle-1.png"
+                 "small/idle-0.png"))
+
+       (action
+         (name "small-idle-left")
+         (hitbox 8 16 32 32)
+         (mirror-action "small-idle-right"))
+
+       (action
+         (name "small-climbing-right")
+         (hitbox 8 16 32 32)
+         (images "small/ladder-0.png"
+                 "small/ladder-1.png"
+                 "small/ladder-2.png"
+                 "small/ladder-3.png"
+                 "small/ladder-2.png"
+                 "small/ladder-1.png"))
+
+       (action
+         (name "small-climbing-left")
+         (hitbox 8 16 32 32)
+         (mirror-action "small-climbing-right"))
+
+       (action
+         (name "grow-right")
+         (fps 15.0)
+         (hitbox 16 13 32 64)
+         (images "small/grow-0.png"
+                 "small/grow-1.png"
+                 "small/grow-2.png"
+                 "small/grow-3.png"
+                 "small/grow-4.png"
+                 "small/grow-5.png"
+                 "small/grow-6.png"))
+
+       (action
+         (name "grow-left")
+         (hitbox 16 13 32 64)
+         (mirror-action "grow-right"))
+
+
+; Big Tux
+
+       (action
+         (name "big-walk-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/walk-0.png"
+                 "big/walk-1.png"
+                 "big/walk-2.png"
+                 "big/walk-3.png"
+                 "big/walk-4.png"
+                 "big/walk-5.png"))
+
+       (action
+         (name "big-walk-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-walk-right"))
+
+       (action
+         (name "big-stand-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/stand-0.png"))
+
+       (action
+         (name "big-stand-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-stand-right"))
+
+       (action
+         (name "big-jump-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/jump-0.png"))
+
+       (action
+         (name "big-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-jump-right"))
+
+       (action
+         (name "big-skid-right")
+         (hitbox 16 14 32 64)
+         (images "big/skid-0.png"))
+
+       (action
+         (name "big-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "big-skid-right"))
+
+       (action
+         (name "big-kick-right")
+         (hitbox 16 14 32 64)
+         (images "big/kick-0.png"))
+
+       (action
+         (name "big-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "big-kick-right"))
+
+       (action
+         (name "big-idle-right")
+         (fps 5.0)
+         (hitbox 16 14 32 64)
+         (images "big/idle-0.png"
+                 "big/idle-1.png"
+                 "big/idle-0.png"))
+
+       (action
+         (name "big-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "big-idle-right"))
+
+       (action
+         (name "big-climbing-right")
+         (hitbox 16 14 32 64)
+         (images "big/ladder-0.png"
+                 "big/ladder-1.png"
+                 "big/ladder-2.png"
+                 "big/ladder-3.png"
+                 "big/ladder-2.png"
+                 "big/ladder-1.png"))
+
+       (action
+         (name "big-climbing-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "big-climbing-right"))
+
+       (action
+         (name "big-duck-right")
+         (hitbox 16 45 32 32)
+         (images "big/duck-0.png"))
+
+       (action
+         (name "big-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "big-duck-right"))
+
+       (action
+         (name "big-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "big/backflip.png"))
+
+       (action
+         (name "big-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 18.0)
+         (mirror-action "big-backflip-right"))
+
+       (action
+         (name "big-buttjump-right")
+         (hitbox 16 14 32 64)
+         (images "big/buttjump-0.png"))
+
+       (action
+         (name "big-buttjump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "big-buttjump-right"))
+
+; Fire Tux
+
+       (action
+         (name "fire-walk-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "fire/walk-0.png"
+                 "fire/walk-1.png"
+                 "fire/walk-2.png"
+                 "fire/walk-3.png"
+                 "fire/walk-4.png"
+                 "fire/walk-5.png"))
+
+       (action
+         (name "fire-walk-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-walk-right"))
+
+       (action
+         (name "fire-stand-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "fire/stand-0.png"))
+
+       (action
+         (name "fire-stand-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-stand-right"))
+
+       (action
+         (name "fire-jump-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "fire/jump-0.png"))
+
+       (action
+         (name "fire-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-jump-right"))
+
+       (action
+         (name "fire-skid-right")
+         (hitbox 16 14 32 64)
+         (images "fire/skid-0.png"))
+
+       (action
+         (name "fire-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-skid-right"))
+
+       (action
+         (name "fire-kick-right")
+         (hitbox 16 14 32 64)
+         (images "fire/kick-0.png"))
+
+       (action
+         (name "fire-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-kick-right"))
+
+       (action
+         (name "fire-idle-right")
+         (fps 5.0)
+         (hitbox 16 14 32 64)
+         (images "fire/idle-0.png"
+                 "fire/idle-1.png"
+                 "fire/idle-0.png"))
+
+       (action
+         (name "fire-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-idle-right"))
+
+       (action
+         (name "fire-climbing-right")
+         (hitbox 16 14 32 64)
+         (images "fire/ladder-0.png"
+                 "fire/ladder-1.png"
+                 "fire/ladder-2.png"
+                 "fire/ladder-3.png"
+                 "fire/ladder-2.png"
+                 "fire/ladder-1.png"))
+
+       (action
+         (name "fire-climbing-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-climbing-right"))
+
+       (action
+         (name "fire-duck-right")
+         (hitbox 16 45 32 32)
+         (images "fire/duck-0.png"))
+
+       (action
+         (name "fire-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "fire-duck-right"))
+
+       (action
+         (name "fire-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "fire/backflip.png"))
+
+       (action
+         (name "fire-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 18.0)
+         (mirror-action "fire-backflip-right"))
+
+       (action
+         (name "fire-buttjump-right")
+         (hitbox 16 14 32 64)
+         (images "fire/buttjump-0.png"))
+
+       (action
+         (name "fire-buttjump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-buttjump-right"))
+
+; Ice Tux
+
+       (action
+         (name "ice-walk-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "ice/walk-0.png"
+                 "ice/walk-1.png"
+                 "ice/walk-2.png"
+                 "ice/walk-3.png"
+                 "ice/walk-4.png"
+                 "ice/walk-5.png"))
+
+       (action
+         (name "ice-walk-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-walk-right"))
+
+       (action
+         (name "ice-stand-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "ice/stand-0.png"))
+
+       (action
+         (name "ice-stand-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-stand-right"))
+
+       (action
+         (name "ice-jump-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "ice/jump-0.png"))
+
+       (action
+         (name "ice-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-jump-right"))
+
+       (action
+         (name "ice-skid-right")
+         (hitbox 16 14 32 64)
+         (images "ice/skid-0.png"))
+
+       (action
+         (name "ice-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-skid-right"))
+
+       (action
+         (name "ice-kick-right")
+         (hitbox 16 14 32 64)
+         (images "ice/kick-0.png"))
+
+       (action
+         (name "ice-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-kick-right"))
+
+       (action
+         (name "ice-idle-right")
+         (fps 5.0)
+         (hitbox 16 14 32 64)
+         (images "ice/idle-0.png"
+                 "ice/idle-1.png"
+                 "ice/idle-0.png"))
+
+       (action
+         (name "ice-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-idle-right"))
+
+       (action
+         (name "ice-climbing-right")
+         (hitbox 16 14 32 64)
+         (images "ice/ladder-0.png"
+                 "ice/ladder-1.png"
+                 "ice/ladder-2.png"
+                 "ice/ladder-3.png"
+                 "ice/ladder-2.png"
+                 "ice/ladder-1.png"))
+
+       (action
+         (name "ice-climbing-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-climbing-right"))
+
+       (action
+         (name "ice-duck-right")
+         (hitbox 16 45 32 32)
+         (images "ice/duck-0.png"))
+
+       (action
+         (name "ice-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "ice-duck-right"))
+
+       (action
+         (name "ice-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "ice/backflip.png"))
+
+       (action
+         (name "ice-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 18.0)
+         (mirror-action "ice-backflip-right"))
+
+       (action
+         (name "ice-buttjump-right")
+         (hitbox 16 14 32 64)
+         (images "ice/buttjump-0.png"))
+
+       (action
+         (name "ice-buttjump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "ice-buttjump-right"))
+
+; Air Tux
+
+       (action
+         (name "air-walk-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/walk-0.png"
+                 "big/walk-1.png"
+                 "big/walk-2.png"
+                 "big/walk-3.png"
+                 "big/walk-4.png"
+                 "big/walk-5.png"))
+
+       (action
+         (name "air-walk-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "air-walk-right"))
+
+       (action
+         (name "air-stand-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/stand-0.png"))
+
+       (action
+         (name "air-stand-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "air-stand-right"))
+
+       (action
+         (name "air-jump-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/jump-0.png"))
+
+       (action
+         (name "air-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "air-jump-right"))
+
+       (action
+         (name "air-skid-right")
+         (hitbox 16 14 32 64)
+         (images "big/skid-0.png"))
+
+       (action
+         (name "air-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "air-skid-right"))
+
+       (action
+         (name "air-kick-right")
+         (hitbox 16 14 32 64)
+         (images "big/kick-0.png"))
+
+       (action
+         (name "air-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "air-kick-right"))
+
+       (action
+         (name "air-idle-right")
+         (fps 5.0)
+         (hitbox 16 14 32 64)
+         (images "big/idle-0.png"
+                 "big/idle-1.png"
+                 "big/idle-0.png"))
+
+       (action
+         (name "air-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "air-idle-right"))
+
+       (action
+         (name "air-climbing-right")
+         (hitbox 16 14 32 64)
+         (images "big/ladder-0.png"
+                 "big/ladder-1.png"
+                 "big/ladder-2.png"
+                 "big/ladder-3.png"
+                 "big/ladder-2.png"
+                 "big/ladder-1.png"))
+
+       (action
+         (name "air-climbing-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "air-climbing-right"))
+
+       (action
+         (name "air-duck-right")
+         (hitbox 16 45 32 32)
+         (images "big/duck-0.png"))
+
+       (action
+         (name "air-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "air-duck-right"))
+
+       (action
+         (name "air-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "big/backflip.png"))
+
+       (action
+         (name "air-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 18.0)
+         (mirror-action "air-backflip-right"))
+
+       (action
+         (name "air-buttjump-right")
+         (hitbox 16 14 32 64)
+         (images "big/buttjump-0.png"))
+
+       (action
+         (name "air-buttjump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "air-buttjump-right"))
+
+; Earth Tux
+
+       (action
+         (name "earth-walk-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/walk-0.png"
+                 "big/walk-1.png"
+                 "big/walk-2.png"
+                 "big/walk-3.png"
+                 "big/walk-4.png"
+                 "big/walk-5.png"))
+
+       (action
+         (name "earth-walk-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-walk-right"))
+
+       (action
+         (name "earth-stand-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/stand-0.png"))
+
+       (action
+         (name "earth-stand-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-stand-right"))
+
+       (action
+         (name "earth-jump-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/jump-0.png"))
+
+       (action
+         (name "earth-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-jump-right"))
+
+       (action
+         (name "earth-skid-right")
+         (hitbox 16 14 32 64)
+         (images "big/skid-0.png"))
+
+       (action
+         (name "earth-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-skid-right"))
+
+       (action
+         (name "earth-kick-right")
+         (hitbox 16 14 32 64)
+         (images "big/kick-0.png"))
+
+       (action
+         (name "earth-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-kick-right"))
+
+       (action
+         (name "earth-idle-right")
+         (fps 5.0)
+         (hitbox 16 14 32 64)
+         (images "big/idle-0.png"
+                 "big/idle-1.png"
+                 "big/idle-0.png"))
+
+       (action
+         (name "earth-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-idle-right"))
+
+       (action
+         (name "earth-climbing-right")
+         (hitbox 16 14 32 64)
+         (images "big/ladder-0.png"
+                 "big/ladder-1.png"
+                 "big/ladder-2.png"
+                 "big/ladder-3.png"
+                 "big/ladder-2.png"
+                 "big/ladder-1.png"))
+
+       (action
+         (name "earth-climbing-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-climbing-right"))
+
+       (action
+         (name "earth-duck-right")
+         (hitbox 16 45 32 32)
+         (images "big/duck-0.png"))
+
+       (action
+         (name "earth-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "earth-duck-right"))
+
+       (action
+         (name "earth-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "big/backflip.png"))
+
+       (action
+         (name "earth-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 18.0)
+         (mirror-action "earth-backflip-right"))
+
+       (action
+         (name "earth-buttjump-right")
+         (hitbox 16 14 32 64)
+         (images "big/buttjump-0.png"))
+
+       (action
+         (name "earth-buttjump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-buttjump-right"))
+
+; Stone Tux
+
+       (action
+         (name "earth-walk-right-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "earth/walk.png"))
+
+       (action
+         (name "earth-walk-left-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-walk-right-stone"))
+
+       (action
+         (name "earth-stand-right-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "earth/stand.png"))
+
+       (action
+         (name "earth-stand-left-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-stand-right-stone"))
+
+       (action
+         (name "earth-jump-right-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "earth/jump.png"))
+
+       (action
+         (name "earth-jump-left-stone")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-jump-right-stone"))
+
+       (action
+         (name "earth-skid-right-stone")
+         (hitbox 16 14 32 64)
+         (images "earth/skid.png"))
+
+       (action
+         (name "earth-skid-left-stone")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-skid-right-stone"))
+
+       (action
+         (name "earth-kick-right-stone")
+         (hitbox 16 14 32 64)
+         (images "earth/kick.png"))
+
+       (action
+         (name "earth-kick-left-stone")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-kick-right-stone"))
+
+       (action
+         (name "earth-idle-right-stone")
+         (fps 5.0)
+         (hitbox 16 14 32 64)
+         (images "earth/head.png"))
+
+       (action
+         (name "earth-idle-left-stone")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-idle-right-stone"))
+
+       (action
+         (name "earth-climbing-right-stone")
+         (hitbox 16 14 32 64)
+         (images "earth/ladder.png"))
+
+       (action
+         (name "earth-climbing-left-stone")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-climbing-right-stone"))
+
+       (action
+         (name "earth-duck-right-stone")
+         (hitbox 16 45 32 32)
+         (images "earth/duck.png"))
+
+       (action
+         (name "earth-duck-left-stone")
+         (hitbox 16 45 32 32)
+         (mirror-action "earth-duck-right-stone"))
+
+       (action
+         (name "earth-backflip-right-stone")
+         (hitbox 16 37 32 32)
+         (images "earth/backflip.png"))
+
+       (action
+         (name "earth-backflip-left-stone")
+         (hitbox 16 37 32 32)
+         (fps 18.0)
+         (mirror-action "earth-backflip-right-stone"))
+
+       (action
+         (name "earth-buttjump-right-stone")
+         (hitbox 16 14 32 64)
+         (images "earth/buttjump.png"))
+
+       (action
+         (name "earth-buttjump-left-stone")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-buttjump-right-stone"))
+
+; Santa Tux
+       (action
+         (name "santa-walk-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/walk-0.png"
+                 "big/walk-1.png"
+                 "big/walk-2.png"
+                 "big/walk-3.png"
+                 "big/walk-4.png"
+                 "big/walk-5.png"))
+
+       (action
+         (name "santa-walk-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-walk-right"))
+
+       (action
+         (name "santa-stand-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/stand-0.png"))
+
+       (action
+         (name "santa-stand-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-stand-right"))
+
+       (action
+         (name "santa-jump-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/jump-0.png"))
+
+       (action
+         (name "santa-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-jump-right"))
+
+       (action
+         (name "santa-skid-right")
+         (hitbox 16 14 32 64)
+         (images "big/skid-0.png"))
+
+       (action
+         (name "santa-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-skid-right"))
+
+       (action
+         (name "santa-kick-right")
+         (hitbox 16 14 32 64)
+         (images "big/kick-0.png"))
+
+       (action
+         (name "santa-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-kick-right"))
+
+       (action
+         (name "santa-idle-right")
+         (fps 5.0)
+         (hitbox 16 14 32 64)
+         (images "big/idle-0.png"
+                 "big/idle-1.png"
+                 "big/idle-0.png"))
+
+       (action
+         (name "santa-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-idle-right"))
+
+       (action
+         (name "santa-climbing-right")
+         (hitbox 16 14 32 64)
+         (images "big/ladder-0.png"
+                 "big/ladder-1.png"
+                 "big/ladder-2.png"
+                 "big/ladder-3.png"
+                 "big/ladder-2.png"
+                 "big/ladder-1.png"))
+
+       (action
+         (name "santa-climbing-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-climbing-right"))
+
+       (action
+         (name "santa-duck-right")
+         (hitbox 16 45 32 32)
+         (images "big/duck-0.png"))
+
+       (action
+         (name "santa-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "santa-duck-right"))
+
+       (action
+         (name "santa-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "big/backflip.png"))
+
+       (action
+         (name "santa-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 18.0)
+         (mirror-action "santa-backflip-right"))
+
+       (action
+         (name "santa-buttjump-right")
+         (hitbox 16 14 32 64)
+         (images "big/buttjump-0.png"))
+
+       (action
+         (name "santa-buttjump-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-buttjump-right"))
+
+)

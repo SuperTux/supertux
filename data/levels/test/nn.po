@@ -1,0 +1,294 @@
+# Translation of SuperTux to Norwegian Nynorsk
+# This file is distributed under the same license as the SuperTux package.
+# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: supertux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-04-21 13:41+0200\n"
+"PO-Revision-Date: 2013-04-21 13:58+0200\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+"Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
+"Language: nn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: data/levels/test/BackGround.stl:3
+msgid "Forest Background Test"
+msgstr "Skogbakgrunntest"
+
+#: data/levels/test/bicycle_platform.stl:3
+msgid "Bicycle Platform Test"
+msgstr "Sykkelplattformtest"
+
+#: data/levels/test/bonusblock.stl:3
+msgid "Bonusblock Test"
+msgstr "Bonusblokktest"
+
+#: data/levels/test/candle.stl:3
+msgid "Candle Scripting Test"
+msgstr "Stearinlysskripttest"
+
+#: data/levels/test/captainsnowball.stl:3
+msgid "Captain Snowball Test (Welcome to Antarctica)"
+msgstr "Kaptein snøball-test (Velkommen til sørpolen)"
+
+# skip-rule: mellomrom-før
+#: data/levels/test/captainsnowball.stl:32
+msgid ""
+"-Bonus Blocks\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in "
+"your quest.\n"
+"#\n"
+"#Hit them from below to get at their contents."
+msgstr ""
+"-Bonusblokker\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonusblokker inneheld myntar, spesialevner eller spesielle gjenstandar som "
+"hjelper deg vidare.\n"
+"#\n"
+"#Knus blokkene nedanfrå for å få tak i det dei inneheld."
+
+# skip-rule: mellomrom-før
+#: data/levels/test/captainsnowball.stl:41
+msgid ""
+"-Eggs\n"
+"!images/powerups/egg/egg.png\n"
+"#The egg makes Tux grow larger. Tux can then smash wooden blocks with his "
+"head."
+msgstr ""
+"-Egg\n"
+"!images/powerups/egg/egg.png\n"
+"#Egget får deg til å veksa deg større. Du kan då knusa treblokker med hovudet."
+
+# skip-rule: mellomrom-før
+#: data/levels/test/captainsnowball.stl:48
+msgid ""
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Activate the checkpoint. As long as you have at least 25 coins left, you can "
+"retry the level from here."
+msgstr ""
+"-Bjølle\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Ring med bjølla. Viss du døyr, vil du gjenoppstå på bjølleplassen.\n"
+" Det vert berre registrert spelstatistikk om du klarar brettet utan å "
+"gjenoppstå."
+
+# skip-rule: mellomrom-før
+#: data/levels/test/captainsnowball.stl:55
+msgid ""
+"-Running\n"
+"!images/tiles/signs/run.png\n"
+"#The path in front of you is blocked. Gain some speed before jumping to pass "
+"over the blocks."
+msgstr ""
+"-Springing\n"
+"!images/tiles/signs/run.png\n"
+"#Vegen framfor deg er stengt. Du må springa fort for å kunna klara å hoppa "
+"over hindera."
+
+# skip-rule: mellomrom-før
+#: data/levels/test/captainsnowball.stl:62
+msgid ""
+"-Fire Flower\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#The fire flower gives Tux the ability to shoot fireballs."
+msgstr ""
+"-Eldblome\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#Eldblomen gjev deg evna til å skyta eldkuler."
+
+# skip-rule: mellomrom-før
+#: data/levels/test/captainsnowball.stl:69
+msgid ""
+"-Tux Doll\n"
+"!images/powerups/1up/1up.png\n"
+"#The Tux doll gives Tux 100 coins."
+msgstr ""
+"-Tux-dokke\n"
+"!images/powerups/1up/1up.png\n"
+"#Tux-dokka gjev deg 100 myntar."
+
+#: data/levels/test/captainsnowball.stl:76
+msgid ""
+"-Secret Areas\n"
+"#Many levels contain secret areas behind what seems to be plain walls. Look "
+"for clues to find them."
+msgstr ""
+"-Hemmelege plassar\n"
+"#Mange brett inneheld hemmelege plassar bak det som ser ut som vanlege "
+"veggar. Ser du godt etter, finn du ofte hint om den hemmelege plassen."
+
+#: data/levels/test/castletiles.stl:3
+msgid "Castle Tiles Test"
+msgstr "Slottsbrikketest"
+
+#: data/levels/test/chain.stl:3
+msgid "Chain test"
+msgstr "Lenkjetest"
+
+#: data/levels/test/crystalcave.stl:3
+msgid "Crystal Cave test"
+msgstr "Krystallholetest"
+
+#: data/levels/test/crystallo.stl:3
+msgid "Crystal Cave (Crystallo Test)"
+msgstr "Krystallhola (Crystallo-test)"
+
+#: data/levels/test/darksnow.stl:3
+msgid "Dark Snow Test (+Icecrusher)"
+msgstr "Mørk snø-test (+ isknusar)"
+
+#: data/levels/test/decal.stl:3
+msgid "Decal Test"
+msgstr "Dekaltest"
+
+#: data/levels/test/doortest.stl:3
+msgid "Door Test"
+msgstr "Dørtest"
+
+#: data/levels/test/forestkeep.stl:4
+msgid "Forest Keep Test"
+msgstr "Skogtårntest"
+
+#: data/levels/test/haywire.stl:3
+msgid "Haywire bomb test"
+msgstr "Gal bombe-test"
+
+#: data/levels/test/icecrusher.stl:3
+msgid "IceCrusher Test"
+msgstr "Isknusartest"
+
+#: data/levels/test/icetest.stl:3
+msgid "Ice test"
+msgstr "Istest"
+
+#: data/levels/test/intro2.stl:4
+msgid "Picnic With Penny"
+msgstr "Piknik med Penny"
+
+#: data/levels/test/kugelblitz.stl:3
+msgid "Kugelblitz Test"
+msgstr "Kugelblitz-test"
+
+#: data/levels/test/light.stl:3
+msgid "Lightmap Test"
+msgstr "Lyskarttest"
+
+#: data/levels/test/magicblocks.stl:3
+msgid "Magic Block Test"
+msgstr "Magisk blokk-test"
+
+#: data/levels/test/menutest.stl:3
+msgid "Menu as Level Test"
+msgstr "Meny som brett-test"
+
+#: data/levels/test/newice.stl:3
+msgid "Unnamed (Ice Test)"
+msgstr "Namnlaus (istest)"
+
+#: data/levels/test/nightcave.stl:3
+msgid "NightCave test"
+msgstr "Nattholetest"
+
+#: data/levels/test/oddbug.stl:3
+msgid "An Odd Bug"
+msgstr "Ein rar feil"
+
+#: data/levels/test/owl.stl:3
+msgid "Owl test"
+msgstr "Ugletest"
+
+#: data/levels/test/pneumatic_platform.stl:3
+msgid "Pneumatic Platform Test"
+msgstr "Pneumatisk plattform-test"
+
+#: data/levels/test/rusty_trampoline.stl:3
+msgid "rusty trampoline test (C++ implementation)"
+msgstr "Rusten trampoline-test (C++-implementering)"
+
+#: data/levels/test/scripttrigger.stl:3
+msgid "Script Trigger Test"
+msgstr "Skriptutløysartest"
+
+#: data/levels/test/short_fuse.stl:3
+msgid "Short fuse bomb test"
+msgstr "Kort lunte-test"
+
+#: data/levels/test/snowair.stl:3
+msgid "Snow Air Tile Test"
+msgstr "Snøluftbrikketest"
+
+#: data/levels/test/snowmountain.stl:3
+msgid "Snow Mountain Tiles"
+msgstr "Snøfjellbrikketest"
+
+#: data/levels/test/snowslope.stl:3
+msgid "Snow Slope Tile Test"
+msgstr "Snøbakkebrikketest"
+
+#: data/levels/test/stacking.stl:4
+msgid "Enemy Stacking Test"
+msgstr "Fiendestabling-test"
+
+#: data/levels/test/stacking.stl:60
+msgid "images/powerups/egg/egg.sprite"
+msgstr "images/powerups/egg/egg.sprite"
+
+#: data/levels/test/tileplatforms.stl:3
+msgid "Tile Platform Test"
+msgstr "Brikkeplattformtest"
+
+#: data/levels/test/totem.stl:4
+msgid "Totem Test"
+msgstr "Totemtest"
+
+#: data/levels/test/transition.stl:3
+msgid "Ghost Forest Transition"
+msgstr "Spøkjelsesskogovergang"
+
+#: data/levels/test/treeboss.stl:3
+msgid "Trees Stink (Tree Boss Test)"
+msgstr "Trestinking (tresjeftest)"
+
+#: data/levels/test/unisolid.stl:3
+msgid "Snow Tileset and Platform Test"
+msgstr "Snøbrikke- og plattformtest"
+
+#: data/levels/test/unstable_tile.stl:3
+msgid "Unstable tile test"
+msgstr "Ustabil brikke-test"
+
+#: data/levels/test/weakblock.stl:3
+msgid "Weakblock Test"
+msgstr "Svakblokktest"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

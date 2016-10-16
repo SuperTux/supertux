@@ -1,0 +1,1348 @@
+(supertux-text
+  (version 2)
+  (background "oiltux.jpg")
+  (music "music/credits.ogg")
+  (speed 30)
+  (content
+    (image "images/engine/menu/logo.png")
+    (blank)
+    (blank)
+    (blank)
+    (person
+      (name "Bill Kendrick")
+      (info (_ "Original Developer"))
+      (image "images/credits/bill.jpg")
+    )
+    (blank)
+    (person
+      (name "Ingo \"grumbel\" Ruhnke")
+      (info (_ "Graphics, Programming, Level Design"))
+      (image "images/credits/ingo.jpg")
+    )
+    (blank)
+    (person
+      (name "Matthias \"MatzeB\" Braun")
+      (info (_ "Graphics, Programming, Level Design"))
+      (image "images/credits/matze.jpg")
+    )
+    (blank)
+    (person
+      (name "Marek \"Wansti\" Moeckel")
+      (info (_ "Music, Level Design"))
+      (image "images/credits/wansti.jpg")
+    )
+    (blank)
+    (person
+      (name "Stephen Groundwater")
+      (info (_ "Graphics"))
+      (image "images/credits/gwater.jpg")
+    )
+    (blank)
+    (person
+      (name "Christoph Sommer")
+      (info (_ "Programming, Graphics, Level Design"))
+      (image "images/credits/christoph.jpg")
+    )
+    (blank)
+    (person
+      (name "Wolfgang Becker")
+      (info (_ "Programming, Level Design"))
+      (image "images/credits/wolfgang.jpg")
+    )
+    (blank)
+    (person
+      (name "Christopher A. \"paroneayea\" Webber")
+      (info (_ "Graphics, Story"))
+      (image "images/credits/paroneayea.jpg")
+    )
+    (blank)
+    (person
+      (name "Ondřej \"Ravu al Hemio\" Hošek")
+      (info (_ "Programming, Documentation"))
+      (image "images/credits/ondra.jpg")
+    )
+    (blank)
+    (person
+      (name "Ryan \"sik0fewl\" Flegel")
+      (info (_ "Programming"))
+    )
+    (blank)
+    (person
+      (name "Tobias \"Tobbi\" Markus")
+      (info (_ "Programming, project lead ad interim"))
+    )
+    (blank)
+    (person
+      (name "Mathnerd314")
+      (info (_ "Programming"))
+    )
+    (blank)
+    (person
+      (name "Tim \"tuxdev\" Goya")
+      (info (_ "Programming"))
+    )
+    (blank)
+    (person
+      (name "LMH")
+      (info (_ "Programming, Level Design"))
+    )
+    (blank)
+    (person
+      (name "M. Teufel")
+      (info (_ "Coordination"))
+    )
+    (blank)
+    (person
+      (name "Karkus476")
+      (info (_ "Programming, \"Flexlay\" Level editor"))
+    )
+    (blank)
+    (person
+      (name "Hume")
+      (info (_ "Programming, Level Design"))
+    )
+    (blank)
+    (person
+      (name "Miloš Klouček")
+      (info (_ "Programming"))
+    )
+    (blank)
+    (person
+      (name "Seebi \"Flakebi\"")
+      (info (_ "Windows build fixes"))
+    )
+    (blank)
+    (person
+      (name "CT. da'Bomb")
+      (info (_ "Level Design, Graphics"))
+    )
+    (blank)
+    (person
+      (name "Jacob \"maths22\" Burroughs")
+      (info (_ "Packaging, Nightly builds"))
+    )
+    (blank)
+    (person
+      (name "Benjamin \"GiBy\" Leduc")
+      (info (_ "Translation Guru (and many details anyone else could have done)"))
+    )
+    (blank)
+    (person
+      (name "Arvid Norlander")
+      (info (_ "Level Design"))
+    )
+    (blank)
+    (person
+      (name "165your4")
+      (info (_ "Graphics"))
+    )
+    (blank)
+    (person
+      (name "Sydney Dykstra")
+      (info (_ "Graphics"))
+    )
+    (blank)
+    (text
+      (type "heading")
+      (string (_ "Additional contributors"))
+    )
+    (person
+      (name "Arian Behvandnejad")
+      (info (_ "Bug fixes"))
+      (simple #t)
+    )
+    (person
+      (name "brmbrmcar")
+      (info (_ "Scripting functions, Level fixes"))
+      (simple #t)
+    )
+    (person
+      (name "Daniel Butum")
+      (info (_ "Code quality fixes"))
+      (simple #t)
+    )
+    (person
+      (name "Vincent Cheng")
+      (info (_ "Various contributions"))
+      (simple #t)
+    )
+    (person
+      (name "chrism")
+      (info (_ "Various contributions"))
+      (simple #t)
+    )
+    (person
+      (name "Daniela Ferraz")
+      (info (_ "Various contributions"))
+      (simple #t)
+    )
+    (person
+      (name "Fabian Greffrath")
+      (info (_ "Build issue fix"))
+      (simple #t)
+    )
+    (person
+      (name "Jann Horn")
+      (info (_ "Code contributions"))
+      (simple #t)
+    )
+    (person
+      (name "Kai Alex \"Serano\" Jockers")
+      (info (_ "Level improvements"))
+      (simple #t)
+    )
+    (person
+      (name "Devyn Collier Johnson")
+      (info (_ "Graphics"))
+      (simple #t)
+    )
+    (person
+      (name "David King")
+      (info (_ "Code contribution, AppData file"))
+      (simple #t)
+    )
+    (person
+      (name "Jonas Kuemmerlin")
+      (info (_ "Bug fix"))
+      (simple #t)
+    )
+    (person
+      (name "mahboi")
+      (info (_ "Menu reorganization"))
+      (simple #t)
+    )
+    (person
+      (name "Matt McCutchen")
+      (info (_ "Various contributions"))
+      (simple #t)
+    )
+    (person
+      (name "nicholas")
+      (info (_ "Fixing tile bugs"))
+      (simple #t)
+    )
+    (person
+      (name "Eric Newberry")
+      (info (_ "Build error fix"))
+      (simple #t)
+    )
+    (person
+      (name "José Rebelo")
+      (info (_ "Scripting function fix"))
+      (simple #t)
+    )
+    (person
+      (name "Willy Scheibel")
+      (info (_ "Support for \"glbinding\" as optional OpenGL binding"))
+      (simple #t)
+    )
+    (person
+      (name "Matthew Taylor")
+      (info (_ "New menu code"))
+      (simple #t)
+    )
+    (person
+      (name "Carsten \"RustyBox\" Wirtz")
+      (info (_ "Level improvements"))
+      (simple #t)
+    )
+    (blank)
+    (text
+      (type "heading")
+      (string (_ "Milestone 1 contributions by..."))
+    )
+    (blank)
+    (person
+      (name "Bastiaan \"basti_\" Zapf")
+      (info (_ "Programming"))
+    )
+    (person
+      (name "Benjamin P. \"litespeed\" Jung")
+      (info (_ "Graphics"))
+    )
+    (person
+      (name "Duong-Khang \"neoneurone\" Nguyen")
+      (info (_ "Contrib Programming"))
+    )
+    (person
+      (name "Ricardo \"blacksheep\" Cruz")
+      (info (_ "Programming"))
+    )
+    (person
+      (name "Richard Smith")
+      (info (_ "Contrib Programming"))
+    )
+    (person
+      (name "Tobias \"tobgle\" Gläßer")
+      (info (_ "Programming, Previous Maintainer"))
+    )
+    (blank)
+    (text
+      (type "heading")
+      (string (_ "Additional Music"))
+    )
+    (blank)
+    (text
+      (type "small")
+      (string (_ "\"Mortimers Chipdisko\" by"))
+    )
+    (text
+      (type "normal")
+      (string "Lukas Nystrand (as Mortimer Twang)")
+    )
+    (blank)
+    (text
+      (type "small")
+      (string (_ "\"Salsa Con Carne\" by"))
+    )
+    (text
+      (type "normal")
+      (string "Asbjoern Andersen (as Mystical)")
+    )
+    (text
+      (type "small")
+      (string (_ "remixed by"))
+    )
+    (text
+      (type "normal")
+      (string "DJ Gentoo")
+    )
+    (blank)
+    (text
+      (type "small")
+      (string (_ "\"voc songs\" by"))
+    )
+    (text
+      (type "normal")
+      (string "semajD")
+    )
+    (blank)
+    (text
+      (type "small")
+      (string (_  "\"clavelian_march\" by"))
+    )
+    (text
+      (type "normal")
+      (string "treskalle")
+    )
+    (blank)
+    (text
+      (type "small")
+      (string (_  "Excerpts from the Giana Sisters"))
+    )
+    (text
+      (type "small")
+      (string (_  "Soundtrack used with kind permission"))
+    )
+    (text
+      (type "small")
+      (string (_  "from"))
+    )
+    (text
+      (type "normal")
+      (string "Chris Huelsbeck")
+    )
+    (blank)
+    (text
+      (type "small")
+      (string (_  "\"Airship song\" (orchestral remix) by"))
+    )
+    (text
+      (type "normal")
+      (string "Bart K.")
+    )
+    (text
+      (type "small")
+      (string (_ "remixed by"))
+    )
+    (text
+      (type "normal")
+      (string "remaxim")
+    )
+    (blank)
+    (text
+      (type "small")
+      (string (_  "\"Battle Theme\" by"))
+    )
+    (text
+      (type "normal")
+      (string "remaxim")
+    )
+    (blank)
+    (text
+      (type "small")
+      (string (_  "\"SuperTux christmas theme\""))
+    )
+    (text
+      (type "small")
+      (string (_  "original by"))
+    )
+    (text
+      (type "normal")
+      (string "Marek \"Wansti\" Moeckel")
+    )
+    (blank)
+    (text
+      (type "small")
+      (string (_ "arranged by"))
+    )
+    (text
+      (type "normal")
+      (string "Chris Leutwyler")
+    )
+    (blank)
+    (text
+      (type "small")
+      (string (_ "\"halloween_1.ogg\" by"))
+    )
+    (text
+      (type "normal")
+      (string "Forty-Two")
+    )
+    (blank)
+    (text
+      (type "small")
+      (string (_ "\"Forest Prophecy reEducated\" (forest_theme.ogg) by"))
+    )
+    (text
+      (type "normal")
+      (string "Marek \"Wansti\" Möckel and Tobias \"ToBeFree\" Frei")
+    )
+    (blank)
+    (text
+      (type "heading")
+      (string (_ "Sound"))
+    )
+    (blank)
+    (text
+      (type "normal")
+      (string "Wolfgang Becker")
+    )
+    (text
+      (type "normal")
+      (string "blastwavefx.com")
+    )
+    (text
+      (type "normal")
+      (string "Matthias Braun")
+    )
+    (text
+      (type "normal")
+      (string "Ricardo Cruz")
+    )
+    (text
+      (type "normal")
+      (string "Marianne Gagnon")
+    )
+    (text
+      (type "normal")
+      (string "Stephen Groundwater")
+    )
+    (text
+      (type "normal")
+      (string "Nathan McCoy")
+    )
+    (text
+      (type "normal")
+      (string "Marek Moeckel")
+    )
+    (text
+      (type "normal")
+      (string "Paulo Morfeo")
+    )
+    (text
+      (type "normal")
+      (string "Natalie")
+    )
+    (text
+      (type "normal")
+      (string "Q.K.")
+    )
+    (text
+      (type "normal")
+      (string "Some_Person")
+    )
+    (text
+      (type "normal")
+      (string "Christoph Sommer")
+    )
+    (text
+      (type "normal")
+      (string "soundscalpel.com")
+    )
+    (text
+      (type "normal")
+      (string "Yaniel")
+    )
+    (text
+      (type "normal")
+      (string "Bastian Zapf")
+    )
+    (blank)
+    (blank)
+    (text
+      (type "heading")
+      (string (_ "Voice Acting"))
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Tux")
+    )
+    (person
+      (name "Daniel Alston")
+      (image "images/credits/daniel.jpg")
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Yeti")
+    )
+    (person
+      (name "Matthias Braun")
+    )
+    (blank)
+    (text
+      (type "reference")
+      (string "Penny")
+    )
+    (person
+      (name "Mathilda Edmunds")
+    )
+    (blank)
+    (blank)
+    (text
+      (type "heading")
+      (string (_ "Localization"))
+    )
+    (blank)
+    (person
+      (name "Alert Aleksandar")
+      (info (_ "Serbian"))
+      (simple #t))
+    (person
+      (name "Umidjon Almasov")
+      (info (_ "Uzbek"))
+      (simple #t))
+    (person
+      (name "Am1g0")
+      (info (_ "Italian"))
+      (simple #t))
+    (person
+      (name "Anders")
+      (info (_ "Danish"))
+      (simple #t))
+    (person
+      (name "Angela")
+      (info (_ "Italian"))
+      (simple #t))
+    (person
+      (name "Phan Anh")
+      (info (_ "Vietnamese"))
+      (simple #t))
+    (person
+      (name "Dmitry \"starwars32\" Anikonov")
+      (info (_ "Russian"))
+      (simple #t))
+    (person
+      (name "Anonymouse")
+      (info (_ "French, German"))
+      (simple #t))
+    (person
+      (name "Sébastien Aperghis-Tramoni")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "Ettore Atalan")
+      (info (_ "German"))
+      (simple #t))
+    (person
+      (name "Francisco B.G.")
+      (info (_ "Spanish"))
+      (simple #t))
+    (person
+      (name "Bananasoft")
+      (info (_ "Italian"))
+      (simple #t))
+    (person
+      (name "Constantin Baranov")
+      (info (_ "Russian"))
+      (simple #t))
+    (person
+      (name "Indrit Bashkimi")
+      (info (_ "Albanese"))
+      (simple #t))
+    (person
+      (name "Javier Beaumont")
+      (info (_ "Castilian Spanish"))
+      (simple #t))
+    (person
+      (name "Baráth Béla")
+      (info (_ "Hungarian"))
+      (simple #t))
+    (person
+      (name "William Beltrán")
+      (info (_ "Spanish"))
+      (simple #t))
+    (person
+      (name "Roman 'Kaktuxista' Benji")
+      (info (_ "Slovak"))
+      (simple #t))
+    (person
+      (name "Thomas Bigot")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "BlaCoiso")
+      (info (_ "European Portuguese"))
+      (simple #t))
+    (person
+      (name "Marcello Bolognesi")
+      (info (_ "Italian"))
+      (simple #t))
+    (person
+      (name "Gianfranco Del Borrello")
+      (info (_ "Italian"))
+      (simple #t))
+    (person
+      (name "Martí Bosc")
+      (info (_ "Catalan"))
+      (simple #t))
+    (person
+      (name "G BR")
+      (info (_ "Spanish"))
+      (simple #t))
+    (person
+      (name "Matthias Braun")
+      (info (_ "German"))
+      (simple #t))
+    (person
+      (name "Sergio López Briñas")
+      (info (_ "Castilian Spanish"))
+      (simple #t))
+    (person
+      (name "Laurent Brousse")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "Marko Burjek")
+      (info (_ "Slovenian"))
+      (simple #t))
+    (person
+      (name "Levente Krisztián Büte")
+      (info (_ "Hungarian"))
+      (simple #t))
+    (person
+      (name "Tibor Buzási")
+      (info (_ "Hungarian"))
+      (simple #t))
+    (person
+      (name "Balasankar C")
+      (info (_ "Malayalam"))
+      (simple #t))
+    (person
+      (name "cges30901")
+      (info (_ "Mandarin Chinese"))
+      (simple #t))
+    (person
+      (name "comradekingu")
+      (info (_ "Norwegian Bokmål"))
+      (simple #t))
+    (person
+      (name "Fernando Carmona")
+      (info (_ "Castilian Spanish"))
+      (simple #t))
+    (person
+      (name "Catalanoic")
+      (info (_ "Catalan"))
+      (simple #t))
+    (person
+      (name "Marc Celeiro")
+      (info (_ "Catalan"))
+      (simple #t))
+    (person
+      (name "Wei-Lun Chao")
+      (info (_ "Mandarin"))
+      (simple #t))
+    (person
+      (name "Rubén Leal Coba")
+      (info (_ "Esperanto"))
+      (simple #t))
+    (person
+      (name "Nicolae Crefelean")
+      (info (_ "Romanian"))
+      (simple #t))
+    (person
+      (name "Ricardo Cruz")
+      (info (_ "European Portuguese"))
+      (simple #t))
+    (person
+      (name "Ilija Ćulap")
+      (info (_ "Croatian"))
+      (simple #t))
+    (person
+      (name "Razvan Dajboc")
+      (info (_ "Romanian"))
+      (simple #t))
+    (person
+      (name "Manish Dangol")
+      (info (_ "Nepali"))
+      (simple #t))
+    (person
+      (name "Pieter De Decker")
+      (info (_ "Dutch"))
+      (simple #t))
+    (person
+      (name "Bertrand Delaitre")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "Antoine Dumondel")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "DusXMT")
+      (info (_ "Slovak"))
+      (simple #t))
+    (person
+      (name "Enrico")
+      (info (_ "Italian"))
+      (simple #t))
+    (person
+      (name "Erdy")
+      (info (_ "Turkish"))
+      (simple #t))
+    (person
+      (name "faradundamarti")
+      (info (_ "Turkish"))
+      (simple #t))
+    (person
+      (name "Daniela Ferraz")
+      (info (_ "European/Brazilian Portuguese"))
+      (simple #t))
+    (person
+      (name "Galp Flark")
+      (info (_ "Hungarian"))
+      (simple #t))
+    (person
+      (name "Florian Forster")
+      (info (_ "German"))
+      (simple #t))
+    (person
+      (name "Franchulo")
+      (info (_ "Spanish"))
+      (simple #t))
+    (person
+      (name "fri")
+      (info (_ "Czech"))
+      (simple #t))
+    (person
+      (name "Prabin Gautam")
+      (info (_ "Nepali"))
+      (simple #t))
+    (person
+      (name "Germana")
+      (info (_ "Spanish"))
+      (simple #t))
+    (person
+      (name "Toon van Gerwen")
+      (info (_ "Dutch"))
+      (simple #t))
+    (person
+      (name "GenghisKhan")
+      (info (_ "Hebrew"))
+      (simple #t))
+    (person
+      (name "Victor Gonçalves")
+      (info (_ "Brazilian Portuguese"))
+      (simple #t))
+    (person
+      (name "Gorzy Gorup")
+      (info (_ "Slovenian"))
+      (simple #t))
+    (person
+      (name "Kristoffer Grundström")
+      (info (_ "Swedish"))
+      (simple #t))
+    (person
+      (name "Sebastiano Guerrini")
+      (info (_ "Italian"))
+      (simple #t))
+    (person
+      (name "gyeben")
+      (info (_ "Hungarian"))
+      (simple #t))
+    (person
+      (name "Joe Hansen")
+      (info (_ "Danish"))
+      (simple #t))
+    (person
+      (name "Marcel Haring")
+      (info (_ "German"))
+      (simple #t))
+    (person
+      (name "Dennis Holierhoek")
+      (info (_ "Dutch"))
+      (simple #t))
+    (person
+      (name "Jaakoppi Horila")
+      (info (_ "Finnish"))
+      (simple #t))
+    (person
+      (name "Ondřej Hošek")
+      (info (_ "Czech"))
+      (simple #t))
+    (person
+      (name "Łukasz Hryniuk")
+      (info (_ "Polish"))
+      (simple #t))
+    (person
+      (name "Karl Ove Hufthammer")
+      (info (_ "Norwegian Bokmål, Norwegian Nynorsk"))
+      (simple #t))
+    (person
+      (name "Hume")
+      (info (_ "Czech"))
+      (simple #t))
+    (person
+      (name "Iknos")
+      (info (_ "Italian"))
+      (simple #t))
+    (person
+      (name "Bulat Ibrahim")
+      (info (_ "Tatar"))
+      (simple #t))
+    (person
+      (name "Tony Ivanov")
+      (info (_ "Bulgarian"))
+      (simple #t))
+    (person
+      (name "Jesusaves")
+      (info (_ "Brazilian Portuguese"))
+      (simple #t))
+    (person
+      (name "Jose Jorge")
+      (info (_ "European Portuguese"))
+      (simple #t))
+    (person
+      (name "juanda097")
+      (info (_ "Spanish"))
+      (simple #t))
+    (person
+      (name "Alkım Kaçmaz")
+      (info (_ "Turkish"))
+      (simple #t))
+    (person
+      (name "Manuela Kessler")
+      (info (_ "Italian"))
+      (simple #t))
+    (person
+      (name "Roland Kim")
+      (info (_ "Korean"))
+      (simple #t))
+    (person
+      (name "Günter \"kyber\" Kits")
+      (info (_ "Estonian"))
+      (simple #t))
+    (person
+      (name "Dominik Klementowski")
+      (info (_ "Polish"))
+      (simple #t))
+    (person
+      (name "Marcin Kocur")
+      (info (_ "Polish"))
+      (simple #t))
+    (person
+      (name "Kristóf Kófiás")
+      (info (_ "Hungarian"))
+      (simple #t))
+    (person
+      (name "Simon Kornowski")
+      (info (_ "Polish, Swedish"))
+      (simple #t))
+    (person
+      (name "Marcin Kralka")
+      (info (_ "Polish"))
+      (simple #t))
+    (person
+      (name "Mantas Kriaučiūnas")
+      (info (_ "Lithuanian"))
+      (simple #t))
+    (person
+      (name "Artem Krosheninnikov")
+      (info (_ "Russian"))
+      (simple #t))
+    (person
+      (name "Lapamiko")
+      (info (_ "Finnish"))
+      (simple #t))
+    (person
+      (name "Benjamin Leduc")
+      (info (_ "French/Esperanto"))
+      (simple #t))
+    (person
+      (name "Joel Gil Leon")
+      (info (_ "Spanish, Brazilian Portuguese"))
+      (simple #t))
+    (person
+      (name "Sérgio Lopes")
+      (info (_ "European Portuguese"))
+      (simple #t))
+    (person
+      (name "Frist Lsat")
+      (info (_ "Esperanto"))
+      (simple #t))
+    (person
+      (name "Zhao Wei Lun")
+      (info (_ "Mandarin Chinese"))
+      (simple #t))
+    (person
+      (name "Max Lyashuk")
+      (info (_ "Ukrainian"))
+      (simple #t))
+    (person
+      (name "M&m")
+      (info (_ "German"))
+      (simple #t))
+    (person
+      (name "Riccardo Di Maio")
+      (info (_ "Italian"))
+      (simple #t))
+    (person
+      (name "Mar")
+      (info (_ "Dutch"))
+      (simple #t))
+    (person
+      (name "Tobias Markus")
+      (info (_ "German"))
+      (simple #t))
+    (person
+      (name "Céline Marmin")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "Sugahara Masayuki")
+      (info (_ "Japanese"))
+      (simple #t))
+    (person
+      (name "Lucas Mascaro")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "MCMic")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "meczup")
+      (info (_ "Turkish"))
+      (simple #t))
+    (person
+      (name "melikamp")
+      (info (_ "Russian"))
+      (simple #t))
+    (person
+      (name "Gwenn Meynier")
+      (info (_ "Breton"))
+      (simple #t))
+    (person
+      (name "millimarg")
+      (info (_ "German"))
+      (simple #t))
+    (person
+      (name "MiroslavR")
+      (info (_ "Slovak"))
+      (simple #t))
+    (person
+      (name "mkkot")
+      (info (_ "Polish"))
+      (simple #t))
+    (person
+      (name "mol1")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "Myeongjin")
+      (info (_ "Korean"))
+      (simple #t))
+    (person
+      (name "Norbert Molnár")
+      (info (_ "Hungarian"))
+      (simple #t))
+    (person
+      (name "Narre")
+      (info (_ "Czech"))
+      (simple #t))
+    (person
+      (name "Jonatas L. Nogueira")
+      (info (_ "Brazilian Portuguese"))
+      (simple #t))
+    (person
+      (name "Vangelis Nomikos")
+      (info (_ "Greek"))
+      (simple #t))
+    (person
+      (name "Arvid Norlander")
+      (info (_ "Swedish"))
+      (simple #t))
+    (person
+      (name "Krishnamurti Lelis Lima Vieira Nunes")
+      (info (_ "Brazilian Portuguese"))
+      (simple #t))
+    (person
+      (name "Nwolfy")
+      (info (_ "Slovenian"))
+      (simple #t))
+    (person
+      (name "Lauri \"xet7\" Ojansivu")
+      (info (_ "Finnish"))
+      (simple #t))
+    (person
+      (name "Filipe Oliveira")
+      (info (_ "Brazilian Portuguese"))
+      (simple #t))
+    (person
+      (name "James Ou")
+      (info (_ "Mandarin Chinese"))
+      (simple #t))
+    (person
+      (name "Mahmut Özcan")
+      (info (_ "Turkish"))
+      (simple #t))
+    (person
+      (name "Emre Özkartal")
+      (info (_ "Turkish"))
+      (simple #t))
+    (person
+      (name "Yusuf Özsoy")
+      (info (_ "Turkish"))
+      (simple #t))
+    (person
+      (name "Alisa P")
+      (info (_ "Latin"))
+      (simple #t))
+    (person
+      (name "Mladen Pejaković")
+      (info (_ "Serbian"))
+      (simple #t))
+    (person
+      (name "Rodrigo Piñero")
+      (info (_ "Brazilian Portuguese"))
+      (simple #t))
+    (person
+      (name "Balázs Podolcsák")
+      (info (_ "Hungarian"))
+      (simple #t))
+    (person
+      (name "Léo Poughon")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "Bansaj Pradhan")
+      (info (_ "Nepali"))
+      (simple #t))
+    (person
+      (name "Nathanael Ready")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "Herval Ribeiro")
+      (info (_ "Brazilian Portuguese"))
+      (simple #t))
+    (person
+      (name "Jose Riha")
+      (info (_ "Slovak"))
+      (simple #t))
+    (person
+      (name "Frederic Rodrigo")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "root")
+      (info (_ "Turkish"))
+      (simple #t))
+    (person
+      (name "Irene Di Rosa")
+      (info (_ "Italian"))
+      (simple #t))
+    (person
+      (name "Rui")
+      (info (_ "European Portuguese, Brazilian Portuguese"))
+      (simple #t))
+    (person
+      (name "Marcin S")
+      (info (_ "Polish"))
+      (simple #t))
+    (person
+      (name "D. J. S.")
+      (info (_ "Hungarian"))
+      (simple #t))
+    (person
+      (name "Savsish")
+      (info (_ "Russian"))
+      (simple #t))
+    (person
+      (name "sebras")
+      (info (_ "Swedish"))
+      (simple #t))
+    (person
+      (name "Slobodan Simić")
+      (info (_ "Serbian"))
+      (simple #t))
+    (person
+      (name "Vangelis Skarmoutsos")
+      (info (_ "Greek"))
+      (simple #t))
+    (person
+      (name "SomeRandomUser")
+      (info (_ "Greek"))
+      (simple #t))
+    (person
+      (name "Sumita \"tako44\" Sanshiro")
+      (info (_ "Japanese"))
+      (simple #t))
+    (person
+      (name "Liu Sizhuang")
+      (info (_ "Simplified Chinese"))
+      (simple #t))
+    (person
+      (name "Jan Solanti")
+      (info (_ "Finnish"))
+      (simple #t))
+    (person
+      (name "Christoph Sommer")
+      (info (_ "German"))
+      (simple #t))
+    (person
+      (name "starryprabin")
+      (info (_ "Nepali"))
+      (simple #t))
+    (person
+      (name "Andrius Štikonas")
+      (info (_ "Lithuanian"))
+      (simple #t))
+    (person
+      (name "Sylvain St-Amand")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "Heimen Stoffels")
+      (info (_ "Dutch"))
+      (simple #t))
+    (person
+      (name "symvizan")
+      (info (_ "Hungarian"))
+      (simple #t))
+    (person
+      (name "Krzysiek Szeląg")
+      (info (_ "Polish"))
+      (simple #t))
+    (person
+      (name "Ioma Taani")
+      (info (_ "Italian"))
+      (simple #t))
+    (person
+      (name "Paweł Talar")
+      (info (_ "Polish"))
+      (simple #t))
+    (person
+      (name "Haba Tamás")
+      (info (_ "Hungarian"))
+      (simple #t))
+    (person
+      (name "theschitz")
+      (info (_ "Swedish"))
+      (simple #t))
+    (person
+      (name "Saku Tiihonen")
+      (info (_ "Finnish"))
+      (simple #t))
+    (person
+      (name "tingberg")
+      (info (_ "Finnish"))
+      (simple #t))
+    (person
+      (name "Eugen Uvin")
+      (info (_ "Ukrainian"))
+      (simple #t))
+    (person
+      (name "Frank van der Loo")
+      (info (_ "Dutch"))
+      (simple #t))
+    (person
+      (name "Mihas \"meequz\" Varantsou")
+      (info (_ "Belarusian"))
+      (simple #t))
+    (person
+      (name "Jakub Vaněk")
+      (info (_ "Czech"))
+      (simple #t))
+    (person
+      (name "G Vassilev")
+      (info (_ "Bulgarian"))
+      (simple #t))
+    (person
+      (name "Lyubomir Vasilev")
+      (info (_ "Bulgarian"))
+      (simple #t))
+    (person
+      (name "Antoni Villalonga")
+      (info (_ "Catalan"))
+      (simple #t))
+    (person
+      (name "Robin van der Vliet")
+      (info (_ "Esperanto"))
+      (simple #t))
+    (person
+      (name "Nils Welzk")
+      (info (_ "German"))
+      (simple #t))
+    (person
+      (name "Franklin Weng")
+      (info (_ "Mandarin Chinese"))
+      (simple #t))
+    (person
+      (name "Wuzzy")
+      (info (_ "German"))
+      (simple #t))
+    (person
+      (name "Roman M. Yagodin")
+      (info (_ "Russian"))
+      (simple #t))
+    (person
+      (name "yakup")
+      (info (_ "Turkish"))
+      (simple #t))
+    (person
+      (name "Yaniel")
+      (info (_ "Finnish"))
+      (simple #t))
+    (person
+      (name "Yevgeny")
+      (info (_ "Hebrew"))
+      (simple #t))
+    (person
+      (name "Christian E Yoga")
+      (info (_ "Indonesian"))
+      (simple #t))
+    (person
+      (name "zecas \"zezinho\"")
+      (info (_ "French"))
+      (simple #t))
+    (person
+      (name "Kővágó Zoltán")
+      (info (_ "Hungarian"))
+      (simple #t))
+      (blank)
+      (blank)
+      (text
+        (type "heading")
+        (string (_ "Thanks to"))
+      )
+      (blank)
+      (person
+        (name "Larry Ewing")
+        (info (_ "Creator of Tux, the Linux penguin"))
+      )
+      (blank)
+      (person
+        (name  (_ "SDL, OpenAL and OpenGL"))
+        (info (_ "For making such a great gaming experience
+        possible on Linux"))
+      )
+      (blank)
+      (blank)
+      (text
+        (type "heading")
+        (string (_ "Contact"))
+      )
+      (blank)
+      (text
+        (type "normal")
+        (string (_ "Visit our webpage at"))
+      )
+      (text
+        (type "reference")
+        (string "http://supertuxproject.org")
+      )
+      (blank)
+      (text
+        (type "normal")
+        (string (_ "Or visit us directly at IRC:"))
+      )
+      (text
+        (type "reference")
+        (string (_ "#supertux at webchat.freenode.net"))
+      )
+      (blank)
+      (text
+        (type "normal")
+        (string (_ "Or at our Forum:"))
+      )
+      (text
+        (type "reference")
+        (string "http://forum.freegamedev.net/viewforum.php?f=66")
+      )
+      (blank)
+      (text
+        (type "normal")
+        (string (_ "Comments, ideas and suggestions"))
+      )
+      (text
+        (type "normal")
+        (string (_ "go to our mailing list"))
+      )
+      (text
+        (type "reference")
+        (string "supertux-devel@lists.lethargik.org")
+      )
+      (blank)
+      (blank)
+      (blank)
+      (text
+        (type "heading")
+        (string (_ "Want to help…"))
+      )
+      (blank)
+      (text
+        (type "normal")
+        (string (_ "…with localization?"))
+      )
+      (text
+        (type "reference")
+        (string "https://www.transifex.com/arctic-games/supertux/")
+      )
+      (blank)
+      (blank)
+      (text
+        (type "normal")
+        (string (_ "…with something else?"))
+      )
+      (text
+        (type "reference")
+        (string "https://github.com/supertux")
+      )
+      (blank)
+      (blank)
+      (blank)
+      (text
+        (type "normal")
+        (string (_ "Thank you for"))
+      )
+      (text
+        (type "normal")
+        (string (_ "playing"))
+      )
+      (blank)
+      (text
+        (type "heading")
+        (string "SuperTux")
+      )
+      (blank)
+      (blank)
+      (blank)
+      (text
+        (type "normal")
+        (string (_ "Penny awaits you in Milestone 3!"))
+      )
+  )
+)

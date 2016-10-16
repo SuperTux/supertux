@@ -1,0 +1,8 @@
+;SuperTux-Level-Subset
+(supertux-level-subset
+  (title "Test collection")
+  (description "A few levels for test proposes")
+
+  (title-pt_PT "Colecção de Teste")
+  (description-pt_PT "Uma série de níveis destinados a teste")
+  )

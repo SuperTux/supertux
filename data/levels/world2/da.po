@@ -1,0 +1,244 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Joe Hansen <joedalton2@yahoo.dk>, 2015-2016
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-04 15:35+0200\n"
+"PO-Revision-Date: 2016-06-25 17:33+0000\n"
+"Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
+"Language-Team: Danish (http://www.transifex.com/arctic-games/supertux/language/da/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/levels/world2/Bouncy_Coils.stl:3
+msgid "Bouncy Coils"
+msgstr "God affjedring"
+
+#: data/levels/world2/Castle_Entrance.stl:3
+msgid "Entrance to the Castle"
+msgstr "Borgens indgang"
+
+#: data/levels/world2/CounterCurrent.stl:3
+msgid "Countercurrent"
+msgstr "Umoderne"
+
+#: data/levels/world2/Crumbling_Path.stl:3
+msgid "Crumbling Path"
+msgstr "Stien braser sammen"
+
+#: data/levels/world2/Duct_Ape.stl:3
+msgid "Duct Ape"
+msgstr "Tunnelabe"
+
+#: data/levels/world2/El_Castillo.stl:3
+msgid "A Short Visit to El Castillo"
+msgstr "Et lille visit til El Castillo"
+
+#: data/levels/world2/Find_Big_Fish.stl:3
+msgid "Find the Bigger Fish!"
+msgstr "Find en større fisk!"
+
+#: data/levels/world2/Find_Big_Fish.stl:449
+msgid "-A big fish... for you."
+msgstr "-En stor fisk ... til dig."
+
+#: data/levels/world2/Going_Underground.stl:3
+msgid "Going Underground"
+msgstr "At gå under jorden"
+
+#: data/levels/world2/Kneep_Deep.stl:3
+msgid "Kneep-deep in the depth"
+msgstr "Langt nede i dybet"
+
+#: data/levels/world2/Little_Venice.stl:3
+msgid "Little Venice"
+msgstr "Lille Venedig"
+
+#: data/levels/world2/Mouldy_Grotto.stl:3
+msgid "A Mouldy Grotto"
+msgstr "En forældet grotte"
+
+#: data/levels/world2/Penguin_Grow_Trees.stl:3
+msgid "Penguins don't grow on Trees"
+msgstr "Pingviner vokser ikke på træerne"
+
+#: data/levels/world2/Rabbit_Hole.stl:3
+msgid "Down The Rabbit Hole"
+msgstr "Ned i kaninhullet"
+
+#: data/levels/world2/Rabbit_Hole.stl:46
+msgid ""
+"-Oh no!\n"
+"#The path is blocked! It\n"
+"#seems that the only way\n"
+"#leads through that dark\n"
+"#hole in the ground..."
+msgstr "-Åh nej!\n#Stien er blokkeret! Det\n#ser ud til at den eneste vej\n#går gennem det mørke\n#hul i jorden ..."
+
+#: data/levels/world2/Rabbit_Hole.stl:55
+msgid "-Are you lost?"
+msgstr "-Er du faret vild?"
+
+#: data/levels/world2/Silent_Walls.stl:3
+msgid "The Silent Walls"
+msgstr "Stille mure"
+
+#: data/levels/world2/Three_Sheets.stl:3
+msgid "Three sheets to the wind"
+msgstr "Jeg føler mig helt blæst"
+
+#: data/levels/world2/Treasure_Skies.stl:3
+msgid "Treasure in the skies"
+msgstr "Skatten oppe blandt skyerne"
+
+#: data/levels/world2/Tree_Fortress.stl:3
+msgid "Tree Fortress"
+msgstr "Træfortet"
+
+#: data/levels/world2/Tux_Builder.stl:3
+msgid "Tux the Builder"
+msgstr "Byggemand Tux"
+
+#: data/levels/world2/Tux_Builder.stl:46
+msgid ""
+"-Portable Rocks:\n"
+"\n"
+"!images/help/rockhowto1.png\n"
+"!images/help/rockhowto2.png\n"
+"!images/help/rockhowto3.png\n"
+msgstr "-Sten der kan løftes:\n\n!images/help/rockhowto1.png\n!images/help/rockhowto2.png\n!images/help/rockhowto3.png\n"
+
+#: data/levels/world2/Two_Towers.stl:3
+msgid "Two Tiny Towers"
+msgstr "To små tårne"
+
+#: data/levels/world2/Up_and_Down.stl:3
+msgid "Up and Down"
+msgstr "Op og ned"
+
+#: data/levels/world2/Walking_Leaves.stl:3
+msgid "Walking Leaves"
+msgstr "Vandrende blade"
+
+#: data/levels/world2/Welcome_Forest.stl:3
+msgid "Welcome to the Forest"
+msgstr "Velkommen til skoven"
+
+#: data/levels/world2/castle.stl:3
+msgid "Iceberg Fortress"
+msgstr "Fort Isbjerg"
+
+#: data/levels/world2/castledoor.stl:3
+#: data/levels/world2/dfk-placeholder-1.stl:3
+msgid "NOLOK"
+msgstr "NOLOK"
+
+#: data/levels/world2/christophD.stl:3
+msgid "Room of Stars"
+msgstr "Stjernerum"
+
+#: data/levels/world2/dan_morial.stl:3
+msgid "Dan Morial"
+msgstr "Dan Morial"
+
+#: data/levels/world2/detour.stl:3
+msgid "Detour"
+msgstr "Omvej"
+
+#: data/levels/world2/dfk-level1.stl:3
+msgid "Dark Forest Keep - The Evil Chamber"
+msgstr "Skovens mørke borgtårn - Ondskabens kammer"
+
+#: data/levels/world2/dfk-level2.stl:3
+msgid "Dark Forest Keep - The Eyes Of Nolok"
+msgstr "Skovens mørke borgtårn - Noloks øjne"
+
+#: data/levels/world2/dfk-level3.stl:3
+msgid "Dark Forest Keep - The Black Tower"
+msgstr "Skovens mørke borgtårn - Det sorte tårn"
+
+#: data/levels/world2/forest1-grumbel.stl:3
+msgid "Forest Level 1"
+msgstr "Skovbane 1"
+
+#: data/levels/world2/ghostly.stl:3
+msgid "A Ghostly World"
+msgstr "En spøgende verdenen"
+
+#: data/levels/world2/key1.stl:3
+msgid "key 1 water - to be placed behind waterfall"
+msgstr "nøgle 1 vand - skal placeres bag vandfaldet"
+
+#: data/levels/world2/key2.stl:3
+msgid "key 2 earth - to be placed underground"
+msgstr "nøgle 2 jord - skal placeres under jorden"
+
+#: data/levels/world2/key3.stl:3
+msgid "key 3 wood - to be placed in a big tree"
+msgstr "nøgle 3 træskov - skal placeres i et stort træ"
+
+#: data/levels/world2/key4.stl:3
+msgid "key 4 fire - to be placed in a small castle"
+msgstr "nøgle 4 ild - skal placeres i en lille borg"
+
+#: data/levels/world2/key5.stl:3
+msgid "key 5 air - to be placed in clouds "
+msgstr "nøgle 5 luft - skal placeres i skyerne"
+
+#: data/levels/world2/level5.stl:3
+msgid "Green Hills"
+msgstr "Grønne bakker"
+
+#: data/levels/world2/level6.stl:3
+msgid "No Name"
+msgstr "Intet navn"
+
+#: data/levels/world2/light+magic.stl:3
+msgid "Light and Magic"
+msgstr "Lys og magi"
+
+#: data/levels/world2/owls_revenge.stl:3
+msgid "Owls' Revenge"
+msgstr "Uglens hævn"
+
+#: data/levels/world2/roots_woody_roots.stl:3
+msgid "Roots, Woody Roots"
+msgstr "Trærødder"
+
+#: data/levels/world2/roots_woody_roots.stl:200
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr "- Tip:\n#Hvis du ikke kan nå\n#en dør, er det måske\n#meningen, at du skal\n#komme ud af den \n#senere ..."
+
+#: data/levels/world2/scripts_default.txt:2
+msgid "---Insert Cutscene Here---"
+msgstr "---Indsæt cutscene her---"
+
+#: data/levels/world2/shocking.stl:3
+msgid "Shocking"
+msgstr "Chokerende"
+
+#: data/levels/world2/underconstruction.stl:3
+msgid "Under Construction"
+msgstr "Vejarbejde!"
+
+#: data/levels/world2/village.stl:3
+msgid "A Village in the Forest"
+msgstr "En landsby i skoven"
+
+#: data/levels/world2/worldmap.stwm:3
+msgid "Forest World"
+msgstr "Skovverdenen"

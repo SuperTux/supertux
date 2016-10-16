@@ -1,0 +1,6 @@
+(supertux-world
+  (title (_ "Icyisland levels"))
+  (description "World 1 - IcyIsland - levels")
+  (hide-from-contribs #t)
+  (levelset #f)
+)
