@@ -23,18 +23,16 @@
 
 TextObject::TextObject(const std::string& name_) :
   ExposedObject<TextObject, scripting::Text>(this),
-  font(),
+  font(Resources::normal_font),
   text(),
   fading(0),
   fadetime(0),
   visible(false),
-  centered(),
+  centered(false),
   anchor(ANCHOR_MIDDLE),
   pos(0, 0)
 {
   this->name = name_;
-  font = Resources::normal_font;
-  centered = false;
 }
 
 TextObject::~TextObject()

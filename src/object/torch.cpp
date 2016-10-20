@@ -23,9 +23,9 @@
 
 Torch::Torch(const ReaderMapping& reader) :
   m_torch(),
-  m_flame(),
-  m_flame_glow(),
-  m_flame_light(),
+  m_flame(SpriteManager::current()->create("images/objects/torch/flame.sprite")),
+  m_flame_glow(SpriteManager::current()->create("images/objects/torch/flame_glow.sprite")),
+  m_flame_light(SpriteManager::current()->create("images/objects/torch/flame_light.sprite")),
   m_burning(true),
   sprite_name("images/objects/torch/torch1.sprite")
 {
@@ -38,10 +38,7 @@ Torch::Torch(const ReaderMapping& reader) :
   bbox.p2.y = bbox.p1.y + 50;
 
   m_torch = SpriteManager::current()->create(sprite_name);
-  m_flame = SpriteManager::current()->create("images/objects/torch/flame.sprite");
-  m_flame_glow = SpriteManager::current()->create("images/objects/torch/flame_glow.sprite");
   m_flame_glow->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-  m_flame_light = SpriteManager::current()->create("images/objects/torch/flame_light.sprite");
   m_flame_light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   set_group(COLGROUP_TOUCHABLE);
 }

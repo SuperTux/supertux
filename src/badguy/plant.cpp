@@ -26,15 +26,14 @@ static const float WAKE_TIME = .5;
 Plant::Plant(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/plant/plant.sprite"),
   timer(),
-  state()
+  state(PLANT_SLEEPING)
 {
-  state = PLANT_SLEEPING;
 }
 
 void
 Plant::initialize()
 {
-  //FIXME: turns sspiky around for debugging
+  //FIXME: turns plant around for debugging
   dir = dir == LEFT ? RIGHT : LEFT;
 
   state = PLANT_SLEEPING;

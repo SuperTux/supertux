@@ -32,7 +32,7 @@ static const float MESSAGE_TIME=3.5;
 
 SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
   message_timer(),
-  message_displayed(),
+  message_displayed(false),
   message(),
   fade_tilemap(),
   script(),
@@ -50,20 +50,17 @@ SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
     message = _("You found a secret area!");
   }
   reader.get("script", script);
-
-  message_displayed = false;
 }
 
 SecretAreaTrigger::SecretAreaTrigger(const Rectf& area, std::string fade_tilemap_) :
   message_timer(),
-  message_displayed(),
+  message_displayed(false),
   message(_("You found a secret area!")),
   fade_tilemap(fade_tilemap_),
   script(),
   new_size()
 {
   bbox = area;
-  message_displayed = false;
 }
 
 ObjectSettings

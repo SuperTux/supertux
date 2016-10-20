@@ -38,13 +38,11 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   silence_distance(),
   maximumvolume(),
   targetvolume(),
-  currentvolume(),
+  currentvolume(0),
   volume_ptr(),
   new_size()
 {
   group = COLGROUP_DISABLED;
-
-  currentvolume = 0;
 
   float w, h;
   if (!lisp.get("name" , name)) name = "";
@@ -84,11 +82,11 @@ AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vo
   ExposedObject<AmbientSound, scripting::AmbientSound>(this),
   sample(file),
   sound_source(),
-  latency(),
-  distance_factor(),
-  distance_bias(),
+  latency(0),
+  distance_factor(factor * factor),
+  distance_bias(bias * bias),
   silence_distance(),
-  maximumvolume(),
+  maximumvolume(vol),
   targetvolume(),
   currentvolume(),
   volume_ptr(),
@@ -99,10 +97,6 @@ AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vo
   bbox.set_pos(pos);
   bbox.set_size(0, 0);
 
-  distance_factor=factor*factor;
-  distance_bias=bias*bias;
-  maximumvolume=vol;
-
   // set default silence_distance
 
   if (distance_factor == 0)
@@ -110,9 +104,8 @@ AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vo
   else
     silence_distance = 1/distance_factor;
 
-  sound_source = 0; // not playing at the beginning
+  sound_source.reset(); // not playing at the beginning
   SoundManager::current()->preload(sample);
-  latency=0;
 }
 
 AmbientSound::~AmbientSound()

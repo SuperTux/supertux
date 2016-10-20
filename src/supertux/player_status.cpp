@@ -47,11 +47,10 @@ PlayerStatus::PlayerStatus() :
   last_worldmap(),
   displayed_coins(DISPLAYED_COINS_UNSET),
   displayed_coins_frame(0),
-  coin_surface()
+  coin_surface(Surface::create("images/engine/hud/coins-0.png"))
 {
   reset();
 
-  coin_surface = Surface::create("images/engine/hud/coins-0.png");
   SoundManager::current()->preload("sounds/coin.wav");
   SoundManager::current()->preload("sounds/lifeup.wav");
 }

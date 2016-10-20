@@ -28,39 +28,33 @@ const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
 Rock::Rock(const Vector& pos, const std::string& spritename) :
   MovingSprite(pos, spritename),
   physic(),
-  on_ground(),
-  grabbed(),
+  on_ground(false),
+  grabbed(false),
   last_movement()
 {
   SoundManager::current()->preload(ROCK_SOUND);
-  on_ground = false;
-  grabbed = false;
   set_group(COLGROUP_MOVING_STATIC);
 }
 
 Rock::Rock(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/rock/rock.sprite"),
   physic(),
-  on_ground(),
-  grabbed(),
+  on_ground(false),
+  grabbed(false),
   last_movement()
 {
   SoundManager::current()->preload(ROCK_SOUND);
-  on_ground = false;
-  grabbed = false;
   set_group(COLGROUP_MOVING_STATIC);
 }
 
 Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   MovingSprite(reader, spritename),
   physic(),
-  on_ground(),
-  grabbed(),
+  on_ground(false),
+  grabbed(false),
   last_movement()
 {
   SoundManager::current()->preload(ROCK_SOUND);
-  on_ground = false;
-  grabbed = false;
   set_group(COLGROUP_MOVING_STATIC);
 }
 

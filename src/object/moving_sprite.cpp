@@ -27,11 +27,10 @@
 MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
                            int layer_, CollisionGroup collision_group) :
   sprite_name(sprite_name_),
-  sprite(),
+  sprite(SpriteManager::current()->create(sprite_name)),
   layer(layer_)
 {
   bbox.set_pos(pos);
-  sprite = SpriteManager::current()->create(sprite_name);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_group(collision_group);
 }
@@ -59,7 +58,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
   reader.get("y", bbox.p1.y);
   reader.get("sprite", this->sprite_name);
 
-  //make the sprite go defaut when the sprite file is invalid
+  //make the sprite go default when the sprite file is invalid
   if (sprite_name.empty() || !PHYSFS_exists(sprite_name.c_str())) {
     sprite_name = sprite_name_;
   }

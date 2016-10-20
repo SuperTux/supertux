@@ -34,19 +34,14 @@ TreeWillOWisp::TreeWillOWisp(GhostTree* tree_, const Vector& pos,
   was_sucked(false),
   mystate(STATE_DEFAULT),
   color(),
-  angle(),
-  radius(),
-  speed(),
+  angle(0),
+  radius(radius_),
+  speed(speed_),
   sound_source(),
   tree(tree_),
   suck_target()
 {
   SoundManager::current()->preload(TREEWILLOSOUND);
-
-  this->radius = radius_;
-  this->angle  = 0;
-  this->speed  = speed_;
-
   set_colgroup_active(COLGROUP_MOVING);
 }
 

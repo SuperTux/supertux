@@ -27,7 +27,7 @@
 #include "video/drawing_context.hpp"
 
 SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
-  triggerevent(),
+  triggerevent(EVENT_TOUCH),
   sequence(SEQ_ENDSEQUENCE),
   new_size()
 {
@@ -41,18 +41,15 @@ SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
   if (reader.get("sequence", sequence_name)) {
     sequence = string_to_sequence(sequence_name);
   }
-  triggerevent = EVENT_TOUCH;
 }
 
 SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence_name) :
-  triggerevent(),
-  sequence(SEQ_ENDSEQUENCE),
+  triggerevent(EVENT_TOUCH),
+  sequence(string_to_sequence(sequence_name)),
   new_size()
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);
-  sequence = string_to_sequence(sequence_name);
-  triggerevent = EVENT_TOUCH;
 }
 
 SequenceTrigger::~SequenceTrigger()

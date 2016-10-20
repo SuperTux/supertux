@@ -34,7 +34,7 @@ static const float TIME_WARNING = 20;
 
 LevelTime::LevelTime(const ReaderMapping& reader) :
   ExposedObject<LevelTime, scripting::LevelTime>(this),
-  time_surface(),
+  time_surface(Surface::create("images/engine/hud/time-0.png")),
   running(true),
   time_left()
 {
@@ -44,7 +44,6 @@ LevelTime::LevelTime(const ReaderMapping& reader) :
     log_warning << "No or invalid leveltime specified." << std::endl;
     remove_me();
   }
-  time_surface = Surface::create("images/engine/hud/time-0.png");
 }
 
 ObjectSettings

@@ -28,14 +28,12 @@ PathWalker::PathWalker(const Path* path_, bool running_) :
   path(path_),
   running(running_),
   current_node_nr(0),
-  next_node_nr(0),
+  next_node_nr(path->nodes.size() > 1 ? 1 : 0),
   stop_at_node_nr(running?-1:0),
   node_time(0),
-  node_mult(),
+  node_mult(1 / path->nodes[0].time),
   walking_speed(1.0)
 {
-  node_mult = 1 / path->nodes[0].time;
-  next_node_nr = path->nodes.size() > 1 ? 1 : 0;
 }
 
 PathWalker::~PathWalker()

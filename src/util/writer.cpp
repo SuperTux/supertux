@@ -20,26 +20,20 @@
 #include "util/log.hpp"
 
 Writer::Writer(const std::string& filename) :
-  out(),
-  out_owned(),
-  indent_depth(),
+  out(new OFileStream(filename)),
+  out_owned(true),
+  indent_depth(0),
   lists()
 {
-  out = new OFileStream(filename);
-  out_owned = true;
-  indent_depth = 0;
   out->precision(10);
 }
 
 Writer::Writer(std::ostream* newout) :
-  out(),
-  out_owned(),
-  indent_depth(),
+  out(newout),
+  out_owned(false),
+  indent_depth(0),
   lists()
 {
-  out = newout;
-  out_owned = false;
-  indent_depth = 0;
   out->precision(10);
 }
 

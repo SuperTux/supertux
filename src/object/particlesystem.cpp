@@ -27,15 +27,12 @@
 ParticleSystem::ParticleSystem(float max_particle_size_) :
   ExposedObject<ParticleSystem, scripting::ParticleSystem>(this),
   max_particle_size(max_particle_size_),
-  z_pos(),
+  z_pos(LAYER_BACKGROUND1),
   particles(),
-  virtual_width(),
-  virtual_height(),
+  virtual_width( SCREEN_WIDTH + max_particle_size * 2),
+  virtual_height(SCREEN_HEIGHT + max_particle_size * 2),
   enabled(true)
 {
-  virtual_width = SCREEN_WIDTH + max_particle_size * 2;
-  virtual_height = SCREEN_HEIGHT + max_particle_size *2;
-  z_pos = LAYER_BACKGROUND1;
 }
 
 ObjectSettings

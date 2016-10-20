@@ -32,16 +32,15 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   colgroup_active(COLGROUP_MOVING_STATIC),
   cycle(),
   badguys(),
-  next_badguy(),
+  next_badguy(0),
   dispense_timer(),
-  autotarget(),
-  swivel(),
-  broken(),
+  autotarget(false),
+  swivel(false),
+  broken(false),
   random(),
   type(),
   type_str()
 {
-  set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
   if ( !reader.get("cycle", cycle)) cycle = 5;
   if ( !reader.get("badguy", badguys)) badguys.clear();
@@ -66,10 +65,6 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
     type = DT_DROPPER;
   }
   type_str = get_type_string();
-  next_badguy = 0;
-  autotarget = false;
-  swivel = false;
-  broken = false;
 
 //  if (badguys.size() <= 0)
 //    throw std::runtime_error("No badguys in dispenser.");

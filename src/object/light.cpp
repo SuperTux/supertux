@@ -21,9 +21,8 @@
 Light::Light(const Vector& center, const Color& color_) :
   position(center),
   color(color_),
-  sprite()
+  sprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
-  sprite = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite");
 }
 
 Light::~Light()

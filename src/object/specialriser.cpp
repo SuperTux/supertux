@@ -19,11 +19,10 @@
 #include "supertux/sector.hpp"
 
 SpecialRiser::SpecialRiser(const Vector& pos, std::shared_ptr<MovingObject> _child) :
-  offset(),
+  offset(0),
   child(_child)
 {
   _child->set_pos(pos - Vector(0, 32));
-  offset = 0;
 }
 
 SpecialRiser::~SpecialRiser()

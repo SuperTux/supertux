@@ -39,17 +39,14 @@ static const float LEFT_BORDER = 50;
 static const float SCROLL = 60;
 
 TextScroller::TextScroller(const std::string& filename) :
-  defaultspeed(),
-  speed(),
+  defaultspeed(DEFAULT_SPEED),
+  speed(defaultspeed),
   music(),
   background(),
   lines(),
-  scroll(),
-  fading()
+  scroll(0),
+  fading(false)
 {
-  defaultspeed = DEFAULT_SPEED;
-  speed = defaultspeed;
-
   std::string text;
   std::string background_file;
 
@@ -168,9 +165,6 @@ TextScroller::TextScroller(const std::string& filename) :
 
   // load background image
   background = Surface::create("images/background/" + background_file);
-
-  scroll = 0;
-  fading = false;
 }
 
 TextScroller::~TextScroller()

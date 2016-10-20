@@ -27,11 +27,10 @@
 
 MrBomb::MrBomb(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
-  grabbed()
+  grabbed(false)
 {
   walk_speed = 80;
   max_drop_height = 16;
-  grabbed = false;
 
   //Prevent stutter when Tux jumps on Mr Bomb
   SoundManager::current()->preload("sounds/explosion.wav");

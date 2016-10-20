@@ -18,13 +18,11 @@
 #include "supertux/sector.hpp"
 
 Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds) :
-  change_from(),
-  change_to(),
+  change_from(oldtile),
+  change_to(newtile),
   duration()
 {
   duration.start(seconds);
-  change_from = oldtile;
-  change_to = newtile;
   Sector::current()->change_solid_tiles(change_from,change_to);
 }
 

@@ -30,9 +30,8 @@
 Firefly::Firefly(const ReaderMapping& lisp) :
    MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
    activated(false),
-   initial_position()
+   initial_position(get_pos())
 {
-  initial_position = get_pos();
   if( !lisp.get( "sprite", sprite_name ) ){
     reactivate();
     return;

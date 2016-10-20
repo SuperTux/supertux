@@ -29,7 +29,7 @@
 Lantern::Lantern(const ReaderMapping& reader) :
   Rock(reader, "images/objects/lantern/lantern.sprite"),
   lightcolor(1.0f, 1.0f, 1.0f),
-  lightsprite()
+  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
   //get color from lisp
   std::vector<float> vColor;
@@ -38,7 +38,6 @@ Lantern::Lantern(const ReaderMapping& reader) :
   } else {
     lightcolor = Color(0, 0, 0);
   }
-  lightsprite = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite");
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   updateColor();
   SoundManager::current()->preload("sounds/willocatch.wav");

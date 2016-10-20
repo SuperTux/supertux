@@ -19,14 +19,12 @@
 #include <assert.h>
 
 OggSoundFile::OggSoundFile(PHYSFS_file* file_, double loop_begin_, double loop_at_) :
-  file(),
+  file(file_),
   vorbis_file(),
   loop_begin(),
   loop_at(),
   normal_buffer_loop()
 {
-  this->file = file_;
-
   ov_callbacks callbacks = { cb_read, cb_seek, cb_close, cb_tell };
   ov_open_callbacks(file, &vorbis_file, 0, 0, callbacks);
 

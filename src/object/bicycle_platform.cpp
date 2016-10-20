@@ -29,14 +29,13 @@ BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
   master(0),
   slave(0),
-  center(),
+  center(get_pos()),
   radius(128),
   angle(0),
   angular_speed(0),
   contacts(),
   momentum(0)
 {
-  center = get_pos();
 }
 
 BicyclePlatform::BicyclePlatform(BicyclePlatform* master_) :

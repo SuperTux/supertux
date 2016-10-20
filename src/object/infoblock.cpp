@@ -33,7 +33,7 @@ InfoBlock::InfoBlock(const ReaderMapping& lisp) :
   shown_pct(0),
   dest_pct(0),
   lines(),
-  lines_height()
+  lines_height(0)
 {
   if(!lisp.get("message", message)) {
     log_warning << "No message in InfoBlock" << std::endl;
@@ -44,8 +44,7 @@ InfoBlock::InfoBlock(const ReaderMapping& lisp) :
 
   // Split text string lines into a vector
   lines = InfoBoxLine::split(message, 400);
-  lines_height = 0;
-  for(size_t i = 0; i < lines.size(); ++i) lines_height+=lines[i]->get_height();
+  for(size_t i = 0; i < lines.size(); ++i) lines_height += lines[i]->get_height();
 }
 
 InfoBlock::~InfoBlock()
