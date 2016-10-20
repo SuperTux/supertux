@@ -289,11 +289,7 @@ void
 Player::trigger_sequence(Sequence seq)
 {
   if (climbing) stop_climbing(*climbing);
-  backflipping = false;
-  backflip_direction = 0;
-  sprite->set_angle(0.0f);
-  powersprite->set_angle(0.0f);
-  lightsprite->set_angle(0.0f);
+  stop_backflipping();
   GameSession::current()->start_sequence(seq);
 }
 
@@ -904,11 +900,7 @@ Player::handle_input()
 
   /* stop backflipping at will */
   if( backflipping && ( !controller->hold(Controller::JUMP) && !backflip_timer.started()) ){
-    backflipping = false;
-    backflip_direction = 0;
-    sprite->set_angle(0.0f);
-    powersprite->set_angle(0.0f);
-    lightsprite->set_angle(0.0f);
+    stop_backflipping();
   }
 }
 
@@ -1481,10 +1473,7 @@ Player::kill(bool completely)
     } else if(player_status->bonus == GROWUP_BONUS) {
       safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
       duck = false;
-      backflipping = false;
-      sprite->set_angle(0.0f);
-      powersprite->set_angle(0.0f);
-      lightsprite->set_angle(0.0f);
+      stop_backflipping();
       set_bonus(NO_BONUS, true);
     }
   } else {
@@ -1539,10 +1528,7 @@ Player::move(const Vector& vector)
   else
     set_size(TUX_WIDTH, SMALL_TUX_HEIGHT);
   duck = false;
-  backflipping = false;
-  sprite->set_angle(0.0f);
-  powersprite->set_angle(0.0f);
-  lightsprite->set_angle(0.0f);
+  stop_backflipping();
   last_ground_y = vector.y;
   if (climbing) stop_climbing(*climbing);
 
@@ -1683,11 +1669,7 @@ Player::start_climbing(Climbable& climbable)
   physic.set_velocity(0, 0);
   physic.set_acceleration(0, 0);
   if (backflipping) {
-    backflipping = false;
-    backflip_direction = 0;
-    sprite->set_angle(0.0f);
-    powersprite->set_angle(0.0f);
-    lightsprite->set_angle(0.0f);
+    stop_backflipping();
     do_standup();
   }
 }
@@ -1753,6 +1735,16 @@ Player::handle_input_climbing()
   }
   physic.set_velocity(vx, vy);
   physic.set_acceleration(0, 0);
+}
+
+void
+Player::stop_backflipping()
+{
+  backflipping = false;
+  backflip_direction = 0;
+  sprite->set_angle(0.0f);
+  powersprite->set_angle(0.0f);
+  lightsprite->set_angle(0.0f);
 }
 
 /* EOF */

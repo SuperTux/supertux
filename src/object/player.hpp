@@ -240,6 +240,7 @@ public:
 
   void walk(float speed);
   void set_dir(bool right);
+  void stop_backflipping();
 
 private:
   void handle_input();
