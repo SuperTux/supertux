@@ -139,7 +139,6 @@ Camera::get_settings() {
 
   ObjectOption moo(MN_STRINGSELECT, _("Mode"), &defaultmode);
   moo.select.push_back(_("normal"));
-  moo.select.push_back(_("auto scrolling"));
   moo.select.push_back(_("manual"));
   result.options.push_back(moo);
 
