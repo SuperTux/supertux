@@ -119,4 +119,8 @@ Vector Resizer::get_point_vector() const {
   return result;
 }
 
+Vector Resizer::get_offset() const {
+  return Vector((horz == LEFT_UP) ? 16 : 0, (vert == LEFT_UP) ? 16 : 0);
+}
+
 /* EOF */

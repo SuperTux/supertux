@@ -53,7 +53,11 @@ void PointMarker::draw(DrawingContext& context) {
 }
 
 Vector PointMarker::get_point_vector() const {
-  return Vector(0,0);
+  return Vector(0, 0);
+}
+
+Vector PointMarker::get_offset() const {
+  return Vector(0, 0);
 }
 
 /* EOF */
