@@ -108,6 +108,7 @@ LevelIntro::draw(DrawingContext& context)
   const Statistics& stats = level->stats;
   int py = static_cast<int>(SCREEN_HEIGHT / 2 - Resources::normal_font->get_height() / 2);
 
+  context.set_ambient_color(Color(1.0f, 1.0f, 1.0f, 1.0f));
   context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
 
   {
