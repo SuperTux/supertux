@@ -32,6 +32,8 @@ class Platform;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Platform* object, bool setup_releasehook = false);
 class Player;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Player* object, bool setup_releasehook = false);
+class Rock;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Rock* object, bool setup_releasehook = false);
 class ScriptedObject;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::ScriptedObject* object, bool setup_releasehook = false);
 class Sector;

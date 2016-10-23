@@ -173,6 +173,12 @@ Player::get_velocity_y() const
   return m_parent->physic.get_velocity_y();
 }
 
+bool
+Player::has_grabbed(const std::string& name) const
+{
+  return m_parent->has_grabbed(name);
+}
+
 } // namespace scripting
 
 /* EOF */

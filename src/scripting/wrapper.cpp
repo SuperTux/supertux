@@ -2332,6 +2332,41 @@ static SQInteger Player_use_scripting_controller_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Player_has_grabbed_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'has_grabbed' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Player*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    bool return_value = _this->has_grabbed(arg0);
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'has_grabbed'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Player_do_scripting_controller_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -2429,6 +2464,13 @@ static SQInteger Player_get_velocity_y_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   }
 
+}
+
+static SQInteger Rock_release_hook(SQUserPointer ptr, SQInteger )
+{
+  auto _this = reinterpret_cast<scripting::Rock*> (ptr);
+  delete _this;
+  return 0;
 }
 
 static SQInteger ScriptedObject_release_hook(SQUserPointer ptr, SQInteger )
@@ -5567,6 +5609,32 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::Player* object, bool set
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Rock* object, bool setup_releasehook)
+{
+  using namespace wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "Rock", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Rock'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Rock'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Rock_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void create_squirrel_instance(HSQUIRRELVM v, scripting::ScriptedObject* object, bool setup_releasehook)
 {
   using namespace wrapper;
@@ -6715,6 +6783,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'use_scripting_controller'");
   }
 
+  sq_pushstring(v, "has_grabbed", -1);
+  sq_newclosure(v, &Player_has_grabbed_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'has_grabbed'");
+  }
+
   sq_pushstring(v, "do_scripting_controller", -1);
   sq_newclosure(v, &Player_do_scripting_controller_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tsb");
@@ -6738,6 +6813,17 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'Player'");
+  }
+
+  // Register class Rock
+  sq_pushstring(v, "Rock", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'Rock'";
+    throw SquirrelError(v, msg.str());
+  }
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'Rock'");
   }
 
   // Register class ScriptedObject
