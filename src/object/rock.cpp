@@ -20,6 +20,8 @@
 #include "object/coin.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/tile.hpp"
+#include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
 
 namespace {
 const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
@@ -27,6 +29,7 @@ const std::string ROCK_SOUND = "sounds/brick.wav"; //TODO use own sound.
 
 Rock::Rock(const Vector& pos, const std::string& spritename) :
   MovingSprite(pos, spritename),
+  ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
   grabbed(false),
@@ -38,17 +41,20 @@ Rock::Rock(const Vector& pos, const std::string& spritename) :
 
 Rock::Rock(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/rock/rock.sprite"),
+  ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
   grabbed(false),
   last_movement()
 {
+  if(!reader.get("name", name)) name = "";
   SoundManager::current()->preload(ROCK_SOUND);
   set_group(COLGROUP_MOVING_STATIC);
 }
 
 Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   MovingSprite(reader, spritename),
+  ExposedObject<Rock, scripting::Rock>(this),
   physic(),
   on_ground(false),
   grabbed(false),

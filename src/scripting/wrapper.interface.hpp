@@ -13,6 +13,7 @@
 #include "scripting/particlesystem.hpp"
 #include "scripting/platform.hpp"
 #include "scripting/player.hpp"
+#include "scripting/rock.hpp"
 #include "scripting/scripted_object.hpp"
 #include "scripting/sector.hpp"
 #include "scripting/text.hpp"

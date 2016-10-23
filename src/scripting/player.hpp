@@ -146,6 +146,12 @@ public:
   void use_scripting_controller(bool use_or_release);
 
   /**
+   * Check whether player is carrying a certain object
+   * @param name Name of the Portable object to check for
+   */
+   bool has_grabbed(const std::string& name) const;
+
+  /**
    * Instructs the scriptable controller to press or release a button
    */
   void do_scripting_controller(const std::string& control, bool pressed);

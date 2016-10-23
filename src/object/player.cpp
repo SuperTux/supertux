@@ -1747,4 +1747,18 @@ Player::stop_backflipping()
   lightsprite->set_angle(0.0f);
 }
 
+bool
+Player::has_grabbed(const std::string& object_name) const
+{
+  if(object_name.empty())
+  {
+    return false;
+  }
+  if(auto object = dynamic_cast<GameObject*>(grabbed_object))
+  {
+    return object->get_name() == object_name;
+  }
+  return false;
+}
+
 /* EOF */

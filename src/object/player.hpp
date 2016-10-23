@@ -193,6 +193,11 @@ public:
   {
     grabbed_object = NULL;
   }
+  /**
+   * Checks whether the player has grabbed a certain object
+   * @param name Name of the object to check
+   */
+  bool has_grabbed(const std::string& object_name) const;
 
   /**
    * Switches ghost mode on/off.
