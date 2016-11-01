@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "-89,2 degrees"))
+  (name (_ "-89.2 degrees"))
   (author "Tore Bergebakken")
   (license "GPL 2+ / CC-by-sa 3.0")
   (target-time 55)
