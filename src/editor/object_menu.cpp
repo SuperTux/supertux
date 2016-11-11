@@ -32,7 +32,7 @@ ObjectMenu::ObjectMenu(GameObject *go) :
   add_label(os.name);
   add_hl();
   for(auto& oo : os.options) {
-    if(!oo.visible) {
+    if(!(oo.flags & OPTION_VISIBLE)) {
       continue;
     }
 

@@ -181,7 +181,7 @@ Background::get_settings() {
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed x"), &speed, "speed"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed y"), &speed_y));
 
-  ObjectOption img(MN_FILE, _("Top image"), &imagefile_top, "image-top", true, false);
+  ObjectOption img(MN_FILE, _("Top image"), &imagefile_top, "image-top", (OPTION_VISIBLE));
   img.select.push_back(".png");
   img.select.push_back(".jpg");
   img.select.push_back(".gif");
@@ -189,7 +189,7 @@ Background::get_settings() {
   result.options.push_back(img);
   ObjectOption img2(MN_FILE, _("Image"), &imagefile, "image");
   img2.select = img.select;
-  ObjectOption img3(MN_FILE, _("Bottom image"), &imagefile_bottom, "image-bottom", true, false);
+  ObjectOption img3(MN_FILE, _("Bottom image"), &imagefile_bottom, "image-bottom", (OPTION_VISIBLE));
   img3.select = img.select;
   result.options.push_back(img2);
   result.options.push_back(img3);

@@ -20,13 +20,12 @@
 #include "editor/object_option.hpp"
 
 ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text_, void* ip,
-                           const std::string& key_, bool visible_, bool allow_empty_) :
+                           const std::string& key_, int flags_) :
   type(ip_type),
   text(text_),
   option(ip),
   key(key_),
-  visible(visible_),
-  allow_empty(allow_empty_),
+  flags(flags_),
   select()
 {
   select.clear();

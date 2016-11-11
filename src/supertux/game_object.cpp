@@ -88,7 +88,7 @@ GameObject::save(Writer& writer) {
         case MN_FILE:
         {
           auto value = *(reinterpret_cast<std::string*>(option.option));
-          if(!option.allow_empty && value.empty())
+          if(!(option.flags & OPTION_ALLOW_EMPTY) && value.empty())
             continue;
           writer.write(option.key, value);
         }
