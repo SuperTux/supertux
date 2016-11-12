@@ -20,6 +20,9 @@
 #include "sprite/sprite_manager.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "math/random_generator.hpp"
+#include "object/sprite_particle.hpp"
+#include "supertux/sector.hpp"
 
 #include <physfs.h>
 #include <stdexcept>
@@ -173,6 +176,24 @@ void MovingSprite::after_editor_set()
   std::string current_action = sprite->get_action();
   sprite = SpriteManager::current()->create(sprite_name);
   sprite->set_action(current_action);
+}
+
+void MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_path)
+{
+    for (int i = 0; i < count; i++) {
+      Vector ppos = bbox.get_middle();
+      float angle = graphicsRandom.randf(-M_PI_2, M_PI_2);
+      float velocity = graphicsRandom.randf(350, 400);
+      float vx = sin(angle)*velocity;
+      float vy = -cos(angle)*velocity;
+      Vector pspeed = Vector(vx, vy);
+      Vector paccel = Vector(0, Sector::current()->get_gravity()*10);
+      Sector::current()->add_object(std::make_shared<SpriteParticle>(sprite_path,
+                                                                     "default",
+                                                                     ppos, ANCHOR_MIDDLE,
+                                                                     pspeed, paccel,
+                                                                     LAYER_OBJECTS-1));
+  }
 }
 
 /* EOF */

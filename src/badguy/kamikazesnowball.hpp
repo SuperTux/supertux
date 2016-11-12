@@ -55,6 +55,9 @@ class LeafShot : public KamikazeSnowball
     std::string get_display_name() const {
       return _("Leaf Shot");
     }
+
+  protected:
+    bool collision_squished(GameObject& object);
 };
 
 #endif

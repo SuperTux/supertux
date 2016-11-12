@@ -124,4 +124,14 @@ LeafShot::is_freezable() const
   return true;
 }
 
+bool
+LeafShot::collision_squished(GameObject& object)
+{
+  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  // Spawn death particles
+  spawn_explosion_sprites(3, "images/objects/particles/leafshot.sprite");
+  kill_squished(object);
+  return true;
+}
+
 /* EOF */

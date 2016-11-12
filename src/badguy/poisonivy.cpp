@@ -44,22 +44,8 @@ bool
 PoisonIvy::collision_squished(GameObject& object)
 {
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-  // spawn some particles
-  // TODO: provide convenience function in MovingSprite or MovingObject?
-  for (int i = 0; i < 3; i++) {
-    Vector ppos = bbox.get_middle();
-    float angle = graphicsRandom.randf(-M_PI_2, M_PI_2);
-    float velocity = graphicsRandom.randf(350, 400);
-    float vx = sin(angle)*velocity;
-    float vy = -cos(angle)*velocity;
-    Vector pspeed = Vector(vx, vy);
-    Vector paccel = Vector(0, Sector::current()->get_gravity()*10);
-    Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/poisonivy.sprite",
-                                                                   "default",
-                                                                   ppos, ANCHOR_MIDDLE,
-                                                                   pspeed, paccel,
-                                                                   LAYER_OBJECTS-1));
-  }
+  // Spawn death particles
+  spawn_explosion_sprites(3, "images/objects/particles/poisonivy.sprite");
   kill_squished(object);
   return true;
 }
