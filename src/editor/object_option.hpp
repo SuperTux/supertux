@@ -25,8 +25,10 @@
 #include "video/color.hpp"
 
 // ObjectOption bitfield flags
-#define OPTION_ALLOW_EMPTY (1 << 0)
-#define OPTION_VISIBLE (1 << 1)
+enum ObjectOptionFlags {
+  OPTION_ALLOW_EMPTY = (1 << 0),
+  OPTION_VISIBLE = (1 << 1)
+};
 
 class ObjectOption
 {
