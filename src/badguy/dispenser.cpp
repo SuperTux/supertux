@@ -29,7 +29,6 @@
 
 Dispenser::Dispenser(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),
-  colgroup_active(COLGROUP_MOVING_STATIC),
   cycle(),
   badguys(),
   next_badguy(0),
@@ -41,6 +40,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   type(),
   type_str()
 {
+  set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
   if ( !reader.get("cycle", cycle)) cycle = 5;
   if ( !reader.get("badguy", badguys)) badguys.clear();
@@ -328,10 +328,12 @@ Dispenser::freeze()
 void
 Dispenser::unfreeze()
 {
-  set_group(colgroup_active);
+  /*set_group(colgroup_active);
   frozen = false;
 
-  sprite->set_color(Color(1.00, 1.00, 1.00f));
+  sprite->set_color(Color(1.00, 1.00, 1.00f));*/
+  BadGuy::unfreeze();
+
   set_correct_action();
   activate();
 }
