@@ -26,8 +26,8 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
   center(SpriteManager::current()->create("images/objects/spotlight/spotlight_center.sprite")),
   base(SpriteManager::current()->create("images/objects/spotlight/spotlight_base.sprite")),
   lights(SpriteManager::current()->create("images/objects/spotlight/spotlight_lights.sprite")),
-  light(SpriteManager::current()->create("images/objects/spotlight/lightcone.sprite")),
-  lightcone(SpriteManager::current()->create("images/objects/spotlight/light.sprite")),
+  light(SpriteManager::current()->create("images/objects/spotlight/light.sprite")),
+  lightcone(SpriteManager::current()->create("images/objects/spotlight/lightcone.sprite")),
   color(1.0f, 1.0f, 1.0f)
 {
   group = COLGROUP_DISABLED;
