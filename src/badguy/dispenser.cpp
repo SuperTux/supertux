@@ -212,12 +212,21 @@ Dispenser::launch_badguy()
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen() && !Editor::is_active()) {
     Direction launchdir = dir;
-    if( !autotarget && start_dir == AUTO ){
-      Player* player = get_nearest_player();
-      if( player ){
+    if( !autotarget && start_dir == AUTO ) {
+      auto player = get_nearest_player();
+      if( player ) {
         launchdir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
       }
     }
+
+    // First pass: Check whether target box is free of tiles. Spawning Enemies
+    // into walls is not fun.
+    if(is_blocked(launchdir))
+      launchdir = dir;
+
+    // Second pass with changed direction. Let's check again!
+    if(is_blocked(launchdir))
+      return;
 
     if (badguys.size() > 1) {
       if (random) {
@@ -369,6 +378,14 @@ Dispenser::set_correct_action()
     default:
       break;
   }
+}
+
+bool
+Dispenser::is_blocked(const Direction& direction) const
+{
+  auto target_box = get_bbox();
+  target_box.move(Vector((direction == RIGHT) ? 32 : -32, 0));
+  return !Sector::current()->is_free_of_tiles(target_box);
 }
 
 ObjectSettings
