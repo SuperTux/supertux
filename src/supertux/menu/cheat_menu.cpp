@@ -49,7 +49,7 @@ CheatMenu::menu_action(MenuItem* item)
   if (Sector::current())
   {
     std::vector<Player*> players = Sector::current()->get_players();
-    Player* player = players.empty() ? nullptr : players[0];
+    auto player = players.empty() ? nullptr : players[0];
 
     switch(item->id)
     {
@@ -115,7 +115,7 @@ CheatMenu::menu_action(MenuItem* item)
           GameSession::current()->finish(true);
         }
         break;
-        
+
       case MNID_GHOST:
         if (GameSession::current())
         {

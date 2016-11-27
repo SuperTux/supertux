@@ -49,14 +49,14 @@ WorldmapCheatMenu::WorldmapCheatMenu()
 void
 WorldmapCheatMenu::menu_action(MenuItem* item)
 {
-  worldmap::WorldMap* worldmap = worldmap::WorldMap::current();
+  auto worldmap = worldmap::WorldMap::current();
   if (!worldmap)
   {
     log_warning << "couldn't access WorldMap::current()" << std::endl;
   }
   else
   {
-    PlayerStatus* status = worldmap->get_savegame().get_player_status();
+    auto status = worldmap->get_savegame().get_player_status();
 
     switch(item->id)
     {
@@ -66,10 +66,12 @@ WorldmapCheatMenu::menu_action(MenuItem* item)
 
       case MNID_FIRE:
         status->bonus = FIRE_BONUS;
+        status->max_fire_bullets++;
         break;
 
       case MNID_ICE:
         status->bonus = ICE_BONUS;
+        status->max_ice_bullets++;
         break;
 
       case MNID_AIR:
@@ -86,7 +88,7 @@ WorldmapCheatMenu::menu_action(MenuItem* item)
 
       case MNID_FINISH_LEVEL:
         {
-          worldmap::LevelTile* level_tile = worldmap->at_level();
+          auto level_tile = worldmap->at_level();
           if (level_tile)
           {
             level_tile->set_solved(true);
@@ -97,7 +99,7 @@ WorldmapCheatMenu::menu_action(MenuItem* item)
 
       case MNID_RESET_LEVEL:
         {
-          worldmap::LevelTile* level_tile = worldmap->at_level();
+          auto level_tile = worldmap->at_level();
           if (level_tile)
           {
             level_tile->set_solved(false);
