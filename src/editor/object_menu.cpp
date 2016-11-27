@@ -49,9 +49,13 @@ ObjectMenu::ObjectMenu(GameObject *go) :
       case MN_TOGGLE:
         add_toggle(-1, oo.text, (bool*)oo.option);
         break;
-      case MN_STRINGSELECT:
-        add_string_select(-1, oo.text, (int*)oo.option, oo.select);
-        break;
+      case MN_STRINGSELECT: {
+        auto selected_id = (int*)oo.option;
+        if ( *selected_id >= int(oo.select.size()) || *selected_id < 0 ) {
+          *selected_id = 0; // Set the option to zero when not selectable
+        }
+        add_string_select(-1, oo.text, selected_id, oo.select);
+      } break;
       case MN_BADGUYSELECT:
         add_badguy_select(oo.text, (std::vector<std::string>*)oo.option);
         break;

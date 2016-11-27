@@ -46,8 +46,14 @@ ObjectOption::to_string() const {
       return std::to_string(*((int*)(option)));
     case MN_TOGGLE:
       return (*((bool*)(option))) ? _("true") : _("false");
-    case MN_STRINGSELECT:
-      return select[*((int*)(option))];
+    case MN_STRINGSELECT: {
+      auto selected_id = (int*)option;
+      if ( *selected_id >= int(select.size()) || *selected_id < 0 ) {
+        return _("invalid"); //Test whether the selected ID is valid
+      } else {
+        return select[*selected_id];
+      }
+    }
     case MN_BADGUYSELECT:
       return std::to_string(((std::vector<std::string>*)option)->size());
     case MN_COLOR:
