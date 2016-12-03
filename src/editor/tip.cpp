@@ -42,7 +42,11 @@ Tip::Tip(GameObject* object) :
 
   for(const auto& oo : os.options) {
     if (oo.type != MN_REMOVE && (oo.flags & OPTION_VISIBLE)) {
-      strings.push_back(oo.text + ": " + oo.to_string());
+      auto value = oo.to_string();
+      if(value.empty()) {
+        value = _("<empty>");
+      }
+      strings.push_back(oo.text + ": " + value);
     }
   }
 }
