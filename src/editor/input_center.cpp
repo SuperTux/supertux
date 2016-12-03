@@ -774,8 +774,9 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_col
     return;
   int tm_width = current_tm->get_width() * (32 / tile_size);
   int tm_height = current_tm->get_height() * (32 / tile_size);
-  Rectf draw_rect = Rectf(editor->currentsector->camera->get_translation(),
-        editor->currentsector->camera->get_translation() + Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
+  auto cam_translation = editor->currentsector->camera->get_translation();
+  Rectf draw_rect = Rectf(cam_translation, cam_translation +
+                          Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
   Vector start = sp_to_tp( Vector(draw_rect.p1.x, draw_rect.p1.y), tile_size );
   Vector end = sp_to_tp( Vector(draw_rect.p2.x, draw_rect.p2.y), tile_size );
   start.x = std::max(0.0f, start.x);
@@ -843,6 +844,7 @@ EditorInputCenter::draw_path(DrawingContext& context) {
 
 void
 EditorInputCenter::draw(DrawingContext& context) {
+  auto editor = Editor::current();
   draw_tile_tip(context);
   draw_path(context);
 
@@ -859,12 +861,13 @@ EditorInputCenter::draw(DrawingContext& context) {
     object_tip->draw(context, mouse_pos);
   }
 
-  if (dragging && Editor::current()->tileselect.select_mode->get_mode() == 1
+  if (dragging && editor->tileselect.select_mode->get_mode() == 1
       && !dragging_right) {
     // Draw selection rectangle...
-    Vector p0 = drag_start - Editor::current()->currentsector->camera->get_translation();
-    Vector p1 = Vector(drag_start.x, sector_pos.y) - Editor::current()->currentsector->camera->get_translation();
-    Vector p2 = Vector(sector_pos.x, drag_start.y) - Editor::current()->currentsector->camera->get_translation();
+    auto cam_translation = editor->currentsector->camera()->get_translation();
+    Vector p0 = drag_start - cam_translation;
+    Vector p1 = Vector(drag_start.x, sector_pos.y) - cam_translation;
+    Vector p2 = Vector(sector_pos.x, drag_start.y) - cam_translation;
 
     context.draw_filled_rect(Rectf(p0, p1 + Vector(2, 2)),
                              Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
