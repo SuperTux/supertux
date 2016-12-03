@@ -48,7 +48,7 @@ class MenuItem
     virtual int get_width() const;
 
     /** Processes the menu action. */
-    virtual void process_action(MenuAction action) { }
+    virtual void process_action(const MenuAction& action) { }
 
     /** Processes the given event. */
     virtual void event(const SDL_Event& ev) { }

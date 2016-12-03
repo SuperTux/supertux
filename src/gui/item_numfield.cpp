@@ -116,7 +116,7 @@ ItemNumField::add_char(char c) {
 }
 
 void
-ItemNumField::process_action(MenuAction action) {
+ItemNumField::process_action(const MenuAction& action) {
   if (action == MENU_ACTION_REMOVE && input.length()) {
     unsigned char last_char;
     do {

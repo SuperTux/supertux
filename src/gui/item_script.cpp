@@ -30,7 +30,7 @@ ItemScript::ItemScript(const std::string& text_, std::string* script_, int _id) 
 }
 
 void
-ItemScript::process_action(MenuAction action) {
+ItemScript::process_action(const MenuAction& action) {
   if (action == MENU_ACTION_HIT) {
     MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ScriptMenu(script)));
   }

@@ -63,7 +63,7 @@ ItemTextField::event(const SDL_Event& ev) {
 }
 
 void
-ItemTextField::process_action(MenuAction action) {
+ItemTextField::process_action(const MenuAction& action) {
   if (action == MENU_ACTION_REMOVE) {
     if (input->length()) {
       unsigned char last_char;

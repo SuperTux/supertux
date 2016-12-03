@@ -31,7 +31,7 @@ ItemColor::ItemColor(const std::string& text_, Color* color_, int _id) :
 }
 
 void
-ItemColor::process_action(MenuAction action) {
+ItemColor::process_action(const MenuAction& action) {
   if (action == MENU_ACTION_HIT) {
     MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ColorMenu(color)));
   }

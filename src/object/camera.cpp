@@ -183,11 +183,10 @@ Camera::Camera(Sector* newsector, const std::string& name_) :
   scroll_goal(),
   scroll_to_pos(),
   scrollspeed(),
-  config(),
+  config(std::unique_ptr<CameraConfig>(new CameraConfig)),
   defaultmode(NORMAL)
 {
   this->name = name_;
-  config = std::unique_ptr<CameraConfig>(new CameraConfig);
   reload_config();
 }
 

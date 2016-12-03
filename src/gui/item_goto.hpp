@@ -29,7 +29,7 @@ class ItemGoTo : public MenuItem
     ItemGoTo(const std::string& text_, int target_menu_, int id = -1);
 
     /** Processes the menu action. */
-    virtual void process_action(MenuAction action);
+    virtual void process_action(const MenuAction& action);
 
     int target_menu;
 

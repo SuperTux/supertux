@@ -30,7 +30,7 @@ ItemBadguySelect::ItemBadguySelect(const std::string& text_, std::vector<std::st
 }
 
 void
-ItemBadguySelect::process_action(MenuAction action) {
+ItemBadguySelect::process_action(const MenuAction& action) {
   if (action == MENU_ACTION_HIT) {
     MenuManager::instance().push_menu(std::unique_ptr<Menu>(new BadguySelectMenu(badguys)));
   }

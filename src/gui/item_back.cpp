@@ -52,7 +52,7 @@ ItemBack::get_width() const {
 }
 
 void
-ItemBack::process_action(MenuAction action) {
+ItemBack::process_action(const MenuAction& action) {
   if (action == MENU_ACTION_HIT) {
     if(MenuManager::instance().current_menu()->on_back_action())
       MenuManager::instance().pop_menu();

@@ -354,7 +354,7 @@ Menu::process_input()
 }
 
 void
-Menu::process_action(MenuAction menuaction)
+Menu::process_action(const MenuAction& menuaction)
 {
   int last_active_item = active_item;
 

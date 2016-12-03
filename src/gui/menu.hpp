@@ -105,7 +105,7 @@ protected:
   virtual bool is_sensitive() const;
 
 private:
-  void process_action(MenuAction menuaction);
+  void process_action(const MenuAction& menuaction);
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index);
   /**

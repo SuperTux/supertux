@@ -57,7 +57,7 @@ ItemToggle::get_width() const {
 }
 
 void
-ItemToggle::process_action(MenuAction action) {
+ItemToggle::process_action(const MenuAction& action) {
   if (action == MENU_ACTION_HIT) {
     *toggled = !(*toggled);
   }

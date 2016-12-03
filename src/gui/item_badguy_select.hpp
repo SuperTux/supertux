@@ -27,7 +27,7 @@ class ItemBadguySelect : public MenuItem
     ItemBadguySelect(const std::string& text_, std::vector<std::string>* badguys_, int id = -1);
 
     /** Processes the menu action. */
-    virtual void process_action(MenuAction action);
+    virtual void process_action(const MenuAction& action);
 
   private:
     std::vector<std::string>* badguys;

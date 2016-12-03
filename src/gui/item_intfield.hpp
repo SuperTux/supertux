@@ -33,7 +33,7 @@ class ItemIntField : public MenuItem
     virtual int get_width() const;
 
     /** Processes the menu action. */
-    virtual void process_action(MenuAction action);
+    virtual void process_action(const MenuAction& action);
 
     int* number;
 

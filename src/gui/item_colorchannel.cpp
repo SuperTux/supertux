@@ -117,7 +117,7 @@ ItemColorChannel::remove_char() {
 }
 
 void
-ItemColorChannel::process_action(MenuAction action) {
+ItemColorChannel::process_action(const MenuAction& action) {
   if (action == MENU_ACTION_REMOVE && text.length()) {
     remove_char();
   }

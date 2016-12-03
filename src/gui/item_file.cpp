@@ -32,7 +32,7 @@ ItemFile::ItemFile(const std::string& text_, std::string* filename_,
 }
 
 void
-ItemFile::process_action(MenuAction action) {
+ItemFile::process_action(const MenuAction& action) {
   if (action == MENU_ACTION_HIT) {
     MenuManager::instance().push_menu(std::unique_ptr<Menu>(new FileSystemMenu(filename, extensions)));
   }

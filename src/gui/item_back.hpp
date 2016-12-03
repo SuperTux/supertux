@@ -35,7 +35,7 @@ class ItemBack : public MenuItem
     virtual int get_width() const;
 
     /** Processes the menu action. */
-    virtual void process_action(MenuAction action);
+    virtual void process_action(const MenuAction& action);
 
     /** Returns true when the memu manager shouldn't do anything else. */
     virtual bool no_other_action() const {
