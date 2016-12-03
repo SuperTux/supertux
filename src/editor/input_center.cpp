@@ -864,7 +864,7 @@ EditorInputCenter::draw(DrawingContext& context) {
   if (dragging && editor->tileselect.select_mode->get_mode() == 1
       && !dragging_right) {
     // Draw selection rectangle...
-    auto cam_translation = editor->currentsector->camera()->get_translation();
+    auto cam_translation = editor->currentsector->camera->get_translation();
     Vector p0 = drag_start - cam_translation;
     Vector p1 = Vector(drag_start.x, sector_pos.y) - cam_translation;
     Vector p2 = Vector(sector_pos.x, drag_start.y) - cam_translation;
