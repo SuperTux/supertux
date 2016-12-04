@@ -76,9 +76,4 @@ void NodeMarker::update(float elapsed_time) {
   set_pos(node->position - Vector(8, 8));
 }
 
-void NodeMarker::draw(DrawingContext& context)
-{
-  context.draw_filled_rect(bbox, Color(1, 1, 1, 0.5), 7.5, LAYER_GUI-20);
-}
-
 /* EOF */

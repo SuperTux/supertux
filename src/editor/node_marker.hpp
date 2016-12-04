@@ -34,7 +34,6 @@ class NodeMarker : public PointMarker
     size_t id;
 
     void update(float elapsed_time);
-    void draw(DrawingContext& context);
     void move_to(const Vector& pos);
     void editor_delete();
     Vector get_point_vector() const;
