@@ -27,17 +27,17 @@ class PointMarker : public MovingObject
     PointMarker();
     ~PointMarker();
 
-    void update(float elapsed_time) {
+    virtual void update(float elapsed_time) override {
       //No updates needed
     }
 
-    void draw(DrawingContext& context);
+    virtual void draw(DrawingContext& context) override;
 
-    void collision_solid(const CollisionHit& hit) {
+    void collision_solid(const CollisionHit& hit) override {
       //This function wouldn't be called anyway.
     }
 
-    HitResponse collision(GameObject& other, const CollisionHit& hit) {
+    HitResponse collision(GameObject& other, const CollisionHit& hit) override {
       return FORCE_MOVE;
     }
 

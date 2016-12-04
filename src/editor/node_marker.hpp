@@ -33,13 +33,14 @@ class NodeMarker : public PointMarker
     std::vector<Path::Node>::iterator node;
     size_t id;
 
-    virtual void update(float elapsed_time);
-    virtual void move_to(const Vector& pos);
-    virtual void editor_delete();
-    virtual Vector get_point_vector() const;
-    virtual Vector get_offset() const;
+    void update(float elapsed_time);
+    void draw(DrawingContext& context);
+    void move_to(const Vector& pos);
+    void editor_delete();
+    Vector get_point_vector() const;
+    Vector get_offset() const;
 
-    virtual ObjectSettings get_settings();
+    ObjectSettings get_settings();
 
     void update_iterator();
 
