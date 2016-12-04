@@ -31,9 +31,8 @@ ItemIntField::ItemIntField(const std::string& text_, int* input_, int id_) :
   MenuItem(text_, id_),
   number(input_),
   input(std::to_string(*input_)),
-  flickw(0)
+  flickw(Resources::normal_font->get_text_width("_"))
 {
-  flickw = Resources::normal_font->get_text_width("_");
 }
 
 void

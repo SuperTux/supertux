@@ -42,22 +42,15 @@ static const float MENU_REPEAT_INITIAL = 0.4f;
 static const float MENU_REPEAT_RATE    = 0.1f;
 
 Menu::Menu() :
-  pos(),
-  delete_character(),
-  mn_input_char(),
+  pos(Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)),
+  delete_character(0),
+  mn_input_char('\0'),
   menu_repeat_time(),
   menu_width(),
   items(),
-  arrange_left(),
-  active_item()
+  arrange_left(0),
+  active_item(-1)
 {
-  delete_character = 0;
-  mn_input_char = '\0';
-
-  pos.x        = SCREEN_WIDTH/2;
-  pos.y        = SCREEN_HEIGHT/2;
-  arrange_left = 0;
-  active_item  = -1;
 }
 
 Menu::~Menu()

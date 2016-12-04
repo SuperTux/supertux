@@ -30,12 +30,10 @@
 ItemColorChannel::ItemColorChannel(float* input_, Color channel_, int id_) :
   MenuItem(std::to_string(*input_), id_),
   number(input_),
-  flickw(0),
+  flickw(Resources::normal_font->get_text_width("_")),
   has_comma(true),
   channel(channel_)
 {
-  flickw = Resources::normal_font->get_text_width("_");
-
   // removing all redundant zeros at the end
   for (auto i = text.end() - 1; i != text.begin(); --i) {
     char c = *i;

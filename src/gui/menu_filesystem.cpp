@@ -30,14 +30,13 @@
 
 FileSystemMenu::FileSystemMenu(std::string* filename_, const std::vector<std::string>& extensions_) :
   filename(filename_),
-  directory(),
+  directory(FileSystem::dirname(*filename)),
   extensions(extensions_),
   directories(),
   files()
 {
   AddonManager::current()->unmount_old_addons();
 
-  directory = FileSystem::dirname(*filename);
   if (!PHYSFS_exists(directory.c_str())) {
     directory = "/"; //The filename is probably included in an old add-on.
   }

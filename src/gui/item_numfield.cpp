@@ -31,11 +31,9 @@ ItemNumField::ItemNumField(const std::string& text_, float* input_, int id_) :
   MenuItem(text_, id_),
   number(input_),
   input(std::to_string(*input_)),
-  flickw(0),
+  flickw(Resources::normal_font->get_text_width("_")),
   has_comma(true)
 {
-  flickw = Resources::normal_font->get_text_width("_");
-
   // removing all redundant zeros at the end
   for (auto i = input.end() - 1; i != input.begin(); --i) {
     char c = *i;
