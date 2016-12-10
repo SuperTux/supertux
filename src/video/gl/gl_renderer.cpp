@@ -363,7 +363,7 @@ GLRenderer::apply_video_mode()
     }
 
     m_window = SDL_CreateWindow("SuperTux",
-                              SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                              SDL_WINDOWPOS_CENTERED_DISPLAY(g_config->display_number), SDL_WINDOWPOS_CENTERED_DISPLAY(g_config->display_number),
                               size.width, size.height,
                               flags);
     if (!m_window)
