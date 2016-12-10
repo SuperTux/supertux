@@ -40,7 +40,7 @@ SDLRenderer::SDLRenderer() :
   m_scale(1.0f, 1.0f)
 {
   SDL_DisplayMode mode;
-  if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
+  if (SDL_GetDesktopDisplayMode(g_config->display_number, &mode) != 0)
   {
     log_warning << "Couldn't get desktop display mode: " << SDL_GetError() << std::endl;
   }

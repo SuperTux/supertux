@@ -314,7 +314,7 @@ Main::init_video()
   SDL_SetWindowTitle(VideoSystem::current()->get_renderer().get_window(), PACKAGE_NAME " " PACKAGE_VERSION);
 
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
-  SDL_Surface* icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
+  auto icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
   if (!icon)
   {
     log_warning << "Couldn't load icon '" << icon_fname << "': " << SDL_GetError() << std::endl;
@@ -326,7 +326,8 @@ Main::init_video()
   }
   SDL_ShowCursor(0);
 
-  log_info << (g_config->use_fullscreen?"fullscreen ":"window ")
+  log_info << " Display : " << g_config->display_number
+           << (g_config->use_fullscreen ? "fullscreen " : "window ")
            << " Window: "     << g_config->window_size
            << " Fullscreen: " << g_config->fullscreen_size << "@" << g_config->fullscreen_refresh_rate
            << " Area: "       << g_config->aspect_size << std::endl;
@@ -360,6 +361,11 @@ Main::launch_game()
   timelog("commandline");
 
   timelog("video");
+  if(g_config->display_number > SDL_GetNumVideoDisplays() - 1)
+  {
+    // In case an invalid display number has been set, reset default:
+    g_config->display_number = 0;
+  }
   std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
   DrawingContext context(*video_system);
   init_video();

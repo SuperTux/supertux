@@ -38,6 +38,9 @@ public:
 
   int profile;
 
+  /** display_number */
+  int display_number;
+
   /** the width/height to be used to display the game in fullscreen */
   Size fullscreen_size;
 
@@ -68,7 +71,7 @@ public:
   bool enable_script_debugger;
   std::string start_demo;
   std::string record_demo;
-  
+
   /** this variable is set if tux should spawn somewhere which isn't the "main" spawn point*/
   boost::optional<Vector> tux_spawn_pos;
 

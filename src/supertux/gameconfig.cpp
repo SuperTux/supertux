@@ -29,6 +29,7 @@
 
 Config::Config() :
   profile(1),
+  display_number(0),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
   window_size(1280, 800),
@@ -92,6 +93,7 @@ Config::load()
   ReaderMapping config_video_lisp;
   if(config_lisp.get("video", config_video_lisp))
   {
+    config_video_lisp.get("display_number", display_number);
     config_video_lisp.get("fullscreen", use_fullscreen);
     std::string video_string;
     config_video_lisp.get("video", video_string);
@@ -177,27 +179,31 @@ Config::save()
   writer.write("repository_url", repository_url);
 
   writer.start_list("video");
-  writer.write("fullscreen", use_fullscreen);
-  writer.write("video", VideoSystem::get_video_string(video));
-  writer.write("vsync", try_vsync);
+  {
+    writer.write("display_number", display_number);
+    writer.write("fullscreen", use_fullscreen);
+    writer.write("video", VideoSystem::get_video_string(video));
+    writer.write("vsync", try_vsync);
 
-  writer.write("fullscreen_width",  fullscreen_size.width);
-  writer.write("fullscreen_height", fullscreen_size.height);
-  writer.write("fullscreen_refresh_rate", fullscreen_refresh_rate);
+    writer.write("fullscreen_width",  fullscreen_size.width);
+    writer.write("fullscreen_height", fullscreen_size.height);
+    writer.write("fullscreen_refresh_rate", fullscreen_refresh_rate);
 
-  writer.write("window_width",  window_size.width);
-  writer.write("window_height", window_size.height);
+    writer.write("window_width",  window_size.width);
+    writer.write("window_height", window_size.height);
 
-  writer.write("aspect_width",  aspect_size.width);
-  writer.write("aspect_height", aspect_size.height);
+    writer.write("aspect_width",  aspect_size.width);
+    writer.write("aspect_height", aspect_size.height);
 
-  writer.write("magnification", magnification);
-
+    writer.write("magnification", magnification);
+  }
   writer.end_list("video");
 
   writer.start_list("audio");
-  writer.write("sound_enabled", sound_enabled);
-  writer.write("music_enabled", music_enabled);
+  {
+    writer.write("sound_enabled", sound_enabled);
+    writer.write("music_enabled", music_enabled);
+  }
   writer.end_list("audio");
 
   writer.start_list("control");

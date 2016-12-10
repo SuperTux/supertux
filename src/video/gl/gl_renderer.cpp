@@ -51,7 +51,7 @@ GLRenderer::GLRenderer() :
   m_fullscreen_active(false)
 {
   SDL_DisplayMode mode;
-  SDL_GetCurrentDisplayMode(0, &mode);
+  SDL_GetCurrentDisplayMode(g_config->display_number, &mode);
   m_desktop_size = Size(mode.w, mode.h);
 
   if(g_config->try_vsync) {
