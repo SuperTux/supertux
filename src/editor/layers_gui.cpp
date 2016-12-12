@@ -70,27 +70,27 @@ EditorLayersGui::draw(DrawingContext& context) {
                            0.0f,
                            LAYER_GUI-10);
 
+  Rectf target_rect = Rectf(0, 0, 0, 0);
+  bool draw_rect = true;
   switch (hovered_item) {
     case HI_SPAWNPOINTS:
-      context.draw_filled_rect(Rectf(Vector(0, Ypos), Vector(Xpos, SCREEN_HEIGHT)),
-                               Color(0.9f, 0.9f, 1.0f, 0.6f),
-                               0.0f,
-                               LAYER_GUI-5);
+      target_rect = Rectf(Vector(0, Ypos), Vector(Xpos, SCREEN_HEIGHT));
       break;
     case HI_SECTOR:
-      context.draw_filled_rect(Rectf(Vector(Xpos, Ypos), Vector(sector_text_width + Xpos, SCREEN_HEIGHT)),
-                               Color(0.9f, 0.9f, 1.0f, 0.6f),
-                               0.0f,
-                               LAYER_GUI-5);
+      target_rect = Rectf(Vector(Xpos, Ypos), Vector(sector_text_width + Xpos, SCREEN_HEIGHT));
       break;
     case HI_LAYERS: {
       Vector coords = get_layer_coords(hovered_layer);
-      context.draw_filled_rect(Rectf(coords, coords + Vector(32, 32)),
-                               Color(0.9f, 0.9f, 1.0f, 0.6f),
-                               0.0f,
-                               LAYER_GUI-5);
+      target_rect = Rectf(coords, coords + Vector(32, 32));
     } break;
-    default: break;
+    default:
+      draw_rect = false;
+      break;
+  }
+  if(draw_rect)
+  {
+    context.draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
+                             LAYER_GUI-5);
   }
 
   if (!Editor::current()->levelloaded) {
@@ -125,13 +125,14 @@ EditorLayersGui::update(float elapsed_time) {
 
 bool
 EditorLayersGui::event(SDL_Event& ev) {
+  auto editor = Editor::current();
   switch (ev.type) {
     case SDL_MOUSEBUTTONDOWN:
     {
       if (ev.button.button == SDL_BUTTON_LEFT) {
         switch (hovered_item) {
           case HI_SECTOR:
-            Editor::current()->disable_keyboard();
+            editor->disable_keyboard();
             MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
             break;
           case HI_LAYERS:
@@ -144,12 +145,12 @@ EditorLayersGui::event(SDL_Event& ev) {
               }
               selected_tilemap = layers[hovered_layer]->layer;
               ((TileMap*)selected_tilemap)->editor_active = true;
-              Editor::current()->inputcenter.edit_path(((TileMap*)selected_tilemap)->get_path().get(),
+              editor->inputcenter.edit_path(((TileMap*)selected_tilemap)->get_path().get(),
                                                        selected_tilemap);
             } else {
               auto cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);
               if (cam) {
-                Editor::current()->inputcenter.edit_path(cam->get_path(), cam);
+                editor->inputcenter.edit_path(cam->get_path(), cam);
               }
             }
             break;
@@ -160,7 +161,7 @@ EditorLayersGui::event(SDL_Event& ev) {
       } else if (ev.button.button == SDL_BUTTON_RIGHT) {
         if (hovered_item == HI_LAYERS && hovered_layer < layers.size()) {
           std::unique_ptr<Menu> om(new ObjectMenu(layers[hovered_layer]->layer));
-          Editor::current()->deactivate_request = true;
+          editor->deactivate_request = true;
           MenuManager::instance().push_menu(move(om));
         } else {
           return false;

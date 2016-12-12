@@ -56,7 +56,7 @@ PathWalker::advance(float elapsed_time)
 
   elapsed_time *= fabsf(walking_speed);
 
-  const Path::Node* current_node = & (path->nodes[current_node_nr]);
+  const Path::Node* current_node = NULL;
   while(node_time + elapsed_time * node_mult >= 1) {
     elapsed_time -= (1 - node_time) / node_mult;
 
