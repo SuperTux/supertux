@@ -85,8 +85,8 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   m_savegame(savegame),
   tileset(nullptr),
   camera_offset(),
-  name(),
-  music(),
+  name("<no title>"),
+  music("music/salcon.ogg"),
   init_script(),
   game_objects(),
   solid_tilemaps(),
@@ -110,9 +110,6 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
 {
   tux = std::make_shared<Tux>(this);
   add_object(tux);
-
-  name = "<no title>";
-  music = "music/salcon.ogg";
 
   total_stats.reset();
 

@@ -36,19 +36,13 @@ Tux::Tux(WorldMap* worldmap_) :
   worldmap(worldmap_),
   sprite(SpriteManager::current()->create(worldmap->get_savegame().get_player_status()->worldmap_sprite)),
   controller(),
-  input_direction(),
-  direction(),
+  input_direction(D_NONE),
+  direction(D_NONE),
   tile_pos(),
-  offset(),
-  moving(),
-  ghost_mode()
+  offset(0),
+  moving(false),
+  ghost_mode(false)
 {
-  offset = 0;
-  moving = false;
-  direction = D_NONE;
-  input_direction = D_NONE;
-
-  ghost_mode = false;
 }
 
 Tux::~Tux()

@@ -45,7 +45,7 @@ RandomGenerator graphicsRandom;               // graphic RNG
 RandomGenerator gameRandom;                   // game RNG
 
 RandomGenerator::RandomGenerator() :
-  initialized(),
+  initialized(0),
   fptr(),
   rptr(),
   state(),
@@ -53,11 +53,9 @@ RandomGenerator::RandomGenerator() :
   rand_deg(),
   rand_sep(),
   end_ptr(),
-  debug()
+  debug(0) // change this by hand for debug
 {
   assert(sizeof(int) >= 4);
-  initialized = 0;
-  debug = 0;                              // change this by hand for debug
   initialize();
 }
 

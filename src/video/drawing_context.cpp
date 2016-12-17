@@ -41,14 +41,13 @@ DrawingContext::DrawingContext(VideoSystem& video_system_) :
   blend_mode(),
   drawing_requests(),
   lightmap_requests(),
-  requests(),
+  requests(&drawing_requests),
   ambient_color(1.0f, 1.0f, 1.0f, 1.0f),
   target(NORMAL),
   target_stack(),
   obst(),
   screenshot_requested(false)
 {
-  requests = &drawing_requests;
   obstack_init(&obst);
 }
 
