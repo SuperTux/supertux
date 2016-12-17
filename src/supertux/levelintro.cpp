@@ -42,13 +42,19 @@ LevelIntro::LevelIntro(const Level* level_, const Statistics* best_level_statist
   player_status(player_status_)
 {
   //Show appropriate tux animation for player status.
-  player_sprite->set_action(player_status->get_bonus_prefix() + "-walk-right");
+  if(player_status->bonus == FIRE_BONUS && g_config->christmas_mode)
+  {
+    player_sprite->set_action("big-walk-right");
+    power_sprite->set_action("santa-walk-right");
+  }
+  else
+  {
+    player_sprite->set_action(player_status->get_bonus_prefix() + "-walk-right");
+  }
   player_sprite_jump_timer.start(graphicsRandom.randf(5,10));
 
   /* Set Tux powerup sprite action */
-  if (player_status->bonus == EARTH_BONUS
-      || player_status->bonus == AIR_BONUS
-      || (player_status->bonus == FIRE_BONUS && g_config->christmas_mode))
+  if (player_status->bonus == EARTH_BONUS || player_status->bonus == AIR_BONUS)
   {
     power_sprite->set_action(player_sprite->get_action());
   }
@@ -66,7 +72,12 @@ LevelIntro::setup()
 void
 LevelIntro::update(float elapsed_time)
 {
-  Controller *controller = InputManager::current()->get_controller();
+  auto controller = InputManager::current()->get_controller();
+  auto bonus_prefix = player_status->get_bonus_prefix();
+  if(player_status->bonus == FIRE_BONUS && g_config->christmas_mode)
+  {
+    bonus_prefix = "big";
+  }
 
   // Check if it's time to exit the screen
   if(controller->pressed(Controller::JUMP)
@@ -82,10 +93,10 @@ LevelIntro::update(float elapsed_time)
   if (player_sprite_py >= 0) {
     player_sprite_py = 0;
     player_sprite_vy = 0;
-    player_sprite->set_action(player_status->get_bonus_prefix() + "-walk-right");
+    player_sprite->set_action(bonus_prefix + "-walk-right");
   } else {
 
-    player_sprite->set_action(player_status->get_bonus_prefix() + "-jump-right");
+    player_sprite->set_action(bonus_prefix + "-jump-right");
   }
   if (player_sprite_jump_timer.check()) {
     player_sprite_vy = -300;
