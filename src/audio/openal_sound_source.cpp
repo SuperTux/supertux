@@ -17,6 +17,7 @@
 #include "audio/openal_sound_source.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "util/log.hpp"
 
 OpenALSoundSource::OpenALSoundSource() :
   source()
