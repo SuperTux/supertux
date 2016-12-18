@@ -274,8 +274,7 @@ EditorInputCenter::hover_object() {
       continue;
     }
     Rectf bbox = moving_object->get_bbox();
-    if (sector_pos.x >= bbox.p1.x && sector_pos.y >= bbox.p1.y &&
-        sector_pos.x <= bbox.p2.x && sector_pos.y <= bbox.p2.y ) {
+    if (bbox.contains(sector_pos)) {
       if (moving_object != hovered_object) {
         if (moving_object->do_save()) {
           std::unique_ptr<Tip> new_tip(new Tip(moving_object));
@@ -465,8 +464,7 @@ EditorInputCenter::rubber_rect() {
   Rectf dr = drag_rect();
   for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
     Rectf bbox = moving_object->get_bbox();
-    if (bbox.p2.x >= dr.p1.x && bbox.p1.x <= dr.p2.x &&
-        bbox.p2.y >= dr.p1.y && bbox.p1.y <= dr.p2.y ) {
+    if (dr.contains(bbox)) {
       moving_object->editor_delete();
     }
   }
@@ -700,8 +698,7 @@ EditorInputCenter::event(SDL_Event& ev) {
             break;
           case EditorInputGui::IP_OBJECT:
             if (tileselect->object.empty()) {
-              if (tileselect->select_mode->get_mode() == 1 &&
-                  tileselect->object.empty() ) {
+              if (tileselect->select_mode->get_mode() == 1) {
                 rubber_rect();
               }
             } else {
