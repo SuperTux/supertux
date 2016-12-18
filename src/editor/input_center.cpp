@@ -893,25 +893,25 @@ EditorInputCenter::draw(DrawingContext& context) {
 Vector
 EditorInputCenter::tp_to_sp(const Vector& tp, int tile_size) {
   auto tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
-  if (tilemap) {
-    Vector sp = Vector( tp.x * tile_size, tp.y * tile_size );
-    return sp + tilemap->get_offset();
-  } else {
+  if(!tilemap)
+  {
     return Vector(0, 0);
   }
+
+  Vector sp = tp * tile_size;
+  return sp + tilemap->get_offset();
 }
 
 Vector
 EditorInputCenter::sp_to_tp(const Vector& sp, int tile_size) {
   auto tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
-  if (tilemap) {
-    Vector sp_ = sp - tilemap->get_offset();
-    int x = sp_.x / tile_size;
-    int y = sp_.y / tile_size;
-    return Vector( x, y );
-  } else {
+  if(!tilemap)
+  {
     return Vector(0, 0);
   }
+
+  Vector sp_ = sp - tilemap->get_offset();
+  return sp_ / tile_size;
 }
 
 Vector
