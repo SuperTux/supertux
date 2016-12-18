@@ -44,7 +44,16 @@ void
 OpenALSoundSource::play()
 {
   alSourcePlay(source);
-  SoundManager::check_al_error("Couldn't start audio source: ");
+
+  try
+  {
+    SoundManager::check_al_error("Couldn't start audio source: ");
+  }
+  catch(const std::exception& e)
+  {
+    // We probably have too many sources playing simultaneously.
+    log_debug << "Couldn't play source because we maxed out simultaneously playing sound sources" << std::endl;
+  }
 }
 
 bool
