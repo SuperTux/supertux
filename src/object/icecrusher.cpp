@@ -43,7 +43,7 @@ const float PAUSE_TIME_LARGE  = 1.0;
 IceCrusher::IceCrusher(const ReaderMapping& reader) :
   MovingSprite(reader, "images/creatures/icecrusher/icecrusher.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
   state(IDLE),
-  start_position(),
+  start_position(bbox.p1),
   physic(),
   cooldown_timer(0.0),
   lefteye(),
@@ -55,10 +55,9 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
   // one for hitting the ground, one for hitting Tux
   SoundManager::current()->preload("sounds/brick.wav");
 
-  start_position = bbox.p1;
   set_state(state, true);
 
-  float sprite_width = sprite->get_width ();
+  float sprite_width = sprite->get_width();
   if (sprite_width >= 128.0)
     ic_size = LARGE;
 

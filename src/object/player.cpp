@@ -116,8 +116,8 @@ bool no_water = true;
 Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   ExposedObject<Player, scripting::Player>(this),
   deactivated(false),
-  controller(),
-  scripting_controller(),
+  controller(InputManager::current()->get_controller()),
+  scripting_controller(new CodeController()),
   player_status(_player_status),
   duck(false),
   dead(false),
@@ -160,8 +160,11 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   physic(),
   visible(true),
   grabbed_object(NULL),
-  sprite(),
-  airarrow(),
+  // if/when we have complete penny gfx, we can
+  // load those instead of Tux's sprite in the
+  // constructor
+  sprite(SpriteManager::current()->create("images/creatures/tux/tux.sprite")),
+  airarrow(Surface::create("images/engine/hud/airarrow.png")),
   floor_normal(),
   ghost_mode(false),
   edit_mode(false),
@@ -171,13 +174,6 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   climbing(0)
 {
   this->name = name_;
-  controller = InputManager::current()->get_controller();
-  scripting_controller.reset(new CodeController());
-  // if/when we have complete penny gfx, we can
-  // load those instead of Tux's sprite in the
-  // constructor
-  sprite = SpriteManager::current()->create("images/creatures/tux/tux.sprite");
-  airarrow = Surface::create("images/engine/hud/airarrow.png");
   idle_timer.start(IDLE_TIME[0]/1000.0f);
 
   SoundManager::current()->preload("sounds/bigjump.wav");
@@ -188,11 +184,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   SoundManager::current()->preload("sounds/flip.wav");
   SoundManager::current()->preload("sounds/invincible_start.ogg");
   SoundManager::current()->preload("sounds/splash.wav");
-
-  if(is_big())
-    set_size(TUX_WIDTH, BIG_TUX_HEIGHT);
-  else
-    set_size(TUX_WIDTH, SMALL_TUX_HEIGHT);
+  set_size(TUX_WIDTH, is_big() ? BIG_TUX_HEIGHT : SMALL_TUX_HEIGHT);
 
   sprite->set_angle(0.0f);
   powersprite->set_angle(0.0f);
