@@ -437,8 +437,7 @@ EditorInputCenter::move_object() {
     Vector new_pos = sector_pos - obj_mouse_desync;
     if (snap_to_grid) {
       auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
-      new_pos.x = int(new_pos.x / snap_grid_size) * snap_grid_size;
-      new_pos.y = int(new_pos.y / snap_grid_size) * snap_grid_size;
+      new_pos = (new_pos / snap_grid_size).to_int_vec() * snap_grid_size;
 
       auto pm = dynamic_cast<PointMarker*>(dragged_object);
       if (pm) {
@@ -516,7 +515,13 @@ EditorInputCenter::put_object() {
   }
   GameObjectPtr game_object;
   try {
-    game_object = ObjectFactory::instance().create(tileselect->object, sector_pos, LEFT);
+    auto target_pos = sector_pos;
+    if(snap_to_grid)
+    {
+      auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
+      target_pos = (sector_pos / snap_grid_size).to_int_vec() * snap_grid_size;
+    }
+    game_object = ObjectFactory::instance().create(tileselect->object, target_pos, LEFT);
   } catch(const std::exception& e) {
     log_warning << "Error creating object " << tileselect->object << ": " << e.what() << std::endl;
     return;
@@ -528,7 +533,7 @@ EditorInputCenter::put_object() {
   if (!mo) {
     Editor::current()->layerselect.add_layer(game_object.get());
   }
-  else {
+  else if(!snap_to_grid) {
     auto bbox = mo->get_bbox();
     mo->move_to(mo->get_pos() - Vector(bbox.get_width() / 2, bbox.get_height() / 2));
   }

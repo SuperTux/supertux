@@ -110,6 +110,11 @@ public:
   float norm() const;
   Vector unit() const;
 
+  Vector to_int_vec() const
+  {
+    return Vector(int(x), int(y));
+  }
+
   // ... add the other operators as needed, I'm too lazy now ...
 
   float x, y; // leave this public, get/set methods just give me headaches
