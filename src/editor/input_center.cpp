@@ -131,7 +131,7 @@ EditorInputCenter::drag_rect() {
     end_y = drag_start.y;
   }
 
-  return Rectf( Vector(start_x, start_y), Vector(end_x, end_y) );
+  return Rectf( start_x, start_y, end_x, end_y );
 }
 
 void
@@ -182,7 +182,9 @@ EditorInputCenter::draw_rectangle() {
 void
 EditorInputCenter::fill() {
 
-  auto tilemap = dynamic_cast<TileMap*>(Editor::current()->layerselect.selected_tilemap);
+  auto editor = Editor::current();
+  auto tiles = editor->tileselect.tiles.get();
+  auto tilemap = dynamic_cast<TileMap*>(editor->layerselect.selected_tilemap);
   if (! tilemap) {
     return;
   }
@@ -190,7 +192,7 @@ EditorInputCenter::fill() {
   // The tile that is going to be replaced:
   Uint32 replace_tile = tilemap->get_tile_id(hovered_tile.x, hovered_tile.y);
 
-  if (Editor::current()->tileselect.tiles->pos(0, 0) == tilemap->get_tile_id(hovered_tile.x, hovered_tile.y)) {
+  if (replace_tile == tiles->pos(0, 0)) {
     // Replacing by the same tiles shouldn't do anything.
     return;
   }
@@ -198,7 +200,6 @@ EditorInputCenter::fill() {
   std::vector<Vector> pos_stack;
   pos_stack.clear();
   pos_stack.push_back(hovered_tile);
-  auto tiles = Editor::current()->tileselect.tiles.get();
 
   // Passing recursively trough all tiles to be replaced...
   while (pos_stack.size()) {
@@ -294,14 +295,14 @@ EditorInputCenter::edit_path(Path* path, GameObject* new_marked_object) {
   if (!path) return;
   delete_markers();
 
-  if (path->is_valid()) {
-    edited_path = path;
-    edited_path->edit_path();
-    if (new_marked_object) {
-      marked_object = new_marked_object;
-    }
-  } else {
+  if (!path->is_valid()) {
     edited_path = NULL;
+    return;
+  }
+  edited_path = path;
+  edited_path->edit_path();
+  if (new_marked_object) {
+    marked_object = new_marked_object;
   }
 }
 
@@ -376,6 +377,7 @@ EditorInputCenter::grab_object() {
 
 void
 EditorInputCenter::clone_object() {
+  auto editor = Editor::current();
   if (hovered_object && hovered_object->do_save()) {
     if (!hovered_object->is_valid()) {
       hovered_object = NULL;
@@ -388,7 +390,7 @@ EditorInputCenter::clone_object() {
     }
     obj_mouse_desync = sector_pos - hovered_object->get_pos();
 
-    auto tileselect = &(Editor::current()->tileselect);
+    auto tileselect = &(editor->tileselect);
     GameObjectPtr game_object;
     try {
       game_object = ObjectFactory::instance().create(hovered_object->get_class(), hovered_object->get_pos());
@@ -400,7 +402,7 @@ EditorInputCenter::clone_object() {
       throw std::runtime_error("Cloning object failed.");
 
     try {
-      Editor::current()->currentsector->add_object(game_object);
+      editor->currentsector->add_object(game_object);
     } catch(const std::exception& e) {
       log_warning << "Error adding object " << tileselect->object << ": " << e.what() << std::endl;
       return;
@@ -502,7 +504,8 @@ EditorInputCenter::add_path_node() {
 
 void
 EditorInputCenter::put_object() {
-  auto tileselect = &(Editor::current()->tileselect);
+  auto editor = Editor::current();
+  auto tileselect = &(editor->tileselect);
   if (tileselect->object[0] == '#') {
     if (edited_path && tileselect->object == "#node") {
       if (edited_path->is_valid() && last_node_marker) {
@@ -529,7 +532,7 @@ EditorInputCenter::put_object() {
 
   auto mo = dynamic_cast<MovingObject*> (game_object.get());
   if (!mo) {
-    Editor::current()->layerselect.add_layer(game_object.get());
+    editor->layerselect.add_layer(game_object.get());
   }
   else if(!snap_to_grid) {
     auto bbox = mo->get_bbox();
@@ -542,7 +545,7 @@ EditorInputCenter::put_object() {
   }
 
   try {
-    Editor::current()->currentsector->add_object(game_object);
+    editor->currentsector->add_object(game_object);
   } catch(const std::exception& e) {
     log_warning << "Error adding object " << tileselect->object << ": " << e.what() << std::endl;
     return;
