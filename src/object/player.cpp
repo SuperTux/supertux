@@ -863,7 +863,6 @@ Player::handle_input()
 
   if(!controller->hold(Controller::ACTION) && grabbed_object) {
     auto moving_object = dynamic_cast<MovingObject*> (grabbed_object);
-    auto sector = Sector::current();
     if(moving_object) {
       // move the grabbed object a bit away from tux
       Rectf grabbed_bbox = moving_object->get_bbox();
