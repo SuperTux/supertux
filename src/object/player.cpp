@@ -802,15 +802,17 @@ Player::handle_input()
   if (!stone) handle_vertical_input();
 
   /* Shoot! */
+  auto sector = Sector::current();
+  auto active_bullets = sector->get_active_bullets();
   if (controller->pressed(Controller::ACTION) && (player_status->bonus == FIRE_BONUS || player_status->bonus == ICE_BONUS)) {
     if((player_status->bonus == FIRE_BONUS &&
-      Sector::current()->get_active_bullets() < player_status->max_fire_bullets) ||
+      active_bullets < player_status->max_fire_bullets) ||
       (player_status->bonus == ICE_BONUS &&
-      Sector::current()->get_active_bullets() < player_status->max_ice_bullets))
+      active_bullets < player_status->max_ice_bullets))
     {
       Vector pos = get_pos() + ((dir == LEFT)? Vector(0, bbox.get_height()/2) : Vector(32, bbox.get_height()/2));
       auto new_bullet = std::make_shared<Bullet>(pos, physic.get_velocity_x(), dir, player_status->bonus);
-      Sector::current()->add_object(new_bullet);
+      sector->add_object(new_bullet);
 
       SoundManager::current()->play("sounds/shoot.wav");
       shooting_timer.start(SHOOTING_TIME);
@@ -928,9 +930,7 @@ Player::try_grab()
       pos = Vector(bbox.get_right() + 5, bbox.get_bottom() - 16);
     }
 
-    for(Sector::Portables::iterator i = sector->portables.begin();
-        i != sector->portables.end(); ++i) {
-      auto portable = *i;
+    for(auto& portable : sector->portables) {
       if(!portable->is_portable())
         continue;
 
