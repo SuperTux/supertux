@@ -27,6 +27,9 @@
 
 CheatMenu::CheatMenu()
 {
+  std::vector<Player*> players = Sector::current()->get_players();
+  auto player = players.empty() ? nullptr : players[0];
+
   add_label(_("Cheats"));
   add_hl();
   add_entry(MNID_GROW, _("Bonus: Grow"));
@@ -38,7 +41,8 @@ CheatMenu::CheatMenu()
   add_entry(MNID_SHRINK, _("Shrink Tux"));
   add_entry(MNID_KILL, _("Kill Tux"));
   add_entry(MNID_FINISH, _("Finish Level"));
-  add_entry(MNID_GHOST, _("Activate Ghost Mode"));
+  add_entry(MNID_GHOST, player->get_ghost_mode() ?
+                        _("Leave Ghost Mode") : _("Activate Ghost Mode"));
   add_hl();
   add_back(_("Back"));
 }
@@ -119,7 +123,14 @@ CheatMenu::menu_action(MenuItem* item)
       case MNID_GHOST:
         if (GameSession::current())
         {
-          scripting::ghost();
+          if(player->get_ghost_mode())
+          {
+            scripting::mortal();
+          }
+          else
+          {
+            scripting::ghost();
+          }
         }
         break;
 
