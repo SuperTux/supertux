@@ -65,47 +65,43 @@ FileSystemMenu::refresh_items()
   // Do not allow leaving the data directory
   if (directory != "/") {
     directories.push_back("..");
-    add_entry(item_id, "[..]");
-    item_id++;
   }
 
-  // Load directories
+  char** dir_files = PHYSFS_enumerateFiles(directory.c_str());
+  if (dir_files)
   {
-    std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
-      dir_files(PHYSFS_enumerateFiles(directory.c_str()),
-            PHYSFS_freeList);
-    for(const char* const* file = dir_files.get(); *file != 0; ++file)
+    for(const char* const* file = dir_files; *file != 0; ++file)
     {
-      std::string dirpath = FileSystem::join(directory, *file);
-      if(PhysFSFileSystem::is_directory(dirpath))
+      std::string filepath = FileSystem::join(directory, *file);
+      if(PhysFSFileSystem::is_directory(filepath))
       {
         directories.push_back(*file);
-        add_entry(item_id, "[" + std::string(*file) + "]");
-        item_id++;
       }
-    }
-  }
-
-  // Load files
-  {
-    char** dir_files = PHYSFS_enumerateFiles(directory.c_str());
-    if (dir_files)
-    {
-      for(const char* const* file = dir_files; *file != 0; ++file)
+      else
       {
-        if (AddonManager::current()->is_from_old_addon(FileSystem::join(directory, *file))) {
+        if (AddonManager::current()->is_from_old_addon(filepath)) {
           continue;
         }
 
         if(has_right_suffix(*file))
         {
           files.push_back(*file);
-          add_entry(item_id, *file);
-          item_id++;
         }
       }
-      PHYSFS_freeList(dir_files);
     }
+    PHYSFS_freeList(dir_files);
+  }
+
+  for(const auto& item : directories)
+  {
+    add_entry(item_id, "[" + std::string(item) + "]");
+    item_id++;
+  }
+
+  for(const auto& item : files)
+  {
+    add_entry(item_id, item);
+    item_id++;
   }
 
   add_hl();
