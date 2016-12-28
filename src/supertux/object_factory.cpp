@@ -99,7 +99,6 @@
 #include "object/coin.hpp"
 #include "object/coin_explode.hpp"
 #include "object/coin_rain.hpp"
-#include "object/comet_particle_system.hpp"
 #include "object/decal.hpp"
 #include "object/display_effect.hpp"
 #include "object/electrifier.hpp"
@@ -251,7 +250,6 @@ ObjectFactory::init_factories()
   add_factory<Candle>("candle");
   add_factory<CloudParticleSystem>("particles-clouds");
   add_factory<Coin>("coin");
-  add_factory<CometParticleSystem>("particles-comets");
   add_factory<Decal>("decal");
   add_factory<Explosion>("explosion");
   add_factory<Firefly>("firefly");

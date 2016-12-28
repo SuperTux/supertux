@@ -31,7 +31,6 @@
 #include "object/camera.hpp"
 #include "object/cloud_particle_system.hpp"
 #include "object/coin.hpp"
-#include "object/comet_particle_system.hpp"
 #include "object/display_effect.hpp"
 #include "object/ghost_particle_system.hpp"
 #include "object/gradient.hpp"
