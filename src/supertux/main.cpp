@@ -58,6 +58,7 @@ extern "C" {
 #include "supertux/title_screen.hpp"
 #include "supertux/sector.hpp"
 #include "util/file_system.hpp"
+#include "util/async_lisp_parser.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
 #include "video/lightmap.hpp"
@@ -378,6 +379,10 @@ Main::launch_game()
   TileManager tile_manager;
   SpriteManager sprite_manager;
   Resources resources;
+
+  //AsyncParser::parse("", [this] (const std::string& text) {
+  //  log_warning << "Parser thread returned!" << std::endl;
+  //});
 
   timelog("addons");
   AddonManager addon_manager("addons", g_config->addons);
