@@ -41,7 +41,7 @@ CheatMenu::CheatMenu()
   add_entry(MNID_SHRINK, _("Shrink Tux"));
   add_entry(MNID_KILL, _("Kill Tux"));
   add_entry(MNID_FINISH, _("Finish Level"));
-  add_entry(MNID_GHOST, player->get_ghost_mode() ?
+  add_entry(MNID_GHOST, (player != NULL && player->get_ghost_mode()) ?
                         _("Leave Ghost Mode") : _("Activate Ghost Mode"));
   add_hl();
   add_back(_("Back"));
@@ -121,7 +121,7 @@ CheatMenu::menu_action(MenuItem* item)
         break;
 
       case MNID_GHOST:
-        if (GameSession::current())
+        if (GameSession::current() && player)
         {
           if(player->get_ghost_mode())
           {
