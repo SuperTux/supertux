@@ -99,13 +99,11 @@ EditorScroller::update(float elapsed_time) {
     editor->scroll_left(-horiz_scroll);
   else if (horiz_scroll > 0)
     editor->scroll_right(horiz_scroll);
-  else {}
 
   if (vert_scroll < 0)
     editor->scroll_up(-vert_scroll);
   else if (vert_scroll > 0)
     editor->scroll_down(vert_scroll);
-  else {}
 }
 
 bool
