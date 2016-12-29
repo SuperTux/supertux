@@ -26,6 +26,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "math/random_generator.hpp"
 
 #include <float.h>
 #include <math.h>
@@ -47,7 +48,12 @@ const float STOMP_WAIT = .5; /**< time we stay on the dais before jumping again 
 const float SAFE_TIME = .5; /**< the time we are safe when tux just hit us */
 const int INITIAL_HITPOINTS = 5; /**< number of hits we can take */
 
-const float YETI_SQUISH_TIME = 5;
+const float YETI_SQUISH_TIME = 3;
+
+const float SNOW_EXPLOSIONS_FREQUENCY = 8; /**< number of snowball explosions per second */
+const int SNOW_EXPLOSIONS_COUNT = 5; /**< number of snowballs per explosion */
+const float SNOW_EXPLOSIONS_VX = 150; /**< Speed of snowballs */
+const float SNOW_EXPLOSIONS_VY = -200; /**< Speed of snowballs */
 }
 
 Yeti::Yeti(const ReaderMapping& reader) :
@@ -169,9 +175,28 @@ Yeti::active_update(float elapsed_time)
       }
       break;
     case SQUISHED:
-      if (state_timer.check()) {
-        remove_me();
+      {
+        Direction newdir = (int(state_timer.get_timeleft() * SNOW_EXPLOSIONS_FREQUENCY) % 2) ? LEFT : RIGHT;
+        if (dir != newdir && dir == RIGHT) {
+          SoundManager::current()->play("sounds/stomp.wav");
+          add_snow_explosions();
+          Sector::current()->camera->shake(.05f, 0, 5);
+        }
+        dir = newdir;
+        sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
       }
+      if (state_timer.check()) {
+        BadGuy::kill_fall();
+        state = FALLING;
+        physic.set_velocity_y(JUMP_UP_VY / 2); // Move up a bit before falling
+        // Add some extra explosions
+        for (int i = 0; i < 10; i++) {
+          add_snow_explosions();
+        }
+        run_dead_script();
+      }
+      break;
+    case FALLING:
       break;
   }
 
@@ -246,8 +271,7 @@ void Yeti::take_hit(Player& )
 
   if(hit_points <= 0) {
     // We're dead
-    physic.enable_gravity(true);
-    physic.set_velocity_x(0);
+    physic.set_velocity_x(((dir==RIGHT)?+RUN_VX:-RUN_VX)/5);
     physic.set_velocity_y(0);
 
     // Set the badguy layer to be above the foremost, so that
@@ -256,9 +280,7 @@ void Yeti::take_hit(Player& )
     state = SQUISHED;
     state_timer.start(YETI_SQUISH_TIME);
     set_colgroup_active(COLGROUP_MOVING_ONLY_STATIC);
-    sprite->set_action("dead");
-
-    run_dead_script();
+    //sprite->set_action("dead"); // This sprite does not look very good
   }
   else {
     safe_timer.start(SAFE_TIME);
@@ -335,6 +357,8 @@ Yeti::collision_solid(const CollisionHit& hit)
         break;
       case SQUISHED:
         break;
+      case FALLING:
+        break;
     }
   } else if(hit.left || hit.right) {
     // hit wall
@@ -355,6 +379,30 @@ Yeti::get_settings() {
   result.options.push_back( ObjectOption(MN_TOGGLE,    _("Fixed position"), &fixed_pos, "fixed-pos"));
   result.options.push_back( ObjectOption(MN_INTFIELD,  _("Lives"),          &hit_points, "lives"));
   return result;
+}
+
+void Yeti::add_snow_explosions()
+{
+  for (int i = 0; i < SNOW_EXPLOSIONS_COUNT; i++) {
+    Vector pos = get_pos(), velocity;
+    velocity.x = SNOW_EXPLOSIONS_VX * graphicsRandom.randf(0.5, 2) * (graphicsRandom.rand(2) ? 1 : -1);
+    velocity.y = SNOW_EXPLOSIONS_VY * graphicsRandom.randf(0.5, 2);
+    pos.x += sprite->get_width() / 2;
+    pos.x += sprite->get_width() * graphicsRandom.randf(0.3, 0.5) * ((velocity.x > 0) ? 1 : -1);
+    pos.y += sprite->get_height() * graphicsRandom.randf(-0.3, 0.3);
+    velocity.x += physic.get_velocity_x();
+    Sector::current()->add_object(std::make_shared<SnowExplosionParticle>(pos, velocity));
+  }
+}
+
+Yeti::SnowExplosionParticle::SnowExplosionParticle(const Vector& pos, const Vector& velocity)
+  : BadGuy(pos, (velocity.x > 0) ? RIGHT : LEFT, "images/objects/bullets/icebullet.sprite")
+{
+  physic.set_velocity_x(velocity.x);
+  physic.set_velocity_y(velocity.y);
+  physic.enable_gravity(true);
+  set_state(STATE_FALLING);
+  layer = Sector::current()->get_foremost_layer() + 1;
 }
 
 /* EOF */
