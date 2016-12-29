@@ -56,7 +56,8 @@ protected:
     ICESTATE_NORMAL,
     ICESTATE_FLAT,
     ICESTATE_GRABBED,
-    ICESTATE_KICKED
+    ICESTATE_KICKED,
+    ICESTATE_WAKING
   };
 
 protected:

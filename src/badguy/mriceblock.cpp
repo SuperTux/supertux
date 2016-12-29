@@ -73,6 +73,10 @@ MrIceBlock::active_update(float elapsed_time)
     return;
 
   if(ice_state == ICESTATE_FLAT && flat_timer.check()) {
+    set_state(ICESTATE_WAKING);
+  }
+
+  if (ice_state == ICESTATE_WAKING && sprite->animation_done()) {
     set_state(ICESTATE_NORMAL);
   }
 
@@ -116,6 +120,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
       break;
     }
     case ICESTATE_FLAT:
+    case ICESTATE_WAKING:
       physic.set_velocity_x(0);
       break;
     case ICESTATE_GRABBED:
@@ -160,6 +165,7 @@ MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
     case ICESTATE_NORMAL:
       return WalkingBadguy::collision_badguy(badguy, hit);
     case ICESTATE_FLAT:
+    case ICESTATE_WAKING:
       return FORCE_MOVE;
     case ICESTATE_KICKED:
       badguy.kill_fall();
@@ -205,6 +211,7 @@ MrIceBlock::collision_squished(GameObject& object)
     nokick_timer.start(NOKICK_TIME);
     break;
     case ICESTATE_FLAT:
+    case ICESTATE_WAKING:
     {
       auto movingobject = dynamic_cast<MovingObject*>(&object);
       if (movingobject && (movingobject->get_pos().x < get_pos().x)) {
@@ -256,6 +263,10 @@ MrIceBlock::set_state(IceState state_, bool up)
       break;
     case ICESTATE_GRABBED:
       flat_timer.stop();
+      break;
+    case ICESTATE_WAKING:
+      sprite->set_action(dir == LEFT ? "waking-left" : "waking-right",
+                         /* loops = */ 1);
       break;
     default:
       assert(false);
