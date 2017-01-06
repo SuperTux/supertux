@@ -47,15 +47,27 @@ namespace {
 class AsyncWorkload
 {
   WorkloadType m_type;
+  std::function<void ()> on_completed;
 
 public:
   AsyncWorkload(const WorkloadType& type) :
-    m_type(type)
+    m_type(type),
+    on_completed()
   {
   }
 
   const WorkloadType& get_type() const {
     return m_type;
+  }
+
+  void set_on_completed(std::function<void()> handler)
+  {
+    on_completed = handler;
+  }
+
+  void completed()
+  {
+    on_completed();
   }
 };
 
@@ -108,7 +120,7 @@ const ListFilesCallback& get_callback() const {
 class Workers
 {
 public:
-  static void parser(const LispParserWorkload* workload)
+  static void parser(LispParserWorkload* workload)
   {
     auto path = workload->get_path();
     auto callback = workload->get_callback();
@@ -118,15 +130,17 @@ public:
     }
     auto document = ReaderDocument::parse(path);
     callback(document);
+    workload->completed();
   }
 
-  static void enumerator(const ListFilesWorkload* workload)
+  static void enumerator(ListFilesWorkload* workload)
   {
     auto path = workload->get_path();
     auto callback = workload->get_callback();
     std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
       rc(PHYSFS_enumerateFiles(path.c_str()), PHYSFS_freeList);
     callback(rc.get());
+    workload->completed();
   }
 };
 
@@ -135,6 +149,11 @@ class AsyncWorker
 private:
   Workloads* m_requests;
   size_t m_number_done;
+
+private:
+  void report_progress() {
+    m_number_done++;
+  }
 
 public:
   AsyncWorker(Workloads* requests):
@@ -146,6 +165,11 @@ public:
   void start_working() {
     for(auto& request: *m_requests)
     {
+      // Add an onCompleted event handler:
+      request->set_on_completed([this] () {
+        report_progress();
+      });
+
       switch(request->get_type())
       {
         case PARSE_LISP:
@@ -160,12 +184,12 @@ public:
     }
   }
 
-  void report_progress() {
-    m_number_done++;
-  }
-
   size_t get_num_done() const {
     return m_number_done;
+  }
+
+  bool was_completed() const {
+    return get_num_done() == m_requests->size();
   }
 };
 #endif
