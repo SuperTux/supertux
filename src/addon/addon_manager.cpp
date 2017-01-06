@@ -571,7 +571,8 @@ AddonManager::is_from_old_addon(const std::string& filename) const
 void
 AddonManager::scan_for_archives(const std::function<void(std::vector<std::string>)>& callback) const
 {
-  AsyncParser::enumerate_files(m_addon_directory, [this, callback] (char** files) {
+  auto workloads = new Workloads();
+  auto request = new ListFilesWorkload(m_addon_directory, [this, callback] (char** files) {
     std::vector<std::string> archives;
     for(char** i = files; *i != 0; ++i)
     {
@@ -586,24 +587,9 @@ AddonManager::scan_for_archives(const std::function<void(std::vector<std::string
     }
     callback(archives);
   });
-
-  // Search for archives and add them to the search path
-  /*std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
-    rc(PHYSFS_enumerateFiles(m_addon_directory.c_str()),
-       PHYSFS_freeList);
-  for(char** i = rc.get(); *i != 0; ++i)
-  {
-    if (has_suffix(*i, ".zip"))
-    {
-      std::string archive = FileSystem::join(m_addon_directory, *i);
-      if (PHYSFS_exists(archive.c_str()))
-      {
-
-      }
-    }
-  }
-
-  return archives;*/
+  workloads->push_back(request);
+  auto worker = new AsyncWorker(workloads);
+  worker->start_working();
 }
 
 std::string

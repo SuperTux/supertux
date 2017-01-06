@@ -16,14 +16,99 @@
 
 #include <functional>
 #include <future>
+#include <vector>
 
+#include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 
+class AsyncWorkload;
+class LispParserWorkload;
+class ListFilesWorkload;
+
 namespace {
-  static void parser_thread(const std::string& path,
-                            const std::function<void(const ReaderDocument& doc)>& callback)
+  /**
+   * Type definitions
+   */
+  // Enumeration describing the kind of work load
+  typedef enum { PARSE_LISP, LIST_FILES } WorkloadType;
+
+  // A list containing different workloads
+  typedef std::vector<AsyncWorkload*> Workloads;
+
+  // A callback function for lisp parsers
+  typedef std::function<void(const ReaderDocument& doc)> LispParserCallback;
+  typedef std::function<void(char** files)> ListFilesCallback;
+}
+
+class AsyncWorkload
+{
+  WorkloadType m_type;
+
+public:
+  AsyncWorkload(const WorkloadType& type) :
+    m_type(type)
   {
+  }
+
+  const WorkloadType& get_type() const {
+    return m_type;
+  }
+};
+
+class LispParserWorkload : public AsyncWorkload
+{
+  const std::string& m_path;
+  const LispParserCallback& m_callback;
+
+public:
+  LispParserWorkload(const std::string& path,
+                     const LispParserCallback& callback) :
+    AsyncWorkload(PARSE_LISP),
+    m_path(path),
+    m_callback(callback)
+  {
+  }
+
+  const std::string& get_path() const {
+    return m_path;
+  }
+
+  const LispParserCallback& get_callback() const {
+    return m_callback;
+  }
+
+};
+
+class ListFilesWorkload : public AsyncWorkload
+{
+  const std::string& m_path;
+  const ListFilesCallback& m_callback;
+
+public:
+  ListFilesWorkload(const std::string& path,
+                    const ListFilesCallback& callback) :
+    AsyncWorkload(LIST_FILES),
+    m_path(path),
+    m_callback(callback)
+  {
+  }
+
+const std::string& get_path() const {
+  return m_path;
+}
+const ListFilesCallback& get_callback() const {
+  return m_callback;
+}
+};
+
+class Workers
+{
+public:
+  static void parser(const LispParserWorkload* workload)
+  {
+    auto path = workload->get_path();
+    auto callback = workload->get_callback();
     if(path.empty())
     {
       return;
@@ -32,32 +117,51 @@ namespace {
     callback(document);
   }
 
-  static void enumerate_thread(const std::string& path,
-                               const std::function<void(char** files)>& callback)
+  static void enumerator(const ListFilesWorkload* workload)
   {
+    auto path = workload->get_path();
+    auto callback = workload->get_callback();
     std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
       rc(PHYSFS_enumerateFiles(path.c_str()), PHYSFS_freeList);
     callback(rc.get());
   }
-}
-
-class AsyncParser
-{
-public:
-  static void parse(const std::string& path,
-                    const std::function<void (const ReaderDocument& doc)>& callback)
-  {
-    std::async(parser_thread, path, callback);
-  }
-
-  static void enumerate_files(const std::string& path,
-                              const std::function<void (char** files)> callback)
-  {
-    std::async(enumerate_thread, path, callback);
-  }
 };
 
-class AsyncParserWorkload
+class AsyncWorker
 {
+private:
+  Workloads* m_requests;
+  size_t m_number_done;
 
+public:
+  AsyncWorker(Workloads* requests):
+    m_requests(requests),
+    m_number_done()
+  {
+  }
+
+  void start_working() {
+    for(auto& request: *m_requests)
+    {
+      switch(request->get_type())
+      {
+        case PARSE_LISP:
+          std::async(Workers::parser,
+                     static_cast<LispParserWorkload*>(request));
+          break;
+        case LIST_FILES:
+          std::async(Workers::enumerator,
+                     static_cast<ListFilesWorkload*>(request));
+          break;
+      }
+    }
+  }
+
+  void report_progress() {
+    m_number_done++;
+  }
+
+  size_t get_num_done() const {
+    return m_number_done;
+  }
 };
