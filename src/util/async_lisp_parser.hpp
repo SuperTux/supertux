@@ -21,6 +21,8 @@
 #include <future>
 #include <vector>
 
+#include <physfs.h>
+
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
