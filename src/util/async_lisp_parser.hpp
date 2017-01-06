@@ -33,19 +33,17 @@ namespace {
   /**
    * Type definitions
    */
-  // Enumeration describing the kind of work load
-  typedef enum { PARSE_LISP, LIST_FILES } WorkloadType;
-
   // A list containing different workloads
   typedef std::vector<AsyncWorkload*> Workloads;
-
-  // A callback function for lisp parsers
-  typedef std::function<void(const ReaderDocument& doc)> LispParserCallback;
-  typedef std::function<void(char** files)> ListFilesCallback;
 }
 
 class AsyncWorkload
 {
+public:
+  // Enumeration describing the kind of work load
+  typedef enum { PARSE_LISP, LIST_FILES } WorkloadType;
+
+private:
   WorkloadType m_type;
   std::function<void ()> on_completed;
 
@@ -53,6 +51,10 @@ public:
   AsyncWorkload(const WorkloadType& type) :
     m_type(type),
     on_completed()
+  {
+  }
+
+  virtual ~AsyncWorkload()
   {
   }
 
@@ -73,6 +75,8 @@ public:
 
 class LispParserWorkload : public AsyncWorkload
 {
+  typedef std::function<void(const ReaderDocument& doc)> LispParserCallback;
+
   const std::string& m_path;
   const LispParserCallback& m_callback;
 
@@ -97,6 +101,8 @@ public:
 
 class ListFilesWorkload : public AsyncWorkload
 {
+  typedef std::function<void(char** files)> ListFilesCallback;
+
   const std::string& m_path;
   const ListFilesCallback& m_callback;
 
@@ -172,11 +178,11 @@ public:
 
       switch(request->get_type())
       {
-        case PARSE_LISP:
+        case AsyncWorkload::PARSE_LISP:
           std::async(Workers::parser,
                      static_cast<LispParserWorkload*>(request));
           break;
-        case LIST_FILES:
+        case AsyncWorkload::LIST_FILES:
           std::async(Workers::enumerator,
                      static_cast<ListFilesWorkload*>(request));
           break;
