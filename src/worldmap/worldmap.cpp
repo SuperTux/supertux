@@ -535,8 +535,7 @@ WorldMap::update(float delta)
   if (!in_level && !MenuManager::instance().is_active())
   {
     // update GameObjects
-    for(size_t i = 0; i < game_objects.size(); ++i) {
-      GameObjectPtr& object = game_objects[i];
+    for(const auto& object : game_objects) {
       if(!panning || object != tux) {
         object->update(delta);
       }
