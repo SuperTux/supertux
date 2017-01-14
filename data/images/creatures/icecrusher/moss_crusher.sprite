@@ -1,0 +1,20 @@
+(supertux-sprite
+ (action
+  (name "idle")
+  (hitbox 17 17 81 74)
+  (images "moss_crusher.png"
+  )
+ )
+ (action
+  (name "crushing")
+  (hitbox 17 17 81 74)
+  (images "moss_crusher_hit.png"
+  )
+ )
+ (action
+  (name "recovering")
+  (hitbox 17 17 81 74)
+  (images "moss_crusher.png"
+  )
+ )
+)

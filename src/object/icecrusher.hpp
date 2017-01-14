@@ -60,10 +60,9 @@ protected:
   Physic physic;
   float cooldown_timer;
 
-  Player* get_nearest_player();
-  bool found_victim();
+  bool found_victim() const;
   void set_state(IceCrusherState state, bool force = false);
-  Vector eye_position(bool right);
+  Vector eye_position(bool right) const;
 
   SpritePtr lefteye;
   SpritePtr righteye;

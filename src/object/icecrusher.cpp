@@ -61,12 +61,15 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
   if (sprite_width >= 128.0)
     ic_size = LARGE;
 
-  lefteye = SpriteManager::current()->create(sprite_name);
-  lefteye->set_action("lefteye");
-  righteye = SpriteManager::current()->create(sprite_name);
-  righteye->set_action("righteye");
-  whites = SpriteManager::current()->create(sprite_name);
-  whites->set_action("whites");
+  if (sprite->has_action("whites"))
+  {
+    lefteye = sprite->clone();
+    lefteye->set_action("lefteye");
+    righteye = sprite->clone();
+    righteye->set_action("righteye");
+    whites = sprite->clone();
+    whites->set_action("whites");
+  }
 }
 
 /*
@@ -248,7 +251,7 @@ IceCrusher::draw(DrawingContext& context)
 }
 
 bool
-IceCrusher::found_victim()
+IceCrusher::found_victim() const
 {
   auto player = Sector::current()->get_nearest_player(bbox);
   if (!player) return false;
@@ -265,7 +268,7 @@ IceCrusher::found_victim()
 }
 
 Vector
-IceCrusher::eye_position(bool right)
+IceCrusher::eye_position(bool right) const
 {
   if(state == IDLE)
   {
