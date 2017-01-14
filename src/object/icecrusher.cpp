@@ -59,15 +59,6 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
   after_sprite_set();
 }
 
-/*
-  IceCrusher::IceCrusher(const IceCrusher& other)
-  : MovingSprite(other),
-  state(other.state), speed(other.speed)
-  {
-  start_position = get_bbox().p1;
-  set_state(state, true);
-  }
-*/
 void
 IceCrusher::set_state(IceCrusherState state_, bool force)
 {

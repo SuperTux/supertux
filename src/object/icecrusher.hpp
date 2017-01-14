@@ -44,13 +44,6 @@ public:
 
   void after_editor_set();
 
-#if 0
-  const Vector& get_speed() const
-  {
-    return speed;
-  }
-#endif
-
 protected:
   enum IceCrusherState {
     IDLE,
