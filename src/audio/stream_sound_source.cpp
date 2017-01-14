@@ -28,7 +28,14 @@ StreamSoundSource::StreamSoundSource() :
   looping(false)
 {
   alGenBuffers(STREAMFRAGMENTS, buffers);
-  SoundManager::check_al_error("Couldn't allocate audio buffers: ");
+  try
+  {
+    SoundManager::check_al_error("Couldn't allocate audio buffers: ");
+  }
+  catch(std::exception& e)
+  {
+    log_warning << e.what() << std::endl;
+  }
   //add me to update list
   SoundManager::current()->register_for_update( this );
 }
@@ -64,7 +71,14 @@ StreamSoundSource::update()
   for(ALint i = 0; i < processed; ++i) {
     ALuint buffer;
     alSourceUnqueueBuffers(source, 1, &buffer);
-    SoundManager::check_al_error("Couldn't unqueue audio buffer: ");
+    try
+    {
+      SoundManager::check_al_error("Couldn't unqueue audio buffer: ");
+    }
+    catch(std::exception& e)
+    {
+      log_warning << e.what() << std::endl;
+    }
 
     if(fillBufferAndQueue(buffer) == false)
       break;
@@ -129,11 +143,18 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
 
   if(bytesread > 0) {
     ALenum format = SoundManager::get_sample_format(*file);
-    alBufferData(buffer, format, bufferdata.get(), bytesread, file->rate);
-    SoundManager::check_al_error("Couldn't refill audio buffer: ");
+    try
+    {
+      alBufferData(buffer, format, bufferdata.get(), bytesread, file->rate);
+      SoundManager::check_al_error("Couldn't refill audio buffer: ");
 
-    alSourceQueueBuffers(source, 1, &buffer);
-    SoundManager::check_al_error("Couldn't queue audio buffer: ");
+      alSourceQueueBuffers(source, 1, &buffer);
+      SoundManager::check_al_error("Couldn't queue audio buffer: ");
+    }
+    catch(std::exception& e)
+    {
+      log_warning << e.what() << std::endl;
+    }
   }
 
   // return false if there aren't more buffers to fill

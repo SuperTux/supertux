@@ -23,7 +23,14 @@ OpenALSoundSource::OpenALSoundSource() :
   source()
 {
   alGenSources(1, &source);
-  SoundManager::check_al_error("Couldn't create audio source: ");
+  try
+  {
+    SoundManager::check_al_error("Couldn't create audio source: ");
+  }
+  catch(std::exception& e)
+  {
+    log_warning << e.what() << std::endl;
+  }
   set_reference_distance(128);
 }
 
@@ -38,7 +45,15 @@ OpenALSoundSource::stop()
 {
   alSourceRewindv(1, &source); // Stops the source
   alSourcei(source, AL_BUFFER, AL_NONE);
-  SoundManager::check_al_error("Problem stopping audio source: ");
+  try
+  {
+    SoundManager::check_al_error("Problem stopping audio source: ");
+  }
+  catch(const std::exception& e)
+  {
+    // Internal OpenAL error. Don't you crash on me, baby!
+    log_warning << e.what() << std::endl;
+  }
 }
 
 void
@@ -53,7 +68,7 @@ OpenALSoundSource::play()
   catch(const std::exception& e)
   {
     // We probably have too many sources playing simultaneously.
-    log_debug << "Couldn't play source because we maxed out simultaneously playing sound sources" << std::endl;
+    log_warning << e.what() << std::endl;
   }
 }
 
