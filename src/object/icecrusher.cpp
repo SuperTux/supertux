@@ -56,20 +56,7 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/brick.wav");
 
   set_state(state, true);
-
-  float sprite_width = sprite->get_width();
-  if (sprite_width >= 128.0)
-    ic_size = LARGE;
-
-  if (sprite->has_action("whites"))
-  {
-    lefteye = sprite->clone();
-    lefteye->set_action("lefteye");
-    righteye = sprite->clone();
-    righteye->set_action("righteye");
-    whites = sprite->clone();
-    whites->set_action("whites");
-  }
+  after_sprite_set();
 }
 
 /*
@@ -250,6 +237,12 @@ IceCrusher::draw(DrawingContext& context)
   context.pop_target();
 }
 
+void
+IceCrusher::after_editor_set() {
+  MovingSprite::after_editor_set();
+  after_sprite_set();
+}
+
 bool
 IceCrusher::found_victim() const
 {
@@ -308,6 +301,30 @@ IceCrusher::eye_position(bool right) const
   }
 
   return Vector(0,0);
+}
+
+void
+IceCrusher::after_sprite_set()
+{
+  float sprite_width = sprite->get_width();
+  if (sprite_width >= 128.0)
+    ic_size = LARGE;
+
+  if (!sprite->has_action("whites"))
+  {
+    lefteye.reset();
+    righteye.reset();
+    whites.reset();
+  }
+  else
+  {
+    lefteye = sprite->clone();
+    lefteye->set_action("lefteye");
+    righteye = sprite->clone();
+    righteye->set_action("righteye");
+    whites = sprite->clone();
+    whites->set_action("whites");
+  }
 }
 
 /* EOF */

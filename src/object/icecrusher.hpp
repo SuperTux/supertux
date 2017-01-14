@@ -42,6 +42,8 @@ public:
     return _("Ice crusher");
   }
 
+  void after_editor_set();
+
 #if 0
   const Vector& get_speed() const
   {
@@ -63,6 +65,8 @@ protected:
   bool found_victim() const;
   void set_state(IceCrusherState state, bool force = false);
   Vector eye_position(bool right) const;
+
+  void after_sprite_set();
 
   SpritePtr lefteye;
   SpritePtr righteye;
