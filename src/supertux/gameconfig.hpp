@@ -68,7 +68,7 @@ public:
   bool enable_script_debugger;
   std::string start_demo;
   std::string record_demo;
-  
+
   /** this variable is set if tux should spawn somewhere which isn't the "main" spawn point*/
   boost::optional<Vector> tux_spawn_pos;
 
@@ -97,11 +97,18 @@ public:
   std::string repository_url;
 
   bool is_christmas() const {
-    using namespace boost::gregorian;
-    using namespace boost::posix_time;
-    date today = second_clock::local_time().date();
-    date saint_nicholas_day(today.year(), Dec, 6);
-    return today >= saint_nicholas_day;
+    try
+    {
+      using namespace boost::gregorian;
+      using namespace boost::posix_time;
+      date today = second_clock::local_time().date();
+      date saint_nicholas_day(today.year(), Dec, 6);
+      return today >= saint_nicholas_day;
+    }
+    catch(...)
+    {
+      return false;
+    }
   }
 };
 
