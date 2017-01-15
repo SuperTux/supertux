@@ -27,6 +27,8 @@ extern "C" {
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
+#include "video/font.hpp"
 
 enum {
   MNID_LANGUAGE_AUTO_DETECT = 0,
@@ -93,6 +95,25 @@ LanguageMenu::menu_action(MenuItem* item)
       }
     }
   }
+
+  // Reload new fonts optimized for the chosen locale
+  // TODO Merge this with the code in the Resources class.
+
+  if (g_dictionary_manager->get_language().get_language() == "de") {
+    // TODO Remove this badly chosen test code, for obvious reasons.
+    Resources::fixed_font.reset(new Font("data/fonts/otf/SourceCodePro-Regular.otf", 18));
+    Resources::normal_font.reset(new Font("data/fonts/otf/SourceCodePro-Regular.otf", 20));
+    Resources::small_font.reset(new Font("data/fonts/otf/SourceCodePro-Regular.otf", 10, 1));
+    Resources::big_font.reset(new Font("data/fonts/otf/SourceCodePro-Regular.otf", 25, 3));
+  } else {
+    // Fall back to fonts optimized for English unless a better font is
+    // specified above.
+    Resources::fixed_font.reset(new Font("data/fonts/otf/Hanken-Book.ttf", 18));
+    Resources::normal_font.reset(new Font("data/fonts/otf/PatrickHand-Regular.ttf", 20));
+    Resources::small_font.reset(new Font("data/fonts/otf/PatrickHand-Regular.ttf", 10, 1));
+    Resources::big_font.reset(new Font("data/fonts/otf/PatrickHand-Regular.ttf", 25, 3));
+  }
+
   if(g_dictionary_manager->get_language().get_language() != "en")
     MenuManager::instance().push_menu(MenuStorage::LANGPACK_AUTO_UPDATE_MENU);
 }
