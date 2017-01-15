@@ -54,15 +54,13 @@ Door::Door(const ReaderMapping& reader) :
 
 Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoint) :
   state(CLOSED),
-  target_sector(),
-  target_spawnpoint(),
+  target_sector(sector),
+  target_spawnpoint(spawnpoint),
   script(),
   sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
   stay_open_timer()
 {
   bbox.set_pos(Vector(x, y));
-  target_sector = sector;
-  target_spawnpoint = spawnpoint;
 
   sprite->set_action("closed");
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
