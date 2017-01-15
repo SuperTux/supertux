@@ -20,6 +20,7 @@
 #include "gui/mousecursor.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/player_status.hpp"
+#include "util/gettext.hpp"
 #include "video/font.hpp"
 
 std::unique_ptr<MouseCursor> Resources::mouse_cursor;
@@ -43,11 +44,25 @@ Resources::Resources()
                                      "images/engine/menu/mousecursor-link.png"));
   MouseCursor::set_current(mouse_cursor.get());
 
-  // Load global images:
-  fixed_font.reset(new Font("data/fonts/otf/Hanken-Book.ttf", 18));
-  normal_font.reset(new Font("data/fonts/otf/PatrickHand-Regular.ttf", 20));
-  small_font.reset(new Font("data/fonts/otf/PatrickHand-Regular.ttf", 10, 1));
-  big_font.reset(new Font("data/fonts/otf/PatrickHand-Regular.ttf", 25, 3));
+  // Load global fonts based on current locale
+  // TODO This is a rather hacky approach that should be replaced by proper font
+  // fallback.
+  const std::string& language = g_dictionary_manager->get_language().get_language();
+
+  if (language == "de") {
+    // TODO Remove this badly chosen test code, for obvious reasons.
+    fixed_font.reset(new Font("data/fonts/otf/SourceCodePro-Regular.otf", 18));
+    normal_font.reset(new Font("data/fonts/otf/SourceCodePro-Regular.otf", 20));
+    small_font.reset(new Font("data/fonts/otf/SourceCodePro-Regular.otf", 10, 1));
+    big_font.reset(new Font("data/fonts/otf/SourceCodePro-Regular.otf", 25, 3));
+  } else {
+    // Fall back to fonts optimized for English unless a better font is
+    // specified above.
+    fixed_font.reset(new Font("data/fonts/otf/Hanken-Book.ttf", 18));
+    normal_font.reset(new Font("data/fonts/otf/PatrickHand-Regular.ttf", 20));
+    small_font.reset(new Font("data/fonts/otf/PatrickHand-Regular.ttf", 10, 1));
+    big_font.reset(new Font("data/fonts/otf/PatrickHand-Regular.ttf", 25, 3));
+  }
 
   /* Load menu images */
   checkbox = Surface::create("images/engine/menu/checkbox-unchecked.png");
