@@ -3,6 +3,10 @@ os: Visual Studio 2015
 configuration: Release
 platform: x86
 
+branches:
+  except:
+    - coverity_scan # No need for Windows builds on that branch
+
 install:
 - ps: |
     Invoke-WebRequest http://download.supertuxproject.org/builddep/dependencies-win32.zip -OutFile "$env:APPVEYOR_BUILD_FOLDER/dependencies.zip"
