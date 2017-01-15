@@ -19,6 +19,7 @@
 #include "object/rock.hpp"
 #include "object/coin.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
@@ -33,7 +34,9 @@ Rock::Rock(const Vector& pos, const std::string& spritename) :
   physic(),
   on_ground(false),
   grabbed(false),
-  last_movement()
+  last_movement(),
+  on_grab_script(),
+  on_ungrab_script()
 {
   SoundManager::current()->preload(ROCK_SOUND);
   set_group(COLGROUP_MOVING_STATIC);
@@ -45,9 +48,13 @@ Rock::Rock(const ReaderMapping& reader) :
   physic(),
   on_ground(false),
   grabbed(false),
-  last_movement()
+  last_movement(),
+  on_grab_script(),
+  on_ungrab_script()
 {
   if(!reader.get("name", name)) name = "";
+  if(!reader.get("on-grab-script", on_grab_script)) on_grab_script = "";
+  if(!reader.get("on-ungrab-script", on_ungrab_script)) on_ungrab_script = "";
   SoundManager::current()->preload(ROCK_SOUND);
   set_group(COLGROUP_MOVING_STATIC);
 }
@@ -58,8 +65,13 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   physic(),
   on_ground(false),
   grabbed(false),
-  last_movement()
+  last_movement(),
+  on_grab_script(),
+  on_ungrab_script()
 {
+  if(!reader.get("name", name)) name = "";
+  if(!reader.get("on-grab-script", on_grab_script)) on_grab_script = "";
+  if(!reader.get("on-ungrab-script", on_ungrab_script)) on_ungrab_script = "";
   SoundManager::current()->preload(ROCK_SOUND);
   set_group(COLGROUP_MOVING_STATIC);
 }
@@ -132,6 +144,11 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
   set_group(COLGROUP_TOUCHABLE); //needed for lanterns catching willowisps
   on_ground = false;
   grabbed = true;
+
+  if(!on_grab_script.empty()) {
+    std::istringstream stream(on_grab_script);
+    Sector::current()->run_script(stream, "Rock::on_grab");
+  }
 }
 
 void
@@ -147,6 +164,24 @@ Rock::ungrab(MovingObject& , Direction dir)
     physic.set_velocity(0, 0);
   }
   grabbed = false;
+
+  if(!on_ungrab_script.empty()) {
+    std::istringstream stream(on_ungrab_script);
+    Sector::current()->run_script(stream, "Rock::on_ungrab");
+  }
+}
+
+ObjectSettings
+Rock::get_settings()
+{
+  auto result = MovingSprite::get_settings();
+  result.options.push_back(
+    ObjectOption(MN_SCRIPT, _("On grab script"),
+                 &on_grab_script, "on-grab-script"));
+  result.options.push_back(
+    ObjectOption(MN_SCRIPT, _("On ungrab script"),
+                 &on_ungrab_script, "on-ungrab-script"));
+  return result;
 }
 
 

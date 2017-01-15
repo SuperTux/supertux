@@ -44,12 +44,15 @@ public:
   std::string get_display_name() const {
     return _("Rock");
   }
+  ObjectSettings get_settings();
 
 protected:
   Physic physic;
   bool on_ground;
   bool grabbed;
   Vector last_movement;
+  std::string on_grab_script;
+  std::string on_ungrab_script;
 };
 
 #endif
