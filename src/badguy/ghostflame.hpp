@@ -34,6 +34,8 @@ public:
   std::string get_display_name() const {
     return _("Ghost flame");
   }
+  ObjectSettings get_settings();
+  void after_editor_set();
 };
 
 #endif

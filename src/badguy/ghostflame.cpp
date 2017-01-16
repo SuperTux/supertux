@@ -46,4 +46,25 @@ Ghostflame::is_freezable() const
   return false;
 }
 
+ObjectSettings
+Ghostflame::get_settings()
+{
+  ObjectSettings result = Flame::get_settings();
+  for(auto& option : result.options)
+  {
+    if (option.key == "sprite")
+    {
+      option.flags = 0; // Remove is_visible flag
+    }
+  }
+
+  return result;
+}
+
+void
+Ghostflame::after_editor_set()
+{
+  sprite_name = "images/creatures/flame/ghostflame.sprite";
+}
+
 /* EOF */
