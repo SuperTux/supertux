@@ -156,8 +156,7 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
         state = CLOSING;
         sprite->set_action("closing", 1);
         if(!script.empty()) {
-          std::istringstream stream(script);
-          Sector::current()->run_script(stream, "Door");
+          Sector::current()->run_script(script, "Door");
         }
 
         if(!target_sector.empty()) {

@@ -561,8 +561,7 @@ BadGuy::run_dead_script()
 
   // start dead-script
   if(!dead_script.empty()) {
-    std::istringstream stream(dead_script);
-    Sector::current()->run_script(stream, "dead-script");
+    Sector::current()->run_script(dead_script, "dead-script");
   }
 }
 

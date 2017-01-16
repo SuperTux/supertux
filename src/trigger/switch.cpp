@@ -81,10 +81,9 @@ Switch::update(float )
       break;
     case TURN_ON:
       if(sprite->animation_done()) {
-        std::istringstream stream(script);
         std::ostringstream location;
         location << "switch" << bbox.p1;
-        Sector::current()->run_script(stream, location.str());
+        Sector::current()->run_script(script, location.str());
 
         sprite->set_action("on", 1);
         state = ON;
@@ -99,10 +98,9 @@ Switch::update(float )
     case TURN_OFF:
       if(sprite->animation_done()) {
         if (bistable) {
-          std::istringstream stream(off_script);
           std::ostringstream location;
           location << "switch" << bbox.p1;
-          Sector::current()->run_script(stream, location.str());
+          Sector::current()->run_script(off_script, location.str());
         }
 
         sprite->set_action("off");

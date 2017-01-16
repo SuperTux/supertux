@@ -146,8 +146,7 @@ Rock::grab(MovingObject& , const Vector& pos, Direction)
   grabbed = true;
 
   if(!on_grab_script.empty()) {
-    std::istringstream stream(on_grab_script);
-    Sector::current()->run_script(stream, "Rock::on_grab");
+    Sector::current()->run_script(on_grab_script, "Rock::on_grab");
   }
 }
 
@@ -166,8 +165,7 @@ Rock::ungrab(MovingObject& , Direction dir)
   grabbed = false;
 
   if(!on_ungrab_script.empty()) {
-    std::istringstream stream(on_ungrab_script);
-    Sector::current()->run_script(stream, "Rock::on_ungrab");
+    Sector::current()->run_script(on_ungrab_script, "Rock::on_ungrab");
   }
 }
 

@@ -148,6 +148,17 @@ Sector::get_level() const
 }
 
 HSQUIRRELVM
+Sector::run_script(const std::string& script, const std::string& sourcename)
+{
+  if(script.empty())
+  {
+    return NULL;
+  }
+  std::istringstream stream(script);
+  return run_script(stream, sourcename);
+}
+
+HSQUIRRELVM
 Sector::run_script(std::istream& in, const std::string& sourcename)
 {
   using namespace scripting;

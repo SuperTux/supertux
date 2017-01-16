@@ -493,8 +493,7 @@ WorldMap::finished_level(Level* gamelevel)
 
   if (!level->extro_script.empty()) {
     try {
-      std::istringstream in(level->extro_script);
-      run_script(in, "worldmap:extro_script");
+      run_script(level->extro_script, "worldmap:extro_script");
     } catch(std::exception& e) {
       log_warning << "Couldn't run level-extro-script: " << e.what() << std::endl;
     }
@@ -882,8 +881,7 @@ WorldMap::setup()
   }
 
   if(!init_script.empty()) {
-    std::istringstream in(init_script);
-    run_script(in, "WorldMap::init");
+    run_script(init_script, "WorldMap::init");
   }
   tux->process_special_tile( at_special_tile() );
 }
@@ -1123,13 +1121,23 @@ WorldMap::solved_level_count() const
 }
 
 HSQUIRRELVM
+WorldMap::run_script(const std::string& script, const std::string& sourcename)
+{
+  if(script.empty())
+  {
+    return NULL;
+  }
+  std::istringstream in(script);
+  return run_script(in, sourcename);
+}
+
+HSQUIRRELVM
 WorldMap::run_script(std::istream& in, const std::string& sourcename)
 {
   using namespace scripting;
 
   // garbage collect thread list
-  for(ScriptList::iterator i = scripts.begin();
-      i != scripts.end(); ) {
+  for(auto i = scripts.begin(); i != scripts.end(); ) {
     HSQOBJECT& object = *i;
     HSQUIRRELVM vm = object_to_vm(object);
 

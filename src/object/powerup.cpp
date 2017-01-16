@@ -115,8 +115,7 @@ PowerUp::collision(GameObject& other, const CollisionHit&)
   }
 
   if (!script.empty()) {
-    std::istringstream stream(script);
-    Sector::current()->run_script(stream, "powerup-script");
+    Sector::current()->run_script(script, "powerup-script");
     remove_me();
     return ABORT_MOVE;
   }

@@ -97,8 +97,7 @@ Ispy::update(float )
       sprite->set_action((dir == DOWN) ? "alert-down" : ((dir == LEFT) ? "alert-left" : "alert-right"), 1);
       state = ISPYSTATE_ALERT;
 
-      std::istringstream stream(script);
-      Sector::current()->run_script(stream, "Ispy");
+      Sector::current()->run_script(script, "Ispy");
     }
   }
   if (state == ISPYSTATE_ALERT) {

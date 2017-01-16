@@ -181,8 +181,7 @@ Coin::collect()
   remove_me();
 
   if(!collect_script.empty()) {
-    std::istringstream stream(collect_script);
-    sector->run_script(stream, "collect-script");
+    sector->run_script(collect_script, "collect-script");
   }
 }
 

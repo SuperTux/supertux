@@ -94,8 +94,7 @@ ScriptTrigger::event(Player& , EventType type)
   if(type != triggerevent)
     return;
 
-  std::istringstream stream(script);
-  Sector::current()->run_script(stream, "ScriptTrigger");
+  Sector::current()->run_script(script, "ScriptTrigger");
 }
 
 void

@@ -193,6 +193,8 @@ public:
   const std::string& get_title() const
   { return name; }
 
+  HSQUIRRELVM run_script(const std::string& script, const std::string& sourcename);
+
   /**
    * runs a script in the context of the worldmap (and keeps a reference to
    * the script (so the script gets destroyed when the worldmap is destroyed)

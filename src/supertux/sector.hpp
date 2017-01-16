@@ -88,6 +88,11 @@ public:
   void play_looping_sounds();
 
   /**
+   * Convenience function that takes an std::string instead of an std::istream&
+   */
+  HSQUIRRELVM run_script(const std::string& script, const std::string& sourcename);
+
+  /**
    * runs a script in the context of the sector (sector_table will be the
    * roottable of this squirrel VM)
    */

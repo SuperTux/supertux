@@ -133,8 +133,7 @@ SecretAreaTrigger::event(Player& , EventType type)
       }
 
       if(!script.empty()) {
-        std::istringstream stream(script);
-        Sector::current()->run_script(stream, "SecretAreaScript");
+        Sector::current()->run_script(script, "SecretAreaScript");
       }
     }
   }

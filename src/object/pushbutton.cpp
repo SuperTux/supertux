@@ -84,8 +84,7 @@ PushButton::collision(GameObject& other, const CollisionHit& hit)
   SoundManager::current()->play(BUTTON_SOUND);
 
   // run script
-  std::istringstream stream(script);
-  Sector::current()->run_script(stream, "PushButton");
+  Sector::current()->run_script(script, "PushButton");
 
   return FORCE_MOVE;
 }
