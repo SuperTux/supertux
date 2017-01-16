@@ -161,38 +161,7 @@ Sector::run_script(const std::string& script, const std::string& sourcename)
 HSQUIRRELVM
 Sector::run_script(std::istream& in, const std::string& sourcename)
 {
-  using namespace scripting;
-
-  // garbage collect thread list
-  for(auto i = scripts.begin(); i != scripts.end(); ) {
-    HSQOBJECT& object = *i;
-    HSQUIRRELVM vm = object_to_vm(object);
-
-    if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
-      sq_release(global_vm, &object);
-      i = scripts.erase(i);
-      continue;
-    }
-
-    ++i;
-  }
-
-  HSQOBJECT object = create_thread(global_vm);
-  scripts.push_back(object);
-
-  HSQUIRRELVM vm = object_to_vm(object);
-
-  // set sector_table as roottable for the thread
-  sq_pushobject(vm, sector_table);
-  sq_setroottable(vm);
-
-  try {
-    compile_and_run(vm, in, "Sector " + name + " - " + sourcename);
-  } catch(std::exception& e) {
-    log_warning << "Error running script: " << e.what() << std::endl;
-  }
-
-  return vm;
+  return scripting::run_script(in, sourcename, scripts, sector_table);
 }
 
 void
@@ -304,8 +273,7 @@ Sector::activate(const Vector& player_pos)
 
   // Run init script
   if(!init_script.empty() && !Editor::is_active()) {
-    std::istringstream in(init_script);
-    run_script(in, "init-script");
+    run_script(init_script, "init-script");
   }
 }
 

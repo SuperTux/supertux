@@ -170,8 +170,8 @@ public:
   std::vector<Player*> get_players() const {
     return std::vector<Player*>(1, this->player);
   }
-  Player *get_nearest_player (const Vector& pos) const;
-  Player *get_nearest_player (const Rectf& pos) const
+  Player* get_nearest_player (const Vector& pos) const;
+  Player* get_nearest_player (const Rectf& pos) const
   {
     return (get_nearest_player (get_anchor_pos (pos, ANCHOR_MIDDLE)));
   }

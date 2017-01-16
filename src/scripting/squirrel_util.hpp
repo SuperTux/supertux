@@ -20,10 +20,13 @@
 #include <sstream>
 #include <vector>
 
+#include "scripting/scripting.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 
 namespace scripting {
+
+typedef std::vector<HSQOBJECT> ScriptList;
 
 std::string squirrel2string(HSQUIRRELVM vm, SQInteger i);
 void print_squirrel_stack(HSQUIRRELVM vm);
@@ -33,6 +36,9 @@ SQInteger squirrel_read_char(SQUserPointer file);
 HSQOBJECT create_thread(HSQUIRRELVM vm);
 SQObject vm_to_object(HSQUIRRELVM vm);
 HSQUIRRELVM object_to_vm(HSQOBJECT object);
+
+HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
+                       ScriptList& scripts, const HSQOBJECT& root_table);
 
 void compile_script(HSQUIRRELVM vm, std::istream& in,
                     const std::string& sourcename);

@@ -219,6 +219,37 @@ SQInteger squirrel_read_char(SQUserPointer file)
   return c;
 }
 
+HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
+                       ScriptList& scripts, const HSQOBJECT& root_table)
+{
+    // garbage collect thread list
+    for(auto i = scripts.begin(); i != scripts.end(); ) {
+      HSQOBJECT& object = *i;
+      HSQUIRRELVM vm = object_to_vm(object);
+
+      if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
+        sq_release(global_vm, &object);
+        i = scripts.erase(i);
+        continue;
+      }
+
+      ++i;
+    }
+
+    HSQOBJECT object = create_thread(global_vm);
+    scripts.push_back(object);
+
+    HSQUIRRELVM vm = object_to_vm(object);
+
+    // set root table
+    sq_pushobject(vm, root_table);
+    sq_setroottable(vm);
+
+    compile_and_run(vm, in, sourcename);
+
+    return vm;
+}
+
 void compile_script(HSQUIRRELVM vm, std::istream& in, const std::string& sourcename)
 {
   if(SQ_FAILED(sq_compile(vm, squirrel_read_char, &in, sourcename.c_str(), true)))

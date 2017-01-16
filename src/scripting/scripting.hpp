@@ -27,7 +27,6 @@ extern HSQUIRRELVM global_vm;
 
 class Scripting : public Currenton<Scripting>
 {
-private:
 public:
   Scripting(bool enable_debugger);
   ~Scripting();
