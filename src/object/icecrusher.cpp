@@ -53,7 +53,15 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
 {
   // TODO: icecrusher hitting deserves its own sounds-
   // one for hitting the ground, one for hitting Tux
-  SoundManager::current()->preload("sounds/brick.wav");
+  if( sprite_name.find("rock_crusher") != std::string::npos ||
+      sprite_name.find("moss_crusher") != std::string::npos )
+  {
+    SoundManager::current()->preload("sounds/thud.ogg");
+  }
+  else
+  {
+    SoundManager::current()->preload("sounds/brick.wav");
+  }
 
   set_state(state, true);
   after_sprite_set();
@@ -140,7 +148,15 @@ IceCrusher::collision_solid(const CollisionHit& hit)
         else {
           cooldown_timer = PAUSE_TIME_NORMAL;
           Sector::current()->camera->shake (/* frequency = */ .1f, /* x = */ 0.0, /* y = */ 8.0);
-          SoundManager::current()->play("sounds/brick.wav");
+          if( sprite_name.find("rock_crusher") != std::string::npos ||
+              sprite_name.find("moss_crusher") != std::string::npos )
+          {
+            SoundManager::current()->play("sounds/thud.ogg");
+          }
+          else
+          {
+            SoundManager::current()->play("sounds/brick.wav");
+          }
           // throw some particles
           for(int j = 0; j < 5; j++)
           {
