@@ -163,7 +163,7 @@ Sector::run_script(std::istream& in, const std::string& sourcename)
 {
   try {
     return scripting::run_script(in, "Sector " + name + " - " + sourcename,
-                                 scripts, sector_table);
+                                 scripts, &sector_table);
   }
   catch(const std::exception& e)
   {

@@ -220,7 +220,7 @@ SQInteger squirrel_read_char(SQUserPointer file)
 }
 
 HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
-                       ScriptList& scripts, const HSQOBJECT& root_table)
+                       ScriptList& scripts, const HSQOBJECT* root_table)
 {
     // garbage collect thread list
     for(auto i = scripts.begin(); i != scripts.end(); ) {
@@ -242,8 +242,11 @@ HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
     HSQUIRRELVM vm = object_to_vm(object);
 
     // set root table
-    sq_pushobject(vm, root_table);
-    sq_setroottable(vm);
+    if(root_table != NULL)
+    {
+      sq_pushobject(vm, *root_table);
+      sq_setroottable(vm);
+    }
 
     compile_and_run(vm, in, sourcename);
 

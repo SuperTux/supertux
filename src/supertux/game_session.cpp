@@ -338,31 +338,7 @@ GameSession::force_ghost_mode()
 HSQUIRRELVM
 GameSession::run_script(std::istream& in, const std::string& sourcename)
 {
-  using namespace scripting;
-
-  // garbage collect thread list
-  for(ScriptList::iterator i = scripts.begin();
-      i != scripts.end(); ) {
-    HSQOBJECT& object = *i;
-    HSQUIRRELVM vm = object_to_vm(object);
-
-    if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
-      sq_release(global_vm, &object);
-      i = scripts.erase(i);
-      continue;
-    }
-
-    ++i;
-  }
-
-  HSQOBJECT object = create_thread(global_vm);
-  scripts.push_back(object);
-
-  HSQUIRRELVM vm = object_to_vm(object);
-
-  compile_and_run(vm, in, sourcename);
-
-  return vm;
+  return scripting::run_script(in, sourcename, scripts, NULL);
 }
 
 void
