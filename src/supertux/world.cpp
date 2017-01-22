@@ -114,7 +114,8 @@ World::load_(const std::string& directory)
 
   std::string filename = m_basedir + "/info";
 
-  if(!PHYSFS_exists(filename.c_str()))
+  if(!PHYSFS_exists(filename.c_str()) ||
+     PhysFSFileSystem::is_directory(filename))
   {
     set_default_values();
     return;
