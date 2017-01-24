@@ -264,12 +264,7 @@ GameSession::on_escape_press()
     return;   // don't let the player open the menu, when he is dying
   }
 
-  if(!level->on_menukey_script.empty()) {
-    std::istringstream in(level->on_menukey_script);
-    run_script(in, "OnMenuKeyScript");
-  } else {
-    toggle_pause();
-  }
+  toggle_pause();
 }
 
 void
@@ -333,12 +328,6 @@ void
 GameSession::force_ghost_mode()
 {
   currentsector->get_players()[0]->set_ghost_mode(true);
-}
-
-HSQUIRRELVM
-GameSession::run_script(std::istream& in, const std::string& sourcename)
-{
-  return scripting::run_script(in, sourcename, scripts, NULL);
 }
 
 void

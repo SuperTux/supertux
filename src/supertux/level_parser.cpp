@@ -110,7 +110,6 @@ LevelParser::load(const std::string& filepath)
       level.get("author", m_level.author);
       level.get("contact", m_level.contact);
       level.get("license", m_level.license);
-      level.get("on-menukey-script", m_level.on_menukey_script);
       level.get("target-time", m_level.target_time);
 
       auto iter = level.get_iter();

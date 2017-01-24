@@ -43,7 +43,6 @@ EditorLevelMenu::EditorLevelMenu() :
   add_file(_("Tile set"), &(level->tileset), std::vector<std::string>(1, ".strf"));
 
   if (!worldmap) {
-    add_script(_("On menukey script"), &(level->on_menukey_script));
     add_numfield(_("Target time"), &(level->target_time));
   }
 

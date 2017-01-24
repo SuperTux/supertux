@@ -106,7 +106,6 @@ private:
   void drawstatus(DrawingContext& context);
   void draw_pause(DrawingContext& context);
 
-  HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
   void on_escape_press();
 
   std::unique_ptr<Level> level;

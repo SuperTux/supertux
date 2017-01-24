@@ -42,7 +42,6 @@ Level::Level() :
   contact(),
   license(),
   filename(),
-  on_menukey_script(),
   sectors(),
   stats(),
   target_time(),
@@ -97,9 +96,6 @@ Level::save(const std::string& filepath, bool retry)
     }
     if (license != "") {
       writer.write("license", license, false);
-    }
-    if (on_menukey_script != "") {
-      writer.write("on-menukey-script", on_menukey_script, false);
     }
     if (target_time){
       writer.write("target-time", target_time);

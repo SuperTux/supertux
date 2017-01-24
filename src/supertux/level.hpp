@@ -36,7 +36,6 @@ public:
   std::string contact;
   std::string license;
   std::string filename;
-  std::string on_menukey_script;
   std::vector<std::unique_ptr<Sector> > sectors;
   Statistics  stats;
   float       target_time;
