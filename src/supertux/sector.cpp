@@ -465,13 +465,7 @@ Sector::before_object_add(GameObjectPtr object)
 void
 Sector::try_expose(GameObjectPtr object)
 {
-  auto object_ = dynamic_cast<ScriptInterface*>(object.get());
-  if(object_ != NULL) {
-    HSQUIRRELVM vm = scripting::global_vm;
-    sq_pushobject(vm, sector_table);
-    object_->expose(vm, -1);
-    sq_pop(vm, 1);
-  }
+  scripting::try_expose(object, sector_table);
 }
 
 void
@@ -508,18 +502,7 @@ Sector::before_object_remove(GameObjectPtr object)
 void
 Sector::try_unexpose(GameObjectPtr object)
 {
-  auto object_ = dynamic_cast<ScriptInterface*>(object.get());
-  if(object_ != NULL) {
-    HSQUIRRELVM vm = scripting::global_vm;
-    SQInteger oldtop = sq_gettop(vm);
-    sq_pushobject(vm, sector_table);
-    try {
-      object_->unexpose(vm, -1);
-    } catch(std::exception& e) {
-      log_warning << "Couldn't unregister object: " << e.what() << std::endl;
-    }
-    sq_settop(vm, oldtop);
-  }
+  scripting::try_unexpose(object, sector_table);
 }
 
 void

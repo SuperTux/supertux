@@ -24,6 +24,10 @@
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 
+#include "supertux/game_object_ptr.hpp"
+
+class GameObject;
+
 namespace scripting {
 
 typedef std::vector<HSQOBJECT> ScriptList;
@@ -36,6 +40,9 @@ SQInteger squirrel_read_char(SQUserPointer file);
 HSQOBJECT create_thread(HSQUIRRELVM vm);
 SQObject vm_to_object(HSQUIRRELVM vm);
 HSQUIRRELVM object_to_vm(HSQOBJECT object);
+
+void try_expose(const GameObjectPtr& object, const HSQOBJECT& table);
+void try_unexpose(const GameObjectPtr& object, const HSQOBJECT& table);
 
 HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
                        ScriptList& scripts, const HSQOBJECT* root_table);

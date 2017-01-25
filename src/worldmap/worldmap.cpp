@@ -166,30 +166,13 @@ WorldMap::add_object(GameObjectPtr object)
 void
 WorldMap::try_expose(const GameObjectPtr& object)
 {
-  auto object_ = dynamic_cast<ScriptInterface*>(object.get());
-  if(object_ != NULL) {
-    HSQUIRRELVM vm = scripting::global_vm;
-    sq_pushobject(vm, worldmap_table);
-    object_->expose(vm, -1);
-    sq_pop(vm, 1);
-  }
+  scripting::try_expose(object, worldmap_table);
 }
 
 void
 WorldMap::try_unexpose(const GameObjectPtr& object)
 {
-  auto object_ = dynamic_cast<ScriptInterface*>(object.get());
-  if(object_ != NULL) {
-    HSQUIRRELVM vm = scripting::global_vm;
-    SQInteger oldtop = sq_gettop(vm);
-    sq_pushobject(vm, worldmap_table);
-    try {
-      object_->unexpose(vm, -1);
-    } catch(std::exception& e) {
-      log_warning << "Couldn't unregister object: " << e.what() << std::endl;
-    }
-    sq_settop(vm, oldtop);
-  }
+  scripting::try_unexpose(object, worldmap_table);
 }
 
 void

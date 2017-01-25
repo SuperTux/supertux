@@ -25,6 +25,9 @@
 #include <sqstdstring.h>
 #include <stdarg.h>
 
+#include "supertux/game_object.hpp"
+#include "supertux/script_interface.hpp"
+
 namespace scripting {
 
 std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
@@ -217,6 +220,33 @@ SQInteger squirrel_read_char(SQUserPointer file)
   if(in->eof())
     return 0;
   return c;
+}
+
+void try_expose(const GameObjectPtr& object, const HSQOBJECT& table)
+{
+  auto object_ = dynamic_cast<ScriptInterface*>(object.get());
+  if(object_ != NULL) {
+    HSQUIRRELVM vm = scripting::global_vm;
+    sq_pushobject(vm, table);
+    object_->expose(vm, -1);
+    sq_pop(vm, 1);
+  }
+}
+
+void try_unexpose(const GameObjectPtr& object, const HSQOBJECT& table)
+{
+  auto object_ = dynamic_cast<ScriptInterface*>(object.get());
+  if(object_ != NULL) {
+    HSQUIRRELVM vm = scripting::global_vm;
+    SQInteger oldtop = sq_gettop(vm);
+    sq_pushobject(vm, table);
+    try {
+      object_->unexpose(vm, -1);
+    } catch(std::exception& e) {
+      log_warning << "Couldn't unregister object: " << e.what() << std::endl;
+    }
+    sq_settop(vm, oldtop);
+  }
 }
 
 HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
