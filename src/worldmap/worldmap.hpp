@@ -32,6 +32,7 @@
 #include "supertux/tile_manager.hpp"
 #include "supertux/timer.hpp"
 #include "util/reader_fwd.hpp"
+#include "util/currenton.hpp"
 #include "worldmap/direction.hpp"
 #include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
@@ -63,7 +64,8 @@ enum {
 /**
  * Screen that runs a WorldMap, which lets the player choose a Level.
  */
-class WorldMap : public Screen
+class WorldMap : public Screen,
+                 public Currenton<WorldMap>
 {
 public:
   static Color level_title_color;
@@ -82,8 +84,6 @@ private:
   Savegame& m_savegame;
 
   TileSet* tileset;
-
-  static WorldMap* current_;
 
   Vector camera_offset;
 
@@ -131,9 +131,6 @@ public:
 
   void try_expose(const GameObjectPtr& object);
   void try_unexpose(const GameObjectPtr& object);
-
-  static WorldMap* current()
-  { return current_; }
 
   virtual void setup();
   virtual void leave();

@@ -78,8 +78,6 @@ static const float CAMERA_PAN_SPEED = 5.0;
 
 namespace worldmap {
 
-WorldMap* WorldMap::current_ = NULL;
-
 WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::string& force_spawnpoint_) :
   tux(),
   m_savegame(savegame),
@@ -151,9 +149,6 @@ WorldMap::~WorldMap()
   sq_release(global_vm, &worldmap_table);
 
   sq_collectgarbage(global_vm);
-
-  if(current_ == this)
-    current_ = NULL;
 }
 
 void
@@ -850,7 +845,6 @@ WorldMap::setup()
   MenuManager::instance().clear_menu_stack();
   ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
 
-  current_ = this;
   load_state();
 
   // if force_spawnpoint was set, move Tux there, then clear force_spawnpoint
