@@ -60,7 +60,7 @@ script:
   - ./test_supertux2
 
 after_success:
-  - ../.travis/package.sh
+  - ../.travis/appimage.sh
 
 deploy:
   - provider: script
