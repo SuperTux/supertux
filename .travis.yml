@@ -16,17 +16,12 @@ sudo: required
 
 compiler:
   - gcc
-  - clang
 
 matrix:
   fast_finish: true
-  exclude:
-  - compiler: gcc
-    os: osx
 
 os:
   - linux
-  - osx
 
 env:
   global:
@@ -38,9 +33,6 @@ env:
     - GLBINDING_VERSION=2.1.1
   matrix:
     - BUILD_TYPE="Debug"
-    - BUILD_TYPE="Release"
-    - USE_GLBINDING=OFF
-    - USE_GLBINDING=ON
 
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
