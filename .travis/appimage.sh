@@ -9,7 +9,8 @@
 export ARCH=$(arch)
 
 APP=SuperTux
-LOWERAPP=${APP,,}
+#LOWERAPP=${APP,,}
+LOWERAPP=supertux2
 
 GIT_REV=$(git rev-parse --short HEAD)
 echo $GIT_REV
