@@ -32,7 +32,14 @@ cd $APP.AppDir
 
 get_apprun
 get_desktop
-get_icon
+#get_icon
+
+find ./usr/share/pixmaps/supertux.png -exec cp {} . \; 2>/dev/null || true
+find ./usr/share/icons -path *64* -name supertux.png -exec cp {} . \; 2>/dev/null || true
+find ./usr/share/icons -path *128* -name supertux.png -exec cp {} . \; 2>/dev/null || true
+find ./usr/share/icons -path *512* -name supertux.png -exec cp {} . \; 2>/dev/null || true
+find ./usr/share/icons -path *256* -name supertux.png -exec cp {} . \; 2>/dev/null || true
+ls -lh supertux.png || true
 
 ########################################################################
 # Copy in the dependencies that cannot be assumed to be available
