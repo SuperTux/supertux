@@ -9,15 +9,12 @@
 export ARCH=$(arch)
 
 APP=SuperTux
-#LOWERAPP=${APP,,}
 LOWERAPP=supertux2
 
 GIT_REV=$(git rev-parse --short HEAD)
 echo $GIT_REV
 
 make install DESTDIR=$HOME/$APP/$APP.AppDir
-
-#mkdir -p $HOME/$APP/$APP.AppDir/usr/
 
 cd $HOME/$APP/
 
@@ -32,8 +29,9 @@ cd $APP.AppDir
 
 get_apprun
 get_desktop
-#get_icon
 
+# Our icon filename doesn't match the binary filename, so we can't use the
+# get_icon function here.
 find ./usr/share/pixmaps/supertux.png -exec cp {} . \; 2>/dev/null || true
 find ./usr/share/icons -path *64* -name supertux.png -exec cp {} . \; 2>/dev/null || true
 find ./usr/share/icons -path *128* -name supertux.png -exec cp {} . \; 2>/dev/null || true
@@ -55,8 +53,6 @@ copy_deps
 # Delete dangerous libraries; see
 # https://github.com/probonopd/AppImages/blob/master/excludelist
 delete_blacklisted
-
-rm -rf app/ || true
 
 ########################################################################
 # desktopintegration asks the user on first run to install a menu item
@@ -85,7 +81,7 @@ sed -i -e 's|/usr|././|g' usr/bin/supertux2
 cd .. # Go out of AppImage
 
 mkdir -p ../out/
-generate_type2_appimage
+generate_appimage
 
 ########################################################################
 # Upload the AppDir
