@@ -1358,13 +1358,13 @@ Sector::get_nearby_objects (const Vector& center, float max_distance) const
   std::vector<MovingObject*> ret;
   std::vector<Player*> players = Sector::current()->get_players();
 
-  for(const auto& player : players) {
+  for(const auto& player_ : players) {
     float distance = player->get_bbox().distance(center);
     if (distance <= max_distance)
       ret.push_back(player);
   }
 
-  for (const auto& object : moving_objects) {
+  for (const auto& object_ : moving_objects) {
     float distance = object->get_bbox().distance(center);
     if (distance <= max_distance)
       ret.push_back(object);
