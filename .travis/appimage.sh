@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 ########################################################################
 # Package the binaries built on Travis-CI as an AppImage
 # By Simon Peter 2016
@@ -38,6 +40,9 @@ find ./usr/share/icons -path *128* -name supertux.png -exec cp {} . \; 2>/dev/nu
 find ./usr/share/icons -path *512* -name supertux.png -exec cp {} . \; 2>/dev/null || true
 find ./usr/share/icons -path *256* -name supertux.png -exec cp {} . \; 2>/dev/null || true
 ls -lh supertux.png || true
+
+# Fix desktop file so it works with generate_type2_appimage
+sed -i 's/Icon=supertux\.png/Icon=supertux/' supertux2.desktop
 
 ########################################################################
 # Copy in the dependencies that cannot be assumed to be available
@@ -81,7 +86,7 @@ sed -i -e 's|/usr|././|g' usr/bin/supertux2
 cd .. # Go out of AppImage
 
 mkdir -p ../out/
-generate_appimage
+generate_type2_appimage
 
 ########################################################################
 # Upload the AppDir
