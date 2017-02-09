@@ -44,6 +44,22 @@ public:
 
   static std::vector<std::unique_ptr<InfoBoxLine> > split(const std::string& text, float width);
 
+  static bool is_valid_format_char(char format_char)
+  {
+    switch(format_char)
+    {
+      case ' ':
+      case '-':
+      case '*':
+      case '\t':
+      case '#':
+      case '!':
+        return true;
+      default:
+        return false;
+    }
+  }
+
 private:
   InfoBoxLine::LineType lineType;
   FontPtr font;

@@ -58,7 +58,7 @@ Color get_color_by_format_char(char format_char) {
     case '!':
       return TextScroller::normal_color;
     default:
-      return Color(0,0,0);
+      return TextScroller::normal_color;
       //log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
   }
 }
@@ -121,8 +121,15 @@ InfoBoxLine::split(const std::string& text, float width)
     }
 
     // extract the format_char
-    format_char = text[i];
-    i++;
+    if(is_valid_format_char(text[i]))
+    {
+      format_char = text[i];
+      i++;
+    }
+    else
+    {
+      format_char = '#';
+    }
     if (i >= text.size()) break;
 
     // extract one line
