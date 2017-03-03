@@ -4469,6 +4469,34 @@ static SQInteger load_worldmap_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger set_next_worldmap_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+
+  try {
+    scripting::set_next_worldmap(arg0, arg1);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_next_worldmap'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger load_level_wrapper(HSQUIRRELVM vm)
 {
   const SQChar* arg0;
@@ -5915,6 +5943,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'load_worldmap'");
+  }
+
+  sq_pushstring(v, "set_next_worldmap", -1);
+  sq_newclosure(v, &set_next_worldmap_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tss");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_next_worldmap'");
   }
 
   sq_pushstring(v, "load_level", -1);
