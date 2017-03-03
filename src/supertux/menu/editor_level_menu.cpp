@@ -57,7 +57,15 @@ EditorLevelMenu::~EditorLevelMenu()
     return;
   }
   if (editor->get_level()->tileset != old_tileset) {
-    editor->change_tileset();
+    try
+    {
+      editor->change_tileset();
+    }
+    catch(std::exception& e)
+    {
+      // Lisp Type error might occur.
+      log_warning << e.what() << std::endl;
+    }
   }
 }
 

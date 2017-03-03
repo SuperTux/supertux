@@ -44,7 +44,14 @@ EditorLevelsetMenu::EditorLevelsetMenu(World* world_):
 
 EditorLevelsetMenu::~EditorLevelsetMenu()
 {
-  world->save();
+  try
+  {
+    world->save();
+  }
+  catch(std::exception& e)
+  {
+    log_warning << "Could not save world: " << e.what() << std::endl;
+  }
 }
 
 void

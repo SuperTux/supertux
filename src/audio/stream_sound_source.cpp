@@ -47,7 +47,15 @@ StreamSoundSource::~StreamSoundSource()
   file.reset();
   stop();
   alDeleteBuffers(STREAMFRAGMENTS, buffers);
-  SoundManager::check_al_error("Couldn't delete audio buffers: ");
+  try
+  {
+    SoundManager::check_al_error("Couldn't delete audio buffers: ");
+  }
+  catch(std::exception& e)
+  {
+    // Am I bovvered?
+    log_warning << e.what() << std::endl;
+  }
 }
 
 void
