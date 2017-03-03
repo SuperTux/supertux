@@ -21,6 +21,7 @@
 #include <squirrel.h>
 #include <string>
 #include <vector>
+#include "util/dictionary.hpp"
 
 class World
 {
@@ -33,7 +34,6 @@ private:
 public:
   /**
       Load a World
-
       @param directory  Directory containing the info file, e.g. "levels/world1"
   */
   static std::unique_ptr<World> load(const std::string& directory);
@@ -44,7 +44,7 @@ public:
 
   std::string get_basedir() const;
   std::string get_title() const;
-
+  dictionary* get_dictionary();
   bool hide_from_contribs() const { return m_hide_from_contribs; }
 
   bool is_levelset() const { return m_is_levelset; }
@@ -52,7 +52,7 @@ public:
 
   std::string get_worldmap_filename() const { return m_worldmap_filename; }
   std::string get_savegame_filename() const { return m_savegame_filename; }
-
+  std::string get_dictionary_filename() const { return m_dictionary_filename;}
   void save(bool retry = false);
   void set_default_values();
 
@@ -60,6 +60,8 @@ private:
   std::string m_basedir;
   std::string m_worldmap_filename;
   std::string m_savegame_filename;
+  std::string m_dictionary_filename;
+  std::unique_ptr<dictionary>  m_dictionary;
 
 public:
   std::string m_title;

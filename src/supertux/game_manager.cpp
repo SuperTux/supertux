@@ -72,11 +72,24 @@ GameManager::start_worldmap(std::unique_ptr<World> world)
                                            last_worldmap : m_world->get_worldmap_filename(),
                                            *m_savegame);
     ScreenManager::current()->push_screen(std::unique_ptr<Screen>(worldmap));
+    
   }
   catch(std::exception& e)
   {
     log_fatal << "Couldn't start world: " << e.what() << std::endl;
   }
+}
+
+dictionary*
+GameManager::get_dictionary() const
+{
+  return m_world->get_dictionary();
+}
+
+const std::string
+GameManager::get_current_worldname() const
+{
+  return m_world->get_title();
 }
 
 std::string

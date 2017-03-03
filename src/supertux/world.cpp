@@ -34,6 +34,8 @@
 #include "util/reader_mapping.hpp"
 #include "util/string_util.hpp"
 #include "worldmap/worldmap.hpp"
+#include "supertux/world.hpp"
+
 
 std::unique_ptr<World>
 World::load(const std::string& directory)
@@ -49,6 +51,13 @@ World::load(const std::string& directory)
     world->m_savegame_filename = stream.str();
   }
 
+  { // generate dictionary filename
+    std::string worlddirname = FileSystem::basename(directory);
+    std::ostringstream stream;
+    stream << "profile" << g_config->profile << "/" << worlddirname << ".sss"; // sss = serialized storage store (cool extensionname)
+    world->m_dictionary_filename = stream.str();
+  }
+  world->get_dictionary()->setFilename(world->get_dictionary_filename());
   return world;
 }
 
@@ -88,6 +97,13 @@ World::create(const std::string& title, const std::string& desc)
     world->m_savegame_filename = stream.str();
   }
 
+  { // generate dictionary filename
+    std::string worlddirname = FileSystem::basename(dirname);
+    std::ostringstream stream;
+    stream << "profile" << g_config->profile << "/" << worlddirname << ".sss"; // sss = serialized storage store (cool extensionname)
+    world->m_dictionary_filename = stream.str();
+  }
+  world->m_dictionary->setFilename(world->m_dictionary_filename);
   return world;
 }
 
@@ -95,6 +111,8 @@ World::World() :
   m_basedir(),
   m_worldmap_filename(),
   m_savegame_filename(),
+  m_dictionary_filename(),
+  m_dictionary(new dictionary()),
   m_title(),
   m_description(),
   m_hide_from_contribs(false),
@@ -164,7 +182,11 @@ World::get_basedir() const
 {
   return m_basedir;
 }
-
+dictionary*
+World::get_dictionary()
+{
+  return  m_dictionary.get();
+}
 std::string
 World::get_title() const
 {

@@ -31,6 +31,9 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "worldmap/worldmap.hpp"
+#include "supertux/game_manager.hpp"
+#include "supertux/game_session.hpp"
+#include "util/dictionary.hpp"
 
 namespace {
 using scripting::get_table_entry;
@@ -247,6 +250,10 @@ Savegame::save()
       msg << "Savegame path '" << dirname << "' is not a directory";
       throw std::runtime_error(msg.str());
     }
+    
+    auto dict = GameManager::current()->get_dictionary();
+
+    dict->save();
   }
 
   HSQUIRRELVM vm = scripting::global_vm;
