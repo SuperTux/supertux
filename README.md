@@ -1,5 +1,6 @@
 # SuperTux
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a5f0970980fd4d97bcbec5a0762f163e)](https://www.codacy.com/app/supertux/supertux?utm_source=github.com&utm_medium=referral&utm_content=SuperTux/supertux&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/SuperTux/supertux.svg?branch=master)](https://travis-ci.org/SuperTux/supertux)
 [![AppVeyor Build Satus](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/supertux/supertux-9ml4d/branch/master)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/4025/badge.svg)](https://scan.coverity.com/projects/4025)
