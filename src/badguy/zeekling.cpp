@@ -194,7 +194,6 @@ Zeekling::active_update(float elapsed_time) {
       physic.set_velocity_y(8*fabsf(physic.get_velocity_x()));
       pre_dive_pos = get_pos();
       pre_dive_player_pos = get_nearest_player()->get_pos();
-      int distance_to_travel = pre_dive_pos.y - pre_dive_player_pos.y;
       sprite->set_action(dir == LEFT ? "diving-left" : "diving-right");
     }
     BadGuy::active_update(elapsed_time);
