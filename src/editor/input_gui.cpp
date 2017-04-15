@@ -393,28 +393,28 @@ EditorInputGui::update_mouse_icon() {
 }
 
 Vector
-EditorInputGui::get_tile_coords(const int pos){
+EditorInputGui::get_tile_coords(const int pos) const {
   int x = pos%4;
   int y = pos/4;
   return Vector( x * 32 + Xpos, y * 32 + Ypos);
 }
 
 int
-EditorInputGui::get_tile_pos(const Vector& coords){
+EditorInputGui::get_tile_pos(const Vector& coords) const {
   int x = (coords.x - Xpos) / 32;
   int y = (coords.y - Ypos) / 32;
   return y*4 + x;
 }
 
 Vector
-EditorInputGui::get_tool_coords(const int pos){
+EditorInputGui::get_tool_coords(const int pos) const {
   int x = pos%4;
   int y = pos/4;
   return Vector( x * 32 + Xpos, y * 16 + 44);
 }
 
 int
-EditorInputGui::get_tool_pos(const Vector& coords){
+EditorInputGui::get_tool_pos(const Vector& coords) const {
   int x = (coords.x - Xpos) / 32;
   int y = (coords.y - 44)   / 16;
   return y*4 + x;

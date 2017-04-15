@@ -81,10 +81,10 @@ class EditorInputGui
     int Xpos;
     const int Ypos = 60;
 
-    Vector get_tile_coords(const int pos);
-    int get_tile_pos(const Vector& coords);
-    Vector get_tool_coords(const int pos);
-    int get_tool_pos(const Vector& coords);
+    Vector get_tile_coords(const int pos) const;
+    int get_tile_pos(const Vector& coords) const;
+    Vector get_tool_coords(const int pos) const;
+    int get_tool_pos(const Vector& coords) const;
 
     void update_selection();
     Rectf normalize_selection();
