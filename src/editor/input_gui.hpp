@@ -87,8 +87,8 @@ class EditorInputGui
     int get_tool_pos(const Vector& coords) const;
 
     void update_selection();
-    Rectf normalize_selection();
-    Rectf selection_draw_rect();
+    Rectf normalize_selection() const;
+    Rectf selection_draw_rect() const;
 
     void draw_tilegroup(DrawingContext&);
     void draw_objectgroup(DrawingContext&);

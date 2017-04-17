@@ -185,7 +185,7 @@ EditorInputGui::update(float elapsed_time) {
 }
 
 Rectf
-EditorInputGui::normalize_selection() {
+EditorInputGui::normalize_selection() const {
   Vector drag_start_ = drag_start;
   Vector drag_end = Vector(hovered_tile % 4, hovered_tile / 4);
   if (drag_start_.x > drag_end.x) {
@@ -198,7 +198,7 @@ EditorInputGui::normalize_selection() {
 }
 
 Rectf
-EditorInputGui::selection_draw_rect() {
+EditorInputGui::selection_draw_rect() const {
   Rectf select = normalize_selection();
   select.p2 += Vector(1, 1);
   select.p1 = (select.p1 * 32) + Vector(Xpos, Ypos);
