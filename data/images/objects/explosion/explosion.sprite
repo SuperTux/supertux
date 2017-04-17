@@ -1,7 +1,7 @@
 (supertux-sprite
   (action
     (name "default")
-    (fps 15.0)
+    (fps 8.0)
     (hitbox 8 8 48 48)
     (images 
       "explosion-0.png"
