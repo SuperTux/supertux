@@ -110,7 +110,7 @@ Compared to the latest beta, 0.3.5a, this release features:
 * support for horizontal and vertical gradients that span the length / height of a sector. Add `(direction "horizontal_sector / vertical_sector")` to your gradient.
 * much more...
 
-SuperTux 0.3.5a (2015-05-01)
+SuperTux 0.3.6 (2015-05-01)
 ----------------------------
 
 A bugfix release is sneaking in. 3 weeks after 0.3.5 was released it's time to
