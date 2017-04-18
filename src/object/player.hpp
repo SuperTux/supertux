@@ -41,6 +41,7 @@ static const float TUX_INVINCIBLE_TIME_WARNING = 2.0f;
 static const float GROWING_TIME = 0.35f;
 static const int GROWING_FRAMES = 7;
 static const float TUX_BACKFLIP_TIME = 2.1f; // minimum air time that backflip results in a loss of control
+static const float DOOR_OPEN_TIME = 0.8f; // time door takes to open (loss of control)
 
 class Player : public MovingObject,
                public ExposedObject<Player, scripting::Player>
@@ -293,6 +294,7 @@ private:
   bool ice_this_frame;
   SpritePtr lightsprite;
   SpritePtr powersprite;
+  Vector door_wait_pos;
 
 public:
   Direction dir;
@@ -318,6 +320,7 @@ public:
   Timer dying_timer;
   bool growing;
   Timer backflip_timer;
+  Timer door_timer; // time during which control is lost (between door open and teleport)
 
   Physic physic;
 
@@ -342,6 +345,8 @@ public:
   unsigned int idle_stage;
 
   Climbable* climbing; /**< Climbable object we are currently climbing, null if none */
+
+  bool door_waiting = false;
 
 private:
   Player(const Player&);

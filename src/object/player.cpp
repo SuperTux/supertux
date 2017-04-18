@@ -341,7 +341,21 @@ Player::update(float elapsed_time)
     }
   }
 
+  // handle door waiting
+  if (door_waiting && !dying) {
+    if (door_timer.check()) {
+      door_timer.stop();
+      this->visible = true;
+      door_waiting = false;
+    } else if (!door_timer.started()) {
+      door_timer.start(DOOR_OPEN_TIME);
+      this->visible = false;
+      door_wait_pos = get_pos();
+    } else set_pos(door_wait_pos);
+  }
+
   // set fall mode...
+
   if(on_ground()) {
     fall_mode = ON_GROUND;
     last_ground_y = get_pos().y;
