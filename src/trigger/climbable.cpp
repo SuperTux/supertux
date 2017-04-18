@@ -46,6 +46,7 @@ Climbable::Climbable(const ReaderMapping& reader) :
   reader.get("height", h);
   bbox.set_size(w, h);
   reader.get("message", message);
+  message(_("Up we go..."));
 }
 
 Climbable::Climbable(const Rectf& area) :
