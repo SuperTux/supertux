@@ -106,6 +106,7 @@
 #include "object/endsequence.hpp"
 #include "object/endsequence_walkleft.hpp"
 #include "object/endsequence_walkright.hpp"
+#include "object/enemy_blocker.hpp"
 #include "object/explosion.hpp"
 #include "object/falling_coin.hpp"
 #include "object/firefly.hpp"
@@ -251,6 +252,7 @@ ObjectFactory::init_factories()
   add_factory<CloudParticleSystem>("particles-clouds");
   add_factory<Coin>("coin");
   add_factory<Decal>("decal");
+  add_factory<EnemyBlocker>("enemy_blocker");
   add_factory<Explosion>("explosion");
   add_factory<Firefly>("firefly");
   add_factory<GhostParticleSystem>("particles-ghosts");
