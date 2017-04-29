@@ -29,7 +29,7 @@
 #include "video/drawing_context.hpp"
 
 static const int START_COINS = 100;
-static const int MAX_COINS = 9999;
+static const int MAX_COINS = INT_MAX;
 
 static const int DISPLAYED_COINS_UNSET = -1;
 
