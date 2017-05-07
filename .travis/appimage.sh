@@ -50,13 +50,13 @@ sed -i 's/Icon=supertux\.png/Icon=supertux/' supertux2.desktop
 ########################################################################
 
 if [ -d "./usr/lib/x86_64-linux-gnu/gstreamer-1.0/" ] ; then
-  mv ./usr/lib/x86_64-linux-gnu/gstreamer-1.0/* ./usr/lib/x86_64-linux-gnu/
-  rm -r ./usr/lib/x86_64-linux-gnu/gstreamer-1.0
+  mv -v ./usr/lib/x86_64-linux-gnu/gstreamer-1.0/* ./usr/lib/x86_64-linux-gnu/
+  rm -vr ./usr/lib/x86_64-linux-gnu/gstreamer-1.0
 fi
 
 if [ -d "./usr/lib/x86_64-linux-gnu/pulseaudio/" ] ; then
-  mv ./usr/lib/x86_64-linux-gnu/pulseaudio/* ./usr/lib/x86_64-linux-gnu/
-  rm -r ./usr/lib/x86_64-linux-gnu/pulseaudio
+  mv -v ./usr/lib/x86_64-linux-gnu/pulseaudio/* ./usr/lib/x86_64-linux-gnu/
+  rm -vr ./usr/lib/x86_64-linux-gnu/pulseaudio
 fi
 
 copy_deps
