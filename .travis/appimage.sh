@@ -57,7 +57,30 @@ copy_deps
 
 # Delete dangerous libraries; see
 # https://github.com/probonopd/AppImages/blob/master/excludelist
-delete_blacklisted
+#delete_blacklisted # We'll need to specify our own blacklist, see below.
+
+# Fix the function ourselves for now
+# Delete blacklisted files
+delete_blacklisted_patched()
+{
+  BLACKLISTED_FILES=$( cat_file_from_url https://github.com/probonopd/AppImages/raw/master/excludelist | sed '/^\s*$/d' | sed '/^#.*$/d' | sed '/libkrb5.so.26/d' | sed '/libkrb5.so.3/d')
+  echo $BLACKLISTED_FILES
+  for FILE in $BLACKLISTED_FILES ; do
+    FOUND=$(find . -xtype f -name "${FILE}" 2>/dev/null)
+    if [ ! -z "$FOUND" ] ; then
+      echo "Deleting blacklisted ${FOUND}"
+      rm -f "${FOUND}"
+    fi
+  done
+
+  # Do not bundle developer stuff
+  rm -rf usr/include || true
+  rm -rf usr/lib/cmake || true
+  rm -rf usr/lib/pkgconfig || true
+  find . -name '*.la' | xargs -i rm {}
+}
+
+delete_blacklisted_patched
 
 ########################################################################
 # desktopintegration asks the user on first run to install a menu item
