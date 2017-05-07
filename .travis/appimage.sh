@@ -49,6 +49,16 @@ sed -i 's/Icon=supertux\.png/Icon=supertux/' supertux2.desktop
 # on all target systems
 ########################################################################
 
+if [ -d "./usr/lib/x86_64-linux-gnu/gstreamer-1.0/" ] ; then
+  mv ./usr/lib/x86_64-linux-gnu/gstreamer-1.0/* ./usr/lib/x86_64-linux-gnu/
+  rm -r ./usr/lib/x86_64-linux-gnu/gstreamer-1.0
+fi
+
+if [ -d "./usr/lib/x86_64-linux-gnu/pulseaudio/" ] ; then
+  mv ./usr/lib/x86_64-linux-gnu/pulseaudio/* ./usr/lib/x86_64-linux-gnu/
+  rm -r ./usr/lib/x86_64-linux-gnu/pulseaudio
+fi
+
 copy_deps
 
 ########################################################################
