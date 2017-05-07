@@ -73,7 +73,7 @@ fi
 # Delete blacklisted files
 delete_blacklisted_patched()
 {
-  BLACKLISTED_FILES=$( cat_file_from_url https://github.com/probonopd/AppImages/raw/master/excludelist | sed '/^\s*$/d' | sed '/^#.*$/d' | sed '/libkrb5.so.26/d' | sed '/libkrb5.so.3/d')
+  BLACKLISTED_FILES=$( cat_file_from_url https://github.com/probonopd/AppImages/raw/master/excludelist | sed '/^\s*$/d' | sed '/^#.*$/d' | sed '/libkrb5.so.26/d' | sed '/libkrb5.so.3/d' | sed '/libhcrypto.so.4/d' | sed '/libhx509.so.5/d' | sed '/libroken.so.18/d' | sed '/libwind.so.0/d')
   echo $BLACKLISTED_FILES
   for FILE in $BLACKLISTED_FILES ; do
     FOUND=$(find . -xtype f -name "${FILE}" 2>/dev/null)
