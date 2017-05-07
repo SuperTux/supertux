@@ -49,6 +49,8 @@ sed -i 's/Icon=supertux\.png/Icon=supertux/' supertux2.desktop
 # on all target systems
 ########################################################################
 
+copy_deps
+
 if [ -d "./usr/lib/x86_64-linux-gnu/gstreamer-1.0/" ] ; then
   mv -v ./usr/lib/x86_64-linux-gnu/gstreamer-1.0/* ./usr/lib/x86_64-linux-gnu/
   rm -vr ./usr/lib/x86_64-linux-gnu/gstreamer-1.0
@@ -58,8 +60,6 @@ if [ -d "./usr/lib/x86_64-linux-gnu/pulseaudio/" ] ; then
   mv -v ./usr/lib/x86_64-linux-gnu/pulseaudio/* ./usr/lib/x86_64-linux-gnu/
   rm -vr ./usr/lib/x86_64-linux-gnu/pulseaudio
 fi
-
-copy_deps
 
 ########################################################################
 # Delete stuff that should not go into the AppImage
