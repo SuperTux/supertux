@@ -172,6 +172,7 @@ Yeti::active_update(float elapsed_time)
       if(state_timer.check() && on_ground()) {
         physic.set_velocity_y(STOMP_VY);
         sprite->set_action((dir==RIGHT)?"stomp-right":"stomp-left");
+        SoundManager::current()->play("sounds/yeti_gna.wav");
       }
       break;
     case SQUISHED:
@@ -342,7 +343,6 @@ Yeti::collision_solid(const CollisionHit& hit)
         // we just landed
         if(!state_timer.started()) {
           sprite->set_action((dir==RIGHT)?"stand-right":"stand-left");
-          SoundManager::current()->play("sounds/yeti_gna.wav");
           stomp_count++;
           drop_stalactite();
 
