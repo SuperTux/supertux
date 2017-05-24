@@ -19,6 +19,7 @@
 
 #include <vector>
 
+#include "editor/layer_item.hpp"
 #include "math/vector.hpp"
 #include "scripting/exposed_object.hpp"
 #include "scripting/particlesystem.hpp"
@@ -42,7 +43,8 @@
  * function.
  */
 class ParticleSystem : public GameObject,
-                       public ExposedObject<ParticleSystem, scripting::ParticleSystem>
+                       public ExposedObject<ParticleSystem, scripting::ParticleSystem>,
+                       public LayerItem
 {
 public:
   ParticleSystem(float max_particle_size = 60);
@@ -60,9 +62,6 @@ public:
   virtual void draw(DrawingContext& context) override;
   void set_enabled(bool enabled_);
   bool get_enabled() const;
-
-  int get_layer() const
-  { return z_pos; }
 
 protected:
   class Particle

@@ -28,6 +28,7 @@
 
 Gradient::Gradient() :
   ExposedObject<Gradient, scripting::Gradient>(this),
+  LayerItem(&layer),
   layer(LAYER_BACKGROUND0),
   gradient_top(),
   gradient_bottom(),
@@ -38,6 +39,7 @@ Gradient::Gradient() :
 
 Gradient::Gradient(const ReaderMapping& reader) :
   ExposedObject<Gradient, scripting::Gradient>(this),
+  LayerItem(&layer),
   layer(LAYER_BACKGROUND0),
   gradient_top(),
   gradient_bottom(),

@@ -19,6 +19,7 @@
 
 #include <algorithm>
 
+#include "editor/layer_item.hpp"
 #include "object/path_walker.hpp"
 #include "scripting/exposed_object.hpp"
 #include "scripting/tilemap.hpp"
@@ -33,7 +34,8 @@ class TileSet;
  * This class is responsible for drawing the level tiles
  */
 class TileMap : public GameObject,
-                public ExposedObject<TileMap, scripting::TileMap>
+                public ExposedObject<TileMap, scripting::TileMap>,
+                public LayerItem
 {
 public:
   TileMap(const TileSet *tileset);
@@ -115,12 +117,6 @@ public:
   /* Returns the half-open rectangle of (x, y) tile indices
    * that overlap the given rectangle in the sector. */
   Rect get_tiles_overlapping(const Rectf &rect) const;
-
-  int get_layer() const
-  { return z_pos; }
-
-  void set_layer(int layer_)
-  { z_pos = layer_; }
 
   bool is_solid() const
   { return real_solid && effective_solid; }

@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 #define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 
+#include "editor/layer_item.hpp"
 #include "scripting/background.hpp"
 #include "scripting/exposed_object.hpp"
 #include "supertux/game_object.hpp"
@@ -24,7 +25,8 @@
 #include "video/drawing_context.hpp"
 
 class Background : public GameObject,
-                   public ExposedObject<Background, scripting::Background>
+                   public ExposedObject<Background, scripting::Background>,
+                   public LayerItem
 {
 public:
   Background();
@@ -50,9 +52,6 @@ public:
   std::string get_class() const {
     return "background";
   }
-
-  int get_layer() const
-  { return layer; }
 
   std::string get_display_name() const {
     return _("Background");

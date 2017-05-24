@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 #define HEADER_SUPERTUX_OBJECT_GRADIENT_HPP
 
+#include "editor/layer_item.hpp"
 #include "scripting/exposed_object.hpp"
 #include "scripting/gradient.hpp"
 #include "supertux/game_object.hpp"
@@ -25,7 +26,8 @@
 class ReaderMapping;
 
 class Gradient : public GameObject,
-                 public ExposedObject<Gradient, scripting::Gradient>
+                 public ExposedObject<Gradient, scripting::Gradient>,
+                 public LayerItem
 {
 public:
   Gradient();
@@ -58,9 +60,6 @@ public:
   std::string get_display_name() const {
     return _("Gradient");
   }
-
-  int get_layer() const
-  { return layer; }
 
   virtual ObjectSettings get_settings();
 

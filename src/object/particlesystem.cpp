@@ -26,6 +26,7 @@
 
 ParticleSystem::ParticleSystem(float max_particle_size_) :
   ExposedObject<ParticleSystem, scripting::ParticleSystem>(this),
+  LayerItem(&z_pos),
   max_particle_size(max_particle_size_),
   z_pos(LAYER_BACKGROUND1),
   particles(),
