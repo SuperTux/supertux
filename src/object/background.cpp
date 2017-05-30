@@ -31,7 +31,6 @@
 
 Background::Background() :
   ExposedObject<Background, scripting::Background>(this),
-  LayerItem(&layer),
   alignment(NO_ALIGNMENT),
   layer(LAYER_BACKGROUND0),
   imagefile_top(),
@@ -52,7 +51,6 @@ Background::Background() :
 
 Background::Background(const ReaderMapping& reader) :
   ExposedObject<Background, scripting::Background>(this),
-  LayerItem(&layer),
   alignment(NO_ALIGNMENT),
   layer(LAYER_BACKGROUND0),
   imagefile_top(),

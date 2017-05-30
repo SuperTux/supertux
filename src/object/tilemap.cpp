@@ -33,7 +33,6 @@
 
 TileMap::TileMap(const TileSet *new_tileset) :
   ExposedObject<TileMap, scripting::TileMap>(this),
-  LayerItem(&z_pos),
   editor_active(true),
   tileset(new_tileset),
   tiles(),
@@ -64,7 +63,6 @@ TileMap::TileMap(const TileSet *new_tileset) :
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   ExposedObject<TileMap, scripting::TileMap>(this),
-  LayerItem(&z_pos),
   editor_active(true),
   tileset(tileset_),
   tiles(),

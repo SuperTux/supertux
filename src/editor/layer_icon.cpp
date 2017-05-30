@@ -70,9 +70,28 @@ LayerIcon::get_zpos() const {
     return std::numeric_limits<int>::min();
   }
 
-  auto layer_item = dynamic_cast<LayerItem*>(layer);
-  if(layer_item) {
-    return layer_item->get_layer();
+  if (is_tilemap) { //When the layer is a tilemap, the class is obvious.
+    return ((TileMap*)layer)->get_layer();
+  }
+
+  auto bkgrd = dynamic_cast<Background*>(layer);
+  if (bkgrd) {
+    return bkgrd->get_layer();
+  }
+
+  auto grd = dynamic_cast<Gradient*>(layer);
+  if (grd) {
+    return grd->get_layer();
+  }
+
+  auto ps = dynamic_cast<ParticleSystem*>(layer);
+  if (ps) {
+    return ps->get_layer();
+  }
+
+  auto psi = dynamic_cast<ParticleSystem_Interactive*>(layer);
+  if (psi) {
+    return psi->get_layer();
   }
 
   return std::numeric_limits<int>::min();
