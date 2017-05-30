@@ -35,7 +35,7 @@ env:
     - secure: "eVEyzIVjDlB16EPkXmj74tyF9pgX34kpgvBUMXJJ+hduuPwaGC6vl8T164fNQUIua2Z2/PqxmTLJRR3n5Bbkdf859NdX+4JUzc3SoFEKlgcLMYnOQeuimUAiMKxe4vmC4sub5LZVFsp9ORzVYkXgiMBnxiD5GuYxvZPy1lCaH9E="
     # BINTRAY_KEY env var
     - secure: "E++FmjzZZrvkJpUHZajLUaO1wd0QHcyVidVx8qVeGUJm/khCPBJuhkSe6R2BphcBeeAuhVlsXo26SWCAn89r2KT2OHB/lwtK2CWhO5vOl5bI5o4nFc+m55e2gDIebSBrXQPITEQJpQx1zBL4FVw/A2xQRl+IcjF/EiIzG8Znslc="
-    - GLBINDING_VERSION=2.1.1
+    - GLBINDING_VERSION=2.1.3
   matrix:
     - BUILD_TYPE="Debug"
     - BUILD_TYPE="Release"
