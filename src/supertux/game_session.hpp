@@ -23,6 +23,7 @@
 
 #include "math/vector.hpp"
 #include "object/endsequence.hpp"
+#include "supertux/game_session_recorder.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/player_status.hpp"
@@ -39,15 +40,12 @@ class Savegame;
  * Screen that runs a Level, where Players run and jump through Sectors.
  */
 class GameSession : public Screen,
+                    public GameSessionRecorder,
                     public Currenton<GameSession>
 {
 public:
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = NULL);
   ~GameSession();
-
-  void record_demo(const std::string& filename);
-  int get_demo_random_seed(const std::string& filename) const;
-  void play_demo(const std::string& filename);
 
   void draw(DrawingContext& context) override;
   void update(float frame_ratio) override;
@@ -100,8 +98,6 @@ public:
 
 private:
   void check_end_conditions();
-  void process_events();
-  void capture_demo_step();
 
   void drawstatus(DrawingContext& context);
   void draw_pause(DrawingContext& context);
@@ -138,11 +134,6 @@ private:
 
   Statistics* best_level_statistics;
   Savegame& m_savegame;
-
-  std::ostream* capture_demo_stream;
-  std::string capture_file;
-  std::istream* playback_demo_stream;
-  CodeController* demo_controller;
 
   float play_time; /**< total time in seconds that this session ran interactively */
 
