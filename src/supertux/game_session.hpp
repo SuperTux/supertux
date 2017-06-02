@@ -118,7 +118,6 @@ private:
 
   Sector* currentsector;
 
-  int levelnb;
   int pause_menu_frame;
 
   std::shared_ptr<EndSequence> end_sequence;
