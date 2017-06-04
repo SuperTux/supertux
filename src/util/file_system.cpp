@@ -28,52 +28,32 @@
 #  include <unistd.h>
 #endif
 
+#include <boost/filesystem.hpp>
+
+namespace fs = boost::filesystem;
+
 namespace FileSystem {
 
 bool exists(const std::string& path)
 {
-#ifdef _WIN32
-  DWORD dwAttrib = GetFileAttributes(path.c_str());
+	fs::path location(path);
 
-  return (dwAttrib != INVALID_FILE_ATTRIBUTES &&
-          !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
-#else
-  return !access(path.c_str(), F_OK);
-#endif
+	return fs::exists(location);
 }
 
 bool is_directory(const std::string& path)
 {
-  struct stat info;
-
-  if (stat(path.c_str(), &info ) != 0)
-  {
-    // access error
-    return false;
-  }
-  else if (info.st_mode & S_IFDIR)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+	fs::path location(path);
+	return fs::is_directory(location);
 }
 
 void mkdir(const std::string& directory)
 {
-#ifdef _WIN32
-  if (!CreateDirectory(directory.c_str(), NULL))
-  {
-    throw std::runtime_error("failed to create directory: "  + directory);
-  }
-#else
-  if (::mkdir(directory.c_str(), 0777) != 0)
-  {
-    throw std::runtime_error("failed to create directory: "  + directory);
-  }
-#endif
+	fs::path location(directory);
+	if (!fs::create_directory(location))
+	{
+		throw std::runtime_error("failed to create directory: "  + directory);
+	}
 }
 
 std::string dirname(const std::string& filename)
