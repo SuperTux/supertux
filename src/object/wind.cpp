@@ -45,7 +45,7 @@ Wind::Wind(const ReaderMapping& reader) :
   reader.get("blowing", blowing,true);
 
   reader.get("speed-x", speed.x,0);
-  reader.get("speed-y", speed.y),0);
+  reader.get("speed-y", speed.y,0);
 
   reader.get("acceleration", acceleration,100);
 

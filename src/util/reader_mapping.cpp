@@ -180,7 +180,7 @@ ReaderMapping::get(const char* key, std::string& value) const
 }
 
 bool
-ReaderMapping::get(const char* key, std::string& value,const std::string defaultValue) const
+ReaderMapping::get(const char* key, std::string& value,const std::string& defaultValue) const
 {
   value = defaultValue;
   auto const sx = get_item(key);
