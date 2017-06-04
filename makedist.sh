@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ST_VERSION=`git describe --tags | sed 's/^v//'`
+ST_VERSION=$(git describe --tags | sed 's/^v//')
 DISTDIR="supertux-$ST_VERSION"
 
 if test -e "$DISTDIR"
