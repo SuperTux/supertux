@@ -179,6 +179,38 @@ ReaderMapping::get(const char* key, std::string& value) const
   }
 }
 
+bool
+ReaderMapping::get(const char* key, std::string& value,const std::string defaultValue) const
+{
+  value = defaultValue;
+  auto const sx = get_item(key);
+  if (!sx) {
+    return false;
+  } else {
+    assert_array_size_eq(*m_doc, *sx, 2);
+
+    auto const& item = sx->as_array();
+
+    if (item[1].is_string()) {
+      value = item[1].as_string();
+      return true;
+    } else if (item[1].is_array() &&
+               item[1].as_array().size() == 2 &&
+               item[1].as_array()[0].is_symbol() &&
+               item[1].as_array()[0].as_string() == "_" &&
+               item[1].as_array()[1].is_string()) {
+      if (translations_enabled) {
+        value = _(item[1].as_array()[1].as_string());
+      } else {
+        value = item[1].as_array()[1].as_string();
+      }
+      return true;
+    } else {
+      raise_exception(*m_doc, item[1], "expected string");
+    }
+  }
+}
+
 #define GET_VALUES_MACRO(type, checker, getter)                         \
   auto const sx = get_item(key);                                        \
   if (!sx) {                                                            \

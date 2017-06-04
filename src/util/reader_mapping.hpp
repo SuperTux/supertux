@@ -47,6 +47,7 @@ public:
   bool get(const char* key, float& value) const;
   bool get(const char* key, float& value, const float defaultValue) const;
   bool get(const char* key, std::string& value) const;
+  bool get(const char* key, std::string& value,const std::string defaultValue) const;
 
   bool get(const char* key, std::vector<int>& value) const;
   bool get(const char* key, std::vector<float>& value) const;
