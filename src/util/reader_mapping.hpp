@@ -39,9 +39,13 @@ public:
   ReaderIterator get_iter() const;
 
   bool get(const char* key, bool& value) const;
+  bool get(const char* key, bool& value,const bool defaultValue) const;
   bool get(const char* key, int& value) const;
+  bool get(const char* key, int& value, const int defaultValue) const;
   bool get(const char* key, uint32_t& value) const;
+  bool get(const char* key, uint32_t& value, const uint32_t defaultValue) const;
   bool get(const char* key, float& value) const;
+  bool get(const char* key, float& value, const float defaultValue) const;
   bool get(const char* key, std::string& value) const;
 
   bool get(const char* key, std::vector<int>& value) const;

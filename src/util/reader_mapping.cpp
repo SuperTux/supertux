@@ -92,10 +92,20 @@ ReaderMapping::get_item(const char* key) const
     return true;                                                        \
   }
 
+#define GET_VALUE_MACRO_DEFAULT(type, checker, getter) \
+  value = defaultValue;                                \
+  GET_VALUE_MACRO(type, checker, getter);
+
 bool
 ReaderMapping::get(const char* key, bool& value) const
 {
   GET_VALUE_MACRO("bool", is_boolean, as_bool);
+}
+
+bool
+ReaderMapping::get(const char* key, bool& value,const bool defaultValue) const
+{
+  GET_VALUE_MACRO_DEFAULT("bool", is_boolean, as_bool);
 }
 
 bool
@@ -105,9 +115,21 @@ ReaderMapping::get(const char* key, int& value) const
 }
 
 bool
+ReaderMapping::get(const char* key, int& value, int defaultValue) const
+{
+  GET_VALUE_MACRO_DEFAULT("int", is_integer, as_int);
+}
+
+bool
 ReaderMapping::get(const char* key, uint32_t& value) const
 {
   GET_VALUE_MACRO("uint32_t", is_integer, as_int);
+}
+
+bool
+ReaderMapping::get(const char* key, uint32_t& value,const uint32_t defaultValue) const
+{
+  GET_VALUE_MACRO_DEFAULT("uint32_t", is_integer, as_int);
 }
 
 bool
@@ -116,7 +138,15 @@ ReaderMapping::get(const char* key, float& value) const
   GET_VALUE_MACRO("float", is_real, as_float);
 }
 
+bool
+ReaderMapping::get(const char* key, float& value,const float defaultValue) const
+{
+  GET_VALUE_MACRO_DEFAULT("float", is_real, as_float);
+}
+
+
 #undef GET_VALUE_MACRO
+#undef GET_VALUE_MACRO_DEFAULT
 
 bool
 ReaderMapping::get(const char* key, std::string& value) const
