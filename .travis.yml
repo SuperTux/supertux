@@ -23,6 +23,7 @@ matrix:
   exclude:
   - compiler: gcc
     os: osx
+  include:
 
 os:
   - linux
@@ -39,22 +40,30 @@ env:
   matrix:
     - BUILD_TYPE="Debug"
     - BUILD_TYPE="Release"
-    - USE_GLBINDING=OFF
     - USE_GLBINDING=ON
 
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
-        brew update;
-        brew upgrade cmake;
-        brew install libogg libvorbis glew openal-soft sdl2 sdl2_image;
+      export PACKAGE="ON";
+    fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$CC" = "gcc" ]; then
+      export PACKAGE="ON";
+    fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
+      brew update;
+      brew upgrade cmake;
+      brew install libogg libvorbis glew openal-soft sdl2 sdl2_image;
     fi
   # Try building with GLBinding
   # Note: glbindings ./configure needs to be run twice in order to generate a makefile
-  - if [ "$USE_GLBINDING" = "ON" ]; then
-        wget https://github.com/cginternals/glbinding/archive/v$GLBINDING_VERSION.tar.gz -O - | tar xz;
-        cd glbinding-$GLBINDING_VERSION && ./configure --prefix=/usr && ./configure --prefix=/usr;
-        cd build && make -j3 && sudo make install;
-        cd ../..;
+  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$USE_GLBINDING" = "ON" ]; then
+      wget https://github.com/cginternals/glbinding/archive/v$GLBINDING_VERSION.tar.gz -O - | tar xz;
+      cd glbinding-$GLBINDING_VERSION && ./configure --prefix=/usr && ./configure --prefix=/usr;
+      cd build && make -j3 && sudo make install;
+      cd ../..;
+    fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$USE_GLBINDING" = "ON" ]; then
+      brew install glbinding;
     fi
   # Fetch the entire git history
   - git fetch --unshallow
@@ -76,7 +85,7 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-      condition: $BUILD_TYPE = Release
+      condition: $PACKAGE = ON
   - provider: releases
     api_key:
       secure: oOoWGIvtMne9b413EGv3GSaV8PE/X1P3e85hIdTvRdxs5VTWHi9eeWpEknru8N8hQ+iIkvD2QpUvwL6Qgf7myP3OwXWEf7o6+Qxjfl49oJaROTeVUR7uzOYTmYYTCZG0b3jQKYu5JkVqJzwTNmT0GturHkW5pzsAy/rHUDuLfkI=
@@ -85,7 +94,7 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
-      condition: $BUILD_TYPE = Release
+      condition: $PACKAGE = ON
 
 addons:
   apt:
