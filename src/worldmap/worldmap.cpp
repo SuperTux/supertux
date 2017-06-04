@@ -1012,8 +1012,11 @@ WorldMap::load_state()
     // load tux
     get_table_entry(vm, "tux");
     Vector p;
-    p.x = read_float(vm, "x");
-    p.y = read_float(vm, "y");
+    if(!get_float(vm, "x", p.x) || !get_float(vm, "y", p.y))
+    {
+      log_warning << "Player position not set, respawning." << std::endl;
+      move_to_spawnpoint("main");
+    }
     std::string back_str = read_string(vm, "back");
     tux->back_direction = string_to_direction(back_str);
     tux->set_tile_pos(p);
@@ -1031,8 +1034,14 @@ WorldMap::load_state()
     for(const auto& level : levels) {
       sq_pushstring(vm, level->get_name().c_str(), -1);
       if(SQ_SUCCEEDED(sq_get(vm, -2))) {
-        level->solved = read_bool(vm, "solved");
-        level->perfect = read_bool(vm, "perfect");
+        if(!get_bool(vm, "solved", level->solved))
+        {
+          level->solved = false;
+        }
+        if(!get_bool(vm, "perfect", level->perfect))
+        {
+          level->perfect = false;
+        }
         level->update_sprite_action();
         level->statistics.unserialize_from_squirrel(vm);
         sq_pop(vm, 1);
@@ -1052,14 +1061,21 @@ WorldMap::load_state()
                    std::to_string(int(sc->pos.y));
         sq_pushstring(vm, key.c_str(), -1);
         if(SQ_SUCCEEDED(sq_get(vm, -2))) {
-          bool show_stay_action = read_bool(vm, "show-stay-action");
-          if(show_stay_action)
+          bool show_stay_action = false;
+          if(!get_bool(vm, "show-stay-action", show_stay_action))
           {
-            sc->set_stay_action();
+            sc->clear_stay_action(/* propagate = */ false);
           }
           else
           {
-            sc->clear_stay_action(/* propagate = */ false);
+            if(show_stay_action)
+            {
+              sc->set_stay_action();
+            }
+            else
+            {
+              sc->clear_stay_action(/* propagate = */ false);
+            }
           }
           sq_pop(vm, 1);
         }
