@@ -23,6 +23,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 #include <boost/optional.hpp>
+#include <boost/locale.hpp>
 #include <array>
 #include <iostream>
 #include <physfs.h>
@@ -31,6 +32,10 @@
 extern "C" {
 #include <findlocale.h>
 }
+
+#ifdef WIN32
+#include <codecvt>
+#endif
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
@@ -455,9 +460,23 @@ Main::run(int argc, char** argv)
 	//SDL is used instead of PHYSFS because both create the same path in app data
 	//However, PHYSFS is not yet initizlized, and this should be run before anything is initialized
 	std::string prefpath = SDL_GetPrefPath("SuperTux", "supertux2");
-	freopen((prefpath + "/console.out").c_str(), "a", stdout);
-	freopen((prefpath + "/console.err").c_str(), "a", stderr);
+
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+
+	//All this conversion stuff is necessary to make this work for internationalized usernames
+	std::string outpath = prefpath + u8"/console.out";
+	std::wstring w_outpath = converter.from_bytes(outpath);
+	_wfreopen(w_outpath.c_str(), L"a", stdout);
+
+	std::string errpath = prefpath + u8"/console.err";
+	std::wstring w_errpath = converter.from_bytes(errpath);
+	_wfreopen(w_errpath.c_str(), L"a", stderr);
 #endif
+
+  // Create and install global locale
+  std::locale::global(boost::locale::generator().generate(""));
+  // Make boost.filesystem use it
+  boost::filesystem::path::imbue(std::locale());
 
   int result = 0;
 
