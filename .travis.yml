@@ -43,12 +43,14 @@ env:
     - USE_GLBINDING=ON
 
 before_install:
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
-      export PACKAGE="ON";
-    fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$CC" = "gcc" ]; then
-      export PACKAGE="ON";
-    fi
+  # Possibly should not generate packages for all builds?
+  - export PACKAGE="ON";
+  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$cc" = "gcc" ] && [ "$BUILD_TYPE" = "Release" ]; then
+      export RELEASE="ON";
+    fi;
+  - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$BUILD_TYPE" = "Release" ]; then
+      export RELEASE="ON";
+    fi;
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
       brew update;
       brew upgrade cmake;
@@ -71,7 +73,7 @@ before_install:
 script:
   - mkdir "build-$BUILD_TYPE"
   - cd "build-$BUILD_TYPE"
-  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$USE_GLBINDING -DBUILD_TESTS=ON
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$USE_GLBINDING -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2
   - make -j3
   - make install DESTDIR="/tmp/supertux-$BUILD_TYPE"
   - ./test_supertux2
@@ -85,7 +87,7 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-      condition: $PACKAGE = ON
+      condition: $RELEASE = ON
   - provider: releases
     api_key:
       secure: oOoWGIvtMne9b413EGv3GSaV8PE/X1P3e85hIdTvRdxs5VTWHi9eeWpEknru8N8hQ+iIkvD2QpUvwL6Qgf7myP3OwXWEf7o6+Qxjfl49oJaROTeVUR7uzOYTmYYTCZG0b3jQKYu5JkVqJzwTNmT0GturHkW5pzsAy/rHUDuLfkI=
@@ -94,7 +96,7 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
-      condition: $PACKAGE = ON
+      condition: $RELEASE = ON
 
 addons:
   apt:
