@@ -2,7 +2,17 @@
 
 shopt -s nullglob
 
-for file in SuperTux-*; do
+. ~/urls.dat
+
+for file in SuperTux*; do
     echo "Uploading $file";
-#    curl -T "$file" -umaths22:$BINTRAY_KEY "https://api.bintray.com/content/supertux/SuperTux-Nightly/travis/$TRAVIS_BUILD_NUMBER/$file?publish=1&override=1"
+    url="${urls[$file]}"
+    size=$(($(wc -c < "$file")))
+    shasum=$(shasum -a 256 "$file" | cut -d " " -f 1)
+    curl --data "apikey=$DOWNLOAD_APIKEY" \
+         --data "url=$url" \
+         --data "size=$size" \
+         --data "branch=$TRAVIS_BRANCH" \
+         --data "shasum=$shasum" \
+         -L -s https://download.supertux.org/submit.php
 done
