@@ -32,9 +32,9 @@ Candle::Candle(const ReaderMapping& lisp)
     candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
 {
 
-  if(!lisp.get("name", name)) name = "";
-  if(!lisp.get("burning", burning)) burning = true;
-  if(!lisp.get("flicker", flicker)) flicker = true;
+  lisp.get("name", name, "");
+  lisp.get("burning", burning, true);
+  lisp.get("flicker", flicker, true);
   std::vector<float> vColor;
   if(!lisp.get("color", vColor)) vColor = {1.0f, 1.0f, 1.0f};
 

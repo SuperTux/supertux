@@ -40,9 +40,9 @@ SecretAreaTrigger::SecretAreaTrigger(const ReaderMapping& reader) :
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
-  float w = 32, h = 32;
-  reader.get("width", w);
-  reader.get("height", h);
+  float w,h;
+  reader.get("width", w, 32.0f);
+  reader.get("height", h, 32.0f);
   bbox.set_size(w, h);
   reader.get("fade-tilemap", fade_tilemap);
   reader.get("message", message);

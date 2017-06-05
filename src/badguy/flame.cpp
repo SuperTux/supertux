@@ -38,8 +38,8 @@ Flame::Flame(const ReaderMapping& reader) :
   speed(),
   sound_source()
 {
-  if ( !reader.get("radius", radius)) radius = 100;
-  if ( !reader.get("speed", speed)) speed = 2;
+  reader.get("radius", radius, 100);
+  reader.get("speed", speed, 2);
   if (!Editor::is_active()) {
     bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
                         start_position.y + sin(angle) * radius));

@@ -103,7 +103,7 @@ ReaderMapping::get(const char* key, bool& value) const
 }
 
 bool
-ReaderMapping::get(const char* key, bool& value,const bool defaultValue) const
+ReaderMapping::get(const char* key, bool& value, const bool defaultValue) const
 {
   GET_VALUE_MACRO_DEFAULT("bool", is_boolean, as_bool);
 }
@@ -115,7 +115,7 @@ ReaderMapping::get(const char* key, int& value) const
 }
 
 bool
-ReaderMapping::get(const char* key, int& value, int defaultValue) const
+ReaderMapping::get(const char* key, int& value, const int defaultValue) const
 {
   GET_VALUE_MACRO_DEFAULT("int", is_integer, as_int);
 }
@@ -139,7 +139,7 @@ ReaderMapping::get(const char* key, float& value) const
 }
 
 bool
-ReaderMapping::get(const char* key, float& value,const float defaultValue) const
+ReaderMapping::get(const char* key, float& value, const float defaultValue) const
 {
   GET_VALUE_MACRO_DEFAULT("float", is_real, as_float);
 }
@@ -180,7 +180,7 @@ ReaderMapping::get(const char* key, std::string& value) const
 }
 
 bool
-ReaderMapping::get(const char* key, std::string& value,const std::string& defaultValue) const
+ReaderMapping::get(const char* key, std::string& value, std::string defaultValue) const
 {
   value = defaultValue;
   auto const sx = get_item(key);
