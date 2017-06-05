@@ -127,7 +127,7 @@ ReaderMapping::get(const char* key, uint32_t& value) const
 }
 
 bool
-ReaderMapping::get(const char* key, uint32_t& value,const uint32_t defaultValue) const
+ReaderMapping::get(const char* key, uint32_t& value, const uint32_t defaultValue) const
 {
   GET_VALUE_MACRO_DEFAULT("uint32_t", is_integer, as_int);
 }
