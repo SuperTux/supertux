@@ -107,6 +107,7 @@ get_desktopintegration $LOWERAPP
 ########################################################################
 
 VERSION=${RELEASE_VERSION}
+export VERSION
 
 ########################################################################
 # Patch away absolute paths
