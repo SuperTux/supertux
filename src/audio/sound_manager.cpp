@@ -28,8 +28,8 @@
 #include "util/log.hpp"
 
 SoundManager::SoundManager() :
-  device(0),
-  context(0),
+  device(alcOpenDevice(0)),
+  context(alcCreateContext(device, /* attributes = */ 0)),
   sound_enabled(false),
   buffers(),
   sources(),
@@ -39,13 +39,9 @@ SoundManager::SoundManager() :
   current_music()
 {
   try {
-    device = alcOpenDevice(0);
     if (device == NULL) {
       throw std::runtime_error("Couldn't open audio device.");
     }
-
-    int attributes[] = { 0 };
-    context = alcCreateContext(device, attributes);
     check_alc_error("Couldn't create audio context: ");
     alcMakeContextCurrent(context);
     check_alc_error("Couldn't select audio context: ");
