@@ -97,6 +97,12 @@ SoundManager::load_file_into_buffer(SoundFile& file)
   check_al_error("Couldn't create audio buffer: ");
   std::unique_ptr<char[]> samples(new char[file.size]);
   file.read(samples.get(), file.size);
+  log_debug << "buffer: " << buffer << "\n"
+            << "format: " << format << "\n"
+            << "samples: " << samples.get() << "\n"
+            << "file size: " << static_cast<ALsizei>(file.size) << "\n"
+            << "file rate: " << static_cast<ALsizei>(file.rate) << "\n";
+
   alBufferData(buffer, format, samples.get(),
                static_cast<ALsizei>(file.size),
                static_cast<ALsizei>(file.rate));
