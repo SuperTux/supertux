@@ -3,6 +3,10 @@ os: Visual Studio 2015
 configuration: Release
 platform: x64
 
+environment:
+  DOWNLOAD_APIKEY:
+    secure: SEKmgfhiwujukYrr2xjqp63FEwvDUcoQOy7pCuYSyu+CTbGRRIzTbUCwwu4EPJmE
+
 branches:
   except:
     - coverity_scan # No need for Windows builds on that branch
@@ -28,6 +32,24 @@ after_build:
 - cmd: '"C:\Program Files (x86)\CMake\bin\cpack.exe"'
 - ps: |
     Write-Output Get-FileHash SuperTux-*
+    
+    function transfer ($filename)
+    {
+        $file = Get-Item $filename;
+        invoke-webrequest -method put -infile $file.FullName https://transfer.sh/$($file.Name)
+    }
+    
+    if($Env:APPVEYOR_REPO_BRANCH -eq 'master' -And -not $env:APPVEYOR_PULL_REQUEST_NUMBER) {
+      foreach ($path in get-ChildItem SuperTux-*) {
+      
+        $response = transfer($path)
+        $url = $response.Content
+        $file = Get-Item $path;
+      
+        $postParams = @{apikey=$DOWNLOAD_APIKEY;size=$file.length;url=$url}
+        Invoke-WebRequest -Uri https://download.supertuxproject.org/submit.php -Method POST -Body $postParams
+      }
+    }
 
 test: off
 
