@@ -294,8 +294,6 @@ SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/supertux/title_scree
 SET_SOURCE_FILES_PROPERTIES(${CMAKE_CURRENT_SOURCE_DIR}/src/addon/addon_manager.cpp
                             PROPERTIES OBJECT_DEPENDS "${CMAKE_BINARY_DIR}/version.h")
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/data/levels/misc/menu.stl.in ${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl )
-
 ## Configure doxygen
 # Adapted from https://tty1.net/blog/2014/cmake-doxygen_en.html
 # add a target to generate API documentation with Doxygen
@@ -780,7 +778,7 @@ INSTALL(FILES "${CMAKE_BINARY_DIR}/data/levels/misc/menu.stl" DESTINATION "${INS
 configure_file(config.h.cmake ${CMAKE_BINARY_DIR}/config.h )
 
 ## Configure main menu logo
-IF(CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo")
+IF("${SUPERTUX_VERSION_STRING}" MATCHES "^v[0-9]+\\.[0-9]+\\.[0-9]+$")
     SET(LOGO_FILE "logo_final.sprite")
 ELSE()
     SET(LOGO_FILE "logo.sprite")
