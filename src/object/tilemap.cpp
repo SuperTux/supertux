@@ -94,9 +94,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   reader.get("name",   name);
   reader.get("solid",  real_solid);
   reader.get("speed",  speed_x);
-  if (!reader.get("speed-y", speed_y)) {
-    speed_y = speed_x;
-  }
+  reader.get("speed-y", speed_y, speed_x);
 
   z_pos = reader_get_layer (reader, /* default = */ 0);
 

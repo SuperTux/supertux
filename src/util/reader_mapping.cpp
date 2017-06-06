@@ -92,10 +92,20 @@ ReaderMapping::get_item(const char* key) const
     return true;                                                        \
   }
 
+#define GET_VALUE_MACRO_DEFAULT(type, checker, getter) \
+  value = defaultValue;                                \
+  GET_VALUE_MACRO(type, checker, getter);
+
 bool
 ReaderMapping::get(const char* key, bool& value) const
 {
   GET_VALUE_MACRO("bool", is_boolean, as_bool);
+}
+
+bool
+ReaderMapping::get(const char* key, bool& value, const bool defaultValue) const
+{
+  GET_VALUE_MACRO_DEFAULT("bool", is_boolean, as_bool);
 }
 
 bool
@@ -105,9 +115,21 @@ ReaderMapping::get(const char* key, int& value) const
 }
 
 bool
+ReaderMapping::get(const char* key, int& value, const int defaultValue) const
+{
+  GET_VALUE_MACRO_DEFAULT("int", is_integer, as_int);
+}
+
+bool
 ReaderMapping::get(const char* key, uint32_t& value) const
 {
   GET_VALUE_MACRO("uint32_t", is_integer, as_int);
+}
+
+bool
+ReaderMapping::get(const char* key, uint32_t& value, const uint32_t defaultValue) const
+{
+  GET_VALUE_MACRO_DEFAULT("uint32_t", is_integer, as_int);
 }
 
 bool
@@ -116,11 +138,51 @@ ReaderMapping::get(const char* key, float& value) const
   GET_VALUE_MACRO("float", is_real, as_float);
 }
 
+bool
+ReaderMapping::get(const char* key, float& value, const float defaultValue) const
+{
+  GET_VALUE_MACRO_DEFAULT("float", is_real, as_float);
+}
+
+
 #undef GET_VALUE_MACRO
+#undef GET_VALUE_MACRO_DEFAULT
 
 bool
 ReaderMapping::get(const char* key, std::string& value) const
 {
+  auto const sx = get_item(key);
+  if (!sx) {
+    return false;
+  } else {
+    assert_array_size_eq(*m_doc, *sx, 2);
+
+    auto const& item = sx->as_array();
+
+    if (item[1].is_string()) {
+      value = item[1].as_string();
+      return true;
+    } else if (item[1].is_array() &&
+               item[1].as_array().size() == 2 &&
+               item[1].as_array()[0].is_symbol() &&
+               item[1].as_array()[0].as_string() == "_" &&
+               item[1].as_array()[1].is_string()) {
+      if (translations_enabled) {
+        value = _(item[1].as_array()[1].as_string());
+      } else {
+        value = item[1].as_array()[1].as_string();
+      }
+      return true;
+    } else {
+      raise_exception(*m_doc, item[1], "expected string");
+    }
+  }
+}
+
+bool
+ReaderMapping::get(const char* key, std::string& value, std::string defaultValue) const
+{
+  value = defaultValue;
   auto const sx = get_item(key);
   if (!sx) {
     return false;

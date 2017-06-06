@@ -37,15 +37,15 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   new_vel(),
   new_size()
 {
-  if (!lisp.get("name", name)) name = "";
+  lisp.get("name", name, "");
   if(name.empty()) {
     name = "unnamed" + std::to_string(graphicsRandom.rand());
     log_warning << "Scripted object must have a name specified, setting to: " << name << std::endl;
   }
 
-  if (!lisp.get("solid", solid)) solid = true;
-  if (!lisp.get("physic-enabled", physic_enabled)) physic_enabled = true;
-  if (!lisp.get("visible", visible)) visible = true;
+  lisp.get("solid", solid, true);
+  lisp.get("physic-enabled", physic_enabled, true);
+  lisp.get("visible", visible, true);
   layer = reader_get_layer (lisp, /* default = */ LAYER_OBJECTS);
   if( solid ){
     set_group( COLGROUP_MOVING_STATIC );

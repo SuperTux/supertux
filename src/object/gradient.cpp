@@ -47,7 +47,7 @@ Gradient::Gradient(const ReaderMapping& reader) :
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
   std::string direction;
-  if (!reader.get("name", name)) name = "";
+  reader.get("name", name, "");
   if(reader.get("direction", direction))
   {
     if(direction == "horizontal")

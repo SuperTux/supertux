@@ -74,7 +74,7 @@ Background::Background(const ReaderMapping& reader) :
   has_pos_y = reader.get("y", py);
   this->pos = Vector(px,py);
 
-  if (!reader.get("name", name)) name = "";
+  reader.get("name", name, "");
 
   speed = 1.0;
   speed_y = 1.0;
@@ -109,22 +109,19 @@ Background::Background(const ReaderMapping& reader) :
     }
   }
 
-  if (!reader.get("scroll-offset-x", scroll_offset.x)) scroll_offset.x = 0;
-  if (!reader.get("scroll-offset-y", scroll_offset.y)) scroll_offset.y = 0;
+  reader.get("scroll-offset-x", scroll_offset.x, 0);
+  reader.get("scroll-offset-y", scroll_offset.y, 0);
 
-  if (!reader.get("scroll-speed-x", scroll_speed.x)) scroll_speed.x = 0.5;
-  if (!reader.get("scroll-speed-y", scroll_speed.y)) scroll_speed.y = 0.5;
+  reader.get("scroll-speed-x", scroll_speed.x, 0.5);
+  reader.get("scroll-speed-y", scroll_speed.y, 0.5);
 
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
 
-  if (!reader.get("image", imagefile)) imagefile = "images/background/transparent_up.png";
-  if (!reader.get("speed", speed)) speed = 0.5;
+  reader.get("image", imagefile, "images/background/transparent_up.png");
+  reader.get("speed", speed, 0.5);
 
   set_image(imagefile, speed);
-  if (!reader.get("speed-y", speed_y))
-  {
-    speed_y = speed;
-  }
+  reader.get("speed-y", speed_y, speed);
 
   if (reader.get("image-top", imagefile_top)) {
     image_top = Surface::create(imagefile_top);

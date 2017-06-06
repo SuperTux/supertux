@@ -43,7 +43,7 @@ Ispy::Ispy(const ReaderMapping& reader) :
   } else {
     dir = LEFT;
   }
-  if (!reader.get("facing-down", facing_down)) facing_down = false;
+  reader.get("facing-down", facing_down, false);
   if (facing_down) dir = DOWN;
   if (dir == AUTO) { log_warning << "Setting an Ispy's direction to AUTO is no good idea" << std::endl; }
 

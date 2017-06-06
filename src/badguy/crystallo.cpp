@@ -28,9 +28,7 @@ Crystallo::Crystallo(const ReaderMapping& reader) :
   walk_speed = 80;
   max_drop_height = 16;
 
-  if ( !reader.get("radius", radius)) {
-    radius = 100;
-  }
+  reader.get("radius", radius, 100);
 }
 
 Crystallo::Crystallo(const Vector& pos, Direction d) :

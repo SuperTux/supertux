@@ -77,7 +77,7 @@ Coin::Coin(const ReaderMapping& reader)
     set_pos(v);
   }
 
-  if(!reader.get("collect-script", collect_script)) collect_script = "";
+  reader.get("collect-script", collect_script, "");
 
   SoundManager::current()->preload("sounds/coin.wav");
 }

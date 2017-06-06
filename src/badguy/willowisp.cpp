@@ -51,13 +51,13 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   track_range(),
   vanish_range()
 {
-  if ( !reader.get("sector", target_sector)) target_sector = "main";
-  if ( !reader.get("spawnpoint", target_spawnpoint)) target_spawnpoint = "main";
-  if ( !reader.get("name", name)) name = "";
-  if ( !reader.get("flyspeed", flyspeed)) flyspeed = FLYSPEED;
-  if ( !reader.get("track-range", track_range)) track_range = TRACK_RANGE;
-  if ( !reader.get("vanish-range", vanish_range)) vanish_range = VANISH_RANGE;
-  if ( !reader.get("hit-script", hit_script)) hit_script = "";
+  reader.get("sector", target_sector, "main");
+  reader.get("spawnpoint", target_spawnpoint, "main");
+  reader.get("name", name, "");
+  reader.get("flyspeed", flyspeed, FLYSPEED);
+  reader.get("track-range", track_range, TRACK_RANGE);
+  reader.get("vanish-range", vanish_range, VANISH_RANGE);
+  reader.get("hit-script", hit_script, "");
 
   bool running;
   if ( !reader.get("running", running)) running = false;

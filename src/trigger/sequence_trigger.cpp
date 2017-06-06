@@ -31,11 +31,11 @@ SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
   sequence(SEQ_ENDSEQUENCE),
   new_size()
 {
-  if (!reader.get("x", bbox.p1.x)) bbox.p1.x = 0;
-  if (!reader.get("y", bbox.p1.y)) bbox.p1.y = 0;
+  reader.get("x", bbox.p1.x, 0);
+  reader.get("y", bbox.p1.y, 0);
   float w, h;
-  if (!reader.get("width", w)) w = 32;
-  if (!reader.get("height", h)) h = 32;
+  reader.get("width", w, 32);
+  reader.get("height", h, 32);
   bbox.set_size(w, h);
   std::string sequence_name;
   if (reader.get("sequence", sequence_name)) {

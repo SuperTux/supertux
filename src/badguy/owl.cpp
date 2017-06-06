@@ -35,7 +35,7 @@ Owl::Owl(const ReaderMapping& reader) :
   carried_obj_name(),
   carried_object(NULL)
 {
-  if ( !reader.get("carry", carried_obj_name)) carried_obj_name = "skydive";
+  reader.get("carry", carried_obj_name, "skydive");
   set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
 }
 
