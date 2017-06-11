@@ -28,8 +28,8 @@ class Tip
     Tip(GameObject* object);
     ~Tip();
 
-    void draw(DrawingContext& context, Vector& pos);
-    void draw_up(DrawingContext& context, Vector& pos);
+    void draw(DrawingContext& context, const Vector& pos);
+    void draw_up(DrawingContext& context, const Vector& pos);
 
   private:
     std::vector<std::string> strings;
