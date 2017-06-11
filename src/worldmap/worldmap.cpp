@@ -353,25 +353,26 @@ WorldMap::on_escape_press()
 }
 
 Vector
-WorldMap::get_next_tile(Vector pos, const Direction& direction) const
+WorldMap::get_next_tile(const Vector& pos, const Direction& direction) const
 {
+  auto position = pos;
   switch(direction) {
     case D_WEST:
-      pos.x -= 1;
+      position.x -= 1;
       break;
     case D_EAST:
-      pos.x += 1;
+      position.x += 1;
       break;
     case D_NORTH:
-      pos.y -= 1;
+      position.y -= 1;
       break;
     case D_SOUTH:
-      pos.y += 1;
+      position.y += 1;
       break;
     case D_NONE:
       break;
   }
-  return pos;
+  return position;
 }
 
 bool

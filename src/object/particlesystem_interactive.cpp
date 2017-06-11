@@ -54,7 +54,7 @@ void ParticleSystem_Interactive::draw(DrawingContext& context)
 }
 
 int
-ParticleSystem_Interactive::collision(Particle* object, Vector movement)
+ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
 {
   using namespace collision;
 

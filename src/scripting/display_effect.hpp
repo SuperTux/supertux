@@ -55,7 +55,7 @@ public:
 
   // fade display until just a small visible circle is left
   // (like what happens in some cartoons at the end)
-  // void shrink_fade(Vector goal, float radius, float fadetime);
+  // void shrink_fade(const Vector& goal, float radius, float fadetime);
 };
 
 }

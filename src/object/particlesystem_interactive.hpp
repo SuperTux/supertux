@@ -45,7 +45,7 @@ public:
   }
 
 protected:
-  int collision(Particle* particle, Vector movement);
+  int collision(Particle* particle, const Vector& movement);
 
 };
 

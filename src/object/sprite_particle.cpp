@@ -25,7 +25,7 @@
 #include <stdexcept>
 
 SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
-                               Vector position_, AnchorPoint anchor, Vector velocity_, Vector acceleration_,
+                               const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
                                int drawing_layer_) :
   sprite(SpriteManager::current()->create(sprite_name)),
   position(position_),

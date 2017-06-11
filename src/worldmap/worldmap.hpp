@@ -140,7 +140,7 @@ public:
   /** Draw worldmap */
   virtual void draw(DrawingContext& context);
 
-  Vector get_next_tile(Vector pos, const Direction& direction) const;
+  Vector get_next_tile(const Vector& pos, const Direction& direction) const;
 
   /**
    * gets a bitfield of Tile::WORLDMAP_NORTH | Tile::WORLDMAP_WEST | ... values,
