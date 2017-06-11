@@ -49,7 +49,7 @@ LayerIcon::~LayerIcon() {
 }
 
 void
-LayerIcon::draw(DrawingContext& context, Vector pos) {
+LayerIcon::draw(DrawingContext& context, const Vector& pos) {
   if (!is_valid()) return;
 
   ObjectIcon::draw(context,pos);

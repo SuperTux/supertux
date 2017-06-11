@@ -37,7 +37,7 @@ ItemStringSelect::ItemStringSelect(const std::string& text_, const std::vector<s
 }
 
 void
-ItemStringSelect::draw(DrawingContext& context, Vector pos, int menu_width, bool active) {
+ItemStringSelect::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
   float roff = Resources::arrow_left->get_width();
   float sel_width = Resources::normal_font->get_text_width(list[*selected]);
   // Draw left side

@@ -56,7 +56,7 @@ Tip::~Tip() {
 }
 
 void
-Tip::draw(DrawingContext& context, Vector pos) {
+Tip::draw(DrawingContext& context, Vector& pos) {
   pos.y += 35;
   context.draw_text(Resources::normal_font, header, pos,
                     ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::label_color);
@@ -69,8 +69,9 @@ Tip::draw(DrawingContext& context, Vector pos) {
 }
 
 void
-Tip::draw_up(DrawingContext& context, Vector pos) {
-  draw(context, Vector(pos.x, pos.y - (strings.size() + 1) * 22 - 35 ));
+Tip::draw_up(DrawingContext& context, Vector& pos) {
+  auto position = Vector(pos.x, pos.y - (strings.size() + 1) * 22 - 35);
+  draw(context, position);
 }
 
 /* EOF */

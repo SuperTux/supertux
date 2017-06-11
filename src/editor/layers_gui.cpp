@@ -62,7 +62,8 @@ void
 EditorLayersGui::draw(DrawingContext& context) {
 
   if (object_tip) {
-    object_tip->draw_up(context, get_layer_coords(hovered_layer));
+    auto position = get_layer_coords(hovered_layer);
+    object_tip->draw_up(context, position);
   }
 
   context.draw_filled_rect(Rectf(Vector(0, Ypos), Vector(Width, SCREEN_HEIGHT)),

@@ -75,7 +75,7 @@ EditorScroller::draw(DrawingContext& context) {
 }
 
 void
-EditorScroller::draw_arrow(DrawingContext& context, Vector pos) {
+EditorScroller::draw_arrow(DrawingContext& context, const Vector& pos) {
   Vector dir = pos - Vector(MIDDLE, MIDDLE);
   if (dir.x != 0 || dir.y != 0) {
     // draw a triangle

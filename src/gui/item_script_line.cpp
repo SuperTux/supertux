@@ -38,7 +38,7 @@ ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
 }
 
 void
-ItemScriptLine::draw(DrawingContext& context, Vector pos, int menu_width, bool active) {
+ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
   std::string r_input = *input;
   auto font = Console::current()->get_font();
   bool fl = active && (int(real_time*2)%2);

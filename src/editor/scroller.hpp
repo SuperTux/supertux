@@ -45,7 +45,7 @@ class EditorScroller
     Vector scrolling_vec;
     Vector mouse_pos;
 
-    void draw_arrow(DrawingContext&, Vector pos);
+    void draw_arrow(DrawingContext&, const Vector& pos);
     bool can_scroll() const;
 
     EditorScroller(const EditorScroller&);

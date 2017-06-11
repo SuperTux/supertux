@@ -31,7 +31,7 @@ class ItemLabel : public MenuItem
     ItemLabel(const std::string& text_);
 
     /** Draws the menu item. */
-    virtual void draw(DrawingContext&, Vector pos, int menu_width, bool active);
+    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
 
     /** Returns true when the menu item has no action and therefore can be skipped.
         Useful for labels and horizontal lines.*/

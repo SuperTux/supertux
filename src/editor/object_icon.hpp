@@ -32,7 +32,7 @@ class ObjectIcon
     std::string object_name;
     SurfacePtr surface;
 
-    virtual void draw(DrawingContext& context, Vector pos);
+    virtual void draw(DrawingContext& context, const Vector& pos);
 
   private:
     Vector offset;
