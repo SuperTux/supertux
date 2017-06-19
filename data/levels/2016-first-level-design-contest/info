@@ -1,0 +1,6 @@
+(supertux-level-subset
+  (title (_ "2016 Level Design Contest I Proposals"))
+  (description (_ "These are the levels proposed to the SuperTux team for the 2016 Level Design Contest!"))
+  (levelset #f)
+  (hide-from-contribs #f)
+)
