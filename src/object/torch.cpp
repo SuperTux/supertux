@@ -33,11 +33,10 @@ Torch::Torch(const ReaderMapping& reader) :
   reader.get("y", bbox.p1.y);
 
   reader.get("sprite", sprite_name);
-
-  bbox.p2.x = bbox.p1.x + 50;
-  bbox.p2.y = bbox.p1.y + 50;
+  reader.get("burning", m_burning, true);
 
   m_torch = SpriteManager::current()->create(sprite_name);
+  bbox.set_size(m_torch->get_width(), m_torch->get_height());
   m_flame_glow->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   m_flame_light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   set_group(COLGROUP_TOUCHABLE);
@@ -72,9 +71,8 @@ Torch::update(float)
 HitResponse
 Torch::collision(GameObject& other, const CollisionHit& )
 {
-  // FIXME: this doesn't work, as bbox is wrong
   auto player = dynamic_cast<Player*>(&other);
-  if(player != 0)
+  if(player != NULL && !m_burning)
   {
     m_burning = true;
   }
@@ -84,8 +82,11 @@ Torch::collision(GameObject& other, const CollisionHit& )
 ObjectSettings Torch::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
+  ObjectOption burning(MN_TOGGLE, _("Burning"), &m_burning, "burning");
   ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite");
   spr.select.push_back(".sprite");
+
+  result.options.push_back(burning);
   result.options.push_back(spr);
   return result;
 }
