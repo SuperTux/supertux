@@ -121,7 +121,7 @@
     (torch
       (sprite "images/objects/torch/torch1.sprite")
       (x 529.375)
-      (y 512.2832642)
+      (y 412.2832642)
     )
     (skullyhop
       (sprite "images/creatures/skullyhop/skullyhop.sprite")
