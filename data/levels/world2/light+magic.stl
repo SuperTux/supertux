@@ -460,7 +460,7 @@
     )
     (torch
       (x 5210.320801)
-      (y 673.375)
+      (y 573.375)
     )
     (decal
       (sprite "/images/decal/halloween/tree.png")
@@ -575,7 +575,7 @@
     )
     (torch
       (x 9760.647461)
-      (y 638.5454102)
+      (y 538.5454102)
     )
     (decal
       (sprite "/images/decal/halloween/tree.png")
@@ -644,7 +644,7 @@
     )
     (torch
       (x 11075.68555)
-      (y 484.3320312)
+      (y 384.3320312)
     )
     (magicblock
       (sprite "images/objects/magicblock/magicblock.sprite")

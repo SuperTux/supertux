@@ -72,7 +72,7 @@
     )
     (torch
       (x 560)
-      (y 900)
+      (y 800)
     )
     (poisonivy
       (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
@@ -135,11 +135,11 @@
     )
     (torch
       (x 2222.568604)
-      (y 958.2075195)
+      (y 858.2075195)
     )
     (torch
       (x 991.2004395)
-      (y 930.1206665)
+      (y 830.1206665)
     )
     (snail
       (sprite "images/creatures/snail/snail.sprite")
@@ -225,7 +225,7 @@
     )
     (torch
       (x 3877.951416)
-      (y 636.8424072)
+      (y 536.8424072)
     )
     (poisonivy
       (sprite "images/creatures/poison_ivy/poison_ivy.sprite")
@@ -354,7 +354,7 @@
     )
     (torch
       (x 5203.820801)
-      (y 700.7521973)
+      (y 600.7521973)
     )
     (tilemap
       (name "back2")
@@ -466,7 +466,7 @@
     )
     (torch
       (x 7105.736328)
-      (y 731.6471558)
+      (y 631.6471558)
     )
     (walkingleaf
       (sprite "images/creatures/walkingleaf/walkingleaf.sprite")
@@ -552,11 +552,11 @@
     )
     (torch
       (x 8898.293945)
-      (y 990.038208)
+      (y 890.038208)
     )
     (torch
       (x 10284.2002)
-      (y 990.973999)
+      (y 890.973999)
     )
     (decal
       (sprite "/images/decal/halloween/tree.png")
@@ -670,7 +670,7 @@
     )
     (torch
       (x 12617.72168)
-      (y 891.7365112)
+      (y 791.7365112)
     )
     (walkingleaf
       (sprite "images/creatures/walkingleaf/walkingleaf.sprite")
@@ -699,7 +699,7 @@
     )
     (torch
       (x 12621.09375)
-      (y 284.6045837)
+      (y 184.6045837)
     )
   )
 )

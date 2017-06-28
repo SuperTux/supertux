@@ -579,17 +579,17 @@
     (torch
       (sprite "images/objects/torch/torch1.sprite")
       (x 20240)
-      (y 932)
+      (y 832)
     )
     (torch
       (sprite "images/objects/torch/torch2.sprite")
       (x 18096)
-      (y 932)
+      (y 832)
     )
     (torch
       (sprite "images/objects/torch/torch1.sprite")
       (x 7664)
-      (y 836)
+      (y 736)
     )
   )
 )
