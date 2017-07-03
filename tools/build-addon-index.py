@@ -27,11 +27,11 @@ import sys
 import sexpr
 
 
-def escape_str(str):
-    return "\"%s\"" % str.replace("\"", "\\\"")
+def escape_str(string):
+    return "\"%s\"" % string.replace("\"", "\\\"")
 
 
-class Addon:
+class Addon(object):
     def __init__(self, filename):
         lst = sexpr.parse(filename)
         if lst[0][0] != "supertux-addoninfo":

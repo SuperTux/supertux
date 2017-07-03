@@ -66,9 +66,9 @@ fi
 # MD5SUM=`md5sum "$1" | cut -c "1-32"`
 # echo "MD5Sum: $MD5SUM"
 
-STEP1_FILE="`tempfile`"
-STEP2_FILE="`tempfile`"
-COOKIES_FILE="`tempfile`"
+STEP1_FILE="$(tempfile)"
+STEP2_FILE="$(tempfile)"
+COOKIES_FILE="$(tempfile)"
 
 curl \
 	-c "$COOKIES_FILE" \

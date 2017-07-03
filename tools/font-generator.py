@@ -24,7 +24,7 @@ import codecs
 import math
 import re
 
-class FontGenerator:
+class FontGenerator(object):
 
     def __init__(self):
         self.font_size = 24

@@ -23,17 +23,17 @@ translate_array \
    ['d', "cloud-00.png",  90],
    ['e', "cloud-00.png",  91],
    ['f', "cloud-00.png",  92],
-   
+
    ['G', "bkgd-00.png",   93],
    ['H', "bkgd-01.png",   94],
    ['I', "bkgd-02.png",   95],
    ['J', "bkgd-03.png",   96],
-   
+
    ['g', "bkgd-10.png",   97],
    ['h', "bkgd-11.png",   98],
    ['i', "bkgd-12.png",   99],
    ['j', "bkgd-13.png",  100],
-   
+
    ['#', "solid0.png",    11],
    ['[', "solid1.png",    13],
    ['=', "solid2.png",    14],

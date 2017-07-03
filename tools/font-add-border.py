@@ -25,7 +25,7 @@ def fix_font_file(filename, glyph_width, glyph_height):
     print("Processing %s %dx%d" % (filename, glyph_width, glyph_height))
     img = Image.open(filename)
     w, h = img.size
-    
+
     assert w % glyph_width == 0, "image not multiple of glyph width"
     assert h % glyph_height == 0, "image not multiple of glyph height"
 
