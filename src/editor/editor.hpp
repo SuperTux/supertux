@@ -115,7 +115,7 @@ class Editor : public Screen,
     }
 
     void load_sector(const std::string& name);
-    void load_sector(int id);
+    void load_sector(size_t id);
 
     void update_node_iterators();
     void esc_press();
