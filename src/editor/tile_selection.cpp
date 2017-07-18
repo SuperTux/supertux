@@ -34,7 +34,7 @@ uint32_t TileSelection::pos(int x, int y) const {
     y += height;
   }
 
-  return tiles[x + y*width];
+  return tiles[x + y * width];
 }
 
 void TileSelection::set_tile(uint32_t tile) {
