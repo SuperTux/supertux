@@ -75,6 +75,8 @@ TileSetParser::parse()
       log_warning << "Unknown symbol '" << iter.get_key() << "' in tileset file" << std::endl;
     }
   }
+
+  m_tileset.add_unassigned_tilegroup();
 }
 
 void

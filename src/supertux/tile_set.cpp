@@ -19,6 +19,7 @@
 #include "editor/editor.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/tile_set_parser.hpp"
+#include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
@@ -153,5 +154,43 @@ TileSet::draw_tile(DrawingContext& context, uint32_t id, const Vector& pos,
                       pos + Vector(16, 16), ALIGN_CENTER, z_pos, color);
   }
 }
+
+void
+TileSet::add_unassigned_tilegroup()
+{
+  Tilegroup* unassigned_group = NULL;
+  for(auto tile = 0; tile < static_cast<int>(m_tiles.size()); tile++)
+  {
+    bool found = false;
+    for(const auto& group : tilegroups)
+    {
+      for(const auto& tile_in_group : group.tiles)
+      {
+        if(tile_in_group == tile)
+        {
+          found = true;
+        }
+      }
+    }
+
+    // Weed out all the tiles that have an ID
+    // but no image (mostly tiles that act as 
+    // spacing between other tiles).
+    if(found == false && m_tiles[tile].get())
+    {
+      if(unassigned_group == NULL)
+      {
+        unassigned_group = new Tilegroup();
+        unassigned_group->name = _("Others");
+      }
+      unassigned_group->tiles.push_back(tile);
+    }
+  }
+  if(unassigned_group != NULL)
+  {
+    tilegroups.push_back(*unassigned_group);
+  }
+}
+
 
 /* EOF */
