@@ -22,6 +22,7 @@
 #include "control/input_manager.hpp"
 #include "math/vector.hpp"
 #include "supertux/screen.hpp"
+#include "supertux/tile_set.hpp"
 
 class SDL_event;
 class TileSet;
@@ -52,7 +53,7 @@ class EditorInputGui
     } InputType;
     InputType input_type;
 
-    std::vector<int> active_tilegroup;
+    std::unique_ptr<Tilegroup> active_tilegroup;
     int active_objectgroup;
     std::unique_ptr<ObjectInput> object_input;
 

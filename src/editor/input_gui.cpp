@@ -28,12 +28,13 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/console.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
-#include "supertux/tile_set.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
@@ -134,12 +135,20 @@ void
 EditorInputGui::draw_tilegroup(DrawingContext& context) {
   if (input_type == IP_TILE) {
     int pos = -1;
-    for(auto& tile_ID : active_tilegroup) {
+    for(auto& tile_ID : active_tilegroup->tiles) {
       pos++;
       if (pos < starting_tile) {
         continue;
       }
-      Editor::current()->tileset->draw_tile(context, tile_ID, get_tile_coords(pos - starting_tile), LAYER_GUI-9);
+      auto position = get_tile_coords(pos - starting_tile);
+      Editor::current()->tileset->draw_tile(context, tile_ID, position, LAYER_GUI-9);
+      
+      if (g_config->developer_mode && active_tilegroup->developers_group)
+      {
+        // Display tile ID on top of tile:
+        context.draw_text(Console::current()->get_font(), std::to_string(tile_ID),
+                          position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
+      }
       /*if (tile_ID == 0) {
         continue;
       }
@@ -174,7 +183,7 @@ EditorInputGui::update(float elapsed_time) {
       if (input_type == IP_OBJECT){
         size = object_input->groups[active_objectgroup].icons.size();
       } else {
-        size = active_tilegroup.size();
+        size = active_tilegroup->tiles.size();
       }
       if (starting_tile < size-5) {
         starting_tile += 4;
@@ -213,12 +222,12 @@ EditorInputGui::update_selection() {
   tiles->width = select.get_width() + 1;
   tiles->height = select.get_height() + 1;
 
-  int size = active_tilegroup.size();
+  int size = active_tilegroup->tiles.size();
   for (int y = select.p1.y; y <= select.p2.y; y++) {
     for (int x = select.p1.x; x <= select.p2.x; x++) {
       int tile_pos = y*4 + x + starting_tile;
       if (tile_pos < size && tile_pos >= 0) {
-        tiles->tiles.push_back(active_tilegroup[tile_pos]);
+        tiles->tiles.push_back(active_tilegroup->tiles[tile_pos]);
       } else {
         tiles->tiles.push_back(0);
       }
@@ -246,10 +255,10 @@ EditorInputGui::event(SDL_Event& ev) {
               case IP_TILE: {
                 dragging = true;
                 drag_start = Vector(hovered_tile % 4, hovered_tile / 4);
-                int size = active_tilegroup.size();
+                int size = active_tilegroup->tiles.size();
                 int tile_pos = hovered_tile + starting_tile;
                 if (tile_pos < size && tile_pos >= 0) {
-                  tiles->set_tile(active_tilegroup[tile_pos]);
+                  tiles->set_tile(active_tilegroup->tiles[tile_pos]);
                 } else {
                   tiles->set_tile(0);
                 }

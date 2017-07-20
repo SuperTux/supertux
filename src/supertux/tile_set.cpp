@@ -24,6 +24,7 @@
 #include "video/surface.hpp"
 
 Tilegroup::Tilegroup() :
+  developers_group(),
   name(),
   tiles()
 {
@@ -182,6 +183,7 @@ TileSet::add_unassigned_tilegroup()
       {
         unassigned_group = new Tilegroup();
         unassigned_group->name = _("Others");
+        unassigned_group->developers_group = true;
       }
       unassigned_group->tiles.push_back(tile);
     }

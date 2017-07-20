@@ -32,6 +32,7 @@ class Tilegroup {
   public:
     Tilegroup();
     ~Tilegroup();
+    bool developers_group = false;
     std::string name;
     std::vector<int> tiles;
 };
