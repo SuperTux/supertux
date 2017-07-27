@@ -62,6 +62,13 @@ private:
     /** Frames per second */
     float fps;
 
+    /** Loops (-1 = looping endlessly) */
+    int loops;
+
+    /** Flag that gets set to true if the action 
+        has custom loops defined */
+    bool has_custom_loops;
+
     std::vector<SurfacePtr> surfaces;
   };
 
