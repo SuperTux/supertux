@@ -22,42 +22,25 @@
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/confirm_level_restart_menu.hpp"
-#include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/options_menu.hpp"
-#include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
 
-GameMenu::GameMenu()
+ConfirmLevelRestartMenu::ConfirmLevelRestartMenu()
 {
-  Level* level = GameSession::current()->get_current_level();
-
-  add_label(level->name);
+  add_label(_("Are you sure?"));
   add_hl();
-  add_entry(MNID_CONTINUE, _("Continue"));
-  add_submenu(_("Restart Level"), MenuStorage::CONFIRM_LEVEL_RESTART_MENU);
-  add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
-  add_hl();
-  add_entry(MNID_ABORTLEVEL, _("Abort Level"));
+  add_entry(MNID_YES, _("Yes"));
+  add_back(_("No"));
 }
 
 void
-GameMenu::menu_action(MenuItem* item)
+ConfirmLevelRestartMenu::menu_action(MenuItem* item)
 {
   switch (item->id)
   {
-    case MNID_CONTINUE:
-      MenuManager::instance().clear_menu_stack();
-      GameSession::current()->toggle_pause();
-      break;
-
-    case MNID_RESETLEVEL:
+    case MNID_YES:
       MenuManager::instance().clear_menu_stack();
       GameSession::current()->toggle_pause();
       GameSession::current()->reset_button = true;
-      break;
-
-    case MNID_ABORTLEVEL:
-      GameSession::current()->abort_level();
       break;
   }
 }
