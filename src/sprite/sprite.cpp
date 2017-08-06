@@ -73,7 +73,9 @@ Sprite::set_action(const std::string& name, int loops)
   }
 
   action = newaction;
-  animation_loops = loops;
+  // If the new action has a loops property,
+  // we prefer that over the parameter.
+  animation_loops = newaction->has_custom_loops ? newaction->loops : loops;
   frame = 0;
   frameidx = 0;
 }

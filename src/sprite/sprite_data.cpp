@@ -31,6 +31,8 @@ SpriteData::Action::Action() :
   hitbox_h(0),
   z_order(0),
   fps(10),
+  loops(-1),
+  has_custom_loops(false),
   surfaces()
 {
 }
@@ -91,6 +93,10 @@ SpriteData::parse_action(const ReaderMapping& lisp, const std::string& basedir)
   }
   lisp.get("z-order", action->z_order);
   lisp.get("fps", action->fps);
+  if(lisp.get("loops", action->loops))
+  {
+    action->has_custom_loops = true;
+  }
 
   std::string mirror_action;
   if (lisp.get("mirror-action", mirror_action)) {
