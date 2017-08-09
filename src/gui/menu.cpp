@@ -256,6 +256,20 @@ Menu::add_badguy_select(const std::string& text, std::vector<std::string>* badgu
   return add_item(std::move(item));
 }
 
+MenuItem*
+Menu::add_slideshow(std::vector<SurfacePtr>& images, std::vector< std::string >& text, int switchTime )
+{
+  std::unique_ptr<Slideshow> item(new Slideshow(images, text, switchTime));
+  return add_item(std::move(item));
+}
+
+MenuItem*
+Menu::add_keyvalue(const std::string& key, const std::string& value )
+{
+  std::unique_ptr<KeyValueLabel> item(new KeyValueLabel(key, value));
+  return add_item(std::move(item));
+}
+
 void
 Menu::clear()
 {
@@ -406,7 +420,10 @@ Menu::draw_item(DrawingContext& context, int index)
   MenuItem* pitem = items[index].get();
 
   float x_pos       = pos.x - menu_width_/2;
-  float y_pos       = pos.y + 24*index - menu_height/2 + 12;
+  float sump = 0;
+  for(int i = 0;i<index;i++)
+    sump += items[i]->get_height();
+  float y_pos       = pos.y + sump - menu_height/2 + 12;
 
   pitem->draw(context, Vector(x_pos, y_pos), menu_width_, active_item == index);
 
@@ -450,7 +467,12 @@ Menu::get_width() const
 float
 Menu::get_height() const
 {
-  return items.size() * 24;
+  float height = 0;
+  for(auto& i:items)
+  {
+    height += i->get_height();
+  }
+  return height;
 }
 
 void
@@ -573,6 +595,14 @@ Menu::event(const SDL_Event& ev)
       {
         int new_active_item
           = static_cast<int> ((y - (pos.y - get_height()/2)) / 24);
+        float itemHeight = 0;
+        for(size_t i = 0;i<items.size();i++)
+        {
+          if((y - (pos.y - get_height()/2))  > itemHeight)
+            new_active_item = i;
+          itemHeight += items[i]->get_height();
+
+        }
 
         /* only change the mouse focus to a selectable item */
         if (!items[new_active_item]->skippable())

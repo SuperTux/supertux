@@ -23,6 +23,7 @@
 
 #include "math/vector.hpp"
 #include "video/color.hpp"
+#include "video/surface.hpp"
 
 class Color;
 class DrawingContext;
@@ -58,6 +59,8 @@ public:
   MenuItem* add_color_display(Color* color, int id = -1);
   MenuItem* add_color_channel(float* input, Color channel, int id = -1);
 
+  MenuItem* add_slideshow(std::vector<SurfacePtr>& images, std::vector< std::string >& text, int time );
+  MenuItem* add_keyvalue(const std::string& key, const std::string& value );
   virtual void menu_action(MenuItem* item) = 0;
 
   /**

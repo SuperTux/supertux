@@ -25,6 +25,7 @@
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/reader_collection.hpp"
 #include "util/writer.hpp"
 
 namespace {
@@ -91,7 +92,20 @@ Addon::parse(const ReaderMapping& lisp)
     lisp.get("url", addon->m_url);
     lisp.get("md5", addon->m_md5);
     lisp.get("format", addon->m_format);
-
+    lisp.get("difficulty",addon->m_difficulty);
+    lisp.get("rating",addon->m_rating);
+    ReaderCollection r;
+    if(lisp.get("screenshots",r))
+      for(auto& orr:r.get_objects())
+      {
+        std::string caption = "", url = "", local = "";
+        auto rm = orr.get_mapping();
+        rm.get("url",url);
+        rm.get("text",caption);
+        rm.get("url-local",local);
+        Screenshot s(url,local,caption);
+        addon->m_screenshots.push_back(s);
+      }
     return addon;
   }
   catch(const std::exception& err)
@@ -137,6 +151,9 @@ Addon::Addon() :
   m_format(0),
   m_url(),
   m_md5(),
+  m_screenshots(),
+  m_rating(-10),
+  m_difficulty(-10),
   m_install_filename(),
   m_enabled(false)
 {}

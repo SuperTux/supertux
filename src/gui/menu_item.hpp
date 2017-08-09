@@ -47,6 +47,10 @@ class MenuItem
     /** Returns the minimum width of the menu item. */
     virtual int get_width() const;
 
+    /** */
+    virtual int get_height() const {
+      return 24;
+    }
     /** Processes the menu action. */
     virtual void process_action(const MenuAction& action) { }
 
@@ -97,5 +101,7 @@ class MenuItem
   #include "gui/item_stringselect.hpp"
   #include "gui/item_textfield.hpp"
   #include "gui/item_toggle.hpp"
+  #include "gui/menu_slideshow.hpp"
+  #include "gui/item_keyvalue.hpp"
 #endif
 /* EOF */
