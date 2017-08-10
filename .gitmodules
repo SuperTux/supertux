@@ -16,3 +16,6 @@
 [submodule "external/physfs"]
 	path = external/physfs
 	url = https://github.com/SuperTux/physfs
+[submodule "external/sqrat"]
+	path = external/sqrat
+	url = https://git.code.sf.net/p/scrat/code
