@@ -24,6 +24,9 @@
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 
+// TODO: Configure using CMake
+#include "../../external/sqrat/include/sqrat.h"
+
 #include "supertux/game_object_ptr.hpp"
 
 class GameObject;
@@ -67,6 +70,13 @@ void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
 {
   sq_pushstring(v, name.c_str(), -1);
   scripting::create_squirrel_instance(v, object, free);
+
+  // TEST: Another way of registering an instance:
+  using namespace Sqrat;
+  Class<T> sqratClass(v, name.c_str(), false);
+  RootTable(v).Bind(("sqratclass_" + name).c_str(), sqratClass);
+  RootTable(v).SetValue(("sqratclassvalue_" + name).c_str(), object);
+  //RootTable(v).SetInstance(("sqratinstance_" + name).c_str(), &object);
 
   if(table_idx < 0)
     table_idx -= 2;
