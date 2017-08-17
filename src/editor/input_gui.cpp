@@ -55,6 +55,8 @@ EditorInputGui::EditorInputGui() :
   hovered_item(HI_NONE),
   hovered_tile(-1),
   tile_scrolling(TS_NONE),
+  using_scroll_wheel(false),
+  wheel_scroll_amount(0),
   starting_tile(0),
   dragging(false),
   drag_start(0, 0),
@@ -166,9 +168,26 @@ EditorInputGui::draw_objectgroup(DrawingContext& context) {
 void
 EditorInputGui::update(float elapsed_time) {
   switch (tile_scrolling) {
-    case TS_UP: if (starting_tile > 0) {
-        starting_tile -= 4;
-      } break;
+    case TS_UP: 
+    {
+        if (starting_tile > 0) 
+        {
+          if(using_scroll_wheel)
+          {
+            starting_tile -= 4 * wheel_scroll_amount;
+            if (starting_tile < 0)
+            {
+              starting_tile = 0;
+            }
+            tile_scrolling = TS_NONE;
+          }
+          else
+          {
+            starting_tile -= 4;
+          }
+        }
+    }
+      break;
     case TS_DOWN: {
       int size;
       if (input_type == IP_OBJECT){
@@ -177,7 +196,19 @@ EditorInputGui::update(float elapsed_time) {
         size = active_tilegroup.size();
       }
       if (starting_tile < size-5) {
-        starting_tile += 4;
+        if(using_scroll_wheel)
+        {
+          starting_tile -= 4 * wheel_scroll_amount;
+          if (starting_tile > size - 4)
+          {
+            starting_tile = size - 4;
+          }
+          tile_scrolling = TS_NONE;
+        }
+        else
+        {
+          starting_tile += 4;
+        }
       }
     }
     default: break;
@@ -331,8 +362,10 @@ EditorInputGui::event(SDL_Event& ev) {
       }
       if (y < 16) {
         tile_scrolling = TS_UP;
+        using_scroll_wheel = false;
       }else if (y > SCREEN_HEIGHT - 16 - Ypos) {
         tile_scrolling = TS_DOWN;
+        using_scroll_wheel = false;
       } else {
         tile_scrolling = TS_NONE;
       }
@@ -344,6 +377,20 @@ EditorInputGui::event(SDL_Event& ev) {
         resize();
       }
       return false;
+    case SDL_MOUSEWHEEL:
+    {
+      if (hovered_item != HI_NONE)
+      {
+        if (ev.wheel.y > 0) {
+          tile_scrolling = TS_UP;
+        }
+        else {
+          tile_scrolling = TS_DOWN;
+        }
+        using_scroll_wheel = true;
+        wheel_scroll_amount = ev.wheel.y;
+      }
+    }
     default:
       return false;
       break;

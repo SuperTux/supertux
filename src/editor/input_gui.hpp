@@ -74,6 +74,8 @@ class EditorInputGui
     HoveredItem hovered_item;
     int hovered_tile;
     TileScrolling tile_scrolling;
+    bool using_scroll_wheel;
+    int wheel_scroll_amount;
     int starting_tile;
     bool dragging;
     Vector drag_start;
