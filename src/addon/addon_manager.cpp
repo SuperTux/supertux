@@ -57,7 +57,7 @@ MD5 md5_from_file(const std::string& filename)
   if (!file)
   {
     std::ostringstream out;
-    out << "PHYSFS_openRead() failed: " << PHYSFS_getLastError();
+    out << "PHYSFS_openRead() failed: " << PHYSFS_getLastErrorCode();
     throw std::runtime_error(out.str());
   }
   else
@@ -116,7 +116,7 @@ static std::vector<AddonId> get_addons(const AddonManager::AddonList& list)
   return results;
 }
 
-static void add_to_dictionary_path(void *data, const char *origdir, const char *fname)
+static int add_to_dictionary_path(void *data, const char *origdir, const char *fname)
 {
     std::string full_path = std::string(origdir) + "/" + std::string(fname);
     if(PhysFSFileSystem::is_directory(full_path))
@@ -125,15 +125,17 @@ static void add_to_dictionary_path(void *data, const char *origdir, const char *
         // We want translations from addons to have precedence
         g_dictionary_manager->add_directory(full_path, true);
     }
+    return 1;
 }
 
-static void remove_from_dictionary_path(void *data, const char *origdir, const char *fname)
+static int remove_from_dictionary_path(void *data, const char *origdir, const char *fname)
 {
     std::string full_path = std::string(origdir) + "/" + std::string(fname);
     if(PhysFSFileSystem::is_directory(full_path))
     {
         g_dictionary_manager->remove_directory(full_path);
     }
+    return 1;
 }
 } // namespace
 
@@ -152,7 +154,7 @@ AddonManager::AddonManager(const std::string& addon_directory,
   {
     std::ostringstream msg;
     msg << "Couldn't create directory for addons '"
-        << m_addon_directory << "': " << PHYSFS_getLastError();
+        << m_addon_directory << "': " << PHYSFS_getLastErrorCode();
     throw std::runtime_error(msg.str());
   }
 
@@ -330,7 +332,7 @@ AddonManager::request_install_addon(const AddonId& addon_id)
           {
             if (PHYSFS_delete(install_filename.c_str()) == 0)
             {
-              log_warning << "PHYSFS_delete failed: " << PHYSFS_getLastError() << std::endl;
+              log_warning << "PHYSFS_delete failed: " << PHYSFS_getLastErrorCode() << std::endl;
             }
 
             throw std::runtime_error("Downloading Add-on failed: MD5 checksums differ");
@@ -389,7 +391,7 @@ AddonManager::install_addon(const AddonId& addon_id)
   {
     if (PHYSFS_delete(install_filename.c_str()) == 0)
     {
-      log_warning << "PHYSFS_delete failed: " << PHYSFS_getLastError() << std::endl;
+      log_warning << "PHYSFS_delete failed: " << PHYSFS_getLastErrorCode() << std::endl;
     }
 
     throw std::runtime_error("Downloading Add-on failed: MD5 checksums differ");
@@ -454,13 +456,13 @@ AddonManager::enable_addon(const AddonId& addon_id)
     if (PHYSFS_mount(addon.get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
     {
       log_warning << "Could not add " << addon.get_install_filename() << " to search path: "
-                  << PHYSFS_getLastError() << std::endl;
+                  << PHYSFS_getLastErrorCode() << std::endl;
     }
     else
     {
       if(addon.get_type() == Addon::LANGUAGEPACK)
       {
-        PHYSFS_enumerateFilesCallback(addon.get_id().c_str(), add_to_dictionary_path, NULL);
+        PHYSFS_enumerate(addon.get_id().c_str(), add_to_dictionary_path, NULL);
       }
       addon.set_enabled(true);
     }
@@ -482,13 +484,13 @@ AddonManager::disable_addon(const AddonId& addon_id)
     if (PHYSFS_unmount(addon.get_install_filename().c_str()) == 0)
     {
       log_warning << "Could not remove " << addon.get_install_filename() << " from search path: "
-                  << PHYSFS_getLastError() << std::endl;
+                  << PHYSFS_getLastErrorCode() << std::endl;
     }
     else
     {
       if(addon.get_type() == Addon::LANGUAGEPACK)
       {
-        PHYSFS_enumerateFilesCallback(addon.get_id().c_str(), remove_from_dictionary_path, NULL);
+        PHYSFS_enumerate(addon.get_id().c_str(), remove_from_dictionary_path, NULL);
       }
       addon.set_enabled(false);
     }
@@ -531,7 +533,7 @@ AddonManager::mount_old_addons()
       if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
       {
         log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
-                    << PHYSFS_getLastError() << std::endl;
+                    << PHYSFS_getLastErrorCode() << std::endl;
       }
     }
   }
@@ -547,7 +549,7 @@ AddonManager::unmount_old_addons()
       if (PHYSFS_unmount(addon->get_install_filename().c_str()) == 0)
       {
         log_warning << "Could not remove " << addon->get_install_filename() << " from search path: "
-                    << PHYSFS_getLastError() << std::endl;
+                    << PHYSFS_getLastErrorCode() << std::endl;
       }
     }
   }
@@ -607,7 +609,7 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
       const char* realdir = PHYSFS_getRealDir(nfo_filename.c_str());
       if (!realdir)
       {
-        log_warning << "PHYSFS_getRealDir() failed for " << nfo_filename << ": " << PHYSFS_getLastError() << std::endl;
+        log_warning << "PHYSFS_getRealDir() failed for " << nfo_filename << ": " << PHYSFS_getLastErrorCode() << std::endl;
       }
       else
       {
@@ -629,7 +631,7 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
   if (!realdir)
   {
     log_warning << "PHYSFS_getRealDir() failed for " << archive << ": "
-                << PHYSFS_getLastError() << std::endl;
+                << PHYSFS_getLastErrorCode() << std::endl;
   }
   else
   {

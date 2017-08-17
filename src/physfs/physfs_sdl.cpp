@@ -44,7 +44,7 @@ static Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
       break;
   }
   if(res == 0) {
-    log_warning << "Error seeking in file: " << PHYSFS_getLastError() << std::endl;
+    log_warning << "Error seeking in file: " << PHYSFS_getLastErrorCode() << std::endl;
     return -1;
   }
 
@@ -81,7 +81,7 @@ SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
   if(!file) {
     std::stringstream msg;
     msg << "Couldn't open '" << filename << "': "
-        << PHYSFS_getLastError();
+        << PHYSFS_getLastErrorCode();
     throw std::runtime_error(msg.str());
   }
 

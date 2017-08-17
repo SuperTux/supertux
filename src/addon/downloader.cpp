@@ -94,7 +94,7 @@ public:
     if (!m_fout)
     {
       std::ostringstream out;
-      out << "PHYSFS_openRead() failed: " << PHYSFS_getLastError();
+      out << "PHYSFS_openRead() failed: " << PHYSFS_getLastErrorCode();
       throw std::runtime_error(out.str());
     }
 
