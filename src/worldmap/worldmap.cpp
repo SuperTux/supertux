@@ -312,6 +312,12 @@ WorldMap::load_level_information(LevelTile& level)
 
   try {
     std::string filename = levels_path + level.get_name();
+    if(!PHYSFS_exists(filename.c_str()))
+    {
+      log_warning << "Level file '"  << filename << "' does not exist. Skipping." << std::endl;
+      return;
+    }
+
     if(levels_path == "./")
       filename = level.get_name();
     register_translation_directory(filename);
