@@ -220,6 +220,10 @@ public:
   float get_ambient_red() const;
   float get_ambient_green() const;
   float get_ambient_blue() const;
+  /**
+   * Fades to the target ambient light
+   */
+  void fade_to_ambient_light(float red, float green, float blue, float seconds);
 
   /**
    *  set gravity throughout sector
@@ -295,6 +299,31 @@ private:
   ScriptList scripts;
 
   Color ambient_light;
+
+  /**
+   * Specifies whether we're fading the ambient light
+   */
+  bool ambient_light_fading;
+
+  /**
+   * Source color for fading
+   */
+  Color source_ambient_light;
+
+  /**
+   * Target color for fading
+   */
+  Color target_ambient_light;
+
+  /**
+   * Ambient light fade duration
+   */
+   float ambient_light_fade_duration;
+
+  /**
+   * Accumulated time for fading
+   */
+   float ambient_light_fade_accum;
 
   int foremost_layer;
 

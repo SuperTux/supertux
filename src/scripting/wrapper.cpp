@@ -3054,6 +3054,55 @@ static SQInteger Sector_set_ambient_light_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Sector_fade_to_ambient_light_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'fade_to_ambient_light' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Sector*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->fade_to_ambient_light(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'fade_to_ambient_light'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Sector_get_ambient_red_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -6996,6 +7045,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnn");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'set_ambient_light'");
+  }
+
+  sq_pushstring(v, "fade_to_ambient_light", -1);
+  sq_newclosure(v, &Sector_fade_to_ambient_light_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'fade_to_ambient_light'");
   }
 
   sq_pushstring(v, "get_ambient_red", -1);

@@ -41,6 +41,7 @@ private:
 
 public:
   void set_ambient_light(float red, float green, float blue);
+  void fade_to_ambient_light(float red, float green, float blue, float fadetime);
   float get_ambient_red() const;
   float get_ambient_green() const;
   float get_ambient_blue() const;

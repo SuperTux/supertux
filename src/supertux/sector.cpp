@@ -70,6 +70,11 @@ Sector::Sector(Level* parent) :
   sector_table(),
   scripts(),
   ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
+  ambient_light_fading(false),
+  source_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
+  target_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
+  ambient_light_fade_duration(0.0f),
+  ambient_light_fade_accum(0.0f),
   foremost_layer(),
   gameobjects(),
   moving_objects(),
@@ -349,6 +354,38 @@ void
 Sector::update(float elapsed_time)
 {
   player->check_bounds();
+
+  if(ambient_light_fading)
+  {
+    ambient_light_fade_accum += elapsed_time;
+    float percent_done = ambient_light_fade_accum / ambient_light_fade_duration * 1.0f;
+    float r = (1.0f - percent_done) * source_ambient_light.red + percent_done * target_ambient_light.red;
+    float g = (1.0f - percent_done) * source_ambient_light.green + percent_done * target_ambient_light.green;
+    float b = (1.0f - percent_done) * source_ambient_light.blue + percent_done * target_ambient_light.blue;
+    
+    if(r > 1.0)
+      r = 1.0;
+    if(g > 1.0)
+      g = 1.0;
+    if(b > 1.0)
+      b = 1.0;
+
+    if(r < 0)
+      r = 0;
+    if(g < 0)
+      g = 0;
+    if(b < 0)
+      b = 0;
+    
+    ambient_light = Color(r, g, b);
+
+    if(ambient_light_fade_accum >= ambient_light_fade_duration)
+    {
+      ambient_light = target_ambient_light;
+      ambient_light_fading = false;
+      ambient_light_fade_accum = 0;
+    }
+  }
 
   /* update objects */
   for(const auto& object : gameobjects) {
@@ -1296,6 +1333,16 @@ Sector::set_ambient_light(float red, float green, float blue)
   ambient_light.red = red;
   ambient_light.green = green;
   ambient_light.blue = blue;
+}
+
+void
+Sector::fade_to_ambient_light(float red, float green, float blue, float seconds)
+{
+  ambient_light_fading = true;
+  ambient_light_fade_accum = 0;
+  ambient_light_fade_duration = seconds;
+  source_ambient_light = ambient_light;
+  target_ambient_light = Color(red, green, blue);
 }
 
 float

@@ -32,6 +32,12 @@ Sector::~Sector()
 }
 
 void
+Sector::fade_to_ambient_light(float red, float green, float blue, float fadetime)
+{
+  m_parent->fade_to_ambient_light(red, green, blue, fadetime);
+}
+
+void
 Sector::set_ambient_light(float red, float green, float blue)
 {
   m_parent->set_ambient_light(red, green, blue);
