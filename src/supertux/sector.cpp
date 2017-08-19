@@ -1338,6 +1338,12 @@ Sector::set_ambient_light(float red, float green, float blue)
 void
 Sector::fade_to_ambient_light(float red, float green, float blue, float seconds)
 {
+  if(seconds == 0)
+  {
+    ambient_light = Color(red, green, blue);
+    return;
+  }
+
   ambient_light_fading = true;
   ambient_light_fade_accum = 0;
   ambient_light_fade_duration = seconds;
