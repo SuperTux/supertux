@@ -246,7 +246,7 @@ GLRenderer::apply_config()
                                                       target_size);
   }
 
-  Size max_size(1280, 800);
+  Size max_size(3840, 2160);
   Size min_size(640, 480);
 
   Vector scale;
