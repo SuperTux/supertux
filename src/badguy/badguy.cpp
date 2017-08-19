@@ -40,8 +40,8 @@ static const float SQUISH_TIME = 2;
 static const float GEAR_TIME = 2;
 static const float BURN_TIME = 1;
 
-static const float X_OFFSCREEN_DISTANCE = 1280;
-static const float Y_OFFSCREEN_DISTANCE = 800;
+static const float X_OFFSCREEN_DISTANCE = 3840;
+static const float Y_OFFSCREEN_DISTANCE = 2160;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
                const std::string& light_sprite_name) :
