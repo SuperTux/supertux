@@ -96,7 +96,7 @@ public:
   WalkMode mode;
 
   WalkMode string_to_walk_mode(const std::string& mode_string) const;
-  const std::string walk_mode_to_string(const WalkMode& mode) const;
+  const std::string walk_mode_to_string(const WalkMode& walk_mode) const;
 
   /**
    * Returns an object option that modifies the mode.

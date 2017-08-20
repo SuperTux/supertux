@@ -185,15 +185,15 @@ Path::string_to_walk_mode(const std::string& mode_string) const {
 }
 
 const std::string
-Path::walk_mode_to_string(const WalkMode& mode) const
+Path::walk_mode_to_string(const WalkMode& walk_mode) const
 {
-  if(mode == ONE_SHOT)
+  if(walk_mode == ONE_SHOT)
     return "oneshot";
-  else if(mode == PING_PONG)
+  else if(walk_mode == PING_PONG)
     return "pingpong";
-  else if(mode == CIRCULAR)
+  else if(walk_mode == CIRCULAR)
     return "circular";
-  else if(mode == UNORDERED)
+  else if(walk_mode == UNORDERED)
     return "unordered";
   else {
     log_warning << "Unknown path mode found. Using oneshot instead.";
