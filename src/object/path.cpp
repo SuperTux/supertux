@@ -60,20 +60,7 @@ Path::read(const ReaderMapping& reader)
     if(iter.get_key() == "mode") {
       std::string mode_string;
       iter.get(mode_string);
-
-      if(mode_string == "oneshot")
-        mode = ONE_SHOT;
-      else if(mode_string == "pingpong")
-        mode = PING_PONG;
-      else if(mode_string == "circular")
-        mode = CIRCULAR;
-      else if(mode_string == "unordered")
-        mode = UNORDERED;
-      else {
-        std::ostringstream msg;
-        msg << "Unknown pathmode '" << mode_string << "' found";
-        throw std::runtime_error(msg.str());
-      }
+      mode = string_to_walk_mode(mode_string);
       continue;
     } else if (iter.get_key() == "node") {
       ReaderMapping node_mapping = iter.as_mapping();
@@ -104,13 +91,7 @@ Path::save(Writer& writer) {
   if (!is_valid()) return;
 
   writer.start_list("path");
-
-  switch (mode) {
-    case ONE_SHOT:  writer.write("mode", "oneshot"  , false); break;
-    case PING_PONG: writer.write("mode", "pingpong" , false); break;
-    case CIRCULAR:  writer.write("mode", "circular" , false); break;
-    case UNORDERED: writer.write("mode", "unordered", false); break;
-  }
+  writer.write("mode", walk_mode_to_string(mode), false);
 
   for(auto& nod : nodes) {
     writer.start_list("node");
@@ -185,6 +166,39 @@ Path::edit_path() {
 bool
 Path::is_valid() const {
   return nodes.size();
+}
+
+Path::WalkMode
+Path::string_to_walk_mode(const std::string& mode_string) const {
+  if(mode_string == "oneshot")
+    return ONE_SHOT;
+  else if(mode_string == "pingpong")
+    return PING_PONG;
+  else if(mode_string == "circular")
+    return CIRCULAR;
+  else if(mode_string == "unordered")
+    return UNORDERED;
+  else {
+    log_warning << "Unknown path mode '" << mode_string << "'found. Using oneshot instead.";
+    return ONE_SHOT;
+  }
+}
+
+const std::string
+Path::walk_mode_to_string(const WalkMode& mode) const
+{
+  if(mode == ONE_SHOT)
+    return "oneshot";
+  else if(mode == PING_PONG)
+    return "pingpong";
+  else if(mode == CIRCULAR)
+    return "circular";
+  else if(mode == UNORDERED)
+    return "unordered";
+  else {
+    log_warning << "Unknown path mode found. Using oneshot instead.";
+    return "oneshot";
+  }
 }
 
 ObjectOption
