@@ -19,13 +19,18 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+#include "scripting/sqrat_object.hpp"
 
 class Player;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class Player
+#else
+class Player: public SQRatObject<Player>
+#endif
 {
 #ifndef SCRIPTING_API
 private:
@@ -33,7 +38,8 @@ private:
 
 public:
   Player(::Player* parent);
-  ~Player();
+  virtual ~Player();
+  void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass);
 
 private:
   Player(const Player&) = delete;

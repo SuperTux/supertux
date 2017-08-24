@@ -31,7 +31,7 @@ private:
 
 public:
   AmbientSound(::AmbientSound* parent);
-   ~AmbientSound();
+   virtual ~AmbientSound();
 
 private:
   AmbientSound(const AmbientSound&) = delete;

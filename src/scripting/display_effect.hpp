@@ -31,7 +31,7 @@ private:
 
 public:
   DisplayEffect(::DisplayEffect* parent);
-  ~DisplayEffect();
+  virtual ~DisplayEffect();
 
 private:
 private:

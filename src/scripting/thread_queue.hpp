@@ -29,7 +29,7 @@ class ThreadQueue
 {
 public:
   ThreadQueue();
-  ~ThreadQueue();
+  virtual ~ThreadQueue();
 
   /// adds a thread (actually a weakref to the thread)
   void add(HSQUIRRELVM vm);

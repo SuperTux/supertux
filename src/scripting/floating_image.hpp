@@ -31,7 +31,7 @@ class FloatingImage
 {
 public:
   FloatingImage(const std::string& spritefile);
-  ~FloatingImage();
+  virtual ~FloatingImage();
 
   void set_layer(int layer);
   int get_layer() const;

@@ -18,9 +18,11 @@
 #define HEADER_SUPERTUX_SCRIPTING_SQUIRREL_UTIL_HPP
 
 #include <sstream>
+#include <type_traits>
 #include <vector>
 
 #include "scripting/scripting.hpp"
+#include "scripting/sqrat_object.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 
@@ -64,7 +66,7 @@ void compile_and_run(HSQUIRRELVM vm, std::istream& in,
  */
 void release_scripts(HSQUIRRELVM vm, ScriptList& scripts, HSQOBJECT& root_table);
 
-template<typename T>
+template<class T>
 void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
                    const std::string& name, bool free = false)
 {
@@ -73,10 +75,17 @@ void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
 
   // TEST: Another way of registering an instance:
   using namespace Sqrat;
-  Class<T> sqratClass(v, name.c_str(), false);
+  Class<T, NoCopy<T>> sqratClass(v, name.c_str());
+
+  // Check whether the scripting class implements
+  // register_exposed_methods. Not beautiful, but
+  // it gets the job done.
+  if(std::is_base_of<SQRatObject<T>, T>::value)
+  {
+    dynamic_cast<SQRatObject<T>*>(object)->register_exposed_methods(v, sqratClass);
+  }
   RootTable(v).Bind(("sqratclass_" + name).c_str(), sqratClass);
-  RootTable(v).SetValue(("sqratclassvalue_" + name).c_str(), object);
-  //RootTable(v).SetInstance(("sqratinstance_" + name).c_str(), &object);
+  RootTable(v).SetInstance(("sqratinstance_" + name).c_str(), object);
 
   if(table_idx < 0)
     table_idx -= 2;

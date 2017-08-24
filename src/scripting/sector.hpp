@@ -32,7 +32,7 @@ private:
 
 public:
   Sector(::Sector* parent);
-  ~Sector();
+  virtual ~Sector();
 
 private:
   Sector(const Sector&) = delete;

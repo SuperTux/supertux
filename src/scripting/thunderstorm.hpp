@@ -28,7 +28,7 @@ class Thunderstorm
 public:
 #ifndef SCRIPTING_API
   Thunderstorm(::Thunderstorm* thunderstorm);
-  ~Thunderstorm();
+  virtual ~Thunderstorm();
 #endif
 
   /**

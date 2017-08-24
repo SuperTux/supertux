@@ -28,7 +28,7 @@ class Platform
 public:
 #ifndef SCRIPTING_API
   Platform(::Platform* platform);
-  ~Platform();
+  virtual ~Platform();
 #endif
 
   /** Move platform until at given node, then stop */

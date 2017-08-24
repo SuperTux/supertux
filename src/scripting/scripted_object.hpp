@@ -33,7 +33,7 @@ private:
 
 public:
   ScriptedObject(::ScriptedObject* parent);
-  ~ScriptedObject();
+  virtual ~ScriptedObject();
 
 private:
   ScriptedObject(const ScriptedObject&) = delete;

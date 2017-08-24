@@ -21,12 +21,26 @@
 namespace scripting {
 
 Player::Player(::Player* parent) :
+  SQRatObject<Player>(),
   m_parent(parent)
 {
 }
 
 Player::~Player()
 {
+}
+
+void
+Player::register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+{
+  squirrelClass.Func("add_bonus", &Player::add_bonus);
+  squirrelClass.Func("set_bonus", &Player::set_bonus);
+  squirrelClass.Func("add_coins", &Player::add_coins);
+  squirrelClass.Func("make_invincible", &Player::make_invincible);
+  squirrelClass.Func("activate", &Player::activate);
+  squirrelClass.Func("deactivate", &Player::deactivate);
+  squirrelClass.Func("walk", &Player::walk);
+  squirrelClass.Func("set_dir", &Player::set_dir);
 }
 
 bool

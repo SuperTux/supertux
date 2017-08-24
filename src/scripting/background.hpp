@@ -32,7 +32,7 @@ private:
 
 public:
   Background(::Background* parent);
-  ~Background();
+  virtual ~Background();
 
 private:
   Background(const Background&) = delete;

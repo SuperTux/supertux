@@ -28,7 +28,7 @@ class Wind
 public:
 #ifndef SCRIPTING_API
   Wind(::Wind* wind);
-  ~Wind();
+  virtual ~Wind();
 #endif
 
   /** Start wind */
