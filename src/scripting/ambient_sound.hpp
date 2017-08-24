@@ -18,12 +18,17 @@
 #define HEADER_SUPERTUX_SCRIPTING_AMBIENT_SOUND_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/sqrat_object.hpp"
 class AmbientSound;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class AmbientSound
+#else
+class AmbientSound: public SQRatObject<AmbientSound>
+#endif 
 {
 #ifndef SCRIPTING_API
 private:
@@ -32,6 +37,7 @@ private:
 public:
   AmbientSound(::AmbientSound* parent);
    virtual ~AmbientSound();
+  void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass);
 
 private:
   AmbientSound(const AmbientSound&) = delete;
