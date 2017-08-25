@@ -38,8 +38,36 @@ private:
 
 public:
   Player(::Player* parent);
-  virtual ~Player();
-  void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass);
+  ~Player();
+
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+    squirrelClass.Func("add_bonus", &Player::add_bonus);
+    squirrelClass.Func("set_bonus", &Player::set_bonus);
+    squirrelClass.Func("add_coins", &Player::add_coins);
+    squirrelClass.Func("make_invincible", &Player::make_invincible);
+    squirrelClass.Func("activate", &Player::activate);
+    squirrelClass.Func("deactivate", &Player::deactivate);
+    squirrelClass.Func("walk", &Player::walk);
+    squirrelClass.Func("set_dir", &Player::set_dir);
+    squirrelClass.Func("set_visible", &Player::set_visible);
+    squirrelClass.Func("get_visible", &Player::get_visible);
+    squirrelClass.Func("kill", &Player::kill);
+    squirrelClass.Func("set_ghost_mode", &Player::set_ghost_mode);
+    squirrelClass.Func("get_ghost_mode", &Player::get_ghost_mode);
+    squirrelClass.Func("kick", &Player::kick);
+    squirrelClass.Func("do_cheer", &Player::do_cheer);
+    squirrelClass.Func("do_duck", &Player::do_duck);
+    squirrelClass.Func("do_standup", &Player::do_standup);
+    squirrelClass.Func("do_backflip", &Player::do_backflip);
+    squirrelClass.Func("do_jump", &Player::do_jump);
+    squirrelClass.Func("trigger_sequence", &Player::trigger_sequence);
+    squirrelClass.Func("use_scripting_controller", &Player::use_scripting_controller);
+    squirrelClass.Func("do_scripting_controller", &Player::do_scripting_controller);
+    squirrelClass.Func("get_velocity_x", &Player::get_velocity_x);
+    squirrelClass.Func("get_velocity_y", &Player::get_velocity_y);
+    squirrelClass.Func("has_grabbed", &Player::has_grabbed);
+  }
 
 private:
   Player(const Player&) = delete;

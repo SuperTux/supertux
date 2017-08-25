@@ -19,13 +19,17 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+#include "scripting/sqrat_object.hpp"
 
 class TextObject;
 #endif
 
 namespace scripting {
-
+#ifdef SCRIPTING_API
 class Text
+#else
+class Text: SQRatObject<Text>
+#endif
 {
 #ifndef SCRIPTING_API
 private:
@@ -33,7 +37,12 @@ private:
 
 public:
   Text(::TextObject* parent);
-  virtual ~Text();
+  ~Text();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+
+  }
+  
 
 private:
   Text(const Text&) = delete;

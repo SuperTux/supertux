@@ -19,19 +19,27 @@
 
 #ifndef SCRIPTING_API
 #include <memory>
-
-#define HEADER_SUPERTUX_SCRIPTING_FLOATING_IMAGE_HPP
+#include "scripting/sqrat_object.hpp"
 
 class FloatingImage;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class FloatingImage
+#else
+class FloatingImage: SQRatObject<FloatingImage>
+#endif
 {
 public:
+#ifndef SCRIPTING_API
   FloatingImage(const std::string& spritefile);
-  virtual ~FloatingImage();
+  ~FloatingImage();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+  }
+#endif
 
   void set_layer(int layer);
   int get_layer() const;

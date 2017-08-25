@@ -27,6 +27,7 @@
 #include "physfs/ifile_stream.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
+#include "scripting/wrapper.interface.hpp"
 #include "squirrel_util.hpp"
 #include "supertux/console.hpp"
 #include "util/log.hpp"
@@ -98,6 +99,8 @@ Scripting::Scripting(bool enable_debugger)
   scripting::delete_table_entry(global_vm, "srand");
   scripting::delete_table_entry(global_vm, "rand");
 
+  register_scripting_classes(global_vm);
+
   // register supertux API
   register_supertux_wrapper(global_vm);
 
@@ -131,6 +134,45 @@ Scripting::~Scripting()
     sq_close(global_vm);
 
   global_vm = NULL;
+}
+
+void
+Scripting::register_scripting_classes(HSQUIRRELVM vm)
+{
+  register_scripting_class<scripting::AmbientSound>(vm, "AmbientSound");
+  register_scripting_class<scripting::Background>(vm, "Background");
+  register_scripting_class<scripting::Camera>(vm, "Camera");
+  register_scripting_class<scripting::Candle>(vm, "Candle");
+  register_scripting_class<scripting::DisplayEffect>(vm, "DisplayEffect");
+  register_scripting_class<scripting::FloatingImage>(vm, "FloatingImage");
+  register_scripting_class<scripting::Gradient>(vm, "Gradient");
+  register_scripting_class<scripting::LevelTime>(vm, "LevelTime");
+  register_scripting_class<scripting::ParticleSystem>(vm, "ParticleSystem");
+  register_scripting_class<scripting::Platform>(vm, "Platform");
+  register_scripting_class<scripting::Player>(vm, "Player");
+  register_scripting_class<scripting::ScriptedObject>(vm, "ScriptedObject");
+  register_scripting_class<scripting::Sector>(vm, "Sector");
+  register_scripting_class<scripting::Text>(vm, "Text");
+  register_scripting_class<scripting::Thunderstorm>(vm, "Thunderstorm");
+  register_scripting_class<scripting::TileMap>(vm, "TileMap");
+  register_scripting_class<scripting::WillOWisp>(vm, "WillOWisp");
+  register_scripting_class<scripting::Wind>(vm, "Wind");
+}
+
+template<class T>
+void
+Scripting::register_scripting_class(HSQUIRRELVM v, const std::string& name)
+{
+  using namespace Sqrat;
+  Class<T, NoCopy<T>> sqratClass(v, name.c_str());
+  // Check whether the scripting class implements
+  // register_exposed_methods. Not beautiful, but
+  // it gets the job done.
+  if(std::is_base_of<SQRatObject<T>, T>::value)
+  {
+    SQRatObject<T>::register_exposed_methods(v, sqratClass);
+  }
+  RootTable(v).Bind(("sqratclass_" + name).c_str(), sqratClass);
 }
 
 void

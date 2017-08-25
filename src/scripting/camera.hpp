@@ -18,17 +18,25 @@
 #define HEADER_SUPERTUX_SCRIPTING_CAMERA_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/sqrat_object.hpp"
 class Camera;
 #endif
 
 namespace scripting {
-
+#ifdef SCRIPTING_API
 class Camera
+#else
+class Camera: SQRatObject<Camera>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
   Camera(::Camera* camera);
-  virtual ~Camera();
+  ~Camera();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+
+  }
 #endif
 
   void reload_config();

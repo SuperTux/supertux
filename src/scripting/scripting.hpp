@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_SCRIPTING_HPP
 #define HEADER_SUPERTUX_SCRIPTING_SCRIPTING_HPP
 
+#include <string>
 #include <squirrel.h>
 
 #include "util/currenton.hpp"
@@ -32,6 +33,9 @@ public:
   ~Scripting();
 
   void update_debugger();
+  void register_scripting_classes(HSQUIRRELVM v);
+  template<class T>
+  void register_scripting_class(HSQUIRRELVM v, const std::string& name);
 
 private:
   Scripting(const Scripting&) = delete;

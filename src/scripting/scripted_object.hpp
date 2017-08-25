@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SCRIPTING_SCRIPTED_OBJECT_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/sqrat_object.hpp"
 #include <string>
 
 class ScriptedObject;
@@ -25,7 +26,11 @@ class ScriptedObject;
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class ScriptedObject
+#else
+class ScriptedObject: SQRatObject<ScriptedObject>
+#endif
 {
 #ifndef SCRIPTING_API
 private:
@@ -33,7 +38,10 @@ private:
 
 public:
   ScriptedObject(::ScriptedObject* parent);
-  virtual ~ScriptedObject();
+  ~ScriptedObject();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+  }
 
 private:
   ScriptedObject(const ScriptedObject&) = delete;

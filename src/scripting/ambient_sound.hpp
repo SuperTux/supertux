@@ -36,8 +36,14 @@ private:
 
 public:
   AmbientSound(::AmbientSound* parent);
-   virtual ~AmbientSound();
-  void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass);
+  ~AmbientSound();
+
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+    squirrelClass.Func("set_pos", &AmbientSound::set_pos);
+    squirrelClass.Func("get_pos_x", &AmbientSound::get_pos_x);
+    squirrelClass.Func("get_pos_y", &AmbientSound::get_pos_y);
+  }
 
 private:
   AmbientSound(const AmbientSound&) = delete;

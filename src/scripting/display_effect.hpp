@@ -18,12 +18,17 @@
 #define HEADER_SUPERTUX_SCRIPTING_DISPLAY_EFFECT_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/sqrat_object.hpp"
 class DisplayEffect;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class DisplayEffect
+#else
+class DisplayEffect: public SQRatObject<DisplayEffect>
+#endif
 {
 #ifndef SCRIPTING_API
 private:
@@ -31,9 +36,12 @@ private:
 
 public:
   DisplayEffect(::DisplayEffect* parent);
-  virtual ~DisplayEffect();
+  ~DisplayEffect();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
 
-private:
+  }
+
 private:
   DisplayEffect(const DisplayEffect&) = delete;
   DisplayEffect& operator=(const DisplayEffect&) = delete;

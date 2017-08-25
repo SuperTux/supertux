@@ -21,21 +21,12 @@
 namespace scripting {
 
 AmbientSound::AmbientSound(::AmbientSound* parent) :
-  SQRatObject<AmbientSound>(),
   m_parent(parent)
 {
 }
 
 AmbientSound::~AmbientSound()
 {
-}
-
-void
-AmbientSound::register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
-{
-  squirrelClass.Func("set_pos", &AmbientSound::set_pos);
-  squirrelClass.Func("get_pos_x", &AmbientSound::get_pos_x);
-  squirrelClass.Func("get_pos_y", &AmbientSound::get_pos_y);
 }
 
 void

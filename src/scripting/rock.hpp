@@ -28,7 +28,7 @@ class Rock
 public:
 #ifndef SCRIPTING_API
   Rock(::Rock* rock_) : rock(rock_) {}
-  virtual ~Rock() {}
+  ~Rock() {}
   ::Rock* rock;
 
 private:

@@ -18,17 +18,24 @@
 #define HEADER_SUPERTUX_SCRIPTING_PLATFORM_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/sqrat_object.hpp"
 class Platform;
 #endif
 
 namespace scripting {
-
+#ifdef SCRIPTING_API
 class Platform
+#else
+class Platform: SQRatObject<Platform>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
   Platform(::Platform* platform);
-  virtual ~Platform();
+  ~Platform();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+  }
 #endif
 
   /** Move platform until at given node, then stop */

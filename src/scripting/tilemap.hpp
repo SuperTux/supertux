@@ -18,17 +18,26 @@
 #define HEADER_SUPERTUX_SCRIPTING_TILEMAP_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/sqrat_object.hpp"
 class TileMap;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class TileMap
+#else
+class TileMap: SQRatObject<TileMap>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
   TileMap(::TileMap* tilemap);
-  virtual ~TileMap();
+  ~TileMap();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+    
+  }
 #endif
 
   /** Move tilemap until at given node, then stop */

@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_SCRIPTING_SQUIRREL_UTIL_HPP
 
 #include <sstream>
-#include <type_traits>
 #include <vector>
 
 #include "scripting/scripting.hpp"
@@ -74,7 +73,7 @@ void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
   scripting::create_squirrel_instance(v, object, free);
 
   // TEST: Another way of registering an instance:
-  using namespace Sqrat;
+  /*using namespace Sqrat;
   Class<T, NoCopy<T>> sqratClass(v, name.c_str());
 
   // Check whether the scripting class implements
@@ -82,9 +81,10 @@ void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
   // it gets the job done.
   if(std::is_base_of<SQRatObject<T>, T>::value)
   {
-    dynamic_cast<SQRatObject<T>*>(object)->register_exposed_methods(v, sqratClass);
+    SQRatObject<T>::register_exposed_methods(v, sqratClass);
   }
-  RootTable(v).Bind(("sqratclass_" + name).c_str(), sqratClass);
+  RootTable(v).Bind(("sqratclass_" + name).c_str(), sqratClass);*/
+  using namespace Sqrat;
   RootTable(v).SetInstance(("sqratinstance_" + name).c_str(), object);
 
   if(table_idx < 0)

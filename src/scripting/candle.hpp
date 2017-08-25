@@ -18,17 +18,25 @@
 #define HEADER_SUPERTUX_SCRIPTING_CANDLE_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/sqrat_object.hpp"
 class Candle;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class Candle
+#else
+class Candle : SQRatObject<Candle>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
   Candle(::Candle* candle);
-  virtual ~Candle();
+  ~Candle();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+  }
 #endif
 
   bool get_burning() const; /**< returns true if candle is lighted */

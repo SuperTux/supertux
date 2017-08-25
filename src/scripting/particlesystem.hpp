@@ -18,17 +18,26 @@
 #define HEADER_SUPERTUX_SCRIPTING_PARTICLESYSTEM_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/sqrat_object.hpp"
 class ParticleSystem;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class ParticleSystem
+#else
+class ParticleSystem : SQRatObject<ParticleSystem>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
   ParticleSystem(::ParticleSystem* parent);
-  virtual ~ParticleSystem();
+  ~ParticleSystem();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+
+  }
 #endif
 
   void set_enabled(bool enable);

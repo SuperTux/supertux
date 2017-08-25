@@ -19,12 +19,17 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+#include "scripting/sqrat_object.hpp"
 class Sector;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class Sector
+#else
+class Sector : SQRatObject<Sector>
+#endif
 {
 #ifndef SCRIPTING_API
 private:
@@ -32,7 +37,11 @@ private:
 
 public:
   Sector(::Sector* parent);
-  virtual ~Sector();
+  ~Sector();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+
+  }
 
 private:
   Sector(const Sector&) = delete;

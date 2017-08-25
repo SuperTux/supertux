@@ -18,17 +18,25 @@
 #define HEADER_SUPERTUX_SCRIPTING_WIND_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/sqrat_object.hpp"
 class Wind;
 #endif
 
 namespace scripting {
-
+#ifdef SCRIPTING_API
 class Wind
+#else
+class Wind : SQRatObject<Wind>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
   Wind(::Wind* wind);
-  virtual ~Wind();
+  ~Wind();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+
+  }
 #endif
 
   /** Start wind */

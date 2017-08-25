@@ -18,17 +18,25 @@
 #define HEADER_SUPERTUX_SCRIPTING_LEVEL_TIME_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/sqrat_object.hpp"
 class LevelTime;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class LevelTime
+#else
+class LevelTime: SQRatObject<LevelTime>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
   LevelTime(::LevelTime* level_time);
-  virtual ~LevelTime();
+  ~LevelTime();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+  }
 #endif
 
   /**

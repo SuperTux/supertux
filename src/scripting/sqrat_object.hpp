@@ -33,7 +33,13 @@ class SQRatObject
 public:
     SQRatObject() {}
     typedef Sqrat::Class<T, Sqrat::NoCopy<T>> SQRatClassType;
-    virtual void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass) = 0;
+    /**
+     * For the insanely curious: This is the https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
+     */
+    static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+    {
+        T::register_exposed_methods(v, squirrelClass);
+    };
 
 private:
     SQRatObject(const SQRatObject&) = delete;

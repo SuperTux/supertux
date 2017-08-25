@@ -19,12 +19,17 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+#include "scripting/sqrat_object.hpp"
 class Background;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class Background
+#else
+class Background: public SQRatObject<Background>
+#endif
 {
 #ifndef SCRIPTING_API
 private:
@@ -33,6 +38,11 @@ private:
 public:
   Background(::Background* parent);
   virtual ~Background();
+
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+  }
+  
 
 private:
   Background(const Background&) = delete;

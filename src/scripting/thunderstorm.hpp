@@ -18,17 +18,26 @@
 #define HEADER_SUPERTUX_SCRIPTING_THUNDERSTORM_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/sqrat_object.hpp"
 class Thunderstorm;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class Thunderstorm
+#else
+class Thunderstorm : SQRatObject<Thunderstorm>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
   Thunderstorm(::Thunderstorm* thunderstorm);
-  virtual ~Thunderstorm();
+  ~Thunderstorm();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+
+  }
 #endif
 
   /**

@@ -719,34 +719,6 @@ static SQInteger FloatingImage_release_hook(SQUserPointer ptr, SQInteger )
   return 0;
 }
 
-static SQInteger FloatingImage_constructor_wrapper(HSQUIRRELVM vm)
-{
-  const SQChar* arg0;
-  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
-    sq_throwerror(vm, _SC("Argument 1 not a string"));
-    return SQ_ERROR;
-  }
-
-  try {
-    auto _this = new scripting::FloatingImage(arg0);
-  if(SQ_FAILED(sq_setinstanceup(vm, 1, _this))) {
-    sq_throwerror(vm, _SC("Couldn't setup instance of 'FloatingImage' class"));
-    return SQ_ERROR;
-  }
-  sq_setreleasehook(vm, 1, FloatingImage_release_hook);
-
-    return 0;
-
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'constructor'"));
-    return SQ_ERROR;
-  }
-
-}
-
 static SQInteger FloatingImage_set_layer_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -6469,13 +6441,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'FloatingImage'";
     throw SquirrelError(v, msg.str());
   }
-  sq_pushstring(v, "constructor", -1);
-  sq_newclosure(v, &FloatingImage_constructor_wrapper, 0);
-  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'constructor'");
-  }
-
   sq_pushstring(v, "set_layer", -1);
   sq_newclosure(v, &FloatingImage_set_layer_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ti");

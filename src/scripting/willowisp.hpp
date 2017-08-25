@@ -19,13 +19,18 @@
 
 #ifndef SCRIPTING_API
 #include <string>
+#include "scripting/sqrat_object.hpp"
 
 class WillOWisp;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class WillOWisp
+#else
+class WillOWisp: public SQRatObject<WillOWisp>
+#endif
 {
 #ifndef SCRIPTING_API
 private:
@@ -33,7 +38,11 @@ private:
 
 public:
   WillOWisp(::WillOWisp* parent);
-  virtual ~WillOWisp();
+  ~WillOWisp();
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+
+  }
 
 private:
   WillOWisp(const WillOWisp&) = delete;
