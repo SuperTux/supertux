@@ -35,7 +35,8 @@ public:
   ~Wind();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
-
+    squirrelClass.Func("start", &Wind::start);
+    squirrelClass.Func("stop", &Wind::stop);
   }
 #endif
 

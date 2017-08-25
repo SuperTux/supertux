@@ -72,18 +72,6 @@ void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
   sq_pushstring(v, name.c_str(), -1);
   scripting::create_squirrel_instance(v, object, free);
 
-  // TEST: Another way of registering an instance:
-  /*using namespace Sqrat;
-  Class<T, NoCopy<T>> sqratClass(v, name.c_str());
-
-  // Check whether the scripting class implements
-  // register_exposed_methods. Not beautiful, but
-  // it gets the job done.
-  if(std::is_base_of<SQRatObject<T>, T>::value)
-  {
-    SQRatObject<T>::register_exposed_methods(v, sqratClass);
-  }
-  RootTable(v).Bind(("sqratclass_" + name).c_str(), sqratClass);*/
   using namespace Sqrat;
   RootTable(v).SetInstance(("sqratinstance_" + name).c_str(), object);
 

@@ -36,7 +36,17 @@ public:
   ~TileMap();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
-    
+    squirrelClass.Func("goto_node", &TileMap::goto_node);
+    squirrelClass.Func("start_moving", &TileMap::start_moving);
+    squirrelClass.Func("stop_moving", &TileMap::stop_moving);
+    squirrelClass.Func("get_tile_id", &TileMap::get_tile_id);
+    squirrelClass.Func("get_tile_id_at", &TileMap::get_tile_id_at);
+    squirrelClass.Func("change", &TileMap::change);
+    squirrelClass.Func("change_at", &TileMap::change_at);
+    squirrelClass.Func("fade", &TileMap::fade);
+    squirrelClass.Func("tint_fade", &TileMap::tint_fade);
+    squirrelClass.Func("set_alpha", &TileMap::set_alpha);
+    squirrelClass.Func("get_alpha", &TileMap::get_alpha);
   }
 #endif
 

@@ -41,6 +41,22 @@ public:
   ~ScriptedObject();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
+    squirrelClass.Func("set_action", &ScriptedObject::set_action);
+    squirrelClass.Func("get_action", &ScriptedObject::get_action);
+    squirrelClass.Func("move", &ScriptedObject::move);
+    squirrelClass.Func("set_pos", &ScriptedObject::set_pos);
+    squirrelClass.Func("get_pos_x", &ScriptedObject::get_pos_x);
+    squirrelClass.Func("get_pos_y", &ScriptedObject::get_pos_y);
+    squirrelClass.Func("set_velocity", &ScriptedObject::set_velocity);
+    squirrelClass.Func("get_velocity_x", &ScriptedObject::get_velocity_x);
+    squirrelClass.Func("get_velocity_y", &ScriptedObject::get_velocity_y);
+    squirrelClass.Func("enable_gravity", &ScriptedObject::enable_gravity);
+    squirrelClass.Func("gravity_enabled", &ScriptedObject::gravity_enabled);
+    squirrelClass.Func("set_visible", &ScriptedObject::set_visible);
+    squirrelClass.Func("is_visible", &ScriptedObject::is_visible);
+    squirrelClass.Func("set_solid", &ScriptedObject::set_solid);
+    squirrelClass.Func("is_solid", &ScriptedObject::is_solid);
+    squirrelClass.Func("get_name", &ScriptedObject::get_name);
   }
 
 private:

@@ -36,6 +36,10 @@ public:
   ~LevelTime();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
+    squirrelClass.Func("start", &LevelTime::start);
+    squirrelClass.Func("stop", &LevelTime::stop);
+    squirrelClass.Func("get_time", &LevelTime::get_time);
+    squirrelClass.Func("set_time", &LevelTime::set_time);
   }
 #endif
 

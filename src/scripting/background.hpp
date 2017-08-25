@@ -41,6 +41,9 @@ public:
 
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
+    squirrelClass.Func("set_image", &Background::set_image);
+    squirrelClass.Func("set_images", &Background::set_images);
+    squirrelClass.Func("set_speed", &Background::set_speed);
   }
   
 

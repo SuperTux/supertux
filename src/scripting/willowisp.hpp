@@ -41,7 +41,9 @@ public:
   ~WillOWisp();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
-
+    squirrelClass.Func("set_state", &WillOWisp::set_state);
+    squirrelClass.Func("start_moving", &WillOWisp::start_moving);
+    squirrelClass.Func("stop_moving", &WillOWisp::stop_moving);
   }
 
 private:

@@ -40,7 +40,10 @@ public:
   ~Gradient();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
-
+    squirrelClass.Func("set_direction", &Gradient::set_direction);
+    squirrelClass.Func("set_color1", &Gradient::set_color1);
+    squirrelClass.Func("set_color2", &Gradient::set_color2);
+    squirrelClass.Func("swap_colors", &Gradient::swap_colors);
   }
 
 private:

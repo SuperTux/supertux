@@ -36,6 +36,8 @@ public:
   ~Candle();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
+    squirrelClass.Func("get_burning", &Candle::get_burning);
+    squirrelClass.Func("set_burning", &Candle::set_burning);
   }
 #endif
 

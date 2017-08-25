@@ -36,7 +36,12 @@ public:
   ~Thunderstorm();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
-
+    squirrelClass.Func("start", &Thunderstorm::start);
+    squirrelClass.Func("stop", &Thunderstorm::stop);
+    squirrelClass.Func("thunder", &Thunderstorm::thunder);
+    squirrelClass.Func("lightning", &Thunderstorm::lightning);
+    squirrelClass.Func("flash", &Thunderstorm::flash);
+    squirrelClass.Func("electrify", &Thunderstorm::electrify);
   }
 #endif
 

@@ -35,6 +35,9 @@ public:
   ~Platform();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
+    squirrelClass.Func("goto_node", &Platform::goto_node);
+    squirrelClass.Func("start_moving", &Platform::start_moving);
+    squirrelClass.Func("stop_moving", &Platform::stop_moving);
   }
 #endif
 

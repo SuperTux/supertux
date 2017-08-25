@@ -39,7 +39,12 @@ public:
   ~DisplayEffect();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
-
+    squirrelClass.Func("fade_out", &DisplayEffect::fade_out);
+    squirrelClass.Func("fade_in", &DisplayEffect::fade_in);
+    squirrelClass.Func("set_black", &DisplayEffect::set_black);
+    squirrelClass.Func("is_black", &DisplayEffect::is_black);
+    squirrelClass.Func("sixteen_to_nine", &DisplayEffect::sixteen_to_nine);
+    squirrelClass.Func("four_to_three", &DisplayEffect::four_to_three);
   }
 
 private:

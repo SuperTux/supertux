@@ -36,7 +36,8 @@ public:
   ~ParticleSystem();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
-
+    squirrelClass.Func("set_enabled", &ParticleSystem::set_enabled);
+    squirrelClass.Func("get_enabled", &ParticleSystem::get_enabled);
   }
 #endif
 

@@ -38,6 +38,19 @@ public:
   ~FloatingImage();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
+    squirrelClass.Func("set_layer", &FloatingImage::set_layer);
+    squirrelClass.Func("get_layer", &FloatingImage::get_layer);
+    squirrelClass.Func("set_pos", &FloatingImage::set_pos);
+    squirrelClass.Func("get_pos_x", &FloatingImage::get_pos_x);
+    squirrelClass.Func("get_pos_y", &FloatingImage::get_pos_y);
+    squirrelClass.Func("set_anchor_point", &FloatingImage::set_anchor_point);
+    squirrelClass.Func("get_anchor_point", &FloatingImage::get_anchor_point);
+    squirrelClass.Func("set_visible", &FloatingImage::set_visible);
+    squirrelClass.Func("get_visible", &FloatingImage::get_visible);
+    squirrelClass.Func("set_action", &FloatingImage::set_action);
+    squirrelClass.Func("get_action", &FloatingImage::get_action);
+    squirrelClass.Func("fade_in", &FloatingImage::fade_in);
+    squirrelClass.Func("fade_out", &FloatingImage::fade_out);
   }
 #endif
 

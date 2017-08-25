@@ -40,7 +40,17 @@ public:
   ~Text();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
-
+    squirrelClass.Func("set_text", &Text::set_text);
+    squirrelClass.Func("set_font", &Text::set_font);
+    squirrelClass.Func("fade_in", &Text::fade_in);
+    squirrelClass.Func("fade_out", &Text::fade_out);
+    squirrelClass.Func("set_visible", &Text::set_visible);
+    squirrelClass.Func("set_centered", &Text::set_centered);
+    squirrelClass.Func("set_pos", &Text::set_pos);
+    squirrelClass.Func("get_pos_x", &Text::get_pos_x);
+    squirrelClass.Func("get_pos_y", &Text::get_pos_y);
+    squirrelClass.Func("set_anchor_point", &Text::set_anchor_point);
+    squirrelClass.Func("get_anchor_point", &Text::get_anchor_point);
   }
   
 

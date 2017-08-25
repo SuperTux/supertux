@@ -35,7 +35,10 @@ public:
   ~Camera();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
-
+    squirrelClass.Func("shake", &Camera::shake);
+    squirrelClass.Func("set_pos", &Camera::set_pos);
+    squirrelClass.Func("set_mode", &Camera::set_mode);
+    squirrelClass.Func("scroll_to", &Camera::scroll_to);
   }
 #endif
 

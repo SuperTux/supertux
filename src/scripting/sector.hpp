@@ -40,7 +40,12 @@ public:
   ~Sector();
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
-
+    squirrelClass.Func("set_ambient_light", &Sector::set_ambient_light);
+    squirrelClass.Func("get_ambient_red", &Sector::get_ambient_red);
+    squirrelClass.Func("get_ambient_green", &Sector::get_ambient_green);
+    squirrelClass.Func("get_ambient_blue", &Sector::get_ambient_blue);
+    squirrelClass.Func("set_gravity", &Sector::set_gravity);
+    squirrelClass.Func("set_music", &Sector::set_music);
   }
 
 private:
