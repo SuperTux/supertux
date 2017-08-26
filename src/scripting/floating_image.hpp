@@ -38,6 +38,7 @@ public:
 #ifndef SCRIPTING_API
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
+    squirrelClass.Ctor<const std::string&>();
     squirrelClass.Func("set_layer", &FloatingImage::set_layer);
     squirrelClass.Func("get_layer", &FloatingImage::get_layer);
     squirrelClass.Func("set_pos", &FloatingImage::set_pos);
