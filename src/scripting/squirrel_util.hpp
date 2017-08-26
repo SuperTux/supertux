@@ -69,21 +69,8 @@ template<class T>
 void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
                    const std::string& name, bool free = false)
 {
-  sq_pushstring(v, name.c_str(), -1);
-  scripting::create_squirrel_instance(v, object, free);
-
   using namespace Sqrat;
-  RootTable(v).SetInstance(("sqratinstance_" + name).c_str(), object);
-
-  if(table_idx < 0)
-    table_idx -= 2;
-
-  // register instance in root table
-  if(SQ_FAILED(sq_createslot(v, table_idx))) {
-    std::ostringstream msg;
-    msg << "Couldn't register object '" << name << "' in squirrel table";
-    throw scripting::SquirrelError(v, msg.str());
-  }
+  RootTable(v).SetInstance(name.c_str(), object);
 }
 
 static inline void unexpose_object(HSQUIRRELVM v, SQInteger table_idx,
