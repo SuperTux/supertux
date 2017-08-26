@@ -33,9 +33,9 @@ class FloatingImage: SQRatObject<FloatingImage>
 #endif
 {
 public:
-#ifndef SCRIPTING_API
   FloatingImage(const std::string& spritefile);
   ~FloatingImage();
+#ifndef SCRIPTING_API
   static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
   {
     squirrelClass.Func("set_layer", &FloatingImage::set_layer);
