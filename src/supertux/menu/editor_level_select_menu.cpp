@@ -103,36 +103,39 @@ EditorLevelSelectMenu::~EditorLevelSelectMenu()
 void
 EditorLevelSelectMenu::create_level()
 {
-  auto editor = Editor::current();
-  auto& world = editor->world;
-  auto basedir = world->get_basedir();
-  editor->set_worldmap_mode(false);
-  auto new_level = LevelParser::from_nothing(basedir);
-  new_level->save(basedir + "/" + new_level->filename);
-  editor->set_level(new_level->filename);
-  MenuManager::instance().clear_menu_stack();
-
-  std::unique_ptr<Dialog> dialog(new Dialog);
-  dialog->set_text(_("Share this level under license CC-BY-SA 4.0 International (advised).\nIt allows modifications and redistribution by third-parties.\nIf you don't agree with this license, change it in level properties.\nDISCLAIMER: The SuperTux authors take no responsibility for your choice of license."));
-  dialog->clear_buttons();
-  dialog->add_button(_("OK"), [] {});
-  MenuManager::instance().set_dialog(std::move(dialog));
+  Editor::current()->set_worldmap_mode(false);
+  create_item();
 }
 
 void
 EditorLevelSelectMenu::create_worldmap()
 {
+  Editor::current()->set_worldmap_mode(true);
+  create_item();
+}
+
+void
+EditorLevelSelectMenu::create_item()
+{
   auto editor = Editor::current();
   auto& world = editor->world;
   auto basedir = world->get_basedir();
-  editor->set_worldmap_mode(true);
-  auto new_worldmap = LevelParser::from_nothing_worldmap(basedir, world->m_title);
-  new_worldmap->save(basedir + "/" + new_worldmap->filename);
-  editor->set_level(new_worldmap->filename);
+  auto new_item = editor->get_worldmap_mode() ?
+      LevelParser::from_nothing_worldmap(basedir, world->m_title) :
+      LevelParser::from_nothing(basedir);
+  new_item->save(basedir + "/" + new_item->filename);
+  editor->set_level(new_item->filename);
   MenuManager::instance().clear_menu_stack();
 
   std::unique_ptr<Dialog> dialog(new Dialog);
-  dialog->set_text(_("Share this worldmap under license CC-BY-SA 4.0 International (advised).\nIt allows modifications and redistribution by third-parties.\nIf you don't agree with this license, change it in worldmap properties.\nDISCLAIMER: The SuperTux authors take no responsibility for your choice of license."));
+  if(editor->get_worldmap_mode())
+  {
+    dialog->set_text(_("Share this worldmap under license CC-BY-SA 4.0 International (advised).\nIt allows modifications and redistribution by third-parties.\nIf you don't agree with this license, change it in worldmap properties.\nDISCLAIMER: The SuperTux authors take no responsibility for your choice of license."));
+  }
+  else
+  {
+    dialog->set_text(_("Share this level under license CC-BY-SA 4.0 International (advised).\nIt allows modifications and redistribution by third-parties.\nIf you don't agree with this license, change it in level properties.\nDISCLAIMER: The SuperTux authors take no responsibility for your choice of license."));
+  }
   dialog->clear_buttons();
   dialog->add_button(_("OK"), [] {});
   MenuManager::instance().set_dialog(std::move(dialog));

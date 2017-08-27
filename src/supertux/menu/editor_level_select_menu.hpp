@@ -38,6 +38,7 @@ private:
   void initialize();
   void create_level();
   void create_worldmap();
+  void create_item();
 
   EditorLevelSelectMenu(const EditorLevelSelectMenu&);
   EditorLevelSelectMenu& operator=(const EditorLevelSelectMenu&);
