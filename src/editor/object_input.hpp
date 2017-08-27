@@ -21,11 +21,46 @@
 
 class ObjectInput
 {
+private:
+  int get_num_groups(bool for_worldmap) const
+  {
+    int num_groups = 0;
+    for(const auto& group : groups)
+    {
+      if(group.for_worldmap == for_worldmap)
+      {
+        num_groups++;
+      }
+    }
+    return num_groups;
+  }
+
   public:
     ObjectInput();
     ~ObjectInput();
 
     std::vector<ObjectGroup> groups;
+    int get_num_worldmap_groups() const
+    {
+      return get_num_groups(true);
+    }
+    int get_num_level_groups() const
+    {
+      return get_num_groups(false);
+    }
+    int get_first_worldmap_group_index() const
+    {
+      int worldmap_group_index = 0;
+      for(const auto& group : groups)
+      {
+        if(group.for_worldmap)
+        {
+          return worldmap_group_index;
+        }
+        worldmap_group_index++;
+      }
+      return -1;
+    }
 };
 
 #endif // HEADER_SUPERTUX_EDITOR_OBJECT_INPUT_HPP

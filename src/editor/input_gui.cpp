@@ -265,12 +265,46 @@ EditorInputGui::event(SDL_Event& ev) {
       if(ev.button.button == SDL_BUTTON_LEFT || ev.button.button == SDL_BUTTON_RIGHT) {
         switch (hovered_item) {
           case HI_TILEGROUP:
-            Editor::current()->disable_keyboard();
-            MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
+          {
+            auto editor = Editor::current();
+            if(editor->tileset->tilegroups.size() > 1)
+            {
+              Editor::current()->disable_keyboard();
+              MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
+            }
+            else
+            {
+              active_tilegroup = editor->tileset->tilegroups[0].tiles;
+              input_type = EditorInputGui::IP_TILE;
+              reset_pos();
+              update_mouse_icon();
+            }
+          }
             break;
           case HI_OBJECTS:
-            Editor::current()->disable_keyboard();
-            MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
+          {
+            auto editor = Editor::current();
+            if( (editor->get_worldmap_mode() && object_input->get_num_worldmap_groups() > 1) ||
+                (!editor->get_worldmap_mode() && object_input->get_num_level_groups() > 1) )
+            {
+              Editor::current()->disable_keyboard();
+              MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
+            }
+            else
+            {
+              if(editor->get_worldmap_mode())
+              {
+                active_objectgroup = object_input->get_first_worldmap_group_index();
+              }
+              else
+              {
+                active_objectgroup = 0;
+              }
+              input_type = EditorInputGui::IP_OBJECT;
+              reset_pos();
+              update_mouse_icon();
+            }
+          }
             break;
           case HI_TILE:
             switch (input_type) {
