@@ -17,6 +17,7 @@
 
 #include "badguy/owl.hpp"
 
+#include "editor/editor.hpp"
 #include "audio/sound_manager.hpp"
 #include "object/anchor_point.hpp"
 #include "object/player.hpp"
@@ -59,6 +60,14 @@ Owl::initialize()
   physic.set_velocity_x(dir == LEFT ? -FLYING_SPEED : FLYING_SPEED);
   physic.enable_gravity(false);
   sprite->set_action(dir == LEFT ? "left" : "right");
+
+  // If we add the carried object to the sector while we're editing 
+  // a level with the editor, it gets written to the level file,
+  // resulting in two carried objects. Returning early is much better.
+  if(Editor::is_active())
+  {
+    return;
+  }
 
   auto game_object = ObjectFactory::instance().create(carried_obj_name, get_pos(), dir);
   if (game_object == NULL)
