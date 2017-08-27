@@ -29,16 +29,11 @@ public:
   EditorLevelsetMenu(World* world_);
   ~EditorLevelsetMenu();
 
-  void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem* item) override {
+  }
 
 private:
-  enum MenuIDs {
-    MNID_EDITWORLDMAP,
-    MNID_NEWWORLDMAP
-  };
-
   void initialize();
-  void create_worldmap();
 
   World* world;
 
