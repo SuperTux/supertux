@@ -19,9 +19,16 @@
 
 #include <iostream>
 #include <memory>
+#include <physfs.h>
 
 class SoundFile
 {
+public:
+  enum FileFormat {
+    FORMAT_WAV,
+    FORMAT_OGG
+  };
+
 public:
   SoundFile() :
     channels(),
@@ -41,6 +48,8 @@ public:
   int bits_per_sample;
   /// size in bytes
   size_t size;
+
+  static FileFormat get_file_format(PHYSFS_File* file, const std::string& filename);
 
 private:
   SoundFile(const SoundFile&) = delete;

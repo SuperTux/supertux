@@ -22,7 +22,6 @@
 
 #include <stdint.h>
 #include <sstream>
-#include <physfs.h>
 
 #include "audio/sound_error.hpp"
 #include "audio/ogg_sound_file.hpp"
@@ -65,8 +64,15 @@ std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
       msg << "Couldn't open '" << raw_music_file << "': " << PHYSFS_getLastError();
       throw SoundError(msg.str());
     }
-
-    return std::unique_ptr<SoundFile>(new OggSoundFile(file, loop_begin, loop_at));
+    auto format = SoundFile::get_file_format(file, raw_music_file);
+    if(format == SoundFile::FORMAT_WAV)
+    {
+      return std::unique_ptr<SoundFile>(new WavSoundFile(file));
+    }
+    else
+    {
+      return std::unique_ptr<SoundFile>(new OggSoundFile(file, loop_begin, loop_at));
+    }
   }
 }
 
@@ -84,6 +90,20 @@ std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
     throw SoundError(msg.str());
   }
 
+  auto format = SoundFile::get_file_format(file, filename);
+  if(format == SoundFile::FORMAT_WAV)
+  {
+    return std::unique_ptr<SoundFile>(new WavSoundFile(file));
+  }
+  else
+  {
+    return std::unique_ptr<SoundFile>(new OggSoundFile(file, 0, -1));
+  }
+}
+
+SoundFile::FileFormat
+SoundFile::get_file_format(PHYSFS_File* file, const std::string& filename)
+{
   try {
     char magic[4];
     if(PHYSFS_readBytes(file, magic, sizeof(magic)) < static_cast<std::make_signed<size_t>::type>(sizeof(magic)))
@@ -95,9 +115,9 @@ std::unique_ptr<SoundFile> load_sound_file(const std::string& filename)
     }
 
     if(strncmp(magic, "RIFF", 4) == 0)
-      return std::unique_ptr<SoundFile>(new WavSoundFile(file));
+      return FileFormat::FORMAT_WAV;
     else if(strncmp(magic, "OggS", 4) == 0)
-      return std::unique_ptr<SoundFile>(new OggSoundFile(file, 0, -1));
+      return FileFormat::FORMAT_OGG;
     else
       throw SoundError("Unknown file format");
   } catch(std::exception& e) {
