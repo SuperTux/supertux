@@ -28,7 +28,7 @@
 #include <physfs.h>
 #include <sstream>
 #include <stdexcept>
-#include "SDL2/SDL_video.h"
+#include <SDL_video.h>
 
 #include "video/util.hpp"
 
