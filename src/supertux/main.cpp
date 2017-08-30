@@ -237,7 +237,7 @@ public:
 		catch (const boost::filesystem::filesystem_error& err)
 		{
 		  success = false;
-		  log_warning << "Failed to move contents of config directory: " << err.what();
+		  log_warning << "Failed to move contents of config directory: " << err.what() << std::endl;
 		}
 	  }
 	  if (success) {
