@@ -116,7 +116,7 @@ static std::vector<AddonId> get_addons(const AddonManager::AddonList& list)
   return results;
 }
 
-static int add_to_dictionary_path(void *data, const char *origdir, const char *fname)
+static PHYSFS_EnumerateCallbackResult add_to_dictionary_path(void *data, const char *origdir, const char *fname)
 {
     std::string full_path = std::string(origdir) + "/" + std::string(fname);
     if(PhysFSFileSystem::is_directory(full_path))
@@ -125,17 +125,17 @@ static int add_to_dictionary_path(void *data, const char *origdir, const char *f
         // We want translations from addons to have precedence
         g_dictionary_manager->add_directory(full_path, true);
     }
-    return 1;
+    return PHYSFS_ENUM_OK;
 }
 
-static int remove_from_dictionary_path(void *data, const char *origdir, const char *fname)
+static PHYSFS_EnumerateCallbackResult remove_from_dictionary_path(void *data, const char *origdir, const char *fname)
 {
     std::string full_path = std::string(origdir) + "/" + std::string(fname);
     if(PhysFSFileSystem::is_directory(full_path))
     {
         g_dictionary_manager->remove_directory(full_path);
     }
-    return 1;
+    return PHYSFS_ENUM_OK;
 }
 } // namespace
 
