@@ -30,12 +30,20 @@ private:
   std::unique_ptr<World> m_world;
   std::unique_ptr<Savegame> m_savegame;
 
+  void run_level(World* world, const std::string& level_filename);
+
 public:
   GameManager();
   ~GameManager();
 
   void start_worldmap(std::unique_ptr<World> world, const std::string& spawnpoint = "");
   void start_level(std::unique_ptr<World> world, const std::string& level_filename);
+  /**
+   * This method is to be called when we don't want to give up ownership of the
+   * world unique_ptr. This is specifically the case for when levels are started
+   * from the editor.
+   */
+  void start_level(World* world, const std::string& level_filename);
 
   std::string get_level_name(const std::string& levelfile) const;
 

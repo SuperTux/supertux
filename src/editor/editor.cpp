@@ -28,6 +28,7 @@
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
+#include "physfs/physfs_file_system.cpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
@@ -55,6 +56,7 @@ Editor::Editor() :
   level(),
   world(),
   levelfile(),
+  test_levelfile(),
   worldmap_mode(false),
   quit_request(false),
   newlevel_request(false),
@@ -153,9 +155,26 @@ void Editor::update(float elapsed_time)
 void Editor::test_level() {
   Tile::draw_editor_images = false;
   DrawingContext::render_lighting = true;
-  level->save("levels/misc/test.stl");
-  std::unique_ptr<World> test_world = World::load("levels/misc");
-  GameManager::current()->start_level(std::move(test_world), "test.stl");
+  auto backup_filename = levelfile + "~";
+  if(world != NULL)
+  {
+    auto basedir = world->get_basedir();
+    if(basedir == "./")
+    {
+      basedir = PHYSFS_getRealDir(levelfile.c_str());
+    }
+    test_levelfile = FileSystem::join(basedir, backup_filename);
+    level->save(test_levelfile);
+    GameManager::current()->start_level(world.get(), backup_filename);
+  }
+  else
+  {
+    auto directory = FileSystem::dirname(levelfile);
+    test_levelfile = FileSystem::join(directory, backup_filename);
+    level->save(test_levelfile);
+    std::unique_ptr<World> test_world = World::load(directory);
+    GameManager::current()->start_level(std::move(test_world), backup_filename);
+  }
   leveltested = true;
 }
 
@@ -378,6 +397,17 @@ Editor::setup() {
 
   // Reactivate the editor after level test
   if (leveltested) {
+    if(!test_levelfile.empty())
+    {
+      // Try to remove the test level using the PhysFS file system
+      if(PhysFSFileSystem::remove(test_levelfile) != 0)
+      {
+        // This file is not inside any PhysFS mounts,
+        // try to remove this using normal file system
+        // methods.
+        FileSystem::remove(test_levelfile);
+      }
+    }
     leveltested = false;
     Tile::draw_editor_images = true;
     level->reactivate();

@@ -27,6 +27,7 @@ public:
   std::vector<std::string>    open_directory(const std::string& pathname);
   std::unique_ptr<std::istream> open_file(const std::string& filename);
   static bool is_directory(const std::string& filename);
+  static bool remove(const std::string& filenam);
 };
 
 #endif

@@ -48,16 +48,28 @@ GameManager::~GameManager()
 }
 
 void
-GameManager::start_level(std::unique_ptr<World> world, const std::string& level_filename)
+GameManager::run_level(World* world, const std::string& level_filename)
 {
-  m_world = std::move(world);
-  m_savegame.reset(new Savegame(m_world->get_savegame_filename()));
+  m_savegame.reset(new Savegame(world->get_savegame_filename()));
   m_savegame->load();
 
-  std::unique_ptr<Screen> screen(new LevelsetScreen(m_world->get_basedir(),
+  std::unique_ptr<Screen> screen(new LevelsetScreen(world->get_basedir(),
                                                     level_filename,
                                                     *m_savegame));
   ScreenManager::current()->push_screen(std::move(screen));
+}
+
+void
+GameManager::start_level(std::unique_ptr<World> world, const std::string& level_filename)
+{
+  m_world = std::move(world);
+  run_level(m_world.get(), level_filename);
+}
+
+void
+GameManager::start_level(World* world, const std::string& level_filename)
+{
+  run_level(world, level_filename);
 }
 
 void

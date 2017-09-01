@@ -56,6 +56,12 @@ std::string normalize(const std::string& filename);
  */
 std::string join(const std::string& lhs, const std::string& rhs);
 
+/**
+ * Remove a file
+ * @return true when successfully removed, false otherwise
+ */
+ bool remove(const std::string& path);
+
 } // namespace FileSystem
 
 #endif

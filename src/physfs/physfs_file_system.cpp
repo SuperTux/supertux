@@ -51,4 +51,10 @@ PhysFSFileSystem::is_directory(const std::string& filename)
   return statbuf.filetype == PHYSFS_FILETYPE_DIRECTORY;
 }
 
+bool
+PhysFSFileSystem::remove(const std::string& filename)
+{
+  return PHYSFS_delete(filename.c_str()) == 0;
+}
+
 /* EOF */

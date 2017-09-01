@@ -154,6 +154,12 @@ std::string join(const std::string& lhs, const std::string& rhs)
   }
 }
 
+bool remove(const std::string& path)
+{
+  fs::path location(path);
+  return fs::remove(location);
+}
+
 } // namespace FileSystem
 
 /* EOF */

@@ -68,6 +68,7 @@ class Editor : public Screen,
     std::unique_ptr<World> world;
 
     std::string levelfile;
+    std::string test_levelfile;
     bool worldmap_mode;
 
   public:
