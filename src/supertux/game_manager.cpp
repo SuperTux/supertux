@@ -83,8 +83,7 @@ GameManager::run_worldmap(World* world, const std::string& worldmap_filename, co
       filename = world->get_worldmap_filename();
     }
 
-    auto worldmap = new worldmap::WorldMap(filename, *m_savegame,
-                                           spawnpoint.empty() ? "main" : spawnpoint);
+    auto worldmap = new worldmap::WorldMap(filename, *m_savegame, spawnpoint);
     ScreenManager::current()->push_screen(std::unique_ptr<Screen>(worldmap));
   }
   catch(std::exception& e)
