@@ -572,5 +572,6 @@ BonusBlock::contents_to_string(const BonusBlock::Contents& content) const
     case CONTENT_EXPLODE:
       return "explode";
   }
+  return "coin";
 }
 /* EOF */
