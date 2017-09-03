@@ -541,7 +541,7 @@ BonusBlock::get_content_from_string(const std::string& contentstring) const
 }
 
 std::string
-BonusBlock::contents_to_string(const BonusBlock::Contents& contents) const
+BonusBlock::contents_to_string(const BonusBlock::Contents& content) const
 {
   switch(contents)
   {
