@@ -48,10 +48,10 @@ Firefly::Firefly(const ReaderMapping& lisp) :
 
   //Load sound
     if( sprite_name.find("vbell", 0) == std::string::npos ) {
-      SoundManager::current()->preload("sounds/savebell_low.wav");
+      SoundManager::current()->preload("sounds/savebell2.wav");
     }
     else {
-      SoundManager::current()->preload("sounds/savebell2.wav");
+      SoundManager::current()->preload("sounds/savebell_low.wav");
     }
 }
 
