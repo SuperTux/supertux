@@ -144,27 +144,12 @@ BonusBlock::~BonusBlock()
 void
 BonusBlock::save(Writer& writer) {
   Block::save(writer);
-  switch (contents) {
-    case CONTENT_COIN:       writer.write("contents", "coin"      , false); break;
-    case CONTENT_FIREGROW:   writer.write("contents", "firegrow"  , false); break;
-    case CONTENT_ICEGROW:    writer.write("contents", "icegrow"   , false); break;
-    case CONTENT_AIRGROW:    writer.write("contents", "airgrow"   , false); break;
-    case CONTENT_EARTHGROW:  writer.write("contents", "earthgrow" , false); break;
-    case CONTENT_STAR:       writer.write("contents", "star"      , false); break;
-    case CONTENT_1UP:        writer.write("contents", "1up"       , false); break;
-    case CONTENT_CUSTOM:
-      writer.write("contents", "custom"    , false);
-      if (object) {
-        writer.start_list(object->get_class());
-        object->save(writer);
-        writer.end_list(object->get_class());
-      }
-      break;
-    case CONTENT_SCRIPT:     writer.write("contents", "script"    , false); break;
-    case CONTENT_LIGHT:      writer.write("contents", "light"     , false); break;
-    case CONTENT_TRAMPOLINE: writer.write("contents", "trampoline", false); break;
-    case CONTENT_RAIN:       writer.write("contents", "rain"      , false); break;
-    case CONTENT_EXPLODE:    writer.write("contents", "explode"   , false); break;
+  writer.write("contents", contents_to_string(contents), false);
+  if(contents == CONTENT_CUSTOM && object)
+  {
+    writer.start_list(object->get_class());
+    object->save(writer);
+    writer.end_list(object->get_class());
   }
   if (script != "") {
     writer.write("script", script, false);
@@ -553,5 +538,39 @@ BonusBlock::get_content_from_string(const std::string& contentstring) const
 
   log_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
   return CONTENT_COIN;
+}
+
+std::string
+BonusBlock::contents_to_string(const BonusBlock::Contents& contents) const
+{
+  switch(contents)
+  {
+    case CONTENT_COIN:
+      return "coin";
+    case CONTENT_FIREGROW:
+      return "firegrow";
+    case CONTENT_ICEGROW:
+      return "icegrow";
+    case CONTENT_AIRGROW:
+      return "airgrow";
+    case CONTENT_EARTHGROW:
+      return "earthgrow";
+    case CONTENT_STAR:
+      return "star";
+    case CONTENT_1UP:
+      return "1up";
+    case CONTENT_CUSTOM:
+      return "custom";
+    case CONTENT_SCRIPT:
+      return "script";
+    case CONTENT_LIGHT:
+      return "light";
+    case CONTENT_TRAMPOLINE:
+      return "trampoline";
+    case CONTENT_RAIN:
+      return "rain";
+    case CONTENT_EXPLODE:
+      return "explode";
+  }
 }
 /* EOF */
