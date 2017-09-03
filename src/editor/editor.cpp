@@ -171,7 +171,7 @@ void Editor::test_level() {
     }
     else
     {
-      GameManager::current()->start_worldmap(world.get(), "", backup_filename);
+      GameManager::current()->start_worldmap(world.get(), "", test_levelfile);
     }
   }
   else
@@ -186,7 +186,7 @@ void Editor::test_level() {
     }
     else
     {
-      GameManager::current()->start_worldmap(std::move(test_world), "", backup_filename);
+      GameManager::current()->start_worldmap(std::move(test_world), "", test_levelfile);
     }
   }
   leveltested = true;

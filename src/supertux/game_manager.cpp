@@ -67,15 +67,24 @@ GameManager::run_worldmap(World* world, const std::string& worldmap_filename, co
     m_savegame.reset(new Savegame(world->get_savegame_filename()));
     m_savegame->load();
 
-    auto last_worldmap = m_savegame->get_player_status()->last_worldmap;
+    auto filename = m_savegame->get_player_status()->last_worldmap;
+    // If we specified a worldmap filename manually,
+    // this overrides the default choice of "last worldmap"
     if(!worldmap_filename.empty())
     {
-      last_worldmap = worldmap_filename;
+      filename = worldmap_filename;
     }
 
-    auto worldmap = new worldmap::WorldMap(last_worldmap.length() ? // has last worldmap?
-                                           last_worldmap : worldmap_filename,
-                                           *m_savegame, spawnpoint.empty() ? "main" : spawnpoint);
+    // No "last worldmap" found and no worldmap_filename
+    // specified. Let's go ahead and use the worldmap
+    // filename specified in the world.
+    if(filename.empty())
+    {
+      filename = world->get_worldmap_filename();
+    }
+
+    auto worldmap = new worldmap::WorldMap(filename, *m_savegame,
+                                           spawnpoint.empty() ? "main" : spawnpoint);
     ScreenManager::current()->push_screen(std::unique_ptr<Screen>(worldmap));
   }
   catch(std::exception& e)
@@ -101,13 +110,13 @@ void
 GameManager::start_worldmap(std::unique_ptr<World> world, const std::string& spawnpoint, const std::string& worldmap_filename)
 {
   m_world = std::move(world);
-  run_worldmap(world.get(), world->get_worldmap_filename(), spawnpoint);
+  run_worldmap(m_world.get(), worldmap_filename, spawnpoint);
 }
 
 void
 GameManager::start_worldmap(World* world, const std::string& spawnpoint, const std::string& worldmap_filename)
 {
-  run_worldmap(world, world->get_worldmap_filename(), spawnpoint);
+  run_worldmap(world, worldmap_filename, spawnpoint);
 }
 
 std::string
