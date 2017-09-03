@@ -103,6 +103,11 @@
     )
     (blank)
     (person
+      (name "BlasterMaster")
+      (info (_ "Graphics"))
+    )
+    (blank)
+    (person
       (name "Miloš Klouček")
       (info (_ "Programming"))
     )
