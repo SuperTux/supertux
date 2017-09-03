@@ -48,6 +48,10 @@ EditorMenu::EditorMenu()
   if (!worldmap) {
     add_entry(MNID_TESTLEVEL, _("Test the level"));
   }
+  else
+  {
+    add_entry(MNID_TESTLEVEL, _("Test the worldmap"));
+  }
 
   if (is_world) {
     add_entry(MNID_LEVELSEL, _("Edit another level"));

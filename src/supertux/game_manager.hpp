@@ -31,12 +31,15 @@ private:
   std::unique_ptr<Savegame> m_savegame;
 
   void run_level(World* world, const std::string& level_filename);
+  void run_worldmap(World* world, const std::string& worldmap_filename, const std::string& spawnpoint);
 
 public:
   GameManager();
   ~GameManager();
 
-  void start_worldmap(std::unique_ptr<World> world, const std::string& spawnpoint = "");
+  void start_worldmap(std::unique_ptr<World> world, const std::string& spawnpoint = "", const std::string& worldmap_filename = "");
+  void start_worldmap(World* world, const std::string& spawnpoint = "", const std::string& worldmap_filename = "");
+
   void start_level(std::unique_ptr<World> world, const std::string& level_filename);
   /**
    * This method is to be called when we don't want to give up ownership of the

@@ -165,7 +165,14 @@ void Editor::test_level() {
     }
     test_levelfile = FileSystem::join(basedir, backup_filename);
     level->save(test_levelfile);
-    GameManager::current()->start_level(world.get(), backup_filename);
+    if(!worldmap_mode)
+    {
+      GameManager::current()->start_level(world.get(), backup_filename);
+    }
+    else
+    {
+      GameManager::current()->start_worldmap(world.get(), "", backup_filename);
+    }
   }
   else
   {
@@ -173,7 +180,14 @@ void Editor::test_level() {
     test_levelfile = FileSystem::join(directory, backup_filename);
     level->save(test_levelfile);
     std::unique_ptr<World> test_world = World::load(directory);
-    GameManager::current()->start_level(std::move(test_world), backup_filename);
+    if(!worldmap_mode)
+    {
+      GameManager::current()->start_level(std::move(test_world), backup_filename);
+    }
+    else
+    {
+      GameManager::current()->start_worldmap(std::move(test_world), "", backup_filename);
+    }
   }
   leveltested = true;
 }

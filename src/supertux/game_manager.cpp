@@ -60,6 +60,31 @@ GameManager::run_level(World* world, const std::string& level_filename)
 }
 
 void
+GameManager::run_worldmap(World* world, const std::string& worldmap_filename, const std::string& spawnpoint)
+{
+  try
+  {
+    m_savegame.reset(new Savegame(world->get_savegame_filename()));
+    m_savegame->load();
+
+    auto last_worldmap = m_savegame->get_player_status()->last_worldmap;
+    if(!worldmap_filename.empty())
+    {
+      last_worldmap = worldmap_filename;
+    }
+
+    auto worldmap = new worldmap::WorldMap(last_worldmap.length() ? // has last worldmap?
+                                           last_worldmap : worldmap_filename,
+                                           *m_savegame, spawnpoint.empty() ? "main" : spawnpoint);
+    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(worldmap));
+  }
+  catch(std::exception& e)
+  {
+    log_fatal << "Couldn't start world: " << e.what() << std::endl;
+  }
+}
+
+void
 GameManager::start_level(std::unique_ptr<World> world, const std::string& level_filename)
 {
   m_world = std::move(world);
@@ -73,24 +98,16 @@ GameManager::start_level(World* world, const std::string& level_filename)
 }
 
 void
-GameManager::start_worldmap(std::unique_ptr<World> world, const std::string& spawnpoint)
+GameManager::start_worldmap(std::unique_ptr<World> world, const std::string& spawnpoint, const std::string& worldmap_filename)
 {
-  try
-  {
-    m_world = std::move(world);
-    m_savegame.reset(new Savegame(m_world->get_savegame_filename()));
-    m_savegame->load();
+  m_world = std::move(world);
+  run_worldmap(world.get(), world->get_worldmap_filename(), spawnpoint);
+}
 
-    auto last_worldmap = m_savegame->get_player_status()->last_worldmap;
-    auto worldmap = new worldmap::WorldMap(last_worldmap.length() ? // has last worldmap?
-                                           last_worldmap : m_world->get_worldmap_filename(),
-                                           *m_savegame, spawnpoint);
-    ScreenManager::current()->push_screen(std::unique_ptr<Screen>(worldmap));
-  }
-  catch(std::exception& e)
-  {
-    log_fatal << "Couldn't start world: " << e.what() << std::endl;
-  }
+void
+GameManager::start_worldmap(World* world, const std::string& spawnpoint, const std::string& worldmap_filename)
+{
+  run_worldmap(world, world->get_worldmap_filename(), spawnpoint);
 }
 
 std::string
