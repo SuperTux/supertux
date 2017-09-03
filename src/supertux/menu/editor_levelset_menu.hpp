@@ -29,13 +29,14 @@ public:
   EditorLevelsetMenu(World* world_);
   ~EditorLevelsetMenu();
 
-  void menu_action(MenuItem* item) override {
-  }
+  void menu_action(MenuItem* item) override;
 
 private:
   void initialize();
 
   World* world;
+
+  int levelset_type;
 
   EditorLevelsetMenu(const EditorLevelsetMenu&);
   EditorLevelsetMenu& operator=(const EditorLevelsetMenu&);
