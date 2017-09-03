@@ -115,6 +115,10 @@ class Editor : public Screen,
       return worldmap_mode;
     }
 
+    bool is_testing_level() const {
+      return leveltested;
+    }
+
     void load_sector(const std::string& name);
     void load_sector(size_t id);
 

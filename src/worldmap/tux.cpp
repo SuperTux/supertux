@@ -16,6 +16,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "control/input_manager.hpp"
+#include "editor/editor.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -150,7 +151,8 @@ Tux::tryStartWalking()
 
   // We got a new direction, so lets start walking when possible
   Vector next_tile;
-  if ((!level || level->solved || level->perfect)
+  if ((!level || level->solved || level->perfect
+      || (Editor::current() && Editor::current()->is_testing_level()))
       && worldmap->path_ok(input_direction, tile_pos, &next_tile)) {
     tile_pos = next_tile;
     moving = true;
