@@ -94,7 +94,14 @@ public:
   {
     if (g_config)
     {
-      g_config->save();
+      try
+      {
+        g_config->save();
+      }
+      catch(std::exception& e)
+      {
+        log_warning << "Error saving config: " << e.what() << std::endl;
+      }
     }
     g_config.reset();
   }
