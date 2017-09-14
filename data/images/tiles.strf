@@ -285,7 +285,7 @@
      2209 2210 2211 0))
 
   (tilegroup
-   (name (_ "Crystalcave"))
+   (name (_ "Crystal Cave"))
    (tiles
     2407 2408 2409 2410
     2421 2422 2423 2424
@@ -372,7 +372,7 @@
    )
 
 (tilegroup
- (name (_ "Snowmountain"))
+ (name (_ "Snow Mountain"))
 (tiles
 2679 2680 2681 2682
 2695 2696 2697 2698
