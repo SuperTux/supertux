@@ -343,6 +343,8 @@ public:
 
   Climbable* climbing; /**< Climbable object we are currently climbing, null if none */
 
+  float start_swim_y; /**< the y coordinate of where Tux touched water */
+
 private:
   Player(const Player&);
   Player& operator=(const Player&);

@@ -52,6 +52,17 @@
          (mirror-action "air-jump-right"))
 
        (action
+         (name "air-swimming-right")
+         (fps 10)
+         (hitbox 16 14 32 64)
+         (images "air/hat/swim.png"))
+
+       (action
+         (name "air-swimming-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "air-swimming-right"))
+
+       (action
          (name "air-skid-right")
          (hitbox 16 14 32 64)
          (images "air/hat/skid.png"))
@@ -164,6 +175,16 @@
          (mirror-action "earth-jump-right"))
 
        (action
+         (name "earth-swimming-right")
+         (hitbox 16 14 32 64)
+         (images "earth/hardhat/swim.png"))
+
+       (action
+         (name "earth-swimming-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-swimming-right"))
+
+       (action
          (name "earth-skid-right")
          (hitbox 16 14 32 64)
          (images "earth/hardhat/skid.png"))
@@ -271,6 +292,16 @@
          (name "santa-jump-left")
          (hitbox 16 14 32 64)
          (mirror-action "santa-jump-right"))
+
+       (action
+         (name "santa-swimming-right")
+         (hitbox 16 14 32 64)
+         (images "fire/santa_cap/swim.png"))
+
+       (action
+         (name "santa-swimming-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "santa-swimming-right"))
 
        (action
          (name "santa-skid-right")

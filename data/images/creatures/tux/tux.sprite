@@ -81,6 +81,25 @@
          (mirror-action "small-jump-right"))
 
        (action
+         (name "small-swimming-right")
+         (fps 15.0)
+         (hitbox 8 16 32 32)
+         (images "small/swim-0.png"
+		 "small/swim-1.png"
+		 "small/swim-2.png"
+		 "small/swim-3.png"
+		 "small/swim-4.png"
+		 "small/swim-3.png"
+		 "small/swim-2.png"
+		 "small/swim-1.png"))
+
+       (action
+         (name "small-swimming-left")
+         (fps 15.0)
+         (hitbox 8 16 32 32)
+         (mirror-action "small-swimming-right"))
+
+       (action
          (name "small-skid-right")
          (hitbox 8 17 32 32)
          (images "small/skid-0.png"))
@@ -188,6 +207,25 @@
          (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "big-jump-right"))
+
+       (action
+         (name "big-swimming-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/swim-0.png"
+		 "big/swim-1.png"
+		 "big/swim-2.png"
+		 "big/swim-3.png"
+		 "big/swim-4.png"
+		 "big/swim-3.png"
+		 "big/swim-2.png"
+		 "big/swim-1.png"))
+
+       (action
+         (name "big-swimming-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-swimming-right"))
 
        (action
          (name "big-skid-right")
@@ -312,6 +350,25 @@
          (mirror-action "fire-jump-right"))
 
        (action
+         (name "fire-swimming-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "fire/swim-0.png"
+		 "fire/swim-1.png"
+		 "fire/swim-2.png"
+		 "fire/swim-3.png"
+		 "fire/swim-4.png"
+		 "fire/swim-3.png"
+		 "fire/swim-2.png"
+		 "fire/swim-1.png"))
+
+       (action
+         (name "fire-swimming-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "fire-swimming-right"))
+
+       (action
          (name "fire-skid-right")
          (hitbox 16 14 32 64)
          (images "fire/skid-0.png"))
@@ -425,7 +482,14 @@
          (name "ice-jump-right")
          (fps 15.0)
          (hitbox 16 14 32 64)
-         (images "ice/jump-0.png"))
+         (images "ice/swim-0.png"
+		 "ice/swim-1.png"
+		 "ice/swim-2.png"
+		 "ice/swim-3.png"
+		 "ice/swim-4.png"
+		 "ice/swim-3.png"
+		 "ice/swim-2.png"
+		 "ice/swim-1.png"))
 
        (action
          (name "ice-jump-left")
@@ -556,6 +620,25 @@
          (mirror-action "air-jump-right"))
 
        (action
+         (name "air-swimming-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/swim-0.png"
+		 "big/swim-1.png"
+		 "big/swim-2.png"
+		 "big/swim-3.png"
+		 "big/swim-4.png"
+		 "big/swim-3.png"
+		 "big/swim-2.png"
+		 "big/swim-1.png"))
+
+       (action
+         (name "air-swimming-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "air-swimming-right"))
+
+       (action
          (name "air-skid-right")
          (hitbox 16 14 32 64)
          (images "big/skid-0.png"))
@@ -676,6 +759,25 @@
          (fps 15.0)
          (hitbox 16 14 32 64)
          (mirror-action "earth-jump-right"))
+
+       (action
+         (name "earth-swimming-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (images "big/swim-0.png"
+		 "big/swim-1.png"
+		 "big/swim-2.png"
+		 "big/swim-3.png"
+		 "big/swim-4.png"
+		 "big/swim-3.png"
+		 "big/swim-2.png"
+		 "big/swim-1.png"))
+
+       (action
+         (name "earth-swimming-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "earth-swimming-right"))
 
        (action
          (name "earth-skid-right")

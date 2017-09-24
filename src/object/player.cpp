@@ -37,8 +37,9 @@
 #include "trigger/climbable.hpp"
 
 #include <math.h>
+#include <limits>
 
-//#define SWIMMING
+#define SWIMMING
 
 namespace {
 static const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
@@ -171,7 +172,8 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   unduck_hurt_timer(),
   idle_timer(),
   idle_stage(0),
-  climbing(0)
+  climbing(0),
+  start_swim_y(0)
 {
   this->name = name_;
   idle_timer.start(IDLE_TIME[0]/1000.0f);
@@ -288,8 +290,10 @@ Player::trigger_sequence(Sequence seq)
 void
 Player::update(float elapsed_time)
 {
-  if( no_water ){
+  if( no_water ) {
     swimming = false;
+  } else if ( on_ground() ) {
+    start_swim_y = std::numeric_limits<float>::min();
   }
   no_water = true;
 
@@ -750,10 +754,11 @@ Player::handle_vertical_input()
   // swimming
   physic.set_acceleration_y(0);
 #ifdef SWIMMING
-  if (swimming) {
+  if (swimming && bbox.p1.y > start_swim_y) {
     if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP))
       physic.set_acceleration_y(-2000);
     physic.set_velocity_y(physic.get_velocity_y() * 0.94);
+    start_swim_y = std::numeric_limits<float>::min();
   }
 #endif
 }
@@ -1214,7 +1219,11 @@ Player::draw(DrawingContext& context)
   }
   else if (!on_ground() || fall_mode != ON_GROUND) {
     if(physic.get_velocity_x() != 0 || fall_mode != ON_GROUND) {
+      if (swimming) {
+        sprite->set_action(sa_prefix+"-swimming"+sa_postfix);
+      } else {
         sprite->set_action(sa_prefix+"-jump"+sa_postfix);
+      }
     }
   }
   else {
@@ -1327,6 +1336,7 @@ Player::collision_tile(uint32_t tile_attributes)
     if( tile_attributes & Tile::WATER ){
       swimming = true;
       no_water = false;
+      start_swim_y = bbox.p1.y + 16.0;
       SoundManager::current()->play( "sounds/splash.wav" );
     }
   }
