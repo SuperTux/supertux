@@ -482,14 +482,7 @@
          (name "ice-jump-right")
          (fps 15.0)
          (hitbox 16 14 32 64)
-         (images "ice/swim-0.png"
-		 "ice/swim-1.png"
-		 "ice/swim-2.png"
-		 "ice/swim-3.png"
-		 "ice/swim-4.png"
-		 "ice/swim-3.png"
-		 "ice/swim-2.png"
-		 "ice/swim-1.png"))
+         (images "ice/jump-0.png"))
 
        (action
          (name "ice-jump-left")
