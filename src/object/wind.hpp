@@ -36,6 +36,10 @@ public:
   void draw(DrawingContext& context);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
+  bool has_variable_size() const {
+    return true;
+  }
+
   /**
    * @name Scriptable Methods
    * @{

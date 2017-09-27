@@ -73,6 +73,14 @@ public:
     return true;
   }
 
+  /**
+   * Does this object have variable size
+   * (secret area trigger, wind, etc.)
+   */
+  virtual bool has_variable_size() const {
+    return false;
+  }
+
   virtual ObjectSettings get_settings();
   virtual void after_editor_set() {}
 

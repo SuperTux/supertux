@@ -66,6 +66,11 @@ public:
   std::string get_class() const {
     return "ambient_sound";
   }
+
+  bool has_variable_size() const {
+    return true;
+  }
+
   /**
    * @name Scriptable Methods
    * @{

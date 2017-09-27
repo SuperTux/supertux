@@ -311,15 +311,7 @@ EditorInputCenter::mark_object() {
   delete_markers();
   if (!dragged_object || !dragged_object->is_valid()) return;
 
-  auto dc1 = dynamic_cast<AmbientSound*>(dragged_object);
-  auto dc2 = dynamic_cast<Climbable*>(dragged_object);
-  auto dc3 = dynamic_cast<ScriptTrigger*>(dragged_object);
-  auto dc4 = dynamic_cast<SecretAreaTrigger*>(dragged_object);
-  auto dc5 = dynamic_cast<SequenceTrigger*>(dragged_object);
-  auto dc6 = dynamic_cast<Wind*>(dragged_object);
-  auto dc7 = dynamic_cast<InvisibleWall*>(dragged_object);
-
-  if (dc1 || dc2 || dc3 || dc4 || dc5 || dc6 || dc7) {
+  if (dragged_object->has_variable_size()) {
     marked_object = dragged_object;
     dragged_object->edit_bbox();
     return;

@@ -36,6 +36,10 @@ public:
     return "climbable";
   }
 
+  bool has_variable_size() const {
+    return true;
+  }
+
   virtual ObjectSettings get_settings();
   virtual void after_editor_set();
 
