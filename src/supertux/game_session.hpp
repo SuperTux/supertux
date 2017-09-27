@@ -51,6 +51,7 @@ public:
   void update(float frame_ratio) override;
   void setup() override;
   void leave() override;
+  void on_window_resize();
 
   /// ends the current level
   void finish(bool win = true);

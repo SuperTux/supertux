@@ -588,6 +588,15 @@ Sector::draw(DrawingContext& context)
   context.pop_transform();
 }
 
+void
+Sector::on_window_resize()
+{
+  for(const auto& obj : gameobjects)
+  {
+    obj->on_window_resize();
+  }
+}
+
 /*-------------------------------------------------------------------------
  * Collision Detection
  *-------------------------------------------------------------------------*/

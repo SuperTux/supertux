@@ -195,6 +195,12 @@ Gradient::draw(DrawingContext& context)
   context.pop_transform();
 }
 
+void
+Gradient::on_window_resize()
+{
+  gradient_region = Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+}
+
 bool
 Gradient::do_save() const {
   return !Editor::is_active() || !Editor::current()->get_worldmap_mode();

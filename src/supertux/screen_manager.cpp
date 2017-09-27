@@ -234,6 +234,7 @@ ScreenManager::process_events()
 {
   InputManager::current()->update();
   SDL_Event event;
+  auto session = GameSession::current();
   while (SDL_PollEvent(&event))
   {
     InputManager::current()->process_event(event);
@@ -260,13 +261,16 @@ ScreenManager::process_events()
             if (Editor::is_active()) {
               Editor::current()->resize();
             }
+            if(session != NULL)
+            {
+              session->on_window_resize();
+            }
             break;
 
           case SDL_WINDOWEVENT_FOCUS_LOST:
-            if(GameSession::current() != NULL &&
-               GameSession::current()->is_active())
+            if(session != NULL && session->is_active())
             {
-              GameSession::current()->toggle_pause();
+              session->toggle_pause();
             }
             break;
         }

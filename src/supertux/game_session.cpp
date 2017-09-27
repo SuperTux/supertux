@@ -270,6 +270,13 @@ GameSession::draw(DrawingContext& context)
     draw_pause(context);
 }
 
+
+void
+GameSession::on_window_resize()
+{
+  currentsector->on_window_resize();
+}
+
 void
 GameSession::draw_pause(DrawingContext& context)
 {
