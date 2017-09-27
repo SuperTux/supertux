@@ -44,7 +44,7 @@ InfoBlock::InfoBlock(const ReaderMapping& lisp) :
 
   // Split text string lines into a vector
   lines = InfoBoxLine::split(message, 400);
-  for(size_t i = 0; i < lines.size(); ++i) lines_height += lines[i]->get_height();
+  for(const auto& line : lines) lines_height += line->get_height();
 }
 
 InfoBlock::~InfoBlock()
