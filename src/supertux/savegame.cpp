@@ -236,7 +236,7 @@ Savegame::save()
       {
         std::ostringstream msg;
         msg << "Couldn't create directory for savegames '"
-            << dirname << "': " <<PHYSFS_getLastError();
+            << dirname << "': " <<PHYSFS_getLastErrorCode();
         throw std::runtime_error(msg.str());
       }
     }
