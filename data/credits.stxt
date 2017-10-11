@@ -1301,6 +1301,22 @@
         (string "supertux-devel@lists.lethargik.org")
       )
       (blank)
+      (text
+        (type "normal")
+        ; l10n: typo contact
+        (string (_ "Typographical errors can be"))
+      )
+      (text
+        (type "normal")
+        ; l10n: typo contact
+        (string (_ "reported to"))
+      )
+      (text
+        (type "reference")
+        ; l10n: typo contact, see <https://github.com/SuperTux/supertux/issues/611>
+        (string (_ "supertux-devel@lists.lethargik.org"))
+      )
+      (blank)
       (blank)
       (blank)
       (text
