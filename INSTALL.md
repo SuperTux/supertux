@@ -6,7 +6,7 @@ Binaries
 --------
 
 We try to provide precompiled binaries of SuperTux for a number of
-platforms. You should check <http://supertux.lethargik.org/wiki/Download>
+platforms. You should check <https://supertux.org/download.html>
 for the packages and instructions on how to install them. If there are
 no prebuilt binaries for your platform, then you might still be able
 to compile the source code yourself. In this case read the next
