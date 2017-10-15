@@ -21,6 +21,7 @@
 #include "object/anchor_point.hpp"
 #include "object/player.hpp"
 #include "object/explosion.hpp"
+#include "supertux/tile.hpp"
 
 SkyDive::SkyDive(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/skydive/skydive.sprite"),
@@ -50,65 +51,73 @@ HitResponse
 SkyDive::collision_badguy(BadGuy&, const CollisionHit& hit)
 {
   if (hit.bottom) {
-    explode ();
-    return (ABORT_MOVE);
+    explode();
+    return ABORT_MOVE;
   }
 
-  return (FORCE_MOVE);
+  return FORCE_MOVE;
 } /* HitResponse collision_badguy */
 
 void
-SkyDive::grab (MovingObject&, const Vector& pos, Direction dir_)
+SkyDive::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   movement = pos - get_pos();
   this->dir = dir_;
 
   is_grabbed = true;
 
-  physic.set_velocity_x (movement.x * LOGICAL_FPS);
-  physic.set_velocity_y (0.0);
-  physic.set_acceleration_y (0.0);
-  physic.enable_gravity (false);
-  set_colgroup_active (COLGROUP_DISABLED);
+  physic.set_velocity_x(movement.x * LOGICAL_FPS);
+  physic.set_velocity_y(0.0);
+  physic.set_acceleration_y(0.0);
+  physic.enable_gravity(false);
+  set_colgroup_active(COLGROUP_DISABLED);
 }
 
 void
-SkyDive::ungrab (MovingObject& , Direction)
+SkyDive::ungrab(MovingObject& , Direction)
 {
   is_grabbed = false;
 
-  physic.set_velocity_y (0);
-  physic.set_acceleration_y (0);
-  physic.enable_gravity (true);
-  set_colgroup_active (COLGROUP_MOVING);
+  physic.set_velocity_y(0);
+  physic.set_acceleration_y(0);
+  physic.enable_gravity(true);
+  set_colgroup_active(COLGROUP_MOVING);
 }
 
 HitResponse
 SkyDive::collision_player(Player&, const CollisionHit& hit)
 {
   if (hit.bottom) {
-    explode ();
-    return (ABORT_MOVE);
+    explode();
+    return ABORT_MOVE;
   }
 
   return FORCE_MOVE;
 } /* HitResponse collision_player */
 
 bool
-SkyDive::collision_squished (GameObject& obj)
+SkyDive::collision_squished(GameObject& obj)
 {
-  auto player = dynamic_cast<Player *> (&obj);
+  auto player = dynamic_cast<Player *>(&obj);
   if (player) {
-    player->bounce (*this);
-    return (false);
+    player->bounce(*this);
+    return false;
   }
 
-  explode ();
-  return (false);
+  explode();
+  return false;
 } /* bool collision_squished */
 
 void
-SkyDive::active_update (float elapsed_time)
+SkyDive::collision_tile(uint32_t tile_attributes)
+{
+  if(tile_attributes & Tile::HURTS)
+  {
+    explode();
+  }
+}
+void
+SkyDive::active_update(float elapsed_time)
 {
   if (!is_grabbed)
     movement = physic.get_movement(elapsed_time);
@@ -126,7 +135,7 @@ SkyDive::explode()
   explosion->pushes(false);
   Sector::current()->add_object(explosion);
 
-  remove_me ();
+  remove_me();
 } /* void explode */
 
 /* vim: set sw=2 sts=2 et fdm=marker : */

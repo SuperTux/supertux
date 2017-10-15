@@ -31,6 +31,7 @@ class SkyDive : public BadGuy, public Portable
 
     void collision_solid(const CollisionHit& hit);
     HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+    void collision_tile(uint32_t tile_attributes);
 
     /* Inherited from Portable */
     void grab(MovingObject& object, const Vector& pos, Direction dir);
