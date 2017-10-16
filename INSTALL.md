@@ -1,4 +1,4 @@
-Install instructions for SuperTux - <http://supertux.org/>
+Install instructions for SuperTux - <https://supertux.org/>
 ====================================================================
 Last update: September 2, 2016
 
