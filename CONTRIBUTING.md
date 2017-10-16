@@ -1,6 +1,6 @@
 # Contributing to SuperTux
 
-## Unsure? [Contact Us](http://supertuxproject.org/contact.html)
+## Unsure? [Contact Us](http://supertux.org/contact.html)
 
 ## Bug reports
 

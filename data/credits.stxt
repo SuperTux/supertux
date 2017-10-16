@@ -1267,7 +1267,7 @@
       )
       (text
         (type "reference")
-        (string "http://supertuxproject.org")
+        (string "http://supertux.org")
       )
       (blank)
       (text
