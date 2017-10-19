@@ -272,17 +272,23 @@ Player::adjust_height(float new_height)
 }
 
 void
-Player::trigger_sequence(const std::string& sequence_name)
+Player::trigger_sequence(const std::string& sequence_name,
+                         const std::string& new_spawnpoint,
+                         const std::string& fade_tilemap,
+                         int fade_direction)
 {
-  trigger_sequence(string_to_sequence(sequence_name));
+  trigger_sequence(string_to_sequence(sequence_name), new_spawnpoint, fade_tilemap, fade_direction);
 }
 
 void
-Player::trigger_sequence(Sequence seq)
+Player::trigger_sequence(Sequence seq,
+                         const std::string& new_spawnpoint,
+                         const std::string& fade_tilemap,
+                         int fade_direction)
 {
   if (climbing) stop_climbing(*climbing);
   stop_backflipping();
-  GameSession::current()->start_sequence(seq);
+  GameSession::current()->start_sequence(seq, new_spawnpoint, fade_tilemap, fade_direction);
 }
 
 void

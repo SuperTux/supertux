@@ -250,7 +250,7 @@ GameSession::force_ghost_mode()
 void
 GameSession::check_end_conditions()
 {
-  Player* tux = currentsector->player;
+  auto tux = currentsector->player;
 
   /* End of level? */
   if(end_sequence && end_sequence->is_done()) {
@@ -461,7 +461,7 @@ GameSession::get_working_directory() const
 }
 
 void
-GameSession::start_sequence(Sequence seq)
+GameSession::start_sequence(Sequence seq, const std::string& new_spawnpoint, const std::string& fade_tilemap, int fade_direction)
 {
   // do not play sequences when in edit mode
   if (edit_mode) {
@@ -494,6 +494,18 @@ GameSession::start_sequence(Sequence seq)
   } else {
     log_warning << "Unknown sequence '" << (int)seq << "'. Ignoring." << std::endl;
     return;
+  }
+
+  if(const auto& worldmap = worldmap::WorldMap::current())
+  {
+    if(!fade_tilemap.empty())
+    {
+      worldmap->set_initial_fade_tilemap(fade_tilemap, fade_direction);
+    }
+    if(!new_spawnpoint.empty())
+    {
+      worldmap->set_initial_spawnpoint(new_spawnpoint);
+    }
   }
 
   /* slow down the game for end-sequence */

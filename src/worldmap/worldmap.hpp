@@ -116,6 +116,9 @@ private:
 
   Color ambient_light;
   std::string force_spawnpoint; /**< if set, spawnpoint will be forced to this value */
+  bool main_is_default;
+  std::string initial_fade_tilemap;
+  int fade_direction;
 
   bool in_level;
 
@@ -168,6 +171,28 @@ public:
 
   Savegame& get_savegame() const { return m_savegame; }
 
+  /**
+   * Get a spawnpoint by its name
+   * @param name The name of the spawnpoint
+   * @return spawnpoint corresponding to that name
+   */
+  SpawnPoint* get_spawnpoint_by_name(const std::string& spawnpoint_name) const
+  {
+    for(const auto& sp : spawn_points) {
+      if(sp->name == spawnpoint_name) {
+        return sp.get();
+      }
+    }
+    return NULL;
+  }
+
+  /**
+   * Get a tile map by its name
+   * @param name The name of the tilemap
+   * @return tilemap corresponding to that name
+   */
+  TileMap* get_tilemap_by_name(const std::string& tilemap_name) const;
+
   LevelTile* at_level() const;
   SpecialTile* at_special_tile() const;
   SpriteChange* at_sprite_change(const Vector& pos) const;
@@ -205,9 +230,12 @@ public:
   void change(const std::string& filename, const std::string& force_spawnpoint="");
 
   /**
-   * moves Tux to the given spawnpoint
+   * Moves Tux to the given spawnpoint
+   * @param spawnpoint Name of the spawnpoint to move to
+   * @param pan Pan the camera during to new spawnpoint
+   * @param main_as_default Move Tux to main spawnpoint if specified spawnpoint can't be found
    */
-  void move_to_spawnpoint(const std::string& spawnpoint, bool pan =false);
+  void move_to_spawnpoint(const std::string& spawnpoint, bool pan = false, bool main_as_default = true);
 
   /**
    * returns the width (in tiles) of a worldmap
@@ -223,6 +251,28 @@ public:
    * Mark all levels as solved or unsolved
    */
   void set_levels_solved(bool solved, bool perfect);
+
+  /**
+   * Sets the name of the tilemap that should fade when
+   * worldmap is set up.
+   */
+  void set_initial_fade_tilemap(const std::string& tilemap_name, int direction)
+  {
+    initial_fade_tilemap = tilemap_name;
+    fade_direction = direction;
+  }
+
+  /**
+   * Sets the initial spawnpoint on worldmap setup
+   */
+  void set_initial_spawnpoint(const std::string& spawnpoint_name)
+  {
+    force_spawnpoint = spawnpoint_name;
+
+    // If spawnpoint we specified can not be found,
+    // don't bother moving to the main spawnpoint.
+    main_is_default = false;
+  }
 
 private:
   void load_level_information(LevelTile& level);

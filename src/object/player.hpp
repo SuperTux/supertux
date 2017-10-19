@@ -224,9 +224,21 @@ public:
 
   /**
    * Orders the current GameSession to start a sequence
+   * @param sequence_name Name of the sequence to start
+   * @param new_spawnpoint Spawnpoint to spawn to on on
+   *        the worldmap once sequence completed.
+   * @param fade_tilemap TileMap to fade on the worldmap
+   *         once sequence completed
+   * @param fade_direction: 0 for Fade-In, 1 for Fade-Out
    */
-  void trigger_sequence(const std::string& sequence_name);
-  void trigger_sequence(Sequence seq);
+  void trigger_sequence(const std::string& sequence_name,
+                        const std::string& new_spawnpoint = "",
+                        const std::string& fade_tilemap = "",
+                        int fade_direction = 0);
+  void trigger_sequence(Sequence seq,
+                        const std::string& new_spawnpoint = "",
+                        const std::string& fade_tilemap = "",
+                        int fade_direction = 0);
 
   /**
    * Requests that the player start climbing the given Climbable

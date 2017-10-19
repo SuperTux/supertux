@@ -70,7 +70,10 @@ public:
   Level* get_current_level() const
   { return level.get(); }
 
-  void start_sequence(Sequence seq);
+  void start_sequence(Sequence seq,
+                      const std::string& new_spawnpoint = "",
+                      const std::string& fade_tilemap = "",
+                      int fade_direction = 0);
 
   /**
    * returns the "working directory" usually this is the directory where the

@@ -29,7 +29,10 @@
 SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
   triggerevent(EVENT_TOUCH),
   sequence(SEQ_ENDSEQUENCE),
-  new_size()
+  new_size(),
+  new_spawnpoint(),
+  fade_tilemap(),
+  fade()
 {
   reader.get("x", bbox.p1.x, 0);
   reader.get("y", bbox.p1.y, 0);
@@ -41,12 +44,19 @@ SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
   if (reader.get("sequence", sequence_name)) {
     sequence = string_to_sequence(sequence_name);
   }
+
+  reader.get("new_spawnpoint", new_spawnpoint);
+  reader.get("fade_tilemap", fade_tilemap);
+  reader.get("fade", fade);
 }
 
 SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence_name) :
   triggerevent(EVENT_TOUCH),
   sequence(string_to_sequence(sequence_name)),
-  new_size()
+  new_size(),
+  new_spawnpoint(),
+  fade_tilemap(),
+  fade()
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);
@@ -77,6 +87,13 @@ SequenceTrigger::get_settings() {
   seq.select.push_back(_("fireworks"));
 
   result.options.push_back( seq );
+
+  result.options.push_back(ObjectOption(MN_TEXTFIELD, _("New worldmap spawnpoint"), &new_spawnpoint, "new_spawnpoint"));
+  result.options.push_back(ObjectOption(MN_TEXTFIELD, _("Worldmap fade tilemap"), &fade_tilemap, "fade_tilemap"));
+  ObjectOption fade_toggle(MN_STRINGSELECT, _("Fade"), &fade, "fade");
+  fade_toggle.select.push_back(_("Fade in"));
+  fade_toggle.select.push_back(_("Fade out"));
+  result.options.push_back(fade_toggle);
   return result;
 }
 
@@ -89,7 +106,7 @@ void
 SequenceTrigger::event(Player& player, EventType type)
 {
   if(type == triggerevent) {
-    player.trigger_sequence(sequence);
+    player.trigger_sequence(sequence, new_spawnpoint, fade_tilemap, fade);
   }
 }
 
