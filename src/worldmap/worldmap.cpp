@@ -963,6 +963,28 @@ WorldMap::save_state()
       end_table(vm, "sprite-changes");
     }
 
+    // tilemap visibility
+    sq_pushstring(vm, "tilemaps", -1);
+    sq_newtable(vm);
+    for(const auto& object : game_objects)
+    {
+      auto tilemap = dynamic_cast<::TileMap*>(object.get());
+      if(tilemap && !tilemap->get_name().empty())
+      {
+        sq_pushstring(vm, tilemap->get_name().c_str(), -1);
+        sq_newtable(vm);
+        store_float(vm, "alpha", tilemap->get_alpha());
+        if(SQ_FAILED(sq_createslot(vm, -3)))
+        {
+          throw std::runtime_error("failed to create '" + name + "' table entry");
+        }
+      }
+    }
+    if(SQ_FAILED(sq_createslot(vm, -3)))
+    {
+      throw std::runtime_error("failed to create '" + name + "' table entry");
+    }
+
     // levels...
     begin_table(vm, "levels");
 
@@ -1047,6 +1069,50 @@ WorldMap::load_state()
 
     // leave levels table
     sq_pop(vm, 1);
+
+    try {
+      get_table_entry(vm, "tilemaps");
+      sq_pushnull(vm); // Null-iterator
+      while(SQ_SUCCEEDED(sq_next(vm, -2)))
+      {
+        const char* key; // Name of specific tilemap table
+        if(SQ_SUCCEEDED(sq_getstring(vm, -2, &key)))
+        {
+          auto tilemap = get_tilemap_by_name(key);
+          if(tilemap != NULL)
+          {
+            sq_pushnull(vm); // null iterator (inner);
+            while(SQ_SUCCEEDED(sq_next(vm, -2)))
+            {
+              const char* property_key;
+              if(SQ_SUCCEEDED(sq_getstring(vm, -2, &property_key)))
+              {
+                auto propKey = std::string(property_key);
+                if(propKey == "alpha")
+                {
+                  float alpha_value = 1.0;
+                  if(SQ_SUCCEEDED(sq_getfloat(vm, -1, &alpha_value)))
+                  {
+                    tilemap->set_alpha(alpha_value);
+                  }
+                }
+              }
+              sq_pop(vm, 2); // Pop key/value from the stack
+            }
+            sq_pop(vm, 1); // Pop null iterator
+          }
+        }
+        sq_pop(vm, 2); // Pop key value pair from stack
+      }
+      sq_pop(vm, 1); // Pop null
+      sq_pop(vm, 1); // leave tilemaps table
+    }
+    catch(const scripting::SquirrelError& e)
+    {
+      // Failed to get tilemap entry. This could indicate
+      // that no savable tilemaps have been found. In any
+      // case: This is not severe at all.
+    }
 
     if(sprite_changes.size() > 0)
     {
