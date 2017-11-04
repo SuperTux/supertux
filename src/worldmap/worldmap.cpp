@@ -35,6 +35,7 @@
 #include "object/background.hpp"
 #include "object/decal.hpp"
 #include "object/tilemap.hpp"
+#include "physfs/physfs_file_system.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_error.hpp"
@@ -318,7 +319,12 @@ WorldMap::load_level_information(LevelTile& level)
 
     if(!PHYSFS_exists(filename.c_str()))
     {
-      log_warning << "Level file '"  << filename << "' does not exist. Skipping." << std::endl;
+      log_debug << "Level file '" << filename << "' does not exist. Skipping." << std::endl;
+      return;
+    }
+    if(PhysFSFileSystem::is_directory(filename))
+    {
+      log_debug << "Level file '" << filename << "' is a directory. Skipping." << std::endl;
       return;
     }
 
