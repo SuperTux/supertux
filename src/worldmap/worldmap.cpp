@@ -319,12 +319,12 @@ WorldMap::load_level_information(LevelTile& level)
 
     if(!PHYSFS_exists(filename.c_str()))
     {
-      log_debug << "Level file '" << filename << "' does not exist. Skipping." << std::endl;
+      log_warning << "Level file '" << filename << "' does not exist. Skipping." << std::endl;
       return;
     }
     if(PhysFSFileSystem::is_directory(filename))
     {
-      log_debug << "Level file '" << filename << "' is a directory. Skipping." << std::endl;
+      log_warning << "Level file '" << filename << "' is a directory. Skipping." << std::endl;
       return;
     }
 
