@@ -37,6 +37,13 @@ void load_squirrel_table(HSQUIRRELVM vm, SQInteger table_idx, const ReaderMappin
   {
     auto const& pair = arr[i].as_array();
 
+    // Ignore key value pairs with invalid length
+    if(pair.size() < 2)
+    {
+      log_debug << "Found key/value pair with invalid length. Ignoring." << std::endl;
+      continue;
+    }
+
     const std::string& key = pair[0].as_string();
     auto const& value = pair[1];
 
