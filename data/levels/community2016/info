@@ -1,0 +1,6 @@
+(supertux-level-subset
+  (title (_ "Community-Island 2016"))
+  (description (_ ""))
+  (levelset #f)
+  (hide-from-contribs #f)
+)
