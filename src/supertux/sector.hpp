@@ -133,8 +133,8 @@ public:
   template<class T> int get_total_count() const
   {
     int total = 0;
-    for(GameObjects::const_iterator i = gameobjects.begin(); i != gameobjects.end(); ++i) {
-      if (dynamic_cast<T*>(i->get())) total++;
+    for(const auto& obj : gameobjects) {
+      if (dynamic_cast<T*>(obj.get())) total++;
     }
     return total;
   }
