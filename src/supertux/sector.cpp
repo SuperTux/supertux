@@ -131,12 +131,7 @@ Sector::~Sector()
     log_warning << err.what() << std::endl;
   }
 
-
-  for(auto& script : scripts) {
-    sq_release(global_vm, &script);
-  }
-  sq_release(global_vm, &sector_table);
-  sq_collectgarbage(global_vm);
+  release_scripts(global_vm, scripts, sector_table);
 
   update_game_objects();
   assert(gameobjects_new.size() == 0);

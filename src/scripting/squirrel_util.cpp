@@ -311,6 +311,16 @@ void compile_and_run(HSQUIRRELVM vm, std::istream& in,
   }
 }
 
+void release_scripts(HSQUIRRELVM vm, ScriptList& scripts, HSQOBJECT& root_table)
+{
+  for(auto& script: scripts)
+  {
+    sq_release(vm, &script);
+  }
+  sq_release(vm, &root_table);
+  sq_collectgarbage(vm);
+}
+
 HSQOBJECT create_thread(HSQUIRRELVM vm)
 {
   HSQUIRRELVM new_vm = sq_newthread(vm, 64);

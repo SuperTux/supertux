@@ -52,6 +52,15 @@ void compile_script(HSQUIRRELVM vm, std::istream& in,
 void compile_and_run(HSQUIRRELVM vm, std::istream& in,
                      const std::string& sourcename);
 
+/**
+ * Deletes the provided scripts from memory, freeing any resources
+ * used by them.
+ * @param v Squirrel VM to release objects from
+ * @param scripts Lists of scripts to be released
+ * @param root_table Root table these scripts belong to
+ */
+void release_scripts(HSQUIRRELVM vm, ScriptList& scripts, HSQOBJECT& root_table);
+
 template<typename T>
 void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
                    const std::string& name, bool free = false)

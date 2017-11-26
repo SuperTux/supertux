@@ -145,12 +145,7 @@ WorldMap::~WorldMap()
 
   spawn_points.clear();
 
-  for(auto& object : scripts) {
-    sq_release(global_vm, &object);
-  }
-  sq_release(global_vm, &worldmap_table);
-
-  sq_collectgarbage(global_vm);
+  release_scripts(global_vm, scripts, worldmap_table);
 }
 
 void
