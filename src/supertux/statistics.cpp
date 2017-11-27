@@ -91,9 +91,6 @@ Statistics::calculate_max_caption_length()
 void
 Statistics::serialize_to_squirrel(HSQUIRRELVM vm)
 {
-  // TODO: there's some bug in the unserialization routines that breaks stuff when an empty statistics table is written, so -- as a workaround -- let's make sure we will actually write something first
-  if (!((coins != nv_coins) || (total_coins != nv_coins) || (badguys != nv_badguys) || (total_badguys != nv_badguys) || (time != nv_time) || (secrets != nv_secrets) || (total_secrets != nv_secrets))) return;
-
   scripting::begin_table(vm, "statistics");
   if (coins != nv_coins) scripting::store_int(vm, "coins-collected", coins);
   if (total_coins != nv_coins) scripting::store_int(vm, "coins-collected-total", total_coins);
