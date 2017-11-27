@@ -94,8 +94,7 @@ Statistics::serialize_to_squirrel(HSQUIRRELVM vm)
   // TODO: there's some bug in the unserialization routines that breaks stuff when an empty statistics table is written, so -- as a workaround -- let's make sure we will actually write something first
   if (!((coins != nv_coins) || (total_coins != nv_coins) || (badguys != nv_badguys) || (total_badguys != nv_badguys) || (time != nv_time) || (secrets != nv_secrets) || (total_secrets != nv_secrets))) return;
 
-  sq_pushstring(vm, "statistics", -1);
-  sq_newtable(vm);
+  scripting::begin_table(vm, "statistics");
   if (coins != nv_coins) scripting::store_int(vm, "coins-collected", coins);
   if (total_coins != nv_coins) scripting::store_int(vm, "coins-collected-total", total_coins);
   if (badguys != nv_badguys) scripting::store_int(vm, "badguys-killed", badguys);
@@ -103,8 +102,7 @@ Statistics::serialize_to_squirrel(HSQUIRRELVM vm)
   if (time != nv_time) scripting::store_float(vm, "time-needed", time);
   if (secrets != nv_secrets) scripting::store_int(vm, "secrets-found", secrets);
   if (total_secrets != nv_secrets) scripting::store_int(vm, "secrets-found-total", total_secrets);
-  if(SQ_FAILED(sq_createslot(vm, -3)))
-    throw scripting::SquirrelError(vm, "Couldn't create statistics table");
+  scripting::end_table(vm, "statistics");
 }
 
 void

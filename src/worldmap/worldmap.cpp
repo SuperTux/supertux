@@ -916,83 +916,53 @@ WorldMap::save_state()
     get_table_entry(vm, "state");
     get_or_create_table_entry(vm, "worlds");
 
-    sq_pushstring(vm, map_filename.c_str(), map_filename.length());
-    if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
-    {
-    }
+    delete_table_entry(vm, map_filename.c_str());
 
     // construct new table for this worldmap
-    sq_pushstring(vm, map_filename.c_str(), map_filename.length());
-    sq_newtable(vm);
+    begin_table(vm, map_filename.c_str());
 
     // store tux
-    sq_pushstring(vm, "tux", -1);
-    sq_newtable(vm);
+    begin_table(vm, "tux");
 
     store_float(vm, "x", tux->get_tile_pos().x);
     store_float(vm, "y", tux->get_tile_pos().y);
     store_string(vm, "back", direction_to_string(tux->back_direction));
-
-    if(SQ_FAILED(sq_createslot(vm, -3)))
-    {
-      throw std::runtime_error("failed to create '" + name + "' table entry");
-    }
+    
+    end_table(vm, "tux");
 
     // sprite change objects:
     if(sprite_changes.size() > 0)
     {
-      sq_pushstring(vm, "sprite-changes", -1);
-      sq_newtable(vm);
+      begin_table(vm, "sprite-changes");
 
       for(const auto& sc : sprite_changes)
       {
         auto key = std::to_string(int(sc->pos.x)) + "_" +
                    std::to_string(int(sc->pos.y));
-        sq_pushstring(vm, key.c_str(), -1);
-        sq_newtable(vm);
+        begin_table(vm, key.c_str());
         store_bool(vm, "show-stay-action", sc->show_stay_action());
-        if(SQ_FAILED(sq_createslot(vm, -3)))
-        {
-          throw std::runtime_error("failed to create '" + name + "' table entry");
-        }
+        end_table(vm, key.c_str());
       }
-      if(SQ_FAILED(sq_createslot(vm, -3)))
-      {
-        throw std::runtime_error("failed to create '" + name + "' table entry");
-      }
+      end_table(vm, "sprite-changes");
     }
 
     // levels...
-    sq_pushstring(vm, "levels", -1);
-    sq_newtable(vm);
+    begin_table(vm, "levels");
 
     for(const auto& level : levels) {
-      sq_pushstring(vm, level->get_name().c_str(), -1);
-      sq_newtable(vm);
-
+      begin_table(vm, level->get_name().c_str());
       store_bool(vm, "solved", level->solved);
       store_bool(vm, "perfect", level->perfect);
       level->statistics.serialize_to_squirrel(vm);
-
-      if(SQ_FAILED(sq_createslot(vm, -3)))
-      {
-        throw std::runtime_error("failed to create '" + name + "' table entry");
-      }
+      end_table(vm, level->get_name().c_str());
     }
-
-    if(SQ_FAILED(sq_createslot(vm, -3)))
-    {
-      throw std::runtime_error("failed to create '" + name + "' table entry");
-    }
+    end_table(vm, "levels");
 
     // overall statistics...
     total_stats.serialize_to_squirrel(vm);
 
     // push world into worlds table
-    if(SQ_FAILED(sq_createslot(vm, -3)))
-    {
-      throw std::runtime_error("failed to create '" + name + "' table entry");
-    }
+    end_table(vm, map_filename.c_str());
   } catch(std::exception& ) {
     sq_settop(vm, oldtop);
   }

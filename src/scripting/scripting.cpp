@@ -88,10 +88,8 @@ Scripting::Scripting(bool enable_debugger)
     throw SquirrelError(global_vm, "Couldn't register string lib");
 
   // remove rand and srand calls from sqstdmath, we'll provide our own
-  sq_pushstring(global_vm, "srand", -1);
-  sq_deleteslot(global_vm, -2, SQFalse);
-  sq_pushstring(global_vm, "rand", -1);
-  sq_deleteslot(global_vm, -2, SQFalse);
+  scripting::delete_table_entry(global_vm, "srand");
+  scripting::delete_table_entry(global_vm, "rand");
 
   // register supertux API
   register_supertux_wrapper(global_vm);

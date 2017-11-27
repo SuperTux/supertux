@@ -95,6 +95,15 @@ static inline void unexpose_object(HSQUIRRELVM v, SQInteger table_idx,
 }
 
 // begin serialization functions
+void begin_table(HSQUIRRELVM vm, const char* name);
+void end_table(HSQUIRRELVM vm, const char* name);
+/**
+ * Creates an empty table with given name
+ * @param vm VM to create table on
+ * @param name Name of the table to create
+ */
+void create_empty_table(HSQUIRRELVM vm, const char* name);
+
 void store_float(HSQUIRRELVM vm, const char* name, float val);
 void store_int(HSQUIRRELVM vm, const char* name, int val);
 void store_string(HSQUIRRELVM vm, const char* name, const std::string& val);
@@ -118,6 +127,7 @@ bool read_bool(HSQUIRRELVM vm, const char* name);
 
 void get_table_entry(HSQUIRRELVM vm, const std::string& name);
 void get_or_create_table_entry(HSQUIRRELVM vm, const std::string& name);
+void delete_table_entry(HSQUIRRELVM vm, const char* name);
 std::vector<std::string> get_table_keys(HSQUIRRELVM vm);
 }
 
