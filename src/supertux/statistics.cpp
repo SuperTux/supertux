@@ -105,18 +105,21 @@ Statistics::serialize_to_squirrel(HSQUIRRELVM vm)
 void
 Statistics::unserialize_from_squirrel(HSQUIRRELVM vm)
 {
-  sq_pushstring(vm, "statistics", -1);
-  if(SQ_FAILED(sq_get(vm, -2))) {
-    return;
+  try
+  {
+    scripting::get_table_entry(vm, "statistics");
+    scripting::get_int(vm, "coins-collected", coins);
+    scripting::get_int(vm, "coins-collected-total", total_coins);
+    scripting::get_int(vm, "badguys-killed", badguys);
+    scripting::get_int(vm, "badguys-killed-total", total_badguys);
+    scripting::get_float(vm, "time-needed", time);
+    scripting::get_int(vm, "secrets-found", secrets);
+    scripting::get_int(vm, "secrets-found-total", total_secrets);
+    sq_pop(vm, 1);
   }
-  scripting::get_int(vm, "coins-collected", coins);
-  scripting::get_int(vm, "coins-collected-total", total_coins);
-  scripting::get_int(vm, "badguys-killed", badguys);
-  scripting::get_int(vm, "badguys-killed-total", total_badguys);
-  scripting::get_float(vm, "time-needed", time);
-  scripting::get_int(vm, "secrets-found", secrets);
-  scripting::get_int(vm, "secrets-found-total", total_secrets);
-  sq_pop(vm, 1);
+  catch(const std::exception& ex)
+  {
+  }
 }
 
 void
