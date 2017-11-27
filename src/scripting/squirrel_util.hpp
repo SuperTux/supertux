@@ -108,6 +108,7 @@ void store_float(HSQUIRRELVM vm, const char* name, float val);
 void store_int(HSQUIRRELVM vm, const char* name, int val);
 void store_string(HSQUIRRELVM vm, const char* name, const std::string& val);
 void store_bool(HSQUIRRELVM vm, const char* name, bool val);
+void store_object(HSQUIRRELVM vm, const char* name, const HSQOBJECT& val);
 
 bool has_float(HSQUIRRELVM vm, const char* name);
 bool has_int(HSQUIRRELVM vm, const char* name);

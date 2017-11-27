@@ -221,10 +221,7 @@ Sector::activate(const Vector& player_pos)
     // register sectortable as sector in scripting
     HSQUIRRELVM vm = scripting::global_vm;
     sq_pushroottable(vm);
-    sq_pushstring(vm, "sector", -1);
-    sq_pushobject(vm, sector_table);
-    if(SQ_FAILED(sq_createslot(vm, -3)))
-      throw scripting::SquirrelError(vm, "Couldn't set sector in roottable");
+    scripting::store_object(vm, "sector", sector_table);
     sq_pop(vm, 1);
 
     for(auto& object : gameobjects) {

@@ -853,10 +853,7 @@ WorldMap::setup()
   using namespace scripting;
 
   sq_pushroottable(global_vm);
-  sq_pushstring(global_vm, "worldmap", -1);
-  sq_pushobject(global_vm, worldmap_table);
-  if(SQ_FAILED(sq_createslot(global_vm, -3)))
-    throw SquirrelError(global_vm, "Couldn't set worldmap in roottable");
+  scripting::store_object(global_vm, "worldmap", worldmap_table);
   sq_pop(global_vm, 1);
 
   //Run default.nut just before init script

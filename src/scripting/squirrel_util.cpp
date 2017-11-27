@@ -408,6 +408,14 @@ void store_bool(HSQUIRRELVM vm, const char* name, bool val)
     throw scripting::SquirrelError(vm, "Couldn't add float value to table");
 }
 
+void store_object(HSQUIRRELVM vm, const char* name, const HSQOBJECT& val)
+{
+  sq_pushstring(vm, name, -1);
+  sq_pushobject(vm, val);
+  if(SQ_FAILED(sq_createslot(vm, -3)))
+    throw scripting::SquirrelError(vm, "Couldn't add object value to table");
+}
+
 bool has_float(HSQUIRRELVM vm, const char* name)
 {
   sq_pushstring(vm, name, -1);
