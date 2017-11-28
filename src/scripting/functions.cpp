@@ -144,17 +144,7 @@ void load_level(const std::string& filename)
 void import(HSQUIRRELVM vm, const std::string& filename)
 {
   IFileStream in(filename);
-
-  if(SQ_FAILED(sq_compile(vm, squirrel_read_char, &in,
-                          filename.c_str(), SQTrue)))
-    throw SquirrelError(vm, "Couldn't parse script");
-
-  sq_pushroottable(vm);
-  if(SQ_FAILED(sq_call(vm, 1, SQFalse, SQTrue))) {
-    sq_pop(vm, 1);
-    throw SquirrelError(vm, "Couldn't execute script");
-  }
-  sq_pop(vm, 1);
+  scripting::compile_and_run(vm, in, filename);
 }
 
 void debug_collrects(bool enable)
