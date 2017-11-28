@@ -291,9 +291,7 @@ Sector::deactivate()
   // remove sector entry from global vm
   HSQUIRRELVM vm = scripting::global_vm;
   sq_pushroottable(vm);
-  sq_pushstring(vm, "sector", -1);
-  if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
-    throw scripting::SquirrelError(vm, "Couldn't unset sector in roottable");
+  scripting::delete_table_entry(vm, "sector");
   sq_pop(vm, 1);
 
   for(const auto& object: gameobjects) {

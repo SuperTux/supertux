@@ -881,9 +881,7 @@ WorldMap::leave()
 
   // remove worldmap_table from roottable
   sq_pushroottable(global_vm);
-  sq_pushstring(global_vm, "worldmap", -1);
-  if(SQ_FAILED(sq_deleteslot(global_vm, -2, SQFalse)))
-    throw SquirrelError(global_vm, "Couldn't unset worldmap in roottable");
+  scripting::delete_table_entry(global_vm, "worldmap");
   sq_pop(global_vm, 1);
 
   GameManager::current()->load_next_worldmap();
