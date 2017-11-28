@@ -45,10 +45,16 @@ __attribute__((__format__ (__printf__, 2, 0)))
 void printfunc(HSQUIRRELVM, const char* fmt, ...)
 {
   char buf[4096];
+  char separator[] = "\n";
   va_list arglist;
   va_start(arglist, fmt);
   vsnprintf(buf, sizeof(buf), fmt, arglist);
-  ConsoleBuffer::output << "[SQUIRREL] " << (const char*) buf << std::flush;
+  char* ptr = strtok(buf, separator);
+  while(ptr != NULL)
+  {
+    ConsoleBuffer::output << "[SCRIPTING] " << ptr << std::endl;
+    ptr = strtok(NULL, separator);
+  }
   va_end(arglist);
 }
 
