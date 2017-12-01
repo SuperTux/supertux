@@ -20,6 +20,7 @@
 #include <sqstdblob.h>
 #include <sqstdmath.h>
 #include <sqstdstring.h>
+#include <string>
 #include <stdarg.h>
 #include <stdio.h>
 
