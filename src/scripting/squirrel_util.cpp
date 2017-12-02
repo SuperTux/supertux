@@ -426,12 +426,7 @@ bool has_property(HSQUIRRELVM vm, const char* name)
 
 float read_float(HSQUIRRELVM vm, const char* name)
 {
-  sq_pushstring(vm, name, -1);
-  if(SQ_FAILED(sq_get(vm, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't get float value for '" << name << "' from table";
-    throw scripting::SquirrelError(vm, msg.str());
-  }
+  get_table_entry(vm, name);
 
   float result;
   if(SQ_FAILED(sq_getfloat(vm, -1, &result))) {
@@ -446,12 +441,7 @@ float read_float(HSQUIRRELVM vm, const char* name)
 
 int read_int(HSQUIRRELVM vm, const char* name)
 {
-  sq_pushstring(vm, name, -1);
-  if(SQ_FAILED(sq_get(vm, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't get int value for '" << name << "' from table";
-    throw scripting::SquirrelError(vm, msg.str());
-  }
+  get_table_entry(vm, name);
 
   SQInteger result;
   if(SQ_FAILED(sq_getinteger(vm, -1, &result))) {
@@ -466,12 +456,7 @@ int read_int(HSQUIRRELVM vm, const char* name)
 
 std::string read_string(HSQUIRRELVM vm, const char* name)
 {
-  sq_pushstring(vm, name, -1);
-  if(SQ_FAILED(sq_get(vm, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't get string value for '" << name << "' from table";
-    throw scripting::SquirrelError(vm, msg.str());
-  }
+  get_table_entry(vm, name);
 
   const char* result;
   if(SQ_FAILED(sq_getstring(vm, -1, &result))) {
@@ -486,12 +471,7 @@ std::string read_string(HSQUIRRELVM vm, const char* name)
 
 bool read_bool(HSQUIRRELVM vm, const char* name)
 {
-  sq_pushstring(vm, name, -1);
-  if(SQ_FAILED(sq_get(vm, -2))) {
-    std::ostringstream msg;
-    msg << "Couldn't get bool value for '" << name << "' from table";
-    throw scripting::SquirrelError(vm, msg.str());
-  }
+  get_table_entry(vm, name);
 
   SQBool result;
   if(SQ_FAILED(sq_getbool(vm, -1, &result))) {
@@ -547,25 +527,14 @@ void get_table_entry(HSQUIRRELVM vm, const std::string& name)
 
 void get_or_create_table_entry(HSQUIRRELVM vm, const std::string& name)
 {
-  sq_pushstring(vm, name.c_str(), -1);
-  if(SQ_FAILED(sq_get(vm, -2)))
+  try
   {
-    sq_pushstring(vm, name.c_str(), -1);
-    sq_newtable(vm);
-    if(SQ_FAILED(sq_createslot(vm, -3)))
-    {
-      std::ostringstream msg;
-      msg << "failed to create '" << name << "' table entry";
-      throw scripting::SquirrelError(vm, msg.str());
-    }
-    else
-    {
-      get_table_entry(vm, name);
-    }
+    get_table_entry(vm, name);
   }
-  else
+  catch(std::exception& e)
   {
-    // successfully placed result on stack
+    create_empty_table(vm, name.c_str());
+    get_table_entry(vm, name);
   }
 }
 
