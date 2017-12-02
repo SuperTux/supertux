@@ -100,6 +100,12 @@ Config::load()
 
     config_video_lisp.get("fullscreen_width",  fullscreen_size.width);
     config_video_lisp.get("fullscreen_height", fullscreen_size.height);
+    if(fullscreen_size.width < 0 || fullscreen_size.height < 0)
+    {
+      // Somehow, an invalid size got entered into the config file,
+      // let's use the "auto" setting instead.
+      fullscreen_size = Size(0, 0);
+    }
     config_video_lisp.get("fullscreen_refresh_rate", fullscreen_refresh_rate);
 
     config_video_lisp.get("window_width",  window_size.width);
