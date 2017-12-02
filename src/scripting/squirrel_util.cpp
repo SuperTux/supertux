@@ -416,27 +416,12 @@ void store_object(HSQUIRRELVM vm, const char* name, const HSQOBJECT& val)
     throw scripting::SquirrelError(vm, "Couldn't add object value to table");
 }
 
-bool has_float(HSQUIRRELVM vm, const char* name)
+bool has_property(HSQUIRRELVM vm, const char* name)
 {
   sq_pushstring(vm, name, -1);
   if (SQ_FAILED(sq_get(vm, -2))) return false;
   sq_pop(vm, 1);
   return true;
-}
-
-bool has_int(HSQUIRRELVM vm, const char* name)
-{
-  return has_float(vm, name);
-}
-
-bool has_string(HSQUIRRELVM vm, const char* name)
-{
-  return has_float(vm, name);
-}
-
-bool has_bool(HSQUIRRELVM vm, const char* name)
-{
-  return has_float(vm, name);
 }
 
 float read_float(HSQUIRRELVM vm, const char* name)
@@ -520,25 +505,25 @@ bool read_bool(HSQUIRRELVM vm, const char* name)
 }
 
 bool get_float(HSQUIRRELVM vm, const char* name, float& val) {
-  if (!has_float(vm, name)) return false;
+  if (!has_property(vm, name)) return false;
   val = read_float(vm, name);
   return true;
 }
 
 bool get_int(HSQUIRRELVM vm, const char* name, int& val) {
-  if (!has_int(vm, name)) return false;
+  if (!has_property(vm, name)) return false;
   val = read_int(vm, name);
   return true;
 }
 
 bool get_string(HSQUIRRELVM vm, const char* name, std::string& val) {
-  if (!has_string(vm, name)) return false;
+  if (!has_property(vm, name)) return false;
   val = read_string(vm, name);
   return true;
 }
 
 bool get_bool(HSQUIRRELVM vm, const char* name, bool& val) {
-  if (!has_bool(vm, name)) return false;
+  if (!has_property(vm, name)) return false;
   val = read_bool(vm, name);
   return true;
 }
