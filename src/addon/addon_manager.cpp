@@ -498,13 +498,19 @@ AddonManager::disable_addon(const AddonId& addon_id)
 }
 
 bool
+AddonManager::is_old_enabled_addon(const std::unique_ptr<Addon>& addon) const
+{
+  return addon->get_format() == Addon::ORIGINAL &&
+         addon->get_type() != Addon::LANGUAGEPACK &&
+         addon->is_enabled();
+}
+
+bool
 AddonManager::is_old_addon_enabled() const {
   auto it = std::find_if(m_installed_addons.begin(), m_installed_addons.end(),
-                         [](const std::unique_ptr<Addon>& addon)
+                         [this](const std::unique_ptr<Addon>& addon)
                          {
-                           return addon->get_format() == Addon::ORIGINAL &&
-                                  addon->get_type() != Addon::LANGUAGEPACK &&
-                                  addon->is_enabled();
+                           return is_old_enabled_addon(addon);
                          });
 
   return it != m_installed_addons.end();
@@ -514,9 +520,7 @@ void
 AddonManager::disable_old_addons()
 {
   for (auto& addon : m_installed_addons) {
-    if (addon->get_format() == Addon::ORIGINAL &&
-        addon->get_type() != Addon::LANGUAGEPACK &&
-        addon->is_enabled()) {
+    if (is_old_enabled_addon(addon)) {
       disable_addon(addon->get_id());
     }
   }
@@ -527,9 +531,7 @@ AddonManager::mount_old_addons()
 {
   std::string mountpoint;
   for (auto& addon : m_installed_addons) {
-    if (addon->get_format() == Addon::ORIGINAL &&
-        addon->get_type() != Addon::LANGUAGEPACK &&
-        addon->is_enabled()) {
+    if (is_old_enabled_addon(addon)) {
       if (PHYSFS_mount(addon->get_install_filename().c_str(), mountpoint.c_str(), 0) == 0)
       {
         log_warning << "Could not add " << addon->get_install_filename() << " to search path: "
@@ -543,9 +545,7 @@ void
 AddonManager::unmount_old_addons()
 {
   for (auto& addon : m_installed_addons) {
-    if (addon->get_format() == Addon::ORIGINAL &&
-        addon->get_type() != Addon::LANGUAGEPACK &&
-        addon->is_enabled()) {
+    if (is_old_enabled_addon(addon)) {
       if (PHYSFS_unmount(addon->get_install_filename().c_str()) == 0)
       {
         log_warning << "Could not remove " << addon->get_install_filename() << " from search path: "
@@ -560,8 +560,7 @@ AddonManager::is_from_old_addon(const std::string& filename) const
 {
   std::string real_path = PHYSFS_getRealDir(filename.c_str());
   for (auto& addon : m_installed_addons) {
-    if (addon->get_format() == Addon::ORIGINAL &&
-        addon->is_enabled() &&
+    if (is_old_enabled_addon(addon) &&
         addon->get_install_filename() == real_path) {
       return true;
     }

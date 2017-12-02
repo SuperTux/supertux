@@ -75,6 +75,7 @@ public:
   void enable_addon(const AddonId& addon_id);
   void disable_addon(const AddonId& addon_id);
 
+  bool is_old_enabled_addon(const std::unique_ptr<Addon>& addon) const;
   bool is_old_addon_enabled() const;
   void disable_old_addons();
   void mount_old_addons();
