@@ -118,7 +118,7 @@ static std::vector<AddonId> get_addons(const AddonManager::AddonList& list)
 
 static PHYSFS_EnumerateCallbackResult add_to_dictionary_path(void *data, const char *origdir, const char *fname)
 {
-    std::string full_path = std::string(origdir) + "/" + std::string(fname);
+    std::string full_path = FileSystem::join(origdir, fname);
     if(PhysFSFileSystem::is_directory(full_path))
     {
         log_debug << "Adding \"" << full_path << "\" to dictionary search path" << std::endl;
@@ -130,7 +130,7 @@ static PHYSFS_EnumerateCallbackResult add_to_dictionary_path(void *data, const c
 
 static PHYSFS_EnumerateCallbackResult remove_from_dictionary_path(void *data, const char *origdir, const char *fname)
 {
-    std::string full_path = std::string(origdir) + "/" + std::string(fname);
+    std::string full_path = FileSystem::join(origdir, fname);
     if(PhysFSFileSystem::is_directory(full_path))
     {
         g_dictionary_manager->remove_directory(full_path);
