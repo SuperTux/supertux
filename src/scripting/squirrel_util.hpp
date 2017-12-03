@@ -70,7 +70,21 @@ void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
                    const std::string& name, bool free = false)
 {
   using namespace Sqrat;
-  RootTable(v).SetInstance(name.c_str(), object);
+  bool hasSectorTable = true;
+  Table sectorTable = RootTable(v).GetSlot("sector");
+  if(sectorTable.IsNull())
+  {
+    hasSectorTable = false;
+    sectorTable = Table(v);
+  }
+
+  sectorTable.SetInstance(name.c_str(), object);
+
+  if(!hasSectorTable)
+  {
+    RootTable(v).Bind("sector", sectorTable);
+  }
+
 }
 
 static inline void unexpose_object(HSQUIRRELVM v, SQInteger table_idx,

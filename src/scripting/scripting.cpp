@@ -172,7 +172,7 @@ Scripting::register_scripting_class(HSQUIRRELVM v, const std::string& name)
   {
     SQRatObject<T>::register_exposed_methods(v, sqratClass);
   }
-  RootTable(v).Bind(("sqratclass_" + name).c_str(), sqratClass);
+  RootTable(v).Bind(name.c_str(), sqratClass);
 }
 
 void
