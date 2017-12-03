@@ -33,6 +33,8 @@ public:
   ~Scripting();
 
   void update_debugger();
+  void register_global_constants(HSQUIRRELVM v);
+  void register_global_functions(HSQUIRRELVM v);
   void register_scripting_classes(HSQUIRRELVM v);
   template<class T>
   void register_scripting_class(HSQUIRRELVM v, const std::string& name);

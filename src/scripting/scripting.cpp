@@ -24,6 +24,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#include "object/anchor_point.hpp"
 #include "physfs/ifile_stream.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
@@ -99,10 +100,12 @@ Scripting::Scripting(bool enable_debugger)
   scripting::delete_table_entry(global_vm, "srand");
   scripting::delete_table_entry(global_vm, "rand");
 
+  register_global_constants(global_vm);
+  register_global_functions(global_vm);
   register_scripting_classes(global_vm);
 
   // register supertux API
-  register_supertux_wrapper(global_vm);
+  //register_supertux_wrapper(global_vm);
 
   sq_pop(global_vm, 1);
 
@@ -134,6 +137,72 @@ Scripting::~Scripting()
     sq_close(global_vm);
 
   global_vm = NULL;
+}
+
+void
+Scripting::register_global_constants(HSQUIRRELVM vm)
+{
+  using namespace Sqrat;
+  ConstTable(vm).Const("ANCHOR_H_MASK", AnchorPoint::ANCHOR_H_MASK);
+  ConstTable(vm).Const("ANCHOR_TOP", AnchorPoint::ANCHOR_TOP);
+  ConstTable(vm).Const("ANCHOR_BOTTOM", AnchorPoint::ANCHOR_BOTTOM);
+  ConstTable(vm).Const("ANCHOR_V_MASK", AnchorPoint::ANCHOR_V_MASK);
+  ConstTable(vm).Const("ANCHOR_LEFT", AnchorPoint::ANCHOR_LEFT);
+  ConstTable(vm).Const("ANCHOR_RIGHT", AnchorPoint::ANCHOR_RIGHT);
+  ConstTable(vm).Const("ANCHOR_MIDDLE", AnchorPoint::ANCHOR_MIDDLE);
+  ConstTable(vm).Const("ANCHOR_TOP_LEFT", AnchorPoint::ANCHOR_TOP_LEFT);
+  ConstTable(vm).Const("ANCHOR_TOP_RIGHT", AnchorPoint::ANCHOR_TOP_RIGHT);
+  ConstTable(vm).Const("ANCHOR_BOTTOM_LEFT", AnchorPoint::ANCHOR_BOTTOM_LEFT);
+  ConstTable(vm).Const("ANCHOR_BOTTOM_RIGHT", AnchorPoint::ANCHOR_BOTTOM_RIGHT);
+}
+
+void
+Scripting::register_global_functions(HSQUIRRELVM vm)
+{
+  using namespace Sqrat;
+  RootTable(vm).Func("is_christmas", &is_christmas_as_bool);
+  RootTable(vm).Func("exit_screen", &exit_screen);
+  RootTable(vm).Func("fadeout_screen", &fadeout_screen);
+  RootTable(vm).Func("shrink_screen", &shrink_screen);
+  RootTable(vm).Func("abort_screenfade", &abort_screenfade);
+  RootTable(vm).Func("translate", &translate);
+  RootTable(vm).Func("_", &_);
+  RootTable(vm).Func("display_text_file", &display_text_file);
+  RootTable(vm).Func("load_worldmap", &load_worldmap);
+  RootTable(vm).Func("set_next_worldmap", &set_next_worldmap);
+  RootTable(vm).Func("load_level", &load_level);
+  // TODO: IMPORT FUNC
+  //RootTable(vm).Func("import", &import);
+  RootTable(vm).Func("debug_collrects", &debug_collrects);
+  RootTable(vm).Func("debug_show_fps", &debug_show_fps);
+  RootTable(vm).Func("debug_draw_solids_only", &debug_draw_solids_only);
+  RootTable(vm).Func("debug_draw_editor_images", &debug_draw_editor_images);
+  RootTable(vm).Func("debug_worldmap_ghost", &debug_worldmap_ghost);
+  RootTable(vm).Func("save_state", &save_state);
+  RootTable(vm).Func("load_state", &load_state);
+  RootTable(vm).Func("play_music", &play_music);
+  RootTable(vm).Func("play_sound", &play_sound);
+  RootTable(vm).Func("grease", &grease);
+  RootTable(vm).Func("invincible", &invincible);
+  RootTable(vm).Func("ghost", &ghost);
+  RootTable(vm).Func("mortal", &mortal);
+  RootTable(vm).Func("restart", &restart);
+  RootTable(vm).Func("whereami", &whereami);
+  RootTable(vm).Func("gotoend", &gotoend);
+  RootTable(vm).Func("warp", &warp);
+  RootTable(vm).Func("camera", &camera);
+  RootTable(vm).Func("set_gamma", &set_gamma);
+  RootTable(vm).Func("quit", &quit);
+  RootTable(vm).Func("rand", &rand);
+  RootTable(vm).Func("set_game_speed", &set_game_speed);
+  RootTable(vm).Func("record_demo", &record_demo);
+  RootTable(vm).Func("play_demo", &play_demo);
+
+  RootTable(vm).Func("Level_finish", &Level_finish);
+  RootTable(vm).Func("Level_spawn", &Level_spawn);
+  RootTable(vm).Func("Level_flip_vertically", &Level_flip_vertically);
+  RootTable(vm).Func("Level_toggle_pause", &Level_toggle_pause);
+  RootTable(vm).Func("Level_edit", &Level_edit);
 }
 
 void

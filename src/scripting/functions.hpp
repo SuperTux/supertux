@@ -48,6 +48,11 @@ SQInteger get_current_thread(HSQUIRRELVM vm) __custom("t");
 SQInteger is_christmas(HSQUIRRELVM vm) __custom("t");
 
 /**
+ * Returns true if we're currently in christmas mode
+ */
+bool is_christmas_as_bool();
+
+/**
  * Display a text file and scrolls it over the screen (on next screenswitch)
  */
 void display_text_file(const std::string& filename);
