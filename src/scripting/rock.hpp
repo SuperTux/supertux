@@ -18,17 +18,26 @@
 #define HEADER_SUPERTUX_SCRIPTING_ROCK_HPP
 
 #ifndef SCRIPTING_API
+#include "scripting/sqrat_object.hpp"
+
 class Rock;
 #endif
 
 namespace scripting {
 
+#ifdef SCRIPTING_API
 class Rock
+#else
+class Rock : SQRatObject<Rock>
+#endif
 {
 public:
 #ifndef SCRIPTING_API
   Rock(::Rock* rock_) : rock(rock_) {}
   ~Rock() {}
+  static void register_exposed_methods(HSQUIRRELVM v, SQRatClassType squirrelClass)
+  {
+  }
   ::Rock* rock;
 
 private:

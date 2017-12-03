@@ -162,6 +162,7 @@ void
 Scripting::register_global_functions(HSQUIRRELVM vm)
 {
   using namespace Sqrat;
+  // TODO: display, print_stacktrace, get_current_thread, wait, wait_for_screenswitch, ...
   RootTable(vm).Func("is_christmas", &is_christmas_as_bool);
   RootTable(vm).Func("exit_screen", &exit_screen);
   RootTable(vm).Func("fadeout_screen", &fadeout_screen);
@@ -220,6 +221,7 @@ Scripting::register_scripting_classes(HSQUIRRELVM vm)
   register_scripting_class<scripting::ParticleSystem>(vm, "ParticleSystem");
   register_scripting_class<scripting::Platform>(vm, "Platform");
   register_scripting_class<scripting::Player>(vm, "Player");
+  register_scripting_class<scripting::Rock>(vm, "Rock");
   register_scripting_class<scripting::ScriptedObject>(vm, "ScriptedObject");
   register_scripting_class<scripting::Sector>(vm, "Sector");
   register_scripting_class<scripting::Text>(vm, "Text");
