@@ -96,6 +96,8 @@ Scripting::Scripting(bool enable_debugger)
   if(SQ_FAILED(sqstd_register_stringlib(global_vm)))
     throw SquirrelError(global_vm, "Couldn't register string lib");
 
+  Sqrat::DefaultVM::Set(global_vm);
+
   // remove rand and srand calls from sqstdmath, we'll provide our own
   scripting::delete_table_entry(global_vm, "srand");
   scripting::delete_table_entry(global_vm, "rand");
@@ -171,8 +173,7 @@ Scripting::register_global_functions(HSQUIRRELVM vm)
   RootTable(vm).Func("load_worldmap", &load_worldmap);
   RootTable(vm).Func("set_next_worldmap", &set_next_worldmap);
   RootTable(vm).Func("load_level", &load_level);
-  // TODO: IMPORT FUNC
-  //RootTable(vm).Func("import", &import);
+  RootTable(vm).Func("import", &import_script);
   RootTable(vm).Func("debug_collrects", &debug_collrects);
   RootTable(vm).Func("debug_show_fps", &debug_show_fps);
   RootTable(vm).Func("debug_draw_solids_only", &debug_draw_solids_only);

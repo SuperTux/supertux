@@ -32,6 +32,7 @@
 #include "supertux/textscroller.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/world.hpp"
+#include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
@@ -150,6 +151,22 @@ void import(HSQUIRRELVM vm, const std::string& filename)
 {
   IFileStream in(filename);
   scripting::compile_and_run(vm, in, filename);
+}
+
+void import_script(const std::string& filename)
+{
+  using namespace Sqrat;
+  try {
+    IFileStream in(filename);
+    std::string script_content(std::istreambuf_iterator<char>(in), {});
+    Script script;
+    script.CompileString(script_content);
+    script.Run();
+  }
+  catch(Exception& e)
+  {
+    log_warning << "Error running script: " << e.Message() << std::endl;
+  }
 }
 
 void debug_collrects(bool enable)

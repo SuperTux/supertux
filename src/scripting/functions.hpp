@@ -117,6 +117,7 @@ std::string _(const std::string& text);
  * functions from external files.
  */
 void import(HSQUIRRELVM v, const std::string& filename);
+void import_script(const std::string& filename);
 
 /**
  * Save world state to scripting table

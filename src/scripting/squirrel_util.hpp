@@ -90,7 +90,7 @@ void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
 static inline void unexpose_object(HSQUIRRELVM v, SQInteger table_idx,
                                    const std::string& name)
 {
-  sq_pushstring(v, name.c_str(), name.length());
+  /*sq_pushstring(v, name.c_str(), name.length());
 
   if(table_idx < 0)
     table_idx -= 1;
@@ -99,7 +99,7 @@ static inline void unexpose_object(HSQUIRRELVM v, SQInteger table_idx,
     std::ostringstream msg;
     msg << "Couldn't unregister object '" << name << "' in squirrel root table";
     throw scripting::SquirrelError(v, msg.str());
-  }
+  }*/
 }
 
 // begin serialization functions
