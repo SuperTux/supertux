@@ -163,7 +163,10 @@ WorldMap::add_object(GameObjectPtr object)
 void
 WorldMap::try_expose(const GameObjectPtr& object)
 {
-  scripting::try_expose(object, worldmap_table);
+  scripting::try_expose(object, "worldmap");
+  sq_pushroottable(scripting::global_vm);
+  scripting::store_object(scripting::global_vm, "worldmap", worldmap_table);
+  sq_pop(scripting::global_vm, 1);
 }
 
 void

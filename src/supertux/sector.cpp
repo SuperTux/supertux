@@ -492,7 +492,7 @@ Sector::before_object_add(GameObjectPtr object)
 void
 Sector::try_expose(GameObjectPtr object)
 {
-  scripting::try_expose(object, sector_table);
+  scripting::try_expose(object, "sector");
 }
 
 void
@@ -501,7 +501,7 @@ Sector::try_expose_me()
   HSQUIRRELVM vm = scripting::global_vm;
   sq_pushobject(vm, sector_table);
   auto obj = new scripting::Sector(this);
-  expose_object(vm, -1, obj, "settings", true);
+  expose_object(vm, "sector", obj, "settings", true);
   sq_pop(vm, 1);
 }
 

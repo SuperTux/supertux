@@ -63,7 +63,7 @@ public:
    * @param vm The squirrel virtual machine to expose the object on
    * @param table_idx Index of the table to expose the object on
    */
-  void expose(HSQUIRRELVM vm, SQInteger table_idx)
+  void expose(HSQUIRRELVM vm, const std::string& tableName)
   {
     auto name = m_parent->get_name();
     if (name.empty())
@@ -74,7 +74,7 @@ public:
     log_debug << "Exposing " << m_parent->get_class() << " object " << name << std::endl;
 
     auto object = new T(m_parent);
-    scripting::expose_object(vm, table_idx, object, name, true);
+    scripting::expose_object(vm, tableName, object, name, true);
   }
 
   /**

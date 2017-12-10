@@ -45,7 +45,7 @@ HSQOBJECT create_thread(HSQUIRRELVM vm);
 SQObject vm_to_object(HSQUIRRELVM vm);
 HSQUIRRELVM object_to_vm(HSQOBJECT object);
 
-void try_expose(const GameObjectPtr& object, const HSQOBJECT& table);
+void try_expose(const GameObjectPtr& object, const std::string& tableName);
 void try_unexpose(const GameObjectPtr& object, const HSQOBJECT& table);
 
 HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
@@ -66,23 +66,23 @@ void compile_and_run(HSQUIRRELVM vm, std::istream& in,
 void release_scripts(HSQUIRRELVM vm, ScriptList& scripts, HSQOBJECT& root_table);
 
 template<class T>
-void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
+void expose_object(HSQUIRRELVM v, const std::string& tableName, T* object,
                    const std::string& name, bool free = false)
 {
   using namespace Sqrat;
-  bool hasSectorTable = true;
-  Table sectorTable = RootTable(v).GetSlot("sector");
-  if(sectorTable.IsNull())
+  bool hasTargetTable = true;
+  Table targetTable = RootTable(v).GetSlot(tableName.c_str());
+  if(targetTable.IsNull())
   {
-    hasSectorTable = false;
-    sectorTable = Table(v);
+    hasTargetTable = false;
+    targetTable = Table(v);
   }
 
-  sectorTable.SetInstance(name.c_str(), object);
+  targetTable.SetInstance(name.c_str(), object);
 
-  if(!hasSectorTable)
+  if(!hasTargetTable)
   {
-    RootTable(v).Bind("sector", sectorTable);
+    RootTable(v).Bind(tableName.c_str(), targetTable);
   }
 
 }

@@ -222,14 +222,11 @@ SQInteger squirrel_read_char(SQUserPointer file)
   return c;
 }
 
-void try_expose(const GameObjectPtr& object, const HSQOBJECT& table)
+void try_expose(const GameObjectPtr& object, const std::string& tableName)
 {
   auto object_ = dynamic_cast<ScriptInterface*>(object.get());
   if(object_ != NULL) {
-    HSQUIRRELVM vm = scripting::global_vm;
-    sq_pushobject(vm, table);
-    object_->expose(vm, -1);
-    sq_pop(vm, 1);
+    object_->expose(scripting::global_vm, tableName);
   }
 }
 
