@@ -99,7 +99,6 @@ Yeti::~Yeti()
 void
 Yeti::initialize()
 {
-  dir = RIGHT;
   jump_down();
 }
 
