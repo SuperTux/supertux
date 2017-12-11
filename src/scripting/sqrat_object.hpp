@@ -41,6 +41,10 @@ public:
         T::register_exposed_methods(v, squirrelClass);
     };
 
+    virtual ~SQRatObject()
+    {
+    }
+
 private:
     SQRatObject(const SQRatObject&) = delete;
     SQRatObject& operator=(const SQRatObject&) = delete;
