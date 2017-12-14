@@ -98,7 +98,7 @@ DownloadDialog::on_download_complete()
   }
 
   clear_buttons();
-  add_button(_("Close"), [this]{
+  add_button(_("Close"), [] {
       MenuManager::instance().set_dialog({});
     });
 }
