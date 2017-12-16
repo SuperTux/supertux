@@ -1109,7 +1109,7 @@ HSQUIRRELVM
 WorldMap::run_script(std::istream& in, const std::string& sourcename)
 {
   try {
-    return scripting::run_script(in, sourcename, scripts, &worldmap_table);
+    return scripting::run_script(in, sourcename, scripts, "worldmap");
   }
   catch(const std::exception& e)
   {

@@ -161,13 +161,13 @@ Sector::run_script(const std::string& script, const std::string& sourcename)
 HSQUIRRELVM
 Sector::run_script(std::istream& in, const std::string& sourcename)
 {
+  auto source_desc = "Sector " + name + " - " + sourcename;
   try {
-    return scripting::run_script(in, "Sector " + name + " - " + sourcename,
-                                 scripts, &sector_table);
+    return scripting::run_script(in, source_desc, scripts, "sector");
   }
   catch(const std::exception& e)
   {
-    log_warning << "Error running sector script: " << e.what() << std::endl;
+    log_warning << "Error running sector script " << source_desc << ": " << e.what() << std::endl;
     return NULL;
   }
 }

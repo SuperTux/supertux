@@ -247,7 +247,7 @@ void try_unexpose(const GameObjectPtr& object, const HSQOBJECT& table)
 }
 
 HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
-                       ScriptList& scripts, const HSQOBJECT* root_table)
+                       ScriptList& scripts, const std::string& customRootTableName)
 {
     // garbage collect thread list
     for(auto i = scripts.begin(); i != scripts.end(); ) {
@@ -268,14 +268,7 @@ HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
 
     HSQUIRRELVM vm = object_to_vm(object);
 
-    // set root table
-    if(root_table != NULL)
-    {
-      sq_pushobject(vm, *root_table);
-      sq_setroottable(vm);
-    }
-
-    compile_and_run(vm, in, sourcename);
+    compile_and_run(vm, in, sourcename, customRootTableName);
 
     return vm;
 }
@@ -287,24 +280,25 @@ void compile_script(HSQUIRRELVM vm, std::istream& in, const std::string& sourcen
 }
 
 void compile_and_run(HSQUIRRELVM vm, std::istream& in,
-                     const std::string& sourcename)
+                     const std::string& sourcename, const std::string& customRootTableName)
 {
-  compile_script(vm, in, sourcename);
-
-  SQInteger oldtop = sq_gettop(vm);
-
+  using namespace Sqrat;
   try {
-    sq_pushroottable(vm);
-    if(SQ_FAILED(sq_call(vm, 1, SQFalse, SQTrue)))
-      throw SquirrelError(vm, "Couldn't start script");
-  } catch(...) {
-    sq_settop(vm, oldtop);
-    throw;
+    std::string script_content(std::istreambuf_iterator<char>(in), {});
+    Script script;
+    script.CompileString(script_content);
+    if(customRootTableName.empty())
+    {
+      script.Run();
+    }
+    else
+    {
+      script.RunWithCustomRootTable(customRootTableName);
+    }
   }
-
-  // we can remove the closure in case the script was not suspended
-  if(sq_getvmstate(vm) != SQ_VMSTATE_SUSPENDED) {
-    sq_settop(vm, oldtop-1);
+  catch(Exception& e)
+  {
+    log_warning << "Error running script: " << e.Message() << std::endl;
   }
 }
 

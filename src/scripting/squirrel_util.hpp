@@ -49,12 +49,12 @@ void try_expose(const GameObjectPtr& object, const std::string& tableName);
 void try_unexpose(const GameObjectPtr& object, const HSQOBJECT& table);
 
 HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename,
-                       ScriptList& scripts, const HSQOBJECT* root_table);
+                       ScriptList& scripts, const std::string& customRootTableName = "");
 
 void compile_script(HSQUIRRELVM vm, std::istream& in,
                     const std::string& sourcename);
 void compile_and_run(HSQUIRRELVM vm, std::istream& in,
-                     const std::string& sourcename);
+                     const std::string& sourcename, const std::string& customRootTableName = "");
 
 /**
  * Deletes the provided scripts from memory, freeing any resources
@@ -70,19 +70,26 @@ void expose_object(HSQUIRRELVM v, const std::string& tableName, T* object,
                    const std::string& name, bool free = false)
 {
   using namespace Sqrat;
-  bool hasTargetTable = true;
-  Table targetTable = RootTable(v).GetSlot(tableName.c_str());
-  if(targetTable.IsNull())
+  if(!tableName.empty())
   {
-    hasTargetTable = false;
-    targetTable = Table(v);
+    bool hasTargetTable = true;
+    Table targetTable = RootTable(v).GetSlot(tableName.c_str());
+    if(targetTable.IsNull())
+    {
+      hasTargetTable = false;
+      targetTable = Table(v);
+    }
+
+    targetTable.SetInstance(name.c_str(), object);
+
+    if(!hasTargetTable)
+    {
+      RootTable(v).Bind(tableName.c_str(), targetTable);
+    }
   }
-
-  targetTable.SetInstance(name.c_str(), object);
-
-  if(!hasTargetTable)
+  else
   {
-    RootTable(v).Bind(tableName.c_str(), targetTable);
+    RootTable(v).SetInstance(name.c_str(), object);
   }
 
 }
