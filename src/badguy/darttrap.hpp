@@ -48,6 +48,7 @@ protected:
   void fire(); /**< fire a shot */
 
 private:
+  bool enabled; /** Is DartTrap enabled **/
   float initial_delay; /**< time to wait before firing first shot */
   float fire_delay; /**< reload time */
   int ammo; /**< ammo left (-1 means unlimited) */

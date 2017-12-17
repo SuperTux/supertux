@@ -29,12 +29,14 @@ const float MUZZLE_Y = 25; /**< [px] muzzle y-offset from top */
 
 DartTrap::DartTrap(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", LAYER_TILES-1),
+  enabled(true),
   initial_delay(),
   fire_delay(),
   ammo(),
   state(IDLE),
   fire_timer()
 {
+  reader.get("enabled", enabled, true);
   reader.get("initial-delay", initial_delay, 0);
   reader.get("fire-delay", fire_delay, 2);
   reader.get("ammo", ammo, -1);
@@ -67,6 +69,9 @@ DartTrap::collision_player(Player& , const CollisionHit& )
 void
 DartTrap::active_update(float )
 {
+  if(!enabled) {
+    return;
+  }
   switch (state) {
     case IDLE:
       if ((ammo != 0) && (fire_timer.check())) {
@@ -112,6 +117,8 @@ DartTrap::fire()
 ObjectSettings
 DartTrap::get_settings() {
   ObjectSettings result = BadGuy::get_settings();
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Enabled"), &enabled,
+                                         "enabled"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Initial delay"), &initial_delay,
                                          "initial-delay"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Fire delay"), &fire_delay,
