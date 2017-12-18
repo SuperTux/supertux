@@ -20,8 +20,6 @@
 
 
 #include "scripting/scripting.hpp"
-// TODO: Configure using CMake
-#include "../../external/sqrat/include/sqrat.h"
 
 /**
  * This class defines scripting classes that have the available method to implement SQRat

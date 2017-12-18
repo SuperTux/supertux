@@ -19,6 +19,7 @@
 
 #include <string>
 #include <squirrel.h>
+#include <sqrat.h>
 
 #include "util/currenton.hpp"
 

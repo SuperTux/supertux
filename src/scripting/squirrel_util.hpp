@@ -25,9 +25,6 @@
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
 
-// TODO: Configure using CMake
-#include "../../external/sqrat/include/sqrat.h"
-
 #include "supertux/game_object_ptr.hpp"
 
 class GameObject;
