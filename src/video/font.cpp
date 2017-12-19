@@ -79,7 +79,13 @@ Font::Font(GlyphWidth glyph_width_,
   for (char **i = rc; *i != NULL; i++) {
     std::string filename_(*i);
     if( filename_.rfind(fontname) != std::string::npos ) {
-      loadFontFile(fontdir + filename_);
+      try {
+        loadFontFile(fontdir + filename_);
+      }
+      catch(const std::exception& e)
+      {
+        log_fatal << "Couldn't load font file: " << e.what() << std::endl;
+      }
     }
   }
   PHYSFS_freeList(rc);
