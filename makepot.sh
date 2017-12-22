@@ -13,7 +13,7 @@ for LEVELSET in $(ls data/levels); do
   for SCRIPT_FILE in $SCRIPT_FILES; do
     name=$(basename ${SCRIPT_FILE})
     name=${name/.nut/}
-    python ./extract_strings.py ${SCRIPT_FILE} data/levels/$LEVELSET/scripts_${name}.txt
+    python tools/extract_strings.py ${SCRIPT_FILE} data/levels/$LEVELSET/scripts_${name}.txt
   done
 done
 
