@@ -50,7 +50,7 @@ Firefly::Firefly(const ReaderMapping& lisp) :
     if( sprite_name.find("vbell", 0) != std::string::npos ) {
       SoundManager::current()->preload("sounds/savebell_low.wav");
     }
-    else if( sprite_name.find("torch, 0") != std::string::npos ) {
+    else if( sprite_name.find("torch", 0) != std::string::npos ) {
       SoundManager::current()->preload("sounds/fire.ogg");
     }
     else {
