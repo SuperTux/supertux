@@ -29,6 +29,7 @@
 
 Firefly::Firefly(const ReaderMapping& lisp) :
    MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
+   m_sprite_light(),
    activated(false),
    initial_position(get_pos())
 {
@@ -44,6 +45,12 @@ Firefly::Firefly(const ReaderMapping& lisp) :
   //Replace sprite
   sprite = SpriteManager::current()->create( sprite_name );
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+
+  if (sprite_name.find("torch", 0) != std::string::npos) {
+    m_sprite_light = SpriteManager::current()->create("images/objects/torch/flame_light.sprite");
+    m_sprite_light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+  }
+
   reactivate();
 
   //Load sound
@@ -56,6 +63,20 @@ Firefly::Firefly(const ReaderMapping& lisp) :
     else {
       SoundManager::current()->preload("sounds/savebell2.wav");
     }
+}
+
+void
+Firefly::draw(DrawingContext& context)
+{
+  MovingSprite::draw(context);
+
+  if (sprite_name.find("torch", 0) != std::string::npos && (activated ||
+        sprite->get_action() == "ringing")) {
+    context.push_target();
+    context.set_target(DrawingContext::LIGHTMAP);
+    m_sprite_light->draw(context, get_pos(), 0);
+    context.pop_target();
+  }
 }
 
 void
