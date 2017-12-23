@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2017 M. Teufel <mteufel@supertux.org>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,6 +23,7 @@
 #include "util/reader_mapping.hpp"
 
 Torch::Torch(const ReaderMapping& reader) :
+  ExposedObject<Torch, scripting::Torch>(this),
   m_torch(),
   m_flame(SpriteManager::current()->create("images/objects/torch/flame.sprite")),
   m_flame_glow(SpriteManager::current()->create("images/objects/torch/flame_glow.sprite")),
@@ -31,6 +33,8 @@ Torch::Torch(const ReaderMapping& reader) :
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
+
+  reader.get("name", name, "");
 
   reader.get("sprite", sprite_name);
   reader.get("burning", m_burning, true);
@@ -94,6 +98,19 @@ ObjectSettings Torch::get_settings()
 void Torch::after_editor_set()
 {
   m_torch = SpriteManager::current()->create(sprite_name);
+}
+
+bool
+Torch::get_burning() const
+{
+  return m_burning;
+}
+
+void
+Torch::set_burning(bool burning_)
+{
+  if (this->m_burning == burning_) { return; }
+  this->m_burning = burning_;
 }
 
 /* EOF */

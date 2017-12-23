@@ -44,6 +44,8 @@ class Thunderstorm;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Thunderstorm* object, bool setup_releasehook = false);
 class TileMap;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::TileMap* object, bool setup_releasehook = false);
+class Torch;
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Torch* object, bool setup_releasehook = false);
 class WillOWisp;
 void create_squirrel_instance(HSQUIRRELVM v, scripting::WillOWisp* object, bool setup_releasehook = false);
 class Wind;

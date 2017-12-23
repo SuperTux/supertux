@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2017 M. Teufel <mteufel@supertux.org>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,12 +20,15 @@
 
 #include <memory>
 
+#include "scripting/exposed_object.hpp"
+#include "scripting/torch.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
 
 class ReaderMapping;
 
-class Torch : public MovingObject
+class Torch : public MovingObject,
+              public ExposedObject<Torch, scripting::Torch>
 {
 public:
   Torch(const ReaderMapping& reader);
@@ -33,6 +37,18 @@ public:
   void update(float) override;
 
   HitResponse collision(GameObject& other, const CollisionHit& ) override;
+
+  /**
+   * @name Scriptable Methods
+   * @{
+   */
+  bool get_burning() const; /**< returns true if torch is lighted */
+  void set_burning(bool burning_); /**< true: light torch, false: extinguish
+                                     torch */
+  /**
+   * @}
+   */
+
   std::string get_class() const override {
     return "torch";
   }

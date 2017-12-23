@@ -19,6 +19,7 @@
 #include "scripting/text.hpp"
 #include "scripting/thunderstorm.hpp"
 #include "scripting/tilemap.hpp"
+#include "scripting/torch.hpp"
 #include "scripting/willowisp.hpp"
 #include "scripting/wind.hpp"
 
