@@ -229,9 +229,6 @@
     (class "trampoline")
     (icon "images/objects/trampoline/trampoline1-0.png"))
   (object
-    (class "torch")
-    (icon "images/objects/torch/torch1.png"))
-  (object
     (class "unstable_tile")
     (icon "images/objects/unstable_tile/snow-3.png"))
   (object
@@ -254,6 +251,9 @@
   (object
     (class "candle")
     (icon "images/objects/candle/candle-1.png"))
+  (object
+    (class "torch")
+    (icon "images/objects/torch/torch1.png"))
   (object
     (class "lantern")
     (icon "images/objects/lantern/lantern-1.png"))
