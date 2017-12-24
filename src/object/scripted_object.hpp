@@ -67,6 +67,7 @@ private:
   bool solid;
   bool physic_enabled;
   bool visible;
+  std::string hit_script;
   bool new_vel_set;
   Vector new_vel;
   Vector new_size;

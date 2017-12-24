@@ -19,9 +19,11 @@
 #include <stdio.h>
 
 #include "math/random_generator.hpp"
+#include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
@@ -33,6 +35,7 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   solid(),
   physic_enabled(),
   visible(),
+  hit_script(),
   new_vel_set(false),
   new_vel(),
   new_size()
@@ -46,6 +49,7 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   lisp.get("solid", solid, true);
   lisp.get("physic-enabled", physic_enabled, true);
   lisp.get("visible", visible, true);
+  lisp.get("hit-script", hit_script, "");
   layer = reader_get_layer (lisp, /* default = */ LAYER_OBJECTS);
   if( solid ){
     set_group( COLGROUP_MOVING_STATIC );
@@ -63,6 +67,8 @@ ScriptedObject::get_settings() {
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid, "solid"));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Enabled physics"), &physic_enabled, "physic-enabled"));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Visible"), &visible, "visible"));
+  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Hit script"),
+        &hit_script, "hit-script"));
 
   return result;
 }
@@ -204,8 +210,13 @@ ScriptedObject::collision_solid(const CollisionHit& hit)
 }
 
 HitResponse
-ScriptedObject::collision(GameObject& , const CollisionHit& )
+ScriptedObject::collision(GameObject& other, const CollisionHit& )
 {
+  auto player = dynamic_cast<Player*> (&other);
+  if (player && !hit_script.empty()) {
+    Sector::current()->run_script(hit_script, "hit-script");
+  }
+
   return FORCE_MOVE;
 }
 
