@@ -1,6 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
-//  Copyright (C) 2016 M. Teufel <mteufel@urandom.eu.org>
+//  Copyright (C) 2016 M. Teufel <mteufel@supertux.org>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
