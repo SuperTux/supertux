@@ -68,7 +68,7 @@ class FontGenerator(object):
         cr.select_font_face(self.font_family, cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL)
         cr.set_font_size(self.font_size)
 
-        fascent, fdescent, fheight, fxadvance, fyadvance = cr.font_extents()
+        fascent, fdescent, fheight, fyadvance = cr.font_extents()
 
         print self.glyph_height, fheight
 
@@ -78,7 +78,7 @@ class FontGenerator(object):
 
                 if idx < len(self.letters):
                     letter = self.letters[idx]
-                    xbearing, ybearing, width, height, xadvance, yadvance = cr.text_extents(letter)
+                    xbearing, ybearing, width, height, yadvance = cr.text_extents(letter)
 
                     #cr.move_to(cx + 0.5 - xbearing - width / 2,
                     #           0.5 - fdescent + fheight / 2)
