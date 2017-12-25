@@ -66,8 +66,6 @@ if ! type advpng > /dev/null 2>&1; then
 	exit 1
 fi
 
-TMPPATH="$$.png-recompress"
-
 echo -e "Please wait, this can take a \e[1mlong\e[0m time."
 
 dooptipng() {

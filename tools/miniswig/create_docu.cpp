@@ -10,8 +10,6 @@
 void
 DocuCreator::create_docu(Namespace* ns)
 {
-    std::string fromfile = original_file != "" ? original_file : inputfile;
-
     writer.openTag("documentation");
     writer.openTag("namespace");
     writer.writeAttribute("name", ns->name);

@@ -3,7 +3,7 @@
 def write_file_without_lines(source, lines, without_lines)
   out = File.new(source, 'w')
   lines.each_with_index { |v, i|
-    if without_lines.member? i then
+    if without_lines.member? i
       out.print "//", v
     else
       out.print v
@@ -16,7 +16,7 @@ def optimize(source, target)
   lines = File.new(source).readlines()
   includes = []
   lines.each_with_index { |v, i|
-    if v =~ /^#include/ then
+    if v =~ /^#include/
       # puts v
       includes << i
     end
@@ -29,7 +29,7 @@ def optimize(source, target)
     write_file_without_lines(source, lines, [i])
 
     ret = system("scons", "-u", target)
-    if ret then
+    if ret
       puts "INCUNNEEDED #{source} #{lines[i].chop}" 
       unneeded_includes << i
     end
