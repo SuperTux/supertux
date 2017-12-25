@@ -16,7 +16,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from PIL import Image
+import os
 import argparse
+import tempfile
 
 # Add a 1 pixel border around every glyph in a font
 
@@ -24,6 +26,7 @@ def fix_font_file(filename, glyph_width, glyph_height):
     print("Processing %s %dx%d" % (filename, glyph_width, glyph_height))
     img = Image.open(filename)
     w, h = img.size
+    print("Image size: %dx%d" % (w, h))
 
     assert w % glyph_width == 0, "image not multiple of glyph width"
     assert h % glyph_height == 0, "image not multiple of glyph height"
@@ -46,7 +49,9 @@ def fix_font_file(filename, glyph_width, glyph_height):
             glyph = img.crop((ix, iy, ix + glyph_width, iy + glyph_height))
             out.paste(glyph, (ox, oy))
 
-    out.save("/tmp/out.png")
+    with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as f:
+        out.save(f)
+        print("File saved as %s" % f.name)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='rFactor MAS packer')
