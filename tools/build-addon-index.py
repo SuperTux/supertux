@@ -37,7 +37,6 @@ class Addon(object):
         if lst[0][0] != "supertux-addoninfo":
             raise Exception("not a supertux-addoninfo: %s" % lst[0][0])
         else:
-            tags = {}
             for k, v in lst[0][1:]:
                 if k == "id":
                     self.id = v

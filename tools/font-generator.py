@@ -21,7 +21,6 @@
 import argparse
 import cairo
 import codecs
-import math
 import re
 
 class FontGenerator(object):

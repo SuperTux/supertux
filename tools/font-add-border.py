@@ -16,7 +16,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from PIL import Image
-import sys
 import argparse
 
 # Add a 1 pixel border around every glyph in a font
