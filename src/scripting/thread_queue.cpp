@@ -33,10 +33,11 @@ ThreadQueue::~ThreadQueue()
 }
 
 void
-ThreadQueue::add(HSQUIRRELVM vm)
+ThreadQueue::add()
 {
   // create a weakref to the VM
-  HSQOBJECT vm_obj = vm_to_object(vm);
+  using namespace Sqrat;
+  HSQOBJECT vm_obj = vm_to_object(DefaultVM::Get());
   sq_pushobject(global_vm, vm_obj);
   sq_weakref(global_vm, -1);
 

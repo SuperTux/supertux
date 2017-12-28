@@ -32,7 +32,7 @@ public:
   ~ThreadQueue();
 
   /// adds a thread (actually a weakref to the thread)
-  void add(HSQUIRRELVM vm);
+  void add();
   /// wakes up threads in the list
   void wakeup();
 

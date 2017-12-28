@@ -32,7 +32,7 @@ public:
   ~TimeScheduler();
 
   void update(float time);
-  void schedule_thread(HSQUIRRELVM vm, float time);
+  void schedule_thread(float time);
 
   static TimeScheduler* instance;
 

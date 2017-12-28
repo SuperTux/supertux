@@ -71,8 +71,10 @@ TimeScheduler::update(float time)
 }
 
 void
-TimeScheduler::schedule_thread(HSQUIRRELVM scheduled_vm, float time)
+TimeScheduler::schedule_thread(float time)
 {
+  using namespace Sqrat;
+  HSQUIRRELVM scheduled_vm = DefaultVM::Get();
   // create a weakref to the VM
   SQObject vm_obj = vm_to_object(scheduled_vm);
   sq_pushobject(global_vm, vm_obj);
