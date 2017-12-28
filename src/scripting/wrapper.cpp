@@ -4440,15 +4440,13 @@ static SQInteger Wind_stop_wrapper(HSQUIRRELVM vm)
 
 static SQInteger display_wrapper(HSQUIRRELVM vm)
 {
-  return scripting::display(vm);
+  return scripting::display();
 }
 
 static SQInteger print_stacktrace_wrapper(HSQUIRRELVM vm)
 {
-  HSQUIRRELVM arg0 = vm;
-
   try {
-    scripting::print_stacktrace(arg0);
+    scripting::print_stacktrace();
 
     return 0;
 
@@ -4464,7 +4462,7 @@ static SQInteger print_stacktrace_wrapper(HSQUIRRELVM vm)
 
 static SQInteger get_current_thread_wrapper(HSQUIRRELVM vm)
 {
-  return scripting::get_current_thread(vm);
+  return scripting::get_current_thread();
 }
 
 static SQInteger is_christmas_wrapper(HSQUIRRELVM vm)
@@ -4571,7 +4569,6 @@ static SQInteger load_level_wrapper(HSQUIRRELVM vm)
 
 static SQInteger wait_wrapper(HSQUIRRELVM vm)
 {
-  HSQUIRRELVM arg0 = vm;
   SQFloat arg1;
   if(SQ_FAILED(sq_getfloat(vm, 2, &arg1))) {
     sq_throwerror(vm, _SC("Argument 1 not a float"));
@@ -4579,7 +4576,7 @@ static SQInteger wait_wrapper(HSQUIRRELVM vm)
   }
 
   try {
-    scripting::wait(arg0, static_cast<float> (arg1));
+    scripting::wait(static_cast<float> (arg1));
 
     return sq_suspendvm(vm);
 
@@ -4595,10 +4592,8 @@ static SQInteger wait_wrapper(HSQUIRRELVM vm)
 
 static SQInteger wait_for_screenswitch_wrapper(HSQUIRRELVM vm)
 {
-  HSQUIRRELVM arg0 = vm;
-
   try {
-    scripting::wait_for_screenswitch(arg0);
+    scripting::wait_for_screenswitch();
 
     return sq_suspendvm(vm);
 
