@@ -66,12 +66,14 @@ void printfunc(HSQUIRRELVM, const char* fmt, ...)
 namespace scripting {
 
 HSQUIRRELVM global_vm = NULL;
+std::string last_root_table_name;
 
 Scripting::Scripting(bool enable_debugger)
 {
   global_vm = sq_open(64);
   if(global_vm == NULL)
     throw std::runtime_error("Couldn't initialize squirrel vm");
+  Sqrat::DefaultVM::Set(global_vm);
 
   if(enable_debugger) {
 #ifdef ENABLE_SQDBG
@@ -95,8 +97,8 @@ Scripting::Scripting(bool enable_debugger)
     throw SquirrelError(global_vm, "Couldn't register math lib");
   if(SQ_FAILED(sqstd_register_stringlib(global_vm)))
     throw SquirrelError(global_vm, "Couldn't register string lib");
-
-  Sqrat::DefaultVM::Set(global_vm);
+  if(SQ_FAILED(sqrat_register_importlib(global_vm)))
+    throw SquirrelError(global_vm, "Couldn't register import lib");
 
   // remove rand and srand calls from sqstdmath, we'll provide our own
   scripting::delete_table_entry(global_vm, "srand");
@@ -162,7 +164,12 @@ void
 Scripting::register_global_functions(HSQUIRRELVM vm)
 {
   using namespace Sqrat;
-  // TODO: display, print_stacktrace, get_current_thread, wait, wait_for_screenswitch, ...
+  RootTable(vm).Func("display", &display);
+  //RootTable(vm).Func("print_stacktrace", &print_stacktrace);
+  RootTable(vm).Func("get_current_thread", &get_current_thread);
+  //RootTable(vm).Func("wait", &wait);
+  RootTable(vm).Func("wait_for_screenswitch", &wait_for_screenswitch);
+
   RootTable(vm).Func("is_christmas", &is_christmas_as_bool);
   RootTable(vm).Func("exit_screen", &exit_screen);
   RootTable(vm).Func("fadeout_screen", &fadeout_screen);
@@ -224,7 +231,7 @@ Scripting::register_scripting_classes(HSQUIRRELVM vm)
   register_scripting_class<scripting::Rock>(vm, "Rock");
   register_scripting_class<scripting::ScriptedObject>(vm, "ScriptedObject");
   register_scripting_class<scripting::Sector>(vm, "Sector");
-  register_scripting_class<scripting::Text>(vm, "Text");
+  register_scripting_class<scripting::Text>(vm, "TextClass");
   register_scripting_class<scripting::Thunderstorm>(vm, "Thunderstorm");
   register_scripting_class<scripting::TileMap>(vm, "TileMap");
   register_scripting_class<scripting::WillOWisp>(vm, "WillOWisp");

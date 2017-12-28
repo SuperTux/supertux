@@ -293,6 +293,7 @@ void compile_and_run(HSQUIRRELVM vm, std::istream& in,
     }
     else
     {
+      last_root_table_name = customRootTableName;
       script.RunWithCustomRootTable(customRootTableName);
     }
   }
@@ -300,6 +301,7 @@ void compile_and_run(HSQUIRRELVM vm, std::istream& in,
   {
     log_warning << "Error running script: " << e.Message() << std::endl;
   }
+  last_root_table_name = "";
 }
 
 void release_scripts(HSQUIRRELVM vm, ScriptList& scripts, HSQOBJECT& root_table)

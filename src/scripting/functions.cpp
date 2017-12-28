@@ -44,19 +44,23 @@
 
 namespace scripting {
 
-SQInteger display(HSQUIRRELVM vm)
+SQInteger display()
 {
+  auto vm = Sqrat::DefaultVM::Get();
   ConsoleBuffer::output << squirrel2string(vm, -1) << std::endl;
   return 0;
 }
 
-void print_stacktrace(HSQUIRRELVM vm)
+void print_stacktrace()
 {
+  auto vm = Sqrat::DefaultVM::Get();
   print_squirrel_stack(vm);
 }
 
-SQInteger get_current_thread(HSQUIRRELVM vm)
+int get_current_thread()
 {
+  using namespace Sqrat;
+  auto vm = DefaultVM::Get();
   sq_pushobject(vm, vm_to_object(vm));
   return 1;
 }
@@ -71,14 +75,14 @@ bool is_christmas_as_bool()
   return g_config->christmas_mode;
 }
 
-void wait(HSQUIRRELVM vm, float seconds)
+void wait(float seconds)
 {
-  TimeScheduler::instance->schedule_thread(vm, game_time + seconds);
+  TimeScheduler::instance->schedule_thread(game_time + seconds);
 }
 
-void wait_for_screenswitch(HSQUIRRELVM vm)
+void wait_for_screenswitch()
 {
-  ScreenManager::current()->m_waiting_threads.add(vm);
+  ScreenManager::current()->m_waiting_threads.add();
 }
 
 void exit_screen()
@@ -161,7 +165,16 @@ void import_script(const std::string& filename)
     std::string script_content(std::istreambuf_iterator<char>(in), {});
     Script script;
     script.CompileString(script_content);
-    script.Run();
+    if(scripting::last_root_table_name.empty())
+    {
+      script.Run();
+    }
+    else
+    {
+      // If we're importing from a script that runs on a custom table,
+      // the imported script should run on the same table
+      script.RunWithCustomRootTable(scripting::last_root_table_name);
+    }
   }
   catch(Exception& e)
   {

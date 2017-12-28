@@ -30,17 +30,17 @@ namespace scripting {
 /**
  * Display the value of the argument. This is useful for inspecting tables.
  */
-SQInteger display(HSQUIRRELVM vm) __custom("t.");
+SQInteger display();
 
 /**
  * Displays contents of the current stack
  */
-void print_stacktrace(HSQUIRRELVM vm);
+void print_stacktrace();
 
 /**
  * returns the currently running thread
  */
-SQInteger get_current_thread(HSQUIRRELVM vm) __custom("t");
+int get_current_thread();
 
 /**
  * Should use christmas mode
@@ -75,12 +75,12 @@ void load_level(const std::string& filename);
 /**
  * Suspend the script execution for the specified number of seconds
  */
-void wait(HSQUIRRELVM vm, float seconds) __suspend;
+void wait(float seconds);
 
 /**
  * Suspend the script execution until the current screen has been changed
  */
-void wait_for_screenswitch(HSQUIRRELVM vm) __suspend;
+void wait_for_screenswitch();
 
 /**
  * Exits the currently running screen (force exit from worldmap or scrolling

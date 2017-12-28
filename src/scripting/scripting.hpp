@@ -20,12 +20,14 @@
 #include <string>
 #include <squirrel.h>
 #include <sqrat.h>
+#include <sqratimport.h>
 
 #include "util/currenton.hpp"
 
 namespace scripting {
 
 extern HSQUIRRELVM global_vm;
+extern std::string last_root_table_name;
 
 class Scripting : public Currenton<Scripting>
 {
