@@ -28,6 +28,7 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
+static const Color TORCH_LIGHT_COLOR = Color(0.87, 0.64, 0.12); /** Color of the light specific to the torch firefly sprite */
 static const Vector TORCH_LIGHT_OFFSET = Vector(0, 12); /** Offset of the light specific to the torch firefly sprite */
 
 Firefly::Firefly(const ReaderMapping& lisp) :
@@ -52,6 +53,7 @@ Firefly::Firefly(const ReaderMapping& lisp) :
   if (sprite_name.find("torch", 0) != std::string::npos) {
     m_sprite_light = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite");
     m_sprite_light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+    m_sprite_light->set_color(TORCH_LIGHT_COLOR);
   }
 
   reactivate();
