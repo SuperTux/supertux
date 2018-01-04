@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_FIREFLY_HPP
 
 #include "object/moving_sprite.hpp"
+#include "sprite/sprite_ptr.hpp"
 
 /**
  * A Firefly: When tux touches it, it begins buzzing and you will respawn at this
@@ -28,6 +29,8 @@ class Firefly : public MovingSprite
 public:
   Firefly(const ReaderMapping& lisp);
 
+  void draw(DrawingContext& context);
+
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   std::string get_class() const {
     return "firefly";
@@ -37,6 +40,7 @@ public:
   }
 
 private:
+  SpritePtr m_sprite_light;
   bool activated;
   Vector initial_position; /**< position as in level file. This is where Tux will have to respawn, as the level is reset every time */
   void reactivate();

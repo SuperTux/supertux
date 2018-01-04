@@ -20,6 +20,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
+#include "math/vector.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "supertux/game_session.hpp"
@@ -27,8 +28,12 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
+static const Color TORCH_LIGHT_COLOR = Color(0.87, 0.64, 0.12); /** Color of the light specific to the torch firefly sprite */
+static const Vector TORCH_LIGHT_OFFSET = Vector(0, 12); /** Offset of the light specific to the torch firefly sprite */
+
 Firefly::Firefly(const ReaderMapping& lisp) :
    MovingSprite(lisp, "images/objects/resetpoints/default-resetpoint.sprite", LAYER_TILES, COLGROUP_TOUCHABLE),
+   m_sprite_light(),
    activated(false),
    initial_position(get_pos())
 {
@@ -44,6 +49,13 @@ Firefly::Firefly(const ReaderMapping& lisp) :
   //Replace sprite
   sprite = SpriteManager::current()->create( sprite_name );
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+
+  if (sprite_name.find("torch", 0) != std::string::npos) {
+    m_sprite_light = SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-small.sprite");
+    m_sprite_light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+    m_sprite_light->set_color(TORCH_LIGHT_COLOR);
+  }
+
   reactivate();
 
   //Load sound
@@ -56,6 +68,20 @@ Firefly::Firefly(const ReaderMapping& lisp) :
     else {
       SoundManager::current()->preload("sounds/savebell2.wav");
     }
+}
+
+void
+Firefly::draw(DrawingContext& context)
+{
+  MovingSprite::draw(context);
+
+  if (sprite_name.find("torch", 0) != std::string::npos && (activated ||
+        sprite->get_action() == "ringing")) {
+    context.push_target();
+    context.set_target(DrawingContext::LIGHTMAP);
+    m_sprite_light->draw(context, bbox.get_middle() - TORCH_LIGHT_OFFSET, 0);
+    context.pop_target();
+  }
 }
 
 void
