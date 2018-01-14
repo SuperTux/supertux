@@ -614,7 +614,7 @@ Rectf
 EditorInputCenter::tile_drag_rect() {
   Rectf result = drag_rect();
 
-  // Increase draw rectangle size to the
+  // Increase drag rectangle size to the
   // nearest tile border respectively.
   result = Rectf(floor(result.p1.x / 32) * 32, 
                  floor(result.p1.y / 32) * 32,
@@ -628,7 +628,6 @@ EditorInputCenter::tile_drag_rect() {
 Rectf
 EditorInputCenter::selection_draw_rect() {
   Rectf select = tile_drag_rect();
-  select.p2 += Vector(1, 1);
   select.p1 = tile_screen_pos(select.p1);
   select.p2 = tile_screen_pos(select.p2);
   return select;
@@ -644,13 +643,13 @@ EditorInputCenter::update_tile_selection() {
   }
 
   tiles->tiles.clear();
-  tiles->width = select.get_width() + 1;
-  tiles->height = select.get_height() + 1;
+  tiles->width = select.get_width();
+  tiles->height = select.get_height();
 
   int w = tilemap->get_width();
   int h = tilemap->get_height();
-  for (int y = select.p1.y; y <= select.p2.y; y++) {
-    for (int x = select.p1.x; x <= select.p2.x; x++) {
+  for (int y = select.p1.y; y < select.p2.y; y++) {
+    for (int x = select.p1.x; x < select.p2.x; x++) {
       if ( x < 0 || y < 0 || x >= w || y >= h) {
         tiles->tiles.push_back(0);
       } else {
