@@ -56,6 +56,8 @@
 #include "video/video_system.hpp"
 #include "math/vector.hpp"
 
+#include <math.h>
+
 bool EditorInputCenter::render_grid = true;
 bool EditorInputCenter::snap_to_grid = false;
 int EditorInputCenter::selected_snap_grid_size = 3;
@@ -611,6 +613,13 @@ EditorInputCenter::process_right_click() {
 Rectf
 EditorInputCenter::tile_drag_rect() {
   Rectf result = drag_rect();
+
+  // Increase draw rectangle size to the
+  // nearest tile border respectively.
+  result = Rectf(floor(result.p1.x / 32) * 32, 
+                 floor(result.p1.y / 32) * 32,
+                 ceil(result.p2.x / 32) * 32,
+                 ceil(result.p2.y / 32) * 32);
   result.p1 = sp_to_tp(result.p1);
   result.p2 = sp_to_tp(result.p2);
   return result;
