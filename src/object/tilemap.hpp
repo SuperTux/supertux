@@ -228,6 +228,11 @@ private:
   std::shared_ptr<Path> path;
   std::shared_ptr<PathWalker> walker;
 
+  /**
+   * Is the tilemap currently moving (following the path)
+   */
+  bool running;
+
   DrawingContext::Target draw_target; /**< set to LIGHTMAP to draw to lightmap */
 
   int new_size_x;
