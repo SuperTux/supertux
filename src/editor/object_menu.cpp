@@ -84,6 +84,9 @@ ObjectMenu::~ObjectMenu()
   object->after_editor_set();
 
   auto editor = Editor::current();
+  if(editor == NULL) {
+    return;
+  }
   editor->reactivate_request = true;
   if (! dynamic_cast<MovingObject*>(object)) {
     editor->sort_layers();
