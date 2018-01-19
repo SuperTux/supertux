@@ -45,8 +45,8 @@ void
 Stalactite::active_update(float elapsed_time)
 {
   if(state == STALACTITE_HANGING) {
-    Player* player = get_nearest_player();
-    if (player) {
+    auto player = get_nearest_player();
+    if (player && !player->get_ghost_mode()) {
       if(player->get_bbox().p2.x > bbox.p1.x - SHAKE_RANGE_X
          && player->get_bbox().p1.x < bbox.p2.x + SHAKE_RANGE_X
          && player->get_bbox().p2.y > bbox.p1.y
