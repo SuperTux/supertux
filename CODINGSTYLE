@@ -35,7 +35,7 @@ SuperTux Coding Standards
 * use one file per class
 
 * write namespaces like: "namespace NameSpace {", no newline before the '{', finish them with:
-  "} // namespace Namespace"
+  "} // namespace NameSpace"
 
 * compile with the maximum warning level and with -Werror:
 
