@@ -283,7 +283,7 @@ EditorInputGui::event(SDL_Event& ev) {
             }
             else
             {
-              active_tilegroup = editor->tileset->tilegroups[0].tiles;
+              active_tilegroup.reset(new Tilegroup(editor->tileset->tilegroups[0]));
               input_type = EditorInputGui::IP_TILE;
               reset_pos();
               update_mouse_icon();
