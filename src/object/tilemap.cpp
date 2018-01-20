@@ -54,6 +54,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
   remaining_tint_fade_time(0),
   path(),
   walker(),
+  running(false),
   draw_target(DrawingContext::NORMAL),
   new_size_x(0),
   new_size_y(0),
