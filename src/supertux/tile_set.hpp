@@ -28,10 +28,11 @@
 class DrawingContext;
 class Tile;
 
-class Tilegroup{
+class Tilegroup {
   public:
     Tilegroup();
     ~Tilegroup();
+    bool developers_group = false;
     std::string name;
     std::vector<int> tiles;
 };
@@ -57,6 +58,12 @@ public:
                  int z_pos, Color color = Color(1, 1, 1)) const;
 
   const Tile* get(const uint32_t id) const;
+
+  /**
+   * Adds a group of tiles that haven't
+   * been assigned to any other group
+   */
+  void add_unassigned_tilegroup();
 
   uint32_t get_max_tileid() const
   {
