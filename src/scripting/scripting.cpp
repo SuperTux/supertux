@@ -20,6 +20,7 @@
 #include <sqstdblob.h>
 #include <sqstdmath.h>
 #include <sqstdstring.h>
+#include <sqstdsystem.h>
 #include <cstring>
 #include <stdarg.h>
 #include <stdio.h>
@@ -97,6 +98,8 @@ Scripting::Scripting(bool enable_debugger)
     throw SquirrelError(global_vm, "Couldn't register math lib");
   if(SQ_FAILED(sqstd_register_stringlib(global_vm)))
     throw SquirrelError(global_vm, "Couldn't register string lib");
+  if(SQ_FAILED(sqstd_register_systemlib(global_vm)))
+    throw SquirrelError(global_vm, "Couldn't register system lib");
   if(SQ_FAILED(sqrat_register_importlib(global_vm)))
     throw SquirrelError(global_vm, "Couldn't register import lib");
 
