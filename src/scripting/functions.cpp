@@ -154,27 +154,8 @@ void import(HSQUIRRELVM vm, const std::string& filename)
 
 void import_script(const std::string& filename)
 {
-  using namespace Sqrat;
-  try {
-    IFileStream in(filename);
-    std::string script_content(std::istreambuf_iterator<char>(in), {});
-    Script script;
-    script.CompileString(script_content);
-    if(scripting::last_root_table_name.empty())
-    {
-      script.Run();
-    }
-    else
-    {
-      // If we're importing from a script that runs on a custom table,
-      // the imported script should run on the same table
-      script.RunWithCustomRootTable(scripting::last_root_table_name);
-    }
-  }
-  catch(Exception& e)
-  {
-    log_warning << "Error running script: " << e.Message() << std::endl;
-  }
+  IFileStream in(filename);
+  scripting::compile_and_run(Sqrat::DefaultVM::Get(), in, filename, scripting::last_root_table_name);
 }
 
 void debug_collrects(bool enable)
