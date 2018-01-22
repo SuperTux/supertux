@@ -179,7 +179,7 @@ Scripting::register_global_functions(HSQUIRRELVM vm)
   RootTable(vm).Func("shrink_screen", &shrink_screen);
   RootTable(vm).Func("abort_screenfade", &abort_screenfade);
   RootTable(vm).Func("translate", &translate);
-  RootTable(vm).Func("_", &_);
+  RootTable(vm).Func("_", &translate);
   RootTable(vm).Func("display_text_file", &display_text_file);
   RootTable(vm).Func("load_worldmap", &load_worldmap);
   RootTable(vm).Func("set_next_worldmap", &set_next_worldmap);
