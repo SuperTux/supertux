@@ -89,6 +89,8 @@ class EditorInputGui
     Vector get_tool_coords(const int pos) const;
     int get_tool_pos(const Vector& coords) const;
 
+    Rectf get_item_rect(const HoveredItem& item) const;
+
     void update_selection();
     Rectf normalize_selection() const;
     Rectf selection_draw_rect() const;
