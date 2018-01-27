@@ -714,12 +714,26 @@ EditorInputCenter::event(SDL_Event& ev) {
       }
     } break;
     case SDL_KEYDOWN:
-      if (ev.key.keysym.sym == SDLK_F8) {
+    {
+      auto key = ev.key.keysym.sym;
+      if (key == SDLK_F8) {
         render_grid = !render_grid;
-      } else if (ev.key.keysym.sym == SDLK_F7) {
+      }
+      if (key == SDLK_F7 || key == SDLK_LSHIFT || key == SDLK_RSHIFT) {
         snap_to_grid = !snap_to_grid;
       }
-      break;
+    }
+    break;
+
+    case SDL_KEYUP:
+    {
+      auto key = ev.key.keysym.sym;
+      if(key == SDLK_LSHIFT || key == SDLK_RSHIFT)
+      {
+        snap_to_grid = !snap_to_grid;
+      }
+    }
+    break;
     default:
       break;
   }
