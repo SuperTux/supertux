@@ -35,7 +35,7 @@ InfoBlock::InfoBlock(const ReaderMapping& lisp) :
   lines(),
   lines_height(0)
 {
-  if(!lisp.get("message", message)) {
+  if(!lisp.get("message", message) && !(Editor::is_active())) {
     log_warning << "No message in InfoBlock" << std::endl;
   }
   //stopped = false;
