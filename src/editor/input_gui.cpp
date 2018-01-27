@@ -48,7 +48,7 @@ EditorInputGui::EditorInputGui() :
   input_type(IP_NONE),
   active_tilegroup(),
   active_objectgroup(-1),
-  object_input(),
+  object_input(new ObjectInput()),
   rubber(       new ToolIcon("images/engine/editor/rubber.png")),
   select_mode(  new ToolIcon("images/engine/editor/select-mode0.png")),
   move_mode(    new ToolIcon("images/engine/editor/move-mode0.png")),
@@ -63,9 +63,6 @@ EditorInputGui::EditorInputGui() :
   drag_start(0, 0),
   Xpos(512)
 {
-  std::unique_ptr<ObjectInput> oi( new ObjectInput() );
-  object_input = move(oi);
-
   select_mode->push_mode  ("images/engine/editor/select-mode1.png");
   select_mode->push_mode  ("images/engine/editor/select-mode2.png");
   move_mode->push_mode    ("images/engine/editor/move-mode1.png");
