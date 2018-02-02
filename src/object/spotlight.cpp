@@ -32,11 +32,11 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
 {
   group = COLGROUP_DISABLED;
 
-  if (!lisp.get("x", bbox.p1.x)) bbox.p1.x = 0;
-  if (!lisp.get("y", bbox.p1.y)) bbox.p1.y = 0;
+  lisp.get("x", bbox.p1.x, 0);
+  lisp.get("y", bbox.p1.y, 0);
   bbox.set_size(32, 32);
 
-  if (!lisp.get("angle", angle)) angle = 0.0f;
+  lisp.get("angle", angle, 0.0f);
 
   std::vector<float> vColor;
   if( lisp.get( "color", vColor ) ){
