@@ -176,6 +176,10 @@ EditorInputGui::update(float elapsed_time) {
       if (input_type == IP_OBJECT){
         size = object_input->groups[active_objectgroup].icons.size();
       } else {
+        if(active_tilegroup == NULL)
+        {
+          return;
+        }
         size = active_tilegroup->tiles.size();
       }
       if (starting_tile < size-5) {
