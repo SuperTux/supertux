@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 xgettext --keyword='_' -C -o translations/main.pot $(find src -name "*.cpp" -or -name "*.hpp") --add-comments=l10n
 find data/ -name "credits.stxt" -print0 | xargs -0 xgettext --keyword='_:1' --language=Lisp --from-code=UTF-8 --sort-by-file --output translations/credits.pot --add-comments=l10n
 find data/ -name "objects.stoi" -print0 | xargs -0 xgettext --keyword='_:1' --language=Lisp --from-code=UTF-8 --sort-by-file --output translations/objects.pot --add-comments=l10n
