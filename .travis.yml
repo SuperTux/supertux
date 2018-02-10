@@ -86,8 +86,8 @@ script:
   # Update translation templates (only once per commit)
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$BUILD_TYPE" = "Release" ] && [ ! "$USE_GLBINDING" = "ON" ]; then
       ./makepot.sh;
-      sudo easy_install pip;
-      sudo pip install transifex-client;
+      sudo easy_install3 pip;
+      sudo pip3 install transifex-client;
       tx init --token=${TRANSIFEX_TOKEN} --force --no-interactive --skipsetup;
       tx push -s;
     fi
@@ -125,7 +125,6 @@ addons:
     - libboost-all-dev
     - libsdl2-dev
     - libsdl2-image-dev
-    - python3
     - rpm
     - sshpass
   coverity_scan:
