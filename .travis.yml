@@ -125,6 +125,7 @@ addons:
     - libboost-all-dev
     - libsdl2-dev
     - libsdl2-image-dev
+    - python3
     - rpm
     - sshpass
   coverity_scan:
