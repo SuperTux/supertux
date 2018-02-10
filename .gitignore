@@ -25,7 +25,7 @@ dependencies*/
 
 # Additional Repos/Translations
 supertux.*
-.tx/
+#.tx/
 #translations
 
 # Useful Customization Files

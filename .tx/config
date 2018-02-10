@@ -1,0 +1,65 @@
+[main]
+host = https://www.transifex.com
+
+[supertux.menu-principale]
+file_filter = data/locale/<lang>.po
+minimum_perc = 0
+source_file = data/locale/en.pot
+source_lang = en
+type = PO
+
+[supertux.bonus-1]
+file_filter = data/levels/bonus1/<lang>.po
+minimum_perc = 0
+source_file = data/levels/bonus1/en.pot
+source_lang = en
+type = PO
+
+[supertux.bonus-2]
+file_filter = data/levels/bonus2/<lang>.po
+minimum_perc = 0
+source_file = data/levels/bonus2/en.pot
+source_lang = en
+type = PO
+
+[supertux.bonus-3]
+file_filter = data/levels/bonus3/<lang>.po
+minimum_perc = 0
+source_file = data/levels/bonus3/en.pot
+source_lang = en
+type = PO
+
+[supertux.credits]
+file_filter = data/credits/<lang>.po
+minimum_perc = 0
+source_file = data/credits/en.pot
+source_lang = en
+type = PO
+
+[supertux.halloween-2014]
+file_filter = data/levels/halloween2014/<lang>.po
+minimum_perc = 0
+source_file = data/levels/halloween2014/en.pot
+source_lang = en
+type = PO
+
+[supertux.incubator]
+file_filter = data/levels/incubator/<lang>.po
+minimum_perc = 0
+source_file = data/levels/incubator/en.pot
+source_lang = en
+type = PO
+
+[supertux.world-1]
+file_filter = data/levels/world1/<lang>.po
+minimum_perc = 0
+source_file = data/levels/world1/en.pot
+source_lang = en
+type = PO
+
+[supertux.world-2]
+file_filter = data/levels/world2/<lang>.po
+minimum_perc = 0
+source_file = data/levels/world2/en.pot
+source_lang = en
+type = PO
