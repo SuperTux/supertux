@@ -74,24 +74,26 @@ before_install:
   # Fetch the entire git history
   - git fetch --unshallow
 
+  # Install transifex client:
+  - if [ "$RELEASE" = "ON" ] && [ ! "$USE_GLBINDING" = "ON" ]; then
+      sudo easy_install pip;
+      sudo pip install --upgrade urllib3;
+      sudo pip install transifex-client;
+    fi
+
 script:
+    # Update translation templates (only once per commit)
+  - if [ "$RELEASE" = "ON" ] && [ ! "$USE_GLBINDING" = "ON" ]; then
+      ./makepot.sh;
+      tx init --token=${TRANSIFEX_TOKEN} --force --no-interactive --skipsetup;
+      tx push;
+    fi
   - mkdir "build-$BUILD_TYPE"
   - cd "build-$BUILD_TYPE"
   - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$USE_GLBINDING -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2
   - make -j3
   - make install DESTDIR="/tmp/supertux-$BUILD_TYPE"
   - ./test_supertux2
-  - cd ..;
-
-  # Update translation templates (only once per commit)
-  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$BUILD_TYPE" = "Release" ] && [ ! "$USE_GLBINDING" = "ON" ]; then
-      ./makepot.sh;
-      sudo easy_install pip;
-      sudo pip install --upgrade urllib3;
-      sudo pip install transifex-client;
-      tx init --token=${TRANSIFEX_TOKEN} --force --no-interactive --skipsetup;
-      tx push -s;
-    fi
 
 after_success:
   - ../.travis/package.sh
