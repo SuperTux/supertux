@@ -87,6 +87,7 @@ script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$BUILD_TYPE" = "Release" ] && [ ! "$USE_GLBINDING" = "ON" ]; then
       ./makepot.sh;
       sudo easy_install pip;
+      sudo pip install --upgrade urllib3;
       sudo pip install transifex-client;
       tx init --token=${TRANSIFEX_TOKEN} --force --no-interactive --skipsetup;
       tx push -s;
