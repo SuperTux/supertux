@@ -1,0 +1,305 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the SuperTux package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux v0.5.1-373-gcfada69b2\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-02-11 16:53+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/levels/test_old/1holes.stl:4
+msgid "1-tile Holes Test"
+msgstr ""
+
+#: data/levels/test_old/ambient_sound.stl:4
+msgid "Ambient Sound Test"
+msgstr ""
+
+#: data/levels/test_old/ambient_sound.stl:70
+msgid ""
+"-Info\n"
+"#An ambient sound \n"
+"#leveldone music\n"
+msgstr ""
+
+#: data/levels/test_old/ambient_sound.stl:76
+msgid ""
+"-Info\n"
+"#An ambient sound \n"
+"#source playing the\n"
+"#rain effect should \n"
+"#be audible here.\n"
+msgstr ""
+
+#: data/levels/test_old/ambient_sound.stl:84
+msgid ""
+"-Info\n"
+"#Waterfall\n"
+"#Volume 0.2\n"
+"#smaller geometry\n"
+"#than rain source\n"
+msgstr ""
+
+#: data/levels/test_old/ambient_sound.stl:92
+msgid ""
+"-Info\n"
+"#Lava (Area)\n"
+"#extending right\n"
+msgstr ""
+
+#: data/levels/test_old/auto.stl:3
+msgid "Badguy Auto-dir Test"
+msgstr ""
+
+#: data/levels/test_old/autoscroll.stl:3
+msgid "Autoscroll Test (Above the Arctic Skies)"
+msgstr ""
+
+#: data/levels/test_old/bonus-level4.stl:4
+msgid "Forest Keep Theme Test"
+msgstr ""
+
+#: data/levels/test_old/bonusblock.stl:4
+msgid "Bonus Block Test"
+msgstr ""
+
+#: data/levels/test_old/bonusblock.stl:59
+msgid ""
+"-Info\n"
+"#Beware of these crazy\n"
+"#red potions.\n"
+"#Better seek for blue\n"
+"#potions."
+msgstr ""
+
+#: data/levels/test_old/break.stl:3
+msgid "Badguys die on Break Test"
+msgstr ""
+
+#: data/levels/test_old/burn.stl:3
+msgid "Weak Block Chain Reaction Test"
+msgstr ""
+
+#: data/levels/test_old/castle_snow.stl:3
+msgid "Snow Castle Theme Test"
+msgstr ""
+
+#: data/levels/test_old/dais.stl:3
+msgid "Badguys Stay on Moving Platform Test"
+msgstr ""
+
+#: data/levels/test_old/darttrap.stl:4
+msgid "DartTrap Test"
+msgstr ""
+
+#: data/levels/test_old/direction.stl:3
+msgid "Badguy Direction Test"
+msgstr ""
+
+#: data/levels/test_old/dropcrush.stl:3
+msgid "Fall Test"
+msgstr ""
+
+#: data/levels/test_old/forest1-grumbel.stl:3
+msgid "Forest Tiles / Slopes / Foreground Test"
+msgstr ""
+
+#: data/levels/test_old/grab.stl:3
+msgid "Grab Test"
+msgstr ""
+
+#: data/levels/test_old/hitfrombelow.stl:3
+msgid "Test of badguys hit from below"
+msgstr ""
+
+#: data/levels/test_old/holes.stl:3
+msgid "Hole Fall-through Test"
+msgstr ""
+
+#: data/levels/test_old/hurting_platform.stl:3
+msgid "Sawblade Test (Hurting Platform)"
+msgstr ""
+
+#: data/levels/test_old/intro.stl:4
+msgid "SuperTux Intro"
+msgstr ""
+
+#: data/levels/test_old/intro_scene2.stl:4
+msgid "Nolok Escapes"
+msgstr ""
+
+#: data/levels/test_old/keydoors.stl:3
+msgid "Key Door Test"
+msgstr ""
+
+#: data/levels/test_old/keydoors.stl:55
+msgid ""
+"#Remember that you can type\n"
+"#sector.add_key(key);\n"
+"#keys are air, wood, earth, fire and water"
+msgstr ""
+
+#: data/levels/test_old/laddertest.stl:3
+msgid "Ladder/Climbable Test"
+msgstr ""
+
+#: data/levels/test_old/lantern.stl:3
+msgid "Lantern catches WillOWisp Test"
+msgstr ""
+
+#: data/levels/test_old/mrtree.stl:3
+msgid "Mr. Tree and Mr. Cherry Test"
+msgstr ""
+
+#: data/levels/test_old/platform.stl:3
+msgid "Flying Platform Test"
+msgstr ""
+
+#: data/levels/test_old/pushbutton.stl:3
+msgid "Pushbutton Test"
+msgstr ""
+
+#: data/levels/test_old/raintest.stl:4
+msgid "Rain And Ghost Theme Test"
+msgstr ""
+
+#: data/levels/test_old/reset.stl:3
+msgid "Reset Point Test"
+msgstr ""
+
+#: data/levels/test_old/risinglava.stl:3
+msgid "Rising Lava Test"
+msgstr ""
+
+#: data/levels/test_old/rock.stl:3
+msgid "Rock, Slope, and Hole Test"
+msgstr ""
+
+#: data/levels/test_old/script.stl:3
+msgid "Scripted Cutscene Test"
+msgstr ""
+
+#: data/levels/test_old/scriptdoor.stl:3
+msgid "Scripted \"Door\""
+msgstr ""
+
+#: data/levels/test_old/secret.stl:3
+msgid "SecretArea Fading Test"
+msgstr ""
+
+#: data/levels/test_old/sectors.stl:4
+msgid "Sector/Door Test"
+msgstr ""
+
+#: data/levels/test_old/simple.stl:3
+msgid "Fall-through Test"
+msgstr ""
+
+#: data/levels/test_old/slopes.stl:3
+msgid "Slope Test"
+msgstr ""
+
+#: data/levels/test_old/switch.stl:3
+msgid "Switch Test"
+msgstr ""
+
+#: data/levels/test_old/tilesets.stl:3
+msgid "Tileset Test"
+msgstr ""
+
+#: data/levels/test_old/tilesets.stl:70
+msgid ""
+"-Bonus Blocks\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in "
+"your quest.\n"
+"#\n"
+"#Hit them from below to get at their contents."
+msgstr ""
+
+#: data/levels/test_old/tilesets.stl:79
+msgid ""
+"-Eggs\n"
+"!images/powerups/egg/egg.png\n"
+"#The egg makes Tux grow larger. Tux can then smash wooden blocks with his "
+"head."
+msgstr ""
+
+#: data/levels/test_old/tilesets.stl:86
+msgid ""
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Activate the checkpoint. As long as you have at least 25 coins left, you "
+"can retry the level from here."
+msgstr ""
+
+#: data/levels/test_old/tilesets.stl:93
+msgid ""
+"-Running\n"
+"!images/tiles/signs/run.png\n"
+"#The path in front of you is blocked. Gain some speed before jumping to pass "
+"over the blocks."
+msgstr ""
+
+#: data/levels/test_old/tilesets.stl:100
+msgid ""
+"-Fire Flower\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#The fire flower gives Tux the ability to shoot fireballs."
+msgstr ""
+
+#: data/levels/test_old/tilesets.stl:107
+msgid ""
+"-Tux Doll\n"
+"!images/powerups/1up/1up.png\n"
+"#The Tux doll gives Tux 100 coins."
+msgstr ""
+
+#: data/levels/test_old/tilesets.stl:114
+msgid ""
+"-Secret Areas\n"
+"#Many levels contain secret areas behind what seems to be plain walls. Look "
+"for clues to find them."
+msgstr ""
+
+#: data/levels/test_old/trampoline.stl:3
+msgid "Trampoline Test"
+msgstr ""
+
+#: data/levels/test_old/tree-exit.stl:3
+msgid "Tree Exit Test"
+msgstr ""
+
+#: data/levels/test_old/unstable.stl:3
+msgid "Unstable Tile Test"
+msgstr ""
+
+#: data/levels/test_old/verticalforest.stl:3
+msgid "Inside The Tree (Very Annoying and Unfinished)"
+msgstr ""
+
+#: data/levels/test_old/wansti-level4.stl:4
+msgid "Collapse Imminent! (Flipping Test)"
+msgstr ""
+
+#: data/levels/test_old/water.stl:3
+msgid "Water/Swimming Test"
+msgstr ""
+
+#: data/levels/test_old/willowisp.stl:3
+msgid "WillOWisp Test"
+msgstr ""
+
+#: data/levels/test_old/wind.stl:3
+msgid "Wind Test"
+msgstr ""

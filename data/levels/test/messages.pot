@@ -1,0 +1,361 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the SuperTux package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux v0.5.1-373-gcfada69b2\n"
+"Report-Msgid-Bugs-To: https://github.com/SuperTux/supertux/issues\n"
+"POT-Creation-Date: 2018-02-11 16:53+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/levels/test/BackGround.stl:3
+msgid "Forest Background Test"
+msgstr ""
+
+#: data/levels/test/bicycle_platform.stl:3
+msgid "Bicycle Platform Test"
+msgstr ""
+
+#: data/levels/test/bonusblock.stl:3
+msgid "Bonusblock Test"
+msgstr ""
+
+#: data/levels/test/bonusblocksprite.stl:3
+msgid "New Bonus Block Sprite Test"
+msgstr ""
+
+#: data/levels/test/burnnmelt.stl:3
+msgid "Burning and melting test"
+msgstr ""
+
+#: data/levels/test/candle.stl:3
+msgid "Candle Scripting Test"
+msgstr ""
+
+#: data/levels/test/captainsnowball.stl:3
+msgid "Captain Snowball Test (Welcome to Antarctica)"
+msgstr ""
+
+#: data/levels/test/captainsnowball.stl:32
+msgid ""
+"-Bonus Blocks\n"
+"!images/objects/bonus_block/full-0.png\n"
+"#Bonus blocks can contain coins, power-ups or special items to help you in "
+"your quest.\n"
+"#\n"
+"#Hit them from below to get at their contents."
+msgstr ""
+
+#: data/levels/test/captainsnowball.stl:41
+msgid ""
+"-Eggs\n"
+"!images/powerups/egg/egg.png\n"
+"#The egg makes Tux grow larger. Tux can then smash wooden blocks with his "
+"head."
+msgstr ""
+
+#: data/levels/test/captainsnowball.stl:48
+msgid ""
+"-Checkpoints\n"
+"!images/objects/resetpoints/bell-m.png\n"
+"#Activate the checkpoint. As long as you have at least 25 coins left, you "
+"can retry the level from here."
+msgstr ""
+
+#: data/levels/test/captainsnowball.stl:55
+msgid ""
+"-Running\n"
+"!images/tiles/signs/run.png\n"
+"#The path in front of you is blocked. Gain some speed before jumping to pass "
+"over the blocks."
+msgstr ""
+
+#: data/levels/test/captainsnowball.stl:62
+msgid ""
+"-Fire Flower\n"
+"!images/powerups/fireflower/fire_flower-0.png\n"
+"#The fire flower gives Tux the ability to shoot fireballs."
+msgstr ""
+
+#: data/levels/test/captainsnowball.stl:69
+msgid ""
+"-Tux Doll\n"
+"!images/powerups/1up/1up.png\n"
+"#The Tux doll gives Tux 100 coins."
+msgstr ""
+
+#: data/levels/test/captainsnowball.stl:76
+msgid ""
+"-Secret Areas\n"
+"#Many levels contain secret areas behind what seems to be plain walls. Look "
+"for clues to find them."
+msgstr ""
+
+#: data/levels/test/castletiles.stl:3
+msgid "Castle Tiles Test"
+msgstr ""
+
+#: data/levels/test/chain.stl:3
+msgid "Chain test"
+msgstr ""
+
+#: data/levels/test/climbablemessage.stl:3
+msgid "Climbable message test"
+msgstr ""
+
+#: data/levels/test/climbablemessage.stl:14
+msgid "Up we go..."
+msgstr ""
+
+#: data/levels/test/climbablemessage.stl:21
+msgid "Let's go down..."
+msgstr ""
+
+#: data/levels/test/coincollectscripting.stl:3
+msgid "Coin collect scripting test"
+msgstr ""
+
+#: data/levels/test/crystalcave.stl:3
+msgid "Crystal Cave test"
+msgstr ""
+
+#: data/levels/test/crystallo.stl:3
+msgid "Crystal Cave (Crystallo Test)"
+msgstr ""
+
+#: data/levels/test/darksnow.stl:3
+msgid "Dark Snow Test (+Icecrusher)"
+msgstr ""
+
+#: data/levels/test/decal.stl:3
+msgid "Decal Test"
+msgstr ""
+
+#: data/levels/test/doortest.stl:3
+msgid "Door Test"
+msgstr ""
+
+#: data/levels/test/forestkeep.stl:4
+msgid "Forest Keep Test"
+msgstr ""
+
+#: data/levels/test/freezetest.stl:3
+msgid "Freezing test"
+msgstr ""
+
+#: data/levels/test/glow_effects.stl:3
+msgid "Glow Effects Test"
+msgstr ""
+
+#: data/levels/test/gradient_dir.stl:3
+msgid "Gradient scripting test"
+msgstr ""
+
+#: data/levels/test/gradient_dir.stl:21
+msgid "-Set gradient direction to horizontal"
+msgstr ""
+
+#: data/levels/test/gradient_dir.stl:32
+msgid "-Set gradient direction to vertical"
+msgstr ""
+
+#: data/levels/test/gradient_dir.stl:43
+msgid "-Set gradient direction to horizontal sector"
+msgstr ""
+
+#: data/levels/test/gradient_dir.stl:54
+msgid "-Set gradient direction to vertical sector"
+msgstr ""
+
+#: data/levels/test/gradient_dir.stl:65
+msgid "-Swap gradient colors"
+msgstr ""
+
+#: data/levels/test/gradient_dir.stl:76
+msgid "-Set colors to orange - black"
+msgstr ""
+
+#: data/levels/test/gradient_dir.stl:88
+msgid "-Set colors to red - green"
+msgstr ""
+
+#: data/levels/test/haywire.stl:3
+msgid "Haywire bomb test"
+msgstr ""
+
+#: data/levels/test/icecrusher.stl:3
+msgid "IceCrusher Test"
+msgstr ""
+
+#: data/levels/test/icefreezetest.stl:3
+msgid "Ice Freeze test"
+msgstr ""
+
+#: data/levels/test/icetest.stl:3
+msgid "Ice test"
+msgstr ""
+
+#: data/levels/test/intro2.stl:4
+msgid "Picnic With Penny"
+msgstr ""
+
+#: data/levels/test/kugelblitz.stl:3
+msgid "Kugelblitz Test"
+msgstr ""
+
+#: data/levels/test/light.stl:3
+msgid "Lightmap Test"
+msgstr ""
+
+#: data/levels/test/lightmap.stl:3
+msgid "Unnamed"
+msgstr ""
+
+#: data/levels/test/magicblocks.stl:3
+msgid "Magic Block Test"
+msgstr ""
+
+#: data/levels/test/menutest.stl:3
+msgid "Menu as Level Test"
+msgstr ""
+
+#: data/levels/test/newice.stl:3
+msgid "Unnamed (Ice Test)"
+msgstr ""
+
+#: data/levels/test/nightcave.stl:3
+msgid "NightCave test"
+msgstr ""
+
+#: data/levels/test/oddbug.stl:3
+msgid "An Odd Bug"
+msgstr ""
+
+#: data/levels/test/owl.stl:3
+msgid "Owl test"
+msgstr ""
+
+#: data/levels/test/particle_scripting.stl:4
+msgid "Particle scripting test"
+msgstr ""
+
+#: data/levels/test/particle_scripting.stl:79
+msgid "-Enable cloud particle system"
+msgstr ""
+
+#: data/levels/test/particle_scripting.stl:90
+msgid "-Enable ghost particle system"
+msgstr ""
+
+#: data/levels/test/particle_scripting.stl:101
+msgid "-Enable snow particle system"
+msgstr ""
+
+#: data/levels/test/particle_scripting.stl:112
+msgid "-Disable cloud particle system"
+msgstr ""
+
+#: data/levels/test/particle_scripting.stl:123
+msgid "-Disable ghost particle system"
+msgstr ""
+
+#: data/levels/test/particle_scripting.stl:134
+msgid "-Disable snow particle system"
+msgstr ""
+
+#: data/levels/test/pneumatic_platform.stl:3
+msgid "Pneumatic Platform Test"
+msgstr ""
+
+#: data/levels/test/portable_scripting.stl:3
+msgid "Portable scripting test"
+msgstr ""
+
+#: data/levels/test/rusty_trampoline.stl:3
+msgid "rusty trampoline test (C++ implementation)"
+msgstr ""
+
+#: data/levels/test/scoretest.stl:3
+msgid "Score test"
+msgstr ""
+
+#: data/levels/test/scripttrigger.stl:3
+msgid "Script Trigger Test"
+msgstr ""
+
+#: data/levels/test/short_fuse.stl:3
+msgid "Short fuse bomb test"
+msgstr ""
+
+#: data/levels/test/snowair.stl:3
+msgid "Snow Air Tile Test"
+msgstr ""
+
+#: data/levels/test/snowmountain.stl:3
+msgid "Snow Mountain Tiles"
+msgstr ""
+
+#: data/levels/test/snowslope.stl:3
+msgid "Snow Slope Tile Test"
+msgstr ""
+
+#: data/levels/test/spike.stl:3
+msgid "Spike test"
+msgstr ""
+
+#: data/levels/test/stacking.stl:4
+msgid "Enemy Stacking Test"
+msgstr ""
+
+#: data/levels/test/stacking.stl:60
+msgid "images/powerups/egg/egg.sprite"
+msgstr ""
+
+#: data/levels/test/tilemap_disco.stl:3
+msgid "Tilemap disco test"
+msgstr ""
+
+#: data/levels/test/tileplatforms.stl:3
+msgid "Tile Platform Test"
+msgstr ""
+
+#: data/levels/test/totem.stl:4
+msgid "Totem Test"
+msgstr ""
+
+#: data/levels/test/transition.stl:3
+msgid "Ghost Forest Transition"
+msgstr ""
+
+#: data/levels/test/treeboss.stl:3
+msgid "Trees Stink (Tree Boss Test)"
+msgstr ""
+
+#: data/levels/test/unisolid.stl:3
+msgid "Snow Tileset and Platform Test"
+msgstr ""
+
+#: data/levels/test/unordered_path.stl:3
+msgid "Unordered path test"
+msgstr ""
+
+#: data/levels/test/unstable_tile.stl:3
+msgid "Unstable tile test"
+msgstr ""
+
+#: data/levels/test/walking_candle.stl:3
+msgid "Walking candle test"
+msgstr ""
+
+#: data/levels/test/weakblock.stl:3
+msgid "Weakblock Test"
+msgstr ""
