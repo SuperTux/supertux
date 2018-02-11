@@ -225,13 +225,15 @@ public:
   /**
    * Orders the current GameSession to start a sequence
    * @param sequence_name Name of the sequence to start
-   * @param new_spawnpoint Spawnpoint to spawn to on on
-   *        the worldmap once sequence completed.
-   * @param fade_tilemap TileMap to fade on the worldmap
-   *         once sequence completed
-   * @param fade_direction: 0 for Fade-In, 1 for Fade-Out
+   * @param data Custom additional sequence data
    */
   void trigger_sequence(const std::string& sequence_name, const SequenceData* data = NULL);
+
+  /**
+   * Orders the current GameSession to start a sequence
+   * @param sequence Sequence to start
+   * @param data Custom additional sequence data
+   */
   void trigger_sequence(Sequence seq, const SequenceData* data = NULL);
 
   /**
