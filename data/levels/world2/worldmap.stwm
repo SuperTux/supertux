@@ -481,7 +481,7 @@ underground_front.fade(0, 1);")
     (special-tile
       (x 49)
       (y 12)
-      (map-message (_ "More Worlds will be added later..."))
+      (map-message (_ "More Worlds will be added later…"))
       (script "")
       (sprite "/images/worldmap/common/messagedot.sprite")
       (passive-message #f)
