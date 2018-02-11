@@ -53,6 +53,10 @@ public:
   bool set_bonus(const std::string& bonus);
   /**
    * Give tux more coins
+   *
+   * If count is a negative amount of coins, that number of coins will be taken
+   * from the player (until the number of coins the player has is 0, when it
+   * will stop changing).
    */
   void add_coins(int count);
   /**
