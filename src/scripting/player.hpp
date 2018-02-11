@@ -56,6 +56,10 @@ public:
    */
   void add_coins(int count);
   /**
+   * Returns the number of coins the player currently has.
+   */
+  int get_coins() const;
+  /**
    * Make tux invincible for a short amount of time
    */
   void make_invincible();
