@@ -28,7 +28,7 @@ find data/ -name "*.strf" -print0 | xargs -0 xgettext --keyword='_:1' \
   --msgid-bugs-address=https://github.com/SuperTux/supertux/issues
 
 msgcat translations/main.pot translations/objects.pot translations/tilesets.pot > translations/messages.pot
-rm -f translations/main.pot translations/objects.pot translations/tilesets.pot 2> /dev/null
+rm -f translations/main.pot translations/objects.pot translations/tilesets.pot
 
 # Prepare script files for inclusion in tinygettext
 for LEVELSET in $(ls data/levels); do
@@ -47,5 +47,5 @@ for LEVELSET in $(ls data/levels); do
     --package-name="${package_name}" --package-version="${package_version}" \
     --msgid-bugs-address=https://github.com/SuperTux/supertux/issues
   sed -i -e 's/\\r\\n/\\n/g' "translations/${LEVELSET}.pot"
-  rm -f data/levels/$LEVELSET/scripts_*.txt 2> /dev/null
+  rm -f data/levels/$LEVELSET/scripts_*.txt
 done
