@@ -319,6 +319,9 @@
   (object
     (class "#node")
     (icon "images/engine/editor/path_node.png"))
+  (object
+    (class "leveltime")
+    (icon "images/engine/editor/clock.png"))
  )
 
  (objectgroup

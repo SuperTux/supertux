@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <math.h>
 
+#include "editor/editor.hpp"
 #include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
@@ -35,12 +36,12 @@ static const float TIME_WARNING = 20;
 LevelTime::LevelTime(const ReaderMapping& reader) :
   ExposedObject<LevelTime, scripting::LevelTime>(this),
   time_surface(Surface::create("images/engine/hud/time-0.png")),
-  running(true),
+  running(!Editor::is_active()),
   time_left()
 {
   reader.get("name", name, "");
   reader.get("time", time_left, 0);
-  if(time_left <= 0) {
+  if(time_left <= 0 && !Editor::is_active()) {
     log_warning << "No or invalid leveltime specified." << std::endl;
     remove_me();
   }
