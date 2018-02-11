@@ -172,7 +172,7 @@ BonusBlock::get_settings() {
   coo.select.push_back(_("Growth (air flower)"));
   coo.select.push_back(_("Growth (earth flower)"));
   coo.select.push_back(_("star"));
-  coo.select.push_back(_("tux doll"));
+  coo.select.push_back(_("Tux doll"));
   coo.select.push_back(_("custom"));
   coo.select.push_back(_("script"));
   coo.select.push_back(_("light"));
