@@ -1,6 +1,24 @@
 SuperTux Release and Development Notes
 ======================================
 
+SuperTux 0.5.1 (2016-11-05)
+---------------------------
+
+This is a bugfix release fixing some smaller problems that were reported after
+the release of 0.5.0. It mostly features changes to the behavior of the level
+editor, and adds some options that were missing but should have been included in
+the stable release 0.5.0.
+
+Changes:
+
+* Editor: Tilemap: Add an option to change the draw target
+* Editor: Add an option to snap objects to the grid (this will make it easier to
+  add objects to a nice location in levels)
+* Editor: Camera: Remove autoscroll option, as it is deprecated and should not
+  be used anymore
+* Editor: Fix an issue where some areas in the editor would be excessively large
+  relative to the window/screen size
+
 SuperTux 0.5.0 (2016-09-25)
 ---------------------------
 
