@@ -85,7 +85,7 @@ script:
     # Update translation templates (only once per commit)
   - if [ "$RELEASE" = "ON" ] && [ ! "$USE_GLBINDING" = "ON" ]; then
       ./makepot.sh;
-      tx init --token=${TRANSIFEX_TOKEN} --force --no-interactive --skipsetup;
+      tx init --token=${TRANSIFEX_TOKEN} --force --no-interactive;
       tx status;
       tx push -s;
     fi
