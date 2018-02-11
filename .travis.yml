@@ -86,7 +86,7 @@ script:
   - if [ "$RELEASE" = "ON" ] && [ ! "$USE_GLBINDING" = "ON" ]; then
       ./makepot.sh;
       tx init --token=${TRANSIFEX_TOKEN} --force --no-interactive --skipsetup;
-      tx push;
+      tx push -s;
     fi
   - mkdir "build-$BUILD_TYPE"
   - cd "build-$BUILD_TYPE"
