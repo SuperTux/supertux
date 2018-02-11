@@ -1768,6 +1768,36 @@ static SQInteger Player_add_coins_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Player_get_coins_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'get_coins' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Player*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    int return_value = _this->get_coins();
+
+    sq_pushinteger(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_coins'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Player_make_invincible_wrapper(HSQUIRRELVM vm)
 {
   SQUserPointer data;
@@ -6836,6 +6866,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ti");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'add_coins'");
+  }
+
+  sq_pushstring(v, "get_coins", -1);
+  sq_newclosure(v, &Player_get_coins_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_coins'");
   }
 
   sq_pushstring(v, "make_invincible", -1);
