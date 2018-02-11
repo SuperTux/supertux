@@ -461,7 +461,7 @@ GameSession::get_working_directory() const
 }
 
 void
-GameSession::start_sequence(Sequence seq, const std::string& new_spawnpoint, const std::string& fade_tilemap, int fade_direction)
+GameSession::start_sequence(Sequence seq, const SequenceData* data)
 {
   // do not play sequences when in edit mode
   if (edit_mode) {
@@ -498,13 +498,16 @@ GameSession::start_sequence(Sequence seq, const std::string& new_spawnpoint, con
 
   if(const auto& worldmap = worldmap::WorldMap::current())
   {
-    if(!fade_tilemap.empty())
+    if(data != NULL)
     {
-      worldmap->set_initial_fade_tilemap(fade_tilemap, fade_direction);
-    }
-    if(!new_spawnpoint.empty())
-    {
-      worldmap->set_initial_spawnpoint(new_spawnpoint);
+      if(!data->fade_tilemap.empty())
+      {
+        worldmap->set_initial_fade_tilemap(data->fade_tilemap, data->fade_type);
+      }
+      if(!data->spawnpoint.empty())
+      {
+        worldmap->set_initial_spawnpoint(data->spawnpoint);
+      }
     }
   }
 

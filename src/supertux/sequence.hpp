@@ -17,10 +17,29 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SEQUENCE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SEQUENCE_HPP
 
+#include <string>
+
 enum Sequence {
   SEQ_ENDSEQUENCE,
   SEQ_STOPTUX,
   SEQ_FIREWORKS
+};
+
+enum TilemapFadeType {
+  FADE_IN = 0,
+  FADE_OUT = 1
+};
+
+struct SequenceData {
+  SequenceData(const std::string& spawnpoint, const std::string& fade_tilemap, TilemapFadeType& fade_type) :
+    spawnpoint(spawnpoint),
+    fade_tilemap(fade_tilemap),
+    fade_type(fade_type)
+  {
+  }
+  const std::string& spawnpoint;
+  const std::string& fade_tilemap;
+  const TilemapFadeType& fade_type;
 };
 
 Sequence string_to_sequence(const std::string& sequencename);

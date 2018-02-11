@@ -231,14 +231,8 @@ public:
    *         once sequence completed
    * @param fade_direction: 0 for Fade-In, 1 for Fade-Out
    */
-  void trigger_sequence(const std::string& sequence_name,
-                        const std::string& new_spawnpoint = "",
-                        const std::string& fade_tilemap = "",
-                        int fade_direction = 0);
-  void trigger_sequence(Sequence seq,
-                        const std::string& new_spawnpoint = "",
-                        const std::string& fade_tilemap = "",
-                        int fade_direction = 0);
+  void trigger_sequence(const std::string& sequence_name, const SequenceData* data = NULL);
+  void trigger_sequence(Sequence seq, const SequenceData* data = NULL);
 
   /**
    * Requests that the player start climbing the given Climbable

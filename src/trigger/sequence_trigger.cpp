@@ -47,7 +47,7 @@ SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
 
   reader.get("new_spawnpoint", new_spawnpoint);
   reader.get("fade_tilemap", fade_tilemap);
-  reader.get("fade", fade);
+  reader.get("fade", (int&)fade);
 }
 
 SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence_name) :
@@ -106,7 +106,8 @@ void
 SequenceTrigger::event(Player& player, EventType type)
 {
   if(type == triggerevent) {
-    player.trigger_sequence(sequence, new_spawnpoint, fade_tilemap, fade);
+    auto data = SequenceData(new_spawnpoint, fade_tilemap, fade);
+    player.trigger_sequence(sequence, &data);
   }
 }
 

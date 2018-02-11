@@ -52,7 +52,7 @@ private:
   Vector new_size;
   std::string new_spawnpoint;
   std::string fade_tilemap;
-  int fade;
+  TilemapFadeType fade;
 };
 
 #endif
