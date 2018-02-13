@@ -21,41 +21,8 @@
 #include <assert.h>
 #include <memory>
 #include <string>
-#include <vector>
+
 #include "util/reader_fwd.hpp"
-
-struct Screenshot {
-private:
-  std::string m_url, m_local , m_caption;
-public:
-  Screenshot(std::string url,std::string local,std::string caption):
-  m_url(url),
-  m_local(local),
-  m_caption(caption)
-  {
-
-  }
-
-  std::string get_url() const
-  {
-      return m_url;
-  }
-
-  std::string get_caption() const
-  {
-    return m_caption;
-  }
-
-  std::string get_local() const
-  {
-    return m_local;
-  }
-
-  bool has_local() const
-  {
-    return m_local != "";
-  }
-};
 
 class Addon
 {
@@ -83,10 +50,7 @@ private:
   // additional fields provided for addons from an addon repository
   std::string m_url;
   std::string m_md5;
-  // additional fields provided by Gallery-Addons
-  std::vector< Screenshot > m_screenshots;
-  int m_rating;
-  int m_difficulty;
+
   // fields filled by the AddonManager
   std::string m_install_filename;
   bool m_enabled;
@@ -116,17 +80,6 @@ public:
   void set_install_filename(const std::string& absolute_filename, const std::string& md5);
   void set_enabled(bool v);
 
-  std::vector< Screenshot >& get_screenshots() {
-    return m_screenshots;
-  }
-
-  int getRating() const {
-    return m_rating;
-  }
-
-  int getDifficulty() const {
-    return m_difficulty;
-  }
 private:
   Addon(const Addon&) = delete;
   Addon& operator=(const Addon&) = delete;

@@ -27,7 +27,6 @@ class AddonMenu : public Menu
 private:
   enum {
     MNID_CHECK_ONLINE,
-    MNID_UPDATE_ADDONS,
     MNID_NOTHING_NEW,
     MNID_LANGPACK_MODE,
     MNID_ADDON_LIST_START = 10
@@ -48,8 +47,7 @@ public:
   void refresh() override;
   void menu_action(MenuItem* item) override;
   void check_online();
-  void update_addons();
-  void install_addon(const Addon& addon, bool update = false);
+  void install_addon(const Addon& addon);
   void toggle_addon(const Addon& addon);
 
 private:
