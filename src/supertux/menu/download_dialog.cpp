@@ -42,7 +42,7 @@ DownloadDialog::DownloadDialog(TransferStatusPtr status, bool auto_close, bool p
       else
       {
         std::unique_ptr<Dialog> dialog(new Dialog);
-        dialog->set_text(_("Error:\n") + m_status->error_msg);
+        dialog->set_text(_("Error:\n") + this->m_status->error_msg);
         dialog->add_button(_("Ok"));
         MenuManager::instance().set_dialog(std::move(dialog));
       }
