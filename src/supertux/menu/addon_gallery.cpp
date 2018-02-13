@@ -2,23 +2,25 @@
 #include "supertux/menu/addon_gallery.hpp"
 #include "util/file_system.hpp"
 #include <physfs.h>
+#include <set>
+#include <string>
 
 std::string addon_type_to_translated_string(Addon::Type type) {
   switch (type) {
-  case Addon::LEVELSET:
-    return _("Levelset");
+    case Addon::LEVELSET:
+      return _("Levelset");
 
-  case Addon::WORLDMAP:
-    return _("Worldmap");
+    case Addon::WORLDMAP:
+      return _("Worldmap");
 
-  case Addon::WORLD:
-    return _("World");
+    case Addon::WORLD:
+      return _("World");
 
-  case Addon::LANGUAGEPACK:
-    return "";
+    case Addon::LANGUAGEPACK:
+      return "";
 
-  default:
-    return _("Unknown");
+    default:
+      return _("Unknown");
   }
 }
 
@@ -30,9 +32,9 @@ void AddonGallery::refresh() {
     std::vector<std::string> installedAddons =
         m_addon_manager->get_installed_addons();
     bool installed = (std::find(installedAddons.begin(), installedAddons.end(),
-                                addon) != installedAddons.end());
-    Addon &a = installed ? m_addon_manager->get_installed_addon(addon)
-                         : m_addon_manager->get_repository_addon(addon);
+                                m_addon) != installedAddons.end());
+    Addon &a = installed ? m_addon_manager->get_installed_addon(m_addon)
+                         : m_addon_manager->get_repository_addon(m_addon);
     std::vector<std::pair<std::string, std::string>> availableScreenshots;
     // If installed mount the add-on
     std::string mountpoint;
@@ -45,11 +47,11 @@ void AddonGallery::refresh() {
         break;
     }
     bool mounted = installed;
+    PHYSFS_mkdir("scache");
     if (installed && !a.is_enabled())
       if (PHYSFS_mount(a.get_install_filename().c_str(), mountpoint.c_str(),
                        0) == 0) {
         log_warning << "Could not add " << a.get_install_filename()
-                    << " to search path: " << PHYSFS_getLastError()
                     << std::endl;
         mounted = false;
       }
@@ -57,11 +59,14 @@ void AddonGallery::refresh() {
       try {
         if (!a.get_screenshots()[i].has_local() || !mounted) {
           try {
-            d.download(a.get_screenshots()[i].get_url(),
-                       boost::str(boost::format("screenshot-%d.png") % i));
-            availableScreenshots.push_back(std::make_pair(
-                boost::str(boost::format("screenshot-%d.png") % i),
-                a.get_screenshots()[i].get_caption()));
+            std::string filename = boost::str(
+                boost::format("%s-screenshot-%d.png") % a.get_md5() % i);
+            std::string path = FileSystem::join("scache", filename);
+            if (!PHYSFS_exists(path.c_str())) {
+              d.download(a.get_screenshots()[i].get_url(), path);
+            }
+            availableScreenshots.push_back(
+                std::make_pair(path, a.get_screenshots()[i].get_caption()));
           } catch (const std::exception &err) {
             log_debug << "Error when downloading: " << err.what() << std::endl;
           }
@@ -70,11 +75,10 @@ void AddonGallery::refresh() {
               FileSystem::join(FileSystem::join(mountpoint, "screenshots"),
                                a.get_screenshots()[i].get_local());
           log_debug << path << std::endl;
-          if (PHYSFS_exists(path.c_str()))
-          {
+          if (PHYSFS_exists(path.c_str())) {
             availableScreenshots.push_back(
                 std::make_pair(path, a.get_screenshots()[i].get_caption()));
-          }else{
+          } else {
             log_debug << "Path to archive not found" << std::endl;
           }
         }
@@ -111,7 +115,7 @@ void AddonGallery::refresh() {
     add_keyvalue("Version", boost::str(boost::format("%d") % a.get_version()));
     if (installed) {
       try {
-        Addon &possibleUpdate = m_addon_manager->get_repository_addon(addon);
+        Addon &possibleUpdate = m_addon_manager->get_repository_addon(m_addon);
         if (possibleUpdate.get_version() >= a.get_version() &&
             possibleUpdate.get_md5() != a.get_md5()) {
           add_entry(MN_ADDONGALLERY_UPDATE, _("Update"));
@@ -135,5 +139,28 @@ void AddonGallery::refresh() {
     std::stringstream msg;
     msg << "Problem when loading gallery: " << err.what();
     throw std::runtime_error(msg.str());
+  }
+}
+
+AddonGallery::~AddonGallery() {
+  // Clean the cached files up
+  std::set<std::string> correctHash;
+  for (auto id : m_addon_manager->get_installed_addons()) {
+    auto &a = m_addon_manager->get_installed_addon(id);
+    correctHash.insert(a.get_md5());
+  }
+  for (auto id : m_addon_manager->get_repository_addons()) {
+    auto &a = m_addon_manager->get_installed_addon(id);
+    correctHash.insert(a.get_md5());
+  }
+  PhysFSFileSystem pfs;
+  std::vector<std::string> v = pfs.open_directory("scache");
+  for (std::string filename : v) {
+    // Get hash
+    std::string hash = filename.substr(0, filename.find("-"));
+    // If hash doesn't belong to known add-on remove the screenshot
+    if (!correctHash.count(hash)) {
+      PHYSFS_delete(FileSystem::join("scache", filename).c_str());
+    }
   }
 }
