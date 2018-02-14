@@ -19,15 +19,17 @@ private:
   int maxW = 0;
 
 public:
-  Slideshow(std::vector<SurfacePtr> &images, std::vector<std::string> &text,
+  Slideshow(std::vector<SurfacePtr> &images, std::vector<std::string> &texts,
             int time)
-      : MenuItem("") {
-    m_images = images;
+      : MenuItem(""),
+      m_time(time),
+      m_images(images),
+      m_text(texts)
+       {
     for (auto &ptr : images) {
       maxH = std::max(maxH, ptr->get_height());
       maxW = std::max(maxW, ptr->get_width());
     }
-    m_text = text;
   }
 
   virtual bool skippable() const { return true; }

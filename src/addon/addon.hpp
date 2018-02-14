@@ -28,7 +28,7 @@ struct Screenshot {
 private:
   std::string m_url, m_local , m_caption;
 public:
-  Screenshot(std::string url,std::string local,std::string caption):
+  Screenshot(std::string& url,std::string& local,std::string& caption):
   m_url(url),
   m_local(local),
   m_caption(caption)

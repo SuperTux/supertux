@@ -17,12 +17,14 @@ enum {
   MN_ADDONGALLERY_INSTALL, MN_ADDONGALLERY_UPDATE, MN_ADDONGALLERY_DEACTIVATE
 };
 private:
-  AddonManager* m_addon_manager =AddonManager::current() ;
+  std::shared_ptr<AddonManager> m_addon_manager;
   std::string m_addon;
 public:
   void refresh();
   AddonGallery(const std::string& addon):
-  m_addon(addon){
+  m_addon_manager(AddonManager::current()),
+  m_addon(addon)
+  {
     refresh();
   }
 
