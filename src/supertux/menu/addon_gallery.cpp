@@ -30,11 +30,11 @@ void AddonGallery::refresh() {
   // If the Add-On is installed do not download, instead load locally
   try {
     std::vector<std::string> installedAddons =
-        m_addon_manager->get_installed_addons();
+        m_addon_manager.get_installed_addons();
     bool installed = (std::find(installedAddons.begin(), installedAddons.end(),
                                 m_addon) != installedAddons.end());
-    Addon &a = installed ? m_addon_manager->get_installed_addon(m_addon)
-                         : m_addon_manager->get_repository_addon(m_addon);
+    Addon &a = installed ? m_addon_manager.get_installed_addon(m_addon)
+                         : m_addon_manager.get_repository_addon(m_addon);
     std::vector<std::pair<std::string, std::string>> availableScreenshots;
     // If installed mount the add-on
     std::string mountpoint;
@@ -115,7 +115,7 @@ void AddonGallery::refresh() {
     add_keyvalue("Version", boost::str(boost::format("%d") % a.get_version()));
     if (installed) {
       try {
-        Addon &possibleUpdate = m_addon_manager->get_repository_addon(m_addon);
+        Addon &possibleUpdate = m_addon_manager.get_repository_addon(m_addon);
         if (possibleUpdate.get_version() >= a.get_version() &&
             possibleUpdate.get_md5() != a.get_md5()) {
           add_entry(MN_ADDONGALLERY_UPDATE, _("Update"));
@@ -145,12 +145,12 @@ void AddonGallery::refresh() {
 AddonGallery::~AddonGallery() {
   // Clean the cached files up
   std::set<std::string> correctHash;
-  for (auto id : m_addon_manager->get_installed_addons()) {
-    auto &a = m_addon_manager->get_installed_addon(id);
+  for (auto id : m_addon_manager.get_installed_addons()) {
+    auto &a = m_addon_manager.get_installed_addon(id);
     correctHash.insert(a.get_md5());
   }
-  for (auto id : m_addon_manager->get_repository_addons()) {
-    auto &a = m_addon_manager->get_installed_addon(id);
+  for (auto id : m_addon_manager.get_repository_addons()) {
+    auto &a = m_addon_manager.get_repository_addon(id);
     correctHash.insert(a.get_md5());
   }
   PhysFSFileSystem pfs;

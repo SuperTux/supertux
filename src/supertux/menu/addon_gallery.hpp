@@ -17,12 +17,14 @@ enum {
   MN_ADDONGALLERY_INSTALL, MN_ADDONGALLERY_UPDATE, MN_ADDONGALLERY_DEACTIVATE
 };
 private:
-  AddonManager* m_addon_manager =AddonManager::current() ;
+  AddonManager& m_addon_manager;
   std::string m_addon;
 public:
   void refresh();
   AddonGallery(const std::string& addon):
-  m_addon(addon){
+  m_addon_manager(*AddonManager::current()),
+  m_addon(addon)
+  {
     refresh();
   }
 
@@ -31,7 +33,7 @@ public:
   {
     if(item->id == MN_ADDONGALLERY_INSTALL || item->id == MN_ADDONGALLERY_UPDATE)
     {
-        auto status = m_addon_manager->request_install_addon(m_addon);
+        auto status = m_addon_manager.request_install_addon(m_addon);
         std::unique_ptr<DownloadDialog> dialog(new DownloadDialog(status, false, false));
         dialog->set_title(str(boost::format( _((item->id == MN_ADDONGALLERY_INSTALL)?"Downloading %s":"Updating %s") ) % m_addon));
         status->then([this](bool success)
@@ -40,7 +42,7 @@ public:
           {
             try
             {
-              m_addon_manager->enable_addon(m_addon);
+              m_addon_manager.enable_addon(m_addon);
             }
             catch(const std::exception& err)
             {
@@ -56,12 +58,12 @@ public:
     }
     if(item->id == MN_ADDONGALLERY_DEACTIVATE)
     {
-      bool activated = m_addon_manager->get_installed_addon(m_addon).is_enabled();
+      bool activated = m_addon_manager.get_installed_addon(m_addon).is_enabled();
       if(activated)
       {
-        m_addon_manager->disable_addon(m_addon);
+        m_addon_manager.disable_addon(m_addon);
       }else{
-        m_addon_manager->enable_addon(m_addon);
+        m_addon_manager.enable_addon(m_addon);
       }
       clear();
       refresh();
