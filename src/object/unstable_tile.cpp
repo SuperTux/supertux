@@ -102,10 +102,7 @@ void UnstableTile::slow_fall()
 
 void UnstableTile::fall_down()
 {
-  if ((state != STATE_NORMAL)
-      && (state != STATE_SHAKE)
-      && (state != STATE_DISSOLVE)
-      && (state != STATE_SLOWFALL))
+  if (state == STATE_FALL)
     return;
 
   if (sprite->has_action ("fall-down")) {
