@@ -24,6 +24,7 @@
 #include "gui/menu_item.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "supertux/menu/editor_levelset_menu.hpp"
+#include "supertux/menu/editor_addon_wizard.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
@@ -88,6 +89,7 @@ void EditorLevelSelectMenu::initialize() {
 
   add_entry(-1, _("Create Level"));
   add_entry(-3, _("Level subset properties"));
+  add_entry(-6, _("Pack Addon for sharing"));
   add_back(_("Back"),-2);
 }
 
@@ -171,6 +173,12 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
       case -5:
         create_worldmap();
         break;
+      case -6:
+      {
+        auto menu = std::unique_ptr<Menu>(new EditorAddonWizard(world->get_basedir()));
+        MenuManager::instance().push_menu(std::move(menu));
+        break;
+      }
       default:
         break;
     }

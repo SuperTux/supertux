@@ -16,3 +16,9 @@
 [submodule "external/physfs"]
 	path = external/physfs
 	url = https://github.com/SuperTux/physfs
+[submodule "external/libzip"]
+	path = external/libzip
+	url = https://github.com/christ2go/libzip
+[submodule "external/zlib"]
+	path = external/zlib
+	url = https://github.com/madler/zlib
