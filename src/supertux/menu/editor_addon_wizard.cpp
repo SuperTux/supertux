@@ -51,7 +51,11 @@ static PHYSFS_EnumerateCallbackResult printDir(void *data, const char *origdir, 
 }
 
 EditorAddonWizard::EditorAddonWizard(const std::string& dir):
-  m_dir(dir)
+  name(),
+  author(),
+  license(),
+  m_dir(dir),
+  id()
 {
   add_label("Export Add-Om");
   add_hl();
