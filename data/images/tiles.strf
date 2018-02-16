@@ -4789,8 +4789,7 @@
     (height 4)
     (ids
       3438 3439
-      3440 3441
-      3442 3443
+      3440 3441      3442 3443
       3444 3445
     )
     (attributes
@@ -4805,8 +4804,7 @@
   (tile
     (id 3446)
     (images "creatures/spike/spikeup.png")
-
-   (hurts #t)
+    (hurts #t)
   )
   (tile
     (id 3447)
