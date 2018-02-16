@@ -21,10 +21,14 @@
 class EditorAddonWizard : public Menu {
 public:
   EditorAddonWizard(const std::string& dir);
+
   void menu_action(MenuItem* item) override;
+
 private:
-  std::string name, author,license,m_dir, id;
+  std::string name, author, license, m_dir, id;
+
   int vers = 0;
+
   enum MenuIDs {
     MNID_PACK
   };

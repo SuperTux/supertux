@@ -41,16 +41,17 @@ static PHYSFS_EnumerateCallbackResult printDir(void *data, const char *origdir, 
     std::vector<std::string>* liste = (std::vector<std::string>*) data;
     std::string realf = FileSystem::join(origdir,fname);
     PHYSFS_stat(realf.c_str(),&sr);
-    if(sr.filetype == PHYSFS_FILETYPE_DIRECTORY)
+    if (sr.filetype == PHYSFS_FILETYPE_DIRECTORY)
     {
       PHYSFS_enumerate(realf.c_str(),printDir, data);
-    }else{
+    } else {
       liste->push_back(realf);
     }
     return PHYSFS_ENUM_OK;  // give me more data, please.
 }
+
 EditorAddonWizard::EditorAddonWizard(const std::string& dir):
-m_dir(dir)
+  m_dir(dir)
 {
   add_label("Export Add-Om");
   add_hl();
@@ -68,7 +69,7 @@ void EditorAddonWizard::menu_action(MenuItem* item)
   if(item->id == MNID_PACK)
   {
     // First write the NFO-File
-   std::stringstream   nfostream;
+    std::stringstream nfostream;
     Writer w(&nfostream);
     w.start_list("supertux-addoninfo");
     w.write("id",id);
@@ -77,7 +78,9 @@ void EditorAddonWizard::menu_action(MenuItem* item)
     w.write("title",name);
     w.write("license",license);
     w.end_list("supertux-addoninfo");
+
     log_debug << "Starting to create the zip file " << m_dir << std::endl;
+
     // Collect all filenames
     PhysFSFileSystem pfs;
     std::vector<std::string> f;
@@ -86,19 +89,20 @@ void EditorAddonWizard::menu_action(MenuItem* item)
     zip_error_t er;
     std::string filename = id+".zip";
     zip * arch = zip_open(filename.c_str(),ZIP_CREATE,&error);
-    if(error != 0)
+    if (error != 0)
     {
       zip_error_t e;
       zip_error_init_with_code(&e,error);
       log_debug << "Error creating zip file" << std::endl << zip_error_strerror(&e) << std::endl;
     }
+
     // Create nfo file
     std::string nfo = nfostream.str();
     std::string adf = id+".nfo";
     zip_source_t * zipl  = zip_source_buffer_create(nfo.c_str(),nfo.size(),0,&er);
     zip_file_add(arch,adf.c_str(),zipl,ZIP_FL_ENC_UTF_8);
 
-    for(auto dateiname:f)
+    for (auto dateiname:f)
     {
       PHYSFS_Stat stat;
       auto fhandle = PHYSFS_openRead(dateiname.c_str());
@@ -110,13 +114,11 @@ void EditorAddonWizard::menu_action(MenuItem* item)
       zip_source_t * zips = zip_source_buffer_create(buffer,stat.filesize,1,&er);
       zip_file_add(arch,dateiname.c_str(),zips,ZIP_FL_ENC_UTF_8);
     }
+
     int e = zip_close(arch);
-    if(e != 0)
+    if (e != 0)
     {
       log_debug << "Error saving" << zip_error_strerror(zip_get_error(arch)) << std::endl;
     }
-    // Create nfo file
-
-    // Save the archive
   }
 }
