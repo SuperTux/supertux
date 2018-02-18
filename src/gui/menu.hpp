@@ -23,6 +23,7 @@
 
 #include "math/vector.hpp"
 #include "video/color.hpp"
+#include "video/surface_ptr.hpp"
 
 class Color;
 class DrawingContext;
@@ -39,6 +40,7 @@ public:
   MenuItem* add_hl();
   MenuItem* add_label(const std::string& text);
   MenuItem* add_entry(int id, const std::string& text);
+  MenuItem* add_icon_entry(int id, const std::string& text, const SurfacePtr& icon);
   MenuItem* add_toggle(int id, const std::string& text, bool* toggled);
   MenuItem* add_inactive(const std::string& text);
   MenuItem* add_back(const std::string& text, int id = -1);

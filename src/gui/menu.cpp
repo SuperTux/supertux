@@ -191,6 +191,13 @@ Menu::add_entry(int id, const std::string& text)
 }
 
 MenuItem*
+Menu::add_icon_entry(int id, const std::string& text, const SurfacePtr& icon)
+{
+  std::unique_ptr<ItemIcon> item(new ItemIcon(text, id, icon));
+  return add_item(std::move(item));
+}
+
+MenuItem*
 Menu::add_inactive(const std::string& text)
 {
   std::unique_ptr<ItemInactive> item(new ItemInactive(text));

@@ -20,6 +20,7 @@
 #include <stdexcept>
 
 #include "control/input_manager.hpp"
+#include "object/tilemap.hpp"
 #include "supertux/screen.hpp"
 
 class LayerIcon;
@@ -45,7 +46,7 @@ class EditorLayersGui
     std::vector<std::unique_ptr<LayerIcon>> layers;
     void add_layer(GameObject* layer);
 
-    GameObject *selected_tilemap;
+    TileMap* selected_tilemap;
 
   private:
     int Ypos;

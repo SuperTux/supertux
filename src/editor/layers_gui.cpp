@@ -81,8 +81,10 @@ EditorLayersGui::draw(DrawingContext& context) {
       target_rect = Rectf(Vector(Xpos, Ypos), Vector(sector_text_width + Xpos, SCREEN_HEIGHT));
       break;
     case HI_LAYERS: {
-      Vector coords = get_layer_coords(hovered_layer);
-      target_rect = Rectf(coords, coords + Vector(32, 32));
+      auto layer_text = selected_tilemap->get_description();
+      auto sector_text_width = Resources::normal_font->get_text_width(sector_text) + 75;
+      auto layer_text_width = Resources::normal_font->get_text_width(layer_text);
+      target_rect = Rectf(sector_text_width, Ypos, sector_text_width + layer_text_width, SCREEN_HEIGHT);
     } break;
     default:
       draw_rect = false;
@@ -102,18 +104,27 @@ EditorLayersGui::draw(DrawingContext& context) {
                     Vector(35, Ypos+5),
                     ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
-  int pos = 0;
+  /*int pos = 0;
   for(const auto& layer_icon : layers) {
     if (layer_icon->is_valid()) {
       layer_icon->draw(context, get_layer_coords(pos));
     }
     pos++;
-  }
+  }*/
+
+  auto layer_text = selected_tilemap->get_description();
+  auto sector_text_width = Resources::normal_font->get_text_width(sector_text) + 75;
+  //auto surface = layers[hovered_layer]->surface;
+  //context.draw_surface(surface, Vector(sector_text_width, Ypos + 5), LAYER_GUI);
+    //context.draw_surface_part(selected_tilemap->get_icon(), Rectf(Vector(0, 0), icon->get_size()),
+    //                        Rectf(pos + Vector(10, -10), pos + Vector(30, 10)), LAYER_GUI);
+  context.draw_text(Resources::normal_font, layer_text, Vector(Resources::normal_font->get_text_width(sector_text) + 75, Ypos + 5),
+                    ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 }
 
 void
 EditorLayersGui::update(float elapsed_time) {
-  auto it = layers.begin();
+  /*auto it = layers.begin();
   while(it != layers.end())
   {
     auto layer_icon = (*it).get();
@@ -121,7 +132,7 @@ EditorLayersGui::update(float elapsed_time) {
       it = layers.erase(it);
     else
       ++it;
-  }
+  }*/
 }
 
 bool
@@ -137,6 +148,7 @@ EditorLayersGui::event(SDL_Event& ev) {
             MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
             break;
           case HI_LAYERS:
+            MenuManager::instance().set_menu(MenuStorage::EDITOR_LAYERS_MENU);
             if (hovered_layer >= layers.size()) {
               break;
             }
@@ -144,7 +156,7 @@ EditorLayersGui::event(SDL_Event& ev) {
               if (selected_tilemap) {
                 ((TileMap*)selected_tilemap)->editor_active = false;
               }
-              selected_tilemap = layers[hovered_layer]->layer;
+              //selected_tilemap = (TileMap*)(layers[hovered_layer]->layer);
               ((TileMap*)selected_tilemap)->editor_active = true;
               editor->inputcenter.edit_path(((TileMap*)selected_tilemap)->get_path().get(),
                                                        selected_tilemap);
@@ -189,11 +201,11 @@ EditorLayersGui::event(SDL_Event& ev) {
           hovered_item = HI_SECTOR;
           object_tip = NULL;
         } else {
-          unsigned int new_hovered_layer = get_layer_pos(mouse_pos);
+          /*unsigned int new_hovered_layer = get_layer_pos(mouse_pos);
           if (hovered_layer != new_hovered_layer || hovered_item != HI_LAYERS) {
             hovered_layer = new_hovered_layer;
             update_tip();
-          }
+          }*/
           hovered_item = HI_LAYERS;
         }
       }
