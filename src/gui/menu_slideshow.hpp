@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include <list>
 #include <memory>
-
+#include <algorithm>
 #include "gui/menu_item.hpp"
 #include "video/surface.hpp"
 
