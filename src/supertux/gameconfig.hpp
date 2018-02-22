@@ -54,7 +54,6 @@ public:
 
   bool use_fullscreen;
   VideoSystem::Enum video;
-  bool try_vsync;
   bool show_fps;
   bool show_player_pos;
   bool sound_enabled;
