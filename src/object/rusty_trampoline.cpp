@@ -37,7 +37,7 @@ RustyTrampoline::RustyTrampoline(const ReaderMapping& lisp) :
   Rock(lisp, "images/objects/rusty-trampoline/rusty-trampoline.sprite"),
   portable(true), counter(3)
 {
-  if(!lisp.get("name", name)) name = "";
+  lisp.get("name", name, "");
   SoundManager::current()->preload(BOUNCE_SOUND);
 
   lisp.get("counter", counter);

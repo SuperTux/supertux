@@ -47,6 +47,12 @@ Player::add_coins(int count)
   m_parent->add_coins(count);
 }
 
+int
+Player::get_coins() const
+{
+  return m_parent->get_coins();
+}
+
 void
 Player::make_invincible()
 {

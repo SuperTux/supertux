@@ -48,7 +48,7 @@ EditorInputGui::EditorInputGui() :
   input_type(IP_NONE),
   active_tilegroup(),
   active_objectgroup(-1),
-  object_input(),
+  object_input(new ObjectInput()),
   rubber(       new ToolIcon("images/engine/editor/rubber.png")),
   select_mode(  new ToolIcon("images/engine/editor/select-mode0.png")),
   move_mode(    new ToolIcon("images/engine/editor/move-mode0.png")),
@@ -63,9 +63,6 @@ EditorInputGui::EditorInputGui() :
   drag_start(0, 0),
   Xpos(512)
 {
-  std::unique_ptr<ObjectInput> oi( new ObjectInput() );
-  object_input = move(oi);
-
   select_mode->push_mode  ("images/engine/editor/select-mode1.png");
   select_mode->push_mode  ("images/engine/editor/select-mode2.png");
   move_mode->push_mode    ("images/engine/editor/move-mode1.png");
@@ -87,34 +84,11 @@ EditorInputGui::draw(DrawingContext& context) {
                              0.0f, LAYER_GUI+1);
   }
 
-  switch (hovered_item) {
-    case HI_TILEGROUP:
-      context.draw_filled_rect(Rectf(Vector(Xpos, 0), Vector(SCREEN_WIDTH, 22)),
-                               Color(0.9f, 0.9f, 1.0f, 0.6f),
-                               0.0f,
-                               LAYER_GUI-5);
-      break;
-    case HI_OBJECTS:
-      context.draw_filled_rect(Rectf(Vector(Xpos, 22), Vector(SCREEN_WIDTH, 44)),
-                               Color(0.9f, 0.9f, 1.0f, 0.6f),
-                               0.0f,
-                               LAYER_GUI-5);
-      break;
-    case HI_TILE: {
-      Vector coords = get_tile_coords(hovered_tile);
-      context.draw_filled_rect(Rectf(coords, coords + Vector(32, 32)),
-                               Color(0.9f, 0.9f, 1.0f, 0.6f),
-                               0.0f,
-                               LAYER_GUI-5);
-    } break;
-    case HI_TOOL: {
-      Vector coords = get_tool_coords(hovered_tile);
-      context.draw_filled_rect(Rectf(coords, coords + Vector(32, 16)),
-                               Color(0.9f, 0.9f, 1.0f, 0.6f),
-                               0.0f,
-                               LAYER_GUI-5);
-    } break;
-    default: break;
+  if(hovered_item != HI_NONE)
+  {
+    context.draw_filled_rect(get_item_rect(hovered_item),
+                             Color(0.9f, 0.9f, 1.0f, 0.6f),
+                             0.0f, LAYER_GUI - 5);
   }
 
   context.draw_text(Resources::normal_font, _("Tilegroups"),
@@ -202,6 +176,10 @@ EditorInputGui::update(float elapsed_time) {
       if (input_type == IP_OBJECT){
         size = object_input->groups[active_objectgroup].icons.size();
       } else {
+        if(active_tilegroup == NULL)
+        {
+          return;
+        }
         size = active_tilegroup->tiles.size();
       }
       if (starting_tile < size-5) {
@@ -508,6 +486,29 @@ EditorInputGui::get_tool_pos(const Vector& coords) const {
   int x = (coords.x - Xpos) / 32;
   int y = (coords.y - 44)   / 16;
   return y*4 + x;
+}
+
+Rectf
+EditorInputGui::get_item_rect(const HoveredItem& item) const
+{
+  switch(item)
+  {
+    case HI_TILEGROUP: return Rectf(Vector(Xpos, 0), Vector(SCREEN_WIDTH, 22));
+    case HI_OBJECTS:   return Rectf(Vector(Xpos, 22), Vector(SCREEN_WIDTH, 44));
+    case HI_TILE:
+    {
+      auto coords = get_tile_coords(hovered_tile);
+      return Rectf(coords, coords + Vector(32, 32));
+    }
+    case HI_TOOL:
+    {
+      auto coords = get_tool_coords(hovered_tile);
+      return Rectf(coords, coords + Vector(32, 16));
+    }
+    case HI_NONE:
+    default:
+      return Rectf();
+  }
 }
 
 /* EOF */

@@ -54,6 +54,15 @@ private:
   SpritePtr lightcone;
 
   Color   color;
+  /**
+   * Speed that the spotlight is rotating with
+   */
+  float speed;
+
+  /**
+   * If true, the spotlight will rotate counter-clockwise
+   */
+  bool counter_clockwise;
 };
 
 #endif
