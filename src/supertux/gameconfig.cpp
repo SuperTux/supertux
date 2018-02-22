@@ -36,7 +36,6 @@ Config::Config() :
   magnification(0.0f),
   use_fullscreen(false),
   video(VideoSystem::AUTO_VIDEO),
-  try_vsync(true),
   show_fps(false),
   show_player_pos(false),
   sound_enabled(true),
@@ -96,7 +95,6 @@ Config::load()
     std::string video_string;
     config_video_lisp.get("video", video_string);
     video = VideoSystem::get_video_system(video_string);
-    config_video_lisp.get("vsync", try_vsync);
 
     config_video_lisp.get("fullscreen_width",  fullscreen_size.width);
     config_video_lisp.get("fullscreen_height", fullscreen_size.height);
@@ -185,7 +183,6 @@ Config::save()
   writer.start_list("video");
   writer.write("fullscreen", use_fullscreen);
   writer.write("video", VideoSystem::get_video_string(video));
-  writer.write("vsync", try_vsync);
 
   writer.write("fullscreen_width",  fullscreen_size.width);
   writer.write("fullscreen_height", fullscreen_size.height);
