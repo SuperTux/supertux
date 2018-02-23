@@ -141,9 +141,6 @@
     (class "leafshot")
     (icon "images/creatures/leafshot/left-1.png"))
   (object
-    (class "mole_rock")
-    (icon "images/creatures/mole/mole-rock.png"))
-  (object
     (class "skydive")
     (icon "images/creatures/skydive/skydive.png"))
   (object
