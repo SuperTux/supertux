@@ -38,7 +38,7 @@ env:
     - secure: "E++FmjzZZrvkJpUHZajLUaO1wd0QHcyVidVx8qVeGUJm/khCPBJuhkSe6R2BphcBeeAuhVlsXo26SWCAn89r2KT2OHB/lwtK2CWhO5vOl5bI5o4nFc+m55e2gDIebSBrXQPITEQJpQx1zBL4FVw/A2xQRl+IcjF/EiIzG8Znslc="
     # DOWNLOAD_APIKEY env var
     - secure: "ZfRyz4HyLtCtHSrCzB+VwdRP3QLbhcXiqsUAhBYNBz6fU8B4l7UchcRrTVsSQJMJeQQ3V7baJsqi4vAcxtd2aV/UDb82aWy9+lwexecjS+fVNh6Ace8j69PVeywpVVonY2Mk/8LeEAvBkjB1OeRlE+gMC08QwOiHqkR2qVcwNYA="
-    - GLBINDING_VERSION=2.1.3
+    - GLBINDING_VERSION=2.1.4
   matrix:
     - BUILD_TYPE="Debug"
     - BUILD_TYPE="Release"
