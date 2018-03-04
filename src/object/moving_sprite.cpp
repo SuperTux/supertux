@@ -92,6 +92,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
 MovingSprite::MovingSprite(const MovingSprite& other) :
   MovingObject(other),
   sprite_name(),
+  default_sprite_name(),
   sprite(other.sprite->clone()),
   layer(other.layer)
 {
