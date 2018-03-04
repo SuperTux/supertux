@@ -53,6 +53,10 @@ public:
   virtual std::string get_class() const override {
     return "moving-sprite";
   }
+  virtual void save(Writer& writer) override;
+  virtual std::string get_default_sprite_name() const {
+    return default_sprite_name;
+  }
 
   virtual ObjectSettings get_settings() override;
   virtual void after_editor_set() override;
@@ -62,6 +66,11 @@ public:
 
 protected:
   std::string sprite_name;
+
+  /**
+   * The default sprite for this MovingObject
+   */
+  std::string default_sprite_name;
   SpritePtr sprite;
   int layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
 

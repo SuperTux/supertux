@@ -27,6 +27,7 @@
 MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
                            int layer_, CollisionGroup collision_group) :
   sprite_name(sprite_name_),
+  default_sprite_name(sprite_name_),
   sprite(SpriteManager::current()->create(sprite_name)),
   layer(layer_)
 {
@@ -37,6 +38,7 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
 
 MovingSprite::MovingSprite(const ReaderMapping& reader, const Vector& pos, int layer_, CollisionGroup collision_group) :
   sprite_name(),
+  default_sprite_name(),
   sprite(),
   layer(layer_)
 {
@@ -44,6 +46,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const Vector& pos, int l
   if (!reader.get("sprite", sprite_name))
     throw std::runtime_error("no sprite name set");
 
+  default_sprite_name = sprite_name;
   sprite = SpriteManager::current()->create(sprite_name);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_group(collision_group);
@@ -51,6 +54,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const Vector& pos, int l
 
 MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprite_name_, int layer_, CollisionGroup collision_group) :
   sprite_name(sprite_name_),
+  default_sprite_name(sprite_name_),
   sprite(),
   layer(layer_)
 {
@@ -70,6 +74,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
 
 MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGroup collision_group) :
   sprite_name(),
+  default_sprite_name(),
   sprite(),
   layer(layer_)
 {
@@ -78,6 +83,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGro
   if (!reader.get("sprite", sprite_name))
     throw std::runtime_error("no sprite name set");
 
+  default_sprite_name = sprite_name;
   sprite = SpriteManager::current()->create(sprite_name);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_group(collision_group);
@@ -162,10 +168,19 @@ void MovingSprite::change_sprite(const std::string& new_sprite_name)
 ObjectSettings MovingSprite::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
-  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name, "sprite");
+  ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
   spr.select.push_back(".sprite");
   result.options.push_back(spr);
   return result;
+}
+
+void MovingSprite::save(Writer& writer)
+{
+  MovingObject::save(writer);
+  if(sprite_name != get_default_sprite_name())
+  {
+    writer.write("sprite", sprite_name);
+  }
 }
 
 void MovingSprite::after_editor_set()
