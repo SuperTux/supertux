@@ -62,7 +62,8 @@ private:
   Vector last_self_pos; /**< position we last were at */
   Vector pre_dive_pos; /**< position before starting dive */
   Vector pre_dive_player_pos; /**< player position before starting dive */
-
+  Vector estimated_player_pos; /**< player psoition estimated for diving */
+  std::vector<double> m_solution;
 private:
   Zeekling(const Zeekling&);
   Zeekling& operator=(const Zeekling&);

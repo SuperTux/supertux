@@ -24,6 +24,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
+#include <algorithm>
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
@@ -32,7 +33,11 @@ Zeekling::Zeekling(const ReaderMapping& reader) :
   state(FLYING),
   last_player(0),
   last_player_pos(),
-  last_self_pos()
+  last_self_pos(),
+  pre_dive_pos(),
+  pre_dive_player_pos(),
+  estimated_player_pos(),
+  m_solution(3)
 {
   physic.enable_gravity(false);
 }
@@ -44,7 +49,11 @@ Zeekling::Zeekling(const Vector& pos, Direction d) :
   state(FLYING),
   last_player(0),
   last_player_pos(),
-  last_self_pos()
+  last_self_pos(),
+  pre_dive_pos(),
+  pre_dive_player_pos(),
+  estimated_player_pos(),
+  m_solution(3)
 {
   physic.enable_gravity(false);
 }
@@ -125,7 +134,8 @@ Zeekling::collision_solid(const CollisionHit& hit)
 
   if(hit.top || hit.bottom) {
     onBumpVertical();
-  } else if(hit.left || hit.right) {
+  }
+  if(hit.left || hit.right) {
     onBumpHorizontal();
   }
 }
@@ -156,22 +166,17 @@ Zeekling::should_we_dive() {
 
     // do not dive if we are too far above the player
     if (height > 512) return false;
-
     // do not dive if we would not descend faster than the player
     float relSpeed = vy - player_mov.y;
     if (relSpeed <= 0) return false;
 
     // guess number of frames to descend to same height as player
     float estFrames = height / relSpeed;
-
     // guess where the player would be at this time
     float estPx = (player_pos.x + (estFrames * player_mov.x));
+    estimated_player_pos = Vector(estPx,player_pos.y+ (estFrames * player_mov.y));
+      return (dir==LEFT) ? (get_pos().x >= pre_dive_player_pos.x ) : (get_pos().x <= pre_dive_player_pos.x);
 
-    // guess where we would be at this time
-    float estBx = (self_pos.x + (estFrames * self_mov.x));
-
-    // near misses are OK, too
-    if (fabsf(estPx - estBx) < 32) return true;
   }
 
   // update last player tracked, as well as our positions
@@ -183,28 +188,117 @@ Zeekling::should_we_dive() {
 
   return false;
 }
+/**
+ *  Fills an equation vector given a Point (x|y)
+ *  with the coefficients for f(x) = ax^2+bx+c
+ */
+void filleq(std::vector<double>& eq,double x,double y)
+{
+  eq[0] = pow(x,2);
+  eq[1] = x;
+  eq[2] = 1;
+  eq[3] = y;
+}
+/**
+ * Solves a system of linear equations using gaussian elimanation.
+ * Uses O(n^3) Operations (because for zeeklings n = 3, this isn't as bad as it sounds)
+ */
+std::vector<double> gauss(std::vector< std::vector<double> > A) {
+    int n = A.size();
+
+    for (int i=0; i<n; i++) {
+        // Search for maximum in this column
+        double maxEl = abs(A[i][i]);
+        int maxRow = i;
+        for (int k=i+1; k<n; k++) {
+            if (abs(A[k][i]) > maxEl) {
+                maxEl = abs(A[k][i]);
+                maxRow = k;
+            }
+        }
+        for (int k=i; k<n+1;k++) {
+            double tmp = A[maxRow][k];
+            A[maxRow][k] = A[i][k];
+            A[i][k] = tmp;
+        }
+        for (int k=i+1; k<n; k++) {
+            double c = -A[k][i]/A[i][i];
+            for (int j=i; j<n+1; j++) {
+                if (i==j) {
+                    A[k][j] = 0;
+                } else {
+                    A[k][j] += c * A[i][j];
+                }
+            }
+        }
+    }
+    std::vector<double> x(n);
+    for (int i=n-1; i>=0; i--) {
+        x[i] = A[i][n]/A[i][i];
+        for (int k=i-1;k>=0; k--) {
+            A[k][n] -= A[k][i] * x[i];
+        }
+    }
+    return x;
+}
+/**
+ *  Evaluates f(x) = ax^2+bx+c , where the coefficients are given as an array
+ *  at the point x.
+ */
+double feval(double x,std::vector<double> sol)
+{
+  return sol[0]*pow(x,2)+sol[1]*x+sol[2];
+}
 
 void
 Zeekling::active_update(float elapsed_time) {
   if (state == FLYING) {
     if (should_we_dive()) {
-      state = DIVING;
-      //physic.set_velocity_y(2*fabsf(physic.get_velocity_x()));
-      SoundManager::current()->play("sounds/deathd.wav");
-      physic.set_velocity_y(8*fabsf(physic.get_velocity_x()));
+      // Our position
       pre_dive_pos = get_pos();
-      pre_dive_player_pos = get_nearest_player()->get_pos();
+      // The estimated position we should dive to
+      pre_dive_player_pos = estimated_player_pos;
       sprite->set_action(dir == LEFT ? "diving-left" : "diving-right");
+      // Calculate coefficients for f(x) = ax^2 + bx + c
+      std::vector< std::vector<double> > lineq(3);
+      for(int i = 0;i<3;i++)
+        lineq[i].resize(4);
+      // 1st condition: f(pre_dive_pos.x) = pre_dive_pos.y
+      filleq(lineq[0], pre_dive_pos.x, pre_dive_pos.y);
+      // 2nd condition: f(pre_dive_player_pos.x) =  pre_dive_player_pos.y
+      filleq(lineq[1], pre_dive_player_pos.x, pre_dive_player_pos.y);
+      // 3rd condition: f'(player_pos) = 0
+      lineq[2][0] = 2*pre_dive_player_pos.x;
+      lineq[2][1] = 1;
+      lineq[2][2] = lineq[2][3] = 0.0;
+      // Solve using gaussian elimanation
+      std::vector<double> solution = gauss(lineq);
+      // Save solution for later use
+      m_solution = solution;
+      // Only dive if average moving rate is within interval
+      // (else the curves are too steep)
+      if(abs( ( pre_dive_pos.y - pre_dive_player_pos.y ) / ( pre_dive_pos.x-pre_dive_player_pos.x ) ) < 0.5 || abs((pre_dive_pos.y-pre_dive_player_pos.y)/(pre_dive_pos.x-pre_dive_player_pos.x))  > 3)
+      {
+        state = FLYING;
+        sprite->set_action(dir == LEFT ? "left" : "right");
+      }else{
+        // Move down
+        log_debug << solution[0] << std::endl;
+
+        state = DIVING;
+        SoundManager::current()->play("sounds/deathd.wav");
+        physic.set_velocity_y((-get_pos().y+feval(get_pos().x,m_solution))/elapsed_time);
+      }
     }
     BadGuy::active_update(elapsed_time);
     return;
   } else if (state == DIVING) {
-    if (get_pos().y >= pre_dive_player_pos.y || physic.get_velocity_y() > 1) {
+    // Are we still within the range of [estimatedplayer_x;zeeklingpos]
+    if (get_pos().y <= pre_dive_player_pos.y && (dir==LEFT) ? (get_pos().x >= pre_dive_player_pos.x ) : (get_pos().x <= pre_dive_player_pos.x)) {
       // We're at or above the player level, so decrease y velocity
-      physic.set_velocity_y(
-              -2 * (get_pos().y - pre_dive_player_pos.y)
-              );
+        physic.set_velocity_y((-get_pos().y+feval(get_pos().x,m_solution))/elapsed_time);
     } else {
+      log_debug << "Updating" << std::endl;
       // We're already below the player, or already flying horizontally, so go ahead and climb back up
       onBumpVertical();
     }
