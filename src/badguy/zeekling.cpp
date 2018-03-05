@@ -19,6 +19,7 @@
 
 #include <math.h>
 
+#include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -170,7 +171,7 @@ Zeekling::should_we_dive() {
     float estBx = (self_pos.x + (estFrames * self_mov.x));
 
     // near misses are OK, too
-    if (fabsf(estPx - estBx) < 8) return true;
+    if (fabsf(estPx - estBx) < 32) return true;
   }
 
   // update last player tracked, as well as our positions
@@ -188,12 +189,25 @@ Zeekling::active_update(float elapsed_time) {
   if (state == FLYING) {
     if (should_we_dive()) {
       state = DIVING;
-      physic.set_velocity_y(2*fabsf(physic.get_velocity_x()));
+      //physic.set_velocity_y(2*fabsf(physic.get_velocity_x()));
+      SoundManager::current()->play("sounds/deathd.wav");
+      physic.set_velocity_y(8*fabsf(physic.get_velocity_x()));
+      pre_dive_pos = get_pos();
+      pre_dive_player_pos = get_nearest_player()->get_pos();
       sprite->set_action(dir == LEFT ? "diving-left" : "diving-right");
     }
     BadGuy::active_update(elapsed_time);
     return;
   } else if (state == DIVING) {
+    if (get_pos().y >= pre_dive_player_pos.y || physic.get_velocity_y() > 1) {
+      // We're at or above the player level, so decrease y velocity
+      physic.set_velocity_y(
+              -2 * (get_pos().y - pre_dive_player_pos.y)
+              );
+    } else {
+      // We're already below the player, or already flying horizontally, so go ahead and climb back up
+      onBumpVertical();
+    }
     BadGuy::active_update(elapsed_time);
     return;
   } else if (state == CLIMBING) {

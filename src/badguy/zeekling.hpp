@@ -60,6 +60,8 @@ private:
   const MovingObject* last_player; /**< last player we tracked */
   Vector last_player_pos; /**< position we last spotted the player at */
   Vector last_self_pos; /**< position we last were at */
+  Vector pre_dive_pos; /**< position before starting dive */
+  Vector pre_dive_player_pos; /**< player position before starting dive */
 
 private:
   Zeekling(const Zeekling&);
