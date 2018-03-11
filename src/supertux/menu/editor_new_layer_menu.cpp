@@ -46,8 +46,8 @@ EditorNewLayerMenu::EditorNewLayerMenu()
   add_entry(1, _("Background"));
   add_entry(2, _("Gradient"));
   add_entry(3, _("Thunderstorm"));
-  add_entry(4, _("Cloud particle system"));
-  add_entry(5, _("Rain particle system"));
+  add_entry(4, _("Cloud particles"));
+  add_entry(5, _("Rain particles"));
 
   add_hl();
   add_entry(-2,_("Cancel"));
