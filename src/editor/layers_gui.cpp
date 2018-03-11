@@ -82,9 +82,8 @@ EditorLayersGui::draw(DrawingContext& context) {
       break;
     case HI_LAYERS: {
       auto layer_text = selected_tilemap->get_description();
-      auto sector_text_width = Resources::normal_font->get_text_width(sector_text) + 75;
       auto layer_text_width = Resources::normal_font->get_text_width(layer_text);
-      target_rect = Rectf(sector_text_width, Ypos, sector_text_width + layer_text_width, SCREEN_HEIGHT);
+      target_rect = Rectf(sector_text_width + 70, Ypos, sector_text_width + layer_text_width + 70, SCREEN_HEIGHT);
     } break;
     default:
       draw_rect = false;
