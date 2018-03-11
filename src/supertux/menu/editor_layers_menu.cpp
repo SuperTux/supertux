@@ -74,9 +74,15 @@ EditorLayersMenu::menu_action(MenuItem* item)
   if (item->id >= 0)
   {
     auto editor = Editor::current();
-    editor->layerselect.selected_tilemap->editor_active = false;
-    editor->layerselect.selected_tilemap = (TileMap*)(editor->layerselect.layers[item->id]->layer);
-    editor->layerselect.selected_tilemap->editor_active = true;
+    auto& selected_tilemap = editor->layerselect.selected_tilemap;
+    auto& new_layer = editor->layerselect.layers[item->id]->layer;
+    
+    if(dynamic_cast<TileMap*>(new_layer) != NULL)
+    {
+      selected_tilemap->editor_active = false;
+      selected_tilemap = dynamic_cast<TileMap*>(new_layer);
+      selected_tilemap->editor_active = true;
+    }
   }
   if(item->id == -1)
   {
