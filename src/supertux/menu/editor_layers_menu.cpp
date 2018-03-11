@@ -56,7 +56,7 @@ EditorLayersMenu::EditorLayersMenu()
   add_entry(-1, _("Add new layer"));
 
   add_hl();
-  add_entry(-2,_("Cancel"));
+  add_back(_("Back"), -2);
 }
 
 EditorLayersMenu::~EditorLayersMenu()

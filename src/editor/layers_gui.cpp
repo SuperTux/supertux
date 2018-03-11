@@ -148,6 +148,7 @@ EditorLayersGui::event(SDL_Event& ev) {
             MenuManager::instance().set_menu(MenuStorage::EDITOR_SECTORS_MENU);
             break;
           case HI_LAYERS:
+            editor->disable_keyboard();
             MenuManager::instance().set_menu(MenuStorage::EDITOR_LAYERS_MENU);
             if (hovered_layer >= layers.size()) {
               break;
