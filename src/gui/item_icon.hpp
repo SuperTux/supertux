@@ -22,6 +22,7 @@
 #include <SDL.h>
 
 #include "gui/menu_item.hpp"
+#include "video/surface.hpp"
 
 class ItemIcon : public MenuItem
 {
@@ -29,6 +30,15 @@ class ItemIcon : public MenuItem
     ItemIcon(const std::string& text_, int id = -1, const SurfacePtr& icon = nullptr);
 
   void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
+
+  int get_width() const
+  {
+    if(icon == NULL)
+    {
+      return MenuItem::get_width();
+    }
+    return MenuItem::get_width() + icon->get_width();
+  }
 
   private:
     SurfacePtr icon;
