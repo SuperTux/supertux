@@ -26,6 +26,7 @@
 #include "supertux/menu/editor_level_select_menu.hpp"
 #include "supertux/menu/editor_levelset_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
+#include "supertux/menu/editor_new_layer_menu.hpp"
 #include "supertux/menu/editor_new_levelset_menu.hpp"
 #include "supertux/menu/editor_objectgroup_menu.hpp"
 #include "supertux/menu/editor_tilegroup_menu.hpp"
@@ -141,6 +142,9 @@ MenuStorage::create(MenuId menu_id)
     
     case EDITOR_LAYERS_MENU:
       return std::unique_ptr<Menu>(new EditorLayersMenu);
+
+    case EDITOR_NEW_LAYER_MENU:
+      return std::unique_ptr<Menu>(new EditorNewLayerMenu);
 
     case EDITOR_SECTOR_MENU:
       return std::unique_ptr<Menu>(new EditorSectorMenu);

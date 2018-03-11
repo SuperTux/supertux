@@ -63,6 +63,7 @@ class Editor : public Screen,
     friend class EditorObjectgroupMenu;
     friend class EditorScroller;
     friend class EditorLayersMenu;
+    friend class EditorNewLayerMenu;
     friend class EditorTilegroupMenu;
 
     std::unique_ptr<Level> level;
