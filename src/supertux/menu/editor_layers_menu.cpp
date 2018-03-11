@@ -51,7 +51,7 @@ EditorLayersMenu::EditorLayersMenu() :
       layer_name = layer->layer->get_display_name();
     }
     auto z_pos = layer->get_zpos();
-    if(z_pos && z_pos > INT_MIN)
+    if(z_pos > INT_MIN)
     {
       add_icon_entry(id, str(boost::format(_("%s (%s)")) % layer_name % z_pos), layer->surface);
     }
