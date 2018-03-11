@@ -113,7 +113,6 @@ EditorLayersGui::draw(DrawingContext& context) {
   }*/
 
   auto layer_text = selected_tilemap->get_description();
-  auto sector_text_width = Resources::normal_font->get_text_width(sector_text) + 75;
   //auto surface = layers[hovered_layer]->surface;
   //context.draw_surface(surface, Vector(sector_text_width, Ypos + 5), LAYER_GUI);
     //context.draw_surface_part(selected_tilemap->get_icon(), Rectf(Vector(0, 0), icon->get_size()),

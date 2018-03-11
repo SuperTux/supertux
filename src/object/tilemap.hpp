@@ -86,12 +86,12 @@ public:
    */
   std::string get_description() const
   {
-    auto name = get_name();
-    if(name.empty())
+    auto display_name = get_name();
+    if(display_name.empty())
     {
-      name = get_display_name();
+      display_name = get_display_name();
     }
-    return name + " (" + std::to_string(get_layer()) + ")";
+    return display_name + " (" + std::to_string(get_layer()) + ")";
   }
 
   /** Get the movement of this tilemap. The collision detection code may need a
