@@ -77,7 +77,6 @@ EditorLayersMenu::menu_action(MenuItem* item)
     editor->layerselect.selected_tilemap->editor_active = false;
     editor->layerselect.selected_tilemap = (TileMap*)(editor->layerselect.layers[item->id]->layer);
     editor->layerselect.selected_tilemap->editor_active = true;
-    MenuManager::instance().pop_menu();
   }
   if(item->id == -1)
   {

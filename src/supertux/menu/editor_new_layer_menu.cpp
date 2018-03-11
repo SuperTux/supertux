@@ -22,6 +22,7 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
+#include "editor/object_menu.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
@@ -108,9 +109,19 @@ EditorNewLayerMenu::menu_action(MenuItem* item)
       log_warning << "Error adding object: " << e.what() << std::endl;
       return;
     }
-  }
+    MenuManager::instance().pop_menu();
 
-  MenuManager::instance().pop_menu();
+    if (item->id >= 0)
+    {
+      // Display object menu in which to set options for new layer
+      std::unique_ptr<Menu> om(new ObjectMenu(obj.get()));
+      MenuManager::instance().push_menu(move(om));
+    }
+  }
+  if(item->id < 0)
+  {
+    MenuManager::instance().pop_menu();
+  }
 }
 
 /* EOF */
