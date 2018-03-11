@@ -17,6 +17,7 @@
 #include "supertux/menu/editor_layers_menu.hpp"
 
 #include <boost/format.hpp>
+#include <limits.h>
 #include <sstream>
 
 #include "audio/sound_manager.hpp"
@@ -50,7 +51,14 @@ EditorLayersMenu::EditorLayersMenu() :
       layer_name = layer->layer->get_display_name();
     }
     auto z_pos = layer->get_zpos();
-    add_icon_entry(id, str(boost::format(_("%s (%s)")) % layer_name % z_pos), layer->surface);
+    if(z_pos && z_pos > INT_MIN)
+    {
+      add_icon_entry(id, str(boost::format(_("%s (%s)")) % layer_name % z_pos), layer->surface);
+    }
+    else
+    {
+      add_icon_entry(id, str(boost::format(_("%s")) % layer_name), layer->surface);
+    }
 
     auto tilemap = dynamic_cast<TileMap*>(layer->layer);
     if(tilemap && tilemap->editor_active)
