@@ -27,6 +27,11 @@ public:
 
   void menu_action(MenuItem* item) override;
 
+  bool persist_selection() const override 
+  {
+    return true;
+  }
+
 private:
   EditorLayersMenu(const EditorLayersMenu&);
   EditorLayersMenu& operator=(const EditorLayersMenu&);

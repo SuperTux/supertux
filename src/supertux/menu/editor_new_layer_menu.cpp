@@ -109,14 +109,10 @@ EditorNewLayerMenu::menu_action(MenuItem* item)
       log_warning << "Error adding object: " << e.what() << std::endl;
       return;
     }
+    // Display object menu in which to set options for new layer
+    std::unique_ptr<Menu> om(new ObjectMenu(obj.get()));
     MenuManager::instance().pop_menu();
-
-    if (item->id >= 0)
-    {
-      // Display object menu in which to set options for new layer
-      std::unique_ptr<Menu> om(new ObjectMenu(obj.get()));
-      MenuManager::instance().push_menu(move(om));
-    }
+    MenuManager::instance().push_menu(move(om));
   }
   if(item->id < 0)
   {

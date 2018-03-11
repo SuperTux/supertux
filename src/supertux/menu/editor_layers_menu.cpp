@@ -49,6 +49,13 @@ EditorLayersMenu::EditorLayersMenu()
     }
     auto z_pos = layer->get_zpos();
     add_icon_entry(id, str(boost::format(_("%s (%s)")) % layer_name % z_pos), layer->surface);
+
+    auto tilemap = dynamic_cast<TileMap*>(layer->layer);
+    if(tilemap && tilemap->editor_active)
+    {
+      set_selected_item(id);
+    }
+
     id++;
   }
 
