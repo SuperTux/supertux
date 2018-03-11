@@ -62,6 +62,12 @@ public:
   void pop_menu();
   void clear_menu_stack();
 
+  /**
+   * For each menu of the stack, calls the
+   * refresh method of the menu.
+   */
+  void refresh_menu_stack();
+
   void on_window_resize();
   bool is_active() const
   {

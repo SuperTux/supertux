@@ -111,6 +111,7 @@ EditorNewLayerMenu::menu_action(MenuItem* item)
     }
     // Display object menu in which to set options for new layer
     std::unique_ptr<Menu> om(new ObjectMenu(obj.get()));
+    MenuManager::instance().refresh_menu_stack();
     MenuManager::instance().pop_menu();
     MenuManager::instance().push_menu(move(om));
   }

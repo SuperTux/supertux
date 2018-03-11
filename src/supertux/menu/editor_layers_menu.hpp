@@ -28,6 +28,7 @@ public:
   ~EditorLayersMenu();
 
   void menu_action(MenuItem* item) override;
+  void refresh() override;
 
   void draw_item(DrawingContext& context, int index) override;
 

@@ -40,6 +40,22 @@
 EditorLayersMenu::EditorLayersMenu() :
   selected_item_idx()
 {
+  refresh();
+}
+
+EditorLayersMenu::~EditorLayersMenu()
+{
+  auto editor = Editor::current();
+  if(editor == NULL) {
+    return;
+  }
+  editor->reactivate_request = true;
+}
+
+void
+EditorLayersMenu::refresh()
+{
+  clear();
   add_label(_("Layers"));
   add_hl();
 
@@ -76,16 +92,6 @@ EditorLayersMenu::EditorLayersMenu() :
   add_hl();
   add_back(_("Back"));
 }
-
-EditorLayersMenu::~EditorLayersMenu()
-{
-  auto editor = Editor::current();
-  if(editor == NULL) {
-    return;
-  }
-  editor->reactivate_request = true;
-}
-
 void
 EditorLayersMenu::draw_item(DrawingContext& context, int index)
 {

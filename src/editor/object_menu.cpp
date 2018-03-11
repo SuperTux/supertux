@@ -89,6 +89,7 @@ ObjectMenu::~ObjectMenu()
   }
   editor->reactivate_request = true;
   if (! dynamic_cast<MovingObject*>(object)) {
+    MenuManager::instance().refresh_menu_stack();
     editor->sort_layers();
   }
 }
