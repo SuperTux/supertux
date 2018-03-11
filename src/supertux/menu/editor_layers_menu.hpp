@@ -21,16 +21,15 @@
 
 class EditorLayersMenu : public Menu
 {
+private:
+  int selected_item_idx;
 public:
   EditorLayersMenu();
   ~EditorLayersMenu();
 
   void menu_action(MenuItem* item) override;
 
-  bool persist_selection() const override 
-  {
-    return true;
-  }
+  void draw_item(DrawingContext& context, int index) override;
 
 private:
   EditorLayersMenu(const EditorLayersMenu&);

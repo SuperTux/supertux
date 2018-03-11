@@ -97,25 +97,6 @@ public:
   float get_height() const;
 
   virtual void on_window_resize();
-  
-  /**
-   * If this method returns true, the menu
-   * selection should persist (get a special highlight).
-   * This is useful for things like the layer selection
-   * dialog where the selected layer gets a special
-   * hightlight.
-   */
-  virtual bool persist_selection() const
-  {
-    return false;
-  }
-
-  void set_selected_item(int value);
-
-  int get_selected_item() const
-  {
-    return selected_item;
-  }
 
 protected:
   MenuItem* add_item(std::unique_ptr<MenuItem> menu_item);
@@ -124,11 +105,11 @@ protected:
 
   ///returns true when the text is more important than action
   virtual bool is_sensitive() const;
+  virtual void draw_item(DrawingContext& context, int index);
 
 private:
   void process_action(const MenuAction& menuaction);
   void check_controlfield_change_event(const SDL_Event& event);
-  void draw_item(DrawingContext& context, int index);
   /**
    * Recalculates the width for this menu
    */
@@ -137,7 +118,6 @@ private:
 private:
   // position of the menu (ie. center of the menu, not top/left)
   Vector pos;
-  int selected_item;
 
   /* input implementation variables */
   int   delete_character;

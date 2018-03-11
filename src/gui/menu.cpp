@@ -43,7 +43,6 @@ static const float MENU_REPEAT_RATE    = 0.1f;
 
 Menu::Menu() :
   pos(Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)),
-  selected_item(),
   delete_character(0),
   mn_input_char('\0'),
   menu_repeat_time(),
@@ -401,7 +400,6 @@ Menu::process_action(const MenuAction& menuaction)
     calculate_width();
   }
   if(menuaction == MENU_ACTION_HIT) {
-    selected_item = active_item;
     menu_action(items[active_item].get());
   }
 }
@@ -430,14 +428,6 @@ Menu::draw_item(DrawingContext& context, int index)
     context.draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10, y_pos - 12),
                                    Vector(pos.x + menu_width_/2 - 10, y_pos + 12)),
                              Color(1.0f, 1.0f, 1.0f, 0.5f),
-                             12.0f,
-                             LAYER_GUI-10);
-  }
-  else if(persist_selection() && (selected_item == index))
-  {
-    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10, y_pos - 12),
-                                   Vector(pos.x + menu_width_/2 - 10, y_pos + 12)),
-                             Color(1.0f, 0, 0, 0.4f),
                              12.0f,
                              LAYER_GUI-10);
   }
@@ -617,17 +607,6 @@ Menu::set_active_item(int id)
   for(size_t i = 0; i < items.size(); ++i) {
     if(items[i]->id == id) {
       active_item = i;
-      break;
-    }
-  }
-}
-
-void
-Menu::set_selected_item(int value)
-{
-  for(size_t i = 0; i < items.size(); ++i) {
-    if(items[i]->id == value) {
-      selected_item = i;
       break;
     }
   }
