@@ -74,6 +74,12 @@ public:
    */
   float get_alpha() const;
 
+  /**
+   * Switch tilemap's real solidity to the given bool. Note that effective
+   * solidity is also influenced by the alpha of the tilemap.
+   */
+  void set_solid(bool solid); /**< true: make tilemap solid, false: disable solidity */
+
 #ifndef SCRIPTING_API
   ::TileMap* tilemap;
 
