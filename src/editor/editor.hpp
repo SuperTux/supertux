@@ -24,6 +24,7 @@
 #include "editor/input_center.hpp"
 #include "editor/input_gui.hpp"
 #include "editor/layers_gui.hpp"
+#include "editor/object_menu.hpp"
 #include "editor/scroller.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
@@ -65,6 +66,7 @@ class Editor : public Screen,
     friend class EditorLayersMenu;
     friend class EditorNewLayerMenu;
     friend class EditorTilegroupMenu;
+    friend class ObjectMenu;
 
     std::unique_ptr<Level> level;
     std::unique_ptr<World> world;

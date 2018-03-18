@@ -103,19 +103,7 @@ EditorLayersGui::draw(DrawingContext& context) {
                     Vector(35, Ypos+5),
                     ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
-  /*int pos = 0;
-  for(const auto& layer_icon : layers) {
-    if (layer_icon->is_valid()) {
-      layer_icon->draw(context, get_layer_coords(pos));
-    }
-    pos++;
-  }*/
-
   auto layer_text = selected_tilemap->get_description();
-  //auto surface = layers[hovered_layer]->surface;
-  //context.draw_surface(surface, Vector(sector_text_width, Ypos + 5), LAYER_GUI);
-    //context.draw_surface_part(selected_tilemap->get_icon(), Rectf(Vector(0, 0), icon->get_size()),
-    //                        Rectf(pos + Vector(10, -10), pos + Vector(30, 10)), LAYER_GUI);
   context.draw_text(Resources::normal_font, layer_text, Vector(Resources::normal_font->get_text_width(sector_text) + 75, Ypos + 5),
                     ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 }
