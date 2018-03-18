@@ -48,6 +48,7 @@ EditorNewLayerMenu::EditorNewLayerMenu()
   add_entry(3, _("Thunderstorm"));
   add_entry(4, _("Cloud particles"));
   add_entry(5, _("Rain particles"));
+  add_entry(6, _("Ghost particles"));
 
   add_hl();
   add_entry(-2,_("Cancel"));
@@ -91,6 +92,10 @@ EditorNewLayerMenu::menu_action(MenuItem* item)
   if(item->id == 5)
   {
     object = "particles-rain";
+  }
+  if(item->id == 6)
+  {
+    object = "particles-ghosts";
   }
 
   if(!object.empty())
