@@ -83,6 +83,11 @@ float TileMap::get_alpha() const
   return tilemap->get_alpha();
 }
 
+void TileMap::set_solid(bool solid)
+{
+  tilemap->set_solid(solid);
+}
+
 }
 
 /* EOF */
