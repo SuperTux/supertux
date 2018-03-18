@@ -55,12 +55,26 @@ EditorLayersMenu::~EditorLayersMenu()
 void
 EditorLayersMenu::refresh()
 {
+  auto it = Editor::current()->layerselect.layers.begin();
+  while(it != Editor::current()->layerselect.layers.end())
+  {
+    auto layer = (*it).get();
+    if(!layer->is_valid())
+      it = Editor::current()->layerselect.layers.erase(it);
+    else
+      ++it;
+  }
   clear();
   add_label(_("Layers"));
   add_hl();
 
   int id = 0;
   for(auto& layer : Editor::current()->layerselect.layers) {
+    if(!layer->is_valid())
+    {
+      continue;
+    }
+
     auto layer_name = layer->layer->get_name();
     if(layer_name.empty())
     {

@@ -234,9 +234,7 @@ TileMap::get_settings() {
     result.options.push_back(ObjectOption(MN_TOGGLE, _("Running"), &running, "running"));
   }
 
-  if (!editor_active) {
-    result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
-  }
+  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   return result;
 }
 

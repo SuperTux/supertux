@@ -81,7 +81,10 @@ ObjectMenu::ObjectMenu(GameObject *go) :
 
 ObjectMenu::~ObjectMenu()
 {
-  object->after_editor_set();
+  if(object != NULL)
+  {
+    object->after_editor_set();
+  }
 
   auto editor = Editor::current();
   if(editor == NULL) {
@@ -99,10 +102,14 @@ ObjectMenu::menu_action(MenuItem* item)
 {
   switch (item->id) {
     case MNID_REMOVE:
+      // TODO: Having the delete option in the object menu is a 
+      // *really* bad idea, UI-wise and otherwise.
+      object->remove_me();
+      object = NULL;
       Editor::current()->delete_markers();
       Editor::current()->reactivate_request = true;
+      MenuManager::instance().refresh_menu_stack();
       MenuManager::instance().pop_menu();
-      object->remove_me();
       break;
     default:
       break;
