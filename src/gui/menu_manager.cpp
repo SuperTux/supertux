@@ -317,7 +317,10 @@ MenuManager::refresh_menu_stack()
 {
   for(auto& menu : m_menu_stack)
   {
-    menu->refresh();
+    if(menu != NULL)
+    {
+      menu->refresh();
+    }
   }
 }
 
