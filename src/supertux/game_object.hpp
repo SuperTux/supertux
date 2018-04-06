@@ -121,9 +121,22 @@ public:
    */
   void del_remove_listener(ObjectRemoveListener* listener);
 
+  /**
+   * Returns the name of this GameObject
+   * @return Name of the game object
+   */
   const std::string& get_name() const
   {
     return name;
+  }
+  
+  /**
+   * Sets the name of this GameObject
+   * @param name The name this object is supposed to have
+   */
+  void set_name(const std::string& object_name)
+  {
+    this->name = object_name;
   }
 
   virtual const std::string get_icon_path() const {

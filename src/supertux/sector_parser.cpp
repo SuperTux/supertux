@@ -428,12 +428,14 @@ SectorParser::create_sector()
     bkgrd->resize(100, 35);
     bkgrd->set_layer(-100);
     bkgrd->set_solid(false);
+    bkgrd->set_name("Background");
     m_sector.add_object(bkgrd);
 
     auto frgrd = std::make_shared<TileMap>(tileset);
     frgrd->resize(100, 35);
     frgrd->set_layer(100);
     frgrd->set_solid(false);
+    frgrd->set_name("Foreground");
     m_sector.add_object(frgrd);
   }
 
@@ -445,6 +447,7 @@ SectorParser::create_sector()
   }
   intact->set_layer(0);
   intact->set_solid(true);
+  intact->set_name("Interactive");
   m_sector.add_object(intact);
 
   auto spawn_point = std::make_shared<SpawnPoint>();
