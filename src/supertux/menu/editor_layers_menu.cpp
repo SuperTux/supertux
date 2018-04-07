@@ -122,7 +122,7 @@ EditorLayersMenu::draw_item(DrawingContext& context, int index)
   {
     context.draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10, y_pos - 12),
                                    Vector(pos.x + menu_width_/2 - 10, y_pos + 12)),
-                             Color(1.0f, 0, 0, 0.4f),
+                             Color(0.6f, 0.6f, 1, 0.7f),
                              12.0f,
                              LAYER_GUI-10);
   }
