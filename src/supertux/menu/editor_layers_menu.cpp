@@ -135,7 +135,7 @@ EditorLayersMenu::get_next_tilemap(const GameObject* object) const
   auto& layers = editor->layerselect.layers;
   auto obj_as_tilemap = dynamic_cast<const TileMap*>(object);
   TileMap *previous = NULL, *next = NULL;
-  bool found = false, next_found = false;
+  bool found = false;
 
   for(const auto& layer : layers)
   {
@@ -147,12 +147,11 @@ EditorLayersMenu::get_next_tilemap(const GameObject* object) const
       }
       else
       {
-        next_found = true;
         if(!found)
         {
           previous = (TileMap*)(layer->layer);
         }
-        else if(found && next == NULL)
+        else if(next == NULL)
         {
           next = (TileMap*)(layer->layer);
         }
