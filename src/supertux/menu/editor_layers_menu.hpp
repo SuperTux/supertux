@@ -19,6 +19,8 @@
 
 #include "gui/menu.hpp"
 
+#include "object/tilemap.hpp"
+
 class EditorLayersMenu : public Menu
 {
 private:
@@ -31,6 +33,9 @@ public:
   void refresh() override;
 
   void draw_item(DrawingContext& context, int index) override;
+
+private:
+  TileMap* get_next_tilemap(const GameObject* object) const;
 
 private:
   EditorLayersMenu(const EditorLayersMenu&);

@@ -24,6 +24,7 @@
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_menu.hpp"
+#include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
@@ -100,6 +101,7 @@ EditorLayersMenu::refresh()
   }
 
   add_hl();
+  add_entry(-1, _("Remove"));
   add_entry(-2, _("Add new layer"));
   add_entry(-3, _("Layer options"));
 
@@ -126,11 +128,54 @@ EditorLayersMenu::draw_item(DrawingContext& context, int index)
   }
 }
 
+TileMap*
+EditorLayersMenu::get_next_tilemap(const GameObject* object) const
+{
+  auto editor = Editor::current();
+  auto& layers = editor->layerselect.layers;
+  auto obj_as_tilemap = dynamic_cast<const TileMap*>(object);
+  TileMap *previous = NULL, *next = NULL;
+  bool found = false, next_found = false;
+
+  for(const auto& layer : layers)
+  {
+    if(dynamic_cast<TileMap*>(layer->layer))
+    {
+      if(layer->layer == obj_as_tilemap)
+      {
+        found = true;
+      }
+      else
+      {
+        next_found = true;
+        if(!found)
+        {
+          previous = (TileMap*)(layer->layer);
+        }
+        else if(found && next == NULL)
+        {
+          next = (TileMap*)(layer->layer);
+        }
+      }
+    }
+  }
+  if(previous != NULL)
+  {
+    return previous;
+  }
+  
+  if(next != NULL)
+  {
+    return next;
+  }
+  return NULL;
+}
+
 void
 EditorLayersMenu::menu_action(MenuItem* item)
 {
   auto editor = Editor::current();
-  auto& layers = Editor::current()->layerselect.layers;
+  auto& layers = editor->layerselect.layers;
   auto& selected_tilemap = editor->layerselect.selected_tilemap;
   if (item->id >= 0)
   {
@@ -143,6 +188,41 @@ EditorLayersMenu::menu_action(MenuItem* item)
       selected_tilemap->editor_active = true;
     }
     selected_item_idx = item->id;
+  }
+  if(item->id == -1)
+  {
+    auto& object = layers[selected_item_idx]->layer;
+    if(object == NULL)
+    {
+      return;
+    }
+    auto obj_as_tilemap = dynamic_cast<TileMap*>(object);
+    if( obj_as_tilemap && selected_tilemap == obj_as_tilemap)
+    {
+      auto next_tilemap = get_next_tilemap(object);
+      if(next_tilemap == NULL)
+      {
+        std::unique_ptr<Dialog> dialog(new Dialog);
+        dialog->set_text(_("There must be at least one tilemap in each sector."));
+        dialog->clear_buttons();
+        dialog->add_button(_("OK"), [] {});
+        MenuManager::instance().set_dialog(std::move(dialog));
+        return;
+      }
+      else
+      {
+        selected_tilemap = next_tilemap;
+        selected_tilemap->editor_active = true;
+      }
+    }
+    object->remove_me();
+    object = NULL;
+
+    editor->delete_markers();
+    editor->reactivate_request = true;
+
+    refresh();
+    return;
   }
   if(item->id == -2)
   {

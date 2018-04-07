@@ -233,8 +233,6 @@ TileMap::get_settings() {
     result.options.push_back( Path::get_mode_option(&path->mode) );
     result.options.push_back(ObjectOption(MN_TOGGLE, _("Running"), &running, "running"));
   }
-
-  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   return result;
 }
 

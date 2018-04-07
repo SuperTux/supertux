@@ -71,9 +71,6 @@ ObjectMenu::ObjectMenu(GameObject *go) :
       case MN_FILE:
         add_file(oo.text, (std::string*)oo.option, oo.select);
         break;
-      case MN_REMOVE:
-        add_entry(MNID_REMOVE, _("Remove"));
-        break;
       default:
         break;
     }
@@ -103,71 +100,4 @@ ObjectMenu::~ObjectMenu()
 void
 ObjectMenu::menu_action(MenuItem* item)
 {
-  switch (item->id) {
-    case MNID_REMOVE:
-    {
-      auto editor = Editor::current();
-      // TODO: Having the delete option in the object menu is a 
-      // *really* bad idea, UI-wise and otherwise.
-      auto obj_as_tilemap = dynamic_cast<TileMap*>(object);
-      TileMap *previous = NULL, *next = NULL;
-      bool found = false, next_found = false;
-      if( obj_as_tilemap && editor->layerselect.selected_tilemap == obj_as_tilemap)
-      {
-        // Let's get this layer and return the previous one:
-        for(const auto& layer : editor->layerselect.layers)
-        {
-          if(dynamic_cast<TileMap*>(layer->layer))
-          {
-            if(layer->layer == obj_as_tilemap)
-            {
-              found = true;
-            }
-            else
-            {
-              next_found = true;
-              if(!found)
-              {
-                previous = (TileMap*)(layer->layer);
-              }
-              else if(found && next == NULL)
-              {
-                next = (TileMap*)(layer->layer);
-              }
-            }
-          }
-        }
-        if(!next_found)
-        {
-          std::unique_ptr<Dialog> dialog(new Dialog);
-          dialog->set_text(_("There must be at least one tilemap in each sector."));
-          dialog->clear_buttons();
-          dialog->add_button(_("OK"), [] {});
-          MenuManager::instance().set_dialog(std::move(dialog));
-          return;
-        }
-        else
-        {
-          if(previous != NULL)
-          {
-            editor->layerselect.selected_tilemap = previous;
-          }
-          else if(next != NULL)
-          {
-            editor->layerselect.selected_tilemap = next;
-          }
-        }
-      }
-      object->remove_me();
-      object = NULL;
-
-      editor->delete_markers();
-      editor->reactivate_request = true;
-      MenuManager::instance().refresh_menu_stack();
-      MenuManager::instance().pop_menu();
-    }
-      break;
-    default:
-      break;
-  }
 }

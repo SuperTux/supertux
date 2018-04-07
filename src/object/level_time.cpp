@@ -51,8 +51,6 @@ ObjectSettings
 LevelTime::get_settings() {
   ObjectSettings result = GameObject::get_settings();
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Time"), &time_left, "time"));
-
-  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   return result;
 }
 

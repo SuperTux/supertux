@@ -190,8 +190,6 @@ Background::get_settings() {
   img3.select = img.select;
   result.options.push_back(img2);
   result.options.push_back(img3);
-
-  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
   return result;
 }
 
