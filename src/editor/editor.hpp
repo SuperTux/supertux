@@ -118,6 +118,14 @@ class Editor : public Screen,
     bool is_testing_level() const {
       return leveltested;
     }
+    
+    /**
+     * Checks whether the level can be saved and
+     * does not contain obvious issues
+     * (currently: check if main sector
+     *  and a spawn point named "main" is present)
+     */
+    void check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) const;
 
     void load_sector(const std::string& name);
     void load_sector(size_t id);

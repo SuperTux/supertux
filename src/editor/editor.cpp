@@ -32,6 +32,7 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
+#include "supertux/fadein.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/level.hpp"
@@ -39,11 +40,11 @@
 #include "supertux/levelset_screen.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/savegame.hpp"
-#include "supertux/fadein.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/world.hpp"
@@ -123,7 +124,7 @@ void Editor::update(float elapsed_time)
 
   if (save_request) {
     level->save(world ? FileSystem::join(world->get_basedir(), levelfile) :
-                         levelfile);
+                levelfile);
     enabled = true;
     save_request = false;
   }
@@ -494,6 +495,31 @@ Editor::change_tileset() {
       auto tilemap = dynamic_cast<TileMap*>(object.get());
       if (tilemap) {
         tilemap->set_tileset(tileset);
+      }
+    }
+  }
+}
+
+void
+Editor::check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) const
+{
+  if(worldmap_mode)
+  {
+    sector_valid = true;
+    spawnpoint_valid = true;
+    return;
+  }
+  for(const auto& sector : level->sectors)
+  {
+    if(sector->get_name() == "main")
+    {
+      sector_valid = true;
+      for(const auto& spawnpoint : sector->spawnpoints)
+      {
+        if(spawnpoint->name == "main")
+        {
+          spawnpoint_valid = true;
+        }
       }
     }
   }

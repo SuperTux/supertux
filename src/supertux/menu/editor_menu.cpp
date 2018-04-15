@@ -16,6 +16,7 @@
 
 #include "supertux/menu/editor_menu.hpp"
 
+#include "gui/dialog.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
@@ -85,6 +86,7 @@ EditorMenu::~EditorMenu()
 void
 EditorMenu::menu_action(MenuItem* item)
 {
+  auto editor = Editor::current();
   switch (item->id)
   {
     case MNID_RETURNTOEDITOR:
@@ -92,8 +94,31 @@ EditorMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_SAVELEVEL:
-      MenuManager::instance().clear_menu_stack();
-      Editor::current()->save_request = true;
+    {
+      bool is_sector_valid = false;
+      bool is_spawnpoint_valid = false;
+
+      editor->check_save_prerequisites(is_sector_valid, is_spawnpoint_valid);
+      if(is_sector_valid && is_spawnpoint_valid)
+      {
+        MenuManager::instance().clear_menu_stack();
+        editor->save_request = true;
+      }
+      else
+      {
+        std::unique_ptr<Dialog> dialog(new Dialog);
+        if(!is_sector_valid)
+        {
+          dialog->set_text(_("Couldn't find a \"main\" sector. Please change the name of the sector where you'd like Tux to start to \"main\""));
+        }
+        else if(!is_spawnpoint_valid)
+        {
+          dialog->set_text(_("Couldn't find a \"main\" spawnpoint. Please change the name of the spawnpoint where you'd like Tux to start to \"main\""));
+        }
+        dialog->add_button(_("OK"), [] {});
+        MenuManager::instance().set_dialog(std::move(dialog));
+      }
+    }
       break;
 
     case MNID_TESTLEVEL:
