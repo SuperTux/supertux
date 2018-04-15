@@ -82,22 +82,19 @@ EditorLevelMenu::on_back_action()
   {
     return true;
   }
-  std::unique_ptr<Dialog> dialog(new Dialog);
+
   if(level->name.empty())
   {
-    dialog->set_text(_("Please enter a name for this level."));
+    Dialog::show_message(_("Please enter a name for this level."));
   }
   else if(level->author.empty())
   {
-    dialog->set_text(_("Please enter a level author for this level."));
+    Dialog::show_message(_("Please enter a level author for this level."));
   }
   else if(level->license.empty())
   {
-    dialog->set_text(_("Please enter a license for this level."));
+    Dialog::show_message(_("Please enter a license for this level."));
   }
-  dialog->clear_buttons();
-  dialog->add_button(_("OK"), [] {});
-  MenuManager::instance().set_dialog(std::move(dialog));
   return false;
 }
 

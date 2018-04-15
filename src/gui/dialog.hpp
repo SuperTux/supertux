@@ -22,7 +22,9 @@
 #include <string>
 #include <vector>
 
+#include "gui/menu_manager.hpp"
 #include "math/sizef.hpp"
+#include "util/gettext.hpp"
 
 class Controller;
 class DrawingContext;
@@ -68,6 +70,15 @@ public:
   bool is_passive() const
   {
     return m_passive;
+  }
+
+  static void show_message(const std::string& text)
+  {
+    std::unique_ptr<Dialog> dialog(new Dialog);
+    dialog->set_text(text);
+    dialog->clear_buttons();
+    dialog->add_button(_("OK"), [] {});
+    MenuManager::instance().set_dialog(std::move(dialog));
   }
 
 private:

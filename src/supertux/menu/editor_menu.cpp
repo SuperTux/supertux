@@ -106,17 +106,14 @@ EditorMenu::menu_action(MenuItem* item)
       }
       else
       {
-        std::unique_ptr<Dialog> dialog(new Dialog);
         if(!is_sector_valid)
         {
-          dialog->set_text(_("Couldn't find a \"main\" sector. Please change the name of the sector where you'd like Tux to start to \"main\""));
+          Dialog::show_message(_("Couldn't find a \"main\" sector. Please change the name of the sector where you'd like Tux to start to \"main\""));
         }
         else if(!is_spawnpoint_valid)
         {
-          dialog->set_text(_("Couldn't find a \"main\" spawnpoint. Please change the name of the spawnpoint where you'd like Tux to start to \"main\""));
+          Dialog::show_message(_("Couldn't find a \"main\" spawnpoint. Please change the name of the spawnpoint where you'd like Tux to start to \"main\""));
         }
-        dialog->add_button(_("OK"), [] {});
-        MenuManager::instance().set_dialog(std::move(dialog));
       }
     }
       break;
