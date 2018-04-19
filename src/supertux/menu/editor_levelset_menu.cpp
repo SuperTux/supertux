@@ -29,6 +29,7 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "supertux/menu/confirm_dialog.hpp"
 
 EditorLevelsetMenu::EditorLevelsetMenu():
   world(Editor::current()->get_world()),
@@ -67,6 +68,7 @@ EditorLevelsetMenu::initialize() {
   add_textfield(_("Description"), &(world->m_description));
   add_string_select(1, _("Type"), &levelset_type, {_("Worldmap"), _("Levelset")});
   add_hl();
+  add_entry(2,_("Delete this levelset"));
   add_back(_("OK"));
 }
 
@@ -78,6 +80,18 @@ EditorLevelsetMenu::menu_action(MenuItem* item)
   case 1:
     world->m_is_levelset = (levelset_type == 1);
     break;
+  case 2:
+  {
+      std::unique_ptr<Menu> cfd(new ConfirmDialog(_("Delete this levelset?"),[this]()-> void {    
+      // Delete the levelset 
+      world->remove();
+      // Pop the last two menus, so that the screen for the now deleted level will not be shown.
+      MenuManager::instance().pop_menu();
+      MenuManager::instance().pop_menu();
+}));
+    MenuManager::instance().push_menu(std::move(cfd));
+    break;
+  }
   default:
     break;
   }

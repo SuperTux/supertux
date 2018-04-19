@@ -67,6 +67,10 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
       {
         continue;
       }
+      if(world->is_removed())
+      {
+        continue;
+      }
       if(!world->is_levelset() && !world->is_worldmap())
       {
         log_warning << level_world << ": unknown World type" << std::endl;

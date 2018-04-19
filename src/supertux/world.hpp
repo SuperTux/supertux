@@ -38,7 +38,6 @@ public:
   */
   static std::unique_ptr<World> load(const std::string& directory);
   static std::unique_ptr<World> create(const std::string& title, const std::string& desc);
-
 public:
   ~World();
 
@@ -46,7 +45,8 @@ public:
   std::string get_title() const;
 
   bool hide_from_contribs() const { return m_hide_from_contribs; }
-
+  bool is_removed() const { return m_removed; };
+  
   bool is_levelset() const { return m_is_levelset; }
   bool is_worldmap() const { return !m_is_levelset; }
 
@@ -54,12 +54,14 @@ public:
   std::string get_savegame_filename() const { return m_savegame_filename; }
 
   void save(bool retry = false);
+  void remove();
   void set_default_values();
 
 private:
   std::string m_basedir;
   std::string m_worldmap_filename;
   std::string m_savegame_filename;
+  bool m_removed;
 
 public:
   std::string m_title;

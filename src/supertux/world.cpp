@@ -15,7 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <algorithm>
-
+#include <queue>
 #include "physfs/ifile_streambuf.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "scripting/serialize.hpp"
@@ -175,7 +175,8 @@ void
 World::save(bool retry)
 {
   std::string filepath = m_basedir + "/info";
-
+  if(m_removed)
+    return;
   try {
 
     { // make sure the levelset directory exists
@@ -229,6 +230,36 @@ World::save(bool retry)
       save(true);
     }
   }
+}
+
+void World::remove()
+{
+  log_debug << "Removing world" << m_basedir << " " << std::endl;
+  std::queue< std::string > toDelete;
+  toDelete.push(m_basedir);
+  std::vector< std::string > fileNames;
+  PhysFSFileSystem fs;
+  while(toDelete.size() != 0)
+  {
+    const std::string& dir = toDelete.front();
+    fileNames.push_back(dir);
+    toDelete.pop();
+    if(!PhysFSFileSystem::is_directory(dir))
+      continue;
+    std::vector< std::string > files = fs.open_directory(dir);
+    for(const auto& fname : files)
+    {
+      std::string fullp = FileSystem::join(dir, fname);
+      toDelete.push(fullp);
+    }
+  }
+  // Delete in reverse order, so that directories are only 
+  // deleted, if they are empty
+  for(auto it = fileNames.rbegin(); it != fileNames.rend(); ++it)
+  {
+    PHYSFS_delete(it->c_str());
+  }
+  m_removed = true;
 }
 
 void
