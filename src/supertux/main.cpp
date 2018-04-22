@@ -280,7 +280,7 @@ public:
     PHYSFS_mount(userdir.c_str(), NULL, 0);
   }
 
-  void print_search_path()
+  static void print_search_path()
   {
     const char* writedir = PHYSFS_getWriteDir();
     log_info << "PhysfsWriteDir: " << (writedir ? writedir : "(null)") << std::endl;
