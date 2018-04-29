@@ -58,6 +58,7 @@
 
 #include <math.h>
 
+bool EditorInputCenter::render_background = true;
 bool EditorInputCenter::render_grid = true;
 bool EditorInputCenter::snap_to_grid = false;
 int EditorInputCenter::selected_snap_grid_size = 3;
