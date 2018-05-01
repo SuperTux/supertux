@@ -18,6 +18,8 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PATH_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_PATH_OBJECT_HPP
 
+#include <memory>
+
 #include "object/path.hpp"
 #include "object/path_walker.hpp"
 
