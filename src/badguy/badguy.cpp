@@ -607,7 +607,7 @@ BadGuy::is_offscreen() const
 {
   Vector dist;
   if (Editor::is_active()) {
-    auto cam = Sector::current()->camera;
+    auto cam = Sector::current()->get_players()[0]->get_camera();
     dist = cam->get_center() - bbox.get_middle();
   }
   auto player = get_nearest_player();

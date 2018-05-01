@@ -726,7 +726,7 @@ EditorInputCenter::event(SDL_Event& ev) {
 
 void
 EditorInputCenter::update_pos() {
-  sector_pos = mouse_pos + Editor::current()->currentsector->camera->get_translation();
+  sector_pos = mouse_pos + Editor::current()->get_players()[0]->get_camera()->get_translation();
   hovered_tile = sp_to_tp(sector_pos);
   // update tip
   hover_object();
@@ -754,11 +754,11 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
           continue;
         }
         uint32_t tile_id = tiles->pos(drawn_tile.x, drawn_tile.y);
-        editor->tileset->draw_tile(context, tile_id, tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
+        editor->tileset->draw_tile(context, tile_id, tp_to_sp(on_tile) - Editor::current()->get_players()[0]->get_camera()->get_translation(),
                                    LAYER_GUI-11, Color(1, 1, 1, 0.5));
         /*if (tile_id) {
           const Tile* tg_tile = editor->tileset->get( tile_id );
-          tg_tile->draw(context, tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
+          tg_tile->draw(context, tp_to_sp(on_tile) - Editor::current()->get_players()[0]->get_camera()->get_translation(),
                         LAYER_GUI-11, Color(1, 1, 1, 0.5));
         }*/
       }
@@ -839,7 +839,7 @@ EditorInputCenter::draw_path(DrawingContext& context) {
     } else {
       node2 = &(*j);
     }
-    auto cam_translation = Editor::current()->currentsector->camera->get_translation();
+    auto cam_translation = Editor::current()->get_players()[0]->get_camera()->get_translation();
     context.draw_line(node1->position - cam_translation,
                       node2->position - cam_translation,
                       Color(1, 0, 0), LAYER_GUI - 21);

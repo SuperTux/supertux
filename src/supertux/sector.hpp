@@ -346,7 +346,7 @@ public: // TODO make this private again
   // (try to avoid accessing them directly)
   Player* player;
   std::list<TileMap*> solid_tilemaps;
-  Camera* camera;
+  //Camera* camera;
   DisplayEffect* effect;
 
 private:

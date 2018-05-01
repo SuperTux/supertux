@@ -80,7 +80,7 @@ TitleScreen::make_tux_jump()
   // Wrap around at the end of the level back to the beginning
   if(sector->get_width() - 320 < tux->get_pos().x) {
     sector->activate("main");
-    sector->camera->reset(tux->get_pos());
+    tux->get_camera()->reset(tux->get_pos());
   }
 }
 
@@ -91,7 +91,7 @@ TitleScreen::~TitleScreen()
 void
 TitleScreen::setup()
 {
-  Sector* sector = titlesession->get_current_sector();
+  auto sector = titlesession->get_current_sector();
   if(Sector::current() != sector) {
     sector->play_music(LEVEL_MUSIC);
     sector->activate(sector->player->get_pos());
@@ -112,7 +112,7 @@ TitleScreen::leave()
 void
 TitleScreen::draw(DrawingContext& context)
 {
-  Sector* sector  = titlesession->get_current_sector();
+  auto sector  = titlesession->get_current_sector();
   sector->draw(context);
 
   context.draw_surface_part(frame,

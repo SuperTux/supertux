@@ -175,7 +175,8 @@ Yeti::active_update(float elapsed_time)
         if (dir != newdir && dir == RIGHT) {
           SoundManager::current()->play("sounds/stomp.wav");
           add_snow_explosions();
-          Sector::current()->camera->shake(.05f, 0, 5);
+          // TODO: ADAPT
+          //Sector::current()->camera->shake(.05f, 0, 5);
         }
         dir = newdir;
         sprite->set_action((dir==RIGHT)?"jump-right":"jump-left");
@@ -292,12 +293,13 @@ void
 Yeti::drop_stalactite()
 {
   // make a stalactite falling down and shake camera a bit
-  Sector::current()->camera->shake(.1f, 0, 10);
+  // TODO : Needs adaptation for multiplayer
+  //Sector::current()->camera->shake(.1f, 0, 10);
 
   auto player = get_nearest_player();
   if (!player) return;
 
-  Sector* sector = Sector::current();
+  auto sector = Sector::current();
   for(const auto& obj : sector->gameobjects) {
     auto stalactite = dynamic_cast<YetiStalactite*>(obj.get());
     if(stalactite && stalactite->is_hanging()) {

@@ -460,8 +460,8 @@ SectorParser::create_sector()
     m_sector.add_object(spawn_point_marker);
   }
 
-  auto camera = std::make_shared<Camera>(&m_sector, "Camera");
-  m_sector.add_object(camera);
+  //auto camera = std::make_shared<Camera>(&m_sector, "Camera");
+  //m_sector.add_object(camera);
 
   m_sector.update_game_objects();
 }

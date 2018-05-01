@@ -20,6 +20,7 @@
 
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
+#include "object/player.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
@@ -107,26 +108,33 @@ Particles::~Particles()
 void
 Particles::update(float elapsed_time)
 {
-  Vector camera = Sector::current()->camera->get_translation();
+  for(const auto& player : Sector::current()->get_players())
+  {
+    auto cam = player->get_camera();
+    if(cam == NULL)
+      continue;
 
-  // update particles
-  for(auto i = particles.begin(); i != particles.end(); ) {
-    (*i)->pos.x += (*i)->vel.x * elapsed_time;
-    (*i)->pos.y += (*i)->vel.y * elapsed_time;
+    Vector camera = cam->get_translation();
 
-    (*i)->vel.x += accel.x * elapsed_time;
-    (*i)->vel.y += accel.y * elapsed_time;
+    // update particles
+    for(auto i = particles.begin(); i != particles.end(); ) {
+      (*i)->pos.x += (*i)->vel.x * elapsed_time;
+      (*i)->pos.y += (*i)->vel.y * elapsed_time;
 
-    if((*i)->pos.x < camera.x || (*i)->pos.x > SCREEN_WIDTH + camera.x ||
-       (*i)->pos.y < camera.y || (*i)->pos.y > SCREEN_HEIGHT + camera.y) {
-      i = particles.erase(i);
-    } else {
-      ++i;
+      (*i)->vel.x += accel.x * elapsed_time;
+      (*i)->vel.y += accel.y * elapsed_time;
+
+      if((*i)->pos.x < camera.x || (*i)->pos.x > SCREEN_WIDTH + camera.x ||
+        (*i)->pos.y < camera.y || (*i)->pos.y > SCREEN_HEIGHT + camera.y) {
+        i = particles.erase(i);
+      } else {
+        ++i;
+      }
     }
-  }
 
-  if((timer.check() && !live_forever) || particles.size() == 0)
-    remove_me();
+    if((timer.check() && !live_forever) || particles.size() == 0)
+      remove_me();
+  }
 }
 
 void

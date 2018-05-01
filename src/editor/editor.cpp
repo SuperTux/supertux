@@ -202,7 +202,7 @@ bool Editor::can_scroll_horz() const {
 }
 
 void Editor::scroll_left(float speed) {
-  auto camera = currentsector->camera;
+  auto camera = currentsector->get_players()[0]->get_camera();
   if (can_scroll_horz()) {
     if (camera->get_translation().x >= speed*32) {
       camera->move(-32 * speed, 0);
@@ -215,7 +215,7 @@ void Editor::scroll_left(float speed) {
 }
 
 void Editor::scroll_right(float speed) {
-  auto camera = currentsector->camera;
+  auto camera = currentsector->get_players()[0]->get_camera();
   if (can_scroll_horz()) {
     if (camera->get_translation().x <= currentsector->get_width() - SCREEN_WIDTH + 128 - 32 * speed) {
       camera->move(32*speed, 0);
@@ -229,7 +229,7 @@ void Editor::scroll_right(float speed) {
 }
 
 void Editor::scroll_up(float speed) {
-  auto camera = currentsector->camera;
+  auto camera = currentsector->get_players()[0]->get_camera();
   if (can_scroll_vert()) {
     if (camera->get_translation().y >= speed*32) {
       camera->move(0,-32*speed);
@@ -242,7 +242,7 @@ void Editor::scroll_up(float speed) {
 }
 
 void Editor::scroll_down(float speed) {
-  auto camera = currentsector->camera;
+  auto camera = currentsector->get_players()[0]->get_camera();
   if (can_scroll_vert()) {
     if (camera->get_translation().y <= currentsector->get_height() - SCREEN_HEIGHT - 32 * speed) {
       camera->move(0, 32*speed);
@@ -351,7 +351,7 @@ void Editor::reload_level() {
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   load_sector("main");
   currentsector->activate("main");
-  currentsector->camera->mode = Camera::MANUAL;
+  currentsector->get_players()[0]->get_camera()->mode = Camera::MANUAL;
   layerselect.refresh_sector_text();
   tileselect.update_mouse_icon();
 }

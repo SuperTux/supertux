@@ -20,7 +20,6 @@
 
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
-#include "object/camera.hpp"
 #include "object/electrifier.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"

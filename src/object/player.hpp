@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 #define HEADER_SUPERTUX_OBJECT_PLAYER_HPP
 
+#include "object/camera.hpp"
 #include "scripting/exposed_object.hpp"
 #include "scripting/player.hpp"
 #include "sprite/sprite_ptr.hpp"
@@ -247,6 +248,11 @@ public:
   void set_dir(bool right);
   void stop_backflipping();
 
+  std::shared_ptr<Camera> get_camera() const
+  {
+    return camera;
+  }
+
 private:
   void handle_input();
   void handle_input_ghost(); /**< input handling while in ghost mode */
@@ -342,6 +348,8 @@ public:
   unsigned int idle_stage;
 
   Climbable* climbing; /**< Climbable object we are currently climbing, null if none */
+
+  std::shared_ptr<Camera> camera;
 
 private:
   Player(const Player&);
