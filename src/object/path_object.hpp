@@ -41,6 +41,10 @@ public:
     walker(other.walker)
   {
   }
+
+  virtual ~PathObject()
+  {
+  }
   /**
    * Returns this object's path
    */
