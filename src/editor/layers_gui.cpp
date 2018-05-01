@@ -146,7 +146,7 @@ EditorLayersGui::event(SDL_Event& ev) {
               }
               selected_tilemap = layers[hovered_layer]->layer;
               ((TileMap*)selected_tilemap)->editor_active = true;
-              editor->inputcenter.edit_path(((TileMap*)selected_tilemap)->get_path().get(),
+              editor->inputcenter.edit_path(((TileMap*)selected_tilemap)->get_path(),
                                                        selected_tilemap);
             } else {
               auto cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);

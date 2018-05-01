@@ -23,11 +23,13 @@ class Path;
 class PathWalker;
 class SoundSource;
 
+#include "object/path_object.hpp"
 #include "scripting/exposed_object.hpp"
 #include "scripting/willowisp.hpp"
 
 class WillOWisp : public BadGuy,
-                  public ExposedObject<WillOWisp, scripting::WillOWisp>
+                  public ExposedObject<WillOWisp, scripting::WillOWisp>,
+                  public PathObject
 {
 public:
   WillOWisp(const ReaderMapping& reader);
@@ -64,10 +66,6 @@ public:
   virtual ObjectSettings get_settings();
   virtual void move_to(const Vector& pos);
 
-  Path* get_path() const {
-    return path.get();
-  }
-
 protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const;
   HitResponse collision_player(Player& player, const CollisionHit& hit);
@@ -86,10 +84,6 @@ private:
   std::string hit_script;
 
   std::unique_ptr<SoundSource> sound_source;
-
-  std::unique_ptr<Path>        path;
-  std::unique_ptr<PathWalker>  walker;
-
   float flyspeed;
   float track_range;
   float vanish_range;

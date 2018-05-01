@@ -33,6 +33,7 @@
 
 TileMap::TileMap(const TileSet *new_tileset) :
   ExposedObject<TileMap, scripting::TileMap>(this),
+  PathObject(),
   editor_active(true),
   tileset(new_tileset),
   tiles(),
@@ -52,8 +53,6 @@ TileMap::TileMap(const TileSet *new_tileset) :
   tint(1, 1, 1),
   current_tint(1, 1, 1),
   remaining_tint_fade_time(0),
-  path(),
-  walker(),
   running(false),
   draw_target(DrawingContext::NORMAL),
   new_size_x(0),
@@ -64,6 +63,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   ExposedObject<TileMap, scripting::TileMap>(this),
+  PathObject(),
   editor_active(true),
   tileset(tileset_),
   tiles(),
@@ -83,8 +83,6 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   tint(1, 1, 1),
   current_tint(1, 1, 1),
   remaining_tint_fade_time(0),
-  path(),
-  walker(),
   running(false),
   draw_target(DrawingContext::NORMAL),
   new_size_x(0),

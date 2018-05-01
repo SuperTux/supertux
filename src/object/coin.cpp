@@ -29,8 +29,7 @@
 
 Coin::Coin(const Vector& pos)
   : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
-    path(),
-    walker(),
+    PathObject(),
     offset(),
     from_tilemap(false),
     add_path(false),
@@ -42,8 +41,7 @@ Coin::Coin(const Vector& pos)
 
 Coin::Coin(const Vector& pos, TileMap* tilemap)
   : MovingSprite(pos, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
-    path(std::shared_ptr<Path>(tilemap->get_path())),
-    walker(std::shared_ptr<PathWalker>(tilemap->get_walker())),
+    PathObject(*tilemap),
     offset(),
     from_tilemap(true),
     add_path(false),
@@ -60,8 +58,7 @@ Coin::Coin(const Vector& pos, TileMap* tilemap)
 
 Coin::Coin(const ReaderMapping& reader)
   : MovingSprite(reader, "images/objects/coin/coin.sprite", LAYER_OBJECTS - 1, COLGROUP_TOUCHABLE),
-    path(),
-    walker(),
+    PathObject(),
     offset(),
     from_tilemap(false),
     add_path(false),

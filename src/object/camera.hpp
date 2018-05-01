@@ -21,6 +21,7 @@
 #include <string>
 
 #include "math/vector.hpp"
+#include "object/path_object.hpp"
 #include "scripting/camera.hpp"
 #include "scripting/exposed_object.hpp"
 #include "supertux/game_object.hpp"
@@ -33,7 +34,8 @@ class ReaderMapping;
 class CameraConfig;
 
 class Camera : public GameObject,
-               public ExposedObject<Camera, scripting::Camera>
+               public ExposedObject<Camera, scripting::Camera>,
+               public PathObject
 {
 public:
   Camera(Sector* sector, const std::string& name = std::string());
@@ -96,8 +98,6 @@ public:
     return "images/engine/editor/camera.png";
   }
 
-  Path* get_path() const;
-
 private:
   void update_scroll_normal(float elapsed_time);
   void update_scroll_autoscroll(float elapsed_time);
@@ -125,10 +125,6 @@ private:
   Vector lookahead_pos;
   Vector peek_pos;
   Vector cached_translation;
-
-  // autoscroll mode
-  std::unique_ptr<Path> autoscroll_path;
-  std::unique_ptr<PathWalker> autoscroll_walker;
 
   // shaking
   Timer shaketimer;

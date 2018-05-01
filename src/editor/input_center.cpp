@@ -320,26 +320,10 @@ EditorInputCenter::mark_object() {
     return;
   }
 
-  auto coin = dynamic_cast<Coin*>(dragged_object);
-  if (coin) {
-    if (coin->get_path()) {
-      edit_path(coin->get_path(), dragged_object);
-    }
-    return;
-  }
-
-  auto willo = dynamic_cast<WillOWisp*>(dragged_object);
-  if (willo) {
-    if (willo->get_path()) {
-      edit_path(willo->get_path(), dragged_object);
-    }
-    return;
-  }
-
-  auto platform = dynamic_cast<Platform*>(dragged_object);
-  if (platform) {
-    edit_path(&platform->get_path(), dragged_object);
-    return;
+  auto path_obj = dynamic_cast<PathObject*>(dragged_object);
+  if(path_obj && path_obj->get_path())
+  {
+    edit_path(path_obj->get_path(), dragged_object);
   }
 }
 
