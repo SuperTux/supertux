@@ -320,14 +320,14 @@ GameSession::update(float elapsed_time)
     active = true;
   }
   // handle controller
-  if(InputManager::current()->get_controller()->pressed(Controller::ESCAPE) ||
-     InputManager::current()->get_controller()->pressed(Controller::START))
+  auto controller = InputManager::current()->get_controller(); 
+  if(controller->pressed(Controller::ESCAPE) || 
+     controller->pressed(Controller::START))
   {
     on_escape_press();
   }
 
-  if(InputManager::current()->get_controller()->pressed(Controller::CHEAT_MENU) &&
-     g_config->developer_mode)
+  if(controller->pressed(Controller::CHEAT_MENU) && g_config->developer_mode)
   {
     if (!MenuManager::instance().is_active())
     {
@@ -351,7 +351,7 @@ GameSession::update(float elapsed_time)
 
   // respawning in new sector?
   if(!newsector.empty() && !newspawnpoint.empty()) {
-    Sector* sector = level->get_sector(newsector);
+    auto sector = level->get_sector(newsector);
     if(sector == 0) {
       log_warning << "Sector '" << newsector << "' not found" << std::endl;
       sector = level->get_sector("main");
