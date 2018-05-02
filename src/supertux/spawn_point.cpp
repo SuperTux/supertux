@@ -33,11 +33,8 @@ SpawnPoint::SpawnPoint(const SpawnPoint& other) :
 
 SpawnPoint::SpawnPoint(const ReaderMapping& slisp) :
   name(),
-  pos()
+  pos(-1, -1)
 {
-  pos.x = -1;
-  pos.y = -1;
-
   slisp.get("name", name);
   slisp.get("x", pos.x);
   slisp.get("y", pos.y);

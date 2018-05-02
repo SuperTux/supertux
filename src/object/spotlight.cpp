@@ -28,7 +28,9 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
   lights(SpriteManager::current()->create("images/objects/spotlight/spotlight_lights.sprite")),
   light(SpriteManager::current()->create("images/objects/spotlight/light.sprite")),
   lightcone(SpriteManager::current()->create("images/objects/spotlight/lightcone.sprite")),
-  color(1.0f, 1.0f, 1.0f)
+  color(1.0f, 1.0f, 1.0f),
+  speed(50.0f),
+  counter_clockwise()
 {
   group = COLGROUP_DISABLED;
 
@@ -37,6 +39,8 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
   bbox.set_size(32, 32);
 
   lisp.get("angle", angle, 0.0f);
+  lisp.get("speed", speed, 50.0f);
+  lisp.get("counter-clockwise", counter_clockwise, false);
 
   std::vector<float> vColor;
   if( lisp.get( "color", vColor ) ){
@@ -55,6 +59,8 @@ Spotlight::get_settings() {
   result.options.push_back( ObjectOption(MN_NUMFIELD, "y-pos", &bbox.p1.y, "y", false));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Angle"), &angle, "angle"));
   result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &color, "color"));
+  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed"), &speed, "speed"));
+  result.options.push_back (ObjectOption(MN_TOGGLE, _("Counter-clockwise"), &counter_clockwise, "counter-clockwise"));
 
   return result;
 }
@@ -62,7 +68,14 @@ Spotlight::get_settings() {
 void
 Spotlight::update(float delta)
 {
-  angle += delta * 50.0f;
+  if(counter_clockwise)
+  {
+    angle -= delta * speed;
+  }
+  else
+  {
+    angle += delta * speed;
+  }
 }
 
 void
