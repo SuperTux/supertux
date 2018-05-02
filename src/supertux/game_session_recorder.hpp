@@ -33,6 +33,12 @@ public:
   void play_demo(const std::string& filename);
   void process_events();
 
+  /**
+   * Re-sets the demo controller in case the sector
+   * (and thus the Player instance) changes. 
+   */
+  void reset_demo_controller();
+
 private:
   void capture_demo_step();
 
