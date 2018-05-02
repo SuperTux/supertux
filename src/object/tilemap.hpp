@@ -19,6 +19,7 @@
 
 #include <algorithm>
 
+#include "object/path_object.hpp"
 #include "object/path_walker.hpp"
 #include "scripting/exposed_object.hpp"
 #include "scripting/tilemap.hpp"
@@ -33,7 +34,8 @@ class TileSet;
  * This class is responsible for drawing the level tiles
  */
 class TileMap : public GameObject,
-                public ExposedObject<TileMap, scripting::TileMap>
+                public ExposedObject<TileMap, scripting::TileMap>,
+                public PathObject
 {
 public:
   TileMap(const TileSet *tileset);
@@ -91,12 +93,6 @@ public:
       return Vector(movement.x, std::max(0.0f,movement.y));
     }
   }
-
-  std::shared_ptr<Path> get_path() const
-  { return path; }
-
-  std::shared_ptr<PathWalker> get_walker() const
-  { return walker; }
 
   void set_offset(const Vector &offset_)
   { this->offset = offset_; }
@@ -224,9 +220,6 @@ private:
   float remaining_tint_fade_time; /**< seconds until requested tilemap tint is reached */
 
   void float_channel(float target, float &current, float remaining_time, float elapsed_time);
-
-  std::shared_ptr<Path> path;
-  std::shared_ptr<PathWalker> walker;
 
   /**
    * Is the tilemap currently moving (following the path)

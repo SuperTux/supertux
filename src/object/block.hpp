@@ -36,7 +36,12 @@ public:
   virtual void update(float elapsed_time) override;
   virtual void draw(DrawingContext& context) override;
 
+  virtual std::string get_default_sprite_name() const {
+    return default_sprite_name;
+  }
+
   virtual ObjectSettings get_settings() override;
+  virtual void save(Writer& writer) override;
   virtual void after_editor_set() override;
 
 protected:
@@ -49,6 +54,7 @@ protected:
 
   SpritePtr sprite;
   std::string sprite_name;
+  std::string default_sprite_name;
   bool bouncing;
   bool breaking;
   float bounce_dir;

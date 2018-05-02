@@ -56,11 +56,7 @@ EditorNewLevelsetMenu::menu_action(MenuItem* item)
   {
     if(levelset_name.empty())
     {
-      std::unique_ptr<Dialog> dialog(new Dialog);
-      dialog->set_text(_("Please enter a name for this level subset."));
-      dialog->clear_buttons();
-      dialog->add_button(_("OK"), [] {});
-      MenuManager::instance().set_dialog(std::move(dialog));
+      Dialog::show_message(_("Please enter a name for this level subset."));
     }
     else
     {

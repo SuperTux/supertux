@@ -20,6 +20,7 @@
 #include <math.h>
 #include <stdexcept>
 
+#include "editor/editor.hpp"
 #include "math/sizef.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
@@ -322,6 +323,9 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
 void
 Background::draw(DrawingContext& context)
 {
+  if(Editor::is_active() && !EditorInputCenter::render_background)
+    return;
+
   if(image.get() == NULL)
     return;
 

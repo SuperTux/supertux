@@ -39,7 +39,7 @@ public:
   ObjectSettings get_settings();
   virtual void after_editor_set();
   std::string get_class() const {
-    return "mrcandle";
+    return "walking_candle";
   }
   std::string get_display_name() const {
     return _("Mr. Candle");

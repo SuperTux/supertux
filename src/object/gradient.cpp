@@ -180,6 +180,9 @@ Gradient::set_direction(const GradientDirection& direction)
 void
 Gradient::draw(DrawingContext& context)
 {
+  if(Editor::is_active() && !EditorInputCenter::render_background)
+    return;
+
   if(gradient_direction != HORIZONTAL && gradient_direction != VERTICAL)
   {
       auto current_sector = Sector::current();

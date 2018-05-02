@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_OBJECT_PLATFORM_HPP
 
 #include "object/moving_sprite.hpp"
+#include "object/path_object.hpp"
 #include "object/path_walker.hpp"
 #include "scripting/exposed_object.hpp"
 #include "scripting/platform.hpp"
@@ -26,7 +27,8 @@
  * This class is the base class for platforms that tux can stand on
  */
 class Platform : public MovingSprite,
-                 public ExposedObject<Platform, scripting::Platform>
+                 public ExposedObject<Platform, scripting::Platform>,
+                 public PathObject
 {
 public:
   Platform(const ReaderMapping& reader);
@@ -63,9 +65,6 @@ public:
 
   virtual void move_to(const Vector& pos);
 
-  Path& get_path() const {
-    return *path.get();
-  }
   std::string get_class() const {
     return "platform";
   }
@@ -74,8 +73,6 @@ public:
   }
 
 private:
-  std::unique_ptr<Path> path;
-  std::unique_ptr<PathWalker> walker;
 
   Vector speed;
 
