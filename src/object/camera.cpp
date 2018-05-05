@@ -314,6 +314,9 @@ float clamp(float val, float min, float max)
 void
 Camera::keep_in_bounds(Vector& translation_)
 {
+  if(sector == NULL)
+    return;
+
   float width = sector->get_width();
   float height = sector->get_height();
 
