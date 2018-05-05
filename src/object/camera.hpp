@@ -27,6 +27,7 @@
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 
+class Player;
 class Sector;
 class Path;
 class PathWalker;
@@ -38,7 +39,7 @@ class Camera : public GameObject,
                public PathObject
 {
 public:
-  Camera(Sector* sector, const std::string& name = std::string());
+  Camera(Sector* sector, Player* player, const std::string& name = std::string());
   virtual ~Camera();
   virtual void save(Writer& writer);
 
@@ -118,6 +119,7 @@ private:
   Vector translation;
 
   Sector* sector;
+  Player* player;
 
   // normal mode
   LookaheadMode lookahead_mode;

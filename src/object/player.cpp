@@ -172,7 +172,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   idle_timer(),
   idle_stage(0),
   climbing(0),
-  camera(std::make_shared<Camera>(Sector::current(), "Camera"))
+  camera(std::make_shared<Camera>(Sector::current(), this, "Camera"))
 {
   this->name = name_;
   idle_timer.start(IDLE_TIME[0]/1000.0f);

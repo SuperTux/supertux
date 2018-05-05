@@ -163,11 +163,12 @@ Camera::after_editor_set() {
   }
 }
 
-Camera::Camera(Sector* newsector, const std::string& name_) :
+Camera::Camera(Sector* newsector, Player* player, const std::string& name_) :
   ExposedObject<Camera, scripting::Camera>(this),
   mode(NORMAL),
   translation(),
   sector(newsector),
+  player(player),
   lookahead_mode(LOOKAHEAD_NONE),
   changetime(),
   lookahead_pos(),
@@ -342,8 +343,11 @@ Camera::shake()
 void
 Camera::update_scroll_normal(float elapsed_time)
 {
+  if(player == NULL || sector == NULL)
+  {
+    return;
+  }
   const auto& config_ = *(this->config);
-  auto player = sector->player;
   // TODO: co-op mode needs a good camera
   Vector player_pos(player->get_bbox().get_middle().x,
                                     player->get_bbox().get_bottom());

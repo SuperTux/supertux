@@ -105,9 +105,9 @@ GameObjectPtr
 SectorParser::parse_object(const std::string& name_, const ReaderMapping& reader)
 {
   if(name_ == "camera") {
-    auto camera_ = std::make_shared<Camera>(&m_sector, "Camera");
-    camera_->parse(reader);
-    return camera_;
+    //auto camera_ = std::make_shared<Camera>(&m_sector, "Camera");
+    //camera_->parse(reader);
+    return NULL;
   } else if(name_ == "money") { // for compatibility with old maps
     return std::make_shared<Jumpy>(reader);
   } else {
@@ -343,8 +343,8 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
   }
 
   // add a camera
-  auto camera_ = std::make_shared<Camera>(&m_sector, "Camera");
-  m_sector.add_object(camera_);
+  //auto camera_ = std::make_shared<Camera>(&m_sector, "Camera");
+  //m_sector.add_object(camera_);
 
   m_sector.update_game_objects();
 
