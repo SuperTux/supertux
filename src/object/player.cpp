@@ -1151,9 +1151,9 @@ Player::draw(DrawingContext& context)
     return;
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
-  if (Sector::current() && Sector::current()->camera && (bbox.p2.y - 16 < Sector::current()->camera->get_translation().y)) {
+  if (Sector::current() && camera && (bbox.p2.y - 16 < camera->get_translation().y)) {
     float px = bbox.p1.x + (bbox.p2.x - bbox.p1.x - airarrow.get()->get_width()) / 2;
-    float py = Sector::current()->camera->get_translation().y;
+    float py = camera->get_translation().y;
     py += std::min(((py - (bbox.p2.y + 16)) / 4), 16.0f);
     context.draw_surface(airarrow, Vector(px, py), LAYER_HUD - 1);
   }
@@ -1362,7 +1362,7 @@ Player::collision_solid(const CollisionHit& hit)
                                       Vector(bbox.p1.x, bbox.p2.y),
                                       -70, -50, 260, 280, Vector(0, 300), 3,
                                       Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
-      Sector::current()->camera->shake(.1f, 0, 5);
+      camera->shake(.1f, 0, 5);
     }
 
   } else if(hit.top) {

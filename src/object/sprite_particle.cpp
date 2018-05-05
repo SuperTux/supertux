@@ -15,9 +15,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "object/camera.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "object/camera.hpp"
+#include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
@@ -77,7 +78,7 @@ SpriteParticle::update(float elapsed_time)
   velocity.y += acceleration.y * elapsed_time;
 
   // die when too far offscreen
-  Vector camera = Sector::current()->camera->get_translation();
+  Vector camera = Sector::current()->get_players()[0]->get_camera()->get_translation();
   if ((position.x < camera.x - 128) || (position.x > SCREEN_WIDTH + camera.x + 128) ||
       (position.y < camera.y - 128) || (position.y > SCREEN_HEIGHT + camera.y + 128)) {
     remove_me();

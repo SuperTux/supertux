@@ -18,6 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "object/camera.hpp"
+#include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
@@ -186,7 +187,7 @@ Gradient::draw(DrawingContext& context)
   if(gradient_direction != HORIZONTAL && gradient_direction != VERTICAL)
   {
       auto current_sector = Sector::current();
-      auto camera_translation = current_sector->camera->get_translation();
+      auto camera_translation = current_sector->get_players()[0]->get_camera()->get_translation();
       auto sector_width = current_sector->get_width();
       auto sector_height = current_sector->get_height();
       gradient_region = Rectf(-camera_translation.x, -camera_translation.y, sector_width, sector_height);

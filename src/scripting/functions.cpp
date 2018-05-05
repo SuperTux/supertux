@@ -283,27 +283,31 @@ void whereami()
 void gotoend()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
-  tux->move(Vector(
+  for(const auto& player : ::Sector::current()->get_players())
+  {
+    player->move(Vector(
               (::Sector::current()->get_width()) - (SCREEN_WIDTH*2), 0));
-  ::Sector::current()->camera->reset(
-    Vector(tux->get_pos().x, tux->get_pos().y));
+    player->get_camera()->reset(
+      Vector(player->get_pos().x, player->get_pos().y));
+  }
 }
 
 void warp(float offset_x, float offset_y)
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
-  tux->move(Vector(
-              tux->get_pos().x + (offset_x*32), tux->get_pos().y - (offset_y*32)));
-  ::Sector::current()->camera->reset(
-    Vector(tux->get_pos().x, tux->get_pos().y));
+  for(const auto& player : ::Sector::current()->get_players())
+  {
+      player->move(Vector(
+              player->get_pos().x + (offset_x*32), player->get_pos().y - (offset_y*32)));
+    player->get_camera()->reset(
+    Vector(player->get_pos().x, player->get_pos().y));
+  }
 }
 
 void camera()
 {
   if (!validate_sector_player()) return;
-  auto& cam_pos = ::Sector::current()->camera->get_translation();
+  auto& cam_pos = ::Sector::current()->get_players()[0]->get_camera()->get_translation();
   log_info << "Camera is at " << cam_pos.x << "," << cam_pos.y << std::endl;
 }
 

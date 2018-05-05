@@ -166,7 +166,7 @@ public:
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object = 0) const;
   bool can_see_player(const Vector& eye) const;
 
-/**
+  /**
    * returns a list of players currently in the sector
    */
   std::vector<Player*> get_players() const {
@@ -179,8 +179,6 @@ public:
   }
 
   std::vector<MovingObject*> get_nearby_objects (const Vector& center, float max_distance) const;
-
-  Rectf get_active_region() const;
 
   int get_foremost_layer() const;
 

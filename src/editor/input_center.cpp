@@ -33,6 +33,7 @@
 #include "object/path.hpp"
 #include "object/platform.hpp"
 #include "object/coin.hpp"
+#include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "object/wind.hpp"
 #include "gui/menu.hpp"
@@ -726,7 +727,7 @@ EditorInputCenter::event(SDL_Event& ev) {
 
 void
 EditorInputCenter::update_pos() {
-  sector_pos = mouse_pos + Editor::current()->get_players()[0]->get_camera()->get_translation();
+  sector_pos = mouse_pos + Sector::current()->get_players()[0]->get_camera()->get_translation();
   hovered_tile = sp_to_tp(sector_pos);
   // update tip
   hover_object();
@@ -754,7 +755,7 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
           continue;
         }
         uint32_t tile_id = tiles->pos(drawn_tile.x, drawn_tile.y);
-        editor->tileset->draw_tile(context, tile_id, tp_to_sp(on_tile) - Editor::current()->get_players()[0]->get_camera()->get_translation(),
+        editor->tileset->draw_tile(context, tile_id, tp_to_sp(on_tile) - Sector::current()->get_players()[0]->get_camera()->get_translation(),
                                    LAYER_GUI-11, Color(1, 1, 1, 0.5));
         /*if (tile_id) {
           const Tile* tg_tile = editor->tileset->get( tile_id );
@@ -778,7 +779,7 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_col
     return;
   int tm_width = current_tm->get_width() * (32 / tile_size);
   int tm_height = current_tm->get_height() * (32 / tile_size);
-  auto cam_translation = editor->currentsector->camera->get_translation();
+  auto cam_translation = Sector::current()->get_players()[0]->get_camera()->get_translation();
   Rectf draw_rect = Rectf(cam_translation, cam_translation +
                           Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
   Vector start = sp_to_tp( Vector(draw_rect.p1.x, draw_rect.p1.y), tile_size );
@@ -839,7 +840,7 @@ EditorInputCenter::draw_path(DrawingContext& context) {
     } else {
       node2 = &(*j);
     }
-    auto cam_translation = Editor::current()->get_players()[0]->get_camera()->get_translation();
+    auto cam_translation = Sector::current()->get_players()[0]->get_camera()->get_translation();
     context.draw_line(node1->position - cam_translation,
                       node2->position - cam_translation,
                       Color(1, 0, 0), LAYER_GUI - 21);
@@ -868,7 +869,7 @@ EditorInputCenter::draw(DrawingContext& context) {
   if (dragging && editor->tileselect.select_mode->get_mode() == 1
       && !dragging_right) {
     // Draw selection rectangle...
-    auto cam_translation = editor->currentsector->camera->get_translation();
+    auto cam_translation = Sector::current()->get_players()[0]->get_camera()->get_translation();
     Vector p0 = drag_start - cam_translation;
     Vector p1 = Vector(drag_start.x, sector_pos.y) - cam_translation;
     Vector p2 = Vector(sector_pos.x, drag_start.y) - cam_translation;
@@ -919,7 +920,7 @@ EditorInputCenter::sp_to_tp(const Vector& sp, int tile_size) {
 Vector
 EditorInputCenter::tile_screen_pos(const Vector& tp, int tile_size) {
   Vector sp = tp_to_sp(tp, tile_size);
-  return sp - Editor::current()->currentsector->camera->get_translation();
+  return sp - Sector::current()->get_players()[0]->get_camera()->get_translation();
 }
 
 /* EOF */

@@ -67,8 +67,13 @@ FlipLevelTransformer::transform_sector(Sector* sector)
     transform_spawnpoint(height, *spawnpoint);
   }
 
-  if(sector->camera != 0 && sector->player != 0)
-    sector->camera->reset(sector->player->get_pos());
+  for(const auto& player : sector->get_players())
+  {
+    if(player != NULL && player->get_camera() != NULL)
+    {
+      player->get_camera()->reset(player->get_pos());
+    }
+  }
 }
 
 DrawingEffect

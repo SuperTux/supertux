@@ -23,6 +23,7 @@
 #include "object/magicblock.hpp"
 
 #include "object/camera.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/globals.hpp"
@@ -110,8 +111,9 @@ MagicBlock::update(float elapsed_time)
 {
   //Check if center of this block is on screen.
   //Don't update if not, because there is no light off screen.
-  float screen_left = Sector::current()->camera->get_translation().x;
-  float screen_top = Sector::current()->camera->get_translation().y;
+  auto cam = Sector::current()->get_players()[0]->get_camera();
+  float screen_left = cam->get_translation().x;
+  float screen_top = cam->get_translation().y;
   float screen_right = screen_left+ SCREEN_WIDTH;
   float screen_bottom = screen_top + SCREEN_HEIGHT;
   if((center.x > screen_right ) || ( center.y > screen_bottom) ||

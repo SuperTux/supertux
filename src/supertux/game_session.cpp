@@ -392,7 +392,8 @@ GameSession::update(float elapsed_time)
     return;
 
   // update sounds
-  if (currentsector->camera) SoundManager::current()->set_listener_position(currentsector->camera->get_center());
+  auto cam = currentsector->get_players()[0]->get_camera();
+  if (cam) SoundManager::current()->set_listener_position(cam->get_center());
 
   /* Handle music: */
   if (end_sequence)

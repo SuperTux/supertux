@@ -18,6 +18,7 @@
 
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
+#include "object/player.hpp"
 #include "object/rainsplash.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
@@ -71,8 +72,9 @@ void RainParticleSystem::update(float elapsed_time)
     assert(particle);
 
     float movement = particle->speed * elapsed_time * Sector::current()->get_gravity();
-    float abs_x = Sector::current()->camera->get_translation().x;
-    float abs_y = Sector::current()->camera->get_translation().y;
+    auto cam = Sector::current()->get_players()[0]->get_camera();
+    float abs_x = cam->get_translation().x;
+    float abs_y = cam->get_translation().y;
     particle->pos.y += movement;
     particle->pos.x -= movement;
     int col = collision(particle, Vector(-movement, movement));

@@ -84,7 +84,6 @@ Sector::Sector(Level* parent) :
   gravity(10.0),
   player(0),
   solid_tilemaps(),
-  camera(0),
   effect(0)
 {
   PlayerStatus* player_status;
@@ -255,11 +254,15 @@ Sector::activate(const Vector& player_pos)
   }
 
   //FIXME: This is a really dirty workaround for this strange camera jump
-  player->move(player->get_pos()+Vector(-32, 0));
-  camera->reset(player->get_pos());
-  camera->update(1);
-  player->move(player->get_pos()+(Vector(32, 0)));
-  camera->update(1);
+  for(const auto& player : get_players())
+  {
+    auto cam = player->get_camera();
+    player->move(player->get_pos() + Vector(-32, 0));
+    cam->reset(player->get_pos());
+    cam->update(1);
+    player->move(player->get_pos() + Vector(32, 0));
+    cam->update(1);
+  }
 
   update_game_objects();
 
@@ -300,14 +303,6 @@ Sector::deactivate()
 
   try_unexpose_me();
   _current = NULL;
-}
-
-Rectf
-Sector::get_active_region() const
-{
-  return Rectf(
-    camera->get_translation() - Vector(1600, 1200),
-    camera->get_translation() + Vector(1600, 1200) + Vector(SCREEN_WIDTH,SCREEN_HEIGHT));
 }
 
 int
@@ -455,14 +450,14 @@ Sector::before_object_add(GameObjectPtr object)
     solid_tilemaps.push_back(tilemap);
   }
 
-  auto camera_ = dynamic_cast<Camera*>(object.get());
+  /*auto camera_ = dynamic_cast<Camera*>(object.get());
   if(camera_) {
     if(this->camera != 0) {
       log_warning << "Multiple cameras added. Ignoring" << std::endl;
       return false;
     }
     this->camera = camera_;
-  }
+  }*/
 
   auto player_ = dynamic_cast<Player*>(object.get());
   if(player_) {
@@ -548,34 +543,37 @@ Sector::try_unexpose_me()
 void
 Sector::draw(DrawingContext& context)
 {
-  context.set_ambient_color( ambient_light );
-  context.push_transform();
-  context.set_translation(camera->get_translation());
+  for(const auto& player : get_players())
+  {
+    context.set_ambient_color( ambient_light );
+    context.push_transform();
+    context.set_translation(player->camera->get_translation());
 
-  for(const auto& object : gameobjects) {
-    if(!object->is_valid())
-      continue;
-
-    if (draw_solids_only)
-    {
-      auto tm = dynamic_cast<TileMap*>(object.get());
-      if (tm && !tm->is_solid())
+    for(const auto& object : gameobjects) {
+      if(!object->is_valid())
         continue;
+
+      if (draw_solids_only)
+      {
+        auto tm = dynamic_cast<TileMap*>(object.get());
+        if (tm && !tm->is_solid())
+          continue;
+      }
+
+      object->draw(context);
     }
 
-    object->draw(context);
-  }
+    if(show_collrects) {
+      Color color(1.0f, 0.0f, 0.0f, 0.75f);
+      for(auto& object : moving_objects) {
+        const Rectf& rect = object->get_bbox();
 
-  if(show_collrects) {
-    Color color(1.0f, 0.0f, 0.0f, 0.75f);
-    for(auto& object : moving_objects) {
-      const Rectf& rect = object->get_bbox();
-
-      context.draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
+        context.draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
+      }
     }
-  }
 
-  context.pop_transform();
+    context.pop_transform();
+  }
 }
 
 void

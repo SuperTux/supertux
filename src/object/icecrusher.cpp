@@ -130,7 +130,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
       if (hit.bottom) {
         if (ic_size == LARGE) {
           cooldown_timer = PAUSE_TIME_LARGE;
-          Sector::current()->camera->shake (/* frequency = */ .125f, /* x = */ 0.0, /* y = */ 16.0);
+          Sector::current()->get_players()[0]->get_camera()->shake (/* frequency = */ .125f, /* x = */ 0.0, /* y = */ 16.0);
           SoundManager::current()->play("sounds/brick.wav");
           // throw some particles, bigger and more for large icecrusher
           for(int j = 0; j < 9; j++)
@@ -147,7 +147,7 @@ IceCrusher::collision_solid(const CollisionHit& hit)
         }
         else {
           cooldown_timer = PAUSE_TIME_NORMAL;
-          Sector::current()->camera->shake (/* frequency = */ .1f, /* x = */ 0.0, /* y = */ 8.0);
+          Sector::current()->get_players()[0]->get_camera()->shake (/* frequency = */ .1f, /* x = */ 0.0, /* y = */ 8.0);
           if( sprite_name.find("rock_crusher") != std::string::npos ||
               sprite_name.find("moss_crusher") != std::string::npos )
           {

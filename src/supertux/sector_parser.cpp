@@ -182,11 +182,11 @@ SectorParser::parse(const ReaderMapping& sector)
     fix_old_tiles();
   }
 
-  if (!m_sector.camera) {
+  /*if (!m_sector.camera) {
     log_warning << "sector '" << m_sector.name << "' does not contain a camera." << std::endl;
     m_sector.update_game_objects();
     m_sector.add_object(std::make_shared<Camera>(&m_sector, "Camera"));
-  }
+  }*/
 
   m_sector.update_game_objects();
   m_sector.foremost_layer = m_sector.calculate_foremost_layer();

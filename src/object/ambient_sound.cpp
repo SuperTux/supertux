@@ -22,6 +22,7 @@
 #include "editor/editor.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
+#include "object/player.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
@@ -175,10 +176,12 @@ AmbientSound::update(float deltat)
     float px,py;
     float rx,ry;
 
-    if (!Sector::current() || !Sector::current()->camera) return;
+    auto sector = Sector::current();
+    auto cam = sector->get_players()[0]->get_camera();
+    if (!sector || !cam) return;
     // Camera position
-    px=Sector::current()->camera->get_center().x;
-    py=Sector::current()->camera->get_center().y;
+    px = cam->get_center().x;
+    py = cam->get_center().y;
 
     // Relate to which point in the area
     rx=px<bbox.p1.x?bbox.p1.x:
