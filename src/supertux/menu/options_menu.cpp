@@ -34,6 +34,7 @@
 
 enum OptionsMenuIDs {
   MNID_FULLSCREEN,
+  MNID_DISPLAY_NUMBER,
   MNID_FULLSCREEN_RESOLUTION,
   MNID_MAGNIFICATION,
   MNID_ASPECTRATIO,
@@ -47,9 +48,11 @@ enum OptionsMenuIDs {
 OptionsMenu::OptionsMenu(bool complete) :
   next_magnification(0),
   next_aspect_ratio(0),
+  next_display(0),
   next_resolution(0),
   magnifications(),
   aspect_ratios(),
+  displays(),
   resolutions()
 {
   add_label(_("Options"));
@@ -125,13 +128,28 @@ OptionsMenu::OptionsMenu(bool complete) :
     }
   }
 
+  displays.clear();
+  int display_count = SDL_GetNumVideoDisplays();
+  for(int i = 0; i < display_count; ++i)
+  {
+    auto display_name = SDL_GetDisplayName(i);
+    if(display_name == NULL)
+    {
+      displays.push_back("Display " + std::to_string(i));
+    }
+    else
+    {
+      displays.push_back(display_name);
+    }
+  }
+
   resolutions.clear();
-  int display_mode_count = SDL_GetNumDisplayModes(0);
+  int display_mode_count = SDL_GetNumDisplayModes(g_config->display_number);
   std::string last_display_mode;
   for(int i = 0; i < display_mode_count; ++i)
   {
     SDL_DisplayMode mode;
-    int ret = SDL_GetDisplayMode(0, i, &mode);
+    int ret = SDL_GetDisplayMode(g_config->display_number, i, &mode);
     if (ret != 0)
     {
       log_warning << "failed to get display mode: " << SDL_GetError() << std::endl;
@@ -195,6 +213,12 @@ OptionsMenu::OptionsMenu(bool complete) :
 
   add_toggle(MNID_FULLSCREEN,_("Fullscreen"), &g_config->use_fullscreen)
     ->set_help(_("Fill the entire screen"));
+
+  if(display_count > 0)
+  {
+    auto display_select = add_string_select(MNID_DISPLAY_NUMBER, _("Display"), &next_display, displays);
+    display_select->set_help(_("Set the display the game should be displayed on"));
+  }
 
   auto fullscreen_res = add_string_select(MNID_FULLSCREEN_RESOLUTION, _("Resolution"), &next_resolution, resolutions);
   fullscreen_res->set_help(_("Determine the resolution used in fullscreen mode (you must toggle fullscreen to complete the change)"));
@@ -280,6 +304,19 @@ OptionsMenu::menu_action(MenuItem* item)
       MenuManager::instance().on_window_resize();
       break;
 
+    case MNID_DISPLAY_NUMBER:
+      {
+        // Check if this display is already set:
+        if(g_config->display_number == next_display)
+        {
+          break;
+        }
+        g_config->display_number = next_display;
+        VideoSystem::current()->get_renderer().apply_config();
+        MenuManager::instance().on_window_resize();
+        g_config->save();
+      }
+
     case MNID_FULLSCREEN_RESOLUTION:
       {
         int width;
@@ -302,9 +339,9 @@ OptionsMenu::menu_action(MenuItem* item)
         else if(sscanf(resolutions[next_resolution].c_str(), "%dx%d",
                        &width, &height) == 2)
         {
-            g_config->fullscreen_size.width = width;
-            g_config->fullscreen_size.height = height;
-            g_config->fullscreen_refresh_rate = 0;
+          g_config->fullscreen_size.width = width;
+          g_config->fullscreen_size.height = height;
+          g_config->fullscreen_refresh_rate = 0;
         }
       }
       break;

@@ -38,6 +38,9 @@ public:
 
   int profile;
 
+  /** display_number */
+  int display_number;
+
   /** the width/height to be used to display the game in fullscreen */
   Size fullscreen_size;
 

@@ -31,10 +31,12 @@ class OptionsMenu : public Menu
   private:
     int next_magnification;
     int next_aspect_ratio;
+    int next_display;
     int next_resolution;
 
     std::vector<std::string> magnifications;
     std::vector<std::string> aspect_ratios;
+    std::vector<std::string> displays;
     std::vector<std::string> resolutions;
 };
 
