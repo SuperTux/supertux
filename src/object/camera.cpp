@@ -316,8 +316,13 @@ void
 Camera::keep_in_bounds(Vector& translation_)
 {
   if(sector == NULL)
-    return;
-
+  {
+    if(Sector::current() == NULL)
+    {
+      return;
+    }
+    sector = Sector::current();
+  }
   float width = sector->get_width();
   float height = sector->get_height();
 
@@ -343,10 +348,19 @@ Camera::shake()
 void
 Camera::update_scroll_normal(float elapsed_time)
 {
-  if(player == NULL || sector == NULL)
+  if(player == NULL)
   {
     return;
   }
+  if(sector == NULL)
+  {
+    if(Sector::current() == NULL)
+    {
+      return;
+    }
+    sector = Sector::current();
+  }
+
   const auto& config_ = *(this->config);
   // TODO: co-op mode needs a good camera
   Vector player_pos(player->get_bbox().get_middle().x,
