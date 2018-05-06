@@ -289,6 +289,9 @@ Player::trigger_sequence(Sequence seq)
 void
 Player::update(float elapsed_time)
 {
+  // Update camera position
+  camera->update(elapsed_time);
+
   if( no_water ){
     swimming = false;
   }
