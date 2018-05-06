@@ -69,7 +69,7 @@ Bullet::update(float elapsed_time)
     lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
   // remove bullet when it's offscreen
 
-  int count = 0;
+  unsigned int count = 0;
 
   for(const auto& player : Sector::current()->get_players())
   {
