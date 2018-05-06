@@ -191,6 +191,8 @@ TileSet::add_unassigned_tilegroup()
   if(unassigned_group != NULL)
   {
     tilegroups.push_back(*unassigned_group);
+    delete unassigned_group;
+    unassigned_group = NULL;
   }
 }
 
