@@ -22,10 +22,17 @@
 // a small value... be careful as CD is very sensitive to it
 static const float DELTA = .002f;
 
+#ifndef PANDORA
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
 // binary fraction...
 static const float LOGICAL_FPS = 64.0;
+#else
+// the engine will be run with a logical framerate of 32fps.
+// We chose 32fps here because it is a power of 2, so 1/32 gives an "even"
+// binary fraction...
+static const float LOGICAL_FPS = 32.0;
+#endif
 
 // SHIFT_DELTA is used for sliding over 1-tile gaps and collision detection
 static const float SHIFT_DELTA = 7.0f;
