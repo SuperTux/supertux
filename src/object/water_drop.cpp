@@ -14,6 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef PANDORA
+#define _GLIBCXX_USE_C99 1
+#endif
+
 #include "object/water_drop.hpp"
 
 #include "audio/sound_manager.hpp"
