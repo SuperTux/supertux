@@ -123,6 +123,13 @@ GLRenderer::GLRenderer() :
 #ifndef GL_VERSION_ES_CM_1_0
   #ifndef USE_GLBINDING
   GLenum err = glewInit();
+  #ifdef GLEW_ERROR_NO_GLX_DISPLAY
+  if (GLEW_ERROR_NO_GLX_DISPLAY == err)
+  {
+    log_info << "GLEW couldn't open GLX display" << std::endl;
+  }
+  else
+  #endif
   if (GLEW_OK != err)
   {
     std::ostringstream out;
