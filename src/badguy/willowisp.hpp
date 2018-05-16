@@ -41,6 +41,7 @@ public:
   void active_update(float elapsed_time);
   virtual bool is_flammable() const { return false; }
   virtual bool is_freezable() const { return false; }
+  virtual bool is_hurtable() const { return false; }
   virtual void kill_fall() { vanish(); }
 
   /**

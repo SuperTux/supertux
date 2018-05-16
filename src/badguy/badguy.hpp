@@ -115,6 +115,14 @@ public:
 
   virtual bool is_freezable() const;
 
+  /**
+   * Return true if this badguy can be hurt by tiles
+   * with the attribute "hurts"
+   */
+  virtual bool is_hurtable() const {
+    return true;
+  }
+
   bool is_frozen() const;
 
   bool is_in_water() const;
