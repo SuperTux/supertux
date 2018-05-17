@@ -36,7 +36,7 @@ class Resizer : public PointMarker
     virtual Vector get_point_vector() const;
     virtual Vector get_offset() const;
 
-    virtual bool do_save() const {
+    virtual bool is_saveable() const {
       return false;
     }
 

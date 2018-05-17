@@ -50,7 +50,7 @@ public:
   //Tux can only go this fast. If set to 0 no special limit is used, only the default limits.
   void set_speedlimit(float newlimit);
   float get_speedlimit() const;
-  virtual bool do_save() const {
+  virtual bool is_saveable() const {
     return false;
   }
 

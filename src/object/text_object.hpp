@@ -32,7 +32,7 @@ class TextObject : public GameObject,
 public:
   TextObject(const std::string& name = std::string());
   virtual ~TextObject();
-  virtual bool do_save() const {
+  virtual bool is_saveable() const {
     return false;
   }
 

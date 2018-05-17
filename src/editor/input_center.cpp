@@ -274,13 +274,13 @@ void
 EditorInputCenter::hover_object() {
   for (auto& moving_object : Editor::current()->currentsector->moving_objects) {
     auto pm = dynamic_cast<PointMarker*>(moving_object);
-    if (!moving_object->do_save() && !pm) {
+    if (!moving_object->is_saveable() && !pm) {
       continue;
     }
     Rectf bbox = moving_object->get_bbox();
     if (bbox.contains(sector_pos)) {
       if (moving_object != hovered_object) {
-        if (moving_object->do_save()) {
+        if (moving_object->is_saveable()) {
           std::unique_ptr<Tip> new_tip(new Tip(moving_object));
           object_tip = move(new_tip);
         }
@@ -357,7 +357,7 @@ EditorInputCenter::grab_object() {
 void
 EditorInputCenter::clone_object() {
   auto editor = Editor::current();
-  if (hovered_object && hovered_object->do_save()) {
+  if (hovered_object && hovered_object->is_saveable()) {
     if (!hovered_object->is_valid()) {
       hovered_object = NULL;
       return;
@@ -399,7 +399,7 @@ EditorInputCenter::clone_object() {
 
 void
 EditorInputCenter::set_object() {
-  if (hovered_object && hovered_object->is_valid() && hovered_object->do_save()) {
+  if (hovered_object && hovered_object->is_valid() && hovered_object->is_saveable()) {
     std::unique_ptr<Menu> om(new ObjectMenu(hovered_object));
     Editor::current()->deactivate_request = true;
     MenuManager::instance().push_menu(move(om));

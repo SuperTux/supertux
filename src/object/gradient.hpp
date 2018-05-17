@@ -31,7 +31,7 @@ public:
   Gradient();
   Gradient(const ReaderMapping& reader);
   virtual ~Gradient();
-  virtual bool do_save() const;
+  virtual bool is_saveable() const;
   virtual void save(Writer& writer);
 
   void set_gradient(Color top, Color bottom);

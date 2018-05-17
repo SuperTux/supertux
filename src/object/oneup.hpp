@@ -25,7 +25,7 @@ class OneUp : public MovingSprite
 {
 public:
   OneUp(const Vector& pos, Direction direction = RIGHT);
-  virtual bool do_save() const {
+  virtual bool is_saveable() const {
     return false;
   }
 

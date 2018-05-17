@@ -30,7 +30,7 @@ public:
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
-  virtual bool do_save() const {
+  virtual bool is_saveable() const {
     return false;
   }
 

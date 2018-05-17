@@ -34,7 +34,7 @@ public:
   void stop(); /**< stop playing EndSequence, mark it as done playing */
   bool is_tux_stopped() const; /**< returns true if Tux has reached his final position */
   bool is_done() const; /**< returns true if EndSequence has finished playing */
-  virtual bool do_save() const {
+  virtual bool is_saveable() const {
     return false;
   }
 

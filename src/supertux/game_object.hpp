@@ -69,7 +69,7 @@ public:
   virtual std::string get_display_name() const {
     return _("Unknown object");
   }
-  virtual bool do_save() const {
+  virtual bool is_saveable() const {
     return true;
   }
 

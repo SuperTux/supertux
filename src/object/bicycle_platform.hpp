@@ -38,7 +38,7 @@ public:
     return _("Bicycle platform");
   }
 
-  bool do_save() const {
+  bool is_saveable() const {
     return this == master;
   }
 

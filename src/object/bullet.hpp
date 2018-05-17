@@ -32,7 +32,7 @@ public:
   void draw(DrawingContext& context);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual bool do_save() const {
+  virtual bool is_saveable() const {
     return false;
   }
 

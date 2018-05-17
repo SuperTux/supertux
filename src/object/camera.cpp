@@ -676,7 +676,7 @@ Camera::move(const int dx, const int dy) {
 }
 
 bool
-Camera::do_save() const {
+Camera::is_saveable() const {
   return !Editor::is_active() || !Editor::current()->get_worldmap_mode();
 }
 /* EOF */

@@ -298,7 +298,7 @@ void Editor::load_layers() {
   for(auto& i : currentsector->gameobjects) {
     auto go = i.get();
     auto mo = dynamic_cast<MovingObject*>(go);
-    if ( !mo && go->do_save() ) {
+    if ( !mo && go->is_saveable() ) {
       layerselect.add_layer(go);
 
       auto tm = dynamic_cast<TileMap*>(go);

@@ -29,7 +29,7 @@ public:
 
   void draw(DrawingContext& context);
   void update(float elapsed_time);
-  virtual bool do_save() const {
+  virtual bool is_saveable() const {
     return false;
   }
 

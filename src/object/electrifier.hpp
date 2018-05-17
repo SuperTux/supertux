@@ -28,7 +28,7 @@ class Electrifier : public GameObject
 public:
   Electrifier(uint32_t oldtile, uint32_t newtile, float seconds);
   ~Electrifier();
-  virtual bool do_save() const {
+  virtual bool is_saveable() const {
     return false;
   }
 

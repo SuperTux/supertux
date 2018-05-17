@@ -205,7 +205,7 @@ Gradient::on_window_resize()
 }
 
 bool
-Gradient::do_save() const {
+Gradient::is_saveable() const {
   return !Editor::is_active() || !Editor::current()->get_worldmap_mode();
 }
 

@@ -26,7 +26,7 @@ class FloatingImage : public GameObject
 public:
   FloatingImage(const std::string& sprite);
   virtual ~FloatingImage();
-  virtual bool do_save() const {
+  virtual bool is_saveable() const {
     return false;
   }
 
