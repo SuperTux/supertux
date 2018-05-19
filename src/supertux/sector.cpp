@@ -95,7 +95,14 @@ Sector::Sector(Level* parent) :
   if (!player_status) {
     log_warning << "Player status is not initialized." << std::endl;
   }
-  add_object(std::make_shared<Player>(player_status, "Tux"));
+  auto player1 = std::make_shared<Player>(player_status, "Tux");
+  auto player2 = std::make_shared<Player>(player_status, "Penny");
+
+  player1->get_camera()->set_number(1);
+  player2->get_camera()->set_number(2);
+  
+  add_object(player1);
+  add_object(player2);
   add_object(std::make_shared<DisplayEffect>("Effect"));
   add_object(std::make_shared<TextObject>("Text"));
 

@@ -183,7 +183,8 @@ Camera::Camera(Sector* newsector, Player* player, const std::string& name_) :
   scroll_to_pos(),
   scrollspeed(),
   config(std::unique_ptr<CameraConfig>(new CameraConfig)),
-  defaultmode(NORMAL)
+  defaultmode(NORMAL),
+  number()
 {
   this->name = name_;
   reload_config();
@@ -687,7 +688,10 @@ Camera::update_scroll_to(float elapsed_time)
 
 Vector
 Camera::get_center() const {
-  return translation + Vector(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+  if(number == 1)
+    return translation + Vector(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2);
+  if(number == 2)
+    return translation + Vector(SCREEN_WIDTH / 3 * 2, SCREEN_HEIGHT / 2);
 }
 
 void

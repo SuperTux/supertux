@@ -65,6 +65,14 @@ public:
     translation.y = scroll_y;
   }
 
+  void set_number(int number)
+  {
+    if(number <= 0)
+      return;
+    
+    this->number = number;
+  }
+
   /**
    * scroll the upper left edge of the camera in scrolltime seconds
    * to the position goal
@@ -141,6 +149,9 @@ private:
   float scrollspeed;
 
   std::unique_ptr<CameraConfig> config;
+
+  // camera number:
+  int number;
 
 private:
   Camera(const Camera&);
