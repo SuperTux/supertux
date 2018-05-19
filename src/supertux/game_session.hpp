@@ -115,8 +115,6 @@ private:
 
   Sector* currentsector;
 
-  int pause_menu_frame;
-
   std::shared_ptr<EndSequence> end_sequence;
 
   bool  game_pause;

@@ -60,7 +60,6 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   statistics_backdrop(Surface::create("images/engine/menu/score-backdrop.png")),
   scripts(),
   currentsector(nullptr),
-  pause_menu_frame(),
   end_sequence(0),
   game_pause(false),
   speed_before_pause(ScreenManager::current()->get_speed()),
