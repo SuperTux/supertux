@@ -39,6 +39,10 @@ public:
    */
   void reset_demo_controller();
 
+  bool is_playing_demo() const {
+    return m_playing;
+  }
+
 private:
   void capture_demo_step();
 
@@ -46,6 +50,7 @@ private:
   std::string capture_file;
   std::istream* playback_demo_stream;
   CodeController* demo_controller;
+  bool m_playing;
 
 private:
   GameSessionRecorder(const GameSessionRecorder&) = delete;

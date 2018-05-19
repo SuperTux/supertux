@@ -31,7 +31,8 @@ GameSessionRecorder::GameSessionRecorder() :
   capture_demo_stream(0),
   capture_file(),
   playback_demo_stream(0),
-  demo_controller(0)
+  demo_controller(0),
+  m_playing(false)
 {
 }
 
@@ -100,6 +101,7 @@ GameSessionRecorder::get_demo_random_seed(const std::string& filename) const
 void
 GameSessionRecorder::play_demo(const std::string& filename)
 {
+  m_playing = true;
   delete playback_demo_stream;
   delete demo_controller;
 
@@ -119,6 +121,8 @@ GameSessionRecorder::play_demo(const std::string& filename)
     playback_demo_stream->get(buf[i]);
   if (sscanf(buf, "random_seed=%010d", &seed) != 1)
     playback_demo_stream->seekg(0);     // old style w/o seed, restart at beg
+
+  m_playing = false;
 }
 
 void

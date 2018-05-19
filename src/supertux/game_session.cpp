@@ -361,7 +361,11 @@ GameSession::update(float elapsed_time)
     sector->play_music(LEVEL_MUSIC);
     currentsector = sector;
     currentsector->play_looping_sounds();
-    reset_demo_controller();
+
+    if(is_playing_demo())
+    {
+      reset_demo_controller();
+    }
     //Keep persistent across sectors
     if(edit_mode)
       currentsector->get_players()[0]->set_edit_mode(edit_mode);
