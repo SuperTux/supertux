@@ -316,6 +316,7 @@ public:
   Timer ability_timer;  // maximum lengh of time that special abilities can last
   Timer cooldown_timer; // minimum time period between successive uses of a special ability
   Timer dying_timer;
+  Timer second_growup_sound_timer;
   bool growing;
   Timer backflip_timer;
 
