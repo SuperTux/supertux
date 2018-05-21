@@ -14,5 +14,5 @@ for file in SuperTux*; do
          --data "size=$size" \
          --data "branch=$TRAVIS_BRANCH" \
          --data "shasum=$shasum" \
-         -L -s https://download.supertux.org/submit.php
+         -L -s -k https://download.supertux.org/submit.php
 done
