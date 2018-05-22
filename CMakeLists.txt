@@ -237,6 +237,8 @@ ENDIF(CURL_FOUND)
 #INCLUDE_DIRECTORIES(SYSTEM ${ICONV_INCLUDE_DIR})
 #LINK_LIBRARIES(${ICONV_LIBRARY})
 
+find_package(Threads REQUIRED)
+
 IF(EXISTS "${CMAKE_SOURCE_DIR}/.git")
 	## Find revision of WC
 	MARK_AS_ADVANCED(GIT_EXECUTABLE)
@@ -626,6 +628,7 @@ TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC sexp)
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${OPENAL_LIBRARY})
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${OGGVORBIS_LIBRARIES})
 TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${Boost_LIBRARIES})
+TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${CMAKE_THREAD_LIBS_INIT})
 IF(USE_SYSTEM_PHYSFS)
     TARGET_LINK_LIBRARIES(supertux2_lib PUBLIC ${PHYSFS_LIBRARY})
 ELSE()
@@ -651,8 +654,6 @@ IF(HAVE_LIBCURL)
 ENDIF(HAVE_LIBCURL)
 
 if(BUILD_TESTS)
-  find_package(Threads REQUIRED)
-
   # build gtest
   # ${CMAKE_CURRENT_SOURCE_DIR} in include_directories is needed to generate -isystem instead of -I flags
   add_library(gtest_main STATIC ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/src/gtest_main.cc)

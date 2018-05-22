@@ -32,6 +32,7 @@
 #include "addon/addon.hpp"
 #include "addon/md5.hpp"
 #include "physfs/physfs_file_system.hpp"
+#include "util/async_lisp_parser.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -568,28 +569,28 @@ AddonManager::is_from_old_addon(const std::string& filename) const
   return false;
 }
 
-std::vector<std::string>
-AddonManager::scan_for_archives() const
+void
+AddonManager::scan_for_archives(const std::function<void(std::vector<std::string>)>& callback) const
 {
-  std::vector<std::string> archives;
-
-  // Search for archives and add them to the search path
-  std::unique_ptr<char*, decltype(&PHYSFS_freeList)>
-    rc(PHYSFS_enumerateFiles(m_addon_directory.c_str()),
-       PHYSFS_freeList);
-  for(char** i = rc.get(); *i != 0; ++i)
-  {
-    if (has_suffix(*i, ".zip"))
+  auto workloads = new Workloads();
+  auto request = new ListFilesWorkload(m_addon_directory, [this, callback] (char** files) {
+    std::vector<std::string> archives;
+    for(char** i = files; *i != 0; ++i)
     {
-      std::string archive = FileSystem::join(m_addon_directory, *i);
-      if (PHYSFS_exists(archive.c_str()))
+      if (has_suffix(*i, ".zip"))
       {
-        archives.push_back(archive);
+        std::string archive = FileSystem::join(m_addon_directory, *i);
+        if (PHYSFS_exists(archive.c_str()))
+        {
+          archives.push_back(archive);
+        }
       }
     }
-  }
-
-  return archives;
+    callback(archives);
+  });
+  workloads->push_back(request);
+  auto worker = new AsyncWorker(workloads);
+  worker->start_working();
 }
 
 std::string
@@ -665,13 +666,13 @@ AddonManager::add_installed_archive(const std::string& archive, const std::strin
 void
 AddonManager::add_installed_addons()
 {
-  auto archives = scan_for_archives();
-
-  for(const auto& archive : archives)
-  {
-    MD5 md5 = md5_from_file(archive);
-    add_installed_archive(archive, md5.hex_digest());
-  }
+  scan_for_archives([this] (std::vector<std::string> archives) {
+    for(const auto& archive : archives)
+    {
+      MD5 md5 = md5_from_file(archive);
+      add_installed_archive(archive, md5.hex_digest());
+    }
+  });
 }
 
 AddonManager::AddonList

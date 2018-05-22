@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_LEVEL_PARSER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_LEVEL_PARSER_HPP
 
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -27,6 +28,8 @@ class LevelParser
 {
 public:
   static std::unique_ptr<Level> from_file(const std::string& filename);
+  static void from_file(const std::string& filename,
+                        std::function<void(const Level& level)> callback);
   static std::unique_ptr<Level> from_nothing(const std::string& basedir);
   static std::unique_ptr<Level> from_nothing_worldmap(const std::string& basedir, const std::string& name);
 
@@ -34,6 +37,7 @@ private:
   LevelParser(Level& level);
 
   void load(const std::string& filepath);
+  void load(const std::string& filepath, std::function<void(const Level& level)> callback);
   void load_old_format(const ReaderMapping& reader);
   void create(const std::string& filepath, const std::string& levelname, bool worldmap);
 

@@ -31,7 +31,7 @@ static const float FADE_SPEED = 1;
 
 ConsoleBuffer::ConsoleBuffer() :
   m_lines(),
-  m_console(nullptr)
+  m_console()
 {
 }
 

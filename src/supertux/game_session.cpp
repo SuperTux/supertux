@@ -44,6 +44,7 @@
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "util/async_lisp_parser.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "worldmap/worldmap.hpp"

@@ -22,6 +22,7 @@
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/sector_parser.hpp"
+#include "util/async_lisp_parser.hpp"
 #include "util/reader.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
@@ -34,6 +35,15 @@ LevelParser::from_file(const std::string& filename)
   LevelParser parser(*level);
   parser.load(filename);
   return level;
+}
+
+void
+LevelParser::from_file(const std::string& filename,
+                       std::function<void(const Level& level)> callback)
+{
+  std::unique_ptr<Level> level(new Level);
+  LevelParser parser(*level);
+  parser.load(filename, callback);
 }
 
 std::unique_ptr<Level>
@@ -134,6 +144,58 @@ LevelParser::load(const std::string& filepath)
     msg << "Problem when reading level '" << filepath << "': " << e.what();
     throw std::runtime_error(msg.str());
   }
+}
+
+void
+LevelParser::load(const std::string& filepath,
+                  std::function<void(const Level& level)> callback)
+{
+  m_level.filename = filepath;
+  register_translation_directory(filepath);
+  auto workloads = new Workloads();
+  auto request = new LispParserWorkload(filepath, [this, filepath, callback] (const ReaderDocument& doc) {
+    auto root = doc.get_root();
+
+    if(root.get_name() != "supertux-level")
+      throw std::runtime_error("file is not a supertux-level file.");
+
+    auto level = root.get_mapping();
+
+    int version = 1;
+    level.get("version", version);
+    if(version == 1) {
+      log_info << "[" <<  filepath << "] level uses old format: version 1" << std::endl;
+      load_old_format(level);
+    } else if (version == 2) {
+      level.get("tileset", m_level.tileset);
+
+      level.get("name", m_level.name);
+      level.get("author", m_level.author);
+      level.get("contact", m_level.contact);
+      level.get("license", m_level.license);
+      level.get("on-menukey-script", m_level.on_menukey_script);
+      level.get("target-time", m_level.target_time);
+
+      auto iter = level.get_iter();
+      while(iter.next()) {
+        if (iter.get_key() == "sector") {
+          auto sector = SectorParser::from_reader(m_level, iter.as_mapping());
+          m_level.add_sector(std::move(sector));
+        }
+      }
+
+      if (m_level.license.empty()) {
+        log_warning << "[" <<  filepath << "] The level author \"" << m_level.author
+                    << "\" did not specify a license for this level \""
+                    << m_level.name << "\". You might not be allowed to share it."
+                    << std::endl;
+      }
+      callback(m_level);
+    }
+  });
+  workloads->push_back(request);
+  auto worker = new AsyncWorker(workloads);
+  worker->start_working();
 }
 
 void

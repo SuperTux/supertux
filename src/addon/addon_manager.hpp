@@ -86,7 +86,7 @@ public:
   void check_for_langpack_updates();
 
 private:
-  std::vector<std::string> scan_for_archives() const;
+  void scan_for_archives(const std::function<void(std::vector<std::string>)>& callback) const;
   void add_installed_addons();
   AddonList parse_addon_infos(const std::string& filename) const;
 
