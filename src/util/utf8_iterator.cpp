@@ -93,7 +93,7 @@ UTF8Iterator::UTF8Iterator(const std::string& text_) :
 {
   try {
     chr = decode_utf8(text, pos);
-  } catch (std::exception) {
+  } catch (std::exception&) {
     log_debug << "Malformed utf-8 sequence beginning with " << *(reinterpret_cast<const uint32_t*>(text.c_str() + pos)) << " found " << std::endl;
     chr = 0;
   }
@@ -109,7 +109,7 @@ UTF8Iterator::done() const
 UTF8Iterator::operator++() {
     try {
       chr = decode_utf8(text, pos);
-    } catch (std::exception) {
+    } catch (std::exception&) {
       log_debug << "Malformed utf-8 sequence beginning with " << *(reinterpret_cast<const uint32_t*>(text.c_str() + pos)) << " found " << std::endl;
       chr = 0;
       ++pos;
