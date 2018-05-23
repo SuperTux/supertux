@@ -47,17 +47,6 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
   sprite = SpriteManager::current()->create( sprite_name );
 }
 
-/* MrBomb created by a dispenser always gets default sprite atm.*/
-MrBomb::MrBomb(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
-  grabbed()
-{
-  walk_speed = 80;
-  max_drop_height = 16;
-  grabbed = false;
-  SoundManager::current()->preload("sounds/explosion.wav");
-}
-
 HitResponse
 MrBomb::collision(GameObject& object, const CollisionHit& hit)
 {

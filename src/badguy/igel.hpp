@@ -26,7 +26,6 @@ class Igel : public WalkingBadguy
 {
 public:
   Igel(const ReaderMapping& reader);
-  Igel(const Vector& pos, Direction d);
 
   HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
 

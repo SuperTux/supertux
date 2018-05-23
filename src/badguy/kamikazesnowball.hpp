@@ -23,7 +23,6 @@ class KamikazeSnowball : public BadGuy
 {
 public:
   KamikazeSnowball(const ReaderMapping& reader);
-  KamikazeSnowball(const Vector& pos, Direction d);
 
   void initialize();
   void collision_solid(const CollisionHit& hit);
