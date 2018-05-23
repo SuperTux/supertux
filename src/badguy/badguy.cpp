@@ -45,36 +45,8 @@ static const float Y_OFFSCREEN_DISTANCE = 2160;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
                const std::string& light_sprite_name) :
-  MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
-  physic(),
-  countMe(true),
-  is_initialized(false),
-  start_position(),
-  dir(LEFT),
-  start_dir(AUTO),
-  frozen(false),
-  ignited(false),
-  in_water(false),
-  dead_script(),
-  melting_time(0),
-  lightsprite(SpriteManager::current()->create(light_sprite_name)),
-  glowing(false),
-  state(STATE_INIT),
-  is_active_flag(),
-  state_timer(),
-  on_ground_flag(false),
-  floor_normal(),
-  colgroup_active(COLGROUP_MOVING)
+  BadGuy(pos, LEFT, sprite_name_, layer_, light_sprite_name)
 {
-  start_position = bbox.p1;
-
-  SoundManager::current()->preload("sounds/squish.wav");
-  SoundManager::current()->preload("sounds/fall.wav");
-  SoundManager::current()->preload("sounds/splash.ogg");
-  SoundManager::current()->preload("sounds/fire.ogg");
-
-  dir = (start_dir == AUTO) ? LEFT : start_dir;
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name_, int layer_,
@@ -83,7 +55,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   physic(),
   countMe(true),
   is_initialized(false),
-  start_position(),
+  start_position(bbox.p1),
   dir(direction),
   start_dir(direction),
   frozen(false),
@@ -100,8 +72,6 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   floor_normal(),
   colgroup_active(COLGROUP_MOVING)
 {
-  start_position = bbox.p1;
-
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
   SoundManager::current()->preload("sounds/splash.ogg");
@@ -117,7 +87,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   physic(),
   countMe(true),
   is_initialized(false),
-  start_position(),
+  start_position(bbox.p1),
   dir(LEFT),
   start_dir(AUTO),
   frozen(false),
@@ -134,8 +104,6 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   floor_normal(),
   colgroup_active(COLGROUP_MOVING)
 {
-  start_position = bbox.p1;
-
   std::string dir_str = "auto";
   reader.get("direction", dir_str);
   start_dir = str2dir( dir_str );
