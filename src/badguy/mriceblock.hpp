@@ -70,22 +70,6 @@ private:
   int squishcount;
 };
 
-class SmartBlock : public MrIceBlock
-{
-public:
-  SmartBlock(const ReaderMapping& reader);
-
-  virtual std::string get_water_sprite() const {
-    return "images/objects/water_drop/pink_drop.sprite";
-  }
-  std::string get_class() const {
-    return "smartblock";
-  }
-  std::string get_display_name() const {
-    return _("Smart Block");
-  }
-};
-
 #endif
 
 /* EOF */
