@@ -21,14 +21,8 @@
 bool
 StringUtil::has_suffix(const std::string& data, const std::string& suffix)
 {
-  if (data.length() >= suffix.length())
-  {
-    return data.compare(data.length() - suffix.length(), suffix.length(), suffix) == 0;
-  }
-  else
-  {
-    return false;
-  }
+  return data.length() >= suffix.length()
+         && data.compare(data.length() - suffix.length(), suffix.length(), suffix) == 0;
 }
 
 bool
