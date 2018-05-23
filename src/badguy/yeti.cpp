@@ -92,10 +92,6 @@ Yeti::Yeti(const ReaderMapping& reader) :
   }
 }
 
-Yeti::~Yeti()
-{
-}
-
 void
 Yeti::initialize()
 {
