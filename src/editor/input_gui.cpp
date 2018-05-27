@@ -351,7 +351,6 @@ EditorInputGui::event(SDL_Event& ev) {
     case SDL_MOUSEBUTTONUP:
       dragging = false;
       return false;
-      break;
 
     case SDL_MOUSEMOTION:
     {
@@ -399,7 +398,6 @@ EditorInputGui::event(SDL_Event& ev) {
       }
       return false;
     case SDL_MOUSEWHEEL:
-    {
       if (hovered_item != HI_NONE)
       {
         if (ev.wheel.y > 0) {
@@ -411,10 +409,9 @@ EditorInputGui::event(SDL_Event& ev) {
         using_scroll_wheel = true;
         wheel_scroll_amount = ev.wheel.y;
       }
-    }
+      return false;
     default:
       return false;
-      break;
   }
   return true;
 }
