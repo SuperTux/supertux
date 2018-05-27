@@ -39,8 +39,8 @@ Tile::Tile() :
 }
 
 Tile::Tile(const std::vector<ImageSpec>& imagespecs_, const std::vector<ImageSpec>& editor_imagespecs_,
-           uint32_t attributes_, uint32_t data_, float fps_, std::string obj_name,
-           std::string obj_data) :
+           uint32_t attributes_, uint32_t data_, float fps_, const std::string& obj_name,
+           const std::string& obj_data) :
   imagespecs(imagespecs_),
   images(),
   editor_imagespecs(editor_imagespecs_),
