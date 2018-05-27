@@ -26,7 +26,6 @@ class Yeti : public BadGuy
 {
 public:
   Yeti(const ReaderMapping& lisp);
-  ~Yeti();
 
   void draw(DrawingContext& context);
   void initialize();

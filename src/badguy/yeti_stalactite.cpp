@@ -27,10 +27,6 @@ YetiStalactite::YetiStalactite(const ReaderMapping& lisp)
 {
 }
 
-YetiStalactite::~YetiStalactite()
-{
-}
-
 void
 YetiStalactite::start_shaking()
 {
