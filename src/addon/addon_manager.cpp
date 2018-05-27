@@ -91,7 +91,7 @@ static Addon& get_addon(const AddonManager::AddonList& list, const AddonId& id,
   }
   else
   {
-    auto type = std::string(installed ? "installed" : "repository");
+    std::string type = installed ? "installed" : "repository";
     throw std::runtime_error("Couldn't find " + type + " addon with id: " + id);
   }
 }
