@@ -33,7 +33,7 @@
 #include "video/video_system.hpp"
 
 ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
-  ItemTextField("", input_, id)
+  ItemTextField("", input_, id_)
 {
 }
 
