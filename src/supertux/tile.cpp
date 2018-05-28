@@ -178,7 +178,10 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
   if (!this->is_slope())
   {
     int dir = this->getData() & Tile::UNI_DIR_MASK;
-
+    if(VERTICAL_FLIP)
+    {
+      dir = dir_vertical_flip(dir);
+    }
     return ((dir == Tile::UNI_DIR_NORTH) && (movement.y >= 0))  /* moving down */
         || ((dir == Tile::UNI_DIR_SOUTH) && (movement.y <= 0))  /* moving up */
         || ((dir == Tile::UNI_DIR_WEST ) && (movement.x >= 0))  /* moving right */
@@ -195,7 +198,7 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
    */
   mv_x = (double) movement.x; //note switch to double for no good reason
   mv_y = (double) movement.y;
-
+  // TODO Apply vertical transformation
   slope_info = this->getData();
   switch (slope_info & AATriangle::DIRECTION_MASK)
   {
@@ -289,7 +292,10 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   if (!this->is_slope())
   {
     int dir = this->getData() & Tile::UNI_DIR_MASK;
-
+    if(VERTICAL_FLIP)
+    {
+      dir = dir_vertical_flip(dir);
+    }
     return ((dir == Tile::UNI_DIR_NORTH) && ((obj_bbox.get_bottom() - SHIFT_DELTA) <= tile_bbox.get_top()   ))
         || ((dir == Tile::UNI_DIR_SOUTH) && ((obj_bbox.get_top()    + SHIFT_DELTA) >= tile_bbox.get_bottom()))
         || ((dir == Tile::UNI_DIR_WEST ) && ((obj_bbox.get_right()  - SHIFT_DELTA) <= tile_bbox.get_left()  ))
@@ -300,6 +306,8 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
    * describes the slope's surface. The line is defined by x, y, and m, the
    * gradient. */
   slope_info = this->getData();
+  if(VERTICAL_FLIP)
+    slope_info = AATriangle::vertical_flip(slope_info);
   switch (slope_info
       & (AATriangle::DIRECTION_MASK | AATriangle::DEFORM_MASK))
   {

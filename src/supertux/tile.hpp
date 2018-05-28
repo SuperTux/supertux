@@ -95,12 +95,16 @@ public:
   enum
   {
     UNI_DIR_NORTH = 0,
-    UNI_DIR_SOUTH = 1,
-    UNI_DIR_WEST  = 2,
-    UNI_DIR_EAST  = 3,
+    UNI_DIR_SOUTH = 2,
+    UNI_DIR_WEST  = 3,
+    UNI_DIR_EAST  = 1,
     UNI_DIR_MASK  = 3
   };
 
+  static UNI_DIR_MASK dir_vertical_flip(UNI_DIR_MASK mask)
+  {
+    return (mask+2)%3;
+  }
 private:
   std::vector<ImageSpec> imagespecs;
   std::vector<SurfacePtr>  images;
