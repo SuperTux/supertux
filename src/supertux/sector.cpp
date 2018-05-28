@@ -696,8 +696,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         if(tile->is_unisolid ()) {
           Vector relative_movement = movement
             - solids->get_movement(/* actual = */ true);
-          // if vertically flipped invert relative x movement
-          if (!tile->is_solid (tile_bbox, object.get_bbox(), relative_movement))
+          if (!tile->is_solid (tile_bbox, object.get_bbox(), relative_movement, solids->get_drawing_effect() & VERTICAL_FLIP))
             continue;
         } /* if (tile->is_unisolid ()) */
 
@@ -740,7 +739,7 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
         const auto& tile = solids->get_tile(x, y);
         if(!tile)
           continue;
-        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
+        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov, solids->get_drawing_effect() & VERTICAL_FLIP) ) {
           result |= tile->getAttributes();
         }
       }
@@ -748,7 +747,7 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
         const auto& tile = solids->get_tile(x, y);
         if(!tile)
           continue;
-        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
+        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov, solids->get_drawing_effect() & VERTICAL_FLIP) ) {
           result |= (tile->getAttributes() & Tile::ICE);
         }
       }
