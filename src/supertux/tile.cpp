@@ -198,8 +198,9 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
    */
   mv_x = (double) movement.x; //note switch to double for no good reason
   mv_y = (double) movement.y;
-  // TODO Apply vertical transformation
   slope_info = this->getData();
+  if(VERTICAL_FLIP)
+    slope_info = AATriangle::vertical_flip(slope_info);
   switch (slope_info & AATriangle::DIRECTION_MASK)
   {
     case AATriangle::SOUTHEAST: /*    . */
