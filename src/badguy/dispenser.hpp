@@ -57,6 +57,14 @@ public:
   ObjectSettings get_settings();
   void after_editor_set();
 
+  void notify_dead()
+  {
+    if(limit_dispensed_badguys)
+    {
+      current_badguys--;
+    }
+  }
+
 protected:
   bool collision_squished(GameObject& object);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
@@ -81,6 +89,21 @@ private:
 
   DispenserType type;
   std::string type_str;
+
+  /**
+   * Do we need to limit the number of dispensed badguys?
+   */
+  bool limit_dispensed_badguys;
+
+  /**
+   * Maximum concurrent number of badguys to be dispensed
+   */
+  int max_concurrent_badguys;
+
+  /**
+   * Current amount of spawned badguys
+   */
+  int current_badguys;
 };
 
 #endif

@@ -17,6 +17,7 @@
 #include "badguy/badguy.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "badguy/dispenser.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "math/random_generator.hpp"
@@ -70,7 +71,8 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   state_timer(),
   on_ground_flag(false),
   floor_normal(),
-  colgroup_active(COLGROUP_MOVING)
+  colgroup_active(COLGROUP_MOVING),
+  parent_dispenser()
 {
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
@@ -102,7 +104,8 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   state_timer(),
   on_ground_flag(false),
   floor_normal(),
-  colgroup_active(COLGROUP_MOVING)
+  colgroup_active(COLGROUP_MOVING),
+  parent_dispenser()
 {
   std::string dir_str = "auto";
   reader.get("direction", dir_str);
@@ -526,6 +529,11 @@ BadGuy::run_dead_script()
     Sector::current()->get_level()->stats.badguys++;
 
   countMe = false;
+
+  if(parent_dispenser != NULL)
+  {
+    parent_dispenser->notify_dead();
+  }
 
   // start dead-script
   if(!dead_script.empty()) {
