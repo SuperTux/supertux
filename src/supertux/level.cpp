@@ -32,8 +32,6 @@
 #include <sstream>
 #include <stdexcept>
 
-using namespace std;
-
 Level* Level::_current = 0;
 
 Level::Level() :
