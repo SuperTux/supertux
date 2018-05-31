@@ -441,5 +441,50 @@ bool Tile::is_collisionful(const Rectf& tile_bbox, const Rectf& position, const 
          check_position_unisolid (position, tile_bbox);
 } /* bool Tile::is_collisionful */
 
+Polygon Tile::tile_to_poly(Rectf bbox) const
+{
+  if(!this->is_slope())
+  {
+    Polygon p;
+    return bbox.to_polygon();
+  }
+  // Convert Triangle to Polygon
+  Vector p3;
+  Rectf area;
+  int slope_info = this->getData();
+  switch(slope_info & AATriangle::DEFORM_MASK) {
+    case 0:
+      area.p1 = bbox.p1;
+      area.p2 = bbox.p2;
+      p3 = Vector(bbox.p1.x,bbox.p2.y);
+      break;
+    case AATriangle::DEFORM_BOTTOM:
+      area.p1 = Vector(bbox.p1.x, bbox.p1.y + bbox.get_height()/2);
+      area.p2 = bbox.p2;
+      break;
+    case AATriangle::DEFORM_TOP:
+      area.p1 = bbox.p1;
+      area.p2 = Vector(bbox.p2.x, bbox.p1.y + bbox.get_height()/2);
+      break;
+    case AATriangle::DEFORM_LEFT:
+      area.p1 = bbox.p1;
+      area.p2 = Vector(bbox.p1.x + bbox.get_width()/2, bbox.p2.y);
+      break;
+    case AATriangle::DEFORM_RIGHT:
+      area.p1 = Vector(bbox.p1.x + bbox.get_width()/2, bbox.p1.y);
+      area.p2 = bbox.p2;
+      break;
+    default:
+      assert(false);
+  }
+
+  // area.p1, area.p2 and TODO are the triangles vertices => create a polygon with them
+  Polygon p;
+  p.add_vertice(p1);
+  p.add_vertice(area.p1);
+  p.add_vertice(area.p2);
+  p.setup();
+  return p;
+}
 /* vim: set sw=2 sts=2 et : */
 /* EOF */

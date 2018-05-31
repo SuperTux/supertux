@@ -16,7 +16,7 @@
 
 #ifndef HEADER_SUPERTUX_MATH_VECTOR_HPP
 #define HEADER_SUPERTUX_MATH_VECTOR_HPP
-
+#include <cmath>
 /** Simple two dimensional vector. */
 class Vector
 {
@@ -115,6 +115,22 @@ public:
     return Vector(int(x), int(y));
   }
 
+  bool is_colinear(const Vector& other) const
+  {
+    double angle = acos((this->x*other.x+this->y+other.y)/(this->norm()*other.norm()));
+    // Use a threshold of .0002 for numerical inprecision
+    if(angle <= .0002)
+      return true;
+    return false;
+  }
+
+  Vector perp()
+  {
+    Vector v;
+    v.x = y;
+    v.y = -x;
+    return v;
+  }
   // ... add the other operators as needed, I'm too lazy now ...
 
   float x, y; // leave this public, get/set methods just give me headaches

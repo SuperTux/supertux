@@ -21,6 +21,7 @@
 
 #include "math/sizef.hpp"
 #include "math/vector.hpp"
+#include "math/polygon.hpp"
 #include "object/anchor_point.hpp"
 
 /** This class represents a rectangle.
@@ -137,6 +138,12 @@ public:
                  p2.x + border, p2.y + border);
   }
 
+  Polygon to_polygon()
+  {
+    Polygon p;
+
+    return p;
+  }
   // leave these two public to save the headaches of set/get functions for such
   // simple things :)
 

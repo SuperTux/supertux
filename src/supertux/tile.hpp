@@ -23,6 +23,7 @@
 #include <stdint.h>
 
 #include "math/rectf.hpp"
+#include "math/polygon.hpp"
 #include "video/color.hpp"
 #include "video/surface.hpp"
 
@@ -181,6 +182,12 @@ public:
   }
 
   void print_debug(int id) const;
+  /**
+   *  Computes a polygon representing this tile.
+   *  Note, that the polygon is guarenteed to be concave.
+   *  @returns the polygon representing this tiles solid parts
+   */
+  Polygon tile_to_poly(Rectf bbox) const;
 
 private:
   //Correct small oddities in attributes that naive people
