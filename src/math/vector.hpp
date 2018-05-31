@@ -123,7 +123,7 @@ public:
       return true;
     return false;
   }
-
+  /// Returns a vector perpendicular to this vector
   Vector perp()
   {
     Vector v;

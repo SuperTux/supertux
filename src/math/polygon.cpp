@@ -26,8 +26,8 @@ void Polygon::process_octile_neighbour(int dir, Polygon& b)
 void Polygon::handle_collision(Polygon& b)
 {
   // First: Check if there is a collision
-
   // Also store axis of least penetration
+
 }
 
 void Polygon::disable_normal(const Vector& n)

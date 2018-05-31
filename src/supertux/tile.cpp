@@ -449,40 +449,76 @@ Polygon Tile::tile_to_poly(Rectf bbox) const
     return bbox.to_polygon();
   }
   // Convert Triangle to Polygon
-  Vector p3;
-  Rectf area;
+  Vector p1, p2, p3;
   int slope_info = this->getData();
-  switch(slope_info & AATriangle::DEFORM_MASK) {
-    case 0:
-      area.p1 = bbox.p1;
-      area.p2 = bbox.p2;
-      p3 = Vector(bbox.p1.x,bbox.p2.y);
-      break;
-    case AATriangle::DEFORM_BOTTOM:
-      area.p1 = Vector(bbox.p1.x, bbox.p1.y + bbox.get_height()/2);
-      area.p2 = bbox.p2;
-      break;
-    case AATriangle::DEFORM_TOP:
-      area.p1 = bbox.p1;
-      area.p2 = Vector(bbox.p2.x, bbox.p1.y + bbox.get_height()/2);
-      break;
-    case AATriangle::DEFORM_LEFT:
-      area.p1 = bbox.p1;
-      area.p2 = Vector(bbox.p1.x + bbox.get_width()/2, bbox.p2.y);
-      break;
-    case AATriangle::DEFORM_RIGHT:
-      area.p1 = Vector(bbox.p1.x + bbox.get_width()/2, bbox.p1.y);
-      area.p2 = bbox.p2;
-      break;
-    default:
-      assert(false);
-  }
+  // Lets number a tiles edges like this
+  /**
+   *
+   *  a****b****c
+   *  .
+   *  d         f
+   *
+   *
+   *  g     i   h
+   */
+   std::string str;
+   str = "err";
+   if(slope_info == 1+32)
+    str = "ach";
+   if(slope_info == 1+16)
+    str = "achd";
+   if(slope_info == 1)
+    str = "ach";
+  if(slope_info == 1+48)
+    str = "achi";
+  if(slope_info == 1+64)
+    str = "bch";
 
-  // area.p1, area.p2 and TODO are the triangles vertices => create a polygon with them
+  if(slope_info == 2+64)
+    str = "cih";
+  if(slope_info == 2+48)
+    str = "cbgh";
+  if(slope_info == 2)
+    str = "cgh";
+  if(slope_info == 2+32)
+    str = "cdgh";
+  if(slope_info == 2+16)
+    str = "fgh";
+
+  if(slope_info == 0+16)
+    str = "hdg";
+  if(slope_info == 0+32)
+    str = "fhga";
+  if(slope_info == 0)
+    str = "agh";
+  if(slope_info == 0+64)
+    str = "bhga";
+  if(slope_info == 0+48)
+    str = "aig";
+
+  if(slope_info == 3+16)
+    str = "gfca";
+  if(slope_info == 3+32)
+    str = "dca";
+  if(slope_info == 3)
+    str = "gca";
+  if(slope_info == 3+64)
+    str = "icag";
+  if(slope_info == 3+48)
+    str = "gba";
+  std::map< char, Vector> points;
+  points['a'] = bbox.p1;
+  points['b'] = Vector(bbox.p1.x+0.5*bbox.get_width(), bbox.p1.y);
+  points['c'] = Vector(bbox.p2.x, bbox.p1.y);
+  points['d'] = Vector(bbox.p1.x, bbox.p1.y + 0.5*bbox.get_height());
+  points['f'] = Vector(bbox.p2.x, bbox.p1.y + 0.5*bbox.get_height());
+  points['g'] = Vector(bbox.p1.x, bbox.p2.y);
+  points['h'] = bbox.p2;
+  points['i'] = Vector(bbox.p1.x+0.5*bbox.get_width(), bbox.p2.y);
+  assert(str != "err");
   Polygon p;
-  p.add_vertice(p1);
-  p.add_vertice(area.p1);
-  p.add_vertice(area.p2);
+  for(const auto& c : str)
+    p.add_vertice(points[c]);
   p.setup();
   return p;
 }
