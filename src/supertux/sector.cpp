@@ -704,8 +704,9 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         Polygon mobjp = dest.to_polygon();
         Polygon tile_poly = tile->tile_to_poly(tile_bbox);
         log_debug << "Created a collision polygon" << std::endl;
+        tile_poly.handle_collision(mobjp);
         // Check if they overlap
-        
+
       }
     }
   }

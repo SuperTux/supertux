@@ -124,7 +124,7 @@ public:
     return false;
   }
   /// Returns a vector perpendicular to this vector
-  Vector perp()
+  Vector perp() const
   {
     Vector v;
     v.x = y;

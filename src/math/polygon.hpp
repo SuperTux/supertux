@@ -37,12 +37,20 @@ class Polygon {
       *  @param b The second polygon
       *  @param axis The vector representing the axis
       */
-     bool Polygon::is_seperating_axis(Polygon& b, Vector& axis)
+     double is_seperating_axis(Polygon& b,const Vector& axis);
+     /**
+      * Projects a polygon onto an axis.
+      * @param axis The axis to project onto.
+      * @returns 0 if the axis not seperating, else the overlap length.
+      */
+     Vector project(Vector axis);
      /**
       * Inits the normal_enabled vector.
-      * Call after polygon all edges were added.
+      * Call after all edges were added.
       */
       void setup();
+
+      void debug();
   private:
     std::vector< Vector > vertices;
     std::vector< Vector > edges;
