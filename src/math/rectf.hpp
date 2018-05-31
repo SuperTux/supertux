@@ -138,10 +138,14 @@ public:
                  p2.x + border, p2.y + border);
   }
 
-  Polygon to_polygon()
+  Polygon to_polygon() const
   {
     Polygon p;
-
+    p.add_vertice(p1);
+    p.add_vertice( Vector(p2.x, p1.y) );
+    p.add_vertice(p2);
+    p.add_vertice( Vector(p1.x, p2.y) );
+    p.setup();
     return p;
   }
   // leave these two public to save the headaches of set/get functions for such

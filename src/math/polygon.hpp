@@ -21,6 +21,8 @@ class Polygon {
     /**
      *  Handles a collision between the tile and a moving object.
      *  Returns the axis of resolution.
+     *
+     *  @param b The polygon to check collisions against
      */
      void handle_collision(Polygon& b);
      /**
@@ -28,6 +30,14 @@ class Polygon {
       * @param n The normal to flag as ignored.
       */
      void disable_normal(const Vector& n);
+     /**
+      *  Checks if the axis represented by the vector
+      *  is seperating (i.e the polygons do not overlap if projected onto the axis)
+      *
+      *  @param b The second polygon
+      *  @param axis The vector representing the axis
+      */
+     bool Polygon::is_seperating_axis(Polygon& b, Vector& axis)
      /**
       * Inits the normal_enabled vector.
       * Call after polygon all edges were added.

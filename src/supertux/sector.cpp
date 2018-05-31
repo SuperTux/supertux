@@ -700,20 +700,12 @@ Sector::collision_tilemap(collision::Constraints* constraints,
           if (!tile->is_solid (tile_bbox, object.get_bbox(), relative_movement))
             continue;
         } /* if (tile->is_unisolid ()) */
-
-        if(tile->is_slope ()) { // slope tile
-          AATriangle triangle;
-          int slope_data = tile->getData();
-          if (solids->get_drawing_effect() & VERTICAL_FLIP)
-            slope_data = AATriangle::vertical_flip(slope_data);
-          triangle = AATriangle(tile_bbox, slope_data);
-
-          collision::rectangle_aatriangle(constraints, dest, triangle,
-              solids->get_movement(/* actual = */ false));
-        } else { // normal rectangular tile
-          check_collisions(constraints, movement, dest, tile_bbox, NULL, NULL,
-              solids->get_movement(/* actual = */ false));
-        }
+        // Do collision response
+        Polygon mobjp = dest.to_polygon();
+        Polygon tile_poly = tile->tile_to_poly(tile_bbox);
+        log_debug << "Created a collision polygon" << std::endl;
+        // Check if they overlap
+        
       }
     }
   }
@@ -852,6 +844,7 @@ Sector::collision_static(collision::Constraints* constraints,
 void
 Sector::collision_static_constrains(MovingObject& object)
 {
+
   using namespace collision;
   float infinity = (std::numeric_limits<float>::has_infinity ? std::numeric_limits<float>::infinity() : std::numeric_limits<float>::max());
 
@@ -859,9 +852,11 @@ Sector::collision_static_constrains(MovingObject& object)
   Vector movement = object.get_movement();
   Vector pressure = Vector(0,0);
   Rectf& dest = object.dest;
+  collision_static(&constraints, Vector(0, movement.y), dest, object);
+  return;
 
   for(int i = 0; i < 2; ++i) {
-    collision_static(&constraints, Vector(0, movement.y), dest, object);
+
     if(!constraints.has_constraints())
       break;
 

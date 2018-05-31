@@ -30,6 +30,11 @@ void Polygon::handle_collision(Polygon& b)
 
 }
 
+bool Polygon::is_seperating_axis(Polygon& b, Vector& axis)
+{
+
+}
+
 void Polygon::disable_normal(const Vector& n)
 {
   for(int i = 0;i<normals.size();i++)

@@ -455,11 +455,11 @@ Polygon Tile::tile_to_poly(Rectf bbox) const
   /**
    *
    *  a****b****c
-   *  .
+   *  .         .
    *  d         f
-   *
-   *
-   *  g     i   h
+   *  .         .
+   *  g    i    h
+   * and represent AATriangles as polygons
    */
    std::string str;
    str = "err";
