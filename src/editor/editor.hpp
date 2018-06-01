@@ -61,7 +61,6 @@ class Editor : public Screen,
     friend class EditorLevelsetSelectMenu;
     friend class EditorNewLevelsetMenu;
     friend class EditorObjectgroupMenu;
-    friend class EditorScroller;
     friend class EditorTilegroupMenu;
 
     std::unique_ptr<Level> level;
@@ -141,6 +140,12 @@ class Editor : public Screen,
 
     Sector* currentsector;
 
+    // speed is in tiles per frame
+    void scroll_up(float speed = 1.0f);
+    void scroll_down(float speed = 1.0f);
+    void scroll_left(float speed = 1.0f);
+    void scroll_right(float speed = 1.0f);
+
   protected:
     bool levelloaded;
     bool leveltested;
@@ -151,12 +156,6 @@ class Editor : public Screen,
     EditorInputGui tileselect;
     EditorLayersGui layerselect;
     EditorScroller scroller;
-
-    // speed is in tiles per frame
-    void scroll_up(float speed = 1.0f);
-    void scroll_down(float speed = 1.0f);
-    void scroll_left(float speed = 1.0f);
-    void scroll_right(float speed = 1.0f);
 
   private:
     bool enabled;
