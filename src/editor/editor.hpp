@@ -58,7 +58,6 @@ class Editor : public Screen,
 
   protected:
     friend class EditorInputCenter;
-    friend class EditorInputGui;
 
     std::unique_ptr<Level> level;
     std::unique_ptr<World> world;

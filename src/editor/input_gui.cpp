@@ -117,7 +117,7 @@ EditorInputGui::draw_tilegroup(DrawingContext& context) {
         continue;
       }
       auto position = get_tile_coords(pos - starting_tile);
-      Editor::current()->tileset->draw_tile(context, tile_ID, position, LAYER_GUI-9);
+      Editor::current()->get_tileset()->draw_tile(context, tile_ID, position, LAYER_GUI-9);
       
       if (g_config->developer_mode && active_tilegroup->developers_group)
       {
@@ -128,7 +128,7 @@ EditorInputGui::draw_tilegroup(DrawingContext& context) {
       /*if (tile_ID == 0) {
         continue;
       }
-      const Tile* tg_tile = Editor::current()->tileset->get(tile_ID);
+      const Tile* tg_tile = Editor::current()->get_tileset()->get(tile_ID);
       tg_tile->draw(context, get_tile_coords(pos - starting_tile), LAYER_GUI-9);*/
     }
   }
@@ -254,14 +254,14 @@ EditorInputGui::event(SDL_Event& ev) {
           case HI_TILEGROUP:
           {
             auto editor = Editor::current();
-            if(editor->tileset->tilegroups.size() > 1)
+            if(editor->get_tileset()->tilegroups.size() > 1)
             {
               Editor::current()->disable_keyboard();
               MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
             }
             else
             {
-              active_tilegroup.reset(new Tilegroup(editor->tileset->tilegroups[0]));
+              active_tilegroup.reset(new Tilegroup(editor->get_tileset()->tilegroups[0]));
               input_type = EditorInputGui::IP_TILE;
               reset_pos();
               update_mouse_icon();
