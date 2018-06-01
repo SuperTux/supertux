@@ -24,7 +24,7 @@ void Polygon::process_octile_neighbour(int dir, Polygon& b)
   // Check if the polygons have an edge at direction in common
 }
 
-void Polygon::handle_collision(Polygon& b)
+void Polygon::handle_collision(Polygon& b, Manifold& m)
 {
   // First: Check if there is a collision
 
@@ -46,7 +46,7 @@ void Polygon::handle_collision(Polygon& b)
   for(const auto& axis : b.edges)
   {
     double overlap;
-    if((overlap = Polygon::is_seperating_axis(b,(const Vector&) axis.perp())) == 0.0f)
+    if((overlap = Polygon::is_seperating_axis(*this,(const Vector&) axis.perp())) == 0.0f)
     {
         return;
     }
@@ -57,9 +57,12 @@ void Polygon::handle_collision(Polygon& b)
     }
   }
   log_debug << "Polygonial collision occured" << std::endl;
+  log_debug << minOverlap << std::endl;
   // To resolve the collison use overlap as depth
   // and the axis normal as normal
-
+  m.normal = minAxis.unit();
+  log_debug << "Axis is " << m.normal.x << " " << m.normal.y << std::endl;
+  m.depth = minOverlap;
   // TODO Ignore ignormals
 
 }

@@ -464,7 +464,7 @@ Polygon Tile::tile_to_poly(Rectf bbox) const
    std::string str;
    str = "err";
    if(slope_info == 1+32)
-    str = "ach";
+    str = "agh"; // fixed this
    if(slope_info == 1+16)
     str = "achd";
    if(slope_info == 1)

@@ -2,6 +2,10 @@
 #define SUPERTUX_HEADER_MATH_POLYGON
 #include "math/vector.hpp"
 #include <vector>
+struct Manifold {
+  Vector normal;
+  double depth;
+};
 class Polygon {
   public:
     /**
@@ -24,7 +28,7 @@ class Polygon {
      *
      *  @param b The polygon to check collisions against
      */
-     void handle_collision(Polygon& b);
+     void handle_collision(Polygon& b, Manifold& m);
      /**
       * Flags every normal colinear with n to be ignored.
       * @param n The normal to flag as ignored.

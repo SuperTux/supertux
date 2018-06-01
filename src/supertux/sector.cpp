@@ -666,7 +666,7 @@ void check_collisions(collision::Constraints* constraints,
 
 void
 Sector::collision_tilemap(collision::Constraints* constraints,
-                          const Vector& movement, const Rectf& dest,
+                          const Vector& movement, Rectf& dest,
                           MovingObject& object) const
 {
   // calculate rectangle where the object will move
@@ -703,10 +703,23 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         // Do collision response
         Polygon mobjp = dest.to_polygon();
         Polygon tile_poly = tile->tile_to_poly(tile_bbox);
+        Manifold m;
+        mobjp.handle_collision(tile_poly,m);
         log_debug << "Created a collision polygon" << std::endl;
-        tile_poly.handle_collision(mobjp);
+        log_debug << m.depth*m.normal.x << " " << m.depth*m.normal.y <<std::endl;
         // Check if they overlap
-
+        Vector overlapV( -m.depth*m.normal.x, -m.depth*m.normal.y);
+        CollisionHit h;
+        h.bottom = overlapV.y < 0;
+        h.top    = overlapV.y > 0;
+        h.left   = overlapV.x < 0;
+        h.right  = overlapV.x > 0;
+        if(h.bottom || h.top || h.left || h.right)
+        {
+          log_debug << (h.bottom?"bot ":" ") << (h.top?"top ":"") << std::endl;
+          dest.move(overlapV);
+          object.collision_solid(h);
+        }
       }
     }
   }
@@ -823,7 +836,7 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
 
 void
 Sector::collision_static(collision::Constraints* constraints,
-                         const Vector& movement, const Rectf& dest,
+                         const Vector& movement, Rectf& dest,
                          MovingObject& object)
 {
   collision_tilemap(constraints, movement, dest, object);
@@ -853,7 +866,8 @@ Sector::collision_static_constrains(MovingObject& object)
   Vector movement = object.get_movement();
   Vector pressure = Vector(0,0);
   Rectf& dest = object.dest;
-  collision_static(&constraints, Vector(0, movement.y), dest, object);
+  for(int i = 0;i < 10; i++)
+    collision_static(&constraints, Vector(movement.x, movement.y), dest, object);
   return;
 
   for(int i = 0; i < 2; ++i) {
@@ -1012,7 +1026,7 @@ Sector::handle_collisions()
       moving_object->collision_tile(tile_attributes);
     }
   }
-/*
+
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
   for(const auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING
@@ -1060,7 +1074,7 @@ Sector::handle_collisions()
       collision_object(moving_object, moving_object_2);
     }
   }
-*/
+
   // apply object movement
   for(const auto& moving_object : moving_objects) {
     moving_object->bbox = moving_object->dest;
