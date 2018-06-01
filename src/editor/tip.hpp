@@ -28,7 +28,6 @@ class Tip
 {
   public:
     Tip(GameObject* object);
-    ~Tip();
 
     void draw(DrawingContext& context, const Vector& pos);
     void draw_up(DrawingContext& context, const Vector& pos);

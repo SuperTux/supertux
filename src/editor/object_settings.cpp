@@ -21,11 +21,6 @@ ObjectSettings::ObjectSettings(const std::string& name_) :
   name(name_),
   options()
 {
-  options.clear();
-}
-
-ObjectSettings::~ObjectSettings() {
-
 }
 
 void ObjectSettings::copy_from(ObjectSettings* other) {

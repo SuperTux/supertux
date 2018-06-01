@@ -26,7 +26,6 @@ class EditorScroller
 {
   public:
     EditorScroller();
-    ~EditorScroller();
 
     void draw(DrawingContext&);
     void update(float elapsed_time);

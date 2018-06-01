@@ -29,7 +29,6 @@ class ObjectGroup
   public:
     ObjectGroup();
     ObjectGroup(const ReaderMapping& reader);
-    ~ObjectGroup();
 
     std::string name;
     std::vector<ObjectIcon> icons;

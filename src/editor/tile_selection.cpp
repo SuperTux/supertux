@@ -17,11 +17,10 @@
 #include "editor/tile_selection.hpp"
 
 TileSelection::TileSelection() :
-  tiles(),
+  tiles{1},
   width(1),
   height(1)
 {
-  tiles.push_back(1);
 }
 
 uint32_t TileSelection::pos(int x, int y) const {

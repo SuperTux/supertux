@@ -26,10 +26,6 @@ NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iter
   set_pos(node->position - Vector(8, 8));
 }
 
-NodeMarker::~NodeMarker() {
-
-}
-
 void NodeMarker::update_iterator() {
   if (id >= path->nodes.size()) {
     remove_me();

@@ -40,10 +40,6 @@ LayerIcon::LayerIcon(GameObject *layer_) :
   }
 }
 
-LayerIcon::~LayerIcon() {
-
-}
-
 void
 LayerIcon::draw(DrawingContext& context, const Vector& pos) {
   if (!is_valid()) return;

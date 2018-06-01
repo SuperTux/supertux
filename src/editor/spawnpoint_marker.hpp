@@ -30,7 +30,6 @@ class SpawnPointMarker : public MovingObject
   public:
     SpawnPointMarker(const ReaderMapping& lisp);
     SpawnPointMarker(const SpawnPoint* sp);
-    ~SpawnPointMarker();
 
     void update(float elapsed_time) {
       //No updates needed

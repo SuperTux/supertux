@@ -31,11 +31,6 @@ ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text_, void*
   flags(flags_),
   select()
 {
-  select.clear();
-}
-
-ObjectOption::~ObjectOption() {
-
 }
 
 const std::string

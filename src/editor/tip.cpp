@@ -25,7 +25,6 @@ Tip::Tip(GameObject* object) :
   strings(),
   header()
 {
-  strings.clear();
   if (!object) {
     log_warning << "Editor/Tip: Given object doesn't exist." << std::endl;
     return;
@@ -43,10 +42,6 @@ Tip::Tip(GameObject* object) :
       strings.push_back(oo.text + ": " + value);
     }
   }
-}
-
-Tip::~Tip() {
-
 }
 
 void

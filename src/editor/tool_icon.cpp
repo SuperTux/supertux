@@ -27,10 +27,6 @@ ToolIcon::ToolIcon(const std::string& icon) :
   push_mode(icon);
 }
 
-ToolIcon::~ToolIcon() {
-
-}
-
 void
 ToolIcon::push_mode(const std::string& icon) {
   auto surface = Surface::create(icon);

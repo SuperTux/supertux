@@ -26,7 +26,7 @@ class LayerIcon : public ObjectIcon
 {
   public:
     LayerIcon(GameObject *layer_);
-    virtual ~LayerIcon();
+    virtual ~LayerIcon() {}
 
     GameObject *layer;
 

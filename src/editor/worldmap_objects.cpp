@@ -51,10 +51,6 @@ WorldmapObject::WorldmapObject (const Vector& pos, const std::string& default_sp
   bbox.set_size(32, 32);
 }
 
-WorldmapObject::~WorldmapObject() {
-
-}
-
 void
 WorldmapObject::move_to(const Vector& pos) {
   Vector new_pos;
@@ -88,8 +84,6 @@ LevelDot::LevelDot (const ReaderMapping& lisp) :
   level = Editor::current()->get_world() ?
     FileSystem::join(Editor::current()->get_world()->get_basedir(), name) : name;
 }
-
-LevelDot::~LevelDot() { }
 
 void
 LevelDot::draw(DrawingContext& context)
@@ -171,8 +165,6 @@ Teleporter::Teleporter (const ReaderMapping& lisp) :
   change_worldmap = worldmap.size();
 }
 
-Teleporter::~Teleporter() { }
-
 void
 Teleporter::draw(DrawingContext& context)
 {
@@ -230,8 +222,6 @@ WorldmapSpawnPoint::WorldmapSpawnPoint (const std::string& name_, const Vector& 
   name = name_;
 }
 
-WorldmapSpawnPoint::~WorldmapSpawnPoint() { }
-
 void
 WorldmapSpawnPoint::save(Writer& writer) {
   WorldmapObject::save(writer);
@@ -264,8 +254,6 @@ SpriteChange::SpriteChange (const ReaderMapping& lisp) :
 
   lisp.get("change-on-touch", change_on_touch);
 }
-
-SpriteChange::~SpriteChange() { }
 
 void
 SpriteChange::save(Writer& writer) {
@@ -312,8 +300,6 @@ SpecialTile::SpecialTile (const ReaderMapping& lisp) :
     apply_to_direction = worldmap::string_to_direction(dir_str);
   }
 }
-
-SpecialTile::~SpecialTile() { }
 
 void
 SpecialTile::save(Writer& writer) {

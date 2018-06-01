@@ -41,10 +41,6 @@ EditorScroller::EditorScroller() :
 {
 }
 
-EditorScroller::~EditorScroller()
-{
-}
-
 bool
 EditorScroller::can_scroll() const {
   return scrolling && mouse_pos.x < SIZE && mouse_pos.y < SIZE;

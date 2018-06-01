@@ -35,10 +35,6 @@ PointMarker::PointMarker ()
   bbox.p2 = Vector(16, 16);
 }
 
-PointMarker::~PointMarker() {
-
-}
-
 void PointMarker::draw(DrawingContext& context) {
   Vector dir = get_point_vector();
   if (dir.x == 0 && dir.y == 0) {

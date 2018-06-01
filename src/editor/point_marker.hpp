@@ -26,7 +26,6 @@ class PointMarker : public MovingObject
   public:
     PointMarker(const Vector& pos);
     PointMarker();
-    ~PointMarker();
 
     virtual void update(float elapsed_time) override {
       //No updates needed

@@ -29,7 +29,6 @@ class ToolIcon
 {
   public:
     ToolIcon(const std::string& icon);
-    ~ToolIcon();
 
     Vector pos;
 
