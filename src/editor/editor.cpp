@@ -18,13 +18,13 @@
 
 #include <limits>
 
-#include "addon/addon_manager.hpp"
+//#include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_input.hpp"
 #include "editor/tool_icon.hpp"
-#include "gui/dialog.hpp"
+//#include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "object/camera.hpp"
