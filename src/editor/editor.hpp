@@ -58,7 +58,6 @@ class Editor : public Screen,
     friend class EditorInputGui;
     friend class EditorLayersGui;
     friend class EditorObjectgroupMenu;
-    friend class EditorTilegroupMenu;
 
     std::unique_ptr<Level> level;
     std::unique_ptr<World> world;
@@ -133,6 +132,8 @@ class Editor : public Screen,
     void delete_markers();
     void sort_layers();
 
+    void select_tilegroup(int id);
+    const std::vector<Tilegroup>& get_tilegroups() const;
     void change_tileset();
 
     std::unique_ptr<Savegame> m_savegame;

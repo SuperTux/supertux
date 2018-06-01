@@ -38,7 +38,7 @@ EditorTilegroupMenu::EditorTilegroupMenu()
   add_hl();
 
   int id = 0;
-  for(auto& tg : Editor::current()->tileset->tilegroups) {
+  for(auto& tg : Editor::current()->get_tilegroups()) {
     add_entry(id, tg.name);
     id++;
   }
@@ -61,13 +61,7 @@ EditorTilegroupMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
   {
-    auto editor = Editor::current();
-    auto tileselect = &(editor->tileselect);
-    auto tilegroup = editor->tileset->tilegroups[item->id];
-    tileselect->active_tilegroup.reset(new Tilegroup(tilegroup));
-    tileselect->input_type = EditorInputGui::IP_TILE;
-    tileselect->reset_pos();
-    tileselect->update_mouse_icon();
+    Editor::current()->select_tilegroup(item->id);
   }
   MenuManager::instance().clear_menu_stack();
 }
