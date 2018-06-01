@@ -58,7 +58,6 @@ class Editor : public Screen,
     friend class EditorInputGui;
     friend class EditorLayersGui;
     friend class EditorLevelSelectMenu;
-    friend class EditorLevelsetSelectMenu;
     friend class EditorNewLevelsetMenu;
     friend class EditorObjectgroupMenu;
     friend class EditorTilegroupMenu;
@@ -145,6 +144,8 @@ class Editor : public Screen,
     void scroll_down(float speed = 1.0f);
     void scroll_left(float speed = 1.0f);
     void scroll_right(float speed = 1.0f);
+
+    bool is_level_loaded() const { return levelloaded; }
 
   protected:
     bool levelloaded;
