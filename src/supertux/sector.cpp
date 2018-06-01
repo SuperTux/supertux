@@ -352,7 +352,7 @@ Sector::update(float elapsed_time)
     float r = (1.0f - percent_done) * source_ambient_light.red + percent_done * target_ambient_light.red;
     float g = (1.0f - percent_done) * source_ambient_light.green + percent_done * target_ambient_light.green;
     float b = (1.0f - percent_done) * source_ambient_light.blue + percent_done * target_ambient_light.blue;
-    
+
     if(r > 1.0)
       r = 1.0;
     if(g > 1.0)
@@ -366,7 +366,7 @@ Sector::update(float elapsed_time)
       g = 0;
     if(b < 0)
       b = 0;
-    
+
     ambient_light = Color(r, g, b);
 
     if(ambient_light_fade_accum >= ambient_light_fade_duration)
@@ -696,8 +696,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         if(tile->is_unisolid ()) {
           Vector relative_movement = movement
             - solids->get_movement(/* actual = */ true);
-
-          if (!tile->is_solid (tile_bbox, object.get_bbox(), relative_movement))
+          if (!tile->is_solid (tile_bbox, object.get_bbox(), relative_movement, solids->get_drawing_effect() & VERTICAL_FLIP))
             continue;
         } /* if (tile->is_unisolid ()) */
 
@@ -740,7 +739,7 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
         const auto& tile = solids->get_tile(x, y);
         if(!tile)
           continue;
-        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
+        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov, solids->get_drawing_effect() & VERTICAL_FLIP) ) {
           result |= tile->getAttributes();
         }
       }
@@ -748,7 +747,7 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
         const auto& tile = solids->get_tile(x, y);
         if(!tile)
           continue;
-        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
+        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov, solids->get_drawing_effect() & VERTICAL_FLIP) ) {
           result |= (tile->getAttributes() & Tile::ICE);
         }
       }

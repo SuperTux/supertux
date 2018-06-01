@@ -101,6 +101,14 @@ public:
     UNI_DIR_MASK  = 3
   };
 
+  static int dir_vertical_flip(int dir)
+  {
+    if(dir == UNI_DIR_NORTH)
+      return UNI_DIR_SOUTH;
+    if(dir == UNI_DIR_SOUTH)
+      return UNI_DIR_NORTH;
+    return dir;
+  }
 private:
   std::vector<ImageSpec> imagespecs;
   std::vector<SurfacePtr>  images;
@@ -150,7 +158,7 @@ public:
    * into account. Because creating the arguments for this function can be
    * expensive, you should handle trivial cases using the "is_solid()" and
    * "is_unisolid()" methods first. */
-  bool is_solid (const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const;
+  bool is_solid (const Rectf& tile_bbox, const Rectf& position, const Vector& movement, bool vertical_flip = false) const;
 
   /** This version only checks the SOLID flag to determine the solidity of a
    * tile. This means it will always return "true" for unisolid tiles. To
@@ -164,7 +172,7 @@ public:
   /** Determines whether the tile's attributes are important to calculate the
    * collisions. The tile may be unisolid and therefore the collision with that
    * tile don't matter.*/
-  bool is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const;
+  bool is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vector& movement,bool vertical_flip) const;
 
   /** Checks the UNISOLID attribute. Returns "true" if set, "false" otherwise. */
   bool is_unisolid() const
@@ -189,12 +197,12 @@ private:
 
   /** Returns zero if a unisolid tile is non-solid due to the movement
    * direction, non-zero if the tile is solid due to direction. */
-  bool check_movement_unisolid (const Vector& movement) const;
+  bool check_movement_unisolid (const Vector& movement, bool vertical_flip) const;
 
   /** Returns zero if a unisolid tile is non-solid due to the position of the
    * tile and the object, non-zero if the tile is solid. */
   bool check_position_unisolid (const Rectf& obj_bbox,
-                                const Rectf& tile_bbox) const;
+                                const Rectf& tile_bbox, bool vertical_flip) const;
 
 private:
   Tile(const Tile&);

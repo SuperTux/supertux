@@ -166,7 +166,7 @@ Tile::print_debug(int id) const
  * in quotation marks because because the slope's gradient is taken.
  * Also, this uses the movement relative to the tilemaps own movement
  * (if any).  --octo */
-bool Tile::check_movement_unisolid (const Vector& movement) const
+bool Tile::check_movement_unisolid (const Vector& movement, bool vertical_flip) const
 {
   int slope_info;
   double mv_x;
@@ -178,7 +178,10 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
   if (!this->is_slope())
   {
     int dir = this->getData() & Tile::UNI_DIR_MASK;
-
+    if(vertical_flip)
+    {
+      dir = dir_vertical_flip(dir);
+    }
     return ((dir == Tile::UNI_DIR_NORTH) && (movement.y >= 0))  /* moving down */
         || ((dir == Tile::UNI_DIR_SOUTH) && (movement.y <= 0))  /* moving up */
         || ((dir == Tile::UNI_DIR_WEST ) && (movement.x >= 0))  /* moving right */
@@ -195,8 +198,9 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
    */
   mv_x = (double) movement.x; //note switch to double for no good reason
   mv_y = (double) movement.y;
-
   slope_info = this->getData();
+  if(vertical_flip)
+    slope_info = AATriangle::vertical_flip(slope_info);
   switch (slope_info & AATriangle::DIRECTION_MASK)
   {
     case AATriangle::SOUTHEAST: /*    . */
@@ -274,7 +278,7 @@ bool is_below_line (float l_x, float l_y, float m,
  * is non-solid. Otherwise, if the object is "above" (south slopes)
  * or "below" (north slopes), the tile will be solid. */
 bool Tile::check_position_unisolid (const Rectf& obj_bbox,
-                                    const Rectf& tile_bbox) const
+                                    const Rectf& tile_bbox, bool vertical_flip) const
 {
   int slope_info;
   float tile_x;
@@ -289,7 +293,10 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   if (!this->is_slope())
   {
     int dir = this->getData() & Tile::UNI_DIR_MASK;
-
+    if(vertical_flip)
+    {
+      dir = dir_vertical_flip(dir);
+    }
     return ((dir == Tile::UNI_DIR_NORTH) && ((obj_bbox.get_bottom() - SHIFT_DELTA) <= tile_bbox.get_top()   ))
         || ((dir == Tile::UNI_DIR_SOUTH) && ((obj_bbox.get_top()    + SHIFT_DELTA) >= tile_bbox.get_bottom()))
         || ((dir == Tile::UNI_DIR_WEST ) && ((obj_bbox.get_right()  - SHIFT_DELTA) <= tile_bbox.get_left()  ))
@@ -300,6 +307,8 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
    * describes the slope's surface. The line is defined by x, y, and m, the
    * gradient. */
   slope_info = this->getData();
+  if(vertical_flip)
+    slope_info = AATriangle::vertical_flip(slope_info);
   switch (slope_info
       & (AATriangle::DIRECTION_MASK | AATriangle::DEFORM_MASK))
   {
@@ -424,21 +433,21 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   }
 } /* int check_position_unisolid */
 
-bool Tile::is_solid (const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const
+bool Tile::is_solid (const Rectf& tile_bbox, const Rectf& position, const Vector& movement, bool vertical_flip) const
 {
   if (!(attributes & SOLID))
     return false;
 
-  return is_collisionful(tile_bbox, position, movement);
+  return is_collisionful(tile_bbox, position, movement, vertical_flip);
 } /* bool Tile::is_solid */
 
-bool Tile::is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vector& movement) const
+bool Tile::is_collisionful(const Rectf& tile_bbox, const Rectf& position, const Vector& movement, bool vertical_flip) const
 {
   if (!(attributes & UNISOLID))
     return true;
 
-  return check_movement_unisolid (movement) &&
-         check_position_unisolid (position, tile_bbox);
+  return check_movement_unisolid (movement, vertical_flip) &&
+         check_position_unisolid (position, tile_bbox, vertical_flip);
 } /* bool Tile::is_collisionful */
 
 /* vim: set sw=2 sts=2 et : */
