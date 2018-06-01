@@ -31,12 +31,14 @@
 #include "util/currenton.hpp"
 #include "video/surface_ptr.hpp"
 
+class GameObject;
 class Level;
+class ObjectGroup;
+class Path;
 class Savegame;
 class Sector;
 class TileSet;
 class World;
-class ObjectGroup;
 
 class Editor : public Screen,
                public Currenton<Editor>
@@ -57,7 +59,6 @@ class Editor : public Screen,
   protected:
     friend class EditorInputCenter;
     friend class EditorInputGui;
-    friend class EditorLayersGui;
 
     std::unique_ptr<Level> level;
     std::unique_ptr<World> world;
@@ -150,6 +151,10 @@ class Editor : public Screen,
     void scroll_right(float speed = 1.0f);
 
     bool is_level_loaded() const { return levelloaded; }
+
+    void edit_path(Path* path, GameObject* new_marked_object) {
+      inputcenter.edit_path(path, new_marked_object);
+    }
 
   protected:
     bool levelloaded;

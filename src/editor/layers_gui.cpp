@@ -94,7 +94,7 @@ EditorLayersGui::draw(DrawingContext& context) {
                              LAYER_GUI-5);
   }
 
-  if (!Editor::current()->levelloaded) {
+  if (!Editor::current()->is_level_loaded()) {
     return;
   }
 
@@ -146,12 +146,12 @@ EditorLayersGui::event(SDL_Event& ev) {
               }
               selected_tilemap = layers[hovered_layer]->layer;
               ((TileMap*)selected_tilemap)->editor_active = true;
-              editor->inputcenter.edit_path(((TileMap*)selected_tilemap)->get_path(),
+              editor->edit_path(((TileMap*)selected_tilemap)->get_path(),
                                                        selected_tilemap);
             } else {
               auto cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);
               if (cam) {
-                editor->inputcenter.edit_path(cam->get_path(), cam);
+                editor->edit_path(cam->get_path(), cam);
               }
             }
             break;
