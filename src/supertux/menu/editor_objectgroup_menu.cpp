@@ -39,7 +39,7 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
   add_hl();
 
   int id = 0;
-  for(auto& og : Editor::current()->tileselect.object_input->groups) {
+  for(auto& og : Editor::current()->get_objectgroups()) {
     if (worldmap == og.for_worldmap) {
       add_entry(id, og.name);
     }
@@ -64,11 +64,7 @@ EditorObjectgroupMenu::menu_action(MenuItem* item)
 {
   if (item->id >= 0)
   {
-    auto tileselect = &(Editor::current()->tileselect);
-    tileselect->active_objectgroup = item->id;
-    tileselect->input_type = EditorInputGui::IP_OBJECT;
-    tileselect->reset_pos();
-    tileselect->update_mouse_icon();
+    Editor::current()->select_objectgroup(item->id);
   }
   MenuManager::instance().clear_menu_stack();
 }

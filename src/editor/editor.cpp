@@ -22,22 +22,23 @@
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "editor/layer_icon.hpp"
+#include "editor/object_input.hpp"
 #include "gui/dialog.hpp"
-#include "gui/mousecursor.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/mousecursor.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/physfs_file_system.cpp"
-#include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/editor_menu.hpp"
-#include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/levelset_screen.hpp"
+#include "supertux/menu/editor_levelset_select_menu.hpp"
+#include "supertux/menu/editor_menu.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen.hpp"
@@ -515,6 +516,19 @@ Editor::change_tileset() {
       }
     }
   }
+}
+
+void
+Editor::select_objectgroup(int id) {
+    tileselect.active_objectgroup = id;
+    tileselect.input_type = EditorInputGui::IP_OBJECT;
+    tileselect.reset_pos();
+    tileselect.update_mouse_icon();
+}
+
+const std::vector<ObjectGroup>&
+Editor::get_objectgroups() const {
+	return tileselect.object_input->groups;
 }
 
 void

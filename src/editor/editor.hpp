@@ -36,6 +36,7 @@ class Savegame;
 class Sector;
 class TileSet;
 class World;
+class ObjectGroup;
 
 class Editor : public Screen,
                public Currenton<Editor>
@@ -57,7 +58,6 @@ class Editor : public Screen,
     friend class EditorInputCenter;
     friend class EditorInputGui;
     friend class EditorLayersGui;
-    friend class EditorObjectgroupMenu;
 
     std::unique_ptr<Level> level;
     std::unique_ptr<World> world;
@@ -135,6 +135,9 @@ class Editor : public Screen,
     void select_tilegroup(int id);
     const std::vector<Tilegroup>& get_tilegroups() const;
     void change_tileset();
+
+    void select_objectgroup(int id);
+    const std::vector<ObjectGroup>& get_objectgroups() const;
 
     std::unique_ptr<Savegame> m_savegame;
 
