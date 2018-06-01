@@ -57,8 +57,6 @@ class Editor : public Screen,
     void resize();
 
   protected:
-    friend class EditorInputCenter;
-
     std::unique_ptr<Level> level;
     std::unique_ptr<World> world;
 
@@ -94,6 +92,22 @@ class Editor : public Screen,
     TileSet* get_tileset() const {
       return tileset;
     }
+
+    TileSelection* get_tiles() const {
+      return tileselect.tiles.get();
+    }
+
+    const std::string& get_tileselect_object() const {
+      return tileselect.object;
+    }
+
+    EditorInputGui::InputType get_tileselect_input_type() const {
+      return tileselect.input_type;
+    }
+
+    int get_tileselect_select_mode() const;
+
+    int get_tileselect_move_mode() const;
 
     std::string get_levelfile() const {
       return levelfile;
@@ -154,6 +168,12 @@ class Editor : public Screen,
     void edit_path(Path* path, GameObject* new_marked_object) {
       inputcenter.edit_path(path, new_marked_object);
     }
+
+    void add_layer(GameObject* layer) {
+      layerselect.add_layer(layer);
+    }
+
+    GameObject* get_selected_tilemap() const { return layerselect.selected_tilemap; }
 
   protected:
     bool levelloaded;

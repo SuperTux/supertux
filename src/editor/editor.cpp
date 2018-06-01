@@ -23,6 +23,7 @@
 #include "control/input_manager.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_input.hpp"
+#include "editor/tool_icon.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
@@ -196,6 +197,14 @@ void Editor::test_level() {
 
 void Editor::set_world(std::unique_ptr<World> w) {
   world = std::move(w);
+}
+
+int Editor::get_tileselect_select_mode() const {
+  return tileselect.select_mode->get_mode();
+}
+
+int Editor::get_tileselect_move_mode() const {
+  return tileselect.move_mode->get_mode();
 }
 
 bool Editor::can_scroll_vert() const {
