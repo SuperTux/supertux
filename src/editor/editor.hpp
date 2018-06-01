@@ -58,7 +58,6 @@ class Editor : public Screen,
     friend class EditorInputGui;
     friend class EditorLayersGui;
     friend class EditorLevelSelectMenu;
-    friend class EditorNewLevelsetMenu;
     friend class EditorObjectgroupMenu;
     friend class EditorTilegroupMenu;
 
@@ -91,6 +90,8 @@ class Editor : public Screen,
     World* get_world() const {
       return world.get();
     }
+
+    void set_world(std::unique_ptr<World> w);
 
     TileSet* get_tileset() const {
       return tileset;

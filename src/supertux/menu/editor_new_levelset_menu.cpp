@@ -52,22 +52,21 @@ EditorNewLevelsetMenu::EditorNewLevelsetMenu() :
 void
 EditorNewLevelsetMenu::menu_action(MenuItem* item)
 {
-  if (item->id > 0)
-  {
-    if(levelset_name.empty())
-    {
-      Dialog::show_message(_("Please enter a name for this level subset."));
-    }
-    else
-    {
-      std::unique_ptr<World> new_world = World::create(levelset_name, levelset_desc);
-      new_world->save();
-      Editor::current()->world = move(new_world);
+  if (item->id <= 0)
+    return;
 
-      MenuManager::instance().pop_menu();
-      MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
-    }
+  if(levelset_name.empty())
+  {
+    Dialog::show_message(_("Please enter a name for this level subset."));
+    return;
   }
+
+  std::unique_ptr<World> new_world = World::create(levelset_name, levelset_desc);
+  new_world->save();
+  Editor::current()->set_world(std::move(new_world));
+
+  MenuManager::instance().pop_menu();
+  MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
 }
 
 /* EOF */

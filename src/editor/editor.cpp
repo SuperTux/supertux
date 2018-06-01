@@ -193,6 +193,10 @@ void Editor::test_level() {
   leveltested = true;
 }
 
+void Editor::set_world(std::unique_ptr<World> w) {
+  world = std::move(w);
+}
+
 bool Editor::can_scroll_vert() const {
   return levelloaded && (currentsector->get_height() + 32 > SCREEN_HEIGHT);
 }
