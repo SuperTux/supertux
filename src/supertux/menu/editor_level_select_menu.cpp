@@ -16,23 +16,15 @@
 
 #include "supertux/menu/editor_level_select_menu.hpp"
 
-#include <sstream>
-
-#include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "supertux/menu/editor_levelset_menu.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/game_manager.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/levelset.hpp"
-#include "supertux/screen_fade.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"

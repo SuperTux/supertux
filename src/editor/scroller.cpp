@@ -14,15 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <math.h>
-
 #include "editor/scroller.hpp"
 
+#include <math.h>
+
 #include "editor/editor.hpp"
-#include "supertux/colorscheme.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/resources.hpp"
-#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"

@@ -17,9 +17,13 @@
 #ifndef HEADER_SUPERTUX_EDITOR_TOOL_ICON_HPP
 #define HEADER_SUPERTUX_EDITOR_TOOL_ICON_HPP
 
-#include "util/reader_fwd.hpp"
-#include "video/surface.hpp"
-#include "video/drawing_context.hpp"
+#include "video/surface_ptr.hpp"
+#include "math/vector.hpp"
+
+#include <string>
+#include <vector>
+
+class DrawingContext;
 
 class ToolIcon
 {

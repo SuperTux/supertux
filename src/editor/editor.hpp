@@ -18,15 +18,11 @@
 #define HEADER_SUPERTUX_EDITOR_EDITOR_HPP
 
 #include <string>
-#include <stdexcept>
 
-#include "control/input_manager.hpp"
 #include "editor/input_center.hpp"
 #include "editor/input_gui.hpp"
 #include "editor/layers_gui.hpp"
 #include "editor/scroller.hpp"
-#include "gui/menu.hpp"
-#include "gui/menu_manager.hpp"
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 #include "video/surface_ptr.hpp"

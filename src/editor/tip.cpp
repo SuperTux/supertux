@@ -16,16 +16,10 @@
 
 #include "editor/tip.hpp"
 
-#include "editor/object_settings.hpp"
-#include "gui/menu_item.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
 
 Tip::Tip(GameObject* object) :
   strings(),

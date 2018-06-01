@@ -16,17 +16,11 @@
 
 #include "supertux/menu/editor_sector_menu.hpp"
 
-#include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
-#include "gui/menu_manager.hpp"
 #include "editor/editor.hpp"
-#include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/options_menu.hpp"
 #include "supertux/level.hpp"
-#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
-#include "video/color.hpp"
 
 EditorSectorMenu::EditorSectorMenu() :
   sector(Editor::current()->currentsector),

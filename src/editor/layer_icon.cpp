@@ -18,7 +18,6 @@
 
 #include <limits>
 
-#include "math/rect.hpp"
 #include "object/background.hpp"
 #include "object/gradient.hpp"
 #include "object/particlesystem.hpp"
@@ -26,10 +25,7 @@
 #include "object/tilemap.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
 
 LayerIcon::LayerIcon(GameObject *layer_) :
   ObjectIcon("", layer_->get_icon_path()),

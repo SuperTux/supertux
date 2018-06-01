@@ -19,6 +19,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/color.hpp"
+#include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 

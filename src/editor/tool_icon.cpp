@@ -14,14 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <string>
-
 #include "editor/tool_icon.hpp"
-#include "math/rect.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/resources.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
+
+#include "video/drawing_context.hpp"
 
 ToolIcon::ToolIcon(const std::string& icon) :
   pos(0, 0),

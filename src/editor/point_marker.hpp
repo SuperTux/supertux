@@ -18,7 +18,8 @@
 #define HEADER_SUPERTUX_POINT_MARKER_HPP
 
 #include "supertux/moving_object.hpp"
-#include "video/drawing_context.hpp"
+
+class DrawingContext;
 
 class PointMarker : public MovingObject
 {

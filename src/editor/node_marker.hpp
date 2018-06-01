@@ -20,9 +20,6 @@
 #include "editor/point_marker.hpp"
 #include "object/path.hpp"
 
-//class Path;
-//class Path::Node;
-
 class NodeMarker : public PointMarker
 {
   public:

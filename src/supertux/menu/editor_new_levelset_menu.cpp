@@ -16,21 +16,12 @@
 
 #include "supertux/menu/editor_new_levelset_menu.hpp"
 
-#include <physfs.h>
-#include <sstream>
-
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/game_manager.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/menu/contrib_levelset_menu.hpp"
-#include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
-#include "util/file_system.hpp"
 #include "util/gettext.hpp"
 
 EditorNewLevelsetMenu::EditorNewLevelsetMenu() :

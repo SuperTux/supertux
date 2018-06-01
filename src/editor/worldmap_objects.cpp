@@ -14,15 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "editor/worldmap_objects.hpp"
+
 #include <physfs.h>
 
 #include "editor/editor.hpp"
-#include "editor/worldmap_objects.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
-#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace worldmap_editor {

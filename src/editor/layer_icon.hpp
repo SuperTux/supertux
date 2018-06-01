@@ -20,6 +20,7 @@
 #include "editor/object_icon.hpp"
 
 class GameObject;
+class Vector;
 
 class LayerIcon : public ObjectIcon
 {

@@ -25,7 +25,6 @@
 #include "supertux/tile_set.hpp"
 
 class SDL_event;
-class TileSet;
 class ObjectInput;
 class TileSelection;
 class ToolIcon;

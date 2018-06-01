@@ -16,20 +16,9 @@
 
 #include "supertux/menu/editor_tilegroup_menu.hpp"
 
-#include <sstream>
-
-#include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/menu_item.hpp"
-#include "supertux/game_manager.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/level.hpp"
-#include "supertux/screen_fade.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/tile_set.hpp"
-#include "supertux/title_screen.hpp"
-#include "supertux/world.hpp"
-#include "util/file_system.hpp"
+#include "gui/menu_manager.hpp"
 #include "util/gettext.hpp"
 
 EditorTilegroupMenu::EditorTilegroupMenu()

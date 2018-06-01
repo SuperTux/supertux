@@ -22,7 +22,7 @@
 
 #include "editor/object_icon.hpp"
 
-#include "util/reader_fwd.hpp"
+class ReaderMapping;
 
 class ObjectGroup
 {

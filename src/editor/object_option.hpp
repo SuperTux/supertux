@@ -21,8 +21,6 @@
 #include <vector>
 
 #include "gui/menu_action.hpp"
-#include "util/gettext.hpp"
-#include "video/color.hpp"
 
 // ObjectOption bitfield flags
 enum ObjectOptionFlags {

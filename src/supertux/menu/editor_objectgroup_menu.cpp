@@ -16,19 +16,10 @@
 
 #include "supertux/menu/editor_objectgroup_menu.hpp"
 
-#include <sstream>
-
-#include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/object_group.hpp"
-#include "editor/object_input.hpp"
 #include "gui/menu_item.hpp"
-#include "supertux/game_manager.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/level.hpp"
-#include "supertux/screen_fade.hpp"
-#include "supertux/screen_manager.hpp"
-#include "util/file_system.hpp"
+#include "gui/menu_manager.hpp"
 #include "util/gettext.hpp"
 
 EditorObjectgroupMenu::EditorObjectgroupMenu()
