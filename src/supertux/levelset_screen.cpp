@@ -45,10 +45,6 @@ LevelsetScreen::LevelsetScreen(const std::string& basedir, const std::string& le
   m_solved = level_state.solved;
 }
 
-LevelsetScreen::~LevelsetScreen()
-{
-}
-
 void
 LevelsetScreen::draw(DrawingContext&)
 {

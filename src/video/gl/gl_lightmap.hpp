@@ -27,7 +27,6 @@ class GLLightmap : public Lightmap
 {
 public:
   GLLightmap();
-  ~GLLightmap();
 
   void start_draw(const Color &ambient_color) override;
   void end_draw() override;

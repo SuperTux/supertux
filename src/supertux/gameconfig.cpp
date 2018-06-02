@@ -59,9 +59,6 @@ Config::Config() :
 {
 }
 
-Config::~Config()
-{}
-
 void
 Config::load()
 {

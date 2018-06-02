@@ -46,10 +46,6 @@ Tux::Tux(WorldMap* worldmap_) :
 {
 }
 
-Tux::~Tux()
-{
-}
-
 void
 Tux::draw(DrawingContext& context)
 {

@@ -61,10 +61,6 @@ ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script_) :
   bbox.set_size(32, 32);
 }
 
-ScriptTrigger::~ScriptTrigger()
-{
-}
-
 ObjectSettings
 ScriptTrigger::get_settings() {
   new_size.x = bbox.get_width();

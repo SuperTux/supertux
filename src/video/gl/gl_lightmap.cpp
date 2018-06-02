@@ -70,10 +70,6 @@ GLLightmap::GLLightmap() :
   TextureManager::current()->register_texture(m_lightmap.get());
 }
 
-GLLightmap::~GLLightmap()
-{
-}
-
 void
 GLLightmap::start_draw(const Color &ambient_color)
 {

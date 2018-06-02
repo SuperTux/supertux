@@ -25,9 +25,6 @@ LevelTime::LevelTime(::LevelTime* level_time_)
   : level_time(level_time_)
 { }
 
-LevelTime::~LevelTime()
-{ }
-
 void LevelTime::start()
 {
   level_time->start();

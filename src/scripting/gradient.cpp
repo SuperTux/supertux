@@ -27,10 +27,6 @@ Gradient::Gradient(::Gradient* parent) :
 {
 }
 
-Gradient::~Gradient()
-{
-}
-
 void
 Gradient::set_direction(const std::string& direction)
 {

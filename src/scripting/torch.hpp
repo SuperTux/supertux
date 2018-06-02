@@ -29,7 +29,6 @@ class Torch
 public:
 #ifndef SCRIPTING_API
   Torch(::Torch* torch);
-  ~Torch();
 #endif
 
   bool get_burning() const; /**< returns true if torch is lighted */

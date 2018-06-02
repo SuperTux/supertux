@@ -31,7 +31,6 @@ class Config
 {
 public:
   Config();
-  ~Config();
 
   void load();
   void save();

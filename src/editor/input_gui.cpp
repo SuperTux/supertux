@@ -59,10 +59,6 @@ EditorInputGui::EditorInputGui() :
   //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
 }
 
-EditorInputGui::~EditorInputGui() {
-
-}
-
 void
 EditorInputGui::draw(DrawingContext& context) {
   //SCREEN_WIDTH SCREEN_HEIGHT

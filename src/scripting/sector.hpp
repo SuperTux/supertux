@@ -32,7 +32,6 @@ private:
 
 public:
   Sector(::Sector* parent);
-  ~Sector();
 
 private:
   Sector(const Sector&) = delete;

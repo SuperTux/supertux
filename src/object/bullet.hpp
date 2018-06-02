@@ -26,7 +26,6 @@ class Bullet : public MovingObject
 {
 public:
   Bullet(const Vector& pos, float xm, int dir, BonusType type);
-  ~Bullet();
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

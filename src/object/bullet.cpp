@@ -54,10 +54,6 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type_) :
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 }
 
-Bullet::~Bullet()
-{
-}
-
 void
 Bullet::update(float elapsed_time)
 {

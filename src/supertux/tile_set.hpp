@@ -31,7 +31,6 @@ class Tile;
 class Tilegroup {
   public:
     Tilegroup();
-    ~Tilegroup();
     bool developers_group = false;
     std::string name;
     std::vector<int> tiles;
@@ -46,7 +45,6 @@ private:
 public:
   TileSet(const std::string& filename);
   TileSet();
-  ~TileSet();
 
   std::vector<Tilegroup> tilegroups;
 

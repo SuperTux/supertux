@@ -30,10 +30,6 @@ Fireworks::Fireworks() :
   SoundManager::current()->preload("sounds/fireworks.wav");
 }
 
-Fireworks::~Fireworks()
-{
-}
-
 void
 Fireworks::update(float )
 {

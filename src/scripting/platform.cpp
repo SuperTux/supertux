@@ -25,9 +25,6 @@ Platform::Platform(::Platform* platform_)
   : platform(platform_)
 { }
 
-Platform::~Platform()
-{ }
-
 void Platform::goto_node(int node_no)
 {
   platform->goto_node(node_no);

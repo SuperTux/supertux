@@ -44,10 +44,6 @@ InfoBox::InfoBox(const std::string& text) :
   }
 }
 
-InfoBox::~InfoBox()
-{
-}
-
 void
 InfoBox::draw(DrawingContext& context)
 {

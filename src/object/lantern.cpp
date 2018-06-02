@@ -67,10 +67,6 @@ Lantern::after_editor_set() {
   updateColor();
 }
 
-Lantern::~Lantern()
-{
-}
-
 void
 Lantern::updateColor(){
   lightsprite->set_color(lightcolor);

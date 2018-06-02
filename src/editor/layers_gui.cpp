@@ -44,10 +44,6 @@ EditorLayersGui::EditorLayersGui() :
 {
 }
 
-EditorLayersGui::~EditorLayersGui()
-{
-}
-
 void
 EditorLayersGui::draw(DrawingContext& context) {
 

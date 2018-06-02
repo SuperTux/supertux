@@ -28,7 +28,6 @@ class BrokenBrick : public GameObject
 {
 public:
   BrokenBrick(SpritePtr sprite, const Vector& pos, const Vector& movement);
-  ~BrokenBrick();
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

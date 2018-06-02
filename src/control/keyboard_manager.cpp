@@ -36,10 +36,6 @@ KeyboardManager::KeyboardManager(InputManager* parent,
 {
 }
 
-KeyboardManager::~KeyboardManager()
-{
-}
-
 void
 KeyboardManager::process_key_event(const SDL_KeyboardEvent& event)
 {

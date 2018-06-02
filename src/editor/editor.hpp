@@ -41,7 +41,6 @@ class Editor : public Screen,
 {
   public:
     Editor();
-    ~Editor();
 
     virtual void draw(DrawingContext&) override;
     virtual void update(float elapsed_time) override;

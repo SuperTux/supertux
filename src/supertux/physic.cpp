@@ -27,10 +27,6 @@ Physic::Physic() :
 {
 }
 
-Physic::~Physic()
-{
-}
-
 void
 Physic::reset()
 {

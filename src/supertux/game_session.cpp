@@ -163,10 +163,6 @@ GameSession::restart_level(bool after_death)
   return (0);
 }
 
-GameSession::~GameSession()
-{
-}
-
 void
 GameSession::on_escape_press()
 {

@@ -23,7 +23,6 @@ class BadguySelectMenu : public Menu
 {
 public:
   BadguySelectMenu(std::vector<std::string>* badguys_);
-  ~BadguySelectMenu();
 
   void menu_action(MenuItem* item) override;
 

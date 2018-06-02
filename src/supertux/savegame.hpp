@@ -71,7 +71,6 @@ private:
 
 public:
   Savegame(const std::string& filename);
-  ~Savegame();
 
   /** Returns content of (tux ...) entry */
   PlayerStatus* get_player_status() const { return m_player_status.get(); }

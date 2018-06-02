@@ -24,9 +24,6 @@ Camera::Camera(::Camera* camera_)
   : camera(camera_)
 { }
 
-Camera::~Camera()
-{ }
-
 void
 Camera::reload_config()
 {
