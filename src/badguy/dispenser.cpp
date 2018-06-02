@@ -54,7 +54,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   {
     type = dispenser_type_from_string(type_s);
   }
-  catch(std::exception&)
+  catch(...)
   {
     if(!Editor::is_active())
     {
