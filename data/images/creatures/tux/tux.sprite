@@ -260,12 +260,20 @@
 
        (action
          (name "big-buttjump-right")
-         (hitbox 16 14 32 64)
-         (images "big/buttjump-0.png"))
+         (hitbox 16 14 32 46)
+         (fps 20.0)
+         (images "big/buttjump-0.png"
+                 "big/buttjump-1.png"
+                 "big/buttjump-2.png"
+                 "big/buttjump-3.png"
+                 "big/buttjump-4.png"
+                 "big/buttjump-5.png"
+                 "big/buttjump-6.png"))
 
        (action
          (name "big-buttjump-left")
-         (hitbox 16 14 32 64)
+         (hitbox 16 14 32 46)
+         (fps 20.0)
          (mirror-action "big-buttjump-right"))
 
 ; Fire Tux
