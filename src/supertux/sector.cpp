@@ -688,7 +688,6 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         if(!tile->is_solid ())
           continue;
         Rectf tile_bbox = solids->get_tile_bbox(x, y);
-
         /* If the tile is a unisolid tile, the "is_solid()" function above
          * didn't do a thorough check. Calculate the position and (relative)
          * movement of the object and determine whether or not the tile is
@@ -703,20 +702,29 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         // Do collision response
         Polygon mobjp = dest.to_polygon();
         Polygon tile_poly = tile->tile_to_poly(tile_bbox);
+        int dir[4][2] = {{1,0},{-1,0},{0,1},{0,-1}};
+        for(const auto& offset : dir)
+        {
+          const auto& nb = solids->get_tile(x+offset[0], y+offset[1]);
+          if(!nb->is_solid())
+            continue;
+          Rectf nb_bbox = solids->get_tile_bbox(x+offset[0], y+offset[1]);
+          Polygon npoly = tile->tile_to_poly(nb_bbox);
+          tile_poly.process_neighbor(npoly);
+        }
         Manifold m;
         mobjp.handle_collision(tile_poly,m);
-        log_debug << "Created a collision polygon" << std::endl;
-        log_debug << m.depth*m.normal.x << " " << m.depth*m.normal.y <<std::endl;
+        //log_debug << "Created a collision polygon" << std::endl;
+        //log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
         // Check if they overlap
-        Vector overlapV( -m.depth*m.normal.x, -m.depth*m.normal.y);
+        Vector overlapV( m.depth*m.normal.x, m.depth*m.normal.y);
         CollisionHit h;
         h.bottom = overlapV.y < 0;
         h.top    = overlapV.y > 0;
-        h.left   = overlapV.x < 0;
-        h.right  = overlapV.x > 0;
+        h.left   = overlapV.x > 0;
+        h.right  = overlapV.x < 0;
         if(h.bottom || h.top || h.left || h.right)
         {
-          log_debug << (h.bottom?"bot ":" ") << (h.top?"top ":"") << std::endl;
           dest.move(overlapV);
           object.collision_solid(h);
         }
@@ -840,7 +848,7 @@ Sector::collision_static(collision::Constraints* constraints,
                          MovingObject& object)
 {
   collision_tilemap(constraints, movement, dest, object);
-  /*
+
   // collision with other (static) objects
   for(auto& moving_object : moving_objects) {
     if(moving_object->get_group() != COLGROUP_STATIC
@@ -850,9 +858,35 @@ Sector::collision_static(collision::Constraints* constraints,
       continue;
 
     if(moving_object != &object)
-      check_collisions(constraints, movement, dest, moving_object->bbox,
-                       &object, moving_object);
-  }*/
+    {
+      // First check if rectfs intersect
+      if(!collision::intersects(dest, moving_object->get_bbox()))
+        continue;
+      Polygon mobjp = dest.to_polygon();
+      Polygon tile_poly = moving_object->get_bbox().to_polygon();
+      Manifold m;
+      mobjp.handle_collision(tile_poly,m);
+      log_debug << "Created a collision polygon" << std::endl;
+      log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
+      // Check if they overlap
+      Vector overlapV( m.depth*m.normal.x , m.depth*m.normal.y);
+      CollisionHit h;
+      h.bottom = overlapV.y < 0;
+      h.top    = overlapV.y > 0;
+      h.left   = overlapV.x > 0;
+      h.right  = overlapV.x < 0;
+      if(h.bottom || h.top || h.left || h.right)
+      {
+        log_debug << (h.bottom?"bot ":" ") << (h.top?"top ":"") << std::endl;
+        object.collision_solid(h);
+        std::swap(h.left, h.right);
+        std::swap(h.bottom, h.top);
+        moving_object->collision(object, h);
+        dest.move(overlapV);
+      }
+
+    }
+  }
 }
 
 void
@@ -866,111 +900,9 @@ Sector::collision_static_constrains(MovingObject& object)
   Vector movement = object.get_movement();
   Vector pressure = Vector(0,0);
   Rectf& dest = object.dest;
-  for(int i = 0;i < 10; i++)
+  for(int i = 0;i < 1; i++)
     collision_static(&constraints, Vector(movement.x, movement.y), dest, object);
-  return;
 
-  for(int i = 0; i < 2; ++i) {
-
-    if(!constraints.has_constraints())
-      break;
-
-    // apply calculated horizontal constraints
-    if(constraints.get_position_bottom() < infinity) {
-      float height = constraints.get_height ();
-      if(height < object.get_bbox().get_height()) {
-        // we're crushed, but ignore this for now, we'll get this again
-        // later if we're really crushed or things will solve itself when
-        // looking at the vertical constraints
-        pressure.y += object.get_bbox().get_height() - height;
-      } else {
-        dest.p2.y = constraints.get_position_bottom() - DELTA;
-        dest.p1.y = dest.p2.y - object.get_bbox().get_height();
-      }
-    } else if(constraints.get_position_top() > -infinity) {
-      dest.p1.y = constraints.get_position_top() + DELTA;
-      dest.p2.y = dest.p1.y + object.get_bbox().get_height();
-    }
-  }
-  if(constraints.has_constraints()) {
-    if(constraints.hit.bottom) {
-      dest.move(constraints.ground_movement);
-    }
-    if(constraints.hit.top || constraints.hit.bottom) {
-      constraints.hit.left = false;
-      constraints.hit.right = false;
-      object.collision_solid(constraints.hit);
-    }
-  }
-
-  constraints = Constraints();
-  for(int i = 0; i < 2; ++i) {
-    collision_static(&constraints, movement, dest, object);
-    if(!constraints.has_constraints())
-      break;
-
-    // apply calculated vertical constraints
-    float width = constraints.get_width ();
-    if(width < infinity) {
-      if(width + SHIFT_DELTA < object.get_bbox().get_width()) {
-        // we're crushed, but ignore this for now, we'll get this again
-        // later if we're really crushed or things will solve itself when
-        // looking at the horizontal constraints
-        pressure.x += object.get_bbox().get_width() - width;
-      } else {
-        float xmid = constraints.get_x_midpoint ();
-        dest.p1.x = xmid - object.get_bbox().get_width()/2;
-        dest.p2.x = xmid + object.get_bbox().get_width()/2;
-      }
-    } else if(constraints.get_position_right() < infinity) {
-      dest.p2.x = constraints.get_position_right() - DELTA;
-      dest.p1.x = dest.p2.x - object.get_bbox().get_width();
-    } else if(constraints.get_position_left() > -infinity) {
-      dest.p1.x = constraints.get_position_left() + DELTA;
-      dest.p2.x = dest.p1.x + object.get_bbox().get_width();
-    }
-  }
-
-  if(constraints.has_constraints()) {
-    if( constraints.hit.left || constraints.hit.right
-        || constraints.hit.top || constraints.hit.bottom
-        || constraints.hit.crush )
-      object.collision_solid(constraints.hit);
-  }
-
-  // an extra pass to make sure we're not crushed vertically
-  if (pressure.y > 0) {
-    constraints = Constraints();
-    collision_static(&constraints, movement, dest, object);
-    if(constraints.get_position_bottom() < infinity) {
-      float height = constraints.get_height ();
-      if(height + SHIFT_DELTA < object.get_bbox().get_height()) {
-        CollisionHit h;
-        h.top = true;
-        h.bottom = true;
-        h.crush = pressure.y > 16;
-        object.collision_solid(h);
-      }
-    }
-  }
-
-  // an extra pass to make sure we're not crushed horizontally
-  if (pressure.x > 0) {
-    constraints = Constraints();
-    collision_static(&constraints, movement, dest, object);
-    if(constraints.get_position_right() < infinity) {
-      float width = constraints.get_width ();
-      if(width + SHIFT_DELTA < object.get_bbox().get_width()) {
-        CollisionHit h;
-        h.top = true;
-        h.bottom = true;
-        h.left = true;
-        h.right = true;
-        h.crush = pressure.x > 16;
-        object.collision_solid(h);
-      }
-    }
-  }
 }
 
 namespace {
