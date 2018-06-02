@@ -33,7 +33,7 @@ FloatingImage::FloatingImage(const std::string& spritefile) :
   } else if(WorldMap::current() != NULL) {
     WorldMap::current()->add_object(floating_image);
   } else {
-    throw new std::runtime_error("Neither sector nor worldmap active");
+    throw std::runtime_error("Neither sector nor worldmap active");
   }
 }
 

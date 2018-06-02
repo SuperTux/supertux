@@ -100,7 +100,7 @@ private:
       return DT_CANNON;
     if (type_string == "point")
       return DT_POINT;
-    throw new std::exception();
+    throw std::exception();
   }
 
   /**
