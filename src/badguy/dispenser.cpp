@@ -50,15 +50,12 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   reader.get("random", random, false);
   std::string type_s = "dropper"; //default
   reader.get("type", type_s, "");
-  if (type_s == "dropper") {
-    type = DT_DROPPER;
-  } else if (type_s == "rocketlauncher") {
-    type = DT_ROCKETLAUNCHER;
-  } else if (type_s == "cannon") {
-    type = DT_CANNON;
-  } else if (type_s == "point") {
-    type = DT_POINT;
-  } else {
+  try
+  {
+    type = dispenser_type_from_string(type_s);
+  }
+  catch(std::exception&)
+  {
     if(!Editor::is_active())
     {
       if(type_s.empty()) {
@@ -70,6 +67,7 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
     }
     type = DT_DROPPER;
   }
+
   type_str = get_type_string();
 
   reader.get("limit-dispensed-badguys", limit_dispensed_badguys, false);

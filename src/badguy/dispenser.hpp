@@ -90,6 +90,19 @@ private:
   DispenserType type;
   std::string type_str;
 
+  DispenserType dispenser_type_from_string(const std::string& type_string) const
+  {
+    if (type_string == "dropper")
+      return DT_DROPPER;
+    if (type_string == "rocketlauncher")
+      return DT_ROCKETLAUNCHER;
+    if (type_string == "cannon")
+      return DT_CANNON;
+    if (type_string == "point")
+      return DT_POINT;
+    throw new std::exception();
+  }
+
   /**
    * Do we need to limit the number of dispensed badguys?
    */
