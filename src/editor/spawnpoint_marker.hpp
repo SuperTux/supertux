@@ -18,18 +18,18 @@
 #define HEADER_SUPERTUX_EDITOR_SPAWNPOINT_MARKER_HPP
 
 #include "supertux/moving_object.hpp"
-#include "util/reader_mapping.hpp"
-#include "video/surface.hpp"
-#include "video/drawing_context.hpp"
 
+#include "video/surface_ptr.hpp"
+
+class ReaderMapping;
 class SpawnPoint;
+class DrawingContext;
 
 class SpawnPointMarker : public MovingObject
 {
   public:
     SpawnPointMarker(const ReaderMapping& lisp);
     SpawnPointMarker(const SpawnPoint* sp);
-    ~SpawnPointMarker();
 
     void update(float elapsed_time) {
       //No updates needed

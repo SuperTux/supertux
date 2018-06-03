@@ -16,12 +16,9 @@
 
 #include "editor/spawnpoint_marker.hpp"
 
-#include "supertux/globals.hpp"
-#include "supertux/resources.hpp"
 #include "supertux/spawn_point.hpp"
-#include "util/gettext.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
+#include "util/reader_mapping.hpp"
+#include "video/drawing_context.hpp"
 
 SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
   surface(Surface::create("images/engine/editor/spawnpoint.png"))
@@ -41,9 +38,6 @@ SpawnPointMarker::SpawnPointMarker (const SpawnPoint* sp) :
   setup();
 }
 
-SpawnPointMarker::~SpawnPointMarker() {
-}
-
 void SpawnPointMarker::setup() {
   bbox.set_size(32, 32);
 }
@@ -51,12 +45,5 @@ void SpawnPointMarker::setup() {
 void SpawnPointMarker::draw(DrawingContext& context) {
   context.draw_surface(surface, bbox.p1, LAYER_FOREGROUND1);
 }
-
-/*ObjectSettings
-SpawnPointMarker::get_settings() {
-  ObjectSettings result(_("Spawn Point"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  return result;
-}*/
 
 /* EOF */

@@ -20,24 +20,14 @@
 #include "editor/layer_icon.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/tip.hpp"
-#include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
-#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/colorscheme.hpp"
-#include "supertux/game_object.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/level.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
-#include "util/log.hpp"
-#include "video/drawing_context.hpp"
-#include "video/font.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
@@ -94,7 +84,7 @@ EditorLayersGui::draw(DrawingContext& context) {
                              LAYER_GUI-5);
   }
 
-  if (!Editor::current()->levelloaded) {
+  if (!Editor::current()->is_level_loaded()) {
     return;
   }
 
@@ -146,12 +136,12 @@ EditorLayersGui::event(SDL_Event& ev) {
               }
               selected_tilemap = layers[hovered_layer]->layer;
               ((TileMap*)selected_tilemap)->editor_active = true;
-              editor->inputcenter.edit_path(((TileMap*)selected_tilemap)->get_path(),
+              editor->edit_path(((TileMap*)selected_tilemap)->get_path(),
                                                        selected_tilemap);
             } else {
               auto cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);
               if (cam) {
-                editor->inputcenter.edit_path(cam->get_path(), cam);
+                editor->edit_path(cam->get_path(), cam);
               }
             }
             break;

@@ -17,18 +17,11 @@
 #include "supertux/menu/editor_menu.hpp"
 
 #include "gui/dialog.hpp"
-#include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "editor/editor.hpp"
-#include "editor/input_center.hpp"
-#include "editor/scroller.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/options_menu.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/world.hpp"
 #include "util/gettext.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
 
 EditorMenu::EditorMenu()

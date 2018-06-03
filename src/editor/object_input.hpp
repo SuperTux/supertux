@@ -37,7 +37,6 @@ private:
 
   public:
     ObjectInput();
-    ~ObjectInput();
 
     std::vector<ObjectGroup> groups;
     int get_num_worldmap_groups() const
