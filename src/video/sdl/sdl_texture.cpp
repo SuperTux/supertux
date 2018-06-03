@@ -14,19 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
-#include "video/color.hpp"
 #include "video/sdl/sdl_texture.hpp"
-#include "video/sdl/sdl_renderer.hpp"
-#include "util/log.hpp"
-#include "math/random_generator.hpp"
-
-#include <assert.h>
 
 #include <SDL.h>
+
+#include "video/sdl/sdl_renderer.hpp"
+#include "video/video_system.hpp"
 
 SDLTexture::SDLTexture(SDL_Surface* image) :
   m_texture(),

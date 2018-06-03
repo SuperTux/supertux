@@ -17,18 +17,13 @@
 #include "video/drawing_context.hpp"
 
 #include <algorithm>
-#include <config.h>
 
-#include "math/sizef.hpp"
-#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/obstackpp.hpp"
 #include "video/drawing_request.hpp"
 #include "video/lightmap.hpp"
 #include "video/renderer.hpp"
 #include "video/surface.hpp"
-#include "video/texture.hpp"
-#include "video/texture_manager.hpp"
 #include "video/video_system.hpp"
 
 bool DrawingContext::render_lighting = true;

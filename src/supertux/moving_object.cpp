@@ -18,6 +18,7 @@
 
 #include "editor/resizer.hpp"
 #include "supertux/sector.hpp"
+#include "util/writer.hpp"
 
 MovingObject::MovingObject() :
   bbox(),

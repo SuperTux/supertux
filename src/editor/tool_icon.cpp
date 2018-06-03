@@ -17,6 +17,7 @@
 #include "editor/tool_icon.hpp"
 
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 ToolIcon::ToolIcon(const std::string& icon) :
   pos(0, 0),

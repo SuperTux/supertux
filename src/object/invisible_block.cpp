@@ -14,9 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/invisible_block.hpp"
+
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
-#include "object/invisible_block.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"

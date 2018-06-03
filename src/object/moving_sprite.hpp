@@ -18,10 +18,11 @@
 #define HEADER_SUPERTUX_OBJECT_MOVING_SPRITE_HPP
 
 #include "object/anchor_point.hpp"
-#include "supertux/moving_object.hpp"
-#include "util/reader_fwd.hpp"
-#include "video/drawing_request.hpp"
 #include "sprite/sprite_ptr.hpp"
+#include "supertux/moving_object.hpp"
+#include "video/drawing_context.hpp"
+
+class ReaderMapping;
 
 /**
  * Abstract base class for MovingObjects that are represented by a Sprite

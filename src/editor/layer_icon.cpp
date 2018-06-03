@@ -26,6 +26,7 @@
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/resources.hpp"
+#include "video/surface.hpp"
 
 LayerIcon::LayerIcon(GameObject *layer_) :
   ObjectIcon("", layer_->get_icon_path()),

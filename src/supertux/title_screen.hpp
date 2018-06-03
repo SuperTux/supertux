@@ -18,10 +18,13 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TITLE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TITLE_HPP
 
-#include "supertux/game_session.hpp"
-#include "supertux/savegame.hpp"
+#include "supertux/screen.hpp"
+#include "video/surface_ptr.hpp"
+
+#include <string>
 
 class CodeController;
+class GameSession;
 class Savegame;
 
 /**

@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "supertux/flip_level_transformer.hpp"
+
 #include "badguy/badguy.hpp"
 #include "object/block.hpp"
 #include "object/camera.hpp"
@@ -21,7 +23,6 @@
 #include "object/platform.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
-#include "supertux/flip_level_transformer.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/spawn_point.hpp"
 

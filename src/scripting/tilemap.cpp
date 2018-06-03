@@ -17,8 +17,6 @@
 #include "object/tilemap.hpp"
 #include "scripting/tilemap.hpp"
 
-#define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
-
 namespace scripting {
 
 TileMap::TileMap(::TileMap* tilemap_)

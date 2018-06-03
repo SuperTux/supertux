@@ -16,15 +16,10 @@
 
 #include "object/scripted_object.hpp"
 
-#include <stdio.h>
-
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 

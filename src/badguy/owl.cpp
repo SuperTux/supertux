@@ -17,16 +17,15 @@
 
 #include "badguy/owl.hpp"
 
-#include "editor/editor.hpp"
 #include "audio/sound_manager.hpp"
-#include "object/anchor_point.hpp"
+#include "editor/editor.hpp"
 #include "object/player.hpp"
-#include "object/rock.hpp"
+#include "object/portable.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/log.hpp"
+#include "util/writer.hpp"
 
 #define FLYING_SPEED 120.0
 #define ACTIVATION_DISTANCE 128.0

@@ -19,6 +19,7 @@
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/resources.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 
 Tip::Tip(GameObject* object) :

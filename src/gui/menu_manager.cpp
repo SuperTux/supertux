@@ -16,18 +16,13 @@
 
 #include "gui/menu_manager.hpp"
 
-#include <assert.h>
-
 #include "control/input_manager.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
-#include "math/sizef.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/timer.hpp"
-#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
 

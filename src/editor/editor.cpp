@@ -43,6 +43,7 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/spawn_point.hpp"
+#include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"

@@ -14,12 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/path_walker.hpp"
+
 #include "editor/editor.hpp"
 #include "editor/object_option.hpp"
 #include "math/random_generator.hpp"
-#include "object/path_walker.hpp"
 #include "util/gettext.hpp"
-#include "util/log.hpp"
 
 #include <math.h>
 #include <assert.h>

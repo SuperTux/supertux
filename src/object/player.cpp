@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "control/codecontroller.hpp"
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
 #include "math/random_generator.hpp"
@@ -29,14 +30,14 @@
 #include "object/particles.hpp"
 #include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
-#include "scripting/squirrel_util.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
-#include "trigger/climbable.hpp"
-
-#include <math.h>
+#include "trigger/trigger_base.hpp"
+#include "video/surface.hpp"
 
 //#define SWIMMING
 

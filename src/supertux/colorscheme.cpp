@@ -16,17 +16,14 @@
 
 #include "supertux/colorscheme.hpp"
 
-#include "gui/menu.hpp"
 #include "object/floating_text.hpp"
 #include "object/level_time.hpp"
 #include "object/text_object.hpp"
 #include "supertux/levelintro.hpp"
 #include "supertux/player_status.hpp"
-#include "supertux/statistics.hpp"
 #include "supertux/textscroller.hpp"
 #include "trigger/climbable.hpp"
 #include "trigger/secretarea_trigger.hpp"
-#include "video/color.hpp"
 #include "worldmap/worldmap.hpp"
 
 Color LevelIntro::header_color(1.0,1.0,0.6);

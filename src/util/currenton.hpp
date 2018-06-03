@@ -19,8 +19,6 @@
 #ifndef HEADER_WINDSTILLE_UTIL_CURRENTON_HPP
 #define HEADER_WINDSTILLE_UTIL_CURRENTON_HPP
 
-#include <assert.h>
-
 /**
  *   A 'Currenton' allows access to the currently active instance of a
  *   class via the static current() function. It is kind of like a

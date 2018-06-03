@@ -16,16 +16,16 @@
 
 #include "object/moving_sprite.hpp"
 
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "util/log.hpp"
-#include "util/reader_mapping.hpp"
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
+#include <math.h>
 #include <physfs.h>
-#include <stdexcept>
 
 MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
                            int layer_, CollisionGroup collision_group) :

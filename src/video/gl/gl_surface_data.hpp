@@ -19,6 +19,7 @@
 
 #include "video/surface.hpp"
 #include "video/surface_data.hpp"
+#include "video/texture.hpp"
 
 class GLSurfaceData : public SurfaceData
 {

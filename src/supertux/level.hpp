@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_SUPERTUX_LEVEL_HPP
 
 #include "supertux/statistics.hpp"
-#include "util/currenton.hpp"
 
 class ReaderMapping;
 class Sector;

@@ -16,8 +16,8 @@
 
 #include "video/video_system.hpp"
 
+#include <assert.h>
 #include <config.h>
-#include <stdexcept>
 
 #include "util/log.hpp"
 #include "video/sdl/sdl_video_system.hpp"

@@ -16,19 +16,11 @@
 
 #include "gui/item_back.hpp"
 
-#include <stdio.h>
-
-#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
-#include "math/vector.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/resources.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
+#include "video/surface.hpp"
 
 ItemBack::ItemBack(const std::string& text_, int _id) :
   MenuItem(text_, _id)

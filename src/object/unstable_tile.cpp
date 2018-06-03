@@ -22,7 +22,6 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
-#include "supertux/object_factory.hpp"
 
 UnstableTile::UnstableTile(const ReaderMapping& lisp) :
   MovingSprite(lisp, "images/objects/unstable_tile/snow.sprite", LAYER_TILES, COLGROUP_STATIC),

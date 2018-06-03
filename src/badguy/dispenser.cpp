@@ -21,11 +21,10 @@
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-
-#include <stdexcept>
 
 Dispenser::Dispenser(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),

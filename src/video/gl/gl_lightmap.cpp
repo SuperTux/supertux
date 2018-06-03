@@ -16,31 +16,10 @@
 
 #include "video/gl/gl_lightmap.hpp"
 
-#include <SDL_image.h>
-#include <algorithm>
-#include <assert.h>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <math.h>
-#include <physfs.h>
-#include <sstream>
-
-#include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
-#include "util/obstackpp.hpp"
-#include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
-#include "video/font.hpp"
 #include "video/gl/gl_painter.hpp"
-#include "video/gl/gl_renderer.hpp"
-#include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
-#include "video/glutil.hpp"
-#include "video/lightmap.hpp"
-#include "video/renderer.hpp"
-#include "video/surface.hpp"
-#include "video/texture_manager.hpp"
 
 inline int next_po2(int val)
 {

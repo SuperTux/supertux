@@ -14,12 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/fireworks.hpp"
+
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
-#include "object/fireworks.hpp"
 #include "object/particles.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 

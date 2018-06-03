@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include <stdint.h>
+#include <physfs.h>
 #include <sstream>
 
 #include "audio/sound_error.hpp"
@@ -29,7 +29,6 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/file_system.hpp"
-#include "util/log.hpp"
 
 std::unique_ptr<SoundFile> load_music_file(const std::string& filename)
 {

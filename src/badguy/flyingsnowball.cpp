@@ -19,7 +19,7 @@
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
 #include "object/player.hpp"
-#include "supertux/object_factory.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
 namespace {

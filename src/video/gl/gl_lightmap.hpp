@@ -17,11 +17,14 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_LIGHTMAP_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_LIGHTMAP_HPP
 
+#include <memory>
+
 #include "video/lightmap.hpp"
+#include "video/glutil.hpp"
 
-struct DrawingRequest;
-
+class GLTexture;
 class Texture;
+struct DrawingRequest;
 
 class GLLightmap : public Lightmap
 {

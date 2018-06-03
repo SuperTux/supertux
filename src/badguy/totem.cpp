@@ -16,13 +16,12 @@
 
 #include "badguy/totem.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-
-#include <math.h>
 
 static const float JUMP_ON_SPEED_Y = -400;
 static const float JUMP_OFF_SPEED_Y = -500;

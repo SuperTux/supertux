@@ -18,8 +18,10 @@
 
 #include "editor/editor.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/tile.hpp"
 #include "supertux/tile_set_parser.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 

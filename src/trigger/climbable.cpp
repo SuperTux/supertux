@@ -18,10 +18,7 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/object_factory.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 

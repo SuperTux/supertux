@@ -16,18 +16,11 @@
 
 #include "gui/item_stringselect.hpp"
 
-#include <stdio.h>
-
-#include "gui/menu_action.hpp"
 #include "gui/menu_manager.hpp"
-#include "math/vector.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/resources.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
+#include "video/surface.hpp"
 
 ItemStringSelect::ItemStringSelect(const std::string& text_, const std::vector<std::string>& list_, int* selected_, int _id) :
   MenuItem(text_, _id),

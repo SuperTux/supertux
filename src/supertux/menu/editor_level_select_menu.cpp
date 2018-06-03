@@ -16,18 +16,18 @@
 
 #include "supertux/menu/editor_level_select_menu.hpp"
 
+#include <physfs.h>
+
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
-#include "physfs/ifile_streambuf.hpp"
-#include "supertux/menu/editor_levelset_menu.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/levelset.hpp"
+#include "supertux/menu/editor_levelset_menu.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
-#include "util/gettext.hpp"
 
 EditorLevelSelectMenu::EditorLevelSelectMenu() :
   m_levelset()

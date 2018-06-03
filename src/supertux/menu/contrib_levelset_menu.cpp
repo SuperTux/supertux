@@ -16,17 +16,15 @@
 
 #include "supertux/menu/contrib_levelset_menu.hpp"
 
+#include <assert.h>
 #include <sstream>
 
 #include "audio/sound_manager.hpp"
-#include "gui/menu_item.hpp"
 #include "gui/item_action.hpp"
 #include "supertux/game_manager.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/levelset.hpp"
-#include "supertux/screen_fade.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/title_screen.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/savegame.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"

@@ -18,7 +18,6 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "util/reader_mapping.hpp"
 
 Spotlight::Spotlight(const ReaderMapping& lisp) :

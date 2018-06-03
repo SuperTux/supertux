@@ -19,10 +19,10 @@
 
 #include "video/lightmap.hpp"
 
-#include "SDL.h"
-
 class Color;
 struct DrawingRequest;
+struct SDL_Renderer;
+struct SDL_Texture;
 
 class SDLLightmap : public Lightmap
 {

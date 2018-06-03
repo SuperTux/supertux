@@ -20,7 +20,8 @@
 #include <string>
 
 #include "trigger/trigger_base.hpp"
-#include "util/reader_mapping.hpp"
+
+class ReaderMapping;
 
 class Switch : public TriggerBase
 {

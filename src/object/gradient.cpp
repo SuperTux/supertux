@@ -18,13 +18,10 @@
 
 #include "editor/editor.hpp"
 #include "object/camera.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
-
-#include <stdexcept>
+#include "util/writer.hpp"
 
 Gradient::Gradient() :
   ExposedObject<Gradient, scripting::Gradient>(this),

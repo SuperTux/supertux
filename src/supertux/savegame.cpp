@@ -18,8 +18,8 @@
 #include "supertux/savegame.hpp"
 
 #include <algorithm>
+#include <physfs.h>
 
-#include "physfs/ifile_streambuf.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/serialize.hpp"

@@ -16,9 +16,6 @@
 
 #include "gui/menu.hpp"
 
-#include <math.h>
-#include <stdexcept>
-
 #define INCLUDE_MENU_ITEMS
 // This causes the #include "gui/menu_item.hpp" to include all menu items too.
 
@@ -26,15 +23,9 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
-#include "supertux/colorscheme.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/timer.hpp"
-#include "util/gettext.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 

@@ -18,11 +18,11 @@
 #define HEADER_SUPERTUX_VIDEO_GL_GL_VIDEO_SYSTEM_HPP
 
 #include <memory>
-#include <SDL.h>
 
 #include "video/video_system.hpp"
 
 class TextureManager;
+struct SDL_Surface;
 
 class GLVideoSystem : public VideoSystem
 {

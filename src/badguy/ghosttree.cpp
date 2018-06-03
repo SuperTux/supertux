@@ -16,6 +16,9 @@
 
 #include "badguy/ghosttree.hpp"
 
+#include <algorithm>
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/root.hpp"
 #include "badguy/treewillowisp.hpp"
@@ -24,11 +27,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-
-#include <algorithm>
-#include <math.h>
 
 static const size_t WILLOWISP_COUNT = 10;
 static const float ROOT_TOP_OFFSET = 64;

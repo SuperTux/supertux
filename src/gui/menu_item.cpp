@@ -17,20 +17,9 @@
 
 #include "gui/menu_item.hpp"
 
-#include <stdio.h>
-
-#include "gui/menu.hpp"
-#include "math/vector.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/timer.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
-
 #ifdef WIN32
 #  define snprintf _snprintf
 #endif

@@ -21,9 +21,7 @@
 
 #include "object/player.hpp"
 #include "object/portable.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
 BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :

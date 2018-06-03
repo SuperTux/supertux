@@ -18,39 +18,31 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 #define HEADER_SUPERTUX_WORLDMAP_WORLDMAP_HPP
 
-#include <string>
-#include <vector>
+#include <list>
 
-#include "control/controller.hpp"
 #include "math/vector.hpp"
-#include "supertux/console.hpp"
-#include "supertux/game_object.hpp"
 #include "supertux/game_object_ptr.hpp"
-#include "supertux/level.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/statistics.hpp"
-#include "supertux/tile_manager.hpp"
 #include "supertux/timer.hpp"
-#include "util/reader_fwd.hpp"
 #include "util/currenton.hpp"
 #include "worldmap/direction.hpp"
 #include "worldmap/spawn_point.hpp"
-#include "worldmap/special_tile.hpp"
-#include "worldmap/sprite_change.hpp"
-#include "worldmap/teleporter.hpp"
 
-class GameObject;
+class Level;
 class PlayerStatus;
+class Savegame;
 class Sprite;
 class TileMap;
-class Savegame;
+class TileSet;
 
 namespace worldmap {
 
-class Tux;
 class LevelTile;
 class SpecialTile;
 class SpriteChange;
+class Teleporter;
+class Tux;
 
 // For one way tiles
 enum {

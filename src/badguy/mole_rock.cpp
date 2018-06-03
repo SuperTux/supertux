@@ -16,9 +16,10 @@
 
 #include "badguy/mole_rock.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 MoleRock::MoleRock(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),

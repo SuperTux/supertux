@@ -22,15 +22,11 @@
 
 #include "util/reader.hpp"
 
-#include <fstream>
 #include <physfs.h>
-#include <sexp/io.hpp>
-#include <sexp/parser.hpp>
-#include <sexp/util.hpp>
 
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
-#include "video/drawing_request.hpp"
+#include "video/drawing_context.hpp"
 
 int reader_get_layer(const ReaderMapping& reader, int def)
 {

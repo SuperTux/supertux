@@ -14,8 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/globals.hpp"
 #include "supertux/shrinkfade.hpp"
+
+#include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
 ShrinkFade::ShrinkFade(const Vector& dest_, float fade_time_) :

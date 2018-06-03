@@ -17,19 +17,12 @@
 
 #include "video/sdl/sdl_renderer.hpp"
 
-#include "util/log.hpp"
-#include "video/drawing_request.hpp"
-#include "video/sdl/sdl_surface_data.hpp"
-#include "video/sdl/sdl_texture.hpp"
-#include "video/sdl/sdl_painter.hpp"
-
-#include <iomanip>
-#include <iostream>
 #include <physfs.h>
-#include <sstream>
-#include <stdexcept>
-#include <SDL_video.h>
 
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
+#include "util/log.hpp"
+#include "video/sdl/sdl_painter.hpp"
 #include "video/util.hpp"
 
 SDLRenderer::SDLRenderer() :

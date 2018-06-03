@@ -16,12 +16,8 @@
 
 #include "gui/menu_script.hpp"
 
-#include "audio/sound_manager.hpp"
 #include "gui/item_script_line.hpp"
-#include "gui/menu_item.hpp"
-#include "gui/item_action.hpp"
 #include "util/gettext.hpp"
-#include "util/log.hpp"
 
 ScriptMenu::ScriptMenu(std::string* script_) :
   base_script(script_),

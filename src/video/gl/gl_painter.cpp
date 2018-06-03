@@ -17,7 +17,9 @@
 #include "video/gl/gl_painter.hpp"
 
 #include <algorithm>
+#include <math.h>
 
+#include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"

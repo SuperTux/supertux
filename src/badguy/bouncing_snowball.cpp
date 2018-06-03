@@ -17,7 +17,6 @@
 #include "badguy/bouncing_snowball.hpp"
 
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 #include <algorithm>
 

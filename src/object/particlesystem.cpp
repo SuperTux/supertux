@@ -18,10 +18,10 @@
 
 #include <math.h>
 
-#include "math/random_generator.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
 #include "util/reader.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 #include "video/drawing_context.hpp"
 
 ParticleSystem::ParticleSystem(float max_particle_size_) :

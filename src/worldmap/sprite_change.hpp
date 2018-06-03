@@ -18,13 +18,13 @@
 #define HEADER_SUPERTUX_WORLDMAP_SPRITE_CHANGE_HPP
 
 #include <list>
-#include <memory>
 #include <string>
 
-#include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 
+class ReaderMapping;
 class Sprite;
 
 namespace worldmap {

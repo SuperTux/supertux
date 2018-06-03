@@ -14,13 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/star.hpp"
+
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
-#include "object/star.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
 static const float INITIALJUMP = -400;

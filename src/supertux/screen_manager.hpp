@@ -19,7 +19,6 @@
 #define HEADER_SUPERTUX_SUPERTUX_MAINLOOP_HPP
 
 #include <memory>
-#include <cstddef>
 
 #include "scripting/thread_queue.hpp"
 #include "supertux/screen.hpp"
@@ -28,7 +27,6 @@
 class DrawingContext;
 class MenuManager;
 class MenuStorage;
-class Screen;
 class ScreenFade;
 
 /**

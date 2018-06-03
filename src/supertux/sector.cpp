@@ -16,18 +16,13 @@
 
 #include "supertux/sector.hpp"
 
-#include <algorithm>
-#include <math.h>
-#include <vector>
-
-#include "scripting/scripting.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "scripting/sector.hpp"
+#include <physfs.h>
 
 #include "audio/sound_manager.hpp"
-#include "badguy/jumpy.hpp"
+#include "badguy/badguy.hpp"
 #include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
+#include "math/rect.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
@@ -37,22 +32,15 @@
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "scripting/sector.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/level.hpp"
-#include "supertux/object_factory.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
-#include "supertux/tile_manager.hpp"
-#include "trigger/secretarea_trigger.hpp"
-#include "trigger/sequence_trigger.hpp"
 #include "util/file_system.hpp"
-#include "util/reader_collection.hpp"
-#include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
 Sector* Sector::_current = 0;

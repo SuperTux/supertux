@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_VIDEO_SURFACE_HPP
 
 #include <string>
-#include <memory>
 
 #include "math/vector.hpp"
 #include "math/rect.hpp"

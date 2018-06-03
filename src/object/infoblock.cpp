@@ -20,10 +20,7 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/info_box_line.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"

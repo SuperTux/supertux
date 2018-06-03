@@ -19,6 +19,7 @@
 
 #include <algorithm>
 
+#include "math/size.hpp"
 #include "object/path_object.hpp"
 #include "object/path_walker.hpp"
 #include "scripting/exposed_object.hpp"

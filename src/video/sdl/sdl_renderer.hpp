@@ -17,7 +17,9 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_RENDERER_HPP
 
-#include "SDL.h"
+#include <SDL.h>
+
+#include "math/size.hpp"
 #include "video/renderer.hpp"
 
 class SDLRenderer : public Renderer

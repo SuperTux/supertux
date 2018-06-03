@@ -16,16 +16,9 @@
 
 #include "gui/item_controlfield.hpp"
 
-#include <stdio.h>
-
-#include "math/vector.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/resources.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
 
 ItemControlField::ItemControlField(const std::string& text_, const std::string& input_, int _id) :
   MenuItem(text_, _id),

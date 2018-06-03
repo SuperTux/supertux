@@ -21,11 +21,9 @@
 #include <squirrel.h>
 #include <stdint.h>
 
-#include "supertux/direction.hpp"
-#include "supertux/game_object_ptr.hpp"
-#include "util/writer.hpp"
-#include "video/color.hpp"
 #include "object/anchor_point.hpp"
+#include "supertux/game_object_ptr.hpp"
+#include "video/color.hpp"
 
 namespace collision {
 class Constraints;
@@ -45,6 +43,7 @@ class Portable;
 class DrawingContext;
 class DisplayEffect;
 class ReaderMapping;
+class Writer;
 
 enum MusicType {
   LEVEL_MUSIC,

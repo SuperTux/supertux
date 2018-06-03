@@ -19,7 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 namespace {
 const float MIN_RECOVER_TIME = 0.1f; /**< minimum time to stand still before starting a (new) jump */
