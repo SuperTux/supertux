@@ -21,18 +21,15 @@
 #include "control/input_manager.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/info_box_line.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/info_box_line.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/resources.hpp"
+#include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
-
-#include <sstream>
-#include <stdexcept>
+#include "video/surface.hpp"
 
 static const float DEFAULT_SPEED = 20;
 static const float LEFT_BORDER = 50;

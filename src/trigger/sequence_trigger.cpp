@@ -14,16 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <string>
-
 #include "trigger/sequence_trigger.hpp"
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
-#include "supertux/game_session.hpp"
-#include "supertux/object_factory.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 #include "video/drawing_context.hpp"
 
 SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :

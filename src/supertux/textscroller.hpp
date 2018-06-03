@@ -17,7 +17,6 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_HPP
 
-#include <map>
 #include <memory>
 
 #include "supertux/screen.hpp"

@@ -16,41 +16,28 @@
 
 #include "supertux/game_session.hpp"
 
-#include <float.h>
-#include <fstream>
-
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
-#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
 #include "object/endsequence_walkleft.hpp"
 #include "object/endsequence_walkright.hpp"
 #include "object/level_time.hpp"
-#include "object/player.hpp"
-#include "scripting/scripting.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/levelintro.hpp"
 #include "supertux/levelset_screen.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/options_menu.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
-#include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/file_system.hpp"
-#include "util/gettext.hpp"
+#include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 #include "worldmap/worldmap.hpp"
-
-#ifdef WIN32
-#  define snprintf _snprintf
-#endif
 
 GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
   GameSessionRecorder(),

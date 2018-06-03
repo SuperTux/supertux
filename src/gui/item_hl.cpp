@@ -16,15 +16,7 @@
 
 #include "gui/item_hl.hpp"
 
-#include <stdio.h>
-
-#include "math/vector.hpp"
-#include "supertux/resources.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
 
 ItemHorizontalLine::ItemHorizontalLine() :
   MenuItem("")

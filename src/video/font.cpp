@@ -15,28 +15,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
+#include "video/font.hpp"
 
-#include <algorithm>
-#include <iostream>
-#include <sstream>
-#include <stdlib.h>
-#include <string.h>
-#include <stdexcept>
 #include <SDL_image.h>
+#include <algorithm>
 #include <physfs.h>
 
 #include "physfs/physfs_sdl.hpp"
-#include "supertux/screen.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/utf8_iterator.hpp"
-#include "video/drawing_context.hpp"
 #include "video/drawing_request.hpp"
-#include "video/font.hpp"
 #include "video/renderer.hpp"
+#include "video/surface.hpp"
 
 namespace {
 

@@ -16,14 +16,11 @@
 
 #include "badguy/mriceblock.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
-#include "supertux/sector.hpp"
-
-#include <math.h>
 
 namespace {
 const float KICKSPEED = 500;

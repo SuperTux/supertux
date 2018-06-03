@@ -17,7 +17,6 @@
 #ifndef HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEM_HPP
 #define HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEM_HPP
 
-#include <SDL.h>
 #include <string>
 
 #include "util/currenton.hpp"
@@ -27,6 +26,7 @@ class Renderer;
 class Lightmap;
 class Surface;
 class SurfaceData;
+struct SDL_Surface;
 
 class VideoSystem : public Currenton<VideoSystem>
 {

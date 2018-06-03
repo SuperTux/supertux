@@ -16,13 +16,12 @@
 
 #include "object/snow_particle_system.hpp"
 
+#include <assert.h>
 #include <math.h>
 
 #include "math/random_generator.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
-#include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 // TODO: tweak values
 namespace SNOW {

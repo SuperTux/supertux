@@ -16,16 +16,9 @@
 
 #include "gui/item_label.hpp"
 
-#include <stdio.h>
-
-#include "math/vector.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/resources.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
 
 ItemLabel::ItemLabel(const std::string& text_) :
   MenuItem(text_)

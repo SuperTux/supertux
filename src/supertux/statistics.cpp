@@ -26,7 +26,9 @@
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 namespace {
 const int nv_coins = std::numeric_limits<int>::min();

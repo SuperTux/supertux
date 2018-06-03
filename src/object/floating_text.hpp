@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_FLOATING_TEXT_HPP
 #define HEADER_SUPERTUX_OBJECT_FLOATING_TEXT_HPP
 
-#include <memory>
-
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"

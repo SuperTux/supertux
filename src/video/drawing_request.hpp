@@ -17,11 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_DRAWING_REQUEST_HPP
 #define HEADER_SUPERTUX_VIDEO_DRAWING_REQUEST_HPP
 
-#include <memory>
 #include <string>
-#include <vector>
-
-#include <stdint.h>
 
 #include "math/rectf.hpp"
 #include "math/sizef.hpp"
@@ -29,7 +25,6 @@
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
-#include "video/glutil.hpp"
 
 class Surface;
 

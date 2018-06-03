@@ -18,9 +18,10 @@
 #define HEADER_SUPERTUX_SPRITE_SPRITE_DATA_HPP
 
 #include <map>
+#include <string>
 #include <vector>
 
-#include "video/surface.hpp"
+#include "video/surface_ptr.hpp"
 
 class ReaderMapping;
 

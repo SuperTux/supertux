@@ -17,25 +17,10 @@
 #ifndef HEADER_SUPERTUX_VIDEO_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_RENDERER_HPP
 
-#include <memory>
-#include <string>
-#include <vector>
-
-#include <SDL_video.h>
-#include <assert.h>
-#include <stdint.h>
-#include <obstack.h>
-
-#include "math/rectf.hpp"
 #include "math/vector.hpp"
-#include "video/color.hpp"
-#include "video/font.hpp"
-#include "video/glutil.hpp"
-#include "video/surface.hpp"
 
-class Surface;
-class Texture;
 struct DrawingRequest;
+struct SDL_Window;
 
 class Renderer
 {

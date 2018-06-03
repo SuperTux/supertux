@@ -17,6 +17,8 @@
 #include "supertux/game_object.hpp"
 
 #include "supertux/object_remove_listener.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 #include "video/color.hpp"
 
 GameObject::GameObject() :

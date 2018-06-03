@@ -17,18 +17,19 @@
 
 #include "object/weak_block.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/explosion.hpp"
-#include "supertux/object_factory.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
-
-#include <math.h>
 
 WeakBlock::WeakBlock(const ReaderMapping& lisp)
 : MovingSprite(lisp, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),

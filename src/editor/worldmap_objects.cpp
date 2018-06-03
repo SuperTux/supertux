@@ -23,7 +23,9 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
+#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 namespace worldmap_editor {
 

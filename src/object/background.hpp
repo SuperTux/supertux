@@ -17,11 +17,13 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 #define HEADER_SUPERTUX_OBJECT_BACKGROUND_HPP
 
+#include "math/vector.hpp"
 #include "scripting/background.hpp"
 #include "scripting/exposed_object.hpp"
 #include "supertux/game_object.hpp"
-#include "util/reader_fwd.hpp"
-#include "video/drawing_context.hpp"
+#include "video/surface_ptr.hpp"
+
+class ReaderMapping;
 
 class Background : public GameObject,
                    public ExposedObject<Background, scripting::Background>

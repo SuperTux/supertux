@@ -17,30 +17,19 @@
 
 #include "supertux/title_screen.hpp"
 
-#include "addon/addon_manager.hpp"
-#include "audio/sound_manager.hpp"
-#include "gui/menu.hpp"
+#include <version.h>
+
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
-#include "object/player.hpp"
 #include "supertux/fadein.hpp"
-#include "supertux/fadeout.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/textscroller.hpp"
-#include "supertux/world.hpp"
-#include "util/file_system.hpp"
-#include "util/gettext.hpp"
-#include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
-
-#include <sstream>
-#include <version.h>
+#include "video/surface.hpp"
 
 TitleScreen::TitleScreen(Savegame& savegame) :
   frame(Surface::create("images/engine/menu/frame.png")),

@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/fadein.hpp"
+
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 

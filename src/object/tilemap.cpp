@@ -16,20 +16,15 @@
 
 #include "object/tilemap.hpp"
 
-#include <math.h>
-
 #include "editor/editor.hpp"
-#include "object/tilemap.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/level.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/tile_manager.hpp"
+#include "supertux/tile.hpp"
 #include "supertux/tile_set.hpp"
 #include "util/reader.hpp"
-#include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
+#include "video/surface.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
   ExposedObject<TileMap, scripting::TileMap>(this),

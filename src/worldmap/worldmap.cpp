@@ -17,64 +17,39 @@
 
 #include "worldmap/worldmap.hpp"
 
-#include <config.h>
-
-#include <assert.h>
-#include <fstream>
-#include <iostream>
 #include <physfs.h>
-#include <sstream>
-#include <stdexcept>
-#include <vector>
 
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
-#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
-#include "gui/mousecursor.hpp"
 #include "object/background.hpp"
 #include "object/decal.hpp"
 #include "object/tilemap.hpp"
-#include "physfs/physfs_file_system.hpp"
 #include "physfs/ifile_streambuf.hpp"
-#include "scripting/scripting.hpp"
-#include "scripting/squirrel_error.hpp"
-#include "scripting/squirrel_util.hpp"
+#include "physfs/physfs_file_system.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "supertux/game_session.hpp"
+#include "supertux/fadein.hpp"
 #include "supertux/game_manager.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/options_menu.hpp"
-#include "supertux/menu/worldmap_menu.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/sector.hpp"
-#include "supertux/fadein.hpp"
 #include "supertux/shrinkfade.hpp"
-#include "supertux/spawn_point.hpp"
-#include "supertux/textscroller.hpp"
+#include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
-#include "supertux/tile_set.hpp"
-#include "supertux/world.hpp"
 #include "util/file_system.hpp"
-#include "util/gettext.hpp"
-#include "util/log.hpp"
 #include "util/reader.hpp"
-#include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
-#include "video/drawing_context.hpp"
-#include "video/surface.hpp"
 #include "worldmap/level.hpp"
+#include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
+#include "worldmap/teleporter.hpp"
 #include "worldmap/tux.hpp"
-#include "worldmap/worldmap.hpp"
 
 static const float CAMERA_PAN_SPEED = 5.0;
 

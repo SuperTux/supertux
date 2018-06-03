@@ -16,19 +16,14 @@
 
 #include "object/background.hpp"
 
-#include <iostream>
-#include <math.h>
-#include <stdexcept>
-
 #include "editor/editor.hpp"
-#include "math/sizef.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
+#include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 Background::Background() :
   ExposedObject<Background, scripting::Background>(this),

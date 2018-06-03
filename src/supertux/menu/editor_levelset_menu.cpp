@@ -20,6 +20,7 @@
 #include "editor/editor.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 
 EditorLevelsetMenu::EditorLevelsetMenu():
   world(Editor::current()->get_world()),

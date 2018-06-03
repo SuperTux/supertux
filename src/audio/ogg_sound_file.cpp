@@ -17,8 +17,9 @@
 #include "audio/ogg_sound_file.hpp"
 
 #include <assert.h>
+#include <physfs.h>
 
-OggSoundFile::OggSoundFile(PHYSFS_file* file_, double loop_begin_, double loop_at_) :
+OggSoundFile::OggSoundFile(PHYSFS_File* file_, double loop_begin_, double loop_at_) :
   file(file_),
   vorbis_file(),
   loop_begin(),

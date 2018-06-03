@@ -20,12 +20,8 @@
 #include <physfs.h>
 
 #include "editor/editor.hpp"
-#include "object/path_walker.hpp"
 #include "object/player.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"

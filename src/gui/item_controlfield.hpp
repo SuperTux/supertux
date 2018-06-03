@@ -17,10 +17,6 @@
 #ifndef HEADER_SUPERTUX_GUI_ITEM_CONTROLFIELD_HPP
 #define HEADER_SUPERTUX_GUI_ITEM_CONTROLFIELD_HPP
 
-#include <list>
-#include <memory>
-#include <SDL.h>
-
 #include "gui/menu_item.hpp"
 
 class ItemControlField : public MenuItem

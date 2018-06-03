@@ -18,7 +18,6 @@
 
 #include "badguy/badguy.hpp"
 #include "object/player.hpp"
-#include "supertux/object_factory.hpp"
 
 HurtingPlatform::HurtingPlatform(const ReaderMapping& reader)
   : Platform(reader, "images/objects/sawblade/sawblade.sprite")

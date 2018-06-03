@@ -19,8 +19,6 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class Color;
-
 class WalkingCandle : public WalkingBadguy
 {
 public:

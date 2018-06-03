@@ -18,9 +18,12 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_TUX_HPP
 #define HEADER_SUPERTUX_WORLDMAP_TUX_HPP
 
+#include "sprite/sprite_ptr.hpp"
+#include "supertux/game_object.hpp"
+#include "supertux/player_status.hpp"
 #include "worldmap/worldmap.hpp"
 
-class Sprite;
+class Controller;
 
 namespace worldmap {
 

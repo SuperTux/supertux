@@ -19,6 +19,7 @@
 #include "supertux/spawn_point.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
   surface(Surface::create("images/engine/editor/spawnpoint.png"))

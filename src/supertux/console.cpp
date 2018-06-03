@@ -16,15 +16,14 @@
 
 #include "supertux/console.hpp"
 
-#include <assert.h>
-#include <math.h>
-
 #include "physfs/ifile_stream.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 /// speed (pixels/s) the console closes
 static const float FADE_SPEED = 1;

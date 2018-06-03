@@ -20,13 +20,12 @@
 #include <stdint.h>
 #include <string>
 
-#include "supertux/tile.hpp"
-#include "util/log.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
 class DrawingContext;
 class Tile;
+class Vector;
 
 class Tilegroup {
   public:

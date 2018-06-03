@@ -16,11 +16,7 @@
 
 #include "gui/menu_color.hpp"
 
-#include "audio/sound_manager.hpp"
-#include "gui/menu_item.hpp"
-#include "gui/item_action.hpp"
 #include "util/gettext.hpp"
-#include "video/color.hpp"
 
 ColorMenu::ColorMenu(Color* color_) :
   color(color_)

@@ -18,11 +18,12 @@
 #define HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 
 #include "math/size.hpp"
-#include "video/drawing_request.hpp"
 #include "video/renderer.hpp"
 
-#include "SDL.h"
+#include <SDL.h>
 #include <math.h>
+
+struct DrawingRequest;
 
 class GLRenderer : public Renderer
 {

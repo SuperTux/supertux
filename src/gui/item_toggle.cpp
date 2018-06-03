@@ -16,17 +16,10 @@
 
 #include "gui/item_toggle.hpp"
 
-#include <stdio.h>
-
-#include "gui/menu_action.hpp"
-#include "math/vector.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/resources.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
+#include "video/surface.hpp"
 
 ItemToggle::ItemToggle(const std::string& text_, bool* toggled_, int _id) :
   MenuItem(text_, _id),

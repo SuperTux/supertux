@@ -16,15 +16,11 @@
 
 #include "video/sdl/sdl_video_system.hpp"
 
-#include "supertux/gameconfig.hpp"
-#include "video/lightmap.hpp"
 #include "video/renderer.hpp"
 #include "video/sdl/sdl_lightmap.hpp"
 #include "video/sdl/sdl_renderer.hpp"
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
-#include "video/texture.hpp"
-#include "video/video_system.hpp"
 
 SDLVideoSystem::SDLVideoSystem() :
   m_renderer(new SDLRenderer),

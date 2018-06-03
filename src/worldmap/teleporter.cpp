@@ -13,13 +13,12 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+
+#include "worldmap/teleporter.hpp"
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
-#include "video/drawing_context.hpp"
-#include "worldmap/teleporter.hpp"
 
 namespace worldmap {
 

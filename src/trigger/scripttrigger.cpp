@@ -14,15 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <memory>
-#include <sstream>
-#include <stdexcept>
+#include "trigger/scripttrigger.hpp"
 
 #include "editor/editor.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "trigger/scripttrigger.hpp"
-#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"

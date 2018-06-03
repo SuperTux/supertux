@@ -16,19 +16,15 @@
 
 #include "supertux/menu/addon_menu.hpp"
 
-#include <config.h>
-#include <algorithm>
 #include <boost/format.hpp>
-#include <tinygettext/language.hpp>
 
 #include "addon/addon.hpp"
 #include "addon/addon_manager.hpp"
 #include "gui/dialog.hpp"
-#include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/download_dialog.hpp"
-#include "util/gettext.hpp"
+#include "util/log.hpp"
 
 namespace {
 

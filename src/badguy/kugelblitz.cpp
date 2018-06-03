@@ -20,14 +20,11 @@
 
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
-#include "object/camera.hpp"
 #include "object/electrifier.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader_mapping.hpp"
 
 #define  LIFETIME 5
 #define  MOVETIME 0.75

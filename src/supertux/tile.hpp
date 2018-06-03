@@ -24,7 +24,7 @@
 
 #include "math/rectf.hpp"
 #include "video/color.hpp"
-#include "video/surface.hpp"
+#include "video/surface_ptr.hpp"
 
 class DrawingContext;
 

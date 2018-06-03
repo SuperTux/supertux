@@ -18,7 +18,6 @@
 
 #include "editor/editor.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/levelset.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_fade.hpp"

@@ -18,9 +18,9 @@
 
 #include <SDL.h>
 
-#include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
+#include "video/surface.hpp"
 #include "video/video_system.hpp"
 
 MouseCursor* MouseCursor::current_ = 0;

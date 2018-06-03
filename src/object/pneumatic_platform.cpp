@@ -18,7 +18,6 @@
 
 #include "object/player.hpp"
 #include "object/portable.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
 PneumaticPlatform::PneumaticPlatform(const ReaderMapping& reader) :

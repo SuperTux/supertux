@@ -21,25 +21,21 @@
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "physfs/ifile_stream.hpp"
+#include "scripting/time_scheduler.hpp"
+#include "supertux/console.hpp"
 #include "supertux/fadeout.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/game_manager.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/shrinkfade.hpp"
 #include "supertux/textscroller.hpp"
 #include "supertux/tile.hpp"
-#include "supertux/world.hpp"
-#include "util/gettext.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
-
-#include "scripting/squirrel_util.hpp"
-#include "scripting/time_scheduler.hpp"
 
 namespace scripting {
 

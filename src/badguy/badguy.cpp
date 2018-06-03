@@ -18,24 +18,21 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/dispenser.hpp"
-#include "object/bullet.hpp"
-#include "object/camera.hpp"
+#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "object/broken_brick.hpp"
-#include "editor/editor.hpp"
 #include "object/bullet.hpp"
-#include "object/particles.hpp"
-#include "object/sprite_particle.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
+#include "object/sprite_particle.hpp"
 #include "object/water_drop.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "util/reader_mapping.hpp"
-
-#include <math.h>
-#include <sstream>
+#include "util/writer.hpp"
 
 static const float SQUISH_TIME = 2;
 static const float GEAR_TIME = 2;

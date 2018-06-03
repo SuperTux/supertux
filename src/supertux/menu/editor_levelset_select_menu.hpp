@@ -19,9 +19,6 @@
 
 #include "gui/menu.hpp"
 
-class EditorLevelsetSelectMenu;
-class World;
-
 class EditorLevelsetSelectMenu : public Menu
 {
 private:

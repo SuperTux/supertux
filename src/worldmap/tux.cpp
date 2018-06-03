@@ -15,17 +15,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "worldmap/tux.hpp"
+
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
+#include "util/log.hpp"
 #include "worldmap/level.hpp"
-#include "worldmap/tux.hpp"
+#include "worldmap/special_tile.hpp"
+#include "worldmap/sprite_change.hpp"
 
 namespace worldmap {
 

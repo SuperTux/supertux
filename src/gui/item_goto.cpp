@@ -16,11 +16,9 @@
 
 #include "gui/item_goto.hpp"
 
-#include <stdio.h>
+#include <assert.h>
 
-#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/menu/menu_storage.hpp"
 
 ItemGoTo::ItemGoTo(const std::string& text_, int target_menu_, int _id) :
   MenuItem(text_, _id),

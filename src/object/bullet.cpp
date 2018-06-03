@@ -14,12 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "math/random_generator.hpp"
 #include "object/bullet.hpp"
+
+#include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/globals.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/sector.hpp"
 
 namespace {

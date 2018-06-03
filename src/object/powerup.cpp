@@ -23,11 +23,8 @@
 #include "scripting/level.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-
-#include <sstream>
 
 PowerUp::PowerUp(const ReaderMapping& lisp) :
   MovingSprite(lisp, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),

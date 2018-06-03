@@ -16,7 +16,6 @@
 
 #include "object/text_object.hpp"
 
-#include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"

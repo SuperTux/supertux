@@ -18,17 +18,17 @@
 
 #include "control/input_manager.hpp"
 #include "math/random_generator.hpp"
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/player_status.hpp"
 #include "util/gettext.hpp"
 
-#include <sstream>
 #include <boost/format.hpp>
 
 LevelIntro::LevelIntro(const Level* level_, const Statistics* best_level_statistics_, const PlayerStatus* player_status_) :

@@ -16,16 +16,9 @@
 
 #include "badguy/ghostflame.hpp"
 
-#include <math.h>
-
-#include "audio/sound_manager.hpp"
-#include "math/random_generator.hpp"
-#include "object/sprite_particle.hpp"
+#include "audio/sound_source.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
-#include "supertux/sector.hpp"
-#include "util/reader_mapping.hpp"
 
 Ghostflame::Ghostflame(const ReaderMapping& reader) :
   Flame(reader)

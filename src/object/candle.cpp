@@ -14,11 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "math/random_generator.hpp"
 #include "object/candle.hpp"
+
+#include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/object_factory.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 

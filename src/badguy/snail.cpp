@@ -16,12 +16,11 @@
 
 #include "badguy/snail.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
-
-#include <math.h>
 
 namespace {
 const float SNAIL_KICK_SPEED = 500;

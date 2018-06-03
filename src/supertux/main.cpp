@@ -21,13 +21,8 @@
 
 #include <SDL_image.h>
 #include <boost/filesystem.hpp>
-#include <boost/format.hpp>
-#include <boost/optional.hpp>
 #include <boost/locale.hpp>
-#include <array>
-#include <iostream>
 #include <physfs.h>
-#include <stdio.h>
 #include <tinygettext/log.hpp>
 extern "C" {
 #include <findlocale.h>
@@ -39,7 +34,6 @@ extern "C" {
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "control/input_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_input.hpp"
@@ -48,31 +42,30 @@ extern "C" {
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/random_generator.hpp"
-#include "object/player.hpp"
-#include "physfs/ifile_stream.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "scripting/scripting.hpp"
 #include "sprite/sprite_data.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/command_line_arguments.hpp"
+#include "supertux/console.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/title_screen.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/tile.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
-#include "video/lightmap.hpp"
 #include "video/renderer.hpp"
 #include "worldmap/worldmap.hpp"
 

@@ -19,18 +19,13 @@
 #include "badguy/goldbomb.hpp"
 #include "object/bonus_block.hpp"
 #include "object/coin.hpp"
-#include "physfs/ifile_streambuf.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/tile_manager.hpp"
-#include "supertux/tile_set.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "util/file_system.hpp"
-#include "util/log.hpp"
 #include "util/writer.hpp"
 
-#include <sstream>
-#include <stdexcept>
+#include <physfs.h>
 
 Level* Level::_current = 0;
 

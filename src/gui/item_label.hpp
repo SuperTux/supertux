@@ -17,13 +17,7 @@
 #ifndef HEADER_SUPERTUX_GUI_ITEM_LABEL_HPP
 #define HEADER_SUPERTUX_GUI_ITEM_LABEL_HPP
 
-#include <list>
-#include <memory>
-#include <SDL.h>
-
 #include "gui/menu_item.hpp"
-
-class Color;
 
 class ItemLabel : public MenuItem
 {

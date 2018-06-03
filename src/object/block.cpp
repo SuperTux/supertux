@@ -23,14 +23,14 @@
 #include "badguy/bomb.hpp"
 #include "object/broken_brick.hpp"
 #include "object/coin.hpp"
-#include "object/flower.hpp"
 #include "object/growup.hpp"
 #include "object/player.hpp"
-#include "object/portable.hpp"
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 static const float BOUNCY_BRICK_MAX_OFFSET = 8;
 static const float BOUNCY_BRICK_SPEED = 90;

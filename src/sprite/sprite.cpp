@@ -17,9 +17,10 @@
 #include "sprite/sprite.hpp"
 
 #include <assert.h>
-#include <math.h>
 
-#include "supertux/timer.hpp"
+#include "supertux/globals.hpp"
+#include "util/log.hpp"
+#include "video/surface.hpp"
 
 Sprite::Sprite(SpriteData& newdata) :
   data(newdata),

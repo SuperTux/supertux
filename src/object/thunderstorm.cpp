@@ -19,12 +19,10 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "object/electrifier.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/drawing_context.hpp"
 
 namespace {
 const float LIGHTNING_DELAY = 2.0f;

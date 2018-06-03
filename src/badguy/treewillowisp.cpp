@@ -16,14 +16,14 @@
 
 #include "badguy/treewillowisp.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "badguy/ghosttree.hpp"
 #include "object/lantern.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-
-#include <math.h>
 
 static const std::string TREEWILLOSOUND = "sounds/willowisp.wav";
 

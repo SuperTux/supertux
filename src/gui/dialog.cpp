@@ -19,11 +19,10 @@
 #include <algorithm>
 
 #include "control/controller.hpp"
-#include "gui/menu_manager.hpp"
-#include "gui/menu.hpp"
 #include "gui/mousecursor.hpp"
-#include "supertux/resources.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"

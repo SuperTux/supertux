@@ -19,7 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 namespace {
 const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */

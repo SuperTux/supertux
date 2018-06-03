@@ -19,11 +19,8 @@
 
 #include "gui/menu.hpp"
 
-class Level;
-
 class EditorMenu : public Menu
 {
-private:
 public:
   EditorMenu();
   ~EditorMenu();
