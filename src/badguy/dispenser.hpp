@@ -72,6 +72,7 @@ protected:
 
 private:
 
+  bool is_blocked(const Direction& direction) const;
   void set_correct_action();
 
   float cycle;
