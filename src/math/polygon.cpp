@@ -66,7 +66,7 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
   {
     auto axis = edges[i];
     double overlap;
-    if((overlap = Polygon::is_seperating_axis(b, normals[i])) == 0.0f)
+    if((overlap = is_seperating_axis(b, normals[i])) == 0.0f)
       return;
     if((std::abs(overlap) < std::abs(minOverlap) || minOverlap == d_inf) && normal_enabled[i])
     {
@@ -75,11 +75,11 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
     }
   }
   // Check if any of b's axes seperates
-  for(size_t i = 0; i < edges.size(); i++)
+  for(size_t i = 0; i < b.edges.size(); i++)
   {
     auto axis = b.edges[i];
     double overlap;
-    if((overlap = Polygon::is_seperating_axis(b, b.normals[i])) == 0.0f)
+    if((overlap = is_seperating_axis(b, b.normals[i])) == 0.0f)
     {
         return;
     }
@@ -117,7 +117,8 @@ double Polygon::is_seperating_axis(Polygon& b,const Vector& axis)
 
 Vector Polygon::project(Vector axis)
 {
-  double minimum =  10000, maximum = -10000;
+  //assert(vertices.size() > 0);
+  double minimum =  vertices[0]*axis.unit(), maximum = vertices[0]*axis.unit();
   for(const auto& vertice : vertices)
   {
     double proj = vertice*axis.unit();

@@ -45,12 +45,17 @@ class Portable;
 class DrawingContext;
 class DisplayEffect;
 class ReaderMapping;
+class CollisionHit;
+struct Manifold;
 
 enum MusicType {
   LEVEL_MUSIC,
   HERRING_MUSIC,
   HERRING_WARNING_MUSIC
 };
+
+static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
+                           Vector& normal);
 
 /**
  * Represents one of (potentially) multiple, separate parts of a Level.
@@ -141,7 +146,7 @@ public:
 
   void collision_tilemap(collision::Constraints* constraints,
                          const Vector& movement, Rectf& dest,
-                         MovingObject &object) const;
+                         MovingObject &object, std::vector<Manifold>& contacts) const;
 
   /**
    * Checks if the specified rectangle is free of (solid) tiles.
