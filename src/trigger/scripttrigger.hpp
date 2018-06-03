@@ -46,6 +46,8 @@ private:
   std::string script;
   Vector new_size;
   bool must_activate;
+  bool oneshot;
+  int runcount;
 };
 
 #endif
