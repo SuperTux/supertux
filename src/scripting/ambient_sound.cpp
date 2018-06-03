@@ -25,10 +25,6 @@ AmbientSound::AmbientSound(::AmbientSound* parent) :
 {
 }
 
-AmbientSound::~AmbientSound()
-{
-}
-
 void
 AmbientSound::set_pos(float x, float y)
 {

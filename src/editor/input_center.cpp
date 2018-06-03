@@ -53,10 +53,6 @@ EditorInputCenter::EditorInputCenter() :
 {
 }
 
-EditorInputCenter::~EditorInputCenter()
-{
-}
-
 void
 EditorInputCenter::update(float elapsed_time) {
   if (hovered_object && !hovered_object->is_valid()) {

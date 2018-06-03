@@ -25,10 +25,6 @@ Text::Text(::TextObject* parent) :
 {
 }
 
-Text::~Text()
-{
-}
-
 void
 Text::set_text(const std::string& text)
 {

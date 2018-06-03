@@ -23,8 +23,11 @@
 #include "control/input_manager.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_input.hpp"
+#include "editor/tile_selection.hpp"
+#include "editor/tip.hpp"
 #include "editor/tool_icon.hpp"
 //#include "gui/dialog.hpp"
+#include "gui/mousecursor.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "object/camera.hpp"
@@ -71,11 +74,6 @@ Editor::Editor() :
   enabled(false),
   bgr_surface(Surface::create("images/background/forest1.jpg"))
 {
-}
-
-Editor::~Editor()
-{
-
 }
 
 void Editor::draw(DrawingContext& context)

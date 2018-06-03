@@ -54,10 +54,6 @@ Tile::Tile(const std::vector<ImageSpec>& imagespecs_, const std::vector<ImageSpe
   correct_attributes();
 }
 
-Tile::~Tile()
-{
-}
-
 void
 Tile::load_images()
 {

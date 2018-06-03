@@ -181,10 +181,6 @@ ObjectFactory::ObjectFactory() :
   init_factories();
 }
 
-ObjectFactory::~ObjectFactory()
-{
-}
-
 void
 ObjectFactory::init_factories()
 {

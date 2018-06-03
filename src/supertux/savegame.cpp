@@ -116,10 +116,6 @@ Savegame::Savegame(const std::string& filename) :
 {
 }
 
-Savegame::~Savegame()
-{
-}
-
 void
 Savegame::load()
 {

@@ -29,7 +29,6 @@ class Dart : public BadGuy
 public:
   Dart(const ReaderMapping& reader);
   Dart(const Vector& pos, Direction d, const BadGuy* parent);
-  ~Dart();
 
   void initialize();
   void activate();

@@ -28,7 +28,6 @@ private:
 
 public:
   ContribMenu();
-  ~ContribMenu();
 
   void menu_action(MenuItem* item) override;
 

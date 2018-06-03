@@ -25,10 +25,6 @@ Player::Player(::Player* parent) :
 {
 }
 
-Player::~Player()
-{
-}
-
 bool
 Player::add_bonus(const std::string& bonus)
 {

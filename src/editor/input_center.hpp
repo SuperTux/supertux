@@ -33,7 +33,6 @@ class EditorInputCenter
 {
   public:
     EditorInputCenter();
-    ~EditorInputCenter();
 
     void event(SDL_Event& ev);
     void draw(DrawingContext&);

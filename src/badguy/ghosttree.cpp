@@ -58,10 +58,6 @@ GhostTree::GhostTree(const ReaderMapping& lisp) :
   SoundManager::current()->preload("sounds/tree_suck.ogg");
 }
 
-GhostTree::~GhostTree()
-{
-}
-
 void
 GhostTree::die()
 {

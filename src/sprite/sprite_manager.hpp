@@ -34,7 +34,6 @@ private:
 
 public:
   SpriteManager();
-  ~SpriteManager();
 
   /** loads a sprite. */
   SpritePtr create(const std::string& filename);

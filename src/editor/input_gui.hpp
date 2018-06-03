@@ -34,7 +34,6 @@ class EditorInputGui
 {
   public:
     EditorInputGui();
-    ~EditorInputGui();
 
     void draw(DrawingContext&);
     void update(float elapsed_time);

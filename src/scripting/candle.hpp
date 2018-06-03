@@ -28,7 +28,6 @@ class Candle
 public:
 #ifndef SCRIPTING_API
   Candle(::Candle* candle);
-  ~Candle();
 #endif
 
   bool get_burning() const; /**< returns true if candle is lighted */

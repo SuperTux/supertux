@@ -26,9 +26,6 @@ Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds) :
   Sector::current()->change_solid_tiles(change_from,change_to);
 }
 
-Electrifier::~Electrifier() {
-}
-
 void
 Electrifier::update(float )
 {

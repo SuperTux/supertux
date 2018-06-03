@@ -25,7 +25,6 @@ class Sprite
 {
 public:
   Sprite(SpriteData& data);
-  ~Sprite();
 
   SpritePtr clone() const;
 

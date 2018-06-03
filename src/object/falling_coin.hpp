@@ -25,7 +25,6 @@ class FallingCoin : public GameObject
 {
 public:
   FallingCoin(const Vector& start_position, const int x_vel);
-  ~FallingCoin();
 
   void draw(DrawingContext& context);
   void update(float elapsed_time);

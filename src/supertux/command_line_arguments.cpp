@@ -55,10 +55,6 @@ CommandLineArguments::CommandLineArguments() :
 {
 }
 
-CommandLineArguments::~CommandLineArguments()
-{
-}
-
 void
 CommandLineArguments::print_datadir() const
 {

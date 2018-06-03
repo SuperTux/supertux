@@ -28,10 +28,6 @@ TileManager::TileManager() :
 {
 }
 
-TileManager::~TileManager()
-{
-}
-
 TileSet*
 TileManager::get_tileset(const std::string &filename)
 {

@@ -55,10 +55,6 @@ PlayerStatus::PlayerStatus() :
   SoundManager::current()->preload("sounds/lifeup.wav");
 }
 
-PlayerStatus::~PlayerStatus()
-{
-}
-
 void PlayerStatus::reset()
 {
   coins = START_COINS;
