@@ -67,14 +67,14 @@ FloatingImage::get_action()
 void
 FloatingImage::fade_in(float fadetime_)
 {
-  this->fadetime = fadetime_;
+  fadetime = fadetime_;
   fading = fadetime_;
 }
 
 void
 FloatingImage::fade_out(float fadetime_)
 {
-  this->fadetime = fadetime_;
+  fadetime = fadetime_;
   fading = -fadetime_;
 }
 

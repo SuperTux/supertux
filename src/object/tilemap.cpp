@@ -513,7 +513,7 @@ TileMap::get_tiles_overlapping(const Rectf &rect) const
 void
 TileMap::set_solid(bool solid)
 {
-  this->real_solid = solid;
+  real_solid = solid;
   update_effective_solid ();
 }
 
@@ -579,30 +579,30 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
 void
 TileMap::fade(float alpha_, float seconds)
 {
-  this->alpha = alpha_;
-  this->remaining_fade_time = seconds;
+  alpha = alpha_;
+  remaining_fade_time = seconds;
 }
 
 void
 TileMap::tint_fade(Color new_tint, float seconds)
 {
-  this->tint = new_tint;
-  this->remaining_tint_fade_time = seconds;
+  tint = new_tint;
+  remaining_tint_fade_time = seconds;
 }
 
 void
 TileMap::set_alpha(float alpha_)
 {
-  this->alpha = alpha_;
-  this->current_alpha = alpha;
-  this->remaining_fade_time = 0;
+  alpha = alpha_;
+  current_alpha = alpha;
+  remaining_fade_time = 0;
   update_effective_solid ();
 }
 
 float
 TileMap::get_alpha() const
 {
-  return this->current_alpha;
+  return current_alpha;
 }
 
 /*

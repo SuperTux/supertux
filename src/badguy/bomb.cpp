@@ -120,7 +120,7 @@ void
 Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   movement = pos - get_pos();
-  this->dir = dir_;
+  dir = dir_;
 
   // We actually face the opposite direction of Tux here to make the fuse more
   // visible instead of hiding it behind Tux
@@ -133,7 +133,7 @@ Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 void
 Bomb::ungrab(MovingObject& object, Direction dir_)
 {
-  this->dir = dir_;
+  dir = dir_;
   // This object is now thrown.
   int toss_velocity_x = 0;
   int toss_velocity_y = 0;

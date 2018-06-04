@@ -100,7 +100,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
         SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
         physic.set_velocity_x(-physic.get_velocity_x()*.975);
       }
-      this->set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+      set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       if(fabsf(physic.get_velocity_x()) < walk_speed*1.5)
         set_state(ICESTATE_NORMAL);
       break;
@@ -225,7 +225,7 @@ MrIceBlock::set_state(IceState state_, bool up)
 
   switch(state_) {
     case ICESTATE_NORMAL:
-      this->set_action(dir == LEFT ? "left" : "right", /* loops = */ -1);
+      set_action(dir == LEFT ? "left" : "right", /* loops = */ -1);
       WalkingBadguy::initialize();
       break;
     case ICESTATE_FLAT:
@@ -236,14 +236,14 @@ MrIceBlock::set_state(IceState state_, bool up)
         physic.set_velocity_x(0);
         physic.set_velocity_y(0);
       }
-      this->set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+      set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       flat_timer.start(4);
       break;
     case ICESTATE_KICKED:
       SoundManager::current()->play("sounds/kick.wav", get_pos());
 
       physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
-      this->set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+      set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       // we should slide above 1 block holes now...
       bbox.set_size(34, 31.8f);
       break;
@@ -264,8 +264,8 @@ void
 MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   movement = pos - get_pos();
-  this->dir = dir_;
-  this->set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+  dir = dir_;
+  set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
   set_state(ICESTATE_GRABBED);
   set_colgroup_active(COLGROUP_DISABLED);
 }
@@ -276,7 +276,7 @@ MrIceBlock::ungrab(MovingObject& , Direction dir_)
   if(dir_ == UP) {
     set_state(ICESTATE_FLAT, true);
   } else {
-    this->dir = dir_;
+    dir = dir_;
     set_state(ICESTATE_KICKED);
   }
   set_colgroup_active(COLGROUP_MOVING);

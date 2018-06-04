@@ -544,11 +544,11 @@ BadGuy::run_dead_script()
 void
 BadGuy::set_state(State state_)
 {
-  if(this->state == state_)
+  if(state == state_)
     return;
 
-  State laststate = this->state;
-  this->state = state_;
+  State laststate = state;
+  state = state_;
   switch(state_) {
     case STATE_BURNING:
       state_timer.start(BURN_TIME);
@@ -803,7 +803,7 @@ BadGuy::is_ignited() const
 void
 BadGuy::set_colgroup_active(CollisionGroup group_)
 {
-  this->colgroup_active = group_;
+  colgroup_active = group_;
   if (state == STATE_ACTIVE) set_group(group_);
 }
 

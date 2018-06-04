@@ -108,8 +108,7 @@ Torch::get_burning() const
 void
 Torch::set_burning(bool burning_)
 {
-  if (this->m_burning == burning_) { return; }
-  this->m_burning = burning_;
+  m_burning = burning_;
 }
 
 /* EOF */

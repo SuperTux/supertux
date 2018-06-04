@@ -172,7 +172,7 @@ protected:
 
   void set_group(CollisionGroup group_)
   {
-    this->group = group_;
+    group = group_;
   }
 
   /** The bounding box of the object (as used for collision detection,

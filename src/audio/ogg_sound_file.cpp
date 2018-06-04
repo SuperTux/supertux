@@ -38,11 +38,11 @@ OggSoundFile::OggSoundFile(PHYSFS_file* file_, double loop_begin_, double loop_a
   double samples_begin = loop_begin_ * rate;
   double sample_loop   = loop_at_ * rate;
 
-  this->loop_begin     = (ogg_int64_t) samples_begin;
+  loop_begin     = (ogg_int64_t) samples_begin;
   if(loop_begin_ < 0) {
-    this->loop_at = (ogg_int64_t) -1;
+    loop_at = (ogg_int64_t) -1;
   } else {
-    this->loop_at = (ogg_int64_t) sample_loop;
+    loop_at = (ogg_int64_t) sample_loop;
   }
 }
 

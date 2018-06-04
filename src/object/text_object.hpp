@@ -45,14 +45,14 @@ public:
   bool is_visible();
 
   void set_anchor_point(AnchorPoint anchor_) {
-    this->anchor = anchor_;
+    anchor = anchor_;
   }
   AnchorPoint get_anchor_point() const {
     return anchor;
   }
 
   void set_pos(const Vector& pos_) {
-    this->pos = pos_;
+    pos = pos_;
   }
   const Vector& get_pos() const {
     return pos;
@@ -68,7 +68,7 @@ public:
     set_anchor_point((AnchorPoint) anchor_);
   }
   int get_anchor_point() {
-    return (int)this->anchor;
+    return (int)anchor;
   }
 
   void draw(DrawingContext& context);

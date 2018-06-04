@@ -171,9 +171,9 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
   double slope_tan;
 
   /* If the tile is not a slope, this is very easy. */
-  if (!this->is_slope())
+  if (!is_slope())
   {
-    int dir = this->getData() & Tile::UNI_DIR_MASK;
+    int dir = getData() & Tile::UNI_DIR_MASK;
 
     return ((dir == Tile::UNI_DIR_NORTH) && (movement.y >= 0))  /* moving down */
         || ((dir == Tile::UNI_DIR_SOUTH) && (movement.y <= 0))  /* moving up */
@@ -192,7 +192,7 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
   mv_x = (double) movement.x; //note switch to double for no good reason
   mv_y = (double) movement.y;
 
-  slope_info = this->getData();
+  slope_info = getData();
   switch (slope_info & AATriangle::DIRECTION_MASK)
   {
     case AATriangle::SOUTHEAST: /*    . */
@@ -282,9 +282,9 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   float obj_y = 0.0;
 
   /* If this is not a slope, this is - again - easy */
-  if (!this->is_slope())
+  if (!is_slope())
   {
-    int dir = this->getData() & Tile::UNI_DIR_MASK;
+    int dir = getData() & Tile::UNI_DIR_MASK;
 
     return ((dir == Tile::UNI_DIR_NORTH) && ((obj_bbox.get_bottom() - SHIFT_DELTA) <= tile_bbox.get_top()   ))
         || ((dir == Tile::UNI_DIR_SOUTH) && ((obj_bbox.get_top()    + SHIFT_DELTA) >= tile_bbox.get_bottom()))
@@ -295,7 +295,7 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   /* There are 20 different cases. For each case, calculate a line that
    * describes the slope's surface. The line is defined by x, y, and m, the
    * gradient. */
-  slope_info = this->getData();
+  slope_info = getData();
   switch (slope_info
       & (AATriangle::DIRECTION_MASK | AATriangle::DEFORM_MASK))
   {

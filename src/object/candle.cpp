@@ -125,8 +125,8 @@ Candle::get_burning() const
 void
 Candle::set_burning(bool burning_)
 {
-  if (this->burning == burning_) return;
-  this->burning = burning_;
+  if (burning == burning_) return;
+  burning = burning_;
   if (burning_) {
     sprite->set_action("on");
   } else {

@@ -70,7 +70,7 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
 void
 IceCrusher::set_state(IceCrusherState state_, bool force)
 {
-  if ((this->state == state_) && (!force)) return;
+  if ((state == state_) && (!force)) return;
   switch(state_) {
     case IDLE:
       set_group(COLGROUP_STATIC);
@@ -92,7 +92,7 @@ IceCrusher::set_state(IceCrusherState state_, bool force)
       log_debug << "IceCrusher in invalid state" << std::endl;
       break;
   }
-  this->state = state_;
+  state = state_;
 }
 
 HitResponse

@@ -184,7 +184,7 @@ Camera::Camera(Sector* newsector, const std::string& name_) :
   config(std::unique_ptr<CameraConfig>(new CameraConfig)),
   defaultmode(NORMAL)
 {
-  this->name = name_;
+  name = name_;
   reload_config();
 }
 
@@ -339,7 +339,7 @@ Camera::shake()
 void
 Camera::update_scroll_normal(float elapsed_time)
 {
-  const auto& config_ = *(this->config);
+  const auto& config_ = *(config);
   auto player = sector->player;
   // TODO: co-op mode needs a good camera
   Vector player_pos(player->get_bbox().get_middle().x,

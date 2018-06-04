@@ -124,7 +124,7 @@ Haywire::active_update(float elapsed_time)
 
     if (p && time_stunned == 0.0) {
       /* Player is on the right */
-      if (p->get_pos ().x > this->get_pos ().x)
+      if (p->get_pos ().x > get_pos ().x)
         target_velocity = walk_speed;
       else /* player in on the left */
         target_velocity = (-1.0) * walk_speed;

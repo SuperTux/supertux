@@ -284,9 +284,9 @@ void
 Snail::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   movement = pos - get_pos();
-  this->dir = dir_;
-  this->set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
-  this->be_grabbed();
+  dir = dir_;
+  set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+  be_grabbed();
   set_colgroup_active(COLGROUP_DISABLED);
 }
 
@@ -294,10 +294,10 @@ void
 Snail::ungrab(MovingObject& , Direction dir_)
 {
   if(dir_ == UP) {
-    this->be_flat();
+    be_flat();
   } else {
-    this->dir = dir_;
-    this->be_kicked();
+    dir = dir_;
+    be_kicked();
   }
   set_colgroup_active(COLGROUP_MOVING);
 }

@@ -36,7 +36,7 @@ SquirrelError::SquirrelError(HSQUIRRELVM v, const std::string& message_) throw()
   }
   msg << lasterr << ")";
   sq_pop(v, 1);
-  this->message = msg.str();
+  message = msg.str();
 }
 
 SquirrelError::~SquirrelError() throw()

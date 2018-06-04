@@ -154,7 +154,7 @@ WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
 void
 WalkingBadguy::active_update(float elapsed_time)
 {
-  this->active_update (elapsed_time, (dir == LEFT) ? -walk_speed : +walk_speed);
+  active_update (elapsed_time, (dir == LEFT) ? -walk_speed : +walk_speed);
 }
 
 void

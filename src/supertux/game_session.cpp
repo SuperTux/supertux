@@ -221,8 +221,8 @@ GameSession::is_active() const
 void
 GameSession::set_editmode(bool edit_mode_)
 {
-  if (this->edit_mode == edit_mode_) return;
-  this->edit_mode = edit_mode_;
+  if (edit_mode == edit_mode_) return;
+  edit_mode = edit_mode_;
 
   currentsector->get_players()[0]->set_edit_mode(edit_mode_);
 
@@ -482,7 +482,7 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   if (seq == SEQ_STOPTUX) {
     if (!end_sequence) {
       log_warning << "Final target reached without an active end sequence" << std::endl;
-      this->start_sequence(SEQ_ENDSEQUENCE);
+      start_sequence(SEQ_ENDSEQUENCE);
     }
     if (end_sequence) end_sequence->stop_tux();
     return;

@@ -457,29 +457,29 @@ Sector::before_object_add(GameObjectPtr object)
 
   auto camera_ = dynamic_cast<Camera*>(object.get());
   if(camera_) {
-    if(this->camera != 0) {
+    if(camera != 0) {
       log_warning << "Multiple cameras added. Ignoring" << std::endl;
       return false;
     }
-    this->camera = camera_;
+    camera = camera_;
   }
 
   auto player_ = dynamic_cast<Player*>(object.get());
   if(player_) {
-    if(this->player != 0) {
+    if(player != 0) {
       log_warning << "Multiple players added. Ignoring" << std::endl;
       return false;
     }
-    this->player = player_;
+    player = player_;
   }
 
   auto effect_ = dynamic_cast<DisplayEffect*>(object.get());
   if(effect_) {
-    if(this->effect != 0) {
+    if(effect != 0) {
       log_warning << "Multiple DisplayEffects added. Ignoring" << std::endl;
       return false;
     }
-    this->effect = effect_;
+    effect = effect_;
   }
 
   if(_current == this) {
@@ -1372,7 +1372,7 @@ void
 Sector::set_gravity(float gravity_)
 {
   log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects" << std::endl;
-  this->gravity = gravity_;
+  gravity = gravity_;
 }
 
 float

@@ -95,7 +95,7 @@ public:
   }
 
   void set_offset(const Vector &offset_)
-  { this->offset = offset_; }
+  { offset = offset_; }
 
   /* Returns the position of the upper-left corner of
    * tile (x, y) in the sector. */
