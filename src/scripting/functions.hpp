@@ -107,6 +107,10 @@ void abort_screenfade();
 std::string translate(const std::string& text);
 std::string _(const std::string& text);
 
+std::string translate_plural(const std::string& text, const std::string&
+    text_plural, int num);
+std::string __(const std::string& text, const std::string& text_plural, int num);
+
 /**
  * Load a script file and executes it. This is typically used to import
  * functions from external files.
