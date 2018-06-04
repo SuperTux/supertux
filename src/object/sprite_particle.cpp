@@ -40,7 +40,7 @@ SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string
   sprite->set_action(action, 1);
   sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
 
-  this->position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
+  position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
 
   if(sprite_name=="images/objects/particles/sparkle.sprite") {
     glow = true;

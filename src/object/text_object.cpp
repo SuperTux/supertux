@@ -32,7 +32,7 @@ TextObject::TextObject(const std::string& name_) :
   anchor(ANCHOR_MIDDLE),
   pos(0, 0)
 {
-  this->name = name_;
+  name = name_;
 }
 
 TextObject::~TextObject()
@@ -57,34 +57,34 @@ TextObject::set_font(const std::string& name_)
 void
 TextObject::set_text(const std::string& text_)
 {
-  this->text = text_;
+  text = text_;
 }
 
 void
 TextObject::fade_in(float fadetime_)
 {
-  this->fadetime = fadetime_;
+  fadetime = fadetime_;
   fading = fadetime_;
 }
 
 void
 TextObject::fade_out(float fadetime_)
 {
-  this->fadetime = fadetime_;
+  fadetime = fadetime_;
   fading = -fadetime_;
 }
 
 void
 TextObject::set_visible(bool visible_)
 {
-  this->visible = visible_;
+  visible = visible_;
   fading = 0;
 }
 
 void
 TextObject::set_centered(bool centered_)
 {
-  this->centered = centered_;
+  centered = centered_;
 }
 
 void

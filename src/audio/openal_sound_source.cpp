@@ -90,12 +90,12 @@ OpenALSoundSource::pause()
 void
 OpenALSoundSource::resume()
 {
-  if( !this->paused() )
+  if( !paused() )
   {
     return;
   }
 
-  this->play();
+  play();
 }
 
 bool

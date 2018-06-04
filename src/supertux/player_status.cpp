@@ -195,7 +195,7 @@ PlayerStatus::draw(DrawingContext& context)
 
 std::string PlayerStatus::get_bonus_prefix() const
 {
-  switch (this->bonus) {
+  switch (bonus) {
   default:
   case NO_BONUS:
     return "small";

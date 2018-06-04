@@ -34,7 +34,7 @@ DisplayEffect::DisplayEffect(const std::string& name_) :
   black(false),
   borders(false)
 {
-  this->name = name_;
+  name = name_;
 }
 
 DisplayEffect::~DisplayEffect()
@@ -138,7 +138,7 @@ void
 DisplayEffect::fade_in(float fadetime)
 {
   black = false;
-  this->screen_fadetime = fadetime;
+  screen_fadetime = fadetime;
   screen_fading = fadetime;
   screen_fade = FADE_IN;
 }

@@ -76,7 +76,7 @@ Wind::get_settings() {
 void
 Wind::update(float elapsed_time_)
 {
-  this->elapsed_time = elapsed_time_;
+  elapsed_time = elapsed_time_;
 
   if (!blowing) return;
   if (bbox.get_width() <= 16 || bbox.get_height() <= 16) return;

@@ -56,7 +56,7 @@ void
 SkyDive::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   movement = pos - get_pos();
-  this->dir = dir_;
+  dir = dir_;
 
   is_grabbed = true;
 

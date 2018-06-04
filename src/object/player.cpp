@@ -174,7 +174,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   idle_stage(0),
   climbing(0)
 {
-  this->name = name_;
+  name = name_;
   idle_timer.start(IDLE_TIME[0]/1000.0f);
 
   SoundManager::current()->preload("sounds/bigjump.wav");
@@ -216,7 +216,7 @@ Player::set_speedlimit(float newlimit)
 void
 Player::set_controller(Controller* controller_)
 {
-  this->controller = controller_;
+  controller = controller_;
 }
 
 void
@@ -1135,7 +1135,7 @@ Player::set_bonus(BonusType type, bool animate)
 void
 Player::set_visible(bool visible_)
 {
-  this->visible = visible_;
+  visible = visible_;
   if( visible_ )
     set_group(COLGROUP_MOVING);
   else

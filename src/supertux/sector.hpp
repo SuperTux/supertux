@@ -105,7 +105,7 @@ public:
   void add_object(GameObjectPtr object);
 
   void set_name(const std::string& name_)
-  { this->name = name_; }
+  { name = name_; }
   const std::string& get_name() const
   { return name; }
 
@@ -171,7 +171,7 @@ public:
    * returns a list of players currently in the sector
    */
   std::vector<Player*> get_players() const {
-    return std::vector<Player*>(1, this->player);
+    return std::vector<Player*>(1, player);
   }
   Player* get_nearest_player (const Vector& pos) const;
   Player* get_nearest_player (const Rectf& pos) const

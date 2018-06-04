@@ -126,9 +126,9 @@ StreamSoundSource::update()
 void
 StreamSoundSource::set_fading(FadeState state, float fade_time_)
 {
-  this->fade_state = state;
-  this->fade_time = fade_time_;
-  this->fade_start_time = real_time;
+  fade_state = state;
+  fade_time = fade_time_;
+  fade_start_time = real_time;
 }
 
 bool

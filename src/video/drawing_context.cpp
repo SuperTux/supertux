@@ -560,7 +560,7 @@ DrawingContext::pop_target()
 void
 DrawingContext::set_target(Target target_)
 {
-  this->target = target_;
+  target = target_;
   if(target_ == LIGHTMAP) {
     requests = &lightmap_requests;
   } else {

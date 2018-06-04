@@ -58,7 +58,7 @@ Crystallo::active_update(float elapsed_time)
 bool
 Crystallo::collision_squished(GameObject& object)
 {
-  this->set_action(dir == LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
+  set_action(dir == LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
   kill_squished(object);
   return true;
 }

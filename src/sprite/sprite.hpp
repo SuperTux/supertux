@@ -97,8 +97,8 @@ public:
   /** Set current frame */
   void set_frame(int frame_)
   {
-    this->frame = 0;
-    this->frameidx = frame_ % get_frames();
+    frame = 0;
+    frameidx = frame_ % get_frames();
   }
   SurfacePtr get_frame(unsigned int frame_) const
   {

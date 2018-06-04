@@ -72,7 +72,7 @@ void
 TreeWillOWisp::start_sucking(const Vector& suck_target_)
 {
   mystate = STATE_SUCKED;
-  this->suck_target = suck_target_;
+  suck_target = suck_target_;
   was_sucked = true;
 }
 
@@ -149,7 +149,7 @@ TreeWillOWisp::active_update(float elapsed_time)
 void
 TreeWillOWisp::set_color(const Color& color_)
 {
-  this->color = color_;
+  color = color_;
   sprite->set_color(color_);
 }
 

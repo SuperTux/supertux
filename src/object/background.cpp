@@ -74,7 +74,7 @@ Background::Background(const ReaderMapping& reader) :
   float py = 0;
   has_pos_x = reader.get("x", px);
   has_pos_y = reader.get("y", py);
-  this->pos = Vector(px,py);
+  pos = Vector(px,py);
 
   speed = 1.0;
   speed_y = 1.0;
@@ -212,7 +212,7 @@ Background::update(float delta)
 void
 Background::set_image(const std::string& name_)
 {
-  this->imagefile = name_;
+  imagefile = name_;
   image = Surface::create(name_);
   imagefile = name_;
 }
@@ -220,7 +220,7 @@ Background::set_image(const std::string& name_)
 void
 Background::set_image(const std::string& name_, float speed_)
 {
-  this->speed = speed_;
+  speed = speed_;
   set_image(name_);
 }
 

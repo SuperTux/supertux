@@ -126,7 +126,7 @@ GameObject::save(Writer& writer) {
 
 ObjectSettings
 GameObject::get_settings() {
-  ObjectSettings result(this->get_display_name());
+  ObjectSettings result(get_display_name());
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
   return result;
 }

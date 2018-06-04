@@ -398,7 +398,7 @@ Editor::setup() {
       });
 
       dialog->add_button(_("Leave editor"), [this] {
-        this->quit_request = true;
+        quit_request = true;
       });
 
       MenuManager::instance().set_dialog(std::move(dialog));

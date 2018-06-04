@@ -77,10 +77,10 @@ MrBomb::collision_squished(GameObject& object)
 
     // Do not trigger dispenser because we need to wait for
     // the bomb instance to explode.
-    if(this->get_parent_dispenser() != NULL)
+    if(get_parent_dispenser() != NULL)
     {
-      bomb->set_parent_dispenser(this->get_parent_dispenser());
-      this->set_parent_dispenser(NULL);
+      bomb->set_parent_dispenser(get_parent_dispenser());
+      set_parent_dispenser(NULL);
     }
     remove_me();
     Sector::current()->add_object(bomb);
@@ -120,7 +120,7 @@ MrBomb::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   assert(frozen);
   movement = pos - get_pos();
-  this->dir = dir_;
+  dir = dir_;
   sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
   set_colgroup_active(COLGROUP_DISABLED);
   grabbed = true;
@@ -129,7 +129,7 @@ MrBomb::grab(MovingObject&, const Vector& pos, Direction dir_)
 void
 MrBomb::ungrab(MovingObject& , Direction dir_)
 {
-  this->dir = dir_;
+  dir = dir_;
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;
 }
