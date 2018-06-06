@@ -105,6 +105,16 @@ std::string _(const std::string& text)
   return translate(text);
 }
 
+std::string translate_plural(const std::string& text, const std::string& text_plural, int num)
+{
+  return g_dictionary_manager->get_dictionary().translate_plural(text, text_plural, num);
+}
+
+std::string __(const std::string& text, const std::string& text_plural, int num)
+{
+  return translate_plural(text, text_plural, num);
+}
+
 void display_text_file(const std::string& filename)
 {
   ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScroller(filename)));

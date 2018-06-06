@@ -80,10 +80,6 @@ Block::Block(const ReaderMapping& lisp, const std::string& sprite_file) :
   SoundManager::current()->preload("sounds/brick.wav");
 }
 
-Block::~Block()
-{
-}
-
 HitResponse
 Block::collision(GameObject& other, const CollisionHit& )
 {

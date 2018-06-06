@@ -29,7 +29,6 @@ class SpriteData
 public:
   /** cur has to be a pointer to data in the form of ((hitbox 5 10 0 0) ...) */
   SpriteData(const ReaderMapping& cur, const std::string& basedir);
-  ~SpriteData();
 
   const std::string& get_name() const
   {
@@ -42,7 +41,6 @@ private:
   struct Action
   {
     Action();
-    ~Action();
 
     std::string name;
 

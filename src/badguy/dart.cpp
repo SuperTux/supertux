@@ -51,10 +51,6 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = 0) :
   SoundManager::current()->preload("sounds/stomp.wav");
 }
 
-Dart::~Dart()
-{
-}
-
 bool
 Dart::updatePointers(const GameObject* from_object, GameObject* to_object)
 {

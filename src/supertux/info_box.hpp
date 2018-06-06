@@ -32,7 +32,6 @@ class InfoBox
 {
 public:
   InfoBox(const std::string& text);
-  ~InfoBox();
 
   void draw(DrawingContext& context);
   void scrolldown();

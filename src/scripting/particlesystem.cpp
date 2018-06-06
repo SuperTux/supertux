@@ -25,10 +25,6 @@ ParticleSystem::ParticleSystem(::ParticleSystem* parent) :
 {
 }
 
-ParticleSystem::~ParticleSystem()
-{
-}
-
 void ParticleSystem::set_enabled(bool enable)
 {
   particlesystem->set_enabled(enable);

@@ -35,7 +35,6 @@ private:
 
 public:
   GameManager();
-  ~GameManager();
 
   void start_worldmap(std::unique_ptr<World> world, const std::string& spawnpoint = "", const std::string& worldmap_filename = "");
   void start_worldmap(World* world, const std::string& spawnpoint = "", const std::string& worldmap_filename = "");

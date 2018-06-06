@@ -32,7 +32,6 @@ private:
 
 public:
   Gradient(::Gradient* parent);
-  ~Gradient();
 
 private:
   Gradient(const Gradient&) = delete;

@@ -25,10 +25,6 @@ Thunderstorm::Thunderstorm(::Thunderstorm* thunderstorm_)
 {
 }
 
-Thunderstorm::~Thunderstorm()
-{
-}
-
 void Thunderstorm::start()
 {
   thunderstorm->start();

@@ -50,10 +50,6 @@ Sprite::Sprite(const Sprite& other) :
 {
 }
 
-Sprite::~Sprite()
-{
-}
-
 SpritePtr
 Sprite::clone() const
 {

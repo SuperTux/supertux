@@ -27,10 +27,6 @@ Sector::Sector(::Sector* parent) :
 {
 }
 
-Sector::~Sector()
-{
-}
-
 void
 Sector::fade_to_ambient_light(float red, float green, float blue, float fadetime)
 {

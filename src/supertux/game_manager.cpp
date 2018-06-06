@@ -43,10 +43,6 @@ GameManager::GameManager() :
 {
 }
 
-GameManager::~GameManager()
-{
-}
-
 void
 GameManager::run_level(World* world, const std::string& level_filename)
 {

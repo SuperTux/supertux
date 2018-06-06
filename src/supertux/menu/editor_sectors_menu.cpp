@@ -16,19 +16,13 @@
 
 #include "supertux/menu/editor_sectors_menu.hpp"
 
-#include <sstream>
-
-#include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/game_manager.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/sector_parser.hpp"
-#include "util/file_system.hpp"
 #include "util/gettext.hpp"
 
 EditorSectorsMenu::EditorSectorsMenu()

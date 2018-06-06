@@ -28,7 +28,6 @@ protected:
 
 public:
   IFileStream(const std::string& filename);
-  ~IFileStream();
 
 private:
   IFileStream(const IFileStream&) = delete;

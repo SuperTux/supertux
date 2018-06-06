@@ -26,7 +26,6 @@ class Timer
 {
 public:
   Timer();
-  ~Timer();
 
   /** start the timer with the given period (in seconds).
    * If cyclic=true then the timer will be reset after each period.

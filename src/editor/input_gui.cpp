@@ -14,31 +14,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <vector>
-
 #include "editor/input_gui.hpp"
 
 #include "editor/editor.hpp"
-#include "editor/object_group.hpp"
 #include "editor/object_input.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/console.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/level.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/tile.hpp"
-#include "supertux/tile_manager.hpp"
 #include "util/gettext.hpp"
-#include "util/log.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
@@ -67,10 +57,6 @@ EditorInputGui::EditorInputGui() :
   select_mode->push_mode  ("images/engine/editor/select-mode2.png");
   move_mode->push_mode    ("images/engine/editor/move-mode1.png");
   //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
-}
-
-EditorInputGui::~EditorInputGui() {
-
 }
 
 void
@@ -117,7 +103,7 @@ EditorInputGui::draw_tilegroup(DrawingContext& context) {
         continue;
       }
       auto position = get_tile_coords(pos - starting_tile);
-      Editor::current()->tileset->draw_tile(context, tile_ID, position, LAYER_GUI-9);
+      Editor::current()->get_tileset()->draw_tile(context, tile_ID, position, LAYER_GUI-9);
       
       if (g_config->developer_mode && active_tilegroup->developers_group)
       {
@@ -128,7 +114,7 @@ EditorInputGui::draw_tilegroup(DrawingContext& context) {
       /*if (tile_ID == 0) {
         continue;
       }
-      const Tile* tg_tile = Editor::current()->tileset->get(tile_ID);
+      const Tile* tg_tile = Editor::current()->get_tileset()->get(tile_ID);
       tg_tile->draw(context, get_tile_coords(pos - starting_tile), LAYER_GUI-9);*/
     }
   }
@@ -254,14 +240,14 @@ EditorInputGui::event(SDL_Event& ev) {
           case HI_TILEGROUP:
           {
             auto editor = Editor::current();
-            if(editor->tileset->tilegroups.size() > 1)
+            if(editor->get_tileset()->tilegroups.size() > 1)
             {
               Editor::current()->disable_keyboard();
               MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
             }
             else
             {
-              active_tilegroup.reset(new Tilegroup(editor->tileset->tilegroups[0]));
+              active_tilegroup.reset(new Tilegroup(editor->get_tileset()->tilegroups[0]));
               input_type = EditorInputGui::IP_TILE;
               reset_pos();
               update_mouse_icon();

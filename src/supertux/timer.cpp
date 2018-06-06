@@ -25,10 +25,6 @@ cycle_start(0),
 {
 }
 
-Timer::~Timer()
-{
-}
-
 void
 Timer::start(float period_, bool cyclic_)
 {

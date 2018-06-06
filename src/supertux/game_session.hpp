@@ -45,7 +45,6 @@ class GameSession : public Screen,
 {
 public:
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = NULL);
-  ~GameSession();
 
   void draw(DrawingContext& context) override;
   void update(float frame_ratio) override;

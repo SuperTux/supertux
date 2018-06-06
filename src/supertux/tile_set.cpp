@@ -31,10 +31,6 @@ Tilegroup::Tilegroup() :
   tiles.clear();
 }
 
-Tilegroup::~Tilegroup() {
-
-}
-
 /*
   tiles(),
   tiles_loaded(false),
@@ -95,10 +91,6 @@ TileSet::TileSet(const std::string& filename) :
       }
     }
   }
-}
-
-TileSet::~TileSet()
-{
 }
 
 void

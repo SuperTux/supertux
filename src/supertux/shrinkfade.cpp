@@ -26,10 +26,6 @@ ShrinkFade::ShrinkFade(const Vector& dest_, float fade_time_) :
 {
 }
 
-ShrinkFade::~ShrinkFade()
-{
-}
-
 void
 ShrinkFade::update(float elapsed_time)
 {

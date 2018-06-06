@@ -21,8 +21,6 @@
 #include <vector>
 
 #include "gui/menu_action.hpp"
-#include "util/gettext.hpp"
-#include "video/color.hpp"
 
 // ObjectOption bitfield flags
 enum ObjectOptionFlags {
@@ -35,7 +33,6 @@ class ObjectOption
   public:
     ObjectOption(MenuItemKind ip_type, const std::string& text_, void* ip,
                  const std::string& key_ = std::string(), int flags_ = (OPTION_ALLOW_EMPTY | OPTION_VISIBLE));
-    ~ObjectOption();
 
     MenuItemKind type;
     std::string text;

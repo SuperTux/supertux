@@ -25,9 +25,6 @@ Wind::Wind(::Wind* wind_)
   : wind(wind_)
 { }
 
-Wind::~Wind()
-{ }
-
 void Wind::start()
 {
   wind->start();

@@ -17,13 +17,11 @@
 #ifndef HEADER_SUPERTUX_EDITOR_INPUT_CENTER_HPP
 #define HEADER_SUPERTUX_EDITOR_INPUT_CENTER_HPP
 
-#include <stdexcept>
-
 #include "control/input_manager.hpp"
 #include "math/vector.hpp"
-#include "supertux/screen.hpp"
 
 class Color;
+class DrawingContext;
 class GameObject;
 class MovingObject;
 class NodeMarker;
@@ -35,7 +33,6 @@ class EditorInputCenter
 {
   public:
     EditorInputCenter();
-    ~EditorInputCenter();
 
     void event(SDL_Event& ev);
     void draw(DrawingContext&);
