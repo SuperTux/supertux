@@ -39,7 +39,7 @@ EditorTilegroupMenu::EditorTilegroupMenu()
 
   int id = 0;
   for(auto& tg : Editor::current()->tileset->tilegroups) {
-    add_entry(id, tg.name);
+    add_entry(id, _(tg.name));
     id++;
   }
 

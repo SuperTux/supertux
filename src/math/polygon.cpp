@@ -8,7 +8,7 @@ void Polygon::add_vertice(Vector v)
   {
     edges.push_back(v-vertices[vertices.size()-2]);
     // Add a normal for this edge
-    normals.push_back(edges[edges.size()-1].perp());
+    normals.push_back(edges[edges.size()-1].perp().unit());
   }
 
 }
@@ -16,33 +16,28 @@ void Polygon::add_vertice(Vector v)
 void Polygon::process_neighbor(Polygon& b)
 {
   // Loop over all edges (and vertices in order to find 'wrong' edges)
-  for(size_t i = 0;i < vertices.size()-1; i++)
+  for(size_t i = 0;i < vertices.size(); i++)
   {
     auto& v = vertices[i];
-    auto& v2 = vertices[i+1];
+    auto& v2 = vertices[(i+1)%vertices.size()];
     for(size_t j = 0; j < b.vertices.size(); j++)
     {
       auto& w = b.vertices[j];
-      if(std::abs(v.x-w.x)+std::abs(v.y-w.y) <= 10)
+      if(std::abs(v.x-w.x)+std::abs(v.y-w.y) <= 2)
       {
         bool ok = false;
         if(j > 0)
         {
           auto& t = b.vertices[j-1];
-          log_debug << "abs is " << std::abs(v2.x-t.x)+std::abs(v2.y-t.y) << std::endl;
-          ok |= std::abs(v2.x-t.x)+std::abs(v2.y-t.y) <= 10;
+          ok |= std::abs(v2.x-t.x)+std::abs(v2.y-t.y) <= 2;
         }
-        if(j != b.vertices.size()-1)
-        {
-          auto& t = b.vertices[j+1];
-          log_debug << "abs is " << std::abs(v2.x-t.x)+std::abs(v2.y-t.y) << std::endl;
-          ok |= (std::abs(v2.x-t.x)+std::abs(v2.y-t.y)) <= 10;
-        }
-        log_debug << "Try" << std::endl;
+        auto& t = b.vertices[(i+1)%vertices.size()];
+        ok |= (std::abs(v2.x-t.x)+std::abs(v2.y-t.y)) <= 2;
         if(ok)
         {
-          log_debug << "Disabled" << std::endl;
-          normal_enabled[i] = false;
+          log_debug << v.x << " " << v.y << " ; " << v2.x << " " << v2.y << std::endl;
+          log_debug << "Disabled " << normals[i].x << " " << normals[i].y << std::endl;
+          disabled_normals.push_back(normals[i]);
         }
       }
     }
@@ -68,10 +63,28 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
     double overlap;
     if((overlap = is_seperating_axis(b, normals[i])) == 0.0f)
       return;
-    if((std::abs(overlap) < std::abs(minOverlap) || minOverlap == d_inf) && normal_enabled[i])
+    if((std::abs(overlap) < std::abs(minOverlap) || minOverlap == d_inf))
     {
+      bool ok = true;
+      for(const auto& disabled_normal : disabled_normals)
+      {
+        if(normals[i].is_colinear(disabled_normal))
+        {
+          ok = false;
+        }
+      }
+      for(const auto& disabled_normal : b.disabled_normals)
+      {
+        if(normals[i].is_colinear(disabled_normal))
+        {
+          ok = false;
+        }
+      }
+      if(!ok)
+        continue;
       minAxis = normals[i];
       minOverlap = overlap;
+
     }
   }
   // Check if any of b's axes seperates
@@ -83,8 +96,28 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
     {
         return;
     }
-    if(std::abs(overlap) < std::abs(minOverlap) && b.normal_enabled[i])
+    if(std::abs(overlap) < std::abs(minOverlap))
     {
+      bool ok = true;
+      for(const auto& disabled_normal : disabled_normals)
+      {
+        if(b.normals[i].is_colinear(disabled_normal))
+        {
+          ok = false;
+          break;
+        }
+      }
+      for(const auto& disabled_normal : b.disabled_normals)
+      {
+        if(b.normals[i].is_colinear(disabled_normal))
+        {
+          ok = false;
+          break;
+        }
+      }
+      if(!ok)
+        continue;
+
       minAxis = b.normals[i];
       minOverlap = overlap;
     }
@@ -130,17 +163,7 @@ Vector Polygon::project(Vector axis)
 
 void Polygon::disable_normal(const Vector& n)
 {
-  for(int i = 0;i<normals.size();i++)
-  {
-    if(!normal_enabled[i])
-    {
-      // Check if they are colinear
-      if(normals[i].is_colinear(n))
-      {
-        normal_enabled[i] = false;
-      }
-    }
-  }
+  disabled_normals.push_back(n);
 }
 void Polygon::debug()
 {
@@ -154,7 +177,4 @@ void Polygon::setup()
 {
   edges.push_back(vertices[vertices.size()-1]-vertices[0]);
   normals.push_back(edges[edges.size()-1].perp());
-  normal_enabled.resize( normals.size() );
-  for(int i = 0;i < normals.size();i++)
-    normal_enabled[i] = true;
 }

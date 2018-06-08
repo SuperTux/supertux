@@ -713,6 +713,8 @@ Sector::collision_tilemap(collision::Constraints* constraints,
           const auto& nb = solids->get_tile(x+offset[0], y+offset[1]);
           if(!nb->is_solid())
             continue;
+
+          log_debug << x << " " << y << " " << x+offset[0] << " " << y+offset[1] << std::endl;
           Rectf nb_bbox = solids->get_tile_bbox(x+offset[0], y+offset[1]);
           Polygon npoly = tile->tile_to_poly(nb_bbox);
           tile_poly.process_neighbor(npoly);
@@ -729,8 +731,6 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         // Check if they overlap
         std::swap(h.top, h.bottom);
         std::swap(h.right, h.left);
-        m.normal = overlapV;
-        m.depth = 1;
         if(h.bottom || h.top || h.left || h.right)
         {
           // Do not resolve, instead push into list
