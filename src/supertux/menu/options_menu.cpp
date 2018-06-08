@@ -20,6 +20,7 @@
 #include "audio/sound_manager.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/game_session.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"
 #include "supertux/menu/language_menu.hpp"
@@ -278,6 +279,10 @@ OptionsMenu::menu_action(MenuItem* item)
       }
       VideoSystem::current()->get_renderer().apply_config();
       MenuManager::instance().on_window_resize();
+      if(GameSession::current() != NULL)
+      {
+        GameSession::current()->on_window_resize();
+      }
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:
