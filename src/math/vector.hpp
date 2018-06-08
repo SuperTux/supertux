@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_MATH_VECTOR_HPP
 #define HEADER_SUPERTUX_MATH_VECTOR_HPP
 #include <cmath>
+#include "util/log.hpp"
 /** Simple two dimensional vector. */
 class Vector
 {
@@ -117,11 +118,19 @@ public:
 
   bool is_colinear(const Vector& other) const
   {
-    double angle = acos((this->x*other.x+this->y+other.y)/(this->norm()*other.norm()));
-    // Use a threshold of .0002 for numerical inprecision
-    if(angle <= .0002)
-      return true;
-    return false;
+    if(other.x == 0 && x != 0)
+      return false;
+    if(y == 0 && other.y != 0)
+      return false;
+    double val = 0;
+    if(other.x != 0)
+      val = other.x/x;
+    else 
+      val = other.y/y;
+    Vector v = Vector(val*x, val*y);
+    double abstand = abs(v.x-other.x)+abs(v.y-other.y);
+    return abstand <= 0.002;
+  
   }
   /// Returns a vector perpendicular to this vector
   Vector perp() const

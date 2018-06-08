@@ -13,9 +13,14 @@ void Polygon::add_vertice(Vector v)
 
 }
 
+double vector_gap(Vector& a, Vector& b){
+  return std::abs(a.x-b.x)+std::abs(a.y-b.y);
+}
+
 void Polygon::process_neighbor(Polygon& b)
 {
   // Loop over all edges (and vertices in order to find 'wrong' edges)
+  const int margin = 4;
   for(size_t i = 0;i < vertices.size(); i++)
   {
     auto& v = vertices[i];
@@ -23,25 +28,17 @@ void Polygon::process_neighbor(Polygon& b)
     for(size_t j = 0; j < b.vertices.size(); j++)
     {
       auto& w = b.vertices[j];
-      if(std::abs(v.x-w.x)+std::abs(v.y-w.y) <= 2)
-      {
-        bool ok = false;
-        if(j > 0)
-        {
-          auto& t = b.vertices[j-1];
-          ok |= std::abs(v2.x-t.x)+std::abs(v2.y-t.y) <= 2;
-        }
-        auto& t = b.vertices[(i+1)%vertices.size()];
-        ok |= (std::abs(v2.x-t.x)+std::abs(v2.y-t.y)) <= 2;
-        if(ok)
-        {
-          log_debug << v.x << " " << v.y << " ; " << v2.x << " " << v2.y << std::endl;
-          log_debug << "Disabled " << normals[i].x << " " << normals[i].y << std::endl;
-          disabled_normals.push_back(normals[i]);
-        }
+      auto& w2 = b.vertices[(j+1)%b.vertices.size()];
+      double d1 = vector_gap(w,v);
+      double d2 = vector_gap(w2,v2);
+      if(d1 <= margin && d2 <= margin)
+        disabled_normals[i] = true;
+      double d3 = vector_gap(w,v2);
+      double d4 = vector_gap(v,w2);
+      if(d3 <= margin && d4 <= margin)
+        disabled_normals[i] = true;
       }
-    }
-  }
+  }    
 }
 
 void Polygon::process_octile_neighbour(int dir, Polygon& b)
@@ -61,27 +58,25 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
   {
     auto axis = edges[i];
     double overlap;
+    if(disabled_normals[i])
+      continue;
     if((overlap = is_seperating_axis(b, normals[i])) == 0.0f)
-      return;
+      return;      
     if((std::abs(overlap) < std::abs(minOverlap) || minOverlap == d_inf))
     {
-      bool ok = true;
-      for(const auto& disabled_normal : disabled_normals)
+      bool seen_similiar = false;
+      bool all_disabled  = false;
+      for(size_t j = 0;j<b.normals.size();j++)
       {
-        if(normals[i].is_colinear(disabled_normal))
+        if(b.normals[j].is_colinear(normals[i]))
         {
-          ok = false;
+          seen_similiar = true;
+          all_disabled |= b.disabled_normals[j];
         }
       }
-      for(const auto& disabled_normal : b.disabled_normals)
-      {
-        if(normals[i].is_colinear(disabled_normal))
-        {
-          ok = false;
-        }
-      }
-      if(!ok)
+      if(seen_similiar && all_disabled)
         continue;
+
       minAxis = normals[i];
       minOverlap = overlap;
 
@@ -92,32 +87,26 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
   {
     auto axis = b.edges[i];
     double overlap;
+    if(b.disabled_normals[i])
+      continue;
     if((overlap = is_seperating_axis(b, b.normals[i])) == 0.0f)
     {
         return;
     }
     if(std::abs(overlap) < std::abs(minOverlap))
     {
-      bool ok = true;
-      for(const auto& disabled_normal : disabled_normals)
+      bool seen_similiar = false;
+      bool all_disabled  = false;
+      for(size_t j = 0;j<normals.size();j++)
       {
-        if(b.normals[i].is_colinear(disabled_normal))
+        if(normals[j].is_colinear(b.normals[i]))
         {
-          ok = false;
-          break;
+          seen_similiar = true;
+          all_disabled |= disabled_normals[j];
         }
       }
-      for(const auto& disabled_normal : b.disabled_normals)
-      {
-        if(b.normals[i].is_colinear(disabled_normal))
-        {
-          ok = false;
-          break;
-        }
-      }
-      if(!ok)
+      if(seen_similiar && all_disabled)
         continue;
-
       minAxis = b.normals[i];
       minOverlap = overlap;
     }
@@ -127,7 +116,7 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
   // To resolve the collison use overlap as depth
   // and the axis normal as normal
   m.normal = minAxis.unit();
-  log_debug << "Axis is " << m.normal.x << " " << m.normal.y << " " << m.depth << std::endl;
+  log_debug << "Normal is " << m.normal.x << " " << m.normal.y << " " << m.depth << std::endl;
   m.depth = minOverlap;
   // TODO Ignore ignormals
 
@@ -145,7 +134,6 @@ double Polygon::is_seperating_axis(Polygon& b,const Vector& axis)
   if(aRight < aLeft)
     return aRight;
   return -aLeft;
-  //return std::min(a_proj.y, b_proj.y)-std::max(a_proj.x, b_proj.x);
 }
 
 Vector Polygon::project(Vector axis)
@@ -163,7 +151,7 @@ Vector Polygon::project(Vector axis)
 
 void Polygon::disable_normal(const Vector& n)
 {
-  disabled_normals.push_back(n);
+  //disabled_normals.push_back(n);
 }
 void Polygon::debug()
 {
@@ -175,6 +163,7 @@ void Polygon::debug()
 }
 void Polygon::setup()
 {
-  edges.push_back(vertices[vertices.size()-1]-vertices[0]);
+  edges.push_back(vertices[0]-vertices[vertices.size()-1]);
   normals.push_back(edges[edges.size()-1].perp());
+  disabled_normals.resize(normals.size(),false);
 }

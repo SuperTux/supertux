@@ -60,6 +60,6 @@ class Polygon {
     std::vector< Vector > edges;
     std::vector< Vector > normals; /** Edge normals */
 
-    std::vector< Vector > disabled_normals; /** Saves for every normal a flag indicating wether it is enabled. */
+    std::vector< bool > disabled_normals; /** Saves for every normal a flag indicating wether it is enabled. */
 };
 #endif

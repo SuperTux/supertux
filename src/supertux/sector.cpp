@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <math.h>
 #include <vector>
+#include <cmath>
 
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -708,6 +709,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         Polygon mobjp = dest.to_polygon();
         Polygon tile_poly = tile->tile_to_poly(tile_bbox);
         int dir[4][2] = {{1,0},{-1,0},{0,1},{0,-1}};
+        log_debug << "*** PROCESSING" << std::endl;
         for(const auto& offset : dir)
         {
           const auto& nb = solids->get_tile(x+offset[0], y+offset[1]);
@@ -724,10 +726,14 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         //log_debug << "Created a collision polygon" << std::endl;
         log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
         overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
-        h.right = overlapV.x > 0;
-        h.left =  overlapV.x < 0;
-        h.bottom = overlapV.y > 0;
-        h.top    = overlapV.y < 0;
+        if(std::max(std::abs(overlapV.x),std::abs(overlapV.y)) == std::abs(overlapV.x))
+        {
+          h.right = overlapV.x > 0;
+          h.left =  overlapV.x < 0;
+        }else{  
+          h.bottom = overlapV.y > 0;
+          h.top    = overlapV.y < 0;
+        }  
         // Check if they overlap
         std::swap(h.top, h.bottom);
         std::swap(h.right, h.left);
