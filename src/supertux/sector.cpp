@@ -711,22 +711,19 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         Polygon mobjp = dest.to_polygon();
         Polygon tile_poly = tile->tile_to_poly(tile_bbox);
         int dir[4][2] = {{1,0},{-1,0},{0,1},{0,-1}};
-        log_debug << "*** PROCESSING" << std::endl;
         for(const auto& offset : dir)
         {
           const auto& nb = solids->get_tile(x+offset[0], y+offset[1]);
           if(!nb->is_solid())
             continue;
 
-          log_debug << x << " " << y << " " << x+offset[0] << " " << y+offset[1] << std::endl;
           Rectf nb_bbox = solids->get_tile_bbox(x+offset[0], y+offset[1]);
           Polygon npoly = tile->tile_to_poly(nb_bbox);
           tile_poly.process_neighbor(npoly);
         }
         Manifold m;
         mobjp.handle_collision(tile_poly,m);
-        //log_debug << "Created a collision polygon" << std::endl;
-        log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
+        //log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
         overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
         if(std::max(std::abs(overlapV.x),std::abs(overlapV.y)) == std::abs(overlapV.x))
         {
@@ -849,6 +846,7 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
     std::swap(hit.left, hit.right);
     std::swap(hit.top, hit.bottom);
     HitResponse response2 = object2->collision(*object1, hit);
+    
     if(response1 == CONTINUE && response2 == CONTINUE) {
       normal *= (0.5 + DELTA);
       object1->dest.move(-normal);
@@ -888,8 +886,8 @@ Sector::collision_static(collision::Constraints* constraints,
       Polygon tile_poly = moving_object->get_bbox().to_polygon();
       Manifold m;
       mobjp.handle_collision(tile_poly,m);
-      log_debug << "Created a collision polygon" << std::endl;
-      log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
+      //log_debug << "Created a collision polygon" << std::endl;
+      //log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
       // Check if they overlap
       Vector overlapV(0,0);
       CollisionHit h;
@@ -903,7 +901,16 @@ Sector::collision_static(collision::Constraints* constraints,
       m.depth = 1;
       object.collision_solid(h);
       contacts.push_back(m);
-
+      if(platforms.count(moving_object) && object.parent != moving_object)
+      {
+        object.parent =moving_object;
+        object.dest.move(moving_object->get_movement());
+      }
+      if(moving_object->parent != NULL)
+      {
+        object.parent = moving_object->parent;
+        object.dest.move(moving_object->get_movement());
+      }
     }
   }
   for(const auto& m : contacts)
@@ -961,41 +968,19 @@ Sector::handle_collisions()
   // part 0: Handle moving objects 
   spatial_hashing broadphase(get_width(), get_height());
   // Get a list of all objects which move 
-  std::vector< MovingObject* > platforms;
-  // Create a map for all additional movement 
-  std::map< MovingObject* , Vector > additional_movement;
-  // Compute island of movement for each 
-  for(const auto& platform : platforms)
+  platforms.clear();
+  for(const auto& moving_object : moving_objects)
   {
-    // 
-    std::set< MovingObject* > movement_island;
-    movement_island.insert(platform);
-    bool changed = true;
-    while(changed)
+    if(moving_object->parent != NULL)
     {
-      changed = false;
-      std::set<MovingObject*> addition;
-      for(const auto& plf_hull : movement_island)
-        for(const auto& moving_object : moving_objects) {
-          // Check if object moving_object collides with plf_hull 
-          
-          // Check that hit.top is true
-          // If collision occured put into addition 
-          
-        }
-      if(!addition.empty())
-      {
-        changed = true;
-        // Add onto island
-      }  
+      moving_object->dest.move(moving_object->parent->get_movement());
     }
-    // Last step: Add movement into additional_movement 
-    for(const auto& mobj : movement_island)
-    {
-        
-    }
+    // Check for correct collision group and actual movement in last frame
+    if(moving_object->get_group() == COLGROUP_STATIC && moving_object->get_movement() != Vector(0,0))
+      platforms.insert(moving_object);
   }
-  // Let's move the objects by additional movement 
+    
+
   
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
   for(const auto& moving_object : moving_objects) {
@@ -1054,6 +1039,7 @@ Sector::handle_collisions()
 
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
+        
         //broadphase.insert(moving_object->dest, moving_object);
         //broadphase.insert(moving_object_2->dest, moving_object_2);
 
@@ -1086,11 +1072,13 @@ Sector::handle_collisions()
       //broadphase.insert(moving_object_2->dest, moving_object_2);
     }
   }
+
   broadphase.clear();
   // apply object movement
   for(const auto& moving_object : moving_objects) {
     moving_object->bbox = moving_object->dest;
     moving_object->movement = Vector(0, 0);
+    moving_object->parent   = NULL;
   }
 }
 

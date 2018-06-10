@@ -2,22 +2,28 @@
 #include "math/rectf.hpp"
 #include "util/log.hpp"
 #include <iostream>
+#include <cmath>
 spatial_hashing::spatial_hashing(int width, int height, int gridx, int gridy)
 {
   this->gridx = gridx;
   this->gridy = gridy;
-  int rows = width / gridx + 1;
-  int cols = height / gridy + 1;
+  this->rows = width / gridx +1;
+  this->cols = height / gridy +1;
+  this->width = width;
+  this->height = height;
   // Set up the vector 
-  grid.resize(rows);
+  grid.resize(rows+10);
   for(int i = 0;i<rows;i++)
-    grid[i].resize(cols);
+    grid[i].resize(cols+10);
   // Initial grid is set up.
 }
 
 void spatial_hashing::insert(Rectf aabb,MovingObject* obj)
 {
   if(obj == NULL)
+    return;
+  // Check if object si out of bounds 
+  if(aabb.p1.x < 0 || aabb.p1.y < 0 || aabb.p2.x > width || aabb.p2.y > height)
     return;
   // If object is already inserted, check if coordinates changed 
   if(current_stored.count(obj))
@@ -31,16 +37,16 @@ void spatial_hashing::insert(Rectf aabb,MovingObject* obj)
   }
   // Get coordinates for top and bottom of AABB
   int startx, starty, endx, endy;
-  startx = aabb.p1.x / gridx;
-  starty = aabb.p1.y / gridy;
-  endx   = aabb.p2.x / gridx;
-  endy   = aabb.p2.y / gridy;
-  log_debug << startx << " " << starty << " " << endx << " " << endy << " " << grid.size() << " " << grid[0].size() << std::endl;
+  startx = std::max<int>(0, aabb.p1.x / gridx);
+  starty = std::max<int>(0, aabb.p1.y / gridy);
+  endx   = std::min<int>(rows, aabb.p2.x / gridx);
+  endy   = std::min<int>(cols, aabb.p2.y / gridy);
+  //log_debug << startx << " " << starty << " " << endx << " " << endy << " " << grid.size() << " " << grid[0].size() << std::endl;
   for(int xcoord = startx ; xcoord <= endx ; xcoord++)
   {
     for(int ycoord = starty ; ycoord <= endy ; ycoord++)
     {
-      log_debug << "Inserting into "<< xcoord << " " << ycoord << " " << grid.size() << " " << grid[0].size() << std::endl;
+    //  log_debug << "Inserting into "<< xcoord << " " << ycoord << " " << grid.size() << " " << grid[0].size() << std::endl;
       grid[xcoord][ycoord].insert(obj);
     }
   }
@@ -50,6 +56,9 @@ void spatial_hashing::insert(Rectf aabb,MovingObject* obj)
 
 void spatial_hashing::search(Rectf r, std::function<void()> collision_ok, std::set< MovingObject* >& fill)
 {
+  if(r.p1.x < 0 || r.p1.y < 0 || r.p2.x > width || r.p2.y > height)
+    return;
+
   int startx, starty, endx, endy;
   startx = r.p1.x / gridx;
   starty = r.p1.y / gridy;

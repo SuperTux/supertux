@@ -20,6 +20,11 @@ public:
 private:
   int gridx;  // Width of grid cells 
   int gridy;  // Height of grid objects
+  int rows;
+  int cols;
+  
+  int width;
+  int height;
   std::vector< std::vector< std::set<MovingObject*> > > grid;  
   std::map< MovingObject*, Rectf > current_stored;
 };

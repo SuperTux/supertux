@@ -20,6 +20,7 @@
 #include <list>
 #include <squirrel.h>
 #include <stdint.h>
+#include <set>
 
 #include "supertux/direction.hpp"
 #include "supertux/game_object_ptr.hpp"
@@ -292,6 +293,8 @@ private:
   std::string name;
 
   std::vector<Bullet*> bullets;
+  
+  std::set<MovingObject*> platforms;
 
   std::string init_script;
 

@@ -183,7 +183,7 @@ protected:
 
   /** The collision group */
   CollisionGroup group;
-
+  MovingObject* parent = NULL;
 private:
   /** this is only here for internal collision detection use (don't touch this
       from outside collision detection code)

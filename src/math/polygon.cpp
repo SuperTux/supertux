@@ -116,9 +116,8 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
   // To resolve the collison use overlap as depth
   // and the axis normal as normal
   m.normal = minAxis.unit();
-  log_debug << "Normal is " << m.normal.x << " " << m.normal.y << " " << m.depth << std::endl;
+  //log_debug << "Normal is " << m.normal.x << " " << m.normal.y << " " << m.depth << std::endl;
   m.depth = minOverlap;
-  // TODO Ignore ignormals
 
 }
 
