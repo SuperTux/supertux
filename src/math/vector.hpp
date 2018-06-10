@@ -115,7 +115,7 @@ public:
   {
     return Vector(int(x), int(y));
   }
-
+  /// Checks if two vectors are colinear (i.e returns true iff \exists k \in \mathbb R : k*other = this)
   bool is_colinear(const Vector& other) const
   {
     if(other.x == 0 && x != 0)
@@ -129,6 +129,7 @@ public:
       val = other.y/y;
     Vector v = Vector(val*x, val*y);
     double abstand = abs(v.x-other.x)+abs(v.y-other.y);
+    // Allow for floating point errors
     return abstand <= 0.002;
   
   }

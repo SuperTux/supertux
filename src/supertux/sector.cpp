@@ -29,6 +29,8 @@
 #include "badguy/jumpy.hpp"
 #include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
+#include "math/broadphase.hpp"
+#include "math/spatial_hashing.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
@@ -728,9 +730,13 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
         if(std::max(std::abs(overlapV.x),std::abs(overlapV.y)) == std::abs(overlapV.x))
         {
+          if(std::abs(overlapV.x) < 0.002)
+            continue;
           h.right = overlapV.x > 0;
           h.left =  overlapV.x < 0;
         }else{  
+          if(std::abs(overlapV.y) < 0.002)
+            continue;
           h.bottom = overlapV.y > 0;
           h.top    = overlapV.y < 0;
         }  
@@ -952,7 +958,45 @@ Sector::handle_collisions()
     moving_object->dest = moving_object->get_bbox();
     moving_object->dest.move(moving_object->get_movement());
   }
-
+  // part 0: Handle moving objects 
+  spatial_hashing broadphase(get_width(), get_height());
+  // Get a list of all objects which move 
+  std::vector< MovingObject* > platforms;
+  // Create a map for all additional movement 
+  std::map< MovingObject* , Vector > additional_movement;
+  // Compute island of movement for each 
+  for(const auto& platform : platforms)
+  {
+    // 
+    std::set< MovingObject* > movement_island;
+    movement_island.insert(platform);
+    bool changed = true;
+    while(changed)
+    {
+      changed = false;
+      std::set<MovingObject*> addition;
+      for(const auto& plf_hull : movement_island)
+        for(const auto& moving_object : moving_objects) {
+          // Check if object moving_object collides with plf_hull 
+          
+          // Check that hit.top is true
+          // If collision occured put into addition 
+          
+        }
+      if(!addition.empty())
+      {
+        changed = true;
+        // Add onto island
+      }  
+    }
+    // Last step: Add movement into additional_movement 
+    for(const auto& mobj : movement_island)
+    {
+        
+    }
+  }
+  // Let's move the objects by additional movement 
+  
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
   for(const auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING
@@ -976,6 +1020,11 @@ Sector::handle_collisions()
       moving_object->collision_tile(tile_attributes);
     }
   }
+  // Fill the broadphase datastructure 
+  for(const auto& obj : moving_objects)
+  {
+    broadphase.insert(obj->dest, obj);
+  }
 
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
   for(const auto& moving_object : moving_objects) {
@@ -983,8 +1032,12 @@ Sector::handle_collisions()
         && moving_object->get_group() != COLGROUP_MOVING_STATIC)
        || !moving_object->is_valid())
       continue;
+    std::set< MovingObject* > possibleCollisions;
+    broadphase.search(moving_object->dest, []{} , possibleCollisions);
 
-    for(auto& moving_object_2 : moving_objects) {
+    for(auto& moving_object_2 : possibleCollisions) {
+      if(moving_object_2 == moving_object)
+        continue;
       if(moving_object_2->get_group() != COLGROUP_TOUCHABLE
          || !moving_object_2->is_valid())
         continue;
@@ -1001,10 +1054,12 @@ Sector::handle_collisions()
 
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
+        //broadphase.insert(moving_object->dest, moving_object);
+        //broadphase.insert(moving_object_2->dest, moving_object_2);
+
       }
     }
   }
-
   // part3: COLGROUP_MOVING vs COLGROUP_MOVING
   for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     auto moving_object = *i;
@@ -1013,18 +1068,25 @@ Sector::handle_collisions()
         && moving_object->get_group() != COLGROUP_MOVING_STATIC)
        || !moving_object->is_valid())
       continue;
-
-    for(auto i2 = i+1; i2 != moving_objects.end(); ++i2) {
+    // Query the broadphase 
+    std::set< MovingObject* > possibleCollisions;
+    broadphase.search(moving_object->dest, []{} , possibleCollisions);
+    for(auto i2 = possibleCollisions.begin(); i2 != possibleCollisions.end(); ++i2) {
       auto moving_object_2 = *i2;
+      if(moving_object_2 == moving_object)
+        continue;
       if((moving_object_2->get_group() != COLGROUP_MOVING
           && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
          || !moving_object_2->is_valid())
         continue;
 
       collision_object(moving_object, moving_object_2);
+      // Update the objects positions
+      //broadphase.insert(moving_object->dest, moving_object);
+      //broadphase.insert(moving_object_2->dest, moving_object_2);
     }
   }
-
+  broadphase.clear();
   // apply object movement
   for(const auto& moving_object : moving_objects) {
     moving_object->bbox = moving_object->dest;

@@ -65,16 +65,16 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
     if((std::abs(overlap) < std::abs(minOverlap) || minOverlap == d_inf))
     {
       bool seen_similiar = false;
-      bool all_disabled  = false;
+      bool at_least_one_disabled  = false;
       for(size_t j = 0;j<b.normals.size();j++)
       {
         if(b.normals[j].is_colinear(normals[i]))
         {
           seen_similiar = true;
-          all_disabled |= b.disabled_normals[j];
+          at_least_one_disabled |= b.disabled_normals[j];
         }
       }
-      if(seen_similiar && all_disabled)
+      if(seen_similiar && at_least_one_disabled)
         continue;
 
       minAxis = normals[i];
@@ -96,16 +96,16 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
     if(std::abs(overlap) < std::abs(minOverlap))
     {
       bool seen_similiar = false;
-      bool all_disabled  = false;
+      bool at_least_one_disabled  = false;
       for(size_t j = 0;j<normals.size();j++)
       {
         if(normals[j].is_colinear(b.normals[i]))
         {
           seen_similiar = true;
-          all_disabled |= disabled_normals[j];
+          at_least_one_disabled |= disabled_normals[j];
         }
       }
-      if(seen_similiar && all_disabled)
+      if(seen_similiar && at_least_one_disabled)
         continue;
       minAxis = b.normals[i];
       minOverlap = overlap;
