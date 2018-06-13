@@ -79,6 +79,7 @@ private:
   bool automatic; /**< true if Platform will automatically pick a destination based on collisions and current Player position */
   bool player_contact; /**< true if a Player touched the Platform during the last round of collision detections */
   bool last_player_contact; /**< true if a Player touched the Platform during the round before the last round of collision detections */
+  bool autostart; /** true if the platform starts moving once the player is on top of it **/
 
 };
 
