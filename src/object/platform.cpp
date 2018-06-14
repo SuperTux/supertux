@@ -35,13 +35,11 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   speed(Vector(0,0)),
   automatic(false),
   player_contact(false),
-  last_player_contact(false),
-  autostart(false)
+  last_player_contact(false)
 {
   bool running = true;
   reader.get("name", name);
   reader.get("running", running);
-  reader.get("autostart", autostart);
   if ((name.empty()) && (!running)) {
     automatic = true;
   }
@@ -73,7 +71,6 @@ Platform::get_settings() {
   ObjectSettings result = MovingSprite::get_settings();
   result.options.push_back( Path::get_mode_option(&path->mode) );
   result.options.push_back( PathWalker::get_running_option(&walker->running) );
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Start platform on touch"), &autostart, "autostart"));
   return result;
 }
 
@@ -94,16 +91,9 @@ Platform::get_settings() {
 */
 
 HitResponse
-Platform::collision(GameObject& other, const CollisionHit& hit)
+Platform::collision(GameObject& other, const CollisionHit& )
 {
-  if (dynamic_cast<Player*>(&other))
-  {
-    player_contact = true;
-    if(hit.top && autostart && !walker->is_moving())
-    {
-      start_moving();
-    }
-  }
+  if (dynamic_cast<Player*>(&other)) player_contact = true;
   return FORCE_MOVE;
 }
 
