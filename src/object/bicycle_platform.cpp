@@ -24,6 +24,7 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/log.hpp"
+#include "util/reader_mapping.hpp"
 
 BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   MovingSprite(reader, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
@@ -34,8 +35,11 @@ BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   angle(0),
   angular_speed(0),
   contacts(),
-  momentum(0)
+  momentum(0),
+  momentum_change_rate(0.1)
 {
+  reader.get("radius", radius, 128);
+  reader.get("momentum-change-rate", momentum_change_rate, 0.1);
 }
 
 BicyclePlatform::BicyclePlatform(BicyclePlatform* master_) :
@@ -47,7 +51,8 @@ BicyclePlatform::BicyclePlatform(BicyclePlatform* master_) :
   angle(master->angle + M_PI),
   angular_speed(0),
   contacts(),
-  momentum(0)
+  momentum(0),
+  momentum_change_rate(0.1)
 {
   set_pos(get_pos() + Vector(master->get_bbox().get_width(), 0));
   master->master = master;
@@ -73,19 +78,21 @@ BicyclePlatform::collision(GameObject& other, const CollisionHit& )
 {
 
   // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
-  MovingObject* mo = dynamic_cast<MovingObject*>(&other);
+  auto mo = dynamic_cast<MovingObject*>(&other);
   if (!mo) return FORCE_MOVE;
   if ((mo->get_bbox().p2.y) > (bbox.p1.y + 2)) return FORCE_MOVE;
 
-  Player* pl = dynamic_cast<Player*>(mo);
+  auto pl = dynamic_cast<Player*>(mo);
   if (pl) {
-    if (pl->is_big()) momentum += 0.1 * Sector::current()->get_gravity();
-    Portable* po = pl->get_grabbed_object();
-    MovingObject* pomo = dynamic_cast<MovingObject*>(po);
-    if (contacts.insert(pomo).second) momentum += 0.1 * Sector::current()->get_gravity();
+    if (pl->is_big()) momentum += momentum_change_rate
+ * Sector::current()->get_gravity();
+    auto po = pl->get_grabbed_object();
+    auto pomo = dynamic_cast<MovingObject*>(po);
+    if (contacts.insert(pomo).second) momentum += momentum_change_rate
+ * Sector::current()->get_gravity();
   }
 
-  if (contacts.insert(&other).second) momentum += 0.1 * Sector::current()->get_gravity();
+  if (contacts.insert(&other).second) momentum += momentum_change_rate * Sector::current()->get_gravity();
   return FORCE_MOVE;
 }
 
@@ -150,6 +157,15 @@ void
 BicyclePlatform::after_editor_set() {
   MovingSprite::after_editor_set();
   slave->change_sprite(sprite_name);
+}
+
+ObjectSettings
+BicyclePlatform::get_settings()
+{
+  auto result = MovingSprite::get_settings();
+  result.options.push_back(ObjectOption(MN_NUMFIELD, _("Radius"), &radius, "radius"));
+  result.options.push_back(ObjectOption(MN_NUMFIELD, _("Momentum change rate"), &momentum_change_rate, "momentum-change-rate"));
+  return result;
 }
 
 /* EOF */

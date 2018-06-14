@@ -43,6 +43,7 @@ public:
   }
 
   virtual void move_to(const Vector& pos);
+  ObjectSettings get_settings();
   virtual void editor_delete();
   virtual void after_editor_set();
 
@@ -55,6 +56,7 @@ protected:
   float angular_speed; /**< angular speed in rad per second */
   std::set<GameObject*> contacts; /**< objects that are currently pushing on the platform */
   float momentum; /** angular momentum in rad per second per second*/
+  float momentum_change_rate; /** Change in momentum every step **/
 
 private:
   BicyclePlatform(const BicyclePlatform&);
