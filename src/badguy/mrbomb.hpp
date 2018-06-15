@@ -24,7 +24,6 @@ class MrBomb : public WalkingBadguy,
 {
 public:
   MrBomb(const ReaderMapping& reader);
-  MrBomb(const Vector& pos, Direction d);
 
   void kill_fall();
   void ignite();

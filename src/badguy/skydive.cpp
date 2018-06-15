@@ -29,12 +29,6 @@ SkyDive::SkyDive(const ReaderMapping& reader) :
 {
 }
 
-SkyDive::SkyDive(const Vector& pos, Direction d) :
-  BadGuy(pos, d, "images/creatures/skydive/skydive.sprite"),
-  is_grabbed(false)
-{
-}
-
 void
 SkyDive::collision_solid(const CollisionHit& hit)
 {

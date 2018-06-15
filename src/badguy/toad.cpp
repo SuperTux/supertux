@@ -36,14 +36,6 @@ Toad::Toad(const ReaderMapping& reader) :
   SoundManager::current()->preload(HOP_SOUND);
 }
 
-Toad::Toad(const Vector& pos, Direction d) :
-  BadGuy(pos, d, "images/creatures/toad/toad.sprite"),
-  recover_timer(),
-  state()
-{
-  SoundManager::current()->preload(HOP_SOUND);
-}
-
 void
 Toad::initialize()
 {

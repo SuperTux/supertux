@@ -31,14 +31,6 @@ SpiderMite::SpiderMite(const ReaderMapping& reader) :
   physic.enable_gravity(false);
 }
 
-SpiderMite::SpiderMite(const Vector& pos) :
-  BadGuy(pos, "images/creatures/spidermite/spidermite.sprite"),
-  mode(),
-  timer()
-{
-  physic.enable_gravity(false);
-}
-
 void
 SpiderMite::initialize()
 {
