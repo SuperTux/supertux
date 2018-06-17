@@ -37,7 +37,7 @@ public:
     * @param r The rectangle to check. 
     * If insert runs in time O(f) then collides should also run in O(f). 
     */
-    virtual bool collides(Rectf r){};
+    //virtual bool collides(Rectf r);
    /**
     * Allows for fast insertion of all objects 
     * @param object_list List of moving objects to insert.

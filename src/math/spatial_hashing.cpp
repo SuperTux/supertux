@@ -118,6 +118,7 @@ bool spatial_hashing::remove(MovingObject* obj)
       grid[xcoord][ycoord].erase(obj);
     }
   }
+  return true;
 }
 
 void spatial_hashing::clear()

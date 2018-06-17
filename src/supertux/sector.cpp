@@ -31,6 +31,7 @@
 #include "math/aatriangle.hpp"
 #include "math/broadphase.hpp"
 #include "math/spatial_hashing.hpp"
+#include "math/collision_graph.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
@@ -821,7 +822,7 @@ static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
 }
 
 void
-Sector::collision_object(MovingObject* object1, MovingObject* object2) const
+Sector::collision_object(MovingObject* object1, MovingObject* object2, collision_graph& graph) const
 {
   using namespace collision;
 
@@ -846,7 +847,7 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
     std::swap(hit.left, hit.right);
     std::swap(hit.top, hit.bottom);
     HitResponse response2 = object2->collision(*object1, hit);
-    
+    graph.register_collision_hit(hit, object1, object2);
     if(response1 == CONTINUE && response2 == CONTINUE) {
       normal *= (0.5 + DELTA);
       object1->dest.move(-normal);
@@ -864,7 +865,7 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
 void
 Sector::collision_static(collision::Constraints* constraints,
                          const Vector& movement, Rectf& dest,
-                         MovingObject& object)
+                         MovingObject& object, collision_graph& graph)
 {
   std::vector< Manifold > contacts;
   collision_tilemap(constraints, movement, dest, object, contacts);
@@ -901,16 +902,8 @@ Sector::collision_static(collision::Constraints* constraints,
       m.depth = 1;
       object.collision_solid(h);
       contacts.push_back(m);
-      if(platforms.count(moving_object) && object.parent != moving_object)
-      {
-        object.parent =moving_object;
-        object.dest.move(moving_object->get_movement());
-      }
-      if(moving_object->parent != NULL)
-      {
-        object.parent = moving_object->parent;
-        object.dest.move(moving_object->get_movement());
-      }
+      // Insert into collision graph
+      graph.register_collision_hit(h,&object, moving_object);
     }
   }
   for(const auto& m : contacts)
@@ -923,7 +916,7 @@ Sector::collision_static(collision::Constraints* constraints,
 }
 
 void
-Sector::collision_static_constrains(MovingObject& object)
+Sector::collision_static_constrains(MovingObject& object, collision_graph& graph)
 {
 
   using namespace collision;
@@ -933,7 +926,7 @@ Sector::collision_static_constrains(MovingObject& object)
   Vector movement = object.get_movement();
   Vector pressure = Vector(0,0);
   Rectf& dest = object.dest;
-  collision_static(&constraints, Vector(movement.x, movement.y), dest, object);
+  collision_static(&constraints, Vector(movement.x, movement.y), dest, object, graph);
 
 }
 
@@ -971,18 +964,24 @@ Sector::handle_collisions()
   platforms.clear();
   for(const auto& moving_object : moving_objects)
   {
-    if(moving_object->parent != NULL)
-    {
-      moving_object->dest.move(moving_object->parent->get_movement());
-    }
     // Check for correct collision group and actual movement in last frame
     if(moving_object->get_group() == COLGROUP_STATIC && moving_object->get_movement() != Vector(0,0))
       platforms.insert(moving_object);
   }
-    
-
-  
+  for(const auto& mobj : moving_objects)
+  {
+    if(mobj->parent != NULL)
+    {
+      mobj->dest.move(mobj->parent->get_movement());
+    }
+  }  
+  colgraph.reset();
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
+  for(const auto& obj : moving_objects)
+  {
+    broadphase.insert(obj->dest, obj);
+  }
+  
   for(const auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
@@ -990,8 +989,9 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
 
-    collision_static_constrains(*moving_object);
+    collision_static_constrains(*moving_object, colgraph);
   }
+
   // part2: COLGROUP_MOVING vs tile attributes
   for(const auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING
@@ -1004,11 +1004,6 @@ Sector::handle_collisions()
     if(tile_attributes >= Tile::FIRST_INTERESTING_FLAG) {
       moving_object->collision_tile(tile_attributes);
     }
-  }
-  // Fill the broadphase datastructure 
-  for(const auto& obj : moving_objects)
-  {
-    broadphase.insert(obj->dest, obj);
   }
 
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
@@ -1036,12 +1031,11 @@ Sector::handle_collisions()
           continue;
         if(!moving_object_2->collides(*moving_object, hit))
           continue;
-
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
         
-        //broadphase.insert(moving_object->dest, moving_object);
-        //broadphase.insert(moving_object_2->dest, moving_object_2);
+        broadphase.insert(moving_object->dest, moving_object);
+        broadphase.insert(moving_object_2->dest, moving_object_2);
 
       }
     }
@@ -1066,10 +1060,22 @@ Sector::handle_collisions()
          || !moving_object_2->is_valid())
         continue;
 
-      collision_object(moving_object, moving_object_2);
+      collision_object(moving_object, moving_object_2, colgraph);
+      
       // Update the objects positions
-      //broadphase.insert(moving_object->dest, moving_object);
-      //broadphase.insert(moving_object_2->dest, moving_object_2);
+      broadphase.insert(moving_object->dest, moving_object);
+      broadphase.insert(moving_object_2->dest, moving_object_2);
+    }
+  }
+  for(const auto& plf : platforms)
+  {
+    std::vector< MovingObject* > children;
+    colgraph.directional_hull(plf, 0 /** 0 is direction top */, children);
+    log_debug << "Hull has " << children.size() << " elements." << std::endl;
+    for(const auto& child : children)
+    {
+        child->parent = plf;
+        child->parent_updated = true;
     }
   }
 
@@ -1078,7 +1084,12 @@ Sector::handle_collisions()
   for(const auto& moving_object : moving_objects) {
     moving_object->bbox = moving_object->dest;
     moving_object->movement = Vector(0, 0);
-    moving_object->parent   = NULL;
+    if(!moving_object->parent_updated)
+    {
+        moving_object->parent = NULL;
+    }
+    moving_object->parent_updated = false;
+    
   }
 }
 

@@ -27,7 +27,8 @@
 #include "util/writer.hpp"
 #include "video/color.hpp"
 #include "object/anchor_point.hpp"
-
+#include "math/collision_graph.hpp"
+#include "math/broadphase.hpp"
 namespace collision {
 class Constraints;
 }
@@ -48,15 +49,13 @@ class DisplayEffect;
 class ReaderMapping;
 class CollisionHit;
 struct Manifold;
-
+class collision_graph;
 enum MusicType {
   LEVEL_MUSIC,
   HERRING_MUSIC,
   HERRING_WARNING_MUSIC
 };
 
-static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
-                           Vector& normal);
 
 /**
  * Represents one of (potentially) multiple, separate parts of a Level.
@@ -263,7 +262,7 @@ private:
    * Does collision detection between 2 objects and does instant
    * collision response handling in case of a collision
    */
-  void collision_object(MovingObject* object1, MovingObject* object2) const;
+  void collision_object(MovingObject* object1, MovingObject* object2, collision_graph& graph) const;
 
   /**
    * Does collision detection of an object against all other static
@@ -275,9 +274,9 @@ private:
    * (because of ABORT_MOVE in the collision response or no collisions)
    */
   void collision_static(collision::Constraints* constraints,
-                        const Vector& movement, Rectf& dest, MovingObject& object);
+                        const Vector& movement, Rectf& dest, MovingObject& object, collision_graph& graph);
 
-  void collision_static_constrains(MovingObject& object);
+  void collision_static_constrains(MovingObject& object, collision_graph& g);
 
   GameObjectPtr parse_object(const std::string& name, const ReaderMapping& lisp);
 
@@ -349,6 +348,8 @@ public: // TODO make this private again
 
   std::string music;
   float gravity;
+  collision_graph colgraph;
+  //collision_broadphase broadphase;
 
   // some special objects, where we need direct access
   // (try to avoid accessing them directly)
