@@ -26,13 +26,6 @@ WalkingLeaf::WalkingLeaf(const ReaderMapping& reader) :
   max_drop_height = 16;
 }
 
-WalkingLeaf::WalkingLeaf(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")
-{
-  walk_speed = 60;
-  max_drop_height = 16;
-}
-
 bool
 WalkingLeaf::collision_squished(GameObject& object)
 {

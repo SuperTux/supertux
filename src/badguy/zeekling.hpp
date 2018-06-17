@@ -24,7 +24,6 @@ class Zeekling : public BadGuy
 {
 public:
   Zeekling(const ReaderMapping& reader);
-  Zeekling(const Vector& pos, Direction d);
 
   void initialize();
   void collision_solid(const CollisionHit& hit);

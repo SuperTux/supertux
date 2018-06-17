@@ -35,14 +35,6 @@ SkullyHop::SkullyHop(const ReaderMapping& reader) :
   SoundManager::current()->preload( SKULLYHOP_SOUND );
 }
 
-SkullyHop::SkullyHop(const Vector& pos, Direction d) :
-  BadGuy(pos, d, "images/creatures/skullyhop/skullyhop.sprite"),
-  recover_timer(),
-  state()
-{
-  SoundManager::current()->preload( SKULLYHOP_SOUND );
-}
-
 void
 SkullyHop::initialize()
 {

@@ -23,7 +23,6 @@ class BouncingSnowball : public BadGuy
 {
 public:
   BouncingSnowball(const ReaderMapping& reader);
-  BouncingSnowball(const Vector& pos, Direction d);
 
   void initialize();
   void collision_solid(const CollisionHit& hit);

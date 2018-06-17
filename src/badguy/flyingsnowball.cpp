@@ -35,14 +35,6 @@ FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
   physic.enable_gravity(true);
 }
 
-FlyingSnowBall::FlyingSnowBall(const Vector& pos) :
-  BadGuy(pos, "images/creatures/flying_snowball/flying_snowball.sprite"),
-  normal_propeller_speed(),
-  puff_timer()
-{
-  physic.enable_gravity(true);
-}
-
 void
 FlyingSnowBall::initialize()
 {
