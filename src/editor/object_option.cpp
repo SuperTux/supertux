@@ -55,9 +55,7 @@ ObjectOption::to_string() const {
     case MN_BADGUYSELECT:
       return std::to_string(((std::vector<std::string>*)option)->size());
     case MN_COLOR:
-      return std::to_string(((Color*)option)->red) + " "
-             + std::to_string(((Color*)option)->green) + " "
-             + std::to_string(((Color*)option)->blue);
+      return ((Color*)option)->to_string();
     case MN_SCRIPT:
       if (((std::string*)option)->length()) {
         return "...";
