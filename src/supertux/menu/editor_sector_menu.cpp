@@ -24,16 +24,15 @@
 
 EditorSectorMenu::EditorSectorMenu() :
   sector(Editor::current()->currentsector),
-  sector_name_ptr(sector->get_name_ptr()),
-  original_name(*sector_name_ptr),
+  original_name(sector->get_name()),
   size(sector->get_editor_size()),
   new_size(size)
 {
   add_label(_("Sector") + " " + sector->get_name());
   add_hl();
-  add_textfield(_("Name"), sector_name_ptr);
-  add_script(_("Initialization script"), sector->get_init_script_ptr());
-  add_color(_("Ambient light"), sector->get_ambient_light_ptr());
+  add_textfield(_("Name"), &sector->name);
+  add_script(_("Initialization script"), &sector->init_script);
+  add_color(_("Ambient light"), &sector->ambient_light);
   add_numfield(_("Gravity"), &sector->gravity);
 
   std::vector<std::string> music_formats;
@@ -63,7 +62,7 @@ EditorSectorMenu::~EditorSectorMenu()
     if(sector_->get_name() == sector->get_name()) {
       if (is_sector) {
         // Puts the name that was there before when the name is already used.
-        *sector_name_ptr = original_name;
+        sector->set_name(original_name);
         break;
       } else {
         is_sector = true;

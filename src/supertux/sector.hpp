@@ -61,6 +61,7 @@ class Sector
 {
 public:
   friend class SectorParser;
+  friend class EditorSectorMenu;
 
 public:
   Sector(Level* parent);
@@ -232,10 +233,6 @@ public:
    */
   void set_gravity(float gravity);
   float get_gravity() const;
-
-  std::string* get_name_ptr() {return &name;}
-  std::string* get_init_script_ptr() {return &init_script;}
-  Color* get_ambient_light_ptr() {return &ambient_light;}
 
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;

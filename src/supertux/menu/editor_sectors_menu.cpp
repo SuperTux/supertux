@@ -71,7 +71,7 @@ EditorSectorsMenu::create_sector()
     sector_name = "sector" + std::to_string(num);
     num++;
   } while ( level->get_sector(sector_name) );
-  *(new_sector->get_name_ptr()) = sector_name;
+  new_sector->set_name(sector_name);
 
   level->add_sector(move(new_sector));
   Editor::current()->load_sector(level->get_sector_count() - 1);

@@ -155,7 +155,7 @@ LevelParser::create(const std::string& filepath, const std::string& levelname, b
   m_level.tileset = worldmap ? "images/worldmap.strf" : "images/tiles.strf";
 
   auto sector = SectorParser::from_nothing(m_level);
-  *(sector->get_name_ptr()) = "main";
+  sector->set_name("main");
   m_level.add_sector(std::move(sector));
 }
 
