@@ -1432,8 +1432,6 @@ Player::collision(GameObject& other, const CollisionHit& hit)
       return FORCE_MOVE;
     if(stone)
       return ABORT_MOVE;
-
-    return CONTINUE;
   }
 
   return CONTINUE;
