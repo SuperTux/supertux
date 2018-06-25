@@ -49,6 +49,14 @@ class Polygon {
       */
      Vector project(Vector axis);
      /**
+     * TODO 
+      * Rotates the polygon angle degrees.
+      * @returns A new polygon with vertices rotated.
+      * Original vertices will be saved in original_vertices so that rotating 
+      * a rotated polygon becomes more (numerically) stable.
+      */
+     //Polygon rotate(double angle);
+     /**
       * Inits the normal_enabled vector.
       * Call after all edges were added.
       */
@@ -56,6 +64,8 @@ class Polygon {
 
       void debug();
   private:
+    std::vector< Vector > original_vertices; /** Only used in rotated polygons */
+    double rotation_angle;
     std::vector< Vector > vertices;
     std::vector< Vector > edges;
     std::vector< Vector > normals; /** Edge normals */

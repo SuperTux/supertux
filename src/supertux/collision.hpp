@@ -133,7 +133,7 @@ void set_rectangle_rectangle_constraints(Constraints* constraints,
 
 bool line_intersects_line(const Vector& line1_start, const Vector& line1_end, const Vector& line2_start, const Vector& line2_end);
 bool intersects_line(const Rectf& r, const Vector& line_start, const Vector& line_end);
-
+void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c);
 } // namespace collision
 
 #endif

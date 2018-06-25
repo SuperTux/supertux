@@ -726,29 +726,89 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         mobjp.handle_collision(tile_poly,m);
         //log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
         overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
+        if(tile->is_slope())
+        {
+          overlapV.y = -(std::abs(overlapV.y)+std::abs(overlapV.x));
+          overlapV.x = 0;
+          
+          Rectf tbbox = solids->get_tile_bbox(x, y);
+          AATriangle triangle = AATriangle(tbbox, tile->getData());
+          auto rect = dest;
+          
+          Vector normal;
+            float c = 0.0;
+            Vector p1;
+            Rectf area;
+            switch(triangle.dir & AATriangle::DEFORM_MASK) {
+              case 0:
+                area.p1 = triangle.bbox.p1;
+                area.p2 = triangle.bbox.p2;
+                break;
+              case AATriangle::DEFORM_BOTTOM:
+                area.p1 = Vector(triangle.bbox.p1.x, triangle.bbox.p1.y + triangle.bbox.get_height()/2);
+                area.p2 = triangle.bbox.p2;
+                break;
+              case AATriangle::DEFORM_TOP:
+                area.p1 = triangle.bbox.p1;
+                area.p2 = Vector(triangle.bbox.p2.x, triangle.bbox.p1.y + triangle.bbox.get_height()/2);
+                break;
+              case AATriangle::DEFORM_LEFT:
+                area.p1 = triangle.bbox.p1;
+                area.p2 = Vector(triangle.bbox.p1.x + triangle.bbox.get_width()/2, triangle.bbox.p2.y);
+                break;
+              case AATriangle::DEFORM_RIGHT:
+                area.p1 = Vector(triangle.bbox.p1.x + triangle.bbox.get_width()/2, triangle.bbox.p1.y);
+                area.p2 = triangle.bbox.p2;
+                break;
+              default:
+                assert(false);
+            }
+
+            switch(triangle.dir & AATriangle::DIRECTION_MASK) {
+              case AATriangle::SOUTHWEST:
+                p1 = Vector(rect.p1.x, rect.p2.y);
+                collision::makePlane(area.p1, area.p2, normal, c);
+                break;
+              case AATriangle::NORTHEAST:
+                p1 = Vector(rect.p2.x, rect.p1.y);
+                collision::makePlane(area.p2, area.p1, normal, c);
+                break;
+              case AATriangle::SOUTHEAST:
+                p1 = rect.p2;
+              collision::makePlane(Vector(area.p1.x, area.p2.y),
+                          Vector(area.p2.x, area.p1.y), normal, c);
+                break;
+              case AATriangle::NORTHWEST:
+                p1 = rect.p1;
+                collision::makePlane(Vector(area.p2.x, area.p1.y),
+                          Vector(area.p1.x, area.p2.y), normal, c);
+                break;
+              default:
+                assert(false);
+            }
+
+          h.slope_normal = normal;
+        }
+        bool notify = true;
         if(std::max(std::abs(overlapV.x),std::abs(overlapV.y)) == std::abs(overlapV.x))
         {
-          if(std::abs(overlapV.x) < 0.002)
-            continue;
           h.right = overlapV.x > 0;
           h.left =  overlapV.x < 0;
         }else{  
-          if(std::abs(overlapV.y) < 0.002)
-            continue;
           h.bottom = overlapV.y > 0;
           h.top    = overlapV.y < 0;
         }  
         // Check if they overlap
         std::swap(h.top, h.bottom);
         std::swap(h.right, h.left);
-        if(h.bottom || h.top || h.left || h.right)
+        if((h.bottom || h.top || h.left || h.right))
         {
-          // Do not resolve, instead push into list
           object.collision_solid(h);
           contacts.push_back(m);
         }
+        }
       }
-    }
+  //  }
   }
 }
 
@@ -900,7 +960,8 @@ Sector::collision_static(collision::Constraints* constraints,
 
       m.normal = overlapV;
       m.depth = 1;
-      object.collision_solid(h);
+      //if(std::max(std::abs(m.normal.x),std::abs(m.normal.y)) > SHIFT_DELTA)
+        object.collision_solid(h);
       contacts.push_back(m);
       // Insert into collision graph
       graph.register_collision_hit(h,&object, moving_object);
