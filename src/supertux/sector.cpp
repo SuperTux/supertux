@@ -702,7 +702,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 
           if (!tile->is_solid (tile_bbox, object.get_bbox(), relative_movement))
             continue;
-        } /* if (tile->is_unisolid ()) */
+        } 
         // Do collision response
         CollisionHit h;
 
@@ -728,7 +728,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
         if(tile->is_slope())
         {
-          overlapV.y = -(std::abs(overlapV.y)+std::abs(overlapV.x));
+          overlapV.y = -(std::abs(overlapV.y));
           overlapV.x = 0;
           
           Rectf tbbox = solids->get_tile_bbox(x, y);
@@ -789,7 +789,6 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 
           h.slope_normal = normal;
         }
-        bool notify = true;
         if(std::max(std::abs(overlapV.x),std::abs(overlapV.y)) == std::abs(overlapV.x))
         {
           h.right = overlapV.x > 0;
@@ -808,7 +807,6 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         }
         }
       }
-  //  }
   }
 }
 
