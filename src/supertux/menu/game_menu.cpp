@@ -19,14 +19,14 @@
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "gui/dialog.hpp"
 #include "gui/mousecursor.hpp"
+#include "gui/dialog.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
 
 GameMenu::GameMenu()
@@ -83,7 +83,7 @@ GameMenu::menu_action(MenuItem* item)
       }
       else
       {
-        // abort Confirmation Dialog
+        // abort confirmation dialog
         std::unique_ptr<Dialog> dialog(new Dialog);
         dialog->set_text(_("Do you really want to exit the level?"));
         dialog->add_cancel_button(_("Cancel"));
