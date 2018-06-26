@@ -6,7 +6,7 @@
 	url = https://github.com/albertodemichelis/squirrel.git
 [submodule "translations"]
 	path = translations
-	url = https://github.com/SuperTux/translations
+	url = https://github.com/SuperTux/translations.git
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/google/googletest.git
