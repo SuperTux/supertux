@@ -19,12 +19,16 @@
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/dialog.hpp"
+#include "gui/mousecursor.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
+#include "audio/sound_manager.hpp"
+#include "supertux/fadeout.hpp"
 
 GameMenu::GameMenu()
 {
@@ -50,13 +54,46 @@ GameMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_RESETLEVEL:
-      MenuManager::instance().clear_menu_stack();
-      GameSession::current()->toggle_pause();
-      GameSession::current()->reset_button = true;
+      if(false)
+      {
+        // instantly reset lvl
+        MenuManager::instance().clear_menu_stack();
+        GameSession::current()->toggle_pause();
+        GameSession::current()->reset_button = true;
+      }
+      else
+      {
+        // Reset Conformation Dialog
+        std::unique_ptr<Dialog> dialog(new Dialog);
+        dialog->set_text(_("Do you really want to restart level?"));
+        dialog->add_cancel_button(_("Cancel"));
+        dialog->add_default_button(_("Restart"), [] {
+            MenuManager::instance().clear_menu_stack();
+            GameSession::current()->toggle_pause();
+            GameSession::current()->reset_button = true;
+          });
+        MenuManager::instance().set_dialog(std::move(dialog));
+      }
       break;
 
     case MNID_ABORTLEVEL:
-      GameSession::current()->abort_level();
+      if(false)
+      {
+        // instantly exit level
+        GameSession::current()->abort_level();
+      }
+      else
+      {
+        // abort Conformation Dialog
+        std::unique_ptr<Dialog> dialog(new Dialog);
+        dialog->set_text(_("Do you really want to quit exit level?"));
+        dialog->add_cancel_button(_("Cancel"));
+        dialog->add_default_button(_("Exit"), [] {
+            MenuManager::instance().clear_menu_stack();
+            GameSession::current()->abort_level();
+          });
+        MenuManager::instance().set_dialog(std::move(dialog));
+      }
       break;
   }
 }
