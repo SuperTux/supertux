@@ -76,7 +76,7 @@ GameMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_ABORTLEVEL:
-      if(!g_config->confirmation_dialog)
+      if (!g_config->confirmation_dialog)
       {
         // instantly exit level
         GameSession::current()->abort_level();
