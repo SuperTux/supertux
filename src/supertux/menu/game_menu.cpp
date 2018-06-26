@@ -55,22 +55,22 @@ GameMenu::menu_action(MenuItem* item)
     case MNID_RESETLEVEL:
       if(!g_config->confirmation_dialog)
       {
-        // instantly reset lvl
+        // instantly reset level
         MenuManager::instance().clear_menu_stack();
         GameSession::current()->toggle_pause();
         GameSession::current()->reset_button = true;
       }
       else
       {
-        // Reset Conformation Dialog
+        // reset confirmation dialog
         std::unique_ptr<Dialog> dialog(new Dialog);
-        dialog->set_text(_("Are You Sure?"));
+        dialog->set_text(_("Are you sure?"));
         dialog->add_cancel_button(_("No"));
         dialog->add_default_button(_("Yes"), [] {
-            MenuManager::instance().clear_menu_stack();
-            GameSession::current()->toggle_pause();
-            GameSession::current()->reset_button = true;
-          });
+          MenuManager::instance().clear_menu_stack();
+          GameSession::current()->toggle_pause();
+          GameSession::current()->reset_button = true;
+        });
         MenuManager::instance().set_dialog(std::move(dialog));
       }
       break;
@@ -83,14 +83,14 @@ GameMenu::menu_action(MenuItem* item)
       }
       else
       {
-        // abort Conformation Dialog
+        // abort Confirmation Dialog
         std::unique_ptr<Dialog> dialog(new Dialog);
-        dialog->set_text(_("Do you really want to exit level?"));
+        dialog->set_text(_("Do you really want to exit the level?"));
         dialog->add_cancel_button(_("Cancel"));
         dialog->add_default_button(_("Exit"), [] {
-            MenuManager::instance().clear_menu_stack();
-            GameSession::current()->abort_level();
-          });
+          MenuManager::instance().clear_menu_stack();
+          GameSession::current()->abort_level();
+        });
         MenuManager::instance().set_dialog(std::move(dialog));
       }
       break;
