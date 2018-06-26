@@ -27,8 +27,7 @@
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
-#include "audio/sound_manager.hpp"
-#include "supertux/fadeout.hpp"
+#include "supertux/gameconfig.hpp"
 
 GameMenu::GameMenu()
 {
@@ -54,7 +53,7 @@ GameMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_RESETLEVEL:
-      if(false)
+      if(!g_config->confirmation_dialog)
       {
         // instantly reset lvl
         MenuManager::instance().clear_menu_stack();
@@ -65,9 +64,9 @@ GameMenu::menu_action(MenuItem* item)
       {
         // Reset Conformation Dialog
         std::unique_ptr<Dialog> dialog(new Dialog);
-        dialog->set_text(_("Do you really want to restart level?"));
-        dialog->add_cancel_button(_("Cancel"));
-        dialog->add_default_button(_("Restart"), [] {
+        dialog->set_text(_("Are You Sure?"));
+        dialog->add_cancel_button(_("Yes"));
+        dialog->add_default_button(_("No"), [] {
             MenuManager::instance().clear_menu_stack();
             GameSession::current()->toggle_pause();
             GameSession::current()->reset_button = true;
@@ -77,7 +76,7 @@ GameMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_ABORTLEVEL:
-      if(false)
+      if(!g_config->confirmation_dialog)
       {
         // instantly exit level
         GameSession::current()->abort_level();

@@ -35,6 +35,7 @@
 #include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
+#include "supertux/gameconfig.hpp"
 
 MainMenu::MainMenu()
 {
@@ -89,7 +90,7 @@ MainMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_QUITMAINMENU:
-      if (true)
+      if(!g_config->confirmation_dialog)
       {
         // instantly exit the game
         MenuManager::instance().clear_menu_stack();
