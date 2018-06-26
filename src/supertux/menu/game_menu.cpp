@@ -65,8 +65,8 @@ GameMenu::menu_action(MenuItem* item)
         // Reset Conformation Dialog
         std::unique_ptr<Dialog> dialog(new Dialog);
         dialog->set_text(_("Are You Sure?"));
-        dialog->add_cancel_button(_("Yes"));
-        dialog->add_default_button(_("No"), [] {
+        dialog->add_cancel_button(_("No"));
+        dialog->add_default_button(_("Yes"), [] {
             MenuManager::instance().clear_menu_stack();
             GameSession::current()->toggle_pause();
             GameSession::current()->reset_button = true;
