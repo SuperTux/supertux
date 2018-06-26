@@ -26,8 +26,8 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/screen_manager.hpp"
-#include "util/gettext.hpp"
 #include "supertux/gameconfig.hpp"
+#include "util/gettext.hpp"
 
 GameMenu::GameMenu()
 {
