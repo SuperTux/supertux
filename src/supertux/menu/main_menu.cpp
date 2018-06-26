@@ -90,7 +90,7 @@ MainMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_QUITMAINMENU:
-      if(!g_config->confirmation_dialog)
+      if (!g_config->confirmation_dialog)
       {
         // instantly exit the game
         MenuManager::instance().clear_menu_stack();
