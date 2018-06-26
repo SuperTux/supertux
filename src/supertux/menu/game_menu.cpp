@@ -85,7 +85,7 @@ GameMenu::menu_action(MenuItem* item)
       {
         // abort Conformation Dialog
         std::unique_ptr<Dialog> dialog(new Dialog);
-        dialog->set_text(_("Do you really want to quit exit level?"));
+        dialog->set_text(_("Do you really want to exit level?"));
         dialog->add_cancel_button(_("Cancel"));
         dialog->add_default_button(_("Exit"), [] {
             MenuManager::instance().clear_menu_stack();
