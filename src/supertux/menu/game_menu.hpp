@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_GAME_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_GAME_MENU_HPP
 
+#include <functional>
+
 #include "gui/menu.hpp"
 
 enum GameMenuIDs {
@@ -28,6 +30,10 @@ enum GameMenuIDs {
 class GameMenu : public Menu
 {
 private:
+  // stores callback for level reset
+  std::function<void ()> reset_callback;
+  // stores callback for level abort
+  std::function<void ()> abort_callback;
 public:
   GameMenu();
 

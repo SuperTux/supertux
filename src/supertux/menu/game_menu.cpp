@@ -40,6 +40,17 @@ GameMenu::GameMenu()
   add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
   add_hl();
   add_entry(MNID_ABORTLEVEL, _("Abort Level"));
+
+  reset_callback = [] {
+    MenuManager::instance().clear_menu_stack();
+    GameSession::current()->toggle_pause();
+    GameSession::current()->reset_button = true;
+  };
+
+  abort_callback = [] {
+    MenuManager::instance().clear_menu_stack();
+    GameSession::current()->abort_level();
+  };
 }
 
 void
@@ -53,18 +64,25 @@ GameMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_RESETLEVEL:
-      Dialog::show_confirmation(_("Are you sure?"), [] {
-          MenuManager::instance().clear_menu_stack();
-          GameSession::current()->toggle_pause();
-          GameSession::current()->reset_button = true;
-      });
+      if (g_config->confirmation_dialog)
+      {
+        Dialog::show_confirmation(_("Are you sure?"), reset_callback);
+      }
+      else
+      {
+        reset_callback();
+      }
       break;
 
     case MNID_ABORTLEVEL:
-      Dialog::show_confirmation(_("Do you really want to exit the level?"), [] {
-          MenuManager::instance().clear_menu_stack();
-          GameSession::current()->abort_level();
-      });
+      if(g_config->confirmation_dialog)
+      {
+        Dialog::show_confirmation(_("Do you really want to exit the level?"), abort_callback);
+      }
+      else
+      {
+        abort_callback();
+      }
       break;
   }
 }
