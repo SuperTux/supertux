@@ -26,8 +26,8 @@
 //Used by the Kugelblitz to electrify water - can be used for other effects, too
 class Electrifier : public GameObject
 {
-public: 
-  Electrifier(std::map<uint32_t, uint32_t> tilemap, float seconds);
+public:
+  Electrifier(std::map<uint32_t, uint32_t> replacements, float seconds);
   Electrifier(uint32_t oldtile, uint32_t newtile, float seconds);
   virtual bool is_saveable() const {
     return false;
@@ -38,7 +38,7 @@ protected:
   virtual void draw(DrawingContext& context);
 
 private:
-  std::map<uint32_t, uint32_t> changingtilemap;
+  std::map<uint32_t, uint32_t> change_map;
   Timer duration;
 };
 

@@ -17,28 +17,28 @@
 #include "object/electrifier.hpp"
 #include "supertux/sector.hpp"
 
-Electrifier::Electrifier(std::map<uint32_t, uint32_t> tilemap, float seconds) :
-  changingtilemap(tilemap),
+Electrifier::Electrifier(std::map<uint32_t, uint32_t> replacements, float seconds) :
+  change_map(replacements),
   duration()
 {
   duration.start(seconds);
-  for(auto &tile : changingtilemap) {
+  for(auto &tile : change_map) {
     Sector::current()->change_solid_tiles(tile.first, tile.second);
   }
 }
 
 Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds) :
-  changingtilemap({{oldtile, newtile}}),
+  change_map({{oldtile, newtile}}),
   duration()
 {
-  Electrifier(changingtilemap, seconds);
+  Electrifier(change_map, seconds);
 }
 
 void
 Electrifier::update(float )
 {
   if (duration.check()) {
-    for(auto &tile : changingtilemap){
+    for(auto &tile : change_map){
       Sector::current()->change_solid_tiles(tile.second, tile.first);
     }
     remove_me();
