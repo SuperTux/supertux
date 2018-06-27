@@ -22,12 +22,19 @@
 #include <map>
 #include <stdint.h>
 
+namespace {
+  /**
+   * A one-to-one relation that maps one tile ID with another
+   */
+  typedef std::map<uint32_t, uint32_t> TileChangeMap;
+}
+
 //Changes all tiles with the given ID to a new one for a given amount of time, then removes itself
 //Used by the Kugelblitz to electrify water - can be used for other effects, too
 class Electrifier : public GameObject
 {
 public:
-  Electrifier(std::map<uint32_t, uint32_t> replacements, float seconds);
+  Electrifier(TileChangeMap replacements, float seconds);
   Electrifier(uint32_t oldtile, uint32_t newtile, float seconds);
   virtual bool is_saveable() const {
     return false;
@@ -38,7 +45,7 @@ protected:
   virtual void draw(DrawingContext& context);
 
 private:
-  std::map<uint32_t, uint32_t> change_map;
+  TileChangeMap change_map;
   Timer duration;
 };
 

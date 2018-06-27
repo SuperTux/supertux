@@ -17,7 +17,12 @@
 #include "object/electrifier.hpp"
 #include "supertux/sector.hpp"
 
-Electrifier::Electrifier(std::map<uint32_t, uint32_t> replacements, float seconds) :
+namespace
+{
+  
+}
+
+Electrifier::Electrifier(TileChangeMap replacements, float seconds) :
   change_map(replacements),
   duration()
 {
