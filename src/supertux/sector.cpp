@@ -702,7 +702,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 
           if (!tile->is_solid (tile_bbox, object.get_bbox(), relative_movement))
             continue;
-        } 
+        }
         // Do collision response
         CollisionHit h;
 
@@ -729,11 +729,11 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         if(tile->is_slope())
         {
           overlapV.x = 0;
-          
+
           Rectf tbbox = solids->get_tile_bbox(x, y);
           AATriangle triangle = AATriangle(tbbox, tile->getData());
           auto rect = dest;
-          
+
           Vector normal;
             float c = 0.0;
             Vector p1;
@@ -792,10 +792,10 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         {
           h.right = overlapV.x > 0;
           h.left =  overlapV.x < 0;
-        }else{  
+        }else{
           h.bottom = overlapV.y > 0;
           h.top    = overlapV.y < 0;
-        }  
+        }
         // Check if they overlap
         std::swap(h.top, h.bottom);
         std::swap(h.right, h.left);
@@ -932,7 +932,6 @@ Sector::collision_static(collision::Constraints* constraints,
     if(moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
       continue;
-    continue;  
     if(!moving_object->is_valid())
       continue;
 
@@ -1018,9 +1017,9 @@ Sector::handle_collisions()
     moving_object->dest = moving_object->get_bbox();
     moving_object->dest.move(moving_object->get_movement());
   }
-  // part 0: Handle moving objects 
+  // part 0: Handle moving objects
   spatial_hashing broadphase(get_width(), get_height());
-  // Get a list of all objects which move 
+  // Get a list of all objects which move
   platforms.clear();
   for(const auto& moving_object : moving_objects)
   {
@@ -1034,14 +1033,14 @@ Sector::handle_collisions()
     {
       mobj->dest.move(mobj->parent->get_movement());
     }
-  }  
+  }
   colgraph.reset();
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
   for(const auto& obj : moving_objects)
   {
     broadphase.insert(obj->dest, obj);
   }
-  
+
   for(const auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
@@ -1092,7 +1091,7 @@ Sector::handle_collisions()
           continue;
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
-        
+
         broadphase.insert(moving_object->dest, moving_object);
         broadphase.insert(moving_object_2->dest, moving_object_2);
 
@@ -1107,7 +1106,7 @@ Sector::handle_collisions()
         && moving_object->get_group() != COLGROUP_MOVING_STATIC)
        || !moving_object->is_valid())
       continue;
-    // Query the broadphase 
+    // Query the broadphase
     std::set< MovingObject* > possibleCollisions;
     broadphase.search(moving_object->dest, []{} , possibleCollisions);
     for(auto i2 = possibleCollisions.begin(); i2 != possibleCollisions.end(); ++i2) {
@@ -1120,7 +1119,7 @@ Sector::handle_collisions()
         continue;
 
       collision_object(moving_object, moving_object_2, colgraph);
-      
+
       // Update the objects positions
       broadphase.insert(moving_object->dest, moving_object);
       broadphase.insert(moving_object_2->dest, moving_object_2);
@@ -1148,7 +1147,7 @@ Sector::handle_collisions()
         moving_object->parent = NULL;
     }
     moving_object->parent_updated = false;
-    
+
   }
 }
 

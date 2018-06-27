@@ -49,10 +49,10 @@ class Polygon {
       */
      Vector project(Vector axis);
      /**
-     * TODO 
+     * TODO
       * Rotates the polygon angle degrees.
       * @returns A new polygon with vertices rotated.
-      * Original vertices will be saved in original_vertices so that rotating 
+      * Original vertices will be saved in original_vertices so that rotating
       * a rotated polygon becomes more (numerically) stable.
       */
      //Polygon rotate(double angle);
@@ -69,7 +69,7 @@ class Polygon {
     std::vector< Vector > vertices;
     std::vector< Vector > edges;
     std::vector< Vector > normals; /** Edge normals */
-
+    Vector middle_point;
     std::vector< bool > disabled_normals; /** Saves for every normal a flag indicating wether it is enabled. */
 };
 #endif

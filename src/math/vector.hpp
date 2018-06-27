@@ -125,13 +125,13 @@ public:
     double val = 0;
     if(other.x != 0)
       val = other.x/x;
-    else 
+    else
       val = other.y/y;
     Vector v = Vector(val*x, val*y);
-    double abstand = abs(v.x-other.x)+abs(v.y-other.y);
+    double abstand = std::abs(v.x-other.x)+std::abs(v.y-other.y);
     // Allow for floating point errors
-    return abstand <= 0.002;
-  
+    return (abstand <= 0.002) && val >= 0;
+
   }
   /// Returns a vector perpendicular to this vector
   Vector perp() const

@@ -38,7 +38,7 @@ void Polygon::process_neighbor(Polygon& b)
       if(d3 <= margin && d4 <= margin)
         disabled_normals[i] = true;
       }
-  }    
+  }
 }
 
 void Polygon::process_octile_neighbour(int dir, Polygon& b)
@@ -61,9 +61,11 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
     if(disabled_normals[i])
       continue;
     if((overlap = is_seperating_axis(b, normals[i])) == 0.0f)
-      return;      
+      return;
     if((std::abs(overlap) < std::abs(minOverlap) || minOverlap == d_inf))
     {
+      if(overlap > 0)
+        continue;
       bool seen_similiar = false;
       bool at_least_one_disabled  = false;
       for(size_t j = 0;j<b.normals.size();j++)
@@ -93,6 +95,8 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
     {
         return;
     }
+    if(overlap > 0)
+      continue;
     if(std::abs(overlap) < std::abs(minOverlap))
     {
       bool seen_similiar = false;
@@ -165,4 +169,21 @@ void Polygon::setup()
   edges.push_back(vertices[0]-vertices[vertices.size()-1]);
   normals.push_back(edges[edges.size()-1].perp());
   disabled_normals.resize(normals.size(),false);
+  Vector sumv(0,0);
+  for(const auto& v : vertices)
+  {
+    sumv += v;
+  }
+  sumv *= (double)1/vertices.size();
+  middle_point = sumv;
+  for(int i = 0;i < normals.size();i++)
+  {
+    // Check if normal faces inwards
+    Vector point = vertices[i];
+    if(normals[i]*(middle_point - point) < 0)
+    {
+      // Faces inward => invert it
+      normals[i] *= -1;
+    }
+  }
 }
