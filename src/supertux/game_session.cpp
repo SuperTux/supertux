@@ -68,6 +68,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   reset_pos(),
   newsector(),
   newspawnpoint(),
+  pastinvincibility(false),
+  newinvincibilityperiod(0),
   best_level_statistics(statistics),
   m_savegame(savegame),
   play_time(0),
