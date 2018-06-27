@@ -19,8 +19,8 @@
 
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
-#include <stdint.h>
 #include <map>
+#include <stdint.h>
 
 //Changes all tiles with the given ID to a new one for a given amount of time, then removes itself
 //Used by the Kugelblitz to electrify water - can be used for other effects, too
