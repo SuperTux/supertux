@@ -24,6 +24,7 @@
 
 #include "gui/menu_manager.hpp"
 #include "math/sizef.hpp"
+#include "supertux/gameconfig.hpp"
 #include "util/gettext.hpp"
 
 class Controller;
@@ -79,6 +80,24 @@ public:
     dialog->clear_buttons();
     dialog->add_button(_("OK"), [] {});
     MenuManager::instance().set_dialog(std::move(dialog));
+  }
+
+  // the callback is called regardless the state(enabled/disabled) of confirmation dialog
+  static void show_confirmation(const std::string& text, const std::function<void ()>& callback)
+  {
+    if (g_config->confirmation_dialog)
+    {
+      std::unique_ptr<Dialog> dialog(new Dialog);
+      dialog->set_text(text);
+      dialog->clear_buttons();
+      dialog->add_cancel_button(_("No"));
+      dialog->add_default_button(_("Yes"), callback);
+      MenuManager::instance().set_dialog(std::move(dialog));
+    }
+    else
+    {
+      callback();
+    }
   }
 
 private:
