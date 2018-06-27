@@ -142,10 +142,7 @@ Kugelblitz::active_update(float elapsed_time)
     }
 
     if (is_in_water()) {
-      std::map<uint32_t, uint32_t> tilemap;
-      tilemap[75] = 1421;
-      tilemap[76] = 1422;
-      Sector::current()->add_object( std::make_shared<Electrifier>(tilemap,1.5));
+      Sector::current()->add_object( std::make_shared<Electrifier>(std::map<uint32_t, uint32_t>({{75,1421},{76,1422}}),1.5));
       explode();
     }
   }
