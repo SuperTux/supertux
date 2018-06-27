@@ -53,7 +53,7 @@ GameMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_RESETLEVEL:
-      Dialog::show_confirmation("Are you sure?", [] {
+      Dialog::show_confirmation(_("Are you sure?"), [] {
           MenuManager::instance().clear_menu_stack();
           GameSession::current()->toggle_pause();
           GameSession::current()->reset_button = true;
@@ -61,7 +61,7 @@ GameMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_ABORTLEVEL:
-      Dialog::show_confirmation("Do you really want to exit the level?", [] {
+      Dialog::show_confirmation(_("Do you really want to exit the level?"), [] {
           MenuManager::instance().clear_menu_stack();
           GameSession::current()->abort_level();
       });

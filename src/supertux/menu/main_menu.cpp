@@ -24,7 +24,6 @@
 #include "supertux/fadeout.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/gameconfig.hpp"
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"

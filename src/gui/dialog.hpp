@@ -90,8 +90,8 @@ public:
       std::unique_ptr<Dialog> dialog(new Dialog);
       dialog->set_text(text);
       dialog->clear_buttons();
-      dialog->add_cancel_button(_("No"));
       dialog->add_default_button(_("Yes"), callback);
+      dialog->add_cancel_button(_("No"));
       MenuManager::instance().set_dialog(std::move(dialog));
     }
     else

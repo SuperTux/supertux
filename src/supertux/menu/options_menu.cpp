@@ -237,7 +237,6 @@ OptionsMenu::OptionsMenu(bool complete) :
   }
 
   add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog)->set_help("Confirm aborting level");
-
   add_hl();
   add_back(_("Back"));
 }
