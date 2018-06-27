@@ -728,7 +728,6 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
         if(tile->is_slope())
         {
-          overlapV.y = -(std::abs(overlapV.y));
           overlapV.x = 0;
           
           Rectf tbbox = solids->get_tile_bbox(x, y);
@@ -933,6 +932,7 @@ Sector::collision_static(collision::Constraints* constraints,
     if(moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
       continue;
+    continue;  
     if(!moving_object->is_valid())
       continue;
 
@@ -968,6 +968,7 @@ Sector::collision_static(collision::Constraints* constraints,
   for(const auto& m : contacts)
   {
     Vector overlapV( (m.depth*m.normal.x)/(double)contacts.size() , (m.depth*m.normal.y)/(double)contacts.size());
+    overlapV *= (1+DELTA);
     dest.move(overlapV);
   }
   contacts.clear();
@@ -1050,7 +1051,6 @@ Sector::handle_collisions()
 
     collision_static_constrains(*moving_object, colgraph);
   }
-
   // part2: COLGROUP_MOVING vs tile attributes
   for(const auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING

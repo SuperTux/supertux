@@ -322,8 +322,10 @@ Player::update(float elapsed_time)
   // on downward slopes, adjust vertical velocity so tux walks smoothly down
   if (on_ground() && !dying) {
     if(floor_normal.y != 0) {
-      if ((floor_normal.x * physic.get_velocity_x()) >= 0.002) {
-        physic.set_velocity_y(250);
+      if ((floor_normal.x * physic.get_velocity_x()) >= 0.00) {
+        if(floor_normal.y < 0)
+          physic.set_velocity_y(250);
+        
       }
     }
   }

@@ -349,7 +349,6 @@ public: // TODO make this private again
   std::string music;
   float gravity;
   collision_graph colgraph;
-  //collision_broadphase broadphase;
 
   // some special objects, where we need direct access
   // (try to avoid accessing them directly)
