@@ -37,6 +37,7 @@
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "math/quadtree.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
@@ -352,7 +353,7 @@ Sector::update(float elapsed_time)
     float r = (1.0f - percent_done) * source_ambient_light.red + percent_done * target_ambient_light.red;
     float g = (1.0f - percent_done) * source_ambient_light.green + percent_done * target_ambient_light.green;
     float b = (1.0f - percent_done) * source_ambient_light.blue + percent_done * target_ambient_light.blue;
-    
+
     if(r > 1.0)
       r = 1.0;
     if(g > 1.0)
@@ -366,7 +367,7 @@ Sector::update(float elapsed_time)
       g = 0;
     if(b < 0)
       b = 0;
-    
+
     ambient_light = Color(r, g, b);
 
     if(ambient_light_fade_accum >= ambient_light_fade_duration)
@@ -977,7 +978,6 @@ Sector::handle_collisions()
   }
 
   using namespace collision;
-
   // calculate destination positions of the objects
   for(const auto& moving_object : moving_objects) {
     Vector mov = moving_object->get_movement();
@@ -992,6 +992,7 @@ Sector::handle_collisions()
     moving_object->dest.move(moving_object->get_movement());
   }
 
+
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
   for(const auto& moving_object : moving_objects) {
     if((moving_object->get_group() != COLGROUP_MOVING
@@ -1003,68 +1004,72 @@ Sector::handle_collisions()
     collision_static_constrains(*moving_object);
   }
 
+QuadTree qtree(Rectf(Vector(0,0),Vector(get_width(),get_height())));
+  std::vector<MovingObject* > fill;
   // part2: COLGROUP_MOVING vs tile attributes
-  for(const auto& moving_object : moving_objects) {
-    if((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC
-        && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
-       || !moving_object->is_valid())
-      continue;
+for(const auto& moving_object : moving_objects) {
+  if((moving_object->get_group() != COLGROUP_MOVING
+      && moving_object->get_group() != COLGROUP_MOVING_STATIC
+      && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
+     || !moving_object->is_valid())
+    continue;
 
-    uint32_t tile_attributes = collision_tile_attributes(moving_object->dest, moving_object->get_movement());
-    if(tile_attributes >= Tile::FIRST_INTERESTING_FLAG) {
-      moving_object->collision_tile(tile_attributes);
-    }
+  uint32_t tile_attributes = collision_tile_attributes(moving_object->dest, moving_object->get_movement());
+  if(tile_attributes >= Tile::FIRST_INTERESTING_FLAG) {
+    moving_object->collision_tile(tile_attributes);
   }
+}
+for(const auto& moving_object : moving_objects)
+  qtree.insert(moving_object);
 
-  // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
-  for(const auto& moving_object : moving_objects) {
-    if((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
-       || !moving_object->is_valid())
+// part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
+for(const auto& moving_object : moving_objects) {
+  if((moving_object->get_group() != COLGROUP_MOVING
+      && moving_object->get_group() != COLGROUP_MOVING_STATIC)
+     || !moving_object->is_valid())
+    continue;
+  qtree.retrieve(moving_object,fill);
+  for(const auto& moving_object_2 : fill) {
+    if(moving_object_2->get_group() != COLGROUP_TOUCHABLE
+       || !moving_object_2->is_valid())
       continue;
 
-    for(auto& moving_object_2 : moving_objects) {
-      if(moving_object_2->get_group() != COLGROUP_TOUCHABLE
-         || !moving_object_2->is_valid())
+    if(intersects(moving_object->dest, moving_object_2->dest)) {
+      Vector normal;
+      CollisionHit hit;
+      get_hit_normal(moving_object->dest, moving_object_2->dest,
+                     hit, normal);
+      if(!moving_object->collides(*moving_object_2, hit))
+        continue;
+      if(!moving_object_2->collides(*moving_object, hit))
         continue;
 
-      if(intersects(moving_object->dest, moving_object_2->dest)) {
-        Vector normal;
-        CollisionHit hit;
-        get_hit_normal(moving_object->dest, moving_object_2->dest,
-                       hit, normal);
-        if(!moving_object->collides(*moving_object_2, hit))
-          continue;
-        if(!moving_object_2->collides(*moving_object, hit))
-          continue;
-
-        moving_object->collision(*moving_object_2, hit);
-        moving_object_2->collision(*moving_object, hit);
-      }
+      moving_object->collision(*moving_object_2, hit);
+      moving_object_2->collision(*moving_object, hit);
     }
   }
+}
 
-  // part3: COLGROUP_MOVING vs COLGROUP_MOVING
-  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
-    auto moving_object = *i;
-
-    if((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
-       || !moving_object->is_valid())
+// part3: COLGROUP_MOVING vs COLGROUP_MOVING
+for(const auto& moving_object : moving_objects) {
+  if((moving_object->get_group() != COLGROUP_MOVING
+      && moving_object->get_group() != COLGROUP_MOVING_STATIC)
+     || !moving_object->is_valid())
+    continue;
+  qtree.retrieve(moving_object,fill);
+  for(const auto& moving_object_2 : fill ) {
+    if(moving_object == moving_object_2)
+      continue;
+    if((moving_object_2->get_group() != COLGROUP_MOVING
+        && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
+       || !moving_object_2->is_valid())
       continue;
 
-    for(auto i2 = i+1; i2 != moving_objects.end(); ++i2) {
-      auto moving_object_2 = *i2;
-      if((moving_object_2->get_group() != COLGROUP_MOVING
-          && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
-         || !moving_object_2->is_valid())
-        continue;
-
-      collision_object(moving_object, moving_object_2);
-    }
+    collision_object(moving_object, moving_object_2);
   }
-
+  fill.clear();
+}
+qtree.clear();
   // apply object movement
   for(const auto& moving_object : moving_objects) {
     moving_object->bbox = moving_object->dest;

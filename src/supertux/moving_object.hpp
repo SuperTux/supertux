@@ -161,6 +161,11 @@ public:
     bbox.set_size(w, h);
   }
 
+  const Rectf& get_dest() const
+  {
+    return dest;
+  }
+
   CollisionGroup get_group() const
   {
     return group;
