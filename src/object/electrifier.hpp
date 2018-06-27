@@ -20,12 +20,14 @@
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 #include <stdint.h>
+#include <map>
 
 //Changes all tiles with the given ID to a new one for a given amount of time, then removes itself
 //Used by the Kugelblitz to electrify water - can be used for other effects, too
 class Electrifier : public GameObject
 {
-public:
+public: 
+  Electrifier(std::map<uint32_t, uint32_t> tilemap, float seconds);
   Electrifier(uint32_t oldtile, uint32_t newtile, float seconds);
   virtual bool is_saveable() const {
     return false;
@@ -36,8 +38,7 @@ protected:
   virtual void draw(DrawingContext& context);
 
 private:
-  uint32_t change_from;
-  uint32_t change_to;
+  std::map<uint32_t, uint32_t> changingtilemap;
   Timer duration;
 };
 
