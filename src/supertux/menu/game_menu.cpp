@@ -15,11 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/menu/game_menu.hpp"
-
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "gui/mousecursor.hpp"
 #include "gui/dialog.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
@@ -83,6 +81,7 @@ GameMenu::menu_action(MenuItem* item)
       {
         abort_callback();
       }
+
       break;
   }
 }
