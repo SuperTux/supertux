@@ -4,6 +4,7 @@
 #include "scripting/background.hpp"
 #include "scripting/camera.hpp"
 #include "scripting/candle.hpp"
+#include "scripting/dispenser.hpp"
 #include "scripting/display_effect.hpp"
 #include "scripting/floating_image.hpp"
 #include "scripting/functions.hpp"
