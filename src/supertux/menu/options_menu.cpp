@@ -42,7 +42,8 @@ enum OptionsMenuIDs {
   MNID_MUSIC,
   MNID_DEVELOPER_MODE,
   MNID_CHRISTMAS_MODE,
-  MNID_TRANSITIONS
+  MNID_TRANSITIONS,
+  MNID_CONFIRMATION_DIALOG
 };
 
 OptionsMenu::OptionsMenu(bool complete) :
@@ -234,6 +235,8 @@ OptionsMenu::OptionsMenu(bool complete) :
   {
     add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), &g_config->christmas_mode);
   }
+
+  add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog)->set_help("Confirm aborting level");
 
   add_hl();
   add_back(_("Back"));
