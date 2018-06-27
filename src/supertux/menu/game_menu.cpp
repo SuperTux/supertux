@@ -81,7 +81,6 @@ GameMenu::menu_action(MenuItem* item)
       {
         abort_callback();
       }
-
       break;
   }
 }
