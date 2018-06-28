@@ -28,12 +28,12 @@
 #include "util/gettext.hpp"
 
 GameMenu::GameMenu() :
-  reset_callback ( [this] {
+  reset_callback ( [] {
     MenuManager::instance().clear_menu_stack();
     GameSession::current()->toggle_pause();
     GameSession::current()->reset_button = true;
   }),
-  abort_callback ( [this] {
+  abort_callback ( [] {
     MenuManager::instance().clear_menu_stack();
     GameSession::current()->abort_level();
   })
