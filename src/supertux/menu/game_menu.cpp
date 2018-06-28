@@ -22,6 +22,7 @@
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
+#include "supertux/menu/confirm_level_restart_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/screen_manager.hpp"
@@ -43,7 +44,7 @@ GameMenu::GameMenu() :
   add_label(level->name);
   add_hl();
   add_entry(MNID_CONTINUE, _("Continue"));
-  add_entry(MNID_RESETLEVEL, _("Restart Level"));
+  add_submenu(_("Restart Level"), MenuStorage::CONFIRM_LEVEL_RESTART_MENU);
   add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
   add_hl();
   add_entry(MNID_ABORTLEVEL, _("Abort Level"));

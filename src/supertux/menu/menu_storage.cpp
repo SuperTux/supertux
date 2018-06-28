@@ -19,6 +19,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/cheat_menu.hpp"
+#include "supertux/menu/confirm_level_restart_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
 #include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_level_menu.hpp"
@@ -146,6 +147,9 @@ MenuStorage::create(MenuId menu_id)
 
     case EDITOR_LEVELSET_MENU:
       return std::unique_ptr<Menu>(new EditorLevelsetMenu);
+
+    case CONFIRM_LEVEL_RESTART_MENU:
+      return std::unique_ptr<Menu>(new ConfirmLevelRestartMenu);
 
     case NO_MENU:
       return std::unique_ptr<Menu>();
