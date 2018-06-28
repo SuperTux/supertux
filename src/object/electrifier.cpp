@@ -38,7 +38,7 @@ void
 Electrifier::update(float )
 {
   if (duration.check()) {
-    for(auto &tile : change_map){
+    for(const auto& tile : change_map){
       Sector::current()->change_solid_tiles(tile.second, tile.first);
     }
     remove_me();
