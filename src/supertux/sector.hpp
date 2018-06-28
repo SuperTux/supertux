@@ -146,7 +146,8 @@ public:
 
   void collision_tilemap(collision::Constraints* constraints,
                          const Vector& movement, Rectf& dest,
-                         MovingObject &object, std::vector<Manifold>& contacts) const;
+                         MovingObject &object, std::vector<Manifold>& contacts,
+                         collision_broadphase& broad) const;
 
   /**
    * Checks if the specified rectangle is free of (solid) tiles.
@@ -274,9 +275,9 @@ private:
    * (because of ABORT_MOVE in the collision response or no collisions)
    */
   void collision_static(collision::Constraints* constraints,
-                        const Vector& movement, Rectf& dest, MovingObject& object, collision_graph& graph);
+                        const Vector& movement, Rectf& dest, MovingObject& object, collision_graph& graph, collision_broadphase& broad);
 
-  void collision_static_constrains(MovingObject& object, collision_graph& g);
+  void collision_static_constrains(MovingObject& object, collision_graph& g, collision_broadphase& broad);
 
   GameObjectPtr parse_object(const std::string& name, const ReaderMapping& lisp);
 
@@ -292,7 +293,7 @@ private:
   std::string name;
 
   std::vector<Bullet*> bullets;
-  
+
   std::set<MovingObject*> platforms;
 
   std::string init_script;

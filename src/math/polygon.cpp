@@ -32,12 +32,16 @@ void Polygon::process_neighbor(Polygon& b)
       double d1 = vector_gap(w,v);
       double d2 = vector_gap(w2,v2);
       if(d1 <= margin && d2 <= margin)
+      {
         disabled_normals[i] = true;
+      }
       double d3 = vector_gap(w,v2);
       double d4 = vector_gap(v,w2);
       if(d3 <= margin && d4 <= margin)
         disabled_normals[i] = true;
-      }
+    }
+    if(disabled_normals[i])
+      log_debug << "Disabled" << std::endl;
   }
 }
 
@@ -64,7 +68,7 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
       return;
     if((std::abs(overlap) < std::abs(minOverlap) || minOverlap == d_inf))
     {
-      if(overlap > 0)
+      if(overlap > 0) // It's not facing in the normal direction
         continue;
       bool seen_similiar = false;
       bool at_least_one_disabled  = false;
@@ -97,7 +101,7 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
     }
     if(overlap > 0)
       continue;
-    if(std::abs(overlap) < std::abs(minOverlap))
+    if(std::abs(overlap) < std::abs(minOverlap) || minOverlap == d_inf)
     {
       bool seen_similiar = false;
       bool at_least_one_disabled  = false;
@@ -120,8 +124,9 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
   // To resolve the collison use overlap as depth
   // and the axis normal as normal
   m.normal = minAxis.unit();
-  log_debug << "Normal is " << m.normal.x << " " << m.normal.y << " " << m.depth << std::endl;
   m.depth = minOverlap;
+
+  log_debug << "Normal is " << m.normal.x << " " << m.normal.y << " " << m.depth << std::endl;
 
 }
 
