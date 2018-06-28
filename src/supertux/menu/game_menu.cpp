@@ -27,7 +27,16 @@
 #include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
 
-GameMenu::GameMenu()
+GameMenu::GameMenu() :
+  reset_callback ( [this] {
+    MenuManager::instance().clear_menu_stack();
+    GameSession::current()->toggle_pause();
+    GameSession::current()->reset_button = true;
+  }),
+  abort_callback ( [this] {
+    MenuManager::instance().clear_menu_stack();
+    GameSession::current()->abort_level();
+  })
 {
   Level* level = GameSession::current()->get_current_level();
 
@@ -38,17 +47,6 @@ GameMenu::GameMenu()
   add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
   add_hl();
   add_entry(MNID_ABORTLEVEL, _("Abort Level"));
-
-  reset_callback = [] {
-    MenuManager::instance().clear_menu_stack();
-    GameSession::current()->toggle_pause();
-    GameSession::current()->reset_button = true;
-  };
-
-  abort_callback = [] {
-    MenuManager::instance().clear_menu_stack();
-    GameSession::current()->abort_level();
-  };
 }
 
 void
