@@ -92,6 +92,7 @@ public:
   bool developer_mode;
   bool christmas_mode;
   bool transitions_enabled;
+  bool confirmation_dialog;
 
   std::string repository_url;
 

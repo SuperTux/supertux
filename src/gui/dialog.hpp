@@ -81,6 +81,16 @@ public:
     MenuManager::instance().set_dialog(std::move(dialog));
   }
 
+  static void show_confirmation(const std::string& text, const std::function<void ()>& callback)
+  {
+    std::unique_ptr<Dialog> dialog(new Dialog);
+    dialog->set_text(text);
+    dialog->clear_buttons();
+    dialog->add_default_button(_("Yes"), callback);
+    dialog->add_cancel_button(_("No"));
+    MenuManager::instance().set_dialog(std::move(dialog));
+  }
+
 private:
   void on_button_click(int button) const;
   int get_button_at(const Vector& pos) const;
