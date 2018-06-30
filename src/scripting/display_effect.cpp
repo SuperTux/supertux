@@ -25,10 +25,6 @@ DisplayEffect::DisplayEffect(::DisplayEffect* parent) :
 {
 }
 
-DisplayEffect::~DisplayEffect()
-{
-}
-
 void
 DisplayEffect::fade_out(float fadetime)
 {

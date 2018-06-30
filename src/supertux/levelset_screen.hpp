@@ -36,7 +36,6 @@ private:
 
 public:
   LevelsetScreen(const std::string& basedir, const std::string& level_filename, Savegame& savegame);
-  ~LevelsetScreen();
 
   void draw(DrawingContext&) override;
   void update(float elapsed_time) override;

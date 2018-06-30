@@ -25,7 +25,6 @@ class Flower : public MovingObject
 {
 public:
   Flower(BonusType type);
-  ~Flower();
   virtual bool is_saveable() const {
     return false;
   }

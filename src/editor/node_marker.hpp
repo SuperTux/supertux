@@ -20,14 +20,10 @@
 #include "editor/point_marker.hpp"
 #include "object/path.hpp"
 
-//class Path;
-//class Path::Node;
-
 class NodeMarker : public PointMarker
 {
   public:
     NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_);
-    ~NodeMarker();
 
     Path* path;
     std::vector<Path::Node>::iterator node;

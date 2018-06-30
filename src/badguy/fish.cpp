@@ -31,14 +31,6 @@ Fish::Fish(const ReaderMapping& reader) :
   physic.enable_gravity(true);
 }
 
-Fish::Fish(const Vector& pos) :
-  BadGuy(pos, "images/creatures/fish/fish.sprite", LAYER_TILES-1),
-  waiting(),
-  stop_y(0)
-{
-  physic.enable_gravity(true);
-}
-
 void
 Fish::collision_solid(const CollisionHit& chit)
 {

@@ -25,7 +25,6 @@ class Flame : public BadGuy
 {
 public:
   Flame(const ReaderMapping& reader);
-  Flame(const Flame& flame);
 
   void activate();
   void deactivate();

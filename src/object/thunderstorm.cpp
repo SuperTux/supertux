@@ -140,8 +140,7 @@ Thunderstorm::flash()
 void
 Thunderstorm::electrify()
 {
-  Sector::current()->add_object(std::make_shared<Electrifier>(200, 1421, ELECTRIFY_TIME));
-  Sector::current()->add_object(std::make_shared<Electrifier>(201, 1422, ELECTRIFY_TIME));
+  Sector::current()->add_object(std::make_shared<Electrifier>(TileChangeMap({{200, 1421}, {201, 1422}}), ELECTRIFY_TIME));
 }
 
 /* EOF */

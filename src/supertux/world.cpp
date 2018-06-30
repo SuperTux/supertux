@@ -102,10 +102,6 @@ World::World() :
 {
 }
 
-World::~World()
-{
-}
-
 void
 World::load_(const std::string& directory)
 {

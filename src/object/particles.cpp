@@ -100,10 +100,6 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
   }
 }
 
-Particles::~Particles()
-{
-}
-
 void
 Particles::update(float elapsed_time)
 {

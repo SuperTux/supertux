@@ -45,7 +45,6 @@ class GameSession : public Screen,
 {
 public:
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = NULL);
-  ~GameSession();
 
   void draw(DrawingContext& context) override;
   void update(float frame_ratio) override;
@@ -55,7 +54,8 @@ public:
 
   /// ends the current level
   void finish(bool win = true);
-  void respawn(const std::string& sectorname, const std::string& spawnpointname);
+  void respawn(const std::string& sectorname, const std::string& spawnpointname, 
+  const bool invincibility = false, const int invincibilityperiod = 0);
   void reset_level();
   void set_reset_point(const std::string& sectorname, const Vector& pos);
   std::string get_reset_point_sectorname() const
@@ -129,6 +129,10 @@ private:
   // the sector and spawnpoint we should spawn after this frame
   std::string newsector;
   std::string newspawnpoint;
+  
+  // Whether the player had invincibility before spawning in a new sector
+  bool pastinvincibility;
+  int newinvincibilityperiod;
 
   Statistics* best_level_statistics;
   Savegame& m_savegame;

@@ -37,10 +37,6 @@ SpriteData::Action::Action() :
 {
 }
 
-SpriteData::Action::~Action()
-{
-}
-
 SpriteData::SpriteData(const ReaderMapping& lisp, const std::string& basedir) :
   actions(),
   name()
@@ -57,10 +53,6 @@ SpriteData::SpriteData(const ReaderMapping& lisp, const std::string& basedir) :
   }
   if(actions.empty())
     throw std::runtime_error("Error: Sprite without actions.");
-}
-
-SpriteData::~SpriteData()
-{
 }
 
 void

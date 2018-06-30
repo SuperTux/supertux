@@ -31,14 +31,6 @@ Crystallo::Crystallo(const ReaderMapping& reader) :
   reader.get("radius", radius, 100);
 }
 
-Crystallo::Crystallo(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
-  radius(100)
-{
-  walk_speed = 80;
-  max_drop_height = 16;
-}
-
 ObjectSettings
 Crystallo::get_settings() {
   ObjectSettings result = WalkingBadguy::get_settings();

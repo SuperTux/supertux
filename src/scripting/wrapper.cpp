@@ -4889,6 +4889,78 @@ static SQInteger __wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger translate_plural_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    std::string return_value = scripting::translate_plural(arg0, arg1, static_cast<int> (arg2));
+
+    sq_pushstring(vm, return_value.c_str(), return_value.size());
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'translate_plural'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger ___wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    std::string return_value = scripting::__(arg0, arg1, static_cast<int> (arg2));
+
+    sq_pushstring(vm, return_value.c_str(), return_value.size());
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function '__'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger import_wrapper(HSQUIRRELVM vm)
 {
   HSQUIRRELVM arg0 = vm;
@@ -6223,6 +6295,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function '_'");
+  }
+
+  sq_pushstring(v, "translate_plural", -1);
+  sq_newclosure(v, &translate_plural_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tssi");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'translate'");
+  }
+
+  sq_pushstring(v, "__", -1);
+  sq_newclosure(v, &___wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tssi");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function '__'");
   }
 
   sq_pushstring(v, "import", -1);

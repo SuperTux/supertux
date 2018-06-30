@@ -27,10 +27,6 @@ SmokeCloud::SmokeCloud(const Vector& pos) :
   timer.start(.3f);
 }
 
-SmokeCloud::~SmokeCloud()
-{
-}
-
 void
 SmokeCloud::update(float elapsed_time)
 {

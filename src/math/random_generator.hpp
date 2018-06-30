@@ -84,7 +84,6 @@ private:
 
 public:
   RandomGenerator();
-  ~RandomGenerator();
 
   // Documentation of user-visible calls:
 

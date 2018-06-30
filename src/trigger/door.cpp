@@ -152,7 +152,10 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
     {
       // if door is open and was touched by a player, teleport the player
       Player* player = dynamic_cast<Player*> (&other);
+      
       if (player) {
+        bool invincible = player->is_invincible();
+        int invincibilityperiod = player->invincible_timer.get_timeleft();
         state = CLOSING;
         sprite->set_action("closing", 1);
         if(!script.empty()) {
@@ -160,7 +163,8 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
         }
 
         if(!target_sector.empty()) {
-          GameSession::current()->respawn(target_sector, target_spawnpoint);
+          GameSession::current()->respawn(target_sector, target_spawnpoint,
+                                          invincible, invincibilityperiod);
           ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
         }
       }

@@ -14,16 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <string>
-
 #include "editor/object_icon.hpp"
-#include "math/rect.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/resources.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
-#include "util/reader.hpp"
+
+#include "math/rectf.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/surface.hpp"
+#include "video/drawing_context.hpp"
 
 ObjectIcon::ObjectIcon(const std::string& name, const std::string& icon) :
   object_name(name),

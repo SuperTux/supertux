@@ -68,6 +68,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   reset_pos(),
   newsector(),
   newspawnpoint(),
+  pastinvincibility(false),
+  newinvincibilityperiod(0),
   best_level_statistics(statistics),
   m_savegame(savegame),
   play_time(0),
@@ -161,10 +163,6 @@ GameSession::restart_level(bool after_death)
   start_recording();
 
   return (0);
-}
-
-GameSession::~GameSession()
-{
 }
 
 void
@@ -268,8 +266,7 @@ GameSession::draw(DrawingContext& context)
   if(game_pause)
     draw_pause(context);
 }
-
-
+                                                                                                                                                                                                                                                                                    
 void
 GameSession::on_window_resize()
 {
@@ -370,6 +367,11 @@ GameSession::update(float elapsed_time)
       currentsector->get_players()[0]->set_edit_mode(edit_mode);
     newsector = "";
     newspawnpoint = "";
+    // retain invincibility if the player has it
+    if(pastinvincibility) {
+      currentsector->get_players()[0]->invincible_timer.start(
+                                                        newinvincibilityperiod);
+    }
   }
 
   // Update the world state and all objects in the world
@@ -445,10 +447,13 @@ GameSession::finish(bool win)
 }
 
 void
-GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
+GameSession::respawn(const std::string& sector, const std::string& spawnpoint,
+                     const bool invincibility, const int invincibilityperiod)
 {
   newsector = sector;
   newspawnpoint = spawnpoint;
+  pastinvincibility = invincibility;
+  newinvincibilityperiod = invincibilityperiod;
 }
 
 void

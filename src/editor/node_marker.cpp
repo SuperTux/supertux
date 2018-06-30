@@ -14,8 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "editor/editor.hpp"
 #include "editor/node_marker.hpp"
+
+#include "editor/editor.hpp"
 
 NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_) :
   path(path_),
@@ -23,10 +24,6 @@ NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iter
   id(id_)
 {
   set_pos(node->position - Vector(8, 8));
-}
-
-NodeMarker::~NodeMarker() {
-
 }
 
 void NodeMarker::update_iterator() {

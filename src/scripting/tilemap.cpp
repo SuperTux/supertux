@@ -25,9 +25,6 @@ TileMap::TileMap(::TileMap* tilemap_)
   : tilemap(tilemap_)
 { }
 
-TileMap::~TileMap()
-{ }
-
 void TileMap::goto_node(int node_no)
 {
   tilemap->goto_node(node_no);

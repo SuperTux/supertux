@@ -63,10 +63,6 @@ Statistics::Statistics() :
   WMAP_INFO_TOP_Y2 = WMAP_INFO_TOP_Y1 + 16;
 }
 
-Statistics::~Statistics()
-{
-}
-
 void
 Statistics::calculate_max_caption_length()
 {

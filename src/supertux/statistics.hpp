@@ -44,7 +44,6 @@ public:
 
 public:
   Statistics(); /**< Creates new statistics, call reset() before counting */
-  ~Statistics();
 
   /**
    * serialize statistics object as squirrel table "statistics"

@@ -28,13 +28,6 @@ SmartBall::SmartBall(const ReaderMapping& reader)
   max_drop_height = 16;
 }
 
-SmartBall::SmartBall(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/snowball/smart-snowball.sprite", "left", "right")
-{
-  walk_speed = 80;
-  max_drop_height = 16;
-}
-
 bool
 SmartBall::collision_squished(GameObject& object)
 {

@@ -52,10 +52,6 @@ SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence_
   bbox.set_size(32, 32);
 }
 
-SequenceTrigger::~SequenceTrigger()
-{
-}
-
 void
 SequenceTrigger::save(Writer& writer) {
   MovingObject::save(writer);

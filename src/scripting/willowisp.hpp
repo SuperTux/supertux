@@ -33,7 +33,6 @@ private:
 
 public:
   WillOWisp(::WillOWisp* parent);
-  ~WillOWisp();
 
 private:
   WillOWisp(const WillOWisp&) = delete;

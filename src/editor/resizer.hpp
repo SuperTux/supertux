@@ -29,7 +29,6 @@ class Resizer : public PointMarker
     };
 
     Resizer(Rectf* rect_, Side vert_, Side horz_);
-    ~Resizer();
 
     void update(float elapsed_time);
     virtual void move_to(const Vector& pos);

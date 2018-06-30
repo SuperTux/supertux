@@ -37,7 +37,6 @@ private:
   };
 
   Sector* sector;
-  std::string* sector_name_ptr;
   std::string original_name;
 
   Size size;

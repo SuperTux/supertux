@@ -59,9 +59,6 @@ RandomGenerator::RandomGenerator() :
   initialize();
 }
 
-RandomGenerator::~RandomGenerator() {
-}
-
 int RandomGenerator::srand(int x)    {
   int x0 = x;
   while (x <= 0)                          // random seed of zero means

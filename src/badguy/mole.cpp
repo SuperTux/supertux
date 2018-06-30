@@ -41,18 +41,6 @@ Mole::Mole(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/dartfire.wav");
 }
 
-Mole::Mole(const Vector& pos) :
-  BadGuy(pos, "images/creatures/mole/mole.sprite", LAYER_TILES-1),
-  state(PRE_THROWING),
-  timer(),
-  throw_timer()
-{
-  physic.enable_gravity(false);
-  SoundManager::current()->preload("sounds/fall.wav");
-  SoundManager::current()->preload("sounds/squish.wav");
-  SoundManager::current()->preload("sounds/dartfire.wav");
-}
-
 void
 Mole::activate()
 {
