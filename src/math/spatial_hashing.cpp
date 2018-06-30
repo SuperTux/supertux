@@ -124,9 +124,9 @@ bool spatial_hashing::remove(MovingObject* obj)
 void spatial_hashing::clear()
 {
   // Delete every cell
-  for(int i = 0;i<grid.size();i++)
+  for(size_t i = 0;i<grid.size();i++)
   {
-    for(int j = 0; j < grid[i].size(); j++)
+    for(size_t j = 0; j < grid[i].size(); j++)
       grid[i][j].clear();
     grid[i].clear();
   }

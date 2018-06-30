@@ -932,7 +932,7 @@ Sector::collision_static(collision::Constraints* constraints,
   collision_tilemap(constraints, movement, dest, object, contacts, broad);
 
   // collision with other (static) objects
-  
+
   for(auto& moving_object : moving_objects) {
     if(moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
@@ -989,7 +989,7 @@ Sector::collision_static(collision::Constraints* constraints,
       graph.register_collision_hit(h,&object, moving_object);
     }
   }
-  
+
   for(const auto& m : contacts)
   {
     Vector overlapV( (m.depth*m.normal.x)/(double)contacts.size() , (m.depth*m.normal.y)/(double)contacts.size());
@@ -1005,11 +1005,8 @@ Sector::collision_static_constrains(MovingObject& object, collision_graph& graph
 {
 
   using namespace collision;
-  float infinity = (std::numeric_limits<float>::has_infinity ? std::numeric_limits<float>::infinity() : std::numeric_limits<float>::max());
-
   Constraints constraints;
   Vector movement = object.get_movement();
-  Vector pressure = Vector(0,0);
   Rectf& dest = object.dest;
   collision_static(&constraints, Vector(movement.x, movement.y), dest, object, graph, broad);
 

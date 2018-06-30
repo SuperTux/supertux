@@ -84,11 +84,11 @@ private:
   float gravity_modifier;
   
   /** Angular velocity */
-  float avx, avy;
+  //float avx, avy;
   /** True if angular velocity is enabled for this object */
-  bool angular_enabled;
+  //bool angular_enabled;
   /** Current angle */
-  float angle;
+  //float angle;
 };
 
 #endif

@@ -188,7 +188,7 @@ void Polygon::setup()
   }
   sumv *= (double)1/vertices.size();
   middle_point = sumv;
-  for(int i = 0;i < normals.size();i++)
+  for(size_t i = 0;i < normals.size();i++)
   {
     // Check if normal faces inwards
     Vector point = vertices[i];

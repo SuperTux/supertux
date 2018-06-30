@@ -66,8 +66,9 @@ class Polygon {
 
       void debug();
   private:
-    std::vector< Vector > original_vertices; /** Only used in rotated polygons */
-    double rotation_angle;
+    // The two commented out fields will be used for rotation later. 
+    //std::vector< Vector > original_vertices; /** Only used in rotated polygons */
+    //double rotation_angle;
     std::vector< Vector > vertices;
     std::vector< Vector > edges;
     std::vector< Vector > normals; /** Edge normals */
