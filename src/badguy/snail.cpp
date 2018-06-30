@@ -42,19 +42,6 @@ Snail::Snail(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/kick.wav");
 }
 
-Snail::Snail(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/snail/snail.sprite", "left", "right"),
-  state(STATE_NORMAL),
-  kicked_delay_timer(),
-  squishcount(0)
-{
-  walk_speed = 80;
-  max_drop_height = 600;
-  SoundManager::current()->preload("sounds/iceblock_bump.wav");
-  SoundManager::current()->preload("sounds/stomp.wav");
-  SoundManager::current()->preload("sounds/kick.wav");
-}
-
 void
 Snail::initialize()
 {

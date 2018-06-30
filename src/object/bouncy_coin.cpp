@@ -37,10 +37,6 @@ BouncyCoin::BouncyCoin(const Vector& pos, bool emerge, const std::string& sprite
   }
 }
 
-BouncyCoin::~BouncyCoin()
-{
-}
-
 void
 BouncyCoin::update(float elapsed_time)
 {

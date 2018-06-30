@@ -28,7 +28,6 @@ class Physic
 {
 public:
   Physic();
-  ~Physic();
 
   /// Resets all velocities and accelerations to 0.
   void reset();

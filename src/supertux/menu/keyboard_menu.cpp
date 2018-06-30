@@ -56,9 +56,6 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager) :
   refresh();
 }
 
-KeyboardMenu::~KeyboardMenu()
-{}
-
 std::string
 KeyboardMenu::get_key_name(SDL_Keycode key) const
 {

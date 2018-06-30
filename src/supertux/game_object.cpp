@@ -15,7 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/game_object.hpp"
+
 #include "supertux/object_remove_listener.hpp"
+#include "video/color.hpp"
 
 GameObject::GameObject() :
   wants_to_die(false),

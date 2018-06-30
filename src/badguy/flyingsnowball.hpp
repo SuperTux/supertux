@@ -23,7 +23,6 @@ class FlyingSnowBall : public BadGuy
 {
 public:
   FlyingSnowBall(const ReaderMapping& reader);
-  FlyingSnowBall(const Vector& pos);
 
   void initialize();
   void activate();

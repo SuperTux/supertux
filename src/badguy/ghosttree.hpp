@@ -26,7 +26,6 @@ class GhostTree : public BadGuy
 {
 public:
   GhostTree(const ReaderMapping& lisp);
-  ~GhostTree();
 
   virtual bool is_flammable() const { return false; }
   virtual bool is_freezable() const { return false; }

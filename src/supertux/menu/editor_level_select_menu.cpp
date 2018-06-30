@@ -16,23 +16,15 @@
 
 #include "supertux/menu/editor_level_select_menu.hpp"
 
-#include <sstream>
-
-#include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "supertux/menu/editor_levelset_menu.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/game_manager.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/levelset.hpp"
-#include "supertux/screen_fade.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
@@ -46,13 +38,13 @@ EditorLevelSelectMenu::EditorLevelSelectMenu() :
 EditorLevelSelectMenu::EditorLevelSelectMenu(std::unique_ptr<World> world) :
   m_levelset()
 {
-  Editor::current()->world = std::move(world);
+  Editor::current()->set_world(std::move(world));
   initialize();
 }
 
 void EditorLevelSelectMenu::initialize() {
   auto editor = Editor::current();
-  auto& world = editor->world;
+  World* world = editor->get_world();
   auto basedir = world->get_basedir();
   editor->deactivate_request = true;
   m_levelset = std::unique_ptr<Levelset>(new Levelset(basedir, /* recursively = */ true));
@@ -118,7 +110,7 @@ void
 EditorLevelSelectMenu::create_item()
 {
   auto editor = Editor::current();
-  auto& world = editor->world;
+  World* world = editor->get_world();
   auto basedir = world->get_basedir();
   auto new_item = editor->get_worldmap_mode() ?
       LevelParser::from_nothing_worldmap(basedir, world->m_title) :
@@ -141,7 +133,7 @@ void
 EditorLevelSelectMenu::menu_action(MenuItem* item)
 {
   auto editor = Editor::current();
-  auto& world = editor->world;
+  World* world = editor->get_world();
   if (item->id >= 0)
   {
     editor->set_level(m_levelset->get_level_filename(item->id));
@@ -156,7 +148,7 @@ EditorLevelSelectMenu::menu_action(MenuItem* item)
         MenuManager::instance().pop_menu();
         break;
       case -3: {
-        auto menu = std::unique_ptr<Menu>(new EditorLevelsetMenu(world.get()));
+        auto menu = std::unique_ptr<Menu>(new EditorLevelsetMenu(world));
         MenuManager::instance().push_menu(std::move(menu));
       } break;
       case -4:

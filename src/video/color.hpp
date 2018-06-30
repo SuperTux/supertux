@@ -41,6 +41,16 @@ public:
 
   float red, green, blue, alpha;
 
+
+  /**
+   * Return a human-readable string representation
+   * for this color
+   */
+  std::string to_string() const
+  {
+    return std::to_string(red) + " " + std::to_string(green) + " " + std::to_string(blue);
+  }
+
   static const Color BLACK;
   static const Color RED;
   static const Color GREEN;

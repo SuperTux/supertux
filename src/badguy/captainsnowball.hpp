@@ -23,7 +23,6 @@ class CaptainSnowball : public WalkingBadguy
 {
 public:
   CaptainSnowball(const ReaderMapping& reader);
-  CaptainSnowball(const Vector& pos, Direction d);
 
   virtual void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);

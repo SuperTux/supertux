@@ -16,9 +16,11 @@
 
 #include "supertux/menu/game_menu.hpp"
 
+#include "gui/dialog.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
+#include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
@@ -26,7 +28,18 @@
 #include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
 
-GameMenu::GameMenu()
+static const std::string CONFIRMATION_PROMPT = _("Are you sure?");
+
+GameMenu::GameMenu() :
+  reset_callback ( [] {
+    MenuManager::instance().clear_menu_stack();
+    GameSession::current()->toggle_pause();
+    GameSession::current()->reset_button = true;
+  }),
+  abort_callback ( [] {
+    MenuManager::instance().clear_menu_stack();
+    GameSession::current()->abort_level();
+  })
 {
   Level* level = GameSession::current()->get_current_level();
 
@@ -50,13 +63,25 @@ GameMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_RESETLEVEL:
-      MenuManager::instance().clear_menu_stack();
-      GameSession::current()->toggle_pause();
-      GameSession::current()->reset_button = true;
+      if (g_config->confirmation_dialog)
+      {
+        Dialog::show_confirmation(CONFIRMATION_PROMPT, reset_callback);
+      }
+      else
+      {
+        reset_callback();
+      }
       break;
 
     case MNID_ABORTLEVEL:
-      GameSession::current()->abort_level();
+      if(g_config->confirmation_dialog)
+      {
+        Dialog::show_confirmation(CONFIRMATION_PROMPT, abort_callback);
+      }
+      else
+      {
+        abort_callback();
+      }
       break;
   }
 }

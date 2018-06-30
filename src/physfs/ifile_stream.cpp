@@ -24,8 +24,4 @@ IFileStream::IFileStream(const std::string& filename) :
   init(sb.get());
 }
 
-IFileStream::~IFileStream()
-{
-}
-
 /* EOF */

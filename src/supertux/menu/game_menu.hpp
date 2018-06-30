@@ -19,6 +19,8 @@
 
 #include "gui/menu.hpp"
 
+#include <functional>
+
 enum GameMenuIDs {
   MNID_CONTINUE,
   MNID_RESETLEVEL,
@@ -28,6 +30,10 @@ enum GameMenuIDs {
 class GameMenu : public Menu
 {
 private:
+  // stores callback for level reset
+  std::function<void ()> reset_callback;
+  // stores callback for level abort
+  std::function<void ()> abort_callback;
 public:
   GameMenu();
 

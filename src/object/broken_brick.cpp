@@ -29,10 +29,6 @@ BrokenBrick::BrokenBrick(SpritePtr sprite_,
   timer.start(.2f);
 }
 
-BrokenBrick::~BrokenBrick()
-{
-}
-
 void
 BrokenBrick::update(float elapsed_time)
 {

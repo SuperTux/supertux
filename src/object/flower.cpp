@@ -56,10 +56,6 @@ Flower::Flower(BonusType _type) :
   set_group(COLGROUP_TOUCHABLE);
 }
 
-Flower::~Flower()
-{
-}
-
 void
 Flower::update(float )
 {

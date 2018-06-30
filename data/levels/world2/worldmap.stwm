@@ -422,10 +422,10 @@ underground_front.fade(0, 1);")
       (color 1 1 1 1)
     )
     (worldmap-spawnpoint
-      (x 37)
-      (y 44)
+      (x 74)
+      (y 61)
       (name "main")
-      (auto-dir "none")
+      (auto-dir "north")
     )
     (level
       (x 38)

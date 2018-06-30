@@ -43,7 +43,6 @@ class PlayerStatus
   static Color text_color;
 public:
   PlayerStatus();
-  ~PlayerStatus();
   void reset();
   void add_coins(int count, bool play_sound = true);
 

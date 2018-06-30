@@ -26,10 +26,6 @@ Resizer::Resizer(Rectf* rect_, Side vert_, Side horz_) :
   refresh_pos();
 }
 
-Resizer::~Resizer() {
-
-}
-
 void Resizer::update(float elapsed_time) {
   refresh_pos();
 }

@@ -36,14 +36,6 @@ Igel::Igel(const ReaderMapping& reader) :
   max_drop_height = 16;
 }
 
-Igel::Igel(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/igel/igel.sprite", "walking-left", "walking-right"),
-  turn_recover_timer()
-{
-  walk_speed = IGEL_SPEED;
-  max_drop_height = 16;
-}
-
 void
 Igel::be_normal()
 {

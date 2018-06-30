@@ -27,7 +27,6 @@ class SpecialRiser : public GameObject
 {
 public:
   SpecialRiser(const Vector& pos, std::shared_ptr<MovingObject> child);
-  ~SpecialRiser();
   virtual bool is_saveable() const {
     return false;
   }

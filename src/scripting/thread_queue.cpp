@@ -28,10 +28,6 @@ ThreadQueue::ThreadQueue() :
 {
 }
 
-ThreadQueue::~ThreadQueue()
-{
-}
-
 void
 ThreadQueue::add(HSQUIRRELVM vm)
 {

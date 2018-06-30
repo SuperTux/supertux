@@ -26,7 +26,6 @@ class Toad : public BadGuy
 {
 public:
   Toad(const ReaderMapping& reader);
-  Toad(const Vector& pos, Direction d);
 
   void initialize();
   void collision_solid(const CollisionHit& hit);

@@ -18,39 +18,35 @@
 
 #include <limits>
 
-#include "addon/addon_manager.hpp"
+//#include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "editor/layer_icon.hpp"
-#include "gui/dialog.hpp"
+#include "editor/object_input.hpp"
+#include "editor/tile_selection.hpp"
+#include "editor/tip.hpp"
+#include "editor/tool_icon.hpp"
+//#include "gui/dialog.hpp"
 #include "gui/mousecursor.hpp"
 #include "gui/menu_manager.hpp"
+#include "gui/mousecursor.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/physfs_file_system.cpp"
-#include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/editor_menu.hpp"
-#include "supertux/menu/editor_levelset_select_menu.hpp"
-#include "supertux/fadein.hpp"
 #include "supertux/game_manager.hpp"
-#include "supertux/game_object.hpp"
 #include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
-#include "supertux/levelset_screen.hpp"
-#include "supertux/moving_object.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/savegame.hpp"
-#include "supertux/screen.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/spawn_point.hpp"
-#include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/reader_mapping.hpp"
-#include "video/drawing_request.hpp"
 #include "video/surface.hpp"
 
 Editor::Editor() :
@@ -78,11 +74,6 @@ Editor::Editor() :
   enabled(false),
   bgr_surface(Surface::create("images/background/forest1.jpg"))
 {
-}
-
-Editor::~Editor()
-{
-
 }
 
 void Editor::draw(DrawingContext& context)
@@ -191,6 +182,18 @@ void Editor::test_level() {
     }
   }
   leveltested = true;
+}
+
+void Editor::set_world(std::unique_ptr<World> w) {
+  world = std::move(w);
+}
+
+int Editor::get_tileselect_select_mode() const {
+  return tileselect.select_mode->get_mode();
+}
+
+int Editor::get_tileselect_move_mode() const {
+  return tileselect.move_mode->get_mode();
 }
 
 bool Editor::can_scroll_vert() const {
@@ -487,6 +490,19 @@ Editor::sort_layers() {
 }
 
 void
+Editor::select_tilegroup(int id) {
+  tileselect.active_tilegroup.reset(new Tilegroup(tileset->tilegroups[id]));
+  tileselect.input_type = EditorInputGui::IP_TILE;
+  tileselect.reset_pos();
+  tileselect.update_mouse_icon();
+}
+
+const std::vector<Tilegroup>&
+Editor::get_tilegroups() const {
+	return tileset->tilegroups;
+}
+
+void
 Editor::change_tileset() {
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   tileselect.input_type = EditorInputGui::IP_NONE;
@@ -498,6 +514,19 @@ Editor::change_tileset() {
       }
     }
   }
+}
+
+void
+Editor::select_objectgroup(int id) {
+    tileselect.active_objectgroup = id;
+    tileselect.input_type = EditorInputGui::IP_OBJECT;
+    tileselect.reset_pos();
+    tileselect.update_mouse_icon();
+}
+
+const std::vector<ObjectGroup>&
+Editor::get_objectgroups() const {
+	return tileselect.object_input->groups;
 }
 
 void
