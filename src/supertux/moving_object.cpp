@@ -27,6 +27,14 @@ MovingObject::MovingObject() :
 {
 }
 
+MovingObject::MovingObject(const MovingObject& m) :
+  GameObject(),
+  bbox(m.bbox),
+  movement(m.movement),
+  group(m.group),
+  dest(m.dest)
+{
+}
 MovingObject::~MovingObject()
 {
 }

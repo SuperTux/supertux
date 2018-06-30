@@ -183,9 +183,11 @@ protected:
 
   /** The collision group */
   CollisionGroup group;
-  MovingObject* parent = NULL;
+  MovingObject* collision_parent = NULL;
   MovingObject* old_parent = NULL;
   bool parent_updated = false;
+  MovingObject& operator=(const MovingObject&);
+  MovingObject(const MovingObject&);
 private:
   /** this is only here for internal collision detection use (don't touch this
       from outside collision detection code)

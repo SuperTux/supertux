@@ -69,6 +69,7 @@ Sector::Sector(Level* parent) :
   level(parent),
   name(),
   bullets(),
+  platforms(),
   init_script(),
   gameobjects_new(),
   currentmusic(LEVEL_MUSIC),
@@ -87,6 +88,7 @@ Sector::Sector(Level* parent) :
   portables(),
   music(),
   gravity(10.0),
+  colgraph(),
   player(0),
   solid_tilemaps(),
   camera(0),
@@ -852,7 +854,7 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
 
 /** fills in CollisionHit and Normal vector of 2 intersecting rectangle */
 static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
-                           Vector& normal) const
+                           Vector& normal)
 {
   float itop = r1.get_bottom() - r2.get_top();
   float ibottom = r2.get_bottom() - r1.get_top();
@@ -989,7 +991,7 @@ Sector::collision_static(collision::Constraints* constraints,
 
   for (const auto& m : contacts) {
     Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
-                    (m.depth*m.normal.y)/(static_cast<double>(contacts.size()));
+                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
     dest.move(overlapV);
   }
   contacts.clear();
@@ -1045,8 +1047,8 @@ Sector::handle_collisions()
       platforms.insert(moving_object);
   }
   for (const auto& mobj : moving_objects) {
-    if (mobj->parent != NULL) {
-      mobj->dest.move(mobj->parent->get_movement());
+    if (mobj->collision_parent != NULL) {
+      mobj->dest.move(mobj->collision_parent->get_movement());
     }
   }
   colgraph.reset();
@@ -1145,7 +1147,7 @@ Sector::handle_collisions()
     colgraph.directional_hull(plf, 0 /** 0 is direction top */, children);
     log_debug << "Hull has " << children.size() << " elements." << std::endl;
     for (const auto& child : children) {
-        child->parent = plf;
+        child->collision_parent = plf;
         child->parent_updated = true;
     }
   }
@@ -1156,7 +1158,7 @@ Sector::handle_collisions()
     moving_object->bbox = moving_object->dest;
     moving_object->movement = Vector(0, 0);
     if (!moving_object->parent_updated) {
-        moving_object->parent = NULL;
+        moving_object->collision_parent = NULL;
     }
     moving_object->parent_updated = false;
   }

@@ -8,9 +8,17 @@ struct Manifold {
   double depth;
 
   bool collided = false;
+
+public:
+  Manifold():
+    normal(),
+    depth(),
+    collided(){
+  }
 };
 class Polygon {
  public:
+   Polygon();
     /**
      *  Adds a vertice to this polygon.
      *  @param point The new vertice
@@ -57,6 +65,7 @@ class Polygon {
       void setup();
 
       void debug();
+
  private:
     // The two commented out fields will be used for rotation later.
     //std::vector< Vector > original_vertices; /** Only used in rotated polygons */

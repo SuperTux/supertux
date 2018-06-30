@@ -1,4 +1,4 @@
-#ifndef SUPERTUX_MATH_SPATIAL_HASHING_HPP_INCLUDED 
+#ifndef SUPERTUX_MATH_SPATIAL_HASHING_HPP_INCLUDED
 #define SUPERTUX_MATH_SPATIAL_HASHING_HPP_INCLUDED
 #include "math/rectf.hpp"
 #include "math/broadphase.hpp"
@@ -18,14 +18,14 @@ public:
   virtual void clear();
   ~spatial_hashing() = default;
 private:
-  int gridx;  // Width of grid cells 
+  int gridx;  // Width of grid cells
   int gridy;  // Height of grid objects
   int rows;
   int cols;
-  
+
   int width;
   int height;
-  std::vector< std::vector< std::set<MovingObject*> > > grid;  
+  std::vector< std::vector< std::set<MovingObject*> > > grid;
   std::map< MovingObject*, Rectf > current_stored;
 };
 #endif

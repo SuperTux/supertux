@@ -1,7 +1,16 @@
 #include "math/polygon.hpp"
 #include <limits>
+#include <cassert>
 #include <algorithm>
 #include "util/log.hpp"
+
+Polygon::Polygon():
+  vertices(),
+  edges(),
+  normals(),
+  middle_point(),
+  disabled_normals() {
+}
 
 void Polygon::add_vertice(Vector v) {
   vertices.push_back(v);
@@ -53,7 +62,6 @@ void Polygon::handle_collision(Polygon& b, Manifold& m) {
   bool set_overlap = false;
   for(size_t i = 0; i < edges.size(); i++)
   {
-    auto axis = edges[i];
     double overlap;
     if(disabled_normals[i])
       continue;
@@ -79,7 +87,6 @@ void Polygon::handle_collision(Polygon& b, Manifold& m) {
   }
   // Check if any of b's axes seperates
   for (size_t i = 0; i < b.edges.size(); i++) {
-    auto axis = b.edges[i];
     double overlap;
     if (b.disabled_normals[i])
       continue;

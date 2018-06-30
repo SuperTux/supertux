@@ -2,7 +2,11 @@
 #include <queue>
 #include <set>
 #include "supertux/collision_hit.hpp"
+collision_graph::collision_graph():
+graph()
+{
 
+}
 void collision_graph::register_collision_top(MovingObject* A, MovingObject* B)
 {
   collision_graph_edge e;
@@ -41,13 +45,13 @@ void collision_graph::directional_hull(MovingObject* A, int dir, std::vector< Mo
   std::queue<MovingObject*> queue;
   queue.push(A);
   inqueue.insert(A);
-  
+
   while(!queue.empty())
   {
-    // Get object from queue 
+    // Get object from queue
     MovingObject* x = queue.front();
     queue.pop();
-    // Iterate over edges 
+    // Iterate over edges
     for(const auto& edge : graph[x])
     {
       if(edge.dir == dir)
@@ -61,7 +65,7 @@ void collision_graph::directional_hull(MovingObject* A, int dir, std::vector< Mo
       }
     }
   }
-  
+
 }
 
 void collision_graph::register_collision_hit(CollisionHit h, MovingObject* A, MovingObject* B)
