@@ -671,7 +671,8 @@ void check_collisions(collision::Constraints* constraints,
 void
 Sector::collision_tilemap(collision::Constraints* constraints,
                           const Vector& movement, Rectf& dest,
-                          MovingObject& object, std::vector<Manifold>& contacts) const
+                          MovingObject& object, std::vector<Manifold>& contacts,
+                          collision_broadphase& broad) const
 {
   // calculate rectangle where the object will move
   float x1 = dest.get_left();
@@ -724,6 +725,8 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         }
         Manifold m;
         mobjp.handle_collision(tile_poly,m);
+        if(!m.collided)
+          continue;
         //log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
         overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
         if(tile->is_slope())
@@ -922,12 +925,14 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2, collision
 void
 Sector::collision_static(collision::Constraints* constraints,
                          const Vector& movement, Rectf& dest,
-                         MovingObject& object, collision_graph& graph)
+                         MovingObject& object, collision_graph& graph,
+                         collision_broadphase& broad)
 {
   std::vector< Manifold > contacts;
-  collision_tilemap(constraints, movement, dest, object, contacts);
+  collision_tilemap(constraints, movement, dest, object, contacts, broad);
 
   // collision with other (static) objects
+  
   for(auto& moving_object : moving_objects) {
     if(moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
@@ -943,31 +948,52 @@ Sector::collision_static(collision::Constraints* constraints,
       Polygon mobjp = dest.to_polygon();
       Polygon tile_poly = moving_object->get_bbox().to_polygon();
       Manifold m;
-      mobjp.handle_collision(tile_poly,m);
-      //log_debug << "Created a collision polygon" << std::endl;
-      //log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
-      // Check if they overlap
-      Vector overlapV(0,0);
       CollisionHit h;
-      get_hit_normal(moving_object->get_bbox(), dest, h, overlapV);
+      std::set< MovingObject* > possible_neighbours;
+      broad.search(moving_object->get_bbox().grown(4), []{}, possible_neighbours);
+      for(const auto& mobject : possible_neighbours)
+      {
+        if(mobject == &object || mobject == moving_object)
+          continue;
+        Polygon mobject_poly = mobject->get_bbox().to_polygon();
+        tile_poly.process_neighbor(mobject_poly);
+        tile_poly.debug();
+        mobject_poly.debug();
+      }
+      mobjp.handle_collision(tile_poly,m);
+      if(!m.collided)
+        continue;
+      Vector overlapV = m.normal*m.depth;
+      h.right = h.left = h.bottom = h.top = false;
+      if(std::max(std::abs(overlapV.x),std::abs(overlapV.y)) == std::abs(overlapV.x))
+      {
+        h.right = overlapV.x > 0;
+        h.left =  overlapV.x < 0;
+      }else{
+        h.bottom = overlapV.y > 0;
+        h.top    = overlapV.y < 0;
+        //log_debug << "*** TOP OR BOT "<< std::endl << m.normal.x << " " << m.normal.y << std::endl;
+
+      }
+
       //log_debug << "Created a collision polygon" << std::endl;
       moving_object->collision(object, h);
       std::swap(h.top, h.bottom);
       std::swap(h.right, h.left);
 
-      m.normal = overlapV;
-      m.depth = 1;
-      //if(std::max(std::abs(m.normal.x),std::abs(m.normal.y)) > SHIFT_DELTA)
-        object.collision_solid(h);
+      m.normal = m.normal;
+      m.depth = m.depth;
+      object.collision_solid(h);
       contacts.push_back(m);
       // Insert into collision graph
       graph.register_collision_hit(h,&object, moving_object);
     }
   }
+  
   for(const auto& m : contacts)
   {
     Vector overlapV( (m.depth*m.normal.x)/(double)contacts.size() , (m.depth*m.normal.y)/(double)contacts.size());
-    overlapV *= (1+DELTA);
+    //overlapV *= (1+DELTA);
     dest.move(overlapV);
   }
   contacts.clear();
@@ -975,7 +1001,7 @@ Sector::collision_static(collision::Constraints* constraints,
 }
 
 void
-Sector::collision_static_constrains(MovingObject& object, collision_graph& graph)
+Sector::collision_static_constrains(MovingObject& object, collision_graph& graph, collision_broadphase& broad)
 {
 
   using namespace collision;
@@ -985,7 +1011,7 @@ Sector::collision_static_constrains(MovingObject& object, collision_graph& graph
   Vector movement = object.get_movement();
   Vector pressure = Vector(0,0);
   Rectf& dest = object.dest;
-  collision_static(&constraints, Vector(movement.x, movement.y), dest, object, graph);
+  collision_static(&constraints, Vector(movement.x, movement.y), dest, object, graph, broad);
 
 }
 
@@ -1048,7 +1074,7 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
 
-    collision_static_constrains(*moving_object, colgraph);
+    collision_static_constrains(*moving_object, colgraph, broadphase);
   }
   // part2: COLGROUP_MOVING vs tile attributes
   for(const auto& moving_object : moving_objects) {

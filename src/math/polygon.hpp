@@ -5,6 +5,8 @@
 struct Manifold {
   Vector normal;
   double depth;
+  
+  bool collided = false;
 };
 class Polygon {
   public:

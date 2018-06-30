@@ -20,24 +20,31 @@ double vector_gap(Vector& a, Vector& b){
 void Polygon::process_neighbor(Polygon& b)
 {
   // Loop over all edges (and vertices in order to find 'wrong' edges)
-  const int margin = 4;
-  for(size_t i = 0;i < vertices.size(); i++)
+  const int margin = 8;
+  for(size_t i = 0;i <= vertices.size(); i++)
   {
     auto& v = vertices[i];
     auto& v2 = vertices[(i+1)%vertices.size()];
-    for(size_t j = 0; j < b.vertices.size(); j++)
+    for(size_t j = 0; j <= b.vertices.size(); j++)
     {
       auto& w = b.vertices[j];
       auto& w2 = b.vertices[(j+1)%b.vertices.size()];
       double d1 = vector_gap(w,v);
       double d2 = vector_gap(w2,v2);
+      bool ndis = disabled_normals[i];
       if(d1 <= margin && d2 <= margin)
         disabled_normals[i] = true;
       double d3 = vector_gap(w,v2);
       double d4 = vector_gap(v,w2);
       if(d3 <= margin && d4 <= margin)
         disabled_normals[i] = true;
+      if(!ndis && disabled_normals[i])
+      {
+        log_debug << "Disabled normal " << i << " " << normals[i].x << " " << normals[i].y << std::endl;
+        log_debug << w.x << " " << w.y << " " << w2.x << " " << w2.y << std::endl 
+                  << v.x << " " << v.y << " " << v2.x << " " << v2.y << std::endl;
       }
+    }
   }
 }
 
@@ -54,6 +61,7 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
   double d_inf = std::numeric_limits<double>::infinity();
   double minOverlap = d_inf;
   Vector minAxis;
+  bool set_overlap = false;
   for(size_t i = 0; i < edges.size(); i++)
   {
     auto axis = edges[i];
@@ -78,7 +86,7 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
       }
       if(seen_similiar && at_least_one_disabled)
         continue;
-
+      set_overlap = true;
       minAxis = normals[i];
       minOverlap = overlap;
 
@@ -111,6 +119,7 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
       }
       if(seen_similiar && at_least_one_disabled)
         continue;
+      set_overlap = true;
       minAxis = b.normals[i];
       minOverlap = overlap;
     }
@@ -119,9 +128,12 @@ void Polygon::handle_collision(Polygon& b, Manifold& m)
   log_debug << minOverlap << std::endl;
   // To resolve the collison use overlap as depth
   // and the axis normal as normal
+  m.collided = set_overlap;
+  if(!set_overlap)
+  log_debug  << "NOT SET " << std::endl;
   m.normal = minAxis.unit();
-  log_debug << "Normal is " << m.normal.x << " " << m.normal.y << " " << m.depth << std::endl;
   m.depth = minOverlap;
+  log_debug << "Normal is " << m.normal.x << " " << m.normal.y << " " << m.depth << std::endl;
 
 }
 
