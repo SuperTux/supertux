@@ -20,7 +20,7 @@ spatial_hashing::spatial_hashing(int c_width, int c_height, int c_gridx, int c_g
   // Initial grid is set up.
 }
 
-void spatial_hashing::insert(Rectf aabb, MovingObject* obj) {
+void spatial_hashing::insert(const Rectf& aabb, MovingObject* obj) {
   if (obj == NULL)
     return;
   // Check if object si out of bounds
@@ -54,7 +54,7 @@ void spatial_hashing::insert(Rectf aabb, MovingObject* obj) {
   current_stored[obj] = aabb;
 }
 
-void spatial_hashing::search(Rectf r, std::function<void()> collision_ok, std::set< MovingObject* >& fill)
+void spatial_hashing::search(const Rectf& r, std::function<void()> collision_ok, std::set< MovingObject* >& fill)
 {
   if(r.p1.x < 0 || r.p1.y < 0 || r.p2.x > width || r.p2.y > height)
     return;
@@ -78,7 +78,7 @@ void spatial_hashing::search(Rectf r, std::function<void()> collision_ok, std::s
 
 }
 
-bool spatial_hashing::collides(Rectf r)
+bool spatial_hashing::collides(const Rectf& r)
 {
   // Abort and return true as soon as we have encountered more than 1 object.
   // (We use more than 1 because encountering exactly 1 object would mean no possible collisions.)

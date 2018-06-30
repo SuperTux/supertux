@@ -23,12 +23,12 @@ class Polygon {
      *  Adds a vertice to this polygon.
      *  @param point The new vertice
      */
-    void add_vertice(Vector point);
+    void add_vertice(const Vector& point);
     /**
      * Checks for overlapping vertices and marks normals using those as disabled.
      * @param b The neighbouring polygon.
      **/
-    void process_neighbor(Polygon& b);
+    void process_neighbor(const Polygon& b);
     /**
      *  Handles a collision between the tile and a moving object.
      *  Returns the axis of resolution.
@@ -43,13 +43,13 @@ class Polygon {
       *  @param b The second polygon
       *  @param axis The vector representing the axis
       */
-     double is_seperating_axis(Polygon& b, const Vector& axis);
+     double is_seperating_axis(const Polygon& b, const Vector& axis);
      /**
       * Projects a polygon onto an axis.
       * @param axis The axis to project onto.
       * @returns 0 if the axis not seperating, else the overlap length.
       */
-     Vector project(Vector axis);
+     Vector project(const Vector& axis) const;
      /**
      * TODO
       * Rotates the polygon angle degrees.

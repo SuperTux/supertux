@@ -12,7 +12,7 @@ Polygon::Polygon():
   disabled_normals() {
 }
 
-void Polygon::add_vertice(Vector v) {
+void Polygon::add_vertice(const Vector& v) {
   vertices.push_back(v);
   if (vertices.size() > 1) {
     edges.push_back(v-vertices[vertices.size()-2]);
@@ -25,7 +25,7 @@ double vector_gap(const Vector& a, const Vector& b) {
   return std::abs(a.x-b.x)+std::abs(a.y-b.y);
 }
 
-void Polygon::process_neighbor(Polygon& b) {
+void Polygon::process_neighbor(const Polygon& b) {
   // Loop over all edges (and vertices in order to find 'wrong' edges)
   const int margin = 8;
   for (size_t i = 0; i <= vertices.size(); i++) {
@@ -121,7 +121,7 @@ void Polygon::handle_collision(Polygon& b, Manifold& m) {
   m.depth = minOverlap;
 }
 
-double Polygon::is_seperating_axis(Polygon& b, const Vector& axis) {
+double Polygon::is_seperating_axis(const Polygon& b, const Vector& axis) {
   Vector a_proj = this->project(axis);
   Vector b_proj = b.project(axis);
   double aRight = b_proj.y - a_proj.x;
@@ -134,7 +134,7 @@ double Polygon::is_seperating_axis(Polygon& b, const Vector& axis) {
   return -aLeft;
 }
 
-Vector Polygon::project(Vector axis) {
+Vector Polygon::project(const Vector& axis) const {
   assert(vertices.size() > 0);
   double minimum =  vertices[0]*axis.unit(), maximum = vertices[0]*axis.unit();
   for (const auto& vertice : vertices) {

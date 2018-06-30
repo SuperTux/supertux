@@ -677,6 +677,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
                           MovingObject& object, std::vector<Manifold>& contacts,
                           collision_broadphase& broad) const
 {
+  using namespace collision;
   // calculate rectangle where the object will move
   float x1 = dest.get_left();
   float x2 = dest.get_right();
@@ -770,20 +771,20 @@ Sector::collision_tilemap(collision::Constraints* constraints,
             switch(triangle.dir & AATriangle::DIRECTION_MASK) {
               case AATriangle::SOUTHWEST:
                 p1 = Vector(rect.p1.x, rect.p2.y);
-                collision::makePlane(area.p1, area.p2, normal, c);
+                makePlane(area.p1, area.p2, normal, c);
                 break;
               case AATriangle::NORTHEAST:
                 p1 = Vector(rect.p2.x, rect.p1.y);
-                collision::makePlane(area.p2, area.p1, normal, c);
+                makePlane(area.p2, area.p1, normal, c);
                 break;
               case AATriangle::SOUTHEAST:
                 p1 = rect.p2;
-              collision::makePlane(Vector(area.p1.x, area.p2.y),
+              makePlane(Vector(area.p1.x, area.p2.y),
                           Vector(area.p2.x, area.p1.y), normal, c);
                 break;
               case AATriangle::NORTHWEST:
                 p1 = rect.p1;
-                collision::makePlane(Vector(area.p2.x, area.p1.y),
+                makePlane(Vector(area.p2.x, area.p1.y),
                           Vector(area.p1.x, area.p2.y), normal, c);
                 break;
               default:
