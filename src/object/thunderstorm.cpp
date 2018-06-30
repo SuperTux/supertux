@@ -140,7 +140,18 @@ Thunderstorm::flash()
 void
 Thunderstorm::electrify()
 {
-  Sector::current()->add_object(std::make_shared<Electrifier>(TileChangeMap({{200, 1421}, {201, 1422}}), ELECTRIFY_TIME));
+  auto changing_tiles = TileChangeMap({
+    {200, 1421}, {201, 1422},
+    {3419, 3523}, {3420, 3524},
+    {3421, 3525}, {3422, 3526},
+    {3423, 3527}, {3424, 3528},
+    {3425, 3529}, {3426, 3530},
+    {3427, 3523}, {3428, 3524},
+    {3429, 3525}, {3430, 3526},
+    {3431, 3527}, {3432, 3528},
+    {3433, 3529}, {3434, 3530}
+  });
+  Sector::current()->add_object(std::make_shared<Electrifier>(changing_tiles, ELECTRIFY_TIME));
 }
 
 /* EOF */
