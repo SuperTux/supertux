@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <math.h>
 #include <vector>
+#include <utility>
 #include <cmath>
 
 #include "scripting/scripting.hpp"
@@ -73,7 +74,7 @@ Sector::Sector(Level* parent) :
   currentmusic(LEVEL_MUSIC),
   sector_table(),
   scripts(),
-  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
+  ambient_light(1.0f, 1.0f, 1.0f, 1.0f ),
   ambient_light_fading(false),
   source_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
   target_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
@@ -687,7 +688,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
     for(int x = test_tiles.left; x < test_tiles.right; ++x) {
       for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const auto& tile = solids->get_tile(x, y);
-        if(!tile)
+        if( !tile)
           continue;
         // skip non-solid tiles
         if(!tile->is_solid ())
@@ -709,14 +710,13 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 
         Vector overlapV(0,0);
 
-        //get_hit_normal(tile_bbox, dest, h, overlapV);
+        // get_hit_normal(tile_bbox, dest, h, overlapV);
         Polygon mobjp = dest.to_polygon();
         Polygon tile_poly = tile->tile_to_poly(tile_bbox);
-        int dir[4][2] = {{1,0},{-1,0},{0,1},{0,-1}};
-        for(const auto& offset : dir)
-        {
+        int dir[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        for (const auto& offset : dir) {
           const auto& nb = solids->get_tile(x+offset[0], y+offset[1]);
-          if(!nb->is_solid())
+          if (!nb->is_solid())
             continue;
 
           Rectf nb_bbox = solids->get_tile_bbox(x+offset[0], y+offset[1]);
@@ -724,13 +724,12 @@ Sector::collision_tilemap(collision::Constraints* constraints,
           tile_poly.process_neighbor(npoly);
         }
         Manifold m;
-        mobjp.handle_collision(tile_poly,m);
-        if(!m.collided)
+        mobjp.handle_collision(tile_poly, m);
+        if (!m.collided)
           continue;
-        //log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
+        // log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
         overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
-        if(tile->is_slope())
-        {
+        if (tile->is_slope()) {
           overlapV.x = 0;
 
           Rectf tbbox = solids->get_tile_bbox(x, y);
@@ -741,7 +740,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
             float c = 0.0;
             Vector p1;
             Rectf area;
-            switch(triangle.dir & AATriangle::DEFORM_MASK) {
+            switch (triangle.dir & AATriangle::DEFORM_MASK) {
               case 0:
                 area.p1 = triangle.bbox.p1;
                 area.p2 = triangle.bbox.p2;
@@ -791,19 +790,18 @@ Sector::collision_tilemap(collision::Constraints* constraints,
 
           h.slope_normal = normal;
         }
-        if(std::max(std::abs(overlapV.x),std::abs(overlapV.y)) == std::abs(overlapV.x))
-        {
+        if (std::max(std::abs(overlapV.x), std::abs(overlapV.y))
+            == std::abs(overlapV.x)) {
           h.right = overlapV.x > 0;
           h.left =  overlapV.x < 0;
-        }else{
+        } else {
           h.bottom = overlapV.y > 0;
           h.top    = overlapV.y < 0;
         }
         // Check if they overlap
         std::swap(h.top, h.bottom);
         std::swap(h.right, h.left);
-        if((h.bottom || h.top || h.left || h.right))
-        {
+        if ((h.bottom || h.top || h.left || h.right)) {
           object.collision_solid(h);
           contacts.push_back(m);
         }
@@ -821,27 +819,28 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
   float y2 = dest.p2.y;
 
   uint32_t result = 0;
-  for(auto& solids: solid_tilemaps) {
+  for (auto& solids : solid_tilemaps) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
     // For ice (only), add a little fudge to recognize tiles Tux is standing on.
-    Rect test_tiles_ice = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2 + SHIFT_DELTA));
+    Rect test_tiles_ice = solids->get_tiles_overlapping(Rectf(x1, y1, x2,
+                                                      y2 + SHIFT_DELTA));
 
-    for(int x = test_tiles.left; x < test_tiles.right; ++x) {
+    for (int x = test_tiles.left; x < test_tiles.right; ++x) {
       int y;
-      for(y = test_tiles.top; y < test_tiles.bottom; ++y) {
+      for (y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const auto& tile = solids->get_tile(x, y);
-        if(!tile)
+        if (!tile)
           continue;
-        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
+        if (tile->is_collisionful(solids->get_tile_bbox(x, y), dest, mov)) {
           result |= tile->getAttributes();
         }
       }
-      for(; y < test_tiles_ice.bottom; ++y) {
+      for (; y < test_tiles_ice.bottom; ++y) {
         const auto& tile = solids->get_tile(x, y);
-        if(!tile)
+        if (!tile)
           continue;
-        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
+        if ( tile->is_collisionful(solids->get_tile_bbox(x, y), dest, mov) ) {
           result |= (tile->getAttributes() & Tile::ICE);
         }
       }
@@ -853,7 +852,7 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
 
 /** fills in CollisionHit and Normal vector of 2 intersecting rectangle */
 static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
-                           Vector& normal)
+                           Vector& normal) const
 {
   float itop = r1.get_bottom() - r2.get_top();
   float ibottom = r2.get_bottom() - r1.get_top();
@@ -890,15 +889,15 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2, collision
   const Rectf& r2 = object2->dest;
 
   CollisionHit hit;
-  if(intersects(object1->dest, object2->dest)) {
+  if (intersects(object1->dest, object2->dest)) {
     Vector normal;
     get_hit_normal(r1, r2, hit, normal);
 
-    if(!object1->collides(*object2, hit))
+    if (!object1->collides(*object2, hit))
       return;
     std::swap(hit.left, hit.right);
     std::swap(hit.top, hit.bottom);
-    if(!object2->collides(*object1, hit))
+    if (!object2->collides(*object1, hit))
       return;
     std::swap(hit.left, hit.right);
     std::swap(hit.top, hit.bottom);
@@ -908,7 +907,7 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2, collision
     std::swap(hit.top, hit.bottom);
     HitResponse response2 = object2->collision(*object1, hit);
     graph.register_collision_hit(hit, object1, object2);
-    if(response1 == CONTINUE && response2 == CONTINUE) {
+    if (response1 == CONTINUE && response2 == CONTINUE) {
       normal *= (0.5 + DELTA);
       object1->dest.move(-normal);
       object2->dest.move(normal);
@@ -933,50 +932,48 @@ Sector::collision_static(collision::Constraints* constraints,
 
   // collision with other (static) objects
 
-  for(auto& moving_object : moving_objects) {
-    if(moving_object->get_group() != COLGROUP_STATIC
+  for (auto& moving_object : moving_objects) {
+    if (moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
       continue;
-    if(!moving_object->is_valid())
+    if (!moving_object->is_valid())
       continue;
 
-    if(moving_object != &object)
-    {
+    if (moving_object != &object) {
       // First check if rectfs intersect
-      if(!collision::intersects(dest, moving_object->get_bbox()))
+      if (!collision::intersects(dest, moving_object->get_bbox()))
         continue;
       Polygon mobjp = dest.to_polygon();
       Polygon tile_poly = moving_object->get_bbox().to_polygon();
       Manifold m;
       CollisionHit h;
       std::set< MovingObject* > possible_neighbours;
-      broad.search(moving_object->get_bbox().grown(4), []{}, possible_neighbours);
-      for(const auto& mobject : possible_neighbours)
-      {
-        if(mobject == &object || mobject == moving_object)
+      broad.search(moving_object->get_bbox().grown(4), []{},
+                  possible_neighbours);
+      for (const auto& mobject : possible_neighbours) {
+        if (mobject == &object || mobject == moving_object)
           continue;
         Polygon mobject_poly = mobject->get_bbox().to_polygon();
         tile_poly.process_neighbor(mobject_poly);
         tile_poly.debug();
         mobject_poly.debug();
       }
-      mobjp.handle_collision(tile_poly,m);
-      if(!m.collided)
+      mobjp.handle_collision(tile_poly, m);
+      if (!m.collided)
         continue;
       Vector overlapV = m.normal*m.depth;
       h.right = h.left = h.bottom = h.top = false;
-      if(std::max(std::abs(overlapV.x),std::abs(overlapV.y)) == std::abs(overlapV.x))
-      {
+       if (std::max(std::abs(overlapV.x), std::abs(overlapV.y))
+          == std::abs(overlapV.x)) {
         h.right = overlapV.x > 0;
         h.left =  overlapV.x < 0;
-      }else{
+      } else {
         h.bottom = overlapV.y > 0;
         h.top    = overlapV.y < 0;
-        //log_debug << "*** TOP OR BOT "<< std::endl << m.normal.x << " " << m.normal.y << std::endl;
-
+        // log_debug << "*** TOP OR BOT "<< std::endl << m.normal.x << " " << m.normal.y << std::endl;
       }
 
-      //log_debug << "Created a collision polygon" << std::endl;
+      // log_debug << "Created a collision polygon" << std::endl;
       moving_object->collision(object, h);
       std::swap(h.top, h.bottom);
       std::swap(h.right, h.left);
@@ -986,18 +983,16 @@ Sector::collision_static(collision::Constraints* constraints,
       object.collision_solid(h);
       contacts.push_back(m);
       // Insert into collision graph
-      graph.register_collision_hit(h,&object, moving_object);
+      graph.register_collision_hit(h, &object, moving_object);
     }
   }
 
-  for(const auto& m : contacts)
-  {
-    Vector overlapV( (m.depth*m.normal.x)/(double)contacts.size() , (m.depth*m.normal.y)/(double)contacts.size());
-    //overlapV *= (1+DELTA);
+  for (const auto& m : contacts) {
+    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
+                    (m.depth*m.normal.y)/(static_cast<double>(contacts.size()));
     dest.move(overlapV);
   }
   contacts.clear();
-
 }
 
 void
@@ -1008,8 +1003,8 @@ Sector::collision_static_constrains(MovingObject& object, collision_graph& graph
   Constraints constraints;
   Vector movement = object.get_movement();
   Rectf& dest = object.dest;
-  collision_static(&constraints, Vector(movement.x, movement.y), dest, object, graph, broad);
-
+  collision_static(&constraints, Vector(movement.x, movement.y),
+                  dest, object, graph, broad);
 }
 
 namespace {
@@ -1019,16 +1014,15 @@ const float MAX_SPEED = 16.0f;
 void
 Sector::handle_collisions()
 {
-
   if (Editor::is_active()) {
     return;
-    //Oběcts in editor shouldn't collide.
+    // Oběcts in editor shouldn't collide.
   }
 
   using namespace collision;
 
   // calculate destination positions of the objects
-  for(const auto& moving_object : moving_objects) {
+  for (const auto& moving_object : moving_objects) {
     Vector mov = moving_object->get_movement();
 
     // make sure movement is never faster than MAX_SPEED. Norm is pretty fat, so two addl. checks are done before.
@@ -1044,28 +1038,25 @@ Sector::handle_collisions()
   spatial_hashing broadphase(get_width(), get_height());
   // Get a list of all objects which move
   platforms.clear();
-  for(const auto& moving_object : moving_objects)
-  {
+  for (const auto& moving_object : moving_objects) {
     // Check for correct collision group and actual movement in last frame
-    if(moving_object->get_group() == COLGROUP_STATIC && moving_object->get_movement() != Vector(0,0))
+    if (moving_object->get_group() == COLGROUP_STATIC &&
+      moving_object->get_movement() != Vector(0, 0))
       platforms.insert(moving_object);
   }
-  for(const auto& mobj : moving_objects)
-  {
-    if(mobj->parent != NULL)
-    {
+  for (const auto& mobj : moving_objects) {
+    if (mobj->parent != NULL) {
       mobj->dest.move(mobj->parent->get_movement());
     }
   }
   colgraph.reset();
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
-  for(const auto& obj : moving_objects)
-  {
+  for (const auto& obj : moving_objects) {
     broadphase.insert(obj->dest, obj);
   }
 
-  for(const auto& moving_object : moving_objects) {
-    if((moving_object->get_group() != COLGROUP_MOVING
+  for (const auto& moving_object : moving_objects) {
+    if ((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
         && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
        || !moving_object->is_valid())
@@ -1074,69 +1065,70 @@ Sector::handle_collisions()
     collision_static_constrains(*moving_object, colgraph, broadphase);
   }
   // part2: COLGROUP_MOVING vs tile attributes
-  for(const auto& moving_object : moving_objects) {
-    if((moving_object->get_group() != COLGROUP_MOVING
+  for (const auto& moving_object : moving_objects) {
+    if ((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
         && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
        || !moving_object->is_valid())
       continue;
 
-    uint32_t tile_attributes = collision_tile_attributes(moving_object->dest, moving_object->get_movement());
-    if(tile_attributes >= Tile::FIRST_INTERESTING_FLAG) {
+    uint32_t tile_attributes = collision_tile_attributes(moving_object->dest,
+                                            moving_object->get_movement());
+    if (tile_attributes >= Tile::FIRST_INTERESTING_FLAG) {
       moving_object->collision_tile(tile_attributes);
     }
   }
 
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
-  for(const auto& moving_object : moving_objects) {
-    if((moving_object->get_group() != COLGROUP_MOVING
+  for (const auto& moving_object : moving_objects) {
+    if ((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC)
        || !moving_object->is_valid())
       continue;
     std::set< MovingObject* > possibleCollisions;
     broadphase.search(moving_object->dest, []{} , possibleCollisions);
 
-    for(auto& moving_object_2 : possibleCollisions) {
-      if(moving_object_2 == moving_object)
+    for (auto& moving_object_2 : possibleCollisions) {
+      if (moving_object_2 == moving_object)
         continue;
-      if(moving_object_2->get_group() != COLGROUP_TOUCHABLE
+      if (moving_object_2->get_group() != COLGROUP_TOUCHABLE
          || !moving_object_2->is_valid())
         continue;
 
-      if(intersects(moving_object->dest, moving_object_2->dest)) {
+      if (intersects(moving_object->dest, moving_object_2->dest)) {
         Vector normal;
         CollisionHit hit;
         get_hit_normal(moving_object->dest, moving_object_2->dest,
                        hit, normal);
-        if(!moving_object->collides(*moving_object_2, hit))
+        if (!moving_object->collides(*moving_object_2, hit))
           continue;
-        if(!moving_object_2->collides(*moving_object, hit))
+        if (!moving_object_2->collides(*moving_object, hit))
           continue;
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
 
         broadphase.insert(moving_object->dest, moving_object);
         broadphase.insert(moving_object_2->dest, moving_object_2);
-
       }
     }
   }
   // part3: COLGROUP_MOVING vs COLGROUP_MOVING
-  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
+  for (auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     auto moving_object = *i;
 
-    if((moving_object->get_group() != COLGROUP_MOVING
+    if ((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC)
        || !moving_object->is_valid())
       continue;
     // Query the broadphase
     std::set< MovingObject* > possibleCollisions;
     broadphase.search(moving_object->dest, []{} , possibleCollisions);
-    for(auto i2 = possibleCollisions.begin(); i2 != possibleCollisions.end(); ++i2) {
+    for (auto i2 = possibleCollisions.begin(); i2 != possibleCollisions.end(); ++i2)
+    {
       auto moving_object_2 = *i2;
-      if(moving_object_2 == moving_object)
+      if (moving_object_2 == moving_object)
         continue;
-      if((moving_object_2->get_group() != COLGROUP_MOVING
+      if ((moving_object_2->get_group() != COLGROUP_MOVING
           && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
          || !moving_object_2->is_valid())
         continue;
@@ -1148,13 +1140,11 @@ Sector::handle_collisions()
       broadphase.insert(moving_object_2->dest, moving_object_2);
     }
   }
-  for(const auto& plf : platforms)
-  {
+  for (const auto& plf : platforms) {
     std::vector< MovingObject* > children;
     colgraph.directional_hull(plf, 0 /** 0 is direction top */, children);
     log_debug << "Hull has " << children.size() << " elements." << std::endl;
-    for(const auto& child : children)
-    {
+    for (const auto& child : children) {
         child->parent = plf;
         child->parent_updated = true;
     }
@@ -1162,15 +1152,13 @@ Sector::handle_collisions()
 
   broadphase.clear();
   // apply object movement
-  for(const auto& moving_object : moving_objects) {
+  for (const auto& moving_object : moving_objects) {
     moving_object->bbox = moving_object->dest;
     moving_object->movement = Vector(0, 0);
-    if(!moving_object->parent_updated)
-    {
+    if (!moving_object->parent_updated) {
         moving_object->parent = NULL;
     }
     moving_object->parent_updated = false;
-
   }
 }
 
