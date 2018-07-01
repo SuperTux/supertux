@@ -52,7 +52,7 @@ void Polygon::process_neighbor(const Polygon& b) {
   }
 }
 
-void Polygon::handle_collision(Polygon& b, Manifold& m) {
+void Polygon::handle_collision(const Polygon& b, Manifold& m) {
   // First: Check if there is a collision
 
   // Check if any of this Polygons axes seperates

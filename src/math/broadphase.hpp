@@ -19,14 +19,15 @@ public:
    *  @param aabb The rectangle in which obj lies.
    *  @param obj The object (e.g. Tux, a snowball, etc.)
    */
-  virtual void insert(const Rectf& aabb,MovingObject* obj){};
+  virtual void insert(const Rectf& aabb, MovingObject* obj){};
   /**
    *  Lists all objects o which might collide with r and for which collision_ok(o) == true.
    *  @param r The rectangle to query.
    *  @param collision_ok A lambda function to filter out some collisions.
    *  @param fill The set to fill with the possibly colliding objects.
    */
-  virtual void search(const Rectf& r, std::function<void()> collision_ok, std::set< MovingObject* >& fill){};
+  virtual void search(const Rectf& r, std::function<void()> collision_ok,
+                      std::set< MovingObject* >& fill) {}
   /**
    *  TODO Define method for raycast
    *
@@ -45,10 +46,8 @@ public:
     * O(f*n). Exception: Faster query time can be guaranteed.
     */
     void bulk_insert(std::vector<Rectf>& aabbs, std::vector<MovingObject*>& object_list){
-
-      for(size_t i = 0; i < object_list.size(); i++)
-      {
-        insert(aabbs[i],object_list[i]);
+      for (size_t i = 0; i < object_list.size(); i++) {
+        insert(aabbs[i], object_list[i]);
       }
     }
     /**
@@ -56,12 +55,12 @@ public:
      *  @param obj The object to insert
      *  @returns Boolean indicating wether obj was found an deleted or not.
      */
-    virtual bool remove(MovingObject* obj){return false;}
+    virtual bool remove(MovingObject* obj) {return false;}
     /**
      *  Clears the data structure and removes all items.
      *  Performance guarentee: Not worse than remove for every object.
      */
-     virtual void clear(){};
+     virtual void clear() {}
 
      virtual ~collision_broadphase() = default;
 };

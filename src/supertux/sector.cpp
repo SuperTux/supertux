@@ -33,6 +33,7 @@
 #include "math/broadphase.hpp"
 #include "math/spatial_hashing.hpp"
 #include "math/collision_graph.hpp"
+#include "math/aabb_polygon.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
@@ -711,20 +712,30 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         // Do collision response
         CollisionHit h;
 
-        Vector overlapV(0,0);
+        Vector overlapV(0, 0);
 
         // get_hit_normal(tile_bbox, dest, h, overlapV);
-        Polygon mobjp = dest.to_polygon();
-        Polygon tile_poly = tile->tile_to_poly(tile_bbox);
+        AABBPolygon mobjp(dest); // = dest.to_polygon();
+        //Polygon mobjp = dest.to_polygon();
+        //Polygon tile_poly = tile->tile_to_poly(tile_bbox);
+        AABBPolygon tile_poly(tile_bbox);
         int dir[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         for (const auto& offset : dir) {
           const auto& nb = solids->get_tile(x+offset[0], y+offset[1]);
+          Rectf nb_bbox = solids->get_tile_bbox(x+offset[0], y+offset[1]);
           if (!nb->is_solid())
             continue;
+          if (nb->is_unisolid()) {
+              Vector relative_movement = movement
+                - solids->get_movement(/* actual = */ true);
 
-          Rectf nb_bbox = solids->get_tile_bbox(x+offset[0], y+offset[1]);
+              if (!nb->is_solid (nb_bbox, object.get_bbox(), relative_movement))
+                continue;
+            }
+
           Polygon npoly = tile->tile_to_poly(nb_bbox);
-          tile_poly.process_neighbor(npoly);
+          //tile_poly.process_neighbor(npoly);
+          tile_poly.process_neighbor(offset[0], offset[1]/*nb_bbox*/);
         }
         Manifold m;
         mobjp.handle_collision(tile_poly, m);

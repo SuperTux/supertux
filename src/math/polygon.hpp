@@ -16,6 +16,9 @@ public:
     collided(){
   }
 };
+
+double vector_gap(const Vector& a, const Vector& b);
+
 class Polygon {
  public:
    Polygon();
@@ -35,7 +38,7 @@ class Polygon {
      *
      *  @param b The polygon to check collisions against
      */
-     void handle_collision(Polygon& b, Manifold& m);
+     void handle_collision(const Polygon& b, Manifold& m);
      /**
       *  Checks if the axis represented by the vector
       *  is seperating (i.e the polygons do not overlap if projected onto the axis)
@@ -66,7 +69,7 @@ class Polygon {
 
       void debug();
 
- private:
+ protected:
     // The two commented out fields will be used for rotation later.
     //std::vector< Vector > original_vertices; /** Only used in rotated polygons */
     //double rotation_angle;
