@@ -101,7 +101,6 @@ SDLRenderer::SDLRenderer() :
     log_info << "SDL_RendererFlags: " << std::endl;
     if (info.flags & SDL_RENDERER_SOFTWARE) { log_info << "  SDL_RENDERER_SOFTWARE" << std::endl; }
     if (info.flags & SDL_RENDERER_ACCELERATED) { log_info << "  SDL_RENDERER_ACCELERATED" << std::endl; }
-    if (info.flags & SDL_RENDERER_PRESENTVSYNC) { log_info << "  SDL_RENDERER_PRESENTVSYNC" << std::endl; }
     if (info.flags & SDL_RENDERER_TARGETTEXTURE) { log_info << "  SDL_RENDERER_TARGETTEXTURE" << std::endl; }
     log_info << "Texture Formats: " << std::endl;
     for(size_t i = 0; i < info.num_texture_formats; ++i)
