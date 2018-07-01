@@ -148,7 +148,7 @@ public:
   void collision_tilemap(collision::Constraints* constraints,
                          const Vector& movement, Rectf& dest,
                          MovingObject &object, std::vector<Manifold>& contacts,
-                         collision_broadphase& broad) const;
+                         collision_broadphase& broad, bool slope_adjust_x = false) const;
 
   /**
    * Checks if the specified rectangle is free of (solid) tiles.
@@ -290,7 +290,7 @@ private:
   std::string name;
 
   std::vector<Bullet*> bullets;
-  
+
   std::set<MovingObject*> platforms;
 
   std::string init_script;

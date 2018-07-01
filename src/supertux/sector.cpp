@@ -676,7 +676,7 @@ void
 Sector::collision_tilemap(collision::Constraints* constraints,
                           const Vector& movement, Rectf& dest,
                           MovingObject& object, std::vector<Manifold>& contacts,
-                          collision_broadphase& broad) const
+                          collision_broadphase& broad, bool slope_adjust_x) const
 {
   using namespace collision;
   // calculate rectangle where the object will move
@@ -715,10 +715,9 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         Vector overlapV(0, 0);
 
         // get_hit_normal(tile_bbox, dest, h, overlapV);
-        AABBPolygon mobjp(dest); // = dest.to_polygon();
-        //Polygon mobjp = dest.to_polygon();
-        //Polygon tile_poly = tile->tile_to_poly(tile_bbox);
-        AABBPolygon tile_poly(tile_bbox);
+        //AABBPolygon mobjp(dest); // = dest.to_polygon();
+        Polygon mobjp = dest.to_polygon();
+        Polygon tile_poly = tile->tile_to_poly(tile_bbox);
         int dir[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         for (const auto& offset : dir) {
           const auto& nb = solids->get_tile(x+offset[0], y+offset[1]);
@@ -734,8 +733,8 @@ Sector::collision_tilemap(collision::Constraints* constraints,
             }
 
           Polygon npoly = tile->tile_to_poly(nb_bbox);
-          //tile_poly.process_neighbor(npoly);
-          tile_poly.process_neighbor(offset[0], offset[1]/*nb_bbox*/);
+          if(!tile->is_slope())
+          tile_poly.process_neighbor(npoly);
         }
         Manifold m;
         mobjp.handle_collision(tile_poly, m);
@@ -744,7 +743,8 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         // log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
         overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
         if (tile->is_slope()) {
-          overlapV.x = 0;
+          if(!slope_adjust_x)
+            overlapV.x = 0;
 
           Rectf tbbox = solids->get_tile_bbox(x, y);
           AATriangle triangle = AATriangle(tbbox, tile->getData());
@@ -942,7 +942,7 @@ Sector::collision_static(collision::Constraints* constraints,
                          collision_broadphase& broad)
 {
   std::vector< Manifold > contacts;
-  collision_tilemap(constraints, movement, dest, object, contacts, broad);
+  collision_tilemap(constraints, movement, dest, object, contacts, broad, false);
 
   // collision with other (static) objects
 
@@ -1007,6 +1007,13 @@ Sector::collision_static(collision::Constraints* constraints,
     dest.move(overlapV);
   }
   contacts.clear();
+  collision_tilemap(constraints, movement, dest, object, contacts, broad, true);
+  for (const auto& m : contacts) {
+    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
+                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
+    dest.move(overlapV);
+  }
+
 }
 
 void
