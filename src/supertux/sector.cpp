@@ -709,16 +709,63 @@ Sector::collision_tilemap(collision::Constraints* constraints,
           if (!tile->is_solid (tile_bbox, object.get_bbox(), relative_movement))
             continue;
         }
-        // Do collision response
-        CollisionHit h;
 
+        bool use_aabbpoly = !tile->is_slope();
+        int dir[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        for (const auto& offset : dir) {
+          use_aabbpoly &= !solids->get_tile(x+offset[0], y+offset[1])->is_slope();
+        }
+        CollisionHit h;
         Vector overlapV(0, 0);
+        Manifold m;
+        if(use_aabbpoly) {
+          AABBPolygon mobjp(dest);
+          AABBPolygon tilepoly(tile_bbox);
+          for (const auto& offset : dir) {
+            const auto& nb = solids->get_tile(x+offset[0], y+offset[1]);
+            Rectf nb_bbox = solids->get_tile_bbox(x+offset[0], y+offset[1]);
+            if (!nb->is_solid())
+              continue;
+            if (nb->is_unisolid()) {
+                Vector relative_movement = movement
+                  - solids->get_movement(/* actual = */ true);
+
+                if (!nb->is_solid (nb_bbox, object.get_bbox(), relative_movement))
+                  continue;
+              }
+              tilepoly.process_neighbor(offset[0], offset[1]);
+          }
+
+          mobjp.handle_collision(tilepoly, m);
+          if (!m.collided)
+            continue;
+          // log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
+          overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
+          if (std::max(std::abs(overlapV.x), std::abs(overlapV.y))
+              == std::abs(overlapV.x)) {
+            h.right = overlapV.x > 0;
+            h.left =  overlapV.x < 0;
+          } else {
+            h.bottom = overlapV.y > 0;
+            h.top    = overlapV.y < 0;
+          }
+          // Check if they overlap
+          std::swap(h.top, h.bottom);
+          std::swap(h.right, h.left);
+          if ((h.bottom || h.top || h.left || h.right)) {
+              object.collision_solid(h);
+              dest.move(overlapV);
+          }
+
+            continue;
+        }
+
+        // Do collision response
 
         // get_hit_normal(tile_bbox, dest, h, overlapV);
         //AABBPolygon mobjp(dest); // = dest.to_polygon();
         Polygon mobjp = dest.to_polygon();
         Polygon tile_poly = tile->tile_to_poly(tile_bbox);
-        int dir[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         for (const auto& offset : dir) {
           const auto& nb = solids->get_tile(x+offset[0], y+offset[1]);
           Rectf nb_bbox = solids->get_tile_bbox(x+offset[0], y+offset[1]);
@@ -736,7 +783,6 @@ Sector::collision_tilemap(collision::Constraints* constraints,
           if(!tile->is_slope())
           tile_poly.process_neighbor(npoly);
         }
-        Manifold m;
         mobjp.handle_collision(tile_poly, m);
         if (!m.collided)
           continue;
