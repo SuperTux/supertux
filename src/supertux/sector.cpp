@@ -816,8 +816,8 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         std::swap(h.top, h.bottom);
         std::swap(h.right, h.left);
         if ((h.bottom || h.top || h.left || h.right)) {
-          object.collision_solid(h);
-          contacts.push_back(m);
+            object.collision_solid(h);
+            dest.move(overlapV);
         }
         }
       }
@@ -943,7 +943,7 @@ Sector::collision_static(collision::Constraints* constraints,
 {
   std::vector< Manifold > contacts;
   collision_tilemap(constraints, movement, dest, object, contacts, broad, false);
-
+  collision_tilemap(constraints, movement, dest, object, contacts, broad, true);
   // collision with other (static) objects
 
   for (auto& moving_object : moving_objects) {
@@ -1007,12 +1007,6 @@ Sector::collision_static(collision::Constraints* constraints,
     dest.move(overlapV);
   }
   contacts.clear();
-  collision_tilemap(constraints, movement, dest, object, contacts, broad, true);
-  for (const auto& m : contacts) {
-    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
-                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
-    dest.move(overlapV);
-  }
 
 }
 
