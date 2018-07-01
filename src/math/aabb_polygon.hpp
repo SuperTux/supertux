@@ -13,6 +13,7 @@ public:
   void process_neighbor(const Rectf& b);
   void process_neighbor(int xoffset, int yoffset);
   void handle_collision(const AABBPolygon& b, Manifold& m);
+  ~AABBPolygon(){}
 private:
   Vector p1;
   Vector p2;

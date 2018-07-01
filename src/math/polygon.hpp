@@ -68,7 +68,7 @@ class Polygon {
       void setup();
 
       void debug();
-
+      virtual ~Polygon() {}
  protected:
     // The two commented out fields will be used for rotation later.
     //std::vector< Vector > original_vertices; /** Only used in rotated polygons */
