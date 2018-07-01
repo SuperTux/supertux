@@ -18,8 +18,11 @@
 #define HEADER_SUPERTUX_BADGUY_DISPENSER_HPP
 
 #include "badguy/badguy.hpp"
+#include "scripting/dispenser.hpp"
+#include "scripting/exposed_object.hpp"
 
-class Dispenser : public BadGuy
+class Dispenser : public BadGuy,
+                  public ExposedObject<Dispenser, scripting::Dispenser>
 {
 public:
   Dispenser(const ReaderMapping& reader);

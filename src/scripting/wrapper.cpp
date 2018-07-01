@@ -505,6 +505,71 @@ static SQInteger Candle_set_burning_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Dispenser_release_hook(SQUserPointer ptr, SQInteger )
+{
+  auto _this = reinterpret_cast<scripting::Dispenser*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger Dispenser_activate_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'activate' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Dispenser*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    _this->activate();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'activate'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Dispenser_deactivate_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'deactivate' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Dispenser*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    _this->deactivate();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'deactivate'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger DisplayEffect_release_hook(SQUserPointer ptr, SQInteger )
 {
   auto _this = reinterpret_cast<scripting::DisplayEffect*> (ptr);
@@ -4896,16 +4961,14 @@ static SQInteger translate_plural_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-
   const SQChar* arg1;
   if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
     sq_throwerror(vm, _SC("Argument 2 not a string"));
     return SQ_ERROR;
   }
-
   SQInteger arg2;
   if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
-    sq_throwerror(vm, _SC("Argument 3 not a integer"));
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
     return SQ_ERROR;
   }
 
@@ -4932,16 +4995,14 @@ static SQInteger ___wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, _SC("Argument 1 not a string"));
     return SQ_ERROR;
   }
-
   const SQChar* arg1;
   if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
     sq_throwerror(vm, _SC("Argument 2 not a string"));
     return SQ_ERROR;
   }
-
   SQInteger arg2;
   if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
-    sq_throwerror(vm, _SC("Argument 3 not a integer"));
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
     return SQ_ERROR;
   }
 
@@ -5711,6 +5772,32 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::Candle* object, bool set
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Dispenser* object, bool setup_releasehook)
+{
+  using namespace wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "Dispenser", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Dispenser'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Dispenser'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Dispenser_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void create_squirrel_instance(HSQUIRRELVM v, scripting::DisplayEffect* object, bool setup_releasehook)
 {
   using namespace wrapper;
@@ -6301,7 +6388,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &translate_plural_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tssi");
   if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'translate'");
+    throw SquirrelError(v, "Couldn't register function 'translate_plural'");
   }
 
   sq_pushstring(v, "__", -1);
@@ -6654,6 +6741,31 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'Candle'");
+  }
+
+  // Register class Dispenser
+  sq_pushstring(v, "Dispenser", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'Dispenser'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "activate", -1);
+  sq_newclosure(v, &Dispenser_activate_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'activate'");
+  }
+
+  sq_pushstring(v, "deactivate", -1);
+  sq_newclosure(v, &Dispenser_deactivate_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'deactivate'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'Dispenser'");
   }
 
   // Register class DisplayEffect
