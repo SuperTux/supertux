@@ -312,7 +312,8 @@ Downloader::update()
     {
       case CURLMSG_DONE:
         {
-          log_info << "Download completed with " << msg->data.result << std::endl;
+          CURLcode resultfromcurl = msg->data.result;
+          log_info << "Download completed with " << resultfromcurl << std::endl;
           curl_multi_remove_handle(m_multi_handle, msg->easy_handle);
 
           auto it = std::find_if(m_transfers.begin(), m_transfers.end(),
@@ -324,7 +325,7 @@ Downloader::update()
           status->error_msg = (*it)->get_error_buffer();
           m_transfers.erase(it);
 
-          if (msg->data.result == CURLE_OK)
+          if (resultfromcurl == CURLE_OK)
           {
             bool success = true;
             for(auto& callback : status->callbacks)
@@ -343,7 +344,7 @@ Downloader::update()
           }
           else
           {
-            log_warning << "Error: " << curl_easy_strerror(msg->data.result) << std::endl;
+            log_warning << "Error: " << curl_easy_strerror(resultfromcurl) << std::endl;
             for(auto& callback : status->callbacks)
             {
               try
