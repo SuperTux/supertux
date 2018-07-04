@@ -446,6 +446,7 @@ Sector::before_object_add(GameObjectPtr object)
   if (movingobject)
   {
     moving_objects.push_back(movingobject);
+    // Tell CollisionEngine about this object
   }
 
   auto portable = dynamic_cast<Portable*>(object.get());
@@ -524,6 +525,8 @@ Sector::before_object_remove(GameObjectPtr object)
   if (moving_object) {
     moving_objects.erase(
       std::find(moving_objects.begin(), moving_objects.end(), moving_object));
+    // Tell Collision Engine that this object has been removed
+
   }
 
   if(_current == this)
@@ -671,7 +674,8 @@ void check_collisions(collision::Constraints* constraints,
 void
 Sector::collision_tilemap(collision::Constraints* constraints,
                           const Vector& movement, Rectf& dest,
-                          MovingObject& object, std::vector<Manifold>& contacts) const
+                          MovingObject& object, std::vector<Manifold>& contacts,
+                          collision_broadphase& broad) const
 {
   // calculate rectangle where the object will move
   float x1 = dest.get_left();
@@ -922,10 +926,11 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2, collision
 void
 Sector::collision_static(collision::Constraints* constraints,
                          const Vector& movement, Rectf& dest,
-                         MovingObject& object, collision_graph& graph)
+                         MovingObject& object, collision_graph& graph,
+                         collision_broadphase& broad)
 {
   std::vector< Manifold > contacts;
-  collision_tilemap(constraints, movement, dest, object, contacts);
+  collision_tilemap(constraints, movement, dest, object, contacts, broad);
 
   // collision with other (static) objects
   for(auto& moving_object : moving_objects) {
@@ -975,7 +980,7 @@ Sector::collision_static(collision::Constraints* constraints,
 }
 
 void
-Sector::collision_static_constrains(MovingObject& object, collision_graph& graph)
+Sector::collision_static_constrains(MovingObject& object, collision_graph& graph, collision_broadphase& broad)
 {
 
   using namespace collision;
@@ -985,7 +990,7 @@ Sector::collision_static_constrains(MovingObject& object, collision_graph& graph
   Vector movement = object.get_movement();
   Vector pressure = Vector(0,0);
   Rectf& dest = object.dest;
-  collision_static(&constraints, Vector(movement.x, movement.y), dest, object, graph);
+  collision_static(&constraints, Vector(movement.x, movement.y), dest, object, graph, broad);
 
 }
 
@@ -1048,7 +1053,7 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
 
-    collision_static_constrains(*moving_object, colgraph);
+    collision_static_constrains(*moving_object, colgraph, broadphase);
   }
   // part2: COLGROUP_MOVING vs tile attributes
   for(const auto& moving_object : moving_objects) {
@@ -1137,7 +1142,7 @@ Sector::handle_collisions()
     }
   }
 
-  broadphase.clear();
+  //broadphase.clear();
   // apply object movement
   for(const auto& moving_object : moving_objects) {
     moving_object->bbox = moving_object->dest;
