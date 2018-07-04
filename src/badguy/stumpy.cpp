@@ -170,4 +170,10 @@ Stumpy::is_freezable() const
   return true;
 }
 
+bool
+Stumpy::is_portable() const
+{
+  return frozen;
+}
+
 /* EOF */

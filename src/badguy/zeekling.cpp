@@ -219,4 +219,10 @@ Zeekling::is_freezable() const
   return true;
 }
 
+bool
+Zeekling::is_portable() const
+{
+  return frozen;
+}
+
 /* EOF */

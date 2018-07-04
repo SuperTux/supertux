@@ -39,4 +39,11 @@ WalkingLeaf::is_freezable() const
 {
   return true;
 }
+
+bool
+WalkingLeaf::is_portable() const
+{
+  return frozen;
+}
+
 /* EOF */

@@ -33,6 +33,12 @@ Spiky::is_freezable() const
 }
 
 bool
+Spiky::is_portable() const
+{
+  return frozen;
+}
+
+bool
 Spiky::is_flammable() const
 {
   return true;

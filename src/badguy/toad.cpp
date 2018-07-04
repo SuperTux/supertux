@@ -170,6 +170,12 @@ Toad::is_freezable() const
   return true;
 }
 
+bool
+Toad::is_portable() const
+{
+  return frozen;
+}
+
 void
 Toad::after_editor_set()
 {
