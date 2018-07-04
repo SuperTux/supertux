@@ -223,6 +223,15 @@ public:
   float get_ambient_red() const;
   float get_ambient_green() const;
   float get_ambient_blue() const;
+
+  /**
+   * Return the sector's current ambient light
+   */
+  Color get_ambient_light() const
+  {
+    return ambient_light;
+  }
+
   /**
    * Fades to the target ambient light
    */
