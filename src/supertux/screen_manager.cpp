@@ -330,7 +330,8 @@ ScreenManager::handle_screen_switch()
 
       // move actions to a new vector since setup() might modify it
       auto actions = std::move(m_actions);
-
+      bool quit_action_triggered = false;
+      
       for(auto& action : actions)
       {
         switch (action.type)
@@ -353,21 +354,26 @@ ScreenManager::handle_screen_switch()
           case Action::QUIT_ACTION:
             m_screen_stack.clear();
             current_screen = nullptr;
+            quit_action_triggered = true;
             break;
         }
       }
 
-      if (current_screen != m_screen_stack.back().get())
+      if (!quit_action_triggered)
       {
-        if(current_screen != nullptr) {
-          current_screen->leave();
-        }
-
-        if (!m_screen_stack.empty())
+        if (current_screen != m_screen_stack.back().get())
         {
-          m_screen_stack.back()->setup();
-          m_speed = 1.0;
-          m_waiting_threads.wakeup();
+          if (current_screen != nullptr)
+          {
+            current_screen->leave();
+          }
+
+          if (!m_screen_stack.empty())
+          {
+            m_screen_stack.back()->setup();
+            m_speed = 1.0;
+            m_waiting_threads.wakeup();
+          }
         }
       }
     }
