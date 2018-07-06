@@ -50,8 +50,4 @@ ObjectInput::ObjectInput() :
 
 }
 
-ObjectInput::~ObjectInput() {
-
-}
-
 /* EOF */

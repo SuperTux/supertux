@@ -22,14 +22,13 @@
 
 #include "editor/object_icon.hpp"
 
-#include "util/reader_fwd.hpp"
+class ReaderMapping;
 
 class ObjectGroup
 {
   public:
     ObjectGroup();
     ObjectGroup(const ReaderMapping& reader);
-    ~ObjectGroup();
 
     std::string name;
     std::vector<ObjectIcon> icons;

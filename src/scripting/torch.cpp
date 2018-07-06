@@ -24,9 +24,6 @@ Torch::Torch(::Torch* torch_)
   : torch(torch_)
 { }
 
-Torch::~Torch()
-{ }
-
 bool Torch::get_burning() const
 {
   return torch->get_burning();

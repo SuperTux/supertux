@@ -45,20 +45,6 @@ MrIceBlock::MrIceBlock(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/kick.wav");
 }
 
-MrIceBlock::MrIceBlock(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/mr_iceblock/mr_iceblock.sprite", "left", "right"),
-  ice_state(ICESTATE_NORMAL),
-  nokick_timer(),
-  flat_timer(),
-  squishcount(0)
-{
-  walk_speed = 80;
-  max_drop_height = 600;
-  SoundManager::current()->preload("sounds/iceblock_bump.wav");
-  SoundManager::current()->preload("sounds/stomp.wav");
-  SoundManager::current()->preload("sounds/kick.wav");
-}
-
 void
 MrIceBlock::initialize()
 {

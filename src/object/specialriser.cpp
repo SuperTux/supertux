@@ -25,10 +25,6 @@ SpecialRiser::SpecialRiser(const Vector& pos, std::shared_ptr<MovingObject> _chi
   _child->set_pos(pos - Vector(0, 32));
 }
 
-SpecialRiser::~SpecialRiser()
-{
-}
-
 void
 SpecialRiser::update(float elapsed_time)
 {

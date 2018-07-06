@@ -173,10 +173,6 @@ ContribMenu::ContribMenu() :
   add_back(_("Back"));
 }
 
-ContribMenu::~ContribMenu()
-{
-}
-
 void
 ContribMenu::menu_action(MenuItem* item)
 {

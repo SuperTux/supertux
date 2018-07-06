@@ -23,7 +23,6 @@ class Fish : public BadGuy
 {
 public:
   Fish(const ReaderMapping& );
-  Fish(const Vector& pos);
 
   void draw(DrawingContext& context);
 

@@ -30,10 +30,6 @@ TimeScheduler::TimeScheduler() :
 {
 }
 
-TimeScheduler::~TimeScheduler()
-{
-}
-
 void
 TimeScheduler::update(float time)
 {

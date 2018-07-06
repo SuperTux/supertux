@@ -30,10 +30,6 @@ SpriteManager::SpriteManager() :
 {
 }
 
-SpriteManager::~SpriteManager()
-{
-}
-
 SpritePtr
 SpriteManager::create(const std::string& name)
 {

@@ -27,6 +27,7 @@
 
 #include "supertux/game_object.hpp"
 #include "supertux/script_interface.hpp"
+#include "util/log.hpp"
 
 namespace scripting {
 

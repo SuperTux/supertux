@@ -112,10 +112,6 @@ MovingSprite::MovingSprite(const MovingSprite& other) :
   return *this;
   }
 */
-MovingSprite::~MovingSprite()
-{
-}
-
 void
 MovingSprite::draw(DrawingContext& context)
 {

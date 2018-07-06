@@ -28,10 +28,6 @@ FallingCoin::FallingCoin(const Vector& start_position, const int vel_x) :
   physic.set_velocity_x(vel_x);
 }
 
-FallingCoin::~FallingCoin()
-{
-}
-
 void
 FallingCoin::draw(DrawingContext& context)
 {

@@ -89,11 +89,6 @@ BadguySelectMenu::BadguySelectMenu(std::vector<std::string>* badguys_) :
   refresh_menu();
 }
 
-BadguySelectMenu::~BadguySelectMenu()
-{
-
-}
-
 void
 BadguySelectMenu::refresh_menu()
 {

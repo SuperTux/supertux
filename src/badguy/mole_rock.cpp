@@ -42,10 +42,6 @@ MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* pare
   SoundManager::current()->preload("sounds/stomp.wav");
 }
 
-MoleRock::~MoleRock()
-{
-}
-
 bool
 MoleRock::updatePointers(const GameObject* from_object, GameObject* to_object)
 {

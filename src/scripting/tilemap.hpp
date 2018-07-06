@@ -28,7 +28,6 @@ class TileMap
 public:
 #ifndef SCRIPTING_API
   TileMap(::TileMap* tilemap);
-  ~TileMap();
 #endif
 
   /** Move tilemap until at given node, then stop */

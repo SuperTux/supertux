@@ -38,7 +38,10 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   broken(false),
   random(),
   type(),
-  type_str()
+  type_str(),
+  limit_dispensed_badguys(),
+  max_concurrent_badguys(),
+  current_badguys()
 {
   set_colgroup_active(COLGROUP_MOVING_STATIC);
   SoundManager::current()->preload("sounds/squish.wav");
@@ -47,24 +50,28 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
   reader.get("random", random, false);
   std::string type_s = "dropper"; //default
   reader.get("type", type_s, "");
-  if (type_s == "dropper") {
-    type = DT_DROPPER;
-  } else if (type_s == "rocketlauncher") {
-    type = DT_ROCKETLAUNCHER;
-  } else if (type_s == "cannon") {
-    type = DT_CANNON;
-  } else if (type_s == "point") {
-    type = DT_POINT;
-  } else {
-    if(type_s.empty()) {
-      log_warning << "No dispenser type set, setting to dropper." << std::endl;
-    }
-    else {
-      log_warning << "Unknown type of dispenser:" << type_s << ", setting to dropper." << std::endl;
+  try
+  {
+    type = dispenser_type_from_string(type_s);
+  }
+  catch(std::exception&)
+  {
+    if(!Editor::is_active())
+    {
+      if(type_s.empty()) {
+        log_warning << "No dispenser type set, setting to dropper." << std::endl;
+      }
+      else {
+        log_warning << "Unknown type of dispenser:" << type_s << ", setting to dropper." << std::endl;
+      }
     }
     type = DT_DROPPER;
   }
+
   type_str = get_type_string();
+
+  reader.get("limit-dispensed-badguys", limit_dispensed_badguys, false);
+  reader.get("max-concurrent-badguys", max_concurrent_badguys, 0);
 
 //  if (badguys.size() <= 0)
 //    throw std::runtime_error("No badguys in dispenser.");
@@ -208,6 +215,9 @@ Dispenser::launch_badguy()
 {
   if (badguys.empty()) return;
   if (frozen) return;
+  if (limit_dispensed_badguys && 
+      current_badguys >= max_concurrent_badguys)
+      return;
 
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen() && !Editor::is_active()) {
@@ -280,6 +290,13 @@ Dispenser::launch_badguy()
 
       /* We don't want to count dispensed badguys in level stats */
       bad_guy.countMe = false;
+
+      /* Set reference to dispenser in badguy itself */
+      if(limit_dispensed_badguys)
+      {
+        bad_guy.set_parent_dispenser(this);
+        current_badguys++;
+      }
 
       Sector::current()->add_object(game_object);
     } catch(const std::exception& e) {
@@ -381,6 +398,10 @@ Dispenser::get_settings()
                                          "random"));
   result.options.push_back( ObjectOption(MN_BADGUYSELECT, _("Enemies"), &badguys,
                                          "badguy"));
+  result.options.push_back(ObjectOption(MN_TOGGLE, _("Limit dispensed badguys"), &limit_dispensed_badguys,
+                                        "limit-dispensed-badguys"));
+  result.options.push_back(ObjectOption(MN_NUMFIELD, _("Max concurrent badguys"), &max_concurrent_badguys,
+                                         "max-concurrent-badguys"));
 
   ObjectOption seq(MN_STRINGSELECT, _("Type"), &type);
   seq.select.push_back(_("dropper"));

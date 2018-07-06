@@ -27,7 +27,6 @@ class ShrinkFade : public ScreenFade
 {
 public:
   ShrinkFade(const Vector& point, float fade_time);
-  ~ShrinkFade();
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

@@ -2,15 +2,17 @@
 #include "math/rectf.hpp"
 #include "util/log.hpp"
 #include <iostream>
+#include <algorithm>
 #include <cmath>
-spatial_hashing::spatial_hashing(int width, int height, int gridx, int gridy)
-{
-  this->gridx = gridx;
-  this->gridy = gridy;
-  this->rows = width / gridx +100;
-  this->cols = height / gridy +100;
-  this->width = width;
-  this->height = height;
+spatial_hashing::spatial_hashing(int c_width, int c_height, int c_gridx, int c_gridy):
+  gridx(c_gridx),
+  gridy(c_gridy),
+  rows(c_width / gridx +1),
+  cols(c_height / gridy+1),
+  width(c_width),
+  height(c_height),
+  grid(),
+  current_stored() {
   // Set up the vector
   grid.resize(rows+10);
   for(int i = 0;i<rows;i++)
@@ -18,20 +20,18 @@ spatial_hashing::spatial_hashing(int width, int height, int gridx, int gridy)
   // Initial grid is set up.
 }
 
-void spatial_hashing::insert(Rectf aabb,MovingObject* obj)
-{
-  if(obj == NULL)
+void spatial_hashing::insert(const Rectf& aabb, MovingObject* obj) {
+  if (obj == NULL)
     return;
   // Check if object si out of bounds
-  if(aabb.p1.x < 0 || aabb.p1.y < 0 || aabb.p2.x > width || aabb.p2.y > height)
+  if (aabb.p1.x < 0 || aabb.p1.y < 0 || aabb.p2.x > width || aabb.p2.y > height)
     return;
   // If object is already inserted, check if coordinates changed
-  if(current_stored.count(obj))
-  {
+  if (current_stored.count(obj)) {
     // If the AABB's are equal ignore insert, else delete and insert
     // IDEA Use rectangle vs rectangle difference operation for most efficient implementation
     Rectf& stored_aabb = current_stored[obj];
-    if(aabb.p1 == stored_aabb.p1 && aabb.p2 == stored_aabb.p2)
+    if (aabb.p1 == stored_aabb.p1 && aabb.p2 == stored_aabb.p2)
       return;
     remove(obj);
   }
@@ -54,7 +54,7 @@ void spatial_hashing::insert(Rectf aabb,MovingObject* obj)
   current_stored[obj] = aabb;
 }
 
-void spatial_hashing::search(Rectf r, std::function<void()> collision_ok, std::set< MovingObject* >& fill)
+void spatial_hashing::search(const Rectf& r, std::function<void()> collision_ok, std::set< MovingObject* >& fill)
 {
   if(r.p1.x < 0 || r.p1.y < 0 || r.p2.x > width || r.p2.y > height)
     return;
@@ -78,7 +78,7 @@ void spatial_hashing::search(Rectf r, std::function<void()> collision_ok, std::s
 
 }
 
-bool spatial_hashing::collides(Rectf r)
+bool spatial_hashing::collides(const Rectf& r)
 {
   // Abort and return true as soon as we have encountered more than 1 object.
   // (We use more than 1 because encountering exactly 1 object would mean no possible collisions.)
@@ -124,9 +124,9 @@ bool spatial_hashing::remove(MovingObject* obj)
 void spatial_hashing::clear()
 {
   // Delete every cell
-  for(int i = 0;i<grid.size();i++)
+  for(size_t i = 0;i<grid.size();i++)
   {
-    for(int j = 0; j < grid[i].size(); j++)
+    for(size_t j = 0; j < grid[i].size(); j++)
       grid[i][j].clear();
     grid[i].clear();
   }

@@ -37,7 +37,6 @@ private:
 
 public:
   KeyboardManager(InputManager* parent, KeyboardConfig& keyboard_config);
-  ~KeyboardManager();
 
   void process_key_event(const SDL_KeyboardEvent& event);
   void process_text_input_event(const SDL_TextInputEvent& event);

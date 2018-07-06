@@ -28,7 +28,6 @@ class ParticleSystem
 public:
 #ifndef SCRIPTING_API
   ParticleSystem(::ParticleSystem* parent);
-  ~ParticleSystem();
 #endif
 
   void set_enabled(bool enable);

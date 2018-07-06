@@ -84,10 +84,6 @@ SecretAreaTrigger::after_editor_set() {
   bbox.set_size(new_size.x, new_size.y);
 }
 
-SecretAreaTrigger::~SecretAreaTrigger()
-{
-}
-
 std::string
 SecretAreaTrigger::get_fade_tilemap_name() const
 {

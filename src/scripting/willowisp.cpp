@@ -25,10 +25,6 @@ WillOWisp::WillOWisp(::WillOWisp* parent) :
 {
 }
 
-WillOWisp::~WillOWisp()
-{
-}
-
 void
 WillOWisp::goto_node(int node_no)
 {

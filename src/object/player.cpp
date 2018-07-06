@@ -1227,7 +1227,7 @@ Player::draw(DrawingContext& context)
     sprite->set_action(sa_prefix+"-kick"+sa_postfix);
   }
   else if ((wants_buttjump || does_buttjump) && is_big()) {
-    sprite->set_action(sa_prefix+"-buttjump"+sa_postfix);
+    sprite->set_action(sa_prefix+"-buttjump"+sa_postfix, 1);
   }
   else if (!on_ground() || fall_mode != ON_GROUND) {
     if(physic.get_velocity_x() != 0 || fall_mode != ON_GROUND) {
@@ -1434,8 +1434,6 @@ Player::collision(GameObject& other, const CollisionHit& hit)
       return FORCE_MOVE;
     if(stone)
       return ABORT_MOVE;
-
-    return CONTINUE;
   }
 
   return CONTINUE;

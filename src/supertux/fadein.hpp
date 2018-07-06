@@ -27,7 +27,6 @@ class FadeIn : public ScreenFade
 {
 public:
   FadeIn(float fade_time, Color dest_color = Color(0, 0, 0));
-  ~FadeIn();
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

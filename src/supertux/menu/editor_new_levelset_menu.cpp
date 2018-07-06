@@ -16,21 +16,12 @@
 
 #include "supertux/menu/editor_new_levelset_menu.hpp"
 
-#include <physfs.h>
-#include <sstream>
-
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/game_manager.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/menu/contrib_levelset_menu.hpp"
-#include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
-#include "util/file_system.hpp"
 #include "util/gettext.hpp"
 
 EditorNewLevelsetMenu::EditorNewLevelsetMenu() :
@@ -52,22 +43,21 @@ EditorNewLevelsetMenu::EditorNewLevelsetMenu() :
 void
 EditorNewLevelsetMenu::menu_action(MenuItem* item)
 {
-  if (item->id > 0)
-  {
-    if(levelset_name.empty())
-    {
-      Dialog::show_message(_("Please enter a name for this level subset."));
-    }
-    else
-    {
-      std::unique_ptr<World> new_world = World::create(levelset_name, levelset_desc);
-      new_world->save();
-      Editor::current()->world = move(new_world);
+  if (item->id <= 0)
+    return;
 
-      MenuManager::instance().pop_menu();
-      MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
-    }
+  if(levelset_name.empty())
+  {
+    Dialog::show_message(_("Please enter a name for this level subset."));
+    return;
   }
+
+  std::unique_ptr<World> new_world = World::create(levelset_name, levelset_desc);
+  new_world->save();
+  Editor::current()->set_world(std::move(new_world));
+
+  MenuManager::instance().pop_menu();
+  MenuManager::instance().push_menu(MenuStorage::EDITOR_LEVEL_SELECT_MENU);
 }
 
 /* EOF */

@@ -19,6 +19,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/color.hpp"
+#include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
@@ -32,10 +33,6 @@ PointMarker::PointMarker ()
 {
   bbox.p1 = Vector(0, 0);
   bbox.p2 = Vector(16, 16);
-}
-
-PointMarker::~PointMarker() {
-
 }
 
 void PointMarker::draw(DrawingContext& context) {

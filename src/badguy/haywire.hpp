@@ -25,7 +25,6 @@ class Haywire : public WalkingBadguy
 {
 public:
   Haywire(const ReaderMapping& reader);
-  Haywire(const Vector& pos, Direction d);
 
   void kill_fall();
   void ignite();

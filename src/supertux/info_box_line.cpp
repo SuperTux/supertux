@@ -100,10 +100,6 @@ InfoBoxLine::InfoBoxLine(char format_char, const std::string& text_) :
   }
 }
 
-InfoBoxLine::~InfoBoxLine()
-{
-}
-
 std::vector<std::unique_ptr<InfoBoxLine> >
 InfoBoxLine::split(const std::string& text, float width)
 {

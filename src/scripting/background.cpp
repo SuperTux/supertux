@@ -27,10 +27,6 @@ Background::Background(::Background* parent) :
 {
 }
 
-Background::~Background()
-{
-}
-
 void
 Background::set_image(const std::string& image)
 {

@@ -31,7 +31,6 @@ class EditorLayersGui
 {
   public:
     EditorLayersGui();
-    ~EditorLayersGui();
 
     void draw(DrawingContext&);
     void update(float elapsed_time);

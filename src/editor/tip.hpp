@@ -17,16 +17,17 @@
 #ifndef HEADER_SUPERTUX_EDITOR_TIP_HPP
 #define HEADER_SUPERTUX_EDITOR_TIP_HPP
 
-#include "video/surface.hpp"
-#include "video/drawing_context.hpp"
+#include <string>
+#include <vector>
 
+class DrawingContext;
 class GameObject;
+class Vector;
 
 class Tip
 {
   public:
     Tip(GameObject* object);
-    ~Tip();
 
     void draw(DrawingContext& context, const Vector& pos);
     void draw_up(DrawingContext& context, const Vector& pos);

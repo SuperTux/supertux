@@ -80,16 +80,12 @@ Block::Block(const ReaderMapping& lisp, const std::string& sprite_file) :
   SoundManager::current()->preload("sounds/brick.wav");
 }
 
-Block::~Block()
-{
-}
-
 HitResponse
-Block::collision(GameObject& other, const CollisionHit& )
+Block::collision(GameObject& other, const CollisionHit& h)
 {
   auto player = dynamic_cast<Player*> (&other);
   if(player) {
-    if(player->get_bbox().get_top() > bbox.get_bottom() - SHIFT_DELTA) {
+    if((player->get_bbox().get_top() > bbox.get_bottom() - SHIFT_DELTA) && h.bottom) {
       hit(*player);
     }
   }
@@ -103,7 +99,7 @@ Block::collision(GameObject& other, const CollisionHit& )
   auto bomb = dynamic_cast<Bomb*> (&other);
   bool is_portable = ((portable != 0) && portable->is_portable());
   bool is_bomb = (bomb != 0); // bombs need to explode, although they are considered portable
-  bool hit_mo_from_below = ((moving_object == 0) || (moving_object->get_bbox().get_bottom() < (bbox.get_top() + SHIFT_DELTA)));
+  bool hit_mo_from_below = ((moving_object == 0) || h.top );
   if(bouncing && (!is_portable || is_bomb) && hit_mo_from_below) {
 
     // Badguys get killed

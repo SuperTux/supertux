@@ -46,7 +46,6 @@ public:
                CollisionGroup collision_group = COLGROUP_MOVING);
   MovingSprite(const MovingSprite& moving_sprite);
   //MovingSprite& operator=(const MovingSprite& moving_sprite);
-  ~MovingSprite();
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float elapsed_time) override;

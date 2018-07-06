@@ -33,7 +33,6 @@ private:
 
 public:
   Player(::Player* parent);
-  ~Player();
 
 private:
   Player(const Player&) = delete;

@@ -46,10 +46,6 @@ Path::Path(const Vector& pos) :
   nodes.push_back(first_node);
 }
 
-Path::~Path()
-{
-}
-
 void
 Path::read(const ReaderMapping& reader)
 {

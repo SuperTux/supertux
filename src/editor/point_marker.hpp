@@ -18,14 +18,14 @@
 #define HEADER_SUPERTUX_POINT_MARKER_HPP
 
 #include "supertux/moving_object.hpp"
-#include "video/drawing_context.hpp"
+
+class DrawingContext;
 
 class PointMarker : public MovingObject
 {
   public:
     PointMarker(const Vector& pos);
     PointMarker();
-    ~PointMarker();
 
     virtual void update(float elapsed_time) override {
       //No updates needed

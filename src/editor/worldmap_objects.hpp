@@ -29,7 +29,6 @@ class WorldmapObject : public MovingSprite
     WorldmapObject(const ReaderMapping& lisp, const std::string& default_sprite);
     WorldmapObject(const ReaderMapping& lisp);
     WorldmapObject(const Vector& pos, const std::string& default_sprite);
-    ~WorldmapObject();
 
     void update(float elapsed_time) {
       //No updates needed
@@ -57,7 +56,6 @@ class LevelDot : public WorldmapObject
 {
   public:
     LevelDot(const ReaderMapping& lisp);
-    ~LevelDot();
 
     virtual std::string get_class() const {
       return "level";
@@ -80,7 +78,6 @@ class Teleporter : public WorldmapObject
 {
   public:
     Teleporter(const ReaderMapping& lisp);
-    ~Teleporter();
 
     virtual std::string get_class() const {
       return "teleporter";
@@ -104,7 +101,6 @@ class WorldmapSpawnPoint : public WorldmapObject
   public:
     WorldmapSpawnPoint(const ReaderMapping& lisp);
     WorldmapSpawnPoint(const std::string& name_, const Vector& pos);
-    ~WorldmapSpawnPoint();
 
     virtual std::string get_class() const {
       return "worldmap-spawnpoint";
@@ -121,7 +117,6 @@ class SpriteChange : public WorldmapObject
 {
   public:
     SpriteChange(const ReaderMapping& lisp);
-    ~SpriteChange();
 
     virtual std::string get_class() const {
       return "sprite-change";
@@ -142,7 +137,6 @@ class SpecialTile : public WorldmapObject
 {
   public:
     SpecialTile(const ReaderMapping& lisp);
-    ~SpecialTile();
 
     virtual std::string get_class() const {
       return "special-tile";

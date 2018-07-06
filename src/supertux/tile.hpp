@@ -124,7 +124,6 @@ public:
   Tile(const std::vector<ImageSpec>& images, const std::vector<ImageSpec>& editor_images,
        uint32_t attributes, uint32_t data, float fps, const std::string& obj_name = "",
        const std::string& obj_data = "");
-  ~Tile();
 
   /** load Surfaces, if not already loaded */
   void load_images();

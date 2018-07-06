@@ -66,6 +66,7 @@ class Sector
 {
 public:
   friend class SectorParser;
+  friend class EditorSectorMenu;
 
 public:
   Sector(Level* parent);
@@ -147,7 +148,7 @@ public:
   void collision_tilemap(collision::Constraints* constraints,
                          const Vector& movement, Rectf& dest,
                          MovingObject &object, std::vector<Manifold>& contacts,
-                         collision_broadphase& broad) const;
+                         collision_broadphase& broad, bool slope_adjust_x = false) const;
 
   /**
    * Checks if the specified rectangle is free of (solid) tiles.
@@ -238,10 +239,6 @@ public:
    */
   void set_gravity(float gravity);
   float get_gravity() const;
-
-  std::string* get_name_ptr() {return &name;}
-  std::string* get_init_script_ptr() {return &init_script;}
-  Color* get_ambient_light_ptr() {return &ambient_light;}
 
 private:
   uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;

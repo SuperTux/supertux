@@ -23,10 +23,6 @@ FadeOut::FadeOut(float fade_time_, Color color_)
 {
 }
 
-FadeOut::~FadeOut()
-{
-}
-
 void
 FadeOut::update(float elapsed_time)
 {

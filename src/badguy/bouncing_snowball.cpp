@@ -29,11 +29,6 @@ BouncingSnowball::BouncingSnowball(const ReaderMapping& reader)
 {
 }
 
-BouncingSnowball::BouncingSnowball(const Vector& pos, Direction d)
-  : BadGuy(pos, d, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
-{
-}
-
 void
 BouncingSnowball::initialize()
 {

@@ -54,10 +54,6 @@ Tile::Tile(const std::vector<ImageSpec>& imagespecs_, const std::vector<ImageSpe
   correct_attributes();
 }
 
-Tile::~Tile()
-{
-}
-
 void
 Tile::load_images()
 {
@@ -461,10 +457,11 @@ Polygon Tile::tile_to_poly(Rectf bbox) const
    *  g    i    h
    * and represent AATriangles as polygons
    */
+   log_debug << "SLope nfi is " << slope_info << std::endl;
    std::string str;
    str = "err";
-   if(slope_info == 1+32)
-    str = "agh"; // fixed this
+   if (slope_info == 1+32)
+    str = "agh";  // fixed this
    if(slope_info == 1+16)
     str = "achd";
    if(slope_info == 1)
@@ -490,7 +487,7 @@ Polygon Tile::tile_to_poly(Rectf bbox) const
   if(slope_info == 0+32)
     str = "fhga";
   if(slope_info == 0)
-    str = "agh";
+    str = "ahg";
   if(slope_info == 0+64)
     str = "bhga";
   if(slope_info == 0+48)

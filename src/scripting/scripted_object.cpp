@@ -25,10 +25,6 @@ ScriptedObject::ScriptedObject(::ScriptedObject* parent) :
 {
 }
 
-ScriptedObject::~ScriptedObject()
-{
-}
-
 void
 ScriptedObject::set_action(const std::string& animation)
 {

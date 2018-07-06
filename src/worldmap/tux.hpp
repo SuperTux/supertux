@@ -59,7 +59,6 @@ private:
 
 public:
   Tux(WorldMap* worldmap_);
-  ~Tux();
 
   void setup(); /**< called prior to first update */
   void draw(DrawingContext& context);

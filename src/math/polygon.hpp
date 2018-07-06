@@ -1,39 +1,44 @@
-#ifndef SUPERTUX_HEADER_MATH_POLYGON
-#define SUPERTUX_HEADER_MATH_POLYGON
-#include "math/vector.hpp"
+#ifndef SUPERTUX_HEADER_MATH_POLYGON_HPP_
+#define SUPERTUX_HEADER_MATH_POLYGON_HPP_
 #include <vector>
+#include "math/vector.hpp"
+
 struct Manifold {
   Vector normal;
   double depth;
+
+  bool collided = false;
+
+public:
+  Manifold():
+    normal(),
+    depth(),
+    collided(){
+  }
 };
+
+double vector_gap(const Vector& a, const Vector& b);
+
 class Polygon {
-  public:
+ public:
+   Polygon();
     /**
      *  Adds a vertice to this polygon.
      *  @param point The new vertice
      */
-    void add_vertice( Vector point );
+    void add_vertice(const Vector& point);
     /**
      * Checks for overlapping vertices and marks normals using those as disabled.
      * @param b The neighbouring polygon.
      **/
-    void process_neighbor(Polygon& b);
-    /**
-     *  Checks octile adjacent neighbours for normals which have to be deactivated.
-     **/
-    void process_octile_neighbour(int dir, Polygon& b);
+    void process_neighbor(const Polygon& b);
     /**
      *  Handles a collision between the tile and a moving object.
      *  Returns the axis of resolution.
      *
      *  @param b The polygon to check collisions against
      */
-     void handle_collision(Polygon& b, Manifold& m);
-     /**
-      * Flags every normal colinear with n to be ignored.
-      * @param n The normal to flag as ignored.
-      */
-     void disable_normal(const Vector& n);
+     void handle_collision(const Polygon& b, Manifold& m);
      /**
       *  Checks if the axis represented by the vector
       *  is seperating (i.e the polygons do not overlap if projected onto the axis)
@@ -41,13 +46,13 @@ class Polygon {
       *  @param b The second polygon
       *  @param axis The vector representing the axis
       */
-     double is_seperating_axis(Polygon& b,const Vector& axis);
+     double is_seperating_axis(const Polygon& b, const Vector& axis);
      /**
       * Projects a polygon onto an axis.
       * @param axis The axis to project onto.
       * @returns 0 if the axis not seperating, else the overlap length.
       */
-     Vector project(Vector axis);
+     Vector project(const Vector& axis) const;
      /**
      * TODO
       * Rotates the polygon angle degrees.
@@ -63,13 +68,16 @@ class Polygon {
       void setup();
 
       void debug();
-  private:
-    std::vector< Vector > original_vertices; /** Only used in rotated polygons */
-    double rotation_angle;
+      virtual ~Polygon() {}
+ protected:
+    // The two commented out fields will be used for rotation later.
+    //std::vector< Vector > original_vertices; /** Only used in rotated polygons */
+    //double rotation_angle;
     std::vector< Vector > vertices;
     std::vector< Vector > edges;
     std::vector< Vector > normals; /** Edge normals */
     Vector middle_point;
-    std::vector< bool > disabled_normals; /** Saves for every normal a flag indicating wether it is enabled. */
+    /** Saves for every normal a flag indicating wether it is enabled. */
+    std::vector< bool > disabled_normals;
 };
-#endif
+#endif  // SUPERTUX_HEADER_MATH_POLYGON_HPP_
