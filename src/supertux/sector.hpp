@@ -147,8 +147,7 @@ public:
 
   void collision_tilemap(collision::Constraints* constraints,
                          const Vector& movement, Rectf& dest,
-                         MovingObject &object, std::vector<Manifold>& contacts,
-                         collision_broadphase& broad, bool slope_adjust_x = false) const;
+                         MovingObject &object, std::vector<Manifold>& contacts, bool slope_adjust_x = false) const;
 
   /**
    * Checks if the specified rectangle is free of (solid) tiles.
@@ -272,9 +271,9 @@ private:
    * (because of ABORT_MOVE in the collision response or no collisions)
    */
   void collision_static(collision::Constraints* constraints,
-                        const Vector& movement, Rectf& dest, MovingObject& object, collision_graph& graph, collision_broadphase& broad);
+                        const Vector& movement, Rectf& dest, MovingObject& object, collision_graph& graph);
 
-  void collision_static_constrains(MovingObject& object, collision_graph& g, collision_broadphase& broad);
+  void collision_static_constrains(MovingObject& object, collision_graph& g);
 
   GameObjectPtr parse_object(const std::string& name, const ReaderMapping& lisp);
 
@@ -354,7 +353,7 @@ public: // TODO make this private again
   std::list<TileMap*> solid_tilemaps;
   Camera* camera;
   DisplayEffect* effect;
-
+  std::unique_ptr<collision_broadphase> broadphase;
 private:
   Sector(const Sector&);
   Sector& operator=(const Sector&);

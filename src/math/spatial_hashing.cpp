@@ -65,12 +65,11 @@ void spatial_hashing::search(const Rectf& r, std::function<void()> collision_ok,
   endx   = std::min<int>(rows, r.p2.x / gridx);
   endy   = std::min<int>(cols, r.p2.y / gridy);
 
-  for(int xcoord = startx ; xcoord <= endx ; xcoord++)
+  for (int xcoord = startx ; xcoord <= endx ; xcoord++)
   {
-    for(int ycoord = starty ; ycoord <= endy ; ycoord++)
-    {
-      for(const auto& obj : grid[xcoord][ycoord])
-      {
+    for (int ycoord = starty ; ycoord <= endy ; ycoord++) {
+      for (const auto& obj : grid[xcoord][ycoord]) {
+        if (obj != NULL)
           fill.insert(obj);
       }
     }
@@ -124,11 +123,11 @@ bool spatial_hashing::remove(MovingObject* obj)
 void spatial_hashing::clear()
 {
   // Delete every cell
-  for(size_t i = 0;i<grid.size();i++)
+  /*for(size_t i = 0;i<grid.size();i++)
   {
     for(size_t j = 0; j < grid[i].size(); j++)
       grid[i][j].clear();
     grid[i].clear();
-  }
+  }*/
   grid.clear();
 }

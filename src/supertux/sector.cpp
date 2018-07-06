@@ -93,7 +93,8 @@ Sector::Sector(Level* parent) :
   player(0),
   solid_tilemaps(),
   camera(0),
-  effect(0)
+  effect(0),
+  broadphase(nullptr)
 {
   PlayerStatus* player_status;
   if (Editor::is_active()) {
@@ -530,6 +531,7 @@ Sector::before_object_remove(GameObjectPtr object)
     moving_objects.erase(
       std::find(moving_objects.begin(), moving_objects.end(), moving_object));
     // Tell Collision Engine that this object has been removed
+    broadphase->remove(moving_object);
 
   }
 
@@ -678,7 +680,7 @@ void check_collisions(collision::Constraints* constraints,
 void
 Sector::collision_tilemap(collision::Constraints* constraints,
                           const Vector& movement, Rectf& dest,
-                          MovingObject& object, std::vector<Manifold>& contacts) const
+                          MovingObject& object, std::vector<Manifold>& contacts, bool slope_adjust_x) const
 {
   using namespace collision;
   // calculate rectangle where the object will move
@@ -743,6 +745,10 @@ Sector::collision_tilemap(collision::Constraints* constraints,
             continue;
           // log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
           overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
+          if(tile->is_slope() && slope_adjust_x)
+          {
+            overlapV.x = 0;
+          }
           if (std::max(std::abs(overlapV.x), std::abs(overlapV.y))
               == std::abs(overlapV.x)) {
             h.right = overlapV.x > 0;
@@ -986,12 +992,10 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2, collision
 void
 Sector::collision_static(collision::Constraints* constraints,
                          const Vector& movement, Rectf& dest,
-                         MovingObject& object, collision_graph& graph,
-                         collision_broadphase& broad)
-{
+                         MovingObject& object, collision_graph& graph) {
   std::vector< Manifold > contacts;
-  collision_tilemap(constraints, movement, dest, object, contacts, broad, false);
-  collision_tilemap(constraints, movement, dest, object, contacts, broad, true);
+  collision_tilemap(constraints, movement, dest, object, contacts, false);
+  collision_tilemap(constraints, movement, dest, object, contacts, true);
   // collision with other (static) objects
 
   for (auto& moving_object : moving_objects) {
@@ -1010,7 +1014,7 @@ Sector::collision_static(collision::Constraints* constraints,
       Manifold m;
       CollisionHit h;
       std::set< MovingObject* > possible_neighbours;
-      broad.search(moving_object->get_bbox().grown(4), []{},
+      broadphase->search(moving_object->get_bbox().grown(4), []{},
                   possible_neighbours);
       for (const auto& mobject : possible_neighbours) {
         if (mobject == &object || mobject == moving_object)
@@ -1059,7 +1063,7 @@ Sector::collision_static(collision::Constraints* constraints,
 }
 
 void
-Sector::collision_static_constrains(MovingObject& object, collision_graph& graph, collision_broadphase& broad)
+Sector::collision_static_constrains(MovingObject& object, collision_graph& graph)
 {
 
   using namespace collision;
@@ -1067,7 +1071,7 @@ Sector::collision_static_constrains(MovingObject& object, collision_graph& graph
   Vector movement = object.get_movement();
   Rectf& dest = object.dest;
   collision_static(&constraints, Vector(movement.x, movement.y),
-                  dest, object, graph, broad);
+                  dest, object, graph);
 }
 
 namespace {
@@ -1083,7 +1087,11 @@ Sector::handle_collisions()
   }
 
   using namespace collision;
-
+  if (!broadphase)
+  {
+    broadphase.reset(new spatial_hashing(get_width(), get_height()));
+    log_debug << "Error :: Reset" << std::endl;
+  }
   // calculate destination positions of the objects
   for (const auto& moving_object : moving_objects) {
     Vector mov = moving_object->get_movement();
@@ -1098,7 +1106,6 @@ Sector::handle_collisions()
     moving_object->dest.move(moving_object->get_movement());
   }
   // part 0: Handle moving objects
-  spatial_hashing broadphase(get_width(), get_height());
   // Get a list of all objects which move
   platforms.clear();
   for (const auto& moving_object : moving_objects) {
@@ -1115,7 +1122,8 @@ Sector::handle_collisions()
   colgraph.reset();
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
   for (const auto& obj : moving_objects) {
-    broadphase.insert(obj->dest, obj);
+    broadphase->insert(obj->dest, obj);
+    log_debug << "Inserting " << std::endl;
   }
 
   for (const auto& moving_object : moving_objects) {
@@ -1125,7 +1133,7 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
 
-    collision_static_constrains(*moving_object, colgraph, broadphase);
+    collision_static_constrains(*moving_object, colgraph);
   }
   // part2: COLGROUP_MOVING vs tile attributes
   for (const auto& moving_object : moving_objects) {
@@ -1149,8 +1157,8 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
     std::set< MovingObject* > possibleCollisions;
-    broadphase.search(moving_object->dest, []{} , possibleCollisions);
-
+    broadphase->search(moving_object->dest, []{} , possibleCollisions);
+    log_debug << "Found " << possibleCollisions.size() << " elem,ents." << std::endl;
     for (auto& moving_object_2 : possibleCollisions) {
       if (moving_object_2 == moving_object)
         continue;
@@ -1170,8 +1178,8 @@ Sector::handle_collisions()
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
 
-        broadphase.insert(moving_object->dest, moving_object);
-        broadphase.insert(moving_object_2->dest, moving_object_2);
+        broadphase->insert(moving_object->dest, moving_object);
+        broadphase->insert(moving_object_2->dest, moving_object_2);
       }
     }
   }
@@ -1185,7 +1193,7 @@ Sector::handle_collisions()
       continue;
     // Query the broadphase
     std::set< MovingObject* > possibleCollisions;
-    broadphase.search(moving_object->dest, []{} , possibleCollisions);
+    broadphase->search(moving_object->dest, []{} , possibleCollisions);
     for (auto i2 = possibleCollisions.begin(); i2 != possibleCollisions.end(); ++i2)
     {
       auto moving_object_2 = *i2;
@@ -1199,8 +1207,8 @@ Sector::handle_collisions()
       collision_object(moving_object, moving_object_2, colgraph);
 
       // Update the objects positions
-      broadphase.insert(moving_object->dest, moving_object);
-      broadphase.insert(moving_object_2->dest, moving_object_2);
+      broadphase->insert(moving_object->dest, moving_object);
+      broadphase->insert(moving_object_2->dest, moving_object_2);
     }
   }
   for (const auto& plf : platforms) {
@@ -1212,8 +1220,6 @@ Sector::handle_collisions()
         child->parent_updated = true;
     }
   }
-
-  //broadphase.clear();
   // apply object movement
   for (const auto& moving_object : moving_objects) {
     moving_object->bbox = moving_object->dest;
