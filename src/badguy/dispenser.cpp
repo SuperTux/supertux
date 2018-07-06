@@ -71,7 +71,6 @@ Dispenser::Dispenser(const ReaderMapping& reader) :
 
   type_str = get_type_string();
 
-  reader.get("name", name, "");
   reader.get("limit-dispensed-badguys", limit_dispensed_badguys, false);
   reader.get("max-concurrent-badguys", max_concurrent_badguys, 0);
 

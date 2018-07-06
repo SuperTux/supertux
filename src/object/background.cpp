@@ -51,6 +51,7 @@ Background::Background() :
 }
 
 Background::Background(const ReaderMapping& reader) :
+  GameObject(reader),
   ExposedObject<Background, scripting::Background>(this),
   alignment(NO_ALIGNMENT),
   layer(LAYER_BACKGROUND0),
@@ -74,8 +75,6 @@ Background::Background(const ReaderMapping& reader) :
   has_pos_x = reader.get("x", px);
   has_pos_y = reader.get("y", py);
   this->pos = Vector(px,py);
-
-  reader.get("name", name, "");
 
   speed = 1.0;
   speed_y = 1.0;
