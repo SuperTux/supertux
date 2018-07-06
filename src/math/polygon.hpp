@@ -61,6 +61,7 @@ class Polygon {
       * a rotated polygon becomes more (numerically) stable.
       */
      //Polygon rotate(double angle);
+     void set_offset(Vector offsetv);
      /**
       * Inits the normal_enabled vector.
       * Call after all edges were added.
@@ -76,7 +77,7 @@ class Polygon {
     std::vector< Vector > vertices;
     std::vector< Vector > edges;
     std::vector< Vector > normals; /** Edge normals */
-    Vector middle_point;
+    Vector middle_point; // TODO Rename this to center
     /** Saves for every normal a flag indicating wether it is enabled. */
     std::vector< bool > disabled_normals;
 };

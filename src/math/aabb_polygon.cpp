@@ -72,5 +72,6 @@ void AABBPolygon::process_neighbor(int xoffset, int yoffset) {
 }
 
 void AABBPolygon::handle_collision(const AABBPolygon& b, Manifold& m) {
+  // TODO(christ2go) Replace with AABB-Polygons own routine
   Polygon::handle_collision(b, m);
 }

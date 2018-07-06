@@ -531,7 +531,8 @@ Sector::before_object_remove(GameObjectPtr object)
     moving_objects.erase(
       std::find(moving_objects.begin(), moving_objects.end(), moving_object));
     // Tell Collision Engine that this object has been removed
-    broadphase->remove(moving_object);
+    if (broadphase)
+      broadphase->remove(moving_object);
 
   }
 
@@ -1017,7 +1018,9 @@ Sector::collision_static(collision::Constraints* constraints,
       broadphase->search(moving_object->get_bbox().grown(4), []{},
                   possible_neighbours);
       for (const auto& mobject : possible_neighbours) {
-        if (mobject == &object || mobject == moving_object)
+        // TODO Specail case: Same object on multiple layers
+        // => detect collision (?) use contacts?
+        if (mobject->get_bbox() == object.get_bbox() || mobject->get_bbox() == moving_object->get_bbox())
           continue;
         Polygon mobject_poly = mobject->get_bbox().to_polygon();
         tile_poly.process_neighbor(mobject_poly);
@@ -1123,7 +1126,6 @@ Sector::handle_collisions()
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
   for (const auto& obj : moving_objects) {
     broadphase->insert(obj->dest, obj);
-    log_debug << "Inserting " << std::endl;
   }
 
   for (const auto& moving_object : moving_objects) {
