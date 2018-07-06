@@ -33,6 +33,7 @@ const float ELECTRIFY_TIME = 0.5f;
 }
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
+  GameObject(reader),
   ExposedObject<Thunderstorm, scripting::Thunderstorm>(this),
   running(true),
   interval(10.0f),

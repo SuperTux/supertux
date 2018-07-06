@@ -29,6 +29,7 @@
 #include "video/drawing_context.hpp"
 
 AmbientSound::AmbientSound(const ReaderMapping& lisp) :
+  MovingObject(lisp),
   ExposedObject<AmbientSound, scripting::AmbientSound>(this),
   sample(),
   sound_source(),
@@ -45,7 +46,6 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   group = COLGROUP_DISABLED;
 
   float w, h;
-  lisp.get("name" , name, "");
   lisp.get("x", bbox.p1.x, 0);
   lisp.get("y", bbox.p1.y, 0);
   lisp.get("width" , w, 32);

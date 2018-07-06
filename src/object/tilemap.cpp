@@ -62,6 +62,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
 }
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
+  GameObject(reader),
   ExposedObject<TileMap, scripting::TileMap>(this),
   PathObject(),
   editor_active(true),
@@ -91,7 +92,6 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 {
   assert(tileset);
 
-  reader.get("name",   name);
   reader.get("solid",  real_solid);
   reader.get("speed",  speed_x);
   reader.get("speed-y", speed_y, speed_x);

@@ -27,6 +27,7 @@
 #include "video/drawing_context.hpp"
 
 Wind::Wind(const ReaderMapping& reader) :
+  MovingObject(reader),
   ExposedObject<Wind, scripting::Wind>(this),
   blowing(),
   speed(),
@@ -35,7 +36,6 @@ Wind::Wind(const ReaderMapping& reader) :
   elapsed_time(0)
 {
   float w,h;
-  reader.get("name", name,"");
   reader.get("x", bbox.p1.x, 0);
   reader.get("y", bbox.p1.y, 0);
   reader.get("width", w, 32);

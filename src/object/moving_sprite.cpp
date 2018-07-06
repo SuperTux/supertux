@@ -37,6 +37,7 @@ MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
 }
 
 MovingSprite::MovingSprite(const ReaderMapping& reader, const Vector& pos, int layer_, CollisionGroup collision_group) :
+  MovingObject(reader),
   sprite_name(),
   default_sprite_name(),
   sprite(),
@@ -53,6 +54,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const Vector& pos, int l
 }
 
 MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprite_name_, int layer_, CollisionGroup collision_group) :
+  MovingObject(reader),
   sprite_name(sprite_name_),
   default_sprite_name(sprite_name_),
   sprite(),
@@ -73,6 +75,7 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
 }
 
 MovingSprite::MovingSprite(const ReaderMapping& reader, int layer_, CollisionGroup collision_group) :
+  MovingObject(reader),
   sprite_name(),
   default_sprite_name(),
   sprite(),

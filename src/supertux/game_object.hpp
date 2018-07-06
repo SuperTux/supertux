@@ -22,6 +22,7 @@
 
 #include "editor/object_settings.hpp"
 #include "util/gettext.hpp"
+#include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
 class DrawingContext;
@@ -45,6 +46,7 @@ class GameObject
 public:
   GameObject();
   GameObject(const GameObject& rhs);
+  GameObject(const ReaderMapping& reader);
   virtual ~GameObject();
 
   /** This function is called once per frame and allows the object to update

@@ -22,10 +22,10 @@
 #include "video/drawing_context.hpp"
 
 InvisibleWall::InvisibleWall(const ReaderMapping& lisp):
+  MovingObject(lisp),
   width(),
   height()
 {
-  lisp.get("name" , name, "");
   lisp.get("x", bbox.p1.x, 0);
   lisp.get("y", bbox.p1.y, 0);
   lisp.get("width", width, 32);

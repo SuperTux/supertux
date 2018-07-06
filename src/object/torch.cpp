@@ -23,6 +23,7 @@
 #include "util/reader_mapping.hpp"
 
 Torch::Torch(const ReaderMapping& reader) :
+  MovingObject(reader),
   ExposedObject<Torch, scripting::Torch>(this),
   m_torch(),
   m_flame(SpriteManager::current()->create("images/objects/torch/flame.sprite")),
@@ -33,8 +34,6 @@ Torch::Torch(const ReaderMapping& reader) :
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
-
-  reader.get("name", name, "");
 
   reader.get("sprite", sprite_name);
   reader.get("burning", m_burning, true);

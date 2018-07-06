@@ -52,7 +52,6 @@ Rock::Rock(const ReaderMapping& reader) :
   on_grab_script(),
   on_ungrab_script()
 {
-  reader.get("name", name, "");
   reader.get("on-grab-script", on_grab_script, "");
   reader.get("on-ungrab-script", on_ungrab_script, "");
   SoundManager::current()->preload(ROCK_SOUND);
@@ -69,7 +68,6 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   on_grab_script(),
   on_ungrab_script()
 {
-  if(!reader.get("name", name)) name = "";
   if(!reader.get("on-grab-script", on_grab_script)) on_grab_script = "";
   if(!reader.get("on-ungrab-script", on_ungrab_script)) on_ungrab_script = "";
   SoundManager::current()->preload(ROCK_SOUND);

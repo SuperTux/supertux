@@ -37,6 +37,7 @@ Gradient::Gradient() :
 }
 
 Gradient::Gradient(const ReaderMapping& reader) :
+  GameObject(reader),
   ExposedObject<Gradient, scripting::Gradient>(this),
   layer(LAYER_BACKGROUND0),
   gradient_top(),
@@ -47,7 +48,6 @@ Gradient::Gradient(const ReaderMapping& reader) :
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
   std::string direction;
-  reader.get("name", name, "");
   if(reader.get("direction", direction))
   {
     if(direction == "horizontal")
