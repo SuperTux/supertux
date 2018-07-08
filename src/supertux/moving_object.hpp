@@ -168,6 +168,7 @@ public:
 
 protected:
   friend class Sector;
+  friend class SectorCollisionDetector;
 
   void set_group(CollisionGroup group_)
   {

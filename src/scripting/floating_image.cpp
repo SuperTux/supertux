@@ -28,8 +28,8 @@ FloatingImage::FloatingImage(const std::string& spritefile) :
 {
   using namespace worldmap;
 
-  if(Sector::current() != NULL) {
-    Sector::current()->add_object(floating_image);
+  if(::Sector::current() != NULL) {
+    ::Sector::current()->add_object(floating_image);
   } else if(WorldMap::current() != NULL) {
     WorldMap::current()->add_object(floating_image);
   } else {
