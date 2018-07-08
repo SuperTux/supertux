@@ -171,14 +171,14 @@ BonusBlock::get_settings() {
   coo.select.push_back(_("Growth (ice flower)"));
   coo.select.push_back(_("Growth (air flower)"));
   coo.select.push_back(_("Growth (earth flower)"));
-  coo.select.push_back(_("star"));
+  coo.select.push_back(_("Star"));
   coo.select.push_back(_("Tux doll"));
-  coo.select.push_back(_("custom"));
-  coo.select.push_back(_("script"));
-  coo.select.push_back(_("light"));
-  coo.select.push_back(_("trampoline"));
-  coo.select.push_back(_("coin rain"));
-  coo.select.push_back(_("coin explosion"));
+  coo.select.push_back(_("Custom"));
+  coo.select.push_back(_("Script"));
+  coo.select.push_back(_("Light"));
+  coo.select.push_back(_("Trampoline"));
+  coo.select.push_back(_("Coin rain"));
+  coo.select.push_back(_("Coin explosion"));
   result.options.push_back(coo);
 
   return result;
