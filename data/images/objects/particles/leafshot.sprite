@@ -1,0 +1,12 @@
+(supertux-sprite
+ (action
+  (name "default")
+(fps 4.0)
+  (images 
+    "poisonivy-0.png"
+"poisonivy-1.png"
+"poisonivy-2.png"
+"poisonivy-3.png"
+  )
+ )
+)
