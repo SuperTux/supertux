@@ -103,5 +103,10 @@ SpiderMite::is_freezable() const
 {
   return true;
 }
+bool
+SpiderMite::is_portable() const
+{
+  return frozen;
+}
 
 /* EOF */

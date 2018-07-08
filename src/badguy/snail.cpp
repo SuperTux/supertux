@@ -145,6 +145,12 @@ Snail::is_freezable() const
   return true;
 }
 
+bool
+Snail::is_portable() const
+{
+  return frozen;
+}
+
 void
 Snail::collision_solid(const CollisionHit& hit)
 {

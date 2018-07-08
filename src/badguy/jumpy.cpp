@@ -112,6 +112,12 @@ Jumpy::is_freezable() const
 }
 
 bool
+Jumpy::is_portable() const
+{
+  return frozen;
+}
+
+bool
 Jumpy::is_flammable() const
 {
   return true;

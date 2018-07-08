@@ -154,4 +154,10 @@ Fish::is_freezable() const
   return true;
 }
 
+bool
+Fish::is_portable() const
+{
+  return frozen;
+}
+
 /* EOF */

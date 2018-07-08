@@ -159,6 +159,12 @@ Haywire::is_freezable() const
   return true;
 }
 
+bool
+Haywire::is_portable() const
+{
+  return frozen;
+}
+
 void
 Haywire::ignite()
 {

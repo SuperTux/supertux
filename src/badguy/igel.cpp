@@ -107,6 +107,12 @@ Igel::is_freezable() const
   return true;
 }
 
+bool
+Igel::is_portable() const
+{
+  return frozen;
+}
+
 /**bool
 Igel::collision_squished(GameObject& )
 {

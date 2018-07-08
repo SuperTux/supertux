@@ -159,6 +159,12 @@ SkullyHop::is_freezable() const
   return true;
 }
 
+bool
+SkullyHop::is_portable() const
+{
+  return frozen;
+}
+
 void
 SkullyHop::after_editor_set()
 {
