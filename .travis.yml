@@ -48,10 +48,10 @@ before_install:
   # Possibly should not generate packages for all builds?
   - export PACKAGE="ON";
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$CC" = "gcc" ] && [ "$BUILD_TYPE" = "Release" ]; then
-      export RELEASE="ON_DISABLED_FOR_NOW";
+      export RELEASE="ON";
     fi;
   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$BUILD_TYPE" = "Release" ]; then
-      export RELEASE="ON_DISABLED_FOR_NOW";
+      export RELEASE="ON";
     fi;
   - if [ "$TRAVIS_OS_NAME" = "osx" ]; then
       brew update;
