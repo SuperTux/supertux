@@ -1,0 +1,15 @@
+BasedOnStyle: Google
+---
+Language: Cpp
+BreakConstructorInitializersBeforeComma: false
+ColumnLimit: 80
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+DerivePointerBinding: true
+IndentCaseLabels: true
+BreakBeforeBraces: Stroustrup
+AlwaysBreakAfterReturnType: TopLevelDefinitions # To break after function declaration type IN definition (=> only toplevel)
+FixNamespaceComments: true
+AlignConsecutiveAssignments: true
+# TODO Use IncludeBlocks to sort the includes (=> needs groups and priorities)
+IncludeBlocks: Regroup
+---
