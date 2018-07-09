@@ -770,8 +770,6 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         }
 
         // Do collision response
-
-        // get_hit_normal(tile_bbox, dest, h, overlapV);
         //AABBPolygon mobjp(dest); // = dest.to_polygon();
         Polygon mobjp = dest.to_polygon();
         Polygon tile_poly = tile->tile_to_poly(tile_bbox);
@@ -872,7 +870,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         std::swap(h.right, h.left);
         if ((h.bottom || h.top || h.left || h.right)) {
             object.collision_solid(h);
-            dest.move(overlapV);
+            contacts.push_back(m);
         }
         }
       }
@@ -996,8 +994,20 @@ Sector::collision_static(collision::Constraints* constraints,
                          MovingObject& object, collision_graph& graph) {
   std::vector< Manifold > contacts;
   collision_tilemap(constraints, movement, dest, object, contacts, false);
+  for (const auto& m : contacts) {
+    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
+                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
+    dest.move(overlapV);
+  }
+  contacts.clear();
   collision_tilemap(constraints, movement, dest, object, contacts, true);
   // collision with other (static) objects
+  for (const auto& m : contacts) {
+    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
+                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
+    dest.move(overlapV);
+  }
+  contacts.clear();
 
   for (auto& moving_object : moving_objects) {
     if (moving_object->get_group() != COLGROUP_STATIC

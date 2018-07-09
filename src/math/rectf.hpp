@@ -151,7 +151,8 @@ public:
 
 bool operator==(const Rectf& other) const {
   // TODO(christ2go) Figure out a way to use robust epsilo comparision
-  return other.p1.x == p1.x && other.p1.y == p1.y && other.p2.x == p2.x && other.p2.y == p2.y;
+  return std::abs(other.p1.x - p1.x) <= 0.2 && std::abs(other.p1.y - p1.y) <= 0.2
+         && std::abs(other.p2.x - p2.x) <= 0.2 && std::abs(other.p2.y - p2.y) <= 0.2;
 }  // leave these two public to save the headaches of set/get functions for such
   // simple things :)
 
