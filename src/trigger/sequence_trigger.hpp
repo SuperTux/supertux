@@ -23,19 +23,14 @@
 class Player;
 class ReaderMapping;
 
-class SequenceTrigger : public TriggerBase
-{
-public:
+class SequenceTrigger : public TriggerBase {
+ public:
   SequenceTrigger(const ReaderMapping& reader);
   SequenceTrigger(const Vector& pos, const std::string& sequence_name);
   virtual void save(Writer& writer);
-  std::string get_class() const {
-    return "sequencetrigger";
-  }
+  std::string get_class() const { return "sequencetrigger"; }
 
-  bool has_variable_size() const {
-    return true;
-  }
+  bool has_variable_size() const { return true; }
 
   virtual ObjectSettings get_settings();
   virtual void after_editor_set();
@@ -45,7 +40,7 @@ public:
 
   std::string get_sequence_name() const;
 
-private:
+ private:
   EventType triggerevent;
   Sequence sequence;
   Vector new_size;

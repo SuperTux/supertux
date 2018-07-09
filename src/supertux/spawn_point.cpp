@@ -14,44 +14,42 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "supertux/spawn_point.hpp"
+
 #include <stdexcept>
 
-#include "supertux/spawn_point.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
-SpawnPoint::SpawnPoint() :
-  name(),
-  pos()
-{}
+SpawnPoint::SpawnPoint() : name(), pos() {}
 
-SpawnPoint::SpawnPoint(const SpawnPoint& other) :
-  name(other.name),
-  pos(other.pos)
-{}
+SpawnPoint::SpawnPoint(const SpawnPoint& other)
+    : name(other.name), pos(other.pos)
+{
+}
 
-SpawnPoint::SpawnPoint(const ReaderMapping& slisp) :
-  name(),
-  pos(-1, -1)
+SpawnPoint::SpawnPoint(const ReaderMapping& slisp) : name(), pos(-1, -1)
 {
   slisp.get("name", name);
   slisp.get("x", pos.x);
   slisp.get("y", pos.y);
 
-  if(name.empty())
+  if (name.empty())
     log_warning << "No name specified for spawnpoint. Ignoring." << std::endl;
-  if(pos.x < 0 || pos.y < 0)
-    log_warning << "Invalid coordinates specified for spawnpoint. Ignoring." << std::endl;
+  if (pos.x < 0 || pos.y < 0)
+    log_warning << "Invalid coordinates specified for spawnpoint. Ignoring."
+                << std::endl;
 }
 
 void
-SpawnPoint::save(Writer& writer){
+SpawnPoint::save(Writer& writer)
+{
   writer.start_list("spawnpoint");
 
-  writer.write("x",pos.x);
-  writer.write("y",pos.y);
-  writer.write("name",name,false);
+  writer.write("x", pos.x);
+  writer.write("y", pos.y);
+  writer.write("name", name, false);
 
   writer.end_list("spawnpoint");
 }

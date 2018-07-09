@@ -1,5 +1,6 @@
 //  SuperTux - Add-on
-//  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
+//  Copyright (C) 2007 Christoph Sommer
+//  <christoph.sommer@2007.expires.deltadevelopment.de>
 //                2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -19,25 +20,22 @@
 #define HEADER_SUPERTUX_ADDON_ADDON_HPP
 
 #include <assert.h>
+
 #include <memory>
 #include <string>
 
 #include "util/reader_fwd.hpp"
 
-class Addon
-{
-public:
+class Addon {
+ public:
   static std::unique_ptr<Addon> parse(const ReaderMapping& lisp);
   static std::unique_ptr<Addon> parse(const std::string& fname);
 
   enum Type { WORLD, WORLDMAP, LEVELSET, LANGUAGEPACK };
 
-  enum Format {
-    ORIGINAL = 0,
-    WITH_MOUNTPOINT = 1
-  };
+  enum Format { ORIGINAL = 0, WITH_MOUNTPOINT = 1 };
 
-private:
+ private:
   // fields provided by the addon.zip itself
   std::string m_id;
   int m_version;
@@ -55,10 +53,10 @@ private:
   std::string m_install_filename;
   bool m_enabled;
 
-private:
+ private:
   Addon();
 
-public:
+ public:
   std::string get_id() const { return m_id; }
   int get_version() const { return m_version; }
   int get_format() const { return m_format; }
@@ -77,10 +75,11 @@ public:
   bool is_installed() const;
   bool is_enabled() const;
 
-  void set_install_filename(const std::string& absolute_filename, const std::string& md5);
+  void set_install_filename(const std::string& absolute_filename,
+                            const std::string& md5);
   void set_enabled(bool v);
 
-private:
+ private:
   Addon(const Addon&) = delete;
   Addon& operator=(const Addon&) = delete;
 };

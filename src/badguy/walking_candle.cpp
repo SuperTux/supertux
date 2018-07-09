@@ -23,10 +23,11 @@
 #include "util/reader_mapping.hpp"
 
 WalkingCandle::WalkingCandle(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/mr_candle/mr-candle.sprite", "left", "right"),
-    lightcolor(1, 1, 1)
+    : WalkingBadguy(reader, "images/creatures/mr_candle/mr-candle.sprite",
+                    "left", "right"),
+      lightcolor(1, 1, 1)
 {
-  walk_speed = 80;
+  walk_speed      = 80;
   max_drop_height = 64;
 
   std::vector<float> vColor;
@@ -53,38 +54,45 @@ WalkingCandle::is_flammable() const
 }
 
 void
-WalkingCandle::freeze() {
+WalkingCandle::freeze()
+{
   BadGuy::freeze();
   glowing = false;
 }
 
 void
-WalkingCandle::unfreeze() {
+WalkingCandle::unfreeze()
+{
   BadGuy::unfreeze();
   glowing = true;
 }
 
 HitResponse
-WalkingCandle::collision(GameObject& other, const CollisionHit& hit) {
+WalkingCandle::collision(GameObject& other, const CollisionHit& hit)
+{
   auto l = dynamic_cast<Lantern*>(&other);
-  if (l && !frozen) if (l->get_bbox().p2.y < bbox.p1.y) {
-    l->add_color(lightcolor);
-    run_dead_script();
-    remove_me();
-    return FORCE_MOVE;
-  }
+  if (l && !frozen)
+    if (l->get_bbox().p2.y < bbox.p1.y) {
+      l->add_color(lightcolor);
+      run_dead_script();
+      remove_me();
+      return FORCE_MOVE;
+    }
   return WalkingBadguy::collision(other, hit);
 }
 
 ObjectSettings
-WalkingCandle::get_settings() {
+WalkingCandle::get_settings()
+{
   ObjectSettings result = BadGuy::get_settings();
-  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor, "color"));
+  result.options.push_back(
+      ObjectOption(MN_COLOR, _("Colour"), &lightcolor, "color"));
   return result;
 }
 
 void
-WalkingCandle::after_editor_set() {
+WalkingCandle::after_editor_set()
+{
   sprite->set_color(lightcolor);
   lightsprite->set_color(lightcolor);
 }

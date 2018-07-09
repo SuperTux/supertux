@@ -17,15 +17,16 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SECTOR_HPP
 
-#include <list>
 #include <squirrel.h>
 #include <stdint.h>
 
+#include <list>
+
+#include "object/anchor_point.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/game_object_ptr.hpp"
 #include "util/writer.hpp"
 #include "video/color.hpp"
-#include "object/anchor_point.hpp"
 
 namespace collision {
 class Constraints;
@@ -46,24 +47,19 @@ class DrawingContext;
 class DisplayEffect;
 class ReaderMapping;
 
-enum MusicType {
-  LEVEL_MUSIC,
-  HERRING_MUSIC,
-  HERRING_WARNING_MUSIC
-};
+enum MusicType { LEVEL_MUSIC, HERRING_MUSIC, HERRING_WARNING_MUSIC };
 
 /**
  * Represents one of (potentially) multiple, separate parts of a Level.
  *
  * Sectors contain GameObjects, e.g. Badguys and Players.
  */
-class Sector
-{
-public:
+class Sector {
+ public:
   friend class SectorParser;
   friend class EditorSectorMenu;
 
-public:
+ public:
   Sector(Level* parent);
   ~Sector();
 
@@ -82,7 +78,7 @@ public:
 
   void on_window_resize();
 
-  void save(Writer &writer);
+  void save(Writer& writer);
 
   /// stops all looping sounds in whole sector.
   void stop_looping_sounds();
@@ -93,7 +89,8 @@ public:
   /**
    * Convenience function that takes an std::string instead of an std::istream&
    */
-  HSQUIRRELVM run_script(const std::string& script, const std::string& sourcename);
+  HSQUIRRELVM run_script(const std::string& script,
+                         const std::string& sourcename);
 
   /**
    * runs a script in the context of the sector (sector_table will be the
@@ -104,10 +101,8 @@ public:
   /// adds a gameobject
   void add_object(GameObjectPtr object);
 
-  void set_name(const std::string& name_)
-  { this->name = name_; }
-  const std::string& get_name() const
-  { return name; }
+  void set_name(const std::string& name_) { this->name = name_; }
+  const std::string& get_name() const { return name; }
 
   /**
    * tests if a given rectangle is inside the sector
@@ -119,22 +114,21 @@ public:
   void resume_music();
   MusicType get_music_type() const;
 
-  int get_active_bullets() const
-  { return (int)bullets.size(); }
+  int get_active_bullets() const { return (int)bullets.size(); }
   bool add_smoke_cloud(const Vector& pos);
 
   /** get currently activated sector. */
-  static Sector* current()
-  { return _current; }
+  static Sector* current() { return _current; }
 
   /** Get total number of badguys */
   int get_total_badguys() const;
 
   /** Get total number of GameObjects of given type */
-  template<class T> int get_total_count() const
+  template <class T>
+  int get_total_count() const
   {
     int total = 0;
-    for(const auto& obj : gameobjects) {
+    for (const auto& obj : gameobjects) {
       if (dynamic_cast<T*>(obj.get())) total++;
     }
     return total;
@@ -142,44 +136,51 @@ public:
 
   void collision_tilemap(collision::Constraints* constraints,
                          const Vector& movement, const Rectf& dest,
-                         MovingObject &object) const;
+                         MovingObject& object) const;
 
   /**
    * Checks if the specified rectangle is free of (solid) tiles.
    * Note that this does not include static objects, e.g. bonus blocks.
    */
-  bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false) const;
+  bool is_free_of_tiles(const Rectf& rect,
+                        const bool ignoreUnisolid = false) const;
   /**
    * Checks if the specified rectangle is free of both
    * 1.) solid tiles and
    * 2.) MovingObjects in COLGROUP_STATIC.
    * Note that this does not include badguys or players.
    */
-  bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = 0, const bool ignoreUnisolid = false) const;
+  bool is_free_of_statics(const Rectf& rect,
+                          const MovingObject* ignore_object = 0,
+                          const bool ignoreUnisolid         = false) const;
   /**
    * Checks if the specified rectangle is free of both
    * 1.) solid tiles and
-   * 2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
-   * This includes badguys and players.
+   * 2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or
+   * COLGROUP_MOVING. This includes badguys and players.
    */
-  bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = 0) const;
+  bool is_free_of_movingstatics(const Rectf& rect,
+                                const MovingObject* ignore_object = 0) const;
 
-  bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object = 0) const;
+  bool free_line_of_sight(const Vector& line_start, const Vector& line_end,
+                          const MovingObject* ignore_object = 0) const;
   bool can_see_player(const Vector& eye) const;
 
-/**
+  /**
    * returns a list of players currently in the sector
    */
-  std::vector<Player*> get_players() const {
+  std::vector<Player*> get_players() const
+  {
     return std::vector<Player*>(1, this->player);
   }
-  Player* get_nearest_player (const Vector& pos) const;
-  Player* get_nearest_player (const Rectf& pos) const
+  Player* get_nearest_player(const Vector& pos) const;
+  Player* get_nearest_player(const Rectf& pos) const
   {
-    return (get_nearest_player (get_anchor_pos (pos, ANCHOR_MIDDLE)));
+    return (get_nearest_player(get_anchor_pos(pos, ANCHOR_MIDDLE)));
   }
 
-  std::vector<MovingObject*> get_nearby_objects (const Vector& center, float max_distance) const;
+  std::vector<MovingObject*> get_nearby_objects(const Vector& center,
+                                                float max_distance) const;
 
   Rectf get_active_region() const;
 
@@ -227,10 +228,7 @@ public:
   /**
    * Return the sector's current ambient light
    */
-  Color get_ambient_light() const
-  {
-    return ambient_light;
-  }
+  Color get_ambient_light() const { return ambient_light; }
 
   /**
    * Fades to the target ambient light
@@ -243,8 +241,9 @@ public:
   void set_gravity(float gravity);
   float get_gravity() const;
 
-private:
-  uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
+ private:
+  uint32_t collision_tile_attributes(const Rectf& dest,
+                                     const Vector& mov) const;
 
   void before_object_remove(GameObjectPtr object);
   bool before_object_add(GameObjectPtr object);
@@ -275,17 +274,19 @@ private:
    * (because of ABORT_MOVE in the collision response or no collisions)
    */
   void collision_static(collision::Constraints* constraints,
-                        const Vector& movement, const Rectf& dest, MovingObject& object);
+                        const Vector& movement, const Rectf& dest,
+                        MovingObject& object);
 
   void collision_static_constrains(MovingObject& object);
 
-  GameObjectPtr parse_object(const std::string& name, const ReaderMapping& lisp);
+  GameObjectPtr parse_object(const std::string& name,
+                             const ReaderMapping& lisp);
 
   void fix_old_tiles();
 
   int calculate_foremost_layer() const;
 
-private:
+ private:
   static Sector* _current;
 
   Level* level; /**< Parent level containing this sector */
@@ -326,16 +327,16 @@ private:
   /**
    * Ambient light fade duration
    */
-   float ambient_light_fade_duration;
+  float ambient_light_fade_duration;
 
   /**
    * Accumulated time for fading
    */
-   float ambient_light_fade_accum;
+  float ambient_light_fade_accum;
 
   int foremost_layer;
 
-public: // TODO make this private again
+ public:  // TODO make this private again
   /// show collision rectangles of moving objects (for debugging)
   static bool show_collrects;
   static bool draw_solids_only;
@@ -355,7 +356,7 @@ public: // TODO make this private again
   Camera* camera;
   DisplayEffect* effect;
 
-private:
+ private:
   Sector(const Sector&);
   Sector& operator=(const Sector&);
 };

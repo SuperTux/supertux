@@ -22,17 +22,14 @@
 
 static const float YT_SHAKE_TIME = .8f;
 
-YetiStalactite::YetiStalactite(const ReaderMapping& lisp)
-  : Stalactite(lisp)
-{
-}
+YetiStalactite::YetiStalactite(const ReaderMapping& lisp) : Stalactite(lisp) {}
 
 void
 YetiStalactite::start_shaking()
 {
   timer.start(YT_SHAKE_TIME);
   state = STALACTITE_SHAKING;
-  if(((int)get_pos().x / 32) % 2 == 0) {
+  if (((int)get_pos().x / 32) % 2 == 0) {
     physic.set_velocity_y(100);
   }
 }
@@ -46,8 +43,7 @@ YetiStalactite::is_hanging() const
 void
 YetiStalactite::active_update(float elapsed_time)
 {
-  if(state == STALACTITE_HANGING)
-    return;
+  if (state == STALACTITE_HANGING) return;
 
   Stalactite::active_update(elapsed_time);
 }
@@ -61,7 +57,7 @@ YetiStalactite::update(float elapsed_time)
   }
 
   // Respawn instead of removing once squished
-  if(get_state() == STATE_SQUISHED && check_state_timer()) {
+  if (get_state() == STATE_SQUISHED && check_state_timer()) {
     set_state(STATE_ACTIVE);
     state = STALACTITE_HANGING;
     // Hopefully we shouldn't come into contact with anything...

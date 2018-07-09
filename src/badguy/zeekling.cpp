@@ -1,6 +1,7 @@
 //  Zeekling - flyer that swoops down when she spots the player
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,14 +25,14 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-Zeekling::Zeekling(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
-  speed(gameRandom.rand(130, 171)),
-  diveRecoverTimer(),
-  state(FLYING),
-  last_player(0),
-  last_player_pos(),
-  last_self_pos()
+Zeekling::Zeekling(const ReaderMapping& reader)
+    : BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
+      speed(gameRandom.rand(130, 171)),
+      diveRecoverTimer(),
+      state(FLYING),
+      last_player(0),
+      last_player_pos(),
+      last_self_pos()
 {
   physic.enable_gravity(false);
 }
@@ -52,9 +53,9 @@ Zeekling::collision_squished(GameObject& object)
 }
 
 void
-Zeekling::onBumpHorizontal() {
-  if (frozen)
-  {
+Zeekling::onBumpHorizontal()
+{
+  if (frozen) {
     physic.set_velocity_x(0);
     return;
   }
@@ -62,80 +63,81 @@ Zeekling::onBumpHorizontal() {
     dir = (dir == LEFT ? RIGHT : LEFT);
     sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(dir == LEFT ? -speed : speed);
-  } else
-    if (state == DIVING) {
-      dir = (dir == LEFT ? RIGHT : LEFT);
-      state = FLYING;
-      sprite->set_action(dir == LEFT ? "left" : "right");
-      physic.set_velocity_x(dir == LEFT ? -speed : speed);
-      physic.set_velocity_y(0);
-    } else
-      if (state == CLIMBING) {
-        dir = (dir == LEFT ? RIGHT : LEFT);
-        sprite->set_action(dir == LEFT ? "left" : "right");
-        physic.set_velocity_x(dir == LEFT ? -speed : speed);
-      } else {
-        assert(false);
-      }
+  }
+  else if (state == DIVING) {
+    dir   = (dir == LEFT ? RIGHT : LEFT);
+    state = FLYING;
+    sprite->set_action(dir == LEFT ? "left" : "right");
+    physic.set_velocity_x(dir == LEFT ? -speed : speed);
+    physic.set_velocity_y(0);
+  }
+  else if (state == CLIMBING) {
+    dir = (dir == LEFT ? RIGHT : LEFT);
+    sprite->set_action(dir == LEFT ? "left" : "right");
+    physic.set_velocity_x(dir == LEFT ? -speed : speed);
+  }
+  else {
+    assert(false);
+  }
 }
 
 void
-Zeekling::onBumpVertical() {
-  if (frozen || BadGuy::get_state() == STATE_BURNING)
-  {
+Zeekling::onBumpVertical()
+{
+  if (frozen || BadGuy::get_state() == STATE_BURNING) {
     physic.set_velocity_y(0);
     physic.set_velocity_x(0);
     return;
   }
   if (state == FLYING) {
     physic.set_velocity_y(0);
-  } else
-    if (state == DIVING) {
-      state = CLIMBING;
-      physic.set_velocity_y(-speed);
-      sprite->set_action(dir == LEFT ? "left" : "right");
-    } else
-      if (state == CLIMBING) {
-        state = FLYING;
-        physic.set_velocity_y(0);
-      }
+  }
+  else if (state == DIVING) {
+    state = CLIMBING;
+    physic.set_velocity_y(-speed);
+    sprite->set_action(dir == LEFT ? "left" : "right");
+  }
+  else if (state == CLIMBING) {
+    state = FLYING;
+    physic.set_velocity_y(0);
+  }
 }
 
 void
 Zeekling::collision_solid(const CollisionHit& hit)
 {
-  if(sprite->get_action() == "squished-left" ||
-     sprite->get_action() == "squished-right")
-  {
+  if (sprite->get_action() == "squished-left" ||
+      sprite->get_action() == "squished-right") {
     return;
   }
 
-  if(hit.top || hit.bottom) {
+  if (hit.top || hit.bottom) {
     onBumpVertical();
-  } else if(hit.left || hit.right) {
+  }
+  else if (hit.left || hit.right) {
     onBumpHorizontal();
   }
 }
 
 /**
- * linear prediction of player and badguy positions to decide if we should enter the DIVING state
+ * linear prediction of player and badguy positions to decide if we should enter
+ * the DIVING state
  */
 bool
-Zeekling::should_we_dive() {
-  if (frozen)
-    return false;
+Zeekling::should_we_dive()
+{
+  if (frozen) return false;
 
   const auto player = get_nearest_player();
   if (player && last_player && (player == last_player)) {
-
     // get positions, calculate movement
     const Vector& player_pos = player->get_pos();
-    const Vector player_mov = (player_pos - last_player_pos);
-    const Vector self_pos = bbox.p1;
-    const Vector self_mov = (self_pos - last_self_pos);
+    const Vector player_mov  = (player_pos - last_player_pos);
+    const Vector self_pos    = bbox.p1;
+    const Vector self_mov    = (self_pos - last_self_pos);
 
     // new vertical speed to test with
-    float vy = 2*fabsf(self_mov.x);
+    float vy = 2 * fabsf(self_mov.x);
 
     // do not dive if we are not above the player
     float height = player_pos.y - self_pos.y;
@@ -165,26 +167,29 @@ Zeekling::should_we_dive() {
   last_player = player;
   if (player) {
     last_player_pos = player->get_pos();
-    last_self_pos = bbox.p1;
+    last_self_pos   = bbox.p1;
   }
 
   return false;
 }
 
 void
-Zeekling::active_update(float elapsed_time) {
+Zeekling::active_update(float elapsed_time)
+{
   if (state == FLYING) {
     if (should_we_dive()) {
       state = DIVING;
-      physic.set_velocity_y(2*fabsf(physic.get_velocity_x()));
+      physic.set_velocity_y(2 * fabsf(physic.get_velocity_x()));
       sprite->set_action(dir == LEFT ? "diving-left" : "diving-right");
     }
     BadGuy::active_update(elapsed_time);
     return;
-  } else if (state == DIVING) {
+  }
+  else if (state == DIVING) {
     BadGuy::active_update(elapsed_time);
     return;
-  } else if (state == CLIMBING) {
+  }
+  else if (state == CLIMBING) {
     // stop climbing when we're back at initial height
     if (get_pos().y <= start_position.y) {
       state = FLYING;
@@ -192,7 +197,8 @@ Zeekling::active_update(float elapsed_time) {
     }
     BadGuy::active_update(elapsed_time);
     return;
-  } else {
+  }
+  else {
     assert(false);
   }
 }

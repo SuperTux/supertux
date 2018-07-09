@@ -20,13 +20,13 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-static const float FLYTIME = 1.2f;
+static const float FLYTIME    = 1.2f;
 static const float MOVE_SPEED = -100.0f;
 
-SpiderMite::SpiderMite(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/spidermite/spidermite.sprite"),
-  mode(),
-  timer()
+SpiderMite::SpiderMite(const ReaderMapping& reader)
+    : BadGuy(reader, "images/creatures/spidermite/spidermite.sprite"),
+      mode(),
+      timer()
 {
   physic.enable_gravity(false);
 }
@@ -37,7 +37,7 @@ SpiderMite::initialize()
   sprite->set_action(dir == LEFT ? "left" : "right");
   mode = FLY_UP;
   physic.set_velocity_y(MOVE_SPEED);
-  timer.start(FLYTIME/2);
+  timer.start(FLYTIME / 2);
 }
 
 bool
@@ -51,7 +51,7 @@ SpiderMite::collision_squished(GameObject& object)
 void
 SpiderMite::collision_solid(const CollisionHit& hit)
 {
-  if(hit.top || hit.bottom) { // hit floor or roof?
+  if (hit.top || hit.bottom) {  // hit floor or roof?
     physic.set_velocity_y(0);
   }
 }
@@ -59,22 +59,22 @@ SpiderMite::collision_solid(const CollisionHit& hit)
 void
 SpiderMite::active_update(float elapsed_time)
 {
-  if(frozen)
-  {
+  if (frozen) {
     BadGuy::active_update(elapsed_time);
     return;
   }
-  if(timer.check()) {
-    if(mode == FLY_UP) {
+  if (timer.check()) {
+    if (mode == FLY_UP) {
       mode = FLY_DOWN;
       physic.set_velocity_y(-MOVE_SPEED);
-    } else if(mode == FLY_DOWN) {
+    }
+    else if (mode == FLY_DOWN) {
       mode = FLY_UP;
       physic.set_velocity_y(MOVE_SPEED);
     }
     timer.start(FLYTIME);
   }
-  movement=physic.get_movement(elapsed_time);
+  movement = physic.get_movement(elapsed_time);
 
   auto player = get_nearest_player();
   if (player) {

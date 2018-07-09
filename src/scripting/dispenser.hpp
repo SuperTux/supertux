@@ -23,21 +23,20 @@ class Dispenser;
 
 namespace scripting {
 
-class Dispenser
-{
+class Dispenser {
 #ifndef SCRIPTING_API
-private:
+ private:
   ::Dispenser* m_parent;
 
-public:
+ public:
   Dispenser(::Dispenser* parent);
 
-private:
+ private:
   Dispenser(const Dispenser&) = delete;
   Dispenser& operator=(const Dispenser&) = delete;
 #endif
 
-public:
+ public:
   /**
    * Make the Dispenser start dispensing BadGuys
    */
@@ -46,8 +45,7 @@ public:
    * Make the Dispenser stop dispensing BadGuys
    */
   void deactivate();
-
 };
-}
+}  // namespace scripting
 
 #endif

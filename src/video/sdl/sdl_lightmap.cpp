@@ -14,46 +14,43 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "video/sdl/sdl_lightmap.hpp"
+
 #include <iostream>
 
-#include "video/sdl/sdl_lightmap.hpp"
+#include "video/sdl/sdl_painter.hpp"
+#include "video/sdl/sdl_renderer.hpp"
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
-#include "video/sdl/sdl_renderer.hpp"
-#include "video/sdl/sdl_painter.hpp"
 
-SDLLightmap::SDLLightmap() :
-  m_renderer(static_cast<SDLRenderer&>(VideoSystem::current()->get_renderer()).get_sdl_renderer()),
-  m_texture(),
-  m_width(),
-  m_height(),
-  m_LIGHTMAP_DIV()
+SDLLightmap::SDLLightmap()
+    : m_renderer(
+          static_cast<SDLRenderer&>(VideoSystem::current()->get_renderer())
+              .get_sdl_renderer()),
+      m_texture(),
+      m_width(),
+      m_height(),
+      m_LIGHTMAP_DIV()
 {
   m_LIGHTMAP_DIV = 5;
 
-  m_width = SCREEN_WIDTH;
+  m_width  = SCREEN_WIDTH;
   m_height = SCREEN_HEIGHT;
 
-  m_texture = SDL_CreateTexture(m_renderer,
-                                SDL_PIXELFORMAT_RGB888,
-                                SDL_TEXTUREACCESS_TARGET,
-                                m_width / m_LIGHTMAP_DIV,
-                                m_height / m_LIGHTMAP_DIV);
-  if (!m_texture)
-  {
+  m_texture = SDL_CreateTexture(
+      m_renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET,
+      m_width / m_LIGHTMAP_DIV, m_height / m_LIGHTMAP_DIV);
+  if (!m_texture) {
     std::stringstream msg;
     msg << "Couldn't create lightmap texture: " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
 }
 
-SDLLightmap::~SDLLightmap()
-{
-  SDL_DestroyTexture(m_texture);
-}
+SDLLightmap::~SDLLightmap() { SDL_DestroyTexture(m_texture); }
 
 void
-SDLLightmap::start_draw(const Color &ambient_color)
+SDLLightmap::start_draw(const Color& ambient_color)
 {
   SDL_SetRenderTarget(m_renderer, m_texture);
 
@@ -132,8 +129,8 @@ SDLLightmap::draw_triangle(const DrawingRequest& request)
 void
 SDLLightmap::get_light(const DrawingRequest& request) const
 {
-  const auto getlightrequest
-    = static_cast<GetLightRequest*>(request.request_data);
+  const auto getlightrequest =
+      static_cast<GetLightRequest*>(request.request_data);
 
   SDL_Rect rect;
   rect.x = static_cast<int>(request.pos.x / m_LIGHTMAP_DIV);
@@ -143,19 +140,15 @@ SDLLightmap::get_light(const DrawingRequest& request) const
 
   SDL_SetRenderTarget(m_renderer, m_texture);
   Uint8 pixel[4];
-  int ret = SDL_RenderReadPixels(m_renderer, &rect,
-                                 SDL_PIXELFORMAT_RGB888,
-                                 pixel,
-                                 1);
-  if (ret != 0)
-  {
+  int ret =
+      SDL_RenderReadPixels(m_renderer, &rect, SDL_PIXELFORMAT_RGB888, pixel, 1);
+  if (ret != 0) {
     log_warning << "failed to read pixels: " << SDL_GetError() << std::endl;
   }
   SDL_SetRenderTarget(m_renderer, 0);
 
-  *(getlightrequest->color_ptr) = Color(pixel[2] / 255.0f,
-                                        pixel[1] / 255.0f,
-                                        pixel[0] / 255.0f);
+  *(getlightrequest->color_ptr) =
+      Color(pixel[2] / 255.0f, pixel[1] / 255.0f, pixel[0] / 255.0f);
 }
 
 /* EOF */

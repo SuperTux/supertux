@@ -17,29 +17,31 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
 #define HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
 
-#include <memory>
 #include <squirrel.h>
+
+#include <memory>
 #include <string>
 #include <vector>
 
-class World
-{
-private:
+class World {
+ private:
   World();
 
   void load_(const std::string& directory);
-  void create_(const std::string& directory, const std::string& title, const std::string& desc);
+  void create_(const std::string& directory, const std::string& title,
+               const std::string& desc);
 
-public:
+ public:
   /**
       Load a World
 
       @param directory  Directory containing the info file, e.g. "levels/world1"
   */
   static std::unique_ptr<World> load(const std::string& directory);
-  static std::unique_ptr<World> create(const std::string& title, const std::string& desc);
+  static std::unique_ptr<World> create(const std::string& title,
+                                       const std::string& desc);
 
-public:
+ public:
   std::string get_basedir() const;
   std::string get_title() const;
 
@@ -54,22 +56,22 @@ public:
   void save(bool retry = false);
   void set_default_values();
 
-private:
+ private:
   std::string m_basedir;
   std::string m_worldmap_filename;
   std::string m_savegame_filename;
 
-public:
+ public:
   std::string m_title;
   std::string m_description;
 
-private:
+ private:
   bool m_hide_from_contribs;
 
-public:
+ public:
   bool m_is_levelset;
 
-private:
+ private:
   World(const World&) = delete;
   World& operator=(const World&) = delete;
 };

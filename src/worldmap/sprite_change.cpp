@@ -13,24 +13,25 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#include "worldmap/sprite_change.hpp"
+
 #include <config.h>
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
-#include "worldmap/sprite_change.hpp"
 
 namespace worldmap {
 
-SpriteChange::SpriteChange(const ReaderMapping& lisp) :
-  pos(),
-  change_on_touch(false),
-  sprite(),
-  sprite_name(),
-  stay_action(),
-  stay_group(),
-  in_stay_action(false)
+SpriteChange::SpriteChange(const ReaderMapping& lisp)
+    : pos(),
+      change_on_touch(false),
+      sprite(),
+      sprite_name(),
+      stay_action(),
+      stay_group(),
+      in_stay_action(false)
 {
   lisp.get("x", pos.x);
   lisp.get("y", pos.y);
@@ -47,22 +48,19 @@ SpriteChange::SpriteChange(const ReaderMapping& lisp) :
   all_sprite_changes.push_back(this);
 }
 
-SpriteChange::~SpriteChange()
-{
-  all_sprite_changes.remove(this);
-}
+SpriteChange::~SpriteChange() { all_sprite_changes.remove(this); }
 
 void
 SpriteChange::draw(DrawingContext& context)
 {
-  if(in_stay_action && !stay_action.empty()) {
+  if (in_stay_action && !stay_action.empty()) {
     sprite->set_action(stay_action);
-    sprite->draw(context, pos * 32, LAYER_OBJECTS-1);
+    sprite->draw(context, pos * 32, LAYER_OBJECTS - 1);
   }
 }
 
 void
-SpriteChange::update(float )
+SpriteChange::update(float)
 {
 }
 
@@ -94,6 +92,6 @@ SpriteChange::clear_stay_action(bool propagate)
 
 std::list<SpriteChange*> SpriteChange::all_sprite_changes;
 
-}
+}  // namespace worldmap
 
 /* EOF */

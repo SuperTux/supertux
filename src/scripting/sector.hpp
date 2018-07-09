@@ -24,23 +24,23 @@ class Sector;
 
 namespace scripting {
 
-class Sector
-{
+class Sector {
 #ifndef SCRIPTING_API
-private:
+ private:
   ::Sector* m_parent;
 
-public:
+ public:
   Sector(::Sector* parent);
 
-private:
+ private:
   Sector(const Sector&) = delete;
   Sector& operator=(const Sector&) = delete;
 #endif
 
-public:
+ public:
   void set_ambient_light(float red, float green, float blue);
-  void fade_to_ambient_light(float red, float green, float blue, float fadetime);
+  void fade_to_ambient_light(float red, float green, float blue,
+                             float fadetime);
   float get_ambient_red() const;
   float get_ambient_green() const;
   float get_ambient_blue() const;
@@ -49,7 +49,7 @@ public:
   void set_music(const std::string& music);
 };
 
-}
+}  // namespace scripting
 
 #endif
 

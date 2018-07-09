@@ -22,9 +22,10 @@
 #include "supertux/sector.hpp"
 
 SmartBall::SmartBall(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/snowball/smart-snowball.sprite", "left", "right")
+    : WalkingBadguy(reader, "images/creatures/snowball/smart-snowball.sprite",
+                    "left", "right")
 {
-  walk_speed = 80;
+  walk_speed      = 80;
   max_drop_height = 16;
 }
 

@@ -17,16 +17,17 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_SESSION_HPP
 
+#include <squirrel.h>
+
 #include <memory>
 #include <vector>
-#include <squirrel.h>
 
 #include "math/vector.hpp"
 #include "object/endsequence.hpp"
 #include "supertux/game_session_recorder.hpp"
+#include "supertux/player_status.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/sequence.hpp"
-#include "supertux/player_status.hpp"
 #include "util/currenton.hpp"
 
 class CodeController;
@@ -41,10 +42,10 @@ class Savegame;
  */
 class GameSession : public Screen,
                     public GameSessionRecorder,
-                    public Currenton<GameSession>
-{
-public:
-  GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = NULL);
+                    public Currenton<GameSession> {
+ public:
+  GameSession(const std::string& levelfile, Savegame& savegame,
+              Statistics* statistics = NULL);
 
   void draw(DrawingContext& context) override;
   void update(float frame_ratio) override;
@@ -54,21 +55,18 @@ public:
 
   /// ends the current level
   void finish(bool win = true);
-  void respawn(const std::string& sectorname, const std::string& spawnpointname, 
-  const bool invincibility = false, const int invincibilityperiod = 0);
+  void respawn(const std::string& sectorname, const std::string& spawnpointname,
+               const bool invincibility      = false,
+               const int invincibilityperiod = 0);
   void reset_level();
   void set_reset_point(const std::string& sectorname, const Vector& pos);
-  std::string get_reset_point_sectorname() const
-  { return reset_sector; }
+  std::string get_reset_point_sectorname() const { return reset_sector; }
 
-  Vector get_reset_point_pos() const
-  { return reset_pos; }
+  Vector get_reset_point_pos() const { return reset_pos; }
 
-  Sector* get_current_sector() const
-  { return currentsector; }
+  Sector* get_current_sector() const { return currentsector; }
 
-  Level* get_current_level() const
-  { return level.get(); }
+  Level* get_current_level() const { return level.get(); }
 
   void start_sequence(Sequence seq);
 
@@ -97,7 +95,7 @@ public:
 
   Savegame& get_savegame() const { return m_savegame; }
 
-private:
+ private:
   void check_end_conditions();
 
   void drawstatus(DrawingContext& context);
@@ -117,7 +115,7 @@ private:
 
   std::shared_ptr<EndSequence> end_sequence;
 
-  bool  game_pause;
+  bool game_pause;
   float speed_before_pause;
 
   std::string levelfile;
@@ -129,7 +127,7 @@ private:
   // the sector and spawnpoint we should spawn after this frame
   std::string newsector;
   std::string newspawnpoint;
-  
+
   // Whether the player had invincibility before spawning in a new sector
   bool pastinvincibility;
   int newinvincibilityperiod;
@@ -137,21 +135,24 @@ private:
   Statistics* best_level_statistics;
   Savegame& m_savegame;
 
-  float play_time; /**< total time in seconds that this session ran interactively */
+  float play_time; /**< total time in seconds that this session ran
+                      interactively */
 
-  bool edit_mode; /**< true if GameSession runs in level editor mode */
+  bool edit_mode;        /**< true if GameSession runs in level editor mode */
   bool levelintro_shown; /**< true if the LevelIntro screen was already shown */
 
   int coins_at_start; /** How many coins does the player have at the start */
-  BonusType bonus_at_start; /** What bonuses does the player have at the start */
-  int max_fire_bullets_at_start; /** How many fire bullets does the player have */
+  BonusType
+      bonus_at_start; /** What bonuses does the player have at the start */
+  int max_fire_bullets_at_start; /** How many fire bullets does the player have
+                                  */
   int max_ice_bullets_at_start; /** How many ice bullets does the player have */
 
   bool active; /** Game active? **/
 
   bool end_seq_started;
 
-private:
+ private:
   GameSession(const GameSession&);
   GameSession& operator=(const GameSession&);
 };

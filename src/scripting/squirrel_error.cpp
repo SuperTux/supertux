@@ -15,23 +15,22 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "scripting/squirrel_error.hpp"
+
 #include <sstream>
 
 namespace scripting {
 
-SquirrelError::SquirrelError(HSQUIRRELVM v, const std::string& message_) throw() :
-  message()
+SquirrelError::SquirrelError(HSQUIRRELVM v, const std::string& message_) throw()
+    : message()
 {
   std::ostringstream msg;
   msg << "Squirrel error: " << message_ << " (";
   const char* lasterr;
   sq_getlasterror(v);
-  if(sq_gettype(v, -1) != OT_STRING)
-  {
+  if (sq_gettype(v, -1) != OT_STRING) {
     lasterr = "no error info";
   }
-  else
-  {
+  else {
     sq_getstring(v, -1, &lasterr);
   }
   msg << lasterr << ")";
@@ -39,8 +38,7 @@ SquirrelError::SquirrelError(HSQUIRRELVM v, const std::string& message_) throw()
   this->message = msg.str();
 }
 
-SquirrelError::~SquirrelError() throw()
-{}
+SquirrelError::~SquirrelError() throw() {}
 
 const char*
 SquirrelError::what() const throw()
@@ -48,6 +46,6 @@ SquirrelError::what() const throw()
   return message.c_str();
 }
 
-}
+}  // namespace scripting
 
 /* EOF */

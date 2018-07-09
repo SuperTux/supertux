@@ -23,9 +23,8 @@
  * This is a dummy controller that doesn't react to any user input but should
  * be controlled by code
  */
-class CodeController : public Controller
-{
-public:
+class CodeController : public Controller {
+ public:
   CodeController();
   virtual ~CodeController();
 

@@ -29,84 +29,84 @@ class Path;
 class Rectf;
 class Tip;
 
-class EditorInputCenter
-{
-  public:
-    EditorInputCenter();
+class EditorInputCenter {
+ public:
+  EditorInputCenter();
 
-    void event(SDL_Event& ev);
-    void draw(DrawingContext&);
-    void update(float elapsed_time);
+  void event(SDL_Event& ev);
+  void draw(DrawingContext&);
+  void update(float elapsed_time);
 
-    void update_pos();
-    void delete_markers();
-    void update_node_iterators();
+  void update_pos();
+  void delete_markers();
+  void update_node_iterators();
 
-    void edit_path(Path* path, GameObject* new_marked_object = NULL);
+  void edit_path(Path* path, GameObject* new_marked_object = NULL);
 
-    static bool render_background;
-    static bool render_grid;
-    static bool snap_to_grid;
-    static int selected_snap_grid_size;
+  static bool render_background;
+  static bool render_grid;
+  static bool snap_to_grid;
+  static int selected_snap_grid_size;
 
-    const int snap_grid_sizes[4] = {4, 8, 16, 32};
+  const int snap_grid_sizes[4] = {4, 8, 16, 32};
 
-  private:
-    Vector hovered_tile;
-    Vector sector_pos;
-    Vector mouse_pos;
+ private:
+  Vector hovered_tile;
+  Vector sector_pos;
+  Vector mouse_pos;
 
-    bool dragging;
-    bool dragging_right;
-    Vector drag_start;
-    MovingObject* dragged_object;
-    MovingObject* hovered_object;
-    GameObject* marked_object;
-    Path* edited_path;
-    NodeMarker* last_node_marker;
-    std::unique_ptr<Tip> object_tip;
-    Vector obj_mouse_desync;
+  bool dragging;
+  bool dragging_right;
+  Vector drag_start;
+  MovingObject* dragged_object;
+  MovingObject* hovered_object;
+  GameObject* marked_object;
+  Path* edited_path;
+  NodeMarker* last_node_marker;
+  std::unique_ptr<Tip> object_tip;
+  Vector obj_mouse_desync;
 
-    void input_tile(const Vector& pos, uint32_t tile);
-    void put_tile();
-    void draw_rectangle();
-    void fill();
-    void put_object();
+  void input_tile(const Vector& pos, uint32_t tile);
+  void put_tile();
+  void draw_rectangle();
+  void fill();
+  void put_object();
 
-    void rubber_object();
-    void rubber_rect();
+  void rubber_object();
+  void rubber_rect();
 
-    void grab_object();
-    void move_object();
-    void clone_object();
-    void hover_object();
-    void set_object();
-    void mark_object();
-    void add_path_node();
+  void grab_object();
+  void move_object();
+  void clone_object();
+  void hover_object();
+  void set_object();
+  void mark_object();
+  void add_path_node();
 
-    void draw_tile_tip(DrawingContext&);
-    void draw_tile_grid(DrawingContext&, const Color& line_color, int tile_size = 32);
-    void draw_tilemap_border(DrawingContext&);
-    void draw_path(DrawingContext&);
+  void draw_tile_tip(DrawingContext&);
+  void draw_tile_grid(DrawingContext&, const Color& line_color,
+                      int tile_size = 32);
+  void draw_tilemap_border(DrawingContext&);
+  void draw_path(DrawingContext&);
 
-    void process_left_click();
-    void process_right_click();
+  void process_left_click();
+  void process_right_click();
 
-    // sp is sector pos, tp is pos on tilemap.
-    Vector tp_to_sp(const Vector& tp, int tile_size = 32);
-    Vector sp_to_tp(const Vector& sp, int tile_size = 32);
-    Vector tile_screen_pos(const Vector& tp, int tile_size = 32);
+  // sp is sector pos, tp is pos on tilemap.
+  Vector tp_to_sp(const Vector& tp, int tile_size = 32);
+  Vector sp_to_tp(const Vector& sp, int tile_size = 32);
+  Vector tile_screen_pos(const Vector& tp, int tile_size = 32);
 
-    // in sector position
-    Rectf drag_rect();
-    Rectf tile_drag_rect();
-    Rectf selection_draw_rect();
-    void update_tile_selection();
+  // in sector position
+  Rectf drag_rect();
+  Rectf tile_drag_rect();
+  Rectf selection_draw_rect();
+  void update_tile_selection();
 
-    EditorInputCenter(const EditorInputCenter&);
-    EditorInputCenter& operator=(const EditorInputCenter&);
+  EditorInputCenter(const EditorInputCenter&);
+  EditorInputCenter& operator=(const EditorInputCenter&);
 };
 
-#endif // INPUT_CENTER_HPP
+#endif  // INPUT_CENTER_HPP
 
 /* EOF */

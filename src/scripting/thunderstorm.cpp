@@ -16,45 +16,51 @@
 
 #include "object/thunderstorm.hpp"
 
-#define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
+#define NOIMPL log_fatal << __PRETTY_FUNCTION__ << " not implemented."
 
 namespace scripting {
 
 Thunderstorm::Thunderstorm(::Thunderstorm* thunderstorm_)
-  : thunderstorm(thunderstorm_)
+    : thunderstorm(thunderstorm_)
 {
 }
 
-void Thunderstorm::start()
+void
+Thunderstorm::start()
 {
   thunderstorm->start();
 }
 
-void Thunderstorm::stop()
+void
+Thunderstorm::stop()
 {
   thunderstorm->stop();
 }
 
-void Thunderstorm::thunder()
+void
+Thunderstorm::thunder()
 {
   thunderstorm->thunder();
 }
 
-void Thunderstorm::lightning()
+void
+Thunderstorm::lightning()
 {
   thunderstorm->lightning();
 }
 
-void Thunderstorm::flash()
+void
+Thunderstorm::flash()
 {
   thunderstorm->flash();
 }
 
-void Thunderstorm::electrify()
+void
+Thunderstorm::electrify()
 {
   thunderstorm->electrify();
 }
 
-}
+}  // namespace scripting
 
 /* EOF */

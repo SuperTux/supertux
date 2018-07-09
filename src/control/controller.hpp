@@ -17,9 +17,8 @@
 #ifndef HEADER_SUPERTUX_CONTROL_CONTROLLER_HPP
 #define HEADER_SUPERTUX_CONTROL_CONTROLLER_HPP
 
-class Controller
-{
-public:
+class Controller {
+ public:
   static const char* controlNames[];
 
   enum Control {
@@ -63,7 +62,7 @@ public:
   virtual void reset();
   virtual void update();
 
-protected:
+ protected:
   /** current control status */
   bool controls[CONTROLCOUNT];
   /** control status at last frame */

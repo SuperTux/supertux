@@ -28,9 +28,8 @@
  */
 class Platform : public MovingSprite,
                  public ExposedObject<Platform, scripting::Platform>,
-                 public PathObject
-{
-public:
+                 public PathObject {
+ public:
   Platform(const ReaderMapping& reader);
   Platform(const ReaderMapping& reader, const std::string& default_sprite);
   Platform(const Platform& platform);
@@ -40,10 +39,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void update(float elapsed_time);
 
-  const Vector& get_speed() const
-  {
-    return speed;
-  }
+  const Vector& get_speed() const { return speed; }
 
   /**
    * @name Scriptable Methods
@@ -65,21 +61,19 @@ public:
 
   virtual void move_to(const Vector& pos);
 
-  std::string get_class() const {
-    return "platform";
-  }
-  std::string get_display_name() const {
-    return _("Platform");
-  }
+  std::string get_class() const { return "platform"; }
+  std::string get_display_name() const { return _("Platform"); }
 
-private:
-
+ private:
   Vector speed;
 
-  bool automatic; /**< true if Platform will automatically pick a destination based on collisions and current Player position */
-  bool player_contact; /**< true if a Player touched the Platform during the last round of collision detections */
-  bool last_player_contact; /**< true if a Player touched the Platform during the round before the last round of collision detections */
-
+  bool automatic; /**< true if Platform will automatically pick a destination
+                     based on collisions and current Player position */
+  bool player_contact; /**< true if a Player touched the Platform during the
+                          last round of collision detections */
+  bool last_player_contact; /**< true if a Player touched the Platform during
+                               the round before the last round of collision
+                               detections */
 };
 
 #endif

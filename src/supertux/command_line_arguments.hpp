@@ -27,22 +27,15 @@
 class Config;
 
 /** Command line argument parsing */
-class CommandLineArguments
-{
-public:
-  enum Action
-  {
-    NO_ACTION,
-    PRINT_VERSION,
-    PRINT_HELP,
-    PRINT_DATADIR
-  };
+class CommandLineArguments {
+ public:
+  enum Action { NO_ACTION, PRINT_VERSION, PRINT_HELP, PRINT_DATADIR };
 
-private:
+ private:
   Action m_action;
   LogLevel m_log_level;
 
-public:
+ public:
   boost::optional<std::string> datadir;
   boost::optional<std::string> userdir;
 
@@ -50,12 +43,11 @@ public:
   boost::optional<int> fullscreen_refresh_rate;
   boost::optional<Size> window_size;
   boost::optional<Size> aspect_size;
-  
 
   // boost::optional<float> magnification;
 
   boost::optional<bool> use_fullscreen;
-   boost::optional<VideoSystem::Enum> video;
+  boost::optional<VideoSystem::Enum> video;
   // boost::optional<bool> try_vsync;
   boost::optional<bool> show_fps;
   boost::optional<bool> show_player_pos;
@@ -71,7 +63,7 @@ public:
   boost::optional<Vector> tux_spawn_pos;
 
   boost::optional<bool> developer_mode;
-  
+
   boost::optional<bool> christmas_mode;
 
   boost::optional<std::string> repository_url;
@@ -80,7 +72,7 @@ public:
 
   // boost::optional<std::string> locale;
 
-public:
+ public:
   CommandLineArguments();
 
   Action get_action() const { return m_action; }
@@ -94,7 +86,7 @@ public:
 
   void merge_into(Config& config);
 
-private:
+ private:
   CommandLineArguments(const CommandLineArguments&) = delete;
   CommandLineArguments& operator=(const CommandLineArguments&) = delete;
 };

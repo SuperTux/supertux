@@ -21,22 +21,23 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "math/random_generator.hpp"
+#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
 static const std::string FLAME_SOUND = "sounds/flame.wav";
 
-Flame::Flame(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/flame/flame.sprite", LAYER_FLOATINGOBJECTS,
-         "images/objects/lightmap_light/lightmap_light-small.sprite"),
-  angle(0),
-  radius(),
-  speed(),
-  sound_source()
+Flame::Flame(const ReaderMapping& reader)
+    : BadGuy(reader, "images/creatures/flame/flame.sprite",
+             LAYER_FLOATINGOBJECTS,
+             "images/objects/lightmap_light/lightmap_light-small.sprite"),
+      angle(0),
+      radius(),
+      speed(),
+      sound_source()
 {
   reader.get("radius", radius, 100);
   reader.get("speed", speed, 2);
@@ -54,19 +55,20 @@ Flame::Flame(const ReaderMapping& reader) :
 }
 
 ObjectSettings
-Flame::get_settings() {
+Flame::get_settings()
+{
   ObjectSettings result = BadGuy::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Radius"), &radius,
-                                         "radius"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed"), &speed,
-                                         "speed"));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, _("Radius"), &radius, "radius"));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, _("Speed"), &speed, "speed"));
   return result;
 }
 
 void
 Flame::active_update(float elapsed_time)
 {
-  angle = fmodf(angle + elapsed_time * speed, (float) (2*M_PI));
+  angle = fmodf(angle + elapsed_time * speed, (float)(2 * M_PI));
   if (!Editor::is_active()) {
     Vector newpos(start_position.x + cos(angle) * radius,
                   start_position.y + sin(angle) * radius);
@@ -80,8 +82,7 @@ Flame::active_update(float elapsed_time)
 void
 Flame::activate()
 {
-  if(Editor::is_active())
-    return;
+  if (Editor::is_active()) return;
   sound_source = SoundManager::current()->create_sound_source(FLAME_SOUND);
   sound_source->set_position(get_pos());
   sound_source->set_looping(true);
@@ -96,7 +97,6 @@ Flame::deactivate()
   sound_source.reset();
 }
 
-
 void
 Flame::kill_fall()
 {
@@ -107,10 +107,9 @@ Flame::freeze()
 {
   SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
   sprite->set_action("fade", 1);
-  Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/smoke.sprite",
-                                                                 "default",
-                                                                 bbox.get_middle(), ANCHOR_MIDDLE,
-                                                                 Vector(0, -150), Vector(0,0), LAYER_BACKGROUNDTILES+2));
+  Sector::current()->add_object(std::make_shared<SpriteParticle>(
+      "images/objects/particles/smoke.sprite", "default", bbox.get_middle(),
+      ANCHOR_MIDDLE, Vector(0, -150), Vector(0, 0), LAYER_BACKGROUNDTILES + 2));
   set_group(COLGROUP_DISABLED);
 
   // start dead-script
@@ -129,14 +128,16 @@ Flame::is_flammable() const
   return false;
 }
 
-void Flame::stop_looping_sounds()
+void
+Flame::stop_looping_sounds()
 {
   if (sound_source) {
     sound_source->stop();
   }
 }
 
-void Flame::play_looping_sounds()
+void
+Flame::play_looping_sounds()
 {
   if (sound_source) {
     sound_source->play();

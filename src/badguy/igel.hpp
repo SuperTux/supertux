@@ -1,5 +1,6 @@
 //  SuperTux - Badguy "Igel"
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,9 +23,8 @@
 /**
  * Badguy "Igel" - a hedgehog that can absorb bullets
  */
-class Igel : public WalkingBadguy
-{
-public:
+class Igel : public WalkingBadguy {
+ public:
   Igel(const ReaderMapping& reader);
 
   HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
@@ -32,24 +32,20 @@ public:
   void active_update(float elapsed_time);
 
   bool is_freezable() const;
-  std::string get_class() const {
-    return "igel";
-  }
-  std::string get_display_name() const {
-    return _("Igel");
-  }
+  std::string get_class() const { return "igel"; }
+  std::string get_display_name() const { return _("Igel"); }
 
-protected:
-//  bool collision_squished(GameObject& object);
-// Enable this and the igel will no longer be butt-jumpable when frozen.
-// Remember to enable it in .cpp too!
-  void be_normal(); /**< switch to state STATE_NORMAL */
+ protected:
+  //  bool collision_squished(GameObject& object);
+  // Enable this and the igel will no longer be butt-jumpable when frozen.
+  // Remember to enable it in .cpp too!
+  void be_normal();   /**< switch to state STATE_NORMAL */
   void turn_around(); /**< reverse direction, assumes we are in STATE_NORMAL */
   bool can_see(const MovingObject& o) const; /**< check if we can see o */
 
-private:
-  Timer turn_recover_timer; /**< wait time until we will turn around again when shot at */
-
+ private:
+  Timer turn_recover_timer; /**< wait time until we will turn around again when
+                               shot at */
 };
 
 #endif

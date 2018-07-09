@@ -1,6 +1,7 @@
 //  SuperTux - Weak Block
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,28 +23,22 @@
 
 class Bullet;
 
-
 /**
  * A block that can be destroyed by Bullet hits
  */
-class WeakBlock : public MovingSprite
-{
-public:
+class WeakBlock : public MovingSprite {
+ public:
   WeakBlock(const ReaderMapping& lisp);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
   void draw(DrawingContext& context);
-  std::string get_class() const {
-    return "weak_block";
-  }
-  std::string get_display_name() const {
-    return _("Weak block");
-  }
+  std::string get_class() const { return "weak_block"; }
+  std::string get_display_name() const { return _("Weak block"); }
 
   virtual ObjectSettings get_settings();
 
-protected:
+ protected:
   /**
    * called by self when hit by a bullet
    */
@@ -54,10 +49,10 @@ protected:
    */
   void spreadHit();
 
-private:
+ private:
   enum State {
-    STATE_NORMAL, /**< default state */
-    STATE_BURNING, /**< on fire, still solid */
+    STATE_NORMAL,        /**< default state */
+    STATE_BURNING,       /**< on fire, still solid */
     STATE_DISINTEGRATING /**< crumbling to dust, no longer solid */
   };
   State state;
@@ -67,7 +62,6 @@ private:
 
   Color light;
   SpritePtr lightsprite;
-
 };
 
 #endif

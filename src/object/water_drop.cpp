@@ -23,11 +23,13 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-WaterDrop::WaterDrop(const Vector& pos, const std::string& sprite_path_, const Vector& velocity) :
-  MovingSprite(pos, sprite_path_, LAYER_OBJECTS - 1, COLGROUP_MOVING_ONLY_STATIC),
-  physic(),
-  wd_state(WDS_FALLING),
-  sprite_path(sprite_path_)
+WaterDrop::WaterDrop(const Vector& pos, const std::string& sprite_path_,
+                     const Vector& velocity)
+    : MovingSprite(pos, sprite_path_, LAYER_OBJECTS - 1,
+                   COLGROUP_MOVING_ONLY_STATIC),
+      physic(),
+      wd_state(WDS_FALLING),
+      sprite_path(sprite_path_)
 {
   physic.enable_gravity(true);
   physic.set_velocity(velocity);
@@ -38,7 +40,7 @@ WaterDrop::update(float elapsed_time)
 {
   movement = physic.get_movement(elapsed_time);
 
-  if ( sprite->animation_done() ) {
+  if (sprite->animation_done()) {
     remove_me();
   }
 }
@@ -46,7 +48,7 @@ WaterDrop::update(float elapsed_time)
 void
 WaterDrop::collision_solid(const CollisionHit& hit)
 {
-  if(hit.bottom && wd_state == WDS_FALLING) {
+  if (hit.bottom && wd_state == WDS_FALLING) {
     wd_state = WDS_SPLASH;
     physic.enable_gravity(false);
     SoundManager::current()->play("sounds/splash.ogg", get_pos());
@@ -54,23 +56,23 @@ WaterDrop::collision_solid(const CollisionHit& hit)
 
     // spawn water particles
     for (int i = 50; i; i--) {
-      int pa = graphicsRandom.rand(0,3);
-      float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
-      float py = graphicsRandom.randf(bbox.p1.y, bbox.p2.y);
-      Vector ppos = Vector(px, py);
+      int pa        = graphicsRandom.rand(0, 3);
+      float px      = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
+      float py      = graphicsRandom.randf(bbox.p1.y, bbox.p2.y);
+      Vector ppos   = Vector(px, py);
       Vector pspeed = ppos - bbox.get_middle();
       pspeed.x *= 12;
       pspeed.y *= 12;
-      Sector::current()->add_object(std::make_shared<SpriteParticle>(sprite_path, "particle_" + std::to_string(pa),
-                                                                     ppos, ANCHOR_MIDDLE,
-                                                                     pspeed, Vector(0, 100 * Sector::current()->get_gravity()),
-                                                                     LAYER_OBJECTS+1));
+      Sector::current()->add_object(std::make_shared<SpriteParticle>(
+          sprite_path, "particle_" + std::to_string(pa), ppos, ANCHOR_MIDDLE,
+          pspeed, Vector(0, 100 * Sector::current()->get_gravity()),
+          LAYER_OBJECTS + 1));
     }
   }
 }
 
 HitResponse
-WaterDrop::collision(GameObject& other, const CollisionHit& )
+WaterDrop::collision(GameObject& other, const CollisionHit&)
 {
   return FORCE_MOVE;
 }

@@ -20,25 +20,27 @@
 #include <obstack.h>
 
 inline void*
-operator new (size_t bytes, struct obstack& obst)
+operator new(size_t bytes, struct obstack& obst)
 {
   return obstack_alloc(&obst, bytes);
 }
 
 inline void*
-operator new[] (size_t bytes, struct obstack& obst)
+operator new[](size_t bytes, struct obstack& obst)
 {
   return obstack_alloc(&obst, bytes);
 }
 
-static inline void* obstack_chunk_alloc(size_t size)
+static inline void*
+obstack_chunk_alloc(size_t size)
 {
   return new char[size];
 }
 
-static inline void obstack_chunk_free(void* data)
+static inline void
+obstack_chunk_free(void* data)
 {
-  char* ptr = static_cast<char*> (data);
+  char* ptr = static_cast<char*>(data);
   delete[] ptr;
 }
 

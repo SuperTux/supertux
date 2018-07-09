@@ -21,23 +21,20 @@
 
 class GameObject;
 
-class ObjectMenu : public Menu
-{
-  public:
-    ObjectMenu(GameObject *go);
-    ~ObjectMenu();
+class ObjectMenu : public Menu {
+ public:
+  ObjectMenu(GameObject* go);
+  ~ObjectMenu();
 
-    void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem* item) override;
 
-    GameObject *object;
+  GameObject* object;
 
-  private:
-    enum MenuIDs {
-      MNID_REMOVE
-    };
+ private:
+  enum MenuIDs { MNID_REMOVE };
 
-    ObjectMenu(const ObjectMenu&);
-    ObjectMenu& operator=(const ObjectMenu&);
+  ObjectMenu(const ObjectMenu&);
+  ObjectMenu& operator=(const ObjectMenu&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_MENU_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_OBJECT_MENU_HPP

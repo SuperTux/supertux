@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_CONTROL_KEYBOARD_CONFIG_HPP
 
 #include <SDL.h>
+
 #include <map>
 
 #include "control/controller.hpp"
@@ -25,9 +26,8 @@
 
 class ReaderMapping;
 
-class KeyboardConfig
-{
-public:
+class KeyboardConfig {
+ public:
   KeyboardConfig();
 
   SDL_Keycode reversemap_key(Controller::Control c) const;

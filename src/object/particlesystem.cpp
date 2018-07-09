@@ -24,63 +24,64 @@
 #include "util/reader.hpp"
 #include "video/drawing_context.hpp"
 
-ParticleSystem::ParticleSystem(float max_particle_size_) :
-  ExposedObject<ParticleSystem, scripting::ParticleSystem>(this),
-  max_particle_size(max_particle_size_),
-  z_pos(LAYER_BACKGROUND1),
-  particles(),
-  virtual_width( SCREEN_WIDTH + max_particle_size * 2),
-  virtual_height(SCREEN_HEIGHT + max_particle_size * 2),
-  enabled(true)
+ParticleSystem::ParticleSystem(float max_particle_size_)
+    : ExposedObject<ParticleSystem, scripting::ParticleSystem>(this),
+      max_particle_size(max_particle_size_),
+      z_pos(LAYER_BACKGROUND1),
+      particles(),
+      virtual_width(SCREEN_WIDTH + max_particle_size * 2),
+      virtual_height(SCREEN_HEIGHT + max_particle_size * 2),
+      enabled(true)
 {
 }
 
 ObjectSettings
-ParticleSystem::get_settings() {
+ParticleSystem::get_settings()
+{
   ObjectSettings result = GameObject::get_settings();
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos,
-                                         "z-pos"));
+  result.options.push_back(
+      ObjectOption(MN_INTFIELD, _("Z-pos"), &z_pos, "z-pos"));
 
-  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
+  result.options.push_back(ObjectOption(MN_REMOVE, "", NULL));
   return result;
 }
 
-void ParticleSystem::parse(const ReaderMapping& reader)
+void
+ParticleSystem::parse(const ReaderMapping& reader)
 {
   reader.get("name", name, "");
   reader.get("enabled", enabled, true);
-  z_pos = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND1);
+  z_pos = reader_get_layer(reader, /* default = */ LAYER_BACKGROUND1);
 }
 
-ParticleSystem::~ParticleSystem()
-{
-}
+ParticleSystem::~ParticleSystem() {}
 
-void ParticleSystem::draw(DrawingContext& context)
+void
+ParticleSystem::draw(DrawingContext& context)
 {
-  if(!enabled)
-    return;
+  if (!enabled) return;
 
   float scrollx = context.get_translation().x;
   float scrolly = context.get_translation().y;
 
   context.push_transform();
-  context.set_translation(Vector(max_particle_size,max_particle_size));
+  context.set_translation(Vector(max_particle_size, max_particle_size));
 
-  for(const auto& particle : particles) {
+  for (const auto& particle : particles) {
     // remap x,y coordinates onto screencoordinates
     Vector pos;
 
     pos.x = fmodf(particle->pos.x - scrollx, virtual_width);
-    if(pos.x < 0) pos.x += virtual_width;
+    if (pos.x < 0) pos.x += virtual_width;
 
     pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
-    if(pos.y < 0) pos.y += virtual_height;
+    if (pos.y < 0) pos.y += virtual_height;
 
-    //if(pos.x > virtual_width) pos.x -= virtual_width;
-    //if(pos.y > virtual_height) pos.y -= virtual_height;
+    // if(pos.x > virtual_width) pos.x -= virtual_width;
+    // if(pos.y > virtual_height) pos.y -= virtual_height;
 
-    context.draw_surface(particle->texture, pos, particle->angle, Color(1.0f, 1.0f, 1.0f), Blend(), z_pos);
+    context.draw_surface(particle->texture, pos, particle->angle,
+                         Color(1.0f, 1.0f, 1.0f), Blend(), z_pos);
   }
 
   context.pop_transform();

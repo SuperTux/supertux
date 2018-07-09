@@ -21,43 +21,24 @@
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 
-class FloatingImage : public GameObject
-{
-public:
+class FloatingImage : public GameObject {
+ public:
   FloatingImage(const std::string& sprite);
   virtual ~FloatingImage();
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
-  void set_layer(int layer_) {
-    this->layer = layer_;
-  }
+  void set_layer(int layer_) { this->layer = layer_; }
 
-  int get_layer() const {
-    return layer;
-  }
+  int get_layer() const { return layer; }
 
-  void set_pos(const Vector& pos_) {
-    this->pos = pos_;
-  }
-  const Vector& get_pos() const {
-    return pos;
-  }
+  void set_pos(const Vector& pos_) { this->pos = pos_; }
+  const Vector& get_pos() const { return pos; }
 
-  void set_anchor_point(AnchorPoint anchor_) {
-    this->anchor = anchor_;
-  }
-  AnchorPoint get_anchor_point() const {
-    return anchor;
-  }
+  void set_anchor_point(AnchorPoint anchor_) { this->anchor = anchor_; }
+  AnchorPoint get_anchor_point() const { return anchor; }
 
-  void set_visible(bool visible_) {
-    this->visible = visible_;
-  }
-  bool get_visible() const {
-    return visible;
-  }
+  void set_visible(bool visible_) { this->visible = visible_; }
+  bool get_visible() const { return visible; }
 
   void set_action(const std::string& action);
   std::string get_action();
@@ -68,7 +49,7 @@ public:
   void update(float elapsed_time);
   void draw(DrawingContext& context);
 
-private:
+ private:
   SpritePtr sprite;
   int layer;
   bool visible;

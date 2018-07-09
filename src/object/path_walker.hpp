@@ -26,9 +26,8 @@ class ObjectOption;
 /**
  * A walker that travels along a path
  */
-class PathWalker
-{
-public:
+class PathWalker {
+ public:
   PathWalker(const Path* path, bool running = true);
   virtual ~PathWalker();
 
@@ -50,9 +49,7 @@ public:
   void stop_moving();
 
   /** returns true if PathWalker is currently moving */
-  bool is_moving() const {
-    return running;
-  }
+  bool is_moving() const { return running; }
 
   static ObjectOption get_running_option(bool* _running);
 
@@ -63,7 +60,7 @@ public:
    */
   bool running;
 
-private:
+ private:
   void advance_node();
   void goback_node();
 
@@ -84,7 +81,7 @@ private:
 
   float walking_speed;
 
-private:
+ private:
   PathWalker(const PathWalker&);
   PathWalker& operator=(const PathWalker&);
 };

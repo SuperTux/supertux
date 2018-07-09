@@ -27,33 +27,24 @@ class MovingObject;
  * The object has to additionally set the PORTABLE flag (this allows to
  * make the object only temporarily portable by resetting the flag)
  */
-class Portable
-{
-public:
-  virtual ~Portable()
-  { }
+class Portable {
+ public:
+  virtual ~Portable() {}
 
   /**
    * called each frame when the object has been grabbed.
    */
   virtual void grab(MovingObject& object, const Vector& pos, Direction dir) = 0;
 
-  virtual void ungrab(MovingObject& , Direction )
-  {}
+  virtual void ungrab(MovingObject&, Direction) {}
 
-  virtual bool is_portable() const
-  {
-    return true;
-  }
+  virtual bool is_portable() const { return true; }
 
   /**
    * Is the object so heavy/bulky/fragile that Tux can't run while
    * carrying it?
    */
-  virtual bool is_hampering() const
-  {
-    return false;
-  }
+  virtual bool is_hampering() const { return false; }
 };
 
 #endif

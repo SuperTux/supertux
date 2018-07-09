@@ -19,37 +19,30 @@
 
 #include "editor/point_marker.hpp"
 
-class Resizer : public PointMarker
-{
-  public:
-    enum Side{
-      NONE,
-      LEFT_UP,
-      RIGHT_DOWN
-    };
+class Resizer : public PointMarker {
+ public:
+  enum Side { NONE, LEFT_UP, RIGHT_DOWN };
 
-    Resizer(Rectf* rect_, Side vert_, Side horz_);
+  Resizer(Rectf* rect_, Side vert_, Side horz_);
 
-    void update(float elapsed_time);
-    virtual void move_to(const Vector& pos);
-    virtual Vector get_point_vector() const;
-    virtual Vector get_offset() const;
+  void update(float elapsed_time);
+  virtual void move_to(const Vector& pos);
+  virtual Vector get_point_vector() const;
+  virtual Vector get_offset() const;
 
-    virtual bool is_saveable() const {
-      return false;
-    }
+  virtual bool is_saveable() const { return false; }
 
-    void refresh_pos();
+  void refresh_pos();
 
-  private:
-    Rectf* rect;
-    Side vert;
-    Side horz;
+ private:
+  Rectf* rect;
+  Side vert;
+  Side horz;
 
-    Resizer(const Resizer&);
-    Resizer& operator=(const Resizer&);
+  Resizer(const Resizer&);
+  Resizer& operator=(const Resizer&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_RESIZER_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_RESIZER_HPP
 
 /* EOF */

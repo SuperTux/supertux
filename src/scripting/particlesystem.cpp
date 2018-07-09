@@ -20,21 +20,23 @@
 
 namespace scripting {
 
-ParticleSystem::ParticleSystem(::ParticleSystem* parent) :
-  particlesystem(parent)
+ParticleSystem::ParticleSystem(::ParticleSystem* parent)
+    : particlesystem(parent)
 {
 }
 
-void ParticleSystem::set_enabled(bool enable)
+void
+ParticleSystem::set_enabled(bool enable)
 {
   particlesystem->set_enabled(enable);
 }
 
-bool ParticleSystem::get_enabled() const
+bool
+ParticleSystem::get_enabled() const
 {
   return particlesystem->get_enabled();
 }
 
-}
+}  // namespace scripting
 
 /* EOF */

@@ -17,19 +17,19 @@
 #ifndef HEADER_SUPERTUX_PHYSFS_OFILE_STREAM_HPP
 #define HEADER_SUPERTUX_PHYSFS_OFILE_STREAM_HPP
 
-#include <memory>
-#include <ostream>
 #include <physfs.h>
 
-class OFileStream : public std::ostream
-{
-protected:
+#include <memory>
+#include <ostream>
+
+class OFileStream : public std::ostream {
+ protected:
   std::unique_ptr<std::streambuf> sb;
 
-public:
+ public:
   OFileStream(const std::string& filename);
 
-private:
+ private:
   OFileStream(const OFileStream&) = delete;
   OFileStream& operator=(const OFileStream&) = delete;
 };

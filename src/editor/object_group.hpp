@@ -24,19 +24,18 @@
 
 class ReaderMapping;
 
-class ObjectGroup
-{
-  public:
-    ObjectGroup();
-    ObjectGroup(const ReaderMapping& reader);
+class ObjectGroup {
+ public:
+  ObjectGroup();
+  ObjectGroup(const ReaderMapping& reader);
 
-    std::string name;
-    std::vector<ObjectIcon> icons;
-    bool for_worldmap;
+  std::string name;
+  std::vector<ObjectIcon> icons;
+  bool for_worldmap;
 
-    void add_icon(const std::string& object, const std::string& icon_path);
+  void add_icon(const std::string& object, const std::string& icon_path);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_OBJECT_GROUP_HPP
 
 /* EOF */

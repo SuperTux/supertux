@@ -29,15 +29,20 @@ class Player;
 class Bullet;
 
 /** Base class for moving sprites that can hurt the Player. */
-class BadGuy : public MovingSprite
-{
-public:
-  BadGuy(const Vector& pos, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
-  BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
-  BadGuy(const ReaderMapping& reader, const std::string& sprite_name, int layer = LAYER_OBJECTS,
-         const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+class BadGuy : public MovingSprite {
+ public:
+  BadGuy(const Vector& pos, const std::string& sprite_name,
+         int layer = LAYER_OBJECTS,
+         const std::string& light_sprite_name =
+             "images/objects/lightmap_light/lightmap_light-medium.sprite");
+  BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name,
+         int layer = LAYER_OBJECTS,
+         const std::string& light_sprite_name =
+             "images/objects/lightmap_light/lightmap_light-medium.sprite");
+  BadGuy(const ReaderMapping& reader, const std::string& sprite_name,
+         int layer = LAYER_OBJECTS,
+         const std::string& light_sprite_name =
+             "images/objects/lightmap_light/lightmap_light-medium.sprite");
 
   /** Called when the badguy is drawn. The default implementation
       simply draws the badguy sprite on screen */
@@ -48,25 +53,24 @@ public:
   virtual void update(float elapsed_time) override;
 
   virtual void save(Writer& writer) override;
-  virtual std::string get_class() const override {
-    return "badguy";
-  }
+  virtual std::string get_class() const override { return "badguy"; }
 
-  virtual std::string get_display_name() const override {
-    return _("Badguy");
-  }
+  virtual std::string get_display_name() const override { return _("Badguy"); }
 
-  virtual ObjectSettings get_settings() override {
+  virtual ObjectSettings get_settings() override
+  {
     ObjectSettings result = MovingSprite::get_settings();
-    result.options.push_back( dir_option(&dir) );
-    result.options.push_back( ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
+    result.options.push_back(dir_option(&dir));
+    result.options.push_back(
+        ObjectOption(MN_SCRIPT, _("Death script"), &dead_script));
     return result;
   }
 
   /** Called when a collision with another object occurred. The
       default implementation calls collision_player, collision_solid,
       collision_badguy and collision_squished */
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(GameObject& other,
+                                const CollisionHit& hit) override;
 
   /** Called when a collision with tile with special attributes
       occurred */
@@ -76,25 +80,17 @@ public:
       the screen (his sprite is turned upside-down) */
   virtual void kill_fall();
 
-  /** Call this, if you use custom kill_fall() or kill_squashed(GameObject& object) */
+  /** Call this, if you use custom kill_fall() or kill_squashed(GameObject&
+   * object) */
   virtual void run_dead_script();
 
   /** True if this badguy can break bricks or open bonusblocks in his
       current form. */
-  virtual bool can_break() const
-  {
-    return false;
-  }
+  virtual bool can_break() const { return false; }
 
-  Vector get_start_position() const
-  {
-    return start_position;
-  }
+  Vector get_start_position() const { return start_position; }
 
-  void set_start_position(const Vector& vec)
-  {
-    start_position = vec;
-  }
+  void set_start_position(const Vector& vec) { start_position = vec; }
 
   /** Called when hit by a fire bullet, and is_flammable() returns true */
   virtual void ignite();
@@ -102,7 +98,8 @@ public:
   /** Called to revert a badguy when is_ignited() returns true */
   virtual void extinguish();
 
-  /** Returns whether to call ignite() when a badguy gets hit by a fire bullet */
+  /** Returns whether to call ignite() when a badguy gets hit by a fire bullet
+   */
   virtual bool is_flammable() const;
 
   /** Returns whether this badguys is currently on fire */
@@ -120,16 +117,15 @@ public:
    * Return true if this badguy can be hurt by tiles
    * with the attribute "hurts"
    */
-  virtual bool is_hurtable() const {
-    return true;
-  }
+  virtual bool is_hurtable() const { return true; }
 
   bool is_frozen() const;
 
   bool is_in_water() const;
 
   /** Get melting particle sprite filename */
-  virtual std::string get_water_sprite() const {
+  virtual std::string get_water_sprite() const
+  {
     return "images/objects/water_drop/water_drop.sprite";
   }
 
@@ -137,20 +133,14 @@ public:
    * Sets the dispenser that spawns this badguy.
    * @param parent The dispenser
    */
-  void set_parent_dispenser(Dispenser* parent)
-  {
-    parent_dispenser = parent;
-  }
+  void set_parent_dispenser(Dispenser* parent) { parent_dispenser = parent; }
 
   /**
    * Returns the dispenser this badguys was spawned by
    */
-  Dispenser* get_parent_dispenser() const
-  {
-    return parent_dispenser;
-  }
+  Dispenser* get_parent_dispenser() const { return parent_dispenser; }
 
-protected:
+ protected:
   enum State {
     STATE_INIT,
     STATE_INACTIVE,
@@ -164,7 +154,7 @@ protected:
     STATE_GEAR
   };
 
-protected:
+ protected:
   /** Called when the badguy collided with a player */
   virtual HitResponse collision_player(Player& player, const CollisionHit& hit);
 
@@ -202,12 +192,9 @@ protected:
   void kill_squished(GameObject& object);
 
   void set_state(State state);
-  State get_state() const
-  { return state; }
+  State get_state() const { return state; }
 
-  bool check_state_timer() {
-    return state_timer.check();
-  }
+  bool check_state_timer() { return state_timer.check(); }
 
   /** returns a pointer to the nearest player or 0 if no player is available */
   Player* get_nearest_player() const;
@@ -243,21 +230,22 @@ protected:
       last call to update() */
   bool is_active() const;
 
-  /** changes colgroup_active. Also calls set_group when badguy is in STATE_ACTIVE */
+  /** changes colgroup_active. Also calls set_group when badguy is in
+   * STATE_ACTIVE */
   void set_colgroup_active(CollisionGroup group);
 
-private:
+ private:
   void try_activate();
 
-protected:
+ protected:
   Physic physic;
 
-public:
+ public:
   /** Count this badguy to the statistics? This value should not be
       changed during runtime. */
   bool countMe;
 
-protected:
+ protected:
   /** true if initialize() has already been called */
   bool is_initialized;
 
@@ -270,7 +258,7 @@ protected:
   Direction start_dir;
 
   bool frozen;
-  bool ignited; /**< true if this badguy is currently on fire */
+  bool ignited;  /**< true if this badguy is currently on fire */
   bool in_water; /** < true if the badguy is currently in water */
 
   std::string dead_script; /**< script to execute when badguy is killed */
@@ -280,7 +268,7 @@ protected:
   SpritePtr lightsprite;
   bool glowing;
 
-private:
+ private:
   State state;
 
   /** true if state was STATE_ACTIVE at the beginning of the last call
@@ -305,7 +293,7 @@ private:
    */
   Dispenser* parent_dispenser;
 
-private:
+ private:
   BadGuy(const BadGuy&);
   BadGuy& operator=(const BadGuy&);
 };

@@ -1,5 +1,6 @@
 //  SuperTux - Badguy "Igel"
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,24 +16,27 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "badguy/igel.hpp"
-#include "object/bullet.hpp"
-#include "supertux/sector.hpp"
 
+#include "object/bullet.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/sector.hpp"
 
 namespace {
 
 const float IGEL_SPEED = 80; /**< speed at which we walk around */
-const float TURN_RECOVER_TIME = 0.5; /**< seconds before we will again turn around when shot at */
-const float RANGE_OF_VISION = 256; /**< range in px at which we can see bullets */
+const float TURN_RECOVER_TIME =
+    0.5; /**< seconds before we will again turn around when shot at */
+const float RANGE_OF_VISION =
+    256; /**< range in px at which we can see bullets */
 
-} // namespace
+}  // namespace
 
-Igel::Igel(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "walking-left", "walking-right"),
-  turn_recover_timer()
+Igel::Igel(const ReaderMapping& reader)
+    : WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "walking-left",
+                    "walking-right"),
+      turn_recover_timer()
 {
-  walk_speed = IGEL_SPEED;
+  walk_speed      = IGEL_SPEED;
   max_drop_height = 16;
 }
 
@@ -54,9 +58,13 @@ Igel::can_see(const MovingObject& o) const
 {
   Rectf ob = o.get_bbox();
 
-  bool inReach_left = ((ob.p2.x < bbox.p1.x) && (ob.p2.x >= bbox.p1.x-((dir == LEFT) ? RANGE_OF_VISION : 0)));
-  bool inReach_right = ((ob.p1.x > bbox.p2.x) && (ob.p1.x <= bbox.p2.x+((dir == RIGHT) ? RANGE_OF_VISION : 0)));
-  bool inReach_top = (ob.p2.y >= bbox.p1.y);
+  bool inReach_left =
+      ((ob.p2.x < bbox.p1.x) &&
+       (ob.p2.x >= bbox.p1.x - ((dir == LEFT) ? RANGE_OF_VISION : 0)));
+  bool inReach_right =
+      ((ob.p1.x > bbox.p2.x) &&
+       (ob.p1.x <= bbox.p2.x + ((dir == RIGHT) ? RANGE_OF_VISION : 0)));
+  bool inReach_top    = (ob.p2.y >= bbox.p1.y);
   bool inReach_bottom = (ob.p1.y <= bbox.p2.y);
 
   return ((inReach_left || inReach_right) && inReach_top && inReach_bottom);
@@ -92,7 +100,8 @@ Igel::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
   // default reaction if hit on front side or for freeze and unfreeze
   if (((dir == LEFT) && hit.left) || ((dir == RIGHT) && hit.right) ||
-    (bullet.get_type() == ICE_BONUS) || ((bullet.get_type() == FIRE_BONUS) && (frozen))) {
+      (bullet.get_type() == ICE_BONUS) ||
+      ((bullet.get_type() == FIRE_BONUS) && (frozen))) {
     return BadGuy::collision_bullet(bullet, hit);
   }
 

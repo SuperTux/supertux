@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
 
 #include <SDL_video.h>
-
 #include <config.h>
 
 #include <map>
@@ -35,9 +34,8 @@ class Texture;
 class GLTexture;
 class Rect;
 
-class TextureManager : public Currenton<TextureManager>
-{
-public:
+class TextureManager : public Currenton<TextureManager> {
+ public:
   TextureManager();
   ~TextureManager();
 
@@ -52,7 +50,7 @@ public:
   void reload_textures();
 #endif
 
-private:
+ private:
   friend class Texture;
 
   typedef std::map<std::string, std::weak_ptr<Texture> > ImageTextures;
@@ -61,27 +59,28 @@ private:
   typedef std::map<std::string, SDL_Surface*> Surfaces;
   Surfaces m_surfaces;
 
-private:
+ private:
   void reap_cache_entry(const std::string& filename);
 
-  TexturePtr create_image_texture(const std::string& filename, const Rect& rect);
+  TexturePtr create_image_texture(const std::string& filename,
+                                  const Rect& rect);
 
   /** on failure a dummy texture is returned and no exception is thrown */
   TexturePtr create_image_texture(const std::string& filename);
 
   /** throw an exception on error */
   TexturePtr create_image_texture_raw(const std::string& filename);
-  TexturePtr create_image_texture_raw(const std::string& filename, const Rect& rect);
+  TexturePtr create_image_texture_raw(const std::string& filename,
+                                      const Rect& rect);
 
   TexturePtr create_dummy_texture();
 
 #ifdef HAVE_OPENGL
-private:
+ private:
   typedef std::set<GLTexture*> Textures;
   Textures m_textures;
 
-  struct SavedTexture
-  {
+  struct SavedTexture {
     GLTexture* texture;
     GLint width;
     GLint height;
@@ -95,7 +94,7 @@ private:
   };
   std::vector<SavedTexture> m_saved_textures;
 
-private:
+ private:
   void save_texture(GLTexture* texture);
 #endif
 };

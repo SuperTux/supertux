@@ -20,9 +20,10 @@
 #include "supertux/object_factory.hpp"
 
 Spiky::Spiky(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/spiky/spiky.sprite", "left", "right")
+    : WalkingBadguy(reader, "images/creatures/spiky/spiky.sprite", "left",
+                    "right")
 {
-  walk_speed = 80;
+  walk_speed      = 80;
   max_drop_height = 600;
 }
 

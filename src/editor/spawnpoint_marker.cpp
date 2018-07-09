@@ -20,8 +20,8 @@
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
-SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
-  surface(Surface::create("images/engine/editor/spawnpoint.png"))
+SpawnPointMarker::SpawnPointMarker(const ReaderMapping& lisp)
+    : surface(Surface::create("images/engine/editor/spawnpoint.png"))
 {
   lisp.get("name", name, "");
   lisp.get("x", bbox.p1.x, 0);
@@ -30,19 +30,23 @@ SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
   setup();
 }
 
-SpawnPointMarker::SpawnPointMarker (const SpawnPoint* sp) :
-  surface(Surface::create("images/engine/editor/spawnpoint.png"))
+SpawnPointMarker::SpawnPointMarker(const SpawnPoint* sp)
+    : surface(Surface::create("images/engine/editor/spawnpoint.png"))
 {
-  name = sp->name;
+  name    = sp->name;
   bbox.p1 = sp->pos;
   setup();
 }
 
-void SpawnPointMarker::setup() {
+void
+SpawnPointMarker::setup()
+{
   bbox.set_size(32, 32);
 }
 
-void SpawnPointMarker::draw(DrawingContext& context) {
+void
+SpawnPointMarker::draw(DrawingContext& context)
+{
   context.draw_surface(surface, bbox.p1, LAYER_FOREGROUND1);
 }
 

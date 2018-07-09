@@ -28,27 +28,26 @@ class Sector;
  *
  * Each Sector in turn contains GameObjects, e.g. Badguys and Players.
  */
-class Level
-{
-public:
+class Level {
+ public:
   std::string name;
   std::string author;
   std::string contact;
   std::string license;
   std::string filename;
   std::vector<std::unique_ptr<Sector> > sectors;
-  Statistics  stats;
-  float       target_time;
+  Statistics stats;
+  float target_time;
   std::string tileset;
 
   friend class LevelParser;
 
-public:
+ public:
   Level();
   ~Level();
 
   // loads a levelfile
-  //void load(const std::string& filename);
+  // void load(const std::string& filename);
 
   // saves to a levelfile
   void save(const std::string& filename, bool retry = false);
@@ -68,18 +67,16 @@ public:
   int get_total_badguys() const;
   int get_total_secrets() const;
 
-  static Level* current() {
-    return _current;
-  }
+  static Level* current() { return _current; }
 
   void reactivate();
 
-private:
+ private:
   static Level* _current;
 
   void load_old_format(const ReaderMapping& reader);
 
-private:
+ private:
   Level(const Level&);
   Level& operator=(const Level&);
 };

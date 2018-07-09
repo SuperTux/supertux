@@ -23,37 +23,44 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-PointMarker::PointMarker (const Vector& pos)
+PointMarker::PointMarker(const Vector& pos)
 {
   bbox.p1 = pos;
   bbox.set_size(16, 16);
 }
 
-PointMarker::PointMarker ()
+PointMarker::PointMarker()
 {
   bbox.p1 = Vector(0, 0);
   bbox.p2 = Vector(16, 16);
 }
 
-void PointMarker::draw(DrawingContext& context) {
+void
+PointMarker::draw(DrawingContext& context)
+{
   Vector dir = get_point_vector();
   if (dir.x == 0 && dir.y == 0) {
-    context.draw_filled_rect(bbox, Color(1, 1, 1, 0.5), 7.5, LAYER_GUI-20);
-  } else {
+    context.draw_filled_rect(bbox, Color(1, 1, 1, 0.5), 7.5, LAYER_GUI - 20);
+  }
+  else {
     // draw a triangle
-    dir = dir.unit() * 8;
+    dir         = dir.unit() * 8;
     Vector dir2 = Vector(-dir.y, dir.x);
-    Vector pos = bbox.get_middle();
+    Vector pos  = bbox.get_middle();
     context.draw_triangle(pos + dir * 1.5, pos - dir + dir2, pos - dir - dir2,
-                          Color(1, 1, 1, 0.5), LAYER_GUI-20);
+                          Color(1, 1, 1, 0.5), LAYER_GUI - 20);
   }
 }
 
-Vector PointMarker::get_point_vector() const {
+Vector
+PointMarker::get_point_vector() const
+{
   return Vector(0, 0);
 }
 
-Vector PointMarker::get_offset() const {
+Vector
+PointMarker::get_offset() const
+{
   return Vector(0, 0);
 }
 

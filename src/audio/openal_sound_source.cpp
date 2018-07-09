@@ -19,16 +19,13 @@
 #include "audio/sound_manager.hpp"
 #include "util/log.hpp"
 
-OpenALSoundSource::OpenALSoundSource() :
-  source()
+OpenALSoundSource::OpenALSoundSource() : source()
 {
   alGenSources(1, &source);
-  try
-  {
+  try {
     SoundManager::check_al_error("Couldn't create audio source: ");
   }
-  catch(std::exception& e)
-  {
+  catch (std::exception& e) {
     log_warning << e.what() << std::endl;
   }
   set_reference_distance(128);
@@ -43,14 +40,12 @@ OpenALSoundSource::~OpenALSoundSource()
 void
 OpenALSoundSource::stop()
 {
-  alSourceRewindv(1, &source); // Stops the source
+  alSourceRewindv(1, &source);  // Stops the source
   alSourcei(source, AL_BUFFER, AL_NONE);
-  try
-  {
+  try {
     SoundManager::check_al_error("Problem stopping audio source: ");
   }
-  catch(const std::exception& e)
-  {
+  catch (const std::exception& e) {
     // Internal OpenAL error. Don't you crash on me, baby!
     log_warning << e.what() << std::endl;
   }
@@ -61,12 +56,10 @@ OpenALSoundSource::play()
 {
   alSourcePlay(source);
 
-  try
-  {
+  try {
     SoundManager::check_al_error("Couldn't start audio source: ");
   }
-  catch(const std::exception& e)
-  {
+  catch (const std::exception& e) {
     // We probably have too many sources playing simultaneously.
     log_warning << e.what() << std::endl;
   }
@@ -90,8 +83,7 @@ OpenALSoundSource::pause()
 void
 OpenALSoundSource::resume()
 {
-  if( !this->paused() )
-  {
+  if (!this->paused()) {
     return;
   }
 
@@ -101,9 +93,9 @@ OpenALSoundSource::resume()
 bool
 OpenALSoundSource::paused() const
 {
-    ALint state = AL_PAUSED;
-    alGetSourcei(source, AL_SOURCE_STATE, &state);
-    return state == AL_PAUSED;
+  ALint state = AL_PAUSED;
+  alGetSourcei(source, AL_SOURCE_STATE, &state);
+  return state == AL_PAUSED;
 }
 
 void

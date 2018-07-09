@@ -42,7 +42,8 @@ MenuManager::instance()
 
 namespace {
 
-Rectf menu2rect(const Menu& menu)
+Rectf
+menu2rect(const Menu& menu)
 {
   return Rectf(menu.get_center_pos().x - menu.get_width() / 2,
                menu.get_center_pos().y - menu.get_height() / 2,
@@ -50,11 +51,10 @@ Rectf menu2rect(const Menu& menu)
                menu.get_center_pos().y + menu.get_height() / 2);
 }
 
-} // namespace
+}  // namespace
 
-class MenuTransition
-{
-private:
+class MenuTransition {
+ private:
   Rectf m_from_rect;
   Rectf m_to_rect;
 
@@ -62,49 +62,42 @@ private:
   float m_effect_start_time;
   bool m_is_active;
 
-public:
-  MenuTransition() :
-    m_from_rect(),
-    m_to_rect(),
-    m_effect_progress(1.0f),
-    m_effect_start_time(),
-    m_is_active(false)
+ public:
+  MenuTransition()
+      : m_from_rect(),
+        m_to_rect(),
+        m_effect_progress(1.0f),
+        m_effect_start_time(),
+        m_is_active(false)
   {
   }
 
-  void start(const Rectf& from_rect,
-             const Rectf& to_rect)
+  void start(const Rectf& from_rect, const Rectf& to_rect)
   {
     m_from_rect = from_rect;
-    m_to_rect = to_rect;
+    m_to_rect   = to_rect;
 
     m_effect_start_time = real_time;
-    m_effect_progress = 0.0f;
+    m_effect_progress   = 0.0f;
 
     m_is_active = true;
   }
 
-  void set(const Rectf& rect)
-  {
-    m_to_rect = m_from_rect = rect;
-  }
+  void set(const Rectf& rect) { m_to_rect = m_from_rect = rect; }
 
   void update()
   {
-    if (!g_config->transitions_enabled && m_is_active)
-    {
+    if (!g_config->transitions_enabled && m_is_active) {
       m_effect_progress = 1.0f;
-      m_is_active = false;
+      m_is_active       = false;
       return;
     }
-    if (m_is_active)
-    {
+    if (m_is_active) {
       m_effect_progress = (real_time - m_effect_start_time) * 6.0f;
 
-      if (m_effect_progress > 1.0f)
-      {
+      if (m_effect_progress > 1.0f) {
         m_effect_progress = 1.0f;
-        m_is_active = false;
+        m_is_active       = false;
       }
     }
   }
@@ -114,8 +107,7 @@ public:
     float p = m_effect_progress;
 
     Rectf rect = m_to_rect;
-    if (m_is_active)
-    {
+    if (m_is_active) {
       rect.p1.x = (m_to_rect.p1.x * p) + (m_from_rect.p1.x * (1.0f - p));
       rect.p1.y = (m_to_rect.p1.y * p) + (m_from_rect.p1.y * (1.0f - p));
       rect.p2.x = (m_to_rect.p2.x * p) + (m_from_rect.p2.x * (1.0f - p));
@@ -123,45 +115,35 @@ public:
     }
 
     // draw menu background rectangles
-    context.draw_filled_rect(Rectf(rect.p1.x - 4, rect.p1.y - 10-4,
+    context.draw_filled_rect(Rectf(rect.p1.x - 4, rect.p1.y - 10 - 4,
                                    rect.p2.x + 4, rect.p2.y + 10 + 4),
-                             Color(0.2f, 0.3f, 0.4f, 0.8f),
-                             20.0f,
-                             LAYER_GUI-10);
+                             Color(0.2f, 0.3f, 0.4f, 0.8f), 20.0f,
+                             LAYER_GUI - 10);
 
-    context.draw_filled_rect(Rectf(rect.p1.x, rect.p1.y - 10,
-                                   rect.p2.x, rect.p2.y + 10),
-                             Color(0.6f, 0.7f, 0.8f, 0.5f),
-                             16.0f,
-                             LAYER_GUI-10);
+    context.draw_filled_rect(
+        Rectf(rect.p1.x, rect.p1.y - 10, rect.p2.x, rect.p2.y + 10),
+        Color(0.6f, 0.7f, 0.8f, 0.5f), 16.0f, LAYER_GUI - 10);
   }
 
-  bool is_active() const
-  {
-    return m_is_active;
-  }
+  bool is_active() const { return m_is_active; }
 };
 
-MenuManager::MenuManager() :
-  m_dialog(),
-  m_has_next_dialog(false),
-  m_next_dialog(),
-  m_menu_stack(),
-  m_transition(new MenuTransition)
+MenuManager::MenuManager()
+    : m_dialog(),
+      m_has_next_dialog(false),
+      m_next_dialog(),
+      m_menu_stack(),
+      m_transition(new MenuTransition)
 {
   s_instance = this;
 }
 
-MenuManager::~MenuManager()
-{
-  s_instance = nullptr;
-}
+MenuManager::~MenuManager() { s_instance = nullptr; }
 
 void
 MenuManager::refresh()
 {
-  for(const auto& menu : m_menu_stack)
-  {
+  for (const auto& menu : m_menu_stack) {
     menu->refresh();
   }
 }
@@ -169,12 +151,10 @@ MenuManager::refresh()
 void
 MenuManager::process_input()
 {
-  if (m_dialog && !m_dialog->is_passive())
-  {
+  if (m_dialog && !m_dialog->is_passive()) {
     m_dialog->process_input(*InputManager::current()->get_controller());
   }
-  else if (current_menu())
-  {
+  else if (current_menu()) {
     current_menu()->process_input();
   }
 }
@@ -182,14 +162,11 @@ MenuManager::process_input()
 void
 MenuManager::event(const SDL_Event& ev)
 {
-  if (!m_transition->is_active())
-  {
-    if (m_dialog && !m_dialog->is_passive())
-    {
+  if (!m_transition->is_active()) {
+    if (m_dialog && !m_dialog->is_passive()) {
       m_dialog->event(ev);
     }
-    else if (current_menu())
-    {
+    else if (current_menu()) {
       // only pass events when the menu is fully visible and not in a
       // transition animation
       current_menu()->event(ev);
@@ -200,26 +177,21 @@ MenuManager::event(const SDL_Event& ev)
 void
 MenuManager::draw(DrawingContext& context)
 {
-  if (m_has_next_dialog)
-  {
-    m_dialog = std::move(m_next_dialog);
+  if (m_has_next_dialog) {
+    m_dialog          = std::move(m_next_dialog);
     m_has_next_dialog = false;
   }
 
-  if (m_transition->is_active())
-  {
+  if (m_transition->is_active()) {
     m_transition->update();
     m_transition->draw(context);
   }
-  else
-  {
-    if (m_dialog)
-    {
+  else {
+    if (m_dialog) {
       m_dialog->update();
       m_dialog->draw(context);
     }
-    if (current_menu() && (!m_dialog || m_dialog->is_passive()))
-    {
+    if (current_menu() && (!m_dialog || m_dialog->is_passive())) {
       // brute force the transition into the right shape in case the
       // menu has changed sizes
       m_transition->set(menu2rect(*current_menu()));
@@ -229,8 +201,7 @@ MenuManager::draw(DrawingContext& context)
     }
   }
 
-  if (current_menu() && MouseCursor::current())
-  {
+  if (current_menu() && MouseCursor::current()) {
     MouseCursor::current()->draw(context);
   }
 }
@@ -240,20 +211,22 @@ MenuManager::set_dialog(std::unique_ptr<Dialog> dialog)
 {
   // delay reseting m_dialog to a later point, as otherwise the Dialog
   // can't unset itself without ending up with "delete this" problems
-  m_next_dialog = std::move(dialog);
+  m_next_dialog     = std::move(dialog);
   m_has_next_dialog = true;
 }
 
 void
 MenuManager::push_menu(int id)
 {
-  push_menu(MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id)));
+  push_menu(
+      MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id)));
 }
 
 void
 MenuManager::set_menu(int id)
 {
-  set_menu(MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id)));
+  set_menu(
+      MenuStorage::instance().create(static_cast<MenuStorage::MenuId>(id)));
 }
 
 void
@@ -268,16 +241,14 @@ MenuManager::push_menu(std::unique_ptr<Menu> menu)
 void
 MenuManager::pop_menu()
 {
-  if (m_menu_stack.empty())
-  {
+  if (m_menu_stack.empty()) {
     log_warning << "trying to pop on an empty menu_stack" << std::endl;
   }
-  else
-  {
+  else {
     transition(m_menu_stack.back().get(),
                (m_menu_stack.size() >= 2)
-               ? m_menu_stack[m_menu_stack.size() - 2].get()
-               : nullptr);
+                   ? m_menu_stack[m_menu_stack.size() - 2].get()
+                   : nullptr);
 
     m_menu_stack.pop_back();
   }
@@ -286,15 +257,13 @@ MenuManager::pop_menu()
 void
 MenuManager::set_menu(std::unique_ptr<Menu> menu)
 {
-  if (menu)
-  {
+  if (menu) {
     transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
                menu.get());
     m_menu_stack.clear();
     m_menu_stack.push_back(std::move(menu));
   }
-  else
-  {
+  else {
     transition(m_menu_stack.empty() ? nullptr : m_menu_stack.back().get(),
                nullptr);
     m_menu_stack.clear();
@@ -315,8 +284,7 @@ MenuManager::clear_menu_stack()
 void
 MenuManager::on_window_resize()
 {
-  for(const auto& menu : m_menu_stack)
-  {
+  for (const auto& menu : m_menu_stack) {
     menu->on_window_resize();
   }
 }
@@ -324,12 +292,10 @@ MenuManager::on_window_resize()
 Menu*
 MenuManager::current_menu() const
 {
-  if (m_menu_stack.empty())
-  {
+  if (m_menu_stack.empty()) {
     return nullptr;
   }
-  else
-  {
+  else {
     return m_menu_stack.back().get();
   }
 }
@@ -337,29 +303,23 @@ MenuManager::current_menu() const
 void
 MenuManager::transition(Menu* from, Menu* to)
 {
-  if (!from && !to)
-  {
+  if (!from && !to) {
     return;
   }
-  else
-  {
+  else {
     Rectf from_rect;
-    if (from)
-    {
+    if (from) {
       from_rect = menu2rect(*from);
     }
-    else
-    {
+    else {
       from_rect = Rectf(to->get_center_pos(), Sizef(0, 0));
     }
 
     Rectf to_rect;
-    if (to)
-    {
+    if (to) {
       to_rect = menu2rect(*to);
     }
-    else
-    {
+    else {
       to_rect = Rectf(from->get_center_pos(), Sizef(0, 0));
     }
 

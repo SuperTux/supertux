@@ -17,31 +17,22 @@
 #ifndef HEADER_SUPERTUX_AUDIO_SOUND_FILE_HPP
 #define HEADER_SUPERTUX_AUDIO_SOUND_FILE_HPP
 
-#include <iostream>
-#include <memory>
 #include <physfs.h>
 
-class SoundFile
-{
-public:
-  enum FileFormat {
-    FORMAT_WAV,
-    FORMAT_OGG
-  };
+#include <iostream>
+#include <memory>
 
-public:
-  SoundFile() :
-    channels(),
-    rate(),
-    bits_per_sample(),
-    size()
-  {}
+class SoundFile {
+ public:
+  enum FileFormat { FORMAT_WAV, FORMAT_OGG };
 
-  virtual ~SoundFile()
-  { }
+ public:
+  SoundFile() : channels(), rate(), bits_per_sample(), size() {}
+
+  virtual ~SoundFile() {}
 
   virtual size_t read(void* buffer, size_t buffer_size) = 0;
-  virtual void reset() = 0;
+  virtual void reset()                                  = 0;
 
   int channels;
   int rate;
@@ -49,9 +40,10 @@ public:
   /// size in bytes
   size_t size;
 
-  static FileFormat get_file_format(PHYSFS_File* file, const std::string& filename);
+  static FileFormat get_file_format(PHYSFS_File* file,
+                                    const std::string& filename);
 
-private:
+ private:
   SoundFile(const SoundFile&) = delete;
   SoundFile& operator=(const SoundFile&) = delete;
 };

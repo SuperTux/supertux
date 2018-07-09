@@ -32,34 +32,41 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-ItemScriptLine::ItemScriptLine(std::string* input_, int id_) :
-  ItemTextField("", input_, id_)
+ItemScriptLine::ItemScriptLine(std::string* input_, int id_)
+    : ItemTextField("", input_, id_)
 {
 }
 
 void
-ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
+ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width,
+                     bool active)
+{
   std::string r_input = *input;
-  auto font = Console::current()->get_font();
-  bool fl = active && (int(real_time*2)%2);
-  if ( fl ) {
+  auto font           = Console::current()->get_font();
+  bool fl             = active && (int(real_time * 2) % 2);
+  if (fl) {
     r_input += "_";
   }
-  context.draw_text(font, r_input, Vector(pos.x + 16, pos.y - int(font->get_height()/2)),
+  context.draw_text(font, r_input,
+                    Vector(pos.x + 16, pos.y - int(font->get_height() / 2)),
                     ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::field_color);
 }
 
 int
-ItemScriptLine::get_width() const {
+ItemScriptLine::get_width() const
+{
   return Console::current()->get_font()->get_text_width(*input) + 16 + flickw;
 }
 
 void
-ItemScriptLine::process_action(const MenuAction& action) {
+ItemScriptLine::process_action(const MenuAction& action)
+{
   ItemTextField::process_action(action);
   auto controller = InputManager::current()->get_controller();
-  if (action == MENU_ACTION_HIT && controller->pressed(Controller::MENU_SELECT)) {
-    auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
+  if (action == MENU_ACTION_HIT &&
+      controller->pressed(Controller::MENU_SELECT)) {
+    auto menu =
+        dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
     if (!menu) {
       return;
     }
@@ -68,7 +75,8 @@ ItemScriptLine::process_action(const MenuAction& action) {
 }
 
 void
-ItemScriptLine::invalid_remove() {
+ItemScriptLine::invalid_remove()
+{
   auto menu = dynamic_cast<ScriptMenu*>(MenuManager::instance().current_menu());
   if (!menu) {
     return;

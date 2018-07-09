@@ -19,25 +19,21 @@
 
 #include "badguy/badguy.hpp"
 
-class FlyingSnowBall : public BadGuy
-{
-public:
+class FlyingSnowBall : public BadGuy {
+ public:
   FlyingSnowBall(const ReaderMapping& reader);
 
   void initialize();
   void activate();
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
-  std::string get_class() const {
-    return "flyingsnowball";
-  }
-  std::string get_display_name() const {
-    return _("Flying snowball");
-  }
+  std::string get_class() const { return "flyingsnowball"; }
+  std::string get_display_name() const { return _("Flying snowball"); }
 
-protected:
+ protected:
   bool collision_squished(GameObject& object);
-private:
+
+ private:
   float normal_propeller_speed;
   Timer puff_timer; /**< time until the next smoke puff is spawned */
 };

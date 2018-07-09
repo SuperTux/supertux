@@ -26,16 +26,18 @@
 #include "supertux/object_factory.hpp"
 #include "util/reader_mapping.hpp"
 
-Lantern::Lantern(const ReaderMapping& reader) :
-  Rock(reader, "images/objects/lantern/lantern.sprite"),
-  lightcolor(1.0f, 1.0f, 1.0f),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
+Lantern::Lantern(const ReaderMapping& reader)
+    : Rock(reader, "images/objects/lantern/lantern.sprite"),
+      lightcolor(1.0f, 1.0f, 1.0f),
+      lightsprite(SpriteManager::current()->create(
+          "images/objects/lightmap_light/lightmap_light.sprite"))
 {
-  //get color from lisp
+  // get color from lisp
   std::vector<float> vColor;
   if (reader.get("color", vColor)) {
     lightcolor = Color(vColor);
-  } else {
+  }
+  else {
     lightcolor = Color(0, 0, 0);
   }
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
@@ -43,10 +45,11 @@ Lantern::Lantern(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/willocatch.wav");
 }
 
-Lantern::Lantern(const Vector& pos) :
-  Rock(pos, "images/objects/lantern/lantern.sprite"),
-  lightcolor(0.0f, 0.0f, 0.0f),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
+Lantern::Lantern(const Vector& pos)
+    : Rock(pos, "images/objects/lantern/lantern.sprite"),
+      lightcolor(0.0f, 0.0f, 0.0f),
+      lightsprite(SpriteManager::current()->create(
+          "images/objects/lightmap_light/lightmap_light.sprite"))
 {
   lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   updateColor();
@@ -54,36 +57,42 @@ Lantern::Lantern(const Vector& pos) :
 }
 
 ObjectSettings
-Lantern::get_settings() {
+Lantern::get_settings()
+{
   ObjectSettings result = Rock::get_settings();
-  result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &lightcolor, "color"));
+  result.options.push_back(
+      ObjectOption(MN_COLOR, _("Colour"), &lightcolor, "color"));
 
   return result;
 }
 
 void
-Lantern::after_editor_set() {
+Lantern::after_editor_set()
+{
   updateColor();
 }
 
 void
-Lantern::updateColor(){
+Lantern::updateColor()
+{
   lightsprite->set_color(lightcolor);
-  //Turn lantern off if light is black
-  if(lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0){
+  // Turn lantern off if light is black
+  if (lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0) {
     sprite->set_action("off");
     sprite->set_color(Color(1.0f, 1.0f, 1.0f));
-  } else {
+  }
+  else {
     sprite->set_action("normal");
     sprite->set_color(lightcolor);
   }
 }
 
 void
-Lantern::draw(DrawingContext& context){
-  //Draw the Sprite.
+Lantern::draw(DrawingContext& context)
+{
+  // Draw the Sprite.
   MovingSprite::draw(context);
-  //Let there be light.
+  // Let there be light.
   context.push_target();
   context.set_target(DrawingContext::LIGHTMAP);
 
@@ -92,13 +101,15 @@ Lantern::draw(DrawingContext& context){
   context.pop_target();
 }
 
-HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {
+HitResponse
+Lantern::collision(GameObject& other, const CollisionHit& hit)
+{
   if (is_open()) {
     WillOWisp* wow = dynamic_cast<WillOWisp*>(&other);
     if (wow) {
       // collided with WillOWisp while grabbed and unlit
       SoundManager::current()->play("sounds/willocatch.wav");
-      lightcolor = Color(0,1,0);
+      lightcolor = Color(0, 1, 0);
       updateColor();
       wow->vanish();
     }
@@ -123,13 +134,13 @@ Lantern::grab(MovingObject& object, const Vector& pos, Direction dir)
   if (is_open()) {
     sprite->set_action("off-open");
   }
-
 }
 
 void
 Lantern::ungrab(MovingObject& object, Direction dir)
 {
-  // if lantern is not lit, it was drawn as opened while grabbed. Now draw it as closed again
+  // if lantern is not lit, it was drawn as opened while grabbed. Now draw it as
+  // closed again
   if (is_open()) {
     sprite->set_action("off");
   }
@@ -140,14 +151,16 @@ Lantern::ungrab(MovingObject& object, Direction dir)
 bool
 Lantern::is_open() const
 {
-  return ((grabbed) && lightcolor.red == 0 && lightcolor.green == 0 && lightcolor.blue == 0);
+  return ((grabbed) && lightcolor.red == 0 && lightcolor.green == 0 &&
+          lightcolor.blue == 0);
 }
 
 void
-Lantern::add_color(Color c) {
-  lightcolor.red   = std::min(1.0f, lightcolor.red   + c.red);
+Lantern::add_color(Color c)
+{
+  lightcolor.red   = std::min(1.0f, lightcolor.red + c.red);
   lightcolor.green = std::min(1.0f, lightcolor.green + c.green);
-  lightcolor.blue  = std::min(1.0f, lightcolor.blue  + c.blue);
+  lightcolor.blue  = std::min(1.0f, lightcolor.blue + c.blue);
   lightcolor.alpha = std::min(1.0f, lightcolor.alpha + c.alpha);
   updateColor();
 }

@@ -18,13 +18,13 @@
 #define HEADER_SUPERTUX_VIDEO_COLOR_HPP
 
 #include <assert.h>
+
 #include <vector>
 
 #include "util/log.hpp"
 
-class Color
-{
-public:
+class Color {
+ public:
   Color();
 
   Color(float red_, float green_, float blue_, float alpha_ = 1.0);
@@ -35,12 +35,11 @@ public:
 
   float greyscale() const;
 
-  bool operator < (const Color& other) const;
+  bool operator<(const Color& other) const;
 
   std::vector<float> toVector();
 
   float red, green, blue, alpha;
-
 
   /**
    * Return a human-readable string representation
@@ -48,7 +47,8 @@ public:
    */
   std::string to_string() const
   {
-    return std::to_string(red) + " " + std::to_string(green) + " " + std::to_string(blue);
+    return std::to_string(red) + " " + std::to_string(green) + " " +
+           std::to_string(blue);
   }
 
   static const Color BLACK;

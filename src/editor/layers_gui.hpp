@@ -27,52 +27,50 @@ class GameObject;
 class Vector;
 class Tip;
 
-class EditorLayersGui
-{
-  public:
-    EditorLayersGui();
+class EditorLayersGui {
+ public:
+  EditorLayersGui();
 
-    void draw(DrawingContext&);
-    void update(float elapsed_time);
-    bool event(SDL_Event& ev);
-    void setup();
-    void resize();
+  void draw(DrawingContext&);
+  void update(float elapsed_time);
+  bool event(SDL_Event& ev);
+  void setup();
+  void resize();
 
-    void refresh_sector_text();
-    void sort_layers();
+  void refresh_sector_text();
+  void sort_layers();
 
-    std::vector<std::unique_ptr<LayerIcon>> layers;
-    void add_layer(GameObject* layer);
+  std::vector<std::unique_ptr<LayerIcon>> layers;
+  void add_layer(GameObject* layer);
 
-    GameObject *selected_tilemap;
+  GameObject* selected_tilemap;
 
-  private:
-    int Ypos;
-    const int Xpos = 32;
-    int Width;
+ private:
+  int Ypos;
+  const int Xpos = 32;
+  int Width;
 
-    std::string sector_text;
-    int sector_text_width;
+  std::string sector_text;
+  int sector_text_width;
 
-    Vector get_layer_coords(const int pos) const;
-    int get_layer_pos(const Vector& coords) const;
-    void update_tip();
+  Vector get_layer_coords(const int pos) const;
+  int get_layer_pos(const Vector& coords) const;
+  void update_tip();
 
-    static bool less_z_pos(const std::unique_ptr<LayerIcon>& lhs, const std::unique_ptr<LayerIcon>& rhs);
+  static bool less_z_pos(const std::unique_ptr<LayerIcon>& lhs,
+                         const std::unique_ptr<LayerIcon>& rhs);
 
-    typedef enum {
-      HI_NONE, HI_SPAWNPOINTS, HI_SECTOR, HI_LAYERS
-    }HoveredItem;
+  typedef enum { HI_NONE, HI_SPAWNPOINTS, HI_SECTOR, HI_LAYERS } HoveredItem;
 
-    HoveredItem hovered_item;
-    unsigned int hovered_layer;
+  HoveredItem hovered_item;
+  unsigned int hovered_layer;
 
-    std::unique_ptr<Tip> object_tip;
+  std::unique_ptr<Tip> object_tip;
 
-    EditorLayersGui(const EditorLayersGui&);
-    EditorLayersGui& operator=(const EditorLayersGui&);
+  EditorLayersGui(const EditorLayersGui&);
+  EditorLayersGui& operator=(const EditorLayersGui&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_LAYERS_GUI_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_LAYERS_GUI_HPP
 
 /* EOF */

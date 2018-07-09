@@ -1,5 +1,6 @@
 //  SuperTux - "Totem" Badguy
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -16,24 +17,24 @@
 
 #include "badguy/totem.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-#include <math.h>
-
-static const float JUMP_ON_SPEED_Y = -400;
-static const float JUMP_OFF_SPEED_Y = -500;
+static const float JUMP_ON_SPEED_Y           = -400;
+static const float JUMP_OFF_SPEED_Y          = -500;
 static const std::string LAND_ON_TOTEM_SOUND = "sounds/totem.ogg";
 
-Totem::Totem(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/totem/totem.sprite"),
-  carrying(0),
-  carried_by(0)
+Totem::Totem(const ReaderMapping& reader)
+    : BadGuy(reader, "images/creatures/totem/totem.sprite"),
+      carrying(0),
+      carried_by(0)
 {
-  SoundManager::current()->preload( LAND_ON_TOTEM_SOUND );
+  SoundManager::current()->preload(LAND_ON_TOTEM_SOUND);
 }
 
 Totem::~Totem()
@@ -60,11 +61,12 @@ void
 Totem::initialize()
 {
   if (!carried_by) {
-static const float WALKSPEED = 100;
+    static const float WALKSPEED = 100;
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
     sprite->set_action(dir == LEFT ? "walking-left" : "walking-right");
     return;
-  } else {
+  }
+  else {
     synchronize_with(carried_by);
     sprite->set_action(dir == LEFT ? "stacked-left" : "stacked-right");
     return;
@@ -77,8 +79,7 @@ Totem::active_update(float elapsed_time)
   BadGuy::active_update(elapsed_time);
 
   if (!carried_by) {
-    if (on_ground() && might_fall())
-    {
+    if (on_ground() && might_fall()) {
       dir = (dir == LEFT ? RIGHT : LEFT);
       initialize();
     }
@@ -119,7 +120,6 @@ Totem::active_update(float elapsed_time)
   if (carrying) {
     carrying->synchronize_with(this);
   }
-
 }
 
 bool
@@ -138,7 +138,8 @@ Totem::collision_squished(GameObject& object)
   }
 
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  bbox.set_size(sprite->get_current_hitbox_width(),
+                sprite->get_current_hitbox_height());
 
   kill_squished(object);
   return true;
@@ -183,20 +184,23 @@ Totem::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   // if we hit a Totem that is not from our stack: have our base jump on its top
   auto totem = dynamic_cast<Totem*>(&badguy);
   if (totem) {
-    auto thisBase = this; while (thisBase->carried_by) thisBase=thisBase->carried_by;
-    auto srcBase = totem; while (srcBase->carried_by)  srcBase=srcBase->carried_by;
-    auto thisTop = this;  while (thisTop->carrying)    thisTop=thisTop->carrying;
+    auto thisBase = this;
+    while (thisBase->carried_by) thisBase = thisBase->carried_by;
+    auto srcBase = totem;
+    while (srcBase->carried_by) srcBase = srcBase->carried_by;
+    auto thisTop = this;
+    while (thisTop->carrying) thisTop = thisTop->carrying;
     if (srcBase != thisBase) {
       srcBase->jump_on(thisTop);
     }
   }
 
   // If we are hit from the direction we are facing: turn around
-  if(hit.left && (dir == LEFT)) {
+  if (hit.left && (dir == LEFT)) {
     dir = RIGHT;
     initialize();
   }
-  if(hit.right && (dir == RIGHT)) {
+  if (hit.right && (dir == RIGHT)) {
     dir = LEFT;
     initialize();
   }
@@ -225,15 +229,17 @@ Totem::jump_on(Totem* target)
 
   this->carried_by = target;
   this->initialize();
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  bbox.set_size(sprite->get_current_hitbox_width(),
+                sprite->get_current_hitbox_height());
 
-  SoundManager::current()->play( LAND_ON_TOTEM_SOUND , get_pos());
+  SoundManager::current()->play(LAND_ON_TOTEM_SOUND, get_pos());
 
   this->synchronize_with(target);
 }
 
 void
-Totem::jump_off() {
+Totem::jump_off()
+{
   if (!carried_by) {
     log_warning << "not carried by anyone" << std::endl;
     return;
@@ -244,7 +250,8 @@ Totem::jump_off() {
   this->carried_by = 0;
 
   this->initialize();
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  bbox.set_size(sprite->get_current_hitbox_width(),
+                sprite->get_current_hitbox_height());
 
   physic.set_velocity_y(JUMP_OFF_SPEED_Y);
 }
@@ -252,7 +259,6 @@ Totem::jump_off() {
 void
 Totem::synchronize_with(Totem* base)
 {
-
   if (dir != base->dir) {
     dir = base->dir;
     sprite->set_action(dir == LEFT ? "stacked-left" : "stacked-right");

@@ -31,15 +31,14 @@ enum MainMenuIDs {
   MNID_QUITMAINMENU
 };
 
-class MainMenu : public Menu
-{
-public:
+class MainMenu : public Menu {
+ public:
   MainMenu();
 
   void on_window_resize() override;
   void menu_action(MenuItem* item) override;
 
-private:
+ private:
   MainMenu(const MainMenu&);
   MainMenu& operator=(const MainMenu&);
 };

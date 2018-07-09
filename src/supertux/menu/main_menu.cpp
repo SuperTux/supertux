@@ -38,7 +38,7 @@
 
 MainMenu::MainMenu()
 {
-  set_center_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
+  set_center_pos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 35);
 
   add_entry(MNID_STARTGAME, _("Start Game"));
   add_entry(MNID_ADDONS, _("Add-ons"));
@@ -51,15 +51,13 @@ MainMenu::MainMenu()
 void
 MainMenu::on_window_resize()
 {
-  set_center_pos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 35);
+  set_center_pos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 35);
 }
 
 void
 MainMenu::menu_action(MenuItem* item)
 {
-  switch (item->id)
-  {
-
+  switch (item->id) {
     case MNID_STARTGAME:
       // World selection menu
       MenuManager::instance().push_menu(MenuStorage::WORLDSET_MENU);
@@ -70,27 +68,26 @@ MainMenu::menu_action(MenuItem* item)
       MenuManager::instance().push_menu(MenuStorage::ADDON_MENU);
       break;
 
-
     case MNID_CREDITS:
       MenuManager::instance().clear_menu_stack();
-      ScreenManager::current()->push_screen(std::unique_ptr<Screen>(new TextScroller("credits.stxt")),
-                                            std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+      ScreenManager::current()->push_screen(
+          std::unique_ptr<Screen>(new TextScroller("credits.stxt")),
+          std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
       break;
 
-    case MNID_LEVELEDITOR:
-      {
-        MenuManager::instance().clear_menu_stack();
-        std::unique_ptr<Screen> screen(new Editor());
-        std::unique_ptr<FadeOut> fade(new FadeOut(0.5));
-        SoundManager::current()->stop_music(0.5);
-        ScreenManager::current()->push_screen(move(screen),move(fade));
-        //Editor::current()->setup();
-      }
-      break;
+    case MNID_LEVELEDITOR: {
+      MenuManager::instance().clear_menu_stack();
+      std::unique_ptr<Screen> screen(new Editor());
+      std::unique_ptr<FadeOut> fade(new FadeOut(0.5));
+      SoundManager::current()->stop_music(0.5);
+      ScreenManager::current()->push_screen(move(screen), move(fade));
+      // Editor::current()->setup();
+    } break;
 
     case MNID_QUITMAINMENU:
       MenuManager::instance().clear_menu_stack();
-      ScreenManager::current()->quit(std::unique_ptr<ScreenFade>(new FadeOut(0.25)));
+      ScreenManager::current()->quit(
+          std::unique_ptr<ScreenFade>(new FadeOut(0.25)));
       SoundManager::current()->stop_music(0.25);
       break;
   }

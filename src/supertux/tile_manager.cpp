@@ -23,21 +23,16 @@
 #include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
 
-TileManager::TileManager() :
-  tilesets()
-{
-}
+TileManager::TileManager() : tilesets() {}
 
 TileSet*
-TileManager::get_tileset(const std::string &filename)
+TileManager::get_tileset(const std::string& filename)
 {
   TileSets::const_iterator i = tilesets.find(filename);
-  if(i != tilesets.end())
-  {
+  if (i != tilesets.end()) {
     return i->second.get();
   }
-  else
-  {
+  else {
     std::unique_ptr<TileSet> tileset(new TileSet(filename));
     TileSet* result = tileset.get();
     tilesets.insert(std::make_pair(filename, std::move(tileset)));

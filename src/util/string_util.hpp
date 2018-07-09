@@ -19,9 +19,8 @@
 
 #include <string>
 
-class StringUtil
-{
-public:
+class StringUtil {
+ public:
   static bool has_suffix(const std::string& data, const std::string& suffix);
 
   /** Compare two strings according to their numeric value, similar to

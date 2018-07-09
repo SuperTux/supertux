@@ -21,9 +21,8 @@
 
 class Color;
 
-class WalkingCandle : public WalkingBadguy
-{
-public:
+class WalkingCandle : public WalkingBadguy {
+ public:
   WalkingCandle(const ReaderMapping& reader);
 
   bool is_freezable() const;
@@ -34,19 +33,14 @@ public:
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 
-  void kill_fall() { };
+  void kill_fall(){};
 
   ObjectSettings get_settings();
   virtual void after_editor_set();
-  std::string get_class() const {
-    return "walking_candle";
-  }
-  std::string get_display_name() const {
-    return _("Mr. Candle");
-  }
+  std::string get_class() const { return "walking_candle"; }
+  std::string get_display_name() const { return _("Mr. Candle"); }
 
-private:
-
+ private:
   Color lightcolor;
 };
 

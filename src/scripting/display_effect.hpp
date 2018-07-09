@@ -23,21 +23,20 @@ class DisplayEffect;
 
 namespace scripting {
 
-class DisplayEffect
-{
+class DisplayEffect {
 #ifndef SCRIPTING_API
-private:
+ private:
   ::DisplayEffect* m_parent;
 
-public:
+ public:
   DisplayEffect(::DisplayEffect* parent);
 
-private:
+ private:
   DisplayEffect(const DisplayEffect&) = delete;
   DisplayEffect& operator=(const DisplayEffect&) = delete;
 #endif
 
-public:
+ public:
   /// fade display to black
   void fade_out(float fadetime);
   /// fade display from black to normal
@@ -56,7 +55,7 @@ public:
   // void shrink_fade(const Vector& goal, float radius, float fadetime);
 };
 
-}
+}  // namespace scripting
 
 #endif
 

@@ -20,10 +20,7 @@
 
 namespace scripting {
 
-ScriptedObject::ScriptedObject(::ScriptedObject* parent) :
-  m_parent(parent)
-{
-}
+ScriptedObject::ScriptedObject(::ScriptedObject* parent) : m_parent(parent) {}
 
 void
 ScriptedObject::set_action(const std::string& animation)
@@ -121,6 +118,6 @@ ScriptedObject::get_name() const
   return m_parent->get_name();
 }
 
-} // namespace scripting
+}  // namespace scripting
 
 /* EOF */

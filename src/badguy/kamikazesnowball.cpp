@@ -25,17 +25,17 @@
  * Kamikaze Snowball will fly in one direction until he hits something.
  * On impact he is destroyed, trying to kill what he hit or hit him.
  */
-namespace{
-  static const float KAMIKAZE_SPEED = 200;
-  static const float LEAFSHOT_SPEED = 400;
-  const std::string SPLAT_SOUND = "sounds/splat.wav";
-}
+namespace {
+static const float KAMIKAZE_SPEED = 200;
+static const float LEAFSHOT_SPEED = 400;
+const std::string SPLAT_SOUND     = "sounds/splat.wav";
+}  // namespace
 
-KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
+KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader)
+    : BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
 {
   SoundManager::current()->preload(SPLAT_SOUND);
-  set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
+  set_action(dir == LEFT ? "left" : "right", /* loops = */ -1);
 }
 
 void
@@ -57,10 +57,10 @@ KamikazeSnowball::collision_squished(GameObject& object)
 void
 KamikazeSnowball::collision_solid(const CollisionHit& hit)
 {
-  if(hit.top || hit.bottom) {
+  if (hit.top || hit.bottom) {
     physic.set_velocity_y(0);
   }
-  if(hit.left || hit.right) {
+  if (hit.left || hit.right) {
     kill_collision();
   }
 }
@@ -81,9 +81,9 @@ KamikazeSnowball::kill_collision()
 HitResponse
 KamikazeSnowball::collision_player(Player& player, const CollisionHit& hit)
 {
-  //Hack to tell if we should die
+  // Hack to tell if we should die
   HitResponse response = BadGuy::collision_player(player, hit);
-  if(response == FORCE_MOVE) {
+  if (response == FORCE_MOVE) {
     kill_collision();
   }
 
@@ -97,10 +97,10 @@ KamikazeSnowball::after_editor_set()
   sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
-LeafShot::LeafShot(const ReaderMapping& reader) :
-  KamikazeSnowball(reader)
+LeafShot::LeafShot(const ReaderMapping& reader) : KamikazeSnowball(reader)
 {
-  sprite = SpriteManager::current()->create("images/creatures/leafshot/leafshot.sprite");
+  sprite = SpriteManager::current()->create(
+      "images/creatures/leafshot/leafshot.sprite");
 }
 
 void

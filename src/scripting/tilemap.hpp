@@ -23,9 +23,8 @@ class TileMap;
 
 namespace scripting {
 
-class TileMap
-{
-public:
+class TileMap {
+ public:
 #ifndef SCRIPTING_API
   TileMap(::TileMap* tilemap);
 #endif
@@ -53,15 +52,18 @@ public:
 
   /**
    * Start fading the tilemap to opacity given by @c alpha.
-   * Destination opacity will be reached after @c seconds seconds. Also influences solidity.
+   * Destination opacity will be reached after @c seconds seconds. Also
+   * influences solidity.
    */
   void fade(float alpha, float seconds);
 
   /**
    * Start fading the tilemap to tint given by RGBA.
-   * Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity.
+   * Destination opacity will be reached after @c seconds seconds. Doesn't
+   * influence solidity.
    */
-  void tint_fade(float seconds, float red, float green, float blue, float alpha);
+  void tint_fade(float seconds, float red, float green, float blue,
+                 float alpha);
 
   /**
    * Instantly switch tilemap's opacity to @c alpha. Also influences solidity.
@@ -69,7 +71,8 @@ public:
   void set_alpha(float alpha);
 
   /**
-   * Return tilemap's opacity. Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha.
+   * Return tilemap's opacity. Note that while the tilemap is fading in or out,
+   * this will return the current alpha value, not the target alpha.
    */
   float get_alpha() const;
 
@@ -77,18 +80,19 @@ public:
    * Switch tilemap's real solidity to the given bool. Note that effective
    * solidity is also influenced by the alpha of the tilemap.
    */
-  void set_solid(bool solid); /**< true: make tilemap solid, false: disable solidity */
+  void set_solid(
+      bool solid); /**< true: make tilemap solid, false: disable solidity */
 
 #ifndef SCRIPTING_API
   ::TileMap* tilemap;
 
-private:
+ private:
   TileMap(const TileMap&);
   TileMap& operator=(const TileMap&);
 #endif
 };
 
-}
+}  // namespace scripting
 
 #endif
 

@@ -16,14 +16,11 @@
 
 #include "editor/tile_selection.hpp"
 
-TileSelection::TileSelection() :
-  tiles{1},
-  width(1),
-  height(1)
-{
-}
+TileSelection::TileSelection() : tiles{1}, width(1), height(1) {}
 
-uint32_t TileSelection::pos(int x, int y) const {
+uint32_t
+TileSelection::pos(int x, int y) const
+{
   x = x % width;
   y = y % height;
   if (x < 0) {
@@ -36,14 +33,18 @@ uint32_t TileSelection::pos(int x, int y) const {
   return tiles[x + y * width];
 }
 
-void TileSelection::set_tile(uint32_t tile) {
+void
+TileSelection::set_tile(uint32_t tile)
+{
   tiles.clear();
-  width = 1;
+  width  = 1;
   height = 1;
   tiles.push_back(tile);
 }
 
-bool TileSelection::empty() const {
+bool
+TileSelection::empty() const
+{
   for (const auto& tile : tiles) {
     if (tile != 0) {
       return false;

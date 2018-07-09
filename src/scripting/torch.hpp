@@ -24,26 +24,26 @@ class Torch;
 
 namespace scripting {
 
-class Torch
-{
-public:
+class Torch {
+ public:
 #ifndef SCRIPTING_API
   Torch(::Torch* torch);
 #endif
 
   bool get_burning() const; /**< returns true if torch is lighted */
-  void set_burning(bool burning); /**< true: light torch, false: extinguish torch */
+  void set_burning(
+      bool burning); /**< true: light torch, false: extinguish torch */
 
 #ifndef SCRIPTING_API
   ::Torch* torch;
 
-private:
+ private:
   Torch(const Torch&);
   Torch& operator=(const Torch&);
 #endif
 };
 
-}
+}  // namespace scripting
 
 #endif
 

@@ -17,23 +17,22 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 
+#include <math.h>
+
+#include "SDL.h"
 #include "math/size.hpp"
 #include "video/drawing_request.hpp"
 #include "video/renderer.hpp"
 
-#include "SDL.h"
-#include <math.h>
-
-class GLRenderer : public Renderer
-{
-private:
+class GLRenderer : public Renderer {
+ private:
   SDL_Window* m_window;
   SDL_GLContext m_glcontext;
   SDL_Rect m_viewport;
   Size m_desktop_size;
   bool m_fullscreen_active;
 
-public:
+ public:
   GLRenderer();
   ~GLRenderer();
 
@@ -55,10 +54,10 @@ public:
 
   SDL_Window* get_window() const override { return m_window; }
 
-private:
+ private:
   void apply_video_mode();
 
-private:
+ private:
   GLRenderer(const GLRenderer&) = delete;
   GLRenderer& operator=(const GLRenderer&) = delete;
 };

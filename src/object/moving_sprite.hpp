@@ -1,5 +1,6 @@
 //  SuperTux - MovingSprite Base Class
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,42 +19,36 @@
 #define HEADER_SUPERTUX_OBJECT_MOVING_SPRITE_HPP
 
 #include "object/anchor_point.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
 #include "util/reader_fwd.hpp"
 #include "video/drawing_request.hpp"
-#include "sprite/sprite_ptr.hpp"
 
 /**
  * Abstract base class for MovingObjects that are represented by a Sprite
  */
-class MovingSprite : public MovingObject
-{
-public:
-  MovingSprite(const Vector& pos,
-               const std::string& sprite_name,
-               int layer = LAYER_OBJECTS,
+class MovingSprite : public MovingObject {
+ public:
+  MovingSprite(const Vector& pos, const std::string& sprite_name,
+               int layer                      = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const ReaderMapping& reader,
-               const Vector& pos,
-               int layer = LAYER_OBJECTS,
+  MovingSprite(const ReaderMapping& reader, const Vector& pos,
+               int layer                      = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const ReaderMapping& reader,
-               const std::string& sprite_name,
-               int layer = LAYER_OBJECTS,
+  MovingSprite(const ReaderMapping& reader, const std::string& sprite_name,
+               int layer                      = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
-  MovingSprite(const ReaderMapping& reader,
-               int layer = LAYER_OBJECTS,
+  MovingSprite(const ReaderMapping& reader, int layer = LAYER_OBJECTS,
                CollisionGroup collision_group = COLGROUP_MOVING);
   MovingSprite(const MovingSprite& moving_sprite);
-  //MovingSprite& operator=(const MovingSprite& moving_sprite);
+  // MovingSprite& operator=(const MovingSprite& moving_sprite);
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float elapsed_time) override;
-  virtual std::string get_class() const override {
-    return "moving-sprite";
-  }
+  virtual std::string get_class() const override { return "moving-sprite"; }
   virtual void save(Writer& writer) override;
-  virtual std::string get_default_sprite_name() const {
+  virtual std::string get_default_sprite_name() const
+  {
     return default_sprite_name;
   }
 
@@ -64,7 +59,7 @@ public:
   void change_sprite(const std::string& new_sprite_name);
   void spawn_explosion_sprites(int count, const std::string& sprite_path);
 
-protected:
+ protected:
   std::string sprite_name;
 
   /**
@@ -72,7 +67,8 @@ protected:
    */
   std::string default_sprite_name;
   SpritePtr sprite;
-  int layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for sensible values. */
+  int layer; /**< Sprite's z-position. Refer to video/drawing_context.hpp for
+                sensible values. */
 
   /** set new action for sprite and resize bounding box.  use with
       care as you can easily get stuck when resizing the bounding box. */
@@ -86,10 +82,11 @@ protected:
   /** set new action for sprite and align bounding boxes at
       anchorPoint.  use with care as you can easily get stuck when
       resizing the bounding box. */
-  void set_action(const std::string& action, int loops, AnchorPoint anchorPoint);
+  void set_action(const std::string& action, int loops,
+                  AnchorPoint anchorPoint);
 
-private:
-  //MovingSprite(const MovingSprite&);
+ private:
+  // MovingSprite(const MovingSprite&);
   MovingSprite& operator=(const MovingSprite&);
 };
 

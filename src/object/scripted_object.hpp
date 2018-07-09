@@ -18,14 +18,14 @@
 #define HEADER_SUPERTUX_OBJECT_SCRIPTED_OBJECT_HPP
 
 #include "object/moving_sprite.hpp"
-#include "scripting/scripted_object.hpp"
 #include "scripting/exposed_object.hpp"
+#include "scripting/scripted_object.hpp"
 #include "supertux/physic.hpp"
 
-class ScriptedObject : public MovingSprite,
-                       public ExposedObject<ScriptedObject, scripting::ScriptedObject>
-{
-public:
+class ScriptedObject
+    : public MovingSprite,
+      public ExposedObject<ScriptedObject, scripting::ScriptedObject> {
+ public:
   ScriptedObject(const ReaderMapping& lisp);
 
   void update(float elapsed_time);
@@ -53,16 +53,12 @@ public:
   bool gravity_enabled() const;
 
   std::string get_name() const;
-  std::string get_class() const {
-    return "scriptedobject";
-  }
-  std::string get_display_name() const {
-    return _("Scripted object");
-  }
+  std::string get_class() const { return "scriptedobject"; }
+  std::string get_display_name() const { return _("Scripted object"); }
 
   virtual ObjectSettings get_settings();
 
-private:
+ private:
   Physic physic;
   bool solid;
   bool physic_enabled;

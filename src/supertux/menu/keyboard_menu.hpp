@@ -21,19 +21,18 @@
 #include "control/input_manager.hpp"
 #include "gui/menu_item.hpp"
 
-class KeyboardMenu : public Menu
-{
-private:
+class KeyboardMenu : public Menu {
+ private:
   InputManager& m_input_manager;
 
-public:
+ public:
   KeyboardMenu(InputManager& input_manager);
 
   void refresh() override;
   std::string get_key_name(SDL_Keycode key) const;
   void menu_action(MenuItem* item) override;
 
-private:
+ private:
   KeyboardMenu(const KeyboardMenu&);
   KeyboardMenu& operator=(const KeyboardMenu&);
 };

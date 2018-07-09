@@ -19,34 +19,31 @@
 #include "math/aatriangle.hpp"
 #include "math/vector.hpp"
 #include "object/tilemap.hpp"
-#include "supertux/game_object.hpp"
 #include "supertux/collision.hpp"
+#include "supertux/game_object.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 
-//TODO: Find a way to make rain collide with objects like bonus blocks
+// TODO: Find a way to make rain collide with objects like bonus blocks
 //      Add an option to set rain strength
 //      Fix rain being "respawned" over solid tiles
-ParticleSystem_Interactive::ParticleSystem_Interactive() :
-  ParticleSystem()
+ParticleSystem_Interactive::ParticleSystem_Interactive() : ParticleSystem()
 {
-  virtual_width = SCREEN_WIDTH;
+  virtual_width  = SCREEN_WIDTH;
   virtual_height = SCREEN_HEIGHT;
-  z_pos = 0;
+  z_pos          = 0;
 }
 
-ParticleSystem_Interactive::~ParticleSystem_Interactive()
-{
-}
+ParticleSystem_Interactive::~ParticleSystem_Interactive() {}
 
-void ParticleSystem_Interactive::draw(DrawingContext& context)
+void
+ParticleSystem_Interactive::draw(DrawingContext& context)
 {
-  if(!enabled)
-    return;
+  if (!enabled) return;
 
   context.push_transform();
 
-  for(auto& particle : particles) {
+  for (auto& particle : particles) {
     context.draw_surface(particle->texture, particle->pos, z_pos);
   }
 
@@ -78,38 +75,35 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
   bool water = false;
 
   // test with all tiles in this rectangle
-  int starttilex = int(x1-1) / 32;
-  int starttiley = int(y1-1) / 32;
-  int max_x = int(x2+1);
-  int max_y = int(y2+1);
+  int starttilex = int(x1 - 1) / 32;
+  int starttiley = int(y1 - 1) / 32;
+  int max_x      = int(x2 + 1);
+  int max_y      = int(y2 + 1);
 
   Rectf dest(x1, y1, x2, y2);
   dest.move(movement);
   Constraints constraints;
 
-  for(const auto& solids : Sector::current()->solid_tilemaps) {
+  for (const auto& solids : Sector::current()->solid_tilemaps) {
     // FIXME Handle a nonzero tilemap offset
-    for(int x = starttilex; x*32 < max_x; ++x) {
-      for(int y = starttiley; y*32 < max_y; ++y) {
+    for (int x = starttilex; x * 32 < max_x; ++x) {
+      for (int y = starttiley; y * 32 < max_y; ++y) {
         const Tile* tile = solids->get_tile(x, y);
-        if(!tile)
-          continue;
+        if (!tile) continue;
         // skip non-solid tiles, except water
-        if(! (tile->getAttributes() & (Tile::WATER | Tile::SOLID)))
-          continue;
+        if (!(tile->getAttributes() & (Tile::WATER | Tile::SOLID))) continue;
 
         Rectf rect = solids->get_tile_bbox(x, y);
-        if(tile->is_slope ()) { // slope tile
+        if (tile->is_slope()) {  // slope tile
           AATriangle triangle = AATriangle(rect, tile->getData());
 
-          if(rectangle_aatriangle(&constraints, dest, triangle)) {
-            if(tile->getAttributes() & Tile::WATER)
-              water = true;
+          if (rectangle_aatriangle(&constraints, dest, triangle)) {
+            if (tile->getAttributes() & Tile::WATER) water = true;
           }
-        } else { // normal rectangular tile
-          if(intersects(dest, rect)) {
-            if(tile->getAttributes() & Tile::WATER)
-              water = true;
+        }
+        else {  // normal rectangular tile
+          if (intersects(dest, rect)) {
+            if (tile->getAttributes() & Tile::WATER) water = true;
             set_rectangle_rectangle_constraints(&constraints, dest, rect);
           }
         }
@@ -120,22 +114,22 @@ ParticleSystem_Interactive::collision(Particle* object, const Vector& movement)
   // TODO don't use magic numbers here...
 
   // did we collide at all?
-  if(!constraints.has_constraints())
-    return -1;
+  if (!constraints.has_constraints()) return -1;
 
   const CollisionHit& hit = constraints.hit;
   if (water) {
-    return 0; //collision with water tile - don't draw splash
-  } else {
+    return 0;  // collision with water tile - don't draw splash
+  }
+  else {
     if (hit.right || hit.left) {
-      return 2; //collision from right
-    } else {
-      return 1; //collision from above
+      return 2;  // collision from right
+    }
+    else {
+      return 1;  // collision from above
     }
   }
 
   return 0;
 }
-
 
 /* EOF */

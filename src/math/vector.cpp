@@ -14,18 +14,20 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <math.h>
-
 #include "math/vector.hpp"
 
-Vector Vector::unit() const
+#include <math.h>
+
+Vector
+Vector::unit() const
 {
   return *this / norm();
 }
 
-float Vector::norm() const
+float
+Vector::norm() const
 {
-  return sqrt(x*x + y*y);
+  return sqrt(x * x + y * y);
 }
 
 /* EOF */

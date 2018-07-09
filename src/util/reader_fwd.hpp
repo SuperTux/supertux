@@ -24,4 +24,3 @@ class ReaderObject;
 #endif
 
 /* EOF */
-

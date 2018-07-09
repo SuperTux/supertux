@@ -16,13 +16,11 @@
 
 #include "audio/sound_error.hpp"
 
-SoundError::SoundError(const std::string& message_) throw() :
-  message(message_)
+SoundError::SoundError(const std::string& message_) throw() : message(message_)
 {
 }
 
-SoundError::~SoundError() throw()
-{}
+SoundError::~SoundError() throw() {}
 
 const char*
 SoundError::what() const throw()

@@ -17,9 +17,9 @@
 #ifndef HEADER_SUPERTUX_VIDEO_TEXTURE_HPP
 #define HEADER_SUPERTUX_VIDEO_TEXTURE_HPP
 
+#include <assert.h>
 #include <config.h>
 
-#include <assert.h>
 #include <string>
 
 #include "supertux/globals.hpp"
@@ -30,9 +30,9 @@ enum {
   /** Don't apply anything */
   NO_EFFECT = 0,
   /** Draw the Surface upside down */
-  VERTICAL_FLIP = (1<<1),
+  VERTICAL_FLIP = (1 << 1),
   /** Draw the Surface from left to down */
-  HORIZONTAL_FLIP = (1<<2),
+  HORIZONTAL_FLIP = (1 << 2),
   NUM_EFFECTS
 };
 
@@ -43,15 +43,14 @@ typedef unsigned int DrawingEffect;
  * and height and provides convenience functions for uploading SDL_Surfaces
  * into the texture
  */
-class Texture
-{
-private:
+class Texture {
+ private:
   friend class TextureManager;
   /* The name under which this texture is cached by the texture manager,
    * or the empty string if not. */
   std::string cache_filename;
 
-public:
+ public:
   Texture() : cache_filename() {}
   virtual ~Texture()
   {
@@ -61,12 +60,12 @@ public:
       TextureManager::current()->reap_cache_entry(cache_filename);
   }
 
-  virtual unsigned int get_texture_width() const = 0;
+  virtual unsigned int get_texture_width() const  = 0;
   virtual unsigned int get_texture_height() const = 0;
-  virtual unsigned int get_image_width() const = 0;
-  virtual unsigned int get_image_height() const = 0;
+  virtual unsigned int get_image_width() const    = 0;
+  virtual unsigned int get_image_height() const   = 0;
 
-private:
+ private:
   Texture(const Texture&);
   Texture& operator=(const Texture&);
 };

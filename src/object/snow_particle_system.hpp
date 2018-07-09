@@ -22,9 +22,8 @@
 
 class ReaderMapping;
 
-class SnowParticleSystem : public ParticleSystem
-{
-public:
+class SnowParticleSystem : public ParticleSystem {
+ public:
   SnowParticleSystem();
   SnowParticleSystem(const ReaderMapping& reader);
   virtual ~SnowParticleSystem();
@@ -32,23 +31,18 @@ public:
   void init();
   virtual void update(float elapsed_time);
 
-  std::string type() const
-  { return "SnowParticleSystem"; }
-  std::string get_class() const {
-    return "particles-snow";
-  }
-  std::string get_display_name() const {
-    return _("Snow particles");
-  }
+  std::string type() const { return "SnowParticleSystem"; }
+  std::string get_class() const { return "particles-snow"; }
+  std::string get_display_name() const { return _("Snow particles"); }
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const
+  {
     return "images/engine/editor/snow.png";
   }
 
-private:
-  class SnowParticle : public Particle
-  {
-  public:
+ private:
+  class SnowParticle : public Particle {
+   public:
     float speed;
     float wobble;
     float anchorx;
@@ -60,41 +54,34 @@ private:
     // for inertia
     unsigned int flake_size;
 
-    SnowParticle() :
-      speed(),
-      wobble(),
-      anchorx(),
-      drift_speed(),
-      spin_speed(),
-      flake_size()
-    {}
+    SnowParticle()
+        : speed(),
+          wobble(),
+          anchorx(),
+          drift_speed(),
+          spin_speed(),
+          flake_size()
+    {
+    }
   };
 
   // Wind is simulated in discrete "gusts"
 
   // Gust state
-  enum State {
-    ATTACKING,
-    DECAYING,
-    SUSTAINING,
-    RELEASING,
-    RESTING,
-    MAX_STATE
-  };
+  enum State { ATTACKING, DECAYING, SUSTAINING, RELEASING, RESTING, MAX_STATE };
   State state;
-
 
   // Gust state delay timer
   Timer timer;
 
   // Peak magnitude of gust is gust_onset * randf(5)
   float gust_onset,
-  // Current blowing velocity of gust
-        gust_current_velocity;
+      // Current blowing velocity of gust
+      gust_current_velocity;
 
   SurfacePtr snowimages[3];
 
-private:
+ private:
   SnowParticleSystem(const SnowParticleSystem&);
   SnowParticleSystem& operator=(const SnowParticleSystem&);
 };

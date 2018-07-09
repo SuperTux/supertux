@@ -21,17 +21,16 @@
 #include <memory>
 #include <string>
 
-#include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
+#include "util/reader_fwd.hpp"
 
 class Sprite;
 
 namespace worldmap {
 
-class SpriteChange : public GameObject
-{
-public:
+class SpriteChange : public GameObject {
+ public:
   SpriteChange(const ReaderMapping& lisp);
   virtual ~SpriteChange();
 
@@ -52,9 +51,9 @@ public:
   /*
    * Get the current value of in_stay_action
    */
-   bool show_stay_action() const;
+  bool show_stay_action() const;
 
-public:
+ public:
   Vector pos;
 
   /** should tuxs sprite change when the tile has been completely entered,
@@ -74,15 +73,15 @@ public:
       its stay_action displayed.  Leave empty if you don't care. */
   std::string stay_group;
 
-private:
+ private:
   /** should the stayaction be displayed */
   bool in_stay_action;
 
-private:
+ private:
   static std::list<SpriteChange*> all_sprite_changes;
 };
 
-} // namespace worldmap
+}  // namespace worldmap
 
 #endif
 

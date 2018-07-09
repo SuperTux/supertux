@@ -19,10 +19,8 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class MrBomb : public WalkingBadguy,
-               public Portable
-{
-public:
+class MrBomb : public WalkingBadguy, public Portable {
+ public:
   MrBomb(const ReaderMapping& reader);
 
   void kill_fall();
@@ -37,17 +35,13 @@ public:
   bool is_portable() const;
 
   bool is_freezable() const;
-  std::string get_class() const {
-    return "mrbomb";
-  }
-  std::string get_display_name() const {
-    return _("Mr. Bomb");
-  }
+  std::string get_class() const { return "mrbomb"; }
+  std::string get_display_name() const { return _("Mr. Bomb"); }
 
-protected:
+ protected:
   bool collision_squished(GameObject& object);
 
-private:
+ private:
   bool grabbed;
 };
 

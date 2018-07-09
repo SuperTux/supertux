@@ -60,9 +60,9 @@ std::string join(const std::string& lhs, const std::string& rhs);
  * Remove a file
  * @return true when successfully removed, false otherwise
  */
- bool remove(const std::string& path);
+bool remove(const std::string& path);
 
-} // namespace FileSystem
+}  // namespace FileSystem
 
 #endif
 

@@ -23,19 +23,20 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-Platform::Platform(const ReaderMapping& reader) :
-  Platform(reader, "images/objects/flying_platform/flying_platform.sprite")
+Platform::Platform(const ReaderMapping& reader)
+    : Platform(reader, "images/objects/flying_platform/flying_platform.sprite")
 {
 }
 
-Platform::Platform(const ReaderMapping& reader, const std::string& default_sprite) :
-  MovingSprite(reader, default_sprite, LAYER_OBJECTS, COLGROUP_STATIC),
-  ExposedObject<Platform, scripting::Platform>(this),
-  PathObject(),
-  speed(Vector(0,0)),
-  automatic(false),
-  player_contact(false),
-  last_player_contact(false)
+Platform::Platform(const ReaderMapping& reader,
+                   const std::string& default_sprite)
+    : MovingSprite(reader, default_sprite, LAYER_OBJECTS, COLGROUP_STATIC),
+      ExposedObject<Platform, scripting::Platform>(this),
+      PathObject(),
+      speed(Vector(0, 0)),
+      automatic(false),
+      player_contact(false),
+      last_player_contact(false)
 {
   bool running = true;
   reader.get("running", running);
@@ -44,13 +45,11 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   }
 
   ReaderMapping path_mapping;
-  if (!reader.get("path", path_mapping))
-  {
+  if (!reader.get("path", path_mapping)) {
     path.reset(new Path(bbox.p1));
     walker.reset(new PathWalker(path.get(), running));
   }
-  else
-  {
+  else {
     path.reset(new Path());
     path->read(path_mapping);
     walker.reset(new PathWalker(path.get(), running));
@@ -59,17 +58,19 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
 }
 
 void
-Platform::save(Writer& writer) {
+Platform::save(Writer& writer)
+{
   MovingSprite::save(writer);
   writer.write("running", walker->is_moving());
   path->save(writer);
 }
 
 ObjectSettings
-Platform::get_settings() {
+Platform::get_settings()
+{
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( Path::get_mode_option(&path->mode) );
-  result.options.push_back( PathWalker::get_running_option(&walker->running) );
+  result.options.push_back(Path::get_mode_option(&path->mode));
+  result.options.push_back(PathWalker::get_running_option(&walker->running));
   return result;
 }
 
@@ -90,7 +91,7 @@ Platform::get_settings() {
 */
 
 HitResponse
-Platform::collision(GameObject& other, const CollisionHit& )
+Platform::collision(GameObject& other, const CollisionHit&)
 {
   if (dynamic_cast<Player*>(&other)) player_contact = true;
   return FORCE_MOVE;
@@ -106,7 +107,6 @@ Platform::update(float elapsed_time)
 
   // check if Platform should automatically pick a destination
   if (automatic) {
-
     if (!player_contact && !walker->is_moving()) {
       // Player doesn't touch platform and Platform is not moving
 
@@ -121,7 +121,8 @@ Platform::update(float elapsed_time)
     }
 
     if (player_contact && !last_player_contact && !walker->is_moving()) {
-      // Player touched platform, didn't touch last frame and Platform is not moving
+      // Player touched platform, didn't touch last frame and Platform is not
+      // moving
 
       // Travel to node farthest from current position
       int farthest_node_id = path->get_farthest_node_no(get_pos());
@@ -132,17 +133,17 @@ Platform::update(float elapsed_time)
 
     // Clear player_contact flag set by collision() method
     last_player_contact = player_contact;
-    player_contact = false;
+    player_contact      = false;
   }
 
   Vector new_pos = walker->advance(elapsed_time);
   if (Editor::is_active()) {
     set_pos(new_pos);
-  } else {
-    movement = new_pos - get_pos();
-    speed = movement / elapsed_time;
   }
-
+  else {
+    movement = new_pos - get_pos();
+    speed    = movement / elapsed_time;
+  }
 }
 
 void

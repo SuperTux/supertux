@@ -22,22 +22,21 @@
 class EditorLevelsetSelectMenu;
 class World;
 
-class EditorLevelsetSelectMenu : public Menu
-{
-private:
+class EditorLevelsetSelectMenu : public Menu {
+ private:
   std::vector<std::string> m_contrib_worlds;
 
-public:
+ public:
   EditorLevelsetSelectMenu();
   ~EditorLevelsetSelectMenu();
 
   void menu_action(MenuItem* item) override;
 
-private:
+ private:
   EditorLevelsetSelectMenu(const EditorLevelsetSelectMenu&);
   EditorLevelsetSelectMenu& operator=(const EditorLevelsetSelectMenu&);
 };
 
-#endif //HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVELSET_SELECT_MENU_HPP
+#endif  // HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVELSET_SELECT_MENU_HPP
 
 /* EOF */

@@ -1,5 +1,6 @@
 //  IceCrusher - A block to stand on, which can drop down to crush the player
-//  Copyright (C) 2008 Christoph Sommer <christoph.sommer@2008.expires.deltadevelopment.de>
+//  Copyright (C) 2008 Christoph Sommer
+//  <christoph.sommer@2008.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -25,9 +26,8 @@ class Player;
 /**
  * This class is the base class for icecrushers that tux can stand on
  */
-class IceCrusher : public MovingSprite
-{
-public:
+class IceCrusher : public MovingSprite {
+ public:
   IceCrusher(const ReaderMapping& reader);
   IceCrusher(const IceCrusher& icecrusher);
 
@@ -35,21 +35,13 @@ public:
   virtual void collision_solid(const CollisionHit& hit);
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
-  std::string get_class() const {
-    return "icecrusher";
-  }
-  std::string get_display_name() const {
-    return _("Ice crusher");
-  }
+  std::string get_class() const { return "icecrusher"; }
+  std::string get_display_name() const { return _("Ice crusher"); }
 
   void after_editor_set();
 
-protected:
-  enum IceCrusherState {
-    IDLE,
-    CRUSHING,
-    RECOVERING
-  };
+ protected:
+  enum IceCrusherState { IDLE, CRUSHING, RECOVERING };
   IceCrusherState state;
   Vector start_position;
   Physic physic;
@@ -65,11 +57,8 @@ protected:
   SpritePtr righteye;
   SpritePtr whites;
 
-private:
-  enum IceCrusherSize {
-    NORMAL,
-    LARGE
-  };
+ private:
+  enum IceCrusherSize { NORMAL, LARGE };
   IceCrusherSize ic_size;
 };
 

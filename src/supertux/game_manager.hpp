@@ -19,27 +19,32 @@
 
 #include <memory>
 #include <string>
+
 #include "util/currenton.hpp"
 
 class Savegame;
 class World;
 
-class GameManager : public Currenton<GameManager>
-{
-private:
+class GameManager : public Currenton<GameManager> {
+ private:
   std::unique_ptr<World> m_world;
   std::unique_ptr<Savegame> m_savegame;
 
   void run_level(World* world, const std::string& level_filename);
-  void run_worldmap(World* world, const std::string& worldmap_filename, const std::string& spawnpoint);
+  void run_worldmap(World* world, const std::string& worldmap_filename,
+                    const std::string& spawnpoint);
 
-public:
+ public:
   GameManager();
 
-  void start_worldmap(std::unique_ptr<World> world, const std::string& spawnpoint = "", const std::string& worldmap_filename = "");
-  void start_worldmap(World* world, const std::string& spawnpoint = "", const std::string& worldmap_filename = "");
+  void start_worldmap(std::unique_ptr<World> world,
+                      const std::string& spawnpoint        = "",
+                      const std::string& worldmap_filename = "");
+  void start_worldmap(World* world, const std::string& spawnpoint = "",
+                      const std::string& worldmap_filename = "");
 
-  void start_level(std::unique_ptr<World> world, const std::string& level_filename);
+  void start_level(std::unique_ptr<World> world,
+                   const std::string& level_filename);
   /**
    * This method is to be called when we don't want to give up ownership of the
    * world unique_ptr. This is specifically the case for when levels are started
@@ -50,9 +55,10 @@ public:
   std::string get_level_name(const std::string& levelfile) const;
 
   bool load_next_worldmap();
-  void set_next_worldmap(const std::string& worldmap, const std::string &spawnpoint);
+  void set_next_worldmap(const std::string& worldmap,
+                         const std::string& spawnpoint);
 
-private:
+ private:
   GameManager(const GameManager&) = delete;
   GameManager& operator=(const GameManager&) = delete;
 

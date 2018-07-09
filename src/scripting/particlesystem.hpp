@@ -23,9 +23,8 @@ class ParticleSystem;
 
 namespace scripting {
 
-class ParticleSystem
-{
-public:
+class ParticleSystem {
+ public:
 #ifndef SCRIPTING_API
   ParticleSystem(::ParticleSystem* parent);
 #endif
@@ -36,13 +35,13 @@ public:
 #ifndef SCRIPTING_API
   ::ParticleSystem* particlesystem;
 
-private:
+ private:
   ParticleSystem(const ParticleSystem&) = delete;
   ParticleSystem& operator=(const ParticleSystem&) = delete;
 #endif
 };
 
-}
+}  // namespace scripting
 
 #endif
 

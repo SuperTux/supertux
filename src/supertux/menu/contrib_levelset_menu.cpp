@@ -19,8 +19,8 @@
 #include <sstream>
 
 #include "audio/sound_manager.hpp"
-#include "gui/menu_item.hpp"
 #include "gui/item_action.hpp"
+#include "gui/menu_item.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/levelset.hpp"
@@ -31,9 +31,8 @@
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 
-ContribLevelsetMenu::ContribLevelsetMenu(std::unique_ptr<World> world) :
-  m_world(std::move(world)),
-  m_levelset()
+ContribLevelsetMenu::ContribLevelsetMenu(std::unique_ptr<World> world)
+    : m_world(std::move(world)), m_levelset()
 {
   assert(m_world->is_levelset());
 
@@ -46,20 +45,18 @@ ContribLevelsetMenu::ContribLevelsetMenu(std::unique_ptr<World> world) :
   add_label(m_world->get_title());
   add_hl();
 
-  for (int i = 0; i < m_levelset->get_num_levels(); ++i)
-  {
+  for (int i = 0; i < m_levelset->get_num_levels(); ++i) {
     std::string filename = m_levelset->get_level_filename(i);
-    std::string full_filename = FileSystem::join(m_world->get_basedir(), filename);
+    std::string full_filename =
+        FileSystem::join(m_world->get_basedir(), filename);
     std::string title = GameManager::current()->get_level_name(full_filename);
     LevelState level_state = state.get_level_state(filename);
 
     std::ostringstream out;
-    if (level_state.solved)
-    {
+    if (level_state.solved) {
       out << title << " [*]";
     }
-    else
-    {
+    else {
       out << title << " [ ]";
     }
     add_entry(i, out.str());
@@ -72,14 +69,14 @@ ContribLevelsetMenu::ContribLevelsetMenu(std::unique_ptr<World> world) :
 void
 ContribLevelsetMenu::menu_action(MenuItem* item)
 {
-  if (dynamic_cast<ItemAction*>(item))
-  {
+  if (dynamic_cast<ItemAction*>(item)) {
     SoundManager::current()->stop_music();
 
     // reload the World so that we have something that we can safely
     // std::move() around without wreaking the ContribMenu
     std::unique_ptr<World> world = World::load(m_world->get_basedir());
-    GameManager::current()->start_level(std::move(world), m_levelset->get_level_filename(item->id));
+    GameManager::current()->start_level(
+        std::move(world), m_levelset->get_level_filename(item->id));
   }
 }
 

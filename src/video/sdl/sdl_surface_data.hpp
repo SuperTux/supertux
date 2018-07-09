@@ -25,14 +25,10 @@
 #include "video/surface_data.hpp"
 #include "video/texture.hpp"
 
-class SDLSurfaceData : public SurfaceData
-{
-private:
-
-public:
-  SDLSurfaceData(const Surface &surface)
-  {
-  }
+class SDLSurfaceData : public SurfaceData {
+ private:
+ public:
+  SDLSurfaceData(const Surface &surface) {}
 };
 
 #endif

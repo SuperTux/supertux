@@ -1,5 +1,6 @@
 //  DartTrap - Shoots a Dart at regular intervals
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,40 +21,33 @@
 /**
  * Badguy "DartTrap" - Shoots a Dart at regular intervals
  */
-class DartTrap : public BadGuy
-{
-public:
+class DartTrap : public BadGuy {
+ public:
   DartTrap(const ReaderMapping& reader);
 
   void initialize();
   void activate();
   void active_update(float elapsed_time);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
-  std::string get_class() const {
-    return "darttrap";
-  }
-  std::string get_display_name() const {
-    return _("Dart trap");
-  }
+  std::string get_class() const { return "darttrap"; }
+  std::string get_display_name() const { return _("Dart trap"); }
 
   ObjectSettings get_settings();
   void after_editor_set();
 
-protected:
-  enum State {
-    IDLE, LOADING
-  };
+ protected:
+  enum State { IDLE, LOADING };
 
   void load(); /**< load a shot */
   void fire(); /**< fire a shot */
 
-private:
-  bool enabled; /** Is DartTrap enabled **/
+ private:
+  bool enabled;        /** Is DartTrap enabled **/
   float initial_delay; /**< time to wait before firing first shot */
-  float fire_delay; /**< reload time */
-  int ammo; /**< ammo left (-1 means unlimited) */
+  float fire_delay;    /**< reload time */
+  int ammo;            /**< ammo left (-1 means unlimited) */
 
-  State state; /**< current state */
+  State state;      /**< current state */
   Timer fire_timer; /**< time until new shot is fired */
 };
 

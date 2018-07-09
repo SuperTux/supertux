@@ -22,9 +22,8 @@
 
 class Portable;
 
-class Owl : public BadGuy
-{
-public:
+class Owl : public BadGuy {
+ public:
   Owl(const ReaderMapping& reader);
   virtual void save(Writer& writer);
 
@@ -36,24 +35,20 @@ public:
   void unfreeze();
   bool is_freezable() const;
   void ignite();
-  std::string get_class() const {
-    return "owl";
-  }
-  std::string get_display_name() const {
-    return _("Owl");
-  }
+  std::string get_class() const { return "owl"; }
+  std::string get_display_name() const { return _("Owl"); }
 
   void after_editor_set();
 
-protected:
+ protected:
   bool is_above_player() const;
-  void active_update (float elapsed_time);
+  void active_update(float elapsed_time);
   bool collision_squished(GameObject& object);
 
   std::string carried_obj_name;
-  Portable *carried_object;
+  Portable* carried_object;
 
-private:
+ private:
   Owl(const Owl&);
   Owl& operator=(const Owl&);
 };

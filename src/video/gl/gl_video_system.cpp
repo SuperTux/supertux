@@ -22,10 +22,10 @@
 #include "video/gl/gl_texture.hpp"
 #include "video/texture_manager.hpp"
 
-GLVideoSystem::GLVideoSystem() :
-  m_texture_manager(new TextureManager),
-  m_renderer(new GLRenderer),
-  m_lightmap(new GLLightmap)
+GLVideoSystem::GLVideoSystem()
+    : m_texture_manager(new TextureManager),
+      m_renderer(new GLRenderer),
+      m_lightmap(new GLLightmap)
 {
 }
 

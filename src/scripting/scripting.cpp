@@ -20,9 +20,10 @@
 #include <sqstdblob.h>
 #include <sqstdmath.h>
 #include <sqstdstring.h>
-#include <cstring>
 #include <stdarg.h>
 #include <stdio.h>
+
+#include <cstring>
 
 #include "physfs/ifile_stream.hpp"
 #include "scripting/squirrel_error.hpp"
@@ -32,18 +33,19 @@
 #include "util/log.hpp"
 
 #ifdef ENABLE_SQDBG
-#  include "../../external/squirrel/sqdbg/sqrdbg.h"
+#include "../../external/squirrel/sqdbg/sqrdbg.h"
 namespace {
 HSQREMOTEDBG debugger = NULL;
-} // namespace
+}  // namespace
 #endif
 
 namespace {
 
 #ifdef __clang__
-__attribute__((__format__ (__printf__, 2, 0)))
+__attribute__((__format__(__printf__, 2, 0)))
 #endif
-void printfunc(HSQUIRRELVM, const char* fmt, ...)
+void
+printfunc(HSQUIRRELVM, const char* fmt, ...)
 {
   char buf[4096];
   char separator[] = "\n";
@@ -51,15 +53,14 @@ void printfunc(HSQUIRRELVM, const char* fmt, ...)
   va_start(arglist, fmt);
   vsnprintf(buf, sizeof(buf), fmt, arglist);
   char* ptr = strtok(buf, separator);
-  while(ptr != NULL)
-  {
+  while (ptr != NULL) {
     ConsoleBuffer::output << "[SCRIPTING] " << ptr << std::endl;
     ptr = strtok(NULL, separator);
   }
   va_end(arglist);
 }
 
-} // namespace
+}  // namespace
 
 namespace scripting {
 
@@ -68,30 +69,30 @@ HSQUIRRELVM global_vm = NULL;
 Scripting::Scripting(bool enable_debugger)
 {
   global_vm = sq_open(64);
-  if(global_vm == NULL)
+  if (global_vm == NULL)
     throw std::runtime_error("Couldn't initialize squirrel vm");
 
-  if(enable_debugger) {
+  if (enable_debugger) {
 #ifdef ENABLE_SQDBG
     sq_enabledebuginfo(global_vm, SQTrue);
     debugger = sq_rdbg_init(global_vm, 1234, SQFalse);
-    if(debugger == NULL)
+    if (debugger == NULL)
       throw SquirrelError(global_vm, "Couldn't initialize squirrel debugger");
 
     sq_enabledebuginfo(global_vm, SQTrue);
     log_info << "Waiting for debug client..." << std::endl;
-    if(SQ_FAILED(sq_rdbg_waitforconnections(debugger)))
+    if (SQ_FAILED(sq_rdbg_waitforconnections(debugger)))
       throw SquirrelError(global_vm, "Waiting for debug clients failed");
     log_info << "debug client connected." << std::endl;
 #endif
   }
 
   sq_pushroottable(global_vm);
-  if(SQ_FAILED(sqstd_register_bloblib(global_vm)))
+  if (SQ_FAILED(sqstd_register_bloblib(global_vm)))
     throw SquirrelError(global_vm, "Couldn't register blob lib");
-  if(SQ_FAILED(sqstd_register_mathlib(global_vm)))
+  if (SQ_FAILED(sqstd_register_mathlib(global_vm)))
     throw SquirrelError(global_vm, "Couldn't register math lib");
-  if(SQ_FAILED(sqstd_register_stringlib(global_vm)))
+  if (SQ_FAILED(sqstd_register_stringlib(global_vm)))
     throw SquirrelError(global_vm, "Couldn't register string lib");
 
   // remove rand and srand calls from sqstdmath, we'll provide our own
@@ -113,7 +114,8 @@ Scripting::Scripting(bool enable_debugger)
     std::string filename = "scripts/default.nut";
     IFileStream stream(filename);
     scripting::compile_and_run(global_vm, stream, filename);
-  } catch(std::exception& e) {
+  }
+  catch (std::exception& e) {
     log_warning << "Couldn't load default.nut: " << e.what() << std::endl;
   }
 }
@@ -121,14 +123,13 @@ Scripting::Scripting(bool enable_debugger)
 Scripting::~Scripting()
 {
 #ifdef ENABLE_SQDBG
-  if(debugger != NULL) {
+  if (debugger != NULL) {
     sq_rdbg_shutdown(debugger);
     debugger = NULL;
   }
 #endif
 
-  if (global_vm)
-    sq_close(global_vm);
+  if (global_vm) sq_close(global_vm);
 
   global_vm = NULL;
 }
@@ -137,11 +138,10 @@ void
 Scripting::update_debugger()
 {
 #ifdef ENABLE_SQDBG
-  if(debugger != NULL)
-    sq_rdbg_update(debugger);
+  if (debugger != NULL) sq_rdbg_update(debugger);
 #endif
 }
 
-} // namespace scripting
+}  // namespace scripting
 
 /* EOF */

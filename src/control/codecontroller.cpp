@@ -16,11 +16,9 @@
 
 #include "control/codecontroller.hpp"
 
-CodeController::CodeController()
-{}
+CodeController::CodeController() {}
 
-CodeController::~CodeController()
-{}
+CodeController::~CodeController() {}
 
 void
 CodeController::press(Control c, bool pressed_)
@@ -33,8 +31,7 @@ CodeController::update()
 {
   Controller::update();
 
-  for(int i = 0; i < CONTROLCOUNT; ++i)
-    controls[i] = false;
+  for (int i = 0; i < CONTROLCOUNT; ++i) controls[i] = false;
 }
 
 /* EOF */

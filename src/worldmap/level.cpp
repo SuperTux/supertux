@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmail.com>
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,8 +15,9 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+#include "worldmap/level.hpp"
 
+#include <config.h>
 #include <physfs.h>
 #include <stddef.h>
 
@@ -25,23 +27,22 @@
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
-#include "worldmap/level.hpp"
 #include "worldmap/worldmap.hpp"
 
 namespace worldmap {
 
-LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
-  pos(),
-  title(),
-  solved(false),
-  perfect(false),
-  auto_play(false),
-  sprite(),
-  statistics(),
-  target_time(),
-  extro_script(),
-  title_color(WorldMap::level_title_color),
-  basedir(basedir_)
+LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp)
+    : pos(),
+      title(),
+      solved(false),
+      perfect(false),
+      auto_play(false),
+      sprite(),
+      statistics(),
+      target_time(),
+      extro_script(),
+      title_color(WorldMap::level_title_color),
+      basedir(basedir_)
 {
   lisp.get("name", name);
   lisp.get("x", pos.x);
@@ -59,39 +60,37 @@ LevelTile::LevelTile(const std::string& basedir_, const ReaderMapping& lisp) :
     title_color = Color(vColor);
   }
 
-  if(basedir == "./")
-    basedir = "";
+  if (basedir == "./") basedir = "";
 
-  if (!PHYSFS_exists((basedir + name).c_str()))
-  {
+  if (!PHYSFS_exists((basedir + name).c_str())) {
     log_warning << "level file '" << name
-                << "' does not exist and will not be added to the worldmap" << std::endl;
+                << "' does not exist and will not be added to the worldmap"
+                << std::endl;
     return;
   }
 }
 
-LevelTile::~LevelTile()
-{
-}
+LevelTile::~LevelTile() {}
 
 void
 LevelTile::draw(DrawingContext& context)
 {
-  sprite->draw(context, pos*32 + Vector(16, 16), LAYER_OBJECTS - 1);
+  sprite->draw(context, pos * 32 + Vector(16, 16), LAYER_OBJECTS - 1);
 }
 
 void
-LevelTile::update(float )
+LevelTile::update(float)
 {
 }
 
 void
 LevelTile::update_sprite_action()
 {
-  if(!solved)
+  if (!solved)
     sprite->set_action("default");
   else
-    sprite->set_action((sprite->has_action("perfect") && perfect) ? "perfect" : "solved");
+    sprite->set_action((sprite->has_action("perfect") && perfect) ? "perfect"
+                                                                  : "solved");
 }
 
 void
@@ -108,6 +107,6 @@ LevelTile::set_perfect(bool v)
   update_sprite_action();
 }
 
-} // namespace worldmap
+}  // namespace worldmap
 
 /* EOF */

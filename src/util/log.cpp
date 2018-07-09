@@ -1,6 +1,7 @@
 //  SuperTux Debug Helper Functions
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
-//  Copyright (C) 2010 Florian Forster <supertux at octo.it>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de> Copyright (C) 2010
+//  Florian Forster <supertux at octo.it>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -26,7 +27,8 @@
 
 LogLevel g_log_level = LOG_WARNING;
 
-static std::ostream& get_logging_instance (bool use_console_buffer = true)
+static std::ostream&
+get_logging_instance(bool use_console_buffer = true)
 {
   if (ConsoleBuffer::current() && use_console_buffer)
     return (ConsoleBuffer::output);
@@ -34,47 +36,56 @@ static std::ostream& get_logging_instance (bool use_console_buffer = true)
     return (std::cerr);
 }
 
-static std::ostream& log_generic_f (const char *prefix, const char* file, int line, bool use_console_buffer = true)
+static std::ostream&
+log_generic_f(const char* prefix, const char* file, int line,
+              bool use_console_buffer = true)
 {
-  get_logging_instance (use_console_buffer) << prefix << " " << file << ":" << line << " ";
-  return (get_logging_instance (use_console_buffer));
+  get_logging_instance(use_console_buffer)
+      << prefix << " " << file << ":" << line << " ";
+  return (get_logging_instance(use_console_buffer));
 }
 
-std::ostream& log_debug_f(const char* file, int line, bool use_console_buffer = true)
+std::ostream&
+log_debug_f(const char* file, int line, bool use_console_buffer = true)
 {
-  return (log_generic_f ("[DEBUG]", file, line, use_console_buffer));
+  return (log_generic_f("[DEBUG]", file, line, use_console_buffer));
 }
 
-std::ostream& log_info_f(const char* file, int line)
+std::ostream&
+log_info_f(const char* file, int line)
 {
-  return (log_generic_f ("[INFO]", file, line));
+  return (log_generic_f("[INFO]", file, line));
 }
 
-std::ostream& log_warning_f(const char* file, int line)
+std::ostream&
+log_warning_f(const char* file, int line)
 {
-  if(g_config && g_config->developer_mode &&
-     Console::current() && !Console::current()->hasFocus()) {
+  if (g_config && g_config->developer_mode && Console::current() &&
+      !Console::current()->hasFocus()) {
     Console::current()->open();
   }
-  return (log_generic_f ("[WARNING]", file, line));
+  return (log_generic_f("[WARNING]", file, line));
 }
 
-std::ostream& log_fatal_f(const char* file, int line)
+std::ostream&
+log_fatal_f(const char* file, int line)
 {
-  if(g_config && g_config->developer_mode &&
-     Console::current() && !Console::current()->hasFocus()) {
+  if (g_config && g_config->developer_mode && Console::current() &&
+      !Console::current()->hasFocus()) {
     Console::current()->open();
   }
-  return (log_generic_f ("[FATAL]", file, line));
+  return (log_generic_f("[FATAL]", file, line));
 }
 
-std::ostream& operator<<(std::ostream& out, const Vector& vector)
+std::ostream&
+operator<<(std::ostream& out, const Vector& vector)
 {
   out << '[' << vector.x << ',' << vector.y << ']';
   return out;
 }
 
-std::ostream& operator<<(std::ostream& out, const Rectf& rect)
+std::ostream&
+operator<<(std::ostream& out, const Rectf& rect)
 {
   out << "[" << rect.get_left() << "," << rect.get_top() << "   "
       << rect.get_right() << "," << rect.get_bottom() << "]";
@@ -82,19 +93,22 @@ std::ostream& operator<<(std::ostream& out, const Rectf& rect)
 }
 
 /* Callbacks used by tinygettext */
-void log_info_callback(const std::string& str)
+void
+log_info_callback(const std::string& str)
 {
-    log_info << "\r\n[TINYGETTEXT] " << str << std::endl;
+  log_info << "\r\n[TINYGETTEXT] " << str << std::endl;
 }
 
-void log_warning_callback(const std::string& str)
+void
+log_warning_callback(const std::string& str)
 {
-    log_debug << "\r\n[TINYGETTEXT] " << str << std::endl;
+  log_debug << "\r\n[TINYGETTEXT] " << str << std::endl;
 }
 
-void log_error_callback(const std::string& str)
+void
+log_error_callback(const std::string& str)
 {
-    log_warning << "\r\n[TINYGETTEXT] " << str << std::endl;
+  log_warning << "\r\n[TINYGETTEXT] " << str << std::endl;
 }
 
 /* EOF */

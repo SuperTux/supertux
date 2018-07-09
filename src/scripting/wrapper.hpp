@@ -11,49 +11,70 @@ namespace scripting {
 void register_supertux_wrapper(HSQUIRRELVM v);
 
 class AmbientSound;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::AmbientSound* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::AmbientSound* object,
+                              bool setup_releasehook = false);
 class Background;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Background* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Background* object,
+                              bool setup_releasehook = false);
 class Camera;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Camera* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Camera* object,
+                              bool setup_releasehook = false);
 class Candle;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Candle* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Candle* object,
+                              bool setup_releasehook = false);
 class Dispenser;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Dispenser* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Dispenser* object,
+                              bool setup_releasehook = false);
 class DisplayEffect;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::DisplayEffect* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::DisplayEffect* object,
+                              bool setup_releasehook = false);
 class FloatingImage;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::FloatingImage* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::FloatingImage* object,
+                              bool setup_releasehook = false);
 class Gradient;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Gradient* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Gradient* object,
+                              bool setup_releasehook = false);
 class LevelTime;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::LevelTime* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::LevelTime* object,
+                              bool setup_releasehook = false);
 class ParticleSystem;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::ParticleSystem* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::ParticleSystem* object,
+                              bool setup_releasehook = false);
 class Platform;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Platform* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Platform* object,
+                              bool setup_releasehook = false);
 class Player;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Player* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Player* object,
+                              bool setup_releasehook = false);
 class Rock;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Rock* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Rock* object,
+                              bool setup_releasehook = false);
 class ScriptedObject;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::ScriptedObject* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::ScriptedObject* object,
+                              bool setup_releasehook = false);
 class Sector;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Sector* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Sector* object,
+                              bool setup_releasehook = false);
 class Text;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Text* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Text* object,
+                              bool setup_releasehook = false);
 class Thunderstorm;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Thunderstorm* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Thunderstorm* object,
+                              bool setup_releasehook = false);
 class TileMap;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::TileMap* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::TileMap* object,
+                              bool setup_releasehook = false);
 class Torch;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Torch* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Torch* object,
+                              bool setup_releasehook = false);
 class WillOWisp;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::WillOWisp* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::WillOWisp* object,
+                              bool setup_releasehook = false);
 class Wind;
-void create_squirrel_instance(HSQUIRRELVM v, scripting::Wind* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Wind* object,
+                              bool setup_releasehook = false);
 
-}
+}  // namespace scripting
 
 #endif
 

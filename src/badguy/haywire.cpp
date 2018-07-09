@@ -15,9 +15,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "badguy/haywire.hpp"
+
 #include "audio/sound_manager.hpp"
 #include "badguy/bomb.hpp"
-#include "badguy/haywire.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -27,36 +28,37 @@
 #include "util/reader_mapping.hpp"
 
 #define TIME_EXPLOSION 5.0
-#define TIME_STUNNED   0.5
+#define TIME_STUNNED 0.5
 
-#define NORMAL_WALK_SPEED    80
+#define NORMAL_WALK_SPEED 80
 #define EXPLODING_WALK_SPEED 160
 
-Haywire::Haywire(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/haywire/haywire.sprite", "left", "right"),
-  is_exploding(false),
-  time_until_explosion(0.0f),
-  is_stunned(false),
-  time_stunned(0.0f),
-  ticking(),
-  grunting()
+Haywire::Haywire(const ReaderMapping& reader)
+    : WalkingBadguy(reader, "images/creatures/haywire/haywire.sprite", "left",
+                    "right"),
+      is_exploding(false),
+      time_until_explosion(0.0f),
+      is_stunned(false),
+      time_stunned(0.0f),
+      ticking(),
+      grunting()
 {
-  walk_speed = NORMAL_WALK_SPEED;
+  walk_speed      = NORMAL_WALK_SPEED;
   max_drop_height = 16;
 
-  //Prevent stutter when Tux jumps on Mr Bomb
+  // Prevent stutter when Tux jumps on Mr Bomb
   SoundManager::current()->preload("sounds/explosion.wav");
 
-  //Check if we need another sprite
-  if( !reader.get( "sprite", sprite_name ) ){
+  // Check if we need another sprite
+  if (!reader.get("sprite", sprite_name)) {
     return;
   }
   if (sprite_name.empty()) {
     sprite_name = "images/creatures/haywire/haywire.sprite";
     return;
   }
-  //Replace sprite
-  sprite = SpriteManager::current()->create( sprite_name );
+  // Replace sprite
+  sprite = SpriteManager::current()->create(sprite_name);
 }
 
 bool
@@ -64,18 +66,17 @@ Haywire::collision_squished(GameObject& object)
 {
   auto player = dynamic_cast<Player*>(&object);
   if (player && player->is_invincible()) {
-    player->bounce (*this);
+    player->bounce(*this);
     kill_fall();
     return true;
   }
 
   if (is_stunned) {
-    if (player)
-      player->bounce (*this);
+    if (player) player->bounce(*this);
     return true;
   }
 
-  if(WalkingBadguy::is_frozen()) {
+  if (WalkingBadguy::is_frozen()) {
     WalkingBadguy::unfreeze();
   }
 
@@ -84,12 +85,11 @@ Haywire::collision_squished(GameObject& object)
   }
 
   time_stunned = TIME_STUNNED;
-  is_stunned = true;
-  physic.set_velocity_x (0.0);
-  physic.set_acceleration_x (0.0);
+  is_stunned   = true;
+  physic.set_velocity_x(0.0);
+  physic.set_acceleration_x(0.0);
 
-  if (player)
-    player->bounce (*this);
+  if (player) player->bounce(*this);
 
   return true;
 }
@@ -101,7 +101,7 @@ Haywire::active_update(float elapsed_time)
     ticking->set_position(get_pos());
     grunting->set_position(get_pos());
     if (elapsed_time >= time_until_explosion) {
-      kill_fall ();
+      kill_fall();
       return;
     }
     else
@@ -114,17 +114,17 @@ Haywire::active_update(float elapsed_time)
     }
     else { /* if (time_stunned <= elapsed_time) */
       time_stunned = 0.0;
-      is_stunned = false;
+      is_stunned   = false;
     }
   }
 
   if (is_exploding) {
-    auto p = get_nearest_player ();
+    auto p                = get_nearest_player();
     float target_velocity = 0.0;
 
     if (p && time_stunned == 0.0) {
       /* Player is on the right */
-      if (p->get_pos ().x > this->get_pos ().x)
+      if (p->get_pos().x > this->get_pos().x)
         target_velocity = walk_speed;
       else /* player in on the left */
         target_velocity = (-1.0) * walk_speed;
@@ -140,11 +140,11 @@ Haywire::active_update(float elapsed_time)
 void
 Haywire::kill_fall()
 {
-  if(is_exploding) {
+  if (is_exploding) {
     ticking->stop();
     grunting->stop();
   }
-  if(is_valid()) {
+  if (is_valid()) {
     remove_me();
     auto explosion = std::make_shared<Explosion>(bbox.get_middle());
     Sector::current()->add_object(explosion);
@@ -166,7 +166,8 @@ Haywire::ignite()
 }
 
 void
-Haywire::freeze() {
+Haywire::freeze()
+{
   BadGuy::freeze();
   if (is_exploding) {
     stop_exploding();
@@ -176,12 +177,13 @@ Haywire::freeze() {
 void
 Haywire::start_exploding()
 {
-  set_action ((dir == LEFT) ? "ticking-left" : "ticking-right", /* loops = */ -1);
-  walk_left_action = "ticking-left";
+  set_action((dir == LEFT) ? "ticking-left" : "ticking-right",
+             /* loops = */ -1);
+  walk_left_action  = "ticking-left";
   walk_right_action = "ticking-right";
-  set_walk_speed (EXPLODING_WALK_SPEED);
+  set_walk_speed(EXPLODING_WALK_SPEED);
   time_until_explosion = TIME_EXPLOSION;
-  is_exploding = true;
+  is_exploding         = true;
 
   ticking = SoundManager::current()->create_sound_source("sounds/fizz.wav");
   ticking->set_position(get_pos());
@@ -198,20 +200,19 @@ Haywire::start_exploding()
 void
 Haywire::stop_exploding()
 {
-  walk_left_action = "left";
+  walk_left_action  = "left";
   walk_right_action = "right";
   set_walk_speed(NORMAL_WALK_SPEED);
   time_until_explosion = 0.0f;
-  is_exploding = false;
+  is_exploding         = false;
 
-  if (ticking)
-    ticking->stop();
+  if (ticking) ticking->stop();
 
-  if (grunting)
-    grunting->stop();
+  if (grunting) grunting->stop();
 }
 
-void Haywire::stop_looping_sounds()
+void
+Haywire::stop_looping_sounds()
 {
   if (ticking) {
     ticking->stop();
@@ -221,7 +222,8 @@ void Haywire::stop_looping_sounds()
   }
 }
 
-void Haywire::play_looping_sounds()
+void
+Haywire::play_looping_sounds()
 {
   if (is_exploding) {
     if (ticking) {

@@ -1,5 +1,6 @@
 //  Dart - Your average poison dart
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -27,10 +28,10 @@ const float DART_SPEED = 200;
 
 static const std::string DART_SOUND = "sounds/flame.wav";
 
-Dart::Dart(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/dart/dart.sprite"),
-  parent(0),
-  sound_source()
+Dart::Dart(const ReaderMapping& reader)
+    : BadGuy(reader, "images/creatures/dart/dart.sprite"),
+      parent(0),
+      sound_source()
 {
   physic.enable_gravity(false);
   countMe = false;
@@ -39,10 +40,10 @@ Dart::Dart(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/stomp.wav");
 }
 
-Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = 0) :
-  BadGuy(pos, d, "images/creatures/dart/dart.sprite"),
-  parent(parent_),
-  sound_source()
+Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = 0)
+    : BadGuy(pos, d, "images/creatures/dart/dart.sprite"),
+      parent(parent_),
+      sound_source()
 {
   physic.enable_gravity(false);
   countMe = false;
@@ -94,14 +95,14 @@ Dart::active_update(float elapsed_time)
 }
 
 void
-Dart::collision_solid(const CollisionHit& )
+Dart::collision_solid(const CollisionHit&)
 {
   SoundManager::current()->play("sounds/darthit.wav", get_pos());
   remove_me();
 }
 
 HitResponse
-Dart::collision_badguy(BadGuy& badguy, const CollisionHit& )
+Dart::collision_badguy(BadGuy& badguy, const CollisionHit&)
 {
   // ignore collisions with parent
   if (&badguy == parent) {
@@ -127,14 +128,16 @@ Dart::is_flammable() const
   return false;
 }
 
-void Dart::stop_looping_sounds()
+void
+Dart::stop_looping_sounds()
 {
   if (sound_source) {
     sound_source->stop();
   }
 }
 
-void Dart::play_looping_sounds()
+void
+Dart::play_looping_sounds()
 {
   if (sound_source) {
     sound_source->play();

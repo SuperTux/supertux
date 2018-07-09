@@ -14,18 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "worldmap/spawn_point.hpp"
+
 #include <stdexcept>
 
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
-#include "worldmap/spawn_point.hpp"
 
 namespace worldmap {
 
-SpawnPoint::SpawnPoint(const ReaderMapping& slisp) :
-  name(),
-  pos(),
-  auto_dir(D_NONE)
+SpawnPoint::SpawnPoint(const ReaderMapping& slisp)
+    : name(), pos(), auto_dir(D_NONE)
 {
   pos.x = -1;
   pos.y = -1;
@@ -39,12 +38,12 @@ SpawnPoint::SpawnPoint(const ReaderMapping& slisp) :
     auto_dir = string_to_direction(auto_dir_str);
   }
 
-  if(name.empty())
+  if (name.empty())
     throw std::runtime_error("No name specified for spawnpoint");
-  if(pos.x < 0 || pos.y < 0)
+  if (pos.x < 0 || pos.y < 0)
     throw std::runtime_error("Invalid coordinates for spawnpoint");
 }
 
-}
+}  // namespace worldmap
 
 /* EOF */

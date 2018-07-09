@@ -29,21 +29,22 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-#define  LIFETIME 5
-#define  MOVETIME 0.75
-#define  BASE_SPEED 200
-#define  RAND_SPEED 150
+#define LIFETIME 5
+#define MOVETIME 0.75
+#define BASE_SPEED 200
+#define RAND_SPEED 150
 
-Kugelblitz::Kugelblitz(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/kugelblitz/kugelblitz.sprite"),
-  pos_groundhit(),
-  groundhit_pos_set(false),
-  dying(),
-  movement_timer(),
-  lifetime(),
-  direction(),
-  light(0.0f,0.0f,0.0f),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
+Kugelblitz::Kugelblitz(const ReaderMapping& reader)
+    : BadGuy(reader, "images/creatures/kugelblitz/kugelblitz.sprite"),
+      pos_groundhit(),
+      groundhit_pos_set(false),
+      dying(),
+      movement_timer(),
+      lifetime(),
+      direction(),
+      light(0.0f, 0.0f, 0.0f),
+      lightsprite(SpriteManager::current()->create(
+          "images/objects/lightmap_light/lightmap_light.sprite"))
 {
   start_position.x = bbox.p1.x;
   sprite->set_action("falling");
@@ -60,9 +61,9 @@ void
 Kugelblitz::initialize()
 {
   physic.set_velocity_y(300);
-  physic.set_velocity_x(-20); //fall a little to the left
+  physic.set_velocity_x(-20);  // fall a little to the left
   direction = 1;
-  dying = false;
+  dying     = false;
 }
 
 void
@@ -72,18 +73,17 @@ Kugelblitz::collision_solid(const CollisionHit& chit)
 }
 
 HitResponse
-Kugelblitz::collision_player(Player& player, const CollisionHit& )
+Kugelblitz::collision_player(Player& player, const CollisionHit&)
 {
-  if(player.is_invincible()) {
+  if (player.is_invincible()) {
     explode();
     return ABORT_MOVE;
   }
   // hit from above?
-  if(player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
-     (bbox.p1.y + bbox.p2.y) / 2) {
+  if (player.get_movement().y - get_movement().y > 0 &&
+      player.get_bbox().p2.y < (bbox.p1.y + bbox.p2.y) / 2) {
     // if it's not is it possible to squish us, then this will hurt
-    if(!collision_squished(player))
-      player.kill(false);
+    if (!collision_squished(player)) player.kill(false);
     explode();
     return FORCE_MOVE;
   }
@@ -93,10 +93,10 @@ Kugelblitz::collision_player(Player& player, const CollisionHit& )
 }
 
 HitResponse
-Kugelblitz::collision_badguy(BadGuy& other , const CollisionHit& chit)
+Kugelblitz::collision_badguy(BadGuy& other, const CollisionHit& chit)
 {
-  //Let the Kugelblitz explode, too? The problem with that is that
-  //two Kugelblitzes would cancel each other out on contact...
+  // Let the Kugelblitz explode, too? The problem with that is that
+  // two Kugelblitzes would cancel each other out on contact...
   other.kill_fall();
   return hit(chit);
 }
@@ -105,21 +105,19 @@ HitResponse
 Kugelblitz::hit(const CollisionHit& hit_)
 {
   // hit floor?
-  if(hit_.bottom) {
-    if (!groundhit_pos_set)
-    {
-      pos_groundhit = get_pos();
+  if (hit_.bottom) {
+    if (!groundhit_pos_set) {
+      pos_groundhit     = get_pos();
       groundhit_pos_set = true;
     }
     sprite->set_action("flying");
     physic.set_velocity_y(0);
-    //Set random initial speed and direction
-    direction = gameRandom.rand(2)? 1: -1;
+    // Set random initial speed and direction
+    direction = gameRandom.rand(2) ? 1 : -1;
     int speed = (BASE_SPEED + (gameRandom.rand(RAND_SPEED))) * direction;
     physic.set_velocity_x(speed);
     movement_timer.start(MOVETIME);
     lifetime.start(LIFETIME);
-
   }
 
   return CONTINUE;
@@ -134,7 +132,10 @@ Kugelblitz::active_update(float elapsed_time)
   else {
     if (groundhit_pos_set) {
       if (movement_timer.check()) {
-        if (direction == 1) direction = -1; else direction = 1;
+        if (direction == 1)
+          direction = -1;
+        else
+          direction = 1;
         int speed = (BASE_SPEED + (gameRandom.rand(RAND_SPEED))) * direction;
         physic.set_velocity_x(speed);
         movement_timer.start(MOVETIME);
@@ -142,8 +143,8 @@ Kugelblitz::active_update(float elapsed_time)
     }
 
     if (is_in_water()) {
-      Sector::current()->add_object( std::make_shared<Electrifier>(TileChangeMap(
-                                            { {75, 1421}, {76, 1422} }), 1.5));
+      Sector::current()->add_object(std::make_shared<Electrifier>(
+          TileChangeMap({{75, 1421}, {76, 1422}}), 1.5));
       explode();
     }
   }
@@ -155,9 +156,9 @@ Kugelblitz::draw(DrawingContext& context)
 {
   sprite->draw(context, get_pos(), layer);
 
-  //Only draw light in dark areas
-  context.get_light( bbox.get_middle(), &light );
-  if (light.red + light.green < 2.0){
+  // Only draw light in dark areas
+  context.get_light(bbox.get_middle(), &light);
+  if (light.red + light.green < 2.0) {
     context.push_target();
     context.set_target(DrawingContext::LIGHTMAP);
     sprite->draw(context, get_pos(), layer);
@@ -181,7 +182,8 @@ Kugelblitz::explode()
     lifetime.start(0.2f);
     dying = true;
   }
-  else remove_me();
+  else
+    remove_me();
 }
 
 void
@@ -194,16 +196,18 @@ Kugelblitz::try_activate()
   auto player_ = get_nearest_player();
   if (!player_) return;
   Vector dist = player_->get_bbox().get_middle() - bbox.get_middle();
-  if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) && (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
+  if ((fabsf(dist.x) <= X_OFFSCREEN_DISTANCE) &&
+      (fabsf(dist.y) <= Y_OFFSCREEN_DISTANCE)) {
     set_state(STATE_ACTIVE);
     if (!is_initialized) {
-
-      // if starting direction was set to AUTO, this is our chance to re-orient the badguy
+      // if starting direction was set to AUTO, this is our chance to re-orient
+      // the badguy
       if (start_dir == AUTO) {
         Player* player__ = get_nearest_player();
         if (player__ && (player__->get_bbox().p1.x > bbox.p2.x)) {
           dir = RIGHT;
-        } else {
+        }
+        else {
           dir = LEFT;
         }
       }

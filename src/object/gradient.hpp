@@ -25,9 +25,8 @@
 class ReaderMapping;
 
 class Gradient : public GameObject,
-                 public ExposedObject<Gradient, scripting::Gradient>
-{
-public:
+                 public ExposedObject<Gradient, scripting::Gradient> {
+ public:
   Gradient();
   Gradient(const ReaderMapping& reader);
   virtual ~Gradient();
@@ -36,14 +35,11 @@ public:
 
   void set_gradient(Color top, Color bottom);
 
-  Color get_gradient_top() const
-  { return gradient_top; }
+  Color get_gradient_top() const { return gradient_top; }
 
-  Color get_gradient_bottom() const
-  { return gradient_bottom; }
+  Color get_gradient_bottom() const { return gradient_bottom; }
 
-  GradientDirection get_direction() const
-  { return gradient_direction; }
+  GradientDirection get_direction() const { return gradient_direction; }
 
   void set_direction(const GradientDirection& direction);
 
@@ -53,24 +49,20 @@ public:
 
   void on_window_resize();
 
-  std::string get_class() const {
-    return "gradient";
-  }
+  std::string get_class() const { return "gradient"; }
 
-  std::string get_display_name() const {
-    return _("Gradient");
-  }
+  std::string get_display_name() const { return _("Gradient"); }
 
-  int get_layer() const
-  { return layer; }
+  int get_layer() const { return layer; }
 
   virtual ObjectSettings get_settings();
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const
+  {
     return "images/engine/editor/gradient.png";
   }
 
-private:
+ private:
   int layer;
   Color gradient_top;
   Color gradient_bottom;

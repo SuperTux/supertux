@@ -19,9 +19,8 @@
 
 #include "gui/menu.hpp"
 
-class CheatMenu : public Menu
-{
-private:
+class CheatMenu : public Menu {
+ private:
   enum MenuIDs {
     MNID_GROW,
     MNID_FIRE,
@@ -35,12 +34,12 @@ private:
     MNID_GHOST
   };
 
-public:
+ public:
   CheatMenu();
 
   void menu_action(MenuItem* item) override;
 
-private:
+ private:
   CheatMenu(const CheatMenu&) = delete;
   CheatMenu& operator=(const CheatMenu&) = delete;
 };

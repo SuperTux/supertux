@@ -19,9 +19,8 @@
 
 #include "gui/menu.hpp"
 
-class ProfileMenu : public Menu
-{
-public:
+class ProfileMenu : public Menu {
+ public:
   ProfileMenu();
 
   void menu_action(MenuItem* item) override;

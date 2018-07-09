@@ -16,24 +16,25 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/torch.hpp"
+
 #include "scripting/torch.hpp"
 
 namespace scripting {
 
-Torch::Torch(::Torch* torch_)
-  : torch(torch_)
-{ }
+Torch::Torch(::Torch* torch_) : torch(torch_) {}
 
-bool Torch::get_burning() const
+bool
+Torch::get_burning() const
 {
   return torch->get_burning();
 }
 
-void Torch::set_burning(bool burning)
+void
+Torch::set_burning(bool burning)
 {
   torch->set_burning(burning);
 }
 
-}
+}  // namespace scripting
 
 /* EOF */

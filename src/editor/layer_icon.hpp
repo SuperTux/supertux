@@ -22,29 +22,27 @@
 class GameObject;
 class Vector;
 
-class LayerIcon : public ObjectIcon
-{
-  public:
-    LayerIcon(GameObject *layer_);
-    virtual ~LayerIcon() {}
+class LayerIcon : public ObjectIcon {
+ public:
+  LayerIcon(GameObject* layer_);
+  virtual ~LayerIcon() {}
 
-    GameObject *layer;
+  GameObject* layer;
 
-    virtual void draw(DrawingContext& context, const Vector& pos);
+  virtual void draw(DrawingContext& context, const Vector& pos);
 
-    int get_zpos() const;
-    bool is_valid() const;
+  int get_zpos() const;
+  bool is_valid() const;
 
-    bool is_tilemap;
+  bool is_tilemap;
 
-  private:
+ private:
+  SurfacePtr selection;
 
-    SurfacePtr selection;
-
-    LayerIcon(const LayerIcon&);
-    LayerIcon& operator=(const LayerIcon&);
+  LayerIcon(const LayerIcon&);
+  LayerIcon& operator=(const LayerIcon&);
 };
 
-#endif // LAYER_ICON_HPP
+#endif  // LAYER_ICON_HPP
 
 /* EOF */

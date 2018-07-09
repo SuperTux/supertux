@@ -16,21 +16,21 @@
 
 #include "object/rainsplash.hpp"
 
-RainSplash::RainSplash(const Vector& pos, bool vertical) :
-  sprite(),
-  position(pos),
-  frame(0)
+RainSplash::RainSplash(const Vector& pos, bool vertical)
+    : sprite(), position(pos), frame(0)
 {
-  if (vertical) sprite = SpriteManager::current()->create("images/objects/particles/rainsplash-vertical.sprite");
-  else sprite = SpriteManager::current()->create("images/objects/particles/rainsplash.sprite");
+  if (vertical)
+    sprite = SpriteManager::current()->create(
+        "images/objects/particles/rainsplash-vertical.sprite");
+  else
+    sprite = SpriteManager::current()->create(
+        "images/objects/particles/rainsplash.sprite");
 }
 
-RainSplash::~RainSplash() {
-  remove_me();
-}
+RainSplash::~RainSplash() { remove_me(); }
 
 void
-RainSplash::hit(Player& )
+RainSplash::hit(Player&)
 {
 }
 

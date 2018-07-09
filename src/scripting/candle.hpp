@@ -23,26 +23,26 @@ class Candle;
 
 namespace scripting {
 
-class Candle
-{
-public:
+class Candle {
+ public:
 #ifndef SCRIPTING_API
   Candle(::Candle* candle);
 #endif
 
   bool get_burning() const; /**< returns true if candle is lighted */
-  void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
+  void set_burning(
+      bool burning); /**< true: light candle, false: extinguish candle */
 
 #ifndef SCRIPTING_API
   ::Candle* candle;
 
-private:
+ private:
   Candle(const Candle&);
   Candle& operator=(const Candle&);
 #endif
 };
 
-}
+}  // namespace scripting
 
 #endif
 

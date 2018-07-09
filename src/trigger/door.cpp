@@ -25,19 +25,20 @@
 #include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/screen_manager.hpp"
 #include "supertux/object_factory.hpp"
+#include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
-Door::Door(const ReaderMapping& reader) :
-  state(CLOSED),
-  target_sector(),
-  target_spawnpoint(),
-  script(),
-  sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
-  stay_open_timer()
+Door::Door(const ReaderMapping& reader)
+    : state(CLOSED),
+      target_sector(),
+      target_spawnpoint(),
+      script(),
+      sprite(
+          SpriteManager::current()->create("images/objects/door/door.sprite")),
+      stay_open_timer()
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -47,49 +48,54 @@ Door::Door(const ReaderMapping& reader) :
   reader.get("script", script);
 
   sprite->set_action("closed");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  bbox.set_size(sprite->get_current_hitbox_width(),
+                sprite->get_current_hitbox_height());
 
   SoundManager::current()->preload("sounds/door.wav");
 }
 
-Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoint) :
-  state(CLOSED),
-  target_sector(sector),
-  target_spawnpoint(spawnpoint),
-  script(),
-  sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
-  stay_open_timer()
+Door::Door(int x, int y, const std::string& sector,
+           const std::string& spawnpoint)
+    : state(CLOSED),
+      target_sector(sector),
+      target_spawnpoint(spawnpoint),
+      script(),
+      sprite(
+          SpriteManager::current()->create("images/objects/door/door.sprite")),
+      stay_open_timer()
 {
   bbox.set_pos(Vector(x, y));
 
   sprite->set_action("closed");
-  bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
+  bbox.set_size(sprite->get_current_hitbox_width(),
+                sprite->get_current_hitbox_height());
 
   SoundManager::current()->preload("sounds/door.wav");
 }
 
 ObjectSettings
-Door::get_settings() {
+Door::get_settings()
+{
   ObjectSettings result(_("Door"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Sector"), &target_sector, "sector"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawn point"), &target_spawnpoint, "spawnpoint"));
+  result.options.push_back(ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back(
+      ObjectOption(MN_TEXTFIELD, _("Sector"), &target_sector, "sector"));
+  result.options.push_back(ObjectOption(MN_TEXTFIELD, _("Spawn point"),
+                                        &target_spawnpoint, "spawnpoint"));
   return result;
 }
 
-Door::~Door()
-{
-}
+Door::~Door() {}
 
 void
-Door::update(float )
+Door::update(float)
 {
   switch (state) {
     case CLOSED:
       break;
     case OPENING:
       // if door has finished opening, start timer and keep door open
-      if(sprite->animation_done()) {
+      if (sprite->animation_done()) {
         state = OPEN;
         sprite->set_action("open");
         stay_open_timer.start(1.0);
@@ -104,7 +110,7 @@ Door::update(float )
       break;
     case CLOSING:
       // if door has finished closing, keep it shut
-      if(sprite->animation_done()) {
+      if (sprite->animation_done()) {
         state = CLOSED;
         sprite->set_action("closed");
       }
@@ -115,11 +121,11 @@ Door::update(float )
 void
 Door::draw(DrawingContext& context)
 {
-  sprite->draw(context, bbox.p1, LAYER_BACKGROUNDTILES+1);
+  sprite->draw(context, bbox.p1, LAYER_BACKGROUNDTILES + 1);
 }
 
 void
-Door::event(Player& , EventType type)
+Door::event(Player&, EventType type)
 {
   switch (state) {
     case CLOSED:
@@ -128,7 +134,8 @@ Door::event(Player& , EventType type)
         state = OPENING;
         SoundManager::current()->play("sounds/door.wav");
         sprite->set_action("opening", 1);
-        ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeOut(1)));
+        ScreenManager::current()->set_screen_fade(
+            std::unique_ptr<ScreenFade>(new FadeOut(1)));
       }
       break;
     case OPENING:
@@ -148,28 +155,27 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
       break;
     case OPENING:
       break;
-    case OPEN:
-    {
+    case OPEN: {
       // if door is open and was touched by a player, teleport the player
-      Player* player = dynamic_cast<Player*> (&other);
-      
+      Player* player = dynamic_cast<Player*>(&other);
+
       if (player) {
-        bool invincible = player->is_invincible();
+        bool invincible         = player->is_invincible();
         int invincibilityperiod = player->invincible_timer.get_timeleft();
-        state = CLOSING;
+        state                   = CLOSING;
         sprite->set_action("closing", 1);
-        if(!script.empty()) {
+        if (!script.empty()) {
           Sector::current()->run_script(script, "Door");
         }
 
-        if(!target_sector.empty()) {
+        if (!target_sector.empty()) {
           GameSession::current()->respawn(target_sector, target_spawnpoint,
                                           invincible, invincibilityperiod);
-          ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(1)));
+          ScreenManager::current()->set_screen_fade(
+              std::unique_ptr<ScreenFade>(new FadeIn(1)));
         }
       }
-    }
-    break;
+    } break;
     case CLOSING:
       break;
   }

@@ -22,67 +22,68 @@
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/console.hpp"
 #include "supertux/gameconfig.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-EditorInputGui::EditorInputGui() :
-  tiles(new TileSelection()),
-  object(),
-  input_type(IP_NONE),
-  active_tilegroup(),
-  active_objectgroup(-1),
-  object_input(new ObjectInput()),
-  rubber(       new ToolIcon("images/engine/editor/rubber.png")),
-  select_mode(  new ToolIcon("images/engine/editor/select-mode0.png")),
-  move_mode(    new ToolIcon("images/engine/editor/move-mode0.png")),
-  settings_mode(new ToolIcon("images/engine/editor/settings-mode0.png")),
-  hovered_item(HI_NONE),
-  hovered_tile(-1),
-  tile_scrolling(TS_NONE),
-  using_scroll_wheel(false),
-  wheel_scroll_amount(0),
-  starting_tile(0),
-  dragging(false),
-  drag_start(0, 0),
-  Xpos(512)
+EditorInputGui::EditorInputGui()
+    : tiles(new TileSelection()),
+      object(),
+      input_type(IP_NONE),
+      active_tilegroup(),
+      active_objectgroup(-1),
+      object_input(new ObjectInput()),
+      rubber(new ToolIcon("images/engine/editor/rubber.png")),
+      select_mode(new ToolIcon("images/engine/editor/select-mode0.png")),
+      move_mode(new ToolIcon("images/engine/editor/move-mode0.png")),
+      settings_mode(new ToolIcon("images/engine/editor/settings-mode0.png")),
+      hovered_item(HI_NONE),
+      hovered_tile(-1),
+      tile_scrolling(TS_NONE),
+      using_scroll_wheel(false),
+      wheel_scroll_amount(0),
+      starting_tile(0),
+      dragging(false),
+      drag_start(0, 0),
+      Xpos(512)
 {
-  select_mode->push_mode  ("images/engine/editor/select-mode1.png");
-  select_mode->push_mode  ("images/engine/editor/select-mode2.png");
-  move_mode->push_mode    ("images/engine/editor/move-mode1.png");
-  //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
+  select_mode->push_mode("images/engine/editor/select-mode1.png");
+  select_mode->push_mode("images/engine/editor/select-mode2.png");
+  move_mode->push_mode("images/engine/editor/move-mode1.png");
+  // settings_mode->push_mode("images/engine/editor/settings-mode1.png");
 }
 
 void
-EditorInputGui::draw(DrawingContext& context) {
-  //SCREEN_WIDTH SCREEN_HEIGHT
-  context.draw_filled_rect(Rectf(Vector(Xpos, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)),
-                           Color(0.9f, 0.9f, 1.0f, 0.6f),
-                           0.0f, LAYER_GUI-10);
+EditorInputGui::draw(DrawingContext& context)
+{
+  // SCREEN_WIDTH SCREEN_HEIGHT
+  context.draw_filled_rect(
+      Rectf(Vector(Xpos, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)),
+      Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f, LAYER_GUI - 10);
   if (dragging) {
-    context.draw_filled_rect(selection_draw_rect(), Color(0.2f, 0.4f, 1.0f, 0.6f),
-                             0.0f, LAYER_GUI+1);
+    context.draw_filled_rect(selection_draw_rect(),
+                             Color(0.2f, 0.4f, 1.0f, 0.6f), 0.0f,
+                             LAYER_GUI + 1);
   }
 
-  if(hovered_item != HI_NONE)
-  {
+  if (hovered_item != HI_NONE) {
     context.draw_filled_rect(get_item_rect(hovered_item),
-                             Color(0.9f, 0.9f, 1.0f, 0.6f),
-                             0.0f, LAYER_GUI - 5);
+                             Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
+                             LAYER_GUI - 5);
   }
 
   context.draw_text(Resources::normal_font, _("Tilegroups"),
-                    Vector(SCREEN_WIDTH, 0),
-                    ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
+                    Vector(SCREEN_WIDTH, 0), ALIGN_RIGHT, LAYER_GUI,
+                    ColorScheme::Menu::default_color);
   context.draw_text(Resources::normal_font, _("Objects"),
-                    Vector(SCREEN_WIDTH, 24),
-                    ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
+                    Vector(SCREEN_WIDTH, 24), ALIGN_RIGHT, LAYER_GUI,
+                    ColorScheme::Menu::default_color);
 
   rubber->draw(context);
   select_mode->draw(context);
@@ -94,37 +95,41 @@ EditorInputGui::draw(DrawingContext& context) {
 }
 
 void
-EditorInputGui::draw_tilegroup(DrawingContext& context) {
+EditorInputGui::draw_tilegroup(DrawingContext& context)
+{
   if (input_type == IP_TILE) {
     int pos = -1;
-    for(auto& tile_ID : active_tilegroup->tiles) {
+    for (auto& tile_ID : active_tilegroup->tiles) {
       pos++;
       if (pos < starting_tile) {
         continue;
       }
       auto position = get_tile_coords(pos - starting_tile);
-      Editor::current()->get_tileset()->draw_tile(context, tile_ID, position, LAYER_GUI-9);
-      
-      if (g_config->developer_mode && active_tilegroup->developers_group)
-      {
+      Editor::current()->get_tileset()->draw_tile(context, tile_ID, position,
+                                                  LAYER_GUI - 9);
+
+      if (g_config->developer_mode && active_tilegroup->developers_group) {
         // Display tile ID on top of tile:
-        context.draw_text(Console::current()->get_font(), std::to_string(tile_ID),
-                          position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
+        context.draw_text(Console::current()->get_font(),
+                          std::to_string(tile_ID), position + Vector(16, 16),
+                          ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
       }
       /*if (tile_ID == 0) {
         continue;
       }
       const Tile* tg_tile = Editor::current()->get_tileset()->get(tile_ID);
-      tg_tile->draw(context, get_tile_coords(pos - starting_tile), LAYER_GUI-9);*/
+      tg_tile->draw(context, get_tile_coords(pos - starting_tile),
+      LAYER_GUI-9);*/
     }
   }
 }
 
 void
-EditorInputGui::draw_objectgroup(DrawingContext& context) {
+EditorInputGui::draw_objectgroup(DrawingContext& context)
+{
   if (input_type == IP_OBJECT) {
     int pos = -1;
-    for(auto& icon : object_input->groups[active_objectgroup].icons) {
+    for (auto& icon : object_input->groups[active_objectgroup].icons) {
       pos++;
       if (pos < starting_tile) {
         continue;
@@ -135,63 +140,57 @@ EditorInputGui::draw_objectgroup(DrawingContext& context) {
 }
 
 void
-EditorInputGui::update(float elapsed_time) {
+EditorInputGui::update(float elapsed_time)
+{
   switch (tile_scrolling) {
-    case TS_UP: 
-    {
-        if (starting_tile > 0) 
-        {
-          if(using_scroll_wheel)
-          {
-            starting_tile -= 4 * wheel_scroll_amount;
-            if (starting_tile < 0)
-            {
-              starting_tile = 0;
-            }
-            tile_scrolling = TS_NONE;
+    case TS_UP: {
+      if (starting_tile > 0) {
+        if (using_scroll_wheel) {
+          starting_tile -= 4 * wheel_scroll_amount;
+          if (starting_tile < 0) {
+            starting_tile = 0;
           }
-          else
-          {
-            starting_tile -= 4;
-          }
+          tile_scrolling = TS_NONE;
         }
-    }
-      break;
+        else {
+          starting_tile -= 4;
+        }
+      }
+    } break;
     case TS_DOWN: {
       int size;
-      if (input_type == IP_OBJECT){
+      if (input_type == IP_OBJECT) {
         size = object_input->groups[active_objectgroup].icons.size();
-      } else {
-        if(active_tilegroup == NULL)
-        {
+      }
+      else {
+        if (active_tilegroup == NULL) {
           return;
         }
         size = active_tilegroup->tiles.size();
       }
-      if (starting_tile < size-5) {
-        if(using_scroll_wheel)
-        {
+      if (starting_tile < size - 5) {
+        if (using_scroll_wheel) {
           starting_tile -= 4 * wheel_scroll_amount;
-          if (starting_tile > size - 4)
-          {
+          if (starting_tile > size - 4) {
             starting_tile = size - 4;
           }
           tile_scrolling = TS_NONE;
         }
-        else
-        {
+        else {
           starting_tile += 4;
         }
       }
     }
-    default: break;
+    default:
+      break;
   }
 }
 
 Rectf
-EditorInputGui::normalize_selection() const {
+EditorInputGui::normalize_selection() const
+{
   Vector drag_start_ = drag_start;
-  Vector drag_end = Vector(hovered_tile % 4, hovered_tile / 4);
+  Vector drag_end    = Vector(hovered_tile % 4, hovered_tile / 4);
   if (drag_start_.x > drag_end.x) {
     std::swap(drag_start_.x, drag_end.x);
   }
@@ -202,7 +201,8 @@ EditorInputGui::normalize_selection() const {
 }
 
 Rectf
-EditorInputGui::selection_draw_rect() const {
+EditorInputGui::selection_draw_rect() const
+{
   Rectf select = normalize_selection();
   select.p2 += Vector(1, 1);
   select.p1 = (select.p1 * 32) + Vector(Xpos, Ypos);
@@ -211,19 +211,21 @@ EditorInputGui::selection_draw_rect() const {
 }
 
 void
-EditorInputGui::update_selection() {
+EditorInputGui::update_selection()
+{
   Rectf select = normalize_selection();
   tiles->tiles.clear();
-  tiles->width = select.get_width() + 1;
+  tiles->width  = select.get_width() + 1;
   tiles->height = select.get_height() + 1;
 
   int size = active_tilegroup->tiles.size();
   for (int y = select.p1.y; y <= select.p2.y; y++) {
     for (int x = select.p1.x; x <= select.p2.x; x++) {
-      int tile_pos = y*4 + x + starting_tile;
+      int tile_pos = y * 4 + x + starting_tile;
       if (tile_pos < size && tile_pos >= 0) {
         tiles->tiles.push_back(active_tilegroup->tiles[tile_pos]);
-      } else {
+      }
+      else {
         tiles->tiles.push_back(0);
       }
     }
@@ -231,71 +233,72 @@ EditorInputGui::update_selection() {
 }
 
 bool
-EditorInputGui::event(SDL_Event& ev) {
+EditorInputGui::event(SDL_Event& ev)
+{
   switch (ev.type) {
-    case SDL_MOUSEBUTTONDOWN:
-    {
-      if(ev.button.button == SDL_BUTTON_LEFT || ev.button.button == SDL_BUTTON_RIGHT) {
+    case SDL_MOUSEBUTTONDOWN: {
+      if (ev.button.button == SDL_BUTTON_LEFT ||
+          ev.button.button == SDL_BUTTON_RIGHT) {
         switch (hovered_item) {
-          case HI_TILEGROUP:
-          {
+          case HI_TILEGROUP: {
             auto editor = Editor::current();
-            if(editor->get_tileset()->tilegroups.size() > 1)
-            {
+            if (editor->get_tileset()->tilegroups.size() > 1) {
               Editor::current()->disable_keyboard();
-              MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
+              MenuManager::instance().push_menu(
+                  MenuStorage::EDITOR_TILEGROUP_MENU);
             }
-            else
-            {
-              active_tilegroup.reset(new Tilegroup(editor->get_tileset()->tilegroups[0]));
+            else {
+              active_tilegroup.reset(
+                  new Tilegroup(editor->get_tileset()->tilegroups[0]));
               input_type = EditorInputGui::IP_TILE;
               reset_pos();
               update_mouse_icon();
             }
-          }
-            break;
-          case HI_OBJECTS:
-          {
+          } break;
+          case HI_OBJECTS: {
             auto editor = Editor::current();
-            if( (editor->get_worldmap_mode() && object_input->get_num_worldmap_groups() > 1) ||
-                (!editor->get_worldmap_mode() && object_input->get_num_level_groups() > 1) )
-            {
+            if ((editor->get_worldmap_mode() &&
+                 object_input->get_num_worldmap_groups() > 1) ||
+                (!editor->get_worldmap_mode() &&
+                 object_input->get_num_level_groups() > 1)) {
               Editor::current()->disable_keyboard();
-              MenuManager::instance().push_menu(MenuStorage::EDITOR_OBJECTGROUP_MENU);
+              MenuManager::instance().push_menu(
+                  MenuStorage::EDITOR_OBJECTGROUP_MENU);
             }
-            else
-            {
-              if(editor->get_worldmap_mode())
-              {
-                active_objectgroup = object_input->get_first_worldmap_group_index();
+            else {
+              if (editor->get_worldmap_mode()) {
+                active_objectgroup =
+                    object_input->get_first_worldmap_group_index();
               }
-              else
-              {
+              else {
                 active_objectgroup = 0;
               }
               input_type = EditorInputGui::IP_OBJECT;
               reset_pos();
               update_mouse_icon();
             }
-          }
-            break;
+          } break;
           case HI_TILE:
             switch (input_type) {
               case IP_TILE: {
-                dragging = true;
-                drag_start = Vector(hovered_tile % 4, hovered_tile / 4);
-                int size = active_tilegroup->tiles.size();
+                dragging     = true;
+                drag_start   = Vector(hovered_tile % 4, hovered_tile / 4);
+                int size     = active_tilegroup->tiles.size();
                 int tile_pos = hovered_tile + starting_tile;
                 if (tile_pos < size && tile_pos >= 0) {
                   tiles->set_tile(active_tilegroup->tiles[tile_pos]);
-                } else {
+                }
+                else {
                   tiles->set_tile(0);
                 }
               } break;
               case IP_OBJECT: {
-                int size = object_input->groups[active_objectgroup].icons.size();
+                int size =
+                    object_input->groups[active_objectgroup].icons.size();
                 if (hovered_tile < size && hovered_tile >= 0) {
-                  object = object_input->groups[active_objectgroup].icons[hovered_tile + starting_tile].object_name;
+                  object = object_input->groups[active_objectgroup]
+                               .icons[hovered_tile + starting_tile]
+                               .object_name;
                 }
                 update_mouse_icon();
               } break;
@@ -338,28 +341,31 @@ EditorInputGui::event(SDL_Event& ev) {
       dragging = false;
       return false;
 
-    case SDL_MOUSEMOTION:
-    {
-      Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
+    case SDL_MOUSEMOTION: {
+      Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(
+          ev.motion.x, ev.motion.y);
       float x = mouse_pos.x - Xpos;
       float y = mouse_pos.y - Ypos;
       if (x < 0) {
-        hovered_item = HI_NONE;
+        hovered_item   = HI_NONE;
         tile_scrolling = TS_NONE;
         return false;
       }
       if (y < 0) {
         if (y < -38) {
           hovered_item = HI_TILEGROUP;
-        } else if (y < -16) {
+        }
+        else if (y < -16) {
           hovered_item = HI_OBJECTS;
-        } else {
+        }
+        else {
           hovered_item = HI_TOOL;
           hovered_tile = get_tool_pos(mouse_pos);
         }
         tile_scrolling = TS_NONE;
         break;
-      } else {
+      }
+      else {
         hovered_item = HI_TILE;
         hovered_tile = get_tile_pos(mouse_pos);
         if (dragging && input_type == IP_TILE) {
@@ -367,16 +373,17 @@ EditorInputGui::event(SDL_Event& ev) {
         }
       }
       if (y < 16) {
-        tile_scrolling = TS_UP;
+        tile_scrolling     = TS_UP;
         using_scroll_wheel = false;
-      }else if (y > SCREEN_HEIGHT - 16 - Ypos) {
-        tile_scrolling = TS_DOWN;
+      }
+      else if (y > SCREEN_HEIGHT - 16 - Ypos) {
+        tile_scrolling     = TS_DOWN;
         using_scroll_wheel = false;
-      } else {
+      }
+      else {
         tile_scrolling = TS_NONE;
       }
-    }
-    break;
+    } break;
 
     case SDL_WINDOWEVENT:
       if (ev.window.event == SDL_WINDOWEVENT_RESIZED) {
@@ -384,15 +391,14 @@ EditorInputGui::event(SDL_Event& ev) {
       }
       return false;
     case SDL_MOUSEWHEEL:
-      if (hovered_item != HI_NONE)
-      {
+      if (hovered_item != HI_NONE) {
         if (ev.wheel.y > 0) {
           tile_scrolling = TS_UP;
         }
         else {
           tile_scrolling = TS_DOWN;
         }
-        using_scroll_wheel = true;
+        using_scroll_wheel  = true;
         wheel_scroll_amount = ev.wheel.y;
       }
       return false;
@@ -403,27 +409,31 @@ EditorInputGui::event(SDL_Event& ev) {
 }
 
 void
-EditorInputGui::resize() {
-  Xpos = SCREEN_WIDTH - 128;
-  rubber->pos        = Vector(Xpos     , 44);
+EditorInputGui::resize()
+{
+  Xpos               = SCREEN_WIDTH - 128;
+  rubber->pos        = Vector(Xpos, 44);
   select_mode->pos   = Vector(Xpos + 32, 44);
   move_mode->pos     = Vector(Xpos + 64, 44);
   settings_mode->pos = Vector(Xpos + 96, 44);
 }
 
 void
-EditorInputGui::setup() {
+EditorInputGui::setup()
+{
   resize();
   tiles->set_tile(0);
 }
 
 void
-EditorInputGui::reset_pos() {
+EditorInputGui::reset_pos()
+{
   starting_tile = 0;
 }
 
 void
-EditorInputGui::update_mouse_icon() {
+EditorInputGui::update_mouse_icon()
+{
   switch (input_type) {
     case IP_NONE:
       MouseCursor::current()->set_icon(NULL);
@@ -431,7 +441,8 @@ EditorInputGui::update_mouse_icon() {
     case IP_OBJECT:
       if (object.empty()) {
         MouseCursor::current()->set_icon(rubber->get_current_surface());
-      } else {
+      }
+      else {
         MouseCursor::current()->set_icon(move_mode->get_current_surface());
       }
       break;
@@ -444,47 +455,50 @@ EditorInputGui::update_mouse_icon() {
 }
 
 Vector
-EditorInputGui::get_tile_coords(const int pos) const {
-  int x = pos%4;
-  int y = pos/4;
-  return Vector( x * 32 + Xpos, y * 32 + Ypos);
+EditorInputGui::get_tile_coords(const int pos) const
+{
+  int x = pos % 4;
+  int y = pos / 4;
+  return Vector(x * 32 + Xpos, y * 32 + Ypos);
 }
 
 int
-EditorInputGui::get_tile_pos(const Vector& coords) const {
+EditorInputGui::get_tile_pos(const Vector& coords) const
+{
   int x = (coords.x - Xpos) / 32;
   int y = (coords.y - Ypos) / 32;
-  return y*4 + x;
+  return y * 4 + x;
 }
 
 Vector
-EditorInputGui::get_tool_coords(const int pos) const {
-  int x = pos%4;
-  int y = pos/4;
-  return Vector( x * 32 + Xpos, y * 16 + 44);
+EditorInputGui::get_tool_coords(const int pos) const
+{
+  int x = pos % 4;
+  int y = pos / 4;
+  return Vector(x * 32 + Xpos, y * 16 + 44);
 }
 
 int
-EditorInputGui::get_tool_pos(const Vector& coords) const {
+EditorInputGui::get_tool_pos(const Vector& coords) const
+{
   int x = (coords.x - Xpos) / 32;
-  int y = (coords.y - 44)   / 16;
-  return y*4 + x;
+  int y = (coords.y - 44) / 16;
+  return y * 4 + x;
 }
 
 Rectf
 EditorInputGui::get_item_rect(const HoveredItem& item) const
 {
-  switch(item)
-  {
-    case HI_TILEGROUP: return Rectf(Vector(Xpos, 0), Vector(SCREEN_WIDTH, 22));
-    case HI_OBJECTS:   return Rectf(Vector(Xpos, 22), Vector(SCREEN_WIDTH, 44));
-    case HI_TILE:
-    {
+  switch (item) {
+    case HI_TILEGROUP:
+      return Rectf(Vector(Xpos, 0), Vector(SCREEN_WIDTH, 22));
+    case HI_OBJECTS:
+      return Rectf(Vector(Xpos, 22), Vector(SCREEN_WIDTH, 44));
+    case HI_TILE: {
       auto coords = get_tile_coords(hovered_tile);
       return Rectf(coords, coords + Vector(32, 32));
     }
-    case HI_TOOL:
-    {
+    case HI_TOOL: {
       auto coords = get_tool_coords(hovered_tile);
       return Rectf(coords, coords + Vector(32, 16));
     }

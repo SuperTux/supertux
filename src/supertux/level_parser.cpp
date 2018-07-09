@@ -48,16 +48,17 @@ LevelParser::from_nothing(const std::string& basedir)
   do {
     num++;
     level_file = basedir + "/level" + std::to_string(num) + ".stl";
-  } while ( PHYSFS_exists(level_file.c_str()) );
+  } while (PHYSFS_exists(level_file.c_str()));
   std::string level_name = "Level " + std::to_string(num);
-  level_file = "level" + std::to_string(num) + ".stl";
+  level_file             = "level" + std::to_string(num) + ".stl";
 
   parser.create(level_file, level_name, false);
   return level;
 }
 
 std::unique_ptr<Level>
-LevelParser::from_nothing_worldmap(const std::string& basedir, const std::string& name)
+LevelParser::from_nothing_worldmap(const std::string& basedir,
+                                   const std::string& name)
 {
   std::unique_ptr<Level> level(new Level);
   LevelParser parser(*level);
@@ -69,9 +70,10 @@ LevelParser::from_nothing_worldmap(const std::string& basedir, const std::string
     do {
       num++;
       level_file = basedir + "/worldmap" + std::to_string(num) + ".stwm";
-    } while ( PHYSFS_exists(level_file.c_str()) );
+    } while (PHYSFS_exists(level_file.c_str()));
     level_file = "worldmap" + std::to_string(num) + ".stwm";
-  } else {
+  }
+  else {
     level_file = "worldmap.stwm";
   }
 
@@ -79,10 +81,7 @@ LevelParser::from_nothing_worldmap(const std::string& basedir, const std::string
   return level;
 }
 
-LevelParser::LevelParser(Level& level) :
-  m_level(level)
-{
-}
+LevelParser::LevelParser(Level& level) : m_level(level) {}
 
 void
 LevelParser::load(const std::string& filepath)
@@ -90,20 +89,22 @@ LevelParser::load(const std::string& filepath)
   try {
     m_level.filename = filepath;
     register_translation_directory(filepath);
-    auto doc = ReaderDocument::parse(filepath);
+    auto doc  = ReaderDocument::parse(filepath);
     auto root = doc.get_root();
 
-    if(root.get_name() != "supertux-level")
+    if (root.get_name() != "supertux-level")
       throw std::runtime_error("file is not a supertux-level file.");
 
     auto level = root.get_mapping();
 
     int version = 1;
     level.get("version", version);
-    if(version == 1) {
-      log_info << "[" <<  filepath << "] level uses old format: version 1" << std::endl;
+    if (version == 1) {
+      log_info << "[" << filepath << "] level uses old format: version 1"
+               << std::endl;
       load_old_format(level);
-    } else if (version == 2) {
+    }
+    else if (version == 2) {
       level.get("tileset", m_level.tileset);
 
       level.get("name", m_level.name);
@@ -113,7 +114,7 @@ LevelParser::load(const std::string& filepath)
       level.get("target-time", m_level.target_time);
 
       auto iter = level.get_iter();
-      while(iter.next()) {
+      while (iter.next()) {
         if (iter.get_key() == "sector") {
           auto sector = SectorParser::from_reader(m_level, iter.as_mapping());
           m_level.add_sector(std::move(sector));
@@ -121,15 +122,19 @@ LevelParser::load(const std::string& filepath)
       }
 
       if (m_level.license.empty()) {
-        log_warning << "[" <<  filepath << "] The level author \"" << m_level.author
+        log_warning << "[" << filepath << "] The level author \""
+                    << m_level.author
                     << "\" did not specify a license for this level \""
-                    << m_level.name << "\". You might not be allowed to share it."
-                    << std::endl;
+                    << m_level.name
+                    << "\". You might not be allowed to share it." << std::endl;
       }
-    } else {
-      log_warning << "[" <<  filepath << "] level format version " << version << " is not supported" << std::endl;
     }
-  } catch(std::exception& e) {
+    else {
+      log_warning << "[" << filepath << "] level format version " << version
+                  << " is not supported" << std::endl;
+    }
+  }
+  catch (std::exception& e) {
     std::stringstream msg;
     msg << "Problem when reading level '" << filepath << "': " << e.what();
     throw std::runtime_error(msg.str());
@@ -147,12 +152,13 @@ LevelParser::load_old_format(const ReaderMapping& reader)
 }
 
 void
-LevelParser::create(const std::string& filepath, const std::string& levelname, bool worldmap)
+LevelParser::create(const std::string& filepath, const std::string& levelname,
+                    bool worldmap)
 {
   m_level.filename = filepath;
-  m_level.name = levelname;
-  m_level.license = "CC-BY-SA 4.0 International";
-  m_level.tileset = worldmap ? "images/worldmap.strf" : "images/tiles.strf";
+  m_level.name     = levelname;
+  m_level.license  = "CC-BY-SA 4.0 International";
+  m_level.tileset  = worldmap ? "images/worldmap.strf" : "images/tiles.strf";
 
   auto sector = SectorParser::from_nothing(m_level);
   sector->set_name("main");

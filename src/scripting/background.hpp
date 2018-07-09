@@ -24,28 +24,27 @@ class Background;
 
 namespace scripting {
 
-class Background
-{
+class Background {
 #ifndef SCRIPTING_API
-private:
+ private:
   ::Background* m_parent;
 
-public:
+ public:
   Background(::Background* parent);
 
-private:
+ private:
   Background(const Background&) = delete;
   Background& operator=(const Background&) = delete;
 #endif
 
-public:
+ public:
   void set_image(const std::string& image);
   void set_images(const std::string& top_image, const std::string& middle_image,
-                             const std::string& bottom_image);
+                  const std::string& bottom_image);
   void set_speed(float speed);
 };
 
-}
+}  // namespace scripting
 
 #endif
 

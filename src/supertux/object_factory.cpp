@@ -15,15 +15,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "supertux/object_factory.hpp"
+
 #include <sstream>
 #include <stdexcept>
-
-#include "math/vector.hpp"
-#include "util/reader_document.hpp"
-#include "util/reader_mapping.hpp"
-#include "supertux/object_factory.hpp"
-#include "supertux/level.hpp"
-#include "supertux/tile_manager.hpp"
 
 #include "badguy/angrystone.hpp"
 #include "badguy/badguy.hpp"
@@ -79,10 +74,9 @@
 #include "badguy/yeti.hpp"
 #include "badguy/yeti_stalactite.hpp"
 #include "badguy/zeekling.hpp"
-
 #include "editor/spawnpoint_marker.hpp"
 #include "editor/worldmap_objects.hpp"
-
+#include "math/vector.hpp"
 #include "object/ambient_sound.hpp"
 #include "object/anchor_point.hpp"
 #include "object/background.hpp"
@@ -160,13 +154,16 @@
 #include "object/unstable_tile.hpp"
 #include "object/weak_block.hpp"
 #include "object/wind.hpp"
-
+#include "supertux/level.hpp"
+#include "supertux/tile_manager.hpp"
 #include "trigger/climbable.hpp"
 #include "trigger/door.hpp"
 #include "trigger/scripttrigger.hpp"
 #include "trigger/secretarea_trigger.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "trigger/switch.hpp"
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
 
 ObjectFactory&
 ObjectFactory::instance()
@@ -175,11 +172,7 @@ ObjectFactory::instance()
   return instance_;
 }
 
-ObjectFactory::ObjectFactory() :
-  factories()
-{
-  init_factories();
-}
+ObjectFactory::ObjectFactory() : factories() { init_factories(); }
 
 void
 ObjectFactory::init_factories()
@@ -299,38 +292,40 @@ ObjectFactory::init_factories()
   add_factory<worldmap_editor::WorldmapSpawnPoint>("worldmap-spawnpoint");
 
   add_factory("tilemap", [](const ReaderMapping& reader) {
-      auto tileset = TileManager::current()->get_tileset(Level::current()->get_tileset());
-      return std::make_shared<TileMap>(tileset, reader);
-    });
+    auto tileset =
+        TileManager::current()->get_tileset(Level::current()->get_tileset());
+    return std::make_shared<TileMap>(tileset, reader);
+  });
 }
 
 GameObjectPtr
-ObjectFactory::create(const std::string& name, const ReaderMapping& reader) const
+ObjectFactory::create(const std::string& name,
+                      const ReaderMapping& reader) const
 {
   Factories::const_iterator i = factories.find(name);
 
-  if (i == factories.end())
-  {
+  if (i == factories.end()) {
     std::stringstream msg;
     msg << "No factory for object '" << name << "' found.";
     throw std::runtime_error(msg.str());
   }
-  else
-  {
+  else {
     return i->second(reader);
   }
 }
 
 GameObjectPtr
-ObjectFactory::create(const std::string& name, const Vector& pos, const Direction& dir, const std::string& data) const
+ObjectFactory::create(const std::string& name, const Vector& pos,
+                      const Direction& dir, const std::string& data) const
 {
   std::stringstream lisptext;
   lisptext << "(" << name << "\n"
            << " (x " << pos.x << ")"
            << " (y " << pos.y << ")" << data;
-  if(dir != AUTO) {
+  if (dir != AUTO) {
     lisptext << " (direction \"" << dir << "\"))";
-  } else {
+  }
+  else {
     lisptext << ")";
   }
 

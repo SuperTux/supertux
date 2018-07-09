@@ -30,7 +30,12 @@ static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
 
 enum BonusType {
-  NO_BONUS = 0, GROWUP_BONUS, FIRE_BONUS, ICE_BONUS, AIR_BONUS, EARTH_BONUS
+  NO_BONUS = 0,
+  GROWUP_BONUS,
+  FIRE_BONUS,
+  ICE_BONUS,
+  AIR_BONUS,
+  EARTH_BONUS
 };
 class DrawingContext;
 
@@ -38,10 +43,10 @@ class DrawingContext;
  * This class keeps player status between different game sessions (for
  * example when switching maps in the worldmap)
  */
-class PlayerStatus
-{
+class PlayerStatus {
   static Color text_color;
-public:
+
+ public:
   PlayerStatus();
   void reset();
   void add_coins(int count, bool play_sound = true);
@@ -51,25 +56,29 @@ public:
 
   void draw(DrawingContext& context);
 
-  std::string get_bonus_prefix() const;/**Returns the prefix of the animations that should be displayed*/
+  std::string get_bonus_prefix()
+      const; /**Returns the prefix of the animations that should be displayed*/
 
-public:
-  int  coins;
+ public:
+  int coins;
   BonusType bonus;
   int max_fire_bullets; /**< maximum number of fire bullets in play */
-  int max_ice_bullets; /**< maximum number of ice bullets in play */
-  int max_air_time; /**<determines maximum number of seconds player can float in air */
-  int max_earth_time; /**< determines maximum number of seconds player can turn to stone */
+  int max_ice_bullets;  /**< maximum number of ice bullets in play */
+  int max_air_time; /**<determines maximum number of seconds player can float in
+                       air */
+  int max_earth_time; /**< determines maximum number of seconds player can turn
+                         to stone */
 
-  std::string worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
+  std::string
+      worldmap_sprite; /**< the sprite of Tux that should be used in worldmap */
   std::string last_worldmap; /**< the last played worldmap */
 
-private:
+ private:
   int displayed_coins;
   int displayed_coins_frame;
   SurfacePtr coin_surface;
 
-private:
+ private:
   PlayerStatus(const PlayerStatus&);
   PlayerStatus& operator=(const PlayerStatus&);
 };

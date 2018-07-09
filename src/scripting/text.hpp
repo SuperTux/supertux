@@ -25,21 +25,20 @@ class TextObject;
 
 namespace scripting {
 
-class Text
-{
+class Text {
 #ifndef SCRIPTING_API
-private:
+ private:
   ::TextObject* m_parent;
 
-public:
+ public:
   Text(::TextObject* parent);
 
-private:
+ private:
   Text(const Text&) = delete;
   Text& operator=(const Text&) = delete;
 #endif
 
-public:
+ public:
   void set_text(const std::string& text);
   void set_font(const std::string& fontname);
   void fade_in(float fadetime);
@@ -50,10 +49,10 @@ public:
   float get_pos_x() const;
   float get_pos_y() const;
   void set_anchor_point(int anchor);
-  int  get_anchor_point() const;
+  int get_anchor_point() const;
 };
 
-}
+}  // namespace scripting
 
 #endif
 

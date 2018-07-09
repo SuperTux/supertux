@@ -1,6 +1,7 @@
 //  Zeekling - flyer that swoops down when she spots the player
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,9 +21,8 @@
 
 #include "badguy/badguy.hpp"
 
-class Zeekling : public BadGuy
-{
-public:
+class Zeekling : public BadGuy {
+ public:
   Zeekling(const ReaderMapping& reader);
 
   void initialize();
@@ -32,35 +32,27 @@ public:
   void freeze();
   void unfreeze();
   bool is_freezable() const;
-  std::string get_class() const {
-    return "zeekling";
-  }
-  std::string get_display_name() const {
-    return _("Zeekling");
-  }
+  std::string get_class() const { return "zeekling"; }
+  std::string get_display_name() const { return _("Zeekling"); }
 
-private:
+ private:
   bool collision_squished(GameObject& object);
   bool should_we_dive();
   void onBumpHorizontal();
   void onBumpVertical();
 
-private:
-  enum ZeeklingState {
-    FLYING,
-    DIVING,
-    CLIMBING
-  };
+ private:
+  enum ZeeklingState { FLYING, DIVING, CLIMBING };
 
-private:
+ private:
   float speed;
   Timer diveRecoverTimer;
   ZeeklingState state;
   const MovingObject* last_player; /**< last player we tracked */
   Vector last_player_pos; /**< position we last spotted the player at */
-  Vector last_self_pos; /**< position we last were at */
+  Vector last_self_pos;   /**< position we last were at */
 
-private:
+ private:
   Zeekling(const Zeekling&);
   Zeekling& operator=(const Zeekling&);
 };

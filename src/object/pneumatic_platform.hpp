@@ -1,5 +1,6 @@
 //  SuperTux - PneumaticPlatform
-//  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
+//  Copyright (C) 2007 Christoph Sommer
+//  <christoph.sommer@2007.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,41 +21,38 @@
 #include "object/moving_sprite.hpp"
 
 /**
- * Used to construct a pair of pneumatic platforms: If one is pushed down, the other one rises
+ * Used to construct a pair of pneumatic platforms: If one is pushed down, the
+ * other one rises
  */
-class PneumaticPlatform : public MovingSprite
-{
-public:
+class PneumaticPlatform : public MovingSprite {
+ public:
   PneumaticPlatform(const ReaderMapping& reader);
   PneumaticPlatform(PneumaticPlatform* master);
   virtual ~PneumaticPlatform();
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void update(float elapsed_time);
-  std::string get_class() const {
-    return "pneumatic-platform";
-  }
-  std::string get_display_name() const {
-    return _("Pneumatic platform");
-  }
+  std::string get_class() const { return "pneumatic-platform"; }
+  std::string get_display_name() const { return _("Pneumatic platform"); }
 
-  bool is_saveable() const {
-    return this == master;
-  }
+  bool is_saveable() const { return this == master; }
 
   void move_to(const Vector& pos);
   void editor_delete();
   void after_editor_set();
 
-protected:
-  PneumaticPlatform* master; /**< pointer to PneumaticPlatform that does movement calculation */
-  PneumaticPlatform* slave; /**< pointer to PneumaticPlatform that reacts to master platform's movement calculation */
-  float start_y; /**< vertical start position */
+ protected:
+  PneumaticPlatform* master; /**< pointer to PneumaticPlatform that does
+                                movement calculation */
+  PneumaticPlatform* slave;  /**< pointer to PneumaticPlatform that reacts to
+                                master platform's movement calculation */
+  float start_y;             /**< vertical start position */
   float offset_y; /**< vertical offset from the start position in px */
-  float speed_y; /**< vertical speed */
-  std::set<GameObject*> contacts; /**< objects that are currently pushing on the platform */
+  float speed_y;  /**< vertical speed */
+  std::set<GameObject*>
+      contacts; /**< objects that are currently pushing on the platform */
 
-private:
+ private:
   PneumaticPlatform(const PneumaticPlatform&);
   PneumaticPlatform& operator=(const PneumaticPlatform&);
 };

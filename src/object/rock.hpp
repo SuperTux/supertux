@@ -25,9 +25,8 @@
 
 class Rock : public MovingSprite,
              public Portable,
-             public ExposedObject<Rock, scripting::Rock>
-{
-public:
+             public ExposedObject<Rock, scripting::Rock> {
+ public:
   Rock(const Vector& pos, const std::string& spritename);
   Rock(const ReaderMapping& reader);
   Rock(const ReaderMapping& reader, const std::string& spritename);
@@ -38,15 +37,11 @@ public:
 
   void grab(MovingObject& object, const Vector& pos, Direction dir);
   void ungrab(MovingObject& object, Direction dir);
-  std::string get_class() const {
-    return "rock";
-  }
-  std::string get_display_name() const {
-    return _("Rock");
-  }
+  std::string get_class() const { return "rock"; }
+  std::string get_display_name() const { return _("Rock"); }
   ObjectSettings get_settings();
 
-protected:
+ protected:
   Physic physic;
   bool on_ground;
   bool grabbed;

@@ -17,72 +17,77 @@
 
 #include "supertux/textscroller.hpp"
 
+#include <sstream>
+#include <stdexcept>
+
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/info_box_line.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/screen_manager.hpp"
+#include "supertux/info_box_line.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/screen_manager.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
-#include <sstream>
-#include <stdexcept>
-
 static const float DEFAULT_SPEED = 20;
-static const float LEFT_BORDER = 50;
-static const float SCROLL = 60;
+static const float LEFT_BORDER   = 50;
+static const float SCROLL        = 60;
 
-TextScroller::TextScroller(const std::string& filename) :
-  defaultspeed(DEFAULT_SPEED),
-  speed(defaultspeed),
-  music(),
-  background(),
-  lines(),
-  scroll(0),
-  fading(false)
+TextScroller::TextScroller(const std::string& filename)
+    : defaultspeed(DEFAULT_SPEED),
+      speed(defaultspeed),
+      music(),
+      background(),
+      lines(),
+      scroll(0),
+      fading(false)
 {
   std::string text;
   std::string background_file;
 
   try {
     register_translation_directory(filename);
-    auto doc = ReaderDocument::parse(filename);
+    auto doc  = ReaderDocument::parse(filename);
     auto root = doc.get_root();
 
-    if(root.get_name() != "supertux-text") {
+    if (root.get_name() != "supertux-text") {
       throw std::runtime_error("File isn't a supertux-text file");
-    } else {
+    }
+    else {
       auto text_lisp = root.get_mapping();
 
       int version = 1;
       text_lisp.get("version", version);
       if (version == 1) {
-        log_info << "[" << filename << "] Text uses old format: version 1" << std::endl;
+        log_info << "[" << filename << "] Text uses old format: version 1"
+                 << std::endl;
 
-        if(!text_lisp.get("text", text)) {
+        if (!text_lisp.get("text", text)) {
           throw std::runtime_error("File doesn't contain a text field");
         }
 
         // Split text string lines into a vector
-        lines = InfoBoxLine::split(text, SCREEN_WIDTH - 2*LEFT_BORDER);
-      } else if (version == 2) {
+        lines = InfoBoxLine::split(text, SCREEN_WIDTH - 2 * LEFT_BORDER);
+      }
+      else if (version == 2) {
         ReaderMapping content;
         if (!text_lisp.get("content", content)) {
           throw std::runtime_error("File doesn't contain content");
-        } else {
+        }
+        else {
           auto iter = content.get_iter();
           while (iter.next()) {
             if (iter.get_key() == "image") {
               std::string image_file;
               iter.get(image_file);
               lines.emplace_back(new InfoBoxLine('!', image_file));
-            } else if (iter.get_key() == "person") {
+            }
+            else if (iter.get_key() == "person") {
               bool simple;
               std::string name, info, image_file;
 
@@ -91,16 +96,23 @@ TextScroller::TextScroller(const std::string& filename) :
               }
 
               if (simple) {
-                if (!iter.as_mapping().get("name", name) || !iter.as_mapping().get("info", info)) {
-                  throw std::runtime_error("Simple entry requires both name and info specified");
+                if (!iter.as_mapping().get("name", name) ||
+                    !iter.as_mapping().get("info", info)) {
+                  throw std::runtime_error(
+                      "Simple entry requires both name and info specified");
                 }
 
                 if (iter.as_mapping().get("image", image_file)) {
-                  log_warning << "[" << filename << "] Simple person entry shouldn't specify images" << std::endl;
+                  log_warning
+                      << "[" << filename
+                      << "] Simple person entry shouldn't specify images"
+                      << std::endl;
                 }
 
-                lines.emplace_back(new InfoBoxLine(' ', name + " (" + info + ")"));
-              } else {
+                lines.emplace_back(
+                    new InfoBoxLine(' ', name + " (" + info + ")"));
+              }
+              else {
                 if (iter.as_mapping().get("name", name)) {
                   lines.emplace_back(new InfoBoxLine('\t', name));
                 }
@@ -113,10 +125,12 @@ TextScroller::TextScroller(const std::string& filename) :
                   lines.emplace_back(new InfoBoxLine(' ', info));
                 }
               }
-            } else if (iter.get_key() == "blank") {
+            }
+            else if (iter.get_key() == "blank") {
               // Empty line
               lines.emplace_back(new InfoBoxLine('\t', ""));
-            } else if (iter.get_key() == "text") {
+            }
+            else if (iter.get_key() == "text") {
               std::string type, string;
 
               if (!iter.as_mapping().get("type", type)) {
@@ -138,15 +152,19 @@ TextScroller::TextScroller(const std::string& filename) :
               else if (type == "reference")
                 lines.emplace_back(new InfoBoxLine('*', string));
               else {
-                log_warning << "[" << filename << "] Unknown text type '" << type << "'" << std::endl;
+                log_warning << "[" << filename << "] Unknown text type '"
+                            << type << "'" << std::endl;
                 lines.emplace_back(new InfoBoxLine('\t', string));
               }
-            } else {
-              log_warning << "[" << filename << "] Unknown token '" << iter.get_key() << "'" << std::endl;
+            }
+            else {
+              log_warning << "[" << filename << "] Unknown token '"
+                          << iter.get_key() << "'" << std::endl;
             }
           }
         }
-      } else {
+      }
+      else {
         throw std::runtime_error("File format version is not supported");
       }
 
@@ -157,7 +175,8 @@ TextScroller::TextScroller(const std::string& filename) :
       text_lisp.get("speed", defaultspeed);
       text_lisp.get("music", music);
     }
-  } catch (std::exception& e) {
+  }
+  catch (std::exception& e) {
     std::ostringstream msg;
     msg << "Couldn't load file '" << filename << "': " << e.what() << std::endl;
     throw std::runtime_error(msg.str());
@@ -167,42 +186,44 @@ TextScroller::TextScroller(const std::string& filename) :
   background = Surface::create("images/background/" + background_file);
 }
 
-TextScroller::~TextScroller()
-{
-}
+TextScroller::~TextScroller() {}
 
 void
 TextScroller::setup()
 {
   SoundManager::current()->play_music(music);
-  ScreenManager::current()->set_screen_fade(std::unique_ptr<ScreenFade>(new FadeIn(0.5)));
+  ScreenManager::current()->set_screen_fade(
+      std::unique_ptr<ScreenFade>(new FadeIn(0.5)));
 }
 
 void
 TextScroller::update(float elapsed_time)
 {
   Controller* controller = InputManager::current()->get_controller();
-  if(controller->hold(Controller::UP)) {
-    speed = -defaultspeed*5;
-  } else if(controller->hold(Controller::DOWN)) {
-    speed = defaultspeed*5;
-  } else {
+  if (controller->hold(Controller::UP)) {
+    speed = -defaultspeed * 5;
+  }
+  else if (controller->hold(Controller::DOWN)) {
+    speed = defaultspeed * 5;
+  }
+  else {
     speed = defaultspeed;
   }
-  if((controller->pressed(Controller::JUMP)
-     || controller->pressed(Controller::ACTION)
-     || controller->pressed(Controller::MENU_SELECT)
-     )&& !(controller->pressed(Controller::UP))) // prevent skipping if jump with up is enabled
+  if ((controller->pressed(Controller::JUMP) ||
+       controller->pressed(Controller::ACTION) ||
+       controller->pressed(Controller::MENU_SELECT)) &&
+      !(controller->pressed(
+          Controller::UP)))  // prevent skipping if jump with up is enabled
     scroll += SCROLL;
-  if(controller->pressed(Controller::START) ||
-     controller->pressed(Controller::ESCAPE)) {
-    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+  if (controller->pressed(Controller::START) ||
+      controller->pressed(Controller::ESCAPE)) {
+    ScreenManager::current()->pop_screen(
+        std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
   }
 
   scroll += speed * elapsed_time;
 
-  if(scroll < 0)
-    scroll = 0;
+  if (scroll < 0) scroll = 0;
 }
 
 void
@@ -210,22 +231,26 @@ TextScroller::draw(DrawingContext& context)
 {
   context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
-  context.draw_surface_part(background, Rectf(0, 0, background->get_width(), background->get_height()),
-                            Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), 0);
-
+  context.draw_surface_part(
+      background,
+      Rectf(0, 0, background->get_width(), background->get_height()),
+      Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), 0);
 
   float y = SCREEN_HEIGHT - scroll;
   for (auto& line : lines) {
     if (y + line->get_height() >= 0 && SCREEN_HEIGHT - y >= 0) {
-      line->draw(context, Rectf(LEFT_BORDER, y, SCREEN_WIDTH - 2*LEFT_BORDER, y), LAYER_GUI);
+      line->draw(context,
+                 Rectf(LEFT_BORDER, y, SCREEN_WIDTH - 2 * LEFT_BORDER, y),
+                 LAYER_GUI);
     }
 
     y += line->get_height();
   }
 
-  if(y < 0 && !fading ) {
+  if (y < 0 && !fading) {
     fading = true;
-    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
+    ScreenManager::current()->pop_screen(
+        std::unique_ptr<ScreenFade>(new FadeOut(0.5)));
   }
 }
 

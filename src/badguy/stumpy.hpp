@@ -19,9 +19,8 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class Stumpy : public WalkingBadguy
-{
-public:
+class Stumpy : public WalkingBadguy {
+ public:
   Stumpy(const ReaderMapping& reader);
   Stumpy(const Vector& pos, Direction d);
 
@@ -31,24 +30,18 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
   bool is_freezable() const;
-  std::string get_class() const {
-    return "stumpy";
-  }
-  std::string get_display_name() const {
-    return _("Stumpy");
-  }
+  std::string get_class() const { return "stumpy"; }
+  std::string get_display_name() const { return _("Stumpy"); }
 
-protected:
-  enum MyState {
-    STATE_INVINCIBLE, STATE_NORMAL
-  };
+ protected:
+  enum MyState { STATE_INVINCIBLE, STATE_NORMAL };
 
-protected:
+ protected:
   bool collision_squished(GameObject& object);
 
-private:
+ private:
   MyState mystate;
-  Timer   invincible_timer;
+  Timer invincible_timer;
 };
 
 #endif

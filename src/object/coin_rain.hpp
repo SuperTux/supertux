@@ -24,17 +24,14 @@
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 
-class CoinRain : public GameObject
-{
-public:
-  CoinRain(const Vector& pos, bool emerge=false);
+class CoinRain : public GameObject {
+ public:
+  CoinRain(const Vector& pos, bool emerge = false);
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
-private:
+ private:
   SpritePtr sprite;
   Vector position;
   float emerge_distance;

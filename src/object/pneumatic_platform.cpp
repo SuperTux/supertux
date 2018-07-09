@@ -1,5 +1,6 @@
 //  SuperTux - PneumaticPlatform
-//  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
+//  Copyright (C) 2007 Christoph Sommer
+//  <christoph.sommer@2007.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,51 +22,52 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-PneumaticPlatform::PneumaticPlatform(const ReaderMapping& reader) :
-  MovingSprite(reader, "images/objects/platforms/small.sprite", LAYER_OBJECTS, COLGROUP_STATIC),
-  master(0),
-  slave(0),
-  start_y(0),
-  offset_y(0),
-  speed_y(0),
-  contacts()
+PneumaticPlatform::PneumaticPlatform(const ReaderMapping& reader)
+    : MovingSprite(reader, "images/objects/platforms/small.sprite",
+                   LAYER_OBJECTS, COLGROUP_STATIC),
+      master(0),
+      slave(0),
+      start_y(0),
+      offset_y(0),
+      speed_y(0),
+      contacts()
 {
   start_y = get_pos().y;
 }
 
-PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master_) :
-  MovingSprite(*master_),
-  master(master_),
-  slave(this),
-  start_y(master_->start_y),
-  offset_y(-master_->offset_y),
-  speed_y(0),
-  contacts()
+PneumaticPlatform::PneumaticPlatform(PneumaticPlatform* master_)
+    : MovingSprite(*master_),
+      master(master_),
+      slave(this),
+      start_y(master_->start_y),
+      offset_y(-master_->offset_y),
+      speed_y(0),
+      contacts()
 {
   set_pos(get_pos() + Vector(master->get_bbox().get_width(), 0));
   master->master = master;
-  master->slave = this;
+  master->slave  = this;
 }
 
 PneumaticPlatform::~PneumaticPlatform()
 {
   if ((this == master) && (master)) {
     slave->master = 0;
-    slave->slave = 0;
+    slave->slave  = 0;
   }
   if ((master) && (this == slave)) {
     master->master = 0;
-    master->slave = 0;
+    master->slave  = 0;
   }
   master = 0;
-  slave = 0;
+  slave  = 0;
 }
 
 HitResponse
-PneumaticPlatform::collision(GameObject& other, const CollisionHit& )
+PneumaticPlatform::collision(GameObject& other, const CollisionHit&)
 {
-
-  // somehow the hit parameter does not get filled in, so to determine (hit.top == true) we do this:
+  // somehow the hit parameter does not get filled in, so to determine (hit.top
+  // == true) we do this:
   auto mo = dynamic_cast<MovingObject*>(&other);
   if (!mo) return FORCE_MOVE;
   if ((mo->get_bbox().p2.y) > (bbox.p1.y + 2)) return FORCE_MOVE;
@@ -73,7 +75,7 @@ PneumaticPlatform::collision(GameObject& other, const CollisionHit& )
   auto pl = dynamic_cast<Player*>(mo);
   if (pl) {
     if (pl->is_big()) contacts.insert(0);
-    auto po = pl->get_grabbed_object();
+    auto po   = pl->get_grabbed_object();
     auto pomo = dynamic_cast<MovingObject*>(po);
     if (pomo) contacts.insert(pomo);
   }
@@ -105,18 +107,26 @@ PneumaticPlatform::update(float elapsed_time)
     speed_y -= (offset_y * elapsed_time * 0.05f);
     speed_y *= 1 - elapsed_time;
     offset_y += speed_y * elapsed_time * Sector::current()->get_gravity();
-    if (offset_y < -256) { offset_y = -256; speed_y = 0; }
-    if (offset_y > 256) { offset_y = 256; speed_y = -0; }
+    if (offset_y < -256) {
+      offset_y = -256;
+      speed_y  = 0;
+    }
+    if (offset_y > 256) {
+      offset_y = 256;
+      speed_y  = -0;
+    }
     movement = Vector(0, (start_y + offset_y) - get_pos().y);
   }
 }
 
 void
-PneumaticPlatform::move_to(const Vector& pos) {
+PneumaticPlatform::move_to(const Vector& pos)
+{
   Vector shift = pos - bbox.p1;
   if (this == slave) {
     master->set_pos(master->get_pos() + shift);
-  } else if (this == master) {
+  }
+  else if (this == master) {
     slave->set_pos(slave->get_pos() + shift);
   }
   MovingObject::move_to(pos);
@@ -124,13 +134,15 @@ PneumaticPlatform::move_to(const Vector& pos) {
 }
 
 void
-PneumaticPlatform::editor_delete() {
+PneumaticPlatform::editor_delete()
+{
   master->remove_me();
   slave->remove_me();
 }
 
 void
-PneumaticPlatform::after_editor_set() {
+PneumaticPlatform::after_editor_set()
+{
   MovingSprite::after_editor_set();
   slave->change_sprite(sprite_name);
 }

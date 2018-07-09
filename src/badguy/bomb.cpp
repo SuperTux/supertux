@@ -14,19 +14,22 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "audio/sound_manager.hpp"
 #include "badguy/bomb.hpp"
+
+#include "audio/sound_manager.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
-Bomb::Bomb(const Vector& pos, Direction dir_, std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/ ) :
-  BadGuy( pos, dir_, custom_sprite ),
-  state(STATE_TICKING),
-  grabbed(false),
-  grabber(NULL),
-  ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav"))
+Bomb::Bomb(
+    const Vector& pos, Direction dir_,
+    std::string custom_sprite /*= "images/creatures/mr_bomb/mr_bomb.sprite"*/)
+    : BadGuy(pos, dir_, custom_sprite),
+      state(STATE_TICKING),
+      grabbed(false),
+      grabber(NULL),
+      ticking(SoundManager::current()->create_sound_source("sounds/fizz.wav"))
 {
   set_action(dir_ == LEFT ? "ticking-left" : "ticking-right", 1);
   countMe = false;
@@ -41,27 +44,24 @@ Bomb::Bomb(const Vector& pos, Direction dir_, std::string custom_sprite /*= "ima
 void
 Bomb::collision_solid(const CollisionHit& hit)
 {
-  if(grabbed) {
+  if (grabbed) {
     return;
   }
-  if(hit.top || hit.bottom)
-    physic.set_velocity_y(0);
-  if(hit.left || hit.right)
-    physic.set_velocity_x(-physic.get_velocity_x());
-  if(hit.crush)
-    physic.set_velocity(0, 0);
+  if (hit.top || hit.bottom) physic.set_velocity_y(0);
+  if (hit.left || hit.right) physic.set_velocity_x(-physic.get_velocity_x());
+  if (hit.crush) physic.set_velocity(0, 0);
 
   update_on_ground_flag(hit);
 }
 
 HitResponse
-Bomb::collision_player(Player& , const CollisionHit& )
+Bomb::collision_player(Player&, const CollisionHit&)
 {
   return ABORT_MOVE;
 }
 
 HitResponse
-Bomb::collision_badguy(BadGuy& , const CollisionHit& )
+Bomb::collision_badguy(BadGuy&, const CollisionHit&)
 {
   return ABORT_MOVE;
 }
@@ -72,7 +72,7 @@ Bomb::active_update(float elapsed_time)
   if (on_ground()) physic.set_velocity_x(0);
 
   ticking->set_position(get_pos());
-  if(sprite->animation_done()) {
+  if (sprite->animation_done()) {
     explode();
   }
   else if (!grabbed) {
@@ -91,11 +91,10 @@ Bomb::explode()
   if (grabber != NULL) {
     auto player = dynamic_cast<Player*>(grabber);
 
-    if (player)
-      player->stop_grabbing();
+    if (player) player->stop_grabbing();
   }
 
-  if(is_valid()) {
+  if (is_valid()) {
     remove_me();
     auto explosion = std::make_shared<Explosion>(bbox.get_middle());
     Sector::current()->add_object(explosion);
@@ -119,7 +118,7 @@ Bomb::ignite()
 void
 Bomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
-  movement = pos - get_pos();
+  movement  = pos - get_pos();
   this->dir = dir_;
 
   // We actually face the opposite direction of Tux here to make the fuse more
@@ -137,19 +136,20 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
   // This object is now thrown.
   int toss_velocity_x = 0;
   int toss_velocity_y = 0;
-  auto player = dynamic_cast<Player*> (&object);
+  auto player         = dynamic_cast<Player*>(&object);
 
   // toss upwards
-  if(dir_ == UP)
-    toss_velocity_y += -500;
+  if (dir_ == UP) toss_velocity_y += -500;
 
   // toss to the side when moving sideways
-  if(player && player->physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 1) {
+  if (player && player->physic.get_velocity_x() * (dir_ == LEFT ? -1 : 1) > 1) {
     toss_velocity_x += (dir_ == LEFT) ? -200 : 200;
     toss_velocity_y = (toss_velocity_y < -200) ? toss_velocity_y : -200;
     // toss farther when running
-    if(player && player->physic.get_velocity_x()*(dir_ == LEFT ? -1 : 1) > 200)
-      toss_velocity_x += player->physic.get_velocity_x()-(190*(dir_ == LEFT ? -1 : 1));
+    if (player &&
+        player->physic.get_velocity_x() * (dir_ == LEFT ? -1 : 1) > 200)
+      toss_velocity_x +=
+          player->physic.get_velocity_x() - (190 * (dir_ == LEFT ? -1 : 1));
   }
 
   physic.set_velocity(toss_velocity_x, toss_velocity_y);
@@ -158,14 +158,16 @@ Bomb::ungrab(MovingObject& object, Direction dir_)
   grabbed = false;
 }
 
-void Bomb::stop_looping_sounds()
+void
+Bomb::stop_looping_sounds()
 {
   if (ticking) {
     ticking->stop();
   }
 }
 
-void Bomb::play_looping_sounds()
+void
+Bomb::play_looping_sounds()
 {
   if (ticking) {
     ticking->play();

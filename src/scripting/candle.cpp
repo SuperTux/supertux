@@ -15,24 +15,25 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/candle.hpp"
+
 #include "scripting/candle.hpp"
 
 namespace scripting {
 
-Candle::Candle(::Candle* candle_)
-  : candle(candle_)
-{ }
+Candle::Candle(::Candle* candle_) : candle(candle_) {}
 
-bool Candle::get_burning() const
+bool
+Candle::get_burning() const
 {
   return candle->get_burning();
 }
 
-void Candle::set_burning(bool burning)
+void
+Candle::set_burning(bool burning)
 {
   candle->set_burning(burning);
 }
 
-}
+}  // namespace scripting
 
 /* EOF */

@@ -23,16 +23,17 @@
 #include "gui/menu_script.hpp"
 #include "supertux/menu/menu_storage.hpp"
 
-ItemScript::ItemScript(const std::string& text_, std::string* script_, int _id) :
-  MenuItem(text_, _id),
-  script(script_)
+ItemScript::ItemScript(const std::string& text_, std::string* script_, int _id)
+    : MenuItem(text_, _id), script(script_)
 {
 }
 
 void
-ItemScript::process_action(const MenuAction& action) {
+ItemScript::process_action(const MenuAction& action)
+{
   if (action == MENU_ACTION_HIT) {
-    MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ScriptMenu(script)));
+    MenuManager::instance().push_menu(
+        std::unique_ptr<Menu>(new ScriptMenu(script)));
   }
 }
 

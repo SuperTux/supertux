@@ -22,10 +22,10 @@
 
 namespace worldmap {
 
-Direction reverse_dir(Direction direction)
+Direction
+reverse_dir(Direction direction)
 {
-  switch(direction)
-  {
+  switch (direction) {
     case D_WEST:
       return D_EAST;
     case D_EAST:
@@ -43,8 +43,7 @@ Direction reverse_dir(Direction direction)
 std::string
 direction_to_string(Direction direction)
 {
-  switch(direction)
-  {
+  switch (direction) {
     case D_WEST:
       return "west";
     case D_EAST:
@@ -78,7 +77,8 @@ string_to_direction(const std::string& directory)
 }
 
 ObjectOption
-dir_option(Direction *dir) {
+dir_option(Direction* dir)
+{
   ObjectOption result(MN_STRINGSELECT, _("Direction"), dir);
   result.select.push_back(_("none"));
   result.select.push_back(_("west"));
@@ -88,6 +88,6 @@ dir_option(Direction *dir) {
   return result;
 }
 
-} // namespace worldmap
+}  // namespace worldmap
 
 /* EOF */

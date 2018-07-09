@@ -19,9 +19,8 @@
 
 #include "badguy/stalactite.hpp"
 
-class YetiStalactite : public Stalactite
-{
-public:
+class YetiStalactite : public Stalactite {
+ public:
   YetiStalactite(const ReaderMapping& lisp);
 
   void active_update(float elapsed_time);
@@ -30,13 +29,8 @@ public:
   void update(float elapsed_time);
 
   bool is_flammable() const;
-  std::string get_class() const {
-    return "yeti_stalactite";
-  }
-  std::string get_display_name() const {
-    return _("Yeti's stalactite");
-  }
-
+  std::string get_class() const { return "yeti_stalactite"; }
+  std::string get_display_name() const { return _("Yeti's stalactite"); }
 };
 
 #endif

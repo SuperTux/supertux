@@ -24,9 +24,8 @@ class Sector;
  * This class is an abstract interface for algorithms that transform levels in
  * some way before they are played.
  */
-class LevelTransformer
-{
-public:
+class LevelTransformer {
+ public:
   virtual ~LevelTransformer();
 
   /** transform a complete Level, the standard implementation just calls

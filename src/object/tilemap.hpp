@@ -35,17 +35,14 @@ class TileSet;
  */
 class TileMap : public GameObject,
                 public ExposedObject<TileMap, scripting::TileMap>,
-                public PathObject
-{
-public:
-  TileMap(const TileSet *tileset);
-  TileMap(const TileSet *tileset, const ReaderMapping& reader);
+                public PathObject {
+ public:
+  TileMap(const TileSet* tileset);
+  TileMap(const TileSet* tileset, const ReaderMapping& reader);
   virtual ~TileMap();
 
   virtual void save(Writer& writer);
-  std::string get_display_name() const {
-    return _("Tile map");
-  }
+  std::string get_display_name() const { return _("Tile map"); }
   virtual ObjectSettings get_settings();
   virtual void after_editor_set();
 
@@ -70,59 +67,59 @@ public:
   void resize(int newwidth, int newheight, int fill_id = 0);
   void resize(Size newsize);
 
-  size_t get_width() const
-  { return width; }
+  size_t get_width() const { return width; }
 
-  size_t get_height() const
-  { return height; }
+  size_t get_height() const { return height; }
 
-  Size get_size() const
-  { return Size(width, height); }
+  Size get_size() const { return Size(width, height); }
 
-  Vector get_offset() const
-  { return offset; }
+  Vector get_offset() const { return offset; }
 
   /** Get the movement of this tilemap. The collision detection code may need a
    *  non-negative y-movement. Passing `false' as the `actual' argument will
    *  provide that. Used exclusively in src/supertux/sector.cpp. */
   Vector get_movement(bool actual) const
   {
-    if(actual) {
+    if (actual) {
       return movement;
-    } else {
-      return Vector(movement.x, std::max(0.0f,movement.y));
+    }
+    else {
+      return Vector(movement.x, std::max(0.0f, movement.y));
     }
   }
 
-  void set_offset(const Vector &offset_)
-  { this->offset = offset_; }
+  void set_offset(const Vector& offset_) { this->offset = offset_; }
 
   /* Returns the position of the upper-left corner of
    * tile (x, y) in the sector. */
   Vector get_tile_position(int x, int y) const
-  { return offset + Vector(x,y) * 32; }
+  {
+    return offset + Vector(x, y) * 32;
+  }
 
   Rectf get_bbox() const
-  { return Rectf(get_tile_position(0, 0), get_tile_position(width, height)); }
+  {
+    return Rectf(get_tile_position(0, 0), get_tile_position(width, height));
+  }
 
   Rectf get_tile_bbox(int x, int y) const
-  { return Rectf(get_tile_position(x, y), get_tile_position(x+1, y+1)); }
+  {
+    return Rectf(get_tile_position(x, y), get_tile_position(x + 1, y + 1));
+  }
 
   /* Returns the half-open rectangle of (x, y) tile indices
    * that overlap the given rectangle in the sector. */
-  Rect get_tiles_overlapping(const Rectf &rect) const;
+  Rect get_tiles_overlapping(const Rectf& rect) const;
 
-  int get_layer() const
-  { return z_pos; }
+  int get_layer() const { return z_pos; }
 
-  void set_layer(int layer_)
-  { z_pos = layer_; }
+  void set_layer(int layer_) { z_pos = layer_; }
 
-  bool is_solid() const
-  { return real_solid && effective_solid; }
+  bool is_solid() const { return real_solid && effective_solid; }
 
   /**
-   * Changes Tilemap's solidity, i.e. whether to consider it when doing collision detection.
+   * Changes Tilemap's solidity, i.e. whether to consider it when doing
+   * collision detection.
    */
   void set_solid(bool solid = true);
 
@@ -142,25 +139,21 @@ public:
   /// changes all tiles with the given ID
   void change_all(uint32_t oldtile, uint32_t newtile);
 
-  void set_drawing_effect(DrawingEffect effect)
-  {
-    drawing_effect = effect;
-  }
+  void set_drawing_effect(DrawingEffect effect) { drawing_effect = effect; }
 
-  DrawingEffect get_drawing_effect() const
-  {
-    return drawing_effect;
-  }
+  DrawingEffect get_drawing_effect() const { return drawing_effect; }
 
   /**
    * Start fading the tilemap to opacity given by @c alpha.
-   * Destination opacity will be reached after @c seconds seconds. Also influences solidity.
+   * Destination opacity will be reached after @c seconds seconds. Also
+   * influences solidity.
    */
   void fade(float alpha, float seconds = 0);
 
   /**
    * Start fading the tilemap to tint given by RGBA.
-   * Destination opacity will be reached after @c seconds seconds. Doesn't influence solidity.
+   * Destination opacity will be reached after @c seconds seconds. Doesn't
+   * influence solidity.
    */
   void tint_fade(Color new_tint, float seconds = 0);
 
@@ -170,24 +163,24 @@ public:
   void set_alpha(float alpha);
 
   /**
-   * Return tilemap's opacity. Note that while the tilemap is fading in or out, this will return the current alpha value, not the target alpha.
+   * Return tilemap's opacity. Note that while the tilemap is fading in or out,
+   * this will return the current alpha value, not the target alpha.
    */
   float get_alpha() const;
 
-  std::string get_class() const {
-    return "tilemap";
-  }
+  std::string get_class() const { return "tilemap"; }
 
   bool editor_active;
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const
+  {
     return "images/engine/editor/tilemap.png";
   }
 
   void set_tileset(const TileSet* new_tileset);
 
-private:
-  const TileSet *tileset;
+ private:
+  const TileSet* tileset;
 
   typedef std::vector<uint32_t> Tiles;
   Tiles tiles;
@@ -208,31 +201,35 @@ private:
   Vector movement; /**< The movement that happened last frame */
 
   DrawingEffect drawing_effect;
-  float alpha; /**< requested tilemap opacity */
-  float current_alpha; /**< current tilemap opacity */
-  float remaining_fade_time; /**< seconds until requested tilemap opacity is reached */
+  float alpha;               /**< requested tilemap opacity */
+  float current_alpha;       /**< current tilemap opacity */
+  float remaining_fade_time; /**< seconds until requested tilemap opacity is
+                                reached */
 
-  /** The tint can have its own alpha channel, but this alpha channel doesn't affect
-      the solidity of the tilemap. This alpha channel makes the tilemap only less or
-      more translucent.*/
-  Color tint; /**< requested tilemap tint */
-  Color current_tint; /**< current tilemap tint */
-  float remaining_tint_fade_time; /**< seconds until requested tilemap tint is reached */
+  /** The tint can have its own alpha channel, but this alpha channel doesn't
+     affect the solidity of the tilemap. This alpha channel makes the tilemap
+     only less or more translucent.*/
+  Color tint;                     /**< requested tilemap tint */
+  Color current_tint;             /**< current tilemap tint */
+  float remaining_tint_fade_time; /**< seconds until requested tilemap tint is
+                                     reached */
 
-  void float_channel(float target, float &current, float remaining_time, float elapsed_time);
+  void float_channel(float target, float& current, float remaining_time,
+                     float elapsed_time);
 
   /**
    * Is the tilemap currently moving (following the path)
    */
   bool running;
 
-  DrawingContext::Target draw_target; /**< set to LIGHTMAP to draw to lightmap */
+  DrawingContext::Target
+      draw_target; /**< set to LIGHTMAP to draw to lightmap */
 
   int new_size_x;
   int new_size_y;
   bool add_path;
 
-private:
+ private:
   TileMap(const TileMap&);
   TileMap& operator=(const TileMap&);
 };

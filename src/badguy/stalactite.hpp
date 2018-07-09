@@ -19,30 +19,25 @@
 
 #include "badguy/badguy.hpp"
 
-class Stalactite : public BadGuy
-{
-public:
+class Stalactite : public BadGuy {
+ public:
   Stalactite(const ReaderMapping& reader);
 
   void active_update(float elapsed_time);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
-  HitResponse collision_bullet(Bullet& bullet, const CollisionHit& );
+  HitResponse collision_bullet(Bullet& bullet, const CollisionHit&);
 
   void kill_fall();
   void draw(DrawingContext& context);
   void deactivate();
 
   void squish();
-  std::string get_class() const {
-    return "stalactite";
-  }
-  std::string get_display_name() const {
-    return _("Stalactite");
-  }
+  std::string get_class() const { return "stalactite"; }
+  std::string get_display_name() const { return _("Stalactite"); }
 
-protected:
+ protected:
   enum StalactiteState {
     STALACTITE_HANGING,
     STALACTITE_SHAKING,
@@ -50,7 +45,7 @@ protected:
     STALACTITE_SQUISHED
   };
 
-protected:
+ protected:
   Timer timer;
   StalactiteState state;
   Vector shake_delta;

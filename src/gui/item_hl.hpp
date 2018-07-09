@@ -17,32 +17,31 @@
 #ifndef HEADER_SUPERTUX_GUI_ITEM_HL_HPP
 #define HEADER_SUPERTUX_GUI_ITEM_HL_HPP
 
+#include <SDL.h>
+
 #include <list>
 #include <memory>
-#include <SDL.h>
 
 #include "gui/menu_item.hpp"
 
-class ItemHorizontalLine : public MenuItem
-{
-  public:
-    ItemHorizontalLine();
+class ItemHorizontalLine : public MenuItem {
+ public:
+  ItemHorizontalLine();
 
-    /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
+  /** Draws the menu item. */
+  virtual void draw(DrawingContext&, const Vector& pos, int menu_width,
+                    bool active);
 
-    /** Returns true when the menu item has no action and therefore can be skipped.
-        Useful for labels and horizontal lines.*/
-    virtual bool skippable() const {
-      return true;
-    }
+  /** Returns true when the menu item has no action and therefore can be
+     skipped. Useful for labels and horizontal lines.*/
+  virtual bool skippable() const { return true; }
 
-    /** Returns the minimum width of the menu item. */
-    virtual int get_width() const;
+  /** Returns the minimum width of the menu item. */
+  virtual int get_width() const;
 
-  private:
-    ItemHorizontalLine(const ItemHorizontalLine&);
-    ItemHorizontalLine& operator=(const ItemHorizontalLine&);
+ private:
+  ItemHorizontalLine(const ItemHorizontalLine&);
+  ItemHorizontalLine& operator=(const ItemHorizontalLine&);
 };
 
 #endif

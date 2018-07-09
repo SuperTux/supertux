@@ -20,26 +20,21 @@
 #include "object/block.hpp"
 #include "util/reader_fwd.hpp"
 
-class InvisibleBlock : public Block
-{
-public:
+class InvisibleBlock : public Block {
+ public:
   InvisibleBlock(const Vector& pos);
   InvisibleBlock(const ReaderMapping& lisp);
-  std::string get_class() const {
-    return "invisible_block";
-  }
-  std::string get_display_name() const {
-    return _("Invisible block");
-  }
+  std::string get_class() const { return "invisible_block"; }
+  std::string get_display_name() const { return _("Invisible block"); }
 
   virtual void draw(DrawingContext& context);
   virtual bool collides(GameObject& other, const CollisionHit& hit) const;
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
-protected:
+ protected:
   virtual void hit(Player& player);
 
-private:
+ private:
   bool visible;
 };
 

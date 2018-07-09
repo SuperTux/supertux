@@ -21,9 +21,8 @@
 
 class SoundFile;
 
-class StreamSoundSource : public OpenALSoundSource
-{
-public:
+class StreamSoundSource : public OpenALSoundSource {
+ public:
   StreamSoundSource();
   virtual ~StreamSoundSource();
 
@@ -32,26 +31,16 @@ public:
   enum FadeState { NoFading, FadingOn, FadingOff, FadingPause, FadingResume };
 
   void set_fading(FadeState state, float fadetime);
-  FadeState get_fade_state() const
-  {
-    return fade_state;
-  }
+  FadeState get_fade_state() const { return fade_state; }
   void update();
 
-  void set_looping(bool looping_)
-  {
-    this->looping = looping_;
-  }
-  bool get_looping() const
-  {
-    return looping;
-  }
+  void set_looping(bool looping_) { this->looping = looping_; }
+  bool get_looping() const { return looping; }
 
-private:
-  static const size_t STREAMBUFFERSIZE = 1024 * 500;
-  static const size_t STREAMFRAGMENTS = 5;
-  static const size_t STREAMFRAGMENTSIZE
-  = STREAMBUFFERSIZE / STREAMFRAGMENTS;
+ private:
+  static const size_t STREAMBUFFERSIZE   = 1024 * 500;
+  static const size_t STREAMFRAGMENTS    = 5;
+  static const size_t STREAMFRAGMENTSIZE = STREAMBUFFERSIZE / STREAMFRAGMENTS;
 
   bool fillBufferAndQueue(ALuint buffer);
   std::unique_ptr<SoundFile> file;
@@ -62,7 +51,7 @@ private:
   float fade_time;
   bool looping;
 
-private:
+ private:
   StreamSoundSource(const StreamSoundSource&);
   StreamSoundSource& operator=(const StreamSoundSource&);
 };

@@ -24,19 +24,16 @@
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
 
-class Light : public GameObject
-{
-public:
+class Light : public GameObject {
+ public:
   Light(const Vector& center, const Color& color = Color(1.0, 1.0, 1.0, 1.0));
   virtual ~Light();
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
 
-protected:
+ protected:
   Vector position;
   Color color;
   SpritePtr sprite;

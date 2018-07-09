@@ -14,27 +14,29 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <algorithm>
-
 #include "editor/resizer.hpp"
 
-Resizer::Resizer(Rectf* rect_, Side vert_, Side horz_) :
-  rect(rect_),
-  vert(vert_),
-  horz(horz_)
+#include <algorithm>
+
+Resizer::Resizer(Rectf* rect_, Side vert_, Side horz_)
+    : rect(rect_), vert(vert_), horz(horz_)
 {
   refresh_pos();
 }
 
-void Resizer::update(float elapsed_time) {
+void
+Resizer::update(float elapsed_time)
+{
   refresh_pos();
 }
 
-void Resizer::refresh_pos() {
+void
+Resizer::refresh_pos()
+{
   Vector new_pos;
   switch (vert) {
     case NONE:
-      new_pos.y = (rect->p1.y + rect->p2.y)/2 - 8;
+      new_pos.y = (rect->p1.y + rect->p2.y) / 2 - 8;
       break;
     case LEFT_UP:
       new_pos.y = rect->p1.y - 16;
@@ -46,7 +48,7 @@ void Resizer::refresh_pos() {
 
   switch (horz) {
     case NONE:
-      new_pos.x = (rect->p1.x + rect->p2.x)/2 - 8;
+      new_pos.x = (rect->p1.x + rect->p2.x) / 2 - 8;
       break;
     case LEFT_UP:
       new_pos.x = rect->p1.x - 16;
@@ -59,7 +61,9 @@ void Resizer::refresh_pos() {
   set_pos(new_pos);
 }
 
-void Resizer::move_to(const Vector& pos) {
+void
+Resizer::move_to(const Vector& pos)
+{
   switch (vert) {
     case NONE:
       break;
@@ -85,7 +89,9 @@ void Resizer::move_to(const Vector& pos) {
   refresh_pos();
 }
 
-Vector Resizer::get_point_vector() const {
+Vector
+Resizer::get_point_vector() const
+{
   Vector result;
 
   switch (vert) {
@@ -115,7 +121,9 @@ Vector Resizer::get_point_vector() const {
   return result;
 }
 
-Vector Resizer::get_offset() const {
+Vector
+Resizer::get_offset() const
+{
   return Vector((horz == LEFT_UP) ? 16 : 0, (vert == LEFT_UP) ? 16 : 0);
 }
 

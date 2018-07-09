@@ -1,5 +1,6 @@
 //  Dart - Your average poison dart
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,9 +25,8 @@ class SoundSource;
 /**
  * Badguy "Dart" - Your average poison dart
  */
-class Dart : public BadGuy
-{
-public:
+class Dart : public BadGuy {
+ public:
   Dart(const ReaderMapping& reader);
   Dart(const Vector& pos, Direction d, const BadGuy* parent);
 
@@ -40,30 +40,26 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
-  virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
-  std::string get_class() const {
-    return "dart";
-  }
-  std::string get_display_name() const {
-    return _("Dart");
-  }
+  virtual bool updatePointers(const GameObject* from_object,
+                              GameObject* to_object);
+  std::string get_class() const { return "dart"; }
+  std::string get_display_name() const { return _("Dart"); }
 
   bool is_flammable() const;
 
-  bool is_hurtable() const {
-    return false;
-  }
+  bool is_hurtable() const { return false; }
 
   void stop_looping_sounds();
   void play_looping_sounds();
 
   void after_editor_set();
 
-protected:
+ protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
-  std::unique_ptr<SoundSource> sound_source; /**< SoundSource for ambient sound */
+  std::unique_ptr<SoundSource>
+      sound_source; /**< SoundSource for ambient sound */
 
-private:
+ private:
   Dart(const Dart&);
   Dart& operator=(const Dart&);
 };

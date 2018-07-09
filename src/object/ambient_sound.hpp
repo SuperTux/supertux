@@ -40,36 +40,30 @@
 #define HEADER_SUPERTUX_OBJECT_AMBIENT_SOUND_HPP
 
 #include "math/vector.hpp"
-#include "supertux/moving_object.hpp"
 #include "scripting/ambient_sound.hpp"
 #include "scripting/exposed_object.hpp"
+#include "supertux/moving_object.hpp"
 
 class GameObject;
 class Player;
 class ReaderMapping;
 class SoundSource;
 
-class AmbientSound : public MovingObject,
-                     public ExposedObject<AmbientSound, scripting::AmbientSound>
-{
-public:
+class AmbientSound
+    : public MovingObject,
+      public ExposedObject<AmbientSound, scripting::AmbientSound> {
+ public:
   AmbientSound(const ReaderMapping& lisp);
-  AmbientSound(const Vector& pos, float factor, float bias, float vol, const std::string& file);
+  AmbientSound(const Vector& pos, float factor, float bias, float vol,
+               const std::string& file);
   ~AmbientSound();
 
   HitResponse collision(GameObject& other, const CollisionHit& hit_);
 
-  const Vector get_pos() const
-  {
-    return bbox.p1;
-  }
-  std::string get_class() const {
-    return "ambient_sound";
-  }
+  const Vector get_pos() const { return bbox.p1; }
+  std::string get_class() const { return "ambient_sound"; }
 
-  bool has_variable_size() const {
-    return true;
-  }
+  bool has_variable_size() const { return true; }
 
   /**
    * @name Scriptable Methods
@@ -87,37 +81,34 @@ public:
 
   void draw(DrawingContext& context);
 
-  std::string get_display_name() const {
-    return _("Ambient sound");
-  }
+  std::string get_display_name() const { return _("Ambient sound"); }
   virtual ObjectSettings get_settings();
   virtual void after_editor_set();
 
-protected:
+ protected:
   virtual void hit(Player& player);
   virtual void update(float time);
   virtual void start_playing();
   virtual void stop_playing();
 
-private:
-
+ private:
   std::string sample;
   std::unique_ptr<SoundSource> sound_source;
   int latency;
 
-  float distance_factor;  /// distance scaling
-  float distance_bias;    /// 100% volume disc radius
-  float silence_distance; /// not implemented yet
+  float distance_factor;   /// distance scaling
+  float distance_bias;     /// 100% volume disc radius
+  float silence_distance;  /// not implemented yet
 
-  float maximumvolume; /// maximum volume
-  float targetvolume;  /// how loud we want to be
-  float currentvolume; /// how loud we are
+  float maximumvolume;  /// maximum volume
+  float targetvolume;   /// how loud we want to be
+  float currentvolume;  /// how loud we are
 
-  float * volume_ptr; /// this will be used by the volume adjustment effect.
+  float* volume_ptr;  /// this will be used by the volume adjustment effect.
 
   Vector new_size;
 
-private:
+ private:
   AmbientSound(const AmbientSound&);
   AmbientSound& operator=(const AmbientSound&);
 };

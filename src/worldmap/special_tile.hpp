@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmail.com>
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -28,16 +29,15 @@
 
 namespace worldmap {
 
-class SpecialTile : public GameObject
-{
-public:
+class SpecialTile : public GameObject {
+ public:
   SpecialTile(const ReaderMapping& lisp);
   virtual ~SpecialTile();
 
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);
 
-public:
+ public:
   Vector pos;
 
   /** Sprite to render instead of guessing what image to draw */
@@ -53,14 +53,15 @@ public:
   /** Hide special tile */
   bool invisible;
 
-  /** Only applies actions (ie. passive messages) when going to that direction */
+  /** Only applies actions (ie. passive messages) when going to that direction
+   */
   bool apply_action_north;
   bool apply_action_east;
   bool apply_action_south;
   bool apply_action_west;
 };
 
-} // namespace worldmap
+}  // namespace worldmap
 
 #endif
 

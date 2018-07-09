@@ -21,9 +21,7 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-Tip::Tip(GameObject* object) :
-  strings(),
-  header()
+Tip::Tip(GameObject* object) : strings(), header()
 {
   if (!object) {
     log_warning << "Editor/Tip: Given object doesn't exist." << std::endl;
@@ -31,12 +29,12 @@ Tip::Tip(GameObject* object) :
   }
 
   auto os = object->get_settings();
-  header = os.name;
+  header  = os.name;
 
-  for(const auto& oo : os.options) {
+  for (const auto& oo : os.options) {
     if (oo.type != MN_REMOVE && (oo.flags & OPTION_VISIBLE)) {
       auto value = oo.to_string();
-      if(value.empty()) {
+      if (value.empty()) {
         value = _("<empty>");
       }
       strings.push_back(oo.text + ": " + value);
@@ -45,21 +43,23 @@ Tip::Tip(GameObject* object) :
 }
 
 void
-Tip::draw(DrawingContext& context, const Vector& pos) {
+Tip::draw(DrawingContext& context, const Vector& pos)
+{
   auto position = pos;
   position.y += 35;
-  context.draw_text(Resources::normal_font, header, position,
-                    ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::label_color);
+  context.draw_text(Resources::normal_font, header, position, ALIGN_LEFT,
+                    LAYER_GUI - 11, ColorScheme::Menu::label_color);
 
-  for(const auto& str : strings) {
+  for (const auto& str : strings) {
     position.y += 22;
-    context.draw_text(Resources::normal_font, str, position,
-                      ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::default_color);
+    context.draw_text(Resources::normal_font, str, position, ALIGN_LEFT,
+                      LAYER_GUI - 11, ColorScheme::Menu::default_color);
   }
 }
 
 void
-Tip::draw_up(DrawingContext& context, const Vector& pos) {
+Tip::draw_up(DrawingContext& context, const Vector& pos)
+{
   auto position = Vector(pos.x, pos.y - (strings.size() + 1) * 22 - 35);
   draw(context, position);
 }

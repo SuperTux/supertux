@@ -22,8 +22,9 @@
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 
-Snowman::Snowman(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/snowman/snowman.sprite", "walk-left", "walk-right")
+Snowman::Snowman(const ReaderMapping& reader)
+    : WalkingBadguy(reader, "images/creatures/snowman/snowman.sprite",
+                    "walk-left", "walk-right")
 {
   walk_speed = 40;
   SoundManager::current()->preload("sounds/pop.ogg");
@@ -39,12 +40,14 @@ Snowman::loose_head()
   snowball_pos.y += 1;
 
   /* Create death animation for the (now headless) snowman. */
-  set_action (dir == LEFT ? "headless-left" : "headless-right", /* loops = */ -1);
-  set_pos (get_pos () + Vector (-4.0, 19.0)); /* difference in the sprite offsets */
+  set_action(dir == LEFT ? "headless-left" : "headless-right",
+             /* loops = */ -1);
+  set_pos(get_pos() +
+          Vector(-4.0, 19.0)); /* difference in the sprite offsets */
   physic.set_velocity_y(0);
   physic.set_acceleration_y(0);
   physic.enable_gravity(true);
-  set_state (STATE_FALLING);
+  set_state(STATE_FALLING);
   countMe = false;
 
   /* Create a new snowball where the snowman's head was */
@@ -55,7 +58,7 @@ Snowman::loose_head()
 HitResponse
 Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
 {
-  if(bullet.get_type() == FIRE_BONUS) {
+  if (bullet.get_type() == FIRE_BONUS) {
     // fire bullets destroy snowman's body
     Vector snowball_pos = get_pos();
     // Hard-coded values from sprites
@@ -66,7 +69,8 @@ Snowman::collision_bullet(Bullet& bullet, const CollisionHit& hit)
     auto snowball = std::make_shared<SnowBall>(snowball_pos, dir, dead_script);
     Sector::current()->add_object(snowball);
 
-    SoundManager::current()->play("sounds/pop.ogg", get_pos()); // this could be a different sound
+    SoundManager::current()->play(
+        "sounds/pop.ogg", get_pos());  // this could be a different sound
     bullet.remove_me();
     ignite();
 
@@ -83,15 +87,14 @@ bool
 Snowman::collision_squished(GameObject& object)
 {
   auto player = dynamic_cast<Player*>(&object);
-  if(player && (player->does_buttjump || player->is_invincible())) {
+  if (player && (player->does_buttjump || player->is_invincible())) {
     player->bounce(*this);
     kill_fall();
     return true;
   }
 
   // bounce
-  if (player)
-    player->bounce(*this);
+  if (player) player->bounce(*this);
 
   SoundManager::current()->play("sounds/pop.ogg", get_pos());
 

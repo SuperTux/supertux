@@ -17,29 +17,25 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_GAME_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_GAME_MENU_HPP
 
-#include "gui/menu.hpp"
-
 #include <functional>
 
-enum GameMenuIDs {
-  MNID_CONTINUE,
-  MNID_RESETLEVEL,
-  MNID_ABORTLEVEL
-};
+#include "gui/menu.hpp"
 
-class GameMenu : public Menu
-{
-private:
+enum GameMenuIDs { MNID_CONTINUE, MNID_RESETLEVEL, MNID_ABORTLEVEL };
+
+class GameMenu : public Menu {
+ private:
   // stores callback for level reset
-  std::function<void ()> reset_callback;
+  std::function<void()> reset_callback;
   // stores callback for level abort
-  std::function<void ()> abort_callback;
-public:
+  std::function<void()> abort_callback;
+
+ public:
   GameMenu();
 
   void menu_action(MenuItem* item) override;
 
-private:
+ private:
   GameMenu(const GameMenu&);
   GameMenu& operator=(const GameMenu&);
 };

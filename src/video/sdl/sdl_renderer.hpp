@@ -20,9 +20,8 @@
 #include "SDL.h"
 #include "video/renderer.hpp"
 
-class SDLRenderer : public Renderer
-{
-public:
+class SDLRenderer : public Renderer {
+ public:
   SDLRenderer();
   ~SDLRenderer();
 
@@ -45,18 +44,18 @@ public:
   SDL_Window* get_window() const override { return m_window; }
   SDL_Renderer* get_sdl_renderer() const { return m_renderer; };
 
-private:
+ private:
   void apply_video_mode();
   void apply_viewport();
 
-private:
+ private:
   SDL_Window* m_window;
   SDL_Renderer* m_renderer;
   SDL_Rect m_viewport;
   Size m_desktop_size;
   Vector m_scale;
 
-private:
+ private:
   SDLRenderer(const SDLRenderer&);
   SDLRenderer& operator=(const SDLRenderer&);
 };

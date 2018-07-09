@@ -30,7 +30,7 @@ void Level_toggle_pause();
 
 /** Switch to and from edit mode */
 void Level_edit(bool edit_mode);
-}
+}  // namespace scripting
 
 #endif
 

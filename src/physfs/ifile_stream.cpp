@@ -18,8 +18,8 @@
 
 #include "physfs/ifile_streambuf.hpp"
 
-IFileStream::IFileStream(const std::string& filename) :
-  std::istream(nullptr), sb(new IFileStreambuf(filename))
+IFileStream::IFileStream(const std::string& filename)
+    : std::istream(nullptr), sb(new IFileStreambuf(filename))
 {
   init(sb.get());
 }

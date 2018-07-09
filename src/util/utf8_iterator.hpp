@@ -18,13 +18,13 @@
 #ifndef HEADER_SUPERTUX_UTIL_UTF8_ITERATOR_HPP
 #define HEADER_SUPERTUX_UTIL_UTF8_ITERATOR_HPP
 
-#include <string>
 #include <stdint.h>
 
-class UTF8Iterator
-{
-public:
-  const std::string&     text;
+#include <string>
+
+class UTF8Iterator {
+ public:
+  const std::string& text;
   std::string::size_type pos;
   uint32_t chr;
 

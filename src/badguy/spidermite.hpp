@@ -19,9 +19,8 @@
 
 #include "badguy/badguy.hpp"
 
-class SpiderMite : public BadGuy
-{
-public:
+class SpiderMite : public BadGuy {
+ public:
   SpiderMite(const ReaderMapping& reader);
 
   void initialize();
@@ -31,23 +30,16 @@ public:
   void freeze();
   void unfreeze();
   bool is_freezable() const;
-  std::string get_class() const {
-    return "spidermite";
-  }
-  std::string get_display_name() const {
-    return _("Spider mite");
-  }
+  std::string get_class() const { return "spidermite"; }
+  std::string get_display_name() const { return _("Spider mite"); }
 
-protected:
-  enum SpiderMiteMode {
-    FLY_UP,
-    FLY_DOWN
-  };
+ protected:
+  enum SpiderMiteMode { FLY_UP, FLY_DOWN };
 
-protected:
+ protected:
   bool collision_squished(GameObject& object);
 
-private:
+ private:
   SpiderMiteMode mode;
   Timer timer;
 };

@@ -18,9 +18,9 @@
 #define HEADER_SUPERTUX_UTIL_READER_HPP
 
 #include <memory>
-#include <vector>
-#include <string>
 #include <sexp/value.hpp>
+#include <string>
+#include <vector>
 
 #include "util/reader_fwd.hpp"
 

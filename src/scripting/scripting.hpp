@@ -25,20 +25,19 @@ namespace scripting {
 
 extern HSQUIRRELVM global_vm;
 
-class Scripting : public Currenton<Scripting>
-{
-public:
+class Scripting : public Currenton<Scripting> {
+ public:
   Scripting(bool enable_debugger);
   ~Scripting();
 
   void update_debugger();
 
-private:
+ private:
   Scripting(const Scripting&) = delete;
   Scripting& operator=(const Scripting&) = delete;
 };
 
-} // namespace scripting
+}  // namespace scripting
 
 #endif
 

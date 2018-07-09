@@ -20,35 +20,30 @@
 #include "badguy/badguy.hpp"
 #include "object/portable.hpp"
 
-class SkyDive : public BadGuy, public Portable
-{
-  private:
-    bool is_grabbed;
+class SkyDive : public BadGuy, public Portable {
+ private:
+  bool is_grabbed;
 
-  public:
-    SkyDive(const ReaderMapping& reader);
+ public:
+  SkyDive(const ReaderMapping& reader);
 
-    void collision_solid(const CollisionHit& hit);
-    HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
-    void collision_tile(uint32_t tile_attributes);
+  void collision_solid(const CollisionHit& hit);
+  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+  void collision_tile(uint32_t tile_attributes);
 
-    /* Inherited from Portable */
-    void grab(MovingObject& object, const Vector& pos, Direction dir);
-    void ungrab(MovingObject& object, Direction dir);
-    std::string get_class() const {
-      return "skydive";
-    }
-    std::string get_display_name() const {
-      return _("Sky dive");
-    }
+  /* Inherited from Portable */
+  void grab(MovingObject& object, const Vector& pos, Direction dir);
+  void ungrab(MovingObject& object, Direction dir);
+  std::string get_class() const { return "skydive"; }
+  std::string get_display_name() const { return _("Sky dive"); }
 
-  protected:
-    HitResponse collision_player(Player& player, const CollisionHit& hit);
-    bool collision_squished (GameObject& obj);
+ protected:
+  HitResponse collision_player(Player& player, const CollisionHit& hit);
+  bool collision_squished(GameObject& obj);
 
-    void active_update (float elapsed_time);
+  void active_update(float elapsed_time);
 
-    void explode();
+  void explode();
 };
 
 #endif /* HEADER_SUPERTUX_BADGUY_BOMBFISH_HPP */

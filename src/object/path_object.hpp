@@ -14,7 +14,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 #ifndef HEADER_SUPERTUX_OBJECT_PATH_OBJECT_HPP
 #define HEADER_SUPERTUX_OBJECT_PATH_OBJECT_HPP
 
@@ -26,40 +25,27 @@
 /**
  * A class for all objects that contain / make use of a path.
  */
-class PathObject
-{
-public:
+class PathObject {
+ public:
   std::shared_ptr<Path> path;
   std::shared_ptr<PathWalker> walker;
 
-  PathObject() :
-    path(),
-    walker()
+  PathObject() : path(), walker() {}
+
+  PathObject(const PathObject& other) : path(other.path), walker(other.walker)
   {
   }
 
-  PathObject(const PathObject& other) :
-    path(other.path),
-    walker(other.walker)
-  {
-  }
-
-  virtual ~PathObject()
-  {
-  }
+  virtual ~PathObject() {}
   /**
    * Returns this object's path
    */
-  Path* get_path() const {
-    return path.get();
-  }
+  Path* get_path() const { return path.get(); }
 
   /**
    * Returns this object's path walker
    */
-  PathWalker* get_walker() const {
-    return walker.get();
-  }
+  PathWalker* get_walker() const { return walker.get(); }
 };
 
 #endif

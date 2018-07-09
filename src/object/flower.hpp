@@ -21,24 +21,21 @@
 #include "supertux/moving_object.hpp"
 #include "supertux/player_status.hpp"
 
-class Flower : public MovingObject
-{
-public:
+class Flower : public MovingObject {
+ public:
   Flower(BonusType type);
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
-private:
+ private:
   BonusType type;
   SpritePtr sprite;
   DrawingEffect drawing_effect;
 
-private:
+ private:
   Flower(const Flower&);
   Flower& operator=(const Flower&);
   Color light;

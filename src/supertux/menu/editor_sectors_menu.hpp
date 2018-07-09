@@ -19,15 +19,14 @@
 
 #include "gui/menu.hpp"
 
-class EditorSectorsMenu : public Menu
-{
-public:
+class EditorSectorsMenu : public Menu {
+ public:
   EditorSectorsMenu();
   ~EditorSectorsMenu();
 
   void menu_action(MenuItem* item) override;
 
-private:
+ private:
   void create_sector();
   void delete_sector();
 
@@ -35,6 +34,6 @@ private:
   EditorSectorsMenu& operator=(const EditorSectorsMenu&);
 };
 
-#endif // HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_SECTORS_MENU_HPP
+#endif  // HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_SECTORS_MENU_HPP
 
 /* EOF */

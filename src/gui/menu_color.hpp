@@ -21,14 +21,13 @@
 
 class Color;
 
-class ColorMenu : public Menu
-{
-public:
+class ColorMenu : public Menu {
+ public:
   ColorMenu(Color* color_);
 
   void menu_action(MenuItem* item) override;
 
-private:
+ private:
   Color* color;
 
   ColorMenu(const ColorMenu&);

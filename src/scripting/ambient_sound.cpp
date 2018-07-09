@@ -20,10 +20,7 @@
 
 namespace scripting {
 
-AmbientSound::AmbientSound(::AmbientSound* parent) :
-  m_parent(parent)
-{
-}
+AmbientSound::AmbientSound(::AmbientSound* parent) : m_parent(parent) {}
 
 void
 AmbientSound::set_pos(float x, float y)
@@ -43,6 +40,6 @@ AmbientSound::get_pos_y() const
   return m_parent->get_pos_y();
 }
 
-} // namespace scripting
+}  // namespace scripting
 
 /* EOF */

@@ -21,18 +21,13 @@
 
 class Writer;
 
-class ScriptTrigger : public TriggerBase
-{
-public:
+class ScriptTrigger : public TriggerBase {
+ public:
   ScriptTrigger(const ReaderMapping& reader);
   ScriptTrigger(const Vector& pos, const std::string& script);
-  std::string get_class() const {
-    return "scripttrigger";
-  }
+  std::string get_class() const { return "scripttrigger"; }
 
-  bool has_variable_size() const {
-    return true;
-  }
+  bool has_variable_size() const { return true; }
 
   virtual ObjectSettings get_settings();
   virtual void after_editor_set();
@@ -41,7 +36,7 @@ public:
   void event(Player& player, EventType type);
   void draw(DrawingContext& context);
 
-private:
+ private:
   EventType triggerevent;
   std::string script;
   Vector new_size;

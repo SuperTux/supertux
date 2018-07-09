@@ -1,5 +1,6 @@
 //  SuperTux - End Sequence
-//  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2007 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,36 +21,35 @@
 #include "control/codecontroller.hpp"
 #include "supertux/game_object.hpp"
 
-class EndSequence : public GameObject
-{
-public:
+class EndSequence : public GameObject {
+ public:
   EndSequence();
   virtual ~EndSequence();
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
-  void start(); /**< play EndSequence */
+  void start();    /**< play EndSequence */
   void stop_tux(); /**< called when Tux has reached his final position */
-  void stop(); /**< stop playing EndSequence, mark it as done playing */
-  bool is_tux_stopped() const; /**< returns true if Tux has reached his final position */
+  void stop();     /**< stop playing EndSequence, mark it as done playing */
+  bool is_tux_stopped()
+      const; /**< returns true if Tux has reached his final position */
   bool is_done() const; /**< returns true if EndSequence has finished playing */
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
-protected:
+ protected:
   virtual void starting(); /**< called when EndSequence starts */
-  virtual void running(float elapsed_time); /**< called while the EndSequence is running */
+  virtual void running(
+      float elapsed_time); /**< called while the EndSequence is running */
   virtual void stopping(); /**< called when EndSequence stops */
 
-protected:
-  bool isrunning; /**< true while EndSequence plays */
-  bool isdone; /**< true if EndSequence has finished playing */
+ protected:
+  bool isrunning;    /**< true while EndSequence plays */
+  bool isdone;       /**< true if EndSequence has finished playing */
   bool tux_may_walk; /**< true while tux is allowed to walk */
   std::unique_ptr<CodeController> end_sequence_controller;
 
-private:
+ private:
   EndSequence(const EndSequence&);
   EndSequence& operator=(const EndSequence&);
 };

@@ -17,18 +17,15 @@
 #ifndef HEADER_SUPERTUX_OBJECT_FIREWORKS_HPP
 #define HEADER_SUPERTUX_OBJECT_FIREWORKS_HPP
 
-class Fireworks : public GameObject
-{
-public:
+class Fireworks : public GameObject {
+ public:
   Fireworks();
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
-private:
+ private:
   Timer timer;
 };
 

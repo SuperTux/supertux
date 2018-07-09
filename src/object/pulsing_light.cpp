@@ -1,5 +1,6 @@
 //  SuperTux - Pulsing Light
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,16 +16,19 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/pulsing_light.hpp"
+
 #include <math.h>
 
 #include "math/random_generator.hpp"
 
-PulsingLight::PulsingLight(const Vector& center, float cycle_len_, float min_alpha_, float max_alpha_, const Color& color_) :
-  Light(center, color_),
-  min_alpha(min_alpha_),
-  max_alpha(max_alpha_),
-  cycle_len(cycle_len_),
-  t(0)
+PulsingLight::PulsingLight(const Vector& center, float cycle_len_,
+                           float min_alpha_, float max_alpha_,
+                           const Color& color_)
+    : Light(center, color_),
+      min_alpha(min_alpha_),
+      max_alpha(max_alpha_),
+      cycle_len(cycle_len_),
+      t(0)
 {
   assert(cycle_len > 0);
 
@@ -32,9 +36,7 @@ PulsingLight::PulsingLight(const Vector& center, float cycle_len_, float min_alp
   t = gameRandom.randf(0.0, cycle_len);
 }
 
-PulsingLight::~PulsingLight()
-{
-}
+PulsingLight::~PulsingLight() {}
 
 void
 PulsingLight::update(float elapsed_time)
@@ -50,7 +52,8 @@ PulsingLight::draw(DrawingContext& context)
 {
   Color old_color = color;
 
-  color.alpha *= min_alpha + ((max_alpha - min_alpha) * cos(2 * M_PI * t / cycle_len));
+  color.alpha *=
+      min_alpha + ((max_alpha - min_alpha) * cos(2 * M_PI * t / cycle_len));
   Light::draw(context);
 
   color = old_color;

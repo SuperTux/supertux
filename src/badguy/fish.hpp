@@ -19,15 +19,14 @@
 
 #include "badguy/badguy.hpp"
 
-class Fish : public BadGuy
-{
-public:
-  Fish(const ReaderMapping& );
+class Fish : public BadGuy {
+ public:
+  Fish(const ReaderMapping&);
 
   void draw(DrawingContext& context);
 
   void collision_solid(const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& , const CollisionHit& );
+  HitResponse collision_badguy(BadGuy&, const CollisionHit&);
   void collision_tile(uint32_t tile_attributes);
 
   void active_update(float);
@@ -36,15 +35,11 @@ public:
   void unfreeze();
   void kill_fall();
   bool is_freezable() const;
-  std::string get_class() const {
-    return "fish";
-  }
-  std::string get_display_name() const {
-    return _("Fish");
-  }
+  std::string get_class() const { return "fish"; }
+  std::string get_display_name() const { return _("Fish"); }
 
-private:
-  HitResponse hit(const CollisionHit& );
+ private:
+  HitResponse hit(const CollisionHit&);
   void start_waiting();
   void jump();
 

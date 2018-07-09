@@ -17,41 +17,38 @@
 #ifndef HEADER_SUPERTUX_EDITOR_TOOL_ICON_HPP
 #define HEADER_SUPERTUX_EDITOR_TOOL_ICON_HPP
 
-#include "video/surface_ptr.hpp"
-#include "math/vector.hpp"
-
 #include <string>
 #include <vector>
 
+#include "math/vector.hpp"
+#include "video/surface_ptr.hpp"
+
 class DrawingContext;
 
-class ToolIcon
-{
-  public:
-    ToolIcon(const std::string& icon);
+class ToolIcon {
+ public:
+  ToolIcon(const std::string& icon);
 
-    Vector pos;
+  Vector pos;
 
-    void draw(DrawingContext& context);
+  void draw(DrawingContext& context);
 
-    int get_mode() const {
-      return mode;
-    }
+  int get_mode() const { return mode; }
 
-    void next_mode();
+  void next_mode();
 
-    void push_mode(const std::string& icon);
-    SurfacePtr get_current_surface() const;
+  void push_mode(const std::string& icon);
+  SurfacePtr get_current_surface() const;
 
-  private:
-    std::vector<SurfacePtr> surfaces;
-    int mode;
-    int surf_count;
+ private:
+  std::vector<SurfacePtr> surfaces;
+  int mode;
+  int surf_count;
 
-    ToolIcon(const ToolIcon&);
-    ToolIcon& operator=(const ToolIcon&);
+  ToolIcon(const ToolIcon&);
+  ToolIcon& operator=(const ToolIcon&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_TOOL_ICON_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_TOOL_ICON_HPP
 
 /* EOF */

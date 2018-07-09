@@ -18,8 +18,9 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TILE_SET_PARSER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_PARSER_HPP
 
-#include <string>
 #include <stdint.h>
+
+#include <string>
 #include <vector>
 
 #include "supertux/tile.hpp"
@@ -28,24 +29,23 @@
 class TileSet;
 class Tile;
 
-class TileSetParser
-{
-private:
-  TileSet&    m_tileset;
+class TileSetParser {
+ private:
+  TileSet& m_tileset;
   std::string m_filename;
   std::string m_tiles_path;
 
-public:
+ public:
   TileSetParser(TileSet& tileset, const std::string& filename);
 
   void parse();
 
-private:
+ private:
   void parse_tile(const ReaderMapping& reader);
   void parse_tiles(const ReaderMapping& reader);
   std::vector<Tile::ImageSpec> parse_imagespecs(const ReaderMapping& cur) const;
 
-private:
+ private:
   TileSetParser(const TileSetParser&);
   TileSetParser& operator=(const TileSetParser&);
 };

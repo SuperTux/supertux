@@ -21,9 +21,8 @@
 
 #include "control/codecontroller.hpp"
 
-class GameSessionRecorder
-{
-public:
+class GameSessionRecorder {
+ public:
   GameSessionRecorder();
   virtual ~GameSessionRecorder();
 
@@ -35,15 +34,13 @@ public:
 
   /**
    * Re-sets the demo controller in case the sector
-   * (and thus the Player instance) changes. 
+   * (and thus the Player instance) changes.
    */
   void reset_demo_controller();
 
-  bool is_playing_demo() const {
-    return m_playing;
-  }
+  bool is_playing_demo() const { return m_playing; }
 
-private:
+ private:
   void capture_demo_step();
 
   std::ostream* capture_demo_stream;
@@ -52,10 +49,9 @@ private:
   CodeController* demo_controller;
   bool m_playing;
 
-private:
+ private:
   GameSessionRecorder(const GameSessionRecorder&) = delete;
   GameSessionRecorder& operator=(const GameSessionRecorder&) = delete;
 };
 
 #endif
-

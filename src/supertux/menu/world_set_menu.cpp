@@ -36,27 +36,26 @@
 
 WorldSetMenu::WorldSetMenu()
 {
-   add_label(_("Start Game"));
-   add_hl();
-   add_entry(WORLDSET_STORY, _("Story Mode"));
-   add_entry(WORLDSET_CONTRIB, _("Contrib Levels"));
-   add_hl();
-   add_back(_("Back"));
+  add_label(_("Start Game"));
+  add_hl();
+  add_entry(WORLDSET_STORY, _("Story Mode"));
+  add_entry(WORLDSET_CONTRIB, _("Contrib Levels"));
+  add_hl();
+  add_back(_("Back"));
 }
 
-void WorldSetMenu::menu_action(MenuItem* item)
+void
+WorldSetMenu::menu_action(MenuItem* item)
 {
-  switch(item->id)
-  {
-    case WORLDSET_STORY:
-    {
+  switch (item->id) {
+    case WORLDSET_STORY: {
       std::unique_ptr<World> world = World::load("levels/world1");
       GameManager::current()->start_worldmap(std::move(world));
       break;
     }
-    
+
     case WORLDSET_CONTRIB:
-	    MenuManager::instance().push_menu(MenuStorage::CONTRIB_MENU);    
-	    break;
+      MenuManager::instance().push_menu(MenuStorage::CONTRIB_MENU);
+      break;
   }
 }

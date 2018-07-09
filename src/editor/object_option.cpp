@@ -22,19 +22,15 @@
 #include "util/gettext.hpp"
 #include "video/color.hpp"
 
-ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text_, void* ip,
-                           const std::string& key_, int flags_) :
-  type(ip_type),
-  text(text_),
-  option(ip),
-  key(key_),
-  flags(flags_),
-  select()
+ObjectOption::ObjectOption(MenuItemKind ip_type, const std::string& text_,
+                           void* ip, const std::string& key_, int flags_)
+    : type(ip_type), text(text_), option(ip), key(key_), flags(flags_), select()
 {
 }
 
 const std::string
-ObjectOption::to_string() const {
+ObjectOption::to_string() const
+{
   switch (type) {
     case MN_TEXTFIELD:
       return *((std::string*)(option));
@@ -46,9 +42,10 @@ ObjectOption::to_string() const {
       return (*((bool*)(option))) ? _("true") : _("false");
     case MN_STRINGSELECT: {
       auto selected_id = (int*)option;
-      if ( *selected_id >= int(select.size()) || *selected_id < 0 ) {
-        return _("invalid"); //Test whether the selected ID is valid
-      } else {
+      if (*selected_id >= int(select.size()) || *selected_id < 0) {
+        return _("invalid");  // Test whether the selected ID is valid
+      }
+      else {
         return select[*selected_id];
       }
     }

@@ -1,5 +1,6 @@
 //  SuperTux
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -25,9 +26,8 @@
  * A burning candle: Simple, scriptable level decoration.
  */
 class Candle : public MovingSprite,
-               public ExposedObject<Candle, scripting::Candle>
-{
-public:
+               public ExposedObject<Candle, scripting::Candle> {
+ public:
   Candle(const ReaderMapping& lisp);
   virtual void draw(DrawingContext& context);
 
@@ -37,29 +37,25 @@ public:
    * @name Scriptable Methods
    * @{
    */
-  void puff_smoke(); /**< spawn a puff of smoke */
+  void puff_smoke();        /**< spawn a puff of smoke */
   bool get_burning() const; /**< returns true if candle is lighted */
-  void set_burning(bool burning); /**< true: light candle, false: extinguish candle */
+  void set_burning(
+      bool burning); /**< true: light candle, false: extinguish candle */
   /**
    * @}
    */
-  std::string get_class() const {
-    return "candle";
-  }
-  std::string get_display_name() const {
-    return _("Candle");
-  }
+  std::string get_class() const { return "candle"; }
+  std::string get_display_name() const { return _("Candle"); }
 
   virtual ObjectSettings get_settings();
   virtual void after_editor_set();
 
-private:
-  bool burning; /**< true if candle is currently lighted */
-  bool flicker; /**< true if candle light is to flicker */
-  Color lightcolor; /**< determines color or light given off */
+ private:
+  bool burning;             /**< true if candle is currently lighted */
+  bool flicker;             /**< true if candle light is to flicker */
+  Color lightcolor;         /**< determines color or light given off */
   SpritePtr candle_light_1; /**< drawn to lightmap */
   SpritePtr candle_light_2; /**< drawn to lightmap (alternative image) */
-
 };
 
 #endif

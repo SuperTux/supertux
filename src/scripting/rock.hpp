@@ -23,20 +23,19 @@ class Rock;
 
 namespace scripting {
 
-class Rock
-{
-public:
+class Rock {
+ public:
 #ifndef SCRIPTING_API
   Rock(::Rock* rock_) : rock(rock_) {}
   ::Rock* rock;
 
-private:
+ private:
   Rock(const Rock&);
   Rock& operator=(const Rock&);
 #endif
 };
 
-}
+}  // namespace scripting
 
 #endif
 

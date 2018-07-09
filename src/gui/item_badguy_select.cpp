@@ -23,16 +23,18 @@
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
 
-ItemBadguySelect::ItemBadguySelect(const std::string& text_, std::vector<std::string>* badguys_, int _id) :
-  MenuItem(text_, _id),
-  badguys(badguys_)
+ItemBadguySelect::ItemBadguySelect(const std::string& text_,
+                                   std::vector<std::string>* badguys_, int _id)
+    : MenuItem(text_, _id), badguys(badguys_)
 {
 }
 
 void
-ItemBadguySelect::process_action(const MenuAction& action) {
+ItemBadguySelect::process_action(const MenuAction& action)
+{
   if (action == MENU_ACTION_HIT) {
-    MenuManager::instance().push_menu(std::unique_ptr<Menu>(new BadguySelectMenu(badguys)));
+    MenuManager::instance().push_menu(
+        std::unique_ptr<Menu>(new BadguySelectMenu(badguys)));
   }
 }
 

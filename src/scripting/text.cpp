@@ -20,10 +20,7 @@
 
 namespace scripting {
 
-Text::Text(::TextObject* parent) :
-  m_parent(parent)
-{
-}
+Text::Text(::TextObject* parent) : m_parent(parent) {}
 
 void
 Text::set_text(const std::string& text)
@@ -91,6 +88,6 @@ Text::get_anchor_point() const
   return m_parent->get_anchor_point();
 }
 
-} // namespace scripting
+}  // namespace scripting
 
 /* EOF */

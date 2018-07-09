@@ -20,16 +20,16 @@
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/cheat_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"
-#include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_level_menu.hpp"
 #include "supertux/menu/editor_level_select_menu.hpp"
 #include "supertux/menu/editor_levelset_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
+#include "supertux/menu/editor_menu.hpp"
 #include "supertux/menu/editor_new_levelset_menu.hpp"
 #include "supertux/menu/editor_objectgroup_menu.hpp"
-#include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/menu/editor_sector_menu.hpp"
 #include "supertux/menu/editor_sectors_menu.hpp"
+#include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/menu/game_menu.hpp"
 #include "supertux/menu/joystick_menu.hpp"
 #include "supertux/menu/keyboard_menu.hpp"
@@ -37,9 +37,9 @@
 #include "supertux/menu/main_menu.hpp"
 #include "supertux/menu/options_menu.hpp"
 #include "supertux/menu/profile_menu.hpp"
-#include "supertux/menu/worldmap_menu.hpp"
-#include "supertux/menu/worldmap_cheat_menu.hpp"
 #include "supertux/menu/world_set_menu.hpp"
+#include "supertux/menu/worldmap_cheat_menu.hpp"
+#include "supertux/menu/worldmap_menu.hpp"
 
 MenuStorage* MenuStorage::s_instance = 0;
 
@@ -56,16 +56,12 @@ MenuStorage::MenuStorage()
   s_instance = this;
 }
 
-MenuStorage::~MenuStorage()
-{
-  s_instance = nullptr;
-}
+MenuStorage::~MenuStorage() { s_instance = nullptr; }
 
 std::unique_ptr<Menu>
 MenuStorage::create(MenuId menu_id)
 {
-  switch(menu_id)
-  {
+  switch (menu_id) {
     case MAIN_MENU:
       return std::unique_ptr<Menu>(new MainMenu);
 
@@ -101,12 +97,12 @@ MenuStorage::create(MenuId menu_id)
 
     case WORLDSET_MENU:
       return std::unique_ptr<Menu>(new WorldSetMenu);
-      
+
     case CONTRIB_MENU:
       return std::unique_ptr<Menu>(new ContribMenu);
 
     case CONTRIB_WORLD_MENU:
-      return 0; //return new ContribWorldMenu();
+      return 0;  // return new ContribWorldMenu();
 
     case ADDON_MENU:
       return std::unique_ptr<Menu>(new AddonMenu);

@@ -18,6 +18,7 @@
 
 #include <SDL_image.h>
 #include <assert.h>
+
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -34,29 +35,27 @@
 #include "video/gl/gl_texture.hpp"
 #endif
 
-TextureManager::TextureManager() :
-  m_image_textures()
-  ,m_surfaces()
+TextureManager::TextureManager()
+    : m_image_textures(),
+      m_surfaces()
 #ifdef HAVE_OPENGL
-  ,m_textures(),
-  m_saved_textures()
+      ,
+      m_textures(),
+      m_saved_textures()
 #endif
 {
 }
 
 TextureManager::~TextureManager()
 {
-  for(const auto& texture : m_image_textures)
-  {
-    if(!texture.second.expired())
-    {
+  for (const auto& texture : m_image_textures) {
+    if (!texture.second.expired()) {
       log_warning << "Texture '" << texture.first << "' not freed" << std::endl;
     }
   }
   m_image_textures.clear();
 
-  for(auto& surface : m_surfaces)
-  {
+  for (auto& surface : m_surfaces) {
     SDL_FreeSurface(surface.second);
   }
   m_surfaces.clear();
@@ -66,15 +65,14 @@ TexturePtr
 TextureManager::get(const std::string& _filename)
 {
   std::string filename = FileSystem::normalize(_filename);
-  auto i = m_image_textures.find(filename);
+  auto i               = m_image_textures.find(filename);
 
   TexturePtr texture;
-  if(i != m_image_textures.end())
-    texture = i->second.lock();
+  if (i != m_image_textures.end()) texture = i->second.lock();
 
-  if(!texture) {
-    texture = create_image_texture(filename);
-    texture->cache_filename = filename;
+  if (!texture) {
+    texture                    = create_image_texture(filename);
+    texture->cache_filename    = filename;
     m_image_textures[filename] = texture;
   }
 
@@ -85,21 +83,19 @@ TexturePtr
 TextureManager::get(const std::string& _filename, const Rect& rect)
 {
   std::string filename = FileSystem::normalize(_filename);
-  std::string key = filename + "_" +
-                    std::to_string(rect.left)  + "|" +
-                    std::to_string(rect.top)   + "|" +
+  std::string key      = filename + "_" + std::to_string(rect.left) + "|" +
+                    std::to_string(rect.top) + "|" +
                     std::to_string(rect.right) + "|" +
                     std::to_string(rect.bottom);
   auto i = m_image_textures.find(key);
 
   TexturePtr texture;
-  if(i != m_image_textures.end())
-    texture = i->second.lock();
+  if (i != m_image_textures.end()) texture = i->second.lock();
 
-  if(!texture) {
-    texture = create_image_texture(filename, rect);
+  if (!texture) {
+    texture                 = create_image_texture(filename, rect);
     texture->cache_filename = key;
-    m_image_textures[key] = texture;
+    m_image_textures[key]   = texture;
   }
 
   return texture;
@@ -129,34 +125,32 @@ TextureManager::remove_texture(GLTexture* texture)
 #endif
 
 TexturePtr
-TextureManager::create_image_texture(const std::string& filename, const Rect& rect)
+TextureManager::create_image_texture(const std::string& filename,
+                                     const Rect& rect)
 {
-  try
-  {
+  try {
     return create_image_texture_raw(filename, rect);
   }
-  catch(const std::exception& err)
-  {
-    log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
+  catch (const std::exception& err) {
+    log_warning << "Couldn't load texture '" << filename
+                << "' (now using dummy texture): " << err.what() << std::endl;
     return create_dummy_texture();
   }
 }
 
 TexturePtr
-TextureManager::create_image_texture_raw(const std::string& filename, const Rect& rect)
+TextureManager::create_image_texture_raw(const std::string& filename,
+                                         const Rect& rect)
 {
-  SDL_Surface *image = nullptr;
+  SDL_Surface* image = nullptr;
 
   auto i = m_surfaces.find(filename);
-  if (i != m_surfaces.end())
-  {
+  if (i != m_surfaces.end()) {
     image = i->second;
   }
-  else
-  {
+  else {
     image = IMG_Load_RW(get_physfs_SDLRWops(filename), 1);
-    if (!image)
-    {
+    if (!image) {
       std::ostringstream msg;
       msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
       throw std::runtime_error(msg.str());
@@ -166,23 +160,20 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
   }
 
   auto format = image->format;
-  if(format->Rmask == 0 && format->Gmask == 0 && format->Bmask == 0 && format->Amask == 0) {
-    log_debug << "Wrong surface format for image " << filename << ". Compensating." << std::endl;
+  if (format->Rmask == 0 && format->Gmask == 0 && format->Bmask == 0 &&
+      format->Amask == 0) {
+    log_debug << "Wrong surface format for image " << filename
+              << ". Compensating." << std::endl;
     image = SDL_ConvertSurfaceFormat(image, SDL_PIXELFORMAT_RGBA8888, 0);
   }
 
-  SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(static_cast<uint8_t*>(image->pixels) +
-                                                  rect.top * image->pitch +
-                                                  rect.left * image->format->BytesPerPixel,
-                                                  rect.get_width(), rect.get_height(),
-                                                  image->format->BitsPerPixel,
-                                                  image->pitch,
-                                                  image->format->Rmask,
-                                                  image->format->Gmask,
-                                                  image->format->Bmask,
-                                                  image->format->Amask));
-  if (!subimage)
-  {
+  SDLSurfacePtr subimage(SDL_CreateRGBSurfaceFrom(
+      static_cast<uint8_t*>(image->pixels) + rect.top * image->pitch +
+          rect.left * image->format->BytesPerPixel,
+      rect.get_width(), rect.get_height(), image->format->BitsPerPixel,
+      image->pitch, image->format->Rmask, image->format->Gmask,
+      image->format->Bmask, image->format->Amask));
+  if (!subimage) {
     throw std::runtime_error("SDL_CreateRGBSurfaceFrom() call failed");
   }
 
@@ -192,13 +183,12 @@ TextureManager::create_image_texture_raw(const std::string& filename, const Rect
 TexturePtr
 TextureManager::create_image_texture(const std::string& filename)
 {
-  try
-  {
+  try {
     return create_image_texture_raw(filename);
   }
-  catch (const std::exception& err)
-  {
-    log_warning << "Couldn't load texture '" << filename << "' (now using dummy texture): " << err.what() << std::endl;
+  catch (const std::exception& err) {
+    log_warning << "Couldn't load texture '" << filename
+                << "' (now using dummy texture): " << err.what() << std::endl;
     return create_dummy_texture();
   }
 }
@@ -207,14 +197,12 @@ TexturePtr
 TextureManager::create_image_texture_raw(const std::string& filename)
 {
   SDLSurfacePtr image(IMG_Load_RW(get_physfs_SDLRWops(filename), 1));
-  if (!image)
-  {
+  if (!image) {
     std::ostringstream msg;
     msg << "Couldn't load image '" << filename << "' :" << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
-  else
-  {
+  else {
     TexturePtr texture = VideoSystem::current()->new_texture(image.get());
     image.reset(NULL);
     return texture;
@@ -227,23 +215,20 @@ TextureManager::create_dummy_texture()
   const std::string dummy_texture_fname = "images/engine/missing.png";
 
   // on error, try loading placeholder file
-  try
-  {
+  try {
     TexturePtr tex = create_image_texture_raw(dummy_texture_fname);
     return tex;
   }
-  catch (const std::exception& err)
-  {
+  catch (const std::exception& err) {
     // on error (when loading placeholder), try using empty surface,
     // when that fails to, just give up
     SDLSurfacePtr image(SDL_CreateRGBSurface(0, 1024, 1024, 8, 0, 0, 0, 0));
-    if (!image)
-    {
+    if (!image) {
       throw;
     }
-    else
-    {
-      log_warning << "Couldn't load texture '" << dummy_texture_fname << "' (now using empty one): " << err.what() << std::endl;
+    else {
+      log_warning << "Couldn't load texture '" << dummy_texture_fname
+                  << "' (now using empty one): " << err.what() << std::endl;
       TexturePtr texture = VideoSystem::current()->new_texture(image.get());
       image.reset(NULL);
       return texture;
@@ -266,16 +251,13 @@ TextureManager::save_textures()
 
   glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
-  for(auto& texture : m_textures)
-  {
+  for (auto& texture : m_textures) {
     save_texture(texture);
   }
 
-  for(auto& tex : m_image_textures)
-  {
+  for (auto& tex : m_image_textures) {
     auto texture = dynamic_cast<GLTexture*>(tex.second.lock().get());
-    if(texture == NULL)
-      continue;
+    if (texture == NULL) continue;
 
     save_texture(texture);
   }
@@ -288,7 +270,7 @@ TextureManager::save_texture(GLTexture* texture)
   saved_texture.texture = texture;
   glBindTexture(GL_TEXTURE_2D, texture->get_handle());
 
-  //this doesn't work with OpenGL ES (but we don't need it on the GP2X anyway)
+  // this doesn't work with OpenGL ES (but we don't need it on the GP2X anyway)
 #ifndef GL_VERSION_ES_CM_1_0
   glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH,
                            &saved_texture.width);
@@ -300,12 +282,10 @@ TextureManager::save_texture(GLTexture* texture)
                       &saved_texture.min_filter);
   glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
                       &saved_texture.mag_filter);
-  glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-                      &saved_texture.wrap_s);
-  glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-                      &saved_texture.wrap_t);
+  glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, &saved_texture.wrap_s);
+  glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, &saved_texture.wrap_t);
 
-  size_t pixelssize = saved_texture.width * saved_texture.height * 4;
+  size_t pixelssize    = saved_texture.width * saved_texture.height * 4;
   saved_texture.pixels = new char[pixelssize];
 
   glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE,
@@ -333,7 +313,7 @@ TextureManager::reload_textures()
 #endif
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-  for(auto& saved_texture : m_saved_textures) {
+  for (auto& saved_texture : m_saved_textures) {
     GLuint handle;
     glGenTextures(1, &handle);
     assert_gl("creating texture handle");
@@ -341,8 +321,8 @@ TextureManager::reload_textures()
     glBindTexture(GL_TEXTURE_2D, handle);
     glTexImage2D(GL_TEXTURE_2D, 0, static_cast<GLint>(GL_RGBA),
                  saved_texture.width, saved_texture.height,
-                 saved_texture.border, GL_RGBA,
-                 GL_UNSIGNED_BYTE, saved_texture.pixels);
+                 saved_texture.border, GL_RGBA, GL_UNSIGNED_BYTE,
+                 saved_texture.pixels);
     delete[] saved_texture.pixels;
     assert_gl("uploading texture pixel data");
 
@@ -350,10 +330,8 @@ TextureManager::reload_textures()
                     saved_texture.min_filter);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
                     saved_texture.mag_filter);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-                    saved_texture.wrap_s);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-                    saved_texture.wrap_t);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, saved_texture.wrap_s);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, saved_texture.wrap_t);
 
     assert_gl("setting texture_params");
     saved_texture.texture->set_handle(handle);

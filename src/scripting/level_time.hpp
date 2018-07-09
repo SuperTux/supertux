@@ -23,9 +23,8 @@ class LevelTime;
 
 namespace scripting {
 
-class LevelTime
-{
-public:
+class LevelTime {
+ public:
 #ifndef SCRIPTING_API
   LevelTime(::LevelTime* level_time);
 #endif
@@ -53,13 +52,13 @@ public:
 #ifndef SCRIPTING_API
   ::LevelTime* level_time;
 
-private:
+ private:
   LevelTime(const LevelTime&);
   LevelTime& operator=(const LevelTime&);
 #endif
 };
 
-}
+}  // namespace scripting
 
 #endif
 

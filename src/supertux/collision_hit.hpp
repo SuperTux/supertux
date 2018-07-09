@@ -23,8 +23,7 @@
  * Used as return value for the collision functions, to indicate how the
  * collision should be handled
  */
-enum HitResponse
-{
+enum HitResponse {
   // Dynamic collision responses
 
   /// Call collision() but do no collision handling
@@ -41,17 +40,17 @@ enum HitResponse
 /**
  * This class collects data about a collision
  */
-class CollisionHit
-{
-public:
-  CollisionHit() :
-    left(false),
-    right(false),
-    top(false),
-    bottom(false),
-    crush(false),
-    slope_normal()
-  {}
+class CollisionHit {
+ public:
+  CollisionHit()
+      : left(false),
+        right(false),
+        top(false),
+        bottom(false),
+        crush(false),
+        slope_normal()
+  {
+  }
 
   bool left, right;
   bool top, bottom;

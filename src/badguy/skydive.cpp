@@ -16,16 +16,16 @@
 
 #include "badguy/skydive.hpp"
 
+#include "object/anchor_point.hpp"
+#include "object/explosion.hpp"
+#include "object/player.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
-#include "object/anchor_point.hpp"
-#include "object/player.hpp"
-#include "object/explosion.hpp"
 #include "supertux/tile.hpp"
 
-SkyDive::SkyDive(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/skydive/skydive.sprite"),
-  is_grabbed(false)
+SkyDive::SkyDive(const ReaderMapping& reader)
+    : BadGuy(reader, "images/creatures/skydive/skydive.sprite"),
+      is_grabbed(false)
 {
 }
 
@@ -33,12 +33,11 @@ void
 SkyDive::collision_solid(const CollisionHit& hit)
 {
   if (hit.bottom) {
-    explode ();
+    explode();
     return;
   }
 
-  if (hit.left || hit.right)
-    physic.set_velocity_x (0.0);
+  if (hit.left || hit.right) physic.set_velocity_x(0.0);
 } /* void collision_solid */
 
 HitResponse
@@ -55,7 +54,7 @@ SkyDive::collision_badguy(BadGuy&, const CollisionHit& hit)
 void
 SkyDive::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
-  movement = pos - get_pos();
+  movement  = pos - get_pos();
   this->dir = dir_;
 
   is_grabbed = true;
@@ -68,7 +67,7 @@ SkyDive::grab(MovingObject&, const Vector& pos, Direction dir_)
 }
 
 void
-SkyDive::ungrab(MovingObject& , Direction)
+SkyDive::ungrab(MovingObject&, Direction)
 {
   is_grabbed = false;
 
@@ -92,7 +91,7 @@ SkyDive::collision_player(Player&, const CollisionHit& hit)
 bool
 SkyDive::collision_squished(GameObject& obj)
 {
-  auto player = dynamic_cast<Player *>(&obj);
+  auto player = dynamic_cast<Player*>(&obj);
   if (player) {
     player->bounce(*this);
     return false;
@@ -105,25 +104,23 @@ SkyDive::collision_squished(GameObject& obj)
 void
 SkyDive::collision_tile(uint32_t tile_attributes)
 {
-  if(tile_attributes & Tile::HURTS)
-  {
+  if (tile_attributes & Tile::HURTS) {
     explode();
   }
 }
 void
 SkyDive::active_update(float elapsed_time)
 {
-  if (!is_grabbed)
-    movement = physic.get_movement(elapsed_time);
+  if (!is_grabbed) movement = physic.get_movement(elapsed_time);
 } /* void active_update */
 
 void
 SkyDive::explode()
 {
-  if (!is_valid())
-    return;
+  if (!is_valid()) return;
 
-  auto explosion = std::make_shared<Explosion>(get_anchor_pos (bbox, ANCHOR_BOTTOM));
+  auto explosion =
+      std::make_shared<Explosion>(get_anchor_pos(bbox, ANCHOR_BOTTOM));
 
   explosion->hurts(true);
   explosion->pushes(false);

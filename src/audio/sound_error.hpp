@@ -20,14 +20,14 @@
 #include <stdexcept>
 #include <string>
 
-class SoundError : public std::exception
-{
-public:
+class SoundError : public std::exception {
+ public:
   SoundError(const std::string& message) throw();
   virtual ~SoundError() throw();
 
   const char* what() const throw();
-private:
+
+ private:
   std::string message;
 };
 

@@ -29,55 +29,68 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-ItemStringSelect::ItemStringSelect(const std::string& text_, const std::vector<std::string>& list_, int* selected_, int _id) :
-  MenuItem(text_, _id),
-  list(list_),
-  selected(selected_)
+ItemStringSelect::ItemStringSelect(const std::string& text_,
+                                   const std::vector<std::string>& list_,
+                                   int* selected_, int _id)
+    : MenuItem(text_, _id), list(list_), selected(selected_)
 {
 }
 
 void
-ItemStringSelect::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
-  float roff = Resources::arrow_left->get_width();
+ItemStringSelect::draw(DrawingContext& context, const Vector& pos,
+                       int menu_width, bool active)
+{
+  float roff      = Resources::arrow_left->get_width();
   float sel_width = Resources::normal_font->get_text_width(list[*selected]);
   // Draw left side
-  context.draw_text(Resources::normal_font, text,
-                    Vector(pos.x + 16, pos.y - int(Resources::normal_font->get_height()/2)),
-                    ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+  context.draw_text(
+      Resources::normal_font, text,
+      Vector(pos.x + 16, pos.y - int(Resources::normal_font->get_height() / 2)),
+      ALIGN_LEFT, LAYER_GUI,
+      active ? ColorScheme::Menu::active_color : get_color());
 
   // Draw right side
-  context.draw_surface(Resources::arrow_left,
-                       Vector(pos.x + menu_width - sel_width - 2*roff - 8, pos.y - 8),
-                       LAYER_GUI);
+  context.draw_surface(
+      Resources::arrow_left,
+      Vector(pos.x + menu_width - sel_width - 2 * roff - 8, pos.y - 8),
+      LAYER_GUI);
   context.draw_surface(Resources::arrow_right,
                        Vector(pos.x + menu_width - roff - 8, pos.y - 8),
                        LAYER_GUI);
-  context.draw_text(Resources::normal_font, list[*selected],
-                    Vector(pos.x + menu_width - roff - 8, pos.y - int(Resources::normal_font->get_height()/2)),
-                    ALIGN_RIGHT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+  context.draw_text(
+      Resources::normal_font, list[*selected],
+      Vector(pos.x + menu_width - roff - 8,
+             pos.y - int(Resources::normal_font->get_height() / 2)),
+      ALIGN_RIGHT, LAYER_GUI,
+      active ? ColorScheme::Menu::active_color : get_color());
 }
 
 int
-ItemStringSelect::get_width() const {
-  return Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(list[*selected]) + 64;
+ItemStringSelect::get_width() const
+{
+  return Resources::normal_font->get_text_width(text) +
+         Resources::normal_font->get_text_width(list[*selected]) + 64;
 }
 
 void
-ItemStringSelect::process_action(const MenuAction& action) {
+ItemStringSelect::process_action(const MenuAction& action)
+{
   switch (action) {
     case MENU_ACTION_LEFT:
-      if( (*selected) > 0) {
+      if ((*selected) > 0) {
         (*selected)--;
-      } else {
-        (*selected) = list.size()-1;
+      }
+      else {
+        (*selected) = list.size() - 1;
       }
       MenuManager::instance().current_menu()->menu_action(this);
       break;
     case MENU_ACTION_RIGHT:
     case MENU_ACTION_HIT:
-      if( (*selected)+1 < int(list.size())) {
+      if ((*selected) + 1 < int(list.size())) {
         (*selected)++;
-      } else {
+      }
+      else {
         (*selected) = 0;
       }
       MenuManager::instance().current_menu()->menu_action(this);

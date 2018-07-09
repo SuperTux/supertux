@@ -72,22 +72,20 @@ enum CollisionGroup {
 /** Base class for all dynamic/moving game objects. This class
     contains things for handling the bounding boxes and collision
     feedback. */
-class MovingObject : public GameObject
-{
-public:
+class MovingObject : public GameObject {
+ public:
   MovingObject();
   MovingObject(const ReaderMapping& reader);
   virtual ~MovingObject();
 
   /** this function is called when the object collided with something solid */
-  virtual void collision_solid(const CollisionHit& /*hit*/)
-  {
-  }
+  virtual void collision_solid(const CollisionHit& /*hit*/) {}
 
   /** when 2 objects collided, we will first call the
       pre_collision_check functions of both objects that can decide on
       how to react to the collision. */
-  virtual bool collides(GameObject& /*other*/, const CollisionHit& /*hit*/) const
+  virtual bool collides(GameObject& /*other*/,
+                        const CollisionHit& /*hit*/) const
   {
     return true;
   }
@@ -96,53 +94,37 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) = 0;
 
   /** called when tiles with special attributes have been touched */
-  virtual void collision_tile(uint32_t /*tile_attributes*/)
-  {
-  }
+  virtual void collision_tile(uint32_t /*tile_attributes*/) {}
 
   /** This function saves the object.
    *  Editor will use that.
    */
   virtual void save(Writer& writer);
-  virtual std::string get_class() const {
-    return "moving-object";
-  }
+  virtual std::string get_class() const { return "moving-object"; }
 
-  const Vector& get_pos() const
-  {
-    return bbox.p1;
-  }
+  const Vector& get_pos() const { return bbox.p1; }
 
   /** puts resizers at its edges, used in editor input center */
   void edit_bbox();
 
   /** returns the bounding box of the Object */
-  const Rectf& get_bbox() const
-  {
-    return bbox;
-  }
+  const Rectf& get_bbox() const { return bbox; }
 
-  const Vector& get_movement() const
-  {
-    return movement;
-  }
+  const Vector& get_movement() const { return movement; }
 
   /** places the moving object at a specific position. Be careful when
       using this function. There are no collision detection checks
       performed here so bad things could happen. */
   virtual void set_pos(const Vector& pos)
   {
-    dest.move(pos-get_pos());
+    dest.move(pos - get_pos());
     bbox.set_pos(pos);
   }
 
   /** moves entire object to a specific position, including all
       points those the object has, exactly like the object has
       spawned in that given pos instead.*/
-  virtual void move_to(const Vector& pos)
-  {
-    set_pos(pos);
-  }
+  virtual void move_to(const Vector& pos) { set_pos(pos); }
 
   /** sets the moving object's bbox to a specific width. Be careful
       when using this function. There are no collision detection
@@ -162,18 +144,12 @@ public:
     bbox.set_size(w, h);
   }
 
-  CollisionGroup get_group() const
-  {
-    return group;
-  }
+  CollisionGroup get_group() const { return group; }
 
-protected:
+ protected:
   friend class Sector;
 
-  void set_group(CollisionGroup group_)
-  {
-    this->group = group_;
-  }
+  void set_group(CollisionGroup group_) { this->group = group_; }
 
   /** The bounding box of the object (as used for collision detection,
       this isn't necessarily the bounding box for graphics) */
@@ -185,7 +161,7 @@ protected:
   /** The collision group */
   CollisionGroup group;
 
-private:
+ private:
   /** this is only here for internal collision detection use (don't touch this
       from outside collision detection code)
 

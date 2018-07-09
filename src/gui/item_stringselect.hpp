@@ -17,36 +17,37 @@
 #ifndef HEADER_SUPERTUX_GUI_ITEM_STRINGSELECT_HPP
 #define HEADER_SUPERTUX_GUI_ITEM_STRINGSELECT_HPP
 
+#include <SDL.h>
+
 #include <list>
 #include <memory>
-#include <SDL.h>
 
 #include "gui/menu_item.hpp"
 
-class ItemStringSelect : public MenuItem
-{
-  public:
-    ItemStringSelect(const std::string& text_, const std::vector<std::string>& list_, int* selected_, int _id = -1);
+class ItemStringSelect : public MenuItem {
+ public:
+  ItemStringSelect(const std::string& text_,
+                   const std::vector<std::string>& list_, int* selected_,
+                   int _id = -1);
 
-    /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
+  /** Draws the menu item. */
+  virtual void draw(DrawingContext&, const Vector& pos, int menu_width,
+                    bool active);
 
-    /** Returns the minimum width of the menu item. */
-    virtual int get_width() const;
+  /** Returns the minimum width of the menu item. */
+  virtual int get_width() const;
 
-    /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action);
+  /** Processes the menu action. */
+  virtual void process_action(const MenuAction& action);
 
-    virtual bool changes_width() const {
-      return true;
-    }
+  virtual bool changes_width() const { return true; }
 
-    std::vector<std::string> list; // list of values for a STRINGSELECT item
-    int* selected; // currently selected item
+  std::vector<std::string> list;  // list of values for a STRINGSELECT item
+  int* selected;                  // currently selected item
 
-  private:
-    ItemStringSelect(const ItemStringSelect&);
-    ItemStringSelect& operator=(const ItemStringSelect&);
+ private:
+  ItemStringSelect(const ItemStringSelect&);
+  ItemStringSelect& operator=(const ItemStringSelect&);
 };
 
 #endif

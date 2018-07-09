@@ -23,13 +23,11 @@
  * Objects that want to expose themself to the scripting environment
  * should implement this interface
  */
-class ScriptInterface
-{
-public:
-  virtual ~ScriptInterface()
-  {}
+class ScriptInterface {
+ public:
+  virtual ~ScriptInterface() {}
 
-  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx) = 0;
+  virtual void expose(HSQUIRRELVM vm, SQInteger table_idx)   = 0;
   virtual void unexpose(HSQUIRRELVM vm, SQInteger table_idx) = 0;
 };
 

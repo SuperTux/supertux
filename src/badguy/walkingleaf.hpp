@@ -22,22 +22,16 @@
 /*
  * Easy to kill badguy that does not jump down from it's ledge.
  */
-class WalkingLeaf : public WalkingBadguy
-{
-public:
+class WalkingLeaf : public WalkingBadguy {
+ public:
   WalkingLeaf(const ReaderMapping& reader);
 
   bool is_freezable() const;
-  std::string get_class() const {
-    return "walkingleaf";
-  }
-  std::string get_display_name() const {
-    return _("Walking leaf");
-  }
+  std::string get_class() const { return "walkingleaf"; }
+  std::string get_display_name() const { return _("Walking leaf"); }
 
-protected:
+ protected:
   bool collision_squished(GameObject& object);
-
 };
 
 #endif

@@ -19,19 +19,13 @@
 
 #include "gui/menu.hpp"
 
-enum WorldSetMenuIDs
-{
-  WORLDSET_STORY,
-  WORLDSET_CONTRIB
-};
+enum WorldSetMenuIDs { WORLDSET_STORY, WORLDSET_CONTRIB };
 
-class WorldSetMenu : public Menu
-{
-public:
+class WorldSetMenu : public Menu {
+ public:
   WorldSetMenu();
 
   void menu_action(MenuItem* item) override;
 };
 
-
-#endif // WORLD_SET_MENU_HPP_INCLUDED
+#endif  // WORLD_SET_MENU_HPP_INCLUDED

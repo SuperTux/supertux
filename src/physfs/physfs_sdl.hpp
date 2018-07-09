@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_PHYSFS_PHYSFS_SDL_HPP
 
 #include <SDL.h>
+
 #include <string>
 
 SDL_RWops* get_physfs_SDLRWops(const std::string& filename);

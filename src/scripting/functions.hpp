@@ -19,6 +19,7 @@
 
 #ifndef SCRIPTING_API
 #include <squirrel.h>
+
 #include <string>
 
 #define __suspend
@@ -58,9 +59,11 @@ void display_text_file(const std::string& filename);
 void load_worldmap(const std::string& filename);
 
 /**
- * Switch to a different worldmap after unloading current one, after exit_screen() is called
+ * Switch to a different worldmap after unloading current one, after
+ * exit_screen() is called
  */
-void set_next_worldmap(const std::string& dirname, const std::string& spawnpoint);
+void set_next_worldmap(const std::string& dirname,
+                       const std::string& spawnpoint);
 
 /**
  * Load and display a level (on next screenswitch)
@@ -107,9 +110,10 @@ void abort_screenfade();
 std::string translate(const std::string& text);
 std::string _(const std::string& text);
 
-std::string translate_plural(const std::string& text, const std::string&
-    text_plural, int num);
-std::string __(const std::string& text, const std::string& text_plural, int num);
+std::string translate_plural(const std::string& text,
+                             const std::string& text_plural, int num);
+std::string __(const std::string& text, const std::string& text_plural,
+               int num);
 
 /**
  * Load a script file and executes it. This is typically used to import
@@ -237,7 +241,7 @@ void record_demo(const std::string& filename);
  */
 void play_demo(const std::string& filename);
 
-} // namespace scripting
+}  // namespace scripting
 
 #endif
 

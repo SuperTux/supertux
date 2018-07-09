@@ -19,20 +19,17 @@
 
 #include "object/moving_sprite.hpp"
 
-class Star : public MovingSprite
-{
-public:
+class Star : public MovingSprite {
+ public:
   Star(const Vector& pos, Direction direction = RIGHT);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
   virtual void collision_solid(const CollisionHit& hit);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
-private:
+ private:
   Physic physic;
   Color light;
   SpritePtr lightsprite;

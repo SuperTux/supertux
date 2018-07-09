@@ -20,30 +20,30 @@
 #include "editor/point_marker.hpp"
 #include "object/path.hpp"
 
-class NodeMarker : public PointMarker
-{
-  public:
-    NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_);
+class NodeMarker : public PointMarker {
+ public:
+  NodeMarker(Path* path_, std::vector<Path::Node>::iterator node_iterator,
+             size_t id_);
 
-    Path* path;
-    std::vector<Path::Node>::iterator node;
-    size_t id;
+  Path* path;
+  std::vector<Path::Node>::iterator node;
+  size_t id;
 
-    void update(float elapsed_time);
-    void move_to(const Vector& pos);
-    void editor_delete();
-    Vector get_point_vector() const;
-    Vector get_offset() const;
+  void update(float elapsed_time);
+  void move_to(const Vector& pos);
+  void editor_delete();
+  Vector get_point_vector() const;
+  Vector get_offset() const;
 
-    ObjectSettings get_settings();
+  ObjectSettings get_settings();
 
-    void update_iterator();
+  void update_iterator();
 
-  private:
-    NodeMarker(const NodeMarker&);
-    NodeMarker& operator=(const NodeMarker&);
+ private:
+  NodeMarker(const NodeMarker&);
+  NodeMarker& operator=(const NodeMarker&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_NODE_MARKER_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_NODE_MARKER_HPP
 
 /* EOF */

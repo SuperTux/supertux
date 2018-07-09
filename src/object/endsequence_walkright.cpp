@@ -1,5 +1,6 @@
 //  SuperTux - End Sequence: Tux walks right
-//  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2007 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,21 +16,18 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/endsequence_walkright.hpp"
+
 #include "object/player.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 
-EndSequenceWalkRight::EndSequenceWalkRight() :
-  EndSequence(),
-  last_x_pos(),
-  endsequence_timer()
+EndSequenceWalkRight::EndSequenceWalkRight()
+    : EndSequence(), last_x_pos(), endsequence_timer()
 {
 }
 
-EndSequenceWalkRight::~EndSequenceWalkRight()
-{
-}
+EndSequenceWalkRight::~EndSequenceWalkRight() {}
 
 void
 EndSequenceWalkRight::draw(DrawingContext& /*context*/)

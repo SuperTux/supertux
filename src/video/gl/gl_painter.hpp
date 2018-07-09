@@ -28,12 +28,11 @@ using namespace gl;
 
 struct DrawingRequest;
 
-class GLPainter
-{
-private:
+class GLPainter {
+ private:
   static GLuint s_last_texture;
 
-public:
+ public:
   GLPainter();
 
   static void draw_surface(const DrawingRequest& request);
@@ -44,7 +43,7 @@ public:
   static void draw_line(const DrawingRequest& request);
   static void draw_triangle(const DrawingRequest& request);
 
-private:
+ private:
   GLPainter(const GLPainter&) = delete;
   GLPainter& operator=(const GLPainter&) = delete;
 };

@@ -16,23 +16,25 @@
 
 #include "badguy/bouncing_snowball.hpp"
 
+#include <algorithm>
+
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-#include <algorithm>
-
-static const float JUMPSPEED = -450;
+static const float JUMPSPEED           = -450;
 static const float BSNOWBALL_WALKSPEED = 80;
 
 BouncingSnowball::BouncingSnowball(const ReaderMapping& reader)
-  : BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
+    : BadGuy(reader,
+             "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
 {
 }
 
 void
 BouncingSnowball::initialize()
 {
-  physic.set_velocity_x(dir == LEFT ? -BSNOWBALL_WALKSPEED : BSNOWBALL_WALKSPEED);
+  physic.set_velocity_x(dir == LEFT ? -BSNOWBALL_WALKSPEED
+                                    : BSNOWBALL_WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
@@ -47,34 +49,34 @@ BouncingSnowball::collision_squished(GameObject& object)
 void
 BouncingSnowball::collision_solid(const CollisionHit& hit)
 {
-  if(sprite->get_action() == "squished")
-  {
+  if (sprite->get_action() == "squished") {
     return;
   }
 
-  if(hit.bottom) {
-    if(get_state() == STATE_ACTIVE) {
-      float bounce_speed = -physic.get_velocity_y()*0.8;
+  if (hit.bottom) {
+    if (get_state() == STATE_ACTIVE) {
+      float bounce_speed = -physic.get_velocity_y() * 0.8;
       physic.set_velocity_y(std::min(JUMPSPEED, bounce_speed));
-    } else {
+    }
+    else {
       physic.set_velocity_y(0);
     }
-  } else if(hit.top) {
+  }
+  else if (hit.top) {
     physic.set_velocity_y(0);
   }
 
   // left or right collision
   // The direction must correspond, else we got fake bounces on slopes.
-  if((hit.left && dir == LEFT) || (hit.right && dir == RIGHT)) {
+  if ((hit.left && dir == LEFT) || (hit.right && dir == RIGHT)) {
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
     physic.set_velocity_x(-physic.get_velocity_x());
   }
-
 }
 
 HitResponse
-BouncingSnowball::collision_badguy(BadGuy& , const CollisionHit& hit)
+BouncingSnowball::collision_badguy(BadGuy&, const CollisionHit& hit)
 {
   collision_solid(hit);
   return CONTINUE;

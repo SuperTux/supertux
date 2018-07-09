@@ -18,58 +18,75 @@
 
 #include "editor/editor.hpp"
 
-NodeMarker::NodeMarker (Path* path_, std::vector<Path::Node>::iterator node_iterator, size_t id_) :
-  path(path_),
-  node(node_iterator),
-  id(id_)
+NodeMarker::NodeMarker(Path* path_,
+                       std::vector<Path::Node>::iterator node_iterator,
+                       size_t id_)
+    : path(path_), node(node_iterator), id(id_)
 {
   set_pos(node->position - Vector(8, 8));
 }
 
-void NodeMarker::update_iterator() {
+void
+NodeMarker::update_iterator()
+{
   if (id >= path->nodes.size()) {
     remove_me();
-  } else {
+  }
+  else {
     node = path->nodes.begin() + id;
   }
 }
 
-Vector NodeMarker::get_point_vector() const {
+Vector
+NodeMarker::get_point_vector() const
+{
   std::vector<Path::Node>::iterator next_node = node + 1;
   if (next_node == path->nodes.end()) {
     if (path->mode == Path::CIRCULAR || path->mode == Path::UNORDERED) {
-      //loop to the first node
+      // loop to the first node
       return path->nodes.begin()->position - node->position;
-    } else {
-      return Vector(0,0);
     }
-  } else {
-    //point to the next node
+    else {
+      return Vector(0, 0);
+    }
+  }
+  else {
+    // point to the next node
     return next_node->position - node->position;
   }
 }
 
-Vector NodeMarker::get_offset() const {
+Vector
+NodeMarker::get_offset() const
+{
   return Vector(8, 8);
 }
 
-void NodeMarker::move_to(const Vector& pos) {
+void
+NodeMarker::move_to(const Vector& pos)
+{
   MovingObject::move_to(pos);
   node->position = bbox.get_middle();
 }
 
-void NodeMarker::editor_delete() {
+void
+NodeMarker::editor_delete()
+{
   path->nodes.erase(node);
   Editor::current()->update_node_iterators();
 }
 
-ObjectSettings NodeMarker::get_settings() {
+ObjectSettings
+NodeMarker::get_settings()
+{
   ObjectSettings result(_("Path Node"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Time"), &(node->time)));
+  result.options.push_back(ObjectOption(MN_NUMFIELD, _("Time"), &(node->time)));
   return result;
 }
 
-void NodeMarker::update(float elapsed_time) {
+void
+NodeMarker::update(float elapsed_time)
+{
   set_pos(node->position - Vector(8, 8));
 }
 

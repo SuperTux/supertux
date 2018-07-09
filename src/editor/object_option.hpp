@@ -25,50 +25,49 @@
 // ObjectOption bitfield flags
 enum ObjectOptionFlags {
   OPTION_ALLOW_EMPTY = (1 << 0),
-  OPTION_VISIBLE = (1 << 1)
+  OPTION_VISIBLE     = (1 << 1)
 };
 
-class ObjectOption
-{
-  public:
-    ObjectOption(MenuItemKind ip_type, const std::string& text_, void* ip,
-                 const std::string& key_ = std::string(), int flags_ = (OPTION_ALLOW_EMPTY | OPTION_VISIBLE));
+class ObjectOption {
+ public:
+  ObjectOption(MenuItemKind ip_type, const std::string& text_, void* ip,
+               const std::string& key_ = std::string(),
+               int flags_              = (OPTION_ALLOW_EMPTY | OPTION_VISIBLE));
 
-    MenuItemKind type;
-    std::string text;
-    void* option;
-    std::string key;
-    int flags;
+  MenuItemKind type;
+  std::string text;
+  void* option;
+  std::string key;
+  int flags;
 
-    bool is_savable() const {
-      return !key.empty();
-    }
+  bool is_savable() const { return !key.empty(); }
 
-    std::vector<std::string> select;
+  std::vector<std::string> select;
 
-    ObjectOption(const ObjectOption& blb) :
-      type(blb.type),
-      text(blb.text),
-      option(blb.option),
-      key(blb.key),
-      flags(blb.flags),
-      select(blb.select)
-    { /* blb-ost */ }
+  ObjectOption(const ObjectOption& blb)
+      : type(blb.type),
+        text(blb.text),
+        option(blb.option),
+        key(blb.key),
+        flags(blb.flags),
+        select(blb.select)
+  { /* blb-ost */
+  }
 
-    ObjectOption& operator=(const ObjectOption& blb)
-    {
-      type = blb.type;
-      text = blb.text;
-      option = blb.option;
-      select = blb.select;
-      key = blb.key;
-      flags = blb.flags;
-      return *this;
-    }
+  ObjectOption& operator=(const ObjectOption& blb)
+  {
+    type   = blb.type;
+    text   = blb.text;
+    option = blb.option;
+    select = blb.select;
+    key    = blb.key;
+    flags  = blb.flags;
+    return *this;
+  }
 
-    const std::string to_string() const;
+  const std::string to_string() const;
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_OPTION_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_OBJECT_OPTION_HPP
 
 /* EOF */

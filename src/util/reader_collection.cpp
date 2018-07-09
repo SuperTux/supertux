@@ -17,23 +17,20 @@
 #include "util/reader_collection.hpp"
 
 #include <assert.h>
+
 #include <sexp/value.hpp>
 
 #include "util/reader_error.hpp"
 
-ReaderCollection::ReaderCollection(const ReaderDocument* doc, const sexp::Value* sx) :
-  m_doc(doc),
-  m_sx(sx)
+ReaderCollection::ReaderCollection(const ReaderDocument* doc,
+                                   const sexp::Value* sx)
+    : m_doc(doc), m_sx(sx)
 {
   assert(m_doc);
   assert(m_sx);
 }
 
-ReaderCollection::ReaderCollection() :
-  m_doc(nullptr),
-  m_sx(nullptr)
-{
-}
+ReaderCollection::ReaderCollection() : m_doc(nullptr), m_sx(nullptr) {}
 
 std::vector<ReaderObject>
 ReaderCollection::get_objects() const
@@ -45,8 +42,7 @@ ReaderCollection::get_objects() const
 
   std::vector<ReaderObject> result;
   auto const& arr = m_sx->as_array();
-  for(size_t i = 1; i < arr.size(); ++i)
-  {
+  for (size_t i = 1; i < arr.size(); ++i) {
     result.push_back(ReaderObject(m_doc, &arr[i]));
   }
   return result;

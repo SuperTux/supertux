@@ -1,6 +1,7 @@
 //  SuperTux - Boss "Yeti"
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,9 +23,8 @@
 
 #include "badguy/badguy.hpp"
 
-class Yeti : public BadGuy
-{
-public:
+class Yeti : public BadGuy {
+ public:
   Yeti(const ReaderMapping& lisp);
 
   void draw(DrawingContext& context);
@@ -36,16 +36,12 @@ public:
   void kill_fall();
 
   bool is_flammable() const;
-  std::string get_class() const {
-    return "yeti";
-  }
-  std::string get_display_name() const {
-    return _("Yeti");
-  }
+  std::string get_class() const { return "yeti"; }
+  std::string get_display_name() const { return _("Yeti"); }
 
   virtual ObjectSettings get_settings();
 
-private:
+ private:
   void run();
   void jump_up();
   void be_angry();
@@ -58,17 +54,10 @@ private:
 
   void add_snow_explosions();
 
-private:
-  enum YetiState {
-    JUMP_DOWN,
-    RUN,
-    JUMP_UP,
-    BE_ANGRY,
-    SQUISHED,
-    FALLING
-  };
+ private:
+  enum YetiState { JUMP_DOWN, RUN, JUMP_UP, BE_ANGRY, SQUISHED, FALLING };
 
-private:
+ private:
   YetiState state;
   Timer state_timer;
   Timer safe_timer;
@@ -86,9 +75,8 @@ private:
   bool fixed_pos;
   std::string hud_icon;
 
-  class SnowExplosionParticle: public BadGuy
-  {
-  public:
+  class SnowExplosionParticle : public BadGuy {
+   public:
     SnowExplosionParticle(const Vector& pos, const Vector& velocity);
   };
 };

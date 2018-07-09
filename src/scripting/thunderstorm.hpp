@@ -23,9 +23,8 @@ class Thunderstorm;
 
 namespace scripting {
 
-class Thunderstorm
-{
-public:
+class Thunderstorm {
+ public:
 #ifndef SCRIPTING_API
   Thunderstorm(::Thunderstorm* thunderstorm);
 #endif
@@ -63,13 +62,13 @@ public:
 #ifndef SCRIPTING_API
   ::Thunderstorm* thunderstorm;
 
-private:
+ private:
   Thunderstorm(const Thunderstorm&);
   Thunderstorm& operator=(const Thunderstorm&);
 #endif
 };
 
-}
+}  // namespace scripting
 
 #endif
 

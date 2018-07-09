@@ -26,26 +26,28 @@ class Level;
 class ReaderMapping;
 class Sector;
 
-class SectorParser
-{
-public:
-  static std::unique_ptr<Sector> from_reader(Level& level, const ReaderMapping& sector);
-  static std::unique_ptr<Sector> from_reader_old_format(Level& level, const ReaderMapping& sector);
+class SectorParser {
+ public:
+  static std::unique_ptr<Sector> from_reader(Level& level,
+                                             const ReaderMapping& sector);
+  static std::unique_ptr<Sector> from_reader_old_format(
+      Level& level, const ReaderMapping& sector);
   static std::unique_ptr<Sector> from_nothing(Level& level);
 
-private:
+ private:
   SectorParser(Sector& sector);
 
   void fix_old_tiles();
   void parse_old_format(const ReaderMapping& reader);
   void parse(const ReaderMapping& sector);
   void create_sector();
-  GameObjectPtr parse_object(const std::string& name_, const ReaderMapping& reader);
+  GameObjectPtr parse_object(const std::string& name_,
+                             const ReaderMapping& reader);
 
-private:
+ private:
   Sector& m_sector;
 
-private:
+ private:
   SectorParser(const SectorParser&) = delete;
   SectorParser& operator=(const SectorParser&) = delete;
 };

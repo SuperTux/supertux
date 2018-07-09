@@ -16,17 +16,17 @@
 
 #include "supertux/menu/editor_sector_menu.hpp"
 
-#include "gui/menu_item.hpp"
 #include "editor/editor.hpp"
+#include "gui/menu_item.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "util/gettext.hpp"
 
-EditorSectorMenu::EditorSectorMenu() :
-  sector(Editor::current()->currentsector),
-  original_name(sector->get_name()),
-  size(sector->get_editor_size()),
-  new_size(size)
+EditorSectorMenu::EditorSectorMenu()
+    : sector(Editor::current()->currentsector),
+      original_name(sector->get_name()),
+      size(sector->get_editor_size()),
+      new_size(size)
 {
   add_label(_("Sector") + " " + sector->get_name());
   add_hl();
@@ -52,19 +52,20 @@ EditorSectorMenu::EditorSectorMenu() :
 EditorSectorMenu::~EditorSectorMenu()
 {
   auto editor = Editor::current();
-  if(editor == NULL) {
+  if (editor == NULL) {
     return;
   }
   // Makes sure that the name of the sector isn't already used.
-  auto level = editor->get_level();
+  auto level     = editor->get_level();
   bool is_sector = false;
-  for(auto const& sector_ : level->sectors) {
-    if(sector_->get_name() == sector->get_name()) {
+  for (auto const& sector_ : level->sectors) {
+    if (sector_->get_name() == sector->get_name()) {
       if (is_sector) {
         // Puts the name that was there before when the name is already used.
         sector->set_name(original_name);
         break;
-      } else {
+      }
+      else {
         is_sector = true;
       }
     }

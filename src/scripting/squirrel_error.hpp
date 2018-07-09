@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SCRIPTING_SQUIRREL_ERROR_HPP
 
 #include <squirrel.h>
+
 #include <stdexcept>
 #include <string>
 
@@ -27,18 +28,18 @@ namespace scripting {
  * sq_geterror() to retrieve additional information about the last error that
  * occurred and creates a readable message from that.
  */
-class SquirrelError : public std::exception
-{
-public:
+class SquirrelError : public std::exception {
+ public:
   SquirrelError(HSQUIRRELVM v, const std::string& message) throw();
   virtual ~SquirrelError() throw();
 
   const char* what() const throw();
-private:
+
+ private:
   std::string message;
 };
 
-}
+}  // namespace scripting
 
 #endif
 

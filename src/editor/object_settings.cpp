@@ -15,15 +15,17 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "editor/object_settings.hpp"
+
 #include "video/color.hpp"
 
-ObjectSettings::ObjectSettings(const std::string& name_) :
-  name(name_),
-  options()
+ObjectSettings::ObjectSettings(const std::string& name_)
+    : name(name_), options()
 {
 }
 
-void ObjectSettings::copy_from(ObjectSettings* other) {
+void
+ObjectSettings::copy_from(ObjectSettings* other)
+{
   auto it1 = options.begin();
   auto it2 = other->options.begin();
   while (it1 != options.end() && it2 != other->options.end()) {
@@ -52,14 +54,15 @@ void ObjectSettings::copy_from(ObjectSettings* other) {
         break;
       case MN_BADGUYSELECT:
         assert(oo1->type == oo2->type);
-        *((std::vector<std::string>*)oo1->option) = *((std::vector<std::string>*)oo2->option);
+        *((std::vector<std::string>*)oo1->option) =
+            *((std::vector<std::string>*)oo2->option);
         break;
       case MN_COLOR:
         assert(oo1->type == oo2->type);
         *((Color*)oo1->option) = *((Color*)oo2->option);
         break;
       default:
-        //Do not assert here!
+        // Do not assert here!
         break;
     }
 

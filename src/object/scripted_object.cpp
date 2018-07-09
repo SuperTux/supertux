@@ -28,46 +28,55 @@
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
-ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
-  MovingSprite(lisp, "images/objects/bonus_block/brick.sprite", LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
-  ExposedObject<ScriptedObject, scripting::ScriptedObject>(this),
-  physic(),
-  solid(),
-  physic_enabled(),
-  visible(),
-  hit_script(),
-  new_vel_set(false),
-  new_vel(),
-  new_size()
+ScriptedObject::ScriptedObject(const ReaderMapping& lisp)
+    : MovingSprite(lisp, "images/objects/bonus_block/brick.sprite",
+                   LAYER_OBJECTS, COLGROUP_MOVING_STATIC),
+      ExposedObject<ScriptedObject, scripting::ScriptedObject>(this),
+      physic(),
+      solid(),
+      physic_enabled(),
+      visible(),
+      hit_script(),
+      new_vel_set(false),
+      new_vel(),
+      new_size()
 {
-  if(name.empty()) {
+  if (name.empty()) {
     name = "unnamed" + std::to_string(graphicsRandom.rand());
-    log_warning << "Scripted object must have a name specified, setting to: " << name << std::endl;
+    log_warning << "Scripted object must have a name specified, setting to: "
+                << name << std::endl;
   }
 
   lisp.get("solid", solid, true);
   lisp.get("physic-enabled", physic_enabled, true);
   lisp.get("visible", visible, true);
   lisp.get("hit-script", hit_script, "");
-  layer = reader_get_layer (lisp, /* default = */ LAYER_OBJECTS);
-  if( solid ){
-    set_group( COLGROUP_MOVING_STATIC );
-  } else {
-    set_group( COLGROUP_DISABLED );
+  layer = reader_get_layer(lisp, /* default = */ LAYER_OBJECTS);
+  if (solid) {
+    set_group(COLGROUP_MOVING_STATIC);
+  }
+  else {
+    set_group(COLGROUP_DISABLED);
   }
 }
 ObjectSettings
-ScriptedObject::get_settings() {
-  new_size.x = bbox.get_width();
-  new_size.y = bbox.get_height();
+ScriptedObject::get_settings()
+{
+  new_size.x            = bbox.get_width();
+  new_size.y            = bbox.get_height();
   ObjectSettings result = MovingSprite::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, "width", &new_size.x, "width", false));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, "height", &new_size.y, "height", false));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Solid"), &solid, "solid"));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Enabled physics"), &physic_enabled, "physic-enabled"));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Visible"), &visible, "visible"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Hit script"),
-        &hit_script, "hit-script"));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, "width", &new_size.x, "width", false));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, "height", &new_size.y, "height", false));
+  result.options.push_back(
+      ObjectOption(MN_TOGGLE, _("Solid"), &solid, "solid"));
+  result.options.push_back(ObjectOption(MN_TOGGLE, _("Enabled physics"),
+                                        &physic_enabled, "physic-enabled"));
+  result.options.push_back(
+      ObjectOption(MN_TOGGLE, _("Visible"), &visible, "visible"));
+  result.options.push_back(
+      ObjectOption(MN_TEXTFIELD, _("Hit script"), &hit_script, "hit-script"));
 
   return result;
 }
@@ -93,7 +102,7 @@ ScriptedObject::get_pos_y() const
 void
 ScriptedObject::set_velocity(float x, float y)
 {
-  new_vel = Vector(x, y);
+  new_vel     = Vector(x, y);
   new_vel_set = true;
 }
 
@@ -125,10 +134,11 @@ void
 ScriptedObject::set_solid(bool solid_)
 {
   this->solid = solid_;
-  if( solid ){
-    set_group( COLGROUP_MOVING_STATIC );
-  } else {
-    set_group( COLGROUP_DISABLED );
+  if (solid) {
+    set_group(COLGROUP_MOVING_STATIC);
+  }
+  else {
+    set_group(COLGROUP_DISABLED);
   }
 }
 
@@ -141,13 +151,13 @@ ScriptedObject::is_solid() const
 bool
 ScriptedObject::gravity_enabled() const
 {
-	return physic.gravity_enabled();
+  return physic.gravity_enabled();
 }
 
 void
 ScriptedObject::enable_gravity(bool f)
 {
-	physic.enable_gravity(f);
+  physic.enable_gravity(f);
 }
 
 void
@@ -171,10 +181,9 @@ ScriptedObject::get_name() const
 void
 ScriptedObject::update(float elapsed_time)
 {
-  if(!physic_enabled)
-    return;
+  if (!physic_enabled) return;
 
-  if(new_vel_set) {
+  if (new_vel_set) {
     physic.set_velocity(new_vel.x, new_vel.y);
     new_vel_set = false;
   }
@@ -184,8 +193,7 @@ ScriptedObject::update(float elapsed_time)
 void
 ScriptedObject::draw(DrawingContext& context)
 {
-  if(!visible)
-    return;
+  if (!visible) return;
 
   sprite->draw(context, get_pos(), layer);
 }
@@ -193,25 +201,24 @@ ScriptedObject::draw(DrawingContext& context)
 void
 ScriptedObject::collision_solid(const CollisionHit& hit)
 {
-  if(!physic_enabled)
-    return;
+  if (!physic_enabled) return;
 
-  if(hit.bottom) {
-    if(physic.get_velocity_y() > 0)
-      physic.set_velocity_y(0);
-  } else if(hit.top) {
+  if (hit.bottom) {
+    if (physic.get_velocity_y() > 0) physic.set_velocity_y(0);
+  }
+  else if (hit.top) {
     physic.set_velocity_y(.1f);
   }
 
-  if(hit.left || hit.right) {
+  if (hit.left || hit.right) {
     physic.set_velocity_x(0);
   }
 }
 
 HitResponse
-ScriptedObject::collision(GameObject& other, const CollisionHit& )
+ScriptedObject::collision(GameObject& other, const CollisionHit&)
 {
-  auto player = dynamic_cast<Player*> (&other);
+  auto player = dynamic_cast<Player*>(&other);
   if (player && !hit_script.empty()) {
     Sector::current()->run_script(hit_script, "hit-script");
   }

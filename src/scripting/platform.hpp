@@ -23,9 +23,8 @@ class Platform;
 
 namespace scripting {
 
-class Platform
-{
-public:
+class Platform {
+ public:
 #ifndef SCRIPTING_API
   Platform(::Platform* platform);
 #endif
@@ -42,13 +41,13 @@ public:
 #ifndef SCRIPTING_API
   ::Platform* platform;
 
-private:
+ private:
   Platform(const Platform&);
   Platform& operator=(const Platform&);
 #endif
 };
 
-}
+}  // namespace scripting
 
 #endif
 

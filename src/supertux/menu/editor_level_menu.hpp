@@ -19,26 +19,23 @@
 
 #include "gui/menu.hpp"
 
-class EditorLevelMenu : public Menu
-{
-private:
-public:
+class EditorLevelMenu : public Menu {
+ private:
+ public:
   EditorLevelMenu();
   ~EditorLevelMenu();
 
   void menu_action(MenuItem* item) override;
   bool on_back_action() override;
-  bool is_sensitive() const override {
-    return true;
-  }
+  bool is_sensitive() const override { return true; }
 
-private:
+ private:
   std::string old_tileset;
 
   EditorLevelMenu(const EditorLevelMenu&);
   EditorLevelMenu& operator=(const EditorLevelMenu&);
 };
 
-#endif //HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVEL_MENU_HPP
+#endif  // HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVEL_MENU_HPP
 
 /* EOF */

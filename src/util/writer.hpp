@@ -20,9 +20,8 @@
 #include <string>
 #include <vector>
 
-class Writer
-{
-public:
+class Writer {
+ public:
   Writer(const std::string& filename);
   Writer(std::ostream* out);
   ~Writer();
@@ -35,7 +34,8 @@ public:
   void write(const std::string& name, int value);
   void write(const std::string& name, float value);
   void write(const std::string& name, const char* value);
-  void write(const std::string& name, const std::string& value, bool translatable = false);
+  void write(const std::string& name, const std::string& value,
+             bool translatable = false);
   void write(const std::string& name, const std::vector<int>& value);
   void write(const std::string& name, const std::vector<unsigned int>& value);
   void write(const std::string& name, const std::vector<float>& value);
@@ -44,21 +44,21 @@ public:
 
   void end_list(const std::string& listname);
 
-private:
+ private:
   void write_escaped_string(const std::string& str);
   void indent();
 
-private:
+ private:
   std::ostream* out;
   bool out_owned;
   int indent_depth;
   std::vector<std::string> lists;
 
-private:
+ private:
   Writer(const Writer&);
-  Writer & operator=(const Writer&);
+  Writer& operator=(const Writer&);
 };
 
-#endif //HEADER_SUPERTUX_UTIL_WRITER_HPP
+#endif  // HEADER_SUPERTUX_UTIL_WRITER_HPP
 
 /* EOF */

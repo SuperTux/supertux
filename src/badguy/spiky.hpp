@@ -19,21 +19,16 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class Spiky : public WalkingBadguy
-{
-public:
+class Spiky : public WalkingBadguy {
+ public:
   Spiky(const ReaderMapping& reader);
 
   bool is_freezable() const;
   bool is_flammable() const;
-  std::string get_class() const {
-    return "spiky";
-  }
-  std::string get_display_name() const {
-    return _("Spiky");
-  }
+  std::string get_class() const { return "spiky"; }
+  std::string get_display_name() const { return _("Spiky"); }
 
-private:
+ private:
 };
 
 #endif

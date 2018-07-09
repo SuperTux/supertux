@@ -19,9 +19,10 @@
 #define HEADER_SUPERTUX_SUPERTUX_OBJECT_FACTORY_HPP
 
 #include <assert.h>
+
+#include <functional>
 #include <map>
 #include <memory>
-#include <functional>
 
 #include "supertux/direction.hpp"
 #include "supertux/game_object_ptr.hpp"
@@ -30,35 +31,39 @@ class ReaderMapping;
 class Vector;
 class GameObject;
 
-class ObjectFactory
-{
-public:
+class ObjectFactory {
+ public:
   static ObjectFactory& instance();
 
-private:
-  typedef std::map<std::string, std::function<GameObjectPtr (const ReaderMapping&)> > Factories;
+ private:
+  typedef std::map<std::string,
+                   std::function<GameObjectPtr(const ReaderMapping&)> >
+      Factories;
   Factories factories;
 
-public:
+ public:
   ObjectFactory();
 
-  GameObjectPtr create(const std::string& name, const ReaderMapping& reader) const;
-  GameObjectPtr create(const std::string& name, const Vector& pos, const Direction& dir = AUTO, const std::string& data = {}) const;
+  GameObjectPtr create(const std::string& name,
+                       const ReaderMapping& reader) const;
+  GameObjectPtr create(const std::string& name, const Vector& pos,
+                       const Direction& dir    = AUTO,
+                       const std::string& data = {}) const;
 
-private:
+ private:
   void add_factory(const char* name,
-                   std::function<GameObjectPtr (const ReaderMapping&)> func)
+                   std::function<GameObjectPtr(const ReaderMapping&)> func)
   {
     assert(factories.find(name) == factories.end());
     factories[name] = func;
   }
 
-  template<class C>
+  template <class C>
   void add_factory(const char* name)
   {
     add_factory(name, [](const ReaderMapping& reader) {
-        return std::make_shared<C>(reader);
-      });
+      return std::make_shared<C>(reader);
+    });
   }
   void init_factories();
 };

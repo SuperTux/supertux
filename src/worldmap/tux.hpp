@@ -1,6 +1,7 @@
 //  SuperTux -  A Jump'n Run
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmail.com>
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -28,11 +29,11 @@ class SpecialTile;
 class SpriteChange;
 class WorldMap;
 
-class Tux : public GameObject
-{
-public:
+class Tux : public GameObject {
+ public:
   Direction back_direction;
-private:
+
+ private:
   WorldMap* worldmap;
   SpritePtr sprite;
   Controller* controller;
@@ -43,21 +44,25 @@ private:
   /** Length by which tux is away from its current tile, length is in
       input_direction direction */
   float offset;
-  bool  moving;
+  bool moving;
 
   bool ghost_mode;
 
-private:
+ private:
   void stop();
   std::string get_action_prefix_for_bonus(const BonusType& bonus) const;
-  bool canWalk(int tile_data, Direction dir) const; /**< check if we can leave a tile (with given "tile_data") in direction "dir" */
-  void updateInputDirection(); /**< if controller was pressed, update input_direction */
+  bool canWalk(int tile_data,
+               Direction dir) const; /**< check if we can leave a tile (with
+                                        given "tile_data") in direction "dir" */
+  void updateInputDirection();       /**< if controller was pressed, update
+                                        input_direction */
   void tryStartWalking(); /**< try starting to walk in input_direction */
-  void tryContinueWalking(float elapsed_time); /**< try to continue walking in current direction */
+  void tryContinueWalking(
+      float elapsed_time); /**< try to continue walking in current direction */
 
   void ChangeSprite(SpriteChange* sc); /**< Uses the given sprite change */
 
-public:
+ public:
   Tux(WorldMap* worldmap_);
 
   void setup(); /**< called prior to first update */
@@ -72,16 +77,16 @@ public:
   bool is_moving() const { return moving; }
   Vector get_pos() const;
   Vector get_tile_pos() const { return tile_pos; }
-  void  set_tile_pos(const Vector& p) { tile_pos = p; }
+  void set_tile_pos(const Vector& p) { tile_pos = p; }
 
   void process_special_tile(SpecialTile* special_tile);
 
-private:
+ private:
   Tux(const Tux&);
   Tux& operator=(const Tux&);
 };
 
-} // namespace worldmap
+}  // namespace worldmap
 
 #endif
 

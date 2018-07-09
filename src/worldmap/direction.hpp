@@ -1,5 +1,6 @@
 //  SuperTux - Worldmap Direction
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -29,9 +30,9 @@ Direction reverse_dir(Direction direction);
 Direction string_to_direction(const std::string& directory);
 std::string direction_to_string(Direction direction);
 
-ObjectOption dir_option(Direction *dir);
+ObjectOption dir_option(Direction* dir);
 
-} // namespace worldmap
+}  // namespace worldmap
 
 #endif
 

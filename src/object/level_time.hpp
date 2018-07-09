@@ -28,10 +28,10 @@
 class ReaderMapping;
 
 class LevelTime : public GameObject,
-                  public ExposedObject<LevelTime, scripting::LevelTime>
-{
+                  public ExposedObject<LevelTime, scripting::LevelTime> {
   static Color text_color;
-public:
+
+ public:
   LevelTime(const ReaderMapping& reader);
 
   void update(float elapsed_time);
@@ -65,20 +65,17 @@ public:
   /**
    * @}
    */
-  std::string get_class() const {
-    return "leveltime";
-  }
-  std::string get_display_name() const {
-    return _("Level time");
-  }
+  std::string get_class() const { return "leveltime"; }
+  std::string get_display_name() const { return _("Level time"); }
 
   virtual ObjectSettings get_settings();
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const
+  {
     return "images/engine/editor/clock.png";
   }
 
-private:
+ private:
   SurfacePtr time_surface;
   bool running;
   float time_left;

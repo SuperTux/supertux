@@ -1,5 +1,6 @@
 //  SuperTux - Add-on
-//  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
+//  Copyright (C) 2007 Christoph Sommer
+//  <christoph.sommer@2007.expires.deltadevelopment.de>
 //                2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -18,8 +19,9 @@
 #include "addon/addon.hpp"
 
 #include <physfs.h>
-#include <stdexcept>
+
 #include <sstream>
+#include <stdexcept>
 
 #include "util/log.hpp"
 #include "util/reader.hpp"
@@ -29,54 +31,49 @@
 
 namespace {
 
-static const char* s_allowed_characters = "-_0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+static const char* s_allowed_characters =
+    "-_0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-Addon::Type addon_type_from_string(const std::string& type)
+Addon::Type
+addon_type_from_string(const std::string& type)
 {
-  if (type == "world")
-  {
+  if (type == "world") {
     return Addon::WORLD;
   }
-  else if (type == "worldmap")
-  {
+  else if (type == "worldmap") {
     return Addon::WORLDMAP;
   }
-  else if (type == "levelset")
-  {
+  else if (type == "levelset") {
     return Addon::LEVELSET;
   }
-  else if(type == "languagepack")
-  {
+  else if (type == "languagepack") {
     return Addon::LANGUAGEPACK;
   }
-  else
-  {
+  else {
     throw std::runtime_error("not a valid Addon::Type: " + type);
   }
 }
 
-} // namespace
+}  // namespace
 
 std::unique_ptr<Addon>
 Addon::parse(const ReaderMapping& lisp)
 {
   std::unique_ptr<Addon> addon(new Addon);
 
-  try
-  {
-    if (!lisp.get("id", addon->m_id))
-    {
+  try {
+    if (!lisp.get("id", addon->m_id)) {
       throw std::runtime_error("(id ...) field missing from addon description");
     }
 
-    if (addon->m_id.empty())
-    {
+    if (addon->m_id.empty()) {
       throw std::runtime_error("addon id is empty");
     }
 
-    if (addon->m_id.find_first_not_of(s_allowed_characters) != std::string::npos)
-    {
-      throw std::runtime_error("addon id contains illegal characters: " + addon->m_id);
+    if (addon->m_id.find_first_not_of(s_allowed_characters) !=
+        std::string::npos) {
+      throw std::runtime_error("addon id contains illegal characters: " +
+                               addon->m_id);
     }
 
     lisp.get("version", addon->m_version);
@@ -94,8 +91,7 @@ Addon::parse(const ReaderMapping& lisp)
 
     return addon;
   }
-  catch(const std::exception& err)
-  {
+  catch (const std::exception& err) {
     std::stringstream msg;
     msg << "Problem when parsing addoninfo: " << err.what();
     throw std::runtime_error(msg.str());
@@ -105,41 +101,38 @@ Addon::parse(const ReaderMapping& lisp)
 std::unique_ptr<Addon>
 Addon::parse(const std::string& fname)
 {
-  try
-  {
+  try {
     register_translation_directory(fname);
-    auto doc = ReaderDocument::parse(fname);
+    auto doc  = ReaderDocument::parse(fname);
     auto root = doc.get_root();
-    if(root.get_name() != "supertux-addoninfo")
-    {
+    if (root.get_name() != "supertux-addoninfo") {
       throw std::runtime_error("file is not a supertux-addoninfo file.");
     }
-    else
-    {
+    else {
       return parse(root.get_mapping());
     }
   }
-  catch(const std::exception& err)
-  {
+  catch (const std::exception& err) {
     std::stringstream msg;
     msg << "Problem when reading addoninfo '" << fname << "': " << err.what();
     throw std::runtime_error(msg.str());
   }
 }
 
-Addon::Addon() :
-  m_id(),
-  m_version(0),
-  m_type(),
-  m_title(),
-  m_author(),
-  m_license(),
-  m_format(0),
-  m_url(),
-  m_md5(),
-  m_install_filename(),
-  m_enabled(false)
-{}
+Addon::Addon()
+    : m_id(),
+      m_version(0),
+      m_type(),
+      m_title(),
+      m_author(),
+      m_license(),
+      m_format(0),
+      m_url(),
+      m_md5(),
+      m_install_filename(),
+      m_enabled(false)
+{
+}
 
 std::string
 Addon::get_filename() const
@@ -166,10 +159,11 @@ Addon::is_enabled() const
 }
 
 void
-Addon::set_install_filename(const std::string& absolute_filename, const std::string& md5)
+Addon::set_install_filename(const std::string& absolute_filename,
+                            const std::string& md5)
 {
   m_install_filename = absolute_filename;
-  m_md5 = md5;
+  m_md5              = md5;
 }
 
 void
@@ -177,6 +171,5 @@ Addon::set_enabled(bool v)
 {
   m_enabled = v;
 }
-
 
 /* EOF */

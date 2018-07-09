@@ -1,5 +1,6 @@
 //  SuperTux - WalkingBadguy
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,27 +25,26 @@ class Timer;
 /**
  * Base class for Badguys that walk on the floor.
  */
-class WalkingBadguy : public BadGuy
-{
-public:
-  WalkingBadguy(const Vector& pos,
-                const std::string& sprite_name,
-                const std::string& walk_left_action,
-                const std::string& walk_right_action,
-                int layer = LAYER_OBJECTS,
-                const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
-  WalkingBadguy(const Vector& pos, Direction direction,
-                const std::string& sprite_name,
-                const std::string& walk_left_action,
-                const std::string& walk_right_action,
-                int layer = LAYER_OBJECTS,
-                const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
-  WalkingBadguy(const ReaderMapping& reader,
-                const std::string& sprite_name,
-                const std::string& walk_left_action,
-                const std::string& walk_right_action,
-                int layer = LAYER_OBJECTS,
-                const std::string& light_sprite_name = "images/objects/lightmap_light/lightmap_light-medium.sprite");
+class WalkingBadguy : public BadGuy {
+ public:
+  WalkingBadguy(
+      const Vector& pos, const std::string& sprite_name,
+      const std::string& walk_left_action, const std::string& walk_right_action,
+      int layer = LAYER_OBJECTS,
+      const std::string& light_sprite_name =
+          "images/objects/lightmap_light/lightmap_light-medium.sprite");
+  WalkingBadguy(
+      const Vector& pos, Direction direction, const std::string& sprite_name,
+      const std::string& walk_left_action, const std::string& walk_right_action,
+      int layer = LAYER_OBJECTS,
+      const std::string& light_sprite_name =
+          "images/objects/lightmap_light/lightmap_light-medium.sprite");
+  WalkingBadguy(
+      const ReaderMapping& reader, const std::string& sprite_name,
+      const std::string& walk_left_action, const std::string& walk_right_action,
+      int layer = LAYER_OBJECTS,
+      const std::string& light_sprite_name =
+          "images/objects/lightmap_light/lightmap_light-medium.sprite");
 
   void initialize();
   void active_update(float elapsed_time);
@@ -62,28 +62,24 @@ public:
    */
   void add_velocity(const Vector& velocity);
 
-  float get_walk_speed() const
-  {
-    return walk_speed;
-  }
-  void  set_walk_speed (float);
-  bool is_active() const
-  {
-    return BadGuy::is_active();
-  }
+  float get_walk_speed() const { return walk_speed; }
+  void set_walk_speed(float);
+  bool is_active() const { return BadGuy::is_active(); }
 
   void after_editor_set();
 
-protected:
+ protected:
   void turn_around();
 
-protected:
+ protected:
   std::string walk_left_action;
   std::string walk_right_action;
   float walk_speed;
-  int max_drop_height; /**< Maximum height of drop before we will turn around, or -1 to just drop from any ledge */
+  int max_drop_height; /**< Maximum height of drop before we will turn around,
+                          or -1 to just drop from any ledge */
   Timer turn_around_timer;
-  int turn_around_counter; /**< counts number of turns since turn_around_timer was started */
+  int turn_around_counter; /**< counts number of turns since turn_around_timer
+                              was started */
 };
 
 #endif

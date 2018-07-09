@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_HPP
 
 #include <stdint.h>
+
 #include <string>
 
 #include "supertux/tile.hpp"
@@ -29,26 +30,25 @@ class DrawingContext;
 class Tile;
 
 class Tilegroup {
-  public:
-    Tilegroup();
-    bool developers_group = false;
-    std::string name;
-    std::vector<int> tiles;
+ public:
+  Tilegroup();
+  bool developers_group = false;
+  std::string name;
+  std::vector<int> tiles;
 };
 
-class TileSet
-{
-private:
+class TileSet {
+ private:
   std::vector<std::unique_ptr<Tile> > m_tiles;
   SurfacePtr notile_surface;
 
-public:
+ public:
   TileSet(const std::string& filename);
   TileSet();
 
   std::vector<Tilegroup> tilegroups;
 
-  void merge(const TileSet *tileset, uint32_t start, uint32_t end,
+  void merge(const TileSet* tileset, uint32_t start, uint32_t end,
              uint32_t offset);
   void add_tile(int id, std::unique_ptr<Tile> tile);
 
@@ -63,10 +63,7 @@ public:
    */
   void add_unassigned_tilegroup();
 
-  uint32_t get_max_tileid() const
-  {
-    return m_tiles.size();
-  }
+  uint32_t get_max_tileid() const { return m_tiles.size(); }
 };
 
 #endif

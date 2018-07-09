@@ -18,11 +18,11 @@
 
 #include "sprite/sprite_manager.hpp"
 
-SmartBlock::SmartBlock(const ReaderMapping& reader) :
-  MrIceBlock(reader)
+SmartBlock::SmartBlock(const ReaderMapping& reader) : MrIceBlock(reader)
 {
   max_drop_height = 16;
-  sprite = SpriteManager::current()->create("images/creatures/mr_iceblock/smart_block/smart_block.sprite");
+  sprite          = SpriteManager::current()->create(
+      "images/creatures/mr_iceblock/smart_block/smart_block.sprite");
 }
 
 /* EOF */

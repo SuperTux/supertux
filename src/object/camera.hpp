@@ -35,9 +35,8 @@ class CameraConfig;
 
 class Camera : public GameObject,
                public ExposedObject<Camera, scripting::Camera>,
-               public PathObject
-{
-public:
+               public PathObject {
+ public:
   Camera(Sector* sector, const std::string& name = std::string());
   virtual ~Camera();
   virtual void save(Writer& writer);
@@ -53,7 +52,7 @@ public:
 
   virtual void update(float elapsed_time);
 
-  virtual void draw(DrawingContext& );
+  virtual void draw(DrawingContext&);
 
   // shake camera in a direction 1 time
   void shake(float speed, float x, float y);
@@ -73,10 +72,7 @@ public:
 
   void reload_config();
 
-  enum CameraMode
-  {
-    NORMAL, MANUAL, AUTOSCROLL, SCROLLTO
-  };
+  enum CameraMode { NORMAL, MANUAL, AUTOSCROLL, SCROLLTO };
   CameraMode mode;
 
   /**
@@ -84,37 +80,32 @@ public:
    */
   Vector get_center() const;
   virtual bool is_saveable() const;
-  std::string get_class() const {
-    return "camera";
-  }
-  std::string get_display_name() const {
-    return _("Camera");
-  }
+  std::string get_class() const { return "camera"; }
+  std::string get_display_name() const { return _("Camera"); }
 
   virtual ObjectSettings get_settings();
   virtual void after_editor_set();
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const
+  {
     return "images/engine/editor/camera.png";
   }
 
-private:
+ private:
   void update_scroll_normal(float elapsed_time);
   void update_scroll_autoscroll(float elapsed_time);
   void update_scroll_to(float elapsed_time);
   void keep_in_bounds(Vector& vector);
   void shake();
 
-private:
+ private:
   /**
    * The camera basically provides lookahead on the left or right side
    * or is undecided.
    */
-  enum LookaheadMode {
-    LOOKAHEAD_NONE, LOOKAHEAD_LEFT, LOOKAHEAD_RIGHT
-  };
+  enum LookaheadMode { LOOKAHEAD_NONE, LOOKAHEAD_LEFT, LOOKAHEAD_RIGHT };
 
-private:
+ private:
   Vector translation;
 
   Sector* sector;
@@ -140,12 +131,11 @@ private:
 
   std::unique_ptr<CameraConfig> config;
 
-private:
+ private:
   Camera(const Camera&);
   Camera& operator=(const Camera&);
 
   CameraMode defaultmode;
-
 };
 
 #endif /*SUPERTUX_CAMERA_H*/

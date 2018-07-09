@@ -36,168 +36,151 @@ class Sector;
 class TileSet;
 class World;
 
-class Editor : public Screen,
-               public Currenton<Editor>
-{
-  public:
-    Editor();
+class Editor : public Screen, public Currenton<Editor> {
+ public:
+  Editor();
 
-    virtual void draw(DrawingContext&) override;
-    virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext&) override;
+  virtual void update(float elapsed_time) override;
 
-    virtual void setup() override;
-    virtual void leave() override;
+  virtual void setup() override;
+  virtual void leave() override;
 
-    void event(SDL_Event& ev);
-    void resize();
+  void event(SDL_Event& ev);
+  void resize();
 
-  protected:
-    std::unique_ptr<Level> level;
-    std::unique_ptr<World> world;
+ protected:
+  std::unique_ptr<Level> level;
+  std::unique_ptr<World> world;
 
-    std::string levelfile;
-    std::string test_levelfile;
-    bool worldmap_mode;
+  std::string levelfile;
+  std::string test_levelfile;
+  bool worldmap_mode;
 
-  public:
-    bool quit_request;
-    bool newlevel_request;
-    bool reload_request;
-    bool reactivate_request;
-    bool deactivate_request;
-    bool save_request;
-    bool test_request;
+ public:
+  bool quit_request;
+  bool newlevel_request;
+  bool reload_request;
+  bool reactivate_request;
+  bool deactivate_request;
+  bool save_request;
+  bool test_request;
 
-    void disable_keyboard() {
-      enabled = false;
-    }
+  void disable_keyboard() { enabled = false; }
 
-    static bool is_active();
+  static bool is_active();
 
-    Level* get_level() const {
-      return level.get();
-    }
+  Level* get_level() const { return level.get(); }
 
-    World* get_world() const {
-      return world.get();
-    }
+  World* get_world() const { return world.get(); }
 
-    void set_world(std::unique_ptr<World> w);
+  void set_world(std::unique_ptr<World> w);
 
-    TileSet* get_tileset() const {
-      return tileset;
-    }
+  TileSet* get_tileset() const { return tileset; }
 
-    TileSelection* get_tiles() const {
-      return tileselect.tiles.get();
-    }
+  TileSelection* get_tiles() const { return tileselect.tiles.get(); }
 
-    const std::string& get_tileselect_object() const {
-      return tileselect.object;
-    }
+  const std::string& get_tileselect_object() const { return tileselect.object; }
 
-    EditorInputGui::InputType get_tileselect_input_type() const {
-      return tileselect.input_type;
-    }
+  EditorInputGui::InputType get_tileselect_input_type() const
+  {
+    return tileselect.input_type;
+  }
 
-    int get_tileselect_select_mode() const;
+  int get_tileselect_select_mode() const;
 
-    int get_tileselect_move_mode() const;
+  int get_tileselect_move_mode() const;
 
-    std::string get_levelfile() const {
-      return levelfile;
-    }
+  std::string get_levelfile() const { return levelfile; }
 
-    void set_level(const std::string& levelfile_) {
-      Editor::current()->levelfile = levelfile_;
-      Editor::current()->reload_request = true;
-    }
+  void set_level(const std::string& levelfile_)
+  {
+    Editor::current()->levelfile      = levelfile_;
+    Editor::current()->reload_request = true;
+  }
 
-    void set_worldmap_mode(bool new_mode) {
-      worldmap_mode = new_mode;
-    }
+  void set_worldmap_mode(bool new_mode) { worldmap_mode = new_mode; }
 
-    bool get_worldmap_mode() const {
-      return worldmap_mode;
-    }
+  bool get_worldmap_mode() const { return worldmap_mode; }
 
-    bool is_testing_level() const {
-      return leveltested;
-    }
-    
-    /**
-     * Checks whether the level can be saved and
-     * does not contain obvious issues
-     * (currently: check if main sector
-     *  and a spawn point named "main" is present)
-     */
-    void check_save_prerequisites(bool& sector_valid, bool& spawnpoint_valid) const;
+  bool is_testing_level() const { return leveltested; }
 
-    void load_sector(const std::string& name);
-    void load_sector(size_t id);
+  /**
+   * Checks whether the level can be saved and
+   * does not contain obvious issues
+   * (currently: check if main sector
+   *  and a spawn point named "main" is present)
+   */
+  void check_save_prerequisites(bool& sector_valid,
+                                bool& spawnpoint_valid) const;
 
-    void update_node_iterators();
-    void esc_press();
-    void delete_markers();
-    void sort_layers();
+  void load_sector(const std::string& name);
+  void load_sector(size_t id);
 
-    void select_tilegroup(int id);
-    const std::vector<Tilegroup>& get_tilegroups() const;
-    void change_tileset();
+  void update_node_iterators();
+  void esc_press();
+  void delete_markers();
+  void sort_layers();
 
-    void select_objectgroup(int id);
-    const std::vector<ObjectGroup>& get_objectgroups() const;
+  void select_tilegroup(int id);
+  const std::vector<Tilegroup>& get_tilegroups() const;
+  void change_tileset();
 
-    std::unique_ptr<Savegame> m_savegame;
+  void select_objectgroup(int id);
+  const std::vector<ObjectGroup>& get_objectgroups() const;
 
-    Sector* currentsector;
+  std::unique_ptr<Savegame> m_savegame;
 
-    // speed is in tiles per frame
-    void scroll_up(float speed = 1.0f);
-    void scroll_down(float speed = 1.0f);
-    void scroll_left(float speed = 1.0f);
-    void scroll_right(float speed = 1.0f);
+  Sector* currentsector;
 
-    bool is_level_loaded() const { return levelloaded; }
+  // speed is in tiles per frame
+  void scroll_up(float speed = 1.0f);
+  void scroll_down(float speed = 1.0f);
+  void scroll_left(float speed = 1.0f);
+  void scroll_right(float speed = 1.0f);
 
-    void edit_path(Path* path, GameObject* new_marked_object) {
-      inputcenter.edit_path(path, new_marked_object);
-    }
+  bool is_level_loaded() const { return levelloaded; }
 
-    void add_layer(GameObject* layer) {
-      layerselect.add_layer(layer);
-    }
+  void edit_path(Path* path, GameObject* new_marked_object)
+  {
+    inputcenter.edit_path(path, new_marked_object);
+  }
 
-    GameObject* get_selected_tilemap() const { return layerselect.selected_tilemap; }
+  void add_layer(GameObject* layer) { layerselect.add_layer(layer); }
 
-  protected:
-    bool levelloaded;
-    bool leveltested;
+  GameObject* get_selected_tilemap() const
+  {
+    return layerselect.selected_tilemap;
+  }
 
-    TileSet* tileset;
+ protected:
+  bool levelloaded;
+  bool leveltested;
 
-    EditorInputCenter inputcenter;
-    EditorInputGui tileselect;
-    EditorLayersGui layerselect;
-    EditorScroller scroller;
+  TileSet* tileset;
 
-  private:
-    bool enabled;
-    SurfacePtr bgr_surface;
+  EditorInputCenter inputcenter;
+  EditorInputGui tileselect;
+  EditorLayersGui layerselect;
+  EditorScroller scroller;
 
-    void reload_level();
-    void load_layers();
-    void quit_editor();
-    void test_level();
-    void update_keyboard();
+ private:
+  bool enabled;
+  SurfacePtr bgr_surface;
 
-    bool can_scroll_horz() const;
-    bool can_scroll_vert() const;
+  void reload_level();
+  void load_layers();
+  void quit_editor();
+  void test_level();
+  void update_keyboard();
 
-    Editor(const Editor&);
-    Editor& operator=(const Editor&);
+  bool can_scroll_horz() const;
+  bool can_scroll_vert() const;
+
+  Editor(const Editor&);
+  Editor& operator=(const Editor&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_EDITOR_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_EDITOR_HPP
 
 /* EOF */

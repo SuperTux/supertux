@@ -14,18 +14,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "util/log.hpp"
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include <sstream>
 #include <stdexcept>
-#include <sys/stat.h>
-#include <sys/types.h>
 #include <vector>
 
+#include "util/log.hpp"
+
 #ifdef _WIN32
-#  include <shlwapi.h>
+#include <shlwapi.h>
 #else
-#  include <unistd.h>
+#include <unistd.h>
 #endif
 
 #include <boost/filesystem.hpp>
@@ -34,132 +35,130 @@ namespace fs = boost::filesystem;
 
 namespace FileSystem {
 
-bool exists(const std::string& path)
+bool
+exists(const std::string& path)
 {
-	fs::path location(path);
+  fs::path location(path);
 
-	return fs::exists(location);
+  return fs::exists(location);
 }
 
-bool is_directory(const std::string& path)
+bool
+is_directory(const std::string& path)
 {
-	fs::path location(path);
-	return fs::is_directory(location);
+  fs::path location(path);
+  return fs::is_directory(location);
 }
 
-void mkdir(const std::string& directory)
+void
+mkdir(const std::string& directory)
 {
-	fs::path location(directory);
-	if (!fs::create_directory(location))
-	{
-		throw std::runtime_error("failed to create directory: "  + directory);
-	}
+  fs::path location(directory);
+  if (!fs::create_directory(location)) {
+    throw std::runtime_error("failed to create directory: " + directory);
+  }
 }
 
-std::string dirname(const std::string& filename)
-{
-  std::string::size_type p = filename.find_last_of('/');
-  if(p == std::string::npos)
-    p = filename.find_last_of('\\');
-  if(p == std::string::npos)
-    return "./";
-
-  return filename.substr(0, p+1);
-}
-
-std::string basename(const std::string& filename)
+std::string
+dirname(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('/');
-  if(p == std::string::npos)
-    p = filename.find_last_of('\\');
-  if(p == std::string::npos)
-    return filename;
+  if (p == std::string::npos) p = filename.find_last_of('\\');
+  if (p == std::string::npos) return "./";
 
-  return filename.substr(p+1, filename.size()-p-1);
+  return filename.substr(0, p + 1);
 }
 
-std::string strip_extension(const std::string& filename)
+std::string
+basename(const std::string& filename)
+{
+  std::string::size_type p = filename.find_last_of('/');
+  if (p == std::string::npos) p = filename.find_last_of('\\');
+  if (p == std::string::npos) return filename;
+
+  return filename.substr(p + 1, filename.size() - p - 1);
+}
+
+std::string
+strip_extension(const std::string& filename)
 {
   std::string::size_type p = filename.find_last_of('.');
-  if(p == std::string::npos)
-    return filename;
+  if (p == std::string::npos) return filename;
 
   return filename.substr(0, p);
 }
 
-std::string normalize(const std::string& filename)
+std::string
+normalize(const std::string& filename)
 {
   std::vector<std::string> path_stack;
 
   const char* p = filename.c_str();
 
-  while(true) {
-    while(*p == '/' || *p == '\\') {
+  while (true) {
+    while (*p == '/' || *p == '\\') {
       p++;
       continue;
     }
 
     const char* pstart = p;
-    while(*p != '/' && *p != '\\' && *p != 0) {
+    while (*p != '/' && *p != '\\' && *p != 0) {
       ++p;
     }
 
     size_t len = p - pstart;
-    if(len == 0)
-      break;
+    if (len == 0) break;
 
-    std::string pathelem(pstart, p-pstart);
-    if(pathelem == ".")
-      continue;
+    std::string pathelem(pstart, p - pstart);
+    if (pathelem == ".") continue;
 
-    if(pathelem == "..") {
-      if(path_stack.empty()) {
-
+    if (pathelem == "..") {
+      if (path_stack.empty()) {
         log_warning << "Invalid '..' in path '" << filename << "'" << std::endl;
         // push it into the result path so that the user sees his error...
         path_stack.push_back(pathelem);
-      } else {
+      }
+      else {
         path_stack.pop_back();
       }
-    } else {
+    }
+    else {
       path_stack.push_back(pathelem);
     }
   }
 
   // construct path
   std::ostringstream result;
-  for(std::vector<std::string>::iterator i = path_stack.begin();
-      i != path_stack.end(); ++i) {
+  for (std::vector<std::string>::iterator i = path_stack.begin();
+       i != path_stack.end(); ++i) {
     result << '/' << *i;
   }
-  if(path_stack.empty())
-    result << '/';
+  if (path_stack.empty()) result << '/';
 
   return result.str();
 }
 
-std::string join(const std::string& lhs, const std::string& rhs)
+std::string
+join(const std::string& lhs, const std::string& rhs)
 {
-  if (lhs.empty())
-  {
+  if (lhs.empty()) {
     return rhs;
   }
-  else if (lhs.back() == '/')
-  {
+  else if (lhs.back() == '/') {
     return lhs + rhs;
   }
-  else
-  {
+  else {
     return lhs + "/" + rhs;
   }
 }
 
-bool remove(const std::string& path)
+bool
+remove(const std::string& path)
 {
   fs::path location(path);
   return fs::remove(location);
 }
 
-} // namespace FileSystem
+}  // namespace FileSystem
 
 /* EOF */

@@ -21,9 +21,11 @@
 #include "supertux/object_factory.hpp"
 
 SSpiky::SSpiky(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/spiky/sleepingspiky.sprite", "left", "right"), state(SSPIKY_SLEEPING)
+    : WalkingBadguy(reader, "images/creatures/spiky/sleepingspiky.sprite",
+                    "left", "right"),
+      state(SSPIKY_SLEEPING)
 {
-  walk_speed = 80;
+  walk_speed      = 80;
   max_drop_height = 600;
 }
 
@@ -38,7 +40,7 @@ SSpiky::initialize()
 void
 SSpiky::collision_solid(const CollisionHit& hit)
 {
-  if(state != SSPIKY_WALKING) {
+  if (state != SSPIKY_WALKING) {
     BadGuy::collision_solid(hit);
     return;
   }
@@ -48,29 +50,28 @@ SSpiky::collision_solid(const CollisionHit& hit)
 HitResponse
 SSpiky::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if(state != SSPIKY_WALKING) {
+  if (state != SSPIKY_WALKING) {
     return BadGuy::collision_badguy(badguy, hit);
   }
   return WalkingBadguy::collision_badguy(badguy, hit);
 }
 
 void
-SSpiky::active_update(float elapsed_time) {
-
-  if(state == SSPIKY_WALKING) {
+SSpiky::active_update(float elapsed_time)
+{
+  if (state == SSPIKY_WALKING) {
     WalkingBadguy::active_update(elapsed_time);
     return;
   }
 
-  if(state == SSPIKY_SLEEPING) {
-
+  if (state == SSPIKY_SLEEPING) {
     Player* player = get_nearest_player();
     if (player) {
       Rectf pb = player->get_bbox();
 
-      bool inReach_left = (pb.p2.x >= bbox.p2.x-((dir == LEFT) ? 256 : 0));
-      bool inReach_right = (pb.p1.x <= bbox.p1.x+((dir == RIGHT) ? 256 : 0));
-      bool inReach_top = (pb.p2.y >= bbox.p1.y);
+      bool inReach_left   = (pb.p2.x >= bbox.p2.x - ((dir == LEFT) ? 256 : 0));
+      bool inReach_right  = (pb.p1.x <= bbox.p1.x + ((dir == RIGHT) ? 256 : 0));
+      bool inReach_top    = (pb.p2.y >= bbox.p1.y);
       bool inReach_bottom = (pb.p1.y <= bbox.p2.y);
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
@@ -83,8 +84,8 @@ SSpiky::active_update(float elapsed_time) {
     BadGuy::active_update(elapsed_time);
   }
 
-  if(state == SSPIKY_WAKING) {
-    if(sprite->animation_done()) {
+  if (state == SSPIKY_WAKING) {
+    if (sprite->animation_done()) {
       // start walking
       state = SSPIKY_WALKING;
       WalkingBadguy::initialize();
@@ -98,7 +99,7 @@ void
 SSpiky::freeze()
 {
   WalkingBadguy::freeze();
-  state = SSPIKY_WALKING; // if we get hit while sleeping, wake up :)
+  state = SSPIKY_WALKING;  // if we get hit while sleeping, wake up :)
 }
 
 bool

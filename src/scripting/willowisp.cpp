@@ -20,10 +20,7 @@
 
 namespace scripting {
 
-WillOWisp::WillOWisp(::WillOWisp* parent) :
-  m_parent(parent)
-{
-}
+WillOWisp::WillOWisp(::WillOWisp* parent) : m_parent(parent) {}
 
 void
 WillOWisp::goto_node(int node_no)
@@ -49,6 +46,6 @@ WillOWisp::stop_moving()
   m_parent->stop_moving();
 }
 
-} // namespace scripting
+}  // namespace scripting
 
 /* EOF */

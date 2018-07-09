@@ -25,30 +25,29 @@ class WillOWisp;
 
 namespace scripting {
 
-class WillOWisp
-{
+class WillOWisp {
 #ifndef SCRIPTING_API
-private:
+ private:
   ::WillOWisp* m_parent;
 
-public:
+ public:
   WillOWisp(::WillOWisp* parent);
 
-private:
+ private:
   WillOWisp(const WillOWisp&) = delete;
   WillOWisp& operator=(const WillOWisp&) = delete;
 #endif
 
-public:
+ public:
   /** Move willowisp to given node */
   void goto_node(int node_no);
 
   /** set willowisp state; can be:
    * -stopped          willowisp doesn't move
    * -move_path        willowisp moves along the path (call goto_node)
-   * -move_path_track  willowisp moves along path but catches tux when he is near
-   * -normal           "normal" mode starts tracking tux when he is near enough
-   * -vanish           vanish
+   * -move_path_track  willowisp moves along path but catches tux when he is
+   * near -normal           "normal" mode starts tracking tux when he is near
+   * enough -vanish           vanish
    */
   void set_state(const std::string& state);
 
@@ -56,7 +55,7 @@ public:
   void stop_moving();
 };
 
-} // namespace scripting
+}  // namespace scripting
 
 #endif
 

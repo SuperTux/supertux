@@ -19,23 +19,17 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class PoisonIvy : public WalkingBadguy
-{
-public:
+class PoisonIvy : public WalkingBadguy {
+ public:
   PoisonIvy(const ReaderMapping& reader);
   PoisonIvy(const Vector& pos, Direction d);
 
   bool is_freezable() const;
-  std::string get_class() const {
-    return "poisonivy";
-  }
-  std::string get_display_name() const {
-    return _("Poisonous ivy");
-  }
+  std::string get_class() const { return "poisonivy"; }
+  std::string get_display_name() const { return _("Poisonous ivy"); }
 
-protected:
+ protected:
   bool collision_squished(GameObject& object);
-
 };
 
 #endif

@@ -24,50 +24,48 @@
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
-CloudParticleSystem::CloudParticleSystem() :
-  ParticleSystem(128),
-  cloudimage(Surface::create("images/objects/particles/cloud.png"))
+CloudParticleSystem::CloudParticleSystem()
+    : ParticleSystem(128),
+      cloudimage(Surface::create("images/objects/particles/cloud.png"))
 {
   init();
 }
 
-CloudParticleSystem::CloudParticleSystem(const ReaderMapping& reader) :
-  ParticleSystem(128),
-  cloudimage(Surface::create("images/objects/particles/cloud.png"))
+CloudParticleSystem::CloudParticleSystem(const ReaderMapping& reader)
+    : ParticleSystem(128),
+      cloudimage(Surface::create("images/objects/particles/cloud.png"))
 {
   init();
   parse(reader);
 }
 
-CloudParticleSystem::~CloudParticleSystem()
-{
-}
+CloudParticleSystem::~CloudParticleSystem() {}
 
-void CloudParticleSystem::init()
+void
+CloudParticleSystem::init()
 {
   virtual_width = 2000.0;
 
   // create some random clouds
-  for(size_t i=0; i<15; ++i) {
-    auto particle = std::unique_ptr<CloudParticle>(new CloudParticle);
-    particle->pos.x = graphicsRandom.rand(static_cast<int>(virtual_width));
-    particle->pos.y = graphicsRandom.rand(static_cast<int>(virtual_height));
+  for (size_t i = 0; i < 15; ++i) {
+    auto particle     = std::unique_ptr<CloudParticle>(new CloudParticle);
+    particle->pos.x   = graphicsRandom.rand(static_cast<int>(virtual_width));
+    particle->pos.y   = graphicsRandom.rand(static_cast<int>(virtual_height));
     particle->texture = cloudimage;
-    particle->speed = -graphicsRandom.randf(25.0, 54.0);
+    particle->speed   = -graphicsRandom.randf(25.0, 54.0);
 
     particles.push_back(std::move(particle));
   }
 }
 
-void CloudParticleSystem::update(float elapsed_time)
+void
+CloudParticleSystem::update(float elapsed_time)
 {
-  if(!enabled)
-    return;
+  if (!enabled) return;
 
-  for(auto& particle : particles) {
+  for (auto& particle : particles) {
     auto cloudParticle = dynamic_cast<CloudParticle*>(particle.get());
-    if (!cloudParticle)
-      continue;
+    if (!cloudParticle) continue;
     cloudParticle->pos.x += cloudParticle->speed * elapsed_time;
   }
 }

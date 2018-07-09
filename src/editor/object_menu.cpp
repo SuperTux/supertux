@@ -19,17 +19,16 @@
 #include "editor/editor.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/moving_object.hpp"
 #include "supertux/game_object.hpp"
+#include "supertux/moving_object.hpp"
 
-ObjectMenu::ObjectMenu(GameObject *go) :
-  object(go)
+ObjectMenu::ObjectMenu(GameObject* go) : object(go)
 {
   ObjectSettings os = object->get_settings();
   add_label(os.name);
   add_hl();
-  for(auto& oo : os.options) {
-    if(!(oo.flags & OPTION_VISIBLE)) {
+  for (auto& oo : os.options) {
+    if (!(oo.flags & OPTION_VISIBLE)) {
       continue;
     }
 
@@ -48,8 +47,8 @@ ObjectMenu::ObjectMenu(GameObject *go) :
         break;
       case MN_STRINGSELECT: {
         auto selected_id = (int*)oo.option;
-        if ( *selected_id >= int(oo.select.size()) || *selected_id < 0 ) {
-          *selected_id = 0; // Set the option to zero when not selectable
+        if (*selected_id >= int(oo.select.size()) || *selected_id < 0) {
+          *selected_id = 0;  // Set the option to zero when not selectable
         }
         add_string_select(-1, oo.text, selected_id, oo.select);
       } break;
@@ -81,11 +80,11 @@ ObjectMenu::~ObjectMenu()
   object->after_editor_set();
 
   auto editor = Editor::current();
-  if(editor == NULL) {
+  if (editor == NULL) {
     return;
   }
   editor->reactivate_request = true;
-  if (! dynamic_cast<MovingObject*>(object)) {
+  if (!dynamic_cast<MovingObject*>(object)) {
     editor->sort_layers();
   }
 }

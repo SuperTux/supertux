@@ -22,13 +22,16 @@
 
 namespace {
 
-bool     has_multibyte_mark(unsigned char c);
+bool has_multibyte_mark(unsigned char c);
 uint32_t decode_utf8(const std::string& text, size_t& p);
 
 /**
- * returns true if this byte matches a bitmask of 10xx.xxxx, i.e. it is the 2nd, 3rd or 4th byte of a multibyte utf8 string
+ * returns true if this byte matches a bitmask of 10xx.xxxx, i.e. it is the 2nd,
+ * 3rd or 4th byte of a multibyte utf8 string
  */
-bool has_multibyte_mark(unsigned char c) {
+bool
+has_multibyte_mark(unsigned char c)
+{
   return ((c & 0300) == 0200);
 }
 
@@ -39,88 +42,100 @@ bool has_multibyte_mark(unsigned char c) {
  * @throws std::runtime_error if decoding fails.
  * See unicode standard section 3.10 table 3-5 and 3-6 for details.
  */
-uint32_t decode_utf8(const std::string& text, size_t& p)
+uint32_t
+decode_utf8(const std::string& text, size_t& p)
 {
-  uint32_t c1 = (unsigned char) text[p+0];
+  uint32_t c1 = (unsigned char)text[p + 0];
 
   if (has_multibyte_mark(c1)) std::runtime_error("Malformed utf-8 sequence");
 
   if ((c1 & 0200) == 0000) {
     // 0xxx.xxxx: 1 byte sequence
-    p+=1;
+    p += 1;
     return c1;
   }
   else if ((c1 & 0340) == 0300) {
     // 110x.xxxx: 2 byte sequence
-    if(p+1 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
-    uint32_t c2 = (unsigned char) text[p+1];
-    if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
-    p+=2;
+    if (p + 1 >= text.size())
+      throw std::range_error("Malformed utf-8 sequence");
+    uint32_t c2 = (unsigned char)text[p + 1];
+    if (!has_multibyte_mark(c2))
+      throw std::runtime_error("Malformed utf-8 sequence");
+    p += 2;
     return (c1 & 0037) << 6 | (c2 & 0077);
   }
   else if ((c1 & 0360) == 0340) {
     // 1110.xxxx: 3 byte sequence
-    if(p+2 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
-    uint32_t c2 = (unsigned char) text[p+1];
-    uint32_t c3 = (unsigned char) text[p+2];
-    if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
-    if (!has_multibyte_mark(c3)) throw std::runtime_error("Malformed utf-8 sequence");
-    p+=3;
+    if (p + 2 >= text.size())
+      throw std::range_error("Malformed utf-8 sequence");
+    uint32_t c2 = (unsigned char)text[p + 1];
+    uint32_t c3 = (unsigned char)text[p + 2];
+    if (!has_multibyte_mark(c2))
+      throw std::runtime_error("Malformed utf-8 sequence");
+    if (!has_multibyte_mark(c3))
+      throw std::runtime_error("Malformed utf-8 sequence");
+    p += 3;
     return (c1 & 0017) << 12 | (c2 & 0077) << 6 | (c3 & 0077);
   }
   else if ((c1 & 0370) == 0360) {
     // 1111.0xxx: 4 byte sequence
-    if(p+3 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
-    uint32_t c2 = (unsigned char) text[p+1];
-    uint32_t c3 = (unsigned char) text[p+2];
-    uint32_t c4 = (unsigned char) text[p+4];
-    if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
-    if (!has_multibyte_mark(c3)) throw std::runtime_error("Malformed utf-8 sequence");
-    if (!has_multibyte_mark(c4)) throw std::runtime_error("Malformed utf-8 sequence");
-    p+=4;
-    return (c1 & 0007) << 18 | (c2 & 0077) << 12 | (c3 & 0077) << 6 | (c4 & 0077);
+    if (p + 3 >= text.size())
+      throw std::range_error("Malformed utf-8 sequence");
+    uint32_t c2 = (unsigned char)text[p + 1];
+    uint32_t c3 = (unsigned char)text[p + 2];
+    uint32_t c4 = (unsigned char)text[p + 4];
+    if (!has_multibyte_mark(c2))
+      throw std::runtime_error("Malformed utf-8 sequence");
+    if (!has_multibyte_mark(c3))
+      throw std::runtime_error("Malformed utf-8 sequence");
+    if (!has_multibyte_mark(c4))
+      throw std::runtime_error("Malformed utf-8 sequence");
+    p += 4;
+    return (c1 & 0007) << 18 | (c2 & 0077) << 12 | (c3 & 0077) << 6 |
+           (c4 & 0077);
   }
   throw std::runtime_error("Malformed utf-8 sequence");
 }
 
-} // namespace
+}  // namespace
 
-
-UTF8Iterator::UTF8Iterator(const std::string& text_) :
-  text(text_),
-  pos(0),
-  chr()
+UTF8Iterator::UTF8Iterator(const std::string& text_)
+    : text(text_), pos(0), chr()
 {
   try {
     chr = decode_utf8(text, pos);
-  } catch (std::exception&) {
-    log_debug << "Malformed utf-8 sequence beginning with " << *(reinterpret_cast<const uint32_t*>(text.c_str() + pos)) << " found " << std::endl;
+  }
+  catch (std::exception&) {
+    log_debug << "Malformed utf-8 sequence beginning with "
+              << *(reinterpret_cast<const uint32_t*>(text.c_str() + pos))
+              << " found " << std::endl;
     chr = 0;
   }
 }
 
-  bool
+bool
 UTF8Iterator::done() const
-  {
-    return pos > text.size();
+{
+  return pos > text.size();
+}
+
+UTF8Iterator&
+UTF8Iterator::operator++()
+{
+  try {
+    chr = decode_utf8(text, pos);
+  }
+  catch (std::exception&) {
+    log_debug << "Malformed utf-8 sequence beginning with "
+              << *(reinterpret_cast<const uint32_t*>(text.c_str() + pos))
+              << " found " << std::endl;
+    chr = 0;
+    ++pos;
   }
 
-  UTF8Iterator&
-UTF8Iterator::operator++() {
-    try {
-      chr = decode_utf8(text, pos);
-    } catch (std::exception&) {
-      log_debug << "Malformed utf-8 sequence beginning with " << *(reinterpret_cast<const uint32_t*>(text.c_str() + pos)) << " found " << std::endl;
-      chr = 0;
-      ++pos;
-    }
+  return *this;
+}
 
-    return *this;
-  }
-
-  uint32_t
-  UTF8Iterator::operator*() const {
-    return chr;
-  }
+uint32_t UTF8Iterator::operator*() const { return chr; }
 
 /* EOF */

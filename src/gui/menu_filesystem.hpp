@@ -19,15 +19,15 @@
 
 #include "gui/menu.hpp"
 
-class FileSystemMenu : public Menu
-{
-public:
-  FileSystemMenu(std::string* filename_, const std::vector<std::string>& extensions_);
+class FileSystemMenu : public Menu {
+ public:
+  FileSystemMenu(std::string* filename_,
+                 const std::vector<std::string>& extensions_);
   ~FileSystemMenu();
 
   void menu_action(MenuItem* item) override;
 
-private:
+ private:
   std::string* filename;
   std::string directory;
   std::vector<std::string> extensions;

@@ -23,12 +23,13 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-LiveFire::LiveFire(const ReaderMapping& reader) :
-  WalkingBadguy(reader, "images/creatures/livefire/livefire.sprite", "left", "right"),
-  death_sound("sounds/fall.wav"),
-  state(STATE_WALKING)
+LiveFire::LiveFire(const ReaderMapping& reader)
+    : WalkingBadguy(reader, "images/creatures/livefire/livefire.sprite", "left",
+                    "right"),
+      death_sound("sounds/fall.wav"),
+      state(STATE_WALKING)
 {
-  walk_speed = 80;
+  walk_speed      = 80;
   max_drop_height = 20;
   lightsprite->set_color(Color(1.0f, 1.0f, 1.0f));
   glowing = true;
@@ -37,7 +38,7 @@ LiveFire::LiveFire(const ReaderMapping& reader) :
 void
 LiveFire::collision_solid(const CollisionHit& hit)
 {
-  if(state != STATE_WALKING) {
+  if (state != STATE_WALKING) {
     BadGuy::collision_solid(hit);
     return;
   }
@@ -47,33 +48,34 @@ LiveFire::collision_solid(const CollisionHit& hit)
 HitResponse
 LiveFire::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
 {
-  if(state != STATE_WALKING) {
+  if (state != STATE_WALKING) {
     return BadGuy::collision_badguy(badguy, hit);
   }
   return WalkingBadguy::collision_badguy(badguy, hit);
 }
 
 void
-LiveFire::active_update(float elapsed_time) {
-
+LiveFire::active_update(float elapsed_time)
+{
   // Remove when extinguish animation is done
-  if((sprite->get_action() == "extinguish-left" || sprite->get_action() == "extinguish-right" )
-    && sprite->animation_done()) remove_me();
+  if ((sprite->get_action() == "extinguish-left" ||
+       sprite->get_action() == "extinguish-right") &&
+      sprite->animation_done())
+    remove_me();
 
-  if(state == STATE_WALKING) {
+  if (state == STATE_WALKING) {
     WalkingBadguy::active_update(elapsed_time);
     return;
   }
 
-  if(state == STATE_SLEEPING && get_group() == COLGROUP_MOVING) {
-
+  if (state == STATE_SLEEPING && get_group() == COLGROUP_MOVING) {
     auto player = get_nearest_player();
     if (player) {
       Rectf pb = player->get_bbox();
 
-      bool inReach_left = (pb.p2.x >= bbox.p2.x-((dir == LEFT) ? 256 : 0));
-      bool inReach_right = (pb.p1.x <= bbox.p1.x+((dir == RIGHT) ? 256 : 0));
-      bool inReach_top = (pb.p2.y >= bbox.p1.y);
+      bool inReach_left   = (pb.p2.x >= bbox.p2.x - ((dir == LEFT) ? 256 : 0));
+      bool inReach_right  = (pb.p1.x <= bbox.p1.x + ((dir == RIGHT) ? 256 : 0));
+      bool inReach_top    = (pb.p2.y >= bbox.p1.y);
       bool inReach_bottom = (pb.p1.y <= bbox.p2.y);
 
       if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
@@ -83,8 +85,8 @@ LiveFire::active_update(float elapsed_time) {
       }
     }
   }
-  else if(state == STATE_WAKING) {
-    if(sprite->animation_done()) {
+  else if (state == STATE_WAKING) {
+    if (sprite->animation_done()) {
       // start walking
       state = STATE_WALKING;
       WalkingBadguy::initialize();
@@ -119,13 +121,12 @@ LiveFire::kill_fall()
 {
   SoundManager::current()->play(death_sound, get_pos());
   // throw a puff of smoke
-  Vector ppos = bbox.get_middle();
+  Vector ppos   = bbox.get_middle();
   Vector pspeed = Vector(0, -150);
-  Vector paccel = Vector(0,0);
-  Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/smoke.sprite",
-                                                                 "default", ppos, ANCHOR_MIDDLE,
-                                                                 pspeed, paccel,
-                                                                 LAYER_BACKGROUNDTILES+2));
+  Vector paccel = Vector(0, 0);
+  Sector::current()->add_object(std::make_shared<SpriteParticle>(
+      "images/objects/particles/smoke.sprite", "default", ppos, ANCHOR_MIDDLE,
+      pspeed, paccel, LAYER_BACKGROUNDTILES + 2));
   // extinguish the flame
   sprite->set_action(dir == LEFT ? "extinguish-left" : "extinguish-right", 1);
   physic.set_velocity_y(0);
@@ -141,8 +142,7 @@ LiveFire::kill_fall()
 
 /* The following defines a sleeping version */
 
-LiveFireAsleep::LiveFireAsleep(const ReaderMapping& reader) :
-  LiveFire(reader)
+LiveFireAsleep::LiveFireAsleep(const ReaderMapping& reader) : LiveFire(reader)
 {
   state = STATE_SLEEPING;
 }
@@ -155,11 +155,10 @@ LiveFireAsleep::initialize()
 }
 
 /* The following defines a dormant version that never wakes */
-LiveFireDormant::LiveFireDormant(const ReaderMapping& reader) :
-  LiveFire(reader)
+LiveFireDormant::LiveFireDormant(const ReaderMapping& reader) : LiveFire(reader)
 {
   walk_speed = 0;
-  state = STATE_DORMANT;
+  state      = STATE_DORMANT;
 }
 
 void

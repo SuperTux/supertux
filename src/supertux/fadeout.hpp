@@ -23,9 +23,8 @@
 /**
  * Fades a screen towards a specific color
  */
-class FadeOut : public ScreenFade
-{
-public:
+class FadeOut : public ScreenFade {
+ public:
   FadeOut(float fade_time, Color dest_color = Color(0, 0, 0));
 
   void update(float elapsed_time);
@@ -34,7 +33,7 @@ public:
   /// returns true if the effect is completed
   bool done() const;
 
-private:
+ private:
   Color color;
   float fade_time;
   float accum_time;

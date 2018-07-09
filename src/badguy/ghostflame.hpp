@@ -19,20 +19,15 @@
 
 #include "badguy/flame.hpp"
 
-class Ghostflame : public Flame
-{
-public:
+class Ghostflame : public Flame {
+ public:
   Ghostflame(const ReaderMapping& reader);
 
   bool is_flammable() const;
   bool is_freezable() const;
-  std::string get_class() const {
-    return "ghostflame";
-  }
+  std::string get_class() const { return "ghostflame"; }
 
-  std::string get_display_name() const {
-    return _("Ghost flame");
-  }
+  std::string get_display_name() const { return _("Ghost flame"); }
   ObjectSettings get_settings();
   void after_editor_set();
 };

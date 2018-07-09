@@ -18,9 +18,10 @@
 #define HEADER_SUPERTUX_VIDEO_LIGHTMAP_HPP
 
 #include <SDL_video.h>
-#include <memory>
 #include <obstack.h>
 #include <stdint.h>
+
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -35,22 +36,21 @@
 class Texture;
 struct DrawingRequest;
 
-class Lightmap
-{
-public:
+class Lightmap {
+ public:
   virtual ~Lightmap() {}
 
-  virtual void start_draw(const Color &ambient_color) = 0;
-  virtual void end_draw() = 0;
-  virtual void do_draw() = 0;
-  virtual void draw_surface(const DrawingRequest& request) = 0;
-  virtual void draw_surface_part(const DrawingRequest& request) = 0;
-  virtual void draw_gradient(const DrawingRequest& request) = 0;
-  virtual void draw_filled_rect(const DrawingRequest& request) = 0;
+  virtual void start_draw(const Color& ambient_color)              = 0;
+  virtual void end_draw()                                          = 0;
+  virtual void do_draw()                                           = 0;
+  virtual void draw_surface(const DrawingRequest& request)         = 0;
+  virtual void draw_surface_part(const DrawingRequest& request)    = 0;
+  virtual void draw_gradient(const DrawingRequest& request)        = 0;
+  virtual void draw_filled_rect(const DrawingRequest& request)     = 0;
   virtual void draw_inverse_ellipse(const DrawingRequest& request) = 0;
-  virtual void get_light(const DrawingRequest& request) const = 0;
-  virtual void draw_line(const DrawingRequest& request) = 0;
-  virtual void draw_triangle(const DrawingRequest& request) = 0;
+  virtual void get_light(const DrawingRequest& request) const      = 0;
+  virtual void draw_line(const DrawingRequest& request)            = 0;
+  virtual void draw_triangle(const DrawingRequest& request)        = 0;
 };
 
 #endif

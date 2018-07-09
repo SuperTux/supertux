@@ -18,12 +18,11 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_LANGUAGE_MENU_HPP
 #define HEADER_SUPERTUX_SUPERTUX_LANGUAGE_MENU_HPP
 
-#include "util/gettext.hpp"
 #include "gui/menu.hpp"
+#include "util/gettext.hpp"
 
-class LanguageMenu : public Menu
-{
-public:
+class LanguageMenu : public Menu {
+ public:
   LanguageMenu();
 
   void menu_action(MenuItem* item) override;

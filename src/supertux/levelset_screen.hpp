@@ -24,18 +24,17 @@
 
 class Savegame;
 
-class LevelsetScreen : public Screen,
-                       public Currenton<LevelsetScreen>
-{
-private:
+class LevelsetScreen : public Screen, public Currenton<LevelsetScreen> {
+ private:
   std::string m_basedir;
   std::string m_level_filename;
   Savegame& m_savegame;
   bool m_level_started;
   bool m_solved;
 
-public:
-  LevelsetScreen(const std::string& basedir, const std::string& level_filename, Savegame& savegame);
+ public:
+  LevelsetScreen(const std::string& basedir, const std::string& level_filename,
+                 Savegame& savegame);
 
   void draw(DrawingContext&) override;
   void update(float elapsed_time) override;
@@ -45,7 +44,7 @@ public:
 
   void finished_level(bool win);
 
-private:
+ private:
   LevelsetScreen(const LevelsetScreen&) = delete;
   LevelsetScreen& operator=(const LevelsetScreen&) = delete;
 };

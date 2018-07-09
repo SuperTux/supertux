@@ -21,10 +21,8 @@
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
-InvisibleWall::InvisibleWall(const ReaderMapping& lisp):
-  MovingObject(lisp),
-  width(),
-  height()
+InvisibleWall::InvisibleWall(const ReaderMapping& lisp)
+    : MovingObject(lisp), width(), height()
 {
   lisp.get("x", bbox.p1.x, 0);
   lisp.get("y", bbox.p1.y, 0);
@@ -37,24 +35,28 @@ InvisibleWall::InvisibleWall(const ReaderMapping& lisp):
 }
 
 ObjectSettings
-InvisibleWall::get_settings() {
-  width = bbox.get_width();
+InvisibleWall::get_settings()
+{
+  width  = bbox.get_width();
   height = bbox.get_height();
 
   ObjectSettings result = MovingObject::get_settings();
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &width, "width"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &height, "height"));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, _("Width"), &width, "width"));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, _("Height"), &height, "height"));
 
   return result;
 }
 
 void
-InvisibleWall::after_editor_set() {
+InvisibleWall::after_editor_set()
+{
   bbox.set_size(width, height);
 }
 
 HitResponse
-InvisibleWall::collision(GameObject& , const CollisionHit& )
+InvisibleWall::collision(GameObject&, const CollisionHit&)
 {
   return FORCE_MOVE;
 }
@@ -63,13 +65,13 @@ void
 InvisibleWall::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+    context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 0.0f, 0.6f), 0.0f,
+                             LAYER_OBJECTS);
   }
 }
 
 void
-InvisibleWall::update(float )
+InvisibleWall::update(float)
 {
 }
 

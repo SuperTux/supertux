@@ -15,39 +15,42 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <algorithm>
+#include "supertux/player_status.hpp"
+
 #include <math.h>
+
+#include <algorithm>
 #include <sstream>
 
 #include "audio/sound_manager.hpp"
-#include "util/writer.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/timer.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 #include "video/drawing_context.hpp"
 
 static const int START_COINS = 100;
-static const int MAX_COINS = 9999;
+static const int MAX_COINS   = 9999;
 
 static const int DISPLAYED_COINS_UNSET = -1;
 
 PlayerStatus* player_status = 0;
 
-PlayerStatus::PlayerStatus() :
-  /* Do we really want -Weffc++ to bully us into duplicating code from "reset" here? */
-  coins(START_COINS),
-  bonus(NO_BONUS),
-  max_fire_bullets(0),
-  max_ice_bullets(0),
-  max_air_time(0),
-  max_earth_time(0),
-  worldmap_sprite("images/worldmap/common/tux.sprite"),
-  last_worldmap(),
-  displayed_coins(DISPLAYED_COINS_UNSET),
-  displayed_coins_frame(0),
-  coin_surface(Surface::create("images/engine/hud/coins-0.png"))
+PlayerStatus::PlayerStatus()
+    : /* Do we really want -Weffc++ to bully us into duplicating code from
+         "reset" here? */
+      coins(START_COINS),
+      bonus(NO_BONUS),
+      max_fire_bullets(0),
+      max_ice_bullets(0),
+      max_air_time(0),
+      max_earth_time(0),
+      worldmap_sprite("images/worldmap/common/tux.sprite"),
+      last_worldmap(),
+      displayed_coins(DISPLAYED_COINS_UNSET),
+      displayed_coins_frame(0),
+      coin_surface(Surface::create("images/engine/hud/coins-0.png"))
 {
   reset();
 
@@ -55,10 +58,11 @@ PlayerStatus::PlayerStatus() :
   SoundManager::current()->preload("sounds/lifeup.wav");
 }
 
-void PlayerStatus::reset()
+void
+PlayerStatus::reset()
 {
-  coins = START_COINS;
-  bonus = NO_BONUS;
+  coins           = START_COINS;
+  bonus           = NO_BONUS;
   displayed_coins = DISPLAYED_COINS_UNSET;
 }
 
@@ -67,11 +71,10 @@ PlayerStatus::add_coins(int count, bool play_sound)
 {
   coins = std::min(coins + count, MAX_COINS);
 
-  if(!play_sound)
-    return;
+  if (!play_sound) return;
 
   static float sound_played_time = 0;
-  if(count >= 100)
+  if (count >= 100)
     SoundManager::current()->play("sounds/lifeup.wav");
   else if (real_time > sound_played_time + 0.010) {
     SoundManager::current()->play("sounds/coin.wav");
@@ -82,7 +85,7 @@ PlayerStatus::add_coins(int count, bool play_sound)
 void
 PlayerStatus::write(Writer& writer)
 {
-  switch(bonus) {
+  switch (bonus) {
     case NO_BONUS:
       writer.write("bonus", "none");
       break;
@@ -122,21 +125,28 @@ PlayerStatus::read(const ReaderMapping& lisp)
   reset();
 
   std::string bonusname;
-  if(lisp.get("bonus", bonusname)) {
-    if(bonusname == "none") {
+  if (lisp.get("bonus", bonusname)) {
+    if (bonusname == "none") {
       bonus = NO_BONUS;
-    } else if(bonusname == "growup") {
+    }
+    else if (bonusname == "growup") {
       bonus = GROWUP_BONUS;
-    } else if(bonusname == "fireflower") {
+    }
+    else if (bonusname == "fireflower") {
       bonus = FIRE_BONUS;
-    } else if(bonusname == "iceflower") {
+    }
+    else if (bonusname == "iceflower") {
       bonus = ICE_BONUS;
-    } else if(bonusname == "airflower") {
+    }
+    else if (bonusname == "airflower") {
       bonus = AIR_BONUS;
-    } else if(bonusname == "earthflower") {
+    }
+    else if (bonusname == "earthflower") {
       bonus = EARTH_BONUS;
-    } else {
-      log_warning << "Unknown bonus '" << bonusname << "' in savefile" << std::endl;
+    }
+    else {
+      log_warning << "Unknown bonus '" << bonusname << "' in savefile"
+                  << std::endl;
       bonus = NO_BONUS;
     }
   }
@@ -158,7 +168,7 @@ PlayerStatus::draw(DrawingContext& context)
 
   if ((displayed_coins == DISPLAYED_COINS_UNSET) ||
       (std::abs(displayed_coins - coins) > 100)) {
-    displayed_coins = coins;
+    displayed_coins       = coins;
     displayed_coins_frame = 0;
   }
   if (++displayed_coins_frame > 2) {
@@ -175,40 +185,45 @@ PlayerStatus::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  if (coin_surface)
-  {
-    context.draw_surface(coin_surface,
-                         Vector(SCREEN_WIDTH - BORDER_X - coin_surface->get_width() - Resources::fixed_font->get_text_width(coins_text),
-                                BORDER_Y + 1 + (Resources::fixed_font->get_text_height(coins_text) + 5) * player_id),
-                         LAYER_HUD);
+  if (coin_surface) {
+    context.draw_surface(
+        coin_surface,
+        Vector(SCREEN_WIDTH - BORDER_X - coin_surface->get_width() -
+                   Resources::fixed_font->get_text_width(coins_text),
+               BORDER_Y + 1 +
+                   (Resources::fixed_font->get_text_height(coins_text) + 5) *
+                       player_id),
+        LAYER_HUD);
   }
-  context.draw_text(Resources::fixed_font,
-                    coins_text,
-                    Vector(SCREEN_WIDTH - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
-                           BORDER_Y + (Resources::fixed_font->get_text_height(coins_text) + 5) * player_id),
-                    ALIGN_LEFT,
-                    LAYER_HUD,
-                    PlayerStatus::text_color);
+  context.draw_text(
+      Resources::fixed_font, coins_text,
+      Vector(
+          SCREEN_WIDTH - BORDER_X -
+              Resources::fixed_font->get_text_width(coins_text),
+          BORDER_Y + (Resources::fixed_font->get_text_height(coins_text) + 5) *
+                         player_id),
+      ALIGN_LEFT, LAYER_HUD, PlayerStatus::text_color);
 
   context.pop_transform();
 }
 
-std::string PlayerStatus::get_bonus_prefix() const
+std::string
+PlayerStatus::get_bonus_prefix() const
 {
   switch (this->bonus) {
-  default:
-  case NO_BONUS:
-    return "small";
-  case GROWUP_BONUS:
-    return "big";
-  case FIRE_BONUS:
-    return "fire";
-  case ICE_BONUS:
-    return "ice";
-  case AIR_BONUS:
-    return "air";
-  case EARTH_BONUS:
-    return "earth";
+    default:
+    case NO_BONUS:
+      return "small";
+    case GROWUP_BONUS:
+      return "big";
+    case FIRE_BONUS:
+      return "fire";
+    case ICE_BONUS:
+      return "ice";
+    case AIR_BONUS:
+      return "air";
+    case EARTH_BONUS:
+      return "earth";
   }
 }
 

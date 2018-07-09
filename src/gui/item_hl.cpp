@@ -26,25 +26,23 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-ItemHorizontalLine::ItemHorizontalLine() :
-  MenuItem("")
-{
-}
+ItemHorizontalLine::ItemHorizontalLine() : MenuItem("") {}
 
 void
-ItemHorizontalLine::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
+ItemHorizontalLine::draw(DrawingContext& context, const Vector& pos,
+                         int menu_width, bool active)
+{
   // TODO
   /* Draw a horizontal line with a little 3d effect */
-  context.draw_filled_rect(Vector(pos.x, pos.y - 6),
-                           Vector(menu_width, 4),
+  context.draw_filled_rect(Vector(pos.x, pos.y - 6), Vector(menu_width, 4),
                            Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
-  context.draw_filled_rect(Vector(pos.x, pos.y - 6),
-                           Vector(menu_width, 2),
+  context.draw_filled_rect(Vector(pos.x, pos.y - 6), Vector(menu_width, 2),
                            Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
 }
 
 int
-ItemHorizontalLine::get_width() const {
+ItemHorizontalLine::get_width() const
+{
   return 0;
 }
 

@@ -22,54 +22,50 @@
 
 namespace scripting {
 
-Background::Background(::Background* parent) :
-  m_parent(parent)
-{
-}
+Background::Background(::Background* parent) : m_parent(parent) {}
 
 void
 Background::set_image(const std::string& image)
 {
-  if(image.empty())
-  {
-    log_info << "No filename / path for background image specified" << std::endl;
+  if (image.empty()) {
+    log_info << "No filename / path for background image specified"
+             << std::endl;
     return;
   }
 
   const std::string& default_dir = "images/background/";
-  bool path_valid = true;
+  bool path_valid                = true;
 
-  if(!PHYSFS_exists(image.c_str()))
-    path_valid = false;
+  if (!PHYSFS_exists(image.c_str())) path_valid = false;
 
   m_parent->set_image(path_valid ? image : default_dir + image);
 }
 
 void
-Background::set_images(const std::string& top_image, const std::string& middle_image,
-                              const std::string& bottom_image)
+Background::set_images(const std::string& top_image,
+                       const std::string& middle_image,
+                       const std::string& bottom_image)
 {
-  if(top_image.empty() || middle_image.empty() || bottom_image.empty())
-  {
-    log_info << "No filename / path for background image specified" << std::endl;
+  if (top_image.empty() || middle_image.empty() || bottom_image.empty()) {
+    log_info << "No filename / path for background image specified"
+             << std::endl;
     return;
   }
 
   const std::string& default_dir = "images/background/";
-  bool top_image_valid = true, middle_image_valid = true, bottom_image_valid = true;
+  bool top_image_valid = true, middle_image_valid = true,
+       bottom_image_valid = true;
 
-  if(!PHYSFS_exists(top_image.c_str()))
-    top_image_valid = false;
+  if (!PHYSFS_exists(top_image.c_str())) top_image_valid = false;
 
-  if(!PHYSFS_exists(middle_image.c_str()))
-    middle_image_valid = false;
+  if (!PHYSFS_exists(middle_image.c_str())) middle_image_valid = false;
 
-  if(!PHYSFS_exists(bottom_image.c_str()))
-    bottom_image_valid = false;
+  if (!PHYSFS_exists(bottom_image.c_str())) bottom_image_valid = false;
 
-  m_parent->set_images(top_image_valid ? top_image : default_dir + top_image,
-                       middle_image_valid ? middle_image : default_dir + middle_image,
-                       bottom_image_valid ? bottom_image : default_dir + bottom_image);
+  m_parent->set_images(
+      top_image_valid ? top_image : default_dir + top_image,
+      middle_image_valid ? middle_image : default_dir + middle_image,
+      bottom_image_valid ? bottom_image : default_dir + bottom_image);
 }
 
 void
@@ -78,6 +74,6 @@ Background::set_speed(float speed)
   m_parent->set_image(m_parent->get_image(), speed);
 }
 
-} // namespace scripting
+}  // namespace scripting
 
 /* EOF */

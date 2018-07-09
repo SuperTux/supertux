@@ -21,29 +21,18 @@
 
 /** Simple Wrapper class around SDL_Surface that provides execption
     safety */
-class SDLSurfacePtr
-{
-private:
+class SDLSurfacePtr {
+ private:
   SDL_Surface* m_surface;
 
-public:
-  SDLSurfacePtr() :
-    m_surface(0)
-  {}
+ public:
+  SDLSurfacePtr() : m_surface(0) {}
 
-  SDLSurfacePtr(SDL_Surface* surface) :
-    m_surface(surface)
-  {}
+  SDLSurfacePtr(SDL_Surface* surface) : m_surface(surface) {}
 
-  ~SDLSurfacePtr()
-  {
-    SDL_FreeSurface(m_surface);
-  }
+  ~SDLSurfacePtr() { SDL_FreeSurface(m_surface); }
 
-  SDL_Surface* operator->()
-  {
-    return m_surface;
-  }
+  SDL_Surface* operator->() { return m_surface; }
 
   void reset(SDL_Surface* surface)
   {
@@ -51,16 +40,11 @@ public:
     m_surface = surface;
   }
 
-  SDL_Surface* get()
-  {
-    return m_surface;
-  }
+  SDL_Surface* get() { return m_surface; }
 
-  operator void*() {
-    return m_surface;
-  }
+  operator void*() { return m_surface; }
 
-private:
+ private:
   SDLSurfacePtr(const SDLSurfacePtr&);
   SDLSurfacePtr& operator=(const SDLSurfacePtr&);
 };

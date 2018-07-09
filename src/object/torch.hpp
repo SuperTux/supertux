@@ -28,38 +28,33 @@
 class ReaderMapping;
 
 class Torch : public MovingObject,
-              public ExposedObject<Torch, scripting::Torch>
-{
-public:
+              public ExposedObject<Torch, scripting::Torch> {
+ public:
   Torch(const ReaderMapping& reader);
 
   void draw(DrawingContext& context) override;
   void update(float) override;
 
-  HitResponse collision(GameObject& other, const CollisionHit& ) override;
+  HitResponse collision(GameObject& other, const CollisionHit&) override;
 
   /**
    * @name Scriptable Methods
    * @{
    */
-  bool get_burning() const; /**< returns true if torch is lighted */
+  bool get_burning() const;        /**< returns true if torch is lighted */
   void set_burning(bool burning_); /**< true: light torch, false: extinguish
                                      torch */
   /**
    * @}
    */
 
-  std::string get_class() const override {
-    return "torch";
-  }
-  std::string get_display_name() const override {
-    return _("Torch");
-  }
+  std::string get_class() const override { return "torch"; }
+  std::string get_display_name() const override { return _("Torch"); }
 
   ObjectSettings get_settings() override;
   void after_editor_set() override;
 
-private:
+ private:
   SpritePtr m_torch;
   SpritePtr m_flame;
   SpritePtr m_flame_glow;
@@ -67,7 +62,7 @@ private:
   bool m_burning;
   std::string sprite_name;
 
-private:
+ private:
   Torch(const Torch&) = delete;
   Torch& operator=(const Torch&) = delete;
 };

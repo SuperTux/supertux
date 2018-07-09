@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_GUI_DIALOG_HPP
 
 #include <SDL.h>
+
 #include <functional>
 #include <string>
 #include <vector>
@@ -29,13 +30,11 @@
 class Controller;
 class DrawingContext;
 
-class Dialog
-{
-private:
-  struct Button
-  {
+class Dialog {
+ private:
+  struct Button {
     std::string text;
-    std::function<void ()> callback;
+    std::function<void()> callback;
   };
 
   std::string m_text;
@@ -46,20 +45,23 @@ private:
 
   Sizef m_text_size;
 
-public:
+ public:
   Dialog(bool passive = false);
   virtual ~Dialog();
 
   void set_text(const std::string& text);
 
-  void add_button(const std::string& text, const std::function<void ()>& callback = {});
+  void add_button(const std::string& text,
+                  const std::function<void()>& callback = {});
 
   /** The default gets focused when the dialog is first shown */
-  void add_default_button(const std::string& text, const std::function<void ()>& callback = {});
+  void add_default_button(const std::string& text,
+                          const std::function<void()>& callback = {});
 
   /** The cancel button can not only be activated by selecting it, but
       via the MENU_BACK button */
-  void add_cancel_button(const std::string& text, const std::function<void ()>& callback = {});
+  void add_cancel_button(const std::string& text,
+                         const std::function<void()>& callback = {});
 
   void clear_buttons();
 
@@ -67,10 +69,7 @@ public:
   void process_input(const Controller& controller);
   void draw(DrawingContext& context);
   virtual void update() {}
-  bool is_passive() const
-  {
-    return m_passive;
-  }
+  bool is_passive() const { return m_passive; }
 
   static void show_message(const std::string& text)
   {
@@ -81,7 +80,8 @@ public:
     MenuManager::instance().set_dialog(std::move(dialog));
   }
 
-  static void show_confirmation(const std::string& text, const std::function<void ()>& callback)
+  static void show_confirmation(const std::string& text,
+                                const std::function<void()>& callback)
   {
     std::unique_ptr<Dialog> dialog(new Dialog);
     dialog->set_text(text);
@@ -91,11 +91,11 @@ public:
     MenuManager::instance().set_dialog(std::move(dialog));
   }
 
-private:
+ private:
   void on_button_click(int button) const;
   int get_button_at(const Vector& pos) const;
 
-private:
+ private:
   Dialog(const Dialog&) = delete;
   Dialog& operator=(const Dialog&) = delete;
 };

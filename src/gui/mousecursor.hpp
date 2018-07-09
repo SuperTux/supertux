@@ -24,13 +24,7 @@
 
 #define MC_STATES_NB 3
 
-enum MouseCursorState
-{
-  MC_NORMAL = 0,
-  MC_CLICK,
-  MC_LINK,
-  MC_HIDE
-};
+enum MouseCursorState { MC_NORMAL = 0, MC_CLICK, MC_LINK, MC_HIDE };
 
 class DrawingContext;
 
@@ -39,9 +33,8 @@ class DrawingContext;
     The mouse cursors can be animated
     and can be used in four different states.
     (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */
-class MouseCursor
-{
-public:
+class MouseCursor {
+ public:
   MouseCursor(const std::string& cursor_file,
               const std::string& cursor_click_file,
               const std::string& cursor_link_file);
@@ -61,23 +54,21 @@ public:
   void set_icon(SurfacePtr icon_);
 
   /// Return the current cursor.
-  static MouseCursor* current()
-  {        return current_;      };
+  static MouseCursor* current() { return current_; };
   /// Set current cursor.
-  static void set_current(MouseCursor* pcursor)
-  {        current_ = pcursor;      };
+  static void set_current(MouseCursor* pcursor) { current_ = pcursor; };
 
-private:
+ private:
   int m_mid_x;
   int m_mid_y;
   MouseCursorState m_state;
   std::vector<SurfacePtr> m_cursor;
   SurfacePtr m_icon;
 
-private:
+ private:
   static MouseCursor* current_;
 
-private:
+ private:
   MouseCursor(const MouseCursor&);
   MouseCursor& operator=(const MouseCursor&);
 };

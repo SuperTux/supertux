@@ -23,27 +23,26 @@ class AmbientSound;
 
 namespace scripting {
 
-class AmbientSound
-{
+class AmbientSound {
 #ifndef SCRIPTING_API
-private:
+ private:
   ::AmbientSound* m_parent;
 
-public:
+ public:
   AmbientSound(::AmbientSound* parent);
 
-private:
+ private:
   AmbientSound(const AmbientSound&) = delete;
   AmbientSound& operator=(const AmbientSound&) = delete;
 #endif
 
-public:
+ public:
   void set_pos(float x, float y);
   float get_pos_x() const;
   float get_pos_y() const;
 };
 
-}
+}  // namespace scripting
 
 #endif
 

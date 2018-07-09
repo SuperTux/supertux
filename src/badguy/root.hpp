@@ -21,9 +21,8 @@
 
 class Timer;
 
-class Root : public BadGuy
-{
-public:
+class Root : public BadGuy {
+ public:
   Root(const Vector& pos);
   ~Root();
 
@@ -32,14 +31,18 @@ public:
   void draw(DrawingContext& context);
   bool is_flammable() const { return false; }
   bool is_freezable() const { return false; }
-  void kill_fall() { }
+  void kill_fall() {}
 
-protected:
+ protected:
   enum MyState {
-    STATE_APPEARING, STATE_HATCHING, STATE_GROWING, STATE_SHRINKING, STATE_VANISHING
+    STATE_APPEARING,
+    STATE_HATCHING,
+    STATE_GROWING,
+    STATE_SHRINKING,
+    STATE_VANISHING
   };
 
-private:
+ private:
   MyState mystate;
   SpritePtr base_sprite;
   float offset_y;

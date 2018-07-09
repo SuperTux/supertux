@@ -15,26 +15,27 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/wind.hpp"
+
 #include "scripting/wind.hpp"
 
-#define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
+#define NOIMPL log_fatal << __PRETTY_FUNCTION__ << " not implemented."
 
 namespace scripting {
 
-Wind::Wind(::Wind* wind_)
-  : wind(wind_)
-{ }
+Wind::Wind(::Wind* wind_) : wind(wind_) {}
 
-void Wind::start()
+void
+Wind::start()
 {
   wind->start();
 }
 
-void Wind::stop()
+void
+Wind::stop()
 {
   wind->stop();
 }
 
-}
+}  // namespace scripting
 
 /* EOF */

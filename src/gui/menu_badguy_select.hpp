@@ -19,9 +19,8 @@
 
 #include "gui/menu.hpp"
 
-class BadguySelectMenu : public Menu
-{
-public:
+class BadguySelectMenu : public Menu {
+ public:
   BadguySelectMenu(std::vector<std::string>* badguys_);
 
   void menu_action(MenuItem* item) override;
@@ -30,7 +29,7 @@ public:
 
   void remove_badguy();
 
-private:
+ private:
   std::vector<std::string>* badguys;
   int selected;
   int remove_item;

@@ -1,5 +1,6 @@
 //  SuperTux - Switch Trigger
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,14 +23,11 @@
 #include "trigger/trigger_base.hpp"
 #include "util/reader_mapping.hpp"
 
-class Switch : public TriggerBase
-{
-public:
+class Switch : public TriggerBase {
+ public:
   Switch(const ReaderMapping& reader);
   virtual ~Switch();
-  std::string get_class() const {
-    return "switch";
-  }
+  std::string get_class() const { return "switch"; }
 
   ObjectSettings get_settings();
   void after_editor_set();
@@ -38,15 +36,10 @@ public:
   virtual void draw(DrawingContext& context);
   virtual void event(Player& player, EventType type);
 
-private:
-  enum SwitchState {
-    OFF,
-    TURN_ON,
-    ON,
-    TURN_OFF
-  };
+ private:
+  enum SwitchState { OFF, TURN_ON, ON, TURN_OFF };
 
-private:
+ private:
   std::string sprite_name;
   SpritePtr sprite;
   std::string script;

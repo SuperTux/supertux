@@ -22,9 +22,8 @@
 #include "object/particlesystem_interactive.hpp"
 #include "video/surface_ptr.hpp"
 
-class RainParticleSystem : public ParticleSystem_Interactive
-{
-public:
+class RainParticleSystem : public ParticleSystem_Interactive {
+ public:
   RainParticleSystem();
   RainParticleSystem(const ReaderMapping& reader);
   virtual ~RainParticleSystem();
@@ -32,33 +31,26 @@ public:
   void init();
   virtual void update(float elapsed_time);
 
-  std::string type() const
-  { return "RainParticleSystem"; }
-  std::string get_class() const {
-    return "particles-rain";
-  }
-  std::string get_display_name() const {
-    return _("Rain particles");
-  }
+  std::string type() const { return "RainParticleSystem"; }
+  std::string get_class() const { return "particles-rain"; }
+  std::string get_display_name() const { return _("Rain particles"); }
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const
+  {
     return "images/engine/editor/rain.png";
   }
 
-private:
-  class RainParticle : public Particle
-  {
-  public:
+ private:
+  class RainParticle : public Particle {
+   public:
     float speed;
 
-    RainParticle() :
-      speed()
-    {}
+    RainParticle() : speed() {}
   };
 
   SurfacePtr rainimages[2];
 
-private:
+ private:
   RainParticleSystem(const RainParticleSystem&);
   RainParticleSystem& operator=(const RainParticleSystem&);
 };

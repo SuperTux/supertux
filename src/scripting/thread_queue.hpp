@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_SCRIPTING_THREAD_QUEUE_HPP
 
 #include <squirrel.h>
+
 #include <vector>
 
 namespace scripting {
@@ -25,9 +26,8 @@ namespace scripting {
 /**
  * Keeps a list of SquirrelThreads that wait for a wakeup event
  */
-class ThreadQueue
-{
-public:
+class ThreadQueue {
+ public:
   ThreadQueue();
 
   /// adds a thread (actually a weakref to the thread)
@@ -35,12 +35,12 @@ public:
   /// wakes up threads in the list
   void wakeup();
 
-private:
+ private:
   typedef std::vector<HSQOBJECT> ThreadList;
   ThreadList threads;
 };
 
-}
+}  // namespace scripting
 
 #endif
 

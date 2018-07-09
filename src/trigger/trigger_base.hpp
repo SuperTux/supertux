@@ -29,10 +29,8 @@ class Player;
 /** This class is the base class for all objects you can interact with in some
  * way. There are several interaction types defined like touch and activate
  */
-class TriggerBase : public MovingObject,
-                    public ObjectRemoveListener
-{
-public:
+class TriggerBase : public MovingObject, public ObjectRemoveListener {
+ public:
   enum EventType {
     EVENT_TOUCH,     /**< Object came into contact */
     EVENT_LOSETOUCH, /**< Lost contact with object */
@@ -56,14 +54,15 @@ public:
    */
   virtual void object_removed(GameObject* object);
 
-private:
+ private:
   SpritePtr sprite;
   bool lasthit;
   bool hit;
 
-  std::list<Player*> losetouch_listeners; /**< Players that will be informed when we lose touch with them */
+  std::list<Player*> losetouch_listeners; /**< Players that will be informed
+                                             when we lose touch with them */
 
-private:
+ private:
   TriggerBase(const TriggerBase&);
   TriggerBase& operator=(const TriggerBase&);
 };

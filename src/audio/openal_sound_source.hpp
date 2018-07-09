@@ -21,9 +21,8 @@
 
 #include "audio/sound_source.hpp"
 
-class OpenALSoundSource : public SoundSource
-{
-public:
+class OpenALSoundSource : public SoundSource {
+ public:
   OpenALSoundSource();
   virtual ~OpenALSoundSource();
 
@@ -44,12 +43,12 @@ public:
   virtual void set_velocity(const Vector& position);
   virtual void set_reference_distance(float distance);
 
-protected:
+ protected:
   friend class SoundManager;
 
   ALuint source;
 
-private:
+ private:
   OpenALSoundSource(const OpenALSoundSource&) = delete;
   OpenALSoundSource& operator=(const OpenALSoundSource&) = delete;
 };

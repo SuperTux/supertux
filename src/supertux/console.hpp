@@ -1,5 +1,6 @@
 //  SuperTux - Console
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,9 +18,10 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_CONSOLE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_CONSOLE_HPP
 
+#include <squirrel.h>
+
 #include <list>
 #include <memory>
-#include <squirrel.h>
 #include <sstream>
 #include <vector>
 
@@ -31,80 +33,93 @@ class Console;
 class ConsoleStreamBuffer;
 class DrawingContext;
 
-class ConsoleBuffer : public Currenton<ConsoleBuffer>
-{
-public:
-  static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
-  static ConsoleStreamBuffer s_outputBuffer; /**< stream buffer used by output stream */
+class ConsoleBuffer : public Currenton<ConsoleBuffer> {
+ public:
+  static std::ostream
+      output; /**< stream of characters to output to the console. Do not forget
+                 to send std::endl or to flush the stream. */
+  static ConsoleStreamBuffer
+      s_outputBuffer; /**< stream buffer used by output stream */
 
-public:
-  std::list<std::string> m_lines; /**< backbuffer of lines sent to the console. New lines get added to front. */
+ public:
+  std::list<std::string> m_lines; /**< backbuffer of lines sent to the console.
+                                     New lines get added to front. */
   Console* m_console;
 
-public:
+ public:
   ConsoleBuffer();
 
-  void addLines(const std::string& s); /**< display a string of (potentially) multiple lines in the console */
-  void addLine(const std::string& s); /**< display a line in the console */
+  void addLines(const std::string& s); /**< display a string of (potentially)
+                                          multiple lines in the console */
+  void addLine(const std::string& s);  /**< display a line in the console */
 
-  void flush(ConsoleStreamBuffer& buffer); /**< act upon changes in a ConsoleStreamBuffer */
+  void flush(ConsoleStreamBuffer&
+                 buffer); /**< act upon changes in a ConsoleStreamBuffer */
 
   void set_console(Console* console);
 
-private:
+ private:
   ConsoleBuffer(const ConsoleBuffer&) = delete;
   ConsoleBuffer& operator=(const ConsoleBuffer&) = delete;
 };
 
-class Console : public Currenton<Console>
-{
-public:
+class Console : public Currenton<Console> {
+ public:
   Console(ConsoleBuffer& buffer);
   ~Console();
 
   void on_buffer_change(int line_count);
 
   void input(char c); /**< add character to inputBuffer */
-  void backspace(); /**< delete character left of inputBufferPosition */
-  void eraseChar(); /**< delete character at inputBufferPosition */
-  void enter(); /**< process and clear input stream */
-  void scroll(int offset); /**< scroll console text up or down by @c offset lines */
+  void backspace();   /**< delete character left of inputBufferPosition */
+  void eraseChar();   /**< delete character at inputBufferPosition */
+  void enter();       /**< process and clear input stream */
+  void scroll(
+      int offset);     /**< scroll console text up or down by @c offset lines */
   void autocomplete(); /**< autocomplete current command */
-  void show_history(int offset); /**< move @c offset lines forward through history; Negative offset moves backward */
-  void move_cursor(int offset); /**< move the cursor @c offset chars to the right; Negative offset moves backward; 0xFFFF moves to the end */
+  void show_history(int offset); /**< move @c offset lines forward through
+                                    history; Negative offset moves backward */
+  void move_cursor(
+      int offset); /**< move the cursor @c offset chars to the right; Negative
+                      offset moves backward; 0xFFFF moves to the end */
 
-  void draw(DrawingContext& context) const; /**< draw the console in a DrawingContext */
+  void draw(DrawingContext& context)
+      const; /**< draw the console in a DrawingContext */
   void update(float elapsed_time);
 
-  void show(); /**< display the console */
-  void open(); /**< open the console for viewing for 6 seconds */
-  void hide(); /**< hide the console */
+  void show();   /**< display the console */
+  void open();   /**< open the console for viewing for 6 seconds */
+  void hide();   /**< hide the console */
   void toggle(); /**< display the console if hidden, hide otherwise */
 
-  bool hasFocus() const; /**< true if characters should be sent to the console instead of their normal target */
-  FontPtr get_font() const {
-    return m_font;
-  }
+  bool hasFocus() const; /**< true if characters should be sent to the console
+                            instead of their normal target */
+  FontPtr get_font() const { return m_font; }
 
-private:
+ private:
   ConsoleBuffer& m_buffer;
 
   std::string m_inputBuffer; /**< string used for keyboard input */
-  int m_inputBufferPosition; /**< position in inputBuffer before which to append new characters */
+  int m_inputBufferPosition; /**< position in inputBuffer before which to append
+                                new characters */
 
-  std::list<std::string> m_history; /**< command history. New lines get added to back. */
-  std::list<std::string>::iterator m_history_position; /**< item of command history that is currently displayed */
+  std::list<std::string>
+      m_history; /**< command history. New lines get added to back. */
+  std::list<std::string>::iterator
+      m_history_position; /**< item of command history that is currently
+                             displayed */
 
-  SurfacePtr m_background; /**< console background image */
+  SurfacePtr m_background;  /**< console background image */
   SurfacePtr m_background2; /**< second, moving console background image */
 
-  HSQUIRRELVM m_vm; /**< squirrel thread for the console (with custom roottable) */
+  HSQUIRRELVM
+      m_vm; /**< squirrel thread for the console (with custom roottable) */
   HSQOBJECT m_vm_object;
 
   int m_backgroundOffset; /**< current offset of scrolling background image */
-  float m_height; /**< height of the console in px */
+  float m_height;         /**< height of the console in px */
   float m_alpha;
-  int m_offset; /**< decrease to scroll text up */
+  int m_offset;   /**< decrease to scroll text up */
   bool m_focused; /**< true if console has input focus */
   FontPtr m_font;
 
@@ -112,27 +127,30 @@ private:
 
   void parse(const std::string& s); /**< react to a given command */
 
-  /** ready a virtual machine instance, creating a new thread and loading default .nut files if needed */
+  /** ready a virtual machine instance, creating a new thread and loading
+   * default .nut files if needed */
   void ready_vm();
 
   /** execute squirrel script and output result */
   void execute_script(const std::string& s);
 
-  bool consoleCommand(const std::string& command, const std::vector<std::string>& arguments); /**< process internal command; return false if command was unknown, true otherwise */
+  bool consoleCommand(
+      const std::string& command,
+      const std::vector<std::string>&
+          arguments); /**< process internal command; return false if command was
+                         unknown, true otherwise */
 
-private:
+ private:
   Console(const Console&);
-  Console & operator=(const Console&);
+  Console& operator=(const Console&);
 };
 
-class ConsoleStreamBuffer : public std::stringbuf
-{
-public:
+class ConsoleStreamBuffer : public std::stringbuf {
+ public:
   int sync()
   {
     int result = std::stringbuf::sync();
-    if(ConsoleBuffer::current())
-      ConsoleBuffer::current()->flush(*this);
+    if (ConsoleBuffer::current()) ConsoleBuffer::current()->flush(*this);
     return result;
   }
 };

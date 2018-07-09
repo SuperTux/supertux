@@ -22,9 +22,8 @@
 #include "scripting/exposed_object.hpp"
 
 class Dispenser : public BadGuy,
-                  public ExposedObject<Dispenser, scripting::Dispenser>
-{
-public:
+                  public ExposedObject<Dispenser, scripting::Dispenser> {
+ public:
   Dispenser(const ReaderMapping& reader);
 
   void draw(DrawingContext& context);
@@ -36,24 +35,21 @@ public:
   void unfreeze();
   bool is_freezable() const;
   bool is_flammable() const;
-  std::string get_class() const {
-    return "dispenser";
-  }
-  std::string get_display_name() const {
-    return _("Dispenser");
-  }
-  std::string get_type_string() const {
-    switch(type) {
-    case DT_DROPPER:
-      return "dropper";
-    case DT_ROCKETLAUNCHER:
-      return "rocketlauncher";
-    case DT_CANNON:
-      return "cannon";
-    case DT_POINT:
-      return "point";
-    default:
-      return "unknown";
+  std::string get_class() const { return "dispenser"; }
+  std::string get_display_name() const { return _("Dispenser"); }
+  std::string get_type_string() const
+  {
+    switch (type) {
+      case DT_DROPPER:
+        return "dropper";
+      case DT_ROCKETLAUNCHER:
+        return "rocketlauncher";
+      case DT_CANNON:
+        return "cannon";
+      case DT_POINT:
+        return "point";
+      default:
+        return "unknown";
     }
   }
 
@@ -62,19 +58,17 @@ public:
 
   void notify_dead()
   {
-    if(limit_dispensed_badguys)
-    {
+    if (limit_dispensed_badguys) {
       current_badguys--;
     }
   }
 
-protected:
+ protected:
   bool collision_squished(GameObject& object);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void launch_badguy();
 
-private:
-
+ private:
   void set_correct_action();
 
   float cycle;
@@ -87,7 +81,10 @@ private:
   bool random;
 
   typedef enum {
-    DT_DROPPER, DT_ROCKETLAUNCHER, DT_CANNON, DT_POINT
+    DT_DROPPER,
+    DT_ROCKETLAUNCHER,
+    DT_CANNON,
+    DT_POINT
   } DispenserType;
 
   DispenserType type;
@@ -95,14 +92,10 @@ private:
 
   DispenserType dispenser_type_from_string(const std::string& type_string) const
   {
-    if (type_string == "dropper")
-      return DT_DROPPER;
-    if (type_string == "rocketlauncher")
-      return DT_ROCKETLAUNCHER;
-    if (type_string == "cannon")
-      return DT_CANNON;
-    if (type_string == "point")
-      return DT_POINT;
+    if (type_string == "dropper") return DT_DROPPER;
+    if (type_string == "rocketlauncher") return DT_ROCKETLAUNCHER;
+    if (type_string == "cannon") return DT_CANNON;
+    if (type_string == "point") return DT_POINT;
     throw std::exception();
   }
 

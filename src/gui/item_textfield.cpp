@@ -27,42 +27,53 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-ItemTextField::ItemTextField(const std::string& text_, std::string* input_, int id_) :
-  MenuItem(text_, id_),
-  input(input_),
-  flickw(Resources::normal_font->get_text_width("_"))
+ItemTextField::ItemTextField(const std::string& text_, std::string* input_,
+                             int id_)
+    : MenuItem(text_, id_),
+      input(input_),
+      flickw(Resources::normal_font->get_text_width("_"))
 {
 }
 
 void
-ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
+ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width,
+                    bool active)
+{
   std::string r_input = *input;
-  bool fl = active && (int(real_time*2)%2);
-  if ( fl ) {
+  bool fl             = active && (int(real_time * 2) % 2);
+  if (fl) {
     r_input += "_";
   }
-  context.draw_text(Resources::normal_font, r_input,
-                    Vector(pos.x + menu_width - 16 - (fl ? 0 : flickw), pos.y - int(Resources::normal_font->get_height()/2)),
-                    ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
-  context.draw_text(Resources::normal_font, text,
-                    Vector(pos.x + 16, pos.y - int(Resources::normal_font->get_height()/2)),
-                    ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+  context.draw_text(
+      Resources::normal_font, r_input,
+      Vector(pos.x + menu_width - 16 - (fl ? 0 : flickw),
+             pos.y - int(Resources::normal_font->get_height() / 2)),
+      ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
+  context.draw_text(
+      Resources::normal_font, text,
+      Vector(pos.x + 16, pos.y - int(Resources::normal_font->get_height() / 2)),
+      ALIGN_LEFT, LAYER_GUI,
+      active ? ColorScheme::Menu::active_color : get_color());
 }
 
 int
-ItemTextField::get_width() const {
-  return Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(*input) + 16 + flickw;
+ItemTextField::get_width() const
+{
+  return Resources::normal_font->get_text_width(text) +
+         Resources::normal_font->get_text_width(*input) + 16 + flickw;
 }
 
 void
-ItemTextField::event(const SDL_Event& ev) {
+ItemTextField::event(const SDL_Event& ev)
+{
   if (ev.type == SDL_TEXTINPUT) {
     *input += ev.text.text;
   }
 }
 
 void
-ItemTextField::process_action(const MenuAction& action) {
+ItemTextField::process_action(const MenuAction& action)
+{
   if (action == MENU_ACTION_REMOVE) {
     if (input->length()) {
       unsigned char last_char;
@@ -72,8 +83,9 @@ ItemTextField::process_action(const MenuAction& action) {
         if (input->length() == 0) {
           break;
         }
-      } while ( (last_char & 128) && !(last_char & 64) );
-    } else {
+      } while ((last_char & 128) && !(last_char & 64));
+    }
+    else {
       invalid_remove();
     }
   }

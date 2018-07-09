@@ -18,34 +18,31 @@
 #define HEADER_SUPERTUX_GUI_ITEM_COLORDISPLAY_HPP
 
 #include "gui/menu_item.hpp"
-
 #include "supertux/timer.hpp"
 #include "video/color.hpp"
 
 //
-class ItemColorDisplay : public MenuItem
-{
-  public:
-    ItemColorDisplay(Color* color, int id_ = -1);
+class ItemColorDisplay : public MenuItem {
+ public:
+  ItemColorDisplay(Color* color, int id_ = -1);
 
-    /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
+  /** Draws the menu item. */
+  virtual void draw(DrawingContext&, const Vector& pos, int menu_width,
+                    bool active);
 
-    /** Returns the minimum width of the menu item. */
-    virtual int get_width() const;
+  /** Returns the minimum width of the menu item. */
+  virtual int get_width() const;
 
-    virtual bool skippable() const {
-      return true;
-    }
+  virtual bool skippable() const { return true; }
 
-  private:
-    Color old_color;
-    Color* new_color;
+ private:
+  Color old_color;
+  Color* new_color;
 
-    ItemColorDisplay(const ItemColorDisplay&);
-    ItemColorDisplay& operator=(const ItemColorDisplay&);
+  ItemColorDisplay(const ItemColorDisplay&);
+  ItemColorDisplay& operator=(const ItemColorDisplay&);
 };
 
-#endif // HEADER_SUPERTUX_GUI_ITEM_COLORDISPLAY_HPP
+#endif  // HEADER_SUPERTUX_GUI_ITEM_COLORDISPLAY_HPP
 
 /* EOF */

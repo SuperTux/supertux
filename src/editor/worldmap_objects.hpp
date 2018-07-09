@@ -23,138 +23,123 @@
 
 namespace worldmap_editor {
 
-class WorldmapObject : public MovingSprite
-{
-  public:
-    WorldmapObject(const ReaderMapping& lisp, const std::string& default_sprite);
-    WorldmapObject(const ReaderMapping& lisp);
-    WorldmapObject(const Vector& pos, const std::string& default_sprite);
+class WorldmapObject : public MovingSprite {
+ public:
+  WorldmapObject(const ReaderMapping& lisp, const std::string& default_sprite);
+  WorldmapObject(const ReaderMapping& lisp);
+  WorldmapObject(const Vector& pos, const std::string& default_sprite);
 
-    void update(float elapsed_time) {
-      //No updates needed
-    }
+  void update(float elapsed_time)
+  {
+    // No updates needed
+  }
 
-    void collision_solid(const CollisionHit& hit) {
-      //This function wouldn't be called anyway.
-    }
+  void collision_solid(const CollisionHit& hit)
+  {
+    // This function wouldn't be called anyway.
+  }
 
-    HitResponse collision(GameObject& other, const CollisionHit& hit) {
-      return FORCE_MOVE;
-    }
+  HitResponse collision(GameObject& other, const CollisionHit& hit)
+  {
+    return FORCE_MOVE;
+  }
 
-    virtual std::string get_class() const {
-      return "worldmap-object";
-    }
+  virtual std::string get_class() const { return "worldmap-object"; }
 
-    virtual void move_to(const Vector& pos);
+  virtual void move_to(const Vector& pos);
 
-    //virtual ObjectSettings get_settings();
-    virtual void save(Writer& writer);
+  // virtual ObjectSettings get_settings();
+  virtual void save(Writer& writer);
 };
 
-class LevelDot : public WorldmapObject
-{
-  public:
-    LevelDot(const ReaderMapping& lisp);
+class LevelDot : public WorldmapObject {
+ public:
+  LevelDot(const ReaderMapping& lisp);
 
-    virtual std::string get_class() const {
-      return "level";
-    }
+  virtual std::string get_class() const { return "level"; }
 
-    void draw(DrawingContext& context);
+  void draw(DrawingContext& context);
 
-    ObjectSettings get_settings();
-    void save(Writer& writer);
-    void after_editor_set();
+  ObjectSettings get_settings();
+  void save(Writer& writer);
+  void after_editor_set();
 
-  private:
-    std::string level;
-    std::string extro_script;
-    bool auto_play;
-    Color title_color;
+ private:
+  std::string level;
+  std::string extro_script;
+  bool auto_play;
+  Color title_color;
 };
 
-class Teleporter : public WorldmapObject
-{
-  public:
-    Teleporter(const ReaderMapping& lisp);
+class Teleporter : public WorldmapObject {
+ public:
+  Teleporter(const ReaderMapping& lisp);
 
-    virtual std::string get_class() const {
-      return "teleporter";
-    }
+  virtual std::string get_class() const { return "teleporter"; }
 
-    void draw(DrawingContext& context);
+  void draw(DrawingContext& context);
 
-    ObjectSettings get_settings();
-    void save(Writer& writer);
+  ObjectSettings get_settings();
+  void save(Writer& writer);
 
-  private:
-    std::string worldmap;
-    std::string spawnpoint;
-    std::string message;
-    bool automatic;
-    bool change_worldmap;
+ private:
+  std::string worldmap;
+  std::string spawnpoint;
+  std::string message;
+  bool automatic;
+  bool change_worldmap;
 };
 
-class WorldmapSpawnPoint : public WorldmapObject
-{
-  public:
-    WorldmapSpawnPoint(const ReaderMapping& lisp);
-    WorldmapSpawnPoint(const std::string& name_, const Vector& pos);
+class WorldmapSpawnPoint : public WorldmapObject {
+ public:
+  WorldmapSpawnPoint(const ReaderMapping& lisp);
+  WorldmapSpawnPoint(const std::string& name_, const Vector& pos);
 
-    virtual std::string get_class() const {
-      return "worldmap-spawnpoint";
-    }
+  virtual std::string get_class() const { return "worldmap-spawnpoint"; }
 
-    ObjectSettings get_settings();
-    void save(Writer& writer);
+  ObjectSettings get_settings();
+  void save(Writer& writer);
 
-  private:
-    worldmap::Direction dir;
+ private:
+  worldmap::Direction dir;
 };
 
-class SpriteChange : public WorldmapObject
-{
-  public:
-    SpriteChange(const ReaderMapping& lisp);
+class SpriteChange : public WorldmapObject {
+ public:
+  SpriteChange(const ReaderMapping& lisp);
 
-    virtual std::string get_class() const {
-      return "sprite-change";
-    }
+  virtual std::string get_class() const { return "sprite-change"; }
 
-    ObjectSettings get_settings();
-    void save(Writer& writer);
+  ObjectSettings get_settings();
+  void save(Writer& writer);
 
-  private:
-    std::string target_sprite;
-    std::string stay_action;
-    bool initial_stay_action;
-    std::string stay_group;
-    bool change_on_touch;
+ private:
+  std::string target_sprite;
+  std::string stay_action;
+  bool initial_stay_action;
+  std::string stay_group;
+  bool change_on_touch;
 };
 
-class SpecialTile : public WorldmapObject
-{
-  public:
-    SpecialTile(const ReaderMapping& lisp);
+class SpecialTile : public WorldmapObject {
+ public:
+  SpecialTile(const ReaderMapping& lisp);
 
-    virtual std::string get_class() const {
-      return "special-tile";
-    }
+  virtual std::string get_class() const { return "special-tile"; }
 
-    ObjectSettings get_settings();
-    void save(Writer& writer);
+  ObjectSettings get_settings();
+  void save(Writer& writer);
 
-  private:
-    std::string map_message;
-    std::string script;
-    bool passive_message;
-    bool invisible_tile;
-    worldmap::Direction apply_to_direction;
+ private:
+  std::string map_message;
+  std::string script;
+  bool passive_message;
+  bool invisible_tile;
+  worldmap::Direction apply_to_direction;
 };
 
-} // namespace worldmap_editor
+}  // namespace worldmap_editor
 
-#endif // HEADER_SUPERTUX_EDITOR_WORLDMAP_OBJECTS_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_WORLDMAP_OBJECTS_HPP
 
 /* EOF */

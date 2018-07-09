@@ -19,8 +19,8 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/walking_badguy.hpp"
 #include "control/controller.hpp"
-#include "object/player.hpp"
 #include "object/coin.hpp"
+#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/object_factory.hpp"
@@ -30,35 +30,33 @@
  * he jumps on it to VY_MIN. */
 namespace {
 const std::string TRAMPOLINE_SOUND = "sounds/trampoline.wav";
-const float VY_MIN = -900; //negative, upwards
+const float VY_MIN     = -900;  // negative, upwards
 const float VY_INITIAL = -500;
-}
+}  // namespace
 
-Trampoline::Trampoline(const ReaderMapping& lisp) :
-  Rock(lisp, "images/objects/trampoline/trampoline.sprite"),
-  portable(true)
+Trampoline::Trampoline(const ReaderMapping& lisp)
+    : Rock(lisp, "images/objects/trampoline/trampoline.sprite"), portable(true)
 {
   SoundManager::current()->preload(TRAMPOLINE_SOUND);
 
-  //Check if this trampoline is not portable
-  if(lisp.get("portable", portable)) {
-    if(!portable) {
-      //we need another sprite
+  // Check if this trampoline is not portable
+  if (lisp.get("portable", portable)) {
+    if (!portable) {
+      // we need another sprite
       sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
-      sprite = SpriteManager::current()->create(sprite_name);
+      sprite      = SpriteManager::current()->create(sprite_name);
       sprite->set_action("normal");
     }
   }
 }
 
-Trampoline::Trampoline(const Vector& pos, bool port) :
-  Rock(pos, "images/objects/trampoline/trampoline.sprite"),
-  portable(port)
+Trampoline::Trampoline(const Vector& pos, bool port)
+    : Rock(pos, "images/objects/trampoline/trampoline.sprite"), portable(port)
 {
   SoundManager::current()->preload(TRAMPOLINE_SOUND);
-  if(!port) {
+  if (!port) {
     sprite_name = "images/objects/trampoline/trampoline_fix.sprite";
-    sprite = SpriteManager::current()->create(sprite_name);
+    sprite      = SpriteManager::current()->create(sprite_name);
     sprite->set_action("normal");
   }
 }
@@ -66,7 +64,7 @@ Trampoline::Trampoline(const Vector& pos, bool port) :
 void
 Trampoline::update(float elapsed_time)
 {
-  if(sprite->animation_done()) {
+  if (sprite->animation_done()) {
     sprite->set_action("normal");
   }
 
@@ -76,34 +74,37 @@ Trampoline::update(float elapsed_time)
 HitResponse
 Trampoline::collision(GameObject& other, const CollisionHit& hit)
 {
-  auto heavy_coin = dynamic_cast<HeavyCoin*> (&other);
+  auto heavy_coin = dynamic_cast<HeavyCoin*>(&other);
   if (heavy_coin) {
     return ABORT_MOVE;
   }
-  //Tramponine has to be on ground to work.
-  if(on_ground) {
-    auto player = dynamic_cast<Player*> (&other);
-    //Trampoline works for player
-    if(player) {
+  // Tramponine has to be on ground to work.
+  if (on_ground) {
+    auto player = dynamic_cast<Player*>(&other);
+    // Trampoline works for player
+    if (player) {
       float vy = player->get_physic().get_velocity_y();
-      //player is falling down on trampoline
-      if(hit.top && vy >= 0) {
+      // player is falling down on trampoline
+      if (hit.top && vy >= 0) {
         if (!(player->get_status()->bonus == AIR_BONUS))
-          vy = player->get_controller()->hold(Controller::JUMP) ? VY_MIN : VY_INITIAL;
+          vy = player->get_controller()->hold(Controller::JUMP) ? VY_MIN
+                                                                : VY_INITIAL;
         else
-          vy = player->get_controller()->hold(Controller::JUMP) ? VY_MIN - 300 : VY_INITIAL - 40;
+          vy = player->get_controller()->hold(Controller::JUMP)
+                   ? VY_MIN - 300
+                   : VY_INITIAL - 40;
         player->get_physic().set_velocity_y(vy);
         SoundManager::current()->play(TRAMPOLINE_SOUND);
         sprite->set_action("swinging", 1);
         return FORCE_MOVE;
       }
     }
-    auto walking_badguy = dynamic_cast<WalkingBadguy*> (&other);
-    //Trampoline also works for WalkingBadguy
-    if(walking_badguy) {
+    auto walking_badguy = dynamic_cast<WalkingBadguy*>(&other);
+    // Trampoline also works for WalkingBadguy
+    if (walking_badguy) {
       float vy = walking_badguy->get_velocity_y();
-      //walking_badguy is falling down on trampoline
-      if(hit.top && vy >= 0) {
+      // walking_badguy is falling down on trampoline
+      if (hit.top && vy >= 0) {
         vy = VY_INITIAL;
         walking_badguy->set_velocity_y(vy);
         SoundManager::current()->play(TRAMPOLINE_SOUND);
@@ -117,7 +118,8 @@ Trampoline::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-Trampoline::grab(MovingObject& object, const Vector& pos, Direction dir) {
+Trampoline::grab(MovingObject& object, const Vector& pos, Direction dir)
+{
   sprite->set_animation_loops(0);
   Rock::grab(object, pos, dir);
 }
@@ -129,9 +131,11 @@ Trampoline::is_portable() const
 }
 
 ObjectSettings
-Trampoline::get_settings() {
+Trampoline::get_settings()
+{
   ObjectSettings result = Rock::get_settings();
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Portable"), &portable, "portable"));
+  result.options.push_back(
+      ObjectOption(MN_TOGGLE, _("Portable"), &portable, "portable"));
 
   return result;
 }

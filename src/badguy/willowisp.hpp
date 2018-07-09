@@ -1,5 +1,6 @@
 //  SuperTux - "Will-O-Wisp" Badguy
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -29,9 +30,8 @@ class SoundSource;
 
 class WillOWisp : public BadGuy,
                   public ExposedObject<WillOWisp, scripting::WillOWisp>,
-                  public PathObject
-{
-public:
+                  public PathObject {
+ public:
   WillOWisp(const ReaderMapping& reader);
   virtual void save(Writer& writer);
 
@@ -57,27 +57,28 @@ public:
   virtual void stop_looping_sounds();
   virtual void play_looping_sounds();
 
-  std::string get_class() const {
-    return "willowisp";
-  }
-  std::string get_display_name() const {
-    return _("Will 'o' wisp");
-  }
+  std::string get_class() const { return "willowisp"; }
+  std::string get_display_name() const { return _("Will 'o' wisp"); }
 
   virtual ObjectSettings get_settings();
   virtual void move_to(const Vector& pos);
 
-protected:
+ protected:
   virtual bool collides(GameObject& other, const CollisionHit& hit) const;
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
-private:
+ private:
   enum MyState {
-    STATE_STOPPED, STATE_IDLE, STATE_TRACKING, STATE_VANISHING, STATE_WARPING,
-    STATE_PATHMOVING, STATE_PATHMOVING_TRACK
+    STATE_STOPPED,
+    STATE_IDLE,
+    STATE_TRACKING,
+    STATE_VANISHING,
+    STATE_WARPING,
+    STATE_PATHMOVING,
+    STATE_PATHMOVING_TRACK
   };
 
-private:
+ private:
   MyState mystate;
 
   std::string target_sector;

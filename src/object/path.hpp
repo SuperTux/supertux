@@ -1,7 +1,8 @@
 //  SuperTux Path
 //  Copyright (C) 2005 Philipp <balinor@pnxs.de>
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de> Copyright (C) 2006
+//  Matthias Braun <matze@braunis.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -28,9 +29,8 @@ class ObjectOption;
 class ReaderMapping;
 class Writer;
 
-class Path
-{
-public:
+class Path {
+ public:
   Path();
   Path(const Vector& pos);
 
@@ -42,16 +42,12 @@ public:
   /**
    * Helper class that stores an individual node of a Path
    */
-  class Node
-  {
-  public:
+  class Node {
+   public:
     Vector position; /**< the position of this node */
     float time; /**< time (in seconds) to get from this node to next node */
 
-    Node() :
-      position(),
-      time()
-    {}
+    Node() : position(), time() {}
   };
 
   std::vector<Node> nodes;

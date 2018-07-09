@@ -21,19 +21,18 @@
 #include "control/input_manager.hpp"
 #include "util/log.hpp"
 
-GameControllerManager::GameControllerManager(InputManager* parent) :
-  m_parent(parent),
-  m_deadzone(8000),
-  m_game_controllers(),
-  m_stick_state(),
-  m_button_state()
+GameControllerManager::GameControllerManager(InputManager* parent)
+    : m_parent(parent),
+      m_deadzone(8000),
+      m_game_controllers(),
+      m_stick_state(),
+      m_button_state()
 {
 }
 
 GameControllerManager::~GameControllerManager()
 {
-  for(const auto& con : m_game_controllers)
-  {
+  for (const auto& con : m_game_controllers) {
     SDL_GameControllerClose(con);
   }
 }
@@ -41,15 +40,16 @@ GameControllerManager::~GameControllerManager()
 void
 GameControllerManager::process_button_event(const SDL_ControllerButtonEvent& ev)
 {
-  //log_info << "button event: " << static_cast<int>(ev.button) << " " << static_cast<int>(ev.state) << std::endl;
-  auto controller = m_parent->get_controller();
-  auto set_control = [this, &controller](Controller::Control control, bool value)
-  {
+  // log_info << "button event: " << static_cast<int>(ev.button) << " " <<
+  // static_cast<int>(ev.state) << std::endl;
+  auto controller  = m_parent->get_controller();
+  auto set_control = [this, &controller](Controller::Control control,
+                                         bool value) {
     m_button_state[control] = value;
-    controller->set_control(control, m_button_state[control] || m_stick_state[control]);
+    controller->set_control(control,
+                            m_button_state[control] || m_stick_state[control]);
   };
-  switch(ev.button)
-  {
+  switch (ev.button) {
     case SDL_CONTROLLER_BUTTON_A:
       set_control(Controller::JUMP, ev.state);
       set_control(Controller::MENU_SELECT, ev.state);
@@ -119,36 +119,34 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
   // FIXME: buttons and axis are fighting for control ownership, need
   // to OR the values together
 
-  //log_info << "axis event: " << static_cast<int>(ev.axis) << " " << ev.value << std::endl;
-  auto controller = m_parent->get_controller();
-  auto set_control = [this, &controller](Controller::Control control, bool value)
-  {
+  // log_info << "axis event: " << static_cast<int>(ev.axis) << " " << ev.value
+  // << std::endl;
+  auto controller  = m_parent->get_controller();
+  auto set_control = [this, &controller](Controller::Control control,
+                                         bool value) {
     m_stick_state[control] = value;
-    controller->set_control(control, m_button_state[control] || m_stick_state[control]);
+    controller->set_control(control,
+                            m_button_state[control] || m_stick_state[control]);
   };
 
   auto axis2button = [this, &set_control](int value,
-                                         Controller::Control control_left, Controller::Control control_right)
-    {
-      if (value < -m_deadzone)
-      {
-        set_control(control_left, true);
-        set_control(control_right, false);
-      }
-      else if (value > m_deadzone)
-      {
-        set_control(control_left, false);
-        set_control(control_right, true);
-      }
-      else
-      {
-        set_control(control_left, false);
-        set_control(control_right, false);
-      }
-    };
+                                          Controller::Control control_left,
+                                          Controller::Control control_right) {
+    if (value < -m_deadzone) {
+      set_control(control_left, true);
+      set_control(control_right, false);
+    }
+    else if (value > m_deadzone) {
+      set_control(control_left, false);
+      set_control(control_right, true);
+    }
+    else {
+      set_control(control_left, false);
+      set_control(control_right, false);
+    }
+  };
 
-  switch(ev.axis)
-  {
+  switch (ev.axis) {
     case SDL_CONTROLLER_AXIS_LEFTX:
       axis2button(ev.value, Controller::LEFT, Controller::RIGHT);
       break;
@@ -179,20 +177,18 @@ GameControllerManager::process_axis_event(const SDL_ControllerAxisEvent& ev)
 void
 GameControllerManager::on_controller_added(int joystick_index)
 {
-  if (!SDL_IsGameController(joystick_index))
-  {
-    log_warning << "joystick is not a game controller, ignoring: " << joystick_index << std::endl;
+  if (!SDL_IsGameController(joystick_index)) {
+    log_warning << "joystick is not a game controller, ignoring: "
+                << joystick_index << std::endl;
   }
-  else
-  {
-    SDL_GameController* game_controller = SDL_GameControllerOpen(joystick_index);
-    if (!game_controller)
-    {
+  else {
+    SDL_GameController* game_controller =
+        SDL_GameControllerOpen(joystick_index);
+    if (!game_controller) {
       log_warning << "failed to open game_controller: " << joystick_index
                   << ": " << SDL_GetError() << std::endl;
     }
-    else
-    {
+    else {
       m_game_controllers.push_back(game_controller);
     }
   }
@@ -201,18 +197,17 @@ GameControllerManager::on_controller_added(int joystick_index)
 void
 GameControllerManager::on_controller_removed(int instance_id)
 {
-  for(auto& controller : m_game_controllers)
-  {
-    auto joy = SDL_GameControllerGetJoystick(controller);
+  for (auto& controller : m_game_controllers) {
+    auto joy          = SDL_GameControllerGetJoystick(controller);
     SDL_JoystickID id = SDL_JoystickInstanceID(joy);
-    if (id == instance_id)
-    {
+    if (id == instance_id) {
       SDL_GameControllerClose(controller);
       controller = nullptr;
     }
   }
 
-  m_game_controllers.erase(std::remove(m_game_controllers.begin(), m_game_controllers.end(), nullptr),
+  m_game_controllers.erase(std::remove(m_game_controllers.begin(),
+                                       m_game_controllers.end(), nullptr),
                            m_game_controllers.end());
 }
 

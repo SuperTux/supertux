@@ -16,9 +16,8 @@
 
 #include "video/surface.hpp"
 
-#include <config.h>
-
 #include <SDL.h>
+#include <config.h>
 
 #include "video/texture.hpp"
 #include "video/video_system.hpp"
@@ -35,39 +34,31 @@ Surface::create(const std::string& file, const Rect& rect)
   return SurfacePtr(new Surface(file, rect));
 }
 
-Surface::Surface(const std::string& file) :
-  texture(TextureManager::current()->get(file)),
-  surface_data(),
-  rect(0, 0,
-      Size(texture->get_image_width(),
-           texture->get_image_height())),
-  flipx(false)
+Surface::Surface(const std::string& file)
+    : texture(TextureManager::current()->get(file)),
+      surface_data(),
+      rect(0, 0, Size(texture->get_image_width(), texture->get_image_height())),
+      flipx(false)
 {
   surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
-Surface::Surface(const std::string& file, const Rect& rect_) :
-  texture(TextureManager::current()->get(file, rect_)),
-  surface_data(),
-  rect(0, 0, Size(rect_.get_width(), rect_.get_height())),
-  flipx(false)
+Surface::Surface(const std::string& file, const Rect& rect_)
+    : texture(TextureManager::current()->get(file, rect_)),
+      surface_data(),
+      rect(0, 0, Size(rect_.get_width(), rect_.get_height())),
+      flipx(false)
 {
   surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
-Surface::Surface(const Surface& rhs) :
-  texture(rhs.texture),
-  surface_data(),
-  rect(rhs.rect),
-  flipx(false)
+Surface::Surface(const Surface& rhs)
+    : texture(rhs.texture), surface_data(), rect(rhs.rect), flipx(false)
 {
   surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
-Surface::~Surface()
-{
-  VideoSystem::current()->free_surface_data(surface_data);
-}
+Surface::~Surface() { VideoSystem::current()->free_surface_data(surface_data); }
 
 SurfacePtr
 Surface::clone() const
@@ -77,12 +68,14 @@ Surface::clone() const
 }
 
 /** flip the surface horizontally */
-void Surface::hflip()
+void
+Surface::hflip()
 {
   flipx = !flipx;
 }
 
-bool Surface::get_flipx() const
+bool
+Surface::get_flipx() const
 {
   return flipx;
 }

@@ -15,21 +15,23 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "badguy/dispenser.hpp"
+
 #include "scripting/dispenser.hpp"
 
 namespace scripting {
 
-Dispenser::Dispenser(::Dispenser* parent) :
-  m_parent(parent)
-{
-}
+Dispenser::Dispenser(::Dispenser* parent) : m_parent(parent) {}
 
-void Dispenser::activate() {
+void
+Dispenser::activate()
+{
   m_parent->activate();
 }
 
-void Dispenser::deactivate() {
+void
+Dispenser::deactivate()
+{
   m_parent->deactivate();
 }
 
-}
+}  // namespace scripting

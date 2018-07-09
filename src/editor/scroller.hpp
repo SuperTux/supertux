@@ -22,29 +22,28 @@
 class DrawingContext;
 union SDL_Event;
 
-class EditorScroller
-{
-  public:
-    EditorScroller();
+class EditorScroller {
+ public:
+  EditorScroller();
 
-    void draw(DrawingContext&);
-    void update(float elapsed_time);
-    bool event(SDL_Event& ev);
+  void draw(DrawingContext&);
+  void update(float elapsed_time);
+  bool event(SDL_Event& ev);
 
-    static bool rendered;
+  static bool rendered;
 
-  private:
-    bool scrolling;
-    Vector scrolling_vec;
-    Vector mouse_pos;
+ private:
+  bool scrolling;
+  Vector scrolling_vec;
+  Vector mouse_pos;
 
-    void draw_arrow(DrawingContext&, const Vector& pos);
-    bool can_scroll() const;
+  void draw_arrow(DrawingContext&, const Vector& pos);
+  bool can_scroll() const;
 
-    EditorScroller(const EditorScroller&);
-    EditorScroller& operator=(const EditorScroller&);
+  EditorScroller(const EditorScroller&);
+  EditorScroller& operator=(const EditorScroller&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_SCROLLER_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_SCROLLER_HPP
 
 /* EOF */

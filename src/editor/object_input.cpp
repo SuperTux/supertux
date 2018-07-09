@@ -15,39 +15,41 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "editor/object_input.hpp"
-#include "util/reader_mapping.hpp"
-#include "util/reader_document.hpp"
 
-ObjectInput::ObjectInput() :
-  groups()
+#include "util/reader_document.hpp"
+#include "util/reader_mapping.hpp"
+
+ObjectInput::ObjectInput() : groups()
 {
   groups.clear();
 
-  //lisp::Parser parser;
-  //const lisp::Lisp* root = parser.parse("images/engine/editor/objects.stoi");
+  // lisp::Parser parser;
+  // const lisp::Lisp* root = parser.parse("images/engine/editor/objects.stoi");
 
-  auto doc = ReaderDocument::parse("images/engine/editor/objects.stoi");
+  auto doc  = ReaderDocument::parse("images/engine/editor/objects.stoi");
   auto root = doc.get_root();
 
-  if(root.get_name() != "supertux-objectinfo") {
-    throw std::runtime_error("file images/engine/editor/objects.stoi is not a supertux-objectinfo file.");
-  } // Bombenfest und Idioten sicher :DDDDD
+  if (root.get_name() != "supertux-objectinfo") {
+    throw std::runtime_error(
+        "file images/engine/editor/objects.stoi is not a supertux-objectinfo "
+        "file.");
+  }  // Bombenfest und Idioten sicher :DDDDD
 
   auto reader = root.get_mapping();
 
   /*const lisp::Lisp* info = root->get_lisp("supertux-objectinfo");
   if(!info) {
-    throw std::runtime_error("file images/engine/editor/objects.stoi is not a supertux-objectinfo file.");
+    throw std::runtime_error("file images/engine/editor/objects.stoi is not a
+  supertux-objectinfo file.");
   }*/ // Bombenfest und Idioten sicher :DDDDD
 
   auto iter = reader.get_iter();
-  while(iter.next()) {
+  while (iter.next()) {
     const std::string& token = iter.get_key();
     if (token == "objectgroup") {
-      groups.push_back( ObjectGroup( iter.as_mapping() ) );
+      groups.push_back(ObjectGroup(iter.as_mapping()));
     }
   }
-
 }
 
 /* EOF */

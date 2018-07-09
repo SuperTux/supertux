@@ -17,20 +17,18 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_LIGHTMAP_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_LIGHTMAP_HPP
 
-#include "video/lightmap.hpp"
-
 #include "SDL.h"
+#include "video/lightmap.hpp"
 
 class Color;
 struct DrawingRequest;
 
-class SDLLightmap : public Lightmap
-{
-public:
+class SDLLightmap : public Lightmap {
+ public:
   SDLLightmap();
   ~SDLLightmap();
 
-  void start_draw(const Color &ambient_color) override;
+  void start_draw(const Color& ambient_color) override;
   void end_draw() override;
   void do_draw() override;
   void draw_surface(const DrawingRequest& request) override;
@@ -42,14 +40,14 @@ public:
   void draw_triangle(const DrawingRequest& request) override;
   void get_light(const DrawingRequest& request) const override;
 
-private:
+ private:
   SDL_Renderer* m_renderer;
   SDL_Texture* m_texture;
   int m_width;
   int m_height;
   int m_LIGHTMAP_DIV;
 
-private:
+ private:
   SDLLightmap(const SDLLightmap&);
   SDLLightmap& operator=(const SDLLightmap&);
 };

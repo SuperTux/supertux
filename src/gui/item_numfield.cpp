@@ -27,12 +27,12 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-ItemNumField::ItemNumField(const std::string& text_, float* input_, int id_) :
-  MenuItem(text_, id_),
-  number(input_),
-  input(std::to_string(*input_)),
-  flickw(Resources::normal_font->get_text_width("_")),
-  has_comma(true)
+ItemNumField::ItemNumField(const std::string& text_, float* input_, int id_)
+    : MenuItem(text_, id_),
+      number(input_),
+      input(std::to_string(*input_)),
+      flickw(Resources::normal_font->get_text_width("_")),
+      has_comma(true)
 {
   // removing all redundant zeros at the end
   for (auto i = input.end() - 1; i != input.begin(); --i) {
@@ -49,27 +49,36 @@ ItemNumField::ItemNumField(const std::string& text_, float* input_, int id_) :
 }
 
 void
-ItemNumField::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
+ItemNumField::draw(DrawingContext& context, const Vector& pos, int menu_width,
+                   bool active)
+{
   std::string r_input = input;
-  bool fl = active && (int(real_time*2)%2);
-  if ( fl ) {
+  bool fl             = active && (int(real_time * 2) % 2);
+  if (fl) {
     r_input += "_";
   }
-  context.draw_text(Resources::normal_font, r_input,
-                    Vector(pos.x + menu_width - 16 - (fl ? 0 : flickw), pos.y - int(Resources::normal_font->get_height()/2)),
-                    ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
-  context.draw_text(Resources::normal_font, text,
-                    Vector(pos.x + 16, pos.y - int(Resources::normal_font->get_height()/2)),
-                    ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+  context.draw_text(
+      Resources::normal_font, r_input,
+      Vector(pos.x + menu_width - 16 - (fl ? 0 : flickw),
+             pos.y - int(Resources::normal_font->get_height() / 2)),
+      ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
+  context.draw_text(
+      Resources::normal_font, text,
+      Vector(pos.x + 16, pos.y - int(Resources::normal_font->get_height() / 2)),
+      ALIGN_LEFT, LAYER_GUI,
+      active ? ColorScheme::Menu::active_color : get_color());
 }
 
 int
-ItemNumField::get_width() const {
-  return Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(input) + 16 + flickw;
+ItemNumField::get_width() const
+{
+  return Resources::normal_font->get_text_width(text) +
+         Resources::normal_font->get_text_width(input) + 16 + flickw;
 }
 
 void
-ItemNumField::event(const SDL_Event& ev) {
+ItemNumField::event(const SDL_Event& ev)
+{
   if (ev.type == SDL_TEXTINPUT) {
     std::string txt = ev.text.text;
     for (auto i = txt.begin(); i != txt.end(); ++i) {
@@ -79,22 +88,27 @@ ItemNumField::event(const SDL_Event& ev) {
 }
 
 void
-ItemNumField::add_char(char c) {
+ItemNumField::add_char(char c)
+{
   if (c == '-') {
     if (input.length() && input != "0") {
       *number *= -1;
       if (*input.begin() == '-') {
         input.erase(input.begin());
-      } else {
-        input.insert(input.begin(),'-');
       }
-    } else {
+      else {
+        input.insert(input.begin(), '-');
+      }
+    }
+    else {
       input = "-";
     }
-  } else if (!has_comma && (c == '.' || c == ',')) {
+  }
+  else if (!has_comma && (c == '.' || c == ',')) {
     if (!input.length()) {
       input = "0.";
-    } else {
+    }
+    else {
       input.push_back('.');
     }
     has_comma = true;
@@ -107,14 +121,16 @@ ItemNumField::add_char(char c) {
   input.push_back(c);
   try {
     float new_number = std::stof(input);
-    *number = new_number;
-  } catch (...) {
+    *number          = new_number;
+  }
+  catch (...) {
     input = std::to_string(*number);
   }
 }
 
 void
-ItemNumField::process_action(const MenuAction& action) {
+ItemNumField::process_action(const MenuAction& action)
+{
   if (action == MENU_ACTION_REMOVE && input.length()) {
     unsigned char last_char;
     do {
@@ -126,15 +142,16 @@ ItemNumField::process_action(const MenuAction& action) {
       if (last_char == '.') {
         has_comma = false;
       }
-    } while ( (last_char & 128) && !(last_char & 64) );
+    } while ((last_char & 128) && !(last_char & 64));
     if (input.length() && input != "-") {
       try {
         *number = std::stof(input);
       }
-      catch(...) {
+      catch (...) {
         input = std::to_string(*number);
       }
-    } else {
+    }
+    else {
       *number = 0;
     }
   }

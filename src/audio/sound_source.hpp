@@ -24,26 +24,25 @@ class Vector;
  * sources at certain points in your world or set their velocity to produce
  * doppler effects
  */
-class SoundSource
-{
-public:
+class SoundSource {
+ public:
   SoundSource() {}
   virtual ~SoundSource() {}
 
-  virtual void play() = 0;
-  virtual void stop() = 0;
+  virtual void play()          = 0;
+  virtual void stop()          = 0;
   virtual bool playing() const = 0;
 
-  virtual void set_looping(bool looping) = 0;
+  virtual void set_looping(bool looping)   = 0;
   virtual void set_relative(bool relative) = 0;
   /// Set volume (0.0 is silent, 1.0 is normal)
-  virtual void set_gain(float gain) = 0;
-  virtual void set_pitch(float pitch) = 0;
-  virtual void set_position(const Vector& position) = 0;
-  virtual void set_velocity(const Vector& velocity) = 0;
+  virtual void set_gain(float gain)                   = 0;
+  virtual void set_pitch(float pitch)                 = 0;
+  virtual void set_position(const Vector& position)   = 0;
+  virtual void set_velocity(const Vector& velocity)   = 0;
   virtual void set_reference_distance(float distance) = 0;
 
-private:
+ private:
   SoundSource(const SoundSource&) = delete;
   SoundSource& operator=(const SoundSource&) = delete;
 };

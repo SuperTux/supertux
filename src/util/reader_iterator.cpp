@@ -20,14 +20,12 @@
 #include <sexp/value.hpp>
 #include <sstream>
 
-#include "util/reader_error.hpp"
 #include "util/reader_document.hpp"
+#include "util/reader_error.hpp"
 #include "util/reader_mapping.hpp"
 
-ReaderIterator::ReaderIterator(const ReaderDocument* doc, const sexp::Value* sx) :
-  m_doc(doc),
-  m_arr(sx->as_array()),
-  m_idx(0)
+ReaderIterator::ReaderIterator(const ReaderDocument* doc, const sexp::Value* sx)
+    : m_doc(doc), m_arr(sx->as_array()), m_idx(0)
 {
 }
 

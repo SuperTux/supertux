@@ -23,9 +23,8 @@
  * An axis-aligned triangle (ie. a triangle where 2 sides are parallel to the x-
  * and y-axis.
  */
-class AATriangle
-{
-public:
+class AATriangle {
+ public:
   /** Directions:
    *
    *    SOUTHEWEST    NORTHEAST   SOUTHEAST    NORTHWEST
@@ -42,28 +41,20 @@ public:
     SOUTHEAST,
     NORTHWEST,
     DIRECTION_MASK = 0x0003,
-    DEFORM_BOTTOM = 0x0010,
-    DEFORM_TOP = 0x0020,
-    DEFORM_LEFT = 0x0030,
-    DEFORM_RIGHT = 0x0040,
-    DEFORM_MASK = 0x0070
+    DEFORM_BOTTOM  = 0x0010,
+    DEFORM_TOP     = 0x0020,
+    DEFORM_LEFT    = 0x0030,
+    DEFORM_RIGHT   = 0x0040,
+    DEFORM_MASK    = 0x0070
   };
 
   static int vertical_flip(int dir);
 
-public:
-  AATriangle() :
-    bbox(),
-    dir(SOUTHWEST)
-  {
-  }
-  AATriangle(const Rectf& newbbox, int newdir) :
-    bbox(newbbox),
-    dir(newdir)
-  {
-  }
+ public:
+  AATriangle() : bbox(), dir(SOUTHWEST) {}
+  AATriangle(const Rectf& newbbox, int newdir) : bbox(newbbox), dir(newdir) {}
 
-public:
+ public:
   Rectf bbox;
   int dir;
 };

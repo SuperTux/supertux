@@ -27,38 +27,37 @@ MouseCursor* MouseCursor::current_ = 0;
 
 MouseCursor::MouseCursor(const std::string& cursor_file,
                          const std::string& cursor_click_file,
-                         const std::string& cursor_link_file) :
-  m_mid_x(0),
-  m_mid_y(0),
-  m_state(MC_NORMAL),
-  m_cursor(),
-  m_icon()
+                         const std::string& cursor_link_file)
+    : m_mid_x(0), m_mid_y(0), m_state(MC_NORMAL), m_cursor(), m_icon()
 {
   m_cursor.push_back(Surface::create(cursor_file));
   m_cursor.push_back(Surface::create(cursor_click_file));
   m_cursor.push_back(Surface::create(cursor_link_file));
 }
 
-void MouseCursor::set_state(MouseCursorState nstate)
+void
+MouseCursor::set_state(MouseCursorState nstate)
 {
   m_state = nstate;
 }
 
-void MouseCursor::set_mid(int x, int y)
+void
+MouseCursor::set_mid(int x, int y)
 {
   m_mid_x = x;
   m_mid_y = y;
 }
 
-void MouseCursor::set_icon(SurfacePtr icon_)
+void
+MouseCursor::set_icon(SurfacePtr icon_)
 {
   m_icon = icon_;
 }
 
-void MouseCursor::draw(DrawingContext& context)
+void
+MouseCursor::draw(DrawingContext& context)
 {
-  if (m_state != MC_HIDE)
-  {
+  if (m_state != MC_HIDE) {
     int x;
     int y;
     Uint8 ispressed = SDL_GetMouseState(&x, &y);
@@ -69,19 +68,17 @@ void MouseCursor::draw(DrawingContext& context)
     y = int(mouse_pos.y);
 
     int tmp_state = m_state;
-    if (ispressed & SDL_BUTTON(1) || ispressed & SDL_BUTTON(2))
-    {
+    if (ispressed & SDL_BUTTON(1) || ispressed & SDL_BUTTON(2)) {
       tmp_state = MC_CLICK;
     }
 
     context.draw_surface(m_cursor[static_cast<int>(tmp_state)],
-                         Vector(x - m_mid_x, y - m_mid_y),
-                         LAYER_GUI + 100);
+                         Vector(x - m_mid_x, y - m_mid_y), LAYER_GUI + 100);
 
     if (m_icon) {
-      context.draw_surface(m_icon, Vector(x - m_mid_x,
-                                          y - m_mid_y - m_icon->get_height()),
-                           LAYER_GUI + 100);
+      context.draw_surface(
+          m_icon, Vector(x - m_mid_x, y - m_mid_y - m_icon->get_height()),
+          LAYER_GUI + 100);
     }
   }
 }

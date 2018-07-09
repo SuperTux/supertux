@@ -22,17 +22,14 @@
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 
-class CoinExplode : public GameObject
-{
-public:
+class CoinExplode : public GameObject {
+ public:
   CoinExplode(const Vector& pos);
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
-private:
+ private:
   Vector position;
 };
 

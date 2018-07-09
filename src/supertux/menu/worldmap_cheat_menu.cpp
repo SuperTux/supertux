@@ -50,16 +50,13 @@ void
 WorldmapCheatMenu::menu_action(MenuItem* item)
 {
   auto worldmap = worldmap::WorldMap::current();
-  if (!worldmap)
-  {
+  if (!worldmap) {
     log_warning << "couldn't access WorldMap::current()" << std::endl;
   }
-  else
-  {
+  else {
     auto status = worldmap->get_savegame().get_player_status();
 
-    switch(item->id)
-    {
+    switch (item->id) {
       case MNID_GROW:
         status->bonus = GROWUP_BONUS;
         break;
@@ -86,27 +83,21 @@ WorldmapCheatMenu::menu_action(MenuItem* item)
         status->bonus = NO_BONUS;
         break;
 
-      case MNID_FINISH_LEVEL:
-        {
-          auto level_tile = worldmap->at_level();
-          if (level_tile)
-          {
-            level_tile->set_solved(true);
-            level_tile->set_perfect(false);
-          }
+      case MNID_FINISH_LEVEL: {
+        auto level_tile = worldmap->at_level();
+        if (level_tile) {
+          level_tile->set_solved(true);
+          level_tile->set_perfect(false);
         }
-        break;
+      } break;
 
-      case MNID_RESET_LEVEL:
-        {
-          auto level_tile = worldmap->at_level();
-          if (level_tile)
-          {
-            level_tile->set_solved(false);
-            level_tile->set_perfect(false);
-          }
+      case MNID_RESET_LEVEL: {
+        auto level_tile = worldmap->at_level();
+        if (level_tile) {
+          level_tile->set_solved(false);
+          level_tile->set_perfect(false);
         }
-        break;
+      } break;
 
       case MNID_FINISH_WORLDMAP:
         worldmap->set_levels_solved(true, false);

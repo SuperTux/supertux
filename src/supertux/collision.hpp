@@ -17,9 +17,10 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_COLLISION_HPP
 #define HEADER_SUPERTUX_SUPERTUX_COLLISION_HPP
 
-#include "supertux/collision_hit.hpp"
-#include <limits>
 #include <algorithm> /* min/max */
+#include <limits>
+
+#include "supertux/collision_hit.hpp"
 
 class Vector;
 class Rectf;
@@ -27,87 +28,85 @@ class AATriangle;
 
 namespace collision {
 
-class Constraints
-{
-public:
-  Constraints() :
-    ground_movement(),
-    hit(),
-    position_left(),
-    position_right(),
-    position_top(),
-    position_bottom(),
-    speed_left(),
-    speed_right(),
-    speed_top(),
-    speed_bottom()
+class Constraints {
+ public:
+  Constraints()
+      : ground_movement(),
+        hit(),
+        position_left(),
+        position_right(),
+        position_top(),
+        position_bottom(),
+        speed_left(),
+        speed_right(),
+        speed_top(),
+        speed_bottom()
   {
-    float infinity = (std::numeric_limits<float>::has_infinity ?
-                      std::numeric_limits<float>::infinity() :
-                      std::numeric_limits<float>::max());
-    position_left = -infinity;
-    position_right = infinity;
-    position_top = -infinity;
+    float infinity  = (std::numeric_limits<float>::has_infinity
+                          ? std::numeric_limits<float>::infinity()
+                          : std::numeric_limits<float>::max());
+    position_left   = -infinity;
+    position_right  = infinity;
+    position_top    = -infinity;
     position_bottom = infinity;
 
-    speed_left = -infinity;
-    speed_right = infinity;
-    speed_top = -infinity;
+    speed_left   = -infinity;
+    speed_right  = infinity;
+    speed_top    = -infinity;
     speed_bottom = infinity;
   }
 
   bool has_constraints() const
   {
-    float infinity = (std::numeric_limits<float>::has_infinity ?
-                      std::numeric_limits<float>::infinity() :
-                      std::numeric_limits<float>::max());
-    return
-      position_left   > -infinity ||
-      position_right  <  infinity ||
-      position_top    > -infinity ||
-      position_bottom <  infinity;
+    float infinity = (std::numeric_limits<float>::has_infinity
+                          ? std::numeric_limits<float>::infinity()
+                          : std::numeric_limits<float>::max());
+    return position_left > -infinity || position_right < infinity ||
+           position_top > -infinity || position_bottom < infinity;
   }
 
-public:
-
-  void constrain_left (float position, float velocity)
+ public:
+  void constrain_left(float position, float velocity)
   {
-    position_left = std::max (position_left, position);
-    speed_left = std::max (speed_left, velocity);
+    position_left = std::max(position_left, position);
+    speed_left    = std::max(speed_left, velocity);
   }
 
-  void constrain_right (float position, float velocity)
+  void constrain_right(float position, float velocity)
   {
-    position_right = std::min (position_right, position);
-    speed_right = std::min (speed_right, velocity);
+    position_right = std::min(position_right, position);
+    speed_right    = std::min(speed_right, velocity);
   }
 
-  void constrain_top (float position, float velocity)
+  void constrain_top(float position, float velocity)
   {
-    position_top = std::max (position_top, position);
-    speed_top = std::max (speed_top, velocity);
+    position_top = std::max(position_top, position);
+    speed_top    = std::max(speed_top, velocity);
   }
 
-  void constrain_bottom (float position, float velocity)
+  void constrain_bottom(float position, float velocity)
   {
-    position_bottom = std::min (position_bottom, position);
-    speed_bottom = std::min (speed_bottom, velocity);
+    position_bottom = std::min(position_bottom, position);
+    speed_bottom    = std::min(speed_bottom, velocity);
   }
 
-  float get_position_left   () const { return position_left;   }
-  float get_position_right  () const { return position_right;  }
-  float get_position_top    () const { return position_top;    }
-  float get_position_bottom () const { return position_bottom; }
+  float get_position_left() const { return position_left; }
+  float get_position_right() const { return position_right; }
+  float get_position_top() const { return position_top; }
+  float get_position_bottom() const { return position_bottom; }
 
-  float get_height () const { return (position_bottom - position_top); }
-  float get_width  () const { return (position_right - position_left); }
+  float get_height() const { return (position_bottom - position_top); }
+  float get_width() const { return (position_right - position_left); }
 
-  float get_x_midpoint () const { return (.5f * (position_left + position_right)); }
+  float get_x_midpoint() const
+  {
+    return (.5f * (position_left + position_right));
+  }
 
   Vector ground_movement;
   CollisionHit hit;
 
-private:
+ private:
   float position_left;
   float position_right;
   float position_top;
@@ -126,15 +125,19 @@ bool intersects(const Rectf& r1, const Rectf& r2);
  * Returns true in case of a collision and fills in the hit structure then.
  */
 bool rectangle_aatriangle(Constraints* constraints, const Rectf& rect,
-                          const AATriangle& triangle, const Vector& addl_ground_movement = Vector(0,0));
+                          const AATriangle& triangle,
+                          const Vector& addl_ground_movement = Vector(0, 0));
 
-void set_rectangle_rectangle_constraints(Constraints* constraints,
-                                         const Rectf& r1, const Rectf& r2, const Vector& addl_ground_movement = Vector(0,0));
+void set_rectangle_rectangle_constraints(
+    Constraints* constraints, const Rectf& r1, const Rectf& r2,
+    const Vector& addl_ground_movement = Vector(0, 0));
 
-bool line_intersects_line(const Vector& line1_start, const Vector& line1_end, const Vector& line2_start, const Vector& line2_end);
-bool intersects_line(const Rectf& r, const Vector& line_start, const Vector& line_end);
+bool line_intersects_line(const Vector& line1_start, const Vector& line1_end,
+                          const Vector& line2_start, const Vector& line2_end);
+bool intersects_line(const Rectf& r, const Vector& line_start,
+                     const Vector& line_end);
 
-} // namespace collision
+}  // namespace collision
 
 #endif
 

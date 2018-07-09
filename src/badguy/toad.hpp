@@ -1,5 +1,6 @@
 //  Toad - A jumping toad
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,9 +23,8 @@
 /**
  * Badguy "Toad" - A jumping toad
  */
-class Toad : public BadGuy
-{
-public:
+class Toad : public BadGuy {
+ public:
   Toad(const ReaderMapping& reader);
 
   void initialize();
@@ -35,26 +35,18 @@ public:
 
   void unfreeze();
   bool is_freezable() const;
-  std::string get_class() const {
-    return "toad";
-  }
-  std::string get_display_name() const {
-    return _("Toad");
-  }
+  std::string get_class() const { return "toad"; }
+  std::string get_display_name() const { return _("Toad"); }
 
   void after_editor_set();
 
-protected:
-  enum ToadState {
-    IDLE,
-    JUMPING,
-    FALLING
-  };
+ protected:
+  enum ToadState { IDLE, JUMPING, FALLING };
 
-private:
+ private:
   void set_state(ToadState newState);
 
-private:
+ private:
   Timer recover_timer;
   ToadState state;
 };

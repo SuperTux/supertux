@@ -19,12 +19,10 @@
 
 #include "video/color.hpp"
 
-class ColorScheme
-{
-public:
-  class Menu
-  {
-  public:
+class ColorScheme {
+ public:
+  class Menu {
+   public:
     static Color default_color;
     static Color active_color;
     static Color inactive_color;

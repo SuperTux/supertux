@@ -20,22 +20,21 @@
 
 #include "gui/menu.hpp"
 
-class OptionsMenu : public Menu
-{
-  public:
-    OptionsMenu(bool complete);
-    virtual ~OptionsMenu();
+class OptionsMenu : public Menu {
+ public:
+  OptionsMenu(bool complete);
+  virtual ~OptionsMenu();
 
-    void menu_action(MenuItem* item) override;
+  void menu_action(MenuItem* item) override;
 
-  private:
-    int next_magnification;
-    int next_aspect_ratio;
-    int next_resolution;
+ private:
+  int next_magnification;
+  int next_aspect_ratio;
+  int next_resolution;
 
-    std::vector<std::string> magnifications;
-    std::vector<std::string> aspect_ratios;
-    std::vector<std::string> resolutions;
+  std::vector<std::string> magnifications;
+  std::vector<std::string> aspect_ratios;
+  std::vector<std::string> resolutions;
 };
 
 #endif

@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_CONSTANTS_HPP
 #define HEADER_SUPERTUX_SUPERTUX_CONSTANTS_HPP
 
-//Useful constants
+// Useful constants
 
 // a small value... be careful as CD is very sensitive to it
 static const float DELTA = .002f;

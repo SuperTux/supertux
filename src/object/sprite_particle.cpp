@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -15,49 +16,53 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "object/camera.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "object/sprite_particle.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/sector.hpp"
 
 #include <stdexcept>
 
-SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
-                               const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,
-                               int drawing_layer_) :
-  sprite(SpriteManager::current()->create(sprite_name)),
-  position(position_),
-  velocity(velocity_),
-  acceleration(acceleration_),
-  drawing_layer(drawing_layer_),
-  light(0.0f,0.0f,0.0f),
-  lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light-tiny.sprite")),
-  glow(false)
+#include "object/camera.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/sector.hpp"
+
+SpriteParticle::SpriteParticle(const std::string& sprite_name,
+                               const std::string& action,
+                               const Vector& position_, AnchorPoint anchor,
+                               const Vector& velocity_,
+                               const Vector& acceleration_, int drawing_layer_)
+    : sprite(SpriteManager::current()->create(sprite_name)),
+      position(position_),
+      velocity(velocity_),
+      acceleration(acceleration_),
+      drawing_layer(drawing_layer_),
+      light(0.0f, 0.0f, 0.0f),
+      lightsprite(SpriteManager::current()->create(
+          "images/objects/lightmap_light/lightmap_light-tiny.sprite")),
+      glow(false)
 {
-  if (!sprite.get()) throw std::runtime_error("Could not load sprite "+sprite_name);
+  if (!sprite.get())
+    throw std::runtime_error("Could not load sprite " + sprite_name);
   sprite->set_action(action, 1);
-  sprite->set_animation_loops(1); //TODO: this is necessary because set_action will not set "loops" when "action" is the default action
+  sprite->set_animation_loops(
+      1);  // TODO: this is necessary because set_action will not set "loops"
+           // when "action" is the default action
 
   this->position -= get_anchor_pos(sprite->get_current_hitbox(), anchor);
 
-  if(sprite_name=="images/objects/particles/sparkle.sprite") {
+  if (sprite_name == "images/objects/particles/sparkle.sprite") {
     glow = true;
-    if(action=="dark") {
+    if (action == "dark") {
       lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
       lightsprite->set_color(Color(0.1f, 0.1f, 0.1f));
     }
   }
 }
 
-SpriteParticle::~SpriteParticle()
-{
-  remove_me();
-}
+SpriteParticle::~SpriteParticle() { remove_me(); }
 
 void
-SpriteParticle::hit(Player& )
+SpriteParticle::hit(Player&)
 {
 }
 
@@ -78,8 +83,10 @@ SpriteParticle::update(float elapsed_time)
 
   // die when too far offscreen
   Vector camera = Sector::current()->camera->get_translation();
-  if ((position.x < camera.x - 128) || (position.x > SCREEN_WIDTH + camera.x + 128) ||
-      (position.y < camera.y - 128) || (position.y > SCREEN_HEIGHT + camera.y + 128)) {
+  if ((position.x < camera.x - 128) ||
+      (position.x > SCREEN_WIDTH + camera.x + 128) ||
+      (position.y < camera.y - 128) ||
+      (position.y > SCREEN_HEIGHT + camera.y + 128)) {
     remove_me();
     return;
   }
@@ -90,18 +97,17 @@ SpriteParticle::draw(DrawingContext& context)
 {
   sprite->draw(context, position, drawing_layer);
 
-  //Sparkles glow in the dark
-  if(glow){
-    context.get_light(position, &light );
-    if (light.red + light.green + light.blue < 3.0){
+  // Sparkles glow in the dark
+  if (glow) {
+    context.get_light(position, &light);
+    if (light.red + light.green + light.blue < 3.0) {
       context.push_target();
       context.set_target(DrawingContext::LIGHTMAP);
       sprite->draw(context, position, drawing_layer);
-      lightsprite->draw(context, position + Vector(12,12), 0);
+      lightsprite->draw(context, position + Vector(12, 12), 0);
       context.pop_target();
     }
   }
-
 }
 
 /* EOF */

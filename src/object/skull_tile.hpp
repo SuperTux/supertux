@@ -20,19 +20,16 @@
 #include "object/moving_sprite.hpp"
 
 /** A tile that starts falling down if tux stands to long on it */
-class SkullTile : public MovingSprite
-{
-public:
+class SkullTile : public MovingSprite {
+ public:
   SkullTile(const ReaderMapping& lisp);
-  std::string get_class() const {
-    return "skulltile";
-  }
+  std::string get_class() const { return "skulltile"; }
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   void update(float elapsed_time);
   void draw(DrawingContext& context);
 
-private:
+ private:
   Physic physic;
   Timer timer;
   bool hit;

@@ -15,21 +15,24 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "badguy/poisonivy.hpp"
+
+#include <math.h>
+
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-#include <math.h>
-
 PoisonIvy::PoisonIvy(const ReaderMapping& reader)
-  : WalkingBadguy(reader, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
+    : WalkingBadguy(reader, "images/creatures/poison_ivy/poison_ivy.sprite",
+                    "left", "right")
 {
   walk_speed = 80;
 }
 
 PoisonIvy::PoisonIvy(const Vector& pos, Direction d)
-  : WalkingBadguy(pos, d, "images/creatures/poison_ivy/poison_ivy.sprite", "left", "right")
+    : WalkingBadguy(pos, d, "images/creatures/poison_ivy/poison_ivy.sprite",
+                    "left", "right")
 {
   walk_speed = 80;
 }

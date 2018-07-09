@@ -1,5 +1,6 @@
 //  DartTrap - Shoots a Dart at regular intervals
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,11 +15,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "badguy/dart.hpp"
 #include "badguy/darttrap.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "badguy/dart.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
@@ -28,14 +29,15 @@ namespace {
 const float MUZZLE_Y = 25; /**< [px] muzzle y-offset from top */
 }
 
-DartTrap::DartTrap(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/darttrap/darttrap.sprite", LAYER_TILES-1),
-  enabled(true),
-  initial_delay(),
-  fire_delay(),
-  ammo(),
-  state(IDLE),
-  fire_timer()
+DartTrap::DartTrap(const ReaderMapping& reader)
+    : BadGuy(reader, "images/creatures/darttrap/darttrap.sprite",
+             LAYER_TILES - 1),
+      enabled(true),
+      initial_delay(),
+      fire_delay(),
+      ammo(),
+      state(IDLE),
+      fire_timer()
 {
   reader.get("enabled", enabled, true);
   reader.get("initial-delay", initial_delay, 0);
@@ -43,7 +45,10 @@ DartTrap::DartTrap(const ReaderMapping& reader) :
   reader.get("ammo", ammo, -1);
   countMe = false;
   SoundManager::current()->preload("sounds/dartfire.wav");
-  if (start_dir == AUTO) { log_warning << "Setting a DartTrap's direction to AUTO is no good idea" << std::endl; }
+  if (start_dir == AUTO) {
+    log_warning << "Setting a DartTrap's direction to AUTO is no good idea"
+                << std::endl;
+  }
   state = IDLE;
   set_colgroup_active(COLGROUP_DISABLED);
   if (initial_delay == 0) initial_delay = 0.1f;
@@ -62,15 +67,15 @@ DartTrap::activate()
 }
 
 HitResponse
-DartTrap::collision_player(Player& , const CollisionHit& )
+DartTrap::collision_player(Player&, const CollisionHit&)
 {
   return ABORT_MOVE;
 }
 
 void
-DartTrap::active_update(float )
+DartTrap::active_update(float)
 {
-  if(!enabled) {
+  if (!enabled) {
     return;
   }
   switch (state) {
@@ -109,23 +114,23 @@ DartTrap::fire()
   py += MUZZLE_Y;
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
-  Sector::current()->add_object(std::make_shared<Dart>(Vector(px, py), dir, this));
+  Sector::current()->add_object(
+      std::make_shared<Dart>(Vector(px, py), dir, this));
   state = IDLE;
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
 }
 
-
 ObjectSettings
-DartTrap::get_settings() {
+DartTrap::get_settings()
+{
   ObjectSettings result = BadGuy::get_settings();
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Enabled"), &enabled,
-                                         "enabled"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Initial delay"), &initial_delay,
-                                         "initial-delay"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Fire delay"), &fire_delay,
-                                         "fire-delay"));
-  result.options.push_back( ObjectOption(MN_INTFIELD, _("Ammo"), &ammo,
-                                         "ammo"));
+  result.options.push_back(
+      ObjectOption(MN_TOGGLE, _("Enabled"), &enabled, "enabled"));
+  result.options.push_back(ObjectOption(MN_NUMFIELD, _("Initial delay"),
+                                        &initial_delay, "initial-delay"));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, _("Fire delay"), &fire_delay, "fire-delay"));
+  result.options.push_back(ObjectOption(MN_INTFIELD, _("Ammo"), &ammo, "ammo"));
 
   return result;
 }

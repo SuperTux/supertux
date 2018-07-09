@@ -27,24 +27,25 @@
 
 namespace worldmap_editor {
 
-WorldmapObject::WorldmapObject (const ReaderMapping& lisp, const std::string& default_sprite) :
-  MovingSprite(lisp, default_sprite)
+WorldmapObject::WorldmapObject(const ReaderMapping& lisp,
+                               const std::string& default_sprite)
+    : MovingSprite(lisp, default_sprite)
 {
   bbox.p1.x = 32 * bbox.p1.x;
   bbox.p1.y = 32 * bbox.p1.y;
   bbox.set_size(32, 32);
 }
 
-WorldmapObject::WorldmapObject (const ReaderMapping& lisp) :
-  MovingSprite(lisp)
+WorldmapObject::WorldmapObject(const ReaderMapping& lisp) : MovingSprite(lisp)
 {
   bbox.p1.x = 32 * bbox.p1.x;
   bbox.p1.y = 32 * bbox.p1.y;
   bbox.set_size(32, 32);
 }
 
-WorldmapObject::WorldmapObject (const Vector& pos, const std::string& default_sprite) :
-  MovingSprite(pos, default_sprite)
+WorldmapObject::WorldmapObject(const Vector& pos,
+                               const std::string& default_sprite)
+    : MovingSprite(pos, default_sprite)
 {
   bbox.p1.x = 32 * bbox.p1.x;
   bbox.p1.y = 32 * bbox.p1.y;
@@ -52,7 +53,8 @@ WorldmapObject::WorldmapObject (const Vector& pos, const std::string& default_sp
 }
 
 void
-WorldmapObject::move_to(const Vector& pos) {
+WorldmapObject::move_to(const Vector& pos)
+{
   Vector new_pos;
   new_pos.x = 32 * int(pos.x / 32);
   new_pos.y = 32 * int(pos.y / 32);
@@ -60,17 +62,18 @@ WorldmapObject::move_to(const Vector& pos) {
 }
 
 void
-WorldmapObject::save(Writer& writer) {
+WorldmapObject::save(Writer& writer)
+{
   writer.write("x", int(bbox.p1.x / 32));
   writer.write("y", int(bbox.p1.y / 32));
 }
 
-LevelDot::LevelDot (const ReaderMapping& lisp) :
-  WorldmapObject(lisp, "images/worldmap/common/leveldot.sprite"),
-  level(),
-  extro_script(),
-  auto_play(false),
-  title_color(1, 1, 1)
+LevelDot::LevelDot(const ReaderMapping& lisp)
+    : WorldmapObject(lisp, "images/worldmap/common/leveldot.sprite"),
+      level(),
+      extro_script(),
+      auto_play(false),
+      title_color(1, 1, 1)
 {
   lisp.get("name", name);
   lisp.get("extro-script", extro_script);
@@ -81,8 +84,10 @@ LevelDot::LevelDot (const ReaderMapping& lisp) :
     title_color = Color(vColor);
   }
 
-  level = Editor::current()->get_world() ?
-    FileSystem::join(Editor::current()->get_world()->get_basedir(), name) : name;
+  level = Editor::current()->get_world()
+              ? FileSystem::join(Editor::current()->get_world()->get_basedir(),
+                                 name)
+              : name;
 }
 
 void
@@ -92,27 +97,31 @@ LevelDot::draw(DrawingContext& context)
 }
 
 ObjectSettings
-LevelDot::get_settings() {
+LevelDot::get_settings()
+{
   ObjectSettings result(_("Level"));
 
   ObjectOption lvl(MN_FILE, _("Level"), &level);
   lvl.select.push_back(".stl");
   result.options.push_back(lvl);
 
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Outro script"), &extro_script));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Auto play"), &auto_play));
+  result.options.push_back(
+      ObjectOption(MN_SCRIPT, _("Outro script"), &extro_script));
+  result.options.push_back(ObjectOption(MN_TOGGLE, _("Auto play"), &auto_play));
 
   ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
   spr.select.push_back(".sprite");
   result.options.push_back(spr);
 
-  result.options.push_back( ObjectOption(MN_COLOR, _("Title colour"), &title_color));
+  result.options.push_back(
+      ObjectOption(MN_COLOR, _("Title colour"), &title_color));
 
   return result;
 }
 
 void
-LevelDot::save(Writer& writer) {
+LevelDot::save(Writer& writer)
+{
   WorldmapObject::save(writer);
   writer.write("name", name, false);
   writer.write("sprite", sprite_name, false);
@@ -122,39 +131,41 @@ LevelDot::save(Writer& writer) {
 }
 
 void
-LevelDot::after_editor_set() {
+LevelDot::after_editor_set()
+{
   // Extract the level file to be relative to world directory
-  name = FileSystem::basename(level);
+  name  = FileSystem::basename(level);
   level = FileSystem::dirname(level);
-  level.erase(level.end()-1); // Erase the slash at the end
+  level.erase(level.end() - 1);  // Erase the slash at the end
   if (level[0] == '/' || level[0] == '\\') {
-    level.erase(level.begin()); // Erase the slash at the begin
+    level.erase(level.begin());  // Erase the slash at the begin
   }
   std::string basedir = Editor::current()->get_world()->get_basedir();
-  int c = 100;
+  int c               = 100;
   while (level.size() && level != basedir && c > 0) {
-    name = FileSystem::join(FileSystem::basename(level), name);
+    name  = FileSystem::join(FileSystem::basename(level), name);
     level = FileSystem::dirname(level);
-    level.erase(level.end()-1); // Erase the slash at the end
-    c--; //Do not cycle forever if something has failed.
+    level.erase(level.end() - 1);  // Erase the slash at the end
+    c--;  // Do not cycle forever if something has failed.
   }
 
   // Forbid the players to use levels of other levelsets
   level = FileSystem::join(Editor::current()->get_world()->get_basedir(), name);
   if (!PHYSFS_exists(level.c_str())) {
-    log_warning << "Using levels of other level subsets is not allowed!" << std::endl;
+    log_warning << "Using levels of other level subsets is not allowed!"
+                << std::endl;
     level = basedir + "/";
-    name = "";
+    name  = "";
   }
 }
 
-Teleporter::Teleporter (const ReaderMapping& lisp) :
-  WorldmapObject(lisp, "images/worldmap/common/teleporterdot.sprite"),
-  worldmap(),
-  spawnpoint(),
-  message(),
-  automatic(),
-  change_worldmap()
+Teleporter::Teleporter(const ReaderMapping& lisp)
+    : WorldmapObject(lisp, "images/worldmap/common/teleporterdot.sprite"),
+      worldmap(),
+      spawnpoint(),
+      message(),
+      automatic(),
+      change_worldmap()
 {
   lisp.get("worldmap", worldmap);
   lisp.get("spawnpoint", spawnpoint);
@@ -172,7 +183,8 @@ Teleporter::draw(DrawingContext& context)
 }
 
 void
-Teleporter::save(Writer& writer) {
+Teleporter::save(Writer& writer)
+{
   WorldmapObject::save(writer);
   writer.write("spawnpoint", spawnpoint, false);
   writer.write("message", message, true);
@@ -185,13 +197,16 @@ Teleporter::save(Writer& writer) {
 }
 
 ObjectSettings
-Teleporter::get_settings() {
+Teleporter::get_settings()
+{
   ObjectSettings result(_("Teleporter"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawnpoint"), &spawnpoint));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Message"), &message));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Automatic"), &automatic));
+  result.options.push_back(
+      ObjectOption(MN_TEXTFIELD, _("Spawnpoint"), &spawnpoint));
+  result.options.push_back(ObjectOption(MN_TEXTFIELD, _("Message"), &message));
+  result.options.push_back(ObjectOption(MN_TOGGLE, _("Automatic"), &automatic));
 
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Change worldmap"), &change_worldmap));
+  result.options.push_back(
+      ObjectOption(MN_TOGGLE, _("Change worldmap"), &change_worldmap));
   ObjectOption wm(MN_FILE, _("Target worldmap"), &worldmap);
   wm.select.push_back(".stwm");
   result.options.push_back(wm);
@@ -203,9 +218,9 @@ Teleporter::get_settings() {
   return result;
 }
 
-WorldmapSpawnPoint::WorldmapSpawnPoint (const ReaderMapping& lisp) :
-  WorldmapObject(lisp, "images/worldmap/common/tux.png"),
-  dir(worldmap::D_NONE)
+WorldmapSpawnPoint::WorldmapSpawnPoint(const ReaderMapping& lisp)
+    : WorldmapObject(lisp, "images/worldmap/common/tux.png"),
+      dir(worldmap::D_NONE)
 {
   lisp.get("name", name);
 
@@ -215,38 +230,43 @@ WorldmapSpawnPoint::WorldmapSpawnPoint (const ReaderMapping& lisp) :
   }
 }
 
-WorldmapSpawnPoint::WorldmapSpawnPoint (const std::string& name_, const Vector& pos) :
-  WorldmapObject(pos, "images/worldmap/common/tux.png"),
-  dir(worldmap::D_NONE)
+WorldmapSpawnPoint::WorldmapSpawnPoint(const std::string& name_,
+                                       const Vector& pos)
+    : WorldmapObject(pos, "images/worldmap/common/tux.png"),
+      dir(worldmap::D_NONE)
 {
   name = name_;
 }
 
 void
-WorldmapSpawnPoint::save(Writer& writer) {
+WorldmapSpawnPoint::save(Writer& writer)
+{
   WorldmapObject::save(writer);
   writer.write("name", name, false);
   writer.write("auto-dir", worldmap::direction_to_string(dir), false);
 }
 
 ObjectSettings
-WorldmapSpawnPoint::get_settings() {
+WorldmapSpawnPoint::get_settings()
+{
   ObjectSettings result(_("Spawn point"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( worldmap::dir_option(&dir));
+  result.options.push_back(ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back(worldmap::dir_option(&dir));
   return result;
 }
 
-SpriteChange::SpriteChange (const ReaderMapping& lisp) :
-  WorldmapObject(lisp, "images/engine/editor/spritechange.png"),
-  target_sprite(sprite_name),
-  stay_action(),
-  initial_stay_action(false),
-  stay_group(),
-  change_on_touch(true)
+SpriteChange::SpriteChange(const ReaderMapping& lisp)
+    : WorldmapObject(lisp, "images/engine/editor/spritechange.png"),
+      target_sprite(sprite_name),
+      stay_action(),
+      initial_stay_action(false),
+      stay_group(),
+      change_on_touch(true)
 {
-  // To make obvious where the sprite change is, let's use an universal 32×32 sprite
-  sprite = SpriteManager::current()->create("images/engine/editor/spritechange.png");
+  // To make obvious where the sprite change is, let's use an universal 32×32
+  // sprite
+  sprite =
+      SpriteManager::current()->create("images/engine/editor/spritechange.png");
 
   lisp.get("stay-action", stay_action);
   lisp.get("initial-stay-action", initial_stay_action);
@@ -256,7 +276,8 @@ SpriteChange::SpriteChange (const ReaderMapping& lisp) :
 }
 
 void
-SpriteChange::save(Writer& writer) {
+SpriteChange::save(Writer& writer)
+{
   WorldmapObject::save(writer);
   writer.write("stay-action", stay_action, false);
   writer.write("initial-stay-action", initial_stay_action);
@@ -266,28 +287,33 @@ SpriteChange::save(Writer& writer) {
 }
 
 ObjectSettings
-SpriteChange::get_settings() {
+SpriteChange::get_settings()
+{
   ObjectSettings result(_("Sprite change"));
 
   ObjectOption spr(MN_FILE, _("Sprite"), &target_sprite);
   spr.select.push_back(".sprite");
   result.options.push_back(spr);
 
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Stay action"), &stay_action));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Initial stay action"), &initial_stay_action));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Stay group"), &stay_group));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Change on touch"), &change_on_touch));
+  result.options.push_back(
+      ObjectOption(MN_TEXTFIELD, _("Stay action"), &stay_action));
+  result.options.push_back(
+      ObjectOption(MN_TOGGLE, _("Initial stay action"), &initial_stay_action));
+  result.options.push_back(
+      ObjectOption(MN_TEXTFIELD, _("Stay group"), &stay_group));
+  result.options.push_back(
+      ObjectOption(MN_TOGGLE, _("Change on touch"), &change_on_touch));
 
   return result;
 }
 
-SpecialTile::SpecialTile (const ReaderMapping& lisp) :
-  WorldmapObject(lisp, "images/worldmap/common/messagedot.png"),
-  map_message(),
-  script(),
-  passive_message(false),
-  invisible_tile(true),
-  apply_to_direction(worldmap::D_NONE)
+SpecialTile::SpecialTile(const ReaderMapping& lisp)
+    : WorldmapObject(lisp, "images/worldmap/common/messagedot.png"),
+      map_message(),
+      script(),
+      passive_message(false),
+      invisible_tile(true),
+      apply_to_direction(worldmap::D_NONE)
 {
   lisp.get("map-message", map_message);
   lisp.get("script", script);
@@ -302,7 +328,8 @@ SpecialTile::SpecialTile (const ReaderMapping& lisp) :
 }
 
 void
-SpecialTile::save(Writer& writer) {
+SpecialTile::save(Writer& writer)
+{
   WorldmapObject::save(writer);
   writer.write("map-message", map_message, true);
   writer.write("script", script, false);
@@ -314,17 +341,22 @@ SpecialTile::save(Writer& writer) {
   writer.write("passive-message", passive_message);
   writer.write("invisible-tile", invisible_tile);
 
-  writer.write("apply-to-direction", worldmap::direction_to_string(apply_to_direction), false);
+  writer.write("apply-to-direction",
+               worldmap::direction_to_string(apply_to_direction), false);
 }
 
 ObjectSettings
-SpecialTile::get_settings() {
+SpecialTile::get_settings()
+{
   ObjectSettings result(_("Special tile"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Message"), &map_message));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Show message"), &passive_message));
-  result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script));
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Invisible"), &invisible_tile));
-  result.options.push_back( worldmap::dir_option(&apply_to_direction));
+  result.options.push_back(
+      ObjectOption(MN_TEXTFIELD, _("Message"), &map_message));
+  result.options.push_back(
+      ObjectOption(MN_TOGGLE, _("Show message"), &passive_message));
+  result.options.push_back(ObjectOption(MN_SCRIPT, _("Script"), &script));
+  result.options.push_back(
+      ObjectOption(MN_TOGGLE, _("Invisible"), &invisible_tile));
+  result.options.push_back(worldmap::dir_option(&apply_to_direction));
 
   ObjectOption spr(MN_FILE, _("Sprite"), &sprite_name);
   spr.select.push_back(".sprite");
@@ -333,6 +365,6 @@ SpecialTile::get_settings() {
   return result;
 }
 
-} // namespace worldmap_editor
+}  // namespace worldmap_editor
 
 /* EOF */

@@ -24,24 +24,21 @@
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 
-class BrokenBrick : public GameObject
-{
-public:
+class BrokenBrick : public GameObject {
+ public:
   BrokenBrick(SpritePtr sprite, const Vector& pos, const Vector& movement);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
-private:
+ private:
   Timer timer;
   SpritePtr sprite;
   Vector position;
   Vector movement;
 
-private:
+ private:
   BrokenBrick(const BrokenBrick&);
   BrokenBrick& operator=(const BrokenBrick&);
 };

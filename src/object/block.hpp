@@ -25,17 +25,18 @@
 class Player;
 class ReaderMapping;
 
-class Block : public MovingObject
-{
-public:
+class Block : public MovingObject {
+ public:
   Block(SpritePtr sprite);
   Block(const ReaderMapping& lisp, const std::string& sprite_file);
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
+  virtual HitResponse collision(GameObject& other,
+                                const CollisionHit& hit) override;
   virtual void update(float elapsed_time) override;
   virtual void draw(DrawingContext& context) override;
 
-  virtual std::string get_default_sprite_name() const {
+  virtual std::string get_default_sprite_name() const
+  {
     return default_sprite_name;
   }
 
@@ -43,7 +44,7 @@ public:
   virtual void save(Writer& writer) override;
   virtual void after_editor_set() override;
 
-protected:
+ protected:
   friend class FlipLevelTransformer;
 
   virtual void hit(Player& player) = 0;
@@ -60,7 +61,7 @@ protected:
   float bounce_offset;
   float original_y;
 
-private:
+ private:
   Block(const Block&);
   Block& operator=(const Block&);
 };

@@ -19,13 +19,13 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class LiveFire : public WalkingBadguy
-{
-public:
+class LiveFire : public WalkingBadguy {
+ public:
   LiveFire(const ReaderMapping& reader);
 
   void collision_solid(const CollisionHit& hit) override;
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit) override;
+  HitResponse collision_badguy(BadGuy& badguy,
+                               const CollisionHit& hit) override;
   void active_update(float elapsed_time) override;
 
   void freeze() override;
@@ -33,52 +33,36 @@ public:
   bool is_flammable() const override;
 
   virtual void kill_fall() override;
-  virtual std::string get_class() const override {
-    return "livefire";
-  }
-  virtual std::string get_display_name() const override {
+  virtual std::string get_class() const override { return "livefire"; }
+  virtual std::string get_display_name() const override
+  {
     return _("Live fire");
   }
 
-private:
+ private:
   std::string death_sound;
 
-protected:
-  enum SState {
-    STATE_SLEEPING,
-    STATE_WAKING,
-    STATE_WALKING,
-    STATE_DORMANT
-  };
+ protected:
+  enum SState { STATE_SLEEPING, STATE_WAKING, STATE_WALKING, STATE_DORMANT };
   SState state;
 };
 
-class LiveFireAsleep : public LiveFire
-{
-public:
+class LiveFireAsleep : public LiveFire {
+ public:
   LiveFireAsleep(const ReaderMapping& reader);
 
   void initialize();
-  std::string get_class() const {
-    return "livefire_asleep";
-  }
-  std::string get_display_name() const {
-    return _("Sleeping live fire");
-  }
+  std::string get_class() const { return "livefire_asleep"; }
+  std::string get_display_name() const { return _("Sleeping live fire"); }
 };
 
-class LiveFireDormant : public LiveFire
-{
-public:
+class LiveFireDormant : public LiveFire {
+ public:
   LiveFireDormant(const ReaderMapping& reader);
 
   void initialize();
-  std::string get_class() const {
-    return "livefire_dormant";
-  }
-  std::string get_display_name() const {
-    return _("Dormant live fire");
-  }
+  std::string get_class() const { return "livefire_dormant"; }
+  std::string get_display_name() const { return _("Dormant live fire"); }
 };
 
 #endif

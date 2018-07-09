@@ -21,18 +21,15 @@
 #include "supertux/game_object.hpp"
 #include "supertux/physic.hpp"
 
-class FallingCoin : public GameObject
-{
-public:
+class FallingCoin : public GameObject {
+ public:
   FallingCoin(const Vector& start_position, const int x_vel);
 
   void draw(DrawingContext& context);
   void update(float elapsed_time);
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
-private:
+ private:
   Physic physic;
   Vector pos;
   SpritePtr sprite;

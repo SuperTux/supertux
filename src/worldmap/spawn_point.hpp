@@ -19,16 +19,15 @@
 
 #include <string>
 
-#include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
+#include "util/reader_fwd.hpp"
 #include "worldmap/direction.hpp"
 
 namespace worldmap {
 
-class SpawnPoint
-{
-public:
+class SpawnPoint {
+ public:
   SpawnPoint(const ReaderMapping& lisp);
 
   std::string name;
@@ -36,7 +35,7 @@ public:
   Direction auto_dir; /**< automatically start walking in this direction */
 };
 
-}
+}  // namespace worldmap
 
 #endif
 

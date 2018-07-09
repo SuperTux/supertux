@@ -1,5 +1,6 @@
 //  AngryStone - A spiked block that charges towards the player
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,9 +20,8 @@
 
 #include "badguy/badguy.hpp"
 
-class AngryStone : public BadGuy
-{
-public:
+class AngryStone : public BadGuy {
+ public:
   AngryStone(const ReaderMapping& reader);
 
   void collision_solid(const CollisionHit& hit);
@@ -30,24 +30,18 @@ public:
   void kill_fall();
   bool is_freezable() const;
   bool is_flammable() const;
-  std::string get_class() const {
-    return "angrystone";
-  }
-  std::string get_display_name() const {
-    return _("Angry stone");
-  }
+  std::string get_class() const { return "angrystone"; }
+  std::string get_display_name() const { return _("Angry stone"); }
 
-protected:
-  enum AngryStoneState {
-    IDLE,
-    CHARGING,
-    ATTACKING,
-    RECOVERING
-  };
+ protected:
+  enum AngryStoneState { IDLE, CHARGING, ATTACKING, RECOVERING };
 
-private:
-  Vector attackDirection;  /**< 1-normalized vector of current attack direction */
-  Vector oldWallDirection; /**< if wall was hit during last attack: 1-normalized vector of last attack direction, (0,0) otherwise */
+ private:
+  Vector
+      attackDirection; /**< 1-normalized vector of current attack direction */
+  Vector
+      oldWallDirection; /**< if wall was hit during last attack: 1-normalized
+                           vector of last attack direction, (0,0) otherwise */
   Timer timer;
   AngryStoneState state;
 };

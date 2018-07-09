@@ -23,24 +23,25 @@
 class Level;
 class ReaderMapping;
 
-class LevelParser
-{
-public:
+class LevelParser {
+ public:
   static std::unique_ptr<Level> from_file(const std::string& filename);
   static std::unique_ptr<Level> from_nothing(const std::string& basedir);
-  static std::unique_ptr<Level> from_nothing_worldmap(const std::string& basedir, const std::string& name);
+  static std::unique_ptr<Level> from_nothing_worldmap(
+      const std::string& basedir, const std::string& name);
 
-private:
+ private:
   LevelParser(Level& level);
 
   void load(const std::string& filepath);
   void load_old_format(const ReaderMapping& reader);
-  void create(const std::string& filepath, const std::string& levelname, bool worldmap);
+  void create(const std::string& filepath, const std::string& levelname,
+              bool worldmap);
 
-private:
+ private:
   Level& m_level;
 
-private:
+ private:
   LevelParser(const LevelParser&) = delete;
   LevelParser& operator=(const LevelParser&) = delete;
 };

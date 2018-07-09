@@ -1,5 +1,6 @@
 //  SuperTux -- Explosion object
-//  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
+//  Copyright (C) 2007 Christoph Sommer
+//  <christoph.sommer@2007.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,9 +23,8 @@
 /**
  * Just your average explosion - goes boom, hurts Tux
  */
-class Explosion : public MovingSprite
-{
-public:
+class Explosion : public MovingSprite {
+ public:
   /**
    * Create new Explosion centered(!) at @c pos
    */
@@ -34,47 +34,29 @@ public:
   void update(float elapsed_time);
   void draw(DrawingContext& context);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
-  bool hurts() const
-  {
-    return this->hurt;
-  }
+  bool hurts() const { return this->hurt; }
 
-  void hurts (bool val)
-  {
-    this->hurt = val;
-  }
+  void hurts(bool val) { this->hurt = val; }
 
-  bool pushes() const
-  {
-    return this->push;
-  }
+  bool pushes() const { return this->push; }
 
-  void pushes (bool val)
-  {
-    this->push = val;
-  }
+  void pushes(bool val) { this->push = val; }
 
-protected:
+ protected:
   /**
    * plays sound, starts animation
    */
   void explode();
 
-private:
-  enum State {
-    STATE_WAITING,
-    STATE_EXPLODING
-  };
+ private:
+  enum State { STATE_WAITING, STATE_EXPLODING };
   bool hurt;
   bool push;
   State state;
   Color light;
   SpritePtr lightsprite;
-
 };
 
 #endif

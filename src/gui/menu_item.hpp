@@ -18,84 +18,79 @@
 #ifndef HEADER_SUPERTUX_GUI_MENU_ITEM_HPP
 #define HEADER_SUPERTUX_GUI_MENU_ITEM_HPP
 
+#include <SDL.h>
+
 #include <list>
 #include <memory>
-#include <SDL.h>
 
 #include "gui/menu.hpp"
 
 class Color;
 
-class MenuItem
-{
-  public:
-    MenuItem(const std::string& text_, int id = -1);
-    virtual ~MenuItem();
+class MenuItem {
+ public:
+  MenuItem(const std::string& text_, int id = -1);
+  virtual ~MenuItem();
 
-    virtual void set_help(const std::string& help_text);
-    virtual void change_text (const std::string& text);
+  virtual void set_help(const std::string& help_text);
+  virtual void change_text(const std::string& text);
 
-    /** Draws the menu item. */
-    virtual void draw(DrawingContext&, const Vector& pos, int menu_width, bool active);
+  /** Draws the menu item. */
+  virtual void draw(DrawingContext&, const Vector& pos, int menu_width,
+                    bool active);
 
-    /** Returns true when the menu item has no action and therefore can be skipped.
-        Useful for labels and horizontal lines.*/
-    virtual bool skippable() const {
-      return false;
-    }
+  /** Returns true when the menu item has no action and therefore can be
+     skipped. Useful for labels and horizontal lines.*/
+  virtual bool skippable() const { return false; }
 
-    /** Returns the minimum width of the menu item. */
-    virtual int get_width() const;
+  /** Returns the minimum width of the menu item. */
+  virtual int get_width() const;
 
-    /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action) { }
+  /** Processes the menu action. */
+  virtual void process_action(const MenuAction& action) {}
 
-    /** Processes the given event. */
-    virtual void event(const SDL_Event& ev) { }
+  /** Processes the given event. */
+  virtual void event(const SDL_Event& ev) {}
 
-    virtual Color get_color() const;
+  virtual Color get_color() const;
 
-    /** Returns true when the memu manager shouldn't do anything else. */
-    virtual bool no_other_action() const {
-      return false;
-    }
+  /** Returns true when the memu manager shouldn't do anything else. */
+  virtual bool no_other_action() const { return false; }
 
-    /** Returns true when the width must be recalculated when an action is
-     *  processed */
-    virtual bool changes_width() const {
-      return false;
-    }
+  /** Returns true when the width must be recalculated when an action is
+   *  processed */
+  virtual bool changes_width() const { return false; }
 
-    int id; //item ID
-    std::string text;
-    std::string help;
+  int id;  // item ID
+  std::string text;
+  std::string help;
 
-  private:
-    MenuItem(const MenuItem&);
-    MenuItem& operator=(const MenuItem&);
+ private:
+  MenuItem(const MenuItem&);
+  MenuItem& operator=(const MenuItem&);
 };
 
 #endif
 
 #ifdef INCLUDE_MENU_ITEMS
-  #include "gui/item_action.hpp"
-  #include "gui/item_back.hpp"
-  #include "gui/item_badguy_select.hpp"
-  #include "gui/item_color.hpp"
-  #include "gui/item_colorchannel.hpp"
-  #include "gui/item_colordisplay.hpp"
-  #include "gui/item_controlfield.hpp"
-  #include "gui/item_file.hpp"
-  #include "gui/item_goto.hpp"
-  #include "gui/item_hl.hpp"
-  #include "gui/item_inactive.hpp"
-  #include "gui/item_intfield.hpp"
-  #include "gui/item_label.hpp"
-  #include "gui/item_numfield.hpp"
-  #include "gui/item_script.hpp"
-  #include "gui/item_script_line.hpp"
-  #include "gui/item_stringselect.hpp"
-  #include "gui/item_textfield.hpp"
-  #include "gui/item_toggle.hpp"
+#include "gui/item_action.hpp"
+#include "gui/item_back.hpp"
+#include "gui/item_badguy_select.hpp"
+#include "gui/item_color.hpp"
+#include "gui/item_colorchannel.hpp"
+#include "gui/item_colordisplay.hpp"
+#include "gui/item_controlfield.hpp"
+#include "gui/item_file.hpp"
+#include "gui/item_goto.hpp"
+#include "gui/item_hl.hpp"
+#include "gui/item_inactive.hpp"
+#include "gui/item_intfield.hpp"
+#include "gui/item_label.hpp"
+#include "gui/item_numfield.hpp"
+#include "gui/item_script.hpp"
+#include "gui/item_script_line.hpp"
+#include "gui/item_stringselect.hpp"
+#include "gui/item_textfield.hpp"
+#include "gui/item_toggle.hpp"
 #endif
 /* EOF */

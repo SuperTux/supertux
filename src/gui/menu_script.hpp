@@ -19,9 +19,8 @@
 
 #include "gui/menu.hpp"
 
-class ScriptMenu : public Menu
-{
-public:
+class ScriptMenu : public Menu {
+ public:
   ScriptMenu(std::string* script_);
   ~ScriptMenu();
 
@@ -30,10 +29,10 @@ public:
   void remove_line();
   void add_line();
 
-protected:
+ protected:
   bool is_sensitive() const override;
 
-private:
+ private:
   std::string* base_script;
   std::vector<std::unique_ptr<std::string> > script_strings;
 

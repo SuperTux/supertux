@@ -24,19 +24,18 @@ class DrawingContext;
 class GameObject;
 class Vector;
 
-class Tip
-{
-  public:
-    Tip(GameObject* object);
+class Tip {
+ public:
+  Tip(GameObject* object);
 
-    void draw(DrawingContext& context, const Vector& pos);
-    void draw_up(DrawingContext& context, const Vector& pos);
+  void draw(DrawingContext& context, const Vector& pos);
+  void draw_up(DrawingContext& context, const Vector& pos);
 
-  private:
-    std::vector<std::string> strings;
-    std::string header;
+ private:
+  std::vector<std::string> strings;
+  std::string header;
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_TIP_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_TIP_HPP
 
 /* EOF */

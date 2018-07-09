@@ -15,22 +15,22 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/light.hpp"
+
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 
-Light::Light(const Vector& center, const Color& color_) :
-  position(center),
-  color(color_),
-  sprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
+Light::Light(const Vector& center, const Color& color_)
+    : position(center),
+      color(color_),
+      sprite(SpriteManager::current()->create(
+          "images/objects/lightmap_light/lightmap_light.sprite"))
 {
 }
 
-Light::~Light()
-{
-}
+Light::~Light() {}
 
 void
-Light::update(float )
+Light::update(float)
 {
 }
 

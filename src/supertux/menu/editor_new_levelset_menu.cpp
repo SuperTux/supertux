@@ -24,9 +24,8 @@
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 
-EditorNewLevelsetMenu::EditorNewLevelsetMenu() :
-  levelset_name(),
-  levelset_desc()
+EditorNewLevelsetMenu::EditorNewLevelsetMenu()
+    : levelset_name(), levelset_desc()
 {
   add_label(_("New level subset"));
   add_hl();
@@ -34,7 +33,7 @@ EditorNewLevelsetMenu::EditorNewLevelsetMenu() :
   add_textfield(_("Name"), &levelset_name);
   add_textfield(_("Description"), &levelset_desc);
 
-  add_entry(1,_("OK"));
+  add_entry(1, _("OK"));
 
   add_hl();
   add_back(_("Back"));
@@ -43,16 +42,15 @@ EditorNewLevelsetMenu::EditorNewLevelsetMenu() :
 void
 EditorNewLevelsetMenu::menu_action(MenuItem* item)
 {
-  if (item->id <= 0)
-    return;
+  if (item->id <= 0) return;
 
-  if(levelset_name.empty())
-  {
+  if (levelset_name.empty()) {
     Dialog::show_message(_("Please enter a name for this level subset."));
     return;
   }
 
-  std::unique_ptr<World> new_world = World::create(levelset_name, levelset_desc);
+  std::unique_ptr<World> new_world =
+      World::create(levelset_name, levelset_desc);
   new_world->save();
   Editor::current()->set_world(std::move(new_world));
 

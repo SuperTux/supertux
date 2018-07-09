@@ -22,15 +22,18 @@
 #include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
 
-Torch::Torch(const ReaderMapping& reader) :
-  MovingObject(reader),
-  ExposedObject<Torch, scripting::Torch>(this),
-  m_torch(),
-  m_flame(SpriteManager::current()->create("images/objects/torch/flame.sprite")),
-  m_flame_glow(SpriteManager::current()->create("images/objects/torch/flame_glow.sprite")),
-  m_flame_light(SpriteManager::current()->create("images/objects/torch/flame_light.sprite")),
-  m_burning(true),
-  sprite_name("images/objects/torch/torch1.sprite")
+Torch::Torch(const ReaderMapping& reader)
+    : MovingObject(reader),
+      ExposedObject<Torch, scripting::Torch>(this),
+      m_torch(),
+      m_flame(SpriteManager::current()->create(
+          "images/objects/torch/flame.sprite")),
+      m_flame_glow(SpriteManager::current()->create(
+          "images/objects/torch/flame_glow.sprite")),
+      m_flame_light(SpriteManager::current()->create(
+          "images/objects/torch/flame_light.sprite")),
+      m_burning(true),
+      sprite_name("images/objects/torch/torch1.sprite")
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -48,8 +51,7 @@ Torch::Torch(const ReaderMapping& reader) :
 void
 Torch::draw(DrawingContext& context)
 {
-  if (m_burning)
-  {
+  if (m_burning) {
     m_flame->draw(context, get_pos(), LAYER_TILES - 1);
 
     context.push_target();
@@ -60,8 +62,7 @@ Torch::draw(DrawingContext& context)
 
   m_torch->draw(context, get_pos(), LAYER_TILES - 1);
 
-  if (m_burning)
-  {
+  if (m_burning) {
     m_flame_glow->draw(context, get_pos(), LAYER_TILES - 1);
   }
 }
@@ -72,17 +73,17 @@ Torch::update(float)
 }
 
 HitResponse
-Torch::collision(GameObject& other, const CollisionHit& )
+Torch::collision(GameObject& other, const CollisionHit&)
 {
   auto player = dynamic_cast<Player*>(&other);
-  if(player != NULL && !m_burning)
-  {
+  if (player != NULL && !m_burning) {
     m_burning = true;
   }
   return ABORT_MOVE;
 }
 
-ObjectSettings Torch::get_settings()
+ObjectSettings
+Torch::get_settings()
 {
   ObjectSettings result = MovingObject::get_settings();
   ObjectOption burning(MN_TOGGLE, _("Burning"), &m_burning, "burning");
@@ -94,7 +95,8 @@ ObjectSettings Torch::get_settings()
   return result;
 }
 
-void Torch::after_editor_set()
+void
+Torch::after_editor_set()
 {
   m_torch = SpriteManager::current()->create(sprite_name);
 }
@@ -108,7 +110,9 @@ Torch::get_burning() const
 void
 Torch::set_burning(bool burning_)
 {
-  if (this->m_burning == burning_) { return; }
+  if (this->m_burning == burning_) {
+    return;
+  }
   this->m_burning = burning_;
 }
 

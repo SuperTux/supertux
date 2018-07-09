@@ -17,21 +17,20 @@
 #include "gui/menu_color.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "gui/menu_item.hpp"
 #include "gui/item_action.hpp"
+#include "gui/menu_item.hpp"
 #include "util/gettext.hpp"
 #include "video/color.hpp"
 
-ColorMenu::ColorMenu(Color* color_) :
-  color(color_)
+ColorMenu::ColorMenu(Color* color_) : color(color_)
 {
   add_label(_("Mix the colour"));
   add_hl();
 
-  add_color_channel( &(color->red), Color::RED);
-  add_color_channel( &(color->green), Color::GREEN);
-  add_color_channel( &(color->blue), Color::BLUE);
-  add_color_channel( &(color->alpha), Color::BLACK);
+  add_color_channel(&(color->red), Color::RED);
+  add_color_channel(&(color->green), Color::GREEN);
+  add_color_channel(&(color->blue), Color::BLUE);
+  add_color_channel(&(color->alpha), Color::BLACK);
   add_color_display(color);
 
   add_hl();
@@ -41,7 +40,6 @@ ColorMenu::ColorMenu(Color* color_) :
 void
 ColorMenu::menu_action(MenuItem* item)
 {
-
 }
 
 /* EOF */

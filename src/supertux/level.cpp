@@ -16,6 +16,9 @@
 
 #include "supertux/level.hpp"
 
+#include <sstream>
+#include <stdexcept>
+
 #include "badguy/goldbomb.hpp"
 #include "object/bonus_block.hpp"
 #include "object/coin.hpp"
@@ -29,52 +32,42 @@
 #include "util/log.hpp"
 #include "util/writer.hpp"
 
-#include <sstream>
-#include <stdexcept>
-
 Level* Level::_current = 0;
 
-Level::Level() :
-  name("noname"),
-  author("Mr. X"),
-  contact(),
-  license(),
-  filename(),
-  sectors(),
-  stats(),
-  target_time(),
-  tileset("images/tiles.strf")
+Level::Level()
+    : name("noname"),
+      author("Mr. X"),
+      contact(),
+      license(),
+      filename(),
+      sectors(),
+      stats(),
+      target_time(),
+      tileset("images/tiles.strf")
 {
   _current = this;
 }
 
-Level::~Level()
-{
-  sectors.clear();
-}
+Level::~Level() { sectors.clear(); }
 
 void
 Level::save(const std::string& filepath, bool retry)
 {
-  //FIXME: It tests for directory in supertux/data, but saves into .supertux2.
+  // FIXME: It tests for directory in supertux/data, but saves into .supertux2.
 
   try {
-
-    { // make sure the level directory exists
+    {  // make sure the level directory exists
       std::string dirname = FileSystem::dirname(filepath);
-      if(!PHYSFS_exists(dirname.c_str()))
-      {
-        if(!PHYSFS_mkdir(dirname.c_str()))
-        {
+      if (!PHYSFS_exists(dirname.c_str())) {
+        if (!PHYSFS_mkdir(dirname.c_str())) {
           std::ostringstream msg;
-          msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+          msg << "Couldn't create directory for level '" << dirname
+              << "': " << PHYSFS_getLastErrorCode();
           throw std::runtime_error(msg.str());
         }
       }
 
-      if(!PhysFSFileSystem::is_directory(dirname))
-      {
+      if (!PhysFSFileSystem::is_directory(dirname)) {
         std::ostringstream msg;
         msg << "Level path '" << dirname << "' is not a directory";
         throw std::runtime_error(msg.str());
@@ -95,31 +88,32 @@ Level::save(const std::string& filepath, bool retry)
     if (license != "") {
       writer.write("license", license, false);
     }
-    if (target_time){
+    if (target_time) {
       writer.write("target-time", target_time);
     }
 
-    for(auto& sector : sectors) {
+    for (auto& sector : sectors) {
       sector->save(writer);
     }
 
     // Ends writing to supertux level file. Keep this at the very end.
     writer.end_list("supertux-level");
     log_warning << "Level saved as " << filepath << "." << std::endl;
-  } catch(std::exception& e) {
+  }
+  catch (std::exception& e) {
     if (retry) {
       std::stringstream msg;
       msg << "Problem when saving level '" << filepath << "': " << e.what();
       throw std::runtime_error(msg.str());
-    } else {
+    }
+    else {
       log_warning << "Failed to save the level, retrying..." << std::endl;
-      { // create the level directory again
+      {  // create the level directory again
         std::string dirname = FileSystem::dirname(filepath);
-        if(!PHYSFS_mkdir(dirname.c_str()))
-        {
+        if (!PHYSFS_mkdir(dirname.c_str())) {
           std::ostringstream msg;
-          msg << "Couldn't create directory for level '"
-              << dirname << "': " <<PHYSFS_getLastErrorCode();
+          msg << "Couldn't create directory for level '" << dirname
+              << "': " << PHYSFS_getLastErrorCode();
           throw std::runtime_error(msg.str());
         }
       }
@@ -134,7 +128,8 @@ Level::add_sector(std::unique_ptr<Sector> sector)
   Sector* test = get_sector(sector->get_name());
   if (test != nullptr) {
     throw std::runtime_error("Trying to add 2 sectors with same name");
-  } else {
+  }
+  else {
     sectors.push_back(std::move(sector));
   }
 }
@@ -142,8 +137,8 @@ Level::add_sector(std::unique_ptr<Sector> sector)
 Sector*
 Level::get_sector(const std::string& name_) const
 {
-  for(auto const& sector : sectors) {
-    if(sector->get_name() == name_) {
+  for (auto const& sector : sectors) {
+    if (sector->get_name() == name_) {
       return sector.get();
     }
   }
@@ -166,31 +161,27 @@ int
 Level::get_total_coins() const
 {
   int total_coins = 0;
-  for(auto const& sector : sectors) {
-    for(const auto& o: sector->gameobjects) {
+  for (auto const& sector : sectors) {
+    for (const auto& o : sector->gameobjects) {
       auto coin = dynamic_cast<Coin*>(o.get());
-      if(coin)
-      {
+      if (coin) {
         total_coins++;
         continue;
       }
       auto block = dynamic_cast<BonusBlock*>(o.get());
-      if(block)
-      {
-        if (block->contents == BonusBlock::CONTENT_COIN)
-        {
+      if (block) {
+        if (block->contents == BonusBlock::CONTENT_COIN) {
           total_coins += block->hit_counter;
           continue;
-        } else if (block->contents == BonusBlock::CONTENT_RAIN ||
-                   block->contents == BonusBlock::CONTENT_EXPLODE)
-        {
+        }
+        else if (block->contents == BonusBlock::CONTENT_RAIN ||
+                 block->contents == BonusBlock::CONTENT_EXPLODE) {
           total_coins += 10;
           continue;
         }
       }
       auto goldbomb = dynamic_cast<GoldBomb*>(o.get());
-      if(goldbomb)
-        total_coins += 10;
+      if (goldbomb) total_coins += 10;
     }
   }
   return total_coins;
@@ -200,7 +191,7 @@ int
 Level::get_total_badguys() const
 {
   int total_badguys = 0;
-  for(auto const& sector : sectors) {
+  for (auto const& sector : sectors) {
     total_badguys += sector->get_total_badguys();
   }
   return total_badguys;
@@ -210,7 +201,7 @@ int
 Level::get_total_secrets() const
 {
   int total_secrets = 0;
-  for(auto const& sector : sectors) {
+  for (auto const& sector : sectors) {
     total_secrets += sector->get_total_count<SecretAreaTrigger>();
   }
   return total_secrets;

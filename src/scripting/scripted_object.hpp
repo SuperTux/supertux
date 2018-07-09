@@ -25,21 +25,20 @@ class ScriptedObject;
 
 namespace scripting {
 
-class ScriptedObject
-{
+class ScriptedObject {
 #ifndef SCRIPTING_API
-private:
+ private:
   ::ScriptedObject* m_parent;
 
-public:
+ public:
   ScriptedObject(::ScriptedObject* parent);
 
-private:
+ private:
   ScriptedObject(const ScriptedObject&) = delete;
   ScriptedObject& operator=(const ScriptedObject&) = delete;
 #endif
 
-public:
+ public:
   void set_action(const std::string& animation);
   std::string get_action() const;
 
@@ -64,7 +63,7 @@ public:
   std::string get_name() const;
 };
 
-} // namespace scripting
+}  // namespace scripting
 
 #endif
 

@@ -21,17 +21,16 @@
 
 class World;
 
-class EditorLevelsetMenu : public Menu
-{
-private:
-public:
+class EditorLevelsetMenu : public Menu {
+ private:
+ public:
   EditorLevelsetMenu();
   EditorLevelsetMenu(World* world_);
   ~EditorLevelsetMenu();
 
   void menu_action(MenuItem* item) override;
 
-private:
+ private:
   void initialize();
 
   World* world;
@@ -42,6 +41,6 @@ private:
   EditorLevelsetMenu& operator=(const EditorLevelsetMenu&);
 };
 
-#endif //HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVELSET_MENU_HPP
+#endif  // HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_LEVELSET_MENU_HPP
 
 /* EOF */

@@ -24,15 +24,16 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
-static const int SHAKE_RANGE_X = 40;
-static const float SHAKE_TIME = .8f;
+static const int SHAKE_RANGE_X   = 40;
+static const float SHAKE_TIME    = .8f;
 static const float SHAKE_RANGE_Y = 400;
 
-Stalactite::Stalactite(const ReaderMapping& lisp) :
-  BadGuy(lisp, "images/creatures/stalactite/stalactite.sprite", LAYER_TILES - 1),
-  timer(),
-  state(STALACTITE_HANGING),
-  shake_delta()
+Stalactite::Stalactite(const ReaderMapping& lisp)
+    : BadGuy(lisp, "images/creatures/stalactite/stalactite.sprite",
+             LAYER_TILES - 1),
+      timer(),
+      state(STALACTITE_HANGING),
+      shake_delta()
 {
   countMe = false;
   set_colgroup_active(COLGROUP_TOUCHABLE);
@@ -44,27 +45,29 @@ Stalactite::Stalactite(const ReaderMapping& lisp) :
 void
 Stalactite::active_update(float elapsed_time)
 {
-  if(state == STALACTITE_HANGING) {
+  if (state == STALACTITE_HANGING) {
     auto player = get_nearest_player();
     if (player && !player->get_ghost_mode()) {
-      if(player->get_bbox().p2.x > bbox.p1.x - SHAKE_RANGE_X
-         && player->get_bbox().p1.x < bbox.p2.x + SHAKE_RANGE_X
-         && player->get_bbox().p2.y > bbox.p1.y
-         && player->get_bbox().p1.y < bbox.p2.y + SHAKE_RANGE_Y
-         && Sector::current()->can_see_player(bbox.get_middle())) {
+      if (player->get_bbox().p2.x > bbox.p1.x - SHAKE_RANGE_X &&
+          player->get_bbox().p1.x < bbox.p2.x + SHAKE_RANGE_X &&
+          player->get_bbox().p2.y > bbox.p1.y &&
+          player->get_bbox().p1.y < bbox.p2.y + SHAKE_RANGE_Y &&
+          Sector::current()->can_see_player(bbox.get_middle())) {
         timer.start(SHAKE_TIME);
         state = STALACTITE_SHAKING;
         SoundManager::current()->play("sounds/cracking.wav", get_pos());
       }
     }
-  } else if(state == STALACTITE_SHAKING) {
-    shake_delta = Vector(graphicsRandom.rand(-3,3), 0);
-    if(timer.check()) {
+  }
+  else if (state == STALACTITE_SHAKING) {
+    shake_delta = Vector(graphicsRandom.rand(-3, 3), 0);
+    if (timer.check()) {
       state = STALACTITE_FALLING;
       physic.enable_gravity(true);
       set_colgroup_active(COLGROUP_MOVING);
     }
-  } else if(state == STALACTITE_FALLING) {
+  }
+  else if (state == STALACTITE_FALLING) {
     movement = physic.get_movement(elapsed_time);
   }
 }
@@ -86,18 +89,18 @@ Stalactite::squish()
 void
 Stalactite::collision_solid(const CollisionHit& hit)
 {
-  if(state == STALACTITE_FALLING) {
+  if (state == STALACTITE_FALLING) {
     if (hit.bottom) squish();
   }
-  if(state == STALACTITE_SQUISHED) {
+  if (state == STALACTITE_SQUISHED) {
     physic.set_velocity_y(0);
   }
 }
 
 HitResponse
-Stalactite::collision_player(Player& player, const CollisionHit& )
+Stalactite::collision_player(Player& player, const CollisionHit&)
 {
-  if(state != STALACTITE_SQUISHED) {
+  if (state != STALACTITE_SQUISHED) {
     player.kill(false);
   }
 
@@ -116,7 +119,8 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 
   if (other.is_freezable()) {
     other.freeze();
-  } else {
+  }
+  else {
     other.kill_fall();
   }
 
@@ -124,13 +128,13 @@ Stalactite::collision_badguy(BadGuy& other, const CollisionHit& hit)
 }
 
 HitResponse
-Stalactite::collision_bullet(Bullet& bullet, const CollisionHit& )
+Stalactite::collision_bullet(Bullet& bullet, const CollisionHit&)
 {
-  if(state == STALACTITE_HANGING) {
+  if (state == STALACTITE_HANGING) {
     timer.start(SHAKE_TIME);
     state = STALACTITE_SHAKING;
     bullet.remove_me();
-    if(bullet.get_type() == FIRE_BONUS)
+    if (bullet.get_type() == FIRE_BONUS)
       SoundManager::current()->play("sounds/sizzle.ogg", get_pos());
     SoundManager::current()->play("sounds/cracking.wav", get_pos());
   }
@@ -146,14 +150,15 @@ Stalactite::kill_fall()
 void
 Stalactite::draw(DrawingContext& context)
 {
-  if(get_state() == STATE_INIT || get_state() == STATE_INACTIVE)
-    return;
+  if (get_state() == STATE_INIT || get_state() == STATE_INACTIVE) return;
 
-  if(state == STALACTITE_SQUISHED) {
+  if (state == STALACTITE_SQUISHED) {
     sprite->draw(context, get_pos(), LAYER_OBJECTS);
-  } else if(state == STALACTITE_SHAKING) {
+  }
+  else if (state == STALACTITE_SHAKING) {
     sprite->draw(context, get_pos() + shake_delta, layer);
-  } else {
+  }
+  else {
     sprite->draw(context, get_pos(), layer);
   }
 }
@@ -161,8 +166,7 @@ Stalactite::draw(DrawingContext& context)
 void
 Stalactite::deactivate()
 {
-  if(state != STALACTITE_HANGING)
-    remove_me();
+  if (state != STALACTITE_HANGING) remove_me();
 }
 
 /* EOF */

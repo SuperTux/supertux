@@ -19,9 +19,8 @@
 
 #include "badguy/badguy.hpp"
 
-class Jumpy : public BadGuy
-{
-public:
+class Jumpy : public BadGuy {
+ public:
   Jumpy(const ReaderMapping& reader);
 
   void collision_solid(const CollisionHit& hit);
@@ -32,17 +31,13 @@ public:
   void freeze();
   bool is_freezable() const;
   bool is_flammable() const;
-  std::string get_class() const {
-    return "jumpy";
-  }
-  std::string get_display_name() const {
-    return _("Jumpy");
-  }
+  std::string get_class() const { return "jumpy"; }
+  std::string get_display_name() const { return _("Jumpy"); }
 
-private:
+ private:
   HitResponse hit(const CollisionHit& hit);
 
-private:
+ private:
   Vector pos_groundhit;
   bool groundhit_pos_set;
 };

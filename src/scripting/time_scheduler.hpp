@@ -25,9 +25,8 @@ namespace scripting {
  * This class keeps a list of squirrel threads that are scheduled for a certain
  * time. (the typical result of a wait() command in a squirrel script)
  */
-class TimeScheduler
-{
-public:
+class TimeScheduler {
+ public:
   TimeScheduler();
 
   void update(float time);
@@ -35,7 +34,7 @@ public:
 
   static TimeScheduler* instance;
 
-private:
+ private:
   struct ScheduleEntry {
     /// weak reference to the squirrel vm object
     HSQOBJECT thread_ref;
@@ -53,7 +52,7 @@ private:
   ScheduleHeap schedule;
 };
 
-}
+}  // namespace scripting
 
 #endif
 

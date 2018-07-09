@@ -22,22 +22,20 @@
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
-InfoBox::InfoBox(const std::string& text) :
-  firstline(0),
-  // Split text string lines into a vector
-  lines(InfoBoxLine::split(text, 400)),
-  images(),
-  arrow_scrollup(),
-  arrow_scrolldown()
+InfoBox::InfoBox(const std::string& text)
+    : firstline(0),
+      // Split text string lines into a vector
+      lines(InfoBoxLine::split(text, 400)),
+      images(),
+      arrow_scrollup(),
+      arrow_scrolldown()
 {
-  try
-  {
+  try {
     // get the arrow sprites
     arrow_scrollup   = Surface::create("images/engine/menu/scroll-up.png");
     arrow_scrolldown = Surface::create("images/engine/menu/scroll-down.png");
   }
-  catch (std::exception& e)
-  {
+  catch (std::exception& e) {
     log_warning << "Could not load scrolling images: " << e.what() << std::endl;
     arrow_scrollup.reset();
     arrow_scrolldown.reset();
@@ -47,53 +45,57 @@ InfoBox::InfoBox(const std::string& text) :
 void
 InfoBox::draw(DrawingContext& context)
 {
-  float x1 = SCREEN_WIDTH/2-200;
-  float y1 = SCREEN_HEIGHT/2-200;
-  float width = 400;
+  float x1     = SCREEN_WIDTH / 2 - 200;
+  float y1     = SCREEN_HEIGHT / 2 - 200;
+  float width  = 400;
   float height = 200;
 
   context.draw_filled_rect(Vector(x1, y1), Vector(width, height),
-                           Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-1);
+                           Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI - 1);
 
-  float y = y1;
+  float y        = y1;
   bool linesLeft = false;
-  for(size_t i = firstline; i < lines.size(); ++i) {
-    if(y >= y1 + height) {
+  for (size_t i = firstline; i < lines.size(); ++i) {
+    if (y >= y1 + height) {
       linesLeft = true;
       break;
     }
 
-    lines[i]->draw(context, Rectf(x1, y, x1+width, y), LAYER_GUI);
+    lines[i]->draw(context, Rectf(x1, y, x1 + width, y), LAYER_GUI);
     y += lines[i]->get_height();
   }
 
   {
     // draw the scrolling arrows
     if (arrow_scrollup.get() && firstline > 0)
-      context.draw_surface(arrow_scrollup,
-                           Vector( x1 + width  - arrow_scrollup->get_width(),  // top-right corner of box
-                                   y1), LAYER_GUI);
+      context.draw_surface(
+          arrow_scrollup,
+          Vector(x1 + width -
+                     arrow_scrollup->get_width(),  // top-right corner of box
+                 y1),
+          LAYER_GUI);
 
-    if (arrow_scrolldown.get() && linesLeft && firstline < lines.size()-1)
-      context.draw_surface(arrow_scrolldown,
-                           Vector( x1 + width  - arrow_scrolldown->get_width(),  // bottom-light corner of box
-                                   y1 + height - arrow_scrolldown->get_height()),
-                           LAYER_GUI);
+    if (arrow_scrolldown.get() && linesLeft && firstline < lines.size() - 1)
+      context.draw_surface(
+          arrow_scrolldown,
+          Vector(
+              x1 + width -
+                  arrow_scrolldown->get_width(),  // bottom-light corner of box
+              y1 + height - arrow_scrolldown->get_height()),
+          LAYER_GUI);
   }
 }
 
 void
 InfoBox::scrollup()
 {
-  if(firstline > 0)
-    firstline--;
+  if (firstline > 0) firstline--;
 }
 
 void
 InfoBox::scrolldown()
 {
-  if(firstline < lines.size()-1)
-    firstline++;
+  if (firstline < lines.size() - 1) firstline++;
 }
 
 void

@@ -17,28 +17,23 @@
 #ifndef HEADER_SUPERTUX_TRIGGER_SECRETAREA_TRIGGER_HPP
 #define HEADER_SUPERTUX_TRIGGER_SECRETAREA_TRIGGER_HPP
 
-#include "trigger/trigger_base.hpp"
-
 #include "supertux/timer.hpp"
+#include "trigger/trigger_base.hpp"
 
 class DrawingContext;
 class Color;
 class ReaderMapping;
 
-class SecretAreaTrigger : public TriggerBase
-{
+class SecretAreaTrigger : public TriggerBase {
   static Color text_color;
-public:
+
+ public:
   SecretAreaTrigger(const ReaderMapping& reader);
   SecretAreaTrigger(const Rectf& area, std::string fade_tilemap = "");
 
-  std::string get_class() const {
-    return "secretarea";
-  }
+  std::string get_class() const { return "secretarea"; }
 
-  bool has_variable_size() const {
-    return true;
-  }
+  bool has_variable_size() const { return true; }
 
   virtual ObjectSettings get_settings();
   virtual void after_editor_set();
@@ -47,11 +42,13 @@ public:
   void draw(DrawingContext& context);
   std::string get_fade_tilemap_name() const;
 
-private:
+ private:
   Timer message_timer;
   bool message_displayed;
-  std::string message; /**< message to display, default "You found a secret area!" */
-  std::string fade_tilemap; /**< tilemap to fade away when trigger is activated, or empty if you don't care */
+  std::string
+      message; /**< message to display, default "You found a secret area!" */
+  std::string fade_tilemap; /**< tilemap to fade away when trigger is activated,
+                               or empty if you don't care */
   std::string script; /**< optional script to run when trigger is activated */
   Vector new_size;
 };

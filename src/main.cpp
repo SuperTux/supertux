@@ -14,11 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "SDL.h"
-
 #include "supertux/main.hpp"
 
-int main(int argc, char** argv)
+#include "SDL.h"
+
+int
+main(int argc, char** argv)
 {
   return Main().run(argc, argv);
 }

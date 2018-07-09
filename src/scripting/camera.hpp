@@ -23,9 +23,8 @@ class Camera;
 
 namespace scripting {
 
-class Camera
-{
-public:
+class Camera {
+ public:
 #ifndef SCRIPTING_API
   Camera(::Camera* camera);
 #endif
@@ -44,13 +43,13 @@ public:
 #ifndef SCRIPTING_API
   ::Camera* camera;
 
-private:
+ private:
   Camera(const Camera&);
   Camera& operator=(const Camera&);
 #endif
 };
 
-}
+}  // namespace scripting
 
 #endif
 

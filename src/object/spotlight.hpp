@@ -25,9 +25,8 @@
 
 class ReaderMapping;
 
-class Spotlight : public MovingObject
-{
-public:
+class Spotlight : public MovingObject {
+ public:
   Spotlight(const ReaderMapping& reader);
   virtual ~Spotlight();
 
@@ -36,24 +35,20 @@ public:
 
   HitResponse collision(GameObject& other, const CollisionHit& hit_);
 
-  std::string get_class() const {
-    return "spotlight";
-  }
-  std::string get_display_name() const {
-    return _("Spotlight");
-  }
+  std::string get_class() const { return "spotlight"; }
+  std::string get_display_name() const { return _("Spotlight"); }
 
   virtual ObjectSettings get_settings();
 
-private:
-  float   angle;
+ private:
+  float angle;
   SpritePtr center;
   SpritePtr base;
   SpritePtr lights;
   SpritePtr light;
   SpritePtr lightcone;
 
-  Color   color;
+  Color color;
   /**
    * Speed that the spotlight is rotating with
    */

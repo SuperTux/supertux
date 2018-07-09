@@ -51,6 +51,6 @@ enum MenuAction {
   MENU_ACTION_BACK
 };
 
-#endif // HEADER_SUPERTUX_GUI_MENU_ACTION_HPP
+#endif  // HEADER_SUPERTUX_GUI_MENU_ACTION_HPP
 
 /* EOF */

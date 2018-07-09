@@ -17,14 +17,10 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SEQUENCE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SEQUENCE_HPP
 
-enum Sequence {
-  SEQ_ENDSEQUENCE,
-  SEQ_STOPTUX,
-  SEQ_FIREWORKS
-};
+enum Sequence { SEQ_ENDSEQUENCE, SEQ_STOPTUX, SEQ_FIREWORKS };
 
 Sequence string_to_sequence(const std::string& sequencename);
 std::string sequence_to_string(const Sequence& seq);
 
-#endif // HEADER_SUPERTUX_SUPERTUX_SEQUENCE_HPP
+#endif  // HEADER_SUPERTUX_SUPERTUX_SEQUENCE_HPP
 /* EOF */

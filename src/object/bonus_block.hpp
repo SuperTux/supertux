@@ -20,23 +20,18 @@
 #include "object/block.hpp"
 #include "object/player.hpp"
 
-class BonusBlock : public Block
-{
-public:
+class BonusBlock : public Block {
+ public:
   BonusBlock(const Vector& pos, int data);
   BonusBlock(const ReaderMapping& lisp);
   virtual ~BonusBlock();
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual void save(Writer& writer);
 
-  void try_open(Player *player);
-  void try_drop(Player *player);
-  std::string get_class() const {
-    return "bonusblock";
-  }
-  std::string get_display_name() const {
-    return _("Bonus block");
-  }
+  void try_open(Player* player);
+  void try_drop(Player* player);
+  std::string get_class() const { return "bonusblock"; }
+  std::string get_display_name() const { return _("Bonus block"); }
   enum Contents {
     CONTENT_COIN,
     CONTENT_FIREGROW,
@@ -55,24 +50,26 @@ public:
 
   virtual ObjectSettings get_settings();
 
-protected:
+ protected:
   virtual void hit(Player& player);
 
-public:
+ public:
   Contents contents;
   std::shared_ptr<MovingObject> object;
   int hit_counter;
   void draw(DrawingContext& context);
 
-private:
+ private:
   BonusBlock(const BonusBlock&);
   BonusBlock& operator=(const BonusBlock&);
   std::string script;
   SurfacePtr lightsprite;
   void get_content_by_data(int d);
-  void raise_growup_bonus(Player* player, const BonusType& bonus, const Direction& dir);
+  void raise_growup_bonus(Player* player, const BonusType& bonus,
+                          const Direction& dir);
   void drop_growup_bonus(const std::string& bonus_sprite_name, bool& countdown);
-  BonusBlock::Contents get_content_from_string(const std::string& contentstring) const;
+  BonusBlock::Contents get_content_from_string(
+      const std::string& contentstring) const;
   std::string contents_to_string(const BonusBlock::Contents& content) const;
 };
 

@@ -23,21 +23,18 @@
 
 class Player;
 
-class RainSplash : public GameObject
-{
-public:
+class RainSplash : public GameObject {
+ public:
   RainSplash(const Vector& pos, bool vertical);
   ~RainSplash();
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
-protected:
-  virtual void hit(Player& );
+ protected:
+  virtual void hit(Player&);
   virtual void update(float time);
   virtual void draw(DrawingContext& context);
 
-private:
+ private:
   SpritePtr sprite;
   Vector position;
   int frame;

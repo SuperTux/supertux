@@ -21,8 +21,8 @@
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
@@ -30,31 +30,37 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-ItemBack::ItemBack(const std::string& text_, int _id) :
-  MenuItem(text_, _id)
-{
-}
+ItemBack::ItemBack(const std::string& text_, int _id) : MenuItem(text_, _id) {}
 
 void
-ItemBack::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
+ItemBack::draw(DrawingContext& context, const Vector& pos, int menu_width,
+               bool active)
+{
   float text_width = Resources::normal_font->get_text_width(text);
-  context.draw_text(Resources::normal_font, text,
-                    Vector( pos.x + menu_width/2 , pos.y - int(Resources::normal_font->get_height()/2)),
-                    ALIGN_CENTER, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
-  context.draw_surface(Resources::back,
-                       Vector(pos.x + menu_width/2 + text_width/2  + 16, pos.y - 8),
-                       LAYER_GUI);
+  context.draw_text(
+      Resources::normal_font, text,
+      Vector(pos.x + menu_width / 2,
+             pos.y - int(Resources::normal_font->get_height() / 2)),
+      ALIGN_CENTER, LAYER_GUI,
+      active ? ColorScheme::Menu::active_color : get_color());
+  context.draw_surface(
+      Resources::back,
+      Vector(pos.x + menu_width / 2 + text_width / 2 + 16, pos.y - 8),
+      LAYER_GUI);
 }
 
 int
-ItemBack::get_width() const {
-  return Resources::normal_font->get_text_width(text) + 32 + Resources::back->get_width();
+ItemBack::get_width() const
+{
+  return Resources::normal_font->get_text_width(text) + 32 +
+         Resources::back->get_width();
 }
 
 void
-ItemBack::process_action(const MenuAction& action) {
+ItemBack::process_action(const MenuAction& action)
+{
   if (action == MENU_ACTION_HIT) {
-    if(MenuManager::instance().current_menu()->on_back_action())
+    if (MenuManager::instance().current_menu()->on_back_action())
       MenuManager::instance().pop_menu();
   }
 }

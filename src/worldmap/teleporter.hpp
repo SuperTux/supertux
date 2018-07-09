@@ -1,5 +1,6 @@
 //  SuperTux - Teleporter Worldmap Tile
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -28,35 +29,36 @@ class Sprite;
 
 namespace worldmap {
 
-class Teleporter : public GameObject
-{
-public:
+class Teleporter : public GameObject {
+ public:
   Teleporter(const ReaderMapping& lisp);
 
   virtual void draw(DrawingContext& context);
   virtual void update(float elapsed_time);
 
-public:
+ public:
   /** Position (in tiles, not pixels) */
   Vector pos;
 
   /** Sprite to render, or 0 for no sprite */
   SpritePtr sprite;
 
-  /** Worldmap filename (relative to data root) to teleport to. Leave empty to use current word */
+  /** Worldmap filename (relative to data root) to teleport to. Leave empty to
+   * use current word */
   std::string worldmap;
 
   /** Spawnpoint to teleport to. Leave empty to use "main" or last one */
   std::string spawnpoint;
 
-  /** true if this teleporter does not need to be activated, but teleports Tux as soon as it's touched */
+  /** true if this teleporter does not need to be activated, but teleports Tux
+   * as soon as it's touched */
   bool automatic;
 
   /** optional map message to display */
   std::string message;
 };
 
-} // namespace worldmap
+}  // namespace worldmap
 
 #endif
 

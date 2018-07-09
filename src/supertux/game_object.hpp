@@ -41,9 +41,8 @@ class ObjectRemoveListener;
  *  - Providing a safe way to remove the object by calling the remove_me
  *    functions.
  */
-class GameObject
-{
-public:
+class GameObject {
+ public:
   GameObject();
   GameObject(const GameObject& rhs);
   GameObject(const ReaderMapping& reader);
@@ -65,23 +64,15 @@ public:
    *  Editor will use that.
    */
   virtual void save(Writer& writer);
-  virtual std::string get_class() const {
-    return "game-object";
-  }
-  virtual std::string get_display_name() const {
-    return _("Unknown object");
-  }
-  virtual bool is_saveable() const {
-    return true;
-  }
+  virtual std::string get_class() const { return "game-object"; }
+  virtual std::string get_display_name() const { return _("Unknown object"); }
+  virtual bool is_saveable() const { return true; }
 
   /**
    * Does this object have variable size
    * (secret area trigger, wind, etc.)
    */
-  virtual bool has_variable_size() const {
-    return false;
-  }
+  virtual bool has_variable_size() const { return false; }
 
   /**
    * This method is called once the window
@@ -95,22 +86,13 @@ public:
   virtual void after_editor_set() {}
 
   /** returns true if the object is not scheduled to be removed yet */
-  bool is_valid() const
-  {
-    return !wants_to_die;
-  }
+  bool is_valid() const { return !wants_to_die; }
 
   /** schedules this object to be removed at the end of the frame */
-  void remove_me()
-  {
-    wants_to_die = true;
-  }
+  void remove_me() { wants_to_die = true; }
 
   /** used by the editor to delete the object */
-  virtual void editor_delete()
-  {
-    remove_me();
-  }
+  virtual void editor_delete() { remove_me(); }
 
   /** registers a remove listener which will be called if the object
    * gets removed/destroyed
@@ -123,12 +105,10 @@ public:
    */
   void del_remove_listener(ObjectRemoveListener* listener);
 
-  const std::string& get_name() const
-  {
-    return name;
-  }
+  const std::string& get_name() const { return name; }
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const
+  {
     return "images/tiles/auxiliary/notile.png";
   }
 
@@ -138,27 +118,26 @@ public:
   /** continues all looping sounds */
   virtual void play_looping_sounds() {}
 
-private:
+ private:
   /** this flag indicates if the object should be removed at the end of the
    * frame
    */
   bool wants_to_die;
 
-  struct RemoveListenerListEntry
-  {
+  struct RemoveListenerListEntry {
     RemoveListenerListEntry* next;
     ObjectRemoveListener* listener;
   };
   RemoveListenerListEntry* remove_listeners;
 
-protected:
+ protected:
   /**
    * a name for the gameobject, this is mostly a hint for scripts and for
    * debugging, don't rely on names being set or being unique
    */
   std::string name;
 
-private:
+ private:
   GameObject& operator=(const GameObject&);
 };
 

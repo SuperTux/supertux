@@ -25,24 +25,23 @@
 class DrawingContext;
 class ReaderMapping;
 
-class ObjectIcon
-{
-  public:
-    ObjectIcon(const std::string& name, const std::string& icon);
-    ObjectIcon(const ReaderMapping& reader);
-    virtual ~ObjectIcon();
+class ObjectIcon {
+ public:
+  ObjectIcon(const std::string& name, const std::string& icon);
+  ObjectIcon(const ReaderMapping& reader);
+  virtual ~ObjectIcon();
 
-    std::string object_name;
-    SurfacePtr surface;
+  std::string object_name;
+  SurfacePtr surface;
 
-    virtual void draw(DrawingContext& context, const Vector& pos);
+  virtual void draw(DrawingContext& context, const Vector& pos);
 
-  private:
-    Vector offset;
+ private:
+  Vector offset;
 
-    void calculate_offset();
+  void calculate_offset();
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
 
 /* EOF */

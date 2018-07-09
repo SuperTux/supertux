@@ -24,9 +24,8 @@ class Vector;
 /** This is a very simplistic physics engine handling accelerated and constant
  * movement along with gravity.
  */
-class Physic
-{
-public:
+class Physic {
+ public:
   Physic();
 
   /// Resets all velocities and accelerations to 0.
@@ -69,7 +68,7 @@ public:
 
   Vector get_movement(float elapsed_time);
 
-private:
+ private:
   /** horizontal and vertical acceleration */
   float ax, ay;
 

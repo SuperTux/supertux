@@ -21,14 +21,13 @@
 
 namespace sexp {
 class Value;
-} // namespace sexp
+}  // namespace sexp
 
 class ReaderDocument;
 class ReaderCollection;
 
-class ReaderMapping final
-{
-public:
+class ReaderMapping final {
+ public:
   ReaderMapping();
 
   // sx should point to (section (name value)...)
@@ -61,11 +60,11 @@ public:
 
   const ReaderDocument* get_doc() const { return m_doc; }
 
-private:
+ private:
   /** Returns pointer to (key value) */
   const sexp::Value* get_item(const char* key) const;
 
-private:
+ private:
   const ReaderDocument* m_doc;
   const sexp::Value* m_sx;
   std::vector<sexp::Value> const* m_arr;

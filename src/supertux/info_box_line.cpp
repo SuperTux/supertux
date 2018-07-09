@@ -16,8 +16,8 @@
 
 #include "supertux/info_box_line.hpp"
 
-#include "supertux/textscroller.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/textscroller.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
 #include "video/surface.hpp"
@@ -26,9 +26,10 @@ static const float ITEMS_SPACE = 4;
 
 namespace {
 
-FontPtr get_font_by_format_char(char format_char) {
-  switch(format_char)
-  {
+FontPtr
+get_font_by_format_char(char format_char)
+{
+  switch (format_char) {
     case ' ':
       return Resources::small_font;
     case '-':
@@ -40,13 +41,15 @@ FontPtr get_font_by_format_char(char format_char) {
       return Resources::normal_font;
     default:
       return Resources::normal_font;
-      //log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
+      // log_warning << "Unknown format_char: '" << format_char << "'" <<
+      // std::endl;
   }
 }
 
-Color get_color_by_format_char(char format_char) {
-  switch(format_char)
-  {
+Color
+get_color_by_format_char(char format_char)
+{
+  switch (format_char) {
     case ' ':
       return TextScroller::small_color;
     case '-':
@@ -59,13 +62,15 @@ Color get_color_by_format_char(char format_char) {
       return TextScroller::normal_color;
     default:
       return TextScroller::normal_color;
-      //log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
+      // log_warning << "Unknown format_char: '" << format_char << "'" <<
+      // std::endl;
   }
 }
 
-InfoBoxLine::LineType get_linetype_by_format_char(char format_char) {
-  switch(format_char)
-  {
+InfoBoxLine::LineType
+get_linetype_by_format_char(char format_char)
+{
+  switch (format_char) {
     case ' ':
       return InfoBoxLine::SMALL;
 
@@ -81,21 +86,21 @@ InfoBoxLine::LineType get_linetype_by_format_char(char format_char) {
       return InfoBoxLine::IMAGE;
     default:
       return InfoBoxLine::SMALL;
-      //log_warning << "Unknown format_char: '" << format_char << "'" << std::endl;
+      // log_warning << "Unknown format_char: '" << format_char << "'" <<
+      // std::endl;
   }
 }
 
-} // namespace
+}  // namespace
 
-InfoBoxLine::InfoBoxLine(char format_char, const std::string& text_) :
-  lineType(get_linetype_by_format_char(format_char)),
-  font(get_font_by_format_char(format_char)),
-  color(get_color_by_format_char(format_char)),
-  text(text_),
-  image()
+InfoBoxLine::InfoBoxLine(char format_char, const std::string& text_)
+    : lineType(get_linetype_by_format_char(format_char)),
+      font(get_font_by_format_char(format_char)),
+      color(get_color_by_format_char(format_char)),
+      text(text_),
+      image()
 {
-  if (lineType == IMAGE)
-  {
+  if (lineType == IMAGE) {
     image = Surface::create(text);
   }
 }
@@ -108,7 +113,7 @@ InfoBoxLine::split(const std::string& text, float width)
   std::string::size_type i = 0;
   std::string::size_type l;
   char format_char = '#';
-  while(i < text.size()) {
+  while (i < text.size()) {
     // take care of empty lines - represent them as blank lines of normal text
     if (text[i] == '\n') {
       lines.emplace_back(new InfoBoxLine('\t', ""));
@@ -117,22 +122,20 @@ InfoBoxLine::split(const std::string& text, float width)
     }
 
     // extract the format_char
-    if(is_valid_format_char(text[i]))
-    {
+    if (is_valid_format_char(text[i])) {
       format_char = text[i];
       i++;
     }
-    else
-    {
+    else {
       format_char = '#';
     }
     if (i >= text.size()) break;
 
     // extract one line
     l = text.find("\n", i);
-    if (l == std::string::npos) l=text.size();
-    std::string s = text.substr(i, l-i);
-    i = l+1;
+    if (l == std::string::npos) l = text.size();
+    std::string s = text.substr(i, l - i);
+    i             = l + 1;
 
     // if we are dealing with an image, just store the line
     if (format_char == '!') {
@@ -143,7 +146,7 @@ InfoBoxLine::split(const std::string& text, float width)
     // append wrapped parts of line into list
     std::string overflow;
     do {
-      FontPtr font = get_font_by_format_char(format_char);
+      FontPtr font   = get_font_by_format_char(format_char);
       std::string s2 = s;
       if (font) s2 = font->wrap_to_width(s2, width, &overflow);
       lines.emplace_back(new InfoBoxLine(format_char, s2));
@@ -160,13 +163,19 @@ InfoBoxLine::draw(DrawingContext& context, const Rectf& bbox, int layer)
   Vector position = bbox.p1;
   switch (lineType) {
     case IMAGE:
-      context.draw_surface(image, Vector( (bbox.p1.x + bbox.p2.x - image->get_width()) / 2, position.y), layer);
+      context.draw_surface(
+          image,
+          Vector((bbox.p1.x + bbox.p2.x - image->get_width()) / 2, position.y),
+          layer);
       break;
     case NORMAL_LEFT:
-      context.draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer, color);
+      context.draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT,
+                        layer, color);
       break;
     default:
-      context.draw_text(font, text, Vector((bbox.p1.x + bbox.p2.x) / 2, position.y), ALIGN_CENTER, layer, color);
+      context.draw_text(font, text,
+                        Vector((bbox.p1.x + bbox.p2.x) / 2, position.y),
+                        ALIGN_CENTER, layer, color);
       break;
   }
 }

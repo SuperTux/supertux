@@ -22,23 +22,20 @@
 #include "supertux/game_object.hpp"
 #include "supertux/timer.hpp"
 
-class SmokeCloud : public GameObject
-{
-public:
+class SmokeCloud : public GameObject {
+ public:
   SmokeCloud(const Vector& pos);
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
-private:
+ private:
   SpritePtr sprite;
   Timer timer;
   Vector position;
 
-private:
+ private:
   SmokeCloud(const SmokeCloud&);
   SmokeCloud& operator=(const SmokeCloud&);
 };

@@ -24,9 +24,8 @@
 
 class ReaderMapping;
 
-class CloudParticleSystem : public ParticleSystem
-{
-public:
+class CloudParticleSystem : public ParticleSystem {
+ public:
   CloudParticleSystem();
   CloudParticleSystem(const ReaderMapping& reader);
   virtual ~CloudParticleSystem();
@@ -34,33 +33,26 @@ public:
   void init();
   virtual void update(float elapsed_time);
 
-  std::string type() const
-  { return "CloudParticleSystem"; }
-  std::string get_class() const {
-    return "particles-clouds";
-  }
-  std::string get_display_name() const {
-    return _("Cloud particles");
-  }
+  std::string type() const { return "CloudParticleSystem"; }
+  std::string get_class() const { return "particles-clouds"; }
+  std::string get_display_name() const { return _("Cloud particles"); }
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const
+  {
     return "images/engine/editor/clouds.png";
   }
 
-private:
-  class CloudParticle : public Particle
-  {
-  public:
+ private:
+  class CloudParticle : public Particle {
+   public:
     float speed;
 
-    CloudParticle() :
-      speed()
-    {}
+    CloudParticle() : speed() {}
   };
 
   SurfacePtr cloudimage;
 
-private:
+ private:
   CloudParticleSystem(const CloudParticleSystem&);
   CloudParticleSystem& operator=(const CloudParticleSystem&);
 };

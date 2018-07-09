@@ -19,9 +19,8 @@
 
 #include "badguy/badguy.hpp"
 
-class Plant : public BadGuy
-{
-public:
+class Plant : public BadGuy {
+ public:
   Plant(const ReaderMapping& reader);
 
   void initialize();
@@ -29,21 +28,13 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void active_update(float elapsed_time);
   void ignite();
-  std::string get_class() const {
-    return "plant";
-  }
-  std::string get_display_name() const {
-    return _("Plant");
-  }
+  std::string get_class() const { return "plant"; }
+  std::string get_display_name() const { return _("Plant"); }
 
-protected:
-  enum PlantState {
-    PLANT_SLEEPING,
-    PLANT_WAKING,
-    PLANT_WALKING
-  };
+ protected:
+  enum PlantState { PLANT_SLEEPING, PLANT_WAKING, PLANT_WALKING };
 
-private:
+ private:
   Timer timer;
   PlantState state;
 };

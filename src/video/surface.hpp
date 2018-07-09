@@ -17,11 +17,11 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SURFACE_HPP
 #define HEADER_SUPERTUX_VIDEO_SURFACE_HPP
 
-#include <string>
 #include <memory>
+#include <string>
 
-#include "math/vector.hpp"
 #include "math/rect.hpp"
+#include "math/vector.hpp"
 #include "video/surface_ptr.hpp"
 #include "video/texture_ptr.hpp"
 
@@ -30,24 +30,23 @@ class SurfaceData;
 /** A rectangular image.  The class basically holds a reference to a
     texture with additional UV coordinates that specify a rectangular
     area on this texture */
-class Surface
-{
-public:
+class Surface {
+ public:
   static SurfacePtr create(const std::string& file);
   static SurfacePtr create(const std::string& file, const Rect& rect);
 
-private:
+ private:
   TexturePtr texture;
   SurfaceData* surface_data;
   Rect rect;
   bool flipx;
 
-private:
+ private:
   Surface(const std::string& file);
   Surface(const std::string& file, const Rect& rect);
   Surface(const Surface&);
 
-public:
+ public:
   ~Surface();
 
   SurfacePtr clone() const;
@@ -67,7 +66,7 @@ public:
   /** returns a vector containing width and height */
   Vector get_size() const;
 
-private:
+ private:
   Surface& operator=(const Surface&);
 };
 

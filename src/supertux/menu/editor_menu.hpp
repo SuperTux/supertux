@@ -21,16 +21,15 @@
 
 class Level;
 
-class EditorMenu : public Menu
-{
-private:
-public:
+class EditorMenu : public Menu {
+ private:
+ public:
   EditorMenu();
   ~EditorMenu();
 
   void menu_action(MenuItem* item) override;
 
-private:
+ private:
   enum MenuIDs {
     MNID_RETURNTOEDITOR,
     MNID_SAVELEVEL,
@@ -44,6 +43,6 @@ private:
   EditorMenu& operator=(const EditorMenu&);
 };
 
-#endif //HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_MENU_HPP
+#endif  // HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_MENU_HPP
 
 /* EOF */

@@ -14,17 +14,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <vector>
-
 #include "supertux/direction.hpp"
+
+#include <vector>
 
 #include "editor/object_option.hpp"
 #include "util/gettext.hpp"
 
-std::ostream& operator<<(std::ostream& o, const Direction& dir)
+std::ostream&
+operator<<(std::ostream& o, const Direction& dir)
 {
-  switch (dir)
-  {
+  switch (dir) {
     case AUTO:
       o << "auto";
       break;
@@ -46,7 +46,8 @@ std::ostream& operator<<(std::ostream& o, const Direction& dir)
 }
 
 ObjectOption
-dir_option(Direction *dir) {
+dir_option(Direction* dir)
+{
   ObjectOption result(MN_STRINGSELECT, _("Direction"), dir);
   result.select.push_back(_("auto"));
   result.select.push_back(_("left"));
@@ -56,9 +57,10 @@ dir_option(Direction *dir) {
   return result;
 }
 
-std::string dir_to_string(const Direction& dir) {
-  switch(dir)
-  {
+std::string
+dir_to_string(const Direction& dir)
+{
+  switch (dir) {
     case LEFT:
       return "left";
     case RIGHT:
@@ -73,18 +75,22 @@ std::string dir_to_string(const Direction& dir) {
   }
 }
 
-std::string dir_to_prefixed(const Direction& dir, const std::string& prefix) {
+std::string
+dir_to_prefixed(const Direction& dir, const std::string& prefix)
+{
   return prefix + "-" + dir_to_string(dir);
 }
 
-Direction string_to_dir(const std::string& dir_str) {
-  if(dir_str == "left")
+Direction
+string_to_dir(const std::string& dir_str)
+{
+  if (dir_str == "left")
     return LEFT;
-  else if(dir_str == "right")
+  else if (dir_str == "right")
     return RIGHT;
-  else if(dir_str == "up")
+  else if (dir_str == "up")
     return UP;
-  else if(dir_str == "down")
+  else if (dir_str == "down")
     return DOWN;
   else
     return AUTO;

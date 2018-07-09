@@ -22,13 +22,11 @@
 
 namespace scripting {
 
-Sector::Sector(::Sector* parent) :
-  m_parent(parent)
-{
-}
+Sector::Sector(::Sector* parent) : m_parent(parent) {}
 
 void
-Sector::fade_to_ambient_light(float red, float green, float blue, float fadetime)
+Sector::fade_to_ambient_light(float red, float green, float blue,
+                              float fadetime)
 {
   m_parent->fade_to_ambient_light(red, green, blue, fadetime);
 }
@@ -69,6 +67,6 @@ Sector::set_music(const std::string& music)
   m_parent->music = music;
 }
 
-} // namespace scripting
+}  // namespace scripting
 
 /* EOF */

@@ -19,22 +19,16 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class Snowman : public WalkingBadguy
-{
-public:
+class Snowman : public WalkingBadguy {
+ public:
   Snowman(const ReaderMapping& reader);
-  std::string get_class() const {
-    return "snowman";
-  }
-  std::string get_display_name() const {
-    return _("Snowman");
-  }
+  std::string get_class() const { return "snowman"; }
+  std::string get_display_name() const { return _("Snowman"); }
 
-protected:
+ protected:
   void loose_head();
   virtual HitResponse collision_bullet(Bullet& bullet, const CollisionHit& hit);
   bool collision_squished(GameObject& object);
-
 };
 
 #endif

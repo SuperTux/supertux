@@ -1,5 +1,6 @@
 //  SuperTux - "Totem" Badguy
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,9 +23,8 @@
 /**
  * "Totem" Badguy - A variable-height stack of wooden blocks
  */
-class Totem : public BadGuy
-{
-public:
+class Totem : public BadGuy {
+ public:
   Totem(const ReaderMapping& reader);
   ~Totem();
 
@@ -33,28 +33,26 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
-  virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
-  std::string get_class() const {
-    return "totem";
-  }
-  std::string get_display_name() const {
-    return _("Totem");
-  }
+  virtual bool updatePointers(const GameObject* from_object,
+                              GameObject* to_object);
+  std::string get_class() const { return "totem"; }
+  std::string get_display_name() const { return _("Totem"); }
 
-protected:
+ protected:
   bool collision_squished(GameObject& object);
   void kill_fall();
 
   void jump_on(Totem* target); /**< jump on target */
-  void jump_off(); /**< jump off current base */
+  void jump_off();             /**< jump off current base */
 
-  void synchronize_with(Totem* baseTotem); /**< synchronize position and movement with baseTotem */
+  void synchronize_with(Totem* baseTotem); /**< synchronize position and
+                                              movement with baseTotem */
 
-private:
-  Totem* carrying; /**< Totem we are currently carrying (or 0) */
+ private:
+  Totem* carrying;   /**< Totem we are currently carrying (or 0) */
   Totem* carried_by; /**< Totem by which we are currently carried (or 0) */
 
-private:
+ private:
   Totem(const Totem&);
   Totem& operator=(const Totem&);
 };

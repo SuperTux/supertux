@@ -17,33 +17,33 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_SDL_VIDEO_SYSTEM_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_SDL_VIDEO_SYSTEM_HPP
 
-#include <memory>
 #include <SDL.h>
+
+#include <memory>
 
 #include "video/video_system.hpp"
 
 class TextureManager;
 
-class SDLVideoSystem : public VideoSystem
-{
-private:
+class SDLVideoSystem : public VideoSystem {
+ private:
   std::unique_ptr<Renderer> m_renderer;
   std::unique_ptr<Lightmap> m_lightmap;
   std::unique_ptr<TextureManager> m_texture_manager;
 
-public:
+ public:
   SDLVideoSystem();
 
   Renderer& get_renderer() const override;
   Lightmap& get_lightmap() const override;
-  TexturePtr new_texture(SDL_Surface *image) override;
+  TexturePtr new_texture(SDL_Surface* image) override;
   SurfaceData* new_surface_data(const Surface& surface) override;
   void free_surface_data(SurfaceData* surface_data) override;
 
   void apply_config() override;
   void resize(int w, int h) override;
 
-private:
+ private:
   SDLVideoSystem(const SDLVideoSystem&) = delete;
   SDLVideoSystem& operator=(const SDLVideoSystem&) = delete;
 };

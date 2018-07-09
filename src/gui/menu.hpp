@@ -17,9 +17,10 @@
 #ifndef HEADER_SUPERTUX_GUI_MENU_HPP
 #define HEADER_SUPERTUX_GUI_MENU_HPP
 
+#include <SDL.h>
+
 #include <list>
 #include <memory>
-#include <SDL.h>
 
 #include "math/vector.hpp"
 #include "video/color.hpp"
@@ -30,9 +31,8 @@ class MenuItem;
 
 #include "gui/menu_action.hpp"
 
-class Menu
-{
-public:
+class Menu {
+ public:
   Menu();
   virtual ~Menu();
 
@@ -45,14 +45,19 @@ public:
   MenuItem* add_submenu(const std::string& text, int submenu, int id = -1);
   MenuItem* add_controlfield(int id, const std::string& text,
                              const std::string& mapping = "");
-  MenuItem* add_string_select(int id, const std::string& text, int* selected, const std::vector<std::string>& strings);
-  MenuItem* add_textfield(const std::string& text, std::string* input, int id = -1);
-  MenuItem* add_script(const std::string& text, std::string* script, int id = -1);
+  MenuItem* add_string_select(int id, const std::string& text, int* selected,
+                              const std::vector<std::string>& strings);
+  MenuItem* add_textfield(const std::string& text, std::string* input,
+                          int id = -1);
+  MenuItem* add_script(const std::string& text, std::string* script,
+                       int id = -1);
   MenuItem* add_script_line(std::string* input, int id = -1);
   MenuItem* add_intfield(const std::string& text, int* input, int id = -1);
   MenuItem* add_numfield(const std::string& text, float* input, int id = -1);
-  MenuItem* add_badguy_select(const std::string& text, std::vector<std::string>* badguys, int id = -1);
-  MenuItem* add_file(const std::string& text, std::string* input, const std::vector<std::string>& extensions, int id = -1);
+  MenuItem* add_badguy_select(const std::string& text,
+                              std::vector<std::string>* badguys, int id = -1);
+  MenuItem* add_file(const std::string& text, std::string* input,
+                     const std::vector<std::string>& extensions, int id = -1);
 
   MenuItem* add_color(const std::string& text, Color* color, int id = -1);
   MenuItem* add_color_display(Color* color, int id = -1);
@@ -61,9 +66,9 @@ public:
   virtual void menu_action(MenuItem* item) = 0;
 
   /**
-  * Executed before the menu is exited
-  * @return true if it should perform the back action, false if it shouldn't
-  */
+   * Executed before the menu is exited
+   * @return true if it should perform the back action, false if it shouldn't
+   */
   virtual bool on_back_action() { return true; }
 
   void process_input();
@@ -74,10 +79,7 @@ public:
   /** Remove all entries from the menu */
   void clear();
 
-  MenuItem& get_item(int index)
-  {
-    return *(items[index]);
-  }
+  MenuItem& get_item(int index) { return *(items[index]); }
 
   MenuItem& get_item_by_id(int id);
   const MenuItem& get_item_by_id(int id) const;
@@ -96,15 +98,15 @@ public:
 
   virtual void on_window_resize();
 
-protected:
+ protected:
   MenuItem* add_item(std::unique_ptr<MenuItem> menu_item);
   MenuItem* add_item(std::unique_ptr<MenuItem> menu_item, int pos_);
   void delete_item(int pos_);
 
-  ///returns true when the text is more important than action
+  /// returns true when the text is more important than action
   virtual bool is_sensitive() const;
 
-private:
+ private:
   void process_action(const MenuAction& menuaction);
   void check_controlfield_change_event(const SDL_Event& event);
   void draw_item(DrawingContext& context, int index);
@@ -113,23 +115,23 @@ private:
    */
   void calculate_width();
 
-private:
+ private:
   // position of the menu (ie. center of the menu, not top/left)
   Vector pos;
 
   /* input implementation variables */
-  int   delete_character;
-  char  mn_input_char;
+  int delete_character;
+  char mn_input_char;
   float menu_repeat_time;
   float menu_width;
 
-public:
+ public:
   std::vector<std::unique_ptr<MenuItem> > items;
 
-private:
+ private:
   int arrange_left;
 
-protected:
+ protected:
   int active_item;
 };
 

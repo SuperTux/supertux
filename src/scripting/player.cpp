@@ -20,10 +20,7 @@
 
 namespace scripting {
 
-Player::Player(::Player* parent) :
-  m_parent(parent)
-{
-}
+Player::Player(::Player* parent) : m_parent(parent) {}
 
 bool
 Player::add_bonus(const std::string& bonus)
@@ -181,6 +178,6 @@ Player::has_grabbed(const std::string& name) const
   return m_parent->has_grabbed(name);
 }
 
-} // namespace scripting
+}  // namespace scripting
 
 /* EOF */

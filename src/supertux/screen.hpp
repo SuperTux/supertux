@@ -25,21 +25,17 @@ class DrawingContext;
  * Examples of Screens are: The TitleScreen, a WorldMap, a level's
  * GameSession, a TextScroller, ...
  */
-class Screen
-{
-public:
-  virtual ~Screen()
-  {}
+class Screen {
+ public:
+  virtual ~Screen() {}
 
   /**
    * gets called before this screen gets activated (which is at least once
    * before the first draw or update call
    */
-  virtual void setup()
-  {}
+  virtual void setup() {}
   /** gets called when the current screen is temporarily suspended */
-  virtual void leave()
-  {}
+  virtual void leave() {}
 
   /**
    * gets called once per frame. The screen should draw itself in this function.

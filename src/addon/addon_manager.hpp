@@ -1,5 +1,6 @@
 //  SuperTux - Add-on Manager
-//  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
+//  Copyright (C) 2007 Christoph Sommer
+//  <christoph.sommer@2007.expires.deltadevelopment.de>
 //                2014 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -34,12 +35,11 @@ using TransferStatusPtr = std::shared_ptr<TransferStatus>;
 typedef std::string AddonId;
 
 /** Checks for, installs and removes Add-ons */
-class AddonManager : public Currenton<AddonManager>
-{
-public:
+class AddonManager : public Currenton<AddonManager> {
+ public:
   using AddonList = std::vector<std::unique_ptr<Addon> >;
 
-private:
+ private:
   Downloader m_downloader;
   std::string m_addon_directory;
   std::string m_repository_url;
@@ -52,7 +52,7 @@ private:
 
   TransferStatusPtr m_transfer_status;
 
-public:
+ public:
   AddonManager(const std::string& addon_directory,
                std::vector<Config::Addon>& addon_config);
   ~AddonManager();
@@ -85,20 +85,21 @@ public:
   void update();
   void check_for_langpack_updates();
 
-private:
+ private:
   std::vector<std::string> scan_for_archives() const;
   void add_installed_addons();
   AddonList parse_addon_infos(const std::string& filename) const;
 
   /** add \a archive, given as physfs path, to the list of installed
       archives */
-  void add_installed_archive(const std::string& archive, const std::string& md5);
+  void add_installed_archive(const std::string& archive,
+                             const std::string& md5);
 
   /** search for an .nfo file in the top level directory that
       originates from \a archive, \a archive is a OS path */
   std::string scan_for_info(const std::string& archive) const;
 
-private:
+ private:
   AddonManager(const AddonManager&) = delete;
   AddonManager& operator=(const AddonManager&) = delete;
 };

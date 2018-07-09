@@ -39,24 +39,20 @@ ReaderDocument::parse(const std::string& filename)
   IFileStreambuf ins(filename);
   std::istream in(&ins);
 
-  if(!in.good()) {
+  if (!in.good()) {
     std::stringstream msg;
     msg << "Parser problem: Couldn't open file '" << filename << "'.";
     throw std::runtime_error(msg.str());
-  } else {
+  }
+  else {
     return parse(in, filename);
   }
 }
 
-ReaderDocument::ReaderDocument() :
-  m_filename(),
-  m_sx()
-{
-}
+ReaderDocument::ReaderDocument() : m_filename(), m_sx() {}
 
-ReaderDocument::ReaderDocument(const std::string& filename, sexp::Value sx) :
-  m_filename(filename),
-  m_sx(std::move(sx))
+ReaderDocument::ReaderDocument(const std::string& filename, sexp::Value sx)
+    : m_filename(filename), m_sx(std::move(sx))
 {
 }
 

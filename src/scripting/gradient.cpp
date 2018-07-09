@@ -22,21 +22,18 @@
 
 namespace scripting {
 
-Gradient::Gradient(::Gradient* parent) :
-  gradient(parent)
-{
-}
+Gradient::Gradient(::Gradient* parent) : gradient(parent) {}
 
 void
 Gradient::set_direction(const std::string& direction)
 {
-  if(direction == "horizontal")
+  if (direction == "horizontal")
     gradient->set_direction(GradientDirection::HORIZONTAL);
-  else if(direction == "vertical")
+  else if (direction == "vertical")
     gradient->set_direction(GradientDirection::VERTICAL);
-  else if(direction == "horizontal_sector")
+  else if (direction == "horizontal_sector")
     gradient->set_direction(GradientDirection::HORIZONTAL_SECTOR);
-  else if(direction == "vertical_sector")
+  else if (direction == "vertical_sector")
     gradient->set_direction(GradientDirection::VERTICAL_SECTOR);
   else
     log_info << "Invalid direction for gradient \"" << direction << "\"";
@@ -47,14 +44,11 @@ Gradient::get_direction() const
 {
   auto direction = gradient->get_direction();
 
-  if(direction == GradientDirection::HORIZONTAL)
-    return "horizontal";
-  if(direction == GradientDirection::VERTICAL)
-    return "vertical";
-  if(direction == GradientDirection::HORIZONTAL_SECTOR)
+  if (direction == GradientDirection::HORIZONTAL) return "horizontal";
+  if (direction == GradientDirection::VERTICAL) return "vertical";
+  if (direction == GradientDirection::HORIZONTAL_SECTOR)
     return "horizontal_sector";
-  if(direction == GradientDirection::VERTICAL_SECTOR)
-    return "vertical_sector";
+  if (direction == GradientDirection::VERTICAL_SECTOR) return "vertical_sector";
 
   return NULL;
 }
@@ -62,7 +56,8 @@ Gradient::get_direction() const
 void
 Gradient::set_color1(float red, float green, float blue)
 {
-  gradient->set_gradient(Color(red, green, blue), gradient->get_gradient_bottom());
+  gradient->set_gradient(Color(red, green, blue),
+                         gradient->get_gradient_bottom());
 }
 
 void
@@ -74,9 +69,10 @@ Gradient::set_color2(float red, float green, float blue)
 void
 Gradient::swap_colors()
 {
-  gradient->set_gradient(gradient->get_gradient_bottom(), gradient->get_gradient_top());
+  gradient->set_gradient(gradient->get_gradient_bottom(),
+                         gradient->get_gradient_top());
 }
 
-}
+}  // namespace scripting
 
 /* EOF */

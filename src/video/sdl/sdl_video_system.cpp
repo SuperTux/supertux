@@ -26,10 +26,10 @@
 #include "video/texture.hpp"
 #include "video/video_system.hpp"
 
-SDLVideoSystem::SDLVideoSystem() :
-  m_renderer(new SDLRenderer),
-  m_lightmap(new SDLLightmap),
-  m_texture_manager(new TextureManager)
+SDLVideoSystem::SDLVideoSystem()
+    : m_renderer(new SDLRenderer),
+      m_lightmap(new SDLLightmap),
+      m_texture_manager(new TextureManager)
 {
 }
 

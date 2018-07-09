@@ -17,22 +17,20 @@
 #ifndef HEADER_SUPERTUX_OBJECT_DISPLAY_EFFECT_HPP
 #define HEADER_SUPERTUX_OBJECT_DISPLAY_EFFECT_HPP
 
-#include "supertux/game_object.hpp"
 #include "scripting/display_effect.hpp"
 #include "scripting/exposed_object.hpp"
+#include "supertux/game_object.hpp"
 
-class DisplayEffect : public GameObject,
-                      public ExposedObject<DisplayEffect, scripting::DisplayEffect>
-{
-public:
+class DisplayEffect
+    : public GameObject,
+      public ExposedObject<DisplayEffect, scripting::DisplayEffect> {
+ public:
   DisplayEffect(const std::string& name = std::string());
   virtual ~DisplayEffect();
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
   /**
    * @name Scriptable Methods
@@ -50,10 +48,8 @@ public:
    * @}
    */
 
-private:
-  enum FadeType {
-    NO_FADE, FADE_IN, FADE_OUT
-  };
+ private:
+  enum FadeType { NO_FADE, FADE_IN, FADE_OUT };
   FadeType screen_fade;
   float screen_fadetime;
   float screen_fading;

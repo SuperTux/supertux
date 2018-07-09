@@ -1,7 +1,8 @@
 //  SuperTux - Unstable Tile
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
-//  Copyright (C) 2010 Florian Forster <supertux at octo.it>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de> Copyright (C) 2010
+//  Florian Forster <supertux at octo.it>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,132 +25,132 @@
 #include "supertux/constants.hpp"
 #include "supertux/object_factory.hpp"
 
-UnstableTile::UnstableTile(const ReaderMapping& lisp) :
-  MovingSprite(lisp, "images/objects/unstable_tile/snow.sprite", LAYER_TILES, COLGROUP_STATIC),
-  physic(),
-  state(STATE_NORMAL),
-  slowfall_timer()
+UnstableTile::UnstableTile(const ReaderMapping& lisp)
+    : MovingSprite(lisp, "images/objects/unstable_tile/snow.sprite",
+                   LAYER_TILES, COLGROUP_STATIC),
+      physic(),
+      state(STATE_NORMAL),
+      slowfall_timer()
 {
   sprite->set_action("normal");
-  physic.set_gravity_modifier (.98);
-  physic.enable_gravity (false);
+  physic.set_gravity_modifier(.98);
+  physic.enable_gravity(false);
 }
 
 HitResponse
-UnstableTile::collision(GameObject& other, const CollisionHit& )
+UnstableTile::collision(GameObject& other, const CollisionHit&)
 {
-  if(state == STATE_NORMAL) {
-    Player* player = dynamic_cast<Player*> (&other);
-    if(player != NULL &&
-       player->get_bbox().get_bottom() < bbox.get_top() + SHIFT_DELTA) {
-      shake ();
+  if (state == STATE_NORMAL) {
+    Player* player = dynamic_cast<Player*>(&other);
+    if (player != NULL &&
+        player->get_bbox().get_bottom() < bbox.get_top() + SHIFT_DELTA) {
+      shake();
     }
 
-    if (dynamic_cast<Explosion*> (&other)) {
-      shake ();
+    if (dynamic_cast<Explosion*>(&other)) {
+      shake();
     }
   }
   return FORCE_MOVE;
 }
 
-void UnstableTile::shake()
+void
+UnstableTile::shake()
 {
-  if (state != STATE_NORMAL)
-    return;
+  if (state != STATE_NORMAL) return;
 
-  if (sprite->has_action ("shake")) {
+  if (sprite->has_action("shake")) {
     state = STATE_SHAKE;
-    this->set_action ("shake", /* loops = */ 1);
+    this->set_action("shake", /* loops = */ 1);
   }
   else {
-    dissolve ();
+    dissolve();
   }
 }
 
-void UnstableTile::dissolve()
+void
+UnstableTile::dissolve()
 {
-  if ((state != STATE_NORMAL) && (state != STATE_SHAKE))
-    return;
+  if ((state != STATE_NORMAL) && (state != STATE_SHAKE)) return;
 
-  if (sprite->has_action ("dissolve")) {
+  if (sprite->has_action("dissolve")) {
     state = STATE_DISSOLVE;
-    this->set_action ("dissolve", /* loops = */ 1);
+    this->set_action("dissolve", /* loops = */ 1);
   }
   else {
-    slow_fall ();
+    slow_fall();
   }
 }
 
-void UnstableTile::slow_fall()
+void
+UnstableTile::slow_fall()
 {
   /* Only enter slow-fall if neither shake nor dissolve is available. */
   if (state != STATE_NORMAL) {
-    this->fall_down ();
+    this->fall_down();
     return;
   }
 
-  if (sprite->has_action ("fall-down")) {
+  if (sprite->has_action("fall-down")) {
     state = STATE_SLOWFALL;
-    this->set_action ("fall-down", /* loops = */ 1);
-    physic.set_gravity_modifier (.10);
-    physic.enable_gravity (true);
+    this->set_action("fall-down", /* loops = */ 1);
+    physic.set_gravity_modifier(.10);
+    physic.enable_gravity(true);
     slowfall_timer = 0.5; /* Fall slowly for half a second. */
   }
   else {
-    remove_me ();
+    remove_me();
   }
 }
 
-void UnstableTile::fall_down()
+void
+UnstableTile::fall_down()
 {
-  if (state == STATE_FALL)
-    return;
+  if (state == STATE_FALL) return;
 
-  if (sprite->has_action ("fall-down")) {
+  if (sprite->has_action("fall-down")) {
     state = STATE_FALL;
-    this->set_action ("fall-down", /* loops = */ 1);
-    physic.set_gravity_modifier (.98);
-    physic.enable_gravity (true);
+    this->set_action("fall-down", /* loops = */ 1);
+    physic.set_gravity_modifier(.98);
+    physic.enable_gravity(true);
   }
   else {
-    remove_me ();
+    remove_me();
   }
 }
 
 void
 UnstableTile::update(float elapsed_time)
 {
-  switch (state)
-  {
+  switch (state) {
     case STATE_NORMAL:
       break;
 
     case STATE_SHAKE:
-      if (sprite->animation_done())
-        dissolve ();
+      if (sprite->animation_done()) dissolve();
       break;
 
     case STATE_DISSOLVE:
       if (sprite->animation_done()) {
         /* dissolving is done. Set to non-solid. */
-        set_group (COLGROUP_DISABLED);
-        fall_down ();
+        set_group(COLGROUP_DISABLED);
+        fall_down();
       }
       break;
 
     case STATE_SLOWFALL:
       if (slowfall_timer >= elapsed_time)
-	slowfall_timer -= elapsed_time;
+        slowfall_timer -= elapsed_time;
       else /* Switch to normal falling procedure */
-	fall_down ();
-      movement = physic.get_movement (elapsed_time);
+        fall_down();
+      movement = physic.get_movement(elapsed_time);
       break;
 
     case STATE_FALL:
       if (sprite->animation_done())
-        remove_me ();
+        remove_me();
       else
-        movement = physic.get_movement (elapsed_time);
+        movement = physic.get_movement(elapsed_time);
       break;
   }
 }

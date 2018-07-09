@@ -17,29 +17,29 @@
 #ifndef HEADER_SUPERTUX_PHYSFS_IFILE_STREAMBUF_HPP
 #define HEADER_SUPERTUX_PHYSFS_IFILE_STREAMBUF_HPP
 
-#include <streambuf>
 #include <physfs.h>
+
+#include <streambuf>
 
 /** This class implements a C++ streambuf object for physfs files.
  * So that you can use normal istream operations on them
  */
-class IFileStreambuf : public std::streambuf
-{
-public:
+class IFileStreambuf : public std::streambuf {
+ public:
   IFileStreambuf(const std::string& filename);
   ~IFileStreambuf();
 
-protected:
+ protected:
   virtual int underflow();
   virtual pos_type seekoff(off_type pos, std::ios_base::seekdir,
                            std::ios_base::openmode);
   virtual pos_type seekpos(pos_type pos, std::ios_base::openmode);
 
-private:
+ private:
   PHYSFS_file* file;
   char buf[1024];
 
-private:
+ private:
   IFileStreambuf(const IFileStreambuf&);
   IFileStreambuf& operator=(const IFileStreambuf&);
 };

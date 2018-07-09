@@ -19,8 +19,8 @@
 #include <boost/format.hpp>
 #include <sstream>
 
-#include "gui/menu_manager.hpp"
 #include "gui/menu_item.hpp"
+#include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/gettext.hpp"
@@ -29,16 +29,13 @@ ProfileMenu::ProfileMenu()
 {
   add_label(_("Select Profile"));
   add_hl();
-  for(int i = 1; i <= 5; ++i)
-  {
+  for (int i = 1; i <= 5; ++i) {
     std::ostringstream out;
-    if (i == g_config->profile)
-    {
-      out << str(boost::format(_("[Profile %s]")) %i);
+    if (i == g_config->profile) {
+      out << str(boost::format(_("[Profile %s]")) % i);
     }
-    else
-    {
-      out << str(boost::format(_("Profile %s")) %i);
+    else {
+      out << str(boost::format(_("Profile %s")) % i);
     }
     add_entry(i, out.str());
   }

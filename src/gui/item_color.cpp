@@ -24,21 +24,23 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "video/color.hpp"
 
-ItemColor::ItemColor(const std::string& text_, Color* color_, int _id) :
-  MenuItem(text_, _id),
-  color(color_)
+ItemColor::ItemColor(const std::string& text_, Color* color_, int _id)
+    : MenuItem(text_, _id), color(color_)
 {
 }
 
 void
-ItemColor::process_action(const MenuAction& action) {
+ItemColor::process_action(const MenuAction& action)
+{
   if (action == MENU_ACTION_HIT) {
-    MenuManager::instance().push_menu(std::unique_ptr<Menu>(new ColorMenu(color)));
+    MenuManager::instance().push_menu(
+        std::unique_ptr<Menu>(new ColorMenu(color)));
   }
 }
 
 Color
-ItemColor::get_color() const {
+ItemColor::get_color() const
+{
   return *color;
 }
 

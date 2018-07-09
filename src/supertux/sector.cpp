@@ -16,13 +16,10 @@
 
 #include "supertux/sector.hpp"
 
-#include <algorithm>
 #include <math.h>
-#include <vector>
 
-#include "scripting/scripting.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "scripting/sector.hpp"
+#include <algorithm>
+#include <vector>
 
 #include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
@@ -37,6 +34,9 @@
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "scripting/scripting.hpp"
+#include "scripting/sector.hpp"
+#include "scripting/squirrel_util.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
@@ -57,40 +57,41 @@
 
 Sector* Sector::_current = 0;
 
-bool Sector::show_collrects = false;
+bool Sector::show_collrects   = false;
 bool Sector::draw_solids_only = false;
 
-Sector::Sector(Level* parent) :
-  level(parent),
-  name(),
-  bullets(),
-  init_script(),
-  gameobjects_new(),
-  currentmusic(LEVEL_MUSIC),
-  sector_table(),
-  scripts(),
-  ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
-  ambient_light_fading(false),
-  source_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
-  target_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
-  ambient_light_fade_duration(0.0f),
-  ambient_light_fade_accum(0.0f),
-  foremost_layer(),
-  gameobjects(),
-  moving_objects(),
-  spawnpoints(),
-  portables(),
-  music(),
-  gravity(10.0),
-  player(0),
-  solid_tilemaps(),
-  camera(0),
-  effect(0)
+Sector::Sector(Level* parent)
+    : level(parent),
+      name(),
+      bullets(),
+      init_script(),
+      gameobjects_new(),
+      currentmusic(LEVEL_MUSIC),
+      sector_table(),
+      scripts(),
+      ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
+      ambient_light_fading(false),
+      source_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
+      target_ambient_light(1.0f, 1.0f, 1.0f, 1.0f),
+      ambient_light_fade_duration(0.0f),
+      ambient_light_fade_accum(0.0f),
+      foremost_layer(),
+      gameobjects(),
+      moving_objects(),
+      spawnpoints(),
+      portables(),
+      music(),
+      gravity(10.0),
+      player(0),
+      solid_tilemaps(),
+      camera(0),
+      effect(0)
 {
   PlayerStatus* player_status;
   if (Editor::is_active()) {
     player_status = Editor::current()->m_savegame->get_player_status();
-  } else {
+  }
+  else {
     player_status = GameSession::current()->get_savegame().get_player_status();
   }
   if (!player_status) {
@@ -109,11 +110,12 @@ Sector::Sector(Level* parent) :
 
   sq_newtable(global_vm);
   sq_pushroottable(global_vm);
-  if(SQ_FAILED(sq_setdelegate(global_vm, -2)))
-    throw scripting::SquirrelError(global_vm, "Couldn't set sector_table delegate");
+  if (SQ_FAILED(sq_setdelegate(global_vm, -2)))
+    throw scripting::SquirrelError(global_vm,
+                                   "Couldn't set sector_table delegate");
 
   sq_resetobject(&sector_table);
-  if(SQ_FAILED(sq_getstackobj(global_vm, -1, &sector_table)))
+  if (SQ_FAILED(sq_getstackobj(global_vm, -1, &sector_table)))
     throw scripting::SquirrelError(global_vm, "Couldn't get sector table");
   sq_addref(global_vm, &sector_table);
   sq_pop(global_vm, 1);
@@ -122,12 +124,10 @@ Sector::Sector(Level* parent) :
 Sector::~Sector()
 {
   using namespace scripting;
-  try
-  {
+  try {
     deactivate();
   }
-  catch(const std::exception& err)
-  {
+  catch (const std::exception& err) {
     log_warning << err.what() << std::endl;
   }
 
@@ -136,7 +136,7 @@ Sector::~Sector()
   update_game_objects();
   assert(gameobjects_new.size() == 0);
 
-  for(const auto& object: gameobjects) {
+  for (const auto& object : gameobjects) {
     before_object_remove(object);
   }
 }
@@ -150,8 +150,7 @@ Sector::get_level() const
 HSQUIRRELVM
 Sector::run_script(const std::string& script, const std::string& sourcename)
 {
-  if(script.empty())
-  {
+  if (script.empty()) {
     return NULL;
   }
   std::istringstream stream(script);
@@ -165,8 +164,7 @@ Sector::run_script(std::istream& in, const std::string& sourcename)
     return scripting::run_script(in, "Sector " + name + " - " + sourcename,
                                  scripts, &sector_table);
   }
-  catch(const std::exception& e)
-  {
+  catch (const std::exception& e) {
     log_warning << "Error running sector script: " << e.what() << std::endl;
     return NULL;
   }
@@ -177,10 +175,10 @@ Sector::add_object(GameObjectPtr object)
 {
   // make sure the object isn't already in the list
 #ifndef NDEBUG
-  for(const auto& game_object : gameobjects) {
+  for (const auto& game_object : gameobjects) {
     assert(game_object != object);
   }
-  for(const auto& gameobject : gameobjects_new) {
+  for (const auto& gameobject : gameobjects_new) {
     assert(gameobject != object);
   }
 #endif
@@ -192,20 +190,22 @@ void
 Sector::activate(const std::string& spawnpoint)
 {
   std::shared_ptr<SpawnPoint> sp;
-  for(const auto& spawn_point : spawnpoints) {
-    if(spawn_point->name == spawnpoint) {
+  for (const auto& spawn_point : spawnpoints) {
+    if (spawn_point->name == spawnpoint) {
       sp = spawn_point;
       break;
     }
   }
-  if(!sp) {
+  if (!sp) {
     log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-    if(spawnpoint != "main") {
+    if (spawnpoint != "main") {
       activate("main");
-    } else {
+    }
+    else {
       activate(Vector(0, 0));
     }
-  } else {
+  }
+  else {
     activate(sp->pos);
   }
 }
@@ -213,9 +213,8 @@ Sector::activate(const std::string& spawnpoint)
 void
 Sector::activate(const Vector& player_pos)
 {
-  if(_current != this) {
-    if(_current != NULL)
-      _current->deactivate();
+  if (_current != this) {
+    if (_current != NULL) _current->deactivate();
     _current = this;
 
     // register sectortable as sector in scripting
@@ -224,60 +223,64 @@ Sector::activate(const Vector& player_pos)
     scripting::store_object(vm, "sector", sector_table);
     sq_pop(vm, 1);
 
-    for(auto& object : gameobjects) {
+    for (auto& object : gameobjects) {
       try_expose(object);
     }
   }
   try_expose_me();
 
-
   // two-player hack: move other players to main player's position
   // Maybe specify 2 spawnpoints in the level?
-  for(auto& object : gameobjects) {
+  for (auto& object : gameobjects) {
     auto p = dynamic_cast<Player*>(object.get());
     if (!p) continue;
 
     // spawn smalltux below spawnpoint
     if (!p->is_big()) {
-      p->move(player_pos + Vector(0,32));
-    } else {
+      p->move(player_pos + Vector(0, 32));
+    }
+    else {
       p->move(player_pos);
     }
 
     // spawning tux in the ground would kill him
-    if(!is_free_of_tiles(p->get_bbox())) {
-      std::string current_level = "[" + Sector::current()->get_level()->filename + "] ";
-      log_warning << current_level << "Tried spawning Tux in solid matter. Compensating." << std::endl;
+    if (!is_free_of_tiles(p->get_bbox())) {
+      std::string current_level =
+          "[" + Sector::current()->get_level()->filename + "] ";
+      log_warning << current_level
+                  << "Tried spawning Tux in solid matter. Compensating."
+                  << std::endl;
       Vector npos = p->get_bbox().p1;
-      npos.y-=32;
+      npos.y -= 32;
       p->move(npos);
     }
   }
 
-  //FIXME: This is a really dirty workaround for this strange camera jump
-  player->move(player->get_pos()+Vector(-32, 0));
+  // FIXME: This is a really dirty workaround for this strange camera jump
+  player->move(player->get_pos() + Vector(-32, 0));
   camera->reset(player->get_pos());
   camera->update(1);
-  player->move(player->get_pos()+(Vector(32, 0)));
+  player->move(player->get_pos() + (Vector(32, 0)));
   camera->update(1);
 
   update_game_objects();
 
-  //Run default.nut just before init script
-  //Check to see if it's in a levelset (info file)
+  // Run default.nut just before init script
+  // Check to see if it's in a levelset (info file)
   std::string basedir = FileSystem::dirname(get_level()->filename);
-  if(PHYSFS_exists((basedir + "/info").c_str())) {
+  if (PHYSFS_exists((basedir + "/info").c_str())) {
     try {
       IFileStreambuf ins(basedir + "/default.nut");
       std::istream in(&ins);
       run_script(in, "default.nut");
-    } catch(std::exception& ) {
+    }
+    catch (std::exception&) {
       // doesn't exist or erroneous; do nothing
     }
   }
 
   // Run init script
-  if(!init_script.empty() && !Editor::is_active()) {
+  if (!init_script.empty() && !Editor::is_active()) {
     run_script(init_script, "init-script");
   }
 }
@@ -285,8 +288,7 @@ Sector::activate(const Vector& player_pos)
 void
 Sector::deactivate()
 {
-  if(_current != this)
-    return;
+  if (_current != this) return;
 
   // remove sector entry from global vm
   HSQUIRRELVM vm = scripting::global_vm;
@@ -294,7 +296,7 @@ Sector::deactivate()
   scripting::delete_table_entry(vm, "sector");
   sq_pop(vm, 1);
 
-  for(const auto& object: gameobjects) {
+  for (const auto& object : gameobjects) {
     try_unexpose(object);
   }
 
@@ -305,27 +307,23 @@ Sector::deactivate()
 Rectf
 Sector::get_active_region() const
 {
-  return Rectf(
-    camera->get_translation() - Vector(1600, 1200),
-    camera->get_translation() + Vector(1600, 1200) + Vector(SCREEN_WIDTH,SCREEN_HEIGHT));
+  return Rectf(camera->get_translation() - Vector(1600, 1200),
+               camera->get_translation() + Vector(1600, 1200) +
+                   Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
 }
 
 int
 Sector::calculate_foremost_layer() const
 {
   int layer = LAYER_BACKGROUND0;
-  for(const auto& obj : gameobjects)
-  {
+  for (const auto& obj : gameobjects) {
     const auto& tm = dynamic_cast<TileMap*>(obj.get());
     if (!tm) continue;
-    if(tm->get_layer() > layer)
-    {
-      if( (tm->get_alpha() < 1.0) )
-      {
+    if (tm->get_layer() > layer) {
+      if ((tm->get_alpha() < 1.0)) {
         layer = tm->get_layer() - 1;
       }
-      else
-      {
+      else {
         layer = tm->get_layer() + 1;
       }
     }
@@ -345,42 +343,37 @@ Sector::update(float elapsed_time)
 {
   player->check_bounds();
 
-  if(ambient_light_fading)
-  {
+  if (ambient_light_fading) {
     ambient_light_fade_accum += elapsed_time;
-    float percent_done = ambient_light_fade_accum / ambient_light_fade_duration * 1.0f;
-    float r = (1.0f - percent_done) * source_ambient_light.red + percent_done * target_ambient_light.red;
-    float g = (1.0f - percent_done) * source_ambient_light.green + percent_done * target_ambient_light.green;
-    float b = (1.0f - percent_done) * source_ambient_light.blue + percent_done * target_ambient_light.blue;
-    
-    if(r > 1.0)
-      r = 1.0;
-    if(g > 1.0)
-      g = 1.0;
-    if(b > 1.0)
-      b = 1.0;
+    float percent_done =
+        ambient_light_fade_accum / ambient_light_fade_duration * 1.0f;
+    float r = (1.0f - percent_done) * source_ambient_light.red +
+              percent_done * target_ambient_light.red;
+    float g = (1.0f - percent_done) * source_ambient_light.green +
+              percent_done * target_ambient_light.green;
+    float b = (1.0f - percent_done) * source_ambient_light.blue +
+              percent_done * target_ambient_light.blue;
 
-    if(r < 0)
-      r = 0;
-    if(g < 0)
-      g = 0;
-    if(b < 0)
-      b = 0;
-    
+    if (r > 1.0) r = 1.0;
+    if (g > 1.0) g = 1.0;
+    if (b > 1.0) b = 1.0;
+
+    if (r < 0) r = 0;
+    if (g < 0) g = 0;
+    if (b < 0) b = 0;
+
     ambient_light = Color(r, g, b);
 
-    if(ambient_light_fade_accum >= ambient_light_fade_duration)
-    {
-      ambient_light = target_ambient_light;
-      ambient_light_fading = false;
+    if (ambient_light_fade_accum >= ambient_light_fade_duration) {
+      ambient_light            = target_ambient_light;
+      ambient_light_fading     = false;
       ambient_light_fade_accum = 0;
     }
   }
 
   /* update objects */
-  for(const auto& object : gameobjects) {
-    if(!object->is_valid())
-      continue;
+  for (const auto& object : gameobjects) {
+    if (!object->is_valid()) continue;
 
     object->update(elapsed_time);
   }
@@ -394,11 +387,10 @@ void
 Sector::update_game_objects()
 {
   /** cleanup marked objects */
-  for(auto i = gameobjects.begin();
-      i != gameobjects.end(); /* nothing */) {
+  for (auto i = gameobjects.begin(); i != gameobjects.end(); /* nothing */) {
     const GameObjectPtr& object = *i;
 
-    if(object->is_valid()) {
+    if (object->is_valid()) {
       ++i;
       continue;
     }
@@ -409,8 +401,7 @@ Sector::update_game_objects()
   }
 
   /* add newly created objects */
-  for(const auto& object : gameobjects_new)
-  {
+  for (const auto& object : gameobjects_new) {
     before_object_add(object);
 
     gameobjects.push_back(object);
@@ -418,46 +409,41 @@ Sector::update_game_objects()
   gameobjects_new.clear();
 
   /* update solid_tilemaps list */
-  //FIXME: this could be more efficient
+  // FIXME: this could be more efficient
   solid_tilemaps.clear();
-  for(const auto& obj : gameobjects)
-  {
+  for (const auto& obj : gameobjects) {
     const auto& tm = dynamic_cast<TileMap*>(obj.get());
     if (!tm) continue;
     if (tm->is_solid()) solid_tilemaps.push_back(tm);
   }
-
 }
 
 bool
 Sector::before_object_add(GameObjectPtr object)
 {
   auto bullet = dynamic_cast<Bullet*>(object.get());
-  if (bullet)
-  {
+  if (bullet) {
     bullets.push_back(bullet);
   }
 
   auto movingobject = dynamic_cast<MovingObject*>(object.get());
-  if (movingobject)
-  {
+  if (movingobject) {
     moving_objects.push_back(movingobject);
   }
 
   auto portable = dynamic_cast<Portable*>(object.get());
-  if(portable)
-  {
+  if (portable) {
     portables.push_back(portable);
   }
 
   auto tilemap = dynamic_cast<TileMap*>(object.get());
-  if(tilemap && tilemap->is_solid()) {
+  if (tilemap && tilemap->is_solid()) {
     solid_tilemaps.push_back(tilemap);
   }
 
   auto camera_ = dynamic_cast<Camera*>(object.get());
-  if(camera_) {
-    if(this->camera != 0) {
+  if (camera_) {
+    if (this->camera != 0) {
       log_warning << "Multiple cameras added. Ignoring" << std::endl;
       return false;
     }
@@ -465,8 +451,8 @@ Sector::before_object_add(GameObjectPtr object)
   }
 
   auto player_ = dynamic_cast<Player*>(object.get());
-  if(player_) {
-    if(this->player != 0) {
+  if (player_) {
+    if (this->player != 0) {
       log_warning << "Multiple players added. Ignoring" << std::endl;
       return false;
     }
@@ -474,15 +460,15 @@ Sector::before_object_add(GameObjectPtr object)
   }
 
   auto effect_ = dynamic_cast<DisplayEffect*>(object.get());
-  if(effect_) {
-    if(this->effect != 0) {
+  if (effect_) {
+    if (this->effect != 0) {
       log_warning << "Multiple DisplayEffects added. Ignoring" << std::endl;
       return false;
     }
     this->effect = effect_;
   }
 
-  if(_current == this) {
+  if (_current == this) {
     try_expose(object);
   }
 
@@ -519,11 +505,10 @@ Sector::before_object_remove(GameObjectPtr object)
   auto moving_object = dynamic_cast<MovingObject*>(object.get());
   if (moving_object) {
     moving_objects.erase(
-      std::find(moving_objects.begin(), moving_objects.end(), moving_object));
+        std::find(moving_objects.begin(), moving_objects.end(), moving_object));
   }
 
-  if(_current == this)
-    try_unexpose(object);
+  if (_current == this) try_unexpose(object);
 }
 
 void
@@ -535,12 +520,13 @@ Sector::try_unexpose(GameObjectPtr object)
 void
 Sector::try_unexpose_me()
 {
-  HSQUIRRELVM vm = scripting::global_vm;
+  HSQUIRRELVM vm   = scripting::global_vm;
   SQInteger oldtop = sq_gettop(vm);
   sq_pushobject(vm, sector_table);
   try {
     scripting::unexpose_object(vm, -1, "settings");
-  } catch(std::exception& e) {
+  }
+  catch (std::exception& e) {
     log_warning << "Couldn't unregister object: " << e.what() << std::endl;
   }
   sq_settop(vm, oldtop);
@@ -548,27 +534,24 @@ Sector::try_unexpose_me()
 void
 Sector::draw(DrawingContext& context)
 {
-  context.set_ambient_color( ambient_light );
+  context.set_ambient_color(ambient_light);
   context.push_transform();
   context.set_translation(camera->get_translation());
 
-  for(const auto& object : gameobjects) {
-    if(!object->is_valid())
-      continue;
+  for (const auto& object : gameobjects) {
+    if (!object->is_valid()) continue;
 
-    if (draw_solids_only)
-    {
+    if (draw_solids_only) {
       auto tm = dynamic_cast<TileMap*>(object.get());
-      if (tm && !tm->is_solid())
-        continue;
+      if (tm && !tm->is_solid()) continue;
     }
 
     object->draw(context);
   }
 
-  if(show_collrects) {
+  if (show_collrects) {
     Color color(1.0f, 0.0f, 0.0f, 0.75f);
-    for(auto& object : moving_objects) {
+    for (auto& object : moving_objects) {
       const Rectf& rect = object->get_bbox();
 
       context.draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
@@ -581,8 +564,7 @@ Sector::draw(DrawingContext& context)
 void
 Sector::on_window_resize()
 {
-  for(const auto& obj : gameobjects)
-  {
+  for (const auto& obj : gameobjects) {
     obj->on_window_resize();
   }
 }
@@ -592,18 +574,21 @@ Sector::on_window_resize()
  *-------------------------------------------------------------------------*/
 
 /** r1 is supposed to be moving, r2 a solid object */
-void check_collisions(collision::Constraints* constraints,
-                      const Vector& obj_movement, const Rectf& obj_rect, const Rectf& other_rect,
-                      GameObject* object = NULL, MovingObject* other = NULL, const Vector& other_movement = Vector(0,0))
+void
+check_collisions(collision::Constraints* constraints,
+                 const Vector& obj_movement, const Rectf& obj_rect,
+                 const Rectf& other_rect, GameObject* object = NULL,
+                 MovingObject* other          = NULL,
+                 const Vector& other_movement = Vector(0, 0))
 {
-  if(!collision::intersects(obj_rect, other_rect))
-    return;
+  if (!collision::intersects(obj_rect, other_rect)) return;
 
-  auto moving_object = dynamic_cast<MovingObject*> (object);
+  auto moving_object = dynamic_cast<MovingObject*>(object);
   CollisionHit dummy;
-  if(other != NULL && object != NULL && !other->collides(*object, dummy))
+  if (other != NULL && object != NULL && !other->collides(*object, dummy))
     return;
-  if(moving_object != NULL && other != NULL && !moving_object->collides(*other, dummy))
+  if (moving_object != NULL && other != NULL &&
+      !moving_object->collides(*other, dummy))
     return;
 
   // calculate intersection
@@ -612,52 +597,57 @@ void check_collisions(collision::Constraints* constraints,
   float ileft   = obj_rect.get_right() - other_rect.get_left();
   float iright  = other_rect.get_right() - obj_rect.get_left();
 
-  if(fabsf(obj_movement.y) > fabsf(obj_movement.x)) {
-    if(ileft < SHIFT_DELTA) {
+  if (fabsf(obj_movement.y) > fabsf(obj_movement.x)) {
+    if (ileft < SHIFT_DELTA) {
       constraints->constrain_right(other_rect.get_left(), other_movement.x);
       return;
-    } else if(iright < SHIFT_DELTA) {
+    }
+    else if (iright < SHIFT_DELTA) {
       constraints->constrain_left(other_rect.get_right(), other_movement.x);
       return;
     }
-  } else {
+  }
+  else {
     // shiftout bottom/top
-    if(itop < SHIFT_DELTA) {
+    if (itop < SHIFT_DELTA) {
       constraints->constrain_bottom(other_rect.get_top(), other_movement.y);
       return;
-    } else if(ibottom < SHIFT_DELTA) {
+    }
+    else if (ibottom < SHIFT_DELTA) {
       constraints->constrain_top(other_rect.get_bottom(), other_movement.y);
       return;
     }
   }
 
   constraints->ground_movement += other_movement;
-  if(other != NULL && object != NULL) {
+  if (other != NULL && object != NULL) {
     HitResponse response = other->collision(*object, dummy);
-    if(response == ABORT_MOVE)
-      return;
+    if (response == ABORT_MOVE) return;
 
-    if(other->get_movement() != Vector(0, 0)) {
+    if (other->get_movement() != Vector(0, 0)) {
       // TODO what todo when we collide with 2 moving objects?!?
       constraints->ground_movement += other->get_movement();
     }
   }
 
-  float vert_penetration = std::min(itop, ibottom);
+  float vert_penetration  = std::min(itop, ibottom);
   float horiz_penetration = std::min(ileft, iright);
-  if(vert_penetration < horiz_penetration) {
-    if(itop < ibottom) {
+  if (vert_penetration < horiz_penetration) {
+    if (itop < ibottom) {
       constraints->constrain_bottom(other_rect.get_top(), other_movement.y);
       constraints->hit.bottom = true;
-    } else {
+    }
+    else {
       constraints->constrain_top(other_rect.get_bottom(), other_movement.y);
       constraints->hit.top = true;
     }
-  } else {
-    if(ileft < iright) {
+  }
+  else {
+    if (ileft < iright) {
       constraints->constrain_right(other_rect.get_left(), other_movement.x);
       constraints->hit.right = true;
-    } else {
+    }
+    else {
       constraints->constrain_left(other_rect.get_right(), other_movement.x);
       constraints->hit.left = true;
     }
@@ -675,44 +665,44 @@ Sector::collision_tilemap(collision::Constraints* constraints,
   float y1 = dest.get_top();
   float y2 = dest.get_bottom();
 
-  for(const auto& solids : solid_tilemaps) {
+  for (const auto& solids : solid_tilemaps) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
 
-    for(int x = test_tiles.left; x < test_tiles.right; ++x) {
-      for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
+    for (int x = test_tiles.left; x < test_tiles.right; ++x) {
+      for (int y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const auto& tile = solids->get_tile(x, y);
-        if(!tile)
-          continue;
+        if (!tile) continue;
         // skip non-solid tiles
-        if(!tile->is_solid ())
-          continue;
+        if (!tile->is_solid()) continue;
         Rectf tile_bbox = solids->get_tile_bbox(x, y);
 
         /* If the tile is a unisolid tile, the "is_solid()" function above
          * didn't do a thorough check. Calculate the position and (relative)
          * movement of the object and determine whether or not the tile is
          * solid with regard to those parameters. */
-        if(tile->is_unisolid ()) {
-          Vector relative_movement = movement
-            - solids->get_movement(/* actual = */ true);
+        if (tile->is_unisolid()) {
+          Vector relative_movement =
+              movement - solids->get_movement(/* actual = */ true);
 
-          if (!tile->is_solid (tile_bbox, object.get_bbox(), relative_movement))
+          if (!tile->is_solid(tile_bbox, object.get_bbox(), relative_movement))
             continue;
         } /* if (tile->is_unisolid ()) */
 
-        if(tile->is_slope ()) { // slope tile
+        if (tile->is_slope()) {  // slope tile
           AATriangle triangle;
           int slope_data = tile->getData();
           if (solids->get_drawing_effect() & VERTICAL_FLIP)
             slope_data = AATriangle::vertical_flip(slope_data);
           triangle = AATriangle(tile_bbox, slope_data);
 
-          collision::rectangle_aatriangle(constraints, dest, triangle,
+          collision::rectangle_aatriangle(
+              constraints, dest, triangle,
               solids->get_movement(/* actual = */ false));
-        } else { // normal rectangular tile
+        }
+        else {  // normal rectangular tile
           check_collisions(constraints, movement, dest, tile_bbox, NULL, NULL,
-              solids->get_movement(/* actual = */ false));
+                           solids->get_movement(/* actual = */ false));
         }
       }
     }
@@ -728,27 +718,26 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
   float y2 = dest.p2.y;
 
   uint32_t result = 0;
-  for(auto& solids: solid_tilemaps) {
+  for (auto& solids : solid_tilemaps) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
     // For ice (only), add a little fudge to recognize tiles Tux is standing on.
-    Rect test_tiles_ice = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2 + SHIFT_DELTA));
+    Rect test_tiles_ice =
+        solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2 + SHIFT_DELTA));
 
-    for(int x = test_tiles.left; x < test_tiles.right; ++x) {
+    for (int x = test_tiles.left; x < test_tiles.right; ++x) {
       int y;
-      for(y = test_tiles.top; y < test_tiles.bottom; ++y) {
+      for (y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const auto& tile = solids->get_tile(x, y);
-        if(!tile)
-          continue;
-        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
+        if (!tile) continue;
+        if (tile->is_collisionful(solids->get_tile_bbox(x, y), dest, mov)) {
           result |= tile->getAttributes();
         }
       }
-      for(; y < test_tiles_ice.bottom; ++y) {
+      for (; y < test_tiles_ice.bottom; ++y) {
         const auto& tile = solids->get_tile(x, y);
-        if(!tile)
-          continue;
-        if ( tile->is_collisionful( solids->get_tile_bbox(x, y), dest, mov) ) {
+        if (!tile) continue;
+        if (tile->is_collisionful(solids->get_tile_bbox(x, y), dest, mov)) {
           result |= (tile->getAttributes() & Tile::ICE);
         }
       }
@@ -759,29 +748,33 @@ Sector::collision_tile_attributes(const Rectf& dest, const Vector& mov) const
 }
 
 /** fills in CollisionHit and Normal vector of 2 intersecting rectangle */
-static void get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
-                           Vector& normal)
+static void
+get_hit_normal(const Rectf& r1, const Rectf& r2, CollisionHit& hit,
+               Vector& normal)
 {
-  float itop = r1.get_bottom() - r2.get_top();
+  float itop    = r1.get_bottom() - r2.get_top();
   float ibottom = r2.get_bottom() - r1.get_top();
-  float ileft = r1.get_right() - r2.get_left();
-  float iright = r2.get_right() - r1.get_left();
+  float ileft   = r1.get_right() - r2.get_left();
+  float iright  = r2.get_right() - r1.get_left();
 
-  float vert_penetration = std::min(itop, ibottom);
+  float vert_penetration  = std::min(itop, ibottom);
   float horiz_penetration = std::min(ileft, iright);
-  if(vert_penetration < horiz_penetration) {
-    if(itop < ibottom) {
+  if (vert_penetration < horiz_penetration) {
+    if (itop < ibottom) {
       hit.bottom = true;
-      normal.y = vert_penetration;
-    } else {
-      hit.top = true;
+      normal.y   = vert_penetration;
+    }
+    else {
+      hit.top  = true;
       normal.y = -vert_penetration;
     }
-  } else {
-    if(ileft < iright) {
+  }
+  else {
+    if (ileft < iright) {
       hit.right = true;
-      normal.x = horiz_penetration;
-    } else {
+      normal.x  = horiz_penetration;
+    }
+    else {
       hit.left = true;
       normal.x = -horiz_penetration;
     }
@@ -797,16 +790,14 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
   const Rectf& r2 = object2->dest;
 
   CollisionHit hit;
-  if(intersects(object1->dest, object2->dest)) {
+  if (intersects(object1->dest, object2->dest)) {
     Vector normal;
     get_hit_normal(r1, r2, hit, normal);
 
-    if(!object1->collides(*object2, hit))
-      return;
+    if (!object1->collides(*object2, hit)) return;
     std::swap(hit.left, hit.right);
     std::swap(hit.top, hit.bottom);
-    if(!object2->collides(*object1, hit))
-      return;
+    if (!object2->collides(*object1, hit)) return;
     std::swap(hit.left, hit.right);
     std::swap(hit.top, hit.bottom);
 
@@ -814,14 +805,16 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
     std::swap(hit.left, hit.right);
     std::swap(hit.top, hit.bottom);
     HitResponse response2 = object2->collision(*object1, hit);
-    if(response1 == CONTINUE && response2 == CONTINUE) {
+    if (response1 == CONTINUE && response2 == CONTINUE) {
       normal *= (0.5 + DELTA);
       object1->dest.move(-normal);
       object2->dest.move(normal);
-    } else if (response1 == CONTINUE && response2 == FORCE_MOVE) {
+    }
+    else if (response1 == CONTINUE && response2 == FORCE_MOVE) {
       normal *= (1 + DELTA);
       object1->dest.move(-normal);
-    } else if (response1 == FORCE_MOVE && response2 == CONTINUE) {
+    }
+    else if (response1 == FORCE_MOVE && response2 == CONTINUE) {
       normal *= (1 + DELTA);
       object2->dest.move(normal);
     }
@@ -836,14 +829,13 @@ Sector::collision_static(collision::Constraints* constraints,
   collision_tilemap(constraints, movement, dest, object);
 
   // collision with other (static) objects
-  for(auto& moving_object : moving_objects) {
-    if(moving_object->get_group() != COLGROUP_STATIC
-       && moving_object->get_group() != COLGROUP_MOVING_STATIC)
+  for (auto& moving_object : moving_objects) {
+    if (moving_object->get_group() != COLGROUP_STATIC &&
+        moving_object->get_group() != COLGROUP_MOVING_STATIC)
       continue;
-    if(!moving_object->is_valid())
-      continue;
+    if (!moving_object->is_valid()) continue;
 
-    if(moving_object != &object)
+    if (moving_object != &object)
       check_collisions(constraints, movement, dest, moving_object->bbox,
                        &object, moving_object);
   }
@@ -853,78 +845,82 @@ void
 Sector::collision_static_constrains(MovingObject& object)
 {
   using namespace collision;
-  float infinity = (std::numeric_limits<float>::has_infinity ? std::numeric_limits<float>::infinity() : std::numeric_limits<float>::max());
+  float infinity = (std::numeric_limits<float>::has_infinity
+                        ? std::numeric_limits<float>::infinity()
+                        : std::numeric_limits<float>::max());
 
   Constraints constraints;
   Vector movement = object.get_movement();
-  Vector pressure = Vector(0,0);
-  Rectf& dest = object.dest;
+  Vector pressure = Vector(0, 0);
+  Rectf& dest     = object.dest;
 
-  for(int i = 0; i < 2; ++i) {
+  for (int i = 0; i < 2; ++i) {
     collision_static(&constraints, Vector(0, movement.y), dest, object);
-    if(!constraints.has_constraints())
-      break;
+    if (!constraints.has_constraints()) break;
 
     // apply calculated horizontal constraints
-    if(constraints.get_position_bottom() < infinity) {
-      float height = constraints.get_height ();
-      if(height < object.get_bbox().get_height()) {
+    if (constraints.get_position_bottom() < infinity) {
+      float height = constraints.get_height();
+      if (height < object.get_bbox().get_height()) {
         // we're crushed, but ignore this for now, we'll get this again
         // later if we're really crushed or things will solve itself when
         // looking at the vertical constraints
         pressure.y += object.get_bbox().get_height() - height;
-      } else {
+      }
+      else {
         dest.p2.y = constraints.get_position_bottom() - DELTA;
         dest.p1.y = dest.p2.y - object.get_bbox().get_height();
       }
-    } else if(constraints.get_position_top() > -infinity) {
+    }
+    else if (constraints.get_position_top() > -infinity) {
       dest.p1.y = constraints.get_position_top() + DELTA;
       dest.p2.y = dest.p1.y + object.get_bbox().get_height();
     }
   }
-  if(constraints.has_constraints()) {
-    if(constraints.hit.bottom) {
+  if (constraints.has_constraints()) {
+    if (constraints.hit.bottom) {
       dest.move(constraints.ground_movement);
     }
-    if(constraints.hit.top || constraints.hit.bottom) {
-      constraints.hit.left = false;
+    if (constraints.hit.top || constraints.hit.bottom) {
+      constraints.hit.left  = false;
       constraints.hit.right = false;
       object.collision_solid(constraints.hit);
     }
   }
 
   constraints = Constraints();
-  for(int i = 0; i < 2; ++i) {
+  for (int i = 0; i < 2; ++i) {
     collision_static(&constraints, movement, dest, object);
-    if(!constraints.has_constraints())
-      break;
+    if (!constraints.has_constraints()) break;
 
     // apply calculated vertical constraints
-    float width = constraints.get_width ();
-    if(width < infinity) {
-      if(width + SHIFT_DELTA < object.get_bbox().get_width()) {
+    float width = constraints.get_width();
+    if (width < infinity) {
+      if (width + SHIFT_DELTA < object.get_bbox().get_width()) {
         // we're crushed, but ignore this for now, we'll get this again
         // later if we're really crushed or things will solve itself when
         // looking at the horizontal constraints
         pressure.x += object.get_bbox().get_width() - width;
-      } else {
-        float xmid = constraints.get_x_midpoint ();
-        dest.p1.x = xmid - object.get_bbox().get_width()/2;
-        dest.p2.x = xmid + object.get_bbox().get_width()/2;
       }
-    } else if(constraints.get_position_right() < infinity) {
+      else {
+        float xmid = constraints.get_x_midpoint();
+        dest.p1.x  = xmid - object.get_bbox().get_width() / 2;
+        dest.p2.x  = xmid + object.get_bbox().get_width() / 2;
+      }
+    }
+    else if (constraints.get_position_right() < infinity) {
       dest.p2.x = constraints.get_position_right() - DELTA;
       dest.p1.x = dest.p2.x - object.get_bbox().get_width();
-    } else if(constraints.get_position_left() > -infinity) {
+    }
+    else if (constraints.get_position_left() > -infinity) {
       dest.p1.x = constraints.get_position_left() + DELTA;
       dest.p2.x = dest.p1.x + object.get_bbox().get_width();
     }
   }
 
-  if(constraints.has_constraints()) {
-    if( constraints.hit.left || constraints.hit.right
-        || constraints.hit.top || constraints.hit.bottom
-        || constraints.hit.crush )
+  if (constraints.has_constraints()) {
+    if (constraints.hit.left || constraints.hit.right || constraints.hit.top ||
+        constraints.hit.bottom || constraints.hit.crush)
       object.collision_solid(constraints.hit);
   }
 
@@ -932,13 +928,13 @@ Sector::collision_static_constrains(MovingObject& object)
   if (pressure.y > 0) {
     constraints = Constraints();
     collision_static(&constraints, movement, dest, object);
-    if(constraints.get_position_bottom() < infinity) {
-      float height = constraints.get_height ();
-      if(height + SHIFT_DELTA < object.get_bbox().get_height()) {
+    if (constraints.get_position_bottom() < infinity) {
+      float height = constraints.get_height();
+      if (height + SHIFT_DELTA < object.get_bbox().get_height()) {
         CollisionHit h;
-        h.top = true;
+        h.top    = true;
         h.bottom = true;
-        h.crush = pressure.y > 16;
+        h.crush  = pressure.y > 16;
         object.collision_solid(h);
       }
     }
@@ -948,15 +944,15 @@ Sector::collision_static_constrains(MovingObject& object)
   if (pressure.x > 0) {
     constraints = Constraints();
     collision_static(&constraints, movement, dest, object);
-    if(constraints.get_position_right() < infinity) {
-      float width = constraints.get_width ();
-      if(width + SHIFT_DELTA < object.get_bbox().get_width()) {
+    if (constraints.get_position_right() < infinity) {
+      float width = constraints.get_width();
+      if (width + SHIFT_DELTA < object.get_bbox().get_width()) {
         CollisionHit h;
-        h.top = true;
+        h.top    = true;
         h.bottom = true;
-        h.left = true;
-        h.right = true;
-        h.crush = pressure.x > 16;
+        h.left   = true;
+        h.right  = true;
+        h.crush  = pressure.x > 16;
         object.collision_solid(h);
       }
     }
@@ -970,22 +966,24 @@ const float MAX_SPEED = 16.0f;
 void
 Sector::handle_collisions()
 {
-
   if (Editor::is_active()) {
     return;
-    //Oběcts in editor shouldn't collide.
+    // Oběcts in editor shouldn't collide.
   }
 
   using namespace collision;
 
   // calculate destination positions of the objects
-  for(const auto& moving_object : moving_objects) {
+  for (const auto& moving_object : moving_objects) {
     Vector mov = moving_object->get_movement();
 
-    // make sure movement is never faster than MAX_SPEED. Norm is pretty fat, so two addl. checks are done before.
-    if (((mov.x > MAX_SPEED * M_SQRT1_2) || (mov.y > MAX_SPEED * M_SQRT1_2)) && (mov.norm() > MAX_SPEED)) {
+    // make sure movement is never faster than MAX_SPEED. Norm is pretty fat, so
+    // two addl. checks are done before.
+    if (((mov.x > MAX_SPEED * M_SQRT1_2) || (mov.y > MAX_SPEED * M_SQRT1_2)) &&
+        (mov.norm() > MAX_SPEED)) {
       moving_object->movement = mov.unit() * MAX_SPEED;
-      //log_debug << "Temporarily reduced object's speed of " << mov.norm() << " to " << moving_object->movement.norm() << "." << std::endl;
+      // log_debug << "Temporarily reduced object's speed of " << mov.norm() <<
+      // " to " << moving_object->movement.norm() << "." << std::endl;
     }
 
     moving_object->dest = moving_object->get_bbox();
@@ -993,51 +991,49 @@ Sector::handle_collisions()
   }
 
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
-  for(const auto& moving_object : moving_objects) {
-    if((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC
-        && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
-       || !moving_object->is_valid())
+  for (const auto& moving_object : moving_objects) {
+    if ((moving_object->get_group() != COLGROUP_MOVING &&
+         moving_object->get_group() != COLGROUP_MOVING_STATIC &&
+         moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC) ||
+        !moving_object->is_valid())
       continue;
 
     collision_static_constrains(*moving_object);
   }
 
   // part2: COLGROUP_MOVING vs tile attributes
-  for(const auto& moving_object : moving_objects) {
-    if((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC
-        && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
-       || !moving_object->is_valid())
+  for (const auto& moving_object : moving_objects) {
+    if ((moving_object->get_group() != COLGROUP_MOVING &&
+         moving_object->get_group() != COLGROUP_MOVING_STATIC &&
+         moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC) ||
+        !moving_object->is_valid())
       continue;
 
-    uint32_t tile_attributes = collision_tile_attributes(moving_object->dest, moving_object->get_movement());
-    if(tile_attributes >= Tile::FIRST_INTERESTING_FLAG) {
+    uint32_t tile_attributes = collision_tile_attributes(
+        moving_object->dest, moving_object->get_movement());
+    if (tile_attributes >= Tile::FIRST_INTERESTING_FLAG) {
       moving_object->collision_tile(tile_attributes);
     }
   }
 
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
-  for(const auto& moving_object : moving_objects) {
-    if((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
-       || !moving_object->is_valid())
+  for (const auto& moving_object : moving_objects) {
+    if ((moving_object->get_group() != COLGROUP_MOVING &&
+         moving_object->get_group() != COLGROUP_MOVING_STATIC) ||
+        !moving_object->is_valid())
       continue;
 
-    for(auto& moving_object_2 : moving_objects) {
-      if(moving_object_2->get_group() != COLGROUP_TOUCHABLE
-         || !moving_object_2->is_valid())
+    for (auto& moving_object_2 : moving_objects) {
+      if (moving_object_2->get_group() != COLGROUP_TOUCHABLE ||
+          !moving_object_2->is_valid())
         continue;
 
-      if(intersects(moving_object->dest, moving_object_2->dest)) {
+      if (intersects(moving_object->dest, moving_object_2->dest)) {
         Vector normal;
         CollisionHit hit;
-        get_hit_normal(moving_object->dest, moving_object_2->dest,
-                       hit, normal);
-        if(!moving_object->collides(*moving_object_2, hit))
-          continue;
-        if(!moving_object_2->collides(*moving_object, hit))
-          continue;
+        get_hit_normal(moving_object->dest, moving_object_2->dest, hit, normal);
+        if (!moving_object->collides(*moving_object_2, hit)) continue;
+        if (!moving_object_2->collides(*moving_object, hit)) continue;
 
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
@@ -1046,19 +1042,19 @@ Sector::handle_collisions()
   }
 
   // part3: COLGROUP_MOVING vs COLGROUP_MOVING
-  for(auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
+  for (auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     auto moving_object = *i;
 
-    if((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
-       || !moving_object->is_valid())
+    if ((moving_object->get_group() != COLGROUP_MOVING &&
+         moving_object->get_group() != COLGROUP_MOVING_STATIC) ||
+        !moving_object->is_valid())
       continue;
 
-    for(auto i2 = i+1; i2 != moving_objects.end(); ++i2) {
+    for (auto i2 = i + 1; i2 != moving_objects.end(); ++i2) {
       auto moving_object_2 = *i2;
-      if((moving_object_2->get_group() != COLGROUP_MOVING
-          && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
-         || !moving_object_2->is_valid())
+      if ((moving_object_2->get_group() != COLGROUP_MOVING &&
+           moving_object_2->get_group() != COLGROUP_MOVING_STATIC) ||
+          !moving_object_2->is_valid())
         continue;
 
       collision_object(moving_object, moving_object_2);
@@ -1066,8 +1062,8 @@ Sector::handle_collisions()
   }
 
   // apply object movement
-  for(const auto& moving_object : moving_objects) {
-    moving_object->bbox = moving_object->dest;
+  for (const auto& moving_object : moving_objects) {
+    moving_object->bbox     = moving_object->dest;
     moving_object->movement = Vector(0, 0);
   }
 }
@@ -1077,24 +1073,22 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
 {
   using namespace collision;
 
-  for(const auto& solids : solid_tilemaps) {
+  for (const auto& solids : solid_tilemaps) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(rect);
 
-    for(int x = test_tiles.left; x < test_tiles.right; ++x) {
-      for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
+    for (int x = test_tiles.left; x < test_tiles.right; ++x) {
+      for (int y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const auto& tile = solids->get_tile(x, y);
-        if(!tile) continue;
-        if(!(tile->getAttributes() & Tile::SOLID))
-          continue;
-        if(tile->is_unisolid () && ignoreUnisolid)
-          continue;
-        if(tile->is_slope ()) {
+        if (!tile) continue;
+        if (!(tile->getAttributes() & Tile::SOLID)) continue;
+        if (tile->is_unisolid() && ignoreUnisolid) continue;
+        if (tile->is_slope()) {
           AATriangle triangle;
           Rectf tbbox = solids->get_tile_bbox(x, y);
-          triangle = AATriangle(tbbox, tile->getData());
+          triangle    = AATriangle(tbbox, tile->getData());
           Constraints constraints;
-          if(!collision::rectangle_aatriangle(&constraints, rect, triangle))
+          if (!collision::rectangle_aatriangle(&constraints, rect, triangle))
             continue;
         }
         // We have a solid tile that overlaps the given rectangle.
@@ -1107,17 +1101,18 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
 }
 
 bool
-Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object, const bool ignoreUnisolid) const
+Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object,
+                           const bool ignoreUnisolid) const
 {
   using namespace collision;
 
   if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
 
-  for(const auto& moving_object : moving_objects) {
+  for (const auto& moving_object : moving_objects) {
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
     if (moving_object->get_group() == COLGROUP_STATIC) {
-      if(intersects(rect, moving_object->get_bbox())) return false;
+      if (intersects(rect, moving_object->get_bbox())) return false;
     }
   }
 
@@ -1125,19 +1120,20 @@ Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object,
 }
 
 bool
-Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object) const
+Sector::is_free_of_movingstatics(const Rectf& rect,
+                                 const MovingObject* ignore_object) const
 {
   using namespace collision;
 
   if (!is_free_of_tiles(rect)) return false;
 
-  for(const auto& moving_object : moving_objects) {
+  for (const auto& moving_object : moving_objects) {
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
-    if ((moving_object->get_group() == COLGROUP_MOVING)
-        || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
-        || (moving_object->get_group() == COLGROUP_STATIC)) {
-      if(intersects(rect, moving_object->get_bbox())) return false;
+    if ((moving_object->get_group() == COLGROUP_MOVING) ||
+        (moving_object->get_group() == COLGROUP_MOVING_STATIC) ||
+        (moving_object->get_group() == COLGROUP_STATIC)) {
+      if (intersects(rect, moving_object->get_bbox())) return false;
     }
   }
 
@@ -1145,7 +1141,8 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
 }
 
 bool
-Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object) const
+Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end,
+                           const MovingObject* ignore_object) const
 {
   using namespace collision;
 
@@ -1156,23 +1153,24 @@ Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, con
   float ley = std::max(line_start.y, line_end.y);
   for (float test_x = lsx; test_x <= lex; test_x += 16) {
     for (float test_y = lsy; test_y <= ley; test_y += 16) {
-      for(const auto& solids : solid_tilemaps) {
+      for (const auto& solids : solid_tilemaps) {
         const auto& tile = solids->get_tile_at(Vector(test_x, test_y));
-        if(!tile) continue;
+        if (!tile) continue;
         // FIXME: check collision with slope tiles
-        if((tile->getAttributes() & Tile::SOLID)) return false;
+        if ((tile->getAttributes() & Tile::SOLID)) return false;
       }
     }
   }
 
   // check if no object is in the way
-  for(const auto& moving_object : moving_objects) {
+  for (const auto& moving_object : moving_objects) {
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
-    if ((moving_object->get_group() == COLGROUP_MOVING)
-        || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
-        || (moving_object->get_group() == COLGROUP_STATIC)) {
-      if(intersects_line(moving_object->get_bbox(), line_start, line_end)) return false;
+    if ((moving_object->get_group() == COLGROUP_MOVING) ||
+        (moving_object->get_group() == COLGROUP_MOVING_STATIC) ||
+        (moving_object->get_group() == COLGROUP_STATIC)) {
+      if (intersects_line(moving_object->get_bbox(), line_start, line_end))
+        return false;
     }
   }
 
@@ -1182,18 +1180,22 @@ Sector::free_line_of_sight(const Vector& line_start, const Vector& line_end, con
 bool
 Sector::can_see_player(const Vector& eye) const
 {
-    const std::vector<Player*> players = get_players();
-    for (const auto& pl : players) {
-      // test for free line of sight to any of all four corners and the middle of the player's bounding box
-      if (free_line_of_sight(eye, pl->get_bbox().p1, pl)) return true;
-      if (free_line_of_sight(eye, Vector(pl->get_bbox().p2.x, pl->get_bbox().p1.y), pl)) return true;
-      if (free_line_of_sight(eye, pl->get_bbox().p2, pl)) return true;
-      if (free_line_of_sight(eye, Vector(pl->get_bbox().p1.x, pl->get_bbox().p2.y), pl)) return true;
-      if (free_line_of_sight(eye, pl->get_bbox().get_middle(), pl)) return true;
-    }
-    return false;
+  const std::vector<Player*> players = get_players();
+  for (const auto& pl : players) {
+    // test for free line of sight to any of all four corners and the middle of
+    // the player's bounding box
+    if (free_line_of_sight(eye, pl->get_bbox().p1, pl)) return true;
+    if (free_line_of_sight(
+            eye, Vector(pl->get_bbox().p2.x, pl->get_bbox().p1.y), pl))
+      return true;
+    if (free_line_of_sight(eye, pl->get_bbox().p2, pl)) return true;
+    if (free_line_of_sight(
+            eye, Vector(pl->get_bbox().p1.x, pl->get_bbox().p2.y), pl))
+      return true;
+    if (free_line_of_sight(eye, pl->get_bbox().get_middle(), pl)) return true;
+  }
+  return false;
 }
-
 
 bool
 Sector::add_smoke_cloud(const Vector& pos)
@@ -1206,7 +1208,7 @@ void
 Sector::play_music(MusicType type)
 {
   currentmusic = type;
-  switch(currentmusic) {
+  switch (currentmusic) {
     case LEVEL_MUSIC:
       SoundManager::current()->play_music(music);
       break;
@@ -1225,12 +1227,10 @@ Sector::play_music(MusicType type)
 void
 Sector::resume_music()
 {
-  if(SoundManager::current()->get_current_music() == music)
-  {
+  if (SoundManager::current()->get_current_music() == music) {
     SoundManager::current()->resume_music(3.2f);
   }
-  else
-  {
+  else {
     SoundManager::current()->stop_music();
     SoundManager::current()->play_music(music, true);
   }
@@ -1246,10 +1246,9 @@ int
 Sector::get_total_badguys() const
 {
   int total_badguys = 0;
-  for(const auto& object : gameobjects) {
+  for (const auto& object : gameobjects) {
     auto badguy = dynamic_cast<BadGuy*>(object.get());
-    if (badguy && badguy->countMe)
-      total_badguys++;
+    if (badguy && badguy->countMe) total_badguys++;
   }
 
   return total_badguys;
@@ -1258,12 +1257,12 @@ Sector::get_total_badguys() const
 bool
 Sector::inside(const Rectf& rect) const
 {
-  for(const auto& solids : solid_tilemaps) {
+  for (const auto& solids : solid_tilemaps) {
     Rectf bbox = solids->get_bbox();
-    bbox.p1.y = -INFINITY; // pretend the tilemap extends infinitely far upwards
+    bbox.p1.y =
+        -INFINITY;  // pretend the tilemap extends infinitely far upwards
 
-    if (bbox.contains(rect))
-      return true;
+    if (bbox.contains(rect)) return true;
   }
   return false;
 }
@@ -1272,7 +1271,7 @@ float
 Sector::get_width() const
 {
   float width = 0;
-  for(auto& solids: solid_tilemaps) {
+  for (auto& solids : solid_tilemaps) {
     width = std::max(width, solids->get_bbox().get_right());
   }
 
@@ -1283,7 +1282,7 @@ float
 Sector::get_height() const
 {
   float height = 0;
-  for(const auto& solids: solid_tilemaps) {
+  for (const auto& solids : solid_tilemaps) {
     height = std::max(height, solids->get_bbox().get_bottom());
   }
 
@@ -1296,11 +1295,11 @@ Sector::get_editor_size() const
   // Find the solid tilemap with the greatest surface
   size_t max_surface = 0;
   Size size;
-  for(const auto& solids: solid_tilemaps) {
+  for (const auto& solids : solid_tilemaps) {
     size_t surface = solids->get_width() * solids->get_height();
     if (surface > max_surface) {
       max_surface = surface;
-      size = solids->get_size();
+      size        = solids->get_size();
     }
   }
 
@@ -1310,7 +1309,7 @@ Sector::get_editor_size() const
 void
 Sector::resize_sector(Size& old_size, Size& new_size)
 {
-  for(const auto& object : gameobjects) {
+  for (const auto& object : gameobjects) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
     if (tilemap && tilemap->get_size() == old_size) {
       tilemap->resize(new_size);
@@ -1321,7 +1320,7 @@ Sector::resize_sector(Size& old_size, Size& new_size)
 void
 Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 {
-  for(auto& solids: solid_tilemaps) {
+  for (auto& solids : solid_tilemaps) {
     solids->change_all(old_tile_id, new_tile_id);
   }
 }
@@ -1329,25 +1328,24 @@ Sector::change_solid_tiles(uint32_t old_tile_id, uint32_t new_tile_id)
 void
 Sector::set_ambient_light(float red, float green, float blue)
 {
-  ambient_light.red = red;
+  ambient_light.red   = red;
   ambient_light.green = green;
-  ambient_light.blue = blue;
+  ambient_light.blue  = blue;
 }
 
 void
 Sector::fade_to_ambient_light(float red, float green, float blue, float seconds)
 {
-  if(seconds == 0)
-  {
+  if (seconds == 0) {
     ambient_light = Color(red, green, blue);
     return;
   }
 
-  ambient_light_fading = true;
-  ambient_light_fade_accum = 0;
+  ambient_light_fading        = true;
+  ambient_light_fade_accum    = 0;
   ambient_light_fade_duration = seconds;
-  source_ambient_light = ambient_light;
-  target_ambient_light = Color(red, green, blue);
+  source_ambient_light        = ambient_light;
+  target_ambient_light        = Color(red, green, blue);
 }
 
 float
@@ -1371,7 +1369,9 @@ Sector::get_ambient_blue() const
 void
 Sector::set_gravity(float gravity_)
 {
-  log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects" << std::endl;
+  log_warning << "Changing a Sector's gravitational constant might have "
+                 "unforeseen side-effects"
+              << std::endl;
   this->gravity = gravity_;
 }
 
@@ -1382,22 +1382,20 @@ Sector::get_gravity() const
 }
 
 Player*
-Sector::get_nearest_player (const Vector& pos) const
+Sector::get_nearest_player(const Vector& pos) const
 {
-  Player *nearest_player = NULL;
-  float nearest_dist = std::numeric_limits<float>::max();
+  Player* nearest_player = NULL;
+  float nearest_dist     = std::numeric_limits<float>::max();
 
   std::vector<Player*> players = get_players();
-  for (auto& this_player : players)
-  {
-    if (this_player->is_dying() || this_player->is_dead())
-      continue;
+  for (auto& this_player : players) {
+    if (this_player->is_dying() || this_player->is_dead()) continue;
 
-    float this_dist = this_player->get_bbox ().distance(pos);
+    float this_dist = this_player->get_bbox().distance(pos);
 
     if (this_dist < nearest_dist) {
       nearest_player = this_player;
-      nearest_dist = this_dist;
+      nearest_dist   = this_dist;
     }
   }
 
@@ -1405,21 +1403,19 @@ Sector::get_nearest_player (const Vector& pos) const
 } /* Player *get_nearest_player */
 
 std::vector<MovingObject*>
-Sector::get_nearby_objects (const Vector& center, float max_distance) const
+Sector::get_nearby_objects(const Vector& center, float max_distance) const
 {
   std::vector<MovingObject*> ret;
   std::vector<Player*> players = Sector::current()->get_players();
 
-  for(const auto& player_ : players) {
+  for (const auto& player_ : players) {
     float distance = player_->get_bbox().distance(center);
-    if (distance <= max_distance)
-      ret.push_back(player_);
+    if (distance <= max_distance) ret.push_back(player_);
   }
 
   for (const auto& object_ : moving_objects) {
     float distance = object_->get_bbox().distance(center);
-    if (distance <= max_distance)
-      ret.push_back(object_);
+    if (distance <= max_distance) ret.push_back(object_);
   }
 
   return ret;
@@ -1428,20 +1424,21 @@ Sector::get_nearby_objects (const Vector& center, float max_distance) const
 void
 Sector::stop_looping_sounds()
 {
-  for(auto& object : gameobjects) {
+  for (auto& object : gameobjects) {
     object->stop_looping_sounds();
   }
 }
 
-void Sector::play_looping_sounds()
+void
+Sector::play_looping_sounds()
 {
-  for(const auto& object : gameobjects) {
+  for (const auto& object : gameobjects) {
     object->play_looping_sounds();
   }
 }
 
 void
-Sector::save(Writer &writer)
+Sector::save(Writer& writer)
 {
   writer.start_list("sector", false);
 
@@ -1449,7 +1446,7 @@ Sector::save(Writer &writer)
   writer.write("ambient-light", ambient_light.toVector());
 
   if (init_script.size()) {
-    writer.write("init-script", init_script,false);
+    writer.write("init-script", init_script, false);
   }
   if (music.size()) {
     writer.write("music", music, false);
@@ -1467,7 +1464,7 @@ Sector::save(Writer &writer)
   // Do not save spawnpoints since we have spawnpoint markers.
 
   // saving oběcts (not really)
-  for(auto& obj : gameobjects) {
+  for (auto& obj : gameobjects) {
     if (obj->is_saveable()) {
       writer.start_list(obj->get_class());
       obj->save(writer);

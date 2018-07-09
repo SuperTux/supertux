@@ -31,32 +31,27 @@
  * public ExposedObject<Gradient, scripting::Gradient>
  * \endcode
  *
- * and instantiate it in each constructor with the <i>this</i> pointer, like this:
- * \code{.cpp}
- * Gradient::Gradient(const ReaderMapping& reader) :
+ * and instantiate it in each constructor with the <i>this</i> pointer, like
+ * this: \code{.cpp} Gradient::Gradient(const ReaderMapping& reader) :
  *  ExposedObject<Gradient, scripting::Gradient>(this)
  * \endcode
  * @param class S: GameObject class (e.g. Gradient)
  * @param class T: Scripting class (e.g. scripting::Gradient)
  */
-template<class S, class T>
-class ExposedObject : public ScriptInterface
-{
-private:
+template <class S, class T>
+class ExposedObject : public ScriptInterface {
+ private:
   /**
- * The parent object that is exposed to the script interface
- */
+   * The parent object that is exposed to the script interface
+   */
   S* m_parent;
 
-public:
+ public:
   /**
    * Constructor
    * @param parent GameObject
    */
-  ExposedObject(S* parent) :
-    m_parent(parent)
-  {
-  }
+  ExposedObject(S* parent) : m_parent(parent) {}
 
   /**
    * Exposes the parent GameObject to the script Interface
@@ -66,12 +61,12 @@ public:
   void expose(HSQUIRRELVM vm, SQInteger table_idx)
   {
     auto name = m_parent->get_name();
-    if (name.empty())
-    {
+    if (name.empty()) {
       return;
     }
 
-    log_debug << "Exposing " << m_parent->get_class() << " object " << name << std::endl;
+    log_debug << "Exposing " << m_parent->get_class() << " object " << name
+              << std::endl;
 
     auto object = new T(m_parent);
     scripting::expose_object(vm, table_idx, object, name, true);
@@ -85,8 +80,7 @@ public:
   void unexpose(HSQUIRRELVM vm, SQInteger table_idx)
   {
     auto name = m_parent->get_name();
-    if (name.empty())
-    {
+    if (name.empty()) {
       return;
     }
 
@@ -95,7 +89,7 @@ public:
     scripting::unexpose_object(vm, table_idx, name);
   }
 
-private:
+ private:
   ExposedObject(const ExposedObject&) = delete;
   ExposedObject& operator=(const ExposedObject&) = delete;
 };

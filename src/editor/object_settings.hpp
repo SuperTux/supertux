@@ -21,17 +21,16 @@
 
 #include "editor/object_option.hpp"
 
-class ObjectSettings
-{
-  public:
-    ObjectSettings(const std::string& name_);
+class ObjectSettings {
+ public:
+  ObjectSettings(const std::string& name_);
 
-    std::string name;
-    std::vector<ObjectOption> options;
+  std::string name;
+  std::vector<ObjectOption> options;
 
-    void copy_from(ObjectSettings* other);
+  void copy_from(ObjectSettings* other);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_OBJECT_SETTINGS_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_OBJECT_SETTINGS_HPP
 
 /* EOF */

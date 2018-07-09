@@ -1,6 +1,7 @@
 //  SuperTux
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmail.com>
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -32,9 +33,8 @@ class Sprite;
 
 namespace worldmap {
 
-class LevelTile : public GameObject
-{
-public:
+class LevelTile : public GameObject {
+ public:
   LevelTile(const std::string& basedir, const ReaderMapping& lisp);
   virtual ~LevelTile();
 
@@ -46,12 +46,13 @@ public:
 
   void update_sprite_action();
 
-public:
+ public:
   Vector pos;
   std::string title;
   bool solved;
   bool perfect;
-  bool auto_play; /**< true if Tux should automatically enter this level if it's unfinished */
+  bool auto_play; /**< true if Tux should automatically enter this level if it's
+                     unfinished */
 
   SpritePtr sprite;
 
@@ -65,15 +66,15 @@ public:
   /** The colour of the level title */
   Color title_color;
 
-private:
+ private:
   std::string basedir;
 
-private:
+ private:
   LevelTile(const LevelTile&);
   LevelTile& operator=(const LevelTile&);
 };
 
-} // namespace worldmap
+}  // namespace worldmap
 
 #endif
 

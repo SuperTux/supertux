@@ -17,20 +17,20 @@
 #ifndef HEADER_SUPERTUX_GUI_ITEM_ACTION_HPP
 #define HEADER_SUPERTUX_GUI_ITEM_ACTION_HPP
 
+#include <SDL.h>
+
 #include <list>
 #include <memory>
-#include <SDL.h>
 
 #include "gui/menu_item.hpp"
 
-class ItemAction : public MenuItem
-{
-  public:
-    ItemAction(const std::string& text_, int id = -1);
+class ItemAction : public MenuItem {
+ public:
+  ItemAction(const std::string& text_, int id = -1);
 
-  private:
-    ItemAction(const ItemAction&);
-    ItemAction& operator=(const ItemAction&);
+ private:
+  ItemAction(const ItemAction&);
+  ItemAction& operator=(const ItemAction&);
 };
 
 #endif

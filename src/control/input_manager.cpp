@@ -29,18 +29,16 @@
 #include "util/writer.hpp"
 
 InputManager::InputManager(KeyboardConfig& keyboard_config,
-                           JoystickConfig& joystick_config) :
-  controller(new Controller),
-  m_use_game_controller(joystick_config.use_game_controller),
-  keyboard_manager(new KeyboardManager(this, keyboard_config)),
-  joystick_manager(new JoystickManager(this, joystick_config)),
-  game_controller_manager(new GameControllerManager(this))
+                           JoystickConfig& joystick_config)
+    : controller(new Controller),
+      m_use_game_controller(joystick_config.use_game_controller),
+      keyboard_manager(new KeyboardManager(this, keyboard_config)),
+      joystick_manager(new JoystickManager(this, joystick_config)),
+      game_controller_manager(new GameControllerManager(this))
 {
 }
 
-InputManager::~InputManager()
-{
-}
+InputManager::~InputManager() {}
 
 Controller*
 InputManager::get_controller() const
@@ -69,7 +67,7 @@ InputManager::reset()
 void
 InputManager::process_event(const SDL_Event& event)
 {
-  switch(event.type) {
+  switch (event.type) {
     case SDL_TEXTINPUT:
       keyboard_manager->process_text_input_event(event.text);
       break;
@@ -80,16 +78,19 @@ InputManager::process_event(const SDL_Event& event)
       break;
 
     case SDL_JOYAXISMOTION:
-      if (!m_use_game_controller) joystick_manager->process_axis_event(event.jaxis);
+      if (!m_use_game_controller)
+        joystick_manager->process_axis_event(event.jaxis);
       break;
 
     case SDL_JOYHATMOTION:
-      if (!m_use_game_controller) joystick_manager->process_hat_event(event.jhat);
+      if (!m_use_game_controller)
+        joystick_manager->process_hat_event(event.jhat);
       break;
 
     case SDL_JOYBUTTONDOWN:
     case SDL_JOYBUTTONUP:
-      if (!m_use_game_controller) joystick_manager->process_button_event(event.jbutton);
+      if (!m_use_game_controller)
+        joystick_manager->process_button_event(event.jbutton);
       break;
 
     case SDL_JOYDEVICEADDED:
@@ -101,15 +102,18 @@ InputManager::process_event(const SDL_Event& event)
       break;
 
     case SDL_CONTROLLERAXISMOTION:
-      if (m_use_game_controller) game_controller_manager->process_axis_event(event.caxis);
+      if (m_use_game_controller)
+        game_controller_manager->process_axis_event(event.caxis);
       break;
 
     case SDL_CONTROLLERBUTTONDOWN:
-      if (m_use_game_controller) game_controller_manager->process_button_event(event.cbutton);
+      if (m_use_game_controller)
+        game_controller_manager->process_button_event(event.cbutton);
       break;
 
     case SDL_CONTROLLERBUTTONUP:
-      if (m_use_game_controller) game_controller_manager->process_button_event(event.cbutton);
+      if (m_use_game_controller)
+        game_controller_manager->process_button_event(event.cbutton);
       break;
 
     case SDL_CONTROLLERDEVICEADDED:

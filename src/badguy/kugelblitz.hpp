@@ -19,9 +19,8 @@
 
 #include "badguy/badguy.hpp"
 
-class Kugelblitz : public BadGuy
-{
-public:
+class Kugelblitz : public BadGuy {
+ public:
   Kugelblitz(const ReaderMapping& reader);
 
   void initialize();
@@ -36,18 +35,14 @@ public:
   bool is_flammable() const;
 
   virtual void draw(DrawingContext& context);
-  std::string get_class() const {
-    return "kugelblitz";
-  }
-  std::string get_display_name() const {
-    return _("Kugelblitz");
-  }
+  std::string get_class() const { return "kugelblitz"; }
+  std::string get_display_name() const { return _("Kugelblitz"); }
 
-private:
+ private:
   void try_activate();
   HitResponse hit(const CollisionHit& hit);
 
-private:
+ private:
   Vector pos_groundhit;
   bool groundhit_pos_set;
   bool dying;

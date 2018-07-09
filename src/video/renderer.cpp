@@ -16,12 +16,8 @@
 
 #include "video/renderer.hpp"
 
-Renderer::Renderer()
-{
-}
+Renderer::Renderer() {}
 
-Renderer::~Renderer()
-{
-}
+Renderer::~Renderer() {}
 
 /* EOF */

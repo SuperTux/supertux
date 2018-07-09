@@ -41,15 +41,13 @@
  * initialize particles in the constructor and move them in the simulate
  * function.
  */
-class ParticleSystem : public GameObject,
-                       public ExposedObject<ParticleSystem, scripting::ParticleSystem>
-{
-public:
+class ParticleSystem
+    : public GameObject,
+      public ExposedObject<ParticleSystem, scripting::ParticleSystem> {
+ public:
   ParticleSystem(float max_particle_size = 60);
   virtual ~ParticleSystem();
-  virtual std::string get_class() const override {
-    return "particle-system";
-  }
+  virtual std::string get_class() const override { return "particle-system"; }
   virtual std::string get_display_name() const override
   {
     return _("Particle system");
@@ -61,28 +59,21 @@ public:
   void set_enabled(bool enabled_);
   bool get_enabled() const;
 
-  int get_layer() const
-  { return z_pos; }
+  int get_layer() const { return z_pos; }
 
-protected:
-  class Particle
-  {
-  public:
-    Particle() :
-      pos(),
-      angle(),
-      texture()
-    {}
+ protected:
+  class Particle {
+   public:
+    Particle() : pos(), angle(), texture() {}
 
-    virtual ~Particle()
-    {}
+    virtual ~Particle() {}
 
     Vector pos;
     // angle at which to draw particle
     float angle;
     SurfacePtr texture;
 
-  private:
+   private:
     Particle(const Particle&);
     Particle& operator=(const Particle&);
   };

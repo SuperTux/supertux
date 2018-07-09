@@ -18,29 +18,29 @@
 
 #include "video/drawing_context.hpp"
 
-ToolIcon::ToolIcon(const std::string& icon) :
-  pos(0, 0),
-  surfaces(),
-  mode(0),
-  surf_count(0)
+ToolIcon::ToolIcon(const std::string& icon)
+    : pos(0, 0), surfaces(), mode(0), surf_count(0)
 {
   push_mode(icon);
 }
 
 void
-ToolIcon::push_mode(const std::string& icon) {
+ToolIcon::push_mode(const std::string& icon)
+{
   auto surface = Surface::create(icon);
   surfaces.push_back(surface);
   surf_count++;
 }
 
 void
-ToolIcon::draw(DrawingContext& context) {
+ToolIcon::draw(DrawingContext& context)
+{
   context.draw_surface(surfaces[mode], pos, LAYER_GUI - 9);
 }
 
 void
-ToolIcon::next_mode() {
+ToolIcon::next_mode()
+{
   mode++;
   if (mode >= surf_count) {
     mode = 0;
@@ -48,7 +48,8 @@ ToolIcon::next_mode() {
 }
 
 SurfacePtr
-ToolIcon::get_current_surface() const {
+ToolIcon::get_current_surface() const
+{
   return surfaces[mode];
 }
 

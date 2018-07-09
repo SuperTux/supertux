@@ -23,20 +23,20 @@
 #include "util/reader_object.hpp"
 
 /** The ReaderDocument holds the memory */
-class ReaderDocument final
-{
-public:
-  static ReaderDocument parse(std::istream& stream, const std::string& filename = "<stream>");
+class ReaderDocument final {
+ public:
+  static ReaderDocument parse(std::istream& stream,
+                              const std::string& filename = "<stream>");
   static ReaderDocument parse(const std::string& filename);
 
-public:
+ public:
   ReaderDocument();
   ReaderDocument(const std::string& filename, sexp::Value sx);
 
   ReaderObject get_root() const;
   std::string get_filename() const;
 
-private:
+ private:
   std::string m_filename;
   sexp::Value m_sx;
 };

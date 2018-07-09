@@ -19,26 +19,21 @@
 
 #include "object/block.hpp"
 
-class Brick : public Block
-{
-public:
+class Brick : public Block {
+ public:
   Brick(const Vector& pos, int data, const std::string& spriteName);
   Brick(const ReaderMapping& lisp);
 
   void try_break(Player* player);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
   virtual ObjectSettings get_settings();
-  std::string get_class() const {
-    return "brick";
-  }
-  std::string get_display_name() const {
-    return _("Brick");
-  }
+  std::string get_class() const { return "brick"; }
+  std::string get_display_name() const { return _("Brick"); }
 
-protected:
+ protected:
   virtual void hit(Player& player);
 
-private:
+ private:
   bool breakable;
   int coin_counter;
 };

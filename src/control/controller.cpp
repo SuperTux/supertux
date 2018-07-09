@@ -16,41 +16,35 @@
 
 #include "control/controller.hpp"
 
-const char* Controller::controlNames[] = {
-  "left",
-  "right",
-  "up",
-  "down",
-  "jump",
-  "action",
-  "start",
-  "escape",
-  "menu-select",
-  "menu-select-space",
-  "menu-back",
-  "remove",
-  "cheat-menu",
-  "console",
-  "peek-left",
-  "peek-right",
-  "peek-up",
-  "peek-down",
-  0
-};
+const char* Controller::controlNames[] = {"left",
+                                          "right",
+                                          "up",
+                                          "down",
+                                          "jump",
+                                          "action",
+                                          "start",
+                                          "escape",
+                                          "menu-select",
+                                          "menu-select-space",
+                                          "menu-back",
+                                          "remove",
+                                          "cheat-menu",
+                                          "console",
+                                          "peek-left",
+                                          "peek-right",
+                                          "peek-up",
+                                          "peek-down",
+                                          0};
 
-Controller::Controller()
-{
-  reset();
-}
+Controller::Controller() { reset(); }
 
-Controller::~Controller()
-{}
+Controller::~Controller() {}
 
 void
 Controller::reset()
 {
-  for(int i = 0; i < CONTROLCOUNT; ++i) {
-    controls[i] = false;
+  for (int i = 0; i < CONTROLCOUNT; ++i) {
+    controls[i]    = false;
     oldControls[i] = false;
   }
 }
@@ -82,8 +76,7 @@ Controller::released(Control control) const
 void
 Controller::update()
 {
-  for(int i = 0; i < CONTROLCOUNT; ++i)
-    oldControls[i] = controls[i];
+  for (int i = 0; i < CONTROLCOUNT; ++i) oldControls[i] = controls[i];
 }
 
 /* EOF */

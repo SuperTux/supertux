@@ -20,10 +20,8 @@
 #include "badguy/walking_badguy.hpp"
 #include "object/portable.hpp"
 
-class MrIceBlock : public WalkingBadguy,
-                   public Portable
-{
-public:
+class MrIceBlock : public WalkingBadguy, public Portable {
+ public:
   MrIceBlock(const ReaderMapping& reader);
 
   void initialize();
@@ -43,14 +41,10 @@ public:
   void ignite();
   bool can_break();
 
-  std::string get_class() const {
-    return "mriceblock";
-  }
-  std::string get_display_name() const {
-    return _("Mr. Ice Block");
-  }
+  std::string get_class() const { return "mriceblock"; }
+  std::string get_display_name() const { return _("Mr. Ice Block"); }
 
-protected:
+ protected:
   enum IceState {
     ICESTATE_NORMAL,
     ICESTATE_FLAT,
@@ -59,11 +53,11 @@ protected:
     ICESTATE_WAKING
   };
 
-protected:
+ protected:
   bool collision_squished(GameObject& object);
   void set_state(IceState state, bool up = false);
 
-private:
+ private:
   IceState ice_state;
   Timer nokick_timer;
   Timer flat_timer;

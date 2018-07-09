@@ -32,18 +32,17 @@ enum {
   MNID_AUTO_JOYSTICK_CFG
 };
 
-} // namespace
+}  // namespace
 
-JoystickMenu::JoystickMenu(InputManager& input_manager) :
-  m_input_manager(input_manager),
-  m_joysticks_available(false),
-  m_auto_joystick_cfg(!m_input_manager.use_game_controller())
+JoystickMenu::JoystickMenu(InputManager& input_manager)
+    : m_input_manager(input_manager),
+      m_joysticks_available(false),
+      m_auto_joystick_cfg(!m_input_manager.use_game_controller())
 {
   recreate_menu();
 }
 
-JoystickMenu::~JoystickMenu()
-{}
+JoystickMenu::~JoystickMenu() {}
 
 void
 JoystickMenu::recreate_menu()
@@ -54,29 +53,27 @@ JoystickMenu::recreate_menu()
 
   add_toggle(MNID_AUTO_JOYSTICK_CFG, _("Manual Configuration"),
              &m_auto_joystick_cfg)
-    ->set_help(_("Use manual configuration instead of SDL2's automatic GameController support"));
+      ->set_help(_("Use manual configuration instead of SDL2's automatic "
+                   "GameController support"));
 
-  if (m_input_manager.use_game_controller())
-  {
+  if (m_input_manager.use_game_controller()) {
     m_joysticks_available = false;
   }
-  else
-  {
-    if (m_input_manager.joystick_manager->get_num_joysticks() > 0)
-    {
+  else {
+    if (m_input_manager.joystick_manager->get_num_joysticks() > 0) {
       m_joysticks_available = true;
 
-      add_controlfield(Controller::UP,          _("Up"));
-      add_controlfield(Controller::DOWN,        _("Down"));
-      add_controlfield(Controller::LEFT,        _("Left"));
-      add_controlfield(Controller::RIGHT,       _("Right"));
-      add_controlfield(Controller::JUMP,        _("Jump"));
-      add_controlfield(Controller::ACTION,      _("Action"));
-      add_controlfield(Controller::START,       _("Pause/Menu"));
-      add_controlfield(Controller::PEEK_LEFT,   _("Peek Left"));
-      add_controlfield(Controller::PEEK_RIGHT,  _("Peek Right"));
-      add_controlfield(Controller::PEEK_UP,     _("Peek Up"));
-      add_controlfield(Controller::PEEK_DOWN,   _("Peek Down"));
+      add_controlfield(Controller::UP, _("Up"));
+      add_controlfield(Controller::DOWN, _("Down"));
+      add_controlfield(Controller::LEFT, _("Left"));
+      add_controlfield(Controller::RIGHT, _("Right"));
+      add_controlfield(Controller::JUMP, _("Jump"));
+      add_controlfield(Controller::ACTION, _("Action"));
+      add_controlfield(Controller::START, _("Pause/Menu"));
+      add_controlfield(Controller::PEEK_LEFT, _("Peek Left"));
+      add_controlfield(Controller::PEEK_RIGHT, _("Peek Right"));
+      add_controlfield(Controller::PEEK_UP, _("Peek Up"));
+      add_controlfield(Controller::PEEK_DOWN, _("Peek Down"));
       if (g_config->developer_mode) {
         add_controlfield(Controller::CONSOLE, _("Console"));
       }
@@ -89,10 +86,10 @@ JoystickMenu::recreate_menu()
       add_inactive(_("It will be removed from the next release"));
       // l10n: Continuation of string "It will be removed from the next release"
       add_inactive(_("of SuperTux."));
-      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), &g_config->joystick_config.jump_with_up_joy);
+      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"),
+                 &g_config->joystick_config.jump_with_up_joy);
     }
-    else
-    {
+    else {
       m_joysticks_available = false;
 
       add_inactive(_("No Joysticks found"));
@@ -108,12 +105,10 @@ JoystickMenu::recreate_menu()
 std::string
 JoystickMenu::get_button_name(int button) const
 {
-  if(button < 0)
-  {
+  if (button < 0) {
     return _("None");
   }
-  else
-  {
+  else {
     std::ostringstream name;
     name << "Button " << button;
     return name.str();
@@ -123,24 +118,22 @@ JoystickMenu::get_button_name(int button) const
 void
 JoystickMenu::menu_action(MenuItem* item)
 {
-  if (0 <= item->id && item->id < Controller::CONTROLCOUNT)
-  {
+  if (0 <= item->id && item->id < Controller::CONTROLCOUNT) {
     ItemControlField* micf = dynamic_cast<ItemControlField*>(item);
     if (!micf) {
       return;
     }
     micf->change_input(_("Press Button"));
-    m_input_manager.joystick_manager->bind_next_event_to(static_cast<Controller::Control>(item->id));
+    m_input_manager.joystick_manager->bind_next_event_to(
+        static_cast<Controller::Control>(item->id));
   }
-  else if (item->id == MNID_AUTO_JOYSTICK_CFG)
-  {
-    //m_input_manager.use_game_controller(!item->toggled);
+  else if (item->id == MNID_AUTO_JOYSTICK_CFG) {
+    // m_input_manager.use_game_controller(!item->toggled);
     m_input_manager.use_game_controller(!m_auto_joystick_cfg);
     m_input_manager.reset();
     recreate_menu();
   }
-  else if(item->id == MNID_SCAN_JOYSTICKS)
-  {
+  else if (item->id == MNID_SCAN_JOYSTICKS) {
     m_input_manager.reset();
     recreate_menu();
   }
@@ -149,7 +142,8 @@ JoystickMenu::menu_action(MenuItem* item)
 void
 JoystickMenu::refresh_menu_item(Controller::Control id)
 {
-  ItemControlField* itemcf = dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(id)));
+  ItemControlField* itemcf =
+      dynamic_cast<ItemControlField*>(&get_item_by_id(static_cast<int>(id)));
   if (!itemcf) {
     return;
   }
@@ -158,12 +152,10 @@ JoystickMenu::refresh_menu_item(Controller::Control id)
   int axis    = g_config->joystick_config.reversemap_joyaxis(id);
   int hat_dir = g_config->joystick_config.reversemap_joyhat(id);
 
-  if (button != -1)
-  {
+  if (button != -1) {
     itemcf->change_input(get_button_name(button));
   }
-  else if (axis != 0)
-  {
+  else if (axis != 0) {
     std::ostringstream name;
 
     name << _("Axis ");
@@ -186,12 +178,10 @@ JoystickMenu::refresh_menu_item(Controller::Control id)
 
     itemcf->change_input(name.str());
   }
-  else if (hat_dir != -1)
-  {
+  else if (hat_dir != -1) {
     std::string name;
 
-    switch (hat_dir)
-    {
+    switch (hat_dir) {
       case SDL_HAT_UP:
         name = _("Hat Up");
         break;
@@ -215,8 +205,7 @@ JoystickMenu::refresh_menu_item(Controller::Control id)
 
     itemcf->change_input(name);
   }
-  else
-  {
+  else {
     itemcf->change_input(_("None"));
   }
 }
@@ -224,8 +213,7 @@ JoystickMenu::refresh_menu_item(Controller::Control id)
 void
 JoystickMenu::refresh()
 {
-  if (m_joysticks_available)
-  {
+  if (m_joysticks_available) {
     refresh_menu_item(Controller::UP);
     refresh_menu_item(Controller::DOWN);
     refresh_menu_item(Controller::LEFT);

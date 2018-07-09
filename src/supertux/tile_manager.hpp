@@ -25,16 +25,15 @@
 
 class TileSet;
 
-class TileManager : public Currenton<TileManager>
-{
-private:
+class TileManager : public Currenton<TileManager> {
+ private:
   typedef std::map<std::string, std::unique_ptr<TileSet> > TileSets;
   TileSets tilesets;
 
-public:
+ public:
   TileManager();
 
-  TileSet* get_tileset(const std::string &filename);
+  TileSet* get_tileset(const std::string& filename);
 };
 
 #endif

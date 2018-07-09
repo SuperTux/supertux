@@ -16,8 +16,7 @@
 
 #include "gui/item_action.hpp"
 
-ItemAction::ItemAction(const std::string& text_, int _id) :
-  MenuItem(text_, _id)
+ItemAction::ItemAction(const std::string& text_, int _id) : MenuItem(text_, _id)
 {
 }
 

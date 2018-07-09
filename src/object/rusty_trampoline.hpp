@@ -25,9 +25,8 @@
  * After 3 jumps, it breaks (configurable)
  * It cannot be carried (breaks on ungrab)
  */
-class RustyTrampoline : public Rock
-{
-public:
+class RustyTrampoline : public Rock {
+ public:
   RustyTrampoline(const ReaderMapping& reader);
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
@@ -37,17 +36,12 @@ public:
   void grab(MovingObject&, const Vector& pos, Direction);
   void ungrab(MovingObject&, Direction);
   bool is_portable() const;
-  std::string get_class() const {
-    return "rustytrampoline";
-  }
-  std::string get_display_name() const {
-    return _("Rusty trampoline");
-  }
+  std::string get_class() const { return "rustytrampoline"; }
+  std::string get_display_name() const { return _("Rusty trampoline"); }
 
-private:
+ private:
   bool portable;
   int counter;
-
 };
 
 #endif

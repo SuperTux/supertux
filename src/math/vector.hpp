@@ -18,25 +18,18 @@
 #define HEADER_SUPERTUX_MATH_VECTOR_HPP
 
 /** Simple two dimensional vector. */
-class Vector
-{
-public:
-  Vector(float nx, float ny)
-    : x(nx), y(ny)
-  { }
-  Vector(const Vector& other)
-    : x(other.x), y(other.y)
-  { }
-  Vector()
-    : x(0), y(0)
-  { }
+class Vector {
+ public:
+  Vector(float nx, float ny) : x(nx), y(ny) {}
+  Vector(const Vector& other) : x(other.x), y(other.y) {}
+  Vector() : x(0), y(0) {}
 
-  bool operator ==(const Vector& other) const
+  bool operator==(const Vector& other) const
   {
     return x == other.x && y == other.y;
   }
 
-  bool operator !=(const Vector& other) const
+  bool operator!=(const Vector& other) const
   {
     return !(x == other.x && y == other.y);
   }
@@ -58,43 +51,34 @@ public:
     return Vector(x - other.x, y - other.y);
   }
 
-  Vector operator*(float s) const
-  {
-    return Vector(x * s, y * s);
-  }
+  Vector operator*(float s) const { return Vector(x * s, y * s); }
 
-  Vector operator/(float s) const
-  {
-    return Vector(x / s, y / s);
-  }
+  Vector operator/(float s) const { return Vector(x / s, y / s); }
 
-  Vector operator-() const
-  {
-    return Vector(-x, -y);
-  }
+  Vector operator-() const { return Vector(-x, -y); }
 
-  const Vector& operator +=(const Vector& other)
+  const Vector& operator+=(const Vector& other)
   {
     x += other.x;
     y += other.y;
     return *this;
   }
 
-  const Vector& operator -=(const Vector& other)
+  const Vector& operator-=(const Vector& other)
   {
     x -= other.x;
     y -= other.y;
     return *this;
   }
 
-  const Vector& operator *=(float val)
+  const Vector& operator*=(float val)
   {
     x *= val;
     y *= val;
     return *this;
   }
 
-  const Vector& operator /=(float val)
+  const Vector& operator/=(float val)
   {
     x /= val;
     y /= val;
@@ -104,20 +88,17 @@ public:
   /// Scalar product of 2 vectors
   float operator*(const Vector& other) const
   {
-    return x*other.x + y*other.y;
+    return x * other.x + y * other.y;
   }
 
   float norm() const;
   Vector unit() const;
 
-  Vector to_int_vec() const
-  {
-    return Vector(int(x), int(y));
-  }
+  Vector to_int_vec() const { return Vector(int(x), int(y)); }
 
   // ... add the other operators as needed, I'm too lazy now ...
 
-  float x, y; // leave this public, get/set methods just give me headaches
+  float x, y;  // leave this public, get/set methods just give me headaches
   // for such simple stuff :)
 };
 

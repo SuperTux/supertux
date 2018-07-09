@@ -25,21 +25,20 @@ class Player;
 
 namespace scripting {
 
-class Player
-{
+class Player {
 #ifndef SCRIPTING_API
-private:
+ private:
   ::Player* m_parent;
 
-public:
+ public:
   Player(::Player* parent);
 
-private:
+ private:
   Player(const Player&) = delete;
   Player& operator=(const Player&) = delete;
 #endif
 
-public:
+ public:
   /**
    * Set tux bonus.
    * This can be "grow", "fireflower" or "iceflower" at the moment
@@ -116,7 +115,8 @@ public:
 
   /**
    * play cheer animation.
-   * This might need some space and behave in an unpredictable way. Best to use this at level end.
+   * This might need some space and behave in an unpredictable way. Best to use
+   * this at level end.
    */
   void do_cheer();
 
@@ -138,7 +138,8 @@ public:
 
   /**
    * jump in the air if possible
-   * sensible values for yspeed are negative - unless we want to jump into the ground of course
+   * sensible values for yspeed are negative - unless we want to jump into the
+   * ground of course
    */
   void do_jump(float yspeed);
 
@@ -156,7 +157,7 @@ public:
    * Check whether player is carrying a certain object
    * @param name Name of the Portable object to check for
    */
-   bool has_grabbed(const std::string& name) const;
+  bool has_grabbed(const std::string& name) const;
 
   /**
    * Instructs the scriptable controller to press or release a button
@@ -165,10 +166,9 @@ public:
 
   float get_velocity_x() const;
   float get_velocity_y() const;
-
 };
 
-} // namespace scripting
+}  // namespace scripting
 
 #endif
 

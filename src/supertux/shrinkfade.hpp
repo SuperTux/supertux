@@ -23,9 +23,8 @@
 /**
  * Shrinks a rectangle screen towards a specific position
  */
-class ShrinkFade : public ScreenFade
-{
-public:
+class ShrinkFade : public ScreenFade {
+ public:
   ShrinkFade(const Vector& point, float fade_time);
 
   void update(float elapsed_time);
@@ -33,7 +32,7 @@ public:
 
   bool done() const;
 
-private:
+ private:
   Vector dest;
   float fade_time;
   float accum_time;

@@ -23,9 +23,8 @@ class Wind;
 
 namespace scripting {
 
-class Wind
-{
-public:
+class Wind {
+ public:
 #ifndef SCRIPTING_API
   Wind(::Wind* wind);
 #endif
@@ -39,13 +38,13 @@ public:
 #ifndef SCRIPTING_API
   ::Wind* wind;
 
-private:
+ private:
   Wind(const Wind&);
   Wind& operator=(const Wind&);
 #endif
 };
 
-} // namespace scripting
+}  // namespace scripting
 
 #endif
 

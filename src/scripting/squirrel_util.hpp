@@ -23,7 +23,6 @@
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper.hpp"
-
 #include "supertux/game_object_ptr.hpp"
 
 class GameObject;
@@ -59,35 +58,35 @@ void compile_and_run(HSQUIRRELVM vm, std::istream& in,
  * @param scripts Lists of scripts to be released
  * @param root_table Root table these scripts belong to
  */
-void release_scripts(HSQUIRRELVM vm, ScriptList& scripts, HSQOBJECT& root_table);
+void release_scripts(HSQUIRRELVM vm, ScriptList& scripts,
+                     HSQOBJECT& root_table);
 
-template<typename T>
-void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
-                   const std::string& name, bool free = false)
+template <typename T>
+void
+expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
+              const std::string& name, bool free = false)
 {
   sq_pushstring(v, name.c_str(), -1);
   scripting::create_squirrel_instance(v, object, free);
 
-  if(table_idx < 0)
-    table_idx -= 2;
+  if (table_idx < 0) table_idx -= 2;
 
   // register instance in root table
-  if(SQ_FAILED(sq_createslot(v, table_idx))) {
+  if (SQ_FAILED(sq_createslot(v, table_idx))) {
     std::ostringstream msg;
     msg << "Couldn't register object '" << name << "' in squirrel table";
     throw scripting::SquirrelError(v, msg.str());
   }
 }
 
-static inline void unexpose_object(HSQUIRRELVM v, SQInteger table_idx,
-                                   const std::string& name)
+static inline void
+unexpose_object(HSQUIRRELVM v, SQInteger table_idx, const std::string& name)
 {
   sq_pushstring(v, name.c_str(), name.length());
 
-  if(table_idx < 0)
-    table_idx -= 1;
+  if (table_idx < 0) table_idx -= 1;
 
-  if(SQ_FAILED(sq_deleteslot(v, table_idx, SQFalse))) {
+  if (SQ_FAILED(sq_deleteslot(v, table_idx, SQFalse))) {
     std::ostringstream msg;
     msg << "Couldn't unregister object '" << name << "' in squirrel root table";
     throw scripting::SquirrelError(v, msg.str());
@@ -127,7 +126,7 @@ void get_table_entry(HSQUIRRELVM vm, const std::string& name);
 void get_or_create_table_entry(HSQUIRRELVM vm, const std::string& name);
 void delete_table_entry(HSQUIRRELVM vm, const char* name);
 std::vector<std::string> get_table_keys(HSQUIRRELVM vm);
-}
+}  // namespace scripting
 
 #endif
 

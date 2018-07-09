@@ -1,5 +1,6 @@
 //  SuperTux - "Will-O-Wisp" Badguy
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -32,23 +33,26 @@
 #include "util/reader_mapping.hpp"
 
 static const float FLYSPEED = 64; /**< speed in px per second */
-static const float TRACK_RANGE = 384; /**< at what distance to start tracking the player */
-static const float VANISH_RANGE = 512; /**< at what distance to stop tracking and vanish */
+static const float TRACK_RANGE =
+    384; /**< at what distance to start tracking the player */
+static const float VANISH_RANGE =
+    512; /**< at what distance to stop tracking and vanish */
 static const std::string SOUNDFILE = "sounds/willowisp.wav";
 
-WillOWisp::WillOWisp(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/willowisp/willowisp.sprite", LAYER_FLOATINGOBJECTS,
-         "images/objects/lightmap_light/lightmap_light-small.sprite"),
-  ExposedObject<WillOWisp, scripting::WillOWisp>(this),
-  PathObject(),
-  mystate(STATE_IDLE),
-  target_sector(),
-  target_spawnpoint(),
-  hit_script(),
-  sound_source(),
-  flyspeed(),
-  track_range(),
-  vanish_range()
+WillOWisp::WillOWisp(const ReaderMapping& reader)
+    : BadGuy(reader, "images/creatures/willowisp/willowisp.sprite",
+             LAYER_FLOATINGOBJECTS,
+             "images/objects/lightmap_light/lightmap_light-small.sprite"),
+      ExposedObject<WillOWisp, scripting::WillOWisp>(this),
+      PathObject(),
+      mystate(STATE_IDLE),
+      target_sector(),
+      target_spawnpoint(),
+      hit_script(),
+      sound_source(),
+      flyspeed(),
+      track_range(),
+      vanish_range()
 {
   reader.get("sector", target_sector, "main");
   reader.get("spawnpoint", target_spawnpoint, "main");
@@ -58,15 +62,14 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
   reader.get("hit-script", hit_script, "");
 
   bool running;
-  if ( !reader.get("running", running)) running = false;
+  if (!reader.get("running", running)) running = false;
 
   ReaderMapping path_mapping;
-  if(reader.get("path", path_mapping)) {
+  if (reader.get("path", path_mapping)) {
     path.reset(new Path());
     path->read(path_mapping);
     walker.reset(new PathWalker(path.get(), running));
-    if(running)
-      mystate = STATE_PATHMOVING_TRACK;
+    if (running) mystate = STATE_PATHMOVING_TRACK;
   }
 
   countMe = false;
@@ -80,7 +83,8 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
 }
 
 void
-WillOWisp::save(Writer& writer) {
+WillOWisp::save(Writer& writer)
+{
   BadGuy::save(writer);
   writer.write("running", mystate == STATE_PATHMOVING_TRACK);
 }
@@ -89,17 +93,17 @@ void
 WillOWisp::active_update(float elapsed_time)
 {
   if (Editor::is_active() && path.get() && path->is_valid()) {
-      set_pos(walker->advance(elapsed_time));
-      return;
+    set_pos(walker->advance(elapsed_time));
+    return;
   }
 
   auto player = get_nearest_player();
   if (!player) return;
-  Vector p1 = bbox.get_middle();
-  Vector p2 = player->get_bbox().get_middle();
+  Vector p1   = bbox.get_middle();
+  Vector p2   = player->get_bbox().get_middle();
   Vector dist = (p2 - p1);
 
-  switch(mystate) {
+  switch (mystate) {
     case STATE_STOPPED:
       break;
 
@@ -112,10 +116,12 @@ WillOWisp::active_update(float elapsed_time)
     case STATE_TRACKING:
       if (dist.norm() > vanish_range) {
         vanish();
-      } else if (dist.norm() >= 1) {
+      }
+      else if (dist.norm() >= 1) {
         Vector dir_ = dist.unit();
-        movement = dir_ * elapsed_time * flyspeed;
-      } else {
+        movement    = dir_ * elapsed_time * flyspeed;
+      }
+      else {
         /* We somehow landed right on top of the player without colliding.
          * Sit tight and avoid a division by zero. */
       }
@@ -123,15 +129,15 @@ WillOWisp::active_update(float elapsed_time)
       break;
 
     case STATE_WARPING:
-      if(sprite->animation_done()) {
+      if (sprite->animation_done()) {
         remove_me();
       }
       break;
 
     case STATE_VANISHING: {
       Vector dir_ = dist.unit();
-      movement = dir_ * elapsed_time * flyspeed;
-      if(sprite->animation_done()) {
+      movement    = dir_ * elapsed_time * flyspeed;
+      if (sprite->animation_done()) {
         remove_me();
       }
       break;
@@ -139,10 +145,9 @@ WillOWisp::active_update(float elapsed_time)
 
     case STATE_PATHMOVING:
     case STATE_PATHMOVING_TRACK:
-      if(walker.get() == NULL)
-        return;
+      if (walker.get() == NULL) return;
       movement = walker->advance(elapsed_time) - get_pos();
-      if(mystate == STATE_PATHMOVING_TRACK && dist.norm() <= track_range) {
+      if (mystate == STATE_PATHMOVING_TRACK && dist.norm() <= track_range) {
         mystate = STATE_TRACKING;
       }
       break;
@@ -155,8 +160,7 @@ WillOWisp::active_update(float elapsed_time)
 void
 WillOWisp::activate()
 {
-  if(Editor::is_active())
-    return;
+  if (Editor::is_active()) return;
 
   sound_source = SoundManager::current()->create_sound_source(SOUNDFILE);
   sound_source->set_position(get_pos());
@@ -196,32 +200,31 @@ WillOWisp::vanish()
 }
 
 bool
-WillOWisp::collides(GameObject& other, const CollisionHit& ) const {
+WillOWisp::collides(GameObject& other, const CollisionHit&) const
+{
   auto lantern = dynamic_cast<Lantern*>(&other);
 
-  if (lantern && lantern->is_open())
-    return true;
+  if (lantern && lantern->is_open()) return true;
 
-  if (dynamic_cast<Player*>(&other))
-    return true;
+  if (dynamic_cast<Player*>(&other)) return true;
 
   return false;
 }
 
 HitResponse
-WillOWisp::collision_player(Player& player, const CollisionHit& ) {
-  if(player.is_invincible())
-    return ABORT_MOVE;
+WillOWisp::collision_player(Player& player, const CollisionHit&)
+{
+  if (player.is_invincible()) return ABORT_MOVE;
 
-  if (mystate != STATE_TRACKING)
-    return ABORT_MOVE;
+  if (mystate != STATE_TRACKING) return ABORT_MOVE;
 
   mystate = STATE_WARPING;
   sprite->set_action("warping", 1);
 
-  if(!hit_script.empty()) {
+  if (!hit_script.empty()) {
     Sector::current()->run_script(hit_script, "hit-script");
-  } else {
+  }
+  else {
     GameSession::current()->respawn(target_sector, target_spawnpoint);
   }
   SoundManager::current()->play("sounds/warp.wav");
@@ -233,7 +236,7 @@ void
 WillOWisp::goto_node(int node_no)
 {
   walker->goto_node(node_no);
-  if(mystate != STATE_PATHMOVING && mystate != STATE_PATHMOVING_TRACK) {
+  if (mystate != STATE_PATHMOVING && mystate != STATE_PATHMOVING_TRACK) {
     mystate = STATE_PATHMOVING;
   }
 }
@@ -253,47 +256,63 @@ WillOWisp::stop_moving()
 void
 WillOWisp::set_state(const std::string& new_state)
 {
-  if(new_state == "stopped") {
+  if (new_state == "stopped") {
     mystate = STATE_STOPPED;
-  } else if(new_state == "idle") {
+  }
+  else if (new_state == "idle") {
     mystate = STATE_IDLE;
-  } else if(new_state == "move_path") {
+  }
+  else if (new_state == "move_path") {
     mystate = STATE_PATHMOVING;
     walker->start_moving();
-  } else if(new_state == "move_path_track") {
+  }
+  else if (new_state == "move_path_track") {
     mystate = STATE_PATHMOVING_TRACK;
     walker->start_moving();
-  } else if(new_state == "normal") {
+  }
+  else if (new_state == "normal") {
     mystate = STATE_IDLE;
-  } else if(new_state == "vanish") {
+  }
+  else if (new_state == "vanish") {
     vanish();
-  } else {
-    log_warning << "Can't set unknown willowisp state '" << new_state << std::endl;
+  }
+  else {
+    log_warning << "Can't set unknown willowisp state '" << new_state
+                << std::endl;
   }
 }
 
 ObjectSettings
-WillOWisp::get_settings() {
+WillOWisp::get_settings()
+{
   ObjectSettings result(_("Will 'o' wisp"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
-  result.options.push_back( dir_option(&dir) );
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Sector"), &target_sector, "sector"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Spawnpoint"), &target_spawnpoint, "spawnpoint"));
-  result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Hit script"), &hit_script, "hit-script"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Track range"), &track_range, "track-range"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Vanish range"), &vanish_range, "vanish-range"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Fly speed"), &flyspeed, "flyspeed"));
+  result.options.push_back(ObjectOption(MN_TEXTFIELD, _("Name"), &name));
+  result.options.push_back(dir_option(&dir));
+  result.options.push_back(
+      ObjectOption(MN_TEXTFIELD, _("Sector"), &target_sector, "sector"));
+  result.options.push_back(ObjectOption(MN_TEXTFIELD, _("Spawnpoint"),
+                                        &target_spawnpoint, "spawnpoint"));
+  result.options.push_back(
+      ObjectOption(MN_TEXTFIELD, _("Hit script"), &hit_script, "hit-script"));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, _("Track range"), &track_range, "track-range"));
+  result.options.push_back(ObjectOption(MN_NUMFIELD, _("Vanish range"),
+                                        &vanish_range, "vanish-range"));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, _("Fly speed"), &flyspeed, "flyspeed"));
   return result;
 }
 
-void WillOWisp::stop_looping_sounds()
+void
+WillOWisp::stop_looping_sounds()
 {
   if (sound_source) {
     sound_source->stop();
   }
 }
 
-void WillOWisp::play_looping_sounds()
+void
+WillOWisp::play_looping_sounds()
 {
   if (sound_source) {
     sound_source->play();

@@ -21,9 +21,8 @@
 #include "audio/sound_source.hpp"
 #include "badguy/walking_badguy.hpp"
 
-class Haywire : public WalkingBadguy
-{
-public:
+class Haywire : public WalkingBadguy {
+ public:
   Haywire(const ReaderMapping& reader);
 
   void kill_fall();
@@ -37,21 +36,17 @@ public:
   void stop_looping_sounds();
   void play_looping_sounds();
 
-  std::string get_class() const {
-    return "haywire";
-  }
-  std::string get_display_name() const {
-    return _("Haywire");
-  }
+  std::string get_class() const { return "haywire"; }
+  std::string get_display_name() const { return _("Haywire"); }
 
-protected:
+ protected:
   bool collision_squished(GameObject& object);
 
-private:
+ private:
   void start_exploding();
   void stop_exploding();
 
-private:
+ private:
   bool is_exploding;
   float time_until_explosion;
   bool is_stunned;

@@ -20,10 +20,7 @@
 
 namespace scripting {
 
-DisplayEffect::DisplayEffect(::DisplayEffect* parent) :
-  m_parent(parent)
-{
-}
+DisplayEffect::DisplayEffect(::DisplayEffect* parent) : m_parent(parent) {}
 
 void
 DisplayEffect::fade_out(float fadetime)
@@ -61,6 +58,6 @@ DisplayEffect::four_to_three(float fadetime)
   m_parent->four_to_three(fadetime);
 }
 
-} // namespace scripting
+}  // namespace scripting
 
 /* EOF */

@@ -1,5 +1,6 @@
 //  MoleRock - Rock thrown by "Mole" Badguy
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,9 +23,8 @@
 /**
  * Badguy "MoleRock" - Rock thrown by "Mole" Badguy
  */
-class MoleRock : public BadGuy
-{
-public:
+class MoleRock : public BadGuy {
+ public:
   MoleRock(const ReaderMapping& reader);
   MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent);
 
@@ -37,21 +37,18 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 
-  virtual bool updatePointers(const GameObject* from_object, GameObject* to_object);
+  virtual bool updatePointers(const GameObject* from_object,
+                              GameObject* to_object);
 
   bool is_flammable() const;
-  std::string get_class() const {
-    return "mole_rock";
-  }
-  std::string get_display_name() const {
-    return _("Mole's rock");
-  }
+  std::string get_class() const { return "mole_rock"; }
+  std::string get_display_name() const { return _("Mole's rock"); }
 
-protected:
+ protected:
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
   const Vector initial_velocity; /**< velocity at time of creation */
 
-private:
+ private:
   MoleRock(const MoleRock&);
   MoleRock& operator=(const MoleRock&);
 };

@@ -20,21 +20,16 @@
 
 #include "badguy/walking_badguy.hpp"
 
-class ShortFuse : public WalkingBadguy
-{
-public:
+class ShortFuse : public WalkingBadguy {
+ public:
   ShortFuse(const ReaderMapping& reader);
-  std::string get_class() const {
-    return "short_fuse";
-  }
-  std::string get_display_name() const {
-    return _("Short fuse");
-  }
+  std::string get_class() const { return "short_fuse"; }
+  std::string get_display_name() const { return _("Short fuse"); }
 
-protected:
-  HitResponse collision_player (Player& player, const CollisionHit& hit);
-  HitResponse collision_bullet (Bullet& bullet, const CollisionHit& );
-  bool collision_squished (GameObject& object);
+ protected:
+  HitResponse collision_player(Player& player, const CollisionHit& hit);
+  HitResponse collision_bullet(Bullet& bullet, const CollisionHit&);
+  bool collision_squished(GameObject& object);
   void kill_fall();
   void ignite();
   void explode();

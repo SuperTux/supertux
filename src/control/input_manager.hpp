@@ -17,14 +17,14 @@
 #ifndef HEADER_SUPERTUX_CONTROL_INPUT_MANAGER_HPP
 #define HEADER_SUPERTUX_CONTROL_INPUT_MANAGER_HPP
 
-#include "control/controller.hpp"
-
 #include <SDL.h>
+
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
+#include "control/controller.hpp"
 #include "util/currenton.hpp"
 
 class GameControllerManager;
@@ -35,15 +35,14 @@ class KeyboardMenu;
 class KeyboardConfig;
 class JoystickConfig;
 
-class InputManager final : public Currenton<InputManager>
-{
-private:
+class InputManager final : public Currenton<InputManager> {
+ private:
   friend class KeyboardMenu;
   friend class JoystickMenu;
 
   typedef Controller::Control Control;
 
-public:
+ public:
   InputManager(KeyboardConfig& keyboard_config,
                JoystickConfig& joystick_config);
   virtual ~InputManager();
@@ -58,16 +57,16 @@ public:
 
   Controller* get_controller() const;
 
-private:
+ private:
   std::unique_ptr<Controller> controller;
 
-public:
+ public:
   bool& m_use_game_controller;
   std::unique_ptr<KeyboardManager> keyboard_manager;
   std::unique_ptr<JoystickManager> joystick_manager;
   std::unique_ptr<GameControllerManager> game_controller_manager;
 
-private:
+ private:
   InputManager(const InputManager&);
   InputManager& operator=(const InputManager&);
 };

@@ -17,19 +17,19 @@
 #ifndef HEADER_SUPERTUX_PHYSFS_IFILE_STREAM_HPP
 #define HEADER_SUPERTUX_PHYSFS_IFILE_STREAM_HPP
 
-#include <memory>
-#include <istream>
 #include <physfs.h>
 
-class IFileStream : public std::istream
-{
-protected:
+#include <istream>
+#include <memory>
+
+class IFileStream : public std::istream {
+ protected:
   std::unique_ptr<std::streambuf> sb;
 
-public:
+ public:
   IFileStream(const std::string& filename);
 
-private:
+ private:
   IFileStream(const IFileStream&) = delete;
   IFileStream& operator=(const IFileStream&) = delete;
 };

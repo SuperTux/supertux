@@ -22,7 +22,7 @@
 
 namespace sexp {
 class Value;
-} // namespace sexp
+}  // namespace sexp
 
 class ReaderMapping;
 class ReaderDocument;
@@ -30,9 +30,8 @@ class ReaderDocument;
 /** The ReaderIterator class is for backward compatibilty with old
     fileformats only, do not use it in new code, use ReaderCollection
     and ReaderMapping instead */
-class ReaderIterator final
-{
-public:
+class ReaderIterator final {
+ public:
   // sx should point to (section (name value)...)
   ReaderIterator(const ReaderDocument* doc, const sexp::Value* sx);
 
@@ -53,7 +52,7 @@ public:
 
   ReaderMapping as_mapping() const;
 
-private:
+ private:
   const ReaderDocument* m_doc;
   const std::vector<sexp::Value>& m_arr;
   size_t m_idx;

@@ -22,23 +22,19 @@
 /*
  * Easy to kill badguy that does not jump down from it's ledge.
  */
-class SmartBall : public WalkingBadguy
-{
-public:
+class SmartBall : public WalkingBadguy {
+ public:
   SmartBall(const ReaderMapping& reader);
 
-  virtual std::string get_water_sprite() const {
+  virtual std::string get_water_sprite() const
+  {
     return "images/objects/water_drop/pink_drop.sprite";
   }
 
-  std::string get_class() const {
-    return "smartball";
-  }
-  std::string get_display_name() const {
-    return _("Smart Ball");
-  }
+  std::string get_class() const { return "smartball"; }
+  std::string get_display_name() const { return _("Smart Ball"); }
 
-protected:
+ protected:
   bool collision_squished(GameObject& object);
 };
 

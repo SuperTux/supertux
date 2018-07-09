@@ -27,9 +27,8 @@ class FloatingImage;
 
 namespace scripting {
 
-class FloatingImage
-{
-public:
+class FloatingImage {
+ public:
   FloatingImage(const std::string& spritefile);
   ~FloatingImage();
 
@@ -48,12 +47,12 @@ public:
   void fade_out(float fadetime);
 
 #ifndef SCRIPTING_API
-private:
+ private:
   std::shared_ptr<::FloatingImage> floating_image;
 #endif
 };
 
-}
+}  // namespace scripting
 
 #endif
 

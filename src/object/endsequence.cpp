@@ -1,5 +1,6 @@
 //  SuperTux - End Sequence
-//  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2007 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -19,17 +20,15 @@
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 
-EndSequence::EndSequence() :
-  isrunning(false),
-  isdone(false),
-  tux_may_walk(true),
-  end_sequence_controller()
+EndSequence::EndSequence()
+    : isrunning(false),
+      isdone(false),
+      tux_may_walk(true),
+      end_sequence_controller()
 {
 }
 
-EndSequence::~EndSequence()
-{
-}
+EndSequence::~EndSequence() {}
 
 void
 EndSequence::update(float elapsed_time)
@@ -48,12 +47,12 @@ EndSequence::start()
 {
   if (isrunning) return;
   isrunning = true;
-  isdone = false;
+  isdone    = false;
 
   auto& tux = *Sector::current()->player;
   end_sequence_controller.reset(new CodeController());
   tux.set_controller(end_sequence_controller.get());
-  tux.set_speedlimit(230); //MAX_WALK_XM
+  tux.set_speedlimit(230);  // MAX_WALK_XM
 
   starting();
 }
@@ -69,7 +68,7 @@ EndSequence::stop()
 {
   if (!isrunning) return;
   isrunning = false;
-  isdone = true;
+  isdone    = true;
   stopping();
 }
 

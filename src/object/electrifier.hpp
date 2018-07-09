@@ -17,35 +17,35 @@
 #ifndef HEADER_SUPERTUX_OBJECT_ELECTRIFIER_HPP
 #define HEADER_SUPERTUX_OBJECT_ELECTRIFIER_HPP
 
-#include "supertux/game_object.hpp"
-#include "supertux/timer.hpp"
-#include <map>
 #include <stdint.h>
 
-namespace {
-  /**
-   * A one-to-one relation that maps one tile ID with another
-   */
-  typedef std::map<uint32_t, uint32_t> TileChangeMap;
-}
+#include <map>
 
-//Changes all tiles sharing an ID of a key in a TileChangeMap to the key's assigned
-//value(another tile ID) for a given amount of time, then removes itself
-//Used by the Kugelblitz to electrify water - can be used for other effects, too
-class Electrifier : public GameObject
-{
-public:
+#include "supertux/game_object.hpp"
+#include "supertux/timer.hpp"
+
+namespace {
+/**
+ * A one-to-one relation that maps one tile ID with another
+ */
+typedef std::map<uint32_t, uint32_t> TileChangeMap;
+}  // namespace
+
+// Changes all tiles sharing an ID of a key in a TileChangeMap to the key's
+// assigned value(another tile ID) for a given amount of time, then removes
+// itself Used by the Kugelblitz to electrify water - can be used for other
+// effects, too
+class Electrifier : public GameObject {
+ public:
   Electrifier(TileChangeMap replacements, float seconds);
   Electrifier(uint32_t oldtile, uint32_t newtile, float seconds);
-  virtual bool is_saveable() const {
-    return false;
-  }
+  virtual bool is_saveable() const { return false; }
 
-protected:
+ protected:
   virtual void update(float time);
   virtual void draw(DrawingContext& context);
 
-private:
+ private:
   TileChangeMap change_map;
   Timer duration;
 };

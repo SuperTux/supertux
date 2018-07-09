@@ -24,21 +24,20 @@ class Gradient;
 
 namespace scripting {
 
-class Gradient
-{
+class Gradient {
 #ifndef SCRIPTING_API
-private:
+ private:
   ::Gradient* gradient;
 
-public:
+ public:
   Gradient(::Gradient* parent);
 
-private:
+ private:
   Gradient(const Gradient&) = delete;
   Gradient& operator=(const Gradient&) = delete;
 #endif
 
-public:
+ public:
   void set_direction(const std::string& direction);
   std::string get_direction() const;
 
@@ -48,7 +47,7 @@ public:
   void swap_colors();
 };
 
-}
+}  // namespace scripting
 
 #endif
 

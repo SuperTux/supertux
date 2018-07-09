@@ -38,9 +38,10 @@ SurfacePtr Resources::arrow_right;
 Resources::Resources()
 {
   // Load the mouse-cursor
-  mouse_cursor.reset(new MouseCursor("images/engine/menu/mousecursor.png",
-                                     "images/engine/menu/mousecursor-click.png",
-                                     "images/engine/menu/mousecursor-link.png"));
+  mouse_cursor.reset(
+      new MouseCursor("images/engine/menu/mousecursor.png",
+                      "images/engine/menu/mousecursor-click.png",
+                      "images/engine/menu/mousecursor-link.png"));
   MouseCursor::set_current(mouse_cursor.get());
 
   // Load global images:
@@ -52,9 +53,9 @@ Resources::Resources()
   /* Load menu images */
   checkbox = Surface::create("images/engine/menu/checkbox-unchecked.png");
   checkbox_checked = Surface::create("images/engine/menu/checkbox-checked.png");
-  back = Surface::create("images/engine/menu/arrow-back.png");
-  arrow_left = Surface::create("images/engine/menu/arrow-left.png");
-  arrow_right = Surface::create("images/engine/menu/arrow-right.png");
+  back             = Surface::create("images/engine/menu/arrow-back.png");
+  arrow_left       = Surface::create("images/engine/menu/arrow-left.png");
+  arrow_right      = Surface::create("images/engine/menu/arrow-right.png");
 }
 
 Resources::~Resources()

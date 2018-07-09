@@ -17,21 +17,18 @@
 #ifndef HEADER_SUPERTUX_OBJECT_COIN_HPP
 #define HEADER_SUPERTUX_OBJECT_COIN_HPP
 
-#include "object/path_object.hpp"
 #include "object/moving_sprite.hpp"
+#include "object/path_object.hpp"
 #include "supertux/physic.hpp"
 
 class Path;
 class PathWalker;
 class TileMap;
 
-class Coin : public MovingSprite,
-             public PathObject
-{
+class Coin : public MovingSprite, public PathObject {
+  friend class HeavyCoin;
 
-friend class HeavyCoin;
-
-public:
+ public:
   Coin(const Vector& pos);
   Coin(const Vector& pos, TileMap* tilemap);
   Coin(const ReaderMapping& reader);
@@ -41,19 +38,15 @@ public:
   void collect();
   virtual void update(float elapsed_time);
   virtual void save(Writer& writer);
-  std::string get_class() const {
-    return "coin";
-  }
-  std::string get_display_name() const {
-    return _("Coin");
-  }
+  std::string get_class() const { return "coin"; }
+  std::string get_display_name() const { return _("Coin"); }
 
   ObjectSettings get_settings();
   void after_editor_set();
 
   virtual void move_to(const Vector& pos);
 
-private:
+ private:
   Vector offset;
   bool from_tilemap;
   bool add_path;
@@ -61,26 +54,21 @@ private:
   std::string collect_script;
 };
 
-class HeavyCoin : public Coin
-{
-public:
+class HeavyCoin : public Coin {
+ public:
   HeavyCoin(const Vector& pos, const Vector& init_velocity);
   HeavyCoin(const ReaderMapping& reader);
 
   virtual void update(float elapsed_time);
   virtual void collision_solid(const CollisionHit& hit);
 
-  virtual std::string get_class() const {
-    return "heavycoin";
-  }
-  std::string get_display_name() const {
-    return _("Heavy coin");
-  }
+  virtual std::string get_class() const { return "heavycoin"; }
+  std::string get_display_name() const { return _("Heavy coin"); }
 
   ObjectSettings get_settings();
   void after_editor_set();
 
-private:
+ private:
   Physic physic;
 };
 

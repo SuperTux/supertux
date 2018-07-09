@@ -27,25 +27,27 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-ItemLabel::ItemLabel(const std::string& text_) :
-  MenuItem(text_)
-{
-}
+ItemLabel::ItemLabel(const std::string& text_) : MenuItem(text_) {}
 
 void
-ItemLabel::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
+ItemLabel::draw(DrawingContext& context, const Vector& pos, int menu_width,
+                bool active)
+{
   context.draw_text(Resources::big_font, text,
-                    Vector( pos.x + menu_width/2 , pos.y - int(Resources::big_font->get_height())/2 ),
+                    Vector(pos.x + menu_width / 2,
+                           pos.y - int(Resources::big_font->get_height()) / 2),
                     ALIGN_CENTER, LAYER_GUI, get_color());
 }
 
 Color
-ItemLabel::get_color() const {
+ItemLabel::get_color() const
+{
   return ColorScheme::Menu::label_color;
 }
 
 int
-ItemLabel::get_width() const {
+ItemLabel::get_width() const
+{
   return Resources::big_font->get_text_width(text) + 16;
 }
 

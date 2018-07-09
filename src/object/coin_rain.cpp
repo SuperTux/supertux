@@ -22,17 +22,19 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 
-static const float DROP_TIME = .1f; // time duration between "drops" of coin rain
+static const float DROP_TIME =
+    .1f;  // time duration between "drops" of coin rain
 
-CoinRain::CoinRain(const Vector& pos, bool emerge) :
-  sprite(SpriteManager::current()->create("images/objects/coin/coin.sprite")),
-  position(pos),
-  emerge_distance(0),
-  timer(),
-  counter(0),
-  drop(0)
+CoinRain::CoinRain(const Vector& pos, bool emerge)
+    : sprite(
+          SpriteManager::current()->create("images/objects/coin/coin.sprite")),
+      position(pos),
+      emerge_distance(0),
+      timer(),
+      counter(0),
+      drop(0)
 {
-  if(emerge) {
+  if (emerge) {
     emerge_distance = sprite->get_height();
   }
 }
@@ -41,25 +43,31 @@ void
 CoinRain::update(float elapsed_time)
 {
   // first a single (untouchable) coin flies up above the sector
-  if(position.y > -32){
+  if (position.y > -32) {
     float dist = -500 * elapsed_time;
     position.y += dist;
     emerge_distance += dist;
-  } // then the first collectable coin drops from one of ten random positions
-  else if (counter==0){
+  }  // then the first collectable coin drops from one of ten random positions
+  else if (counter == 0) {
     drop = gameRandom.rand(10);
-    Sector::current()->add_object(std::make_shared<HeavyCoin>(Vector (position.x+32*((drop<5)?-drop-1:drop-4),-32), Vector (0,0)));
+    Sector::current()->add_object(std::make_shared<HeavyCoin>(
+        Vector(position.x + 32 * ((drop < 5) ? -drop - 1 : drop - 4), -32),
+        Vector(0, 0)));
     counter++;
     timer.start(DROP_TIME);
-  } // finally the remainder of the coins drop in a determined but appears to be a random order
-  else if(timer.check()){
-    if(counter<10){
+  }  // finally the remainder of the coins drop in a determined but appears to
+     // be a random order
+  else if (timer.check()) {
+    if (counter < 10) {
       drop += 7;
-      if(drop >= 10) drop -=10;
-      Sector::current()->add_object(std::make_shared<HeavyCoin>(Vector (position.x+32*((drop<5)?-drop-1:drop-4),-32), Vector (0,0)));
+      if (drop >= 10) drop -= 10;
+      Sector::current()->add_object(std::make_shared<HeavyCoin>(
+          Vector(position.x + 32 * ((drop < 5) ? -drop - 1 : drop - 4), -32),
+          Vector(0, 0)));
       counter++;
       timer.start(DROP_TIME);
-    } else {
+    }
+    else {
       remove_me();
     }
   }
@@ -69,9 +77,10 @@ void
 CoinRain::draw(DrawingContext& context)
 {
   int layer;
-  if(emerge_distance > 0) {
+  if (emerge_distance > 0) {
     layer = LAYER_OBJECTS - 5;
-  } else {
+  }
+  else {
     layer = LAYER_OBJECTS + 5;
   }
   sprite->draw(context, position, layer);

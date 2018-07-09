@@ -16,19 +16,21 @@
 
 #include "physfs/physfs_sdl.hpp"
 
+#include <assert.h>
 #include <physfs.h>
+#include <stdio.h>
+
 #include <sstream>
 #include <stdexcept>
-#include <assert.h>
-#include <stdio.h>
 
 #include "util/log.hpp"
 
-static Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
+static Sint64
+funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
 {
-  PHYSFS_file* file = (PHYSFS_file*) context->hidden.unknown.data1;
+  PHYSFS_file* file = (PHYSFS_file*)context->hidden.unknown.data1;
   int res;
-  switch(whence) {
+  switch (whence) {
     case SEEK_SET:
       res = PHYSFS_seek(file, offset);
       break;
@@ -43,25 +45,28 @@ static Sint64 funcSeek(struct SDL_RWops* context, Sint64 offset, int whence)
       assert(false);
       break;
   }
-  if(res == 0) {
-    log_warning << "Error seeking in file: " << PHYSFS_getLastErrorCode() << std::endl;
+  if (res == 0) {
+    log_warning << "Error seeking in file: " << PHYSFS_getLastErrorCode()
+                << std::endl;
     return -1;
   }
 
-  return (int) PHYSFS_tell(file);
+  return (int)PHYSFS_tell(file);
 }
 
-static size_t  funcRead(struct SDL_RWops* context, void* ptr, size_t  size, size_t  maxnum)
+static size_t
+funcRead(struct SDL_RWops* context, void* ptr, size_t size, size_t maxnum)
 {
-  PHYSFS_file* file = (PHYSFS_file*) context->hidden.unknown.data1;
+  PHYSFS_file* file = (PHYSFS_file*)context->hidden.unknown.data1;
 
   int res = PHYSFS_readBytes(file, ptr, size * maxnum);
   return res / size;
 }
 
-static int funcClose(struct SDL_RWops* context)
+static int
+funcClose(struct SDL_RWops* context)
 {
-  PHYSFS_file* file = (PHYSFS_file*) context->hidden.unknown.data1;
+  PHYSFS_file* file = (PHYSFS_file*)context->hidden.unknown.data1;
 
   PHYSFS_close(file);
   delete context;
@@ -69,29 +74,29 @@ static int funcClose(struct SDL_RWops* context)
   return 0;
 }
 
-SDL_RWops* get_physfs_SDLRWops(const std::string& filename)
+SDL_RWops*
+get_physfs_SDLRWops(const std::string& filename)
 {
   // check this as PHYSFS seems to be buggy and still returns a
   // valid pointer in this case
-  if(filename.empty()) {
+  if (filename.empty()) {
     throw std::runtime_error("Couldn't open file: empty filename");
   }
 
-  PHYSFS_file* file = (PHYSFS_file*) PHYSFS_openRead(filename.c_str());
-  if(!file) {
+  PHYSFS_file* file = (PHYSFS_file*)PHYSFS_openRead(filename.c_str());
+  if (!file) {
     std::stringstream msg;
-    msg << "Couldn't open '" << filename << "': "
-        << PHYSFS_getLastErrorCode();
+    msg << "Couldn't open '" << filename << "': " << PHYSFS_getLastErrorCode();
     throw std::runtime_error(msg.str());
   }
 
-  SDL_RWops* ops = new SDL_RWops();
-  ops->type = 0;
+  SDL_RWops* ops            = new SDL_RWops();
+  ops->type                 = 0;
   ops->hidden.unknown.data1 = file;
-  ops->seek = funcSeek;
-  ops->read = funcRead;
-  ops->write = 0;
-  ops->close = funcClose;
+  ops->seek                 = funcSeek;
+  ops->read                 = funcRead;
+  ops->write                = 0;
+  ops->close                = funcClose;
   return ops;
 }
 

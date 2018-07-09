@@ -17,33 +17,32 @@
 #ifndef HEADER_SUPERTUX_GUI_ITEM_COLOR_HPP
 #define HEADER_SUPERTUX_GUI_ITEM_COLOR_HPP
 
-#include <list>
-#include <memory>
 #include <SDL.h>
 
-#include "gui/menu_item.hpp"
+#include <list>
+#include <memory>
 
 #include "gui/menu.hpp"
+#include "gui/menu_item.hpp"
 
 class Color;
 
-class ItemColor : public MenuItem
-{
-  public:
-    ItemColor(const std::string& text_, Color* color_, int id = -1);
+class ItemColor : public MenuItem {
+ public:
+  ItemColor(const std::string& text_, Color* color_, int id = -1);
 
-    /** Processes the menu action. */
-    virtual void process_action(const MenuAction& action);
+  /** Processes the menu action. */
+  virtual void process_action(const MenuAction& action);
 
-    virtual Color get_color() const;
+  virtual Color get_color() const;
 
-    //int target_menu;
+  // int target_menu;
 
-  private:
-    Color* color;
+ private:
+  Color* color;
 
-    ItemColor(const ItemColor&);
-    ItemColor& operator=(const ItemColor&);
+  ItemColor(const ItemColor&);
+  ItemColor& operator=(const ItemColor&);
 };
 
 #endif

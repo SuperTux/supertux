@@ -22,9 +22,8 @@
 /**
  * Jumping on a trampoline makes tux jump higher.
  */
-class Trampoline : public Rock
-{
-public:
+class Trampoline : public Rock {
+ public:
   Trampoline(const ReaderMapping& reader);
   Trampoline(const Vector& pos, bool port);
 
@@ -33,18 +32,13 @@ public:
 
   void grab(MovingObject&, const Vector& pos, Direction);
   bool is_portable() const;
-  std::string get_class() const {
-    return "trampoline";
-  }
-  std::string get_display_name() const {
-    return _("Trampoline");
-  }
+  std::string get_class() const { return "trampoline"; }
+  std::string get_display_name() const { return _("Trampoline"); }
 
   virtual ObjectSettings get_settings();
 
-private:
+ private:
   bool portable;
-
 };
 
 #endif

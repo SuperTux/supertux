@@ -17,13 +17,11 @@
 #ifndef HEADER_SUPERTUX_BADGUY_FLAME_HPP
 #define HEADER_SUPERTUX_BADGUY_FLAME_HPP
 
+#include "audio/sound_source.hpp"
 #include "badguy/badguy.hpp"
 
-#include "audio/sound_source.hpp"
-
-class Flame : public BadGuy
-{
-public:
+class Flame : public BadGuy {
+ public:
   Flame(const ReaderMapping& reader);
 
   void activate();
@@ -37,17 +35,13 @@ public:
   bool is_flammable() const;
 
   ObjectSettings get_settings();
-  virtual std::string get_class() const {
-    return "flame";
-  }
-  std::string get_display_name() const {
-    return _("Flame");
-  }
+  virtual std::string get_class() const { return "flame"; }
+  std::string get_display_name() const { return _("Flame"); }
 
   void stop_looping_sounds();
   void play_looping_sounds();
 
-protected:
+ protected:
   float angle;
   float radius;
   float speed;

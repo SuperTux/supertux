@@ -19,44 +19,37 @@
 
 #include "badguy/badguy.hpp"
 
-class KamikazeSnowball : public BadGuy
-{
-public:
+class KamikazeSnowball : public BadGuy {
+ public:
   KamikazeSnowball(const ReaderMapping& reader);
 
   void initialize();
   void collision_solid(const CollisionHit& hit);
-  virtual std::string get_class() const {
-    return "kamikazesnowball";
-  }
-  virtual std::string get_display_name() const {
+  virtual std::string get_class() const { return "kamikazesnowball"; }
+  virtual std::string get_display_name() const
+  {
     return _("Kamikaze snowball");
   }
 
   void after_editor_set();
 
-protected:
+ protected:
   bool collision_squished(GameObject& object);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
   void kill_collision();
 };
 
-class LeafShot : public KamikazeSnowball
-{
-  public:
-    LeafShot(const ReaderMapping& reader);
+class LeafShot : public KamikazeSnowball {
+ public:
+  LeafShot(const ReaderMapping& reader);
 
-    void initialize();
-    bool is_freezable() const;
-    std::string get_class() const {
-      return "leafshot";
-    }
-    std::string get_display_name() const {
-      return _("Leaf Shot");
-    }
+  void initialize();
+  bool is_freezable() const;
+  std::string get_class() const { return "leafshot"; }
+  std::string get_display_name() const { return _("Leaf Shot"); }
 
-  protected:
-    bool collision_squished(GameObject& object);
+ protected:
+  bool collision_squished(GameObject& object);
 };
 
 #endif

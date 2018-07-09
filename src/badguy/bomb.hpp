@@ -21,14 +21,11 @@
 #include "badguy/badguy.hpp"
 #include "object/portable.hpp"
 
-class Bomb : public BadGuy,
-             public Portable
-{
-public:
-  Bomb(const Vector& pos, Direction dir, std::string custom_sprite = "images/creatures/mr_bomb/bomb.sprite" );
-  virtual bool is_saveable() const {
-    return false;
-  }
+class Bomb : public BadGuy, public Portable {
+ public:
+  Bomb(const Vector& pos, Direction dir,
+       std::string custom_sprite = "images/creatures/mr_bomb/bomb.sprite");
+  virtual bool is_saveable() const { return false; }
 
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
@@ -43,10 +40,8 @@ public:
   void stop_looping_sounds();
   void play_looping_sounds();
 
-private:
-  enum State {
-    STATE_TICKING
-  };
+ private:
+  enum State { STATE_TICKING };
 
   State state;
   bool grabbed;
@@ -54,7 +49,7 @@ private:
 
   std::unique_ptr<SoundSource> ticking;
 
-private:
+ private:
   Bomb(const Bomb&);
   Bomb& operator=(const Bomb&);
 };

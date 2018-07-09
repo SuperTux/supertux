@@ -21,34 +21,36 @@
 
 class DrawingContext;
 
-class PointMarker : public MovingObject
-{
-  public:
-    PointMarker(const Vector& pos);
-    PointMarker();
+class PointMarker : public MovingObject {
+ public:
+  PointMarker(const Vector& pos);
+  PointMarker();
 
-    virtual void update(float elapsed_time) override {
-      //No updates needed
-    }
+  virtual void update(float elapsed_time) override
+  {
+    // No updates needed
+  }
 
-    virtual void draw(DrawingContext& context) override;
+  virtual void draw(DrawingContext& context) override;
 
-    void collision_solid(const CollisionHit& hit) override {
-      //This function wouldn't be called anyway.
-    }
+  void collision_solid(const CollisionHit& hit) override
+  {
+    // This function wouldn't be called anyway.
+  }
 
-    HitResponse collision(GameObject& other, const CollisionHit& hit) override {
-      return FORCE_MOVE;
-    }
+  HitResponse collision(GameObject& other, const CollisionHit& hit) override
+  {
+    return FORCE_MOVE;
+  }
 
-    virtual Vector get_point_vector() const;
-    virtual Vector get_offset() const;
+  virtual Vector get_point_vector() const;
+  virtual Vector get_offset() const;
 
-  private:
-    PointMarker(const PointMarker&);
-    PointMarker& operator=(const PointMarker&);
+ private:
+  PointMarker(const PointMarker&);
+  PointMarker& operator=(const PointMarker&);
 };
 
-#endif // HEADER_SUPERTUX_EDITOR_POINT_MARKER_HPP
+#endif  // HEADER_SUPERTUX_EDITOR_POINT_MARKER_HPP
 
 /* EOF */

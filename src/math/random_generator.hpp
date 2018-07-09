@@ -19,56 +19,55 @@
 //    may be used to endorse or promote products derived from this software
 //    without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
-// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-// OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-// HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-// LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-// OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-// SUCH DAMAGE.
+// ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
 
 #ifndef HEADER_SUPERTUX_MATH_RANDOM_GENERATOR_HPP
 #define HEADER_SUPERTUX_MATH_RANDOM_GENERATOR_HPP
 
-class RandomGenerator
-{
-private:
+class RandomGenerator {
+ private:
   // Array versions of the above information to make code run faster --
   // relies on fact that TYPE_i == i.
-  static const int TYPE_0 = 0;   // Linear congruential
+  static const int TYPE_0  = 0;  // Linear congruential
   static const int BREAK_0 = 8;
-  static const int DEG_0 = 0;
-  static const int SEP_0 = 0;
+  static const int DEG_0   = 0;
+  static const int SEP_0   = 0;
 
-  static const int TYPE_1 = 1;   // x**7 + x**3 + 1
+  static const int TYPE_1  = 1;  // x**7 + x**3 + 1
   static const int BREAK_1 = 32;
-  static const int DEG_1 = 7;
-  static const int SEP_1 = 3;
+  static const int DEG_1   = 7;
+  static const int SEP_1   = 3;
 
-  static const int TYPE_2 = 2;   // x**15 + x + 1
+  static const int TYPE_2  = 2;  // x**15 + x + 1
   static const int BREAK_2 = 64;
-  static const int DEG_2 = 15;
-  static const int SEP_2 = 1;
+  static const int DEG_2   = 15;
+  static const int SEP_2   = 1;
 
-  static const int TYPE_3 = 3;   // x**31 + x**3 + 1
+  static const int TYPE_3  = 3;  // x**31 + x**3 + 1
   static const int BREAK_3 = 128;
-  static const int DEG_3 = 31;
-  static const int SEP_3 = 3;
+  static const int DEG_3   = 31;
+  static const int SEP_3   = 3;
 
-  static const int TYPE_4 = 4;   // x**63 + x + 1
+  static const int TYPE_4  = 4;  // x**63 + x + 1
   static const int BREAK_4 = 256;
-  static const int DEG_4 = 63;
-  static const int SEP_4 = 1;
+  static const int DEG_4   = 63;
+  static const int SEP_4   = 1;
 
-  static const int MAX_TYPES = 5;     // Max number of types above
+  static const int MAX_TYPES = 5;  // Max number of types above
 
   bool initialized;
   long degrees[MAX_TYPES];
-  long seps [MAX_TYPES];
+  long seps[MAX_TYPES];
   long randtbl[DEG_3 + 1];
 
   long *fptr;
@@ -80,9 +79,9 @@ private:
   long rand_sep;
   long *end_ptr;
   int debug;
-  static const int rand_max = 0x7fffffff;         // biggest signed Uint32
+  static const int rand_max = 0x7fffffff;  // biggest signed Uint32
 
-public:
+ public:
   RandomGenerator();
 
   // Documentation of user-visible calls:
@@ -90,7 +89,7 @@ public:
   // Initialize the RNG with a 31-bit seed
   // if x is zero or absent, calls to time() will get a time-randomized seed
   // the value returned is the value of the seed used.
-  int srand(int x=0);
+  int srand(int x = 0);
 
   // generate random 31-bit numbers
   // calls to the following return a value evenly distributed between u (or
@@ -107,12 +106,16 @@ public:
   int rand1i(int v) { return rand(v); }
   int rand2i(int u, int v) { return rand(u, v); }
   float rand1f(float v)
-  { return static_cast<float>(randf(static_cast<double>(v))); }
+  {
+    return static_cast<float>(randf(static_cast<double>(v)));
+  }
   float rand2f(float u, float v)
-  { return static_cast<float>(randf(static_cast<double>(u),
-                                    static_cast<double>(v))); }
+  {
+    return static_cast<float>(
+        randf(static_cast<double>(u), static_cast<double>(v)));
+  }
 
-  //private:
+  // private:
   void initialize();
   void srandom(unsigned long x);
   //  void srandomdev();
@@ -120,9 +123,9 @@ public:
   //  char *setstate(char *arg_state);
   long random();
 
-private:
-  RandomGenerator(const RandomGenerator&);
-  RandomGenerator& operator=(const RandomGenerator&);
+ private:
+  RandomGenerator(const RandomGenerator &);
+  RandomGenerator &operator=(const RandomGenerator &);
 };
 
 // Use for random particle fx or whatever
@@ -130,6 +133,6 @@ extern RandomGenerator graphicsRandom;
 // Use for game-changing random numbers
 extern RandomGenerator gameRandom;
 
-#endif //__RANDOM_GENERATOR__
+#endif  //__RANDOM_GENERATOR__
 
 /* EOF */

@@ -14,41 +14,35 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
-#include "video/color.hpp"
 #include "video/sdl/sdl_texture.hpp"
-#include "video/sdl/sdl_renderer.hpp"
-#include "util/log.hpp"
-#include "math/random_generator.hpp"
-
-#include <assert.h>
 
 #include <SDL.h>
+#include <assert.h>
+#include <config.h>
 
-SDLTexture::SDLTexture(SDL_Surface* image) :
-  m_texture(),
-  m_width(),
-  m_height()
+#include "math/random_generator.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
+#include "util/log.hpp"
+#include "video/color.hpp"
+#include "video/sdl/sdl_renderer.hpp"
+
+SDLTexture::SDLTexture(SDL_Surface* image) : m_texture(), m_width(), m_height()
 {
-  m_texture = SDL_CreateTextureFromSurface(static_cast<SDLRenderer&>(VideoSystem::current()->get_renderer()).get_sdl_renderer(),
-                                           image);
-  if (!m_texture)
-  {
+  m_texture = SDL_CreateTextureFromSurface(
+      static_cast<SDLRenderer&>(VideoSystem::current()->get_renderer())
+          .get_sdl_renderer(),
+      image);
+  if (!m_texture) {
     std::ostringstream msg;
     msg << "couldn't create texture: " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
 
-  m_width = image->w;
+  m_width  = image->w;
   m_height = image->h;
 }
 
-SDLTexture::~SDLTexture()
-{
-  SDL_DestroyTexture(m_texture);
-}
+SDLTexture::~SDLTexture() { SDL_DestroyTexture(m_texture); }
 
 /* EOF */

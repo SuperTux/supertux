@@ -19,9 +19,7 @@
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
-KeyboardConfig::KeyboardConfig() :
-  keymap(),
-  jump_with_up_kbd(false)
+KeyboardConfig::KeyboardConfig() : keymap(), jump_with_up_kbd(false)
 {
   // initialize default keyboard map
   keymap[SDLK_LEFT]     = Controller::LEFT;
@@ -52,15 +50,12 @@ KeyboardConfig::read(const ReaderMapping& keymap_lisp)
   // the config file
   bool config_is_sdl2 = false;
   keymap_lisp.get("sdl2", config_is_sdl2);
-  if (config_is_sdl2)
-  {
+  if (config_is_sdl2) {
     keymap_lisp.get("jump-with-up", jump_with_up_kbd);
 
     auto iter = keymap_lisp.get_iter();
-    while(iter.next())
-    {
-      if (iter.get_key() == "map")
-      {
+    while (iter.next()) {
+      if (iter.get_key() == "map") {
         int key = -1;
         std::string control;
         auto map = iter.as_mapping();
@@ -68,18 +63,17 @@ KeyboardConfig::read(const ReaderMapping& keymap_lisp)
         map.get("control", control);
 
         int i = 0;
-        for(i = 0; Controller::controlNames[i] != 0; ++i)
-        {
-          if (control == Controller::controlNames[i])
-            break;
+        for (i = 0; Controller::controlNames[i] != 0; ++i) {
+          if (control == Controller::controlNames[i]) break;
         }
 
-        if (Controller::controlNames[i] == 0)
-        {
-          log_info << "Invalid control '" << control << "' in keymap" << std::endl;
+        if (Controller::controlNames[i] == 0) {
+          log_info << "Invalid control '" << control << "' in keymap"
+                   << std::endl;
           continue;
         }
-        keymap[static_cast<SDL_Keycode>(key)] = static_cast<Controller::Control>(i);
+        keymap[static_cast<SDL_Keycode>(key)] =
+            static_cast<Controller::Control>(i);
       }
     }
   }
@@ -89,25 +83,20 @@ void
 KeyboardConfig::bind_key(SDL_Keycode key, Controller::Control control)
 {
   // remove all previous mappings for that control and for that key
-  for(KeyMap::iterator i = keymap.begin();
-      i != keymap.end();
-      /* no ++i */)
-  {
-    if (i->second == control)
-    {
+  for (KeyMap::iterator i = keymap.begin(); i != keymap.end();
+       /* no ++i */) {
+    if (i->second == control) {
       KeyMap::iterator e = i;
       ++i;
       keymap.erase(e);
     }
-    else
-    {
+    else {
       ++i;
     }
   }
 
   KeyMap::iterator i = keymap.find(key);
-  if (i != keymap.end())
-    keymap.erase(i);
+  if (i != keymap.end()) keymap.erase(i);
 
   // add new mapping
   keymap[key] = control;
@@ -116,10 +105,8 @@ KeyboardConfig::bind_key(SDL_Keycode key, Controller::Control control)
 SDL_Keycode
 KeyboardConfig::reversemap_key(Controller::Control c) const
 {
-  for(const auto& i : keymap)
-  {
-    if (i.second == c)
-    {
+  for (const auto& i : keymap) {
+    if (i.second == c) {
       return i.first;
     }
   }
@@ -137,10 +124,9 @@ KeyboardConfig::write(Writer& writer)
 
   writer.write("jump-with-up", jump_with_up_kbd);
 
-  for(const auto& i : keymap)
-  {
+  for (const auto& i : keymap) {
     writer.start_list("map");
-    writer.write("key", (int) i.first);
+    writer.write("key", (int)i.first);
     writer.write("control", Controller::controlNames[i.second]);
     writer.end_list("map");
   }

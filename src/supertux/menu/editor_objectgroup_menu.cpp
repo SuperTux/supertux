@@ -30,7 +30,7 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
   add_hl();
 
   int id = 0;
-  for(auto& og : Editor::current()->get_objectgroups()) {
+  for (auto& og : Editor::current()->get_objectgroups()) {
     if (worldmap == og.for_worldmap) {
       add_entry(id, og.name);
     }
@@ -38,13 +38,13 @@ EditorObjectgroupMenu::EditorObjectgroupMenu()
   }
 
   add_hl();
-  add_entry(-1,_("Cancel"));
+  add_entry(-1, _("Cancel"));
 }
 
 EditorObjectgroupMenu::~EditorObjectgroupMenu()
 {
   auto editor = Editor::current();
-  if(editor == NULL) {
+  if (editor == NULL) {
     return;
   }
   editor->reactivate_request = true;
@@ -53,8 +53,7 @@ EditorObjectgroupMenu::~EditorObjectgroupMenu()
 void
 EditorObjectgroupMenu::menu_action(MenuItem* item)
 {
-  if (item->id >= 0)
-  {
+  if (item->id >= 0) {
     Editor::current()->select_objectgroup(item->id);
   }
   MenuManager::instance().clear_menu_stack();

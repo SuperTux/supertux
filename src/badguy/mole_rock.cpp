@@ -1,5 +1,6 @@
 //  MoleRock - Rock thrown by "Mole" Badguy
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,10 +21,10 @@
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 
-MoleRock::MoleRock(const ReaderMapping& reader) :
-  BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
-  parent(0),
-  initial_velocity(Vector(0, -400))
+MoleRock::MoleRock(const ReaderMapping& reader)
+    : BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
+      parent(0),
+      initial_velocity(Vector(0, -400))
 {
   physic.enable_gravity(true);
   countMe = false;
@@ -31,10 +32,12 @@ MoleRock::MoleRock(const ReaderMapping& reader) :
   SoundManager::current()->preload("sounds/stomp.wav");
 }
 
-MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* parent_ = 0) :
-  BadGuy(pos, LEFT, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
-  parent(parent_),
-  initial_velocity(velocity)
+MoleRock::MoleRock(const Vector& pos, const Vector& velocity,
+                   const BadGuy* parent_ = 0)
+    : BadGuy(pos, LEFT, "images/creatures/mole/mole_rock.sprite",
+             LAYER_TILES - 2),
+      parent(parent_),
+      initial_velocity(velocity)
 {
   physic.enable_gravity(true);
   countMe = false;
@@ -72,14 +75,14 @@ MoleRock::active_update(float elapsed_time)
 }
 
 void
-MoleRock::collision_solid(const CollisionHit& )
+MoleRock::collision_solid(const CollisionHit&)
 {
   SoundManager::current()->play("sounds/darthit.wav", get_pos());
   remove_me();
 }
 
 HitResponse
-MoleRock::collision_badguy(BadGuy& badguy, const CollisionHit& )
+MoleRock::collision_badguy(BadGuy& badguy, const CollisionHit&)
 {
   // ignore collisions with parent
   if (&badguy == parent) {

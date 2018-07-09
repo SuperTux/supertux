@@ -14,13 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <limits>
+#include "object/ambient_sound.hpp"
+
 #include <math.h>
+
+#include <limits>
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "editor/editor.hpp"
-#include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/object_factory.hpp"
@@ -28,40 +30,40 @@
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
-AmbientSound::AmbientSound(const ReaderMapping& lisp) :
-  MovingObject(lisp),
-  ExposedObject<AmbientSound, scripting::AmbientSound>(this),
-  sample(),
-  sound_source(),
-  latency(),
-  distance_factor(),
-  distance_bias(),
-  silence_distance(),
-  maximumvolume(),
-  targetvolume(),
-  currentvolume(0),
-  volume_ptr(),
-  new_size()
+AmbientSound::AmbientSound(const ReaderMapping& lisp)
+    : MovingObject(lisp),
+      ExposedObject<AmbientSound, scripting::AmbientSound>(this),
+      sample(),
+      sound_source(),
+      latency(),
+      distance_factor(),
+      distance_bias(),
+      silence_distance(),
+      maximumvolume(),
+      targetvolume(),
+      currentvolume(0),
+      volume_ptr(),
+      new_size()
 {
   group = COLGROUP_DISABLED;
 
   float w, h;
   lisp.get("x", bbox.p1.x, 0);
   lisp.get("y", bbox.p1.y, 0);
-  lisp.get("width" , w, 32);
+  lisp.get("width", w, 32);
   lisp.get("height", h, 32);
   bbox.set_size(w, h);
 
-  lisp.get("distance_factor",distance_factor, 0);
-  lisp.get("distance_bias"  ,distance_bias  , 0);
-  lisp.get("sample"         ,sample         , "");
-  lisp.get("volume"         ,maximumvolume  , 1);
+  lisp.get("distance_factor", distance_factor, 0);
+  lisp.get("distance_bias", distance_bias, 0);
+  lisp.get("sample", sample, "");
+  lisp.get("volume", maximumvolume, 1);
 
   // square all distances (saves us a sqrt later)
 
   if (!Editor::is_active()) {
-    distance_bias*=distance_bias;
-    distance_factor*=distance_factor;
+    distance_bias *= distance_bias;
+    distance_factor *= distance_factor;
   }
 
   // set default silence_distance
@@ -69,28 +71,29 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   if (distance_factor == 0)
     silence_distance = std::numeric_limits<float>::max();
   else
-    silence_distance = 1/distance_factor;
+    silence_distance = 1 / distance_factor;
 
-  lisp.get("silence_distance",silence_distance);
+  lisp.get("silence_distance", silence_distance);
 
-  sound_source.reset(); // not playing at the beginning
+  sound_source.reset();  // not playing at the beginning
   SoundManager::current()->preload(sample);
-  latency=0;
+  latency = 0;
 }
 
-AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vol, const std::string& file) :
-  ExposedObject<AmbientSound, scripting::AmbientSound>(this),
-  sample(file),
-  sound_source(),
-  latency(0),
-  distance_factor(factor * factor),
-  distance_bias(bias * bias),
-  silence_distance(),
-  maximumvolume(vol),
-  targetvolume(),
-  currentvolume(),
-  volume_ptr(),
-  new_size()
+AmbientSound::AmbientSound(const Vector& pos, float factor, float bias,
+                           float vol, const std::string& file)
+    : ExposedObject<AmbientSound, scripting::AmbientSound>(this),
+      sample(file),
+      sound_source(),
+      latency(0),
+      distance_factor(factor * factor),
+      distance_bias(bias * bias),
+      silence_distance(),
+      maximumvolume(vol),
+      targetvolume(),
+      currentvolume(),
+      volume_ptr(),
+      new_size()
 {
   group = COLGROUP_DISABLED;
 
@@ -102,42 +105,46 @@ AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vo
   if (distance_factor == 0)
     silence_distance = std::numeric_limits<float>::max();
   else
-    silence_distance = 1/distance_factor;
+    silence_distance = 1 / distance_factor;
 
-  sound_source.reset(); // not playing at the beginning
+  sound_source.reset();  // not playing at the beginning
   SoundManager::current()->preload(sample);
 }
 
-AmbientSound::~AmbientSound()
-{
-  stop_playing();
-}
+AmbientSound::~AmbientSound() { stop_playing(); }
 
 ObjectSettings
-AmbientSound::get_settings() {
-  new_size.x = bbox.get_width();
-  new_size.y = bbox.get_height();
+AmbientSound::get_settings()
+{
+  new_size.x            = bbox.get_width();
+  new_size.y            = bbox.get_height();
   ObjectSettings result = MovingObject::get_settings();
 
   ObjectOption smp(MN_FILE, _("Sound"), &sample, "sample");
   smp.select.push_back(".wav");
   smp.select.push_back(".ogg");
   result.options.push_back(smp);
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance factor"), &distance_factor, "distance_factor"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Distance bias"), &distance_bias, "distance_bias"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Volume"), &maximumvolume, "volume"));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, _("Width"), &new_size.x, "width"));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
+  result.options.push_back(ObjectOption(MN_NUMFIELD, _("Distance factor"),
+                                        &distance_factor, "distance_factor"));
+  result.options.push_back(ObjectOption(MN_NUMFIELD, _("Distance bias"),
+                                        &distance_bias, "distance_bias"));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, _("Volume"), &maximumvolume, "volume"));
   return result;
 }
 
 void
-AmbientSound::after_editor_set() {
+AmbientSound::after_editor_set()
+{
   bbox.set_size(new_size.x, new_size.y);
 }
 
 void
-AmbientSound::hit(Player& )
+AmbientSound::hit(Player&)
 {
 }
 
@@ -154,15 +161,16 @@ AmbientSound::start_playing()
 
   try {
     sound_source = SoundManager::current()->create_sound_source(sample);
-    if(!sound_source)
-      throw std::runtime_error("file not found");
+    if (!sound_source) throw std::runtime_error("file not found");
 
     sound_source->set_gain(0);
     sound_source->set_looping(true);
-    currentvolume=targetvolume=1e-20f;
+    currentvolume = targetvolume = 1e-20f;
     sound_source->play();
-  } catch(std::exception& e) {
-    log_warning << "Couldn't play '" << sample << "': " << e.what() << "" << std::endl;
+  }
+  catch (std::exception& e) {
+    log_warning << "Couldn't play '" << sample << "': " << e.what() << ""
+                << std::endl;
     sound_source.reset();
     remove_me();
   }
@@ -172,51 +180,48 @@ void
 AmbientSound::update(float deltat)
 {
   if (latency-- <= 0) {
-    float px,py;
-    float rx,ry;
+    float px, py;
+    float rx, ry;
 
     if (!Sector::current() || !Sector::current()->camera) return;
     // Camera position
-    px=Sector::current()->camera->get_center().x;
-    py=Sector::current()->camera->get_center().y;
+    px = Sector::current()->camera->get_center().x;
+    py = Sector::current()->camera->get_center().y;
 
     // Relate to which point in the area
-    rx=px<bbox.p1.x?bbox.p1.x:
-      (px<bbox.p2.x?px:bbox.p2.x);
-    ry=py<bbox.p1.y?bbox.p1.y:
-      (py<bbox.p2.y?py:bbox.p2.y);
+    rx = px < bbox.p1.x ? bbox.p1.x : (px < bbox.p2.x ? px : bbox.p2.x);
+    ry = py < bbox.p1.y ? bbox.p1.y : (py < bbox.p2.y ? py : bbox.p2.y);
 
     // calculate square of distance
-    float sqrdistance=(px-rx)*(px-rx)+(py-ry)*(py-ry);
-    sqrdistance-=distance_bias;
+    float sqrdistance = (px - rx) * (px - rx) + (py - ry) * (py - ry);
+    sqrdistance -= distance_bias;
 
     // inside the bias: full volume (distance 0)
-    if (sqrdistance<0)
-      sqrdistance=0;
+    if (sqrdistance < 0) sqrdistance = 0;
 
     // calculate target volume - will never become 0
-    targetvolume=1/(1+sqrdistance*distance_factor);
-    float rise=targetvolume/currentvolume;
+    targetvolume = 1 / (1 + sqrdistance * distance_factor);
+    float rise   = targetvolume / currentvolume;
 
     // rise/fall half life?
-    currentvolume*=pow(rise,deltat*10);
-    currentvolume += 1e-6f; // volume is at least 1e-6 (0 would never rise)
+    currentvolume *= pow(rise, deltat * 10);
+    currentvolume += 1e-6f;  // volume is at least 1e-6 (0 would never rise)
 
     if (sound_source != 0) {
-
       // set the volume
-      sound_source->set_gain(currentvolume*maximumvolume);
+      sound_source->set_gain(currentvolume * maximumvolume);
 
-      if (sqrdistance>=silence_distance && currentvolume<1e-3)
+      if (sqrdistance >= silence_distance && currentvolume < 1e-3)
         stop_playing();
-      latency=0;
-    } else {
-      if (sqrdistance<silence_distance) {
+      latency = 0;
+    }
+    else {
+      if (sqrdistance < silence_distance) {
         start_playing();
-        latency=0;
+        latency = 0;
       }
-      else // set a reasonable latency
-        latency=(int)(0.001/distance_factor);
+      else  // set a reasonable latency
+        latency = (int)(0.001 / distance_factor);
       //(int)(10*((sqrdistance-silence_distance)/silence_distance));
     }
   }
@@ -263,8 +268,8 @@ void
 AmbientSound::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
-                             0.0f, LAYER_OBJECTS);
+    context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 1.0f, 0.6f), 0.0f,
+                             LAYER_OBJECTS);
   }
 }
 

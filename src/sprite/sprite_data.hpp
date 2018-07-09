@@ -24,22 +24,17 @@
 
 class ReaderMapping;
 
-class SpriteData
-{
-public:
+class SpriteData {
+ public:
   /** cur has to be a pointer to data in the form of ((hitbox 5 10 0 0) ...) */
   SpriteData(const ReaderMapping& cur, const std::string& basedir);
 
-  const std::string& get_name() const
-  {
-    return name;
-  }
+  const std::string& get_name() const { return name; }
 
-private:
+ private:
   friend class Sprite;
 
-  struct Action
-  {
+  struct Action {
     Action();
 
     std::string name;
@@ -63,16 +58,17 @@ private:
     /** Loops (-1 = looping endlessly) */
     int loops;
 
-    /** Flag that gets set to true if the action 
+    /** Flag that gets set to true if the action
         has custom loops defined */
     bool has_custom_loops;
 
     std::vector<SurfacePtr> surfaces;
   };
 
-  typedef std::map <std::string, std::unique_ptr<Action> > Actions;
+  typedef std::map<std::string, std::unique_ptr<Action> > Actions;
 
-  void parse_action(const ReaderMapping& lispreader, const std::string& basedir);
+  void parse_action(const ReaderMapping& lispreader,
+                    const std::string& basedir);
   /** Get an action */
   const Action* get_action(const std::string& act) const;
 

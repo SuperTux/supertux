@@ -24,11 +24,9 @@ class DrawingContext;
  *
  * This is used for Screen transition effects like a fade-out or a shrink-fade
  */
-class ScreenFade
-{
-public:
-  virtual ~ScreenFade()
-  {}
+class ScreenFade {
+ public:
+  virtual ~ScreenFade() {}
 
   /** returns true if the effect is completed */
   virtual bool done() const = 0;

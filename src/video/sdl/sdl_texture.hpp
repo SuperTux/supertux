@@ -17,51 +17,35 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_TEXTURE_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_TEXTURE_HPP
 
-#include <algorithm>
+#include <SDL.h>
 #include <config.h>
 
-#include <SDL.h>
+#include <algorithm>
 
 #include "video/color.hpp"
 #include "video/texture.hpp"
 
-class SDLTexture : public Texture
-{
-protected:
+class SDLTexture : public Texture {
+ protected:
   SDL_Texture* m_texture;
   int m_width;
   int m_height;
 
-public:
+ public:
   SDLTexture(SDL_Surface* sdlsurface);
   virtual ~SDLTexture();
 
-  SDL_Texture *get_texture() const
-  {
-    return m_texture;
-  }
+  SDL_Texture* get_texture() const { return m_texture; }
 
-  unsigned int get_texture_width() const
-  {
-    return m_width;
-  }
+  unsigned int get_texture_width() const { return m_width; }
 
-  unsigned int get_texture_height() const
-  {
-    return m_height;
-  }
+  unsigned int get_texture_height() const { return m_height; }
 
-  unsigned int get_image_width() const
-  {
-    return m_width;
-  }
+  unsigned int get_image_width() const { return m_width; }
 
-  unsigned int get_image_height() const
-  {
-    return m_height;
-  }
+  unsigned int get_image_height() const { return m_height; }
 
-private:
+ private:
   SDLTexture(const SDLTexture&);
   SDLTexture& operator=(const SDLTexture&);
 };

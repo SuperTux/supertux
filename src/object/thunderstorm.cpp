@@ -1,5 +1,6 @@
 //  SuperTux - Thunderstorm Game Object
-//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Christoph Sommer
+//  <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -27,52 +28,55 @@
 #include "util/reader_mapping.hpp"
 
 namespace {
-const float LIGHTNING_DELAY = 2.0f;
+const float LIGHTNING_DELAY    = 2.0f;
 const float FLASH_DISPLAY_TIME = 0.1f;
-const float ELECTRIFY_TIME = 0.5f;
-}
+const float ELECTRIFY_TIME     = 0.5f;
+}  // namespace
 
-Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
-  GameObject(reader),
-  ExposedObject<Thunderstorm, scripting::Thunderstorm>(this),
-  running(true),
-  interval(10.0f),
-  layer(LAYER_BACKGROUNDTILES-1),
-  time_to_thunder(),
-  time_to_lightning(),
-  flash_display_timer()
+Thunderstorm::Thunderstorm(const ReaderMapping& reader)
+    : GameObject(reader),
+      ExposedObject<Thunderstorm, scripting::Thunderstorm>(this),
+      running(true),
+      interval(10.0f),
+      layer(LAYER_BACKGROUNDTILES - 1),
+      time_to_thunder(),
+      time_to_lightning(),
+      flash_display_timer()
 {
   reader.get("name", name);
   reader.get("running", running);
   reader.get("interval", interval);
-  if(interval <= 0) {
-    log_warning << "Running a thunderstorm with non-positive time interval is a bad idea" << std::endl;
+  if (interval <= 0) {
+    log_warning << "Running a thunderstorm with non-positive time interval is "
+                   "a bad idea"
+                << std::endl;
   }
-  layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUNDTILES-1);
+  layer = reader_get_layer(reader, /* default = */ LAYER_BACKGROUNDTILES - 1);
 
   SoundManager::current()->preload("sounds/thunder.wav");
   SoundManager::current()->preload("sounds/lightning.wav");
 
   if (running) {
-    running = false; // else start() is ignored
+    running = false;  // else start() is ignored
     start();
   }
 }
 
 ObjectSettings
-Thunderstorm::get_settings() {
+Thunderstorm::get_settings()
+{
   ObjectSettings result = GameObject::get_settings();
-  result.options.push_back( ObjectOption(MN_TOGGLE, _("Running"), &running,
-                                         "running"));
-  result.options.push_back( ObjectOption(MN_NUMFIELD, _("Interval"), &interval,
-                                         "interval"));
+  result.options.push_back(
+      ObjectOption(MN_TOGGLE, _("Running"), &running, "running"));
+  result.options.push_back(
+      ObjectOption(MN_NUMFIELD, _("Interval"), &interval, "interval"));
 
-  result.options.push_back( ObjectOption(MN_REMOVE, "", NULL));
+  result.options.push_back(ObjectOption(MN_REMOVE, "", NULL));
   return result;
 }
 
 void
-Thunderstorm::update(float )
+Thunderstorm::update(float)
 {
   if (Editor::is_active()) return;
   if (!running) return;
@@ -95,9 +99,9 @@ Thunderstorm::draw(DrawingContext& context)
   float alpha = 0.33f;
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(1, 1, 1, alpha), layer);
+  context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+                           Color(1, 1, 1, alpha), layer);
   context.pop_transform();
-
 }
 
 void
@@ -141,18 +145,26 @@ Thunderstorm::flash()
 void
 Thunderstorm::electrify()
 {
-  auto changing_tiles = TileChangeMap({
-    {200, 1421}, {201, 1422},
-    {3419, 3523}, {3420, 3524},
-    {3421, 3525}, {3422, 3526},
-    {3423, 3527}, {3424, 3528},
-    {3425, 3529}, {3426, 3530},
-    {3427, 3523}, {3428, 3524},
-    {3429, 3525}, {3430, 3526},
-    {3431, 3527}, {3432, 3528},
-    {3433, 3529}, {3434, 3530}
-  });
-  Sector::current()->add_object(std::make_shared<Electrifier>(changing_tiles, ELECTRIFY_TIME));
+  auto changing_tiles = TileChangeMap({{200, 1421},
+                                       {201, 1422},
+                                       {3419, 3523},
+                                       {3420, 3524},
+                                       {3421, 3525},
+                                       {3422, 3526},
+                                       {3423, 3527},
+                                       {3424, 3528},
+                                       {3425, 3529},
+                                       {3426, 3530},
+                                       {3427, 3523},
+                                       {3428, 3524},
+                                       {3429, 3525},
+                                       {3430, 3526},
+                                       {3431, 3527},
+                                       {3432, 3528},
+                                       {3433, 3529},
+                                       {3434, 3530}});
+  Sector::current()->add_object(
+      std::make_shared<Electrifier>(changing_tiles, ELECTRIFY_TIME));
 }
 
 /* EOF */

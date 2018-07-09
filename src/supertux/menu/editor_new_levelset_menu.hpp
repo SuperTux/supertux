@@ -19,14 +19,13 @@
 
 #include "gui/menu.hpp"
 
-class EditorNewLevelsetMenu : public Menu
-{
-public:
+class EditorNewLevelsetMenu : public Menu {
+ public:
   EditorNewLevelsetMenu();
 
   void menu_action(MenuItem* item) override;
 
-private:
+ private:
   std::string levelset_name;
   std::string levelset_desc;
 
@@ -34,6 +33,6 @@ private:
   EditorNewLevelsetMenu& operator=(const EditorNewLevelsetMenu&);
 };
 
-#endif //HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_NEW_LEVELSET_MENU_HPP
+#endif  // HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_NEW_LEVELSET_MENU_HPP
 
 /* EOF */

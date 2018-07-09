@@ -16,10 +16,10 @@
 
 #include "supertux/menu/editor_menu.hpp"
 
+#include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "editor/editor.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
@@ -37,13 +37,13 @@ EditorMenu::EditorMenu()
   add_label(_("Level Editor"));
   add_hl();
   add_entry(MNID_RETURNTOEDITOR, _("Return to editor"));
-  add_entry(MNID_SAVELEVEL, worldmap ? _("Save current worldmap") : _("Save current level"));
+  add_entry(MNID_SAVELEVEL,
+            worldmap ? _("Save current worldmap") : _("Save current level"));
 
   if (!worldmap) {
     add_entry(MNID_TESTLEVEL, _("Test the level"));
   }
-  else
-  {
+  else {
     add_entry(MNID_TESTLEVEL, _("Test the worldmap"));
   }
 
@@ -53,10 +53,13 @@ EditorMenu::EditorMenu()
 
   add_entry(MNID_LEVELSETSEL, _("Choose another level subset"));
 
-  add_string_select(-1, _("Grid size"), &EditorInputCenter::selected_snap_grid_size, snap_grid_sizes);
+  add_string_select(-1, _("Grid size"),
+                    &EditorInputCenter::selected_snap_grid_size,
+                    snap_grid_sizes);
 
   add_toggle(-1, _("Render lighting (F6)"), &DrawingContext::render_lighting);
-  add_toggle(-1, _("Snap objects to grid (F7)"), &EditorInputCenter::snap_to_grid);
+  add_toggle(-1, _("Snap objects to grid (F7)"),
+             &EditorInputCenter::snap_to_grid);
   add_toggle(-1, _("Show grid (F8)"), &EditorInputCenter::render_grid);
   add_toggle(-1, _("Render background"), &EditorInputCenter::render_background);
   add_toggle(-1, _("Show scroller (F9)"), &EditorScroller::rendered);
@@ -71,7 +74,7 @@ EditorMenu::EditorMenu()
 EditorMenu::~EditorMenu()
 {
   auto editor = Editor::current();
-  if(editor == NULL) {
+  if (editor == NULL) {
     return;
   }
   editor->reactivate_request = true;
@@ -81,36 +84,33 @@ void
 EditorMenu::menu_action(MenuItem* item)
 {
   auto editor = Editor::current();
-  switch (item->id)
-  {
+  switch (item->id) {
     case MNID_RETURNTOEDITOR:
       MenuManager::instance().clear_menu_stack();
       break;
 
-    case MNID_SAVELEVEL:
-    {
-      bool is_sector_valid = false;
+    case MNID_SAVELEVEL: {
+      bool is_sector_valid     = false;
       bool is_spawnpoint_valid = false;
 
       editor->check_save_prerequisites(is_sector_valid, is_spawnpoint_valid);
-      if(is_sector_valid && is_spawnpoint_valid)
-      {
+      if (is_sector_valid && is_spawnpoint_valid) {
         MenuManager::instance().clear_menu_stack();
         editor->save_request = true;
       }
-      else
-      {
-        if(!is_sector_valid)
-        {
-          Dialog::show_message(_("Couldn't find a \"main\" sector. Please change the name of the sector where you'd like Tux to start to \"main\""));
+      else {
+        if (!is_sector_valid) {
+          Dialog::show_message(
+              _("Couldn't find a \"main\" sector. Please change the name of "
+                "the sector where you'd like Tux to start to \"main\""));
         }
-        else if(!is_spawnpoint_valid)
-        {
-          Dialog::show_message(_("Couldn't find a \"main\" spawnpoint. Please change the name of the spawnpoint where you'd like Tux to start to \"main\""));
+        else if (!is_spawnpoint_valid) {
+          Dialog::show_message(
+              _("Couldn't find a \"main\" spawnpoint. Please change the name "
+                "of the spawnpoint where you'd like Tux to start to \"main\""));
         }
       }
-    }
-      break;
+    } break;
 
     case MNID_TESTLEVEL:
       MenuManager::instance().clear_menu_stack();
@@ -122,7 +122,8 @@ EditorMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_LEVELSETSEL:
-      MenuManager::instance().set_menu(MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
+      MenuManager::instance().set_menu(
+          MenuStorage::EDITOR_LEVELSET_SELECT_MENU);
       break;
 
     case MNID_QUITEDITOR:
