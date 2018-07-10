@@ -104,6 +104,9 @@ WorldMap::WorldMap(const std::string& filename, Savegame& savegame, const std::s
   scripts(),
   ambient_light( 1.0f, 1.0f, 1.0f, 1.0f ),
   force_spawnpoint(force_spawnpoint_),
+  main_is_default(true),
+  initial_fade_tilemap(),
+  fade_direction(),
   in_level(false),
   pan_pos(),
   panning(false)
@@ -173,23 +176,23 @@ WorldMap::try_unexpose(const GameObjectPtr& object)
 }
 
 void
-WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan)
+WorldMap::move_to_spawnpoint(const std::string& spawnpoint, bool pan, bool main_as_default)
 {
-  for(const auto& sp : spawn_points) {
-    if(sp->name == spawnpoint) {
-      Vector p = sp->pos;
-      tux->set_tile_pos(p);
-      tux->set_direction(sp->auto_dir);
-      if(pan) {
-        panning = true;
-        pan_pos = get_camera_pos_for_tux();
-        clamp_camera_position(pan_pos);
-      }
-      return;
+  auto sp = get_spawnpoint_by_name(spawnpoint);
+  if(sp != NULL) {
+    Vector p = sp->pos;
+    tux->set_tile_pos(p);
+    tux->set_direction(sp->auto_dir);
+    if(pan) {
+      panning = true;
+      pan_pos = get_camera_pos_for_tux();
+      clamp_camera_position(pan_pos);
     }
+    return;
   }
+
   log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
-  if (spawnpoint != "main") {
+  if (spawnpoint != "main" && main_as_default) {
     move_to_spawnpoint("main");
   }
 }
@@ -843,8 +846,27 @@ WorldMap::setup()
 
   // if force_spawnpoint was set, move Tux there, then clear force_spawnpoint
   if (!force_spawnpoint.empty()) {
-    move_to_spawnpoint(force_spawnpoint);
+    move_to_spawnpoint(force_spawnpoint, false, main_is_default);
     force_spawnpoint = "";
+    main_is_default = true;
+  }
+
+  // If we specified a fade tilemap, let's fade it:
+  if (!initial_fade_tilemap.empty())
+  {
+    auto tilemap = get_tilemap_by_name(initial_fade_tilemap);
+    if(tilemap != NULL)
+    {
+      if(fade_direction == 0)
+      {
+        tilemap->fade(1.0, 1);
+      }
+      else
+      {
+        tilemap->fade(0.0, 1);
+      }
+    }
+    initial_fade_tilemap = "";
   }
 
   tux->setup();
@@ -941,6 +963,28 @@ WorldMap::save_state()
       end_table(vm, "sprite-changes");
     }
 
+    // tilemap visibility
+    sq_pushstring(vm, "tilemaps", -1);
+    sq_newtable(vm);
+    for(const auto& object : game_objects)
+    {
+      auto tilemap = dynamic_cast<::TileMap*>(object.get());
+      if(tilemap && !tilemap->get_name().empty())
+      {
+        sq_pushstring(vm, tilemap->get_name().c_str(), -1);
+        sq_newtable(vm);
+        store_float(vm, "alpha", tilemap->get_alpha());
+        if(SQ_FAILED(sq_createslot(vm, -3)))
+        {
+          throw std::runtime_error("failed to create '" + name + "' table entry");
+        }
+      }
+    }
+    if(SQ_FAILED(sq_createslot(vm, -3)))
+    {
+      throw std::runtime_error("failed to create '" + name + "' table entry");
+    }
+
     // levels...
     begin_table(vm, "levels");
 
@@ -1025,6 +1069,50 @@ WorldMap::load_state()
 
     // leave levels table
     sq_pop(vm, 1);
+
+    try {
+      get_table_entry(vm, "tilemaps");
+      sq_pushnull(vm); // Null-iterator
+      while(SQ_SUCCEEDED(sq_next(vm, -2)))
+      {
+        const char* key; // Name of specific tilemap table
+        if(SQ_SUCCEEDED(sq_getstring(vm, -2, &key)))
+        {
+          auto tilemap = get_tilemap_by_name(key);
+          if(tilemap != NULL)
+          {
+            sq_pushnull(vm); // null iterator (inner);
+            while(SQ_SUCCEEDED(sq_next(vm, -2)))
+            {
+              const char* property_key;
+              if(SQ_SUCCEEDED(sq_getstring(vm, -2, &property_key)))
+              {
+                auto propKey = std::string(property_key);
+                if(propKey == "alpha")
+                {
+                  float alpha_value = 1.0;
+                  if(SQ_SUCCEEDED(sq_getfloat(vm, -1, &alpha_value)))
+                  {
+                    tilemap->set_alpha(alpha_value);
+                  }
+                }
+              }
+              sq_pop(vm, 2); // Pop key/value from the stack
+            }
+            sq_pop(vm, 1); // Pop null iterator
+          }
+        }
+        sq_pop(vm, 2); // Pop key value pair from stack
+      }
+      sq_pop(vm, 1); // Pop null
+      sq_pop(vm, 1); // leave tilemaps table
+    }
+    catch(const scripting::SquirrelError& e)
+    {
+      // Failed to get tilemap entry. This could indicate
+      // that no savable tilemaps have been found. In any
+      // case: This is not severe at all.
+    }
 
     if(sprite_changes.size() > 0)
     {
@@ -1133,6 +1221,20 @@ WorldMap::get_height() const
     if (solids->get_height() > height) height = solids->get_height();
   }
   return height;
+}
+
+TileMap*
+WorldMap::get_tilemap_by_name(const std::string& tilemap_name) const
+{
+  for(const auto& object : game_objects)
+  {
+    auto tilemap = static_cast<TileMap*>(object.get());
+    if(tilemap && tilemap->get_name() == tilemap_name)
+    {
+      return tilemap;
+    }
+  }
+  return NULL;
 }
 
 } // namespace worldmap
