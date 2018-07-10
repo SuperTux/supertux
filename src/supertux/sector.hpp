@@ -270,6 +270,8 @@ private:
    * returns true if the collision detection should be aborted for this object
    * (because of ABORT_MOVE in the collision response or no collisions)
    */
+   void collision_moving_static(const Vector& movement, Rectf& dest,
+   MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts);
   void collision_static(collision::Constraints* constraints,
                         const Vector& movement, Rectf& dest, MovingObject& object, collision_graph& graph);
 

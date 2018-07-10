@@ -758,12 +758,14 @@ Sector::collision_tilemap(collision::Constraints* constraints,
             h.bottom = overlapV.y > 0;
             h.top    = overlapV.y < 0;
           }
+          m.normal = overlapV;
+          m.depth = 1;
           // Check if they overlap
           std::swap(h.top, h.bottom);
           std::swap(h.right, h.left);
           if ((h.bottom || h.top || h.left || h.right)) {
               object.collision_solid(h);
-              dest.move(overlapV);
+              contacts.push_back(m);
           }
 
             continue;
@@ -988,27 +990,9 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2, collision
   }
 }
 
-void
-Sector::collision_static(collision::Constraints* constraints,
-                         const Vector& movement, Rectf& dest,
-                         MovingObject& object, collision_graph& graph) {
-  std::vector< Manifold > contacts;
-  collision_tilemap(constraints, movement, dest, object, contacts, false);
-  for (const auto& m : contacts) {
-    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
-                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
-    dest.move(overlapV);
-  }
-  contacts.clear();
-  collision_tilemap(constraints, movement, dest, object, contacts, true);
-  // collision with other (static) objects
-  for (const auto& m : contacts) {
-    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
-                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
-    dest.move(overlapV);
-  }
-  contacts.clear();
-
+void Sector::collision_moving_static(const Vector& movement, Rectf& dest,
+MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
+{
   for (auto& moving_object : moving_objects) {
     if (moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
@@ -1051,8 +1035,6 @@ Sector::collision_static(collision::Constraints* constraints,
         h.top    = overlapV.y < 0;
         // log_debug << "*** TOP OR BOT "<< std::endl << m.normal.x << " " << m.normal.y << std::endl;
       }
-
-      // log_debug << "Created a collision polygon" << std::endl;
       moving_object->collision(object, h);
       std::swap(h.top, h.bottom);
       std::swap(h.right, h.left);
@@ -1063,18 +1045,71 @@ Sector::collision_static(collision::Constraints* constraints,
       contacts.push_back(m);
       // Insert into collision graph
       graph.register_collision_hit(h, &object, moving_object);
+      }
     }
+}
+void
+Sector::collision_static(collision::Constraints* constraints,
+                         const Vector& movement, Rectf& dest,
+                         MovingObject& object, collision_graph& graph) {
+  std::vector< Manifold > contacts;
+  collision_tilemap(constraints, movement, dest, object, contacts, false);
+  /*for (const auto& m : contacts) {
+    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
+                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
+    dest.move(overlapV);
+  }*/
+  //contacts.clear();
+  collision_tilemap(constraints, movement, dest, object, contacts, true);
+  // collision with other (static) objects
+  collision_moving_static(movement, dest, object, graph, contacts);
+  /*for (const auto& m : contacts) {
+    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
+                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
+    dest.move(overlapV);
   }
-
+  contacts.clear();*/
+  log_debug << contacts.size() << std::endl;
   for (const auto& m : contacts) {
     Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
                   (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
     dest.move(overlapV);
   }
-  contacts.clear();
-
+  double extend_left = 0.0f,
+         extend_right = 0.0f,
+         extend_top = 0.0f,
+         extend_bot = 0.0f;
+  log_debug << "CRUSH" << std::endl;
+  log_debug << contacts.size() << std::endl;
+  for (const auto& m : contacts) {
+    Vector v (m.normal.x*m.depth, m.normal.y*m.depth);
+    log_debug << "v is " << v.x << " " << v.y << std::endl;
+    if (v.x < 0 && std::abs(v.x) > std::abs(extend_left)) {
+      extend_left = std::abs(v.x);
+    }
+    if (v.x > 0 && std::abs(v.x) > std::abs(extend_left)) {
+      extend_right = std::abs(v.x);
+    }
+    if (v.y < 0 && std::abs(v.y) > std::abs(extend_top)) {
+      extend_top = std::abs(v.y);
+    }
+    if (v.y > 0 && std::abs(v.y) > std::abs(extend_bot)) {
+      extend_bot = std::abs(v.y);
+    }
+  }
+  if (extend_top > 2 && extend_bot > 2) {
+    CollisionHit h;
+    h.crush = true;
+    h.top = true;
+    h.bottom = true;
+    object.collision_solid(h);
+  }
+  if (extend_left > 2 && extend_right > 2) {
+    CollisionHit h;
+    h.crush = h.left = h.right = true;
+    object.collision_solid(h);
+  }
 }
-
 void
 Sector::collision_static_constrains(MovingObject& object, collision_graph& graph)
 {
