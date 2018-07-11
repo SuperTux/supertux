@@ -20,17 +20,13 @@
 #include "editor/editor.hpp"
 
 SectorCollisionDetector::SectorCollisionDetector(
-                                    std::vector<MovingObject*>& moving_objects,
-                                          std::list<TileMap*>& solid_tilemaps,
-                                          std::vector<Player*> players) :
-                                              m_moving_objects(moving_objects),
-                                              m_solid_tilemaps(solid_tilemaps),
-                                              m_players(players)
+                                  std::vector<MovingObject*>& moving_objects,
+                                  std::list<TileMap*>& solid_tilemaps,
+                                  std::vector<Player*>& players) :
+                                      m_moving_objects(moving_objects),
+                                      m_solid_tilemaps(solid_tilemaps),
+                                      m_players(players)
 {
-}
-
-void SectorCollisionDetector::set_players(std::vector<Player*> players){
-  m_players = players;
 }
 
 

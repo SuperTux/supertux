@@ -429,7 +429,7 @@ Editor::setup() {
     leveltested = false;
     Tile::draw_editor_images = true;
     level->reactivate();
-    currentsector->activate(currentsector->player->get_pos());
+    currentsector->activate(currentsector->players[0]->get_pos());
     MenuManager::instance().clear_menu_stack();
     SoundManager::current()->stop_music();
     deactivate_request = false;

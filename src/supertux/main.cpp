@@ -436,7 +436,7 @@ Main::launch_game()
 
       if (g_config->tux_spawn_pos)
       {
-        session->get_current_sector()->player->set_pos(*g_config->tux_spawn_pos);
+        session->get_current_sector()->players[0]->set_pos(*g_config->tux_spawn_pos);
       }
 
       if(!g_config->start_demo.empty())

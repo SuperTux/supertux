@@ -82,12 +82,13 @@ Sector::Sector(Level* parent) :
   portables(),
   music(),
   gravity(10.0),
-  player(0),
+  players(),
   solid_tilemaps(),
   camera(0),
   effect(0),
-  collision_detector(moving_objects, solid_tilemaps, get_players())
+  collision_detector(moving_objects, solid_tilemaps, players)
 {
+
   PlayerStatus* player_status;
   if (Editor::is_active()) {
     player_status = Editor::current()->m_savegame->get_player_status();
@@ -100,8 +101,6 @@ Sector::Sector(Level* parent) :
   add_object(std::make_shared<Player>(player_status, "Tux"));
   add_object(std::make_shared<DisplayEffect>("Effect"));
   add_object(std::make_shared<TextObject>("Text"));
-  
-  collision_detector.set_players(get_players());
 
   SoundManager::current()->preload("sounds/shoot.wav");
 
@@ -258,10 +257,10 @@ Sector::activate(const Vector& player_pos)
   }
 
   //FIXME: This is a really dirty workaround for this strange camera jump
-  player->move(player->get_pos()+Vector(-32, 0));
-  camera->reset(player->get_pos());
+  players[0]->move(players[0]->get_pos()+Vector(-32, 0));
+  camera->reset(players[0]->get_pos());
   camera->update(1);
-  player->move(player->get_pos()+(Vector(32, 0)));
+  players[0]->move(players[0]->get_pos()+(Vector(32, 0)));
   camera->update(1);
 
   update_game_objects();
@@ -346,7 +345,7 @@ Sector::get_foremost_layer() const
 void
 Sector::update(float elapsed_time)
 {
-  player->check_bounds();
+  players[0]->check_bounds();
 
   if(ambient_light_fading)
   {
@@ -469,11 +468,15 @@ Sector::before_object_add(GameObjectPtr object)
 
   auto player_ = dynamic_cast<Player*>(object.get());
   if(player_) {
-    if(this->player != 0) {
+    if(this->players.size() > 0) {
       log_warning << "Multiple players added. Ignoring" << std::endl;
       return false;
     }
-    this->player = player_;
+    if(this->players.size() > 0){
+      this->players[0] = player_;
+    }else{
+      this->players.push_back(player_);
+    }
   }
 
   auto effect_ = dynamic_cast<DisplayEffect*>(object.get());
@@ -628,7 +631,6 @@ bool Sector::free_line_of_sight(const Vector& line_start,
 
 bool Sector::can_see_player(const Vector& eye)
 {
-  collision_detector.set_players(get_players());
   return collision_detector.can_see_player(eye);
 }
 

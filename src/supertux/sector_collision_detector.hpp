@@ -32,9 +32,7 @@ friend class Sector; // to allow Sector to use handle_collisions()
 public:
   SectorCollisionDetector(std::vector<MovingObject*>& moving_objects,
                           std::list<TileMap*>& solid_tilemaps,
-                          std::vector<Player*> players);
-                          
-  void set_players(std::vector<Player*> players);
+                          std::vector<Player*>& players);
   
   void collision_tilemap(collision::Constraints* constraints,
                          const Vector& movement, const Rectf& dest,
@@ -100,7 +98,7 @@ private:
   std::vector<MovingObject*>& m_moving_objects;
   
   std::list<TileMap*>& m_solid_tilemaps;
-  std::vector<Player*> m_players;
+  std::vector<Player*>& m_players;
 };
 
 #endif
