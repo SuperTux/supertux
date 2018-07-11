@@ -191,6 +191,18 @@ WalkingBadguy::collision_badguy(BadGuy& , const CollisionHit& hit)
 }
 
 void
+WalkingBadguy::collision_tile(uint32_t tile_attributes)
+{
+  if ((tile_attributes & Tile::HURTS) && max_drop_height > -1 && on_ground())
+  {
+    // prevents the inteligent bad guys from running into deadly tiles
+    turn_around();
+  } else {
+    BadGuy::collision_tile(tile_attributes);
+  }
+}
+
+void
 WalkingBadguy::turn_around()
 {
   if(frozen)

@@ -227,6 +227,17 @@ Snail::collision_player(Player& player, const CollisionHit& hit)
   return BadGuy::collision_player(player, hit);
 }
 
+void
+Snail::collision_tile(uint32_t tile_attributes)
+{
+  if ((tile_attributes & Tile::HURTS) && state == STATE_KICKED)
+  {
+    kill_fall();
+  } else {
+    WalkingBadguy::collision_tile(tile_attributes);
+  }
+}
+
 bool
 Snail::collision_squished(GameObject& object)
 {

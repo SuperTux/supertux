@@ -163,6 +163,17 @@ MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
   return ABORT_MOVE;
 }
 
+void
+MrIceBlock::collision_tile(uint32_t tile_attributes)
+{
+  if ((tile_attributes & Tile::HURTS) && ice_state == ICESTATE_KICKED)
+  {
+    kill_fall();
+  } else {
+    WalkingBadguy::collision_tile(tile_attributes);
+  }
+}
+
 bool
 MrIceBlock::collision_squished(GameObject& object)
 {

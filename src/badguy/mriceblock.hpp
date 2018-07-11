@@ -31,6 +31,7 @@ public:
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
+  void collision_tile(uint32_t tile_attributes);
 
   void active_update(float elapsed_time);
 

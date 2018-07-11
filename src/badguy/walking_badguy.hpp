@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_BADGUY_WALKING_BADGUY_HPP
 
 #include "badguy/badguy.hpp"
+#include "supertux/tile.hpp"
 
 class Timer;
 
@@ -51,6 +52,7 @@ public:
   void active_update(float elapsed_time, float target_velocity);
   void collision_solid(const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+  void collision_tile(uint32_t tile_attributes);
   void freeze();
   void unfreeze();
 
