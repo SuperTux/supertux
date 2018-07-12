@@ -22,7 +22,7 @@
 #include "util/writer.hpp"
 #include "util/log.hpp"
 
-Config::Config() :
+Config::Config(int numberofplayers) :
   profile(1),
   fullscreen_size(0, 0),
   fullscreen_refresh_rate(0),
@@ -44,8 +44,8 @@ Config::Config() :
   tux_spawn_pos(),
   edit_level(),
   locale(),
-  keyboard_config(),
-  joystick_config(),
+  keyboard_configs(),
+  joystick_configs(),
   addons(),
   developer_mode(false),
   christmas_mode(false),
@@ -54,6 +54,12 @@ Config::Config() :
   pause_on_focusloss(true),
   repository_url()
 {
+  assert(numberofplayers > 0);
+
+  for(int i = 0; i < numberofplayers; ++i){
+    keyboard_configs.push_back(std::make_shared<KeyboardConfig>(i));
+    joystick_configs.push_back(std::make_shared<JoystickConfig>(i));
+  }
 }
 
 void
@@ -123,15 +129,35 @@ Config::load()
   if (config_lisp.get("control", config_control_lisp))
   {
     ReaderMapping keymap_lisp;
-    if (config_control_lisp.get("keymap", keymap_lisp))
-    {
-      keyboard_config.read(keymap_lisp);
+    
+    if(keyboard_configs.size() != joystick_configs.size()) {
+        log_warning << "Malformed Config file was tried to be loaded from! " 
+                    << "Defaults were loaded instead." << std::endl;
+        return;
+    }
+    
+    for(auto& keyboard_config : keyboard_configs) {
+      if (config_control_lisp.get("keymap", keymap_lisp))
+      {
+        keyboard_config.get()->read(keymap_lisp);
+      } 
+      else
+      {
+        break;
+      }
     }
 
     ReaderMapping joystick_lisp;
-    if (config_control_lisp.get("joystick", joystick_lisp))
-    {
-      joystick_config.read(joystick_lisp);
+    
+    for(auto& joystick_config : joystick_configs) {
+      if (config_control_lisp.get("joystick", joystick_lisp))
+      {
+        joystick_config.get()->read(joystick_lisp);
+      }
+      else
+      {
+        break;
+      }
     }
   }
 
@@ -206,13 +232,19 @@ Config::save()
 
   writer.start_list("control");
   {
-    writer.start_list("keymap");
-    keyboard_config.write(writer);
-    writer.end_list("keymap");
+    assert(keyboard_configs.size() == joystick_configs.size());
+  
+    for(auto& keyboard_config : keyboard_configs) {
+      writer.start_list("keymap");
+      keyboard_config->write(writer);
+      writer.end_list("keymap");
+    }
 
-    writer.start_list("joystick");
-    joystick_config.write(writer);
-    writer.end_list("joystick");
+    for(auto& joystick_config : joystick_configs) {
+      writer.start_list("joystick");
+      joystick_config->write(writer);
+      writer.end_list("joystick");
+    }
   }
   writer.end_list("control");
 
