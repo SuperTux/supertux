@@ -30,7 +30,7 @@
 class Config
 {
 public:
-  Config();
+  Config(int numberofplayers = 1);
 
   void load();
   void save();
@@ -79,8 +79,8 @@ public:
       means autodetect. */
   std::string locale;
 
-  KeyboardConfig keyboard_config;
-  JoystickConfig joystick_config;
+  std::vector<std::shared_ptr<KeyboardConfig>> keyboard_configs;
+  std::vector<std::shared_ptr<JoystickConfig>> joystick_configs;
 
   struct Addon
   {

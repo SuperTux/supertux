@@ -41,8 +41,9 @@ public:
   AxisMap joy_axis_map;
   HatMap joy_hat_map;
 
+  int playernum;
 public:
-  JoystickConfig();
+  JoystickConfig(int playernumber = 0);
 
   void print_joystick_mappings() const;
 

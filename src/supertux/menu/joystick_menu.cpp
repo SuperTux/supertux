@@ -89,7 +89,8 @@ JoystickMenu::recreate_menu()
       add_inactive(_("It will be removed from the next release"));
       // l10n: Continuation of string "It will be removed from the next release"
       add_inactive(_("of SuperTux."));
-      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), &g_config->joystick_config.jump_with_up_joy);
+      add_toggle(MNID_JUMP_WITH_UP, _("Jump with Up"), 
+                        &g_config->joystick_configs[0].get()->jump_with_up_joy);
     }
     else
     {
@@ -154,9 +155,11 @@ JoystickMenu::refresh_menu_item(Controller::Control id)
     return;
   }
 
-  int button  = g_config->joystick_config.reversemap_joybutton(id);
-  int axis    = g_config->joystick_config.reversemap_joyaxis(id);
-  int hat_dir = g_config->joystick_config.reversemap_joyhat(id);
+  // TODO: Be able to handle multiple joystick configurations for different
+  // TODO: players.
+  int button  = g_config->joystick_configs[0].get()->reversemap_joybutton(id);
+  int axis    = g_config->joystick_configs[0].get()->reversemap_joyaxis(id);
+  int hat_dir = g_config->joystick_configs[0].get()->reversemap_joyhat(id);
 
   if (button != -1)
   {

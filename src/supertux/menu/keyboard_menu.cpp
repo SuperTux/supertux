@@ -50,7 +50,8 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager) :
   add_inactive(_("It will be removed from the next release"));
   // l10n: Continuation of string "It will be removed from the next release"
   add_inactive(_("of SuperTux."));
-  add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), &g_config->keyboard_config.jump_with_up_kbd);
+  add_toggle(Controller::CONTROLCOUNT, _("Jump with Up"), 
+            &g_config->keyboard_configs[0].get()->jump_with_up_kbd);
   add_hl();
   add_back(_("Back"));
   refresh();
@@ -111,7 +112,9 @@ KeyboardMenu::menu_action(MenuItem* item)
 void
 KeyboardMenu::refresh()
 {
-  KeyboardConfig& kbd_cfg = g_config->keyboard_config;
+  // TODO: Make this menu parse more than one keyboard config
+  // TODO: for supporting multiple players.
+  KeyboardConfig& kbd_cfg = *g_config->keyboard_configs[0].get();
   ItemControlField* micf;
 
   micf = dynamic_cast<ItemControlField*>(&get_item_by_id((int) Controller::UP));

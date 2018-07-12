@@ -374,7 +374,11 @@ Main::launch_game()
   ConsoleBuffer console_buffer;
 
   timelog("controller");
-  InputManager input_manager(g_config->keyboard_config, g_config->joystick_config);
+  
+  // TODO: Make InputManager parse more than one keyboard/joystick configs
+  // TODO: for supporting multiple players.
+  InputManager input_manager(*g_config->keyboard_configs[0].get(), 
+                            *g_config->joystick_configs[0].get());
 
   timelog("commandline");
 

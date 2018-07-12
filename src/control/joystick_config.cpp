@@ -22,13 +22,14 @@
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
-JoystickConfig::JoystickConfig() :
+JoystickConfig::JoystickConfig(int playernumber) :
   dead_zone(8000),
   jump_with_up_joy(false),
   use_game_controller(true),
   joy_button_map(),
   joy_axis_map(),
-  joy_hat_map()
+  joy_hat_map(),
+  playernum(playernumber)
 {
   // Default joystick button configuration
   bind_joybutton(0, 0, Controller::JUMP);
@@ -162,6 +163,14 @@ JoystickConfig::read(const ReaderMapping& joystick_lisp)
   joystick_lisp.get("jump-with-up", jump_with_up_joy);
   joystick_lisp.get("use-game-controller", use_game_controller);
 
+  if(!joystick_lisp.get("playernum", playernum)) {
+    if(playernum != 0){
+      // We only want the first player to use the old config that was made for
+      // only one player.
+      return;
+    }
+  }
+
   auto iter = joystick_lisp.get_iter();
   while(iter.next())
   {
@@ -218,6 +227,7 @@ JoystickConfig::write(Writer& writer)
   writer.write("dead-zone", dead_zone);
   writer.write("jump-with-up", jump_with_up_joy);
   writer.write("use-game-controller", use_game_controller);
+  writer.write("playernum", playernum);
 
   for(const auto& i : joy_button_map) {
     writer.start_list("map");

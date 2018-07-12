@@ -19,9 +19,10 @@
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
-KeyboardConfig::KeyboardConfig() :
+KeyboardConfig::KeyboardConfig(int playernumber) :
   keymap(),
-  jump_with_up_kbd(false)
+  jump_with_up_kbd(false),
+  playernum(playernumber)
 {
   // initialize default keyboard map
   keymap[SDLK_LEFT]     = Controller::LEFT;
@@ -55,6 +56,13 @@ KeyboardConfig::read(const ReaderMapping& keymap_lisp)
   if (config_is_sdl2)
   {
     keymap_lisp.get("jump-with-up", jump_with_up_kbd);
+
+    // We only want the first player to use the old config that was made for
+    // only one player.
+    if(!keymap_lisp.get("playernum", playernum) &&
+       playernum != 0){
+      return;
+    }
 
     auto iter = keymap_lisp.get_iter();
     while(iter.next())
@@ -136,6 +144,7 @@ KeyboardConfig::write(Writer& writer)
   writer.write("sdl2", true);
 
   writer.write("jump-with-up", jump_with_up_kbd);
+  writer.write("playernum", playernum);
 
   for(const auto& i : keymap)
   {

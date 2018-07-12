@@ -28,7 +28,7 @@ class ReaderMapping;
 class KeyboardConfig
 {
 public:
-  KeyboardConfig();
+  KeyboardConfig(int playernumber = 0);
 
   SDL_Keycode reversemap_key(Controller::Control c) const;
   void bind_key(SDL_Keycode key, Controller::Control c);
@@ -39,6 +39,7 @@ public:
   typedef std::map<SDL_Keycode, Controller::Control> KeyMap;
   KeyMap keymap;
   bool jump_with_up_kbd;
+  int playernum;
 };
 
 #endif
