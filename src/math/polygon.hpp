@@ -3,12 +3,16 @@
 #include <vector>
 #include "math/vector.hpp"
 
+class Polygon;
+
 struct Manifold {
   Vector normal;
   double depth;
 
   bool collided = false;
-
+  std::shared_ptr<Polygon> A;
+  std::shared_ptr<Polygon> B;
+  
 public:
   Manifold():
     normal(),

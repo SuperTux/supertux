@@ -723,9 +723,9 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         CollisionHit h;
         Vector overlapV(0, 0);
         Manifold m;
-        if(use_aabbpoly) {
+        /*if(use_aabbpoly) {
           AABBPolygon mobjp(dest);
-          AABBPolygon tilepoly(tile_bbox);
+          std::shared_ptr<AABBPolygon> tilepoly(new AABBPolygon(tile_bbox));
           for (const auto& offset : dir) {
             const auto& nb = solids->get_tile(x+offset[0], y+offset[1]);
             Rectf nb_bbox = solids->get_tile_bbox(x+offset[0], y+offset[1]);
@@ -733,21 +733,22 @@ Sector::collision_tilemap(collision::Constraints* constraints,
               continue;
             if (nb->is_unisolid()) {
                 Vector relative_movement = movement
-                  - solids->get_movement(/* actual = */ true);
+                  - solids->get_movement( true);
 
                 if (!nb->is_solid (nb_bbox, object.get_bbox(), relative_movement))
                   continue;
               }
-              tilepoly.process_neighbor(offset[0], offset[1]);
+              tilepoly->process_neighbor(offset[0], offset[1]);
           }
 
-          mobjp.handle_collision(tilepoly, m);
+          mobjp.handle_collision(*tilepoly.get(), m);
           if (!m.collided)
             continue;
           // log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
           overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
-          if(tile->is_slope() && slope_adjust_x)
+          if(tile->is_slope())
           {
+            overlapV.y = overlapV.y + (overlapV.x*overlapV.x)/(overlapV.y);
             overlapV.x = 0;
           }
           if (std::max(std::abs(overlapV.x), std::abs(overlapV.y))
@@ -764,12 +765,14 @@ Sector::collision_tilemap(collision::Constraints* constraints,
           std::swap(h.top, h.bottom);
           std::swap(h.right, h.left);
           if ((h.bottom || h.top || h.left || h.right)) {
-              object.collision_solid(h);
-              contacts.push_back(m);
+              if(slope_adjust_x)
+                  dest.move(overlapV);
+            object.collision_solid(h);
+            contacts.push_back(m);
           }
 
             continue;
-        }
+        }*/
 
         // Do collision response
         //AABBPolygon mobjp(dest); // = dest.to_polygon();
@@ -798,9 +801,16 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         // log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
         overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
         if (tile->is_slope()) {
-          if(!slope_adjust_x)
-            overlapV.x = 0;
-
+            if(overlapV.y != 0)
+            {
+                //if(slope_adjust_x)
+                //{
+                    overlapV.y = overlapV.y + (overlapV.x*overlapV.x)/(overlapV.y);
+                    overlapV.x = 0;
+                //}
+            }else{
+                continue;
+            }
           Rectf tbbox = solids->get_tile_bbox(x, y);
           AATriangle triangle = AATriangle(tbbox, tile->getData());
           auto rect = dest;
@@ -871,7 +881,9 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         std::swap(h.top, h.bottom);
         std::swap(h.right, h.left);
         if ((h.bottom || h.top || h.left || h.right)) {
-            object.collision_solid(h);
+            if(slope_adjust_x)
+                dest.move(overlapV);
+                object.collision_solid(h);
             contacts.push_back(m);
         }
         }
@@ -1053,22 +1065,24 @@ Sector::collision_static(collision::Constraints* constraints,
                          const Vector& movement, Rectf& dest,
                          MovingObject& object, collision_graph& graph) {
   std::vector< Manifold > contacts;
-  collision_tilemap(constraints, movement, dest, object, contacts, false);
-  /*for (const auto& m : contacts) {
-    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
-                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
-    dest.move(overlapV);
-  }*/
-  //contacts.clear();
-  collision_tilemap(constraints, movement, dest, object, contacts, true);
+  std::vector< Manifold > all_contacts;
+  // Always resolve biggest
+  int m_iter = 2;
+  for(int i = 0;i<m_iter;i++)
+  {
+    collision_tilemap(constraints, movement, dest, object, contacts, i != 0);
+  }
+  contacts.clear();
+  contacts.clear();  contacts.clear();
   // collision with other (static) objects
   collision_moving_static(movement, dest, object, graph, contacts);
-  /*for (const auto& m : contacts) {
+  for (const auto& m : contacts) {
     Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
                   (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
     dest.move(overlapV);
   }
-  contacts.clear();*/
+
+  contacts.clear();
   log_debug << contacts.size() << std::endl;
   for (const auto& m : contacts) {
     Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
@@ -1079,15 +1093,19 @@ Sector::collision_static(collision::Constraints* constraints,
          extend_right = 0.0f,
          extend_top = 0.0f,
          extend_bot = 0.0f;
-  log_debug << "CRUSH" << std::endl;
   log_debug << contacts.size() << std::endl;
-  for (const auto& m : contacts) {
+  all_contacts.clear();
+  return;
+  collision_tilemap(constraints, movement, dest, object, all_contacts, false);
+  collision_moving_static(movement, dest, object, graph, all_contacts);
+
+  for (const auto& m : all_contacts) {
     Vector v (m.normal.x*m.depth, m.normal.y*m.depth);
     log_debug << "v is " << v.x << " " << v.y << std::endl;
     if (v.x < 0 && std::abs(v.x) > std::abs(extend_left)) {
       extend_left = std::abs(v.x);
     }
-    if (v.x > 0 && std::abs(v.x) > std::abs(extend_left)) {
+    if (v.x > 0 && std::abs(v.x) > std::abs(extend_right)) {
       extend_right = std::abs(v.x);
     }
     if (v.y < 0 && std::abs(v.y) > std::abs(extend_top)) {
@@ -1097,14 +1115,12 @@ Sector::collision_static(collision::Constraints* constraints,
       extend_bot = std::abs(v.y);
     }
   }
-  if (extend_top > 2 && extend_bot > 2) {
+  if (extend_top > 8 && extend_bot > 8) {
     CollisionHit h;
-    h.crush = true;
-    h.top = true;
-    h.bottom = true;
+    h.crush = h.top = h.bottom = true;
     object.collision_solid(h);
   }
-  if (extend_left > 2 && extend_right > 2) {
+  if (extend_left > 8 && extend_right > 8) {
     CollisionHit h;
     h.crush = h.left = h.right = true;
     object.collision_solid(h);
