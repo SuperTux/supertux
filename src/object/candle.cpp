@@ -31,8 +31,6 @@ Candle::Candle(const ReaderMapping& lisp)
     candle_light_1(SpriteManager::current()->create("images/objects/candle/candle-light-1.sprite")),
     candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
 {
-
-  lisp.get("name", name, "");
   lisp.get("burning", burning, true);
   lisp.get("flicker", flicker, true);
   std::vector<float> vColor;

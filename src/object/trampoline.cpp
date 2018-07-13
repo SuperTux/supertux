@@ -38,7 +38,6 @@ Trampoline::Trampoline(const ReaderMapping& lisp) :
   Rock(lisp, "images/objects/trampoline/trampoline.sprite"),
   portable(true)
 {
-  lisp.get("name", name, "");
   SoundManager::current()->preload(TRAMPOLINE_SOUND);
 
   //Check if this trampoline is not portable

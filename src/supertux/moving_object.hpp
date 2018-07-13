@@ -76,6 +76,7 @@ class MovingObject : public GameObject
 {
 public:
   MovingObject();
+  MovingObject(const ReaderMapping& reader);
   virtual ~MovingObject();
 
   /** this function is called when the object collided with something solid */

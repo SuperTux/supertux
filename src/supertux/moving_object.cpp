@@ -35,6 +35,16 @@ MovingObject::MovingObject(const MovingObject& m) :
   dest(m.dest)
 {
 }
+
+MovingObject::MovingObject(const ReaderMapping& reader) :
+  GameObject(reader),
+  bbox(),
+  movement(),
+  group(COLGROUP_MOVING),
+  dest()
+{
+}
+
 MovingObject::~MovingObject()
 {
 }

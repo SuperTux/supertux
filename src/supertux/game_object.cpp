@@ -33,6 +33,12 @@ GameObject::GameObject(const GameObject& rhs) :
 {
 }
 
+GameObject::GameObject(const ReaderMapping& reader) :
+  GameObject()
+{
+  reader.get("name", name, "");
+}
+
 GameObject::~GameObject()
 {
   // call remove listeners (and remove them from the list)

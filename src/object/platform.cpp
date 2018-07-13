@@ -38,7 +38,6 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   last_player_contact(false)
 {
   bool running = true;
-  reader.get("name", name);
   reader.get("running", running);
   if ((name.empty()) && (!running)) {
     automatic = true;

@@ -49,6 +49,9 @@ private:
   EventType triggerevent;
   Sequence sequence;
   Vector new_size;
+  std::string new_spawnpoint;
+  std::string fade_tilemap;
+  TilemapFadeType fade;
 };
 
 #endif

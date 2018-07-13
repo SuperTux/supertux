@@ -274,17 +274,17 @@ Player::adjust_height(float new_height)
 }
 
 void
-Player::trigger_sequence(const std::string& sequence_name)
+Player::trigger_sequence(const std::string& sequence_name, const SequenceData* data)
 {
-  trigger_sequence(string_to_sequence(sequence_name));
+  trigger_sequence(string_to_sequence(sequence_name), data);
 }
 
 void
-Player::trigger_sequence(Sequence seq)
+Player::trigger_sequence(Sequence seq, const SequenceData* data)
 {
   if (climbing) stop_climbing(*climbing);
   stop_backflipping();
-  GameSession::current()->start_sequence(seq);
+  GameSession::current()->start_sequence(seq, data);
 }
 
 void

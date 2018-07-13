@@ -74,6 +74,7 @@ ItemStringSelect::process_action(const MenuAction& action) {
       MenuManager::instance().current_menu()->menu_action(this);
       break;
     case MENU_ACTION_RIGHT:
+    case MENU_ACTION_HIT:
       if( (*selected)+1 < int(list.size())) {
         (*selected)++;
       } else {

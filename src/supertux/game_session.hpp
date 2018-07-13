@@ -70,7 +70,7 @@ public:
   Level* get_current_level() const
   { return level.get(); }
 
-  void start_sequence(Sequence seq);
+  void start_sequence(Sequence seq, const SequenceData* data = NULL);
 
   /**
    * returns the "working directory" usually this is the directory where the

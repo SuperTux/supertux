@@ -29,6 +29,7 @@
 
 Dispenser::Dispenser(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),
+  ExposedObject<Dispenser, scripting::Dispenser>(this),
   cycle(),
   badguys(),
   next_badguy(0),
@@ -215,7 +216,7 @@ Dispenser::launch_badguy()
 {
   if (badguys.empty()) return;
   if (frozen) return;
-  if (limit_dispensed_badguys && 
+  if (limit_dispensed_badguys &&
       current_badguys >= max_concurrent_badguys)
       return;
 

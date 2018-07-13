@@ -5008,6 +5008,19 @@
     )
     (image "tiles/castle/grey_special.png")
   )
+  (tiles
+    (width 4)
+    (height 2)
+    (ids
+      3523 3524 3525 3526
+      3527 3528 3529 3530
+    )
+    (attributes
+      1024 1024 1024 1024
+      1024 1024 1024 1024
+    )
+    (image "tiles/background/storm-cloud-electrified.png")
+  )
 
-  ;; next-id: 3523
+  ;; next-id: 3531
   )
