@@ -18,10 +18,12 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "scripting/spotlight.hpp"
 #include "supertux/object_factory.hpp"
 #include "util/reader_mapping.hpp"
 
 Spotlight::Spotlight(const ReaderMapping& lisp) :
+  ExposedObject<Spotlight, scripting::Spotlight>(this),
   angle(),
   center(SpriteManager::current()->create("images/objects/spotlight/spotlight_center.sprite")),
   base(SpriteManager::current()->create("images/objects/spotlight/spotlight_base.sprite")),
@@ -34,6 +36,7 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
 {
   group = COLGROUP_DISABLED;
 
+  lisp.get("name", name, "");
   lisp.get("x", bbox.p1.x, 0);
   lisp.get("y", bbox.p1.y, 0);
   bbox.set_size(32, 32);
@@ -41,6 +44,8 @@ Spotlight::Spotlight(const ReaderMapping& lisp) :
   lisp.get("angle", angle, 0.0f);
   lisp.get("speed", speed, 50.0f);
   lisp.get("counter-clockwise", counter_clockwise, false);
+
+  emitting=true;
 
   std::vector<float> vColor;
   if( lisp.get( "color", vColor ) ){
@@ -61,6 +66,7 @@ Spotlight::get_settings() {
   result.options.push_back( ObjectOption(MN_COLOR, _("Colour"), &color, "color"));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Speed"), &speed, "speed"));
   result.options.push_back (ObjectOption(MN_TOGGLE, _("Counter-clockwise"), &counter_clockwise, "counter-clockwise"));
+  result.options.push_back (ObjectOption(MN_TOGGLE, _("Emitting"), &emitting, "emitting"));
 
   return result;
 }
@@ -83,27 +89,34 @@ Spotlight::draw(DrawingContext& context)
 {
   context.push_target();
   context.set_target(DrawingContext::LIGHTMAP);
-
-  light->set_color(color);
-  light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-  light->set_angle(angle);
-  light->draw(context, bbox.p1, 0);
+  if (emitting == true)
+  {
+    light->set_color(color);
+    light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
+    light->set_angle(angle);
+    light->draw(context, bbox.p1, 0);
+  }
 
   //lightcone->set_angle(angle);
   //lightcone->draw(context, position, 0);
 
   context.set_target(DrawingContext::NORMAL);
 
-  lights->set_angle(angle);
-  lights->draw(context, bbox.p1, 0);
+ if (emitting == true)
+  {
+    lights->set_angle(angle);
+    lights->draw(context, bbox.p1, 0);
+  }
 
   base->set_angle(angle);
   base->draw(context, bbox.p1, 0);
 
   center->draw(context, bbox.p1, 0);
-
-  lightcone->set_angle(angle);
-  lightcone->draw(context, bbox.p1, LAYER_FOREGROUND1 + 10);
+ if (emitting == true)
+  {
+    lightcone->set_angle(angle);
+    lightcone->draw(context, bbox.p1, LAYER_FOREGROUND1 + 10);
+  }
 
   context.pop_target();
 }
@@ -112,6 +125,28 @@ HitResponse
 Spotlight::collision(GameObject& other, const CollisionHit& hit_)
 {
   return FORCE_MOVE;
+}
+
+bool Spotlight::is_emitting() const { return emitting; }
+
+void
+Spotlight::set_emitting(bool emit)
+{
+  emitting=emit;
+}
+
+void
+Spotlight::set_speed(int rot_speed)
+{
+  speed=rot_speed;
+}
+
+int Spotlight::get_speed() const { return speed; }
+
+void
+Spotlight::set_color(Color new_color)
+{
+  color=new_color;
 }
 
 /* EOF */

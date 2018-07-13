@@ -3356,6 +3356,190 @@ static SQInteger Sector_set_music_wrapper(HSQUIRRELVM vm)
 
 }
 
+static SQInteger Spotlight_release_hook(SQUserPointer ptr, SQInteger )
+{
+  auto _this = reinterpret_cast<scripting::Spotlight*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger Spotlight_is_emitting_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'is_emitting' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Spotlight*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    bool return_value = _this->is_emitting();
+
+    sq_pushbool(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'is_emitting'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Spotlight_set_emitting_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_emitting' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Spotlight*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_emitting(arg0 == SQTrue);
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_emitting'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Spotlight_get_speed_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'get_speed' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Spotlight*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    int return_value = _this->get_speed();
+
+    sq_pushinteger(vm, return_value);
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'get_speed'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Spotlight_set_speed_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_speed' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Spotlight*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+  SQInteger arg0;
+  if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_speed(static_cast<int> (arg0));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_speed'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Spotlight_set_color_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'set_color' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Spotlight*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+  SQFloat arg0;
+  if(SQ_FAILED(sq_getfloat(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg1;
+  if(SQ_FAILED(sq_getfloat(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg2;
+  if(SQ_FAILED(sq_getfloat(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not a float"));
+    return SQ_ERROR;
+  }
+  SQFloat arg3;
+  if(SQ_FAILED(sq_getfloat(vm, 5, &arg3))) {
+    sq_throwerror(vm, _SC("Argument 4 not a float"));
+    return SQ_ERROR;
+  }
+
+  try {
+    _this->set_color(static_cast<float> (arg0), static_cast<float> (arg1), static_cast<float> (arg2), static_cast<float> (arg3));
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_color'"));
+    return SQ_ERROR;
+  }
+
+}
+
 static SQInteger Text_release_hook(SQUserPointer ptr, SQInteger )
 {
   auto _this = reinterpret_cast<scripting::Text*> (ptr);
@@ -6058,6 +6242,32 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::Sector* object, bool set
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Spotlight* object, bool setup_releasehook)
+{
+  using namespace wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "Spotlight", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Spotlight'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Spotlight'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Spotlight_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void create_squirrel_instance(HSQUIRRELVM v, scripting::Text* object, bool setup_releasehook)
 {
   using namespace wrapper;
@@ -7457,6 +7667,52 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'Sector'");
+  }
+
+  // Register class Spotlight
+  sq_pushstring(v, "Spotlight", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'Spotlight'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "is_emitting", -1);
+  sq_newclosure(v, &Spotlight_is_emitting_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'is_emitting'");
+  }
+
+  sq_pushstring(v, "set_emitting", -1);
+  sq_newclosure(v, &Spotlight_set_emitting_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tb");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_emitting'");
+  }
+
+  sq_pushstring(v, "get_speed", -1);
+  sq_newclosure(v, &Spotlight_get_speed_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'get_speed'");
+  }
+
+  sq_pushstring(v, "set_speed", -1);
+  sq_newclosure(v, &Spotlight_set_speed_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ti");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_speed'");
+  }
+
+  sq_pushstring(v, "set_color", -1);
+  sq_newclosure(v, &Spotlight_set_color_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tnnnn");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_color'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'Spotlight'");
   }
 
   // Register class Text
