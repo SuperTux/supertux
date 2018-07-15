@@ -142,7 +142,7 @@ SectorParser::parse(const ReaderMapping& sector)
 
   if(!has_background) {
     auto gradient = std::make_shared<Gradient>();
-    gradient->set_gradient(Color(0.3, 0.4, 0.75), Color(1, 1, 1));
+    gradient->set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
     m_sector.add_object(gradient);
   }
 

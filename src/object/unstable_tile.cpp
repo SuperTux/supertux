@@ -30,8 +30,8 @@ UnstableTile::UnstableTile(const ReaderMapping& lisp) :
   slowfall_timer()
 {
   sprite->set_action("normal");
-  physic.set_gravity_modifier (.98);
-  physic.enable_gravity (false);
+  physic.set_gravity_modifier(.98f);
+  physic.enable_gravity(false);
 }
 
 HitResponse
@@ -90,9 +90,9 @@ void UnstableTile::slow_fall()
   if (sprite->has_action ("fall-down")) {
     state = STATE_SLOWFALL;
     set_action ("fall-down", /* loops = */ 1);
-    physic.set_gravity_modifier (.10);
+    physic.set_gravity_modifier (.10f);
     physic.enable_gravity (true);
-    slowfall_timer = 0.5; /* Fall slowly for half a second. */
+    slowfall_timer = 0.5f; /* Fall slowly for half a second. */
   }
   else {
     remove_me ();
@@ -107,7 +107,7 @@ void UnstableTile::fall_down()
   if (sprite->has_action ("fall-down")) {
     state = STATE_FALL;
     set_action ("fall-down", /* loops = */ 1);
-    physic.set_gravity_modifier (.98);
+    physic.set_gravity_modifier (.98f);
     physic.enable_gravity (true);
   }
   else {

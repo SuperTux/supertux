@@ -28,7 +28,7 @@
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-static const Color TORCH_LIGHT_COLOR = Color(0.87, 0.64, 0.12); /** Color of the light specific to the torch firefly sprite */
+static const Color TORCH_LIGHT_COLOR = Color(0.87f, 0.64f, 0.12f); /** Color of the light specific to the torch firefly sprite */
 static const Vector TORCH_LIGHT_OFFSET = Vector(0, 12); /** Offset of the light specific to the torch firefly sprite */
 
 Firefly::Firefly(const ReaderMapping& lisp) :

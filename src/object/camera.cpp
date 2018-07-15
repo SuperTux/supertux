@@ -29,7 +29,7 @@
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,
    0 is never get there, 1 is instant */
-static const float PEEK_ARRIVE_RATIO = 0.1;
+static const float PEEK_ARRIVE_RATIO = 0.1f;
 
 class CameraConfig
 {

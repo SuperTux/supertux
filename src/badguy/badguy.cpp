@@ -694,7 +694,7 @@ BadGuy::freeze()
       // when no iced action exists, default to shading badguy blue
     else
     {
-      sprite->set_color(Color(0.60, 0.72, 0.88f));
+      sprite->set_color(Color(0.60f, 0.72f, 0.88f));
       sprite->stop_animation();
     }
   }
@@ -709,7 +709,7 @@ BadGuy::unfreeze()
   // restore original color if needed
   if((!sprite->has_action("iced-left")) && (!sprite->has_action("iced")) )
   {
-    sprite->set_color(Color(1.00, 1.00, 1.00f));
+    sprite->set_color(Color(1.f, 1.f, 1.f));
     sprite->set_animation_loops();
   }
 }

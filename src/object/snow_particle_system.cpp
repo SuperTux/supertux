@@ -65,7 +65,7 @@ void SnowParticleSystem::init()
 
   virtual_width = SCREEN_WIDTH * 2;
 
-  timer.start(.01);
+  timer.start(.01f);
 
   // create some random snowflakes
   size_t snowflakecount = size_t(virtual_width/10.0);

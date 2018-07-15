@@ -86,7 +86,7 @@ Gradient::Gradient(const ReaderMapping& reader) :
   if (reader.get("top_color", bkgd_top_color)) {
     gradient_top = Color(bkgd_top_color);
   } else {
-    gradient_top = Color(0.3, 0.4, 0.75);
+    gradient_top = Color(0.3f, 0.4f, 0.75f);
   }
 
   if (reader.get("bottom_color", bkgd_bottom_color)) {

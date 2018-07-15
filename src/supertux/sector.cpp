@@ -803,7 +803,7 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2) const
     std::swap(hit.top, hit.bottom);
     HitResponse response2 = object2->collision(*object1, hit);
     if(response1 == CONTINUE && response2 == CONTINUE) {
-      normal *= (0.5 + DELTA);
+      normal *= (0.5f + DELTA);
       object1->dest.move(-normal);
       object2->dest.move(normal);
     } else if (response1 == CONTINUE && response2 == FORCE_MOVE) {
