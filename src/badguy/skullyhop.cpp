@@ -110,7 +110,7 @@ SkullyHop::collision_solid(const CollisionHit& hit)
   if(hit.left || hit.right) {
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-    physic.set_velocity_x(-0.25*physic.get_velocity_x());
+    physic.set_velocity_x(-0.25f*physic.get_velocity_x());
   }
 }
 

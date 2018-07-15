@@ -269,7 +269,7 @@ Dispenser::launch_badguy()
       switch (type) {
         case DT_DROPPER:
           spawnpoint = get_anchor_pos (bbox, ANCHOR_BOTTOM);
-          spawnpoint.x -= 0.5 * object_bbox.get_width();
+          spawnpoint.x -= 0.5f * object_bbox.get_width();
           break;
         case DT_ROCKETLAUNCHER:
         case DT_CANNON:

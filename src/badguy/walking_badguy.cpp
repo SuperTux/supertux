@@ -126,7 +126,7 @@ WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
   {
     /* acceleration == walk-speed => it will take one second to get twice the
      * speed to normal speed. */
-    physic.set_acceleration_x ((-1.0) * dest_x_velocity);
+    physic.set_acceleration_x ((-1.f) * dest_x_velocity);
   }
   else
   {

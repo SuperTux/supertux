@@ -274,8 +274,8 @@ IceCrusher::eye_position(bool right) const
     if(player)
     {
       // Icecrusher focuses on approximate position of player's head
-      const float player_focus_x = (player->get_bbox().p2.x + player->get_bbox().p1.x) * 0.5;
-      const float player_focus_y = player->get_bbox().p2.y * 0.25 + player->get_bbox().p1.y * 0.75;
+      const float player_focus_x = (player->get_bbox().p2.x + player->get_bbox().p1.x) * 0.5f;
+      const float player_focus_y = player->get_bbox().p2.y * 0.25f + player->get_bbox().p1.y * 0.75f;
       // Icecrusher's approximate origin of line-of-sight
       const float crusher_origin_x = bbox.get_middle().x;
       const float crusher_origin_y = bbox.get_middle().y;

@@ -222,9 +222,9 @@ GhostTree::draw(DrawingContext& context)
   context.push_transform();
   context.set_target(DrawingContext::LIGHTMAP);
   if (mystate == STATE_SUCKING) {
-    context.set_alpha(0.5 + fmodf(game_time, 0.5));
+    context.set_alpha(0.5f + fmodf(game_time, 0.5f));
   } else {
-    context.set_alpha(0.5);
+    context.set_alpha(0.5f);
   }
   glow_sprite->draw(context, get_pos(), layer);
   context.pop_transform();

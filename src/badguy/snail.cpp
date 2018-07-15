@@ -124,7 +124,7 @@ Snail::active_update(float elapsed_time)
       break;
 
     case STATE_KICKED:
-      physic.set_velocity_x(physic.get_velocity_x() * pow(0.99, elapsed_time/0.02));
+      physic.set_velocity_x(physic.get_velocity_x() * powf(0.99f, elapsed_time/0.02f));
       if (sprite->animation_done() || (fabsf(physic.get_velocity_x()) < walk_speed)) be_normal();
       break;
 

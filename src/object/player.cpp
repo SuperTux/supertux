@@ -876,7 +876,7 @@ Player::handle_input()
       // move the grabbed object a bit away from tux
       Rectf grabbed_bbox = moving_object->get_bbox();
       Rectf dest_;
-      dest_.p2.y = bbox.get_top() + bbox.get_height()*0.66666;
+      dest_.p2.y = bbox.get_top() + bbox.get_height()*0.66666f;
       dest_.p1.y = dest_.p2.y - grabbed_bbox.get_height();
       if(dir == LEFT) {
         dest_.p2.x = bbox.get_left() - 1;
@@ -915,7 +915,7 @@ Player::position_grabbed_object()
 
   // Position where we will hold the lower-inner corner
   Vector pos(bbox.get_left() + bbox.get_width()/2,
-      bbox.get_top() + bbox.get_height()*0.66666);
+      bbox.get_top() + bbox.get_height()*0.66666f);
 
   // Adjust to find the grabbed object's upper-left corner
   if (dir == LEFT)
