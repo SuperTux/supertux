@@ -52,7 +52,7 @@ FloatingText::FloatingText(const Vector& pos, int score) :
 void
 FloatingText::update(float elapsed_time)
 {
-  position.y -= 1.4 * elapsed_time;
+  position.y -= 1.4f * elapsed_time;
 
   if(timer.check())
     remove_me();

@@ -95,7 +95,7 @@ MrIceBlock::collision_solid(const CollisionHit& hit)
       if((hit.right && dir == RIGHT) || (hit.left && dir == LEFT)) {
         dir = (dir == LEFT) ? RIGHT : LEFT;
         SoundManager::current()->play("sounds/iceblock_bump.wav", get_pos());
-        physic.set_velocity_x(-physic.get_velocity_x()*.975);
+        physic.set_velocity_x(-physic.get_velocity_x()*.975f);
       }
       set_action(dir == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
       if(fabsf(physic.get_velocity_x()) < walk_speed*1.5)

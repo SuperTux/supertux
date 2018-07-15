@@ -258,7 +258,7 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
   keep_in_bounds(scroll_goal);
 
   scroll_to_pos = 0;
-  scrollspeed = 1.0 / scrolltime;
+  scrollspeed = 1.f / scrolltime;
   mode = SCROLLTO;
 }
 
@@ -318,9 +318,9 @@ Camera::keep_in_bounds(Vector& translation_)
   translation_.y = clamp(translation_.y, 0, height - SCREEN_HEIGHT);
 
   if (height < SCREEN_HEIGHT)
-    translation_.y = height/2.0 - SCREEN_HEIGHT/2.0;
+    translation_.y = height/2.f - SCREEN_HEIGHT/2.f;
   if (width < SCREEN_WIDTH)
-    translation_.x = width/2.0 - SCREEN_WIDTH/2.0;
+    translation_.x = width/2.f - SCREEN_WIDTH/2.f;
 }
 
 void

@@ -490,9 +490,9 @@ WorldMap::clamp_camera_position(Vector& c) const
     c.y = (int)get_height()*32 - SCREEN_HEIGHT;
 
   if (int(get_width()*32) < SCREEN_WIDTH)
-    c.x = get_width()*16.0 - SCREEN_WIDTH/2.0;
+    c.x = get_width()*16.f - SCREEN_WIDTH/2.f;
   if (int(get_height()*32) < SCREEN_HEIGHT)
-    c.y = get_height()*16.0 - SCREEN_HEIGHT/2.0;
+    c.y = get_height()*16.f - SCREEN_HEIGHT/2.f;
 }
 
 void

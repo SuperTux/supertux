@@ -189,12 +189,12 @@ Dialog::draw(DrawingContext& ctx)
 
   // draw background rect
   ctx.draw_filled_rect(bg_rect.grown(12.0f),
-                       Color(0.2f, 0.3f, 0.4f, m_passive ? 0.3 : 0.8f),
+                       Color(0.2f, 0.3f, 0.4f, m_passive ? 0.3f : 0.8f),
                        16.0f,
                        LAYER_GUI-10);
 
   ctx.draw_filled_rect(bg_rect.grown(8.0f),
-                       Color(0.6f, 0.7f, 0.8f, m_passive ? 0.2 : 0.5f),
+                       Color(0.6f, 0.7f, 0.8f, m_passive ? 0.2f : 0.5f),
                        16.0f,
                        LAYER_GUI-10);
 

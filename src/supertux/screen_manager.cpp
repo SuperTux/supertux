@@ -191,7 +191,7 @@ ScreenManager::draw(DrawingContext& context)
 
     if (SDL_GetTicks() - fps_ticks >= 500)
     {
-      m_fps = (float) frame_count / .5;
+      m_fps = frame_count / .5f;
       frame_count = 0;
       fps_ticks = SDL_GetTicks();
     }
