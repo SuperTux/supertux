@@ -85,7 +85,7 @@ LevelIntro::update(float elapsed_time)
      || controller->pressed(Controller::MENU_SELECT)
      || controller->pressed(Controller::START)
      || controller->pressed(Controller::ESCAPE)) {
-    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.1)));
+    ScreenManager::current()->pop_screen(std::unique_ptr<ScreenFade>(new FadeOut(0.1f)));
   }
 
   player_sprite_py += player_sprite_vy * elapsed_time;

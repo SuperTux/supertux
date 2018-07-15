@@ -387,21 +387,21 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   switch (slope_info & AATriangle::DEFORM_MASK)
   {
     case 0:
-      delta_x *= .70710678118654752440; /* 1/sqrt(2) */
-      delta_y *= .70710678118654752440; /* 1/sqrt(2) */
+      delta_x *= .70710678118654752440f; /* 1/sqrt(2) */
+      delta_y *= .70710678118654752440f; /* 1/sqrt(2) */
       break;
 
     case AATriangle::DEFORM_BOTTOM:
     case AATriangle::DEFORM_TOP:
-      delta_x *= .44721359549995793928; /* 1/sqrt(5) */
-      delta_y *= .89442719099991587856; /* 2/sqrt(5) */
+      delta_x *= .44721359549995793928f; /* 1/sqrt(5) */
+      delta_y *= .89442719099991587856f; /* 2/sqrt(5) */
       gradient *= 0.5;
       break;
 
     case AATriangle::DEFORM_LEFT:
     case AATriangle::DEFORM_RIGHT:
-      delta_x *= .89442719099991587856; /* 2/sqrt(5) */
-      delta_y *= .44721359549995793928; /* 1/sqrt(5) */
+      delta_x *= .89442719099991587856f; /* 2/sqrt(5) */
+      delta_y *= .44721359549995793928f; /* 1/sqrt(5) */
       gradient *= 2.0;
       break;
   }

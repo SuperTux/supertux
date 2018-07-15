@@ -333,7 +333,7 @@ Dispenser::freeze()
         // When is the dispenser a dropper, it uses the "dropper-iced".
       else
       {
-        sprite->set_color(Color(0.60, 0.72, 0.88f));
+        sprite->set_color(Color(0.6f, 0.72f, 0.88f));
         sprite->stop_animation();
         // When is the dispenser something else (unprobable), or has no matching iced sprite, it shades to blue.
       }
