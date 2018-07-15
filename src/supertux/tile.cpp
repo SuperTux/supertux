@@ -354,29 +354,29 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   switch (slope_info & AATriangle::DIRECTION_MASK)
   {
     case AATriangle::SOUTHWEST:
-      delta_x *= 1.0;
-      delta_y *= -1.0;
+      delta_x *= 1.f;
+      delta_y *= -1.f;
       obj_x = obj_bbox.get_left();
       obj_y = obj_bbox.get_bottom();
       break;
 
     case AATriangle::SOUTHEAST:
-      delta_x *= -1.0;
-      delta_y *= -1.0;
+      delta_x *= -1.f;
+      delta_y *= -1.f;
       obj_x = obj_bbox.get_right();
       obj_y = obj_bbox.get_bottom();
       break;
 
     case AATriangle::NORTHWEST:
-      delta_x *= 1.0;
-      delta_y *= 1.0;
+      delta_x *= 1.f;
+      delta_y *= 1.f;
       obj_x = obj_bbox.get_left();
       obj_y = obj_bbox.get_top();
       break;
 
     case AATriangle::NORTHEAST:
-      delta_x *= -1.0;
-      delta_y *= 1.0;
+      delta_x *= -1.f;
+      delta_y *= 1.f;
       obj_x = obj_bbox.get_right();
       obj_y = obj_bbox.get_top();
       break;
@@ -395,14 +395,14 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
     case AATriangle::DEFORM_TOP:
       delta_x *= .44721359549995793928f; /* 1/sqrt(5) */
       delta_y *= .89442719099991587856f; /* 2/sqrt(5) */
-      gradient *= 0.5;
+      gradient *= 0.5f;
       break;
 
     case AATriangle::DEFORM_LEFT:
     case AATriangle::DEFORM_RIGHT:
       delta_x *= .89442719099991587856f; /* 2/sqrt(5) */
       delta_y *= .44721359549995793928f; /* 1/sqrt(5) */
-      gradient *= 2.0;
+      gradient *= 2.f;
       break;
   }
 

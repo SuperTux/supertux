@@ -548,14 +548,14 @@ Player::handle_horizontal_input()
             dir == LEFT ? 50 : -70, dir == LEFT ? 70 : -50, 260, 280,
             Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
 
-        ax *= 2.5;
+        ax *= 2.5f;
       } else {
         ax *= 2;
       }
     }
     else {
       // give Tux tighter air control
-      ax *= 2.0;
+      ax *= 2.f;
     }
   }
 
