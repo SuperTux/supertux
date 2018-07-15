@@ -108,8 +108,8 @@ Owl::active_update (float elapsed_time)
   if (carried_object != NULL) {
     if (!is_above_player ()) {
       Vector obj_pos = get_anchor_pos (bbox, ANCHOR_BOTTOM);
-      obj_pos.x -= 16.0; /* FIXME: Actually do use the half width of the carried object here. */
-      obj_pos.y += 3.0; /* Move a little away from the hitbox (the body). Looks nicer. */
+      obj_pos.x -= 16.f; /* FIXME: Actually do use the half width of the carried object here. */
+      obj_pos.y += 3.f; /* Move a little away from the hitbox (the body). Looks nicer. */
 
       //To drop enemie before leave the screen
       if (obj_pos.x<=16 || obj_pos.x+16>=Sector::current()->get_width()){

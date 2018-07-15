@@ -474,7 +474,7 @@ void
 Console::open()
 {
   if(m_stayOpen < 2)
-    m_stayOpen += 1.5;
+    m_stayOpen += 1.5f;
 }
 
 void
