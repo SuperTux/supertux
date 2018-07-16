@@ -73,7 +73,7 @@ MusicManager::exists_music(const std::string& file)
   // insert into music list
   std::pair<std::map<std::string, MusicResource>::iterator, bool> result = 
     musics.insert(
-        std::make_pair<std::string, MusicResource> (file, MusicResource()));
+      std::pair<std::string, MusicResource>(file, MusicResource()));
   MusicResource& resource = result.first->second;
   resource.manager = this;
   resource.music = song;
