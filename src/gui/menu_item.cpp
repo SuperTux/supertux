@@ -38,7 +38,7 @@ MenuItem::~MenuItem() {
 }
 
 void
-MenuItem::change_text(const  std::string& text_)
+MenuItem::change_text(const std::string& text_)
 {
   text = text_;
 }

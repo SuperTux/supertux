@@ -56,7 +56,7 @@ ScriptMenu::~ScriptMenu()
 }
 
 void
-ScriptMenu::push_string(std::string new_line)
+ScriptMenu::push_string(const std::string& new_line)
 {
   script_strings.push_back( std::unique_ptr<std::string>(new std::string(new_line)) );
   add_script_line( (script_strings.end()-1)->get() );
