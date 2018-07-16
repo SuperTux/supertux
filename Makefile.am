@@ -6,7 +6,7 @@ AUTOMAKE_OPTIONS = 1.6 dist-bzip2
 desktopdir = $(datadir)/applications
 desktop_DATA = supertux.desktop
 
-icondir = $(datadir)/icons/48x48/apps
+icondir = $(datadir)/pixmaps
 icon_DATA = supertux.png
 
 EXTRA_DIST = AUTHORS README COPYING INSTALL NEWS LEVELDESIGN ChangeLog \
