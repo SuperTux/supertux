@@ -2,7 +2,6 @@ EXTRA_DIST = \
   supertux.strf \
   $(wildcard *.txt) \
   CREDITS \
-  images/icon.xpm \
   $(wildcard images/*.png) \
   $(wildcard images/*.xpm) \
   $(wildcard images/background/*.png) \
