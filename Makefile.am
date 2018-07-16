@@ -9,6 +9,9 @@ desktop_DATA = supertux.desktop
 icondir = $(datadir)/pixmaps
 icon_DATA = supertux.png
 
+svgicondir = $(datadir)/icons/hicolor/scalable/apps
+svgicon_DATA = supertux.svg
+
 EXTRA_DIST = AUTHORS README COPYING INSTALL NEWS LEVELDESIGN ChangeLog \
 	     supertux.desktop supertux.png autogen.sh \
 	     $(wildcard mk/autoconf/*.m4)
