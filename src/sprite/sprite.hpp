@@ -95,7 +95,7 @@ public:
   unsigned int get_frame() const
   { return frameidx; }
   /** Set current frame */
-  void set_frame(int frame_)
+  void set_frame(unsigned int frame_)
   {
     frame = 0;
     frameidx = frame_ % get_frames();
