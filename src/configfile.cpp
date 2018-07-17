@@ -36,7 +36,7 @@ static void defaults ()
   /* Set defaults: */
   debug_mode = false;
 
-  use_fullscreen = true;
+  use_fullscreen = false;
   show_fps = false;
   use_gl = false;
 
