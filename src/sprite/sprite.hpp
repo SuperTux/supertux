@@ -54,7 +54,7 @@ public:
   float get_fps() const
   { return action->fps; }
   /** Get current action total frames */
-  unsigned int get_frames() const
+  size_t get_frames() const
   { return action->surfaces.size(); }
   /** Get sprite's name */
   const std::string& get_name() const

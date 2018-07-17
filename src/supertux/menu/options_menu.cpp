@@ -85,7 +85,7 @@ OptionsMenu::OptionsMenu(bool complete) :
     }
     if (!magn.empty()) //magnification not in our list but accept anyway
     {
-      next_magnification = magnifications.size();
+      next_magnification = static_cast<int>(magnifications.size());
       magnifications.push_back(magn);
     }
   }
