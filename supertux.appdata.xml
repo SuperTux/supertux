@@ -9,17 +9,31 @@
     <content_attribute id="language-humor">mild</content_attribute>
   </content_rating>
   <name>SuperTux - Milestone 1</name>
-  <summary>A jump-and-run game starring Tux the Penguin</summary>
+  <summary>The classic version of the platformer starring Tux the Penguin</summary>
   <description>
     <p>
-      SuperTux is a jump'n run like game, with strong inspiration from the
-      Super Mario Bros games for Nintendo.
+      SuperTux - Milestone 1 is the classic version of the game
+      SuperTux as it was originally released in 2003. The modern
+      edition can be found under the SuperTux 2.
     </p>
     <p>
-      Run and jump through multiple worlds, fighting off enemies by jumping
-      on them or bumping them from below.  Grabbing power-ups and other stuff
-      on the way.
+      SuperTux is a platform game, with strong inspiration from the
+      Super Mario Bros games for Nintendo. Run and jump through
+      multiple worlds, fighting off enemies by jumping on them or
+      bumping them from below. Grabbing power-ups and other stuff on
+      the way.
     </p>
+    <p>
+      The game features:
+    </p>
+    <ul>
+      <li>9 enemies</li>
+      <li>26 playable levels</li>
+      <li>Software and OpenGL rendering modes</li>
+      <li>configurable joystick and keyboard input</li>
+      <li>new music</li>
+      <li>completely redone graphics</li>
+    </ul>
   </description>
   <developer_name>The SuperTux Team</developer_name>
   <update_contact>grumbel@gmail.com</update_contact>
