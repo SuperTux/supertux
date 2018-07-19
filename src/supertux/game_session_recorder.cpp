@@ -141,12 +141,7 @@ GameSessionRecorder::process_events()
   // playback a demo?
   if(playback_demo_stream != 0) {
     demo_controller->update();
-    char left = false;
-    char right = false;
-    char up = false;
-    char down = false;
-    char jump = false;
-    char action = false;
+    char left, right, up, down, jump, action;
     playback_demo_stream->get(left);
     playback_demo_stream->get(right);
     playback_demo_stream->get(up);

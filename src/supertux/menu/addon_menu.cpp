@@ -222,7 +222,7 @@ AddonMenu::rebuild_menu()
           }
         }
       }
-      catch(const std::exception& err)
+      catch(const std::exception&)
       {
         // addon is not installed
         if(addon_visible(addon))
