@@ -743,14 +743,14 @@ AddonManager::check_for_langpack_updates()
         install_addon(addon_id);
         enable_addon(addon_id);
       }
-      catch(const std::exception& err)
+      catch(const std::exception&)
       {
         log_debug << "Language addon " << addon_id << " is not installed. Installing..." << std::endl;
         install_addon(addon_id);
         enable_addon(addon_id);
       }
     }
-    catch(std::exception& err)
+    catch(std::exception&)
     {
       log_debug << "Language addon for current locale not found." << std::endl;
     }

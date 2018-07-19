@@ -115,7 +115,7 @@ Statistics::unserialize_from_squirrel(HSQUIRRELVM vm)
     scripting::get_int(vm, "secrets-found-total", total_secrets);
     sq_pop(vm, 1);
   }
-  catch(const std::exception& ex)
+  catch(const std::exception&)
   {
   }
 }
