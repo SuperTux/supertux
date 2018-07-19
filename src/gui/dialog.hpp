@@ -42,7 +42,7 @@ private:
   std::vector<Button> m_buttons;
   int m_selected_button;
   int m_cancel_button;
-  int m_passive;
+  bool m_passive;
 
   Sizef m_text_size;
 

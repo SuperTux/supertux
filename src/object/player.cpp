@@ -1292,7 +1292,7 @@ Player::draw(DrawingContext& context)
     ;  // don't draw Tux
   else if (player_status->bonus == EARTH_BONUS){ // draw special effects with earthflower bonus
     // shake at end of maximum stone duration
-    Vector shake_delta = (stone && ability_timer.get_timeleft() < 1.0f) ? Vector(graphicsRandom.rand(-3,3), 0) : Vector(0,0);
+    Vector shake_delta = (stone && ability_timer.get_timeleft() < 1.0f) ? Vector(graphicsRandom.rand(-3,3) * 1.0f, 0) : Vector(0,0);
     sprite->draw(context, get_pos() + shake_delta, LAYER_OBJECTS + 1);
     // draw hardhat
     powersprite->draw(context, get_pos() + shake_delta, LAYER_OBJECTS + 1);
