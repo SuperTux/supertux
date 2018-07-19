@@ -164,8 +164,8 @@ PowerUp::update(float elapsed_time)
       if (disp_x*disp_x + disp_y*disp_y <= 256*256)
       {
         if (graphicsRandom.rand(0, 2) == 0) {
-          float px = graphicsRandom.randf(bbox.p1.x+0, bbox.p2.x-0);
-          float py = graphicsRandom.randf(bbox.p1.y+0, bbox.p2.y-0);
+          float px = graphicsRandom.randf(bbox.p1.x * 1.0, bbox.p2.x * 1.0);
+          float py = graphicsRandom.randf(bbox.p1.y * 1.0, bbox.p2.y * 1.0);
           Vector ppos = Vector(px, py);
           Vector pspeed = Vector(0, 0);
           Vector paccel = Vector(0, 0);

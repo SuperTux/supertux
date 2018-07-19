@@ -53,7 +53,7 @@ void
 GLLightmap::start_draw(const Color &ambient_color)
 {
 
-  glGetFloatv(GL_VIEWPORT, m_old_viewport); //save viewport
+  glGetIntegerv(GL_VIEWPORT, m_old_viewport); //save viewport
   glViewport(m_old_viewport[0], m_old_viewport[3] - m_lightmap_height + m_old_viewport[1], m_lightmap_width, m_lightmap_height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -174,7 +174,7 @@ GLLightmap::get_light(const DrawingRequest& request) const
     pixels[i] = 0.0f; //set to black
 
   float posX = request.pos.x * m_lightmap_width / SCREEN_WIDTH + m_old_viewport[0];
-  float posY = m_old_viewport[3] + m_old_viewport[1] - request.pos.y * m_lightmap_height / SCREEN_HEIGHT;
+  float posY = (m_old_viewport[3] * 1.0) + (m_old_viewport[1] * 1.0) - request.pos.y * m_lightmap_height / SCREEN_HEIGHT;
   glReadPixels((GLint) posX, (GLint) posY , 1, 1, GL_RGB, GL_FLOAT, pixels);
   *(getlightrequest->color_ptr) = Color( pixels[0], pixels[1], pixels[2]);
 }

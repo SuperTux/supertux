@@ -164,7 +164,7 @@ Teleporter::Teleporter (const ReaderMapping& lisp) :
 
   lisp.get("automatic", automatic);
 
-  change_worldmap = worldmap.size();
+  change_worldmap = worldmap.size() > 0;
 }
 
 void
