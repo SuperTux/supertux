@@ -1,13 +1,9 @@
 # SuperTux
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a5f0970980fd4d97bcbec5a0762f163e)](https://www.codacy.com/app/supertux/supertux?utm_source=github.com&utm_medium=referral&utm_content=SuperTux/supertux&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/SuperTux/supertux.svg?branch=master)](https://travis-ci.org/SuperTux/supertux)
 [![AppVeyor Build Satus](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/supertux/supertux-9ml4d/branch/master)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/4025/badge.svg)](https://scan.coverity.com/projects/4025)
 [![Github All Releases](https://img.shields.io/github/downloads/supertux/supertux/total.svg?maxAge=2592000)](https://github.com/SuperTux/supertux)
 [![#supertux on freenode](https://img.shields.io/badge/freenode-%23supertux-brightgreen.svg)](https://webchat.freenode.net/?channels=supertux)
-
-## Description
 
 SuperTux is a jump'n'run game with strong inspiration from the
 Super Mario Bros. games for the various Nintendo platforms.
@@ -15,6 +11,8 @@ Super Mario Bros. games for the various Nintendo platforms.
 Run and jump through multiple worlds, fighting off enemies by jumping
 on them, bumping them from below or tossing objects at them, grabbing
 power-ups and other stuff on the way.
+
+![Screenshot](https://www.supertux.org/images/0_5_1/0_5_1_3.png)
 
 
 ## Story: Penny gets captured!
@@ -32,6 +30,13 @@ thought of trying to reclaim her, you haven't got a chance! -Nolok"
 Tux looks and sees Nolok's fortress in the distance. Determined to
 save his beloved Penny, he begins his journey.
 
+## Installation
+
+For major platforms, stable releases are built and available for download from
+[supertux.org](https://www.supertux.org/download.html) or alternatively directly
+from [GitHub releases](https://github.com/SuperTux/supertux/releases). You
+should be able to install these using default tools provided by your platform.
+
 
 ## Documentation
 
@@ -48,25 +53,6 @@ CC-by-SA)
 design levels for SuperTux.
 * `data/credits.stxt` - Credits for people that contributed to the creation of
 SuperTux. (You can view these in the game menu as well.)
-
-
-## Running the game
-
-SuperTux makes use of proc to see where it is. In other words, it does
-not have any need to be installed and can be run from anywhere. This
-makes it possible to click in the executable in your filemanager (i.e.
-Konqueror or Nautilus) as opposed to many other Linux games.
-
-Options can be reached from the menu, so you don't need to specify
-arguments, but if you want, type `supertux2 --help` to check the ones
-that are available. Also, notice that SuperTux saves the options, so
-it's often enough to specify them once. For example, fullscreen mode
-causes problems on some setups, so just run `supertux2 --window` and
-you should be set.
-
-The game uses OpenGL to render the graphics. You will either need a
-CPU with about 1 GHz or an accelerated video card with recent
-graphics drivers.
 
 
 ## Playing the game
@@ -108,10 +94,3 @@ Don't forget that you can get involved with the development at
 <https://github.com/supertux/supertux>,
 or get notified about the recent changes on Twitter
 [@supertux_team](https://twitter.com/supertux_team)
-
-
-## The End
-
-Thanks for playing SuperTux.
-
-The SuperTux Team
