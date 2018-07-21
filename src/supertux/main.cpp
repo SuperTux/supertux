@@ -65,8 +65,6 @@ extern "C" {
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
-#include "video/drawing_context.hpp"
-#include "video/renderer.hpp"
 #include "worldmap/worldmap.hpp"
 
 class ConfigSubsystem
@@ -373,7 +371,6 @@ Main::launch_game()
 
   timelog("video");
   std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
-  DrawingContext context(*video_system);
   init_video();
 
   timelog("audio");
@@ -457,7 +454,7 @@ Main::launch_game()
     }
   }
 
-  screen_manager.run(context);
+  screen_manager.run(*video_system);
 }
 
 int

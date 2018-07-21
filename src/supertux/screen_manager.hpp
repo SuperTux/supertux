@@ -24,7 +24,7 @@
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
-class DrawingContext;
+class VideoSystem;
 class MenuManager;
 class MenuStorage;
 class ScreenFade;
@@ -38,7 +38,7 @@ public:
   ScreenManager();
   ~ScreenManager();
 
-  void run(DrawingContext &context);
+  void run(VideoSystem& video_system);
   void quit(std::unique_ptr<ScreenFade> fade = {});
   void set_speed(float speed);
   float get_speed() const;

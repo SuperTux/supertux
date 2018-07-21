@@ -371,8 +371,10 @@ ScreenManager::handle_screen_switch()
 }
 
 void
-ScreenManager::run(DrawingContext &context)
+ScreenManager::run(VideoSystem& video_system)
 {
+  DrawingContext context(video_system);
+
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
 
