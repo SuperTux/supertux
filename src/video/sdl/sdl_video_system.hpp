@@ -47,7 +47,7 @@ public:
   void set_gamma(float gamma) override;
   void set_title(const std::string& title) override;
   void set_icon(SDL_Surface* icon) override;
-  void do_take_screenshot();
+  void do_take_screenshot() override;
 
 private:
   SDLVideoSystem(const SDLVideoSystem&) = delete;
