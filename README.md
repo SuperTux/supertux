@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/SuperTux/supertux.svg?branch=master)](https://travis-ci.org/SuperTux/supertux)
 [![AppVeyor Build Satus](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/supertux/supertux-9ml4d/branch/master)
 [![Github All Releases](https://img.shields.io/github/downloads/supertux/supertux/total.svg?maxAge=2592000)](https://github.com/SuperTux/supertux)
-[![#supertux on freenode](https://img.shields.io/badge/freenode-%23supertux-brightgreen.svg)](https://webchat.freenode.net/?channels=supertux)
 
 SuperTux is a jump'n'run game with strong inspiration from the
 Super Mario Bros. games for the various Nintendo platforms.
@@ -72,6 +71,29 @@ arrow keys or the mouse.
 In the worldmap, the arrow keys are used to navigate and Enter to
 enter the current level.
 
+## Community
+
+In case you need help, feel free to reach out using the following means:
+
+* **IRC:** [#supertux](ircs://chat.freenode.net/#supertux) on
+  [freenode](https://freenode.net) hosts most of the discussions between
+  developers. Also, real-time support can be provided here. If you don't know
+  how to use an IRC client, you access the channel using a web-based
+  [client](https://kiwiirc.com/client/chat.freenode.net:+6697/?nick=Guest?#supertux).
+  Please stay around after asking questions, otherwise you will be disconnected
+  and might miss potential answers.
+* **Matrix:** [#supertux:matrix.org](https://matrix.to/#/#supertux:matrix.org)
+  is bridged to our IRC room.
+* **[Forum](https://forum.freegamedev.net/viewforum.php?f=66):** The SuperTux
+  community is very active on the forum, the discussion ranges from feature
+  proposals to support questions. In particular, most community-contributed
+  add-ons are published there first, so this is worth checking.
+* **Mailing Lists:** The
+  [supertux-devel](http://lists.lethargik.org/listinfo.cgi/supertux-devel-lethargik.org)
+  mailing list is intended for development purposes. However, it is not very
+  active at the moment.
+* **Social Media:** Mostly on [Twitter](https://twitter.com/supertux_team) at
+  the moment.
 
 ## Development status
 
@@ -89,8 +111,3 @@ Forest World, but decided that in order to allow more access to the most recent
 version (in repositories etc.) we would have to release Milestone 2 without the
 Forest World included in the Story Mode. Constructive feedback with regards to
 the Forest World is welcome.
-
-Don't forget that you can get involved with the development at
-<https://github.com/supertux/supertux>,
-or get notified about the recent changes on Twitter
-[@supertux_team](https://twitter.com/supertux_team)
