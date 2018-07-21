@@ -30,6 +30,13 @@ thought of trying to reclaim her, you haven't got a chance! -Nolok"
 Tux looks and sees Nolok's fortress in the distance. Determined to
 save his beloved Penny, he begins his journey.
 
+## Installation
+
+For major platforms, stable releases are built and available for download from
+[supertux.org](https://www.supertux.org/download.html) or alternatively directly
+from [GitHub releases](https://github.com/SuperTux/supertux/releases). You
+should be able to install these using default tools provided by your platform.
+
 
 ## Documentation
 
@@ -46,25 +53,6 @@ CC-by-SA)
 design levels for SuperTux.
 * `data/credits.stxt` - Credits for people that contributed to the creation of
 SuperTux. (You can view these in the game menu as well.)
-
-
-## Running the game
-
-SuperTux makes use of proc to see where it is. In other words, it does
-not have any need to be installed and can be run from anywhere. This
-makes it possible to click in the executable in your filemanager (i.e.
-Konqueror or Nautilus) as opposed to many other Linux games.
-
-Options can be reached from the menu, so you don't need to specify
-arguments, but if you want, type `supertux2 --help` to check the ones
-that are available. Also, notice that SuperTux saves the options, so
-it's often enough to specify them once. For example, fullscreen mode
-causes problems on some setups, so just run `supertux2 --window` and
-you should be set.
-
-The game uses OpenGL to render the graphics. You will either need a
-CPU with about 1 GHz or an accelerated video card with recent
-graphics drivers.
 
 
 ## Playing the game
