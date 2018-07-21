@@ -79,4 +79,16 @@ GLVideoSystem::set_gamma(float gamma)
   SDL_SetWindowGammaRamp(m_renderer->get_window(), ramp, ramp, ramp);
 }
 
+void
+GLVideoSystem::set_title(const std::string& title)
+{
+  SDL_SetWindowTitle(m_renderer->get_window(), title.c_str());
+}
+
+void
+GLVideoSystem::set_icon(SDL_Surface* icon)
+{
+  SDL_SetWindowIcon(m_renderer->get_window(), icon);
+}
+
 /* EOF */

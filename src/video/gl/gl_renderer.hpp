@@ -53,7 +53,7 @@ public:
   void apply_config() override;
   Vector to_logical(int physical_x, int physical_y) const override;
 
-  SDL_Window* get_window() const override { return m_window; }
+  SDL_Window* get_window() const { return m_window; }
 
 private:
   void apply_video_mode();

@@ -21,6 +21,8 @@
 
 #include "video/video_system.hpp"
 
+class GLRenderer;
+class GLLightmap;
 class TextureManager;
 struct SDL_Surface;
 
@@ -28,8 +30,8 @@ class GLVideoSystem : public VideoSystem
 {
 private:
   std::unique_ptr<TextureManager> m_texture_manager;
-  std::unique_ptr<Renderer> m_renderer;
-  std::unique_ptr<Lightmap> m_lightmap;
+  std::unique_ptr<GLRenderer> m_renderer;
+  std::unique_ptr<GLLightmap> m_lightmap;
 
 public:
   GLVideoSystem();
@@ -44,6 +46,8 @@ public:
   void resize(int w, int h) override;
 
   void set_gamma(float gamma) override;
+  void set_title(const std::string& title) override;
+  void set_icon(SDL_Surface* icon) override;
 
 private:
   GLVideoSystem(const GLVideoSystem&) = delete;

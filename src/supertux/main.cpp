@@ -323,7 +323,7 @@ public:
 void
 Main::init_video()
 {
-  SDL_SetWindowTitle(VideoSystem::current()->get_renderer().get_window(), PACKAGE_NAME " " PACKAGE_VERSION);
+  VideoSystem::current()->set_title(PACKAGE_NAME " " PACKAGE_VERSION);
 
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
   SDL_Surface* icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
@@ -333,7 +333,7 @@ Main::init_video()
   }
   else
   {
-    SDL_SetWindowIcon(VideoSystem::current()->get_renderer().get_window(), icon);
+    VideoSystem::current()->set_icon(icon);
     SDL_FreeSurface(icon);
   }
   SDL_ShowCursor(0);
