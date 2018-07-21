@@ -72,4 +72,12 @@ SDLVideoSystem::resize(int w, int h)
   m_lightmap.reset(new SDLLightmap);
 }
 
+void
+SDLVideoSystem::set_gamma(float gamma)
+{
+  Uint16 ramp[256];
+  SDL_CalculateGammaRamp(gamma, ramp);
+  SDL_SetWindowGammaRamp(m_renderer->get_window(), ramp, ramp, ramp);
+}
+
 /* EOF */

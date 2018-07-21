@@ -56,6 +56,8 @@ public:
   virtual void apply_config() = 0;
   virtual void resize(int w, int h) = 0;
 
+  virtual void set_gamma(float gamma) = 0;
+
 private:
   VideoSystem(const VideoSystem&) = delete;
   VideoSystem& operator=(const VideoSystem&) = delete;

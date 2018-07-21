@@ -368,12 +368,4 @@ SDLRenderer::to_logical(int physical_x, int physical_y) const
                 static_cast<float>(physical_y - m_viewport.y) * SCREEN_HEIGHT / m_viewport.h);
 }
 
-void
-SDLRenderer::set_gamma(float gamma)
-{
-  Uint16 ramp[256];
-  SDL_CalculateGammaRamp(gamma, ramp);
-  SDL_SetWindowGammaRamp(m_window, ramp, ramp, ramp);
-}
-
 /* EOF */

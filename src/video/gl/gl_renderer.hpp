@@ -52,7 +52,6 @@ public:
   void resize(int w, int h) override;
   void apply_config() override;
   Vector to_logical(int physical_x, int physical_y) const override;
-  void set_gamma(float gamma) override;
 
   SDL_Window* get_window() const override { return m_window; }
 

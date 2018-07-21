@@ -315,7 +315,7 @@ void camera()
 
 void set_gamma(float gamma)
 {
-  VideoSystem::current()->get_renderer().set_gamma(gamma);
+  VideoSystem::current()->set_gamma(gamma);
 }
 
 void quit()

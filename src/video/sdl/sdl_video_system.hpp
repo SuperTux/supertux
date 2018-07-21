@@ -42,6 +42,8 @@ public:
   void apply_config() override;
   void resize(int w, int h) override;
 
+  void set_gamma(float gamma) override;
+
 private:
   SDLVideoSystem(const SDLVideoSystem&) = delete;
   SDLVideoSystem& operator=(const SDLVideoSystem&) = delete;
