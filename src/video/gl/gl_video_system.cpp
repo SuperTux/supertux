@@ -114,18 +114,14 @@ GLVideoSystem::do_take_screenshot()
   }
 
   // read pixels into array
-  char* pixels = new char[3 * SCREEN_WIDTH * SCREEN_HEIGHT];
-  if (!pixels) {
-    log_warning << "Could not allocate memory to store screenshot" << std::endl;
-    SDL_FreeSurface(shot_surf);
-    return;
-  }
+  std::vector<char> pixels(3 * SCREEN_WIDTH * SCREEN_HEIGHT);
+
   glPixelStorei(GL_PACK_ALIGNMENT, 1);
-  glReadPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+  glReadPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
 
   // copy array line-by-line
   for (int i = 0; i < SCREEN_HEIGHT; i++) {
-    char* src = pixels + (3 * SCREEN_WIDTH * (SCREEN_HEIGHT - i - 1));
+    char* src = &pixels[3 * SCREEN_WIDTH * (SCREEN_HEIGHT - i - 1)];
     if(SDL_MUSTLOCK(shot_surf))
     {
       SDL_LockSurface(shot_surf);
@@ -137,9 +133,6 @@ GLVideoSystem::do_take_screenshot()
       SDL_UnlockSurface(shot_surf);
     }
   }
-
-  // free array
-  delete[](pixels);
 
   // save screenshot
   static const std::string writeDir = PHYSFS_getWriteDir();
