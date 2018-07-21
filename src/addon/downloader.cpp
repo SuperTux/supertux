@@ -28,11 +28,6 @@
 
 #include "util/log.hpp"
 
-#ifdef WIN32
-#include <SDL.h>
-#include "util/file_system.hpp"
-#endif
-
 namespace {
 
 size_t my_curl_string_append(void* ptr, size_t size, size_t nmemb, void* userdata)
