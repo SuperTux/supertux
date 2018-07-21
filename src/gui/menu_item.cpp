@@ -20,9 +20,6 @@
 #include "supertux/colorscheme.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
-#ifdef WIN32
-#  define snprintf _snprintf
-#endif
 
 //static const float FLICK_CURSOR_TIME = 0.5f;
 
