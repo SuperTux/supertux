@@ -33,9 +33,13 @@ save his beloved Penny, he begins his journey.
 
 For major platforms, stable releases are built and available for download from
 [supertux.org](https://www.supertux.org/download.html) or alternatively directly
-from [GitHub releases](https://github.com/SuperTux/supertux/releases). You
-should be able to install these using default tools provided by your platform.
-
+from [GitHub](https://github.com/SuperTux/supertux/releases). You should be able
+to install these using default tools provided by your platform. On macOS, when
+Gatekeeper is enabled (default) it will refuse to open SuperTux. This is due to
+the lack of a signature on the application. If you wish to open SuperTux anyway
+without disabling the Gatekeeper feature entirely, you can open the application
+from the context menu (control click on the icon). macOS will then remember your
+choice the next time.
 
 ## Documentation
 
