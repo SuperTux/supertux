@@ -255,7 +255,7 @@ SDLRenderer::apply_viewport()
   }
 
   // calculate the viewport
-  Size max_size(3840, 2160);
+  Size max_size(1280, 800);
   Size min_size(640, 480);
 
   Size logical_size;
