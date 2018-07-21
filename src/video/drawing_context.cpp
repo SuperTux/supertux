@@ -29,27 +29,27 @@
 bool DrawingContext::render_lighting = true;
 
 DrawingContext::DrawingContext(VideoSystem& video_system_) :
-  video_system(video_system_),
-  transformstack(),
-  transform(),
-  drawing_requests(),
-  lightmap_requests(),
-  requests(&drawing_requests),
-  ambient_color(1.0f, 1.0f, 1.0f, 1.0f),
-  target(NORMAL),
-  target_stack(),
-  obst(),
-  screenshot_requested(false)
+  m_video_system(video_system_),
+  m_transformstack(),
+  m_transform(),
+  m_drawing_requests(),
+  m_lightmap_requests(),
+  m_requests(&m_drawing_requests),
+  m_ambient_color(1.0f, 1.0f, 1.0f, 1.0f),
+  m_target(NORMAL),
+  m_target_stack(),
+  m_obst(),
+  m_screenshot_requested(false)
 {
-  obstack_init(&obst);
+  obstack_init(&m_obst);
 }
 
 DrawingContext::~DrawingContext()
 {
-  clear_drawing_requests(lightmap_requests);
-  clear_drawing_requests(drawing_requests);
+  clear_drawing_requests(m_lightmap_requests);
+  clear_drawing_requests(m_drawing_requests);
 
-  obstack_free(&obst, NULL);
+  obstack_free(&m_obst, NULL);
 }
 
 void
@@ -73,11 +73,11 @@ DrawingContext::draw_surface(SurfacePtr surface, const Vector& position,
 {
   assert(surface != 0);
 
-  auto request = new(obst) DrawingRequest();
+  auto request = new(m_obst) DrawingRequest();
 
-  request->target = target;
+  request->target = m_target;
   request->type = SURFACE;
-  request->pos = transform.apply(position);
+  request->pos = m_transform.apply(position);
 
   if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
      || request->pos.x + surface->get_width() < 0
@@ -85,17 +85,17 @@ DrawingContext::draw_surface(SurfacePtr surface, const Vector& position,
     return;
 
   request->layer = layer;
-  request->drawing_effect = transform.drawing_effect;
-  request->alpha = transform.alpha;
+  request->drawing_effect = m_transform.drawing_effect;
+  request->alpha = m_transform.alpha;
   request->angle = angle;
   request->color = color;
   request->blend = blend;
 
-  auto surfacerequest = new(obst) SurfaceRequest();
+  auto surfacerequest = new(m_obst) SurfaceRequest();
   surfacerequest->surface = surface.get();
   request->request_data = surfacerequest;
 
-  requests->push_back(request);
+  m_requests->push_back(request);
 }
 
 void
@@ -112,46 +112,46 @@ DrawingContext::draw_surface_part(SurfacePtr surface,
 {
   assert(surface != 0);
 
-  auto request = new(obst) DrawingRequest();
+  auto request = new(m_obst) DrawingRequest();
 
-  request->target = target;
+  request->target = m_target;
   request->type = SURFACE_PART;
-  request->pos = transform.apply(dstrect.p1);
+  request->pos = m_transform.apply(dstrect.p1);
   request->layer = layer;
-  request->drawing_effect = transform.drawing_effect;
-  request->alpha = transform.alpha;
+  request->drawing_effect = m_transform.drawing_effect;
+  request->alpha = m_transform.alpha;
 
-  auto surfacepartrequest = new(obst) SurfacePartRequest();
+  auto surfacepartrequest = new(m_obst) SurfacePartRequest();
   surfacepartrequest->srcrect = srcrect;
   surfacepartrequest->dstsize = dstrect.get_size();
   surfacepartrequest->surface = surface.get();
 
   request->request_data = surfacepartrequest;
 
-  requests->push_back(request);
+  m_requests->push_back(request);
 }
 
 void
 DrawingContext::draw_text(FontPtr font, const std::string& text,
                           const Vector& position, FontAlignment alignment, int layer, Color color)
 {
-  auto request = new(obst) DrawingRequest();
+  auto request = new(m_obst) DrawingRequest();
 
-  request->target = target;
+  request->target = m_target;
   request->type = TEXT;
-  request->pos = transform.apply(position);
+  request->pos = m_transform.apply(position);
   request->layer = layer;
-  request->drawing_effect = transform.drawing_effect;
-  request->alpha = transform.alpha;
+  request->drawing_effect = m_transform.drawing_effect;
+  request->alpha = m_transform.alpha;
   request->color = color;
 
-  auto textrequest = new(obst) TextRequest();
+  auto textrequest = new(m_obst) TextRequest();
   textrequest->font = font.get();
   textrequest->text = text;
   textrequest->alignment = alignment;
   request->request_data = textrequest;
 
-  requests->push_back(request);
+  m_requests->push_back(request);
 }
 
 void
@@ -166,48 +166,48 @@ void
 DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer,
                               const GradientDirection& direction, const Rectf& region)
 {
-  auto request = new(obst) DrawingRequest();
+  auto request = new(m_obst) DrawingRequest();
 
-  request->target = target;
+  request->target = m_target;
   request->type = GRADIENT;
   request->pos = Vector(0,0);
   request->layer = layer;
 
-  request->drawing_effect = transform.drawing_effect;
-  request->alpha = transform.alpha;
+  request->drawing_effect = m_transform.drawing_effect;
+  request->alpha = m_transform.alpha;
 
-  auto gradientrequest = new(obst) GradientRequest();
+  auto gradientrequest = new(m_obst) GradientRequest();
   gradientrequest->top = top;
   gradientrequest->bottom = bottom;
   gradientrequest->direction = direction;
   gradientrequest->region = region;
   request->request_data = gradientrequest;
 
-  requests->push_back(request);
+  m_requests->push_back(request);
 }
 
 void
 DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
                                  const Color& color, int layer)
 {
-  auto request = new(obst) DrawingRequest();
+  auto request = new(m_obst) DrawingRequest();
 
-  request->target = target;
+  request->target = m_target;
   request->type = FILLRECT;
-  request->pos = transform.apply(topleft);
+  request->pos = m_transform.apply(topleft);
   request->layer = layer;
 
-  request->drawing_effect = transform.drawing_effect;
-  request->alpha = transform.alpha;
+  request->drawing_effect = m_transform.drawing_effect;
+  request->alpha = m_transform.alpha;
 
-  auto fillrectrequest = new(obst) FillRectRequest();
+  auto fillrectrequest = new(m_obst) FillRectRequest();
   fillrectrequest->size = size;
   fillrectrequest->color = color;
-  fillrectrequest->color.alpha = color.alpha * transform.alpha;
+  fillrectrequest->color.alpha = color.alpha * m_transform.alpha;
   fillrectrequest->radius = 0.0f;
   request->request_data = fillrectrequest;
 
-  requests->push_back(request);
+  m_requests->push_back(request);
 }
 
 void
@@ -220,94 +220,94 @@ DrawingContext::draw_filled_rect(const Rectf& rect, const Color& color,
 void
 DrawingContext::draw_filled_rect(const Rectf& rect, const Color& color, float radius, int layer)
 {
-  auto request = new(obst) DrawingRequest();
+  auto request = new(m_obst) DrawingRequest();
 
-  request->target = target;
+  request->target = m_target;
   request->type   = FILLRECT;
-  request->pos    = transform.apply(rect.p1);
+  request->pos    = m_transform.apply(rect.p1);
   request->layer  = layer;
 
-  request->drawing_effect = transform.drawing_effect;
-  request->alpha = transform.alpha;
+  request->drawing_effect = m_transform.drawing_effect;
+  request->alpha = m_transform.alpha;
 
-  auto fillrectrequest = new(obst) FillRectRequest;
+  auto fillrectrequest = new(m_obst) FillRectRequest;
   fillrectrequest->size = Vector(rect.get_width(), rect.get_height());
   fillrectrequest->color = color;
-  fillrectrequest->color.alpha = color.alpha * transform.alpha;
+  fillrectrequest->color.alpha = color.alpha * m_transform.alpha;
   fillrectrequest->radius = radius;
   request->request_data = fillrectrequest;
 
-  requests->push_back(request);
+  m_requests->push_back(request);
 }
 
 void
 DrawingContext::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color& color, int layer)
 {
-  auto request = new(obst) DrawingRequest();
+  auto request = new(m_obst) DrawingRequest();
 
-  request->target = target;
+  request->target = m_target;
   request->type   = INVERSEELLIPSE;
-  request->pos    = transform.apply(pos);
+  request->pos    = m_transform.apply(pos);
   request->layer  = layer;
 
-  request->drawing_effect = transform.drawing_effect;
-  request->alpha = transform.alpha;
+  request->drawing_effect = m_transform.drawing_effect;
+  request->alpha = m_transform.alpha;
 
-  auto ellipse = new(obst)InverseEllipseRequest;
+  auto ellipse = new(m_obst)InverseEllipseRequest;
 
   ellipse->color        = color;
-  ellipse->color.alpha  = color.alpha * transform.alpha;
+  ellipse->color.alpha  = color.alpha * m_transform.alpha;
   ellipse->size         = size;
   request->request_data = ellipse;
 
-  requests->push_back(request);
+  m_requests->push_back(request);
 }
 
 void
 DrawingContext::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, int layer)
 {
-  auto request = new(obst) DrawingRequest();
+  auto request = new(m_obst) DrawingRequest();
 
-  request->target = target;
+  request->target = m_target;
   request->type   = LINE;
-  request->pos    = transform.apply(pos1);
+  request->pos    = m_transform.apply(pos1);
   request->layer  = layer;
 
-  request->drawing_effect = transform.drawing_effect;
-  request->alpha = transform.alpha;
+  request->drawing_effect = m_transform.drawing_effect;
+  request->alpha = m_transform.alpha;
 
-  auto line = new(obst) LineRequest;
+  auto line = new(m_obst) LineRequest;
 
   line->color        = color;
-  line->color.alpha  = color.alpha * transform.alpha;
-  line->dest_pos     = transform.apply(pos2);
+  line->color.alpha  = color.alpha * m_transform.alpha;
+  line->dest_pos     = m_transform.apply(pos2);
   request->request_data = line;
 
-  requests->push_back(request);
+  m_requests->push_back(request);
 }
 
 void
 DrawingContext::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer)
 {
-  auto request = new(obst) DrawingRequest();
+  auto request = new(m_obst) DrawingRequest();
 
-  request->target = target;
+  request->target = m_target;
   request->type   = TRIANGLE;
-  request->pos    = transform.apply(pos1);
+  request->pos    = m_transform.apply(pos1);
   request->layer  = layer;
 
-  request->drawing_effect = transform.drawing_effect;
-  request->alpha = transform.alpha;
+  request->drawing_effect = m_transform.drawing_effect;
+  request->alpha = m_transform.alpha;
 
-  auto triangle = new(obst) TriangleRequest;
+  auto triangle = new(m_obst) TriangleRequest;
 
   triangle->color        = color;
-  triangle->color.alpha  = color.alpha * transform.alpha;
-  triangle->pos2         = transform.apply(pos2);
-  triangle->pos3         = transform.apply(pos3);
+  triangle->color.alpha  = color.alpha * m_transform.alpha;
+  triangle->pos2         = m_transform.apply(pos2);
+  triangle->pos3         = m_transform.apply(pos3);
   request->request_data = triangle;
 
-  requests->push_back(request);
+  m_requests->push_back(request);
 }
 
 Rectf
@@ -321,16 +321,18 @@ DrawingContext::get_cliprect() const
 void
 DrawingContext::get_light(const Vector& position, Color* color)
 {
-  if( ambient_color.red == 1.0f && ambient_color.green == 1.0f
-      && ambient_color.blue  == 1.0f ) {
+  if (m_ambient_color.red == 1.0f &&
+      m_ambient_color.green == 1.0f &&
+      m_ambient_color.blue == 1.0f)
+  {
     *color = Color( 1.0f, 1.0f, 1.0f);
     return;
   }
 
-  auto request = new(obst) DrawingRequest();
-  request->target = target;
+  auto request = new(m_obst) DrawingRequest();
+  request->target = m_target;
   request->type = GETLIGHT;
-  request->pos = transform.apply(position);
+  request->pos = m_transform.apply(position);
 
   //There is no light offscreen.
   if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
@@ -340,57 +342,57 @@ DrawingContext::get_light(const Vector& position, Color* color)
   }
 
   request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
-  auto getlightrequest = new(obst) GetLightRequest();
+  auto getlightrequest = new(m_obst) GetLightRequest();
   getlightrequest->color_ptr = color;
   request->request_data = getlightrequest;
-  lightmap_requests.push_back(request);
+  m_lightmap_requests.push_back(request);
 }
 
 void
 DrawingContext::do_drawing()
 {
-  assert(transformstack.empty());
-  assert(target_stack.empty());
-  transformstack.clear();
-  target_stack.clear();
+  assert(m_transformstack.empty());
+  assert(m_target_stack.empty());
+  m_transformstack.clear();
+  m_target_stack.clear();
 
   //Use Lightmap if ambient color is not white.
-  bool use_lightmap = ( ambient_color.red != 1.0f ||
-                        ambient_color.green != 1.0f ||
-                        ambient_color.blue != 1.0f );
+  bool use_lightmap = ( m_ambient_color.red != 1.0f ||
+                        m_ambient_color.green != 1.0f ||
+                        m_ambient_color.blue != 1.0f );
 
   // PART1: create lightmap
   if(use_lightmap) {
-    auto& lightmap = video_system.get_lightmap();
+    auto& lightmap = m_video_system.get_lightmap();
 
-    lightmap.start_draw(ambient_color);
-    handle_drawing_requests(lightmap_requests);
+    lightmap.start_draw(m_ambient_color);
+    handle_drawing_requests(m_lightmap_requests);
     lightmap.end_draw();
 
     if (render_lighting) {
-      auto request = new(obst) DrawingRequest();
+      auto request = new(m_obst) DrawingRequest();
       request->target = NORMAL;
       request->type = DRAW_LIGHTMAP;
       request->layer = LAYER_HUD - 1;
-      drawing_requests.push_back(request);
+      m_drawing_requests.push_back(request);
     }
   }
 
-  Renderer& renderer = video_system.get_renderer();
+  Renderer& renderer = m_video_system.get_renderer();
   renderer.start_draw();
-  handle_drawing_requests(drawing_requests);
+  handle_drawing_requests(m_drawing_requests);
   renderer.end_draw();
 
-  clear_drawing_requests(lightmap_requests);
-  clear_drawing_requests(drawing_requests);
+  clear_drawing_requests(m_lightmap_requests);
+  clear_drawing_requests(m_drawing_requests);
 
-  obstack_free(&obst, NULL);
-  obstack_init(&obst);
+  obstack_free(&m_obst, NULL);
+  obstack_init(&m_obst);
 
   // if a screenshot was requested, take one
-  if (screenshot_requested) {
+  if (m_screenshot_requested) {
     renderer.do_take_screenshot();
-    screenshot_requested = false;
+    m_screenshot_requested = false;
   }
 
   renderer.flip();
@@ -410,8 +412,8 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
 {
   std::stable_sort(requests_.begin(), requests_.end(), RequestPtrCompare());
 
-  Renderer& renderer = video_system.get_renderer();
-  Lightmap& lightmap = video_system.get_lightmap();
+  Renderer& renderer = m_video_system.get_renderer();
+  Lightmap& lightmap = m_video_system.get_lightmap();
 
   DrawingRequests::const_iterator i;
   for(i = requests_.begin(); i != requests_.end(); ++i) {
@@ -501,77 +503,78 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
 void
 DrawingContext::push_transform()
 {
-  transformstack.push_back(transform);
+  m_transformstack.push_back(m_transform);
 }
 
 void
 DrawingContext::pop_transform()
 {
-  assert(!transformstack.empty());
+  assert(!m_transformstack.empty());
 
-  transform = transformstack.back();
-  transformstack.pop_back();
+  m_transform = m_transformstack.back();
+  m_transformstack.pop_back();
 }
 
 void
 DrawingContext::set_drawing_effect(DrawingEffect effect)
 {
-  transform.drawing_effect = effect;
+  m_transform.drawing_effect = effect;
 }
 
 DrawingEffect
 DrawingContext::get_drawing_effect() const
 {
-  return transform.drawing_effect;
+  return m_transform.drawing_effect;
 }
 
 void
 DrawingContext::set_alpha(float alpha)
 {
-  transform.alpha = alpha;
+  m_transform.alpha = alpha;
 }
 
 float
 DrawingContext::get_alpha() const
 {
-  return transform.alpha;
+  return m_transform.alpha;
 }
 
 void
 DrawingContext::push_target()
 {
-  target_stack.push_back(target);
+  m_target_stack.push_back(m_target);
 }
 
 void
 DrawingContext::pop_target()
 {
-  set_target(target_stack.back());
-  target_stack.pop_back();
+  set_target(m_target_stack.back());
+  m_target_stack.pop_back();
 }
 
 void
 DrawingContext::set_target(Target target_)
 {
-  target = target_;
-  if(target_ == LIGHTMAP) {
-    requests = &lightmap_requests;
+  m_target = target_;
+
+  if(m_target == LIGHTMAP) {
+    m_requests = &m_lightmap_requests;
   } else {
-    assert(target_ == NORMAL);
-    requests = &drawing_requests;
+    assert(m_target == NORMAL);
+    m_requests = &m_drawing_requests;
   }
 }
 
 void
 DrawingContext::set_ambient_color( Color new_color )
 {
-  ambient_color = new_color;
+  m_ambient_color = new_color;
 }
 
 void
 DrawingContext::take_screenshot()
 {
-  screenshot_requested = true;
+  m_screenshot_requested = true;
 }
 
 /* EOF */

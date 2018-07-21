@@ -130,10 +130,10 @@ public:
   void do_drawing();
 
   const Vector& get_translation() const
-  {  return transform.translation;  }
+  {  return m_transform.translation;  }
 
   void set_translation(const Vector& newtranslation)
-  {  transform.translation = newtranslation;  }
+  {  m_transform.translation = newtranslation;  }
 
   void push_transform();
   void pop_transform();
@@ -193,26 +193,26 @@ private:
   void clear_drawing_requests(DrawingRequests& requests);
 
 private:
-  VideoSystem& video_system;
+  VideoSystem& m_video_system;
 
   /// the transform stack
-  std::vector<Transform> transformstack;
+  std::vector<Transform> m_transformstack;
   /// the currently active transform
-  Transform transform;
+  Transform m_transform;
 
-  DrawingRequests drawing_requests;
-  DrawingRequests lightmap_requests;
+  DrawingRequests m_drawing_requests;
+  DrawingRequests m_lightmap_requests;
 
-  DrawingRequests* requests;
-  Color ambient_color;
+  DrawingRequests* m_requests;
+  Color m_ambient_color;
 
-  Target target;
-  std::vector<Target> target_stack;
+  Target m_target;
+  std::vector<Target> m_target_stack;
 
   /* obstack holding the memory of the drawing requests */
-  struct obstack obst;
+  struct obstack m_obst;
 
-  bool screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
+  bool m_screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 
 private:
   DrawingContext(const DrawingContext&);
