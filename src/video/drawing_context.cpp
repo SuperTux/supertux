@@ -391,7 +391,7 @@ DrawingContext::do_drawing()
 
   // if a screenshot was requested, take one
   if (m_screenshot_requested) {
-    renderer.do_take_screenshot();
+    m_video_system.do_take_screenshot();
     m_screenshot_requested = false;
   }
 

@@ -30,6 +30,7 @@ public:
 
   void start_draw() override;
   void end_draw() override;
+
   void draw_surface(const DrawingRequest& request) override;
   void draw_surface_part(const DrawingRequest& request) override;
   void draw_gradient(const DrawingRequest& request) override;
@@ -37,7 +38,7 @@ public:
   void draw_inverse_ellipse(const DrawingRequest& request) override;
   void draw_line(const DrawingRequest& request) override;
   void draw_triangle(const DrawingRequest& request) override;
-  void do_take_screenshot() override;
+
   void flip() override;
   void resize(int w, int h) override;
   void apply_config() override;

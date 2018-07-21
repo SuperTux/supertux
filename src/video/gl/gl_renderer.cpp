@@ -17,8 +17,6 @@
 
 #include "video/gl/gl_renderer.hpp"
 
-#include <physfs.h>
-
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
@@ -142,75 +140,6 @@ GLRenderer::~GLRenderer()
 {
   SDL_GL_DeleteContext(m_glcontext);
   SDL_DestroyWindow(m_window);
-}
-
-void
-GLRenderer::do_take_screenshot()
-{
-  // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
-
-  SDL_Surface *shot_surf;
-  // create surface to hold screenshot
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-  shot_surf = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0);
-#else
-  shot_surf = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0);
-#endif
-  if (!shot_surf) {
-    log_warning << "Could not create RGB Surface to contain screenshot" << std::endl;
-    return;
-  }
-
-  // read pixels into array
-  char* pixels = new char[3 * SCREEN_WIDTH * SCREEN_HEIGHT];
-  if (!pixels) {
-    log_warning << "Could not allocate memory to store screenshot" << std::endl;
-    SDL_FreeSurface(shot_surf);
-    return;
-  }
-  glPixelStorei(GL_PACK_ALIGNMENT, 1);
-  glReadPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
-
-  // copy array line-by-line
-  for (int i = 0; i < SCREEN_HEIGHT; i++) {
-    char* src = pixels + (3 * SCREEN_WIDTH * (SCREEN_HEIGHT - i - 1));
-    if(SDL_MUSTLOCK(shot_surf))
-    {
-      SDL_LockSurface(shot_surf);
-    }
-    char* dst = ((char*)shot_surf->pixels) + i * shot_surf->pitch;
-    memcpy(dst, src, 3 * SCREEN_WIDTH);
-    if(SDL_MUSTLOCK(shot_surf))
-    {
-      SDL_UnlockSurface(shot_surf);
-    }
-  }
-
-  // free array
-  delete[](pixels);
-
-  // save screenshot
-  static const std::string writeDir = PHYSFS_getWriteDir();
-  static const std::string dirSep = PHYSFS_getDirSeparator();
-  static const std::string baseName = "screenshot";
-  static const std::string fileExt = ".bmp";
-  std::string fullFilename;
-  for (int num = 0; num < 1000; num++) {
-    std::ostringstream oss;
-    oss << baseName;
-    oss << std::setw(3) << std::setfill('0') << num;
-    oss << fileExt;
-    std::string fileName = oss.str();
-    fullFilename = writeDir + dirSep + fileName;
-    if (!PHYSFS_exists(fileName.c_str())) {
-      SDL_SaveBMP(shot_surf, fullFilename.c_str());
-      log_info << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
-      SDL_FreeSurface(shot_surf);
-      return;
-    }
-  }
-  log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
-  SDL_FreeSurface(shot_surf);
 }
 
 void

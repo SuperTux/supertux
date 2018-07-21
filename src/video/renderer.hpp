@@ -30,6 +30,7 @@ public:
 
   virtual void start_draw() = 0;
   virtual void end_draw() = 0;
+
   virtual void draw_surface(const DrawingRequest& request) = 0;
   virtual void draw_surface_part(const DrawingRequest& request) = 0;
   virtual void draw_gradient(const DrawingRequest& request) = 0;
@@ -37,7 +38,7 @@ public:
   virtual void draw_inverse_ellipse(const DrawingRequest& request)= 0;
   virtual void draw_line(const DrawingRequest& request)= 0;
   virtual void draw_triangle(const DrawingRequest& request)= 0;
-  virtual void do_take_screenshot() = 0;
+
   virtual void flip() = 0;
   virtual void resize(int w, int h) = 0;
   virtual void apply_config() = 0;

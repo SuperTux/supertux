@@ -59,6 +59,7 @@ public:
   virtual void set_gamma(float gamma) = 0;
   virtual void set_title(const std::string& title) = 0;
   virtual void set_icon(SDL_Surface* icon) = 0;
+  virtual void do_take_screenshot() = 0;
 
 private:
   VideoSystem(const VideoSystem&) = delete;
