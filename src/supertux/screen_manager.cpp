@@ -70,7 +70,7 @@ ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<Scree
   {
     m_screen_fade = std::move(screen_fade);
   }
-  m_actions.push_back(Action(Action::PUSH_ACTION, std::move(screen)));
+  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
 }
 
 void
@@ -81,7 +81,7 @@ ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
   {
     m_screen_fade = std::move(screen_fade);
   }
-  m_actions.push_back(Action(Action::POP_ACTION));
+  m_actions.emplace_back(Action::POP_ACTION);
 }
 
 void
@@ -100,7 +100,7 @@ ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
   {
     m_screen_fade = std::move(screen_fade);
   }
-  m_actions.push_back(Action(Action::QUIT_ACTION));
+  m_actions.emplace_back(Action::QUIT_ACTION);
 }
 
 void
@@ -317,7 +317,7 @@ ScreenManager::handle_screen_switch()
       // move actions to a new vector since setup() might modify it
       auto actions = std::move(m_actions);
       bool quit_action_triggered = false;
-      
+
       for(auto& action : actions)
       {
         switch (action.type)
