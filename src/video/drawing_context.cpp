@@ -32,8 +32,6 @@ DrawingContext::DrawingContext(VideoSystem& video_system_) :
   video_system(video_system_),
   transformstack(),
   transform(),
-  blend_stack(),
-  blend_mode(),
   drawing_requests(),
   lightmap_requests(),
   requests(&drawing_requests),

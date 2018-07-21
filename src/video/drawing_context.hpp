@@ -200,9 +200,6 @@ private:
   /// the currently active transform
   Transform transform;
 
-  std::vector<Blend> blend_stack;
-  Blend blend_mode;
-
   DrawingRequests drawing_requests;
   DrawingRequests lightmap_requests;
 
