@@ -5,8 +5,6 @@
 [![Github All Releases](https://img.shields.io/github/downloads/supertux/supertux/total.svg?maxAge=2592000)](https://github.com/SuperTux/supertux)
 [![#supertux on freenode](https://img.shields.io/badge/freenode-%23supertux-brightgreen.svg)](https://webchat.freenode.net/?channels=supertux)
 
-## Description
-
 SuperTux is a jump'n'run game with strong inspiration from the
 Super Mario Bros. games for the various Nintendo platforms.
 
@@ -106,10 +104,3 @@ Don't forget that you can get involved with the development at
 <https://github.com/supertux/supertux>,
 or get notified about the recent changes on Twitter
 [@supertux_team](https://twitter.com/supertux_team)
-
-
-## The End
-
-Thanks for playing SuperTux.
-
-The SuperTux Team
