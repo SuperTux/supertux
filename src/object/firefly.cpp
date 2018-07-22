@@ -77,10 +77,7 @@ Firefly::draw(DrawingContext& context)
 
   if (sprite_name.find("torch", 0) != std::string::npos && (activated ||
         sprite->get_action() == "ringing")) {
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    m_sprite_light->draw(context, bbox.get_middle() - TORCH_LIGHT_OFFSET, 0);
-    context.pop_target();
+    m_sprite_light->draw(context.light(), bbox.get_middle() - TORCH_LIGHT_OFFSET, 0);
   }
 }
 

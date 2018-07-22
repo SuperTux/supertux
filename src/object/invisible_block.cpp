@@ -43,7 +43,7 @@ void
 InvisibleBlock::draw(DrawingContext& context)
 {
   if(visible || Editor::is_active())
-    sprite->draw(context, get_pos(), LAYER_OBJECTS);
+    sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
 }
 
 bool

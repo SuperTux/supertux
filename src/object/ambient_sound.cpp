@@ -261,7 +261,7 @@ void
 AmbientSound::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
+    context.color().draw_filled_rect(bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }

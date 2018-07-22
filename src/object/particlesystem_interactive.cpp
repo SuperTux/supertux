@@ -46,7 +46,7 @@ void ParticleSystem_Interactive::draw(DrawingContext& context)
   context.push_transform();
 
   for(auto& particle : particles) {
-    context.draw_surface(particle->texture, particle->pos, z_pos);
+    context.color().draw_surface(particle->texture, particle->pos, z_pos);
   }
 
   context.pop_transform();

@@ -310,10 +310,6 @@ TileMap::draw(DrawingContext& context)
   if (current_alpha == 0.0) return;
 
   context.push_transform();
-  if(draw_target != DrawingContext::NORMAL) {
-    context.push_target();
-    context.set_target(draw_target);
-  }
 
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
 
@@ -353,7 +349,7 @@ TileMap::draw(DrawingContext& context)
         assert (index < (width * height));
 
         //uint32_t tile_id = tiles[index];
-        tileset->draw_tile(context, tiles[index], pos, z_pos, current_tint);
+        tileset->draw_tile(context.color(), tiles[index], pos, z_pos, current_tint);
         /*if (tiles[index] == 0) continue;
         const Tile* tile = tileset->get(tiles[index]);
         assert(tile != 0);
@@ -386,7 +382,7 @@ TileMap::draw(DrawingContext& context)
           if (h <= 32) continue;
 
           if (pos.y + h > start.y)
-            tile->draw(context, pos, z_pos, current_tint);
+            tile->draw(context.color(), pos, z_pos, current_tint);
         }
       }
     }
@@ -408,15 +404,12 @@ TileMap::draw(DrawingContext& context)
           if (w <= 32 && h <= 32) continue;
 
           if (pos.x + w > start.x && pos.y + h > start.y)
-            tile->draw(context, pos, z_pos, current_tint);
+            tile->draw(context.color(), pos, z_pos, current_tint);
         }
       }
     }
   }
 
-  if(draw_target != DrawingContext::NORMAL) {
-    context.pop_target();
-  }
   context.pop_transform();
 }
 

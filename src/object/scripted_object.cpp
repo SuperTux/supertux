@@ -182,7 +182,7 @@ ScriptedObject::draw(DrawingContext& context)
   if(!visible)
     return;
 
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context.color(), get_pos(), layer);
 }
 
 void

@@ -97,7 +97,7 @@ FloatingImage::draw(DrawingContext& context)
   Vector spos = pos + get_anchor_pos(Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
                                      sprite->get_width(), sprite->get_height(), anchor);
 
-  sprite->draw(context, spos, layer);
+  sprite->draw(context.color(), spos, layer);
 
   context.pop_transform();
 }

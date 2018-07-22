@@ -86,17 +86,14 @@ SpriteParticle::update(float elapsed_time)
 void
 SpriteParticle::draw(DrawingContext& context)
 {
-  sprite->draw(context, position, drawing_layer);
+  sprite->draw(context.color(), position, drawing_layer);
 
   //Sparkles glow in the dark
   if(glow){
     context.get_light(position, &light );
     if (light.red + light.green + light.blue < 3.0){
-      context.push_target();
-      context.set_target(DrawingContext::LIGHTMAP);
-      sprite->draw(context, position, drawing_layer);
-      lightsprite->draw(context, position + Vector(12,12), 0);
-      context.pop_target();
+      sprite->draw(context.light(), position, drawing_layer);
+      lightsprite->draw(context.light(), position + Vector(12,12), 0);
     }
   }
 

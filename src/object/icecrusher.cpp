@@ -228,18 +228,15 @@ IceCrusher::update(float elapsed_time)
 void
 IceCrusher::draw(DrawingContext& context)
 {
-  context.push_target();
-  context.set_target(DrawingContext::NORMAL);
-  sprite->draw(context, get_pos(), layer+2);
+  sprite->draw(context.color(), get_pos(), layer+2);
   if(!(state == CRUSHING) && sprite->has_action("whites"))
   {
     // draw icecrusher's eyes slightly behind
-    lefteye->draw(context, get_pos()+eye_position(false), layer+1);
-    righteye->draw(context, get_pos()+eye_position(true), layer+1);
+    lefteye->draw(context.color(), get_pos()+eye_position(false), layer+1);
+    righteye->draw(context.color(), get_pos()+eye_position(true), layer+1);
     // draw the whites of icecrusher's eyes even further behind
-    whites->draw(context, get_pos(), layer);
+    whites->draw(context.color(), get_pos(), layer);
   }
-  context.pop_target();
 }
 
 void
