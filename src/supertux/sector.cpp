@@ -559,7 +559,7 @@ Sector::draw(DrawingContext& context)
     for(auto& object : moving_objects) {
       const Rectf& rect = object->get_bbox();
 
-      context.draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
+      context.color().draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
     }
   }
 

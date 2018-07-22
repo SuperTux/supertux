@@ -105,12 +105,12 @@ TitleScreen::draw(DrawingContext& context)
   Sector* sector  = titlesession->get_current_sector();
   sector->draw(context);
 
-  context.draw_surface_part(frame,
+  context.color().draw_surface_part(frame,
                             Rectf(0, 0, frame->get_width(), frame->get_height()),
                             Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
                             LAYER_FOREGROUND1);
 
-  context.draw_text(Resources::small_font,
+  context.color().draw_text(Resources::small_font,
                     copyright_text,
                     Vector(5, SCREEN_HEIGHT - 50),
                     ALIGN_LEFT, LAYER_FOREGROUND1);

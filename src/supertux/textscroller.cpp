@@ -205,9 +205,9 @@ TextScroller::update(float elapsed_time)
 void
 TextScroller::draw(DrawingContext& context)
 {
-  context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+  context.color().draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
-  context.draw_surface_part(background, Rectf(0, 0, background->get_width(), background->get_height()),
+  context.color().draw_surface_part(background, Rectf(0, 0, background->get_width(), background->get_height()),
                             Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), 0);
 
 

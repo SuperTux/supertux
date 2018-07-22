@@ -109,7 +109,7 @@ void LevelIntro::draw_stats_line(DrawingContext& context, int& py, const std::st
 {
   std::stringstream ss;
   ss << name << ": " << stat;
-  context.draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
+  context.color().draw_center_text(Resources::normal_font, ss.str(), Vector(0, py), LAYER_FOREGROUND1,LevelIntro::stat_color);
   py += static_cast<int>(Resources::normal_font->get_height());
 }
 
@@ -120,29 +120,29 @@ LevelIntro::draw(DrawingContext& context)
   int py = static_cast<int>(SCREEN_HEIGHT / 2 - Resources::normal_font->get_height() / 2);
 
   context.set_ambient_color(Color(1.0f, 1.0f, 1.0f, 1.0f));
-  context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
+  context.color().draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
 
   {
-    context.draw_center_text(Resources::normal_font, level->get_name(), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::header_color);
+    context.color().draw_center_text(Resources::normal_font, level->get_name(), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::header_color);
     py += static_cast<int>(Resources::normal_font->get_height());
   }
 
   std::string author = level->get_author();
   if ((!author.empty()) && (author != "SuperTux Team")) {
     std::string author_text = str(boost::format(_("contributed by %s")) % author);
-    context.draw_center_text(Resources::small_font, author_text, Vector(0, py), LAYER_FOREGROUND1, LevelIntro::author_color);
+    context.color().draw_center_text(Resources::small_font, author_text, Vector(0, py), LAYER_FOREGROUND1, LevelIntro::author_color);
     py += static_cast<int>(Resources::small_font->get_height());
   }
 
   py += 32;
 
   {
-    player_sprite->draw(context, Vector((SCREEN_WIDTH - player_sprite->get_current_hitbox_width()) / 2, py + player_sprite_py), LAYER_FOREGROUND1);
+    player_sprite->draw(context.color(), Vector((SCREEN_WIDTH - player_sprite->get_current_hitbox_width()) / 2, py + player_sprite_py), LAYER_FOREGROUND1);
     if (player_status->bonus == EARTH_BONUS
         || player_status->bonus == AIR_BONUS
         || (player_status->bonus == FIRE_BONUS && g_config->christmas_mode))
     {
-      power_sprite->draw(context, Vector((SCREEN_WIDTH - player_sprite->get_current_hitbox_width()) / 2, py + player_sprite_py), LAYER_FOREGROUND1);
+      power_sprite->draw(context.color(), Vector((SCREEN_WIDTH - player_sprite->get_current_hitbox_width()) / 2, py + player_sprite_py), LAYER_FOREGROUND1);
     }
     py += static_cast<int>(player_sprite->get_current_hitbox_height());
   }
@@ -150,7 +150,7 @@ LevelIntro::draw(DrawingContext& context)
   py += 32;
 
   {
-    context.draw_center_text(Resources::normal_font, std::string("- ") + _("Best Level Statistics") + std::string(" -"), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::stat_hdr_color);
+    context.color().draw_center_text(Resources::normal_font, std::string("- ") + _("Best Level Statistics") + std::string(" -"), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::stat_hdr_color);
     py += static_cast<int>(Resources::normal_font->get_height());
   }
 
