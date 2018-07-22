@@ -134,7 +134,7 @@ Yeti::draw_hit_points(DrawingContext& context)
 
     for (int i = 0; i < hit_points; ++i)
     {
-      context.draw_surface(hud_head, Vector(BORDER_X + (i * hud_head->get_width()), BORDER_Y + 1), LAYER_FOREGROUND1);
+      context.color().draw_surface(hud_head, Vector(BORDER_X + (i * hud_head->get_width()), BORDER_Y + 1), LAYER_FOREGROUND1);
     }
 
     context.pop_transform();

@@ -130,17 +130,14 @@ BadGuy::draw(DrawingContext& context)
   if(state == STATE_FALLING) {
     context.push_transform();
     context.set_drawing_effect(context.get_drawing_effect() ^ VERTICAL_FLIP);
-    sprite->draw(context, get_pos(), layer);
+    sprite->draw(context.color(), get_pos(), layer);
     context.pop_transform();
   } else {
-    sprite->draw(context, get_pos(), layer);
+    sprite->draw(context.color(), get_pos(), layer);
   }
 
   if (glowing) {
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, bbox.get_middle(), 0);
-    context.pop_target();
+    lightsprite->draw(context.color(), bbox.get_middle(), 0);
   }
 }
 
