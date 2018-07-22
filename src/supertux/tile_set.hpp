@@ -64,7 +64,7 @@ public:
 
   uint32_t get_max_tileid() const
   {
-    return m_tiles.size();
+    return static_cast<uint32_t>(m_tiles.size());
   }
 };
 
