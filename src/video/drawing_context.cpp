@@ -38,8 +38,7 @@ DrawingContext::DrawingContext(VideoSystem& video_system_) :
   m_ambient_color(1.0f, 1.0f, 1.0f, 1.0f),
   m_target(NORMAL),
   m_target_stack(),
-  m_obst(),
-  m_screenshot_requested(false)
+  m_obst()
 {
   obstack_init(&m_obst);
 }
@@ -389,12 +388,6 @@ DrawingContext::do_drawing()
   obstack_free(&m_obst, NULL);
   obstack_init(&m_obst);
 
-  // if a screenshot was requested, take one
-  if (m_screenshot_requested) {
-    m_video_system.do_take_screenshot();
-    m_screenshot_requested = false;
-  }
-
   renderer.flip();
 }
 
@@ -569,12 +562,6 @@ void
 DrawingContext::set_ambient_color( Color new_color )
 {
   m_ambient_color = new_color;
-}
-
-void
-DrawingContext::take_screenshot()
-{
-  m_screenshot_requested = true;
 }
 
 /* EOF */

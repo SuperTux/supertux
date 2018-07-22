@@ -159,11 +159,6 @@ public:
 
   void set_ambient_color( Color new_color );
 
-  /**
-   * requests that a screenshot be taken after the next frame has been rendered
-   */
-  void take_screenshot();
-
 private:
   typedef std::vector<DrawingRequest*> DrawingRequests;
 
@@ -211,8 +206,6 @@ private:
 
   /* obstack holding the memory of the drawing requests */
   struct obstack m_obst;
-
-  bool m_screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 
 private:
   DrawingContext(const DrawingContext&);

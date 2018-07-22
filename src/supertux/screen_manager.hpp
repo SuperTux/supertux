@@ -44,11 +44,6 @@ public:
   float get_speed() const;
   bool has_pending_fadeout() const;
 
-  /**
-   * requests that a screenshot be taken after the next frame has been rendered
-   */
-  void take_screenshot();
-
   // push new screen on screen_stack
   void push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> fade = {});
   void pop_screen(std::unique_ptr<ScreenFade> fade = {});
@@ -90,7 +85,6 @@ private:
   float m_fps;
   std::unique_ptr<ScreenFade> m_screen_fade;
   std::vector<std::unique_ptr<Screen> > m_screen_stack;
-  bool m_screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };
 
 #endif
