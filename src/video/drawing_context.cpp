@@ -31,8 +31,8 @@ bool DrawingContext::render_lighting = true;
 DrawingContext::DrawingContext(VideoSystem& video_system_) :
   m_video_system(video_system_),
   m_obst(),
-  m_drawing_requests(NORMAL, *this, m_obst),
-  m_lightmap_requests(LIGHTMAP, *this, m_obst),
+  m_colormap_canvas(NORMAL, *this, m_obst),
+  m_lightmap_canvas(LIGHTMAP, *this, m_obst),
   m_ambient_color(1.0f, 1.0f, 1.0f, 1.0f),
   m_transformstack(),
   m_transform()
@@ -42,8 +42,8 @@ DrawingContext::DrawingContext(VideoSystem& video_system_) :
 
 DrawingContext::~DrawingContext()
 {
-  m_lightmap_requests.clear();
-  m_drawing_requests.clear();
+  m_lightmap_canvas.clear();
+  m_colormap_canvas.clear();
   obstack_free(&m_obst, NULL);
 }
 
@@ -73,14 +73,13 @@ DrawingContext::get_light(const Vector& position, Color* color_out)
   auto getlightrequest = new(m_obst) GetLightRequest();
   getlightrequest->color_ptr = color_out;
   request->request_data = getlightrequest;
-  m_lightmap_requests.get_requests().push_back(request);
+  m_lightmap_canvas.get_requests().push_back(request);
 }
 
 void
 DrawingContext::do_drawing()
 {
   assert(m_transformstack.empty());
-  m_transformstack.clear();
 
   //Use Lightmap if ambient color is not white.
   bool use_lightmap = ( m_ambient_color.red != 1.0f ||
@@ -92,24 +91,24 @@ DrawingContext::do_drawing()
     auto& lightmap = m_video_system.get_lightmap();
 
     lightmap.start_draw(m_ambient_color);
-    m_lightmap_requests.render(m_video_system);
+    m_lightmap_canvas.render(m_video_system);
     lightmap.end_draw();
 
     if (render_lighting) {
       auto request = new(m_obst) DrawingRequest();
       request->type = DRAW_LIGHTMAP;
       request->layer = LAYER_HUD - 1;
-      m_drawing_requests.get_requests().push_back(request);
+      m_colormap_canvas.get_requests().push_back(request);
     }
   }
 
   Renderer& renderer = m_video_system.get_renderer();
   renderer.start_draw();
-  m_drawing_requests.render(m_video_system);
+  m_colormap_canvas.render(m_video_system);
   renderer.end_draw();
 
-  m_lightmap_requests.clear();
-  m_drawing_requests.clear();
+  m_lightmap_canvas.clear();
+  m_colormap_canvas.clear();
 
   obstack_free(&m_obst, NULL);
   obstack_init(&m_obst);

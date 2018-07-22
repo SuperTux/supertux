@@ -75,16 +75,16 @@ public:
   static const Target NORMAL = ::NORMAL;
   static const Target LIGHTMAP = ::LIGHTMAP;
 
-  Canvas& color() { return m_drawing_requests; }
-  Canvas& light() { return m_lightmap_requests; }
+  Canvas& color() { return m_colormap_canvas; }
+  Canvas& light() { return m_lightmap_canvas; }
   Canvas& get_canvas(Target target) {
     switch(target)
     {
       case LIGHTMAP:
-        return m_lightmap_requests;
+        return m_lightmap_canvas;
 
       default:
-        return m_drawing_requests;
+        return m_colormap_canvas;
     }
   }
 
@@ -116,8 +116,8 @@ private:
   /* obstack holding the memory of the drawing requests */
   struct obstack m_obst;
 
-  Canvas m_drawing_requests;
-  Canvas m_lightmap_requests;
+  Canvas m_colormap_canvas;
+  Canvas m_lightmap_canvas;
 
   Color m_ambient_color;
 
