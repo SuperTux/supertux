@@ -56,10 +56,8 @@ Canvas::clear()
 void
 Canvas::render(VideoSystem& video_system)
 {
-  auto& requests_ = m_requests; // FIXME: grumbel 22. Jul 2018
-
   // On a regular level, each frame has around 1000-3000 requests
-  std::stable_sort(requests_.begin(), requests_.end(),
+  std::stable_sort(m_requests.begin(), m_requests.end(),
                    [](const DrawingRequest* r1, const DrawingRequest* r2){
                      return r1->layer < r2->layer;
                    });
@@ -67,7 +65,7 @@ Canvas::render(VideoSystem& video_system)
   Renderer& renderer = video_system.get_renderer();
   Lightmap& lightmap = video_system.get_lightmap();
 
-  for(auto i = requests_.begin(); i != requests_.end(); ++i) {
+  for(auto i = m_requests.begin(); i != m_requests.end(); ++i) {
     const DrawingRequest& request = **i;
 
     switch(request.target) {
