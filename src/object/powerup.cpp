@@ -185,18 +185,15 @@ PowerUp::update(float elapsed_time)
 void
 PowerUp::draw(DrawingContext& context){
   //Draw the Sprite.
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context.color(), get_pos(), layer);
   //Draw light when dark for defaults
   context.get_light( bbox.get_middle(), &light );
   if (light.red + light.green + light.blue < 3.0){
     //Stars are brighter
     if (sprite_name == "images/powerups/star/star.sprite") {
-      sprite->draw(context, get_pos(), layer);
+      sprite->draw(context.color(), get_pos(), layer);
     }
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, bbox.get_middle(), 0);
-    context.pop_target();
+    lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
 }
 

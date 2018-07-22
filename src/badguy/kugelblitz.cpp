@@ -150,16 +150,13 @@ Kugelblitz::active_update(float elapsed_time)
 void
 Kugelblitz::draw(DrawingContext& context)
 {
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context.color(), get_pos(), layer);
 
   //Only draw light in dark areas
   context.get_light( bbox.get_middle(), &light );
   if (light.red + light.green < 2.0){
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    sprite->draw(context, get_pos(), layer);
-    lightsprite->draw(context, bbox.get_middle(), 0);
-    context.pop_target();
+    sprite->draw(context.light(), get_pos(), layer);
+    lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
 }
 

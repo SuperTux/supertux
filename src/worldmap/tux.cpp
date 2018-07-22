@@ -60,7 +60,7 @@ Tux::draw(DrawingContext& context)
     log_debug << "Bonus type not handled in worldmap." << std::endl;
     sprite->set_action("large-stop");
   }
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
 }
 
 std::string

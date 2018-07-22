@@ -44,7 +44,7 @@ void SpawnPointMarker::setup() {
 }
 
 void SpawnPointMarker::draw(DrawingContext& context) {
-  context.draw_surface(surface, bbox.p1, LAYER_FOREGROUND1);
+  context.color().draw_surface(surface, bbox.p1, LAYER_FOREGROUND1);
 }
 
 /* EOF */

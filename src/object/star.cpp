@@ -77,10 +77,7 @@ Star::draw(DrawingContext& context){
   context.get_light( bbox.get_middle(), &light );
   if (light.red + light.green + light.blue < 3.0){
     MovingSprite::draw(context);
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, bbox.get_middle(), 0);
-    context.pop_target();
+    lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
 }
 

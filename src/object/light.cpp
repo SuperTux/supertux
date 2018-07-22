@@ -38,14 +38,9 @@ Light::update(float )
 void
 Light::draw(DrawingContext& context)
 {
-  context.push_target();
-  context.set_target(DrawingContext::LIGHTMAP);
-
   sprite->set_color(color);
   sprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
-  sprite->draw(context, position, 0);
-
-  context.pop_target();
+  sprite->draw(context.light(), position, 0);
 }
 
 /* EOF */

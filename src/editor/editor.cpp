@@ -81,10 +81,10 @@ void Editor::draw(DrawingContext& context)
 {
   if (levelloaded) {
     currentsector->draw(context);
-    context.draw_filled_rect(Rectf(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)), Color(0.0f, 0.0f, 0.0f),
+    context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)), Color(0.0f, 0.0f, 0.0f),
                              0.0f, std::numeric_limits<int>::min());
   } else {
-    context.draw_surface_part(bgr_surface, Rectf(Vector(0, 0), bgr_surface->get_size()),
+    context.color().draw_surface_part(bgr_surface, Rectf(Vector(0, 0), bgr_surface->get_size()),
                               Rectf(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)), -100);
   }
   inputcenter.draw(context);

@@ -149,11 +149,11 @@ Stalactite::draw(DrawingContext& context)
     return;
 
   if(state == STALACTITE_SQUISHED) {
-    sprite->draw(context, get_pos(), LAYER_OBJECTS);
+    sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
   } else if(state == STALACTITE_SHAKING) {
-    sprite->draw(context, get_pos() + shake_delta, layer);
+    sprite->draw(context.color(), get_pos() + shake_delta, layer);
   } else {
-    sprite->draw(context, get_pos(), layer);
+    sprite->draw(context.color(), get_pos(), layer);
   }
 }
 

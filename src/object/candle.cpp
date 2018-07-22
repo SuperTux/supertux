@@ -79,22 +79,19 @@ void
 Candle::draw(DrawingContext& context)
 {
   // draw regular sprite
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context.color(), get_pos(), layer);
 
   // draw on lightmap
   if (burning) {
     //Vector pos = get_pos() + (bbox.get_size() - candle_light_1->get_size()) / 2;
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
     // draw approx. 1 in 10 frames darker. Makes the candle flicker
     if (gameRandom.rand(10) != 0 || !flicker) {
-      //context.draw_surface(candle_light_1, pos, layer);
-      candle_light_1->draw(context, bbox.get_middle(), 0);
+      //context.color().draw_surface(candle_light_1, pos, layer);
+      candle_light_1->draw(context.light(), bbox.get_middle(), 0);
     } else {
-      //context.draw_surface(candle_light_2, pos, layer);
-      candle_light_2->draw(context, bbox.get_middle(), 0);
+      //context.color().draw_surface(candle_light_2, pos, layer);
+      candle_light_2->draw(context.light(), bbox.get_middle(), 0);
     }
-    context.pop_target();
   }
 }
 

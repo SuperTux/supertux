@@ -191,7 +191,7 @@ Gradient::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.draw_gradient(gradient_top, gradient_bottom, layer, gradient_direction, gradient_region);
+  context.color().draw_gradient(gradient_top, gradient_bottom, layer, gradient_direction, gradient_region);
   context.pop_transform();
 }
 

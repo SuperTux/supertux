@@ -98,14 +98,9 @@ TreeWillOWisp::collides(GameObject& other, const CollisionHit& ) const
 void
 TreeWillOWisp::draw(DrawingContext& context)
 {
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context.color(), get_pos(), layer);
 
-  context.push_target();
-  context.set_target(DrawingContext::LIGHTMAP);
-
-  sprite->draw(context, get_pos(), layer);
-
-  context.pop_target();
+  sprite->draw(context.light(), get_pos(), layer);
 }
 
 void

@@ -151,7 +151,7 @@ Block::update(float elapsed_time)
 void
 Block::draw(DrawingContext& context)
 {
-  sprite->draw(context, get_pos(), LAYER_OBJECTS+1);
+  sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+1);
 }
 
 void

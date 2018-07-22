@@ -1170,7 +1170,7 @@ Player::draw(DrawingContext& context)
     float px = bbox.p1.x + (bbox.p2.x - bbox.p1.x - airarrow.get()->get_width()) / 2;
     float py = Sector::current()->camera->get_translation().y;
     py += std::min(((py - (bbox.p2.y + 16)) / 4), 16.0f);
-    context.draw_surface(airarrow, Vector(px, py), LAYER_HUD - 1);
+    context.color().draw_surface(airarrow, Vector(px, py), LAYER_HUD - 1);
   }
 
   std::string sa_prefix = "";
@@ -1293,14 +1293,12 @@ Player::draw(DrawingContext& context)
   else if (player_status->bonus == EARTH_BONUS){ // draw special effects with earthflower bonus
     // shake at end of maximum stone duration
     Vector shake_delta = (stone && ability_timer.get_timeleft() < 1.0f) ? Vector(graphicsRandom.rand(-3,3) * 1.0f, 0) : Vector(0,0);
-    sprite->draw(context, get_pos() + shake_delta, LAYER_OBJECTS + 1);
+    sprite->draw(context.color(), get_pos() + shake_delta, LAYER_OBJECTS + 1);
     // draw hardhat
-    powersprite->draw(context, get_pos() + shake_delta, LAYER_OBJECTS + 1);
+    powersprite->draw(context.color(), get_pos() + shake_delta, LAYER_OBJECTS + 1);
     // light
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, get_pos(), 0);
-    context.pop_target();
+    lightsprite->draw(context.light(), get_pos(), 0);
+
     // give an indicator that stone form cannot be used for a while
     if (cooldown_timer.started() && graphicsRandom.rand(0, 4) == 0) {
       float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
@@ -1313,14 +1311,14 @@ Player::draw(DrawingContext& context)
   }
   else {
     if(dying)
-      sprite->draw(context, get_pos(), Sector::current()->get_foremost_layer());
+      sprite->draw(context.color(), get_pos(), Sector::current()->get_foremost_layer());
     else
-      sprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+      sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
 
     if (player_status->bonus == AIR_BONUS)
-      powersprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+      powersprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
     else if(player_status->bonus == FIRE_BONUS && g_config->christmas_mode) {
-      powersprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+      powersprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
     }
   }
 

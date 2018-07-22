@@ -83,12 +83,7 @@ Lantern::draw(DrawingContext& context){
   //Draw the Sprite.
   MovingSprite::draw(context);
   //Let there be light.
-  context.push_target();
-  context.set_target(DrawingContext::LIGHTMAP);
-
-  lightsprite->draw(context, bbox.get_middle(), 0);
-
-  context.pop_target();
+  lightsprite->draw(context.light(), bbox.get_middle(), 0);
 }
 
 HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {

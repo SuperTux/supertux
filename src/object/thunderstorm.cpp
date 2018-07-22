@@ -93,7 +93,7 @@ Thunderstorm::draw(DrawingContext& context)
   float alpha = 0.33f;
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(1, 1, 1, alpha), layer);
+  context.color().draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(1, 1, 1, alpha), layer);
   context.pop_transform();
 
 }

@@ -86,7 +86,7 @@ Root::active_update(float elapsed_time)
 void
 Root::draw(DrawingContext& context)
 {
-  base_sprite->draw(context, start_position, LAYER_TILES+1);
+  base_sprite->draw(context.color(), start_position, LAYER_TILES+1);
   if ((mystate != STATE_APPEARING) && (mystate != STATE_VANISHING)) BadGuy::draw(context);
 }
 

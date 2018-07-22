@@ -218,17 +218,14 @@ GhostTree::draw(DrawingContext& context)
 {
   BadGuy::draw(context);
 
-  context.push_target();
   context.push_transform();
-  context.set_target(DrawingContext::LIGHTMAP);
   if (mystate == STATE_SUCKING) {
     context.set_alpha(0.5f + fmodf(game_time, 0.5f));
   } else {
     context.set_alpha(0.5f);
   }
-  glow_sprite->draw(context, get_pos(), layer);
+  glow_sprite->draw(context.light(), get_pos(), layer);
   context.pop_transform();
-  context.pop_target();
 }
 
 bool

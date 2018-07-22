@@ -32,7 +32,7 @@ FallingCoin::FallingCoin(const Vector& start_position, const int vel_x) :
 void
 FallingCoin::draw(DrawingContext& context)
 {
-  sprite->draw(context, pos, LAYER_FLOATINGOBJECTS + 5);
+  sprite->draw(context.color(), pos, LAYER_FLOATINGOBJECTS + 5);
 }
 
 void

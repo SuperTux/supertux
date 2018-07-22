@@ -121,7 +121,7 @@ MovingSprite::MovingSprite(const MovingSprite& other) :
 void
 MovingSprite::draw(DrawingContext& context)
 {
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context.color(), get_pos(), layer);
 }
 
 void

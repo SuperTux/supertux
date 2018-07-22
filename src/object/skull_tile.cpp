@@ -52,7 +52,7 @@ SkullTile::draw(DrawingContext& context)
     pos.x += graphicsRandom.rand(-3, 3);
   }
 
-  sprite->draw(context, pos, layer);
+  sprite->draw(context.color(), pos, layer);
 }
 
 void

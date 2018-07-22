@@ -46,7 +46,7 @@ RainSplash::update(float /*time*/)
 void
 RainSplash::draw(DrawingContext& context)
 {
-  sprite->draw(context, position, LAYER_OBJECTS);
+  sprite->draw(context.color(), position, LAYER_OBJECTS);
 }
 
 /* EOF */

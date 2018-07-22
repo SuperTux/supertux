@@ -708,7 +708,7 @@ void
 WorldMap::draw(DrawingContext& context)
 {
   if (int(get_width()*32) < SCREEN_WIDTH || int(get_height()*32) < SCREEN_HEIGHT)
-    context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+    context.color().draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
                              Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
 
   context.set_ambient_color( ambient_light );
@@ -733,12 +733,12 @@ WorldMap::draw(DrawingContext& context)
   int px = x * 32;
   int py = y * 32;
   const int W = 4;
-  if (data & Tile::WORLDMAP_NORTH)    context.draw_filled_rect(Rect(px + 16-W, py       , px + 16+W, py + 16-W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-  if (data & Tile::WORLDMAP_SOUTH)    context.draw_filled_rect(Rect(px + 16-W, py + 16+W, px + 16+W, py + 32  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-  if (data & Tile::WORLDMAP_EAST)     context.draw_filled_rect(Rect(px + 16+W, py + 16-W, px + 32  , py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-  if (data & Tile::WORLDMAP_WEST)     context.draw_filled_rect(Rect(px       , py + 16-W, px + 16-W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-  if (data & Tile::WORLDMAP_DIR_MASK) context.draw_filled_rect(Rect(px + 16-W, py + 16-W, px + 16+W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
-  if (data & Tile::WORLDMAP_STOP)     context.draw_filled_rect(Rect(px + 4   , py + 4   , px + 28  , py + 28  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+  if (data & Tile::WORLDMAP_NORTH)    context.color().draw_filled_rect(Rect(px + 16-W, py       , px + 16+W, py + 16-W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+  if (data & Tile::WORLDMAP_SOUTH)    context.color().draw_filled_rect(Rect(px + 16-W, py + 16+W, px + 16+W, py + 32  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+  if (data & Tile::WORLDMAP_EAST)     context.color().draw_filled_rect(Rect(px + 16+W, py + 16-W, px + 32  , py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+  if (data & Tile::WORLDMAP_WEST)     context.color().draw_filled_rect(Rect(px       , py + 16-W, px + 16-W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+  if (data & Tile::WORLDMAP_DIR_MASK) context.color().draw_filled_rect(Rect(px + 16-W, py + 16-W, px + 16+W, py + 16+W), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
+  if (data & Tile::WORLDMAP_STOP)     context.color().draw_filled_rect(Rect(px + 4   , py + 4   , px + 28  , py + 28  ), Color(0.2f, 0.2f, 0.2f, 0.7f), LAYER_FOREGROUND1 + 1000);
   }
   }
   */
@@ -758,7 +758,7 @@ WorldMap::draw_status(DrawingContext& context)
   if (!tux->is_moving()) {
     for(const auto& level : levels) {
       if (level->pos == tux->get_tile_pos()) {
-        context.draw_text(Resources::normal_font, level->title,
+        context.color().draw_text(Resources::normal_font, level->title,
                           Vector(SCREEN_WIDTH/2,
                                  SCREEN_HEIGHT - Resources::normal_font->get_height() - 10),
                           ALIGN_CENTER, LAYER_HUD, level->title_color);
@@ -770,7 +770,7 @@ WorldMap::draw_status(DrawingContext& context)
           Vector pos = Vector(SCREEN_WIDTH - picture->get_width(), SCREEN_HEIGHT - picture->get_height());
           context.push_transform();
           context.set_alpha(0.5);
-          context.draw_surface(picture, pos, LAYER_FOREGROUND1-1);
+          context.color().draw_surface(picture, pos, LAYER_FOREGROUND1-1);
           context.pop_transform();
           }
           }
@@ -784,7 +784,7 @@ WorldMap::draw_status(DrawingContext& context)
       if (special_tile->pos == tux->get_tile_pos()) {
         /* Display an in-map message in the map, if any as been selected */
         if(!special_tile->map_message.empty() && !special_tile->passive_message)
-          context.draw_text(Resources::normal_font, special_tile->map_message,
+          context.color().draw_text(Resources::normal_font, special_tile->map_message,
                             Vector(SCREEN_WIDTH/2,
                                    SCREEN_HEIGHT - Resources::normal_font->get_height() - 60),
                             ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
@@ -796,14 +796,14 @@ WorldMap::draw_status(DrawingContext& context)
     auto teleporter = at_teleporter(tux->get_tile_pos());
     if (teleporter && (!teleporter->message.empty())) {
       Vector pos = Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - Resources::normal_font->get_height() - 30);
-      context.draw_text(Resources::normal_font, teleporter->message, pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::teleporter_message_color);
+      context.color().draw_text(Resources::normal_font, teleporter->message, pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::teleporter_message_color);
     }
 
   }
 
   /* Display a passive message in the map, if needed */
   if(passive_message_timer.started())
-    context.draw_text(Resources::normal_font, passive_message,
+    context.color().draw_text(Resources::normal_font, passive_message,
                       Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - Resources::normal_font->get_height() - 60),
                       ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
 
