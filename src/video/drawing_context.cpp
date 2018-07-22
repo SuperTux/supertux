@@ -59,7 +59,6 @@ DrawingContext::get_light(const Vector& position, Color* color_out)
   }
 
   auto request = new(m_obst) DrawingRequest();
-  request->target = LIGHTMAP; // FIXME: request->target is likely redundant now - grumbel: 22. Jul 2018
   request->type = GETLIGHT;
   request->pos = m_transform.apply(position);
 
@@ -98,7 +97,6 @@ DrawingContext::do_drawing()
 
     if (render_lighting) {
       auto request = new(m_obst) DrawingRequest();
-      request->target = NORMAL;
       request->type = DRAW_LIGHTMAP;
       request->layer = LAYER_HUD - 1;
       m_drawing_requests.get_requests().push_back(request);

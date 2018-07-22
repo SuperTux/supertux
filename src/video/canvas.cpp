@@ -68,7 +68,7 @@ Canvas::render(VideoSystem& video_system)
   for(auto i = m_requests.begin(); i != m_requests.end(); ++i) {
     const DrawingRequest& request = **i;
 
-    switch(request.target) {
+    switch(m_target) {
       case NORMAL:
         switch(request.type) {
           case SURFACE:
@@ -158,7 +158,6 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position,
 
   auto request = new(m_obst) DrawingRequest();
 
-  request->target = m_target;
   request->type = SURFACE;
   request->pos = m_context.get_transform().apply(position);
 
@@ -196,7 +195,6 @@ Canvas::draw_surface_part(SurfacePtr surface,
 
   auto request = new(m_obst) DrawingRequest();
 
-  request->target = m_target;
   request->type = SURFACE_PART;
   request->pos = m_context.get_transform().apply(dstrect.p1);
   request->layer = layer;
@@ -219,7 +217,6 @@ Canvas::draw_text(FontPtr font, const std::string& text,
 {
   auto request = new(m_obst) DrawingRequest();
 
-  request->target = m_target;
   request->type = TEXT;
   request->pos = m_context.get_transform().apply(position);
   request->layer = layer;
@@ -250,7 +247,6 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
 {
   auto request = new(m_obst) DrawingRequest();
 
-  request->target = m_target;
   request->type = GRADIENT;
   request->pos = Vector(0,0);
   request->layer = layer;
@@ -274,7 +270,6 @@ Canvas::draw_filled_rect(const Vector& topleft, const Vector& size,
 {
   auto request = new(m_obst) DrawingRequest();
 
-  request->target = m_target;
   request->type = FILLRECT;
   request->pos = m_context.get_transform().apply(topleft);
   request->layer = layer;
@@ -304,7 +299,6 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
 {
   auto request = new(m_obst) DrawingRequest();
 
-  request->target = m_target;
   request->type   = FILLRECT;
   request->pos    = m_context.get_transform().apply(rect.p1);
   request->layer  = layer;
@@ -327,7 +321,6 @@ Canvas::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color&
 {
   auto request = new(m_obst) DrawingRequest();
 
-  request->target = m_target;
   request->type   = INVERSEELLIPSE;
   request->pos    = m_context.get_transform().apply(pos);
   request->layer  = layer;
@@ -350,7 +343,6 @@ Canvas::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, in
 {
   auto request = new(m_obst) DrawingRequest();
 
-  request->target = m_target;
   request->type   = LINE;
   request->pos    = m_context.get_transform().apply(pos1);
   request->layer  = layer;
@@ -373,7 +365,6 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
 {
   auto request = new(m_obst) DrawingRequest();
 
-  request->target = m_target;
   request->type   = TRIANGLE;
   request->pos    = m_context.get_transform().apply(pos1);
   request->layer  = layer;

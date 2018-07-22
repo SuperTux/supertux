@@ -152,7 +152,6 @@ struct TriangleRequest : public DrawingRequestData
 
 struct DrawingRequest
 {
-  Target target;
   RequestType type;
   Vector pos;
 
@@ -166,7 +165,6 @@ struct DrawingRequest
   DrawingRequestData* request_data;
 
   DrawingRequest() :
-    target(),
     type(),
     pos(),
     layer(),
