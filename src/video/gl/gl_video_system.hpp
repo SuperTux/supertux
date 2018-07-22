@@ -23,6 +23,7 @@
 
 class GLRenderer;
 class GLLightmap;
+class Rect;
 class TextureManager;
 struct SDL_Surface;
 
@@ -49,6 +50,9 @@ public:
   void set_title(const std::string& title) override;
   void set_icon(SDL_Surface* icon) override;
   void do_take_screenshot() override;
+
+  void set_clip_rect(const Rect& rect);
+  void clear_clip_rect();
 
 private:
   GLVideoSystem(const GLVideoSystem&) = delete;

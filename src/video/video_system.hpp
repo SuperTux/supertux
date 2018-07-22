@@ -22,8 +22,9 @@
 #include "util/currenton.hpp"
 #include "video/texture_ptr.hpp"
 
-class Renderer;
 class Lightmap;
+class Rect;
+class Renderer;
 class Surface;
 class SurfaceData;
 struct SDL_Surface;
@@ -60,6 +61,9 @@ public:
   virtual void set_title(const std::string& title) = 0;
   virtual void set_icon(SDL_Surface* icon) = 0;
   virtual void do_take_screenshot() = 0;
+
+  virtual void set_clip_rect(const Rect& rect) = 0;
+  virtual void clear_clip_rect() = 0;
 
 private:
   VideoSystem(const VideoSystem&) = delete;

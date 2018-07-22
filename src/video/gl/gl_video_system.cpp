@@ -19,6 +19,7 @@
 #include <iomanip>
 #include <physfs.h>
 
+#include "math/rect.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/gl/gl_lightmap.hpp"
@@ -164,6 +165,19 @@ GLVideoSystem::do_take_screenshot()
   }
   log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
   SDL_FreeSurface(shot_surf);
+}
+
+void
+GLVideoSystem::set_clip_rect(const Rect& rect)
+{
+  glScissor(rect.left, rect.top, rect.get_width(), rect.get_height());
+  glEnable(GL_SCISSOR_TEST);
+}
+
+void
+GLVideoSystem::clear_clip_rect()
+{
+  glDisable(GL_SCISSOR_TEST);
 }
 
 /* EOF */
