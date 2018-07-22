@@ -20,7 +20,9 @@
 #include <string>
 #include <vector>
 #include <obstack.h>
+#include <boost/optional.hpp>
 
+#include "math/rect.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
@@ -50,6 +52,51 @@ public:
   }
 };
 
+class CanvasGroup
+{
+private:
+  boost::optional<Rect> m_clip_rect;
+  Canvas m_colormap_canvas;
+  Canvas m_lightmap_canvas;
+
+public:
+  CanvasGroup(DrawingContext& context, obstack& obst) :
+    m_clip_rect(),
+    m_colormap_canvas(NORMAL, context, obst),
+    m_lightmap_canvas(LIGHTMAP, context, obst)
+  {}
+
+  ~CanvasGroup()
+  {
+    m_colormap_canvas.clear();
+    m_lightmap_canvas.clear();
+  }
+
+  void set_clip_rect(const Rect& clip_rect)
+  {
+    m_clip_rect = clip_rect;
+  }
+
+  Rect get_clip_rect() const
+  {
+    return *m_clip_rect;
+  }
+
+  bool has_clip_rect() const
+  {
+    return static_cast<bool>(m_clip_rect);
+  }
+
+  Canvas& color() { return m_colormap_canvas; }
+  Canvas& light() { return m_lightmap_canvas; }
+
+  void clear()
+  {
+    m_lightmap_canvas.clear();
+    m_colormap_canvas.clear();
+  }
+};
+
 /**
  * This class provides functions for drawing things on screen. It also
  * maintains a stack of transforms that are applied to graphics.
@@ -75,16 +122,16 @@ public:
   static const Target NORMAL = ::NORMAL;
   static const Target LIGHTMAP = ::LIGHTMAP;
 
-  Canvas& color() { return m_colormap_canvas; }
-  Canvas& light() { return m_lightmap_canvas; }
+  Canvas& color() { return current_canvas_group().color(); }
+  Canvas& light() { return current_canvas_group().light(); }
   Canvas& get_canvas(Target target) {
     switch(target)
     {
       case LIGHTMAP:
-        return m_lightmap_canvas;
+        return current_canvas_group().light();
 
       default:
-        return m_colormap_canvas;
+        return current_canvas_group().color();
     }
   }
 
@@ -111,13 +158,15 @@ public:
   float get_alpha() const;
 
 private:
+  CanvasGroup& current_canvas_group() { return *m_canvas_groups.back(); }
+
+private:
   VideoSystem& m_video_system;
 
   /* obstack holding the memory of the drawing requests */
   struct obstack m_obst;
 
-  Canvas m_colormap_canvas;
-  Canvas m_lightmap_canvas;
+  std::vector<std::unique_ptr<CanvasGroup> > m_canvas_groups;
 
   Color m_ambient_color;
 
