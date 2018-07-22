@@ -69,7 +69,7 @@ public:
   void do_drawing();
 
   /// on next update, set color to lightmap's color at position
-  void get_light(const Vector& position, Color* color );
+  void get_light(const Vector& position, Color* color_out);
 
   typedef ::Target Target;
   static const Target NORMAL = ::NORMAL;
@@ -88,7 +88,7 @@ public:
     }
   }
 
-  void set_ambient_color(Color color);
+  void set_ambient_color(Color ambient_color);
 
   void push_transform();
   void pop_transform();

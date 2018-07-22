@@ -48,35 +48,33 @@ DrawingContext::~DrawingContext()
 }
 
 void
-DrawingContext::get_light(const Vector& position, Color* color)
+DrawingContext::get_light(const Vector& position, Color* color_out)
 {
-#if FIXME
   if (m_ambient_color.red == 1.0f &&
       m_ambient_color.green == 1.0f &&
       m_ambient_color.blue == 1.0f)
   {
-    *color = Color( 1.0f, 1.0f, 1.0f);
+    *color_out = Color( 1.0f, 1.0f, 1.0f);
     return;
   }
 
   auto request = new(m_obst) DrawingRequest();
-  request->target = LIGHTMAP; // FIXME: this needs to be checked again! - grumbel: 22. Jul 2018
+  request->target = LIGHTMAP; // FIXME: request->target is likely redundant now - grumbel: 22. Jul 2018
   request->type = GETLIGHT;
   request->pos = m_transform.apply(position);
 
   //There is no light offscreen.
   if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
      || request->pos.x < 0 || request->pos.y < 0){
-    *color = Color( 0, 0, 0);
+    *color_out = Color( 0, 0, 0);
     return;
   }
 
   request->layer = LAYER_GUI; //make sure all get_light requests are handled last.
   auto getlightrequest = new(m_obst) GetLightRequest();
-  getlightrequest->color_ptr = color;
+  getlightrequest->color_ptr = color_out;
   request->request_data = getlightrequest;
-  m_lightmap_requests.push_back(request);
-#endif
+  m_lightmap_requests.get_requests().push_back(request);
 }
 
 void
@@ -122,9 +120,9 @@ DrawingContext::do_drawing()
 }
 
 void
-DrawingContext::set_ambient_color(Color color)
+DrawingContext::set_ambient_color(Color ambient_color)
 {
-  m_ambient_color = color;
+  m_ambient_color = ambient_color;
 }
 
 Rectf
