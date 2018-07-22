@@ -137,7 +137,7 @@ BadGuy::draw(DrawingContext& context)
   }
 
   if (glowing) {
-    lightsprite->draw(context.color(), bbox.get_middle(), 0);
+    lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
 }
 
