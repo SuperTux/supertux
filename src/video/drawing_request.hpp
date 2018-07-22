@@ -177,11 +177,6 @@ struct DrawingRequest
     color(1.0f, 1.0f, 1.0f, 1.0f),
     request_data()
   {}
-
-  bool operator<(const DrawingRequest& other) const
-  {
-    return layer < other.layer;
-  }
 };
 
 struct GetLightRequest : public DrawingRequestData

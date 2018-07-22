@@ -391,19 +391,14 @@ DrawingContext::do_drawing()
   renderer.flip();
 }
 
-class RequestPtrCompare
-{
-public:
-  bool operator()(const DrawingRequest* r1, const DrawingRequest* r2) const
-  {
-    return *r1 < *r2;
-  }
-};
-
 void
 DrawingContext::handle_drawing_requests(DrawingRequests& requests_)
 {
-  std::stable_sort(requests_.begin(), requests_.end(), RequestPtrCompare());
+  // On a regular level, Each frame has around 1000-3000 requests
+  std::stable_sort(requests_.begin(), requests_.end(),
+                   [](const DrawingRequest* r1, const DrawingRequest* r2){
+                     return r1->layer < r2->layer;
+                   });
 
   Renderer& renderer = m_video_system.get_renderer();
   Lightmap& lightmap = m_video_system.get_lightmap();
