@@ -44,7 +44,7 @@ void
 ItemColorChannel::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
   MenuItem::draw(context, pos, menu_width, active);
   float lw = float(menu_width - 32) * (*number);
-  context.draw_filled_rect(Rectf(pos + Vector(16, 6), pos + Vector(16 + lw, 16)),
+  context.color().draw_filled_rect(Rectf(pos + Vector(16, 6), pos + Vector(16 + lw, 16)),
                            channel, 0.0f, LAYER_GUI-1);
 }
 
