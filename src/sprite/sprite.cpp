@@ -129,35 +129,37 @@ Sprite::update()
 }
 
 void
-Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
+Sprite::draw(Canvas& canvas, const Vector& pos, int layer,
              DrawingEffect effect)
 {
   assert(action != 0);
   update();
 
+
+  DrawingContext& context = canvas.get_context();
   context.push_transform();
   context.set_drawing_effect(context.get_drawing_effect() ^ effect);
-  context.draw_surface(action->surfaces[frameidx],
-                       pos - Vector(action->x_offset, action->y_offset),
-                       angle,
-                       color,
-                       blend,
-                       layer + action->z_order);
+  canvas.draw_surface(action->surfaces[frameidx],
+                      pos - Vector(action->x_offset, action->y_offset),
+                      angle,
+                      color,
+                      blend,
+                      layer + action->z_order);
   context.pop_transform();
 }
 
 void
-Sprite::draw_part(DrawingContext& context, const Vector& source,
+Sprite::draw_part(Canvas& canvas, const Vector& source,
                   const Vector& size, const Vector& pos, int layer)
 {
   assert(action != 0);
   update();
 
-  context.draw_surface_part(action->surfaces[frameidx],
-                            Rectf(source, Sizef(size)),
-                            Rectf(pos - Vector(action->x_offset, action->y_offset),
-                                  Sizef(size)),
-                            layer + action->z_order);
+  canvas.draw_surface_part(action->surfaces[frameidx],
+                           Rectf(source, Sizef(size)),
+                           Rectf(pos - Vector(action->x_offset, action->y_offset),
+                                 Sizef(size)),
+                           layer + action->z_order);
 }
 
 int
