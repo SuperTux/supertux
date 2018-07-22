@@ -74,7 +74,7 @@ LevelTile::~LevelTile()
 void
 LevelTile::draw(DrawingContext& context)
 {
-  sprite->draw(context, pos*32 + Vector(16, 16), LAYER_OBJECTS - 1);
+  sprite->draw(context.color(), pos*32 + Vector(16, 16), LAYER_OBJECTS - 1);
 }
 
 void

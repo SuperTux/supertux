@@ -19,6 +19,7 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/drawing_context.hpp"
 
 namespace worldmap {
 
@@ -56,7 +57,7 @@ SpriteChange::draw(DrawingContext& context)
 {
   if(in_stay_action && !stay_action.empty()) {
     sprite->set_action(stay_action);
-    sprite->draw(context, pos * 32, LAYER_OBJECTS-1);
+    sprite->draw(context.color(), pos * 32, LAYER_OBJECTS-1);
   }
 }
 
