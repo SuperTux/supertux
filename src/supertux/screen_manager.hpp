@@ -35,10 +35,10 @@ class ScreenFade;
 class ScreenManager : public Currenton<ScreenManager>
 {
 public:
-  ScreenManager();
+  ScreenManager(VideoSystem& video_system);
   ~ScreenManager();
 
-  void run(VideoSystem& video_system);
+  void run();
   void quit(std::unique_ptr<ScreenFade> fade = {});
   void set_speed(float speed);
   float get_speed() const;
@@ -66,6 +66,7 @@ private:
   void handle_screen_switch();
 
 private:
+  VideoSystem& m_video_system;
   std::unique_ptr<MenuStorage> m_menu_storage;
   std::unique_ptr<MenuManager> m_menu_manager;
 

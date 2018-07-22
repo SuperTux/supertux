@@ -39,8 +39,9 @@ static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);
 /** don't skip more than every 2nd frame */
 static const int MAX_FRAME_SKIP = 2;
 
-ScreenManager::ScreenManager() :
+ScreenManager::ScreenManager(VideoSystem& video_system) :
   m_waiting_threads(),
+  m_video_system(video_system),
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager),
   m_speed(1.0),
@@ -241,7 +242,7 @@ ScreenManager::process_events()
         switch(event.window.event)
         {
           case SDL_WINDOWEVENT_RESIZED:
-            VideoSystem::current()->resize(event.window.data1,
+            m_video_system.resize(event.window.data1,
                                            event.window.data2);
             m_menu_manager->on_window_resize();
             if (Editor::is_active()) {
@@ -272,7 +273,7 @@ ScreenManager::process_events()
                  (event.key.keysym.sym == SDLK_KP_ENTER || event.key.keysym.sym == SDLK_RETURN)))
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
-          VideoSystem::current()->apply_config();
+          m_video_system.apply_config();
           m_menu_manager->on_window_resize();
         }
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
@@ -367,9 +368,9 @@ ScreenManager::handle_screen_switch()
 }
 
 void
-ScreenManager::run(VideoSystem& video_system)
+ScreenManager::run()
 {
-  DrawingContext context(video_system);
+  DrawingContext context(m_video_system);
 
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
