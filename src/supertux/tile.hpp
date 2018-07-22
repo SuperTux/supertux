@@ -26,6 +26,7 @@
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
+class Canvas;
 class DrawingContext;
 
 class Tile
@@ -130,7 +131,7 @@ public:
   SurfacePtr get_current_image() const;
 
   /** Draw a tile on the screen */
-  void draw(DrawingContext& context, const Vector& pos, int z_pos, Color color = Color(1, 1, 1)) const;
+  void draw(Canvas& canvas, const Vector& pos, int z_pos, Color color = Color(1, 1, 1)) const;
 
   uint32_t getAttributes() const
   { return attributes; }

@@ -127,11 +127,11 @@ Tile::get_current_image() const
 }
 
 void
-Tile::draw(DrawingContext& context, const Vector& pos, int z_pos, Color color) const
+Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, Color color) const
 {
   SurfacePtr surface = get_current_image();
   if (surface) {
-    context.draw_surface(surface, pos, 0, color, Blend(), z_pos);
+    canvas.draw_surface(surface, pos, 0, color, Blend(), z_pos);
   }
 }
 

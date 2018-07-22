@@ -23,6 +23,7 @@
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
+class Canvas;
 class DrawingContext;
 class Tile;
 class Vector;
@@ -51,7 +52,7 @@ public:
              uint32_t offset);
   void add_tile(int id, std::unique_ptr<Tile> tile);
 
-  void draw_tile(DrawingContext& context, uint32_t id, const Vector& pos,
+  void draw_tile(Canvas& canvas, uint32_t id, const Vector& pos,
                  int z_pos, Color color = Color(1, 1, 1)) const;
 
   const Tile* get(const uint32_t id) const;
