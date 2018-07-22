@@ -68,8 +68,9 @@ public:
   /** resizes the tilemap to a new width and height (tries to not destroy the
    * existing map)
    */
-  void resize(int newwidth, int newheight, int fill_id = 0);
-  void resize(Size newsize);
+  void resize(int newwidth, int newheight, int fill_id = 0,
+              int xoffset = 0, int yoffset = 0);
+  void resize(const Size& newsize, const Size& resize_offset);
 
   size_t get_width() const
   { return width; }
@@ -82,6 +83,8 @@ public:
 
   Vector get_offset() const
   { return offset; }
+
+  void move_by(const Vector& pos);
 
   /** Get the movement of this tilemap. The collision detection code may need a
    *  non-negative y-movement. Passing `false' as the `actual' argument will
@@ -231,6 +234,8 @@ private:
 
   int new_size_x;
   int new_size_y;
+  int new_offset_x;
+  int new_offset_y;
   bool add_path;
 
 private:
