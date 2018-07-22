@@ -77,7 +77,7 @@ public:
 
   Canvas& color() { return m_drawing_requests; }
   Canvas& light() { return m_lightmap_requests; }
-  Canvas& get_target(Target target) {
+  Canvas& get_canvas(Target target) {
     switch(target)
     {
       case LIGHTMAP:

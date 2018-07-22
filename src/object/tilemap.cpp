@@ -311,6 +311,8 @@ TileMap::draw(DrawingContext& context)
 
   context.push_transform();
 
+  Canvas& canvas = context.get_canvas(draw_target);
+
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
 
   if (editor_active) {
@@ -349,7 +351,7 @@ TileMap::draw(DrawingContext& context)
         assert (index < (width * height));
 
         //uint32_t tile_id = tiles[index];
-        tileset->draw_tile(context.color(), tiles[index], pos, z_pos, current_tint);
+        tileset->draw_tile(canvas, tiles[index], pos, z_pos, current_tint);
         /*if (tiles[index] == 0) continue;
         const Tile* tile = tileset->get(tiles[index]);
         assert(tile != 0);
@@ -382,7 +384,7 @@ TileMap::draw(DrawingContext& context)
           if (h <= 32) continue;
 
           if (pos.y + h > start.y)
-            tile->draw(context.color(), pos, z_pos, current_tint);
+            tile->draw(canvas, pos, z_pos, current_tint);
         }
       }
     }
@@ -404,7 +406,7 @@ TileMap::draw(DrawingContext& context)
           if (w <= 32 && h <= 32) continue;
 
           if (pos.x + w > start.x && pos.y + h > start.y)
-            tile->draw(context.color(), pos, z_pos, current_tint);
+            tile->draw(canvas, pos, z_pos, current_tint);
         }
       }
     }
