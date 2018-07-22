@@ -253,7 +253,7 @@ GameSession::draw(DrawingContext& context)
   if(game_pause)
     draw_pause(context);
 }
-                                                                                                                                                                                                                                                                                    
+
 void
 GameSession::on_window_resize()
 {
