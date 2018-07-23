@@ -126,6 +126,9 @@ public:
 
   const Rect& get_viewport() const { return m_viewport; }
 
+  int get_width() const { return m_viewport.get_width(); }
+  int get_height() const { return m_viewport.get_height(); }
+
 private:
   VideoSystem& m_video_system;
 
