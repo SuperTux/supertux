@@ -127,8 +127,8 @@ DrawingContext::get_cliprect() const
 {
   return Rectf(get_translation().x,
                get_translation().y,
-               get_translation().x + m_viewport.get_width() + m_viewport.left,
-               get_translation().y + m_viewport.get_height() + m_viewport.top);
+               get_translation().x + m_viewport.get_width(),
+               get_translation().y + m_viewport.get_height());
 }
 
 void

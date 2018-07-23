@@ -158,14 +158,17 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position,
 
   auto request = new(m_obst) DrawingRequest();
 
-  request->type = SURFACE;
-  request->pos = apply_translate(position);
+  const auto& cliprect = m_context.get_cliprect();
 
-  if(request->pos.x >= m_context.get_width() || request->pos.y >= m_context.get_height()
-     || request->pos.x + surface->get_width() < 0
-     || request->pos.y + surface->get_height() < 0)
+  // discard clipped surface
+  if(position.x > cliprect.get_right() ||
+     position.y > cliprect.get_bottom() ||
+     position.x + surface->get_width() < cliprect.get_left() ||
+     position.y + surface->get_height() < cliprect.get_top())
     return;
 
+  request->type = SURFACE;
+  request->pos = apply_translate(position);
   request->layer = layer;
   request->drawing_effect = m_context.get_transform().drawing_effect;
   request->alpha = m_context.get_transform().alpha;
