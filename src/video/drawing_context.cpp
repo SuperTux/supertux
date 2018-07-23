@@ -31,7 +31,7 @@ bool DrawingContext::render_lighting = true;
 DrawingContext::DrawingContext(VideoSystem& video_system_) :
   m_video_system(video_system_),
   m_obst(),
-  m_clip_rect(),
+  m_viewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
   m_colormap_canvas(NORMAL, *this, m_obst),
   m_lightmap_canvas(LIGHTMAP, *this, m_obst),
   m_ambient_color(1.0f, 1.0f, 1.0f, 1.0f),
@@ -84,10 +84,7 @@ DrawingContext::render()
 
   Renderer& renderer = m_video_system.get_renderer();
 
-  if (has_clip_rect())
-  {
-    m_video_system.set_clip_rect(*m_clip_rect);
-  }
+  m_video_system.set_clip_rect(m_viewport);
 
   // Use Lightmap if ambient color is not white.
   bool use_lightmap = ( m_ambient_color.red != 1.0f ||
@@ -117,11 +114,6 @@ DrawingContext::render()
 
   obstack_free(&m_obst, NULL);
   obstack_init(&m_obst);
-
-  if (has_clip_rect())
-  {
-    m_video_system.clear_clip_rect();
-  }
 }
 
 void

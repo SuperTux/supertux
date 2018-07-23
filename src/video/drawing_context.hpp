@@ -119,20 +119,12 @@ public:
     m_colormap_canvas.clear();
   }
 
-  void set_clip_rect(const Rect& clip_rect)
+  void set_viewport(const Rect& viewport)
   {
-    m_clip_rect = clip_rect;
+    m_viewport = viewport;
   }
 
-  Rect get_clip_rect() const
-  {
-    return *m_clip_rect;
-  }
-
-  bool has_clip_rect() const
-  {
-    return static_cast<bool>(m_clip_rect);
-  }
+  const Rect& get_viewport() const { return m_viewport; }
 
 private:
   VideoSystem& m_video_system;
@@ -140,7 +132,7 @@ private:
   /* obstack holding the memory of the drawing requests */
   struct obstack m_obst;
 
-  boost::optional<Rect> m_clip_rect;
+  Rect m_viewport;
   Canvas m_colormap_canvas;
   Canvas m_lightmap_canvas;
 
