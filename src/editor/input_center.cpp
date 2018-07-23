@@ -730,7 +730,7 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
           continue;
         }
         uint32_t tile_id = tiles->pos(drawn_tile.x, drawn_tile.y);
-        editor->tileset->draw_tile(context, tile_id, tp_to_sp(on_tile) - Sector::current()->get_players()[0]->get_camera()->get_translation(),
+        editor->get_tileset()->draw_tile(context.color(), tile_id, tp_to_sp(on_tile) - Sector::current()->get_players()[0]->get_camera()->get_translation(),
                                    LAYER_GUI-11, Color(1, 1, 1, 0.5));
         /*if (tile_id) {
           const Tile* tg_tile = editor->tileset->get( tile_id );
@@ -816,9 +816,9 @@ EditorInputCenter::draw_path(DrawingContext& context) {
       node2 = &(*j);
     }
     auto cam_translation = Sector::current()->get_players()[0]->get_camera()->get_translation();
-    context.draw_line(node1->position - cam_translation,
-                      node2->position - cam_translation,
-                      Color(1, 0, 0), LAYER_GUI - 21);
+    context.color().draw_line(node1->position - cam_translation,
+                              node2->position - cam_translation,
+                              Color(1, 0, 0), LAYER_GUI - 21);
   }
 }
 

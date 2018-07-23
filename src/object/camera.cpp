@@ -159,12 +159,12 @@ Camera::after_editor_set() {
   }
 }
 
-Camera::Camera(Sector* newsector, Player* player, const std::string& name_) :
+Camera::Camera(Sector* newsector, Player* player_, const std::string& name_) :
   ExposedObject<Camera, scripting::Camera>(this),
   mode(NORMAL),
   translation(),
   sector(newsector),
-  player(player),
+  player(player_),
   lookahead_mode(LOOKAHEAD_NONE),
   changetime(),
   lookahead_pos(),
@@ -179,8 +179,8 @@ Camera::Camera(Sector* newsector, Player* player, const std::string& name_) :
   scroll_to_pos(),
   scrollspeed(),
   config(std::unique_ptr<CameraConfig>(new CameraConfig)),
-  defaultmode(NORMAL),
-  number()
+  number(),
+  defaultmode(NORMAL)
 {
   name = name_;
   reload_config();
@@ -661,8 +661,8 @@ Camera::update_scroll_normal(float elapsed_time)
 void
 Camera::update_scroll_autoscroll(float elapsed_time)
 {
-  auto player = sector->player;
-  if(player->is_dying())
+  auto player_it = sector->player;
+  if(player_it->is_dying())
     return;
 
   translation = walker->advance(elapsed_time);
@@ -687,7 +687,7 @@ Vector
 Camera::get_center() const {
   if(number == 1)
     return translation + Vector(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2);
-  if(number == 2)
+  else // if(number == 2)
     return translation + Vector(SCREEN_WIDTH / 3 * 2, SCREEN_HEIGHT / 2);
 }
 

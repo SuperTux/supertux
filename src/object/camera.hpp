@@ -65,12 +65,12 @@ public:
     translation.y = scroll_y;
   }
 
-  void set_number(int number)
+  void set_number(int number_)
   {
-    if(number <= 0)
+    if(number_ <= 0)
       return;
-    
-    this->number = number;
+
+    number = number_;
   }
 
   /**
@@ -153,12 +153,11 @@ private:
   // camera number:
   int number;
 
+  CameraMode defaultmode;
+
 private:
   Camera(const Camera&);
   Camera& operator=(const Camera&);
-
-  CameraMode defaultmode;
-
 };
 
 #endif /*SUPERTUX_CAMERA_H*/

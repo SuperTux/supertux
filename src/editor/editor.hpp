@@ -173,9 +173,7 @@ class Editor : public Screen,
   protected:
     bool levelloaded;
     bool leveltested;
-
     TileSet* tileset;
-
     EditorInputCenter inputcenter;
     EditorInputGui tileselect;
     EditorLayersGui layerselect;
