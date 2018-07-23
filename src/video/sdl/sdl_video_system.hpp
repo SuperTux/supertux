@@ -25,7 +25,7 @@ class SDLLightmap;
 class SDLRenderer;
 class TextureManager;
 
-class SDLVideoSystem : public VideoSystem
+class SDLVideoSystem final : public VideoSystem
 {
 private:
   std::unique_ptr<SDLRenderer> m_renderer;
@@ -49,8 +49,8 @@ public:
   void set_icon(SDL_Surface* icon) override;
   void do_take_screenshot() override;
 
-  void set_clip_rect(const Rect& rect);
-  void clear_clip_rect();
+  void set_clip_rect(const Rect& rect) override;
+  void clear_clip_rect() override;
 
 private:
   SDLVideoSystem(const SDLVideoSystem&) = delete;
