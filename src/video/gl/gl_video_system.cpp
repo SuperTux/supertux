@@ -170,7 +170,12 @@ GLVideoSystem::do_take_screenshot()
 void
 GLVideoSystem::set_clip_rect(const Rect& rect)
 {
-  glScissor(rect.left, rect.top, rect.get_width(), rect.get_height());
+  SDL_Rect viewport = m_renderer->get_viewport();
+
+  glScissor(viewport.w * rect.left / SCREEN_WIDTH,
+            viewport.h * rect.top / SCREEN_HEIGHT,
+            viewport.w * rect.get_width() / SCREEN_WIDTH,
+            viewport.h * rect.get_height() / SCREEN_HEIGHT);
   glEnable(GL_SCISSOR_TEST);
 }
 
