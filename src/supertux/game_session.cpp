@@ -265,8 +265,8 @@ GameSession::draw(Compositor& compositor)
     auto& context0 = compositor.make_context();
     auto& context1 = compositor.make_context();
 
-    context0.set_clip_rect(Rect(0, 0, SCREEN_WIDTH / 2 - 10, SCREEN_HEIGHT));
-    context1.set_clip_rect(Rect(SCREEN_WIDTH / 2 + 10, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
+    context0.set_viewport(Rect(0, 0, SCREEN_WIDTH / 2 - 10, SCREEN_HEIGHT));
+    context1.set_viewport(Rect(SCREEN_WIDTH / 2 + 10, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
 
     currentsector->draw(context0, players[0]);
     currentsector->draw(context1, players[1]);
