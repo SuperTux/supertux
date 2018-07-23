@@ -47,8 +47,8 @@ InfoBox::InfoBox(const std::string& text) :
 void
 InfoBox::draw(DrawingContext& context)
 {
-  float x1 = SCREEN_WIDTH/2-200;
-  float y1 = SCREEN_HEIGHT/2-200;
+  float x1 = context.get_width()/2-200;
+  float y1 = context.get_height()/2-200;
   float width = 400;
   float height = 200;
 

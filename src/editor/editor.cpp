@@ -84,11 +84,11 @@ void Editor::draw(Compositor& compositor)
 
   if (levelloaded) {
     currentsector->draw(context);
-    context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)), Color(0.0f, 0.0f, 0.0f),
+    context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(context.get_width(), context.get_height())), Color(0.0f, 0.0f, 0.0f),
                              0.0f, std::numeric_limits<int>::min());
   } else {
     context.color().draw_surface_part(bgr_surface, Rectf(Vector(0, 0), bgr_surface->get_size()),
-                              Rectf(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)), -100);
+                              Rectf(Vector(0, 0), Vector(context.get_width(), context.get_height())), -100);
   }
   inputcenter.draw(context);
   tileselect.draw(context);

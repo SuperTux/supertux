@@ -528,17 +528,17 @@ Console::draw(DrawingContext& context) const
   context.push_transform();
   context.set_alpha(m_alpha);
   context.color().draw_surface(m_background2,
-                       Vector(SCREEN_WIDTH/2 - m_background->get_width()/2 - m_background->get_width() + m_backgroundOffset,
+                       Vector(context.get_width()/2 - m_background->get_width()/2 - m_background->get_width() + m_backgroundOffset,
                               m_height - m_background->get_height()),
                        layer);
   context.color().draw_surface(m_background2,
-                       Vector(SCREEN_WIDTH/2 - m_background->get_width()/2 + m_backgroundOffset,
+                       Vector(context.get_width()/2 - m_background->get_width()/2 + m_backgroundOffset,
                               m_height - m_background->get_height()),
                        layer);
-  for (int x = (SCREEN_WIDTH/2 - m_background->get_width()/2
-                - (static_cast<int>(ceilf((float)SCREEN_WIDTH /
+  for (int x = (context.get_width()/2 - m_background->get_width()/2
+                - (static_cast<int>(ceilf((float)context.get_width() /
                                           (float)m_background->get_width()) - 1) * m_background->get_width()));
-       x < SCREEN_WIDTH;
+       x < context.get_width();
        x += m_background->get_width())
   {
     context.color().draw_surface(m_background, Vector(x, m_height - m_background->get_height()), layer);

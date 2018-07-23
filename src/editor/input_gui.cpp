@@ -63,7 +63,7 @@ EditorInputGui::EditorInputGui() :
 void
 EditorInputGui::draw(DrawingContext& context) {
   //SCREEN_WIDTH SCREEN_HEIGHT
-  context.color().draw_filled_rect(Rectf(Vector(Xpos, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)),
+  context.color().draw_filled_rect(Rectf(Vector(Xpos, 0), Vector(context.get_width(), context.get_height())),
                            Color(0.9f, 0.9f, 1.0f, 0.6f),
                            0.0f, LAYER_GUI-10);
   if (dragging) {
@@ -79,10 +79,10 @@ EditorInputGui::draw(DrawingContext& context) {
   }
 
   context.color().draw_text(Resources::normal_font, _("Tilegroups"),
-                    Vector(SCREEN_WIDTH, 0),
+                    Vector(context.get_width(), 0),
                     ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
   context.color().draw_text(Resources::normal_font, _("Objects"),
-                    Vector(SCREEN_WIDTH, 24),
+                    Vector(context.get_width(), 24),
                     ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   rubber->draw(context);

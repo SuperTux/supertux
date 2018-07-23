@@ -151,8 +151,8 @@ Canvas::render(VideoSystem& video_system)
 
 void
 Canvas::draw_surface(SurfacePtr surface, const Vector& position,
-                             float angle, const Color& color, const Blend& blend,
-                             int layer)
+                     float angle, const Color& color, const Blend& blend,
+                     int layer)
 {
   assert(surface != 0);
 
@@ -161,7 +161,7 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position,
   request->type = SURFACE;
   request->pos = apply_translate(position);
 
-  if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
+  if(request->pos.x >= m_context.get_width() || request->pos.y >= m_context.get_height()
      || request->pos.x + surface->get_width() < 0
      || request->pos.y + surface->get_height() < 0)
     return;
@@ -237,7 +237,7 @@ void
 Canvas::draw_center_text(FontPtr font, const std::string& text,
                                  const Vector& position, int layer, Color color)
 {
-  draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),
+  draw_text(font, text, Vector(position.x + m_context.get_width()/2, position.y),
             ALIGN_CENTER, layer, color);
 }
 

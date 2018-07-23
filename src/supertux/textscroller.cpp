@@ -208,16 +208,16 @@ TextScroller::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  context.color().draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+  context.color().draw_filled_rect(Vector(0, 0), Vector(context.get_width(), context.get_height()),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
   context.color().draw_surface_part(background, Rectf(0, 0, background->get_width(), background->get_height()),
-                            Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), 0);
+                            Rectf(0, 0, context.get_width(), context.get_height()), 0);
 
 
-  float y = SCREEN_HEIGHT - scroll;
+  float y = context.get_height() - scroll;
   for (auto& line : lines) {
-    if (y + line->get_height() >= 0 && SCREEN_HEIGHT - y >= 0) {
-      line->draw(context, Rectf(LEFT_BORDER, y, SCREEN_WIDTH - 2*LEFT_BORDER, y), LAYER_GUI);
+    if (y + line->get_height() >= 0 && context.get_height() - y >= 0) {
+      line->draw(context, Rectf(LEFT_BORDER, y, context.get_width() - 2*LEFT_BORDER, y), LAYER_GUI);
     }
 
     y += line->get_height();

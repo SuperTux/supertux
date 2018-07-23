@@ -243,7 +243,7 @@ void
 Background::draw_image(DrawingContext& context, const Vector& pos_)
 {
   Sizef level(Sector::current()->get_width(), Sector::current()->get_height());
-  Sizef screen(SCREEN_WIDTH, SCREEN_HEIGHT);
+  Sizef screen(context.get_width(), context.get_height());
   Sizef parallax_image_size = (1.0f - speed) * screen + level * speed;
   Rectf cliprect = context.get_cliprect();
 
@@ -325,7 +325,7 @@ Background::draw(DrawingContext& context)
 
   Sizef level_size(Sector::current()->get_width(),
                    Sector::current()->get_height());
-  Sizef screen(SCREEN_WIDTH, SCREEN_HEIGHT);
+  Sizef screen(context.get_width(), context.get_height());
   Sizef translation_range = level_size - screen;
   Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
                        context.get_translation().y - translation_range.height / 2.0f);

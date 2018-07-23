@@ -178,13 +178,13 @@ PlayerStatus::draw(DrawingContext& context)
   if (coin_surface)
   {
     context.color().draw_surface(coin_surface,
-                         Vector(SCREEN_WIDTH - BORDER_X - coin_surface->get_width() - Resources::fixed_font->get_text_width(coins_text),
+                         Vector(context.get_width() - BORDER_X - coin_surface->get_width() - Resources::fixed_font->get_text_width(coins_text),
                                 BORDER_Y + 1 + (Resources::fixed_font->get_text_height(coins_text) + 5) * player_id),
                          LAYER_HUD);
   }
   context.color().draw_text(Resources::fixed_font,
                     coins_text,
-                    Vector(SCREEN_WIDTH - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
+                    Vector(context.get_width() - BORDER_X - Resources::fixed_font->get_text_width(coins_text),
                            BORDER_Y + (Resources::fixed_font->get_text_height(coins_text) + 5) * player_id),
                     ALIGN_LEFT,
                     LAYER_HUD,
