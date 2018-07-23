@@ -24,6 +24,7 @@
 enum GameMenuIDs {
   MNID_CONTINUE,
   MNID_RESETLEVEL,
+  MNID_RESETLEVELCHECKPOINT,
   MNID_ABORTLEVEL
 };
 
@@ -32,6 +33,8 @@ class GameMenu final : public Menu
 private:
   // stores callback for level reset
   std::function<void ()> reset_callback;
+  // stores callback for level reset from checkpoint
+  std::function<void ()> reset_checkpoint_callback;
   // stores callback for level abort
   std::function<void ()> abort_callback;
 public:
