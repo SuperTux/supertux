@@ -14,26 +14,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <algorithm>
+#include "supertux/world.hpp"
 
-#include "physfs/ifile_streambuf.hpp"
+#include <physfs.h>
+
 #include "physfs/physfs_file_system.hpp"
-#include "scripting/serialize.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/player_status.hpp"
-#include "supertux/screen_fade.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/world.hpp"
-#include "supertux/savegame.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/string_util.hpp"
-#include "worldmap/worldmap.hpp"
+#include "util/writer.hpp"
 
 std::unique_ptr<World>
 World::load(const std::string& directory)
@@ -99,10 +92,6 @@ World::World() :
   m_description(),
   m_hide_from_contribs(false),
   m_is_levelset(true)
-{
-}
-
-World::~World()
 {
 }
 

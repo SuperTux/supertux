@@ -14,9 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "direction.hpp"
+#include "worldmap/direction.hpp"
 
-#include "editor/object_settings.hpp"
+#include "editor/object_option.hpp"
+#include "util/gettext.hpp"
 #include "util/log.hpp"
 
 namespace worldmap {

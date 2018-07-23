@@ -14,11 +14,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "math/random_generator.hpp"
 #include "object/candle.hpp"
+
+#include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/object_factory.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -31,8 +32,6 @@ Candle::Candle(const ReaderMapping& lisp)
     candle_light_1(SpriteManager::current()->create("images/objects/candle/candle-light-1.sprite")),
     candle_light_2(SpriteManager::current()->create("images/objects/candle/candle-light-2.sprite"))
 {
-
-  lisp.get("name", name, "");
   lisp.get("burning", burning, true);
   lisp.get("flicker", flicker, true);
   std::vector<float> vColor;
@@ -80,22 +79,19 @@ void
 Candle::draw(DrawingContext& context)
 {
   // draw regular sprite
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context.color(), get_pos(), layer);
 
   // draw on lightmap
   if (burning) {
     //Vector pos = get_pos() + (bbox.get_size() - candle_light_1->get_size()) / 2;
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
     // draw approx. 1 in 10 frames darker. Makes the candle flicker
     if (gameRandom.rand(10) != 0 || !flicker) {
-      //context.draw_surface(candle_light_1, pos, layer);
-      candle_light_1->draw(context, bbox.get_middle(), 0);
+      //context.color().draw_surface(candle_light_1, pos, layer);
+      candle_light_1->draw(context.light(), bbox.get_middle(), 0);
     } else {
-      //context.draw_surface(candle_light_2, pos, layer);
-      candle_light_2->draw(context, bbox.get_middle(), 0);
+      //context.color().draw_surface(candle_light_2, pos, layer);
+      candle_light_2->draw(context.light(), bbox.get_middle(), 0);
     }
-    context.pop_target();
   }
 }
 
@@ -127,8 +123,8 @@ Candle::get_burning() const
 void
 Candle::set_burning(bool burning_)
 {
-  if (this->burning == burning_) return;
-  this->burning = burning_;
+  if (burning == burning_) return;
+  burning = burning_;
   if (burning_) {
     sprite->set_action("on");
   } else {

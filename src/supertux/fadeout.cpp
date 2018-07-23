@@ -15,15 +15,12 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/fadeout.hpp"
+
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
 FadeOut::FadeOut(float fade_time_, Color color_)
   : color(color_), fade_time(fade_time_), accum_time(0)
-{
-}
-
-FadeOut::~FadeOut()
 {
 }
 
@@ -40,7 +37,7 @@ FadeOut::draw(DrawingContext& context)
 {
   Color col = color;
   col.alpha = accum_time / fade_time;
-  context.draw_filled_rect(Vector(0, 0),
+  context.color().draw_filled_rect(Vector(0, 0),
                            Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
                            col, LAYER_GUI+1);
 }

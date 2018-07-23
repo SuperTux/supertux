@@ -14,8 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "audio/sound_manager.hpp"
 #include "object/flower.hpp"
+
+#include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
@@ -56,10 +57,6 @@ Flower::Flower(BonusType _type) :
   set_group(COLGROUP_TOUCHABLE);
 }
 
-Flower::~Flower()
-{
-}
-
 void
 Flower::update(float )
 {
@@ -69,14 +66,11 @@ void
 Flower::draw(DrawingContext& context)
 {
   //Draw the Sprite.
-  sprite->draw(context, get_pos(), LAYER_OBJECTS, drawing_effect);
+  sprite->draw(context.color(), get_pos(), LAYER_OBJECTS, drawing_effect);
   //Draw the light when dark
   context.get_light( bbox.get_middle(), &light );
   if (light.red + light.green + light.blue < 3.0){
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, bbox.get_middle(), 0);
-    context.pop_target();
+    lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
 }
 

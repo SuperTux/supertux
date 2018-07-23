@@ -19,6 +19,7 @@
 
 #include <algorithm>
 
+#include "math/size.hpp"
 #include "object/path_object.hpp"
 #include "object/path_walker.hpp"
 #include "scripting/exposed_object.hpp"
@@ -67,8 +68,9 @@ public:
   /** resizes the tilemap to a new width and height (tries to not destroy the
    * existing map)
    */
-  void resize(int newwidth, int newheight, int fill_id = 0);
-  void resize(Size newsize);
+  void resize(int newwidth, int newheight, int fill_id = 0,
+              int xoffset = 0, int yoffset = 0);
+  void resize(const Size& newsize, const Size& resize_offset);
 
   size_t get_width() const
   { return width; }
@@ -81,6 +83,8 @@ public:
 
   Vector get_offset() const
   { return offset; }
+
+  void move_by(const Vector& pos);
 
   /** Get the movement of this tilemap. The collision detection code may need a
    *  non-negative y-movement. Passing `false' as the `actual' argument will
@@ -95,7 +99,7 @@ public:
   }
 
   void set_offset(const Vector &offset_)
-  { this->offset = offset_; }
+  { offset = offset_; }
 
   /* Returns the position of the upper-left corner of
    * tile (x, y) in the sector. */
@@ -230,6 +234,8 @@ private:
 
   int new_size_x;
   int new_size_y;
+  int new_offset_x;
+  int new_offset_y;
   bool add_path;
 
 private:

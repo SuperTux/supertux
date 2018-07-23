@@ -100,10 +100,6 @@ InfoBoxLine::InfoBoxLine(char format_char, const std::string& text_) :
   }
 }
 
-InfoBoxLine::~InfoBoxLine()
-{
-}
-
 std::vector<std::unique_ptr<InfoBoxLine> >
 InfoBoxLine::split(const std::string& text, float width)
 {
@@ -164,13 +160,13 @@ InfoBoxLine::draw(DrawingContext& context, const Rectf& bbox, int layer)
   Vector position = bbox.p1;
   switch (lineType) {
     case IMAGE:
-      context.draw_surface(image, Vector( (bbox.p1.x + bbox.p2.x - image->get_width()) / 2, position.y), layer);
+      context.color().draw_surface(image, Vector( (bbox.p1.x + bbox.p2.x - image->get_width()) / 2, position.y), layer);
       break;
     case NORMAL_LEFT:
-      context.draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer, color);
+      context.color().draw_text(font, text, Vector(position.x, position.y), ALIGN_LEFT, layer, color);
       break;
     default:
-      context.draw_text(font, text, Vector((bbox.p1.x + bbox.p2.x) / 2, position.y), ALIGN_CENTER, layer, color);
+      context.color().draw_text(font, text, Vector((bbox.p1.x + bbox.p2.x) / 2, position.y), ALIGN_CENTER, layer, color);
       break;
   }
 }

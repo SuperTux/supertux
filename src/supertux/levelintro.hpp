@@ -17,13 +17,15 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_LEVELINTRO_HPP
 #define HEADER_SUPERTUX_SUPERTUX_LEVELINTRO_HPP
 
-#include "sprite/sprite.hpp"
-#include "supertux/level.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/timer.hpp"
+#include "video/color.hpp"
 
 class DrawingContext;
+class Level;
 class PlayerStatus;
+class Statistics;
 
 /**
  * Screen that welcomes the player to a level
@@ -42,7 +44,7 @@ public:
   virtual ~LevelIntro();
 
   void setup();
-  void draw(DrawingContext& context);
+  void draw(Compositor& compositor);
   void update(float elapsed_time);
 
 private:

@@ -16,20 +16,15 @@
 
 #include "object/tilemap.hpp"
 
-#include <math.h>
-
 #include "editor/editor.hpp"
-#include "object/tilemap.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/level.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/tile_manager.hpp"
+#include "supertux/tile.hpp"
 #include "supertux/tile_set.hpp"
 #include "util/reader.hpp"
-#include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
+#include "video/surface.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
   ExposedObject<TileMap, scripting::TileMap>(this),
@@ -57,11 +52,14 @@ TileMap::TileMap(const TileSet *new_tileset) :
   draw_target(DrawingContext::NORMAL),
   new_size_x(0),
   new_size_y(0),
+  new_offset_x(0),
+  new_offset_y(0),
   add_path(false)
 {
 }
 
 TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
+  GameObject(reader),
   ExposedObject<TileMap, scripting::TileMap>(this),
   PathObject(),
   editor_active(true),
@@ -87,11 +85,12 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   draw_target(DrawingContext::NORMAL),
   new_size_x(0),
   new_size_y(0),
+  new_offset_x(0),
+  new_offset_y(0),
   add_path(false)
 {
   assert(tileset);
 
-  reader.get("name",   name);
   reader.get("solid",  real_solid);
   reader.get("speed",  speed_x);
   reader.get("speed-y", speed_y, speed_x);
@@ -209,8 +208,12 @@ ObjectSettings
 TileMap::get_settings() {
   new_size_x = width;
   new_size_y = height;
+  new_offset_x = 0;
+  new_offset_y = 0;
   ObjectSettings result = GameObject::get_settings();
   result.options.push_back( ObjectOption(MN_TOGGLE, _("solid"), &real_solid));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("resize offset x"), &new_offset_x));
+  result.options.push_back( ObjectOption(MN_INTFIELD, _("resize offset y"), &new_offset_y));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("width"), &new_size_x));
   result.options.push_back( ObjectOption(MN_INTFIELD, _("height"), &new_size_y));
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("alpha"), &alpha));
@@ -240,8 +243,10 @@ TileMap::get_settings() {
 
 void
 TileMap::after_editor_set() {
-  if (new_size_x > 0 && new_size_y > 0) {
-    resize(new_size_x, new_size_y);
+  if ((new_size_x != width || new_size_y != height ||
+      new_offset_x || new_offset_y) &&
+      new_size_x > 0 && new_size_y > 0) {
+    resize(new_size_x, new_size_y, 0, new_offset_x, new_offset_y);
   }
 
   if (walker.get() && path->is_valid()) {
@@ -305,10 +310,8 @@ TileMap::draw(DrawingContext& context)
   if (current_alpha == 0.0) return;
 
   context.push_transform();
-  if(draw_target != DrawingContext::NORMAL) {
-    context.push_target();
-    context.set_target(draw_target);
-  }
+
+  Canvas& canvas = context.get_canvas(draw_target);
 
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
 
@@ -348,7 +351,7 @@ TileMap::draw(DrawingContext& context)
         assert (index < (width * height));
 
         //uint32_t tile_id = tiles[index];
-        tileset->draw_tile(context, tiles[index], pos, z_pos, current_tint);
+        tileset->draw_tile(canvas, tiles[index], pos, z_pos, current_tint);
         /*if (tiles[index] == 0) continue;
         const Tile* tile = tileset->get(tiles[index]);
         assert(tile != 0);
@@ -381,7 +384,7 @@ TileMap::draw(DrawingContext& context)
           if (h <= 32) continue;
 
           if (pos.y + h > start.y)
-            tile->draw(context, pos, z_pos, current_tint);
+            tile->draw(canvas, pos, z_pos, current_tint);
         }
       }
     }
@@ -403,15 +406,12 @@ TileMap::draw(DrawingContext& context)
           if (w <= 32 && h <= 32) continue;
 
           if (pos.x + w > start.x && pos.y + h > start.y)
-            tile->draw(context, pos, z_pos, current_tint);
+            tile->draw(canvas, pos, z_pos, current_tint);
         }
       }
     }
   }
 
-  if(draw_target != DrawingContext::NORMAL) {
-    context.pop_target();
-  }
   context.pop_transform();
 }
 
@@ -462,7 +462,8 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
 }
 
 void
-TileMap::resize(int new_width, int new_height, int fill_id)
+TileMap::resize(int new_width, int new_height, int fill_id,
+                int xoffset, int yoffset)
 {
   if(new_width < width) {
     // remap tiles for new width
@@ -491,10 +492,27 @@ TileMap::resize(int new_width, int new_height, int fill_id)
 
   height = new_height;
   width = new_width;
+
+  //Apply offset
+  if (xoffset || yoffset) {
+    int X, Y;
+    for(int y = 0; y < height; y++) {
+      Y = (yoffset < 0) ? y : (height - y - 1);
+      for(int x = 0; x < width; x++) {
+        X = (xoffset < 0) ? x : (width - x - 1);
+        if (Y - yoffset < 0 || Y - yoffset >= height ||
+            X - xoffset < 0 || X - xoffset >= width) {
+          tiles[Y * new_width + X] = fill_id;
+        } else {
+          tiles[Y * new_width + X] = tiles[(Y - yoffset) * width + X - xoffset];
+        }
+      }
+    }
+  }
 }
 
-void TileMap::resize(Size newsize) {
-  resize(newsize.width, newsize.height);
+void TileMap::resize(const Size& newsize, const Size& resize_offset) {
+  resize(newsize.width, newsize.height, 0, resize_offset.width, resize_offset.height);
 }
 
 Rect
@@ -513,7 +531,7 @@ TileMap::get_tiles_overlapping(const Rectf &rect) const
 void
 TileMap::set_solid(bool solid)
 {
-  this->real_solid = solid;
+  real_solid = solid;
   update_effective_solid ();
 }
 
@@ -579,30 +597,42 @@ TileMap::change_all(uint32_t oldtile, uint32_t newtile)
 void
 TileMap::fade(float alpha_, float seconds)
 {
-  this->alpha = alpha_;
-  this->remaining_fade_time = seconds;
+  alpha = alpha_;
+  remaining_fade_time = seconds;
 }
 
 void
 TileMap::tint_fade(Color new_tint, float seconds)
 {
-  this->tint = new_tint;
-  this->remaining_tint_fade_time = seconds;
+  tint = new_tint;
+  remaining_tint_fade_time = seconds;
 }
 
 void
 TileMap::set_alpha(float alpha_)
 {
-  this->alpha = alpha_;
-  this->current_alpha = alpha;
-  this->remaining_fade_time = 0;
+  alpha = alpha_;
+  current_alpha = alpha;
+  remaining_fade_time = 0;
   update_effective_solid ();
 }
 
 float
 TileMap::get_alpha() const
 {
-  return this->current_alpha;
+  return current_alpha;
+}
+
+void
+TileMap::move_by(const Vector& shift)
+{
+  if (!path) {
+    path.reset(new Path(offset));
+    walker.reset(new PathWalker(path.get()));
+    add_path = true;
+  }
+  path->move_by(shift);
+  offset += shift;
 }
 
 /*

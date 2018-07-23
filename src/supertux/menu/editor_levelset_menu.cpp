@@ -16,19 +16,11 @@
 
 #include "supertux/menu/editor_levelset_menu.hpp"
 
-#include <physfs.h>
-
-#include "gui/dialog.hpp"
-#include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
-#include "gui/menu_manager.hpp"
 #include "editor/editor.hpp"
-#include "supertux/menu/menu_storage.hpp"
-#include "supertux/level.hpp"
-#include "supertux/level_parser.hpp"
 #include "supertux/world.hpp"
-#include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 
 EditorLevelsetMenu::EditorLevelsetMenu():
   world(Editor::current()->get_world()),

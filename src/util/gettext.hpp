@@ -18,10 +18,7 @@
 #define HEADER_SUPERTUX_UTIL_GETTEXT_HPP
 
 #include <tinygettext/tinygettext.hpp>
-#include <assert.h>
 #include <memory>
-
-#include "supertux/globals.hpp"
 
 extern std::unique_ptr<tinygettext::DictionaryManager> g_dictionary_manager;
 
@@ -36,12 +33,24 @@ extern std::unique_ptr<tinygettext::DictionaryManager> g_dictionary_manager;
  * http://www.mihai-nita.net/article.php?artID=20060430a
  *
  * Bad:
- *     std::string msg = _("You collected ") + num + _(" coins");
+ *     std::string greeting = _("Hello ") + name + _("!");
+ *     std::cout << _("Hello ") << name << _("!");
+ * Good:
+ *     #include <boost/format.hpp>
+ *     std::string greeting = str(boost::format(_("Hello %s!")) % name);
+ *     std::cout << boost::format(_("Hello %s!")) % name;
+ *
+ * If you need singular and plural forms use __ instead of _ and boost::format
+ * if necessary.
+ *
+ * https://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html
+ *
+ * Bad:
  *     std::cout << _("You collected ") << num << _(" coins");
  * Good:
  *     #include <boost/format.hpp>
- *     std::string msg = str(boost::format(_("You collected %d coins")) % num);
- *     std::cout << boost::format(_("You collected %d coins")) % num;
+ *     std::cout << boost::format(__("You collected %d coin",
+ *                                   "You collected %d coins", num)) % num;
  */
 
 static inline std::string _(const std::string& message)
@@ -53,6 +62,24 @@ static inline std::string _(const std::string& message)
   else
   {
     return message;
+  }
+}
+
+static inline std::string __(const std::string& message,
+    const std::string& message_plural, int num)
+{
+  if (g_dictionary_manager)
+  {
+    return g_dictionary_manager->get_dictionary().translate_plural(message,
+        message_plural, num);
+  }
+  else if (num == 1)
+  {
+    return message;
+  }
+  else
+  {
+    return message_plural;
   }
 }
 

@@ -16,19 +16,13 @@
 
 #include "supertux/game_manager.hpp"
 
-#include <sstream>
-
-#include "gui/menu_manager.hpp"
-#include "supertux/game_session.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/levelset_screen.hpp"
+#include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/world.hpp"
-#include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
@@ -40,10 +34,6 @@ GameManager::GameManager() :
   m_savegame(),
   next_worldmap(),
   next_spawnpoint()
-{
-}
-
-GameManager::~GameManager()
 {
 }
 

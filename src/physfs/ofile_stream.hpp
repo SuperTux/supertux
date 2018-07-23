@@ -19,7 +19,6 @@
 
 #include <memory>
 #include <ostream>
-#include <physfs.h>
 
 class OFileStream : public std::ostream
 {
@@ -28,7 +27,6 @@ protected:
 
 public:
   OFileStream(const std::string& filename);
-  ~OFileStream();
 
 private:
   OFileStream(const OFileStream&) = delete;

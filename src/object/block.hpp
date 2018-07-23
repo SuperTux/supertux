@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BLOCK_HPP
 #define HEADER_SUPERTUX_OBJECT_BLOCK_HPP
 
-#include <memory>
-
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
 
@@ -30,7 +28,6 @@ class Block : public MovingObject
 public:
   Block(SpritePtr sprite);
   Block(const ReaderMapping& lisp, const std::string& sprite_file);
-  ~Block();
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit) override;
   virtual void update(float elapsed_time) override;

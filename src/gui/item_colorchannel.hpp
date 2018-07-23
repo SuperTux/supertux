@@ -19,10 +19,8 @@
 
 #include "gui/menu_item.hpp"
 
-#include "supertux/timer.hpp"
 #include "video/color.hpp"
 
-//
 class ItemColorChannel : public MenuItem
 {
   public:

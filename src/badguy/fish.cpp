@@ -17,7 +17,6 @@
 #include "badguy/fish.hpp"
 
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/tile.hpp"
 
 static const float FISH_JUMP_POWER = -600;
@@ -25,14 +24,6 @@ static const float FISH_WAIT_TIME = 1;
 
 Fish::Fish(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/fish/fish.sprite", LAYER_TILES-1),
-  waiting(),
-  stop_y(0)
-{
-  physic.enable_gravity(true);
-}
-
-Fish::Fish(const Vector& pos) :
-  BadGuy(pos, "images/creatures/fish/fish.sprite", LAYER_TILES-1),
   waiting(),
   stop_y(0)
 {

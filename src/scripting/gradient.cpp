@@ -16,18 +16,12 @@
 
 #include "scripting/gradient.hpp"
 
-#include <physfs.h>
-
 #include "object/gradient.hpp"
 
 namespace scripting {
 
 Gradient::Gradient(::Gradient* parent) :
   gradient(parent)
-{
-}
-
-Gradient::~Gradient()
 {
 }
 

@@ -15,10 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "badguy/igel.hpp"
+
 #include "object/bullet.hpp"
 #include "supertux/sector.hpp"
-
-#include "supertux/object_factory.hpp"
 
 namespace {
 
@@ -30,14 +29,6 @@ const float RANGE_OF_VISION = 256; /**< range in px at which we can see bullets 
 
 Igel::Igel(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/igel/igel.sprite", "walking-left", "walking-right"),
-  turn_recover_timer()
-{
-  walk_speed = IGEL_SPEED;
-  max_drop_height = 16;
-}
-
-Igel::Igel(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/igel/igel.sprite", "walking-left", "walking-right"),
   turn_recover_timer()
 {
   walk_speed = IGEL_SPEED;

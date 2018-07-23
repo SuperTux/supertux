@@ -23,8 +23,9 @@
 #include "scripting/exposed_object.hpp"
 #include "scripting/particlesystem.hpp"
 #include "supertux/game_object.hpp"
-#include "util/reader_mapping.hpp"
 #include "video/surface_ptr.hpp"
+
+class ReaderMapping;
 
 /**
  * This is the base class for particle systems. It is responsible for storing a

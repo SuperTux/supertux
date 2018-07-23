@@ -17,15 +17,11 @@
 
 #include "control/keyboard_manager.hpp"
 
-#include "control/controller.hpp"
 #include "control/joystick_manager.hpp"
+#include "control/input_manager.hpp"
 #include "control/keyboard_config.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/console.hpp"
-#include "supertux/menu/joystick_menu.hpp"
-#include "supertux/menu/keyboard_menu.hpp"
-#include "supertux/menu/menu_storage.hpp"
-#include "util/writer.hpp"
 
 KeyboardManager::KeyboardManager(InputManager* parent,
                                  KeyboardConfig& keyboard_config) :
@@ -33,10 +29,6 @@ KeyboardManager::KeyboardManager(InputManager* parent,
   m_keyboard_config(keyboard_config),
   wait_for_key(-1),
   m_lock_text_input(false)
-{
-}
-
-KeyboardManager::~KeyboardManager()
 {
 }
 

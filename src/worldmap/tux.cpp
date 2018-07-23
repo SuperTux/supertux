@@ -15,17 +15,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "worldmap/tux.hpp"
+
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/tile.hpp"
+#include "util/log.hpp"
 #include "worldmap/level.hpp"
-#include "worldmap/tux.hpp"
+#include "worldmap/special_tile.hpp"
+#include "worldmap/sprite_change.hpp"
 
 namespace worldmap {
 
@@ -46,10 +47,6 @@ Tux::Tux(WorldMap* worldmap_) :
 {
 }
 
-Tux::~Tux()
-{
-}
-
 void
 Tux::draw(DrawingContext& context)
 {
@@ -63,7 +60,7 @@ Tux::draw(DrawingContext& context)
     log_debug << "Bonus type not handled in worldmap." << std::endl;
     sprite->set_action("large-stop");
   }
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
 }
 
 std::string

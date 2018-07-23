@@ -16,8 +16,6 @@
 
 #include "gui/item_inactive.hpp"
 
-#include <stdio.h>
-
 #include "supertux/colorscheme.hpp"
 #include "video/color.hpp"
 

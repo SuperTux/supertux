@@ -20,10 +20,7 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/info_box_line.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -165,7 +162,7 @@ InfoBlock::draw(DrawingContext& context)
   }
 
   // lines_height includes one ITEMS_SPACE too much, so the bottom border is reduced by 4px
-  context.draw_filled_rect(Vector(x1-border, y1-border), Vector(width+2*border, height+2*border-4), Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
+  context.color().draw_filled_rect(Vector(x1-border, y1-border), Vector(width+2*border, height+2*border-4), Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
 
   float y = y1;
   for(size_t i = 0; i < lines.size(); ++i) {

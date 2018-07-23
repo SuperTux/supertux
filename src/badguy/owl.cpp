@@ -17,19 +17,18 @@
 
 #include "badguy/owl.hpp"
 
-#include "editor/editor.hpp"
 #include "audio/sound_manager.hpp"
-#include "object/anchor_point.hpp"
+#include "editor/editor.hpp"
 #include "object/player.hpp"
-#include "object/rock.hpp"
+#include "object/portable.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/log.hpp"
+#include "util/writer.hpp"
 
-#define FLYING_SPEED 120.0
-#define ACTIVATION_DISTANCE 128.0
+#define FLYING_SPEED 120.f
+#define ACTIVATION_DISTANCE 128.f
 
 Owl::Owl(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/owl/owl.sprite", LAYER_OBJECTS + 1),
@@ -37,14 +36,6 @@ Owl::Owl(const ReaderMapping& reader) :
   carried_object(NULL)
 {
   reader.get("carry", carried_obj_name, "skydive");
-  set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
-}
-
-Owl::Owl(const Vector& pos, Direction d) :
-  BadGuy(pos, d, "images/creatures/owl/owl.sprite", LAYER_OBJECTS + 1),
-  carried_obj_name("skydive"),
-  carried_object(NULL)
-{
   set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
 }
 
@@ -117,8 +108,8 @@ Owl::active_update (float elapsed_time)
   if (carried_object != NULL) {
     if (!is_above_player ()) {
       Vector obj_pos = get_anchor_pos (bbox, ANCHOR_BOTTOM);
-      obj_pos.x -= 16.0; /* FIXME: Actually do use the half width of the carried object here. */
-      obj_pos.y += 3.0; /* Move a little away from the hitbox (the body). Looks nicer. */
+      obj_pos.x -= 16.f; /* FIXME: Actually do use the half width of the carried object here. */
+      obj_pos.y += 3.f; /* Move a little away from the hitbox (the body). Looks nicer. */
 
       //To drop enemie before leave the screen
       if (obj_pos.x<=16 || obj_pos.x+16>=Sector::current()->get_width()){

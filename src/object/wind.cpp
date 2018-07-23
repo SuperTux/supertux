@@ -20,13 +20,12 @@
 #include "math/random_generator.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
 Wind::Wind(const ReaderMapping& reader) :
+  MovingObject(reader),
   ExposedObject<Wind, scripting::Wind>(this),
   blowing(),
   speed(),
@@ -35,7 +34,6 @@ Wind::Wind(const ReaderMapping& reader) :
   elapsed_time(0)
 {
   float w,h;
-  reader.get("name", name,"");
   reader.get("x", bbox.p1.x, 0);
   reader.get("y", bbox.p1.y, 0);
   reader.get("width", w, 32);
@@ -76,7 +74,7 @@ Wind::get_settings() {
 void
 Wind::update(float elapsed_time_)
 {
-  this->elapsed_time = elapsed_time_;
+  elapsed_time = elapsed_time_;
 
   if (!blowing) return;
   if (bbox.get_width() <= 16 || bbox.get_height() <= 16) return;
@@ -95,7 +93,7 @@ void
 Wind::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.draw_filled_rect(bbox, Color(0.0f, 1.0f, 1.0f, 0.6f),
+    context.color().draw_filled_rect(bbox, Color(0.0f, 1.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }

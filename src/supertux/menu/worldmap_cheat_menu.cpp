@@ -20,7 +20,7 @@
 #include "gui/menu_manager.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
-#include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "worldmap/level.hpp"
 #include "worldmap/worldmap.hpp"
 

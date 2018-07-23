@@ -18,8 +18,8 @@
 #include "supertux/savegame.hpp"
 
 #include <algorithm>
+#include <physfs.h>
 
-#include "physfs/ifile_streambuf.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/serialize.hpp"
@@ -113,10 +113,6 @@ LevelsetState::get_level_state(const std::string& filename) const
 Savegame::Savegame(const std::string& filename) :
   m_filename(filename),
   m_player_status(new PlayerStatus)
-{
-}
-
-Savegame::~Savegame()
 {
 }
 

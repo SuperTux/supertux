@@ -19,21 +19,21 @@
 
 #include "sprite/sprite_data.hpp"
 #include "sprite/sprite_ptr.hpp"
+#include "video/canvas.hpp"
 #include "video/drawing_context.hpp"
 
 class Sprite
 {
 public:
   Sprite(SpriteData& data);
-  ~Sprite();
 
   SpritePtr clone() const;
 
   /** Draw sprite, automatically calculates next frame */
-  void draw(DrawingContext& context, const Vector& pos, int layer,
-      DrawingEffect effect = NO_EFFECT);
+  void draw(Canvas& canvas, const Vector& pos, int layer,
+            DrawingEffect effect = NO_EFFECT);
 
-  void draw_part(DrawingContext& context, const Vector& source,
+  void draw_part(Canvas& canvas, const Vector& source,
                  const Vector& size, const Vector& pos, int layer);
 
   /** Set action (or state) */
@@ -55,7 +55,7 @@ public:
   float get_fps() const
   { return action->fps; }
   /** Get current action total frames */
-  unsigned int get_frames() const
+  size_t get_frames() const
   { return action->surfaces.size(); }
   /** Get sprite's name */
   const std::string& get_name() const
@@ -96,10 +96,10 @@ public:
   unsigned int get_frame() const
   { return frameidx; }
   /** Set current frame */
-  void set_frame(int frame_)
+  void set_frame(unsigned int frame_)
   {
-    this->frame = 0;
-    this->frameidx = frame_ % get_frames();
+    frame = 0;
+    frameidx = frame_ % get_frames();
   }
   SurfacePtr get_frame(unsigned int frame_) const
   {

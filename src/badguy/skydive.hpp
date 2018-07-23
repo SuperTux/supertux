@@ -27,7 +27,6 @@ class SkyDive : public BadGuy, public Portable
 
   public:
     SkyDive(const ReaderMapping& reader);
-    SkyDive(const Vector& pos, Direction d);
 
     void collision_solid(const CollisionHit& hit);
     HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);

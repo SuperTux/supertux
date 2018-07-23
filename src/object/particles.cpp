@@ -101,10 +101,6 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
   }
 }
 
-Particles::~Particles()
-{
-}
-
 void
 Particles::update(float elapsed_time)
 {
@@ -142,7 +138,7 @@ Particles::draw(DrawingContext& context)
 {
   // draw particles
   for(auto& particle : particles) {
-    context.draw_filled_rect(particle->pos, Vector(size,size), color, drawing_layer);
+    context.color().draw_filled_rect(particle->pos, Vector(size,size), color, drawing_layer);
   }
 }
 

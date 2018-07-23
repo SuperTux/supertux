@@ -14,31 +14,22 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <vector>
-
 #include "editor/input_gui.hpp"
 
 #include "editor/editor.hpp"
-#include "editor/object_group.hpp"
 #include "editor/object_input.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/console.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/level.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/tile.hpp"
-#include "supertux/tile_manager.hpp"
 #include "util/gettext.hpp"
-#include "util/log.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
@@ -69,32 +60,28 @@ EditorInputGui::EditorInputGui() :
   //settings_mode->push_mode("images/engine/editor/settings-mode1.png");
 }
 
-EditorInputGui::~EditorInputGui() {
-
-}
-
 void
 EditorInputGui::draw(DrawingContext& context) {
   //SCREEN_WIDTH SCREEN_HEIGHT
-  context.draw_filled_rect(Rectf(Vector(Xpos, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)),
+  context.color().draw_filled_rect(Rectf(Vector(Xpos, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)),
                            Color(0.9f, 0.9f, 1.0f, 0.6f),
                            0.0f, LAYER_GUI-10);
   if (dragging) {
-    context.draw_filled_rect(selection_draw_rect(), Color(0.2f, 0.4f, 1.0f, 0.6f),
+    context.color().draw_filled_rect(selection_draw_rect(), Color(0.2f, 0.4f, 1.0f, 0.6f),
                              0.0f, LAYER_GUI+1);
   }
 
   if(hovered_item != HI_NONE)
   {
-    context.draw_filled_rect(get_item_rect(hovered_item),
+    context.color().draw_filled_rect(get_item_rect(hovered_item),
                              Color(0.9f, 0.9f, 1.0f, 0.6f),
                              0.0f, LAYER_GUI - 5);
   }
 
-  context.draw_text(Resources::normal_font, _("Tilegroups"),
+  context.color().draw_text(Resources::normal_font, _("Tilegroups"),
                     Vector(SCREEN_WIDTH, 0),
                     ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
-  context.draw_text(Resources::normal_font, _("Objects"),
+  context.color().draw_text(Resources::normal_font, _("Objects"),
                     Vector(SCREEN_WIDTH, 24),
                     ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
 
@@ -117,19 +104,19 @@ EditorInputGui::draw_tilegroup(DrawingContext& context) {
         continue;
       }
       auto position = get_tile_coords(pos - starting_tile);
-      Editor::current()->tileset->draw_tile(context, tile_ID, position, LAYER_GUI-9);
-      
+      Editor::current()->get_tileset()->draw_tile(context.color(), tile_ID, position, LAYER_GUI-9);
+
       if (g_config->developer_mode && active_tilegroup->developers_group)
       {
         // Display tile ID on top of tile:
-        context.draw_text(Console::current()->get_font(), std::to_string(tile_ID),
+        context.color().draw_text(Console::current()->get_font(), std::to_string(tile_ID),
                           position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
       }
       /*if (tile_ID == 0) {
         continue;
       }
-      const Tile* tg_tile = Editor::current()->tileset->get(tile_ID);
-      tg_tile->draw(context, get_tile_coords(pos - starting_tile), LAYER_GUI-9);*/
+      const Tile* tg_tile = Editor::current()->get_tileset()->get(tile_ID);
+      tg_tile->draw(context.color(), get_tile_coords(pos - starting_tile), LAYER_GUI-9);*/
     }
   }
 }
@@ -254,14 +241,14 @@ EditorInputGui::event(SDL_Event& ev) {
           case HI_TILEGROUP:
           {
             auto editor = Editor::current();
-            if(editor->tileset->tilegroups.size() > 1)
+            if(editor->get_tileset()->tilegroups.size() > 1)
             {
               Editor::current()->disable_keyboard();
               MenuManager::instance().push_menu(MenuStorage::EDITOR_TILEGROUP_MENU);
             }
             else
             {
-              active_tilegroup.reset(new Tilegroup(editor->tileset->tilegroups[0]));
+              active_tilegroup.reset(new Tilegroup(editor->get_tileset()->tilegroups[0]));
               input_type = EditorInputGui::IP_TILE;
               reset_pos();
               update_mouse_icon();
@@ -351,7 +338,6 @@ EditorInputGui::event(SDL_Event& ev) {
     case SDL_MOUSEBUTTONUP:
       dragging = false;
       return false;
-      break;
 
     case SDL_MOUSEMOTION:
     {
@@ -399,7 +385,6 @@ EditorInputGui::event(SDL_Event& ev) {
       }
       return false;
     case SDL_MOUSEWHEEL:
-    {
       if (hovered_item != HI_NONE)
       {
         if (ev.wheel.y > 0) {
@@ -411,10 +396,9 @@ EditorInputGui::event(SDL_Event& ev) {
         using_scroll_wheel = true;
         wheel_scroll_amount = ev.wheel.y;
       }
-    }
+      return false;
     default:
       return false;
-      break;
   }
   return true;
 }

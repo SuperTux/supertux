@@ -18,15 +18,12 @@
 #ifndef HEADER_SUPERTUX_BADGUY_YETI_HPP
 #define HEADER_SUPERTUX_BADGUY_YETI_HPP
 
-#include <memory>
-
 #include "badguy/badguy.hpp"
 
 class Yeti : public BadGuy
 {
 public:
   Yeti(const ReaderMapping& lisp);
-  ~Yeti();
 
   void draw(DrawingContext& context);
   void initialize();

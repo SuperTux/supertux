@@ -3,7 +3,7 @@
 package_name="SuperTux"
 package_version="$(git describe --tags --match "?[0-9]*.[0-9]*.[0-9]*")"
 
-xgettext --keyword='_' -C -o data/locale/main.pot \
+xgettext --keyword='_' --keyword='__:1,2' -C -o data/locale/main.pot \
   $(find src -name "*.cpp" -or -name "*.hpp") \
   --add-comments=l10n \
   --package-name="${package_name}" --package-version="${package_version}" \

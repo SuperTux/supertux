@@ -21,8 +21,8 @@
 
 #include "supertux/timer.hpp"
 
-class DrawingContext;
 class Color;
+class DrawingContext;
 class ReaderMapping;
 
 class SecretAreaTrigger : public TriggerBase
@@ -31,7 +31,6 @@ class SecretAreaTrigger : public TriggerBase
 public:
   SecretAreaTrigger(const ReaderMapping& reader);
   SecretAreaTrigger(const Rectf& area, std::string fade_tilemap = "");
-  ~SecretAreaTrigger();
 
   std::string get_class() const {
     return "secretarea";

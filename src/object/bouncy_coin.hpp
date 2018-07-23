@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BOUNCY_COIN_HPP
 #define HEADER_SUPERTUX_OBJECT_BOUNCY_COIN_HPP
 
-#include <memory>
-
 #include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
@@ -29,7 +27,6 @@ class BouncyCoin : public GameObject
 public:
   BouncyCoin(const Vector& pos, bool emerge = false,
              const std::string& sprite_path = "images/objects/coin/coin.sprite");
-  ~BouncyCoin();
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
   virtual bool is_saveable() const {

@@ -18,10 +18,8 @@
 #ifndef HEADER_SUPERTUX_CONTROL_JOYSTICK_MANAGER_HPP
 #define HEADER_SUPERTUX_CONTROL_JOYSTICK_MANAGER_HPP
 
-#include <map>
+#include <SDL.h>
 #include <vector>
-
-#include "SDL.h"
 
 #include "control/controller.hpp"
 

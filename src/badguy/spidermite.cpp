@@ -18,21 +18,12 @@
 
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 static const float FLYTIME = 1.2f;
 static const float MOVE_SPEED = -100.0f;
 
 SpiderMite::SpiderMite(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/spidermite/spidermite.sprite"),
-  mode(),
-  timer()
-{
-  physic.enable_gravity(false);
-}
-
-SpiderMite::SpiderMite(const Vector& pos) :
-  BadGuy(pos, "images/creatures/spidermite/spidermite.sprite"),
   mode(),
   timer()
 {

@@ -14,16 +14,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "editor/worldmap_objects.hpp"
+
 #include <physfs.h>
 
 #include "editor/editor.hpp"
-#include "editor/worldmap_objects.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 namespace worldmap_editor {
 
@@ -49,10 +51,6 @@ WorldmapObject::WorldmapObject (const Vector& pos, const std::string& default_sp
   bbox.p1.x = 32 * bbox.p1.x;
   bbox.p1.y = 32 * bbox.p1.y;
   bbox.set_size(32, 32);
-}
-
-WorldmapObject::~WorldmapObject() {
-
 }
 
 void
@@ -89,12 +87,10 @@ LevelDot::LevelDot (const ReaderMapping& lisp) :
     FileSystem::join(Editor::current()->get_world()->get_basedir(), name) : name;
 }
 
-LevelDot::~LevelDot() { }
-
 void
 LevelDot::draw(DrawingContext& context)
 {
-  sprite->draw(context, bbox.p1 + Vector(16, 16), layer);
+  sprite->draw(context.color(), bbox.p1 + Vector(16, 16), layer);
 }
 
 ObjectSettings
@@ -168,15 +164,13 @@ Teleporter::Teleporter (const ReaderMapping& lisp) :
 
   lisp.get("automatic", automatic);
 
-  change_worldmap = worldmap.size();
+  change_worldmap = worldmap.size() > 0;
 }
-
-Teleporter::~Teleporter() { }
 
 void
 Teleporter::draw(DrawingContext& context)
 {
-  sprite->draw(context, bbox.p1 + Vector(16, 16), layer);
+  sprite->draw(context.color(), bbox.p1 + Vector(16, 16), layer);
 }
 
 void
@@ -230,8 +224,6 @@ WorldmapSpawnPoint::WorldmapSpawnPoint (const std::string& name_, const Vector& 
   name = name_;
 }
 
-WorldmapSpawnPoint::~WorldmapSpawnPoint() { }
-
 void
 WorldmapSpawnPoint::save(Writer& writer) {
   WorldmapObject::save(writer);
@@ -264,8 +256,6 @@ SpriteChange::SpriteChange (const ReaderMapping& lisp) :
 
   lisp.get("change-on-touch", change_on_touch);
 }
-
-SpriteChange::~SpriteChange() { }
 
 void
 SpriteChange::save(Writer& writer) {
@@ -312,8 +302,6 @@ SpecialTile::SpecialTile (const ReaderMapping& lisp) :
     apply_to_direction = worldmap::string_to_direction(dir_str);
   }
 }
-
-SpecialTile::~SpecialTile() { }
 
 void
 SpecialTile::save(Writer& writer) {

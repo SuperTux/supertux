@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2018 Ashish Bhattarai <ashishbhattarai@protonmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,14 +14,40 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_UTIL_READER_FWD_HPP
-#define HEADER_SUPERTUX_UTIL_READER_FWD_HPP
+#ifndef HEADER_SUPERTUX_SCRIPTING_DISPENSER_HPP
+#define HEADER_SUPERTUX_SCRIPTING_DISPENSER_HPP
 
-class ReaderMapping;
-class ReaderCollection;
-class ReaderObject;
-
+#ifndef SCRIPTING_API
+class Dispenser;
 #endif
 
-/* EOF */
+namespace scripting {
 
+class Dispenser
+{
+#ifndef SCRIPTING_API
+private:
+  ::Dispenser* m_parent;
+
+public:
+  Dispenser(::Dispenser* parent);
+
+private:
+  Dispenser(const Dispenser&) = delete;
+  Dispenser& operator=(const Dispenser&) = delete;
+#endif
+
+public:
+  /**
+   * Make the Dispenser start dispensing BadGuys
+   */
+  void activate();
+  /**
+   * Make the Dispenser stop dispensing BadGuys
+   */
+  void deactivate();
+
+};
+}
+
+#endif

@@ -46,10 +46,6 @@ ObjectGroup::ObjectGroup(const ReaderMapping& reader) :
   }
 }
 
-ObjectGroup::~ObjectGroup()
-{
-}
-
 void
 ObjectGroup::add_icon(const std::string& object, const std::string& icon_path) {
   ObjectIcon new_icon(object, icon_path);

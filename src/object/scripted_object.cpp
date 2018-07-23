@@ -16,15 +16,10 @@
 
 #include "object/scripted_object.hpp"
 
-#include <stdio.h>
-
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -40,7 +35,6 @@ ScriptedObject::ScriptedObject(const ReaderMapping& lisp) :
   new_vel(),
   new_size()
 {
-  lisp.get("name", name, "");
   if(name.empty()) {
     name = "unnamed" + std::to_string(graphicsRandom.rand());
     log_warning << "Scripted object must have a name specified, setting to: " << name << std::endl;
@@ -113,7 +107,7 @@ ScriptedObject::get_velocity_y() const
 void
 ScriptedObject::set_visible(bool visible_)
 {
-  this->visible = visible_;
+  visible = visible_;
 }
 
 bool
@@ -125,7 +119,7 @@ ScriptedObject::is_visible() const
 void
 ScriptedObject::set_solid(bool solid_)
 {
-  this->solid = solid_;
+  solid = solid_;
   if( solid ){
     set_group( COLGROUP_MOVING_STATIC );
   } else {
@@ -188,7 +182,7 @@ ScriptedObject::draw(DrawingContext& context)
   if(!visible)
     return;
 
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context.color(), get_pos(), layer);
 }
 
 void

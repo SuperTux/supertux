@@ -16,18 +16,12 @@
 
 #include "scripting/sector.hpp"
 
-#include <physfs.h>
-
 #include "supertux/sector.hpp"
 
 namespace scripting {
 
 Sector::Sector(::Sector* parent) :
   m_parent(parent)
-{
-}
-
-Sector::~Sector()
 {
 }
 

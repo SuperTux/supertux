@@ -59,9 +59,6 @@ RandomGenerator::RandomGenerator() :
   initialize();
 }
 
-RandomGenerator::~RandomGenerator() {
-}
-
 int RandomGenerator::srand(int x)    {
   int x0 = x;
   while (x <= 0)                          // random seed of zero means
@@ -100,7 +97,7 @@ int RandomGenerator::rand(int u, int v) {
 }
 
 double RandomGenerator::randf(double v) {
-  float rv;
+  double rv;
   do {
     rv = ((double)RandomGenerator::random())/RandomGenerator::rand_max * v;
   } while (rv >= v);                      // rounding might cause rv==v

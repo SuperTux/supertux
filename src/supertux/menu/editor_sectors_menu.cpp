@@ -16,20 +16,15 @@
 
 #include "supertux/menu/editor_sectors_menu.hpp"
 
-#include <sstream>
-
-#include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/game_manager.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/sector_parser.hpp"
-#include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 
 EditorSectorsMenu::EditorSectorsMenu()
 {
@@ -77,7 +72,7 @@ EditorSectorsMenu::create_sector()
     sector_name = "sector" + std::to_string(num);
     num++;
   } while ( level->get_sector(sector_name) );
-  *(new_sector->get_name_ptr()) = sector_name;
+  new_sector->set_name(sector_name);
 
   level->add_sector(move(new_sector));
   Editor::current()->load_sector(level->get_sector_count() - 1);

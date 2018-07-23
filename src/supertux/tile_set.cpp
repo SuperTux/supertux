@@ -18,8 +18,10 @@
 
 #include "editor/editor.hpp"
 #include "supertux/resources.hpp"
+#include "supertux/tile.hpp"
 #include "supertux/tile_set_parser.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
@@ -29,10 +31,6 @@ Tilegroup::Tilegroup() :
   tiles()
 {
   tiles.clear();
-}
-
-Tilegroup::~Tilegroup() {
-
 }
 
 /*
@@ -97,10 +95,6 @@ TileSet::TileSet(const std::string& filename) :
   }
 }
 
-TileSet::~TileSet()
-{
-}
-
 void
 TileSet::add_tile(int id, std::unique_ptr<Tile> tile)
 {
@@ -135,7 +129,7 @@ TileSet::get(const uint32_t id) const
 }
 
 void
-TileSet::draw_tile(DrawingContext& context, uint32_t id, const Vector& pos,
+TileSet::draw_tile(Canvas& canvas, uint32_t id, const Vector& pos,
                    int z_pos, Color color) const
 {
   if (id == 0) return;
@@ -148,11 +142,11 @@ TileSet::draw_tile(DrawingContext& context, uint32_t id, const Vector& pos,
 
   if (tile) {
     tile->load_images();
-    tile->draw(context, pos, z_pos, color);
+    tile->draw(canvas, pos, z_pos, color);
   } else if (Editor::is_active()) { // Draw a notile sign
-    context.draw_surface(notile_surface, pos, 0, color, Blend(), z_pos);
-    context.draw_text(Resources::small_font, std::to_string(id),
-                      pos + Vector(16, 16), ALIGN_CENTER, z_pos, color);
+    canvas.draw_surface(notile_surface, pos, 0, color, Blend(), z_pos);
+    canvas.draw_text(Resources::small_font, std::to_string(id),
+                     pos + Vector(16, 16), ALIGN_CENTER, z_pos, color);
   }
 }
 

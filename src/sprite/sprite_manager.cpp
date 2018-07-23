@@ -22,15 +22,9 @@
 #include "util/reader_mapping.hpp"
 
 #include <sstream>
-#include <stdexcept>
-
 
 SpriteManager::SpriteManager() :
   sprites()
-{
-}
-
-SpriteManager::~SpriteManager()
 {
 }
 

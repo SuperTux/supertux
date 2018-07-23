@@ -14,10 +14,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/fireworks.hpp"
+
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
-#include "object/fireworks.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
 #include "supertux/globals.hpp"
@@ -29,10 +30,6 @@ Fireworks::Fireworks() :
 {
   timer.start(.2f);
   SoundManager::current()->preload("sounds/fireworks.wav");
-}
-
-Fireworks::~Fireworks()
-{
 }
 
 void
@@ -48,10 +45,6 @@ Fireworks::update(float )
 
       float red = graphicsRandom.randf(1.0);
       float green = graphicsRandom.randf(1.0);
-      //float red = 0.7;
-      //float green = 0.9;
-      (void) red;
-      (void) green;
       sector->add_object(std::make_shared<Particles>(pos, 0, 360, 140, 140,
                                                     Vector(0, 0), 45, Color(red, green, 0), 3, 1.3f,
                                                     LAYER_FOREGROUND1+1));

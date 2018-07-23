@@ -18,20 +18,19 @@
 #define HEADER_SUPERTUX_EDITOR_EDITOR_HPP
 
 #include <string>
-#include <stdexcept>
 
-#include "control/input_manager.hpp"
 #include "editor/input_center.hpp"
 #include "editor/input_gui.hpp"
 #include "editor/layers_gui.hpp"
 #include "editor/scroller.hpp"
-#include "gui/menu.hpp"
-#include "gui/menu_manager.hpp"
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 #include "video/surface_ptr.hpp"
 
+class GameObject;
 class Level;
+class ObjectGroup;
+class Path;
 class Savegame;
 class Sector;
 class TileSet;
@@ -42,9 +41,8 @@ class Editor : public Screen,
 {
   public:
     Editor();
-    ~Editor();
 
-    virtual void draw(DrawingContext&) override;
+    virtual void draw(Compositor&) override;
     virtual void update(float elapsed_time) override;
 
     virtual void setup() override;
@@ -54,16 +52,6 @@ class Editor : public Screen,
     void resize();
 
   protected:
-    friend class EditorInputCenter;
-    friend class EditorInputGui;
-    friend class EditorLayersGui;
-    friend class EditorLevelSelectMenu;
-    friend class EditorLevelsetSelectMenu;
-    friend class EditorNewLevelsetMenu;
-    friend class EditorObjectgroupMenu;
-    friend class EditorScroller;
-    friend class EditorTilegroupMenu;
-
     std::unique_ptr<Level> level;
     std::unique_ptr<World> world;
 
@@ -94,9 +82,27 @@ class Editor : public Screen,
       return world.get();
     }
 
+    void set_world(std::unique_ptr<World> w);
+
     TileSet* get_tileset() const {
       return tileset;
     }
+
+    TileSelection* get_tiles() const {
+      return tileselect.tiles.get();
+    }
+
+    const std::string& get_tileselect_object() const {
+      return tileselect.object;
+    }
+
+    EditorInputGui::InputType get_tileselect_input_type() const {
+      return tileselect.input_type;
+    }
+
+    int get_tileselect_select_mode() const;
+
+    int get_tileselect_move_mode() const;
 
     std::string get_levelfile() const {
       return levelfile;
@@ -135,11 +141,34 @@ class Editor : public Screen,
     void delete_markers();
     void sort_layers();
 
+    void select_tilegroup(int id);
+    const std::vector<Tilegroup>& get_tilegroups() const;
     void change_tileset();
+
+    void select_objectgroup(int id);
+    const std::vector<ObjectGroup>& get_objectgroups() const;
 
     std::unique_ptr<Savegame> m_savegame;
 
     Sector* currentsector;
+
+    // speed is in tiles per frame
+    void scroll_up(float speed = 1.0f);
+    void scroll_down(float speed = 1.0f);
+    void scroll_left(float speed = 1.0f);
+    void scroll_right(float speed = 1.0f);
+
+    bool is_level_loaded() const { return levelloaded; }
+
+    void edit_path(Path* path, GameObject* new_marked_object) {
+      inputcenter.edit_path(path, new_marked_object);
+    }
+
+    void add_layer(GameObject* layer) {
+      layerselect.add_layer(layer);
+    }
+
+    GameObject* get_selected_tilemap() const { return layerselect.selected_tilemap; }
 
   protected:
     bool levelloaded;
@@ -151,12 +180,6 @@ class Editor : public Screen,
     EditorInputGui tileselect;
     EditorLayersGui layerselect;
     EditorScroller scroller;
-
-    // speed is in tiles per frame
-    void scroll_up(float speed = 1.0f);
-    void scroll_down(float speed = 1.0f);
-    void scroll_left(float speed = 1.0f);
-    void scroll_right(float speed = 1.0f);
 
   private:
     bool enabled;

@@ -37,10 +37,6 @@ BouncyCoin::BouncyCoin(const Vector& pos, bool emerge, const std::string& sprite
   }
 }
 
-BouncyCoin::~BouncyCoin()
-{
-}
-
 void
 BouncyCoin::update(float elapsed_time)
 {
@@ -69,7 +65,7 @@ BouncyCoin::draw(DrawingContext& context)
   } else {
     layer = LAYER_OBJECTS + 5;
   }
-  sprite->draw(context, position, layer);
+  sprite->draw(context.color(), position, layer);
 
   if(fading) {
     context.pop_transform();

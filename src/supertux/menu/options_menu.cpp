@@ -18,19 +18,15 @@
 #include "supertux/menu/options_menu.hpp"
 
 #include "audio/sound_manager.hpp"
+#include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/menu/joystick_menu.hpp"
-#include "supertux/menu/keyboard_menu.hpp"
-#include "supertux/menu/language_menu.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/profile_menu.hpp"
-#include "util/string_util.hpp"
+#include "util/gettext.hpp"
+#include "util/log.hpp"
 #include "video/renderer.hpp"
-
-#include <algorithm>
-#include <sstream>
-#include <stdio.h>
 
 enum OptionsMenuIDs {
   MNID_FULLSCREEN,
@@ -41,7 +37,8 @@ enum OptionsMenuIDs {
   MNID_MUSIC,
   MNID_DEVELOPER_MODE,
   MNID_CHRISTMAS_MODE,
-  MNID_TRANSITIONS
+  MNID_TRANSITIONS,
+  MNID_CONFIRMATION_DIALOG
 };
 
 OptionsMenu::OptionsMenu(bool complete) :
@@ -88,7 +85,7 @@ OptionsMenu::OptionsMenu(bool complete) :
     }
     if (!magn.empty()) //magnification not in our list but accept anyway
     {
-      next_magnification = magnifications.size();
+      next_magnification = static_cast<int>(magnifications.size());
       magnifications.push_back(magn);
     }
   }
@@ -234,6 +231,7 @@ OptionsMenu::OptionsMenu(bool complete) :
     add_toggle(MNID_CHRISTMAS_MODE, _("Christmas Mode"), &g_config->christmas_mode);
   }
 
+  add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog)->set_help("Confirm aborting level");
   add_hl();
   add_back(_("Back"));
 }
@@ -278,6 +276,10 @@ OptionsMenu::menu_action(MenuItem* item)
       }
       VideoSystem::current()->get_renderer().apply_config();
       MenuManager::instance().on_window_resize();
+      if(GameSession::current() != NULL)
+      {
+        GameSession::current()->on_window_resize();
+      }
       break;
 
     case MNID_FULLSCREEN_RESOLUTION:

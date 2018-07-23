@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_SUPERTUX_CONSOLE_HPP
 
 #include <list>
-#include <memory>
 #include <squirrel.h>
 #include <sstream>
 #include <vector>

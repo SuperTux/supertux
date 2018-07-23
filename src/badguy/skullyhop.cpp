@@ -19,7 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 namespace {
 const float MIN_RECOVER_TIME = 0.1f; /**< minimum time to stand still before starting a (new) jump */
@@ -29,14 +28,6 @@ static const std::string SKULLYHOP_SOUND = "sounds/hop.ogg";
 
 SkullyHop::SkullyHop(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/skullyhop/skullyhop.sprite"),
-  recover_timer(),
-  state()
-{
-  SoundManager::current()->preload( SKULLYHOP_SOUND );
-}
-
-SkullyHop::SkullyHop(const Vector& pos, Direction d) :
-  BadGuy(pos, d, "images/creatures/skullyhop/skullyhop.sprite"),
   recover_timer(),
   state()
 {
@@ -119,7 +110,7 @@ SkullyHop::collision_solid(const CollisionHit& hit)
   if(hit.left || hit.right) {
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "jumping-left" : "jumping-right");
-    physic.set_velocity_x(-0.25*physic.get_velocity_x());
+    physic.set_velocity_x(-0.25f*physic.get_velocity_x());
   }
 }
 

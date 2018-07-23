@@ -19,7 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 
 /*
  * Kamikaze Snowball will fly in one direction until he hits something.
@@ -33,13 +32,6 @@ namespace{
 
 KamikazeSnowball::KamikazeSnowball(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/snowball/kamikaze-snowball.sprite")
-{
-  SoundManager::current()->preload(SPLAT_SOUND);
-  set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
-}
-
-KamikazeSnowball::KamikazeSnowball(const Vector& pos, Direction d)
-  : BadGuy(pos, d, "images/creatures/snowball/kamikaze-snowball.sprite")
 {
   SoundManager::current()->preload(SPLAT_SOUND);
   set_action (dir == LEFT ? "left" : "right", /* loops = */ -1);
@@ -121,6 +113,16 @@ LeafShot::initialize()
 bool
 LeafShot::is_freezable() const
 {
+  return true;
+}
+
+bool
+LeafShot::collision_squished(GameObject& object)
+{
+  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  // Spawn death particles
+  spawn_explosion_sprites(3, "images/objects/particles/leafshot.sprite");
+  kill_squished(object);
   return true;
 }
 

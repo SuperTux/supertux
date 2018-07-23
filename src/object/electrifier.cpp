@@ -15,25 +15,33 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/electrifier.hpp"
+
 #include "supertux/sector.hpp"
 
-Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds) :
-  change_from(oldtile),
-  change_to(newtile),
+Electrifier::Electrifier(TileChangeMap replacements, float seconds) :
+  change_map(replacements),
   duration()
 {
   duration.start(seconds);
-  Sector::current()->change_solid_tiles(change_from,change_to);
+  for(auto& tile : change_map) {
+    Sector::current()->change_solid_tiles(tile.first, tile.second);
+  }
 }
 
-Electrifier::~Electrifier() {
+Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds) :
+  change_map({{oldtile, newtile}}),
+  duration()
+{
+  Electrifier(change_map, seconds);
 }
 
 void
 Electrifier::update(float )
 {
   if (duration.check()) {
-    Sector::current()->change_solid_tiles(change_to,change_from);
+    for(const auto& tile : change_map){
+      Sector::current()->change_solid_tiles(tile.second, tile.first);
+    }
     remove_me();
   }
 }

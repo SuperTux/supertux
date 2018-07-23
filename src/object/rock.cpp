@@ -14,14 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/rock.hpp"
+
 #include "audio/sound_manager.hpp"
 #include "object/explosion.hpp"
-#include "object/rock.hpp"
 #include "object/coin.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
-#include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace {
@@ -52,7 +51,6 @@ Rock::Rock(const ReaderMapping& reader) :
   on_grab_script(),
   on_ungrab_script()
 {
-  reader.get("name", name, "");
   reader.get("on-grab-script", on_grab_script, "");
   reader.get("on-ungrab-script", on_ungrab_script, "");
   SoundManager::current()->preload(ROCK_SOUND);
@@ -69,7 +67,6 @@ Rock::Rock(const ReaderMapping& reader, const std::string& spritename) :
   on_grab_script(),
   on_ungrab_script()
 {
-  if(!reader.get("name", name)) name = "";
   if(!reader.get("on-grab-script", on_grab_script)) on_grab_script = "";
   if(!reader.get("on-ungrab-script", on_ungrab_script)) on_ungrab_script = "";
   SoundManager::current()->preload(ROCK_SOUND);

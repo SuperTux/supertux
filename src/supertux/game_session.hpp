@@ -22,15 +22,16 @@
 #include <squirrel.h>
 
 #include "math/vector.hpp"
-#include "object/endsequence.hpp"
+#include "object/player.hpp"
 #include "supertux/game_session_recorder.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/sequence.hpp"
-#include "supertux/player_status.hpp"
 #include "util/currenton.hpp"
+#include "video/surface_ptr.hpp"
 
 class CodeController;
 class DrawingContext;
+class EndSequence;
 class Level;
 class Sector;
 class Statistics;
@@ -45,17 +46,18 @@ class GameSession : public Screen,
 {
 public:
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = NULL);
-  ~GameSession();
 
-  void draw(DrawingContext& context) override;
-  void update(float frame_ratio) override;
-  void setup() override;
-  void leave() override;
+  virtual void draw(Compositor& compositor) override;
+  virtual void update(float frame_ratio) override;
+  virtual void setup() override;
+  virtual void leave() override;
+
   void on_window_resize();
 
   /// ends the current level
   void finish(bool win = true);
-  void respawn(const std::string& sectorname, const std::string& spawnpointname);
+  void respawn(const std::string& sectorname, const std::string& spawnpointname, 
+  const bool invincibility = false, const int invincibilityperiod = 0);
   void reset_level();
   void set_reset_point(const std::string& sectorname, const Vector& pos);
   std::string get_reset_point_sectorname() const
@@ -70,7 +72,7 @@ public:
   Level* get_current_level() const
   { return level.get(); }
 
-  void start_sequence(Sequence seq);
+  void start_sequence(Sequence seq, const SequenceData* data = NULL);
 
   /**
    * returns the "working directory" usually this is the directory where the
@@ -130,6 +132,10 @@ private:
   std::string newsector;
   std::string newspawnpoint;
 
+  // Whether the player had invincibility before spawning in a new sector
+  bool pastinvincibility;
+  int newinvincibilityperiod;
+
   Statistics* best_level_statistics;
   Savegame& m_savegame;
 
@@ -148,8 +154,8 @@ private:
   bool end_seq_started;
 
 private:
-  GameSession(const GameSession&);
-  GameSession& operator=(const GameSession&);
+  GameSession(const GameSession&) = delete;
+  GameSession& operator=(const GameSession&) = delete;
 };
 
 #endif /*SUPERTUX_GAMELOOP_H*/

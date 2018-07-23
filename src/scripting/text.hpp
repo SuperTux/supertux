@@ -33,7 +33,6 @@ private:
 
 public:
   Text(::TextObject* parent);
-  ~Text();
 
 private:
   Text(const Text&) = delete;

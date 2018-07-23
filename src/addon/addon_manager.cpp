@@ -17,21 +17,12 @@
 
 #include "addon/addon_manager.hpp"
 
-#include <config.h>
-#include <version.h>
-
-#include <algorithm>
-#include <iostream>
-#include <memory>
 #include <physfs.h>
-#include <sstream>
-#include <stdexcept>
-#include <stdio.h>
-#include <sys/stat.h>
 
 #include "addon/addon.hpp"
 #include "addon/md5.hpp"
 #include "physfs/physfs_file_system.hpp"
+#include "supertux/globals.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -39,7 +30,7 @@
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/writer.hpp"
+#include "util/string_util.hpp"
 
 namespace {
 
@@ -75,14 +66,6 @@ MD5 md5_from_file(const std::string& filename)
   }
 }
 
-bool has_suffix(const std::string& str, const std::string& suffix)
-{
-  if (str.length() >= suffix.length())
-    return str.compare(str.length() - suffix.length(), suffix.length(), suffix) == 0;
-  else
-    return false;
-}
-
 static Addon& get_addon(const AddonManager::AddonList& list, const AddonId& id,
                         bool installed)
 {
@@ -98,7 +81,7 @@ static Addon& get_addon(const AddonManager::AddonList& list, const AddonId& id,
   }
   else
   {
-    auto type = std::string(installed ? "installed" : "repository");
+    std::string type = installed ? "installed" : "repository";
     throw std::runtime_error("Couldn't find " + type + " addon with id: " + id);
   }
 }
@@ -579,7 +562,7 @@ AddonManager::scan_for_archives() const
        PHYSFS_freeList);
   for(char** i = rc.get(); *i != 0; ++i)
   {
-    if (has_suffix(*i, ".zip"))
+    if (StringUtil::has_suffix(*i, ".zip"))
     {
       std::string archive = FileSystem::join(m_addon_directory, *i);
       if (PHYSFS_exists(archive.c_str()))
@@ -600,7 +583,7 @@ AddonManager::scan_for_info(const std::string& archive_os_path) const
         PHYSFS_freeList);
   for(char** j = rc2.get(); *j != 0; ++j)
   {
-    if (has_suffix(*j, ".nfo"))
+    if (StringUtil::has_suffix(*j, ".nfo"))
     {
       std::string nfo_filename = FileSystem::join("/", *j);
 
@@ -760,14 +743,14 @@ AddonManager::check_for_langpack_updates()
         install_addon(addon_id);
         enable_addon(addon_id);
       }
-      catch(const std::exception& err)
+      catch(const std::exception&)
       {
         log_debug << "Language addon " << addon_id << " is not installed. Installing..." << std::endl;
         install_addon(addon_id);
         enable_addon(addon_id);
       }
     }
-    catch(std::exception& err)
+    catch(std::exception&)
     {
       log_debug << "Language addon for current locale not found." << std::endl;
     }

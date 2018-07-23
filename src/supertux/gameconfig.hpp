@@ -25,13 +25,12 @@
 
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
-#include <boost/format.hpp>
+#include <boost/optional.hpp>
 
 class Config
 {
 public:
   Config();
-  ~Config();
 
   void load();
   void save();
@@ -93,6 +92,7 @@ public:
   bool developer_mode;
   bool christmas_mode;
   bool transitions_enabled;
+  bool confirmation_dialog;
 
   std::string repository_url;
 

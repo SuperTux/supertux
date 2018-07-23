@@ -18,10 +18,9 @@
 
 #include "editor/editor.hpp"
 #include "object/player.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 Platform::Platform(const ReaderMapping& reader) :
   Platform(reader, "images/objects/flying_platform/flying_platform.sprite")
@@ -38,7 +37,6 @@ Platform::Platform(const ReaderMapping& reader, const std::string& default_sprit
   last_player_contact(false)
 {
   bool running = true;
-  reader.get("name", name);
   reader.get("running", running);
   if ((name.empty()) && (!running)) {
     automatic = true;

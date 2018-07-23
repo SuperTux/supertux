@@ -4,9 +4,6 @@
 [submodule "external/squirrel"]
 	path = external/squirrel
 	url = https://github.com/albertodemichelis/squirrel.git
-[submodule "translations"]
-	path = translations
-	url = https://github.com/SuperTux/translations
 [submodule "external/googletest"]
 	path = external/googletest
 	url = https://github.com/google/googletest.git
@@ -15,4 +12,4 @@
 	url = https://github.com/SuperTux/sexp-cpp.git
 [submodule "external/physfs"]
 	path = external/physfs
-	url = https://github.com/SuperTux/physfs
+	url = https://github.com/SuperTux/physfs.git

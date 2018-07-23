@@ -17,15 +17,10 @@
 #include "object/wind.hpp"
 #include "scripting/wind.hpp"
 
-#define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
-
 namespace scripting {
 
 Wind::Wind(::Wind* wind_)
   : wind(wind_)
-{ }
-
-Wind::~Wind()
 { }
 
 void Wind::start()

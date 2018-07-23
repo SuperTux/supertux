@@ -28,7 +28,6 @@ class Camera
 public:
 #ifndef SCRIPTING_API
   Camera(::Camera* camera);
-  ~Camera();
 #endif
 
   void reload_config();

@@ -22,6 +22,7 @@
 
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/surface.hpp"
 
 SpriteData::Action::Action() :
   name(),
@@ -34,10 +35,6 @@ SpriteData::Action::Action() :
   loops(-1),
   has_custom_loops(false),
   surfaces()
-{
-}
-
-SpriteData::Action::~Action()
 {
 }
 
@@ -57,10 +54,6 @@ SpriteData::SpriteData(const ReaderMapping& lisp, const std::string& basedir) :
   }
   if(actions.empty())
     throw std::runtime_error("Error: Sprite without actions.");
-}
-
-SpriteData::~SpriteData()
-{
 }
 
 void

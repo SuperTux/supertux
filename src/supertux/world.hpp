@@ -18,9 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
 
 #include <memory>
-#include <squirrel.h>
 #include <string>
-#include <vector>
 
 class World
 {
@@ -40,8 +38,6 @@ public:
   static std::unique_ptr<World> create(const std::string& title, const std::string& desc);
 
 public:
-  ~World();
-
   std::string get_basedir() const;
   std::string get_title() const;
 

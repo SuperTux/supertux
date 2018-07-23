@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BROKEN_BRICK_HPP
 #define HEADER_SUPERTUX_OBJECT_BROKEN_BRICK_HPP
 
-#include <memory>
-
 #include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
@@ -28,7 +26,6 @@ class BrokenBrick : public GameObject
 {
 public:
   BrokenBrick(SpritePtr sprite, const Vector& pos, const Vector& movement);
-  ~BrokenBrick();
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

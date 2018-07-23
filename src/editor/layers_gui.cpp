@@ -20,24 +20,14 @@
 #include "editor/layer_icon.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/tip.hpp"
-#include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
-#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/editor_tilegroup_menu.hpp"
 #include "supertux/colorscheme.hpp"
-#include "supertux/game_object.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/level.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
-#include "util/log.hpp"
-#include "video/drawing_context.hpp"
-#include "video/font.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
@@ -54,10 +44,6 @@ EditorLayersGui::EditorLayersGui() :
 {
 }
 
-EditorLayersGui::~EditorLayersGui()
-{
-}
-
 void
 EditorLayersGui::draw(DrawingContext& context) {
 
@@ -66,7 +52,7 @@ EditorLayersGui::draw(DrawingContext& context) {
     object_tip->draw_up(context, position);
   }
 
-  context.draw_filled_rect(Rectf(Vector(0, Ypos), Vector(Width, SCREEN_HEIGHT)),
+  context.color().draw_filled_rect(Rectf(Vector(0, Ypos), Vector(Width, SCREEN_HEIGHT)),
                            Color(0.9f, 0.9f, 1.0f, 0.6f),
                            0.0f,
                            LAYER_GUI-10);
@@ -90,15 +76,15 @@ EditorLayersGui::draw(DrawingContext& context) {
   }
   if(draw_rect)
   {
-    context.draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
+    context.color().draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
                              LAYER_GUI-5);
   }
 
-  if (!Editor::current()->levelloaded) {
+  if (!Editor::current()->is_level_loaded()) {
     return;
   }
 
-  context.draw_text(Resources::normal_font, sector_text,
+  context.color().draw_text(Resources::normal_font, sector_text,
                     Vector(35, Ypos+5),
                     ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 
@@ -146,12 +132,12 @@ EditorLayersGui::event(SDL_Event& ev) {
               }
               selected_tilemap = layers[hovered_layer]->layer;
               ((TileMap*)selected_tilemap)->editor_active = true;
-              editor->inputcenter.edit_path(((TileMap*)selected_tilemap)->get_path(),
+              editor->edit_path(((TileMap*)selected_tilemap)->get_path(),
                                                        selected_tilemap);
             } else {
               auto cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);
               if (cam) {
-                editor->inputcenter.edit_path(cam->get_path(), cam);
+                editor->edit_path(cam->get_path(), cam);
               }
             }
             break;

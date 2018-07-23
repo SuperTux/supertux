@@ -14,14 +14,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "audio/sound_manager.hpp"
-#include "badguy/bomb.hpp"
 #include "badguy/mrbomb.hpp"
+
+#include "audio/sound_manager.hpp"
+#include "audio/sound_source.hpp"
+#include "badguy/bomb.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -45,17 +46,6 @@ MrBomb::MrBomb(const ReaderMapping& reader) :
   }
   //Replace sprite
   sprite = SpriteManager::current()->create( sprite_name );
-}
-
-/* MrBomb created by a dispenser always gets default sprite atm.*/
-MrBomb::MrBomb(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/mr_bomb/mr_bomb.sprite", "left", "right"),
-  grabbed()
-{
-  walk_speed = 80;
-  max_drop_height = 16;
-  grabbed = false;
-  SoundManager::current()->preload("sounds/explosion.wav");
 }
 
 HitResponse
@@ -84,8 +74,17 @@ MrBomb::collision_squished(GameObject& object)
     return true;
   }
   if(is_valid()) {
+    auto bomb = std::make_shared<Bomb>(get_pos(), dir, sprite_name);
+
+    // Do not trigger dispenser because we need to wait for
+    // the bomb instance to explode.
+    if(get_parent_dispenser() != NULL)
+    {
+      bomb->set_parent_dispenser(get_parent_dispenser());
+      set_parent_dispenser(NULL);
+    }
     remove_me();
-    Sector::current()->add_object(std::make_shared<Bomb>(get_pos(), dir, sprite_name));
+    Sector::current()->add_object(bomb);
   }
   kill_squished(object);
   return true;
@@ -122,7 +121,7 @@ MrBomb::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   assert(frozen);
   movement = pos - get_pos();
-  this->dir = dir_;
+  dir = dir_;
   sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
   set_colgroup_active(COLGROUP_DISABLED);
   grabbed = true;
@@ -131,7 +130,7 @@ MrBomb::grab(MovingObject&, const Vector& pos, Direction dir_)
 void
 MrBomb::ungrab(MovingObject& , Direction dir_)
 {
-  this->dir = dir_;
+  dir = dir_;
   set_colgroup_active(COLGROUP_MOVING);
   grabbed = false;
 }

@@ -17,7 +17,6 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MENU_DOWNLOAD_DIALOG_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MENU_DOWNLOAD_DIALOG_HPP
 
-#include "addon/addon_manager.hpp"
 #include "gui/dialog.hpp"
 
 class TransferStatus;

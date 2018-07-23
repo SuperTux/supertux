@@ -18,12 +18,9 @@
 
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "object/player.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/sector.hpp"
 #include "scripting/functions.hpp"
-#include "util/gettext.hpp"
 
 CheatMenu::CheatMenu()
 {

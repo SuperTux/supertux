@@ -20,16 +20,12 @@
 #include "audio/sound_source.hpp"
 #include "editor/editor.hpp"
 #include "object/lantern.hpp"
-#include "object/path_walker.hpp"
 #include "object/player.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 static const float FLYSPEED = 64; /**< speed in px per second */
 static const float TRACK_RANGE = 384; /**< at what distance to start tracking the player */
@@ -52,7 +48,6 @@ WillOWisp::WillOWisp(const ReaderMapping& reader) :
 {
   reader.get("sector", target_sector, "main");
   reader.get("spawnpoint", target_spawnpoint, "main");
-  reader.get("name", name, "");
   reader.get("flyspeed", flyspeed, FLYSPEED);
   reader.get("track-range", track_range, TRACK_RANGE);
   reader.get("vanish-range", vanish_range, VANISH_RANGE);
@@ -127,6 +122,7 @@ WillOWisp::active_update(float elapsed_time)
       if(sprite->animation_done()) {
         remove_me();
       }
+      break;
 
     case STATE_VANISHING: {
       Vector dir_ = dist.unit();

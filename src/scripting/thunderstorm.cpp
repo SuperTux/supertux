@@ -16,16 +16,10 @@
 
 #include "object/thunderstorm.hpp"
 
-#define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
-
 namespace scripting {
 
 Thunderstorm::Thunderstorm(::Thunderstorm* thunderstorm_)
   : thunderstorm(thunderstorm_)
-{
-}
-
-Thunderstorm::~Thunderstorm()
 {
 }
 

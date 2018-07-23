@@ -47,7 +47,11 @@ public:
     assert(p1.x <= p2.x && p1.y <= p2.y);
   }
 
-  Rectf(const Vector& p1_, const Sizef& size);
+  Rectf(const Vector& p1_, const Sizef& size) :
+    p1(p1_),
+    p2(p1_.x + size.width, p1_.y + size.height)
+  {
+  }
 
   float get_left() const
   { return p1.x; }

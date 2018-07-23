@@ -16,13 +16,9 @@
 
 #include "gui/menu_badguy_select.hpp"
 
-#include "audio/sound_manager.hpp"
 #include "gui/dialog.hpp"
-#include "gui/item_action.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "util/gettext.hpp"
-#include "util/log.hpp"
 
 std::vector<std::string> BadguySelectMenu::all_badguys;
 
@@ -87,11 +83,6 @@ BadguySelectMenu::BadguySelectMenu(std::vector<std::string>* badguys_) :
   }
 
   refresh_menu();
-}
-
-BadguySelectMenu::~BadguySelectMenu()
-{
-
 }
 
 void

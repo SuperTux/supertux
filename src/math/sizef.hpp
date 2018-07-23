@@ -81,6 +81,11 @@ public:
     return Vector(width, height);
   }
 
+  bool is_valid() const 
+  {
+    return width > 0 && height > 0;
+  }
+
 public:
   float width;
   float height;

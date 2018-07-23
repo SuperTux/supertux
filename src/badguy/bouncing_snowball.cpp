@@ -17,7 +17,6 @@
 #include "badguy/bouncing_snowball.hpp"
 
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 #include <algorithm>
 
@@ -26,11 +25,6 @@ static const float BSNOWBALL_WALKSPEED = 80;
 
 BouncingSnowball::BouncingSnowball(const ReaderMapping& reader)
   : BadGuy(reader, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
-{
-}
-
-BouncingSnowball::BouncingSnowball(const Vector& pos, Direction d)
-  : BadGuy(pos, d, "images/creatures/bouncing_snowball/bouncing_snowball.sprite")
 {
 }
 
@@ -59,7 +53,7 @@ BouncingSnowball::collision_solid(const CollisionHit& hit)
 
   if(hit.bottom) {
     if(get_state() == STATE_ACTIVE) {
-      float bounce_speed = -physic.get_velocity_y()*0.8;
+      float bounce_speed = -physic.get_velocity_y()*0.8f;
       physic.set_velocity_y(std::min(JUMPSPEED, bounce_speed));
     } else {
       physic.set_velocity_y(0);

@@ -22,22 +22,9 @@
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),
-  speed(gameRandom.rand(130, 171)),
-  diveRecoverTimer(),
-  state(FLYING),
-  last_player(0),
-  last_player_pos(),
-  last_self_pos()
-{
-  physic.enable_gravity(false);
-}
-
-Zeekling::Zeekling(const Vector& pos, Direction d) :
-  BadGuy(pos, d, "images/creatures/zeekling/zeekling.sprite"),
   speed(gameRandom.rand(130, 171)),
   diveRecoverTimer(),
   state(FLYING),

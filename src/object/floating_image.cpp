@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/floating_image.hpp"
+
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/globals.hpp"
@@ -67,14 +68,14 @@ FloatingImage::get_action()
 void
 FloatingImage::fade_in(float fadetime_)
 {
-  this->fadetime = fadetime_;
+  fadetime = fadetime_;
   fading = fadetime_;
 }
 
 void
 FloatingImage::fade_out(float fadetime_)
 {
-  this->fadetime = fadetime_;
+  fadetime = fadetime_;
   fading = -fadetime_;
 }
 
@@ -96,7 +97,7 @@ FloatingImage::draw(DrawingContext& context)
   Vector spos = pos + get_anchor_pos(Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
                                      sprite->get_width(), sprite->get_height(), anchor);
 
-  sprite->draw(context, spos, layer);
+  sprite->draw(context.color(), spos, layer);
 
   context.pop_transform();
 }

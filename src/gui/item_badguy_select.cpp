@@ -16,12 +16,9 @@
 
 #include "gui/item_badguy_select.hpp"
 
-#include <stdio.h>
-
 #include "gui/menu.hpp"
 #include "gui/menu_badguy_select.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/menu/menu_storage.hpp"
 
 ItemBadguySelect::ItemBadguySelect(const std::string& text_, std::vector<std::string>* badguys_, int _id) :
   MenuItem(text_, _id),

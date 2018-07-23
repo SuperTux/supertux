@@ -18,17 +18,18 @@
 #define HEADER_SUPERTUX_VIDEO_SDL_SDL_VIDEO_SYSTEM_HPP
 
 #include <memory>
-#include <SDL.h>
 
 #include "video/video_system.hpp"
 
+class SDLLightmap;
+class SDLRenderer;
 class TextureManager;
 
-class SDLVideoSystem : public VideoSystem
+class SDLVideoSystem final : public VideoSystem
 {
 private:
-  std::unique_ptr<Renderer> m_renderer;
-  std::unique_ptr<Lightmap> m_lightmap;
+  std::unique_ptr<SDLRenderer> m_renderer;
+  std::unique_ptr<SDLLightmap> m_lightmap;
   std::unique_ptr<TextureManager> m_texture_manager;
 
 public:
@@ -42,6 +43,14 @@ public:
 
   void apply_config() override;
   void resize(int w, int h) override;
+
+  void set_gamma(float gamma) override;
+  void set_title(const std::string& title) override;
+  void set_icon(SDL_Surface* icon) override;
+  void do_take_screenshot() override;
+
+  void set_clip_rect(const Rect& rect) override;
+  void clear_clip_rect() override;
 
 private:
   SDLVideoSystem(const SDLVideoSystem&) = delete;

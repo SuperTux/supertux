@@ -18,8 +18,11 @@
 #define HEADER_SUPERTUX_BADGUY_DISPENSER_HPP
 
 #include "badguy/badguy.hpp"
+#include "scripting/dispenser.hpp"
+#include "scripting/exposed_object.hpp"
 
-class Dispenser : public BadGuy
+class Dispenser : public BadGuy,
+                  public ExposedObject<Dispenser, scripting::Dispenser>
 {
 public:
   Dispenser(const ReaderMapping& reader);
@@ -57,6 +60,14 @@ public:
   ObjectSettings get_settings();
   void after_editor_set();
 
+  void notify_dead()
+  {
+    if(limit_dispensed_badguys)
+    {
+      current_badguys--;
+    }
+  }
+
 protected:
   bool collision_squished(GameObject& object);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
@@ -81,6 +92,34 @@ private:
 
   DispenserType type;
   std::string type_str;
+
+  DispenserType dispenser_type_from_string(const std::string& type_string) const
+  {
+    if (type_string == "dropper")
+      return DT_DROPPER;
+    if (type_string == "rocketlauncher")
+      return DT_ROCKETLAUNCHER;
+    if (type_string == "cannon")
+      return DT_CANNON;
+    if (type_string == "point")
+      return DT_POINT;
+    throw std::exception();
+  }
+
+  /**
+   * Do we need to limit the number of dispensed badguys?
+   */
+  bool limit_dispensed_badguys;
+
+  /**
+   * Maximum concurrent number of badguys to be dispensed
+   */
+  int max_concurrent_badguys;
+
+  /**
+   * Current amount of spawned badguys
+   */
+  int current_badguys;
 };
 
 #endif

@@ -18,11 +18,12 @@
 #define HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 
 #include "math/size.hpp"
-#include "video/drawing_request.hpp"
 #include "video/renderer.hpp"
 
-#include "SDL.h"
+#include <SDL.h>
 #include <math.h>
+
+struct DrawingRequest;
 
 class GLRenderer : public Renderer
 {
@@ -39,6 +40,7 @@ public:
 
   void start_draw() override;
   void end_draw() override;
+
   void draw_surface(const DrawingRequest& request) override;
   void draw_surface_part(const DrawingRequest& request) override;
   void draw_gradient(const DrawingRequest& request) override;
@@ -46,14 +48,13 @@ public:
   void draw_inverse_ellipse(const DrawingRequest& request) override;
   void draw_line(const DrawingRequest& request) override;
   void draw_triangle(const DrawingRequest& request) override;
-  void do_take_screenshot() override;
+
   void flip() override;
   void resize(int w, int h) override;
   void apply_config() override;
   Vector to_logical(int physical_x, int physical_y) const override;
-  void set_gamma(float gamma) override;
 
-  SDL_Window* get_window() const override { return m_window; }
+  SDL_Window* get_window() const { return m_window; }
 
 private:
   void apply_video_mode();

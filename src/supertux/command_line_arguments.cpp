@@ -17,16 +17,12 @@
 #include "supertux/command_line_arguments.hpp"
 
 #include <boost/format.hpp>
-#include <iostream>
+#include <config.h>
 #include <physfs.h>
-#include <stdexcept>
-#include <string>
 
 #include "supertux/gameconfig.hpp"
-#include "supertux/main.hpp"
 #include "util/gettext.hpp"
 #include "version.h"
-#include "math/vector.hpp"
 
 CommandLineArguments::CommandLineArguments() :
   m_action(NO_ACTION),
@@ -52,10 +48,6 @@ CommandLineArguments::CommandLineArguments() :
   christmas_mode(),
   repository_url(),
   edit_level()
-{
-}
-
-CommandLineArguments::~CommandLineArguments()
 {
 }
 

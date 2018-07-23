@@ -20,12 +20,13 @@
 #include "editor/object_icon.hpp"
 
 class GameObject;
+class Vector;
 
 class LayerIcon : public ObjectIcon
 {
   public:
     LayerIcon(GameObject *layer_);
-    virtual ~LayerIcon();
+    virtual ~LayerIcon() {}
 
     GameObject *layer;
 

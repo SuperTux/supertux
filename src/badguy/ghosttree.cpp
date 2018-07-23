@@ -16,6 +16,9 @@
 
 #include "badguy/ghosttree.hpp"
 
+#include <algorithm>
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/root.hpp"
 #include "badguy/treewillowisp.hpp"
@@ -24,11 +27,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-
-#include <algorithm>
-#include <math.h>
 
 static const size_t WILLOWISP_COUNT = 10;
 static const float ROOT_TOP_OFFSET = 64;
@@ -56,10 +55,6 @@ GhostTree::GhostTree(const ReaderMapping& lisp) :
   set_colgroup_active(COLGROUP_TOUCHABLE);
   SoundManager::current()->preload("sounds/tree_howling.ogg");
   SoundManager::current()->preload("sounds/tree_suck.ogg");
-}
-
-GhostTree::~GhostTree()
-{
 }
 
 void
@@ -223,17 +218,14 @@ GhostTree::draw(DrawingContext& context)
 {
   BadGuy::draw(context);
 
-  context.push_target();
   context.push_transform();
-  context.set_target(DrawingContext::LIGHTMAP);
   if (mystate == STATE_SUCKING) {
-    context.set_alpha(0.5 + fmodf(game_time, 0.5));
+    context.set_alpha(0.5f + fmodf(game_time, 0.5f));
   } else {
-    context.set_alpha(0.5);
+    context.set_alpha(0.5f);
   }
-  glow_sprite->draw(context, get_pos(), layer);
+  glow_sprite->draw(context.light(), get_pos(), layer);
   context.pop_transform();
-  context.pop_target();
 }
 
 bool

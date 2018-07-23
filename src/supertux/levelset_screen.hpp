@@ -24,8 +24,8 @@
 
 class Savegame;
 
-class LevelsetScreen : public Screen,
-                       public Currenton<LevelsetScreen>
+class LevelsetScreen final : public Screen,
+                             public Currenton<LevelsetScreen>
 {
 private:
   std::string m_basedir;
@@ -36,13 +36,12 @@ private:
 
 public:
   LevelsetScreen(const std::string& basedir, const std::string& level_filename, Savegame& savegame);
-  ~LevelsetScreen();
 
-  void draw(DrawingContext&) override;
-  void update(float elapsed_time) override;
+  virtual void draw(Compositor& compositor) override;
+  virtual void update(float elapsed_time) override;
 
-  void setup() override;
-  void leave() override;
+  virtual void setup() override;
+  virtual void leave() override;
 
   void finished_level(bool win);
 

@@ -20,12 +20,8 @@
 #include <physfs.h>
 
 #include "editor/editor.hpp"
-#include "object/path_walker.hpp"
 #include "object/player.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -33,7 +29,7 @@
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,
    0 is never get there, 1 is instant */
-static const float PEEK_ARRIVE_RATIO = 0.1;
+static const float PEEK_ARRIVE_RATIO = 0.1f;
 
 class CameraConfig
 {
@@ -186,7 +182,7 @@ Camera::Camera(Sector* newsector, Player* player, const std::string& name_) :
   defaultmode(NORMAL),
   number()
 {
-  this->name = name_;
+  name = name_;
   reload_config();
 }
 
@@ -264,7 +260,7 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
   keep_in_bounds(scroll_goal);
 
   scroll_to_pos = 0;
-  scrollspeed = 1.0 / scrolltime;
+  scrollspeed = 1.f / scrolltime;
   mode = SCROLLTO;
 }
 
@@ -332,9 +328,9 @@ Camera::keep_in_bounds(Vector& translation_)
   translation_.y = clamp(translation_.y, 0, height - SCREEN_HEIGHT);
 
   if (height < SCREEN_HEIGHT)
-    translation_.y = height/2.0 - SCREEN_HEIGHT/2.0;
+    translation_.y = height/2.f - SCREEN_HEIGHT/2.f;
   if (width < SCREEN_WIDTH)
-    translation_.x = width/2.0 - SCREEN_WIDTH/2.0;
+    translation_.x = width/2.f - SCREEN_WIDTH/2.f;
 }
 
 void
@@ -363,6 +359,7 @@ Camera::update_scroll_normal(float elapsed_time)
   }
 
   const auto& config_ = *(this->config);
+
   // TODO: co-op mode needs a good camera
   Vector player_pos(player->get_bbox().get_middle().x,
                                     player->get_bbox().get_bottom());

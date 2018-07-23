@@ -19,6 +19,7 @@
 
 #include "trigger/trigger_base.hpp"
 
+class ReaderMapping;
 class Writer;
 
 class ScriptTrigger : public TriggerBase
@@ -26,7 +27,6 @@ class ScriptTrigger : public TriggerBase
 public:
   ScriptTrigger(const ReaderMapping& reader);
   ScriptTrigger(const Vector& pos, const std::string& script);
-  ~ScriptTrigger();
   std::string get_class() const {
     return "scripttrigger";
   }
@@ -47,6 +47,8 @@ private:
   std::string script;
   Vector new_size;
   bool must_activate;
+  bool oneshot;
+  int runcount;
 };
 
 #endif

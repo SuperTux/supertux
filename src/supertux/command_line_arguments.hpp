@@ -82,7 +82,6 @@ public:
 
 public:
   CommandLineArguments();
-  ~CommandLineArguments();
 
   Action get_action() const { return m_action; }
   LogLevel get_log_level() const { return m_log_level; }

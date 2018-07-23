@@ -17,29 +17,20 @@
 
 #include "supertux/title_screen.hpp"
 
-#include "addon/addon_manager.hpp"
-#include "audio/sound_manager.hpp"
-#include "gui/menu.hpp"
+#include <version.h>
+
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
-#include "object/player.hpp"
 #include "supertux/fadein.hpp"
-#include "supertux/fadeout.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
+#include "supertux/game_session.hpp"
+#include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/textscroller.hpp"
-#include "supertux/world.hpp"
-#include "util/file_system.hpp"
-#include "util/gettext.hpp"
-#include "util/reader_mapping.hpp"
+#include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
-
-#include <sstream>
-#include <version.h>
+#include "video/surface.hpp"
 
 TitleScreen::TitleScreen(Savegame& savegame) :
   frame(Surface::create("images/engine/menu/frame.png")),
@@ -110,17 +101,19 @@ TitleScreen::leave()
 }
 
 void
-TitleScreen::draw(DrawingContext& context)
+TitleScreen::draw(Compositor& compositor)
 {
+  auto& context = compositor.make_context();
   auto sector  = titlesession->get_current_sector();
+
   sector->draw(context);
 
-  context.draw_surface_part(frame,
+  context.color().draw_surface_part(frame,
                             Rectf(0, 0, frame->get_width(), frame->get_height()),
                             Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
                             LAYER_FOREGROUND1);
 
-  context.draw_text(Resources::small_font,
+  context.color().draw_text(Resources::small_font,
                     copyright_text,
                     Vector(5, SCREEN_HEIGHT - 50),
                     ALIGN_LEFT, LAYER_FOREGROUND1);

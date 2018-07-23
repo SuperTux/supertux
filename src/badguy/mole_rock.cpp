@@ -16,9 +16,10 @@
 
 #include "badguy/mole_rock.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 MoleRock::MoleRock(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/mole/mole_rock.sprite", LAYER_TILES - 2),
@@ -40,10 +41,6 @@ MoleRock::MoleRock(const Vector& pos, const Vector& velocity, const BadGuy* pare
   countMe = false;
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
-}
-
-MoleRock::~MoleRock()
-{
 }
 
 bool

@@ -15,7 +15,11 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/game_object.hpp"
+
 #include "supertux/object_remove_listener.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
+#include "video/color.hpp"
 
 GameObject::GameObject() :
   wants_to_die(false),
@@ -29,6 +33,12 @@ GameObject::GameObject(const GameObject& rhs) :
   remove_listeners(NULL),
   name(rhs.name)
 {
+}
+
+GameObject::GameObject(const ReaderMapping& reader) :
+  GameObject()
+{
+  reader.get("name", name, "");
 }
 
 GameObject::~GameObject()
@@ -118,7 +128,7 @@ GameObject::save(Writer& writer) {
 
 ObjectSettings
 GameObject::get_settings() {
-  ObjectSettings result(this->get_display_name());
+  ObjectSettings result(get_display_name());
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
   return result;
 }

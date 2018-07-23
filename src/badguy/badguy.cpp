@@ -17,64 +17,34 @@
 #include "badguy/badguy.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "object/bullet.hpp"
-#include "object/camera.hpp"
+#include "badguy/dispenser.hpp"
+#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "object/broken_brick.hpp"
-#include "editor/editor.hpp"
 #include "object/bullet.hpp"
-#include "object/particles.hpp"
-#include "object/sprite_particle.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
+#include "object/sprite_particle.hpp"
 #include "object/water_drop.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "util/reader_mapping.hpp"
-
-#include <math.h>
-#include <sstream>
+#include "util/writer.hpp"
 
 static const float SQUISH_TIME = 2;
 static const float GEAR_TIME = 2;
 static const float BURN_TIME = 1;
 
-static const float X_OFFSCREEN_DISTANCE = 3840;
-static const float Y_OFFSCREEN_DISTANCE = 2160;
+static const float X_OFFSCREEN_DISTANCE = 1280;
+static const float Y_OFFSCREEN_DISTANCE = 800;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
                const std::string& light_sprite_name) :
-  MovingSprite(pos, sprite_name_, layer_, COLGROUP_DISABLED),
-  physic(),
-  countMe(true),
-  is_initialized(false),
-  start_position(),
-  dir(LEFT),
-  start_dir(AUTO),
-  frozen(false),
-  ignited(false),
-  in_water(false),
-  dead_script(),
-  melting_time(0),
-  lightsprite(SpriteManager::current()->create(light_sprite_name)),
-  glowing(false),
-  state(STATE_INIT),
-  is_active_flag(),
-  state_timer(),
-  on_ground_flag(false),
-  floor_normal(),
-  colgroup_active(COLGROUP_MOVING)
+  BadGuy(pos, LEFT, sprite_name_, layer_, light_sprite_name)
 {
-  start_position = bbox.p1;
-
-  SoundManager::current()->preload("sounds/squish.wav");
-  SoundManager::current()->preload("sounds/fall.wav");
-  SoundManager::current()->preload("sounds/splash.ogg");
-  SoundManager::current()->preload("sounds/fire.ogg");
-
-  dir = (start_dir == AUTO) ? LEFT : start_dir;
-  lightsprite->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
 }
 
 BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite_name_, int layer_,
@@ -83,7 +53,7 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   physic(),
   countMe(true),
   is_initialized(false),
-  start_position(),
+  start_position(bbox.p1),
   dir(direction),
   start_dir(direction),
   frozen(false),
@@ -98,10 +68,9 @@ BadGuy::BadGuy(const Vector& pos, Direction direction, const std::string& sprite
   state_timer(),
   on_ground_flag(false),
   floor_normal(),
-  colgroup_active(COLGROUP_MOVING)
+  colgroup_active(COLGROUP_MOVING),
+  parent_dispenser()
 {
-  start_position = bbox.p1;
-
   SoundManager::current()->preload("sounds/squish.wav");
   SoundManager::current()->preload("sounds/fall.wav");
   SoundManager::current()->preload("sounds/splash.ogg");
@@ -117,7 +86,7 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   physic(),
   countMe(true),
   is_initialized(false),
-  start_position(),
+  start_position(bbox.p1),
   dir(LEFT),
   start_dir(AUTO),
   frozen(false),
@@ -132,10 +101,9 @@ BadGuy::BadGuy(const ReaderMapping& reader, const std::string& sprite_name_, int
   state_timer(),
   on_ground_flag(false),
   floor_normal(),
-  colgroup_active(COLGROUP_MOVING)
+  colgroup_active(COLGROUP_MOVING),
+  parent_dispenser()
 {
-  start_position = bbox.p1;
-
   std::string dir_str = "auto";
   reader.get("direction", dir_str);
   start_dir = str2dir( dir_str );
@@ -162,17 +130,14 @@ BadGuy::draw(DrawingContext& context)
   if(state == STATE_FALLING) {
     context.push_transform();
     context.set_drawing_effect(context.get_drawing_effect() ^ VERTICAL_FLIP);
-    sprite->draw(context, get_pos(), layer);
+    sprite->draw(context.color(), get_pos(), layer);
     context.pop_transform();
   } else {
-    sprite->draw(context, get_pos(), layer);
+    sprite->draw(context.color(), get_pos(), layer);
   }
 
   if (glowing) {
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, bbox.get_middle(), 0);
-    context.pop_target();
+    lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
 }
 
@@ -559,6 +524,11 @@ BadGuy::run_dead_script()
 
   countMe = false;
 
+  if(parent_dispenser != NULL)
+  {
+    parent_dispenser->notify_dead();
+  }
+
   // start dead-script
   if(!dead_script.empty()) {
     Sector::current()->run_script(dead_script, "dead-script");
@@ -568,11 +538,11 @@ BadGuy::run_dead_script()
 void
 BadGuy::set_state(State state_)
 {
-  if(this->state == state_)
+  if(state == state_)
     return;
 
-  State laststate = this->state;
-  this->state = state_;
+  State laststate = state;
+  state = state_;
   switch(state_) {
     case STATE_BURNING:
       state_timer.start(BURN_TIME);
@@ -721,7 +691,7 @@ BadGuy::freeze()
       // when no iced action exists, default to shading badguy blue
     else
     {
-      sprite->set_color(Color(0.60, 0.72, 0.88f));
+      sprite->set_color(Color(0.60f, 0.72f, 0.88f));
       sprite->stop_animation();
     }
   }
@@ -736,7 +706,7 @@ BadGuy::unfreeze()
   // restore original color if needed
   if((!sprite->has_action("iced-left")) && (!sprite->has_action("iced")) )
   {
-    sprite->set_color(Color(1.00, 1.00, 1.00f));
+    sprite->set_color(Color(1.f, 1.f, 1.f));
     sprite->set_animation_loops();
   }
 }
@@ -827,7 +797,7 @@ BadGuy::is_ignited() const
 void
 BadGuy::set_colgroup_active(CollisionGroup group_)
 {
-  this->colgroup_active = group_;
+  colgroup_active = group_;
   if (state == STATE_ACTIVE) set_group(group_);
 }
 

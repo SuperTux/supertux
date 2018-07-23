@@ -19,7 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 namespace {
 const float DART_SPEED = 200;
@@ -49,10 +48,6 @@ Dart::Dart(const Vector& pos, Direction d, const BadGuy* parent_ = 0) :
   SoundManager::current()->preload(DART_SOUND);
   SoundManager::current()->preload("sounds/darthit.wav");
   SoundManager::current()->preload("sounds/stomp.wav");
-}
-
-Dart::~Dart()
-{
 }
 
 bool

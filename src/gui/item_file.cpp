@@ -16,12 +16,9 @@
 
 #include "gui/item_file.hpp"
 
-#include <stdio.h>
-
 #include "gui/menu.hpp"
 #include "gui/menu_filesystem.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/menu/menu_storage.hpp"
 
 ItemFile::ItemFile(const std::string& text_, std::string* filename_,
                      const std::vector<std::string>& extensions_, int _id) :

@@ -28,7 +28,6 @@ public:
   Lantern(const Vector& pos);
   Lantern(const ReaderMapping& reader);
   void draw(DrawingContext& context);
-  ~Lantern();
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 

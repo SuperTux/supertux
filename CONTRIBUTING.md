@@ -1,7 +1,5 @@
 # Contributing to SuperTux
 
-## Unsure? [Contact Us](https://supertux.org/contact.html)
-
 ## Bug reports
 
 - GitHub Issues in English only. IRC support might be possible in other languages,

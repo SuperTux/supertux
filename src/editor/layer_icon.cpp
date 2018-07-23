@@ -18,7 +18,6 @@
 
 #include <limits>
 
-#include "math/rect.hpp"
 #include "object/background.hpp"
 #include "object/gradient.hpp"
 #include "object/particlesystem.hpp"
@@ -26,10 +25,8 @@
 #include "object/tilemap.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/game_object.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
+#include "video/surface.hpp"
 
 LayerIcon::LayerIcon(GameObject *layer_) :
   ObjectIcon("", layer_->get_icon_path()),
@@ -44,22 +41,18 @@ LayerIcon::LayerIcon(GameObject *layer_) :
   }
 }
 
-LayerIcon::~LayerIcon() {
-
-}
-
 void
 LayerIcon::draw(DrawingContext& context, const Vector& pos) {
   if (!is_valid()) return;
 
-  ObjectIcon::draw(context,pos);
+  ObjectIcon::draw(context, pos);
   int l = get_zpos();
   if (l != std::numeric_limits<int>::min()) {
-    context.draw_text(Resources::small_font, std::to_string(l),
+    context.color().draw_text(Resources::small_font, std::to_string(l),
                       pos + Vector(16,16),
                       ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
     if (is_tilemap) if (((TileMap*)layer)->editor_active) {
-      context.draw_surface(selection, pos, LAYER_GUI - 1);
+      context.color().draw_surface(selection, pos, LAYER_GUI - 1);
     }
   }
 }

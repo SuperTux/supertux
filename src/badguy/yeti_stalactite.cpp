@@ -18,16 +18,11 @@
 
 #include "editor/editor.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 static const float YT_SHAKE_TIME = .8f;
 
 YetiStalactite::YetiStalactite(const ReaderMapping& lisp)
   : Stalactite(lisp)
-{
-}
-
-YetiStalactite::~YetiStalactite()
 {
 }
 

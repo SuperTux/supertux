@@ -19,10 +19,10 @@
 
 #include <string>
 
-#include "util/reader_fwd.hpp"
 #include "math/vector.hpp"
-#include "supertux/game_object.hpp"
 #include "worldmap/direction.hpp"
+
+class ReaderMapping;
 
 namespace worldmap {
 

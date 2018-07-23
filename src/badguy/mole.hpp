@@ -23,7 +23,6 @@ class Mole : public BadGuy
 {
 public:
   Mole(const ReaderMapping& );
-  Mole(const Vector& pos);
 
   void kill_fall();
   HitResponse collision_badguy(BadGuy& , const CollisionHit& );

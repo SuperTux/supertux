@@ -16,13 +16,8 @@
 
 #include "object/cloud_particle_system.hpp"
 
-#include <math.h>
-
 #include "math/random_generator.hpp"
-#include "supertux/globals.hpp"
-#include "util/reader.hpp"
-#include "util/reader_mapping.hpp"
-#include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 CloudParticleSystem::CloudParticleSystem() :
   ParticleSystem(128),

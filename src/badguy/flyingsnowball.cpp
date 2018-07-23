@@ -19,7 +19,7 @@
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
 #include "object/player.hpp"
-#include "supertux/object_factory.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
@@ -29,14 +29,6 @@ const float PUFF_INTERVAL_MAX = 8.0f; /**< spawn new puff of smoke at least that
 
 FlyingSnowBall::FlyingSnowBall(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/flying_snowball/flying_snowball.sprite"),
-  normal_propeller_speed(),
-  puff_timer()
-{
-  physic.enable_gravity(true);
-}
-
-FlyingSnowBall::FlyingSnowBall(const Vector& pos) :
-  BadGuy(pos, "images/creatures/flying_snowball/flying_snowball.sprite"),
   normal_propeller_speed(),
   puff_timer()
 {
@@ -82,14 +74,14 @@ FlyingSnowBall::active_update(float elapsed_time)
   if (get_pos().y > start_position.y + 2*32) {
 
     // Flying too low - increased propeller speed
-    physic.set_acceleration_y(-grav*1.2);
+    physic.set_acceleration_y(-grav*1.2f);
 
-    physic.set_velocity_y(physic.get_velocity_y() * 0.99);
+    physic.set_velocity_y(physic.get_velocity_y() * 0.99f);
 
   } else if (get_pos().y < start_position.y - 2*32) {
 
     // Flying too high - decreased propeller speed
-    physic.set_acceleration_y(-grav*0.8);
+    physic.set_acceleration_y(-grav*0.8f);
 
     physic.set_velocity_y(physic.get_velocity_y() * 0.99f);
 

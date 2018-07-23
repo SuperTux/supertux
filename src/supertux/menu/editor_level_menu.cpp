@@ -16,17 +16,11 @@
 
 #include "supertux/menu/editor_level_menu.hpp"
 
-#include "gui/dialog.hpp"
-#include "gui/menu.hpp"
-#include "gui/menu_item.hpp"
-#include "gui/menu_manager.hpp"
 #include "editor/editor.hpp"
-#include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/options_menu.hpp"
+#include "gui/dialog.hpp"
 #include "supertux/level.hpp"
-#include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"
-#include "video/color.hpp"
+#include "util/log.hpp"
 
 EditorLevelMenu::EditorLevelMenu() :
   old_tileset(Editor::current()->get_level()->tileset)

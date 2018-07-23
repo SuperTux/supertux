@@ -16,6 +16,8 @@
 
 #include "physfs/physfs_file_system.hpp"
 
+#include <physfs.h>
+
 #include "physfs/ifile_stream.hpp"
 
 PhysFSFileSystem::PhysFSFileSystem()

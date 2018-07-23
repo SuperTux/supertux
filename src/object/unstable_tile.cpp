@@ -22,7 +22,6 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
-#include "supertux/object_factory.hpp"
 
 UnstableTile::UnstableTile(const ReaderMapping& lisp) :
   MovingSprite(lisp, "images/objects/unstable_tile/snow.sprite", LAYER_TILES, COLGROUP_STATIC),
@@ -31,8 +30,8 @@ UnstableTile::UnstableTile(const ReaderMapping& lisp) :
   slowfall_timer()
 {
   sprite->set_action("normal");
-  physic.set_gravity_modifier (.98);
-  physic.enable_gravity (false);
+  physic.set_gravity_modifier(.98f);
+  physic.enable_gravity(false);
 }
 
 HitResponse
@@ -59,7 +58,7 @@ void UnstableTile::shake()
 
   if (sprite->has_action ("shake")) {
     state = STATE_SHAKE;
-    this->set_action ("shake", /* loops = */ 1);
+    set_action ("shake", /* loops = */ 1);
   }
   else {
     dissolve ();
@@ -73,7 +72,7 @@ void UnstableTile::dissolve()
 
   if (sprite->has_action ("dissolve")) {
     state = STATE_DISSOLVE;
-    this->set_action ("dissolve", /* loops = */ 1);
+    set_action ("dissolve", /* loops = */ 1);
   }
   else {
     slow_fall ();
@@ -84,16 +83,16 @@ void UnstableTile::slow_fall()
 {
   /* Only enter slow-fall if neither shake nor dissolve is available. */
   if (state != STATE_NORMAL) {
-    this->fall_down ();
+    fall_down ();
     return;
   }
 
   if (sprite->has_action ("fall-down")) {
     state = STATE_SLOWFALL;
-    this->set_action ("fall-down", /* loops = */ 1);
-    physic.set_gravity_modifier (.10);
+    set_action ("fall-down", /* loops = */ 1);
+    physic.set_gravity_modifier (.10f);
     physic.enable_gravity (true);
-    slowfall_timer = 0.5; /* Fall slowly for half a second. */
+    slowfall_timer = 0.5f; /* Fall slowly for half a second. */
   }
   else {
     remove_me ();
@@ -107,8 +106,8 @@ void UnstableTile::fall_down()
 
   if (sprite->has_action ("fall-down")) {
     state = STATE_FALL;
-    this->set_action ("fall-down", /* loops = */ 1);
-    physic.set_gravity_modifier (.98);
+    set_action ("fall-down", /* loops = */ 1);
+    physic.set_gravity_modifier (.98f);
     physic.enable_gravity (true);
   }
   else {

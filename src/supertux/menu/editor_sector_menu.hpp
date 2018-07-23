@@ -37,11 +37,11 @@ private:
   };
 
   Sector* sector;
-  std::string* sector_name_ptr;
   std::string original_name;
 
   Size size;
   Size new_size;
+  Size offset;
 
   EditorSectorMenu(const EditorSectorMenu&);
   EditorSectorMenu& operator=(const EditorSectorMenu&);

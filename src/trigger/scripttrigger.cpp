@@ -14,15 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <memory>
-#include <sstream>
-#include <stdexcept>
+#include "trigger/scripttrigger.hpp"
 
 #include "editor/editor.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "trigger/scripttrigger.hpp"
-#include "util/gettext.hpp"
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -31,7 +26,9 @@ ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   triggerevent(),
   script(),
   new_size(),
-  must_activate(false)
+  must_activate(false),
+  oneshot(false),
+  runcount(0)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
@@ -41,6 +38,7 @@ ScriptTrigger::ScriptTrigger(const ReaderMapping& reader) :
   bbox.set_size(w, h);
   reader.get("script", script);
   reader.get("button", must_activate);
+  reader.get("oneshot", oneshot);
   if(script.empty()) {
     log_warning << "No script set in script trigger" << std::endl;
   }
@@ -55,14 +53,12 @@ ScriptTrigger::ScriptTrigger(const Vector& pos, const std::string& script_) :
   triggerevent(EVENT_TOUCH),
   script(script_),
   new_size(),
-  must_activate()
+  must_activate(),
+  oneshot(false),
+  runcount(0)
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);
-}
-
-ScriptTrigger::~ScriptTrigger()
-{
 }
 
 ObjectSettings
@@ -75,6 +71,7 @@ ScriptTrigger::get_settings() {
   result.options.push_back( ObjectOption(MN_NUMFIELD, _("Height"), &new_size.y, "height"));
   result.options.push_back( ObjectOption(MN_SCRIPT, _("Script"), &script, "script"));
   result.options.push_back( ObjectOption(MN_TOGGLE, _("Button"), &must_activate, "button"));
+  result.options.push_back( ObjectOption(MN_TOGGLE, _("Oneshot"), &oneshot, "oneshot"));
   return result;
 }
 
@@ -94,14 +91,19 @@ ScriptTrigger::event(Player& , EventType type)
   if(type != triggerevent)
     return;
 
+  if (oneshot && runcount >= 1) {
+    return;
+  }
+
   Sector::current()->run_script(script, "ScriptTrigger");
+  runcount++;
 }
 
 void
 ScriptTrigger::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.draw_filled_rect(bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
+    context.color().draw_filled_rect(bbox, Color(1.0f, 0.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }

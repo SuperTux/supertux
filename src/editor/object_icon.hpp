@@ -17,10 +17,13 @@
 #ifndef HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
 #define HEADER_SUPERTUX_EDITOR_OBJECT_ICON_HPP
 
-#include "util/reader_fwd.hpp"
-#include "util/reader_mapping.hpp"
-#include "video/surface.hpp"
-#include "video/drawing_context.hpp"
+#include <string>
+
+#include "math/vector.hpp"
+#include "video/surface_ptr.hpp"
+
+class DrawingContext;
+class ReaderMapping;
 
 class ObjectIcon
 {

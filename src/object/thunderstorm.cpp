@@ -19,12 +19,10 @@
 #include "audio/sound_manager.hpp"
 #include "editor/editor.hpp"
 #include "object/electrifier.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/drawing_context.hpp"
 
 namespace {
 const float LIGHTNING_DELAY = 2.0f;
@@ -33,6 +31,7 @@ const float ELECTRIFY_TIME = 0.5f;
 }
 
 Thunderstorm::Thunderstorm(const ReaderMapping& reader) :
+  GameObject(reader),
   ExposedObject<Thunderstorm, scripting::Thunderstorm>(this),
   running(true),
   interval(10.0f),
@@ -94,7 +93,7 @@ Thunderstorm::draw(DrawingContext& context)
   float alpha = 0.33f;
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(1, 1, 1, alpha), layer);
+  context.color().draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(1, 1, 1, alpha), layer);
   context.pop_transform();
 
 }
@@ -140,8 +139,18 @@ Thunderstorm::flash()
 void
 Thunderstorm::electrify()
 {
-  Sector::current()->add_object(std::make_shared<Electrifier>(200, 1421, ELECTRIFY_TIME));
-  Sector::current()->add_object(std::make_shared<Electrifier>(201, 1422, ELECTRIFY_TIME));
+  auto changing_tiles = TileChangeMap({
+    {200, 1421}, {201, 1422},
+    {3419, 3523}, {3420, 3524},
+    {3421, 3525}, {3422, 3526},
+    {3423, 3527}, {3424, 3528},
+    {3425, 3529}, {3426, 3530},
+    {3427, 3523}, {3428, 3524},
+    {3429, 3525}, {3430, 3526},
+    {3431, 3527}, {3432, 3528},
+    {3433, 3529}, {3434, 3530}
+  });
+  Sector::current()->add_object(std::make_shared<Electrifier>(changing_tiles, ELECTRIFY_TIME));
 }
 
 /* EOF */

@@ -16,7 +16,6 @@
 
 #include "object/text_object.hpp"
 
-#include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
@@ -32,7 +31,7 @@ TextObject::TextObject(const std::string& name_) :
   anchor(ANCHOR_MIDDLE),
   pos(0, 0)
 {
-  this->name = name_;
+  name = name_;
 }
 
 TextObject::~TextObject()
@@ -57,34 +56,34 @@ TextObject::set_font(const std::string& name_)
 void
 TextObject::set_text(const std::string& text_)
 {
-  this->text = text_;
+  text = text_;
 }
 
 void
 TextObject::fade_in(float fadetime_)
 {
-  this->fadetime = fadetime_;
+  fadetime = fadetime_;
   fading = fadetime_;
 }
 
 void
 TextObject::fade_out(float fadetime_)
 {
-  this->fadetime = fadetime_;
+  fadetime = fadetime_;
   fading = -fadetime_;
 }
 
 void
 TextObject::set_visible(bool visible_)
 {
-  this->visible = visible_;
+  visible = visible_;
   fading = 0;
 }
 
 void
 TextObject::set_centered(bool centered_)
 {
-  this->centered = centered_;
+  centered = centered_;
 }
 
 void
@@ -106,12 +105,12 @@ TextObject::draw(DrawingContext& context)
   Vector spos = pos + get_anchor_pos(Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
                                      width, height, anchor);
 
-  context.draw_filled_rect(spos, Vector(width, height),
+  context.color().draw_filled_rect(spos, Vector(width, height),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
   if (centered) {
-    context.draw_center_text(font, text, spos, LAYER_GUI-40, TextObject::default_color);
+    context.color().draw_center_text(font, text, spos, LAYER_GUI-40, TextObject::default_color);
   } else {
-    context.draw_text(font, text, spos + Vector(10, 10), ALIGN_LEFT, LAYER_GUI-40, TextObject::default_color);
+    context.color().draw_text(font, text, spos + Vector(10, 10), ALIGN_LEFT, LAYER_GUI-40, TextObject::default_color);
   }
 
   context.pop_transform();

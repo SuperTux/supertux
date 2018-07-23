@@ -17,10 +17,8 @@
 #ifndef HEADER_SUPERTUX_VIDEO_COLOR_HPP
 #define HEADER_SUPERTUX_VIDEO_COLOR_HPP
 
-#include <assert.h>
+#include <string>
 #include <vector>
-
-#include "util/log.hpp"
 
 class Color
 {
@@ -40,6 +38,16 @@ public:
   std::vector<float> toVector();
 
   float red, green, blue, alpha;
+
+
+  /**
+   * Return a human-readable string representation
+   * for this color
+   */
+  std::string to_string() const
+  {
+    return std::to_string(red) + " " + std::to_string(green) + " " + std::to_string(blue);
+  }
 
   static const Color BLACK;
   static const Color RED;

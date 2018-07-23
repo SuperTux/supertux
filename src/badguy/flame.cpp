@@ -16,15 +16,11 @@
 
 #include "badguy/flame.hpp"
 
-#include <math.h>
-
 #include "audio/sound_manager.hpp"
+#include "audio/sound_source.hpp"
 #include "editor/editor.hpp"
-#include "math/random_generator.hpp"
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
 #include "object/sprite_particle.hpp"
-#include "supertux/object_factory.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 

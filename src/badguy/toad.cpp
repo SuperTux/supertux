@@ -19,7 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 namespace {
 const float VERTICAL_SPEED = -450;   /**< y-speed when jumping */
@@ -30,14 +29,6 @@ static const std::string HOP_SOUND = "sounds/hop.ogg";
 
 Toad::Toad(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/toad/toad.sprite"),
-  recover_timer(),
-  state()
-{
-  SoundManager::current()->preload(HOP_SOUND);
-}
-
-Toad::Toad(const Vector& pos, Direction d) :
-  BadGuy(pos, d, "images/creatures/toad/toad.sprite"),
   recover_timer(),
   state()
 {
@@ -120,7 +111,7 @@ Toad::collision_solid(const CollisionHit& hit)
       sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
       }
     */
-    physic.set_velocity_x(-0.25*physic.get_velocity_x());
+    physic.set_velocity_x(-0.25f*physic.get_velocity_x());
   }
 
   // check if we hit the floor while falling

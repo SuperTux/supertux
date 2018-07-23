@@ -4,6 +4,8 @@
  * DO NOT CHANGE
  */
 
+#include <assert.h>
+#include <limits>
 #include <sstream>
 
 #include "scripting/squirrel_error.hpp"
@@ -500,6 +502,71 @@ static SQInteger Candle_set_burning_wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_burning'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Dispenser_release_hook(SQUserPointer ptr, SQInteger )
+{
+  auto _this = reinterpret_cast<scripting::Dispenser*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static SQInteger Dispenser_activate_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'activate' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Dispenser*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    _this->activate();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'activate'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger Dispenser_deactivate_wrapper(HSQUIRRELVM vm)
+{
+  SQUserPointer data;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, &data, 0)) || !data) {
+    sq_throwerror(vm, _SC("'deactivate' called without instance"));
+    return SQ_ERROR;
+  }
+  auto _this = reinterpret_cast<scripting::Dispenser*> (data);
+
+  if (_this == NULL) {
+    return SQ_ERROR;
+  }
+
+
+  try {
+    _this->deactivate();
+
+    return 0;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'deactivate'"));
     return SQ_ERROR;
   }
 
@@ -1089,7 +1156,8 @@ static SQInteger FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = _this->get_action();
 
-    sq_pushstring(vm, return_value.c_str(), return_value.size());
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
+    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
     return 1;
 
   } catch(std::exception& e) {
@@ -1228,7 +1296,8 @@ static SQInteger Gradient_get_direction_wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = _this->get_direction();
 
-    sq_pushstring(vm, return_value.c_str(), return_value.size());
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
+    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
     return 1;
 
   } catch(std::exception& e) {
@@ -2561,7 +2630,8 @@ static SQInteger ScriptedObject_get_action_wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = _this->get_action();
 
-    sq_pushstring(vm, return_value.c_str(), return_value.size());
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
+    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
     return 1;
 
   } catch(std::exception& e) {
@@ -3020,7 +3090,8 @@ static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = _this->get_name();
 
-    sq_pushstring(vm, return_value.c_str(), return_value.size());
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
+    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
     return 1;
 
   } catch(std::exception& e) {
@@ -4852,7 +4923,8 @@ static SQInteger translate_wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = scripting::translate(arg0);
 
-    sq_pushstring(vm, return_value.c_str(), return_value.size());
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
+    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
     return 1;
 
   } catch(std::exception& e) {
@@ -4876,7 +4948,8 @@ static SQInteger __wrapper(HSQUIRRELVM vm)
   try {
     std::string return_value = scripting::_(arg0);
 
-    sq_pushstring(vm, return_value.c_str(), return_value.size());
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
+    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
     return 1;
 
   } catch(std::exception& e) {
@@ -4884,6 +4957,76 @@ static SQInteger __wrapper(HSQUIRRELVM vm)
     return SQ_ERROR;
   } catch(...) {
     sq_throwerror(vm, _SC("Unexpected exception while executing function '_'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger translate_plural_wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    std::string return_value = scripting::translate_plural(arg0, arg1, static_cast<int> (arg2));
+
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
+    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'translate_plural'"));
+    return SQ_ERROR;
+  }
+
+}
+
+static SQInteger ___wrapper(HSQUIRRELVM vm)
+{
+  const SQChar* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  const SQChar* arg1;
+  if(SQ_FAILED(sq_getstring(vm, 3, &arg1))) {
+    sq_throwerror(vm, _SC("Argument 2 not a string"));
+    return SQ_ERROR;
+  }
+  SQInteger arg2;
+  if(SQ_FAILED(sq_getinteger(vm, 4, &arg2))) {
+    sq_throwerror(vm, _SC("Argument 3 not an integer"));
+    return SQ_ERROR;
+  }
+
+  try {
+    std::string return_value = scripting::__(arg0, arg1, static_cast<int> (arg2));
+
+    assert(return_value.size() < std::numeric_limits<SQInteger>::max());
+    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
+    return 1;
+
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function '__'"));
     return SQ_ERROR;
   }
 
@@ -5639,6 +5782,32 @@ void create_squirrel_instance(HSQUIRRELVM v, scripting::Candle* object, bool set
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, scripting::Dispenser* object, bool setup_releasehook)
+{
+  using namespace wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "Dispenser", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Dispenser'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Dispenser'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Dispenser_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void create_squirrel_instance(HSQUIRRELVM v, scripting::DisplayEffect* object, bool setup_releasehook)
 {
   using namespace wrapper;
@@ -6225,6 +6394,20 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function '_'");
   }
 
+  sq_pushstring(v, "translate_plural", -1);
+  sq_newclosure(v, &translate_plural_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tssi");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'translate_plural'");
+  }
+
+  sq_pushstring(v, "__", -1);
+  sq_newclosure(v, &___wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|tssi");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function '__'");
+  }
+
   sq_pushstring(v, "import", -1);
   sq_newclosure(v, &import_wrapper, 0);
   sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|ts");
@@ -6568,6 +6751,31 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register class 'Candle'");
+  }
+
+  // Register class Dispenser
+  sq_pushstring(v, "Dispenser", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'Dispenser'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "activate", -1);
+  sq_newclosure(v, &Dispenser_activate_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'activate'");
+  }
+
+  sq_pushstring(v, "deactivate", -1);
+  sq_newclosure(v, &Dispenser_deactivate_wrapper, 0);
+  sq_setparamscheck(v, SQ_MATCHTYPEMASKSTRING, "x|t");
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'deactivate'");
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register class 'Dispenser'");
   }
 
   // Register class DisplayEffect

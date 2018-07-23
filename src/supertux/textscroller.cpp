@@ -21,18 +21,16 @@
 #include "control/input_manager.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"
-#include "supertux/gameconfig.hpp"
-#include "supertux/info_box_line.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/info_box_line.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/resources.hpp"
+#include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
-
-#include <sstream>
-#include <stdexcept>
+#include "video/surface.hpp"
 
 static const float DEFAULT_SPEED = 20;
 static const float LEFT_BORDER = 50;
@@ -206,11 +204,13 @@ TextScroller::update(float elapsed_time)
 }
 
 void
-TextScroller::draw(DrawingContext& context)
+TextScroller::draw(Compositor& compositor)
 {
-  context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+  auto& context = compositor.make_context();
+
+  context.color().draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
-  context.draw_surface_part(background, Rectf(0, 0, background->get_width(), background->get_height()),
+  context.color().draw_surface_part(background, Rectf(0, 0, background->get_width(), background->get_height()),
                             Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), 0);
 
 

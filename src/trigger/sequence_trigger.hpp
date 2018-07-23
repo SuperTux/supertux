@@ -28,7 +28,6 @@ class SequenceTrigger : public TriggerBase
 public:
   SequenceTrigger(const ReaderMapping& reader);
   SequenceTrigger(const Vector& pos, const std::string& sequence_name);
-  ~SequenceTrigger();
   virtual void save(Writer& writer);
   std::string get_class() const {
     return "sequencetrigger";
@@ -50,6 +49,9 @@ private:
   EventType triggerevent;
   Sequence sequence;
   Vector new_size;
+  std::string new_spawnpoint;
+  std::string fade_tilemap;
+  TilemapFadeType fade;
 };
 
 #endif

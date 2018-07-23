@@ -16,6 +16,7 @@
 
 #include "object/falling_coin.hpp"
 
+#include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/globals.hpp"
 
@@ -28,14 +29,10 @@ FallingCoin::FallingCoin(const Vector& start_position, const int vel_x) :
   physic.set_velocity_x(vel_x);
 }
 
-FallingCoin::~FallingCoin()
-{
-}
-
 void
 FallingCoin::draw(DrawingContext& context)
 {
-  sprite->draw(context, pos, LAYER_FLOATINGOBJECTS + 5);
+  sprite->draw(context.color(), pos, LAYER_FLOATINGOBJECTS + 5);
 }
 
 void

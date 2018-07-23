@@ -21,9 +21,9 @@
 #include <map>
 
 #include "control/controller.hpp"
-#include "util/writer.hpp"
 
 class ReaderMapping;
+class Writer;
 
 class KeyboardConfig
 {

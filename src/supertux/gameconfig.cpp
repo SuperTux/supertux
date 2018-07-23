@@ -16,16 +16,11 @@
 
 #include "supertux/gameconfig.hpp"
 
-#include <stdexcept>
-
-#include "addon/addon_manager.hpp"
-#include "control/input_manager.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "util/log.hpp"
-#include "supertux/globals.hpp"
 
 Config::Config() :
   profile(1),
@@ -55,12 +50,10 @@ Config::Config() :
   developer_mode(false),
   christmas_mode(false),
   transitions_enabled(true),
+  confirmation_dialog(false),
   repository_url()
 {
 }
-
-Config::~Config()
-{}
 
 void
 Config::load()
@@ -77,6 +70,7 @@ Config::load()
   config_lisp.get("show_fps", show_fps);
   config_lisp.get("show_player_pos", show_player_pos);
   config_lisp.get("developer", developer_mode);
+  config_lisp.get("confirmation_dialog", confirmation_dialog);
 
   if(is_christmas()) {
     if(!config_lisp.get("christmas", christmas_mode))
@@ -175,6 +169,7 @@ Config::save()
   writer.write("show_fps", show_fps);
   writer.write("show_player_pos", show_player_pos);
   writer.write("developer", developer_mode);
+  writer.write("confirmation_dialog", confirmation_dialog);
   if(is_christmas()) {
     writer.write("christmas", christmas_mode);
   }

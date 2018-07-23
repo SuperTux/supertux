@@ -18,22 +18,19 @@
 
 #include <physfs.h>
 #include <sstream>
+#include <boost/format.hpp>
 
 #include "editor/editor.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "physfs/physfs_file_system.hpp"
-#include "supertux/game_manager.hpp"
-#include "supertux/gameconfig.hpp"
 #include "supertux/levelset.hpp"
-#include "supertux/menu/contrib_levelset_menu.hpp"
-#include "supertux/menu/editor_level_select_menu.hpp"
 #include "supertux/menu/editor_levelset_select_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 
 EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
   m_contrib_worlds()
@@ -81,7 +78,9 @@ EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
                           new Levelset(level_world, /* recursively = */ true));
       int level_count = levelset->get_num_levels();
       std::ostringstream level_title;
-      level_title << title << " (" << level_count << " " << _("levels") << ")";
+      level_title << title << " (" <<
+        boost::format(__("%d level", "%d levels", level_count)) % level_count <<
+        ")";
       add_entry(i++, level_title.str());
       m_contrib_worlds.push_back(level_world);
     }
@@ -103,7 +102,7 @@ EditorLevelsetSelectMenu::~EditorLevelsetSelectMenu()
   if(editor == NULL) {
     return;
   }
-  if (!editor->levelloaded && !editor->reload_request) {
+  if (!editor->is_level_loaded() && !editor->reload_request) {
     editor->quit_request = true;
   } else {
     editor->reactivate_request = true;

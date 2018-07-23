@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_TRIGGER_TRIGGER_BASE_HPP
 
 #include <list>
-#include <memory>
 
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"

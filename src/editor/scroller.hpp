@@ -17,22 +17,15 @@
 #ifndef HEADER_SUPERTUX_EDITOR_SCROLLER_HPP
 #define HEADER_SUPERTUX_EDITOR_SCROLLER_HPP
 
-#include <stdexcept>
-
-#include "control/input_manager.hpp"
 #include "math/vector.hpp"
-#include "supertux/screen.hpp"
 
-class LayerIcon;
-class GameObject;
-class Vector;
-class Tip;
+class DrawingContext;
+union SDL_Event;
 
 class EditorScroller
 {
   public:
     EditorScroller();
-    ~EditorScroller();
 
     void draw(DrawingContext&);
     void update(float elapsed_time);

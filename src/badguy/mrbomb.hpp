@@ -18,13 +18,13 @@
 #define HEADER_SUPERTUX_BADGUY_MRBOMB_HPP
 
 #include "badguy/walking_badguy.hpp"
+#include "object/portable.hpp"
 
 class MrBomb : public WalkingBadguy,
                public Portable
 {
 public:
   MrBomb(const ReaderMapping& reader);
-  MrBomb(const Vector& pos, Direction d);
 
   void kill_fall();
   void ignite();

@@ -14,13 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "math/random_generator.hpp"
 #include "object/bullet.hpp"
+
+#include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/globals.hpp"
+#include "supertux/direction.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
@@ -53,10 +54,6 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, BonusType type_) :
 
   bbox.set_pos(pos);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
-}
-
-Bullet::~Bullet()
-{
 }
 
 void
@@ -98,16 +95,13 @@ void
 Bullet::draw(DrawingContext& context)
 {
   //Draw the Sprite.
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
   //Draw the light if fire and dark
   if(type == FIRE_BONUS){
     context.get_light( bbox.get_middle(), &light );
     if (light.red + light.green < 2.0){
-      context.push_target();
-      context.set_target(DrawingContext::LIGHTMAP);
-      sprite->draw(context, get_pos(), LAYER_OBJECTS);
-      lightsprite->draw(context, bbox.get_middle(), 0);
-      context.pop_target();
+      sprite->draw(context.light(), get_pos(), LAYER_OBJECTS);
+      lightsprite->draw(context.light(), bbox.get_middle(), 0);
     }
   }
 }

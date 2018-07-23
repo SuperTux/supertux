@@ -26,7 +26,6 @@ class SmokeCloud : public GameObject
 {
 public:
   SmokeCloud(const Vector& pos);
-  ~SmokeCloud();
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);

@@ -18,17 +18,11 @@
 
 #include "object/path.hpp"
 
-#include <sstream>
-#include <stdexcept>
-
 #include "editor/node_marker.hpp"
-#include "editor/object_option.hpp"
-#include "supertux/game_object.hpp"
-#include "supertux/game_object_ptr.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/log.hpp"
 #include "util/writer.hpp"
+#include "util/log.hpp"
 
 Path::Path() :
   nodes(),
@@ -44,10 +38,6 @@ Path::Path(const Vector& pos) :
   first_node.position = pos;
   first_node.time = 1;
   nodes.push_back(first_node);
-}
-
-Path::~Path()
-{
 }
 
 void

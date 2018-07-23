@@ -14,19 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "video/drawing_context.hpp"
 #include "object/specialriser.hpp"
+
 #include "supertux/sector.hpp"
+#include "video/drawing_context.hpp"
 
 SpecialRiser::SpecialRiser(const Vector& pos, std::shared_ptr<MovingObject> _child) :
   offset(0),
   child(_child)
 {
   _child->set_pos(pos - Vector(0, 32));
-}
-
-SpecialRiser::~SpecialRiser()
-{
 }
 
 void

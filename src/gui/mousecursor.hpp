@@ -45,7 +45,6 @@ public:
   MouseCursor(const std::string& cursor_file,
               const std::string& cursor_click_file,
               const std::string& cursor_link_file);
-  ~MouseCursor();
 
   /// Set MouseCursor state.
   /** (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */

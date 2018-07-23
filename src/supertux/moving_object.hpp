@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_MOVING_OBJECT_HPP
 #define HEADER_SUPERTUX_SUPERTUX_MOVING_OBJECT_HPP
 
-#include <stdint.h>
-
 #include "math/rectf.hpp"
 #include "supertux/collision_hit.hpp"
 #include "supertux/game_object.hpp"
@@ -76,6 +74,7 @@ class MovingObject : public GameObject
 {
 public:
   MovingObject();
+  MovingObject(const ReaderMapping& reader);
   virtual ~MovingObject();
 
   /** this function is called when the object collided with something solid */
@@ -171,7 +170,7 @@ protected:
 
   void set_group(CollisionGroup group_)
   {
-    this->group = group_;
+    group = group_;
   }
 
   /** The bounding box of the object (as used for collision detection,

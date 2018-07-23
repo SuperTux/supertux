@@ -16,41 +16,29 @@
 
 #include "supertux/game_session.hpp"
 
-#include <float.h>
-#include <fstream>
-
 #include "audio/sound_manager.hpp"
 #include "control/input_manager.hpp"
-#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
 #include "object/camera.hpp"
 #include "object/endsequence_fireworks.hpp"
 #include "object/endsequence_walkleft.hpp"
 #include "object/endsequence_walkright.hpp"
 #include "object/level_time.hpp"
-#include "object/player.hpp"
-#include "scripting/scripting.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/level_parser.hpp"
 #include "supertux/levelintro.hpp"
 #include "supertux/levelset_screen.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/options_menu.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
-#include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/file_system.hpp"
-#include "util/gettext.hpp"
+#include "video/compositor.hpp"
+#include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 #include "worldmap/worldmap.hpp"
-
-#ifdef WIN32
-#  define snprintf _snprintf
-#endif
 
 GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
   GameSessionRecorder(),
@@ -68,6 +56,8 @@ GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Stat
   reset_pos(),
   newsector(),
   newspawnpoint(),
+  pastinvincibility(false),
+  newinvincibilityperiod(0),
   best_level_statistics(statistics),
   m_savegame(savegame),
   play_time(0),
@@ -163,10 +153,6 @@ GameSession::restart_level(bool after_death)
   return (0);
 }
 
-GameSession::~GameSession()
-{
-}
-
 void
 GameSession::on_escape_press()
 {
@@ -223,8 +209,8 @@ GameSession::is_active() const
 void
 GameSession::set_editmode(bool edit_mode_)
 {
-  if (this->edit_mode == edit_mode_) return;
-  this->edit_mode = edit_mode_;
+  if (edit_mode == edit_mode_) return;
+  edit_mode = edit_mode_;
 
   currentsector->get_players()[0]->set_edit_mode(edit_mode_);
 
@@ -249,7 +235,7 @@ GameSession::force_ghost_mode()
 void
 GameSession::check_end_conditions()
 {
-  Player* tux = currentsector->player;
+  auto tux = currentsector->player;
 
   /* End of level? */
   if(end_sequence && end_sequence->is_done()) {
@@ -260,15 +246,16 @@ GameSession::check_end_conditions()
 }
 
 void
-GameSession::draw(DrawingContext& context)
+GameSession::draw(Compositor& compositor)
 {
+  auto& context = compositor.make_context();
+
   currentsector->draw(context);
   drawstatus(context);
 
   if(game_pause)
     draw_pause(context);
 }
-
 
 void
 GameSession::on_window_resize()
@@ -279,7 +266,7 @@ GameSession::on_window_resize()
 void
 GameSession::draw_pause(DrawingContext& context)
 {
-  context.draw_filled_rect(
+  context.color().draw_filled_rect(
     Vector(0,0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
     Color(0.0f, 0.0f, 0.0f, .25f), LAYER_FOREGROUND1);
 }
@@ -370,6 +357,11 @@ GameSession::update(float elapsed_time)
       currentsector->get_players()[0]->set_edit_mode(edit_mode);
     newsector = "";
     newspawnpoint = "";
+    // retain invincibility if the player has it
+    if(pastinvincibility) {
+      currentsector->get_players()[0]->invincible_timer.start(
+                                                        newinvincibilityperiod);
+    }
   }
 
   // Update the world state and all objects in the world
@@ -446,10 +438,13 @@ GameSession::finish(bool win)
 }
 
 void
-GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
+GameSession::respawn(const std::string& sector, const std::string& spawnpoint,
+                     const bool invincibility, const int invincibilityperiod)
 {
   newsector = sector;
   newspawnpoint = spawnpoint;
+  pastinvincibility = invincibility;
+  newinvincibilityperiod = invincibilityperiod;
 }
 
 void
@@ -466,7 +461,7 @@ GameSession::get_working_directory() const
 }
 
 void
-GameSession::start_sequence(Sequence seq)
+GameSession::start_sequence(Sequence seq, const SequenceData* data)
 {
   // do not play sequences when in edit mode
   if (edit_mode) {
@@ -478,7 +473,7 @@ GameSession::start_sequence(Sequence seq)
   if (seq == SEQ_STOPTUX) {
     if (!end_sequence) {
       log_warning << "Final target reached without an active end sequence" << std::endl;
-      this->start_sequence(SEQ_ENDSEQUENCE);
+      start_sequence(SEQ_ENDSEQUENCE);
     }
     if (end_sequence) end_sequence->stop_tux();
     return;
@@ -499,6 +494,21 @@ GameSession::start_sequence(Sequence seq)
   } else {
     log_warning << "Unknown sequence '" << (int)seq << "'. Ignoring." << std::endl;
     return;
+  }
+
+  if(const auto& worldmap = worldmap::WorldMap::current())
+  {
+    if(data != NULL)
+    {
+      if(!data->fade_tilemap.empty())
+      {
+        worldmap->set_initial_fade_tilemap(data->fade_tilemap, data->fade_type);
+      }
+      if(!data->spawnpoint.empty())
+      {
+        worldmap->set_initial_spawnpoint(data->spawnpoint);
+      }
+    }
   }
 
   /* slow down the game for end-sequence */

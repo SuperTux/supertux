@@ -18,10 +18,11 @@
 #define HEADER_SUPERTUX_OBJECT_MOVING_SPRITE_HPP
 
 #include "object/anchor_point.hpp"
-#include "supertux/moving_object.hpp"
-#include "util/reader_fwd.hpp"
-#include "video/drawing_request.hpp"
 #include "sprite/sprite_ptr.hpp"
+#include "supertux/moving_object.hpp"
+#include "video/drawing_context.hpp"
+
+class ReaderMapping;
 
 /**
  * Abstract base class for MovingObjects that are represented by a Sprite
@@ -46,7 +47,6 @@ public:
                CollisionGroup collision_group = COLGROUP_MOVING);
   MovingSprite(const MovingSprite& moving_sprite);
   //MovingSprite& operator=(const MovingSprite& moving_sprite);
-  ~MovingSprite();
 
   virtual void draw(DrawingContext& context) override;
   virtual void update(float elapsed_time) override;
@@ -63,6 +63,7 @@ public:
 
   std::string get_sprite_name() const;
   void change_sprite(const std::string& new_sprite_name);
+  void spawn_explosion_sprites(int count, const std::string& sprite_path);
 
 protected:
   std::string sprite_name;

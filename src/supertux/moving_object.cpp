@@ -18,8 +18,18 @@
 
 #include "editor/resizer.hpp"
 #include "supertux/sector.hpp"
+#include "util/writer.hpp"
 
 MovingObject::MovingObject() :
+  bbox(),
+  movement(),
+  group(COLGROUP_MOVING),
+  dest()
+{
+}
+
+MovingObject::MovingObject(const ReaderMapping& reader) :
+  GameObject(reader),
   bbox(),
   movement(),
   group(COLGROUP_MOVING),

@@ -16,21 +16,10 @@
 
 #include "supertux/menu/world_set_menu.hpp"
 
-#include "audio/sound_manager.hpp"
-#include "gui/dialog.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/fadeout.hpp"
 #include "supertux/game_manager.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/menu/addon_menu.hpp"
-#include "supertux/menu/contrib_menu.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/options_menu.hpp"
-#include "supertux/screen_fade.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/textscroller.hpp"
-#include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/gettext.hpp"
 

@@ -17,29 +17,33 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_LIGHTMAP_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_LIGHTMAP_HPP
 
+#include <memory>
+
 #include "video/lightmap.hpp"
+#include "video/glutil.hpp"
 
-struct DrawingRequest;
-
+class GLTexture;
 class Texture;
+struct DrawingRequest;
 
 class GLLightmap : public Lightmap
 {
 public:
   GLLightmap();
-  ~GLLightmap();
 
   void start_draw(const Color &ambient_color) override;
   void end_draw() override;
-  void do_draw() override;
+
   void draw_surface(const DrawingRequest& request) override;
   void draw_surface_part(const DrawingRequest& request) override;
   void draw_gradient(const DrawingRequest& request) override;
   void draw_filled_rect(const DrawingRequest& request) override;
   void draw_inverse_ellipse(const DrawingRequest& request) override;
-  void get_light(const DrawingRequest& request) const override;
   void draw_line(const DrawingRequest& request) override;
   void draw_triangle(const DrawingRequest& request) override;
+
+  void get_light(const DrawingRequest& request) const override;
+  void do_draw() override;
 
 private:
   static const int s_LIGHTMAP_DIV = 5;
@@ -49,7 +53,7 @@ private:
   int m_lightmap_height;
   float m_lightmap_uv_right;
   float m_lightmap_uv_bottom;
-  GLfloat m_old_viewport[4]; //holds vieport before redefining in start_draw - returned from glGet
+  GLint m_old_viewport[4]; //holds vieport before redefining in start_draw - returned from glGet
 
 private:
   GLLightmap(const GLLightmap&);

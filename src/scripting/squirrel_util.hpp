@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_SCRIPTING_SQUIRREL_UTIL_HPP
 #define HEADER_SUPERTUX_SCRIPTING_SQUIRREL_UTIL_HPP
 
+#include <assert.h>
+#include <limits>
 #include <sstream>
 #include <vector>
 
@@ -82,7 +84,8 @@ void expose_object(HSQUIRRELVM v, SQInteger table_idx, T* object,
 static inline void unexpose_object(HSQUIRRELVM v, SQInteger table_idx,
                                    const std::string& name)
 {
-  sq_pushstring(v, name.c_str(), name.length());
+  assert(name.length() < std::numeric_limits<SQInteger>::max());
+  sq_pushstring(v, name.c_str(), (SQInteger)name.length());
 
   if(table_idx < 0)
     table_idx -= 1;

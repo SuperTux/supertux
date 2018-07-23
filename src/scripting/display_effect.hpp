@@ -31,9 +31,7 @@ private:
 
 public:
   DisplayEffect(::DisplayEffect* parent);
-  ~DisplayEffect();
 
-private:
 private:
   DisplayEffect(const DisplayEffect&) = delete;
   DisplayEffect& operator=(const DisplayEffect&) = delete;

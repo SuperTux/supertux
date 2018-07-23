@@ -18,13 +18,7 @@
 #ifndef HEADER_SUPERTUX_GUI_MENU_ITEM_HPP
 #define HEADER_SUPERTUX_GUI_MENU_ITEM_HPP
 
-#include <list>
-#include <memory>
-#include <SDL.h>
-
 #include "gui/menu.hpp"
-
-class Color;
 
 class MenuItem
 {

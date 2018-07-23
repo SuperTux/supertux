@@ -23,7 +23,6 @@ class YetiStalactite : public Stalactite
 {
 public:
   YetiStalactite(const ReaderMapping& lisp);
-  virtual ~YetiStalactite();
 
   void active_update(float elapsed_time);
   void start_shaking();

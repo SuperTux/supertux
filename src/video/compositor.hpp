@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2010 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2018 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,14 +14,35 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "math/rectf.hpp"
+#ifndef HEADER_SUPERTUX_VIDEO_COMPOSITOR_HPP
+#define HEADER_SUPERTUX_VIDEO_COMPOSITOR_HPP
 
-#include "math/sizef.hpp"
+#include <vector>
+#include <memory>
 
-Rectf::Rectf(const Vector& p1_, const Sizef& size) :
-  p1(p1_),
-  p2(p1_.x + size.width, p1_.y + size.height)
+#include "video/drawing_context.hpp"
+
+class Rect;
+class VideoSystem;
+
+class Compositor final
 {
-}
+public:
+  Compositor(VideoSystem& video_system);
+
+  void render();
+
+  DrawingContext& make_context();
+
+private:
+  VideoSystem& m_video_system;
+  std::vector<std::unique_ptr<DrawingContext> > m_drawing_contexts;
+
+private:
+  Compositor(const Compositor&) = delete;
+  Compositor& operator=(const Compositor&) = delete;
+};
+
+#endif
 
 /* EOF */

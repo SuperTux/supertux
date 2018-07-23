@@ -21,25 +21,21 @@
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "physfs/ifile_stream.hpp"
+#include "scripting/time_scheduler.hpp"
+#include "supertux/console.hpp"
 #include "supertux/fadeout.hpp"
+#include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/game_manager.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/shrinkfade.hpp"
 #include "supertux/textscroller.hpp"
 #include "supertux/tile.hpp"
-#include "supertux/world.hpp"
-#include "util/gettext.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
-
-#include "scripting/squirrel_util.hpp"
-#include "scripting/time_scheduler.hpp"
 
 namespace scripting {
 
@@ -103,6 +99,16 @@ std::string translate(const std::string& text)
 std::string _(const std::string& text)
 {
   return translate(text);
+}
+
+std::string translate_plural(const std::string& text, const std::string& text_plural, int num)
+{
+  return g_dictionary_manager->get_dictionary().translate_plural(text, text_plural, num);
+}
+
+std::string __(const std::string& text, const std::string& text_plural, int num)
+{
+  return translate_plural(text, text_plural, num);
 }
 
 void display_text_file(const std::string& filename)
@@ -313,7 +319,7 @@ void camera()
 
 void set_gamma(float gamma)
 {
-  VideoSystem::current()->get_renderer().set_gamma(gamma);
+  VideoSystem::current()->set_gamma(gamma);
 }
 
 void quit()

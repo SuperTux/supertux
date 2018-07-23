@@ -18,13 +18,9 @@
 #define HEADER_SUPERTUX_SUPERTUX_MENU_EDITOR_MENU_HPP
 
 #include "gui/menu.hpp"
-#include "video/color.hpp"
-
-class Level;
 
 class EditorMenu : public Menu
 {
-private:
 public:
   EditorMenu();
   ~EditorMenu();

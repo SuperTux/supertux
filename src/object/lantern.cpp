@@ -23,7 +23,6 @@
 #include "badguy/willowisp.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "util/reader_mapping.hpp"
 
 Lantern::Lantern(const ReaderMapping& reader) :
@@ -31,7 +30,6 @@ Lantern::Lantern(const ReaderMapping& reader) :
   lightcolor(1.0f, 1.0f, 1.0f),
   lightsprite(SpriteManager::current()->create("images/objects/lightmap_light/lightmap_light.sprite"))
 {
-  reader.get("name", name, "");
   //get color from lisp
   std::vector<float> vColor;
   if (reader.get("color", vColor)) {
@@ -67,10 +65,6 @@ Lantern::after_editor_set() {
   updateColor();
 }
 
-Lantern::~Lantern()
-{
-}
-
 void
 Lantern::updateColor(){
   lightsprite->set_color(lightcolor);
@@ -89,12 +83,7 @@ Lantern::draw(DrawingContext& context){
   //Draw the Sprite.
   MovingSprite::draw(context);
   //Let there be light.
-  context.push_target();
-  context.set_target(DrawingContext::LIGHTMAP);
-
-  lightsprite->draw(context, bbox.get_middle(), 0);
-
-  context.pop_target();
+  lightsprite->draw(context.light(), bbox.get_middle(), 0);
 }
 
 HitResponse Lantern::collision(GameObject& other, const CollisionHit& hit) {

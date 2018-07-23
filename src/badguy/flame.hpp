@@ -19,13 +19,12 @@
 
 #include "badguy/badguy.hpp"
 
-#include "audio/sound_source.hpp"
+class SoundSource;
 
 class Flame : public BadGuy
 {
 public:
   Flame(const ReaderMapping& reader);
-  Flame(const Flame& flame);
 
   void activate();
   void deactivate();

@@ -37,7 +37,7 @@ private:
   std::string* base_script;
   std::vector<std::unique_ptr<std::string> > script_strings;
 
-  void push_string(std::string new_line);
+  void push_string(const std::string& new_line);
 
   ScriptMenu(const ScriptMenu&);
   ScriptMenu& operator=(const ScriptMenu&);

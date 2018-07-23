@@ -37,7 +37,6 @@ public:
   enum LineType { NORMAL, NORMAL_LEFT, SMALL, HEADING, REFERENCE, IMAGE};
 
   InfoBoxLine(char format_char, const std::string& text);
-  ~InfoBoxLine();
 
   void draw(DrawingContext& context, const Rectf& bbox, int layer);
   float get_height() const;

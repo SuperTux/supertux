@@ -28,7 +28,6 @@ class LevelTime
 public:
 #ifndef SCRIPTING_API
   LevelTime(::LevelTime* level_time);
-  ~LevelTime();
 #endif
 
   /**

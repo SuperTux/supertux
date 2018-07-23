@@ -17,6 +17,7 @@
 
 #include "supertux/menu/keyboard_menu.hpp"
 
+#include "control/input_manager.hpp"
 #include "control/keyboard_manager.hpp"
 #include "gui/item_controlfield.hpp"
 #include "supertux/gameconfig.hpp"
@@ -55,9 +56,6 @@ KeyboardMenu::KeyboardMenu(InputManager& input_manager) :
   add_back(_("Back"));
   refresh();
 }
-
-KeyboardMenu::~KeyboardMenu()
-{}
 
 std::string
 KeyboardMenu::get_key_name(SDL_Keycode key) const

@@ -26,12 +26,12 @@ class LayerIcon;
 class GameObject;
 class Vector;
 class Tip;
+class DrawingContext;
 
 class EditorLayersGui
 {
   public:
     EditorLayersGui();
-    ~EditorLayersGui();
 
     void draw(DrawingContext&);
     void update(float elapsed_time);

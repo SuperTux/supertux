@@ -23,11 +23,8 @@
 #include "scripting/level.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-
-#include <sstream>
 
 PowerUp::PowerUp(const ReaderMapping& lisp) :
   MovingSprite(lisp, "images/powerups/egg/egg.sprite", LAYER_OBJECTS, COLGROUP_MOVING),
@@ -167,8 +164,8 @@ PowerUp::update(float elapsed_time)
       if (disp_x*disp_x + disp_y*disp_y <= 256*256)
       {
         if (graphicsRandom.rand(0, 2) == 0) {
-          float px = graphicsRandom.randf(bbox.p1.x+0, bbox.p2.x-0);
-          float py = graphicsRandom.randf(bbox.p1.y+0, bbox.p2.y-0);
+          float px = graphicsRandom.randf(bbox.p1.x * 1.0, bbox.p2.x * 1.0);
+          float py = graphicsRandom.randf(bbox.p1.y * 1.0, bbox.p2.y * 1.0);
           Vector ppos = Vector(px, py);
           Vector pspeed = Vector(0, 0);
           Vector paccel = Vector(0, 0);
@@ -188,18 +185,15 @@ PowerUp::update(float elapsed_time)
 void
 PowerUp::draw(DrawingContext& context){
   //Draw the Sprite.
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context.color(), get_pos(), layer);
   //Draw light when dark for defaults
   context.get_light( bbox.get_middle(), &light );
   if (light.red + light.green + light.blue < 3.0){
     //Stars are brighter
     if (sprite_name == "images/powerups/star/star.sprite") {
-      sprite->draw(context, get_pos(), layer);
+      sprite->draw(context.color(), get_pos(), layer);
     }
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, bbox.get_middle(), 0);
-    context.pop_target();
+    lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
 }
 

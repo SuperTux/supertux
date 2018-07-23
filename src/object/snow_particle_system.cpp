@@ -16,13 +16,12 @@
 
 #include "object/snow_particle_system.hpp"
 
+#include <assert.h>
 #include <math.h>
 
 #include "math/random_generator.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader.hpp"
-#include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 // TODO: tweak values
 namespace SNOW {
@@ -66,7 +65,7 @@ void SnowParticleSystem::init()
 
   virtual_width = SCREEN_WIDTH * 2;
 
-  timer.start(.01);
+  timer.start(.01f);
 
   // create some random snowflakes
   size_t snowflakecount = size_t(virtual_width/10.0);

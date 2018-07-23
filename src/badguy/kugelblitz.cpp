@@ -24,9 +24,7 @@
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/reader_mapping.hpp"
 
 #define  LIFETIME 5
 #define  MOVETIME 0.75
@@ -141,8 +139,8 @@ Kugelblitz::active_update(float elapsed_time)
     }
 
     if (is_in_water()) {
-      Sector::current()->add_object( std::make_shared<Electrifier>(75,1421,1.5));
-      Sector::current()->add_object( std::make_shared<Electrifier>(76,1422,1.5));
+      Sector::current()->add_object( std::make_shared<Electrifier>(TileChangeMap(
+                                            { {75, 1421}, {76, 1422} }), 1.5));
       explode();
     }
   }
@@ -152,16 +150,13 @@ Kugelblitz::active_update(float elapsed_time)
 void
 Kugelblitz::draw(DrawingContext& context)
 {
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context.color(), get_pos(), layer);
 
   //Only draw light in dark areas
   context.get_light( bbox.get_middle(), &light );
   if (light.red + light.green < 2.0){
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    sprite->draw(context, get_pos(), layer);
-    lightsprite->draw(context, bbox.get_middle(), 0);
-    context.pop_target();
+    sprite->draw(context.light(), get_pos(), layer);
+    lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
 }
 

@@ -17,16 +17,15 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
 #define HEADER_SUPERTUX_SUPERTUX_GAME_OBJECT_HPP
 
-#include <memory>
 #include <string>
 
 #include "editor/object_settings.hpp"
 #include "util/gettext.hpp"
-#include "util/writer.hpp"
 
 class DrawingContext;
-class GameObject;
 class ObjectRemoveListener;
+class ReaderMapping;
+class Writer;
 
 /**
  * Base class for all the things that make up Levels' Sectors.
@@ -45,6 +44,7 @@ class GameObject
 public:
   GameObject();
   GameObject(const GameObject& rhs);
+  GameObject(const ReaderMapping& reader);
   virtual ~GameObject();
 
   /** This function is called once per frame and allows the object to update

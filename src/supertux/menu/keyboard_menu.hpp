@@ -18,8 +18,9 @@
 #ifndef HEADER_SUPERTUX_CONTROL_KEYBOARD_MENU_HPP
 #define HEADER_SUPERTUX_CONTROL_KEYBOARD_MENU_HPP
 
-#include "control/input_manager.hpp"
 #include "gui/menu_item.hpp"
+
+class InputManager;
 
 class KeyboardMenu : public Menu
 {
@@ -28,7 +29,6 @@ private:
 
 public:
   KeyboardMenu(InputManager& input_manager);
-  ~KeyboardMenu();
 
   void refresh() override;
   std::string get_key_name(SDL_Keycode key) const;

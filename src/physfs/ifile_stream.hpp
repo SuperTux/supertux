@@ -19,7 +19,6 @@
 
 #include <memory>
 #include <istream>
-#include <physfs.h>
 
 class IFileStream : public std::istream
 {
@@ -28,7 +27,6 @@ protected:
 
 public:
   IFileStream(const std::string& filename);
-  ~IFileStream();
 
 private:
   IFileStream(const IFileStream&) = delete;

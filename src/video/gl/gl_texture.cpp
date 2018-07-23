@@ -14,8 +14,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "supertux/gameconfig.hpp"
 #include "video/gl/gl_texture.hpp"
+
+#include <SDL.h>
+#include <assert.h>
 
 #ifdef USE_GLBINDING
   #include <glbinding/ContextInfo.h>

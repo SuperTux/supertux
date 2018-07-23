@@ -19,8 +19,6 @@
 
 #include "gui/menu_item.hpp"
 
-#include "supertux/timer.hpp"
-
 class ItemNumField : public MenuItem
 {
   public:

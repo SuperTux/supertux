@@ -25,7 +25,6 @@ class ObjectSettings
 {
   public:
     ObjectSettings(const std::string& name_);
-    ~ObjectSettings();
 
     std::string name;
     std::vector<ObjectOption> options;

@@ -18,12 +18,12 @@
 #define HEADER_SUPERTUX_BADGUY_BADGUY_HPP
 
 #include "editor/object_option.hpp"
-#include "gui/menu_action.hpp"
 #include "object/moving_sprite.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/timer.hpp"
 
+class Dispenser;
 class Player;
 class Bullet;
 
@@ -130,6 +130,23 @@ public:
   /** Get melting particle sprite filename */
   virtual std::string get_water_sprite() const {
     return "images/objects/water_drop/water_drop.sprite";
+  }
+
+  /**
+   * Sets the dispenser that spawns this badguy.
+   * @param parent The dispenser
+   */
+  void set_parent_dispenser(Dispenser* parent)
+  {
+    parent_dispenser = parent;
+  }
+
+  /**
+   * Returns the dispenser this badguys was spawned by
+   */
+  Dispenser* get_parent_dispenser() const
+  {
+    return parent_dispenser;
   }
 
 protected:
@@ -281,6 +298,11 @@ private:
 
   /** CollisionGroup the badguy should be in while active */
   CollisionGroup colgroup_active;
+
+  /** If this badguy was dispensed from a dispenser,
+   * save the dispenser here.
+   */
+  Dispenser* parent_dispenser;
 
 private:
   BadGuy(const BadGuy&);

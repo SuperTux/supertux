@@ -16,10 +16,7 @@
 
 #include "badguy/crystallo.hpp"
 
-#include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 #include "util/reader_mapping.hpp"
-#include "object/anchor_point.hpp"
 
 Crystallo::Crystallo(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
@@ -29,14 +26,6 @@ Crystallo::Crystallo(const ReaderMapping& reader) :
   max_drop_height = 16;
 
   reader.get("radius", radius, 100);
-}
-
-Crystallo::Crystallo(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/crystallo/crystallo.sprite", "left", "right"),
-  radius(100)
-{
-  walk_speed = 80;
-  max_drop_height = 16;
 }
 
 ObjectSettings
@@ -66,7 +55,7 @@ Crystallo::active_update(float elapsed_time)
 bool
 Crystallo::collision_squished(GameObject& object)
 {
-  this->set_action(dir == LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
+  set_action(dir == LEFT ? "shattered-left" : "shattered-right", /* loops = */ -1, ANCHOR_BOTTOM);
   kill_squished(object);
   return true;
 }

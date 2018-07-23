@@ -25,7 +25,6 @@ class MrIceBlock : public WalkingBadguy,
 {
 public:
   MrIceBlock(const ReaderMapping& reader);
-  MrIceBlock(const Vector& pos, Direction d);
 
   void initialize();
   HitResponse collision(GameObject& object, const CollisionHit& hit);
@@ -56,7 +55,8 @@ protected:
     ICESTATE_NORMAL,
     ICESTATE_FLAT,
     ICESTATE_GRABBED,
-    ICESTATE_KICKED
+    ICESTATE_KICKED,
+    ICESTATE_WAKING
   };
 
 protected:
@@ -68,22 +68,6 @@ private:
   Timer nokick_timer;
   Timer flat_timer;
   int squishcount;
-};
-
-class SmartBlock : public MrIceBlock
-{
-public:
-  SmartBlock(const ReaderMapping& reader);
-
-  virtual std::string get_water_sprite() const {
-    return "images/objects/water_drop/pink_drop.sprite";
-  }
-  std::string get_class() const {
-    return "smartblock";
-  }
-  std::string get_display_name() const {
-    return _("Smart Block");
-  }
 };
 
 #endif

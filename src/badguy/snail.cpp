@@ -16,12 +16,11 @@
 
 #include "badguy/snail.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
-
-#include <math.h>
 
 namespace {
 const float SNAIL_KICK_SPEED = 500;
@@ -31,19 +30,6 @@ const float SNAIL_KICK_SPEED_Y = -500; /**< y-velocity gained when kicked */
 
 Snail::Snail(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/snail/snail.sprite", "left", "right"),
-  state(STATE_NORMAL),
-  kicked_delay_timer(),
-  squishcount(0)
-{
-  walk_speed = 80;
-  max_drop_height = 600;
-  SoundManager::current()->preload("sounds/iceblock_bump.wav");
-  SoundManager::current()->preload("sounds/stomp.wav");
-  SoundManager::current()->preload("sounds/kick.wav");
-}
-
-Snail::Snail(const Vector& pos, Direction d) :
-  WalkingBadguy(pos, d, "images/creatures/snail/snail.sprite", "left", "right"),
   state(STATE_NORMAL),
   kicked_delay_timer(),
   squishcount(0)
@@ -138,7 +124,7 @@ Snail::active_update(float elapsed_time)
       break;
 
     case STATE_KICKED:
-      physic.set_velocity_x(physic.get_velocity_x() * pow(0.99, elapsed_time/0.02));
+      physic.set_velocity_x(physic.get_velocity_x() * powf(0.99f, elapsed_time/0.02f));
       if (sprite->animation_done() || (fabsf(physic.get_velocity_x()) < walk_speed)) be_normal();
       break;
 
@@ -297,9 +283,9 @@ void
 Snail::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   movement = pos - get_pos();
-  this->dir = dir_;
-  this->set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
-  this->be_grabbed();
+  dir = dir_;
+  set_action(dir_ == LEFT ? "flat-left" : "flat-right", /* loops = */ -1);
+  be_grabbed();
   set_colgroup_active(COLGROUP_DISABLED);
 }
 
@@ -307,10 +293,10 @@ void
 Snail::ungrab(MovingObject& , Direction dir_)
 {
   if(dir_ == UP) {
-    this->be_flat();
+    be_flat();
   } else {
-    this->dir = dir_;
-    this->be_kicked();
+    dir = dir_;
+    be_kicked();
   }
   set_colgroup_active(COLGROUP_MOVING);
 }

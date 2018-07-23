@@ -18,13 +18,13 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_SPECIAL_TILE_HPP
 #define HEADER_SUPERTUX_WORLDMAP_SPECIAL_TILE_HPP
 
-#include <memory>
 #include <string>
 
 #include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
-#include "util/reader_fwd.hpp"
+
+class ReaderMapping;
 
 namespace worldmap {
 
