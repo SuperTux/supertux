@@ -55,6 +55,7 @@ public:
   Vector to_logical(int physical_x, int physical_y) const override;
 
   SDL_Window* get_window() const { return m_window; }
+  SDL_Rect get_viewport() const { return m_viewport; }
 
 private:
   void apply_video_mode();
