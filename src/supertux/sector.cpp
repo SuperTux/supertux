@@ -249,13 +249,13 @@ Sector::activate(const Vector& player_pos)
   }
 
   //FIXME: This is a really dirty workaround for this strange camera jump
-  for(const auto& player : get_players())
+  for(const auto& player_it : get_players())
   {
-    auto cam = player->get_camera();
-    player->move(player->get_pos() + Vector(-32, 0));
-    cam->reset(player->get_pos());
+    auto cam = player_it->get_camera();
+    player_it->move(player_it->get_pos() + Vector(-32, 0));
+    cam->reset(player_it->get_pos());
     cam->update(1);
-    player->move(player->get_pos() + Vector(32, 0));
+    player_it->move(player_it->get_pos() + Vector(32, 0));
     cam->update(1);
   }
 
@@ -456,10 +456,11 @@ Sector::before_object_add(GameObjectPtr object)
 
   auto player_ = dynamic_cast<Player*>(object.get());
   if(player_) {
+    /*
     if(player != 0) {
       log_warning << "Multiple players added. Ignoring" << std::endl;
       return false;
-    }
+      }*/
     player = player_;
   }
 
@@ -536,39 +537,39 @@ Sector::try_unexpose_me()
   sq_settop(vm, oldtop);
 }
 void
-Sector::draw(DrawingContext& context)
+Sector::draw(DrawingContext& context, Player* player_it)
 {
-  for(const auto& player : get_players())
-  {
-    context.set_ambient_color( ambient_light );
-    context.push_transform();
-    context.set_translation(player->camera->get_translation());
+  if (!player_it)
+    player_it = player;
 
-    for(const auto& object : gameobjects) {
-      if(!object->is_valid())
+  context.set_ambient_color( ambient_light );
+  context.push_transform();
+  context.set_translation(player_it->camera->get_translation());
+
+  for(const auto& object : gameobjects) {
+    if(!object->is_valid())
+      continue;
+
+    if (draw_solids_only)
+    {
+      auto tm = dynamic_cast<TileMap*>(object.get());
+      if (tm && !tm->is_solid())
         continue;
-
-      if (draw_solids_only)
-      {
-        auto tm = dynamic_cast<TileMap*>(object.get());
-        if (tm && !tm->is_solid())
-          continue;
-      }
-
-      object->draw(context);
     }
 
-    if(show_collrects) {
-      Color color(1.0f, 0.0f, 0.0f, 0.75f);
-      for(auto& object : moving_objects) {
-        const Rectf& rect = object->get_bbox();
+    object->draw(context);
+  }
+
+  if(show_collrects) {
+    Color color(1.0f, 0.0f, 0.0f, 0.75f);
+    for(auto& object : moving_objects) {
+      const Rectf& rect = object->get_bbox();
 
       context.color().draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
-      }
     }
-
-    context.pop_transform();
   }
+
+  context.pop_transform();
 }
 
 void

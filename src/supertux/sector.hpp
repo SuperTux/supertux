@@ -77,7 +77,7 @@ public:
   void update(float elapsed_time);
   void update_game_objects();
 
-  void draw(DrawingContext& context);
+  void draw(DrawingContext& context, Player* player_it = nullptr);
 
   void on_window_resize();
 
@@ -170,7 +170,7 @@ public:
    * returns a list of players currently in the sector
    */
   std::vector<Player*> get_players() const {
-    return std::vector<Player*>(1, player);
+    return std::vector<Player*>{player, player};
   }
   Player* get_nearest_player (const Vector& pos) const;
   Player* get_nearest_player (const Rectf& pos) const
