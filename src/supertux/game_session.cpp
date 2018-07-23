@@ -35,6 +35,7 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "util/file_system.hpp"
+#include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "worldmap/worldmap.hpp"
@@ -245,8 +246,10 @@ GameSession::check_end_conditions()
 }
 
 void
-GameSession::draw(DrawingContext& context)
+GameSession::draw(Compositor& compositor)
 {
+  auto& context = compositor.make_context();
+
   currentsector->draw(context);
   drawstatus(context);
 

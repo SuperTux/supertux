@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
 #define HEADER_SUPERTUX_SUPERTUX_SCREEN_HPP
 
-class DrawingContext;
+class Compositor;
 
 /**
  * Abstract base class for code the MainLoop runs exclusively and full-screen.
@@ -45,7 +45,7 @@ public:
    * gets called once per frame. The screen should draw itself in this function.
    * State changes should not be done in this function, but rather in update
    */
-  virtual void draw(DrawingContext& context) = 0;
+  virtual void draw(Compositor& compositor) = 0;
 
   /**
    * gets called for once (per logical) frame. Screens should do their state

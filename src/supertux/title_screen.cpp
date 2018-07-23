@@ -28,6 +28,7 @@
 #include "supertux/resources.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
+#include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
@@ -100,8 +101,10 @@ TitleScreen::leave()
 }
 
 void
-TitleScreen::draw(DrawingContext& context)
+TitleScreen::draw(Compositor& compositor)
 {
+  auto& context = compositor.make_context();
+
   Sector* sector  = titlesession->get_current_sector();
   sector->draw(context);
 

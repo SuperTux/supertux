@@ -31,18 +31,19 @@ bool DrawingContext::render_lighting = true;
 DrawingContext::DrawingContext(VideoSystem& video_system_) :
   m_video_system(video_system_),
   m_obst(),
-  m_canvas_groups(),
+  m_clip_rect(),
+  m_colormap_canvas(NORMAL, *this, m_obst),
+  m_lightmap_canvas(LIGHTMAP, *this, m_obst),
   m_ambient_color(1.0f, 1.0f, 1.0f, 1.0f),
   m_transformstack(),
   m_transform()
 {
   obstack_init(&m_obst);
-  m_canvas_groups.emplace_back(new CanvasGroup(*this, m_obst));
 }
 
 DrawingContext::~DrawingContext()
 {
-  m_canvas_groups.clear();
+  clear();
   obstack_free(&m_obst, NULL);
 }
 
@@ -73,60 +74,54 @@ DrawingContext::get_light(const Vector& position, Color* color_out)
   getlightrequest->color_ptr = color_out;
   request->request_data = getlightrequest;
 
-  current_canvas_group().light().get_requests().push_back(request);
+  m_lightmap_canvas.get_requests().push_back(request);
 }
 
 void
-DrawingContext::do_drawing()
+DrawingContext::render()
 {
   assert(m_transformstack.empty());
 
   Renderer& renderer = m_video_system.get_renderer();
 
-  for(auto& canvas_group : m_canvas_groups)
+  if (has_clip_rect())
   {
-    if (canvas_group->has_clip_rect())
-    {
-      m_video_system.set_clip_rect(canvas_group->get_clip_rect());
-    }
+    m_video_system.set_clip_rect(*m_clip_rect);
+  }
 
-    //Use Lightmap if ambient color is not white.
-    bool use_lightmap = ( m_ambient_color.red != 1.0f ||
-                          m_ambient_color.green != 1.0f ||
-                          m_ambient_color.blue != 1.0f );
+  // Use Lightmap if ambient color is not white.
+  bool use_lightmap = ( m_ambient_color.red != 1.0f ||
+                        m_ambient_color.green != 1.0f ||
+                        m_ambient_color.blue != 1.0f );
 
-    // PART1: create lightmap
-    if(use_lightmap) {
-      auto& lightmap = m_video_system.get_lightmap();
+  if(use_lightmap) {
+    auto& lightmap = m_video_system.get_lightmap();
 
-      lightmap.start_draw(m_ambient_color);
-      canvas_group->light().render(m_video_system);
-      lightmap.end_draw();
+    lightmap.start_draw(m_ambient_color);
+    m_lightmap_canvas.render(m_video_system);
+    lightmap.end_draw();
 
-      if (render_lighting) {
-        auto request = new(m_obst) DrawingRequest();
-        request->type = DRAW_LIGHTMAP;
-        request->layer = LAYER_HUD - 1;
-        canvas_group->color().get_requests().push_back(request);
-      }
-    }
-
-    renderer.start_draw();
-    canvas_group->color().render(m_video_system);
-    renderer.end_draw();
-
-    canvas_group->clear();
-
-    obstack_free(&m_obst, NULL);
-    obstack_init(&m_obst);
-
-    if (canvas_group->has_clip_rect())
-    {
-      m_video_system.clear_clip_rect();
+    if (render_lighting) {
+      auto request = new(m_obst) DrawingRequest();
+      request->type = DRAW_LIGHTMAP;
+      request->layer = LAYER_HUD - 1;
+      m_colormap_canvas.get_requests().push_back(request);
     }
   }
 
-  renderer.flip();
+  renderer.start_draw();
+  m_colormap_canvas.render(m_video_system);
+  renderer.end_draw();
+
+  clear();
+
+  obstack_free(&m_obst, NULL);
+  obstack_init(&m_obst);
+
+  if (has_clip_rect())
+  {
+    m_video_system.clear_clip_rect();
+  }
 }
 
 void

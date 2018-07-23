@@ -48,6 +48,7 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/compositor.hpp"
 #include "video/surface.hpp"
 
 Editor::Editor() :
@@ -77,8 +78,10 @@ Editor::Editor() :
 {
 }
 
-void Editor::draw(DrawingContext& context)
+void Editor::draw(Compositor& compositor)
 {
+  auto& context = compositor.make_context();
+
   if (levelloaded) {
     currentsector->draw(context);
     context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)), Color(0.0f, 0.0f, 0.0f),

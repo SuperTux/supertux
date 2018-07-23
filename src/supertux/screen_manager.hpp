@@ -24,10 +24,12 @@
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
-class VideoSystem;
+class Compositor;
+class DrawingContext;
 class MenuManager;
 class MenuStorage;
 class ScreenFade;
+class VideoSystem;
 
 /**
  * Manages, updates and draws all Screens, Controllers, Menus and the Console.
@@ -55,7 +57,7 @@ public:
 private:
   void draw_fps(DrawingContext& context, float fps);
   void draw_player_pos(DrawingContext& context);
-  void draw(DrawingContext& context);
+  void draw(Compositor& compositor);
   void update_gamelogic(float elapsed_time);
   void process_events();
   void handle_screen_switch();

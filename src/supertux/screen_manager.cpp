@@ -30,6 +30,7 @@
 #include "supertux/resources.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/sector.hpp"
+#include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 
 #include <stdio.h>
@@ -145,13 +146,17 @@ ScreenManager::draw_player_pos(DrawingContext& context)
 }
 
 void
-ScreenManager::draw(DrawingContext& context)
+ScreenManager::draw(Compositor& compositor)
 {
   assert(!m_screen_stack.empty());
 
   static Uint32 fps_ticks = SDL_GetTicks();
 
-  m_screen_stack.back()->draw(context);
+  // draw the actual screen
+  m_screen_stack.back()->draw(compositor);
+
+  // draw effects and hud
+  auto& context = compositor.make_context();
   m_menu_manager->draw(context);
 
   if (m_screen_fade)
@@ -171,7 +176,8 @@ ScreenManager::draw(DrawingContext& context)
     draw_player_pos(context);
   }
 
-  context.do_drawing();
+  // render everything
+  compositor.render();
 
   /* Calculate frames per second */
   if (g_config->show_fps)
@@ -363,8 +369,6 @@ ScreenManager::handle_screen_switch()
 void
 ScreenManager::run()
 {
-  DrawingContext context(m_video_system);
-
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
 
@@ -411,7 +415,8 @@ ScreenManager::run()
 
     if (!m_screen_stack.empty())
     {
-      draw(context);
+      Compositor compositor(m_video_system);
+      draw(compositor);
     }
 
     SoundManager::current()->update();

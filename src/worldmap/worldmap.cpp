@@ -44,6 +44,7 @@
 #include "util/reader.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/compositor.hpp"
 #include "worldmap/level.hpp"
 #include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
@@ -705,8 +706,10 @@ WorldMap::at_teleporter(const Vector& pos) const
 }
 
 void
-WorldMap::draw(DrawingContext& context)
+WorldMap::draw(Compositor& compositor)
 {
+  auto& context = compositor.make_context();
+
   if (int(get_width()*32) < SCREEN_WIDTH || int(get_height()*32) < SCREEN_HEIGHT)
     context.color().draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
                              Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);

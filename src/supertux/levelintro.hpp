@@ -44,7 +44,7 @@ public:
   virtual ~LevelIntro();
 
   void setup();
-  void draw(DrawingContext& context);
+  void draw(Compositor& compositor);
   void update(float elapsed_time);
 
 private:

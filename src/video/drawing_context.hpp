@@ -52,58 +52,14 @@ public:
   }
 };
 
-class CanvasGroup
-{
-private:
-  boost::optional<Rect> m_clip_rect;
-  Canvas m_colormap_canvas;
-  Canvas m_lightmap_canvas;
-
-public:
-  CanvasGroup(DrawingContext& context, obstack& obst) :
-    m_clip_rect(),
-    m_colormap_canvas(NORMAL, context, obst),
-    m_lightmap_canvas(LIGHTMAP, context, obst)
-  {}
-
-  ~CanvasGroup()
-  {
-    m_colormap_canvas.clear();
-    m_lightmap_canvas.clear();
-  }
-
-  void set_clip_rect(const Rect& clip_rect)
-  {
-    m_clip_rect = clip_rect;
-  }
-
-  Rect get_clip_rect() const
-  {
-    return *m_clip_rect;
-  }
-
-  bool has_clip_rect() const
-  {
-    return static_cast<bool>(m_clip_rect);
-  }
-
-  Canvas& color() { return m_colormap_canvas; }
-  Canvas& light() { return m_lightmap_canvas; }
-
-  void clear()
-  {
-    m_lightmap_canvas.clear();
-    m_colormap_canvas.clear();
-  }
-};
-
 /**
  * This class provides functions for drawing things on screen. It also
  * maintains a stack of transforms that are applied to graphics.
  */
-class DrawingContext
+class DrawingContext final
 {
 public:
+  /** This is used in the editor*/
   static bool render_lighting;
 
   DrawingContext(VideoSystem& video_system);
@@ -113,7 +69,7 @@ public:
   Rectf get_cliprect() const;
 
   /// Processes all pending drawing requests and flushes the list.
-  void do_drawing();
+  void render();
 
   /// on next update, set color to lightmap's color at position
   void get_light(const Vector& position, Color* color_out);
@@ -122,16 +78,16 @@ public:
   static const Target NORMAL = ::NORMAL;
   static const Target LIGHTMAP = ::LIGHTMAP;
 
-  Canvas& color() { return current_canvas_group().color(); }
-  Canvas& light() { return current_canvas_group().light(); }
+  Canvas& color() { return m_colormap_canvas; }
+  Canvas& light() { return m_lightmap_canvas; }
   Canvas& get_canvas(Target target) {
     switch(target)
     {
       case LIGHTMAP:
-        return current_canvas_group().light();
+        return m_lightmap_canvas;
 
       default:
-        return current_canvas_group().color();
+        return m_colormap_canvas;
     }
   }
 
@@ -157,8 +113,26 @@ public:
   /// return currently set alpha
   float get_alpha() const;
 
-private:
-  CanvasGroup& current_canvas_group() { return *m_canvas_groups.back(); }
+  void clear()
+  {
+    m_lightmap_canvas.clear();
+    m_colormap_canvas.clear();
+  }
+
+  void set_clip_rect(const Rect& clip_rect)
+  {
+    m_clip_rect = clip_rect;
+  }
+
+  Rect get_clip_rect() const
+  {
+    return *m_clip_rect;
+  }
+
+  bool has_clip_rect() const
+  {
+    return static_cast<bool>(m_clip_rect);
+  }
 
 private:
   VideoSystem& m_video_system;
@@ -166,7 +140,9 @@ private:
   /* obstack holding the memory of the drawing requests */
   struct obstack m_obst;
 
-  std::vector<std::unique_ptr<CanvasGroup> > m_canvas_groups;
+  boost::optional<Rect> m_clip_rect;
+  Canvas m_colormap_canvas;
+  Canvas m_lightmap_canvas;
 
   Color m_ambient_color;
 

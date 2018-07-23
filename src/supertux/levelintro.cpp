@@ -23,11 +23,12 @@
 #include "supertux/fadeout.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/level.hpp"
+#include "supertux/player_status.hpp"
+#include "supertux/resources.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/resources.hpp"
-#include "supertux/player_status.hpp"
 #include "util/gettext.hpp"
+#include "video/compositor.hpp"
 
 #include <boost/format.hpp>
 
@@ -114,8 +115,10 @@ void LevelIntro::draw_stats_line(DrawingContext& context, int& py, const std::st
 }
 
 void
-LevelIntro::draw(DrawingContext& context)
+LevelIntro::draw(Compositor& compositor)
 {
+  auto& context = compositor.make_context();
+
   const Statistics& stats = level->stats;
   int py = static_cast<int>(SCREEN_HEIGHT / 2 - Resources::normal_font->get_height() / 2);
 

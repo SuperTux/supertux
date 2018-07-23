@@ -65,8 +65,8 @@ Canvas::render(VideoSystem& video_system)
   Renderer& renderer = video_system.get_renderer();
   Lightmap& lightmap = video_system.get_lightmap();
 
-  for(auto i = m_requests.begin(); i != m_requests.end(); ++i) {
-    const DrawingRequest& request = **i;
+  for(const auto& i : m_requests) {
+    const DrawingRequest& request = *i;
 
     switch(m_target) {
       case NORMAL:
