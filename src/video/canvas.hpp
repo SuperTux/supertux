@@ -127,6 +127,9 @@ public:
   std::vector<DrawingRequest*>& get_requests() { return m_requests; }
 
 private:
+  Vector apply_translate(const Vector& pos) const;
+
+private:
   Target m_target;
   DrawingContext& m_context;
   obstack& m_obst;

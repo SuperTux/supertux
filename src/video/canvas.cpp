@@ -159,7 +159,7 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position,
   auto request = new(m_obst) DrawingRequest();
 
   request->type = SURFACE;
-  request->pos = m_context.get_transform().apply(position);
+  request->pos = apply_translate(position);
 
   if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
      || request->pos.x + surface->get_width() < 0
@@ -196,7 +196,7 @@ Canvas::draw_surface_part(SurfacePtr surface,
   auto request = new(m_obst) DrawingRequest();
 
   request->type = SURFACE_PART;
-  request->pos = m_context.get_transform().apply(dstrect.p1);
+  request->pos = apply_translate(dstrect.p1);
   request->layer = layer;
   request->drawing_effect = m_context.get_transform().drawing_effect;
   request->alpha = m_context.get_transform().alpha;
@@ -218,7 +218,7 @@ Canvas::draw_text(FontPtr font, const std::string& text,
   auto request = new(m_obst) DrawingRequest();
 
   request->type = TEXT;
-  request->pos = m_context.get_transform().apply(position);
+  request->pos = apply_translate(position);
   request->layer = layer;
   request->drawing_effect = m_context.get_transform().drawing_effect;
   request->alpha = m_context.get_transform().alpha;
@@ -271,7 +271,7 @@ Canvas::draw_filled_rect(const Vector& topleft, const Vector& size,
   auto request = new(m_obst) DrawingRequest();
 
   request->type = FILLRECT;
-  request->pos = m_context.get_transform().apply(topleft);
+  request->pos = apply_translate(topleft);
   request->layer = layer;
 
   request->drawing_effect = m_context.get_transform().drawing_effect;
@@ -300,7 +300,7 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
   auto request = new(m_obst) DrawingRequest();
 
   request->type   = FILLRECT;
-  request->pos    = m_context.get_transform().apply(rect.p1);
+  request->pos    = apply_translate(rect.p1);
   request->layer  = layer;
 
   request->drawing_effect = m_context.get_transform().drawing_effect;
@@ -322,7 +322,7 @@ Canvas::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color&
   auto request = new(m_obst) DrawingRequest();
 
   request->type   = INVERSEELLIPSE;
-  request->pos    = m_context.get_transform().apply(pos);
+  request->pos    = apply_translate(pos);
   request->layer  = layer;
 
   request->drawing_effect = m_context.get_transform().drawing_effect;
@@ -344,7 +344,7 @@ Canvas::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, in
   auto request = new(m_obst) DrawingRequest();
 
   request->type   = LINE;
-  request->pos    = m_context.get_transform().apply(pos1);
+  request->pos    = apply_translate(pos1);
   request->layer  = layer;
 
   request->drawing_effect = m_context.get_transform().drawing_effect;
@@ -354,7 +354,7 @@ Canvas::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, in
 
   line->color        = color;
   line->color.alpha  = color.alpha * m_context.get_transform().alpha;
-  line->dest_pos     = m_context.get_transform().apply(pos2);
+  line->dest_pos     = apply_translate(pos2);
   request->request_data = line;
 
   m_requests.push_back(request);
@@ -366,7 +366,7 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
   auto request = new(m_obst) DrawingRequest();
 
   request->type   = TRIANGLE;
-  request->pos    = m_context.get_transform().apply(pos1);
+  request->pos    = apply_translate(pos1);
   request->layer  = layer;
 
   request->drawing_effect = m_context.get_transform().drawing_effect;
@@ -376,11 +376,18 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
 
   triangle->color        = color;
   triangle->color.alpha  = color.alpha * m_context.get_transform().alpha;
-  triangle->pos2         = m_context.get_transform().apply(pos2);
-  triangle->pos3         = m_context.get_transform().apply(pos3);
+  triangle->pos2         = apply_translate(pos2);
+  triangle->pos3         = apply_translate(pos3);
   request->request_data = triangle;
 
   m_requests.push_back(request);
+}
+
+Vector
+Canvas::apply_translate(const Vector& pos) const
+{
+  return m_context.get_transform().apply(pos) + Vector(m_context.get_viewport().left,
+                                                       m_context.get_viewport().top);
 }
 
 /* EOF */
