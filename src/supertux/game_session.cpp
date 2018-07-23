@@ -42,6 +42,7 @@
 GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
   GameSessionRecorder(),
   reset_button(false),
+  reset_checkpoint_button(true),
   level(),
   old_level(),
   statistics_backdrop(Surface::create("images/engine/menu/score-backdrop.png")),
@@ -401,6 +402,13 @@ GameSession::update(float elapsed_time)
     reset_button = false;
     reset_level();
     restart_level();
+  } else if(reset_checkpoint_button) {
+    reset_checkpoint_button = false;
+    
+    PlayerStatus *player_status = currentsector->player->get_status();
+    player_status->coins -= std::max(player_status->coins/10, 25);
+    
+    restart_level(true);
   }
 }
 

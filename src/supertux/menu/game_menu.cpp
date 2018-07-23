@@ -20,9 +20,10 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/gameconfig.hpp"
-#include "supertux/game_session.hpp"
+#include "supertux/game_session.hpp" 
 #include "supertux/level.hpp"
 #include "supertux/menu/menu_storage.hpp"
+#include "supertux/sector.hpp"
 #include "util/gettext.hpp"
 
 static const std::string CONFIRMATION_PROMPT = _("Are you sure?");
@@ -32,6 +33,12 @@ GameMenu::GameMenu() :
     MenuManager::instance().clear_menu_stack();
     GameSession::current()->toggle_pause();
     GameSession::current()->reset_button = true;
+  }),
+  reset_checkpoint_callback( [] {
+    MenuManager::instance().clear_menu_stack();
+    GameSession::current()->toggle_pause();
+  
+    GameSession::current()->reset_checkpoint_button = true;
   }),
   abort_callback ( [] {
     MenuManager::instance().clear_menu_stack();
@@ -44,6 +51,13 @@ GameMenu::GameMenu() :
   add_hl();
   add_entry(MNID_CONTINUE, _("Continue"));
   add_entry(MNID_RESETLEVEL, _("Restart Level"));
+  
+  if(Sector::current()->get_players()[0]->get_coins() >= 25 &&
+     !GameSession::current()->get_reset_point_sectorname().empty()) 
+  {
+    add_entry(MNID_RESETLEVELCHECKPOINT, _("Restart Level from Checkpoint"));
+  }
+  
   add_submenu(_("Options"), MenuStorage::INGAME_OPTIONS_MENU);
   add_hl();
   add_entry(MNID_ABORTLEVEL, _("Abort Level"));
@@ -67,6 +81,18 @@ GameMenu::menu_action(MenuItem* item)
       else
       {
         reset_callback();
+      }
+      break;
+
+    case MNID_RESETLEVELCHECKPOINT:
+      if (g_config->confirmation_dialog)
+      {
+        Dialog::show_confirmation(CONFIRMATION_PROMPT, 
+                                  reset_checkpoint_callback);
+      }
+      else
+      {
+        reset_checkpoint_callback();
       }
       break;
 
