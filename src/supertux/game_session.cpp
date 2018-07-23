@@ -288,7 +288,7 @@ void
 GameSession::draw_pause(DrawingContext& context)
 {
   context.color().draw_filled_rect(
-    Vector(0,0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+    Vector(0,0), Vector(context.get_width(), context.get_height()),
     Color(0.0f, 0.0f, 0.0f, .25f), LAYER_FOREGROUND1);
 }
 

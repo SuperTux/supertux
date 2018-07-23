@@ -182,8 +182,8 @@ Dialog::process_input(const Controller& controller)
 void
 Dialog::draw(DrawingContext& context)
 {
-  Rectf bg_rect(Vector(m_passive ? (SCREEN_WIDTH - m_text_size.width - 20) : SCREEN_WIDTH/2 - m_text_size.width/2,
-                       m_passive ? (SCREEN_HEIGHT - m_text_size.height - 65) : (SCREEN_HEIGHT/2 - m_text_size.height/2)),
+  Rectf bg_rect(Vector(m_passive ? (context.get_width() - m_text_size.width - 20) : context.get_width()/2 - m_text_size.width/2,
+                       m_passive ? (context.get_height() - m_text_size.height - 65) : (context.get_height()/2 - m_text_size.height/2)),
                 Sizef(m_text_size.width,
                       m_text_size.height + 44));
 

@@ -38,7 +38,7 @@ FadeOut::draw(DrawingContext& context)
   Color col = color;
   col.alpha = accum_time / fade_time;
   context.color().draw_filled_rect(Vector(0, 0),
-                           Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+                           Vector(context.get_width(), context.get_height()),
                            col, LAYER_GUI+1);
 }
 

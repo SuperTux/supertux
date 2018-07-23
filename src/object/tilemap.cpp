@@ -333,8 +333,7 @@ TileMap::draw(DrawingContext& context)
   context.set_translation(Vector(int(trans_x * (normal_speed ? 1 : speed_x)),
                                  int(trans_y * (normal_speed ? 1 : speed_y))));
 
-  Rectf draw_rect = Rectf(context.get_translation(),
-        context.get_translation() + Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
+  Rectf draw_rect = context.get_cliprect();
   Rect t_draw_rect = get_tiles_overlapping(draw_rect);
 
   // Make sure the tilemap is within draw view

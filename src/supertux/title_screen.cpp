@@ -110,12 +110,12 @@ TitleScreen::draw(Compositor& compositor)
 
   context.color().draw_surface_part(frame,
                             Rectf(0, 0, frame->get_width(), frame->get_height()),
-                            Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
+                            Rectf(0, 0, context.get_width(), context.get_height()),
                             LAYER_FOREGROUND1);
 
   context.color().draw_text(Resources::small_font,
                     copyright_text,
-                    Vector(5, SCREEN_HEIGHT - 50),
+                    Vector(5, context.get_height() - 50),
                     ALIGN_LEFT, LAYER_FOREGROUND1);
 }
 

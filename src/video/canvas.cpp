@@ -151,21 +151,24 @@ Canvas::render(VideoSystem& video_system)
 
 void
 Canvas::draw_surface(SurfacePtr surface, const Vector& position,
-                             float angle, const Color& color, const Blend& blend,
-                             int layer)
+                     float angle, const Color& color, const Blend& blend,
+                     int layer)
 {
   assert(surface != 0);
 
   auto request = new(m_obst) DrawingRequest();
 
-  request->type = SURFACE;
-  request->pos = apply_translate(position);
+  const auto& cliprect = m_context.get_cliprect();
 
-  if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
-     || request->pos.x + surface->get_width() < 0
-     || request->pos.y + surface->get_height() < 0)
+  // discard clipped surface
+  if(position.x > cliprect.get_right() ||
+     position.y > cliprect.get_bottom() ||
+     position.x + surface->get_width() < cliprect.get_left() ||
+     position.y + surface->get_height() < cliprect.get_top())
     return;
 
+  request->type = SURFACE;
+  request->pos = apply_translate(position);
   request->layer = layer;
   request->drawing_effect = m_context.get_transform().drawing_effect;
   request->alpha = m_context.get_transform().alpha;
@@ -237,7 +240,7 @@ void
 Canvas::draw_center_text(FontPtr font, const std::string& text,
                                  const Vector& position, int layer, Color color)
 {
-  draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),
+  draw_text(font, text, Vector(position.x + m_context.get_width()/2, position.y),
             ALIGN_CENTER, layer, color);
 }
 

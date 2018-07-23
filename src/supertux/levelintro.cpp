@@ -120,10 +120,10 @@ LevelIntro::draw(Compositor& compositor)
   auto& context = compositor.make_context();
 
   const Statistics& stats = level->stats;
-  int py = static_cast<int>(SCREEN_HEIGHT / 2 - Resources::normal_font->get_height() / 2);
+  int py = static_cast<int>(context.get_height() / 2 - Resources::normal_font->get_height() / 2);
 
   context.set_ambient_color(Color(1.0f, 1.0f, 1.0f, 1.0f));
-  context.color().draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT), Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
+  context.color().draw_filled_rect(Vector(0, 0), Vector(context.get_width(), context.get_height()), Color(0.0f, 0.0f, 0.0f, 1.0f), 0);
 
   {
     context.color().draw_center_text(Resources::normal_font, level->get_name(), Vector(0, py), LAYER_FOREGROUND1, LevelIntro::header_color);
@@ -140,12 +140,12 @@ LevelIntro::draw(Compositor& compositor)
   py += 32;
 
   {
-    player_sprite->draw(context.color(), Vector((SCREEN_WIDTH - player_sprite->get_current_hitbox_width()) / 2, py + player_sprite_py), LAYER_FOREGROUND1);
+    player_sprite->draw(context.color(), Vector((context.get_width() - player_sprite->get_current_hitbox_width()) / 2, py + player_sprite_py), LAYER_FOREGROUND1);
     if (player_status->bonus == EARTH_BONUS
         || player_status->bonus == AIR_BONUS
         || (player_status->bonus == FIRE_BONUS && g_config->christmas_mode))
     {
-      power_sprite->draw(context.color(), Vector((SCREEN_WIDTH - player_sprite->get_current_hitbox_width()) / 2, py + player_sprite_py), LAYER_FOREGROUND1);
+      power_sprite->draw(context.color(), Vector((context.get_width() - player_sprite->get_current_hitbox_width()) / 2, py + player_sprite_py), LAYER_FOREGROUND1);
     }
     py += static_cast<int>(player_sprite->get_current_hitbox_height());
   }

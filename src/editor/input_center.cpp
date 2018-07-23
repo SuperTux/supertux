@@ -756,7 +756,7 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_col
   int tm_height = current_tm->get_height() * (32 / tile_size);
   auto cam_translation = Sector::current()->get_players()[0]->get_camera()->get_translation();
   Rectf draw_rect = Rectf(cam_translation, cam_translation +
-                          Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
+                          Vector(context.get_width(), context.get_height()));
   Vector start = sp_to_tp( Vector(draw_rect.p1.x, draw_rect.p1.y), tile_size );
   Vector end = sp_to_tp( Vector(draw_rect.p2.x, draw_rect.p2.y), tile_size );
   start.x = std::max(0.0f, start.x);

@@ -63,7 +63,7 @@ DrawingContext::get_light(const Vector& position, Color* color_out)
   request->pos = m_transform.apply(position);
 
   //There is no light offscreen.
-  if(request->pos.x >= SCREEN_WIDTH || request->pos.y >= SCREEN_HEIGHT
+  if(request->pos.x >= m_viewport.get_width() || request->pos.y >= m_viewport.get_height()
      || request->pos.x < 0 || request->pos.y < 0){
     *color_out = Color( 0, 0, 0);
     return;
@@ -125,9 +125,10 @@ DrawingContext::set_ambient_color(Color ambient_color)
 Rectf
 DrawingContext::get_cliprect() const
 {
-  return Rectf(get_translation().x, get_translation().y,
-               get_translation().x + SCREEN_WIDTH,
-               get_translation().y + SCREEN_HEIGHT);
+  return Rectf(get_translation().x,
+               get_translation().y,
+               get_translation().x + m_viewport.get_width(),
+               get_translation().y + m_viewport.get_height());
 }
 
 void
