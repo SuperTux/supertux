@@ -42,7 +42,7 @@ class Editor : public Screen,
   public:
     Editor();
 
-    virtual void draw(DrawingContext&) override;
+    virtual void draw(Compositor&) override;
     virtual void update(float elapsed_time) override;
 
     virtual void setup() override;

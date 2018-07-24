@@ -17,17 +17,11 @@
 
 #include "video/gl/gl_renderer.hpp"
 
-#include <iomanip>
-#include <iostream>
-#include <physfs.h>
-#include "SDL.h"
-
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
-#include "video/drawing_request.hpp"
+#include "util/log.hpp"
 #include "video/gl/gl_painter.hpp"
-#include "video/gl/gl_surface_data.hpp"
-#include "video/gl/gl_texture.hpp"
+#include "video/glutil.hpp"
 #include "video/util.hpp"
 
 #ifdef USE_GLBINDING
@@ -149,75 +143,6 @@ GLRenderer::~GLRenderer()
 }
 
 void
-GLRenderer::do_take_screenshot()
-{
-  // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
-
-  SDL_Surface *shot_surf;
-  // create surface to hold screenshot
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-  shot_surf = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0);
-#else
-  shot_surf = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0);
-#endif
-  if (!shot_surf) {
-    log_warning << "Could not create RGB Surface to contain screenshot" << std::endl;
-    return;
-  }
-
-  // read pixels into array
-  char* pixels = new char[3 * SCREEN_WIDTH * SCREEN_HEIGHT];
-  if (!pixels) {
-    log_warning << "Could not allocate memory to store screenshot" << std::endl;
-    SDL_FreeSurface(shot_surf);
-    return;
-  }
-  glPixelStorei(GL_PACK_ALIGNMENT, 1);
-  glReadPixels(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
-
-  // copy array line-by-line
-  for (int i = 0; i < SCREEN_HEIGHT; i++) {
-    char* src = pixels + (3 * SCREEN_WIDTH * (SCREEN_HEIGHT - i - 1));
-    if(SDL_MUSTLOCK(shot_surf))
-    {
-      SDL_LockSurface(shot_surf);
-    }
-    char* dst = ((char*)shot_surf->pixels) + i * shot_surf->pitch;
-    memcpy(dst, src, 3 * SCREEN_WIDTH);
-    if(SDL_MUSTLOCK(shot_surf))
-    {
-      SDL_UnlockSurface(shot_surf);
-    }
-  }
-
-  // free array
-  delete[](pixels);
-
-  // save screenshot
-  static const std::string writeDir = PHYSFS_getWriteDir();
-  static const std::string dirSep = PHYSFS_getDirSeparator();
-  static const std::string baseName = "screenshot";
-  static const std::string fileExt = ".bmp";
-  std::string fullFilename;
-  for (int num = 0; num < 1000; num++) {
-    std::ostringstream oss;
-    oss << baseName;
-    oss << std::setw(3) << std::setfill('0') << num;
-    oss << fileExt;
-    std::string fileName = oss.str();
-    fullFilename = writeDir + dirSep + fileName;
-    if (!PHYSFS_exists(fileName.c_str())) {
-      SDL_SaveBMP(shot_surf, fullFilename.c_str());
-      log_info << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
-      SDL_FreeSurface(shot_surf);
-      return;
-    }
-  }
-  log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
-  SDL_FreeSurface(shot_surf);
-}
-
-void
 GLRenderer::flip()
 {
   assert_gl("drawing");
@@ -253,7 +178,7 @@ GLRenderer::apply_config()
                                                       target_size);
   }
 
-  Size max_size(3840, 2160);
+  Size max_size(1280, 800);
   Size min_size(640, 480);
 
   Vector scale;
@@ -448,14 +373,6 @@ GLRenderer::to_logical(int physical_x, int physical_y) const
 {
   return Vector(static_cast<float>(physical_x - m_viewport.x) * SCREEN_WIDTH / m_viewport.w,
                 static_cast<float>(physical_y - m_viewport.y) * SCREEN_HEIGHT / m_viewport.h);
-}
-
-void
-GLRenderer::set_gamma(float gamma)
-{
-  Uint16 ramp[256];
-  SDL_CalculateGammaRamp(gamma, ramp);
-  SDL_SetWindowGammaRamp(m_window, ramp, ramp, ramp);
 }
 
 /* EOF */

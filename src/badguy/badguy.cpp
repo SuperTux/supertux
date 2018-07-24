@@ -18,31 +18,28 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/dispenser.hpp"
-#include "object/bullet.hpp"
-#include "object/camera.hpp"
+#include "editor/editor.hpp"
 #include "math/random_generator.hpp"
 #include "object/broken_brick.hpp"
-#include "editor/editor.hpp"
 #include "object/bullet.hpp"
-#include "object/particles.hpp"
-#include "object/sprite_particle.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
+#include "object/sprite_particle.hpp"
 #include "object/water_drop.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/level.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 #include "util/reader_mapping.hpp"
-
-#include <math.h>
-#include <sstream>
+#include "util/writer.hpp"
 
 static const float SQUISH_TIME = 2;
 static const float GEAR_TIME = 2;
 static const float BURN_TIME = 1;
 
-static const float X_OFFSCREEN_DISTANCE = 3840;
-static const float Y_OFFSCREEN_DISTANCE = 2160;
+static const float X_OFFSCREEN_DISTANCE = 1280;
+static const float Y_OFFSCREEN_DISTANCE = 800;
 
 BadGuy::BadGuy(const Vector& pos, const std::string& sprite_name_, int layer_,
                const std::string& light_sprite_name) :
@@ -133,17 +130,14 @@ BadGuy::draw(DrawingContext& context)
   if(state == STATE_FALLING) {
     context.push_transform();
     context.set_drawing_effect(context.get_drawing_effect() ^ VERTICAL_FLIP);
-    sprite->draw(context, get_pos(), layer);
+    sprite->draw(context.color(), get_pos(), layer);
     context.pop_transform();
   } else {
-    sprite->draw(context, get_pos(), layer);
+    sprite->draw(context.color(), get_pos(), layer);
   }
 
   if (glowing) {
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, bbox.get_middle(), 0);
-    context.pop_target();
+    lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
 }
 
@@ -544,11 +538,11 @@ BadGuy::run_dead_script()
 void
 BadGuy::set_state(State state_)
 {
-  if(this->state == state_)
+  if(state == state_)
     return;
 
-  State laststate = this->state;
-  this->state = state_;
+  State laststate = state;
+  state = state_;
   switch(state_) {
     case STATE_BURNING:
       state_timer.start(BURN_TIME);
@@ -697,7 +691,7 @@ BadGuy::freeze()
       // when no iced action exists, default to shading badguy blue
     else
     {
-      sprite->set_color(Color(0.60, 0.72, 0.88f));
+      sprite->set_color(Color(0.60f, 0.72f, 0.88f));
       sprite->stop_animation();
     }
   }
@@ -712,7 +706,7 @@ BadGuy::unfreeze()
   // restore original color if needed
   if((!sprite->has_action("iced-left")) && (!sprite->has_action("iced")) )
   {
-    sprite->set_color(Color(1.00, 1.00, 1.00f));
+    sprite->set_color(Color(1.f, 1.f, 1.f));
     sprite->set_animation_loops();
   }
 }
@@ -803,7 +797,7 @@ BadGuy::is_ignited() const
 void
 BadGuy::set_colgroup_active(CollisionGroup group_)
 {
-  this->colgroup_active = group_;
+  colgroup_active = group_;
   if (state == STATE_ACTIVE) set_group(group_);
 }
 

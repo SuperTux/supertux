@@ -21,13 +21,8 @@
 
 #include <SDL_image.h>
 #include <boost/filesystem.hpp>
-#include <boost/format.hpp>
-#include <boost/optional.hpp>
 #include <boost/locale.hpp>
-#include <array>
-#include <iostream>
 #include <physfs.h>
-#include <stdio.h>
 #include <tinygettext/log.hpp>
 extern "C" {
 #include <findlocale.h>
@@ -39,7 +34,6 @@ extern "C" {
 
 #include "addon/addon_manager.hpp"
 #include "audio/sound_manager.hpp"
-#include "control/input_manager.hpp"
 #include "editor/editor.hpp"
 #include "editor/layer_icon.hpp"
 #include "editor/object_input.hpp"
@@ -48,32 +42,29 @@ extern "C" {
 #include "editor/tool_icon.hpp"
 #include "gui/menu_manager.hpp"
 #include "math/random_generator.hpp"
-#include "object/player.hpp"
-#include "physfs/ifile_stream.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "scripting/scripting.hpp"
 #include "sprite/sprite_data.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/command_line_arguments.hpp"
+#include "supertux/console.hpp"
 #include "supertux/game_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/level.hpp"
 #include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/title_screen.hpp"
 #include "supertux/sector.hpp"
+#include "supertux/tile.hpp"
+#include "supertux/tile_manager.hpp"
+#include "supertux/title_screen.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
-#include "video/drawing_context.hpp"
-#include "video/lightmap.hpp"
-#include "video/renderer.hpp"
 #include "worldmap/worldmap.hpp"
 
 class ConfigSubsystem
@@ -330,7 +321,7 @@ public:
 void
 Main::init_video()
 {
-  SDL_SetWindowTitle(VideoSystem::current()->get_renderer().get_window(), PACKAGE_NAME " " PACKAGE_VERSION);
+  VideoSystem::current()->set_title(PACKAGE_NAME " " PACKAGE_VERSION);
 
   const char* icon_fname = "images/engine/icons/supertux-256x256.png";
   SDL_Surface* icon = IMG_Load_RW(get_physfs_SDLRWops(icon_fname), true);
@@ -340,7 +331,7 @@ Main::init_video()
   }
   else
   {
-    SDL_SetWindowIcon(VideoSystem::current()->get_renderer().get_window(), icon);
+    VideoSystem::current()->set_icon(icon);
     SDL_FreeSurface(icon);
   }
   SDL_ShowCursor(0);
@@ -380,7 +371,6 @@ Main::launch_game()
 
   timelog("video");
   std::unique_ptr<VideoSystem> video_system = VideoSystem::create(g_config->video);
-  DrawingContext context(*video_system);
   init_video();
 
   timelog("audio");
@@ -406,7 +396,7 @@ Main::launch_game()
   const std::unique_ptr<Savegame> default_savegame(new Savegame(std::string()));
 
   GameManager game_manager;
-  ScreenManager screen_manager;
+  ScreenManager screen_manager(*video_system);
 
   if(!g_config->start_level.empty()) {
     // we have a normal path specified at commandline, not a physfs path.
@@ -464,7 +454,7 @@ Main::launch_game()
     }
   }
 
-  screen_manager.run(context);
+  screen_manager.run();
 }
 
 int

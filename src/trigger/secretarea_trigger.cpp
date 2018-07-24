@@ -19,13 +19,9 @@
 #include "editor/editor.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/level.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/writer.hpp"
 #include "video/drawing_context.hpp"
 
 static const float MESSAGE_TIME=3.5;
@@ -97,11 +93,11 @@ SecretAreaTrigger::draw(DrawingContext& context)
     context.push_transform();
     context.set_translation(Vector(0, 0));
     Vector pos = Vector(0, SCREEN_HEIGHT/2 - Resources::normal_font->get_height()/2);
-    context.draw_center_text(Resources::normal_font, message, pos, LAYER_HUD, SecretAreaTrigger::text_color);
+    context.color().draw_center_text(Resources::normal_font, message, pos, LAYER_HUD, SecretAreaTrigger::text_color);
     context.pop_transform();
   }
   if (Editor::is_active()) {
-    context.draw_filled_rect(bbox, Color(0.0f, 1.0f, 0.0f, 0.6f),
+    context.color().draw_filled_rect(bbox, Color(0.0f, 1.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   } else if (message_timer.check()) {
     remove_me();

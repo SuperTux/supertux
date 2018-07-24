@@ -17,7 +17,7 @@
 #ifndef HEADER_SUPERTUX_OBJECT_BULLET_HPP
 #define HEADER_SUPERTUX_OBJECT_BULLET_HPP
 
-#include "sprite/sprite.hpp"
+#include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/player_status.hpp"

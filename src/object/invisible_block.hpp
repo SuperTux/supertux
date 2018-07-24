@@ -18,7 +18,8 @@
 #define HEADER_SUPERTUX_OBJECT_INVISIBLE_BLOCK_HPP
 
 #include "object/block.hpp"
-#include "util/reader_fwd.hpp"
+
+class ReaderMapping;
 
 class InvisibleBlock : public Block
 {

@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_GHOST_PARTICLE_SYSTEM_HPP
 #define HEADER_SUPERTUX_OBJECT_GHOST_PARTICLE_SYSTEM_HPP
 
-#include <memory>
-
 #include "object/particlesystem.hpp"
 #include "video/surface_ptr.hpp"
 

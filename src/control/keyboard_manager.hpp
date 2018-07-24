@@ -18,14 +18,12 @@
 #ifndef HEADER_SUPERTUX_CONTROL_KEYBOARD_MANAGER_HPP
 #define HEADER_SUPERTUX_CONTROL_KEYBOARD_MANAGER_HPP
 
-#include <map>
-
-#include "SDL.h"
-
 #include "control/controller.hpp"
 
 class InputManager;
 class KeyboardConfig;
+struct SDL_KeyboardEvent;
+struct SDL_TextInputEvent;
 
 class KeyboardManager final
 {

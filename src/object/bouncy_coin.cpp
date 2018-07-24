@@ -65,7 +65,7 @@ BouncyCoin::draw(DrawingContext& context)
   } else {
     layer = LAYER_OBJECTS + 5;
   }
-  sprite->draw(context, position, layer);
+  sprite->draw(context.color(), position, layer);
 
   if(fading) {
     context.pop_transform();

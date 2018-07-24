@@ -14,18 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <config.h>
-#include <stdexcept>
+#include "trigger/switch.hpp"
 
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "trigger/switch.hpp"
-#include "util/gettext.hpp"
-
-#include <sstream>
+#include "util/log.hpp"
+#include "util/reader_mapping.hpp"
 
 namespace {
 const std::string SWITCH_SOUND = "sounds/switch.ogg";
@@ -113,7 +109,7 @@ Switch::update(float )
 void
 Switch::draw(DrawingContext& context)
 {
-  sprite->draw(context, bbox.p1, LAYER_TILES);
+  sprite->draw(context.color(), bbox.p1, LAYER_TILES);
 }
 
 void

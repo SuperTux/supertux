@@ -140,7 +140,7 @@ Physic::gravity_enabled() const
 void
 Physic::set_gravity_modifier(float gravity_modifier_)
 {
-  this->gravity_modifier = gravity_modifier_;
+  gravity_modifier = gravity_modifier_;
 }
 
 Vector

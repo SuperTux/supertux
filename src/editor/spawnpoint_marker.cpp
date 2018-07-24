@@ -19,6 +19,7 @@
 #include "supertux/spawn_point.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 SpawnPointMarker::SpawnPointMarker (const ReaderMapping& lisp) :
   surface(Surface::create("images/engine/editor/spawnpoint.png"))
@@ -43,7 +44,7 @@ void SpawnPointMarker::setup() {
 }
 
 void SpawnPointMarker::draw(DrawingContext& context) {
-  context.draw_surface(surface, bbox.p1, LAYER_FOREGROUND1);
+  context.color().draw_surface(surface, bbox.p1, LAYER_FOREGROUND1);
 }
 
 /* EOF */

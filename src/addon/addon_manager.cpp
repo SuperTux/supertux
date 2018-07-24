@@ -17,21 +17,12 @@
 
 #include "addon/addon_manager.hpp"
 
-#include <config.h>
-#include <version.h>
-
-#include <algorithm>
-#include <iostream>
-#include <memory>
 #include <physfs.h>
-#include <sstream>
-#include <stdexcept>
-#include <stdio.h>
-#include <sys/stat.h>
 
 #include "addon/addon.hpp"
 #include "addon/md5.hpp"
 #include "physfs/physfs_file_system.hpp"
+#include "supertux/globals.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
 #include "util/log.hpp"
@@ -40,7 +31,6 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/string_util.hpp"
-#include "util/writer.hpp"
 
 namespace {
 
@@ -753,14 +743,14 @@ AddonManager::check_for_langpack_updates()
         install_addon(addon_id);
         enable_addon(addon_id);
       }
-      catch(const std::exception& err)
+      catch(const std::exception&)
       {
         log_debug << "Language addon " << addon_id << " is not installed. Installing..." << std::endl;
         install_addon(addon_id);
         enable_addon(addon_id);
       }
     }
-    catch(std::exception& err)
+    catch(std::exception&)
     {
       log_debug << "Language addon for current locale not found." << std::endl;
     }

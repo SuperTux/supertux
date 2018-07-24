@@ -26,6 +26,7 @@ class LayerIcon;
 class GameObject;
 class Vector;
 class Tip;
+class DrawingContext;
 
 class EditorLayersGui
 {

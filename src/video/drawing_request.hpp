@@ -17,11 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_DRAWING_REQUEST_HPP
 #define HEADER_SUPERTUX_VIDEO_DRAWING_REQUEST_HPP
 
-#include <memory>
 #include <string>
-#include <vector>
-
-#include <stdint.h>
 
 #include "math/rectf.hpp"
 #include "math/sizef.hpp"
@@ -29,7 +25,6 @@
 #include "video/color.hpp"
 #include "video/drawing_context.hpp"
 #include "video/font.hpp"
-#include "video/glutil.hpp"
 
 class Surface;
 
@@ -157,7 +152,6 @@ struct TriangleRequest : public DrawingRequestData
 
 struct DrawingRequest
 {
-  Target target;
   RequestType type;
   Vector pos;
 
@@ -171,7 +165,6 @@ struct DrawingRequest
   DrawingRequestData* request_data;
 
   DrawingRequest() :
-    target(),
     type(),
     pos(),
     layer(),
@@ -182,11 +175,6 @@ struct DrawingRequest
     color(1.0f, 1.0f, 1.0f, 1.0f),
     request_data()
   {}
-
-  bool operator<(const DrawingRequest& other) const
-  {
-    return layer < other.layer;
-  }
 };
 
 struct GetLightRequest : public DrawingRequestData

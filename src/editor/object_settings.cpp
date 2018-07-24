@@ -15,6 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "editor/object_settings.hpp"
+
+#include <assert.h>
+
 #include "video/color.hpp"
 
 ObjectSettings::ObjectSettings(const std::string& name_) :

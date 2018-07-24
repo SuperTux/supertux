@@ -155,11 +155,3 @@ For more CMake options, look at end of the Linux/UNIX build section.
 6. Build the project.
 
 7. Now you can run SuperTux using the run_supertux.bat file
-
-
-Support
--------
-
-You can contact us at [supertux-devel@lists.lethargik.org](mailto:supertux-devel@lists.lethargik.org)
-and in the [#supertux](irc://chat.freenode.net/supertux) channel on
-the chat.freenode.net IRC server. Usually someone will be around to give you a hand.

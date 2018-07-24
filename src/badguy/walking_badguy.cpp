@@ -14,9 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <math.h>
-
 #include "badguy/walking_badguy.hpp"
+
+#include <math.h>
 
 #include "sprite/sprite.hpp"
 
@@ -126,7 +126,7 @@ WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
   {
     /* acceleration == walk-speed => it will take one second to get twice the
      * speed to normal speed. */
-    physic.set_acceleration_x ((-1.0) * dest_x_velocity);
+    physic.set_acceleration_x ((-1.f) * dest_x_velocity);
   }
   else
   {
@@ -154,7 +154,7 @@ WalkingBadguy::active_update(float elapsed_time, float dest_x_velocity)
 void
 WalkingBadguy::active_update(float elapsed_time)
 {
-  this->active_update (elapsed_time, (dir == LEFT) ? -walk_speed : +walk_speed);
+  active_update (elapsed_time, (dir == LEFT) ? -walk_speed : +walk_speed);
 }
 
 void

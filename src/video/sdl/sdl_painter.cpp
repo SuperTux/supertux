@@ -16,12 +16,14 @@
 
 #include "video/sdl/sdl_painter.hpp"
 
-#include "SDL.h"
+#include <SDL.h>
+#include <algorithm>
 
-#include "math/rectf.hpp"
+#include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_texture.hpp"
+#include "video/surface.hpp"
 
 namespace {
 

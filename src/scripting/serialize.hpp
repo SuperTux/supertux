@@ -19,8 +19,7 @@
 
 #include <squirrel.h>
 
-#include "util/reader_fwd.hpp"
-
+class ReaderMapping;
 class Writer;
 
 namespace scripting {

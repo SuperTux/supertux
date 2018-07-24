@@ -19,10 +19,8 @@
 #include <sexp/parser.hpp>
 #include <sstream>
 
-#include "physfs/ifile_stream.hpp"
 #include "physfs/ifile_streambuf.hpp"
 #include "util/log.hpp"
-#include "util/reader_iterator.hpp"
 
 ReaderDocument
 ReaderDocument::parse(std::istream& stream, const std::string& filename)

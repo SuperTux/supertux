@@ -23,7 +23,6 @@
 #include "object/player.hpp"
 #include "object/tilemap.hpp"
 #include "supertux/level.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -122,43 +121,43 @@ Coin::collect()
   } else {
     switch ((pitch_one - tile) % 7) {
       case -6:
-        pitch = 1.0/2;
+        pitch = 1.f/2;
         break;
       case -5:
-        pitch = 5.0/8;
+        pitch = 5.f/8;
         break;
       case -4:
-        pitch = 4.0/6;
+        pitch = 4.f/6;
         break;
       case -3:
-        pitch = 3.0/4;
+        pitch = 3.f/4;
         break;
       case -2:
-        pitch = 5.0/6;
+        pitch = 5.f/6;
         break;
       case -1:
-        pitch = 9.0/10;
+        pitch = 9.f/10;
         break;
       case 0:
-        pitch = 1.0;
+        pitch = 1.f;
         break;
       case 1:
-        pitch = 9.0/8;
+        pitch = 9.f/8;
         break;
       case 2:
-        pitch = 5.0/4;
+        pitch = 5.f/4;
         break;
       case 3:
-        pitch = 4.0/3;
+        pitch = 4.f/3;
         break;
       case 4:
-        pitch = 3.0/2;
+        pitch = 3.f/2;
         break;
       case 5:
-        pitch = 5.0/3;
+        pitch = 5.f/3;
         break;
       case 6:
-        pitch = 9.0/5;
+        pitch = 9.f/5;
         break;
     }
     last_pitch = pitch;

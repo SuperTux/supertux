@@ -113,7 +113,7 @@ public:
 
   Vector to_int_vec() const
   {
-    return Vector(int(x), int(y));
+    return Vector(floorf(x), floorf(y));
   }
   /// Checks if two vectors are colinear (i.e returns true iff \exists k \in \mathbb R : k*other = this)
   bool is_colinear(const Vector& other) const

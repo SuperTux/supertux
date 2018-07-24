@@ -17,16 +17,14 @@
 
 #include "supertux/tile_set_parser.hpp"
 
-#include <stdexcept>
 #include <sstream>
 #include <sexp/value.hpp>
-#include <sexp/util.hpp>
 #include <sexp/io.hpp>
 
-#include "editor/editor.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/tile_set.hpp"
+#include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/file_system.hpp"

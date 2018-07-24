@@ -18,10 +18,7 @@
 #define HEADER_SUPERTUX_UTIL_GETTEXT_HPP
 
 #include <tinygettext/tinygettext.hpp>
-#include <assert.h>
 #include <memory>
-
-#include "supertux/globals.hpp"
 
 extern std::unique_ptr<tinygettext::DictionaryManager> g_dictionary_manager;
 

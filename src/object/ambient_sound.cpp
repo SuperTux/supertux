@@ -14,16 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/ambient_sound.hpp"
+
 #include <limits>
-#include <math.h>
 
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "editor/editor.hpp"
-#include "object/ambient_sound.hpp"
 #include "object/camera.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
@@ -263,7 +261,7 @@ void
 AmbientSound::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
+    context.color().draw_filled_rect(bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }

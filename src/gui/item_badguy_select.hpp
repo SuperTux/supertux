@@ -19,8 +19,6 @@
 
 #include "gui/menu_item.hpp"
 
-#include "gui/menu.hpp"
-
 class ItemBadguySelect : public MenuItem
 {
   public:

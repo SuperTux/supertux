@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_SPOTLIGHT_HPP
 #define HEADER_SUPERTUX_OBJECT_SPOTLIGHT_HPP
 
-#include <memory>
-
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/moving_object.hpp"
 #include "video/color.hpp"

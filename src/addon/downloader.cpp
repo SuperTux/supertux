@@ -24,14 +24,9 @@
 #include <physfs.h>
 #include <sstream>
 #include <stdexcept>
+#include <version.h>
 
 #include "util/log.hpp"
-#include "version.h"
-
-#ifdef WIN32
-#include <SDL.h>
-#include "util/file_system.hpp"
-#endif
 
 namespace {
 

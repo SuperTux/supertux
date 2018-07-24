@@ -16,19 +16,14 @@
 
 #include "trigger/door.hpp"
 
-#include <sstream>
-
 #include "audio/sound_manager.hpp"
-#include "object/player.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/fadein.hpp"
 #include "supertux/fadeout.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/screen_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 
 Door::Door(const ReaderMapping& reader) :
@@ -115,7 +110,7 @@ Door::update(float )
 void
 Door::draw(DrawingContext& context)
 {
-  sprite->draw(context, bbox.p1, LAYER_BACKGROUNDTILES+1);
+  sprite->draw(context.color(), bbox.p1, LAYER_BACKGROUNDTILES+1);
 }
 
 void

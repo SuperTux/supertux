@@ -16,52 +16,26 @@
 
 #include "supertux/sector_parser.hpp"
 
-#include "supertux/sector.hpp"
+#include <physfs.h>
 
-#include "audio/sound_manager.hpp"
 #include "badguy/jumpy.hpp"
 #include "editor/editor.hpp"
 #include "editor/spawnpoint_marker.hpp"
 #include "editor/worldmap_objects.hpp"
-#include "math/aatriangle.hpp"
 #include "object/background.hpp"
-#include "object/bonus_block.hpp"
-#include "object/brick.hpp"
-#include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/cloud_particle_system.hpp"
-#include "object/coin.hpp"
-#include "object/display_effect.hpp"
-#include "object/ghost_particle_system.hpp"
 #include "object/gradient.hpp"
-#include "object/invisible_block.hpp"
-#include "object/particlesystem.hpp"
-#include "object/particlesystem_interactive.hpp"
-#include "object/player.hpp"
-#include "object/portable.hpp"
 #include "object/pulsing_light.hpp"
 #include "object/rain_particle_system.hpp"
-#include "object/smoke_cloud.hpp"
 #include "object/snow_particle_system.hpp"
-#include "object/text_object.hpp"
 #include "object/tilemap.hpp"
-#include "physfs/ifile_streambuf.hpp"
-#include "supertux/collision.hpp"
-#include "supertux/constants.hpp"
-#include "supertux/direction.hpp"
-#include "supertux/game_session.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/level.hpp"
 #include "supertux/object_factory.hpp"
-#include "supertux/player_status.hpp"
-#include "supertux/savegame.hpp"
+#include "supertux/sector.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
-#include "supertux/tile_set.hpp"
 #include "supertux/tile_manager.hpp"
-#include "trigger/secretarea_trigger.hpp"
-#include "trigger/sequence_trigger.hpp"
-#include "util/file_system.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -168,7 +142,7 @@ SectorParser::parse(const ReaderMapping& sector)
 
   if(!has_background) {
     auto gradient = std::make_shared<Gradient>();
-    gradient->set_gradient(Color(0.3, 0.4, 0.75), Color(1, 1, 1));
+    gradient->set_gradient(Color(0.3f, 0.4f, 0.75f), Color(1.f, 1.f, 1.f));
     m_sector.add_object(gradient);
   }
 
