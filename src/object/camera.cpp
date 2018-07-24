@@ -162,6 +162,7 @@ Camera::after_editor_set() {
 Camera::Camera(Sector* newsector, const std::string& name_) :
   ExposedObject<Camera, scripting::Camera>(this),
   mode(NORMAL),
+  defaultmode(NORMAL),
   translation(),
   sector(newsector),
   lookahead_mode(LOOKAHEAD_NONE),
@@ -177,19 +178,13 @@ Camera::Camera(Sector* newsector, const std::string& name_) :
   scroll_goal(),
   scroll_to_pos(),
   scrollspeed(),
-  config(std::unique_ptr<CameraConfig>(new CameraConfig)),
-  defaultmode(NORMAL)
+  config(std::unique_ptr<CameraConfig>(new CameraConfig))
 {
   name = name_;
   reload_config();
 }
 
 Camera::~Camera()
-{
-}
-
-void
-Camera::draw(DrawingContext& )
 {
 }
 
@@ -263,6 +258,11 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
 }
 
 static const float CAMERA_EPSILON = .00001f;
+
+void
+Camera::draw(DrawingContext& )
+{
+}
 
 void
 Camera::update(float elapsed_time)
