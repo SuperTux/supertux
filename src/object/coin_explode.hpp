@@ -17,8 +17,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_COIN_EXPLODE_HPP
 #define HEADER_SUPERTUX_OBJECT_COIN_EXPLODE_HPP
 
-#include <memory>
-
 #include "math/vector.hpp"
 #include "supertux/game_object.hpp"
 

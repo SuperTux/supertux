@@ -17,19 +17,10 @@
 
 #include "video/sdl/sdl_renderer.hpp"
 
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
 #include "util/log.hpp"
-#include "video/drawing_request.hpp"
-#include "video/sdl/sdl_surface_data.hpp"
-#include "video/sdl/sdl_texture.hpp"
 #include "video/sdl/sdl_painter.hpp"
-
-#include <iomanip>
-#include <iostream>
-#include <physfs.h>
-#include <sstream>
-#include <stdexcept>
-#include <SDL_video.h>
-
 #include "video/util.hpp"
 
 SDLRenderer::SDLRenderer() :
@@ -176,72 +167,6 @@ SDLRenderer::draw_triangle(const DrawingRequest& request)
 }
 
 void
-SDLRenderer::do_take_screenshot()
-{
-  // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
-  int width;
-  int height;
-  if (SDL_GetRendererOutputSize(m_renderer, &width, &height) != 0)
-  {
-    log_warning << "SDL_GetRenderOutputSize failed: " << SDL_GetError() << std::endl;
-  }
-  else
-  {
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    Uint32 rmask = 0xff000000;
-    Uint32 gmask = 0x00ff0000;
-    Uint32 bmask = 0x0000ff00;
-    Uint32 amask = 0x000000ff;
-#else
-    Uint32 rmask = 0x000000ff;
-    Uint32 gmask = 0x0000ff00;
-    Uint32 bmask = 0x00ff0000;
-    Uint32 amask = 0xff000000;
-#endif
-    SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32,
-                                                rmask, gmask, bmask, amask);
-    if (!surface)
-    {
-      log_warning << "SDL_CreateRGBSurface failed: " << SDL_GetError() << std::endl;
-    }
-    else
-    {
-      int ret = SDL_RenderReadPixels(m_renderer, NULL,
-                                     SDL_PIXELFORMAT_ABGR8888,
-                                     surface->pixels,
-                                     surface->pitch);
-      if (ret != 0)
-      {
-        log_warning << "SDL_RenderReadPixels failed: " << SDL_GetError() << std::endl;
-      }
-      else
-      {
-        // save screenshot
-        static const std::string writeDir = PHYSFS_getWriteDir();
-        static const std::string dirSep = PHYSFS_getDirSeparator();
-        static const std::string baseName = "screenshot";
-        static const std::string fileExt = ".bmp";
-        std::string fullFilename;
-        for (int num = 0; num < 1000; num++) {
-          std::ostringstream oss;
-          oss << baseName;
-          oss << std::setw(3) << std::setfill('0') << num;
-          oss << fileExt;
-          std::string fileName = oss.str();
-          fullFilename = writeDir + dirSep + fileName;
-          if (!PHYSFS_exists(fileName.c_str())) {
-            SDL_SaveBMP(surface, fullFilename.c_str());
-            log_info << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
-            return;
-          }
-        }
-        log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
-      }
-    }
-  }
-}
-
-void
 SDLRenderer::flip()
 {
   SDL_RenderPresent(m_renderer);
@@ -330,7 +255,7 @@ SDLRenderer::apply_viewport()
   }
 
   // calculate the viewport
-  Size max_size(3840, 2160);
+  Size max_size(1280, 800);
   Size min_size(640, 480);
 
   Size logical_size;
@@ -373,14 +298,6 @@ SDLRenderer::to_logical(int physical_x, int physical_y) const
 {
   return Vector(static_cast<float>(physical_x - m_viewport.x) * SCREEN_WIDTH / m_viewport.w,
                 static_cast<float>(physical_y - m_viewport.y) * SCREEN_HEIGHT / m_viewport.h);
-}
-
-void
-SDLRenderer::set_gamma(float gamma)
-{
-  Uint16 ramp[256];
-  SDL_CalculateGammaRamp(gamma, ramp);
-  SDL_SetWindowGammaRamp(m_window, ramp, ramp, ramp);
 }
 
 /* EOF */

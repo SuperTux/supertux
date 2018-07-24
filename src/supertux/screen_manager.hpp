@@ -19,17 +19,17 @@
 #define HEADER_SUPERTUX_SUPERTUX_MAINLOOP_HPP
 
 #include <memory>
-#include <cstddef>
 
 #include "scripting/thread_queue.hpp"
 #include "supertux/screen.hpp"
 #include "util/currenton.hpp"
 
+class Compositor;
 class DrawingContext;
 class MenuManager;
 class MenuStorage;
-class Screen;
 class ScreenFade;
+class VideoSystem;
 
 /**
  * Manages, updates and draws all Screens, Controllers, Menus and the Console.
@@ -37,19 +37,14 @@ class ScreenFade;
 class ScreenManager : public Currenton<ScreenManager>
 {
 public:
-  ScreenManager();
+  ScreenManager(VideoSystem& video_system);
   ~ScreenManager();
 
-  void run(DrawingContext &context);
+  void run();
   void quit(std::unique_ptr<ScreenFade> fade = {});
   void set_speed(float speed);
   float get_speed() const;
   bool has_pending_fadeout() const;
-
-  /**
-   * requests that a screenshot be taken after the next frame has been rendered
-   */
-  void take_screenshot();
 
   // push new screen on screen_stack
   void push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<ScreenFade> fade = {});
@@ -62,12 +57,13 @@ public:
 private:
   void draw_fps(DrawingContext& context, float fps);
   void draw_player_pos(DrawingContext& context);
-  void draw(DrawingContext& context);
+  void draw(Compositor& compositor);
   void update_gamelogic(float elapsed_time);
   void process_events();
   void handle_screen_switch();
 
 private:
+  VideoSystem& m_video_system;
   std::unique_ptr<MenuStorage> m_menu_storage;
   std::unique_ptr<MenuManager> m_menu_manager;
 
@@ -83,31 +79,6 @@ private:
       type(type_),
       screen(std::move(screen_))
     {}
-#ifdef WIN32
-    Action(Action &a) :
-      type(a.type),
-      screen(std::move(a.screen))
-    {}
-#endif
-    Action(Action &&a) :
-      type(a.type),
-      screen(std::move(a.screen))
-    {}
-
-#ifdef WIN32
-    Action& operator=(Action &a)
-    {
-      type = a.type;
-      screen = std::move(a.screen);
-      return *this;
-    }
-#endif
-    Action& operator=(Action &&a)
-    {
-      type = a.type;
-      screen = std::move(a.screen);
-      return *this;
-    }
   };
 
   std::vector<Action> m_actions;
@@ -116,7 +87,6 @@ private:
   float m_fps;
   std::unique_ptr<ScreenFade> m_screen_fade;
   std::vector<std::unique_ptr<Screen> > m_screen_stack;
-  bool m_screenshot_requested; /**< true if a screenshot should be taken after the next frame has been rendered */
 };
 
 #endif

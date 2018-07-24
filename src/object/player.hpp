@@ -24,7 +24,6 @@
 #include "supertux/moving_object.hpp"
 #include "supertux/physic.hpp"
 #include "supertux/player_status.hpp"
-#include "supertux/script_interface.hpp"
 #include "supertux/sequence.hpp"
 #include "supertux/timer.hpp"
 

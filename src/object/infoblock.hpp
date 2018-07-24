@@ -20,7 +20,6 @@
 #include <memory>
 
 #include "object/block.hpp"
-#include "supertux/textscroller.hpp"
 
 class InfoBoxLine;
 

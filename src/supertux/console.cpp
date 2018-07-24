@@ -16,15 +16,14 @@
 
 #include "supertux/console.hpp"
 
-#include <assert.h>
-#include <math.h>
-
 #include "physfs/ifile_stream.hpp"
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 /// speed (pixels/s) the console closes
 static const float FADE_SPEED = 1;
@@ -475,7 +474,7 @@ void
 Console::open()
 {
   if(m_stayOpen < 2)
-    m_stayOpen += 1.5;
+    m_stayOpen += 1.5f;
 }
 
 void
@@ -528,21 +527,21 @@ Console::draw(DrawingContext& context) const
 
   context.push_transform();
   context.set_alpha(m_alpha);
-  context.draw_surface(m_background2,
-                       Vector(SCREEN_WIDTH/2 - m_background->get_width()/2 - m_background->get_width() + m_backgroundOffset,
+  context.color().draw_surface(m_background2,
+                       Vector(context.get_width()/2 - m_background->get_width()/2 - m_background->get_width() + m_backgroundOffset,
                               m_height - m_background->get_height()),
                        layer);
-  context.draw_surface(m_background2,
-                       Vector(SCREEN_WIDTH/2 - m_background->get_width()/2 + m_backgroundOffset,
+  context.color().draw_surface(m_background2,
+                       Vector(context.get_width()/2 - m_background->get_width()/2 + m_backgroundOffset,
                               m_height - m_background->get_height()),
                        layer);
-  for (int x = (SCREEN_WIDTH/2 - m_background->get_width()/2
-                - (static_cast<int>(ceilf((float)SCREEN_WIDTH /
+  for (int x = (context.get_width()/2 - m_background->get_width()/2
+                - (static_cast<int>(ceilf((float)context.get_width() /
                                           (float)m_background->get_width()) - 1) * m_background->get_width()));
-       x < SCREEN_WIDTH;
+       x < context.get_width();
        x += m_background->get_width())
   {
-    context.draw_surface(m_background, Vector(x, m_height - m_background->get_height()), layer);
+    context.color().draw_surface(m_background, Vector(x, m_height - m_background->get_height()), layer);
   }
 
   int lineNo = 0;
@@ -550,10 +549,10 @@ Console::draw(DrawingContext& context) const
   if (m_focused) {
     lineNo++;
     float py = m_height-4-1 * m_font->get_height();
-    context.draw_text(m_font, "> "+m_inputBuffer, Vector(4, py), ALIGN_LEFT, layer);
+    context.color().draw_text(m_font, "> "+m_inputBuffer, Vector(4, py), ALIGN_LEFT, layer);
     if (SDL_GetTicks() % 1000 < 750) {
       int cursor_px = 2 + m_inputBufferPosition;
-      context.draw_text(m_font, "_", Vector(4 + (cursor_px * m_font->get_text_width("X")), py), ALIGN_LEFT, layer);
+      context.color().draw_text(m_font, "_", Vector(4 + (cursor_px * m_font->get_text_width("X")), py), ALIGN_LEFT, layer);
     }
   }
 
@@ -564,7 +563,7 @@ Console::draw(DrawingContext& context) const
     lineNo++;
     float py = m_height - 4 - lineNo * m_font->get_height();
     if (py < -m_font->get_height()) break;
-    context.draw_text(m_font, *i, Vector(4, py), ALIGN_LEFT, layer);
+    context.color().draw_text(m_font, *i, Vector(4, py), ALIGN_LEFT, layer);
   }
   context.pop_transform();
 }

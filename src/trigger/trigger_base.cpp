@@ -57,7 +57,7 @@ TriggerBase::draw(DrawingContext& context)
   if(!sprite.get())
     return;
 
-  sprite->draw(context, get_pos(), LAYER_TILES+1);
+  sprite->draw(context.color(), get_pos(), LAYER_TILES+1);
 }
 
 HitResponse

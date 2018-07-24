@@ -17,7 +17,6 @@
 #include "util/reader_iterator.hpp"
 
 #include <sexp/io.hpp>
-#include <sexp/value.hpp>
 #include <sstream>
 
 #include "util/reader_error.hpp"

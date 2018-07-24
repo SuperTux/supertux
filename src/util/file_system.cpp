@@ -22,12 +22,6 @@
 #include <sys/types.h>
 #include <vector>
 
-#ifdef _WIN32
-#  include <shlwapi.h>
-#else
-#  include <unistd.h>
-#endif
-
 #include <boost/filesystem.hpp>
 
 namespace fs = boost::filesystem;

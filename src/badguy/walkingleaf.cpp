@@ -16,8 +16,7 @@
 
 #include "badguy/walkingleaf.hpp"
 
-#include "object/sprite_particle.hpp"
-#include "supertux/object_factory.hpp"
+#include "sprite/sprite.hpp"
 
 WalkingLeaf::WalkingLeaf(const ReaderMapping& reader) :
   WalkingBadguy(reader, "images/creatures/walkingleaf/walkingleaf.sprite", "left", "right")

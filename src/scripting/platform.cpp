@@ -17,8 +17,6 @@
 #include "object/platform.hpp"
 #include "scripting/platform.hpp"
 
-#define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
-
 namespace scripting {
 
 Platform::Platform(::Platform* platform_)

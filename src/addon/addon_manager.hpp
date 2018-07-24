@@ -18,7 +18,6 @@
 #ifndef HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 #define HEADER_SUPERTUX_ADDON_ADDON_MANAGER_HPP
 
-#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -26,7 +25,6 @@
 #include "addon/downloader.hpp"
 #include "supertux/gameconfig.hpp"
 #include "util/currenton.hpp"
-#include "util/reader_fwd.hpp"
 
 class Addon;
 using TransferStatusPtr = std::shared_ptr<TransferStatus>;

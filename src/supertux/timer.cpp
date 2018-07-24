@@ -28,8 +28,8 @@ cycle_start(0),
 void
 Timer::start(float period_, bool cyclic_)
 {
-  this->period = period_;
-  this->cyclic = cyclic_;
+  period = period_;
+  cyclic = cyclic_;
   cycle_start = game_time;
 }
 

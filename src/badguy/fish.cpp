@@ -17,7 +17,6 @@
 #include "badguy/fish.hpp"
 
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/tile.hpp"
 
 static const float FISH_JUMP_POWER = -600;

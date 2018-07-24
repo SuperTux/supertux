@@ -18,7 +18,6 @@
 
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 static const float PLANT_SPEED = 80;
 static const float WAKE_TIME = .5;

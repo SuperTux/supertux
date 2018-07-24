@@ -16,16 +16,17 @@
 
 #include "badguy/mrtree.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/poisonivy.hpp"
 #include "badguy/stumpy.hpp"
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
-#include "supertux/object_factory.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
-
-#include <math.h>
 
 static const float TREE_SPEED = 100;
 

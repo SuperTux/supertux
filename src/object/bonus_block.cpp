@@ -24,7 +24,6 @@
 #include "object/coin_rain.hpp"
 #include "object/growup.hpp"
 #include "object/oneup.hpp"
-#include "object/player.hpp"
 #include "object/portable.hpp"
 #include "object/powerup.hpp"
 #include "object/specialriser.hpp"
@@ -36,9 +35,9 @@
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-
-#include <stdexcept>
-#include <physfs.h>
+#include "util/writer.hpp"
+#include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 BonusBlock::BonusBlock(const Vector& pos, int data) :
   Block(SpriteManager::current()->create("images/objects/bonus_block/bonusblock.sprite")),
@@ -489,10 +488,7 @@ BonusBlock::draw(DrawingContext& context){
   // then Draw the light if on.
   if(sprite->get_action() == "on") {
     Vector pos = get_pos() + (bbox.get_size().as_vector() - lightsprite->get_size()) / 2;
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    context.draw_surface(lightsprite, pos, 10);
-    context.pop_target();
+    context.light().draw_surface(lightsprite, pos, 10);
   }
 }
 

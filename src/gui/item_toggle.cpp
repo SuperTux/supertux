@@ -16,17 +16,10 @@
 
 #include "gui/item_toggle.hpp"
 
-#include <stdio.h>
-
-#include "gui/menu_action.hpp"
-#include "math/vector.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/resources.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
+#include "video/surface.hpp"
 
 ItemToggle::ItemToggle(const std::string& text_, bool* toggled_, int _id) :
   MenuItem(text_, _id),
@@ -36,16 +29,16 @@ ItemToggle::ItemToggle(const std::string& text_, bool* toggled_, int _id) :
 
 void
 ItemToggle::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
-  context.draw_text(Resources::normal_font, text,
+  context.color().draw_text(Resources::normal_font, text,
                     Vector(pos.x + 16, pos.y - (Resources::normal_font->get_height()/2)),
                     ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
 
   if(*toggled) {
-    context.draw_surface(Resources::checkbox_checked,
+    context.color().draw_surface(Resources::checkbox_checked,
                          Vector(pos.x + menu_width-16 - Resources::checkbox->get_width(), pos.y - 8),
                          LAYER_GUI + 1);
   } else {
-    context.draw_surface(Resources::checkbox,
+    context.color().draw_surface(Resources::checkbox,
                          Vector(pos.x + menu_width-16 - Resources::checkbox->get_width(), pos.y - 8),
                          LAYER_GUI + 1);
   }

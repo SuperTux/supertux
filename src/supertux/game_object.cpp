@@ -17,6 +17,8 @@
 #include "supertux/game_object.hpp"
 
 #include "supertux/object_remove_listener.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 #include "video/color.hpp"
 
 GameObject::GameObject() :
@@ -126,7 +128,7 @@ GameObject::save(Writer& writer) {
 
 ObjectSettings
 GameObject::get_settings() {
-  ObjectSettings result(this->get_display_name());
+  ObjectSettings result(get_display_name());
   result.options.push_back( ObjectOption(MN_TEXTFIELD, _("Name"), &name));
   return result;
 }

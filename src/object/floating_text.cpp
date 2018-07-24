@@ -21,10 +21,6 @@
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
 
-#ifdef WIN32
-#  define snprintf _snprintf
-#endif
-
 FloatingText::FloatingText(const Vector& pos, const std::string& text_) :
   position(pos),
   text(text_),
@@ -52,7 +48,7 @@ FloatingText::FloatingText(const Vector& pos, int score) :
 void
 FloatingText::update(float elapsed_time)
 {
-  position.y -= 1.4 * elapsed_time;
+  position.y -= 1.4f * elapsed_time;
 
   if(timer.check())
     remove_me();
@@ -64,16 +60,16 @@ void
 FloatingText::draw(DrawingContext& context)
 {
   // make an alpha animation when disappearing
-  int alpha;
+  float alpha;
   if(timer.get_timeleft() < FADING_TIME)
-    alpha = int(timer.get_timeleft() * 255 / FADING_TIME);
+    alpha = timer.get_timeleft() * 255.0f / FADING_TIME;
   else
-    alpha = 255;
+    alpha = 255.0f;
 
   context.push_transform();
   context.set_alpha(alpha);
 
-  context.draw_text(Resources::normal_font, text, position, ALIGN_LEFT, LAYER_OBJECTS+1, FloatingText::text_color);
+  context.color().draw_text(Resources::normal_font, text, position, ALIGN_LEFT, LAYER_OBJECTS+1, FloatingText::text_color);
 
   context.pop_transform();
 }

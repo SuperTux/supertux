@@ -25,8 +25,6 @@
 #include "object/camera.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/constants.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -178,7 +176,7 @@ MagicBlock::draw(DrawingContext& context){
   //Draw the Sprite.
   MovingSprite::draw(context);
   //Add the color.
-  context.draw_filled_rect( bbox, color, layer);
+  context.color().draw_filled_rect( bbox, color, layer);
 }
 
 bool

@@ -18,14 +18,11 @@
 #define HEADER_SUPERTUX_BADGUY_WILLOWISP_HPP
 
 #include "badguy/badguy.hpp"
-
-class Path;
-class PathWalker;
-class SoundSource;
-
 #include "object/path_object.hpp"
 #include "scripting/exposed_object.hpp"
 #include "scripting/willowisp.hpp"
+
+class SoundSource;
 
 class WillOWisp : public BadGuy,
                   public ExposedObject<WillOWisp, scripting::WillOWisp>,

@@ -18,17 +18,12 @@
 #ifndef HEADER_SUPERTUX_WORLDMAP_LEVEL_HPP
 #define HEADER_SUPERTUX_WORLDMAP_LEVEL_HPP
 
-#include <memory>
-#include <string>
-
 #include "math/vector.hpp"
 #include "sprite/sprite_ptr.hpp"
 #include "supertux/game_object.hpp"
 #include "supertux/statistics.hpp"
-#include "video/color.hpp"
-#include "video/surface.hpp"
 
-class Sprite;
+class ReaderMapping;
 
 namespace worldmap {
 

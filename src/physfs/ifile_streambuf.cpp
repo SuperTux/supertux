@@ -16,10 +16,10 @@
 
 #include "physfs/ifile_streambuf.hpp"
 
-#include <stdexcept>
-#include <sstream>
-
 #include <assert.h>
+#include <physfs.h>
+#include <sstream>
+#include <stdexcept>
 
 IFileStreambuf::IFileStreambuf(const std::string& filename) :
   file(),

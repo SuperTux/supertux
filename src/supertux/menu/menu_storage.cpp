@@ -16,7 +16,8 @@
 
 #include "supertux/menu/menu_storage.hpp"
 
-#include "supertux/globals.hpp"
+#include <assert.h>
+
 #include "supertux/menu/addon_menu.hpp"
 #include "supertux/menu/cheat_menu.hpp"
 #include "supertux/menu/contrib_menu.hpp"

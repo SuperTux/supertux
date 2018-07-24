@@ -20,7 +20,6 @@
 
 #include "math/random_generator.hpp"
 #include "object/camera.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
 
@@ -130,7 +129,7 @@ Particles::draw(DrawingContext& context)
 {
   // draw particles
   for(auto& particle : particles) {
-    context.draw_filled_rect(particle->pos, Vector(size,size), color, drawing_layer);
+    context.color().draw_filled_rect(particle->pos, Vector(size,size), color, drawing_layer);
   }
 }
 

@@ -14,9 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <stdexcept>
-
 #include "supertux/spawn_point.hpp"
+
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"

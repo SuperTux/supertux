@@ -21,8 +21,8 @@
 
 #include "supertux/timer.hpp"
 
-class DrawingContext;
 class Color;
+class DrawingContext;
 class ReaderMapping;
 
 class SecretAreaTrigger : public TriggerBase

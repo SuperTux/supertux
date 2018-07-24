@@ -18,7 +18,8 @@
 #define HEADER_SUPERTUX_OBJECT_INVISIBLE_WALL_HPP
 
 #include "supertux/moving_object.hpp"
-#include "util/reader_fwd.hpp"
+
+class ReaderMapping;
 
 /** A tile that starts falling down if tux stands to long on it */
 class InvisibleWall : public MovingObject

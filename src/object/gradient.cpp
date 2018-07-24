@@ -18,13 +18,10 @@
 
 #include "editor/editor.hpp"
 #include "object/camera.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
-
-#include <stdexcept>
+#include "util/writer.hpp"
 
 Gradient::Gradient() :
   ExposedObject<Gradient, scripting::Gradient>(this),
@@ -89,7 +86,7 @@ Gradient::Gradient(const ReaderMapping& reader) :
   if (reader.get("top_color", bkgd_top_color)) {
     gradient_top = Color(bkgd_top_color);
   } else {
-    gradient_top = Color(0.3, 0.4, 0.75);
+    gradient_top = Color(0.3f, 0.4f, 0.75f);
   }
 
   if (reader.get("bottom_color", bkgd_bottom_color)) {
@@ -194,7 +191,7 @@ Gradient::draw(DrawingContext& context)
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  context.draw_gradient(gradient_top, gradient_bottom, layer, gradient_direction, gradient_region);
+  context.color().draw_gradient(gradient_top, gradient_bottom, layer, gradient_direction, gradient_region);
   context.pop_transform();
 }
 

@@ -19,7 +19,6 @@
 #include "audio/sound_manager.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 
 /*
  * Kamikaze Snowball will fly in one direction until he hits something.

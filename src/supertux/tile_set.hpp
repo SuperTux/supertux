@@ -20,13 +20,13 @@
 #include <stdint.h>
 #include <string>
 
-#include "supertux/tile.hpp"
-#include "util/log.hpp"
 #include "video/color.hpp"
 #include "video/surface_ptr.hpp"
 
+class Canvas;
 class DrawingContext;
 class Tile;
+class Vector;
 
 class Tilegroup {
   public:
@@ -52,7 +52,7 @@ public:
              uint32_t offset);
   void add_tile(int id, std::unique_ptr<Tile> tile);
 
-  void draw_tile(DrawingContext& context, uint32_t id, const Vector& pos,
+  void draw_tile(Canvas& canvas, uint32_t id, const Vector& pos,
                  int z_pos, Color color = Color(1, 1, 1)) const;
 
   const Tile* get(const uint32_t id) const;
@@ -65,7 +65,7 @@ public:
 
   uint32_t get_max_tileid() const
   {
-    return m_tiles.size();
+    return static_cast<uint32_t>(m_tiles.size());
   }
 };
 

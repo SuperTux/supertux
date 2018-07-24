@@ -18,27 +18,29 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TITLE_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TITLE_HPP
 
-#include "supertux/game_session.hpp"
-#include "supertux/savegame.hpp"
+#include "supertux/screen.hpp"
+#include "video/surface_ptr.hpp"
+
+#include <string>
 
 class CodeController;
+class GameSession;
 class Savegame;
 
 /**
  * Screen that displays the SuperTux logo, lets players start a new game, etc.
  */
-class TitleScreen : public Screen
+class TitleScreen final : public Screen
 {
 public:
   TitleScreen(Savegame& savegame);
   virtual ~TitleScreen();
 
-  virtual void setup();
-  virtual void leave();
+  virtual void setup() override;
+  virtual void leave() override;
 
-  virtual void draw(DrawingContext& context);
-
-  virtual void update(float elapsed_time);
+  virtual void draw(Compositor& compositor) override;
+  virtual void update(float elapsed_time) override;
 
 private:
   void make_tux_jump();

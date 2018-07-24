@@ -21,11 +21,10 @@
 #include "addon/addon_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "gui/item_action.hpp"
 #include "physfs/physfs_file_system.hpp"
 #include "util/file_system.hpp"
-#include "util/gettext.hpp"
 #include "util/log.hpp"
+#include "util/gettext.hpp"
 #include "util/string_util.hpp"
 
 FileSystemMenu::FileSystemMenu(std::string* filename_, const std::vector<std::string>& extensions_) :

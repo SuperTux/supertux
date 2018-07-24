@@ -17,7 +17,9 @@
 #include "video/gl/gl_painter.hpp"
 
 #include <algorithm>
+#include <math.h>
 
+#include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
@@ -255,7 +257,7 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
                 request.pos.y + fillrectrequest->size.y - radius);
 
     int n = 8;
-    int p = 0;
+    size_t p = 0;
     std::vector<float> vertices((n+1) * 4 * 2);
 
     for(int i = 0; i <= n; ++i)

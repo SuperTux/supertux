@@ -22,15 +22,16 @@
 #include <squirrel.h>
 
 #include "math/vector.hpp"
-#include "object/endsequence.hpp"
+#include "object/player.hpp"
 #include "supertux/game_session_recorder.hpp"
 #include "supertux/screen.hpp"
 #include "supertux/sequence.hpp"
-#include "supertux/player_status.hpp"
 #include "util/currenton.hpp"
+#include "video/surface_ptr.hpp"
 
 class CodeController;
 class DrawingContext;
+class EndSequence;
 class Level;
 class Sector;
 class Statistics;
@@ -46,10 +47,11 @@ class GameSession : public Screen,
 public:
   GameSession(const std::string& levelfile, Savegame& savegame, Statistics* statistics = NULL);
 
-  void draw(DrawingContext& context) override;
-  void update(float frame_ratio) override;
-  void setup() override;
-  void leave() override;
+  virtual void draw(Compositor& compositor) override;
+  virtual void update(float frame_ratio) override;
+  virtual void setup() override;
+  virtual void leave() override;
+
   void on_window_resize();
 
   /// ends the current level
@@ -129,7 +131,7 @@ private:
   // the sector and spawnpoint we should spawn after this frame
   std::string newsector;
   std::string newspawnpoint;
-  
+
   // Whether the player had invincibility before spawning in a new sector
   bool pastinvincibility;
   int newinvincibilityperiod;
@@ -152,8 +154,8 @@ private:
   bool end_seq_started;
 
 private:
-  GameSession(const GameSession&);
-  GameSession& operator=(const GameSession&);
+  GameSession(const GameSession&) = delete;
+  GameSession& operator=(const GameSession&) = delete;
 };
 
 #endif /*SUPERTUX_GAMELOOP_H*/

@@ -30,6 +30,7 @@
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 
 EditorLevelsetSelectMenu::EditorLevelsetSelectMenu() :
   m_contrib_worlds()

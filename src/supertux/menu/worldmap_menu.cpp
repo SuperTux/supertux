@@ -19,7 +19,6 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/menu/options_menu.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/screen_manager.hpp"
 #include "util/gettext.hpp"

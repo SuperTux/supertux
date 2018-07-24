@@ -13,13 +13,13 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#include <config.h>
+
+#include "worldmap/sprite_change.hpp"
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
-#include "worldmap/sprite_change.hpp"
 
 namespace worldmap {
 
@@ -57,7 +57,7 @@ SpriteChange::draw(DrawingContext& context)
 {
   if(in_stay_action && !stay_action.empty()) {
     sprite->set_action(stay_action);
-    sprite->draw(context, pos * 32, LAYER_OBJECTS-1);
+    sprite->draw(context.color(), pos * 32, LAYER_OBJECTS-1);
   }
 }
 

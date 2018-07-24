@@ -16,7 +16,6 @@
 
 #include "util/reader_collection.hpp"
 
-#include <assert.h>
 #include <sexp/value.hpp>
 
 #include "util/reader_error.hpp"

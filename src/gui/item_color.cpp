@@ -16,12 +16,9 @@
 
 #include "gui/item_color.hpp"
 
-#include <stdio.h>
-
 #include "gui/menu.hpp"
 #include "gui/menu_color.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "video/color.hpp"
 
 ItemColor::ItemColor(const std::string& text_, Color* color_, int _id) :

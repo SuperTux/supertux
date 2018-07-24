@@ -17,12 +17,9 @@
 #ifndef HEADER_SUPERTUX_UTIL_READER_HPP
 #define HEADER_SUPERTUX_UTIL_READER_HPP
 
-#include <memory>
-#include <vector>
 #include <string>
-#include <sexp/value.hpp>
 
-#include "util/reader_fwd.hpp"
+class ReaderMapping;
 
 int reader_get_layer(const ReaderMapping& reader, int def);
 void register_translation_directory(const std::string& filename);

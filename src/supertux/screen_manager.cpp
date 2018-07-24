@@ -18,51 +18,38 @@
 #include "supertux/screen_manager.hpp"
 
 #include "audio/sound_manager.hpp"
-#include "control/input_manager.hpp"
 #include "editor/editor.hpp"
-#include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
-#include "object/player.hpp"
 #include "scripting/scripting.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "scripting/time_scheduler.hpp"
 #include "supertux/console.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/main.hpp"
 #include "supertux/menu/menu_storage.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/screen.hpp"
 #include "supertux/screen_fade.hpp"
 #include "supertux/sector.hpp"
-#include "supertux/timer.hpp"
+#include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
-#include "video/renderer.hpp"
 
 #include <stdio.h>
-
-#ifdef WIN32
-#  define snprintf _snprintf
-#endif
 
 /** ticks (as returned from SDL_GetTicks) per frame */
 static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);
 /** don't skip more than every 2nd frame */
 static const int MAX_FRAME_SKIP = 2;
 
-ScreenManager::ScreenManager() :
+ScreenManager::ScreenManager(VideoSystem& video_system) :
   m_waiting_threads(),
+  m_video_system(video_system),
   m_menu_storage(new MenuStorage),
   m_menu_manager(new MenuManager),
   m_speed(1.0),
   m_actions(),
   m_fps(0),
   m_screen_fade(),
-  m_screen_stack(),
-  m_screenshot_requested(false)
+  m_screen_stack()
 {
   using namespace scripting;
   TimeScheduler::instance = new TimeScheduler();
@@ -84,7 +71,7 @@ ScreenManager::push_screen(std::unique_ptr<Screen> screen, std::unique_ptr<Scree
   {
     m_screen_fade = std::move(screen_fade);
   }
-  m_actions.push_back(Action(Action::PUSH_ACTION, std::move(screen)));
+  m_actions.emplace_back(Action::PUSH_ACTION, std::move(screen));
 }
 
 void
@@ -95,7 +82,7 @@ ScreenManager::pop_screen(std::unique_ptr<ScreenFade> screen_fade)
   {
     m_screen_fade = std::move(screen_fade);
   }
-  m_actions.push_back(Action(Action::POP_ACTION));
+  m_actions.emplace_back(Action::POP_ACTION);
 }
 
 void
@@ -114,7 +101,7 @@ ScreenManager::quit(std::unique_ptr<ScreenFade> screen_fade)
   {
     m_screen_fade = std::move(screen_fade);
   }
-  m_actions.push_back(Action(Action::QUIT_ACTION));
+  m_actions.emplace_back(Action::QUIT_ACTION);
 }
 
 void
@@ -135,10 +122,10 @@ ScreenManager::draw_fps(DrawingContext& context, float fps_fps)
   char str[60];
   snprintf(str, sizeof(str), "%3.1f", fps_fps);
   const char* fpstext = "FPS";
-  context.draw_text(Resources::small_font, fpstext,
-                    Vector(SCREEN_WIDTH - Resources::small_font->get_text_width(fpstext) - Resources::small_font->get_text_width(" 99999") - BORDER_X,
+  context.color().draw_text(Resources::small_font, fpstext,
+                    Vector(context.get_width() - Resources::small_font->get_text_width(fpstext) - Resources::small_font->get_text_width(" 99999") - BORDER_X,
                            BORDER_Y + 20), ALIGN_LEFT, LAYER_HUD);
-  context.draw_text(Resources::small_font, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y + 20), ALIGN_RIGHT, LAYER_HUD);
+  context.color().draw_text(Resources::small_font, str, Vector(context.get_width() - BORDER_X, BORDER_Y + 20), ALIGN_RIGHT, LAYER_HUD);
 }
 
 void
@@ -152,20 +139,24 @@ ScreenManager::draw_player_pos(DrawingContext& context)
     auto pos = sector->get_players()[0]->get_pos();
     auto pos_text = "X:" + std::to_string(int(pos.x)) + " Y:" + std::to_string(int(pos.y));
 
-    context.draw_text(Resources::small_font, pos_text,
-                      Vector(SCREEN_WIDTH - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
+    context.color().draw_text(Resources::small_font, pos_text,
+                      Vector(context.get_width() - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
                              BORDER_Y + 40), ALIGN_LEFT, LAYER_HUD);
   }
 }
 
 void
-ScreenManager::draw(DrawingContext& context)
+ScreenManager::draw(Compositor& compositor)
 {
   assert(!m_screen_stack.empty());
 
   static Uint32 fps_ticks = SDL_GetTicks();
 
-  m_screen_stack.back()->draw(context);
+  // draw the actual screen
+  m_screen_stack.back()->draw(compositor);
+
+  // draw effects and hud
+  auto& context = compositor.make_context();
   m_menu_manager->draw(context);
 
   if (m_screen_fade)
@@ -185,13 +176,8 @@ ScreenManager::draw(DrawingContext& context)
     draw_player_pos(context);
   }
 
-  // if a screenshot was requested, pass request on to drawing_context
-  if (m_screenshot_requested)
-  {
-    context.take_screenshot();
-    m_screenshot_requested = false;
-  }
-  context.do_drawing();
+  // render everything
+  compositor.render();
 
   /* Calculate frames per second */
   if (g_config->show_fps)
@@ -201,7 +187,7 @@ ScreenManager::draw(DrawingContext& context)
 
     if (SDL_GetTicks() - fps_ticks >= 500)
     {
-      m_fps = (float) frame_count / .5;
+      m_fps = frame_count / .5f;
       frame_count = 0;
       fps_ticks = SDL_GetTicks();
     }
@@ -255,7 +241,7 @@ ScreenManager::process_events()
         switch(event.window.event)
         {
           case SDL_WINDOWEVENT_RESIZED:
-            VideoSystem::current()->resize(event.window.data1,
+            m_video_system.resize(event.window.data1,
                                            event.window.data2);
             m_menu_manager->on_window_resize();
             if (Editor::is_active()) {
@@ -286,13 +272,13 @@ ScreenManager::process_events()
                  (event.key.keysym.sym == SDLK_KP_ENTER || event.key.keysym.sym == SDLK_RETURN)))
         {
           g_config->use_fullscreen = !g_config->use_fullscreen;
-          VideoSystem::current()->apply_config();
+          m_video_system.apply_config();
           m_menu_manager->on_window_resize();
         }
         else if (event.key.keysym.sym == SDLK_PRINTSCREEN ||
                  event.key.keysym.sym == SDLK_F12)
         {
-          take_screenshot();
+          m_video_system.do_take_screenshot();
         }
         else if (event.key.keysym.sym == SDLK_F2 &&
                  event.key.keysym.mod & KMOD_CTRL)
@@ -331,7 +317,7 @@ ScreenManager::handle_screen_switch()
       // move actions to a new vector since setup() might modify it
       auto actions = std::move(m_actions);
       bool quit_action_triggered = false;
-      
+
       for(auto& action : actions)
       {
         switch (action.type)
@@ -381,7 +367,7 @@ ScreenManager::handle_screen_switch()
 }
 
 void
-ScreenManager::run(DrawingContext &context)
+ScreenManager::run()
 {
   Uint32 last_ticks = 0;
   Uint32 elapsed_ticks = 0;
@@ -429,19 +415,14 @@ ScreenManager::run(DrawingContext &context)
 
     if (!m_screen_stack.empty())
     {
-      draw(context);
+      Compositor compositor(m_video_system);
+      draw(compositor);
     }
 
     SoundManager::current()->update();
 
     handle_screen_switch();
   }
-}
-
-void
-ScreenManager::take_screenshot()
-{
-  m_screenshot_requested = true;
 }
 
 /* EOF */

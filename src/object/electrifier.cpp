@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/electrifier.hpp"
+
 #include "supertux/sector.hpp"
 
 Electrifier::Electrifier(TileChangeMap replacements, float seconds) :
