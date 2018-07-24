@@ -16,13 +16,12 @@
 
 #include "badguy/totem.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-
-#include <math.h>
 
 static const float JUMP_ON_SPEED_Y = -400;
 static const float JUMP_OFF_SPEED_Y = -500;
@@ -106,14 +105,14 @@ Totem::active_update(float elapsed_time)
 
         physic.set_velocity_y(JUMP_ON_SPEED_Y);
         p1.y -= 1;
-        this->set_pos(p1);
+        set_pos(p1);
         break;
       }
     }
   }
 
   if (carried_by) {
-    this->synchronize_with(carried_by);
+    synchronize_with(carried_by);
   }
 
   if (carrying) {
@@ -223,13 +222,13 @@ Totem::jump_on(Totem* target)
 
   target->carrying = this;
 
-  this->carried_by = target;
-  this->initialize();
+  carried_by = target;
+  initialize();
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   SoundManager::current()->play( LAND_ON_TOTEM_SOUND , get_pos());
 
-  this->synchronize_with(target);
+  synchronize_with(target);
 }
 
 void
@@ -241,9 +240,9 @@ Totem::jump_off() {
 
   carried_by->carrying = 0;
 
-  this->carried_by = 0;
+  carried_by = 0;
 
-  this->initialize();
+  initialize();
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
 
   physic.set_velocity_y(JUMP_OFF_SPEED_Y);

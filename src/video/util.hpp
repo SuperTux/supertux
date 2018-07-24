@@ -17,10 +17,9 @@
 #ifndef HEADER_SUPERTUX_VIDEO_UTIL_HPP
 #define HEADER_SUPERTUX_VIDEO_UTIL_HPP
 
-#include "SDL_rect.h"
-
 class Size;
 class Vector;
+struct SDL_Rect;
 
 void calculate_viewport(const Size& min_size, const Size& max_size,
                         const Size& real_window_size,

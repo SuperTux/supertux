@@ -52,7 +52,7 @@ EditorLayersGui::draw(DrawingContext& context) {
     object_tip->draw_up(context, position);
   }
 
-  context.draw_filled_rect(Rectf(Vector(0, Ypos), Vector(Width, SCREEN_HEIGHT)),
+  context.color().draw_filled_rect(Rectf(Vector(0, Ypos), Vector(Width, SCREEN_HEIGHT)),
                            Color(0.9f, 0.9f, 1.0f, 0.6f),
                            0.0f,
                            LAYER_GUI-10);
@@ -76,7 +76,7 @@ EditorLayersGui::draw(DrawingContext& context) {
   }
   if(draw_rect)
   {
-    context.draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
+    context.color().draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
                              LAYER_GUI-5);
   }
 
@@ -84,7 +84,7 @@ EditorLayersGui::draw(DrawingContext& context) {
     return;
   }
 
-  context.draw_text(Resources::normal_font, sector_text,
+  context.color().draw_text(Resources::normal_font, sector_text,
                     Vector(35, Ypos+5),
                     ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 

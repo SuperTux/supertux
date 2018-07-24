@@ -21,9 +21,7 @@
 
 #include "object/player.hpp"
 #include "object/portable.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
 
 BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
@@ -36,10 +34,10 @@ BicyclePlatform::BicyclePlatform(const ReaderMapping& reader) :
   angular_speed(0),
   contacts(),
   momentum(0),
-  momentum_change_rate(0.1)
+  momentum_change_rate(0.1f)
 {
   reader.get("radius", radius, 128);
-  reader.get("momentum-change-rate", momentum_change_rate, 0.1);
+  reader.get("momentum-change-rate", momentum_change_rate, 0.1f);
 }
 
 BicyclePlatform::BicyclePlatform(BicyclePlatform* master_) :
@@ -52,7 +50,7 @@ BicyclePlatform::BicyclePlatform(BicyclePlatform* master_) :
   angular_speed(0),
   contacts(),
   momentum(0),
-  momentum_change_rate(0.1)
+  momentum_change_rate(0.1f)
 {
   set_pos(get_pos() + Vector(master->get_bbox().get_width(), 0));
   master->master = master;

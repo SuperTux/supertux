@@ -17,16 +17,14 @@
 #ifndef HEADER_SUPERTUX_GUI_MENU_MANAGER_HPP
 #define HEADER_SUPERTUX_GUI_MENU_MANAGER_HPP
 
-#include <list>
 #include <memory>
 #include <vector>
-
-#include "SDL.h"
 
 class Dialog;
 class DrawingContext;
 class Menu;
 class MenuTransition;
+union SDL_Event;
 
 class MenuManager
 {

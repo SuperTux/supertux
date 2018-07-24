@@ -16,6 +16,7 @@
 
 #include "physfs/ofile_streambuf.hpp"
 
+#include <physfs.h>
 #include <sstream>
 #include <stdexcept>
 

@@ -17,7 +17,6 @@
 #include "object/invisible_wall.hpp"
 
 #include "editor/editor.hpp"
-#include "util/gettext.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/drawing_context.hpp"
 
@@ -63,7 +62,7 @@ void
 InvisibleWall::draw(DrawingContext& context)
 {
   if (Editor::is_active()) {
-    context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
+    context.color().draw_filled_rect(bbox, Color(0.0f, 0.0f, 0.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
   }
 }

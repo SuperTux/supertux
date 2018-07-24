@@ -17,12 +17,8 @@
 #ifndef HEADER_SUPERTUX_VIDEO_TEXTURE_HPP
 #define HEADER_SUPERTUX_VIDEO_TEXTURE_HPP
 
-#include <config.h>
-
-#include <assert.h>
 #include <string>
 
-#include "supertux/globals.hpp"
 #include "video/texture_manager.hpp"
 
 /// bitset for drawing effects

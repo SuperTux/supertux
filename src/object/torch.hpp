@@ -18,8 +18,6 @@
 #ifndef HEADER_SUPERTUX_OBJECT_TORCH_HPP
 #define HEADER_SUPERTUX_OBJECT_TORCH_HPP
 
-#include <memory>
-
 #include "scripting/exposed_object.hpp"
 #include "scripting/torch.hpp"
 #include "sprite/sprite_ptr.hpp"

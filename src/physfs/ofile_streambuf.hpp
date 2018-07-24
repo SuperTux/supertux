@@ -18,7 +18,8 @@
 #define HEADER_SUPERTUX_PHYSFS_OFILE_STREAMBUF_HPP
 
 #include <streambuf>
-#include <physfs.h>
+
+struct PHYSFS_File;
 
 class OFileStreambuf : public std::streambuf
 {
@@ -31,7 +32,7 @@ protected:
   virtual int sync();
 
 private:
-  PHYSFS_file* file;
+  PHYSFS_File* file;
   char buf[1024];
 
 private:

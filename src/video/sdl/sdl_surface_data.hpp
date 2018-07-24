@@ -17,18 +17,10 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_SURFACE_DATA_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_SURFACE_DATA_HPP
 
-#include <config.h>
-
-#include "supertux/gameconfig.hpp"
-#include "supertux/globals.hpp"
-#include "video/surface.hpp"
 #include "video/surface_data.hpp"
-#include "video/texture.hpp"
 
 class SDLSurfaceData : public SurfaceData
 {
-private:
-
 public:
   SDLSurfaceData(const Surface &surface)
   {

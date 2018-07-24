@@ -15,15 +15,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "audio/sound_manager.hpp"
 #include "badguy/goldbomb.hpp"
+
+#include "audio/sound_manager.hpp"
+#include "audio/sound_source.hpp"
 #include "object/coin_explode.hpp"
 #include "object/explosion.hpp"
 #include "object/player.hpp"
-#include "object/portable.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
@@ -186,7 +186,7 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
 {
   if(tstate == STATE_TICKING){
     movement = pos - get_pos();
-    this->dir = dir_;
+    dir = dir_;
 
     // We actually face the opposite direction of Tux here to make the fuse more
     // visible instead of hiding it behind Tux
@@ -197,7 +197,7 @@ GoldBomb::grab(MovingObject& object, const Vector& pos, Direction dir_)
   }
   else if(frozen){
     movement = pos - get_pos();
-    this->dir = dir_;
+    dir = dir_;
     sprite->set_action(dir_ == LEFT ? "iced-left" : "iced-right");
     set_colgroup_active(COLGROUP_DISABLED);
     grabbed = true;

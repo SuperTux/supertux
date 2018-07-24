@@ -11,7 +11,7 @@
 #
 
 language: cpp
-dist: trusty
+dist: xenial
 sudo: required
 
 compiler:

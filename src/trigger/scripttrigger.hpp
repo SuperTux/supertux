@@ -19,6 +19,7 @@
 
 #include "trigger/trigger_base.hpp"
 
+class ReaderMapping;
 class Writer;
 
 class ScriptTrigger : public TriggerBase

@@ -19,14 +19,12 @@
 #define HEADER_SUPERTUX_SUPERTUX_TILE_SET_PARSER_HPP
 
 #include <string>
-#include <stdint.h>
 #include <vector>
 
 #include "supertux/tile.hpp"
-#include "util/reader_fwd.hpp"
 
+class ReaderMapping;
 class TileSet;
-class Tile;
 
 class TileSetParser
 {

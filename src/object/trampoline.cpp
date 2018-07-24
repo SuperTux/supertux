@@ -23,7 +23,6 @@
 #include "object/coin.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "util/reader_mapping.hpp"
 
 /* Trampoline will accelerate player to to VY_INITIAL, if

@@ -1,13 +1,8 @@
 # SuperTux
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a5f0970980fd4d97bcbec5a0762f163e)](https://www.codacy.com/app/supertux/supertux?utm_source=github.com&utm_medium=referral&utm_content=SuperTux/supertux&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/SuperTux/supertux.svg?branch=master)](https://travis-ci.org/SuperTux/supertux)
 [![AppVeyor Build Satus](https://ci.appveyor.com/api/projects/status/github/SuperTux/supertux?svg=true&branch=master)](https://ci.appveyor.com/project/supertux/supertux-9ml4d/branch/master)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/4025/badge.svg)](https://scan.coverity.com/projects/4025)
 [![Github All Releases](https://img.shields.io/github/downloads/supertux/supertux/total.svg?maxAge=2592000)](https://github.com/SuperTux/supertux)
-[![#supertux on freenode](https://img.shields.io/badge/freenode-%23supertux-brightgreen.svg)](https://webchat.freenode.net/?channels=supertux)
-
-## Description
 
 SuperTux is a jump'n'run game with strong inspiration from the
 Super Mario Bros. games for the various Nintendo platforms.
@@ -15,6 +10,8 @@ Super Mario Bros. games for the various Nintendo platforms.
 Run and jump through multiple worlds, fighting off enemies by jumping
 on them, bumping them from below or tossing objects at them, grabbing
 power-ups and other stuff on the way.
+
+![Screenshot](https://www.supertux.org/images/0_5_1/0_5_1_3.png)
 
 
 ## Story: Penny gets captured!
@@ -32,6 +29,17 @@ thought of trying to reclaim her, you haven't got a chance! -Nolok"
 Tux looks and sees Nolok's fortress in the distance. Determined to
 save his beloved Penny, he begins his journey.
 
+## Installation
+
+For major platforms, stable releases are built and available for download from
+[supertux.org](https://www.supertux.org/download.html) or alternatively directly
+from [GitHub](https://github.com/SuperTux/supertux/releases). You should be able
+to install these using default tools provided by your platform. On macOS, when
+Gatekeeper is enabled (default) it will refuse to open SuperTux. This is due to
+the lack of a signature on the application. If you wish to open SuperTux anyway
+without disabling the Gatekeeper feature entirely, you can open the application
+from the context menu (control click on the icon). macOS will then remember your
+choice the next time.
 
 ## Documentation
 
@@ -48,25 +56,6 @@ CC-by-SA)
 design levels for SuperTux.
 * `data/credits.stxt` - Credits for people that contributed to the creation of
 SuperTux. (You can view these in the game menu as well.)
-
-
-## Running the game
-
-SuperTux makes use of proc to see where it is. In other words, it does
-not have any need to be installed and can be run from anywhere. This
-makes it possible to click in the executable in your filemanager (i.e.
-Konqueror or Nautilus) as opposed to many other Linux games.
-
-Options can be reached from the menu, so you don't need to specify
-arguments, but if you want, type `supertux2 --help` to check the ones
-that are available. Also, notice that SuperTux saves the options, so
-it's often enough to specify them once. For example, fullscreen mode
-causes problems on some setups, so just run `supertux2 --window` and
-you should be set.
-
-The game uses OpenGL to render the graphics. You will either need a
-CPU with about 1 GHz or an accelerated video card with recent
-graphics drivers.
 
 
 ## Playing the game
@@ -86,6 +75,29 @@ arrow keys or the mouse.
 In the worldmap, the arrow keys are used to navigate and Enter to
 enter the current level.
 
+## Community
+
+In case you need help, feel free to reach out using the following means:
+
+* **IRC:** [#supertux](ircs://chat.freenode.net/#supertux) on
+  [freenode](https://freenode.net) hosts most of the discussions between
+  developers. Also, real-time support can be provided here. If you don't know
+  how to use an IRC client, you access the channel using a web-based
+  [client](https://kiwiirc.com/client/chat.freenode.net:+6697/?nick=Guest?#supertux).
+  Please stay around after asking questions, otherwise you will be disconnected
+  and might miss potential answers.
+* **Matrix:** [#supertux:matrix.org](https://matrix.to/#/#supertux:matrix.org)
+  is bridged to our IRC room.
+* **[Forum](https://forum.freegamedev.net/viewforum.php?f=66):** The SuperTux
+  community is very active on the forum, the discussion ranges from feature
+  proposals to support questions. In particular, most community-contributed
+  add-ons are published there first, so this is worth checking.
+* **Mailing Lists:** The
+  [supertux-devel](http://lists.lethargik.org/listinfo.cgi/supertux-devel-lethargik.org)
+  mailing list is intended for development purposes. However, it is not very
+  active at the moment.
+* **Social Media:** Mostly on [Twitter](https://twitter.com/supertux_team) at
+  the moment.
 
 ## Development status
 
@@ -103,15 +115,3 @@ Forest World, but decided that in order to allow more access to the most recent
 version (in repositories etc.) we would have to release Milestone 2 without the
 Forest World included in the Story Mode. Constructive feedback with regards to
 the Forest World is welcome.
-
-Don't forget that you can get involved with the development at
-<https://github.com/supertux/supertux>,
-or get notified about the recent changes on Twitter
-[@supertux_team](https://twitter.com/supertux_team)
-
-
-## The End
-
-Thanks for playing SuperTux.
-
-The SuperTux Team

@@ -19,8 +19,6 @@
 
 #include "gui/menu.hpp"
 
-class Color;
-
 class ColorMenu : public Menu
 {
 public:

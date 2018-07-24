@@ -17,7 +17,6 @@
 #include "badguy/snowball.hpp"
 
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 SnowBall::SnowBall(const ReaderMapping& reader)
   : WalkingBadguy(reader, "images/creatures/snowball/snowball.sprite", "left", "right")

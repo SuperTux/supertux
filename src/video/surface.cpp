@@ -16,10 +16,6 @@
 
 #include "video/surface.hpp"
 
-#include <config.h>
-
-#include <SDL.h>
-
 #include "video/texture.hpp"
 #include "video/video_system.hpp"
 

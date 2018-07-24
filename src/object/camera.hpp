@@ -33,29 +33,40 @@ class PathWalker;
 class ReaderMapping;
 class CameraConfig;
 
-class Camera : public GameObject,
-               public ExposedObject<Camera, scripting::Camera>,
-               public PathObject
+class Camera final : public GameObject,
+                     public ExposedObject<Camera, scripting::Camera>,
+                     public PathObject
 {
+public:
+  enum CameraMode
+  {
+    NORMAL, MANUAL, AUTOSCROLL, SCROLLTO
+  };
+
+private:
+  /** The camera basically provides lookahead on the left or right
+      side or is undecided. */
+  enum LookaheadMode {
+    LOOKAHEAD_NONE, LOOKAHEAD_LEFT, LOOKAHEAD_RIGHT
+  };
+
 public:
   Camera(Sector* sector, const std::string& name = std::string());
   virtual ~Camera();
-  virtual void save(Writer& writer);
 
-  /// parse camera mode from lisp file
+  /** \addtogroup CameraAPI
+   *  @{ */
+
+  /** parse camera mode from lisp file */
   void parse(const ReaderMapping& reader);
 
-  /// reset camera position
+  /** reset camera position */
   void reset(const Vector& tuxpos);
 
   /** return camera position */
   const Vector& get_translation() const;
 
-  virtual void update(float elapsed_time);
-
-  virtual void draw(DrawingContext& );
-
-  // shake camera in a direction 1 time
+  /** shake camera in a direction 1 time */
   void shake(float speed, float x, float y);
 
   void set_scrolling(int scroll_x, int scroll_y)
@@ -64,39 +75,44 @@ public:
     translation.y = scroll_y;
   }
 
-  /**
-   * scroll the upper left edge of the camera in scrolltime seconds
-   * to the position goal
-   */
+  /** scroll the upper left edge of the camera in scrolltime seconds
+      to the position goal */
   void scroll_to(const Vector& goal, float scrolltime);
   void move(const int dx, const int dy);
 
   void reload_config();
 
-  enum CameraMode
-  {
-    NORMAL, MANUAL, AUTOSCROLL, SCROLLTO
-  };
-  CameraMode mode;
-
-  /**
-   * get the coordinates of the point directly in the center of this camera
-   */
+  /** get the coordinates of the point directly in the center of this
+      camera */
   Vector get_center() const;
-  virtual bool is_saveable() const;
-  std::string get_class() const {
+
+  void set_mode(CameraMode mode_) { mode = mode_; }
+  /** @} */
+
+  /** \addtogroup GameObject
+      @{ */
+
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& ) override;
+
+  virtual bool is_saveable() const override;
+  virtual void save(Writer& writer) override;
+
+  virtual std::string get_class() const override {
     return "camera";
   }
-  std::string get_display_name() const {
+  std::string get_display_name() const override {
     return _("Camera");
   }
 
-  virtual ObjectSettings get_settings();
-  virtual void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const override {
     return "images/engine/editor/camera.png";
   }
+
+  /** @} */
 
 private:
   void update_scroll_normal(float elapsed_time);
@@ -106,15 +122,9 @@ private:
   void shake();
 
 private:
-  /**
-   * The camera basically provides lookahead on the left or right side
-   * or is undecided.
-   */
-  enum LookaheadMode {
-    LOOKAHEAD_NONE, LOOKAHEAD_LEFT, LOOKAHEAD_RIGHT
-  };
+  CameraMode mode;
+  CameraMode defaultmode;
 
-private:
   Vector translation;
 
   Sector* sector;
@@ -141,13 +151,10 @@ private:
   std::unique_ptr<CameraConfig> config;
 
 private:
-  Camera(const Camera&);
-  Camera& operator=(const Camera&);
-
-  CameraMode defaultmode;
-
+  Camera(const Camera&) = delete;
+  Camera& operator=(const Camera&) = delete;
 };
 
-#endif /*SUPERTUX_CAMERA_H*/
+#endif
 
 /* EOF */

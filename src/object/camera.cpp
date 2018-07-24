@@ -20,12 +20,9 @@
 #include <physfs.h>
 
 #include "editor/editor.hpp"
-#include "object/path_walker.hpp"
+#include "math/util.hpp"
 #include "object/player.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
@@ -33,7 +30,7 @@
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,
    0 is never get there, 1 is instant */
-static const float PEEK_ARRIVE_RATIO = 0.1;
+static const float PEEK_ARRIVE_RATIO = 0.1f;
 
 class CameraConfig
 {
@@ -166,6 +163,7 @@ Camera::after_editor_set() {
 Camera::Camera(Sector* newsector, const std::string& name_) :
   ExposedObject<Camera, scripting::Camera>(this),
   mode(NORMAL),
+  defaultmode(NORMAL),
   translation(),
   sector(newsector),
   lookahead_mode(LOOKAHEAD_NONE),
@@ -181,19 +179,13 @@ Camera::Camera(Sector* newsector, const std::string& name_) :
   scroll_goal(),
   scroll_to_pos(),
   scrollspeed(),
-  config(std::unique_ptr<CameraConfig>(new CameraConfig)),
-  defaultmode(NORMAL)
+  config(std::unique_ptr<CameraConfig>(new CameraConfig))
 {
-  this->name = name_;
+  name = name_;
   reload_config();
 }
 
 Camera::~Camera()
-{
-}
-
-void
-Camera::draw(DrawingContext& )
 {
 }
 
@@ -262,11 +254,16 @@ Camera::scroll_to(const Vector& goal, float scrolltime)
   keep_in_bounds(scroll_goal);
 
   scroll_to_pos = 0;
-  scrollspeed = 1.0 / scrolltime;
+  scrollspeed = 1.f / scrolltime;
   mode = SCROLLTO;
 }
 
 static const float CAMERA_EPSILON = .00001f;
+
+void
+Camera::draw(DrawingContext& )
+{
+}
 
 void
 Camera::update(float elapsed_time)
@@ -301,16 +298,6 @@ Camera::reload_config()
   }
 }
 
-float clamp(float val, float min, float max)
-{
-  if(val < min)
-    return min;
-  if(val > max)
-    return max;
-
-  return val;
-}
-
 void
 Camera::keep_in_bounds(Vector& translation_)
 {
@@ -318,13 +305,13 @@ Camera::keep_in_bounds(Vector& translation_)
   float height = sector->get_height();
 
   // don't scroll before the start or after the level's end
-  translation_.x = clamp(translation_.x, 0, width - SCREEN_WIDTH);
-  translation_.y = clamp(translation_.y, 0, height - SCREEN_HEIGHT);
+  translation_.x = clamp(translation_.x, 0.0f, width - SCREEN_WIDTH);
+  translation_.y = clamp(translation_.y, 0.0f, height - SCREEN_HEIGHT);
 
   if (height < SCREEN_HEIGHT)
-    translation_.y = height/2.0 - SCREEN_HEIGHT/2.0;
+    translation_.y = height/2.f - SCREEN_HEIGHT/2.f;
   if (width < SCREEN_WIDTH)
-    translation_.x = width/2.0 - SCREEN_WIDTH/2.0;
+    translation_.x = width/2.f - SCREEN_WIDTH/2.f;
 }
 
 void
@@ -339,7 +326,7 @@ Camera::shake()
 void
 Camera::update_scroll_normal(float elapsed_time)
 {
-  const auto& config_ = *(this->config);
+  const auto& config_ = *(config);
   auto player = sector->player;
   // TODO: co-op mode needs a good camera
   Vector player_pos(player->get_bbox().get_middle().x,

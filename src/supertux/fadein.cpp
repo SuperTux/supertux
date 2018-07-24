@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/fadein.hpp"
+
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
 
@@ -36,8 +37,8 @@ FadeIn::draw(DrawingContext& context)
 {
   Color col = color;
   col.alpha = 1 - (accum_time / fade_time);
-  context.draw_filled_rect(Vector(0, 0),
-                           Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+  context.color().draw_filled_rect(Vector(0, 0),
+                           Vector(context.get_width(), context.get_height()),
                            col, LAYER_GUI+1);
 }
 

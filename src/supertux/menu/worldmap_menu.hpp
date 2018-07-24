@@ -26,7 +26,6 @@ enum WorldMapMenuIDs {
 
 class WorldmapMenu : public Menu
 {
-private:
 public:
   WorldmapMenu();
 

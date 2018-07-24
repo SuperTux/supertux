@@ -17,11 +17,8 @@
 
 #include "supertux/tile_manager.hpp"
 
-#include <limits>
-
+#include "supertux/tile.hpp"
 #include "supertux/tile_set.hpp"
-#include "util/reader_collection.hpp"
-#include "util/reader_mapping.hpp"
 
 TileManager::TileManager() :
   tilesets()

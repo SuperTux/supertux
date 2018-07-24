@@ -21,11 +21,9 @@
 #include <squirrel.h>
 #include <stdint.h>
 
-#include "supertux/direction.hpp"
-#include "supertux/game_object_ptr.hpp"
-#include "util/writer.hpp"
-#include "video/color.hpp"
 #include "object/anchor_point.hpp"
+#include "supertux/game_object_ptr.hpp"
+#include "video/color.hpp"
 
 namespace collision {
 class Constraints;
@@ -45,6 +43,7 @@ class Portable;
 class DrawingContext;
 class DisplayEffect;
 class ReaderMapping;
+class Writer;
 
 enum MusicType {
   LEVEL_MUSIC,
@@ -105,7 +104,7 @@ public:
   void add_object(GameObjectPtr object);
 
   void set_name(const std::string& name_)
-  { this->name = name_; }
+  { name = name_; }
   const std::string& get_name() const
   { return name; }
 
@@ -171,7 +170,7 @@ public:
    * returns a list of players currently in the sector
    */
   std::vector<Player*> get_players() const {
-    return std::vector<Player*>(1, this->player);
+    return std::vector<Player*>(1, player);
   }
   Player* get_nearest_player (const Vector& pos) const;
   Player* get_nearest_player (const Rectf& pos) const
@@ -203,7 +202,7 @@ public:
   /**
    * resize all tilemaps with given size
    */
-  void resize_sector(Size& old_size, Size& new_size);
+  void resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset);
 
   /**
    * globally changes solid tilemaps' tile ids

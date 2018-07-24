@@ -16,16 +16,16 @@
 
 #include "object/moving_sprite.hpp"
 
-#include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "util/log.hpp"
-#include "util/reader_mapping.hpp"
 #include "math/random_generator.hpp"
 #include "object/sprite_particle.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/sector.hpp"
+#include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
+#include <math.h>
 #include <physfs.h>
-#include <stdexcept>
 
 MovingSprite::MovingSprite(const Vector& pos, const std::string& sprite_name_,
                            int layer_, CollisionGroup collision_group) :
@@ -65,14 +65,14 @@ MovingSprite::MovingSprite(const ReaderMapping& reader, const std::string& sprit
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
-  reader.get("sprite", this->sprite_name);
+  reader.get("sprite", sprite_name);
 
   //make the sprite go default when the sprite file is invalid
   if (sprite_name.empty() || !PHYSFS_exists(sprite_name.c_str())) {
     sprite_name = sprite_name_;
   }
 
-  sprite = SpriteManager::current()->create(this->sprite_name);
+  sprite = SpriteManager::current()->create(sprite_name);
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
   set_group(collision_group);
 }
@@ -121,7 +121,7 @@ MovingSprite::MovingSprite(const MovingSprite& other) :
 void
 MovingSprite::draw(DrawingContext& context)
 {
-  sprite->draw(context, get_pos(), layer);
+  sprite->draw(context.color(), get_pos(), layer);
 }
 
 void

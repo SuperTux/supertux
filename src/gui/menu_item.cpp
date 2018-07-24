@@ -17,23 +17,9 @@
 
 #include "gui/menu_item.hpp"
 
-#include <stdio.h>
-
-#include "gui/menu.hpp"
-#include "math/vector.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/timer.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
-
-#ifdef WIN32
-#  define snprintf _snprintf
-#endif
 
 //static const float FLICK_CURSOR_TIME = 0.5f;
 
@@ -49,7 +35,7 @@ MenuItem::~MenuItem() {
 }
 
 void
-MenuItem::change_text(const  std::string& text_)
+MenuItem::change_text(const std::string& text_)
 {
   text = text_;
 }
@@ -68,7 +54,7 @@ MenuItem::set_help(const std::string& help_text)
 
 void
 MenuItem::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
-  context.draw_text(Resources::normal_font, text,
+  context.color().draw_text(Resources::normal_font, text,
                     Vector( pos.x + menu_width/2 , pos.y - int(Resources::normal_font->get_height())/2 ),
                     ALIGN_CENTER, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
 }

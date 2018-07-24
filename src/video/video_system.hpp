@@ -17,16 +17,17 @@
 #ifndef HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEM_HPP
 #define HEADER_SUPERTUX_VIDEO_VIDEO_SYSTEM_HPP
 
-#include <SDL.h>
 #include <string>
 
 #include "util/currenton.hpp"
 #include "video/texture_ptr.hpp"
 
-class Renderer;
 class Lightmap;
+class Rect;
+class Renderer;
 class Surface;
 class SurfaceData;
+struct SDL_Surface;
 
 class VideoSystem : public Currenton<VideoSystem>
 {
@@ -55,6 +56,14 @@ public:
 
   virtual void apply_config() = 0;
   virtual void resize(int w, int h) = 0;
+
+  virtual void set_gamma(float gamma) = 0;
+  virtual void set_title(const std::string& title) = 0;
+  virtual void set_icon(SDL_Surface* icon) = 0;
+  virtual void do_take_screenshot() = 0;
+
+  virtual void set_clip_rect(const Rect& rect) = 0;
+  virtual void clear_clip_rect() = 0;
 
 private:
   VideoSystem(const VideoSystem&) = delete;

@@ -19,6 +19,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
+#include "control/codecontroller.hpp"
 #include "control/input_manager.hpp"
 #include "editor/editor.hpp"
 #include "math/random_generator.hpp"
@@ -29,14 +30,14 @@
 #include "object/particles.hpp"
 #include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
-#include "scripting/squirrel_util.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
-#include "trigger/climbable.hpp"
-
-#include <math.h>
+#include "trigger/trigger_base.hpp"
+#include "video/surface.hpp"
 
 //#define SWIMMING
 
@@ -174,7 +175,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   idle_stage(0),
   climbing(0)
 {
-  this->name = name_;
+  name = name_;
   idle_timer.start(IDLE_TIME[0]/1000.0f);
 
   SoundManager::current()->preload("sounds/bigjump.wav");
@@ -216,7 +217,7 @@ Player::set_speedlimit(float newlimit)
 void
 Player::set_controller(Controller* controller_)
 {
-  this->controller = controller_;
+  controller = controller_;
 }
 
 void
@@ -274,17 +275,17 @@ Player::adjust_height(float new_height)
 }
 
 void
-Player::trigger_sequence(const std::string& sequence_name)
+Player::trigger_sequence(const std::string& sequence_name, const SequenceData* data)
 {
-  trigger_sequence(string_to_sequence(sequence_name));
+  trigger_sequence(string_to_sequence(sequence_name), data);
 }
 
 void
-Player::trigger_sequence(Sequence seq)
+Player::trigger_sequence(Sequence seq, const SequenceData* data)
 {
   if (climbing) stop_climbing(*climbing);
   stop_backflipping();
-  GameSession::current()->start_sequence(seq);
+  GameSession::current()->start_sequence(seq, data);
 }
 
 void
@@ -547,14 +548,14 @@ Player::handle_horizontal_input()
             dir == LEFT ? 50 : -70, dir == LEFT ? 70 : -50, 260, 280,
             Vector(0, 300), 3, Color(.4f, .4f, .4f), 3, .8f, LAYER_OBJECTS+1));
 
-        ax *= 2.5;
+        ax *= 2.5f;
       } else {
         ax *= 2;
       }
     }
     else {
       // give Tux tighter air control
-      ax *= 2.0;
+      ax *= 2.f;
     }
   }
 
@@ -875,7 +876,7 @@ Player::handle_input()
       // move the grabbed object a bit away from tux
       Rectf grabbed_bbox = moving_object->get_bbox();
       Rectf dest_;
-      dest_.p2.y = bbox.get_top() + bbox.get_height()*0.66666;
+      dest_.p2.y = bbox.get_top() + bbox.get_height()*0.66666f;
       dest_.p1.y = dest_.p2.y - grabbed_bbox.get_height();
       if(dir == LEFT) {
         dest_.p2.x = bbox.get_left() - 1;
@@ -914,7 +915,7 @@ Player::position_grabbed_object()
 
   // Position where we will hold the lower-inner corner
   Vector pos(bbox.get_left() + bbox.get_width()/2,
-      bbox.get_top() + bbox.get_height()*0.66666);
+      bbox.get_top() + bbox.get_height()*0.66666f);
 
   // Adjust to find the grabbed object's upper-left corner
   if (dir == LEFT)
@@ -1135,7 +1136,7 @@ Player::set_bonus(BonusType type, bool animate)
 void
 Player::set_visible(bool visible_)
 {
-  this->visible = visible_;
+  visible = visible_;
   if( visible_ )
     set_group(COLGROUP_MOVING);
   else
@@ -1169,7 +1170,7 @@ Player::draw(DrawingContext& context)
     float px = bbox.p1.x + (bbox.p2.x - bbox.p1.x - airarrow.get()->get_width()) / 2;
     float py = Sector::current()->camera->get_translation().y;
     py += std::min(((py - (bbox.p2.y + 16)) / 4), 16.0f);
-    context.draw_surface(airarrow, Vector(px, py), LAYER_HUD - 1);
+    context.color().draw_surface(airarrow, Vector(px, py), LAYER_HUD - 1);
   }
 
   std::string sa_prefix = "";
@@ -1291,15 +1292,13 @@ Player::draw(DrawingContext& context)
     ;  // don't draw Tux
   else if (player_status->bonus == EARTH_BONUS){ // draw special effects with earthflower bonus
     // shake at end of maximum stone duration
-    Vector shake_delta = (stone && ability_timer.get_timeleft() < 1.0f) ? Vector(graphicsRandom.rand(-3,3), 0) : Vector(0,0);
-    sprite->draw(context, get_pos() + shake_delta, LAYER_OBJECTS + 1);
+    Vector shake_delta = (stone && ability_timer.get_timeleft() < 1.0f) ? Vector(graphicsRandom.rand(-3,3) * 1.0f, 0) : Vector(0,0);
+    sprite->draw(context.color(), get_pos() + shake_delta, LAYER_OBJECTS + 1);
     // draw hardhat
-    powersprite->draw(context, get_pos() + shake_delta, LAYER_OBJECTS + 1);
+    powersprite->draw(context.color(), get_pos() + shake_delta, LAYER_OBJECTS + 1);
     // light
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, get_pos(), 0);
-    context.pop_target();
+    lightsprite->draw(context.light(), get_pos(), 0);
+
     // give an indicator that stone form cannot be used for a while
     if (cooldown_timer.started() && graphicsRandom.rand(0, 4) == 0) {
       float px = graphicsRandom.randf(bbox.p1.x, bbox.p2.x);
@@ -1312,14 +1311,14 @@ Player::draw(DrawingContext& context)
   }
   else {
     if(dying)
-      sprite->draw(context, get_pos(), Sector::current()->get_foremost_layer());
+      sprite->draw(context.color(), get_pos(), Sector::current()->get_foremost_layer());
     else
-      sprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+      sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
 
     if (player_status->bonus == AIR_BONUS)
-      powersprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+      powersprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
     else if(player_status->bonus == FIRE_BONUS && g_config->christmas_mode) {
-      powersprite->draw(context, get_pos(), LAYER_OBJECTS + 1);
+      powersprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 1);
     }
   }
 

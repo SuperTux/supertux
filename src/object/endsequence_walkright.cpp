@@ -15,8 +15,8 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "object/endsequence_walkright.hpp"
+
 #include "object/player.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 

@@ -17,7 +17,6 @@
 #include "badguy/captainsnowball.hpp"
 
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
 namespace{

@@ -16,31 +16,21 @@
 
 #include "gui/item_colordisplay.hpp"
 
-#include "gui/menu_action.hpp"
-#include "math/vector.hpp"
-#include "supertux/colorscheme.hpp"
-#include "supertux/globals.hpp"
-#include "supertux/resources.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
-#include "video/renderer.hpp"
-#include "video/video_system.hpp"
 
 ItemColorDisplay::ItemColorDisplay(Color* color, int id_) :
   MenuItem("", id_),
   old_color(*color),
   new_color(color)
 {
-
 }
 
 void
 ItemColorDisplay::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
-  float m = menu_width / 2.0;
-  context.draw_filled_rect(Rectf(pos + Vector(16, -8), pos + Vector(m, 8)),
+  float m = menu_width / 2.f;
+  context.color().draw_filled_rect(Rectf(pos + Vector(16, -8), pos + Vector(m, 8)),
                            old_color, 0.0f, LAYER_GUI-1);
-  context.draw_filled_rect(Rectf(pos + Vector(m, -8), pos + Vector(menu_width-16, 8)),
+  context.color().draw_filled_rect(Rectf(pos + Vector(m, -8), pos + Vector(menu_width-16, 8)),
                            *new_color, 0.0f, LAYER_GUI-1);
 }
 

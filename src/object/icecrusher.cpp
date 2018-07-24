@@ -26,8 +26,6 @@
 #include "object/particles.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 
 namespace {
@@ -70,7 +68,7 @@ IceCrusher::IceCrusher(const ReaderMapping& reader) :
 void
 IceCrusher::set_state(IceCrusherState state_, bool force)
 {
-  if ((this->state == state_) && (!force)) return;
+  if ((state == state_) && (!force)) return;
   switch(state_) {
     case IDLE:
       set_group(COLGROUP_STATIC);
@@ -92,7 +90,7 @@ IceCrusher::set_state(IceCrusherState state_, bool force)
       log_debug << "IceCrusher in invalid state" << std::endl;
       break;
   }
-  this->state = state_;
+  state = state_;
 }
 
 HitResponse
@@ -230,18 +228,15 @@ IceCrusher::update(float elapsed_time)
 void
 IceCrusher::draw(DrawingContext& context)
 {
-  context.push_target();
-  context.set_target(DrawingContext::NORMAL);
-  sprite->draw(context, get_pos(), layer+2);
+  sprite->draw(context.color(), get_pos(), layer+2);
   if(!(state == CRUSHING) && sprite->has_action("whites"))
   {
     // draw icecrusher's eyes slightly behind
-    lefteye->draw(context, get_pos()+eye_position(false), layer+1);
-    righteye->draw(context, get_pos()+eye_position(true), layer+1);
+    lefteye->draw(context.color(), get_pos()+eye_position(false), layer+1);
+    righteye->draw(context.color(), get_pos()+eye_position(true), layer+1);
     // draw the whites of icecrusher's eyes even further behind
-    whites->draw(context, get_pos(), layer);
+    whites->draw(context.color(), get_pos(), layer);
   }
-  context.pop_target();
 }
 
 void
@@ -276,8 +271,8 @@ IceCrusher::eye_position(bool right) const
     if(player)
     {
       // Icecrusher focuses on approximate position of player's head
-      const float player_focus_x = (player->get_bbox().p2.x + player->get_bbox().p1.x) * 0.5;
-      const float player_focus_y = player->get_bbox().p2.y * 0.25 + player->get_bbox().p1.y * 0.75;
+      const float player_focus_x = (player->get_bbox().p2.x + player->get_bbox().p1.x) * 0.5f;
+      const float player_focus_y = player->get_bbox().p2.y * 0.25f + player->get_bbox().p1.y * 0.75f;
       // Icecrusher's approximate origin of line-of-sight
       const float crusher_origin_x = bbox.get_middle().x;
       const float crusher_origin_y = bbox.get_middle().y;

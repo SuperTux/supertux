@@ -16,11 +16,10 @@
 
 #include "badguy/skydive.hpp"
 
+#include "object/explosion.hpp"
+#include "object/player.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
-#include "object/anchor_point.hpp"
-#include "object/player.hpp"
-#include "object/explosion.hpp"
 #include "supertux/tile.hpp"
 
 SkyDive::SkyDive(const ReaderMapping& reader) :
@@ -56,7 +55,7 @@ void
 SkyDive::grab(MovingObject&, const Vector& pos, Direction dir_)
 {
   movement = pos - get_pos();
-  this->dir = dir_;
+  dir = dir_;
 
   is_grabbed = true;
 

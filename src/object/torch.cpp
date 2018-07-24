@@ -50,19 +50,16 @@ Torch::draw(DrawingContext& context)
 {
   if (m_burning)
   {
-    m_flame->draw(context, get_pos(), LAYER_TILES - 1);
+    m_flame->draw(context.color(), get_pos(), LAYER_TILES - 1);
 
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    m_flame_light->draw(context, get_pos(), 0);
-    context.pop_target();
+    m_flame_light->draw(context.light(), get_pos(), 0);
   }
 
-  m_torch->draw(context, get_pos(), LAYER_TILES - 1);
+  m_torch->draw(context.color(), get_pos(), LAYER_TILES - 1);
 
   if (m_burning)
   {
-    m_flame_glow->draw(context, get_pos(), LAYER_TILES - 1);
+    m_flame_glow->draw(context.color(), get_pos(), LAYER_TILES - 1);
   }
 }
 
@@ -108,8 +105,7 @@ Torch::get_burning() const
 void
 Torch::set_burning(bool burning_)
 {
-  if (this->m_burning == burning_) { return; }
-  this->m_burning = burning_;
+  m_burning = burning_;
 }
 
 /* EOF */

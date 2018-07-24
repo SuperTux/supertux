@@ -17,7 +17,6 @@
 #include "object/endsequence_fireworks.hpp"
 
 #include "object/fireworks.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 

@@ -17,18 +17,15 @@
 #ifndef HEADER_SUPERTUX_GUI_MENU_HPP
 #define HEADER_SUPERTUX_GUI_MENU_HPP
 
-#include <list>
 #include <memory>
 #include <SDL.h>
 
 #include "math/vector.hpp"
 #include "video/color.hpp"
+#include "gui/menu_action.hpp"
 
-class Color;
 class DrawingContext;
 class MenuItem;
-
-#include "gui/menu_action.hpp"
 
 class Menu
 {

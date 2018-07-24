@@ -18,9 +18,7 @@
 #define HEADER_SUPERTUX_SUPERTUX_WORLD_HPP
 
 #include <memory>
-#include <squirrel.h>
 #include <string>
-#include <vector>
 
 class World
 {

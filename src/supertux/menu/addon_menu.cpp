@@ -16,19 +16,15 @@
 
 #include "supertux/menu/addon_menu.hpp"
 
-#include <config.h>
-#include <algorithm>
 #include <boost/format.hpp>
-#include <tinygettext/language.hpp>
 
 #include "addon/addon.hpp"
 #include "addon/addon_manager.hpp"
 #include "gui/dialog.hpp"
-#include "gui/menu.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "supertux/menu/download_dialog.hpp"
-#include "util/gettext.hpp"
+#include "util/log.hpp"
 
 namespace {
 
@@ -115,7 +111,6 @@ AddonMenu::AddonMenu(bool language_pack_mode, bool auto_install_langpack) :
 
 AddonMenu::~AddonMenu()
 {
-  delete[] m_addons_enabled;
 }
 
 void
@@ -124,8 +119,7 @@ AddonMenu::refresh()
   m_installed_addons = m_addon_manager.get_installed_addons();
   m_repository_addons = m_addon_manager.get_repository_addons();
 
-  delete[] m_addons_enabled;
-  m_addons_enabled = new bool[m_installed_addons.size()];
+  m_addons_enabled.reset(new bool[m_installed_addons.size()]);
 
   rebuild_menu();
 }
@@ -188,7 +182,7 @@ AddonMenu::rebuild_menu()
       if(addon_visible(addon))
       {
         std::string text = generate_menu_item_text(addon);
-        add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, m_addons_enabled + idx);
+        add_toggle(MAKE_INSTALLED_MENU_ID(idx), text, &m_addons_enabled[idx]);
       }
       idx += 1;
     }
@@ -226,7 +220,7 @@ AddonMenu::rebuild_menu()
           }
         }
       }
-      catch(const std::exception& err)
+      catch(const std::exception&)
       {
         // addon is not installed
         if(addon_visible(addon))

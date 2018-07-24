@@ -18,7 +18,6 @@
 #define HEADER_SUPERTUX_BADGUY_BADGUY_HPP
 
 #include "editor/object_option.hpp"
-#include "gui/menu_action.hpp"
 #include "object/moving_sprite.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/physic.hpp"

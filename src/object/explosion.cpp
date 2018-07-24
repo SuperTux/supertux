@@ -22,13 +22,9 @@
 #include "math/random_generator.hpp"
 #include "object/particles.hpp"
 #include "object/player.hpp"
-#include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-
-#include <math.h>
 
 Explosion::Explosion(const Vector& pos) :
   MovingSprite(pos, "images/objects/explosion/explosion.sprite", LAYER_OBJECTS+40, COLGROUP_MOVING),
@@ -131,14 +127,11 @@ void
 Explosion::draw(DrawingContext& context)
 {
   //Draw the Sprite.
-  sprite->draw(context, get_pos(), LAYER_OBJECTS+40);
+  sprite->draw(context.color(), get_pos(), LAYER_OBJECTS+40);
   //Explosions produce light (if ambient light is not maxed)
   context.get_light( bbox.get_middle(), &light);
   if (light.red + light.green + light.blue < 3.0){
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    lightsprite->draw(context, bbox.get_middle(), 0);
-    context.pop_target();
+    lightsprite->draw(context.light(), bbox.get_middle(), 0);
   }
 }
 

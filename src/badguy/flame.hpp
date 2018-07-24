@@ -19,7 +19,7 @@
 
 #include "badguy/badguy.hpp"
 
-#include "audio/sound_source.hpp"
+class SoundSource;
 
 class Flame : public BadGuy
 {

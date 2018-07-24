@@ -720,11 +720,11 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
           continue;
         }
         uint32_t tile_id = tiles->pos(drawn_tile.x, drawn_tile.y);
-        editor->get_tileset()->draw_tile(context, tile_id, tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
-                                   LAYER_GUI-11, Color(1, 1, 1, 0.5));
+        editor->get_tileset()->draw_tile(context.color(), tile_id, tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
+                                         LAYER_GUI-11, Color(1, 1, 1, 0.5));
         /*if (tile_id) {
           const Tile* tg_tile = editor->get_tileset()->get( tile_id );
-          tg_tile->draw(context, tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
+          tg_tile->draw(context.color(), tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
                         LAYER_GUI-11, Color(1, 1, 1, 0.5));
         }*/
       }
@@ -746,7 +746,7 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_col
   int tm_height = current_tm->get_height() * (32 / tile_size);
   auto cam_translation = editor->currentsector->camera->get_translation();
   Rectf draw_rect = Rectf(cam_translation, cam_translation +
-                          Vector(SCREEN_WIDTH, SCREEN_HEIGHT));
+                          Vector(context.get_width(), context.get_height()));
   Vector start = sp_to_tp( Vector(draw_rect.p1.x, draw_rect.p1.y), tile_size );
   Vector end = sp_to_tp( Vector(draw_rect.p2.x, draw_rect.p2.y), tile_size );
   start.x = std::max(0.0f, start.x);
@@ -758,13 +758,13 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_col
   for (int i = start.x; i <= end.x; i++) {
     line_start = tile_screen_pos( Vector(i, 0), tile_size );
     line_end = tile_screen_pos( Vector(i, tm_height), tile_size );
-    context.draw_line(line_start, line_end, line_color, current_tm->get_layer());
+    context.color().draw_line(line_start, line_end, line_color, current_tm->get_layer());
   }
 
   for (int i = start.y; i <= end.y; i++) {
     line_start = tile_screen_pos( Vector(0, i), tile_size );
     line_end = tile_screen_pos( Vector(tm_width, i), tile_size );
-    context.draw_line(line_start, line_end, line_color, current_tm->get_layer());
+    context.color().draw_line(line_start, line_end, line_color, current_tm->get_layer());
   }
 }
 
@@ -778,10 +778,10 @@ EditorInputCenter::draw_tilemap_border(DrawingContext& context) {
 
   Vector start = tile_screen_pos( Vector(0, 0) );
   Vector end = tile_screen_pos( Vector(current_tm->get_width(), current_tm->get_height()) );
-  context.draw_line(start, Vector(start.x, end.y), Color(1, 0, 1), current_tm->get_layer());
-  context.draw_line(start, Vector(end.x, start.y), Color(1, 0, 1), current_tm->get_layer());
-  context.draw_line(Vector(start.x, end.y), end, Color(1, 0, 1), current_tm->get_layer());
-  context.draw_line(Vector(end.x, start.y), end, Color(1, 0, 1), current_tm->get_layer());
+  context.color().draw_line(start, Vector(start.x, end.y), Color(1, 0, 1), current_tm->get_layer());
+  context.color().draw_line(start, Vector(end.x, start.y), Color(1, 0, 1), current_tm->get_layer());
+  context.color().draw_line(Vector(start.x, end.y), end, Color(1, 0, 1), current_tm->get_layer());
+  context.color().draw_line(Vector(end.x, start.y), end, Color(1, 0, 1), current_tm->get_layer());
 }
 
 void
@@ -806,7 +806,7 @@ EditorInputCenter::draw_path(DrawingContext& context) {
       node2 = &(*j);
     }
     auto cam_translation = Editor::current()->currentsector->camera->get_translation();
-    context.draw_line(node1->position - cam_translation,
+    context.color().draw_line(node1->position - cam_translation,
                       node2->position - cam_translation,
                       Color(1, 0, 0), LAYER_GUI - 21);
   }
@@ -819,11 +819,11 @@ EditorInputCenter::draw(DrawingContext& context) {
   draw_path(context);
 
   if (render_grid) {
-    draw_tile_grid(context, Color(1, 1, 1, 0.7));
+    draw_tile_grid(context, Color(1.f, 1.f, 1.f, 0.7f));
     draw_tilemap_border(context);
     auto snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
     if (snap_grid_size != 32) {
-      draw_tile_grid(context, Color(1, 1, 1, 0.4), snap_grid_size);
+      draw_tile_grid(context, Color(1.f, 1.f, 1.f, 0.4f), snap_grid_size);
     }
   }
 
@@ -839,21 +839,21 @@ EditorInputCenter::draw(DrawingContext& context) {
     Vector p1 = Vector(drag_start.x, sector_pos.y) - cam_translation;
     Vector p2 = Vector(sector_pos.x, drag_start.y) - cam_translation;
 
-    context.draw_filled_rect(Rectf(p0, p1 + Vector(2, 2)),
+    context.color().draw_filled_rect(Rectf(p0, p1 + Vector(2, 2)),
                              Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-    context.draw_filled_rect(Rectf(p2, mouse_pos + Vector(2, 2)),
+    context.color().draw_filled_rect(Rectf(p2, mouse_pos + Vector(2, 2)),
                              Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-    context.draw_filled_rect(Rectf(p0, p2 + Vector(2, 2)),
+    context.color().draw_filled_rect(Rectf(p0, p2 + Vector(2, 2)),
                              Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-    context.draw_filled_rect(Rectf(p1, mouse_pos + Vector(2, 2)),
+    context.color().draw_filled_rect(Rectf(p1, mouse_pos + Vector(2, 2)),
                              Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
 
-    context.draw_filled_rect(Rectf(p0, mouse_pos),
+    context.color().draw_filled_rect(Rectf(p0, mouse_pos),
                              Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
   }
 
   if (dragging && dragging_right) {
-    context.draw_filled_rect(selection_draw_rect(),
+    context.color().draw_filled_rect(selection_draw_rect(),
                              Color(0.2f, 0.4f, 1.0f, 0.6f), 0.0f, LAYER_GUI-13);
   }
 }

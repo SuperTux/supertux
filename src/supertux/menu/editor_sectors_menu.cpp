@@ -24,6 +24,7 @@
 #include "supertux/sector.hpp"
 #include "supertux/sector_parser.hpp"
 #include "util/gettext.hpp"
+#include "util/log.hpp"
 
 EditorSectorsMenu::EditorSectorsMenu()
 {

@@ -17,7 +17,6 @@
 #ifndef HEADER_SUPERTUX_UTIL_LOG_HPP
 #define HEADER_SUPERTUX_UTIL_LOG_HPP
 
-#include <config.h>
 #include <ostream>
 
 enum LogLevel { LOG_NONE, LOG_FATAL, LOG_WARNING, LOG_INFO, LOG_DEBUG };

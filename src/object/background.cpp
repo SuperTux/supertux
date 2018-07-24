@@ -16,19 +16,14 @@
 
 #include "object/background.hpp"
 
-#include <iostream>
-#include <math.h>
-#include <stdexcept>
-
 #include "editor/editor.hpp"
-#include "math/sizef.hpp"
-#include "scripting/squirrel_util.hpp"
 #include "supertux/globals.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
-#include "util/log.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
+#include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 Background::Background() :
   ExposedObject<Background, scripting::Background>(this),
@@ -74,7 +69,7 @@ Background::Background(const ReaderMapping& reader) :
   float py = 0;
   has_pos_x = reader.get("x", px);
   has_pos_y = reader.get("y", py);
-  this->pos = Vector(px,py);
+  pos = Vector(px,py);
 
   speed = 1.0;
   speed_y = 1.0;
@@ -212,7 +207,7 @@ Background::update(float delta)
 void
 Background::set_image(const std::string& name_)
 {
-  this->imagefile = name_;
+  imagefile = name_;
   image = Surface::create(name_);
   imagefile = name_;
 }
@@ -220,7 +215,7 @@ Background::set_image(const std::string& name_)
 void
 Background::set_image(const std::string& name_, float speed_)
 {
-  this->speed = speed_;
+  speed = speed_;
   set_image(name_);
 }
 
@@ -248,7 +243,7 @@ void
 Background::draw_image(DrawingContext& context, const Vector& pos_)
 {
   Sizef level(Sector::current()->get_width(), Sector::current()->get_height());
-  Sizef screen(SCREEN_WIDTH, SCREEN_HEIGHT);
+  Sizef screen(context.get_width(), context.get_height());
   Sizef parallax_image_size = (1.0f - speed) * screen + level * speed;
   Rectf cliprect = context.get_cliprect();
 
@@ -264,7 +259,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
       {
         Vector p(pos_.x - parallax_image_size.width / 2.0f,
                  pos_.y + y * image->get_height()  - image->get_height() / 2.0f);
-        context.draw_surface(image, p, layer);
+        context.color().draw_surface(image, p, layer);
       }
       break;
 
@@ -273,7 +268,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
       {
         Vector p(pos_.x + parallax_image_size.width / 2.0f - image->get_width(),
                  pos_.y + y * image->get_height() - image->get_height() / 2.0f);
-        context.draw_surface(image, p, layer);
+        context.color().draw_surface(image, p, layer);
       }
       break;
 
@@ -282,7 +277,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
       {
         Vector p(pos_.x + x * image->get_width() - image->get_width() / 2.0f,
                  pos_.y - parallax_image_size.height / 2.0f);
-        context.draw_surface(image, p, layer);
+        context.color().draw_surface(image, p, layer);
       }
       break;
 
@@ -291,7 +286,7 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
       {
         Vector p(pos_.x + x * image->get_width()  - image->get_width() / 2.0f,
                  pos_.y - image->get_height() + parallax_image_size.height / 2.0f);
-        context.draw_surface(image, p, layer);
+        context.color().draw_surface(image, p, layer);
       }
       break;
 
@@ -304,15 +299,15 @@ Background::draw_image(DrawingContext& context, const Vector& pos_)
 
           if (image_top.get() != NULL && (y < 0))
           {
-            context.draw_surface(image_top, p, layer);
+            context.color().draw_surface(image_top, p, layer);
           }
           else if (image_bottom.get() != NULL && (y > 0))
           {
-            context.draw_surface(image_bottom, p, layer);
+            context.color().draw_surface(image_bottom, p, layer);
           }
           else
           {
-            context.draw_surface(image, p, layer);
+            context.color().draw_surface(image, p, layer);
           }
         }
       break;
@@ -330,7 +325,7 @@ Background::draw(DrawingContext& context)
 
   Sizef level_size(Sector::current()->get_width(),
                    Sector::current()->get_height());
-  Sizef screen(SCREEN_WIDTH, SCREEN_HEIGHT);
+  Sizef screen(context.get_width(), context.get_height());
   Sizef translation_range = level_size - screen;
   Vector center_offset(context.get_translation().x - translation_range.width  / 2.0f,
                        context.get_translation().y - translation_range.height / 2.0f);

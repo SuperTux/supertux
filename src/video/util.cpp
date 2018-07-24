@@ -16,6 +16,7 @@
 
 #include "video/util.hpp"
 
+#include <SDL_rect.h>
 #include <algorithm>
 
 #include "math/size.hpp"

@@ -14,14 +14,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "object/rock.hpp"
+
 #include "audio/sound_manager.hpp"
 #include "object/explosion.hpp"
-#include "object/rock.hpp"
 #include "object/coin.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
-#include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 
 namespace {

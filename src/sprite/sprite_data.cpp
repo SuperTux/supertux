@@ -22,6 +22,7 @@
 
 #include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/surface.hpp"
 
 SpriteData::Action::Action() :
   name(),
