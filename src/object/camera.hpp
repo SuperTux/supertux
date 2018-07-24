@@ -33,14 +33,14 @@ class PathWalker;
 class ReaderMapping;
 class CameraConfig;
 
-class Camera : public GameObject,
-               public ExposedObject<Camera, scripting::Camera>,
-               public PathObject
+class Camera final : public GameObject,
+                     public ExposedObject<Camera, scripting::Camera>,
+                     public PathObject
 {
 public:
   Camera(Sector* sector, const std::string& name = std::string());
   virtual ~Camera();
-  virtual void save(Writer& writer);
+  virtual void save(Writer& writer) override;
 
   /// parse camera mode from lisp file
   void parse(const ReaderMapping& reader);
@@ -51,9 +51,8 @@ public:
   /** return camera position */
   const Vector& get_translation() const;
 
-  virtual void update(float elapsed_time);
-
-  virtual void draw(DrawingContext& );
+  virtual void update(float elapsed_time) override;
+  virtual void draw(DrawingContext& ) override;
 
   // shake camera in a direction 1 time
   void shake(float speed, float x, float y);
@@ -83,18 +82,18 @@ public:
    * get the coordinates of the point directly in the center of this camera
    */
   Vector get_center() const;
-  virtual bool is_saveable() const;
-  std::string get_class() const {
+  virtual bool is_saveable() const override;
+  virtual std::string get_class() const override {
     return "camera";
   }
-  std::string get_display_name() const {
+  std::string get_display_name() const override {
     return _("Camera");
   }
 
-  virtual ObjectSettings get_settings();
-  virtual void after_editor_set();
+  virtual ObjectSettings get_settings() override;
+  virtual void after_editor_set() override;
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const override {
     return "images/engine/editor/camera.png";
   }
 
