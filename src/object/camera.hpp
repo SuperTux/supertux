@@ -20,6 +20,7 @@
 #include <memory>
 #include <string>
 
+#include "math/size.hpp"
 #include "math/vector.hpp"
 #include "object/path_object.hpp"
 #include "scripting/camera.hpp"
@@ -124,6 +125,8 @@ private:
 private:
   CameraMode mode;
   CameraMode defaultmode;
+
+  Size m_screen_size;
 
   Vector translation;
 
