@@ -60,8 +60,8 @@ before_install:
     fi
 
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
-      if [ "$CXX" = "g++" ]; then export CXX="g++-8" CC="gcc-8"; fi
-      if [ "$CXX" = "clang++" ]; then export CXX="clang++-6.0" CC="clang-6.0"; fi
+      if [ "$CXX" = "g++" ]; then export CXX="g++-8" CC="gcc-8"; fi;
+      if [ "$CXX" = "clang++" ]; then export CXX="clang++-6.0" CC="clang-6.0"; fi;
     fi
 
   # Try building with GLBinding
