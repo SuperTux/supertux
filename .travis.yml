@@ -69,7 +69,7 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$USE_GLBINDING" = "ON" ]; then
       wget https://github.com/cginternals/glbinding/archive/v$GLBINDING_VERSION.tar.gz -O - | tar xz;
       cd glbinding-$GLBINDING_VERSION && ./configure --prefix=/usr && ./configure --prefix=/usr;
-      cd build && make -j3 && sudo make install;
+      cd build && make && sudo make install;
       cd ../..;
     fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$USE_GLBINDING" = "ON" ]; then
@@ -85,7 +85,7 @@ script:
   - mkdir "build-$BUILD_TYPE"
   - cd "build-$BUILD_TYPE"
   - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DWARNINGS=ON -DWERROR=ON -DGLBINDING_ENABLED=$USE_GLBINDING -DBUILD_TESTS=ON -DCMAKE_INSTALL_MESSAGE=NEVER -DCMAKE_INSTALL_PREFIX=/usr -DINSTALL_SUBDIR_BIN=bin -DINSTALL_SUBDIR_SHARE=share/supertux2
-  - make -j3 VERBOSE=1
+  - make VERBOSE=1
   - make install DESTDIR="/tmp/supertux-$BUILD_TYPE" VERBOSE=1
   - ./test_supertux2
 
