@@ -358,7 +358,9 @@ void Editor::reload_level() {
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   load_sector("main");
   currentsector->activate("main");
-  currentsector->get_players()[0]->get_camera()->mode = Camera::MANUAL;
+
+  currentsector->get_players()[0]->get_camera()->set_mode(Camera::MANUAL);
+
   layerselect.refresh_sector_text();
   tileselect.update_mouse_icon();
 }
