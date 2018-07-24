@@ -11,7 +11,7 @@
 #
 
 language: cpp
-dist: xenial
+dist: trusty
 sudo: required
 
 compiler:
@@ -58,6 +58,13 @@ before_install:
       brew upgrade cmake;
       brew install bash libogg libvorbis glew openal-soft sdl2 sdl2_image;
     fi
+
+  # CMake
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      wget --no-check-certificate http://www.cmake.org/files/v3.11/cmake-3.11.4.tar.gz -O - | tar xz;
+      (cd cmake-3.11.4 && cmake . && make -j3 && sudo make install);
+    fi
+
   # Try building with GLBinding
   # Note: glbindings ./configure needs to be run twice in order to generate a makefile
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$USE_GLBINDING" = "ON" ]; then
@@ -102,9 +109,14 @@ deploy:
 
 addons:
   apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    - llvm-toolchain-trusty-6.0
     packages:
     - cmake
     - build-essential
+    - clang-6.0
+    - g++-8
     - libc++-dev
     - libogg-dev
     - libvorbis-dev
