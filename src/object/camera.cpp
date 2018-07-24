@@ -20,6 +20,7 @@
 #include <physfs.h>
 
 #include "editor/editor.hpp"
+#include "math/util.hpp"
 #include "object/player.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_document.hpp"
@@ -297,16 +298,6 @@ Camera::reload_config()
   }
 }
 
-float clamp(float val, float min, float max)
-{
-  if(val < min)
-    return min;
-  if(val > max)
-    return max;
-
-  return val;
-}
-
 void
 Camera::keep_in_bounds(Vector& translation_)
 {
@@ -314,8 +305,8 @@ Camera::keep_in_bounds(Vector& translation_)
   float height = sector->get_height();
 
   // don't scroll before the start or after the level's end
-  translation_.x = clamp(translation_.x, 0, width - SCREEN_WIDTH);
-  translation_.y = clamp(translation_.y, 0, height - SCREEN_HEIGHT);
+  translation_.x = clamp(translation_.x, 0.0f, width - SCREEN_WIDTH);
+  translation_.y = clamp(translation_.y, 0.0f, height - SCREEN_HEIGHT);
 
   if (height < SCREEN_HEIGHT)
     translation_.y = height/2.f - SCREEN_HEIGHT/2.f;
