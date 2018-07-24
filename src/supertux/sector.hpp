@@ -22,6 +22,7 @@
 #include <stdint.h>
 
 #include "supertux/direction.hpp"
+#include "supertux/sector_collision_detector.hpp"
 #include "supertux/game_object_ptr.hpp"
 #include "util/writer.hpp"
 #include "video/color.hpp"
@@ -145,33 +146,26 @@ public:
                          MovingObject &object) const;
 
   /**
-   * Checks if the specified rectangle is free of (solid) tiles.
-   * Note that this does not include static objects, e.g. bonus blocks.
+   * Wrapper for SectorCollisionDetector's is_free_of_tiles function.
    */
   bool is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid = false) const;
   /**
-   * Checks if the specified rectangle is free of both
-   * 1.) solid tiles and
-   * 2.) MovingObjects in COLGROUP_STATIC.
-   * Note that this does not include badguys or players.
+   * Wrapper for SectorCollisionDetector's is_free_of_statics function.
    */
   bool is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object = 0, const bool ignoreUnisolid = false) const;
   /**
-   * Checks if the specified rectangle is free of both
-   * 1.) solid tiles and
-   * 2.) MovingObjects in COLGROUP_STATIC, COLGROUP_MOVINGSTATIC or COLGROUP_MOVING.
-   * This includes badguys and players.
+   * Wrapper for SectorCollisionDetector's is_free_of_movingstatics function.
    */
   bool is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_object = 0) const;
 
   bool free_line_of_sight(const Vector& line_start, const Vector& line_end, const MovingObject* ignore_object = 0) const;
-  bool can_see_player(const Vector& eye) const;
+  bool can_see_player(const Vector& eye);
 
 /**
    * returns a list of players currently in the sector
    */
   std::vector<Player*> get_players() const {
-    return std::vector<Player*>(1, this->player);
+    return players;
   }
   Player* get_nearest_player (const Vector& pos) const;
   Player* get_nearest_player (const Rectf& pos) const
@@ -244,8 +238,6 @@ public:
   float get_gravity() const;
 
 private:
-  uint32_t collision_tile_attributes(const Rectf& dest, const Vector& mov) const;
-
   void before_object_remove(GameObjectPtr object);
   bool before_object_add(GameObjectPtr object);
 
@@ -253,31 +245,6 @@ private:
   void try_unexpose(GameObjectPtr object);
   void try_expose_me();
   void try_unexpose_me();
-
-  /** Checks for all possible collisions. And calls the
-      collision_handlers, which the collision_objects provide for this
-      case (or not). */
-  void handle_collisions();
-
-  /**
-   * Does collision detection between 2 objects and does instant
-   * collision response handling in case of a collision
-   */
-  void collision_object(MovingObject* object1, MovingObject* object2) const;
-
-  /**
-   * Does collision detection of an object against all other static
-   * objects (and the tilemap) in the level. Collision response is done
-   * for the first hit in time. (other hits get ignored, the function
-   * should be called repeatedly to resolve those)
-   *
-   * returns true if the collision detection should be aborted for this object
-   * (because of ABORT_MOVE in the collision response or no collisions)
-   */
-  void collision_static(collision::Constraints* constraints,
-                        const Vector& movement, const Rectf& dest, MovingObject& object);
-
-  void collision_static_constrains(MovingObject& object);
 
   GameObjectPtr parse_object(const std::string& name, const ReaderMapping& lisp);
 
@@ -350,10 +317,12 @@ public: // TODO make this private again
 
   // some special objects, where we need direct access
   // (try to avoid accessing them directly)
-  Player* player;
+  std::vector<Player*> players;
   std::list<TileMap*> solid_tilemaps;
   Camera* camera;
   DisplayEffect* effect;
+  
+  SectorCollisionDetector collision_detector;
 
 private:
   Sector(const Sector&);

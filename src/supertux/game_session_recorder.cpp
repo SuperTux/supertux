@@ -133,7 +133,7 @@ GameSessionRecorder::reset_demo_controller()
     demo_controller = new CodeController();
   }
   auto game_session = GameSession::current();
-  auto player = game_session->get_current_sector()->player;
+  auto player = game_session->get_current_sector()->players[0];
   player->set_controller(demo_controller);
 }
 
