@@ -59,8 +59,10 @@ before_install:
       brew install bash libogg libvorbis glew openal-soft sdl2 sdl2_image;
     fi
 
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-8" CC="gcc-8"; fi
-  - if [ "$CXX" = "clang++" ]; then export CXX="clang++-6.0" CC="clang-6.0"; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      if [ "$CXX" = "g++" ]; then export CXX="g++-8" CC="gcc-8"; fi
+      if [ "$CXX" = "clang++" ]; then export CXX="clang++-6.0" CC="clang-6.0"; fi
+    fi
 
   # Try building with GLBinding
   # Note: glbindings ./configure needs to be run twice in order to generate a makefile
