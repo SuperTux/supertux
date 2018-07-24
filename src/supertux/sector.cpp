@@ -689,7 +689,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
   float x2 = dest.get_right();
   float y1 = dest.get_top();
   float y2 = dest.get_bottom();
-
+  std::set< CollisionHit > hits; // Use a set (intentionally => do not generate CollisionHit twice)
   for(const auto& solids : solid_tilemaps) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
@@ -883,11 +883,17 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         if ((h.bottom || h.top || h.left || h.right)) {
             if(slope_adjust_x)
                 dest.move(overlapV);
-                object.collision_solid(h);
-            contacts.push_back(m);
+            else
+            {
+              hits.insert(h);
+              contacts.push_back(m);
+            }
         }
         }
       }
+  }
+  for (const auto& h : hits) {
+    object.collision_solid(h);
   }
 }
 
@@ -1068,12 +1074,10 @@ Sector::collision_static(collision::Constraints* constraints,
   std::vector< Manifold > all_contacts;
   // Always resolve biggest
   int m_iter = 2;
-  for(int i = 0;i<m_iter;i++)
-  {
+  for (int i = 0;i<m_iter;i++) {
     collision_tilemap(constraints, movement, dest, object, contacts, i != 0);
   }
   contacts.clear();
-  contacts.clear();  contacts.clear();
   // collision with other (static) objects
   collision_moving_static(movement, dest, object, graph, contacts);
   for (const auto& m : contacts) {

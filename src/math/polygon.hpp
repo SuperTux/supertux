@@ -12,7 +12,7 @@ struct Manifold {
   bool collided = false;
   std::shared_ptr<Polygon> A;
   std::shared_ptr<Polygon> B;
-  
+
 public:
   Manifold():
     normal(),
@@ -76,12 +76,12 @@ class Polygon {
       virtual ~Polygon() {}
  protected:
     // The two commented out fields will be used for rotation later.
-    //std::vector< Vector > original_vertices; /** Only used in rotated polygons */
-    //double rotation_angle;
+    // std::vector< Vector > original_vertices;
+    // double rotation_angle;
     std::vector< Vector > vertices;
     std::vector< Vector > edges;
     std::vector< Vector > normals; /** Edge normals */
-    Vector middle_point; // TODO Rename this to center
+    Vector middle_point;  // TODO(christ2go) Rename this to center
     /** Saves for every normal a flag indicating wether it is enabled. */
     std::vector< bool > disabled_normals;
 };

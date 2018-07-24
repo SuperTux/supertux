@@ -1,5 +1,8 @@
 #ifndef SUPERTUX_PHYSICS_COLLISION_ENGINE_HPP_INCLUDED
 #define SUPERTUX_PHYSICS_COLLISION_ENGINE_HPP_INCLUDED
+
+#include <vector>
+#include <set>
 /**
  *  The CollisionEngine is responsible for
  *  handling any collisions occuring in the supertux world.
@@ -22,7 +25,7 @@ class CollisionHandler {
    *  Use this method to notify about changes in the solid tilemaps.
    *  <i>Could</i> be called before every collision cycle.
    */
-  void update_solid_tilemaps();
+  void update_solid_tilemaps(std::vector<TileMap&> solid_tms);
    /** Called when a MovingObject is destructed.
        Removes the object from the broadphase data structure.
     */
@@ -42,5 +45,6 @@ class CollisionHandler {
   // Member variables
   broadphase m_broadphase; /*< Broadphase data structure */
   std::set< MovingObject* > m_mobjects; /*< set of all moving objects */
+  std::vector< TileMap& > solid_tms;
 };
   #endif

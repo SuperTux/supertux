@@ -71,7 +71,8 @@ Bullet::update(float elapsed_time)
       get_pos().x > scroll_x + SCREEN_WIDTH ||
       //     get_pos().y < scroll_y ||
       get_pos().y > scroll_y + SCREEN_HEIGHT ||
-      life_count <= 0) {
+    life_count <= 0) {
+    log_debug << "Removed because i'm oob" << std::endl;
     remove_me();
     return;
   }
@@ -100,6 +101,7 @@ Bullet::draw(DrawingContext& context)
 void
 Bullet::collision_solid(const CollisionHit& hit)
 {
+  log_debug << "BCS" << std::endl;
   if(hit.top || hit.bottom) {
     physic.set_velocity_y(-physic.get_velocity_y());
     life_count--;

@@ -58,6 +58,30 @@ public:
   bool crush;
 
   Vector slope_normal;
+  // Implement operator <
+  bool operator <(const CollisionHit& h) const
+  {
+    int a = 0, b = 0; // Interpret both as booleans
+
+    if (h.right)
+      b |= 1UL << 0;
+    if (right)
+      a |= 1UL << 0;
+    if (h.left)
+      b |= 1UL << 1;
+    if (left)
+      a |= 1UL << 1;
+    if (h.top)
+      b |= 1UL << 2;
+    if (top)
+      a |= 1UL << 2;
+    if (h.bottom)
+      b |= 1UL << 3;
+    if (bottom)
+      a |= 1UL << 3;
+
+    return a < b;
+  }
 };
 
 #endif
