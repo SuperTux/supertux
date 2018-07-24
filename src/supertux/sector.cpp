@@ -892,6 +892,8 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         }
       }
   }
+  // After removing duplicates (done by set automatically),
+  // inform object about collisions
   for (const auto& h : hits) {
     object.collision_solid(h);
   }
@@ -1039,6 +1041,7 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
         tile_poly.debug();
         mobject_poly.debug();
       }
+      // TODO(christ2go) Take static tilemap into account.
       mobjp.handle_collision(tile_poly, m);
       if (!m.collided)
         continue;
@@ -1073,21 +1076,11 @@ Sector::collision_static(collision::Constraints* constraints,
   std::vector< Manifold > contacts;
   std::vector< Manifold > all_contacts;
   // Always resolve biggest
-  int m_iter = 2;
-  for (int i = 0;i<m_iter;i++) {
+  for (int i = 0;i<3;i++) {
     collision_tilemap(constraints, movement, dest, object, contacts, i != 0);
   }
   contacts.clear();
-  // collision with other (static) objects
   collision_moving_static(movement, dest, object, graph, contacts);
-  for (const auto& m : contacts) {
-    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
-                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
-    dest.move(overlapV);
-  }
-
-  contacts.clear();
-  log_debug << contacts.size() << std::endl;
   for (const auto& m : contacts) {
     Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
                   (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
@@ -1099,7 +1092,6 @@ Sector::collision_static(collision::Constraints* constraints,
          extend_bot = 0.0f;
   log_debug << contacts.size() << std::endl;
   all_contacts.clear();
-  return;
   collision_tilemap(constraints, movement, dest, object, all_contacts, false);
   collision_moving_static(movement, dest, object, graph, all_contacts);
 
@@ -1138,6 +1130,7 @@ Sector::collision_static_constrains(MovingObject& object, collision_graph& graph
   Constraints constraints;
   Vector movement = object.get_movement();
   Rectf& dest = object.dest;
+
   collision_static(&constraints, Vector(movement.x, movement.y),
                   dest, object, graph);
 }

@@ -10,8 +10,6 @@ struct Manifold {
   double depth;
 
   bool collided = false;
-  std::shared_ptr<Polygon> A;
-  std::shared_ptr<Polygon> B;
 
 public:
   Manifold():

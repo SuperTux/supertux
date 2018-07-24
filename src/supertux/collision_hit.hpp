@@ -58,7 +58,7 @@ public:
   bool crush;
 
   Vector slope_normal;
-  // Implement operator <
+  // Implement operator < (needed for sets)
   bool operator <(const CollisionHit& h) const
   {
     int a = 0, b = 0; // Interpret both as booleans
