@@ -59,11 +59,6 @@ before_install:
       brew install bash libogg libvorbis glew openal-soft sdl2 sdl2_image;
     fi
 
-  # CMake
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then
-      wget --no-check-certificate http://www.cmake.org/files/v3.11/cmake-3.11.4.tar.gz -O - | tar xz;
-      (cd cmake-3.11.4 && cmake . && make -j3 && sudo make install);
-    fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-8" CC="gcc-8"; fi
   - if [ "$CXX" = "clang++" ]; then export CXX="clang++-6.0" CC="clang-6.0"; fi
 
