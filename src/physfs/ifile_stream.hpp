@@ -19,7 +19,6 @@
 
 #include <memory>
 #include <istream>
-#include <physfs.h>
 
 class IFileStream : public std::istream
 {

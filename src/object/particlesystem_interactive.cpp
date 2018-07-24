@@ -17,10 +17,9 @@
 #include "object/particlesystem_interactive.hpp"
 
 #include "math/aatriangle.hpp"
-#include "math/vector.hpp"
 #include "object/tilemap.hpp"
-#include "supertux/game_object.hpp"
 #include "supertux/collision.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
 
@@ -47,7 +46,7 @@ void ParticleSystem_Interactive::draw(DrawingContext& context)
   context.push_transform();
 
   for(auto& particle : particles) {
-    context.draw_surface(particle->texture, particle->pos, z_pos);
+    context.color().draw_surface(particle->texture, particle->pos, z_pos);
   }
 
   context.pop_transform();

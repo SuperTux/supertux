@@ -20,15 +20,15 @@
 
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
-#include "math/vector.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
 
-static const Color TORCH_LIGHT_COLOR = Color(0.87, 0.64, 0.12); /** Color of the light specific to the torch firefly sprite */
+static const Color TORCH_LIGHT_COLOR = Color(0.87f, 0.64f, 0.12f); /** Color of the light specific to the torch firefly sprite */
 static const Vector TORCH_LIGHT_OFFSET = Vector(0, 12); /** Offset of the light specific to the torch firefly sprite */
 
 Firefly::Firefly(const ReaderMapping& lisp) :
@@ -77,10 +77,7 @@ Firefly::draw(DrawingContext& context)
 
   if (sprite_name.find("torch", 0) != std::string::npos && (activated ||
         sprite->get_action() == "ringing")) {
-    context.push_target();
-    context.set_target(DrawingContext::LIGHTMAP);
-    m_sprite_light->draw(context, bbox.get_middle() - TORCH_LIGHT_OFFSET, 0);
-    context.pop_target();
+    m_sprite_light->draw(context.light(), bbox.get_middle() - TORCH_LIGHT_OFFSET, 0);
   }
 }
 

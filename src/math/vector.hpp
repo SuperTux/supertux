@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_MATH_VECTOR_HPP
 #define HEADER_SUPERTUX_MATH_VECTOR_HPP
 
+#include <math.h>
 /** Simple two dimensional vector. */
 class Vector
 {
@@ -112,7 +113,7 @@ public:
 
   Vector to_int_vec() const
   {
-    return Vector(int(x), int(y));
+    return Vector(floorf(x), floorf(y));
   }
 
   // ... add the other operators as needed, I'm too lazy now ...

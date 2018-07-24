@@ -17,18 +17,19 @@
 
 #include "object/weak_block.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "badguy/badguy.hpp"
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/explosion.hpp"
-#include "supertux/object_factory.hpp"
+#include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
-
-#include <math.h>
 
 WeakBlock::WeakBlock(const ReaderMapping& lisp)
 : MovingSprite(lisp, "images/objects/weak_block/strawbox.sprite", LAYER_TILES, COLGROUP_STATIC), state(STATE_NORMAL),
@@ -160,16 +161,13 @@ void
 WeakBlock::draw(DrawingContext& context)
 {
   //Draw the Sprite just in front of other objects
-  sprite->draw(context, get_pos(), LAYER_OBJECTS + 10);
+  sprite->draw(context.color(), get_pos(), LAYER_OBJECTS + 10);
   //Draw the light if burning and dark
   if(linked && (state != STATE_NORMAL)){
     context.get_light( bbox.get_middle(), &light );
     if (light.red + light.green + light.blue < 3.0){
-      context.push_target();
-      context.set_target(DrawingContext::LIGHTMAP);
-      sprite->draw(context, get_pos(), LAYER_OBJECTS + 10);
-      lightsprite->draw(context, bbox.get_middle(), 0);
-      context.pop_target();
+      sprite->draw(context.light(), get_pos(), LAYER_OBJECTS + 10);
+      lightsprite->draw(context.light(), bbox.get_middle(), 0);
     }
   }
 }

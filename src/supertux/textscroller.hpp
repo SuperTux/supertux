@@ -17,7 +17,6 @@
 #ifndef HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_HPP
 #define HEADER_SUPERTUX_SUPERTUX_TEXTSCROLLER_HPP
 
-#include <map>
 #include <memory>
 
 #include "supertux/screen.hpp"
@@ -30,15 +29,15 @@ class InfoBoxLine;
 /**
  * Screen that displays intro text, extro text, etc.
  */
-class TextScroller : public Screen
+class TextScroller final : public Screen
 {
 public:
   TextScroller(const std::string& file);
   virtual ~TextScroller();
 
-  void setup();
-  void draw(DrawingContext& context);
-  void update(float elapsed_time);
+  virtual void setup() override;
+  virtual void draw(Compositor& compositor) override;
+  virtual void update(float elapsed_time) override;
 
   static Color small_color;
   static Color heading_color;

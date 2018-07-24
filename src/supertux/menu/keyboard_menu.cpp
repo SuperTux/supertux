@@ -17,6 +17,7 @@
 
 #include "supertux/menu/keyboard_menu.hpp"
 
+#include "control/input_manager.hpp"
 #include "control/keyboard_manager.hpp"
 #include "gui/item_controlfield.hpp"
 #include "supertux/gameconfig.hpp"

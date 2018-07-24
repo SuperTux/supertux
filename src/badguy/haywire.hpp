@@ -18,8 +18,9 @@
 #ifndef HEADER_SUPERTUX_BADGUY_HAYWIRE_HPP
 #define HEADER_SUPERTUX_BADGUY_HAYWIRE_HPP
 
-#include "audio/sound_source.hpp"
 #include "badguy/walking_badguy.hpp"
+
+class SoundSource;
 
 class Haywire : public WalkingBadguy
 {

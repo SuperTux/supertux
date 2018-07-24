@@ -40,7 +40,7 @@ public:
 
   void set_looping(bool looping_)
   {
-    this->looping = looping_;
+    looping = looping_;
   }
   bool get_looping() const
   {

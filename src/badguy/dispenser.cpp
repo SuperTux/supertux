@@ -21,11 +21,10 @@
 #include "math/random_generator.hpp"
 #include "object/bullet.hpp"
 #include "object/player.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-
-#include <stdexcept>
 
 Dispenser::Dispenser(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/dispenser/dispenser.sprite"),
@@ -270,7 +269,7 @@ Dispenser::launch_badguy()
       switch (type) {
         case DT_DROPPER:
           spawnpoint = get_anchor_pos (bbox, ANCHOR_BOTTOM);
-          spawnpoint.x -= 0.5 * object_bbox.get_width();
+          spawnpoint.x -= 0.5f * object_bbox.get_width();
           break;
         case DT_ROCKETLAUNCHER:
         case DT_CANNON:
@@ -334,7 +333,7 @@ Dispenser::freeze()
         // When is the dispenser a dropper, it uses the "dropper-iced".
       else
       {
-        sprite->set_color(Color(0.60, 0.72, 0.88f));
+        sprite->set_color(Color(0.6f, 0.72f, 0.88f));
         sprite->stop_animation();
         // When is the dispenser something else (unprobable), or has no matching iced sprite, it shades to blue.
       }

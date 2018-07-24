@@ -17,10 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
 #define HEADER_SUPERTUX_VIDEO_TEXTURE_MANAGER_HPP
 
-#include <SDL_video.h>
-
 #include <config.h>
-
 #include <map>
 #include <memory>
 #include <set>
@@ -34,6 +31,7 @@
 class Texture;
 class GLTexture;
 class Rect;
+struct SDL_Surface;
 
 class TextureManager : public Currenton<TextureManager>
 {

@@ -17,8 +17,9 @@
 #include "audio/ogg_sound_file.hpp"
 
 #include <assert.h>
+#include <physfs.h>
 
-OggSoundFile::OggSoundFile(PHYSFS_file* file_, double loop_begin_, double loop_at_) :
+OggSoundFile::OggSoundFile(PHYSFS_File* file_, double loop_begin_, double loop_at_) :
   file(file_),
   vorbis_file(),
   loop_begin(),
@@ -38,11 +39,11 @@ OggSoundFile::OggSoundFile(PHYSFS_file* file_, double loop_begin_, double loop_a
   double samples_begin = loop_begin_ * rate;
   double sample_loop   = loop_at_ * rate;
 
-  this->loop_begin     = (ogg_int64_t) samples_begin;
+  loop_begin     = (ogg_int64_t) samples_begin;
   if(loop_begin_ < 0) {
-    this->loop_at = (ogg_int64_t) -1;
+    loop_at = (ogg_int64_t) -1;
   } else {
-    this->loop_at = (ogg_int64_t) sample_loop;
+    loop_at = (ogg_int64_t) sample_loop;
   }
 }
 

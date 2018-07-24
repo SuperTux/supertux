@@ -43,10 +43,12 @@
 #include "supertux/screen_manager.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/spawn_point.hpp"
+#include "supertux/tile.hpp"
 #include "supertux/tile_manager.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/compositor.hpp"
 #include "video/surface.hpp"
 
 Editor::Editor() :
@@ -76,15 +78,17 @@ Editor::Editor() :
 {
 }
 
-void Editor::draw(DrawingContext& context)
+void Editor::draw(Compositor& compositor)
 {
+  auto& context = compositor.make_context();
+
   if (levelloaded) {
     currentsector->draw(context);
-    context.draw_filled_rect(Rectf(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)), Color(0.0f, 0.0f, 0.0f),
+    context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(context.get_width(), context.get_height())), Color(0.0f, 0.0f, 0.0f),
                              0.0f, std::numeric_limits<int>::min());
   } else {
-    context.draw_surface_part(bgr_surface, Rectf(Vector(0, 0), bgr_surface->get_size()),
-                              Rectf(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT)), -100);
+    context.color().draw_surface_part(bgr_surface, Rectf(Vector(0, 0), bgr_surface->get_size()),
+                              Rectf(Vector(0, 0), Vector(context.get_width(), context.get_height())), -100);
   }
   inputcenter.draw(context);
   tileselect.draw(context);
@@ -354,7 +358,7 @@ void Editor::reload_level() {
   tileset = TileManager::current()->get_tileset(level->get_tileset());
   load_sector("main");
   currentsector->activate("main");
-  currentsector->camera->mode = Camera::MANUAL;
+  currentsector->camera->set_mode(Camera::MANUAL);
   layerselect.refresh_sector_text();
   tileselect.update_mouse_icon();
 }
@@ -398,7 +402,7 @@ Editor::setup() {
       });
 
       dialog->add_button(_("Leave editor"), [this] {
-        this->quit_request = true;
+        quit_request = true;
       });
 
       MenuManager::instance().set_dialog(std::move(dialog));

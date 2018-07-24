@@ -18,7 +18,8 @@
 #define HEADER_SUPERTUX_PHYSFS_IFILE_STREAMBUF_HPP
 
 #include <streambuf>
-#include <physfs.h>
+
+struct PHYSFS_File;
 
 /** This class implements a C++ streambuf object for physfs files.
  * So that you can use normal istream operations on them
@@ -36,7 +37,7 @@ protected:
   virtual pos_type seekpos(pos_type pos, std::ios_base::openmode);
 
 private:
-  PHYSFS_file* file;
+  PHYSFS_File* file;
   char buf[1024];
 
 private:

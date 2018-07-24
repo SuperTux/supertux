@@ -18,10 +18,12 @@
 
 #include "supertux/tile.hpp"
 
-#include "supertux/constants.hpp"
-#include "supertux/tile_set.hpp"
 #include "math/aatriangle.hpp"
+#include "supertux/constants.hpp"
+#include "supertux/globals.hpp"
+#include "util/log.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 bool Tile::draw_editor_images = false;
 
@@ -125,11 +127,11 @@ Tile::get_current_image() const
 }
 
 void
-Tile::draw(DrawingContext& context, const Vector& pos, int z_pos, Color color) const
+Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, Color color) const
 {
   SurfacePtr surface = get_current_image();
   if (surface) {
-    context.draw_surface(surface, pos, 0, color, Blend(), z_pos);
+    canvas.draw_surface(surface, pos, 0, color, Blend(), z_pos);
   }
 }
 
@@ -171,9 +173,9 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
   double slope_tan;
 
   /* If the tile is not a slope, this is very easy. */
-  if (!this->is_slope())
+  if (!is_slope())
   {
-    int dir = this->getData() & Tile::UNI_DIR_MASK;
+    int dir = getData() & Tile::UNI_DIR_MASK;
 
     return ((dir == Tile::UNI_DIR_NORTH) && (movement.y >= 0))  /* moving down */
         || ((dir == Tile::UNI_DIR_SOUTH) && (movement.y <= 0))  /* moving up */
@@ -192,7 +194,7 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
   mv_x = (double) movement.x; //note switch to double for no good reason
   mv_y = (double) movement.y;
 
-  slope_info = this->getData();
+  slope_info = getData();
   switch (slope_info & AATriangle::DIRECTION_MASK)
   {
     case AATriangle::SOUTHEAST: /*    . */
@@ -282,9 +284,9 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   float obj_y = 0.0;
 
   /* If this is not a slope, this is - again - easy */
-  if (!this->is_slope())
+  if (!is_slope())
   {
-    int dir = this->getData() & Tile::UNI_DIR_MASK;
+    int dir = getData() & Tile::UNI_DIR_MASK;
 
     return ((dir == Tile::UNI_DIR_NORTH) && ((obj_bbox.get_bottom() - SHIFT_DELTA) <= tile_bbox.get_top()   ))
         || ((dir == Tile::UNI_DIR_SOUTH) && ((obj_bbox.get_top()    + SHIFT_DELTA) >= tile_bbox.get_bottom()))
@@ -295,7 +297,7 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   /* There are 20 different cases. For each case, calculate a line that
    * describes the slope's surface. The line is defined by x, y, and m, the
    * gradient. */
-  slope_info = this->getData();
+  slope_info = getData();
   switch (slope_info
       & (AATriangle::DIRECTION_MASK | AATriangle::DEFORM_MASK))
   {
@@ -352,29 +354,29 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   switch (slope_info & AATriangle::DIRECTION_MASK)
   {
     case AATriangle::SOUTHWEST:
-      delta_x *= 1.0;
-      delta_y *= -1.0;
+      delta_x *= 1.f;
+      delta_y *= -1.f;
       obj_x = obj_bbox.get_left();
       obj_y = obj_bbox.get_bottom();
       break;
 
     case AATriangle::SOUTHEAST:
-      delta_x *= -1.0;
-      delta_y *= -1.0;
+      delta_x *= -1.f;
+      delta_y *= -1.f;
       obj_x = obj_bbox.get_right();
       obj_y = obj_bbox.get_bottom();
       break;
 
     case AATriangle::NORTHWEST:
-      delta_x *= 1.0;
-      delta_y *= 1.0;
+      delta_x *= 1.f;
+      delta_y *= 1.f;
       obj_x = obj_bbox.get_left();
       obj_y = obj_bbox.get_top();
       break;
 
     case AATriangle::NORTHEAST:
-      delta_x *= -1.0;
-      delta_y *= 1.0;
+      delta_x *= -1.f;
+      delta_y *= 1.f;
       obj_x = obj_bbox.get_right();
       obj_y = obj_bbox.get_top();
       break;
@@ -385,22 +387,22 @@ bool Tile::check_position_unisolid (const Rectf& obj_bbox,
   switch (slope_info & AATriangle::DEFORM_MASK)
   {
     case 0:
-      delta_x *= .70710678118654752440; /* 1/sqrt(2) */
-      delta_y *= .70710678118654752440; /* 1/sqrt(2) */
+      delta_x *= .70710678118654752440f; /* 1/sqrt(2) */
+      delta_y *= .70710678118654752440f; /* 1/sqrt(2) */
       break;
 
     case AATriangle::DEFORM_BOTTOM:
     case AATriangle::DEFORM_TOP:
-      delta_x *= .44721359549995793928; /* 1/sqrt(5) */
-      delta_y *= .89442719099991587856; /* 2/sqrt(5) */
-      gradient *= 0.5;
+      delta_x *= .44721359549995793928f; /* 1/sqrt(5) */
+      delta_y *= .89442719099991587856f; /* 2/sqrt(5) */
+      gradient *= 0.5f;
       break;
 
     case AATriangle::DEFORM_LEFT:
     case AATriangle::DEFORM_RIGHT:
-      delta_x *= .89442719099991587856; /* 2/sqrt(5) */
-      delta_y *= .44721359549995793928; /* 1/sqrt(5) */
-      gradient *= 2.0;
+      delta_x *= .89442719099991587856f; /* 2/sqrt(5) */
+      delta_y *= .44721359549995793928f; /* 1/sqrt(5) */
+      gradient *= 2.f;
       break;
   }
 

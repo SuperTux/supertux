@@ -18,16 +18,12 @@
 
 #include <SDL_image.h>
 #include <assert.h>
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
 
 #include "math/rect.hpp"
 #include "physfs/physfs_sdl.hpp"
 #include "util/file_system.hpp"
 #include "util/log.hpp"
 #include "video/sdl_surface_ptr.hpp"
-#include "video/texture.hpp"
 #include "video/video_system.hpp"
 
 #ifdef HAVE_OPENGL

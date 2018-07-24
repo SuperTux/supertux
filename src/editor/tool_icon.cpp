@@ -17,6 +17,7 @@
 #include "editor/tool_icon.hpp"
 
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 
 ToolIcon::ToolIcon(const std::string& icon) :
   pos(0, 0),
@@ -36,7 +37,7 @@ ToolIcon::push_mode(const std::string& icon) {
 
 void
 ToolIcon::draw(DrawingContext& context) {
-  context.draw_surface(surfaces[mode], pos, LAYER_GUI - 9);
+  context.color().draw_surface(surfaces[mode], pos, LAYER_GUI - 9);
 }
 
 void

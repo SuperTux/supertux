@@ -16,14 +16,14 @@
 
 #include "badguy/stumpy.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
-#include "supertux/object_factory.hpp"
+#include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
-
-#include <math.h>
 
 static const float STUMPY_SPEED = 120;
 static const float INVINCIBLE_TIME = 1;

@@ -17,13 +17,9 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_TEXTURE_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_TEXTURE_HPP
 
-#include <algorithm>
-#include <config.h>
-
-#include <SDL.h>
-
-#include "video/color.hpp"
 #include "video/texture.hpp"
+
+struct SDL_Texture;
 
 class SDLTexture : public Texture
 {

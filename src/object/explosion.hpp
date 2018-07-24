@@ -40,22 +40,22 @@ public:
 
   bool hurts() const
   {
-    return this->hurt;
+    return hurt;
   }
 
   void hurts (bool val)
   {
-    this->hurt = val;
+    hurt = val;
   }
 
   bool pushes() const
   {
-    return this->push;
+    return push;
   }
 
   void pushes (bool val)
   {
-    this->push = val;
+    push = val;
   }
 
 protected:

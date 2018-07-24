@@ -18,11 +18,10 @@
 #ifndef HEADER_SUPERTUX_ADDON_ADDON_HPP
 #define HEADER_SUPERTUX_ADDON_ADDON_HPP
 
-#include <assert.h>
 #include <memory>
 #include <string>
 
-#include "util/reader_fwd.hpp"
+class ReaderMapping;
 
 class Addon
 {

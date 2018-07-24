@@ -17,19 +17,17 @@
 
 #include "badguy/yeti.hpp"
 
+#include <math.h>
+
 #include "audio/sound_manager.hpp"
-#include "badguy/bouncing_snowball.hpp"
 #include "badguy/yeti_stalactite.hpp"
+#include "math/random_generator.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-#include "math/random_generator.hpp"
-
-#include <float.h>
-#include <math.h>
+#include "video/surface.hpp"
 
 namespace {
 const float JUMP_DOWN_VX = 250; /**< horizontal speed while jumping off the dais */
@@ -136,7 +134,7 @@ Yeti::draw_hit_points(DrawingContext& context)
 
     for (int i = 0; i < hit_points; ++i)
     {
-      context.draw_surface(hud_head, Vector(BORDER_X + (i * hud_head->get_width()), BORDER_Y + 1), LAYER_FOREGROUND1);
+      context.color().draw_surface(hud_head, Vector(BORDER_X + (i * hud_head->get_width()), BORDER_Y + 1), LAYER_FOREGROUND1);
     }
 
     context.pop_transform();

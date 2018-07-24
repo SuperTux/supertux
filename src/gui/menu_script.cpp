@@ -16,12 +16,8 @@
 
 #include "gui/menu_script.hpp"
 
-#include "audio/sound_manager.hpp"
 #include "gui/item_script_line.hpp"
-#include "gui/menu_item.hpp"
-#include "gui/item_action.hpp"
 #include "util/gettext.hpp"
-#include "util/log.hpp"
 
 ScriptMenu::ScriptMenu(std::string* script_) :
   base_script(script_),
@@ -60,7 +56,7 @@ ScriptMenu::~ScriptMenu()
 }
 
 void
-ScriptMenu::push_string(std::string new_line)
+ScriptMenu::push_string(const std::string& new_line)
 {
   script_strings.push_back( std::unique_ptr<std::string>(new std::string(new_line)) );
   add_script_line( (script_strings.end()-1)->get() );

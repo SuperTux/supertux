@@ -26,7 +26,8 @@ EditorSectorMenu::EditorSectorMenu() :
   sector(Editor::current()->currentsector),
   original_name(sector->get_name()),
   size(sector->get_editor_size()),
-  new_size(size)
+  new_size(size),
+  offset(0, 0)
 {
   add_label(_("Sector") + " " + sector->get_name());
   add_hl();
@@ -43,6 +44,8 @@ EditorSectorMenu::EditorSectorMenu() :
   add_hl();
   add_intfield(_("Width"), &(new_size.width));
   add_intfield(_("Height"), &(new_size.height));
+  add_intfield(_("Resize offset X"), &(offset.width));
+  add_intfield(_("Resize offset Y"), &(offset.height));
   add_entry(MNID_RESIZESECTOR, _("Resize"));
 
   add_hl();
@@ -77,7 +80,7 @@ EditorSectorMenu::menu_action(MenuItem* item)
   switch (item->id) {
     case MNID_RESIZESECTOR:
       if (new_size.is_valid()) {
-        sector->resize_sector(size, new_size);
+        sector->resize_sector(size, new_size, offset);
         size = new_size;
       }
       break;

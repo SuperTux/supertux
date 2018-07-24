@@ -16,9 +16,6 @@
 
 #include "gui/menu.hpp"
 
-#include <math.h>
-#include <stdexcept>
-
 #define INCLUDE_MENU_ITEMS
 // This causes the #include "gui/menu_item.hpp" to include all menu items too.
 
@@ -26,15 +23,9 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
-#include "supertux/colorscheme.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
-#include "supertux/screen_manager.hpp"
-#include "supertux/timer.hpp"
-#include "util/gettext.hpp"
-#include "video/color.hpp"
 #include "video/drawing_context.hpp"
-#include "video/font.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
@@ -413,12 +404,12 @@ Menu::draw_item(DrawingContext& context, int index)
   if(active_item == index)
   {
     float blink = (sinf(real_time * M_PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
-    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10 - 2, y_pos - 12 - 2),
+    context.color().draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10 - 2, y_pos - 12 - 2),
                                    Vector(pos.x + menu_width_/2 - 10 + 2, y_pos + 12 + 2)),
                              Color(1.0f, 1.0f, 1.0f, blink),
                              14.0f,
                              LAYER_GUI-10);
-    context.draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10, y_pos - 12),
+    context.color().draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10, y_pos - 12),
                                    Vector(pos.x + menu_width_/2 - 10, y_pos + 12)),
                              Color(1.0f, 1.0f, 1.0f, 0.5f),
                              12.0f,
@@ -473,18 +464,18 @@ Menu::draw(DrawingContext& context)
                    pos.x + text_width/2 + 8,
                    SCREEN_HEIGHT - 48 + text_height/2 + 4);
 
-    context.draw_filled_rect(Rectf(text_rect.p1 - Vector(4,4),
+    context.color().draw_filled_rect(Rectf(text_rect.p1 - Vector(4,4),
                                    text_rect.p2 + Vector(4,4)),
                              Color(0.2f, 0.3f, 0.4f, 0.8f),
                              16.0f,
                              LAYER_GUI-10);
 
-    context.draw_filled_rect(text_rect,
+    context.color().draw_filled_rect(text_rect,
                              Color(0.6f, 0.7f, 0.8f, 0.5f),
                              16.0f,
                              LAYER_GUI-10);
 
-    context.draw_text(Resources::normal_font, items[active_item]->help,
+    context.color().draw_text(Resources::normal_font, items[active_item]->help,
                       Vector(pos.x, SCREEN_HEIGHT - 48 - text_height/2),
                       ALIGN_CENTER, LAYER_GUI);
   }

@@ -19,8 +19,6 @@
 
 #include "badguy/badguy.hpp"
 
-class Timer;
-
 class Root : public BadGuy
 {
 public:

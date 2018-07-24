@@ -17,9 +17,10 @@
 #ifndef HEADER_SUPERTUX_BADGUY_BOMB_HPP
 #define HEADER_SUPERTUX_BADGUY_BOMB_HPP
 
-#include "audio/sound_source.hpp"
 #include "badguy/badguy.hpp"
 #include "object/portable.hpp"
+
+class SoundSource;
 
 class Bomb : public BadGuy,
              public Portable

@@ -15,10 +15,9 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "badguy/igel.hpp"
+
 #include "object/bullet.hpp"
 #include "supertux/sector.hpp"
-
-#include "supertux/object_factory.hpp"
 
 namespace {
 

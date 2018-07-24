@@ -16,7 +16,6 @@
 
 #include "object/decal.hpp"
 
-#include "supertux/object_factory.hpp"
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 

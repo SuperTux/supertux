@@ -23,7 +23,9 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/world.hpp"
 #include "util/file_system.hpp"
+#include "util/log.hpp"
 #include "util/reader_mapping.hpp"
+#include "util/writer.hpp"
 
 namespace worldmap_editor {
 
@@ -88,7 +90,7 @@ LevelDot::LevelDot (const ReaderMapping& lisp) :
 void
 LevelDot::draw(DrawingContext& context)
 {
-  sprite->draw(context, bbox.p1 + Vector(16, 16), layer);
+  sprite->draw(context.color(), bbox.p1 + Vector(16, 16), layer);
 }
 
 ObjectSettings
@@ -162,13 +164,13 @@ Teleporter::Teleporter (const ReaderMapping& lisp) :
 
   lisp.get("automatic", automatic);
 
-  change_worldmap = worldmap.size();
+  change_worldmap = worldmap.size() > 0;
 }
 
 void
 Teleporter::draw(DrawingContext& context)
 {
-  sprite->draw(context, bbox.p1 + Vector(16, 16), layer);
+  sprite->draw(context.color(), bbox.p1 + Vector(16, 16), layer);
 }
 
 void

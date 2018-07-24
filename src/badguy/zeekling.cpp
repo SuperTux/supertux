@@ -22,7 +22,6 @@
 #include "math/random_generator.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 Zeekling::Zeekling(const ReaderMapping& reader) :
   BadGuy(reader, "images/creatures/zeekling/zeekling.sprite"),

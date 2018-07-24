@@ -16,18 +16,13 @@
 
 #include "supertux/sector.hpp"
 
-#include <algorithm>
-#include <math.h>
-#include <vector>
-
-#include "scripting/scripting.hpp"
-#include "scripting/squirrel_util.hpp"
-#include "scripting/sector.hpp"
+#include <physfs.h>
 
 #include "audio/sound_manager.hpp"
-#include "badguy/jumpy.hpp"
+#include "badguy/badguy.hpp"
 #include "editor/editor.hpp"
 #include "math/aatriangle.hpp"
+#include "math/rect.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
 #include "object/display_effect.hpp"
@@ -37,22 +32,15 @@
 #include "object/text_object.hpp"
 #include "object/tilemap.hpp"
 #include "physfs/ifile_streambuf.hpp"
+#include "scripting/sector.hpp"
 #include "supertux/collision.hpp"
 #include "supertux/constants.hpp"
 #include "supertux/game_session.hpp"
-#include "supertux/globals.hpp"
 #include "supertux/level.hpp"
-#include "supertux/object_factory.hpp"
-#include "supertux/player_status.hpp"
 #include "supertux/savegame.hpp"
 #include "supertux/spawn_point.hpp"
 #include "supertux/tile.hpp"
-#include "supertux/tile_manager.hpp"
-#include "trigger/secretarea_trigger.hpp"
-#include "trigger/sequence_trigger.hpp"
 #include "util/file_system.hpp"
-#include "util/reader_collection.hpp"
-#include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 
 Sector* Sector::_current = 0;
@@ -354,7 +342,7 @@ Sector::update(float elapsed_time)
     float r = (1.0f - percent_done) * source_ambient_light.red + percent_done * target_ambient_light.red;
     float g = (1.0f - percent_done) * source_ambient_light.green + percent_done * target_ambient_light.green;
     float b = (1.0f - percent_done) * source_ambient_light.blue + percent_done * target_ambient_light.blue;
-    
+
     if(r > 1.0)
       r = 1.0;
     if(g > 1.0)
@@ -368,7 +356,7 @@ Sector::update(float elapsed_time)
       g = 0;
     if(b < 0)
       b = 0;
-    
+
     ambient_light = Color(r, g, b);
 
     if(ambient_light_fade_accum >= ambient_light_fade_duration)
@@ -459,11 +447,11 @@ Sector::before_object_add(GameObjectPtr object)
 
   auto camera_ = dynamic_cast<Camera*>(object.get());
   if(camera_) {
-    if(this->camera != 0) {
+    if(camera != 0) {
       log_warning << "Multiple cameras added. Ignoring" << std::endl;
       return false;
     }
-    this->camera = camera_;
+    camera = camera_;
   }
 
   auto player_ = dynamic_cast<Player*>(object.get());
@@ -481,11 +469,11 @@ Sector::before_object_add(GameObjectPtr object)
 
   auto effect_ = dynamic_cast<DisplayEffect*>(object.get());
   if(effect_) {
-    if(this->effect != 0) {
+    if(effect != 0) {
       log_warning << "Multiple DisplayEffects added. Ignoring" << std::endl;
       return false;
     }
-    this->effect = effect_;
+    effect = effect_;
   }
 
   if(_current == this) {
@@ -577,7 +565,7 @@ Sector::draw(DrawingContext& context)
     for(auto& object : moving_objects) {
       const Rectf& rect = object->get_bbox();
 
-      context.draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
+      context.color().draw_filled_rect(rect, color, LAYER_FOREGROUND1 + 10);
     }
   }
 
@@ -597,35 +585,35 @@ void Sector::collision_tilemap(collision::Constraints* constraints,
                          const Vector& movement, const Rectf& dest,
                          MovingObject& object) const
 {
-  return collision_detector.collision_tilemap(constraints, movement, dest, 
+  return collision_detector.collision_tilemap(constraints, movement, dest,
                                               object);
 }
-                          
-bool Sector::is_free_of_tiles(const Rectf& rect, 
+
+bool Sector::is_free_of_tiles(const Rectf& rect,
                       const bool ignoreUnisolid) const
 {
   return collision_detector.is_free_of_tiles(rect, ignoreUnisolid);
 }
-                      
-bool Sector::is_free_of_statics(const Rectf& rect, 
-                        const MovingObject* ignore_object, 
+
+bool Sector::is_free_of_statics(const Rectf& rect,
+                        const MovingObject* ignore_object,
                         const bool ignoreUnisolid) const
 {
-  return collision_detector.is_free_of_statics(rect, ignore_object, 
+  return collision_detector.is_free_of_statics(rect, ignore_object,
                                                 ignoreUnisolid);
 }
-                        
-bool Sector::is_free_of_movingstatics(const Rectf& rect, 
+
+bool Sector::is_free_of_movingstatics(const Rectf& rect,
                                  const MovingObject* ignore_object) const
 {
   return collision_detector.is_free_of_movingstatics(rect, ignore_object);
 }
-                              
-bool Sector::free_line_of_sight(const Vector& line_start, 
-                                const Vector& line_end, 
+
+bool Sector::free_line_of_sight(const Vector& line_start,
+                                const Vector& line_end,
                                 const MovingObject* ignore_object) const
 {
-  return collision_detector.free_line_of_sight(line_start, line_end, 
+  return collision_detector.free_line_of_sight(line_start, line_end,
                                                ignore_object);
 }
 
@@ -747,12 +735,23 @@ Sector::get_editor_size() const
 }
 
 void
-Sector::resize_sector(Size& old_size, Size& new_size)
+Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset)
 {
+  bool is_offset = resize_offset.width || resize_offset.height;
+  Vector obj_shift = Vector(resize_offset.width * 32, resize_offset.height * 32);
   for(const auto& object : gameobjects) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
-    if (tilemap && tilemap->get_size() == old_size) {
-      tilemap->resize(new_size);
+    if (tilemap) {
+      if (tilemap->get_size() == old_size) {
+        tilemap->resize(new_size, resize_offset);
+      } else if (is_offset) {
+        tilemap->move_by(obj_shift);
+      }
+    } else if (is_offset) {
+      auto moving_object = dynamic_cast<MovingObject*>(object.get());
+      if (moving_object) {
+        moving_object->move_to(moving_object->get_pos() + obj_shift);
+      }
     }
   }
 }
@@ -811,7 +810,7 @@ void
 Sector::set_gravity(float gravity_)
 {
   log_warning << "Changing a Sector's gravitational constant might have unforeseen side-effects" << std::endl;
-  this->gravity = gravity_;
+  gravity = gravity_;
 }
 
 float
@@ -826,7 +825,6 @@ Sector::get_nearest_player (const Vector& pos) const
   Player *nearest_player = NULL;
   float nearest_dist = std::numeric_limits<float>::max();
 
-  std::vector<Player*> players = get_players();
   for (auto& this_player : players)
   {
     if (this_player->is_dying() || this_player->is_dead())
@@ -847,7 +845,6 @@ std::vector<MovingObject*>
 Sector::get_nearby_objects (const Vector& center, float max_distance) const
 {
   std::vector<MovingObject*> ret;
-  std::vector<Player*> players = Sector::current()->get_players();
 
   for(const auto& player_ : players) {
     float distance = player_->get_bbox().distance(center);

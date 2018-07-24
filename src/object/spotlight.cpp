@@ -18,7 +18,6 @@
 
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
-#include "supertux/object_factory.hpp"
 #include "util/reader_mapping.hpp"
 
 Spotlight::Spotlight(const ReaderMapping& lisp) :
@@ -81,31 +80,24 @@ Spotlight::update(float delta)
 void
 Spotlight::draw(DrawingContext& context)
 {
-  context.push_target();
-  context.set_target(DrawingContext::LIGHTMAP);
-
   light->set_color(color);
   light->set_blend(Blend(GL_SRC_ALPHA, GL_ONE));
   light->set_angle(angle);
-  light->draw(context, bbox.p1, 0);
+  light->draw(context.light(), bbox.p1, 0);
 
   //lightcone->set_angle(angle);
-  //lightcone->draw(context, position, 0);
-
-  context.set_target(DrawingContext::NORMAL);
+  //lightcone->draw(context.color(), position, 0);
 
   lights->set_angle(angle);
-  lights->draw(context, bbox.p1, 0);
+  lights->draw(context.color(), bbox.p1, 0);
 
   base->set_angle(angle);
-  base->draw(context, bbox.p1, 0);
+  base->draw(context.color(), bbox.p1, 0);
 
-  center->draw(context, bbox.p1, 0);
+  center->draw(context.color(), bbox.p1, 0);
 
   lightcone->set_angle(angle);
-  lightcone->draw(context, bbox.p1, LAYER_FOREGROUND1 + 10);
-
-  context.pop_target();
+  lightcone->draw(context.color(), bbox.p1, LAYER_FOREGROUND1 + 10);
 }
 
 HitResponse

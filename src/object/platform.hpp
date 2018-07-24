@@ -19,7 +19,6 @@
 
 #include "object/moving_sprite.hpp"
 #include "object/path_object.hpp"
-#include "object/path_walker.hpp"
 #include "scripting/exposed_object.hpp"
 #include "scripting/platform.hpp"
 

@@ -18,9 +18,8 @@
 #include "supertux/resources.hpp"
 
 #include "gui/mousecursor.hpp"
-#include "sprite/sprite_manager.hpp"
-#include "supertux/player_status.hpp"
 #include "video/font.hpp"
+#include "video/surface.hpp"
 
 std::unique_ptr<MouseCursor> Resources::mouse_cursor;
 

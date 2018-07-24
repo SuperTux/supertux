@@ -14,13 +14,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <iostream>
-
 #include "video/sdl/sdl_lightmap.hpp"
-#include "video/sdl/sdl_surface_data.hpp"
-#include "video/sdl/sdl_texture.hpp"
+
+#include "supertux/globals.hpp"
+#include "util/log.hpp"
+#include "video/drawing_request.hpp"
 #include "video/sdl/sdl_renderer.hpp"
 #include "video/sdl/sdl_painter.hpp"
+#include "video/video_system.hpp"
 
 SDLLightmap::SDLLightmap() :
   m_renderer(static_cast<SDLRenderer&>(VideoSystem::current()->get_renderer()).get_sdl_renderer()),

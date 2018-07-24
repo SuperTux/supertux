@@ -20,13 +20,12 @@
 extern "C" {
 #include <findlocale.h>
 }
-#include "addon/addon_manager.hpp"
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
-#include "supertux/menu/addon_menu.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/menu/menu_storage.hpp"
+#include "util/gettext.hpp"
 
 enum {
   MNID_LANGUAGE_AUTO_DETECT = 0,

@@ -16,16 +16,11 @@
 
 #include "supertux/gameconfig.hpp"
 
-#include <stdexcept>
-
-#include "addon/addon_manager.hpp"
-#include "control/input_manager.hpp"
 #include "util/reader_collection.hpp"
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "util/log.hpp"
-#include "supertux/globals.hpp"
 
 Config::Config() :
   profile(1),

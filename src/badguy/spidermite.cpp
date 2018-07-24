@@ -18,7 +18,6 @@
 
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
-#include "supertux/object_factory.hpp"
 
 static const float FLYTIME = 1.2f;
 static const float MOVE_SPEED = -100.0f;

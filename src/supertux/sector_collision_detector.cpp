@@ -16,7 +16,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "supertux/sector_collision_detector.hpp"
-
+#include "supertux/tile.hpp"
 #include "editor/editor.hpp"
 
 SectorCollisionDetector::SectorCollisionDetector(

@@ -18,17 +18,11 @@
 
 #include "object/path.hpp"
 
-#include <sstream>
-#include <stdexcept>
-
 #include "editor/node_marker.hpp"
-#include "editor/object_option.hpp"
-#include "supertux/game_object.hpp"
-#include "supertux/game_object_ptr.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
-#include "util/log.hpp"
 #include "util/writer.hpp"
+#include "util/log.hpp"
 
 Path::Path() :
   nodes(),
