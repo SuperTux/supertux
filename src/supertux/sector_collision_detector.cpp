@@ -23,9 +23,9 @@ SectorCollisionDetector::SectorCollisionDetector(
                                   std::vector<MovingObject*>& moving_objects,
                                   std::list<TileMap*>& solid_tilemaps,
                                   std::vector<Player*>& players) :
-                                      m_moving_objects(moving_objects),
-                                      m_solid_tilemaps(solid_tilemaps),
-                                      m_players(players)
+                                  m_moving_objects(moving_objects),
+                                  m_solid_tilemaps(solid_tilemaps),
+                                  m_players(players)
 {
 }
 
@@ -33,16 +33,15 @@ SectorCollisionDetector::SectorCollisionDetector(
 /** r1 is supposed to be moving, r2 a solid object */
 void check_collisions(collision::Constraints* constraints,
                       const Vector& obj_movement, const Rectf& obj_rect, const Rectf& other_rect,
-                      GameObject* object = NULL, MovingObject* other = NULL, const Vector& other_movement = Vector(0,0))
-{
-  if(!collision::intersects(obj_rect, other_rect))
+                      GameObject* object = NULL, MovingObject* other = NULL, const Vector& other_movement = Vector(0,0)) {
+  if (!collision::intersects(obj_rect, other_rect))
     return;
 
   auto moving_object = dynamic_cast<MovingObject*> (object);
   CollisionHit dummy;
-  if(other != NULL && object != NULL && !other->collides(*object, dummy))
+  if (other != NULL && object != NULL && !other->collides(*object, dummy))
     return;
-  if(moving_object != NULL && other != NULL && !moving_object->collides(*other, dummy))
+  if (moving_object != NULL && other != NULL && !moving_object->collides(*other, dummy))
     return;
 
   // calculate intersection
@@ -51,32 +50,32 @@ void check_collisions(collision::Constraints* constraints,
   float ileft   = obj_rect.get_right() - other_rect.get_left();
   float iright  = other_rect.get_right() - obj_rect.get_left();
 
-  if(fabsf(obj_movement.y) > fabsf(obj_movement.x)) {
-    if(ileft < SHIFT_DELTA) {
+  if (fabsf(obj_movement.y) > fabsf(obj_movement.x)) {
+    if (ileft < SHIFT_DELTA) {
       constraints->constrain_right(other_rect.get_left(), other_movement.x);
       return;
-    } else if(iright < SHIFT_DELTA) {
+    } else if (iright < SHIFT_DELTA) {
       constraints->constrain_left(other_rect.get_right(), other_movement.x);
       return;
     }
   } else {
     // shiftout bottom/top
-    if(itop < SHIFT_DELTA) {
+    if (itop < SHIFT_DELTA) {
       constraints->constrain_bottom(other_rect.get_top(), other_movement.y);
       return;
-    } else if(ibottom < SHIFT_DELTA) {
+    } else if (ibottom < SHIFT_DELTA) {
       constraints->constrain_top(other_rect.get_bottom(), other_movement.y);
       return;
     }
   }
 
   constraints->ground_movement += other_movement;
-  if(other != NULL && object != NULL) {
+  if (other != NULL && object != NULL) {
     HitResponse response = other->collision(*object, dummy);
-    if(response == ABORT_MOVE)
+    if (response == ABORT_MOVE)
       return;
 
-    if(other->get_movement() != Vector(0, 0)) {
+    if (other->get_movement() != Vector(0, 0)) {
       // TODO what todo when we collide with 2 moving objects?!?
       constraints->ground_movement += other->get_movement();
     }
@@ -84,8 +83,8 @@ void check_collisions(collision::Constraints* constraints,
 
   float vert_penetration = std::min(itop, ibottom);
   float horiz_penetration = std::min(ileft, iright);
-  if(vert_penetration < horiz_penetration) {
-    if(itop < ibottom) {
+  if (vert_penetration < horiz_penetration) {
+    if (itop < ibottom) {
       constraints->constrain_bottom(other_rect.get_top(), other_movement.y);
       constraints->hit.bottom = true;
     } else {
@@ -93,7 +92,7 @@ void check_collisions(collision::Constraints* constraints,
       constraints->hit.top = true;
     }
   } else {
-    if(ileft < iright) {
+    if (ileft < iright) {
       constraints->constrain_right(other_rect.get_left(), other_movement.x);
       constraints->hit.right = true;
     } else {
@@ -104,10 +103,9 @@ void check_collisions(collision::Constraints* constraints,
 }
 
 /** fills in CollisionHit and Normal vector of 2 intersecting rectangle */
-static void get_hit_normal(const Rectf& r1, 
+static void get_hit_normal(const Rectf& r1,
                            const Rectf& r2, CollisionHit& hit,
-                           Vector& normal)
-{
+                           Vector& normal) {
   float itop = r1.get_bottom() - r2.get_top();
   float ibottom = r2.get_bottom() - r1.get_top();
   float ileft = r1.get_right() - r2.get_left();
@@ -115,8 +113,8 @@ static void get_hit_normal(const Rectf& r1,
 
   float vert_penetration = std::min(itop, ibottom);
   float horiz_penetration = std::min(ileft, iright);
-  if(vert_penetration < horiz_penetration) {
-    if(itop < ibottom) {
+  if (vert_penetration < horiz_penetration) {
+    if (itop < ibottom) {
       hit.bottom = true;
       normal.y = vert_penetration;
     } else {
@@ -124,7 +122,7 @@ static void get_hit_normal(const Rectf& r1,
       normal.y = -vert_penetration;
     }
   } else {
-    if(ileft < iright) {
+    if (ileft < iright) {
       hit.right = true;
       normal.x = horiz_penetration;
     } else {
@@ -149,17 +147,17 @@ SectorCollisionDetector::collision_tilemap(collision::Constraints* constraints,
   float y1 = dest.get_top();
   float y2 = dest.get_bottom();
 
-  for(const auto& solids : m_solid_tilemaps) {
+  for (const auto& solids : m_solid_tilemaps) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(Rectf(x1, y1, x2, y2));
 
-    for(int x = test_tiles.left; x < test_tiles.right; ++x) {
-      for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
+    for (int x = test_tiles.left; x < test_tiles.right; ++x) {
+      for (int y = test_tiles.top; y < test_tiles.bottom; ++y) {
         const auto& tile = solids->get_tile(x, y);
-        if(!tile)
+        if (!tile)
           continue;
         // skip non-solid tiles
-        if(!tile->is_solid ())
+        if (!tile->is_solid ())
           continue;
         Rectf tile_bbox = solids->get_tile_bbox(x, y);
 
@@ -167,7 +165,7 @@ SectorCollisionDetector::collision_tilemap(collision::Constraints* constraints,
          * didn't do a thorough check. Calculate the position and (relative)
          * movement of the object and determine whether or not the tile is
          * solid with regard to those parameters. */
-        if(tile->is_unisolid ()) {
+        if (tile->is_unisolid()) {
           Vector relative_movement = movement
             - solids->get_movement(/* actual = */ true);
 
@@ -175,7 +173,7 @@ SectorCollisionDetector::collision_tilemap(collision::Constraints* constraints,
             continue;
         } /* if (tile->is_unisolid ()) */
 
-        if(tile->is_slope ()) { // slope tile
+        if (tile->is_slope ()) { // slope tile
           AATriangle triangle;
           int slope_data = tile->getData();
           if (solids->get_drawing_effect() & VERTICAL_FLIP)
@@ -184,7 +182,7 @@ SectorCollisionDetector::collision_tilemap(collision::Constraints* constraints,
 
           collision::rectangle_aatriangle(constraints, dest, triangle,
               solids->get_movement(/* actual = */ false));
-        } else { // normal rectangular tile
+        } else {  // normal rectangular tile
           check_collisions(constraints, movement, dest, tile_bbox, NULL, NULL,
               solids->get_movement(/* actual = */ false));
         }
@@ -194,12 +192,12 @@ SectorCollisionDetector::collision_tilemap(collision::Constraints* constraints,
 }
 
 bool
-SectorCollisionDetector::is_free_of_tiles(const Rectf& rect, 
+SectorCollisionDetector::is_free_of_tiles(const Rectf& rect,
                         const bool ignoreUnisolid) const
 {
   using namespace collision;
 
-  for(const auto& solids : m_solid_tilemaps) {
+  for (const auto& solids : m_solid_tilemaps) {
     // test with all tiles in this rectangle
     Rect test_tiles = solids->get_tiles_overlapping(rect);
 
@@ -229,7 +227,7 @@ SectorCollisionDetector::is_free_of_tiles(const Rectf& rect,
 }
 
 bool
-SectorCollisionDetector::is_free_of_statics(const Rectf& rect, 
+SectorCollisionDetector::is_free_of_statics(const Rectf& rect,
 const MovingObject* ignore_object, const bool ignoreUnisolid) const
 {
   using namespace collision;
@@ -248,7 +246,7 @@ const MovingObject* ignore_object, const bool ignoreUnisolid) const
 }
 
 bool
-SectorCollisionDetector::is_free_of_movingstatics(const Rectf& rect, 
+SectorCollisionDetector::is_free_of_movingstatics(const Rectf& rect,
 const MovingObject* ignore_object) const
 {
   using namespace collision;
@@ -269,7 +267,7 @@ const MovingObject* ignore_object) const
 }
 
 bool
-SectorCollisionDetector::free_line_of_sight(const Vector& line_start, 
+SectorCollisionDetector::free_line_of_sight(const Vector& line_start,
               const Vector& line_end, const MovingObject* ignore_object) const
 {
   using namespace collision;
@@ -319,7 +317,7 @@ SectorCollisionDetector::can_see_player(const Vector& eye) const
 }
 
 uint32_t
-SectorCollisionDetector::collision_tile_attributes(const Rectf& dest, 
+SectorCollisionDetector::collision_tile_attributes(const Rectf& dest,
                                                   const Vector& mov) const
 {
   float x1 = dest.p1.x;
@@ -435,7 +433,7 @@ void SectorCollisionDetector::handle_collisions()
   }
 
   // part3: COLGROUP_MOVING vs COLGROUP_MOVING
-  for(auto i = m_moving_objects.begin(); 
+  for(auto i = m_moving_objects.begin();
       i != m_moving_objects.end(); ++i) {
     auto moving_object = *i;
 
@@ -463,7 +461,7 @@ void SectorCollisionDetector::handle_collisions()
 }
 
 void
-SectorCollisionDetector::collision_object(MovingObject* object1, 
+SectorCollisionDetector::collision_object(MovingObject* object1,
                                           MovingObject* object2) const
 {
   using namespace collision;
