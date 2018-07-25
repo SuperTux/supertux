@@ -33,7 +33,7 @@ class VideoSystem;
 class DrawingContext;
 
 enum Target {
-  NORMAL, LIGHTMAP
+  NORMAL, LIGHTMAP, OVERLAY
 };
 
 // some constants for predefined layer values

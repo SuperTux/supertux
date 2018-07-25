@@ -75,6 +75,7 @@ public:
 
   Canvas& color() { return m_colormap_canvas; }
   Canvas& light() { return m_lightmap_canvas; }
+  Canvas& overlay() { return m_overlay_canvas; }
   Canvas& get_canvas(Target target) {
     switch(target)
     {
@@ -114,6 +115,7 @@ public:
 
   void clear()
   {
+    m_overlay_canvas.clear();
     m_lightmap_canvas.clear();
     m_colormap_canvas.clear();
   }

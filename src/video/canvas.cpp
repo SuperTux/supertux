@@ -70,6 +70,8 @@ Canvas::render(VideoSystem& video_system)
 
     switch(m_target) {
       case NORMAL:
+        // [[fallthrough]];
+      case OVERLAY:
         switch(request.type) {
           case SURFACE:
             renderer.draw_surface(request);
