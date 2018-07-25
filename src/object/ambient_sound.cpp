@@ -38,7 +38,6 @@ AmbientSound::AmbientSound(const ReaderMapping& lisp) :
   maximumvolume(),
   targetvolume(),
   currentvolume(0),
-  volume_ptr(),
   new_size()
 {
   group = COLGROUP_DISABLED;
@@ -87,7 +86,6 @@ AmbientSound::AmbientSound(const Vector& pos, float factor, float bias, float vo
   maximumvolume(vol),
   targetvolume(),
   currentvolume(),
-  volume_ptr(),
   new_size()
 {
   group = COLGROUP_DISABLED;
@@ -188,7 +186,6 @@ AmbientSound::start_playing()
   
   So far the changes to not use what seemed to be the wrong
     distance^2 calculation is helping.
-  Also need to use player position instead of camera.
 */
 
 
@@ -218,7 +215,8 @@ AmbientSound::update(float deltat)
 
     // calculate distance
     float distance = sqrt((px - rx) * (py - ry) - distance_bias);
-    printf("distance: %f\n\n", distance);
+    printf("distance: %f\n", distance);
+    printf("silence distance: %f\n\n", silence_distance);
 
     // inside the bias: full volume (distance 0)
     if (distance<0)
