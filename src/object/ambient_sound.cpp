@@ -148,23 +148,49 @@ AmbientSound::stop_playing()
 void
 AmbientSound::start_playing()
 {
-  if (Editor::is_active()) return;
+  if (Editor::is_active())
+  {
+    printf("editor is active\n");
+    return;
+  }
 
-  try {
+  try 
+  {
     sound_source = SoundManager::current()->create_sound_source(sample);
     if(!sound_source)
       throw std::runtime_error("file not found");
 
     sound_source->set_gain(0);
     sound_source->set_looping(true);
-    currentvolume=targetvolume=1e-20f;
+    currentvolume=targetvolume=1.0f;
     sound_source->play();
-  } catch(std::exception& e) {
+  }
+  catch(std::exception& e)
+  {
     log_warning << "Couldn't play '" << sample << "': " << e.what() << "" << std::endl;
     sound_source.reset();
     remove_me();
   }
+  
+  printf("current volume: %f\n", currentvolume);
 }
+
+
+
+/* notes:
+  Only one ambient sound per frame will be played.
+  How can this be fixed? 
+  - Maybe have a pool of the ambientsounds to play
+    (allocated with max = #sounds per level), aind then
+    play all per frame within the size?
+  - Don't use more than 1 global ambient sound? 
+    - But his will still cancel out the fixed size ones.
+  
+  So far the changes to not use what seemed to be the wrong
+    distance^2 calculation is helping.
+  Also need to use player position instead of camera.
+*/
+
 
 void
 AmbientSound::update(float deltat)
@@ -175,8 +201,8 @@ AmbientSound::update(float deltat)
 
     if (!Sector::current() || !Sector::current()->camera) return;
     // Camera position
-    px=Sector::current()->camera->get_center().x;
-    py=Sector::current()->camera->get_center().y;
+    px=Sector::current()->player->get_pos().x;
+    py=Sector::current()->player->get_pos().y;
 
     // Relate to which point in the area
     rx=px<bbox.p1.x?bbox.p1.x:
@@ -184,39 +210,58 @@ AmbientSound::update(float deltat)
     ry=py<bbox.p1.y?bbox.p1.y:
       (py<bbox.p2.y?py:bbox.p2.y);
 
-    // calculate square of distance
-    float sqrdistance=(px-rx)*(px-rx)+(py-ry)*(py-ry);
-    sqrdistance-=distance_bias;
+
+    // Temporary debugging statements
+    printf("(bbox.p1.x, bbox.p1.y): (%f, %f)\n", bbox.p1.x, bbox.p1.y);
+    printf("(px, py): (%f, %f)\n", px, py);
+    printf("(rx, ry): (%f, %f)\n", rx, ry);
+
+    // calculate distance
+    float distance = sqrt((px - rx) * (py - ry) - distance_bias);
+    printf("distance: %f\n\n", distance);
 
     // inside the bias: full volume (distance 0)
-    if (sqrdistance<0)
-      sqrdistance=0;
+    if (distance<0)
+      distance=0;
 
     // calculate target volume - will never become 0
-    targetvolume=1/(1+sqrdistance*distance_factor);
+    targetvolume=1/(1+distance*distance_factor);
     float rise=targetvolume/currentvolume;
 
     // rise/fall half life?
     currentvolume*=pow(rise,deltat*10);
     currentvolume += 1e-6f; // volume is at least 1e-6 (0 would never rise)
 
-    if (sound_source != 0) {
-
+    if(sound_source != 0) 
+    {
       // set the volume
       sound_source->set_gain(currentvolume*maximumvolume);
 
-      if (sqrdistance>=silence_distance && currentvolume<1e-3)
+      if(distance >= silence_distance)//&& currentvolume < 1e-3)
+      {
+        printf("stopplaying called");
         stop_playing();
+      }
       latency=0;
-    } else {
-      if (sqrdistance<silence_distance) {
+    } 
+
+    else
+    {
+      if(distance < silence_distance)
+      { 
+        printf("startplaying\n");
         start_playing();
         latency=0;
       }
+
       else // set a reasonable latency
+      {
         latency=(int)(0.001/distance_factor);
-      //(int)(10*((sqrdistance-silence_distance)/silence_distance));
+      }
+      //(int)(10*((distance-silence_distance)/silence_distance));
     }
+
+    /*to_string_debug(distance);*/
   }
 
   // heuristically measured "good" latency maximum
@@ -259,11 +304,23 @@ AmbientSound::collision(GameObject& other, const CollisionHit& hit_)
 
 void
 AmbientSound::draw(DrawingContext& context)
-{
+{ /*
   if (Editor::is_active()) {
-    context.color().draw_filled_rect(bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
+    context.draw_filled_rect(bbox, Color(0.0f, 0.0f, 1.0f, 0.6f),
                              0.0f, LAYER_OBJECTS);
-  }
+  } */
 }
+
+void
+AmbientSound::to_string_debug(float sqrdist)
+{
+  printf("distance factor: %f\n", distance_factor);
+  printf("distance_bias: %f\n", distance_bias);
+  printf("silence_distance squared: %f\n", silence_distance * silence_distance);
+  printf("square distance: %f\n", sqrdist);
+  printf("current volume: %f\n", currentvolume);
+  printf("\n");
+}
+
 
 /* EOF */

@@ -57,15 +57,17 @@
          (speed 0.500000)
        )
        (spawnpoint (name "main") (x 96) (y 160))
-       (ambient_sound (x 128) (y 900) (distance_factor 0.01) 
-	(distance_bias 200.0) (sample "sounds/rain.wav"))
-       (ambient_sound (x 512) (y 900) (distance_factor 0.05) 
-	(distance_bias 100.0) (sample "sounds/waterfall.wav") (volume 0.2))
-       (ambient_sound (x 700) (y 900) (width 300) 
+
+     (ambient_sound (x 790) (y 900) (width 100) 
 (height 200) (distance_factor 0.1) 
-	(distance_bias 50.0) (sample "sounds/lava.wav"))
-       (ambient_sound (x 704) (y 97) (distance_factor 0.01) 
-	(distance_bias 200.0) (sample "music/leveldone.ogg"))
+	(distance_bias 50.0) (sample "sounds/lightning.wav"))
+
+       (ambient_sound (x 512) (y 900) (distance_factor 0.05) (width 300) (height 200)
+	(distance_bias 100.0) (sample "sounds/waterfall.wav") (volume 0.2))
+
+       
+
+       
       (infoblock (x 704) (y 96)
         (message (_ "-Info
 #An ambient sound 

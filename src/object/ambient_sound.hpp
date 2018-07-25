@@ -43,9 +43,10 @@
 #include "supertux/moving_object.hpp"
 #include "scripting/ambient_sound.hpp"
 #include "scripting/exposed_object.hpp"
+#include "object/player.hpp"
 
 class GameObject;
-class Player;
+//class Player;
 class ReaderMapping;
 class SoundSource;
 
@@ -92,6 +93,7 @@ public:
   }
   virtual ObjectSettings get_settings();
   virtual void after_editor_set();
+  virtual void to_string_debug(float sqrdist);
 
 protected:
   virtual void hit(Player& player);
