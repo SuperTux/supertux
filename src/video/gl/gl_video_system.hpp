@@ -66,7 +66,6 @@ private:
 
   SDL_Window* m_window;
   SDL_GLContext m_glcontext;
-  SDL_Rect m_viewport;
   Size m_desktop_size;
   bool m_fullscreen_active;
 

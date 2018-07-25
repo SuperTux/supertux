@@ -35,7 +35,6 @@ GLVideoSystem::GLVideoSystem() :
   m_lightmap(),
   m_window(),
   m_glcontext(),
-  m_viewport(),
   m_desktop_size(),
   m_fullscreen_active()
 {
