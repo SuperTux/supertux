@@ -33,7 +33,18 @@ class VideoSystem;
 class DrawingContext;
 
 enum Target {
-  NORMAL, LIGHTMAP, OVERLAY
+  /** The color layer, all regular tilemaps and character sprites go
+      here. */
+  NORMAL,
+
+  /** The lightmap is drawn on top of the color layer and darkens it,
+      elements drawn here act as lightsources. */
+  LIGHTMAP,
+
+  /** The overlay layer is drawn after the lightmap and used for GUI
+      elements and sprite highlights that should not be darkened by
+      the lightmap. */
+  OVERLAY
 };
 
 // some constants for predefined layer values
@@ -117,8 +128,6 @@ public:
 
   void draw_line(const Vector& pos1, const Vector& pos2, const Color& color, int layer);
   void draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer);
-
-  void draw_lightmap();
 
   void clear();
   void render(VideoSystem& video_system);

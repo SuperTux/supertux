@@ -69,8 +69,6 @@ Compositor::render()
       ctx->light().render(m_video_system);
 
       //lightmap.clear_clip_rect();
-
-      // ctx->color().draw_lightmap();
     }
     lightmap.end_draw();
   }

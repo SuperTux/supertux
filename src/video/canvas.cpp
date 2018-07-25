@@ -95,9 +95,6 @@ Canvas::render(VideoSystem& video_system)
           case INVERSEELLIPSE:
             renderer.draw_inverse_ellipse(request);
             break;
-          case DRAW_LIGHTMAP:
-            lightmap.render();
-            break;
           case GETLIGHT:
             lightmap.get_light(request);
             break;
@@ -133,9 +130,6 @@ Canvas::render(VideoSystem& video_system)
             break;
           case INVERSEELLIPSE:
             assert(!"InverseEllipse doesn't make sense on the lightmap");
-            break;
-          case DRAW_LIGHTMAP:
-            assert(false && "can't draw lightmap inside a lightmap");
             break;
           case GETLIGHT:
             lightmap.get_light(request);
@@ -386,15 +380,6 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
   triangle->pos3         = apply_translate(pos3);
   request->request_data = triangle;
 
-  m_requests.push_back(request);
-}
-
-void
-Canvas::draw_lightmap()
-{
-  auto request = new(m_obst) DrawingRequest();
-  request->type = DRAW_LIGHTMAP;
-  request->layer = LAYER_HUD - 1;
   m_requests.push_back(request);
 }
 
