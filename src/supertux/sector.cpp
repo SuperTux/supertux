@@ -793,6 +793,8 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         mobjp.handle_collision(tile_poly, m);
         if (!m.collided)
           continue;
+        if(slope_adjust_x)
+          dest.move(solids->get_movement(false));
         // log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
         overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
         if (tile->is_slope()) {
@@ -877,7 +879,10 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         std::swap(h.right, h.left);
         if ((h.bottom || h.top || h.left || h.right)) {
             if(slope_adjust_x)
+            {
                 dest.move(overlapV);
+                // Move with platform
+            }
             else
             {
               hits.insert(h);
@@ -1081,6 +1086,7 @@ Sector::collision_static(collision::Constraints* constraints,
                   (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
     dest.move(overlapV);
   }
+  return;
   double extend_left = 0.0f,
          extend_right = 0.0f,
          extend_top = 0.0f,
@@ -1213,7 +1219,6 @@ Sector::handle_collisions()
       continue;
     std::set< MovingObject* > possibleCollisions;
     broadphase->search(moving_object->dest, []{} , possibleCollisions);
-    log_debug << "Found " << possibleCollisions.size() << " elem,ents." << std::endl;
     for (auto& moving_object_2 : possibleCollisions) {
       if (moving_object_2 == moving_object)
         continue;
