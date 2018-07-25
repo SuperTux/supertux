@@ -30,6 +30,7 @@ class GLLightmap : public Lightmap
 {
 public:
   GLLightmap();
+  ~GLLightmap();
 
   void start_draw(const Color &ambient_color) override;
   void end_draw() override;
@@ -48,6 +49,7 @@ public:
 private:
   static const int s_LIGHTMAP_DIV = 5;
 
+private:
   std::shared_ptr<GLTexture> m_lightmap;
   int m_lightmap_width;
   int m_lightmap_height;

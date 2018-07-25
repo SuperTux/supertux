@@ -19,6 +19,7 @@
 
 #include <string>
 
+#include "math/size.hpp"
 #include "util/currenton.hpp"
 #include "video/texture_ptr.hpp"
 
@@ -55,7 +56,8 @@ public:
   virtual void free_surface_data(SurfaceData* surface_data) = 0;
 
   virtual void apply_config() = 0;
-  virtual void resize(int w, int h) = 0;
+  virtual void flip() = 0;
+  virtual void on_resize(int w, int h) = 0;
 
   virtual void set_gamma(float gamma) = 0;
   virtual void set_title(const std::string& title) = 0;
@@ -64,6 +66,10 @@ public:
 
   virtual void set_clip_rect(const Rect& rect) = 0;
   virtual void clear_clip_rect() = 0;
+
+protected:
+  static const Size s_max_size;
+  static const Size s_min_size;
 
 private:
   VideoSystem(const VideoSystem&) = delete;

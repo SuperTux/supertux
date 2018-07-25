@@ -18,7 +18,9 @@
 #define HEADER_SUPERTUX_VIDEO_GL_GL_VIDEO_SYSTEM_HPP
 
 #include <memory>
+#include <SDL.h>
 
+#include "math/size.hpp"
 #include "video/video_system.hpp"
 
 class GLRenderer;
@@ -29,30 +31,44 @@ struct SDL_Surface;
 
 class GLVideoSystem final : public VideoSystem
 {
+public:
+  GLVideoSystem();
+  ~GLVideoSystem();
+
+  virtual Renderer& get_renderer() const override;
+  virtual Lightmap& get_lightmap() const override;
+
+  virtual TexturePtr new_texture(SDL_Surface* image) override;
+  virtual SurfaceData* new_surface_data(const Surface& surface) override;
+  virtual void free_surface_data(SurfaceData* surface_data) override;
+
+  virtual void apply_config() override;
+  virtual void flip() override;
+  virtual void on_resize(int w, int h) override;
+
+  virtual void set_gamma(float gamma) override;
+  virtual void set_title(const std::string& title) override;
+  virtual void set_icon(SDL_Surface* icon) override;
+
+  virtual void set_clip_rect(const Rect& rect) override;
+  virtual void clear_clip_rect() override;
+
+  virtual void do_take_screenshot() override;
+
+private:
+  void create_window();
+  void apply_video_mode();
+
 private:
   std::unique_ptr<TextureManager> m_texture_manager;
   std::unique_ptr<GLRenderer> m_renderer;
   std::unique_ptr<GLLightmap> m_lightmap;
 
-public:
-  GLVideoSystem();
-
-  Renderer& get_renderer() const override;
-  Lightmap& get_lightmap() const override;
-  TexturePtr new_texture(SDL_Surface* image) override;
-  SurfaceData* new_surface_data(const Surface& surface) override;
-  void free_surface_data(SurfaceData* surface_data) override;
-
-  void apply_config() override;
-  void resize(int w, int h) override;
-
-  void set_gamma(float gamma) override;
-  void set_title(const std::string& title) override;
-  void set_icon(SDL_Surface* icon) override;
-  void do_take_screenshot() override;
-
-  void set_clip_rect(const Rect& rect) override;
-  void clear_clip_rect() override;
+  SDL_Window* m_window;
+  SDL_GLContext m_glcontext;
+  SDL_Rect m_viewport;
+  Size m_desktop_size;
+  bool m_fullscreen_active;
 
 private:
   GLVideoSystem(const GLVideoSystem&) = delete;

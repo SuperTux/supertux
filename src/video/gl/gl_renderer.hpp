@@ -17,22 +17,16 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 
-#include "math/size.hpp"
-#include "video/renderer.hpp"
-
 #include <SDL.h>
-#include <math.h>
+
+#include "math/vector.hpp"
+#include "video/renderer.hpp"
 
 struct DrawingRequest;
 
 class GLRenderer : public Renderer
 {
 private:
-  SDL_Window* m_window;
-  SDL_GLContext m_glcontext;
-  SDL_Rect m_viewport;
-  Size m_desktop_size;
-  bool m_fullscreen_active;
 
 public:
   GLRenderer();
@@ -48,17 +42,19 @@ public:
   void draw_inverse_ellipse(const DrawingRequest& request) override;
   void draw_line(const DrawingRequest& request) override;
   void draw_triangle(const DrawingRequest& request) override;
+  void clear();
 
-  void flip() override;
-  void resize(int w, int h) override;
-  void apply_config() override;
   Vector to_logical(int physical_x, int physical_y) const override;
 
-  SDL_Window* get_window() const { return m_window; }
+  void set_viewport(const SDL_Rect& viewport, const Vector& scale);
   SDL_Rect get_viewport() const { return m_viewport; }
 
 private:
   void apply_video_mode();
+
+private:
+  SDL_Rect m_viewport;
+  Vector m_scale;
 
 private:
   GLRenderer(const GLRenderer&) = delete;

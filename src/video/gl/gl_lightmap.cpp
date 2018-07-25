@@ -49,19 +49,25 @@ GLLightmap::GLLightmap() :
   TextureManager::current()->register_texture(m_lightmap.get());
 }
 
+
+GLLightmap::~GLLightmap()
+{
+}
+
 void
 GLLightmap::start_draw(const Color &ambient_color)
 {
-
   glGetIntegerv(GL_VIEWPORT, m_old_viewport); //save viewport
   glViewport(m_old_viewport[0], m_old_viewport[3] - m_lightmap_height + m_old_viewport[1], m_lightmap_width, m_lightmap_height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
+
 #ifdef GL_VERSION_ES_CM_1_0
   glOrthof(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
 #else
   glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
 #endif
+
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
@@ -87,9 +93,6 @@ GLLightmap::end_draw()
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   glEnable(GL_BLEND);
-
-  glClearColor(0, 0, 0, 1 );
-  glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void

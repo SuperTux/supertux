@@ -18,7 +18,9 @@
 #define HEADER_SUPERTUX_VIDEO_SDL_SDL_VIDEO_SYSTEM_HPP
 
 #include <memory>
+#include <SDL.h>
 
+#include "math/size.hpp"
 #include "video/video_system.hpp"
 
 class SDLLightmap;
@@ -27,30 +29,41 @@ class TextureManager;
 
 class SDLVideoSystem final : public VideoSystem
 {
+public:
+  SDLVideoSystem();
+  ~SDLVideoSystem();
+
+  virtual Renderer& get_renderer() const override;
+  virtual Lightmap& get_lightmap() const override;
+
+  virtual TexturePtr new_texture(SDL_Surface *image) override;
+  virtual SurfaceData* new_surface_data(const Surface& surface) override;
+  virtual void free_surface_data(SurfaceData* surface_data) override;
+
+  virtual void apply_config() override;
+  virtual void flip() override;
+  virtual void on_resize(int w, int h) override;
+
+  virtual void set_gamma(float gamma) override;
+  virtual void set_title(const std::string& title) override;
+  virtual void set_icon(SDL_Surface* icon) override;
+
+  virtual void set_clip_rect(const Rect& rect) override;
+  virtual void clear_clip_rect() override;
+
+  virtual void do_take_screenshot() override;
+
 private:
+  void apply_video_mode();
+  void apply_viewport();
+
+private:
+  SDL_Window* m_sdl_window;
+  SDL_Renderer* m_sdl_renderer;
+  Size m_desktop_size;
   std::unique_ptr<SDLRenderer> m_renderer;
   std::unique_ptr<SDLLightmap> m_lightmap;
   std::unique_ptr<TextureManager> m_texture_manager;
-
-public:
-  SDLVideoSystem();
-
-  Renderer& get_renderer() const override;
-  Lightmap& get_lightmap() const override;
-  TexturePtr new_texture(SDL_Surface *image) override;
-  SurfaceData* new_surface_data(const Surface& surface) override;
-  void free_surface_data(SurfaceData* surface_data) override;
-
-  void apply_config() override;
-  void resize(int w, int h) override;
-
-  void set_gamma(float gamma) override;
-  void set_title(const std::string& title) override;
-  void set_icon(SDL_Surface* icon) override;
-  void do_take_screenshot() override;
-
-  void set_clip_rect(const Rect& rect) override;
-  void clear_clip_rect() override;
 
 private:
   SDLVideoSystem(const SDLVideoSystem&) = delete;

@@ -18,6 +18,7 @@
 #include "video/compositor.hpp"
 
 #include "math/rect.hpp"
+#include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
@@ -37,14 +38,14 @@ Compositor::make_context()
 void
 Compositor::render()
 {
-  Renderer& renderer = m_video_system.get_renderer();
+  //Renderer& renderer = m_video_system.get_renderer();
 
   for(auto& ctx : m_drawing_contexts)
   {
     ctx->render();
   }
 
-  renderer.flip();
+  m_video_system.flip();
 }
 
 /* EOF */

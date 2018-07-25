@@ -241,8 +241,7 @@ ScreenManager::process_events()
         switch(event.window.event)
         {
           case SDL_WINDOWEVENT_RESIZED:
-            m_video_system.resize(event.window.data1,
-                                           event.window.data2);
+            m_video_system.on_resize(event.window.data1, event.window.data2);
             m_menu_manager->on_window_resize();
             if (Editor::is_active()) {
               Editor::current()->resize();

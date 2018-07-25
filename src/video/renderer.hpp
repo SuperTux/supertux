@@ -39,9 +39,6 @@ public:
   virtual void draw_line(const DrawingRequest& request)= 0;
   virtual void draw_triangle(const DrawingRequest& request)= 0;
 
-  virtual void flip() = 0;
-  virtual void resize(int w, int h) = 0;
-  virtual void apply_config() = 0;
   virtual Vector to_logical(int physical_x, int physical_y) const = 0;
 };
 

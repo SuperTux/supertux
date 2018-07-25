@@ -23,64 +23,11 @@
 #include "video/sdl/sdl_painter.hpp"
 #include "video/util.hpp"
 
-SDLRenderer::SDLRenderer() :
-  m_window(),
-  m_renderer(),
+SDLRenderer::SDLRenderer(SDL_Renderer* renderer) :
+  m_renderer(renderer),
   m_viewport(),
-  m_desktop_size(0, 0),
   m_scale(1.0f, 1.0f)
 {
-  SDL_DisplayMode mode;
-  if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
-  {
-    log_warning << "Couldn't get desktop display mode: " << SDL_GetError() << std::endl;
-  }
-  else
-  {
-    m_desktop_size = Size(mode.w, mode.h);
-  }
-
-  log_info << "creating SDLRenderer" << std::endl;
-  int width  = g_config->window_size.width;
-  int height = g_config->window_size.height;
-
-  int flags = SDL_WINDOW_RESIZABLE;
-  if(g_config->use_fullscreen)
-  {
-    if (g_config->fullscreen_size == Size(0, 0))
-    {
-      flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-      width = g_config->window_size.width;
-      height = g_config->window_size.height;
-    }
-    else
-    {
-      flags |= SDL_WINDOW_FULLSCREEN;
-      width  = g_config->fullscreen_size.width;
-      height = g_config->fullscreen_size.height;
-    }
-  }
-
-  SCREEN_WIDTH = width;
-  SCREEN_HEIGHT = height;
-
-  m_viewport.x = 0;
-  m_viewport.y = 0;
-  m_viewport.w = width;
-  m_viewport.h = height;
-
-  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
-
-  int ret = SDL_CreateWindowAndRenderer(width, height, flags,
-                                        &m_window, &m_renderer);
-
-  if(ret != 0) {
-    std::stringstream msg;
-    msg << "Couldn't set video mode (" << width << "x" << height
-        << "): " << SDL_GetError();
-    throw std::runtime_error(msg.str());
-  }
-
   SDL_RendererInfo info;
   if (SDL_GetRendererInfo(m_renderer, &info) != 0)
   {
@@ -102,15 +49,10 @@ SDLRenderer::SDLRenderer() :
     log_info << "Max Texture Width: " << info.max_texture_width << std::endl;
     log_info << "Max Texture Height: " << info.max_texture_height << std::endl;
   }
-
-  g_config->window_size = Size(width, height);
-  apply_config();
 }
 
 SDLRenderer::~SDLRenderer()
 {
-  SDL_DestroyRenderer(m_renderer);
-  SDL_DestroyWindow(m_window);
 }
 
 void
@@ -167,137 +109,37 @@ SDLRenderer::draw_triangle(const DrawingRequest& request)
 }
 
 void
+SDLRenderer::clear()
+{
+  SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+  SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_NONE);
+  SDL_RenderClear(m_renderer);
+}
+
+void
 SDLRenderer::flip()
 {
   SDL_RenderPresent(m_renderer);
 }
 
-void
-SDLRenderer::resize(int w , int h)
+Vector
+SDLRenderer::to_logical(int physical_x, int physical_y) const
 {
-  g_config->window_size = Size(w, h);
-
-  apply_config();
+  return Vector(static_cast<float>(physical_x - m_viewport.x) / m_scale.x,
+                static_cast<float>(physical_y - m_viewport.y) / m_scale.y);
 }
 
 void
-SDLRenderer::apply_video_mode()
+SDLRenderer::set_viewport(const SDL_Rect& viewport, const Vector& scale)
 {
-  if (!g_config->use_fullscreen)
-  {
-    SDL_SetWindowFullscreen(m_window, 0);
-  }
-  else
-  {
-    if (g_config->fullscreen_size.width == 0 &&
-        g_config->fullscreen_size.height == 0)
-    {
-        if (SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
-        {
-          log_warning << "failed to switch to desktop fullscreen mode: "
-                      << SDL_GetError() << std::endl;
-        }
-        else
-        {
-          log_info << "switched to desktop fullscreen mode" << std::endl;
-        }
-    }
-    else
-    {
-      SDL_DisplayMode mode;
-      mode.format = SDL_PIXELFORMAT_RGB888;
-      mode.w = g_config->fullscreen_size.width;
-      mode.h = g_config->fullscreen_size.height;
-      mode.refresh_rate = g_config->fullscreen_refresh_rate;
-      mode.driverdata = 0;
-
-      if (SDL_SetWindowDisplayMode(m_window, &mode) != 0)
-      {
-        log_warning << "failed to set display mode: "
-                    << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
-                    << SDL_GetError() << std::endl;
-      }
-      else
-      {
-        if (SDL_SetWindowFullscreen(m_window, SDL_WINDOW_FULLSCREEN) != 0)
-        {
-          log_warning << "failed to switch to fullscreen mode: "
-                      << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
-                      << SDL_GetError() << std::endl;
-        }
-        else
-        {
-          log_info << "switched to fullscreen mode: "
-                   << mode.w << "x" << mode.h << "@" << mode.refresh_rate << std::endl;
-        }
-      }
-    }
-  }
-}
-
-void
-SDLRenderer::apply_viewport()
-{
-  Size target_size = (g_config->use_fullscreen && g_config->fullscreen_size != Size(0, 0)) ?
-    g_config->fullscreen_size :
-    g_config->window_size;
-
-  float pixel_aspect_ratio = 1.0f;
-  if (g_config->aspect_size != Size(0, 0))
-  {
-    pixel_aspect_ratio = calculate_pixel_aspect_ratio(m_desktop_size,
-                                                      g_config->aspect_size);
-  }
-  else if (g_config->use_fullscreen)
-  {
-    pixel_aspect_ratio = calculate_pixel_aspect_ratio(m_desktop_size,
-                                                      target_size);
-  }
-
-  // calculate the viewport
-  Size max_size(1280, 800);
-  Size min_size(640, 480);
-
-  Size logical_size;
-  calculate_viewport(min_size, max_size,
-                     target_size,
-                     pixel_aspect_ratio,
-                     g_config->magnification,
-                     m_scale, logical_size, m_viewport);
-
-  SCREEN_WIDTH = logical_size.width;
-  SCREEN_HEIGHT = logical_size.height;
-
-  if (m_viewport.x != 0 || m_viewport.y != 0)
-  {
-    // Clear the screen to avoid garbage in unreachable areas after we
-    // reset the coordinate system
-    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
-    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_NONE);
-    SDL_RenderClear(m_renderer);
-    SDL_RenderPresent(m_renderer);
-    SDL_RenderClear(m_renderer);
-  }
+  m_viewport = viewport;
+  m_scale = scale;
 
   // SetViewport() works in scaled screen coordinates, so we have to
   // reset it to 1.0, 1.0 to get meaningful results
   SDL_RenderSetScale(m_renderer, 1.0f, 1.0f);
   SDL_RenderSetViewport(m_renderer, &m_viewport);
   SDL_RenderSetScale(m_renderer, m_scale.x, m_scale.y);
-}
-
-void
-SDLRenderer::apply_config()
-{
-  apply_video_mode();
-  apply_viewport();
-}
-
-Vector
-SDLRenderer::to_logical(int physical_x, int physical_y) const
-{
-  return Vector(static_cast<float>(physical_x - m_viewport.x) * SCREEN_WIDTH / m_viewport.w,
-                static_cast<float>(physical_y - m_viewport.y) * SCREEN_HEIGHT / m_viewport.h);
 }
 
 /* EOF */

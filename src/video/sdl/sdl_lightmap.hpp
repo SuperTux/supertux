@@ -27,7 +27,7 @@ struct SDL_Texture;
 class SDLLightmap : public Lightmap
 {
 public:
-  SDLLightmap();
+  SDLLightmap(SDL_Renderer* renderer);
   ~SDLLightmap();
 
   void start_draw(const Color &ambient_color) override;

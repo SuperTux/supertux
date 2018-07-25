@@ -20,8 +20,7 @@
 #include <vector>
 #include <memory>
 
-#include "video/drawing_context.hpp"
-
+class DrawingContext;
 class Rect;
 class VideoSystem;
 
