@@ -23,7 +23,7 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
-bool Compositor::s_render_lighting = false;
+bool Compositor::s_render_lighting = true;
 
 Compositor::Compositor(VideoSystem& video_system) :
   m_video_system(video_system),
@@ -56,6 +56,9 @@ Compositor::render()
                                   [](std::unique_ptr<DrawingContext>& ctx){
                                     return ctx->use_lightmap();
                                   });
+
+  use_lightmap = use_lightmap && s_render_lighting;
+
   if (use_lightmap)
   {
     lightmap.start_draw();
@@ -64,8 +67,8 @@ Compositor::render()
     for(auto& ctx : m_drawing_contexts)
     {
       //lightmap.set_clip_rect(ctx->get_viewport());
-
       //lightmap.clear(m_drawing_contexts[0]->get_ambient_color());
+
       ctx->light().render(m_video_system);
 
       //lightmap.clear_clip_rect();
@@ -74,7 +77,6 @@ Compositor::render()
   }
 
   // draw colormap
-  if (true)
   {
     renderer.start_draw();
     for(auto& ctx : m_drawing_contexts)
@@ -86,7 +88,10 @@ Compositor::render()
     renderer.end_draw();
   }
 
-  lightmap.render();
+  if (use_lightmap)
+  {
+    lightmap.render();
+  }
 
   // Render overlay elements
   for(auto& ctx : m_drawing_contexts)
