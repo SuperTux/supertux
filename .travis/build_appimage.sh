@@ -35,7 +35,10 @@ cd $APP.AppDir
 
 get_apprun
 get_desktop
-get_icon
+
+# SVG icons are not supported by get_icon, copy it over manually.
+cp ./usr/share/icons/hicolor/scalable/apps/$LOWERAPP.svg . || true
+ls -lh $LOWERAPP.svg || true
 
 ########################################################################
 # Copy in the dependencies that cannot be assumed to be available
