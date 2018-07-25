@@ -30,12 +30,12 @@ ItemBack::ItemBack(const std::string& text_, int _id) :
 void
 ItemBack::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
   float text_width = Resources::normal_font->get_text_width(text);
-  context.color().draw_text(Resources::normal_font, text,
-                    Vector( pos.x + menu_width/2 , pos.y - int(Resources::normal_font->get_height()/2)),
-                    ALIGN_CENTER, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
-  context.color().draw_surface(Resources::back,
-                       Vector(pos.x + menu_width/2 + text_width/2  + 16, pos.y - 8),
-                       LAYER_GUI);
+  context.overlay().draw_text(Resources::normal_font, text,
+                              Vector( pos.x + menu_width/2 , pos.y - int(Resources::normal_font->get_height()/2)),
+                              ALIGN_CENTER, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+  context.overlay().draw_surface(Resources::back,
+                                 Vector(pos.x + menu_width/2 + text_width/2  + 16, pos.y - 8),
+                                 LAYER_GUI);
 }
 
 int

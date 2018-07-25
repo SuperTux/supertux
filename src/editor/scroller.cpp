@@ -50,12 +50,12 @@ void
 EditorScroller::draw(DrawingContext& context) {
   if (!rendered) return;
 
-  context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(SIZE, SIZE)),
-                           Color(0.9f, 0.9f, 1.0f, 0.6f),
-                           MIDDLE, LAYER_GUI-10);
-  context.color().draw_filled_rect(Rectf(Vector(40, 40), Vector(56, 56)),
-                           Color(0.9f, 0.9f, 1.0f, 0.6f),
-                           8, LAYER_GUI-20);
+  context.overlay().draw_filled_rect(Rectf(Vector(0, 0), Vector(SIZE, SIZE)),
+                                     Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                     MIDDLE, LAYER_GUI-10);
+  context.overlay().draw_filled_rect(Rectf(Vector(40, 40), Vector(56, 56)),
+                                     Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                     8, LAYER_GUI-20);
   if (can_scroll()) {
     draw_arrow(context, mouse_pos);
   }
@@ -73,8 +73,8 @@ EditorScroller::draw_arrow(DrawingContext& context, const Vector& pos) {
     // draw a triangle
     dir = dir.unit() * 8;
     Vector dir2 = Vector(-dir.y, dir.x);
-    context.color().draw_triangle(pos + dir, pos - dir + dir2, pos - dir - dir2,
-                          Color(1, 1, 1, 0.5), LAYER_GUI-20);
+    context.overlay().draw_triangle(pos + dir, pos - dir + dir2, pos - dir - dir2,
+                                    Color(1, 1, 1, 0.5), LAYER_GUI-20);
   }
 }
 

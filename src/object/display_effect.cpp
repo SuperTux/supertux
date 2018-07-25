@@ -110,15 +110,15 @@ DisplayEffect::draw(DrawingContext& context)
           assert(false);
       }
     }
-    context.color().draw_filled_rect(Vector(0, 0), Vector(context.get_width(), context.get_height()),
-                             Color(0, 0, 0, alpha), LAYER_GUI-10);
+    context.overlay().draw_filled_rect(Vector(0, 0), Vector(context.get_width(), context.get_height()),
+                                       Color(0, 0, 0, alpha), LAYER_GUI-10);
   }
 
   if (borders) {
-    context.color().draw_filled_rect(Vector(0, 0), Vector(context.get_width(), border_size),
-                             Color(0, 0, 0, 1.0f), LAYER_GUI-10);
-    context.color().draw_filled_rect(Vector(0, context.get_height() - border_size), Vector(context.get_width(), border_size),
-                             Color(0, 0, 0, 1.0f), LAYER_GUI-10);
+    context.overlay().draw_filled_rect(Vector(0, 0), Vector(context.get_width(), border_size),
+                                       Color(0, 0, 0, 1.0f), LAYER_GUI-10);
+    context.overlay().draw_filled_rect(Vector(0, context.get_height() - border_size), Vector(context.get_width(), border_size),
+                                       Color(0, 0, 0, 1.0f), LAYER_GUI-10);
   }
 
   context.pop_transform();

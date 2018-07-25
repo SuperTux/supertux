@@ -37,9 +37,9 @@ FadeIn::draw(DrawingContext& context)
 {
   Color col = color;
   col.alpha = 1 - (accum_time / fade_time);
-  context.color().draw_filled_rect(Vector(0, 0),
-                           Vector(context.get_width(), context.get_height()),
-                           col, LAYER_GUI+1);
+  context.overlay().draw_filled_rect(Vector(0, 0),
+                                     Vector(context.get_width(), context.get_height()),
+                                     col, LAYER_GUI+1);
 }
 
 bool

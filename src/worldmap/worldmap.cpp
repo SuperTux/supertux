@@ -761,10 +761,10 @@ WorldMap::draw_status(DrawingContext& context)
   if (!tux->is_moving()) {
     for(const auto& level : levels) {
       if (level->pos == tux->get_tile_pos()) {
-        context.color().draw_text(Resources::normal_font, level->title,
-                          Vector(context.get_width()/2,
-                                 context.get_height() - Resources::normal_font->get_height() - 10),
-                          ALIGN_CENTER, LAYER_HUD, level->title_color);
+        context.overlay().draw_text(Resources::normal_font, level->title,
+                                    Vector(context.get_width()/2,
+                                           context.get_height() - Resources::normal_font->get_height() - 10),
+                                    ALIGN_CENTER, LAYER_HUD, level->title_color);
 
         // if level is solved, draw level picture behind stats
         /*
@@ -788,9 +788,9 @@ WorldMap::draw_status(DrawingContext& context)
         /* Display an in-map message in the map, if any as been selected */
         if(!special_tile->map_message.empty() && !special_tile->passive_message)
           context.color().draw_text(Resources::normal_font, special_tile->map_message,
-                            Vector(context.get_width()/2,
-                                   context.get_height() - Resources::normal_font->get_height() - 60),
-                            ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
+                                    Vector(context.get_width()/2,
+                                           context.get_height() - Resources::normal_font->get_height() - 60),
+                                    ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
         break;
       }
     }
@@ -807,8 +807,8 @@ WorldMap::draw_status(DrawingContext& context)
   /* Display a passive message in the map, if needed */
   if(passive_message_timer.started())
     context.color().draw_text(Resources::normal_font, passive_message,
-                      Vector(context.get_width()/2, context.get_height() - Resources::normal_font->get_height() - 60),
-                      ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
+                              Vector(context.get_width()/2, context.get_height() - Resources::normal_font->get_height() - 60),
+                              ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
 
   context.pop_transform();
 }

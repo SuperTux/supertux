@@ -74,14 +74,14 @@ void MouseCursor::draw(DrawingContext& context)
       tmp_state = MC_CLICK;
     }
 
-    context.color().draw_surface(m_cursor[static_cast<int>(tmp_state)],
-                         Vector(x - m_mid_x, y - m_mid_y),
-                         LAYER_GUI + 100);
+    context.overlay().draw_surface(m_cursor[static_cast<int>(tmp_state)],
+                                   Vector(x - m_mid_x, y - m_mid_y),
+                                   LAYER_GUI + 100);
 
     if (m_icon) {
-      context.color().draw_surface(m_icon, Vector(x - m_mid_x,
-                                          y - m_mid_y - m_icon->get_height()),
-                           LAYER_GUI + 100);
+      context.overlay().draw_surface(m_icon, Vector(x - m_mid_x,
+                                                    y - m_mid_y - m_icon->get_height()),
+                                     LAYER_GUI + 100);
     }
   }
 }

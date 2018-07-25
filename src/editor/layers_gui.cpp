@@ -52,10 +52,10 @@ EditorLayersGui::draw(DrawingContext& context) {
     object_tip->draw_up(context, position);
   }
 
-  context.color().draw_filled_rect(Rectf(Vector(0, Ypos), Vector(Width, SCREEN_HEIGHT)),
-                           Color(0.9f, 0.9f, 1.0f, 0.6f),
-                           0.0f,
-                           LAYER_GUI-10);
+  context.overlay().draw_filled_rect(Rectf(Vector(0, Ypos), Vector(Width, SCREEN_HEIGHT)),
+                                     Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                     0.0f,
+                                     LAYER_GUI-10);
 
   Rectf target_rect = Rectf(0, 0, 0, 0);
   bool draw_rect = true;
@@ -76,15 +76,15 @@ EditorLayersGui::draw(DrawingContext& context) {
   }
   if(draw_rect)
   {
-    context.color().draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
-                             LAYER_GUI-5);
+    context.overlay().draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
+                                       LAYER_GUI-5);
   }
 
   if (!Editor::current()->is_level_loaded()) {
     return;
   }
 
-  context.color().draw_text(Resources::normal_font, sector_text,
+  context.overlay().draw_text(Resources::normal_font, sector_text,
                     Vector(35, Ypos+5),
                     ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::default_color);
 

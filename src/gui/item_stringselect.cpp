@@ -34,20 +34,20 @@ ItemStringSelect::draw(DrawingContext& context, const Vector& pos, int menu_widt
   float roff = Resources::arrow_left->get_width() * 1.0f;
   float sel_width = Resources::normal_font->get_text_width(list[*selected]);
   // Draw left side
-  context.color().draw_text(Resources::normal_font, text,
-                    Vector(pos.x + 16, pos.y - int(Resources::normal_font->get_height()/2)),
-                    ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+  context.overlay().draw_text(Resources::normal_font, text,
+                              Vector(pos.x + 16, pos.y - int(Resources::normal_font->get_height()/2)),
+                              ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
 
   // Draw right side
-  context.color().draw_surface(Resources::arrow_left,
-                       Vector(pos.x + menu_width - sel_width - 2*roff - 8, pos.y - 8),
-                       LAYER_GUI);
-  context.color().draw_surface(Resources::arrow_right,
-                       Vector(pos.x + menu_width - roff - 8, pos.y - 8),
-                       LAYER_GUI);
-  context.color().draw_text(Resources::normal_font, list[*selected],
-                    Vector(pos.x + menu_width - roff - 8, pos.y - int(Resources::normal_font->get_height()/2)),
-                    ALIGN_RIGHT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+  context.overlay().draw_surface(Resources::arrow_left,
+                                 Vector(pos.x + menu_width - sel_width - 2*roff - 8, pos.y - 8),
+                                 LAYER_GUI);
+  context.overlay().draw_surface(Resources::arrow_right,
+                                 Vector(pos.x + menu_width - roff - 8, pos.y - 8),
+                                 LAYER_GUI);
+  context.overlay().draw_text(Resources::normal_font, list[*selected],
+                              Vector(pos.x + menu_width - roff - 8, pos.y - int(Resources::normal_font->get_height()/2)),
+                              ALIGN_RIGHT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
 }
 
 int
