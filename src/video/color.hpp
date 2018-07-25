@@ -23,6 +23,16 @@
 class Color
 {
 public:
+  static const Color BLACK;
+  static const Color RED;
+  static const Color GREEN;
+  static const Color BLUE;
+  static const Color CYAN;
+  static const Color MAGENTA;
+  static const Color YELLOW;
+  static const Color WHITE;
+
+public:
   Color();
 
   Color(float red_, float green_, float blue_, float alpha_ = 1.0);
@@ -37,26 +47,19 @@ public:
 
   std::vector<float> toVector();
 
-  float red, green, blue, alpha;
+  uint8_t r8() const { return static_cast<uint8_t>(255.0f * red); }
+  uint8_t g8() const { return static_cast<uint8_t>(255.0f * green); }
+  uint8_t b8() const { return static_cast<uint8_t>(255.0f * blue); }
+  uint8_t a8() const { return static_cast<uint8_t>(255.0f * alpha); }
 
-
-  /**
-   * Return a human-readable string representation
-   * for this color
-   */
+  /** Return a human-readable string representation for this color */
   std::string to_string() const
   {
     return std::to_string(red) + " " + std::to_string(green) + " " + std::to_string(blue);
   }
 
-  static const Color BLACK;
-  static const Color RED;
-  static const Color GREEN;
-  static const Color BLUE;
-  static const Color CYAN;
-  static const Color MAGENTA;
-  static const Color YELLOW;
-  static const Color WHITE;
+public:
+  float red, green, blue, alpha;
 };
 
 #endif
