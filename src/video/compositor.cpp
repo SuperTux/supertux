@@ -22,6 +22,8 @@
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
+bool Compositor::s_render_lighting = false;
+
 Compositor::Compositor(VideoSystem& video_system) :
   m_video_system(video_system),
   m_drawing_contexts()

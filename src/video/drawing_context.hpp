@@ -59,9 +59,6 @@ public:
 class DrawingContext final
 {
 public:
-  /** This is used in the editor*/
-  static bool render_lighting;
-
   DrawingContext(VideoSystem& video_system);
   ~DrawingContext();
 
