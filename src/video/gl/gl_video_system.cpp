@@ -16,6 +16,13 @@
 
 #include "video/gl/gl_video_system.hpp"
 
+#ifdef USE_GLBINDING
+#  include <glbinding/Binding.h>
+#  include <glbinding/ContextInfo.h>
+#  include <glbinding/gl/extension.h>
+#  include <glbinding/callbacks.h>
+#endif
+
 #include <iomanip>
 #include <physfs.h>
 
@@ -153,7 +160,6 @@ GLVideoSystem::create_window()
 
       std::cout << std::endl;
     });
-
 #endif
 
   static auto extensions = glbinding::ContextInfo::extensions();
