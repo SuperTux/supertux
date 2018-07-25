@@ -94,9 +94,9 @@ GLRenderer::draw_triangle(const DrawingRequest& request)
 }
 
 void
-GLRenderer::clear()
+GLRenderer::clear(const Color& color)
 {
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClearColor(color.red, color.green, color.blue, color.alpha);
   glClear(GL_COLOR_BUFFER_BIT);
 }
 
@@ -105,6 +105,28 @@ GLRenderer::to_logical(int physical_x, int physical_y) const
 {
   return Vector(static_cast<float>(physical_x - m_viewport.x) / m_scale.x,
                 static_cast<float>(physical_y - m_viewport.y) / m_scale.y);
+}
+
+void
+GLRenderer::set_clip_rect(const Rect& rect)
+{
+#if 0
+  int win_w;
+  int win_h;
+  SDL_GetWindowSize(m_window, &win_w, &win_h);
+
+  glScissor(win_w * rect.left / SCREEN_WIDTH,
+            win_h - (win_h * rect.bottom / SCREEN_HEIGHT),
+            win_w * rect.get_width() / SCREEN_WIDTH,
+            win_h * rect.get_height() / SCREEN_HEIGHT);
+  glEnable(GL_SCISSOR_TEST);
+#endif
+}
+
+void
+GLRenderer::clear_clip_rect()
+{
+  glDisable(GL_SCISSOR_TEST);
 }
 
 void

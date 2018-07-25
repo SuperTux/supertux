@@ -55,7 +55,7 @@ GLLightmap::~GLLightmap()
 }
 
 void
-GLLightmap::start_draw(const Color &ambient_color)
+GLLightmap::start_draw()
 {
   glGetIntegerv(GL_VIEWPORT, m_old_viewport); //save viewport
   glViewport(m_old_viewport[0], m_old_viewport[3] - m_lightmap_height + m_old_viewport[1], m_lightmap_width, m_lightmap_height);
@@ -70,9 +70,6 @@ GLLightmap::start_draw(const Color &ambient_color)
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-
-  glClearColor( ambient_color.red, ambient_color.green, ambient_color.blue, 1 );
-  glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void
@@ -96,7 +93,7 @@ GLLightmap::end_draw()
 }
 
 void
-GLLightmap::do_draw()
+GLLightmap::render()
 {
   // multiple the lightmap with the framebuffer
   glBlendFunc(GL_DST_COLOR, GL_ZERO);
@@ -164,6 +161,31 @@ void
 GLLightmap::draw_triangle(const DrawingRequest& request)
 {
   GLPainter::draw_triangle(request);
+}
+
+void
+GLLightmap::clear(const Color& color)
+{
+  glClearColor(color.red, color.green, color.blue, color.alpha);
+  glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void
+GLLightmap::set_clip_rect(const Rect& rect)
+{
+#if 0
+  glScissor(win_w * rect.left,
+            win_h - (win_h * rect.bottom),
+            win_w * rect.get_width(),
+            win_h * rect.get_height());
+  glEnable(GL_SCISSOR_TEST);
+#endif
+}
+
+void
+GLLightmap::clear_clip_rect()
+{
+  glDisable(GL_SCISSOR_TEST);
 }
 
 void

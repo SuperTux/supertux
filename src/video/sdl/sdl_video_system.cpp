@@ -199,9 +199,9 @@ SDLVideoSystem::apply_viewport()
   if (viewport.x != 0 || viewport.y != 0)
   {
     // Clear the screen to avoid garbage in unreachable areas after we
-    m_renderer->clear();
+    m_renderer->clear(Color::BLACK);
     m_renderer->flip();
-    m_renderer->clear();
+    m_renderer->clear(Color::BLACK);
     m_renderer->flip();
   }
 
@@ -331,33 +331,6 @@ SDLVideoSystem::do_take_screenshot()
         log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
       }
     }
-  }
-}
-
-void
-SDLVideoSystem::set_clip_rect(const Rect& rect)
-{
-  SDL_Rect cliprect;
-
-  cliprect.x = rect.left;
-  cliprect.y = rect.top;
-  cliprect.w = rect.get_width();
-  cliprect.h = rect.get_height();
-
-  int ret = SDL_RenderSetClipRect(m_renderer->get_sdl_renderer(), &cliprect);
-  if (ret < 0)
-  {
-    log_warning << "SDLRenderer::set_clip_rect(): SDL_RenderSetClipRect() failed: " << SDL_GetError() << std::endl;
-  }
-}
-
-void
-SDLVideoSystem::clear_clip_rect()
-{
-  int ret = SDL_RenderSetClipRect(m_renderer->get_sdl_renderer(), nullptr);
-  if (ret < 0)
-  {
-    log_warning << "SDLRenderer::clear_clip_rect(): SDL_RenderSetClipRect() failed: " << SDL_GetError() << std::endl;
   }
 }
 

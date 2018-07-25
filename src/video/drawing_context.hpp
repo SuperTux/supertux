@@ -30,8 +30,9 @@
 #include "video/font.hpp"
 #include "video/font_ptr.hpp"
 
-struct DrawingRequest;
 class VideoSystem;
+struct DrawingRequest;
+struct obstack;
 
 class Transform
 {
@@ -59,14 +60,11 @@ public:
 class DrawingContext final
 {
 public:
-  DrawingContext(VideoSystem& video_system);
+  DrawingContext(VideoSystem& video_system, obstack& obst);
   ~DrawingContext();
 
   /// Returns the visible area in world coordinates
   Rectf get_cliprect() const;
-
-  /// Processes all pending drawing requests and flushes the list.
-  void render();
 
   /// on next update, set color to lightmap's color at position
   void get_light(const Vector& position, Color* color_out);
@@ -83,12 +81,16 @@ public:
       case LIGHTMAP:
         return m_lightmap_canvas;
 
+      case OVERLAY:
+        return m_overlay_canvas;
+
       default:
         return m_colormap_canvas;
     }
   }
 
   void set_ambient_color(Color ambient_color);
+  Color get_ambient_color() const { return m_ambient_color; }
 
   void push_transform();
   void pop_transform();
@@ -126,15 +128,23 @@ public:
   int get_width() const { return m_viewport.get_width(); }
   int get_height() const { return m_viewport.get_height(); }
 
+  bool use_lightmap() const
+  {
+    return (m_ambient_color.red != 1.0f ||
+            m_ambient_color.green != 1.0f ||
+            m_ambient_color.blue != 1.0f);
+  }
+
 private:
   VideoSystem& m_video_system;
 
   /* obstack holding the memory of the drawing requests */
-  struct obstack m_obst;
+  obstack& m_obst;
 
   Rect m_viewport;
   Canvas m_colormap_canvas;
   Canvas m_lightmap_canvas;
+  Canvas m_overlay_canvas;
 
   Color m_ambient_color;
 

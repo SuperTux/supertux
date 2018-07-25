@@ -20,6 +20,8 @@
 #include <vector>
 #include <memory>
 
+#include "util/obstackpp.hpp"
+
 class DrawingContext;
 class Rect;
 class VideoSystem;
@@ -32,6 +34,7 @@ public:
 
 public:
   Compositor(VideoSystem& video_system);
+  ~Compositor();
 
   void render();
 
@@ -39,6 +42,10 @@ public:
 
 private:
   VideoSystem& m_video_system;
+
+  /* obstack holding the memory of the drawing requests */
+  obstack m_obst;
+
   std::vector<std::unique_ptr<DrawingContext> > m_drawing_contexts;
 
 private:

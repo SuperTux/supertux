@@ -24,27 +24,32 @@
 
 class GLTexture;
 class Texture;
+class Rect;
 struct DrawingRequest;
 
-class GLLightmap : public Lightmap
+class GLLightmap final : public Lightmap
 {
 public:
   GLLightmap();
   ~GLLightmap();
 
-  void start_draw(const Color &ambient_color) override;
-  void end_draw() override;
+  virtual void start_draw() override;
+  virtual void end_draw() override;
 
-  void draw_surface(const DrawingRequest& request) override;
-  void draw_surface_part(const DrawingRequest& request) override;
-  void draw_gradient(const DrawingRequest& request) override;
-  void draw_filled_rect(const DrawingRequest& request) override;
-  void draw_inverse_ellipse(const DrawingRequest& request) override;
-  void draw_line(const DrawingRequest& request) override;
-  void draw_triangle(const DrawingRequest& request) override;
+  virtual void draw_surface(const DrawingRequest& request) override;
+  virtual void draw_surface_part(const DrawingRequest& request) override;
+  virtual void draw_gradient(const DrawingRequest& request) override;
+  virtual void draw_filled_rect(const DrawingRequest& request) override;
+  virtual void draw_inverse_ellipse(const DrawingRequest& request) override;
+  virtual void draw_line(const DrawingRequest& request) override;
+  virtual void draw_triangle(const DrawingRequest& request) override;
+  virtual void clear(const Color& color) override;
 
-  void get_light(const DrawingRequest& request) const override;
-  void do_draw() override;
+  virtual void set_clip_rect(const Rect& rect) override;
+  virtual void clear_clip_rect() override;
+
+  virtual void get_light(const DrawingRequest& request) const override;
+  virtual void render() override;
 
 private:
   static const int s_LIGHTMAP_DIV = 5;

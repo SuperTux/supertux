@@ -227,9 +227,9 @@ GLVideoSystem::apply_config()
   if (viewport.x != 0 || viewport.y != 0)
   {
     // Clear both buffers so that we get a clean black border without junk
-    m_renderer->clear();
+    m_renderer->clear(Color::BLACK);
     flip();
-    m_renderer->clear();
+    m_renderer->clear(Color::BLACK);
     flip();
   }
 
@@ -426,26 +426,6 @@ GLVideoSystem::do_take_screenshot()
   }
   log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
   SDL_FreeSurface(shot_surf);
-}
-
-void
-GLVideoSystem::set_clip_rect(const Rect& rect)
-{
-  int win_w;
-  int win_h;
-  SDL_GetWindowSize(m_window, &win_w, &win_h);
-
-  glScissor(win_w * rect.left / SCREEN_WIDTH,
-            win_h - (win_h * rect.bottom / SCREEN_HEIGHT),
-            win_w * rect.get_width() / SCREEN_WIDTH,
-            win_h * rect.get_height() / SCREEN_HEIGHT);
-  glEnable(GL_SCISSOR_TEST);
-}
-
-void
-GLVideoSystem::clear_clip_rect()
-{
-  glDisable(GL_SCISSOR_TEST);
 }
 
 /* EOF */

@@ -17,6 +17,7 @@
 
 #include "video/sdl/sdl_renderer.hpp"
 
+#include "math/rect.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
@@ -26,7 +27,8 @@
 SDLRenderer::SDLRenderer(SDL_Renderer* renderer) :
   m_renderer(renderer),
   m_viewport(),
-  m_scale(1.0f, 1.0f)
+  m_scale(1.0f, 1.0f),
+  m_cliprect()
 {
   SDL_RendererInfo info;
   if (SDL_GetRendererInfo(m_renderer, &info) != 0)
@@ -109,11 +111,47 @@ SDLRenderer::draw_triangle(const DrawingRequest& request)
 }
 
 void
-SDLRenderer::clear()
+SDLRenderer::clear(const Color& color)
 {
-  SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
-  SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_NONE);
-  SDL_RenderClear(m_renderer);
+  SDL_SetRenderDrawColor(m_renderer, color.r8(), color.g8(), color.b8(), color.a8());
+
+  if (m_cliprect)
+  {
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_NONE);
+    SDL_RenderFillRect(m_renderer, &*m_cliprect);
+  }
+  else
+  {
+    // This ignores the cliprect:
+    SDL_RenderClear(m_renderer);
+  }
+}
+
+void
+SDLRenderer::set_clip_rect(const Rect& rect)
+{
+  m_cliprect = SDL_Rect{ rect.left,
+                         rect.top,
+                         rect.get_width(),
+                         rect.get_height() };
+
+  int ret = SDL_RenderSetClipRect(m_renderer, &*m_cliprect);
+  if (ret < 0)
+  {
+    log_warning << "SDLRenderer::set_clip_rect(): SDL_RenderSetClipRect() failed: " << SDL_GetError() << std::endl;
+  }
+}
+
+void
+SDLRenderer::clear_clip_rect()
+{
+  m_cliprect.reset();
+
+  int ret = SDL_RenderSetClipRect(m_renderer, nullptr);
+  if (ret < 0)
+  {
+    log_warning << "SDLRenderer::clear_clip_rect(): SDL_RenderSetClipRect() failed: " << SDL_GetError() << std::endl;
+  }
 }
 
 void
