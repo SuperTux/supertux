@@ -52,6 +52,8 @@ public:
 
   virtual void do_take_screenshot() override;
 
+  Size get_window_size() const;
+
 private:
   void create_window();
   void apply_video_mode();

@@ -428,4 +428,12 @@ GLVideoSystem::do_take_screenshot()
   SDL_FreeSurface(shot_surf);
 }
 
+Size
+GLVideoSystem::get_window_size() const
+{
+  Size size;
+  SDL_GetWindowSize(m_window, &size.width, &size.height);
+  return size;
+}
+
 /* EOF */
