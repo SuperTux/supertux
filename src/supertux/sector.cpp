@@ -1092,7 +1092,6 @@ Sector::collision_static(collision::Constraints* constraints,
          extend_right = 0.0f,
          extend_top = 0.0f,
          extend_bot = 0.0f;
-  log_debug << contacts.size() << std::endl;
   all_contacts.clear();
   collision_tilemap(constraints, movement, dest, object, all_contacts, false);
   collision_moving_static(movement, dest, object, graph, all_contacts);
@@ -1155,7 +1154,8 @@ Sector::handle_collisions()
     broadphase.reset(new spatial_hashing(get_width(), get_height()));
     log_debug << "Error :: Reset" << std::endl;
   }
-  const int pixeld = 2;
+  const int pixeld_x = 0;
+  const int pixeld_y = 0;
   // calculate destination positions of the objects
   for (const auto& moving_object : moving_objects) {
     Vector mov = moving_object->get_movement();
@@ -1170,16 +1170,11 @@ Sector::handle_collisions()
     moving_object->dest.move(moving_object->get_movement());
   }
   for (const auto& mobj : moving_objects) {
-    if (mobj->collision_parent != NULL) {
-      mobj->movement += mobj->collision_parent->get_movement();
-      mobj->dest = mobj->get_bbox();
-      mobj->dest.move(mobj->get_movement());
-    }
     if (!(mobj->get_group() != COLGROUP_MOVING
         && mobj->get_group() != COLGROUP_MOVING_STATIC
         && mobj->get_group() != COLGROUP_MOVING_ONLY_STATIC))
     {
-      mobj->dest =   mobj->dest.grown_xy(-pixeld, -1);
+      mobj->dest =   mobj->dest.grown_xy(-pixeld_x, -pixeld_y);
     }
 
   }
@@ -1187,13 +1182,13 @@ Sector::handle_collisions()
   // part 0: Handle moving objects
   // Get a list of all objects which move
   platforms.clear();
+  colgraph.reset();
   for (const auto& moving_object : moving_objects) {
     // Check for correct collision group and actual movement in last frame
     if (moving_object->get_group() == COLGROUP_STATIC &&
       moving_object->get_movement() != Vector(0, 0))
       platforms.insert(moving_object);
   }
-  colgraph.reset();
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
   for (const auto& obj : moving_objects) {
     broadphase->insert(obj->dest, obj);
@@ -1298,13 +1293,15 @@ Sector::handle_collisions()
     moving_object->movement = Vector(0, 0);
     if (!moving_object->parent_updated) {
         moving_object->collision_parent = NULL;
+    }else{
+      moving_object->dest.move(moving_object->collision_parent->get_movement());
     }
     moving_object->parent_updated = false;
     if (!(moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
         && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC))
     {
-      moving_object->dest =   moving_object->dest.grown_xy(pixeld, 1);
+      moving_object->dest =   moving_object->dest.grown_xy(pixeld_x, pixeld_y);
     }
     moving_object->bbox = moving_object->dest;
   }

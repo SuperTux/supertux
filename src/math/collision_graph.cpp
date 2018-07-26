@@ -70,25 +70,21 @@ void collision_graph::directional_hull(MovingObject* A, int dir, std::vector< Mo
 
 void collision_graph::register_collision_hit(CollisionHit h, MovingObject* A, MovingObject* B)
 {
-  if(h.top)
-  {
-    register_collision_top(A,B);
-    register_collision_bot(B,A);
+  if (h.top) {
+    register_collision_top(A, B);
+    register_collision_bot(B, A);
   }
-  if(h.bottom)
-  {
-    register_collision_bot(A,B);
-    register_collision_top(B,A);
+  if (h.bottom) {
+    register_collision_bot(A, B);
+    register_collision_top(B, A);
   }
-  if(h.left)
-  {
-    register_collision_lft(A,B);
-    register_collision_rgt(B,A);
+  if (h.left) {
+    register_collision_lft(A, B);
+    register_collision_rgt(B, A);
   }
-  if(h.right)
-  {
-    register_collision_rgt(A,B);
-    register_collision_lft(B,A);
+  if (h.right) {
+    register_collision_rgt(A, B);
+    register_collision_lft(B, A);
   }
 }
 
