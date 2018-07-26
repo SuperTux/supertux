@@ -249,13 +249,13 @@ OptionsMenu::menu_action(MenuItem* item)
         if (aspect_ratios[next_aspect_ratio] == _("auto"))
         {
           g_config->aspect_size = Size(0, 0); // Magic values
-          VideoSystem::current()->get_renderer().apply_config();
+          VideoSystem::current()->apply_config();
           MenuManager::instance().on_window_resize();
         }
         else if (sscanf(aspect_ratios[next_aspect_ratio].c_str(), "%d:%d",
                         &g_config->aspect_size.width, &g_config->aspect_size.height) == 2)
         {
-          VideoSystem::current()->get_renderer().apply_config();
+          VideoSystem::current()->apply_config();
           MenuManager::instance().on_window_resize();
         }
         else
@@ -274,7 +274,7 @@ OptionsMenu::menu_action(MenuItem* item)
       {
         g_config->magnification /= 100.0f;
       }
-      VideoSystem::current()->get_renderer().apply_config();
+      VideoSystem::current()->apply_config();
       MenuManager::instance().on_window_resize();
       if(GameSession::current() != NULL)
       {
@@ -312,7 +312,7 @@ OptionsMenu::menu_action(MenuItem* item)
       break;
 
     case MNID_FULLSCREEN:
-      VideoSystem::current()->get_renderer().apply_config();
+      VideoSystem::current()->apply_config();
       MenuManager::instance().on_window_resize();
       g_config->save();
       break;

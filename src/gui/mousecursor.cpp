@@ -75,13 +75,13 @@ void MouseCursor::draw(DrawingContext& context)
     }
 
     context.color().draw_surface(m_cursor[static_cast<int>(tmp_state)],
-                         Vector(x - m_mid_x, y - m_mid_y),
-                         LAYER_GUI + 100);
+                                   Vector(x - m_mid_x, y - m_mid_y),
+                                   LAYER_GUI + 100);
 
     if (m_icon) {
       context.color().draw_surface(m_icon, Vector(x - m_mid_x,
-                                          y - m_mid_y - m_icon->get_height()),
-                           LAYER_GUI + 100);
+                                                    y - m_mid_y - m_icon->get_height()),
+                                     LAYER_GUI + 100);
     }
   }
 }

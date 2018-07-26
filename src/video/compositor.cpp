@@ -18,33 +18,98 @@
 #include "video/compositor.hpp"
 
 #include "math/rect.hpp"
+#include "video/drawing_request.hpp"
+#include "video/lightmap.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
 
+bool Compositor::s_render_lighting = true;
+
 Compositor::Compositor(VideoSystem& video_system) :
   m_video_system(video_system),
+  m_obst(),
   m_drawing_contexts()
 {
+  obstack_init(&m_obst);
+}
+
+Compositor::~Compositor()
+{
+  m_drawing_contexts.clear();
+  obstack_free(&m_obst, NULL);
 }
 
 DrawingContext&
-Compositor::make_context()
+Compositor::make_context(bool overlay)
 {
-  m_drawing_contexts.emplace_back(new DrawingContext(m_video_system));
+  m_drawing_contexts.emplace_back(new DrawingContext(m_video_system, m_obst, overlay));
   return *m_drawing_contexts.back();
 }
 
 void
 Compositor::render()
 {
-  Renderer& renderer = m_video_system.get_renderer();
+  auto& renderer = m_video_system.get_renderer();
+  auto& lightmap = m_video_system.get_lightmap();
 
-  for(auto& ctx : m_drawing_contexts)
+  bool use_lightmap = std::any_of(m_drawing_contexts.begin(), m_drawing_contexts.end(),
+                                  [](std::unique_ptr<DrawingContext>& ctx){
+                                    return ctx->use_lightmap();
+                                  });
+
+  use_lightmap = use_lightmap && s_render_lighting;
+
+  if (use_lightmap)
   {
-    ctx->render();
+    lightmap.start_draw();
+
+    for(auto& ctx : m_drawing_contexts)
+    {
+      if (!ctx->is_overlay())
+      {
+        lightmap.set_clip_rect(ctx->get_viewport());
+        lightmap.clear(ctx->get_ambient_color());
+
+        ctx->light().render(m_video_system, Canvas::ALL);
+
+        lightmap.clear_clip_rect();
+      }
+    }
+    lightmap.end_draw();
   }
 
-  renderer.flip();
+  // draw colormap
+  {
+    renderer.start_draw();
+    for(auto& ctx : m_drawing_contexts)
+    {
+      renderer.set_clip_rect(ctx->get_viewport());
+      ctx->color().render(m_video_system, Canvas::BELOW_LIGHTMAP);
+      renderer.clear_clip_rect();
+    }
+    renderer.end_draw();
+  }
+
+  if (use_lightmap)
+  {
+    lightmap.render();
+  }
+
+  // Render overlay elements
+  for(auto& ctx : m_drawing_contexts)
+  {
+    ctx->color().render(m_video_system, Canvas::ABOVE_LIGHTMAP);
+  }
+
+  // clear
+  for(auto& ctx : m_drawing_contexts)
+  {
+    ctx->clear();
+  }
+  m_video_system.flip();
+
+  obstack_free(&m_obst, NULL);
+  obstack_init(&m_obst);
 }
 
 /* EOF */

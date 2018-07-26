@@ -24,7 +24,6 @@
 #include <sstream>
 #include <stdexcept>
 
-
 #ifdef USE_GLBINDING
 
 #include <glbinding/gl/gl.h>

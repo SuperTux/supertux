@@ -122,9 +122,10 @@ ScreenManager::draw_fps(DrawingContext& context, float fps_fps)
   char str[60];
   snprintf(str, sizeof(str), "%3.1f", fps_fps);
   const char* fpstext = "FPS";
-  context.color().draw_text(Resources::small_font, fpstext,
-                    Vector(context.get_width() - Resources::small_font->get_text_width(fpstext) - Resources::small_font->get_text_width(" 99999") - BORDER_X,
-                           BORDER_Y + 20), ALIGN_LEFT, LAYER_HUD);
+  context.color().draw_text(
+    Resources::small_font, fpstext,
+    Vector(context.get_width() - Resources::small_font->get_text_width(fpstext) - Resources::small_font->get_text_width(" 99999") - BORDER_X,
+           BORDER_Y + 20), ALIGN_LEFT, LAYER_HUD);
   context.color().draw_text(Resources::small_font, str, Vector(context.get_width() - BORDER_X, BORDER_Y + 20), ALIGN_RIGHT, LAYER_HUD);
 }
 
@@ -139,9 +140,10 @@ ScreenManager::draw_player_pos(DrawingContext& context)
     auto pos = sector->get_players()[0]->get_pos();
     auto pos_text = "X:" + std::to_string(int(pos.x)) + " Y:" + std::to_string(int(pos.y));
 
-    context.color().draw_text(Resources::small_font, pos_text,
-                      Vector(context.get_width() - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
-                             BORDER_Y + 40), ALIGN_LEFT, LAYER_HUD);
+    context.color().draw_text(
+      Resources::small_font, pos_text,
+      Vector(context.get_width() - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
+             BORDER_Y + 40), ALIGN_LEFT, LAYER_HUD);
   }
 }
 
@@ -156,7 +158,7 @@ ScreenManager::draw(Compositor& compositor)
   m_screen_stack.back()->draw(compositor);
 
   // draw effects and hud
-  auto& context = compositor.make_context();
+  auto& context = compositor.make_context(true);
   m_menu_manager->draw(context);
 
   if (m_screen_fade)
@@ -241,8 +243,7 @@ ScreenManager::process_events()
         switch(event.window.event)
         {
           case SDL_WINDOWEVENT_RESIZED:
-            m_video_system.resize(event.window.data1,
-                                           event.window.data2);
+            m_video_system.on_resize(event.window.data1, event.window.data2);
             m_menu_manager->on_window_resize();
             if (Editor::is_active()) {
               Editor::current()->resize();

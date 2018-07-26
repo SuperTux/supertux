@@ -17,48 +17,46 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_RENDERER_HPP
 
-#include "math/size.hpp"
+#include <SDL.h>
+
+#include "math/vector.hpp"
 #include "video/renderer.hpp"
 
-#include <SDL.h>
-#include <math.h>
-
+class GLVideoSystem;
 struct DrawingRequest;
 
 class GLRenderer : public Renderer
 {
 private:
-  SDL_Window* m_window;
-  SDL_GLContext m_glcontext;
-  SDL_Rect m_viewport;
-  Size m_desktop_size;
-  bool m_fullscreen_active;
 
 public:
-  GLRenderer();
+  GLRenderer(GLVideoSystem& video_system);
   ~GLRenderer();
 
-  void start_draw() override;
-  void end_draw() override;
+  virtual void start_draw() override;
+  virtual void end_draw() override;
 
-  void draw_surface(const DrawingRequest& request) override;
-  void draw_surface_part(const DrawingRequest& request) override;
-  void draw_gradient(const DrawingRequest& request) override;
-  void draw_filled_rect(const DrawingRequest& request) override;
-  void draw_inverse_ellipse(const DrawingRequest& request) override;
-  void draw_line(const DrawingRequest& request) override;
-  void draw_triangle(const DrawingRequest& request) override;
+  virtual void draw_surface(const DrawingRequest& request) override;
+  virtual void draw_surface_part(const DrawingRequest& request) override;
+  virtual void draw_gradient(const DrawingRequest& request) override;
+  virtual void draw_filled_rect(const DrawingRequest& request) override;
+  virtual void draw_inverse_ellipse(const DrawingRequest& request) override;
+  virtual void draw_line(const DrawingRequest& request) override;
+  virtual void draw_triangle(const DrawingRequest& request) override;
+  virtual void clear(const Color& color) override;
 
-  void flip() override;
-  void resize(int w, int h) override;
-  void apply_config() override;
   Vector to_logical(int physical_x, int physical_y) const override;
 
-  SDL_Window* get_window() const { return m_window; }
+  virtual void set_clip_rect(const Rect& rect) override;
+  virtual void clear_clip_rect() override;
+
+  void set_viewport(const SDL_Rect& viewport, const Vector& scale);
   SDL_Rect get_viewport() const { return m_viewport; }
 
 private:
-  void apply_video_mode();
+  GLVideoSystem& m_video_system;
+  SDL_Rect m_viewport;
+  Vector m_scale;
 
 private:
   GLRenderer(const GLRenderer&) = delete;

@@ -23,14 +23,16 @@
 #include "video/sdl/sdl_painter.hpp"
 #include "video/video_system.hpp"
 
-SDLLightmap::SDLLightmap() :
-  m_renderer(static_cast<SDLRenderer&>(VideoSystem::current()->get_renderer()).get_sdl_renderer()),
+SDLLightmap::SDLLightmap(SDL_Renderer* renderer) :
+  m_renderer(renderer),
   m_texture(),
   m_width(),
   m_height(),
-  m_LIGHTMAP_DIV()
+  m_LIGHTMAP_DIV(),
+  m_cliprect()
 {
-  m_LIGHTMAP_DIV = 5;
+  //m_LIGHTMAP_DIV = 5;
+  m_LIGHTMAP_DIV = 1;
 
   m_width = SCREEN_WIDTH;
   m_height = SCREEN_HEIGHT;
@@ -54,16 +56,9 @@ SDLLightmap::~SDLLightmap()
 }
 
 void
-SDLLightmap::start_draw(const Color &ambient_color)
+SDLLightmap::start_draw()
 {
   SDL_SetRenderTarget(m_renderer, m_texture);
-
-  Uint8 r = static_cast<Uint8>(ambient_color.red * 255);
-  Uint8 g = static_cast<Uint8>(ambient_color.green * 255);
-  Uint8 b = static_cast<Uint8>(ambient_color.blue * 255);
-
-  SDL_SetRenderDrawColor(m_renderer, r, g, b, 255);
-  SDL_RenderClear(m_renderer);
   SDL_RenderSetScale(m_renderer, 1.0f / m_LIGHTMAP_DIV, 1.0f / m_LIGHTMAP_DIV);
 }
 
@@ -72,20 +67,6 @@ SDLLightmap::end_draw()
 {
   SDL_RenderSetScale(m_renderer, 1.0f, 1.0f);
   SDL_SetRenderTarget(m_renderer, NULL);
-}
-
-void
-SDLLightmap::do_draw()
-{
-  SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_MOD);
-
-  SDL_Rect dst_rect;
-  dst_rect.x = 0;
-  dst_rect.y = 0;
-  dst_rect.w = m_width;
-  dst_rect.h = m_height;
-
-  SDL_RenderCopy(m_renderer, m_texture, NULL, &dst_rect);
 }
 
 void
@@ -131,6 +112,50 @@ SDLLightmap::draw_triangle(const DrawingRequest& request)
 }
 
 void
+SDLLightmap::clear(const Color& color)
+{
+  SDL_SetRenderDrawColor(m_renderer, color.r8(), color.g8(), color.b8(), color.a8());
+
+  if (m_cliprect)
+  {
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_NONE);
+    SDL_RenderFillRect(m_renderer, &*m_cliprect);
+  }
+  else
+  {
+    // This ignores the cliprect:
+    SDL_RenderClear(m_renderer);
+  }
+}
+
+void
+SDLLightmap::set_clip_rect(const Rect& rect)
+{
+  m_cliprect = SDL_Rect{ rect.left,
+                         rect.top,
+                         rect.get_width(),
+                         rect.get_height() };
+
+  int ret = SDL_RenderSetClipRect(m_renderer, &*m_cliprect);
+  if (ret < 0)
+  {
+    log_warning << "SDLLightmap::set_clip_rect(): SDL_RenderSetClipRect() failed: " << SDL_GetError() << std::endl;
+  }
+}
+
+void
+SDLLightmap::clear_clip_rect()
+{
+  m_cliprect.reset();
+
+  int ret = SDL_RenderSetClipRect(m_renderer, nullptr);
+  if (ret < 0)
+  {
+    log_warning << "SDLLightmap::clear_clip_rect(): SDL_RenderSetClipRect() failed: " << SDL_GetError() << std::endl;
+  }
+}
+
+void
 SDLLightmap::get_light(const DrawingRequest& request) const
 {
   const auto getlightrequest
@@ -157,6 +182,20 @@ SDLLightmap::get_light(const DrawingRequest& request) const
   *(getlightrequest->color_ptr) = Color(pixel[2] / 255.0f,
                                         pixel[1] / 255.0f,
                                         pixel[0] / 255.0f);
+}
+
+void
+SDLLightmap::render()
+{
+  SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_MOD);
+
+  SDL_Rect dst_rect;
+  dst_rect.x = 0;
+  dst_rect.y = 0;
+  dst_rect.w = m_width;
+  dst_rect.h = m_height;
+
+  SDL_RenderCopy(m_renderer, m_texture, NULL, &dst_rect);
 }
 
 /* EOF */

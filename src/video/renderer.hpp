@@ -18,7 +18,9 @@
 #define HEADER_SUPERTUX_VIDEO_RENDERER_HPP
 
 #include "math/vector.hpp"
+#include "video/color.hpp"
 
+class Rect;
 struct DrawingRequest;
 struct SDL_Window;
 
@@ -34,15 +36,16 @@ public:
   virtual void draw_surface(const DrawingRequest& request) = 0;
   virtual void draw_surface_part(const DrawingRequest& request) = 0;
   virtual void draw_gradient(const DrawingRequest& request) = 0;
-  virtual void draw_filled_rect(const DrawingRequest& request)= 0;
-  virtual void draw_inverse_ellipse(const DrawingRequest& request)= 0;
-  virtual void draw_line(const DrawingRequest& request)= 0;
-  virtual void draw_triangle(const DrawingRequest& request)= 0;
+  virtual void draw_filled_rect(const DrawingRequest& request) = 0;
+  virtual void draw_inverse_ellipse(const DrawingRequest& request) = 0;
+  virtual void draw_line(const DrawingRequest& request) = 0;
+  virtual void draw_triangle(const DrawingRequest& request) = 0;
+  virtual void clear(const Color& color) = 0;
 
-  virtual void flip() = 0;
-  virtual void resize(int w, int h) = 0;
-  virtual void apply_config() = 0;
   virtual Vector to_logical(int physical_x, int physical_y) const = 0;
+
+  virtual void set_clip_rect(const Rect& rect) = 0;
+  virtual void clear_clip_rect() = 0;
 };
 
 #endif

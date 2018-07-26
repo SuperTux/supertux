@@ -41,10 +41,11 @@ apply_pixel_aspect_ratio_pre(const Size& window_size, float pixel_aspect_ratio)
 
 inline void
 apply_pixel_aspect_ratio_post(const Size& real_window_size, const Size& window_size, float scale,
-                                   SDL_Rect& out_viewport, Vector& out_scale)
+                              SDL_Rect& out_viewport, Vector& out_scale)
 {
   Vector transform(static_cast<float>(real_window_size.width) / window_size.width,
                    static_cast<float>(real_window_size.height) / window_size.height);
+
   out_viewport.x *= transform.x;
   out_viewport.y *= transform.y;
 
@@ -109,7 +110,6 @@ void calculate_viewport(const Size& min_size, const Size& max_size,
                         const Size& real_window_size,
                         float pixel_aspect_ratio, float magnification,
                         Vector& out_scale,
-                        Size& out_logical_size,
                         SDL_Rect& out_viewport)
 {
   // Transform the real window_size by the aspect ratio, then do
@@ -120,9 +120,6 @@ void calculate_viewport(const Size& min_size, const Size& max_size,
 
   // Calculate the new viewport size
   out_viewport = calculate_viewport(max_size, window_size, scale);
-
-  out_logical_size.width = static_cast<int>(out_viewport.w / scale);
-  out_logical_size.height = static_cast<int>(out_viewport.h / scale);
 
   // Transform the virtual window_size back into real window coordinates
   apply_pixel_aspect_ratio_post(real_window_size, window_size, scale,

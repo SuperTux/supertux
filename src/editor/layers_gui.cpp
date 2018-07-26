@@ -53,9 +53,9 @@ EditorLayersGui::draw(DrawingContext& context) {
   }
 
   context.color().draw_filled_rect(Rectf(Vector(0, Ypos), Vector(Width, SCREEN_HEIGHT)),
-                           Color(0.9f, 0.9f, 1.0f, 0.6f),
-                           0.0f,
-                           LAYER_GUI-10);
+                                     Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                     0.0f,
+                                     LAYER_GUI-10);
 
   Rectf target_rect = Rectf(0, 0, 0, 0);
   bool draw_rect = true;
@@ -77,7 +77,7 @@ EditorLayersGui::draw(DrawingContext& context) {
   if(draw_rect)
   {
     context.color().draw_filled_rect(target_rect, Color(0.9f, 0.9f, 1.0f, 0.6f), 0.0f,
-                             LAYER_GUI-5);
+                                       LAYER_GUI-5);
   }
 
   if (!Editor::current()->is_level_loaded()) {

@@ -20,22 +20,36 @@
 #include <vector>
 #include <memory>
 
-#include "video/drawing_context.hpp"
+#include "util/obstackpp.hpp"
 
+class DrawingContext;
 class Rect;
 class VideoSystem;
 
 class Compositor final
 {
 public:
+  /** Debug flag to disable lighting, used in the editor */
+  static bool s_render_lighting;
+
+public:
   Compositor(VideoSystem& video_system);
+  ~Compositor();
 
   void render();
 
-  DrawingContext& make_context();
+  /** Create a DrawingContext, if overlay is true the context will not
+      feature light rendering. This is required for contexts that
+      overlap with other context (e.g. the HUD in ScreenManager) as
+      otherwise their lighting would get messed up. */
+  DrawingContext& make_context(bool overlay = false);
 
 private:
   VideoSystem& m_video_system;
+
+  /* obstack holding the memory of the drawing requests */
+  obstack m_obst;
+
   std::vector<std::unique_ptr<DrawingContext> > m_drawing_contexts;
 
 private:

@@ -19,6 +19,9 @@
 
 #include "video/lightmap.hpp"
 
+#include <SDL.h>
+#include <boost/optional.hpp>
+
 class Color;
 struct DrawingRequest;
 struct SDL_Renderer;
@@ -27,22 +30,26 @@ struct SDL_Texture;
 class SDLLightmap : public Lightmap
 {
 public:
-  SDLLightmap();
+  SDLLightmap(SDL_Renderer* renderer);
   ~SDLLightmap();
 
-  void start_draw(const Color &ambient_color) override;
-  void end_draw() override;
+  virtual void start_draw() override;
+  virtual void end_draw() override;
 
-  void draw_surface(const DrawingRequest& request) override;
-  void draw_surface_part(const DrawingRequest& request) override;
-  void draw_gradient(const DrawingRequest& request) override;
-  void draw_filled_rect(const DrawingRequest& request) override;
-  void draw_inverse_ellipse(const DrawingRequest& request) override;
-  void draw_line(const DrawingRequest& request) override;
-  void draw_triangle(const DrawingRequest& request) override;
+  virtual void draw_surface(const DrawingRequest& request) override;
+  virtual void draw_surface_part(const DrawingRequest& request) override;
+  virtual void draw_gradient(const DrawingRequest& request) override;
+  virtual void draw_filled_rect(const DrawingRequest& request) override;
+  virtual void draw_inverse_ellipse(const DrawingRequest& request) override;
+  virtual void draw_line(const DrawingRequest& request) override;
+  virtual void draw_triangle(const DrawingRequest& request) override;
+  virtual void clear(const Color& color) override;
 
-  void get_light(const DrawingRequest& request) const override;
-  void do_draw() override;
+  virtual void set_clip_rect(const Rect& rect) override;
+  virtual void clear_clip_rect() override;
+
+  virtual void get_light(const DrawingRequest& request) const override;
+  virtual void render() override;
 
 private:
   SDL_Renderer* m_renderer;
@@ -50,6 +57,7 @@ private:
   int m_width;
   int m_height;
   int m_LIGHTMAP_DIV;
+  boost::optional<SDL_Rect> m_cliprect;
 
 private:
   SDLLightmap(const SDLLightmap&);

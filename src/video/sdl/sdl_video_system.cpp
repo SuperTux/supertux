@@ -20,18 +20,192 @@
 #include <physfs.h>
 
 #include "math/rect.hpp"
+#include "supertux/globals.hpp"
+#include "supertux/gameconfig.hpp"
 #include "util/log.hpp"
 #include "video/renderer.hpp"
+#include "video/util.hpp"
 #include "video/sdl/sdl_lightmap.hpp"
 #include "video/sdl/sdl_renderer.hpp"
 #include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
 
 SDLVideoSystem::SDLVideoSystem() :
-  m_renderer(new SDLRenderer),
-  m_lightmap(new SDLLightmap),
-  m_texture_manager(new TextureManager)
+  m_sdl_window(),
+  m_sdl_renderer(),
+  m_desktop_size(),
+  m_renderer(),
+  m_lightmap(),
+  m_texture_manager()
 {
+  SDL_DisplayMode mode;
+  if (SDL_GetDesktopDisplayMode(0, &mode) != 0)
+  {
+    log_warning << "Couldn't get desktop display mode: " << SDL_GetError() << std::endl;
+  }
+  else
+  {
+    m_desktop_size = Size(mode.w, mode.h);
+  }
+
+  log_info << "creating SDLRenderer" << std::endl;
+  int width  = g_config->window_size.width;
+  int height = g_config->window_size.height;
+
+  int flags = SDL_WINDOW_RESIZABLE;
+  if(g_config->use_fullscreen)
+  {
+    if (g_config->fullscreen_size == Size(0, 0))
+    {
+      flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+      width = g_config->window_size.width;
+      height = g_config->window_size.height;
+    }
+    else
+    {
+      flags |= SDL_WINDOW_FULLSCREEN;
+      width  = g_config->fullscreen_size.width;
+      height = g_config->fullscreen_size.height;
+    }
+  }
+
+  SCREEN_WIDTH = width;
+  SCREEN_HEIGHT = height;
+
+  // m_viewport.x = 0;
+  // m_viewport.y = 0;
+  // m_viewport.w = width;
+  // m_viewport.h = height;
+
+  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+
+  int ret = SDL_CreateWindowAndRenderer(width, height, flags, &m_sdl_window, &m_sdl_renderer);
+  if(ret != 0)
+  {
+    std::stringstream msg;
+    msg << "Couldn't set video mode (" << width << "x" << height
+        << "): " << SDL_GetError();
+    throw std::runtime_error(msg.str());
+  }
+
+  g_config->window_size = Size(width, height);
+
+  m_renderer.reset(new SDLRenderer(m_sdl_renderer));
+  m_lightmap.reset(new SDLLightmap(m_sdl_renderer));
+  m_texture_manager.reset(new TextureManager);
+
+  apply_config();
+}
+
+SDLVideoSystem::~SDLVideoSystem()
+{
+  SDL_DestroyRenderer(m_sdl_renderer);
+  SDL_DestroyWindow(m_sdl_window);
+}
+
+void
+SDLVideoSystem::apply_config()
+{
+  apply_video_mode();
+  apply_viewport();
+}
+
+void
+SDLVideoSystem::apply_video_mode()
+{
+  if (!g_config->use_fullscreen)
+  {
+    SDL_SetWindowFullscreen(m_sdl_window, 0);
+  }
+  else
+  {
+    if (g_config->fullscreen_size.width == 0 &&
+        g_config->fullscreen_size.height == 0)
+    {
+      if (SDL_SetWindowFullscreen(m_sdl_window, SDL_WINDOW_FULLSCREEN_DESKTOP) != 0)
+      {
+        log_warning << "failed to switch to desktop fullscreen mode: "
+                    << SDL_GetError() << std::endl;
+      }
+      else
+      {
+        log_info << "switched to desktop fullscreen mode" << std::endl;
+      }
+    }
+    else
+    {
+      SDL_DisplayMode mode;
+      mode.format = SDL_PIXELFORMAT_RGB888;
+      mode.w = g_config->fullscreen_size.width;
+      mode.h = g_config->fullscreen_size.height;
+      mode.refresh_rate = g_config->fullscreen_refresh_rate;
+      mode.driverdata = 0;
+
+      if (SDL_SetWindowDisplayMode(m_sdl_window, &mode) != 0)
+      {
+        log_warning << "failed to set display mode: "
+                    << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
+                    << SDL_GetError() << std::endl;
+      }
+      else
+      {
+        if (SDL_SetWindowFullscreen(m_sdl_window, SDL_WINDOW_FULLSCREEN) != 0)
+        {
+          log_warning << "failed to switch to fullscreen mode: "
+                      << mode.w << "x" << mode.h << "@" << mode.refresh_rate << ": "
+                      << SDL_GetError() << std::endl;
+        }
+        else
+        {
+          log_info << "switched to fullscreen mode: "
+                   << mode.w << "x" << mode.h << "@" << mode.refresh_rate << std::endl;
+        }
+      }
+    }
+  }
+}
+
+void
+SDLVideoSystem::apply_viewport()
+{
+  Size target_size = (g_config->use_fullscreen && g_config->fullscreen_size != Size(0, 0)) ?
+    g_config->fullscreen_size :
+    g_config->window_size;
+
+  float pixel_aspect_ratio = 1.0f;
+  if (g_config->aspect_size != Size(0, 0))
+  {
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(m_desktop_size,
+                                                      g_config->aspect_size);
+  }
+  else if (g_config->use_fullscreen)
+  {
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(m_desktop_size,
+                                                      target_size);
+  }
+
+  // calculate the viewport
+  SDL_Rect viewport;
+  Vector scale;
+  calculate_viewport(s_min_size, s_max_size,
+                     target_size,
+                     pixel_aspect_ratio,
+                     g_config->magnification,
+                     scale, viewport);
+
+  SCREEN_WIDTH = static_cast<int>(viewport.w / scale.x);
+  SCREEN_HEIGHT = static_cast<int>(viewport.h / scale.y);
+
+  if (viewport.x != 0 || viewport.y != 0)
+  {
+    // Clear the screen to avoid garbage in unreachable areas after we
+    m_renderer->clear(Color::BLACK);
+    m_renderer->flip();
+    m_renderer->clear(Color::BLACK);
+    m_renderer->flip();
+  }
+
+  m_renderer->set_viewport(viewport, scale);
 }
 
 Renderer&
@@ -65,16 +239,13 @@ SDLVideoSystem::free_surface_data(SurfaceData* surface_data)
 }
 
 void
-SDLVideoSystem::apply_config()
+SDLVideoSystem::on_resize(int w, int h)
 {
-  m_renderer->apply_config();
-}
+  g_config->window_size = Size(w, h);
 
-void
-SDLVideoSystem::resize(int w, int h)
-{
-  m_renderer->resize(w, h);
-  m_lightmap.reset(new SDLLightmap);
+  apply_config();
+
+  m_lightmap.reset(new SDLLightmap(m_sdl_renderer));
 }
 
 void
@@ -82,19 +253,19 @@ SDLVideoSystem::set_gamma(float gamma)
 {
   Uint16 ramp[256];
   SDL_CalculateGammaRamp(gamma, ramp);
-  SDL_SetWindowGammaRamp(m_renderer->get_window(), ramp, ramp, ramp);
+  SDL_SetWindowGammaRamp(m_sdl_window, ramp, ramp, ramp);
 }
 
 void
 SDLVideoSystem::set_title(const std::string& title)
 {
-  SDL_SetWindowTitle(m_renderer->get_window(), title.c_str());
+  SDL_SetWindowTitle(m_sdl_window, title.c_str());
 }
 
 void
 SDLVideoSystem::set_icon(SDL_Surface* icon)
 {
-  SDL_SetWindowIcon(m_renderer->get_window(), icon);
+  SDL_SetWindowIcon(m_sdl_window, icon);
 }
 
 void
@@ -164,30 +335,9 @@ SDLVideoSystem::do_take_screenshot()
 }
 
 void
-SDLVideoSystem::set_clip_rect(const Rect& rect)
+SDLVideoSystem::flip()
 {
-  SDL_Rect cliprect;
-
-  cliprect.x = rect.left;
-  cliprect.y = rect.top;
-  cliprect.w = rect.get_width();
-  cliprect.h = rect.get_height();
-
-  int ret = SDL_RenderSetClipRect(m_renderer->get_sdl_renderer(), &cliprect);
-  if (ret < 0)
-  {
-    log_warning << "SDLRenderer::set_clip_rect(): SDL_RenderSetClipRect() failed: " << SDL_GetError() << std::endl;
-  }
-}
-
-void
-SDLVideoSystem::clear_clip_rect()
-{
-  int ret = SDL_RenderSetClipRect(m_renderer->get_sdl_renderer(), nullptr);
-  if (ret < 0)
-  {
-    log_warning << "SDLRenderer::clear_clip_rect(): SDL_RenderSetClipRect() failed: " << SDL_GetError() << std::endl;
-  }
+  m_renderer->flip();
 }
 
 /* EOF */

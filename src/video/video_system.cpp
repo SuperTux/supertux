@@ -23,8 +23,14 @@
 #include "video/sdl/sdl_video_system.hpp"
 
 #ifdef HAVE_OPENGL
-#include "video/gl/gl_video_system.hpp"
+#  include "video/gl/gl_video_system.hpp"
 #endif
+
+// Minimum and maximum size of the virtual screen, note that the
+// maximum must not exceed X/Y_OFFSCREEN_DISTANCE or enemies end up
+// spawning on screen instead of off-screen.
+const Size VideoSystem::s_max_size(1280, 800);
+const Size VideoSystem::s_min_size(640, 480);
 
 std::unique_ptr<VideoSystem>
 VideoSystem::create(VideoSystem::Enum video_system)

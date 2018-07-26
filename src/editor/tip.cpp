@@ -50,12 +50,12 @@ Tip::draw(DrawingContext& context, const Vector& pos) {
   auto position = pos;
   position.y += 35;
   context.color().draw_text(Resources::normal_font, header, position,
-                    ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::label_color);
+                              ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::label_color);
 
   for(const auto& str : strings) {
     position.y += 22;
     context.color().draw_text(Resources::normal_font, str, position,
-                      ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::default_color);
+                                ALIGN_LEFT, LAYER_GUI-11, ColorScheme::Menu::default_color);
   }
 }
 

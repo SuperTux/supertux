@@ -850,21 +850,21 @@ EditorInputCenter::draw(DrawingContext& context) {
     Vector p2 = Vector(sector_pos.x, drag_start.y) - cam_translation;
 
     context.color().draw_filled_rect(Rectf(p0, p1 + Vector(2, 2)),
-                             Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
+                                       Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
     context.color().draw_filled_rect(Rectf(p2, mouse_pos + Vector(2, 2)),
-                             Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
+                                       Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
     context.color().draw_filled_rect(Rectf(p0, p2 + Vector(2, 2)),
-                             Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
+                                       Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
     context.color().draw_filled_rect(Rectf(p1, mouse_pos + Vector(2, 2)),
-                             Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
+                                       Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
 
     context.color().draw_filled_rect(Rectf(p0, mouse_pos),
-                             Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
+                                       Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
   }
 
   if (dragging && dragging_right) {
     context.color().draw_filled_rect(selection_draw_rect(),
-                             Color(0.2f, 0.4f, 1.0f, 0.6f), 0.0f, LAYER_GUI-13);
+                                       Color(0.2f, 0.4f, 1.0f, 0.6f), 0.0f, LAYER_GUI-13);
   }
 }
 
