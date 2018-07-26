@@ -59,6 +59,7 @@ Compositor::render()
 
   use_lightmap = use_lightmap && s_render_lighting;
 
+  // prepare lightmap
   if (use_lightmap)
   {
     lightmap.start_draw();
@@ -78,30 +79,34 @@ Compositor::render()
     lightmap.end_draw();
   }
 
-  // draw colormap
+  // compose the screen
   {
     renderer.start_draw();
+
     for(auto& ctx : m_drawing_contexts)
     {
       renderer.set_clip_rect(ctx->get_viewport());
       ctx->color().render(m_video_system, Canvas::BELOW_LIGHTMAP);
       renderer.clear_clip_rect();
     }
+
+    if (use_lightmap)
+    {
+      lightmap.render();
+    }
+
+    // Render overlay elements
+    for(auto& ctx : m_drawing_contexts)
+    {
+      renderer.set_clip_rect(ctx->get_viewport());
+      ctx->color().render(m_video_system, Canvas::ABOVE_LIGHTMAP);
+      renderer.clear_clip_rect();
+    }
+
     renderer.end_draw();
   }
 
-  if (use_lightmap)
-  {
-    lightmap.render();
-  }
-
-  // Render overlay elements
-  for(auto& ctx : m_drawing_contexts)
-  {
-    ctx->color().render(m_video_system, Canvas::ABOVE_LIGHTMAP);
-  }
-
-  // clear
+  // cleanup
   for(auto& ctx : m_drawing_contexts)
   {
     ctx->clear();
