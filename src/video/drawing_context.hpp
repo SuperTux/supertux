@@ -75,15 +75,11 @@ public:
 
   Canvas& color() { return m_colormap_canvas; }
   Canvas& light() { assert(!m_overlay); return m_lightmap_canvas; }
-  Canvas& overlay() { return m_overlay_canvas; }
   Canvas& get_canvas(Target target) {
     switch(target)
     {
       case LIGHTMAP:
         return light();
-
-      case OVERLAY:
-        return overlay();
 
       default:
         return color();
@@ -115,7 +111,6 @@ public:
 
   void clear()
   {
-    m_overlay_canvas.clear();
     m_lightmap_canvas.clear();
     m_colormap_canvas.clear();
   }
@@ -148,7 +143,6 @@ private:
   Rect m_viewport;
   Canvas m_colormap_canvas;
   Canvas m_lightmap_canvas;
-  Canvas m_overlay_canvas;
 
   Color m_ambient_color;
 

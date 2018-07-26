@@ -33,7 +33,6 @@ DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool o
   m_viewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
   m_colormap_canvas(NORMAL, *this, m_obst),
   m_lightmap_canvas(LIGHTMAP, *this, m_obst),
-  m_overlay_canvas(OVERLAY, *this, m_obst),
   m_ambient_color(Color::WHITE),
   m_transformstack(),
   m_transform()

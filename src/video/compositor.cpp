@@ -70,7 +70,7 @@ Compositor::render()
         lightmap.set_clip_rect(ctx->get_viewport());
         lightmap.clear(ctx->get_ambient_color());
 
-        ctx->light().render(m_video_system);
+        ctx->light().render(m_video_system, Canvas::ALL);
 
         lightmap.clear_clip_rect();
       }
@@ -84,7 +84,7 @@ Compositor::render()
     for(auto& ctx : m_drawing_contexts)
     {
       renderer.set_clip_rect(ctx->get_viewport());
-      ctx->color().render(m_video_system);
+      ctx->color().render(m_video_system, Canvas::BELOW_LIGHTMAP);
       renderer.clear_clip_rect();
     }
     renderer.end_draw();
@@ -98,7 +98,7 @@ Compositor::render()
   // Render overlay elements
   for(auto& ctx : m_drawing_contexts)
   {
-    ctx->overlay().render(m_video_system);
+    ctx->color().render(m_video_system, Canvas::ABOVE_LIGHTMAP);
   }
 
   // clear

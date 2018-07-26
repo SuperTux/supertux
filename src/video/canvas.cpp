@@ -53,7 +53,7 @@ Canvas::clear()
 }
 
 void
-Canvas::render(VideoSystem& video_system)
+Canvas::render(VideoSystem& video_system, Filter filter)
 {
   // On a regular level, each frame has around 1000-3000 requests, the
   // sort comparator function is called approximatly 7 times for each request.
@@ -68,10 +68,13 @@ Canvas::render(VideoSystem& video_system)
   for(const auto& i : m_requests) {
     const DrawingRequest& request = *i;
 
+    if (filter == BELOW_LIGHTMAP && request.layer >= LAYER_LIGHTMAP)
+      continue;
+    else if (filter == ABOVE_LIGHTMAP && request.layer <= LAYER_LIGHTMAP)
+      continue;
+
     switch(m_target) {
       case NORMAL:
-        // [[fallthrough]];
-      case OVERLAY:
         switch(request.type) {
           case SURFACE:
             renderer.draw_surface(request);

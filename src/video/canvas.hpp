@@ -40,11 +40,6 @@ enum Target {
   /** The lightmap is drawn on top of the color layer and darkens it,
       elements drawn here act as lightsources. */
   LIGHTMAP,
-
-  /** The overlay layer is drawn after the lightmap and used for GUI
-      elements and sprite highlights that should not be darkened by
-      the lightmap. */
-  OVERLAY
 };
 
 // some constants for predefined layer values
@@ -67,6 +62,9 @@ enum {
   LAYER_FOREGROUND0 = 300,
   //
   LAYER_FOREGROUND1 = 400,
+
+  LAYER_LIGHTMAP = 450,
+
   // Hitpoints, time, coins, etc.
   LAYER_HUD = 500,
   // Menus, mouse, console etc.
@@ -92,6 +90,9 @@ public:
 
 class Canvas
 {
+public:
+  enum Filter { BELOW_LIGHTMAP, ABOVE_LIGHTMAP, ALL };
+
 public:
   Canvas(Target target, DrawingContext& context, obstack& obst);
   ~Canvas();
@@ -124,7 +125,7 @@ public:
   void draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer);
 
   void clear();
-  void render(VideoSystem& video_system);
+  void render(VideoSystem& video_system, Filter filter);
 
   DrawingContext& get_context() { return m_context; }
 
