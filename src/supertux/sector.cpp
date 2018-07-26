@@ -1285,6 +1285,7 @@ Sector::handle_collisions()
     for (const auto& child : children) {
         child->collision_parent = plf;
         child->parent_updated = true;
+        child->dest.move(plf->get_movement());
     }
   }
   // apply object movement
@@ -1293,8 +1294,6 @@ Sector::handle_collisions()
     moving_object->movement = Vector(0, 0);
     if (!moving_object->parent_updated) {
         moving_object->collision_parent = NULL;
-    }else{
-      moving_object->dest.move(moving_object->collision_parent->get_movement());
     }
     moving_object->parent_updated = false;
     if (!(moving_object->get_group() != COLGROUP_MOVING
