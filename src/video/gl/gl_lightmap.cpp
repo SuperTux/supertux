@@ -166,6 +166,7 @@ GLLightmap::draw_triangle(const DrawingRequest& request)
 void
 GLLightmap::clear(const Color& color)
 {
+  // This is supposed to respect glScissor
   glClearColor(color.red, color.green, color.blue, color.alpha);
   glClear(GL_COLOR_BUFFER_BIT);
 }
