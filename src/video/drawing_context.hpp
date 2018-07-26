@@ -132,9 +132,7 @@ public:
 
   bool use_lightmap() const
   {
-    return (m_ambient_color.red != 1.0f ||
-            m_ambient_color.green != 1.0f ||
-            m_ambient_color.blue != 1.0f);
+    return m_ambient_color != Color::WHITE;
   }
 
 private:
