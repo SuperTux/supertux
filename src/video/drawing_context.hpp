@@ -60,7 +60,7 @@ public:
 class DrawingContext final
 {
 public:
-  DrawingContext(VideoSystem& video_system, obstack& obst);
+  DrawingContext(VideoSystem& video_system, obstack& obst, bool overlay);
   ~DrawingContext();
 
   /// Returns the visible area in world coordinates
@@ -74,19 +74,19 @@ public:
   static const Target LIGHTMAP = ::LIGHTMAP;
 
   Canvas& color() { return m_colormap_canvas; }
-  Canvas& light() { return m_lightmap_canvas; }
+  Canvas& light() { assert(!m_overlay); return m_lightmap_canvas; }
   Canvas& overlay() { return m_overlay_canvas; }
   Canvas& get_canvas(Target target) {
     switch(target)
     {
       case LIGHTMAP:
-        return m_lightmap_canvas;
+        return light();
 
       case OVERLAY:
-        return m_overlay_canvas;
+        return overlay();
 
       default:
-        return m_colormap_canvas;
+        return color();
     }
   }
 
@@ -132,14 +132,18 @@ public:
 
   bool use_lightmap() const
   {
-    return m_ambient_color != Color::WHITE;
+    return !m_overlay && m_ambient_color != Color::WHITE;
   }
+
+  bool is_overlay() const { return m_overlay; }
 
 private:
   VideoSystem& m_video_system;
 
   /* obstack holding the memory of the drawing requests */
   obstack& m_obst;
+
+  bool m_overlay;
 
   Rect m_viewport;
   Canvas m_colormap_canvas;

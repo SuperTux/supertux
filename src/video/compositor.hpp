@@ -38,7 +38,11 @@ public:
 
   void render();
 
-  DrawingContext& make_context();
+  /** Create a DrawingContext, if overlay is true the context will not
+      feature light rendering. This is required for contexts that
+      overlap with other context (e.g. the HUD in ScreenManager) as
+      otherwise their lighting would get messed up. */
+  DrawingContext& make_context(bool overlay = false);
 
 private:
   VideoSystem& m_video_system;

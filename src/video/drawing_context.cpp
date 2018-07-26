@@ -26,9 +26,10 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 
-DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst) :
+DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool overlay) :
   m_video_system(video_system_),
   m_obst(obst),
+  m_overlay(overlay),
   m_viewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
   m_colormap_canvas(NORMAL, *this, m_obst),
   m_lightmap_canvas(LIGHTMAP, *this, m_obst),

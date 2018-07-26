@@ -158,7 +158,7 @@ ScreenManager::draw(Compositor& compositor)
   m_screen_stack.back()->draw(compositor);
 
   // draw effects and hud
-  auto& context = compositor.make_context();
+  auto& context = compositor.make_context(true);
   m_menu_manager->draw(context);
 
   if (m_screen_fade)

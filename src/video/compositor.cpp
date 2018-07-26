@@ -40,9 +40,9 @@ Compositor::~Compositor()
 }
 
 DrawingContext&
-Compositor::make_context()
+Compositor::make_context(bool overlay)
 {
-  m_drawing_contexts.emplace_back(new DrawingContext(m_video_system, m_obst));
+  m_drawing_contexts.emplace_back(new DrawingContext(m_video_system, m_obst, overlay));
   return *m_drawing_contexts.back();
 }
 
@@ -62,16 +62,18 @@ Compositor::render()
   if (use_lightmap)
   {
     lightmap.start_draw();
-    lightmap.clear(m_drawing_contexts[0]->get_ambient_color());
 
     for(auto& ctx : m_drawing_contexts)
     {
-      //lightmap.set_clip_rect(ctx->get_viewport());
-      //lightmap.clear(m_drawing_contexts[0]->get_ambient_color());
+      if (!ctx->is_overlay())
+      {
+        lightmap.set_clip_rect(ctx->get_viewport());
+        lightmap.clear(ctx->get_ambient_color());
 
-      ctx->light().render(m_video_system);
+        ctx->light().render(m_video_system);
 
-      //lightmap.clear_clip_rect();
+        lightmap.clear_clip_rect();
+      }
     }
     lightmap.end_draw();
   }
