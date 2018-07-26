@@ -17,14 +17,17 @@
 
 #include "video/gl/gl_renderer.hpp"
 
+#include "math/rect.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/gl/gl_painter.hpp"
+#include "video/gl/gl_video_system.hpp"
 #include "video/glutil.hpp"
 #include "video/util.hpp"
 
-GLRenderer::GLRenderer() :
+GLRenderer::GLRenderer(GLVideoSystem& video_system) :
+  m_video_system(video_system),
   m_viewport(),
   m_scale(1.0f, 1.0f)
 {

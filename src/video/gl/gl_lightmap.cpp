@@ -20,6 +20,7 @@
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_painter.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/gl/gl_video_system.hpp"
 
 inline int next_po2(int val)
 {
@@ -30,15 +31,18 @@ inline int next_po2(int val)
   return result;
 }
 
-GLLightmap::GLLightmap() :
+GLLightmap::GLLightmap(GLVideoSystem& video_system) :
+  m_video_system(video_system),
   m_lightmap(),
   m_lightmap_width(),
   m_lightmap_height(),
   m_lightmap_uv_right(),
   m_lightmap_uv_bottom()
 {
-  m_lightmap_width = SCREEN_WIDTH / s_LIGHTMAP_DIV;
-  m_lightmap_height = SCREEN_HEIGHT / s_LIGHTMAP_DIV;
+  auto window_size = m_video_system.get_window_size();
+
+  m_lightmap_width = window_size.width / s_LIGHTMAP_DIV;
+  m_lightmap_height = window_size.height / s_LIGHTMAP_DIV;
   unsigned int width = next_po2(m_lightmap_width);
   unsigned int height = next_po2(m_lightmap_height);
 

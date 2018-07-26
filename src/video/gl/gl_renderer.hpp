@@ -22,6 +22,7 @@
 #include "math/vector.hpp"
 #include "video/renderer.hpp"
 
+class GLVideoSystem;
 struct DrawingRequest;
 
 class GLRenderer : public Renderer
@@ -29,7 +30,7 @@ class GLRenderer : public Renderer
 private:
 
 public:
-  GLRenderer();
+  GLRenderer(GLVideoSystem& video_system);
   ~GLRenderer();
 
   virtual void start_draw() override;
@@ -53,9 +54,7 @@ public:
   SDL_Rect get_viewport() const { return m_viewport; }
 
 private:
-  void apply_video_mode();
-
-private:
+  GLVideoSystem& m_video_system;
   SDL_Rect m_viewport;
   Vector m_scale;
 

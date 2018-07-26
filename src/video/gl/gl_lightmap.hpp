@@ -23,14 +23,15 @@
 #include "video/glutil.hpp"
 
 class GLTexture;
-class Texture;
+class GLVideoSystem;
 class Rect;
+class Texture;
 struct DrawingRequest;
 
 class GLLightmap final : public Lightmap
 {
 public:
-  GLLightmap();
+  GLLightmap(GLVideoSystem& video_system);
   ~GLLightmap();
 
   virtual void start_draw() override;
@@ -55,6 +56,8 @@ private:
   static const int s_LIGHTMAP_DIV = 5;
 
 private:
+  GLVideoSystem& m_video_system;
+
   std::shared_ptr<GLTexture> m_lightmap;
   int m_lightmap_width;
   int m_lightmap_height;
