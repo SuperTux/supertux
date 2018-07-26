@@ -134,8 +134,11 @@ public:
 
   Rectf grown(float border) const
   {
-    return Rectf(p1.x - border, p1.y - border,
-                 p2.x + border, p2.y + border);
+    if (std::min(p2.x - border  ,p1.x - border) > std::max( p1.x + border ,p2.x + border) ||
+      std::min(p2.y - border  ,p1.y - border) > std::max(p1.y + border , p2.y + border))
+      return Rectf(p1.x, p1.y, p2.x, p2.y);
+    return Rectf(std::min(p2.x - border  ,p1.x - border), std::min(p2.y - border  ,p1.y - border),
+                 std::max( p1.x + border ,p2.x + border),std::max(p1.y + border , p2.y + border));
   }
 
   Polygon to_polygon() const

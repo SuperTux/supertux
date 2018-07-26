@@ -1010,8 +1010,9 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2, collision
 void Sector::collision_moving_static(const Vector& movement, Rectf& dest,
 MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
 {
+  std::set< CollisionHit > colhits;
   for (auto& moving_object : moving_objects) {
-    std::set< CollisionHit > colhits;
+
     if (moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
       continue;
@@ -1027,7 +1028,7 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       Manifold m;
       CollisionHit h;
       std::set< MovingObject* > possible_neighbours;
-      broadphase->search(moving_object->get_bbox().grown(4), []{},
+      broadphase->search(moving_object->get_bbox().grown(10), []{},
                   possible_neighbours);
       for (const auto& mobject : possible_neighbours) {
         // TODO Specail case: Same object on multiple layers
@@ -1065,9 +1066,10 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       // Insert into collision graph
       graph.register_collision_hit(h, &object, moving_object);
       }
-      for(const auto& hit : colhits)
-        object.collision_solid(hit);
+
     }
+    for(const auto& hit : colhits)
+      object.collision_solid(hit);
 }
 void
 Sector::collision_static(collision::Constraints* constraints,
@@ -1086,7 +1088,7 @@ Sector::collision_static(collision::Constraints* constraints,
                   (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
     dest.move(overlapV);
   }
-//  return;
+  return;
   double extend_left = 0.0f,
          extend_right = 0.0f,
          extend_top = 0.0f,
@@ -1167,15 +1169,20 @@ Sector::handle_collisions()
 
     moving_object->dest = moving_object->get_bbox();
     moving_object->dest.move(moving_object->get_movement());
-    moving_object->dest = moving_object->dest.grown(-pixeld);
   }
   for (const auto& mobj : moving_objects) {
     if (mobj->collision_parent != NULL) {
       mobj->movement += mobj->collision_parent->get_movement();
       mobj->dest = mobj->get_bbox();
       mobj->dest.move(mobj->get_movement());
-      mobj->dest = mobj->dest.grown(-pixeld);
     }
+    if (!(mobj->get_group() != COLGROUP_MOVING
+        && mobj->get_group() != COLGROUP_MOVING_STATIC
+        && mobj->get_group() != COLGROUP_MOVING_ONLY_STATIC))
+    {
+      mobj->dest =   mobj->dest.grown(-pixeld);
+    }
+
   }
 
   // part 0: Handle moving objects
@@ -1224,7 +1231,7 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
     std::set< MovingObject* > possibleCollisions;
-    broadphase->search(moving_object->dest, []{} , possibleCollisions);
+    broadphase->search(moving_object->dest.grown(4), []{} , possibleCollisions);
     for (auto& moving_object_2 : possibleCollisions) {
       if (moving_object_2 == moving_object)
         continue;
@@ -1259,7 +1266,7 @@ Sector::handle_collisions()
       continue;
     // Query the broadphase
     std::set< MovingObject* > possibleCollisions;
-    broadphase->search(moving_object->dest, []{} , possibleCollisions);
+    broadphase->search(moving_object->dest.grown(4), []{} , possibleCollisions);
     for (auto i2 = possibleCollisions.begin(); i2 != possibleCollisions.end(); ++i2)
     {
       auto moving_object_2 = *i2;
@@ -1288,12 +1295,19 @@ Sector::handle_collisions()
   }
   // apply object movement
   for (const auto& moving_object : moving_objects) {
-    moving_object->bbox = moving_object->dest.grown(pixeld);
+
     moving_object->movement = Vector(0, 0);
     if (!moving_object->parent_updated) {
         moving_object->collision_parent = NULL;
     }
     moving_object->parent_updated = false;
+    if (!(moving_object->get_group() != COLGROUP_MOVING
+        && moving_object->get_group() != COLGROUP_MOVING_STATIC
+        && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC))
+    {
+      moving_object->dest =   moving_object->dest.grown(pixeld);
+    }
+    moving_object->bbox = moving_object->dest;
   }
 
 }
@@ -1305,7 +1319,7 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
 
   for(const auto& solids : solid_tilemaps) {
     // test with all tiles in this rectangle
-    Rect test_tiles = solids->get_tiles_overlapping(rect);
+    Rect test_tiles = solids->get_tiles_overlapping(rect.grown(-1));
 
     for(int x = test_tiles.left; x < test_tiles.right; ++x) {
       for(int y = test_tiles.top; y < test_tiles.bottom; ++y) {
@@ -1320,7 +1334,7 @@ Sector::is_free_of_tiles(const Rectf& rect, const bool ignoreUnisolid) const
           Rectf tbbox = solids->get_tile_bbox(x, y);
           triangle = AATriangle(tbbox, tile->getData());
           Constraints constraints;
-          if(!collision::rectangle_aatriangle(&constraints, rect, triangle))
+          if(!collision::rectangle_aatriangle(&constraints, rect.grown(-1), triangle))
             continue;
         }
         // We have a solid tile that overlaps the given rectangle.
@@ -1337,13 +1351,13 @@ Sector::is_free_of_statics(const Rectf& rect, const MovingObject* ignore_object,
 {
   using namespace collision;
 
-  if (!is_free_of_tiles(rect, ignoreUnisolid)) return false;
+  if (!is_free_of_tiles(rect.grown(-2), ignoreUnisolid)) return false;
 
   for(const auto& moving_object : moving_objects) {
     if (moving_object == ignore_object) continue;
     if (!moving_object->is_valid()) continue;
     if (moving_object->get_group() == COLGROUP_STATIC) {
-      if(intersects(rect, moving_object->get_bbox())) return false;
+      if(intersects(rect.grown(-2), moving_object->get_bbox())) return false;
     }
   }
 
@@ -1363,7 +1377,7 @@ Sector::is_free_of_movingstatics(const Rectf& rect, const MovingObject* ignore_o
     if ((moving_object->get_group() == COLGROUP_MOVING)
         || (moving_object->get_group() == COLGROUP_MOVING_STATIC)
         || (moving_object->get_group() == COLGROUP_STATIC)) {
-      if(intersects(rect, moving_object->get_bbox())) return false;
+      if(intersects(rect.grown(-1), moving_object->get_bbox().grown(-1))) return false;
     }
   }
 
