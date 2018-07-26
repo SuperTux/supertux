@@ -1154,8 +1154,8 @@ Sector::handle_collisions()
     broadphase.reset(new spatial_hashing(get_width(), get_height()));
     log_debug << "Error :: Reset" << std::endl;
   }
-  const int pixeld_x = 0;
-  const int pixeld_y = 0;
+  const int pixeld_x = 2;
+  const int pixeld_y = 1;
   // calculate destination positions of the objects
   for (const auto& moving_object : moving_objects) {
     Vector mov = moving_object->get_movement();
