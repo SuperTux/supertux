@@ -17,7 +17,6 @@
 #include "video/canvas.hpp"
 
 #include <algorithm>
-
 #include "supertux/globals.hpp"
 #include "util/obstackpp.hpp"
 #include "video/drawing_request.hpp"
@@ -56,7 +55,8 @@ Canvas::clear()
 void
 Canvas::render(VideoSystem& video_system)
 {
-  // On a regular level, each frame has around 1000-3000 requests
+  // On a regular level, each frame has around 1000-3000 requests, the
+  // sort comparator function is called approximatly 7 times for each request.
   std::stable_sort(m_requests.begin(), m_requests.end(),
                    [](const DrawingRequest* r1, const DrawingRequest* r2){
                      return r1->layer < r2->layer;
@@ -83,12 +83,12 @@ Canvas::render(VideoSystem& video_system)
             renderer.draw_gradient(request);
             break;
           case TEXT:
-          {
-            const auto textrequest = static_cast<TextRequest*>(request.request_data);
-            textrequest->font->draw(&renderer, textrequest->text, request.pos,
-                                    textrequest->alignment, request.drawing_effect, request.color, request.alpha);
-          }
-          break;
+            {
+              const auto textrequest = static_cast<TextRequest*>(request.request_data);
+              textrequest->font->draw(&renderer, textrequest->text, request.pos,
+                                      textrequest->alignment, request.drawing_effect, request.color, request.alpha);
+            }
+            break;
           case FILLRECT:
             renderer.draw_filled_rect(request);
             break;
@@ -119,12 +119,12 @@ Canvas::render(VideoSystem& video_system)
             lightmap.draw_gradient(request);
             break;
           case TEXT:
-          {
-            const auto textrequest = static_cast<TextRequest*>(request.request_data);
-            textrequest->font->draw(&renderer, textrequest->text, request.pos,
-                                    textrequest->alignment, request.drawing_effect, request.color, request.alpha);
-          }
-          break;
+            {
+              const auto textrequest = static_cast<TextRequest*>(request.request_data);
+              textrequest->font->draw(&renderer, textrequest->text, request.pos,
+                                      textrequest->alignment, request.drawing_effect, request.color, request.alpha);
+            }
+            break;
           case FILLRECT:
             lightmap.draw_filled_rect(request);
             break;
@@ -213,7 +213,7 @@ Canvas::draw_surface_part(SurfacePtr surface,
 
 void
 Canvas::draw_text(FontPtr font, const std::string& text,
-                          const Vector& position, FontAlignment alignment, int layer, Color color)
+                  const Vector& position, FontAlignment alignment, int layer, Color color)
 {
   auto request = new(m_obst) DrawingRequest();
 
@@ -235,7 +235,7 @@ Canvas::draw_text(FontPtr font, const std::string& text,
 
 void
 Canvas::draw_center_text(FontPtr font, const std::string& text,
-                                 const Vector& position, int layer, Color color)
+                         const Vector& position, int layer, Color color)
 {
   draw_text(font, text, Vector(position.x + m_context.get_width()/2, position.y),
             ALIGN_CENTER, layer, color);
@@ -243,7 +243,7 @@ Canvas::draw_center_text(FontPtr font, const std::string& text,
 
 void
 Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
-                              const GradientDirection& direction, const Rectf& region)
+                      const GradientDirection& direction, const Rectf& region)
 {
   auto request = new(m_obst) DrawingRequest();
 
@@ -266,7 +266,7 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
 
 void
 Canvas::draw_filled_rect(const Vector& topleft, const Vector& size,
-                                 const Color& color, int layer)
+                         const Color& color, int layer)
 {
   auto request = new(m_obst) DrawingRequest();
 
@@ -289,7 +289,7 @@ Canvas::draw_filled_rect(const Vector& topleft, const Vector& size,
 
 void
 Canvas::draw_filled_rect(const Rectf& rect, const Color& color,
-                                 int layer)
+                         int layer)
 {
   draw_filled_rect(rect, color, 0.0f, layer);
 }
