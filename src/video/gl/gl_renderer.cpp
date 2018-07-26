@@ -113,17 +113,13 @@ GLRenderer::to_logical(int physical_x, int physical_y) const
 void
 GLRenderer::set_clip_rect(const Rect& rect)
 {
-#if 0
-  int win_w;
-  int win_h;
-  SDL_GetWindowSize(m_window, &win_w, &win_h);
+  auto window_size = m_video_system.get_window_size();
 
-  glScissor(win_w * rect.left / SCREEN_WIDTH,
-            win_h - (win_h * rect.bottom / SCREEN_HEIGHT),
-            win_w * rect.get_width() / SCREEN_WIDTH,
-            win_h * rect.get_height() / SCREEN_HEIGHT);
+  glScissor(window_size.width * rect.left / SCREEN_WIDTH,
+            window_size.height - (window_size.height * rect.bottom / SCREEN_HEIGHT),
+            window_size.width * rect.get_width() / SCREEN_WIDTH,
+            window_size.height * rect.get_height() / SCREEN_HEIGHT);
   glEnable(GL_SCISSOR_TEST);
-#endif
 }
 
 void
