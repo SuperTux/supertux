@@ -48,11 +48,11 @@ LayerIcon::draw(DrawingContext& context, const Vector& pos) {
   ObjectIcon::draw(context, pos);
   int l = get_zpos();
   if (l != std::numeric_limits<int>::min()) {
-    context.overlay().draw_text(Resources::small_font, std::to_string(l),
+    context.color().draw_text(Resources::small_font, std::to_string(l),
                                 pos + Vector(16,16),
                                 ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
     if (is_tilemap) if (((TileMap*)layer)->editor_active) {
-        context.overlay().draw_surface(selection, pos, LAYER_GUI - 1);
+        context.color().draw_surface(selection, pos, LAYER_GUI - 1);
     }
   }
 }

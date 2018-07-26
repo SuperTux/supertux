@@ -1169,7 +1169,7 @@ Player::draw(DrawingContext& context)
     float px = bbox.p1.x + (bbox.p2.x - bbox.p1.x - airarrow.get()->get_width()) / 2;
     float py = Sector::current()->camera->get_translation().y;
     py += std::min(((py - (bbox.p2.y + 16)) / 4), 16.0f);
-    context.overlay().draw_surface(airarrow, Vector(px, py), LAYER_HUD - 1);
+    context.color().draw_surface(airarrow, Vector(px, py), LAYER_HUD - 1);
   }
 
   std::string sa_prefix = "";

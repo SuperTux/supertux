@@ -63,25 +63,25 @@ EditorInputGui::EditorInputGui() :
 void
 EditorInputGui::draw(DrawingContext& context) {
   //SCREEN_WIDTH SCREEN_HEIGHT
-  context.overlay().draw_filled_rect(Rectf(Vector(Xpos, 0), Vector(context.get_width(), context.get_height())),
+  context.color().draw_filled_rect(Rectf(Vector(Xpos, 0), Vector(context.get_width(), context.get_height())),
                                      Color(0.9f, 0.9f, 1.0f, 0.6f),
                                      0.0f, LAYER_GUI-10);
   if (dragging) {
-    context.overlay().draw_filled_rect(selection_draw_rect(), Color(0.2f, 0.4f, 1.0f, 0.6f),
+    context.color().draw_filled_rect(selection_draw_rect(), Color(0.2f, 0.4f, 1.0f, 0.6f),
                                        0.0f, LAYER_GUI+1);
   }
 
   if(hovered_item != HI_NONE)
   {
-    context.overlay().draw_filled_rect(get_item_rect(hovered_item),
+    context.color().draw_filled_rect(get_item_rect(hovered_item),
                                        Color(0.9f, 0.9f, 1.0f, 0.6f),
                                        0.0f, LAYER_GUI - 5);
   }
 
-  context.overlay().draw_text(Resources::normal_font, _("Tilegroups"),
+  context.color().draw_text(Resources::normal_font, _("Tilegroups"),
                               Vector(context.get_width(), 0),
                               ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
-  context.overlay().draw_text(Resources::normal_font, _("Objects"),
+  context.color().draw_text(Resources::normal_font, _("Objects"),
                               Vector(context.get_width(), 24),
                               ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
 
@@ -104,19 +104,19 @@ EditorInputGui::draw_tilegroup(DrawingContext& context) {
         continue;
       }
       auto position = get_tile_coords(pos - starting_tile);
-      Editor::current()->get_tileset()->draw_tile(context.overlay(), tile_ID, position, LAYER_GUI-9);
+      Editor::current()->get_tileset()->draw_tile(context.color(), tile_ID, position, LAYER_GUI-9);
 
       if (g_config->developer_mode && active_tilegroup->developers_group)
       {
         // Display tile ID on top of tile:
-        context.overlay().draw_text(Console::current()->get_font(), std::to_string(tile_ID),
+        context.color().draw_text(Console::current()->get_font(), std::to_string(tile_ID),
                                     position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
       }
       /*if (tile_ID == 0) {
         continue;
       }
       const Tile* tg_tile = Editor::current()->get_tileset()->get(tile_ID);
-      tg_tile->draw(context.overlay(), get_tile_coords(pos - starting_tile), LAYER_GUI-9);*/
+      tg_tile->draw(context.color(), get_tile_coords(pos - starting_tile), LAYER_GUI-9);*/
     }
   }
 }

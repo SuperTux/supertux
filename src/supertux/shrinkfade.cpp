@@ -40,7 +40,7 @@ ShrinkFade::draw(DrawingContext& context)
 {
   float progress = accum_time / fade_time;
   float diameter = 2 * initial_size * (1.0f - progress);
-  context.overlay().draw_inverse_ellipse(dest, Vector(1.1f * diameter, diameter),
+  context.color().draw_inverse_ellipse(dest, Vector(1.1f * diameter, diameter),
                                          Color(0, 0, 0), LAYER_GUI+1);
 }
 

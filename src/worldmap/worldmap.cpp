@@ -761,7 +761,7 @@ WorldMap::draw_status(DrawingContext& context)
   if (!tux->is_moving()) {
     for(const auto& level : levels) {
       if (level->pos == tux->get_tile_pos()) {
-        context.overlay().draw_text(Resources::normal_font, level->title,
+        context.color().draw_text(Resources::normal_font, level->title,
                                     Vector(context.get_width()/2,
                                            context.get_height() - Resources::normal_font->get_height() - 10),
                                     ALIGN_CENTER, LAYER_HUD, level->title_color);

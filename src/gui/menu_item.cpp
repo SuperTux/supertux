@@ -55,7 +55,7 @@ MenuItem::set_help(const std::string& help_text)
 void
 MenuItem::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
 {
-  context.overlay().draw_text(Resources::normal_font, text,
+  context.color().draw_text(Resources::normal_font, text,
                               Vector( pos.x + menu_width/2 , pos.y - int(Resources::normal_font->get_height())/2 ),
                               ALIGN_CENTER, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
 }

@@ -720,11 +720,11 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
           continue;
         }
         uint32_t tile_id = tiles->pos(drawn_tile.x, drawn_tile.y);
-        editor->get_tileset()->draw_tile(context.overlay(), tile_id, tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
+        editor->get_tileset()->draw_tile(context.color(), tile_id, tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
                                          LAYER_GUI-11, Color(1, 1, 1, 0.5));
         /*if (tile_id) {
           const Tile* tg_tile = editor->get_tileset()->get( tile_id );
-          tg_tile->draw(context.overlay(), tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
+          tg_tile->draw(context.color(), tp_to_sp(on_tile) - editor->currentsector->camera->get_translation(),
                         LAYER_GUI-11, Color(1, 1, 1, 0.5));
         }*/
       }
@@ -806,7 +806,7 @@ EditorInputCenter::draw_path(DrawingContext& context) {
       node2 = &(*j);
     }
     auto cam_translation = Editor::current()->currentsector->camera->get_translation();
-    context.overlay().draw_line(node1->position - cam_translation,
+    context.color().draw_line(node1->position - cam_translation,
                               node2->position - cam_translation,
                               Color(1, 0, 0), LAYER_GUI - 21);
   }
@@ -839,21 +839,21 @@ EditorInputCenter::draw(DrawingContext& context) {
     Vector p1 = Vector(drag_start.x, sector_pos.y) - cam_translation;
     Vector p2 = Vector(sector_pos.x, drag_start.y) - cam_translation;
 
-    context.overlay().draw_filled_rect(Rectf(p0, p1 + Vector(2, 2)),
+    context.color().draw_filled_rect(Rectf(p0, p1 + Vector(2, 2)),
                                        Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-    context.overlay().draw_filled_rect(Rectf(p2, mouse_pos + Vector(2, 2)),
+    context.color().draw_filled_rect(Rectf(p2, mouse_pos + Vector(2, 2)),
                                        Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-    context.overlay().draw_filled_rect(Rectf(p0, p2 + Vector(2, 2)),
+    context.color().draw_filled_rect(Rectf(p0, p2 + Vector(2, 2)),
                                        Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
-    context.overlay().draw_filled_rect(Rectf(p1, mouse_pos + Vector(2, 2)),
+    context.color().draw_filled_rect(Rectf(p1, mouse_pos + Vector(2, 2)),
                                        Color(0.0f, 1.0f, 0.0f, 1.0f), 0.0f, LAYER_GUI-5);
 
-    context.overlay().draw_filled_rect(Rectf(p0, mouse_pos),
+    context.color().draw_filled_rect(Rectf(p0, mouse_pos),
                                        Color(0.0f, 1.0f, 0.0f, 0.2f), 0.0f, LAYER_GUI-5);
   }
 
   if (dragging && dragging_right) {
-    context.overlay().draw_filled_rect(selection_draw_rect(),
+    context.color().draw_filled_rect(selection_draw_rect(),
                                        Color(0.2f, 0.4f, 1.0f, 0.6f), 0.0f, LAYER_GUI-13);
   }
 }
