@@ -1095,31 +1095,37 @@ Sector::collision_static(collision::Constraints* constraints,
   all_contacts.clear();
   collision_tilemap(constraints, movement, dest, object, all_contacts, false);
   collision_moving_static(movement, dest, object, graph, all_contacts);
-
+  CollisionHit h;
   for (const auto& m : all_contacts) {
     Vector v (m.normal.x*m.depth, m.normal.y*m.depth);
     log_debug << "v is " << v.x << " " << v.y << std::endl;
     if (v.x < 0 && std::abs(v.x) > std::abs(extend_left)) {
       extend_left = std::abs(v.x);
+      if(extend_left > 4)
+        h.left = true;
     }
     if (v.x > 0 && std::abs(v.x) > std::abs(extend_right)) {
       extend_right = std::abs(v.x);
+      if(extend_right > 4)
+        h.right = true;
     }
     if (v.y < 0 && std::abs(v.y) > std::abs(extend_top)) {
       extend_top = std::abs(v.y);
+      if(extend_top > 4)
+        h.top = true;
     }
     if (v.y > 0 && std::abs(v.y) > std::abs(extend_bot)) {
       extend_bot = std::abs(v.y);
+      if(extend_bot > 4)
+        h.bottom = true;
     }
   }
-  if (extend_top > 4 && extend_bot > 4) {
-    CollisionHit h;
-    h.crush = h.top = h.bottom = h.left = h.right = true;
+  if (extend_top > 4 || extend_bot > 4) {
+    h.crush = true;
     object.collision_solid(h);
   }
-  if (extend_left > 8 && extend_right > 8) {
-    CollisionHit h;
-    h.crush = h.left = h.bottom = h.top = h.right = true;
+  if (extend_left > 8 || extend_right > 8) {
+    h.crush =  true;
     object.collision_solid(h);
   }
 }
@@ -1155,7 +1161,7 @@ Sector::handle_collisions()
     log_debug << "Error :: Reset" << std::endl;
   }
   const int pixeld_x = 2;
-  const int pixeld_y = 1;
+  const int pixeld_y = 2;
   // calculate destination positions of the objects
   for (const auto& moving_object : moving_objects) {
     Vector mov = moving_object->get_movement();
@@ -1172,7 +1178,8 @@ Sector::handle_collisions()
   for (const auto& mobj : moving_objects) {
     if (!(mobj->get_group() != COLGROUP_MOVING
         && mobj->get_group() != COLGROUP_MOVING_STATIC
-        && mobj->get_group() != COLGROUP_MOVING_ONLY_STATIC))
+        && mobj->get_group() != COLGROUP_MOVING_ONLY_STATIC
+        && mobj->get_group() != COLGROUP_TOUCHABLE))
     {
       mobj->dest =   mobj->dest.grown_xy(-pixeld_x, -pixeld_y);
     }
@@ -1278,6 +1285,8 @@ Sector::handle_collisions()
       broadphase->insert(moving_object_2->dest, moving_object_2);
     }
   }
+  std::map< MovingObject*, MovingObject* > parents;
+  //colgraph.compute_parents(platforms, parents)
   for (const auto& plf : platforms) {
     std::vector< MovingObject* > children;
     colgraph.directional_hull(plf, 0 /** 0 is direction top */, children);
@@ -1298,7 +1307,8 @@ Sector::handle_collisions()
     moving_object->parent_updated = false;
     if (!(moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
-        && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC))
+        && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC
+        && moving_object->get_group() != COLGROUP_TOUCHABLE))
     {
       moving_object->dest =   moving_object->dest.grown_xy(pixeld_x, pixeld_y);
     }

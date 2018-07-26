@@ -28,6 +28,8 @@ public:
    * Transitive reflexive hull of {A} when using equivalence relation A \sim B \iff A.hit_dir = true
    */
   void directional_hull(MovingObject* A, int dir, std::vector< MovingObject* >& fill);
+
+  void compute_parents(std::set<MovingObject*> platforms, std::map<MovingObject*, MovingObject*> parents);
   /** resets after one collision phase */
   void reset();
 };
