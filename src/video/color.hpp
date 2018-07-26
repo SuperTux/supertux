@@ -40,6 +40,7 @@ public:
   Color(const std::vector<float>& vals);
 
   bool operator==(const Color& other) const;
+  bool operator!=(const Color& other) const;
 
   float greyscale() const;
 
