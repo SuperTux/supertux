@@ -1088,7 +1088,6 @@ Sector::collision_static(collision::Constraints* constraints,
                   (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
     dest.move(overlapV);
   }
-  return;
   double extend_left = 0.0f,
          extend_right = 0.0f,
          extend_top = 0.0f,
@@ -1114,14 +1113,14 @@ Sector::collision_static(collision::Constraints* constraints,
       extend_bot = std::abs(v.y);
     }
   }
-  if (extend_top > 8 && extend_bot > 8) {
+  if (extend_top > 4 && extend_bot > 4) {
     CollisionHit h;
-    h.crush = h.top = h.bottom = true;
+    h.crush = h.top = h.bottom = h.left = h.right = true;
     object.collision_solid(h);
   }
   if (extend_left > 8 && extend_right > 8) {
     CollisionHit h;
-    h.crush = h.left = h.right = true;
+    h.crush = h.left = h.bottom = h.top = h.right = true;
     object.collision_solid(h);
   }
 }
@@ -1180,7 +1179,7 @@ Sector::handle_collisions()
         && mobj->get_group() != COLGROUP_MOVING_STATIC
         && mobj->get_group() != COLGROUP_MOVING_ONLY_STATIC))
     {
-      mobj->dest =   mobj->dest.grown(-pixeld);
+      mobj->dest =   mobj->dest.grown_xy(-pixeld, -1);
     }
 
   }
@@ -1305,7 +1304,7 @@ Sector::handle_collisions()
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
         && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC))
     {
-      moving_object->dest =   moving_object->dest.grown(pixeld);
+      moving_object->dest =   moving_object->dest.grown_xy(pixeld, 1);
     }
     moving_object->bbox = moving_object->dest;
   }
