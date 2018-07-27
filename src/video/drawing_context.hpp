@@ -90,13 +90,14 @@ public:
 
   void push_transform();
   void pop_transform();
-  const Transform& get_transform() const { return m_transform; }
+  Transform& transform();
+  const Transform& transform() const;
 
   const Vector& get_translation() const
-  {  return m_transform.translation;  }
+  {  return transform().translation;  }
 
   void set_translation(const Vector& newtranslation)
-  {  m_transform.translation = newtranslation;  }
+  {  transform().translation = newtranslation;  }
 
   /** Apply that effect in the next draws (effects are listed on surface.h). */
   void set_drawing_effect(DrawingEffect effect);
@@ -132,21 +133,20 @@ public:
 private:
   VideoSystem& m_video_system;
 
-  /* obstack holding the memory of the drawing requests */
+  /** obstack holds the memory of all the drawing requests, it is
+      shared with the Canvas */
   obstack& m_obst;
 
+  /** A context marked as overlay will not have it's light section
+      rendered. */
   bool m_overlay;
 
   Rect m_viewport;
   Color m_ambient_color;
+  std::vector<Transform> m_transform_stack;
 
   Canvas m_colormap_canvas;
   Canvas m_lightmap_canvas;
-
-  /** the transform stack */
-  std::vector<Transform> m_transformstack;
-  /** the currently active transform */
-  Transform m_transform;
 
 private:
   DrawingContext(const DrawingContext&);
