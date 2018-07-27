@@ -209,14 +209,14 @@ AmbientSound::update(float deltat)
 
 
     // Temporary debugging statements
-    printf("(bbox.p1.x, bbox.p1.y): (%f, %f)\n", bbox.p1.x, bbox.p1.y);
-    printf("(px, py): (%f, %f)\n", px, py);
-    printf("(rx, ry): (%f, %f)\n", rx, ry);
+    //printf("(bbox.p1.x, bbox.p1.y): (%f, %f)\n", bbox.p1.x, bbox.p1.y);
+    //printf("(px, py): (%f, %f)\n", px, py);
+    //printf("(rx, ry): (%f, %f)\n", rx, ry);
 
     // calculate distance
     float distance = sqrt((px - rx) * (py - ry) - distance_bias);
-    printf("distance: %f\n", distance);
-    printf("silence distance: %f\n\n", silence_distance);
+    //printf("distance: %f\n", distance);
+    //printf("silence distance: %f\n\n", silence_distance);
 
     // inside the bias: full volume (distance 0)
     if (distance<0)

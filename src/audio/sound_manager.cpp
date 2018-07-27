@@ -21,6 +21,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <memory>
+#include <iostream>
 
 #include "audio/dummy_sound_source.hpp"
 #include "audio/sound_file.hpp"
@@ -85,12 +86,12 @@ SoundManager::~SoundManager()
 }
 
 ALuint
-SoundManager::load_file_into_buffer(SoundFile& file)
+SoundManager::load_file_into_buffer(SoundFile& file, const std::string filename)
 {
   ALenum format = get_sample_format(file);
   ALuint buffer;
   alGenBuffers(1, &buffer);
-  check_al_error("Couldn't create audio buffer: ");
+  check_al_error("Couldn't create audio buffer: ", filename);
   std::unique_ptr<char[]> samples(new char[file.size]);
   file.read(samples.get(), file.size);
   log_debug << "buffer: " << buffer << "\n"
@@ -102,7 +103,7 @@ SoundManager::load_file_into_buffer(SoundFile& file)
   alBufferData(buffer, format, samples.get(),
                static_cast<ALsizei>(file.size),
                static_cast<ALsizei>(file.rate));
-  check_al_error("Couldn't fill audio buffer: ");
+  check_al_error("Couldn't fill audio buffer: ", filename);
 
   return buffer;
 }
@@ -125,7 +126,7 @@ SoundManager::intern_create_sound_source(const std::string& filename)
     std::unique_ptr<SoundFile> file(load_sound_file(filename));
 
     if(file->size < 100000) {
-      buffer = load_file_into_buffer(*file);
+      buffer = load_file_into_buffer(*file, filename);
       buffers.insert(std::make_pair(filename, buffer));
     } else {
       std::unique_ptr<StreamSoundSource> source_(new StreamSoundSource);
@@ -149,7 +150,7 @@ SoundManager::create_sound_source(const std::string& filename)
   try {
     return intern_create_sound_source(filename);
   } catch(std::exception &e) {
-    log_warning << "Couldn't create audio source: " << e.what() << std::endl;
+    log_warning << "filename: " << filename << "; Couldn't create audio source: " << e.what() << std::endl << std::endl;
     return create_dummy_sound_source();
   }
 }
@@ -170,7 +171,7 @@ SoundManager::preload(const std::string& filename)
     if(file->size >= 100000)
       return;
 
-    ALuint buffer = load_file_into_buffer(*file);
+    ALuint buffer = load_file_into_buffer(*file, filename);
     buffers.insert(std::make_pair(filename, buffer));
   } catch(std::exception& e) {
     log_warning << "Error while preloading sound file: " << e.what() << std::endl;
@@ -436,6 +437,8 @@ SoundManager::update()
     (*s)->update();
     ++s;
   }
+
+  print_buffer_names();
 }
 
 ALenum
@@ -491,6 +494,27 @@ SoundManager::check_al_error(const char* message)
     msg << message << alGetString(err);
     throw std::runtime_error(msg.str());
   }
+}
+
+void
+SoundManager::check_al_error(const char* message, std::string filename)
+{
+  int err = alGetError();
+  if(err != AL_NO_ERROR) {
+    std::stringstream msg;
+    msg << filename << ": " << message << alGetString(err);
+    throw std::runtime_error(msg.str());
+  }
+}
+
+void
+SoundManager::print_buffer_names()
+{
+  for(std::map<std::string, ALuint>::const_iterator it = buffers.begin(); it != buffers.end(); it++)
+  {
+    std::cout << "sound: " << it->first << std::endl;
+  }
+  printf("\n");
 }
 
 /* EOF */
