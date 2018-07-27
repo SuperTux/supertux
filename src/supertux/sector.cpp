@@ -1015,7 +1015,10 @@ void Sector::collision_moving_static(const Vector& movement, Rectf& dest,
 MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
 {
   std::set< CollisionHit > colhits;
-  for (auto& moving_object : moving_objects) {
+  std::set< MovingObject* > nearby;
+  broadphase->search(object.get_bbox().grown(10), []{},
+              nearby);
+  for (auto& moving_object : nearby) {
 
     if (moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
@@ -1031,22 +1034,21 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       // First check if rectfs intersect
       if (!collision::intersects(dest, moving_object->get_bbox()))
         continue;
-      Polygon mobjp = dest.to_polygon();
-      Polygon tile_poly = moving_object->get_bbox().to_polygon();
+      AABBPolygon mobjp(dest);
+      AABBPolygon tile_poly(moving_object->get_bbox());
       Manifold m;
       CollisionHit h;
       std::set< MovingObject* > possible_neighbours;
-      broadphase->search(moving_object->get_bbox().grown(10), []{},
+      broadphase->search(moving_object->get_bbox().grown(2), []{},
                   possible_neighbours);
       for (const auto& mobject : possible_neighbours) {
         // TODO Specail case: Same object on multiple layers
         // => detect collision (?) use contacts?
         if (mobject->get_bbox() == object.get_bbox() || mobject->get_bbox() == moving_object->get_bbox())
           continue;
-        Polygon mobject_poly = mobject->get_bbox().to_polygon();
-        tile_poly.process_neighbor(mobject_poly);
-        tile_poly.debug();
-        mobject_poly.debug();
+        tile_poly.process_neighbor(mobject->get_bbox());
+        //tile_poly.debug();
+        //mobject_poly.debug();
       }
       // TODO(christ2go) Take static tilemap into account.
       mobjp.handle_collision(tile_poly, m);
@@ -1106,7 +1108,6 @@ Sector::collision_static(collision::Constraints* constraints,
   CollisionHit h;
   for (const auto& m : all_contacts) {
     Vector v (m.normal.x*m.depth, m.normal.y*m.depth);
-    log_debug << "v is " << v.x << " " << v.y << std::endl;
     if (v.x < 0 && std::abs(v.x) > std::abs(extend_left)) {
       extend_left = std::abs(v.x);
       if(extend_left > 4)
@@ -1294,16 +1295,21 @@ Sector::handle_collisions()
     }
   }
   std::map< MovingObject*, MovingObject* > parents;
-  //colgraph.compute_parents(platforms, parents)
-  for (const auto& plf : platforms) {
-    std::vector< MovingObject* > children;
-    colgraph.directional_hull(plf, 0 /** 0 is direction top */, children);
+  colgraph.compute_parents(platforms, parents);
+  for (const auto& plf : parents) {
+    log_debug << "PARENT" << std::endl;
+    /*std::vector< MovingObject* > children;
+    colgraph.directional_hull(plf, 0 , children);
     log_debug << "Hull has " << children.size() << " elements." << std::endl;
     for (const auto& child : children) {
         child->collision_parent = plf;
         child->parent_updated = true;
         child->dest.move(plf->get_movement());
-    }
+    }*/
+    plf.first->collision_parent = plf.second;
+    plf.first->parent_updated = true;
+    plf.first->dest.move(plf.second->get_movement());
+
   }
   // apply object movement
   for (const auto& moving_object : moving_objects) {

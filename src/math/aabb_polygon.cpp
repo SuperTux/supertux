@@ -5,11 +5,14 @@
 AABBPolygon::AABBPolygon(const Rectf& aabb):
   p1(aabb.p1),
   p2(aabb.p2) {
-  Polygon::add_vertice(p1);
-  Polygon::add_vertice(Vector(p2.x, p1.y));
-  Polygon::add_vertice(p2);
-  Polygon::add_vertice(Vector(p1.x, p2.y));
-  Polygon::setup();
+  //if(add_everything)
+  //{
+    Polygon::add_vertice(p1);
+    Polygon::add_vertice(Vector(p2.x, p1.y));
+    Polygon::add_vertice(p2);
+    Polygon::add_vertice(Vector(p1.x, p2.y));
+    Polygon::setup();
+  //}
 }
 
 void AABBPolygon::setup() {
@@ -22,7 +25,7 @@ inline bool edge_equal(const Vector& p1,
                        const Vector& w2) {
   int abs1 = vector_gap(p1, w1);
   int abs2 = vector_gap(p2, w2);
-  log_debug << std::max(abs1, abs2) << std::endl;
+  //log_debug << std::max(abs1, abs2) << std::endl;
   return std::max(abs1, abs2) <= 4;
 }
 
@@ -72,7 +75,23 @@ void AABBPolygon::process_neighbor(int xoffset, int yoffset) {
 }
 
 void AABBPolygon::handle_collision(const AABBPolygon& b, Manifold& m) {
+  Polygon::handle_collision(b,m);
   // TODO(christ2go) Replace with AABB-Polygons own routine
-//  double overlap_x = 0, overlap_y = 0;
-  Polygon::handle_collision(b, m);
+  /*double overlap_x = 0, overlap_y = 0;
+  double dx = p1.x - b.p1.x;
+  double overlap_x = ((p2.x-p1.x)/2.0 + (b.p2.x-b.p1.x)/2.0) - abs(dx);
+
+  if(overlap_x <= 0)
+  {
+    manifold.collided = false;
+    return;
+  }
+  double dy = p1.y - b.p1.y;
+  double overlap_y = ((p2.y-p1.y)/2.0 + (b.p2.y-b.p1.y)/2.0) - abs(dy);
+  if (px < py && dx > 0 && !disabled_normals[1])
+  {
+
+  }
+  manifold.collided = true;*/
+
 }

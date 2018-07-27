@@ -10,7 +10,7 @@
 
 class spatial_hashing : public collision_broadphase {
 public:
-  spatial_hashing(int width, int height,int gridx=128, int gridy=128);
+  spatial_hashing(int width, int height,int gridx=64, int gridy=64);
   void insert(const Rectf& aabb,MovingObject* obj);
   virtual bool collides(const Rectf& r);
   virtual bool remove(MovingObject* obj);

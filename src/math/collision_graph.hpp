@@ -16,6 +16,7 @@ struct collision_graph_edge {
 class collision_graph {
 private:
   std::map<MovingObject*, std::list<collision_graph_edge> > graph;
+  std::map<MovingObject*, int> indegree;
 public:
   collision_graph();
   void register_collision_top(MovingObject* A, MovingObject* B);
@@ -31,7 +32,7 @@ public:
    */
   void directional_hull(MovingObject* A, int dir, std::vector< MovingObject* >& fill);
 
-  void compute_parents(std::set<MovingObject*> platforms, std::map<MovingObject*, MovingObject*> parents);
+  void compute_parents(std::set<MovingObject*> platforms, std::map<MovingObject*, MovingObject*>& parents);
   /** resets after one collision phase */
   void reset();
 };

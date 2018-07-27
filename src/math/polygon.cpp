@@ -22,7 +22,7 @@ void Polygon::add_vertice(const Vector& v) {
 }
 
 double vector_gap(const Vector& a, const Vector& b) {
-  return std::abs(a.x-b.x)+std::abs(a.y-b.y);
+  return abs(a.x-b.x)+abs(a.y-b.y);
 }
 
 void Polygon::process_neighbor(const Polygon& b) {
@@ -44,9 +44,9 @@ void Polygon::process_neighbor(const Polygon& b) {
       if (d3 <= margin && d4 <= margin)
         disabled_normals[i] = true;
       if (!ndis && disabled_normals[i]) {
-        log_debug << "Disabled normal " << i << " " << normals[i].x << " " << normals[i].y << std::endl;
-        log_debug << w.x << " " << w.y << " " << w2.x << " " << w2.y << std::endl
-                  << v.x << " " << v.y << " " << v2.x << " " << v2.y << std::endl;
+        //log_debug << "Disabled normal " << i << " " << normals[i].x << " " << normals[i].y << std::endl;
+        //log_debug << w.x << " " << w.y << " " << w2.x << " " << w2.y << std::endl
+        //          << v.x << " " << v.y << " " << v2.x << " " << v2.y << std::endl;
       }
     }
   }
@@ -112,8 +112,8 @@ void Polygon::handle_collision(const Polygon& b, Manifold& m) {
       minOverlap = overlap;
     }
   }
-  log_debug << "Polygonial collision occured" << std::endl;
-  log_debug << minOverlap << std::endl;
+  //log_debug << "Polygonial collision occured" << std::endl;
+  //log_debug << minOverlap << std::endl;
   // To resolve the collison use overlap as depth
   // and the axis normal as normal
   m.collided = set_overlap;
@@ -149,6 +149,7 @@ Vector Polygon::project(const Vector& axis) const {
 }
 
 void Polygon::debug() {
+  return;
   log_debug << "Poly debug" << std::endl;
   log_debug << "Vertices: " << vertices.size() << std::endl;
   for (const auto& v : vertices)
