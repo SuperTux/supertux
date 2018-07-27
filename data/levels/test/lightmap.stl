@@ -12,42 +12,52 @@
     (lantern
       (x 624)
       (y 712)
+      (color 0 0 1)
     )
     (lantern
       (x 560)
       (y 712)
+      (color 1 1 1)
     )
     (lantern
       (x 720)
       (y 712)
+      (color 1 0 0)
     )
     (lantern
       (x 176)
       (y 648)
+      (color 0 1 0)
     )
     (magicblock
       (x 640)
       (y 640)
+      (color 0 1 0)
     )
     (magicblock
       (x 608)
       (y 640)
+      (color 0 0 1)
     )
     (magicblock
       (x 672)
       (y 640)
+      (color 1 0 0)
     )
     (magicblock
       (x 576)
       (y 640)
+      (color 1 1 0)
     )
     (magicblock
       (x 544)
       (y 640)
+      (color 0 1 1)
     )
     (magicblock
       (x 512)
       (y 640)
+      (color 1 0 1)
     )
     (magicblock
       (x 480)
