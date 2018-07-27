@@ -51,6 +51,7 @@ Config::Config() :
   christmas_mode(false),
   transitions_enabled(true),
   confirmation_dialog(false),
+  pause_on_focusloss(true),
   repository_url()
 {
 }
@@ -71,6 +72,7 @@ Config::load()
   config_lisp.get("show_player_pos", show_player_pos);
   config_lisp.get("developer", developer_mode);
   config_lisp.get("confirmation_dialog", confirmation_dialog);
+  config_lisp.get("pause_on_focusloss", pause_on_focusloss);
 
   if(is_christmas()) {
     if(!config_lisp.get("christmas", christmas_mode))
@@ -170,6 +172,7 @@ Config::save()
   writer.write("show_player_pos", show_player_pos);
   writer.write("developer", developer_mode);
   writer.write("confirmation_dialog", confirmation_dialog);
+  writer.write("pause_on_focusloss", pause_on_focusloss);
   if(is_christmas()) {
     writer.write("christmas", christmas_mode);
   }
