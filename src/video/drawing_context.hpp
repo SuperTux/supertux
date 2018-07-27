@@ -25,33 +25,16 @@
 #include "math/rect.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
-#include "video/color.hpp"
 #include "video/canvas.hpp"
+#include "video/color.hpp"
+#include "video/drawing_context.hpp"
+#include "video/drawing_transform.hpp"
 #include "video/font.hpp"
 #include "video/font_ptr.hpp"
 
 class VideoSystem;
 struct DrawingRequest;
 struct obstack;
-
-class Transform
-{
-public:
-  Vector translation;
-  DrawingEffect drawing_effect;
-  float alpha;
-
-  Transform() :
-    translation(),
-    drawing_effect(NO_EFFECT),
-    alpha(1.0f)
-  { }
-
-  Vector apply(const Vector& v) const
-  {
-    return v - translation;
-  }
-};
 
 /** This class provides functions for drawing things on screen. It
     also maintains a stack of transforms that are applied to
@@ -68,16 +51,12 @@ public:
   /** on next update, set color to lightmap's color at position */
   void get_light(const Vector& position, Color* color_out);
 
-  typedef ::Target Target;
-  static const Target COLORMAP = ::COLORMAP;
-  static const Target LIGHTMAP = ::LIGHTMAP;
-
   Canvas& color() { return m_colormap_canvas; }
   Canvas& light() { assert(!m_overlay); return m_lightmap_canvas; }
-  Canvas& get_canvas(Target target) {
+  Canvas& get_canvas(DrawingTarget target) {
     switch(target)
     {
-      case LIGHTMAP:
+      case DrawingTarget::LIGHTMAP:
         return light();
 
       default:
@@ -90,8 +69,8 @@ public:
 
   void push_transform();
   void pop_transform();
-  Transform& transform();
-  const Transform& transform() const;
+  DrawingTransform& transform();
+  const DrawingTransform& transform() const;
 
   const Vector& get_translation() const
   {  return transform().translation;  }
@@ -143,7 +122,7 @@ private:
 
   Rect m_viewport;
   Color m_ambient_color;
-  std::vector<Transform> m_transform_stack;
+  std::vector<DrawingTransform> m_transform_stack;
 
   Canvas m_colormap_canvas;
   Canvas m_lightmap_canvas;

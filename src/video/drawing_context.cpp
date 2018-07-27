@@ -33,8 +33,8 @@ DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool o
   m_viewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
   m_ambient_color(Color::WHITE),
   m_transform_stack(1),
-  m_colormap_canvas(COLORMAP, *this, m_obst),
-  m_lightmap_canvas(LIGHTMAP, *this, m_obst)
+  m_colormap_canvas(DrawingTarget::COLORMAP, *this, m_obst),
+  m_lightmap_canvas(DrawingTarget::LIGHTMAP, *this, m_obst)
 {
 }
 
@@ -112,14 +112,14 @@ DrawingContext::get_alpha() const
   return transform().alpha;
 }
 
-Transform&
+DrawingTransform&
 DrawingContext::transform()
 {
   assert(!m_transform_stack.empty());
   return m_transform_stack.back();
 }
 
-const Transform&
+const DrawingTransform&
 DrawingContext::transform() const
 {
   assert(!m_transform_stack.empty());

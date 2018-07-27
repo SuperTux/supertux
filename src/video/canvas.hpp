@@ -27,20 +27,11 @@
 #include "video/color.hpp"
 #include "video/font.hpp"
 #include "video/font_ptr.hpp"
+#include "video/drawing_target.hpp"
 
 struct DrawingRequest;
 class VideoSystem;
 class DrawingContext;
-
-enum Target {
-  /** The color layer, all regular tilemaps and character sprites go
-      here. */
-  COLORMAP,
-
-  /** The lightmap is drawn on top of the color layer and darkens it,
-      elements drawn here act as lightsources. */
-  LIGHTMAP,
-};
 
 // some constants for predefined layer values
 enum {
@@ -94,7 +85,7 @@ public:
   enum Filter { BELOW_LIGHTMAP, ABOVE_LIGHTMAP, ALL };
 
 public:
-  Canvas(Target target, DrawingContext& context, obstack& obst);
+  Canvas(DrawingTarget target, DrawingContext& context, obstack& obst);
   ~Canvas();
 
   void draw_surface(SurfacePtr surface, const Vector& position,
@@ -136,7 +127,7 @@ private:
   Vector apply_translate(const Vector& pos) const;
 
 private:
-  Target m_target;
+  DrawingTarget m_target;
   DrawingContext& m_context;
   obstack& m_obst;
   std::vector<DrawingRequest*> m_requests;

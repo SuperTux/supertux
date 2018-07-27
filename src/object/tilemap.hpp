@@ -19,6 +19,8 @@
 
 #include <algorithm>
 
+#include "math/rect.hpp"
+#include "math/rectf.hpp"
 #include "math/size.hpp"
 #include "object/path_object.hpp"
 #include "object/path_walker.hpp"
@@ -26,8 +28,10 @@
 #include "scripting/tilemap.hpp"
 #include "supertux/game_object.hpp"
 #include "video/color.hpp"
-#include "video/drawing_context.hpp"
+#include "video/drawing_effect.hpp"
+#include "video/drawing_target.hpp"
 
+class DrawingContext;
 class Tile;
 class TileSet;
 
@@ -225,12 +229,11 @@ private:
 
   void float_channel(float target, float &current, float remaining_time, float elapsed_time);
 
-  /**
-   * Is the tilemap currently moving (following the path)
-   */
+  /** Is the tilemap currently moving (following the path) */
   bool running;
 
-  DrawingContext::Target draw_target; /**< set to LIGHTMAP to draw to lightmap */
+  /** Set to LIGHTMAP to draw to lightmap */
+  DrawingTarget draw_target;
 
   int new_size_x;
   int new_size_y;

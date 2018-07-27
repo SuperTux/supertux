@@ -22,6 +22,7 @@
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "supertux/tile.hpp"
+#include "video/drawing_context.hpp"
 
 //TODO: Find a way to make rain collide with objects like bonus blocks
 //      Add an option to set rain strength

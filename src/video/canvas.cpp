@@ -25,7 +25,7 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 
-Canvas::Canvas(Target target, DrawingContext& context, obstack& obst) :
+Canvas::Canvas(DrawingTarget target, DrawingContext& context, obstack& obst) :
   m_target(target),
   m_context(context),
   m_obst(obst),
@@ -74,7 +74,7 @@ Canvas::render(VideoSystem& video_system, Filter filter)
       continue;
 
     switch(m_target) {
-      case COLORMAP:
+      case DrawingTarget::COLORMAP:
         switch(request.type) {
           case SURFACE:
             renderer.draw_surface(request);
@@ -110,7 +110,7 @@ Canvas::render(VideoSystem& video_system, Filter filter)
         }
         break;
 
-      case LIGHTMAP:
+      case DrawingTarget::LIGHTMAP:
         switch(request.type) {
           case SURFACE:
             lightmap.draw_surface(request);

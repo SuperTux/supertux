@@ -24,6 +24,7 @@
 #include "util/reader.hpp"
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
+#include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 
 TileMap::TileMap(const TileSet *new_tileset) :
@@ -49,7 +50,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
   current_tint(1, 1, 1),
   remaining_tint_fade_time(0),
   running(false),
-  draw_target(DrawingContext::COLORMAP),
+  draw_target(DrawingTarget::COLORMAP),
   new_size_x(0),
   new_size_y(0),
   new_offset_x(0),
@@ -82,7 +83,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   current_tint(1, 1, 1),
   remaining_tint_fade_time(0),
   running(false),
-  draw_target(DrawingContext::COLORMAP),
+  draw_target(DrawingTarget::COLORMAP),
   new_size_x(0),
   new_size_y(0),
   new_offset_x(0),
@@ -115,8 +116,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   std::string draw_target_s = "normal";
   reader.get("draw-target", draw_target_s);
-  if (draw_target_s == "normal") draw_target = DrawingContext::COLORMAP;
-  if (draw_target_s == "lightmap") draw_target = DrawingContext::LIGHTMAP;
+  if (draw_target_s == "normal") draw_target = DrawingTarget::COLORMAP;
+  if (draw_target_s == "lightmap") draw_target = DrawingTarget::LIGHTMAP;
 
   if (reader.get("alpha", alpha)) {
     current_alpha = alpha;
@@ -181,7 +182,7 @@ void TileMap::float_channel(float target, float &current, float remaining_time, 
 void
 TileMap::save(Writer& writer) {
   GameObject::save(writer);
-  if (draw_target == LIGHTMAP) {
+  if (draw_target == DrawingTarget::LIGHTMAP) {
     writer.write("draw-target", "lightmap", false);
   } else {
     writer.write("draw-target", "normal", false);
