@@ -53,20 +53,19 @@ public:
   }
 };
 
-/**
- * This class provides functions for drawing things on screen. It also
- * maintains a stack of transforms that are applied to graphics.
- */
+/** This class provides functions for drawing things on screen. It
+    also maintains a stack of transforms that are applied to
+    graphics. */
 class DrawingContext final
 {
 public:
   DrawingContext(VideoSystem& video_system, obstack& obst, bool overlay);
   ~DrawingContext();
 
-  /// Returns the visible area in world coordinates
+  /** Returns the visible area in world coordinates */
   Rectf get_cliprect() const;
 
-  /// on next update, set color to lightmap's color at position
+  /** on next update, set color to lightmap's color at position */
   void get_light(const Vector& position, Color* color_out);
 
   typedef ::Target Target;
@@ -99,14 +98,12 @@ public:
   void set_translation(const Vector& newtranslation)
   {  m_transform.translation = newtranslation;  }
 
-  /// Apply that effect in the next draws (effects are listed on surface.h).
+  /** Apply that effect in the next draws (effects are listed on surface.h). */
   void set_drawing_effect(DrawingEffect effect);
-  /// return currently applied drawing effect
   DrawingEffect get_drawing_effect() const;
 
-  /// apply that alpha in the next draws (1.0 means fully opaque) */
+  /** apply that alpha in the next draws (1.0 means fully opaque) */
   void set_alpha(float alpha);
-  /// return currently set alpha
   float get_alpha() const;
 
   void clear()
@@ -141,14 +138,14 @@ private:
   bool m_overlay;
 
   Rect m_viewport;
+  Color m_ambient_color;
+
   Canvas m_colormap_canvas;
   Canvas m_lightmap_canvas;
 
-  Color m_ambient_color;
-
-  /// the transform stack
+  /** the transform stack */
   std::vector<Transform> m_transformstack;
-  /// the currently active transform
+  /** the currently active transform */
   Transform m_transform;
 
 private:

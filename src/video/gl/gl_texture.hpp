@@ -19,11 +19,9 @@
 
 #include "video/texture.hpp"
 
-/**
- * This class is a wrapper around a texture handle. It stores the texture width
- * and height and provides convenience functions for uploading SDL_Surfaces
- * into the texture
- */
+/** This class is a wrapper around a texture handle. It stores the
+    texture width and height and provides convenience functions for
+    uploading SDL_Surfaces into the texture. */
 class GLTexture : public Texture
 {
 protected:

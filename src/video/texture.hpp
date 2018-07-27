@@ -21,30 +21,31 @@
 
 #include "video/texture_manager.hpp"
 
-/// bitset for drawing effects
+/** bitset for drawing effects */
 enum {
   /** Don't apply anything */
   NO_EFFECT = 0,
+
   /** Draw the Surface upside down */
   VERTICAL_FLIP = (1<<1),
+
   /** Draw the Surface from left to down */
   HORIZONTAL_FLIP = (1<<2),
+
   NUM_EFFECTS
 };
 
 typedef unsigned int DrawingEffect;
 
-/**
- * This class is a wrapper around a texture handle. It stores the texture width
- * and height and provides convenience functions for uploading SDL_Surfaces
- * into the texture
- */
+/** This class is a wrapper around a texture handle. It stores the
+    texture width and height and provides convenience functions for
+    uploading SDL_Surfaces into the texture. */
 class Texture
 {
 private:
   friend class TextureManager;
-  /* The name under which this texture is cached by the texture manager,
-   * or the empty string if not. */
+  /** The name under which this texture is cached by the texture
+      manager, or the empty string if not. */
   std::string cache_filename;
 
 public:
@@ -52,8 +53,8 @@ public:
   virtual ~Texture()
   {
     if (TextureManager::current() && !cache_filename.empty())
-      /* The cache entry is now useless: its weak pointer to us has been
-       * cleared.  Remove the entry altogether to save memory. */
+      /* The cache entry is now useless: its weak pointer to us has
+         been cleared. Remove the entry altogether to save memory. */
       TextureManager::current()->reap_cache_entry(cache_filename);
   }
 
