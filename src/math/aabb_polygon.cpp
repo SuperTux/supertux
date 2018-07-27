@@ -73,5 +73,6 @@ void AABBPolygon::process_neighbor(int xoffset, int yoffset) {
 
 void AABBPolygon::handle_collision(const AABBPolygon& b, Manifold& m) {
   // TODO(christ2go) Replace with AABB-Polygons own routine
+//  double overlap_x = 0, overlap_y = 0;
   Polygon::handle_collision(b, m);
 }

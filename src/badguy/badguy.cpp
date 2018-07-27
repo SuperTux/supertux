@@ -304,7 +304,7 @@ BadGuy::collision_tile(uint32_t tile_attributes)
     in_water = false;
   }
 
-  if(tile_attributes & Tile::HURTS && is_hurtable()) {    
+  if(tile_attributes & Tile::HURTS && is_hurtable()) {
     if (tile_attributes & Tile::FIRE) {
       if (is_flammable()) ignite();
     }
@@ -342,6 +342,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
   if(player) {
 
     // hit from above?
+    // TODO USE HITRESPONSE FOR DETERMINING SUCH STUFF
     if (player->get_bbox().p2.y < (bbox.p1.y + 16)) {
       if(player->is_stone()) {
         kill_fall();

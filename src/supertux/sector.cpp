@@ -792,10 +792,14 @@ Sector::collision_tilemap(collision::Constraints* constraints,
           tile_poly.process_neighbor(npoly);
         }
         mobjp.handle_collision(tile_poly, m);
+        if(!slope_adjust_x)
+        {
+            dest.move(solids->get_movement(true));
+            //mobjp = dest.to_polygon();
+        }
         if (!m.collided)
           continue;
-        if(slope_adjust_x)
-          dest.move(solids->get_movement(false));
+
         overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
         if (tile->is_slope()) {
             if(overlapV.y != 0)
@@ -1018,7 +1022,11 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       continue;
     if (!moving_object->is_valid())
       continue;
-
+    CollisionHit dummy;
+    if(!moving_object->collides(object, dummy))
+      continue;
+    if(!object.collides(*moving_object, dummy))
+      continue;
     if (moving_object != &object) {
       // First check if rectfs intersect
       if (!collision::intersects(dest, moving_object->get_bbox()))

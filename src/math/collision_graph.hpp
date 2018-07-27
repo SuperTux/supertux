@@ -4,9 +4,11 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <boost/variant.hpp>
 
 class MovingObject;
 class CollisionHit;
+// typedef boost::variant< TileMap&, MovingObject* > graph_node;
 struct collision_graph_edge {
   MovingObject* B;
   int dir; /** Flag for direction: 0: top, 1:bot, 2: left, 3: right (A.hit_dir(b) = true) */
