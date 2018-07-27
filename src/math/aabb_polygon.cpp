@@ -2,17 +2,17 @@
 #include <algorithm>
 #include "util/log.hpp"
 // TODO Introduce mode in which add_vertice is not called (=> for tilemap collisions)
-AABBPolygon::AABBPolygon(const Rectf& aabb):
+AABBPolygon::AABBPolygon(const Rectf& aabb, bool construct_parent):
   p1(aabb.p1),
   p2(aabb.p2) {
-  //if(add_everything)
-  //{
+  if(construct_parent)
+  {
     Polygon::add_vertice(p1);
     Polygon::add_vertice(Vector(p2.x, p1.y));
     Polygon::add_vertice(p2);
     Polygon::add_vertice(Vector(p1.x, p2.y));
     Polygon::setup();
-  //}
+  }
 }
 
 void AABBPolygon::setup() {

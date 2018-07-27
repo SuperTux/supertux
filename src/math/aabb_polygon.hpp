@@ -6,7 +6,7 @@
 
 class AABBPolygon : public Polygon {
 public:
-  AABBPolygon(const Rectf& AABB);
+  AABBPolygon(const Rectf& AABB, bool construct_parent = true);
   void add_vertice(const Vector& v);
   void setup();
   // Specail override for AABB Polygon
@@ -17,5 +17,7 @@ public:
 private:
   Vector p1;
   Vector p2;
+  /** use an array to make stuff even faster */
+  bool normal_enabled[4] = {true, true, true, true};
 };
 #endif

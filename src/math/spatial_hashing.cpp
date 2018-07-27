@@ -54,7 +54,7 @@ void spatial_hashing::insert(const Rectf& aabb, MovingObject* obj) {
   current_stored[obj] = aabb;
 }
 
-void spatial_hashing::search(const Rectf& r, std::function<void()> collision_ok, std::set< MovingObject* >& fill)
+void spatial_hashing::search(const Rectf& r, std::function<void()> collision_ok, std::list< MovingObject* >& fill)
 {
   if(r.p1.x < 0 || r.p1.y < 0 || r.p2.x > width || r.p2.y > height)
     return;
@@ -70,7 +70,7 @@ void spatial_hashing::search(const Rectf& r, std::function<void()> collision_ok,
     for (int ycoord = starty ; ycoord <= endy ; ycoord++) {
       for (const auto& obj : grid[xcoord][ycoord]) {
         if (obj != NULL)
-          fill.insert(obj);
+          fill.push_back(obj);
       }
     }
   }

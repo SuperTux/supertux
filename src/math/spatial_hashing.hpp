@@ -14,7 +14,7 @@ public:
   void insert(const Rectf& aabb,MovingObject* obj);
   virtual bool collides(const Rectf& r);
   virtual bool remove(MovingObject* obj);
-  virtual void search(const Rectf& r, std::function<void()> collision_ok, std::set< MovingObject* >& fill);
+  virtual void search(const Rectf& r, std::function<void()> collision_ok, std::list< MovingObject* >& fill);
   virtual void clear();
   ~spatial_hashing() = default;
 private:

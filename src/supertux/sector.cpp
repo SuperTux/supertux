@@ -1015,7 +1015,7 @@ void Sector::collision_moving_static(const Vector& movement, Rectf& dest,
 MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
 {
   std::set< CollisionHit > colhits;
-  std::set< MovingObject* > nearby;
+  std::list< MovingObject* > nearby;
   broadphase->search(object.get_bbox().grown(10), []{},
               nearby);
   for (auto& moving_object : nearby) {
@@ -1038,7 +1038,7 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       AABBPolygon tile_poly(moving_object->get_bbox());
       Manifold m;
       CollisionHit h;
-      std::set< MovingObject* > possible_neighbours;
+      std::list< MovingObject* > possible_neighbours;
       broadphase->search(moving_object->get_bbox().grown(2), []{},
                   possible_neighbours);
       for (const auto& mobject : possible_neighbours) {
@@ -1240,7 +1240,7 @@ Sector::handle_collisions()
         && moving_object->get_group() != COLGROUP_MOVING_STATIC)
        || !moving_object->is_valid())
       continue;
-    std::set< MovingObject* > possibleCollisions;
+    std::list< MovingObject* > possibleCollisions;
     broadphase->search(moving_object->dest.grown(4), []{} , possibleCollisions);
     for (auto& moving_object_2 : possibleCollisions) {
       if (moving_object_2 == moving_object)
@@ -1275,7 +1275,7 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
     // Query the broadphase
-    std::set< MovingObject* > possibleCollisions;
+    std::list< MovingObject* > possibleCollisions;
     broadphase->search(moving_object->dest.grown(4), []{} , possibleCollisions);
     for (auto i2 = possibleCollisions.begin(); i2 != possibleCollisions.end(); ++i2)
     {

@@ -5,6 +5,7 @@
 #include "math/rectf.hpp"
 #include <set>
 #include <vector>
+#include <list>
 #include "supertux/moving_object.hpp"
 /**
  *  This class is an interface for any class implementing the a collision Broadphase.
@@ -27,7 +28,7 @@ public:
    *  @param fill The set to fill with the possibly colliding objects.
    */
   virtual void search(const Rectf& r, std::function<void()> collision_ok,
-                      std::set< MovingObject* >& fill) {}
+                      std::list< MovingObject* >& fill) {}
   /**
    *  TODO Define method for raycast
    *
