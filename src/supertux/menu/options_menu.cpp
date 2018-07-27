@@ -233,7 +233,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   }
 
   add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog)->set_help("Confirm aborting level");
-  add_toggle(MNID_CONFIRMATION_DIALOG, _("Pause on Focusloss"), &g_config->pause_on_focusloss)
+  add_toggle(MNID_CONFIRMATION_DIALOG, _("Pause on focus loss"), &g_config->pause_on_focusloss)
     ->set_help("Automatically pause the game when the window loses focus");
   add_hl();
   add_back(_("Back"));
