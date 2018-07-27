@@ -20,6 +20,7 @@
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_painter.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/gl/gl_video_system.hpp"
 
 inline int next_po2(int val)
 {
@@ -30,15 +31,19 @@ inline int next_po2(int val)
   return result;
 }
 
-GLLightmap::GLLightmap() :
+GLLightmap::GLLightmap(GLVideoSystem& video_system) :
+  m_video_system(video_system),
   m_lightmap(),
   m_lightmap_width(),
   m_lightmap_height(),
   m_lightmap_uv_right(),
   m_lightmap_uv_bottom()
 {
-  m_lightmap_width = SCREEN_WIDTH / s_LIGHTMAP_DIV;
-  m_lightmap_height = SCREEN_HEIGHT / s_LIGHTMAP_DIV;
+  auto window_size = m_video_system.get_window_size();
+
+  m_lightmap_width = window_size.width / s_LIGHTMAP_DIV;
+  m_lightmap_height = window_size.height / s_LIGHTMAP_DIV;
+
   unsigned int width = next_po2(m_lightmap_width);
   unsigned int height = next_po2(m_lightmap_height);
 
@@ -55,10 +60,11 @@ GLLightmap::~GLLightmap()
 }
 
 void
-GLLightmap::start_draw(const Color &ambient_color)
+GLLightmap::start_draw()
 {
   glGetIntegerv(GL_VIEWPORT, m_old_viewport); //save viewport
-  glViewport(m_old_viewport[0], m_old_viewport[3] - m_lightmap_height + m_old_viewport[1], m_lightmap_width, m_lightmap_height);
+  glViewport(m_old_viewport[0], m_old_viewport[3] - m_lightmap_height + m_old_viewport[1],
+             m_lightmap_width, m_lightmap_height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
@@ -70,9 +76,6 @@ GLLightmap::start_draw(const Color &ambient_color)
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-
-  glClearColor( ambient_color.red, ambient_color.green, ambient_color.blue, 1 );
-  glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void
@@ -80,7 +83,11 @@ GLLightmap::end_draw()
 {
   glDisable(GL_BLEND);
   glBindTexture(GL_TEXTURE_2D, m_lightmap->get_handle());
-  glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_old_viewport[0], m_old_viewport[3] - m_lightmap_height + m_old_viewport[1], m_lightmap_width, m_lightmap_height);
+  glCopyTexSubImage2D(GL_TEXTURE_2D,
+                      0, 0,
+                      0, m_old_viewport[0],
+                      m_old_viewport[3] - m_lightmap_height + m_old_viewport[1],
+                      m_lightmap_width, m_lightmap_height);
 
   glViewport(m_old_viewport[0], m_old_viewport[1], m_old_viewport[2], m_old_viewport[3]);
   glMatrixMode(GL_PROJECTION);
@@ -96,7 +103,7 @@ GLLightmap::end_draw()
 }
 
 void
-GLLightmap::do_draw()
+GLLightmap::render()
 {
   // multiple the lightmap with the framebuffer
   glBlendFunc(GL_DST_COLOR, GL_ZERO);
@@ -164,6 +171,32 @@ void
 GLLightmap::draw_triangle(const DrawingRequest& request)
 {
   GLPainter::draw_triangle(request);
+}
+
+void
+GLLightmap::clear(const Color& color)
+{
+  glClearColor(color.red, color.green, color.blue, color.alpha);
+  glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void
+GLLightmap::set_clip_rect(const Rect& rect)
+{
+  auto window_size = m_video_system.get_window_size();
+
+  glScissor(m_lightmap_width * rect.left / SCREEN_WIDTH,
+            window_size.height - (m_lightmap_height * rect.bottom / SCREEN_HEIGHT),
+            m_lightmap_width * rect.get_width() / SCREEN_WIDTH,
+            m_lightmap_height * rect.get_height() / SCREEN_HEIGHT);
+
+  glEnable(GL_SCISSOR_TEST);
+}
+
+void
+GLLightmap::clear_clip_rect()
+{
+  glDisable(GL_SCISSOR_TEST);
 }
 
 void

@@ -17,7 +17,9 @@
 #ifndef HEADER_SUPERTUX_VIDEO_LIGHTMAP_HPP
 #define HEADER_SUPERTUX_VIDEO_LIGHTMAP_HPP
 
-class Color;
+#include "video/color.hpp"
+
+class Rect;
 struct DrawingRequest;
 
 class Lightmap
@@ -25,7 +27,7 @@ class Lightmap
 public:
   virtual ~Lightmap() {}
 
-  virtual void start_draw(const Color &ambient_color) = 0;
+  virtual void start_draw() = 0;
   virtual void end_draw() = 0;
 
   virtual void draw_surface(const DrawingRequest& request) = 0;
@@ -35,9 +37,14 @@ public:
   virtual void draw_inverse_ellipse(const DrawingRequest& request) = 0;
   virtual void draw_line(const DrawingRequest& request) = 0;
   virtual void draw_triangle(const DrawingRequest& request) = 0;
+  virtual void clear(const Color& color = Color(0.0f, 0.0f, 0.0f, 1.0f)) = 0;
 
   virtual void get_light(const DrawingRequest& request) const = 0;
-  virtual void do_draw() = 0;
+
+  virtual void set_clip_rect(const Rect& rect) = 0;
+  virtual void clear_clip_rect() = 0;
+
+  virtual void render() = 0;
 };
 
 #endif

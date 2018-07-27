@@ -106,7 +106,7 @@ TextObject::draw(DrawingContext& context)
                                      width, height, anchor);
 
   context.color().draw_filled_rect(spos, Vector(width, height),
-                           Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
+                                   Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-50);
   if (centered) {
     context.color().draw_center_text(font, text, spos, LAYER_GUI-40, TextObject::default_color);
   } else {

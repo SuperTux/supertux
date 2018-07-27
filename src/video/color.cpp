@@ -77,6 +77,12 @@ Color::operator==(const Color& other) const
     && alpha == other.alpha;
 }
 
+bool
+Color::operator!=(const Color& other) const
+{
+  return !(operator==(other));
+}
+
 float
 Color::greyscale() const
 {

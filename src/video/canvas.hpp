@@ -33,7 +33,13 @@ class VideoSystem;
 class DrawingContext;
 
 enum Target {
-  NORMAL, LIGHTMAP
+  /** The color layer, all regular tilemaps and character sprites go
+      here. */
+  NORMAL,
+
+  /** The lightmap is drawn on top of the color layer and darkens it,
+      elements drawn here act as lightsources. */
+  LIGHTMAP,
 };
 
 // some constants for predefined layer values
@@ -56,6 +62,9 @@ enum {
   LAYER_FOREGROUND0 = 300,
   //
   LAYER_FOREGROUND1 = 400,
+
+  LAYER_LIGHTMAP = 450,
+
   // Hitpoints, time, coins, etc.
   LAYER_HUD = 500,
   // Menus, mouse, console etc.
@@ -82,32 +91,29 @@ public:
 class Canvas
 {
 public:
+  enum Filter { BELOW_LIGHTMAP, ABOVE_LIGHTMAP, ALL };
+
+public:
   Canvas(Target target, DrawingContext& context, obstack& obst);
   ~Canvas();
 
-  /// Adds a drawing request for a surface into the request list.
   void draw_surface(SurfacePtr surface, const Vector& position,
                     int layer);
-  /// Adds a drawing request for a surface into the request list.
   void draw_surface(SurfacePtr surface, const Vector& position,
                     float angle, const Color& color, const Blend& blend,
                     int layer);
-  /// Adds a drawing request for part of a surface.
   void draw_surface_part(SurfacePtr surface,
                          const Rectf& srcrect, const Rectf& dstrect,
                          int layer);
-  /// Draws a text.
   void draw_text(FontPtr font, const std::string& text,
                  const Vector& position, FontAlignment alignment, int layer, Color color = Color(1.0,1.0,1.0));
 
-  /// Draws text on screen center (feed Vector.x with a 0).
-  /// This is the same as draw_text() with a SCREEN_WIDTH/2 position and
-  /// alignment set to LEFT_ALIGN
+  /** Draws text on screen center (feed Vector.x with a 0). This is
+      the same as draw_text() with a SCREEN_WIDTH/2 position and
+      alignment set to LEFT_ALIGN */
   void draw_center_text(FontPtr font, const std::string& text,
                         const Vector& position, int layer, Color color = Color(1.0,1.0,1.0));
-  /// Draws a color gradient onto the whole screen */
   void draw_gradient(const Color& from, const Color& to, int layer, const GradientDirection& direction, const Rectf& region);
-  /// Fills a rectangle.
   void draw_filled_rect(const Vector& topleft, const Vector& size,
                         const Color& color, int layer);
   void draw_filled_rect(const Rectf& rect, const Color& color, int layer);
@@ -119,7 +125,7 @@ public:
   void draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3, const Color& color, int layer);
 
   void clear();
-  void render(VideoSystem& video_system);
+  void render(VideoSystem& video_system, Filter filter);
 
   DrawingContext& get_context() { return m_context; }
 

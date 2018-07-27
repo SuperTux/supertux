@@ -119,16 +119,16 @@ public:
 
     // draw menu background rectangles
     context.color().draw_filled_rect(Rectf(rect.p1.x - 4, rect.p1.y - 10-4,
-                                   rect.p2.x + 4, rect.p2.y + 10 + 4),
-                             Color(0.2f, 0.3f, 0.4f, 0.8f),
-                             20.0f,
-                             LAYER_GUI-10);
+                                             rect.p2.x + 4, rect.p2.y + 10 + 4),
+                                       Color(0.2f, 0.3f, 0.4f, 0.8f),
+                                       20.0f,
+                                       LAYER_GUI-10);
 
     context.color().draw_filled_rect(Rectf(rect.p1.x, rect.p1.y - 10,
-                                   rect.p2.x, rect.p2.y + 10),
-                             Color(0.6f, 0.7f, 0.8f, 0.5f),
-                             16.0f,
-                             LAYER_GUI-10);
+                                             rect.p2.x, rect.p2.y + 10),
+                                       Color(0.6f, 0.7f, 0.8f, 0.5f),
+                                       16.0f,
+                                       LAYER_GUI-10);
   }
 
   bool is_active() const

@@ -64,26 +64,26 @@ void
 EditorInputGui::draw(DrawingContext& context) {
   //SCREEN_WIDTH SCREEN_HEIGHT
   context.color().draw_filled_rect(Rectf(Vector(Xpos, 0), Vector(context.get_width(), context.get_height())),
-                           Color(0.9f, 0.9f, 1.0f, 0.6f),
-                           0.0f, LAYER_GUI-10);
+                                     Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                     0.0f, LAYER_GUI-10);
   if (dragging) {
     context.color().draw_filled_rect(selection_draw_rect(), Color(0.2f, 0.4f, 1.0f, 0.6f),
-                             0.0f, LAYER_GUI+1);
+                                       0.0f, LAYER_GUI+1);
   }
 
   if(hovered_item != HI_NONE)
   {
     context.color().draw_filled_rect(get_item_rect(hovered_item),
-                             Color(0.9f, 0.9f, 1.0f, 0.6f),
-                             0.0f, LAYER_GUI - 5);
+                                       Color(0.9f, 0.9f, 1.0f, 0.6f),
+                                       0.0f, LAYER_GUI - 5);
   }
 
   context.color().draw_text(Resources::normal_font, _("Tilegroups"),
-                    Vector(context.get_width(), 0),
-                    ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
+                              Vector(context.get_width(), 0),
+                              ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
   context.color().draw_text(Resources::normal_font, _("Objects"),
-                    Vector(context.get_width(), 24),
-                    ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
+                              Vector(context.get_width(), 24),
+                              ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::default_color);
 
   rubber->draw(context);
   select_mode->draw(context);
@@ -110,7 +110,7 @@ EditorInputGui::draw_tilegroup(DrawingContext& context) {
       {
         // Display tile ID on top of tile:
         context.color().draw_text(Console::current()->get_font(), std::to_string(tile_ID),
-                          position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
+                                    position + Vector(16, 16), ALIGN_CENTER, LAYER_GUI - 9, Color::WHITE);
       }
       /*if (tile_ID == 0) {
         continue;

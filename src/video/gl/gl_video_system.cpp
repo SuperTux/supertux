@@ -52,8 +52,8 @@ GLVideoSystem::GLVideoSystem() :
   create_window();
 
   m_texture_manager.reset(new TextureManager);
-  m_renderer.reset(new GLRenderer);
-  m_lightmap.reset(new GLLightmap);
+  m_renderer.reset(new GLRenderer(*this));
+  m_lightmap.reset(new GLLightmap(*this));
 
   apply_config();
 }
@@ -227,9 +227,9 @@ GLVideoSystem::apply_config()
   if (viewport.x != 0 || viewport.y != 0)
   {
     // Clear both buffers so that we get a clean black border without junk
-    m_renderer->clear();
+    m_renderer->clear(Color::BLACK);
     flip();
-    m_renderer->clear();
+    m_renderer->clear(Color::BLACK);
     flip();
   }
 
@@ -335,7 +335,7 @@ GLVideoSystem::on_resize(int w, int h)
 
   apply_config();
 
-  m_lightmap.reset(new GLLightmap);
+  m_lightmap.reset(new GLLightmap(*this));
 }
 
 void
@@ -428,24 +428,12 @@ GLVideoSystem::do_take_screenshot()
   SDL_FreeSurface(shot_surf);
 }
 
-void
-GLVideoSystem::set_clip_rect(const Rect& rect)
+Size
+GLVideoSystem::get_window_size() const
 {
-  int win_w;
-  int win_h;
-  SDL_GetWindowSize(m_window, &win_w, &win_h);
-
-  glScissor(win_w * rect.left / SCREEN_WIDTH,
-            win_h - (win_h * rect.bottom / SCREEN_HEIGHT),
-            win_w * rect.get_width() / SCREEN_WIDTH,
-            win_h * rect.get_height() / SCREEN_HEIGHT);
-  glEnable(GL_SCISSOR_TEST);
-}
-
-void
-GLVideoSystem::clear_clip_rect()
-{
-  glDisable(GL_SCISSOR_TEST);
+  Size size;
+  SDL_GetWindowSize(m_window, &size.width, &size.height);
+  return size;
 }
 
 /* EOF */

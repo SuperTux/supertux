@@ -45,7 +45,7 @@ void PointMarker::draw(DrawingContext& context) {
     Vector dir2 = Vector(-dir.y, dir.x);
     Vector pos = bbox.get_middle();
     context.color().draw_triangle(pos + dir * 1.5, pos - dir + dir2, pos - dir - dir2,
-                          Color(1, 1, 1, 0.5), LAYER_GUI-20);
+                                    Color(1, 1, 1, 0.5), LAYER_GUI-20);
   }
 }
 

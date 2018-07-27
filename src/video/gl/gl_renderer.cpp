@@ -17,14 +17,17 @@
 
 #include "video/gl/gl_renderer.hpp"
 
+#include "math/rect.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/gl/gl_painter.hpp"
+#include "video/gl/gl_video_system.hpp"
 #include "video/glutil.hpp"
 #include "video/util.hpp"
 
-GLRenderer::GLRenderer() :
+GLRenderer::GLRenderer(GLVideoSystem& video_system) :
+  m_video_system(video_system),
   m_viewport(),
   m_scale(1.0f, 1.0f)
 {
@@ -94,9 +97,9 @@ GLRenderer::draw_triangle(const DrawingRequest& request)
 }
 
 void
-GLRenderer::clear()
+GLRenderer::clear(const Color& color)
 {
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClearColor(color.red, color.green, color.blue, color.alpha);
   glClear(GL_COLOR_BUFFER_BIT);
 }
 
@@ -105,6 +108,24 @@ GLRenderer::to_logical(int physical_x, int physical_y) const
 {
   return Vector(static_cast<float>(physical_x - m_viewport.x) / m_scale.x,
                 static_cast<float>(physical_y - m_viewport.y) / m_scale.y);
+}
+
+void
+GLRenderer::set_clip_rect(const Rect& rect)
+{
+  auto window_size = m_video_system.get_window_size();
+
+  glScissor(window_size.width * rect.left / SCREEN_WIDTH,
+            window_size.height - (window_size.height * rect.bottom / SCREEN_HEIGHT),
+            window_size.width * rect.get_width() / SCREEN_WIDTH,
+            window_size.height * rect.get_height() / SCREEN_HEIGHT);
+  glEnable(GL_SCISSOR_TEST);
+}
+
+void
+GLRenderer::clear_clip_rect()
+{
+  glDisable(GL_SCISSOR_TEST);
 }
 
 void

@@ -189,30 +189,30 @@ Dialog::draw(DrawingContext& context)
 
   // draw background rect
   context.color().draw_filled_rect(bg_rect.grown(12.0f),
-                                   Color(0.2f, 0.3f, 0.4f, m_passive ? 0.3f : 0.8f),
-                                   16.0f,
-                                   LAYER_GUI-10);
+                                     Color(0.2f, 0.3f, 0.4f, m_passive ? 0.3f : 0.8f),
+                                     16.0f,
+                                     LAYER_GUI-10);
 
   context.color().draw_filled_rect(bg_rect.grown(8.0f),
-                                   Color(0.6f, 0.7f, 0.8f, m_passive ? 0.2f : 0.5f),
-                                   16.0f,
-                                   LAYER_GUI-10);
+                                     Color(0.6f, 0.7f, 0.8f, m_passive ? 0.2f : 0.5f),
+                                     16.0f,
+                                     LAYER_GUI-10);
 
   // draw text
   context.color().draw_text(Resources::normal_font, m_text,
-                            Vector(bg_rect.p1.x + bg_rect.get_width()/2.0f,
-                                   bg_rect.p1.y),
-                            ALIGN_CENTER, LAYER_GUI);
+                              Vector(bg_rect.p1.x + bg_rect.get_width()/2.0f,
+                                     bg_rect.p1.y),
+                              ALIGN_CENTER, LAYER_GUI);
   if(m_passive)
     return;
 
   // draw HL line
   context.color().draw_filled_rect(Vector(bg_rect.p1.x, bg_rect.p2.y - 35),
-                                   Vector(bg_rect.get_width(), 4),
-                                   Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
+                                     Vector(bg_rect.get_width(), 4),
+                                     Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
   context.color().draw_filled_rect(Vector(bg_rect.p1.x, bg_rect.p2.y - 35),
-                                   Vector(bg_rect.get_width(), 2),
-                                   Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
+                                     Vector(bg_rect.get_width(), 2),
+                                     Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
 
   // draw buttons
   for(int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
@@ -227,21 +227,21 @@ Dialog::draw(DrawingContext& context)
       float button_height = 24.0f;
       float blink = (sinf(real_time * M_PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
       context.color().draw_filled_rect(Rectf(Vector(pos.x - button_width/2, pos.y - button_height/2),
-                                             Vector(pos.x + button_width/2, pos.y + button_height/2)).grown(2.0f),
-                                       Color(1.0f, 1.0f, 1.0f, blink),
-                                       14.0f,
-                                       LAYER_GUI-10);
+                                               Vector(pos.x + button_width/2, pos.y + button_height/2)).grown(2.0f),
+                                         Color(1.0f, 1.0f, 1.0f, blink),
+                                         14.0f,
+                                         LAYER_GUI-10);
       context.color().draw_filled_rect(Rectf(Vector(pos.x - button_width/2, pos.y - button_height/2),
-                                             Vector(pos.x + button_width/2, pos.y + button_height/2)),
-                                       Color(1.0f, 1.0f, 1.0f, 0.5f),
-                                       12.0f,
-                                       LAYER_GUI-10);
+                                               Vector(pos.x + button_width/2, pos.y + button_height/2)),
+                                         Color(1.0f, 1.0f, 1.0f, 0.5f),
+                                         12.0f,
+                                         LAYER_GUI-10);
     }
 
     context.color().draw_text(Resources::normal_font, m_buttons[i].text,
-                              Vector(pos.x, pos.y - int(Resources::normal_font->get_height()/2)),
-                              ALIGN_CENTER, LAYER_GUI,
-                              i == m_selected_button ? ColorScheme::Menu::active_color : ColorScheme::Menu::default_color);
+                                Vector(pos.x, pos.y - int(Resources::normal_font->get_height()/2)),
+                                ALIGN_CENTER, LAYER_GUI,
+                                i == m_selected_button ? ColorScheme::Menu::active_color : ColorScheme::Menu::default_color);
   }
 }
 

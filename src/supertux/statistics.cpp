@@ -141,9 +141,10 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
     WMAP_INFO_TOP_Y2 = WMAP_INFO_TOP_Y1 + 16;
   }
 
-  context.color().draw_text(Resources::small_font, std::string("- ") + _("Best Level Statistics") + " -",
-                    Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1),
-                    ALIGN_CENTER, LAYER_HUD,Statistics::header_color);
+  context.color().draw_text(
+    Resources::small_font, std::string("- ") + _("Best Level Statistics") + " -",
+    Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, WMAP_INFO_TOP_Y1),
+    ALIGN_CENTER, LAYER_HUD,Statistics::header_color);
 
   std::string caption_buf;
   std::string stat_buf;

@@ -26,25 +26,22 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 
-bool DrawingContext::render_lighting = true;
-
-DrawingContext::DrawingContext(VideoSystem& video_system_) :
+DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool overlay) :
   m_video_system(video_system_),
-  m_obst(),
+  m_obst(obst),
+  m_overlay(overlay),
   m_viewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
   m_colormap_canvas(NORMAL, *this, m_obst),
   m_lightmap_canvas(LIGHTMAP, *this, m_obst),
-  m_ambient_color(1.0f, 1.0f, 1.0f, 1.0f),
+  m_ambient_color(Color::WHITE),
   m_transformstack(),
   m_transform()
 {
-  obstack_init(&m_obst);
 }
 
 DrawingContext::~DrawingContext()
 {
   clear();
-  obstack_free(&m_obst, NULL);
 }
 
 void
@@ -75,45 +72,6 @@ DrawingContext::get_light(const Vector& position, Color* color_out)
   request->request_data = getlightrequest;
 
   m_lightmap_canvas.get_requests().push_back(request);
-}
-
-void
-DrawingContext::render()
-{
-  assert(m_transformstack.empty());
-
-  Renderer& renderer = m_video_system.get_renderer();
-
-  m_video_system.set_clip_rect(m_viewport);
-
-  // Use Lightmap if ambient color is not white.
-  bool use_lightmap = ( m_ambient_color.red != 1.0f ||
-                        m_ambient_color.green != 1.0f ||
-                        m_ambient_color.blue != 1.0f );
-
-  if(use_lightmap) {
-    auto& lightmap = m_video_system.get_lightmap();
-
-    lightmap.start_draw(m_ambient_color);
-    m_lightmap_canvas.render(m_video_system);
-    lightmap.end_draw();
-
-    if (render_lighting) {
-      auto request = new(m_obst) DrawingRequest();
-      request->type = DRAW_LIGHTMAP;
-      request->layer = LAYER_HUD - 1;
-      m_colormap_canvas.get_requests().push_back(request);
-    }
-  }
-
-  renderer.start_draw();
-  m_colormap_canvas.render(m_video_system);
-  renderer.end_draw();
-
-  clear();
-
-  obstack_free(&m_obst, NULL);
-  obstack_init(&m_obst);
 }
 
 void

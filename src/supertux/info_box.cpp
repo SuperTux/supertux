@@ -53,7 +53,7 @@ InfoBox::draw(DrawingContext& context)
   float height = 200;
 
   context.color().draw_filled_rect(Vector(x1, y1), Vector(width, height),
-                           Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-1);
+                                     Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-1);
 
   float y = y1;
   bool linesLeft = false;
@@ -71,14 +71,14 @@ InfoBox::draw(DrawingContext& context)
     // draw the scrolling arrows
     if (arrow_scrollup.get() && firstline > 0)
       context.color().draw_surface(arrow_scrollup,
-                           Vector( x1 + width  - arrow_scrollup->get_width(),  // top-right corner of box
-                                   y1), LAYER_GUI);
+                                     Vector( x1 + width  - arrow_scrollup->get_width(),  // top-right corner of box
+                                             y1), LAYER_GUI);
 
     if (arrow_scrolldown.get() && linesLeft && firstline < lines.size()-1)
       context.color().draw_surface(arrow_scrolldown,
-                           Vector( x1 + width  - arrow_scrolldown->get_width(),  // bottom-light corner of box
-                                   y1 + height - arrow_scrolldown->get_height()),
-                           LAYER_GUI);
+                                     Vector( x1 + width  - arrow_scrolldown->get_width(),  // bottom-light corner of box
+                                             y1 + height - arrow_scrolldown->get_height()),
+                                     LAYER_GUI);
   }
 }
 

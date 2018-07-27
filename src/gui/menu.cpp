@@ -460,24 +460,24 @@ Menu::draw(DrawingContext& context)
     int text_height = (int) Resources::normal_font->get_text_height(items[active_item]->help);
 
     Rectf text_rect(pos.x - text_width/2 - 8,
-                   SCREEN_HEIGHT - 48 - text_height/2 - 4,
-                   pos.x + text_width/2 + 8,
-                   SCREEN_HEIGHT - 48 + text_height/2 + 4);
+                    SCREEN_HEIGHT - 48 - text_height/2 - 4,
+                    pos.x + text_width/2 + 8,
+                    SCREEN_HEIGHT - 48 + text_height/2 + 4);
 
     context.color().draw_filled_rect(Rectf(text_rect.p1 - Vector(4,4),
-                                   text_rect.p2 + Vector(4,4)),
-                             Color(0.2f, 0.3f, 0.4f, 0.8f),
-                             16.0f,
-                             LAYER_GUI-10);
+                                             text_rect.p2 + Vector(4,4)),
+                                       Color(0.2f, 0.3f, 0.4f, 0.8f),
+                                       16.0f,
+                                       LAYER_GUI-10);
 
     context.color().draw_filled_rect(text_rect,
-                             Color(0.6f, 0.7f, 0.8f, 0.5f),
-                             16.0f,
-                             LAYER_GUI-10);
+                                       Color(0.6f, 0.7f, 0.8f, 0.5f),
+                                       16.0f,
+                                       LAYER_GUI-10);
 
     context.color().draw_text(Resources::normal_font, items[active_item]->help,
-                      Vector(pos.x, SCREEN_HEIGHT - 48 - text_height/2),
-                      ALIGN_CENTER, LAYER_GUI);
+                                Vector(pos.x, SCREEN_HEIGHT - 48 - text_height/2),
+                                ALIGN_CENTER, LAYER_GUI);
   }
 
   for(unsigned int i = 0; i < items.size(); ++i)

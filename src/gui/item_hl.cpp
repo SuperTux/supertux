@@ -28,11 +28,11 @@ ItemHorizontalLine::draw(DrawingContext& context, const Vector& pos, int menu_wi
   // TODO
   /* Draw a horizontal line with a little 3d effect */
   context.color().draw_filled_rect(Vector(pos.x, pos.y - 6),
-                           Vector(menu_width, 4),
-                           Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
+                                     Vector(menu_width, 4),
+                                     Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
   context.color().draw_filled_rect(Vector(pos.x, pos.y - 6),
-                           Vector(menu_width, 2),
-                           Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
+                                     Vector(menu_width, 2),
+                                     Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
 }
 
 int

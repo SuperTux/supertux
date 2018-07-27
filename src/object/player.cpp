@@ -1123,8 +1123,7 @@ Player::set_bonus(BonusType type, bool animate)
   if (type == EARTH_BONUS) player_status->max_earth_time++;
 
   if(!second_growup_sound_timer.started() &&
-     (type > player_status->bonus || type > GROWUP_BONUS) &&
-     (type != player_status->bonus))
+     type > GROWUP_BONUS && type != player_status->bonus)
   {
     second_growup_sound_timer.start(0.5);
   }
