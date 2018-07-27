@@ -179,9 +179,7 @@ SDLLightmap::get_light(const DrawingRequest& request) const
   }
   SDL_SetRenderTarget(m_renderer, 0);
 
-  *(getlightrequest->color_ptr) = Color(pixel[2] / 255.0f,
-                                        pixel[1] / 255.0f,
-                                        pixel[0] / 255.0f);
+  *(getlightrequest->color_ptr) = Color::from_rgb888(pixel[2], pixel[1], pixel[0]);
 }
 
 void
