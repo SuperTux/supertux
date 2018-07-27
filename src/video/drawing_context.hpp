@@ -69,7 +69,7 @@ public:
   void get_light(const Vector& position, Color* color_out);
 
   typedef ::Target Target;
-  static const Target NORMAL = ::NORMAL;
+  static const Target COLORMAP = ::COLORMAP;
   static const Target LIGHTMAP = ::LIGHTMAP;
 
   Canvas& color() { return m_colormap_canvas; }

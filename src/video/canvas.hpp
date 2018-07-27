@@ -35,7 +35,7 @@ class DrawingContext;
 enum Target {
   /** The color layer, all regular tilemaps and character sprites go
       here. */
-  NORMAL,
+  COLORMAP,
 
   /** The lightmap is drawn on top of the color layer and darkens it,
       elements drawn here act as lightsources. */

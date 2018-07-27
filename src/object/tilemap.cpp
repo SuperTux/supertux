@@ -49,7 +49,7 @@ TileMap::TileMap(const TileSet *new_tileset) :
   current_tint(1, 1, 1),
   remaining_tint_fade_time(0),
   running(false),
-  draw_target(DrawingContext::NORMAL),
+  draw_target(DrawingContext::COLORMAP),
   new_size_x(0),
   new_size_y(0),
   new_offset_x(0),
@@ -82,7 +82,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
   current_tint(1, 1, 1),
   remaining_tint_fade_time(0),
   running(false),
-  draw_target(DrawingContext::NORMAL),
+  draw_target(DrawingContext::COLORMAP),
   new_size_x(0),
   new_size_y(0),
   new_offset_x(0),
@@ -115,7 +115,7 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
 
   std::string draw_target_s = "normal";
   reader.get("draw-target", draw_target_s);
-  if (draw_target_s == "normal") draw_target = DrawingContext::NORMAL;
+  if (draw_target_s == "normal") draw_target = DrawingContext::COLORMAP;
   if (draw_target_s == "lightmap") draw_target = DrawingContext::LIGHTMAP;
 
   if (reader.get("alpha", alpha)) {

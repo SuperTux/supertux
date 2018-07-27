@@ -74,7 +74,7 @@ Canvas::render(VideoSystem& video_system, Filter filter)
       continue;
 
     switch(m_target) {
-      case NORMAL:
+      case COLORMAP:
         switch(request.type) {
           case SURFACE:
             renderer.draw_surface(request);
