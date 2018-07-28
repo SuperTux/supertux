@@ -42,13 +42,8 @@ public:
   virtual void draw_triangle(const DrawingRequest& request) = 0;
   virtual void clear(const Color& color) = 0;
 
-  virtual Vector to_logical(int physical_x, int physical_y) const = 0;
-
   virtual void set_clip_rect(const Rect& rect) = 0;
   virtual void clear_clip_rect() = 0;
-
-  virtual void set_viewport(const Rect& viewport, const Vector& scale) = 0;
-  virtual Rect get_viewport() const = 0;
 };
 
 #endif

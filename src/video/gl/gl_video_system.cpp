@@ -34,7 +34,6 @@
 #include "video/gl/gl_renderer.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
-#include "video/util.hpp"
 
 GLVideoSystem::GLVideoSystem() :
   m_texture_manager(),
@@ -43,7 +42,7 @@ GLVideoSystem::GLVideoSystem() :
   m_window(),
   m_glcontext(),
   m_desktop_size(),
-  m_fullscreen_active()
+  m_viewport()
 {
   SDL_DisplayMode mode;
   SDL_GetCurrentDisplayMode(0, &mode);
@@ -120,8 +119,6 @@ GLVideoSystem::create_window()
 
   SCREEN_WIDTH = size.width;
   SCREEN_HEIGHT = size.height;
-
-  m_fullscreen_active = g_config->use_fullscreen;
 
   if(g_config->try_vsync) {
     /* we want vsync for smooth scrolling */
@@ -200,31 +197,9 @@ GLVideoSystem::apply_config()
     ((g_config->fullscreen_size == Size(0, 0)) ? m_desktop_size : g_config->fullscreen_size) :
     g_config->window_size;
 
-  float pixel_aspect_ratio = 1.0f;
-  if (g_config->aspect_size != Size(0, 0))
-  {
-    pixel_aspect_ratio = calculate_pixel_aspect_ratio(m_desktop_size,
-                                                      g_config->aspect_size);
-  }
-  else if (g_config->use_fullscreen)
-  {
-    pixel_aspect_ratio = calculate_pixel_aspect_ratio(m_desktop_size,
-                                                      target_size);
-  }
+  m_viewport = Viewport::from_size(target_size, m_desktop_size);
 
-  Rect viewport;
-  Vector scale;
-  calculate_viewport(s_min_size, s_max_size,
-                     target_size,
-                     pixel_aspect_ratio,
-                     g_config->magnification,
-                     scale,
-                     viewport);
-
-  SCREEN_WIDTH = static_cast<int>(viewport.get_width() / scale.x);
-  SCREEN_HEIGHT = static_cast<int>(viewport.get_height() / scale.y);
-
-  if (viewport.left != 0 || viewport.top != 0)
+  if (m_viewport.needs_clear_screen())
   {
     // Clear both buffers so that we get a clean black border without junk
     m_renderer->clear(Color::BLACK);
@@ -232,8 +207,6 @@ GLVideoSystem::apply_config()
     m_renderer->clear(Color::BLACK);
     flip();
   }
-
-  m_renderer->set_viewport(viewport, scale);
 }
 
 void

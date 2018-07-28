@@ -23,7 +23,8 @@
 #include "video/sdl/sdl_painter.hpp"
 #include "video/video_system.hpp"
 
-SDLLightmap::SDLLightmap(SDL_Renderer* renderer) :
+SDLLightmap::SDLLightmap(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
+  m_video_system(video_system),
   m_renderer(renderer),
   m_painter(),
   m_texture(),

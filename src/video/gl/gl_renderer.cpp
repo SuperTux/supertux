@@ -23,13 +23,10 @@
 #include "util/log.hpp"
 #include "video/gl/gl_video_system.hpp"
 #include "video/glutil.hpp"
-#include "video/util.hpp"
 
 GLRenderer::GLRenderer(GLVideoSystem& video_system) :
   m_video_system(video_system),
-  m_painter(),
-  m_viewport(),
-  m_scale(1.0f, 1.0f)
+  m_painter()
 {
 }
 
@@ -48,15 +45,18 @@ GLRenderer::start_draw()
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  glViewport(m_viewport.left, m_viewport.top,
-             m_viewport.get_width(), m_viewport.get_height());
+  const Rect& viewport = m_video_system.get_viewport().get_rect();
+  const Vector& scale = m_video_system.get_viewport().get_scale();
+
+  glViewport(viewport.left, viewport.top,
+             viewport.get_width(), viewport.get_height());
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
   glOrtho(0,
-          m_viewport.get_width() / m_scale.x,
-          m_viewport.get_height() / m_scale.y,
+          viewport.get_width() / scale.x,
+          viewport.get_height() / scale.y,
           0,
           -1,
           1);
@@ -121,13 +121,6 @@ GLRenderer::clear(const Color& color)
   glClear(GL_COLOR_BUFFER_BIT);
 }
 
-Vector
-GLRenderer::to_logical(int physical_x, int physical_y) const
-{
-  return Vector(static_cast<float>(physical_x - m_viewport.left) / m_scale.x,
-                static_cast<float>(physical_y - m_viewport.top) / m_scale.y);
-}
-
 void
 GLRenderer::set_clip_rect(const Rect& rect)
 {
@@ -144,13 +137,6 @@ void
 GLRenderer::clear_clip_rect()
 {
   glDisable(GL_SCISSOR_TEST);
-}
-
-void
-GLRenderer::set_viewport(const Rect& viewport, const Vector& scale)
-{
-  m_viewport = viewport;
-  m_scale = scale;
 }
 
 /* EOF */

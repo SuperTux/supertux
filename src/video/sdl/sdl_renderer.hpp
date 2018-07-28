@@ -24,10 +24,12 @@
 #include "video/renderer.hpp"
 #include "video/sdl/sdl_painter.hpp"
 
+class SDLVideoSystem;
+
 class SDLRenderer : public Renderer
 {
 public:
-  SDLRenderer(SDL_Renderer* renderer);
+  SDLRenderer(SDLVideoSystem& video_system, SDL_Renderer* renderer);
   ~SDLRenderer();
 
   virtual void start_draw() override;
@@ -45,19 +47,13 @@ public:
   virtual void set_clip_rect(const Rect& rect) override;
   virtual void clear_clip_rect() override;
 
-  virtual void set_viewport(const Rect& viewport, const Vector& scale) override;
-  virtual Rect get_viewport() const override { return m_viewport; }
-
-  virtual Vector to_logical(int physical_x, int physical_y) const override;
-
   void flip();
   SDL_Renderer* get_sdl_renderer() const { return m_renderer; };
 
 private:
+  SDLVideoSystem& m_video_system;
   SDL_Renderer* m_renderer;
   SDLPainter m_painter;
-  Rect m_viewport;
-  Vector m_scale;
   boost::optional<SDL_Rect> m_cliprect;
 
 private:

@@ -22,6 +22,7 @@
 
 #include "math/size.hpp"
 #include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 class GLRenderer;
 class GLLightmap;
@@ -42,6 +43,7 @@ public:
   virtual SurfaceData* new_surface_data(const Surface& surface) override;
   virtual void free_surface_data(SurfaceData* surface_data) override;
 
+  virtual const Viewport& get_viewport() const override { return m_viewport; }
   virtual void apply_config() override;
   virtual void flip() override;
   virtual void on_resize(int w, int h) override;
@@ -66,7 +68,7 @@ private:
   SDL_Window* m_window;
   SDL_GLContext m_glcontext;
   Size m_desktop_size;
-  bool m_fullscreen_active;
+  Viewport m_viewport;
 
 private:
   GLVideoSystem(const GLVideoSystem&) = delete;

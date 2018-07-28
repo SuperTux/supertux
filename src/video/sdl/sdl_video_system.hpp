@@ -22,6 +22,7 @@
 
 #include "math/size.hpp"
 #include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 class SDLLightmap;
 class SDLRenderer;
@@ -40,6 +41,7 @@ public:
   virtual SurfaceData* new_surface_data(const Surface& surface) override;
   virtual void free_surface_data(SurfaceData* surface_data) override;
 
+  virtual const Viewport& get_viewport() const override { return m_viewport; }
   virtual void apply_config() override;
   virtual void flip() override;
   virtual void on_resize(int w, int h) override;
@@ -52,12 +54,12 @@ public:
 
 private:
   void apply_video_mode();
-  void apply_viewport();
 
 private:
   SDL_Window* m_sdl_window;
   SDL_Renderer* m_sdl_renderer;
   Size m_desktop_size;
+  Viewport m_viewport;
   std::unique_ptr<SDLRenderer> m_renderer;
   std::unique_ptr<SDLLightmap> m_lightmap;
   std::unique_ptr<TextureManager> m_texture_manager;

@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2014 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2016 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,14 +14,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "video/util.hpp"
+#include "viewport.hpp"
 
-#include <SDL_rect.h>
 #include <algorithm>
 
 #include "math/rect.hpp"
 #include "math/size.hpp"
 #include "math/vector.hpp"
+#include "supertux/gameconfig.hpp"
+#include "supertux/globals.hpp"
+
+// Minimum and maximum size of the virtual screen, note that the
+// maximum must not exceed X/Y_OFFSCREEN_DISTANCE or enemies end up
+// spawning on screen instead of off-screen.
+const Size Viewport::s_max_size(1280, 800);
+const Size Viewport::s_min_size(640, 480);
 
 namespace {
 
@@ -58,8 +65,8 @@ apply_pixel_aspect_ratio_post(const Size& real_window_size, const Size& window_s
 
 inline float
 calculate_scale(const Size& min_size, const Size& max_size,
-                      const Size& window_size,
-                      float magnification)
+                const Size& window_size,
+                float magnification)
 {
   float scale = magnification;
   if (scale == 0.0f) // magic value
@@ -106,8 +113,6 @@ calculate_viewport(const Size& max_size, const Size& window_size, float scale)
   return viewport;
 }
 
-} // namespace
-
 void calculate_viewport(const Size& min_size, const Size& max_size,
                         const Size& real_window_size,
                         float pixel_aspect_ratio, float magnification,
@@ -143,6 +148,63 @@ float calculate_pixel_aspect_ratio(const Size& source, const Size& target)
     static_cast<float>(target.height);
 
   return target_aspect / source_aspect;
+}
+
+} // namespace
+
+Viewport
+Viewport::from_size(const Size& target_size, const Size& desktop_size)
+{
+  float pixel_aspect_ratio = 1.0f;
+  if (g_config->aspect_size != Size(0, 0))
+  {
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(desktop_size,
+                                                      g_config->aspect_size);
+  }
+  else if (g_config->use_fullscreen)
+  {
+    pixel_aspect_ratio = calculate_pixel_aspect_ratio(desktop_size,
+                                                      target_size);
+  }
+
+  // calculate the viewport
+  Rect viewport;
+  Vector scale;
+  calculate_viewport(s_min_size, s_max_size,
+                     target_size,
+                     pixel_aspect_ratio,
+                     g_config->magnification,
+                     scale, viewport);
+
+  SCREEN_WIDTH = static_cast<int>(viewport.get_width() / scale.x);
+  SCREEN_HEIGHT = static_cast<int>(viewport.get_height() / scale.y);
+
+  return Viewport(viewport, scale);
+}
+
+Viewport::Viewport() :
+  m_rect(),
+  m_scale()
+{
+}
+
+Viewport::Viewport(const Rect& rect, const Vector& scale) :
+  m_rect(rect),
+  m_scale(scale)
+{
+}
+
+Vector
+Viewport::to_logical(int physical_x, int physical_y) const
+{
+  return Vector(static_cast<float>(physical_x - m_rect.left) / m_scale.x,
+                static_cast<float>(physical_y - m_rect.top) / m_scale.y);
+}
+
+bool
+Viewport::needs_clear_screen() const
+{
+  return (m_rect.left != 0 || m_rect.top != 0);
 }
 
 /* EOF */

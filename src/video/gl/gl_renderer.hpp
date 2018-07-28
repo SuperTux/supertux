@@ -49,16 +49,9 @@ public:
   virtual void set_clip_rect(const Rect& rect) override;
   virtual void clear_clip_rect() override;
 
-  virtual void set_viewport(const Rect& viewport, const Vector& scale) override;
-  virtual Rect get_viewport() const override { return m_viewport; }
-
-  virtual Vector to_logical(int physical_x, int physical_y) const override;
-
 private:
   GLVideoSystem& m_video_system;
   GLPainter m_painter;
-  Rect m_viewport;
-  Vector m_scale;
 
 private:
   GLRenderer(const GLRenderer&) = delete;

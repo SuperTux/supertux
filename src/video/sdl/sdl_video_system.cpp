@@ -24,7 +24,6 @@
 #include "supertux/gameconfig.hpp"
 #include "util/log.hpp"
 #include "video/renderer.hpp"
-#include "video/util.hpp"
 #include "video/sdl/sdl_lightmap.hpp"
 #include "video/sdl/sdl_renderer.hpp"
 #include "video/sdl/sdl_surface_data.hpp"
@@ -34,6 +33,7 @@ SDLVideoSystem::SDLVideoSystem() :
   m_sdl_window(),
   m_sdl_renderer(),
   m_desktop_size(),
+  m_viewport(),
   m_renderer(),
   m_lightmap(),
   m_texture_manager()
@@ -85,8 +85,8 @@ SDLVideoSystem::SDLVideoSystem() :
 
   g_config->window_size = Size(width, height);
 
-  m_renderer.reset(new SDLRenderer(m_sdl_renderer));
-  m_lightmap.reset(new SDLLightmap(m_sdl_renderer));
+  m_renderer.reset(new SDLRenderer(*this, m_sdl_renderer));
+  m_lightmap.reset(new SDLLightmap(*this, m_sdl_renderer));
   m_texture_manager.reset(new TextureManager);
 
   apply_config();
@@ -102,7 +102,23 @@ void
 SDLVideoSystem::apply_config()
 {
   apply_video_mode();
-  apply_viewport();
+
+  { // apply_viewport
+    Size target_size = (g_config->use_fullscreen && g_config->fullscreen_size != Size(0, 0)) ?
+      g_config->fullscreen_size :
+      g_config->window_size;
+
+    m_viewport = Viewport::from_size(target_size, m_desktop_size);
+
+    if (m_viewport.needs_clear_screen())
+    {
+      // Clear the screen to avoid garbage in unreachable areas after we
+      m_renderer->clear(Color::BLACK);
+      m_renderer->flip();
+      m_renderer->clear(Color::BLACK);
+      m_renderer->flip();
+    }
+  }
 }
 
 void
@@ -160,49 +176,6 @@ SDLVideoSystem::apply_video_mode()
   }
 }
 
-void
-SDLVideoSystem::apply_viewport()
-{
-  Size target_size = (g_config->use_fullscreen && g_config->fullscreen_size != Size(0, 0)) ?
-    g_config->fullscreen_size :
-    g_config->window_size;
-
-  float pixel_aspect_ratio = 1.0f;
-  if (g_config->aspect_size != Size(0, 0))
-  {
-    pixel_aspect_ratio = calculate_pixel_aspect_ratio(m_desktop_size,
-                                                      g_config->aspect_size);
-  }
-  else if (g_config->use_fullscreen)
-  {
-    pixel_aspect_ratio = calculate_pixel_aspect_ratio(m_desktop_size,
-                                                      target_size);
-  }
-
-  // calculate the viewport
-  Rect viewport;
-  Vector scale;
-  calculate_viewport(s_min_size, s_max_size,
-                     target_size,
-                     pixel_aspect_ratio,
-                     g_config->magnification,
-                     scale, viewport);
-
-  SCREEN_WIDTH = static_cast<int>(viewport.get_width() / scale.x);
-  SCREEN_HEIGHT = static_cast<int>(viewport.get_height() / scale.y);
-
-  if (viewport.left != 0 || viewport.top != 0)
-  {
-    // Clear the screen to avoid garbage in unreachable areas after we
-    m_renderer->clear(Color::BLACK);
-    m_renderer->flip();
-    m_renderer->clear(Color::BLACK);
-    m_renderer->flip();
-  }
-
-  m_renderer->set_viewport(viewport, scale);
-}
-
 Renderer&
 SDLVideoSystem::get_renderer() const
 {
@@ -240,7 +213,7 @@ SDLVideoSystem::on_resize(int w, int h)
 
   apply_config();
 
-  m_lightmap.reset(new SDLLightmap(m_sdl_renderer));
+  m_lightmap.reset(new SDLLightmap(*this, m_sdl_renderer));
 }
 
 void
