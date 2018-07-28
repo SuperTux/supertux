@@ -220,7 +220,7 @@ BonusBlock::try_open(Player *player)
   assert(sector);
 
   if (player == NULL)
-    player = sector->player;
+    player = sector->players[0];
 
   if (player == NULL)
     return;
@@ -355,7 +355,7 @@ BonusBlock::try_drop(Player *player)
   }
 
   if (player == NULL)
-    player = sector->player;
+    player = sector->players[0];
 
   if (player == NULL)
     return;

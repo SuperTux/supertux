@@ -221,7 +221,7 @@ bool validate_sector_player()
     return false;
   }
 
-  if (::Sector::current()->player == 0)
+  if (::Sector::current()->players[0] == 0)
   {
     log_info << "No player." << std::endl;
     return false;
@@ -242,28 +242,28 @@ void play_sound(const std::string& filename)
 void grease()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player; // scripting::Player != ::Player
+  auto tux = ::Sector::current()->players[0]; // scripting::Player != ::Player
   tux->get_physic().set_velocity_x(tux->get_physic().get_velocity_x()*3);
 }
 
 void invincible()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
+  auto tux = ::Sector::current()->players[0];
   tux->invincible_timer.start(10000);
 }
 
 void ghost()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
+  auto tux = ::Sector::current()->players[0];
   tux->set_ghost_mode(true);
 }
 
 void mortal()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
+  auto tux = ::Sector::current()->players[0];
   tux->invincible_timer.stop();
   tux->set_ghost_mode(false);
 }
@@ -282,14 +282,14 @@ void restart()
 void whereami()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
+  auto tux = ::Sector::current()->players[0];
   log_info << "You are at x " << ((int) tux->get_pos().x) << ", y " << ((int) tux->get_pos().y) << std::endl;
 }
 
 void gotoend()
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
+  auto tux = ::Sector::current()->players[0];
   tux->move(Vector(
               (::Sector::current()->get_width()) - (SCREEN_WIDTH*2), 0));
   ::Sector::current()->camera->reset(
@@ -299,7 +299,7 @@ void gotoend()
 void warp(float offset_x, float offset_y)
 {
   if (!validate_sector_player()) return;
-  auto tux = ::Sector::current()->player;
+  auto tux = ::Sector::current()->players[0];
   tux->move(Vector(
               tux->get_pos().x + (offset_x*32), tux->get_pos().y - (offset_y*32)));
   ::Sector::current()->camera->reset(
