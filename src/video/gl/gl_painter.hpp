@@ -34,15 +34,15 @@ private:
   static GLuint s_last_texture;
 
 public:
-  GLPainter();
+  GLPainter() {}
 
-  static void draw_surface(const DrawingRequest& request);
-  static void draw_surface_part(const DrawingRequest& request);
-  static void draw_gradient(const DrawingRequest& request);
-  static void draw_filled_rect(const DrawingRequest& request);
-  static void draw_inverse_ellipse(const DrawingRequest& request);
-  static void draw_line(const DrawingRequest& request);
-  static void draw_triangle(const DrawingRequest& request);
+  void draw_surface(const DrawingRequest& request);
+  void draw_surface_part(const DrawingRequest& request);
+  void draw_gradient(const DrawingRequest& request);
+  void draw_filled_rect(const DrawingRequest& request);
+  void draw_inverse_ellipse(const DrawingRequest& request);
+  void draw_line(const DrawingRequest& request);
+  void draw_triangle(const DrawingRequest& request);
 
 private:
   GLPainter(const GLPainter&) = delete;

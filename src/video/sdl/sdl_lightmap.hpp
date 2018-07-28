@@ -22,6 +22,8 @@
 #include <SDL.h>
 #include <boost/optional.hpp>
 
+#include "video/sdl/sdl_painter.hpp"
+
 class Color;
 struct DrawingRequest;
 struct SDL_Renderer;
@@ -53,6 +55,7 @@ public:
 
 private:
   SDL_Renderer* m_renderer;
+  SDLPainter m_painter;
   SDL_Texture* m_texture;
   int m_width;
   int m_height;

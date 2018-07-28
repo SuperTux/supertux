@@ -20,6 +20,7 @@
 #include <SDL.h>
 
 #include "math/vector.hpp"
+#include "video/gl/gl_painter.hpp"
 #include "video/renderer.hpp"
 
 class GLVideoSystem;
@@ -55,6 +56,7 @@ public:
 
 private:
   GLVideoSystem& m_video_system;
+  GLPainter m_painter;
   Rect m_viewport;
   Vector m_scale;
 

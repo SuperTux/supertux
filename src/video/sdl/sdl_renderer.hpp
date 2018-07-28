@@ -22,6 +22,7 @@
 
 #include "math/size.hpp"
 #include "video/renderer.hpp"
+#include "video/sdl/sdl_painter.hpp"
 
 class SDLRenderer : public Renderer
 {
@@ -54,6 +55,7 @@ public:
 
 private:
   SDL_Renderer* m_renderer;
+  SDLPainter m_painter;
   Rect m_viewport;
   Vector m_scale;
   boost::optional<SDL_Rect> m_cliprect;

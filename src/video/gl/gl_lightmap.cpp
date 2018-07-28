@@ -33,6 +33,7 @@ inline int next_po2(int val)
 
 GLLightmap::GLLightmap(GLVideoSystem& video_system) :
   m_video_system(video_system),
+  m_painter(),
   m_lightmap(),
   m_lightmap_width(),
   m_lightmap_height(),
@@ -134,43 +135,43 @@ GLLightmap::render()
 void
 GLLightmap::draw_surface(const DrawingRequest& request)
 {
-  GLPainter::draw_surface(request);
+  m_painter.draw_surface(request);
 }
 
 void
 GLLightmap::draw_surface_part(const DrawingRequest& request)
 {
-  GLPainter::draw_surface_part(request);
+  m_painter.draw_surface_part(request);
 }
 
 void
 GLLightmap::draw_gradient(const DrawingRequest& request)
 {
-  GLPainter::draw_gradient(request);
+  m_painter.draw_gradient(request);
 }
 
 void
 GLLightmap::draw_filled_rect(const DrawingRequest& request)
 {
-  GLPainter::draw_filled_rect(request);
+  m_painter.draw_filled_rect(request);
 }
 
 void
 GLLightmap::draw_inverse_ellipse(const DrawingRequest& request)
 {
-  GLPainter::draw_inverse_ellipse(request);
+  m_painter.draw_inverse_ellipse(request);
 }
 
 void
 GLLightmap::draw_line(const DrawingRequest& request)
 {
-  GLPainter::draw_line(request);
+  m_painter.draw_line(request);
 }
 
 void
 GLLightmap::draw_triangle(const DrawingRequest& request)
 {
-  GLPainter::draw_triangle(request);
+  m_painter.draw_triangle(request);
 }
 
 void
