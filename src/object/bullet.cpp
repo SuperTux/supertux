@@ -22,6 +22,8 @@
 #include "sprite/sprite_manager.hpp"
 #include "supertux/direction.hpp"
 #include "supertux/sector.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 namespace {
 const float BULLET_XM = 600;

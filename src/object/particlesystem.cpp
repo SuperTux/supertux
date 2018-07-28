@@ -23,6 +23,8 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 ParticleSystem::ParticleSystem(float max_particle_size_) :
   ExposedObject<ParticleSystem, scripting::ParticleSystem>(this),

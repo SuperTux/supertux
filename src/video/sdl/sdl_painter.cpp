@@ -24,6 +24,8 @@
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_texture.hpp"
 #include "video/surface.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 namespace {
 

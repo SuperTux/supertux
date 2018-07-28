@@ -22,6 +22,7 @@
 #include "video/sdl/sdl_renderer.hpp"
 #include "video/sdl/sdl_painter.hpp"
 #include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 SDLLightmap::SDLLightmap(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
   m_video_system(video_system),

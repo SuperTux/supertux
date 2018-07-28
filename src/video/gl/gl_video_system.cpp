@@ -117,9 +117,6 @@ GLVideoSystem::create_window()
 
   m_glcontext = SDL_GL_CreateContext(m_window);
 
-  SCREEN_WIDTH = size.width;
-  SCREEN_HEIGHT = size.height;
-
   if(g_config->try_vsync) {
     /* we want vsync for smooth scrolling */
     if (SDL_GL_SetSwapInterval(-1) != 0)

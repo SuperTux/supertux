@@ -23,6 +23,8 @@
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 GLuint GLPainter::s_last_texture = static_cast<GLuint>(-1);
 

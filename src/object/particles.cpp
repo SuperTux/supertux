@@ -22,6 +22,8 @@
 #include "object/camera.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 //TODO: remove this function in favor of the one below
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,

@@ -42,6 +42,8 @@
 #include "supertux/tile.hpp"
 #include "util/file_system.hpp"
 #include "util/writer.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 Sector* Sector::_current = 0;
 

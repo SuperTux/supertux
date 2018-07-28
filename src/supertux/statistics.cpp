@@ -29,6 +29,8 @@
 #include "util/log.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 namespace {
 const int nv_coins = std::numeric_limits<int>::min();
