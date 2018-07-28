@@ -176,9 +176,6 @@ Viewport::from_size(const Size& target_size, const Size& desktop_size)
                      g_config->magnification,
                      scale, viewport);
 
-  SCREEN_WIDTH = static_cast<int>(viewport.get_width() / scale.x);
-  SCREEN_HEIGHT = static_cast<int>(viewport.get_height() / scale.y);
-
   return Viewport(viewport, scale);
 }
 
@@ -192,6 +189,18 @@ Viewport::Viewport(const Rect& rect, const Vector& scale) :
   m_rect(rect),
   m_scale(scale)
 {
+}
+
+int
+Viewport::get_screen_width() const
+{
+  return static_cast<int>(m_rect.get_width() / m_scale.x);
+}
+
+int
+Viewport::get_screen_height() const
+{
+  return static_cast<int>(m_rect.get_height() / m_scale.y);
 }
 
 Vector
