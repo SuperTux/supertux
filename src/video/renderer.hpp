@@ -27,8 +27,7 @@ struct SDL_Window;
 class Renderer
 {
 public:
-  Renderer();
-  virtual ~Renderer();
+  virtual ~Renderer() {}
 
   virtual void start_draw() = 0;
   virtual void end_draw() = 0;
