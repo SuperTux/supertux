@@ -212,7 +212,7 @@ GLVideoSystem::apply_config()
                                                       target_size);
   }
 
-  SDL_Rect viewport;
+  Rect viewport;
   Vector scale;
   calculate_viewport(s_min_size, s_max_size,
                      target_size,
@@ -221,10 +221,10 @@ GLVideoSystem::apply_config()
                      scale,
                      viewport);
 
-  SCREEN_WIDTH = static_cast<int>(viewport.w / scale.x);
-  SCREEN_HEIGHT = static_cast<int>(viewport.h / scale.y);
+  SCREEN_WIDTH = static_cast<int>(viewport.get_width() / scale.x);
+  SCREEN_HEIGHT = static_cast<int>(viewport.get_height() / scale.y);
 
-  if (viewport.x != 0 || viewport.y != 0)
+  if (viewport.left != 0 || viewport.top != 0)
   {
     // Clear both buffers so that we get a clean black border without junk
     m_renderer->clear(Color::BLACK);

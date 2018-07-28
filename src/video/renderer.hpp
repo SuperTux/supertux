@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_RENDERER_HPP
 
+#include "math/rect.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
 
@@ -45,6 +46,9 @@ public:
 
   virtual void set_clip_rect(const Rect& rect) = 0;
   virtual void clear_clip_rect() = 0;
+
+  virtual void set_viewport(const Rect& viewport, const Vector& scale) = 0;
+  virtual Rect get_viewport() const = 0;
 };
 
 #endif

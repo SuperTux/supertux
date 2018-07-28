@@ -106,8 +106,8 @@ GLRenderer::clear(const Color& color)
 Vector
 GLRenderer::to_logical(int physical_x, int physical_y) const
 {
-  return Vector(static_cast<float>(physical_x - m_viewport.x) / m_scale.x,
-                static_cast<float>(physical_y - m_viewport.y) / m_scale.y);
+  return Vector(static_cast<float>(physical_x - m_viewport.left) / m_scale.x,
+                static_cast<float>(physical_y - m_viewport.top) / m_scale.y);
 }
 
 void
@@ -129,19 +129,20 @@ GLRenderer::clear_clip_rect()
 }
 
 void
-GLRenderer::set_viewport(const SDL_Rect& viewport, const Vector& scale)
+GLRenderer::set_viewport(const Rect& viewport, const Vector& scale)
 {
   m_viewport = viewport;
   m_scale = scale;
 
-  glViewport(m_viewport.x, m_viewport.y, m_viewport.w, m_viewport.h);
+  glViewport(m_viewport.left, m_viewport.top,
+             m_viewport.get_width(), m_viewport.get_height());
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
   glOrtho(0,
-          m_viewport.w / m_scale.x,
-          m_viewport.h / m_scale.y,
+          m_viewport.get_width() / m_scale.x,
+          m_viewport.get_height() / m_scale.y,
           0,
           -1,
           1);

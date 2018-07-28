@@ -19,6 +19,7 @@
 #include <SDL_rect.h>
 #include <algorithm>
 
+#include "math/rect.hpp"
 #include "math/size.hpp"
 #include "math/vector.hpp"
 
@@ -41,20 +42,18 @@ apply_pixel_aspect_ratio_pre(const Size& window_size, float pixel_aspect_ratio)
 
 inline void
 apply_pixel_aspect_ratio_post(const Size& real_window_size, const Size& window_size, float scale,
-                              SDL_Rect& out_viewport, Vector& out_scale)
+                              Rect& out_viewport, Vector& out_scale)
 {
   Vector transform(static_cast<float>(real_window_size.width) / window_size.width,
                    static_cast<float>(real_window_size.height) / window_size.height);
 
-  out_viewport.x *= transform.x;
-  out_viewport.y *= transform.y;
-
-  out_viewport.w *= transform.x;
-  out_viewport.h *= transform.y;
+  out_viewport.left *= transform.x;
+  out_viewport.top *= transform.y;
+  out_viewport.right *= transform.x;
+  out_viewport.bottom *= transform.y;
 
   out_scale.x = scale * transform.x;
   out_scale.y = scale * transform.y;
-
 }
 
 inline float
@@ -87,19 +86,22 @@ calculate_scale(const Size& min_size, const Size& max_size,
   return scale;
 }
 
-inline SDL_Rect
+inline Rect
 calculate_viewport(const Size& max_size, const Size& window_size, float scale)
 {
-  SDL_Rect viewport;
-
-  viewport.w = std::min(window_size.width,
-                            static_cast<int>(scale * max_size.width));
-  viewport.h = std::min(window_size.height,
-                            static_cast<int>(scale * max_size.height));
+  int viewport_width = std::min(window_size.width,
+                                static_cast<int>(scale * max_size.width));
+  int viewport_height = std::min(window_size.height,
+                                 static_cast<int>(scale * max_size.height));
 
   // Center the viewport in the window
-  viewport.x = std::max(0, (window_size.width - viewport.w) / 2);
-  viewport.y = std::max(0, (window_size.height - viewport.h) / 2);
+  Rect viewport;
+
+  viewport.left = std::max(0, (window_size.width - viewport_width) / 2);
+  viewport.top = std::max(0, (window_size.height - viewport_height) / 2);
+
+  viewport.right = viewport.left + viewport_width;
+  viewport.bottom = viewport.top + viewport_height;
 
   return viewport;
 }
@@ -110,7 +112,7 @@ void calculate_viewport(const Size& min_size, const Size& max_size,
                         const Size& real_window_size,
                         float pixel_aspect_ratio, float magnification,
                         Vector& out_scale,
-                        SDL_Rect& out_viewport)
+                        Rect& out_viewport)
 {
   // Transform the real window_size by the aspect ratio, then do
   // calculations on that virtual window_size

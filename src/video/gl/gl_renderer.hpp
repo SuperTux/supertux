@@ -45,17 +45,17 @@ public:
   virtual void draw_triangle(const DrawingRequest& request) override;
   virtual void clear(const Color& color) override;
 
-  Vector to_logical(int physical_x, int physical_y) const override;
-
   virtual void set_clip_rect(const Rect& rect) override;
   virtual void clear_clip_rect() override;
 
-  void set_viewport(const SDL_Rect& viewport, const Vector& scale);
-  SDL_Rect get_viewport() const { return m_viewport; }
+  virtual void set_viewport(const Rect& viewport, const Vector& scale) override;
+  virtual Rect get_viewport() const override { return m_viewport; }
+
+  virtual Vector to_logical(int physical_x, int physical_y) const override;
 
 private:
   GLVideoSystem& m_video_system;
-  SDL_Rect m_viewport;
+  Rect m_viewport;
   Vector m_scale;
 
 private:
