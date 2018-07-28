@@ -47,6 +47,24 @@ GLRenderer::start_draw()
   glEnableClientState(GL_VERTEX_ARRAY);
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glViewport(m_viewport.left, m_viewport.top,
+             m_viewport.get_width(), m_viewport.get_height());
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+
+  glOrtho(0,
+          m_viewport.get_width() / m_scale.x,
+          m_viewport.get_height() / m_scale.y,
+          0,
+          -1,
+          1);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  glTranslatef(0, 0, 0);
+  check_gl_error("Setting up view matrices");
 }
 
 void
@@ -133,24 +151,6 @@ GLRenderer::set_viewport(const Rect& viewport, const Vector& scale)
 {
   m_viewport = viewport;
   m_scale = scale;
-
-  glViewport(m_viewport.left, m_viewport.top,
-             m_viewport.get_width(), m_viewport.get_height());
-
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-
-  glOrtho(0,
-          m_viewport.get_width() / m_scale.x,
-          m_viewport.get_height() / m_scale.y,
-          0,
-          -1,
-          1);
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  glTranslatef(0, 0, 0);
-  check_gl_error("Setting up view matrices");
 }
 
 /* EOF */

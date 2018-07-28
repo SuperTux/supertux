@@ -61,6 +61,13 @@ SDLRenderer::~SDLRenderer()
 void
 SDLRenderer::start_draw()
 {
+  SDL_Rect sdl_viewport = { m_viewport.left, m_viewport.top,
+                            m_viewport.get_width(), m_viewport.get_height() };
+
+  // SetViewport() works in scaled screen coordinates, so we have to
+  // reset it to 1.0, 1.0 to get meaningful results
+  SDL_RenderSetScale(m_renderer, 1.0f, 1.0f);
+  SDL_RenderSetViewport(m_renderer, &sdl_viewport);
   SDL_RenderSetScale(m_renderer, m_scale.x, m_scale.y);
 }
 
@@ -173,15 +180,6 @@ SDLRenderer::set_viewport(const Rect& viewport, const Vector& scale)
 {
   m_viewport = viewport;
   m_scale = scale;
-
-  SDL_Rect sdl_viewport = { m_viewport.left, m_viewport.top,
-                            m_viewport.get_width(), m_viewport.get_height() };
-
-  // SetViewport() works in scaled screen coordinates, so we have to
-  // reset it to 1.0, 1.0 to get meaningful results
-  SDL_RenderSetScale(m_renderer, 1.0f, 1.0f);
-  SDL_RenderSetViewport(m_renderer, &sdl_viewport);
-  SDL_RenderSetScale(m_renderer, m_scale.x, m_scale.y);
 }
 
 /* EOF */
