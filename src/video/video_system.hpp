@@ -51,6 +51,7 @@ public:
 
   virtual Renderer& get_renderer() const = 0;
   virtual Lightmap& get_lightmap() const = 0;
+
   virtual TexturePtr new_texture(SDL_Surface *image) = 0;
   virtual SurfaceData* new_surface_data(const Surface &surface) = 0;
   virtual void free_surface_data(SurfaceData* surface_data) = 0;

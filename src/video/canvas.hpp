@@ -98,10 +98,7 @@ public:
                          int layer);
   void draw_text(FontPtr font, const std::string& text,
                  const Vector& position, FontAlignment alignment, int layer, Color color = Color(1.0,1.0,1.0));
-
-  /** Draws text on screen center (feed Vector.x with a 0). This is
-      the same as draw_text() with a SCREEN_WIDTH/2 position and
-      alignment set to LEFT_ALIGN */
+  /** Draw text to the center of the screen */
   void draw_center_text(FontPtr font, const std::string& text,
                         const Vector& position, int layer, Color color = Color(1.0,1.0,1.0));
   void draw_gradient(const Color& from, const Color& to, int layer, const GradientDirection& direction, const Rectf& region);
