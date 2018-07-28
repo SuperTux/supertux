@@ -72,11 +72,6 @@ SDLVideoSystem::SDLVideoSystem() :
   SCREEN_WIDTH = width;
   SCREEN_HEIGHT = height;
 
-  // m_viewport.x = 0;
-  // m_viewport.y = 0;
-  // m_viewport.w = width;
-  // m_viewport.h = height;
-
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
   int ret = SDL_CreateWindowAndRenderer(width, height, flags, &m_sdl_window, &m_sdl_renderer);
