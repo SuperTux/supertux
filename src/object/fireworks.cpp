@@ -24,6 +24,8 @@
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 Fireworks::Fireworks() :
   timer()

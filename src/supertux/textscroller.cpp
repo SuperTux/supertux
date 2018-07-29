@@ -31,6 +31,8 @@
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 static const float DEFAULT_SPEED = 20;
 static const float LEFT_BORDER = 50;

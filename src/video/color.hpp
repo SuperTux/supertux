@@ -33,6 +33,22 @@ public:
   static const Color WHITE;
 
 public:
+  static Color from_rgb888(uint8_t r, uint8_t g, uint8_t b)
+  {
+    return Color(static_cast<float>(r) / 255.0f,
+                 static_cast<float>(g) / 255.0f,
+                 static_cast<float>(b) / 255.0f);
+  }
+
+  static Color from_rgba8888(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255)
+  {
+    return Color(static_cast<float>(r) / 255.0f,
+                 static_cast<float>(g) / 255.0f,
+                 static_cast<float>(b) / 255.0f,
+                 static_cast<float>(a) / 255.0f);
+  }
+
+public:
   Color();
 
   Color(float red_, float green_, float blue_, float alpha_ = 1.0);

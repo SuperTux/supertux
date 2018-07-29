@@ -19,6 +19,8 @@
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/globals.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 FallingCoin::FallingCoin(const Vector& start_position, const int vel_x) :
   physic(),

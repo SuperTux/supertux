@@ -38,7 +38,8 @@ enum OptionsMenuIDs {
   MNID_DEVELOPER_MODE,
   MNID_CHRISTMAS_MODE,
   MNID_TRANSITIONS,
-  MNID_CONFIRMATION_DIALOG
+  MNID_CONFIRMATION_DIALOG,
+  MNID_PAUSE_ON_FOCUSLOSS
 };
 
 OptionsMenu::OptionsMenu(bool complete) :
@@ -232,6 +233,8 @@ OptionsMenu::OptionsMenu(bool complete) :
   }
 
   add_toggle(MNID_CONFIRMATION_DIALOG, _("Confirmation Dialog"), &g_config->confirmation_dialog)->set_help("Confirm aborting level");
+  add_toggle(MNID_CONFIRMATION_DIALOG, _("Pause on focus loss"), &g_config->pause_on_focusloss)
+    ->set_help("Automatically pause the game when the window loses focus");
   add_hl();
   add_back(_("Back"));
 }

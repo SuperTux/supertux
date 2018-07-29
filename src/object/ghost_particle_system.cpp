@@ -22,6 +22,8 @@
 #include "math/random_generator.hpp"
 #include "supertux/globals.hpp"
 #include "video/surface.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 //FIXME: Sometimes both ghosts have the same image
 //       Ghosts don't change their movement pattern - not random

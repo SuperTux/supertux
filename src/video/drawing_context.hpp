@@ -25,8 +25,10 @@
 #include "math/rect.hpp"
 #include "math/rectf.hpp"
 #include "math/vector.hpp"
-#include "video/color.hpp"
 #include "video/canvas.hpp"
+#include "video/color.hpp"
+#include "video/drawing_context.hpp"
+#include "video/drawing_transform.hpp"
 #include "video/font.hpp"
 #include "video/font_ptr.hpp"
 
@@ -34,51 +36,27 @@ class VideoSystem;
 struct DrawingRequest;
 struct obstack;
 
-class Transform
-{
-public:
-  Vector translation;
-  DrawingEffect drawing_effect;
-  float alpha;
-
-  Transform() :
-    translation(),
-    drawing_effect(NO_EFFECT),
-    alpha(1.0f)
-  { }
-
-  Vector apply(const Vector& v) const
-  {
-    return v - translation;
-  }
-};
-
-/**
- * This class provides functions for drawing things on screen. It also
- * maintains a stack of transforms that are applied to graphics.
- */
+/** This class provides functions for drawing things on screen. It
+    also maintains a stack of transforms that are applied to
+    graphics. */
 class DrawingContext final
 {
 public:
   DrawingContext(VideoSystem& video_system, obstack& obst, bool overlay);
   ~DrawingContext();
 
-  /// Returns the visible area in world coordinates
+  /** Returns the visible area in world coordinates */
   Rectf get_cliprect() const;
 
-  /// on next update, set color to lightmap's color at position
+  /** on next update, set color to lightmap's color at position */
   void get_light(const Vector& position, Color* color_out);
-
-  typedef ::Target Target;
-  static const Target NORMAL = ::NORMAL;
-  static const Target LIGHTMAP = ::LIGHTMAP;
 
   Canvas& color() { return m_colormap_canvas; }
   Canvas& light() { assert(!m_overlay); return m_lightmap_canvas; }
-  Canvas& get_canvas(Target target) {
+  Canvas& get_canvas(DrawingTarget target) {
     switch(target)
     {
-      case LIGHTMAP:
+      case DrawingTarget::LIGHTMAP:
         return light();
 
       default:
@@ -91,22 +69,21 @@ public:
 
   void push_transform();
   void pop_transform();
-  const Transform& get_transform() const { return m_transform; }
+  DrawingTransform& transform();
+  const DrawingTransform& transform() const;
 
   const Vector& get_translation() const
-  {  return m_transform.translation;  }
+  {  return transform().translation;  }
 
   void set_translation(const Vector& newtranslation)
-  {  m_transform.translation = newtranslation;  }
+  {  transform().translation = newtranslation;  }
 
-  /// Apply that effect in the next draws (effects are listed on surface.h).
+  /** Apply that effect in the next draws (effects are listed on surface.h). */
   void set_drawing_effect(DrawingEffect effect);
-  /// return currently applied drawing effect
   DrawingEffect get_drawing_effect() const;
 
-  /// apply that alpha in the next draws (1.0 means fully opaque) */
+  /** apply that alpha in the next draws (1.0 means fully opaque) */
   void set_alpha(float alpha);
-  /// return currently set alpha
   float get_alpha() const;
 
   void clear()
@@ -135,21 +112,20 @@ public:
 private:
   VideoSystem& m_video_system;
 
-  /* obstack holding the memory of the drawing requests */
+  /** obstack holds the memory of all the drawing requests, it is
+      shared with the Canvas */
   obstack& m_obst;
 
+  /** A context marked as overlay will not have it's light section
+      rendered. */
   bool m_overlay;
 
   Rect m_viewport;
+  Color m_ambient_color;
+  std::vector<DrawingTransform> m_transform_stack;
+
   Canvas m_colormap_canvas;
   Canvas m_lightmap_canvas;
-
-  Color m_ambient_color;
-
-  /// the transform stack
-  std::vector<Transform> m_transformstack;
-  /// the currently active transform
-  Transform m_transform;
 
 private:
   DrawingContext(const DrawingContext&);

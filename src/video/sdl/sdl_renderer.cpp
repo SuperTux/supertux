@@ -22,12 +22,12 @@
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "video/sdl/sdl_painter.hpp"
-#include "video/util.hpp"
+#include "video/sdl/sdl_video_system.hpp"
 
-SDLRenderer::SDLRenderer(SDL_Renderer* renderer) :
+SDLRenderer::SDLRenderer(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
+  m_video_system(video_system),
   m_renderer(renderer),
-  m_viewport(),
-  m_scale(1.0f, 1.0f),
+  m_painter(m_video_system),
   m_cliprect()
 {
   SDL_RendererInfo info;
@@ -60,7 +60,17 @@ SDLRenderer::~SDLRenderer()
 void
 SDLRenderer::start_draw()
 {
-  SDL_RenderSetScale(m_renderer, m_scale.x, m_scale.y);
+  const Rect& viewport = m_video_system.get_viewport().get_rect();
+  const Vector& scale = m_video_system.get_viewport().get_scale();
+
+  SDL_Rect sdl_viewport = { viewport.left, viewport.top,
+                            viewport.get_width(), viewport.get_height() };
+
+  // SetViewport() works in scaled screen coordinates, so we have to
+  // reset it to 1.0, 1.0 to get meaningful results
+  SDL_RenderSetScale(m_renderer, 1.0f, 1.0f);
+  SDL_RenderSetViewport(m_renderer, &sdl_viewport);
+  SDL_RenderSetScale(m_renderer, scale.x, scale.y);
 }
 
 void
@@ -71,43 +81,43 @@ SDLRenderer::end_draw()
 void
 SDLRenderer::draw_surface(const DrawingRequest& request)
 {
-  SDLPainter::draw_surface(m_renderer, request);
+  m_painter.draw_surface(m_renderer, request);
 }
 
 void
 SDLRenderer::draw_surface_part(const DrawingRequest& request)
 {
-  SDLPainter::draw_surface_part(m_renderer, request);
+  m_painter.draw_surface_part(m_renderer, request);
 }
 
 void
 SDLRenderer::draw_gradient(const DrawingRequest& request)
 {
-  SDLPainter::draw_gradient(m_renderer, request);
+  m_painter.draw_gradient(m_renderer, request);
 }
 
 void
 SDLRenderer::draw_filled_rect(const DrawingRequest& request)
 {
-  SDLPainter::draw_filled_rect(m_renderer, request);
+  m_painter.draw_filled_rect(m_renderer, request);
 }
 
 void
 SDLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
 {
-  SDLPainter::draw_inverse_ellipse(m_renderer, request);
+  m_painter.draw_inverse_ellipse(m_renderer, request);
 }
 
 void
 SDLRenderer::draw_line(const DrawingRequest& request)
 {
-  SDLPainter::draw_line(m_renderer, request);
+  m_painter.draw_line(m_renderer, request);
 }
 
 void
 SDLRenderer::draw_triangle(const DrawingRequest& request)
 {
-  SDLPainter::draw_triangle(m_renderer, request);
+  m_painter.draw_triangle(m_renderer, request);
 }
 
 void
@@ -158,26 +168,6 @@ void
 SDLRenderer::flip()
 {
   SDL_RenderPresent(m_renderer);
-}
-
-Vector
-SDLRenderer::to_logical(int physical_x, int physical_y) const
-{
-  return Vector(static_cast<float>(physical_x - m_viewport.x) / m_scale.x,
-                static_cast<float>(physical_y - m_viewport.y) / m_scale.y);
-}
-
-void
-SDLRenderer::set_viewport(const SDL_Rect& viewport, const Vector& scale)
-{
-  m_viewport = viewport;
-  m_scale = scale;
-
-  // SetViewport() works in scaled screen coordinates, so we have to
-  // reset it to 1.0, 1.0 to get meaningful results
-  SDL_RenderSetScale(m_renderer, 1.0f, 1.0f);
-  SDL_RenderSetViewport(m_renderer, &m_viewport);
-  SDL_RenderSetScale(m_renderer, m_scale.x, m_scale.y);
 }
 
 /* EOF */

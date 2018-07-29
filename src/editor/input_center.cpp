@@ -40,6 +40,7 @@
 #include "supertux/sector.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 bool EditorInputCenter::render_background = true;
 bool EditorInputCenter::render_grid = true;
@@ -640,7 +641,7 @@ EditorInputCenter::event(SDL_Event& ev) {
 
     case SDL_MOUSEMOTION:
     {
-      mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
+      mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       update_pos();
       if (dragging) {
         switch (Editor::current()->get_tileselect_input_type()) {

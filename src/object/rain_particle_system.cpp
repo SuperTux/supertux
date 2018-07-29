@@ -24,6 +24,8 @@
 #include "object/rainsplash.hpp"
 #include "supertux/sector.hpp"
 #include "video/surface.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 RainParticleSystem::RainParticleSystem()
 {

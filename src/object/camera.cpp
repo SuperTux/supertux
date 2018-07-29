@@ -27,6 +27,8 @@
 #include "util/reader_mapping.hpp"
 #include "util/writer.hpp"
 #include "video/drawing_context.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 /* this is the fractional distance toward the peek
    position to move each frame; lower is slower,

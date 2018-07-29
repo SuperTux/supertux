@@ -26,6 +26,8 @@
 #include "supertux/menu/menu_storage.hpp"
 #include "supertux/screen_manager.hpp"
 #include "supertux/textscroller.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 MainMenu::MainMenu()
 {

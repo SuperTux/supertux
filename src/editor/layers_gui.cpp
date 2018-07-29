@@ -20,16 +20,18 @@
 #include "editor/layer_icon.hpp"
 #include "editor/object_menu.hpp"
 #include "editor/tip.hpp"
+#include "gui/menu_manager.hpp"
 #include "math/vector.hpp"
 #include "object/camera.hpp"
 #include "object/tilemap.hpp"
-#include "gui/menu_manager.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/colorscheme.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "supertux/sector.hpp"
+#include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 EditorLayersGui::EditorLayersGui() :
   layers(),
@@ -158,7 +160,7 @@ EditorLayersGui::event(SDL_Event& ev) {
 
     case SDL_MOUSEMOTION:
     {
-      Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
+      Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       float x = mouse_pos.x - Xpos;
       float y = mouse_pos.y - Ypos;
       if (y < 0 || x > Width) {

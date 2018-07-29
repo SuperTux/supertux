@@ -19,8 +19,9 @@
 
 #include <memory>
 
-#include "video/lightmap.hpp"
+#include "video/gl/gl_painter.hpp"
 #include "video/glutil.hpp"
+#include "video/lightmap.hpp"
 
 class GLTexture;
 class GLVideoSystem;
@@ -57,13 +58,13 @@ private:
 
 private:
   GLVideoSystem& m_video_system;
+  GLPainter m_painter;
 
   std::shared_ptr<GLTexture> m_lightmap;
   int m_lightmap_width;
   int m_lightmap_height;
   float m_lightmap_uv_right;
   float m_lightmap_uv_bottom;
-  GLint m_old_viewport[4]; //holds vieport before redefining in start_draw - returned from glGet
 
 private:
   GLLightmap(const GLLightmap&);

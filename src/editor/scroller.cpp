@@ -22,6 +22,7 @@
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 namespace {
 
@@ -125,7 +126,7 @@ EditorScroller::event(SDL_Event& ev) {
     {
       if (!rendered) return false;
 
-      mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
+      mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       if (mouse_pos.x < SIZE && mouse_pos.y < SIZE) {
         scrolling_vec = mouse_pos - Vector(MIDDLE, MIDDLE);
         if (scrolling_vec.x != 0 || scrolling_vec.y != 0) {

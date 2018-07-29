@@ -25,7 +25,7 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 
-Canvas::Canvas(Target target, DrawingContext& context, obstack& obst) :
+Canvas::Canvas(DrawingTarget target, DrawingContext& context, obstack& obst) :
   m_target(target),
   m_context(context),
   m_obst(obst),
@@ -74,7 +74,7 @@ Canvas::render(VideoSystem& video_system, Filter filter)
       continue;
 
     switch(m_target) {
-      case NORMAL:
+      case DrawingTarget::COLORMAP:
         switch(request.type) {
           case SURFACE:
             renderer.draw_surface(request);
@@ -110,7 +110,7 @@ Canvas::render(VideoSystem& video_system, Filter filter)
         }
         break;
 
-      case LIGHTMAP:
+      case DrawingTarget::LIGHTMAP:
         switch(request.type) {
           case SURFACE:
             lightmap.draw_surface(request);
@@ -170,8 +170,8 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position,
   request->type = SURFACE;
   request->pos = apply_translate(position);
   request->layer = layer;
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->drawing_effect = m_context.transform().drawing_effect;
+  request->alpha = m_context.transform().alpha;
   request->angle = angle;
   request->color = color;
   request->blend = blend;
@@ -201,8 +201,8 @@ Canvas::draw_surface_part(SurfacePtr surface,
   request->type = SURFACE_PART;
   request->pos = apply_translate(dstrect.p1);
   request->layer = layer;
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->drawing_effect = m_context.transform().drawing_effect;
+  request->alpha = m_context.transform().alpha;
 
   auto surfacepartrequest = new(m_obst) SurfacePartRequest();
   surfacepartrequest->srcrect = srcrect;
@@ -223,8 +223,8 @@ Canvas::draw_text(FontPtr font, const std::string& text,
   request->type = TEXT;
   request->pos = apply_translate(position);
   request->layer = layer;
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->drawing_effect = m_context.transform().drawing_effect;
+  request->alpha = m_context.transform().alpha;
   request->color = color;
 
   auto textrequest = new(m_obst) TextRequest();
@@ -254,8 +254,8 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
   request->pos = Vector(0,0);
   request->layer = layer;
 
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->drawing_effect = m_context.transform().drawing_effect;
+  request->alpha = m_context.transform().alpha;
 
   auto gradientrequest = new(m_obst) GradientRequest();
   gradientrequest->top = top;
@@ -277,13 +277,13 @@ Canvas::draw_filled_rect(const Vector& topleft, const Vector& size,
   request->pos = apply_translate(topleft);
   request->layer = layer;
 
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->drawing_effect = m_context.transform().drawing_effect;
+  request->alpha = m_context.transform().alpha;
 
   auto fillrectrequest = new(m_obst) FillRectRequest();
   fillrectrequest->size = size;
   fillrectrequest->color = color;
-  fillrectrequest->color.alpha = color.alpha * m_context.get_transform().alpha;
+  fillrectrequest->color.alpha = color.alpha * m_context.transform().alpha;
   fillrectrequest->radius = 0.0f;
   request->request_data = fillrectrequest;
 
@@ -306,13 +306,13 @@ Canvas::draw_filled_rect(const Rectf& rect, const Color& color, float radius, in
   request->pos    = apply_translate(rect.p1);
   request->layer  = layer;
 
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->drawing_effect = m_context.transform().drawing_effect;
+  request->alpha = m_context.transform().alpha;
 
   auto fillrectrequest = new(m_obst) FillRectRequest;
   fillrectrequest->size = Vector(rect.get_width(), rect.get_height());
   fillrectrequest->color = color;
-  fillrectrequest->color.alpha = color.alpha * m_context.get_transform().alpha;
+  fillrectrequest->color.alpha = color.alpha * m_context.transform().alpha;
   fillrectrequest->radius = radius;
   request->request_data = fillrectrequest;
 
@@ -328,13 +328,13 @@ Canvas::draw_inverse_ellipse(const Vector& pos, const Vector& size, const Color&
   request->pos    = apply_translate(pos);
   request->layer  = layer;
 
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->drawing_effect = m_context.transform().drawing_effect;
+  request->alpha = m_context.transform().alpha;
 
   auto ellipse = new(m_obst)InverseEllipseRequest;
 
   ellipse->color        = color;
-  ellipse->color.alpha  = color.alpha * m_context.get_transform().alpha;
+  ellipse->color.alpha  = color.alpha * m_context.transform().alpha;
   ellipse->size         = size;
   request->request_data = ellipse;
 
@@ -350,13 +350,13 @@ Canvas::draw_line(const Vector& pos1, const Vector& pos2, const Color& color, in
   request->pos    = apply_translate(pos1);
   request->layer  = layer;
 
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->drawing_effect = m_context.transform().drawing_effect;
+  request->alpha = m_context.transform().alpha;
 
   auto line = new(m_obst) LineRequest;
 
   line->color        = color;
-  line->color.alpha  = color.alpha * m_context.get_transform().alpha;
+  line->color.alpha  = color.alpha * m_context.transform().alpha;
   line->dest_pos     = apply_translate(pos2);
   request->request_data = line;
 
@@ -372,13 +372,13 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
   request->pos    = apply_translate(pos1);
   request->layer  = layer;
 
-  request->drawing_effect = m_context.get_transform().drawing_effect;
-  request->alpha = m_context.get_transform().alpha;
+  request->drawing_effect = m_context.transform().drawing_effect;
+  request->alpha = m_context.transform().alpha;
 
   auto triangle = new(m_obst) TriangleRequest;
 
   triangle->color        = color;
-  triangle->color.alpha  = color.alpha * m_context.get_transform().alpha;
+  triangle->color.alpha  = color.alpha * m_context.transform().alpha;
   triangle->pos2         = apply_translate(pos2);
   triangle->pos3         = apply_translate(pos3);
   request->request_data = triangle;
@@ -389,7 +389,7 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
 Vector
 Canvas::apply_translate(const Vector& pos) const
 {
-  return m_context.get_transform().apply(pos) + Vector(m_context.get_viewport().left,
+  return m_context.transform().apply(pos) + Vector(m_context.get_viewport().left,
                                                        m_context.get_viewport().top);
 }
 

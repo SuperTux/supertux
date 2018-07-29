@@ -34,6 +34,7 @@
 #include "supertux/tile.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
+#include "video/viewport.hpp"
 #include "worldmap/tux.hpp"
 #include "worldmap/worldmap.hpp"
 

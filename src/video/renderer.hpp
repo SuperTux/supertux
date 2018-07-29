@@ -17,6 +17,7 @@
 #ifndef HEADER_SUPERTUX_VIDEO_RENDERER_HPP
 #define HEADER_SUPERTUX_VIDEO_RENDERER_HPP
 
+#include "math/rect.hpp"
 #include "math/vector.hpp"
 #include "video/color.hpp"
 
@@ -27,8 +28,7 @@ struct SDL_Window;
 class Renderer
 {
 public:
-  Renderer();
-  virtual ~Renderer();
+  virtual ~Renderer() {}
 
   virtual void start_draw() = 0;
   virtual void end_draw() = 0;
@@ -41,8 +41,6 @@ public:
   virtual void draw_line(const DrawingRequest& request) = 0;
   virtual void draw_triangle(const DrawingRequest& request) = 0;
   virtual void clear(const Color& color) = 0;
-
-  virtual Vector to_logical(int physical_x, int physical_y) const = 0;
 
   virtual void set_clip_rect(const Rect& rect) = 0;
   virtual void clear_clip_rect() = 0;

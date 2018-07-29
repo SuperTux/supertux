@@ -255,9 +255,12 @@ ScreenManager::process_events()
             break;
 
           case SDL_WINDOWEVENT_FOCUS_LOST:
-            if(session != NULL && session->is_active())
+            if (g_config->pause_on_focusloss)
             {
-              session->toggle_pause();
+              if(session != NULL && session->is_active())
+              {
+                session->toggle_pause();
+              }
             }
             break;
         }

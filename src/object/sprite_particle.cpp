@@ -25,6 +25,8 @@
 #include "supertux/globals.hpp"
 
 #include "supertux/sector.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 SpriteParticle::SpriteParticle(const std::string& sprite_name, const std::string& action,
                                const Vector& position_, AnchorPoint anchor, const Vector& velocity_, const Vector& acceleration_,

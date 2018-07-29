@@ -26,6 +26,7 @@
 #include "video/drawing_context.hpp"
 #include "video/renderer.hpp"
 #include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 Dialog::Dialog(bool passive) :
   m_text(),
@@ -114,7 +115,7 @@ Dialog::event(const SDL_Event& ev)
     case SDL_MOUSEBUTTONDOWN:
     if(ev.button.button == SDL_BUTTON_LEFT)
     {
-      Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
+      Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       int new_button = get_button_at(mouse_pos);
       if (new_button != -1)
       {
@@ -126,7 +127,7 @@ Dialog::event(const SDL_Event& ev)
 
     case SDL_MOUSEMOTION:
     {
-      Vector mouse_pos = VideoSystem::current()->get_renderer().to_logical(ev.motion.x, ev.motion.y);
+      Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(ev.motion.x, ev.motion.y);
       int new_button = get_button_at(mouse_pos);
       if (new_button != -1)
       {

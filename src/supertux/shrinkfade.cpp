@@ -18,6 +18,8 @@
 
 #include "supertux/globals.hpp"
 #include "video/drawing_context.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 ShrinkFade::ShrinkFade(const Vector& dest_, float fade_time_) :
   dest(dest_),

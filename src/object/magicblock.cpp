@@ -28,6 +28,8 @@
 #include "supertux/constants.hpp"
 #include "supertux/sector.hpp"
 #include "util/reader_mapping.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 namespace {
 const float MIN_INTENSITY = 0.8f;

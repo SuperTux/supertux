@@ -23,6 +23,9 @@
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
+#include "video/gl/gl_video_system.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 GLuint GLPainter::s_last_texture = static_cast<GLuint>(-1);
 
@@ -103,6 +106,11 @@ inline void intern_draw(float left, float top, float right, float bottom,
 }
 
 } // namespace
+
+GLPainter::GLPainter(GLVideoSystem& video_system) :
+  m_video_system(video_system)
+{
+}
 
 void
 GLPainter::draw_surface(const DrawingRequest& request)
@@ -330,24 +338,28 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
   float vertices[points * 2];
   int   p = 0;
 
+  const Viewport& viewport = m_video_system.get_viewport();
+  int screen_width = viewport.get_screen_width();
+  int screen_height = viewport.get_screen_height();
+
   // Bottom
-  vertices[p++] = SCREEN_WIDTH; vertices[p++] = SCREEN_HEIGHT;
-  vertices[p++] = 0;            vertices[p++] = SCREEN_HEIGHT;
+  vertices[p++] = screen_width; vertices[p++] = screen_height;
+  vertices[p++] = 0;            vertices[p++] = screen_height;
   vertices[p++] = x;            vertices[p++] = y+h;
 
   // Top
-  vertices[p++] = SCREEN_WIDTH; vertices[p++] = 0;
+  vertices[p++] = screen_width; vertices[p++] = 0;
   vertices[p++] = 0;            vertices[p++] = 0;
   vertices[p++] = x;            vertices[p++] = y-h;
 
   // Left
-  vertices[p++] = SCREEN_WIDTH; vertices[p++] = 0;
-  vertices[p++] = SCREEN_WIDTH; vertices[p++] = SCREEN_HEIGHT;
+  vertices[p++] = screen_width; vertices[p++] = 0;
+  vertices[p++] = screen_width; vertices[p++] = screen_height;
   vertices[p++] = x+w;          vertices[p++] = y;
 
   // Right
   vertices[p++] = 0;            vertices[p++] = 0;
-  vertices[p++] = 0;            vertices[p++] = SCREEN_HEIGHT;
+  vertices[p++] = 0;            vertices[p++] = screen_height;
   vertices[p++] = x-w;          vertices[p++] = y;
 
   for(int i = 0; i < slices; ++i)
@@ -359,7 +371,7 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
     float ey2 = cosf(M_PI/2 / slices * (i+1)) * h;
 
     // Bottom/Right
-    vertices[p++] = SCREEN_WIDTH; vertices[p++] = SCREEN_HEIGHT;
+    vertices[p++] = screen_width; vertices[p++] = screen_height;
     vertices[p++] = x + ex1;      vertices[p++] = y + ey1;
     vertices[p++] = x + ex2;      vertices[p++] = y + ey2;
 
@@ -369,12 +381,12 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
     vertices[p++] = x - ex2;      vertices[p++] = y - ey2;
 
     // Top/Right
-    vertices[p++] = SCREEN_WIDTH; vertices[p++] = 0;
+    vertices[p++] = screen_width; vertices[p++] = 0;
     vertices[p++] = x + ex1;      vertices[p++] = y - ey1;
     vertices[p++] = x + ex2;      vertices[p++] = y - ey2;
 
     // Bottom/Left
-    vertices[p++] = 0;            vertices[p++] = SCREEN_HEIGHT;
+    vertices[p++] = 0;            vertices[p++] = screen_height;
     vertices[p++] = x - ex1;      vertices[p++] = y + ey1;
     vertices[p++] = x - ex2;      vertices[p++] = y + ey2;
   }

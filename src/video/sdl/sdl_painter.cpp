@@ -24,6 +24,8 @@
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_texture.hpp"
 #include "video/surface.hpp"
+#include "video/sdl/sdl_video_system.hpp"
+#include "video/viewport.hpp"
 
 namespace {
 
@@ -57,6 +59,10 @@ SDL_BlendMode blend2sdl(const Blend& blend)
 }
 
 } // namespace
+
+SDLPainter::SDLPainter(SDLVideoSystem& video_system) :
+  m_video_system(video_system)
+{}
 
 void
 SDLPainter::draw_surface(SDL_Renderer* renderer, const DrawingRequest& request)
@@ -280,6 +286,8 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
 
   int top = request.pos.y - (h / 2);
 
+  const Viewport& viewport = m_video_system.get_viewport();
+
   const int max_slices = 256;
   SDL_Rect rects[2*max_slices+2];
   int slices = std::min(static_cast<int>(ellipse->size.y), max_slices);
@@ -298,7 +306,7 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
 
     right.x = x + xoff;
     right.y = left.y;
-    right.w = SCREEN_WIDTH - right.x;
+    right.w = viewport.get_screen_width() - right.x;
     right.h = left.h;
   }
 
@@ -307,13 +315,13 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
 
   top_rect.x = 0;
   top_rect.y = 0;
-  top_rect.w = SCREEN_WIDTH;
+  top_rect.w = viewport.get_screen_width();
   top_rect.h = top;
 
   bottom_rect.x = 0;
   bottom_rect.y = top + h;
-  bottom_rect.w = SCREEN_WIDTH;
-  bottom_rect.h = SCREEN_HEIGHT - bottom_rect.y;
+  bottom_rect.w = viewport.get_screen_width();
+  bottom_rect.h = viewport.get_screen_height() - bottom_rect.y;
 
   Uint8 r = static_cast<Uint8>(ellipse->color.red * 255);
   Uint8 g = static_cast<Uint8>(ellipse->color.green * 255);

@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2013 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2016 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,20 +14,30 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_UTIL_HPP
-#define HEADER_SUPERTUX_VIDEO_UTIL_HPP
+#ifndef HEADER_SUPERTUX_VIDEO_DRAWING_TRANSFORM_HPP
+#define HEADER_SUPERTUX_VIDEO_DRAWING_TRANSFORM_HPP
 
-class Size;
-class Vector;
-struct SDL_Rect;
+#include "math/vector.hpp"
+#include "video/texture.hpp"
 
-void calculate_viewport(const Size& min_size, const Size& max_size,
-                        const Size& real_window_size,
-                        float pixel_aspect_ratio, float magnification,
-                        Vector& out_scale,
-                        SDL_Rect& out_viewport);
+class DrawingTransform
+{
+public:
+  Vector translation;
+  DrawingEffect drawing_effect;
+  float alpha;
 
-float calculate_pixel_aspect_ratio(const Size& source, const Size& target);
+  DrawingTransform() :
+    translation(),
+    drawing_effect(NO_EFFECT),
+    alpha(1.0f)
+  {}
+
+  Vector apply(const Vector& v) const
+  {
+    return v - translation;
+  }
+};
 
 #endif
 

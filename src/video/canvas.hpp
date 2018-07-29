@@ -27,20 +27,11 @@
 #include "video/color.hpp"
 #include "video/font.hpp"
 #include "video/font_ptr.hpp"
+#include "video/drawing_target.hpp"
 
 struct DrawingRequest;
 class VideoSystem;
 class DrawingContext;
-
-enum Target {
-  /** The color layer, all regular tilemaps and character sprites go
-      here. */
-  NORMAL,
-
-  /** The lightmap is drawn on top of the color layer and darkens it,
-      elements drawn here act as lightsources. */
-  LIGHTMAP,
-};
 
 // some constants for predefined layer values
 enum {
@@ -94,7 +85,7 @@ public:
   enum Filter { BELOW_LIGHTMAP, ABOVE_LIGHTMAP, ALL };
 
 public:
-  Canvas(Target target, DrawingContext& context, obstack& obst);
+  Canvas(DrawingTarget target, DrawingContext& context, obstack& obst);
   ~Canvas();
 
   void draw_surface(SurfacePtr surface, const Vector& position,
@@ -107,10 +98,7 @@ public:
                          int layer);
   void draw_text(FontPtr font, const std::string& text,
                  const Vector& position, FontAlignment alignment, int layer, Color color = Color(1.0,1.0,1.0));
-
-  /** Draws text on screen center (feed Vector.x with a 0). This is
-      the same as draw_text() with a SCREEN_WIDTH/2 position and
-      alignment set to LEFT_ALIGN */
+  /** Draw text to the center of the screen */
   void draw_center_text(FontPtr font, const std::string& text,
                         const Vector& position, int layer, Color color = Color(1.0,1.0,1.0));
   void draw_gradient(const Color& from, const Color& to, int layer, const GradientDirection& direction, const Rectf& region);
@@ -136,7 +124,7 @@ private:
   Vector apply_translate(const Vector& pos) const;
 
 private:
-  Target m_target;
+  DrawingTarget m_target;
   DrawingContext& m_context;
   obstack& m_obst;
   std::vector<DrawingRequest*> m_requests;

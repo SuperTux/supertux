@@ -45,12 +45,15 @@
 #include "util/reader_document.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/compositor.hpp"
+#include "video/video_system.hpp"
 #include "worldmap/level.hpp"
 #include "worldmap/spawn_point.hpp"
 #include "worldmap/special_tile.hpp"
 #include "worldmap/sprite_change.hpp"
 #include "worldmap/teleporter.hpp"
 #include "worldmap/tux.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 static const float CAMERA_PAN_SPEED = 5.0;
 

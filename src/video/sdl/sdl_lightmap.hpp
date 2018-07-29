@@ -22,7 +22,10 @@
 #include <SDL.h>
 #include <boost/optional.hpp>
 
+#include "video/sdl/sdl_painter.hpp"
+
 class Color;
+class SDLVideoSystem;
 struct DrawingRequest;
 struct SDL_Renderer;
 struct SDL_Texture;
@@ -30,7 +33,7 @@ struct SDL_Texture;
 class SDLLightmap : public Lightmap
 {
 public:
-  SDLLightmap(SDL_Renderer* renderer);
+  SDLLightmap(SDLVideoSystem& video_system, SDL_Renderer* renderer);
   ~SDLLightmap();
 
   virtual void start_draw() override;
@@ -52,10 +55,10 @@ public:
   virtual void render() override;
 
 private:
+  SDLVideoSystem& m_video_system;
   SDL_Renderer* m_renderer;
+  SDLPainter m_painter;
   SDL_Texture* m_texture;
-  int m_width;
-  int m_height;
   int m_LIGHTMAP_DIV;
   boost::optional<SDL_Rect> m_cliprect;
 

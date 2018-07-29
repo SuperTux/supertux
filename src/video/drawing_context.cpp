@@ -25,17 +25,19 @@
 #include "video/renderer.hpp"
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 DrawingContext::DrawingContext(VideoSystem& video_system_, obstack& obst, bool overlay) :
   m_video_system(video_system_),
   m_obst(obst),
   m_overlay(overlay),
-  m_viewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
-  m_colormap_canvas(NORMAL, *this, m_obst),
-  m_lightmap_canvas(LIGHTMAP, *this, m_obst),
+  m_viewport(0, 0,
+             m_video_system.get_viewport().get_screen_width(),
+             m_video_system.get_viewport().get_screen_height()),
   m_ambient_color(Color::WHITE),
-  m_transformstack(),
-  m_transform()
+  m_transform_stack(1),
+  m_colormap_canvas(DrawingTarget::COLORMAP, *this, m_obst),
+  m_lightmap_canvas(DrawingTarget::LIGHTMAP, *this, m_obst)
 {
 }
 
@@ -57,7 +59,7 @@ DrawingContext::get_light(const Vector& position, Color* color_out)
 
   auto request = new(m_obst) DrawingRequest();
   request->type = GETLIGHT;
-  request->pos = m_transform.apply(position);
+  request->pos = transform().apply(position);
 
   //There is no light offscreen.
   if(request->pos.x >= m_viewport.get_width() || request->pos.y >= m_viewport.get_height()
@@ -92,40 +94,52 @@ DrawingContext::get_cliprect() const
 void
 DrawingContext::set_drawing_effect(DrawingEffect effect)
 {
-  m_transform.drawing_effect = effect;
+  transform().drawing_effect = effect;
 }
 
 DrawingEffect
 DrawingContext::get_drawing_effect() const
 {
-  return m_transform.drawing_effect;
+  return transform().drawing_effect;
 }
 
 void
 DrawingContext::set_alpha(float alpha)
 {
-  m_transform.alpha = alpha;
+  transform().alpha = alpha;
 }
 
 float
 DrawingContext::get_alpha() const
 {
-  return m_transform.alpha;
+  return transform().alpha;
+}
+
+DrawingTransform&
+DrawingContext::transform()
+{
+  assert(!m_transform_stack.empty());
+  return m_transform_stack.back();
+}
+
+const DrawingTransform&
+DrawingContext::transform() const
+{
+  assert(!m_transform_stack.empty());
+  return m_transform_stack.back();
 }
 
 void
 DrawingContext::push_transform()
 {
-  m_transformstack.push_back(m_transform);
+  m_transform_stack.push_back(transform());
 }
 
 void
 DrawingContext::pop_transform()
 {
-  assert(!m_transformstack.empty());
-
-  m_transform = m_transformstack.back();
-  m_transformstack.pop_back();
+  m_transform_stack.pop_back();
+  assert(!m_transform_stack.empty());
 }
 
 /* EOF */

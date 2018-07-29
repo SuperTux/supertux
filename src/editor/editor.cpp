@@ -49,7 +49,10 @@
 #include "util/file_system.hpp"
 #include "util/reader_mapping.hpp"
 #include "video/compositor.hpp"
+#include "video/drawing_context.hpp"
 #include "video/surface.hpp"
+#include "video/video_system.hpp"
+#include "video/viewport.hpp"
 
 Editor::Editor() :
   level(),
