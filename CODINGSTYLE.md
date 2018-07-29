@@ -1,16 +1,20 @@
 # SuperTux Coding Standards
 
-## Repository Structure
+## File Formating
 
-Avoid spaces at the end of lines. Files should always end with an empty newline.
+Do not have spaces at the end of lines.
+
+Files should always end with `/* EOF */` and a newline or a similar marker approprimate for
+the given language.
+
+Use one file per class.
+
+## Repository Structure
 
 Properly separate between generic engine code and game specific code whenever
 feasible.
 
-External and third party libraries are not allowed in `src/`. They go to
-`external/`.
-
-Use one file per class.
+Third party libraries are not allowed in `src/`, they go to `external/`.
 
 ## Includes
 
@@ -46,6 +50,8 @@ Properly separate data members and member functions. Do not mix them in the same
 
 Do not use raw pointers and `new` or `delete`. Use `std::unique_ptr<>` instead.
 
+Keep use of `std::smart_ptr<>` to a minimum, prefer `std::unique_ptr<>` when possible.
+
 ## Namespaces
 
 Namespaces should be written in the form:
@@ -60,17 +66,10 @@ With no newline before the `{`.
 
 ## Compiler options
 
-Compile with a maximum warning level and with `-Werror`:
+Compile with a maximum warning level and with `-Werror`. This can be accomplished with:
 
-```
--Werror -ansi -pedantic -Wall -Wextra -Wnon-virtual-dtor -Weffc++ -Wcast-qual
--Winit-self -Wno-unused-parameter
-```
-
-Possible additional flags for the future are:
-
-```
--Wconversion -Wshadow
+```console
+cmake .. -DCMAKE_BUILD_TYPE=Release  -DWARNINGS=ON -DWERROR=ON
 ```
 
 ## Comments
@@ -84,4 +83,7 @@ other styles of comments.
 
 ## Other Information
 
-More info on good practices can be found in [Google's C++ Style Guide](https://google.github.io/styleguide/cppguide.html).
+More general info on good practices can be found in [Google's C++
+Style Guide](https://google.github.io/styleguide/cppguide.html), note
+however that we do not strictly follow that guide and divert from it
+in some points.
