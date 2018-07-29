@@ -38,6 +38,7 @@
 #include "video/compositor.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
+#include "video/viewport.hpp"
 #include "worldmap/worldmap.hpp"
 
 GameSession::GameSession(const std::string& levelfile_, Savegame& savegame, Statistics* statistics) :
