@@ -26,6 +26,7 @@ using namespace gl;
 #include "SDL_opengl.h"
 #endif
 
+class GLVideoSystem;
 struct DrawingRequest;
 
 class GLPainter
@@ -33,8 +34,11 @@ class GLPainter
 private:
   static GLuint s_last_texture;
 
+private:
+  GLVideoSystem& m_video_system;
+
 public:
-  GLPainter() {}
+  GLPainter(GLVideoSystem& video_system);
 
   void draw_surface(const DrawingRequest& request);
   void draw_surface_part(const DrawingRequest& request);

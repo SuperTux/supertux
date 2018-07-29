@@ -26,7 +26,7 @@
 
 GLRenderer::GLRenderer(GLVideoSystem& video_system) :
   m_video_system(video_system),
-  m_painter()
+  m_painter(m_video_system)
 {
 }
 
@@ -45,18 +45,17 @@ GLRenderer::start_draw()
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  const Rect& viewport = m_video_system.get_viewport().get_rect();
-  const Vector& scale = m_video_system.get_viewport().get_scale();
+  const Viewport& viewport = m_video_system.get_viewport();
+  const Rect& rect = viewport.get_rect();
 
-  glViewport(viewport.left, viewport.top,
-             viewport.get_width(), viewport.get_height());
+  glViewport(rect.left, rect.top, rect.get_width(), rect.get_height());
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
   glOrtho(0,
-          viewport.get_width() / scale.x,
-          viewport.get_height() / scale.y,
+          viewport.get_screen_width(),
+          viewport.get_screen_height(),
           0,
           -1,
           1);
@@ -122,14 +121,16 @@ GLRenderer::clear(const Color& color)
 }
 
 void
-GLRenderer::set_clip_rect(const Rect& rect)
+GLRenderer::set_clip_rect(const Rect& clip_rect)
 {
   auto window_size = m_video_system.get_window_size();
 
-  glScissor(window_size.width * rect.left / SCREEN_WIDTH,
-            window_size.height - (window_size.height * rect.bottom / SCREEN_HEIGHT),
-            window_size.width * rect.get_width() / SCREEN_WIDTH,
-            window_size.height * rect.get_height() / SCREEN_HEIGHT);
+  const Viewport& viewport = m_video_system.get_viewport();
+
+  glScissor(window_size.width * clip_rect.left / viewport.get_screen_width(),
+            window_size.height - (window_size.height * clip_rect.bottom / viewport.get_screen_height()),
+            window_size.width * clip_rect.get_width() / viewport.get_screen_width(),
+            window_size.height * clip_rect.get_height() / viewport.get_screen_height());
   glEnable(GL_SCISSOR_TEST);
 }
 
