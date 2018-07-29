@@ -21,6 +21,7 @@
 #include <vector>
 #include <utility>
 #include <cmath>
+#include <memory>
 
 #include "scripting/scripting.hpp"
 #include "scripting/squirrel_util.hpp"
@@ -600,7 +601,15 @@ Sector::on_window_resize()
 /*-------------------------------------------------------------------------
  * Collision Detection
  *-------------------------------------------------------------------------*/
+AABBPolygon*
+Sector::get_mobject_poly(MovingObject* poly) {
+  return new AABBPolygon(poly->get_dest());
+  if(object_polygons.find(poly) == object_polygons.end() && false) {
+    object_polygons[poly] = std::make_shared<AABBPolygon>(poly->get_dest());
+  }
+  return object_polygons[poly].get();
 
+}
 /** r1 is supposed to be moving, r2 a solid object */
 void check_collisions(collision::Constraints* constraints,
                       const Vector& obj_movement, const Rectf& obj_rect, const Rectf& other_rect,
@@ -677,7 +686,7 @@ void check_collisions(collision::Constraints* constraints,
 void
 Sector::collision_tilemap(collision::Constraints* constraints,
                           const Vector& movement, Rectf& dest,
-                          MovingObject& object, std::vector<Manifold>& contacts, bool slope_adjust_x) const
+                          MovingObject& object, std::vector<Manifold>& contacts, bool slope_adjust_x)
 {
   using namespace collision;
   // calculate rectangle where the object will move
@@ -883,6 +892,9 @@ Sector::collision_tilemap(collision::Constraints* constraints,
             if(slope_adjust_x)
             {
                 dest.move(overlapV);
+                //AABBPolygon* p = get_mobject_poly(&object);
+                //p->p1 = dest.p1;
+                //p->p2 = dest.p2;
             }
             else
             {
@@ -1034,8 +1046,9 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       // First check if rectfs intersect
       if (!collision::intersects(dest, moving_object->get_bbox()))
         continue;
-      AABBPolygon mobjp(dest);
-      AABBPolygon tile_poly(moving_object->get_bbox());
+      //AABBPolygon* mobjp = get_mobject_poly(&object);
+      std::unique_ptr<AABBPolygon> mobjp(new AABBPolygon(dest));
+      std::unique_ptr<AABBPolygon> tile_poly(new AABBPolygon(moving_object->get_bbox()));
       Manifold m;
       CollisionHit h;
       std::list< MovingObject* > possible_neighbours;
@@ -1046,12 +1059,12 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
         // => detect collision (?) use contacts?
         if (mobject->get_bbox() == object.get_bbox() || mobject->get_bbox() == moving_object->get_bbox())
           continue;
-        tile_poly.process_neighbor(mobject->get_bbox());
+        tile_poly->process_neighbor(mobject->get_bbox());
         //tile_poly.debug();
         //mobject_poly.debug();
       }
       // TODO(christ2go) Take static tilemap into account.
-      mobjp.handle_collision(tile_poly, m);
+      mobjp->handle_collision(*tile_poly, m);
       if (!m.collided)
         continue;
       Vector overlapV = m.normal*m.depth;
@@ -1097,12 +1110,14 @@ Sector::collision_static(collision::Constraints* constraints,
     Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
                   (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
     dest.move(overlapV);
+    // Also move the AABBPolygon
   }
   double extend_left = 0.0f,
          extend_right = 0.0f,
          extend_top = 0.0f,
          extend_bot = 0.0f;
   all_contacts.clear();
+  return;
   collision_tilemap(constraints, movement, dest, object, all_contacts, false);
   collision_moving_static(movement, dest, object, graph, all_contacts);
   CollisionHit h;
@@ -1183,6 +1198,9 @@ Sector::handle_collisions()
 
     moving_object->dest = moving_object->get_bbox();
     moving_object->dest.move(moving_object->get_movement());
+  //  AABBPolygon* p = get_mobject_poly(moving_object);
+    //p->p1 = moving_object->dest.p1;
+    //p->p2 = moving_object->dest.p2;
   }
   for (const auto& mobj : moving_objects) {
     if (!(mobj->get_group() != COLGROUP_MOVING
@@ -1309,6 +1327,9 @@ Sector::handle_collisions()
     plf.first->collision_parent = plf.second;
     plf.first->parent_updated = true;
     plf.first->dest.move(plf.second->get_movement());
+    //AABBPolygon* p = get_mobject_poly(plf.first);
+    //p->p1 = plf.first->dest.p1;
+    //p->p2 = plf.first->dest.p2;
 
   }
   // apply object movement
@@ -1327,6 +1348,11 @@ Sector::handle_collisions()
       moving_object->dest =   moving_object->dest.grown_xy(pixeld_x, pixeld_y);
     }
     moving_object->bbox = moving_object->dest;
+    if(object_polygons[moving_object]) {
+      object_polygons[moving_object]->reset_ignored_normals();
+      object_polygons[moving_object]->p1 = moving_object->bbox.p1;
+      object_polygons[moving_object]->p2 = moving_object->bbox.p2;
+    }
   }
 
 }

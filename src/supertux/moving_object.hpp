@@ -120,6 +120,11 @@ public:
     return bbox;
   }
 
+  const Rectf& get_dest() const
+  {
+    return dest;
+  }
+
   const Vector& get_movement() const
   {
     return movement;

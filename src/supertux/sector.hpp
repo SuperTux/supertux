@@ -21,7 +21,8 @@
 #include <squirrel.h>
 #include <stdint.h>
 #include <set>
-
+#include <map>
+#include "math/aabb_polygon.hpp"
 #include "object/anchor_point.hpp"
 #include "supertux/game_object_ptr.hpp"
 #include "video/color.hpp"
@@ -149,8 +150,9 @@ public:
 
   void collision_tilemap(collision::Constraints* constraints,
                          const Vector& movement, Rectf& dest,
-                         MovingObject &object, std::vector<Manifold>& contacts, bool slope_adjust_x = false) const;
+                         MovingObject &object, std::vector<Manifold>& contacts, bool slope_adjust_x = false);
 
+  AABBPolygon* get_mobject_poly(MovingObject* obj);
   /**
    * Checks if the specified rectangle is free of (solid) tiles.
    * Note that this does not include static objects, e.g. bonus blocks.
@@ -367,6 +369,8 @@ public: // TODO make this private again
   Camera* camera;
   DisplayEffect* effect;
   std::unique_ptr<collision_broadphase> broadphase;
+
+  std::map< MovingObject*, std::shared_ptr<AABBPolygon> > object_polygons;
 private:
   Sector(const Sector&);
   Sector& operator=(const Sector&);

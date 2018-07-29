@@ -76,22 +76,62 @@ void AABBPolygon::process_neighbor(int xoffset, int yoffset) {
 
 void AABBPolygon::handle_collision(const AABBPolygon& b, Manifold& m) {
   Polygon::handle_collision(b,m);
+  return;
   // TODO(christ2go) Replace with AABB-Polygons own routine
-  /*double overlap_x = 0, overlap_y = 0;
+  double overlap_x = 0, overlap_y = 0;
   double dx = p1.x - b.p1.x;
-  double overlap_x = ((p2.x-p1.x)/2.0 + (b.p2.x-b.p1.x)/2.0) - abs(dx);
+  overlap_x = (b.p2.x-b.p1.x)/2.0 + (p2.x-p1.x)/2.0  - std::abs(dx);
+  double dy = p1.y - b.p1.y;
+  overlap_y = (b.p2.y-b.p1.y)/2.0 + (p2.y-p1.y)/2.0 - std::abs(dy);
 
-  if(overlap_x <= 0)
+  if(overlap_x > 0.001 && overlap_y > 0.001)
   {
-    manifold.collided = false;
+    m.collided = false;
     return;
   }
-  double dy = p1.y - b.p1.y;
-  double overlap_y = ((p2.y-p1.y)/2.0 + (b.p2.y-b.p1.y)/2.0) - abs(dy);
-  if (px < py && dx > 0 && !disabled_normals[1])
+  log_debug << "Overlap " << overlap_x << " " << overlap_y << std::endl;
+  if (overlap_y < overlap_x)
   {
-
+    int sy = dy < 0 ? -1 : 1;
+    m.normal = Vector(0, sy);
+    m.depth = overlap_y;
+  } else {
+    int sx = dx < 0 ? 1 : -1;
+    m.normal = Vector(sx, 0);
+    m.depth = overlap_y;
   }
-  manifold.collided = true;*/
+  m.collided = true;
+  return;
+  double min_overlap = 100000.0;
+  if (dx > 0 && !disabled_normals[3] && !b.disabled_normals[1] && overlap_x < min_overlap)
+  {
+    min_overlap = overlap_x;
+    m.normal = Vector(1,0);
+    m.depth = overlap_x;
+  }
+  if (dx < 0 && !disabled_normals[1] && !b.disabled_normals[3] && overlap_x < min_overlap)
+  {
+    min_overlap = overlap_x;
+    m.normal = Vector(1,0);
+    m.depth = overlap_x;
+  }
+  if (dy > 0 && !disabled_normals[0] && !b.disabled_normals[2] && overlap_y < min_overlap)
+  {
+    min_overlap = overlap_y;
+    m.normal = Vector(0,1);
+    m.depth = overlap_y;
+  }
+  if (dy < 0 && !disabled_normals[2] && !b.disabled_normals[0] && overlap_y < min_overlap)
+  {
+    m.normal = Vector(0,-1);
+    m.depth = overlap_y;
+  }
+  m.collided = true;
 
+}
+
+void AABBPolygon::reset_ignored_normals() {
+  for (int i = 0; i < 4; i++) {
+    disabled_normals[i] = false;
+  }
 }
