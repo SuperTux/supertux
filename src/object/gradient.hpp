@@ -51,8 +51,6 @@ public:
 
   virtual void draw(DrawingContext& context);
 
-  void on_window_resize();
-
   std::string get_class() const {
     return "gradient";
   }
@@ -75,7 +73,6 @@ private:
   Color gradient_top;
   Color gradient_bottom;
   GradientDirection gradient_direction;
-  Rectf gradient_region;
 };
 
 #endif /*SUPERTUX_BACKGROUND_H*/
