@@ -17,13 +17,14 @@
 #ifndef HEADER_SUPERTUX_VIDEO_SDL_PAINTER_HPP
 #define HEADER_SUPERTUX_VIDEO_SDL_PAINTER_HPP
 
+class SDLVideoSystem;
 struct DrawingRequest;
 struct SDL_Renderer;
 
 class SDLPainter
 {
 public:
-  SDLPainter() {}
+  SDLPainter(SDLVideoSystem& video_system);
 
   void draw_surface(SDL_Renderer* renderer, const DrawingRequest& request);
   void draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& request);
@@ -32,6 +33,9 @@ public:
   void draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& request);
   void draw_line(SDL_Renderer* renderer, const DrawingRequest& request);
   void draw_triangle(SDL_Renderer* renderer, const DrawingRequest& request);
+
+private:
+  SDLVideoSystem& m_video_system;
 
 private:
   SDLPainter(const SDLPainter&);

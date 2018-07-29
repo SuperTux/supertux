@@ -27,7 +27,7 @@
 SDLRenderer::SDLRenderer(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
   m_video_system(video_system),
   m_renderer(renderer),
-  m_painter(),
+  m_painter(m_video_system),
   m_cliprect()
 {
   SDL_RendererInfo info;

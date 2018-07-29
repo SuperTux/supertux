@@ -59,8 +59,6 @@ private:
   SDL_Renderer* m_renderer;
   SDLPainter m_painter;
   SDL_Texture* m_texture;
-  int m_width;
-  int m_height;
   int m_LIGHTMAP_DIV;
   boost::optional<SDL_Rect> m_cliprect;
 

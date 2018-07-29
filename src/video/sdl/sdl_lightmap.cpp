@@ -21,36 +21,19 @@
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_renderer.hpp"
 #include "video/sdl/sdl_painter.hpp"
+#include "video/sdl/sdl_video_system.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
 SDLLightmap::SDLLightmap(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
   m_video_system(video_system),
   m_renderer(renderer),
-  m_painter(),
+  m_painter(m_video_system),
   m_texture(),
-  m_width(),
-  m_height(),
   m_LIGHTMAP_DIV(),
   m_cliprect()
 {
-  //m_LIGHTMAP_DIV = 5;
-  m_LIGHTMAP_DIV = 1;
-
-  m_width = SCREEN_WIDTH;
-  m_height = SCREEN_HEIGHT;
-
-  m_texture = SDL_CreateTexture(m_renderer,
-                                SDL_PIXELFORMAT_RGB888,
-                                SDL_TEXTUREACCESS_TARGET,
-                                m_width / m_LIGHTMAP_DIV,
-                                m_height / m_LIGHTMAP_DIV);
-  if (!m_texture)
-  {
-    std::stringstream msg;
-    msg << "Couldn't create lightmap texture: " << SDL_GetError();
-    throw std::runtime_error(msg.str());
-  }
+  m_LIGHTMAP_DIV = 5;
 }
 
 SDLLightmap::~SDLLightmap()
@@ -61,6 +44,23 @@ SDLLightmap::~SDLLightmap()
 void
 SDLLightmap::start_draw()
 {
+  if (!m_texture)
+  {
+    const Viewport& viewport = m_video_system.get_viewport();
+
+    m_texture = SDL_CreateTexture(m_renderer,
+                                  SDL_PIXELFORMAT_RGB888,
+                                  SDL_TEXTUREACCESS_TARGET,
+                                  viewport.get_screen_width() / m_LIGHTMAP_DIV,
+                                  viewport.get_screen_height() / m_LIGHTMAP_DIV);
+    if (!m_texture)
+    {
+      std::stringstream msg;
+      msg << "Couldn't create lightmap texture: " << SDL_GetError();
+      throw std::runtime_error(msg.str());
+    }
+  }
+
   SDL_SetRenderTarget(m_renderer, m_texture);
   SDL_RenderSetScale(m_renderer, 1.0f / m_LIGHTMAP_DIV, 1.0f / m_LIGHTMAP_DIV);
 }
@@ -190,11 +190,13 @@ SDLLightmap::render()
 {
   SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_MOD);
 
+  const Viewport& viewport = m_video_system.get_viewport();
+
   SDL_Rect dst_rect;
   dst_rect.x = 0;
   dst_rect.y = 0;
-  dst_rect.w = m_width;
-  dst_rect.h = m_height;
+  dst_rect.w = viewport.get_screen_width();
+  dst_rect.h = viewport.get_screen_height();
 
   SDL_RenderCopy(m_renderer, m_texture, NULL, &dst_rect);
 }
