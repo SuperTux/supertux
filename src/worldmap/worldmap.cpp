@@ -1092,7 +1092,7 @@ WorldMap::load_state()
       sq_pop(vm, 1); // Pop null
       sq_pop(vm, 1); // leave tilemaps table
     }
-    catch(const scripting::SquirrelError& e)
+    catch(const scripting::SquirrelError&)
     {
       // Failed to get tilemap entry. This could indicate
       // that no savable tilemaps have been found. In any
