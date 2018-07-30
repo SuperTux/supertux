@@ -37,8 +37,8 @@ Flame::Flame(const ReaderMapping& reader) :
   reader.get("radius", radius, 100);
   reader.get("speed", speed, 2);
   if (!Editor::is_active()) {
-    bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
-                        start_position.y + sin(angle) * radius));
+    bbox.set_pos(Vector(start_position.x + cosf(angle) * radius,
+                        start_position.y + sinf(angle) * radius));
   }
   countMe = false;
   SoundManager::current()->preload(FLAME_SOUND);
