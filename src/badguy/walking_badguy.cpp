@@ -83,7 +83,7 @@ WalkingBadguy::initialize()
 void
 WalkingBadguy::set_walk_speed (float ws)
 {
-  walk_speed = fabs (ws);
+  walk_speed = fabsf(ws);
   /* physic.set_velocity_x(dir == LEFT ? -walk_speed : walk_speed); */
 }
 
