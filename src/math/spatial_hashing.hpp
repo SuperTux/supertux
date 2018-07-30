@@ -17,6 +17,13 @@ public:
   virtual bool remove(MovingObject* obj);
   virtual void search(const Rectf& r, std::function<void()> collision_ok, std::list< MovingObject* >& fill);
   virtual void clear();
+  /**
+   *  Use below functions for a faster update without compromising iterator integrity.
+   *  Once the iterator is no longer being used, call bulk_update() to perform the waiting updates.
+   *  bulk_update takes care of resetting the bulk list.
+   */
+  void add_bulk(Rectf pos, MovingObject* obj);
+  void do_bulk_update();
   ~spatial_hashing() = default;
 private:
   int gridx;  // Width of grid cells
@@ -29,6 +36,8 @@ private:
   std::vector< std::vector< std::set<MovingObject*> > > grid;
   std::map< MovingObject*, Rectf > current_stored;
 
+  std::vector< std::pair< Rectf, MovingObject* > > bulk_update;
+  int update_id = -1;
 };
 
 class spatial_hasingIterator  {

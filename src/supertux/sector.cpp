@@ -1261,6 +1261,7 @@ Sector::handle_collisions()
       continue;
       possibleCollisions.clear();
     spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(4));
+
     for (auto moving_object_2 = iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()) {
       if(moving_object_2 == NULL)
         continue;
@@ -1281,11 +1282,17 @@ Sector::handle_collisions()
           continue;
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
-
+        broadphase->add_bulk(moving_object->dest, moving_object);
+        broadphase->add_bulk(moving_object_2->dest, moving_object);
         /*broadphase->insert(moving_object->dest, moving_object);
         broadphase->insert(moving_object_2->dest, moving_object_2);*/
       }
+
     }
+    broadphase->do_bulk_update();
+  }
+  for (const auto& obj : moving_objects) {
+    broadphase->insert(obj->dest, obj);
   }
   // part3: COLGROUP_MOVING vs COLGROUP_MOVING
   for (auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
@@ -1296,10 +1303,7 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
     // Query the broadphase
-    possibleCollisions.clear();
-
     spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(4));
-
     //broadphase->search(moving_object->dest.grown(4), []{} , possibleCollisions);
     for (auto i2 = iter.next(); i2 != NULL; i2 = iter.next())
     {
@@ -1319,8 +1323,10 @@ Sector::handle_collisions()
       // Update the objects positions
       /*broadphase->insert(moving_object->dest, moving_object);
       broadphase->insert(moving_object_2->dest, moving_object_2);*/
+      broadphase->add_bulk(moving_object->dest, moving_object);
+      broadphase->add_bulk(moving_object_2->dest, moving_object);
     }
-
+    broadphase->do_bulk_update();
   }
   std::map< MovingObject*, MovingObject* > parents;
   colgraph.compute_parents(platforms, parents);

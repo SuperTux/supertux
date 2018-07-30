@@ -130,6 +130,23 @@ void spatial_hashing::clear()
   grid.clear();
 }
 
+void spatial_hashing::add_bulk(Rectf r,MovingObject* obj) {
+  update_id++;
+  if((int)bulk_update.size() >= update_id) {
+    bulk_update.push_back(std::make_pair(r, obj));
+  } else {
+    bulk_update[update_id].first = r;
+    bulk_update[update_id].second = obj;
+  }
+}
+
+void spatial_hashing::do_bulk_update() {
+  for(int i = 0; i <= update_id; i++) {
+    insert(bulk_update[i].first, bulk_update[i].second);
+  }
+  update_id = -1;
+}
+
 spatial_hasingIterator::spatial_hasingIterator(spatial_hashing* hash, Rectf aabb) :
   m_hash(hash),
   m_x(0),
