@@ -42,12 +42,8 @@ void spatial_hashing::insert(const Rectf& aabb, MovingObject* obj) {
   starty = std::max<int>(0, insertrect.p1.y / gridy);
   endx   = std::min<int>(rows, insertrect.p2.x / gridx);
   endy   = std::min<int>(cols, insertrect.p2.y / gridy);
-  //log_debug << startx << " " << starty << " " << endx << " " << endy << " " << grid.size() << " " << grid[0].size() << std::endl;
-  for(int xcoord = startx ; xcoord <= endx ; xcoord++)
-  {
-    for(int ycoord = starty ; ycoord <= endy ; ycoord++)
-    {
-    //  log_debug << "Inserting into "<< xcoord << " " << ycoord << " " << grid.size() << " " << grid[0].size() << std::endl;
+  for (int xcoord = startx ; xcoord <= endx ; xcoord++) {
+    for (int ycoord = starty ; ycoord <= endy ; ycoord++) {
       grid[xcoord][ycoord].insert(obj);
     }
   }
@@ -59,21 +55,20 @@ void spatial_hashing::search(const Rectf& r, std::function<void()> collision_ok,
 {
   if(r.p1.x < 0 || r.p1.y < 0 || r.p2.x > width || r.p2.y > height)
     return;
-  Rectf insertrect = r;
-  insertrect.p1 = Vector( std::max<double>(0, r.p1.x), std::max<double>(0, r.p1.y));
-  insertrect.p2 = Vector( std::min<double>(width, r.p2.x), std::min<double>(height, r.p2.y));
   int startx, starty, endx, endy;
-  startx = std::max<int>(0, insertrect.p1.x / gridx);
-  starty = std::max<int>(0, insertrect.p1.y / gridy);
-  endx   = std::min<int>(rows, insertrect.p2.x / gridx);
-  endy   = std::min<int>(cols, insertrect.p2.y / gridy);
+  startx = std::max<int>(0, r.p1.x / gridx);
+  starty = std::max<int>(0, r.p1.y / gridy);
+  endx   = std::min<int>(rows, r.p2.x / gridx);
+  endy   = std::min<int>(cols, r.p2.y / gridy);
 
   for (int xcoord = startx ; xcoord <= endx ; xcoord++)
   {
     for (int ycoord = starty ; ycoord <= endy ; ycoord++) {
       for (const auto& obj : grid[xcoord][ycoord]) {
         if (obj != NULL)
-          fill.push_back(obj);
+        {
+            fill.push_back(obj);
+        }
       }
     }
   }
@@ -133,4 +128,62 @@ void spatial_hashing::clear()
     grid[i].clear();
   }*/
   grid.clear();
+}
+
+spatial_hasingIterator::spatial_hasingIterator(spatial_hashing* hash, Rectf aabb) :
+  m_hash(hash),
+  m_x(0),
+  m_y(0),
+  m_extend_x(0),
+  m_extend_y(0),
+  m_initial_y(0),
+  m_valid(true)
+{
+  if(aabb.p1.x < 0 || aabb.p1.y < 0 || aabb.p2.x > m_hash->width || aabb.p2.y > m_hash->height)
+  {
+        m_valid = false;
+        return;
+  }
+  m_x          = std::max<int>(0, aabb.p1.x / m_hash->gridx);
+  m_y          = std::max<int>(0, aabb.p1.y / m_hash->gridy);
+  m_extend_x   = std::min<int>(m_hash->rows, aabb.p2.x / m_hash->gridx);
+  m_extend_y   = std::min<int>(m_hash->cols, aabb.p2.x / m_hash->gridy);
+  if(m_x > m_extend_x || m_y > m_extend_y) {
+    m_valid = false;
+    return;
+  }
+  iter = m_hash->grid[m_x][m_y].begin();
+  iterend = m_hash->grid[m_x][m_y].end();
+}
+
+MovingObject* spatial_hasingIterator::next() {
+  if(!m_valid)
+    return NULL;
+  while(iter == iterend) {
+    // Change iter
+    if(m_x >= m_extend_x && m_extend_y >= m_y) {
+      return NULL;
+    }
+    if(m_y >= m_extend_y) {
+      m_x++;
+      m_y = m_initial_y;
+    } else {
+      m_y++;
+    }
+    log_debug << m_x << " " << m_y << std::endl;
+    iter = m_hash->grid[m_x][m_y].begin();
+    iterend = m_hash->grid[m_x][m_y].end();
+    log_debug << "sf" << std::endl;
+  }
+  m_x   = std::min<int>(m_hash->rows-1, m_x);
+  m_y   = std::min<int>(m_hash->cols-1, m_y);
+  log_debug << "Advancing iter" << std::endl;
+  log_debug << m_x << " " << m_y << std::endl;
+  log_debug << m_extend_x << " " << m_extend_y << std::endl;
+
+  if(iter == iterend)
+    return NULL;
+  MovingObject* next = *iter;
+  iter++;
+  return next;
 }

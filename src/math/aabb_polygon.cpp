@@ -51,8 +51,8 @@ void AABBPolygon::process_neighbor(const Rectf& r) {
   if (edge_equal(p1, bot_l, neigh_top_r, r.p2)) {
     idx = 3;
   }
-  //if (idx != -1)
-    //disabled_normals[idx] = true;
+  if (idx != -1)
+    normal_enabled[idx] = false;
 }
 /** Used for processing tile neighbours. */
 void AABBPolygon::process_neighbor(int xoffset, int yoffset) {
@@ -73,7 +73,7 @@ void AABBPolygon::process_neighbor(int xoffset, int yoffset) {
     idx = 1;
   }
   assert(idx != -1);
-  //disabled_normals[idx] = true;
+  normal_enabled[idx] = false;
 }
 
 void AABBPolygon::handle_collision(const AABBPolygon& b, Manifold& m) {
@@ -89,49 +89,26 @@ void AABBPolygon::handle_collision(const AABBPolygon& b, Manifold& m) {
   if(vert_penetration < 0 || horiz_penetration < 0)
     return;
   m.collided = true;
-  m.depth = 1;
   m.normal.x = m.normal.y = 0;
-  if(vert_penetration < horiz_penetration) {
-    if(itop < ibottom) {
-      m.normal.y = vert_penetration;
-    } else {
-      m.normal.y = -vert_penetration;
-    }
-  } else {
-    if(ileft < iright) {
-      m.normal.x = horiz_penetration;
-    } else {
-      m.normal.x = -horiz_penetration;
-    }
-  }
-  return;
-  /*
   double min_overlap = 100000.0;
-  if (dx > 0 && !disabled_normals[1] && !b.disabled_normals[3] && overlap_x < min_overlap)
-  {
-    min_overlap = overlap_x;
-    m.normal = Vector(1,0);
-    m.depth = overlap_x;
+
+  if (ileft < iright && normal_enabled[3] && b.normal_enabled[1] && horiz_penetration < min_overlap) {
+    min_overlap = m.depth = horiz_penetration;
+    m.normal = Vector(1, 0);
   }
-  if (dx < 0 && !disabled_normals[3] && !b.disabled_normals[1] && overlap_x < min_overlap)
-  {
-    min_overlap = overlap_x;
-    m.normal = Vector(1,0);
-    m.depth = overlap_x;
+  if (ileft > iright && normal_enabled[1] && b.normal_enabled[3] && horiz_penetration < min_overlap) {
+    min_overlap = m.depth = horiz_penetration;
+    m.normal = Vector(-1, 0);
   }
-  if (dy > 0 && !disabled_normals[0] && !b.disabled_normals[2] && overlap_y < min_overlap)
-  {
-    min_overlap = overlap_y;
-    m.normal = Vector(0,1);
-    m.depth = overlap_y;
+  if (itop < ibottom && normal_enabled[0] && b.normal_enabled[2] && vert_penetration < min_overlap) {
+    m.normal = Vector(0, 1);
+    min_overlap = m.depth = vert_penetration;
   }
-  if (dy < 0 && !disabled_normals[2] && !b.disabled_normals[0] && overlap_y < min_overlap)
-  {
+  if (itop > ibottom && normal_enabled[2] && b.normal_enabled[0] && vert_penetration < min_overlap) {
     m.normal = Vector(0,-1);
-    m.depth = overlap_y;
+    min_overlap = m.depth = vert_penetration;
   }
   m.collided = true;
-*/
 }
 
 void AABBPolygon::reset_ignored_normals() {

@@ -23,6 +23,7 @@
 #include <set>
 #include <map>
 #include "math/aabb_polygon.hpp"
+#include "math/spatial_hashing.hpp"
 #include "object/anchor_point.hpp"
 #include "supertux/game_object_ptr.hpp"
 #include "video/color.hpp"
@@ -368,7 +369,7 @@ public: // TODO make this private again
   std::list<TileMap*> solid_tilemaps;
   Camera* camera;
   DisplayEffect* effect;
-  std::unique_ptr<collision_broadphase> broadphase;
+  std::unique_ptr<spatial_hashing> broadphase;
 
   std::map< MovingObject*, std::shared_ptr<AABBPolygon> > object_polygons;
 private:

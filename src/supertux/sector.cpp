@@ -728,9 +728,9 @@ Sector::collision_tilemap(collision::Constraints* constraints,
         CollisionHit h;
         Vector overlapV(0, 0);
         Manifold m;
-        /*if(use_aabbpoly) {
-          AABBPolygon mobjp(dest);
-          std::shared_ptr<AABBPolygon> tilepoly(new AABBPolygon(tile_bbox));
+        if(use_aabbpoly) {
+          AABBPolygon mobjp(dest, false);
+          std::shared_ptr<AABBPolygon> tilepoly(new AABBPolygon(tile_bbox, false));
           for (const auto& offset : dir) {
             const auto& nb = solids->get_tile(x+offset[0], y+offset[1]);
             Rectf nb_bbox = solids->get_tile_bbox(x+offset[0], y+offset[1]);
@@ -749,13 +749,7 @@ Sector::collision_tilemap(collision::Constraints* constraints,
           mobjp.handle_collision(*tilepoly.get(), m);
           if (!m.collided)
             continue;
-          // log_debug << m.depth << " " << m.normal.x << " " << m.normal.y <<std::endl;
           overlapV = Vector(m.normal.x*m.depth, m.normal.y*m.depth);
-          if(tile->is_slope())
-          {
-            overlapV.y = overlapV.y + (overlapV.x*overlapV.x)/(overlapV.y);
-            overlapV.x = 0;
-          }
           if (std::max(std::abs(overlapV.x), std::abs(overlapV.y))
               == std::abs(overlapV.x)) {
             h.right = overlapV.x > 0;
@@ -764,20 +758,22 @@ Sector::collision_tilemap(collision::Constraints* constraints,
             h.bottom = overlapV.y > 0;
             h.top    = overlapV.y < 0;
           }
-          m.normal = overlapV;
-          m.depth = 1;
           // Check if they overlap
           std::swap(h.top, h.bottom);
           std::swap(h.right, h.left);
           if ((h.bottom || h.top || h.left || h.right)) {
               if(slope_adjust_x)
+              {
                   dest.move(overlapV);
-            object.collision_solid(h);
-            contacts.push_back(m);
+              }
+              else
+              {
+                hits.insert(h);
+                contacts.push_back(m);
+              }
           }
-
-            continue;
-        }*/
+          continue;
+        }
 
         // Do collision response
         //AABBPolygon mobjp(dest); // = dest.to_polygon();
@@ -1032,6 +1028,7 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
 
   //broadphase->search(object.get_bbox().grown(10), []{},
   //            nearby);
+
   for (auto& moving_object : moving_objects) {
 
     if (moving_object->get_group() != COLGROUP_STATIC
@@ -1054,9 +1051,8 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       Manifold m;
       CollisionHit h;
       possible_neighbours.clear();
-      broadphase->search(moving_object->get_bbox().grown(2), []{},
-                  possible_neighbours);
-      for (const auto& mobject : possible_neighbours) {
+      spatial_hasingIterator iter(broadphase.get(), moving_object->get_bbox().grown(2));
+      for (auto mobject = iter.next(); mobject != NULL; mobject = iter.next()) {
         // TODO Specail case: Same object on multiple layers
         // => detect collision (?) use contacts?
         if (mobject->get_bbox() == object.get_bbox() || mobject->get_bbox() == moving_object->get_bbox())
@@ -1257,14 +1253,17 @@ Sector::handle_collisions()
   }
 
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
+  std::list< MovingObject* > possibleCollisions;
   for (const auto& moving_object : moving_objects) {
     if ((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC)
        || !moving_object->is_valid())
       continue;
-    std::list< MovingObject* > possibleCollisions;
-    broadphase->search(moving_object->dest.grown(4), []{} , possibleCollisions);
-    for (auto& moving_object_2 : possibleCollisions) {
+      possibleCollisions.clear();
+    spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(4));
+    for (auto moving_object_2 = iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()) {
+      if(moving_object_2 == NULL)
+        continue;
       if (moving_object_2 == moving_object)
         continue;
       if (moving_object_2->get_group() != COLGROUP_TOUCHABLE
@@ -1283,8 +1282,8 @@ Sector::handle_collisions()
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
 
-        broadphase->insert(moving_object->dest, moving_object);
-        broadphase->insert(moving_object_2->dest, moving_object_2);
+        /*broadphase->insert(moving_object->dest, moving_object);
+        broadphase->insert(moving_object_2->dest, moving_object_2);*/
       }
     }
   }
@@ -1297,11 +1296,17 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
     // Query the broadphase
-    std::list< MovingObject* > possibleCollisions;
-    broadphase->search(moving_object->dest.grown(4), []{} , possibleCollisions);
-    for (auto i2 = possibleCollisions.begin(); i2 != possibleCollisions.end(); ++i2)
+    possibleCollisions.clear();
+
+    spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(4));
+
+    //broadphase->search(moving_object->dest.grown(4), []{} , possibleCollisions);
+    for (auto i2 = iter.next(); i2 != NULL; i2 = iter.next())
     {
-      auto moving_object_2 = *i2;
+      log_debug << "AAA" << std::endl;
+      auto moving_object_2 = i2;
+      if(i2 == NULL)
+        break;
       if (moving_object_2 == moving_object)
         continue;
       if ((moving_object_2->get_group() != COLGROUP_MOVING
@@ -1312,9 +1317,10 @@ Sector::handle_collisions()
       collision_object(moving_object, moving_object_2, colgraph);
 
       // Update the objects positions
-      broadphase->insert(moving_object->dest, moving_object);
-      broadphase->insert(moving_object_2->dest, moving_object_2);
+      /*broadphase->insert(moving_object->dest, moving_object);
+      broadphase->insert(moving_object_2->dest, moving_object_2);*/
     }
+
   }
   std::map< MovingObject*, MovingObject* > parents;
   colgraph.compute_parents(platforms, parents);
