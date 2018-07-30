@@ -57,7 +57,7 @@ LevelTime::update(float elapsed_time)
 {
   if (!running) return;
 
-  int prev_time = static_cast<int>(floor(time_left*5));
+  int prev_time = static_cast<int>(floorf(time_left*5));
   time_left -= elapsed_time;
   if(time_left <= 0) {
     if(time_left <= -5 || !Sector::current()->player->get_coins())
@@ -65,7 +65,7 @@ LevelTime::update(float elapsed_time)
       Sector::current()->player->kill(true);
       stop();
     }
-    if(prev_time != static_cast<int>(floor(time_left*5)))
+    if(prev_time != static_cast<int>(floorf(time_left*5)))
     {
       Sector::current()->player->add_coins(-1);
     }

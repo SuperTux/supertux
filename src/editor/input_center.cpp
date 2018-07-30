@@ -577,10 +577,10 @@ EditorInputCenter::tile_drag_rect() {
 
   // Increase drag rectangle size to the
   // nearest tile border respectively.
-  result = Rectf(floor(result.p1.x / 32) * 32, 
-                 floor(result.p1.y / 32) * 32,
-                 ceil(result.p2.x / 32) * 32,
-                 ceil(result.p2.y / 32) * 32);
+  result = Rectf(floorf(result.p1.x / 32) * 32,
+                 floorf(result.p1.y / 32) * 32,
+                 ceilf(result.p2.x / 32) * 32,
+                 ceilf(result.p2.y / 32) * 32);
   result.p1 = sp_to_tp(result.p1);
   result.p2 = sp_to_tp(result.p2);
   return result;
