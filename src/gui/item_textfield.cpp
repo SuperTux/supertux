@@ -36,16 +36,18 @@ ItemTextField::draw(DrawingContext& context, const Vector& pos, int menu_width, 
     r_input += "_";
   }
   context.color().draw_text(Resources::normal_font, r_input,
-                            Vector(pos.x + static_cast<float>(menu_width) - 16.0f - (fl ? 0 : flickw), pos.y - static_cast<float>(int(Resources::normal_font->get_height()/2))),
+                            Vector(pos.x + static_cast<float>(menu_width) - 16.0f - static_cast<float>(fl ? 0 : flickw),
+                                   pos.y - Resources::normal_font->get_height() / 2.0f),
                             ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
   context.color().draw_text(Resources::normal_font, text,
-                            Vector(pos.x + 16.0f, pos.y - int(Resources::normal_font->get_height()/2)),
+                            Vector(pos.x + 16.0f,
+                                   pos.y - static_cast<float>(Resources::normal_font->get_height()) / 2.0f),
                             ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
 }
 
 int
 ItemTextField::get_width() const {
-  return static_cast<int>(Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(*input) + 16 + flickw);
+  return static_cast<int>(Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(*input) + 16.0f + static_cast<float>(flickw));
 }
 
 void

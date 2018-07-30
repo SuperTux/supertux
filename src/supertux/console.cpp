@@ -140,7 +140,7 @@ Console::on_buffer_change(int line_count)
     {
       m_height = 4;
     }
-    m_height += m_font->get_height() * line_count;
+    m_height += m_font->get_height() * static_cast<float>(line_count);
   }
 
   // reset console to full opacity
@@ -391,7 +391,7 @@ Console::autocomplete()
     // one match: just replace input buffer with full command
     std::string replaceWith = cmds.front();
     m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
-    m_inputBufferPosition += (replaceWith.length() - prefix.length());
+    m_inputBufferPosition += static_cast<int>(replaceWith.length() - prefix.length());
   }
 
   if (cmds.size() > 1)
@@ -408,7 +408,7 @@ Console::autocomplete()
     }
     std::string replaceWith = commonPrefix;
     m_inputBuffer.replace(autocompleteFrom, prefix.length(), replaceWith);
-    m_inputBufferPosition += (replaceWith.length() - prefix.length());
+    m_inputBufferPosition += static_cast<int>(replaceWith.length() - prefix.length());
   }
 }
 
@@ -513,7 +513,7 @@ Console::update(float elapsed_time)
     }
   }
 
-  m_backgroundOffset += 600 * elapsed_time;
+  m_backgroundOffset += static_cast<int>(600.0f * elapsed_time);
   if (m_backgroundOffset > static_cast<int>(m_background->get_width())) m_backgroundOffset -= static_cast<int>(m_background->get_width());
 }
 
@@ -528,20 +528,22 @@ Console::draw(DrawingContext& context) const
   context.push_transform();
   context.set_alpha(m_alpha);
   context.color().draw_surface(m_background2,
-                       Vector(context.get_width()/2 - m_background->get_width()/2 - m_background->get_width() + m_backgroundOffset,
-                              m_height - m_background->get_height()),
-                       layer);
+                               Vector(static_cast<float>(context.get_width() / 2 - m_background->get_width() / 2 - m_background->get_width() + m_backgroundOffset),
+                                      m_height - static_cast<float>(m_background->get_height())),
+                               layer);
   context.color().draw_surface(m_background2,
-                       Vector(context.get_width()/2 - m_background->get_width()/2 + m_backgroundOffset,
-                              m_height - m_background->get_height()),
-                       layer);
+                               Vector(static_cast<float>(context.get_width()/2 - m_background->get_width()/2 + m_backgroundOffset),
+                                      m_height - static_cast<float>(m_background->get_height())),
+                               layer);
   for (int x = (context.get_width()/2 - m_background->get_width()/2
                 - (static_cast<int>(ceilf(static_cast<float>(context.get_width()) /
                                           static_cast<float>(m_background->get_width())) - 1) * m_background->get_width()));
        x < context.get_width();
        x += m_background->get_width())
   {
-    context.color().draw_surface(m_background, Vector(x, m_height - m_background->get_height()), layer);
+    context.color().draw_surface(m_background, Vector(static_cast<float>(x),
+                                                      m_height - static_cast<float>(m_background->get_height())),
+                                 layer);
   }
 
   int lineNo = 0;
@@ -552,7 +554,7 @@ Console::draw(DrawingContext& context) const
     context.color().draw_text(m_font, "> "+m_inputBuffer, Vector(4, py), ALIGN_LEFT, layer);
     if (SDL_GetTicks() % 1000 < 750) {
       int cursor_px = 2 + m_inputBufferPosition;
-      context.color().draw_text(m_font, "_", Vector(4 + (cursor_px * m_font->get_text_width("X")), py), ALIGN_LEFT, layer);
+      context.color().draw_text(m_font, "_", Vector(4.0f + (static_cast<float>(cursor_px) * m_font->get_text_width("X")), static_cast<float>(py)), ALIGN_LEFT, layer);
     }
   }
 
@@ -561,9 +563,9 @@ Console::draw(DrawingContext& context) const
   {
     if (skipLines-- > 0) continue;
     lineNo++;
-    float py = m_height - 4 - lineNo * m_font->get_height();
+    float py = static_cast<float>(m_height - 4.0f - static_cast<float>(lineNo) * m_font->get_height());
     if (py < -m_font->get_height()) break;
-    context.color().draw_text(m_font, *i, Vector(4, py), ALIGN_LEFT, layer);
+    context.color().draw_text(m_font, *i, Vector(4.0f, py), ALIGN_LEFT, layer);
   }
   context.pop_transform();
 }

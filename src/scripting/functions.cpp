@@ -292,7 +292,7 @@ void gotoend()
   if (!validate_sector_player()) return;
   auto tux = ::Sector::current()->player;
   tux->move(Vector(
-              (::Sector::current()->get_width()) - (SCREEN_WIDTH*2), 0));
+              (::Sector::current()->get_width()) - (static_cast<float>(SCREEN_WIDTH) * 2.0f), 0));
   ::Sector::current()->camera->reset(
     Vector(tux->get_pos().x, tux->get_pos().y));
 }

@@ -476,8 +476,8 @@ Vector
 WorldMap::get_camera_pos_for_tux() const {
   Vector camera_offset_;
   Vector tux_pos = tux->get_pos();
-  camera_offset_.x = tux_pos.x - SCREEN_WIDTH/2;
-  camera_offset_.y = tux_pos.y - SCREEN_HEIGHT/2;
+  camera_offset_.x = tux_pos.x - static_cast<float>(SCREEN_WIDTH) / 2.0f;
+  camera_offset_.y = tux_pos.y - static_cast<float>(SCREEN_HEIGHT) / 2.0f;
   return camera_offset_;
 }
 
@@ -793,8 +793,8 @@ WorldMap::draw_status(DrawingContext& context)
         /* Display an in-map message in the map, if any as been selected */
         if(!special_tile->map_message.empty() && !special_tile->passive_message)
           context.color().draw_text(Resources::normal_font, special_tile->map_message,
-                                    Vector(static_cast<float>(context.get_width() / 2),
-                                           static_cast<float>(context.get_height() - Resources::normal_font->get_height() - 60)),
+                                    Vector(static_cast<float>(context.get_width()) / 2.0f,
+                                           static_cast<float>(context.get_height()) - static_cast<float>(Resources::normal_font->get_height()) - 60.0f),
                                     ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
         break;
       }
@@ -803,8 +803,8 @@ WorldMap::draw_status(DrawingContext& context)
     // display teleporter messages
     auto teleporter = at_teleporter(tux->get_tile_pos());
     if (teleporter && (!teleporter->message.empty())) {
-      Vector pos = Vector(static_cast<float>(context.get_width() / 2),
-                          static_cast<float>(context.get_height() - Resources::normal_font->get_height() - 30));
+      Vector pos = Vector(static_cast<float>(context.get_width()) / 2.0f,
+                          static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 30.0f);
       context.color().draw_text(Resources::normal_font, teleporter->message, pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::teleporter_message_color);
     }
 
@@ -813,8 +813,8 @@ WorldMap::draw_status(DrawingContext& context)
   /* Display a passive message in the map, if needed */
   if(passive_message_timer.started())
     context.color().draw_text(Resources::normal_font, passive_message,
-                              Vector(static_cast<float>(context.get_width() / 2),
-                                     static_cast<float>(context.get_height() - Resources::normal_font->get_height() - 60)),
+                              Vector(static_cast<float>(context.get_width()) / 2.0f,
+                                     static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 60.0f),
                               ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
 
   context.pop_transform();

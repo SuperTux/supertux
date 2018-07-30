@@ -78,8 +78,8 @@ SpriteParticle::update(float elapsed_time)
 
   // die when too far offscreen
   Vector camera = Sector::current()->camera->get_translation();
-  if ((position.x < camera.x - 128) || (position.x > SCREEN_WIDTH + camera.x + 128) ||
-      (position.y < camera.y - 128) || (position.y > SCREEN_HEIGHT + camera.y + 128)) {
+  if ((position.x < camera.x - 128.0f) || (position.x > static_cast<float>(SCREEN_WIDTH) + camera.x + 128.0f) ||
+      (position.y < camera.y - 128.0f) || (position.y > static_cast<float>(SCREEN_HEIGHT) + camera.y + 128.0f)) {
     remove_me();
     return;
   }

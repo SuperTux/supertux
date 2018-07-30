@@ -297,7 +297,8 @@ Sector::get_active_region() const
 {
   return Rectf(
     camera->get_translation() - Vector(1600, 1200),
-    camera->get_translation() + Vector(1600, 1200) + Vector(SCREEN_WIDTH,SCREEN_HEIGHT));
+    camera->get_translation() + Vector(1600, 1200) + Vector(static_cast<float>(SCREEN_WIDTH),
+                                                            static_cast<float>(SCREEN_HEIGHT)));
 }
 
 int
@@ -1301,7 +1302,8 @@ void
 Sector::resize_sector(const Size& old_size, const Size& new_size, const Size& resize_offset)
 {
   bool is_offset = resize_offset.width || resize_offset.height;
-  Vector obj_shift = Vector(resize_offset.width * 32, resize_offset.height * 32);
+  Vector obj_shift = Vector(static_cast<float>(resize_offset.width) * 32.0f,
+                            static_cast<float>(resize_offset.height) * 32.0f);
   for(const auto& object : gameobjects) {
     auto tilemap = dynamic_cast<TileMap*>(object.get());
     if (tilemap) {

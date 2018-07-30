@@ -32,8 +32,8 @@
 ParticleSystem_Interactive::ParticleSystem_Interactive() :
   ParticleSystem()
 {
-  virtual_width = SCREEN_WIDTH;
-  virtual_height = SCREEN_HEIGHT;
+  virtual_width = static_cast<float>(SCREEN_WIDTH);
+  virtual_height = static_cast<float>(SCREEN_HEIGHT);
   z_pos = 0;
 }
 

@@ -122,13 +122,15 @@ Surface::get_height() const
 Vector
 Surface::get_position() const
 {
-  return Vector(get_x(), get_y());
+  return Vector(static_cast<float>(get_x()),
+                static_cast<float>(get_y()));
 }
 
 Vector
 Surface::get_size() const
 {
-  return Vector(get_width(), get_height());
+  return Vector(static_cast<float>(get_width()),
+                static_cast<float>(get_height()));
 }
 
 /* EOF */

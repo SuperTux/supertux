@@ -196,7 +196,7 @@ Font::loadFontSurface(
     SDL_LockSurface(surface);
   }
 
-  for( unsigned int i = 0; i < chars.size(); i++) {
+  for(unsigned int i = 0; i < chars.size(); ++i) {
     for(UTF8Iterator chr(chars[i]); !chr.done(); ++chr) {
       int y = row * (char_height + 2*border) + border;
       int x = col * (char_width + 2*border) + border;
@@ -208,9 +208,12 @@ Font::loadFontSurface(
 
       if( glyph_width_ == FIXED || (*chr <= 255 && isdigit(*chr)) )
       {
-        glyph.rect    = Rectf(x, y, x + char_width, y + char_height);
+        glyph.rect    = Rectf(static_cast<float>(x),
+                              static_cast<float>(y),
+                              static_cast<float>(x + char_width),
+                              static_cast<float>(y + char_height));
         glyph.offset  = Vector(0, 0);
-        glyph.advance = char_width;
+        glyph.advance = static_cast<float>(char_width);
       }
       else
       {
@@ -229,16 +232,19 @@ Font::loadFontSurface(
 
         if (left <= right)
         {
-          glyph.offset  = Vector(x-left, 0);
-          glyph.advance = right - left + 1 + 1; // FIXME: might be useful to make spacing configurable
+          glyph.offset  = Vector(static_cast<float>(x) - static_cast<float>(left), 0.0f);
+          glyph.advance = static_cast<float>(right - left + 1 + 1); // FIXME: might be useful to make spacing configurable
         }
         else
         { // glyph is completly transparent
           glyph.offset  = Vector(0, 0);
-          glyph.advance = char_width + 1; // FIXME: might be useful to make spacing configurable
+          glyph.advance = static_cast<float>(char_width + 1); // FIXME: might be useful to make spacing configurable
         }
 
-        glyph.rect = Rectf(x,  y, x + char_width, y + char_height);
+        glyph.rect = Rectf(static_cast<float>(x),
+                           static_cast<float>(y),
+                           static_cast<float>(x + char_width),
+                           static_cast<float>(y + char_height));
       }
 
       glyphs[*chr] = glyph;
@@ -298,13 +304,13 @@ Font::get_text_height(const std::string& text) const
       text_height += char_height + 2;
   }
 
-  return text_height;
+  return static_cast<float>(text_height);
 }
 
 float
 Font::get_height() const
 {
-  return char_height;
+  return static_cast<float>(char_height);
 }
 
 std::string
@@ -380,14 +386,14 @@ Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
 
       // Cast font position to integer to get a clean drawing result and
       // no blurring as we would get with subpixel positions
-      pos.x = static_cast<int>(pos.x);
+      pos.x = static_cast<float>(static_cast<int>(pos.x));
 
       draw_text(renderer, temp, pos, drawing_effect, color, alpha);
 
       if (i == text.size())
         break;
 
-      y += char_height + 2;
+      y += static_cast<float>(char_height) + 2.0f;
       last = i + 1;
     }
   }
@@ -399,7 +405,7 @@ Font::draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
 {
   if(shadowsize > 0)
     draw_chars(renderer, false, rtl ? std::string(text.rbegin(), text.rend()) : text,
-               pos + Vector(shadowsize, shadowsize), drawing_effect, Color(1,1,1), alpha);
+               pos + Vector(static_cast<float>(shadowsize), static_cast<float>(shadowsize)), drawing_effect, Color(1,1,1), alpha);
 
   draw_chars(renderer, true, rtl ? std::string(text.rbegin(), text.rend()) : text, pos, drawing_effect, color, alpha);
 }
@@ -416,7 +422,7 @@ Font::draw_chars(Renderer *renderer, bool notshadow, const std::string& text,
     if(*it == '\n')
     {
       p.x = pos.x;
-      p.y += char_height + 2;
+      p.y += static_cast<float>(char_height) + 2.0f;
     }
     else if(*it == ' ')
     {

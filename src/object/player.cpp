@@ -176,7 +176,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   climbing(0)
 {
   name = name_;
-  idle_timer.start(IDLE_TIME[0]/1000.0f);
+  idle_timer.start(static_cast<float>(IDLE_TIME[0]) / 1000.0f);
 
   SoundManager::current()->preload("sounds/bigjump.wav");
   SoundManager::current()->preload("sounds/jump.wav");
@@ -333,7 +333,7 @@ Player::update(float elapsed_time)
   if (backflipping && !dying) {
     //prevent player from changing direction when backflipping
     dir = (backflip_direction == 1) ? LEFT : RIGHT;
-    if (backflip_timer.started()) physic.set_velocity_x(100 * backflip_direction);
+    if (backflip_timer.started()) physic.set_velocity_x(100.0f * static_cast<float>(backflip_direction));
     //rotate sprite during flip
     sprite->set_angle(sprite->get_angle() + (dir==LEFT?1:-1) * elapsed_time * (360.0f / 0.5f));
     if (player_status->bonus == EARTH_BONUS || player_status->bonus == AIR_BONUS ||
@@ -373,7 +373,7 @@ Player::update(float elapsed_time)
         do_standup();
     }
     if (player_status->bonus == AIR_BONUS)
-      ability_time = player_status->max_air_time * GLIDE_TIME_PER_FLOWER;
+      ability_time = static_cast<float>(player_status->max_air_time) * GLIDE_TIME_PER_FLOWER;
 
     if(second_growup_sound_timer.check())
     {
@@ -831,7 +831,7 @@ Player::handle_input()
   /* Turn to Stone */
   if (controller->pressed(Controller::DOWN) && player_status->bonus == EARTH_BONUS && !cooldown_timer.started() && on_ground()) {
     if (controller->hold(Controller::ACTION) && !ability_timer.started()) {
-      ability_timer.start(player_status->max_earth_time * STONE_TIME_PER_FLOWER);
+      ability_timer.start(static_cast<float>(player_status->max_earth_time) * STONE_TIME_PER_FLOWER);
       powersprite->stop_animation();
       stone = true;
       physic.set_gravity_modifier(1.0f); // Undo jump_early_apex
@@ -851,7 +851,8 @@ Player::handle_input()
     stone = false;
     for (int i = 0; i < 8; i++)
     {
-      Vector ppos = Vector(bbox.get_left() + 8 + 16 * (static_cast<int>(i)/4), bbox.get_top() + 16*(i%4));
+      Vector ppos = Vector(bbox.get_left() + 8.0f + 16.0f * static_cast<float>(i / 4),
+                           bbox.get_top() + 16.0f * static_cast<float>(i % 4));
       float grey = graphicsRandom.randf(.4f, .8f);
       Color pcolor = Color(grey, grey, grey);
       Sector::current()->add_object(std::make_shared<Particles>(ppos, -60, 240, 42, 81, Vector(0.0f, 500.0f),
@@ -1166,7 +1167,7 @@ Player::draw(DrawingContext& context)
 
   // if Tux is above camera, draw little "air arrow" to show where he is x-wise
   if (Sector::current() && Sector::current()->camera && (bbox.p2.y - 16 < Sector::current()->camera->get_translation().y)) {
-    float px = bbox.p1.x + (bbox.p2.x - bbox.p1.x - airarrow.get()->get_width()) / 2;
+    float px = bbox.p1.x + (bbox.p2.x - bbox.p1.x - static_cast<float>(airarrow.get()->get_width())) / 2.0f;
     float py = Sector::current()->camera->get_translation().y;
     py += std::min(((py - (bbox.p2.y + 16)) / 4), 16.0f);
     context.color().draw_surface(airarrow, Vector(px, py), LAYER_HUD - 1);
@@ -1237,7 +1238,7 @@ Player::draw(DrawingContext& context)
       // Determine which idle stage we're at
       if (sprite->get_action().find("-stand-") == std::string::npos && sprite->get_action().find("-idle-") == std::string::npos) {
         idle_stage = 0;
-        idle_timer.start(IDLE_TIME[idle_stage]/1000.0f);
+        idle_timer.start(static_cast<float>(IDLE_TIME[idle_stage]) / 1000.0f);
 
         sprite->set_action_continued(sa_prefix+("-" + IDLE_STAGES[idle_stage])+sa_postfix);
       }
@@ -1246,7 +1247,7 @@ Player::draw(DrawingContext& context)
         if (idle_stage >= IDLE_STAGE_COUNT)
           idle_stage = 1;
 
-        idle_timer.start(IDLE_TIME[idle_stage]/1000.0f);
+        idle_timer.start(static_cast<float>(IDLE_TIME[idle_stage]) / 1000.0f);
 
         if (IDLE_TIME[idle_stage] == 0)
           sprite->set_action(sa_prefix+("-" + IDLE_STAGES[idle_stage])+sa_postfix, 1);
@@ -1291,7 +1292,7 @@ Player::draw(DrawingContext& context)
     ;  // don't draw Tux
   else if (player_status->bonus == EARTH_BONUS){ // draw special effects with earthflower bonus
     // shake at end of maximum stone duration
-    Vector shake_delta = (stone && ability_timer.get_timeleft() < 1.0f) ? Vector(graphicsRandom.rand(-3,3) * 1.0f, 0) : Vector(0,0);
+    Vector shake_delta = (stone && ability_timer.get_timeleft() < 1.0f) ? Vector(graphicsRandom.randf(-3.0f, 3.0f) * 1.0f, 0) : Vector(0,0);
     sprite->draw(context.color(), get_pos() + shake_delta, LAYER_OBJECTS + 1);
     // draw hardhat
     powersprite->draw(context.color(), get_pos() + shake_delta, LAYER_OBJECTS + 1);
@@ -1493,8 +1494,8 @@ Player::kill(bool completely)
       {
         // the numbers: starting x, starting y, velocity y
         Sector::current()->add_object(std::make_shared<FallingCoin>(get_pos() +
-                                                      Vector(graphicsRandom.rand(5), graphicsRandom.rand(-32,18)),
-                                                      graphicsRandom.rand(-100,100)));
+                                                      Vector(graphicsRandom.randf(5.0f), graphicsRandom.randf(-32.0f, 18.0f)),
+                                                      graphicsRandom.randf(-100.0f, 100.0f)));
       }
       player_status->coins -= std::max(player_status->coins/10, 25);
     }
@@ -1592,7 +1593,7 @@ Player::bounce(BadGuy& )
     physic.set_velocity_y(controller->hold(Controller::JUMP) ? -520 : -300);
   else {
     physic.set_velocity_y(controller->hold(Controller::JUMP) ? -580 : -340);
-    ability_time = player_status->max_air_time * GLIDE_TIME_PER_FLOWER;
+    ability_time = static_cast<float>(player_status->max_air_time) * GLIDE_TIME_PER_FLOWER;
   }
 }
 

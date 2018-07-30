@@ -38,8 +38,9 @@ FadeOut::draw(DrawingContext& context)
   Color col = color;
   col.alpha = accum_time / fade_time;
   context.color().draw_filled_rect(Vector(0, 0),
-                                     Vector(context.get_width(), context.get_height()),
-                                     col, LAYER_GUI+1);
+                                   Vector(static_cast<float>(context.get_width()),
+                                          static_cast<float>(context.get_height())),
+                                   col, LAYER_GUI + 1);
 }
 
 bool

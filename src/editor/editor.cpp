@@ -87,11 +87,15 @@ void Editor::draw(Compositor& compositor)
 
   if (levelloaded) {
     currentsector->draw(context);
-    context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(context.get_width(), context.get_height())), Color(0.0f, 0.0f, 0.0f),
-                             0.0f, std::numeric_limits<int>::min());
+    context.color().draw_filled_rect(Rectf(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
+                                                                static_cast<float>(context.get_height()))),
+                                     Color(0.0f, 0.0f, 0.0f),
+                                     0.0f, std::numeric_limits<int>::min());
   } else {
     context.color().draw_surface_part(bgr_surface, Rectf(Vector(0, 0), bgr_surface->get_size()),
-                              Rectf(Vector(0, 0), Vector(context.get_width(), context.get_height())), -100);
+                                      Rectf(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
+                                                                 static_cast<float>(context.get_height()))),
+                                      -100);
   }
   inputcenter.draw(context);
   tileselect.draw(context);
@@ -204,11 +208,11 @@ int Editor::get_tileselect_move_mode() const {
 }
 
 bool Editor::can_scroll_vert() const {
-  return levelloaded && (currentsector->get_height() + 32 > SCREEN_HEIGHT);
+  return levelloaded && (currentsector->get_height() + 32 > static_cast<float>(SCREEN_HEIGHT));
 }
 
 bool Editor::can_scroll_horz() const {
-  return levelloaded && (currentsector->get_width() + 128 > SCREEN_WIDTH);
+  return levelloaded && (currentsector->get_width() + 128 > static_cast<float>(SCREEN_WIDTH));
 }
 
 void Editor::scroll_left(float speed) {
@@ -227,12 +231,12 @@ void Editor::scroll_left(float speed) {
 void Editor::scroll_right(float speed) {
   auto camera = currentsector->camera;
   if (can_scroll_horz()) {
-    if (camera->get_translation().x <= currentsector->get_width() - SCREEN_WIDTH + 128 - 32 * speed) {
+    if (camera->get_translation().x <= currentsector->get_width() - static_cast<float>(SCREEN_WIDTH) + 128.0f - 32.0f * speed) {
       camera->move(static_cast<int>(32 * speed), 0);
     } else {
       //When is the camera less than one tile after the right limit, it puts the camera to the limit.
       // The limit is shifted 128 pixels to the right due to the input gui.
-      camera->move(static_cast<int>(currentsector->get_width() - camera->get_translation().x - SCREEN_WIDTH + 128), 0);
+      camera->move(static_cast<int>(currentsector->get_width() - camera->get_translation().x - static_cast<float>(SCREEN_WIDTH) + 128.0f), 0);
     }
     inputcenter.update_pos();
   }
@@ -254,12 +258,12 @@ void Editor::scroll_up(float speed) {
 void Editor::scroll_down(float speed) {
   auto camera = currentsector->camera;
   if (can_scroll_vert()) {
-    if (camera->get_translation().y <= currentsector->get_height() - SCREEN_HEIGHT - 32 * speed) {
+    if (camera->get_translation().y <= currentsector->get_height() - static_cast<float>(SCREEN_HEIGHT) - 32.0f * speed) {
       camera->move(0, static_cast<int>(32 * speed));
     } else {
       //When is the camera less than one tile after the bottom limit, it puts the camera to the limit.
       // The limit is shifted 32 pixels to the bottom due to the layer toolbar.
-      camera->move(0, static_cast<int>(currentsector->get_height() - camera->get_translation().y - SCREEN_HEIGHT + 32));
+      camera->move(0, static_cast<int>(currentsector->get_height() - camera->get_translation().y - static_cast<float>(SCREEN_HEIGHT) + 32.0f));
     }
     inputcenter.update_pos();
   }

@@ -131,8 +131,8 @@ void
 EditorInputCenter::put_tile() {
   auto tiles = Editor::current()->get_tiles();
   Vector add_tile;
-  for (add_tile.x = tiles->width - 1; add_tile.x >= 0; add_tile.x--) {
-    for (add_tile.y = tiles->height - 1; add_tile.y >= 0; add_tile.y--) {
+  for (add_tile.x = static_cast<float>(tiles->width) - 1.0f; add_tile.x >= 0.0f; add_tile.x--) {
+    for (add_tile.y = static_cast<float>(tiles->height) - 1.0f; add_tile.y >= 0; add_tile.y--) {
       input_tile(hovered_tile + add_tile, tiles->pos(static_cast<int>(add_tile.x),
                                                      static_cast<int>(add_tile.y)));
     }
@@ -215,7 +215,7 @@ EditorInputCenter::fill() {
 
     // Going right...
     pos_ = pos + Vector(1, 0);
-    if (pos_.x < tilemap->get_width()) {
+    if (pos_.x < static_cast<float>(tilemap->get_width())) {
       if (replace_tile == tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)) &&
           replace_tile != tiles->pos(static_cast<int>(tpos.x + 1), static_cast<int>(tpos.y))) {
         pos_stack.push_back( pos_ );
@@ -235,7 +235,7 @@ EditorInputCenter::fill() {
 
     // Going down...
     pos_ = pos + Vector(0, 1);
-    if (pos_.y < tilemap->get_height()) {
+    if (pos_.y < static_cast<float>(tilemap->get_height())) {
       if (replace_tile == tilemap->get_tile_id(static_cast<int>(pos_.x), static_cast<int>(pos_.y)) &&
           replace_tile != tiles->pos(static_cast<int>(tpos.x), static_cast<int>(tpos.y + 1))) {
         pos_stack.push_back( pos_ );
@@ -394,7 +394,7 @@ EditorInputCenter::move_object() {
     Vector new_pos = sector_pos - obj_mouse_desync;
     if (snap_to_grid) {
       auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
-      new_pos = (new_pos / snap_grid_size).to_int_vec() * snap_grid_size;
+      new_pos = (new_pos / static_cast<float>(snap_grid_size)).to_int_vec() * static_cast<float>(snap_grid_size);
 
       auto pm = dynamic_cast<PointMarker*>(dragged_object);
       if (pm) {
@@ -476,7 +476,7 @@ EditorInputCenter::put_object() {
     if(snap_to_grid)
     {
       auto& snap_grid_size = snap_grid_sizes[selected_snap_grid_size];
-      target_pos = (sector_pos / snap_grid_size).to_int_vec() * snap_grid_size;
+      target_pos = (sector_pos / static_cast<float>(snap_grid_size)).to_int_vec() * static_cast<float>(snap_grid_size);
     }
     game_object = ObjectFactory::instance().create(obj, target_pos, LEFT);
   } catch(const std::exception& e) {
@@ -720,12 +720,15 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
     Vector drawn_tile = hovered_tile;
     auto tiles = editor->get_tiles();
 
-    for (drawn_tile.x = tiles->width-1; drawn_tile.x >= 0; drawn_tile.x--) {
-      for (drawn_tile.y = tiles->height-1; drawn_tile.y >= 0; drawn_tile.y--) {
+    for (drawn_tile.x = static_cast<float>(tiles->width) - 1.0f; drawn_tile.x >= 0.0f; drawn_tile.x--) {
+      for (drawn_tile.y = static_cast<float>(tiles->height) - 1.0f; drawn_tile.y >= 0.0f; drawn_tile.y--) {
         Vector on_tile = hovered_tile + drawn_tile;
 
-        if ( editor->get_tiles()->empty() || on_tile.x < 0 || on_tile.y < 0 ||
-             on_tile.x >= tilemap->get_width() || on_tile.y >= tilemap->get_height()) {
+        if (editor->get_tiles()->empty() ||
+            on_tile.x < 0 ||
+            on_tile.y < 0 ||
+            on_tile.x >= static_cast<float>(tilemap->get_width()) ||
+            on_tile.y >= static_cast<float>(tilemap->get_height())) {
           continue;
         }
         uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
@@ -755,7 +758,8 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_col
   int tm_height = current_tm->get_height() * (32 / tile_size);
   auto cam_translation = editor->currentsector->camera->get_translation();
   Rectf draw_rect = Rectf(cam_translation, cam_translation +
-                          Vector(context.get_width(), context.get_height()));
+                          Vector(static_cast<float>(context.get_width()),
+                                 static_cast<float>(context.get_height())));
   Vector start = sp_to_tp( Vector(draw_rect.p1.x, draw_rect.p1.y), tile_size );
   Vector end = sp_to_tp( Vector(draw_rect.p2.x, draw_rect.p2.y), tile_size );
   start.x = std::max(0.0f, start.x);
@@ -765,14 +769,14 @@ EditorInputCenter::draw_tile_grid(DrawingContext& context, const Color& line_col
 
   Vector line_start, line_end;
   for (int i = static_cast<int>(start.x); i <= static_cast<int>(end.x); i++) {
-    line_start = tile_screen_pos( Vector(i, 0), tile_size );
-    line_end = tile_screen_pos( Vector(i, tm_height), tile_size );
+    line_start = tile_screen_pos( Vector(static_cast<float>(i), 0.0f), tile_size );
+    line_end = tile_screen_pos( Vector(static_cast<float>(i), static_cast<float>(tm_height)), tile_size );
     context.color().draw_line(line_start, line_end, line_color, current_tm->get_layer());
   }
 
   for (int i = static_cast<int>(start.y); i <= static_cast<int>(end.y); i++) {
-    line_start = tile_screen_pos( Vector(0, i), tile_size );
-    line_end = tile_screen_pos( Vector(tm_width, i), tile_size );
+    line_start = tile_screen_pos( Vector(0.0f, static_cast<float>(i)), tile_size );
+    line_end = tile_screen_pos( Vector(static_cast<float>(tm_width), static_cast<float>(i)), tile_size );
     context.color().draw_line(line_start, line_end, line_color, current_tm->get_layer());
   }
 }
@@ -786,7 +790,8 @@ EditorInputCenter::draw_tilemap_border(DrawingContext& context) {
   if ( !current_tm ) return;
 
   Vector start = tile_screen_pos( Vector(0, 0) );
-  Vector end = tile_screen_pos( Vector(current_tm->get_width(), current_tm->get_height()) );
+  Vector end = tile_screen_pos( Vector(static_cast<float>(current_tm->get_width()),
+                                       static_cast<float>(current_tm->get_height())) );
   context.color().draw_line(start, Vector(start.x, end.y), Color(1, 0, 1), current_tm->get_layer());
   context.color().draw_line(start, Vector(end.x, start.y), Color(1, 0, 1), current_tm->get_layer());
   context.color().draw_line(Vector(start.x, end.y), end, Color(1, 0, 1), current_tm->get_layer());

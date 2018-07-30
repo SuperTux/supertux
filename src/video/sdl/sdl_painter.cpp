@@ -162,15 +162,15 @@ SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
     if(direction == VERTICAL || direction == VERTICAL_SECTOR)
     {
       rect.x = static_cast<int>(region.p1.x);
-      rect.y = static_cast<int>(region.p2.y * i / n);
+      rect.y = static_cast<int>(region.p2.y * static_cast<float>(i) / static_cast<float>(n));
       rect.w = static_cast<int>(region.p2.x);
-      rect.h = static_cast<int>((region.p2.y * (i+1) / n) - rect.y);
+      rect.h = static_cast<int>((region.p2.y * static_cast<float>(i+1) / static_cast<float>(n)) - static_cast<float>(rect.y));
     }
     else
     {
-      rect.x = static_cast<int>(region.p2.x * i / n);
+      rect.x = static_cast<int>(region.p2.x * static_cast<float>(i) / static_cast<float>(n));
       rect.y = static_cast<int>(region.p1.y);
-      rect.w = static_cast<int>((region.p2.x * (i+1) / n) - rect.x);
+      rect.w = static_cast<int>((region.p2.x * static_cast<float>(i+1) / static_cast<float>(n)) - static_cast<float>(rect.x));
       rect.h = static_cast<int>(region.p2.y);
     }
 
@@ -228,7 +228,7 @@ SDLPainter::draw_filled_rect(SDL_Renderer* renderer, const DrawingRequest& reque
     for(int i = 0; i < slices; ++i)
     {
       float p = (static_cast<float>(i) + 0.5f) / static_cast<float>(slices);
-      int xoff = radius - static_cast<int>(sqrtf(1.0f - p*p) * radius);
+      int xoff = radius - static_cast<int>(sqrtf(1.0f - p * p) * static_cast<float>(radius));
 
       SDL_Rect tmp;
       tmp.x = rect.x + xoff;
@@ -300,9 +300,9 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
     SDL_Rect& right = rects[2*i+1];
 
     left.x = 0;
-    left.y = static_cast<int>(top + (i * h / slices));
+    left.y = top + (i * static_cast<int>(h) / slices);
     left.w = static_cast<int>(x) - xoff;
-    left.h = static_cast<int>((top + ((i+1) * h / slices)) - left.y);
+    left.h = top + ((i+1) * static_cast<int>(h) / slices) - left.y;
 
     right.x = static_cast<int>(x) + xoff;
     right.y = left.y;
@@ -358,10 +358,15 @@ namespace {
 Rectf
 make_edge(int x1, int y1, int x2, int y2)
 {
-  if(y1 < y2) {
-    return Rectf(Vector(x1, y1), Vector(x2, y2));
-  } else {
-    return Rectf(Vector(x2, y2), Vector(x1, y1));
+  if(y1 < y2)
+  {
+    return Rectf(Vector(static_cast<float>(x1), static_cast<float>(y1)),
+                 Vector(static_cast<float>(x2), static_cast<float>(y2)));
+  }
+  else
+  {
+    return Rectf(Vector(static_cast<float>(x2), static_cast<float>(y2)),
+                 Vector(static_cast<float>(x1), static_cast<float>(y1)));
   }
 }
 

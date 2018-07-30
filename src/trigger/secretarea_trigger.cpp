@@ -94,7 +94,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
   if (message_timer.started()) {
     context.push_transform();
     context.set_translation(Vector(0, 0));
-    Vector pos = Vector(0, SCREEN_HEIGHT/2 - Resources::normal_font->get_height()/2);
+    Vector pos = Vector(0, static_cast<float>(SCREEN_HEIGHT) / 2.0f - Resources::normal_font->get_height() / 2.0f);
     context.color().draw_center_text(Resources::normal_font, message, pos, LAYER_HUD, SecretAreaTrigger::text_color);
     context.pop_transform();
   }

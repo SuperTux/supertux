@@ -267,8 +267,9 @@ void
 GameSession::draw_pause(DrawingContext& context)
 {
   context.color().draw_filled_rect(
-    Vector(0,0), Vector(context.get_width(), context.get_height()),
-    Color(0.0f, 0.0f, 0.0f, .25f), LAYER_FOREGROUND1);
+    Vector(0,0), Vector(static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
+    Color(0.0f, 0.0f, 0.0f, 0.25f),
+    LAYER_FOREGROUND1);
 }
 
 void
@@ -359,8 +360,7 @@ GameSession::update(float elapsed_time)
     newspawnpoint = "";
     // retain invincibility if the player has it
     if(pastinvincibility) {
-      currentsector->get_players()[0]->invincible_timer.start(
-                                                        newinvincibilityperiod);
+      currentsector->get_players()[0]->invincible_timer.start(static_cast<float>(newinvincibilityperiod));
     }
   }
 

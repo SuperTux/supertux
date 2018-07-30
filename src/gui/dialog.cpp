@@ -187,8 +187,8 @@ Dialog::draw(DrawingContext& context)
                                           (static_cast<float>(context.get_width()) - m_text_size.width - 20.0f) :
                                           static_cast<float>(context.get_width()) / 2.0f - m_text_size.width / 2.0f),
                        static_cast<float>(m_passive ?
-                                          (context.get_height() - m_text_size.height - 65) :
-                                          (context.get_height()/2 - m_text_size.height/2))),
+                                          (static_cast<float>(context.get_height()) - m_text_size.height - 65.0f) :
+                                          (static_cast<float>(context.get_height()) / 2.0f - m_text_size.height / 2.0f))),
                 Sizef(m_text_size.width,
                       m_text_size.height + 44));
 
@@ -222,7 +222,7 @@ Dialog::draw(DrawingContext& context)
   // draw buttons
   for(int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
   {
-    float segment_width = bg_rect.get_width() / m_buttons.size();
+    float segment_width = bg_rect.get_width() / static_cast<float>(m_buttons.size());
     float button_width = segment_width;
     Vector pos(bg_rect.p1.x + segment_width/2.0f + static_cast<float>(i) * segment_width,
                bg_rect.p2.y - 12);

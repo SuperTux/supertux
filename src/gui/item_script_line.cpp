@@ -37,8 +37,10 @@ ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width,
   if ( fl ) {
     r_input += "_";
   }
-  context.color().draw_text(font, r_input, Vector(pos.x + 16, pos.y - int(font->get_height()/2)),
-                              ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::field_color);
+  context.color().draw_text(font, r_input,
+                            Vector(pos.x + 16.0f,
+                                   pos.y - font->get_height() / 2.0f),
+                            ALIGN_LEFT, LAYER_GUI, ColorScheme::Menu::field_color);
 }
 
 int

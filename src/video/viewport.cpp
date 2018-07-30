@@ -37,13 +37,13 @@ apply_pixel_aspect_ratio_pre(const Size& window_size, float pixel_aspect_ratio)
 {
   if (true)
   {
-    return Size(static_cast<int>(window_size.width * pixel_aspect_ratio),
+    return Size(static_cast<int>(static_cast<float>(window_size.width) * pixel_aspect_ratio),
                 window_size.height);
   }
   else
   {
     return Size(window_size.width,
-                static_cast<int>(window_size.height * pixel_aspect_ratio));
+                static_cast<int>(static_cast<float>(window_size.height) * pixel_aspect_ratio));
   }
 }
 

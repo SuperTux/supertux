@@ -62,7 +62,9 @@ SDLLightmap::start_draw()
   }
 
   SDL_SetRenderTarget(m_renderer, m_texture);
-  SDL_RenderSetScale(m_renderer, 1.0f / m_LIGHTMAP_DIV, 1.0f / m_LIGHTMAP_DIV);
+  SDL_RenderSetScale(m_renderer,
+                     1.0f / static_cast<float>(m_LIGHTMAP_DIV),
+                     1.0f / static_cast<float>(m_LIGHTMAP_DIV));
 }
 
 void

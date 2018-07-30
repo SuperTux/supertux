@@ -124,7 +124,7 @@ ScreenManager::draw_fps(DrawingContext& context, float fps_fps)
   const char* fpstext = "FPS";
   context.color().draw_text(
     Resources::small_font, fpstext,
-    Vector(context.get_width() - Resources::small_font->get_text_width(fpstext) - Resources::small_font->get_text_width(" 99999") - BORDER_X,
+    Vector(static_cast<float>(context.get_width()) - Resources::small_font->get_text_width(fpstext) - Resources::small_font->get_text_width(" 99999") - BORDER_X,
            BORDER_Y + 20), ALIGN_LEFT, LAYER_HUD);
   context.color().draw_text(Resources::small_font, str, Vector(static_cast<float>(context.get_width()) - BORDER_X, BORDER_Y + 20), ALIGN_RIGHT, LAYER_HUD);
 }
@@ -142,8 +142,8 @@ ScreenManager::draw_player_pos(DrawingContext& context)
 
     context.color().draw_text(
       Resources::small_font, pos_text,
-      Vector(context.get_width() - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
-             BORDER_Y + 40), ALIGN_LEFT, LAYER_HUD);
+      Vector(static_cast<float>(context.get_width()) - Resources::small_font->get_text_width("99999x99999") - BORDER_X,
+             BORDER_Y + 40.0f), ALIGN_LEFT, LAYER_HUD);
   }
 }
 
@@ -189,7 +189,7 @@ ScreenManager::draw(Compositor& compositor)
 
     if (SDL_GetTicks() - fps_ticks >= 500)
     {
-      m_fps = frame_count / .5f;
+      m_fps = static_cast<float>(frame_count) / 0.5f;
       frame_count = 0;
       fps_ticks = SDL_GetTicks();
     }

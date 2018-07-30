@@ -133,14 +133,14 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           // throw some particles, bigger and more for large icecrusher
           for(int j = 0; j < 9; j++)
           {
-          Sector::current()->add_object(std::make_shared<Particles>(
-                                          Vector(bbox.p2.x - j*8 - 4, bbox.p2.y),
-                                          0, 90-5*j, 140, 380, Vector(0, 300),
-                                          1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1));
-          Sector::current()->add_object(std::make_shared<Particles>(
-                                          Vector(bbox.p1.x + j*8 + 4, bbox.p2.y),
-                                          270+5*j, 360, 140, 380, Vector(0, 300),
-                                          1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1));
+            Sector::current()->add_object(std::make_shared<Particles>(
+                                            Vector(bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f, bbox.p2.y),
+                                            0, 90-5*j, 140, 380, Vector(0.0f, 300.0f),
+                                            1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1));
+            Sector::current()->add_object(std::make_shared<Particles>(
+                                            Vector(bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f, bbox.p2.y),
+                                            270+5*j, 360, 140, 380, Vector(0.0f, 300.0f),
+                                            1, Color(.6f, .6f, .6f), 5, 1.8f, LAYER_OBJECTS+1));
           }
         }
         else {
@@ -158,14 +158,16 @@ IceCrusher::collision_solid(const CollisionHit& hit)
           // throw some particles
           for(int j = 0; j < 5; j++)
           {
-          Sector::current()->add_object(std::make_shared<Particles>(
-                                          Vector(bbox.p2.x - j*8 - 4, bbox.p2.y),
-                                          0, 90+10*j, 140, 260, Vector(0, 300),
-                                          1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1));
-          Sector::current()->add_object(std::make_shared<Particles>(
-                                          Vector(bbox.p1.x + j*8 + 4, bbox.p2.y),
-                                          270+10*j, 360, 140, 260, Vector(0, 300),
-                                          1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1));
+            Sector::current()->add_object(std::make_shared<Particles>(
+                                            Vector(bbox.p2.x - static_cast<float>(j) * 8.0f - 4.0f,
+                                                   bbox.p2.y),
+                                            0, 90+10*j, 140, 260, Vector(0, 300),
+                                            1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1));
+            Sector::current()->add_object(std::make_shared<Particles>(
+                                            Vector(bbox.p1.x + static_cast<float>(j) * 8.0f + 4.0f,
+                                                   bbox.p2.y),
+                                            270+10*j, 360, 140, 260, Vector(0, 300),
+                                            1, Color(.6f, .6f, .6f), 4, 1.6f, LAYER_OBJECTS+1));
           }
         }
         set_state(RECOVERING);
@@ -284,7 +286,8 @@ IceCrusher::eye_position(bool right) const
       int weight_x = sprite->get_width()/64 * (((displacement_x > 0) == right) ? 1 : 4);
       int weight_y = sprite->get_width()/64 * 2;
 
-      return Vector(displacement_x/displacement_mag * weight_x, displacement_y/displacement_mag * weight_y - weight_y);
+      return Vector(displacement_x / displacement_mag * static_cast<float>(weight_x),
+                    displacement_y / displacement_mag * static_cast<float>(weight_y) - static_cast<float>(weight_y));
     }
   }
   else if(state == RECOVERING)
@@ -292,14 +295,15 @@ IceCrusher::eye_position(bool right) const
     // Eyes spin while icecrusher is recovering, giving a dazed impression
     return Vector(sinf((right ? 1 : -1) * // X motion of each eye is opposite of the other
                        (get_pos().y/13 - // Phase factor due to y position
-                        (ic_size==NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + cooldown_timer*13)) * //Phase factor due to cooldown timer
-                  sprite->get_width()/64 * 2 - (right ? 1 : -1) * // Amplitude dependent on size
-                  sprite->get_width()/64 * 2, // Offset to keep eyes visible
-                  cosf((right ? 3.1415f : 0) + // Eyes spin out of phase of eachother
-                       get_pos().y/13 - // Phase factor due to y position
-                       (ic_size==NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + cooldown_timer*13) * //Phase factor due to cooldown timer
-                  sprite->get_width()/64 * 2 -  // Amplitude dependent on size
-                  sprite->get_width()/64 * 2); // Offset to keep eyes visible
+                        (ic_size==NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + cooldown_timer * 13.0f)) * //Phase factor due to cooldown timer
+                  static_cast<float>(sprite->get_width()) / 64.0f * 2.0f - (right ? 1 : -1) * // Amplitude dependent on size
+                  static_cast<float>(sprite->get_width()) / 64.0f * 2.0f, // Offset to keep eyes visible
+
+                  cosf((right ? 3.1415f : 0.0f) + // Eyes spin out of phase of eachother
+                       get_pos().y / 13.0f - // Phase factor due to y position
+                       (ic_size==NORMAL ? RECOVER_SPEED_NORMAL : RECOVER_SPEED_LARGE) + cooldown_timer * 13.0f) * //Phase factor due to cooldown timer
+                  static_cast<float>(sprite->get_width()) / 64.0f * 2.0f -  // Amplitude dependent on size
+                  static_cast<float>(sprite->get_width()) / 64.0f * 2.0f); // Offset to keep eyes visible
   }
 
   return Vector(0,0);

@@ -33,7 +33,7 @@ BouncyCoin::BouncyCoin(const Vector& pos, bool emerge, const std::string& sprite
   timer.start(LIFE_TIME);
 
   if(emerge) {
-    emerge_distance = sprite->get_height();
+    emerge_distance = static_cast<float>(sprite->get_height());
   }
 }
 

@@ -67,7 +67,7 @@ EditorLayersGui::draw(DrawingContext& context) {
       break;
     case HI_SECTOR:
       target_rect = Rectf(Vector(static_cast<float>(Xpos), static_cast<float>(Ypos)),
-                          Vector(sector_text_width + static_cast<float>(Xpos), static_cast<float>(SCREEN_HEIGHT)));
+                          Vector(static_cast<float>(sector_text_width + Xpos), static_cast<float>(SCREEN_HEIGHT)));
       break;
     case HI_LAYERS: {
       Vector coords = get_layer_coords(hovered_layer);
@@ -256,7 +256,7 @@ EditorLayersGui::get_layer_coords(const int pos) const {
 
 int
 EditorLayersGui::get_layer_pos(const Vector& coords) const {
-  return static_cast<int>((coords.x - Xpos - sector_text_width) / 35);
+  return static_cast<int>((coords.x - static_cast<float>(Xpos) - static_cast<float>(sector_text_width)) / 35.0f);
 }
 
 bool

@@ -332,8 +332,8 @@ TileMap::draw(DrawingContext& context)
   float trans_x = roundf(context.get_translation().x);
   float trans_y = roundf(context.get_translation().y);
   bool normal_speed = editor_active && Editor::is_active();
-  context.set_translation(Vector(int(trans_x * (normal_speed ? 1 : speed_x)),
-                                 int(trans_y * (normal_speed ? 1 : speed_y))));
+  context.set_translation(Vector(static_cast<float>(static_cast<int>(trans_x * (normal_speed ? 1.0f : speed_x))),
+                                 static_cast<float>(static_cast<int>(trans_y * (normal_speed ? 1.0f : speed_y)))));
 
   Rectf draw_rect = context.get_cliprect();
   Rect t_draw_rect = get_tiles_overlapping(draw_rect);
@@ -384,7 +384,7 @@ TileMap::draw(DrawingContext& context)
           int h = image->get_height();
           if (h <= 32) continue;
 
-          if (pos.y + h > start.y)
+          if (pos.y + static_cast<float>(h) > start.y)
             tile->draw(canvas, pos, z_pos, current_tint);
         }
       }
@@ -406,7 +406,8 @@ TileMap::draw(DrawingContext& context)
           int h = image->get_height();
           if (w <= 32 && h <= 32) continue;
 
-          if (pos.x + w > start.x && pos.y + h > start.y)
+          if (pos.x + static_cast<float>(w) > start.x &&
+              pos.y + static_cast<float>(h) > start.y)
             tile->draw(canvas, pos, z_pos, current_tint);
         }
       }

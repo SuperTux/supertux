@@ -33,10 +33,10 @@ private:
 public:
   GLSurfaceData(const Surface& surface_) :
     surface(surface_),
-    uv_left(static_cast<float>(surface.get_x()) / surface.get_texture()->get_texture_width()),
-    uv_top(static_cast<float>(surface.get_y()) / surface.get_texture()->get_texture_height()),
-    uv_right(static_cast<float>(surface.get_x() + surface.get_width()) / surface.get_texture()->get_texture_width()),
-    uv_bottom(static_cast<float>(surface.get_y() + surface.get_height()) / surface.get_texture()->get_texture_height())
+    uv_left(static_cast<float>(surface.get_x()) / static_cast<float>(surface.get_texture()->get_texture_width())),
+    uv_top(static_cast<float>(surface.get_y()) / static_cast<float>(surface.get_texture()->get_texture_height())),
+    uv_right(static_cast<float>(surface.get_x() + surface.get_width()) / static_cast<float>(surface.get_texture()->get_texture_width())),
+    uv_bottom(static_cast<float>(surface.get_y() + surface.get_height()) / static_cast<float>(surface.get_texture()->get_texture_height()))
   {
   }
 

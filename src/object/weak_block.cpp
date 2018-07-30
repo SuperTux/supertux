@@ -131,7 +131,9 @@ WeakBlock::update(float )
         // cause burn light to flicker randomly
         if (linked) {
           if(gameRandom.rand(10) >= 7) {
-            lightsprite->set_color(Color(0.2f + gameRandom.rand(20)/100.0f, 0.1f + gameRandom.rand(20)/100.0f, 0.1f));
+            lightsprite->set_color(Color(0.2f + gameRandom.randf(20.0f) / 100.0f,
+                                         0.1f + gameRandom.randf(20.0f)/100.0f,
+                                         0.1f));
           } else
             lightsprite->set_color(Color(0.3f, 0.2f, 0.1f));
         }

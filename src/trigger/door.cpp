@@ -55,7 +55,7 @@ Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoin
   sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
   stay_open_timer()
 {
-  bbox.set_pos(Vector(x, y));
+  bbox.set_pos(Vector(static_cast<float>(x), static_cast<float>(y)));
 
   sprite->set_action("closed");
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());

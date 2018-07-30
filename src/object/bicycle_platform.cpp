@@ -106,8 +106,8 @@ BicyclePlatform::update(float elapsed_time)
   }
   if (this == slave) {
     angle = master->angle + static_cast<float>(M_PI);
-    while (angle < 0) { angle += 2*M_PI; }
-    while (angle > 2*M_PI) { angle -= 2*M_PI; }
+    while (angle < 0) { angle += 2.0f * static_cast<float>(M_PI); }
+    while (angle > 2*M_PI) { angle -= 2.0f * static_cast<float>(M_PI); }
     Vector dest_ = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size().as_vector() * 0.5);
     movement = dest_ - get_pos();
   }
@@ -118,11 +118,11 @@ BicyclePlatform::update(float elapsed_time)
 
     float angular_momentum = cosf(angle) * momentum_diff;
 
-    angular_speed += (angular_momentum * elapsed_time) * M_PI;
-    angular_speed *= 1 - elapsed_time * 0.2;
+    angular_speed += (angular_momentum * elapsed_time) * static_cast<float>(M_PI);
+    angular_speed *= 1.0f - elapsed_time * 0.2f;
     angle += angular_speed * elapsed_time;
-    while (angle < 0) { angle += 2*M_PI; }
-    while (angle > 2*M_PI) { angle -= 2*M_PI; }
+    while (angle < 0) { angle += 2 * static_cast<float>(M_PI); }
+    while (angle > 2*M_PI) { angle -= 2.0f * static_cast<float>(M_PI); }
     angular_speed = std::min(std::max(angular_speed, static_cast<float>(-128*M_PI*elapsed_time)), static_cast<float>(128*M_PI*elapsed_time));
     Vector dest_ = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size().as_vector() * 0.5);
     movement = dest_ - get_pos();
