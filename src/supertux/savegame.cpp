@@ -270,7 +270,7 @@ Savegame::save()
     scripting::save_squirrel_table(vm, -1, writer);
     sq_pop(vm, 1); // Pop "state"
   }
-  catch(const std::exception& ex)
+  catch(const std::exception&)
   {
   }
   sq_pop(vm, 1); // Pop root table

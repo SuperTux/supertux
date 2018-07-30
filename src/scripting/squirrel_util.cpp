@@ -532,7 +532,7 @@ void get_or_create_table_entry(HSQUIRRELVM vm, const std::string& name)
   {
     get_table_entry(vm, name);
   }
-  catch(std::exception& e)
+  catch(std::exception&)
   {
     create_empty_table(vm, name.c_str());
     get_table_entry(vm, name);
