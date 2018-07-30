@@ -68,6 +68,8 @@ With no newline before the `{`.
 
 Use `final` and `override` keywords.
 
+Use `static_cast` and `reinterpret_cast`, not old style C casts.
+
 Compile with a maximum warning level and with `-Werror`. This can be accomplished with:
 
 ```console
