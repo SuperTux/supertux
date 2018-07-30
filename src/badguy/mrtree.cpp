@@ -78,8 +78,8 @@ MrTree::collision_squished(GameObject& object)
                          static_cast<float>(stumpy->get_bbox().p1.y) - 5.0f);
     float angle = graphicsRandom.randf(static_cast<float>(-M_PI_2), static_cast<float>(M_PI_2));
     float velocity = graphicsRandom.randf(45, 90);
-    float vx = sin(angle)*velocity;
-    float vy = -cos(angle)*velocity;
+    float vx = sinf(angle)*velocity;
+    float vy = -cosf(angle)*velocity;
     Vector pspeed = Vector(vx, vy);
     Vector paccel = Vector(0, Sector::current()->get_gravity()*10);
     Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/leaf.sprite",

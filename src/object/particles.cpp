@@ -52,10 +52,10 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
 
     float angle = graphicsRandom.randf(static_cast<float>(min_angle), static_cast<float>(max_angle))
       * (static_cast<float>(M_PI) / 180.0f);  // convert to radius (radians?)
-    particle->vel.x = /*fabs*/(sin(angle)) * initial_velocity.x;
+    particle->vel.x = /*fabs*/(sinf(angle)) * initial_velocity.x;
     //    if(angle >= M_PI && angle < M_PI*2)
     //      particle->vel.x *= -1;  // work around to fix signal
-    particle->vel.y = /*fabs*/(cos(angle)) * initial_velocity.y;
+    particle->vel.y = /*fabs*/(cosf(angle)) * initial_velocity.y;
     //    if(angle >= M_PI_2 && angle < 3*M_PI_2)
     //      particle->vel.y *= -1;
 
@@ -94,8 +94,8 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
     float angle = (min_angle == max_angle) ? static_cast<float>(min_angle) * (static_cast<float>(M_PI) / 180.0f) :
       graphicsRandom.randf(static_cast<float>(min_angle), static_cast<float>(max_angle)) * (static_cast<float>(M_PI) / 180.0f);  // convert to radians
     // Note that angle defined as clockwise from vertical (up is zero degrees, right is 90 degrees)
-    particle->vel.x = (sin(angle)) * velocity;
-    particle->vel.y = (-cos(angle)) * velocity;
+    particle->vel.x = (sinf(angle)) * velocity;
+    particle->vel.y = (-cosf(angle)) * velocity;
 
     particles.push_back(std::move(particle));
   }

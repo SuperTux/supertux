@@ -324,8 +324,8 @@ void
 Camera::shake()
 {
   if(shaketimer.started()) {
-    translation.x -= sin(shaketimer.get_timegone() * shakespeed) * shakedepth_x;
-    translation.y -= sin(shaketimer.get_timegone() * shakespeed) * shakedepth_y;
+    translation.x -= sinf(shaketimer.get_timegone() * shakespeed) * shakedepth_x;
+    translation.y -= sinf(shaketimer.get_timegone() * shakespeed) * shakedepth_y;
   }
 }
 

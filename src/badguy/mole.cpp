@@ -78,8 +78,8 @@ void
 Mole::throw_rock()
 {
   float angle = gameRandom.randf(90.0f - 15.0f, 90.0f + 15.0f) * (static_cast<float>(M_PI) / 180.0f);
-  float vx = cos(angle) * THROW_VELOCITY;
-  float vy = -sin(angle) * THROW_VELOCITY;
+  float vx = cosf(angle) * THROW_VELOCITY;
+  float vy = -sinf(angle) * THROW_VELOCITY;
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
   Sector::current()->add_object(std::make_shared<MoleRock>(bbox.get_middle(), Vector(vx, vy), this));
