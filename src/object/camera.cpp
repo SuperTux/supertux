@@ -438,7 +438,7 @@ Camera::update_scroll_normal(float elapsed_time)
     }
 
     float peek_move = (peek_to - peek_pos.y) * PEEK_ARRIVE_RATIO;
-    if(fabs(peek_move) < 1.0) {
+    if(fabsf(peek_move) < 1.0) {
       peek_move = 0.0;
     }
 
@@ -609,7 +609,7 @@ Camera::update_scroll_normal(float elapsed_time)
     }
 
     float peek_move = (peek_to - peek_pos.x) * PEEK_ARRIVE_RATIO;
-    if(fabs(peek_move) < 1.0) {
+    if(fabsf(peek_move) < 1.0) {
       peek_move = 0.0;
     }
 

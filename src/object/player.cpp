@@ -461,7 +461,7 @@ Player::is_big() const
 void
 Player::apply_friction()
 {
-  if ((on_ground()) && (fabs(physic.get_velocity_x()) < WALK_SPEED)) {
+  if ((on_ground()) && (fabsf(physic.get_velocity_x()) < WALK_SPEED)) {
     physic.set_velocity_x(0);
     physic.set_acceleration_x(0);
   } else {
@@ -524,7 +524,7 @@ Player::handle_horizontal_input()
   }
 
   // we can reach WALK_SPEED without any acceleration
-  if(dirsign != 0 && fabs(vx) < WALK_SPEED) {
+  if(dirsign != 0 && fabsf(vx) < WALK_SPEED) {
     vx = dirsign * WALK_SPEED;
   }
 
@@ -538,7 +538,7 @@ Player::handle_horizontal_input()
   if ((vx < 0 && dirsign >0) || (vx>0 && dirsign<0)) {
     if(on_ground()) {
       // let's skid!
-      if(fabs(vx)>SKID_XM && !skidding_timer.started()) {
+      if(fabsf(vx)>SKID_XM && !skidding_timer.started()) {
         skidding_timer.start(SKID_TIME);
         SoundManager::current()->play("sounds/skid.wav");
         // dust some particles
@@ -706,9 +706,9 @@ Player::handle_vertical_input()
       // airflower allows for higher jumps-
       // jump a bit higher if we are running; else do a normal jump
       if(player_status->bonus == AIR_BONUS)
-        do_jump((fabs(physic.get_velocity_x()) > MAX_WALK_XM) ? -620 : -580);
+        do_jump((fabsf(physic.get_velocity_x()) > MAX_WALK_XM) ? -620 : -580);
       else
-        do_jump((fabs(physic.get_velocity_x()) > MAX_WALK_XM) ? -580 : -520);
+        do_jump((fabsf(physic.get_velocity_x()) > MAX_WALK_XM) ? -580 : -520);
     }
     // airflower glide only when holding jump key
   } else  if (controller->hold(Controller::JUMP) && player_status->bonus == AIR_BONUS && physic.get_velocity_y() > MAX_GLIDE_YM) {
