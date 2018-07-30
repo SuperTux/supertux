@@ -25,7 +25,7 @@ Vector Vector::unit() const
 
 float Vector::norm() const
 {
-  return sqrt(x*x + y*y);
+  return sqrtf(x*x + y*y);
 }
 
 /* EOF */

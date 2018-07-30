@@ -135,7 +135,7 @@ void SnowParticleSystem::update(float elapsed_time)
       assert(false);
   }
 
-  float sq_g = sqrt(Sector::current()->get_gravity());
+  float sq_g = sqrtf(Sector::current()->get_gravity());
 
   for(auto& part : particles) {
     auto particle = dynamic_cast<SnowParticle*>(part.get());
