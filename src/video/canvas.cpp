@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include "supertux/globals.hpp"
+#include "util/log.hpp"
 #include "util/obstackpp.hpp"
 #include "video/drawing_request.hpp"
 #include "video/lightmap.hpp"
@@ -132,7 +133,8 @@ Canvas::render(VideoSystem& video_system, Filter filter)
             lightmap.draw_filled_rect(request);
             break;
           case INVERSEELLIPSE:
-            assert(!"InverseEllipse doesn't make sense on the lightmap");
+            log_warning << "InverseEllipse doesn't make sense on the lightmap" << std::endl;
+            assert(false);
             break;
           case GETLIGHT:
             lightmap.get_light(request);

@@ -263,7 +263,8 @@ OptionsMenu::menu_action(MenuItem* item)
         }
         else
         {
-          assert(!"This must not be reached");
+          log_fatal << "Invalid aspect ratio " << aspect_ratios[next_aspect_ratio] << " specified" << std::endl;
+          assert(false);
         }
       }
       break;

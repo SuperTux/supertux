@@ -399,7 +399,8 @@ WorldMap::path_ok(const Direction& direction, const Vector& old_pos, Vector* new
                 && new_tile_data & Tile::WORLDMAP_NORTH);
 
       case D_NONE:
-        assert(!"path_ok() can't walk if direction is NONE");
+        log_warning << "path_ok() can't walk if direction is NONE" << std::endl;
+        assert(false);
     }
     return false;
   }

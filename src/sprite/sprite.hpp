@@ -103,7 +103,7 @@ public:
   }
   SurfacePtr get_frame(int frame_) const
   {
-    assert(frame_ < action->surfaces.size());
+    assert(frame_ < static_cast<int>(action->surfaces.size()));
     return action->surfaces[frame_];
   }
 
