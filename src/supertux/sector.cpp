@@ -1028,9 +1028,11 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
 {
   std::set< CollisionHit > colhits;
   std::list< MovingObject* > nearby;
-  broadphase->search(object.get_bbox().grown(10), []{},
-              nearby);
-  for (auto& moving_object : nearby) {
+  std::list< MovingObject* > possible_neighbours;
+
+  //broadphase->search(object.get_bbox().grown(10), []{},
+  //            nearby);
+  for (auto& moving_object : moving_objects) {
 
     if (moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
@@ -1047,11 +1049,11 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       if (!collision::intersects(dest, moving_object->get_bbox()))
         continue;
       //AABBPolygon* mobjp = get_mobject_poly(&object);
-      std::unique_ptr<AABBPolygon> mobjp(new AABBPolygon(dest));
-      std::unique_ptr<AABBPolygon> tile_poly(new AABBPolygon(moving_object->get_bbox()));
+      std::unique_ptr<AABBPolygon> mobjp(new AABBPolygon(dest, false));
+      std::unique_ptr<AABBPolygon> tile_poly(new AABBPolygon(moving_object->get_bbox(), false));
       Manifold m;
       CollisionHit h;
-      std::list< MovingObject* > possible_neighbours;
+      possible_neighbours.clear();
       broadphase->search(moving_object->get_bbox().grown(2), []{},
                   possible_neighbours);
       for (const auto& mobject : possible_neighbours) {
@@ -1069,8 +1071,7 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
         continue;
       Vector overlapV = m.normal*m.depth;
       h.right = h.left = h.bottom = h.top = false;
-       if (std::max(std::abs(overlapV.x), std::abs(overlapV.y))
-          == std::abs(overlapV.x)) {
+       if (std::abs(overlapV.x) > std::abs(overlapV.y)) {
         h.right = overlapV.x > 0;
         h.left =  overlapV.x < 0;
       } else {
@@ -1079,11 +1080,14 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
         // log_debug << "*** TOP OR BOT "<< std::endl << m.normal.x << " " << m.normal.y << std::endl;
       }
       moving_object->collision(object, h);
+
+
+
+      moving_object->collision(object, h);
       std::swap(h.top, h.bottom);
       std::swap(h.right, h.left);
-
-      m.normal = m.normal;
-      m.depth = m.depth;
+      m.normal = overlapV;
+      m.depth = 1;
       colhits.insert(h);
       contacts.push_back(m);
       // Insert into collision graph

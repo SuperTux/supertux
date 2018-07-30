@@ -19,5 +19,7 @@ public:
   Vector p2;
   /** use an array to make stuff even faster */
   bool normal_enabled[4] = {true, true, true, true};
+  bool constructed_parent;
+  const Rectf& m_aabb;
 };
 #endif

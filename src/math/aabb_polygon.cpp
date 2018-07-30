@@ -4,7 +4,9 @@
 // TODO Introduce mode in which add_vertice is not called (=> for tilemap collisions)
 AABBPolygon::AABBPolygon(const Rectf& aabb, bool construct_parent):
   p1(aabb.p1),
-  p2(aabb.p2) {
+  p2(aabb.p2),
+  constructed_parent(construct_parent),
+  m_aabb(aabb) {
   if(construct_parent)
   {
     Polygon::add_vertice(p1);
@@ -49,8 +51,8 @@ void AABBPolygon::process_neighbor(const Rectf& r) {
   if (edge_equal(p1, bot_l, neigh_top_r, r.p2)) {
     idx = 3;
   }
-  if (idx != -1)
-    disabled_normals[idx] = true;
+  //if (idx != -1)
+    //disabled_normals[idx] = true;
 }
 /** Used for processing tile neighbours. */
 void AABBPolygon::process_neighbor(int xoffset, int yoffset) {
@@ -71,45 +73,47 @@ void AABBPolygon::process_neighbor(int xoffset, int yoffset) {
     idx = 1;
   }
   assert(idx != -1);
-  disabled_normals[idx] = true;
+  //disabled_normals[idx] = true;
 }
 
 void AABBPolygon::handle_collision(const AABBPolygon& b, Manifold& m) {
-  Polygon::handle_collision(b,m);
-  return;
   // TODO(christ2go) Replace with AABB-Polygons own routine
-  double overlap_x = 0, overlap_y = 0;
-  double dx = p1.x - b.p1.x;
-  overlap_x = (b.p2.x-b.p1.x)/2.0 + (p2.x-p1.x)/2.0  - std::abs(dx);
-  double dy = p1.y - b.p1.y;
-  overlap_y = (b.p2.y-b.p1.y)/2.0 + (p2.y-p1.y)/2.0 - std::abs(dy);
+  //Polygon::handle_collision(b, m);
+  float itop = b.m_aabb.get_bottom() - m_aabb.get_top();
+  float ibottom = m_aabb.get_bottom() - b.m_aabb.get_top();
+  float ileft = b.m_aabb.get_right() - m_aabb.get_left();
+  float iright = m_aabb.get_right() - b.m_aabb.get_left();
 
-  if(overlap_x > 0.001 && overlap_y > 0.001)
-  {
-    m.collided = false;
+  float vert_penetration = std::min(itop, ibottom);
+  float horiz_penetration = std::min(ileft, iright);
+  if(vert_penetration < 0 || horiz_penetration < 0)
     return;
-  }
-  log_debug << "Overlap " << overlap_x << " " << overlap_y << std::endl;
-  if (overlap_y < overlap_x)
-  {
-    int sy = dy < 0 ? -1 : 1;
-    m.normal = Vector(0, sy);
-    m.depth = overlap_y;
-  } else {
-    int sx = dx < 0 ? 1 : -1;
-    m.normal = Vector(sx, 0);
-    m.depth = overlap_y;
-  }
   m.collided = true;
+  m.depth = 1;
+  m.normal.x = m.normal.y = 0;
+  if(vert_penetration < horiz_penetration) {
+    if(itop < ibottom) {
+      m.normal.y = vert_penetration;
+    } else {
+      m.normal.y = -vert_penetration;
+    }
+  } else {
+    if(ileft < iright) {
+      m.normal.x = horiz_penetration;
+    } else {
+      m.normal.x = -horiz_penetration;
+    }
+  }
   return;
+  /*
   double min_overlap = 100000.0;
-  if (dx > 0 && !disabled_normals[3] && !b.disabled_normals[1] && overlap_x < min_overlap)
+  if (dx > 0 && !disabled_normals[1] && !b.disabled_normals[3] && overlap_x < min_overlap)
   {
     min_overlap = overlap_x;
     m.normal = Vector(1,0);
     m.depth = overlap_x;
   }
-  if (dx < 0 && !disabled_normals[1] && !b.disabled_normals[3] && overlap_x < min_overlap)
+  if (dx < 0 && !disabled_normals[3] && !b.disabled_normals[1] && overlap_x < min_overlap)
   {
     min_overlap = overlap_x;
     m.normal = Vector(1,0);
@@ -127,7 +131,7 @@ void AABBPolygon::handle_collision(const AABBPolygon& b, Manifold& m) {
     m.depth = overlap_y;
   }
   m.collided = true;
-
+*/
 }
 
 void AABBPolygon::reset_ignored_normals() {

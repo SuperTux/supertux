@@ -24,8 +24,6 @@ void spatial_hashing::insert(const Rectf& aabb, MovingObject* obj) {
   if (obj == NULL)
     return;
   // Check if object si out of bounds
-  if (aabb.p1.x < 0 || aabb.p1.y < 0 || aabb.p2.x > width || aabb.p2.y > height)
-    return;
   // If object is already inserted, check if coordinates changed
   if (current_stored.count(obj)) {
     // If the AABB's are equal ignore insert, else delete and insert
@@ -35,12 +33,15 @@ void spatial_hashing::insert(const Rectf& aabb, MovingObject* obj) {
       return;
     remove(obj);
   }
+  Rectf insertrect =aabb;
   // Get coordinates for top and bottom of AABB
+  insertrect.p1 = Vector( std::max<double>(0, aabb.p1.x), std::max<double>(0, aabb.p1.y));
+  insertrect.p2 = Vector( std::min<double>(width, aabb.p2.x), std::min<double>(height, aabb.p2.y));
   int startx, starty, endx, endy;
-  startx = std::max<int>(0, aabb.p1.x / gridx);
-  starty = std::max<int>(0, aabb.p1.y / gridy);
-  endx   = std::min<int>(rows, aabb.p2.x / gridx);
-  endy   = std::min<int>(cols, aabb.p2.y / gridy);
+  startx = std::max<int>(0, insertrect.p1.x / gridx);
+  starty = std::max<int>(0, insertrect.p1.y / gridy);
+  endx   = std::min<int>(rows, insertrect.p2.x / gridx);
+  endy   = std::min<int>(cols, insertrect.p2.y / gridy);
   //log_debug << startx << " " << starty << " " << endx << " " << endy << " " << grid.size() << " " << grid[0].size() << std::endl;
   for(int xcoord = startx ; xcoord <= endx ; xcoord++)
   {
@@ -58,12 +59,14 @@ void spatial_hashing::search(const Rectf& r, std::function<void()> collision_ok,
 {
   if(r.p1.x < 0 || r.p1.y < 0 || r.p2.x > width || r.p2.y > height)
     return;
-
+  Rectf insertrect = r;
+  insertrect.p1 = Vector( std::max<double>(0, r.p1.x), std::max<double>(0, r.p1.y));
+  insertrect.p2 = Vector( std::min<double>(width, r.p2.x), std::min<double>(height, r.p2.y));
   int startx, starty, endx, endy;
-  startx = std::max<int>(0, r.p1.x / gridx);
-  starty = std::max<int>(0, r.p1.y / gridy);
-  endx   = std::min<int>(rows, r.p2.x / gridx);
-  endy   = std::min<int>(cols, r.p2.y / gridy);
+  startx = std::max<int>(0, insertrect.p1.x / gridx);
+  starty = std::max<int>(0, insertrect.p1.y / gridy);
+  endx   = std::min<int>(rows, insertrect.p2.x / gridx);
+  endy   = std::min<int>(cols, insertrect.p2.y / gridy);
 
   for (int xcoord = startx ; xcoord <= endx ; xcoord++)
   {
