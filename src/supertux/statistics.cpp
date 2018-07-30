@@ -83,7 +83,7 @@ Statistics::calculate_max_caption_length()
                  font->get_text_width("XX:XX:XX");
     if(width >= max_width)
     {
-      max_width = width;
+      max_width = static_cast<int>(width);
     }
   }
 }
@@ -172,7 +172,7 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
         stat_buf = time_to_string(time);
         break;
       case 4:
-        if(target_time) { // display target time only if defined for level
+        if(target_time != 0.0f) { // display target time only if defined for level
           caption_buf = CAPTION_TARGET_TIME;
           stat_buf = time_to_string(target_time);
         } else {
@@ -318,7 +318,7 @@ Statistics::completed(const Statistics& stats, const float target_time) const
   return (stats.coins == stats.total_coins &&
       stats.badguys == stats.total_badguys &&
       stats.secrets == stats.total_secrets &&
-      ((!target_time) || (stats.time <= target_time)));
+      ((target_time == 0.0f) || (stats.time <= target_time)));
 }
 
 void

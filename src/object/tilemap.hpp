@@ -76,10 +76,10 @@ public:
               int xoffset = 0, int yoffset = 0);
   void resize(const Size& newsize, const Size& resize_offset);
 
-  size_t get_width() const
+  int get_width() const
   { return width; }
 
-  size_t get_height() const
+  int get_height() const
   { return height; }
 
   Size get_size() const
@@ -108,7 +108,7 @@ public:
   /* Returns the position of the upper-left corner of
    * tile (x, y) in the sector. */
   Vector get_tile_position(int x, int y) const
-  { return offset + Vector(x,y) * 32; }
+  { return offset + Vector(static_cast<float>(x), static_cast<float>(y)) * 32.0f; }
 
   Rectf get_bbox() const
   { return Rectf(get_tile_position(0, 0), get_tile_position(width, height)); }

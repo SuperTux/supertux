@@ -147,10 +147,10 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
     {
       // if door is open and was touched by a player, teleport the player
       Player* player = dynamic_cast<Player*> (&other);
-      
+
       if (player) {
         bool invincible = player->is_invincible();
-        int invincibilityperiod = player->invincible_timer.get_timeleft();
+        int invincibilityperiod = static_cast<int>(player->invincible_timer.get_timeleft());
         state = CLOSING;
         sprite->set_action("closing", 1);
         if(!script.empty()) {

@@ -43,7 +43,7 @@ uint32_t decode_utf8(const std::string& text, size_t& p)
 {
   uint32_t c1 = static_cast<unsigned char>(text[p+0]);
 
-  if (has_multibyte_mark(c1)) std::runtime_error("Malformed utf-8 sequence");
+  if (has_multibyte_mark(static_cast<unsigned char>(c1))) std::runtime_error("Malformed utf-8 sequence");
 
   if ((c1 & 0200) == 0000) {
     // 0xxx.xxxx: 1 byte sequence
@@ -54,7 +54,7 @@ uint32_t decode_utf8(const std::string& text, size_t& p)
     // 110x.xxxx: 2 byte sequence
     if(p+1 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
     uint32_t c2 = static_cast<unsigned char>(text[p+1]);
-    if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
+    if (!has_multibyte_mark(static_cast<unsigned char>(c2))) throw std::runtime_error("Malformed utf-8 sequence");
     p+=2;
     return (c1 & 0037) << 6 | (c2 & 0077);
   }
@@ -63,8 +63,8 @@ uint32_t decode_utf8(const std::string& text, size_t& p)
     if(p+2 >= text.size()) throw std::range_error("Malformed utf-8 sequence");
     uint32_t c2 = static_cast<unsigned char>(text[p+1]);
     uint32_t c3 = static_cast<unsigned char>(text[p+2]);
-    if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
-    if (!has_multibyte_mark(c3)) throw std::runtime_error("Malformed utf-8 sequence");
+    if (!has_multibyte_mark(static_cast<unsigned char>(c2))) throw std::runtime_error("Malformed utf-8 sequence");
+    if (!has_multibyte_mark(static_cast<unsigned char>(c3))) throw std::runtime_error("Malformed utf-8 sequence");
     p+=3;
     return (c1 & 0017) << 12 | (c2 & 0077) << 6 | (c3 & 0077);
   }
@@ -74,9 +74,9 @@ uint32_t decode_utf8(const std::string& text, size_t& p)
     uint32_t c2 = static_cast<unsigned char>(text[p+1]);
     uint32_t c3 = static_cast<unsigned char>(text[p+2]);
     uint32_t c4 = static_cast<unsigned char>(text[p+4]);
-    if (!has_multibyte_mark(c2)) throw std::runtime_error("Malformed utf-8 sequence");
-    if (!has_multibyte_mark(c3)) throw std::runtime_error("Malformed utf-8 sequence");
-    if (!has_multibyte_mark(c4)) throw std::runtime_error("Malformed utf-8 sequence");
+    if (!has_multibyte_mark(static_cast<unsigned char>(c2))) throw std::runtime_error("Malformed utf-8 sequence");
+    if (!has_multibyte_mark(static_cast<unsigned char>(c3))) throw std::runtime_error("Malformed utf-8 sequence");
+    if (!has_multibyte_mark(static_cast<unsigned char>(c4))) throw std::runtime_error("Malformed utf-8 sequence");
     p+=4;
     return (c1 & 0007) << 18 | (c2 & 0077) << 12 | (c3 & 0077) << 6 | (c4 & 0077);
   }

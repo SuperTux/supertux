@@ -99,16 +99,16 @@ JoystickManager::process_hat_event(const SDL_JoyHatEvent& jhat)
   if (wait_for_joystick >= 0)
   {
     if (changed & SDL_HAT_UP && jhat.value & SDL_HAT_UP)
-      m_joystick_config.bind_joyhat(jhat.which, SDL_HAT_UP, Controller::Control(wait_for_joystick));
+      m_joystick_config.bind_joyhat(static_cast<JoystickConfig::JoyId>(jhat.which), SDL_HAT_UP, Controller::Control(wait_for_joystick));
 
     if (changed & SDL_HAT_DOWN && jhat.value & SDL_HAT_DOWN)
-      m_joystick_config.bind_joyhat(jhat.which, SDL_HAT_DOWN, Controller::Control(wait_for_joystick));
+      m_joystick_config.bind_joyhat(static_cast<JoystickConfig::JoyId>(jhat.which), SDL_HAT_DOWN, Controller::Control(wait_for_joystick));
 
     if (changed & SDL_HAT_LEFT && jhat.value & SDL_HAT_LEFT)
-      m_joystick_config.bind_joyhat(jhat.which, SDL_HAT_LEFT, Controller::Control(wait_for_joystick));
+      m_joystick_config.bind_joyhat(static_cast<JoystickConfig::JoyId>(jhat.which), SDL_HAT_LEFT, Controller::Control(wait_for_joystick));
 
     if (changed & SDL_HAT_RIGHT && jhat.value & SDL_HAT_RIGHT)
-      m_joystick_config.bind_joyhat(jhat.which, SDL_HAT_RIGHT, Controller::Control(wait_for_joystick));
+      m_joystick_config.bind_joyhat(static_cast<JoystickConfig::JoyId>(jhat.which), SDL_HAT_RIGHT, Controller::Control(wait_for_joystick));
 
     MenuManager::instance().refresh();
     wait_for_joystick = -1;
@@ -154,9 +154,9 @@ JoystickManager::process_axis_event(const SDL_JoyAxisEvent& jaxis)
   {
     if (abs(jaxis.value) > m_joystick_config.dead_zone) {
       if (jaxis.value < 0)
-        m_joystick_config.bind_joyaxis(jaxis.which, -(jaxis.axis + 1), Controller::Control(wait_for_joystick));
+        m_joystick_config.bind_joyaxis(static_cast<JoystickConfig::JoyId>(jaxis.which), -(jaxis.axis + 1), Controller::Control(wait_for_joystick));
       else
-        m_joystick_config.bind_joyaxis(jaxis.which, jaxis.axis + 1, Controller::Control(wait_for_joystick));
+        m_joystick_config.bind_joyaxis(static_cast<JoystickConfig::JoyId>(jaxis.which), jaxis.axis + 1, Controller::Control(wait_for_joystick));
 
       MenuManager::instance().refresh();
       wait_for_joystick = -1;
@@ -198,7 +198,7 @@ JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
   {
     if(jbutton.state == SDL_PRESSED)
     {
-      m_joystick_config.bind_joybutton(jbutton.which, jbutton.button, static_cast<Controller::Control>(wait_for_joystick));
+      m_joystick_config.bind_joybutton(static_cast<JoystickConfig::JoyId>(jbutton.which), jbutton.button, static_cast<Controller::Control>(wait_for_joystick));
       MenuManager::instance().refresh();
       parent->reset();
       wait_for_joystick = -1;

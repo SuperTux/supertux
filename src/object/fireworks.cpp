@@ -38,8 +38,8 @@ Fireworks::update(float )
   if(timer.check()) {
     auto sector = Sector::current();
     Vector pos = sector->camera->get_translation();
-    pos += Vector(graphicsRandom.randf(SCREEN_WIDTH),
-                  graphicsRandom.randf(SCREEN_HEIGHT/2));
+    pos += Vector(graphicsRandom.randf(static_cast<float>(SCREEN_WIDTH)),
+                  graphicsRandom.randf(static_cast<float>(SCREEN_HEIGHT) / 2.0f));
 
     float red = graphicsRandom.randf(1.0);
     float green = graphicsRandom.randf(1.0);

@@ -72,8 +72,8 @@ inline void intern_draw(float left, float top, float right, float bottom,
     float center_x = (left + right) / 2;
     float center_y = (top + bottom) / 2;
 
-    float sa = sinf(angle/180.0f*M_PI);
-    float ca = cosf(angle/180.0f*M_PI);
+    float sa = sinf(angle / 180.0f * static_cast<float>(M_PI));
+    float ca = cosf(angle / 180.0f * static_cast<float>(M_PI));
 
     left  -= center_x;
     right -= center_x;
@@ -270,8 +270,8 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 
     for(int i = 0; i <= n; ++i)
     {
-      float x = sinf(i * (M_PI/2) / n) * radius;
-      float y = cosf(i * (M_PI/2) / n) * radius;
+      float x = sinf(i * (static_cast<float>(M_PI)/2.0f) / n) * radius;
+      float y = cosf(i * (static_cast<float>(M_PI)/2.0f) / n) * radius;
 
       vertices[p++] = irect.get_left() - x;
       vertices[p++] = irect.get_top()  - y;
@@ -282,8 +282,8 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 
     for(int i = 0; i <= n; ++i)
     {
-      float x = cosf(i * (M_PI/2) / n) * radius;
-      float y = sinf(i * (M_PI/2) / n) * radius;
+      float x = cosf(i * (static_cast<float>(M_PI) / 2.0f) / n) * radius;
+      float y = sinf(i * (static_cast<float>(M_PI) / 2.0f) / n) * radius;
 
       vertices[p++] = irect.get_left()   - x;
       vertices[p++] = irect.get_bottom() + y;
@@ -293,7 +293,7 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
     }
 
     glVertexPointer(2, GL_FLOAT, 0, &*vertices.begin());
-    glDrawArrays(GL_TRIANGLE_STRIP, 0,  vertices.size()/2);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0,  static_cast<GLsizei>(vertices.size() / 2));
   }
   else
   {
@@ -364,11 +364,11 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 
   for(int i = 0; i < slices; ++i)
   {
-    float ex1 = sinf(M_PI/2 / slices * i) * w;
-    float ey1 = cosf(M_PI/2 / slices * i) * h;
+    float ex1 = sinf(static_cast<float>(M_PI) / 2.0f / slices * i) * w;
+    float ey1 = cosf(static_cast<float>(M_PI) / 2.0f / slices * i) * h;
 
-    float ex2 = sinf(M_PI/2 / slices * (i+1)) * w;
-    float ey2 = cosf(M_PI/2 / slices * (i+1)) * h;
+    float ex2 = sinf(static_cast<float>(M_PI) / 2.0f / slices * (i+1)) * w;
+    float ey2 = cosf(static_cast<float>(M_PI) / 2.0f / slices * (i+1)) * h;
 
     // Bottom/Right
     vertices[p++] = screen_width; vertices[p++] = screen_height;

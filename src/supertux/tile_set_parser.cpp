@@ -252,8 +252,8 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
     {
       if (ids[i] != 0)
       {
-        int x = 32*(i % width);
-        int y = 32*(i / width);
+        int x = static_cast<int>(32 * (i % width));
+        int y = static_cast<int>(32 * (i / width));
 
         std::vector<Tile::ImageSpec> tile_imagespecs;
         for(size_t j = 0; j < imagespecs.size(); ++j)

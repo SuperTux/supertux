@@ -126,7 +126,7 @@ ScreenManager::draw_fps(DrawingContext& context, float fps_fps)
     Resources::small_font, fpstext,
     Vector(context.get_width() - Resources::small_font->get_text_width(fpstext) - Resources::small_font->get_text_width(" 99999") - BORDER_X,
            BORDER_Y + 20), ALIGN_LEFT, LAYER_HUD);
-  context.color().draw_text(Resources::small_font, str, Vector(context.get_width() - BORDER_X, BORDER_Y + 20), ALIGN_RIGHT, LAYER_HUD);
+  context.color().draw_text(Resources::small_font, str, Vector(static_cast<float>(context.get_width()) - BORDER_X, BORDER_Y + 20), ALIGN_RIGHT, LAYER_HUD);
 }
 
 void

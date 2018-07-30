@@ -72,8 +72,8 @@ public:
 
   void set_scrolling(int scroll_x, int scroll_y)
   {
-    translation.x = scroll_x;
-    translation.y = scroll_y;
+    translation.x = static_cast<float>(scroll_x);
+    translation.y = static_cast<float>(scroll_y);
   }
 
   /** scroll the upper left edge of the camera in scrolltime seconds

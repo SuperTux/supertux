@@ -64,7 +64,8 @@ EditorInputGui::EditorInputGui() :
 void
 EditorInputGui::draw(DrawingContext& context) {
   //SCREEN_WIDTH SCREEN_HEIGHT
-  context.color().draw_filled_rect(Rectf(Vector(Xpos, 0), Vector(context.get_width(), context.get_height())),
+  context.color().draw_filled_rect(Rectf(Vector(Xpos, 0), Vector(static_cast<float>(context.get_width()),
+                                                                 static_cast<float>(context.get_height()))),
                                      Color(0.9f, 0.9f, 1.0f, 0.6f),
                                      0.0f, LAYER_GUI-10);
   if (dragging) {
@@ -162,13 +163,13 @@ EditorInputGui::update(float elapsed_time) {
     case TS_DOWN: {
       int size;
       if (input_type == IP_OBJECT){
-        size = object_input->groups[active_objectgroup].icons.size();
+        size = static_cast<int>(object_input->groups[active_objectgroup].icons.size());
       } else {
         if(active_tilegroup == NULL)
         {
           return;
         }
-        size = active_tilegroup->tiles.size();
+        size = static_cast<int>(active_tilegroup->tiles.size());
       }
       if (starting_tile < size-5) {
         if(using_scroll_wheel)
@@ -216,12 +217,12 @@ void
 EditorInputGui::update_selection() {
   Rectf select = normalize_selection();
   tiles->tiles.clear();
-  tiles->width = select.get_width() + 1;
-  tiles->height = select.get_height() + 1;
+  tiles->width = static_cast<int>(select.get_width() + 1);
+  tiles->height = static_cast<int>(select.get_height() + 1);
 
-  int size = active_tilegroup->tiles.size();
-  for (int y = select.p1.y; y <= select.p2.y; y++) {
-    for (int x = select.p1.x; x <= select.p2.x; x++) {
+  int size = static_cast<int>(active_tilegroup->tiles.size());
+  for (int y = static_cast<int>(select.p1.y); y <= static_cast<int>(select.p2.y); y++) {
+    for (int x = static_cast<int>(select.p1.x); x <= static_cast<int>(select.p2.x); x++) {
       int tile_pos = y*4 + x + starting_tile;
       if (tile_pos < size && tile_pos >= 0) {
         tiles->tiles.push_back(active_tilegroup->tiles[tile_pos]);
@@ -286,7 +287,7 @@ EditorInputGui::event(SDL_Event& ev) {
               case IP_TILE: {
                 dragging = true;
                 drag_start = Vector(hovered_tile % 4, hovered_tile / 4);
-                int size = active_tilegroup->tiles.size();
+                int size = static_cast<int>(active_tilegroup->tiles.size());
                 int tile_pos = hovered_tile + starting_tile;
                 if (tile_pos < size && tile_pos >= 0) {
                   tiles->set_tile(active_tilegroup->tiles[tile_pos]);
@@ -295,7 +296,7 @@ EditorInputGui::event(SDL_Event& ev) {
                 }
               } break;
               case IP_OBJECT: {
-                int size = object_input->groups[active_objectgroup].icons.size();
+                int size = static_cast<int>(object_input->groups[active_objectgroup].icons.size());
                 if (hovered_tile < size && hovered_tile >= 0) {
                   object = object_input->groups[active_objectgroup].icons[hovered_tile + starting_tile].object_name;
                 }
@@ -454,8 +455,8 @@ EditorInputGui::get_tile_coords(const int pos) const {
 
 int
 EditorInputGui::get_tile_pos(const Vector& coords) const {
-  int x = (coords.x - Xpos) / 32;
-  int y = (coords.y - Ypos) / 32;
+  int x = static_cast<int>((coords.x - Xpos) / 32);
+  int y = static_cast<int>((coords.y - Ypos) / 32);
   return y*4 + x;
 }
 
@@ -468,8 +469,8 @@ EditorInputGui::get_tool_coords(const int pos) const {
 
 int
 EditorInputGui::get_tool_pos(const Vector& coords) const {
-  int x = (coords.x - Xpos) / 32;
-  int y = (coords.y - 44)   / 16;
+  int x = static_cast<int>((coords.x - Xpos) / 32);
+  int y = static_cast<int>((coords.y - 44)   / 16);
   return y*4 + x;
 }
 
@@ -478,8 +479,8 @@ EditorInputGui::get_item_rect(const HoveredItem& item) const
 {
   switch(item)
   {
-    case HI_TILEGROUP: return Rectf(Vector(Xpos, 0), Vector(SCREEN_WIDTH, 22));
-    case HI_OBJECTS:   return Rectf(Vector(Xpos, 22), Vector(SCREEN_WIDTH, 44));
+    case HI_TILEGROUP: return Rectf(Vector(Xpos, 0.0f), Vector(static_cast<float>(SCREEN_WIDTH), 22.0f));
+    case HI_OBJECTS:   return Rectf(Vector(Xpos, 22.0f), Vector(static_cast<float>(SCREEN_WIDTH), 44.0f));
     case HI_TILE:
     {
       auto coords = get_tile_coords(hovered_tile);

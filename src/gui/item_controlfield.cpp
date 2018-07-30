@@ -30,16 +30,18 @@ void
 ItemControlField::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active)
 {
   context.color().draw_text(Resources::normal_font, input,
-                              Vector(pos.x + menu_width - 16, pos.y - int(Resources::normal_font->get_height()/2)),
-                              ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
+                            Vector(pos.x + static_cast<float>(menu_width) - 16.0f,
+                                   pos.y - static_cast<float>(int(Resources::normal_font->get_height()/2))),
+                            ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
   context.color().draw_text(Resources::normal_font, text,
-                              Vector(pos.x + 16, pos.y - int(Resources::normal_font->get_height()/2)),
+                              Vector(pos.x + 16.0f,
+                                     pos.y - static_cast<float>(int(Resources::normal_font->get_height()/2))),
                               ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
 }
 
 int
 ItemControlField::get_width() const {
-  return Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(input) + 16;
+  return static_cast<int>(Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(input) + 16.0f);
 }
 
 /* EOF */

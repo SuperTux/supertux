@@ -112,12 +112,12 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     // TODO: provide convenience function in MovingSprite or MovingObject?
     for (int i = 0; i < 5; i++) {
       Vector ppos = bbox.get_middle();
-      float angle = graphicsRandom.randf(-M_PI_2, M_PI_2);
-      float velocity = graphicsRandom.randf(450, 900);
-      float vx = sin(angle)*velocity;
-      float vy = -cos(angle)*velocity;
+      float angle = graphicsRandom.randf(static_cast<float>(-M_PI_2), static_cast<float>(M_PI_2));
+      float velocity = graphicsRandom.randf(450.0f, 900.0f);
+      float vx = sinf(angle)*velocity;
+      float vy = -cosf(angle)*velocity;
       Vector pspeed = Vector(vx, vy);
-      Vector paccel = Vector(0, 1000);
+      Vector paccel = Vector(0.0f, 1000.0f);
       Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/reset.sprite", "default", ppos, ANCHOR_MIDDLE, pspeed, paccel, LAYER_OBJECTS-1));
     }
 

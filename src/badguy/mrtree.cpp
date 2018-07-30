@@ -74,8 +74,9 @@ MrTree::collision_squished(GameObject& object)
   // spawn some particles
   // TODO: provide convenience function in MovingSprite or MovingObject?
   for (int px = static_cast<int>(stumpy->get_bbox().p1.x); px < static_cast<int>(stumpy->get_bbox().p2.x); px+=10) {
-    Vector ppos = Vector(px, stumpy->get_bbox().p1.y-5);
-    float angle = graphicsRandom.randf(-M_PI_2, M_PI_2);
+    Vector ppos = Vector(static_cast<float>(px),
+                         static_cast<float>(stumpy->get_bbox().p1.y) - 5.0f);
+    float angle = graphicsRandom.randf(static_cast<float>(-M_PI_2), static_cast<float>(M_PI_2));
     float velocity = graphicsRandom.randf(45, 90);
     float vx = sin(angle)*velocity;
     float vy = -cos(angle)*velocity;

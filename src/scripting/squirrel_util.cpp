@@ -146,7 +146,7 @@ std::string squirrel2string(HSQUIRRELVM v, SQInteger i)
 void print_squirrel_stack(HSQUIRRELVM v)
 {
   printf("--------------------------------------------------------------\n");
-  int count = sq_gettop(v);
+  SQInteger count = sq_gettop(v);
   for(int i = 1; i <= count; ++i) {
     printf("%d: ",i);
     switch(sq_gettype(v, i))
@@ -452,7 +452,7 @@ int read_int(HSQUIRRELVM vm, const char* name)
   }
   sq_pop(vm, 1);
 
-  return result;
+  return static_cast<int>(result);
 }
 
 std::string read_string(HSQUIRRELVM vm, const char* name)

@@ -122,7 +122,7 @@ Sprite::update()
 
   if(animation_done()) {
     frame = 0;
-    frameidx = get_frames()-1;
+    frameidx = get_frames() - 1;
   }
 
   assert(frameidx < get_frames());

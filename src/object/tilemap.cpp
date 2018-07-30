@@ -140,7 +140,8 @@ TileMap::TileMap(const TileSet *tileset_, const ReaderMapping& reader) :
     width = 0;
     height = 0;
     tiles.clear();
-    resize(Sector::current()->get_width()/32, Sector::current()->get_height()/32);
+    resize(static_cast<int>(Sector::current()->get_width() / 32.0f),
+           static_cast<int>(Sector::current()->get_height() / 32.0f));
     editor_active = false;
   } else {
     if(!reader.get("tiles", tiles))
@@ -584,8 +585,8 @@ TileMap::change_at(const Vector& pos, uint32_t newtile)
 void
 TileMap::change_all(uint32_t oldtile, uint32_t newtile)
 {
-  for (size_t x = 0; x < get_width(); x++) {
-    for (size_t y = 0; y < get_height(); y++) {
+  for (int x = 0; x < get_width(); x++) {
+    for (int y = 0; y < get_height(); y++) {
       if (get_tile_id(x,y) != oldtile)
         continue;
 

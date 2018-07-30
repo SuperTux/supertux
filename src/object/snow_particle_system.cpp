@@ -70,8 +70,8 @@ void SnowParticleSystem::init()
   timer.start(.01f);
 
   // create some random snowflakes
-  size_t snowflakecount = size_t(virtual_width/10.0);
-  for(size_t i=0; i<snowflakecount; ++i) {
+  int snowflakecount = static_cast<int>(virtual_width / 10.0f);
+  for(int i = 0; i < snowflakecount; ++i) {
     auto particle = std::unique_ptr<SnowParticle>(new SnowParticle);
     int snowsize = graphicsRandom.rand(3);
 
@@ -79,13 +79,13 @@ void SnowParticleSystem::init()
     particle->pos.y = graphicsRandom.randf(SCREEN_HEIGHT);
     particle->anchorx = particle->pos.x + (graphicsRandom.randf(-0.5, 0.5) * 16);
     // drift will change with wind gusts
-    particle->drift_speed = graphicsRandom.randf(-0.5, 0.5) * 0.3;
+    particle->drift_speed = graphicsRandom.randf(-0.5f, 0.5f) * 0.3f;
     particle->wobble = 0.0;
 
     particle->texture = snowimages[snowsize];
-    particle->flake_size = powf(snowsize+3,4); // since it ranges from 0 to 2
+    particle->flake_size = static_cast<int>(powf(static_cast<float>(snowsize) + 3.0f, 4.0f)); // since it ranges from 0 to 2
 
-    particle->speed = 6.32 * (1 + (2 - snowsize)/2 + graphicsRandom.randf(1.8));
+    particle->speed = 6.32f * (1 + (2 - snowsize) / 2 + graphicsRandom.randf(1.8f));
 
     // Spinning
     particle->angle = graphicsRandom.randf(360.0);

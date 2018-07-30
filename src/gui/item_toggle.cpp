@@ -47,7 +47,7 @@ ItemToggle::draw(DrawingContext& context, const Vector& pos, int menu_width, boo
 
 int
 ItemToggle::get_width() const {
-  return Resources::normal_font->get_text_width(text) + 16 + Resources::checkbox->get_width();
+  return static_cast<int>(Resources::normal_font->get_text_width(text)) + 16 + Resources::checkbox->get_width();
 }
 
 void

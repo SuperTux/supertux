@@ -57,7 +57,7 @@ void RainParticleSystem::init()
     int rainsize = graphicsRandom.rand(2);
     particle->texture = rainimages[rainsize];
     do {
-      particle->speed = (rainsize+1)*45 + graphicsRandom.randf(3.6);
+      particle->speed = (rainsize+1)*45 + graphicsRandom.randf(3.6f);
     } while(particle->speed < 1);
 
     particles.push_back(std::move(particle));

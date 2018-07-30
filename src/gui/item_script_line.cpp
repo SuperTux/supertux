@@ -43,7 +43,7 @@ ItemScriptLine::draw(DrawingContext& context, const Vector& pos, int menu_width,
 
 int
 ItemScriptLine::get_width() const {
-  return Console::current()->get_font()->get_text_width(*input) + 16 + flickw;
+  return static_cast<int>(Console::current()->get_font()->get_text_width(*input)) + 16 + flickw;
 }
 
 void

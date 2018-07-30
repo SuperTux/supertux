@@ -165,8 +165,8 @@ SDLLightmap::get_light(const DrawingRequest& request) const
     = static_cast<GetLightRequest*>(request.request_data);
 
   SDL_Rect rect;
-  rect.x = static_cast<int>(request.pos.x / m_LIGHTMAP_DIV);
-  rect.y = static_cast<int>(request.pos.y / m_LIGHTMAP_DIV);
+  rect.x = static_cast<int>(request.pos.x / static_cast<float>(m_LIGHTMAP_DIV));
+  rect.y = static_cast<int>(request.pos.y / static_cast<float>(m_LIGHTMAP_DIV));
   rect.w = 1;
   rect.h = 1;
 

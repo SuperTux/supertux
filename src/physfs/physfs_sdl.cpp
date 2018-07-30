@@ -55,7 +55,7 @@ static size_t  funcRead(struct SDL_RWops* context, void* ptr, size_t  size, size
 {
   PHYSFS_file* file = static_cast<PHYSFS_file*>(context->hidden.unknown.data1);
 
-  int res = PHYSFS_readBytes(file, ptr, size * maxnum);
+  auto res = PHYSFS_readBytes(file, ptr, size * maxnum);
   return res / size;
 }
 

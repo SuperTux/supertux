@@ -54,7 +54,7 @@ FloatingText::update(float elapsed_time)
     remove_me();
 }
 
-#define FADING_TIME .350
+const float FADING_TIME = .350f;
 
 void
 FloatingText::draw(DrawingContext& context)

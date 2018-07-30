@@ -25,7 +25,7 @@ ItemNumField::ItemNumField(const std::string& text_, float* input_, int id_) :
   MenuItem(text_, id_),
   number(input_),
   input(std::to_string(*input_)),
-  flickw(Resources::normal_font->get_text_width("_")),
+  flickw(static_cast<int>(Resources::normal_font->get_text_width("_"))),
   has_comma(true)
 {
   // removing all redundant zeros at the end
@@ -50,16 +50,17 @@ ItemNumField::draw(DrawingContext& context, const Vector& pos, int menu_width, b
     r_input += "_";
   }
   context.color().draw_text(Resources::normal_font, r_input,
-                              Vector(pos.x + menu_width - 16 - (fl ? 0 : flickw), pos.y - int(Resources::normal_font->get_height()/2)),
-                              ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
+                            Vector(pos.x + static_cast<float>(menu_width) - 16 - (fl ? 0 : flickw), pos.y - int(Resources::normal_font->get_height()/2)),
+                            ALIGN_RIGHT, LAYER_GUI, ColorScheme::Menu::field_color);
   context.color().draw_text(Resources::normal_font, text,
-                              Vector(pos.x + 16, pos.y - int(Resources::normal_font->get_height()/2)),
-                              ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+                            Vector(pos.x + 16.0f,
+                                   pos.y - int(Resources::normal_font->get_height() / 2)),
+                            ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
 }
 
 int
 ItemNumField::get_width() const {
-  return Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(input) + 16 + flickw;
+  return static_cast<int>(Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(input)) + 16 + flickw;
 }
 
 void

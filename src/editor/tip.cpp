@@ -61,7 +61,7 @@ Tip::draw(DrawingContext& context, const Vector& pos) {
 
 void
 Tip::draw_up(DrawingContext& context, const Vector& pos) {
-  auto position = Vector(pos.x, pos.y - (strings.size() + 1) * 22 - 35);
+  auto position = Vector(pos.x, pos.y - (static_cast<float>(strings.size()) + 1.0f) * 22.0f - 35.0f);
   draw(context, position);
 }
 

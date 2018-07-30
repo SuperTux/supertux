@@ -67,7 +67,7 @@ MenuItem::get_color() const {
 
 int
 MenuItem::get_width() const {
-  return Resources::normal_font->get_text_width(text) + 16;
+  return static_cast<int>(Resources::normal_font->get_text_width(text)) + 16;
 }
 
 /* EOF */

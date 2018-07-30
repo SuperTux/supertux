@@ -46,7 +46,7 @@ BicyclePlatform::BicyclePlatform(BicyclePlatform* master_) :
   slave(this),
   center(master->center),
   radius(master->radius),
-  angle(master->angle + M_PI),
+  angle(master->angle + static_cast<float>(M_PI)),
   angular_speed(0),
   contacts(),
   momentum(0),
@@ -105,7 +105,7 @@ BicyclePlatform::update(float elapsed_time)
     return;
   }
   if (this == slave) {
-    angle = master->angle + M_PI;
+    angle = master->angle + static_cast<float>(M_PI);
     while (angle < 0) { angle += 2*M_PI; }
     while (angle > 2*M_PI) { angle -= 2*M_PI; }
     Vector dest_ = center + Vector(cosf(angle), sinf(angle)) * radius - (bbox.get_size().as_vector() * 0.5);

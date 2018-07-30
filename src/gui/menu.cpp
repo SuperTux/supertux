@@ -70,7 +70,7 @@ Menu::add_item(std::unique_ptr<MenuItem> new_item)
 
   if (active_item == -1 && !item->skippable())
   {
-    active_item = items.size() - 1;
+    active_item = static_cast<int>(items.size()) - 1;
   }
 
   calculate_width();
@@ -398,13 +398,13 @@ Menu::draw_item(DrawingContext& context, int index)
   MenuItem* pitem = items[index].get();
 
   float x_pos       = pos.x - menu_width_/2;
-  float y_pos       = pos.y + 24*index - menu_height/2 + 12;
+  float y_pos       = pos.y + 24.0f * static_cast<float>(index) - menu_height / 2.0f + 12.0f;
 
-  pitem->draw(context, Vector(x_pos, y_pos), menu_width_, active_item == index);
+  pitem->draw(context, Vector(x_pos, y_pos), static_cast<int>(menu_width_), active_item == index);
 
   if(active_item == index)
   {
-    float blink = (sinf(real_time * M_PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
+    float blink = (sinf(real_time * static_cast<float>(M_PI) * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
     context.color().draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10 - 2, y_pos - 12 - 2),
                                    Vector(pos.x + menu_width_/2 - 10 + 2, y_pos + 12 + 2)),
                              Color(1.0f, 1.0f, 1.0f, blink),
@@ -591,7 +591,7 @@ Menu::set_active_item(int id)
 {
   for(size_t i = 0; i < items.size(); ++i) {
     if(items[i]->id == id) {
-      active_item = i;
+      active_item = static_cast<int>(i);
       break;
     }
   }

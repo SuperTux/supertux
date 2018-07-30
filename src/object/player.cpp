@@ -851,12 +851,12 @@ Player::handle_input()
     stone = false;
     for (int i = 0; i < 8; i++)
     {
-      Vector ppos = Vector(bbox.get_left() + 8 + 16*(static_cast<int>(i)/4), bbox.get_top() + 16*(i%4));
+      Vector ppos = Vector(bbox.get_left() + 8 + 16 * (static_cast<int>(i)/4), bbox.get_top() + 16*(i%4));
       float grey = graphicsRandom.randf(.4f, .8f);
       Color pcolor = Color(grey, grey, grey);
-      Sector::current()->add_object(std::make_shared<Particles>(ppos, -60, 240, 42, 81, Vector(0, 500),
-                                                                8, pcolor, 4 + graphicsRandom.randf(-0.4, 0.4),
-                                                                0.8 + graphicsRandom.randf(0, 0.4), LAYER_OBJECTS+2));
+      Sector::current()->add_object(std::make_shared<Particles>(ppos, -60, 240, 42, 81, Vector(0.0f, 500.0f),
+                                                                8, pcolor, 4 + graphicsRandom.randf(-0.4f, 0.4f),
+                                                                0.8f + graphicsRandom.randf(0.0f, 0.4f), LAYER_OBJECTS + 2));
     }
   }
 

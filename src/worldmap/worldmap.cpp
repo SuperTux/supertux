@@ -488,15 +488,15 @@ WorldMap::clamp_camera_position(Vector& c) const
   if (c.y < 0)
     c.y = 0;
 
-  if (c.x > static_cast<int>(get_width())*32 - SCREEN_WIDTH)
-    c.x = static_cast<int>(get_width())*32 - SCREEN_WIDTH;
-  if (c.y > static_cast<int>(get_height())*32 - SCREEN_HEIGHT)
-    c.y = static_cast<int>(get_height())*32 - SCREEN_HEIGHT;
+  if (c.x > static_cast<float>(static_cast<int>(get_width()) * 32 - SCREEN_WIDTH))
+    c.x = static_cast<float>(static_cast<int>(get_width()) * 32 - SCREEN_WIDTH);
+  if (c.y > static_cast<float>(static_cast<int>(get_height())* 32 - SCREEN_HEIGHT))
+    c.y = static_cast<float>(static_cast<int>(get_height()) * 32 - SCREEN_HEIGHT);
 
   if (int(get_width()*32) < SCREEN_WIDTH)
-    c.x = get_width()*16.f - SCREEN_WIDTH/2.f;
+    c.x = get_width()*16.f - static_cast<float>(SCREEN_WIDTH)/2.f;
   if (int(get_height()*32) < SCREEN_HEIGHT)
-    c.y = get_height()*16.f - SCREEN_HEIGHT/2.f;
+    c.y = get_height()*16.f - static_cast<float>(SCREEN_HEIGHT)/2.f;
 }
 
 void
@@ -714,7 +714,8 @@ WorldMap::draw(Compositor& compositor)
   auto& context = compositor.make_context();
 
   if (int(get_width()*32) < context.get_width() || int(get_height()*32) < context.get_height())
-    context.color().draw_filled_rect(Vector(0, 0), Vector(context.get_width(), context.get_height()),
+    context.color().draw_filled_rect(Vector(0, 0), Vector(static_cast<float>(context.get_width()),
+                                                          static_cast<float>(context.get_height())),
                              Color(0.0f, 0.0f, 0.0f, 1.0f), LAYER_BACKGROUND0);
 
   context.set_ambient_color( ambient_light );
@@ -765,9 +766,9 @@ WorldMap::draw_status(DrawingContext& context)
     for(const auto& level : levels) {
       if (level->pos == tux->get_tile_pos()) {
         context.color().draw_text(Resources::normal_font, level->title,
-                                    Vector(context.get_width()/2,
-                                           context.get_height() - Resources::normal_font->get_height() - 10),
-                                    ALIGN_CENTER, LAYER_HUD, level->title_color);
+                                  Vector(static_cast<float>(context.get_width()) / 2.0f,
+                                         static_cast<float>(context.get_height()) - Resources::normal_font->get_height() - 10),
+                                  ALIGN_CENTER, LAYER_HUD, level->title_color);
 
         // if level is solved, draw level picture behind stats
         /*
@@ -791,8 +792,8 @@ WorldMap::draw_status(DrawingContext& context)
         /* Display an in-map message in the map, if any as been selected */
         if(!special_tile->map_message.empty() && !special_tile->passive_message)
           context.color().draw_text(Resources::normal_font, special_tile->map_message,
-                                    Vector(context.get_width()/2,
-                                           context.get_height() - Resources::normal_font->get_height() - 60),
+                                    Vector(static_cast<float>(context.get_width() / 2),
+                                           static_cast<float>(context.get_height() - Resources::normal_font->get_height() - 60)),
                                     ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
         break;
       }
@@ -801,7 +802,8 @@ WorldMap::draw_status(DrawingContext& context)
     // display teleporter messages
     auto teleporter = at_teleporter(tux->get_tile_pos());
     if (teleporter && (!teleporter->message.empty())) {
-      Vector pos = Vector(context.get_width()/2, context.get_height() - Resources::normal_font->get_height() - 30);
+      Vector pos = Vector(static_cast<float>(context.get_width() / 2),
+                          static_cast<float>(context.get_height() - Resources::normal_font->get_height() - 30));
       context.color().draw_text(Resources::normal_font, teleporter->message, pos, ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::teleporter_message_color);
     }
 
@@ -810,7 +812,8 @@ WorldMap::draw_status(DrawingContext& context)
   /* Display a passive message in the map, if needed */
   if(passive_message_timer.started())
     context.color().draw_text(Resources::normal_font, passive_message,
-                              Vector(context.get_width()/2, context.get_height() - Resources::normal_font->get_height() - 60),
+                              Vector(static_cast<float>(context.get_width() / 2),
+                                     static_cast<float>(context.get_height() - Resources::normal_font->get_height() - 60)),
                               ALIGN_CENTER, LAYER_FOREGROUND1, WorldMap::message_color);
 
   context.pop_transform();
@@ -906,7 +909,7 @@ WorldMap::save_state()
   using namespace scripting;
 
   HSQUIRRELVM vm = global_vm;
-  int oldtop = sq_gettop(vm);
+  SQInteger oldtop = sq_gettop(vm);
 
   try {
     // get state table
@@ -1000,7 +1003,7 @@ WorldMap::load_state()
   using namespace scripting;
 
   HSQUIRRELVM vm = global_vm;
-  int oldtop = sq_gettop(vm);
+  SQInteger oldtop = sq_gettop(vm);
 
   try {
     // get state table
@@ -1189,7 +1192,7 @@ WorldMap::get_width() const
 {
   float width = 0;
   for(const auto& solids : solid_tilemaps) {
-    if (solids->get_width() > width) width = solids->get_width();
+    if (static_cast<float>(solids->get_width()) > width) width = static_cast<float>(solids->get_width());
   }
   return width;
 }
@@ -1199,7 +1202,8 @@ WorldMap::get_height() const
 {
   float height = 0;
   for(const auto& solids : solid_tilemaps) {
-    if (solids->get_height() > height) height = solids->get_height();
+    if (static_cast<float>(solids->get_height()) > height)
+      height = static_cast<float>(solids->get_height());
   }
   return height;
 }

@@ -116,7 +116,7 @@ PathWalker::start_moving()
 void
 PathWalker::stop_moving()
 {
-  stop_at_node_nr = next_node_nr;
+  stop_at_node_nr = static_cast<int>(next_node_nr);
 }
 
 void
@@ -128,7 +128,7 @@ PathWalker::advance_node()
   if (static_cast<int>(current_node_nr) == stop_at_node_nr) running = false;
 
   if (path->mode == Path::UNORDERED) {
-    next_node_nr = gameRandom.rand( path->nodes.size() );
+    next_node_nr = gameRandom.rand( static_cast<int>(path->nodes.size()) );
     return;
   }
 

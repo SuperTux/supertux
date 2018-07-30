@@ -90,7 +90,7 @@ Level::save(const std::string& filepath, bool retry)
     if (license != "") {
       writer.write("license", license, false);
     }
-    if (target_time){
+    if (target_time != 0.0f){
       writer.write("target-time", target_time);
     }
 

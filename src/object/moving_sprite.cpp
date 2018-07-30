@@ -197,7 +197,7 @@ void MovingSprite::spawn_explosion_sprites(int count, const std::string& sprite_
 {
     for (int i = 0; i < count; i++) {
       Vector ppos = bbox.get_middle();
-      float angle = graphicsRandom.randf(-M_PI_2, M_PI_2);
+      float angle = graphicsRandom.randf(static_cast<float>(-M_PI_2), static_cast<float>(M_PI_2));
       float velocity = graphicsRandom.randf(350, 400);
       float vx = sin(angle)*velocity;
       float vy = -cos(angle)*velocity;

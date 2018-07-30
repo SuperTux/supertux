@@ -51,7 +51,7 @@ GrowUp::draw(DrawingContext& context)
 {
   if(physic.get_velocity_x() != 0) {
     //Set Sprite rotation angle
-    sprite->set_angle(get_pos().x * 360.0f / (32.0f * M_PI));
+    sprite->set_angle(get_pos().x * 360.0f / (32.0f * static_cast<float>(M_PI)));
   }
   //Draw the Sprite.
   MovingSprite::draw(context);

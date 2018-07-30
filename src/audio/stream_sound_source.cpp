@@ -153,7 +153,7 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
     ALenum format = SoundManager::get_sample_format(*file);
     try
     {
-      alBufferData(buffer, format, bufferdata.get(), bytesread, file->rate);
+      alBufferData(buffer, format, bufferdata.get(), static_cast<ALsizei>(bytesread), file->rate);
       SoundManager::check_al_error("Couldn't refill audio buffer: ");
 
       alSourceQueueBuffers(source, 1, &buffer);

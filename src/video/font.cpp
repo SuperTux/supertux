@@ -175,7 +175,7 @@ Font::loadFontSurface(
   SurfacePtr glyph_surface  = Surface::create("images/engine/fonts/" + glyphimage);
   SurfacePtr shadow_surface = Surface::create("images/engine/fonts/" + shadowimage);
 
-  int surface_idx = glyph_surfaces.size();
+  int surface_idx = static_cast<int>(glyph_surfaces.size());
   glyph_surfaces.push_back(glyph_surface);
   shadow_surfaces.push_back(shadow_surface);
 
@@ -341,7 +341,7 @@ Font::wrap_to_width(const std::string& s_, float width, std::string* overflow)
   }
 
   // if we can find a whitespace character to break at, return text up to this character
-  for (int i = s.length()-1; i >= 0; i--) {
+  for (int i = static_cast<int>(s.length()) - 1; i >= 0; i--) {
     std::string s2 = s.substr(0,i);
     if (s[i] != ' ') continue;
     if (get_text_width(s2) <= width) {

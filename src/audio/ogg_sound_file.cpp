@@ -32,7 +32,7 @@ OggSoundFile::OggSoundFile(PHYSFS_File* file_, double loop_begin_, double loop_a
   vorbis_info* vi = ov_info(&vorbis_file, -1);
 
   channels        = vi->channels;
-  rate            = vi->rate;
+  rate            = static_cast<int>(vi->rate);
   bits_per_sample = 16;
   size            = static_cast<size_t> (ov_pcm_total(&vorbis_file, -1) * 2);
 
@@ -71,8 +71,7 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
       size_t      bytes_per_sample       = 2;
       ogg_int64_t time                   = ov_pcm_tell(&vorbis_file);
       ogg_int64_t samples_left_till_loop = loop_at - time;
-      ogg_int64_t bytes_left_till_loop
-        = samples_left_till_loop * bytes_per_sample;
+      ogg_int64_t bytes_left_till_loop = samples_left_till_loop * bytes_per_sample;
       if(bytes_left_till_loop <= 4)
         break;
 
@@ -82,7 +81,7 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
     }
 
     long bytesRead
-      = ov_read(&vorbis_file, buffer, bytes_to_read, bigendian,
+      = ov_read(&vorbis_file, buffer, static_cast<int>(bytes_to_read), bigendian,
                 2, 1, &section);
     if(bytesRead == 0) {
       break;

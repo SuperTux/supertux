@@ -210,7 +210,7 @@ TextScroller::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  context.color().draw_filled_rect(Vector(0, 0), Vector(context.get_width(), context.get_height()),
+  context.color().draw_filled_rect(Vector(0, 0), Vector(static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
   context.color().draw_surface_part(background, Rectf(0, 0, background->get_width(), background->get_height()),
                             Rectf(0, 0, context.get_width(), context.get_height()), 0);

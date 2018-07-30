@@ -52,7 +52,7 @@ ItemStringSelect::draw(DrawingContext& context, const Vector& pos, int menu_widt
 
 int
 ItemStringSelect::get_width() const {
-  return Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(list[*selected]) + 64;
+  return static_cast<int>(Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(list[*selected])) + 64;
 }
 
 void
@@ -62,7 +62,7 @@ ItemStringSelect::process_action(const MenuAction& action) {
       if( (*selected) > 0) {
         (*selected)--;
       } else {
-        (*selected) = list.size()-1;
+        (*selected) = static_cast<int>(list.size()) - 1;
       }
       MenuManager::instance().current_menu()->menu_action(this);
       break;
