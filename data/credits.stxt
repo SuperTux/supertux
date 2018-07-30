@@ -157,6 +157,11 @@
       (simple #t)
     )
     (person
+      (name "Bleed - http://remusprites.carbonmade.com/")
+      (info (_ "Explosion sprites"))
+      (simple #t)
+    )
+    (person
       (name "brmbrmcar")
       (info (_ "Scripting functions, Level fixes"))
       (simple #t)
