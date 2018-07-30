@@ -66,6 +66,8 @@ With no newline before the `{`.
 
 ## Compiler options
 
+Use `final` and `override` keywords.
+
 Compile with a maximum warning level and with `-Werror`. This can be accomplished with:
 
 ```console
