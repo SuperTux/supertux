@@ -56,7 +56,7 @@ enum MusicType {
  *
  * Sectors contain GameObjects, e.g. Badguys and Players.
  */
-class Sector
+class Sector final
 {
 public:
   friend class SectorParser;
@@ -279,8 +279,6 @@ private:
   void collision_static_constrains(MovingObject& object);
 
   GameObjectPtr parse_object(const std::string& name, const ReaderMapping& lisp);
-
-  void fix_old_tiles();
 
   int calculate_foremost_layer() const;
 
