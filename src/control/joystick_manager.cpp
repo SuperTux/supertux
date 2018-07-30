@@ -198,7 +198,7 @@ JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
   {
     if(jbutton.state == SDL_PRESSED)
     {
-      m_joystick_config.bind_joybutton(jbutton.which, jbutton.button, (Controller::Control)wait_for_joystick);
+      m_joystick_config.bind_joybutton(jbutton.which, jbutton.button, static_cast<Controller::Control>(wait_for_joystick));
       MenuManager::instance().refresh();
       parent->reset();
       wait_for_joystick = -1;
@@ -208,7 +208,7 @@ JoystickManager::process_button_event(const SDL_JoyButtonEvent& jbutton)
   {
     auto i = m_joystick_config.joy_button_map.find(std::make_pair(jbutton.which, jbutton.button));
     if(i == m_joystick_config.joy_button_map.end()) {
-      log_debug << "Unmapped joybutton " << (int)jbutton.button << " pressed" << std::endl;
+      log_debug << "Unmapped joybutton " << static_cast<int>(jbutton.button) << " pressed" << std::endl;
     } else {
       set_joy_controls(i->second, (jbutton.state == SDL_PRESSED));
     }

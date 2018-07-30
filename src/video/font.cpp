@@ -35,7 +35,7 @@ namespace {
 
 bool vline_empty(SDL_Surface* surface, int x, int start_y, int end_y, Uint8 threshold)
 {
-  Uint8* pixels = (Uint8*)surface->pixels;
+  Uint8* pixels = static_cast<Uint8*>(surface->pixels);
 
   for(int y = start_y; y < end_y; ++y)
   {
@@ -311,7 +311,7 @@ std::string
 Font::wrap_to_chars(const std::string& s, int line_length, std::string* overflow)
 {
   // if text is already smaller, return full text
-  if ((int)s.length() <= line_length) {
+  if (static_cast<int>(s.length()) <= line_length) {
     if (overflow) *overflow = "";
     return s;
   }

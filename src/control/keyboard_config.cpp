@@ -141,7 +141,7 @@ KeyboardConfig::write(Writer& writer)
   for(const auto& i : keymap)
   {
     writer.start_list("map");
-    writer.write("key", (int) i.first);
+    writer.write("key", static_cast<int>(i.first));
     writer.write("control", Controller::controlNames[i.second]);
     writer.end_list("map");
   }

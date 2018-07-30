@@ -491,7 +491,7 @@ GameSession::start_sequence(Sequence seq, const SequenceData* data)
   } else if (seq == SEQ_FIREWORKS) {
     end_sequence = std::make_shared<EndSequenceFireworks>();
   } else {
-    log_warning << "Unknown sequence '" << (int)seq << "'. Ignoring." << std::endl;
+    log_warning << "Unknown sequence '" << static_cast<int>(seq) << "'. Ignoring." << std::endl;
     return;
   }
 

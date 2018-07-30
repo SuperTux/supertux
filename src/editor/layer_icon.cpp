@@ -51,7 +51,7 @@ LayerIcon::draw(DrawingContext& context, const Vector& pos) {
     context.color().draw_text(Resources::small_font, std::to_string(l),
                                 pos + Vector(16,16),
                                 ALIGN_CENTER, LAYER_GUI, ColorScheme::Menu::default_color);
-    if (is_tilemap) if (((TileMap*)layer)->editor_active) {
+    if (is_tilemap) if ((static_cast<TileMap*>(layer))->editor_active) {
         context.color().draw_surface(selection, pos, LAYER_GUI - 1);
     }
   }
@@ -64,7 +64,7 @@ LayerIcon::get_zpos() const {
   }
 
   if (is_tilemap) { //When the layer is a tilemap, the class is obvious.
-    return ((TileMap*)layer)->get_layer();
+    return (static_cast<TileMap*>(layer))->get_layer();
   }
 
   auto bkgrd = dynamic_cast<Background*>(layer);

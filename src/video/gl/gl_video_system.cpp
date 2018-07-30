@@ -366,7 +366,7 @@ GLVideoSystem::do_take_screenshot()
     {
       SDL_LockSurface(shot_surf);
     }
-    char* dst = ((char*)shot_surf->pixels) + i * shot_surf->pitch;
+    char* dst = (static_cast<char*>(shot_surf->pixels)) + i * shot_surf->pitch;
     memcpy(dst, src, 3 * viewport_width);
     if(SDL_MUSTLOCK(shot_surf))
     {

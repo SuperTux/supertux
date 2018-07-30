@@ -36,7 +36,7 @@
 #include <stdio.h>
 
 /** ticks (as returned from SDL_GetTicks) per frame */
-static const Uint32 TICKS_PER_FRAME = (Uint32) (1000.0 / LOGICAL_FPS);
+static const Uint32 TICKS_PER_FRAME = static_cast<Uint32>(1000.0 / LOGICAL_FPS);
 /** don't skip more than every 2nd frame */
 static const int MAX_FRAME_SKIP = 2;
 
@@ -384,7 +384,7 @@ ScreenManager::run()
     elapsed_ticks += ticks - last_ticks;
     last_ticks = ticks;
 
-    Uint32 ticks_per_frame = (Uint32) (TICKS_PER_FRAME * g_game_speed);
+    Uint32 ticks_per_frame = static_cast<Uint32>(TICKS_PER_FRAME * g_game_speed);
 
     if (elapsed_ticks > ticks_per_frame*4)
     {

@@ -38,7 +38,7 @@ std::string sequence_to_string(const Sequence& seq) {
     case SEQ_FIREWORKS:
       return "fireworks";
     default:
-      return "unknown sequence " + std::to_string( (int)seq );
+      return "unknown sequence " + std::to_string( static_cast<int>(seq) );
   }
 }
 

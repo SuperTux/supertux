@@ -206,12 +206,12 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
 
   int box_w = 220+110+110;
   int box_h = 30+20+20+20;
-  int box_x = (int)((context.get_width() - box_w) / 2);
-  int box_y = (int)(SCREEN_HEIGHT / 2) - box_h;
+  int box_x = static_cast<int>((context.get_width() - box_w) / 2);
+  int box_y = static_cast<int>(SCREEN_HEIGHT / 2) - box_h;
 
-  int bd_w = (int)backdrop->get_width();
-  int bd_h = (int)backdrop->get_height();
-  int bd_x = (int)((context.get_width() - bd_w) / 2);
+  int bd_w = static_cast<int>(backdrop->get_width());
+  int bd_h = static_cast<int>(backdrop->get_height());
+  int bd_x = static_cast<int>((context.get_width() - bd_w) / 2);
   int bd_y = box_y + (box_h / 2) - (bd_h / 2);
 
   int col1_x = box_x;

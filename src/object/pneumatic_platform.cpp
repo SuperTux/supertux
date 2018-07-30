@@ -100,7 +100,7 @@ PneumaticPlatform::update(float elapsed_time)
     contacts.clear();
     slave->contacts.clear();
 
-    speed_y += ((float)contact_diff * elapsed_time) * 12.8f;
+    speed_y += (static_cast<float>(contact_diff) * elapsed_time) * 12.8f;
     speed_y -= (offset_y * elapsed_time * 0.05f);
     speed_y *= 1 - elapsed_time;
     offset_y += speed_y * elapsed_time * Sector::current()->get_gravity();

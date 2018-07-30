@@ -370,13 +370,13 @@ draw_span_between_edges(SDL_Renderer* renderer, const Rectf& e1, const Rectf& e2
 {
   // calculate difference between the y coordinates
   // of the first edge and return if 0
-  float e1ydiff = (float)(e1.p2.y - e1.p1.y);
+  float e1ydiff = static_cast<float>(e1.p2.y - e1.p1.y);
   if(e1ydiff == 0.0f)
     return;
 
   // calculate difference between the y coordinates
   // of the second edge and return if 0
-  float e2ydiff = (float)(e2.p2.y - e2.p1.y);
+  float e2ydiff = static_cast<float>(e2.p2.y - e2.p1.y);
   if(e2ydiff == 0.0f)
     return;
 

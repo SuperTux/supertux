@@ -126,7 +126,7 @@ TreeWillOWisp::active_update(float elapsed_time)
     return;
   }
 
-  angle = fmodf(angle + elapsed_time * speed, (float) (2*M_PI));
+  angle = fmodf(angle + elapsed_time * speed, static_cast<float>(2*M_PI));
   Vector newpos(start_position + Vector(sin(angle) * radius, 0));
   movement = newpos - get_pos();
   float sizemod = cos(angle) * 0.8f;

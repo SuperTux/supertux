@@ -65,10 +65,10 @@ public:
   }
 
   void set_anchor_point(int anchor_) {
-    set_anchor_point((AnchorPoint) anchor_);
+    set_anchor_point(static_cast<AnchorPoint>(anchor_));
   }
   int get_anchor_point() {
-    return (int)anchor;
+    return static_cast<int>(anchor);
   }
 
   void draw(DrawingContext& context);

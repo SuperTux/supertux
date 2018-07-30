@@ -119,7 +119,7 @@ public:
   MusicType get_music_type() const;
 
   int get_active_bullets() const
-  { return (int)bullets.size(); }
+  { return static_cast<int>(bullets.size()); }
   bool add_smoke_cloud(const Vector& pos);
 
   /** get currently activated sector. */

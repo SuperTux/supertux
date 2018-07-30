@@ -130,11 +130,11 @@ EditorLayersGui::event(SDL_Event& ev) {
             }
             if ( layers[hovered_layer]->is_tilemap ) {
               if (selected_tilemap) {
-                ((TileMap*)selected_tilemap)->editor_active = false;
+                (static_cast<TileMap*>(selected_tilemap))->editor_active = false;
               }
               selected_tilemap = layers[hovered_layer]->layer;
-              ((TileMap*)selected_tilemap)->editor_active = true;
-              editor->edit_path(((TileMap*)selected_tilemap)->get_path(),
+              (static_cast<TileMap*>(selected_tilemap))->editor_active = true;
+              editor->edit_path((static_cast<TileMap*>(selected_tilemap))->get_path(),
                                                        selected_tilemap);
             } else {
               auto cam = dynamic_cast<Camera*>(layers[hovered_layer]->layer);

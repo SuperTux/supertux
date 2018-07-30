@@ -488,10 +488,10 @@ WorldMap::clamp_camera_position(Vector& c) const
   if (c.y < 0)
     c.y = 0;
 
-  if (c.x > (int)get_width()*32 - SCREEN_WIDTH)
-    c.x = (int)get_width()*32 - SCREEN_WIDTH;
-  if (c.y > (int)get_height()*32 - SCREEN_HEIGHT)
-    c.y = (int)get_height()*32 - SCREEN_HEIGHT;
+  if (c.x > static_cast<int>(get_width())*32 - SCREEN_WIDTH)
+    c.x = static_cast<int>(get_width())*32 - SCREEN_WIDTH;
+  if (c.y > static_cast<int>(get_height())*32 - SCREEN_HEIGHT)
+    c.y = static_cast<int>(get_height())*32 - SCREEN_HEIGHT;
 
   if (int(get_width()*32) < SCREEN_WIDTH)
     c.x = get_width()*16.f - SCREEN_WIDTH/2.f;
@@ -651,7 +651,7 @@ WorldMap::tile_data_at(const Vector& p) const
   int dirs = 0;
 
   for(const auto& tilemap : solid_tilemaps) {
-    const auto tile = tilemap->get_tile((int)p.x, (int)p.y);
+    const auto tile = tilemap->get_tile(static_cast<int>(p.x), static_cast<int>(p.y));
     int dirdata = tile->getData();
     dirs |= dirdata;
   }

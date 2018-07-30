@@ -39,11 +39,11 @@ OggSoundFile::OggSoundFile(PHYSFS_File* file_, double loop_begin_, double loop_a
   double samples_begin = loop_begin_ * rate;
   double sample_loop   = loop_at_ * rate;
 
-  loop_begin     = (ogg_int64_t) samples_begin;
+  loop_begin     = static_cast<ogg_int64_t>(samples_begin);
   if(loop_begin_ < 0) {
-    loop_at = (ogg_int64_t) -1;
+    loop_at = static_cast<ogg_int64_t>(-1);
   } else {
-    loop_at = (ogg_int64_t) sample_loop;
+    loop_at = static_cast<ogg_int64_t>(sample_loop);
   }
 }
 
@@ -76,8 +76,8 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
       if(bytes_left_till_loop <= 4)
         break;
 
-      if(bytes_left_till_loop < (ogg_int64_t) bytes_to_read) {
-        bytes_to_read    = (size_t) bytes_left_till_loop;
+      if(bytes_left_till_loop < static_cast<ogg_int64_t>(bytes_to_read)) {
+        bytes_to_read    = static_cast<size_t>(bytes_left_till_loop);
       }
     }
 

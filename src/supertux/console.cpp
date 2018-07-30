@@ -232,7 +232,7 @@ Console::backspace()
 void
 Console::eraseChar()
 {
-  if (m_inputBufferPosition < (int)m_inputBuffer.length()) {
+  if (m_inputBufferPosition < static_cast<int>(m_inputBuffer.length())) {
     m_inputBuffer.erase(m_inputBufferPosition, 1);
   }
 }
@@ -280,7 +280,7 @@ Console::move_cursor(int offset_)
   if (offset_ == +65535) m_inputBufferPosition = m_inputBuffer.length();
   m_inputBufferPosition+=offset_;
   if (m_inputBufferPosition < 0) m_inputBufferPosition = 0;
-  if (m_inputBufferPosition > (int)m_inputBuffer.length()) m_inputBufferPosition = m_inputBuffer.length();
+  if (m_inputBufferPosition > static_cast<int>(m_inputBuffer.length())) m_inputBufferPosition = m_inputBuffer.length();
 }
 
 // Helper functions for Console::autocomplete
@@ -353,7 +353,7 @@ Console::autocomplete()
 {
   //int autocompleteFrom = m_inputBuffer.find_last_of(" ();+", m_inputBufferPosition);
   int autocompleteFrom = m_inputBuffer.find_last_not_of("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_->.", m_inputBufferPosition);
-  if (autocompleteFrom != (int)std::string::npos) {
+  if (autocompleteFrom != static_cast<int>(std::string::npos)) {
     autocompleteFrom += 1;
   } else {
     autocompleteFrom = 0;
@@ -514,7 +514,7 @@ Console::update(float elapsed_time)
   }
 
   m_backgroundOffset += 600 * elapsed_time;
-  if (m_backgroundOffset > (int)m_background->get_width()) m_backgroundOffset -= (int)m_background->get_width();
+  if (m_backgroundOffset > static_cast<int>(m_background->get_width())) m_backgroundOffset -= static_cast<int>(m_background->get_width());
 }
 
 void
@@ -536,8 +536,8 @@ Console::draw(DrawingContext& context) const
                               m_height - m_background->get_height()),
                        layer);
   for (int x = (context.get_width()/2 - m_background->get_width()/2
-                - (static_cast<int>(ceilf((float)context.get_width() /
-                                          (float)m_background->get_width()) - 1) * m_background->get_width()));
+                - (static_cast<int>(ceilf(static_cast<float>(context.get_width()) /
+                                          static_cast<float>(m_background->get_width())) - 1) * m_background->get_width()));
        x < context.get_width();
        x += m_background->get_width())
   {

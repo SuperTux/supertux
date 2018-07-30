@@ -99,7 +99,7 @@ int RandomGenerator::rand(int u, int v) {
 double RandomGenerator::randf(double v) {
   double rv;
   do {
-    rv = ((double)RandomGenerator::random())/RandomGenerator::rand_max * v;
+    rv = (static_cast<double>(RandomGenerator::random()))/RandomGenerator::rand_max * v;
   } while (rv >= v);                      // rounding might cause rv==v
 
   if (debug > 0)

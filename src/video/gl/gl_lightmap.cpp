@@ -225,7 +225,7 @@ GLLightmap::get_light(const DrawingRequest& request) const
   float posX = request.pos.x * m_lightmap_width / viewport.get_screen_width() + rect.left;
   float posY = (rect.get_height() * 1.0) + (rect.top * 1.0) - request.pos.y * m_lightmap_height / viewport.get_screen_height();
 
-  glReadPixels((GLint) posX, (GLint) posY , 1, 1, GL_RGB, GL_FLOAT, pixels);
+  glReadPixels(static_cast<GLint>(posX), static_cast<GLint>(posY), 1, 1, GL_RGB, GL_FLOAT, pixels);
   *(getlightrequest->color_ptr) = Color(pixels[0], pixels[1], pixels[2]);
 }
 

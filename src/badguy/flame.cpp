@@ -62,7 +62,7 @@ Flame::get_settings() {
 void
 Flame::active_update(float elapsed_time)
 {
-  angle = fmodf(angle + elapsed_time * speed, (float) (2*M_PI));
+  angle = fmodf(angle + elapsed_time * speed, static_cast<float>(2*M_PI));
   if (!Editor::is_active()) {
     Vector newpos(start_position.x + cos(angle) * radius,
                   start_position.y + sin(angle) * radius);

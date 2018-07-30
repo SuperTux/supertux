@@ -104,7 +104,7 @@ void SnowParticleSystem::update(float elapsed_time)
 
   if (timer.check()) {
     // Change state
-    state = (State) ((state + 1) % MAX_STATE);
+    state = static_cast<State>((state + 1) % MAX_STATE);
 
     if(state == RESTING) {
       // stop wind

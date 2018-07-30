@@ -258,7 +258,7 @@ Menu::clear()
 void
 Menu::process_input()
 {
-  int menu_height = (int) get_height();
+  int menu_height = static_cast<int>(get_height());
   if (menu_height > SCREEN_HEIGHT)
   { // Scrolling
     int scroll_offset = (menu_height - SCREEN_HEIGHT) / 2 + 32;
@@ -457,8 +457,8 @@ Menu::draw(DrawingContext& context)
 {
   if (!items[active_item]->help.empty())
   {
-    int text_width  = (int) Resources::normal_font->get_text_width(items[active_item]->help);
-    int text_height = (int) Resources::normal_font->get_text_height(items[active_item]->help);
+    int text_width  = static_cast<int>(Resources::normal_font->get_text_width(items[active_item]->help));
+    int text_height = static_cast<int>(Resources::normal_font->get_text_height(items[active_item]->help));
 
     Rectf text_rect(pos.x - text_width/2 - 8,
                     SCREEN_HEIGHT - 48 - text_height/2 - 4,
