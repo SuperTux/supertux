@@ -26,7 +26,6 @@
 #include "video/renderer.hpp"
 #include "video/sdl/sdl_lightmap.hpp"
 #include "video/sdl/sdl_renderer.hpp"
-#include "video/sdl/sdl_surface_data.hpp"
 #include "video/sdl/sdl_texture.hpp"
 
 SDLVideoSystem::SDLVideoSystem() :
@@ -194,13 +193,13 @@ SDLVideoSystem::new_texture(SDL_Surface* image)
 SurfaceData*
 SDLVideoSystem::new_surface_data(const Surface& surface)
 {
-  return new SDLSurfaceData(surface);
+  return nullptr;
 }
 
 void
 SDLVideoSystem::free_surface_data(SurfaceData* surface_data)
 {
-  delete surface_data;
+  // do nothing
 }
 
 void
