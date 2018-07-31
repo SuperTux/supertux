@@ -1052,9 +1052,12 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       CollisionHit h;
       possible_neighbours.clear();
       spatial_hasingIterator iter(broadphase.get(), moving_object->get_bbox().grown(10));
-      for (auto mobject = iter.next(); mobject != NULL; mobject = iter.next()) {
+      for (auto mobject  = iter.next(); mobject != NULL; mobject = iter.next()) {
         // TODO Specail case: Same object on multiple layers
         // => detect collision (?) use contacts?
+        if(mobject->get_group() != COLGROUP_STATIC
+           && mobject->get_group() != COLGROUP_MOVING_STATIC)
+           continue;
         if (mobject->get_bbox() == object.get_bbox() || mobject->get_bbox() == moving_object->get_bbox())
           continue;
         tile_poly->process_neighbor(mobject->get_bbox());
@@ -1104,6 +1107,7 @@ Sector::collision_static(collision::Constraints* constraints,
   for (int i = 0;i<2;i++) {
     collision_tilemap(constraints, movement, dest, object, contacts, i != 0);
   }
+  broadphase->insert(object.dest, &object);
   contacts.clear();
   collision_moving_static(movement, dest, object, graph, contacts);
   for (const auto& m : contacts) {
@@ -1112,6 +1116,7 @@ Sector::collision_static(collision::Constraints* constraints,
     dest.move(overlapV);
     // Also move the AABBPolygon
   }
+  broadphase->insert(object.dest, &object);
   double extend_left = 0.0f,
          extend_right = 0.0f,
          extend_top = 0.0f,
@@ -1251,79 +1256,57 @@ Sector::handle_collisions()
   }
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
   for (const auto& obj : moving_objects) {
-    broadphase->insert(obj->get_bbox(), obj);
+    broadphase->insert(obj->dest, obj);
   }
-  std::list< MovingObject* > possibleCollisions;
+  std::vector< std::tuple< MovingObject*, MovingObject*, int > > possibleCollisions;
+  possibleCollisions.clear();
   for (const auto& moving_object : moving_objects) {
-    if ((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
-       || !moving_object->is_valid())
-      continue;
-      possibleCollisions.clear();
-    spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(10));
-    //spatial_hashing->search( moving_object->dest.grown(4), []{}, possibleCollisions)
-    for (auto moving_object_2 /*= iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()*/ : moving_objects) {
-    //for(const auto& moving_object_2 : possibleCollisions) {
-      if(moving_object_2 == NULL)
-        continue;
-      if (moving_object_2 == moving_object)
-        continue;
-      if (moving_object_2->get_group() != COLGROUP_TOUCHABLE
-         || !moving_object_2->is_valid())
-        continue;
-
-      if (intersects(moving_object->dest, moving_object_2->dest)) {
-        Vector normal;
-        CollisionHit hit;
-        get_hit_normal(moving_object->dest, moving_object_2->dest,
-                       hit, normal);
-        if (!moving_object->collides(*moving_object_2, hit))
+      spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(0));
+      for(auto moving_object_2  = iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()) {
+        if(!moving_object_2->is_valid())
           continue;
-        if (!moving_object_2->collides(*moving_object, hit))
+        if (moving_object_2 == moving_object)
           continue;
-        moving_object->collision(*moving_object_2, hit);
-        moving_object_2->collision(*moving_object, hit);
-        //broadphase->add_bulk(moving_object->dest, moving_object);
-        //broadphase->add_bulk(moving_object_2->dest, moving_object);
+        if((moving_object->get_group() == COLGROUP_MOVING
+            || moving_object->get_group() == COLGROUP_MOVING_STATIC) && moving_object_2->get_group() == COLGROUP_TOUCHABLE) {
+                possibleCollisions.push_back(std::make_tuple(moving_object, moving_object_2, 1));
+            }
+        if((moving_object->get_group() == COLGROUP_MOVING
+            || moving_object->get_group() == COLGROUP_MOVING_STATIC) && (moving_object_2->get_group() == COLGROUP_MOVING
+                || moving_object_2->get_group() == COLGROUP_MOVING_STATIC)) {
+                  possibleCollisions.push_back(std::make_tuple(moving_object, moving_object_2, 2));
+                }
       }
-
-    }
-    //broadphase->do_bulk_update();
   }
 
-  // part3: COLGROUP_MOVING vs COLGROUP_MOVING
-  for (auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
-    auto moving_object = *i;
-
-    if ((moving_object->get_group() != COLGROUP_MOVING
-        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
-       || !moving_object->is_valid())
-      continue;
-    // Query the broadphase
-    spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(10));
-    //broadphase->search(moving_object->dest.grown(4), []{} , possibleCollisions);
-    for (auto i2 /* = iter.next(); i2 != NULL; i2 = iter.next()*/ : moving_objects)
-    {
-      log_debug << "AAA" << std::endl;
-      auto moving_object_2 = i2;
-      if(i2 == NULL)
-        break;
-      if (moving_object_2 == moving_object)
-        continue;
-      if ((moving_object_2->get_group() != COLGROUP_MOVING
-          && moving_object_2->get_group() != COLGROUP_MOVING_STATIC)
-         || !moving_object_2->is_valid())
-        continue;
-
-      collision_object(moving_object, moving_object_2, colgraph);
-
-      // Update the objects positions
-      /*broadphase->insert(moving_object->dest, moving_object);
-      broadphase->insert(moving_object_2->dest, moving_object_2);*/
-      //broadphase->add_bulk(moving_object->dest, moving_object);
-      //broadphase->add_bulk(moving_object_2->dest, moving_object);
+  for(int i = 0;i < 3; i++) {
+    for(auto& tpl : possibleCollisions) {
+      MovingObject* moving_object, *moving_object_2; int nr;
+      std::tie(moving_object, moving_object_2, nr) = tpl;
+      if(nr == 1) {
+        if (intersects(moving_object->dest, moving_object_2->dest)) {
+          Vector normal;
+          CollisionHit hit;
+          get_hit_normal(moving_object->dest, moving_object_2->dest,
+                         hit, normal);
+          if (!moving_object->collides(*moving_object_2, hit))
+            continue;
+          if (!moving_object_2->collides(*moving_object, hit))
+            continue;
+          moving_object->collision(*moving_object_2, hit);
+          moving_object_2->collision(*moving_object, hit);
+          std::get<2>(tpl) = 0;
+          //broadphase->add_bulk(moving_object->dest, moving_object);
+          //broadphase->add_bulk(moving_object_2->dest, moving_object);
+        }
+      } else {
+collision_object(moving_object, moving_object_2, colgraph);
+std::get<2>(tpl) = 0;
+      }
     }
-    //broadphase->do_bulk_update();
+    for (const auto& obj : moving_objects) {
+      broadphase->insert(obj->dest, obj);
+    }
   }
   std::map< MovingObject*, MovingObject* > parents;
   colgraph.compute_parents(platforms, parents);
