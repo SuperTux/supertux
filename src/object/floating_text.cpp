@@ -27,7 +27,7 @@ FloatingText::FloatingText(const Vector& pos, const std::string& text_) :
   timer()
 {
   timer.start(.1f);
-  position.x -= text.size() * 8;
+  position.x -= static_cast<float>(text.size()) * 8.0f;
 }
 
 FloatingText::FloatingText(const Vector& pos, int score) :
@@ -42,7 +42,7 @@ FloatingText::FloatingText(const Vector& pos, int score) :
   snprintf(str, 10, "%d", score);
   text = str;
 
-  position.x -= text.size() * 8;
+  position.x -= static_cast<float>(text.size()) * 8.0f;
 }
 
 void
@@ -54,7 +54,7 @@ FloatingText::update(float elapsed_time)
     remove_me();
 }
 
-#define FADING_TIME .350
+const float FADING_TIME = .350f;
 
 void
 FloatingText::draw(DrawingContext& context)

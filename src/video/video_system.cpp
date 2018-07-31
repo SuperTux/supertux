@@ -60,7 +60,8 @@ VideoSystem::create(VideoSystem::Enum video_system)
       return std::unique_ptr<VideoSystem>(new SDLVideoSystem);
 
     default:
-      assert(!"invalid video system in config");
+      log_fatal << "invalid video system in config" << std::endl;
+      assert(false);
       return {};
   }
 }
@@ -104,7 +105,8 @@ VideoSystem::get_video_string(VideoSystem::Enum video)
     case PURE_SDL:
       return "sdl";
     default:
-      assert(!"invalid video system in config");
+      log_fatal << "invalid video system in config" << std::endl;
+      assert(false);
       return "auto";
   }
 }

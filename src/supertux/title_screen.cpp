@@ -109,13 +109,13 @@ TitleScreen::draw(Compositor& compositor)
   sector->draw(context);
 
   context.color().draw_surface_part(frame,
-                            Rectf(0, 0, frame->get_width(), frame->get_height()),
-                            Rectf(0, 0, context.get_width(), context.get_height()),
+                                    Rectf(0, 0, static_cast<float>(frame->get_width()), static_cast<float>(frame->get_height())),
+                                    Rectf(0, 0, static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
                             LAYER_FOREGROUND1);
 
   context.color().draw_text(Resources::small_font,
                     copyright_text,
-                    Vector(5, context.get_height() - 50),
+                            Vector(5.0f, static_cast<float>(context.get_height()) - 50.0f),
                     ALIGN_LEFT, LAYER_FOREGROUND1);
 }
 

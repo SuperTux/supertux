@@ -22,13 +22,13 @@
 inline void*
 operator new (size_t bytes, struct obstack& obst)
 {
-  return obstack_alloc(&obst, bytes);
+  return obstack_alloc(&obst, static_cast<int>(bytes));
 }
 
 inline void*
 operator new[] (size_t bytes, struct obstack& obst)
 {
-  return obstack_alloc(&obst, bytes);
+  return obstack_alloc(&obst, static_cast<int>(bytes));
 }
 
 static inline void* obstack_chunk_alloc(size_t size)

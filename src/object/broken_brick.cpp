@@ -42,7 +42,7 @@ void
 BrokenBrick::draw(DrawingContext& context)
 {
   sprite->draw_part(context.color(),
-                    Vector(graphicsRandom.rand(16), graphicsRandom.rand(16)), Vector(16, 16),
+                    Vector(graphicsRandom.randf(16), graphicsRandom.randf(16.0f)), Vector(16.0f, 16.0f),
                     position, LAYER_OBJECTS + 1);
 }
 

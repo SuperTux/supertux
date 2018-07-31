@@ -62,7 +62,9 @@ SDLLightmap::start_draw()
   }
 
   SDL_SetRenderTarget(m_renderer, m_texture);
-  SDL_RenderSetScale(m_renderer, 1.0f / m_LIGHTMAP_DIV, 1.0f / m_LIGHTMAP_DIV);
+  SDL_RenderSetScale(m_renderer,
+                     1.0f / static_cast<float>(m_LIGHTMAP_DIV),
+                     1.0f / static_cast<float>(m_LIGHTMAP_DIV));
 }
 
 void
@@ -165,8 +167,8 @@ SDLLightmap::get_light(const DrawingRequest& request) const
     = static_cast<GetLightRequest*>(request.request_data);
 
   SDL_Rect rect;
-  rect.x = static_cast<int>(request.pos.x / m_LIGHTMAP_DIV);
-  rect.y = static_cast<int>(request.pos.y / m_LIGHTMAP_DIV);
+  rect.x = static_cast<int>(request.pos.x / static_cast<float>(m_LIGHTMAP_DIV));
+  rect.y = static_cast<int>(request.pos.y / static_cast<float>(m_LIGHTMAP_DIV));
   rect.w = 1;
   rect.h = 1;
 

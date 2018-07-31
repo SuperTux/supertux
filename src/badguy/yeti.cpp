@@ -134,7 +134,7 @@ Yeti::draw_hit_points(DrawingContext& context)
 
     for (int i = 0; i < hit_points; ++i)
     {
-      context.color().draw_surface(hud_head, Vector(BORDER_X + (i * hud_head->get_width()), BORDER_Y + 1), LAYER_FOREGROUND1);
+      context.color().draw_surface(hud_head, Vector(BORDER_X + (static_cast<float>(i * hud_head->get_width())), BORDER_Y + 1), LAYER_FOREGROUND1);
     }
 
     context.pop_transform();
@@ -300,13 +300,13 @@ Yeti::drop_stalactite()
       if (hit_points >= 3) {
         // drop stalactites within 3 of player, going out with each jump
         float distancex = fabsf(stalactite->get_bbox().get_middle().x - player->get_bbox().get_middle().x);
-        if(distancex < stomp_count*32) {
+        if(distancex < static_cast<float>(stomp_count) * 32.0f) {
           stalactite->start_shaking();
         }
       }
       else { /* if (hitpoints < 3) */
         // drop every 3rd pair of stalactites
-        if(((((int)stalactite->get_pos().x + 16) / 64) % 3) == (stomp_count % 3)) {
+        if((((static_cast<int>(stalactite->get_pos().x) + 16) / 64) % 3) == (stomp_count % 3)) {
           stalactite->start_shaking();
         }
       }
@@ -375,11 +375,11 @@ void Yeti::add_snow_explosions()
 {
   for (int i = 0; i < SNOW_EXPLOSIONS_COUNT; i++) {
     Vector pos = get_pos(), velocity;
-    velocity.x = SNOW_EXPLOSIONS_VX * graphicsRandom.randf(0.5, 2) * (graphicsRandom.rand(2) ? 1 : -1);
-    velocity.y = SNOW_EXPLOSIONS_VY * graphicsRandom.randf(0.5, 2);
-    pos.x += sprite->get_width() / 2;
-    pos.x += sprite->get_width() * graphicsRandom.randf(0.3, 0.5) * ((velocity.x > 0) ? 1 : -1);
-    pos.y += sprite->get_height() * graphicsRandom.randf(-0.3, 0.3);
+    velocity.x = SNOW_EXPLOSIONS_VX * graphicsRandom.randf(0.5f, 2.0f) * (graphicsRandom.rand(2) ? 1.0f : -1.0f);
+    velocity.y = SNOW_EXPLOSIONS_VY * graphicsRandom.randf(0.5f, 2.0f);
+    pos.x += static_cast<float>(sprite->get_width()) / 2.0f;
+    pos.x += static_cast<float>(sprite->get_width()) * graphicsRandom.randf(0.3f, 0.5f) * ((velocity.x > 0) ? 1.0f : -1.0f);
+    pos.y += static_cast<float>(sprite->get_height()) * graphicsRandom.randf(-0.3f, 0.3f);
     velocity.x += physic.get_velocity_x();
     Sector::current()->add_object(std::make_shared<SnowExplosionParticle>(pos, velocity));
   }

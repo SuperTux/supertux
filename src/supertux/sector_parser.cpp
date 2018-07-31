@@ -251,8 +251,8 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
     tilemap->set(width, height, tiles, LAYER_TILES, true);
 
     // replace tile id 112 (old invisible tile) with 1311 (new invisible tile)
-    for(size_t x=0; x < tilemap->get_width(); ++x) {
-      for(size_t y=0; y < tilemap->get_height(); ++y) {
+    for(int x=0; x < tilemap->get_width(); ++x) {
+      for(int y=0; y < tilemap->get_height(); ++y) {
         uint32_t id = tilemap->get_tile_id(x, y);
         if(id == 112)
           tilemap->change(x, y, 1311);
@@ -336,8 +336,8 @@ void
 SectorParser::fix_old_tiles()
 {
   for(const auto& solids : m_sector.solid_tilemaps) {
-    for(size_t x=0; x < solids->get_width(); ++x) {
-      for(size_t y=0; y < solids->get_height(); ++y) {
+    for(int x=0; x < solids->get_width(); ++x) {
+      for(int y=0; y < solids->get_height(); ++y) {
         const auto& tile = solids->get_tile(x, y);
 
         if (tile->get_object_name().length() > 0) {
@@ -359,8 +359,8 @@ SectorParser::fix_old_tiles()
   for(const auto& obj : m_sector.gameobjects) {
     auto tm = dynamic_cast<TileMap*>(obj.get());
     if (!tm) continue;
-    for(size_t x=0; x < tm->get_width(); ++x) {
-      for(size_t y=0; y < tm->get_height(); ++y) {
+    for(int x=0; x < tm->get_width(); ++x) {
+      for(int y=0; y < tm->get_height(); ++y) {
         const auto& tile = tm->get_tile(x, y);
         uint32_t attributes = tile->getAttributes();
         Vector pos = tm->get_tile_position(x, y);
@@ -372,12 +372,12 @@ SectorParser::fix_old_tiles()
             // space lights a bit
             if ((tm->get_tile(x-1, y)->getAttributes() != attributes || x%3 == 0)
                  && (tm->get_tile(x, y-1)->getAttributes() != attributes || y%3 == 0)) {
-              float pseudo_rnd = (float)((int)pos.x % 10) / 10;
+              float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
               m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.8f, 1.0f, Color(1.0f, 0.3f, 0.0f, 1.0f)));
             }
           } else {
             // torch
-            float pseudo_rnd = (float)((int)pos.x % 10) / 10;
+            float pseudo_rnd = static_cast<float>(static_cast<int>(pos.x) % 10) / 10;
             m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
           }
         }

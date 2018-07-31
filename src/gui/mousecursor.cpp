@@ -62,7 +62,7 @@ void MouseCursor::draw(DrawingContext& context)
   {
     int x;
     int y;
-    Uint8 ispressed = SDL_GetMouseState(&x, &y);
+    Uint32 ispressed = SDL_GetMouseState(&x, &y);
 
     Vector mouse_pos = VideoSystem::current()->get_viewport().to_logical(x, y);
 
@@ -76,13 +76,15 @@ void MouseCursor::draw(DrawingContext& context)
     }
 
     context.color().draw_surface(m_cursor[static_cast<int>(tmp_state)],
-                                   Vector(x - m_mid_x, y - m_mid_y),
-                                   LAYER_GUI + 100);
+                                 Vector(static_cast<float>(x - m_mid_x),
+                                        static_cast<float>(y - m_mid_y)),
+                                 LAYER_GUI + 100);
 
     if (m_icon) {
-      context.color().draw_surface(m_icon, Vector(x - m_mid_x,
-                                                    y - m_mid_y - m_icon->get_height()),
-                                     LAYER_GUI + 100);
+      context.color().draw_surface(m_icon,
+                                   Vector(static_cast<float>(x - m_mid_x),
+                                          static_cast<float>(y - m_mid_y - m_icon->get_height())),
+                                   LAYER_GUI + 100);
     }
   }
 }

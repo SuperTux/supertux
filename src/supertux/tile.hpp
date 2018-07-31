@@ -142,7 +142,7 @@ public:
   /** Checks the SLOPE attribute. Returns "true" if set, "false" otherwise. */
   bool is_slope() const
   {
-    return attributes & SLOPE;
+    return (attributes & SLOPE) != 0;
   }
 
   /** Determine the solidity of a tile. This version behaves correctly for
@@ -158,7 +158,7 @@ public:
    * method that takes position and movement into account (see above). */
   bool is_solid() const
   {
-    return attributes & SOLID;
+    return (attributes & SOLID) != 0;
   }
 
   /** Determines whether the tile's attributes are important to calculate the
@@ -169,7 +169,7 @@ public:
   /** Checks the UNISOLID attribute. Returns "true" if set, "false" otherwise. */
   bool is_unisolid() const
   {
-    return attributes & UNISOLID;
+    return (attributes & UNISOLID) != 0;
   }
 
   std::string get_object_name() const {

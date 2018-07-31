@@ -43,7 +43,7 @@ SequenceTrigger::SequenceTrigger(const ReaderMapping& reader) :
 
   reader.get("new_spawnpoint", new_spawnpoint);
   reader.get("fade_tilemap", fade_tilemap);
-  reader.get("fade", (int&)fade);
+  reader.get("fade", reinterpret_cast<int&>(fade));
 }
 
 SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence_name) :

@@ -56,8 +56,8 @@ WorldmapObject::WorldmapObject (const Vector& pos, const std::string& default_sp
 void
 WorldmapObject::move_to(const Vector& pos) {
   Vector new_pos;
-  new_pos.x = 32 * int(pos.x / 32);
-  new_pos.y = 32 * int(pos.y / 32);
+  new_pos.x = 32.0f * static_cast<float>(pos.x / 32);
+  new_pos.y = 32.0f * static_cast<float>(pos.y / 32);
   set_pos(new_pos);
 }
 

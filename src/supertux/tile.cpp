@@ -72,10 +72,10 @@ Tile::load_images()
       else
       {
         surface = Surface::create(spec.file,
-                                  Rect((int) spec.rect.p1.x,
-                                       (int) spec.rect.p1.y,
-                                       Size((int) spec.rect.get_width(),
-                                            (int) spec.rect.get_height())));
+                                  Rect(static_cast<int>(spec.rect.p1.x),
+                                       static_cast<int>(spec.rect.p1.y),
+                                       Size(static_cast<int>(spec.rect.get_width()),
+                                            static_cast<int>(spec.rect.get_height()))));
       }
       images.push_back(surface);
     }
@@ -94,10 +94,10 @@ Tile::load_images()
       else
       {
         surface = Surface::create(spec.file,
-                                  Rect((int) spec.rect.p1.x,
-                                       (int) spec.rect.p1.y,
-                                       Size((int) spec.rect.get_width(),
-                                            (int) spec.rect.get_height())));
+                                  Rect(static_cast<int>(spec.rect.p1.x),
+                                       static_cast<int>(spec.rect.p1.y),
+                                       Size(static_cast<int>(spec.rect.get_width()),
+                                            static_cast<int>(spec.rect.get_height()))));
       }
       editor_images.push_back(surface);
     }
@@ -191,8 +191,8 @@ bool Tile::check_movement_unisolid (const Vector& movement) const
    *   / !
    *  +--+
    */
-  mv_x = (double) movement.x; //note switch to double for no good reason
-  mv_y = (double) movement.y;
+  mv_x = static_cast<double>(movement.x); //note switch to double for no good reason
+  mv_y = static_cast<double>(movement.y);
 
   slope_info = getData();
   switch (slope_info & AATriangle::DIRECTION_MASK)

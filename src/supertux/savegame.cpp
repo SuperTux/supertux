@@ -270,7 +270,7 @@ Savegame::save()
     scripting::save_squirrel_table(vm, -1, writer);
     sq_pop(vm, 1); // Pop "state"
   }
-  catch(const std::exception& ex)
+  catch(const std::exception&)
   {
   }
   sq_pop(vm, 1); // Pop root table
@@ -285,7 +285,7 @@ Savegame::get_worldmaps()
   std::vector<std::string> worlds;
 
   HSQUIRRELVM vm = scripting::global_vm;
-  int oldtop = sq_gettop(vm);
+  SQInteger oldtop = sq_gettop(vm);
 
   try
   {
@@ -310,7 +310,7 @@ Savegame::get_worldmap_state(const std::string& name)
   WorldmapState result;
 
   HSQUIRRELVM vm = scripting::global_vm;
-  int oldtop = sq_gettop(vm);
+  SQInteger oldtop = sq_gettop(vm);
 
   try
   {
@@ -338,7 +338,7 @@ Savegame::get_levelsets()
   std::vector<std::string> results;
 
   HSQUIRRELVM vm = scripting::global_vm;
-  int oldtop = sq_gettop(vm);
+  SQInteger oldtop = sq_gettop(vm);
 
   try
   {
@@ -363,7 +363,7 @@ Savegame::get_levelset_state(const std::string& basedir)
   LevelsetState result;
 
   HSQUIRRELVM vm = scripting::global_vm;
-  int oldtop = sq_gettop(vm);
+  SQInteger oldtop = sq_gettop(vm);
 
   try
   {
@@ -393,7 +393,7 @@ Savegame::set_levelset_state(const std::string& basedir,
   LevelsetState state = get_levelset_state(basedir);
 
   HSQUIRRELVM vm = scripting::global_vm;
-  int oldtop = sq_gettop(vm);
+  SQInteger oldtop = sq_gettop(vm);
 
   try
   {

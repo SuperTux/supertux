@@ -31,28 +31,32 @@ ItemStringSelect::ItemStringSelect(const std::string& text_, const std::vector<s
 
 void
 ItemStringSelect::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
-  float roff = Resources::arrow_left->get_width() * 1.0f;
+  float roff = static_cast<float>(Resources::arrow_left->get_width()) * 1.0f;
   float sel_width = Resources::normal_font->get_text_width(list[*selected]);
   // Draw left side
   context.color().draw_text(Resources::normal_font, text,
-                              Vector(pos.x + 16, pos.y - int(Resources::normal_font->get_height()/2)),
+                              Vector(pos.x + 16.0f,
+                                     pos.y - Resources::normal_font->get_height() / 2.0f),
                               ALIGN_LEFT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
 
   // Draw right side
   context.color().draw_surface(Resources::arrow_left,
-                                 Vector(pos.x + menu_width - sel_width - 2*roff - 8, pos.y - 8),
-                                 LAYER_GUI);
+                               Vector(pos.x + static_cast<float>(menu_width) - sel_width - 2.0f * roff - 8.0f,
+                                      pos.y - 8.0f),
+                               LAYER_GUI);
   context.color().draw_surface(Resources::arrow_right,
-                                 Vector(pos.x + menu_width - roff - 8, pos.y - 8),
-                                 LAYER_GUI);
+                               Vector(pos.x + static_cast<float>(menu_width) - roff - 8.0f,
+                                      pos.y - 8.0f),
+                               LAYER_GUI);
   context.color().draw_text(Resources::normal_font, list[*selected],
-                              Vector(pos.x + menu_width - roff - 8, pos.y - int(Resources::normal_font->get_height()/2)),
-                              ALIGN_RIGHT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
+                            Vector(pos.x + static_cast<float>(menu_width) - roff - 8.0f,
+                                   pos.y - Resources::normal_font->get_height() / 2.0f),
+                            ALIGN_RIGHT, LAYER_GUI, active ? ColorScheme::Menu::active_color : get_color());
 }
 
 int
 ItemStringSelect::get_width() const {
-  return Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(list[*selected]) + 64;
+  return static_cast<int>(Resources::normal_font->get_text_width(text) + Resources::normal_font->get_text_width(list[*selected])) + 64;
 }
 
 void
@@ -62,7 +66,7 @@ ItemStringSelect::process_action(const MenuAction& action) {
       if( (*selected) > 0) {
         (*selected)--;
       } else {
-        (*selected) = list.size()-1;
+        (*selected) = static_cast<int>(list.size()) - 1;
       }
       MenuManager::instance().current_menu()->menu_action(this);
       break;

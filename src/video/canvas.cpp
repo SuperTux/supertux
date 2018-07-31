@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include "supertux/globals.hpp"
+#include "util/log.hpp"
 #include "util/obstackpp.hpp"
 #include "video/drawing_request.hpp"
 #include "video/lightmap.hpp"
@@ -132,7 +133,8 @@ Canvas::render(VideoSystem& video_system, Filter filter)
             lightmap.draw_filled_rect(request);
             break;
           case INVERSEELLIPSE:
-            assert(!"InverseEllipse doesn't make sense on the lightmap");
+            log_warning << "InverseEllipse doesn't make sense on the lightmap" << std::endl;
+            assert(false);
             break;
           case GETLIGHT:
             lightmap.get_light(request);
@@ -163,8 +165,8 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position,
   // discard clipped surface
   if(position.x > cliprect.get_right() ||
      position.y > cliprect.get_bottom() ||
-     position.x + surface->get_width() < cliprect.get_left() ||
-     position.y + surface->get_height() < cliprect.get_top())
+     position.x + static_cast<float>(surface->get_width()) < cliprect.get_left() ||
+     position.y + static_cast<float>(surface->get_height()) < cliprect.get_top())
     return;
 
   request->type = SURFACE;
@@ -240,7 +242,7 @@ void
 Canvas::draw_center_text(FontPtr font, const std::string& text,
                          const Vector& position, int layer, Color color)
 {
-  draw_text(font, text, Vector(position.x + m_context.get_width()/2, position.y),
+  draw_text(font, text, Vector(position.x + static_cast<float>(m_context.get_width()) / 2.0f, position.y),
             ALIGN_CENTER, layer, color);
 }
 
@@ -389,8 +391,8 @@ Canvas::draw_triangle(const Vector& pos1, const Vector& pos2, const Vector& pos3
 Vector
 Canvas::apply_translate(const Vector& pos) const
 {
-  return m_context.transform().apply(pos) + Vector(m_context.get_viewport().left,
-                                                       m_context.get_viewport().top);
+  return m_context.transform().apply(pos) + Vector(static_cast<float>(m_context.get_viewport().left),
+                                                   static_cast<float>(m_context.get_viewport().top));
 }
 
 /* EOF */

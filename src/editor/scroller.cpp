@@ -131,7 +131,7 @@ EditorScroller::event(SDL_Event& ev) {
         scrolling_vec = mouse_pos - Vector(MIDDLE, MIDDLE);
         if (scrolling_vec.x != 0 || scrolling_vec.y != 0) {
           float norm = scrolling_vec.norm();
-          scrolling_vec *= pow(M_E, norm/16 - 1);
+          scrolling_vec *= powf(static_cast<float>(M_E), norm / 16.0f - 1.0f);
         }
       }
       return false;

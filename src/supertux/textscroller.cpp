@@ -70,7 +70,7 @@ TextScroller::TextScroller(const std::string& filename) :
         }
 
         // Split text string lines into a vector
-        lines = InfoBoxLine::split(text, SCREEN_WIDTH - 2*LEFT_BORDER);
+        lines = InfoBoxLine::split(text, static_cast<float>(SCREEN_WIDTH) - 2.0f * LEFT_BORDER);
       } else if (version == 2) {
         ReaderMapping content;
         if (!text_lisp.get("content", content)) {
@@ -210,16 +210,20 @@ TextScroller::draw(Compositor& compositor)
 {
   auto& context = compositor.make_context();
 
-  context.color().draw_filled_rect(Vector(0, 0), Vector(context.get_width(), context.get_height()),
+  context.color().draw_filled_rect(Vector(0, 0), Vector(static_cast<float>(context.get_width()), static_cast<float>(context.get_height())),
                            Color(0.6f, 0.7f, 0.8f, 0.5f), 0);
-  context.color().draw_surface_part(background, Rectf(0, 0, background->get_width(), background->get_height()),
-                            Rectf(0, 0, context.get_width(), context.get_height()), 0);
+  context.color().draw_surface_part(background, Rectf(0, 0,
+                                                      static_cast<float>(background->get_width()),
+                                                      static_cast<float>(background->get_height())),
+                                    Rectf(0, 0,
+                                          static_cast<float>(context.get_width()),
+                                          static_cast<float>(context.get_height())), 0);
 
 
-  float y = context.get_height() - scroll;
+  float y = static_cast<float>(context.get_height()) - scroll;
   for (auto& line : lines) {
-    if (y + line->get_height() >= 0 && context.get_height() - y >= 0) {
-      line->draw(context, Rectf(LEFT_BORDER, y, context.get_width() - 2*LEFT_BORDER, y), LAYER_GUI);
+    if (y + line->get_height() >= 0 && static_cast<float>(context.get_height()) - y >= 0) {
+      line->draw(context, Rectf(LEFT_BORDER, y, static_cast<float>(context.get_width()) - 2*LEFT_BORDER, y), LAYER_GUI);
     }
 
     y += line->get_height();

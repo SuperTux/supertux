@@ -55,7 +55,7 @@ Door::Door(int x, int y, const std::string& sector, const std::string& spawnpoin
   sprite(SpriteManager::current()->create("images/objects/door/door.sprite")),
   stay_open_timer()
 {
-  bbox.set_pos(Vector(x, y));
+  bbox.set_pos(Vector(static_cast<float>(x), static_cast<float>(y)));
 
   sprite->set_action("closed");
   bbox.set_size(sprite->get_current_hitbox_width(), sprite->get_current_hitbox_height());
@@ -147,10 +147,10 @@ Door::collision(GameObject& other, const CollisionHit& hit_)
     {
       // if door is open and was touched by a player, teleport the player
       Player* player = dynamic_cast<Player*> (&other);
-      
+
       if (player) {
         bool invincible = player->is_invincible();
-        int invincibilityperiod = player->invincible_timer.get_timeleft();
+        int invincibilityperiod = static_cast<int>(player->invincible_timer.get_timeleft());
         state = CLOSING;
         sprite->set_action("closing", 1);
         if(!script.empty()) {

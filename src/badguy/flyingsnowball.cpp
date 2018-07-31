@@ -44,8 +44,8 @@ FlyingSnowBall::initialize()
 void
 FlyingSnowBall::activate()
 {
-  puff_timer.start(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
-  normal_propeller_speed = gameRandom.randf(0.95, 1.05);
+  puff_timer.start(static_cast<float>(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX)));
+  normal_propeller_speed = gameRandom.randf(0.95f, 1.05f);
 }
 
 bool
@@ -111,7 +111,7 @@ FlyingSnowBall::active_update(float elapsed_time)
                                                                    LAYER_OBJECTS-1));
     puff_timer.start(gameRandom.randf(PUFF_INTERVAL_MIN, PUFF_INTERVAL_MAX));
 
-    normal_propeller_speed = gameRandom.randf(0.95, 1.05);
+    normal_propeller_speed = gameRandom.randf(0.95f, 1.05f);
     physic.set_velocity_y(physic.get_velocity_y() - 50);
   }
 }

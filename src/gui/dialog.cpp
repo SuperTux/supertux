@@ -20,6 +20,7 @@
 
 #include "control/controller.hpp"
 #include "gui/mousecursor.hpp"
+#include "math/util.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
@@ -64,14 +65,14 @@ void
 Dialog::add_default_button(const std::string& text, const std::function<void ()>& callback)
 {
   add_button(text, callback);
-  m_selected_button = m_buttons.size() - 1;
+  m_selected_button = static_cast<int>(m_buttons.size()) - 1;
 }
 
 void
 Dialog::add_cancel_button(const std::string& text, const std::function<void ()>& callback)
 {
   add_button(text, callback);
-  m_cancel_button = m_buttons.size() - 1;
+  m_cancel_button = static_cast<int>(m_buttons.size() - 1);
 }
 
 void
@@ -83,17 +84,17 @@ Dialog::add_button(const std::string& text, const std::function<void ()>& callba
 int
 Dialog::get_button_at(const Vector& mouse_pos) const
 {
-  Rectf bg_rect(Vector(SCREEN_WIDTH/2 - m_text_size.width/2,
-                       SCREEN_HEIGHT/2 - m_text_size.height/2),
+  Rectf bg_rect(Vector(static_cast<float>(SCREEN_WIDTH) / 2.0f - m_text_size.width / 2.0f,
+                       static_cast<float>(SCREEN_HEIGHT) / 2.0f - m_text_size.height / 2.0f),
                 Sizef(m_text_size.width,
                       m_text_size.height + 44));
 
   for(int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
   {
-    float segment_width = bg_rect.get_width() / m_buttons.size();
+    float segment_width = bg_rect.get_width() / static_cast<float>(m_buttons.size());
     float button_width = segment_width;
     float button_height = 24.0f;
-    Vector pos(bg_rect.p1.x + segment_width/2.0f + i * segment_width,
+    Vector pos(bg_rect.p1.x + segment_width/2.0f + static_cast<float>(i) * segment_width,
                bg_rect.p2.y - 12);
     Rectf button_rect(Vector(pos.x - button_width/2, pos.y - button_height/2),
                       Vector(pos.x + button_width/2, pos.y + button_height/2));
@@ -183,8 +184,12 @@ Dialog::process_input(const Controller& controller)
 void
 Dialog::draw(DrawingContext& context)
 {
-  Rectf bg_rect(Vector(m_passive ? (context.get_width() - m_text_size.width - 20) : context.get_width()/2 - m_text_size.width/2,
-                       m_passive ? (context.get_height() - m_text_size.height - 65) : (context.get_height()/2 - m_text_size.height/2)),
+  Rectf bg_rect(Vector(static_cast<float>(m_passive ?
+                                          (static_cast<float>(context.get_width()) - m_text_size.width - 20.0f) :
+                                          static_cast<float>(context.get_width()) / 2.0f - m_text_size.width / 2.0f),
+                       static_cast<float>(m_passive ?
+                                          (static_cast<float>(context.get_height()) - m_text_size.height - 65.0f) :
+                                          (static_cast<float>(context.get_height()) / 2.0f - m_text_size.height / 2.0f))),
                 Sizef(m_text_size.width,
                       m_text_size.height + 44));
 
@@ -218,15 +223,15 @@ Dialog::draw(DrawingContext& context)
   // draw buttons
   for(int i = 0; i < static_cast<int>(m_buttons.size()); ++i)
   {
-    float segment_width = bg_rect.get_width() / m_buttons.size();
+    float segment_width = bg_rect.get_width() / static_cast<float>(m_buttons.size());
     float button_width = segment_width;
-    Vector pos(bg_rect.p1.x + segment_width/2.0f + i * segment_width,
+    Vector pos(bg_rect.p1.x + segment_width/2.0f + static_cast<float>(i) * segment_width,
                bg_rect.p2.y - 12);
 
     if (i == m_selected_button)
     {
       float button_height = 24.0f;
-      float blink = (sinf(real_time * M_PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
+      float blink = (sinf(real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
       context.color().draw_filled_rect(Rectf(Vector(pos.x - button_width/2, pos.y - button_height/2),
                                                Vector(pos.x + button_width/2, pos.y + button_height/2)).grown(2.0f),
                                          Color(1.0f, 1.0f, 1.0f, blink),
@@ -240,9 +245,9 @@ Dialog::draw(DrawingContext& context)
     }
 
     context.color().draw_text(Resources::normal_font, m_buttons[i].text,
-                                Vector(pos.x, pos.y - int(Resources::normal_font->get_height()/2)),
-                                ALIGN_CENTER, LAYER_GUI,
-                                i == m_selected_button ? ColorScheme::Menu::active_color : ColorScheme::Menu::default_color);
+                              Vector(pos.x, pos.y - static_cast<float>(int(Resources::normal_font->get_height() / 2))),
+                              ALIGN_CENTER, LAYER_GUI,
+                              i == m_selected_button ? ColorScheme::Menu::active_color : ColorScheme::Menu::default_color);
   }
 }
 

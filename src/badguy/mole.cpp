@@ -21,6 +21,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/mole_rock.hpp"
 #include "math/random_generator.hpp"
+#include "math/util.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
@@ -77,9 +78,9 @@ Mole::collision_squished(GameObject& )
 void
 Mole::throw_rock()
 {
-  float angle = gameRandom.rand(90 - 15, 90 + 15) * (M_PI / 180);
-  float vx = cos(angle) * THROW_VELOCITY;
-  float vy = -sin(angle) * THROW_VELOCITY;
+  float angle = gameRandom.randf(90.0f - 15.0f, 90.0f + 15.0f) * (math::PI / 180.0f);
+  float vx = cosf(angle) * THROW_VELOCITY;
+  float vy = -sinf(angle) * THROW_VELOCITY;
 
   SoundManager::current()->play("sounds/dartfire.wav", get_pos());
   Sector::current()->add_object(std::make_shared<MoleRock>(bbox.get_middle(), Vector(vx, vy), this));

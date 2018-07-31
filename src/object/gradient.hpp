@@ -24,15 +24,17 @@
 
 class ReaderMapping;
 
-class Gradient : public GameObject,
-                 public ExposedObject<Gradient, scripting::Gradient>
+class Gradient final :
+  public GameObject,
+  public ExposedObject<Gradient, scripting::Gradient>
 {
 public:
   Gradient();
   Gradient(const ReaderMapping& reader);
   virtual ~Gradient();
-  virtual bool is_saveable() const;
-  virtual void save(Writer& writer);
+
+  virtual bool is_saveable() const override;
+  virtual void save(Writer& writer) override;
 
   void set_gradient(Color top, Color bottom);
 
@@ -47,26 +49,24 @@ public:
 
   void set_direction(const GradientDirection& direction);
 
-  virtual void update(float elapsed_time);
+  virtual void update(float elapsed_time) override;
 
-  virtual void draw(DrawingContext& context);
+  virtual void draw(DrawingContext& context) override;
 
-  void on_window_resize();
-
-  std::string get_class() const {
+  virtual std::string get_class() const override {
     return "gradient";
   }
 
-  std::string get_display_name() const {
+  virtual std::string get_display_name() const override {
     return _("Gradient");
   }
 
   int get_layer() const
   { return layer; }
 
-  virtual ObjectSettings get_settings();
+  virtual ObjectSettings get_settings() override;
 
-  virtual const std::string get_icon_path() const {
+  virtual const std::string get_icon_path() const override {
     return "images/engine/editor/gradient.png";
   }
 
@@ -75,9 +75,8 @@ private:
   Color gradient_top;
   Color gradient_bottom;
   GradientDirection gradient_direction;
-  Rectf gradient_region;
 };
 
-#endif /*SUPERTUX_BACKGROUND_H*/
+#endif
 
 /* EOF */

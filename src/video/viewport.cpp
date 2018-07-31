@@ -37,13 +37,13 @@ apply_pixel_aspect_ratio_pre(const Size& window_size, float pixel_aspect_ratio)
 {
   if (true)
   {
-    return Size(window_size.width * pixel_aspect_ratio,
+    return Size(static_cast<int>(static_cast<float>(window_size.width) * pixel_aspect_ratio),
                 window_size.height);
   }
   else
   {
     return Size(window_size.width,
-                window_size.height * pixel_aspect_ratio);
+                static_cast<int>(static_cast<float>(window_size.height) * pixel_aspect_ratio));
   }
 }
 
@@ -51,13 +51,13 @@ inline void
 apply_pixel_aspect_ratio_post(const Size& real_window_size, const Size& window_size, float scale,
                               Rect& out_viewport, Vector& out_scale)
 {
-  Vector transform(static_cast<float>(real_window_size.width) / window_size.width,
-                   static_cast<float>(real_window_size.height) / window_size.height);
+  Vector transform(static_cast<float>(real_window_size.width) / static_cast<float>(window_size.width),
+                   static_cast<float>(real_window_size.height) / static_cast<float>(window_size.height));
 
-  out_viewport.left *= transform.x;
-  out_viewport.top *= transform.y;
-  out_viewport.right *= transform.x;
-  out_viewport.bottom *= transform.y;
+  out_viewport.left = static_cast<int>(static_cast<float>(out_viewport.left) * transform.x);
+  out_viewport.top = static_cast<int>(static_cast<float>(out_viewport.top) * transform.y);
+  out_viewport.right = static_cast<int>(static_cast<float>(out_viewport.right) * transform.x);
+  out_viewport.bottom = static_cast<int>(static_cast<float>(out_viewport.bottom) * transform.y);
 
   out_scale.x = scale * transform.x;
   out_scale.y = scale * transform.y;
@@ -77,16 +77,16 @@ calculate_scale(const Size& min_size, const Size& max_size,
     if (window_size.width > max_size.width ||
         window_size.height > max_size.height)
     {
-      scale = std::max(static_cast<float>(window_size.width) / max_size.width,
-                       static_cast<float>(window_size.height) / max_size.height);
+      scale = std::max(static_cast<float>(window_size.width) / static_cast<float>(max_size.width),
+                       static_cast<float>(window_size.height) / static_cast<float>(max_size.height));
     }
 
     // If the resulting area would violate min_size, scale it down
-    if (window_size.width / scale < min_size.width ||
-        window_size.height / scale < min_size.height)
+    if (static_cast<float>(window_size.width) / scale < static_cast<float>(min_size.width) ||
+        static_cast<float>(window_size.height) / scale < static_cast<float>(min_size.height))
     {
-      scale = std::min(static_cast<float>(window_size.width) / min_size.width,
-                       static_cast<float>(window_size.height) / min_size.height);
+      scale = std::min(static_cast<float>(window_size.width) / static_cast<float>(min_size.width),
+                       static_cast<float>(window_size.height) / static_cast<float>(min_size.height));
     }
   }
 
@@ -97,9 +97,9 @@ inline Rect
 calculate_viewport(const Size& max_size, const Size& window_size, float scale)
 {
   int viewport_width = std::min(window_size.width,
-                                static_cast<int>(scale * max_size.width));
+                                static_cast<int>(scale * static_cast<float>(max_size.width)));
   int viewport_height = std::min(window_size.height,
-                                 static_cast<int>(scale * max_size.height));
+                                 static_cast<int>(scale * static_cast<float>(max_size.height)));
 
   // Center the viewport in the window
   Rect viewport;
@@ -194,13 +194,13 @@ Viewport::Viewport(const Rect& rect, const Vector& scale) :
 int
 Viewport::get_screen_width() const
 {
-  return static_cast<int>(m_rect.get_width() / m_scale.x);
+  return static_cast<int>(static_cast<float>(m_rect.get_width()) / m_scale.x);
 }
 
 int
 Viewport::get_screen_height() const
 {
-  return static_cast<int>(m_rect.get_height() / m_scale.y);
+  return static_cast<int>(static_cast<float>(m_rect.get_height()) / m_scale.y);
 }
 
 Vector

@@ -25,7 +25,7 @@ ShrinkFade::ShrinkFade(const Vector& dest_, float fade_time_) :
   dest(dest_),
   fade_time(fade_time_),
   accum_time(0),
-  initial_size(SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_HEIGHT : SCREEN_WIDTH)
+  initial_size(static_cast<float>(SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_HEIGHT : SCREEN_WIDTH))
 {
 }
 

@@ -114,8 +114,8 @@ MagicBlock::update(float elapsed_time)
   auto cam = Sector::current()->get_players()[0]->get_camera();
   float screen_left = cam->get_translation().x;
   float screen_top = cam->get_translation().y;
-  float screen_right = screen_left+ SCREEN_WIDTH;
-  float screen_bottom = screen_top + SCREEN_HEIGHT;
+  float screen_right = screen_left + static_cast<float>(SCREEN_WIDTH);
+  float screen_bottom = screen_top + static_cast<float>(SCREEN_HEIGHT);
   if((center.x > screen_right ) || ( center.y > screen_bottom) ||
      ( center.x < screen_left) || ( center.y < screen_top)) {
     switch_delay = SWITCH_DELAY;

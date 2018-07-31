@@ -1157,7 +1157,7 @@ static SQInteger FloatingImage_get_action_wrapper(HSQUIRRELVM vm)
     std::string return_value = _this->get_action();
 
     assert(return_value.size() < std::numeric_limits<SQInteger>::max());
-    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
   } catch(std::exception& e) {
@@ -1297,7 +1297,7 @@ static SQInteger Gradient_get_direction_wrapper(HSQUIRRELVM vm)
     std::string return_value = _this->get_direction();
 
     assert(return_value.size() < std::numeric_limits<SQInteger>::max());
-    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
   } catch(std::exception& e) {
@@ -2631,7 +2631,7 @@ static SQInteger ScriptedObject_get_action_wrapper(HSQUIRRELVM vm)
     std::string return_value = _this->get_action();
 
     assert(return_value.size() < std::numeric_limits<SQInteger>::max());
-    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
   } catch(std::exception& e) {
@@ -3091,7 +3091,7 @@ static SQInteger ScriptedObject_get_name_wrapper(HSQUIRRELVM vm)
     std::string return_value = _this->get_name();
 
     assert(return_value.size() < std::numeric_limits<SQInteger>::max());
-    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
   } catch(std::exception& e) {
@@ -4924,7 +4924,7 @@ static SQInteger translate_wrapper(HSQUIRRELVM vm)
     std::string return_value = scripting::translate(arg0);
 
     assert(return_value.size() < std::numeric_limits<SQInteger>::max());
-    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
   } catch(std::exception& e) {
@@ -4949,7 +4949,7 @@ static SQInteger __wrapper(HSQUIRRELVM vm)
     std::string return_value = scripting::_(arg0);
 
     assert(return_value.size() < std::numeric_limits<SQInteger>::max());
-    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
   } catch(std::exception& e) {
@@ -4984,7 +4984,7 @@ static SQInteger translate_plural_wrapper(HSQUIRRELVM vm)
     std::string return_value = scripting::translate_plural(arg0, arg1, static_cast<int> (arg2));
 
     assert(return_value.size() < std::numeric_limits<SQInteger>::max());
-    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
   } catch(std::exception& e) {
@@ -5019,7 +5019,7 @@ static SQInteger ___wrapper(HSQUIRRELVM vm)
     std::string return_value = scripting::__(arg0, arg1, static_cast<int> (arg2));
 
     assert(return_value.size() < std::numeric_limits<SQInteger>::max());
-    sq_pushstring(vm, return_value.c_str(), (SQInteger)return_value.size());
+    sq_pushstring(vm, return_value.c_str(), static_cast<SQInteger>(return_value.size()));
     return 1;
 
   } catch(std::exception& e) {

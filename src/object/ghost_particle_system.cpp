@@ -47,17 +47,18 @@ void GhostParticleSystem::init()
   ghosts[0] = Surface::create("images/objects/particles/ghost0.png");
   ghosts[1] = Surface::create("images/objects/particles/ghost1.png");
 
-  virtual_width = SCREEN_WIDTH * 2;
+  virtual_width = static_cast<float>(SCREEN_WIDTH) * 2.0f;
 
   // create two ghosts
   size_t ghostcount = 2;
   for(size_t i=0; i<ghostcount; ++i) {
     auto particle = std::unique_ptr<GhostParticle>(new GhostParticle);
     particle->pos.x = graphicsRandom.randf(virtual_width);
-    particle->pos.y = graphicsRandom.randf(SCREEN_HEIGHT);
+    particle->pos.y = graphicsRandom.randf(static_cast<float>(SCREEN_HEIGHT));
     int size = graphicsRandom.rand(2);
     particle->texture = ghosts[size];
-    particle->speed = graphicsRandom.randf(std::max(50, (size * 10)), 180 + (size * 10));
+    particle->speed = graphicsRandom.randf(std::max(50.0f, static_cast<float>(size) * 10.0f),
+                                           180.0f + static_cast<float>(size) * 10.0f);
     particles.push_back(std::move(particle));
   }
 }
@@ -71,9 +72,9 @@ void GhostParticleSystem::update(float elapsed_time)
     const auto& particle = dynamic_cast<GhostParticle*>(part.get());
     particle->pos.y -= particle->speed * elapsed_time;
     particle->pos.x -= particle->speed * elapsed_time;
-    if(particle->pos.y > SCREEN_HEIGHT) {
+    if(particle->pos.y > static_cast<float>(SCREEN_HEIGHT)) {
       particle->pos.y = fmodf(particle->pos.y , virtual_height);
-      particle->pos.x = graphicsRandom.rand(static_cast<int>(virtual_width));
+      particle->pos.x = graphicsRandom.randf(virtual_width);
     }
   }
 }

@@ -63,7 +63,9 @@ Bullet::update(float elapsed_time)
 {
   // cause fireball color to flicker randomly
   if (gameRandom.rand(5) != 0) {
-    lightsprite->set_color(Color(0.3f + gameRandom.rand(10)/100.0f, 0.1f + gameRandom.rand(20)/100.0f, gameRandom.rand(10)/100.0f));
+    lightsprite->set_color(Color(0.3f + gameRandom.randf(10) / 100.0f,
+                                 0.1f + gameRandom.randf(20.0f) / 100.0f,
+                                 gameRandom.randf(10.0f) / 100.0f));
   } else
     lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
   // remove bullet when it's offscreen
@@ -77,9 +79,9 @@ Bullet::update(float elapsed_time)
     float scroll_y = cam_translation.y;
 
     if (get_pos().x < scroll_x ||
-        get_pos().x > scroll_x + SCREEN_WIDTH ||
+      get_pos().x > scroll_x + static_cast<float>(SCREEN_WIDTH) ||
         //     get_pos().y < scroll_y ||
-        get_pos().y > scroll_y + SCREEN_HEIGHT ||
+      get_pos().y > scroll_y + static_cast<float>(SCREEN_HEIGHT) ||
         life_count <= 0) {
         count++;
     }

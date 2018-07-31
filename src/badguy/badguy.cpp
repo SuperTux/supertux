@@ -631,7 +631,7 @@ BadGuy::might_fall(int height) const
   float x1;
   float x2;
   float y1 = bbox.p2.y + 1;
-  float y2 = bbox.p2.y + 1 + height;
+  float y2 = bbox.p2.y + 1 + static_cast<float>(height);
   if (dir == LEFT) {
     x1 = bbox.p1.x - 1;
     x2 = bbox.p1.x;

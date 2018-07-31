@@ -38,28 +38,28 @@ void ObjectSettings::copy_from(ObjectSettings* other) {
       case MN_SCRIPT:
       case MN_FILE:
         assert(oo1->type == oo2->type);
-        *((std::string*)oo1->option) = *((std::string*)oo2->option);
+        *(static_cast<std::string*>(oo1->option)) = *(static_cast<std::string*>(oo2->option));
         break;
       case MN_NUMFIELD:
         assert(oo1->type == oo2->type);
-        *((float*)oo1->option) = *((float*)oo2->option);
+        *(static_cast<float*>(oo1->option)) = *(static_cast<float*>(oo2->option));
         break;
       case MN_INTFIELD:
       case MN_STRINGSELECT:
         assert(oo1->type == oo2->type);
-        *((int*)oo1->option) = *((int*)oo2->option);
+        *(static_cast<int*>(oo1->option)) = *(static_cast<int*>(oo2->option));
         break;
       case MN_TOGGLE:
         assert(oo1->type == oo2->type);
-        *((bool*)oo1->option) = *((bool*)oo2->option);
+        *(static_cast<bool*>(oo1->option)) = *(static_cast<bool*>(oo2->option));
         break;
       case MN_BADGUYSELECT:
         assert(oo1->type == oo2->type);
-        *((std::vector<std::string>*)oo1->option) = *((std::vector<std::string>*)oo2->option);
+        *(static_cast<std::vector<std::string>*>(oo1->option)) = *(static_cast<std::vector<std::string>*>(oo2->option));
         break;
       case MN_COLOR:
         assert(oo1->type == oo2->type);
-        *((Color*)oo1->option) = *((Color*)oo2->option);
+        *(static_cast<Color*>(oo1->option)) = *(static_cast<Color*>(oo2->option));
         break;
       default:
         //Do not assert here!

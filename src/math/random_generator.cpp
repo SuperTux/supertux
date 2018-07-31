@@ -62,7 +62,7 @@ RandomGenerator::RandomGenerator() :
 int RandomGenerator::srand(int x)    {
   int x0 = x;
   while (x <= 0)                          // random seed of zero means
-    x = time(0) % RandomGenerator::rand_max; // randomize with time
+    x = static_cast<int>(time(0)) % RandomGenerator::rand_max; // randomize with time
 
   if (debug > 0)
     printf("==== srand(%10d) (%10d) rand_max=%x =====\n",
@@ -74,7 +74,7 @@ int RandomGenerator::srand(int x)    {
 
 int RandomGenerator::rand() {
   int rv;                                  // a positive int
-  while ((rv = RandomGenerator::random()) <= 0) // neg or zero causes probs
+  while ((rv = static_cast<int>(RandomGenerator::random())) <= 0) // neg or zero causes probs
     ;
   if (debug > 0)
     printf("==== rand(): %10d =====\n", rv);
@@ -86,7 +86,7 @@ int RandomGenerator::rand(int v) {
 
   // remove biases, esp. when v is large (e.g. v == (rand_max/4)*3;)
   int rv, maxV =(RandomGenerator::rand_max / v) * v;
-  while ((rv = RandomGenerator::random()) >= maxV)
+  while ((rv = static_cast<int>(RandomGenerator::random())) >= maxV)
     ;
   return rv % v;                          // mod it down to 0..(maxV-1)
 }
@@ -96,10 +96,10 @@ int RandomGenerator::rand(int u, int v) {
   return u + RandomGenerator::rand(v-u);
 }
 
-double RandomGenerator::randf(double v) {
-  double rv;
+float RandomGenerator::randf(float v) {
+  float rv;
   do {
-    rv = ((double)RandomGenerator::random())/RandomGenerator::rand_max * v;
+    rv = (static_cast<float>(RandomGenerator::random())) / static_cast<float>(RandomGenerator::rand_max) * v;
   } while (rv >= v);                      // rounding might cause rv==v
 
   if (debug > 0)
@@ -107,7 +107,7 @@ double RandomGenerator::randf(double v) {
   return rv;
 }
 
-double RandomGenerator::randf(double u, double v) {
+float RandomGenerator::randf(float u, float v) {
   return u + RandomGenerator::randf(v-u);
 }
 

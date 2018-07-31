@@ -61,10 +61,10 @@ Statistics::Statistics() :
   CAPTION_TARGET_TIME(_("Level target time:"))
 {
   calculate_max_caption_length();
-  WMAP_INFO_LEFT_X = SCREEN_WIDTH - 32 - max_width;
-  WMAP_INFO_RIGHT_X = WMAP_INFO_LEFT_X + max_width;
-  WMAP_INFO_TOP_Y1 = SCREEN_HEIGHT - 100;
-  WMAP_INFO_TOP_Y2 = WMAP_INFO_TOP_Y1 + 16;
+  WMAP_INFO_LEFT_X = static_cast<float>(SCREEN_WIDTH) - 32.0f - static_cast<float>(max_width);
+  WMAP_INFO_RIGHT_X = WMAP_INFO_LEFT_X + static_cast<float>(max_width);
+  WMAP_INFO_TOP_Y1 = static_cast<float>(SCREEN_HEIGHT) - 100.0f;
+  WMAP_INFO_TOP_Y2 = WMAP_INFO_TOP_Y1 + 16.0f;
 }
 
 void
@@ -81,9 +81,9 @@ Statistics::calculate_max_caption_length()
     // Add padding the size of lengthiest string:
     auto width = font->get_text_width(caption) +
                  font->get_text_width("XX:XX:XX");
-    if(width >= max_width)
+    if(width >= static_cast<float>(max_width))
     {
-      max_width = width;
+      max_width = static_cast<int>(width);
     }
   }
 }
@@ -135,11 +135,11 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
   if (total_coins + total_badguys + total_secrets == 0) return;
 
   // check to see if screen size has been changed
-  if (!(WMAP_INFO_TOP_Y1 == SCREEN_HEIGHT - 100)) {
+  if (!(WMAP_INFO_TOP_Y1 == static_cast<float>(SCREEN_HEIGHT - 100))) {
     calculate_max_caption_length();
-    WMAP_INFO_LEFT_X = context.get_width() - 32 - max_width;
-    WMAP_INFO_RIGHT_X = WMAP_INFO_LEFT_X + max_width;
-    WMAP_INFO_TOP_Y1 = SCREEN_HEIGHT - 100;
+    WMAP_INFO_LEFT_X = static_cast<float>(context.get_width() - 32 - max_width);
+    WMAP_INFO_RIGHT_X = WMAP_INFO_LEFT_X + static_cast<float>(max_width);
+    WMAP_INFO_TOP_Y1 = static_cast<float>(SCREEN_HEIGHT - 100);
     WMAP_INFO_TOP_Y2 = WMAP_INFO_TOP_Y1 + 16;
   }
 
@@ -172,7 +172,7 @@ Statistics::draw_worldmap_info(DrawingContext& context, float target_time)
         stat_buf = time_to_string(time);
         break;
       case 4:
-        if(target_time) { // display target time only if defined for level
+        if(target_time != 0.0f) { // display target time only if defined for level
           caption_buf = CAPTION_TARGET_TIME;
           stat_buf = time_to_string(target_time);
         } else {
@@ -206,43 +206,44 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
 
   int box_w = 220+110+110;
   int box_h = 30+20+20+20;
-  int box_x = (int)((context.get_width() - box_w) / 2);
-  int box_y = (int)(SCREEN_HEIGHT / 2) - box_h;
+  int box_x = static_cast<int>((context.get_width() - box_w) / 2);
+  int box_y = static_cast<int>(SCREEN_HEIGHT / 2) - box_h;
 
-  int bd_w = (int)backdrop->get_width();
-  int bd_h = (int)backdrop->get_height();
-  int bd_x = (int)((context.get_width() - bd_w) / 2);
+  int bd_w = static_cast<int>(backdrop->get_width());
+  int bd_h = static_cast<int>(backdrop->get_height());
+  int bd_x = static_cast<int>((context.get_width() - bd_w) / 2);
   int bd_y = box_y + (box_h / 2) - (bd_h / 2);
 
-  int col1_x = box_x;
-  int col2_x = col1_x+200;
-  int col3_x = col2_x+130;
+  float col1_x = static_cast<float>(box_x);
+  float col2_x = col1_x + 200.0f;
+  float col3_x = col2_x + 130.0f;
 
-  int row1_y = box_y;
-  int row2_y = row1_y+30;
-  int row3_y = row2_y+20;
-  int row4_y = row3_y+20;
-  int row5_y = row4_y+20;
+  float row1_y = static_cast<float>(box_y);
+  float row2_y = row1_y + 30.0f;
+  float row3_y = row2_y + 20.0f;
+  float row4_y = row3_y + 20.0f;
+  float row5_y = row4_y + 20.0f;
 
   context.push_transform();
-  context.set_alpha(0.5);
-  context.color().draw_surface(backdrop, Vector(bd_x, bd_y), LAYER_HUD);
+  context.set_alpha(0.5f);
+  context.color().draw_surface(backdrop, Vector(static_cast<float>(bd_x), static_cast<float>(bd_y)), LAYER_HUD);
   context.pop_transform();
 
   context.color().draw_text(Resources::normal_font, _("You"), Vector(col2_x, row1_y), ALIGN_LEFT, LAYER_HUD, Statistics::header_color);
   if (best_stats)
     context.color().draw_text(Resources::normal_font, _("Best"), Vector(col3_x, row1_y), ALIGN_LEFT, LAYER_HUD, Statistics::header_color);
 
-  context.color().draw_text(Resources::normal_font, _("Coins"), Vector(col2_x-16, row3_y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
-  context.color().draw_text(Resources::normal_font, coins_to_string(coins, total_coins), Vector(col2_x, row3_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+  context.color().draw_text(Resources::normal_font, _("Coins"), Vector(col2_x - 16.0f, static_cast<float>(row3_y)), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
+  context.color().draw_text(Resources::normal_font, coins_to_string(coins, total_coins), Vector(col2_x, static_cast<float>(row3_y)), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+
   if (best_stats) {
     int coins_best = (best_stats->coins > coins) ? best_stats->coins : coins;
     int total_coins_best = (best_stats->total_coins > total_coins) ? best_stats->total_coins : total_coins;
-    context.color().draw_text(Resources::normal_font, coins_to_string(coins_best, total_coins_best), Vector(col3_x, row3_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+    context.color().draw_text(Resources::normal_font, coins_to_string(coins_best, total_coins_best), Vector(col3_x, static_cast<float>(row3_y)), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
   }
 
-  context.color().draw_text(Resources::normal_font, _("Badguys"), Vector(col2_x-16, row4_y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
-  context.color().draw_text(Resources::normal_font, frags_to_string(badguys, total_badguys), Vector(col2_x, row4_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
+  context.color().draw_text(Resources::normal_font, _("Badguys"), Vector(col2_x - 16.0f, static_cast<float>(row4_y)), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
+  context.color().draw_text(Resources::normal_font, frags_to_string(badguys, total_badguys), Vector(col2_x, static_cast<float>(row4_y)), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
   if (best_stats) {
 	int badguys_best = (best_stats->badguys > badguys) ? best_stats->badguys : badguys;
 	int total_badguys_best = (best_stats->total_badguys > total_badguys) ? best_stats->total_badguys : total_badguys;
@@ -257,7 +258,7 @@ Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, S
     context.color().draw_text(Resources::normal_font, secrets_to_string(secrets_best, total_secrets_best), Vector(col3_x, row5_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
   }
 
-  context.color().draw_text(Resources::normal_font, _("Time"), Vector(col2_x-16, row2_y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
+  context.color().draw_text(Resources::normal_font, _("Time"), Vector(col2_x - 16, row2_y), ALIGN_RIGHT, LAYER_HUD, Statistics::header_color);
   context.color().draw_text(Resources::normal_font, time_to_string(time), Vector(col2_x, row2_y), ALIGN_LEFT, LAYER_HUD, Statistics::text_color);
   if (best_stats) {
     float time_best = (best_stats->time < time) ? best_stats->time : time;
@@ -318,7 +319,7 @@ Statistics::completed(const Statistics& stats, const float target_time) const
   return (stats.coins == stats.total_coins &&
       stats.badguys == stats.total_badguys &&
       stats.secrets == stats.total_secrets &&
-      ((!target_time) || (stats.time <= target_time)));
+      ((target_time == 0.0f) || (stats.time <= target_time)));
 }
 
 void

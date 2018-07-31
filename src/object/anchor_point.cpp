@@ -85,7 +85,7 @@ Vector get_anchor_pos(const Rectf& rect, AnchorPoint point)
       result.x = rect.get_left();
       break;
     case ANCHOR_MIDDLE:
-      result.x = rect.get_left() + (rect.get_right() - rect.get_left()) / 2.0;
+      result.x = rect.get_left() + (rect.get_right() - rect.get_left()) / 2.0f;
       break;
     case ANCHOR_RIGHT:
       result.x = rect.get_right();
@@ -101,7 +101,7 @@ Vector get_anchor_pos(const Rectf& rect, AnchorPoint point)
       result.y = rect.get_top();
       break;
     case ANCHOR_MIDDLE:
-      result.y = rect.get_top() + (rect.get_bottom() - rect.get_top()) / 2.0;
+      result.y = rect.get_top() + (rect.get_bottom() - rect.get_top()) / 2.0f;
       break;
     case ANCHOR_BOTTOM:
       result.y = rect.get_bottom();
@@ -125,7 +125,7 @@ Vector get_anchor_pos(const Rectf& destrect, float width, float height,
       result.x = destrect.get_left();
       break;
     case ANCHOR_MIDDLE:
-      result.x = destrect.get_middle().x - width/2.0;
+      result.x = destrect.get_middle().x - width / 2.0f;
       break;
     case ANCHOR_RIGHT:
       result.x = destrect.get_right() - width;
@@ -141,7 +141,7 @@ Vector get_anchor_pos(const Rectf& destrect, float width, float height,
       result.y = destrect.get_top();
       break;
     case ANCHOR_MIDDLE:
-      result.y = destrect.get_middle().y - height/2.0;
+      result.y = destrect.get_middle().y - height / 2.0f;
       break;
     case ANCHOR_BOTTOM:
       result.y = destrect.get_bottom() - height;

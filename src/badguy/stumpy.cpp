@@ -20,6 +20,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
+#include "math/util.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
@@ -103,10 +104,10 @@ Stumpy::collision_squished(GameObject& object)
     // TODO: provide convenience function in MovingSprite or MovingObject?
     for (int i = 0; i < 25; i++) {
       Vector ppos = bbox.get_middle();
-      float angle = graphicsRandom.randf(-M_PI_2, M_PI_2);
+      float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
       float velocity = graphicsRandom.randf(45, 90);
-      float vx = sin(angle)*velocity;
-      float vy = -cos(angle)*velocity;
+      float vx = sinf(angle)*velocity;
+      float vy = -cosf(angle)*velocity;
       Vector pspeed = Vector(vx, vy);
       Vector paccel = Vector(0, Sector::current()->get_gravity()*10);
       Sector::current()->add_object(std::make_shared<SpriteParticle>("images/objects/particles/bark.sprite",

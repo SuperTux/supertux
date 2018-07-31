@@ -252,27 +252,27 @@ TileSetParser::parse_tiles(const ReaderMapping& reader)
     {
       if (ids[i] != 0)
       {
-        int x = 32*(i % width);
-        int y = 32*(i / width);
+        int x = static_cast<int>(32 * (i % width));
+        int y = static_cast<int>(32 * (i / width));
 
         std::vector<Tile::ImageSpec> tile_imagespecs;
         for(size_t j = 0; j < imagespecs.size(); ++j)
         {
           tile_imagespecs.push_back(Tile::ImageSpec(imagespecs[j].file,
-                                                    Rectf(x + imagespecs[j].rect.get_left(),
-                                                          y + imagespecs[j].rect.get_top(),
-                                                          x + imagespecs[j].rect.get_left() + 32,
-                                                          y + imagespecs[j].rect.get_top() + 32)));
+                                                    Rectf(static_cast<float>(x) + imagespecs[j].rect.get_left(),
+                                                          static_cast<float>(y) + imagespecs[j].rect.get_top(),
+                                                          static_cast<float>(x) + imagespecs[j].rect.get_left() + 32.0f,
+                                                          static_cast<float>(y) + imagespecs[j].rect.get_top() + 32.0f)));
         }
 
         std::vector<Tile::ImageSpec> tile_editor_imagespecs;
         for(size_t j = 0; j < editor_imagespecs.size(); ++j)
         {
           tile_editor_imagespecs.push_back(Tile::ImageSpec(editor_imagespecs[j].file,
-                                                           Rectf(x + editor_imagespecs[j].rect.get_left(),
-                                                                 y + editor_imagespecs[j].rect.get_top(),
-                                                                 x + editor_imagespecs[j].rect.get_left() + 32,
-                                                                 y + editor_imagespecs[j].rect.get_top() + 32)));
+                                                           Rectf(static_cast<float>(x) + editor_imagespecs[j].rect.get_left(),
+                                                                 static_cast<float>(y) + editor_imagespecs[j].rect.get_top(),
+                                                                 static_cast<float>(x) + editor_imagespecs[j].rect.get_left() + 32.0f,
+                                                                 static_cast<float>(y) + editor_imagespecs[j].rect.get_top() + 32.0f)));
         }
 
         std::unique_ptr<Tile> tile(new Tile(tile_imagespecs, tile_editor_imagespecs,

@@ -284,7 +284,7 @@ void whereami()
 {
   if (!validate_sector_player()) return;
   auto tux = ::Sector::current()->player;
-  log_info << "You are at x " << ((int) tux->get_pos().x) << ", y " << ((int) tux->get_pos().y) << std::endl;
+  log_info << "You are at x " << (static_cast<int>(tux->get_pos().x)) << ", y " << (static_cast<int>(tux->get_pos().y)) << std::endl;
 }
 
 void gotoend()

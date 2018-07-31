@@ -28,8 +28,9 @@ ItemLabel::ItemLabel(const std::string& text_) :
 void
 ItemLabel::draw(DrawingContext& context, const Vector& pos, int menu_width, bool active) {
   context.color().draw_text(Resources::big_font, text,
-                              Vector( pos.x + menu_width/2 , pos.y - int(Resources::big_font->get_height())/2 ),
-                              ALIGN_CENTER, LAYER_GUI, get_color());
+                            Vector(pos.x + static_cast<float>(menu_width) / 2.0f,
+                                   pos.y - Resources::big_font->get_height() / 2.0f ),
+                            ALIGN_CENTER, LAYER_GUI, get_color());
 }
 
 Color
@@ -39,7 +40,7 @@ ItemLabel::get_color() const {
 
 int
 ItemLabel::get_width() const {
-  return Resources::big_font->get_text_width(text) + 16;
+  return static_cast<int>(Resources::big_font->get_text_width(text)) + 16;
 }
 
 /* EOF */

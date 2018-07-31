@@ -122,7 +122,7 @@ Sprite::update()
 
   if(animation_done()) {
     frame = 0;
-    frameidx = get_frames()-1;
+    frameidx = get_frames() - 1;
   }
 
   assert(frameidx < get_frames());
@@ -166,14 +166,14 @@ int
 Sprite::get_width() const
 {
   assert(frameidx < get_frames());
-  return (int) action->surfaces[get_frame()]->get_width();
+  return static_cast<int>(action->surfaces[get_frame()]->get_width());
 }
 
 int
 Sprite::get_height() const
 {
   assert(frameidx < get_frames());
-  return (int) action->surfaces[get_frame()]->get_height();
+  return static_cast<int>(action->surfaces[get_frame()]->get_height());
 }
 
 float

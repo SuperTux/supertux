@@ -219,7 +219,7 @@ AmbientSound::update(float deltat)
         latency=0;
       }
       else // set a reasonable latency
-        latency=(int)(0.001/distance_factor);
+        latency = static_cast<int>(0.001/distance_factor);
       //(int)(10*((sqrdistance-silence_distance)/silence_distance));
     }
   }

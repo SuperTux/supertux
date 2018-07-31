@@ -37,15 +37,15 @@ const std::string
 ObjectOption::to_string() const {
   switch (type) {
     case MN_TEXTFIELD:
-      return *((std::string*)(option));
+      return *(static_cast<std::string*>(option));
     case MN_NUMFIELD:
-      return std::to_string(*((float*)(option)));
+      return std::to_string(*(static_cast<float*>(option)));
     case MN_INTFIELD:
-      return std::to_string(*((int*)(option)));
+      return std::to_string(*(static_cast<int*>(option)));
     case MN_TOGGLE:
-      return (*((bool*)(option))) ? _("true") : _("false");
+      return (*(static_cast<bool*>(option))) ? _("true") : _("false");
     case MN_STRINGSELECT: {
-      auto selected_id = (int*)option;
+      auto selected_id = static_cast<int*>(option);
       if ( *selected_id >= int(select.size()) || *selected_id < 0 ) {
         return _("invalid"); //Test whether the selected ID is valid
       } else {
@@ -53,16 +53,16 @@ ObjectOption::to_string() const {
       }
     }
     case MN_BADGUYSELECT:
-      return std::to_string(((std::vector<std::string>*)option)->size());
+      return std::to_string((static_cast<std::vector<std::string>*>(option))->size());
     case MN_COLOR:
-      return ((Color*)option)->to_string();
+      return (static_cast<Color*>(option))->to_string();
     case MN_SCRIPT:
-      if (((std::string*)option)->length()) {
+      if ((static_cast<std::string*>(option))->length()) {
         return "...";
       }
       return "";
     case MN_FILE:
-      return *((std::string*)(option));
+      return *(static_cast<std::string*>(option));
     default:
       return _("Unknown");
   }

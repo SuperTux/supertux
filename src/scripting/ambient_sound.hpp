@@ -38,8 +38,19 @@ private:
 #endif
 
 public:
+  /**
+   * Sets the position of the ambient sound
+   * @param x X coordinate
+   * @param y Y coordinate
+   */
   void set_pos(float x, float y);
+  /**
+   * Returns the ambient sound's x coordinate
+   */
   float get_pos_x() const;
+  /**
+   * Returns the ambient sound's y coordinate
+   */
   float get_pos_y() const;
 };
 

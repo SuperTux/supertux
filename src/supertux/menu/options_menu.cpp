@@ -118,7 +118,7 @@ OptionsMenu::OptionsMenu(bool complete) :
 
     if (!aspect_ratio.empty())
     {
-      next_aspect_ratio = aspect_ratios.size();
+      next_aspect_ratio = static_cast<int>(aspect_ratios.size());
       aspect_ratios.push_back(aspect_ratio);
     }
   }
@@ -173,7 +173,7 @@ OptionsMenu::OptionsMenu(bool complete) :
   }
   if (!fullscreen_size_str.empty())
   {
-    next_resolution = resolutions.size();
+    next_resolution = static_cast<int>(resolutions.size());
     resolutions.push_back(fullscreen_size_str);
   }
 
@@ -263,7 +263,8 @@ OptionsMenu::menu_action(MenuItem* item)
         }
         else
         {
-          assert(!"This must not be reached");
+          log_fatal << "Invalid aspect ratio " << aspect_ratios[next_aspect_ratio] << " specified" << std::endl;
+          assert(false);
         }
       }
       break;

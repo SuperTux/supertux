@@ -33,8 +33,7 @@ Gradient::Gradient() :
   layer(LAYER_BACKGROUND0),
   gradient_top(),
   gradient_bottom(),
-  gradient_direction(),
-  gradient_region(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+  gradient_direction()
 {
 }
 
@@ -44,8 +43,7 @@ Gradient::Gradient(const ReaderMapping& reader) :
   layer(LAYER_BACKGROUND0),
   gradient_top(),
   gradient_bottom(),
-  gradient_direction(),
-  gradient_region(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+  gradient_direction()
 {
   layer = reader_get_layer (reader, /* default = */ LAYER_BACKGROUND0);
   std::vector<float> bkgd_top_color, bkgd_bottom_color;
@@ -185,6 +183,7 @@ Gradient::draw(DrawingContext& context)
   if(Editor::is_active() && !EditorInputCenter::render_background)
     return;
 
+  Rectf gradient_region;
   if(gradient_direction != HORIZONTAL && gradient_direction != VERTICAL)
   {
       auto current_sector = Sector::current();
@@ -193,17 +192,17 @@ Gradient::draw(DrawingContext& context)
       auto sector_height = current_sector->get_height();
       gradient_region = Rectf(-camera_translation.x, -camera_translation.y, sector_width, sector_height);
   }
+  else
+  {
+    gradient_region = Rectf(0, 0,
+                            static_cast<float>(context.get_width()),
+                            static_cast<float>(context.get_height()));
+  }
 
   context.push_transform();
   context.set_translation(Vector(0, 0));
   context.color().draw_gradient(gradient_top, gradient_bottom, layer, gradient_direction, gradient_region);
   context.pop_transform();
-}
-
-void
-Gradient::on_window_resize()
-{
-  gradient_region = Rectf(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 bool

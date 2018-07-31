@@ -57,7 +57,7 @@ LevelTime::update(float elapsed_time)
 {
   if (!running) return;
 
-  int prev_time = (int) floor(time_left*5);
+  int prev_time = static_cast<int>(floorf(time_left*5));
   time_left -= elapsed_time;
   if(time_left <= 0) {
     if(time_left <= -5 || !Sector::current()->player->get_coins())
@@ -65,7 +65,7 @@ LevelTime::update(float elapsed_time)
       Sector::current()->player->kill(true);
       stop();
     }
-    if(prev_time != (int) floor(time_left*5))
+    if(prev_time != static_cast<int>(floorf(time_left*5)))
     {
       Sector::current()->player->add_coins(-1);
     }
@@ -85,11 +85,15 @@ LevelTime::draw(DrawingContext& context)
 
     if (time_surface)
     {
-      float all_width = time_surface->get_width() + Resources::normal_font->get_text_width(time_text);
-      context.color().draw_surface(time_surface, Vector((context.get_width() - all_width)/2, BORDER_Y + 1), LAYER_FOREGROUND1);
+      float all_width = static_cast<float>(time_surface->get_width()) + Resources::normal_font->get_text_width(time_text);
+      context.color().draw_surface(time_surface,
+                                   Vector((static_cast<float>(context.get_width()) - all_width) / 2.0f,
+                                          BORDER_Y + 1),
+                                   LAYER_FOREGROUND1);
       context.color().draw_text(Resources::normal_font, time_text,
-                        Vector((context.get_width() - all_width)/2 + time_surface->get_width(), BORDER_Y),
-                        ALIGN_LEFT, LAYER_FOREGROUND1, LevelTime::text_color);
+                                Vector((static_cast<float>(context.get_width()) - all_width) / 2.0f + static_cast<float>(time_surface->get_width()),
+                                       BORDER_Y),
+                                ALIGN_LEFT, LAYER_FOREGROUND1, LevelTime::text_color);
     }
   }
 

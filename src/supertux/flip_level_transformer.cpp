@@ -99,8 +99,8 @@ FlipLevelTransformer::transform_path(float height, float obj_height, Path& path)
 void
 FlipLevelTransformer::transform_tilemap(float height, TileMap& tilemap)
 {
-  for(size_t x = 0; x < tilemap.get_width(); ++x) {
-    for(size_t y = 0; y < tilemap.get_height()/2; ++y) {
+  for(int x = 0; x < tilemap.get_width(); ++x) {
+    for(int y = 0; y < tilemap.get_height()/2; ++y) {
       // swap tiles
       int y2 = tilemap.get_height()-1-y;
       uint32_t t1 = tilemap.get_tile_id(x, y);

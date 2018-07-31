@@ -89,7 +89,7 @@ Explosion::explode()
 
       /* The force decreases with the distance squared. In the distance of one
        * tile (32 pixels) you will have a speed increase of 150 pixels/s. */
-      float force = 150.0 * 32.0*32.0 / (distance * distance);
+      float force = 150.0f * 32.0f * 32.0f / (distance * distance);
       if (force > 200.0)
         force = 200.0;
 

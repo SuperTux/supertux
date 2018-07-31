@@ -33,16 +33,58 @@ public:
   FloatingImage(const std::string& spritefile);
   ~FloatingImage();
 
+  /**
+   * Sets the layer of the floating image
+   * @param layer Target layer
+   */
   void set_layer(int layer);
+  /**
+   * Returns the layer the floating image is on
+   */
   int get_layer() const;
+  /**
+   * Sets the location of the image, in relation to the current anchor point
+   * @param x X coordinate
+   * @param y Y coordinate
+   */
   void set_pos(float x, float y);
+  /**
+   * Returns the image's X coordinate relative to the current anchor point
+   */
   float get_pos_x() const;
+  /**
+   * Returns the image's Y coordinate relative to the current anchor point
+   */
   float get_pos_y() const;
+  /**
+   * Sets the image's anchor point
+   * @param anchor Anchor point as represented by the ANCHOR_* constants
+   */
   void set_anchor_point(int anchor);
+  /**
+   * Returns the current anchor point
+   */
   int get_anchor_point() const;
+  /**
+   * Sets the visibility of the floating image
+   * @param visible Visibility
+   */
   void set_visible(bool visible);
+  /**
+   * Returns the visibility state of the floating image
+   */
   bool get_visible() const;
+  /**
+   * Sets the action of the image
+   * This is only useful when the image is a sprite
+   * @param action Name of the action, as defined in the sprite
+   */
   void set_action(const std::string& action);
+  /**
+   * Returns the action of the image
+   * This is only useful when the image is a sprite
+   * @return Name of the action, as defined in the sprite
+   */
   std::string get_action() const;
   void fade_in(float fadetime);
   void fade_out(float fadetime);

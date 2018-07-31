@@ -31,8 +31,8 @@ ParticleSystem::ParticleSystem(float max_particle_size_) :
   max_particle_size(max_particle_size_),
   z_pos(LAYER_BACKGROUND1),
   particles(),
-  virtual_width( SCREEN_WIDTH + max_particle_size * 2),
-  virtual_height(SCREEN_HEIGHT + max_particle_size * 2),
+  virtual_width(static_cast<float>(SCREEN_WIDTH) + max_particle_size * 2.0f),
+  virtual_height(static_cast<float>(SCREEN_HEIGHT) + max_particle_size * 2.0f),
   enabled(true)
 {
 }
