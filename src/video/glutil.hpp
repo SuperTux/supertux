@@ -48,6 +48,10 @@ using namespace gl;
 
 #endif
 
+#ifdef GL_VERSION_ES_CM_1_0
+#  define glOrtho glOrthof
+#endif
+
 static inline void check_gl_error(const char* message)
 {
   GLenum error = glGetError();

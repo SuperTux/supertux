@@ -23,6 +23,7 @@
 #include "video/gl/gl_painter.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_video_system.hpp"
+#include "video/glutil.hpp"
 
 inline int next_po2(int val)
 {
@@ -79,19 +80,11 @@ GLLightmap::start_draw()
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
-#ifdef GL_VERSION_ES_CM_1_0
-  glOrthof(0,
-           viewport.get_screen_width(),
-           viewport.get_screen_height(),
-           0,
-           -1.0, 1.0);
-#else
   glOrtho(0,
           viewport.get_screen_width(),
           viewport.get_screen_height(),
           0,
           -1.0, 1.0);
-#endif
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
