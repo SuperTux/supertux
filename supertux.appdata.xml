@@ -12,12 +12,14 @@
   <summary>The classic version of the platformer starring Tux the Penguin</summary>
   <description>
     <p>
-      SuperTux - Milestone 1 is the classic version of the game
-      SuperTux as it was originally released in 2003. The modern
-      edition can be found under the SuperTux 2.
+      <strong>SuperTux - Milestone 1</strong> is the classic version
+      of the game SuperTux as it was originally released in 2003.
+      Featuring no backscrolling and a resolution of 640x480. The
+      modern edition with lots of new features and improvements can be
+      found under the name <strong>SuperTux</strong>.
     </p>
     <p>
-      SuperTux is a platform game, with strong inspiration from the
+      This game is a platform game, with strong inspiration from the
       Super Mario Bros games for Nintendo. Run and jump through
       multiple worlds, fighting off enemies by jumping on them or
       bumping them from below. Grabbing power-ups and other stuff on
