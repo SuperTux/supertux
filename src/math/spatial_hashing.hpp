@@ -22,7 +22,7 @@ public:
    *  Once the iterator is no longer being used, call bulk_update() to perform the waiting updates.
    *  bulk_update takes care of resetting the bulk list.
    */
-  void add_bulk(Rectf pos, MovingObject* obj);
+  void add_bulk(const Rectf& pos, MovingObject* obj);
   void do_bulk_update();
   ~spatial_hashing() = default;
 private:

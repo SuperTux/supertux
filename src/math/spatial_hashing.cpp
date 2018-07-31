@@ -128,7 +128,7 @@ void spatial_hashing::clear()
   grid.clear();
 }
 
-void spatial_hashing::add_bulk(Rectf r,MovingObject* obj) {
+void spatial_hashing::add_bulk(const Rectf& r,MovingObject* obj) {
   update_id++;
   if((int)bulk_update.size() >= update_id) {
     bulk_update.push_back(std::make_pair(r, obj));
