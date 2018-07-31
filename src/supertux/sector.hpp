@@ -337,14 +337,17 @@ public: // TODO make this private again
   static bool show_collrects;
   static bool draw_solids_only;
 
+public:
   GameObjects gameobjects;
   MovingObjects moving_objects;
   SpawnPoints spawnpoints;
   Portables portables;
 
   std::string music;
+private:
   float gravity;
 
+public:
   // some special objects, where we need direct access
   // (try to avoid accessing them directly)
   Player* player;
