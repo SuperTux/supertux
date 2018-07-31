@@ -75,7 +75,7 @@ int joystick_num = 0;
 char* level_startup_file = 0;
 bool launch_leveleditor_mode = false;
 
-/* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
+/* SuperTux directory ($HOME/.supertux-milestone1) and save directory($HOME/.supertux-milestone1/save) */
 char *st_dir, *st_save_dir;
 
 SDL_Joystick * js;

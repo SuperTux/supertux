@@ -1,6 +1,6 @@
-bin_PROGRAMS = supertux
+bin_PROGRAMS = supertux-milestone1
 
-supertux_SOURCES = \
+supertux_milestone1_SOURCES = \
 badguy.cpp \
 badguy.h \
 bitmask.cpp \
@@ -71,7 +71,7 @@ sprite_manager.cpp \
 sprite_manager.h
 
 if HAVE_SOUND
- supertux_SOURCES += \
+ supertux_milestone1_SOURCES += \
   music_manager.cpp \
   music_manager.h \
   musicref.cpp \

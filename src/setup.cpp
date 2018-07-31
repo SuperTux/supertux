@@ -329,9 +329,9 @@ void st_directory_setup(void)
 #endif
 
   st_dir = (char *) malloc(sizeof(char) * (strlen(home) +
-                                           strlen("/.supertux") + 1));
+                                           strlen("/.supertux-milestone1") + 1));
   strcpy(st_dir, home);
-  strcat(st_dir, "/.supertux");
+  strcat(st_dir, "/.supertux-milestone1");
 
   /* Remove .supertux config-file from old SuperTux versions */
   if(faccessible(st_dir))
@@ -370,7 +370,7 @@ void st_directory_setup(void)
           datadir = exedir + "../data"; // SuperTux run from source dir
           if (access(datadir.c_str(), F_OK) != 0)
             {
-              datadir = exedir + "../share/supertux"; // SuperTux run from PATH
+              datadir = exedir + "../share/supertux-milestone1"; // SuperTux run from PATH
               if (access(datadir.c_str(), F_OK) != 0) 
                 { // If all fails, fall back to compiled path
         	  datadir = exedir + "./data"; // SuperTux run with data in same path as executable
