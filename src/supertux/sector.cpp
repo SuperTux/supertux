@@ -1234,6 +1234,7 @@ Sector::handle_collisions()
     collision_static_constrains(*moving_object, colgraph);
   }
 
+
   // part2: COLGROUP_MOVING vs tile attributes
   for (const auto& moving_object : moving_objects) {
     if ((moving_object->get_group() != COLGROUP_MOVING
@@ -1248,10 +1249,10 @@ Sector::handle_collisions()
       moving_object->collision_tile(tile_attributes);
     }
   }
-  for (const auto& obj : moving_objects) {
-    broadphase->insert(obj->dest, obj);
-  }
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
+  for (const auto& obj : moving_objects) {
+    broadphase->insert(obj->get_bbox(), obj);
+  }
   std::list< MovingObject* > possibleCollisions;
   for (const auto& moving_object : moving_objects) {
     if ((moving_object->get_group() != COLGROUP_MOVING
@@ -1259,9 +1260,9 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
       possibleCollisions.clear();
-    spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(4));
+    spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(10));
     //spatial_hashing->search( moving_object->dest.grown(4), []{}, possibleCollisions)
-    for (auto moving_object_2 = iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()) {
+    for (auto moving_object_2 /*= iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()*/ : moving_objects) {
     //for(const auto& moving_object_2 : possibleCollisions) {
       if(moving_object_2 == NULL)
         continue;
@@ -1299,9 +1300,9 @@ Sector::handle_collisions()
        || !moving_object->is_valid())
       continue;
     // Query the broadphase
-    spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(4));
+    spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(10));
     //broadphase->search(moving_object->dest.grown(4), []{} , possibleCollisions);
-    for (auto i2 = iter.next(); i2 != NULL; i2 = iter.next())
+    for (auto i2 /* = iter.next(); i2 != NULL; i2 = iter.next()*/ : moving_objects)
     {
       log_debug << "AAA" << std::endl;
       auto moving_object_2 = i2;
