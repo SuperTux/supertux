@@ -5,6 +5,7 @@ SuperTux 0.1.4 (31 July 2018)
   * replaced sounds that had unclear copyright
   * default to window mode
   * added .desktop, appdata and .svg icon
+  * added support for XDG_CONFIG_HOME
   * minor cleanup to make it work on modern compiler
 
 
