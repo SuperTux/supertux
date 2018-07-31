@@ -36,10 +36,10 @@ public:
   static SurfacePtr create(const std::string& file, const Rect& rect);
 
 private:
-  TexturePtr texture;
-  SurfaceData* surface_data;
-  Rect rect;
-  bool flipx;
+  TexturePtr m_texture;
+  SurfaceData* m_surface_data;
+  Rect m_rect;
+  bool m_flipx;
 
 private:
   Surface(const std::string& file);
