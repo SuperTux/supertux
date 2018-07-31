@@ -1051,8 +1051,8 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       Manifold m;
       CollisionHit h;
       possible_neighbours.clear();
-      spatial_hasingIterator iter(broadphase.get(), moving_object->get_bbox().grown(5));
-      for (auto mobject : moving_objects) {
+      spatial_hasingIterator iter(broadphase.get(), moving_object->get_bbox().grown(10));
+      for (auto mobject = iter.next(); mobject != NULL; mobject = iter.next()) {
         // TODO Specail case: Same object on multiple layers
         // => detect collision (?) use contacts?
         if(mobject->get_group() != COLGROUP_STATIC
@@ -1100,13 +1100,14 @@ void
 Sector::collision_static(collision::Constraints* constraints,
                          const Vector& movement, Rectf& dest,
                          MovingObject& object, collision_graph& graph) {
+
   std::vector< Manifold > contacts;
   std::vector< Manifold > all_contacts;
   // Always resolve biggest
   for (int i = 0;i<3;i++) {
     collision_tilemap(constraints, movement, dest, object, contacts, i != 0);
   }
-  broadphase->insert(object.dest, &object);
+  //broadphase->insert(object.dest, &object);
   contacts.clear();
   collision_moving_static(movement, dest, object, graph, contacts);
   for (const auto& m : contacts) {
@@ -1115,8 +1116,6 @@ Sector::collision_static(collision::Constraints* constraints,
     dest.move(overlapV);
     // Also move the AABBPolygon
   }
-  return;
-  broadphase->insert(object.dest, &object);
   double extend_left = 0.0f,
          extend_right = 0.0f,
          extend_top = 0.0f,
@@ -1221,9 +1220,7 @@ Sector::handle_collisions()
   // Get a list of all objects which move
   platforms.clear();
   colgraph.reset();
-  for (const auto& obj : moving_objects) {
-    broadphase->insert(obj->get_bbox(), obj);
-  }
+
   for (const auto& moving_object : moving_objects) {
     // Check for correct collision group and actual movement in last frame
     if (moving_object->get_group() == COLGROUP_STATIC &&
@@ -1231,7 +1228,12 @@ Sector::handle_collisions()
       platforms.insert(moving_object);
   }
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
-
+  for (const auto& obj : moving_objects) {
+    if(obj->get_group() != COLGROUP_STATIC
+       && obj->get_group() != COLGROUP_MOVING_STATIC)
+      continue;
+    broadphase->insert(obj->get_bbox(), obj);
+  }
   for (const auto& moving_object : moving_objects) {
     if ((moving_object->get_group() != COLGROUP_MOVING
         && moving_object->get_group() != COLGROUP_MOVING_STATIC
@@ -1314,10 +1316,9 @@ Sector::handle_collisions()
           std::get<2>(tpl) = 0;
       }
     }
-    for (const auto& obj : moving_objects) {
-      broadphase->insert(obj->dest, obj);
-    }
+
   }
+
   std::map< MovingObject*, MovingObject* > parents;
   colgraph.compute_parents(platforms, parents);
   for (const auto& plf : parents) {
@@ -1354,7 +1355,6 @@ Sector::handle_collisions()
       moving_object->dest =   moving_object->dest.grown_xy(pixeld_x, pixeld_y);
     }
     moving_object->bbox = moving_object->dest;
-    broadphase->insert(moving_object->bbox, moving_object);
     if(object_polygons[moving_object]) {
       object_polygons[moving_object]->reset_ignored_normals();
       object_polygons[moving_object]->p1 = moving_object->bbox.p1;

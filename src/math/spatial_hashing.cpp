@@ -181,14 +181,12 @@ MovingObject* spatial_hasingIterator::next() {
       m_x++;
       m_y = m_initial_y;
     }
-    if ((m_x > m_extend_x) || (m_extend_y > m_y)) {
+    if ((m_x > m_extend_x) ) {
       return NULL;
     }
     iter = m_hash->grid[m_y][m_x].begin();
     iterend = m_hash->grid[m_y][m_x].end();
   }
-  m_x   = std::min<int>(m_hash->cols-1, m_x);
-  m_y   = std::min<int>(m_hash->rows-1, m_y);
 
   MovingObject* next = *iter;
   if(next == NULL)
