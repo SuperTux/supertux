@@ -22,15 +22,28 @@
 #include "math/util.hpp"
 #include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
-#include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_video_system.hpp"
+#include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
 GLuint GLPainter::s_last_texture = static_cast<GLuint>(-1);
 
 namespace {
+
+inline Rectf calc_uv(const Surface& surface)
+{
+  const float uv_left = static_cast<float>(surface.get_x()) / static_cast<float>(surface.get_texture()->get_texture_width());
+  const float uv_top = static_cast<float>(surface.get_y()) / static_cast<float>(surface.get_texture()->get_texture_height());
+  const float uv_right = static_cast<float>(surface.get_x() + surface.get_width()) / static_cast<float>(surface.get_texture()->get_texture_width());
+  const float uv_bottom = static_cast<float>(surface.get_y() + surface.get_height()) / static_cast<float>(surface.get_texture()->get_texture_height());
+
+  return Rectf(surface.get_flipx() ? uv_right : uv_left,
+               uv_top,
+               surface.get_flipx() ? uv_left : uv_right,
+               uv_bottom);
+}
 
 inline void intern_draw(float left, float top, float right, float bottom,
                         float uv_left, float uv_top,
@@ -126,7 +139,7 @@ GLPainter::draw_surface(const DrawingRequest& request)
   {
     return;
   }
-  GLSurfaceData surface_data(*surface);
+  Rectf uv = calc_uv(*surface);
 
   GLuint th = gltexture->get_handle();
   if (th != s_last_texture) {
@@ -136,10 +149,10 @@ GLPainter::draw_surface(const DrawingRequest& request)
   intern_draw(request.pos.x, request.pos.y,
               request.pos.x + static_cast<float>(surface->get_width()),
               request.pos.y + static_cast<float>(surface->get_height()),
-              surface_data.get_uv_left(),
-              surface_data.get_uv_top(),
-              surface_data.get_uv_right(),
-              surface_data.get_uv_bottom(),
+              uv.get_left(),
+              uv.get_top(),
+              uv.get_right(),
+              uv.get_bottom(),
               request.angle,
               request.alpha,
               request.color,
@@ -154,15 +167,16 @@ GLPainter::draw_surface_part(const DrawingRequest& request)
     = static_cast<SurfacePartRequest*>(request.request_data);
   const Surface* surface = surfacepartrequest->surface;
   std::shared_ptr<GLTexture> gltexture = std::dynamic_pointer_cast<GLTexture>(surface->get_texture());
-  const GLSurfaceData surface_data(*surface);
 
-  float uv_width = surface_data.get_uv_right() - surface_data.get_uv_left();
-  float uv_height = surface_data.get_uv_bottom() - surface_data.get_uv_top();
+  Rectf uv = calc_uv(*surface);
 
-  float uv_left = surface_data.get_uv_left() + (uv_width * surfacepartrequest->srcrect.p1.x) / static_cast<float>(surface->get_width());
-  float uv_top = surface_data.get_uv_top() + (uv_height * surfacepartrequest->srcrect.p1.y) / static_cast<float>(surface->get_height());
-  float uv_right = surface_data.get_uv_left() + (uv_width * surfacepartrequest->srcrect.p2.x) / static_cast<float>(surface->get_width());
-  float uv_bottom = surface_data.get_uv_top() + (uv_height * surfacepartrequest->srcrect.p2.y) / static_cast<float>(surface->get_height());
+  float uv_width = uv.get_right() - uv.get_left();
+  float uv_height = uv.get_bottom() - uv.get_top();
+
+  float uv_left = uv.get_left() + (uv_width * surfacepartrequest->srcrect.p1.x) / static_cast<float>(surface->get_width());
+  float uv_top = uv.get_top() + (uv_height * surfacepartrequest->srcrect.p1.y) / static_cast<float>(surface->get_height());
+  float uv_right = uv.get_left() + (uv_width * surfacepartrequest->srcrect.p2.x) / static_cast<float>(surface->get_width());
+  float uv_bottom = uv.get_top() + (uv_height * surfacepartrequest->srcrect.p2.y) / static_cast<float>(surface->get_height());
 
   GLuint th = gltexture->get_handle();
   if (th != s_last_texture) {
