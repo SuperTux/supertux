@@ -311,8 +311,8 @@ Camera::keep_in_bounds(Vector& translation_)
   float height = sector->get_height();
 
   // don't scroll before the start or after the level's end
-  translation_.x = clamp(translation_.x, 0.0f, width - static_cast<float>(m_screen_size.width));
-  translation_.y = clamp(translation_.y, 0.0f, height - static_cast<float>(m_screen_size.height));
+  translation_.x = math::clamp(translation_.x, 0.0f, width - static_cast<float>(m_screen_size.width));
+  translation_.y = math::clamp(translation_.y, 0.0f, height - static_cast<float>(m_screen_size.height));
 
   if (height < static_cast<float>(m_screen_size.height))
     translation_.y = height / 2.0f - static_cast<float>(m_screen_size.height) / 2.0f;
@@ -374,7 +374,7 @@ Camera::update_scroll_normal(float elapsed_time)
     // limit the camera speed when jumping upwards
     if(player->fall_mode != Player::FALLING
        && player->fall_mode != Player::TRAMPOLINE_JUMP) {
-      speed_y = clamp(speed_y, -config_.max_speed_y, config_.max_speed_y);
+      speed_y = math::clamp(speed_y, -config_.max_speed_y, config_.max_speed_y);
     }
 
     // scroll with calculated speed
@@ -382,7 +382,7 @@ Camera::update_scroll_normal(float elapsed_time)
   }
   if(ymode == 3) {
     float halfsize = config_.kirby_rectsize_y * 0.5f;
-    cached_translation.y = clamp(cached_translation.y,
+    cached_translation.y = math::clamp(cached_translation.y,
                                  player_pos.y - static_cast<float>(m_screen_size.height) * (0.5f + halfsize),
                                  player_pos.y - static_cast<float>(m_screen_size.height) * (0.5f - halfsize));
   }
@@ -447,10 +447,10 @@ Camera::update_scroll_normal(float elapsed_time)
     translation.y -= peek_pos.y;
 
     if(config_.clamp_y > 0) {
-      translation.y = clamp(translation.y,
+      translation.y = math::clamp(translation.y,
                             player_pos.y - static_cast<float>(m_screen_size.height) * (1.0f - config_.clamp_y),
                             player_pos.y - static_cast<float>(m_screen_size.height) * config_.clamp_y);
-      cached_translation.y = clamp(cached_translation.y,
+      cached_translation.y = math::clamp(cached_translation.y,
                                    player_pos.y - static_cast<float>(m_screen_size.height) * (1.0f - config_.clamp_y),
                                    player_pos.y - static_cast<float>(m_screen_size.height) * config_.clamp_y);
     }
@@ -546,14 +546,14 @@ Camera::update_scroll_normal(float elapsed_time)
     // limit our speed
     float player_speed_x = player_delta.x / elapsed_time;
     float maxv = config_.max_speed_x + (fabsf(player_speed_x * config_.dynamic_max_speed_x));
-    speed_x = clamp(speed_x, -maxv, maxv);
+    speed_x = math::clamp(speed_x, -maxv, maxv);
 
     // apply scrolling
     cached_translation.x -= speed_x * elapsed_time;
   }
   if(xmode == 3) {
     float halfsize = config_.kirby_rectsize_x * 0.5f;
-    cached_translation.x = clamp(cached_translation.x,
+    cached_translation.x = math::clamp(cached_translation.x,
                                  player_pos.x - static_cast<float>(m_screen_size.width) * (0.5f + halfsize),
                                  player_pos.x - static_cast<float>(m_screen_size.width) * (0.5f - halfsize));
   }
@@ -618,11 +618,11 @@ Camera::update_scroll_normal(float elapsed_time)
     translation.x -= peek_pos.x;
 
     if(config_.clamp_x > 0) {
-      translation.x = clamp(translation.x,
+      translation.x = math::clamp(translation.x,
                             player_pos.x - static_cast<float>(m_screen_size.width) * (1-config_.clamp_x),
                             player_pos.x - static_cast<float>(m_screen_size.width) * config_.clamp_x);
 
-      cached_translation.x = clamp(cached_translation.x,
+      cached_translation.x = math::clamp(cached_translation.x,
                                    player_pos.x - static_cast<float>(m_screen_size.width) * (1-config_.clamp_x),
                                    player_pos.x - static_cast<float>(m_screen_size.width) * config_.clamp_x);
     }

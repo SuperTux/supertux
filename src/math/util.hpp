@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_MATH_UTIL_HPP
 #define HEADER_SUPERTUX_MATH_UTIL_HPP
 
+namespace math {
+
 template<class T>
 const T& clamp(const T& val, const T& min, const T& max)
 {
@@ -33,6 +35,11 @@ const T& clamp(const T& val, const T& min, const T& max)
     return val;
   }
 }
+
+
+} // namespace Math
+
+} // namespace math
 
 #endif
 
