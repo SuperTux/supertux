@@ -293,7 +293,7 @@ void gotoend()
   for(const auto& player : ::Sector::current()->get_players())
   {
     player->move(Vector(
-              (::Sector::current()->get_width()) - (SCREEN_WIDTH*2), 0));
+                   (::Sector::current()->get_width()) - static_cast<float>(SCREEN_WIDTH * 2), 0));
     player->get_camera()->reset(
       Vector(player->get_pos().x, player->get_pos().y));
   }

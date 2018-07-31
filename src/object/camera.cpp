@@ -686,8 +686,8 @@ Camera::get_center() const {
     return translation + Vector(static_cast<float>(m_screen_size.width) / 3.0f,
                                 static_cast<float>(m_screen_size.height) / 2.0f);
   else // if(number == 2)
-    return translation + Vector(static_cast<float>(m_screen_size.width / 3.0f * 2.0f,
-                                static_cast<float>(m_screen_size.height / 2.0f);
+    return translation + Vector(static_cast<float>(m_screen_size.width) / 3.0f * 2.0f,
+                                static_cast<float>(m_screen_size.height) / 2.0f);
 }
 
 void

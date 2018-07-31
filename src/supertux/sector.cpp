@@ -302,15 +302,6 @@ Sector::deactivate()
   _current = NULL;
 }
 
-Rectf
-Sector::get_active_region() const
-{
-  return Rectf(
-    camera->get_translation() - Vector(1600, 1200),
-    camera->get_translation() + Vector(1600, 1200) + Vector(static_cast<float>(SCREEN_WIDTH),
-                                                            static_cast<float>(SCREEN_HEIGHT)));
-}
-
 int
 Sector::calculate_foremost_layer() const
 {
