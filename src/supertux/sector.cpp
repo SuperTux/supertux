@@ -90,7 +90,8 @@ Sector::Sector(Level* parent) :
   solid_tilemaps(),
   camera(0),
   effect(0),
-  broadphase(nullptr)
+  broadphase(nullptr),
+  broadphase_bbox(nullptr)
 {
   PlayerStatus* player_status;
   if (Editor::is_active()) {
@@ -530,6 +531,8 @@ Sector::before_object_remove(GameObjectPtr object)
     // Tell Collision Engine that this object has been removed
     if (broadphase)
       broadphase->remove(moving_object);
+    if (broadphase_bbox)
+        broadphase_bbox->remove(moving_object);
 
   }
 
@@ -1026,8 +1029,7 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
   std::list< MovingObject* > nearby;
   std::list< MovingObject* > possible_neighbours;
 
-  //broadphase->search(object.get_bbox().grown(10), []{},
-  //            nearby);
+  broadphase->search(object.get_bbox().grown(2), []{}, nearby);
 
   for (auto& moving_object : moving_objects) {
 
@@ -1051,7 +1053,7 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       Manifold m;
       CollisionHit h;
       possible_neighbours.clear();
-      spatial_hasingIterator iter(broadphase.get(), moving_object->get_bbox().grown(10));
+      spatial_hasingIterator iter(broadphase_bbox.get(), moving_object->get_bbox().grown(2));
       for (auto mobject = iter.next(); mobject != NULL; mobject = iter.next()) {
         // TODO Specail case: Same object on multiple layers
         // => detect collision (?) use contacts?
@@ -1071,16 +1073,10 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
        if (std::abs(overlapV.x) > std::abs(overlapV.y)) {
         h.right = overlapV.x > 0;
         h.left =  overlapV.x < 0;
-        log_debug << "L OR R" << std::endl;
       } else {
         h.bottom = overlapV.y > 0;
         h.top    = overlapV.y < 0;
-         log_debug << "*** TOP OR BOT "<< std::endl << m.normal.x << " " << m.normal.y << std::endl;
       }
-      moving_object->collision(object, h);
-
-
-
       moving_object->collision(object, h);
       std::swap(h.top, h.bottom);
       std::swap(h.right, h.left);
@@ -1088,7 +1084,6 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       m.depth = 1;
       colhits.insert(h);
       contacts.push_back(m);
-      // Insert into collision graph
       graph.register_collision_hit(h, &object, moving_object);
       }
 
@@ -1107,7 +1102,6 @@ Sector::collision_static(collision::Constraints* constraints,
   for (int i = 0;i<3;i++) {
     collision_tilemap(constraints, movement, dest, object, contacts, i != 0);
   }
-  //broadphase->insert(object.dest, &object);
   contacts.clear();
   collision_moving_static(movement, dest, object, graph, contacts);
   for (const auto& m : contacts) {
@@ -1187,6 +1181,11 @@ Sector::handle_collisions()
     broadphase.reset(new spatial_hashing(get_width(), get_height()));
     log_debug << "Error :: Reset" << std::endl;
   }
+  if (!broadphase_bbox)
+  {
+    broadphase_bbox.reset(new spatial_hashing(get_width(), get_height()));
+    log_debug << "Error :: Reset" << std::endl;
+  }
   const int pixeld_x = 2;
   const int pixeld_y = 2;
   // calculate destination positions of the objects
@@ -1232,7 +1231,8 @@ Sector::handle_collisions()
     if(obj->get_group() != COLGROUP_STATIC
        && obj->get_group() != COLGROUP_MOVING_STATIC)
       continue;
-    broadphase->insert(obj->get_bbox(), obj);
+    broadphase_bbox->insert(obj->get_bbox(), obj);
+    broadphase->insert(obj->dest, obj);
   }
   for (const auto& moving_object : moving_objects) {
     if ((moving_object->get_group() != COLGROUP_MOVING
@@ -1270,7 +1270,7 @@ Sector::handle_collisions()
       if(moving_object == NULL)
         continue;
       spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(6));
-      for(auto moving_object_2 : moving_objects /* = iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()*/) {
+      for(auto moving_object_2  = iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()) {
         if(moving_object_2 == NULL)
           continue;
         if(!moving_object_2->is_valid())
@@ -1311,7 +1311,7 @@ Sector::handle_collisions()
           //broadphase->add_bulk(moving_object->dest, moving_object);
           //broadphase->add_bulk(moving_object_2->dest, moving_object);
         }
-      } else {
+      } else if(nr == 2) {
           collision_object(moving_object, moving_object_2, colgraph);
           std::get<2>(tpl) = 0;
       }
@@ -1355,11 +1355,7 @@ Sector::handle_collisions()
       moving_object->dest =   moving_object->dest.grown_xy(pixeld_x, pixeld_y);
     }
     moving_object->bbox = moving_object->dest;
-    if(object_polygons[moving_object]) {
-      object_polygons[moving_object]->reset_ignored_normals();
-      object_polygons[moving_object]->p1 = moving_object->bbox.p1;
-      object_polygons[moving_object]->p2 = moving_object->bbox.p2;
-    }
+
   }
 
 }

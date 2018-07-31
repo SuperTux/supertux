@@ -370,7 +370,7 @@ public: // TODO make this private again
   Camera* camera;
   DisplayEffect* effect;
   std::unique_ptr<spatial_hashing> broadphase;
-
+  std::unique_ptr<spatial_hashing> broadphase_bbox;
   std::map< MovingObject*, std::shared_ptr<AABBPolygon> > object_polygons;
 private:
   Sector(const Sector&);

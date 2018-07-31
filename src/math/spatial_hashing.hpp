@@ -11,7 +11,7 @@ class spatial_hasingIterator;
 class spatial_hashing : public collision_broadphase {
 public:
   friend class spatial_hasingIterator;
-  spatial_hashing(int width, int height,int gridx=64, int gridy=64);
+  spatial_hashing(int width, int height,int gridx=32, int gridy=32);
   void insert(const Rectf& aabb,MovingObject* obj);
   virtual bool collides(const Rectf& r);
   virtual bool remove(MovingObject* obj);
