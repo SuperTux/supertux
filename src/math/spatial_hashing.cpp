@@ -184,16 +184,11 @@ MovingObject* spatial_hasingIterator::next() {
     if ((m_x > m_extend_x) || (m_extend_y > m_y)) {
       return NULL;
     }
-    log_debug << m_x << " " << m_y << " " << m_extend_x << " " << m_extend_y << " " << m_initial_y << std::endl;
     iter = m_hash->grid[m_y][m_x].begin();
     iterend = m_hash->grid[m_y][m_x].end();
-    log_debug << "sf" << std::endl;
   }
   m_x   = std::min<int>(m_hash->cols-1, m_x);
   m_y   = std::min<int>(m_hash->rows-1, m_y);
-  log_debug << "Advancing iter" << std::endl;
-  log_debug << m_x << " " << m_y << std::endl;
-  log_debug << m_extend_x << " " << m_extend_y << std::endl;
 
   MovingObject* next = *iter;
   if(next == NULL)

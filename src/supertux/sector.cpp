@@ -1052,17 +1052,15 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       CollisionHit h;
       possible_neighbours.clear();
       spatial_hasingIterator iter(broadphase.get(), moving_object->get_bbox().grown(10));
-      for (auto mobject  = iter.next(); mobject != NULL; mobject = iter.next()) {
+      for (auto mobject /* = iter.next(); mobject != NULL; mobject = iter.next()*/ : moving_objects) {
         // TODO Specail case: Same object on multiple layers
         // => detect collision (?) use contacts?
         if(mobject->get_group() != COLGROUP_STATIC
            && mobject->get_group() != COLGROUP_MOVING_STATIC)
-           continue;
+          continue;
         if (mobject->get_bbox() == object.get_bbox() || mobject->get_bbox() == moving_object->get_bbox())
           continue;
         tile_poly->process_neighbor(mobject->get_bbox());
-        //tile_poly.debug();
-        //mobject_poly.debug();
       }
       // TODO(christ2go) Take static tilemap into account.
       mobjp->handle_collision(*tile_poly, m);
@@ -1073,10 +1071,11 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
        if (std::abs(overlapV.x) > std::abs(overlapV.y)) {
         h.right = overlapV.x > 0;
         h.left =  overlapV.x < 0;
+        log_debug << "L OR R" << std::endl;
       } else {
         h.bottom = overlapV.y > 0;
         h.top    = overlapV.y < 0;
-        // log_debug << "*** TOP OR BOT "<< std::endl << m.normal.x << " " << m.normal.y << std::endl;
+         log_debug << "*** TOP OR BOT "<< std::endl << m.normal.x << " " << m.normal.y << std::endl;
       }
       moving_object->collision(object, h);
 
@@ -1104,18 +1103,19 @@ Sector::collision_static(collision::Constraints* constraints,
   std::vector< Manifold > contacts;
   std::vector< Manifold > all_contacts;
   // Always resolve biggest
-  for (int i = 0;i<2;i++) {
+  for (int i = 0;i<3;i++) {
     collision_tilemap(constraints, movement, dest, object, contacts, i != 0);
   }
   broadphase->insert(object.dest, &object);
   contacts.clear();
   collision_moving_static(movement, dest, object, graph, contacts);
   for (const auto& m : contacts) {
-    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
-                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
+    Vector overlapV((m.depth*m.normal.x),///static_cast<double>(contacts.size()),
+                  (m.depth*m.normal.y));///(static_cast<double>(contacts.size())));
     dest.move(overlapV);
     // Also move the AABBPolygon
   }
+  return;
   broadphase->insert(object.dest, &object);
   double extend_left = 0.0f,
          extend_right = 0.0f,
