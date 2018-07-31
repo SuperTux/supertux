@@ -26,7 +26,7 @@
 #include "video/surface_ptr.hpp"
 #include "video/texture.hpp"
 
-class Renderer;
+class Painter;
 
 enum FontAlignment {
   ALIGN_LEFT,
@@ -82,7 +82,7 @@ public:
 
   /** Draws the given text to the screen. Also needs the position.
    * Type of alignment, drawing effect and alpha are optional. */
-  void draw(Renderer *renderer, const std::string& text, const Vector& pos,
+  void draw(Painter& painter, const std::string& text, const Vector& pos,
             FontAlignment alignment = ALIGN_LEFT,
             DrawingEffect drawing_effect = NO_EFFECT,
             Color color = Color(1.0,1.0,1.0),
@@ -91,12 +91,12 @@ public:
 private:
   friend class DrawingContext;
 
-  void draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
+  void draw_text(Painter& painter, const std::string& text, const Vector& pos,
                  DrawingEffect drawing_effect = NO_EFFECT,
                  Color color = Color(1.0,1.0,1.0),
                  float alpha = 1.0f) const;
 
-  void draw_chars(Renderer *renderer, bool nonshadow, const std::string& text,
+  void draw_chars(Painter& painter, bool nonshadow, const std::string& text,
                   const Vector& position, DrawingEffect drawing_effect, Color color,
                   float alpha) const;
 

@@ -68,6 +68,10 @@ Canvas::render(VideoSystem& video_system, Filter filter)
   Renderer& renderer = video_system.get_renderer();
   Lightmap& lightmap = video_system.get_lightmap();
 
+  Painter& painter = (m_target == DrawingTarget::LIGHTMAP) ?
+    lightmap.get_painter() :
+    renderer.get_painter();
+
   for(const auto& i : m_requests) {
     const DrawingRequest& request = *i;
 
@@ -76,78 +80,46 @@ Canvas::render(VideoSystem& video_system, Filter filter)
     else if (filter == ABOVE_LIGHTMAP && request.layer <= LAYER_LIGHTMAP)
       continue;
 
-    switch(m_target) {
-      case DrawingTarget::COLORMAP:
-        switch(request.type) {
-          case SURFACE:
-            renderer.get_painter().draw_surface(request);
-            break;
-          case SURFACE_PART:
-            renderer.get_painter().draw_surface_part(request);
-            break;
-          case GRADIENT:
-            renderer.get_painter().draw_gradient(request);
-            break;
-          case TEXT:
-            {
-              const auto textrequest = static_cast<TextRequest*>(request.request_data);
-              textrequest->font->draw(&renderer, textrequest->text, request.pos,
-                                      textrequest->alignment, request.drawing_effect, request.color, request.alpha);
-            }
-            break;
-          case FILLRECT:
-            renderer.get_painter().draw_filled_rect(request);
-            break;
-          case INVERSEELLIPSE:
-            renderer.get_painter().draw_inverse_ellipse(request);
-            break;
-          case GETLIGHT:
-            lightmap.get_light(request);
-            break;
-          case LINE:
-            renderer.get_painter().draw_line(request);
-            break;
-          case TRIANGLE:
-            renderer.get_painter().draw_triangle(request);
-            break;
+    switch(request.type) {
+      case SURFACE:
+        painter.draw_surface(request);
+        break;
+
+      case SURFACE_PART:
+        painter.draw_surface_part(request);
+        break;
+
+      case GRADIENT:
+        painter.draw_gradient(request);
+        break;
+
+      case TEXT:
+        {
+          const auto textrequest = static_cast<TextRequest*>(request.request_data);
+          textrequest->font->draw(painter, textrequest->text, request.pos,
+                                  textrequest->alignment, request.drawing_effect, request.color, request.alpha);
         }
         break;
 
-      case DrawingTarget::LIGHTMAP:
-        switch(request.type) {
-          case SURFACE:
-            lightmap.get_painter().draw_surface(request);
-            break;
-          case SURFACE_PART:
-            lightmap.get_painter().draw_surface_part(request);
-            break;
-          case GRADIENT:
-            lightmap.get_painter().draw_gradient(request);
-            break;
-          case TEXT:
-            {
-              const auto textrequest = static_cast<TextRequest*>(request.request_data);
-              textrequest->font->draw(&renderer, textrequest->text, request.pos,
-                                      textrequest->alignment, request.drawing_effect, request.color, request.alpha);
-            }
-            break;
-          case FILLRECT:
-            lightmap.get_painter().draw_filled_rect(request);
-            break;
-          case INVERSEELLIPSE:
-            log_warning << "InverseEllipse doesn't make sense on the lightmap" << std::endl;
-            assert(false);
-            break;
-          case GETLIGHT:
-            lightmap.get_light(request);
-            break;
-          case LINE:
-            lightmap.get_painter().draw_line(request);
-            break;
-          case TRIANGLE:
-            lightmap.get_painter().draw_triangle(request);
-            break;
-        }
+      case FILLRECT:
+        painter.draw_filled_rect(request);
+        break;
+
+      case INVERSEELLIPSE:
+        painter.draw_inverse_ellipse(request);
+        break;
+
+      case LINE:
+        painter.draw_line(request);
+        break;
+
+      case TRIANGLE:
+        painter.draw_triangle(request);
+        break;
+
+      case GETLIGHT:
+        // FIXME: turn this into a generic get_pixel that works on Renderer as well
+        lightmap.get_light(request);
         break;
     }
   }
