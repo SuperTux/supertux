@@ -1051,8 +1051,8 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       Manifold m;
       CollisionHit h;
       possible_neighbours.clear();
-      spatial_hasingIterator iter(broadphase.get(), moving_object->get_bbox().grown(10));
-      for (auto mobject /* = iter.next(); mobject != NULL; mobject = iter.next()*/ : moving_objects) {
+      spatial_hasingIterator iter(broadphase.get(), moving_object->get_bbox().grown(5));
+      for (auto mobject : moving_objects) {
         // TODO Specail case: Same object on multiple layers
         // => detect collision (?) use contacts?
         if(mobject->get_group() != COLGROUP_STATIC
@@ -1221,6 +1221,9 @@ Sector::handle_collisions()
   // Get a list of all objects which move
   platforms.clear();
   colgraph.reset();
+  for (const auto& obj : moving_objects) {
+    broadphase->insert(obj->get_bbox(), obj);
+  }
   for (const auto& moving_object : moving_objects) {
     // Check for correct collision group and actual movement in last frame
     if (moving_object->get_group() == COLGROUP_STATIC &&
@@ -1260,6 +1263,7 @@ Sector::handle_collisions()
   }
   std::vector< std::tuple< MovingObject*, MovingObject*, int > > possibleCollisions;
   possibleCollisions.clear();
+  // TODO Remove duplicate collisions
   for (const auto& moving_object : moving_objects) {
       if(moving_object == NULL)
         continue;
@@ -1306,8 +1310,8 @@ Sector::handle_collisions()
           //broadphase->add_bulk(moving_object_2->dest, moving_object);
         }
       } else {
-collision_object(moving_object, moving_object_2, colgraph);
-std::get<2>(tpl) = 0;
+          collision_object(moving_object, moving_object_2, colgraph);
+          std::get<2>(tpl) = 0;
       }
     }
     for (const auto& obj : moving_objects) {
