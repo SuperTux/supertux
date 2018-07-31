@@ -143,48 +143,6 @@ GLLightmap::render()
 }
 
 void
-GLLightmap::draw_surface(const DrawingRequest& request)
-{
-  m_painter.draw_surface(request);
-}
-
-void
-GLLightmap::draw_surface_part(const DrawingRequest& request)
-{
-  m_painter.draw_surface_part(request);
-}
-
-void
-GLLightmap::draw_gradient(const DrawingRequest& request)
-{
-  m_painter.draw_gradient(request);
-}
-
-void
-GLLightmap::draw_filled_rect(const DrawingRequest& request)
-{
-  m_painter.draw_filled_rect(request);
-}
-
-void
-GLLightmap::draw_inverse_ellipse(const DrawingRequest& request)
-{
-  m_painter.draw_inverse_ellipse(request);
-}
-
-void
-GLLightmap::draw_line(const DrawingRequest& request)
-{
-  m_painter.draw_line(request);
-}
-
-void
-GLLightmap::draw_triangle(const DrawingRequest& request)
-{
-  m_painter.draw_triangle(request);
-}
-
-void
 GLLightmap::clear(const Color& color)
 {
   glClearColor(color.red, color.green, color.blue, color.alpha);

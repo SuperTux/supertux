@@ -29,6 +29,7 @@
 #include "util/utf8_iterator.hpp"
 #include "video/drawing_request.hpp"
 #include "video/renderer.hpp"
+#include "video/painter.hpp"
 #include "video/surface.hpp"
 
 namespace {
@@ -449,7 +450,7 @@ Font::draw_chars(Renderer *renderer, bool notshadow, const std::string& text,
       surfacepartrequest.surface = notshadow ? glyph_surfaces[glyph.surface_idx].get() : shadow_surfaces[glyph.surface_idx].get();
 
       request.request_data = &surfacepartrequest;
-      renderer->draw_surface_part(request);
+      renderer->get_painter().draw_surface_part(request);
 
       p.x += glyph.advance;
     }

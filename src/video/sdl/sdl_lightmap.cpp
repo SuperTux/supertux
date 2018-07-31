@@ -28,7 +28,7 @@
 SDLLightmap::SDLLightmap(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
   m_video_system(video_system),
   m_renderer(renderer),
-  m_painter(m_video_system),
+  m_painter(m_video_system, m_renderer),
   m_texture(),
   m_LIGHTMAP_DIV(),
   m_cliprect()
@@ -72,48 +72,6 @@ SDLLightmap::end_draw()
 {
   SDL_RenderSetScale(m_renderer, 1.0f, 1.0f);
   SDL_SetRenderTarget(m_renderer, NULL);
-}
-
-void
-SDLLightmap::draw_surface(const DrawingRequest& request)
-{
-  m_painter.draw_surface(m_renderer, request);
-}
-
-void
-SDLLightmap::draw_surface_part(const DrawingRequest& request)
-{
-  m_painter.draw_surface_part(m_renderer, request);
-}
-
-void
-SDLLightmap::draw_gradient(const DrawingRequest& request)
-{
-  m_painter.draw_gradient(m_renderer, request);
-}
-
-void
-SDLLightmap::draw_filled_rect(const DrawingRequest& request)
-{
-  m_painter.draw_filled_rect(m_renderer, request);
-}
-
-void
-SDLLightmap::draw_inverse_ellipse(const DrawingRequest& request)
-{
-  m_painter.draw_inverse_ellipse(m_renderer, request);
-}
-
-void
-SDLLightmap::draw_line(const DrawingRequest& request)
-{
-  m_painter.draw_line(m_renderer, request);
-}
-
-void
-SDLLightmap::draw_triangle(const DrawingRequest& request)
-{
-  m_painter.draw_triangle(m_renderer, request);
 }
 
 void

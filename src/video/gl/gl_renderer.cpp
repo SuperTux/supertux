@@ -72,48 +72,6 @@ GLRenderer::end_draw()
 }
 
 void
-GLRenderer::draw_surface(const DrawingRequest& request)
-{
-  m_painter.draw_surface(request);
-}
-
-void
-GLRenderer::draw_surface_part(const DrawingRequest& request)
-{
-  m_painter.draw_surface_part(request);
-}
-
-void
-GLRenderer::draw_gradient(const DrawingRequest& request)
-{
-  m_painter.draw_gradient(request);
-}
-
-void
-GLRenderer::draw_filled_rect(const DrawingRequest& request)
-{
-  m_painter.draw_filled_rect(request);
-}
-
-void
-GLRenderer::draw_inverse_ellipse(const DrawingRequest& request)
-{
-  m_painter.draw_inverse_ellipse(request);
-}
-
-void
-GLRenderer::draw_line(const DrawingRequest& request)
-{
-  m_painter.draw_line(request);
-}
-
-void
-GLRenderer::draw_triangle(const DrawingRequest& request)
-{
-  m_painter.draw_triangle(request);
-}
-
-void
 GLRenderer::clear(const Color& color)
 {
   glClearColor(color.red, color.green, color.blue, color.alpha);

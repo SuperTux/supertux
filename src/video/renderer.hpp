@@ -21,6 +21,7 @@
 #include "math/vector.hpp"
 #include "video/color.hpp"
 
+class Painter;
 class Rect;
 struct DrawingRequest;
 struct SDL_Window;
@@ -33,13 +34,7 @@ public:
   virtual void start_draw() = 0;
   virtual void end_draw() = 0;
 
-  virtual void draw_surface(const DrawingRequest& request) = 0;
-  virtual void draw_surface_part(const DrawingRequest& request) = 0;
-  virtual void draw_gradient(const DrawingRequest& request) = 0;
-  virtual void draw_filled_rect(const DrawingRequest& request) = 0;
-  virtual void draw_inverse_ellipse(const DrawingRequest& request) = 0;
-  virtual void draw_line(const DrawingRequest& request) = 0;
-  virtual void draw_triangle(const DrawingRequest& request) = 0;
+  virtual Painter& get_painter() = 0;
   virtual void clear(const Color& color) = 0;
 
   virtual void set_clip_rect(const Rect& rect) = 0;

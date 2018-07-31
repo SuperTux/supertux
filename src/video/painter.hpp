@@ -1,5 +1,6 @@
 //  SuperTux
 //  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//                2016 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,32 +15,34 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_LIGHTMAP_HPP
-#define HEADER_SUPERTUX_VIDEO_LIGHTMAP_HPP
+#ifndef HEADER_SUPERTUX_VIDEO_PAINTER_HPP
+#define HEADER_SUPERTUX_VIDEO_PAINTER_HPP
 
+#include "math/rect.hpp"
+#include "math/vector.hpp"
 #include "video/color.hpp"
 
-class Painter;
 class Rect;
 struct DrawingRequest;
+struct SDL_Window;
 
-class Lightmap
+class Painter
 {
 public:
-  virtual ~Lightmap() {}
+  Painter() {}
+  virtual ~Painter() {}
 
-  virtual void start_draw() = 0;
-  virtual void end_draw() = 0;
+  virtual void draw_surface(const DrawingRequest& request) = 0;
+  virtual void draw_surface_part(const DrawingRequest& request) = 0;
+  virtual void draw_gradient(const DrawingRequest& request) = 0;
+  virtual void draw_filled_rect(const DrawingRequest& request) = 0;
+  virtual void draw_inverse_ellipse(const DrawingRequest& request) = 0;
+  virtual void draw_line(const DrawingRequest& request) = 0;
+  virtual void draw_triangle(const DrawingRequest& request) = 0;
 
-  virtual Painter& get_painter() = 0;
-  virtual void clear(const Color& color = Color(0.0f, 0.0f, 0.0f, 1.0f)) = 0;
-
-  virtual void get_light(const DrawingRequest& request) const = 0;
-
-  virtual void set_clip_rect(const Rect& rect) = 0;
-  virtual void clear_clip_rect() = 0;
-
-  virtual void render() = 0;
+private:
+  Painter(const Painter&) = delete;
+  Painter& operator=(const Painter&) = delete;
 };
 
 #endif

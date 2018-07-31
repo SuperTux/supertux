@@ -60,12 +60,13 @@ SDL_BlendMode blend2sdl(const Blend& blend)
 
 } // namespace
 
-SDLPainter::SDLPainter(SDLVideoSystem& video_system) :
-  m_video_system(video_system)
+SDLPainter::SDLPainter(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
+  m_video_system(video_system),
+  m_renderer(renderer)
 {}
 
 void
-SDLPainter::draw_surface(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_surface(const DrawingRequest& request)
 {
   const auto surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;
   std::shared_ptr<SDLTexture> sdltexture = std::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
@@ -95,11 +96,11 @@ SDLPainter::draw_surface(SDL_Renderer* renderer, const DrawingRequest& request)
     flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
   }
 
-  SDL_RenderCopyEx(renderer, sdltexture->get_texture(), NULL, &dst_rect, request.angle, NULL, flip);
+  SDL_RenderCopyEx(m_renderer, sdltexture->get_texture(), NULL, &dst_rect, request.angle, NULL, flip);
 }
 
 void
-SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_surface_part(const DrawingRequest& request)
 {
   //FIXME: support parameters request.blend
   const auto surface = static_cast<const SurfacePartRequest*>(request.request_data);
@@ -138,11 +139,11 @@ SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& requ
     flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
   }
 
-  SDL_RenderCopyEx(renderer, sdltexture->get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
+  SDL_RenderCopyEx(m_renderer, sdltexture->get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
 }
 
 void
-SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_gradient(const DrawingRequest& request)
 {
   const auto gradientrequest = static_cast<GradientRequest*>(request.request_data);
   const Color& top = gradientrequest->top;
@@ -193,14 +194,14 @@ SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
         a = static_cast<Uint8>(((1.0f - p) * top.alpha + p * bottom.alpha) * 255);
     }
 
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+    SDL_RenderFillRect(m_renderer, &rect);
   }
 }
 
 void
-SDLPainter::draw_filled_rect(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_filled_rect(const DrawingRequest& request)
 {
   const auto fillrectrequest = static_cast<FillRectRequest*>(request.request_data);
 
@@ -260,23 +261,23 @@ SDLPainter::draw_filled_rect(SDL_Renderer* renderer, const DrawingRequest& reque
       rects.push_back(tmp);
     }
 
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    SDL_RenderFillRects(renderer, &*rects.begin(), static_cast<int>(rects.size()));
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+    SDL_RenderFillRects(m_renderer, &*rects.begin(), static_cast<int>(rects.size()));
   }
   else
   {
     if((rect.w != 0) && (rect.h != 0))
     {
-      SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-      SDL_SetRenderDrawColor(renderer, r, g, b, a);
-      SDL_RenderFillRect(renderer, &rect);
+      SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+      SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+      SDL_RenderFillRect(m_renderer, &rect);
     }
   }
 }
 
 void
-SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
   const auto ellipse = static_cast<InverseEllipseRequest*>(request.request_data);
 
@@ -328,13 +329,13 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
   Uint8 b = static_cast<Uint8>(ellipse->color.blue * 255);
   Uint8 a = static_cast<Uint8>(ellipse->color.alpha * 255);
 
-  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-  SDL_SetRenderDrawColor(renderer, r, g, b, a);
-  SDL_RenderFillRects(renderer, rects, 2*slices+2);
+  SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+  SDL_RenderFillRects(m_renderer, rects, 2*slices+2);
 }
 
 void
-SDLPainter::draw_line(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_line(const DrawingRequest& request)
 {
   const auto linerequest = static_cast<LineRequest*>(request.request_data);
 
@@ -348,9 +349,9 @@ SDLPainter::draw_line(SDL_Renderer* renderer, const DrawingRequest& request)
   int x2 = static_cast<int>(linerequest->dest_pos.x);
   int y2 = static_cast<int>(linerequest->dest_pos.y);
 
-  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-  SDL_SetRenderDrawColor(renderer, r, g, b, a);
-  SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+  SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+  SDL_RenderDrawLine(m_renderer, x1, y1, x2, y2);
 }
 
 namespace {
@@ -404,7 +405,7 @@ draw_span_between_edges(SDL_Renderer* renderer, const Rectf& e1, const Rectf& e2
 } //namespace
 
 void
-SDLPainter::draw_triangle(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_triangle(const DrawingRequest& request)
 {
   const auto trianglerequest = static_cast<TriangleRequest*>(request.request_data);
 
@@ -439,11 +440,11 @@ SDLPainter::draw_triangle(SDL_Renderer* renderer, const DrawingRequest& request)
   int shortEdge1 = (longEdge + 1) % 3;
   int shortEdge2 = (longEdge + 2) % 3;
 
-  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-  SDL_SetRenderDrawColor(renderer, r, g, b, a);
+  SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
 
-  draw_span_between_edges(renderer, edges[longEdge], edges[shortEdge1]);
-  draw_span_between_edges(renderer, edges[longEdge], edges[shortEdge2]);
+  draw_span_between_edges(m_renderer, edges[longEdge], edges[shortEdge1]);
+  draw_span_between_edges(m_renderer, edges[longEdge], edges[shortEdge2]);
 }
 
 /* EOF */

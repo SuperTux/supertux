@@ -17,11 +17,13 @@
 #include "video/canvas.hpp"
 
 #include <algorithm>
+
 #include "supertux/globals.hpp"
 #include "util/log.hpp"
 #include "util/obstackpp.hpp"
 #include "video/drawing_request.hpp"
 #include "video/lightmap.hpp"
+#include "video/painter.hpp"
 #include "video/renderer.hpp"
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
@@ -78,13 +80,13 @@ Canvas::render(VideoSystem& video_system, Filter filter)
       case DrawingTarget::COLORMAP:
         switch(request.type) {
           case SURFACE:
-            renderer.draw_surface(request);
+            renderer.get_painter().draw_surface(request);
             break;
           case SURFACE_PART:
-            renderer.draw_surface_part(request);
+            renderer.get_painter().draw_surface_part(request);
             break;
           case GRADIENT:
-            renderer.draw_gradient(request);
+            renderer.get_painter().draw_gradient(request);
             break;
           case TEXT:
             {
@@ -94,19 +96,19 @@ Canvas::render(VideoSystem& video_system, Filter filter)
             }
             break;
           case FILLRECT:
-            renderer.draw_filled_rect(request);
+            renderer.get_painter().draw_filled_rect(request);
             break;
           case INVERSEELLIPSE:
-            renderer.draw_inverse_ellipse(request);
+            renderer.get_painter().draw_inverse_ellipse(request);
             break;
           case GETLIGHT:
             lightmap.get_light(request);
             break;
           case LINE:
-            renderer.draw_line(request);
+            renderer.get_painter().draw_line(request);
             break;
           case TRIANGLE:
-            renderer.draw_triangle(request);
+            renderer.get_painter().draw_triangle(request);
             break;
         }
         break;
@@ -114,13 +116,13 @@ Canvas::render(VideoSystem& video_system, Filter filter)
       case DrawingTarget::LIGHTMAP:
         switch(request.type) {
           case SURFACE:
-            lightmap.draw_surface(request);
+            lightmap.get_painter().draw_surface(request);
             break;
           case SURFACE_PART:
-            lightmap.draw_surface_part(request);
+            lightmap.get_painter().draw_surface_part(request);
             break;
           case GRADIENT:
-            lightmap.draw_gradient(request);
+            lightmap.get_painter().draw_gradient(request);
             break;
           case TEXT:
             {
@@ -130,7 +132,7 @@ Canvas::render(VideoSystem& video_system, Filter filter)
             }
             break;
           case FILLRECT:
-            lightmap.draw_filled_rect(request);
+            lightmap.get_painter().draw_filled_rect(request);
             break;
           case INVERSEELLIPSE:
             log_warning << "InverseEllipse doesn't make sense on the lightmap" << std::endl;
@@ -140,10 +142,10 @@ Canvas::render(VideoSystem& video_system, Filter filter)
             lightmap.get_light(request);
             break;
           case LINE:
-            lightmap.draw_line(request);
+            lightmap.get_painter().draw_line(request);
             break;
           case TRIANGLE:
-            lightmap.draw_triangle(request);
+            lightmap.get_painter().draw_triangle(request);
             break;
         }
         break;
