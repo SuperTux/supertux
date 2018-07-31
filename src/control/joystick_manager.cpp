@@ -119,28 +119,28 @@ JoystickManager::process_hat_event(const SDL_JoyHatEvent& jhat)
     {
       JoystickConfig::HatMap::iterator it = m_joystick_config.joy_hat_map.find(std::make_pair(jhat.which, SDL_HAT_UP));
       if (it != m_joystick_config.joy_hat_map.end())
-        set_joy_controls(it->second, jhat.value & SDL_HAT_UP != 0);
+        set_joy_controls(it->second, (jhat.value & SDL_HAT_UP) != 0);
     }
 
     if (changed & SDL_HAT_DOWN)
     {
       JoystickConfig::HatMap::iterator it = m_joystick_config.joy_hat_map.find(std::make_pair(jhat.which, SDL_HAT_DOWN));
       if (it != m_joystick_config.joy_hat_map.end())
-        set_joy_controls(it->second, jhat.value & SDL_HAT_DOWN != 0);
+        set_joy_controls(it->second, (jhat.value & SDL_HAT_DOWN) != 0);
     }
 
     if (changed & SDL_HAT_LEFT)
     {
       JoystickConfig::HatMap::iterator it = m_joystick_config.joy_hat_map.find(std::make_pair(jhat.which, SDL_HAT_LEFT));
       if (it != m_joystick_config.joy_hat_map.end())
-        set_joy_controls(it->second, jhat.value & SDL_HAT_LEFT != 0);
+        set_joy_controls(it->second, (jhat.value & SDL_HAT_LEFT) != 0);
     }
 
     if (changed & SDL_HAT_RIGHT)
     {
       JoystickConfig::HatMap::iterator it = m_joystick_config.joy_hat_map.find(std::make_pair(jhat.which, SDL_HAT_RIGHT));
       if (it != m_joystick_config.joy_hat_map.end())
-        set_joy_controls(it->second, jhat.value & SDL_HAT_RIGHT != 0);
+        set_joy_controls(it->second, (jhat.value & SDL_HAT_RIGHT) != 0);
     }
   }
 
