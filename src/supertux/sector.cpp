@@ -1261,8 +1261,12 @@ Sector::handle_collisions()
   std::vector< std::tuple< MovingObject*, MovingObject*, int > > possibleCollisions;
   possibleCollisions.clear();
   for (const auto& moving_object : moving_objects) {
-      spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(0));
-      for(auto moving_object_2  = iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()) {
+      if(moving_object == NULL)
+        continue;
+      spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(6));
+      for(auto moving_object_2 : moving_objects /* = iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()*/) {
+        if(moving_object_2 == NULL)
+          continue;
         if(!moving_object_2->is_valid())
           continue;
         if (moving_object_2 == moving_object)
@@ -1279,10 +1283,12 @@ Sector::handle_collisions()
       }
   }
 
-  for(int i = 0;i < 3; i++) {
+  for(int i = 0;i < 1; i++) {
     for(auto& tpl : possibleCollisions) {
       MovingObject* moving_object, *moving_object_2; int nr;
       std::tie(moving_object, moving_object_2, nr) = tpl;
+      if(moving_object == NULL || moving_object_2 == NULL)
+        continue;
       if(nr == 1) {
         if (intersects(moving_object->dest, moving_object_2->dest)) {
           Vector normal;
