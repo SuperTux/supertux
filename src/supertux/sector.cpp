@@ -1051,7 +1051,7 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       Manifold m;
       CollisionHit h;
       possible_neighbours.clear();
-      spatial_hasingIterator iter(broadphase.get(), moving_object->get_bbox().grown(2));
+      spatial_hasingIterator iter(broadphase.get(), moving_object->get_bbox().grown(10));
       for (auto mobject = iter.next(); mobject != NULL; mobject = iter.next()) {
         // TODO Specail case: Same object on multiple layers
         // => detect collision (?) use contacts?
@@ -1117,7 +1117,6 @@ Sector::collision_static(collision::Constraints* constraints,
          extend_top = 0.0f,
          extend_bot = 0.0f;
   all_contacts.clear();
-  return;
   collision_tilemap(constraints, movement, dest, object, all_contacts, false);
   collision_moving_static(movement, dest, object, graph, all_contacts);
   CollisionHit h;
@@ -1224,9 +1223,6 @@ Sector::handle_collisions()
       platforms.insert(moving_object);
   }
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
-  for (const auto& obj : moving_objects) {
-    broadphase->insert(obj->dest, obj);
-  }
 
   for (const auto& moving_object : moving_objects) {
     if ((moving_object->get_group() != COLGROUP_MOVING
@@ -1237,6 +1233,7 @@ Sector::handle_collisions()
 
     collision_static_constrains(*moving_object, colgraph);
   }
+
   // part2: COLGROUP_MOVING vs tile attributes
   for (const auto& moving_object : moving_objects) {
     if ((moving_object->get_group() != COLGROUP_MOVING
@@ -1251,7 +1248,9 @@ Sector::handle_collisions()
       moving_object->collision_tile(tile_attributes);
     }
   }
-
+  for (const auto& obj : moving_objects) {
+    broadphase->insert(obj->dest, obj);
+  }
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
   std::list< MovingObject* > possibleCollisions;
   for (const auto& moving_object : moving_objects) {
@@ -1261,8 +1260,9 @@ Sector::handle_collisions()
       continue;
       possibleCollisions.clear();
     spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(4));
-
+    //spatial_hashing->search( moving_object->dest.grown(4), []{}, possibleCollisions)
     for (auto moving_object_2 = iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()) {
+    //for(const auto& moving_object_2 : possibleCollisions) {
       if(moving_object_2 == NULL)
         continue;
       if (moving_object_2 == moving_object)
@@ -1282,18 +1282,14 @@ Sector::handle_collisions()
           continue;
         moving_object->collision(*moving_object_2, hit);
         moving_object_2->collision(*moving_object, hit);
-        broadphase->add_bulk(moving_object->dest, moving_object);
-        broadphase->add_bulk(moving_object_2->dest, moving_object);
-        /*broadphase->insert(moving_object->dest, moving_object);
-        broadphase->insert(moving_object_2->dest, moving_object_2);*/
+        //broadphase->add_bulk(moving_object->dest, moving_object);
+        //broadphase->add_bulk(moving_object_2->dest, moving_object);
       }
 
     }
-    broadphase->do_bulk_update();
+    //broadphase->do_bulk_update();
   }
-  for (const auto& obj : moving_objects) {
-    broadphase->insert(obj->dest, obj);
-  }
+
   // part3: COLGROUP_MOVING vs COLGROUP_MOVING
   for (auto i = moving_objects.begin(); i != moving_objects.end(); ++i) {
     auto moving_object = *i;
@@ -1323,10 +1319,10 @@ Sector::handle_collisions()
       // Update the objects positions
       /*broadphase->insert(moving_object->dest, moving_object);
       broadphase->insert(moving_object_2->dest, moving_object_2);*/
-      broadphase->add_bulk(moving_object->dest, moving_object);
-      broadphase->add_bulk(moving_object_2->dest, moving_object);
+      //broadphase->add_bulk(moving_object->dest, moving_object);
+      //broadphase->add_bulk(moving_object_2->dest, moving_object);
     }
-    broadphase->do_bulk_update();
+    //broadphase->do_bulk_update();
   }
   std::map< MovingObject*, MovingObject* > parents;
   colgraph.compute_parents(platforms, parents);
@@ -1364,6 +1360,7 @@ Sector::handle_collisions()
       moving_object->dest =   moving_object->dest.grown_xy(pixeld_x, pixeld_y);
     }
     moving_object->bbox = moving_object->dest;
+    broadphase->insert(moving_object->bbox, moving_object);
     if(object_polygons[moving_object]) {
       object_polygons[moving_object]->reset_ignored_normals();
       object_polygons[moving_object]->p1 = moving_object->bbox.p1;

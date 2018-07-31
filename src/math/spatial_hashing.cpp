@@ -7,8 +7,8 @@
 spatial_hashing::spatial_hashing(int c_width, int c_height, int c_gridx, int c_gridy):
   gridx(c_gridx),
   gridy(c_gridy),
-  rows(c_width / gridx +1),
-  cols(c_height / gridy+1),
+  rows(c_height / gridy +1),
+  cols(c_width / gridx+1),
   width(c_width),
   height(c_height),
   grid(),
@@ -21,18 +21,12 @@ spatial_hashing::spatial_hashing(int c_width, int c_height, int c_gridx, int c_g
 }
 
 void spatial_hashing::insert(const Rectf& aabb, MovingObject* obj) {
+  if(aabb.p1.x < 0 || aabb.p1.y < 0 || aabb.p2.x > width || aabb.p2.y > height)
+    return;
   if (obj == NULL)
     return;
   // Check if object si out of bounds
   // If object is already inserted, check if coordinates changed
-  if (current_stored.count(obj)) {
-    // If the AABB's are equal ignore insert, else delete and insert
-    // IDEA Use rectangle vs rectangle difference operation for most efficient implementation
-    Rectf& stored_aabb = current_stored[obj];
-    if (aabb.p1 == stored_aabb.p1 && aabb.p2 == stored_aabb.p2)
-      return;
-    remove(obj);
-  }
   Rectf insertrect =aabb;
   // Get coordinates for top and bottom of AABB
   insertrect.p1 = Vector( std::max<double>(0, aabb.p1.x), std::max<double>(0, aabb.p1.y));
@@ -40,15 +34,26 @@ void spatial_hashing::insert(const Rectf& aabb, MovingObject* obj) {
   int startx, starty, endx, endy;
   startx = std::max<int>(0, insertrect.p1.x / gridx);
   starty = std::max<int>(0, insertrect.p1.y / gridy);
-  endx   = std::min<int>(rows, insertrect.p2.x / gridx);
-  endy   = std::min<int>(cols, insertrect.p2.y / gridy);
+  endx   = std::min<int>(cols, insertrect.p2.x / gridx);
+  endy   = std::min<int>(rows, insertrect.p2.y / gridy);
+  Rectf newrect = Rectf(Vector(startx, starty),Vector(endx, endy));
+  if (current_stored.count(obj)) {
+
+    // If the AABB's are equal ignore insert, else delete and insert
+    // IDEA Use rectangle vs rectangle difference operation for most efficient implementation
+    Rectf& stored_aabb = current_stored[obj];
+    if (newrect.p1 == stored_aabb.p1 && newrect.p2 == stored_aabb.p2)
+      return;
+    remove(obj);
+  }
+
   for (int xcoord = startx ; xcoord <= endx ; xcoord++) {
     for (int ycoord = starty ; ycoord <= endy ; ycoord++) {
-      grid[xcoord][ycoord].insert(obj);
+      grid[ycoord][xcoord].insert(obj);
     }
   }
   // Store current coordinates in HashMap
-  current_stored[obj] = aabb;
+  current_stored[obj] = newrect;
 }
 
 void spatial_hashing::search(const Rectf& r, std::function<void()> collision_ok, std::list< MovingObject* >& fill)
@@ -58,13 +63,13 @@ void spatial_hashing::search(const Rectf& r, std::function<void()> collision_ok,
   int startx, starty, endx, endy;
   startx = std::max<int>(0, r.p1.x / gridx);
   starty = std::max<int>(0, r.p1.y / gridy);
-  endx   = std::min<int>(rows, r.p2.x / gridx);
-  endy   = std::min<int>(cols, r.p2.y / gridy);
+  endx   = std::min<int>(cols, r.p2.x / gridx);
+  endy   = std::min<int>(rows, r.p2.y / gridy);
 
   for (int xcoord = startx ; xcoord <= endx ; xcoord++)
   {
     for (int ycoord = starty ; ycoord <= endy ; ycoord++) {
-      for (const auto& obj : grid[xcoord][ycoord]) {
+      for (const auto& obj : grid[ycoord][xcoord]) {
         if (obj != NULL)
         {
             fill.push_back(obj);
@@ -90,7 +95,7 @@ bool spatial_hashing::collides(const Rectf& r)
   {
     for(int ycoord = starty ; ycoord <= endy ; ycoord++)
     {
-      sum += grid[xcoord][ycoord].size();
+      sum += grid[ycoord][xcoord].size();
       if(sum > 1)
         return true;
     }
@@ -112,7 +117,7 @@ bool spatial_hashing::remove(MovingObject* obj)
   {
     for(int ycoord = starty ; ycoord <= endy ; ycoord++)
     {
-      grid[xcoord][ycoord].erase(obj);
+        grid[ycoord][xcoord].erase(obj);
     }
   }
   return true;
@@ -120,13 +125,6 @@ bool spatial_hashing::remove(MovingObject* obj)
 
 void spatial_hashing::clear()
 {
-  // Delete every cell
-  /*for(size_t i = 0;i<grid.size();i++)
-  {
-    for(size_t j = 0; j < grid[i].size(); j++)
-      grid[i][j].clear();
-    grid[i].clear();
-  }*/
   grid.clear();
 }
 
@@ -161,46 +159,45 @@ spatial_hasingIterator::spatial_hasingIterator(spatial_hashing* hash, Rectf aabb
         m_valid = false;
         return;
   }
-  m_x          = std::max<int>(0, aabb.p1.x / m_hash->gridx);
-  m_y          = std::max<int>(0, aabb.p1.y / m_hash->gridy);
-  m_extend_x   = std::min<int>(m_hash->rows, aabb.p2.x / m_hash->gridx);
-  m_extend_y   = std::min<int>(m_hash->cols, aabb.p2.x / m_hash->gridy);
+  m_x = std::max<int>(0, aabb.p1.x / hash->gridx);
+  m_y = std::max<int>(0, aabb.p1.y / hash->gridy);
+  m_extend_x   = std::min<int>(hash->cols, aabb.p2.x / hash->gridx);
+  m_extend_y   = std::min<int>(hash->rows, aabb.p2.y / hash->gridy);
+  m_initial_y = m_y;
   if(m_x > m_extend_x || m_y > m_extend_y) {
     m_valid = false;
     return;
   }
-  iter = m_hash->grid[m_x][m_y].begin();
-  iterend = m_hash->grid[m_x][m_y].end();
+  iter = m_hash->grid[m_y][m_x].begin();
+  iterend = m_hash->grid[m_y][m_x].end();
 }
 
 MovingObject* spatial_hasingIterator::next() {
   if(!m_valid)
     return NULL;
   while(iter == iterend) {
-    // Change iter
-    if(m_x >= m_extend_x && m_extend_y >= m_y) {
-      return NULL;
-    }
-    if(m_y >= m_extend_y) {
+    m_y++;
+    if(m_y > m_extend_y) {
       m_x++;
       m_y = m_initial_y;
-    } else {
-      m_y++;
     }
-    log_debug << m_x << " " << m_y << std::endl;
-    iter = m_hash->grid[m_x][m_y].begin();
-    iterend = m_hash->grid[m_x][m_y].end();
+    if ((m_x > m_extend_x) || (m_extend_y > m_y)) {
+      return NULL;
+    }
+    log_debug << m_x << " " << m_y << " " << m_extend_x << " " << m_extend_y << " " << m_initial_y << std::endl;
+    iter = m_hash->grid[m_y][m_x].begin();
+    iterend = m_hash->grid[m_y][m_x].end();
     log_debug << "sf" << std::endl;
   }
-  m_x   = std::min<int>(m_hash->rows-1, m_x);
-  m_y   = std::min<int>(m_hash->cols-1, m_y);
+  m_x   = std::min<int>(m_hash->cols-1, m_x);
+  m_y   = std::min<int>(m_hash->rows-1, m_y);
   log_debug << "Advancing iter" << std::endl;
   log_debug << m_x << " " << m_y << std::endl;
   log_debug << m_extend_x << " " << m_extend_y << std::endl;
 
-  if(iter == iterend)
-    return NULL;
   MovingObject* next = *iter;
+  if(next == NULL)
+    return this->next();
   iter++;
   return next;
 }
