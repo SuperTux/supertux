@@ -33,36 +33,29 @@ Surface::create(const std::string& file, const Rect& rect)
 
 Surface::Surface(const std::string& file) :
   m_texture(TextureManager::current()->get(file)),
-  m_surface_data(),
   m_rect(0, 0,
          Size(m_texture->get_image_width(),
               m_texture->get_image_height())),
   m_flipx(false)
 {
-  m_surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
 Surface::Surface(const std::string& file, const Rect& rect_) :
   m_texture(TextureManager::current()->get(file, rect_)),
-  m_surface_data(),
   m_rect(0, 0, Size(rect_.get_width(), rect_.get_height())),
   m_flipx(false)
 {
-  m_surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
 Surface::Surface(const Surface& rhs) :
   m_texture(rhs.m_texture),
-  m_surface_data(),
   m_rect(rhs.m_rect),
   m_flipx(false) // FIXME: Why no copy here?
 {
-  m_surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
 Surface::~Surface()
 {
-  VideoSystem::current()->free_surface_data(m_surface_data);
 }
 
 SurfacePtr
@@ -89,12 +82,6 @@ TexturePtr
 Surface::get_texture() const
 {
   return m_texture;
-}
-
-SurfaceData*
-Surface::get_surface_data() const
-{
-  return m_surface_data;
 }
 
 int

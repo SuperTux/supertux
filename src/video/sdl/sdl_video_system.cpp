@@ -190,18 +190,6 @@ SDLVideoSystem::new_texture(SDL_Surface* image)
   return TexturePtr(new SDLTexture(image));
 }
 
-SurfaceData*
-SDLVideoSystem::new_surface_data(const Surface& surface)
-{
-  return nullptr;
-}
-
-void
-SDLVideoSystem::free_surface_data(SurfaceData* surface_data)
-{
-  // do nothing
-}
-
 void
 SDLVideoSystem::on_resize(int w, int h)
 {

@@ -37,7 +37,6 @@ public:
 
 private:
   TexturePtr m_texture;
-  SurfaceData* m_surface_data;
   Rect m_rect;
   bool m_flipx;
 
