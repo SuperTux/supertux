@@ -25,6 +25,7 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <string>
 #include <SDL.h>
 #include <SDL_image.h>
 #ifndef NOOPENGL
@@ -315,30 +316,31 @@ void free_strings(char **strings, int num)
 /* Set SuperTux configuration and save directories */
 void st_directory_setup(void)
 {
-  const char *home;
-  char str[1024];
-  /* Get home directory (from $HOME variable)... if we can't determine it,
-     use the current directory ("."): */
-#ifndef GP2X
-  if (getenv("HOME") != NULL)
-    home = getenv("HOME");
+  std::string config_home(".");
+
+#ifndef WIN32
+  std::string home = ".";
+  const char* home_c = getenv("HOME");
+  if (home_c)
+  {
+    home = home_c;
+  }
+
+  const char* config_home_c = getenv("XDG_CONFIG_HOME");
+  if (config_home_c)
+  {
+    config_home = config_home_c;
+  }
   else
-    home = ".";
-#else
-    home = ".";
+  {
+    config_home = home + "/.config";
+  }
 #endif
 
-  st_dir = (char *) malloc(sizeof(char) * (strlen(home) +
-                                           strlen("/.supertux-milestone1") + 1));
-  strcpy(st_dir, home);
-  strcat(st_dir, "/.supertux-milestone1");
-
-  /* Remove .supertux config-file from old SuperTux versions */
-  if(faccessible(st_dir))
-    {
-      remove
-        (st_dir);
-    }
+  st_dir = (char *) malloc(sizeof(char) * (config_home.size() +
+                                           strlen("/supertux-milestone1") + 1));
+  strcpy(st_dir, config_home.c_str());
+  strcat(st_dir, "/supertux-milestone1");
 
   st_save_dir = (char *) malloc(sizeof(char) * (strlen(st_dir) + strlen("/save") + 1));
 
@@ -349,6 +351,7 @@ void st_directory_setup(void)
   mkdir(st_dir, 0755);
   mkdir(st_save_dir, 0755);
 
+  char str[1024];
   sprintf(str, "%s/levels", st_dir);
   mkdir(str, 0755);
 
@@ -386,6 +389,7 @@ void st_directory_setup(void)
   datadir = DATA_PREFIX;
 #endif
     }
+  printf("Configdir: %s\n", st_dir);
   printf("Datadir: %s\n", datadir.c_str());
 }
 
