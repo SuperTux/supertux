@@ -131,5 +131,4 @@ SkyDive::explode()
   remove_me();
 } /* void explode */
 
-/* vim: set sw=2 sts=2 et fdm=marker : */
 /* EOF */

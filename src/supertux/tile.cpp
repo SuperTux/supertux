@@ -439,5 +439,4 @@ bool Tile::is_collisionful(const Rectf& tile_bbox, const Rectf& position, const 
          check_position_unisolid (position, tile_bbox);
 } /* bool Tile::is_collisionful */
 
-/* vim: set sw=2 sts=2 et : */
 /* EOF */
