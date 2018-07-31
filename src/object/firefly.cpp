@@ -20,6 +20,7 @@
 
 #include "audio/sound_manager.hpp"
 #include "math/random_generator.hpp"
+#include "math/util.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
@@ -112,7 +113,7 @@ Firefly::collision(GameObject& other, const CollisionHit& )
     // TODO: provide convenience function in MovingSprite or MovingObject?
     for (int i = 0; i < 5; i++) {
       Vector ppos = bbox.get_middle();
-      float angle = graphicsRandom.randf(static_cast<float>(-M_PI_2), static_cast<float>(M_PI_2));
+      float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
       float velocity = graphicsRandom.randf(450.0f, 900.0f);
       float vx = sinf(angle)*velocity;
       float vy = -cosf(angle)*velocity;

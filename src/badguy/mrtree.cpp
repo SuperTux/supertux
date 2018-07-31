@@ -22,6 +22,7 @@
 #include "badguy/poisonivy.hpp"
 #include "badguy/stumpy.hpp"
 #include "math/random_generator.hpp"
+#include "math/util.hpp"
 #include "object/player.hpp"
 #include "object/sprite_particle.hpp"
 #include "sprite/sprite.hpp"
@@ -76,7 +77,7 @@ MrTree::collision_squished(GameObject& object)
   for (int px = static_cast<int>(stumpy->get_bbox().p1.x); px < static_cast<int>(stumpy->get_bbox().p2.x); px+=10) {
     Vector ppos = Vector(static_cast<float>(px),
                          static_cast<float>(stumpy->get_bbox().p1.y) - 5.0f);
-    float angle = graphicsRandom.randf(static_cast<float>(-M_PI_2), static_cast<float>(M_PI_2));
+    float angle = graphicsRandom.randf(-math::PI_2, math::PI_2);
     float velocity = graphicsRandom.randf(45, 90);
     float vx = sinf(angle)*velocity;
     float vy = -cosf(angle)*velocity;

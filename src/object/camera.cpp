@@ -247,7 +247,7 @@ Camera::shake(float time, float x, float y)
   shaketimer.start(time);
   shakedepth_x = x;
   shakedepth_y = y;
-  shakespeed = static_cast<float>(M_PI) / 2.0f / time;
+  shakespeed = math::PI_2 / time;
 }
 
 void

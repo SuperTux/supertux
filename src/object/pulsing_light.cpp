@@ -20,6 +20,7 @@
 #include <math.h>
 
 #include "math/random_generator.hpp"
+#include "math/util.hpp"
 
 PulsingLight::PulsingLight(const Vector& center, float cycle_len_, float min_alpha_, float max_alpha_, const Color& color_) :
   Light(center, color_),
@@ -52,7 +53,7 @@ PulsingLight::draw(DrawingContext& context)
 {
   Color old_color = color;
 
-  color.alpha *= min_alpha + ((max_alpha - min_alpha) * cosf(2.0f * static_cast<float>(M_PI) * t / cycle_len));
+  color.alpha *= min_alpha + ((max_alpha - min_alpha) * cosf(math::TAU * t / cycle_len));
   Light::draw(context);
 
   color = old_color;

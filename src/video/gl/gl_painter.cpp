@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <math.h>
 
+#include "math/util.hpp"
 #include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_surface_data.hpp"
@@ -72,8 +73,8 @@ inline void intern_draw(float left, float top, float right, float bottom,
     float center_x = (left + right) / 2;
     float center_y = (top + bottom) / 2;
 
-    float sa = sinf(angle / 180.0f * static_cast<float>(M_PI));
-    float ca = cosf(angle / 180.0f * static_cast<float>(M_PI));
+    float sa = sinf(angle / 180.0f * math::PI);
+    float ca = cosf(angle / 180.0f * math::PI);
 
     left  -= center_x;
     right -= center_x;
@@ -270,8 +271,8 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 
     for(int i = 0; i <= n; ++i)
     {
-      float x = sinf(static_cast<float>(i) * (static_cast<float>(M_PI) / 2.0f) / static_cast<float>(n)) * radius;
-      float y = cosf(static_cast<float>(i) * (static_cast<float>(M_PI) / 2.0f) / static_cast<float>(n)) * radius;
+      float x = sinf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
+      float y = cosf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
 
       vertices[p++] = irect.get_left() - x;
       vertices[p++] = irect.get_top()  - y;
@@ -282,8 +283,8 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 
     for(int i = 0; i <= n; ++i)
     {
-      float x = cosf(static_cast<float>(i) * (static_cast<float>(M_PI) / 2.0f) / static_cast<float>(n)) * radius;
-      float y = sinf(static_cast<float>(i) * (static_cast<float>(M_PI) / 2.0f) / static_cast<float>(n)) * radius;
+      float x = cosf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
+      float y = sinf(static_cast<float>(i) * math::PI_2 / static_cast<float>(n)) * radius;
 
       vertices[p++] = irect.get_left()   - x;
       vertices[p++] = irect.get_bottom() + y;
@@ -364,11 +365,11 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 
   for(int i = 0; i < slices; ++i)
   {
-    float ex1 = sinf(static_cast<float>(M_PI) / 2.0f / static_cast<float>(slices) * static_cast<float>(i)) * w;
-    float ey1 = cosf(static_cast<float>(M_PI) / 2.0f / static_cast<float>(slices) * static_cast<float>(i)) * h;
+    float ex1 = sinf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i)) * w;
+    float ey1 = cosf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i)) * h;
 
-    float ex2 = sinf(static_cast<float>(M_PI) / 2.0f / static_cast<float>(slices) * static_cast<float>(i+1)) * w;
-    float ey2 = cosf(static_cast<float>(M_PI) / 2.0f / static_cast<float>(slices) * static_cast<float>(i+1)) * h;
+    float ex2 = sinf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i+1)) * w;
+    float ey2 = cosf(math::PI_2 / static_cast<float>(slices) * static_cast<float>(i+1)) * h;
 
     // Bottom/Right
     vertices[p++] = screen_width; vertices[p++] = screen_height;

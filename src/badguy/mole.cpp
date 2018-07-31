@@ -21,6 +21,7 @@
 #include "audio/sound_manager.hpp"
 #include "badguy/mole_rock.hpp"
 #include "math/random_generator.hpp"
+#include "math/util.hpp"
 #include "sprite/sprite.hpp"
 #include "supertux/sector.hpp"
 
@@ -77,7 +78,7 @@ Mole::collision_squished(GameObject& )
 void
 Mole::throw_rock()
 {
-  float angle = gameRandom.randf(90.0f - 15.0f, 90.0f + 15.0f) * (static_cast<float>(M_PI) / 180.0f);
+  float angle = gameRandom.randf(90.0f - 15.0f, 90.0f + 15.0f) * (math::PI / 180.0f);
   float vx = cosf(angle) * THROW_VELOCITY;
   float vy = -sinf(angle) * THROW_VELOCITY;
 

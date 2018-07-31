@@ -23,6 +23,7 @@
 #include "gui/menu_item.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
+#include "math/util.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
 #include "video/drawing_context.hpp"
@@ -405,7 +406,7 @@ Menu::draw_item(DrawingContext& context, int index)
 
   if(active_item == index)
   {
-    float blink = (sinf(real_time * static_cast<float>(M_PI) * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
+    float blink = (sinf(real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
     context.color().draw_filled_rect(Rectf(Vector(pos.x - menu_width_/2 + 10 - 2, y_pos - 12 - 2),
                                    Vector(pos.x + menu_width_/2 - 10 + 2, y_pos + 12 + 2)),
                              Color(1.0f, 1.0f, 1.0f, blink),

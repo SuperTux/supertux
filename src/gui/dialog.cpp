@@ -20,6 +20,7 @@
 
 #include "control/controller.hpp"
 #include "gui/mousecursor.hpp"
+#include "math/util.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/resources.hpp"
@@ -230,7 +231,7 @@ Dialog::draw(DrawingContext& context)
     if (i == m_selected_button)
     {
       float button_height = 24.0f;
-      float blink = (sinf(real_time * static_cast<float>(M_PI) * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
+      float blink = (sinf(real_time * math::PI * 1.0f)/2.0f + 0.5f) * 0.5f + 0.25f;
       context.color().draw_filled_rect(Rectf(Vector(pos.x - button_width/2, pos.y - button_height/2),
                                                Vector(pos.x + button_width/2, pos.y + button_height/2)).grown(2.0f),
                                          Color(1.0f, 1.0f, 1.0f, blink),

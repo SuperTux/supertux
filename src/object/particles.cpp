@@ -19,6 +19,7 @@
 #include <math.h>
 
 #include "math/random_generator.hpp"
+#include "math/util.hpp"
 #include "object/camera.hpp"
 #include "supertux/sector.hpp"
 #include "video/drawing_context.hpp"
@@ -51,12 +52,12 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
     particle->pos = epicenter;
 
     float angle = graphicsRandom.randf(static_cast<float>(min_angle), static_cast<float>(max_angle))
-      * (static_cast<float>(M_PI) / 180.0f);  // convert to radius (radians?)
+      * (math::PI / 180.0f);  // convert to radius (radians?)
     particle->vel.x = /*fabs*/(sinf(angle)) * initial_velocity.x;
-    //    if(angle >= M_PI && angle < M_PI*2)
+    //    if(angle >= math::PI && angle < math::TAU)
     //      particle->vel.x *= -1;  // work around to fix signal
     particle->vel.y = /*fabs*/(cosf(angle)) * initial_velocity.y;
-    //    if(angle >= M_PI_2 && angle < 3*M_PI_2)
+    //    if(angle >= math::PI_2 && angle < 3*math::PI_2)
     //      particle->vel.y *= -1;
 
     particles.push_back(std::move(particle));
@@ -91,8 +92,8 @@ Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
 
     float velocity = (min_initial_velocity == max_initial_velocity) ? min_initial_velocity :
                      graphicsRandom.randf(min_initial_velocity, max_initial_velocity);
-    float angle = (min_angle == max_angle) ? static_cast<float>(min_angle) * (static_cast<float>(M_PI) / 180.0f) :
-      graphicsRandom.randf(static_cast<float>(min_angle), static_cast<float>(max_angle)) * (static_cast<float>(M_PI) / 180.0f);  // convert to radians
+    float angle = (min_angle == max_angle) ? static_cast<float>(min_angle) * (math::PI / 180.0f) :
+      graphicsRandom.randf(static_cast<float>(min_angle), static_cast<float>(max_angle)) * (math::PI / 180.0f);  // convert to radians
     // Note that angle defined as clockwise from vertical (up is zero degrees, right is 90 degrees)
     particle->vel.x = (sinf(angle)) * velocity;
     particle->vel.y = (-cosf(angle)) * velocity;

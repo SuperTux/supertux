@@ -21,6 +21,7 @@
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
 #include "badguy/ghosttree.hpp"
+#include "math/util.hpp"
 #include "object/lantern.hpp"
 #include "object/player.hpp"
 #include "sprite/sprite.hpp"
@@ -126,7 +127,7 @@ TreeWillOWisp::active_update(float elapsed_time)
     return;
   }
 
-  angle = fmodf(angle + elapsed_time * speed, static_cast<float>(2*M_PI));
+  angle = fmodf(angle + elapsed_time * speed, math::TAU);
   Vector newpos(start_position + Vector(sinf(angle) * radius, 0));
   movement = newpos - get_pos();
   float sizemod = cosf(angle) * 0.8f;
