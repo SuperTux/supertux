@@ -142,7 +142,7 @@ public:
   /** Checks the SLOPE attribute. Returns "true" if set, "false" otherwise. */
   bool is_slope() const
   {
-    return attributes & SLOPE;
+    return (attributes & SLOPE) == 1;
   }
 
   /** Determine the solidity of a tile. This version behaves correctly for
@@ -158,7 +158,7 @@ public:
    * method that takes position and movement into account (see above). */
   bool is_solid() const
   {
-    return attributes & SOLID;
+    return (attributes & SOLID) == 1;
   }
 
   /** Determines whether the tile's attributes are important to calculate the
