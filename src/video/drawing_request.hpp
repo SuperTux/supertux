@@ -30,7 +30,7 @@ class Surface;
 
 enum RequestType
 {
-  SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, INVERSEELLIPSE, GETLIGHT, LINE, TRIANGLE
+  TEXTURE, TEXT, GRADIENT, FILLRECT, INVERSEELLIPSE, GETLIGHT, LINE, TRIANGLE
 };
 
 struct DrawingRequestData
@@ -39,34 +39,21 @@ struct DrawingRequestData
   {}
 };
 
-struct SurfaceRequest : public DrawingRequestData
+struct TextureRequest : public DrawingRequestData
 {
-  SurfaceRequest() :
-    surface()
-  {}
-
-  const Surface* surface;
-
-private:
-  SurfaceRequest(const SurfaceRequest&) = delete;
-  SurfaceRequest& operator=(const SurfaceRequest&) = delete;
-};
-
-struct SurfacePartRequest : public DrawingRequestData
-{
-  SurfacePartRequest() :
-    surface(),
+  TextureRequest() :
+    texture(),
     srcrect(),
     dstsize()
   {}
 
-  const Surface* surface;
+  const Texture* texture;
   Rectf srcrect;
   Sizef dstsize;
 
 private:
-  SurfacePartRequest(const SurfacePartRequest&) = delete;
-  SurfacePartRequest& operator=(const SurfacePartRequest&) = delete;
+  TextureRequest(const TextureRequest&) = delete;
+  TextureRequest& operator=(const TextureRequest&) = delete;
 };
 
 struct TextRequest : public DrawingRequestData

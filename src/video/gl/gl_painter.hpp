@@ -42,8 +42,7 @@ private:
 public:
   GLPainter(GLVideoSystem& video_system);
 
-  void draw_surface(const DrawingRequest& request);
-  void draw_surface_part(const DrawingRequest& request);
+  void draw_texture(const DrawingRequest& request);
   void draw_gradient(const DrawingRequest& request);
   void draw_filled_rect(const DrawingRequest& request);
   void draw_inverse_ellipse(const DrawingRequest& request);

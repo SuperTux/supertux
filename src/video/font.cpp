@@ -436,6 +436,8 @@ Font::draw_chars(Painter& painter, bool notshadow, const std::string& text,
       else
         glyph = glyphs[0x20];
 
+      // FIXME: this could all be handled in Canvas, no need for Font
+      // to mess around with low level code
       DrawingRequest request;
 
       request.pos = p + glyph.offset;
@@ -443,13 +445,15 @@ Font::draw_chars(Painter& painter, bool notshadow, const std::string& text,
       request.color = color;
       request.alpha = alpha;
 
-      SurfacePartRequest surfacepartrequest;
-      surfacepartrequest.srcrect = glyph.rect;
-      surfacepartrequest.dstsize = glyph.rect.get_size();
-      surfacepartrequest.surface = notshadow ? glyph_surfaces[glyph.surface_idx].get() : shadow_surfaces[glyph.surface_idx].get();
+      TextureRequest request_data;
+      request_data.srcrect = glyph.rect;
+      request_data.dstsize = glyph.rect.get_size();
+      request_data.texture = notshadow ?
+        glyph_surfaces[glyph.surface_idx]->get_texture().get() :
+        shadow_surfaces[glyph.surface_idx]->get_texture().get();
 
-      request.request_data = &surfacepartrequest;
-      painter.draw_surface_part(request);
+      request.request_data = &request_data;
+      painter.draw_texture(request);
 
       p.x += glyph.advance;
     }

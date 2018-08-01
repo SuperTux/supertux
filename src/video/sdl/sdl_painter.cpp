@@ -23,7 +23,6 @@
 #include "util/log.hpp"
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_texture.hpp"
-#include "video/surface.hpp"
 #include "video/sdl/sdl_video_system.hpp"
 #include "video/viewport.hpp"
 
@@ -66,80 +65,44 @@ SDLPainter::SDLPainter(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
 {}
 
 void
-SDLPainter::draw_surface(const DrawingRequest& request)
+SDLPainter::draw_texture(const DrawingRequest& request)
 {
-  const auto surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;
-  std::shared_ptr<SDLTexture> sdltexture = std::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
-
-  SDL_Rect dst_rect;
-  dst_rect.x = static_cast<int>(request.pos.x);
-  dst_rect.y = static_cast<int>(request.pos.y);
-  dst_rect.w = sdltexture->get_image_width();
-  dst_rect.h = sdltexture->get_image_height();
-
-  Uint8 r = static_cast<Uint8>(request.color.red * 255);
-  Uint8 g = static_cast<Uint8>(request.color.green * 255);
-  Uint8 b = static_cast<Uint8>(request.color.blue * 255);
-  Uint8 a = static_cast<Uint8>(request.color.alpha * request.alpha * 255);
-  SDL_SetTextureColorMod(sdltexture->get_texture(), r, g, b);
-  SDL_SetTextureAlphaMod(sdltexture->get_texture(), a);
-  SDL_SetTextureBlendMode(sdltexture->get_texture(), blend2sdl(request.blend));
-
-  SDL_RendererFlip flip = SDL_FLIP_NONE;
-  if (surface->get_flipx() || request.drawing_effect & HORIZONTAL_FLIP)
-  {
-    flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
-  }
-
-  if (request.drawing_effect & VERTICAL_FLIP)
-  {
-    flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
-  }
-
-  SDL_RenderCopyEx(m_renderer, sdltexture->get_texture(), NULL, &dst_rect, request.angle, NULL, flip);
-}
-
-void
-SDLPainter::draw_surface_part(const DrawingRequest& request)
-{
-  //FIXME: support parameters request.blend
-  const auto surface = static_cast<const SurfacePartRequest*>(request.request_data);
-  const auto surfacepartrequest = static_cast<SurfacePartRequest*>(request.request_data);
-
-  std::shared_ptr<SDLTexture> sdltexture = std::dynamic_pointer_cast<SDLTexture>(surface->surface->get_texture());
+  const auto& texture_request = static_cast<const TextureRequest&>(*request.request_data);
+  const auto& texture = static_cast<const SDLTexture&>(*texture_request.texture);
 
   SDL_Rect src_rect;
-  src_rect.x = static_cast<int>(surfacepartrequest->srcrect.p1.x);
-  src_rect.y = static_cast<int>(surfacepartrequest->srcrect.p1.y);
-  src_rect.w = static_cast<int>(surfacepartrequest->srcrect.get_width());
-  src_rect.h = static_cast<int>(surfacepartrequest->srcrect.get_height());
+  src_rect.x = static_cast<int>(texture_request.srcrect.p1.x);
+  src_rect.y = static_cast<int>(texture_request.srcrect.p1.y);
+  src_rect.w = static_cast<int>(texture_request.srcrect.get_width());
+  src_rect.h = static_cast<int>(texture_request.srcrect.get_height());
 
   SDL_Rect dst_rect;
   dst_rect.x = static_cast<int>(request.pos.x);
   dst_rect.y = static_cast<int>(request.pos.y);
-  dst_rect.w = static_cast<int>(surfacepartrequest->dstsize.width);
-  dst_rect.h = static_cast<int>(surfacepartrequest->dstsize.height);
+  dst_rect.w = static_cast<int>(texture_request.dstsize.width);
+  dst_rect.h = static_cast<int>(texture_request.dstsize.height);
 
   Uint8 r = static_cast<Uint8>(request.color.red * 255);
   Uint8 g = static_cast<Uint8>(request.color.green * 255);
   Uint8 b = static_cast<Uint8>(request.color.blue * 255);
   Uint8 a = static_cast<Uint8>(request.color.alpha * request.alpha * 255);
-  SDL_SetTextureColorMod(sdltexture->get_texture(), r, g, b);
-  SDL_SetTextureAlphaMod(sdltexture->get_texture(), a);
-  SDL_SetTextureBlendMode(sdltexture->get_texture(), blend2sdl(request.blend));
+
+  SDL_SetTextureColorMod(texture.get_texture(), r, g, b);
+  SDL_SetTextureAlphaMod(texture.get_texture(), a);
+  SDL_SetTextureBlendMode(texture.get_texture(), blend2sdl(request.blend));
 
   SDL_RendererFlip flip = SDL_FLIP_NONE;
-  if (surface->surface->get_flipx() || request.drawing_effect & HORIZONTAL_FLIP)
+  if ((request.drawing_effect & HORIZONTAL_FLIP) != 0)
   {
     flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
   }
 
-  if (request.drawing_effect & VERTICAL_FLIP)
+  if ((request.drawing_effect & VERTICAL_FLIP) != 0)
   {
     flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
   }
 
-  SDL_RenderCopyEx(m_renderer, sdltexture->get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
+  SDL_RenderCopyEx(m_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
 }
 
 void

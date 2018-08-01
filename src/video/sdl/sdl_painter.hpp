@@ -28,8 +28,7 @@ class SDLPainter : public Painter
 public:
   SDLPainter(SDLVideoSystem& video_system, SDL_Renderer* renderer);
 
-  virtual void draw_surface(const DrawingRequest& request) override;
-  virtual void draw_surface_part(const DrawingRequest& request) override;
+  virtual void draw_texture(const DrawingRequest& request) override;
   virtual void draw_gradient(const DrawingRequest& request) override;
   virtual void draw_filled_rect(const DrawingRequest& request) override;
   virtual void draw_inverse_ellipse(const DrawingRequest& request) override;

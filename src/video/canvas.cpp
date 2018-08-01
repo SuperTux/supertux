@@ -28,6 +28,19 @@
 #include "video/surface.hpp"
 #include "video/video_system.hpp"
 
+namespace {
+
+DrawingEffect effect_from_surface(const Surface& surface)
+{
+  if (surface.get_flipx()) {
+    return HORIZONTAL_FLIP;
+  } else {
+    return 0;
+  }
+}
+
+} // namespace
+
 Canvas::Canvas(DrawingTarget target, DrawingContext& context, obstack& obst) :
   m_target(target),
   m_context(context),
@@ -81,12 +94,8 @@ Canvas::render(VideoSystem& video_system, Filter filter)
       continue;
 
     switch(request.type) {
-      case SURFACE:
-        painter.draw_surface(request);
-        break;
-
-      case SURFACE_PART:
-        painter.draw_surface_part(request);
+      case TEXTURE:
+        painter.draw_texture(request);
         break;
 
       case GRADIENT:
@@ -143,18 +152,22 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position,
      position.y + static_cast<float>(surface->get_height()) < cliprect.get_top())
     return;
 
-  request->type = SURFACE;
+  request->type = TEXTURE;
   request->pos = apply_translate(position);
   request->layer = layer;
-  request->drawing_effect = m_context.transform().drawing_effect;
+  request->drawing_effect = m_context.transform().drawing_effect ^ effect_from_surface(*surface);
   request->alpha = m_context.transform().alpha;
   request->angle = angle;
   request->color = color;
   request->blend = blend;
 
-  auto surfacerequest = new(m_obst) SurfaceRequest();
-  surfacerequest->surface = surface.get();
-  request->request_data = surfacerequest;
+  auto request_data = new(m_obst) TextureRequest();
+
+  request_data->srcrect = Rectf(0, 0, static_cast<float>(surface->get_width()), static_cast<float>(surface->get_height()));
+  request_data->dstsize = Size(surface->get_width(), surface->get_height());
+  request_data->texture = surface->get_texture().get();
+
+  request->request_data = request_data;
 
   m_requests.push_back(request);
 }
@@ -174,18 +187,19 @@ Canvas::draw_surface_part(SurfacePtr surface,
 
   auto request = new(m_obst) DrawingRequest();
 
-  request->type = SURFACE_PART;
+  request->type = TEXTURE;
   request->pos = apply_translate(dstrect.p1);
   request->layer = layer;
-  request->drawing_effect = m_context.transform().drawing_effect;
+  request->drawing_effect = m_context.transform().drawing_effect ^ effect_from_surface(*surface);
   request->alpha = m_context.transform().alpha;
 
-  auto surfacepartrequest = new(m_obst) SurfacePartRequest();
-  surfacepartrequest->srcrect = srcrect;
-  surfacepartrequest->dstsize = dstrect.get_size();
-  surfacepartrequest->surface = surface.get();
+  auto request_data = new(m_obst) TextureRequest();
 
-  request->request_data = surfacepartrequest;
+  request_data->srcrect = srcrect;
+  request_data->dstsize = dstrect.get_size();
+  request_data->texture = surface->get_texture().get();
+
+  request->request_data = request_data;
 
   m_requests.push_back(request);
 }

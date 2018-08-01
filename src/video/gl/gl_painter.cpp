@@ -24,26 +24,12 @@
 #include "video/drawing_request.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_video_system.hpp"
-#include "video/surface.hpp"
 #include "video/video_system.hpp"
 #include "video/viewport.hpp"
 
 GLuint GLPainter::s_last_texture = static_cast<GLuint>(-1);
 
 namespace {
-
-inline Rectf calc_uv(const Surface& surface)
-{
-  const float uv_left = static_cast<float>(surface.get_x()) / static_cast<float>(surface.get_texture()->get_texture_width());
-  const float uv_top = static_cast<float>(surface.get_y()) / static_cast<float>(surface.get_texture()->get_texture_height());
-  const float uv_right = static_cast<float>(surface.get_x() + surface.get_width()) / static_cast<float>(surface.get_texture()->get_texture_width());
-  const float uv_bottom = static_cast<float>(surface.get_y() + surface.get_height()) / static_cast<float>(surface.get_texture()->get_texture_height());
-
-  return Rectf(surface.get_flipx() ? uv_right : uv_left,
-               uv_top,
-               surface.get_flipx() ? uv_left : uv_right,
-               uv_bottom);
-}
 
 inline void intern_draw(float left, float top, float right, float bottom,
                         float uv_left, float uv_top,
@@ -127,73 +113,32 @@ GLPainter::GLPainter(GLVideoSystem& video_system) :
 }
 
 void
-GLPainter::draw_surface(const DrawingRequest& request)
+GLPainter::draw_texture(const DrawingRequest& request)
 {
-  const Surface* surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;
-  if(surface == NULL)
+  const auto& texture_request = static_cast<const TextureRequest&>(*request.request_data);
+  const auto& texture = static_cast<const GLTexture&>(*texture_request.texture);
+
+  GLuint handle = texture.get_handle();
+  if (handle != s_last_texture)
   {
-    return;
+    s_last_texture = handle;
+    glBindTexture(GL_TEXTURE_2D, handle);
   }
-  GLTexture* gltexture = static_cast<GLTexture*>(surface->get_texture().get());
-  if(gltexture == NULL)
-  {
-    return;
-  }
-  Rectf uv = calc_uv(*surface);
 
-  GLuint th = gltexture->get_handle();
-  if (th != s_last_texture) {
-    s_last_texture = th;
-    glBindTexture(GL_TEXTURE_2D, th);
-  }
-  intern_draw(request.pos.x, request.pos.y,
-              request.pos.x + static_cast<float>(surface->get_width()),
-              request.pos.y + static_cast<float>(surface->get_height()),
-              uv.get_left(),
-              uv.get_top(),
-              uv.get_right(),
-              uv.get_bottom(),
-              request.angle,
-              request.alpha,
-              request.color,
-              request.blend,
-              request.drawing_effect);
-}
+  intern_draw(request.pos.x,
+              request.pos.y,
+              request.pos.x + texture_request.dstsize.width,
+              request.pos.y + texture_request.dstsize.height,
 
-void
-GLPainter::draw_surface_part(const DrawingRequest& request)
-{
-  const SurfacePartRequest* surfacepartrequest
-    = static_cast<SurfacePartRequest*>(request.request_data);
-  const Surface* surface = surfacepartrequest->surface;
-  std::shared_ptr<GLTexture> gltexture = std::dynamic_pointer_cast<GLTexture>(surface->get_texture());
+              texture_request.srcrect.get_left() / static_cast<float>(texture.get_texture_width()),
+              texture_request.srcrect.get_top() / static_cast<float>(texture.get_texture_height()),
+              texture_request.srcrect.get_right() / static_cast<float>(texture.get_texture_width()),
+              texture_request.srcrect.get_bottom() / static_cast<float>(texture.get_texture_height()),
 
-  Rectf uv = calc_uv(*surface);
-
-  float uv_width = uv.get_right() - uv.get_left();
-  float uv_height = uv.get_bottom() - uv.get_top();
-
-  float uv_left = uv.get_left() + (uv_width * surfacepartrequest->srcrect.p1.x) / static_cast<float>(surface->get_width());
-  float uv_top = uv.get_top() + (uv_height * surfacepartrequest->srcrect.p1.y) / static_cast<float>(surface->get_height());
-  float uv_right = uv.get_left() + (uv_width * surfacepartrequest->srcrect.p2.x) / static_cast<float>(surface->get_width());
-  float uv_bottom = uv.get_top() + (uv_height * surfacepartrequest->srcrect.p2.y) / static_cast<float>(surface->get_height());
-
-  GLuint th = gltexture->get_handle();
-  if (th != s_last_texture) {
-    s_last_texture = th;
-    glBindTexture(GL_TEXTURE_2D, th);
-  }
-  intern_draw(request.pos.x, request.pos.y,
-              request.pos.x + surfacepartrequest->dstsize.width,
-              request.pos.y + surfacepartrequest->dstsize.height,
-              uv_left,
-              uv_top,
-              uv_right,
-              uv_bottom,
               0.0,
               request.alpha,
               request.color,
-              Blend(),
+              request.blend,
               request.drawing_effect);
 }
 
