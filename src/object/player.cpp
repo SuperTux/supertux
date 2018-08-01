@@ -39,7 +39,7 @@
 #include "trigger/trigger_base.hpp"
 #include "video/surface.hpp"
 
-//#define SWIMMING
+#define SWIMMING
 
 namespace {
 static const float BUTTJUMP_MIN_VELOCITY_Y = 400.0f;
@@ -148,6 +148,7 @@ Player::Player(PlayerStatus* _player_status, const std::string& name_) :
   jump_button_timer(),
   wants_buttjump(false),
   does_buttjump(false),
+  m_angle(0),
   invincible_timer(),
   skidding_timer(),
   safe_timer(),
@@ -292,10 +293,18 @@ void
 Player::update(float elapsed_time)
 {
   if( no_water ){
+    if(swimming)
+    {
+        physic.enable_gravity(true);
+        physic.set_velocity(0, 0);
+        physic.set_acceleration(0, 0);
+        m_angle = 0;
+    }
     swimming = false;
+
   }
   no_water = true;
-
+  log_debug << "Set swimming to " << (swimming?"true":"false") << std::endl;
   if(dying && dying_timer.check()) {
     Sector::current()->stop_looping_sounds();
     set_bonus(NO_BONUS, true);
@@ -758,15 +767,7 @@ Player::handle_vertical_input()
     does_buttjump = false;
   }
 
-  // swimming
-  physic.set_acceleration_y(0);
-#ifdef SWIMMING
-  if (swimming) {
-    if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP))
-      physic.set_acceleration_y(-2000);
-    physic.set_velocity_y(physic.get_velocity_y() * 0.94);
-  }
-#endif
+
 }
 
 void
@@ -801,8 +802,31 @@ Player::handle_input()
       peekingY = DOWN;
     }
   }
+  // swimming
+  if (swimming) {
+        log_debug << "I am a swimmer" << std::endl;
+        physic.enable_gravity(false);
+        physic.set_velocity_y(physic.get_velocity_y() * 0.96);
+        physic.set_velocity_x(physic.get_velocity_x() * 0.96);
+        if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP))
+        {
+          physic.set_acceleration_y(sinf((180+90+m_angle)%360* M_PI / 180.0)*1000);
+          physic.set_acceleration_x(cosf((90+180+m_angle)%360* M_PI / 180.0)*1000);
+        }else {
+            physic.set_acceleration_y(0);
+            physic.set_acceleration_x(0);
+        }
 
-  /* Handle horizontal movement: */
+        if (controller->hold(Controller::LEFT))
+            m_angle = (m_angle-3)%360;
+        if (controller->hold(Controller::RIGHT))
+            m_angle = (m_angle+3)%360;
+
+    }
+    sprite->set_angle(m_angle);
+    if (swimming)
+        return;
+    /* Handle horizontal movement: */
   if (!backflipping && !stone) handle_horizontal_input();
 
   /* Jump/jumping? */
@@ -1288,13 +1312,16 @@ Player::draw(DrawingContext& context)
   }
   }
   */
-
+  if(swimming)
+  {
+  }
   /* Draw Tux */
   if (safe_timer.started() && size_t(game_time*40)%2)
     ;  // don't draw Tux
   else if (player_status->bonus == EARTH_BONUS){ // draw special effects with earthflower bonus
     // shake at end of maximum stone duration
     Vector shake_delta = (stone && ability_timer.get_timeleft() < 1.0f) ? Vector(graphicsRandom.rand(-3,3) * 1.0f, 0) : Vector(0,0);
+
     sprite->draw(context.color(), get_pos() + shake_delta, LAYER_OBJECTS + 1);
     // draw hardhat
     powersprite->draw(context.color(), get_pos() + shake_delta, LAYER_OBJECTS + 1);
@@ -1312,6 +1339,7 @@ Player::draw(DrawingContext& context)
     }
   }
   else {
+
     if(dying)
       sprite->draw(context.color(), get_pos(), Sector::current()->get_foremost_layer());
     else
@@ -1336,8 +1364,7 @@ Player::collision_tile(uint32_t tile_attributes)
   if( swimming ){
     if( tile_attributes & Tile::WATER ){
       no_water = false;
-    } else {
-      swimming = false;
+      log_debug << "Still in water" << std::endl;
     }
   } else {
     if( tile_attributes & Tile::WATER ){

@@ -315,6 +315,8 @@ public:
   bool wants_buttjump;
   bool does_buttjump;
 
+  int m_angle;
+
   Timer invincible_timer;
   Timer skidding_timer;
   Timer safe_timer;
