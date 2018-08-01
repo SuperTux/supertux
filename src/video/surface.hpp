@@ -55,7 +55,6 @@ public:
   bool get_flipx() const;
 
   TexturePtr get_texture() const;
-  SurfaceData* get_surface_data() const;
   int get_x() const;
   int get_y() const;
   int get_width() const;
