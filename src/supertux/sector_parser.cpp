@@ -340,7 +340,7 @@ SectorParser::fix_old_tiles()
       for(int y=0; y < solids->get_height(); ++y) {
         const auto& tile = solids->get_tile(x, y);
 
-        if (tile->get_object_name().length() > 0) {
+        if (!tile->get_object_name().empty()) {
           Vector pos = solids->get_tile_position(x, y);
           try {
             GameObjectPtr object = ObjectFactory::instance().create(tile->get_object_name(), pos, AUTO, tile->get_object_data());
@@ -350,7 +350,6 @@ SectorParser::fix_old_tiles()
             log_warning << e.what() << "" << std::endl;
           }
         }
-
       }
     }
   }
