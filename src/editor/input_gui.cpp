@@ -20,13 +20,14 @@
 #include "editor/object_input.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tool_icon.hpp"
+#include "editor/util.hpp"
 #include "gui/menu_manager.hpp"
 #include "gui/mousecursor.hpp"
-#include "supertux/menu/menu_storage.hpp"
 #include "supertux/colorscheme.hpp"
 #include "supertux/console.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
+#include "supertux/menu/menu_storage.hpp"
 #include "supertux/resources.hpp"
 #include "util/gettext.hpp"
 #include "video/drawing_context.hpp"
@@ -107,7 +108,7 @@ EditorInputGui::draw_tilegroup(DrawingContext& context) {
         continue;
       }
       auto position = get_tile_coords(pos - starting_tile);
-      Editor::current()->get_tileset()->draw_tile(context.color(), tile_ID, position, LAYER_GUI-9);
+      draw_tile(context.color(), *Editor::current()->get_tileset(), tile_ID, position, LAYER_GUI - 9);
 
       if (g_config->developer_mode && active_tilegroup->developers_group)
       {

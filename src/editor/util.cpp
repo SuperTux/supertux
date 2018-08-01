@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2016 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,19 +14,26 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SDL_SURFACE_DATA_HPP
-#define HEADER_SUPERTUX_VIDEO_SDL_SURFACE_DATA_HPP
+#include "editor/util.hpp"
 
-#include "video/surface_data.hpp"
+#include "supertux/tile.hpp"
+#include "supertux/tile_set.hpp"
+#include "supertux/resources.hpp"
+#include "video/canvas.hpp"
+#include "video/renderer.hpp"
 
-class SDLSurfaceData : public SurfaceData
+void
+draw_tile(Canvas& canvas, const TileSet& tileset, uint32_t id, const Vector& pos,
+          int z_pos, const Color& color)
 {
-public:
-  SDLSurfaceData(const Surface &surface)
-  {
+  const Tile* tile = tileset.get(id);
+  if (tile) {
+    tile->draw(canvas, pos, z_pos, color);
+  } else {
+    canvas.draw_surface(Resources::no_tile, pos, 0, color, Blend(), z_pos);
+    canvas.draw_text(Resources::small_font, std::to_string(id),
+                     pos + Vector(16, 16), ALIGN_CENTER, z_pos, color);
   }
-};
-
-#endif
+}
 
 /* EOF */

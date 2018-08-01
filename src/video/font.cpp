@@ -28,7 +28,7 @@
 #include "util/reader_mapping.hpp"
 #include "util/utf8_iterator.hpp"
 #include "video/drawing_request.hpp"
-#include "video/renderer.hpp"
+#include "video/painter.hpp"
 #include "video/surface.hpp"
 
 namespace {
@@ -362,7 +362,7 @@ Font::wrap_to_width(const std::string& s_, float width, std::string* overflow)
 }
 
 void
-Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
+Font::draw(Painter& painter, const std::string& text, const Vector& pos_,
            FontAlignment alignment, DrawingEffect drawing_effect, Color color,
            float alpha) const
 {
@@ -388,7 +388,7 @@ Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
       // no blurring as we would get with subpixel positions
       pos.x = static_cast<float>(static_cast<int>(pos.x));
 
-      draw_text(renderer, temp, pos, drawing_effect, color, alpha);
+      draw_text(painter, temp, pos, drawing_effect, color, alpha);
 
       if (i == text.size())
         break;
@@ -400,18 +400,18 @@ Font::draw(Renderer *renderer, const std::string& text, const Vector& pos_,
 }
 
 void
-Font::draw_text(Renderer *renderer, const std::string& text, const Vector& pos,
+Font::draw_text(Painter& painter, const std::string& text, const Vector& pos,
                 DrawingEffect drawing_effect, Color color, float alpha) const
 {
   if(shadowsize > 0)
-    draw_chars(renderer, false, rtl ? std::string(text.rbegin(), text.rend()) : text,
+    draw_chars(painter, false, rtl ? std::string(text.rbegin(), text.rend()) : text,
                pos + Vector(static_cast<float>(shadowsize), static_cast<float>(shadowsize)), drawing_effect, Color(1,1,1), alpha);
 
-  draw_chars(renderer, true, rtl ? std::string(text.rbegin(), text.rend()) : text, pos, drawing_effect, color, alpha);
+  draw_chars(painter, true, rtl ? std::string(text.rbegin(), text.rend()) : text, pos, drawing_effect, color, alpha);
 }
 
 void
-Font::draw_chars(Renderer *renderer, bool notshadow, const std::string& text,
+Font::draw_chars(Painter& painter, bool notshadow, const std::string& text,
                  const Vector& pos, DrawingEffect drawing_effect, Color color,
                  float alpha) const
 {
@@ -436,20 +436,23 @@ Font::draw_chars(Renderer *renderer, bool notshadow, const std::string& text,
       else
         glyph = glyphs[0x20];
 
+      // FIXME: this could all be handled in Canvas, no need for Font
+      // to mess around with low level code
       DrawingRequest request;
 
-      request.pos = p + glyph.offset;
       request.drawing_effect = drawing_effect;
       request.color = color;
       request.alpha = alpha;
 
-      SurfacePartRequest surfacepartrequest;
-      surfacepartrequest.srcrect = glyph.rect;
-      surfacepartrequest.dstsize = glyph.rect.get_size();
-      surfacepartrequest.surface = notshadow ? glyph_surfaces[glyph.surface_idx].get() : shadow_surfaces[glyph.surface_idx].get();
+      TextureRequest request_data;
+      request_data.srcrect = glyph.rect;
+      request_data.dstrect = Rectf(p + glyph.offset, glyph.rect.get_size());
+      request_data.texture = notshadow ?
+        glyph_surfaces[glyph.surface_idx]->get_texture().get() :
+        shadow_surfaces[glyph.surface_idx]->get_texture().get();
 
-      request.request_data = &surfacepartrequest;
-      renderer->draw_surface_part(request);
+      request.request_data = &request_data;
+      painter.draw_texture(request);
 
       p.x += glyph.advance;
     }

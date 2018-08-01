@@ -335,33 +335,37 @@ SectorParser::parse_old_format(const ReaderMapping& reader)
 void
 SectorParser::fix_old_tiles()
 {
-  for(const auto& solids : m_sector.solid_tilemaps) {
-    for(int x=0; x < solids->get_width(); ++x) {
-      for(int y=0; y < solids->get_height(); ++y) {
-        const auto& tile = solids->get_tile(x, y);
-
-        if (tile->get_object_name().length() > 0) {
-          Vector pos = solids->get_tile_position(x, y);
-          try {
-            GameObjectPtr object = ObjectFactory::instance().create(tile->get_object_name(), pos, AUTO, tile->get_object_data());
-            m_sector.add_object(object);
-            solids->change(x, y, 0);
-          } catch(std::exception& e) {
-            log_warning << e.what() << "" << std::endl;
-          }
-        }
-
-      }
-    }
-  }
-
   // add lights for special tiles
   for(const auto& obj : m_sector.gameobjects) {
     auto tm = dynamic_cast<TileMap*>(obj.get());
     if (!tm) continue;
-    for(int x=0; x < tm->get_width(); ++x) {
-      for(int y=0; y < tm->get_height(); ++y) {
+
+    for(int x=0; x < tm->get_width(); ++x)
+    {
+      for(int y=0; y < tm->get_height(); ++y)
+      {
         const auto& tile = tm->get_tile(x, y);
+
+        if (!tile->get_object_name().empty())
+        {
+          // If a tile is associated with an object, insert that
+          // object and remove the tile
+          if (tile->get_object_name() == "decal" ||
+              tm->is_solid())
+          {
+            Vector pos = tm->get_tile_position(x, y);
+          try {
+            GameObjectPtr object = ObjectFactory::instance().create(tile->get_object_name(), pos, AUTO, tile->get_object_data());
+            m_sector.add_object(object);
+              tm->change(x, y, 0);
+          } catch(std::exception& e) {
+            log_warning << e.what() << "" << std::endl;
+          }
+        }
+      }
+        else
+        {
+          // add lights for fire tiles
         uint32_t attributes = tile->getAttributes();
         Vector pos = tm->get_tile_position(x, y);
         Vector center = pos + Vector(16, 16);
@@ -381,7 +385,7 @@ SectorParser::fix_old_tiles()
             m_sector.add_object(std::make_shared<PulsingLight>(center, 1.0f + pseudo_rnd, 0.9f, 1.0f, Color(1.0f, 1.0f, 0.6f, 1.0f)));
           }
         }
-
+        }
       }
     }
   }

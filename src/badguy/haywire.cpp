@@ -232,5 +232,4 @@ void Haywire::play_looping_sounds()
   }
 }
 
-/* vim: set sw=2 sts=2 et : */
 /* EOF */

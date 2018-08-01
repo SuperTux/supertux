@@ -23,6 +23,7 @@
 #include "video/gl/gl_painter.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_video_system.hpp"
+#include "video/glutil.hpp"
 
 inline int next_po2(int val)
 {
@@ -79,19 +80,11 @@ GLLightmap::start_draw()
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
-#ifdef GL_VERSION_ES_CM_1_0
-  glOrthof(0,
-           viewport.get_screen_width(),
-           viewport.get_screen_height(),
-           0,
-           -1.0, 1.0);
-#else
   glOrtho(0,
           viewport.get_screen_width(),
           viewport.get_screen_height(),
           0,
           -1.0, 1.0);
-#endif
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -143,48 +136,6 @@ GLLightmap::render()
 }
 
 void
-GLLightmap::draw_surface(const DrawingRequest& request)
-{
-  m_painter.draw_surface(request);
-}
-
-void
-GLLightmap::draw_surface_part(const DrawingRequest& request)
-{
-  m_painter.draw_surface_part(request);
-}
-
-void
-GLLightmap::draw_gradient(const DrawingRequest& request)
-{
-  m_painter.draw_gradient(request);
-}
-
-void
-GLLightmap::draw_filled_rect(const DrawingRequest& request)
-{
-  m_painter.draw_filled_rect(request);
-}
-
-void
-GLLightmap::draw_inverse_ellipse(const DrawingRequest& request)
-{
-  m_painter.draw_inverse_ellipse(request);
-}
-
-void
-GLLightmap::draw_line(const DrawingRequest& request)
-{
-  m_painter.draw_line(request);
-}
-
-void
-GLLightmap::draw_triangle(const DrawingRequest& request)
-{
-  m_painter.draw_triangle(request);
-}
-
-void
 GLLightmap::clear(const Color& color)
 {
   glClearColor(color.red, color.green, color.blue, color.alpha);
@@ -214,16 +165,15 @@ GLLightmap::clear_clip_rect()
 void
 GLLightmap::get_light(const DrawingRequest& request) const
 {
-  const GetLightRequest* getlightrequest
-    = static_cast<GetLightRequest*>(request.request_data);
+  const GetLightRequest* getlightrequest = static_cast<GetLightRequest*>(request.request_data);
 
   float pixels[3] = { 0.0f, 0.0f, 0.0f };
 
   const Viewport& viewport = m_video_system.get_viewport();
   const Rect& rect = viewport.get_rect();
 
-  float posX = request.pos.x * static_cast<float>(m_lightmap_width) / static_cast<float>(viewport.get_screen_width()) + static_cast<float>(rect.left);
-  float posY = static_cast<float>((rect.get_height() * 1.0) + (rect.top * 1.0) - request.pos.y * static_cast<float>(m_lightmap_height) / static_cast<float>(viewport.get_screen_height()));
+  float posX = getlightrequest->pos.x * static_cast<float>(m_lightmap_width) / static_cast<float>(viewport.get_screen_width()) + static_cast<float>(rect.left);
+  float posY = static_cast<float>((rect.get_height() * 1.0) + (rect.top * 1.0) - getlightrequest->pos.y * static_cast<float>(m_lightmap_height) / static_cast<float>(viewport.get_screen_height()));
 
   glReadPixels(static_cast<GLint>(posX), static_cast<GLint>(posY), 1, 1, GL_RGB, GL_FLOAT, pixels);
   *(getlightrequest->color_ptr) = Color(pixels[0], pixels[1], pixels[2]);

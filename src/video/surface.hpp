@@ -36,10 +36,9 @@ public:
   static SurfacePtr create(const std::string& file, const Rect& rect);
 
 private:
-  TexturePtr texture;
-  SurfaceData* surface_data;
-  Rect rect;
-  bool flipx;
+  TexturePtr m_texture;
+  Rect m_rect;
+  bool m_flipx;
 
 private:
   Surface(const std::string& file);
@@ -56,7 +55,6 @@ public:
   bool get_flipx() const;
 
   TexturePtr get_texture() const;
-  SurfaceData* get_surface_data() const;
   int get_x() const;
   int get_y() const;
   int get_width() const;

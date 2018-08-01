@@ -22,7 +22,6 @@
 #include "math/util.hpp"
 #include "supertux/globals.hpp"
 #include "video/drawing_request.hpp"
-#include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
 #include "video/gl/gl_video_system.hpp"
 #include "video/video_system.hpp"
@@ -114,36 +113,28 @@ GLPainter::GLPainter(GLVideoSystem& video_system) :
 }
 
 void
-GLPainter::draw_surface(const DrawingRequest& request)
+GLPainter::draw_texture(const DrawingRequest& request)
 {
-  const Surface* surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;
-  if(surface == NULL)
+  const auto& data = static_cast<const TextureRequest&>(*request.request_data);
+  const auto& texture = static_cast<const GLTexture&>(*data.texture);
+
+  GLuint handle = texture.get_handle();
+  if (handle != s_last_texture)
   {
-    return;
-  }
-  GLTexture* gltexture = static_cast<GLTexture*>(surface->get_texture().get());
-  if(gltexture == NULL)
-  {
-    return;
-  }
-  GLSurfaceData *surface_data = static_cast<GLSurfaceData*>(surface->get_surface_data());
-  if(surface_data == NULL)
-  {
-    return;
+    s_last_texture = handle;
+    glBindTexture(GL_TEXTURE_2D, handle);
   }
 
-  GLuint th = gltexture->get_handle();
-  if (th != s_last_texture) {
-    s_last_texture = th;
-    glBindTexture(GL_TEXTURE_2D, th);
-  }
-  intern_draw(request.pos.x, request.pos.y,
-              request.pos.x + static_cast<float>(surface->get_width()),
-              request.pos.y + static_cast<float>(surface->get_height()),
-              surface_data->get_uv_left(),
-              surface_data->get_uv_top(),
-              surface_data->get_uv_right(),
-              surface_data->get_uv_bottom(),
+  intern_draw(data.dstrect.p1.x,
+              data.dstrect.p1.y,
+              data.dstrect.p2.x,
+              data.dstrect.p2.y,
+
+              data.srcrect.get_left() / static_cast<float>(texture.get_texture_width()),
+              data.srcrect.get_top() / static_cast<float>(texture.get_texture_height()),
+              data.srcrect.get_right() / static_cast<float>(texture.get_texture_width()),
+              data.srcrect.get_bottom() / static_cast<float>(texture.get_texture_height()),
+
               request.angle,
               request.alpha,
               request.color,
@@ -152,50 +143,14 @@ GLPainter::draw_surface(const DrawingRequest& request)
 }
 
 void
-GLPainter::draw_surface_part(const DrawingRequest& request)
-{
-  const SurfacePartRequest* surfacepartrequest
-    = static_cast<SurfacePartRequest*>(request.request_data);
-  const Surface* surface = surfacepartrequest->surface;
-  std::shared_ptr<GLTexture> gltexture = std::dynamic_pointer_cast<GLTexture>(surface->get_texture());
-  GLSurfaceData *surface_data = reinterpret_cast<GLSurfaceData *>(surface->get_surface_data());
-
-  float uv_width = surface_data->get_uv_right() - surface_data->get_uv_left();
-  float uv_height = surface_data->get_uv_bottom() - surface_data->get_uv_top();
-
-  float uv_left = surface_data->get_uv_left() + (uv_width * surfacepartrequest->srcrect.p1.x) / static_cast<float>(surface->get_width());
-  float uv_top = surface_data->get_uv_top() + (uv_height * surfacepartrequest->srcrect.p1.y) / static_cast<float>(surface->get_height());
-  float uv_right = surface_data->get_uv_left() + (uv_width * surfacepartrequest->srcrect.p2.x) / static_cast<float>(surface->get_width());
-  float uv_bottom = surface_data->get_uv_top() + (uv_height * surfacepartrequest->srcrect.p2.y) / static_cast<float>(surface->get_height());
-
-  GLuint th = gltexture->get_handle();
-  if (th != s_last_texture) {
-    s_last_texture = th;
-    glBindTexture(GL_TEXTURE_2D, th);
-  }
-  intern_draw(request.pos.x, request.pos.y,
-              request.pos.x + surfacepartrequest->dstsize.width,
-              request.pos.y + surfacepartrequest->dstsize.height,
-              uv_left,
-              uv_top,
-              uv_right,
-              uv_bottom,
-              0.0,
-              request.alpha,
-              request.color,
-              Blend(),
-              request.drawing_effect);
-}
-
-void
 GLPainter::draw_gradient(const DrawingRequest& request)
 {
-  const GradientRequest* gradientrequest
-    = static_cast<GradientRequest*>(request.request_data);
-  const Color& top = gradientrequest->top;
-  const Color& bottom = gradientrequest->bottom;
-  const GradientDirection& direction = gradientrequest->direction;
-  const Rectf& region = gradientrequest->region;
+  const auto& data = static_cast<GradientRequest&>(*request.request_data);
+
+  const Color& top = data.top;
+  const Color& bottom = data.bottom;
+  const GradientDirection& direction = data.direction;
+  const Rectf& region = data.region;
 
   glDisable(GL_TEXTURE_2D);
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -209,26 +164,26 @@ GLPainter::draw_gradient(const DrawingRequest& request)
   };
   glVertexPointer(2, GL_FLOAT, 0, vertices);
 
-if(direction == VERTICAL || direction == VERTICAL_SECTOR)
-{
-  float colors[] = {
-    top.red, top.green, top.blue, top.alpha,
-    top.red, top.green, top.blue, top.alpha,
-    bottom.red, bottom.green, bottom.blue, bottom.alpha,
-    bottom.red, bottom.green, bottom.blue, bottom.alpha,
-  };
-  glColorPointer(4, GL_FLOAT, 0, colors);
-}
-else
-{
-  float colors[] = {
-    top.red, top.green, top.blue, top.alpha,
-    bottom.red, bottom.green, bottom.blue, bottom.alpha,
-    bottom.red, bottom.green, bottom.blue, bottom.alpha,
-    top.red, top.green, top.blue, top.alpha,
-  };
-  glColorPointer(4, GL_FLOAT, 0, colors);
-}
+  if(direction == VERTICAL || direction == VERTICAL_SECTOR)
+  {
+    float colors[] = {
+      top.red, top.green, top.blue, top.alpha,
+      top.red, top.green, top.blue, top.alpha,
+      bottom.red, bottom.green, bottom.blue, bottom.alpha,
+      bottom.red, bottom.green, bottom.blue, bottom.alpha,
+    };
+    glColorPointer(4, GL_FLOAT, 0, colors);
+  }
+  else
+  {
+    float colors[] = {
+      top.red, top.green, top.blue, top.alpha,
+      bottom.red, bottom.green, bottom.blue, bottom.alpha,
+      bottom.red, bottom.green, bottom.blue, bottom.alpha,
+      top.red, top.green, top.blue, top.alpha,
+    };
+    glColorPointer(4, GL_FLOAT, 0, colors);
+  }
 
   glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
@@ -242,28 +197,27 @@ else
 void
 GLPainter::draw_filled_rect(const DrawingRequest& request)
 {
-  const FillRectRequest* fillrectrequest
-    = static_cast<FillRectRequest*>(request.request_data);
+  const auto& data = static_cast<FillRectRequest&>(*request.request_data);
 
   glDisable(GL_TEXTURE_2D);
-  glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
-            fillrectrequest->color.blue, fillrectrequest->color.alpha);
+  glColor4f(data.color.red, data.color.green,
+            data.color.blue, data.color.alpha);
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-  if (fillrectrequest->radius != 0.0f)
+  if (data.radius != 0.0f)
   {
     // draw round rect
     // Keep radius in the limits, so that we get a circle instead of
     // just graphic junk
-    float radius = std::min(fillrectrequest->radius,
-                            std::min(fillrectrequest->size.x/2,
-                                     fillrectrequest->size.y/2));
+    float radius = std::min(data.radius,
+                            std::min(data.size.x/2,
+                                     data.size.y/2));
 
     // inner rectangle
-    Rectf irect(request.pos.x    + radius,
-                request.pos.y    + radius,
-                request.pos.x + fillrectrequest->size.x - radius,
-                request.pos.y + fillrectrequest->size.y - radius);
+    Rectf irect(data.pos.x    + radius,
+                data.pos.y    + radius,
+                data.pos.x + data.size.x - radius,
+                data.pos.y + data.size.y - radius);
 
     int n = 8;
     size_t p = 0;
@@ -298,10 +252,10 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
   }
   else
   {
-    float x = request.pos.x;
-    float y = request.pos.y;
-    float w = fillrectrequest->size.x;
-    float h = fillrectrequest->size.y;
+    float x = data.pos.x;
+    float y = data.pos.y;
+    float w = data.size.x;
+    float h = data.size.y;
 
     float vertices[] = {
       x,   y,
@@ -322,16 +276,16 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
 void
 GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
-  const InverseEllipseRequest* ellipse = static_cast<InverseEllipseRequest*> (request.request_data);
+  const auto& data = static_cast<InverseEllipseRequest&>(*request.request_data);
 
   glDisable(GL_TEXTURE_2D);
-  glColor4f(ellipse->color.red,  ellipse->color.green,
-            ellipse->color.blue, ellipse->color.alpha);
+  glColor4f(data.color.red,  data.color.green,
+            data.color.blue, data.color.alpha);
 
-  float x = request.pos.x;
-  float y = request.pos.y;
-  float w = ellipse->size.x/2.0f;
-  float h = ellipse->size.y/2.0f;
+  float x = data.pos.x;
+  float y = data.pos.y;
+  float w = data.size.x/2.0f;
+  float h = data.size.y/2.0f;
 
   static const int slices = 16;
   static const int points = (slices+1) * 12;
@@ -406,18 +360,16 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 void
 GLPainter::draw_line(const DrawingRequest& request)
 {
-  const LineRequest* linerequest
-    = static_cast<LineRequest*>(request.request_data);
+  const auto& data = static_cast<LineRequest&>(*request.request_data);
 
   glDisable(GL_TEXTURE_2D);
-  glColor4f(linerequest->color.red, linerequest->color.green,
-            linerequest->color.blue, linerequest->color.alpha);
+  glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-  float x1 = request.pos.x;
-  float y1 = request.pos.y;
-  float x2 = linerequest->dest_pos.x;
-  float y2 = linerequest->dest_pos.y;
+  float x1 = data.pos.x;
+  float y1 = data.pos.y;
+  float x2 = data.dest_pos.x;
+  float y2 = data.dest_pos.y;
 
   float vertices[] = {
     x1, y1,
@@ -435,20 +387,18 @@ GLPainter::draw_line(const DrawingRequest& request)
 void
 GLPainter::draw_triangle(const DrawingRequest& request)
 {
-  const TriangleRequest* trianglerequest
-    = static_cast<TriangleRequest*>(request.request_data);
+  const auto& data = static_cast<TriangleRequest&>(*request.request_data);
 
   glDisable(GL_TEXTURE_2D);
-  glColor4f(trianglerequest->color.red, trianglerequest->color.green,
-            trianglerequest->color.blue, trianglerequest->color.alpha);
+  glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha);
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-  float x1 = request.pos.x;
-  float y1 = request.pos.y;
-  float x2 = trianglerequest->pos2.x;
-  float y2 = trianglerequest->pos2.y;
-  float x3 = trianglerequest->pos3.x;
-  float y3 = trianglerequest->pos3.y;
+  float x1 = data.pos1.x;
+  float y1 = data.pos1.y;
+  float x2 = data.pos2.x;
+  float y2 = data.pos2.y;
+  float x3 = data.pos3.x;
+  float y3 = data.pos3.y;
 
   float vertices[] = {
     x1, y1,

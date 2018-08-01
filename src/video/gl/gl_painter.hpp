@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_VIDEO_GL_GL_PAINTER_HPP
 #define HEADER_SUPERTUX_VIDEO_GL_GL_PAINTER_HPP
 
+#include "video/painter.hpp"
+
 #ifdef USE_GLBINDING
 #include <glbinding/gl/gl.h>
 using namespace gl;
@@ -29,7 +31,7 @@ using namespace gl;
 class GLVideoSystem;
 struct DrawingRequest;
 
-class GLPainter
+class GLPainter : public Painter
 {
 private:
   static GLuint s_last_texture;
@@ -40,8 +42,7 @@ private:
 public:
   GLPainter(GLVideoSystem& video_system);
 
-  void draw_surface(const DrawingRequest& request);
-  void draw_surface_part(const DrawingRequest& request);
+  void draw_texture(const DrawingRequest& request);
   void draw_gradient(const DrawingRequest& request);
   void draw_filled_rect(const DrawingRequest& request);
   void draw_inverse_ellipse(const DrawingRequest& request);

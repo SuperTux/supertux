@@ -21,6 +21,7 @@
 #include "editor/object_menu.hpp"
 #include "editor/tile_selection.hpp"
 #include "editor/tip.hpp"
+#include "editor/util.hpp"
 #include "editor/worldmap_objects.hpp"
 #include "gui/menu.hpp"
 #include "gui/menu_manager.hpp"
@@ -742,7 +743,8 @@ EditorInputCenter::draw_tile_tip(DrawingContext& context) {
           continue;
         }
         uint32_t tile_id = tiles->pos(static_cast<int>(drawn_tile.x), static_cast<int>(drawn_tile.y));
-        editor->get_tileset()->draw_tile(context.color(), tile_id, tp_to_sp(on_tile) - Sector::current()->get_players()[0]->get_camera()->get_translation(),
+        draw_tile(context.color(), *editor->get_tileset(), tile_id,
+                  tp_to_sp(on_tile) - Sector::current()->get_players()[0]->get_camera()->get_translation(),
                                    LAYER_GUI-11, Color(1, 1, 1, 0.5));
         /*if (tile_id) {
           const Tile* tg_tile = editor->tileset->get( tile_id );

@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2009 Ingo Ruhnke <grumbel@gmail.com>
+//  Copyright (C) 2015 Hume2 <teratux.mail@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,14 +14,20 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_SUPERTUX_VIDEO_SURFACE_DATA_HPP
-#define HEADER_SUPERTUX_VIDEO_SURFACE_DATA_HPP
+#ifndef HEADER_SUPERTUX_EDITOR_UTIL_HPP
+#define HEADER_SUPERTUX_EDITOR_UTIL_HPP
 
-class SurfaceData
-{
-public:
-  virtual ~SurfaceData() {}
-};
+#include <stdint.h>
+
+#include "video/color.hpp"
+
+class Canvas;
+class TileSet;
+class Vector;
+
+void
+draw_tile(Canvas& canvas, const TileSet& tileset, uint32_t id, const Vector& pos,
+          int z_pos, const Color& color = Color(1, 1, 1));
 
 #endif
 

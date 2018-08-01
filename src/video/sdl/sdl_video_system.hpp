@@ -38,8 +38,6 @@ public:
   virtual Lightmap& get_lightmap() const override;
 
   virtual TexturePtr new_texture(SDL_Surface* image) override;
-  virtual SurfaceData* new_surface_data(const Surface& surface) override;
-  virtual void free_surface_data(SurfaceData* surface_data) override;
 
   virtual const Viewport& get_viewport() const override { return m_viewport; }
   virtual void apply_config() override;

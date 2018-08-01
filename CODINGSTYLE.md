@@ -78,12 +78,38 @@ cmake .. -DCMAKE_BUILD_TYPE=Release  -DWARNINGS=ON -DWERROR=ON
 
 ## Comments
 
-Use the `//` syntax for regular comments, don't use `/* */`.
-
-For translator information, use the `// l10n:` syntax.
+Use the `//` syntax for regular comments, even multiline, don't use `/* */`.
 
 For Doxygen (code documentation), use the `/** */` syntax, don't use `/**<` and
 other styles of comments.
+
+For translator information, use the `// l10n:` syntax.
+
+Don't do `*` prefix decorations in comments, keep things simple and
+compact:
+
+```
+/*c++
+ *  Don't do this
+ */
+```
+
+Instead:
+
+```c++
+// Do this
+```
+
+or:
+
+```c++
+/** Also ok when it's a Doxygen comment */
+```
+
+Avoid comments unless they explain something important and
+non-obvious. Prefer to use good function and variable names to create
+self-documenting code.
+
 
 ## Other Information
 

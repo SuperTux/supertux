@@ -37,13 +37,8 @@ public:
   virtual void start_draw() override;
   virtual void end_draw() override;
 
-  virtual void draw_surface(const DrawingRequest& request) override;
-  virtual void draw_surface_part(const DrawingRequest& request) override;
-  virtual void draw_gradient(const DrawingRequest& request) override;
-  virtual void draw_filled_rect(const DrawingRequest& request) override;
-  virtual void draw_inverse_ellipse(const DrawingRequest& request) override;
-  virtual void draw_line(const DrawingRequest& request) override;
-  virtual void draw_triangle(const DrawingRequest& request) override;
+  virtual GLPainter& get_painter() override { return m_painter; }
+
   virtual void clear(const Color& color) override;
 
   virtual void set_clip_rect(const Rect& rect) override;

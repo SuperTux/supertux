@@ -32,7 +32,6 @@
 #include "util/log.hpp"
 #include "video/gl/gl_lightmap.hpp"
 #include "video/gl/gl_renderer.hpp"
-#include "video/gl/gl_surface_data.hpp"
 #include "video/gl/gl_texture.hpp"
 
 GLVideoSystem::GLVideoSystem() :
@@ -277,18 +276,6 @@ TexturePtr
 GLVideoSystem::new_texture(SDL_Surface* image)
 {
   return TexturePtr(new GLTexture(image));
-}
-
-SurfaceData*
-GLVideoSystem::new_surface_data(const Surface& surface)
-{
-  return new GLSurfaceData(surface);
-}
-
-void
-GLVideoSystem::free_surface_data(SurfaceData* surface_data)
-{
-  delete surface_data;
 }
 
 void

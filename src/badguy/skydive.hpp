@@ -53,5 +53,4 @@ class SkyDive : public BadGuy, public Portable
 
 #endif /* HEADER_SUPERTUX_BADGUY_BOMBFISH_HPP */
 
-/* vim: set sw=2 sts=2 et fdm=marker : */
 /* EOF */

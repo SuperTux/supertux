@@ -23,7 +23,6 @@
 #include "util/log.hpp"
 #include "video/drawing_request.hpp"
 #include "video/sdl/sdl_texture.hpp"
-#include "video/surface.hpp"
 #include "video/sdl/sdl_video_system.hpp"
 #include "video/viewport.hpp"
 
@@ -60,89 +59,54 @@ SDL_BlendMode blend2sdl(const Blend& blend)
 
 } // namespace
 
-SDLPainter::SDLPainter(SDLVideoSystem& video_system) :
-  m_video_system(video_system)
+SDLPainter::SDLPainter(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
+  m_video_system(video_system),
+  m_renderer(renderer)
 {}
 
 void
-SDLPainter::draw_surface(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_texture(const DrawingRequest& request)
 {
-  const auto surface = static_cast<const SurfaceRequest*>(request.request_data)->surface;
-  std::shared_ptr<SDLTexture> sdltexture = std::dynamic_pointer_cast<SDLTexture>(surface->get_texture());
-
-  SDL_Rect dst_rect;
-  dst_rect.x = static_cast<int>(request.pos.x);
-  dst_rect.y = static_cast<int>(request.pos.y);
-  dst_rect.w = sdltexture->get_image_width();
-  dst_rect.h = sdltexture->get_image_height();
-
-  Uint8 r = static_cast<Uint8>(request.color.red * 255);
-  Uint8 g = static_cast<Uint8>(request.color.green * 255);
-  Uint8 b = static_cast<Uint8>(request.color.blue * 255);
-  Uint8 a = static_cast<Uint8>(request.color.alpha * request.alpha * 255);
-  SDL_SetTextureColorMod(sdltexture->get_texture(), r, g, b);
-  SDL_SetTextureAlphaMod(sdltexture->get_texture(), a);
-  SDL_SetTextureBlendMode(sdltexture->get_texture(), blend2sdl(request.blend));
-
-  SDL_RendererFlip flip = SDL_FLIP_NONE;
-  if (surface->get_flipx() || request.drawing_effect & HORIZONTAL_FLIP)
-  {
-    flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
-  }
-
-  if (request.drawing_effect & VERTICAL_FLIP)
-  {
-    flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
-  }
-
-  SDL_RenderCopyEx(renderer, sdltexture->get_texture(), NULL, &dst_rect, request.angle, NULL, flip);
-}
-
-void
-SDLPainter::draw_surface_part(SDL_Renderer* renderer, const DrawingRequest& request)
-{
-  //FIXME: support parameters request.blend
-  const auto surface = static_cast<const SurfacePartRequest*>(request.request_data);
-  const auto surfacepartrequest = static_cast<SurfacePartRequest*>(request.request_data);
-
-  std::shared_ptr<SDLTexture> sdltexture = std::dynamic_pointer_cast<SDLTexture>(surface->surface->get_texture());
+  const auto& texture_request = static_cast<const TextureRequest&>(*request.request_data);
+  const auto& texture = static_cast<const SDLTexture&>(*texture_request.texture);
 
   SDL_Rect src_rect;
-  src_rect.x = static_cast<int>(surfacepartrequest->srcrect.p1.x);
-  src_rect.y = static_cast<int>(surfacepartrequest->srcrect.p1.y);
-  src_rect.w = static_cast<int>(surfacepartrequest->srcrect.get_width());
-  src_rect.h = static_cast<int>(surfacepartrequest->srcrect.get_height());
+  src_rect.x = static_cast<int>(texture_request.srcrect.p1.x);
+  src_rect.y = static_cast<int>(texture_request.srcrect.p1.y);
+  src_rect.w = static_cast<int>(texture_request.srcrect.get_width());
+  src_rect.h = static_cast<int>(texture_request.srcrect.get_height());
 
   SDL_Rect dst_rect;
-  dst_rect.x = static_cast<int>(request.pos.x);
-  dst_rect.y = static_cast<int>(request.pos.y);
-  dst_rect.w = static_cast<int>(surfacepartrequest->dstsize.width);
-  dst_rect.h = static_cast<int>(surfacepartrequest->dstsize.height);
+  dst_rect.x = static_cast<int>(texture_request.dstrect.p1.x);
+  dst_rect.y = static_cast<int>(texture_request.dstrect.p1.y);
+  dst_rect.w = static_cast<int>(texture_request.dstrect.get_width());
+  dst_rect.h = static_cast<int>(texture_request.dstrect.get_height());
 
   Uint8 r = static_cast<Uint8>(request.color.red * 255);
   Uint8 g = static_cast<Uint8>(request.color.green * 255);
   Uint8 b = static_cast<Uint8>(request.color.blue * 255);
   Uint8 a = static_cast<Uint8>(request.color.alpha * request.alpha * 255);
-  SDL_SetTextureColorMod(sdltexture->get_texture(), r, g, b);
-  SDL_SetTextureAlphaMod(sdltexture->get_texture(), a);
-  SDL_SetTextureBlendMode(sdltexture->get_texture(), blend2sdl(request.blend));
+
+  SDL_SetTextureColorMod(texture.get_texture(), r, g, b);
+  SDL_SetTextureAlphaMod(texture.get_texture(), a);
+  SDL_SetTextureBlendMode(texture.get_texture(), blend2sdl(request.blend));
 
   SDL_RendererFlip flip = SDL_FLIP_NONE;
-  if (surface->surface->get_flipx() || request.drawing_effect & HORIZONTAL_FLIP)
+  if ((request.drawing_effect & HORIZONTAL_FLIP) != 0)
   {
     flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
   }
 
-  if (request.drawing_effect & VERTICAL_FLIP)
+  if ((request.drawing_effect & VERTICAL_FLIP) != 0)
   {
     flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
   }
 
-  SDL_RenderCopyEx(renderer, sdltexture->get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
+  SDL_RenderCopyEx(m_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
 }
 
 void
-SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_gradient(const DrawingRequest& request)
 {
   const auto gradientrequest = static_cast<GradientRequest*>(request.request_data);
   const Color& top = gradientrequest->top;
@@ -193,20 +157,20 @@ SDLPainter::draw_gradient(SDL_Renderer* renderer, const DrawingRequest& request)
         a = static_cast<Uint8>(((1.0f - p) * top.alpha + p * bottom.alpha) * 255);
     }
 
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+    SDL_RenderFillRect(m_renderer, &rect);
   }
 }
 
 void
-SDLPainter::draw_filled_rect(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_filled_rect(const DrawingRequest& request)
 {
   const auto fillrectrequest = static_cast<FillRectRequest*>(request.request_data);
 
   SDL_Rect rect;
-  rect.x = static_cast<int>(request.pos.x);
-  rect.y = static_cast<int>(request.pos.y);
+  rect.x = static_cast<int>(fillrectrequest->pos.x);
+  rect.y = static_cast<int>(fillrectrequest->pos.y);
   rect.w = static_cast<int>(fillrectrequest->size.x);
   rect.h = static_cast<int>(fillrectrequest->size.y);
 
@@ -260,31 +224,31 @@ SDLPainter::draw_filled_rect(SDL_Renderer* renderer, const DrawingRequest& reque
       rects.push_back(tmp);
     }
 
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(renderer, r, g, b, a);
-    SDL_RenderFillRects(renderer, &*rects.begin(), static_cast<int>(rects.size()));
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+    SDL_RenderFillRects(m_renderer, &*rects.begin(), static_cast<int>(rects.size()));
   }
   else
   {
     if((rect.w != 0) && (rect.h != 0))
     {
-      SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-      SDL_SetRenderDrawColor(renderer, r, g, b, a);
-      SDL_RenderFillRect(renderer, &rect);
+      SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+      SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+      SDL_RenderFillRect(m_renderer, &rect);
     }
   }
 }
 
 void
-SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
   const auto ellipse = static_cast<InverseEllipseRequest*>(request.request_data);
 
-  float x = request.pos.x;
+  float x = ellipse->pos.x;
   float w = ellipse->size.x;
   float h = ellipse->size.y;
 
-  int top = static_cast<int>(request.pos.y - (h / 2));
+  int top = static_cast<int>(ellipse->pos.y - (h / 2));
 
   const Viewport& viewport = m_video_system.get_viewport();
 
@@ -328,13 +292,13 @@ SDLPainter::draw_inverse_ellipse(SDL_Renderer* renderer, const DrawingRequest& r
   Uint8 b = static_cast<Uint8>(ellipse->color.blue * 255);
   Uint8 a = static_cast<Uint8>(ellipse->color.alpha * 255);
 
-  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-  SDL_SetRenderDrawColor(renderer, r, g, b, a);
-  SDL_RenderFillRects(renderer, rects, 2*slices+2);
+  SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+  SDL_RenderFillRects(m_renderer, rects, 2*slices+2);
 }
 
 void
-SDLPainter::draw_line(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_line(const DrawingRequest& request)
 {
   const auto linerequest = static_cast<LineRequest*>(request.request_data);
 
@@ -343,14 +307,14 @@ SDLPainter::draw_line(SDL_Renderer* renderer, const DrawingRequest& request)
   Uint8 b = static_cast<Uint8>(linerequest->color.blue * 255);
   Uint8 a = static_cast<Uint8>(linerequest->color.alpha * 255);
 
-  int x1 = static_cast<int>(request.pos.x);
-  int y1 = static_cast<int>(request.pos.y);
+  int x1 = static_cast<int>(linerequest->pos.x);
+  int y1 = static_cast<int>(linerequest->pos.y);
   int x2 = static_cast<int>(linerequest->dest_pos.x);
   int y2 = static_cast<int>(linerequest->dest_pos.y);
 
-  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-  SDL_SetRenderDrawColor(renderer, r, g, b, a);
-  SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+  SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
+  SDL_RenderDrawLine(m_renderer, x1, y1, x2, y2);
 }
 
 namespace {
@@ -404,7 +368,7 @@ draw_span_between_edges(SDL_Renderer* renderer, const Rectf& e1, const Rectf& e2
 } //namespace
 
 void
-SDLPainter::draw_triangle(SDL_Renderer* renderer, const DrawingRequest& request)
+SDLPainter::draw_triangle(const DrawingRequest& request)
 {
   const auto trianglerequest = static_cast<TriangleRequest*>(request.request_data);
 
@@ -413,8 +377,8 @@ SDLPainter::draw_triangle(SDL_Renderer* renderer, const DrawingRequest& request)
   Uint8 b = static_cast<Uint8>(trianglerequest->color.blue * 255);
   Uint8 a = static_cast<Uint8>(trianglerequest->color.alpha * 255);
 
-  int x1 = static_cast<int>(request.pos.x);
-  int y1 = static_cast<int>(request.pos.y);
+  int x1 = static_cast<int>(trianglerequest->pos1.x);
+  int y1 = static_cast<int>(trianglerequest->pos1.y);
   int x2 = static_cast<int>(trianglerequest->pos2.x);
   int y2 = static_cast<int>(trianglerequest->pos2.y);
   int x3 = static_cast<int>(trianglerequest->pos3.x);
@@ -439,11 +403,11 @@ SDLPainter::draw_triangle(SDL_Renderer* renderer, const DrawingRequest& request)
   int shortEdge1 = (longEdge + 1) % 3;
   int shortEdge2 = (longEdge + 2) % 3;
 
-  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-  SDL_SetRenderDrawColor(renderer, r, g, b, a);
+  SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+  SDL_SetRenderDrawColor(m_renderer, r, g, b, a);
 
-  draw_span_between_edges(renderer, edges[longEdge], edges[shortEdge1]);
-  draw_span_between_edges(renderer, edges[longEdge], edges[shortEdge2]);
+  draw_span_between_edges(m_renderer, edges[longEdge], edges[shortEdge1]);
+  draw_span_between_edges(m_renderer, edges[longEdge], edges[shortEdge2]);
 }
 
 /* EOF */

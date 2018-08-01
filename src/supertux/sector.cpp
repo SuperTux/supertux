@@ -1486,5 +1486,4 @@ Sector::save(Writer &writer)
   writer.end_list("sector");
 }
 
-/* vim: set sw=2 sts=2 et : */
 /* EOF */

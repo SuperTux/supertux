@@ -32,37 +32,30 @@ Surface::create(const std::string& file, const Rect& rect)
 }
 
 Surface::Surface(const std::string& file) :
-  texture(TextureManager::current()->get(file)),
-  surface_data(),
-  rect(0, 0,
-      Size(texture->get_image_width(),
-           texture->get_image_height())),
-  flipx(false)
+  m_texture(TextureManager::current()->get(file)),
+  m_rect(0, 0,
+         Size(m_texture->get_image_width(),
+              m_texture->get_image_height())),
+  m_flipx(false)
 {
-  surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
 Surface::Surface(const std::string& file, const Rect& rect_) :
-  texture(TextureManager::current()->get(file, rect_)),
-  surface_data(),
-  rect(0, 0, Size(rect_.get_width(), rect_.get_height())),
-  flipx(false)
+  m_texture(TextureManager::current()->get(file, rect_)),
+  m_rect(0, 0, Size(rect_.get_width(), rect_.get_height())),
+  m_flipx(false)
 {
-  surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
 Surface::Surface(const Surface& rhs) :
-  texture(rhs.texture),
-  surface_data(),
-  rect(rhs.rect),
-  flipx(false)
+  m_texture(rhs.m_texture),
+  m_rect(rhs.m_rect),
+  m_flipx(false) // FIXME: Why no copy here?
 {
-  surface_data = VideoSystem::current()->new_surface_data(*this);
 }
 
 Surface::~Surface()
 {
-  VideoSystem::current()->free_surface_data(surface_data);
 }
 
 SurfacePtr
@@ -73,50 +66,46 @@ Surface::clone() const
 }
 
 /** flip the surface horizontally */
-void Surface::hflip()
+void
+Surface::hflip()
 {
-  flipx = !flipx;
+  m_flipx = !m_flipx;
 }
 
-bool Surface::get_flipx() const
+bool
+Surface::get_flipx() const
 {
-  return flipx;
+  return m_flipx;
 }
 
 TexturePtr
 Surface::get_texture() const
 {
-  return texture;
-}
-
-SurfaceData*
-Surface::get_surface_data() const
-{
-  return surface_data;
+  return m_texture;
 }
 
 int
 Surface::get_x() const
 {
-  return rect.left;
+  return m_rect.left;
 }
 
 int
 Surface::get_y() const
 {
-  return rect.top;
+  return m_rect.top;
 }
 
 int
 Surface::get_width() const
 {
-  return rect.get_width();
+  return m_rect.get_width();
 }
 
 int
 Surface::get_height() const
 {
-  return rect.get_height();
+  return m_rect.get_height();
 }
 
 Vector
