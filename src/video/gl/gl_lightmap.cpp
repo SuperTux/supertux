@@ -165,16 +165,15 @@ GLLightmap::clear_clip_rect()
 void
 GLLightmap::get_light(const DrawingRequest& request) const
 {
-  const GetLightRequest* getlightrequest
-    = static_cast<GetLightRequest*>(request.request_data);
+  const GetLightRequest* getlightrequest = static_cast<GetLightRequest*>(request.request_data);
 
   float pixels[3] = { 0.0f, 0.0f, 0.0f };
 
   const Viewport& viewport = m_video_system.get_viewport();
   const Rect& rect = viewport.get_rect();
 
-  float posX = request.pos.x * static_cast<float>(m_lightmap_width) / static_cast<float>(viewport.get_screen_width()) + static_cast<float>(rect.left);
-  float posY = static_cast<float>((rect.get_height() * 1.0) + (rect.top * 1.0) - request.pos.y * static_cast<float>(m_lightmap_height) / static_cast<float>(viewport.get_screen_height()));
+  float posX = getlightrequest->pos.x * static_cast<float>(m_lightmap_width) / static_cast<float>(viewport.get_screen_width()) + static_cast<float>(rect.left);
+  float posY = static_cast<float>((rect.get_height() * 1.0) + (rect.top * 1.0) - getlightrequest->pos.y * static_cast<float>(m_lightmap_height) / static_cast<float>(viewport.get_screen_height()));
 
   glReadPixels(static_cast<GLint>(posX), static_cast<GLint>(posY), 1, 1, GL_RGB, GL_FLOAT, pixels);
   *(getlightrequest->color_ptr) = Color(pixels[0], pixels[1], pixels[2]);

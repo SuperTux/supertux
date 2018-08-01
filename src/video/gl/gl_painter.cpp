@@ -125,10 +125,10 @@ GLPainter::draw_texture(const DrawingRequest& request)
     glBindTexture(GL_TEXTURE_2D, handle);
   }
 
-  intern_draw(request.pos.x,
-              request.pos.y,
-              request.pos.x + texture_request.dstsize.width,
-              request.pos.y + texture_request.dstsize.height,
+  intern_draw(texture_request.pos.x,
+              texture_request.pos.y,
+              texture_request.pos.x + texture_request.dstsize.width,
+              texture_request.pos.y + texture_request.dstsize.height,
 
               texture_request.srcrect.get_left() / static_cast<float>(texture.get_texture_width()),
               texture_request.srcrect.get_top() / static_cast<float>(texture.get_texture_height()),
@@ -215,10 +215,10 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
                                      fillrectrequest->size.y/2));
 
     // inner rectangle
-    Rectf irect(request.pos.x    + radius,
-                request.pos.y    + radius,
-                request.pos.x + fillrectrequest->size.x - radius,
-                request.pos.y + fillrectrequest->size.y - radius);
+    Rectf irect(fillrectrequest->pos.x    + radius,
+                fillrectrequest->pos.y    + radius,
+                fillrectrequest->pos.x + fillrectrequest->size.x - radius,
+                fillrectrequest->pos.y + fillrectrequest->size.y - radius);
 
     int n = 8;
     size_t p = 0;
@@ -253,8 +253,8 @@ GLPainter::draw_filled_rect(const DrawingRequest& request)
   }
   else
   {
-    float x = request.pos.x;
-    float y = request.pos.y;
+    float x = fillrectrequest->pos.x;
+    float y = fillrectrequest->pos.y;
     float w = fillrectrequest->size.x;
     float h = fillrectrequest->size.y;
 
@@ -283,8 +283,8 @@ GLPainter::draw_inverse_ellipse(const DrawingRequest& request)
   glColor4f(ellipse->color.red,  ellipse->color.green,
             ellipse->color.blue, ellipse->color.alpha);
 
-  float x = request.pos.x;
-  float y = request.pos.y;
+  float x = ellipse->pos.x;
+  float y = ellipse->pos.y;
   float w = ellipse->size.x/2.0f;
   float h = ellipse->size.y/2.0f;
 
@@ -369,8 +369,8 @@ GLPainter::draw_line(const DrawingRequest& request)
             linerequest->color.blue, linerequest->color.alpha);
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-  float x1 = request.pos.x;
-  float y1 = request.pos.y;
+  float x1 = linerequest->pos.x;
+  float y1 = linerequest->pos.y;
   float x2 = linerequest->dest_pos.x;
   float y2 = linerequest->dest_pos.y;
 
@@ -398,8 +398,8 @@ GLPainter::draw_triangle(const DrawingRequest& request)
             trianglerequest->color.blue, trianglerequest->color.alpha);
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-  float x1 = request.pos.x;
-  float y1 = request.pos.y;
+  float x1 = trianglerequest->pos1.x;
+  float y1 = trianglerequest->pos1.y;
   float x2 = trianglerequest->pos2.x;
   float y2 = trianglerequest->pos2.y;
   float x3 = trianglerequest->pos3.x;

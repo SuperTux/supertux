@@ -43,11 +43,13 @@ struct TextureRequest : public DrawingRequestData
 {
   TextureRequest() :
     texture(),
+    pos(),
     srcrect(),
     dstsize()
   {}
 
   const Texture* texture;
+  Vector pos;
   Rectf srcrect;
   Sizef dstsize;
 
@@ -59,11 +61,13 @@ private:
 struct TextRequest : public DrawingRequestData
 {
   TextRequest() :
+    pos(),
     font(),
     text(),
     alignment()
   {}
 
+  Vector pos;
   const Font* font;
   std::string text;
   FontAlignment alignment;
@@ -76,16 +80,18 @@ private:
 struct GradientRequest : public DrawingRequestData
 {
   GradientRequest()  :
+    pos(),
+    size(),
     top(),
     bottom(),
-    size(),
     direction(),
     region()
   {}
 
+  Vector pos;
+  Vector size;
   Color top;
   Color bottom;
-  Vector size;
   GradientDirection direction;
   Rectf region;
 };
@@ -93,54 +99,60 @@ struct GradientRequest : public DrawingRequestData
 struct FillRectRequest : public DrawingRequestData
 {
   FillRectRequest() :
-    color(),
+    pos(),
     size(),
+    color(),
     radius()
   {}
 
-  Color  color;
+  Vector pos;
   Vector size;
+  Color  color;
   float  radius;
 };
 
 struct InverseEllipseRequest : public DrawingRequestData
 {
   InverseEllipseRequest() :
-    color(),
-    size()
+    pos(),
+    size(),
+    color()
   {}
 
-  Color  color;
+  Vector pos;
   Vector size;
+  Color color;
 };
 
 struct LineRequest : public DrawingRequestData
 {
   LineRequest() :
-    color(),
-    dest_pos()
+    pos(),
+    dest_pos(),
+    color()
   {}
 
-  Color  color;
+  Vector pos;
   Vector dest_pos;
+  Color color;
 };
 
 struct TriangleRequest : public DrawingRequestData
 {
   TriangleRequest() :
-    color(),
+    pos1(),
     pos2(),
-    pos3()
+    pos3(),
+    color()
   {}
 
+  Vector pos1, pos2, pos3;
   Color  color;
-  Vector pos2, pos3;
 };
 
 struct DrawingRequest
 {
   RequestType type;
-  Vector pos;
 
   int layer;
   DrawingEffect drawing_effect;
@@ -153,7 +165,6 @@ struct DrawingRequest
 
   DrawingRequest() :
     type(),
-    pos(),
     layer(),
     drawing_effect(),
     alpha(),
@@ -166,8 +177,9 @@ struct DrawingRequest
 
 struct GetLightRequest : public DrawingRequestData
 {
-  GetLightRequest() : color_ptr() {}
+  GetLightRequest() : pos(), color_ptr() {}
 
+  Vector pos;
   Color* color_ptr;
 
 private:

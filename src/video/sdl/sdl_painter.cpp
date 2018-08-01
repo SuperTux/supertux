@@ -77,8 +77,8 @@ SDLPainter::draw_texture(const DrawingRequest& request)
   src_rect.h = static_cast<int>(texture_request.srcrect.get_height());
 
   SDL_Rect dst_rect;
-  dst_rect.x = static_cast<int>(request.pos.x);
-  dst_rect.y = static_cast<int>(request.pos.y);
+  dst_rect.x = static_cast<int>(texture_request.pos.x);
+  dst_rect.y = static_cast<int>(texture_request.pos.y);
   dst_rect.w = static_cast<int>(texture_request.dstsize.width);
   dst_rect.h = static_cast<int>(texture_request.dstsize.height);
 
@@ -169,8 +169,8 @@ SDLPainter::draw_filled_rect(const DrawingRequest& request)
   const auto fillrectrequest = static_cast<FillRectRequest*>(request.request_data);
 
   SDL_Rect rect;
-  rect.x = static_cast<int>(request.pos.x);
-  rect.y = static_cast<int>(request.pos.y);
+  rect.x = static_cast<int>(fillrectrequest->pos.x);
+  rect.y = static_cast<int>(fillrectrequest->pos.y);
   rect.w = static_cast<int>(fillrectrequest->size.x);
   rect.h = static_cast<int>(fillrectrequest->size.y);
 
@@ -244,11 +244,11 @@ SDLPainter::draw_inverse_ellipse(const DrawingRequest& request)
 {
   const auto ellipse = static_cast<InverseEllipseRequest*>(request.request_data);
 
-  float x = request.pos.x;
+  float x = ellipse->pos.x;
   float w = ellipse->size.x;
   float h = ellipse->size.y;
 
-  int top = static_cast<int>(request.pos.y - (h / 2));
+  int top = static_cast<int>(ellipse->pos.y - (h / 2));
 
   const Viewport& viewport = m_video_system.get_viewport();
 
@@ -307,8 +307,8 @@ SDLPainter::draw_line(const DrawingRequest& request)
   Uint8 b = static_cast<Uint8>(linerequest->color.blue * 255);
   Uint8 a = static_cast<Uint8>(linerequest->color.alpha * 255);
 
-  int x1 = static_cast<int>(request.pos.x);
-  int y1 = static_cast<int>(request.pos.y);
+  int x1 = static_cast<int>(linerequest->pos.x);
+  int y1 = static_cast<int>(linerequest->pos.y);
   int x2 = static_cast<int>(linerequest->dest_pos.x);
   int y2 = static_cast<int>(linerequest->dest_pos.y);
 
@@ -377,8 +377,8 @@ SDLPainter::draw_triangle(const DrawingRequest& request)
   Uint8 b = static_cast<Uint8>(trianglerequest->color.blue * 255);
   Uint8 a = static_cast<Uint8>(trianglerequest->color.alpha * 255);
 
-  int x1 = static_cast<int>(request.pos.x);
-  int y1 = static_cast<int>(request.pos.y);
+  int x1 = static_cast<int>(trianglerequest->pos1.x);
+  int y1 = static_cast<int>(trianglerequest->pos1.y);
   int x2 = static_cast<int>(trianglerequest->pos2.x);
   int y2 = static_cast<int>(trianglerequest->pos2.y);
   int x3 = static_cast<int>(trianglerequest->pos3.x);
