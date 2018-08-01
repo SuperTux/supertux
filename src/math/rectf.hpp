@@ -170,6 +170,16 @@ bool operator==(const Rectf& other) const {
   Vector p1;
   /// lower right edge
   Vector p2;
+
+
+float perimeter() {
+  return 2*(get_width()+get_height());
+}
+
+Rectf unify(const Rectf& other) {
+  return Rectf(std::min(p1.x, other.p1.x), std::min(p1.y, other.p1.y),
+               std::max(p2.x, other.p2.x), std::max(p2.y, other.p2.y));
+}
 };
 
 #endif

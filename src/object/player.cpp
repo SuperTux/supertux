@@ -804,14 +804,13 @@ Player::handle_input()
   }
   // swimming
   if (swimming) {
-        log_debug << "I am a swimmer" << std::endl;
         physic.enable_gravity(false);
         physic.set_velocity_y(physic.get_velocity_y() * 0.96);
         physic.set_velocity_x(physic.get_velocity_x() * 0.96);
         if (controller->hold(Controller::UP) || controller->hold(Controller::JUMP))
         {
-          physic.set_acceleration_y(sinf((180+90+m_angle)%360* M_PI / 180.0)*1000);
-          physic.set_acceleration_x(cosf((90+180+m_angle)%360* M_PI / 180.0)*1000);
+          physic.set_acceleration_y(sinf(((180+90+m_angle)%360* M_PI) / 180.0)*1000);
+          physic.set_acceleration_x(cosf(((180+90+m_angle)%360* M_PI) / 180.0)*1000);
         }else {
             physic.set_acceleration_y(0);
             physic.set_acceleration_x(0);
