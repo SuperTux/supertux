@@ -40,6 +40,7 @@ public:
   static SurfacePtr back;
   static SurfacePtr arrow_left;
   static SurfacePtr arrow_right;
+  static SurfacePtr no_tile;
 
 public:
   Resources();

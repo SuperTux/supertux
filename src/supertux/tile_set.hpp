@@ -40,7 +40,6 @@ class TileSet
 {
 private:
   std::vector<std::unique_ptr<Tile> > m_tiles;
-  SurfacePtr notile_surface;
 
 public:
   TileSet(const std::string& filename);
@@ -51,9 +50,6 @@ public:
   void merge(const TileSet *tileset, uint32_t start, uint32_t end,
              uint32_t offset);
   void add_tile(int id, std::unique_ptr<Tile> tile);
-
-  void draw_tile(Canvas& canvas, uint32_t id, const Vector& pos,
-                 int z_pos, Color color = Color(1, 1, 1)) const;
 
   const Tile* get(const uint32_t id) const;
 
