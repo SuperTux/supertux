@@ -162,9 +162,8 @@ Canvas::draw_surface(SurfacePtr surface, const Vector& position,
 
   auto request_data = new(m_obst) TextureRequest();
 
-  request_data->pos = apply_translate(position);
   request_data->srcrect = Rectf(0, 0, static_cast<float>(surface->get_width()), static_cast<float>(surface->get_height()));
-  request_data->dstsize = Size(surface->get_width(), surface->get_height());
+  request_data->dstrect = Rectf(apply_translate(position), Size(surface->get_width(), surface->get_height()));
   request_data->texture = surface->get_texture().get();
 
   request->request_data = request_data;
@@ -194,9 +193,8 @@ Canvas::draw_surface_part(SurfacePtr surface,
 
   auto request_data = new(m_obst) TextureRequest();
 
-  request_data->pos = apply_translate(dstrect.p1);
-  request_data->srcrect = srcrect;
-  request_data->dstsize = dstrect.get_size();
+  request_data->srcrect = Rectf(apply_translate(dstrect.p1), srcrect.get_size());
+  request_data->dstrect = dstrect;
   request_data->texture = surface->get_texture().get();
 
   request->request_data = request_data;

@@ -77,10 +77,10 @@ SDLPainter::draw_texture(const DrawingRequest& request)
   src_rect.h = static_cast<int>(texture_request.srcrect.get_height());
 
   SDL_Rect dst_rect;
-  dst_rect.x = static_cast<int>(texture_request.pos.x);
-  dst_rect.y = static_cast<int>(texture_request.pos.y);
-  dst_rect.w = static_cast<int>(texture_request.dstsize.width);
-  dst_rect.h = static_cast<int>(texture_request.dstsize.height);
+  dst_rect.x = static_cast<int>(texture_request.dstrect.p1.x);
+  dst_rect.y = static_cast<int>(texture_request.dstrect.p1.y);
+  dst_rect.w = static_cast<int>(texture_request.dstrect.get_width());
+  dst_rect.h = static_cast<int>(texture_request.dstrect.get_height());
 
   Uint8 r = static_cast<Uint8>(request.color.red * 255);
   Uint8 g = static_cast<Uint8>(request.color.green * 255);

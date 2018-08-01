@@ -445,9 +445,8 @@ Font::draw_chars(Painter& painter, bool notshadow, const std::string& text,
       request.alpha = alpha;
 
       TextureRequest request_data;
-      request_data.pos     = p + glyph.offset;
       request_data.srcrect = glyph.rect;
-      request_data.dstsize = glyph.rect.get_size();
+      request_data.dstrect = Rectf(p + glyph.offset, glyph.rect.get_size());
       request_data.texture = notshadow ?
         glyph_surfaces[glyph.surface_idx]->get_texture().get() :
         shadow_surfaces[glyph.surface_idx]->get_texture().get();

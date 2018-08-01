@@ -125,10 +125,10 @@ GLPainter::draw_texture(const DrawingRequest& request)
     glBindTexture(GL_TEXTURE_2D, handle);
   }
 
-  intern_draw(texture_request.pos.x,
-              texture_request.pos.y,
-              texture_request.pos.x + texture_request.dstsize.width,
-              texture_request.pos.y + texture_request.dstsize.height,
+  intern_draw(texture_request.dstrect.p1.x,
+              texture_request.dstrect.p1.y,
+              texture_request.dstrect.p2.x,
+              texture_request.dstrect.p2.y,
 
               texture_request.srcrect.get_left() / static_cast<float>(texture.get_texture_width()),
               texture_request.srcrect.get_top() / static_cast<float>(texture.get_texture_height()),

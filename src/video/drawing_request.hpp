@@ -43,15 +43,13 @@ struct TextureRequest : public DrawingRequestData
 {
   TextureRequest() :
     texture(),
-    pos(),
     srcrect(),
-    dstsize()
+    dstrect()
   {}
 
   const Texture* texture;
-  Vector pos;
   Rectf srcrect;
-  Sizef dstsize;
+  Rectf dstrect;
 
 private:
   TextureRequest(const TextureRequest&) = delete;
