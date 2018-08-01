@@ -51,7 +51,6 @@ public:
 
   int get_width()  const { return right - left; }
   int get_height() const { return bottom - top; }
-  bool is_valid() const { return right > left && bottom > top; }
 };
 
 #endif
