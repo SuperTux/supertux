@@ -135,7 +135,7 @@ GLPainter::draw_texture(const DrawingRequest& request)
               texture_request.srcrect.get_right() / static_cast<float>(texture.get_texture_width()),
               texture_request.srcrect.get_bottom() / static_cast<float>(texture.get_texture_height()),
 
-              0.0,
+              request.angle,
               request.alpha,
               request.color,
               request.blend,
