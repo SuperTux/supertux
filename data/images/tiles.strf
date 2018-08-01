@@ -1702,7 +1702,7 @@
       "tiles/goal/exitbg.png"
     )
     (object-name "decal")
-    (object-data "(sprite \"images/decal/snow/exitbg.sprite\")")
+    (object-data "(sprite \"images/decal/snow/exitbg.png\")")
   )
   (tile
     (id 127)
@@ -1710,7 +1710,7 @@
       "tiles/goal/exitfg.png"
     )
     (object-name "decal")
-    (object-data "(sprite \"images/decal/snow/exitfg.sprite\")")
+    (object-data "(sprite \"images/decal/snow/exitfg.png\")")
   )
   (tile
     (id 128)
