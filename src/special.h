@@ -21,7 +21,6 @@
 #define SUPERTUX_SPECIAL_H
 
 #include <SDL.h>
-#include "bitmask.h"
 #include "type.h"
 #include "texture.h"
 #include "collision.h"

@@ -25,7 +25,6 @@
 
 #include "SDL.h"
 #include "defines.h"
-#include "bitmask.h"
 #include "type.h"
 #include "timer.h"
 #include "texture.h"

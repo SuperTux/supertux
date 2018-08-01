@@ -20,7 +20,6 @@
 
 #include "defines.h"
 #include "collision.h"
-#include "bitmask.h"
 #include "scene.h"
 #include "world.h"
 #include "level.h"
