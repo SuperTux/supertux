@@ -1,7 +1,7 @@
 #include "math/aabb_polygon.hpp"
 #include <algorithm>
 #include "util/log.hpp"
-// TODO Introduce mode in which add_vertice is not called (=> for tilemap collisions)
+
 AABBPolygon::AABBPolygon(const Rectf& aabb, bool construct_parent):
   p1(aabb.p1),
   p2(aabb.p2),
@@ -32,6 +32,7 @@ inline bool edge_equal(const Vector& p1,
 }
 
 void AABBPolygon::process_neighbor(const Rectf& r) {
+  // TODO(christ2go) Optimize this
   Vector neigh_top_r = Vector(r.p2.x, r.p1.y);
   Vector neigh_bot_l = Vector(r.p1.x, r.p2.y);
   // Also do this for this AABB
@@ -77,8 +78,6 @@ void AABBPolygon::process_neighbor(int xoffset, int yoffset) {
 }
 
 void AABBPolygon::handle_collision(const AABBPolygon& b, Manifold& m) {
-  // TODO(christ2go) Replace with AABB-Polygons own routine
-  //Polygon::handle_collision(b, m);
   float itop = b.m_aabb.get_bottom() - m_aabb.get_top();
   float ibottom = m_aabb.get_bottom() - b.m_aabb.get_top();
   float ileft = b.m_aabb.get_right() - m_aabb.get_left();

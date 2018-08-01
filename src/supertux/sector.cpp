@@ -1065,6 +1065,7 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
         tile_poly->process_neighbor(mobject->get_bbox());
       }
       // TODO(christ2go) Take static tilemap into account.
+      // Ignoring this for now, because it might make the compelxity even worse
       mobjp->handle_collision(*tile_poly, m);
       if (!m.collided)
         continue;
@@ -1105,8 +1106,8 @@ Sector::collision_static(collision::Constraints* constraints,
   contacts.clear();
   collision_moving_static(movement, dest, object, graph, contacts);
   for (const auto& m : contacts) {
-    Vector overlapV((m.depth*m.normal.x),///static_cast<double>(contacts.size()),
-                  (m.depth*m.normal.y));///(static_cast<double>(contacts.size())));
+    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
+                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
     dest.move(overlapV);
     // Also move the AABBPolygon
   }
@@ -1141,7 +1142,7 @@ Sector::collision_static(collision::Constraints* constraints,
         h.bottom = true;
     }
   }
-  if (extend_top > 4 || extend_bot > 4) {
+  if (extend_top > 8 || extend_bot > 8) {
     h.crush = true;
     object.collision_solid(h);
   }
@@ -1164,6 +1165,7 @@ Sector::collision_static_constrains(MovingObject& object, collision_graph& graph
 }
 
 namespace {
+// This isn't some arbirtary value, it's half a standard tile (whose size is kinda arbitrary)
 const float MAX_SPEED = 16.0f;
 }
 
@@ -1172,7 +1174,7 @@ Sector::handle_collisions()
 {
   if (Editor::is_active()) {
     return;
-    // Oběcts in editor shouldn't collide.
+    // Objects in editor shouldn't collide.
   }
 
   using namespace collision;
@@ -1200,9 +1202,6 @@ Sector::handle_collisions()
 
     moving_object->dest = moving_object->get_bbox();
     moving_object->dest.move(moving_object->get_movement());
-  //  AABBPolygon* p = get_mobject_poly(moving_object);
-    //p->p1 = moving_object->dest.p1;
-    //p->p2 = moving_object->dest.p2;
   }
   for (const auto& mobj : moving_objects) {
     if (!(mobj->get_group() != COLGROUP_MOVING
@@ -1219,20 +1218,16 @@ Sector::handle_collisions()
   // Get a list of all objects which move
   platforms.clear();
   colgraph.reset();
-
-  for (const auto& moving_object : moving_objects) {
-    // Check for correct collision group and actual movement in last frame
-    if (moving_object->get_group() == COLGROUP_STATIC &&
-      moving_object->get_movement() != Vector(0, 0))
-      platforms.insert(moving_object);
-  }
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
   for (const auto& obj : moving_objects) {
+    if (obj->get_group() == COLGROUP_STATIC &&
+            obj->get_movement() != Vector(0, 0))
+      platforms.insert(obj);
+    broadphase->insert(obj->dest, obj);
     if(obj->get_group() != COLGROUP_STATIC
        && obj->get_group() != COLGROUP_MOVING_STATIC)
       continue;
     broadphase_bbox->insert(obj->get_bbox(), obj);
-    broadphase->insert(obj->dest, obj);
   }
   for (const auto& moving_object : moving_objects) {
     if ((moving_object->get_group() != COLGROUP_MOVING
@@ -1271,6 +1266,7 @@ Sector::handle_collisions()
         continue;
       spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(6));
       for(auto moving_object_2  = iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()) {
+
         if(moving_object_2 == NULL)
           continue;
         if(!moving_object_2->is_valid())
@@ -1284,6 +1280,8 @@ Sector::handle_collisions()
         if((moving_object->get_group() == COLGROUP_MOVING
             || moving_object->get_group() == COLGROUP_MOVING_STATIC) && (moving_object_2->get_group() == COLGROUP_MOVING
                 || moving_object_2->get_group() == COLGROUP_MOVING_STATIC)) {
+                if(moving_object >= moving_object_2)
+                    continue;
                   possibleCollisions.push_back(std::make_tuple(moving_object, moving_object_2, 2));
                 }
       }
@@ -1293,7 +1291,7 @@ Sector::handle_collisions()
     for(auto& tpl : possibleCollisions) {
       MovingObject* moving_object, *moving_object_2; int nr;
       std::tie(moving_object, moving_object_2, nr) = tpl;
-      if(moving_object == NULL || moving_object_2 == NULL)
+      if(moving_object == NULL || moving_object_2 == NULL || !moving_object->is_valid() || !moving_object_2->is_valid())
         continue;
       if(nr == 1) {
         if (intersects(moving_object->dest, moving_object_2->dest)) {
@@ -1301,6 +1299,7 @@ Sector::handle_collisions()
           CollisionHit hit;
           get_hit_normal(moving_object->dest, moving_object_2->dest,
                          hit, normal);
+
           if (!moving_object->collides(*moving_object_2, hit))
             continue;
           if (!moving_object_2->collides(*moving_object, hit))
@@ -1308,8 +1307,6 @@ Sector::handle_collisions()
           moving_object->collision(*moving_object_2, hit);
           moving_object_2->collision(*moving_object, hit);
           std::get<2>(tpl) = 0;
-          //broadphase->add_bulk(moving_object->dest, moving_object);
-          //broadphase->add_bulk(moving_object_2->dest, moving_object);
         }
       } else if(nr == 2) {
           collision_object(moving_object, moving_object_2, colgraph);
@@ -1322,22 +1319,9 @@ Sector::handle_collisions()
   std::map< MovingObject*, MovingObject* > parents;
   colgraph.compute_parents(platforms, parents);
   for (const auto& plf : parents) {
-    log_debug << "PARENT" << std::endl;
-    /*std::vector< MovingObject* > children;
-    colgraph.directional_hull(plf, 0 , children);
-    log_debug << "Hull has " << children.size() << " elements." << std::endl;
-    for (const auto& child : children) {
-        child->collision_parent = plf;
-        child->parent_updated = true;
-        child->dest.move(plf->get_movement());
-    }*/
     plf.first->collision_parent = plf.second;
     plf.first->parent_updated = true;
     plf.first->dest.move(plf.second->get_movement());
-    //AABBPolygon* p = get_mobject_poly(plf.first);
-    //p->p1 = plf.first->dest.p1;
-    //p->p2 = plf.first->dest.p2;
-
   }
   // apply object movement
   for (const auto& moving_object : moving_objects) {
@@ -1355,7 +1339,6 @@ Sector::handle_collisions()
       moving_object->dest =   moving_object->dest.grown_xy(pixeld_x, pixeld_y);
     }
     moving_object->bbox = moving_object->dest;
-
   }
 
 }
