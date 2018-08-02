@@ -22,6 +22,7 @@
 #include <stdint.h>
 #include <set>
 #include <map>
+#include <math/aabb_tree.hpp>
 #include "math/aabb_polygon.hpp"
 #include "math/spatial_hashing.hpp"
 #include "object/anchor_point.hpp"
@@ -371,7 +372,8 @@ public: // TODO make this private again
   DisplayEffect* effect;
   std::unique_ptr<spatial_hashing> broadphase;
   std::unique_ptr<spatial_hashing> broadphase_bbox;
-  std::map< MovingObject*, std::shared_ptr<AABBPolygon> > object_polygons;
+  std::unique_ptr<AABBTree> aabbtree;
+  std::map< MovingObject*, int > aabb_tree_index;
 private:
   Sector(const Sector&);
   Sector& operator=(const Sector&);

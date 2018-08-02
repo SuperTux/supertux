@@ -304,7 +304,6 @@ Player::update(float elapsed_time)
 
   }
   no_water = true;
-  log_debug << "Set swimming to " << (swimming?"true":"false") << std::endl;
   if(dying && dying_timer.check()) {
     Sector::current()->stop_looping_sounds();
     set_bonus(NO_BONUS, true);

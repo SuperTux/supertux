@@ -1,7 +1,69 @@
 #include "math/aabb_tree.hpp"
+#include <stack>
 
-void AABBTree::init(int start, int end) {
+/// This is a growable LIFO stack with an initial capacity of N.
+/// If the stack size exceeds the initial capacity, the heap is used
+/// to increase the size of the stack.
+template <typename T, int N>
+class b2GrowableStack
+{
+public:
+    b2GrowableStack()
+    {
+        m_stack = m_array;
+        m_count = 0;
+        m_capacity = N;
+    }
+
+    ~b2GrowableStack()
+    {
+        if (m_stack != m_array)
+        {
+            free(m_stack);
+            m_stack = NULL;
+        }
+    }
+
+    void Push(const T& element)
+    {
+        if (m_count == m_capacity)
+        {
+            T* old = m_stack;
+            m_capacity *= 2;
+            m_stack = (T*)malloc(m_capacity * sizeof(T));
+            memcpy(m_stack, old, m_count * sizeof(T));
+            if (old != m_array)
+            {
+                free(old);
+            }
+        }
+
+        m_stack[m_count] = element;
+        ++m_count;
+    }
+
+    T Pop()
+    {
+        --m_count;
+        return m_stack[m_count];
+    }
+
+    int GetCount()
+    {
+        return m_count;
+    }
+
+private:
+    T* m_stack;
+    T m_array[N];
+    int m_count;
+    int m_capacity;
+};
+
+
+AABBTree::AABBTree(int start, int end ) {
     tree.resize(end);
+    root = -1;
     for (int i = start; i < end; i++) {
         AABBTreeNode* node = (AABBTreeNode*) malloc(sizeof(AABBTreeNode));
         node->next = i+1;
@@ -22,7 +84,7 @@ void AABBTree::clear() {
     tree[tree.size()-1]->next = tree[tree.size()-1]->height = -1;
 }
 
-void AABBTree::insert(const Rectf &aabb, MovingObject *obj) {
+int AABBTree::insert(const Rectf &aabb, MovingObject *obj) {
     int index = allocateNode();
     tree[index]->originalAABB = aabb;
     tree[index]->aabb = aabb.grown(fattenFactor);
@@ -30,6 +92,7 @@ void AABBTree::insert(const Rectf &aabb, MovingObject *obj) {
     tree[index]->height = 0;
     insertLeaf(index);
     // TODO Store index in map
+    return index;
 }
 
 bool AABBTree::remove(MovingObject* obj) {
@@ -37,10 +100,11 @@ bool AABBTree::remove(MovingObject* obj) {
     assert(0 <= index && index < tree.size());
     removeLeaf(index);
     freeNode(index);
+    return true;
 }
 
 void AABBTree::freeNode(int index) {
-    assert(0 <= index && index < tree.size());
+    assert(0 <= index && index < (int) tree.size());
     tree[index]->next = free_list;
     tree[index]->height = -1;
     tree[index]->item = NULL;
@@ -48,14 +112,26 @@ void AABBTree::freeNode(int index) {
 }
 
 int AABBTree::allocateNode() {
-    if(free_list != -1) {
-        int id = free_list;
-        free_list = tree[id]->next;
-        // Do some stuff TODO
-
-        return id;
+    if(free_list == -1) {
+        auto count = tree.size();
+        tree.resize(2*tree.size());
+        for(size_t i = count; i < 2*count; i++) {
+            tree[i] = (AABBTreeNode*) malloc(sizeof(AABBTreeNode));
+            tree[i]->next = i+1;
+            tree[i]->height = -1;
+        }
+        tree[2*count-1]->next = -1;
+        free_list = count;
     }
-    // We need to allocate new nodes
+    int id = free_list;
+    free_list = tree[id]->next;
+    tree[id]->parent = -1;
+    tree[id]->child1 = -1;
+    tree[id]->child2 = -1;
+    tree[id]->height = 0;
+    tree[id]->item = NULL;
+    return id;
+
 }
 
 void AABBTree::insertLeaf(int leaf) {
@@ -87,12 +163,27 @@ void AABBTree::insertLeaf(int leaf) {
 
         auto cost = 2*combinedArea;
         auto inheritanceCost = 2 * (combinedArea - area);
-
-        // TODO Compute cost for child 1
+        double cost1 = 0.0, cost2 = 0.0;
+        if(tree[child1]->child1 == -1) {
+            auto aabb_perim = leafAABB.unify(tree[child1]->aabb).perimeter();
+            cost1 = aabb_perim + inheritanceCost;
+        }else{
+            cost1 = tree[child1]->aabb.perimeter() - leafAABB.unify(tree[child1]->aabb).perimeter() + inheritanceCost;
+        }
         // Compute cost for child 2
-
+        if(tree[child2]->child1 == -1) {
+            auto aabb_perim = leafAABB.unify(tree[child2]->aabb).perimeter();
+            cost2 = aabb_perim + inheritanceCost;
+        }else{
+            cost2 = tree[child2]->aabb.perimeter() - leafAABB.unify(tree[child2]->aabb).perimeter() + inheritanceCost;
+        }
         // Compare costs and decide
-
+        if(cost < cost1 && cost < cost2)
+            break; // This is the optimal space to insert
+        else if(cost1 < cost2)
+            index = child1;
+        else
+            index = child2;
     }
     // index will be the sibling of leaf
     int sibling = index;
@@ -108,28 +199,64 @@ void AABBTree::insertLeaf(int leaf) {
             tree[oldParent]->child1 = newParent;
         else
             tree[oldParent]->child2 = newParent;
-
+        tree[newParent]->child1 = sibling;
+        tree[sibling]->parent = newParent;
+        tree[newParent]->child2 = leaf;
+        tree[leaf]->parent = newParent;
     } else {
         // sibling was the root
         root = newParent;
+        tree[newParent]->child1 = sibling;
+        tree[sibling]->parent = newParent;
+        tree[newParent]->child2 = leaf;
+        tree[leaf]->parent = newParent;
     }
-    tree[newParent]->child1 = sibling;
-    tree[sibling]->parent = newParent;
-    tree[newParent]->child2 = leaf;
-    tree[leaf]->parent = newParent;
+
 
     // Last step: Fix heights and rebalance
     index = tree[leaf]->parent;
     while(index != -1) { // Iterate to root
         index = balance(index);
-        auto child1 = tree[leaf]->child1;
-        auto child2 = tree[leaf]->child2;
+        auto child1 = tree[index]->child1;
+        auto child2 = tree[index]->child2;
 
         tree[index]->height = 1+std::max(tree[child1]->height, tree[child2]->height);
         tree[index]->aabb = tree[child1]->aabb.unify(tree[child2]->aabb);
 
         index = tree[index]->parent;
     }
+}
+
+void AABBTree::moveProxy(int index, const Rectf &aabb, const Vector &displacement) {
+    assert(0 <= index && index < tree.size());
+    assert((tree[index]->child1) == -1);
+
+    tree[index]->originalAABB = aabb;
+    if (tree[index]->aabb.contains(aabb)) {
+        return;
+    }
+    removeLeaf(index);
+    // Extend AABB
+    auto b = aabb.grown(fattenFactor);
+    // Predict AABB displacement
+    auto d = displacement*displacementFactor;
+    if (d.x < 0) {
+        b.p1.x += d.x;
+        b.p2.x -= d.x;
+    }
+    else {
+        b.p2.x += d.x;
+    }
+    if(d.y < 0) {
+        b.p1.y += d.y;
+        b.p2.y -= d.y;
+    }
+    else {
+        b.p2.y += d.y;
+    }
+
+    tree[index]->aabb = b;
+    insertLeaf(index);
 }
 
 void AABBTree::removeLeaf(int leaf) {
@@ -162,8 +289,8 @@ void AABBTree::removeLeaf(int leaf) {
         int index = grandparent;
         while(index != -1) {
             index = balance(index);
-            auto child1 = tree[leaf]->child1;
-            auto child2 = tree[leaf]->child2;
+            auto child1 = tree[index]->child1;
+            auto child2 = tree[index]->child2;
 
             tree[index]->height = 1+std::max(tree[child1]->height, tree[child2]->height);
             tree[index]->aabb = tree[child1]->aabb.unify(tree[child2]->aabb);
@@ -185,7 +312,7 @@ int AABBTree::balance(int a) {
     int b = tree[a]->child1;
     int c = tree[a]->child2;
 
-    int balance = tree[b]->height - tree[c]->height;
+    int balance = tree[c]->height - tree[b]->height;
     if(balance > 1) {
         auto f = tree[c]->child1;
         auto g = tree[c]->child2;
@@ -285,4 +412,26 @@ int AABBTree::balance(int a) {
         return b;
     }
     return a;
+}
+
+void AABBTree::search(const Rectf &r, std::function<void()> collision_ok, std::list<MovingObject *> &fill) {
+    b2GrowableStack<int, 256> stack;
+
+    stack.Push(root);
+    while (stack.GetCount() > 0) {
+        int index = stack.Pop();
+        if(index == -1)
+            continue;
+        auto node = tree[index];
+        if(node->aabb.contains(r)) {
+            if (node->child1 == -1) {
+                fill.push_back(node->item);
+            } else {
+                if (node->child1 != -1)
+                    stack.Push(node->child1);
+                if (node->child2 != -1)
+                    stack.Push(node->child2);
+            }
+        }
+    }
 }

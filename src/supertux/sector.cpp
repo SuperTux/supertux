@@ -531,6 +531,7 @@ Sector::before_object_remove(GameObjectPtr object)
     // Tell Collision Engine that this object has been removed
     if (broadphase)
       broadphase->remove(moving_object);
+
     if (broadphase_bbox)
         broadphase_bbox->remove(moving_object);
 
@@ -607,10 +608,6 @@ Sector::on_window_resize()
 AABBPolygon*
 Sector::get_mobject_poly(MovingObject* poly) {
   return new AABBPolygon(poly->get_dest());
-  if(object_polygons.find(poly) == object_polygons.end() && false) {
-    object_polygons[poly] = std::make_shared<AABBPolygon>(poly->get_dest());
-  }
-  return object_polygons[poly].get();
 
 }
 /** r1 is supposed to be moving, r2 a solid object */
@@ -1029,14 +1026,14 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
   std::list< MovingObject* > nearby;
   std::list< MovingObject* > possible_neighbours;
 
-  broadphase->search(object.get_bbox().grown(2), []{}, nearby);
-
-  for (auto& moving_object : moving_objects) {
+  //broadphase->search(object.get_bbox().grown(2), []{}, nearby);
+  aabbtree->search(object.get_bbox().grown(2), []{}, nearby);
+  for (auto& moving_object : nearby) {
 
     if (moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
       continue;
-    if (!moving_object->is_valid())
+    if (!moving_object->is_valid() || !object.is_valid())
       continue;
     CollisionHit dummy;
     if(!moving_object->collides(object, dummy))
@@ -1053,6 +1050,7 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       Manifold m;
       CollisionHit h;
       possible_neighbours.clear();
+
       spatial_hasingIterator iter(broadphase_bbox.get(), moving_object->get_bbox().grown(2));
       for (auto mobject = iter.next(); mobject != NULL; mobject = iter.next()) {
         // TODO Specail case: Same object on multiple layers
@@ -1188,6 +1186,10 @@ Sector::handle_collisions()
     broadphase_bbox.reset(new spatial_hashing(get_width(), get_height()));
     log_debug << "Error :: Reset" << std::endl;
   }
+  if(!aabbtree)
+  {
+    aabbtree.reset(new AABBTree());
+  }
   const int pixeld_x = 2;
   const int pixeld_y = 2;
   // calculate destination positions of the objects
@@ -1221,13 +1223,22 @@ Sector::handle_collisions()
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
   for (const auto& obj : moving_objects) {
     if (obj->get_group() == COLGROUP_STATIC &&
-            obj->get_movement() != Vector(0, 0))
+        obj->get_movement() != Vector(0, 0))
       platforms.insert(obj);
-    broadphase->insert(obj->dest, obj);
-    if(obj->get_group() != COLGROUP_STATIC
-       && obj->get_group() != COLGROUP_MOVING_STATIC)
+    if(!aabb_tree_index[obj]) {
+        int nindex = aabbtree->insert(obj->dest, obj);
+        aabb_tree_index[obj] = nindex;
+    } else {
+      int nindex = aabb_tree_index[obj];
+      aabbtree->moveProxy(nindex, obj->get_dest(), obj->get_movement());
+    }
+    if (obj->get_group() != COLGROUP_STATIC
+        && obj->get_group() != COLGROUP_MOVING_STATIC) {
       continue;
     broadphase_bbox->insert(obj->get_bbox(), obj);
+    } else  {
+
+    }
   }
   for (const auto& moving_object : moving_objects) {
     if ((moving_object->get_group() != COLGROUP_MOVING
@@ -1256,16 +1267,26 @@ Sector::handle_collisions()
   }
   // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
   for (const auto& obj : moving_objects) {
-    broadphase->insert(obj->dest, obj);
+      if(!aabb_tree_index[obj]) {
+          int nindex = aabbtree->insert(obj->dest, obj);
+          aabb_tree_index[obj] = nindex;
+      } else {
+          int nindex = aabb_tree_index[obj];
+          aabbtree->moveProxy(nindex, obj->get_dest(), obj->get_movement());
+      }
   }
   std::vector< std::tuple< MovingObject*, MovingObject*, int > > possibleCollisions;
   possibleCollisions.clear();
+  std::list<MovingObject*> nearby;
   // TODO Remove duplicate collisions
   for (const auto& moving_object : moving_objects) {
+
       if(moving_object == NULL)
         continue;
-      spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(6));
-      for(auto moving_object_2  = iter.next(); moving_object_2 != NULL; moving_object_2 = iter.next()) {
+      //spatial_hasingIterator iter(broadphase.get(), moving_object->dest.grown(6));
+      nearby.clear();
+      aabbtree->search(moving_object->dest.grown(6), []{}, nearby);
+      for(auto moving_object_2 : nearby) {
 
         if(moving_object_2 == NULL)
           continue;
