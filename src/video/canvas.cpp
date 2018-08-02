@@ -248,7 +248,8 @@ Canvas::draw_gradient(const Color& top, const Color& bottom, int layer,
   gradientrequest->top = top;
   gradientrequest->bottom = bottom;
   gradientrequest->direction = direction;
-  gradientrequest->region = region;
+  gradientrequest->region = Rectf(apply_translate(region.p1),
+                                  apply_translate(region.p2));
   request->request_data = gradientrequest;
 
   m_requests.push_back(request);
