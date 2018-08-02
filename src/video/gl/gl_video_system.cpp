@@ -51,7 +51,6 @@ GLVideoSystem::GLVideoSystem() :
 
   m_texture_manager.reset(new TextureManager);
   m_renderer.reset(new GLRenderer(*this));
-  m_lightmap.reset(new GLLightmap(*this));
 
   apply_config();
 }
@@ -203,6 +202,8 @@ GLVideoSystem::apply_config()
     m_renderer->clear(Color::BLACK);
     flip();
   }
+
+  m_lightmap.reset(new GLLightmap(*this, m_viewport.get_screen_size()));
 }
 
 void
@@ -291,8 +292,6 @@ GLVideoSystem::on_resize(int w, int h)
   g_config->window_size = Size(w, h);
 
   apply_config();
-
-  m_lightmap.reset(new GLLightmap(*this));
 }
 
 void
