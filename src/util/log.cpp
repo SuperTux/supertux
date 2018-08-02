@@ -68,19 +68,6 @@ std::ostream& log_fatal_f(const char* file, int line)
   return (log_generic_f ("[FATAL]", file, line));
 }
 
-std::ostream& operator<<(std::ostream& out, const Vector& vector)
-{
-  out << '[' << vector.x << ',' << vector.y << ']';
-  return out;
-}
-
-std::ostream& operator<<(std::ostream& out, const Rectf& rect)
-{
-  out << "[" << rect.get_left() << "," << rect.get_top() << "   "
-      << rect.get_right() << "," << rect.get_bottom() << "]";
-  return out;
-}
-
 /* Callbacks used by tinygettext */
 void log_info_callback(const std::string& str)
 {

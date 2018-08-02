@@ -1,5 +1,5 @@
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2016 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -14,24 +14,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <math.h>
+#include "math/rectf.hpp"
+
 #include <iostream>
 
-#include "math/vector.hpp"
-
-Vector Vector::unit() const
+std::ostream& operator<<(std::ostream& out, const Rectf& rect)
 {
-  return *this / norm();
-}
-
-float Vector::norm() const
-{
-  return sqrtf(x*x + y*y);
-}
-
-std::ostream& operator<<(std::ostream& out, const Vector& vector)
-{
-  out << "Vector(" << vector.x << ", " << vector.y << ')';
+  out << "Rectf("
+      << rect.get_left() << ", " << rect.get_top() << ", "
+      << rect.get_right() << ", " << rect.get_bottom()
+      << ")";
   return out;
 }
 
