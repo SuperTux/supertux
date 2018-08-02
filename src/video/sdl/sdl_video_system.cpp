@@ -16,10 +16,6 @@
 
 #include "video/sdl/sdl_video_system.hpp"
 
-#include <iomanip>
-#include <physfs.h>
-#include <savepng.h>
-
 #include "math/rect.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/gameconfig.hpp"
@@ -211,14 +207,20 @@ SDLVideoSystem::set_icon(SDL_Surface* icon)
 }
 
 void
-SDLVideoSystem::do_take_screenshot()
+SDLVideoSystem::flip()
 {
-  // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
+  m_renderer->flip();
+}
+
+SDL_Surface*
+SDLVideoSystem::make_screenshot()
+{
   int width;
   int height;
   if (SDL_GetRendererOutputSize(m_renderer->get_sdl_renderer(), &width, &height) != 0)
   {
     log_warning << "SDL_GetRenderOutputSize failed: " << SDL_GetError() << std::endl;
+    return nullptr;
   }
   else
   {
@@ -233,58 +235,35 @@ SDLVideoSystem::do_take_screenshot()
     Uint32 bmask = 0x00ff0000;
     Uint32 amask = 0xff000000;
 #endif
+
     SDL_Surface* surface = SDL_CreateRGBSurface(0, width, height, 32,
                                                 rmask, gmask, bmask, amask);
     if (!surface)
     {
       log_warning << "SDL_CreateRGBSurface failed: " << SDL_GetError() << std::endl;
+      return nullptr;
     }
     else
     {
+      SDL_LockSurface(surface);
       int ret = SDL_RenderReadPixels(m_renderer->get_sdl_renderer(), NULL,
                                      SDL_PIXELFORMAT_ABGR8888,
                                      surface->pixels,
                                      surface->pitch);
+      SDL_UnlockSurface(surface);
+
       if (ret != 0)
       {
         log_warning << "SDL_RenderReadPixels failed: " << SDL_GetError() << std::endl;
+        SDL_FreeSurface(surface);
+        return nullptr;
       }
       else
       {
-        // save screenshot
-        static const std::string writeDir = PHYSFS_getWriteDir();
-        static const std::string dirSep = PHYSFS_getDirSeparator();
-        static const std::string baseName = "screenshot";
-        static const std::string fileExt = ".png";
-        std::string fullFilename;
-        for (int num = 0; num < 1000; num++) {
-          std::ostringstream oss;
-          oss << baseName;
-          oss << std::setw(3) << std::setfill('0') << num;
-          oss << fileExt;
-          std::string fileName = oss.str();
-          fullFilename = writeDir + dirSep + fileName;
-          if (!PHYSFS_exists(fileName.c_str())) {
-            SDL_Surface* tmp = SDL_PNGFormatAlpha(surface);
-            SDL_SavePNG(tmp, fullFilename.c_str());
-            if (tmp != surface)
-              SDL_FreeSurface(tmp);
-
-            log_info << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
-          }
-        }
-        log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
+        return surface;
       }
-
-      SDL_FreeSurface(surface);
     }
   }
-}
-
-void
-SDLVideoSystem::flip()
-{
-  m_renderer->flip();
 }
 
 /* EOF */

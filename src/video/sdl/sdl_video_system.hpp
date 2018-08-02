@@ -48,7 +48,7 @@ public:
   virtual void set_title(const std::string& title) override;
   virtual void set_icon(SDL_Surface* icon) override;
 
-  virtual void do_take_screenshot() override;
+  virtual SDL_Surface* make_screenshot() override;
 
 private:
   void apply_video_mode();

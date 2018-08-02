@@ -23,10 +23,6 @@
 #  include <glbinding/callbacks.h>
 #endif
 
-#include <iomanip>
-#include <physfs.h>
-#include <savepng.h>
-
 #include "math/rect.hpp"
 #include "supertux/gameconfig.hpp"
 #include "supertux/globals.hpp"
@@ -306,8 +302,16 @@ GLVideoSystem::set_icon(SDL_Surface* icon)
   SDL_SetWindowIcon(m_window, icon);
 }
 
-void
-GLVideoSystem::do_take_screenshot()
+Size
+GLVideoSystem::get_window_size() const
+{
+  Size size;
+  SDL_GetWindowSize(m_window, &size.width, &size.height);
+  return size;
+}
+
+SDL_Surface*
+GLVideoSystem::make_screenshot()
 {
   // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
 
@@ -319,16 +323,23 @@ GLVideoSystem::do_take_screenshot()
   const int& viewport_width = viewport[2];
   const int& viewport_height = viewport[3];
 
-  SDL_Surface *shot_surf;
-  // create surface to hold screenshot
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-  shot_surf = SDL_CreateRGBSurface(0, viewport_width, viewport_height, 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0);
+    Uint32 rmask = 0xff000000;
+    Uint32 gmask = 0x00ff0000;
+    Uint32 bmask = 0x0000ff00;
+    Uint32 amask = 0x000000ff;
 #else
-  shot_surf = SDL_CreateRGBSurface(0, viewport_width, viewport_height, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0);
+    Uint32 rmask = 0x000000ff;
+    Uint32 gmask = 0x0000ff00;
+    Uint32 bmask = 0x00ff0000;
+    Uint32 amask = 0xff000000;
 #endif
-  if (!shot_surf) {
+
+  SDL_Surface* surface = SDL_CreateRGBSurface(0, viewport_width, viewport_height, 24,
+                                              rmask, gmask, bmask, amask);
+  if (!surface) {
     log_warning << "Could not create RGB Surface to contain screenshot" << std::endl;
-    return;
+    return nullptr;
   }
 
   // read pixels into array
@@ -340,54 +351,19 @@ GLVideoSystem::do_take_screenshot()
   // copy array line-by-line
   for (int i = 0; i < viewport_height; i++) {
     char* src = &pixels[3 * viewport_width * (viewport_height - i - 1)];
-    if(SDL_MUSTLOCK(shot_surf))
+    if(SDL_MUSTLOCK(surface))
     {
-      SDL_LockSurface(shot_surf);
+      SDL_LockSurface(surface);
     }
-    char* dst = (static_cast<char*>(shot_surf->pixels)) + i * shot_surf->pitch;
+    char* dst = (static_cast<char*>(surface->pixels)) + i * surface->pitch;
     memcpy(dst, src, 3 * viewport_width);
-    if(SDL_MUSTLOCK(shot_surf))
+    if(SDL_MUSTLOCK(surface))
     {
-      SDL_UnlockSurface(shot_surf);
+      SDL_UnlockSurface(surface);
     }
   }
 
-  // save screenshot
-  static const std::string writeDir = PHYSFS_getWriteDir();
-  static const std::string dirSep = PHYSFS_getDirSeparator();
-  static const std::string baseName = "screenshot";
-  static const std::string fileExt = ".png";
-  std::string fullFilename;
-  for (int num = 0; num < 1000; num++) {
-    std::ostringstream oss;
-    oss << baseName;
-    oss << std::setw(3) << std::setfill('0') << num;
-    oss << fileExt;
-    std::string fileName = oss.str();
-    fullFilename = writeDir + dirSep + fileName;
-    if (!PHYSFS_exists(fileName.c_str())) {
-      SDL_Surface *tmp = SDL_PNGFormatAlpha(shot_surf);
-      SDL_SavePNG(tmp, fullFilename.c_str());
-      if (tmp != shot_surf)
-      {
-        SDL_FreeSurface(tmp);
-      }
-
-      log_info << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
-      SDL_FreeSurface(shot_surf);
-      return;
-    }
-  }
-  log_warning << "Did not save screenshot, because all files up to \"" << fullFilename << "\" already existed" << std::endl;
-  SDL_FreeSurface(shot_surf);
-}
-
-Size
-GLVideoSystem::get_window_size() const
-{
-  Size size;
-  SDL_GetWindowSize(m_window, &size.width, &size.height);
-  return size;
+  return surface;
 }
 
 /* EOF */
