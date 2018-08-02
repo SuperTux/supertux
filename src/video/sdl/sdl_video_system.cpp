@@ -82,7 +82,6 @@ SDLVideoSystem::SDLVideoSystem() :
   g_config->window_size = Size(width, height);
 
   m_renderer.reset(new SDLRenderer(*this, m_sdl_renderer));
-  m_lightmap.reset(new SDLLightmap(*this, m_sdl_renderer));
   m_texture_manager.reset(new TextureManager);
 
   apply_config();
@@ -105,16 +104,9 @@ SDLVideoSystem::apply_config()
       g_config->window_size;
 
     m_viewport = Viewport::from_size(target_size, m_desktop_size);
-
-    if (m_viewport.needs_clear_screen())
-    {
-      // Clear the screen to avoid garbage in unreachable areas after we
-      m_renderer->clear(Color::BLACK);
-      m_renderer->flip();
-      m_renderer->clear(Color::BLACK);
-      m_renderer->flip();
-    }
   }
+
+  m_lightmap.reset(new SDLLightmap(*this, m_sdl_renderer, m_viewport.get_screen_size()));
 }
 
 void
@@ -194,10 +186,7 @@ void
 SDLVideoSystem::on_resize(int w, int h)
 {
   g_config->window_size = Size(w, h);
-
   apply_config();
-
-  m_lightmap.reset(new SDLLightmap(*this, m_sdl_renderer));
 }
 
 void

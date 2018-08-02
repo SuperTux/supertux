@@ -17,6 +17,8 @@
 #ifndef HEADER_SUPERTUX_MATH_RECT_HPP
 #define HEADER_SUPERTUX_MATH_RECT_HPP
 
+#include <iosfwd>
+
 #include "math/size.hpp"
 
 class Rect
@@ -51,7 +53,10 @@ public:
 
   int get_width()  const { return right - left; }
   int get_height() const { return bottom - top; }
+  Size get_size() const { return Size(right - left, bottom - top); }
 };
+
+std::ostream& operator<<(std::ostream& out, const Rect& rect);
 
 #endif
 

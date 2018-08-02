@@ -18,6 +18,7 @@
 #define HEADER_SUPERTUX_MATH_RECTF_HPP
 
 #include <assert.h>
+#include <iosfwd>
 
 #include "math/sizef.hpp"
 #include "math/vector.hpp"
@@ -145,6 +146,8 @@ public:
   /// lower right edge
   Vector p2;
 };
+
+std::ostream& operator<<(std::ostream& out, const Rectf& rect);
 
 #endif
 

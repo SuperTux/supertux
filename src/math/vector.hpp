@@ -18,6 +18,8 @@
 #define HEADER_SUPERTUX_MATH_VECTOR_HPP
 
 #include <math.h>
+#include <iosfwd>
+
 /** Simple two dimensional vector. */
 class Vector
 {
@@ -121,6 +123,8 @@ public:
   float x, y; // leave this public, get/set methods just give me headaches
   // for such simple stuff :)
 };
+
+std::ostream& operator<<(std::ostream& out, const Vector& vector);
 
 #endif
 

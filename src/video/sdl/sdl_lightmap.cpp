@@ -23,12 +23,12 @@
 #include "video/sdl/sdl_painter.hpp"
 #include "video/sdl/sdl_video_system.hpp"
 #include "video/video_system.hpp"
-#include "video/viewport.hpp"
 
-SDLLightmap::SDLLightmap(SDLVideoSystem& video_system, SDL_Renderer* renderer) :
+SDLLightmap::SDLLightmap(SDLVideoSystem& video_system, SDL_Renderer* renderer, const Size& size) :
   m_video_system(video_system),
   m_renderer(renderer),
   m_painter(m_video_system, m_renderer),
+  m_size(size),
   m_texture(),
   m_LIGHTMAP_DIV(),
   m_cliprect()
@@ -46,13 +46,11 @@ SDLLightmap::start_draw()
 {
   if (!m_texture)
   {
-    const Viewport& viewport = m_video_system.get_viewport();
-
     m_texture = SDL_CreateTexture(m_renderer,
                                   SDL_PIXELFORMAT_RGB888,
                                   SDL_TEXTUREACCESS_TARGET,
-                                  viewport.get_screen_width() / m_LIGHTMAP_DIV,
-                                  viewport.get_screen_height() / m_LIGHTMAP_DIV);
+                                  m_size.width / m_LIGHTMAP_DIV,
+                                  m_size.height / m_LIGHTMAP_DIV);
     if (!m_texture)
     {
       std::stringstream msg;

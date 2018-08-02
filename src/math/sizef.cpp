@@ -28,7 +28,7 @@ Sizef::Sizef(const Size& rhs) :
 
 std::ostream& operator<<(std::ostream& s, const Sizef& size)
 {
-  return s << "Size(" << size.width << ", " << size.height << ")";
+  return s << "Sizef(" << size.width << ", " << size.height << ")";
 }
 
 /* EOF */

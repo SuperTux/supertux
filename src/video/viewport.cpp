@@ -203,6 +203,12 @@ Viewport::get_screen_height() const
   return static_cast<int>(static_cast<float>(m_rect.get_height()) / m_scale.y);
 }
 
+Size
+Viewport::get_screen_size() const
+{
+  return Size(get_screen_width(), get_screen_height());
+}
+
 Vector
 Viewport::to_logical(int physical_x, int physical_y) const
 {

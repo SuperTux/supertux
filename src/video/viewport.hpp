@@ -42,6 +42,9 @@ public:
   /** The height of the resulting logical screen */
   int get_screen_height() const;
 
+  /** The size of the resulting logical screen */
+  Size get_screen_size() const;
+
   /** Converts window coordinates into logical screen coordinates */
   Vector to_logical(int physical_x, int physical_y) const;
 

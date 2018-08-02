@@ -32,7 +32,7 @@ struct DrawingRequest;
 class GLLightmap final : public Lightmap
 {
 public:
-  GLLightmap(GLVideoSystem& video_system);
+  GLLightmap(GLVideoSystem& video_system, const Size& size);
   ~GLLightmap();
 
   virtual void start_draw() override;
@@ -53,13 +53,12 @@ private:
 
 private:
   GLVideoSystem& m_video_system;
+  Size m_size;
   GLPainter m_painter;
 
   std::shared_ptr<GLTexture> m_lightmap;
   int m_lightmap_width;
   int m_lightmap_height;
-  float m_lightmap_uv_right;
-  float m_lightmap_uv_bottom;
 
 private:
   GLLightmap(const GLLightmap&);
