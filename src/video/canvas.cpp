@@ -193,8 +193,8 @@ Canvas::draw_surface_part(SurfacePtr surface,
 
   auto request_data = new(m_obst) TextureRequest();
 
-  request_data->srcrect = Rectf(apply_translate(dstrect.p1), srcrect.get_size());
-  request_data->dstrect = dstrect;
+  request_data->srcrect = srcrect;
+  request_data->dstrect = Rectf(apply_translate(dstrect.p1), dstrect.get_size());
   request_data->texture = surface->get_texture().get();
 
   request->request_data = request_data;
