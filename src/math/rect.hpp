@@ -53,6 +53,7 @@ public:
 
   int get_width()  const { return right - left; }
   int get_height() const { return bottom - top; }
+  Size get_size() const { return Size(right - left, bottom - top); }
 };
 
 std::ostream& operator<<(std::ostream& out, const Rect& rect);
