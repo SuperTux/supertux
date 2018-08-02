@@ -25,6 +25,7 @@
 
 #include <iomanip>
 #include <physfs.h>
+#include <savepng.h>
 
 #include "math/rect.hpp"
 #include "supertux/gameconfig.hpp"
@@ -355,7 +356,7 @@ GLVideoSystem::do_take_screenshot()
   static const std::string writeDir = PHYSFS_getWriteDir();
   static const std::string dirSep = PHYSFS_getDirSeparator();
   static const std::string baseName = "screenshot";
-  static const std::string fileExt = ".bmp";
+  static const std::string fileExt = ".png";
   std::string fullFilename;
   for (int num = 0; num < 1000; num++) {
     std::ostringstream oss;
@@ -365,7 +366,13 @@ GLVideoSystem::do_take_screenshot()
     std::string fileName = oss.str();
     fullFilename = writeDir + dirSep + fileName;
     if (!PHYSFS_exists(fileName.c_str())) {
-      SDL_SaveBMP(shot_surf, fullFilename.c_str());
+      SDL_Surface *tmp = SDL_PNGFormatAlpha(shot_surf);
+      SDL_SavePNG(tmp, fullFilename.c_str());
+      if (tmp != shot_surf)
+      {
+        SDL_FreeSurface(tmp);
+      }
+
       log_info << "Wrote screenshot to \"" << fullFilename << "\"" << std::endl;
       SDL_FreeSurface(shot_surf);
       return;
