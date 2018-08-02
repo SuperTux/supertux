@@ -33,7 +33,7 @@ struct SDL_Texture;
 class SDLLightmap : public Lightmap
 {
 public:
-  SDLLightmap(SDLVideoSystem& video_system, SDL_Renderer* renderer);
+  SDLLightmap(SDLVideoSystem& video_system, SDL_Renderer* renderer, const Size& size);
   ~SDLLightmap();
 
   virtual void start_draw() override;
@@ -52,6 +52,8 @@ private:
   SDLVideoSystem& m_video_system;
   SDL_Renderer* m_renderer;
   SDLPainter m_painter;
+  Size m_size;
+
   SDL_Texture* m_texture;
   int m_LIGHTMAP_DIV;
   boost::optional<SDL_Rect> m_cliprect;
