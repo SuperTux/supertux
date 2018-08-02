@@ -72,8 +72,8 @@ inline void intern_draw(float left, float top, float right, float bottom,
     float center_x = (left + right) / 2;
     float center_y = (top + bottom) / 2;
 
-    float sa = sinf(angle / 180.0f * math::PI);
-    float ca = cosf(angle / 180.0f * math::PI);
+    float sa = sinf(math::radians(angle));
+    float ca = cosf(math::radians(angle));
 
     left  -= center_x;
     right -= center_x;
