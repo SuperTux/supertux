@@ -104,15 +104,6 @@ SDLVideoSystem::apply_config()
       g_config->window_size;
 
     m_viewport = Viewport::from_size(target_size, m_desktop_size);
-
-    if (m_viewport.needs_clear_screen())
-    {
-      // Clear the screen to avoid garbage in unreachable areas after we
-      m_renderer->clear(Color::BLACK);
-      m_renderer->flip();
-      m_renderer->clear(Color::BLACK);
-      m_renderer->flip();
-    }
   }
 
   m_lightmap.reset(new SDLLightmap(*this, m_sdl_renderer, m_viewport.get_screen_size()));

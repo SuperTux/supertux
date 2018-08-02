@@ -194,15 +194,6 @@ GLVideoSystem::apply_config()
 
   m_viewport = Viewport::from_size(target_size, m_desktop_size);
 
-  if (m_viewport.needs_clear_screen())
-  {
-    // Clear both buffers so that we get a clean black border without junk
-    m_renderer->clear(Color::BLACK);
-    flip();
-    m_renderer->clear(Color::BLACK);
-    flip();
-  }
-
   m_lightmap.reset(new GLLightmap(*this, m_viewport.get_screen_size()));
 }
 

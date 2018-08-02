@@ -64,6 +64,10 @@ GLRenderer::start_draw()
   glLoadIdentity();
   glTranslatef(0, 0, 0);
   check_gl_error("Setting up view matrices");
+
+  // clear the screen to get rid of lightmap remains
+  glClearColor(0, 0, 0, 1);
+  glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void
