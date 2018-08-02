@@ -27,7 +27,7 @@
 // Minimum and maximum size of the virtual screen, note that the
 // maximum must not exceed X/Y_OFFSCREEN_DISTANCE or enemies end up
 // spawning on screen instead of off-screen.
-const Size Viewport::s_max_size(1280, 800);
+const Size Viewport::s_max_size(1368, 800);
 const Size Viewport::s_min_size(640, 480);
 
 namespace {
