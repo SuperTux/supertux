@@ -286,7 +286,7 @@ private:
    * (because of ABORT_MOVE in the collision response or no collisions)
    */
    void collision_moving_static(const Vector& movement, Rectf& dest,
-   MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts);
+   MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts, bool ignormals_on = true);
   void collision_static(collision::Constraints* constraints,
                         const Vector& movement, Rectf& dest, MovingObject& object, collision_graph& graph);
 

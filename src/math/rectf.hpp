@@ -110,12 +110,12 @@ public:
   }
   bool contains(const Rectf& other) const
   {
-    if(p1.x >= other.p2.x || other.p1.x >= p2.x)
-      return false;
-    if(p1.y >= other.p2.y || other.p1.y >= p2.y)
-      return false;
-
-    return true;
+    bool result = true;
+    result = result && p1.x < other.p2.x;
+    result = result && other.p1.x < p2.x;
+    result = result && p1.y < other.p2.y;
+    result = result && other.p1.y < p2.y;
+    return result;
   }
 
   float distance (const Vector& other, AnchorPoint ap = ANCHOR_MIDDLE) const
@@ -173,7 +173,9 @@ bool operator==(const Rectf& other) const {
 
 
 float perimeter() {
-  return 2*(get_width()+get_height());
+    float wx = get_width();
+    float wy = get_height();
+    return 2.0f * (wx + wy);
 }
 
 Rectf unify(const Rectf& other) {

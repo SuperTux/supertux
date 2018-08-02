@@ -1020,15 +1020,14 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2, collision
 }
 
 void Sector::collision_moving_static(const Vector& movement, Rectf& dest,
-MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
+MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts, bool ignormals_on)
 {
   std::set< CollisionHit > colhits;
   std::list< MovingObject* > nearby;
-  std::list< MovingObject* > possible_neighbours;
 
   //broadphase->search(object.get_bbox().grown(2), []{}, nearby);
-  aabbtree->search(object.get_bbox().grown(2), []{}, nearby);
-  for (auto& moving_object : nearby) {
+  aabbtree->search(object.get_bbox().grown(10), []{}, nearby);
+  for (auto& moving_object : moving_objects) {
 
     if (moving_object->get_group() != COLGROUP_STATIC
        && moving_object->get_group() != COLGROUP_MOVING_STATIC)
@@ -1049,18 +1048,18 @@ MovingObject& object, collision_graph& graph, std::vector<Manifold>& contacts)
       std::unique_ptr<AABBPolygon> tile_poly(new AABBPolygon(moving_object->get_bbox(), false));
       Manifold m;
       CollisionHit h;
-      possible_neighbours.clear();
-
-      spatial_hasingIterator iter(broadphase_bbox.get(), moving_object->get_bbox().grown(2));
-      for (auto mobject = iter.next(); mobject != NULL; mobject = iter.next()) {
-        // TODO Specail case: Same object on multiple layers
-        // => detect collision (?) use contacts?
-        if(mobject->get_group() != COLGROUP_STATIC
-           && mobject->get_group() != COLGROUP_MOVING_STATIC)
-          continue;
-        if (mobject->get_bbox() == object.get_bbox() || mobject->get_bbox() == moving_object->get_bbox())
-          continue;
-        tile_poly->process_neighbor(mobject->get_bbox());
+      if(ignormals_on) {
+          spatial_hasingIterator iter(broadphase_bbox.get(), moving_object->get_bbox().grown(4));
+          for (auto mobject = iter.next(); mobject != NULL; mobject = iter.next()) {
+              // TODO Specail case: Same object on multiple layers
+              // => detect collision (?) use contacts?
+              if (mobject->get_group() != COLGROUP_STATIC
+                  && mobject->get_group() != COLGROUP_MOVING_STATIC)
+                  continue;
+              if (mobject->get_bbox() == object.get_bbox() || mobject->get_bbox() == moving_object->get_bbox())
+                  continue;
+              tile_poly->process_neighbor(mobject->get_bbox());
+          }
       }
       // TODO(christ2go) Take static tilemap into account.
       // Ignoring this for now, because it might make the compelxity even worse
@@ -1104,8 +1103,8 @@ Sector::collision_static(collision::Constraints* constraints,
   contacts.clear();
   collision_moving_static(movement, dest, object, graph, contacts);
   for (const auto& m : contacts) {
-    Vector overlapV((m.depth*m.normal.x)/static_cast<double>(contacts.size()),
-                  (m.depth*m.normal.y)/(static_cast<double>(contacts.size())));
+    Vector overlapV((m.depth*m.normal.x),
+                  (m.depth*m.normal.y));
     dest.move(overlapV);
     // Also move the AABBPolygon
   }
@@ -1115,7 +1114,7 @@ Sector::collision_static(collision::Constraints* constraints,
          extend_bot = 0.0f;
   all_contacts.clear();
   collision_tilemap(constraints, movement, dest, object, all_contacts, false);
-  collision_moving_static(movement, dest, object, graph, all_contacts);
+  collision_moving_static(movement, dest, object, graph, all_contacts, true);
   CollisionHit h;
   for (const auto& m : all_contacts) {
     Vector v (m.normal.x*m.depth, m.normal.y*m.depth);
@@ -1278,7 +1277,6 @@ Sector::handle_collisions()
   std::vector< std::tuple< MovingObject*, MovingObject*, int > > possibleCollisions;
   possibleCollisions.clear();
   std::list<MovingObject*> nearby;
-  // TODO Remove duplicate collisions
   for (const auto& moving_object : moving_objects) {
 
       if(moving_object == NULL)
