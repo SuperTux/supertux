@@ -21,6 +21,7 @@
 #include <config.h>
 #include <iomanip>
 #include <physfs.h>
+#include <sstream>
 #include <savepng.h>
 
 #include "util/log.hpp"
