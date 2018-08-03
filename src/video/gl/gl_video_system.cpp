@@ -313,8 +313,6 @@ GLVideoSystem::get_window_size() const
 SDL_Surface*
 GLVideoSystem::make_screenshot()
 {
-  // [Christoph] TODO: Yes, this method also takes care of the actual disk I/O. Split it?
-
   GLint viewport[4];
   glGetIntegerv(GL_VIEWPORT, viewport);
 
@@ -324,17 +322,16 @@ GLVideoSystem::make_screenshot()
   const int& viewport_height = viewport[3];
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    Uint32 rmask = 0xff000000;
-    Uint32 gmask = 0x00ff0000;
-    Uint32 bmask = 0x0000ff00;
-    Uint32 amask = 0x000000ff;
+  Uint32 rmask = 0xff000000;
+  Uint32 gmask = 0x00ff0000;
+  Uint32 bmask = 0x0000ff00;
+  Uint32 amask = 0x000000ff;
 #else
-    Uint32 rmask = 0x000000ff;
-    Uint32 gmask = 0x0000ff00;
-    Uint32 bmask = 0x00ff0000;
-    Uint32 amask = 0xff000000;
+  Uint32 rmask = 0x000000ff;
+  Uint32 gmask = 0x0000ff00;
+  Uint32 bmask = 0x00ff0000;
+  Uint32 amask = 0xff000000;
 #endif
-
   SDL_Surface* surface = SDL_CreateRGBSurface(0, viewport_width, viewport_height, 24,
                                               rmask, gmask, bmask, amask);
   if (!surface) {
@@ -342,26 +339,19 @@ GLVideoSystem::make_screenshot()
     return nullptr;
   }
 
-  // read pixels into array
   std::vector<char> pixels(3 * viewport_width * viewport_height);
 
   glPixelStorei(GL_PACK_ALIGNMENT, 1);
   glReadPixels(viewport_x, viewport_y, viewport_width, viewport_height, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
 
-  // copy array line-by-line
-  for (int i = 0; i < viewport_height; i++) {
+  SDL_LockSurface(surface);
+  for (int i = 0; i < viewport_height; i++)
+  {
     char* src = &pixels[3 * viewport_width * (viewport_height - i - 1)];
-    if(SDL_MUSTLOCK(surface))
-    {
-      SDL_LockSurface(surface);
-    }
     char* dst = (static_cast<char*>(surface->pixels)) + i * surface->pitch;
     memcpy(dst, src, 3 * viewport_width);
-    if(SDL_MUSTLOCK(surface))
-    {
-      SDL_UnlockSurface(surface);
-    }
   }
+  SDL_UnlockSurface(surface);
 
   return surface;
 }
