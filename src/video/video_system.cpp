@@ -163,11 +163,9 @@ VideoSystem::do_take_screenshot()
     {
       log_info << "Wrote screenshot to \"" << *filename << "\"" << std::endl;
     }
-
-    if (tmp != surface)
-    {
-      SDL_FreeSurface(tmp);
-    }
+    // This does not lead to a double free when 'tmp == screen', as
+    // SDL_PNGFormatAlpha() will increase the refcount of surface.
+    SDL_FreeSurface(tmp);
   }
 
   SDL_FreeSurface(surface);
