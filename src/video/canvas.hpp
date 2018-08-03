@@ -97,10 +97,10 @@ public:
                          const Rectf& srcrect, const Rectf& dstrect,
                          int layer);
   void draw_text(FontPtr font, const std::string& text,
-                 const Vector& position, FontAlignment alignment, int layer, Color color = Color(1.0,1.0,1.0));
+                 const Vector& position, FontAlignment alignment, int layer, const Color& color = Color(1.0,1.0,1.0));
   /** Draw text to the center of the screen */
   void draw_center_text(FontPtr font, const std::string& text,
-                        const Vector& position, int layer, Color color = Color(1.0,1.0,1.0));
+                        const Vector& position, int layer, const Color& color = Color(1.0,1.0,1.0));
   void draw_gradient(const Color& from, const Color& to, int layer, const GradientDirection& direction, const Rectf& region);
   void draw_filled_rect(const Vector& topleft, const Vector& size,
                         const Color& color, int layer);

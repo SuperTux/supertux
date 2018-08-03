@@ -204,7 +204,7 @@ Canvas::draw_surface_part(SurfacePtr surface,
 
 void
 Canvas::draw_text(FontPtr font, const std::string& text,
-                  const Vector& position, FontAlignment alignment, int layer, Color color)
+                  const Vector& position, FontAlignment alignment, int layer, const Color& color)
 {
   auto request = new(m_obst) DrawingRequest();
 
@@ -226,7 +226,7 @@ Canvas::draw_text(FontPtr font, const std::string& text,
 
 void
 Canvas::draw_center_text(FontPtr font, const std::string& text,
-                         const Vector& position, int layer, Color color)
+                         const Vector& position, int layer, const Color& color)
 {
   draw_text(font, text, Vector(position.x + static_cast<float>(m_context.get_width()) / 2.0f, position.y),
             ALIGN_CENTER, layer, color);
