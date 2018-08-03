@@ -143,6 +143,41 @@ GLPainter::draw_texture(const DrawingRequest& request)
 }
 
 void
+GLPainter::draw_texture_batch(const DrawingRequest& request)
+{
+  const auto& data = static_cast<const TextureBatchRequest&>(request);
+  const auto& texture = static_cast<const GLTexture&>(*data.texture);
+
+  assert(data.srcrects.size() == data.dstrects.size());
+
+  GLuint handle = texture.get_handle();
+  if (handle != s_last_texture)
+  {
+    s_last_texture = handle;
+    glBindTexture(GL_TEXTURE_2D, handle);
+  }
+
+  for(size_t i = 0; i < data.srcrects.size(); ++i)
+  {
+    intern_draw(data.dstrects[i].p1.x,
+                data.dstrects[i].p1.y,
+                data.dstrects[i].p2.x,
+                data.dstrects[i].p2.y,
+
+                data.srcrects[i].get_left() / static_cast<float>(texture.get_texture_width()),
+                data.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height()),
+                data.srcrects[i].get_right() / static_cast<float>(texture.get_texture_width()),
+                data.srcrects[i].get_bottom() / static_cast<float>(texture.get_texture_height()),
+
+                request.angle,
+                request.alpha,
+                data.color,
+                request.blend,
+                request.drawing_effect);
+  }
+}
+
+void
 GLPainter::draw_gradient(const DrawingRequest& request)
 {
   const auto& data = static_cast<const GradientRequest&>(request);

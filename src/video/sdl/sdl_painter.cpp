@@ -106,6 +106,52 @@ SDLPainter::draw_texture(const DrawingRequest& request)
 }
 
 void
+SDLPainter::draw_texture_batch(const DrawingRequest& request)
+{
+  const auto& data = static_cast<const TextureBatchRequest&>(request);
+  const auto& texture = static_cast<const SDLTexture&>(*data.texture);
+
+  assert(data.srcrects.size() == data.dstrects.size());
+
+  for(size_t i = 0; i < data.srcrects.size(); ++i)
+  {
+    SDL_Rect src_rect;
+    src_rect.x = static_cast<int>(data.srcrects[i].p1.x);
+    src_rect.y = static_cast<int>(data.srcrects[i].p1.y);
+    src_rect.w = static_cast<int>(data.srcrects[i].get_width());
+    src_rect.h = static_cast<int>(data.srcrects[i].get_height());
+
+    SDL_Rect dst_rect;
+    dst_rect.x = static_cast<int>(data.dstrects[i].p1.x);
+    dst_rect.y = static_cast<int>(data.dstrects[i].p1.y);
+    dst_rect.w = static_cast<int>(data.dstrects[i].get_width());
+    dst_rect.h = static_cast<int>(data.dstrects[i].get_height());
+
+    Uint8 r = static_cast<Uint8>(data.color.red * 255);
+    Uint8 g = static_cast<Uint8>(data.color.green * 255);
+    Uint8 b = static_cast<Uint8>(data.color.blue * 255);
+    Uint8 a = static_cast<Uint8>(data.color.alpha * request.alpha * 255);
+
+    SDL_SetTextureColorMod(texture.get_texture(), r, g, b);
+    SDL_SetTextureAlphaMod(texture.get_texture(), a);
+    SDL_SetTextureBlendMode(texture.get_texture(), blend2sdl(request.blend));
+
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
+    if ((request.drawing_effect & HORIZONTAL_FLIP) != 0)
+    {
+      flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
+    }
+
+    if ((request.drawing_effect & VERTICAL_FLIP) != 0)
+    {
+      flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_VERTICAL);
+    }
+
+    SDL_RenderCopyEx(m_renderer, texture.get_texture(), &src_rect, &dst_rect, request.angle, NULL, flip);
+  }
+}
+
+void
 SDLPainter::draw_gradient(const DrawingRequest& request)
 {
   const auto& data = static_cast<const GradientRequest&>(request);

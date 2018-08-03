@@ -94,6 +94,10 @@ Canvas::render(VideoSystem& video_system, Filter filter)
         painter.draw_texture(request);
         break;
 
+      case TEXTURE_BATCH:
+        painter.draw_texture_batch(request);
+        break;
+
       case GRADIENT:
         painter.draw_gradient(request);
         break;
@@ -185,6 +189,33 @@ Canvas::draw_surface_part(SurfacePtr surface,
 
   request->srcrect = srcrect;
   request->dstrect = Rectf(apply_translate(dstrect.p1), dstrect.get_size());
+  request->texture = surface->get_texture().get();
+
+  m_requests.push_back(request);
+}
+
+void
+Canvas::draw_surface_batch(SurfacePtr surface,
+                           const std::vector<Rectf>& srcrects,
+                           const std::vector<Rectf>& dstrects,
+                           int layer)
+{
+  assert(surface != 0);
+
+  auto request = new(m_obst) TextureBatchRequest();
+
+  request->type = TEXTURE_BATCH;
+  request->layer = layer;
+  request->drawing_effect = m_context.transform().drawing_effect ^ effect_from_surface(*surface);
+  request->alpha = m_context.transform().alpha;
+
+  request->srcrects = srcrects;
+  request->dstrects = dstrects;
+  for(auto& dstrect : request->dstrects)
+  {
+    dstrect = Rectf(apply_translate(dstrect.p1), dstrect.get_size());
+  }
+
   request->texture = surface->get_texture().get();
 
   m_requests.push_back(request);
