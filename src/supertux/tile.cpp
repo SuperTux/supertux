@@ -126,6 +126,19 @@ Tile::draw(Canvas& canvas, const Vector& pos, int z_pos, Color color) const
   }
 }
 
+SurfacePtr
+Tile::get_current_surface() const
+{
+  if(images.size() > 1) {
+    size_t frame = size_t(game_time * fps) % images.size();
+    return images[frame];
+  } else if (images.size() == 1) {
+    return images[0];
+  } else {
+    return {};
+  }
+}
+
 void
 Tile::correct_attributes()
 {

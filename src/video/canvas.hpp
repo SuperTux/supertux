@@ -99,6 +99,7 @@ public:
   void draw_surface_batch(SurfacePtr surface,
                           const std::vector<Rectf>& srcrects,
                           const std::vector<Rectf>& dstrects,
+                          const Color& color,
                           int layer);
   void draw_text(FontPtr font, const std::string& text,
                  const Vector& position, FontAlignment alignment, int layer, const Color& color = Color(1.0,1.0,1.0));

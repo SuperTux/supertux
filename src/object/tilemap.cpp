@@ -16,6 +16,8 @@
 
 #include "object/tilemap.hpp"
 
+#include <tuple>
+
 #include "editor/editor.hpp"
 #include "supertux/globals.hpp"
 #include "supertux/sector.hpp"
@@ -313,8 +315,6 @@ TileMap::draw(DrawingContext& context)
 
   context.push_transform();
 
-  Canvas& canvas = context.get_canvas(draw_target);
-
   if(drawing_effect != 0) context.set_drawing_effect(drawing_effect);
 
   if (editor_active) {
@@ -342,6 +342,8 @@ TileMap::draw(DrawingContext& context)
   Vector pos;
   int tx, ty;
 
+  std::unordered_map<SurfacePtr, std::tuple<std::vector<Rectf>, std::vector<Rectf>>> batches;
+
   for(pos.x = start.x, tx = t_draw_rect.left; tx < t_draw_rect.right; pos.x += 32, ++tx) {
     for(pos.y = start.y, ty = t_draw_rect.top; ty < t_draw_rect.bottom; pos.y += 32, ++ty) {
       int index = ty*width + tx;
@@ -351,8 +353,24 @@ TileMap::draw(DrawingContext& context)
       if (tiles[index] == 0) continue;
       const Tile* tile = tileset->get(tiles[index]);
       assert(tile != 0);
-      tile->draw(canvas, pos, z_pos, current_tint);
+
+      const SurfacePtr& surface = tile->get_current_surface();
+      std::get<0>(batches[surface]).push_back(Rectf(0, 0, 32, 32));
+      std::get<1>(batches[surface]).push_back(Rectf(pos, Sizef(32, 32)));
     }
+  }
+
+  Canvas& canvas = context.get_canvas(draw_target);
+
+  for(const auto& it : batches)
+  {
+    const SurfacePtr& surface = it.first;
+    if (!surface) continue;
+
+    const std::vector<Rectf>& srcrects = std::get<0>(it.second);
+    const std::vector<Rectf>& dstrects = std::get<1>(it.second);
+
+    canvas.draw_surface_batch(surface, srcrects, dstrects, current_tint, z_pos);
   }
 
   context.pop_transform();

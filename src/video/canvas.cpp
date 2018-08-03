@@ -198,6 +198,7 @@ void
 Canvas::draw_surface_batch(SurfacePtr surface,
                            const std::vector<Rectf>& srcrects,
                            const std::vector<Rectf>& dstrects,
+                           const Color& color,
                            int layer)
 {
   assert(surface != 0);
@@ -208,6 +209,7 @@ Canvas::draw_surface_batch(SurfacePtr surface,
   request->layer = layer;
   request->drawing_effect = m_context.transform().drawing_effect ^ effect_from_surface(*surface);
   request->alpha = m_context.transform().alpha;
+  request->color = color;
 
   request->srcrects = srcrects;
   request->dstrects = dstrects;
