@@ -157,24 +157,62 @@ GLPainter::draw_texture_batch(const DrawingRequest& request)
     glBindTexture(GL_TEXTURE_2D, handle);
   }
 
+  std::vector<float> vertices;
+  std::vector<float> uvs;
   for(size_t i = 0; i < data.srcrects.size(); ++i)
   {
-    intern_draw(data.dstrects[i].p1.x,
-                data.dstrects[i].p1.y,
-                data.dstrects[i].p2.x,
-                data.dstrects[i].p2.y,
+    const float left = data.dstrects[i].p1.x;
+    const float top = data.dstrects[i].p1.y;
+    const float right  = data.dstrects[i].p2.x;
+    const float bottom = data.dstrects[i].p2.y;
 
-                data.srcrects[i].get_left() / static_cast<float>(texture.get_texture_width()),
-                data.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height()),
-                data.srcrects[i].get_right() / static_cast<float>(texture.get_texture_width()),
-                data.srcrects[i].get_bottom() / static_cast<float>(texture.get_texture_height()),
+    float uv_left = data.srcrects[i].get_left() / static_cast<float>(texture.get_texture_width());
+    float uv_top = data.srcrects[i].get_top() / static_cast<float>(texture.get_texture_height());
+    float uv_right = data.srcrects[i].get_right() / static_cast<float>(texture.get_texture_width());
+    float uv_bottom = data.srcrects[i].get_bottom() / static_cast<float>(texture.get_texture_height());
 
-                request.angle,
-                request.alpha,
-                data.color,
-                request.blend,
-                request.drawing_effect);
+    if (request.drawing_effect & HORIZONTAL_FLIP)
+      std::swap(uv_left, uv_right);
+
+    if (request.drawing_effect & VERTICAL_FLIP)
+      std::swap(uv_top, uv_bottom);
+
+    auto vertices_lst = {
+      left, top,
+      right, top,
+      right, bottom,
+
+      left, bottom,
+      left, top,
+      right, bottom,
+    };
+
+    vertices.insert(vertices.end(), std::begin(vertices_lst), std::end(vertices_lst));
+
+    auto uvs_lst = {
+      uv_left, uv_top,
+      uv_right, uv_top,
+      uv_right, uv_bottom,
+
+      uv_left, uv_bottom,
+      uv_left, uv_top,
+      uv_right, uv_bottom,
+    };
+
+    uvs.insert(uvs.end(), std::begin(uvs_lst), std::end(uvs_lst));
   }
+
+  glVertexPointer(2, GL_FLOAT, 0, vertices.data());
+  glTexCoordPointer(2, GL_FLOAT, 0, uvs.data());
+
+  glBlendFunc(request.blend.sfactor, request.blend.dfactor);
+  glColor4f(data.color.red, data.color.green, data.color.blue, data.color.alpha * request.alpha);
+
+  glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(data.srcrects.size() * 2 * 3));
+
+  // FIXME: find a better way to restore the blend mode
+  glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void
